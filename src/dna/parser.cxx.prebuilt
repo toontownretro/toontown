@@ -1392,7 +1392,7 @@ yyparse ()
 #endif
 #endif
 {
-  
+
   register int yystate;
   register int yyn;
   int yyresult;
@@ -2698,11 +2698,7 @@ yyreduce:
 #line 1149 "parser.yxx"
     {
   // New (correct) HPR representation
-  if (temp_hpr_fix) {
-    (yyval._v3).set((yyvsp[-3]._number), (yyvsp[-2]._number), (yyvsp[-1]._number));
-  } else {
-    (yyval._v3) = new_to_old_hpr(LVecBase3f((yyvsp[-3]._number), (yyvsp[-2]._number), (yyvsp[-1]._number)));
-  }
+  (yyval._v3).set((yyvsp[-3]._number), (yyvsp[-2]._number), (yyvsp[-1]._number));
 }
     break;
 
@@ -2710,11 +2706,7 @@ yyreduce:
 #line 1158 "parser.yxx"
     {
   // Old (broken) HPR representation
-  if (temp_hpr_fix) {
-    (yyval._v3) = old_to_new_hpr(LVecBase3f((yyvsp[-3]._number), (yyvsp[-2]._number), (yyvsp[-1]._number)));
-  } else {
-    (yyval._v3).set((yyvsp[-3]._number), (yyvsp[-2]._number), (yyvsp[-1]._number));
-  }
+  (yyval._v3) = old_to_new_hpr(LVecBase3f((yyvsp[-3]._number), (yyvsp[-2]._number), (yyvsp[-1]._number)));
 }
     break;
 
@@ -3214,6 +3206,3 @@ yyreturn:
 #endif
   return yyresult;
 }
-
-
-

@@ -1,17 +1,16 @@
 #define LOCAL_LIBS \
   dnaLoader
 #define OTHER_LIBS \
-  event:c mathutil:c linmath:c putil:c parametrics:c panda:m \
-  express:c pandaexpress:m \
-  dtoolutil:c dtoolbase:c prc:c dconfig:c dtoolconfig:m dtool:m \
-  pipeline:c pstatclient:c cull:c \
-  prc:c interrogatedb:c pandaexpress:c pandabase:c downloader:c pgraph:c \
-  pgraphnodes:c gobj:c pnmimage:c lerp:c gsgbase:c text:c display:c \
-  $[if $[HAVE_NET],net:c] $[if $[WANT_NATIVE_NET],nativenet:c] \
-  pystub
+  p3event:c p3mathutil:c p3linmath:c p3putil:c p3parametrics:c panda:m \
+  p3express:c pandaexpress:m \
+  p3dtoolutil:c p3dtoolbase:c p3prc p3dtool:m \
+  p3pipeline:c p3pstatclient:c p3cull:c \
+  p3prc p3interrogatedb p3express:c p3pandabase:c p3downloader:c p3pgraph:c \
+  p3pgraphnodes:c p3gobj:c p3pnmimage:c p3gsgbase:c p3text:c p3display:c \
+  $[if $[HAVE_NET],p3net:c] $[if $[WANT_NATIVE_NET],p3nativenet:c]
 
 #if $[HAVE_FREETYPE]
-    #define OTHER_LIBS $[OTHER_LIBS] pnmtext:c
+    #define OTHER_LIBS $[OTHER_LIBS] p3pnmtext:c
   #endif
 
 #define UNIX_SYS_LIBS m

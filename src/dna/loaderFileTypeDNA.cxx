@@ -8,7 +8,7 @@
 #include "dnaStorage.h"
 #include "config_dna.h"
 
-#include "config_util.h"
+#include "config_putil.h"
 #include "virtualFileSystem.h"
 
 DNAStorage *LoaderFileTypeDNA::_dna_store = (DNAStorage *)NULL;
@@ -63,7 +63,7 @@ resolve_filename(Filename &path) const {
 //  Description:
 ////////////////////////////////////////////////////////////////////
 PT(PandaNode) LoaderFileTypeDNA::
-load_file(const Filename &path, const LoaderOptions &, 
+load_file(const Filename &path, const LoaderOptions &,
           BamCacheRecord *record) const {
   if (_dna_store == (DNAStorage *)NULL) {
     _dna_store = new DNAStorage;

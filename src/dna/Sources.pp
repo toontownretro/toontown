@@ -1,5 +1,4 @@
 #define YACC_PREFIX dnayy
-#define LFLAGS -i
 
 #define USE_PACKAGES freetype
 
@@ -8,9 +7,9 @@
   #define LOCAL_LIBS toontownbase
   #define OTHER_LIBS \
     panda:m pandaexpress:m \
-    interrogatedb:c dconfig:c dtoolconfig:m \
-    dtoolutil:c dtoolbase:c dtool:m \
-    prc:c
+    p3interrogatedb \
+    p3dtoolutil:c p3dtoolbase:c p3dtool:m \
+    p3prc
 
   #define SOURCES \
      config_dna.h dnaBuildings.h dnaConstants.h dnaCornice.h dnaData.I  \

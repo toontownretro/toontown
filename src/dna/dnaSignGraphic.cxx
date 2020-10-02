@@ -134,13 +134,8 @@ void DNASignGraphic::write(ostream &out, DNAStorage *store, int indent_level) co
       _pos[0] << " " << _pos[1] << " " << _pos[2] << " ]\n";
   }
   if (!_hpr.almost_equal(LVecBase3f::zero())) {
-    if (temp_hpr_fix) {
-      indent(out, indent_level + 1) << "nhpr [ " <<
-        _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
-    } else {
-      indent(out, indent_level + 1) << "hpr [ " <<
-        _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
-    }
+    indent(out, indent_level + 1) << "nhpr [ " <<
+      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
   }
   if (!_scale.almost_equal(LVecBase3f(1.0, 1.0, 1.0))) {
     indent(out, indent_level + 1) << "scale [ " <<

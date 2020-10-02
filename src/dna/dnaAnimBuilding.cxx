@@ -70,7 +70,7 @@ NodePath DNAAnimBuilding::traverse(NodePath &parent, DNAStorage *store, int edit
   // Copy the suit building origin to the parent:
   // our type is animbldg,we must have this
   setup_suit_building_origin(parent, building_node_path);
-  
+
   // Traverse each node in our vector
   pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
   for(; i != _group_vector.end(); ++i) {
@@ -123,7 +123,7 @@ void DNAAnimBuilding::write(ostream &out, DNAStorage *store, int indent_level) c
     indent(out, indent_level + 1) << "building_type [ " << '"' << get_building_type() << '"' << " ]\n";
   }
 
-  // Whoops, the titles were entered as iso8859 and we need to convert them to utf8 
+  // Whoops, the titles were entered as iso8859 and we need to convert them to utf8
   // We only want to run this when we need to fix an improper encoding
   // Note - you need to change the indent function below too
   // string utf8title = TextNode::reencode_text(_title, TextNode::E_iso8859, TextNode::E_utf8);
@@ -137,13 +137,8 @@ void DNAAnimBuilding::write(ostream &out, DNAStorage *store, int indent_level) c
     '"' << _anim << '"' << " ]\n";
   indent(out, indent_level + 1) << "pos [ " <<
     _pos[0] << " " << _pos[1] << " " << _pos[2] << " ]\n";
-  if (temp_hpr_fix) {
-    indent(out, indent_level + 1) << "nhpr [ " <<
-      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
-  } else {
-    indent(out, indent_level + 1) << "hpr [ " <<
-      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
-  }
+  indent(out, indent_level + 1) << "nhpr [ " <<
+    _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
 
   // Do not write out color if it is white to save work
   if (!_wall_color.almost_equal(LVecBase4f(1.0, 1.0, 1.0, 1.0))) {

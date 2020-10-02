@@ -3,9 +3,9 @@
   #define LOCAL_LIBS dnaLoader toontownbase
   #define OTHER_LIBS \
     panda:m pandaexpress:m \
-    interrogatedb:c dconfig:c dtoolconfig:m \
-    dtoolutil:c dtoolbase:c dtool:m \
-    prc:c
+    p3interrogatedb \
+    p3dtoolutil:c p3dtoolbase:c p3dtool:m \
+    p3prc
 
   #define SOURCES \
     suitLeg.I suitLeg.h \

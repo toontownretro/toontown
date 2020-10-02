@@ -379,13 +379,8 @@ void DNAFlatBuilding::write(ostream &out, DNAStorage *store, int indent_level) c
   // Write out all properties
   indent(out, indent_level + 1) << "pos [ " <<
     _pos[0] << " " << _pos[1] << " " << _pos[2] << " ]\n";
-  if (temp_hpr_fix) {
-    indent(out, indent_level + 1) << "nhpr [ " <<
-      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
-  } else {
-    indent(out, indent_level + 1) << "hpr [ " <<
-      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
-  }
+  indent(out, indent_level + 1) << "nhpr [ " <<
+    _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
   indent(out, indent_level + 1) << "width [ " <<
     _width << " ]\n";
 
@@ -568,13 +563,8 @@ void DNALandmarkBuilding::write(ostream &out, DNAStorage *store, int indent_leve
     _title << '"' << " ]\n";
   indent(out, indent_level + 1) << "pos [ " <<
     _pos[0] << " " << _pos[1] << " " << _pos[2] << " ]\n";
-  if (temp_hpr_fix) {
-    indent(out, indent_level + 1) << "nhpr [ " <<
-      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
-  } else {
-    indent(out, indent_level + 1) << "hpr [ " <<
-      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
-  }
+  indent(out, indent_level + 1) << "nhpr [ " <<
+    _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
 
   // Do not write out color if it is white to save work
   if (!_wall_color.almost_equal(LVecBase4f(1.0, 1.0, 1.0, 1.0))) {

@@ -4,6 +4,7 @@
 ////////////////////////////////////////////////////////////////////
 
 #include "dnaStorage.h"
+#include "samplerState.h"
 #include <deque>
 
 DNAStorage::WorkingSuitPath *DNAStorage::WorkingSuitPath::_deleted_chain = (DNAStorage::WorkingSuitPath *)NULL;
@@ -125,8 +126,8 @@ void DNAStorage::store_texture(const string &code_string, PT(Texture) texture) {
   // match the textures.txa, but how do I know what is in there?
   // Note: take these out when we have a better solution for getting
   // and setting these parameters
-  texture->set_minfilter(Texture::FT_linear_mipmap_linear);
-  texture->set_magfilter(Texture::FT_linear);
+  texture->set_minfilter(SamplerState::FT_linear_mipmap_linear);
+  texture->set_magfilter(SamplerState::FT_linear);
   texture->set_anisotropic_degree(4);
   _texture_map[code_string] = texture;
 }

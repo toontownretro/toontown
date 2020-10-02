@@ -1516,20 +1516,12 @@ hpr:
         NHPR '[' real real real ']'
 {
   // New (correct) HPR representation
-  if (temp_hpr_fix) {
-    $$.set($3, $4, $5);
-  } else {
-    $$ = new_to_old_hpr(LVecBase3f($3, $4, $5));
-  }
+  $$.set($3, $4, $5);
 }
         | HPR '[' real real real ']'
 {
   // Old (broken) HPR representation
-  if (temp_hpr_fix) {
-    $$ = old_to_new_hpr(LVecBase3f($3, $4, $5));
-  } else {
-    $$.set($3, $4, $5);
-  }
+  $$ = old_to_new_hpr(LVecBase3f($3, $4, $5));
 }
         ;
 scale:
@@ -1886,4 +1878,3 @@ bool:
 
 empty:
         ;
-

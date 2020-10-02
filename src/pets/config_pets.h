@@ -10,7 +10,7 @@
 #include "notifyCategoryProxy.h"
 #include "dconfig.h"
 
-NotifyCategoryDecl(pets, EXPCL_TOONTOWN, EXPTP_TOONTOWN);
+NotifyCategoryDeclNoExport(pets);
 
 extern EXPCL_TOONTOWN void init_libpets();
 

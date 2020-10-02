@@ -15,7 +15,7 @@
 
 class DSearchPath;
 
-NotifyCategoryDecl(dna, EXPCL_TOONTOWN, EXPTP_TOONTOWN);
+NotifyCategoryDeclNoExport(dna);
 
 extern ConfigVariableList dna_preload;
 extern ConfigVariableSearchPath dna_path;
