@@ -59,21 +59,21 @@ int apply_patch(const char *patchFileName, const char *fileName) {
   // not sure what this buffer is, but will find out soon
   buffer = (AP_uint8*)malloc(BUFFER_LENGTH);
   if (NULL == buffer) {
-    errorLog << "applyPatch(): Failed to allocate buffer" << endl;
+    errorLog << "applyPatch(): Failed to allocate buffer" << std::endl;
     return -1;
   }
 
   // Open the patch file for read
   patchFileReadStream.open(patchFileName, ios::in | ios::binary);
   if (patchFileReadStream.fail()) {
-    errorLog << "applyPatch(): Failed to open patch file: " << patchFileName << endl;
+    errorLog << "applyPatch(): Failed to open patch file: " << patchFileName << std::endl;
     return -1;
   }
 
   // Open the original file for read
   origFileReadStream.open(fileName, ios::in | ios::binary);
   if (patchFileReadStream.fail()) {
-    errorLog << "applyPatch(): Failed to open original file: " << fileName << endl;
+    errorLog << "applyPatch(): Failed to open original file: " << fileName << std::endl;
     return -1;
   }
 
@@ -81,11 +81,11 @@ int apply_patch(const char *patchFileName, const char *fileName) {
   {
     char *tempname = _tempnam(".", "pf");
     if (NULL == tempname) {
-      errorLog << "applyPatch(): Failed to create temp file name, using default" << endl;
+      errorLog << "applyPatch(): Failed to create temp file name, using default" << std::endl;
       strcpy(tempFileName, "patcher_temp_file");
     } else {
       strcpy(tempFileName, tempname);
-      //      errorLog << "applyPatch(): created temp file " << tempFileName << endl;
+      //      errorLog << "applyPatch(): created temp file " << tempFileName << std::endl;
       free(tempname);
     }
   }
@@ -93,7 +93,7 @@ int apply_patch(const char *patchFileName, const char *fileName) {
   // Open the temp file for write
   tempFileWriteStream.open(tempFileName, ios::out | ios::binary);
   if (tempFileWriteStream.fail()) {
-    errorLog << "applyPatch(): Failed to open output file: " << tempFileName << endl;
+    errorLog << "applyPatch(): Failed to open output file: " << tempFileName << std::endl;
     return -1;
   }
 
@@ -104,16 +104,16 @@ int apply_patch(const char *patchFileName, const char *fileName) {
   AP_uint32 magic_number;
   readUint32(patchFileReadStream, magic_number);
   if (magic_number != MAGIC_NUMBER && magic_number != V0_MAGIC_NUMBER) {
-    errorLog << "applyPatch(): invalid patch file: " << patchFileName << endl;
+    errorLog << "applyPatch(): invalid patch file: " << patchFileName << std::endl;
     return -1;
   }
-  //  errorLog << "applyPatch: magic number " << magic_number << endl;
+  //  errorLog << "applyPatch: magic number " << magic_number << std::endl;
 
   AP_uint16 version_number = 0;
   if (magic_number != V0_MAGIC_NUMBER) {
     readUint16(patchFileReadStream, version_number);
   }
-  //  errorLog << "applyPatch: version_number " << version_number << endl;
+  //  errorLog << "applyPatch: version_number " << version_number << std::endl;
 
   if (version_number >= 1) {
     // Skip past the length and MD5 of the source file.
@@ -124,7 +124,7 @@ int apply_patch(const char *patchFileName, const char *fileName) {
   AP_uint32 result_file_length;
   readUint32(patchFileReadStream, result_file_length);
 
-  //  errorLog << "applyPatch: result_file_length " << result_file_length << endl;
+  //  errorLog << "applyPatch: result_file_length " << result_file_length << std::endl;
 
   // Skip past the MD5 of the resultant file
   patchFileReadStream.seekg(16, ios::cur);
@@ -135,7 +135,7 @@ int apply_patch(const char *patchFileName, const char *fileName) {
   AP_int32 name_length;
   readInt32(patchFileReadStream, name_length);
 
-  errorLog << "name_length = " << name_length << endl;
+  errorLog << "name_length = " << name_length << std::endl;
 
   patchFileReadStream.read((char*)buffer, name_length);
   buffer[name_length] = 0x00;
@@ -143,11 +143,11 @@ int apply_patch(const char *patchFileName, const char *fileName) {
       strcmp((const char*)buffer, (const char*)&fileName[strlen(fileName)-name_length]))
   {
     errorLog << "applyPatch(): patch intended for file: " << (char*)buffer
-      << ", not file: " << fileName << endl;
+      << ", not file: " << fileName << std::endl;
     return -1;
   }
 #endif
-  errorLog << "applyPatch(): valid patchfile for file: " << fileName << endl;
+  errorLog << "applyPatch(): valid patchfile for file: " << fileName << std::endl;
 
   // Now patch the file using the given buffer
   AP_uint16 ADD_length;
@@ -218,10 +218,9 @@ int apply_patch(const char *patchFileName, const char *fileName) {
   // rename the temp file
   if (rename(tempFileName, fileName)) {
     errorLog << "applyPatch(): failed to rename temp file " << tempFileName <<
-      " to: " << fileName << endl;
+      " to: " << fileName << std::endl;
     return -1;
   }
 
   return 0;
 }
-

@@ -34,7 +34,7 @@ VTHR_RET Installer_Service (voidp_t param)
 	status = RpcServerUseProtseqEp( protocolseq, 1, endpoint, NULL );
 	//        status = RpcServerUseProtseq(protocolseq, 1, NULL);
 	if (status != RPC_S_OK) {
-		errorLog << "server: could not setup RPC protocol acceptor: 0x" << hex << status << endl;
+		errorLog << "server: could not setup RPC protocol acceptor: 0x" << hex << status << std::endl;
 		goto get_out;
 	}
 
@@ -43,24 +43,24 @@ VTHR_RET Installer_Service (voidp_t param)
 	status = RpcServerRegisterIf(IWDIG_InstallerService_v1_0_s_ifspec, NULL, NULL);
 
 	if (status != RPC_S_OK) {
-		errorLog << "server: could not register RPC interface: 0x" << hex << status << endl;
+		errorLog << "server: could not register RPC interface: 0x" << hex << status << std::endl;
 		goto get_out;
 	}
 
 	// start RPC server listener
-	errorLog << "Toontown Installer Service starting up" << endl;
+	errorLog << "Toontown Installer Service starting up" << std::endl;
 
 	status = RpcServerListen(1, 1, fDontWait);
 	if (status != RPC_S_OK) {
-		errorLog << "server: could not start RPC listener: 0x" << hex << status << endl;
+		errorLog << "server: could not start RPC listener: 0x" << hex << status << std::endl;
 		goto get_out;
 	}
 
 	if (fDontWait) {
-		errorLog << "server: calling RpcMgmtWaitServerListen" << endl;
+		errorLog << "server: calling RpcMgmtWaitServerListen" << std::endl;
 		status = RpcMgmtWaitServerListen();  // wait operation
 		if (status != RPC_S_OK) {
-			errorLog << "server: RpcMgmtWaitServerListen returned: 0x" << hex << status << endl;
+			errorLog << "server: RpcMgmtWaitServerListen returned: 0x" << hex << status << std::endl;
 			goto get_out;
 		}
 	}
@@ -86,10 +86,10 @@ int update_main_installer()
 							myREG.str(vos::vregINSTALL_PATH),
 							myREG.str(vos::vregBOOT1_DLFILE),
 							myREG.str(vos::vregBOOT_DDB) );
-		errorLog << "update of " << myREG.str(vos::vregBOOT1_DLFILE) << ": " << rv << endl;
+		errorLog << "update of " << myREG.str(vos::vregBOOT1_DLFILE) << ": " << rv << std::endl;
 		if (rv < 0) {
 			// can't continue properly if this isn't up-to-date
-			errorLog << "unrecoverable error updating" << endl;
+			errorLog << "unrecoverable error updating" << std::endl;
 			return -1;
 		}
 	}
@@ -129,35 +129,35 @@ void checkIntegrityLevel()
 			{
 			case SECURITY_MANDATORY_LOW_RID:
 				// Low integrity process
-					errorLog << "low integrity" << endl;
+					errorLog << "low integrity" << std::endl;
 				break;
 
 			case SECURITY_MANDATORY_MEDIUM_RID:
 				// Medium integrity process
-					errorLog << "medium integrity" << endl;
+					errorLog << "medium integrity" << std::endl;
 				break;
 
 			case SECURITY_MANDATORY_HIGH_RID:
 				{
 				// High integrity process
-					errorLog << "high integrity" << endl;
+					errorLog << "high integrity" << std::endl;
 				break;
 				}
 
 			case SECURITY_MANDATORY_SYSTEM_RID:
 				{
 				// System integrity level
-					errorLog << "system integrity" << endl;
+					errorLog << "system integrity" << std::endl;
 				break;
 				}
 			default:
-				errorLog << "no security integrity" << endl;
+				errorLog << "no security integrity" << std::endl;
 			}
 		}
 		else
 		{
 			CloseHandle(hToken);
-			errorLog << vos::last_error_str() << endl;
+			errorLog << vos::last_error_str() << std::endl;
 			return;
 		}
 	}
@@ -170,7 +170,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	vos::errorlog_open(vos::tempdir() + "wdigInstallerSvc" + vos::log_suffix());
 	checkIntegrityLevel();
 
-	cout << "Nothing to see here. Move along." << endl;
+	cout << "Nothing to see here. Move along." << std::endl;
 
 #if 0
 	myREG.str(vos::vregBOOT_URLSRC) = "http://ttown2.online.disney.com:2421/portuguese/currentVersion/";
@@ -180,7 +180,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	// download main installer
 	if (update_main_installer() != 0)
 	{	// could be fatal error, if couldn't download main installer
-		errorLog << "Toontown Installer download error" << endl;
+		errorLog << "Toontown Installer download error" << std::endl;
 #if !defined(_DEBUG)	// ignore if in development mode
 		return -1;
 #endif
@@ -191,7 +191,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	if (vos::vthread_create(_InstallerServiceThread, Installer_Service, NULL) != )
 	{	// thread didn't startup so error out
 		static const vchar_t *errorstr = "Could not start up Installer RPC Service";
-		errorLog << errorstr << endl;
+		errorLog << errorstr << std::endl;
 		OSMessageBox(errorstr, "Toontown Installer Service");
 		return -1;
 	}
@@ -201,22 +201,22 @@ int _tmain(int argc, _TCHAR* argv[])
 // : assume that the installer won't try to connect to this RPC server "immediately",
 // : and will use the _ready() synchronization
 //
-	errorLog << "starting up Toontown Installer" << endl;
+	errorLog << "starting up Toontown Installer" << std::endl;
 	vstr_t phase0exe = myREG.str(vos::vregINSTALL_PATH) + myREG.str(vos::vregBOOT1_DLFILE);
 	if (vos::rfork_execve(phase0exe.c_str(), NULL, NULL, gttinstaller_pid, elHigh) != 0)
 	{
-		errorLog << "Toontown Installer failed to startup" << endl;
+		errorLog << "Toontown Installer failed to startup" << std::endl;
 		return -1;
 	}
 	else
-		errorLog << "Toontown Installer started successfully" << endl;
+		errorLog << "Toontown Installer started successfully" << std::endl;
 #endif
 
 	int ec;
 	// raise MY Mandatory Integrity Level to medium (Vista)
 	if (ec = vos::file::set_integrity_level(argv[0], il_Medium))
 	{
-		errorLog << "failed setting medium mandatory integrity level for " << argv[0] << ". " << vos::last_error_str(ec) << endl;
+		errorLog << "failed setting medium mandatory integrity level for " << argv[0] << ". " << vos::last_error_str(ec) << std::endl;
 	}
 
 // Run Installer Service RPC

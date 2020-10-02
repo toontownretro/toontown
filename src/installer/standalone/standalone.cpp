@@ -66,13 +66,13 @@ void *createDataShare(HANDLE &hMap, const size_t size)
     {
         pdata = MapViewOfFile(hMap, FILE_MAP_WRITE, 0, 0, 0);
         if (pdata == NULL) {
-            cerr << "createDataShare: Failed to map shared memory because: " << vos::last_error_str() << endl;
+            cerr << "createDataShare: Failed to map shared memory because: " << vos::last_error_str() << std::endl;
             return NULL;
         }
     }
     else
     {
-        cerr << "createDataShare: Failed to allocate shared memory because: " << vos::last_error_str() << endl;
+        cerr << "createDataShare: Failed to allocate shared memory because: " << vos::last_error_str() << std::endl;
         return NULL;
     }
     return pdata;
@@ -116,7 +116,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		default:
 			errorLog << "Unknown";
 		}
-		errorLog << endl;
+		errorLog << std::endl;
 	}
 	int status = InstallerStart(NULL);
 
@@ -138,7 +138,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
             while(1)
             {
-                errorLog << "parent: " << gpLauncherData->download_progress << endl;
+                errorLog << "parent: " << gpLauncherData->download_progress << std::endl;
                 gpLauncherData->download_progress = (gpLauncherData->download_progress + 1) % 100;
                 vos::msleep(1000);
             }
@@ -165,7 +165,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
             while(1)
             {
-                errorLog << "child: " << gpLauncherData->download_progress << endl;
+                errorLog << "child: " << gpLauncherData->download_progress << std::endl;
                 vos::msleep(1000);
             }
         }

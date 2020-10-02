@@ -116,14 +116,14 @@ extractMD5(string &line, size_t pos_start, size_t &pos_end, MD5HashVal &output) 
       return -1;
     }
     //errorLog << "fileDB::extractMD5(): pos_start=" << pos_start;
-    
+
     pos_end = line.find_first_of(whitespace, pos_start);
     if (string::npos == pos_end)
     {
       return -1;
     }
 
-    //errorLog << "; pos_end=" << pos_end << endl;
+    //errorLog << "; pos_end=" << pos_end << std::endl;
 
     string number = line.substr(pos_start, pos_end - pos_start);
 
@@ -140,7 +140,7 @@ readFromFile(const char *filename)
 
   read_stream.open(filename, ios::in | ios::binary);
   if (read_stream.fail()) {
-    errorLog << "fileDB::readFile - Failed to open: " << filename << endl;
+    errorLog << "fileDB::readFile - Failed to open: " << filename << std::endl;
     return -1;
   }
 
@@ -155,7 +155,7 @@ readFromFile(const char *filename)
   // read the file in
   read_stream.read(buf, file_size);
   if (read_stream.fail()) {
-    errorLog << "fileDB::readFile - Failed to read: " << filename << endl;
+    errorLog << "fileDB::readFile - Failed to read: " << filename << std::endl;
     return -1;
   }
 
@@ -170,7 +170,7 @@ readFromFile(const char *filename)
 
 int fileDB::
 readFromMem(char *buf, unsigned long bufLen) {
-  //errorLog << "readFromMem" << endl;
+  //errorLog << "readFromMem" << std::endl;
   string bufstr((char*)buf, bufLen);
   return readFromString(bufstr);
 }
@@ -182,7 +182,7 @@ readFromString(string &bufstr) {
   freeDatabase();
 
   size_t p = 0;
-  errorLog << "fileDB::readFromString(): " << "bufLength=" << bufstr.length() << endl;
+  errorLog << "fileDB::readFromString(): " << "bufLength=" << bufstr.length() << std::endl;
   while (p < bufstr.length()) {
     //errorLog << "fileDB::readFromString(): " << "p=" << p;
     // get the next line of the file
@@ -190,7 +190,7 @@ readFromString(string &bufstr) {
     if (string::npos == nl)
       break;
 
-    //errorLog<< "; nl=" << nl << endl;
+    //errorLog<< "; nl=" << nl << std::endl;
 
     string line = bufstr.substr(p, nl - p);
 
@@ -205,11 +205,11 @@ readFromString(string &bufstr) {
     if (string::npos == end_fn)
       break;
 
-    //errorLog << "; end_fn=" << end_fn << endl;
+    //errorLog << "; end_fn=" << end_fn << std::endl;
 
     string fname = line.substr(begin_fn, end_fn - begin_fn);
 
-    //errorLog << "fileDB::readFromString(): " << fname << endl;
+    //errorLog << "fileDB::readFromString(): " << fname << std::endl;
 
     // read in the MD5 checksums
     int error_occurred = 0;
@@ -228,7 +228,7 @@ readFromString(string &bufstr) {
     errorLog << md5_hash[0] << " "
              << md5_hash[1] << " "
              << md5_hash[2] << " "
-             << md5_hash[3] << endl;
+             << md5_hash[3] << std::endl;
     */
 
     // allocate the entry structure
@@ -245,7 +245,7 @@ readFromString(string &bufstr) {
       pos_start = pos_end;
 
       if(extractMD5(line, pos_start, pos_end, md5_hash)) {
-        //errorLog << "line size:" << line.size() << " and pos_start:" << pos_start << endl;
+        //errorLog << "line size:" << line.size() << " and pos_start:" << pos_start << std::endl;
         if (line.size()-1 != pos_start)
           errorLog << "fileDB::readFromString() - extractMD5 missing md5's\n";
         break;
@@ -254,7 +254,7 @@ readFromString(string &bufstr) {
       errorLog << md5_hash[0] << " "
                << md5_hash[1] << " "
                << md5_hash[2] << " "
-               << md5_hash[3] << endl;
+               << md5_hash[3] << std::endl;
       */
 
       if(entry->addMD5(md5_hash)) {

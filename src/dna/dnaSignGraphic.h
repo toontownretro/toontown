@@ -28,8 +28,8 @@ PUBLISHED:
   void set_code(string code);
   string get_code() const;
 
-  void set_color(const Colorf &color);
-  Colorf get_color() const;
+  void set_color(const LColorf &color);
+  LColorf get_color() const;
 
   void set_width(float width);
   float get_width() const;
@@ -42,7 +42,7 @@ private:
 
 private:
   string _code;
-  Colorf _color;
+  LColorf _color;
   float _width;
   float _height;
   bool _use_baseline_color;

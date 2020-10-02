@@ -70,7 +70,7 @@ NodePath DNASignGraphic::traverse(NodePath &parent, DNAStorage *store, int editi
   PT(DNASignBaseline) baseline = DCAST(DNASignBaseline, get_parent());
 
   // Use the baseline color, if available:
-  Colorf color = _color;
+  LColorf color = _color;
   if (_use_baseline_color) {
     color = baseline->get_color();
   }

@@ -129,9 +129,9 @@ SysInfo(void) {
   errorLog.flags(ios::fixed);
   errorLog.precision(2);
 
-  errorLog << "CHECKING CPU..." << endl;
+  errorLog << "CHECKING CPU..." << std::endl;
   check_cpu();
-  errorLog << "CHECKING OS..." << endl;
+  errorLog << "CHECKING OS..." << std::endl;
   check_os();
   check_mouse();
 #if 0
@@ -140,17 +140,17 @@ SysInfo(void) {
 //           fullscrn switches to the right mode if its available
 //           may need this for users who try to do windowed 3D at unsupported desktop bitdepths
 
-  errorLog << "CHECKING COLOR DEPTH..." << endl;
+  errorLog << "CHECKING COLOR DEPTH..." << std::endl;
   check_colordepth();
 #endif
-  errorLog << "CHECKING RAM..." << endl;
+  errorLog << "CHECKING RAM..." << std::endl;
   check_ram();
-  errorLog << "CHECKING 3D HARDWARE..." << endl;
+  errorLog << "CHECKING 3D HARDWARE..." << std::endl;
   check_3d_hw();
-  errorLog << "CHECKING SOUND..." << endl;
+  errorLog << "CHECKING SOUND..." << std::endl;
   check_snd();
   check_language_info();
-  errorLog << "CHECKING NET CONNECTION..." << endl;
+  errorLog << "CHECKING NET CONNECTION..." << std::endl;
   check_net_connection();
 }
 
@@ -169,16 +169,16 @@ write_log_file(const char *logfilename) {
   write_stream.open(logfilename, ios::out);
   if (write_stream.fail()) {
     errorLog << "SysInfo::write_log_file() - Failed to open: " << logfilename
-        << endl;
+        << std::endl;
     return FALSE;
   }
-  write_stream << "Operating System: " << _os_type << endl;
-  write_stream << "RAM: Total: " << _ram_megs_total << " MB, Available: " << _ram_megs_available << " MB" << endl;
-  write_stream << "Gfx API Suggested: " << _gfx_api_suggested << endl;
-//  write_stream << "CPU: Type: " << cpu_type << " Level: " << cpu_level << " Number: " << cpu_num << endl;
-  write_stream << "Mouse: Enabled: " << _mouse_enabled << " Buttons: " << _mouse_buttons << endl;
+  write_stream << "Operating System: " << _os_type << std::endl;
+  write_stream << "RAM: Total: " << _ram_megs_total << " MB, Available: " << _ram_megs_available << " MB" << std::endl;
+  write_stream << "Gfx API Suggested: " << _gfx_api_suggested << std::endl;
+//  write_stream << "CPU: Type: " << cpu_type << " Level: " << cpu_level << " Number: " << cpu_num << std::endl;
+  write_stream << "Mouse: Enabled: " << _mouse_enabled << " Buttons: " << _mouse_buttons << std::endl;
   if(!_bNetworkIsLAN) {
-      write_stream << "Connection Type: " << _comm_type << " Max Baud: " << _comm_baud << endl;
+      write_stream << "Connection Type: " << _comm_type << " Max Baud: " << _comm_baud << std::endl;
   } else {
       write_stream << "Connection Type: LAN\n";
   }
@@ -228,7 +228,7 @@ get_available_space(const char *dirname, unsigned __int64 &free_bytes) {
 	}
 	else
 	{
-		errorLog << "SysInfo:: GetDiskFreeSpace() failed" << endl;
+		errorLog << "SysInfo:: GetDiskFreeSpace() failed" << std::endl;
 		result = false;
 	}
   }
@@ -294,7 +294,7 @@ check_cpu(void) {
       errorLog << "CPU speed: " << _CPUMhz << " Mhz\n";
   } else {
       // we dont care about stuff slower than 100 anyway, and 10 Ghz is still a few years away
-      errorLog << "CPU speed: (unreliable measurement) " << _CPUMhz << endl;
+      errorLog << "CPU speed: (unreliable measurement) " << _CPUMhz << std::endl;
   }
 
 #if 0
@@ -323,17 +323,17 @@ check_cpu(void) {
       errorLog << "unknown";
       break;
   }
-  errorLog << endl;
+  errorLog << std::endl;
 #endif
 
   _NumCPUs = sinfo.dwNumberOfProcessors;
 
   if(_NumCPUs>1)
-      errorLog << "NumProcessors: " << _NumCPUs << endl;
+      errorLog << "NumProcessors: " << _NumCPUs << std::endl;
   // print out the info from the AMD code
-  //errorLog << "AMD CPU detection code results:" << endl;
+  //errorLog << "AMD CPU detection code results:" << std::endl;
   if(!GetCPUCaps(HAS_CPUID)) {
-    errorLog << "CPUID not supported" << endl;
+    errorLog << "CPUID not supported" << std::endl;
   }
   else
   {
@@ -359,7 +359,7 @@ check_cpu(void) {
         errorLog << "error";
         break;
     }
-    errorLog << endl;
+    errorLog << std::endl;
 
     // VENDOR STRING
 
@@ -371,7 +371,7 @@ check_cpu(void) {
     while(isspace(*pNameStart) && (*pNameStart!='\0'))
       pNameStart++;
     _CPUMakerStr = pNameStart;
-    errorLog << "CPU vendor name: " << _CPUMakerStr << endl;
+    errorLog << "CPU vendor name: " << _CPUMakerStr << std::endl;
 
     // NAME STRING
     ZeroMemory(msgbuf,50);
@@ -381,7 +381,7 @@ check_cpu(void) {
     while(isspace(*pNameStart) && (*pNameStart!='\0'))
       pNameStart++;
     _CPUNameStr = pNameStart;
-    errorLog << "CPU name: " << _CPUNameStr << endl;
+    errorLog << "CPU name: " << _CPUNameStr << std::endl;
 
     // TYPE
     switch(GetCPUCaps(CPU_TYPE)) {
@@ -452,8 +452,8 @@ check_cpu(void) {
         _CPUTypeStr =  "error";
         break;
     }
-    errorLog << "CPU type: " << _CPUTypeStr << endl;
-    errorLog << "CPU level: " << sinfo.wProcessorLevel << endl;
+    errorLog << "CPU type: " << _CPUTypeStr << std::endl;
+    errorLog << "CPU level: " << sinfo.wProcessorLevel << std::endl;
 
 
     // features
@@ -466,7 +466,7 @@ check_cpu(void) {
     if(GetCPUCaps(HAS_SSE_MMX))   errorLog << "SSE MMX, ";
     if(GetCPUCaps(HAS_SSE_FP))    errorLog << "SSE FP, ";
     if(GetCPUCaps(HAS_SSE2))      errorLog << "SSE2, ";
-    errorLog << endl;
+    errorLog << std::endl;
   }
 }
 
@@ -570,7 +570,7 @@ get_os_namestr(void) {
 void SysInfo::
 print_os_info(void) {
   OSType OS__type = get_os_type();
-  errorLog << g_OSTypeStr << endl;
+  errorLog << g_OSTypeStr << std::endl;
 
   if(OS__type>=OS_WinNT) {
       if(IsNTAdmin())
@@ -596,7 +596,7 @@ check_os(void) {
   HKEY hIEKey=NULL;
   ULONG retVal = RegOpenKeyEx(HKEY_LOCAL_MACHINE, IERegKeyName,0,KEY_READ,&hIEKey);
   if ((ERROR_SUCCESS != retVal) || (hIEKey==NULL)) {
-    errorLog << "regOpenKey RO failed, err=" << GetLastError() << endl;
+    errorLog << "regOpenKey RO failed, err=" << GetLastError() << std::endl;
     return;
   }
 
@@ -606,7 +606,7 @@ check_os(void) {
        return;
   }
   RegCloseKey(hIEKey);
-  errorLog << "IE Ver: " << IEverstr << endl;
+  errorLog << "IE Ver: " << IEverstr << std::endl;
   _IEVersionStr = IEverstr;
 
   DWORD VerA,VerB,VerC,VerD;
@@ -882,7 +882,7 @@ check_language_info(void) {
   _LangIDStr = msgbuf;
   sprintf(msgbuf,"0x%04X",locale_id);
   _LocaleIDStr = msgbuf;
-  errorLog  << "Keyboard Layout: " << _KeybdLayoutStr << " LangID: 0x" << _LocaleIDStr << " Locale ID: 0x" << _LocaleIDStr << endl;
+  errorLog  << "Keyboard Layout: " << _KeybdLayoutStr << " LangID: 0x" << _LocaleIDStr << " Locale ID: 0x" << _LocaleIDStr << std::endl;
 
 
 }
@@ -901,7 +901,7 @@ check_mouse(void) {
     _mouse_buttons = GetSystemMetrics(SM_CMOUSEBUTTONS);
   }
 
-  errorLog << "Mouse " << (!_mouse_enabled ? "NOT " : "") << "detected" << endl;
+  errorLog << "Mouse " << (!_mouse_enabled ? "NOT " : "") << "detected" << std::endl;
 }
 
 
@@ -929,7 +929,7 @@ get_country_info(HINSTANCE hKernel) {
  typedef int (WINAPI *GETGEOINFOAPROC)(GEOID Location,GEOTYPE GeoType,LPSTR lpGeoData,int cchData,LANGID LangId);
  GETGEOINFOAPROC pGetGeoInfoA = (GETGEOINFOAPROC) GetProcAddress(hKernel, "GetGeoInfoA");
  if(!pGetGeoInfoA) {
-       errorLog << "GetProcAddr(GetGeoInfoA) failed, err=" << GetLastError() << endl;
+       errorLog << "GetProcAddr(GetGeoInfoA) failed, err=" << GetLastError() << std::endl;
        return;
  }
  DWORD GeoNationID;
@@ -955,7 +955,7 @@ check_ram(void) {
       // must use GlobalMemoryStatusEx (only exists on XP/2000) to get higher totals than 2GB of RAM
       HINSTANCE hKernel = LoadLibrary("kernel32.dll");
       if(!hKernel) {
-          errorLog << "LoadLibrary(kernel32.dll) failed, err=" << GetLastError() << endl;
+          errorLog << "LoadLibrary(kernel32.dll) failed, err=" << GetLastError() << std::endl;
           return;
       }
 
@@ -964,7 +964,7 @@ check_ram(void) {
       typedef BOOL (WINAPI *GLOBALMEMORYSTATUSEX)(LPMEMORYSTATUSEX lpBuffer);
       GLOBALMEMORYSTATUSEX pGlobMemStatusEx = (GLOBALMEMORYSTATUSEX) GetProcAddress(hKernel, "GlobalMemoryStatusEx");
       if(!pGlobMemStatusEx) {
-          errorLog << "GetProcAddr(GlobMemStatEx) failed, err=" << GetLastError() << endl;
+          errorLog << "GetProcAddr(GlobMemStatEx) failed, err=" << GetLastError() << std::endl;
           goto cleanup;
       }
 
@@ -972,7 +972,7 @@ check_ram(void) {
       MemStatus.dwLength = sizeof(MEMORYSTATUSEX);
 
       if(!(*pGlobMemStatusEx)(&MemStatus)) {
-          errorLog << "GlobMemStatEx failed, err=" << GetLastError() << endl;
+          errorLog << "GlobMemStatEx failed, err=" << GetLastError() << std::endl;
       }
 
       _ram_megs_total = (float) (MemStatus.ullTotalPhys / (double) ONE_MB_BYTES);
@@ -1027,7 +1027,7 @@ void SysInfo::PrintProcessMemInfo(HANDLE hProcess) {
 
      _hPsAPI = LoadLibrary("psapi.dll");
      if(!_hPsAPI) {
-         errorLog << "LoadLib(psapi) failed, err=" << GetLastError() << endl;
+         errorLog << "LoadLib(psapi) failed, err=" << GetLastError() << std::endl;
          return;
      }
 
@@ -1037,7 +1037,7 @@ void SysInfo::PrintProcessMemInfo(HANDLE hProcess) {
 
      _pGetProcessMemoryInfo = (GETPROCESSMEMORYINFO) GetProcAddress(_hPsAPI, GetProcessMemoryInfoStr);
      if(_pGetProcessMemoryInfo==NULL) {
-         errorLog << ErrMsg << GetProcessMemoryInfoStr << ", err=" << GetLastError() << endl;
+         errorLog << ErrMsg << GetProcessMemoryInfoStr << ", err=" << GetLastError() << std::endl;
          return;
      }
 
@@ -1046,7 +1046,7 @@ void SysInfo::PrintProcessMemInfo(HANDLE hProcess) {
          // on win2k from the registry under HKEY_PERFORMANCE_DATA, but need to investigate
          _pGetPerfInfo = (GETPERFINFO) GetProcAddress(_hPsAPI, GetPerfInfoStr);
          if(_pGetPerfInfo==NULL) {
-             errorLog << ErrMsg << GetPerfInfoStr << ", err=" << GetLastError() << endl;
+             errorLog << ErrMsg << GetPerfInfoStr << ", err=" << GetLastError() << std::endl;
              return;
          }
      }
@@ -1058,13 +1058,13 @@ void SysInfo::PrintProcessMemInfo(HANDLE hProcess) {
       memset(&PInfo, 0, sizeof(PInfo));
       PInfo.cb = sizeof(PInfo);  // never know when somebody wants this initialized
       if(!(*_pGetPerfInfo)(&PInfo,sizeof(PInfo))) {
-          errorLog << "GetPerfInfo failed - Error=" << GetLastError() << endl;
+          errorLog << "GetPerfInfo failed - Error=" << GetLastError() << std::endl;
           return;
       }
 
       // PhysicalAvailable/Total is in Pages, not bytes
       int perc_used = (int) (100.0f*(1.0f - ((float)PInfo.PhysicalAvailable/(float)PInfo.PhysicalTotal)));
-      errorLog << "Free RAM on system: " << (float)((((float)PInfo.PhysicalAvailable)*PInfo.PageSize)/(double)ONE_MB_BYTES) << "MB; " << perc_used << "% used" << endl;
+      errorLog << "Free RAM on system: " << (float)((((float)PInfo.PhysicalAvailable)*PInfo.PageSize)/(double)ONE_MB_BYTES) << "MB; " << perc_used << "% used" << std::endl;
   }
 
   if(_pGetProcessMemoryInfo!=NULL) {
@@ -1072,7 +1072,7 @@ void SysInfo::PrintProcessMemInfo(HANDLE hProcess) {
       ZeroMemory(&procCounters,sizeof(procCounters));
       procCounters.cb = sizeof(procCounters);  // never know when somebody wants this initialized
       if(!(*_pGetProcessMemoryInfo)(hProcess,&procCounters,sizeof(procCounters))) {
-          errorLog << "GetProcMemInfo failed - Error=" << GetLastError() << endl;
+          errorLog << "GetProcMemInfo failed - Error=" << GetLastError() << std::endl;
           return;
       }
 /* for some reason I dont know, stream operator crashes on winxp if you make this 1 big stream output
@@ -1081,14 +1081,14 @@ void SysInfo::PrintProcessMemInfo(HANDLE hProcess) {
                 << "MB; Peak MemUsage: " << (float)(procCounters.PeakWorkingSetSize/MB_bytes)
                 << "MB; PagefileUsage: " << (float)(procCounters.PagefileUsage/MB_bytes)
                 << "MB; Peak PagefileUsage: " << (float)(procCounters.PeakPagefileUsage/MB_bytes)
-                << "MB" << endl;
+                << "MB" << std::endl;
 */
        float recip_one_MB = 1.0f/(float)ONE_MB_BYTES;
        errorLog << "MemUsage: " << (procCounters.WorkingSetSize*recip_one_MB);
        errorLog << "MB; Peak MemUsage: " << (procCounters.PeakWorkingSetSize*recip_one_MB);
        errorLog << "MB; PagefileUsage: " << (procCounters.PagefileUsage*recip_one_MB);
        errorLog << "MB; Peak PagefileUsage: " << (procCounters.PeakPagefileUsage*recip_one_MB);
-       errorLog << "MB" << endl;
+       errorLog << "MB" << std::endl;
   }
 }
 
@@ -1103,12 +1103,12 @@ void MyGetFileVersion(char *FileName, ULARGE_INTEGER *pli) {
     int iLength = GetFileVersionInfoSize ( FileName, 0 );
     pVerInfoBuf = new BYTE[iLength];
     if ( GetFileVersionInfo(FileName, 0, iLength, pVerInfoBuf ) == 0 ) {
-            errorLog << "GetFileVersionInfo error=" << GetLastError() << endl;
+            errorLog << "GetFileVersionInfo error=" << GetLastError() << std::endl;
             goto error;
     }
 
     if ( VerQueryValue (pVerInfoBuf, "\\", (void **)&pFfi,  &uFfiLen ) == 0 ) {
-        errorLog << "VerQueryValue error=" << GetLastError() << endl;
+        errorLog << "VerQueryValue error=" << GetLastError() << std::endl;
         goto error;
     }
 
@@ -1136,24 +1136,24 @@ void MyGetModuleVersion(HMODULE hMod, ULARGE_INTEGER *pli) {
 
     HRSRC hRsrc = FindResource(hMod,MAKEINTRESOURCE(VS_VERSION_INFO),RT_VERSION);
     if(hRsrc==NULL) {
-        errorLog << "GetVer FindResource failed, err=" << GetLastError() << endl;
+        errorLog << "GetVer FindResource failed, err=" << GetLastError() << std::endl;
         goto error;
     }
 
     HGLOBAL hMemRsrc = LoadResource(hMod,hRsrc);
     if(hMemRsrc==NULL) {
-        errorLog << "GetVer LoadResource failed, err=" << GetLastError() << endl;
+        errorLog << "GetVer LoadResource failed, err=" << GetLastError() << std::endl;
         goto error;
     }
 
     pVerInfoBuf = (BYTE*) LockResource(hMemRsrc);
     if(pVerInfoBuf==NULL) {
-        errorLog << "GetVer LockResource failed, err=" << GetLastError() << endl;
+        errorLog << "GetVer LockResource failed, err=" << GetLastError() << std::endl;
         goto error;
     }
 
     if ( VerQueryValue (pVerInfoBuf, "\\", (void **)&pFfi,  &uFfiLen ) == 0 ) {
-        errorLog << "VerQueryValue error=" << GetLastError() << endl;
+        errorLog << "VerQueryValue error=" << GetLastError() << std::endl;
         goto error;
     }
 
@@ -1193,7 +1193,7 @@ void SearchforDriverInfo(const char *driver_filename,ULARGE_INTEGER *pli,SYSTEMT
 
     // probably could optimize this to 1 FindFirstFile call by converting filename to a path containing all the dirs
 
-    //errorLog << "iNumDirs= " << iNumDirs << " iNumExts= " << iNumExts << endl;
+    //errorLog << "iNumDirs= " << iNumDirs << " iNumExts= " << iNumExts << std::endl;
     HANDLE Handle = INVALID_HANDLE_VALUE;
     for ( int i = 0; ( i < iNumDirs ) && ( Handle == INVALID_HANDLE_VALUE ); i++ ) {
       for ( int j = 0; ( j < iNumExts ) && ( Handle == INVALID_HANDLE_VALUE ); j++ ) {
@@ -1203,12 +1203,12 @@ void SearchforDriverInfo(const char *driver_filename,ULARGE_INTEGER *pli,SYSTEMT
         if(pExtensions[j][0]!='\0')
           strcat ( FileName, pExtensions[j] );
         Handle = FindFirstFile ( FileName,&FileFindData );
-        //errorLog << "i= " << i << " and j= " << j << ". Looking at " << FileName << " Handle= " << Handle << endl;
+        //errorLog << "i= " << i << " and j= " << j << ". Looking at " << FileName << " Handle= " << Handle << std::endl;
       }
     }
 
     if ( Handle == INVALID_HANDLE_VALUE ) {
-      // errorLog << "Couldn't find driver file '" << driver_filename << "' to retrieve driver version #" << endl;
+      // errorLog << "Couldn't find driver file '" << driver_filename << "' to retrieve driver version #" << std::endl;
       return;
     }
 
@@ -1280,16 +1280,16 @@ void SearchforDriverInfo(const char *driver_filename,ULARGE_INTEGER *pli,SYSTEMT
 
  #if 0
     FileTimeToSystemTime(&FileFindData.ftCreationTime,&DriverDate_SysTime);
-    errorLog << "CreationTime: H: " << FileFindData.ftCreationTime.dwHighDateTime << "L: " << FileFindData.ftCreationTime.dwLowDateTime << endl;
-    errorLog << "Date: "<<DriverDate_SysTime.wMonth <<"/"<<DriverDate_SysTime.wDay <<"/"<<DriverDate_SysTime.wYear << endl;
+    errorLog << "CreationTime: H: " << FileFindData.ftCreationTime.dwHighDateTime << "L: " << FileFindData.ftCreationTime.dwLowDateTime << std::endl;
+    errorLog << "Date: "<<DriverDate_SysTime.wMonth <<"/"<<DriverDate_SysTime.wDay <<"/"<<DriverDate_SysTime.wYear << std::endl;
 
     FileTimeToSystemTime(&FileFindData.ftLastAccessTime,&DriverDate_SysTime);
-    errorLog << "LastAccessTime: H: " << FileFindData.ftLastAccessTime.dwHighDateTime << "L: " << FileFindData.ftLastAccessTime.dwLowDateTime << endl;
-    errorLog << "Date: "<<DriverDate_SysTime.wMonth <<"/"<<DriverDate_SysTime.wDay <<"/"<<DriverDate_SysTime.wYear << endl;
+    errorLog << "LastAccessTime: H: " << FileFindData.ftLastAccessTime.dwHighDateTime << "L: " << FileFindData.ftLastAccessTime.dwLowDateTime << std::endl;
+    errorLog << "Date: "<<DriverDate_SysTime.wMonth <<"/"<<DriverDate_SysTime.wDay <<"/"<<DriverDate_SysTime.wYear << std::endl;
 
     FileTimeToSystemTime(&FileFindData.ftLastWriteTime,&DriverDate_SysTime);
-    errorLog << "LastWriteTime: H: " << FileFindData.ftLastWriteTime.dwHighDateTime << "L: " << FileFindData.ftLastWriteTime.dwLowDateTime << endl;
-    errorLog << "Date: "<<DriverDate_SysTime.wMonth <<"/"<<DriverDate_SysTime.wDay <<"/"<<DriverDate_SysTime.wYear << endl;
+    errorLog << "LastWriteTime: H: " << FileFindData.ftLastWriteTime.dwHighDateTime << "L: " << FileFindData.ftLastWriteTime.dwLowDateTime << std::endl;
+    errorLog << "Date: "<<DriverDate_SysTime.wMonth <<"/"<<DriverDate_SysTime.wDay <<"/"<<DriverDate_SysTime.wYear << std::endl;
   #endif
 
  cleanup:
@@ -1312,7 +1312,7 @@ bool verify_version(const ULARGE_INTEGER &Ver,DWORD a,DWORD b,DWORD c,DWORD d) {
     bool bGood=(curver >= goodver);
 
     if(!bGood) {
-        errorLog << "Obsolete Driver Version ("<< PRINTDRIVER_VERSTR(Ver) <<") detected, requires version (" << a << "." << b << "." << c << "." << d << ")" << endl;
+        errorLog << "Obsolete Driver Version ("<< PRINTDRIVER_VERSTR(Ver) <<") detected, requires version (" << a << "." << b << "." << c << "." << d << ")" << std::endl;
     }
 
     return bGood;
@@ -1360,7 +1360,7 @@ const char *generic_gfx_errmsg="An error was generated during video card detecti
 void SysInfo::
 SetGeneric3DError(char *LogErrorStr) {
     if(LogErrorStr!=NULL) {
-       errorLog << LogErrorStr << endl;
+       errorLog << LogErrorStr << std::endl;
     }
     _gfx_report_str << generic_gfx_errmsg
                     << DX_MSG_HTML_PREFIX << MS_DX_URL << "\">" << MS_DX_URL << "</a>\n";
@@ -1375,7 +1375,7 @@ check_3d_hw(void)
       const char *DXRegKeyName = "SOFTWARE\\Microsoft\\DirectX";  //under HKEY_LOCAL_MACHINE
       HKEY hDXKey;
       if (ERROR_SUCCESS != RegOpenKeyEx(HKEY_LOCAL_MACHINE, DXRegKeyName,0,KEY_READ,&hDXKey)) {
-        errorLog << "DX reg RO failed, err=" << GetLastError() << endl;
+        errorLog << "DX reg RO failed, err=" << GetLastError() << std::endl;
         return;
       }
 
@@ -1389,7 +1389,7 @@ check_3d_hw(void)
       }
       RegCloseKey(hDXKey);
       _DXVerStr = DXverstr;
-      errorLog << "installed DX VerStr: " << DXverstr << endl;
+      errorLog << "installed DX VerStr: " << DXverstr << std::endl;
   }
 
   _has_3d_hw = false;
@@ -1432,7 +1432,7 @@ check_3d_hw(void)
   errorLog << "Forcing DX6 for debugging purposes\n";
 #endif
 
-  errorLog << "DX Level Installed: " << get_gfx_api_name(_dx_level_installed) << endl;
+  errorLog << "DX Level Installed: " << get_gfx_api_name(_dx_level_installed) << std::endl;
 
 #if defined(USE_DX9)
   if(_dx_level_installed<GAPI_DirectX_9_0) {
@@ -1640,7 +1640,7 @@ check_3d_hw(void)
   return;
 
  success:
-   errorLog << "Suggested GfxApi: " << get_gfx_api_name(_gfx_api_suggested) << endl;
+   errorLog << "Suggested GfxApi: " << get_gfx_api_name(_gfx_api_suggested) << std::endl;
    _has_3d_hw = true;
 }
 
@@ -1686,7 +1686,7 @@ BOOL CALLBACK DSoundEnumCallback(LPGUID lpGuid, LPCSTR lpcstrDescription,
     pDevStr->append(TmpDevDesc.str());
   }
 
-  errorLog << "found DirectSound driver[" << CardNum << "]: " << TmpDevDesc.str() << endl;
+  errorLog << "found DirectSound driver[" << CardNum << "]: " << TmpDevDesc.str() << std::endl;
   CardNum++;
 
   return TRUE;
@@ -1708,7 +1708,7 @@ check_snd(void) {
   // Check for sound card
   dshinst = LoadLibrary("dsound.dll");
   if (!dshinst) {
-    errorLog << "Error: LoadLibrary() failed on dsound.dll" << endl;
+    errorLog << "Error: LoadLibrary() failed on dsound.dll" << std::endl;
     goto _return;
   }
 
@@ -1716,7 +1716,7 @@ check_snd(void) {
 
   DSOUNDENUM_PROC pDsEnum = (DSOUNDENUM_PROC)GetProcAddress(dshinst, pDSEnumStr);
   if (NULL == pDsEnum) {
-    errorLog << "Error: GetProcAddr failed for " << pDSEnumStr << endl;
+    errorLog << "Error: GetProcAddr failed for " << pDSEnumStr << std::endl;
     goto _return;
   }
 
@@ -1724,7 +1724,7 @@ check_snd(void) {
 
   HRESULT hr = (*pDsEnum)(DSoundEnumCallback,&_DSoundDevicesStr);
   if(FAILED(hr)) {
-    errorLog << "Error: GetProcAddr failed for " << pDSEnumStr << endl;
+    errorLog << "Error: GetProcAddr failed for " << pDSEnumStr << std::endl;
   }
 
 _return:
@@ -1741,7 +1741,7 @@ _return:
       ZeroMemory(&mcaps,sizeof(mcaps));
       MMRESULT result = midiOutGetDevCaps(i,&mcaps,sizeof(mcaps));
       if(result!=MMSYSERR_NOERROR) {
-          errorLog << "Error: midiOutGetDevCaps("<<i<<") failed, err=" << result << endl;
+          errorLog << "Error: midiOutGetDevCaps("<<i<<") failed, err=" << result << std::endl;
           continue;
       }
 
@@ -1766,7 +1766,7 @@ _return:
 
       TmpDevDesc << ", ChanMsk: " << msgbuf1 << ", Sflags: " << msgbuf2;
 
-      errorLog << "MidiOut Device: " << TmpDevDesc.str() << endl;
+      errorLog << "MidiOut Device: " << TmpDevDesc.str() << std::endl;
 
       for(char *pCh=mcaps.szPname;(*pCh!='\0');pCh++) {
           *pCh=tolower(*pCh);
@@ -1811,7 +1811,7 @@ get_commport_baud(const char *cportname) {
   devCB.DCBlength = sizeof(devCB);
   if (!GetCommState(cport, &devCB))
     errorLog << "SysInfo::check_commport() - GetCommState() failed for:"
-      << cportname << endl;
+      << cportname << std::endl;
   else {
     switch (devCB.BaudRate) {
       case CBR_110:
@@ -1854,7 +1854,7 @@ get_commport_baud(const char *cportname) {
   }
   CloseHandle(cport);
 
-  errorLog << "Baud rate: " << baudrate << endl;
+  errorLog << "Baud rate: " << baudrate << std::endl;
   return baudrate;
 }
 
@@ -1894,7 +1894,7 @@ check_net_connection(void) {
     // Find out how big our buffer needs to be to hold the data
     dwStatus = (*pGetAdaptersInfo)(NULL, &ulSizeAdapterInfo);
     if (dwStatus != ERROR_BUFFER_OVERFLOW) {
-        errorLog << "GetAdaptersInfo failed, err=" << dwStatus << endl;
+        errorLog << "GetAdaptersInfo failed, err=" << dwStatus << std::endl;
         goto get_conn_info;
     }
 
@@ -1906,7 +1906,7 @@ check_net_connection(void) {
 
     dwStatus = (*pGetAdaptersInfo)(pAdapterInfo, &ulSizeAdapterInfo);
     if (dwStatus != ERROR_SUCCESS) {
-        errorLog << "GetAdaptersInfo failed, err=" << dwStatus << endl;
+        errorLog << "GetAdaptersInfo failed, err=" << dwStatus << std::endl;
         goto get_conn_info;
     }
 
@@ -1924,7 +1924,7 @@ check_net_connection(void) {
              char ipstr[17];
              ZeroMemory(ipstr,17);
              strncpy(ipstr,pAddressList->IpAddress.String,16);
-             errorLog << "IP Addr: " << ipstr << endl;
+             errorLog << "IP Addr: " << ipstr << std::endl;
              if((strncmp(ipstr,"127.0.0.1",16)==0) ||
                 (strncmp(ipstr,"0.0.0.0",16)==0) ||
                 (ipstr[0]=='\0')) {
@@ -1948,7 +1948,7 @@ check_net_connection(void) {
           }
           *(pCh-1)='\0';
 
-          errorLog << "MAC Address: " << mac_addr_str << endl;
+          errorLog << "MAC Address: " << mac_addr_str << std::endl;
           _MACAddrStr = mac_addr_str;
     }
 
@@ -1964,17 +1964,17 @@ check_net_connection(void) {
     DWORD dwFlags;
     // check for an internet connection
     if(!InternetGetConnectedState(&dwFlags, 0)) {
-        errorLog << "No Internet connection detected" << endl;
+        errorLog << "No Internet connection detected" << std::endl;
         _comm_baud = 0;
         return;
     }
 
     if(dwFlags & INTERNET_CONNECTION_OFFLINE) {
-        errorLog << "System is currently in offline-mode" << endl;
+        errorLog << "System is currently in offline-mode" << std::endl;
     }
 
     if(dwFlags & INTERNET_CONNECTION_MODEM) {
-        errorLog << "Internet connection is through a modem" << endl;
+        errorLog << "Internet connection is through a modem" << std::endl;
 
         // check for COM ports
         int baudrate[4];
@@ -1989,20 +1989,20 @@ check_net_connection(void) {
             cport = i;
           }
         }
-        errorLog << "Fastest baud detected: " << _comm_baud << " on comm port: " << cport << endl;
+        errorLog << "Fastest baud detected: " << _comm_baud << " on comm port: " << cport << std::endl;
 
     } else if(dwFlags & INTERNET_CONNECTION_LAN) {
         _comm_baud = 100000000;  // dummy val
         //comm_type = LAN?
-        errorLog << "Internet connection is through a LAN" << endl;
+        errorLog << "Internet connection is through a LAN" << std::endl;
         _bNetworkIsLAN = true;
     }
 
     if(dwFlags & INTERNET_CONNECTION_PROXY)
-        errorLog << "Internet connection is through a proxy server" << endl;
+        errorLog << "Internet connection is through a proxy server" << std::endl;
 
     if(dwFlags & INTERNET_CONNECTION_MODEM_BUSY)
-        errorLog << "Internet connection: modem is busy" << endl;
+        errorLog << "Internet connection: modem is busy" << std::endl;
 
     if(hIPHlp == NULL)
         FreeLibrary(hIPHlp);
@@ -3520,7 +3520,7 @@ bool GetProcessList(void) {
     CREATETOOLHELP32SNAPSHOT pCreateToolhelp32Snapshot = (CREATETOOLHELP32SNAPSHOT) GetProcAddress(hK32, "CreateToolhelp32Snapshot");
 
     if(pCreateToolhelp32Snapshot == NULL) {
-        errorLog << "GetPList error 1, err=" << GetLastError() << endl;
+        errorLog << "GetPList error 1, err=" << GetLastError() << std::endl;
         goto cleanup;
     }
 
@@ -3529,14 +3529,14 @@ bool GetProcessList(void) {
     PROCESS32FIRST pProcess32First = (PROCESS32FIRST) GetProcAddress(hK32, "Process32First");
     PROCESS32NEXT  pProcess32Next = (PROCESS32NEXT) GetProcAddress(hK32, "Process32Next");
     if((pProcess32First ==NULL)||(pProcess32Next ==NULL)) {
-        errorLog << "GetPList error 2, err=" << GetLastError() << endl;
+        errorLog << "GetPList error 2, err=" << GetLastError() << std::endl;
         goto cleanup;
     }
 
     //  Take a snapshot of all processes in the system (do we need the module list too, esp. for IE?)
     HANDLE hProcessSnap = (*pCreateToolhelp32Snapshot)(TH32CS_SNAPPROCESS, 0);
     if (hProcessSnap == INVALID_HANDLE_VALUE) {
-        errorLog << "GetPList error 3, err=" << GetLastError() << endl;
+        errorLog << "GetPList error 3, err=" << GetLastError() << std::endl;
         goto cleanup;
     }
 
@@ -3548,14 +3548,14 @@ bool GetProcessList(void) {
     //  display information.
 
     if (!(*pProcess32First)(hProcessSnap, &pe32))  {
-        errorLog << "GetPList error 4, err=" << GetLastError() << endl;
+        errorLog << "GetPList error 4, err=" << GetLastError() << std::endl;
         goto cleanup;
     }
 
     errorLog << "Process List:\n";
 
     do {
-        errorLog << "["<<pe32.th32ProcessID<<"] " << pe32.szExeFile << endl;
+        errorLog << "["<<pe32.th32ProcessID<<"] " << pe32.szExeFile << std::endl;
     } while (Process32Next(hProcessSnap, &pe32));
     bRet = true;
 
@@ -3583,7 +3583,7 @@ GetVidMemSizeFromRegistry(void) {
 
   ULONG retVal=RegOpenKeyEx(HKEY_LOCAL_MACHINE, DevMapRegKeyName,0,KEY_READ,&hDevMapKey);
   if ((ERROR_SUCCESS != retVal) || (hDevMapKey==NULL)) {
-    errorLog << "regOpenKey RO failed for "<<DevMapRegKeyName<<", err=" << GetLastError() << endl;
+    errorLog << "regOpenKey RO failed for "<<DevMapRegKeyName<<", err=" << GetLastError() << std::endl;
     goto cleanup;
   }
 
@@ -3605,7 +3605,7 @@ GetVidMemSizeFromRegistry(void) {
 
   retVal=RegOpenKeyEx(HKEY_LOCAL_MACHINE, pMachineStrEnd,0,KEY_READ,&hVidDriverKey);
   if ((ERROR_SUCCESS != retVal) || (hVidDriverKey==NULL)) {
-    errorLog << "regOpenKey RO failed for "<<VideoDriverRegPtr<<", err=" << GetLastError() << endl;
+    errorLog << "regOpenKey RO failed for "<<VideoDriverRegPtr<<", err=" << GetLastError() << std::endl;
     goto cleanup;
   }
 
@@ -3613,7 +3613,7 @@ GetVidMemSizeFromRegistry(void) {
   BYTE MemSize[4];
   dwSize=4;
   if(ERROR_SUCCESS != RegQueryValueEx(hVidDriverKey, szHWInfo, 0, &dwType, (LPBYTE)MemSize,&dwSize)) {
-       errorLog << "regGetVal failed for "<<szHWInfo<<", err=" << GetLastError() << endl;
+       errorLog << "regGetVal failed for "<<szHWInfo<<", err=" << GetLastError() << std::endl;
        goto cleanup;
   }
 
@@ -3622,11 +3622,11 @@ GetVidMemSizeFromRegistry(void) {
   const char *szDevDesc = "Device Description";
   dwSize=REGPTRSIZE;
   if(ERROR_SUCCESS != RegQueryValueEx(hVidDriverKey, "Device Description", 0, &dwType, (LPBYTE)VideoDriverRegPtr,&dwSize)) {
-       errorLog << "regGetVal failed for "<<szDevDesc<<", err=" << GetLastError() << endl;
+       errorLog << "regGetVal failed for "<<szDevDesc<<", err=" << GetLastError() << std::endl;
        goto cleanup;
   }
 
-  errorLog << "GetRegVidMem returns " << (VidMemSize >> 20) << "MB for " << VideoDriverRegPtr << endl;
+  errorLog << "GetRegVidMem returns " << (VidMemSize >> 20) << "MB for " << VideoDriverRegPtr << std::endl;
 
 cleanup:
 
@@ -3880,14 +3880,14 @@ bool SysInfo::ValidateCardTypeandDriver(void) {
       // this is good enough for now
       _gfx_report_str << "Your graphics adapter (" << _VideoDeviceID.szDescription
         << ") requires an updated video driver to run Toontown without problems.  You can download and install the latest driver for your OS from <a href=\"" << update_driver_link
-        << "\">"<< update_driver_link <<"</a>." << endl;
+        << "\">"<< update_driver_link <<"</a>." << std::endl;
   } else if(bIsBadCard) {
-      errorLog << "Bad Card Detected: " << _VideoDeviceID.szDescription << endl;
+      errorLog << "Bad Card Detected: " << _VideoDeviceID.szDescription << std::endl;
       _gfx_report_str << "Your graphics adapter (" << _VideoDeviceID.szDescription
             << ") lacks the ability to run Toontown.  See <a href=\"http://www.toontown.com/faq.php#hardware\">http://www.toontown.com/faq.php</a> "
             << "for a list of graphics cards known to run Toontown successfully.  "
             << "Most cards no more than 2 years old should work."
-            << endl;
+            << std::endl;
   } else {
      // dont bother unless driver is known good
      CheckForBadMouseCursorDriver(/*pDevInfo,pDrvVer,DriverDate_SysTime*/);
@@ -3952,7 +3952,7 @@ SetVideoCardConfigInfo(UINT AdapterNum, DDDEVICEIDENTIFIER2 *pDeviceID,SYSTEMTIM
     memcpy(&_VideoDriverDate,pDriverDate_SysTime,sizeof(SYSTEMTIME));
     _bValidVideoDeviceID = true;
 
-    errorLog << "Detected DX Card[" << AdapterNum << "]: " << pDeviceID->szDescription << endl <<
+    errorLog << "Detected DX Card[" << AdapterNum << "]: " << pDeviceID->szDescription << std::endl <<
             "Driver Version: (" << PRINTDRIVER_VERSTR(pDeviceID->liDriverVersion) <<
             ") Date: (" <<_VideoDriverDate.wMonth << "/" <<_VideoDriverDate.wDay << "/"
                         <<_VideoDriverDate.wYear <<
@@ -3960,7 +3960,7 @@ SetVideoCardConfigInfo(UINT AdapterNum, DDDEVICEIDENTIFIER2 *pDeviceID,SYSTEMTIM
              "; VendorID: 0x" << (void*)pDeviceID->dwVendorId <<
              "; DeviceID: 0x" << (void*)pDeviceID->dwDeviceId <<
              "; SubsysID: 0x" << (void*) pDeviceID->dwSubSysId <<
-             "; Revision: 0x" << (void*) pDeviceID->dwRevision << endl;
+             "; Revision: 0x" << (void*) pDeviceID->dwRevision << std::endl;
 
     _VideoCardNameStr = pDeviceID->szDescription;
 

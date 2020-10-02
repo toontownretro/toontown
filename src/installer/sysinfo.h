@@ -182,8 +182,8 @@ public:
 };
 
 #define SET_USER_ERROR(LOGSTR,USERSTR) {  \
-    errorLog << LOGSTR << endl;           \
-    _gfx_report_str << USERSTR << endl; }
+    errorLog << LOGSTR << std::endl;           \
+    _gfx_report_str << USERSTR << std::endl; }
 
 #define ONE_MB_BYTES (1<<20)
 #define SAFE_RELEASE(P) { if((P)!=NULL) { (P)->Release();  (P) = NULL; }  }

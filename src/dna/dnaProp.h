@@ -28,15 +28,15 @@ PUBLISHED:
   INLINE void set_code(string code);
   INLINE string get_code() const;
 
-  INLINE void set_color(const Colorf &color);
-  INLINE Colorf get_color() const;
+  INLINE void set_color(const LColorf &color);
+  INLINE LColorf get_color() const;
 
 private:
   virtual DNAGroup* make_copy();
 
 protected:
   string _code;
-  Colorf _color;
+  LColorf _color;
 
 public:
   static TypeHandle get_class_type() {

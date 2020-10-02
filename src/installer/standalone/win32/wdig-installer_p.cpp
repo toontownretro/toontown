@@ -44,7 +44,7 @@ using namespace vos;
 #if !defined(USE_RPCINSTALLER)
 void  __RPC_FAR * __RPC_USER midl_user_allocate(size_t len)
 {
-//	errorLog << "midl_user_allocate() asking for "<<len<<" bytes" << endl;
+//	errorLog << "midl_user_allocate() asking for "<<len<<" bytes" << std::endl;
     return(new uint8_t[len + sizeof(_TCHAR)]);	// +n for null char
 }
 
@@ -67,20 +67,20 @@ void Shutdown()
 	sehISPROC_shutdown();
 
 	RPC_STATUS status;
-    //errorLog << "Calling RpcMgmtStopServerListening" << endl;
+    //errorLog << "Calling RpcMgmtStopServerListening" << std::endl;
     status = RpcMgmtStopServerListening(NULL);
-    //errorLog << "RpcMgmtStopServerListening returned: $" << hex << status << endl;
+    //errorLog << "RpcMgmtStopServerListening returned: $" << hex << status << std::endl;
     if (status != RPC_S_OK) {
-		errorLog << "RpcMgmtStopServerListening returned: $" << hex << status << endl;
-		cerr << "RpcMgmtStopServerListening returned: $" << hex << status << endl;
+		errorLog << "RpcMgmtStopServerListening returned: $" << hex << status << std::endl;
+		cerr << "RpcMgmtStopServerListening returned: $" << hex << status << std::endl;
        //exit(status);
     }
 
-    //errorLog << "Calling RpcServerUnregisterIf" << endl;
+    //errorLog << "Calling RpcServerUnregisterIf" << std::endl;
     status = RpcServerUnregisterIf(IWDIG_InstallerRPC_v1_1_s_ifspec, NULL, FALSE);
     if (status != RPC_S_OK) {
-		errorLog << "RpcServerUnregisterIf returned $" << hex << status << endl;
-		cerr << "RpcServerUnregisterIf returned $" << hex << status << endl;
+		errorLog << "RpcServerUnregisterIf returned $" << hex << status << std::endl;
+		cerr << "RpcServerUnregisterIf returned $" << hex << status << std::endl;
        //exit(status);
     }
 }
@@ -100,11 +100,11 @@ int file_update(vos::registry_t &info)
 						info.str(vos::vregBOOT_DDB) );
 	if (rv < 0) {
 		// can't continue properly if this isn't up-to-date
-		errorLog << "unrecoverable error updating " << info.str(vos::vregBOOT0_DLFILE) << endl;
+		errorLog << "unrecoverable error updating " << info.str(vos::vregBOOT0_DLFILE) << std::endl;
 		return -1;
 	}
 
-	errorLog << "update checks for " << info.str(vos::vregBOOT0_DLFILE) << " completed" << endl;
+	errorLog << "update checks for " << info.str(vos::vregBOOT0_DLFILE) << " completed" << std::endl;
 	return rv;		// all good
 }
 
@@ -114,10 +114,10 @@ int InstallService_update()
 	int stat = file_update(serviceREG);
 	if (stat < 0)
 	{	// fatal error if couldn't download installer
-		errorLog << serviceREG.str(vos::vregBOOT0_DLFILE) << " download error" << endl;
+		errorLog << serviceREG.str(vos::vregBOOT0_DLFILE) << " download error" << std::endl;
 	}
 	else
-		errorLog << serviceREG.str(vos::vregBOOT0_DLFILE) << " available" << endl;
+		errorLog << serviceREG.str(vos::vregBOOT0_DLFILE) << " available" << std::endl;
 	InstallerSvc_avail = (stat >= 0);
 	return stat;
 }
@@ -129,7 +129,7 @@ int HighIntegrity_enter()
 	switch(getIntegrityLevel())
 	{
 	case vos::il_Low:				// fix Vista BUG? where low integrity exec of requireAdmin app hangs instead of spawning elevation prompt
-		errorLog << "bootstrapping InstallService from low integrity" << endl;
+		errorLog << "bootstrapping InstallService from low integrity" << std::endl;
 		return 2;
 
 	default:						// normal kick off installer_service
@@ -139,11 +139,11 @@ int HighIntegrity_enter()
 
 		if (vos::rfork_execve(prog.c_str(), NULL, NULL, InstallerSvc_pid, params) || (InstallerSvc_pid == 0))
 		{
-			errorLog << "Could not start up " <<  serviceREG.str(vos::vregBOOT0_DLFILE) << endl;
+			errorLog << "Could not start up " <<  serviceREG.str(vos::vregBOOT0_DLFILE) << std::endl;
 			return -1;
 		}
 
-		errorLog << serviceREG.str(vos::vregBOOT0_DLFILE) << " started successfully" << endl;
+		errorLog << serviceREG.str(vos::vregBOOT0_DLFILE) << " started successfully" << std::endl;
 	}
 
 	return static_cast<int>(InstallerService_RPCconnect(NULL));
@@ -181,7 +181,7 @@ int sehISPROC_ready()
 VTHR_RET InstallerService_RPCconnect(voidp_t param)
 {
 	// connect to InstallerService RPC server for high integrity calls
-	errorLog <<vos::datestamp()<< "connecting to InstallerService RPC" << endl;
+	errorLog <<vos::datestamp()<< "connecting to InstallerService RPC" << std::endl;
 
     RPC_STATUS status;
     unsigned char *pszProtocolSequence    = (unsigned char *) "ncalrpc";
@@ -195,18 +195,18 @@ VTHR_RET InstallerService_RPCconnect(voidp_t param)
                                      NULL,  // options
                                      &strBinding);
 #if defined(_DEBUG)
-    errorLog << "RpcStringBindingCompose returned $" << hex << status << endl;
-    errorLog << "stringBinding = " << strBinding << endl;
+    errorLog << "RpcStringBindingCompose returned $" << hex << status << std::endl;
+    errorLog << "stringBinding = " << strBinding << std::endl;
 #endif
     if (status != RPC_S_OK) {
-        errorLog << "client: could not setup RPC binding string: $" << hex << status << endl;
+        errorLog << "client: could not setup RPC binding string: $" << hex << status << std::endl;
 	    return -1;
     }
 
     /* Set the binding handle that will be used to bind to the server. */
     status = RpcBindingFromStringBinding(strBinding, &installerservice_IfHandle);
 #if defined(_DEBUG)
-    errorLog << "RpcBindingFromStringBinding returned $" << hex << status << endl;
+    errorLog << "RpcBindingFromStringBinding returned $" << hex << status << std::endl;
 #endif
 
     RpcStringFree(&strBinding);      // free binding string
@@ -218,7 +218,7 @@ VTHR_RET InstallerService_RPCconnect(voidp_t param)
 	{
 		if (sehISPROC_ready() == 0)
 		{
-			errorLog <<vos::datestamp()<< "Connected..." << endl;
+			errorLog <<vos::datestamp()<< "Connected..." << std::endl;
 			return 0;
 		}
 		vos::msleep(100);
@@ -250,9 +250,9 @@ int sehISPROC_rforkexec(BSTR app_path, BSTR args, DWORD &procId, HANDLE procHand
     int retCode = 0;
     RpcTryExcept
     {
-        errorLog << "calling ISPROC_rforkexec()" << endl;
+        errorLog << "calling ISPROC_rforkexec()" << std::endl;
 		retCode = ISPROC_rforkexec(installerservice_IfHandle, app_path, args, &procId);
-		errorLog << "ISPROC_rforkexec() returned with: " << retCode << endl;
+		errorLog << "ISPROC_rforkexec() returned with: " << retCode << std::endl;
 
         if (retCode == 0)
 		{	// emulate these values to pi
@@ -266,7 +266,7 @@ int sehISPROC_rforkexec(BSTR app_path, BSTR args, DWORD &procId, HANDLE procHand
     }
     RpcExcept(1) {
         retCode = RpcExceptionCode();
-        errorLog << "Runtime reported exception $" << hex << retCode << endl;
+        errorLog << "Runtime reported exception $" << hex << retCode << std::endl;
 		procId = 0;
 		procHandle = NULL;
     }
@@ -318,7 +318,7 @@ int __stdcall ISRPC_ready(
     /* [in] */ handle_t IDL_handle)
 {
 #if defined(OSIS_VISTA)
-	errorLog << "hardcoded for Vista" << endl;
+	errorLog << "hardcoded for Vista" << std::endl;
 #endif
 	return 0;			// dummy ping routine that returns 0 if RPC server is up and running
 }
@@ -332,7 +332,7 @@ int __stdcall ISRPC_DoMediumIntegrity(
     /* [in] */ int game)
 {
 	using namespace vos;
-	errorLog << "ISRPC_DoMediumIntegrity()" << endl;
+	errorLog << "ISRPC_DoMediumIntegrity()" << std::endl;
 
 	// get out if not a recognized game code
 	switch(game)
@@ -340,7 +340,7 @@ int __stdcall ISRPC_DoMediumIntegrity(
 	case 0: // Toontown
 		break;
 	default:
-		errorLog << "unrecognized game" << endl;
+		errorLog << "unrecognized game" << std::endl;
 		return -1;
 	}
 
@@ -374,7 +374,7 @@ int __stdcall ISRPC_DoMediumIntegrity(
 		return ec;
 	else
 	{
-		errorLog << "self-update() successful" << endl;
+		errorLog << "self-update() successful" << std::endl;
 		return 1;
 	}
 #endif
@@ -444,7 +444,7 @@ VTHR_RET InstallerStart (voidp_t param)
 		/* uuid */ NULL, NULL, /* flags */ if_flags, /* maxcalls */ 1, /* maxrpcsize */ 1024, /* callback */ NULL);
 #endif
 	if (status != RPC_S_OK) {
-        errorLog << "server: could not register RPC interface: $" << hex << status << endl;
+        errorLog << "server: could not register RPC interface: $" << hex << status << std::endl;
 		// probably another already running
         goto get_out;
     }
@@ -452,14 +452,14 @@ VTHR_RET InstallerStart (voidp_t param)
 	// register protocols to be used
 	status = RpcServerUseProtseq(protocolseq, 1, NULL);
     if (status != RPC_S_OK) {
-        errorLog << "server: could not register RPC protocol sequence: $" << hex << status << endl;
+        errorLog << "server: could not register RPC protocol sequence: $" << hex << status << std::endl;
         goto get_out;
     }
 
 	// get a vector of bindings available for the server
 	status = RpcServerInqBindings(&pBindingVector);
     if (status != RPC_S_OK) {
-        errorLog << "server: could not get vector to bindings available: $" << hex << status << endl;
+        errorLog << "server: could not get vector to bindings available: $" << hex << status << std::endl;
         goto get_out;
     }
 
@@ -467,7 +467,7 @@ VTHR_RET InstallerStart (voidp_t param)
 	status = RpcEpRegister(IWDIG_InstallerRPC_v1_1_s_ifspec, pBindingVector,
 		/* uuid */ NULL, /* annotation */ (unsigned char *) "wdig_installer_exe");
     if (status != RPC_S_OK) {
-        errorLog << "server: failed to register in the endpoint-map database: $" << hex << status << endl;
+        errorLog << "server: failed to register in the endpoint-map database: $" << hex << status << std::endl;
         goto get_out;
     }
 
@@ -478,7 +478,7 @@ VTHR_RET InstallerStart (voidp_t param)
 	// register security authentication
 	status = RpcServerRegisterAuthInfo(NULL, RPC_C_AUTHN_WINNT, NULL, NULL);
     if (status != RPC_S_OK) {
-        errorLog << "server: could not setup rpc authentication: $" << hex << status << endl;
+        errorLog << "server: could not setup rpc authentication: $" << hex << status << std::endl;
         goto get_out;
     }
 #endif
@@ -488,7 +488,7 @@ VTHR_RET InstallerStart (voidp_t param)
     status = RpcServerUseProtseqEp( protocolseq, 1, endpoint, NULL );
 //        status = RpcServerUseProtseq(protocolseq, 1, NULL);
     if (status != RPC_S_OK) {
-        errorLog << "server: could not setup RPC protocol acceptor: $" << hex << status << endl;
+        errorLog << "server: could not setup RPC protocol acceptor: $" << hex << status << std::endl;
         goto get_out;
     }
 
@@ -496,7 +496,7 @@ VTHR_RET InstallerStart (voidp_t param)
 //        status = RpcServerRegisterIf(IWDIG_InstallerRPC_ServerIfHandle, NULL, NULL);
     status = RpcServerRegisterIf(IWDIG_InstallerRPC_v1_0_s_ifspec, NULL, NULL);
 	if (status != RPC_S_OK) {
-        errorLog << "server: could not register RPC interface: $" << hex << status << endl;
+        errorLog << "server: could not register RPC interface: $" << hex << status << std::endl;
 		// probably another already running
         goto get_out;
     }
@@ -518,28 +518,28 @@ VTHR_RET InstallerStart (voidp_t param)
 	serviceREG.str(vos::vregBOOT0_DLFILE) = "wdigInstallerSvc.exe";
 
 	bInitialized = false;						// program NOT initialized for downloads/registry access/etc
-	bInitForRun = false;						// NOT initialized for exec Toontown program	
-	errorLog << vos::datestamp() << "Waiting for initialization." << endl;
+	bInitForRun = false;						// NOT initialized for exec Toontown program
+	errorLog << vos::datestamp() << "Waiting for initialization." << std::endl;
 
 //
 // start my RPC server listener
 //
-	errorLog << "RPCserver4AX successful.  Listening." << endl;
+	errorLog << "RPCserver4AX successful.  Listening." << std::endl;
 	//HANDLE ExeServer_ready = CreateMutex(NULL, FALSE, _T("tt_RPCserver4AX"));
-	//errorLog << vos::last_error_str() << endl;
+	//errorLog << vos::last_error_str() << std::endl;
 
     status = RpcServerListen(1, 1, fDontWait);
     if (status != RPC_S_OK) {
-        errorLog << "server: could not start RPC listener: $" << hex << status << endl;
+        errorLog << "server: could not start RPC listener: $" << hex << status << std::endl;
         goto get_out;
     }
 	//CloseHandle(ExeServer_ready);
 
     if (fDontWait) {
-        errorLog << "server: calling RpcMgmtWaitServerListen" << endl;
+        errorLog << "server: calling RpcMgmtWaitServerListen" << std::endl;
         status = RpcMgmtWaitServerListen();  // wait operation
         if (status != RPC_S_OK) {
-            errorLog << "server: RpcMgmtWaitServerListen returned: $" << hex << status << endl;
+            errorLog << "server: RpcMgmtWaitServerListen returned: $" << hex << status << std::endl;
             goto get_out;
         }
     }
@@ -551,7 +551,7 @@ get_out:
 void __stdcall ISRPC_Shutdown(
     /* [in] */ handle_t IDL_handle)
 {
-	errorLog <<vos::datestamp()<< "shutting down RPC" << endl;
+	errorLog <<vos::datestamp()<< "shutting down RPC" << std::endl;
 	Shutdown();
 }
 
@@ -564,7 +564,7 @@ void __stdcall ISRPC_Shutdown(
 void __stdcall ISRPC_Init(
     /* [in] */ handle_t IDL_handle)
 {
-//	errorLog << "got RPC message: Init()" << endl;
+//	errorLog << "got RPC message: Init()" << std::endl;
 	sa.init();
 	bInitialized = true;
 }
@@ -572,14 +572,14 @@ void __stdcall ISRPC_Init(
 // SHOULD be called for JUST logfiles and registry access
 // returns 0 if okay, otherwise undefined error code
 //
-int __stdcall ISRPC_InitForStatus( 
+int __stdcall ISRPC_InitForStatus(
     /* [in] */ handle_t IDL_handle,
     /* [in] */ __int64 hwnd)
 {
 	HWND bhwnd = (HWND) hwnd;
 	bInitialized = false;
 	if (errorLog_opened)
-		errorLog << "RPC InitForStatus("<<bhwnd<< ')' << endl;
+		errorLog << "RPC InitForStatus("<<bhwnd<< ')' << std::endl;
 
 //	if (sa.normalInit(bhwnd, NULL, NULL, NULL))
 //	{
@@ -593,7 +593,7 @@ int __stdcall ISRPC_InitForStatus(
 // SHOULD be called before anything else
 // returns 0 if okay, otherwise undefined error code
 //
-int __stdcall ISRPC_InitForRun( 
+int __stdcall ISRPC_InitForRun(
     /* [in] */ handle_t IDL_handle,
     /* [in] */ __int64 hwnd,
     /* [in] */ BSTR bsDeployment,
@@ -606,7 +606,7 @@ int __stdcall ISRPC_InitForRun(
 	if (errorLog_opened)
 	{
 		errorLog << "RPC InitForRun("<<bhwnd
-			<<' '<<deployment<<' '<<downloadServer<<' '<<downloadVersion<< ')' << endl;
+			<<' '<<deployment<<' '<<downloadServer<<' '<<downloadVersion<< ')' << std::endl;
 	}
 	if (sa.normalInit(bhwnd, deployment, downloadServer, downloadVersion))
 	{
@@ -617,7 +617,7 @@ int __stdcall ISRPC_InitForRun(
 		return -1;
 }
 
-void __stdcall ISRPC_getValue( 
+void __stdcall ISRPC_getValue(
     /* [in] */ handle_t IDL_handle,
     /* [in] */ BSTR key,
     /* [retval][out] */ BSTR *pVal)
@@ -627,7 +627,7 @@ void __stdcall ISRPC_getValue(
 
 	if (!bInitialized)
 	{	// can't request values until initialized
-		errorLog << vos::datestamp() << "getValue("<< keyName << ':'<<keyName.length()<<") denied because not initialized." << endl;
+		errorLog << vos::datestamp() << "getValue("<< keyName << ':'<<keyName.length()<<") denied because not initialized." << std::endl;
 		_bstr_t retVal("0");
 		SysReAllocString(pVal, retVal);
 		return;
@@ -635,7 +635,7 @@ void __stdcall ISRPC_getValue(
 
 	std::string keyValStr;
 	sa.getKeyValue(keyName, keyValStr);
-//	errorLog << vos::datestamp() << "getValue("<< keyName << ':'<<keyName.length()<<") got " << keyValStr << endl;
+//	errorLog << vos::datestamp() << "getValue("<< keyName << ':'<<keyName.length()<<") got " << keyValStr << std::endl;
 
 	_bstr_t retVal(keyValStr.c_str());
 	SysReAllocString(pVal, retVal);
@@ -662,12 +662,12 @@ void __stdcall ISRPC_setValue(
 	}
 	else if (!bInitialized)
 	{
-		errorLog << vos::datestamp() << "setValue("<< keyName << ':'<<keyName.length()<<") denied because not initialized." << endl;
+		errorLog << vos::datestamp() << "setValue("<< keyName << ':'<<keyName.length()<<") denied because not initialized." << std::endl;
 		return;
 	}
 
-//	errorLog << vos::datestamp() << "got RPC setValue("<< keyName.length()<<keyName << ", " << val<<val.length() << ')' << endl;
-//	errorLog << vos::datestamp() << "RPC setValue("<< keyName << ", " << value << ')' << endl;
+//	errorLog << vos::datestamp() << "got RPC setValue("<< keyName.length()<<keyName << ", " << val<<val.length() << ')' << std::endl;
+//	errorLog << vos::datestamp() << "RPC setValue("<< keyName << ", " << value << ')' << std::endl;
 
 	sa.setKeyValue(keyName, value);
 }
@@ -675,11 +675,11 @@ void __stdcall ISRPC_setValue(
 void __stdcall ISRPC_RunInstaller(
     /* [in] */ handle_t IDL_handle)
 {
-	errorLog << datestamp() << "ISRPC_Run()" << endl;
+	errorLog << datestamp() << "ISRPC_Run()" << std::endl;
 	if (bInitForRun)
 		sa.runInstaller();
 	else
-		errorLog << datestamp() << "NOT initialized for RunInstaller" << endl;
+		errorLog << datestamp() << "NOT initialized for RunInstaller" << std::endl;
 }
 
 //

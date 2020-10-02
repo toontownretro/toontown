@@ -140,7 +140,7 @@ NodePath DNASignBaseline::traverse(NodePath &parent, DNAStorage *store, int edit
     _font = store->find_font(_code);
     if (_font.is_null()) {
       dna_cat.error()
-        << "unable to find baseline font " << _code << endl;
+        << "unable to find baseline font " << _code << std::endl;
     }
   }
 

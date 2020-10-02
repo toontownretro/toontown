@@ -274,7 +274,7 @@ NodePath DNAFlatBuilding::traverse(NodePath &parent, DNAStorage *store, int edit
   // For some reason the dna has some flat buildings with no walls
   // we should fix them as we find them
   if (current_wall_height == 0.0) {
-    dna_cat.warning() << "empty flat building with no walls" << endl;
+    dna_cat.warning() << "empty flat building with no walls" << std::endl;
     return parent;
   }
 
@@ -467,7 +467,7 @@ void DNALandmarkBuilding::setup_suit_building_origin(NodePath &parent,
     np.node()->set_name(name);
   } else {
     dna_cat.warning() << "DNALandmarkBuilding " << name
-                      << " did not find **/*suit_building_origin" << endl;
+                      << " did not find **/*suit_building_origin" << std::endl;
     // Create the node to hang suit buildings on:
     NodePath suit_building_node_path = parent.attach_new_node(name);
     // Size and place it correctly:
@@ -556,7 +556,7 @@ void DNALandmarkBuilding::write(ostream &out, DNAStorage *store, int indent_leve
     indent(out, indent_level + 1) << "building_type [ " << '"' << get_building_type() << '"' << " ]\n";
   }
 
-  // Whoops, the titles were entered as iso8859 and we need to convert them to utf8 
+  // Whoops, the titles were entered as iso8859 and we need to convert them to utf8
   // We only want to run this when we need to fix an improper encoding
   // Note - you need to change the indent function below too
   // string utf8title = TextNode::reencode_text(_title, TextNode::E_iso8859, TextNode::E_utf8);
@@ -601,4 +601,3 @@ void DNALandmarkBuilding::write(ostream &out, DNAStorage *store, int indent_leve
 DNAGroup* DNALandmarkBuilding::make_copy() {
   return new DNALandmarkBuilding(*this);
 }
-

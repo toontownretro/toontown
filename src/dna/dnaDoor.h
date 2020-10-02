@@ -28,8 +28,8 @@ PUBLISHED:
   void set_code(string code);
   string get_code() const;
 
-  void set_color(const Colorf &color);
-  Colorf get_color() const;
+  void set_color(const LColorf &color);
+  LColorf get_color() const;
 
   static void setup_door(NodePath& door_node_path,
       NodePath& parent, NodePath& door_origin, DNAStorage *store,
@@ -40,7 +40,7 @@ private:
 
 protected:
   string _code;
-  Colorf _color;
+  LColorf _color;
 
 public:
   static TypeHandle get_class_type() {

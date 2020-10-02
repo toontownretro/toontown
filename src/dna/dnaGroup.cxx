@@ -128,7 +128,7 @@ void DNAGroup::remove(PT(DNAGroup) group) {
                                           _group_vector.end(), group);
   if (i == _group_vector.end()) {
     dna_cat.warning()
-      << "DNAGroup: group not found in map" << endl;
+      << "DNAGroup: group not found in map" << std::endl;
     return;
   }
 

@@ -604,27 +604,27 @@ GetInstallerVersion(ULARGE_INTEGER &Ver)
    HMODULE hMod = GetOurModuleHandle();
 
    if(hMod==NULL) {
-       errorLog << "GetOurModuleHandle failed, err=" << GetLastErrorStr() << endl;
-//       errorLog << "GetOurModuleHandle failed, err=" << vos_os::last_error_str() << endl;
+       errorLog << "GetOurModuleHandle failed, err=" << GetLastErrorStr() << std::endl;
+//       errorLog << "GetOurModuleHandle failed, err=" << vos_os::last_error_str() << std::endl;
        return false;
    }
 
    if(GetModuleFileName(hMod,activeXcontrol_filename,_MAX_PATH)==0) {
-       errorLog << "GetModuleFileName failed, err=" << GetLastErrorStr() << endl;
-//       errorLog << "GetModuleFileName failed, err=" << vos_os::last_error_str() << endl;
+       errorLog << "GetModuleFileName failed, err=" << GetLastErrorStr() << std::endl;
+//       errorLog << "GetModuleFileName failed, err=" << vos_os::last_error_str() << std::endl;
        return false;
    }
 #endif
 
 #if 0
    // the file name could be wrong if there are conflict.1 dirs
-   //   errorLog << "Retrieving version of module " << activeXcontrol_filename << endl;
+   //   errorLog << "Retrieving version of module " << activeXcontrol_filename << std::endl;
    //   MyGetFileVersion(activeXcontrol_filename, NULL, &Ver);
 #elif 0
 
 //   MyGetModuleVersion(hMod, &Ver);  got a bug where it returns 0.0.0.0!  arggh.
 #else
-   errorLog << "Looking for installer module " << activeXcontrol_filename << endl;
+   errorLog << "Looking for installer module " << activeXcontrol_filename << std::endl;
    GetHardCodedVersion(Ver);
 #endif
 
@@ -659,7 +659,7 @@ CheckInstallerVersionNum(void)
         if(control_filelist.size()>1) {
             errorLog << "Found duplicate installers in the following list:\n";
             for(unsigned i=0;i<control_filelist.size();i++) {
-                errorLog << control_filelist[i] << endl;
+                errorLog << control_filelist[i] << std::endl;
             }
         }
     }
@@ -669,7 +669,7 @@ CheckInstallerVersionNum(void)
 
     char activeXshortpath[_MAX_PATH];
     GetShortPathName(_ActiveXFilePath.c_str(),activeXshortpath,_MAX_PATH);
-    errorLog << "Bad Installer Version "<<PRINTDRIVER_VERSTR(_liActiveXVersion) << "!  Required version is: " << PRINTDRIVER_VERSTR(_liActiveXVerReqd) << endl;
+    errorLog << "Bad Installer Version "<<PRINTDRIVER_VERSTR(_liActiveXVersion) << "!  Required version is: " << PRINTDRIVER_VERSTR(_liActiveXVerReqd) << std::endl;
 
 #ifndef BLOCK_OLD_INSTALLER_VERSIONS
     // pop up a MessageBox here to allow user to cancel and try to remove and force install manually?
@@ -785,7 +785,7 @@ normalInit(const HWND browser_hwnd, const TCHAR *deployment, const TCHAR *downlo
     errorLog << "[" << tempstr;
     _strtime(tempstr);
     errorLog << " - " << tempstr << "]";
-    errorLog << endl;
+    errorLog << std::endl;
   }
 #endif
 
@@ -812,11 +812,11 @@ normalInit(const HWND browser_hwnd, const TCHAR *deployment, const TCHAR *downlo
   }
 
   if (GetInstallerVersion(_liActiveXVersion))
-      errorLog << "Initializing installer version " << PRINTDRIVER_VERSTR(_liActiveXVersion) << endl;
+      errorLog << "Initializing installer version " << PRINTDRIVER_VERSTR(_liActiveXVersion) << std::endl;
   else
       errorLog << "Couldnt get installer version!\n";
 #endif
-  errorLog << "built: " << __DATE__ << ' ' << __TIME__ << endl;
+  errorLog << "built: " << __DATE__ << ' ' << __TIME__ << std::endl;
 
   _StateCode = 0;
   _curDownloadThreadHandle = NULL;
@@ -845,7 +845,7 @@ normalInit(const HWND browser_hwnd, const TCHAR *deployment, const TCHAR *downlo
   _OK_To_Kill_LauncherProcess = 0;
 
   if (regInit()) {
-    errorLog << "Error opening registry" << endl;
+    errorLog << "Error opening registry" << std::endl;
     SysInfo::print_os_info();
 
     if((_pSysInfo->get_os_type() >= SysInfo::OS_WinNT)&&(!_pSysInfo->IsNTAdmin())) {
@@ -883,7 +883,7 @@ normalInit(const HWND browser_hwnd, const TCHAR *deployment, const TCHAR *downlo
 void toontownInstaller::
 shutdown() {
   if (!_initialized) {
-    errorLog << "toontownInstaller::shutdown() called in non-initialized state" << endl;
+    errorLog << "toontownInstaller::shutdown() called in non-initialized state" << std::endl;
     return;
   }
 
@@ -892,26 +892,26 @@ shutdown() {
   printStateCodeUpdates();
 
   printSeparator();
-  errorLog << "Installer is shutting down..." << endl;
+  errorLog << "Installer is shutting down..." << std::endl;
 
   // kill the launcher if necessary
   if(_OK_To_Kill_LauncherProcess && _hLauncherProcess) {
     if(processActive(_hLauncherProcess)) {
-      errorLog << "Terminating launcher process..." << endl;
+      errorLog << "Terminating launcher process..." << std::endl;
       if(0 == TerminateProcess(_hLauncherProcess, 0)) {
-        errorLog << "Error terminating launcher process" << endl;
+        errorLog << "Error terminating launcher process" << std::endl;
       }
     }
     _OK_To_Kill_LauncherProcess = 0;
     _hLauncherProcess = NULL;
   }
   else {
-    errorLog << "Launcher process not active, no need to terminate it" << endl;
+    errorLog << "Launcher process not active, no need to terminate it" << std::endl;
     if(_OK_To_Kill_LauncherProcess) {
-      errorLog << "BUT _OK_To_Kill_LauncherProcess is non-NULL" << endl;
+      errorLog << "BUT _OK_To_Kill_LauncherProcess is non-NULL" << std::endl;
     }
     if(_hLauncherProcess) {
-      errorLog << "BUT _hLauncherProcess is non-NULL" << endl;
+      errorLog << "BUT _hLauncherProcess is non-NULL" << std::endl;
     }
   }
 
@@ -933,12 +933,12 @@ printStateCodeUpdates() {
     if (last_stateCode != INVALID_STATECODE) {
       if (rep_count > 1) {
         errorLog << "STATECODE: " << last_stateCode <<
-                    " -> " << rep_count << " reps" << endl;
+                    " -> " << rep_count << " reps" << std::endl;
       }
     }
     if (_StateCode != INVALID_STATECODE) {
       printSeparator();
-      errorLog << "STATECODE: " << dec << _StateCode << endl;
+      errorLog << "STATECODE: " << dec << _StateCode << std::endl;
     }
     rep_count = 0;
     last_stateCode = _StateCode;
@@ -951,7 +951,7 @@ setErrorState(unsigned int ErrorState, InstallerErrorPoint errpnt) {
   _FinalNonErrorState = _StateCode;	// save for stat reporting purposes
   _InstallerErrorPoint = errpnt;	// would be simpler to just always pass in __LINE__, but those change as file changes
   _StateCode = ErrorState;
-  errorLog << "Final Non-ErrorState: " << _FinalNonErrorState << ", Installer ErrorPnt: " << errpnt << ", Panda ErrorCode: " << _LastPandaErrorCode << endl;
+  errorLog << "Final Non-ErrorState: " << _FinalNonErrorState << ", Installer ErrorPnt: " << errpnt << ", Panda ErrorCode: " << _LastPandaErrorCode << std::endl;
 
   // Any error, we want to make sure that installer window is ready
   reFocusWindow(_installer_hwnd, SW_RESTORE);
@@ -987,7 +987,7 @@ reFocusWindow(const HWND hwnd, const int nCmdShow)
 #if defined(_DEBUG)
 	errorLog << "; performing " << nCmdShow;
 #endif
-	errorLog << endl;
+	errorLog << std::endl;
 
 #if !defined(_INSTALLERSERVICE_)
 	ShowWindow(hwnd, nCmdShow);
@@ -1008,10 +1008,10 @@ reFocusWindow(const char *window_title, const int nCmdShow)
 
 	if (hWnd == NULL)
 	{
-		errorLog << "Couldn't find window '" << window_title << "' to min/maximize it, error=" << GetLastErrorStr() << endl;
-	//    errorLog << "Couldn't find window '" << window_title << "' to min/maximize it, error=" << vos::last_error_str() << endl;
+		errorLog << "Couldn't find window '" << window_title << "' to min/maximize it, error=" << GetLastErrorStr() << std::endl;
+	//    errorLog << "Couldn't find window '" << window_title << "' to min/maximize it, error=" << vos::last_error_str() << std::endl;
 	}
-	errorLog << "Trying with window '"<<window_title<<':'<<hWnd<<"' to min/maximize it" << endl;
+	errorLog << "Trying with window '"<<window_title<<':'<<hWnd<<"' to min/maximize it" << std::endl;
 
     reFocusWindow(hWnd, nCmdShow);
 
@@ -1020,14 +1020,14 @@ reFocusWindow(const char *window_title, const int nCmdShow)
   memset(&wpmt, 0,sizeof(wpmt));
   wpmt.length=sizeof(wpmt);
   if(!GetWindowPlacement(hWnd,&wpmt)) {
-    errorLog << "GetWindowPlacement failed for window '" << window_title << "', error=" << GetLastErrorStr() << endl;
-//    errorLog << "GetWindowPlacement failed for window '" << window_title << "', error=" << vos::last_error_str() << endl;
+    errorLog << "GetWindowPlacement failed for window '" << window_title << "', error=" << GetLastErrorStr() << std::endl;
+//    errorLog << "GetWindowPlacement failed for window '" << window_title << "', error=" << vos::last_error_str() << std::endl;
     return;
   }
   wpmt.showCmd=nCmdShow;  // make sure it's not activated (as would happen w/ShowWindow), or desktop will appear
   if(!SetWindowPlacement(hWnd,&wpmt)) {
-    errorLog << "SetWindowPlacement failed for window '" << window_title << "', error=" << GetLastErrorStr() << endl;
-//    errorLog << "SetWindowPlacement failed for window '" << window_title << "', error=" << vos::last_error_str() << endl;
+    errorLog << "SetWindowPlacement failed for window '" << window_title << "', error=" << GetLastErrorStr() << std::endl;
+//    errorLog << "SetWindowPlacement failed for window '" << window_title << "', error=" << vos::last_error_str() << std::endl;
   }
   */
 }
@@ -1038,7 +1038,7 @@ void toontownInstaller::
 extractLauncher()
 {
   if(startLauncherSelfExtract()) {
-    errorLog << "Error extracting launcher" << endl;
+    errorLog << "Error extracting launcher" << std::endl;
     setErrorState(13, E22);
 	return;
   }
@@ -1051,7 +1051,7 @@ extractLauncher()
 void toontownInstaller::
 handleCase0() {
   if (!normalInit()) {
-    errorLog << "Error initializing installer." << endl;
+    errorLog << "Error initializing installer." << std::endl;
     setErrorState(13,E1);
     return;
   }
@@ -1059,9 +1059,9 @@ handleCase0() {
   // choose a server from list since we SHOULD now have complete URL components
   selectDownloadServer();
   // check for valid hardware
-  errorLog << "Checking for valid hardware..." << endl;
+  errorLog << "Checking for valid hardware..." << std::endl;
   if (!validHardware()) {
-    errorLog << "Invalid hardware detected" << endl;
+    errorLog << "Invalid hardware detected" << std::endl;
     setErrorState(21,E2);
     return;
   }
@@ -1075,33 +1075,33 @@ handleCase0() {
   }
 #ifdef PANDA_LOCATED_SEPARATE_FROM_TT
   // initialize Panda3D install directory
-  errorLog << "Setting up in Panda3D install directory..." << endl;
+  errorLog << "Setting up in Panda3D install directory..." << std::endl;
   if (createPanda3DInstallDir()) {
     errorLog << "Error setting up in Panda3D install directory";
     setErrorState(13,E4);
     return;
   }
-  errorLog << "Set up in " << getPanda3DInstallDir() << endl;
+  errorLog << "Set up in " << getPanda3DInstallDir() << std::endl;
 #endif
 
   // initialize Toontown install directory
-  errorLog << "Setting up in Toontown directory..." << endl;
+  errorLog << "Setting up in Toontown directory..." << std::endl;
   if (!initInstallDir()) {
     errorLog << "Error setting up in install directory";
     setErrorState(13, E5);
     return;
   }
-  errorLog << "Set up in " << _toontownInstallDir << endl;
+  errorLog << "Set up in " << _toontownInstallDir << std::endl;
 
   // check for disk space
-  errorLog << "Checking for necessary disk space..." << endl;
+  errorLog << "Checking for necessary disk space..." << std::endl;
   bool sufficient=false;
   if (!sufficientDiskSpace(
 	  _toontownInstallDir,
 	  unsigned __int64(DISK_MEGS_REQUIRED)*unsigned __int64(bytesPerMeg),
       sufficient) )
   {
-    errorLog << "Error in sufficientDiskSpace()" << endl;
+    errorLog << "Error in sufficientDiskSpace()" << std::endl;
     setErrorState(13, E6);
     return;
   }
@@ -1133,14 +1133,14 @@ handleCase0() {
 
   // get the latest launcher file database
   if (getLatestLauncherFileDB()) {
-    errorLog << endl << "error downloading launcher file DB" << endl;
+    errorLog << std::endl << "error downloading launcher file DB" << std::endl;
     setErrorState(13, E8);
     return;
   }
 
 #if defined(USE_TESTSERVER) && defined(SEND_CONFIGINFO_TO_STATSERVER)
   if(!_bConfigSubmitApproved) {
-    errorLog << "config submit not approved yet" << endl;
+    errorLog << "config submit not approved yet" << std::endl;
     // tell installer.php to open up window asking for user permission to send config data
 
     // create a preliminary possibly incomplete (since configrc.exe has not run)
@@ -1151,7 +1151,7 @@ handleCase0() {
     _StateCode = 7;
     return;
   }
-  errorLog << "config submit approved" << endl;
+  errorLog << "config submit approved" << std::endl;
 #endif
 
   // if user has given permission to send config data, continue init process
@@ -1165,11 +1165,11 @@ handleCase7() {
 #if defined(USE_TESTSERVER) && defined(SEND_CONFIGINFO_TO_STATSERVER)
   if(_bConfigSubmitApproved) {
     _StateCode = 10;
-    errorLog << "config submit approved" << endl;
+    errorLog << "config submit approved" << std::endl;
     runInstaller();  // dont wait for js to call us again
   }
 #else
-  errorLog << "error: state 7 should never be reached!" << endl;
+  errorLog << "error: state 7 should never be reached!" << std::endl;
 #endif
 }
 //
@@ -1197,7 +1197,7 @@ handleCase10() {
 //  if ( vos::file::exists(_launcherSelfExtractor_IFilename.getFullLocalName())
 //	   && launcherHasBeenExtracted() )
   {
-    errorLog << "Launcher has already been extracted" << endl;
+    errorLog << "Launcher has already been extracted" << std::endl;
 #ifndef _EXEINSTALLER_
     // is the movie/game2 done?
     if (game2Done())
@@ -1226,7 +1226,7 @@ handleCase10() {
   return;
 #endif
   }
-  errorLog << "Launcher has not yet been installed" << endl;
+  errorLog << "Launcher has not yet been installed" << std::endl;
 
 #ifndef _EXEINSTALLER_
   // get rid of GAME2_DONE reg value, if present
@@ -1236,7 +1236,7 @@ handleCase10() {
   if ( !needToDownloadFlashMovie(_movie_IFilename.getFullLocalName(), _needToDownloadMovie)
 	   && !needToDownloadFlashMovie(_game2_IFilename.getFullLocalName(), _needToDownloadGame2))
   { // start the movie
-    errorLog << "Starting the Flash intro movie" << endl;
+    errorLog << "Starting the Flash intro movie" << std::endl;
     _StateCode = 50;
     return;
   } else {
@@ -1248,7 +1248,7 @@ handleCase10() {
     }
 
     // start up game1
-    errorLog << "Starting game1..." << endl;
+    errorLog << "Starting game1..." << std::endl;
     _StateCode = 30;
   }
 #else
@@ -1263,7 +1263,7 @@ handleCase13() {
   // we should never get here!!!
   // state 13 is the "major error" state;
   // javascript should have picked up on it and not continued to call runInstaller()
-  errorLog << "runInstaller() called with \"major error\" state" << endl;
+  errorLog << "runInstaller() called with \"major error\" state" << std::endl;
 
   reFocusWindow(_installer_hwnd, SW_RESTORE);
 }
@@ -1274,7 +1274,7 @@ void toontownInstaller::
 handleCase23() {
 #ifndef _EXEINSTALLER_
   // this extra step is necessary to allow javascript to load up a flash movie
-  errorLog << "Displaying \"updating Toontown\" flash movie" << endl;
+  errorLog << "Displaying \"updating Toontown\" flash movie" << std::endl;
 #endif
   // check if the launcher is valid
   _StateCode = 25;
@@ -1340,11 +1340,11 @@ handleCase30() {
     return;
   }
   // start downloading movie
-  errorLog << "Starting movie download..." << endl;
+  errorLog << "Starting movie download..." << std::endl;
   _curDownloadThreadHandle = asyncDownloadToFile(_movie_IFilename.getFullRemoteName(),
                                                  _movie_IFilename.getFullLocalName(),false);
   if (NULL == _curDownloadThreadHandle) {
-    errorLog << "Error downloading " << _movie_IFilename.getFullRemoteName() << endl;
+    errorLog << "Error downloading " << _movie_IFilename.getFullRemoteName() << std::endl;
     setErrorState(13, E15);
     return;
   }
@@ -1368,13 +1368,13 @@ handleCase35()
 	  || ((result > 0) && !fileExists(_movie_IFilename.getFullLocalName())))
 // 	  || ((result > 0) && !vos::file_exists(_movie_IFilename.getFullLocalName())) )
   {
-    errorLog << "Error downloading " << _movie_IFilename.getFullRemoteName() << endl;
+    errorLog << "Error downloading " << _movie_IFilename.getFullRemoteName() << std::endl;
     setErrorState(13, E16);
   }
   else if (result > 0)
   {
     flashMovieDownloadedSuccessfully(_MOVIE_VERSION_ValueName, _movieVersion);
-    errorLog << "Movie download complete" << endl;
+    errorLog << "Movie download complete" << std::endl;
     _StateCode = 36;
   }
 #else
@@ -1395,12 +1395,12 @@ handleCase36() {
     return;
   }
   // start downloading game2
-  errorLog << "Starting game2 download..." << endl;
+  errorLog << "Starting game2 download..." << std::endl;
   _curDownloadThreadHandle = asyncDownloadToFile(_game2_IFilename.getFullRemoteName(),
                                                  _game2_IFilename.getFullLocalName(),false);
   if (NULL == _curDownloadThreadHandle) {
     // error downloading game2
-    errorLog << "Error downloading " << _game2_IFilename.getFullRemoteName() << endl;
+    errorLog << "Error downloading " << _game2_IFilename.getFullRemoteName() << std::endl;
     setErrorState(13, E17);
     return;
   }
@@ -1422,13 +1422,13 @@ handleCase37()
 	  || ((result > 0) && !fileExists(_game2_IFilename.getFullLocalName())))
 //	  || ((result > 0) && !vos::file_exists(_game2_IFilename.getFullLocalName())) )
   {
-    errorLog << "Error downloading " << _game2_IFilename.getFullRemoteName() << endl;
+    errorLog << "Error downloading " << _game2_IFilename.getFullRemoteName() << std::endl;
     setErrorState(13, E18);
   }
   else if (result > 0)
   {
     flashMovieDownloadedSuccessfully(_GAME2_VERSION_ValueName, _game2Version);
-    errorLog << "Game2 download complete" << endl;
+    errorLog << "Game2 download complete" << std::endl;
     // tell javascript to tell game1 that it can exit
     _StateCode = 38;
   }
@@ -1442,7 +1442,7 @@ handleCase37()
 void toontownInstaller::
 handleCase38() {
   // javascript has told game1 it can exit
-  errorLog << "Waiting for user to exit game1..." << endl;
+  errorLog << "Waiting for user to exit game1..." << std::endl;
   _StateCode = 40;
 }
 //
@@ -1468,7 +1468,7 @@ handleCase40()
 void toontownInstaller::
 handleCase50() {
   // movie has been started, start downloading launcher...
-  errorLog << "Starting the movie..." << endl;
+  errorLog << "Starting the movie..." << std::endl;
   _StateCode = 53;
 }
 //
@@ -1497,13 +1497,13 @@ handleCase53() {
   // use known unreliable URLDownloadToFile as Last Resort
   bool bUseURLDownloadToFile = (_LauncherDownloadTryNum==MAX_DOWNLOAD_TRIES);
 
-  errorLog << "Starting download of Launcher self-extractor, Attempt #" <<  _LauncherDownloadTryNum << endl;
+  errorLog << "Starting download of Launcher self-extractor, Attempt #" <<  _LauncherDownloadTryNum << std::endl;
   if(bUseURLDownloadToFile) {
     errorLog << "Using URLDownloadToFile method\n";
   }
   //DBG("Download InstallLauncher?!");
-  errorLog << "Downloading " << _launcherSelfExtractor_IFilename.getFullRemoteName() << endl;
-  
+  errorLog << "Downloading " << _launcherSelfExtractor_IFilename.getFullRemoteName() << std::endl;
+
   _PatchSize = GetPatchSize(0);
   _PatchSizeSoFar = 0;      // reset download metering
 
@@ -1513,7 +1513,7 @@ handleCase53() {
       bUseURLDownloadToFile);
   if (NULL == _curDownloadThreadHandle) {
     // error downloading launcher
-    errorLog << "Error downloading " << _launcherSelfExtractor_IFilename.getFullRemoteName() << endl;
+    errorLog << "Error downloading " << _launcherSelfExtractor_IFilename.getFullRemoteName() << std::endl;
     setErrorState(13, E20);
     return;
   }
@@ -1558,7 +1558,7 @@ handleCase55() {
   }
 
   if (bDownloadFailed) {
-    errorLog << "Error downloading " << _launcherSelfExtractor_IFilename.getFullRemoteName() << endl;
+    errorLog << "Error downloading " << _launcherSelfExtractor_IFilename.getFullRemoteName() << std::endl;
     if(_LauncherDownloadTryNum<MAX_DOWNLOAD_TRIES) {
       errorLog << "Retrying download\n";
       _StateCode = 53;
@@ -1569,7 +1569,7 @@ handleCase55() {
     }
   }
   else {
-    errorLog << "Launcher self-extractor download complete" << endl;
+    errorLog << "Launcher self-extractor download complete" << std::endl;
 
     if(!_ProxyUserName.empty()) {
       // have to actually open an internet connection to get these values
@@ -1580,7 +1580,7 @@ handleCase55() {
     // remove LAUNCHER_EXTRACTED value
     _regToontown.deleteValue(_LAUNCHER_EXTRACTED_ValueName);
 
-    errorLog << "Running Launcher self-extractor..." << endl;
+    errorLog << "Running Launcher self-extractor..." << std::endl;
 
     // start self-extracting launcher; this function sets the statecode to 60 on success
     extractLauncher();
@@ -1610,7 +1610,7 @@ handleCase60() {
       writeInstalledSizeToRegistry(Installer_ProgramName,TOTAL_INSTALLEDSIZE);
     }
     // launcher self-extract has completed
-    errorLog << "Launcher extraction/installation complete" << endl;
+    errorLog << "Launcher extraction/installation complete" << std::endl;
     // check that launcher is valid
     _StateCode = 25;
   }
@@ -1635,7 +1635,7 @@ handleCase85() {
 void toontownInstaller::
 handleCase90() {
   // movie has been started, check if the launcher is current
-  errorLog << "Starting the movie..." << endl;
+  errorLog << "Starting the movie..." << std::endl;
   _StateCode = 25;
 }
 //
@@ -1683,7 +1683,7 @@ handleCase110() {
   // if game2 is done, wait for panda window to open
 #ifndef _EXEINSTALLER_
   if (game2Done()) {
-    errorLog << "Game2 is done, waiting for panda window to come up" << endl;
+    errorLog << "Game2 is done, waiting for panda window to come up" << std::endl;
 
     _StateCode = 115;
     return;
@@ -1723,7 +1723,7 @@ handleCase115() {
     return;
 
   // if panda window has come up, transition to the next state
-  errorLog << "Panda window is up" << endl;
+  errorLog << "Panda window is up" << std::endl;
 
   if(_bConfigSubmitApproved) {
     // now that configrc.exe has run, we should have all the info in registry
@@ -1958,7 +1958,7 @@ void toontownInstaller::runInstaller()
     break;
   }
   default:
-    errorLog << "TT Installer Error: invalid StateCode " << _StateCode << endl;
+    errorLog << "TT Installer Error: invalid StateCode " << _StateCode << std::endl;
   }
 }
 
@@ -2030,14 +2030,14 @@ checkPandaError(void)
 // these functions recieve the version strings for the flash movies
 void toontownInstaller::
 setFlashMovieVersion(const char *newVer, char *verStr, char *name) {
-  errorLog << "Current " << name << " version is '" << newVer << "'" << endl;
+  errorLog << "Current " << name << " version is '" << newVer << "'" << std::endl;
 
   // if the version string is already set, something
   // is wrong. These version numbers should be set before
   // the installer main loop is run.
   if (strlen(verStr))
     errorLog << "WARNING: " << name << " version is already set to '"
-      << verStr << "'" << endl;
+      << verStr << "'" << std::endl;
 
   strcpy(verStr, newVer);
 }
@@ -2052,7 +2052,7 @@ getFlashVersionInfoFromReg(char *verStr, const char *key, int &needToDownload) {
   if (_regToontown.getString(key, temp) || temp.compare(verStr)) {
     needToDownload = 1;
     errorLog << key << " '" << temp << "' is out of date, will download version '"
-             << verStr << "' if needed" << endl;
+             << verStr << "' if needed" << std::endl;
   }
 }
 
@@ -2085,16 +2085,16 @@ downloadFlashMovie(installerFilename &filename, int forceDownloadFlag,
     {
       if(!deleteObsoleteFile(filename.getFullLocalName())) {
         errorLog << "aborting download of " <<
-          filename.getFullRemoteName() << endl;
+          filename.getFullRemoteName() << std::endl;
         return 1;
       }
 
-      errorLog << "Downloading " << filename.getFullRemoteName() << "..." << endl;
+      errorLog << "Downloading " << filename.getFullRemoteName() << "..." << std::endl;
       if (!downloadToFile(filename.getFullRemoteName(),
                           filename.getFullLocalName()))
         {
           // error downloading file
-          errorLog << "Error downloading " << filename.getFullRemoteName() << endl;
+          errorLog << "Error downloading " << filename.getFullRemoteName() << std::endl;
           return 1;
         }
       flashMovieDownloadedSuccessfully(regKey, version);
@@ -2134,7 +2134,7 @@ createRegistry(const char *RegKeyName, PHKEY _hKey, PACL pNewDacl)
   // ok for it to be NOT_FOUND
   if((regRetVal!=ERROR_PATH_NOT_FOUND)&&(regRetVal!=ERROR_FILE_NOT_FOUND)) {
     // errors defined in winerror.h, starting at ERROR_SUCCESS
-    errorLog << "regInit RegOpenKeyEx failed, errVal=" << regRetVal << endl;
+    errorLog << "regInit RegOpenKeyEx failed, errVal=" << regRetVal << std::endl;
     return 1;
   }
 
@@ -2143,7 +2143,7 @@ createRegistry(const char *RegKeyName, PHKEY _hKey, PACL pNewDacl)
                              0, "", REG_OPTION_NON_VOLATILE,
                              KEY_READ | KEY_WRITE, NULL, _hKey, &ActionTaken);
   if(regRetVal!=ERROR_SUCCESS) {
-    errorLog << "regInit RegCreateKeyEx failed, errVal=" << regRetVal << " " << RegKeyName <<endl;
+    errorLog << "regInit RegCreateKeyEx failed, errVal=" << regRetVal << " " << RegKeyName <<std::endl;
     return 1;
   }
 
@@ -2252,7 +2252,7 @@ regInit() {
   // ok for it to be NOT_FOUND
   if((regRetVal!=ERROR_PATH_NOT_FOUND)&&(regRetVal!=ERROR_FILE_NOT_FOUND)) {
     // errors defined in winerror.h, starting at ERROR_SUCCESS
-    errorLog << "regInit RegOpenKeyEx failed, errVal=" << regRetVal << endl;
+    errorLog << "regInit RegOpenKeyEx failed, errVal=" << regRetVal << std::endl;
     return 1;
   }
 
@@ -2261,7 +2261,7 @@ regInit() {
                              0, "", REG_OPTION_NON_VOLATILE,
                              KEY_READ | KEY_WRITE, NULL, &_hKeyToontown, &ActionTaken);
   if(regRetVal!=ERROR_SUCCESS) {
-    errorLog << "regInit RegCreateKeyEx failed, errVal=" << regRetVal << endl;
+    errorLog << "regInit RegCreateKeyEx failed, errVal=" << regRetVal << std::endl;
     return 1;
   }
 
@@ -2381,7 +2381,7 @@ validHardware(void) {
   if(sysInfo.get_cpu_type() == )
   {
     addUserError("Invalid CPU type");
-    errorLog << "Invalid hardware: invalid CPU type" << endl;
+    errorLog << "Invalid hardware: invalid CPU type" << std::endl;
     retVal = HARDWARE_VALID;
   }
 
@@ -2389,7 +2389,7 @@ validHardware(void) {
   if(sysInfo.get_cpu_level() < )
   {
     addUserError("Invalid CPU level");
-    errorLog << "Invalid hardware: invalid CPU level" << endl;
+    errorLog << "Invalid hardware: invalid CPU level" << std::endl;
     retVal = HARDWARE_VALID;
   }
   */
@@ -2397,14 +2397,14 @@ validHardware(void) {
   // check OS type
   if(_pSysInfo->get_os_type() == SysInfo::OS_unknown)
   {
-    errorLog << "Invalid hardware: unknown OS; continuing anyway" << endl;
+    errorLog << "Invalid hardware: unknown OS; continuing anyway" << std::endl;
   }
 
   // check for mouse
   if(!_pSysInfo->get_mouse_enabled())
   {
     addUserError("No mouse detected");
-    errorLog << "Invalid hardware: no mouse detected" << endl;
+    errorLog << "Invalid hardware: no mouse detected" << std::endl;
     retVal = HARDWARE_INVALID;
   }
 
@@ -2445,7 +2445,7 @@ validHardware(void) {
     string user_error=_pSysInfo->_gfx_report_str.str();
     if(!user_error.empty()) {
         addUserError(user_error.c_str());
-        errorLog << user_error.c_str() << endl;
+        errorLog << user_error.c_str() << std::endl;
     }
     retVal = HARDWARE_INVALID_3D;
 
@@ -2489,7 +2489,7 @@ validHardware(void) {
   if(!_pSysInfo->get_sound_enabled()) {
     /*
     addUserError("No sound card detected");
-    errorLog << "Invalid hardware: sound card not detected" << endl;
+    errorLog << "Invalid hardware: sound card not detected" << std::endl;
     retVal = HARDWARE_VALID;
     */
   }
@@ -2505,7 +2505,7 @@ validHardware(void) {
     sprintf(msg, "Modem may not be fast enough: %i baud detected, %d baud required",
             _pSysInfo->get_max_baud(),MIN_BAUD_REQUIRED);
     addUserError(msg);
-    errorLog << msg << "   -- CONTINUING ANYWAY --" << endl;
+    errorLog << msg << "   -- CONTINUING ANYWAY --" << std::endl;
     //retVal = 0;
   }
 #endif
@@ -2564,7 +2564,7 @@ DownloadServer(const char *downloadServer, bool bUpdate)
   // make sure there's a trailing slash
   addTrailingForwardSlash(_downloadServerURL);
 
-  errorLog << "Download server set to " << _downloadServerURL << endl;
+  errorLog << "Download server set to " << _downloadServerURL << std::endl;
   // make a copy to pass to the launcher; only if needed
   if (bUpdate)
     strcpy(_DOWNLOAD_SERVER_String, _downloadServerURL);
@@ -2587,7 +2587,7 @@ setDownloadServerList(const char *downloadServerList)
   // make a copy to pass to the launcher
   strcpy(_DOWNLOAD_SERVER_String, tempString);
 
-  errorLog << "server string:" << _DOWNLOAD_SERVER_String << endl;
+  errorLog << "server string:" << _DOWNLOAD_SERVER_String << std::endl;
 
   // First create the list of servers: downloadServer is a ';' delimited list
   int server_count = 0;
@@ -2596,11 +2596,11 @@ setDownloadServerList(const char *downloadServerList)
   while(tok != NULL) {
     _downloadServerList[server_count] = tok;
     errorLog << "ServerList[" << server_count << "]: "
-                << _downloadServerList[server_count].c_str() << endl;
+                << _downloadServerList[server_count].c_str() << std::endl;
     tok = strtok(NULL, ";");
     ++server_count;
     if (server_count >= _MAX_ALTERNATE_SERVER) {
-      errorLog << "got more than " << _MAX_ALTERNATE_SERVER << "in serverList, so ignoring the rest" << endl;
+      errorLog << "got more than " << _MAX_ALTERNATE_SERVER << "in serverList, so ignoring the rest" << std::endl;
       break;
     }
   }
@@ -2629,7 +2629,7 @@ selectDownloadServer()
     downloadFile = _downloadServerList[i];
     downloadFile += "/";
     downloadFile += _downloadVersion;
-    errorLog << "testing: " << downloadFile << endl;
+    errorLog << "testing: " << downloadFile << std::endl;
     downloadFile += "/launcherFileDb";
     if (testServer(downloadFile.c_str()))
 	{  // pick first working one
@@ -2659,7 +2659,7 @@ DownloadVersion(const char *downloadVersion)
       return;
 
   strcpy(_downloadVersion, downloadVersion);
-  errorLog << "Download version set to " << _downloadVersion << endl;
+  errorLog << "Download version set to " << _downloadVersion << std::endl;
 
   // since we have a new download version, re-form the download URLs
   formDownloadURLs();
@@ -2675,7 +2675,7 @@ GameServer(const char *gameServer)
   if (!normalInit())
       return;
 
-  errorLog << "Game server set to " << gameServer << endl;
+  errorLog << "Game server set to " << gameServer << std::endl;
 
   // make a copy to pass to the launcher
   strcpy(_GAME_SERVER_String, gameServer);
@@ -2691,7 +2691,7 @@ AccountServer(const char *accountServer)
   if (!normalInit())
       return;
 
-  errorLog << "Account server set to " << accountServer << endl;
+  errorLog << "Account server set to " << accountServer << std::endl;
 
   // make a copy to pass to the launcher
   strcpy(_ACCOUNT_SERVER_String, accountServer);
@@ -2750,7 +2750,7 @@ addUserErrorAndLog(const char *error) {
     return;
 
   addUserError(error);
-  errorLog << error << endl;
+  errorLog << error << std::endl;
 }
 
 // this function combines the download server with the download
@@ -2820,9 +2820,9 @@ formLogFileNames()
 
   // try to go to that directory
   if (!SetCurrentDirectory(installDir)) {
-    errorLog << "formLogFiles error, SetCurrentDir("<<installDir<<") failed, err=" << GetLastErrorStr() << endl;
+    errorLog << "formLogFiles error, SetCurrentDir("<<installDir<<") failed, err=" << GetLastErrorStr() << std::endl;
 //  if (vos::chdir(installDir)) {
-//    errorLog << "formLogFiles error, SetCurrentDir("<<installDir<<") failed, err=" << vos::last_error_str() << endl;
+//    errorLog << "formLogFiles error, SetCurrentDir("<<installDir<<") failed, err=" << vos::last_error_str() << std::endl;
     return false;
   }
 
@@ -2883,7 +2883,7 @@ initInstallDir() {
 //		DWORD errNum = vos::last_error_code();
 //      string errStr = vos::last_error_str();
       if(errNum!=ERROR_FILE_NOT_FOUND)
-        errorLog << "SetCurrentDir("<<_toontownInstallDir<<") failed, err=" << errStr << endl;
+        errorLog << "SetCurrentDir("<<_toontownInstallDir<<") failed, err=" << errStr << std::endl;
       else
         errorLog << "'" << _toontownInstallDir << "' doesnt exist yet\n";
       changeToDirFailed = 1;
@@ -2911,9 +2911,9 @@ initInstallDir() {
 
     // make sure we're in the install directory
     if(!SetCurrentDirectory(_toontownInstallDir)) {
-      errorLog << "SetCurrentDir("<<_toontownInstallDir<<") failed, err=" << GetLastErrorStr() << endl;
+      errorLog << "SetCurrentDir("<<_toontownInstallDir<<") failed, err=" << GetLastErrorStr() << std::endl;
 //	if(vos::chdir(_toontownInstallDir)) {
-//      errorLog << "SetCurrentDir("<<_toontownInstallDir<<") failed, err=" << vos::last_error_str() << endl;
+//      errorLog << "SetCurrentDir("<<_toontownInstallDir<<") failed, err=" << vos::last_error_str() << std::endl;
       return false;
     }
   }
@@ -2977,19 +2977,19 @@ makeInstallDir(char *toontownInstallDir)
 	hr =(*pfnShGetFPath)(NULL, CSIDL_PROGRAM_FILES | CSIDL_FLAG_CREATE,  // note: only succeeds for IE 5.0+
 						NULL, SHGFP_TYPE_CURRENT, defaultDir);
 	if(!SUCCEEDED(hr))  {
-		errorLog << shfoldergetpath << " failed, hr=0x" << (void*)hr << ", lasterr=" << GetLastError() << endl;
-	//      errorLog << shfoldergetpath << " failed, hr=0x" << (void*)hr << ", lasterr=" << vos::last_error_code() << endl;
+		errorLog << shfoldergetpath << " failed, hr=0x" << (void*)hr << ", lasterr=" << GetLastError() << std::endl;
+	//      errorLog << shfoldergetpath << " failed, hr=0x" << (void*)hr << ", lasterr=" << vos::last_error_code() << std::endl;
 	}
 
 #if defined(_INSTALLERSERVICE_)
 	hrData =(*pfnShGetFPath)(NULL, CSIDL_LOCAL_APPDATA | CSIDL_FLAG_CREATE,  // logfiles reside in user's profile
 						NULL, SHGFP_TYPE_CURRENT, dataDir);
 	if(!SUCCEEDED(hrData))  {
-		errorLog << shfoldergetpath << " failed, hr=0x" << (void*)hr << ", lasterr=" << GetLastError() << endl;
-	//      errorLog << shfoldergetpath << " failed, hr=0x" << (void*)hr << ", lasterr=" << vos::last_error_code() << endl;
+		errorLog << shfoldergetpath << " failed, hr=0x" << (void*)hr << ", lasterr=" << GetLastError() << std::endl;
+	//      errorLog << shfoldergetpath << " failed, hr=0x" << (void*)hr << ", lasterr=" << vos::last_error_code() << std::endl;
 	}
 	else
-		errorLog << "going to create dir: " << dataDir << endl;
+		errorLog << "going to create dir: " << dataDir << std::endl;
 #endif
 
 shfolder_load_failed:
@@ -3087,7 +3087,7 @@ startLauncherSelfExtract()
 					errorLog << "SetFileAttr('"<< FindFileData.cFileName << "') failed, error: "<< GetLastErrorStr()<<"\n";
 //					errorLog << "SetFileAttr('"<< FindFileData.cFileName << "') failed, error: "<< vos::last_error_str()<<"\n";
 				}
-				// errorLog << "SetFileAttr('"<< FindFileData.cFileName << "') returned " << bSuccess << endl;
+				// errorLog << "SetFileAttr('"<< FindFileData.cFileName << "') returned " << bSuccess << std::endl;
 			}
 
 			if (!FindNextFile(hFileSearch,&FindFileData)) {
@@ -3127,15 +3127,15 @@ startLauncherSelfExtract()
 			if (WriteFile(hFile, manifest_data, sizeof(manifest_data) - 1, &written, NULL) == 0 || written == 0)
 			{
 				ec = vos::last_error_code();
-				errorLog << manifest << ": data could not be written. " << vos::last_error_str(ec) << endl;
+				errorLog << manifest << ": data could not be written. " << vos::last_error_str(ec) << std::endl;
 			}
 			else
 				manifest_written = true;
-			errorLog << manifest << ": " << dec << written << " written of sizeof(" << sizeof(manifest_data) << ')' << endl;
+			errorLog << manifest << ": " << dec << written << " written of sizeof(" << sizeof(manifest_data) << ')' << std::endl;
 			CloseHandle(hFile);
 		}
 		else
-			errorLog << manifest << " could not be created. " << vos::last_error_str() << endl;
+			errorLog << manifest << " could not be created. " << vos::last_error_str() << std::endl;
 	}
 #endif
 
@@ -3178,16 +3178,16 @@ launcherSelfExtractDone() {
     if (launcherHasBeenExtracted()) {
       // self-extract completed normally
       errorLog << "launcherSelfExtractDone(): self-extract completed normally"
-               << endl;
+               << std::endl;
       return 1;
     }
     // self-extract was interrupted
     errorLog << "launcherSelfExtractDone(): self-extract was interrupted"
-             << endl;
+             << std::endl;
     return 2;
   }
   //errorLog << "launcherSelfExtractDone(): self-extract not finished"
-  //         << endl;
+  //         << std::endl;
   return 0;
 }
 
@@ -3203,8 +3203,8 @@ runLauncher()
   if (!SetCurrentDirectory(_toontownInstallDir))
 //  if (vos::chdir(_toontownInstallDir))
   {
-    errorLog << "SetCurrentDir("<<_toontownInstallDir<<") failed, err=" << GetLastErrorStr() << endl;
-//    errorLog << "SetCurrentDir("<<_toontownInstallDir<<") failed, err=" << vos::last_error_str() << endl;
+    errorLog << "SetCurrentDir("<<_toontownInstallDir<<") failed, err=" << GetLastErrorStr() << std::endl;
+//    errorLog << "SetCurrentDir("<<_toontownInstallDir<<") failed, err=" << vos::last_error_str() << std::endl;
     return 1;
   }
 
@@ -3228,7 +3228,7 @@ runLauncher()
 
   // There is a limit of 255/256 characters that you can pass at the command line
   // So we have to be careful not to exceed this limit. Since, download_server_string could
-  // be very long, we are going to write it on a registry and launcher.py will read it 
+  // be very long, we are going to write it on a registry and launcher.py will read it
   // from that registry.
   if(_regToontown.setString(_DOWNLOAD_SERVER_ValueName, _DOWNLOAD_SERVER_String)) {
     errorLog << "couldn't set download server in registry!\n";
@@ -3272,17 +3272,17 @@ runLauncher()
   if(formLogFileNames())
     deleteOldLogs(_gameLogPathPattern.c_str());
 
-  errorLog << "Running Launcher " << endl;
+  errorLog << "Running Launcher " << std::endl;
 #if _DEBUG
   // This is a little too useful for potential hackers
-  errorLog << cmdLine << endl;
+  errorLog << cmdLine << std::endl;
 #else
   if(!_configrc_args.empty())
-    errorLog << "ExtraArgs: " << _configrc_args << endl;
-  errorLog << "Using TestServer: " << CMDARG_USE_TESTSERVER << endl;
-  errorLog << "Download Server: " << _DOWNLOAD_SERVER_String << endl;
-  errorLog << "Game Server: " <<  _GAME_SERVER_String << endl;
-  errorLog << "Account Server: " <<  _ACCOUNT_SERVER_String << endl;
+    errorLog << "ExtraArgs: " << _configrc_args << std::endl;
+  errorLog << "Using TestServer: " << CMDARG_USE_TESTSERVER << std::endl;
+  errorLog << "Download Server: " << _DOWNLOAD_SERVER_String << std::endl;
+  errorLog << "Game Server: " <<  _GAME_SERVER_String << std::endl;
+  errorLog << "Account Server: " <<  _ACCOUNT_SERVER_String << std::endl;
 #endif
 
 #ifdef HIDE_LAUNCHER
@@ -3310,7 +3310,7 @@ runLauncher()
 	  _bstr_t bsAppPath(_runLauncher_IFilename.getFullLocalName()),
 			bsCmdLine(cmdLine);
 	  result = sehISPROC_rforkexec(bsAppPath, bsCmdLine, _LauncherProcessID, _hLauncherProcess);
-	  errorLog << "sehISPROC_rforkexec() result: " << result << ' ' << _LauncherProcessID << ' ' << _hLauncherProcess << endl;
+	  errorLog << "sehISPROC_rforkexec() result: " << result << ' ' << _LauncherProcessID << ' ' << _hLauncherProcess << std::endl;
 */
 	  vchar_t *args[] = { (vchar_t *) cmdLine, '\0' };
 	  pid_t pid;
@@ -3353,8 +3353,8 @@ runLauncher()
           errorLog << pAllowStr << "("<<_LauncherProcessID << ") succeeded\n";
         }
 		else
-          errorLog << pAllowStr << "("<<_LauncherProcessID << ") failed, err: " << GetLastErrorStr() << endl;
-//          errorLog << pAllowStr << "("<<_LauncherProcessID << ") failed, err: " << vos_os::last_error_str() << endl;
+          errorLog << pAllowStr << "("<<_LauncherProcessID << ") failed, err: " << GetLastErrorStr() << std::endl;
+//          errorLog << pAllowStr << "("<<_LauncherProcessID << ") failed, err: " << vos_os::last_error_str() << std::endl;
       }
       FreeLibrary(hUser);
     }
@@ -3399,11 +3399,11 @@ setKeyValue(const char *key, const char *value) {
   } else if (keyMatch(key, "SWID")) {
     setSWID(value);
   } else if (keyMatch(key, "DownloadURL")) {
-    strcpy(_downloadServerURL, value);  
+    strcpy(_downloadServerURL, value);
   } else if (keyMatch(key, "DownloadServer")) {
 #if 0	// temporary code to test something
     value = "http://download.toontown.com;http://a.download.toontown.com";
-    errorLog << "fake server string: " << value << endl;
+    errorLog << "fake server string: " << value << std::endl;
 #endif
     DownloadServer(value, true);
   } else if (keyMatch(key, "DownloadVersion")) {
@@ -3649,7 +3649,7 @@ readLogFile(const char *header,const char *footer,const char *logFileName, ostri
     return;
   }
 
-  dest << header << endl;
+  dest << header << std::endl;
 
   unsigned __int64 logSize = getFileSize(logFileName);
 //  uint64_t logSize = vos::file::size(logFileName);
@@ -3662,7 +3662,7 @@ readLogFile(const char *header,const char *footer,const char *logFileName, ostri
 
   FILE *hLogFile = fopen( logFileName, "rb" );
   if(hLogFile==NULL) {
-    SHOWERROR("failed to open '"<<logFileName << endl);
+    SHOWERROR("failed to open '"<<logFileName << std::endl);
     return;
   }
 
@@ -3678,7 +3678,7 @@ readLogFile(const char *header,const char *footer,const char *logFileName, ostri
   if(bReadFileTail) {
     int retVal=fseek(hLogFile,-((int)endbytes_to_read),SEEK_END);
     if(retVal!=0) {
-      SHOWERROR("fseek failed, retVal = " << retVal << endl);
+      SHOWERROR("fseek failed, retVal = " << retVal << std::endl);
     }
   }
 
@@ -3694,12 +3694,12 @@ readLogFile(const char *header,const char *footer,const char *logFileName, ostri
     count++;
     ch = fgetc(hLogFile);
   }
-  dest << endl;
+  dest << std::endl;
   fclose(hLogFile);
 
-  errorLog << "read " << count << " bytes from " << logFileName << endl;
-  dest << "read " << count << " bytes from " << logFileName << endl;
-  dest << footer << endl;
+  errorLog << "read " << count << " bytes from " << logFileName << std::endl;
+  dest << "read " << count << " bytes from " << logFileName << std::endl;
+  dest << footer << std::endl;
 }
 
 //
@@ -3775,8 +3775,8 @@ CreateLogFilesStr(ostringstream &logFilesStr)
   getFileDate(pInstallerLogName,&installerlogdate);
 //  time_installerlog = vos::file::birthtime(pInstallerLogName);
   readLogFile("=== Installer Log ===",endMarker,pInstallerLogName, logFilesStr);
-  logFilesStr << endl;
-  
+  logFilesStr << std::endl;
+
   char tempName[_MAX_PATH];
   const char *pGameLogName = NULL;
   StrVec GameLogFiles;
@@ -3811,7 +3811,7 @@ CreateLogFilesStr(ostringstream &logFilesStr)
     string tailheaderstr = "=== Tail of Game Log ===";
     string headerstr = "=== Full Game Log ===";
     string endmarkerstr = endMarker;
-      
+
     if(bInstallerLogExists) {
       getFileDate(pGameLogName,&gamelogdate);
       bool bOutofDateGameLog =(CompareFileTime(&installerlogdate,&gamelogdate)==1);
@@ -3827,17 +3827,17 @@ CreateLogFilesStr(ostringstream &logFilesStr)
     // sometimes logs get mysteriously truncated in the submission process,
     // so echo important tail of log as soon as we can
 #define GAMELOG_TAILSIZE 6000
-  
+
 #ifdef PRINT_TAIL_OF_ALL_LOGS
-    errorLog << "Number of game logs = " << GameLogFiles.size() << endl;
+    errorLog << "Number of game logs = " << GameLogFiles.size() << std::endl;
     for (int i = 0; i < (int)GameLogFiles.size(); ++i) {
       string tempstr = "=== *ignore* tail of game log " + GameLogFiles[i] + " ===";
       readLogFile(tempstr.c_str(),endmarkerstr.c_str(),GameLogFiles[i].c_str(),logFilesStr,GAMELOG_TAILSIZE);
-      logFilesStr << endl;
+      logFilesStr << std::endl;
     }
 #endif
     readLogFile(tailheaderstr.c_str(),endmarkerstr.c_str(),pGameLogName,logFilesStr,GAMELOG_TAILSIZE);
-    logFilesStr << endl;
+    logFilesStr << std::endl;
     readLogFile(headerstr.c_str(),endmarkerstr.c_str(),pGameLogName,logFilesStr);
   }
 }
@@ -3993,7 +3993,7 @@ justCheckSystemPage(/*const char *remoteURL*/) {
   if (retVal != HARDWARE_VALID) {
     // DBG("Invalid hardware detected");
     setKeyValue("AddUserErrorMessage", "");
-    errorLog << "Invalid hardware detected" << endl;
+    errorLog << "Invalid hardware detected" << std::endl;
     if (retVal == HARDWARE_INVALID_3D) {
       exitCode = 24;
       //CreateErrorPage(graphics_driver_php.c_str());
@@ -4003,7 +4003,7 @@ justCheckSystemPage(/*const char *remoteURL*/) {
       //CreateErrorPage(missed_requirements_php.c_str());
     }
   }
-  
+
   // shut down whatever normalInit started
   //shutdown();
   // basic_init only inited the registry
@@ -4042,7 +4042,7 @@ void toontownInstaller::
 checkProxyServer() {
   // get rid of existing proxy server string by default
   _regToontown.deleteValue(_PROXY_SERVER_ValueName);
-  // errorLog << "checking proxy settings...." << endl;
+  // errorLog << "checking proxy settings...." << std::endl;
   determine_proxy_spec();
   _bHTTPproxyIsUsed = !_proxy_spec.empty();
 
@@ -4209,11 +4209,11 @@ sufficientDiskSpace(const char *dir, unsigned __int64 space_required, bool &suff
   __int64 space_to_delete = space_required - adj_free_space;
 #endif
 
-  errorLog << "Free disk space: " << free_space << endl;
-  errorLog << "Toontown installation size: " << dir_size << endl;
+  errorLog << "Free disk space: " << free_space << std::endl;
+  errorLog << "Toontown installation size: " << dir_size << std::endl;
   errorLog << "Free disk space, adjusted for previously-installed files: " <<
-    adj_free_space << endl;
-  errorLog << "Required free disk space: " << space_required << endl;
+    adj_free_space << std::endl;
+  errorLog << "Required free disk space: " << space_required << std::endl;
 
   float megs_reqd = space_required/1000000.0f;
   float megs_free = free_space/1000000.0f;
@@ -4337,32 +4337,32 @@ CreateConfigInfoRecord(void)
     }
 #endif
   }
-  ConfigStr << endl << "VideoRamBytes=" << _pSysInfo->_VideoRamTotalBytes
-			<< endl << "VideoCardVendorIDHex=" << _pSysInfo->_VideoCardVendorIDStr
-            << endl << "VideoCardDeviceIDHex=" << _pSysInfo->_VideoCardDeviceIDStr
-            << endl << "VideoCardSubsysIDHex=" << _pSysInfo->_VideoCardSubsysIDStr
-            << endl << "VideoCardRevisionIDHex=" << _pSysInfo->_VideoCardRevisionIDStr
-            << endl << "VideoCardVendorID=" << _pSysInfo->_VideoCardVendorID
-            << endl << "VideoCardDeviceID=" << _pSysInfo->_VideoCardDeviceID
-            << endl << "VideoCardSubsysID=" << _pSysInfo->_VideoCardSubsysID
-            << endl << "VideoCardRevisionID=" << _pSysInfo->_VideoCardRevisionID
-            << endl << "VideoCardDriverDate=" << _pSysInfo->_VideoCardDriverDateStr
-            << endl << "VideoCardDriverVer=" << _pSysInfo->_VideoCardDriverVerStr
-            << endl << "VideoCardDriverDateMon=" << _pSysInfo->_VideoCardDriverDateMon
-            << endl << "VideoCardDriverDateDay=" << _pSysInfo->_VideoCardDriverDateDay
-            << endl << "VideoCardDriverDateYear=" << _pSysInfo->_VideoCardDriverDateYear;
+  ConfigStr << std::endl << "VideoRamBytes=" << _pSysInfo->_VideoRamTotalBytes
+			<< std::endl << "VideoCardVendorIDHex=" << _pSysInfo->_VideoCardVendorIDStr
+            << std::endl << "VideoCardDeviceIDHex=" << _pSysInfo->_VideoCardDeviceIDStr
+            << std::endl << "VideoCardSubsysIDHex=" << _pSysInfo->_VideoCardSubsysIDStr
+            << std::endl << "VideoCardRevisionIDHex=" << _pSysInfo->_VideoCardRevisionIDStr
+            << std::endl << "VideoCardVendorID=" << _pSysInfo->_VideoCardVendorID
+            << std::endl << "VideoCardDeviceID=" << _pSysInfo->_VideoCardDeviceID
+            << std::endl << "VideoCardSubsysID=" << _pSysInfo->_VideoCardSubsysID
+            << std::endl << "VideoCardRevisionID=" << _pSysInfo->_VideoCardRevisionID
+            << std::endl << "VideoCardDriverDate=" << _pSysInfo->_VideoCardDriverDateStr
+            << std::endl << "VideoCardDriverVer=" << _pSysInfo->_VideoCardDriverVerStr
+            << std::endl << "VideoCardDriverDateMon=" << _pSysInfo->_VideoCardDriverDateMon
+            << std::endl << "VideoCardDriverDateDay=" << _pSysInfo->_VideoCardDriverDateDay
+            << std::endl << "VideoCardDriverDateYear=" << _pSysInfo->_VideoCardDriverDateYear;
 
-  ConfigStr << endl << "MidiOutDevices=" << _pSysInfo->_MidiOutAllDevicesStr
-            << endl << "DSoundDevices=" << _pSysInfo->_DSoundDevicesStr;
+  ConfigStr << std::endl << "MidiOutDevices=" << _pSysInfo->_MidiOutAllDevicesStr
+            << std::endl << "DSoundDevices=" << _pSysInfo->_DSoundDevicesStr;
 
   // extra string field to put odd stuff that may come in handy later
-  ConfigStr << endl << "ExtraInfo=" << _pSysInfo->_ExtraStr;
+  ConfigStr << std::endl << "ExtraInfo=" << _pSysInfo->_ExtraStr;
 
   #define TMPBUFSIZE 256
   // use values from previous login
   char pBuf[TMPBUFSIZE];
   // these regkeys are written by Launcher.py
-  ConfigStr << endl << "AccountName=" << _regToontown.getString("LAST_LOGIN");
+  ConfigStr << std::endl << "AccountName=" << _regToontown.getString("LAST_LOGIN");
 
   DWORD IsPaid;
   // unfortunately Launcher.py currently writes this as REG_SZ '1', not REG_DWORD 1
@@ -4376,11 +4376,11 @@ CreateConfigInfoRecord(void)
      IsPaid = (pBuf[0]=='1');
   }
 
-  ConfigStr << endl << "IsPaid=" << IsPaid;
+  ConfigStr << std::endl << "IsPaid=" << IsPaid;
 
   // hope to do some preprocessing on either client or server to merge records that differ only by date
   // (and tolerance on variable fields like cpumhz), where this field will be # of logins
-  ConfigStr << endl << "NumLogins=" << 1;
+  ConfigStr << std::endl << "NumLogins=" << 1;
 
   ///////////// these fields must be filled in after configrc.exe runs and writes this info to registry
   SysInfo::GAPIType gapi = SysInfo::GAPI_Unknown;
@@ -4390,30 +4390,30 @@ CreateConfigInfoRecord(void)
 
   gapi = min(_pSysInfo->_dx_level_installed,gapi);    // if it says dx8.1 and all we have is 8.0, use 8.0
 
-  ConfigStr << endl << "GfxApiUsedID=" << gapi
-            << endl << "GfxApiUsedName=" << _pSysInfo->get_gfx_api_name(gapi);
+  ConfigStr << std::endl << "GfxApiUsedID=" << gapi
+            << std::endl << "GfxApiUsedName=" << _pSysInfo->get_gfx_api_name(gapi);
 
-  ConfigStr << endl << "LastScreenMode=";
+  ConfigStr << std::endl << "LastScreenMode=";
 
   DWORD bIsWindowed = _regToontown.getDWORD("UsingWindowedMode");
   ConfigStr << (bIsWindowed ? "Windowed" : _regToontown.getString("LastScreensize"));
 
   if(gapi==SysInfo::GAPI_OpenGL) {
-    ConfigStr << endl << "OGLVideoCardVendor=" << _regToontown.getString("OGLVendor");
-    ConfigStr << endl << "OGLVideoCardName=" << _regToontown.getString("OGLRenderer");
-    ConfigStr << endl << "OGLVer=" << _regToontown.getString("OGLVersion");
+    ConfigStr << std::endl << "OGLVideoCardVendor=" << _regToontown.getString("OGLVendor");
+    ConfigStr << std::endl << "OGLVideoCardName=" << _regToontown.getString("OGLRenderer");
+    ConfigStr << std::endl << "OGLVer=" << _regToontown.getString("OGLVersion");
   }
   ///////////////////////////////
 
-  ConfigStr << endl << "FinalNonErrorState=" << _FinalNonErrorState
-            << endl << "InstallerErrorPnt=" << _InstallerErrorPoint
-            << endl << "PandaErrorCode=" << _LastPandaErrorCode;
+  ConfigStr << std::endl << "FinalNonErrorState=" << _FinalNonErrorState
+            << std::endl << "InstallerErrorPnt=" << _InstallerErrorPoint
+            << std::endl << "PandaErrorCode=" << _LastPandaErrorCode;
 
-  ConfigStr << endl;
+  ConfigStr << std::endl;
   _ConfigInfo = ConfigStr.str();
 
 #ifndef NDEBUG
-  errorLog << endl << "Collected Config Record:" << endl << _ConfigInfo << endl;
+  errorLog << std::endl << "Collected Config Record:" << std::endl << _ConfigInfo << std::endl;
 #endif
 }
 
@@ -4438,11 +4438,11 @@ SendConfigRecord(void) {
       // lets record all errors unless space is prohibitive
 #ifdef RECORD_ALL_INSTALL_ERRORS
       if((_LastPandaErrorCode==0)&&(_InstallerErrorPoint==0)) {
-        errorLog << "already sent success config for gamever: " << _downloadVersion << endl;
+        errorLog << "already sent success config for gamever: " << _downloadVersion << std::endl;
         return;
       }
 #else
-      errorLog << "already sent config for gamever: " << _downloadVersion << endl;
+      errorLog << "already sent config for gamever: " << _downloadVersion << std::endl;
       return;
 #endif
     }
@@ -4475,7 +4475,7 @@ SendConfigRecord(void) {
 
   DWORD retCode = UploadFunc(&args);
   if(retCode!=0) {
-    errorLog << "send config failed, retcode=" << retCode << endl;
+    errorLog << "send config failed, retcode=" << retCode << std::endl;
   } else {
     _regToontown.setString(szLastGameVersionSubmittedRegkey, _downloadVersion);
 

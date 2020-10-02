@@ -34,7 +34,7 @@ BOOL WINAPI DirectDrawEnumDevicesCallback(GUID FAR *lpGUID, LPSTR lpDriverDescri
   // ignore that and save any non-null value, which
   // indicates a secondary driver, which is usually voodoo1/2
   if(lpGUID!=NULL) {
-    errorLog << "Found a 3D-only display device (voodoo1/2, etc.)" << endl;
+    errorLog << "Found a 3D-only display device (voodoo1/2, etc.)" << std::endl;
     // copy the GUID out
     memcpy(lpContext,lpGUID,sizeof(GUID));
     return 0; // halt enumeration
@@ -86,7 +86,7 @@ Test_DX7(bool bPrintUserErrors) {
   //*pbTryOtherAPIs = true;    // usually true, unless we detect a bad card or driver
 
 #define SET_GEN_3D_ERROR(LOGSTR) { \
-      errorLog << LOGSTR << endl;  \
+      errorLog << LOGSTR << std::endl;  \
       if(bPrintUserErrors)        \
          SetGeneric3DError(NULL);  \
       }
@@ -110,18 +110,18 @@ Test_DX7(bool bPrintUserErrors) {
 
   if (!ddhinst) {
     DWORD err=GetLastError();
-    errorLog << "LoadLib "<<szDDRAW_NAME<<" failed, err=" << err << endl;
+    errorLog << "LoadLib "<<szDDRAW_NAME<<" failed, err=" << err << std::endl;
 
     if(err==ERROR_GEN_FAILURE) {
         // missing dlls or dll exports
         const char *errmsg="DirectX could not initialize, your DirectX installation may be corrupt.  Please reinstall DirectX from <a href=\"http://www.microsoft.com/directx\">http://www.microsoft.com/directx</a>.";
         if(bPrintUserErrors) {
-            _gfx_report_str << errmsg << endl;
+            _gfx_report_str << errmsg << std::endl;
             ShowErrorBox(errmsg);
         }
     } else {
         if(bPrintUserErrors) {
-            _gfx_report_str << "DirectX 7 or newer was not detected.  Toontown requires either DirectX 7 or newer to be installed, or OpenGL acceleration support to be provided by your video card adapter.  Please visit <a href=\"http://www.microsoft.com/directx\">http://www.microsoft.com/directx</a> to download an updated DirectX version, or check with your video card manufacturer for updated video drivers." << endl;
+            _gfx_report_str << "DirectX 7 or newer was not detected.  Toontown requires either DirectX 7 or newer to be installed, or OpenGL acceleration support to be provided by your video card adapter.  Please visit <a href=\"http://www.microsoft.com/directx\">http://www.microsoft.com/directx</a> to download an updated DirectX version, or check with your video card manufacturer for updated video drivers." << std::endl;
         }
     }
 
@@ -134,9 +134,9 @@ Test_DX7(bool bPrintUserErrors) {
       // this is not necessarily an error, if card has OGL support its OK.
       // but we will set the _gfx_error_string anyway, in case OGL detection also fails
 
-      errorLog << "DirectX 7 or newer was not detected in " << szDDRAW_NAME << endl;
+      errorLog << "DirectX 7 or newer was not detected in " << szDDRAW_NAME << std::endl;
       if(bPrintUserErrors)
-           _gfx_report_str << "DirectX 7 or newer is not installed.  Toontown requires either DirectX 7 or newer to be installed, or OpenGL acceleration support to be provided by your video card adapter.  Please visit <a href=\"http://www.microsoft.com/directx\">http://www.microsoft.com/directx</a> to download an updated DirectX version, or check with your video card manufacturer for updated video drivers." << endl;
+           _gfx_report_str << "DirectX 7 or newer is not installed.  Toontown requires either DirectX 7 or newer to be installed, or OpenGL acceleration support to be provided by your video card adapter.  Please visit <a href=\"http://www.microsoft.com/directx\">http://www.microsoft.com/directx</a> to download an updated DirectX version, or check with your video card manufacturer for updated video drivers." << std::endl;
       goto _dx_cleanup;
   }
 
@@ -151,14 +151,14 @@ Test_DX7(bool bPrintUserErrors) {
       } else {
           SET_GEN_3D_ERROR("0x" << (void*)hr);
       }
-      errorLog << endl;
+      errorLog << std::endl;
       goto _dx_cleanup;
   }
   hr = pdd->GetDeviceIdentifier(pDeviceID, 0x0);
   SYSTEMTIME DriverDate_SysTime;
 
   if(FAILED(hr)) {
-      errorLog << "Error in GetDeviceIdentifier: hr=0x" << (void*)hr << endl;
+      errorLog << "Error in GetDeviceIdentifier: hr=0x" << (void*)hr << std::endl;
   } else {
       if((pDeviceID->liDriverVersion.HighPart==0) && (pDeviceID->liDriverVersion.LowPart==0)) {
           // this must always be done on win2k/NT where ddraw always returns 0 for the drvr version #
@@ -228,7 +228,7 @@ Test_DX7(bool bPrintUserErrors) {
   }
 
   if(!bEnumDevicesDetectedHWSupport) {
-    errorLog << "D3D7->EnumDevices found no hardware Direct3D devices" << endl;
+    errorLog << "D3D7->EnumDevices found no hardware Direct3D devices" << std::endl;
     goto _dx_cleanup;
   }
 
@@ -247,7 +247,7 @@ Test_DX7(bool bPrintUserErrors) {
       if(hr==DDERR_NODIRECTDRAWHW) {
           errorLog <<"DDERR_NODIRECTDRAWHW\n";
       } else {
-          errorLog <<"0x" << (void*)hr << endl;
+          errorLog <<"0x" << (void*)hr << std::endl;
       }
       goto _dx_cleanup;
   }
@@ -256,7 +256,7 @@ Test_DX7(bool bPrintUserErrors) {
   _bDoneVidMemCheck = true;
 
   float recip_one_MB = 1.0f/(float)ONE_MB_BYTES;
-  errorLog << "GetAvailVidMem returns Total: " << (dwTotal*recip_one_MB) << "MB, Free: " << (dwFree*recip_one_MB) << "MB for " << pDeviceID->szDescription << endl;
+  errorLog << "GetAvailVidMem returns Total: " << (dwTotal*recip_one_MB) << "MB, Free: " << (dwFree*recip_one_MB) << "MB for " << pDeviceID->szDescription << std::endl;
 
   if(bPrintUserErrors)
       errorLog << "Detected DX7 Direct3D hardware support\n";
@@ -515,14 +515,14 @@ bool SysInfo::ValidateCardTypeandDriver(void) {
       // this is good enough for now
       _gfx_report_str << "Your graphics adapter (" << _VideoDeviceID.szDescription
         << ") requires an updated video driver to run Toontown without problems.  You can download and install the latest driver for your OS from <a href=\"" << update_driver_link
-        << "\">"<< update_driver_link <<"</a>." << endl;
+        << "\">"<< update_driver_link <<"</a>." << std::endl;
   } else if(bIsBadCard) {
-      errorLog << "Bad Card Detected: " << _VideoDeviceID.szDescription << endl;
+      errorLog << "Bad Card Detected: " << _VideoDeviceID.szDescription << std::endl;
       _gfx_report_str << "Your graphics adapter (" << _VideoDeviceID.szDescription
             << ") lacks the ability to run Toontown.  See <a href=\"http://www.toontown.com/faq.php#hardware\">http://www.toontown.com/faq.php</a> "
             << "for a list of graphics cards known to run Toontown successfully.  "
             << "Most cards no more than 2 years old should work."
-            << endl;
+            << std::endl;
   } else {
      // dont bother unless driver is known good
      CheckForBadMouseCursorDriver(/*pDevInfo,pDrvVer,DriverDate_SysTime*/);
@@ -586,7 +586,7 @@ SetVideoCardConfigInfo(UINT AdapterNum, DDDEVICEIDENTIFIER2 *pDeviceID,SYSTEMTIM
     memcpy(&_VideoDriverDate,pDriverDate_SysTime,sizeof(SYSTEMTIME));
     _bValidVideoDeviceID = true;
 
-    errorLog << "Detected DX Card[" << AdapterNum << "]: " << pDeviceID->szDescription << endl <<
+    errorLog << "Detected DX Card[" << AdapterNum << "]: " << pDeviceID->szDescription << std::endl <<
             "Driver Version: (" << PRINTDRIVER_VERSTR(pDeviceID->liDriverVersion) <<
             ") Date: (" <<_VideoDriverDate.wMonth << "/" <<_VideoDriverDate.wDay << "/"
                         <<_VideoDriverDate.wYear <<
@@ -594,7 +594,7 @@ SetVideoCardConfigInfo(UINT AdapterNum, DDDEVICEIDENTIFIER2 *pDeviceID,SYSTEMTIM
              "; VendorID: 0x" << (void*)pDeviceID->dwVendorId <<
              "; DeviceID: 0x" << (void*)pDeviceID->dwDeviceId <<
              "; SubsysID: 0x" << (void*) pDeviceID->dwSubSysId <<
-             "; Revision: 0x" << (void*) pDeviceID->dwRevision << endl;
+             "; Revision: 0x" << (void*) pDeviceID->dwRevision << std::endl;
 
     _VideoCardNameStr = pDeviceID->szDescription;
 

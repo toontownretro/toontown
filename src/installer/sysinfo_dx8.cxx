@@ -43,10 +43,10 @@ void SysInfo::Test_DX8(bool bIsDX81) {
             errorLog << "ERROR_GEN_FAILURE\n";
              // missing dlls or dll exports (probably win98 only, since ME/XP/2000 has system file protection)
              const char *errmsg="DirectX could not initialize, your DirectX installation may be corrupt.  Please reinstall DirectX from http://www.microsoft.com/directx.";
-             _gfx_report_str << errmsg << endl;
+             _gfx_report_str << errmsg << std::endl;
              ShowErrorBox(errmsg);
         } else {
-            errorLog << err << endl;
+            errorLog << err << std::endl;
         }
         return;
     }
@@ -58,7 +58,7 @@ void SysInfo::Test_DX8(bool bIsDX81) {
         (Direct3DCreate8_ProcPtr) GetProcAddress(hD3D8_DLL, szD3DCreateStr);
 
     if(D3DCreate8_Ptr == NULL) {
-        errorLog << "GetProcAddr "<<szD3DCreateStr<<" failed, err=" << GetLastError() << endl;
+        errorLog << "GetProcAddr "<<szD3DCreateStr<<" failed, err=" << GetLastError() << std::endl;
         goto exit_cleanup;
     }
 
@@ -71,7 +71,7 @@ void SysInfo::Test_DX8(bool bIsDX81) {
     pD3D8 = (*D3DCreate8_Ptr)(SDKver);
 
     if(pD3D8==NULL) {
-        errorLog << szD3DCreateStr << " failed!, err=" << GetLastError() << endl;
+        errorLog << szD3DCreateStr << " failed!, err=" << GetLastError() << std::endl;
         goto exit_cleanup;
     }
 
@@ -86,21 +86,21 @@ void SysInfo::Test_DX8(bool bIsDX81) {
         ZeroMemory(&adapter_info,sizeof(D3DADAPTER_IDENTIFIER8));
         hr = pD3D8->GetAdapterIdentifier(i,D3DENUM_NO_WHQL_LEVEL,&adapter_info);
         if(FAILED(hr)) {
-            errorLog << "D3D GetAdapterID failed for device #" << i << endl;
+            errorLog << "D3D GetAdapterID failed for device #" << i << std::endl;
             continue;
         }
 
-        errorLog << "DI.VendorId: " << adapter_info.VendorId << endl;
-        errorLog << "DI.DeviceId: " << adapter_info.DeviceId << endl;
-        errorLog << "DI.SubSysId: " << adapter_info.SubSysId << endl;
-        errorLog << "DI.Revision: " << adapter_info.Revision << endl;
-        errorLog << "DI.Driver: " << adapter_info.Driver << endl;
-        errorLog << "DI.Description: " << adapter_info.Description << endl;
+        errorLog << "DI.VendorId: " << adapter_info.VendorId << std::endl;
+        errorLog << "DI.DeviceId: " << adapter_info.DeviceId << std::endl;
+        errorLog << "DI.SubSysId: " << adapter_info.SubSysId << std::endl;
+        errorLog << "DI.Revision: " << adapter_info.Revision << std::endl;
+        errorLog << "DI.Driver: " << adapter_info.Driver << std::endl;
+        errorLog << "DI.Description: " << adapter_info.Description << std::endl;
 
         errorLog << "Product: " << HIWORD(adapter_info.DriverVersion.HighPart);
         errorLog << ".Version: " << LOWORD(adapter_info.DriverVersion.HighPart);
         errorLog << ".SubVersion: " << HIWORD(adapter_info.DriverVersion.LowPart);
-        errorLog << ".Build: " << LOWORD(adapter_info.DriverVersion.LowPart) << endl;
+        errorLog << ".Build: " << LOWORD(adapter_info.DriverVersion.LowPart) << std::endl;
 
 
         ULARGE_INTEGER *pDrvVer=(ULARGE_INTEGER*)&adapter_info.DriverVersion;
@@ -127,7 +127,7 @@ void SysInfo::Test_DX8(bool bIsDX81) {
              if((hr==D3DERR_INVALIDDEVICE)||(hr==D3DERR_NOTAVAILABLE)) {
                  errorLog << "No DirectX 8 D3D-capable 3D hardware detected for device # "<<i<<" ("<<adapter_info.Description <<  ")!\n";
              } else {
-                 errorLog << "GetDeviceCaps failed for device #"<<i<<", hr=0x" << (void*) hr << endl;
+                 errorLog << "GetDeviceCaps failed for device #"<<i<<", hr=0x" << (void*) hr << std::endl;
              }
              continue;
         }
@@ -152,4 +152,3 @@ void SysInfo::Test_DX8(bool bIsDX81) {
    SAFE_RELEASE(pD3D8);
    SAFE_FREELIB(hD3D8_DLL);
 }
-

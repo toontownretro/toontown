@@ -85,12 +85,12 @@ static int sehISRPC_Init(handle_t IDL_handle)
     unsigned int ulCode = 0;
     RpcTryExcept
     {
-        //errorLog << "calling RPC_Init()" << endl;
+        //errorLog << "calling RPC_Init()" << std::endl;
         ISRPC_Init(IDL_handle);
     }
     RpcExcept(1) {
         ulCode = RpcExceptionCode();
-        errorLog << "(RPC_Init) Runtime reported exception 0x" << hex << ulCode << endl;
+        errorLog << "(RPC_Init) Runtime reported exception 0x" << hex << ulCode << std::endl;
     }
     RpcEndExcept
     return ulCode;
@@ -101,12 +101,12 @@ static int sehISRPC_InitForStatus(handle_t IDL_handle, HWND bhwnd)
     unsigned int ulCode = 0;
     RpcTryExcept
     {
-        //errorLog << "calling RPC_InitForRun()" << endl;
+        //errorLog << "calling RPC_InitForRun()" << std::endl;
         return ISRPC_InitForStatus(IDL_handle, (__int64) bhwnd);
     }
     RpcExcept(1) {
         ulCode = RpcExceptionCode();
-        errorLog << "(RPC_InitForStatus) Runtime reported exception 0x" << hex << ulCode << endl;
+        errorLog << "(RPC_InitForStatus) Runtime reported exception 0x" << hex << ulCode << std::endl;
     }
     RpcEndExcept
     return ulCode;
@@ -117,12 +117,12 @@ static int sehISRPC_InitForRun(handle_t IDL_handle, HWND bhwnd, BSTR deployment,
     unsigned int ulCode = 0;
     RpcTryExcept
     {
-        //errorLog << "calling RPC_InitForRun()" << endl;
+        //errorLog << "calling RPC_InitForRun()" << std::endl;
         return ISRPC_InitForRun(IDL_handle, (__int64) bhwnd, deployment, downloadServer, downloadVersion);
     }
     RpcExcept(1) {
         ulCode = RpcExceptionCode();
-        errorLog << "(RPC_InitForRun) Runtime reported exception 0x" << hex << ulCode << endl;
+        errorLog << "(RPC_InitForRun) Runtime reported exception 0x" << hex << ulCode << std::endl;
     }
     RpcEndExcept
     return ulCode;
@@ -133,12 +133,12 @@ static int sehISRPC_RunInstaller(handle_t IDL_handle)
     unsigned int ulCode = 0;
     RpcTryExcept
     {
-        //errorLog << "calling RPC_RunInstaller()" << endl;
+        //errorLog << "calling RPC_RunInstaller()" << std::endl;
         ISRPC_RunInstaller(IDL_handle);
     }
     RpcExcept(1) {
         ulCode = RpcExceptionCode();
-        errorLog << "(RunInstaller) Runtime reported exception 0x" << hex << ulCode << endl;
+        errorLog << "(RunInstaller) Runtime reported exception 0x" << hex << ulCode << std::endl;
     }
     RpcEndExcept
     return ulCode;
@@ -149,12 +149,12 @@ static int sehISRPC_getValue(handle_t IDL_handle, BSTR key, BSTR *pVal)
     unsigned int ulCode = 0;
     RpcTryExcept
     {
-        //errorLog << "calling RPC_getValue()" << endl;
+        //errorLog << "calling RPC_getValue()" << std::endl;
         ISRPC_getValue(IDL_handle, key, pVal);
     }
     RpcExcept(1) {
         ulCode = RpcExceptionCode();
-        errorLog << "(getValue) Runtime reported exception 0x" << hex << ulCode << endl;
+        errorLog << "(getValue) Runtime reported exception 0x" << hex << ulCode << std::endl;
     }
     RpcEndExcept
     return ulCode;
@@ -165,13 +165,13 @@ static int sehISRPC_setValue(handle_t IDL_handle, BSTR key, BSTR val)
     unsigned int ulCode = 0;
     RpcTryExcept
     {
-        //errorLog << "RPC_setValue("<<hex<<kn<<keyName<<", "<<hex<<v<<value<<')' << endl;
-		//errorLog << "calling RPC_setValue("<<hex<<size_t(keyName)<<", "<<hex<<size_t(value)<<')' << endl;
+        //errorLog << "RPC_setValue("<<hex<<kn<<keyName<<", "<<hex<<v<<value<<')' << std::endl;
+		//errorLog << "calling RPC_setValue("<<hex<<size_t(keyName)<<", "<<hex<<size_t(value)<<')' << std::endl;
         ISRPC_setValue(IDL_handle, key, val);
    }
     RpcExcept(1) {
         ulCode = RpcExceptionCode();
-        errorLog << "(setValue) Runtime reported exception 0x" << hex << ulCode << endl;
+        errorLog << "(setValue) Runtime reported exception 0x" << hex << ulCode << std::endl;
     }
     RpcEndExcept
     return ulCode;
@@ -182,12 +182,12 @@ void sehISRPC_Shutdown(handle_t IDL_handle)
     unsigned int ulCode = 0;
     RpcTryExcept
     {
-		errorLog << "RPC_Shutdown()" << endl;
+		errorLog << "RPC_Shutdown()" << std::endl;
         ISRPC_Shutdown(IDL_handle);
     }
     RpcExcept(1) {
         ulCode = RpcExceptionCode();
-        errorLog << "(Shutdown) Runtime reported exception 0x" << hex << ulCode << endl;
+        errorLog << "(Shutdown) Runtime reported exception 0x" << hex << ulCode << std::endl;
     }
     RpcEndExcept
 }
@@ -219,10 +219,10 @@ STDMETHODIMP CWDI_InstallerCtrl::Init()
 #   endif
 #else
 
-	//errorLog << "Init()" << endl;
+	//errorLog << "Init()" << std::endl;
 #if 0
 	std::stringstream debug;
-	debug << _wdiginstaller_IfHandle << ' ' << ie_window << endl;
+	debug << _wdiginstaller_IfHandle << ' ' << ie_window << std::endl;
 	::MessageBox(NULL, debug.str().c_str(), NULL, 0);
 #endif
 //    sehISRPC_Init(_wdiginstaller_IfHandle);
@@ -235,7 +235,7 @@ STDMETHODIMP CWDI_InstallerCtrl::Init()
 STDMETHODIMP CWDI_InstallerCtrl::InitForStatus(/*[out,retval]*/int *pInitSucceeded)
 {
 	*pInitSucceeded = 0;		// assumes pInitSucceeded is always non-null because IDL will prevent it
-	errorLog << vos::datestamp() << "InitForStatus()" << endl;
+	errorLog << vos::datestamp() << "InitForStatus()" << std::endl;
 	return InitForRun(NULL, NULL, NULL, pInitSucceeded);
 }
 
@@ -269,7 +269,7 @@ STDMETHODIMP CWDI_InstallerCtrl::InitForRun(/*[in]*/BSTR bsDeployment, BSTR bsDo
 	_bstr_t deployment(bsDeployment), downloadServer(bsDownloadServer), downloadVersion(bsDownloadVersion);
 	bool bStatusOnly = (deployment.length() == 0) && (downloadServer.length() == 0) && (downloadVersion.length() == 0);
 
-	errorLog << vos::datestamp() << "InitForRun()" << endl;
+	errorLog << vos::datestamp() << "InitForRun()" << std::endl;
 	if (!bStatusOnly)
 	{	// update mode
 		state = bsDownload_bootstrap;
@@ -277,7 +277,7 @@ STDMETHODIMP CWDI_InstallerCtrl::InitForRun(/*[in]*/BSTR bsDeployment, BSTR bsDo
 		//ttapp.Deployment(deployment);
 		ttapp.DownloadServer(downloadServer, true);
 		ttapp.DownloadVersion(downloadVersion);
-		errorLog << "DOWNLOAD URL is: "<<ttapp.urlsrc() << endl;
+		errorLog << "DOWNLOAD URL is: "<<ttapp.urlsrc() << std::endl;
 		myREG.str(vos::vregBOOT_URLSRC) = ttapp.urlsrc();
 	}
 	else
@@ -290,7 +290,7 @@ STDMETHODIMP CWDI_InstallerCtrl::InitForRun(/*[in]*/BSTR bsDeployment, BSTR bsDo
 	}
 
 	myREG.str(vos::vregINSTALL_PATH) = ttapp.install_dir();
-	errorLog << "INSTALL DIR is: "<<ttapp.install_dir() << endl;
+	errorLog << "INSTALL DIR is: "<<ttapp.install_dir() << std::endl;
 
 	static const vstr_t setup_file = "ttinst-setup" DEPLOYMENT ".exe";
     static const vstr_t helper_file = "ttinst-helper.exe";
@@ -318,15 +318,15 @@ STDMETHODIMP CWDI_InstallerCtrl::InitForRun(/*[in]*/BSTR bsDeployment, BSTR bsDo
 				{
 				case 0:			// no changes brute force execute helper
 					state = bsChecksum_components;
-					errorLog << vos::datestamp() << "Bootstrap up-to-date." << endl;
+					errorLog << vos::datestamp() << "Bootstrap up-to-date." << std::endl;
 					break;
 				case 1:			// download/update occurred, so rerun installer
 					state = bsRun_bootstrap;
-					errorLog << vos::datestamp() << "Bootstrap update detected." << endl;
+					errorLog << vos::datestamp() << "Bootstrap update detected." << std::endl;
 					break;
 				default:
 					state = bsFatalError;
-					errorLog << vos::datestamp() << "Error downloading "<<setup_file<<endl;
+					errorLog << vos::datestamp() << "Error downloading "<<setup_file<<std::endl;
 				}
 			}
 			break;
@@ -338,7 +338,7 @@ STDMETHODIMP CWDI_InstallerCtrl::InitForRun(/*[in]*/BSTR bsDeployment, BSTR bsDo
 				if (helper.checksum_quick() || svc.checksum_quick())
 				{
 					state = bsRun_bootstrap;
-					errorLog << vos::datestamp() << "Detected Helper/Svc out-of-date." << endl;
+					errorLog << vos::datestamp() << "Detected Helper/Svc out-of-date." << std::endl;
 				}
 				else
 					state = bsRun_helper;
@@ -348,7 +348,7 @@ STDMETHODIMP CWDI_InstallerCtrl::InitForRun(/*[in]*/BSTR bsDeployment, BSTR bsDo
 			if ( vos::rfork_execve(Setup_path.c_str(), NULL, NULL, _bootstrap_pid) || _bootstrap_pid == 0)
 			{
 				state = bsFatalError;
-				errorLog << vos::datestamp() << "Setup download failed." << endl;
+				errorLog << vos::datestamp() << "Setup download failed." << std::endl;
 			}
 			else
 				state = bsSetup_RPC;
@@ -357,12 +357,12 @@ STDMETHODIMP CWDI_InstallerCtrl::InitForRun(/*[in]*/BSTR bsDeployment, BSTR bsDo
 			if ( (errno = vos::rfork_execve(Helper_path.c_str(), NULL, NULL, _helper_pid)) || _helper_pid == 0)
 			{
 				state = bsFatalError;
-				errorLog << "Couldn't startup Install Helper ("<<Helper_path<<") "<<errno<<"!" << endl;
+				errorLog << "Couldn't startup Install Helper ("<<Helper_path<<") "<<errno<<"!" << std::endl;
 			}
 			else
 			{
 				state = bsSetup_RPC;
-				errorLog << "Install Helper OK" << endl;
+				errorLog << "Install Helper OK" << std::endl;
 			}
 			break;
 		case bsSetup_RPC:	// RPC connect to Install Helper broker
@@ -371,16 +371,16 @@ STDMETHODIMP CWDI_InstallerCtrl::InitForRun(/*[in]*/BSTR bsDeployment, BSTR bsDo
  				switch(RPCstartup(setup_rpc_count++ == 0))			// set medium integrity only on first RPC startup
 				{
 				case 0:
-					errorLog << "Installer Helper started successfully" << endl;
+					errorLog << "Installer Helper started successfully" << std::endl;
 					state = bsDone;
 					break;
 				case 1:		// medium integrity set up, try again
 					sehISRPC_Shutdown(_wdiginstaller_IfHandle);		// kill it here instead of letting it auto-die to avoid side-effects
-					errorLog << vos::datestamp() << "restarting Install Helper" << endl;
+					errorLog << vos::datestamp() << "restarting Install Helper" << std::endl;
 					state = bsRun_helper;
 					break;
 				default:
-					errorLog << "Connection to Installer Helper was not established" << endl;
+					errorLog << "Connection to Installer Helper was not established" << std::endl;
 					state = bsFatalError;
 				}
 			}
@@ -412,7 +412,7 @@ STDMETHODIMP CWDI_InstallerCtrl::InitForRun(/*[in]*/BSTR bsDeployment, BSTR bsDo
 		if (sehISRPC_InitForStatus(_wdiginstaller_IfHandle, bhwnd) == 0)
 		{
 			*pInitSucceeded = 1;
-			errorLog <<vos::datestamp()<< "InitForStatus() success" << endl;
+			errorLog <<vos::datestamp()<< "InitForStatus() success" << std::endl;
 		}
 	}
 	else if (sehISRPC_InitForRun(_wdiginstaller_IfHandle, bhwnd, deployment, downloadServer, downloadVersion) == 0)
@@ -423,7 +423,7 @@ STDMETHODIMP CWDI_InstallerCtrl::InitForRun(/*[in]*/BSTR bsDeployment, BSTR bsDo
 #if defined(USE_RPCINSTALLER)
             <<vos::datestamp()
 #endif
-            << "InitForRun() success" << endl;
+            << "InitForRun() success" << std::endl;
 	}
 	return S_OK;
 }
@@ -458,7 +458,7 @@ STDMETHODIMP CWDI_InstallerCtrl::getValue(BSTR key, BSTR *pVal)
 	val = *pVal;
 	tval = val;
 	}
-	//errorLog << "getValue("<<keyName<<") got: " << tval << endl;
+	//errorLog << "getValue("<<keyName<<") got: " << tval << std::endl;
 #endif
 
   return S_OK;
@@ -529,30 +529,30 @@ StartDownload(const char *URL)
 
 void CWDI_InstallerCtrl::
 OnDownloadBegin() {
-  errorLog << "OnDownloadBegin" << endl;
+  errorLog << "OnDownloadBegin" << std::endl;
 }
 
 void CWDI_InstallerCtrl::
 OnDownloadProgress() {
-  errorLog << "OnDownloadProgress" << endl;
+  errorLog << "OnDownloadProgress" << std::endl;
 }
 
 void CWDI_InstallerCtrl::
 OnDownloadComplete(DWORD availableToRead, BYTE* pBytes)
 {
-  errorLog << "OnDownloadComplete" << endl;
+  errorLog << "OnDownloadComplete" << std::endl;
 
-  errorLog << "opening " << dlDestFilename << " for write" << endl;
+  errorLog << "opening " << dlDestFilename << " for write" << std::endl;
   // open the file
   dlFilePtr = fopen(dlDestFilename, "wb");
   if (!dlFilePtr) {
-    errorLog << "error opening file" << endl;
+    errorLog << "error opening file" << std::endl;
     dlResult = -1;
     dlDone = 1;
   }
 
   if (fwrite(pBytes, availableToRead, 1, dlFilePtr) != 1) {
-    errorLog << "error writing to " << dlDestFilename << endl;
+    errorLog << "error writing to " << dlDestFilename << std::endl;
     dlResult = -1;
     dlDone = 1;
   }
@@ -574,7 +574,7 @@ int downloadToFile_callback(const char* URL, const char* destFilename)
   dlDone = 0;
   dlResult = -1;
 
-  errorLog << "starting the download of " << dlURL << endl;
+  errorLog << "starting the download of " << dlURL << std::endl;
   // kick off the download
   downloadControl->StartDownload(dlURL);
 
@@ -583,7 +583,7 @@ int downloadToFile_callback(const char* URL, const char* destFilename)
     Sleep(3 * 1000);
   //}
 
-  errorLog << "file download result: " << dlResult << endl;
+  errorLog << "file download result: " << dlResult << std::endl;
   return dlResult;
 }
 
@@ -622,7 +622,7 @@ HWND CWDI_InstallerCtrl::browser_hwnd()
 		if ((GetClassName(ie_window, classname, MAX_PATH - 1) == 0)
 			|| _tcsncmp(_T("IEFrame"), classname, MAX_PATH) )
 		{   // If it's not a IEFrame, then I can't use it so blow it.
-			errorLog << hex << ie_window << " isn't IEFrame. It's a "<<classname<<". Not using it." << endl;
+			errorLog << hex << ie_window << " isn't IEFrame. It's a "<<classname<<". Not using it." << std::endl;
 			ie_window = NULL;
 		}
 	}
@@ -632,7 +632,7 @@ HWND CWDI_InstallerCtrl::browser_hwnd()
 	debug << ie_window;
 	::MessageBox(NULL, debug.str().c_str(), NULL, 0);
 #endif
-	errorLog << "IE hwnd: " << hex << ie_window << endl;
+	errorLog << "IE hwnd: " << hex << ie_window << std::endl;
 
 	return ie_window;
 }
@@ -656,25 +656,25 @@ int CWDI_InstallerCtrl::RPCstartup(bool setMediumIntegrity)
                                      NULL,  // options
                                      &strBinding);
 #if defined(_DEBUG)
-    errorLog << "RpcStringBindingCompose returned $" << hex << status << endl;
+    errorLog << "RpcStringBindingCompose returned $" << hex << status << std::endl;
 #endif
-    //errorLog << "stringBinding = " << strBinding << endl;
+    //errorLog << "stringBinding = " << strBinding << std::endl;
     if (status != RPC_S_OK) {
-        errorLog << "client: RPC binding compose failed: $" << hex << status << endl;
+        errorLog << "client: RPC binding compose failed: $" << hex << status << std::endl;
 	    return -1;
     }
 
     /* Set the binding handle that will be used to bind to the server. */
     status = RpcBindingFromStringBinding(strBinding,
                                          &_wdiginstaller_IfHandle);
-    //errorLog << "RpcBindingFromStringBinding returned $" << hex << status << endl;
+    //errorLog << "RpcBindingFromStringBinding returned $" << hex << status << std::endl;
     RpcStringFree(&strBinding);      // free binding string
     if (status != RPC_S_OK) {
-    	errorLog << "rpc binding failed $" << hex << status << endl;
+    	errorLog << "rpc binding failed $" << hex << status << std::endl;
 	    return -1;
     }
 	else
-		errorLog <<vos::datestamp()<< "rpc binding OK" << endl;
+		errorLog <<vos::datestamp()<< "rpc binding OK" << std::endl;
 
 #ifdef USE_RPC_SECURITY
 	// setup RPC security
@@ -706,12 +706,12 @@ int CWDI_InstallerCtrl::RPCstartup(bool setMediumIntegrity)
 		/* AuthnLevel */ AuthnLevel, /* AuthnSvc */ /*RPC_C_AUTHN_WINNT*/ RPC_C_AUTHN_DEFAULT,
 		/* AuthIdentity */ NULL, /* AuthzSvc */ RPC_C_AUTHZ_NONE, pSecurityQOS);
     if (status != RPC_S_OK) {
-        errorLog << "rpc binding authentication: " << status << endl;
+        errorLog << "rpc binding authentication: " << status << std::endl;
 	    return -1;
     }
 #endif
 
-	errorLog << "setup to InstallHelper server complete" << endl;
+	errorLog << "setup to InstallHelper server complete" << std::endl;
 
 	// wait for external InstallHelper server to startup
 	const size_t wait_time = 100;
@@ -723,7 +723,7 @@ int CWDI_InstallerCtrl::RPCstartup(bool setMediumIntegrity)
 		}
 		vos::msleep(wait_time);
 	}
-	errorLog << "RPC connection to InstallHelper timed out" << endl;
+	errorLog << "RPC connection to InstallHelper timed out" << std::endl;
 	return -1;
 
 RPC_avail:
@@ -738,7 +738,7 @@ RPC_avail:
         case 1:         // try restart because it moved or self-updated
 			return ec;
 		default:
-			errorLog <<vos::datestamp()<< "failed to setup InstallHelper for runtime use. " << dec << vos::last_error_str(ec) << endl;
+			errorLog <<vos::datestamp()<< "failed to setup InstallHelper for runtime use. " << dec << vos::last_error_str(ec) << std::endl;
 			return -1;
 		}
 	}
@@ -749,7 +749,7 @@ RPC_avail:
 HRESULT CWDI_InstallerCtrl::FinalConstruct()
 {
 	vos::errorlog_open(vos::tempdir() + "WDIGiehelperX" + vos::log_suffix());
-	errorLog << "built: " << __DATE__ << ' ' << __TIME__ << endl;
+	errorLog << "built: " << __DATE__ << ' ' << __TIME__ << std::endl;
 
 	return S_OK;
 }
@@ -778,11 +778,11 @@ int installer_service_update()
 						myREG.str(vos::vregBOOT_DDB) );
 	if (rv < 0) {
 		// can't continue properly if this isn't up-to-date
-		errorLog << "unrecoverable error updating boot1 Install Helper" << endl;
+		errorLog << "unrecoverable error updating boot1 Install Helper" << std::endl;
 		return -1;
 	}
 
-	errorLog << "update checks for boot1 completed" << endl;
+	errorLog << "update checks for boot1 completed" << std::endl;
 	return 0;		// all good
 }
 #endif
@@ -802,4 +802,3 @@ void __RPC_USER midl_user_free(void __RPC_FAR * ptr)
 }
 
 #endif  // USE_RPCINSTALLER
-

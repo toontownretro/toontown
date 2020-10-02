@@ -33,8 +33,8 @@ PUBLISHED:
   INLINE void set_code(string code);
   INLINE string get_code() const;
 
-  INLINE void set_color(const Colorf &color);
-  INLINE Colorf get_color() const;
+  INLINE void set_color(const LColorf &color);
+  INLINE LColorf get_color() const;
 
   INLINE void set_font(TextFont *font);
   INLINE TextFont *get_font() const;
@@ -79,7 +79,7 @@ PUBLISHED:
 protected:
   string _code;
   string _flags;
-  Colorf _color;
+  LColorf _color;
   PT(TextFont) _font;
   LVector3f _next_pos;
   LVector3f _next_hpr;

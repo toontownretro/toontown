@@ -42,7 +42,7 @@ DNADoor::DNADoor(const DNADoor &door) :
 //       Access: Public
 //  Description:
 ////////////////////////////////////////////////////////////////////
-void DNADoor::set_color(const Colorf &color) {
+void DNADoor::set_color(const LColorf &color) {
   _color = color;
 }
 
@@ -52,7 +52,7 @@ void DNADoor::set_color(const Colorf &color) {
 //       Access: Public
 //  Description:
 ////////////////////////////////////////////////////////////////////
-Colorf DNADoor::get_color() const {
+LColorf DNADoor::get_color() const {
   return _color;
 }
 
@@ -161,7 +161,7 @@ void DNADoor::setup_door(NodePath& door_node_path,
   NodePath doorFrame = door_node_path.find("door_*_flat");
   if ( doorFrame.is_empty() )
     {
-      // this door does not have a flat... always show the 
+      // this door does not have a flat... always show the
       // normal geometry
     }
   else
@@ -178,7 +178,7 @@ void DNADoor::setup_door(NodePath& door_node_path,
       // Hide the 3D door:
       rightDoor.hide();
       leftDoor.hide();
-    }      
+    }
 
   doorFrameHoleLeft.hide();
   doorFrameHoleRight.hide();

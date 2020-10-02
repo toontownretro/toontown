@@ -162,7 +162,7 @@ static void free_MySecAttr(MySecurAttrib *pMySA) {
 
 void  __RPC_FAR * __RPC_USER midl_user_allocate(size_t len)
 {
-//	errorLog << "midl_user_allocate() asking for "<<len<<" bytes" << endl;
+//	errorLog << "midl_user_allocate() asking for "<<len<<" bytes" << std::endl;
     return(new uint8_t[len + sizeof(_TCHAR)]);	// +n for null char
 }
 
@@ -180,7 +180,7 @@ int __stdcall ISPROC_ready(
     /* [in] */ handle_t IDL_handle)
 {
 #if defined(OSIS_VISTA)
-	errorLog << "hardcoded for Vista" << endl;
+	errorLog << "hardcoded for Vista" << std::endl;
 #endif
 	return 0;
 }
@@ -188,23 +188,23 @@ int __stdcall ISPROC_ready(
 int __stdcall ISPROC_shutdown(
     /* [in] */ handle_t IDL_handle)
 {
-	errorLog << vos::datestamp() << "ISPROC_shutdown()" << endl;
+	errorLog << vos::datestamp() << "ISPROC_shutdown()" << std::endl;
 
 	RPC_STATUS status;
-    //errorLog << "Calling RpcMgmtStopServerListening" << endl;
+    //errorLog << "Calling RpcMgmtStopServerListening" << std::endl;
     status = RpcMgmtStopServerListening(NULL);
-    //errorLog << "RpcMgmtStopServerListening returned: 0x" << hex << status << endl;
+    //errorLog << "RpcMgmtStopServerListening returned: 0x" << hex << status << std::endl;
     if (status != RPC_S_OK) {
-		errorLog << "RpcMgmtStopServerListening returned: 0x" << hex << status << endl;
-		cerr << "RpcMgmtStopServerListening returned: 0x" << hex << status << endl;
+		errorLog << "RpcMgmtStopServerListening returned: 0x" << hex << status << std::endl;
+		cerr << "RpcMgmtStopServerListening returned: 0x" << hex << status << std::endl;
        //exit(status);
     }
 
-    //errorLog << "Calling RpcServerUnregisterIf" << endl;
+    //errorLog << "Calling RpcServerUnregisterIf" << std::endl;
     status = RpcServerUnregisterIf(NULL, NULL, FALSE);
     if (status != RPC_S_OK) {
-		errorLog << "RpcServerUnregisterIf returned 0x" << hex << status << endl;
-		cerr << "RpcServerUnregisterIf returned 0x" << hex << status << endl;
+		errorLog << "RpcServerUnregisterIf returned 0x" << hex << status << std::endl;
+		cerr << "RpcServerUnregisterIf returned 0x" << hex << status << std::endl;
        //exit(status);
     }
 	return 0;
@@ -247,7 +247,7 @@ static int makeGameDir_Toontown(const vstr_t &deployment)
 	vstr_t default_dir;
 	if (error_state = vos::folder_path(default_dir, vos::fldProgramFiles, FLD_CREATE))
 	{
-		errorLog << "folder_path() failed: " << vos::last_error_str(error_state) << endl;
+		errorLog << "folder_path() failed: " << vos::last_error_str(error_state) << std::endl;
 		default_dir = "C:\\Program Files";
 	}
 
@@ -265,7 +265,7 @@ static int makeGameDir_Toontown(const vstr_t &deployment)
 		pMySA = makeGlobalRW_SecAttr();
 		if (!pMySA)
 		{	// continue, but note the failure in log
-			errorLog << datestamp() <<"Failed to make game dir global-writeable. " << vos::last_error_str() << endl;
+			errorLog << datestamp() <<"Failed to make game dir global-writeable. " << vos::last_error_str() << std::endl;
 		}
 		else
 			pSA = pMySA->pSA;
@@ -276,7 +276,7 @@ static int makeGameDir_Toontown(const vstr_t &deployment)
 	{
 		//LogOSErrorMessage("Error creating Toontown dir");
 		//error_state = vos::last_error_code();
-		errorLog << datestamp() << "Failed to make game directory. " << vos::last_error_str(error_state) << endl;
+		errorLog << datestamp() << "Failed to make game directory. " << vos::last_error_str(error_state) << std::endl;
 	}
 
 	if (pSA != NULL) {
@@ -289,7 +289,7 @@ static int makeGameDir_Toontown(const vstr_t &deployment)
 //
 static int int_MakeGameDir(const int game, const vstr_t &vsDeployment)
 {
-	errorLog << "creating game dir with deployment " << vsDeployment << endl;
+	errorLog << "creating game dir with deployment " << vsDeployment << std::endl;
 	bool allowed = false;
 	static vchar_t *knownDeployments[] = {
 		"_JP", "_BR", "_FR"
@@ -311,7 +311,7 @@ static int int_MakeGameDir(const int game, const vstr_t &vsDeployment)
 		}
 	}
 	else
-		errorLog << "installer_service(MakeGameDir): unrecognized deployment" << endl;
+		errorLog << "installer_service(MakeGameDir): unrecognized deployment" << std::endl;
 	return -1;
 }
 
@@ -387,7 +387,7 @@ int __stdcall ISREG_DoMediumIntegrity(
 		app_name = "ttinst-helper.exe";
 		break;
 	default:
-		errorLog << vos::datestamp() << "dmi(): not recognized!" << endl;
+		errorLog << vos::datestamp() << "dmi(): not recognized!" << std::endl;
 		return -1;
 	}
 
@@ -414,7 +414,7 @@ int __stdcall ISREG_DoMediumIntegrity(
 			elevation_policy.set_bin32("Policy", 3);
 			elevation_policy.set_string("AppName", app_name);
 			elevation_policy.set_expand_string("AppPath", "%ProgramFiles%\\Disney\\Disney Online\\Toontown" DEPLOYMENT);
-			errorLog << "dmi(): elevation policy updated in registry" << endl;
+			errorLog << "dmi(): elevation policy updated in registry" << std::endl;
 
 			VLIBD ief;
 			typedef HRESULT (*pIERefreshElevationPolicy)(VOID);
@@ -422,19 +422,19 @@ int __stdcall ISREG_DoMediumIntegrity(
 			if ( (ief = dlopen(_T("ieframe.dll")))
 				&& (fIERefreshElevationPolicy = (pIERefreshElevationPolicy) dlfunc(ief, "IERefreshElevationPolicy")) )
 			{
-				errorLog << vos::datestamp() << "dmi(): refresh IE = " << (fIERefreshElevationPolicy() == S_OK) << endl;
+				errorLog << vos::datestamp() << "dmi(): refresh IE = " << (fIERefreshElevationPolicy() == S_OK) << std::endl;
 				return 0;
 			}
 			else
 			{
-				errorLog << vos::datestamp() << "dmi(): IE not refreshed for changed policy" << endl;
+				errorLog << vos::datestamp() << "dmi(): IE not refreshed for changed policy" << std::endl;
 	#if defined(OSIS_VISTA)
 				return 0;
 	#endif
 			}
 		}
 		else
-			errorLog << vos::datestamp() << "dmi(): couldn't setup broker elevation" << endl;
+			errorLog << vos::datestamp() << "dmi(): couldn't setup broker elevation" << std::endl;
 		return -1;
 	}
 

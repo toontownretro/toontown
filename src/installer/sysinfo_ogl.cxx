@@ -28,7 +28,7 @@ HWND CreateOpenGLWindow(char* title, int pixfmtnum, PIXELFORMATDESCRIPTOR *pPFD,
     if (!hInstance) {
         hInstance = GetModuleHandle(NULL);
         if (!hInstance) {
-            errorLog <<  "GetModuleHandle() failed, err=" << GetLastError() <<endl;
+            errorLog <<  "GetModuleHandle() failed, err=" << GetLastError() <<std::endl;
         }
 
         wc.style         = CS_OWNDC;
@@ -43,7 +43,7 @@ HWND CreateOpenGLWindow(char* title, int pixfmtnum, PIXELFORMATDESCRIPTOR *pPFD,
         wc.lpszClassName = pOGLWinClassName;
 
         if (!RegisterClass(&wc)) {
-            errorLog << "OGL RegisterClass failed, err=" << GetLastError() <<endl;
+            errorLog << "OGL RegisterClass failed, err=" << GetLastError() <<std::endl;
             // MessageBox(NULL, "RegisterClass() failed: Cannot register window class.", "Error", MB_OK);
             return NULL;
         }
@@ -54,7 +54,7 @@ HWND CreateOpenGLWindow(char* title, int pixfmtnum, PIXELFORMATDESCRIPTOR *pPFD,
             x, y, width, height, NULL, NULL, hInstance, NULL);
 
     if(hWnd == NULL) {
-        errorLog <<  "CreateWindow failed, err=" << GetLastError() <<endl;
+        errorLog <<  "CreateWindow failed, err=" << GetLastError() <<std::endl;
         return NULL;
     }
 
@@ -70,7 +70,7 @@ HWND CreateOpenGLWindow(char* title, int pixfmtnum, PIXELFORMATDESCRIPTOR *pPFD,
     SetLastError(0);
     pf = ChoosePixelFormat(hDC, &pfd);
     if (pf == 0) {
-        errorLog << "ChoosePixelFormat(" << pf <<") failed, err=" << GetLastError() << endl;
+        errorLog << "ChoosePixelFormat(" << pf <<") failed, err=" << GetLastError() << std::endl;
         errorLog << "trying with Pixelformat 1!\n";
         pf = 1;
     }
@@ -78,7 +78,7 @@ HWND CreateOpenGLWindow(char* title, int pixfmtnum, PIXELFORMATDESCRIPTOR *pPFD,
 
     SetLastError(0);
     if (SetPixelFormat(*pHDC, pixfmtnum, pPFD) == FALSE) {
-        errorLog << "OGL SetPixelFormat(" << pixfmtnum <<") failed, err=" << GetLastError() << endl;
+        errorLog << "OGL SetPixelFormat(" << pixfmtnum <<") failed, err=" << GetLastError() << std::endl;
     }
     /*
     else {
@@ -139,7 +139,7 @@ Test_OpenGL(void) {
   // doing a LoadLibrary for the extent of this test *should* be the same as linking statically, I hope
   HINSTANCE hOGL = LoadLibrary("opengl32.dll");
   if(!hOGL) {
-      errorLog << "LoadLib(opengl32.dll) failed, err" << GetLastError() << endl;
+      errorLog << "LoadLib(opengl32.dll) failed, err" << GetLastError() << std::endl;
       SetGeneric3DError(NULL);
       return;
   }
@@ -148,7 +148,7 @@ Test_OpenGL(void) {
 
   HDC winDC = GetDC(hWnd);  // will this fail if not administrator, since we're getting whole desktop DC?
   if(winDC==NULL) {
-      errorLog << "Test_OGL: GetDC(0x"<<(void*)hWnd<<") failed, err=" << GetLastError() << endl;
+      errorLog << "Test_OGL: GetDC(0x"<<(void*)hWnd<<") failed, err=" << GetLastError() << std::endl;
       SetGeneric3DError(NULL);
       return;
   }
@@ -168,7 +168,7 @@ Test_OpenGL(void) {
          // with opengl32.lib because no gl* fns were called in code (or were eliminated by optimizer)
          // make sure gl[something] is called somewhere
          errorLog << "ERROR_MOD_NOT_FOUND\n";
-     } else errorLog << errnum << endl;
+     } else errorLog << errnum << std::endl;
   }
 
   // look for an ICD/MCD pixfmt
@@ -177,32 +177,32 @@ Test_OpenGL(void) {
 
     if((pfd.dwFlags & PFD_GENERIC_FORMAT)!=0) {
         drvtype = Software;
-        // errorLog << "skipping GL pixfmt[" << pfnum << "] due to SW fmt" << endl;
+        // errorLog << "skipping GL pixfmt[" << pfnum << "] due to SW fmt" << std::endl;
         continue;
     } else if ( pfd.dwFlags & PFD_GENERIC_ACCELERATED )
         drvtype = MCD;
     else drvtype = ICD;
 
     if(pfd.iPixelType == PFD_TYPE_COLORINDEX) {
-      // errorLog << "skipping GL pixfmt[" << pfnum << "] due to colorindex" << endl;
+      // errorLog << "skipping GL pixfmt[" << pfnum << "] due to colorindex" << std::endl;
       continue;
     }
 
     if(pfd.cColorBits<=8) {
-       // errorLog << "skipping GL pixfmt[" << pfnum << "] due to cColorBits<8" << endl;
+       // errorLog << "skipping GL pixfmt[" << pfnum << "] due to cColorBits<8" << std::endl;
        continue;
     }
 
     // need z buffer for TT (but not stencil)
     if(pfd.cDepthBits==0) {
-       // errorLog << "skipping GL pixfmt[" << pfnum << "] due to depthbits==0" << endl;
+       // errorLog << "skipping GL pixfmt[" << pfnum << "] due to depthbits==0" << std::endl;
        continue;
     }
 
     DWORD dwReqFlags=(PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW | PFD_DOUBLEBUFFER);
 
     if((pfd.dwFlags & dwReqFlags)!=dwReqFlags) {
-       // errorLog << "skipping GL pixfmt[" << pfnum << "] due to missing flags, pfd.flags=0x" << (void*)pfd.dwFlags<< endl;
+       // errorLog << "skipping GL pixfmt[" << pfnum << "] due to missing flags, pfd.flags=0x" << (void*)pfd.dwFlags<< std::endl;
        continue;
     }
 
@@ -245,28 +245,28 @@ Test_OpenGL(void) {
      const char *pWGLCCStr="wglCreateContext";
      WGLCREATECONTEXTPROC pWglCreateContext = (WGLCREATECONTEXTPROC) GetProcAddress(hOGL, pWGLCCStr);
      if (NULL == pWglCreateContext) {
-       errorLog << "Error: GetProcAddr failed for " << pWGLCCStr << ", err=" << GetLastError() << endl;
+       errorLog << "Error: GetProcAddr failed for " << pWGLCCStr << ", err=" << GetLastError() << std::endl;
        goto _cleanup;
      }
      typedef BOOL (WINAPI *WGLDELETECONTEXTPROC)(HGLRC);
      const char *pWGLDelCStr="wglDeleteContext";
      WGLDELETECONTEXTPROC pWglDeleteContext = (WGLDELETECONTEXTPROC) GetProcAddress(hOGL, pWGLDelCStr);
      if (NULL == pWglDeleteContext) {
-       errorLog << "Error: GetProcAddr failed for " << pWGLDelCStr << ", err=" << GetLastError() << endl;
+       errorLog << "Error: GetProcAddr failed for " << pWGLDelCStr << ", err=" << GetLastError() << std::endl;
        goto _cleanup;
      }
      typedef BOOL  (WINAPI *WGLMAKECURRENTPROC)(HDC, HGLRC);
      const char *pWGLMakeCurStr="wglMakeCurrent";
      WGLMAKECURRENTPROC pWglMakeCurrent = (WGLMAKECURRENTPROC) GetProcAddress(hOGL, pWGLMakeCurStr);
      if (NULL == pWglMakeCurrent) {
-       errorLog << "Error: GetProcAddr failed for " << pWGLMakeCurStr << ", err=" << GetLastError() << endl;
+       errorLog << "Error: GetProcAddr failed for " << pWGLMakeCurStr << ", err=" << GetLastError() << std::endl;
        goto _cleanup;
      }
      typedef const GLubyte * (WINAPI *GLGETSTRINGPROC)(GLenum name);
      const char *pGLGetStr="glGetString";
      GLGETSTRINGPROC pGlGetString = (GLGETSTRINGPROC) GetProcAddress(hOGL, pGLGetStr);
      if (NULL == pGlGetString) {
-       errorLog << "Error: GetProcAddr failed for " << pGLGetStr << ", err=" << GetLastError() << endl;
+       errorLog << "Error: GetProcAddr failed for " << pGLGetStr << ", err=" << GetLastError() << std::endl;
        goto _cleanup;
      }
 
@@ -282,12 +282,12 @@ Test_OpenGL(void) {
 
      HGLRC hRC = (*pWglCreateContext)(hOGLWinDC);
      if(hRC==NULL) {
-       errorLog << "Error: wglCreateContext failed, err=" << GetLastError() << endl;
+       errorLog << "Error: wglCreateContext failed, err=" << GetLastError() << std::endl;
        goto _wndcleanup;
      }
      BOOL ret=(*pWglMakeCurrent)(hOGLWinDC, hRC);
      if(!ret) {
-       errorLog << "Error: wglMakeCurrent failed, err=" << GetLastError() << endl;
+       errorLog << "Error: wglMakeCurrent failed, err=" << GetLastError() << std::endl;
        goto _wndcleanup;
      }
 
@@ -304,7 +304,7 @@ Test_OpenGL(void) {
 
       errorLog << "GL_VENDOR: "     << _OGLVendorNameStr
                << ", GL_RENDERER: " << _OGLRendererNameStr
-               << ", GL_VERSION: "  << _OGLVerStr << endl;
+               << ", GL_VERSION: "  << _OGLVerStr << std::endl;
 
    _wndcleanup:
       if(hRC!=NULL) {

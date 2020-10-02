@@ -25,7 +25,7 @@ typedef BOOL (WINAPI *pfnInternetDeInitializeAutoProxyDll)(LPSTR lpszMime,DWORD 
 typedef BOOL (WINAPI *pfnInternetGetProxyInfo)(LPCSTR lpszUrl,DWORD dwUrlLength, LPSTR lpszUrlHostName,
                                                DWORD dwUrlHostNameLength,LPSTR* lplpszProxyHostName,
                                                LPDWORD lpdwProxyHostNameLength);
-*/                                             
+*/
 string installerBase::
 get_proxyname_using_jsproxy(const char *pAutoProxyScriptURL)
 {
@@ -37,7 +37,7 @@ get_proxyname_using_jsproxy(const char *pAutoProxyScriptURL)
 
    HMODULE hJSProxy = LoadLibrary(pJSProxyName);
    if (hJSProxy == NULL) {
-       errorLog << "LoadLib failed for " << pJSProxyName << endl;
+       errorLog << "LoadLib failed for " << pJSProxyName << std::endl;
        goto cleanup;
    }
 
@@ -60,7 +60,7 @@ get_proxyname_using_jsproxy(const char *pAutoProxyScriptURL)
       later in the launcherFileDb downloadToMem, so try to work around it
    HRESULT hr = URLDownloadToFile( NULL, pAutoProxyScriptURL, TempScriptFile, NULL, NULL );
    if(FAILED(hr)) {
-        errorLog << "URLDownloadToFile failed in get_proxy_jsproxy, hr=" << (void*)hr << endl;
+        errorLog << "URLDownloadToFile failed in get_proxy_jsproxy, hr=" << (void*)hr << std::endl;
         goto cleanup;
    }
    */
@@ -71,7 +71,7 @@ get_proxyname_using_jsproxy(const char *pAutoProxyScriptURL)
    }
 
    if(!(*pInternetInitializeAutoProxyDll)( 0, TempScriptFile, NULL, NULL, NULL )) {
-       errorLog << "InternetInitializeAutoProxyDll failed, err=" << GetLastError() << endl;
+       errorLog << "InternetInitializeAutoProxyDll failed, err=" << GetLastError() << std::endl;
        goto cleanup;
    }
 
@@ -107,7 +107,7 @@ get_proxyname_using_jsproxy(const char *pAutoProxyScriptURL)
    if(!(*pInternetGetProxyInfo)((LPSTR)szURLtoTest,URLlen,
                                 (LPSTR)szURLtoTest,URLlen,
                                 &proxyStrBuf,&dwProxyStrBufLen)) {
-       errorLog << "InternetGetProxyInfo failed, err=" << GetLastError() << endl;
+       errorLog << "InternetGetProxyInfo failed, err=" << GetLastError() << std::endl;
        goto cleanup;
    }
 
@@ -154,7 +154,7 @@ determine_proxy_spec() {
 
 #ifdef GET_PROXY_FROM_REGISTRY
 
-  errorLog << "getting proxy settings from registry" << endl;
+  errorLog << "getting proxy settings from registry" << std::endl;
 
   HKEY keyInternetSettings;
   if (keyInternetSettings = regOpenKey_ReadOnly(HKEY_CURRENT_USER, InternetSettingsRegKey)) {
@@ -201,17 +201,17 @@ determine_proxy_spec() {
 
       if (!InternetQueryOption(NULL, INTERNET_OPTION_PROXY,
                                buffer, &length)) {
-        errorLog << "Error calling InternetOptionQuery to get proxy information" << endl;
+        errorLog << "Error calling InternetOptionQuery to get proxy information" << std::endl;
         // not worth linking to another library just for WSAGetLastError
-        //errorLog << "WSAGetLastError returned error code " << WSAGetLastError() << endl;
+        //errorLog << "WSAGetLastError returned error code " << WSAGetLastError() << std::endl;
       } else {
         INTERNET_PROXY_INFO* proxyInfo;
         proxyInfo = (INTERNET_PROXY_INFO*)buffer;
 
         if (proxyInfo->dwAccessType == INTERNET_OPEN_TYPE_DIRECT) {
-          errorLog << "Connected directly, not through a proxy" << endl;
+          errorLog << "Connected directly, not through a proxy" << std::endl;
         } else {
-            errorLog << "Connected through a proxy: '" << proxyInfo->lpszProxy << "'" << endl;
+            errorLog << "Connected through a proxy: '" << proxyInfo->lpszProxy << "'" << std::endl;
             _proxy_spec = proxyInfo->lpszProxy;
         }
       }
@@ -239,7 +239,7 @@ determine_proxy_spec() {
         List.pOptions = Option;
         if(!InternetQueryOption(NULL, INTERNET_OPTION_PER_CONNECTION_OPTION, &List, &nSize)) {
             char *errstr="InternetQueryOption failed!";
-            errorLog << errstr << endl;
+            errorLog << errstr << std::endl;
             ShowOSErrorMessageBox(errstr);
             return;
         }
@@ -267,12 +267,12 @@ determine_proxy_spec() {
         }
         #endif
 
-       // errorLog <<  "XXX  81 " << (pAutoProxyScriptURL != NULL)  << endl;
-       // errorLog <<  "XXX  82 0x" << (void*)autoDiscFlags << endl;
-       // errorLog <<  "XXX  83 0x" << (void*)connFlags  << endl;
+       // errorLog <<  "XXX  81 " << (pAutoProxyScriptURL != NULL)  << std::endl;
+       // errorLog <<  "XXX  82 0x" << (void*)autoDiscFlags << std::endl;
+       // errorLog <<  "XXX  83 0x" << (void*)connFlags  << std::endl;
 
         if(bUsingExplicitAutoProxyScript) {
-           errorLog <<  "Using AutoProxy script: " << pAutoProxyScriptURL << endl;
+           errorLog <<  "Using AutoProxy script: " << pAutoProxyScriptURL << std::endl;
            bUsingAutoProxyScript=true;
         }
 /*
@@ -288,7 +288,7 @@ determine_proxy_spec() {
                 errorLog <<  "AUTO_PROXY_FLAG_MIGRATED | ";
             if(autoDiscFlags & AUTO_PROXY_FLAG_USER_SET)
                 errorLog <<  "AUTO_PROXY_FLAG_USER_SET";
-            errorLog << endl;
+            errorLog << std::endl;
         }
 */
         bool bAutoDetect = ((Option[2].Value.dwValue & PROXY_TYPE_AUTO_DETECT)!=0);
@@ -313,7 +313,7 @@ determine_proxy_spec() {
          */
 
         if((Option[3].Value.pszValue != NULL) && (Option[3].Value.pszValue[0] != '\0')) {
-           errorLog <<  "INTERNET_PER_CONN_PROXY_BYPASS: " << Option[3].Value.pszValue << endl;
+           errorLog <<  "INTERNET_PER_CONN_PROXY_BYPASS: " << Option[3].Value.pszValue << std::endl;
            _direct_hosts = Option[3].Value.pszValue;
         }
 
@@ -324,7 +324,7 @@ determine_proxy_spec() {
         if(bUsingExplicitProxy && (Option[4].Value.pszValue != NULL)) {
            char *pProxyNameStr = Option[4].Value.pszValue;
            _proxy_spec = pProxyNameStr;
-           errorLog <<  "using explicit http proxy setting: " << _proxy_spec << endl;
+           errorLog <<  "using explicit http proxy setting: " << _proxy_spec << std::endl;
            bFoundProxy = true;
 
            if(bUsingAutoProxyScript) {
@@ -340,7 +340,7 @@ determine_proxy_spec() {
             if(os_type >= SysInfo::OS_Win2000) {
                 _proxy_spec = get_proxyname_using_winhttp(bAutoDetect);
                 if(!_proxy_spec.empty()) {
-                    errorLog <<  "winhttp resolved auto-proxy script to proxy: " << _proxy_spec << endl;
+                    errorLog <<  "winhttp resolved auto-proxy script to proxy: " << _proxy_spec << std::endl;
                     bFoundProxy = true;
                     goto cleanup;
                 }
@@ -355,7 +355,7 @@ determine_proxy_spec() {
             // winhttp method failed, now try IE5 jsproxy way
             _proxy_spec = get_proxyname_using_jsproxy(pAutoProxyScriptURL);
             if(!_proxy_spec.empty()) {
-                errorLog <<  "jsproxy resolved auto-proxy script to proxy: " << _proxy_spec << endl;
+                errorLog <<  "jsproxy resolved auto-proxy script to proxy: " << _proxy_spec << std::endl;
                 bFoundProxy = true;
                 goto cleanup;
             }
@@ -414,4 +414,3 @@ determine_proxy_spec() {
   }
 #endif
 }
-

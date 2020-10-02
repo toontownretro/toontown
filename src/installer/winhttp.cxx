@@ -41,14 +41,14 @@ string get_proxyname_using_winhttp(bool bAutoDetection)
        PFN_WinHttpGetIEProxyConfigForCurrentUser pfWinHttpGetIEProxyConfigForCurrentUser;
        pfWinHttpGetIEProxyConfigForCurrentUser = (PFN_WinHttpGetIEProxyConfigForCurrentUser) GetProcAddress(hWinHTTP,szWinHttpGetIEProxyConfigForCurrentUser);
        if(!pfWinHttpGetIEProxyConfigForCurrentUser) {
-           errorLog <<  ErrGetProcAddr << szWinHttpGetIEProxyConfigForCurrentUser << endl;
+           errorLog <<  ErrGetProcAddr << szWinHttpGetIEProxyConfigForCurrentUser << std::endl;
            goto cleanup;
        }
 
        WINHTTP_CURRENT_USER_IE_PROXY_CONFIG UserProxyConfig;
        ZeroMemory(&UserProxyConfig,sizeof(UserProxyConfig));
        if(!(*pfWinHttpGetIEProxyConfigForCurrentUser)(&UserProxyConfig)) {
-            errorLog << szWinHttpGetIEProxyConfigForCurrentUser << ErrRetStr << GetLastError() << endl;
+            errorLog << szWinHttpGetIEProxyConfigForCurrentUser << ErrRetStr << GetLastError() << std::endl;
             goto cleanup;
        }
        if(UserProxyConfig.lpszProxyBypass!=NULL)
@@ -74,7 +74,7 @@ string get_proxyname_using_winhttp(bool bAutoDetection)
                     (PFN_WinHttpGetProxyForUrl)GetProcAddress(hWinHTTP,szWinHttpGetProxyForUrl);
 
     if(!pfWinHttpGetProxyForUrl) {
-      errorLog <<  ErrGetProcAddr << szWinHttpGetProxyForUrl << endl;
+      errorLog <<  ErrGetProcAddr << szWinHttpGetProxyForUrl << std::endl;
       goto cleanup;
     }
 
@@ -84,7 +84,7 @@ string get_proxyname_using_winhttp(bool bAutoDetection)
                                                 LPCWSTR pwszProxyBypass,DWORD dwFlags);
     PFN_WinHttpOpen pfWinHttpOpen = (PFN_WinHttpOpen) GetProcAddress(hWinHTTP, szWinHttpOpen);
     if(!pfWinHttpOpen) {
-      errorLog <<  ErrGetProcAddr << szWinHttpOpen << endl;
+      errorLog <<  ErrGetProcAddr << szWinHttpOpen << std::endl;
       goto cleanup;
     }
 
@@ -94,7 +94,7 @@ string get_proxyname_using_winhttp(bool bAutoDetection)
 
     PFN_WinHttpCloseHandle pfWinHttpCloseHandle = (PFN_WinHttpCloseHandle) GetProcAddress(hWinHTTP, szWinHttpCloseHandle);
     if(!pfWinHttpCloseHandle) {
-      errorLog <<  ErrGetProcAddr << szWinHttpCloseHandle << endl;
+      errorLog <<  ErrGetProcAddr << szWinHttpCloseHandle << std::endl;
       goto cleanup;
     }
 
@@ -104,7 +104,7 @@ string get_proxyname_using_winhttp(bool bAutoDetection)
                               WINHTTP_NO_PROXY_NAME,
                               WINHTTP_NO_PROXY_BYPASS,0x0);
     if( !hHttpSession ) {
-        errorLog <<  szWinHttpOpen << ErrRetStr << GetLastError() << endl;
+        errorLog <<  szWinHttpOpen << ErrRetStr << GetLastError() << std::endl;
         goto cleanup;
     }
 
@@ -153,7 +153,7 @@ string get_proxyname_using_winhttp(bool bAutoDetection)
            default:
              errorLog << errval;
        }
-       errorLog << endl;
+       errorLog << std::endl;
        goto cleanup;
     }
 

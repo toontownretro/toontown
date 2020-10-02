@@ -79,7 +79,7 @@ openKey(const HKEY parent, const char *keyName) {
 HKEY registryKey::
 openRO(const HKEY parent, const char *keyName) {
   if (ERROR_SUCCESS != RegOpenKeyEx(parent, keyName, 0, KEY_READ, &_hKey)) {
-//    errorLog << "registryKey::openRO failed, " << GetLastErrorStr() << endl;
+//    errorLog << "registryKey::openRO failed, " << GetLastErrorStr() << std::endl;
     _hKey = NULL;
   }
   return _hKey;
@@ -145,4 +145,3 @@ int registryKey::
 deleteValue(const char *key) const {
   return (ERROR_SUCCESS != RegDeleteValue(_hKey, key));
 }
-

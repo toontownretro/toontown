@@ -1,6 +1,7 @@
-
 Makefile
+__init__.py
 pp.dep
 *.pyc
 *.pyo
-PRCEncryptionKey.py
+**/Opt*-*
+*.o

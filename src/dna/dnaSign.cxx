@@ -70,7 +70,7 @@ NodePath DNASign::traverse(NodePath &parent, DNAStorage *store, int editing) {
   if (!_code.empty()) {
     sign_node_path = (store->find_node(_code)).copy_to(building_front);
     if (sign_node_path.is_empty()) {
-      nout << "Sign not found in storage: " << _code << endl;
+      nout << "Sign not found in storage: " << _code << std::endl;
       return parent;
     }
     sign_node_path.node()->set_name("sign");
@@ -106,7 +106,7 @@ NodePath DNASign::traverse(NodePath &parent, DNAStorage *store, int editing) {
     // the building node, which is usually parent, but might be
     // farther up.
     NodePath building = parent;
-    while (!building.is_empty() && 
+    while (!building.is_empty() &&
            (building.get_name().empty() ||
             building.get_name().substr(0, 2) != "tb")) {
       building = building.get_parent();

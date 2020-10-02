@@ -137,7 +137,7 @@ HRESULT DxDiag_Init(void) {
                            IID_IDxDiagProvider,
                            (LPVOID*) &m_pDxDiagProvider);
     if( FAILED(hr) ) {
-        errorLog << "DxDiag CoCreate failed, hr=0x" << (void*) hr << endl;
+        errorLog << "DxDiag CoCreate failed, hr=0x" << (void*) hr << std::endl;
         goto LCleanup;
     }
     if( m_pDxDiagProvider == NULL )
@@ -161,13 +161,13 @@ HRESULT DxDiag_Init(void) {
 
     hr = m_pDxDiagProvider->Initialize( &dxDiagInitParam );
     if( FAILED(hr) ) {
-        errorLog << "DxDiagProvider Init failed, hr=0x" << (void*) hr << endl;
+        errorLog << "DxDiagProvider Init failed, hr=0x" << (void*) hr << std::endl;
         goto LCleanup;
     }
 
     hr = m_pDxDiagProvider->GetRootContainer( &m_pDxDiagRoot );
     if( FAILED(hr) ) {
-        errorLog << "DxDiagProvider GetRoot failed, hr=0x" << (void*) hr << endl;
+        errorLog << "DxDiagProvider GetRoot failed, hr=0x" << (void*) hr << std::endl;
         goto LCleanup;
     }
 
@@ -351,11 +351,11 @@ HRESULT GetDxDiagDisplayInfo( vector<DxDiagDisplayInfo*>& vDxDiagDisplayInfo )
 
     // this takes a buttload of time loading and calling psapi, d3d9, and d3d9 dlls
     if( FAILED( hr = m_pDxDiagRoot->GetChildContainer( L"DxDiag_DisplayDevices", &pContainer ) ) ) {
-        errorLog << "DxDiagRoot GetChild failed, hr=0x" << (void*) hr << endl;
+        errorLog << "DxDiagRoot GetChild failed, hr=0x" << (void*) hr << std::endl;
         goto LCleanup;
     }
     if( FAILED( hr = pContainer->GetNumberOfChildContainers( &nInstanceCount ) ) ) {
-        errorLog << "Container GetNumChilds failed, hr=0x" << (void*) hr << endl;
+        errorLog << "Container GetNumChilds failed, hr=0x" << (void*) hr << std::endl;
         goto LCleanup;
     }
 
@@ -563,12 +563,12 @@ void SysInfo::Test_DX9(bool bWhatever) {
     errorLog << "DX9 status already found to be " << ((_DX9_status==Status_Unsupported) ? "un":"") << "supported\n";
     return;
   }
-  
+
   _DX9_status = Status_Unsupported;
 
   HRESULT hr = DxDiag_Init();
   if( FAILED(hr) ) {
-    errorLog << "Dx9 dxdiag failed, try other api " << endl;
+    errorLog << "Dx9 dxdiag failed, try other api " << std::endl;
     return;
   }
   vector<DxDiagDisplayInfo*> vDxDiagDisplayInfo;
@@ -579,7 +579,7 @@ void SysInfo::Test_DX9(bool bWhatever) {
   SYSTEMTIME DriverDate_SysTime;
   int y, m, d;
   sscanf(pD->m_szDriverDateEnglish, "%d/%d/%d", &m, &d, &y);
-  //errorLog << "year=" << y <<" month=" << m << " day=" << d << endl;
+  //errorLog << "year=" << y <<" month=" << m << " day=" << d << std::endl;
   DriverDate_SysTime.wYear = y;
   DriverDate_SysTime.wMonth = m;
   DriverDate_SysTime.wDay = d;
@@ -587,10 +587,10 @@ void SysInfo::Test_DX9(bool bWhatever) {
   LARGE_INTEGER li;
   DWORD hh, hl, lh, ll;
   sscanf(pD->m_szDriverVersion, "%d.%d.%d.%d", &hh, &hl, &lh, &ll);
-  //errorLog << "hh=" << hh << " hl=" << hl << " lh=" << lh << " ll=" << ll << endl;
+  //errorLog << "hh=" << hh << " hl=" << hl << " lh=" << lh << " ll=" << ll << std::endl;
   li.HighPart = MAKELONG(hl,hh);
   li.LowPart = MAKELONG(ll,lh);
-    
+
   DDDEVICEIDENTIFIER2 DX7_DevID;
   DX7_DevID.dwVendorId=strtol(pD->m_szVendorId, NULL, 0);
   DX7_DevID.dwDeviceId=strtol(pD->m_szDeviceId, NULL, 0);
@@ -600,7 +600,7 @@ void SysInfo::Test_DX9(bool bWhatever) {
   strncpy(DX7_DevID.szDriver,pD->m_szDriverName,MAX_DEVICE_IDENTIFIER_STRING);
   memcpy(&DX7_DevID.liDriverVersion,&li,sizeof(LARGE_INTEGER));
   //memcpy(&DX7_DevID.guidDeviceIdentifier,&adapter_info.DeviceIdentifier,sizeof(GUID));
-  
+
   SetVideoCardConfigInfo(0,&DX7_DevID,&DriverDate_SysTime);
 
   _DX9_status = Status_Supported;
@@ -612,93 +612,93 @@ HRESULT PrintDxDiagDisplayInfo(void) {
   GetDxDiagDisplayInfo(vDxDiagDisplayInfo);
   DxDiagDisplayInfo *pD = vDxDiagDisplayInfo[0];
 
-  errorLog << "DxDiag::" << endl;
-  errorLog << "  DeviceName=" << pD->m_szDeviceName << endl;
-  errorLog << "  DeviceDescription=" << pD->m_szDescription << endl;
-  errorLog << "  KeyDeviceId=" <<  pD->m_szKeyDeviceID << endl;
-  errorLog << "  KeyDeviceKey=" <<  pD->m_szKeyDeviceKey << endl;
-  errorLog << "  Manufacturer=" <<  pD->m_szManufacturer << endl;;
-  errorLog << "  ChipType=" <<  pD->m_szChipType << endl;
-  errorLog << "  DACType=" <<  pD->m_szDACType << endl;
-  errorLog << "  Revision=" <<  pD->m_szRevision << endl;
-  errorLog << "  DisplayMemoryLocalized=" <<  pD->m_szDisplayMemoryLocalized << endl;
-  errorLog << "  DisplayMemoryEnglish=" <<  pD->m_szDisplayMemoryEnglish << endl;
-  errorLog << "  DisplayModeLocalized=" <<  pD->m_szDisplayModeLocalized << endl;
-  errorLog << "  DisplayModeEnglish=" <<  pD->m_szDisplayModeEnglish << endl;
+  errorLog << "DxDiag::" << std::endl;
+  errorLog << "  DeviceName=" << pD->m_szDeviceName << std::endl;
+  errorLog << "  DeviceDescription=" << pD->m_szDescription << std::endl;
+  errorLog << "  KeyDeviceId=" <<  pD->m_szKeyDeviceID << std::endl;
+  errorLog << "  KeyDeviceKey=" <<  pD->m_szKeyDeviceKey << std::endl;
+  errorLog << "  Manufacturer=" <<  pD->m_szManufacturer << std::endl;;
+  errorLog << "  ChipType=" <<  pD->m_szChipType << std::endl;
+  errorLog << "  DACType=" <<  pD->m_szDACType << std::endl;
+  errorLog << "  Revision=" <<  pD->m_szRevision << std::endl;
+  errorLog << "  DisplayMemoryLocalized=" <<  pD->m_szDisplayMemoryLocalized << std::endl;
+  errorLog << "  DisplayMemoryEnglish=" <<  pD->m_szDisplayMemoryEnglish << std::endl;
+  errorLog << "  DisplayModeLocalized=" <<  pD->m_szDisplayModeLocalized << std::endl;
+  errorLog << "  DisplayModeEnglish=" <<  pD->m_szDisplayModeEnglish << std::endl;
 
-  errorLog << "  Width=" <<  pD->m_dwWidth << endl;
-  errorLog << "  Height=" <<  pD->m_dwHeight << endl;
-  errorLog << "  Bpp=" <<  pD->m_dwBpp << endl;
-  errorLog << "  RefreshRate=" <<  pD->m_dwRefreshRate << endl;
+  errorLog << "  Width=" <<  pD->m_dwWidth << std::endl;
+  errorLog << "  Height=" <<  pD->m_dwHeight << std::endl;
+  errorLog << "  Bpp=" <<  pD->m_dwBpp << std::endl;
+  errorLog << "  RefreshRate=" <<  pD->m_dwRefreshRate << std::endl;
 
-  errorLog << "  MonitorName=" <<  pD->m_szMonitorName << endl;
-  errorLog << "  MonitorMaxRes=" <<  pD->m_szMonitorMaxRes << endl;
-  
-  errorLog << "  DriverName=" <<  pD->m_szDriverName << endl;
-  errorLog << "  DriverVersion=" <<  pD->m_szDriverVersion << endl;
-  errorLog << "  DriverAttributes=" <<  pD->m_szDriverAttributes << endl;
-  errorLog << "  DriverLanguageEnglish=" <<  pD->m_szDriverLanguageEnglish << endl;
-  errorLog << "  DriverLanguageLocalized=" <<  pD->m_szDriverLanguageLocalized << endl;
-  errorLog << "  DriverDateEnglish=" <<  pD->m_szDriverDateEnglish << endl;
-  errorLog << "  DriverDateLocalized=" <<  pD->m_szDriverDateLocalized << endl;
-  errorLog << "  DriverSize=" <<  pD->m_lDriverSize << endl;
-  errorLog << "  MiniVdd=" <<  pD->m_szMiniVdd << endl;
-  errorLog << "  MiniVddDateLocalized=" <<  pD->m_szMiniVddDateLocalized << endl;
-  errorLog << "  MiniVddDateEnglish=" <<  pD->m_szMiniVddDateEnglish << endl;
-  errorLog << "  MiniVddSize=" <<   pD->m_lMiniVddSize << endl;
-  errorLog << "  Vdd=" <<  pD->m_szVdd << endl;
-  
-  errorLog << "  CanRenderWindow=" <<  pD->m_bCanRenderWindow << endl;
-  errorLog << "  DriverBeta=" <<  pD->m_bDriverBeta << endl;
-  errorLog << "  DriverDebug=" <<  pD->m_bDriverDebug << endl;
-  errorLog << "  DriverSigned=" <<  pD->m_bDriverSigned << endl;
-  errorLog << "  DriverSignedValid=" <<  pD->m_bDriverSignedValid << endl;
-  errorLog << "  DDIVersion=" <<  pD->m_dwDDIVersion << endl;
-  errorLog << "  DDIVersionEnglish=" <<  pD->m_szDDIVersionEnglish << endl;
-  errorLog << "  DDIVersionLocalized=" <<  pD->m_szDDIVersionLocalized << endl;
-  
-  errorLog << "  Adapter=" <<  pD->m_iAdapter << endl;
-  errorLog << "  VendorId=" <<  pD->m_szVendorId << endl;
+  errorLog << "  MonitorName=" <<  pD->m_szMonitorName << std::endl;
+  errorLog << "  MonitorMaxRes=" <<  pD->m_szMonitorMaxRes << std::endl;
+
+  errorLog << "  DriverName=" <<  pD->m_szDriverName << std::endl;
+  errorLog << "  DriverVersion=" <<  pD->m_szDriverVersion << std::endl;
+  errorLog << "  DriverAttributes=" <<  pD->m_szDriverAttributes << std::endl;
+  errorLog << "  DriverLanguageEnglish=" <<  pD->m_szDriverLanguageEnglish << std::endl;
+  errorLog << "  DriverLanguageLocalized=" <<  pD->m_szDriverLanguageLocalized << std::endl;
+  errorLog << "  DriverDateEnglish=" <<  pD->m_szDriverDateEnglish << std::endl;
+  errorLog << "  DriverDateLocalized=" <<  pD->m_szDriverDateLocalized << std::endl;
+  errorLog << "  DriverSize=" <<  pD->m_lDriverSize << std::endl;
+  errorLog << "  MiniVdd=" <<  pD->m_szMiniVdd << std::endl;
+  errorLog << "  MiniVddDateLocalized=" <<  pD->m_szMiniVddDateLocalized << std::endl;
+  errorLog << "  MiniVddDateEnglish=" <<  pD->m_szMiniVddDateEnglish << std::endl;
+  errorLog << "  MiniVddSize=" <<   pD->m_lMiniVddSize << std::endl;
+  errorLog << "  Vdd=" <<  pD->m_szVdd << std::endl;
+
+  errorLog << "  CanRenderWindow=" <<  pD->m_bCanRenderWindow << std::endl;
+  errorLog << "  DriverBeta=" <<  pD->m_bDriverBeta << std::endl;
+  errorLog << "  DriverDebug=" <<  pD->m_bDriverDebug << std::endl;
+  errorLog << "  DriverSigned=" <<  pD->m_bDriverSigned << std::endl;
+  errorLog << "  DriverSignedValid=" <<  pD->m_bDriverSignedValid << std::endl;
+  errorLog << "  DDIVersion=" <<  pD->m_dwDDIVersion << std::endl;
+  errorLog << "  DDIVersionEnglish=" <<  pD->m_szDDIVersionEnglish << std::endl;
+  errorLog << "  DDIVersionLocalized=" <<  pD->m_szDDIVersionLocalized << std::endl;
+
+  errorLog << "  Adapter=" <<  pD->m_iAdapter << std::endl;
+  errorLog << "  VendorId=" <<  pD->m_szVendorId << std::endl;
   //errorLog << "xxVendorId=" << strtol(pD->m_szVendorId,NULL,0);
-  errorLog << "  DeviceId=" <<  pD->m_szDeviceId << endl;
-  errorLog << "  SubSysId=" <<  pD->m_szSubSysId << endl;
-  errorLog << "  RevisionId=" <<  pD->m_szRevisionId << endl;
-  errorLog << "  WHQLLevel=" <<  pD->m_dwWHQLLevel << endl;
-  errorLog << "  DeviceIdentifier=" <<  pD->m_szDeviceIdentifier << endl;
-  errorLog << "  DriverSignDate=" <<  pD->m_szDriverSignDate << endl;
-  
-  errorLog << "  NoHardware=" <<  pD->m_bNoHardware << endl;
-  errorLog << "  DDAccelerationEnabled=" <<  pD->m_bDDAccelerationEnabled << endl;
-  errorLog << "  3DAccelerationExists=" <<  pD->m_b3DAccelerationExists << endl;
-  errorLog << "  3DAccelerationEnabled=" <<  pD->m_b3DAccelerationEnabled << endl;
-  errorLog << "  AGPEnabled=" <<  pD->m_bAGPEnabled << endl;
-  errorLog << "  AGPExists=" <<  pD->m_bAGPExists << endl;
-  errorLog << "  AGPExistenceValid=" <<  pD->m_bAGPExistenceValid << endl;
-  
+  errorLog << "  DeviceId=" <<  pD->m_szDeviceId << std::endl;
+  errorLog << "  SubSysId=" <<  pD->m_szSubSysId << std::endl;
+  errorLog << "  RevisionId=" <<  pD->m_szRevisionId << std::endl;
+  errorLog << "  WHQLLevel=" <<  pD->m_dwWHQLLevel << std::endl;
+  errorLog << "  DeviceIdentifier=" <<  pD->m_szDeviceIdentifier << std::endl;
+  errorLog << "  DriverSignDate=" <<  pD->m_szDriverSignDate << std::endl;
+
+  errorLog << "  NoHardware=" <<  pD->m_bNoHardware << std::endl;
+  errorLog << "  DDAccelerationEnabled=" <<  pD->m_bDDAccelerationEnabled << std::endl;
+  errorLog << "  3DAccelerationExists=" <<  pD->m_b3DAccelerationExists << std::endl;
+  errorLog << "  3DAccelerationEnabled=" <<  pD->m_b3DAccelerationEnabled << std::endl;
+  errorLog << "  AGPEnabled=" <<  pD->m_bAGPEnabled << std::endl;
+  errorLog << "  AGPExists=" <<  pD->m_bAGPExists << std::endl;
+  errorLog << "  AGPExistenceValid=" <<  pD->m_bAGPExistenceValid << std::endl;
+
   // errorLog << "  =" <<  m_szDXVAModes[100];
   // vector<  _DXVA_DeinterlaceCaps*> m_vDXVACaps;
-  
-  errorLog << "  DDStatusLocalized=" <<  pD->m_szDDStatusLocalized << endl;
-  errorLog << "  DDStatusEnglish=" <<  pD->m_szDDStatusEnglish << endl;
-  errorLog << "  D3DStatusLocalized=" <<  pD->m_szD3DStatusLocalized << endl;
-  errorLog << "  D3DStatusEnglish=" <<  pD->m_szD3DStatusEnglish << endl;
-  errorLog << "  AGPStatusLocalized=" <<  pD->m_szAGPStatusLocalized << endl;
-  errorLog << "  AGPStatusEnglish=" <<  pD->m_szAGPStatusEnglish << endl;
-  
-  errorLog << "  NotesLocalized=" <<  pD->m_szNotesLocalized << endl;
-  errorLog << "  NotesEnglish=" <<  pD->m_szNotesEnglish << endl;
-  errorLog << "  RegHelpText=" <<  pD->m_szRegHelpText << endl;
-  
-  errorLog << "  TestResultDDLocalized=" <<  pD->m_szTestResultDDLocalized << endl;
-  errorLog << "  TestResultDDEnglish=" <<  pD->m_szTestResultDDEnglish << endl;
-  errorLog << "  TestResultD3D7Localized=" <<  pD->m_szTestResultD3D7Localized << endl;
-  errorLog << "  TestResultD3D7English=" <<  pD->m_szTestResultD3D7English << endl;
-  errorLog << "  TestResultD3D8Localized=" <<  pD->m_szTestResultD3D8Localized << endl;
-  errorLog << "  TestResultD3D8English=" <<  pD->m_szTestResultD3D8English << endl;
-  errorLog << "  TestResultD3D9Localized=" <<  pD->m_szTestResultD3D9Localized << endl;
-  errorLog << "  TestResultD3D9English=" <<  pD->m_szTestResultD3D9English << endl;
-  
-  errorLog << "  ElementCount=" <<  pD->m_nElementCount << endl;
+
+  errorLog << "  DDStatusLocalized=" <<  pD->m_szDDStatusLocalized << std::endl;
+  errorLog << "  DDStatusEnglish=" <<  pD->m_szDDStatusEnglish << std::endl;
+  errorLog << "  D3DStatusLocalized=" <<  pD->m_szD3DStatusLocalized << std::endl;
+  errorLog << "  D3DStatusEnglish=" <<  pD->m_szD3DStatusEnglish << std::endl;
+  errorLog << "  AGPStatusLocalized=" <<  pD->m_szAGPStatusLocalized << std::endl;
+  errorLog << "  AGPStatusEnglish=" <<  pD->m_szAGPStatusEnglish << std::endl;
+
+  errorLog << "  NotesLocalized=" <<  pD->m_szNotesLocalized << std::endl;
+  errorLog << "  NotesEnglish=" <<  pD->m_szNotesEnglish << std::endl;
+  errorLog << "  RegHelpText=" <<  pD->m_szRegHelpText << std::endl;
+
+  errorLog << "  TestResultDDLocalized=" <<  pD->m_szTestResultDDLocalized << std::endl;
+  errorLog << "  TestResultDDEnglish=" <<  pD->m_szTestResultDDEnglish << std::endl;
+  errorLog << "  TestResultD3D7Localized=" <<  pD->m_szTestResultD3D7Localized << std::endl;
+  errorLog << "  TestResultD3D7English=" <<  pD->m_szTestResultD3D7English << std::endl;
+  errorLog << "  TestResultD3D8Localized=" <<  pD->m_szTestResultD3D8Localized << std::endl;
+  errorLog << "  TestResultD3D8English=" <<  pD->m_szTestResultD3D8English << std::endl;
+  errorLog << "  TestResultD3D9Localized=" <<  pD->m_szTestResultD3D9Localized << std::endl;
+  errorLog << "  TestResultD3D9English=" <<  pD->m_szTestResultD3D9English << std::endl;
+
+  errorLog << "  ElementCount=" <<  pD->m_nElementCount << std::endl;
 
   return hr;
 }

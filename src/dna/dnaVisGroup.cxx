@@ -65,7 +65,7 @@ int DNAVisGroup::remove_visible(const string &vis_group_name) {
                                     vis_group_name);
   if (i == _vis_vector.end()) {
     dna_cat.warning()
-      << "DNAVisGroup: vis group not found in map: " << vis_group_name << endl;
+      << "DNAVisGroup: vis group not found in map: " << vis_group_name << std::endl;
     return 0;
   }
 
@@ -133,7 +133,7 @@ int DNAVisGroup::remove_suit_edge(PT(DNASuitEdge) edge) {
                                     edge);
   if (i == _suit_edge_vector.end()) {
     dna_cat.debug()
-      << "DNASuitEdge: edge not found in vector: " << (*edge) << endl;
+      << "DNASuitEdge: edge not found in vector: " << (*edge) << std::endl;
     return 0;
   }
 
@@ -186,7 +186,7 @@ int DNAVisGroup::remove_battle_cell(PT(DNABattleCell) cell) {
                                                  cell);
   if (i == _battle_cell_vector.end()) {
     dna_cat.warning()
-      << "DNABattleCell: cell not found in vector: " << (*cell) << endl;
+      << "DNABattleCell: cell not found in vector: " << (*cell) << std::endl;
     return 0;
   }
 

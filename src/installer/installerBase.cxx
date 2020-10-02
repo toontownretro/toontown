@@ -90,7 +90,7 @@ void LogOSErrorMessage(const char *called_func) {
           0, NULL );
 
   errorLog << ((called_func!=NULL) ? called_func : "")
-      << " returned Error " << errNum << ": " << pSysMsgBuf << endl;
+      << " returned Error " << errNum << ": " << pSysMsgBuf << std::endl;
 }
 
 void ShowOSErrorMessageBox(char *error_title) {
@@ -322,7 +322,7 @@ getFileSize(const char *filename) {
   WIN32_FIND_DATA TempFindData;
   HANDLE FindFileHandle = FindFirstFile(filename,&TempFindData );
   if ( FindFileHandle == INVALID_HANDLE_VALUE ) {
-    errorLog << "error determining file size of " << filename << endl;
+    errorLog << "error determining file size of " << filename << std::endl;
     return -1;
   }
   FindClose(FindFileHandle);
@@ -335,7 +335,7 @@ getFileDate(const char *filename, FILETIME *pFileTime) {
   WIN32_FIND_DATA TempFindData;
   HANDLE FindFileHandle = FindFirstFile(filename,&TempFindData );
   if ( FindFileHandle == INVALID_HANDLE_VALUE ) {
-    errorLog << "error determining file date of " << filename << endl;
+    errorLog << "error determining file date of " << filename << std::endl;
   }
   FindClose(FindFileHandle);
   *pFileTime = TempFindData.ftCreationTime;
@@ -347,7 +347,7 @@ getFileDate(const char *filename, FILETIME *pFileTime) {
 bool installerBase::
 deleteObsoleteFile(const char *filename) {
   if(!deleteFile(filename)) {
-    errorLog << "Could not delete obsolete file: " << filename << endl;
+    errorLog << "Could not delete obsolete file: " << filename << std::endl;
     return false;
   }
 
@@ -368,7 +368,7 @@ deleteFile(const char *filename) {
     }
 
     errorLog << "deletefile('" << filename << "'), SetFileAttr failed w/error: "
-       << err << endl;
+       << err << std::endl;
   }
 
   // try to delete the file
@@ -388,7 +388,7 @@ deleteFile(const char *filename) {
   default:
       errorLog << err;
   }
-  errorLog << endl;
+  errorLog << std::endl;
 
   return false;
 }
@@ -460,7 +460,7 @@ makeDir(const char *filename, PSECURITY_ATTRIBUTES pSA)
 		{
           DWORD errNum = GetLastError();
           if (errNum != ERROR_ALREADY_EXISTS) { // if dir already exists, thats ok
-            errorLog << "Creating Directory '" << fn << "' failed, err=" << errNum << endl;
+            errorLog << "Creating Directory '" << fn << "' failed, err=" << errNum << std::endl;
             return false;
           }
         } else {
@@ -473,7 +473,7 @@ makeDir(const char *filename, PSECURITY_ATTRIBUTES pSA)
         slash++;
     }
   }
-  
+
   return true;
 }
 
@@ -488,10 +488,10 @@ bool handleHttpQueryInfo(HINTERNET hRequest, DWORD dwInfoLevel, LPVOID &lpvBuffe
                          LPDWORD lpdwBufferLength, LPDWORD lpdwIndex) {
   // it assumes lpvBuffer is null
   if (lpvBuffer != NULL) {
-    errorLog << "program error, expecting a null in lpvBuffer" << endl;
+    errorLog << "program error, expecting a null in lpvBuffer" << std::endl;
     return false;
   }
- 
+
 retry:
   // This call will fail on the first pass, because no buffer is allocated.
   if(!HttpQueryInfo(hRequest, dwInfoLevel, (LPVOID)lpvBuffer, lpdwBufferLength, NULL)) {
@@ -504,10 +504,10 @@ retry:
         // Allocate the necessary buffer.
         lpvBuffer = new char[*lpdwBufferLength];
         if (lpvBuffer) {
-          //          errorLog << "created buffer of size : " << *lpdwBufferLength << endl;
+          //          errorLog << "created buffer of size : " << *lpdwBufferLength << std::endl;
           goto retry;          // Retry the call.
         } else {
-          errorLog << "memory allocation failed : lpvBuffer of size " << *lpdwBufferLength << endl;
+          errorLog << "memory allocation failed : lpvBuffer of size " << *lpdwBufferLength << std::endl;
           return false;
         }
       } else {
@@ -516,7 +516,7 @@ retry:
       }
     }
   }
-  //  errorLog << "returning true from func" << endl;
+  //  errorLog << "returning true from func" << std::endl;
 
   return true;
 }
@@ -528,7 +528,7 @@ void handleHttpStatusNotOk(HINTERNET hRequest, char *pRequestHdrBuf,
                            const char **err, const char *url) {
   char *pStatusText = NULL;
   DWORD dwBufLen = 0;
-  
+
   if(!handleHttpQueryInfo(hRequest,
                     HTTP_QUERY_STATUS_TEXT,
                     (LPVOID &)pStatusText,
@@ -537,16 +537,16 @@ void handleHttpStatusNotOk(HINTERNET hRequest, char *pRequestHdrBuf,
     *err = "HttpQueryInfo StatusText";
     return;
   }
-  errorLog << pStatusText << endl;
+  errorLog << pStatusText << std::endl;
 
   if (pStatusText) {
     delete [] pStatusText;
     pStatusText = NULL;
   }
-  
+
   char *pHdrBuf = NULL;
   dwBufLen=0;
-      
+
   if(!handleHttpQueryInfo(hRequest,
                     HTTP_QUERY_RAW_HEADERS_CRLF,
                     (LPVOID &)pHdrBuf,
@@ -567,13 +567,13 @@ void handleHttpStatusNotOk(HINTERNET hRequest, char *pRequestHdrBuf,
         }
 
   const char *pMarker="=======\n";
-  
+
   if (pHdrBuf)
     GETRIDOFCRS(pHdrBuf);
   if (pRequestHdrBuf)
     GETRIDOFCRS(pRequestHdrBuf);
-  
-  errorLog << "HTTP Reply Headers returned for " << url << ":\n" << pMarker << pHdrBuf << endl << pMarker;
+
+  errorLog << "HTTP Reply Headers returned for " << url << ":\n" << pMarker << pHdrBuf << std::endl << pMarker;
   errorLog << "HTTP Request Headers were:\n"<< pRequestHdrBuf << pMarker;
   if (pHdrBuf) {
     delete [] pHdrBuf;
@@ -669,7 +669,7 @@ downloadToMem(const char *URL, unsigned long &bufLength)
       //case E_HTTP_NO_CONTENT_LENGTH:  errorLog << "no content length";  break;
     default: errorLog << "unknown error";
     }
-    errorLog << endl;
+    errorLog << std::endl;
 
     // Handle error
     return NULL;
@@ -686,11 +686,11 @@ downloadToMem(const char *URL, unsigned long &bufLength) {
   // download the file to disk, then read into memory
   const char *filename = "launcherFileDb";
 
-  errorLog << "about to download " << filename << endl;
+  errorLog << "about to download " << filename << std::endl;
   if (!downloadToFile(URL, filename)) {
     return NULL;
   }
-  errorLog << "download complete" << endl;
+  errorLog << "download complete" << std::endl;
 
   ifstream read_stream;
 
@@ -735,10 +735,10 @@ downloadToMem(const char *URL, string &pFileBufStr) {
 
   /*
     result = URLDownloadToCacheFile(NULL, URL, "testdlfile", strlen("testdlfile"), 0, NULL);
-    errorLog << "URLDownloadToCacheFile result: " << result << ", S_OK == " << S_OK << endl;
+    errorLog << "URLDownloadToCacheFile result: " << result << ", S_OK == " << S_OK << std::endl;
   */
 
-  //errorLog << "About to open URL: " << URL << endl;
+  //errorLog << "About to open URL: " << URL << std::endl;
 
   removeURLFromCache(URL);
 
@@ -758,16 +758,16 @@ downloadToMem(const char *URL, string &pFileBufStr) {
     switch(hr) {
       // these ERROR CODES are defined in UrlMon.h!
     case INET_E_CANNOT_CONNECT:
-      errorLog << "INET_E_CANNOT_CONNECT" << endl;
+      errorLog << "INET_E_CANNOT_CONNECT" << std::endl;
       break;
     case INET_E_DOWNLOAD_FAILURE:
-      errorLog << "INET_E_DOWNLOAD_FAILURE" << endl;
+      errorLog << "INET_E_DOWNLOAD_FAILURE" << std::endl;
       break;
     case INET_E_RESOURCE_NOT_FOUND:
-      errorLog << "INET_E_RESOURCE_NOT_FOUND" << endl;
+      errorLog << "INET_E_RESOURCE_NOT_FOUND" << std::endl;
       break;
     default:
-      errorLog << "0x" << (void*)hr << endl;
+      errorLog << "0x" << (void*)hr << std::endl;
     }
 
     goto _cleanup;
@@ -790,7 +790,7 @@ downloadToMem(const char *URL, string &pFileBufStr) {
 
   int bufLength = bufLengthULI.LowPart;
 
-  errorLog << "downloadToMem(): total read = " << bufLength << endl;
+  errorLog << "downloadToMem(): total read = " << bufLength << std::endl;
 
   // allocate a memory buffer
   pBuf = new char[bufLength];
@@ -807,7 +807,7 @@ downloadToMem(const char *URL, string &pFileBufStr) {
   }
 
   pFileBufStr.assign(pBuf, bufLength);
-  //errorLog << "assigned bufLength ="  << pFileBufStr.length() << endl;
+  //errorLog << "assigned bufLength ="  << pFileBufStr.length() << std::endl;
 
   bSuccess = true;
 
@@ -858,7 +858,7 @@ testServer(const char *URL) {
   HRESULT hr = URLOpenBlockingStream(NULL, URL, &pStrm, 0, NULL);
 
   if (FAILED(hr)) {
-    errorLog << "url:|" << URL << "| failed error 0x" << (void*)hr << endl;
+    errorLog << "url:|" << URL << "| failed error 0x" << (void*)hr << std::endl;
     if (pStrm)
       pStrm->Release();
     return false;
@@ -868,13 +868,13 @@ testServer(const char *URL) {
   if (pStrm) {
     LARGE_INTEGER offsetLI;
     ULARGE_INTEGER bufLengthULI;
-    
+
     offsetLI.QuadPart = 0;
     hr = pStrm->Seek(offsetLI, STREAM_SEEK_END, &bufLengthULI);
     if (FAILED(hr)) {
       errorLog << "installerBase error 0x" << (void*)hr << " calling IStream::Seek() to end of file\n";
     } else {
-      errorLog << "total read = " << (int)bufLengthULI.LowPart << endl;
+      errorLog << "total read = " << (int)bufLengthULI.LowPart << std::endl;
     }
     pStrm->Release();
   }
@@ -897,10 +897,10 @@ void PrintLastWNetError(void) {
 
   DWORD retVal=WNetGetLastError(&dwWNetError,pErrorBuf,ERRMSGSIZE,pNameBuf,ERRMSGSIZE);
   if(NO_ERROR!=retVal) {
-    errorLog << "WNetGetLastError failed: err=" << retVal << endl;
+    errorLog << "WNetGetLastError failed: err=" << retVal << std::endl;
   } else {
     errorLog << "WNetGetLastError returns err: " << dwWNetError << " : " << pErrorBuf
-             << "network provider: " << pNameBuf << endl;
+             << "network provider: " << pNameBuf << std::endl;
   }
 }
 #endif
@@ -933,8 +933,8 @@ unsigned long DownloadFunc(DLArgs_s *args)
     // should not use this if we can avoid it (if the InternetReadFile method worx)
     HRESULT hr = URLDownloadToFile(NULL, args->URL, args->destFilename, 0, NULL);
     if(FAILED(hr)) {
-      errorLog << "URLDownloadToFile("<<args->URL<<","<<args->destFilename<<") returned error: 0x" << (void*)hr << endl;
-      errorLog << "GetLastError returns: " << GetLastError() << endl;
+      errorLog << "URLDownloadToFile("<<args->URL<<","<<args->destFilename<<") returned error: 0x" << (void*)hr << std::endl;
+      errorLog << "GetLastError returns: " << GetLastError() << std::endl;
       // PrintLastWNetError();
       retCode = 1;
     }
@@ -1002,7 +1002,7 @@ unsigned long DownloadFunc(DLArgs_s *args)
                          GENERIC_READ | GENERIC_WRITE,(DWORD) 0, NULL, CREATE_ALWAYS,
                          FILE_ATTRIBUTE_NORMAL, (HANDLE) NULL);
       if(!hFile) {
-        errorLog << "CreateFile("<<args->destFilename<<") failed, err: " << GetLastError() << endl;
+        errorLog << "CreateFile("<<args->destFilename<<") failed, err: " << GetLastError() << std::endl;
         retCode = 1;
         goto cleanup;
       }
@@ -1040,14 +1040,14 @@ unsigned long DownloadFunc(DLArgs_s *args)
       BOOL bRet = InternetQueryOption(hQueryInet, INTERNET_OPTION_PROXY_USERNAME, usernamebuf, &usernamebuflen);
       if(!bRet) {
         err = GetLastError();
-        errorLog << "InternetQueryOption(INTERNET_OPTION_PROXY_USERNAME) failed, err=" << err << endl;
+        errorLog << "InternetQueryOption(INTERNET_OPTION_PROXY_USERNAME) failed, err=" << err << std::endl;
       } else {
         char pwbuf[512];
         DWORD pwbuflen=sizeof(pwbuf);
         BOOL bRet = InternetQueryOption(hQueryInet, INTERNET_OPTION_PROXY_PASSWORD, pwbuf, &pwbuflen);
         if(!bRet) {
           err = GetLastError();
-          errorLog << "InternetQueryOption() 2 failed, err=" << err << endl;
+          errorLog << "InternetQueryOption() 2 failed, err=" << err << std::endl;
         } else {
           // success!  do implicit copy of const char* to string objs
           *(args->pProxyUser) = usernamebuf;
@@ -1058,7 +1058,7 @@ unsigned long DownloadFunc(DLArgs_s *args)
 #endif
 
     INTERNET_PORT portNum = ((url_comp.nPort!=0) ? url_comp.nPort : INTERNET_DEFAULT_HTTP_PORT);
-    errorLog << "Opening connection to "<<url_comp.lpszHostName<<":"<<portNum << endl;
+    errorLog << "Opening connection to "<<url_comp.lpszHostName<<":"<<portNum << std::endl;
 
     // this fn is expensive, should we cache hConnection across multiple calls?
     hConnection = InternetConnect(hSession,
@@ -1093,7 +1093,7 @@ unsigned long DownloadFunc(DLArgs_s *args)
       goto cleanup;
     }
 
-    // save the request headers in case we need to print them out l8r due to an error    
+    // save the request headers in case we need to print them out l8r due to an error
 #ifdef OPTIMIZE_HTTP_SESSION_CODE
     pRequestHdrBuf = NULL;
     dwBufLen = 0;
@@ -1114,7 +1114,7 @@ unsigned long DownloadFunc(DLArgs_s *args)
       retCode=1;
       goto cleanup;
     }
-    //    errorLog << endl<< dwBufLen << " : " << pRequestHdrBuf << endl;
+    //    errorLog << std::endl<< dwBufLen << " : " << pRequestHdrBuf << std::endl;
 
     if(!HttpSendRequest(hRequest,
                         NULL,    // No extra headers
@@ -1139,8 +1139,8 @@ unsigned long DownloadFunc(DLArgs_s *args)
       retCode=1;
       goto cleanup;
     }
-    //    errorLog << dwBufLen << " : " << HTTP_StatusCode << endl;
-    
+    //    errorLog << dwBufLen << " : " << HTTP_StatusCode << std::endl;
+
     if(HTTP_StatusCode!=HTTP_STATUS_OK) {
       errorLog << "HTTP Status "<< HTTP_StatusCode << ": ";
 
@@ -1159,7 +1159,7 @@ unsigned long DownloadFunc(DLArgs_s *args)
         retCode=1;
         goto cleanup;
       }
-      errorLog << StatusText << endl;
+      errorLog << StatusText << std::endl;
 
       char *pHdrBuf = new char[MAX_HEADER_SIZE];
       dwBufLen=MAX_HEADER_SIZE;
@@ -1188,8 +1188,8 @@ unsigned long DownloadFunc(DLArgs_s *args)
         GETRIDOFCRS(pHdrBuf);
       if (pRequestHdrBuf)
         GETRIDOFCRS(pRequestHdrBuf);
-      
-      errorLog << "HTTP Reply Headers returned for " << args->URL << ":\n" << pMarker << pHdrBuf << endl << pMarker;
+
+      errorLog << "HTTP Reply Headers returned for " << args->URL << ":\n" << pMarker << pHdrBuf << std::endl << pMarker;
       errorLog << "HTTP Request Headers were:\n"<< pRequestHdrBuf << pMarker;
       if (pHdrBuf) {
         delete [] pHdrBuf;
@@ -1231,7 +1231,7 @@ unsigned long DownloadFunc(DLArgs_s *args)
 
     pData = new char[dwReadSize];  // save mem, dont allocate mem for whole file
     if(!pData) {
-      errorLog << "Error: could not allocate " << dwReadSize << " bytes for " << args->URL << endl;
+      errorLog << "Error: could not allocate " << dwReadSize << " bytes for " << args->URL << std::endl;
       retCode=1;
       goto cleanup;
     }
@@ -1257,7 +1257,7 @@ unsigned long DownloadFunc(DLArgs_s *args)
 
         if((!bRetVal) || (dwBytesRead!=dwBytesWritten)) {
           if(dwBytesRead!=dwBytesWritten)
-            errorLog << "WriteFile did not write enough bytes: BytesToWrite: " << dwBytesRead << " BytesWritten: " <<dwBytesWritten << endl;
+            errorLog << "WriteFile did not write enough bytes: BytesToWrite: " << dwBytesRead << " BytesWritten: " <<dwBytesWritten << std::endl;
           errfnstr = "WriteFile";
           retCode = 1;
           goto cleanup;
@@ -1280,7 +1280,7 @@ unsigned long DownloadFunc(DLArgs_s *args)
 
     if(dwTotalBytesRead != dwContentLen) {
 #if 0
-      errorLog << "Total bytes read "<<dwTotalBytesRead<< " does not equal specified total length: "<<dwContentLen << endl;
+      errorLog << "Total bytes read "<<dwTotalBytesRead<< " does not equal specified total length: "<<dwContentLen << std::endl;
       errfnstr = "InternetReadFile";
       retCode = 1;
       goto cleanup;
@@ -1297,7 +1297,7 @@ unsigned long DownloadFunc(DLArgs_s *args)
         errorLog << "HTTP_HEADER_NOT_FOUND\n";
       } else {
         // errors that start with 12000 are in wininet.h
-        errorLog << "err: " << err << endl;
+        errorLog << "err: " << err << std::endl;
       }
 
       if(err==ERROR_INTERNET_EXTENDED_ERROR) {
@@ -1307,10 +1307,10 @@ unsigned long DownloadFunc(DLArgs_s *args)
         msgbuflen=sizeof(msgbuf);
         InternetGetLastResponseInfo(&err,msgbuf,&msgbuflen);
         errorLog << "InternetGetLastResponseInfo() returns error "<< err
-            << " : "<< msgbuf <<endl;
+            << " : "<< msgbuf <<std::endl;
       }
     } else {
-      errorLog << "Downloaded '" << args->URL<< "'; Total Bytes: " << dwTotalBytesRead << endl;
+      errorLog << "Downloaded '" << args->URL<< "'; Total Bytes: " << dwTotalBytesRead << std::endl;
       if (args->iPatchSize)
         *args->pPatchSizeSoFar += dwTotalBytesRead;
     }
@@ -1519,14 +1519,14 @@ unsigned long UploadFunc(UploadArgs_s *args) {
        BOOL bRet = InternetQueryOption(hQueryInet, INTERNET_OPTION_PROXY_USERNAME, usernamebuf, &usernamebuflen);
        if(!bRet) {
          err = GetLastError();
-         errorLog << "InternetQueryOption(INTERNET_OPTION_PROXY_USERNAME) failed, err=" << err << endl;
+         errorLog << "InternetQueryOption(INTERNET_OPTION_PROXY_USERNAME) failed, err=" << err << std::endl;
        } else {
          char pwbuf[512];
          DWORD pwbuflen=sizeof(pwbuf);
          BOOL bRet = InternetQueryOption(hQueryInet, INTERNET_OPTION_PROXY_PASSWORD, pwbuf, &pwbuflen);
          if(!bRet) {
            err = GetLastError();
-           errorLog << "InternetQueryOption() 2 failed, err=" << err << endl;
+           errorLog << "InternetQueryOption() 2 failed, err=" << err << std::endl;
          } else {
            // success!  do implicit copy of const char* to string objs
            *(args->pProxyUser) = usernamebuf;
@@ -1540,7 +1540,7 @@ unsigned long UploadFunc(UploadArgs_s *args) {
 
 #ifndef NDEBUG
   // are we gonna get config spam if I print this to log?
-  errorLog << "Opening connection to "<<url_comp.lpszHostName<<":"<<portNum << endl;
+  errorLog << "Opening connection to "<<url_comp.lpszHostName<<":"<<portNum << std::endl;
 #endif
 
   // this fn is expensive, should we cache hConnection across multiple calls?
@@ -1633,7 +1633,7 @@ unsigned long UploadFunc(UploadArgs_s *args) {
       retCode=1;
       goto cleanup;
     }
-    errorLog << StatusText << endl;
+    errorLog << StatusText << std::endl;
 
     char *pHdrBuf = new char[MAX_HEADER_SIZE];
     dwBufLen=MAX_HEADER_SIZE;
@@ -1663,14 +1663,14 @@ unsigned long UploadFunc(UploadArgs_s *args) {
     if (pRequestHdrBuf)
       GETRIDOFCRS(pRequestHdrBuf);
 
-    errorLog << "HTTP Reply Headers returned for " << args->URL << ":\n" << pMarker << pHdrBuf << endl << pMarker;
+    errorLog << "HTTP Reply Headers returned for " << args->URL << ":\n" << pMarker << pHdrBuf << std::endl << pMarker;
     errorLog << "HTTP Request Headers were:\n"<< pRequestHdrBuf << pMarker;
 
     if (pHdrBuf) {
       delete [] pHdrBuf;
       pHdrBuf = NULL;
     }
-#endif    
+#endif
     errorLog << "HTTP status was not OK, failing upload!\n";
     retCode = 1;
     goto cleanup;
@@ -1684,7 +1684,7 @@ unsigned long UploadFunc(UploadArgs_s *args) {
       errorLog << "HTTP_HEADER_NOT_FOUND\n";
     } else {
       // errors that start with 12000 are in wininet.h
-      errorLog << "err: " << err << endl;
+      errorLog << "err: " << err << std::endl;
     }
 
     if(err==ERROR_INTERNET_EXTENDED_ERROR) {
@@ -1693,7 +1693,7 @@ unsigned long UploadFunc(UploadArgs_s *args) {
       msgbuf[0]='\0';
       msgbuflen=sizeof(msgbuf);
       InternetGetLastResponseInfo(&err,msgbuf,&msgbuflen);
-      errorLog << "InternetGetLastResponseInfo() returns error "<<err << " : "<<msgbuf<<endl;
+      errorLog << "InternetGetLastResponseInfo() returns error "<<err << " : "<<msgbuf<<std::endl;
     }
   }
 
@@ -1723,7 +1723,7 @@ void installerBase::
 removeURLFromCache(const char *URL) {
   if (!DeleteUrlCacheEntry(URL)) {
     if (GetLastError() == ERROR_ACCESS_DENIED) {
-      errorLog << "Error removing " << URL << " from IE cache" << endl;
+      errorLog << "Error removing " << URL << " from IE cache" << std::endl;
     }
   }
 }
@@ -1785,7 +1785,7 @@ spawnProcess(const char *cmdLine, int show, HANDLE *phProcess, DWORD *pProcID)
   }
   else
   { // convention is to return zero on success, so invert boolean result
-    errorLog << "system error " << lastErrorCode << " creating process with cmd line: " << commandLine << endl;
+    errorLog << "system error " << lastErrorCode << " creating process with cmd line: " << commandLine << std::endl;
 	return lastErrorCode ? lastErrorCode : 1;	// return error code if non-zero
   }
 
@@ -1877,15 +1877,15 @@ setPandaServer(const char *pandaServerURL) {
 int installerBase::
 getLatestLauncherFileDB()
 {
-  errorLog << "Downloading latest launcher file database..." << endl;
+  errorLog << "Downloading latest launcher file database..." << std::endl;
 
   const char *url = _launcherFileDB_IFilename.getFullRemoteName();
-  // errorLog << "Downloading " << url << endl; // security issue??
+  // errorLog << "Downloading " << url << std::endl; // security issue??
   string lDBString;
 
   // BUGBUG: want to use downloadToMem_New here
   if(!downloadToMem(url,lDBString)) {
-    errorLog << "Error downloading " << url << endl;
+    errorLog << "Error downloading " << url << std::endl;
     return 1;
   }
 
@@ -1894,7 +1894,7 @@ getLatestLauncherFileDB()
 
   if (result) {
     errorLog << "Error reading creating launcher file database from "
-             << _launcherFileDB_IFilename.getFullRemoteName() << endl;
+             << _launcherFileDB_IFilename.getFullRemoteName() << std::endl;
     return 1;
   }
 
@@ -1902,7 +1902,7 @@ getLatestLauncherFileDB()
   url = _launcherDDBFile_IFilename.getFullRemoteName();
   // BUGBUG: want to use downloadToMem_New here
   if(!downloadToMem(url,lDBString)) {
-    errorLog << "Error downloading " << url << endl;
+    errorLog << "Error downloading " << url << std::endl;
     return 1;
   }
 
@@ -1911,11 +1911,11 @@ getLatestLauncherFileDB()
 
   if (result) {
     errorLog << "Error reading creating launcher file database from "
-             << _launcherDDBFile_IFilename.getFullRemoteName() << endl;
+             << _launcherDDBFile_IFilename.getFullRemoteName() << std::endl;
     return 1;
   }
 
-  errorLog << "done." << endl;
+  errorLog << "done." << std::endl;
 
   // strange! if the last line of launcherFileDb doesn't have a newline/EOF
   // _launcherFileDb doesn't recognize the line above?! have to investigate
@@ -1923,10 +1923,10 @@ getLatestLauncherFileDB()
 
   // 9/2/03, download the progress file that has progress meter info
   url = _launcherProgress_IFilename.getFullRemoteName();
-  errorLog << "local progress " << _launcherProgress_IFilename.getFullLocalName() << endl;
+  errorLog << "local progress " << _launcherProgress_IFilename.getFullLocalName() << std::endl;
   if(!downloadToFile(_launcherProgress_IFilename.getFullRemoteName(),
                      _launcherProgress_IFilename.getFullLocalName())) {
-    errorLog << "Error downloading " << url << endl;
+    errorLog << "Error downloading " << url << std::endl;
     return 1;
   }
   // TODO
@@ -1958,7 +1958,7 @@ writeInstalledSizeToRegistry(const char *ARP_ProgramName,unsigned __int64 total_
 
   HKEY hARPKey = regOpenKey(HKEY_LOCAL_MACHINE, ARP_RegKey.c_str());
   if(hARPKey==NULL) {
-    errorLog << "Error: couldn't open Add/Rem progs regkey to change size, err=" << GetLastError() << endl;
+    errorLog << "Error: couldn't open Add/Rem progs regkey to change size, err=" << GetLastError() << std::endl;
     return;
   }
 
@@ -1974,7 +1974,7 @@ writeInstalledSizeToRegistry(const char *ARP_ProgramName,unsigned __int64 total_
   }
 
   if(ERROR_SUCCESS!=retVal) {
-    errorLog << "Error: couldn't open " << szARPDataName<<" to change size, err=" << retVal << endl;
+    errorLog << "Error: couldn't open " << szARPDataName<<" to change size, err=" << retVal << std::endl;
     goto cleanup;
   }
 
@@ -2006,7 +2006,7 @@ writeInstalledSizeToRegistry(const char *ARP_ProgramName,unsigned __int64 total_
 
   retVal=RegQueryValueEx(hARPKey,szARPDataName,0,&valType,pBuffer,&dwBufLen);
   if(ERROR_SUCCESS!=retVal) {
-    errorLog << "Error: couldn't get " << szARPDataName<<" data, err=" << retVal << endl;
+    errorLog << "Error: couldn't get " << szARPDataName<<" data, err=" << retVal << std::endl;
     goto cleanup;
   }
 
@@ -2014,7 +2014,7 @@ writeInstalledSizeToRegistry(const char *ARP_ProgramName,unsigned __int64 total_
 
   retVal=RegSetValueEx(hARPKey,szARPDataName,0,valType,pBuffer,dwBufLen);
   if(ERROR_SUCCESS!=retVal) {
-    errorLog << "Error: couldn't write " << szARPDataName<<" data, err=" << GetLastError() << endl;
+    errorLog << "Error: couldn't write " << szARPDataName<<" data, err=" << GetLastError() << std::endl;
     goto cleanup;
   }
 
@@ -2034,11 +2034,11 @@ verifyFileMD5(fileDBEntry *launcherFile, bool debug) {
   char fullName[_MAX_PATH];
   if (!launcherFile->fullPathname(fullName, _MAX_PATH)) {
     errorLog << "Launcher is invalid: error creating full name for file "
-             << launcherFile->_filename << endl;
+             << launcherFile->_filename << std::endl;
     return 0;
   }
 //  else
-//    errorLog << "filename: " << fullName << endl;
+//    errorLog << "filename: " << fullName << std::endl;
 
   // does the file exist?
   if (!fileExists(fullName)) {
@@ -2058,16 +2058,16 @@ verifyFileMD5(fileDBEntry *launcherFile, bool debug) {
     errorLog << "database checksum:   " << cur_MD5->_hashVal[0] << " "
              << cur_MD5->_hashVal[1] << " "
              << cur_MD5->_hashVal[2] << " "
-             << cur_MD5->_hashVal[3] << endl;
+             << cur_MD5->_hashVal[3] << std::endl;
     errorLog << "calculated checksum: " << checksum[0] << " "
              << checksum[1] << " "
              << checksum[2] << " "
-             << checksum[3] << endl;
+             << checksum[3] << std::endl;
   }
   // if different, fail
   if (badcompare)
   {
-    errorLog << launcherFile->_filename << " is invalid -- checksum failed on file " << fullName << endl;
+    errorLog << launcherFile->_filename << " is invalid -- checksum failed on file " << fullName << std::endl;
     return 0;
   }
 #endif
@@ -2085,7 +2085,7 @@ badFileMD5_debug(const string &name, const string &fullpath)
         errorLog << attrs;                          // dump file attributes
     else
         errorLog << "no info";                      // got none
-    errorLog << endl;
+    errorLog << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -2121,7 +2121,7 @@ launcherValid(void) {
 
   fileDBEntry *launcherFile = _launcherFileDB.firstFile();
 
-  errorLog << "Checking launcher files validity..." << endl;
+  errorLog << "Checking launcher files validity..." << std::endl;
 
   /*
   // make sure we're in the panda3d directory
@@ -2147,8 +2147,8 @@ launcherValid(void) {
 
 		  // attempt to delete the file manually with whatever security permissions the ActiveX is running under
           if (!DeleteFile(fpn.c_str()))
-            errorLog << "Deleting "<<launcherFile->_filename<<" got "<< GetLastErrorStr() << endl;
-          
+            errorLog << "Deleting "<<launcherFile->_filename<<" got "<< GetLastErrorStr() << std::endl;
+
           // re-extract it and check again
           return LAUNCHER_NEED_EXTRACT;
         }
@@ -2165,7 +2165,7 @@ launcherValid(void) {
     launcherFile = launcherFile->_next;
   }
 
-  errorLog << "All Launcher files valid" << endl;
+  errorLog << "All Launcher files valid" << std::endl;
   return LAUNCHER_VALID;
 }
 
@@ -2173,24 +2173,24 @@ launcherValid(void) {
 int installerBase::
 launcherFileValid(installerFilename &fileName) {
   const char  *pFileBaseName = fileName.getBaseName();
-  errorLog << "Checking if file '"<< pFileBaseName <<"' is valid..." << endl;
+  errorLog << "Checking if file '"<< pFileBaseName <<"' is valid..." << std::endl;
 
   // find the MD5 for the file entry
   fileDBEntry *launcherFile = _launcherFileDB.firstFile();
   for(; launcherFile != NULL; launcherFile = launcherFile->_next) {
-    //    errorLog << launcherFile->_filename << endl;
+    //    errorLog << launcherFile->_filename << std::endl;
     if(strcmp(launcherFile->_filename, pFileBaseName) == 0)
       break;
   }
 
   if (launcherFile) {
     if (verifyFileMD5(launcherFile, true)) {
-      errorLog << launcherFile->_filename << " is valid" << endl;
+      errorLog << launcherFile->_filename << " is valid" << std::endl;
       return 1;
     }
   }
   else
-    errorLog << "'" << pFileBaseName << "' not found in launcherFileDb!!" << endl;
+    errorLog << "'" << pFileBaseName << "' not found in launcherFileDb!!" << std::endl;
 
   return 0;
 }
@@ -2210,7 +2210,7 @@ patchLauncherFiles() {
 
   fileDBEntry *launcherFile = NULL;
 
-  errorLog << "Patching launcher file..." << endl;
+  errorLog << "Patching launcher file..." << std::endl;
 
   // before patch, find the proper patch directory to download from
   cd_index = findPatchDirectory();
@@ -2223,7 +2223,7 @@ patchLauncherFiles() {
 
   if (cd_index < 0)  // checksum matched and proper launcherdb downloded
     return 0;        // no need to patch
-  
+
   // find the patchVersion
   int patch_num,
     file_Patched,
@@ -2237,43 +2237,43 @@ patchLauncherFiles() {
     char patchRelativeFilename[_MAX_PATH];
     char patchRemoteFilename[_MAX_PATH];
 
-    errorLog << endl << "patchLauncherFiles pass " << debugCounter << endl;
+    errorLog << std::endl << "patchLauncherFiles pass " << debugCounter << std::endl;
 
     // OK, we know which version we have, and we
     // know that there's a patch for that version.
-    
+
     // lets get a count of how many bytes we have to download
     // from the progress file. This is necessary only one time
     if (debugCounter == 0) {
       _PatchSize = GetPatchSize(patch_num+1);
-      errorLog << "size = " << _PatchSize << endl;
+      errorLog << "size = " << _PatchSize << std::endl;
     }
-    
+
     // form the patch filename
     sprintf(patchRelativeFilename, "%s.v%i.pch", launcherFile->_filename, patch_num+1);
-    
+
     // form the remote patch filename
     if (!cd_index) {
       sprintf(patchRemoteFilename, "%s%s", _pandaServerURL, patchRelativeFilename);
     } else {
       sprintf(patchRemoteFilename, "%sCD_%d/%s", _pandaServerURL, cd_index, patchRelativeFilename);
     }
-    
-    errorLog << "Downloading patch file " << patchRemoteFilename << endl;
-    
+
+    errorLog << "Downloading patch file " << patchRemoteFilename << std::endl;
+
     // download the patch file
     if(!downloadToFile(patchRemoteFilename, patchRelativeFilename)) {
-      errorLog << "Error downloading patch file " << patchRemoteFilename << endl;
+      errorLog << "Error downloading patch file " << patchRemoteFilename << std::endl;
       break;
     }
-    
+
     errorLog << "Applying patch file " << patchRelativeFilename << " to file "
-             << launcherFile->_filename << endl;
-    
+             << launcherFile->_filename << std::endl;
+
     // apply the patch file
     if(applyPatch(patchRelativeFilename, launcherFile->_filename)) {
       errorLog << "Error applying patch file " << patchRelativeFilename
-               << " to file " << launcherFile->_filename << endl;
+               << " to file " << launcherFile->_filename << std::endl;
       break;
     }
     file_Patched = 1;
@@ -2290,21 +2290,21 @@ patchLauncherFiles() {
     numStraightDownloads++;
     if (numStraightDownloads > 1) {
       errorLog << "Downloaded file " << remoteFilename
-               << " but it still doesn't match file database" << endl;
+               << " but it still doesn't match file database" << std::endl;
       _PatchSize = 0;
       return 1;
     }
 
     // form the remote filename
     sprintf(remoteFilename, "%s%s", _pandaServerURL, launcherFile->_filename);
-    
-    errorLog << "Downloading file " << remoteFilename << endl;
-    
+
+    errorLog << "Downloading file " << remoteFilename << std::endl;
+
     // download the file
     _PatchSize = GetPatchSize(0);
-    errorLog << "size = " << _PatchSize << endl;
+    errorLog << "size = " << _PatchSize << std::endl;
     if(!downloadToFile(remoteFilename, launcherFile->_filename)) {
-      errorLog << "Error downloading file " << remoteFilename << endl;
+      errorLog << "Error downloading file " << remoteFilename << std::endl;
       _PatchSize = 0;
       return 1;
     }
@@ -2317,7 +2317,7 @@ patchLauncherFiles() {
   }
   _PatchSize = 0;
   _PatchSizeSoFar = 0;
-  errorLog << "Launcher is valid" << endl;
+  errorLog << "Launcher is valid" << std::endl;
   return 0;
 }
 //
@@ -2338,7 +2338,7 @@ findPatchVersion(fileDB &db, fileDBEntry **dbEntry, int *file_Exists, int *file_
       launcherFile = launcherFile->_next;
       continue;
     }
-    
+
     // make sure to return the fileDBEntry pointer
     if (dbEntry)
       *dbEntry = launcherFile;
@@ -2349,10 +2349,10 @@ findPatchVersion(fileDB &db, fileDBEntry **dbEntry, int *file_Exists, int *file_
     char fullName[_MAX_PATH];
     if (!launcherFile->fullPathname(fullName, _MAX_PATH)) {
       errorLog << "Error patching launcher: could not create full name for file "
-               << launcherFile->_filename << endl;
+               << launcherFile->_filename << std::endl;
       return 1;
     }
-    errorLog << "checking patch for: " << fullName << endl;
+    errorLog << "checking patch for: " << fullName << std::endl;
 
     *file_Exists = fileExists(fullName);
     *file_OutOfDate = 0;
@@ -2369,11 +2369,11 @@ findPatchVersion(fileDB &db, fileDBEntry **dbEntry, int *file_Exists, int *file_
       // if different, fail
       if (memcmp(&checksum, &cur_MD5->_hashVal, sizeof(MD5HashVal))) {
         *file_OutOfDate = 1;
-        errorLog << "Checksum failed on file " << fullName << endl;
+        errorLog << "Checksum failed on file " << fullName << std::endl;
         errorLog << "database checksum:   " << cur_MD5->_hashVal[0] << " " << cur_MD5->_hashVal[1] << " "
-                 << cur_MD5->_hashVal[2] << " " << cur_MD5->_hashVal[3] << endl;
+                 << cur_MD5->_hashVal[2] << " " << cur_MD5->_hashVal[3] << std::endl;
         errorLog << "calculated checksum: " << checksum[0] << " " << checksum[1] << " "
-                 << checksum[2] << " " << checksum[3] << endl;
+                 << checksum[2] << " " << checksum[3] << std::endl;
 
         // search through list of checksums
         // if found, DL the appropriate patch
@@ -2418,25 +2418,25 @@ findPatchDirectory() {
   while(1) {
     // first look in CD_n directory launcherFileDb
     sprintf(temp, "%sCD_%d/%s", _pandaServerURL, cd_index, _launcherDDBFile_IFilename.getBaseName());
-    errorLog << "rollup: trying to download " << temp << endl;
-    
+    errorLog << "rollup: trying to download " << temp << std::endl;
+
     url = temp;
 
     if (!downloadToMem(url.c_str(), lDBString)) {
-      errorLog << "findPatch error: " << GetLastError() << endl;
+      errorLog << "findPatch error: " << GetLastError() << std::endl;
       return 0;
     }
     cdFileDB.freeDatabase();
     result = cdFileDB.readFromString(lDBString);
     if (result) {
       errorLog << "Error reading creating launcher file database from "
-               << url.c_str() << endl;
+               << url.c_str() << std::endl;
       return 0;
     }
     patch_ver = findPatchVersion(cdFileDB, NULL, NULL, NULL);
     if (patch_ver) {
       // we have found the proper cd and its patch to download
-      errorLog << "rollup: found patch in directory CD_" << cd_index << endl;
+      errorLog << "rollup: found patch in directory CD_" << cd_index << std::endl;
       // if found a match in cd directory, mark which cd
       if (patch_ver < 0)
         patch_ver = -cd_index;
@@ -2444,7 +2444,7 @@ findPatchDirectory() {
     }
     ++cd_index;
   }
-  
+
   // lets delete the current fileDB and load the fileDB from this CD_n directory
   cdFileDB.freeDatabase();
   _launcherDDBFile.freeDatabase();
@@ -2454,17 +2454,17 @@ findPatchDirectory() {
   result = _launcherDDBFile.readFromString(lDBString);
   if (result) {
     errorLog << "Error reading creating launcher file database from "
-             << url.c_str() << endl;
+             << url.c_str() << std::endl;
     return 0;
   }
 
   // download the progress file as well and rescale the progress meter
   sprintf(temp, "%sCD_%d/content/%s", _pandaServerURL, cd_index, _launcherProgress_IFilename.getBaseName());
   url = temp;
-  errorLog << "local progress " << _launcherProgress_IFilename.getFullLocalName() << endl;
+  errorLog << "local progress " << _launcherProgress_IFilename.getFullLocalName() << std::endl;
   if(!downloadToFile(url.c_str(),
                      _launcherProgress_IFilename.getFullLocalName())) {
-    errorLog << "Error downloading " << url << endl;
+    errorLog << "Error downloading " << url << std::endl;
     return 0;
   }
 
@@ -2481,12 +2481,12 @@ getInstallerVersionValid() {
 
   if(!_InstallerActiveXVersionURL.empty()) {
     const char *url = _launcherFileDB_IFilename.getFullRemoteName();
-    // errorLog << "Downloading " << url << endl; // security issue??
+    // errorLog << "Downloading " << url << std::endl; // security issue??
     string lDBString;
 
     // BUGBUG: want to use downloadToMem_New here
     if(!downloadToMem(url,lDBString)) {
-      errorLog << "Error downloading " << url << endl;
+      errorLog << "Error downloading " << url << std::endl;
     }
 
   }
@@ -2504,7 +2504,7 @@ setKeyValue(const char *key, const char *value) {
     _InstallerActiveXVersionURL = value;
   } else {
     errorLog << "Unknown installer key in installerBase::setKeyValue(): "
-             << key << "=" << value << endl;
+             << key << "=" << value << std::endl;
     return 1;
   }
 
@@ -2517,7 +2517,7 @@ getKeyValue(const char *keyName, string &keyValue) {
   if (keyMatch(keyName, "CheckInstallerVersionValid")) {
     keyValue = getInstallerVersionValid();
   } else {
-    errorLog << "Unknown installer key in installerBase::getKeyValue(): " << keyName << endl;
+    errorLog << "Unknown installer key in installerBase::getKeyValue(): " << keyName << std::endl;
     return false;
   }
 
@@ -2552,7 +2552,7 @@ checkForTroublesomeInstalledSoftware(stringvec &ProgNames) {
     registryKey subKey;
     HKEY hSubKey = subKey.openRO(hKey, SubKeyName);
     if(hSubKey == NULL) {
-      errorLog << "failed to open proglist subkey: " << SubKeyName << endl;
+      errorLog << "failed to open proglist subkey: " << SubKeyName << std::endl;
       continue;
     }
 
@@ -2591,7 +2591,7 @@ checkForTroublesomeInstalledSoftware(stringvec &ProgNames) {
   }
 
   for(unsigned i=0; i < ProgNames.size(); i++) {
-    errorLog << "found potentially conflicting installed program: " << ProgNames[i] << endl;
+    errorLog << "found potentially conflicting installed program: " << ProgNames[i] << std::endl;
   }
 
   reg.closeKey();
@@ -2607,7 +2607,7 @@ checkForTroublesomeRunningSoftware(stringvec &ProgNames) {
   for(int p=0;p<NUM_TROUBLESOME_RUNNING_PROGSTRS;p++) {
     if(DoesProcessExist(TroublesomeRunningProgramStrs[p].pExeName)) {
       ProgNames.push_back(string(TroublesomeRunningProgramStrs[p].pFriendlyName));
-      errorLog << "found potentially conflicting running program: " << TroublesomeRunningProgramStrs[p].pFriendlyName << endl;
+      errorLog << "found potentially conflicting running program: " << TroublesomeRunningProgramStrs[p].pFriendlyName << std::endl;
     }
   }
 
@@ -2658,7 +2658,7 @@ getAllFilesWithPathPattern(const char *pathsearchpattern, StrVec &strVec)
       sort(strVec.begin(), strVec.end());
       // TODO: remove this line upon detection of errorlog bug
       for (unsigned int i = 0; i < strVec.size(); ++i)
-        errorLog << strVec[i] << endl;
+        errorLog << strVec[i] << std::endl;
     }
   }
 }
@@ -2821,19 +2821,19 @@ int GetSizeFromProgress(ifstream &progressFile, char *patchFilename)
     loc = buff.find(patchFilename);
     if (loc != string::npos) {
       // found it, then look for the number
-      //      errorLog << "found " << tmpBuff << " at " << loc << endl;
+      //      errorLog << "found " << tmpBuff << " at " << loc << std::endl;
       loc = buff.find_first_of(" ", loc);
-      //      errorLog << "found last character of " << tmpBuff << " at " << loc << endl;
+      //      errorLog << "found last character of " << tmpBuff << " at " << loc << std::endl;
       si = loc+1;
       ei = buff.find_first_of("L", loc);
       buff.copy(numString, ei-si, si);
       numString[ei-si] = 0;
       //      errorLog << "string is " << numString << " ";
       size = atoi(numString);
-      //      errorLog << patchFilename << " size = " << size << endl;
+      //      errorLog << patchFilename << " size = " << size << std::endl;
       break;
     } else if (progressFile.eof()) {
-      errorLog << patchFilename << " not found in progress" << endl;
+      errorLog << patchFilename << " not found in progress" << std::endl;
       break;
     }
   }
@@ -2860,12 +2860,12 @@ int GetPatchSize(int highVer) {
     ShowErrorBox("Couldn't read file: progress");
     return 0;
   }
-  if (!highVer) { 
+  if (!highVer) {
     // special case, want the size of launcher
     size = GetSizeFromProgress(progressFile, "InstallLauncher.exe");
   }
   else {
-    
+
     int i=2;
     while (i<=highVer) {
       sprintf(patchFilename, "InstallLauncher.exe.v%i.pch", i);

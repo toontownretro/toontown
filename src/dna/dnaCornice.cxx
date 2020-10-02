@@ -41,7 +41,7 @@ DNACornice::DNACornice(const DNACornice &cornice) :
 //       Access: Public
 //  Description:
 ////////////////////////////////////////////////////////////////////
-void DNACornice::set_color(const Colorf &color) {
+void DNACornice::set_color(const LColorf &color) {
   _color = color;
 }
 
@@ -51,7 +51,7 @@ void DNACornice::set_color(const Colorf &color) {
 //       Access: Public
 //  Description:
 ////////////////////////////////////////////////////////////////////
-Colorf DNACornice::get_color() const {
+LColorf DNACornice::get_color() const {
   return _color;
 }
 

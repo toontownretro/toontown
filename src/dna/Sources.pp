@@ -11,8 +11,6 @@
     interrogatedb:c dconfig:c dtoolconfig:m \
     dtoolutil:c dtoolbase:c dtool:m \
     prc:c
-  
-  #define COMBINED_SOURCES $[TARGET]_composite1.cxx  $[TARGET]_composite2.cxx
 
   #define SOURCES \
      config_dna.h dnaBuildings.h dnaConstants.h dnaCornice.h dnaData.I  \
@@ -27,8 +25,8 @@
      dnaStorage.h dnaStorage.I \
      dnaStreet.h dnaWindow.h lexerDefs.h load_dna_file.h  \
      loaderFileTypeDNA.h parserDefs.h parser.yxx lexer.lxx  \
-    
-  #define INCLUDED_SOURCES \
+
+  #define COMPOSITE_SOURCES \
      config_dna.cxx dnaBuildings.cxx dnaCornice.cxx dnaData.cxx   \
      dnaDoor.cxx dnaGroup.cxx dnaVisGroup.cxx dnaSign.cxx   \
      dnaSignBaseline.cxx dnaSignGraphic.cxx dnaSignText.cxx   \
@@ -78,4 +76,3 @@
     validateSuitPath.cxx
 
 #end test_bin_target
-

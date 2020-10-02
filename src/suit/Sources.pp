@@ -7,16 +7,13 @@
     dtoolutil:c dtoolbase:c dtool:m \
     prc:c
 
-  #define COMBINED_SOURCES $[TARGET]_composite1.cxx
-  
   #define SOURCES \
     suitLeg.I suitLeg.h \
     suitLegList.I suitLegList.h
-    
-  #define INCLUDED_SOURCES  \
+
+  #define COMPOSITE_SOURCES  \
     suitLeg.cxx suitLegList.cxx
 
   #define IGATESCAN all
 
 #end lib_target
-

@@ -44,14 +44,14 @@ PUBLISHED:
 
   // For now we no longer support color on streets to allow vertex color
 
-  INLINE void set_street_color(const Colorf &color);
-  INLINE Colorf get_street_color() const;
+  INLINE void set_street_color(const LColorf &color);
+  INLINE LColorf get_street_color() const;
 
-  INLINE void set_sidewalk_color(const Colorf &color);
-  INLINE Colorf get_sidewalk_color() const;
+  INLINE void set_sidewalk_color(const LColorf &color);
+  INLINE LColorf get_sidewalk_color() const;
 
-  INLINE void set_curb_color(const Colorf &color);
-  INLINE Colorf get_curb_color() const;
+  INLINE void set_curb_color(const LColorf &color);
+  INLINE LColorf get_curb_color() const;
 
 private:
   virtual DNAGroup* make_copy();
@@ -61,9 +61,9 @@ private:
   string _street_texture;
   string _sidewalk_texture;
   string _curb_texture;
-  Colorf _street_color;
-  Colorf _sidewalk_color;
-  Colorf _curb_color;
+  LColorf _street_color;
+  LColorf _sidewalk_color;
+  LColorf _curb_color;
 
 public:
   static TypeHandle get_class_type() {

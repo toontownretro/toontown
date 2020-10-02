@@ -78,7 +78,7 @@ NodePath DNASignText::traverse(NodePath &parent, DNAStorage *store, int editing)
     PT(PandaNode) font_node = (store->find_node(_code)).node();
     if (!font_node) {
       dna_cat.error()
-        << "unable to find SignText font " << _code << endl;
+        << "unable to find SignText font " << _code << std::endl;
     } else {
       font = new StaticTextFont(font_node);
     }
@@ -87,7 +87,7 @@ NodePath DNASignText::traverse(NodePath &parent, DNAStorage *store, int editing)
     font = TextNode::get_default_font();
     if (font == (TextFont *)NULL) {
       dna_cat.error()
-        << "no font specified for '" << _letters 
+        << "no font specified for '" << _letters
         << "', and no default font available.\n";
     } else {
       dna_cat.warning()
@@ -96,7 +96,7 @@ NodePath DNASignText::traverse(NodePath &parent, DNAStorage *store, int editing)
   }
 
   // Use the baseline color, if available:
-  Colorf color = _color;
+  LColorf color = _color;
   if (_use_baseline_color) {
     color = baseline->get_color();
   }

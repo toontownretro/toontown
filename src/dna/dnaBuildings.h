@@ -42,8 +42,8 @@ PUBLISHED:
   INLINE void set_height(float height);
   INLINE float get_height() const ;
 
-  INLINE void set_color(const Colorf &color);
-  INLINE Colorf get_color() const;
+  INLINE void set_color(const LColorf &color);
+  INLINE LColorf get_color() const;
 
 private:
   virtual DNAGroup* make_copy();
@@ -52,7 +52,7 @@ private:
 private:
   string _code;
   float _height;
-  Colorf _color;
+  LColorf _color;
 
 public:
   static TypeHandle get_class_type() {
@@ -144,8 +144,8 @@ PUBLISHED:
   INLINE void set_code(string code);
   INLINE string get_code() const;
 
-  INLINE void set_wall_color(const Colorf &color);
-  INLINE Colorf get_wall_color() const;
+  INLINE void set_wall_color(const LColorf &color);
+  INLINE LColorf get_wall_color() const;
 
   INLINE void set_building_type(const string& type);
   INLINE string get_building_type() const;
@@ -159,7 +159,7 @@ private:
 
 protected:
   string _code;
-  Colorf _wall_color;
+  LColorf _wall_color;
   string _title;
   string _article;
   string _building_type;
