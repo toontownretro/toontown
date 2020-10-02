@@ -6,7 +6,7 @@
 #          top of them.
 #-------------------------------------------------------------------------------
 
-from pandac.PandaModules import Vec3,Vec4,Point3,TextNode,VBase4
+from toontown.toonbase.ToontownModules import Vec3,Vec4,Point3,TextNode,VBase4
 
 from direct.gui.DirectGui import DirectFrame,DirectButton,DirectLabel,DirectScrolledList,DirectCheckButton
 from direct.gui import DirectGuiGlobals
@@ -24,7 +24,7 @@ class PartyEditorGridSquare(DirectObject):
     PartyEditorGridSquares can have PartyEditorGridElements dragged onto them
     """
     notify = directNotify.newCategory("PartyEditorGridSquare")
-    
+
     def __init__(self, partyEditor, x, y):
         self.partyEditor = partyEditor
         self.x = x

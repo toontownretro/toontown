@@ -6,8 +6,8 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from direct.fsm import ClassicFSM, State
 
-from pandac.PandaModules import *
-from pandac.PandaModules import NodePath
+from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import NodePath
 
 from toontown.toonbase.ToontownGlobals import *
 from toontown.safezone import SafeZoneLoader
@@ -17,8 +17,8 @@ from toontown.parties.PartyGlobals import FireworksStartedEvent, FireworksFinish
 
 class PartyLoader(SafeZoneLoader.SafeZoneLoader):
     notify = DirectNotifyGlobal.directNotify.newCategory("PartyLoader")
-    
-    
+
+
     def __init__(self, hood, parentFSM, doneEvent):
         """
         PartyLoader constructor: create a play game ClassicFSM
@@ -55,52 +55,52 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         self.dnaFile = "phase_13/dna/party_sz.dna"
         # There is no safe zone specific DNA Storage for the party
         self.safeZoneStorageDNAFile = None
-        
+
         self.cloudSwitch = 0
-        
+
         self.id = PartyHood
         self.partyOwnerId = None
-        self.branchZone = None        
+        self.branchZone = None
         self.partyDoneEvent = "partyDone"
         self.barrel = None
         self.clouds = []
         self.cloudTrack = None
         self.sunMoonNode = None
         self.fsm.enterInitialState()
-        
+
     def load(self):
         # set the clear color to green to make it appear more grassy
         self.oldClear = base.win.getClearColor()
         base.win.setClearColor(Vec4(0.47, 0.69, 0.3, 1.0))
-        
+
         assert(self.notify.debug("load()"))
         SafeZoneLoader.SafeZoneLoader.load(self)
         # create music and sound effects
         self.underwaterSound = base.loadSfx('phase_4/audio/sfx/AV_ambient_water.mp3')
         self.swimSound = base.loadSfx('phase_4/audio/sfx/AV_swim_single_stroke.mp3')
         self.submergeSound = base.loadSfx('phase_5.5/audio/sfx/AV_jump_in_water.mp3')
-        self.birdSound=map(base.loadSfx, [
+        self.birdSound=list(map(base.loadSfx, [
                 'phase_4/audio/sfx/SZ_TC_bird1.mp3',
                 'phase_4/audio/sfx/SZ_TC_bird2.mp3',
-                'phase_4/audio/sfx/SZ_TC_bird3.mp3'])
+                'phase_4/audio/sfx/SZ_TC_bird3.mp3']))
         # SDN: use birds as a place holder for crickets for now
-        self.cricketSound=map(base.loadSfx, [
+        self.cricketSound=list(map(base.loadSfx, [
                 'phase_4/audio/sfx/SZ_TC_bird1.mp3',
                 'phase_4/audio/sfx/SZ_TC_bird2.mp3',
-                'phase_4/audio/sfx/SZ_TC_bird3.mp3'])
-        
+                'phase_4/audio/sfx/SZ_TC_bird3.mp3']))
+
     def unload(self):
         assert(self.notify.debug("unload()"))
         self.ignoreAll()
-        
+
         # restore the clear color
         base.win.setClearColor(self.oldClear)
-        
+
         # remove ourselves from the current party
         if base.cr.partyManager:
             # partyManager can become None in case on an AI reset
             base.cr.partyManager.leaveParty()
-        
+
         self.partyOwnerId = None
         self.partyZoneId = None
         if self.place:
@@ -112,7 +112,7 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         del self.submergeSound
         del self.birdSound
         del self.cricketSound
-        
+
         self.__cleanupCloudFadeInterval()
 
         if self.sunMoonNode:
@@ -128,7 +128,7 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         if self.barrel:
             self.barrel.removeNode()
         SafeZoneLoader.SafeZoneLoader.unload(self)
-        
+
     def loadClouds(self):
         # load up the cloud platforms
         self.loadCloudPlatforms()
@@ -137,16 +137,16 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
             pass
         if self.cloudSwitch:
             self.setCloudSwitch(self.cloudSwitch)
-        
+
 
     def enter(self, requestStatus):
         assert(self.notify.debug("enter(requestStatus="+str(requestStatus)+")"))
-        self.partyOwnerId = requestStatus.get("ownerId", base.localAvatar.doId) 
+        self.partyOwnerId = requestStatus.get("ownerId", base.localAvatar.doId)
         base.localAvatar.inParty = 1
-        
+
         self.accept(FireworksStartedEvent, self.__handleFireworksStarted)
         self.accept(FireworksFinishedEvent, self.__handleFireworksFinished)
-        
+
         SafeZoneLoader.SafeZoneLoader.enter(self, requestStatus)
 
     def exit(self):
@@ -155,10 +155,10 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         base.cr.cache.flush()
         base.localAvatar.stopChat()
         base.localAvatar.inParty = 0
-        
+
         self.ignore(FireworksStartedEvent)
         self.ignore(FireworksFinishedEvent)
-        
+
         SafeZoneLoader.SafeZoneLoader.exit(self)
 
     def createSafeZone(self, dnaFile):
@@ -198,14 +198,14 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
 
     # start state
     # Defined in SafeZoneLoader.py
-    
-    # party state 
-    
+
+    # party state
+
     def enterParty(self, requestStatus):
         self.notify.debug("enterParty: requestStatus = %s" % requestStatus)
         ownerId = requestStatus.get("ownerId")
         if ownerId:
-            self.partyOwnerId = ownerId 
+            self.partyOwnerId = ownerId
         zoneId = requestStatus["zoneId"]
         self.notify.debug("enterParty, ownerId = %s, zoneId = %s" % (self.partyOwnerId, zoneId))
         self.accept(self.partyDoneEvent, self.handlePartyDone)
@@ -222,9 +222,9 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         self.place.exit()
         self.place.unload()
         self.place = None
-        base.cr.playGame.setPlace(self.place) 
+        base.cr.playGame.setPlace(self.place)
         base.cr.cache.flush()
-        
+
     def handlePartyDone(self, doneStatus=None):
         PartyLoader.notify.debug("handlePartyDone doneStatus = %s" % doneStatus)
         if not doneStatus:
@@ -238,7 +238,7 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         ownerId = doneStatus.get("ownerId", -1)
         # If we're switching shards, or exiting the party,
         # we need to back out one more level.
-        
+
         self.notify.debug("hoodId = %s, avId = %s" % (hoodId,avId))
         self.doneStatus = doneStatus
         messenger.send(self.doneEvent)
@@ -257,7 +257,7 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
 
     # final state
     # Defined in SafeZoneLoader.py
-    
+
     # utility functions
     def atMyParty(self):
         # True if localToon is the owner of this party
@@ -269,14 +269,14 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         else:
             self.notify.warning("We aren't in an party")
 
-            
+
     def startCloudPlatforms(self):
         assert(self.notify.debug("startClouds"))
         return
         if len(self.clouds):
             self.cloudTrack = self.__cloudTrack()
             self.cloudTrack.loop()
-        
+
     def stopCloudPlatforms(self):
         assert(self.notify.debug("stopClouds"))
         if self.cloudTrack:
@@ -300,19 +300,19 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         return track
 
     def debugGeom(self, decomposed):
-        print 'numPrimitives = %d' % decomposed.getNumPrimitives()
-        
+        print('numPrimitives = %d' % decomposed.getNumPrimitives())
+
         for primIndex in range(decomposed.getNumPrimitives()):
             prim = decomposed.getPrimitive(primIndex)
-            print 'prim = %s' % prim
-            print 'isIndexed = %d' % prim.isIndexed()            
-            print 'prim.getNumPrimitives = %d' % prim.getNumPrimitives()
+            print('prim = %s' % prim)
+            print('isIndexed = %d' % prim.isIndexed())
+            print('prim.getNumPrimitives = %d' % prim.getNumPrimitives())
 
-            #import pdb; pdb.set_trace()            
+            #import pdb; pdb.set_trace()
             for basicPrim in range(prim.getNumPrimitives()):
                 pass
-                print '%d start=%d' % (basicPrim, prim.getPrimitiveStart(basicPrim))
-                print '%d end=%d' % (basicPrim, prim.getPrimitiveEnd(basicPrim))
+                print('%d start=%d' % (basicPrim, prim.getPrimitiveStart(basicPrim)))
+                print('%d end=%d' % (basicPrim, prim.getPrimitiveEnd(basicPrim)))
 
 
 
@@ -321,7 +321,7 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
 
         # load the model
         cloud  = NodePath("cloud-%d%d" % (radius, version))
-        cloudModel = loader.loadModel("phase_5.5/models/estate/bumper_cloud")        
+        cloudModel = loader.loadModel("phase_5.5/models/estate/bumper_cloud")
         cc = cloudModel.copyTo(cloud)
 
         # rename the collision polys
@@ -331,14 +331,14 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         # position and scale this cloud
         dTheta = 2.0 * math.pi / self.numClouds
         cloud.reparentTo(self.cloudOrigin)
-        axes = [Vec3(1, 0, 0), Vec3(0, 1, 0), Vec3(0, 0, 1)]        
+        axes = [Vec3(1, 0, 0), Vec3(0, 1, 0), Vec3(0, 0, 1)]
         cloud.setPos(radius * math.cos(version * dTheta),
                      radius * math.sin(version * dTheta),
                      4 * random.random() + zOffset)
         cloud.setScale(4.0)
         cloud.setTag("number", "%d%d" % (radius, version))
 
-        self.clouds.append([cloud, random.choice(axes)])    
+        self.clouds.append([cloud, random.choice(axes)])
 
 
     def loadSkyCollision(self):
@@ -351,13 +351,13 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         planeNode.addSolid(plane)
         self.cloudOrigin.attachNewNode(planeNode)
 
-        
-    def loadCloudPlatforms(self):      
+
+    def loadCloudPlatforms(self):
         self.cloudOrigin = self.geom.attachNewNode("cloudOrigin")
         self.cloudOrigin.setZ(30)
 
         self.loadSkyCollision()
-        
+
         self.numClouds = 12
 
         # bottom clouds
@@ -371,23 +371,23 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         # top clouds
         for i in range(self.numClouds):
             self.loadCloud(i, 30, 60)
-            
+
         self.cloudOrigin.stash()
-        
+
     def __cleanupCloudFadeInterval(self):
         if hasattr(self, "cloudFadeInterval"):
             self.cloudFadeInterval.pause()
             self.cloudFadeInterval = None
-            
+
     def fadeClouds(self):
         self.__cleanupCloudFadeInterval()
-            
+
         self.cloudOrigin.setTransparency(1)
         self.cloudFadeInterval = self.cloudOrigin.colorInterval(
             0.5,
             Vec4(1, 1, 1, int(self.cloudOrigin.isStashed())),
             blendType="easeIn")
-        
+
         if self.cloudOrigin.isStashed():
             self.cloudOrigin.setColor(Vec4(1, 1, 1, 0))
             self.setCloudSwitch(1)
@@ -395,9 +395,9 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
             self.cloudFadeInterval = Sequence(self.cloudFadeInterval,
                                               Func(self.setCloudSwitch, 0),
                                               Func(self.cloudOrigin.setTransparency, 0))
-            
+
         self.cloudFadeInterval.start()
-            
+
     def setCloudSwitch(self, on):
         self.cloudSwitch = on
         if hasattr(self, "cloudOrigin"):
@@ -405,12 +405,12 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
                 self.cloudOrigin.unstash()
             else:
                 self.cloudOrigin.stash()
-                
+
     def _clearDayChangeInterval(self):
         if hasattr(self, "dayChangeInterval"):
             self.dayChangeInterval.pause()
             self.dayChangeInterval = None
-            
+
     def switchToNight(self):
         self._clearDayChangeInterval()
         self.dayChangeInterval = Sequence(
@@ -422,7 +422,7 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
             Func(base.win.setClearColor, Vec4(0.15, 0.22, 0.14, 1.0))
             )
         self.dayChangeInterval.start()
-        
+
     def switchToDay(self):
         self.dayChangeInterval = Sequence(
             Func(base.win.setClearColor, Vec4(0.47, 0.69, 0.3, 1.0)),
@@ -433,7 +433,7 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
                 ),
             )
         self.dayChangeInterval.start()
-                
+
     def __handleFireworksStarted(self):
         """
         Hide the clouds during the fireworks show
@@ -442,7 +442,7 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         self.sunMoonNode.hide()
         #self.switchToNight()
         #self.music.stop()
-    
+
     def __handleFireworksFinished(self):
         """
         Show the clouds after the fireworks show is over

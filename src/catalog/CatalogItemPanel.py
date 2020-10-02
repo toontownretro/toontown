@@ -1,15 +1,15 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
-import CatalogItemTypes
-import CatalogItem
-from CatalogWallpaperItem import getAllWallpapers
-from CatalogFlooringItem import getAllFloorings
-from CatalogMouldingItem import getAllMouldings
-from CatalogWainscotingItem import getAllWainscotings
-from CatalogFurnitureItem import getAllFurnitures
+from . import CatalogItemTypes
+from . import CatalogItem
+from .CatalogWallpaperItem import getAllWallpapers
+from .CatalogFlooringItem import getAllFloorings
+from .CatalogMouldingItem import getAllMouldings
+from .CatalogWainscotingItem import getAllWainscotings
+from .CatalogFurnitureItem import getAllFurnitures
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 from otp.otpbase import OTPGlobals
 
@@ -36,7 +36,7 @@ class CatalogItemPanel(DirectFrame):
         # Initialize superclasses
         DirectFrame.__init__(self, parent)
         self.loaded = 0
-        
+
         # Loading is done lazily as we display each item.
         # This reduces the initial load time when first opening the catalog
         # and nicely spreads it out
@@ -44,7 +44,7 @@ class CatalogItemPanel(DirectFrame):
         # Call initialization methods
         self.initialiseoptions(CatalogItemPanel)
         assert parentCatalogScreen != None, "parentCatalogScreen: is none"
-        
+
     def load(self):
         # Loading is guarded so things only get loaded once
         if self.loaded:
@@ -68,7 +68,7 @@ class CatalogItemPanel(DirectFrame):
              (typeCode == CatalogItemTypes.FLOORING_ITEM) or
              (typeCode == CatalogItemTypes.MOULDING_ITEM) or
              (typeCode == CatalogItemTypes.FURNITURE_ITEM) or
-             (typeCode == CatalogItemTypes.WAINSCOTING_ITEM) or 
+             (typeCode == CatalogItemTypes.WAINSCOTING_ITEM) or
              (typeCode == CatalogItemTypes.TOON_STATUE_ITEM))):
             if typeCode == CatalogItemTypes.WALLPAPER_ITEM:
                 self.items = getAllWallpapers(self['item'].patternIndex)
@@ -120,7 +120,7 @@ class CatalogItemPanel(DirectFrame):
             if picture:
                 picture.reparentTo(self)
                 picture.setScale(0.15)
-                
+
             self.items = [self['item']]
             self.variantPictures = [(picture, self.ival)]
         # type label
@@ -199,11 +199,11 @@ class CatalogItemPanel(DirectFrame):
         upButton = buttonModels.find("**/InventoryButtonUp")
         downButton = buttonModels.find("**/InventoryButtonDown")
         rolloverButton = buttonModels.find("**/InventoryButtonRollover")
-        
+
         buyText = TTLocalizer.CatalogBuyText
-        
+
         if self['item'].isRental():
-           buyText = TTLocalizer.CatalogRentText 
+           buyText = TTLocalizer.CatalogRentText
 
         self.buyButton = DirectButton(
             parent = self,
@@ -216,7 +216,7 @@ class CatalogItemPanel(DirectFrame):
             image = (upButton,
                      downButton,
                      rolloverButton,
-                     upButton,                     
+                     upButton,
                      ),
             image_color = (1.0, 0.2, 0.2, 1),
             # Make the rollover button pop out
@@ -229,7 +229,7 @@ class CatalogItemPanel(DirectFrame):
 
         soundIcons = loader.loadModel('phase_5.5/models/gui/catalogSoundIcons')
         soundOn = soundIcons.find('**/sound07')
-        
+
         soundOff = soundIcons.find('**/sound08')
 
         self.soundOnButton = DirectButton(
@@ -244,7 +244,7 @@ class CatalogItemPanel(DirectFrame):
             image = (upButton,
                      downButton,
                      rolloverButton,
-                     upButton,                     
+                     upButton,
                      ),
             image_color = (0.2, 0.5, 0.2, 1),
             # Make the rollover button pop out
@@ -268,7 +268,7 @@ class CatalogItemPanel(DirectFrame):
             image = (upButton,
                      downButton,
                      rolloverButton,
-                     upButton,                     
+                     upButton,
                      ),
             image_color = (0.2, 1.0, 0.2, 1),
             # Make the rollover button pop out
@@ -281,12 +281,12 @@ class CatalogItemPanel(DirectFrame):
         soundOff = self.soundOffButton.attachNewNode('soundOff')
         soundOn.copyTo(soundOff)
         #soundOff.setScale(0.1)
-        soundOff.reparentTo(self.soundOffButton)        
-        
+        soundOff.reparentTo(self.soundOffButton)
+
         upGButton = buttonModels.find("**/InventoryButtonUp")
         downGButton = buttonModels.find("**/InventoryButtonDown")
         rolloverGButton = buttonModels.find("**/InventoryButtonRollover")
-        
+
         ##if len(base.localAvatar.friendsList) > 0:
         self.giftButton = DirectButton(
             parent = self,
@@ -299,7 +299,7 @@ class CatalogItemPanel(DirectFrame):
             image = (upButton,
                      downButton,
                      rolloverButton,
-                     upButton,                     
+                     upButton,
                      ),
             image_color = (1.0, 0.2, 0.2, 1),
             # Make the rollover button pop out
@@ -309,7 +309,7 @@ class CatalogItemPanel(DirectFrame):
             command = self.__handleGiftRequest,
             )
         self.updateButtons()
-        
+
     def showNextVariant(self):
         messenger.send('wakeup')
         self.hideCurrentVariant()
@@ -321,7 +321,7 @@ class CatalogItemPanel(DirectFrame):
             self.nextVariant['state'] = DGG.NORMAL
         self.prevVariant['state'] = DGG.NORMAL
         self.showCurrentVariant()
-        
+
     def showPrevVariant(self):
         messenger.send('wakeup')
         self.hideCurrentVariant()
@@ -333,7 +333,7 @@ class CatalogItemPanel(DirectFrame):
             self.prevVariant['state'] = DGG.NORMAL
         self.nextVariant['state'] = DGG.NORMAL
         self.showCurrentVariant()
-        
+
     def showCurrentVariant(self):
         newPic, self.ival = self.variantPictures[self.itemIndex]
         if self.ival:
@@ -345,28 +345,28 @@ class CatalogItemPanel(DirectFrame):
         newPic.reparentTo(self.pictureFrame)
         if self.ival:
             self.ival.loop()
-        if (self['item'].getTypeCode() == CatalogItemTypes.TOON_STATUE_ITEM):        
+        if (self['item'].getTypeCode() == CatalogItemTypes.TOON_STATUE_ITEM):
             if hasattr(self, 'nameLabel'):
                 self.nameLabel['text'] = self.items[self.itemIndex].getDisplayName()
                 self['item'].gardenIndex = self.items[self.itemIndex].gardenIndex
-            
+
     def hideCurrentVariant(self):
         currentPic = self.variantPictures[self.itemIndex][0]
         if currentPic:
             currentPic.detachNode()
-            
+
     def unload(self):
         if not self.loaded:
             DirectFrame.destroy(self)
             return
         self.loaded = 0
-        
+
         # Getting Toon Statue to the first pose before exiting.
         if (self['item'].getTypeCode() == CatalogItemTypes.TOON_STATUE_ITEM):
             self['item'].deleteAllToonStatues()
             self['item'].gardenIndex = self['item'].startPoseIndex
             self.nameLabel['text'] = self['item'].getDisplayName()
-                
+
         # Cleanup any items created during requestPurchase
         self['item'].requestPurchaseCleanup()
         # Clear out instance variables
@@ -388,7 +388,7 @@ class CatalogItemPanel(DirectFrame):
         if self.verify:
             self.verify.cleanup()
         DirectFrame.destroy(self)
-        
+
     def destroy(self):
         # this is only so the DirectGui code cleans us up properly
         self.parentCatalogScreen=None
@@ -417,19 +417,19 @@ class CatalogItemPanel(DirectFrame):
         # Only paid members can purchase
         if not base.cr.isPaid():
             self.buyButton['command'] = self.getTeaserPanel()
-            
+
         #print (self['item'].getName())
         # Show if on order
         self.buyButton.show()
-        
+
         typeCode = self['item'].getTypeCode()
-        orderCount = base.localAvatar.onOrder.count(self['item'])        
+        orderCount = base.localAvatar.onOrder.count(self['item'])
         if (orderCount > 0):
             if orderCount > 1:
                 auxText = "%d %s" % (orderCount, TTLocalizer.CatalogOnOrderText)
             else:
                 auxText = TTLocalizer.CatalogOnOrderText
-                #self.buyButton.hide() 
+                #self.buyButton.hide()
         else:
             auxText = ""
         # else if you have the current nametag
@@ -458,7 +458,7 @@ class CatalogItemPanel(DirectFrame):
         elif ( hasattr(self['item'], 'noGarden') and
                self['item'].noGarden(base.localAvatar)):
             auxText = TTLocalizer.NoGarden
-            self.buyButton['state'] = DGG.DISABLED        
+            self.buyButton['state'] = DGG.DISABLED
         elif ( hasattr(self['item'], 'isSkillTooLow') and
                self['item'].isSkillTooLow(base.localAvatar)):
             auxText = TTLocalizer.SkillTooLow
@@ -466,18 +466,18 @@ class CatalogItemPanel(DirectFrame):
         elif ( hasattr(self['item'], 'getDaysToGo') and
                self['item'].getDaysToGo(base.localAvatar)):
             auxText = TTLocalizer.DaysToGo % self['item'].getDaysToGo(base.localAvatar)
-            self.buyButton['state'] = DGG.DISABLED            
+            self.buyButton['state'] = DGG.DISABLED
         elif ( self['item'].getPrice(self['type']) <=
               (base.localAvatar.getMoney() +
                base.localAvatar.getBankMoney()) ):
-            self.buyButton['state'] = DGG.NORMAL          
-            self.buyButton.show()            
+            self.buyButton['state'] = DGG.NORMAL
+            self.buyButton.show()
         # else ghosted buy button
         else:
-            self.buyButton['state'] = DGG.DISABLED          
+            self.buyButton['state'] = DGG.DISABLED
             self.buyButton.show()
         self.auxText['text'] = auxText
-        
+
     def __handlePurchaseRequest(self):
         # prompt the user to verify purchase
         if self['item'].replacesExisting() and self['item'].hasExisting():
@@ -497,14 +497,14 @@ class CatalogItemPanel(DirectFrame):
                     'item' : self['item'].getName(),
                     'price' : self['item'].getPrice(self['type']),
                     }
-            
+
         self.verify = TTDialog.TTGlobalDialog(
             doneEvent = "verifyDone",
             message = message,
             style = TTDialog.TwoChoice)
         self.verify.show()
         self.accept("verifyDone", self.__handleVerifyPurchase)
-        
+
     def __handleVerifyPurchase(self):
         # prompt the user to verify purchase
         status = self.verify.doneStatus
@@ -516,8 +516,8 @@ class CatalogItemPanel(DirectFrame):
             # ask the AI to clear this purchase
             item = self.items[self.itemIndex]
             messenger.send("CatalogItemPurchaseRequest", [item])
-            self.buyButton['state'] = DGG.DISABLED 
-            
+            self.buyButton['state'] = DGG.DISABLED
+
     def __handleGiftRequest(self):
         # prompt the user to verify purchase
         if self['item'].replacesExisting() and self['item'].hasExisting():
@@ -532,7 +532,7 @@ class CatalogItemPanel(DirectFrame):
             numFriends = len(base.localAvatar.friendsList) + len(base.cr.avList) - 1
             if numFriends > 0:
                     #friendPair = base.localAvatar.friendsList[self.parentCatalogScreen.friendGiftIndex]
-                    #handle = base.cr.identifyFriend(friendPair[0]) 
+                    #handle = base.cr.identifyFriend(friendPair[0])
                     #friendText = self.parentCatalogScreen.friendGiftHandle.getName()
                     friendText = self.parentCatalogScreen.receiverName
             message = TTLocalizer.CatalogVerifyGift % {
@@ -540,14 +540,14 @@ class CatalogItemPanel(DirectFrame):
                 'price' : self['item'].getPrice(self['type']),
                 'friend' : friendText,
                 }
-            
+
         self.verify = TTDialog.TTGlobalDialog(
             doneEvent = "verifyGiftDone",
             message = message,
             style = TTDialog.TwoChoice)
         self.verify.show()
         self.accept("verifyGiftDone", self.__handleVerifyGift)
-               
+
     def __handleVerifyGift(self):
         # prompt the user to verify purchase
         status = self.verify.doneStatus
@@ -560,7 +560,7 @@ class CatalogItemPanel(DirectFrame):
             self.giftButton['state'] =  DGG.DISABLED
             item = self.items[self.itemIndex]
             messenger.send("CatalogItemGiftPurchaseRequest", [item])
-            
+
     def updateButtons(self, giftActivate = 0):
         if self.parentCatalogScreen.gifting == -1:
             self.updateBuyButton()
@@ -571,7 +571,7 @@ class CatalogItemPanel(DirectFrame):
             self.updateGiftButton(giftActivate)
             if self.loaded:
                 self.buyButton.hide()
-                        
+
     def updateGiftButton(self, giftUpdate = 0):
         # display the correct button based on item status
         # if reached purchase limit
@@ -584,13 +584,13 @@ class CatalogItemPanel(DirectFrame):
         # Only paid members can purchase gifts
         if not base.cr.isPaid():
             self.giftButton['command'] = self.getTeaserPanel()
-         
+
         self.auxText['text'] = " "
         numFriends = len(base.localAvatar.friendsList) + len(base.cr.avList) - 1
         if numFriends > 0:
             # Start as ghosted and disabled
-            self.giftButton['state'] = DGG.DISABLED 
-            #self.giftButton['state'] = DGG.NORMAL  #REMOVE ME          
+            self.giftButton['state'] = DGG.DISABLED
+            #self.giftButton['state'] = DGG.NORMAL  #REMOVE ME
             self.giftButton.show()
             #return # REMOVE ME
             #friendPair = base.localAvatar.friendsList[self.parentCatalogScreen.friendGiftIndex]
@@ -618,7 +618,7 @@ class CatalogItemPanel(DirectFrame):
                 #if it's purchase limit is reached fail
                 elif(self['item'].reachedPurchaseLimit(avatar)):
                     self.giftButton.show()
-                    self.giftButton['state'] = DGG.DISABLED 
+                    self.giftButton['state'] = DGG.DISABLED
                     auxText = TTLocalizer.CatalogPurchasedGiftText
                     self.auxText['text'] = auxText
                     #print "limit"
@@ -635,13 +635,13 @@ class CatalogItemPanel(DirectFrame):
                 elif ( self['item'].getPrice(self['type']) <=
                       (base.localAvatar.getMoney() +
                        base.localAvatar.getBankMoney()) ):
-                    self.giftButton['state'] = DGG.NORMAL          
-                    self.giftButton.show()  
+                    self.giftButton['state'] = DGG.NORMAL
+                    self.giftButton.show()
 
     def handleSoundOnButton(self):
         """Handle the user clicking on the sound."""
         #import pdb; pdb.set_trace()
-        item = self.items[self.itemIndex]        
+        item = self.items[self.itemIndex]
         self.soundOnButton.hide()
         self.soundOffButton.show()
         if hasattr(item, 'changeIval'):
@@ -649,12 +649,12 @@ class CatalogItemPanel(DirectFrame):
                 self.ival.finish()
                 self.ival = None
             self.ival = item.changeIval(volume = 1)
-            self.ival.loop()        
+            self.ival.loop()
 
     def handleSoundOffButton(self):
         """Handle the user clicking off the sound."""
         #import pdb; pdb.set_trace()
-        item = self.items[self.itemIndex]        
+        item = self.items[self.itemIndex]
         self.soundOffButton.hide()
         self.soundOnButton.show()
         if hasattr(item, 'changeIval'):
@@ -662,4 +662,4 @@ class CatalogItemPanel(DirectFrame):
                 self.ival.finish()
                 self.ival = None
             self.ival = item.changeIval(volume = 0)
-            self.ival.loop()           
+            self.ival.loop()

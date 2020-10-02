@@ -1,8 +1,8 @@
 from direct.showbase.PythonUtil import Functor
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.makeatoon import ClothesGUI
-import ClosetGlobals
+from . import ClosetGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
@@ -81,7 +81,7 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
                 text_shadow = (0,0,0,1),
                 textMayChange = 0,
                 )
-            
+
             self.bottomTrashButton = DirectButton(
                 parent = self.trashPanel,
                 image = trashImage,
@@ -99,7 +99,7 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
                 text_fg = (.8,.2,.2,1),
                 text_shadow = (0,0,0,1),
                 )
-            
+
             self.button = DirectButton(
                 relief = None,
                 image = (self.gui.find("**/CrtAtoon_Btn1_UP"),
@@ -116,7 +116,7 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
                 text_fg = (1,1,1,1),
                 text_shadow = (0,0,0,1),
                 )
-            trashcanGui.removeNode()            
+            trashcanGui.removeNode()
 
     def unload(self):
         self.ignore("verifyDone")
@@ -145,7 +145,7 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
             self.topTrashButton.show()
             self.bottomTrashButton.show()
             self.button.show()
-            
+
     def hideButtons(self):
         ClothesGUI.ClothesGUI.hideButtons(self)
         self.cancelButton.hide()
@@ -153,10 +153,10 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
             self.topTrashButton.hide()
             self.bottomTrashButton.hide()
             self.button.hide()
-    
+
     def setupScrollInterface(self):
         self.notify.debug("setupScrollInterface")
-    
+
         self.dna = self.toon.getStyle()
         self.gender = self.dna.getGender()
         self.swappedTorso = 0
@@ -166,10 +166,10 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
         if self.topsList == None:
             self.topsList = self.toon.getClothesTopsList()
         if self.bottomsList == None:
-            self.bottomsList = self.toon.getClothesBottomsList() 
+            self.bottomsList = self.toon.getClothesBottomsList()
 
         # set up the clothes lists for the scrollInterface
-        self.tops = []  
+        self.tops = []
         self.bottoms = []
         # stick our current clothes in the list
         self.tops.append((self.dna.topTex, self.dna.topTexColor, self.dna.sleeveTex, self.dna.sleeveTexColor))
@@ -184,7 +184,7 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
         while i < len(self.bottomsList):
             self.bottoms.append((self.bottomsList[i], self.bottomsList[i+1]))
             i = i+2
-            
+
         # our current clothes are index=0 in the tops and bottoms lists
         self.topChoice = 0
         self.bottomChoice = 0
@@ -193,7 +193,7 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
         self.swapBottom(0)
         if self.isOwner:
             self.updateTrashButtons()
-            
+
         self.setupButtons()
 
     def updateTrashButtons(self):
@@ -212,24 +212,24 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
                 self.bottomTrashButton['text'] = TTLocalizer.ClosetDeleteSkirt
             else:
                 self.bottomTrashButton['text'] = TTLocalizer.ClosetDeleteShorts
-            
-        
+
+
     def setGender(self, gender):
         # this is only called when the user's gender is not the
         # same as the closet owner's gender
         self.ownerGender = gender
         self.genderChange = 1
-    
+
     def swapBottom(self, offset):
         # override swap bottom to allow cross dressing
-        
+
         length = len(self.bottoms)
         self.bottomChoice += offset
         if (self.bottomChoice <= 0):
             self.bottomChoice = 0
         # ghost the pickers if at the end of the 'wheel'
         assert(self.notify.debug("bottoms: choice = %s, length = %s" % (self.bottomChoice, length)))
-        
+
         self.updateScrollButtons(self.bottomChoice, length, 0,
                                  self.bottomLButton, self.bottomRButton)
         if ((self.bottomChoice < 0) or (self.bottomChoice >= len(self.bottoms))
@@ -266,7 +266,7 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
             # because we have tricked our dna into thinking we
             # are a boy, and generateToonClothes() does not bother
             # swapping the torsos for a boy (since he only has shorts and no skirts)
-            
+
             if ((self.toon.style.gender != self.ownerGender) and
                 self.toon.style.gender == 'f'):
                 self.toon.swapToonTorso(self.toon.style.torso[0] + 's',
@@ -279,7 +279,7 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
         else:
             # assume our original gender
             self.toon.style.gender = self.gender
-            
+
             # handle the case that a boy is trying on a girls skirt
             # and then scolls back to his shorts.  we need to manually swap
             # the torso back in this case, because generateToonClothes wont
@@ -291,21 +291,21 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
                 self.toon.loop("neutral", 0)
                 self.swappedTorso = 1
 
-            
+
     def removeTop(self, index):
-        listLen = len(self.tops) 
+        listLen = len(self.tops)
         if index < listLen:
             del self.tops[index]
             # adjust the index into the list
             if self.topChoice > index:
-                self.topChoice -= 1            
+                self.topChoice -= 1
             elif self.topChoice == index:
                 self.topChoice = 0
             return 1
         return 0
-                
+
     def removeBottom(self, index):
-        listLen = len(self.bottoms) 
+        listLen = len(self.bottoms)
         if index < listLen:
             del self.bottoms[index]
             # adjust the index into the list
@@ -315,16 +315,16 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
                 self.bottomChoice = 0
             return 1
         return 0
-                
+
     def __handleButton(self):
         self.doneStatus = 'next'
         messenger.send(self.doneEvent)
         messenger.send('wakeup')
-        
+
     def __handleCancel(self):
         messenger.send(self.cancelEvent)
         messenger.send('wakeup')
-        
+
     def __handleDelete(self, t_or_b):
         # prompt the user to verify purchase
         if t_or_b == ClosetGlobals.SHIRT:
@@ -334,7 +334,7 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
                 item = TTLocalizer.ClosetSkirt
             else:
                 item = TTLocalizer.ClosetShorts
-                
+
         self.verify = TTDialog.TTGlobalDialog(
             doneEvent = "verifyDone",
             message = TTLocalizer.ClosetVerifyDelete % item,
@@ -342,7 +342,7 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
         self.verify.show()
         self.accept("verifyDone", Functor(self.__handleVerifyDelete, t_or_b))
         messenger.send('wakeup')
-        
+
     def __handleVerifyDelete(self, t_or_b):
         status = self.verify.doneStatus
         self.ignore("verifyDone")
@@ -351,4 +351,4 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
         self.verify = None
         if (status == "ok"):
             messenger.send(self.deleteEvent, [t_or_b])
-        messenger.send('wakeup')    
+        messenger.send('wakeup')

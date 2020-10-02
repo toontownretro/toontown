@@ -1,11 +1,11 @@
 """DistributedMinnie module: contains the DistributedMinnie class"""
 
-from pandac.PandaModules import *
-import DistributedCCharBase
+from toontown.toonbase.ToontownModules import *
+from . import DistributedCCharBase
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-import CharStateDatas
+from . import CharStateDatas
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.hood import BRHood
@@ -129,7 +129,7 @@ class DistributedMinnie(DistributedCCharBase.DistributedCCharBase):
 
     def walkSpeed(self):
         return ToontownGlobals.MinnieSpeed
-        
+
     def handleHolidays(self):
         """
         Handle Holiday specific behaviour

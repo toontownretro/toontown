@@ -1,24 +1,24 @@
-import DistributedLawnDecor
+from . import DistributedLawnDecor
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.ShowBase import *
-import GardenGlobals
+from . import GardenGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
-from pandac.PandaModules import NodePath
-from pandac.PandaModules import Point3
+from toontown.toonbase.ToontownModules import NodePath
+from toontown.toonbase.ToontownModules import Point3
 
 class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedStatuary')
-    
-    
+
+
     def __init__(self, cr):
         self.notify.debug("constructing DistributedStatuary")
         DistributedLawnDecor.DistributedLawnDecor.__init__(self, cr)
         self.confirmDialog = None
         self.resultDialog = None
-        
+
     def loadModel(self):
         self.rotateNode = self.plantPath.attachNewNode('rotate')
         self.model = loader.loadModel(self.modelPath)
@@ -37,40 +37,40 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
         self.model.reparentTo(self.rotateNode)
 
         attrib = GardenGlobals.PlantAttributes[self.typeIndex]
-        
+
         self.stick2Ground()
 
     def setTypeIndex(self, typeIndex):
 
         #import pdb; pdb.set_trace()
-        
+
         self.typeIndex = typeIndex
         self.name = GardenGlobals.PlantAttributes[typeIndex]['name']
         self.plantType = GardenGlobals.PlantAttributes[typeIndex]['plantType']
         self.modelPath = GardenGlobals.PlantAttributes[typeIndex]['model']
         self.pinballScore = None
-        if GardenGlobals.PlantAttributes[typeIndex].has_key('pinballScore'):
+        if 'pinballScore' in GardenGlobals.PlantAttributes[typeIndex]:
             self.pinballScore = GardenGlobals.PlantAttributes[typeIndex]\
                                 ['pinballScore']
         self.worldScale = 1.0
-        if GardenGlobals.PlantAttributes[typeIndex].has_key('worldScale'):
+        if 'worldScale' in GardenGlobals.PlantAttributes[typeIndex]:
             self.worldScale = GardenGlobals.PlantAttributes[typeIndex]['worldScale']
-        
+
     def getTypeIndex(self):
         return self.typeIndex
-        
+
     def setWaterLevel(self, waterLevel):
         self.waterLevel = waterLevel
-        
+
     def getWaterLevel(self):
         return self.waterLevel
-        
+
     def setGrowthLevel(self, growthLevel):
         self.growthLevel = growthLevel
-        
+
     def getGrowthLevel(self):
         return self.growthLevel
-        
+
 
 
     def setupCollision(self):
@@ -87,7 +87,7 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
         radius /= 3
         self.notify.debug( 'xDiff=%s yDiff=%s radius = %s' % (xDiff, yDiff, radius))
         self.colSphereNode.setScale(radius)
-        
+
     def getShovelCommand(self):
         return self.handlePicking
 
@@ -106,7 +106,7 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
             pass
         #base.localAvatar.hideWateringCanButton()
         #self.handlePicking()
-        
+
     def handlePicking(self):
         """
         Confirm if the player really wants to remove or pick the plower.
@@ -114,7 +114,7 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
         fullName = self.name
 
         #if we're clicking on buttons, we're not asleep
-        messenger.send('wakeup')        
+        messenger.send('wakeup')
 
         self.confirmDialog = TTDialog.TTDialog(
             style = TTDialog.YesNo,
@@ -123,7 +123,7 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
             )
         self.confirmDialog.show()
         base.cr.playGame.getPlace().detectedGardenPlotUse()
-        
+
     def confirmCallback(self, value):
         self.notify.debug('value=%d' % value)
         if self.confirmDialog:
@@ -132,8 +132,8 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
         if value > 0:
             self.doPicking()
         else:
-            base.cr.playGame.getPlace().detectedGardenPlotDone()			 
- 
+            base.cr.playGame.getPlace().detectedGardenPlotDone()
+
     def doPicking(self):
         """
         At this point assume we've already asked the player if he really wants
@@ -157,12 +157,12 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
         self.startInteraction()
         itemName = GardenGlobals.PlantAttributes[self.typeIndex]['name']
         stringToShow = TTLocalizer.getResultPlantedSomethingSentence(itemName)
-                           
+
         self.resultDialog = TTDialog.TTDialog(
             style = TTDialog.Acknowledge,
             text = stringToShow,
             command = self.resultsCallback
-            )         
+            )
 
     def resultsCallback(self, value):
         self.notify.debug('value=%d' % value)
@@ -170,4 +170,3 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
             self.resultDialog.destroy()
             self.resultDialog = None
         self.finishInteraction()
-

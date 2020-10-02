@@ -2,10 +2,10 @@
 #from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 #from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.fishing import FishGlobals
-import GardenGlobals
+from . import GardenGlobals
 from direct.actor import Actor
 
 class DirectRegion(NodePath):
@@ -15,7 +15,7 @@ class DirectRegion(NodePath):
         assert self.notify.debugStateCall(self)
         NodePath.__init__(self)
         self.assign(parent.attachNewNode("DirectRegion"))
-    
+
     def destroy(self):
         assert self.notify.debugStateCall(self)
         self.unload()
@@ -28,7 +28,7 @@ class DirectRegion(NodePath):
         assert self.notify.debugStateCall(self)
         assert len(bounds) == 4
         self.bounds=bounds
-        
+
     def setColor(self, *colors):
         """
         colors are floats: red, green, blue, alpha
@@ -39,7 +39,7 @@ class DirectRegion(NodePath):
 
     def show(self):
         assert self.notify.debugStateCall(self)
-    
+
     def hide(self):
         assert self.notify.debugStateCall(self)
 
@@ -60,20 +60,20 @@ class DirectRegion(NodePath):
             self.fishSwimCam = self.fishSwimCamera.attachNewNode(self.cCamNode)
 
             cm = CardMaker('displayRegionCard')
-            
+
             assert hasattr(self, "bounds")
-            apply(cm.setFrame, self.bounds)
-            
+            cm.setFrame(*self.bounds)
+
             self.card = card = self.attachNewNode(cm.generate())
             assert hasattr(self, "color")
-            apply(card.setColor, self.color)
-            
+            card.setColor(*self.color)
+
             newBounds=card.getTightBounds()
             ll=render2d.getRelativePoint(card, newBounds[0])
             ur=render2d.getRelativePoint(card, newBounds[1])
             newBounds=[ll.getX(), ur.getX(), ll.getZ(), ur.getZ()]
             # scale the -1.0..2.0 range to 0.0..1.0:
-            newBounds=map(lambda x: max(0.0, min(1.0, (x+1.0)/2.0)), newBounds)
+            newBounds=[max(0.0, min(1.0, (x+1.0)/2.0)) for x in newBounds]
 
             self.cDr = base.win.makeDisplayRegion(*newBounds)
             self.cDr.setSort(10)
@@ -109,7 +109,7 @@ class FlowerPhoto(NodePath):
         self.soundTrack = None
         self.track = None
         self.flowerFrame = None
-        
+
     def destroy(self):
         assert self.notify.debugStateCall(self)
         self.hide()
@@ -119,7 +119,7 @@ class FlowerPhoto(NodePath):
         del self.soundTrack
         del self.track
         self.parent = None
-        
+
     def update(self, species, variety):
         assert self.notify.debugStateCall(self)
         self.species = species
@@ -131,7 +131,7 @@ class FlowerPhoto(NodePath):
         """
         assert len(bounds) == 4
         self.swimBounds=bounds
-        
+
     def setSwimColor(self, *colors):
         """
         colors are floats: red, green, blue, alpha
@@ -141,7 +141,7 @@ class FlowerPhoto(NodePath):
 
     def load(self):
         assert self.notify.debugStateCall(self)
-    
+
     def makeFlowerFrame(self, actor):
         assert self.notify.debugStateCall(self)
         # NOTE: this may need to go in FishBase eventually
@@ -151,8 +151,8 @@ class FlowerPhoto(NodePath):
         # scale the actor to the frame
         if not hasattr(self, "flowerDisplayRegion"):
             self.flowerDisplayRegion = DirectRegion(parent=self)
-            apply(self.flowerDisplayRegion.setBounds, self.swimBounds)
-            apply(self.flowerDisplayRegion.setColor, self.swimColor)
+            self.flowerDisplayRegion.setBounds(*self.swimBounds)
+            self.flowerDisplayRegion.setColor(*self.swimColor)
         frame = self.flowerDisplayRegion.load()
         pitch = frame.attachNewNode('pitch')
         rotate = pitch.attachNewNode('rotate')
@@ -164,12 +164,12 @@ class FlowerPhoto(NodePath):
         actor.setPos(-center[0], -center[1], -center[2])
 
         attrib = GardenGlobals.PlantAttributes[self.species]
-        if attrib.has_key('photoPos'):
+        if 'photoPos' in attrib:
             self.notify.debug('oldPos = %s' % actor.getPos())
             photoPos = attrib['photoPos']
             self.notify.debug('newPos = %s' % str(photoPos))
             actor.setPos(photoPos[0],photoPos[1],photoPos[2])
-        
+
         scale.setScale(attrib['photoScale'])
         rotate.setH(attrib['photoHeading'])
         pitch.setP(attrib['photoPitch'])
@@ -177,7 +177,7 @@ class FlowerPhoto(NodePath):
 
         return frame
 
-    def loadModel(self, species, variety):        
+    def loadModel(self, species, variety):
         modelName = GardenGlobals.PlantAttributes[species]['fullGrownModel']
         nodePath = loader.loadModel(modelName)
         desat = None
@@ -196,24 +196,24 @@ class FlowerPhoto(NodePath):
             bloom.show()
             desat = bloom.find('**/*desat*')
             wilt.hide()
-            
-        if desat and not desat.isEmpty():            
+
+        if desat and not desat.isEmpty():
             desat.setColorScale( colorTuple[0],
                                     colorTuple[1],
                                     colorTuple[2],
-                                    1.0)            
+                                    1.0)
         else:
             nodePath.setColorScale( colorTuple[0],
                                     colorTuple[1],
                                     colorTuple[2],
-                                    1.0)            
+                                    1.0)
         return nodePath
 
     def show(self, showBackground=0):
         self.notify.debug('show')
         assert self.notify.debugStateCall(self)
         #import pdb; pdb.set_trace()
-        # if we are browsing fish we must be awake        
+        # if we are browsing fish we must be awake
         messenger.send('wakeup')
         if self.flowerFrame:
             if hasattr(self.actor,'cleanup'):
@@ -222,7 +222,7 @@ class FlowerPhoto(NodePath):
                 self.flowerDisplayRegion.unload()
             self.hide()
         #modelName = GardenGlobals.PlantAttributes[self.species]['fullGrownModel']
-        ##self.actor = self.fish.getActor() 
+        ##self.actor = self.fish.getActor()
         #self.actor = Actor.Actor(modelName)
         self.actor = self.loadModel(self.species,self.variety) #loader.loadModel(modelName)
         #self.actor.setTwoSided(1)
@@ -237,7 +237,7 @@ class FlowerPhoto(NodePath):
             self.background.setScale(11)
             self.background.reparentTo(self.flowerFrame)
         """
-        self.sound, loop, delay, playRate = self.fish.getSound()       
+        self.sound, loop, delay, playRate = self.fish.getSound()
         if playRate is not None:
             # make a track to play the anim and sound
             self.actor.setPlayRate(playRate, "intro")
@@ -287,5 +287,3 @@ class FlowerPhoto(NodePath):
 
     def changeVariety(self, variety):
         self.variety = variety
-
-        

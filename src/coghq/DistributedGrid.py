@@ -1,8 +1,8 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
-from CrateGlobals import *
+from .CrateGlobals import *
 
 from otp.level import BasicEntities
 from direct.directnotify import DirectNotifyGlobal
@@ -13,7 +13,7 @@ class DistributedGrid(BasicEntities.DistributedNodePathEntity):
     def __init__(self, cr):
         BasicEntities.DistributedNodePathEntity.__init__(self, cr)
         self.model = None
-        
+
     def generateInit(self):
         self.notify.debug('generateInit')
         BasicEntities.DistributedNodePathEntity.generateInit(self)
@@ -38,7 +38,7 @@ class DistributedGrid(BasicEntities.DistributedNodePathEntity):
 
     def delete(self):
         BasicEntities.DistributedNodePathEntity.delete(self)
-        
+
     def loadModel(self):
         self.notify.debug("loadModel")
 
@@ -55,7 +55,7 @@ class DistributedGrid(BasicEntities.DistributedNodePathEntity):
             long = self.numRow
             short = self.numCol
             h = 90
-        self.model.setScale(scale*long, scale*short, 1)
+        self.model.setScale(scale*int, scale*short, 1)
         self.model.setHpr(h,180,0)
         self.model.setPos(self.cellSize*self.numCol/2.0, self.cellSize*self.numRow/2.0, .025)
         self.model.setColor(0.588, 0.588, 0.459, 0.400)
@@ -64,7 +64,7 @@ class DistributedGrid(BasicEntities.DistributedNodePathEntity):
         if self.model:
             self.model.removeNode()
             del self.model
-        
+
     def setNumRow(self, rows):
         self.numRow = rows
         self.unloadModel()
@@ -74,5 +74,3 @@ class DistributedGrid(BasicEntities.DistributedNodePathEntity):
         self.numCol = cols
         self.unloadModel()
         self.loadModel()
-        
-        

@@ -1,9 +1,9 @@
 """EmotePage module: contains the EmotePage class"""
 
 from toontown.toonbase import ToontownGlobals
-import ShtikerPage
+from . import ShtikerPage
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.toon import Toon
 
@@ -52,11 +52,11 @@ class EmoteFrame(DirectFrame):
         self.frame.setText()
         self.makeToon()
         self.question.hide()
-        
+
     def makeToon(self):
         if self.toon != None:
             del self.toon
-            
+
         self.toon = Toon.Toon()
         self.toon.setDNA(base.localAvatar.getStyle())
         self.toon.getGeomNode().setDepthWrite(1)
@@ -70,12 +70,12 @@ class EmoteFrame(DirectFrame):
         try:
             anim = emoteAnimDict[self.name]
         except:
-            print "we didnt get the right animation"
+            print("we didnt get the right animation")
             anim = 'neutral'
-            
+
         #self.toon.pose(anim, self.toon.getNumFrames(anim)/2)
         self.toon.animFSM.request(anim)
-        
+
     def play(self, trackId):
         if ((not base.launcher) or
             (base.launcher and base.launcher.getPhaseComplete(5))):
@@ -107,7 +107,7 @@ class EmoteFrame(DirectFrame):
             self.toon.hide()
         self.question.show()
         self.frame['image_color'] = Vec4(0.8,0.8,0.8,0.5)
-        
+
 class EmotePage(ShtikerPage.ShtikerPage):
     """EmotePage class: keeps track of which emotes a toon can use"""
 
@@ -121,13 +121,13 @@ class EmotePage(ShtikerPage.ShtikerPage):
         self.emoteFrames = []
         self.avatar = None
         self.state = DGG.NORMAL
-        
+
     def setAvatar(self, av):
         self.avatar = av
 
     def getAvatar(self):
         return self.avatar
-    
+
     def placeFrames(self):
         rowPos = [0.26, -0.09, -0.44]
         colPos = [-0.70, -0.35, 0, 0.35, 0.70]
@@ -163,7 +163,7 @@ class EmotePage(ShtikerPage.ShtikerPage):
     def unload(self):
         del self.title
         del self.emoteFrames
-        
+
         ShtikerPage.ShtikerPage.unload(self)
 
     def updatePage(self):
@@ -178,7 +178,7 @@ class EmotePage(ShtikerPage.ShtikerPage):
 
     def makeEmoteButton(self, emote):
         return DirectButton(
-            parent = self, 
+            parent = self,
             relief = None,
             text = emote,
             text_scale = 0.08,
@@ -194,8 +194,7 @@ class EmotePage(ShtikerPage.ShtikerPage):
     def showEmotePanel(self):
         # pop up a little doober
         self.emotePanel.show()
-        
-    def hideEmotePanel(self):
-        # hide the little doober        
-        self.emotePanel.hide()
 
+    def hideEmotePanel(self):
+        # hide the little doober
+        self.emotePanel.hide()

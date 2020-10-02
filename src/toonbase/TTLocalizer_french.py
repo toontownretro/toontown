@@ -666,16 +666,16 @@ QuestsHQWhereFillin = ""
 QuestsHQBuildingNameFillin = lToonHQ
 QuestsHQLocationNameFillin = "dans n'importe quel quartier"
 
-QuestsTailorFillin = "Tailleur" 
-QuestsTailorWhereFillin = "" 
-QuestsTailorBuildingNameFillin = "Boutique de prêt-à-porter" 
-QuestsTailorLocationNameFillin = "dans n'importe quel quartier" 
+QuestsTailorFillin = "Tailleur"
+QuestsTailorWhereFillin = ""
+QuestsTailorBuildingNameFillin = "Boutique de prêt-à-porter"
+QuestsTailorLocationNameFillin = "dans n'importe quel quartier"
 QuestsTailorQuestSCString = "J'ai besoin de voir un tailleur."
 
-QuestMovieQuestChoiceCancel = "Reviens plus tard si tu as besoin d'un défitoon! Salut!" 
-QuestMovieTrackChoiceCancel  = "Reviens quand tu es prêt à te décider!! Salut!" 
-QuestMovieQuestChoice = "Choisis un défitoon." 
-QuestMovieTrackChoice = "Prêt à te décider ? Choisis une série, ou reviens plus tard." 
+QuestMovieQuestChoiceCancel = "Reviens plus tard si tu as besoin d'un défitoon! Salut!"
+QuestMovieTrackChoiceCancel  = "Reviens quand tu es prêt à te décider!! Salut!"
+QuestMovieQuestChoice = "Choisis un défitoon."
+QuestMovieTrackChoice = "Prêt à te décider ? Choisis une série, ou reviens plus tard."
 
 # Constants used in Quests.py, globally defined here
 GREETING = 0
@@ -1571,7 +1571,7 @@ QuestDialogDict = {
              QUEST : "Ce sont bien mes aiguilles.\aPendant que je tricote, va faire un peu de nettoyage de Cogs dans ces grands bâtiments.",
              COMPLETE : "Excellent travail!\aEt en parlant de bon travail...\aVoilà ton nouveau sac!" },
 
-    # March Harry can also give you max quest = 4. 
+    # March Harry can also give you max quest = 4.
     5308 : { GREETING : "",
              LEAVING : "",
              QUEST : "J'ai entendu dire que _toNpcName_ a des problèmes avec la justice.\aEst-ce que tu pourrais aller le voir et lui demander?_where_"  },
@@ -1673,7 +1673,7 @@ QuestDialogDict = {
              COMPLETE : "Tu as les plans?\aGénial! Voyons voir ce qu'ils disent.\aJe vois... Les Caissbots ont construit une Fabrique à Sous pour fabriquer des euros Cog.\aÇa doit être PLEIN de Caissbots. On devrait essayer d'en savoir plus.\aPeut-être que si tu avais un déguisement... Hmmm... attends! Je crois que j'ai une pièce de costume de Cog quelque part par là....\aLa voilà! Prends-la en récompense de tes efforts! Merci encore de ton aide!",
              },
 
-    # The Countess can't concentrate on counting her sheep with all 
+    # The Countess can't concentrate on counting her sheep with all
     # these Cogs around. Clean up a bit and she'll reward you handsomely.
     # Reward: MaxMoneyReward 705 - 150 jellybeans
     6241 : { QUEST : "La comtesse te cherchait partout! S'il te plaît, va lui rendre visite, comme ça elle arrêtera d'appeler._where_",
@@ -5111,8 +5111,8 @@ TutorialOK = lOK
 TutorialYes = lYes
 TutorialNo = lNo
 TutorialFriendsPrompt = "Veux-tu devenir ami(e) avec " + Flippy + "?"
-TutorialFriendsPanelMickeyChat = Flippy + " veut bien être ton ami. Clique sur \"OK\" pour terminer." 
-TutorialFriendsPanelYes = Flippy + " a dit oui!" 
+TutorialFriendsPanelMickeyChat = Flippy + " veut bien être ton ami. Clique sur \"OK\" pour terminer."
+TutorialFriendsPanelYes = Flippy + " a dit oui!"
 TutorialFriendsPanelNo = "Ça n'est pas très gentil!"
 TutorialFriendsPanelCongrats = "Bravo! Tu t'es fait ton premier ami."
 TutorialFlippyChat1 = "Reviens me voir quand tu seras prêt pour ton premier défitoon!"
@@ -5150,7 +5150,7 @@ PetTutorialPage1 = "Clique sur un Doudou pour afficher le panneau des Doudous. L
 PetTutorialPage2 = "Utilise la nouvelle zone 'Animaux familiers' dans le menu de Chat rapide pour que le Doudou fasse un tour. S'il le fait, récompense-le et il s'améliorera!"
 PetTutorialPage3 = "Achète de nouveaux tours pour les Doudous dans le catalogue de Clarabelle. De meilleures tours donnent de meilleures tooniques!"
 def getPetGuiAlign():
-	from pandac.PandaModules import TextNode
+	from toontown.toonbase.ToontownModules import TextNode
 	return TextNode.ACenter
 
 GardenTutorialTitle1 = "Jardinage"
@@ -5698,10 +5698,10 @@ CagedToonBattleThree = {
     10: "Joli saut, %(toon)s. Voilà quelques tartes!",
     11: "Salut, %(toon)s! Prenez des tartes!",
     12: "Hé là,%(toon)s! Vous avez des tartes maintenant!",
-    
+
     20: "Hé, %(toon)s! Sautez jusqu'à ma cage et prenez des tartes à lancer!",
     21: "Hé, %(toon)s! Utilisez la touche \"Ctrl\" pour sauter et toucher ma cage!",
-    
+
     100: "Appuyez sur la touche \"Inser\" pour lancer une tarte!",
     101: "Le compteur bleu montre à quelle hauteur ta tarte va monter.",
     102: "Essaie d'abord de lancer une tarte sous son châssis pour bousiller son mécanisme.",
@@ -7791,7 +7791,7 @@ TipDict = {
     "Si tu as une promotion, ton déguisement de Cog est mis à jour.",
     "Tu dois vaincre le contremaître de l'usine pour récupérer une pièce du déguisement de Cog.",
     "Récupère des Convocations du Jury en défiant des Loibots.",
-    "Tu reçois plus de Mérites, d'euros Cog ou de Convocations du Jury en combattant des Cogs de plus haut niveau.", 
+    "Tu reçois plus de Mérites, d'euros Cog ou de Convocations du Jury en combattant des Cogs de plus haut niveau.",
     "Quand tu as récupéré assez de Convocations du Jury pour gagner une promotion, va voir le Juge  !",
     "Tu dois faire entièrement ton déguisement Loibot avant d'aller voir le Juge.",
     "Jusqu'à huit Toons peuvent combattre ensemble le Juge Loibot.",
@@ -7848,17 +7848,17 @@ TipDict = {
     ),
    TIP_KARTING : (
     # Goofy Speedway zone specific
-        "Achète un Roadster, un Utilitoon ou une Berline au Centre Auto Dingo.", 
-        "Customise ton kart avec des autocollants, des baguettes et plein d'autres déco au Centre Auto Dingo.", 
+        "Achète un Roadster, un Utilitoon ou une Berline au Centre Auto Dingo.",
+        "Customise ton kart avec des autocollants, des baguettes et plein d'autres déco au Centre Auto Dingo.",
     "Gagne des tickets en faisant la course sur le Circuit Dingo.",
     "Les tickets sont la seule monnaie acceptée par le Centre Auto Dingo.",
         " Tu dois déposer des tickets pour pouvoir faire la course.",
-    "Une page spéciale de ton journal de bord te permet de customiser ton kart.", 
-    "Une page spéciale de ton journal de bord te permet de consulter tes scores sur chaque piste.", 
-    "Une page spéciale de ton journal de bord te permet d'afficher tes trophées.", 
-    "Le Colisée Tortillé est la piste la plus facile du Circuit Dingo.", 
-        " Les Landes Légères est la piste qui a le plus de collines et de bosses du Circuit Dingo.", 
-    "Le Boulevard du Blizzard est la piste la plus excitante du Circuit Dingo.", 
+    "Une page spéciale de ton journal de bord te permet de customiser ton kart.",
+    "Une page spéciale de ton journal de bord te permet de consulter tes scores sur chaque piste.",
+    "Une page spéciale de ton journal de bord te permet d'afficher tes trophées.",
+    "Le Colisée Tortillé est la piste la plus facile du Circuit Dingo.",
+        " Les Landes Légères est la piste qui a le plus de collines et de bosses du Circuit Dingo.",
+    "Le Boulevard du Blizzard est la piste la plus excitante du Circuit Dingo.",
     ),
     TIP_GOLF: (
     # Golfing specific
@@ -8480,13 +8480,13 @@ KartTrophyDescriptions = [
     # won race trophies
     RaceWon + " " +  str(RaceGlobals.WonRaces[0]) + " " + Race + " " + RaceHoodSpeedway,
     RaceWon + " " +  str(RaceGlobals.WonRaces[1]) + " " + Races + " " + RaceHoodSpeedway,
-    RaceWon + " " +  str(RaceGlobals.WonRaces[2]) + " " + Races + " " + RaceHoodSpeedway, 
+    RaceWon + " " +  str(RaceGlobals.WonRaces[2]) + " " + Races + " " + RaceHoodSpeedway,
     RaceWon + " " +  str(RaceGlobals.WonRaces[0]) + " " + Race + " " + RaceHoodRural,
     RaceWon + " " +  str(RaceGlobals.WonRaces[1]) + " " + Races + " " + RaceHoodRural,
-    RaceWon + " " +  str(RaceGlobals.WonRaces[2]) + " " + Races + " " + RaceHoodRural, 
+    RaceWon + " " +  str(RaceGlobals.WonRaces[2]) + " " + Races + " " + RaceHoodRural,
     RaceWon + " " +  str(RaceGlobals.WonRaces[0]) + " " + Race + " " + RaceHoodUrban,
     RaceWon + " " +  str(RaceGlobals.WonRaces[1]) + " " + Races + " " + RaceHoodUrban,
-    RaceWon + " " +  str(RaceGlobals.WonRaces[2]) + " " + Races + " " + RaceHoodUrban, 
+    RaceWon + " " +  str(RaceGlobals.WonRaces[2]) + " " + Races + " " + RaceHoodUrban,
     RaceWon + " " + str(RaceGlobals.TotalWonRaces) + " " + Races + " au " + Total,
     #qualified circuit races
     RaceQualified + " pour " + str(RaceGlobals.WonCircuitRaces[0]) + " " + Race + " " + RaceTypeCircuit,
@@ -9391,4 +9391,4 @@ HolidayNamesInCalendar = {
    24: ("Ides of March", "Beware the Ides of March! Stop the Backstabber Cogs from invading Toontown!"),
    26: ("Halloween Decor", "Celebrate Halloween as spooky trees and streetlights transform Toontown!"),
     }
-UnknownHoliday = "Unknown Holiday %d" 
+UnknownHoliday = "Unknown Holiday %d"

@@ -1,11 +1,11 @@
 """LaffMeter module: contains the class definition for handling the
 laff-o-meter"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from otp.avatar import DistributedAvatar
 from toontown.toonbase import ToontownGlobals
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 
 class LaffMeter(DirectFrame):
@@ -23,7 +23,7 @@ class LaffMeter(DirectFrame):
 
         # This is to contain the scale for the animated effect
         self.container = DirectFrame(parent = self, relief = None)
-        
+
         self.style = avdna
         self.av = None
         self.hp = hp
@@ -70,7 +70,7 @@ class LaffMeter(DirectFrame):
             elif (hType == "pig"):
                 headModel = gui.find("**/pighead")
             else:
-                raise StandardError("unknown toon species: ", hType)
+                raise Exception("unknown toon species: ", hType)
 
             self.color = self.style.getHeadColor()
 
@@ -99,7 +99,7 @@ class LaffMeter(DirectFrame):
             self.tooth6 = DirectFrame(parent = self.openSmile, relief = None,
                                  image = gui.find("**/tooth_6"))
 
-                        
+
             self.maxLabel = DirectLabel(parent = self.eyes,
                                    relief = None,
                                    pos = (0.442, 0, 0.051),
@@ -114,7 +114,7 @@ class LaffMeter(DirectFrame):
                                   text_scale = 0.4,
                                   text_font = ToontownGlobals.getInterfaceFont(),
                                   )
-            
+
             self.teeth = [self.tooth6, self.tooth5, self.tooth4,
                           self.tooth3, self.tooth2, self.tooth1]
             self.fractions = [0., 0.166666, 0.333333, 0.5, 0.666666, 0.833333]

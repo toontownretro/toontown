@@ -1,10 +1,10 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.task import Task
 
 from toontown.toonbase import TTLocalizer
 
-import PlayingCardGlobals
+from . import PlayingCardGlobals
 
 class PlayingCardBase:
     """
@@ -82,7 +82,7 @@ class PlayingCardNodePath(NodePath, PlayingCardBase):
         if self.image:
             self.image.removeNode()
         self.image = image.copyTo(self)
-        
+
 
 class PlayingCardButton(PlayingCardBase, DirectButton):
     """
@@ -90,7 +90,7 @@ class PlayingCardButton(PlayingCardBase, DirectButton):
     mouse events (like a button). Drag and drop is also supported.  If you
     want to show a playing card graphically but do not have the need for
     mouse input, use PlayingCardNodePath -- it is cheaper.
-    """    
+    """
     def __init__(self, style, value):
         PlayingCardBase.__init__(self, value)
         self.style = style
@@ -102,7 +102,7 @@ class PlayingCardButton(PlayingCardBase, DirectButton):
         # Drag and drop
         self.bind(DGG.B1PRESS, self.dragStart)
         self.bind(DGG.B1RELEASE, self.dragStop)
-        
+
     def setImage(self):
         if self.faceUp:
             image = PlayingCardGlobals.getImage(self.style, self.suit, self.rank)

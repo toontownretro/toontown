@@ -1,15 +1,15 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.particles import ParticleEffect, Particles, ForceGroup
-from EffectController import EffectController
-from PooledEffect import PooledEffect
+from .EffectController import EffectController
+from .PooledEffect import PooledEffect
 
 class StarBurst(PooledEffect, EffectController):
-    
+
     def __init__(self):
         PooledEffect.__init__(self)
         EffectController.__init__(self)
-        
+
         model = loader.loadModel("phase_4/models/props/tt_m_efx_ext_fireworkCards")
         self.card = model.find("**/tt_t_efx_ext_particleStars")
         self.cardScale = 64.0
@@ -20,10 +20,10 @@ class StarBurst(PooledEffect, EffectController):
 
         self.effectScale = 1.0
         self.effectColor = Vec4(1,1,1,1)
-        
+
         self.f = ParticleEffect.ParticleEffect("StarBurst")
         self.f.reparentTo(self)
-        
+
         self.p0 = Particles.Particles('particles-0')
         self.p0.setFactory("ZSpinParticleFactory")
         self.p0.setRenderer("SpriteParticleRenderer")

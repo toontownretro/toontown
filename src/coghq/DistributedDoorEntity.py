@@ -3,14 +3,14 @@ DistributedEntityDoor module: contains the DistributedCogHqDoor
 class, the client side representation of a DistributedCogHqDoorAI.
 """
 
-from pandac.PandaModules import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
-import DistributedDoorEntityBase
+from . import DistributedDoorEntityBase
 from direct.fsm import FourState
 from direct.fsm import ClassicFSM
 from otp.level import DistributedEntity
@@ -25,16 +25,16 @@ class DistributedDoorEntityLock(DistributedDoorEntityBase.LockBase, FourState.Fo
     """
     The Lock is not distributed itself, instead it relies on the door
     to get messages and state changes to and from the server.
-    
-    This was a nested class in DistributedDoorEntity, but the class 
+
+    This was a nested class in DistributedDoorEntity, but the class
     reloader that I'm using doesn't work with nested classes.  Until
     that gets changed I've moved this here.
-    
+
     See Also: class DistributedDoorEntity
     """
     slideLeft = Vec3(-7.5, 0.0, 0.0)
     slideRight = Vec3(7.5, 0.0, 0.0)
-    
+
     def __init__(self, door, lockIndex, lockedNodePath, leftNodePath, rightNodePath, stateIndex):
         assert door is not None
         assert 0 <= lockIndex <= 3
@@ -61,21 +61,21 @@ class DistributedDoorEntityLock(DistributedDoorEntityBase.LockBase, FourState.Fo
         del self.door
         #FourState.FourState.delete(self)
         #DistributedDoorEntityBase.LockBase.delete(self)
-            
+
     def setup(self):
         assert(self.debugPrint("setup()"))
         self.setLockState(self.initialStateIndex)
         del self.initialStateIndex
-            
+
     def takedown(self):
         assert(self.debugPrint("takedown()"))
         if self.track is not None:
             self.track.pause()
             self.track = None
-        for i in self.states.keys():
+        for i in list(self.states.keys()):
             del self.states[i]
         self.states = []
-        self.fsm = None           
+        self.fsm = None
 
     def setLockState(self, stateIndex):
         assert(self.debugPrint("setLockState(stateIndex=%s)"%(stateIndex,)))
@@ -139,7 +139,7 @@ class DistributedDoorEntityLock(DistributedDoorEntityBase.LockBase, FourState.Fo
         """
         The duration is ignored (it is there to match the interface of
         the other track states).
-        
+
         Setup the animation in the locked position.
         """
         assert self.debugPrint("locked()")
@@ -198,7 +198,7 @@ class DistributedDoorEntityLock(DistributedDoorEntityBase.LockBase, FourState.Fo
         """
         The duration is ignored (it is there to match the interface of
         the other track states).
-        
+
         Setup the animation in the unlocked position.
         """
         assert self.debugPrint("unlocked()")
@@ -214,7 +214,7 @@ class DistributedDoorEntityLock(DistributedDoorEntityBase.LockBase, FourState.Fo
         def debugPrint(self, message):
             """for debugging"""
             return self.door.notify.debug(
-                    "%s (%s) %s"%(self.door.__dict__.get('entId', '?'), 
+                    "%s (%s) %s"%(self.door.__dict__.get('entId', '?'),
                                   self.lockIndex,
                                   message))
 
@@ -227,9 +227,9 @@ class DistributedDoorEntity(
         FourState.FourState,
         VisibilityBlocker.VisibilityBlocker):
     """
-    DistributedDoorEntity class:  The client side 
+    DistributedDoorEntity class:  The client side
     representation of a Cog HQ door.
-    
+
     See Also: "FactoryEntityTypes.py", class DistributedDoorEntityLock
     """
     if __debug__:
@@ -257,14 +257,14 @@ class DistributedDoorEntity(
         """
         assert(self.debugPrint("generate()"))
         DistributedEntity.DistributedEntity.generate(self)
-    
+
     def announceGenerate(self):
         assert(self.debugPrint("announceGenerate()"))
         self.doorNode = hidden.attachNewNode('door-%s' % self.entId)
         DistributedEntity.DistributedEntity.announceGenerate(self)
         BasicEntities.NodePathAttribsProxy.initNodePathAttribs(self)
         self.setup()
-    
+
     def disable(self):
         assert(self.debugPrint("disable()"))
         self.takedown()
@@ -273,7 +273,7 @@ class DistributedDoorEntity(
         DistributedEntity.DistributedEntity.disable(self)
         #?  BasicEntities.NodePathAttribsProxy.destroy(self)
         # self.delete() will automatically be called.
-    
+
     def delete(self):
         assert(self.debugPrint("delete()"))
         DistributedEntity.DistributedEntity.delete(self)
@@ -286,7 +286,7 @@ class DistributedDoorEntity(
         self.acceptAvatar()
         if __dev__:
             self.initWantDoors()
-        
+
     def takedown(self):
         if __dev__:
             self.shutdownWantDoors()
@@ -303,10 +303,10 @@ class DistributedDoorEntity(
             i.takedown()
         self.locks = []
         self.fsm = None
-        for i in self.states.keys():
+        for i in list(self.states.keys()):
             del self.states[i]
         self.states = []
-    
+
     # These stubbed out functions are not used on the client (AI Only):
     setUnlock0Event = DistributedDoorEntityBase.stubFunction
     setUnlock1Event = DistributedDoorEntityBase.stubFunction
@@ -319,11 +319,11 @@ class DistributedDoorEntity(
     setIsLock3Unlocked = DistributedDoorEntityBase.stubFunction
     setIsOpen = DistributedDoorEntityBase.stubFunction
     setSecondsOpen = DistributedDoorEntityBase.stubFunction
-            
+
     def acceptAvatar(self):
         self.accept("enter%s"%(self.getName(),), self.enterTrigger)
         #self.acceptOnce("enter%s"%(self.getName(),), self.enterTrigger)
-    
+
     def rejectInteract(self):
         DistributedEntity.DistributedEntity.rejectInteract(self)
         self.acceptAvatar()
@@ -331,7 +331,7 @@ class DistributedDoorEntity(
     def avatarExit(self, avatarId):
         DistributedEntity.DistributedEntity.avatarExit(self, avatarId)
         self.acceptAvatar()
-    
+
     def enterTrigger(self, args=None):
         assert(self.debugPrint("enterTrigger(args="+str(args)+")"))
         messenger.send("DistributedInteractiveEntity_enterTrigger")
@@ -339,7 +339,7 @@ class DistributedDoorEntity(
         self.sendUpdate("requestOpen")
         # the AI server will not reply directly.  We may get a fsm opening
         # state that could be a result of this call or something else.
-    
+
     def exitTrigger(self, args=None):
         assert(self.debugPrint("exitTrigger(args="+str(args)+")"))
         messenger.send("DistributedInteractiveEntity_exitTrigger")
@@ -349,12 +349,12 @@ class DistributedDoorEntity(
         VisibilityBlocker.VisibilityBlocker.okToUnblockVis(self)
         self.isVisReady = 1
         self.openInnerDoors()
-    
+
     def changedOnState(self, isOn):
         assert(self.debugPrint("changedOnState(isOn=%s)"%(isOn,)))
         # The open state is the inverse of the FourState's On value.
         messenger.send(self.getOutputEventName(), [not isOn])
-    
+
     def setLocksState(self, stateBits):
         """
         stateBits:
@@ -376,12 +376,12 @@ class DistributedDoorEntity(
             self.locks[1].setLockState(lock1)
             self.locks[2].setLockState(lock2)
             #self.locks[3].setLockState(lock3) # fourth lock not yet used.
-        else:            
+        else:
             self.initialLock0StateIndex = lock0
             self.initialLock1StateIndex = lock1
             self.initialLock2StateIndex = lock2
             #self.initialLock3StateIndex = lock3 # fourth lock not yet used.
-    
+
     def setDoorState(self, stateIndex, timeStamp):
         """
         Required dc field.
@@ -401,7 +401,7 @@ class DistributedDoorEntity(
         else:
             self.initialState=stateIndex
             self.initialStateTimestamp=timeStamp
-    
+
     def getName(self):
         return "switch-%s"%str(self.entId)
 
@@ -409,7 +409,7 @@ class DistributedDoorEntity(
         if hasattr(self, 'doorNode'):
             return self.doorNode
         return None
-    
+
     def setupDoor(self):
         assert(self.debugPrint("setupDoor()"))
         model=loader.loadModel("phase_9/models/cogHQ/CogDoorHandShake")
@@ -418,7 +418,7 @@ class DistributedDoorEntity(
             doorway = model.find("**/Doorway1")
             assert not doorway.isEmpty()
 
-            rootNode=self.doorNode.attachNewNode(self.getName()+"-root")           
+            rootNode=self.doorNode.attachNewNode(self.getName()+"-root")
             rootNode.setPos(self.pos)
             rootNode.setHpr(self.hpr)
             rootNode.setScale(self.scale)
@@ -463,13 +463,13 @@ class DistributedDoorEntity(
             # Top Door:
             door = doorway.find("doortop")
             if door.isEmpty(): #Hack#*#
-                print "doortop hack"
+                print("doortop hack")
                 door = doorway.attachNewNode("doortop")
                 doorway.find("doortop1").reparentTo(door)
                 doorway.find("doortop2").reparentTo(door)
             assert not door.isEmpty()
 
-            rootNode=self.doorNode.attachNewNode(self.getName()+"-topDoor")           
+            rootNode=self.doorNode.attachNewNode(self.getName()+"-topDoor")
             rootNode.setPos(self.pos)
             rootNode.setHpr(self.hpr)
             rootNode.setScale(self.scale)
@@ -486,7 +486,7 @@ class DistributedDoorEntity(
             self.doorTop.show()
 
             # Left Door:
-            rootNode=self.doorTop.getParent().attachNewNode(self.getName()+"-leftDoor")           
+            rootNode=self.doorTop.getParent().attachNewNode(self.getName()+"-leftDoor")
             change=rootNode.attachNewNode("change")
             door = doorway.find("**/doorLeft")
             assert not door.isEmpty()
@@ -494,7 +494,7 @@ class DistributedDoorEntity(
 
             self.doorLeft=rootNode
             self.doorLeft.show()
-            
+
             change.setPos(self.pos)
             change.setHpr(self.hpr)
             change.setScale(self.scale)
@@ -503,7 +503,7 @@ class DistributedDoorEntity(
             # Bottom Door:
             door = doorway.find("doorbottom")
             if door.isEmpty(): #Hack#*#
-                print "doorbottom hack"
+                print("doorbottom hack")
                 door = doorway.attachNewNode("doorbottom")
                 doorway.find("doorbottom1").reparentTo(door)
                 doorway.find("doorbottom2").reparentTo(door)
@@ -514,10 +514,10 @@ class DistributedDoorEntity(
             #change.setHpr(0.0, 0.0, 0.0)
             #change.setScale(1.0, 0.8, 1.0)
             #change.setColor(Vec4(0.9, 0.9, 0.9, 1.0))
-            
+
             door.reparentTo(change)
 
-            rootNode=self.doorNode.attachNewNode(self.getName()+"-bottomDoor")           
+            rootNode=self.doorNode.attachNewNode(self.getName()+"-bottomDoor")
             rootNode.setPos(self.pos)
             rootNode.setHpr(self.hpr)
             rootNode.setScale(self.scale)
@@ -529,7 +529,7 @@ class DistributedDoorEntity(
             self.doorBottom.show()
 
             # Right Door:
-            rootNode=self.doorTop.getParent().attachNewNode(self.getName()+"-rightDoor")           
+            rootNode=self.doorTop.getParent().attachNewNode(self.getName()+"-rightDoor")
             change=rootNode.attachNewNode("change")
             door = doorway.find("**/doorRight")
             assert not door.isEmpty()
@@ -537,7 +537,7 @@ class DistributedDoorEntity(
 
             self.doorRight=rootNode
             self.doorRight.show()
-            
+
             change.setPos(self.pos)
             change.setHpr(self.hpr)
             change.setScale(self.scale)
@@ -592,7 +592,7 @@ class DistributedDoorEntity(
                 cSphereNode.setIntoCollideMask(ToontownGlobals.WallBitmask)
                 self.cSphereNodePath = self.node.attachNewNode(cSphereNode)
                 #self.cSphereNodePath.show()
-            
+
             if 1:
                 # Flatten for speed and to avoid scale changes when reparenting:
                 self.node.flattenMedium()
@@ -603,7 +603,7 @@ class DistributedDoorEntity(
         self.setDoorState(self.initialState, self.initialStateTimestamp)
         del self.initialState
         del self.initialStateTimestamp
-    
+
     def setInnerDoorsTrack(self, track):
         assert(self.debugPrint("setTrack(track=%s)"%(track,)))
         if self.innerDoorsTrack is not None:
@@ -612,7 +612,7 @@ class DistributedDoorEntity(
         if track is not None:
             track.start(0.0) # The inner doors are local, so they start at 0.0.
             self.innerDoorsTrack = track
-    
+
     def openInnerDoors(self):
         """
         Animate the door opening.
@@ -631,7 +631,7 @@ class DistributedDoorEntity(
                 Sequence(
                     Func(self.leftInnerCollision.unstash),
                     Func(self.rightInnerCollision.unstash),
-                    Parallel(                    
+                    Parallel(
                         SoundInterval(
                             slideSfx, node=self.node, duration=duration*.4, volume=0.8),
                         LerpPosInterval(
@@ -658,7 +658,7 @@ class DistributedDoorEntity(
         else:
             pass
             #import pdb; pdb.set_trace()
-    
+
     def closeInnerDoors(self):
         """
         Animate the door opening.
@@ -697,10 +697,10 @@ class DistributedDoorEntity(
                 # fyi: Wait(duration*.6),
                 )
             )
-    
+
     def setisOuterDoorOpen(self, isOpen):
         self.isOuterDoorOpen = isOpen
-    
+
     def enterState1(self):
         print("doors enter state 1")
         """
@@ -722,7 +722,7 @@ class DistributedDoorEntity(
         self.setTrack(
             Sequence(
                 Wait(duration*.1),
-                Parallel(                    
+                Parallel(
                     SoundInterval(
                         slideSfx, node=self.node, duration=duration*.4, volume=0.8),
                     LerpPosInterval(
@@ -748,7 +748,7 @@ class DistributedDoorEntity(
                 # fyi: Wait(duration*.5),
                 )
             )
-    
+
     def enterState2(self):
         """
         Setup the animation in the open position.
@@ -771,12 +771,12 @@ class DistributedDoorEntity(
             self.doorLeft.stash()
             self.doorRight.stash()
         # else: let the pending unblock handle the doors.
-    
+
     def exitState2(self):
         assert(self.debugPrint("exitOpenTrack()"))
         FourState.FourState.exitState2(self)
         self.cancelUnblockVis()
-    
+
     def enterState3(self):
         """
         Animate the door closing.
@@ -818,7 +818,7 @@ class DistributedDoorEntity(
                 # fyi: Wait(duration*.1), # remaining time
                 )
             )
-    
+
     def enterState4(self):
         """
         Setup the animation in the closed position.

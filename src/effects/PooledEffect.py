@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import Pool
 from direct.showbase.DirectObject import DirectObject
 import re
@@ -51,7 +51,7 @@ class PooledEffect(DirectObject, NodePath):
     def __init__(self):
         # Initialize the superclass
         NodePath.__init__(self, self.__class__.__name__)
-        
+
         # When the game shuts down, any effects that may be active
         # should accept this event so their pool gets cleaned up
         self.accept("clientLogout", self.__class__.cleanup)

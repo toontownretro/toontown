@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from toontown.building.ElevatorConstants import *
@@ -15,7 +15,7 @@ class DistributedLawOfficeElevatorInt(DistributedElevatorFloor.DistributedElevat
 
     def __init__(self, cr):
         DistributedElevatorFloor.DistributedElevatorFloor.__init__(self, cr)
-        
+
 
     def generate(self):
         DistributedElevator.DistributedElevator.generate(self)
@@ -56,10 +56,10 @@ class DistributedLawOfficeElevatorInt(DistributedElevatorFloor.DistributedElevat
         self.elevatorModel.find("**/light_panel_frame").removeNode()
         DistributedElevatorFloor.DistributedElevatorFloor.setupElevator(self)
         #DistributedElevatorFloor.DistributedElevatorFloor.setupElevator(self)
-        
 
 
-            
+
+
     def __placeElevator(self):
         self.notify.debug("PLACING ELEVATOR FOOL!!")
         if self.isEntering:
@@ -78,11 +78,11 @@ class DistributedLawOfficeElevatorInt(DistributedElevatorFloor.DistributedElevat
             else:
                 #explode
                 self.notify.debug("NO NODE SlidingDoor!!")
-        
-        
-        
-    
-            
+
+
+
+
+
 
     def getElevatorModel(self):
         return self.elevatorModel

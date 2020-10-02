@@ -2,14 +2,14 @@ from toontown.estate import DistributedStatuary
 from toontown.estate import DistributedLawnDecor
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.ShowBase import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toon import Toon
 from toontown.toon import ToonDNA
-import GardenGlobals
+from . import GardenGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import NodePath
-from pandac.PandaModules import Point3
+from toontown.toonbase.ToontownModules import NodePath
+from toontown.toonbase.ToontownModules import Point3
 
 def dnaCodeFromToonDNA(dna):
     """This is the code that is stored in the uint16 optional parameter on the statue"""
@@ -69,7 +69,7 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
     def delete(self):
         self.deleteToon()
         DistributedStatuary.DistributedStatuary.delete(self)
-    
+
     def setupStoneToon(self, dna):
         self.toon = Toon.Toon()
         self.toon.setPos(0,0,0)
@@ -94,7 +94,7 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
         assert self.toon
         self.toon.delete()
         self.toon = None
-    
+
     def copyLocalAvatarToon(self):
         self.toon = Toon.Toon()
         self.toon.reparentTo(render)
@@ -126,30 +126,30 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
 
         for node in self.toon.findAllMatches("**/*"):
             node.setState(RenderState.makeEmpty())
-        
+
         # It looks like the medium and low LODs have some whack texture on them.
         # And only the high LOD has the desaturated textures.
         # Ideally all the LODs should have desaturated textures.
-        # Since they don't we'll load the default textures and manually replace them. 
+        # Since they don't we'll load the default textures and manually replace them.
         desatShirtTex = loader.loadTexture("phase_3/maps/desat_shirt_1.jpg")
         desatSleeveTex = loader.loadTexture("phase_3/maps/desat_sleeve_1.jpg")
         desatShortsTex = loader.loadTexture("phase_3/maps/desat_shorts_1.jpg")
         desatSkirtTex = loader.loadTexture("phase_3/maps/desat_skirt_1.jpg")
-        
+
         if (self.toon.hasLOD()):
             for lodName in self.toon.getLODNames():
                 torso = self.toon.getPart('torso', lodName)
-                
+
                 torsoTop = torso.find('**/torso-top')
                 if torsoTop:
                     # Replace whatever texture the toon has with the default desaturated textures.
                     torsoTop.setTexture(desatShirtTex, 1)
-                
+
                 sleeves = torso.find('**/sleeves')
                 if sleeves:
                     # Replace whatever texture the toon has with the default desaturated textures.
                     sleeves.setTexture(desatSleeveTex, 1)
-                
+
                 bottoms = torso.findAllMatches('**/torso-bot*')
                 for bottomNum in range(0, bottoms.getNumPaths()):
                     bottom = bottoms.getPath(bottomNum)
@@ -162,7 +162,7 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
     def setStoneTexture(self):
         gray = VBase4(1.6, 1.6, 1.6, 1)
         self.toon.setColor(gray, 10)
-        
+
         stoneTex = loader.loadTexture('phase_5.5/maps/smoothwall_1.jpg')
         # TextureStage for the entire toon model
         ts = TextureStage('ts')
@@ -173,9 +173,9 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
         tsDetail = TextureStage('tsDetail')
         tsDetail.setPriority(2)
         tsDetail.setSort(10)
-        tsDetail.setCombineRgb(tsDetail.CMInterpolate, tsDetail.CSTexture, 
-                               tsDetail.COSrcColor, tsDetail.CSPrevious, 
-                               tsDetail.COSrcColor, tsDetail.CSConstant, 
+        tsDetail.setCombineRgb(tsDetail.CMInterpolate, tsDetail.CSTexture,
+                               tsDetail.COSrcColor, tsDetail.CSPrevious,
+                               tsDetail.COSrcColor, tsDetail.CSConstant,
                                tsDetail.COSrcColor)
         tsDetail.setColor(VBase4(0.5, 0.5, 0.5, 1))
 
@@ -188,7 +188,7 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
                 if not eyes.isEmpty():
                     eyes.setColor(Vec4(1.4, 1.4, 1.4, .3), 10)
                 ears = head.find('**/ears*')
-                
+
                 animal = self.toon.style.getAnimal()
                 if (animal != 'dog'):
                     muzzle = head.find('**/muzzle*neutral')
@@ -219,13 +219,13 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
                     # Keeping the 2nd Texture Stage for the muzzle so that the has less color
                     # (if the muzzle already had some color) and so that the nose doesn't
                     # appear completely black, it appears grey and has more stone texture.
-                    muzzle.setTexture(tsDetail, stoneTex)                    
-                    
+                    muzzle.setTexture(tsDetail, stoneTex)
+
                 if (self.speciesType == 'dog'):
                     nose = head.find('**/nose')
                     if nose != nose.notFound():
                         nose.setTexture(tsDetail, stoneTex)
-                            
+
         # Texture the eye-lashes separately
         tsLashes = TextureStage('tsLashes')
         tsLashes.setPriority(2)
@@ -249,8 +249,8 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
             lashesOpen = head.find('**/' + openString)
             lashesClosed = head.find('**/' + closedString)
 
-            
-            # Alpha-ing out the lashes to make them look gray-ish. 
+
+            # Alpha-ing out the lashes to make them look gray-ish.
             # Lashes have a black texture. Need a better way to blend the stoneTex
             # Virtually has no significance in applying the stone Texture to the lashes.
             if lashesOpen != lashesOpen.notFound():

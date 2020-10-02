@@ -1,4 +1,4 @@
-from pandac.PandaModules import VBase4
+from toontown.toonbase.ToontownModules import VBase4
 from direct.gui.DirectGui import DirectLabel
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.ClockDelta import globalClockDelta
@@ -18,7 +18,7 @@ class DistCogdoGame(DistributedObject):
             text_fg = VBase4(1,1,1,1),
             relief = None,
             pos = (-0.6, 0, -0.75),
-            scale = 0.075)   
+            scale = 0.075)
         self._waitingStartLabel.hide()
 
         self.loadFSM = ClassicFSM.ClassicFSM(

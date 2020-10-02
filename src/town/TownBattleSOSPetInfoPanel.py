@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.fsm import StateData
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.pets import Pet, PetTricks, PetDetailPanel
 from toontown.speedchat import TTSCPetTrickMenu
@@ -129,7 +129,7 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
                 text_align = TextNode.ACenter,
                 command = self.__handleDetail,
                 )
-        self.callOwnerButton['state'] = DGG.DISABLED 
+        self.callOwnerButton['state'] = DGG.DISABLED
 
         self.detailButton = DirectButton(
                 parent = self.frame,
@@ -151,7 +151,7 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
                 text_align = TextNode.ACenter,
                 command = self.__handleDetail,
                 )
-        self.detailButton['state'] = DGG.NORMAL 
+        self.detailButton['state'] = DGG.NORMAL
 
         gui.removeNode()
 
@@ -167,7 +167,7 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
 
         # Make sure the pet battle phrases don't get whispered to friends
         localAvatar.chatMgr.chatInputSpeedChat.whisperAvatarId = None
-        
+
         self.petDetailPanel = None
 
     def unload(self):
@@ -189,7 +189,7 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
         del self.scratchButton
         del self.callOwnerButton
         del self.detailButton
-        
+
         self.trickMenu.destroy()
         del self.trickMenu
 
@@ -197,7 +197,7 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
 
     def enter(self, petProxyId):
         self.petProxyId = petProxyId
-        if not base.cr.doId2do.has_key(petProxyId):
+        if petProxyId not in base.cr.doId2do:
             self.notify.warning("petProxyId %s not in doId2do!" % petProxyId)
             return
         self.petProxy = base.cr.doId2do[petProxyId]
@@ -208,17 +208,17 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
         # Set up the pet trick menu
         self.accept(self.trickMenuEventName, self.__handleTrickMenuEvent)
         self.trickMenu.reparentTo(aspect2dp, DGG.FOREGROUND_SORT_INDEX)
-        
+
         # Make sure the pet battle phrases don't get whispered to friends
         localAvatar.chatMgr.chatInputSpeedChat.whisperAvatarId = None
 
         # Make sure the detail button is enabled
         self.detailButton['state'] = DGG.NORMAL
-        
+
     def exit(self):
         self.ignore(self.trickMenuEventName)
         self.trickMenu.reparentTo(hidden)
-        
+
         self.petProxy = None
         if self.petDetailPanel != None:
             self.petDetailPanel.cleanup()
@@ -228,8 +228,8 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
         self.frame.hide()
 
     def __handleTrickMenuEvent(self, textId):
-        if PetTricks.ScId2trickId.has_key(textId):
-            trickId = PetTricks.ScId2trickId[textId]    
+        if textId in PetTricks.ScId2trickId:
+            trickId = PetTricks.ScId2trickId[textId]
             doneStatus = {'mode':'OK', 'trickId':trickId}
             messenger.send(self.doneEvent, [doneStatus])
             self.detailButton['state'] = DGG.NORMAL
@@ -255,7 +255,7 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
                                         parent = self.frame,
                                         )
         self.detailButton['state'] = DGG.DISABLED
-            
+
     def __fillPetInfo(self, avatar):
         self.notify.debug("__fillPetInfo(): doId=%s" % avatar.doId)
         #add the view of the pet

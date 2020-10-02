@@ -1,10 +1,10 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
-from ElevatorConstants import *
-from ElevatorUtils import *
-import DistributedElevator
-import DistributedElevatorExt
+from .ElevatorConstants import *
+from .ElevatorUtils import *
+from . import DistributedElevator
+from . import DistributedElevatorExt
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
@@ -90,7 +90,7 @@ class DistributedBossElevator(DistributedElevatorExt.DistributedElevatorExt):
                 'hoodId' : hoodId,
                 }
             self.cr.playGame.getPlace().elevator.signalDone(doneStatus)
-            
+
     def setBossOfficeZoneForce(self, zoneId):
         place = self.cr.playGame.getPlace()
         if place:

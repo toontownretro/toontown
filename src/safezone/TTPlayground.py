@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from toontown.toonbase import ToontownGlobals
-import Playground
+from . import Playground
 import random
 from toontown.launcher import DownloadForceAcknowledge
 from direct.task.Task import Task
@@ -13,7 +13,7 @@ class TTPlayground(Playground.Playground):
 
     def load(self):
         Playground.Playground.load(self)
-    
+
     def unload(self):
         Playground.Playground.unload(self)
 

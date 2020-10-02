@@ -1,15 +1,15 @@
-import DistributedLawnDecor
+from . import DistributedLawnDecor
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.ShowBase import *
 from direct.interval.IntervalGlobal import *
-import GardenGlobals
+from . import GardenGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.estate import PlantingGUI
 from toontown.estate import PlantTreeGUI
 from toontown.estate import ToonStatueSelectionGUI
 from toontown.toontowngui import TTDialog
-from pandac.PandaModules import Vec4
-from pandac.PandaModules import NodePath
+from toontown.toonbase.ToontownModules import Vec4
+from toontown.toonbase.ToontownModules import NodePath
 import types
 
 
@@ -76,7 +76,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
 
         if self.defaultModel:
             self.model = loader.loadModel(self.defaultModel)
-            if type(self.plotScale) == types.TupleType:
+            if type(self.plotScale) == tuple:
                 self.model.setScale(*self.plotScale)
             else:
                 self.model.setScale(self.plotScale)
@@ -371,7 +371,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             self.movie.append(Func(self.finishInteraction))
             self.movie.append(Func(self.movieDone))
 
-        self.movie.start()        
+        self.movie.start()
 
     def doFinishRemovingTrack(self, avId):
         toon = base.cr.doId2do.get(avId)
@@ -487,4 +487,3 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             self.stick2Ground()
         else:
             DistributedLawnDecor.DistributedLawnDecor.makeMovieNode(self)
-

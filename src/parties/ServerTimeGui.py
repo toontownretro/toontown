@@ -1,4 +1,4 @@
-from pandac.PandaModules import TextNode
+from toontown.toonbase.ToontownModules import TextNode
 from direct.gui.DirectGui import DirectFrame, DirectLabel
 from direct.interval.IntervalGlobal import Func, Sequence, Wait
 from toontown.toonbase import ToontownGlobals
@@ -16,7 +16,7 @@ class ServerTimeGui(DirectFrame):
         self.hourCallback = hourCallback
         self.lastHour = -1
         self.lastMinute = -1
-        
+
     def createGuiObjects(self):
         """Create all gui elements and tasks."""
         # minutes label
@@ -33,7 +33,7 @@ class ServerTimeGui(DirectFrame):
             text_align = TextNode.ARight,
             text_font = timeFont,
             )
-        
+
         self.colonLabel = DirectLabel(
             parent = self,
             relief = None,
@@ -62,7 +62,7 @@ class ServerTimeGui(DirectFrame):
             text_align = TextNode.ALeft,
             text_font = timeFont,
             )
-        
+
         self.ival = Sequence(
             Func(self.colonLabel.show),
             Wait(0.75),
@@ -77,14 +77,14 @@ class ServerTimeGui(DirectFrame):
         self.ival.finish()
         self.ival = None
         DirectFrame.destroy(self)
-            
+
     def updateTime(self):
         """Update the time displayed to the current server time."""
         curServerDate = base.cr.toontownTimeManager.getCurServerDateTime()
-        
+
         if self.hourCallback is not None:
             if curServerDate.hour != self.lastHour and self.lastHour != -1:
-                self.lastHour = curServerDate.hour    
+                self.lastHour = curServerDate.hour
                 self.hourCallback(curServerDate.hour)
 
         if not curServerDate.minute == self.lastMinute:

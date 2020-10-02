@@ -1,5 +1,5 @@
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed import DistributedObjectAI
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
@@ -39,7 +39,7 @@ class DistributedLawbotBossGavelAI(DistributedObjectAI.DistributedObjectAI, FSM.
 
     def setState(self, state):
         self.request(state)
-    
+
     def d_setState(self, state):
         newState = state
         if state == 'On':
@@ -48,23 +48,23 @@ class DistributedLawbotBossGavelAI(DistributedObjectAI.DistributedObjectAI, FSM.
             newState = 'F'
         else:
             assert(self.notify.error("Unknown state %s", state))
-        
+
         self.sendUpdate('setState', [newState])
 
     def b_setState(self, state):
         self.request(state)
-        self.d_setState( state) 
-    
+        self.d_setState( state)
+
 
     def turnOn(self):
         #we've entered battle three so start stomping
         self.b_setState('On')
-    
+
 
     def requestControl(self):
         # A client wants to start controlling the crane.
         avId = self.air.getAvatarIdFromSender()
-        
+
         if avId in self.boss.involvedToons and self.avId == 0:
             # Also make sure the client isn't controlling some other
             # crane.
@@ -75,10 +75,10 @@ class DistributedLawbotBossGavelAI(DistributedObjectAI.DistributedObjectAI, FSM.
     def requestFree(self):
         # The client is done controlling the crane.
         avId = self.air.getAvatarIdFromSender()
-        
+
         if avId == self.avId:
             self.request('Free')
-    
+
     def removeToon(self, avId):
         if avId == self.avId:
             self.request('Free')
@@ -107,7 +107,7 @@ class DistributedLawbotBossGavelAI(DistributedObjectAI.DistributedObjectAI, FSM.
 
     def exitOff(self):
         pass
-        #no Scene    
+        #no Scene
         #self.goonShield.reparentTo(self.boss.scene)
 
     def enterControlled(self, avId):

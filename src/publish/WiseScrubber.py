@@ -7,7 +7,7 @@ helpString ="""
 Usage:
   ppython WiseScrubber -h
   ppython WiseScrubber persistDirectory
- 
+
 Example:
 ppython WiseScrubber C:/toontown-persist/
 
@@ -22,29 +22,29 @@ Required:
 
 try:
     opts, pargs = getopt.getopt(sys.argv[1:], 'h')
-except Exception, e:
+except Exception as e:
     # User passed in a bad option, print the error and the help, then exit
-    print e
-    print helpString
+    print(e)
+    print(helpString)
     sys.exit(1)
 
 for opt in opts:
     flag, value = opt
     if (flag == '-h'):
-        print helpString
+        print(helpString)
         sys.exit(1)
     else:
-        print 'illegal option: ' + flag
+        print('illegal option: ' + flag)
 
 if (not (len(pargs) == 1)):
-    print 'Must specify a persistDirectory'
+    print('Must specify a persistDirectory')
     sys.exit(1)
 else:
     persistDirectory = pargs[0]
-    
+
 #persistDirectory = '/c/ttown-persist/english'
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 
 # create a DirectNotify category for the Launcher
@@ -52,13 +52,13 @@ notify = directNotify.newCategory("WiseScrubber")
 mainFunc()
 
 def mainFunc():
- 
+
     persistDir = Filename.fromOsSpecific(persistDirectory)
     oldLauncherFilename = Filename(persistDir, Filename('launcherFileDb'))
     oldLauncherFile = open(oldLauncherFilename.toOsSpecific(), 'r')
     wiseInstallFile = Filename(os.path.expandvars('$TOONTOWN/src/launcher/InstallLauncher.exe'))
     oldInstallFile = Filename(persistDir,Filename('InstallLauncher.exe'))
-    
+
     # Compute the md5 on the file
     md5 = HashVal()
     md5AFile(wiseInstallFile, md5)
@@ -71,13 +71,13 @@ def mainFunc():
     if (md5.eq(md5Old)):
         notify.debug('File has not changed.')
         return
-    
+
     # output the md5 to a linestream
     lineStream = LineStream()
     md5.output(lineStream)
     # Strip off the brackets that the md5 output puts on
     md5str = lineStream.getLine()[1:-1]
-    
+
     # Write the file and md5 to the launcherFileDb
     # Read in the lines that are there now
     lines = oldLauncherFile.readlines()
@@ -87,9 +87,9 @@ def mainFunc():
     # Prepend the install launcher line
     lines = [('InstallLauncher.exe ' + md5str + '\n')] + lines
     """
-    
+
     # Lookup the line about InstallLauncher, prepend the new md5 at the list of md5's
-    notify.info('number of lines in launcherdb = ' + `len(lines)`)
+    notify.info('number of lines in launcherdb = ' + repr(len(lines)))
     for i in range (0, len(lines)):
         if (lines[i].find('InstallLauncher.exe') > -1):
             # add the new md5 in there
@@ -116,7 +116,7 @@ def mainFunc():
     generatePatch(oldInstallFile,
                   wiseInstallFile, md5)
     return
-    
+
 def getHighestVersion(persistFilename):
     """
     Look to find the latest version of this file
@@ -141,7 +141,7 @@ def getHighestVersion(persistFilename):
 
 def fileVer(filename, version):
     # Return the name of the versioned file
-    return Filename(filename.cStr() + '.v' + `version`)
+    return Filename(filename.cStr() + '.v' + repr(version))
 
 def compFile(filename):
     # Return the name of the compressed file
@@ -160,11 +160,11 @@ def generatePatch(persistFilename, newFilename, newHash):
     # files down one version, generates a new .v2.pch.pz file for
     # the current version, and moves the new filename onto the old
     # install file.
-    
+
     # Returns the highest version in the directory after completion.
-    
+
     highVer = getHighestVersion(persistFilename)
-    
+
     # Slide all the patch files up one
     if (highVer >= 2):
         # Count down over the versions
@@ -173,16 +173,16 @@ def generatePatch(persistFilename, newFilename, newHash):
             curFile = patchVer(persistFilename, version)
             movedName = patchVer(persistFilename, version+1)
             moveFile(curFile, movedName)
-            
+
             # Also touch each version so CVS will recognize it has
             # changed.
             movedName.touch()
-            
+
     notify.info('Building patch for %s' % (persistFilename.cStr()))
-    
+
     # Generate the patch from the previous version to the new version.
     patchFilename = patchVer(persistFilename, 2)
-    
+
     # Build the actual patch
     patchFile = Patchfile()
     # patchFile.setFootprintLength(1024)
@@ -190,15 +190,15 @@ def generatePatch(persistFilename, newFilename, newHash):
     # compress it to .pz file
     patchFileCompress = Filename(patchFilename.cStr() + '.pz')
     compressFile(patchFilename, patchFileCompress)
-    
+
     # Now copy the new file in the persist dir
     copyFile(newFilename, persistFilename)
-    
+
 def copyFile(fromFilename, toFilename):
     notify.debug('Copying %s to %s' % (fromFilename.cStr(), toFilename.cStr()))
     shutil.copy(fromFilename.toOsSpecific(), toFilename.toOsSpecific())
-    os.chmod(toFilename.toOsSpecific(), 0666)
-    
+    os.chmod(toFilename.toOsSpecific(), 0o666)
+
 def moveFile(fromFilename, toFilename):
     notify.debug('Moving %s to %s' % (fromFilename.cStr(), toFilename.cStr()))
     toFilename.unlink()
@@ -209,4 +209,3 @@ def compressFile(sourceFilename, destFilename):
     notify.debug('Compressing from %s to %s' % (sourceFilename.cStr(), destFilename.cStr()))
     os.system('pzip -o "%s" "%s"' % (destFilename.toOsSpecific(),
                                      sourceFilename.toOsSpecific()))
-

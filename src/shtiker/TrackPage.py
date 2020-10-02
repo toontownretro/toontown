@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
-import ShtikerPage
+from toontown.toonbase.ToontownModules import *
+from . import ShtikerPage
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.quest import Quests
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
@@ -136,8 +136,8 @@ class TrackPage(ShtikerPage.ShtikerPage):
             row = (index - 1) / 6
             frame.setPos(colPos[col], 0, rowPos[row])
             frame.setScale(0.39)
-        
-    def load(self):        
+
+    def load(self):
         self.title = DirectLabel(
             parent = self,
             relief = None,
@@ -235,4 +235,3 @@ class TrackPage(ShtikerPage.ShtikerPage):
         self.clearPage()
         ShtikerPage.ShtikerPage.exit(self)
         return
-              

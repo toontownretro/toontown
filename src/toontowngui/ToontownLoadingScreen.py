@@ -1,6 +1,6 @@
 
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 import random
@@ -91,11 +91,9 @@ class ToontownLoadingScreen:
         return (self.__expectedCount, self.__count)
 
     def abort(self):
-        self.gui.reparentTo(hidden)        
+        self.gui.reparentTo(hidden)
 
     def tick(self):
         self.__count = self.__count + 1
         # update progress bar
         self.waitBar.update(self.__count)
-
-

@@ -1,5 +1,5 @@
 """IceTreasure module: contains the IceTreasure class"""
-from pandac.PandaModules import Point3, CollisionSphere, CollisionNode, BitMask32
+from toontown.toonbase.ToontownModules import Point3, CollisionSphere, CollisionNode, BitMask32
 from direct.interval.IntervalGlobal import Sequence, LerpScaleInterval, \
      Parallel, Func, SoundInterval
 from direct.directnotify import DirectNotifyGlobal
@@ -11,7 +11,7 @@ class IceTreasure(DirectObject):
     """
     Treasures toons can pickup swinging from ice to ice.  Based on MazeTreasure
     """
-    
+
     notify = DirectNotifyGlobal.directNotify.newCategory("IceTreasure")
 
     RADIUS = 1.0
@@ -48,17 +48,17 @@ class IceTreasure(DirectObject):
         self.collNode.setIntoCollideMask(ToontownGlobals.PieBitmask)
         self.collNode.addSolid(self.collSphere)
         self.collNodePath = render.attachNewNode(self.collNode)
-        self.collNodePath.setPos(pos[0] - center[0], pos[1] - center[1], pos[2] - center[2])        
+        self.collNodePath.setPos(pos[0] - center[0], pos[1] - center[1], pos[2] - center[2])
         self.collNodePath.hide()
         self.track = None
 
         # Add a hook looking for collisions with localToon
         #self.accept('enter' + self.sphereName, self.__handleEnterSphere)
-        
+
         # now that the treasure and sphere have been placed, flatten the
         # whole silly thing
         # self.nodePath.flattenLight()
-        
+
         if self.penalty:
             #self.nodePath.setScale(1,1,0.5)
             self.tip =self.nodePath.find('**/fusetip')
@@ -96,7 +96,7 @@ class IceTreasure(DirectObject):
         del self.collNodePath
         del self.collNode
 
-            
+
 
 ##     def __handleEnterSphere(self, collEntry):
 ##         self.ignoreAll()
@@ -120,6 +120,3 @@ class IceTreasure(DirectObject):
                    )
                 )
             self.track.start()
-                
-            
-        

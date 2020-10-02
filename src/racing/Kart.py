@@ -11,11 +11,11 @@
 ##########################################################################
 #from direct.directbase import DirectStart
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
-from otp.avatar import ShadowCaster                          
+from otp.avatar import ShadowCaster
 
 ##########################################################################
 # Toontown Import Modules
@@ -28,14 +28,14 @@ and looks pretty.  Use DistributedVehicle, however,
 to create a phsyics-based, movable/controllable one.
 """
 
-class Kart(NodePath, ShadowCaster.ShadowCaster): 
+class Kart(NodePath, ShadowCaster.ShadowCaster):
 
     ######################################################################
     # Class Variable Definitions
     ######################################################################
     notify = DirectNotifyGlobal.directNotify.newCategory("Kart")
     #notify.setDebug(1)
-    
+
     index = 0
     baseScale = 2.0
 
@@ -43,15 +43,15 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
     LFWHEEL = 1
     RRWHEEL = 2
     LRWHEEL = 3
-    
+
     wheelData = [{'node' : "wheel*Node2",},
                  {'node' : "wheel*Node1",},
                  {'node' : "wheel*Node3",},
                  {'node' : "wheel*Node4",},
               ]
-    
+
     ShadowScale = 2.5#Point3(1.3, 2, 1)
-    
+
     SFX_BaseDir = "phase_6/audio/sfx/"
     SFX_KartStart = SFX_BaseDir + "KART_Engine_start_%d.mp3"
     SFX_KartLoop = SFX_BaseDir + "KART_Engine_loop_%d.wav"
@@ -83,7 +83,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         self.kartAccessories = { KartDNA.ebType : None, KartDNA.spType : None,
                                  KartDNA.fwwType : (None,None), KartDNA.bwwType : (None,None) }
         self.texCount = 1
-        
+
     def delete( self ):
         assert self.notify.debugStateCall(self)
         self.__stopWheelSpin()
@@ -131,7 +131,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
             levelIn[ 1 ] = base.config.GetInt( "lod1-out", 0 )
 
         self.toonSeat = NodePath("toonSeat")
-        
+
         for level in range( lodRequired ):
             self.__createLODKart( level )
             self.LODnode.addSwitch( levelIn[ level ], levelOut[ level ] )
@@ -141,7 +141,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
 
         for level in range( lodRequired ):
             self.toonSeat = self.toonSeat.instanceTo(self.toonNode[level])
-        
+
         self.LODpath.reparentTo( self.rotateNode )
 
         # Geometry Accessory Scale
@@ -149,7 +149,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         self.accGeomScale = tempNode.getScale( self.pitchNode[ 0 ] ) * self.baseScale
         #print self.accGeomScale
         tempNode.removeNode()
-        
+
         # self.geom.flattenLight()
 
         self.__applyBodyColor()
@@ -227,16 +227,16 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         self.toonNode[level].setPos(pos)
 
     def resetGeomPos( self ):
-        for level in self.geom.keys():
+        for level in list(self.geom.keys()):
             self.geom[ level ].setPos( 0, 0, 0.025 )
-        
+
     def __update( self ):
         """
         Purpose: The __update Method handles the visual update of the
         kart instance.
 
         Params: None
-        Return: None        
+        Return: None
         """
         for field in self.updateFields:
             if( field == KartDNA.bodyType ):
@@ -254,7 +254,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
                     self.__applyDecals()
                     self.__applyAccessoryColor()
                 else:
-                    raise StandardError, "Kart::__update - Has this method been called before generateKart?"
+                    raise Exception("Kart::__update - Has this method been called before generateKart?")
 
             elif( field == KartDNA.bodyColor ):
                 self.__applyBodyColor()
@@ -263,7 +263,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
             elif( field == KartDNA.ebType ):
                 if( self.kartAccessories[ KartDNA.ebType ] != None ):
                     name = self.kartAccessories[ KartDNA.ebType ].getName()
-                    for key in self.geom.keys():
+                    for key in list(self.geom.keys()):
                         # Remove node found in geom lod
                         self.geom[ key ].find( "**/%s" % ( name ) ).removeNode()
 
@@ -273,7 +273,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
             elif( field == KartDNA.spType ):
                 if( self.kartAccessories[ KartDNA.spType ] != None ):
                     name = self.kartAccessories[ KartDNA.spType ].getName()
-                    for key in self.geom.keys():
+                    for key in list(self.geom.keys()):
                         # Remove node found in geom lod
                         self.geom[ key ].find( "**/%s" % ( name ) ).removeNode()
 
@@ -283,7 +283,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
             elif( field == KartDNA.fwwType ):
                 if( self.kartAccessories[ KartDNA.fwwType ] != (None,None) ):
                     left, right = self.kartAccessories[ KartDNA.fwwType ]
-                    for key in self.geom.keys():
+                    for key in list(self.geom.keys()):
                         # Remove node found in geom lod
                         self.geom[ key ].find( "**/%s" % ( left.getName() ) ).removeNode()
                         self.geom[ key ].find( "**/%s" % ( right.getName() ) ).removeNode()
@@ -295,7 +295,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
             elif( field == KartDNA.bwwType ):
                 if( self.kartAccessories[ KartDNA.bwwType ] != (None,None) ):
                     left, right = self.kartAccessories[ KartDNA.bwwType ]
-                    for key in self.geom.keys():
+                    for key in list(self.geom.keys()):
                         # Remove node found in geom lod
                         self.geom[ key ].find( "**/%s" % ( left.getName() ) ).removeNode()
                         self.geom[ key ].find( "**/%s" % ( right.getName() ) ).removeNode()
@@ -319,7 +319,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
     def updateDNAField( self, field, fieldValue ):
         """
         Purpose: The updateDNAField Method properly updates the desired
-        dna field with the field value that is 
+        dna field with the field value that is
 
         Params: field - dna field that should be updated.
                 fieldValue - new value of the dna field.
@@ -352,7 +352,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
 
         self.updateFields.append( field )
         self.__update()
-        
+
 
     def __applyBodyColor( self ):
         """
@@ -383,7 +383,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
             accColor = getAccessory( self.kartDNA[ KartDNA.accColor ] )
 
         for kart in self.geom:
-            # Handle Decals 
+            # Handle Decals
             hoodDecal = self.geom[kart].find( "**/hoodDecal" )
             rightSideDecal = self.geom[kart].find( "**/rightSideDecal" )
             leftSideDecal = self.geom[kart].find( "**/leftSideDecal" )
@@ -400,7 +400,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
                 else:
                     accColor = getAccessory( self.kartDNA[ KartDNA.accColor ] )
                 model.find( "**/vertex" ).setColorScale( accColor )
- 
+
         for type in [ KartDNA.fwwType, KartDNA.bwwType ]:
             lModel, rModel = self.kartAccessories.get( type, ( None, None ) )
             if( lModel != None and not lModel.find( "**/vertex" ).isEmpty() ):
@@ -431,15 +431,15 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
                 accColor = getDefaultColor()
             else:
                 accColor = getAccessory( self.kartDNA[ KartDNA.accColor ] )
-   
+
             model.find( "**/vertex" ).setColorScale( accColor )
 
         for kart in self.geom:
             engineBlockNode = self.geom[kart].find( "**/%s" % ( attachNode ) )
             model.setPos( engineBlockNode.getPos( self.pitchNode[kart] ) )
             model.setHpr( engineBlockNode.getHpr( self.pitchNode[kart] ) )
-            model.instanceTo(self.pitchNode[kart]) 
-        
+            model.instanceTo(self.pitchNode[kart])
+
     def __applySpoiler( self ):
         """
         """
@@ -464,7 +464,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
     def __applyRims( self ):
         """
         """
-        
+
         # if the rim type has not been set, then apply the default
         # rims to the kart.
         if( self.kartDNA[ KartDNA.rimsType ] == InvalidEntry ):
@@ -475,7 +475,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         rimTex = loader.loadTexture( "%s.jpg" % ( rimTexPath ), "%s_a.rgb" % ( rimTexPath ) )
 
         for kart in self.geom:
-            # Obtain the Rim nodes from the geometry.   
+            # Obtain the Rim nodes from the geometry.
             leftFrontWheelRim = self.geom[kart].find( "**/leftFrontWheelRim" )
             rightFrontWheelRim = self.geom[kart].find( "**/rightFrontWheelRim" )
             leftRearWheelRim = self.geom[kart].find( "**/leftRearWheelRim" )
@@ -512,7 +512,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         leftModel = loader.loadModel( fwwPath )
         rightModel = loader.loadModel( fwwPath )
         self.kartAccessories[ KartDNA.fwwType ] = ( leftModel, rightModel )
-   
+
         # Set the Accessory color
         if( not leftModel.find( "**/vertex" ).isEmpty() ):
             if( self.kartDNA[ KartDNA.accColor ] == InvalidEntry ):
@@ -521,7 +521,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
                 accColor = getAccessory( self.kartDNA[ KartDNA.accColor ] )
             leftModel.find( "**/vertex" ).setColorScale( accColor )
             rightModel.find( "**/vertex" ).setColorScale( accColor )
-   
+
         #leftModel = {}
         #rightModel = {}
         for kart in self.geom:
@@ -529,35 +529,35 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
             #rightModel[kart] = loader.loadModel( fwwPath )
             leftNode = self.geom[kart].find( "**/%s"  % ( leftAttachNode ) )
             rightNode = self.geom[kart].find( "**/%s" % ( rightAttachNode ) )
-            
-            
+
+
             leftNodePath = leftModel.instanceTo( self.pitchNode[ kart ] )
             leftNodePath.setPos( rightNode.getPos( self.pitchNode[ kart ] ) )
             leftNodePath.setHpr( rightNode.getHpr( self.pitchNode[ kart ] ) )
             leftNodePath.setScale( self.accGeomScale )
-            
+
             # Negate the scaling of the accessory in the x direction and set
             # the geometry to two-sided to make it symmetrical.
             leftNodePath.setSx( -1.0 * leftNodePath.getSx() )
             leftNodePath.setTwoSided( True )
- 
+
             rightNodePath = rightModel.instanceTo( self.pitchNode[ kart ] )
             rightNodePath.setPos( leftNode.getPos( self.pitchNode[ kart ] ) )
             rightNodePath.setHpr( leftNode.getHpr( self.pitchNode[ kart ] ) )
             rightNodePath.setScale( self.accGeomScale )
-            
+
             #leftModel[kart].reparentTo( self.pitchNode[kart] )
             #leftModel[kart].setPos( rightNode.getPos( self.pitchNode[kart] ) )
             #leftModel[kart].setHpr( rightNode.getHpr( self.pitchNode[kart] ) )
-            #leftModel[kart].setScale( self.accGeomScale  )             
-            
+            #leftModel[kart].setScale( self.accGeomScale  )
+
             # Negate the Scaling of the Accessory in the x direction and
             # set the geometry to two-sided to make it symmetrical.
-            
+
             #leftModel[kart].setScale( -1.0 * leftModel.getSx() )
             #leftModel[kart].setTwoSided( True )
-            
-            
+
+
             #rightModel[kart].reparentTo( self.pitchNode[kart] )
             #rightModel[kart].setPos( leftNode.getPos( self.pitchNode[kart] ) )
             #rightModel[kart].setHpr( leftNode.getHpr( self.pitchNode[kart] ) )
@@ -583,7 +583,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         leftModel = loader.loadModel( bwwPath )
         rightModel = loader.loadModel( bwwPath )
         self.kartAccessories[ KartDNA.bwwType ] = ( leftModel, rightModel )
-   
+
         # Set the Accessory color
         if( not leftModel.find( "**/vertex" ).isEmpty() ):
             if( self.kartDNA[ KartDNA.accColor ] == InvalidEntry ):
@@ -592,7 +592,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
                 accColor = getAccessory( self.kartDNA[ KartDNA.accColor ] )
             leftModel.find( "**/vertex" ).setColorScale( accColor )
             rightModel.find( "**/vertex" ).setColorScale( accColor )
-  
+
         #leftModele = {}
         #rightModel = {}
         for kart in self.geom:
@@ -600,28 +600,28 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
             rightNode = self.geom[kart].find( "**/%s" % ( rightAttachNode ) )
             #leftModel[kart] = loader.loadModel( bwwPath )
             #rightModel[kart] = loader.loadModel( bwwPath )
- 
+
             leftNodePath = leftModel.instanceTo( self.pitchNode[ kart ] )
             leftNodePath.setPos( rightNode.getPos( self.pitchNode[ kart ] ) )
             leftNodePath.setHpr( rightNode.getHpr( self.pitchNode[ kart ] ) )
             leftNodePath.setScale( self.accGeomScale )
-            
+
             # Negate the scaling of the accessory in the x direction and set
             # the geometry to two-sided to make it symmetrical.
             leftNodePath.setSx( -1.0 * leftNodePath.getSx() )
             leftNodePath.setTwoSided( True )
-            
+
             rightNodePath = rightModel.instanceTo( self.pitchNode[ kart ] )
             rightNodePath.setPos( leftNode.getPos( self.pitchNode[ kart ] ) )
             rightNodePath.setHpr( leftNode.getHpr( self.pitchNode[ kart ] ) )
             rightNodePath.setScale( self.accGeomScale )
-   
+
             # Handle Models
             #leftModel[kart].reparentTo( self.pitchNode[kart] )
             #leftModel[kart].setPos( rightNode.getPos( self.pitchNode[kart] ) )
             #leftModel[kart].setHpr( rightNode.getHpr( self.pitchNode[kart] ) )
             #leftModel[kart].setScale( self.accGeomScale )
-            
+
             #rightModel[kart].reparentTo( self.pitchNode[kart] )
             #rightModel[kart].setPos( leftNode.getPos( self.pitchNode[kart] ) )
             #rightModel[kart].setHpr( leftNode.getHpr( self.pitchNode[kart] ) )
@@ -645,11 +645,11 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
             sideDecalTex.setMinfilter(Texture.FTLinearMipmapLinear)
 
             for kart in self.geom:
-                # Obtain the hood nodes from the geometry 
+                # Obtain the hood nodes from the geometry
                 hoodDecal = self.geom[kart].find( "**/hoodDecal" )
                 rightSideDecal = self.geom[kart].find( "**/rightSideDecal" )
                 leftSideDecal = self.geom[kart].find( "**/leftSideDecal" )
-                
+
                 hoodDecal.setTexture( hoodDecalTex, self.texCount )
                 rightSideDecal.setTexture( sideDecalTex, self.texCount )
                 leftSideDecal.setTexture( sideDecalTex, self.texCount )
@@ -659,22 +659,22 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
                 leftSideDecal.show()
         else:
             for kart in self.geom:
-                # Obtain the hood nodes from the geometry 
+                # Obtain the hood nodes from the geometry
                 hoodDecal = self.geom[kart].find( "**/hoodDecal" )
                 rightSideDecal = self.geom[kart].find( "**/rightSideDecal" )
                 leftSideDecal = self.geom[kart].find( "**/leftSideDecal" )
-                
+
                 hoodDecal.hide()
                 rightSideDecal.hide()
                 leftSideDecal.hide()
 
-        self.texCount += 1        
+        self.texCount += 1
 
     def rollSuspension(self, roll):
         for kart in self.pitchNode:
             self.pitchNode[kart].setR(roll)
 
-        
+
     def pitchSuspension(self, pitch):
         for kart in self.pitchNode:
             self.pitchNode[kart].setP(pitch)
@@ -683,7 +683,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         """
         Purpose: The getDNA Method retrieves the Kart instance's
         current DNA.
-        
+
         Params: None
         Return: [] - List of DNA Values
         """
@@ -703,7 +703,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         assert checkKartDNAValidity(dna), "Kart::setDNA - INVALID DNA %s" % (dna,)
 
         if( self.kartDNA != [ -1 ] * getNumFields() ):
-            for field in xrange( len( self.kartDNA ) ):
+            for field in range( len( self.kartDNA ) ):
                 if( dna[ field ] != self.kartDNA[ field ] ):
                     self.updateDNAField( field, dna[ field ] )
             return
@@ -715,8 +715,8 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         """
         Purpose: The setBodyType Method sets the local AI side
         body type of the kart that the toon currently owns.
-        
-        
+
+
         Params: bodyType - the body type of the kart which the toon
         currently owns.
         Return: None
@@ -727,7 +727,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         """
         Purpose: The getBodyType Method obtains the local client side
         body type of the kart that the toon currently owns.
-        
+
         Params: None
         Return: bodyType - the body type of the kart.
         """
@@ -738,7 +738,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         Purpose: The setBodyColor Method appropriately sets
         the body color of the lient on the ai side by updating the
         local kart dna.
-        
+
         Params: bodyColor - the color of the kart body.
         Return: None
         """
@@ -748,7 +748,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         """
         Purpose: The getBodyColor Method obtains the current
         body color of the kart.
-        
+
         Params: None
         Return: bodyColor - the color of the kart body.
         """
@@ -769,7 +769,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         """
         Purpose: The getAccessoryColor Method obtains the
         accessory color for the kart.
-        
+
         Params: None
         Return: accColor - the color of the accessories
         """
@@ -779,7 +779,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         """
         Purpose: The setEngineBlockType Method sets the engine
         block type accessory for the kart by updating the Kart DNA.
-        
+
         Params: ebType - the type of engine block accessory.
         Return: None
         """
@@ -790,7 +790,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         Purpose: The getEngineBlockType Method obtains the engine
         block type accessory for the kart by accessing the
         current Kart DNA.
-        
+
         Params: None
         Return: ebType - the type of engine block accessory.
         """
@@ -800,7 +800,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         """
         Purpose: The setSpoilerType Method sets the spoiler
         type accessory for the kart by updating the Kart DNA.
-        
+
         Params: spType - the type of spoiler accessory
         Return: None
         """
@@ -810,9 +810,9 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         """
         Purpose: The getSpoilerType Method obtains the spoiler
         type accessory for the kart by accessing the current Kart DNA.
-        
+
         Params: None
-        Return: spType - the type of spoiler accessory 
+        Return: spType - the type of spoiler accessory
         """
         return self.kartDNA[ KartDNA.spType ]
 
@@ -821,7 +821,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         Purpose: The setFrontWheelWellType Method sets the
         front wheel well accessory for the kart updating the
         Kart DNA.
-        
+
         Params: fwwType - the type of Front Wheel Well accessory
         Return: None
         """
@@ -832,7 +832,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         Purpose: The getFrontWheelWellType Method obtains the
         front wheel well accessory for the kart accessing the
         Kart DNA.
-        
+
         Params: None
         Return: fwwType - the type of Front Wheel Well accessory
         """
@@ -842,7 +842,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         """
         Purpose: The setWheelWellType Method sets the Back
         Wheel Wheel accessory for the kart by updating the Kart DNA.
-        
+
         Params: bwwType - the type of Back Wheel Well accessory.
         Return: None
         """
@@ -852,7 +852,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         """
         Purpose: The getWheelWellType Method gets the Back
         Wheel Wheel accessory for the kart by updating the Kart DNA.
-        
+
         Params: bwwType - the type of Back Wheel Well accessory.
         Return: None
         """
@@ -862,7 +862,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         """
         Purpose: The setRimType Method sets the rims accessory
         for the karts tires by updating the Kart DNA.
-        
+
         Params: rimsType - the type of rims for the kart tires.
         Return: None
         """
@@ -872,7 +872,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         """
         Purpose: The setRimType Method gets the rims accessory
         for the karts tires by accessing the Kart DNA.
-        
+
         Params: None
         Return: rimsType - the type of rims for the kart tires.
         """
@@ -882,7 +882,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         """
         Purpose: The setDecalType Method sets the decal
         accessory of the kart by updating the Kart DNA.
-        
+
         Params: decalType - the type of decal set for the kart.
         Return: None
         """
@@ -892,12 +892,12 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         """
         Purpose: The getDecalType Method obtains the decal
         accessory of the kart by accessing the Kart DNA.
-        
+
         Params: None
         Return: decalType - the type of decal set for the kart.
         """
         return self.kartDNA[ KartDNA.decalType ]
-        
+
     def getGeomNode(self):
        return self.geom[0]
 
@@ -907,32 +907,32 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
 
         for wheelNode in self.wheelCenters:
             wheelNode.setP(newSpin)
-            
+
         self.oldSpinAmount = newSpin
-        
+
     def setWheelSpinSpeed(self, speed):
         pass
-    
+
     def __startWheelSpin(self):
         self.oldSpinAmount = 0
-    
+
     def __stopWheelSpin(self):
         pass
-    
+
     def turnWheels(self, amount):
         amount += self.wheelBaseH
         node = self.wheelCenters[self.RFWHEEL]
         node.setH(amount)
-        
+
         node = self.wheelCenters[self.LFWHEEL]
         node.setH(amount)
-        
+
 
     def generateEngineStartTrack(self):
         length = self.kartStartSfx.length()
         def printVol():
-            print self.kartLoopSfx.getVolume()
-            
+            print(self.kartLoopSfx.getVolume())
+
         track = Parallel(
             SoundInterval(self.kartStartSfx),
             Func(self.kartLoopSfx.play),
@@ -941,7 +941,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
 
 
         return Sequence(track,Func(printVol))
-                            
+
     def generateEngineStopTrack(self, duration = 0):
         track = Parallel(
             LerpFunctionInterval(self.kartLoopSfx.setVolume, fromData = 0.4, toData = 0, duration = duration),

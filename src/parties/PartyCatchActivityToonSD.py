@@ -6,10 +6,10 @@
 #          avatars
 #-------------------------------------------------------------------------------
 
-from pandac.PandaModules import Vec3
+from toontown.toonbase.ToontownModules import Vec3
 
 from direct.interval.IntervalGlobal import Sequence, Parallel, Wait, Func
-from direct.interval.IntervalGlobal import LerpScaleInterval 
+from direct.interval.IntervalGlobal import LerpScaleInterval
 from direct.interval.IntervalGlobal import WaitInterval, ActorInterval, FunctionInterval
 from direct.task.Task import Task
 from direct.directnotify import DirectNotifyGlobal
@@ -44,7 +44,7 @@ class PartyCatchActivityToonSD(StateData.StateData):
         self.isLocal = (avId == base.localAvatar.doId)
         self.toon = self.activity.getAvatar(self.avId)
         # prevent crash during cleanup if this client exits during the activity
-        self.unexpectedExit = False        
+        self.unexpectedExit = False
 
         self.fsm = ClassicFSM.ClassicFSM(
             'CatchActivityAnimFSM-%s' % self.avId,
@@ -92,7 +92,7 @@ class PartyCatchActivityToonSD(StateData.StateData):
         # cache the animations
         for anim in self.animList:
             self.toon.pose(anim, 0)
-        
+
     def unload(self):
         del self.fsm
 
@@ -107,8 +107,8 @@ class PartyCatchActivityToonSD(StateData.StateData):
         if self._exiting:
             return
         self._exiting = True
-        self.unexpectedExit = unexpectedExit        
-        
+        self.unexpectedExit = unexpectedExit
+
         if not self.unexpectedExit:
             self.fsm.requestFinalState()
         del self._exiting
@@ -183,7 +183,7 @@ class PartyCatchActivityToonSD(StateData.StateData):
             self.rulesPanel.exit()
             self.rulesPanel.unload()
             del self.rulesPanel
-            
+
             base.setCellsAvailable(base.bottomCells + [base.leftCells[0], base.rightCells[1]], True)
 
     def enterNormal(self):
@@ -316,7 +316,7 @@ class PartyCatchActivityToonSD(StateData.StateData):
             )
 
         self.fallFwdIval.start()
-        
+
     def exitFallForward(self):
         # don't 'stop/finish' the stunnedIval; it will attempt to
         # transition to 'normal', when we're already in the process

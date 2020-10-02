@@ -5,9 +5,9 @@
 # Purpose: DistributedPartyActivity is the base class for all party activities.
 #          It loads up the sign and lever (where applicable)
 #-------------------------------------------------------------------------------
-#from pandac.PandaModules import VBase4
-from pandac.PandaModules import CollisionSphere, CollisionNode, CollisionTube
-from pandac.PandaModules import TextNode, NodePath, Vec3, Point3
+#from toontown.toonbase.ToontownModules import VBase4
+from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode, CollisionTube
+from toontown.toonbase.ToontownModules import TextNode, NodePath, Vec3, Point3
 
 from direct.distributed.ClockDelta import globalClockDelta
 #from direct.gui.DirectGui import DirectLabel
@@ -32,11 +32,11 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
     Base class for Distributed Party Activity objects on the client side. A distributed
     party activity constitutes of any game or area at a party that involves multiple toons
     interacting with it at the same time.
-    
+
     Note that a new notify category is not created here as this class expects
     subclasses to create it.
     """
-    
+
     def __init__(self, cr, activityId, activityType, wantLever=False, wantRewardGui=False):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.activityId = activityId
@@ -58,14 +58,14 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         base.partyActivityDict[childName] = self
 
         self.root = NodePath('root')
-        
+
         # This label is used to give status of the activity to the player
 #        self.activityStatusLabel = DirectLabel(
 #            text = TTLocalizer.PartyActivityWaitingForOtherPlayers,
 #            text_fg = VBase4(1,1,1,1),
 #            relief = None,
 #            pos = (-0.6, 0, -0.75),
-#            scale = 0.075)   
+#            scale = 0.075)
 #        self.activityStatusLabel.hide()
 
         # Play Activity's party activity state data throws this when the local toon
@@ -86,7 +86,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         # difficulty debug overrides
         self.difficultyOverride  = None
         self.trolleyZoneOverride = None
-        
+
         self._localToonRequestStatus = None
 
 #-------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
     def localToonExiting(self):
         assert self.notify.debugStateCall(self)
         self._localToonRequestStatus = PartyGlobals.ActivityRequestStatus.Exiting
-    
+
     def localToonJoining(self):
         assert self.notify.debugStateCall(self)
         self._localToonRequestStatus = PartyGlobals.ActivityRequestStatus.Joining
@@ -137,7 +137,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         assert(self.notify.debug("d_toonExitDemand"))
         self.localToonExiting()
         self.sendUpdate("toonExitDemand")
-        
+
 #-------------------------------------------------------------------------------
 # join/exit functions that subclasses should override
 #-------------------------------------------------------------------------------
@@ -145,27 +145,27 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         """
         Called when the client's request to join an activity has been denied.
         Subclasses can override this function.
-        
+
         Parameters:
             reason -- a PartyGlobals.DenailReasons value
         """
         self._localToonRequestStatus = None
-        
+
     def exitRequestDenied(self, reason):
         """
         Called when the client's request to exit an activity has been denied.
         Subclasses can override this function.
-        
+
         Parameters:
             reason -- a PartyGlobals.DenailReasons value
         """
         self._localToonRequestStatus = None
-        
+
     def handleToonJoined(self, toonId):
         """
         Whenever a new toon joins the activity, this function is called.
         Subclasses should override this function.
-        
+
         Parameters:
             toonId -- doId of the toon that joined
         """
@@ -175,18 +175,18 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         """
         Whenever a toon exits the activity, this function is called.
         Subclasses should override this function.
-        
+
         Parameters:
             toonId -- doId of the toon that exited
         """
         self.notify.error("BASE: handleToonExited should be overridden %s" % self.activityName)
-        
+
     def handleToonDisabled(self, toonId):
         """
         A toon dropped unexpectedly from the game. Handle it!
         """
         self.notify.error("BASE: handleToonDisabled should be overridden %s" % self.activityName)
-        
+
 #-------------------------------------------------------------------------------
 
     # Distributed (broadcast ram)
@@ -195,52 +195,52 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         Broadcast response from the server that sends out the list of toons
         currently in the party activity. This is for all clients to properly sync up
         states for the toons in the activity.
-        
+
         Parameters:
             toonIds -- is a list of all the toons in the activity
         """
-        
+
         assert(self.notify.debug("BASE: setToonsPlaying = %s" % toonIds))
-        
+
         # Split list into who joined and who exited:
         (exitedToons, joinedToons) = self.getToonsPlayingChanges(self.toonIds, toonIds)
-        
+
         assert(self.notify.debug("\texitedToons: %s" % exitedToons))
         assert(self.notify.debug("\tjoinedToons: %s" % joinedToons))
-        
+
         self.setToonIds(toonIds)
-        
+
         self._processExitedToons(exitedToons)
         self._processJoinedToons(joinedToons)
-                    
+
     def _processExitedToons(self, exitedToons):
         """Handle the exited toons"""
         for toonId in exitedToons:
             if (toonId != base.localAvatar.doId or
-                (toonId == base.localAvatar.doId and 
+                (toonId == base.localAvatar.doId and
                 self.isLocalToonRequestStatus(PartyGlobals.ActivityRequestStatus.Exiting))):
-                
+
                 toon = self.getAvatar(toonId)
                 if toon is not None:
                     self.ignore(toon.uniqueName("disable"))
-                
+
                 self.handleToonExited(toonId)
-                
+
                 if toonId == base.localAvatar.doId:
                     self._localToonRequestStatus = None
 
                 if toonId in self._toonId2ror:
                     self.cr.relatedObjectMgr.abortRequest(self._toonId2ror[toonId])
                     del self._toonId2ror[toonId]
-    
+
     def _processJoinedToons(self, joinedToons):
         """Handle the joining toons"""
         for toonId in joinedToons:
-            
+
             # Only trigger handleToonJoined if it isn't the local Toon
             # or if the local Toon is joining this activity.
             if (toonId != base.localAvatar.doId or
-                (toonId == base.localAvatar.doId and 
+                (toonId == base.localAvatar.doId and
                 self.isLocalToonRequestStatus(PartyGlobals.ActivityRequestStatus.Joining))):
                 if toonId not in self._toonId2ror:
                     request = self.cr.relatedObjectMgr.requestObjects(
@@ -250,7 +250,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
                         del self._toonId2ror[toonId]
                     else:
                         self._toonId2ror[toonId] = request
-                    
+
     def _handlePlayerPresent(self, toons):
         toon = toons[0]
         toonId = toon.doId
@@ -265,7 +265,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
 
         if toonId == base.localAvatar.doId:
             self._localToonRequestStatus = None
- 
+
     def _enableHandleToonDisabled(self, toonId):
         toon = self.getAvatar(toonId)
         if toon is not None:
@@ -276,14 +276,14 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
             )
         else:
             self.notify.warning("BASE: unable to get handle to toon with toonId:%d. Hook for handleToonDisabled not set." % toonId)
-                    
+
     def isLocalToonRequestStatus(self, requestStatus):
         return (self._localToonRequestStatus == requestStatus)
-    
+
     def setToonIds(self, toonIds):
         """Updates the list of toon ids in the activity"""
         self.toonIds = toonIds
-                    
+
     def getToonsPlayingChanges(self, oldToonIds, newToonIds):
         """
         Returns
@@ -303,11 +303,11 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
 
     def setUsesLookAround(self):
         self.usesLookAround = True
-    
+
 #    def getTitle(self):
 #        """
 #        Return the title of the party activity.
-#        Subclasses should redefine. 
+#        Subclasses should redefine.
 #        """
 #        return TTLocalizer.DefaultPartyActivityTitle
 
@@ -317,18 +317,18 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         Subclasses should redefine.
         """
         return TTLocalizer.DefaultPartyActivityInstructions
-    
+
     def getParentNodePath(self):
         """
         Overwritten: Originally returns render.
         Returns Place NodePath.
-        """        
+        """
         if hasattr(base.cr.playGame, "hood") and base.cr.playGame.hood and \
         hasattr(base.cr.playGame.hood, "loader") and base.cr.playGame.hood.loader \
         and hasattr(base.cr.playGame.hood.loader, "geom") and base.cr.playGame.hood.loader.geom:
-            return base.cr.playGame.hood.loader.geom            
-        else:        
-            self.notify.warning("Hood or loader not created, defaulting to render")            
+            return base.cr.playGame.hood.loader.geom
+        else:
+            self.notify.warning("Hood or loader not created, defaulting to render")
             return render
 
     def __createRandomNumGen(self):
@@ -371,7 +371,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
 
             # make sure we clear the screen
             base.cr.renderFrame()
-            
+
             # If we didn't abort, tell the AI we are exiting
             if self.normalExit:
                 self.sendUpdate("toonExitRequest")
@@ -380,7 +380,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
     def disable(self):
         self.notify.debug("BASE: disable")
         DistributedObject.DistributedObject.disable(self)
-        rorToonIds = self._toonId2ror.keys()
+        rorToonIds = list(self._toonId2ror.keys())
         for toonId in rorToonIds:
             self.cr.relatedObjectMgr.abortRequest(self._toonId2ror[toonId])
             del self._toonId2ror[toonId]
@@ -406,7 +406,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         if self.wantRewardGui:
             self.showRewardDoneEvent = self.uniqueName("showRewardDoneEvent")
             self.rewardGui = JellybeanRewardGui(self.showRewardDoneEvent)
-        self.messageDoneEvent = self.uniqueName("messageDoneEvent") 
+        self.messageDoneEvent = self.uniqueName("messageDoneEvent")
         self.root.reparentTo(self.getParentNodePath())
         self._enableCollisions()
 
@@ -421,9 +421,9 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         self.signFlat = self.signModel.find("**/sign_flat")
         self.signFlatWithNote = self.signModel.find("**/sign_withNote")
         self.signTextLocator = self.signModel.find("**/signText_locator")
-        
+
         textureNodePath = getPartyActivityIcon(self.party.activityIconsModel, actNameForSign)
-                
+
         textureNodePath.setPos(0.0, -0.02, 2.2)
         textureNodePath.setScale(2.35)
         textureNodePath.copyTo(self.signFlat)
@@ -495,7 +495,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
 #        origCcPos = self.controlColumn.getPos()
 #        origBottomPos = self.bottom.getPos()
 #        origStickHingeHpr = self.stickHinge.getHpr()
-        
+
         # First, scale the thing overall to match the host's scale,
         # including cheesy effect scales.
         scale = host.getGeomNode().getChild(0).getSz(render)
@@ -522,11 +522,11 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         lookAtPoint = Point3(0.3, 0, 0.1)
         lookAtUp = Vec3(0, -1, 0)
         self.stickHinge.lookAt(host.rightHand, lookAtPoint, lookAtUp)
-        
+
         host.play('walk')
         host.update()
 
-    
+
     def unloadLever(self):
         self.lever.removeNode()
         self.leverModel.removeNode()
@@ -617,7 +617,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
             message = message,
             style = TTDialog.Acknowledge,
         )
-        
+
         self.messageGui.endState = endState
 
     def __handleMessageDone(self):
@@ -632,15 +632,15 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         if self.messageGui is not None and not self.messageGui.isEmpty():
             self.messageGui.cleanup()
             self.messageGui = None
-        
+
     def showJellybeanReward(self, earnedAmount, jarAmount, message):
         """
         Subclasses may call this to show the local player how many jellybeans
-        they got for participating in an activity. 
-        
+        they got for participating in an activity.
+
         Parameters:
           earnedAmount -- How many jellybeans the toon gets
-          jarAmount -- Amount in their pocketbook jar 
+          jarAmount -- Amount in their pocketbook jar
           message -- Activity-specific information to display while showing the
                      jellybean reward animation.
         """
@@ -652,8 +652,8 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
             base.cr.playGame.getPlace().fsm.request("activity")
             self.acceptOnce(self.showRewardDoneEvent, self.__handleJellybeanRewardDone)
             self.rewardGui.showReward(earnedAmount, jarAmount, message)
-        
-        
+
+
     def __handleJellybeanRewardDone(self):
         """
         The player is done viewing their jellybean reward. Clean up.
@@ -704,7 +704,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         # some subclasses redefine this, so they might have already cleaned it
         # up at this point
         if hasattr(self, "toonIds"):
-            del self.toonIds 
+            del self.toonIds
         del self.rulesDoneEvent
         del self.modelCount
         del self.cleanupActions
@@ -723,18 +723,18 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
     # Distributed (required broadcast)
     def setX(self, x):
         self.x = x
-        
-        
+
+
     # Distributed (required broadcast)
     def setY(self, y):
         self.y = y
-        
-        
+
+
     # Distributed (required broadcast)
     def setH(self, h):
         self.h = h
-    
-    
+
+
     # Distributed (broadcast ram)
     def setState(self, newState, timestamp):
         """
@@ -774,7 +774,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         """
 
         # If it is an avatar, look it up in the doid2do
-        if self.cr.doId2do.has_key(toonId):
+        if toonId in self.cr.doId2do:
             return self.cr.doId2do[toonId]
         # I do not know what this toonId is
         else:
@@ -790,12 +790,12 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
             return avatar.getName()
         else:
             return "Unknown"
-        
-        
+
+
     def isLocalToonInActivity(self):
         """
         Returns True if the local toon is in an activity, False otherwise.
-        
+
         Sub-classes should use this to ensure the local toon isn't in another
         activity when they request to join this activity. This is mostly to
         prevent bug associated with hitting another activity when flying after
@@ -813,7 +813,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
     def getToonIdsAsList(self):
         """
         Returns a list of doId's of all toons in this activity.
-        
+
         Sub-classes should override this if they change how toon doId's are
         stored.
         """
@@ -846,7 +846,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
             self.rulesPanel.exit()
             self.rulesPanel.unload()
             del self.rulesPanel
-            
+
             base.setCellsAvailable(base.bottomCells + [base.leftCells[0], base.rightCells[1]], True)
 
 

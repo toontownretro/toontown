@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 
 from direct.directnotify import DirectNotifyGlobal
@@ -14,7 +14,7 @@ import math
 class CogHQBossBattle(BattlePlace.BattlePlace):
     # create a notify category
     notify = DirectNotifyGlobal.directNotify.newCategory("CogHQBossBattle")
-    
+
     # special methods
     def __init__(self, loader, parentFSM, doneEvent):
         assert(self.notify.debug("__init__()"))
@@ -67,7 +67,7 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
                                          'died',
                                          'tunnelOut', 'DFA', 'battle',
                                          'movie', 'ouch', 'crane', 'finalBattle',
-                                         'WaitForBattle', 
+                                         'WaitForBattle',
                                          ]),
                             State.State('stickerBook',
                                         self.enterStickerBook,
@@ -168,7 +168,7 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
         self.fsm.request(requestStatus["how"], [requestStatus])
 
     def exit(self):
-        self.fsm.requestFinalState()        
+        self.fsm.requestFinalState()
 
         # Respect invasions again.
         base.localAvatar.inventory.setRespectInvasions(1)
@@ -197,7 +197,7 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
         base.localAvatar.setTeleportAvailable(0)
         # Disable leave to pay / set parent password
         base.localAvatar.cantLeaveGame = 1
-        
+
     def exitBattle(self):
         assert(self.notify.debug("exitBattle()"))
         self.townBattle.exit()
@@ -211,13 +211,13 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
         base.localAvatar.setTeleportAvailable(0)
         base.localAvatar.setTeleportAllowed(0)
         base.localAvatar.cantLeaveGame = 0
-        
+
         # Put away the book
         base.localAvatar.book.hideButton()
         self.ignore(ToontownGlobals.StickerBookHotkey)
         self.ignore("enterStickerBook")
         self.ignore(ToontownGlobals.OptionsPageHotkey)
-        
+
     def exitFinalBattle(self):
         assert(self.notify.debug("exitFinalBattle()"))
         self.walkStateData.exit()
@@ -228,7 +228,7 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
     def enterMovie(self, requestStatus = None):
         assert(self.notify.debug("enterMovie()"))
         base.localAvatar.setTeleportAvailable(0)
-        
+
     def exitMovie(self):
         assert(self.notify.debug("exitMovie()"))
 
@@ -236,7 +236,7 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
         assert(self.notify.debug("enterOuch()"))
         base.localAvatar.setTeleportAvailable(0)
         base.localAvatar.laffMeter.start()
-        
+
     def exitOuch(self):
         assert(self.notify.debug("exitOuch()"))
         base.localAvatar.laffMeter.stop()
@@ -246,18 +246,18 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
         base.localAvatar.setTeleportAvailable(0)
         base.localAvatar.laffMeter.start()
         base.localAvatar.collisionsOn()
-        
+
     def exitCrane(self):
         assert(self.notify.debug("exitCrane()"))
         base.localAvatar.collisionsOff()
         base.localAvatar.laffMeter.stop()
-        
+
     # walk state inherited from Place.py
     def enterWalk(self, teleportIn=0):
         BattlePlace.BattlePlace.enterWalk(self, teleportIn)
         self.ignore('teleportQuery')
         base.localAvatar.setTeleportAvailable(0)
-        
+
         # don't let them do a book teleport out
         base.localAvatar.setTeleportAllowed(0)
         # Put away the book
@@ -293,7 +293,7 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
 
     def enterTeleportOut(self, requestStatus):
         assert(self.notify.debug('enterTeleportOut()'))
-        BattlePlace.BattlePlace.enterTeleportOut(self, requestStatus, 
+        BattlePlace.BattlePlace.enterTeleportOut(self, requestStatus,
                         self.__teleportOutDone)
 
     def __teleportOutDone(self, requestStatus):
@@ -320,13 +320,12 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
         #taskMgr.doMethodLater(2.0,
         #                      self.handleSquishDone,
         #                      base.localAvatar.uniqueName("finishSquishTask"))
-        
+
     def handleSquishDone(self, extraArgs=[]):
         # put place back in walk state after squish is done
         base.cr.playGame.getPlace().setState("walk")
-        
+
     def exitSquished(self):
         assert(self.notify.debug("exitSquished()"))
         taskMgr.remove(base.localAvatar.uniqueName("finishSquishTask"))
         base.localAvatar.laffMeter.stop()
-    

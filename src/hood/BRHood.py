@@ -1,6 +1,6 @@
 
-from pandac.PandaModules import *
-import ToonHood
+from toontown.toonbase.ToontownModules import *
+from . import ToonHood
 from toontown.town import BRTownLoader
 from toontown.safezone import BRSafeZoneLoader
 from toontown.toonbase.ToontownGlobals import *
@@ -30,10 +30,9 @@ class BRHood(ToonHood.ToonHood):
     def unload(self):
         self.parentFSM.getStateNamed("BRHood").removeChild(self.fsm)
         ToonHood.ToonHood.unload(self)
-        
+
     def enter(self, *args):
         ToonHood.ToonHood.enter(self, *args)
-            
+
     def exit(self):
         ToonHood.ToonHood.exit(self)
-    

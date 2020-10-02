@@ -1,8 +1,8 @@
 from direct.directnotify import DirectNotifyGlobal
-import HoodDataAI, ZoneUtil
+from . import HoodDataAI, ZoneUtil
 from toontown.toonbase import ToontownGlobals
 from toontown.racing import DistributedStartingBlockAI
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.racing.RaceGlobals import *
 from toontown.classicchars import DistributedGoofySpeedwayAI
 

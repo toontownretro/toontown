@@ -1,8 +1,8 @@
 """DistributedMinigameTemplate module: contains the DistributedMinigameTemplate class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
-from DistributedMinigame import *
+from .DistributedMinigame import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.toonbase import TTLocalizer, ToontownTimer
@@ -11,8 +11,8 @@ from toontown.minigame import PlayingCardGlobals
 from toontown.minigame import PairingGameCard
 from toontown.minigame import PlayingCardDeck
 from toontown.minigame import PairingGameGlobals
-from OrthoWalk import OrthoWalk
-from OrthoDrive import OrthoDrive
+from .OrthoWalk import OrthoWalk
+from .OrthoDrive import OrthoDrive
 from direct.interval.IntervalGlobal import Sequence,Parallel,Func, LerpColorScaleInterval, LerpScaleInterval, LerpFunctionInterval, Wait, SoundInterval
 from toontown.toonbase.ToontownGlobals import GlobalDialogColor
 
@@ -88,20 +88,20 @@ class DistributedPairingGame(DistributedMinigame):
                           ((self.cardsPerRow-1) * self.xCardInc, 0, 0, 45),
                           (0, (self.cardsPerCol-1) * self.yCardInc, 0, -135),
                           ]
-                          
+
 
         self.stageMin = Point2(0, 0)
         self.stageMax = Point2( (self.cardsPerRow -1)* self.xCardInc, (self.cardsPerCol -1) * self.yCardInc)
         self.gameDuration = PairingGameGlobals.EasiestGameDuration
 
-        
-        
+
+
     def moveCameraToTop(self):
         camera.reparentTo(render)
         #p = self.cameraTopView
         p = self.cameraThreeQuarterView
         camera.setPosHpr(p[0], p[1], p[2], p[3], p[4], p[5])
-        
+
     def getTitle(self):
         return TTLocalizer.PairingGameTitle
 
@@ -110,7 +110,7 @@ class DistributedPairingGame(DistributedMinigame):
             return TTLocalizer.PairingGameInstructionsMulti
         else:
             return TTLocalizer.PairingGameInstructions
-        
+
 
     def getMaxDuration(self):
         # how many seconds can this minigame possibly last (within reason)?
@@ -132,7 +132,7 @@ class DistributedPairingGame(DistributedMinigame):
         #self.gameBoard.find('**/tree_ring').removeNode()
 
         #self.debugAxis = loader.loadModel('models/misc/xyzAxis')
-        #self.debugAxis.reparentTo(self.gameBoard)        
+        #self.debugAxis.reparentTo(self.gameBoard)
         self.deck = PairingGameGlobals.createDeck(self.deckSeed, self.numPlayers)
         self.notify.debug('%s' % self.deck.cards)
 
@@ -142,7 +142,7 @@ class DistributedPairingGame(DistributedMinigame):
 
         self.cards = []
 
-        for index in xrange(len(self.deck.cards)):
+        for index in range(len(self.deck.cards)):
             cardValue = self.deck.cards[index]
             oneCard = PairingGameCard.PairingGameCard(cardValue)
             oneCard.load()
@@ -156,7 +156,7 @@ class DistributedPairingGame(DistributedMinigame):
             oneCard.turnDown(doInterval = False)
             self.cards.append(oneCard)
 
-        self.bonusTraversal = range(len(self.cards))
+        self.bonusTraversal = list(range(len(self.cards)))
 
         self.bonusGlow = render.attachNewNode('bonusGlow')
 
@@ -171,7 +171,7 @@ class DistributedPairingGame(DistributedMinigame):
         sign.reparentTo(self.bonusGlow)
 
         self.bonusGlow.setScale(2.5)
-        
+
         self.pointsFrame = DirectFrame(
             #parent = self.gui,
             relief = None,
@@ -216,7 +216,7 @@ class DistributedPairingGame(DistributedMinigame):
                 text_align = TextNode.ARight,
                 text_scale = 0.7,
                 pos = (1.82, 0, -0.15),
-                )        
+                )
 
 
         # this will be used to generate textnodes
@@ -236,10 +236,10 @@ class DistributedPairingGame(DistributedMinigame):
         for i in range(4):
             self.signalSfx.append(base.loadSfx("phase_4/audio/sfx/MG_pairing_jumping_signal.mp3"))
         self.bonusMovesSfx = base.loadSfx("phase_4/audio/sfx/MG_pairing_bonus_moves.mp3")
-                           
+
         # WARNING DEBUG only, remove or else it will leak
         # base.minigame = self
-       
+
     def unload(self):
         self.notify.debug("unload")
         DistributedMinigame.unload(self)
@@ -257,13 +257,13 @@ class DistributedPairingGame(DistributedMinigame):
         self.cards = []
 
         self.pointsFrame.removeNode()
-        del self.pointsFrame        
+        del self.pointsFrame
         self.flipsFrame.removeNode()
         del self.flipsFrame
 
-        del self.__textGen        
+        del self.__textGen
         del self.sndPerfect
-        
+
         self.bonusGlow.removeNode()
         del self.bonusGlow
 
@@ -304,7 +304,7 @@ class DistributedPairingGame(DistributedMinigame):
 
         for card in self.cards:
             card.hide()
-        
+
         # the base class parents the toons to hidden, so consider
         # calling it last
         DistributedMinigame.offstage(self)
@@ -325,7 +325,7 @@ class DistributedPairingGame(DistributedMinigame):
             return
         # all of the remote toons have joined the game;
         # it's safe to show them now.
-        for index in xrange(self.numPlayers):
+        for index in range(self.numPlayers):
             avId = self.avIdList[index]
             # Find the actual avatar in the cr
             toon = self.getAvatar(avId)
@@ -350,7 +350,7 @@ class DistributedPairingGame(DistributedMinigame):
             toon = self.getAvatar(avId)
             if toon:
                 toon.stopLookAround()
-        
+
         # transition to the appropriate state
         self.gameFSM.request("play")
 
@@ -389,7 +389,7 @@ class DistributedPairingGame(DistributedMinigame):
         # listen for key presses
         # We used to use the insert key for tossing pies.
         # Nowadays we use the delete key instead, for better
-        # consistency with Macs (which lack an insert key).        
+        # consistency with Macs (which lack an insert key).
         self.accept('insert', self.__flipKeyPressed)
         self.accept('delete', self.__flipKeyPressed)
 
@@ -402,24 +402,24 @@ class DistributedPairingGame(DistributedMinigame):
 
         self.timer = ToontownTimer.ToontownTimer()
         self.timer.posInTopRightCorner()
-        self.timer.setTime(self.gameDuration) 
+        self.timer.setTime(self.gameDuration)
         self.timer.countdown(self.gameDuration, self.timerExpired)
 
         if base.localAvatar.laffMeter:
             base.localAvatar.laffMeter.stop()
-        
+
         # when the game is done, call gameOver()
         # self.gameOver()
 
     def exitPlay(self):
         # Stop music
-        self.music.stop()        
-        
+        self.music.stop()
+
         self.orthoWalk.stop()
         self.orthoWalk.destroy()
         del self.orthoWalk
         self.bonusGlow.hide()
- 
+
         self.stopBonusTask()
 
         self.timer.stop()
@@ -434,10 +434,10 @@ class DistributedPairingGame(DistributedMinigame):
         if hasattr(self, 'perfectIval'):
             self.perfectIval.pause()
             del self.perfectIval
-          
+
         taskMgr.remove(self.EndGameTaskName)
-        taskMgr.remove('pairGameContinueSignal')        
-        
+        taskMgr.remove('pairGameContinueSignal')
+
     def enterCleanup(self):
         self.notify.debug("enterCleanup")
 
@@ -454,8 +454,8 @@ class DistributedPairingGame(DistributedMinigame):
             posIndex = self.avIdList.index(avId)
             pos = self.startingPositions[posIndex]
             toon.setPos(pos[0], pos[1], pos[2])
-            toon.setHpr(pos[3],0,0)        
-        
+            toon.setHpr(pos[3],0,0)
+
     def __doPairingGameCollisions(self, oldPos, newPos):
         x = bound(newPos[0], self.stageMin[0], self.stageMax[0])
         y = bound(newPos[1], self.stageMin[1], self.stageMax[1])
@@ -466,14 +466,14 @@ class DistributedPairingGame(DistributedMinigame):
             newPos.setZ(0.15)
         else:
             newPos.setZ(0.0)
-        
+
         #if we're moving also cancel out the signaling task
         if not oldPos == newPos:
             taskMgr.remove('pairGameContinueSignal')
         return newPos
 
     def getDeckOrderFromValue(self, value):
-        for index in xrange(len(self.cards)):
+        for index in range(len(self.cards)):
             if self.cards[index].value == value:
                 return index
         return -1
@@ -489,17 +489,17 @@ class DistributedPairingGame(DistributedMinigame):
         intoName = colEntry.getIntoNodePath().getName()
         parts = intoName.split('-')
         value = int(parts[1])
-        
+
         self.notify.debug('entered cardValue %d' % value)
         deckOrder = self.getDeckOrderFromValue(value)
 
         if not deckOrder in self.inList:
             self.inList.append(deckOrder)
-        
+
     def exitCard(self, colEntry):
         intoName = colEntry.getIntoNodePath().getName()
         parts = intoName.split('-')
-        value = int(parts[1])        
+        value = int(parts[1])
         self.notify.debug('exited cardValue %d' % value)
         deckOrder = self.getDeckOrderFromValue(value)
         if deckOrder in self.inList:
@@ -516,7 +516,7 @@ class DistributedPairingGame(DistributedMinigame):
 
         self.inactiveList.append(cardA)
         self.inactiveList.append(cardB)
-        
+
         matchIval = Parallel()
         for card in [cardA, cardB]:
             self.cards[card].setTransparency(1)
@@ -534,12 +534,12 @@ class DistributedPairingGame(DistributedMinigame):
                                            listenerNode = base.localAvatar,
                                            cutOff=240))
         matchIval.start()
-        
+
 
         # report we're done if all cards are matched
         if len(self.inactiveList) == len(self.cards):
             self.sendUpdate('reportDone')
-            
+
 
     def turnUpCard(self, deckOrder):
         self.cards[deckOrder].turnUp()
@@ -548,7 +548,7 @@ class DistributedPairingGame(DistributedMinigame):
     def turnDownCard(self, deckOrder):
         self.cards[deckOrder].turnDown()
         if deckOrder in self.faceUpList:
-            self.faceUpList.remove(deckOrder)        
+            self.faceUpList.remove(deckOrder)
 
 
     def __flipKeyPressed(self):
@@ -578,7 +578,7 @@ class DistributedPairingGame(DistributedMinigame):
         """
         if len(self.cards) == 0:
             return Task.done
-        
+
         curT =  self.getCurrentGameTime()
         intTime = int( curT / self.bonusGlowTime)
         newIndex =  intTime % len(self.cards)
@@ -587,7 +587,7 @@ class DistributedPairingGame(DistributedMinigame):
             self.bonusGlowCard = self.bonusTraversal[self.bonusGlowIndex]
             card = self.cards[self.bonusGlowCard]
             self.bonusGlow.setPos( card.getPos())
-            base.playSfx(self.bonusMovesSfx, node = card, volume = 0.25)     
+            base.playSfx(self.bonusMovesSfx, node = card, volume = 0.25)
         return Task.cont
 
     def timerExpired(self):
@@ -601,8 +601,8 @@ class DistributedPairingGame(DistributedMinigame):
     def updateFlipText(self):
         self.flipsLabel['text'] = str(self.flips)
         lowFlipModifier = PairingGameGlobals.calcLowFlipModifier(self.matches, self.flips)
-        red = 1.0 - lowFlipModifier 
-        green = lowFlipModifier 
+        red = 1.0 - lowFlipModifier
+        green = lowFlipModifier
         self.flipsLabel['text_fg'] = Vec4(red,green,0,1.0)
 
     def openCardResult(self, cardToTurnUp, avId, matchingCard, points, cardsToTurnDown):
@@ -611,7 +611,7 @@ class DistributedPairingGame(DistributedMinigame):
 
         if not self.isInPlayState():
             return
-        
+
         if avId == base.localAvatar.doId:
             self.localFaceUpList.append(cardToTurnUp)
 
@@ -620,7 +620,7 @@ class DistributedPairingGame(DistributedMinigame):
         gotBonus = False
         if points - self.points > 1:
             gotBonus = True
-            
+
         if matchingCard > -1:
             self.handleMatch(cardToTurnUp, matchingCard, gotBonus)
 
@@ -698,7 +698,7 @@ class DistributedPairingGame(DistributedMinigame):
                 WaitInterval(.5),
                 Func(endGame, None),
                 )
-            
+
             soundTrack = SoundInterval(self.sndPerfect)
 
             self.perfectIval = Parallel(textTrack,
@@ -711,10 +711,10 @@ class DistributedPairingGame(DistributedMinigame):
         self.__textGen.setText(text)
         return self.__textGen.generate()
 
-    def b_setSignaling(self, avId):        
+    def b_setSignaling(self, avId):
         self.setSignaling(avId)
         self.sendUpdate('setSignaling', [self.localAvId])
-        
+
 
     def setSignaling(self, avId):
         if not self.hasLocalToon: return
@@ -722,7 +722,7 @@ class DistributedPairingGame(DistributedMinigame):
         av = base.cr.doId2do.get(avId)
         if av and (avIndex >= 0) and hasattr(self, 'signalSfx') and self.signalSfx:
             base.playSfx(self.signalSfx[avIndex], node =av)
-            
+
 
     def __beginSignal(self, mouseParam):
         self.notify.debug('beginSignal')
@@ -740,8 +740,8 @@ class DistributedPairingGame(DistributedMinigame):
     def __continueSignal(self, task):
         base.localAvatar.b_setEmoteState(1, 1.0)
         self.b_setSignaling(self.localAvId)
-        taskMgr.doMethodLater(1.67, self.__continueSignal, 'pairGameContinueSignal')        
-        
+        taskMgr.doMethodLater(1.67, self.__continueSignal, 'pairGameContinueSignal')
+
 
     def getCardPos( self, deckOrderIndex):
         col = deckOrderIndex % self.cardsPerRow
@@ -765,11 +765,10 @@ class DistributedPairingGame(DistributedMinigame):
         halfRow = self.cardsPerRow / 2
         if self.cardsPerRow % 2:
             halfRow += 1
-        for i in xrange( halfRow):
-            for j in xrange(2):
+        for i in range( halfRow):
+            for j in range(2):
                 col = i + j*halfRow
-                for row in xrange(self.cardsPerCol):
+                for row in range(self.cardsPerCol):
                     card = self.getDeckOrderIndex(row,col)
                     if card > -1:
                         self.bonusTraversal.append(card)
-        

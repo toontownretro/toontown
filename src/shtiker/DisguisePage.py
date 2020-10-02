@@ -1,8 +1,8 @@
 """DisguisePage module: contains the DisguisePage class"""
 
-import ShtikerPage
+from . import ShtikerPage
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.suit import SuitDNA
@@ -21,7 +21,7 @@ DeptColors = (
     # sellbots
     Vec4(0.761, 0.678, 0.690, 1.000),
     )
-    
+
 NumParts = max(CogDisguiseGlobals.PartsPerSuit)
 
 PartNames = (
@@ -42,13 +42,13 @@ class DisguisePage(ShtikerPage.ShtikerPage):
         # default to bossbot info
         self.activeTab = 0
         self.progressTitle = None
-        
+
     def load(self):
         ShtikerPage.ShtikerPage.load(self)
 
         # load the gui
         gui = loader.loadModel("phase_9/models/gui/cog_disguises")
-        
+
         # make a frame for the background
         self.frame = DirectFrame(
             parent = self,
@@ -70,7 +70,7 @@ class DisguisePage(ShtikerPage.ShtikerPage):
         # make the tab text
         self.tabs = []
         self.pageFrame = DirectFrame(parent = self.frame, relief = None)
-        
+
         for dept in SuitDNA.suitDepts:
             if dept == 'c':
                 # Bossbot
@@ -143,7 +143,7 @@ class DisguisePage(ShtikerPage.ShtikerPage):
             relief = None,
             geom = gui.find("**/tube"),
             )
-        
+
         # Suit's Face
         DirectFrame(
             parent = self.frame,
@@ -197,7 +197,7 @@ class DisguisePage(ShtikerPage.ShtikerPage):
 
         # will need two more 'merit' progress titles eventually
         self.progressTitle = self.meritTitle
-        
+
         self.promotionTitle = DirectLabel(
             parent = self.frame,
             relief = None,
@@ -224,7 +224,7 @@ class DisguisePage(ShtikerPage.ShtikerPage):
             text_font = ToontownGlobals.getSuitFont(),
             text_scale = 0.09,
             text_align = TextNode.ACenter,
-            pos = (-0.91, 0, -1.02),            
+            pos = (-0.91, 0, -1.02),
             )
 
         # this will let us globally scale and position the various parts
@@ -256,7 +256,7 @@ class DisguisePage(ShtikerPage.ShtikerPage):
                     geom = gui.find("**/robot_hole/" + PartNames[partNum]),
                     )
                 )
-        
+
         # make the cog part label
         self.cogPartRatio = DirectLabel(
             parent = self.frame,
@@ -265,7 +265,7 @@ class DisguisePage(ShtikerPage.ShtikerPage):
             text_font = ToontownGlobals.getSuitFont(),
             text_scale = 0.08,
             text_align = TextNode.ACenter,
-            pos = (-0.91, 0, -0.82),            
+            pos = (-0.91, 0, -0.82),
             )
 
         # make the cog part label
@@ -302,7 +302,7 @@ class DisguisePage(ShtikerPage.ShtikerPage):
         # Start with Sellbot page visible for first factory
         self.activeTab = 3
         self.updatePage()
-        
+
     def unload(self):
         # call parent class unload
         ShtikerPage.ShtikerPage.unload(self)
@@ -310,13 +310,13 @@ class DisguisePage(ShtikerPage.ShtikerPage):
     def enter(self):
         self.frame.show()
         ShtikerPage.ShtikerPage.enter(self)
-        
+
     def exit(self):
-        self.frame.hide()        
+        self.frame.hide()
         ShtikerPage.ShtikerPage.exit(self)
 
     # updates
-        
+
     def updatePage(self):
         self.doTab(self.activeTab)
 
@@ -337,7 +337,7 @@ class DisguisePage(ShtikerPage.ShtikerPage):
         # mean that this is a two part leg (consider the foot part of the
         # lower leg). Etc.
         #
-        groupingBitmask = CogDisguiseGlobals.PartsPerSuitBitmasks[index]             
+        groupingBitmask = CogDisguiseGlobals.PartsPerSuitBitmasks[index]
         # previous part helps us map smaller numbers of cog parts onto the
         # full cog parts displays. It determines if the only part we really
         # care about (a 1 in the groupingBitmask) was present and what
@@ -367,15 +367,15 @@ class DisguisePage(ShtikerPage.ShtikerPage):
             # if we don't have the part, but the part is a don't care
             elif (not groupingBit and previousPart):
                 part.show()
-                self.holes[self.parts.index(part)].hide()                
+                self.holes[self.parts.index(part)].hide()
             # else we don't have the part
             else:
-                self.holes[self.parts.index(part)].show()                
+                self.holes[self.parts.index(part)].show()
                 part.hide()
                 previousPart = 0
 
             #print "previousPart = ", previousPart
-            
+
             # shift the mask to look at the next bit
             partBitmask = partBitmask << 1
 
@@ -458,7 +458,7 @@ class DisguisePage(ShtikerPage.ShtikerPage):
             self.progressTitle = self.meritTitle
         self.progressTitle.show()
         self.cogName['text'] = SuitBattleGlobals.SuitAttributes[cog]['name']
-        cogLevel = base.localAvatar.cogLevels[index]        
+        cogLevel = base.localAvatar.cogLevels[index]
         self.cogLevel['text'] = (TTLocalizer.DisguisePageCogLevel  %
                                  str(cogLevel + 1))
         numParts = base.localAvatar.cogParts[index]
@@ -468,5 +468,3 @@ class DisguisePage(ShtikerPage.ShtikerPage):
         self.cogPartRatio['text'] = (
             "%d/%d" %
             (CogDisguiseGlobals.getTotalParts(numParts), numPartsRequired))
-        
-

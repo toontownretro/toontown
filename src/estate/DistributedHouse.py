@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from toontown.minigame.OrthoWalk import *
 from string import *
@@ -16,7 +16,7 @@ from toontown.toonbase import TTLocalizer
 import random
 from direct.showbase import PythonUtil
 from toontown.hood import Place
-import HouseGlobals
+from . import HouseGlobals
 from toontown.building import ToonInteriorColors
 from direct.showbase.MessengerGlobal import messenger
 
@@ -72,7 +72,7 @@ class DistributedHouse(DistributedObject.DistributedObject):
             self.nametag.setAvatar(NodePath())
             self.nametag = None
 
-    def load(self):        
+    def load(self):
         self.notify.debug("load")
 
         # Load the house once.  When we walk in a door, the house model will automatically

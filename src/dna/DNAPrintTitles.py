@@ -4,7 +4,7 @@ out the building titles for each block ID
 """
 
 import direct
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 import time
 
 dnaStorageFiles = [
@@ -65,16 +65,16 @@ for file in dnaStorageFiles:
 
 print ("zone2TitleDict = {")
 for file in dnaFiles:
-    print ("    # titles for: %s" % (file))
+    print(("    # titles for: %s" % (file)))
     loadDNAFile(dnaStore, file, CSDefault, 0)
     for blockIndex in range(dnaStore.getNumBlockTitles()):
         blockNumber = dnaStore.getTitleBlockAt(blockIndex)
         title = dnaStore.getTitleFromBlockNumber(blockNumber)
         zone = dnaStore.getZoneFromBlockNumber(blockNumber)
-        article = dnaStore.getArticleFromBlockNumber(blockNumber)        
+        article = dnaStore.getArticleFromBlockNumber(blockNumber)
         branchZone = zone-(zone%100)
         finalZone = branchZone + 500 + blockNumber
-        print ('    %s : ("%s", "%s"),' % (finalZone, title, article))
+        print(('    %s : ("%s", "%s"),' % (finalZone, title, article)))
     dnaStore.resetBlockTitle()
     dnaStore.resetBlockNumbers()
     dnaStore.resetBlockArticle()

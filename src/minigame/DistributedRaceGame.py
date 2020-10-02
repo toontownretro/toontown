@@ -1,14 +1,14 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.distributed.ClockDelta import *
-from DistributedMinigame import *
+from .DistributedMinigame import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task.Task import Task
 from toontown.toonbase import ToontownTimer
-import RaceGameGlobals
+from . import RaceGameGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 
@@ -214,7 +214,7 @@ class DistributedRaceGame(DistributedMinigame):
             )
         self.chanceCardText.hide()
 
-        
+
         # The sound that is played when chance card is revealed
         self.cardSound = base.loadSfx(
             "phase_3.5/audio/sfx/GUI_stickerbook_turn.mp3")
@@ -285,7 +285,7 @@ class DistributedRaceGame(DistributedMinigame):
         self.notify.debug("setGameReady")
         if DistributedMinigame.setGameReady(self):
             return
-        
+
         self.resetPositions()
         # Make the avatars all run in
         for i in range(self.numPlayers):
@@ -389,7 +389,7 @@ class DistributedRaceGame(DistributedMinigame):
             return 0
 
     def anyAvatarWon(self):
-        for position in self.avatarPositions.values():
+        for position in list(self.avatarPositions.values()):
             if position >= RaceGameGlobals.NumberToWin:
                 # If any single avatar won, return true
                 self.notify.debug("anyAvatarWon: Somebody won")
@@ -457,7 +457,7 @@ class DistributedRaceGame(DistributedMinigame):
 
         # Make a copy for getLongestLerpTime to stomp on
         self.avatarPositionsCopy = self.avatarPositions.copy()
-        
+
         for i in range(0, len(choiceList)/self.numPlayers):
             startIndex = i * self.numPlayers
             endIndex = startIndex + self.numPlayers
@@ -520,7 +520,7 @@ class DistributedRaceGame(DistributedMinigame):
                           Task(self.hideNumbers)]
 
         self.notify.debug("task list : " +  str(tasks))
-        
+
         # now make and spawn a sequence out of our compiled task list
         wdt = Task(self.walkDone)
         wdt.name = "walk done"
@@ -543,7 +543,7 @@ class DistributedRaceGame(DistributedMinigame):
 
     def getLongestLerpTime(self, afterFirst):
         self.notify.debug("afterFirst: " + str(afterFirst))
-        # The choiceList should be in lane order from the server        
+        # The choiceList should be in lane order from the server
         longestTime = 0.0
         for i in range(len(self.choiceList)):
             # See how many people chose this number
@@ -563,7 +563,7 @@ class DistributedRaceGame(DistributedMinigame):
         tasks = []
         for reward in self.rewardList:
             self.notify.debug("showChanceRewards: reward = " + str(reward))
-            index = self.rewardList.index(reward) 
+            index = self.rewardList.index(reward)
             # if an actual reward is present in the list
             if (reward != -1):
                 self.notify.debug("adding tasks!")
@@ -641,10 +641,10 @@ class DistributedRaceGame(DistributedMinigame):
 
     def moveCamera(self):
         # find the integer position of the avatar farthest ahead
-        bestPosIdx = self.avatarPositions.values()[0]
+        bestPosIdx = list(self.avatarPositions.values())[0]
         best_lane = 0
         cur_lane = 0
-        for pos in self.avatarPositions.values():
+        for pos in list(self.avatarPositions.values()):
             if pos > bestPosIdx:
                 bestPosIdx = pos
                 best_lane = cur_lane
@@ -780,7 +780,7 @@ class DistributedRaceGame(DistributedMinigame):
         taskMgr.remove("moveAvatars")
         #for lane in range(self.numPlayers):
         #    taskMgr.remove("startWalk-" + str(lane))
-        #    taskMgr.remove("startRun-" + str(lane))            
+        #    taskMgr.remove("startRun-" + str(lane))
         return None
 
     def gameOverCallback(self, task):
@@ -859,7 +859,7 @@ class DistributedRaceGame(DistributedMinigame):
                                                    other=self.raceBoard),
                                  stopWalkTask,
                                  )
-        
+
         taskMgr.add(walkTask, "walkAvatar-" + str(lane))
 
     def runInPlace(self, avatar, lane, currentPlace, newPlace, time):
@@ -954,4 +954,3 @@ class DistributedRaceGame(DistributedMinigame):
         # Reset all avatar positions to 0
         for avId in self.avIdList:
             self.avatarPositions[avId] = 0
-

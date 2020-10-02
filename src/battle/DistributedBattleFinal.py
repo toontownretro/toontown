@@ -1,14 +1,14 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
-from BattleBase import *
+from .BattleBase import *
 
 from direct.actor import Actor
 from toontown.distributed import DelayDelete
 from direct.directnotify import DirectNotifyGlobal
-import DistributedBattleBase
-import MovieUtil
+from . import DistributedBattleBase
+from . import MovieUtil
 from toontown.suit import Suit
-import SuitBattleGlobals
+from . import SuitBattleGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
 from direct.fsm import State
@@ -70,7 +70,7 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
     def setBossCogId(self, bossCogId):
         self.bossCogId = bossCogId
 
-        if base.cr.doId2do.has_key(bossCogId):
+        if bossCogId in base.cr.doId2do:
             # This would be risky if we had toons entering the zone during
             # a battle--but since all the toons are always there from the
             # beginning, we can be confident that the BossCog has already
@@ -83,7 +83,7 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
             self.notify.debug('doing relatedObjectMgr.request for bossCog')
             self.bossCogRequest = base.cr.relatedObjectMgr.requestObjects(
                 [bossCogId], allCallback = self.__gotBossCog)
-            
+
 
 
     def __gotBossCog(self, bossCogList):
@@ -96,7 +96,7 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
         currStateName = self.localToonFsm.getCurrentState().getName()
         if currStateName == 'NoLocalToon' and self.bossCog.hasLocalToon():
             self.enableCollision()
-        
+
     def setBattleNumber(self, battleNumber):
         self.battleNumber = battleNumber
 
@@ -109,7 +109,7 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
                          toonsRunning, timestamp):
         if self.battleCleanedUp():
             return
-        
+
         oldtoons = DistributedBattleBase.DistributedBattleBase.setMembers(self,
                 suits, suitsJoining, suitsPending, suitsActive, suitsLured,
                 suitTraps,
@@ -135,7 +135,7 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
         # We override this function from the base class to play no
         # interval.  Instead, we synchronize the animation of all of
         # the joining suits in the ReservesJoining state.
-        
+
         self.joiningSuits.append(suit)
         if (self.hasLocalToon()):
             self.d_joinDone(base.localAvatar.doId, suit.doId)
@@ -168,11 +168,11 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
                 """
 
             suit.setState('Battle')
-            #RAU lawbot boss battle hack, 
+            #RAU lawbot boss battle hack,
             if suit.dna.dept == 'l':
                 suit.reparentTo(self.bossCog)
                 suit.setPos(0, 0, 0)
-            
+
             suit.setPos(self.bossCog, 0, 0, 0)
             suit.headsUp(self)
 
@@ -235,7 +235,7 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
         track += [
             self.bossCog.makeEndOfBattleMovie(self.hasLocalToon()),
             Func(callback)]
-        
+
         self.storeInterval(track, name)
         track.start(ts)
 

@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from otp.movement import Impulse
 
 class PetLeash(Impulse.Impulse):

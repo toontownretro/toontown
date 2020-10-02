@@ -1,6 +1,6 @@
 from direct.gui.DirectGui import *
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.estate import GardenGlobals
 from toontown.estate import PlantingGUI
 from toontown.toonbase import TTLocalizer
@@ -11,7 +11,7 @@ class BeanRecipeGui(DirectFrame):
     Displays a bean recipe in a frame
     """
     notify = DirectNotifyGlobal.directNotify.newCategory('PlantingGUI')
-   
+
     def __init__(self, parent, recipe,**kw  ):
         assert self.notify.debugStateCall(self)
 
@@ -46,7 +46,7 @@ class BeanRecipeGui(DirectFrame):
 
         for j in range (len(recipe) ,GardenGlobals.getNumberOfShovelBoxes()):
             self.createEmptyBeanBox(borderWidth + xIncrement * j,borderWidth)
-        
+
 
     def createJellyBeanBox(self, beanIndex, xPos, zPos):
         geomColor = (1,1,1,1)
@@ -66,7 +66,7 @@ class BeanRecipeGui(DirectFrame):
                 relief = None,
                 state = state,
                 command = command,
-                extraArgs = [beanIndex],                
+                extraArgs = [beanIndex],
                 text = TTLocalizer.BeanColorWords[beanIndex],
                        #(None,TTLocalizer.BeanColorWords[beanIndex],\
                        #TTLocalizer.BeanColorWords[beanIndex],None),
@@ -87,7 +87,7 @@ class BeanRecipeGui(DirectFrame):
         beanParent = newBox.attachNewNode('bean_%d' % (beanIndex))
         PlantingGUI.loadJellyBean(beanParent, beanIndex)
 
-            
+
         self.jellyBeanBoxList.append(newBox)
 
 
@@ -109,7 +109,7 @@ class BeanRecipeGui(DirectFrame):
                 relief = None,
                 state = state,
                 command = command,
-                #extraArgs = [beanIndex],                
+                #extraArgs = [beanIndex],
                 text = '', # TTLocalizer.BeanColorWords[beanIndex],
                        #(None,TTLocalizer.BeanColorWords[beanIndex],\
                        #TTLocalizer.BeanColorWords[beanIndex],None),
@@ -128,5 +128,5 @@ class BeanRecipeGui(DirectFrame):
                 )
 
         newBox.setColorScale(0.5,0.5,0.5,1)
-            
+
         self.jellyBeanBoxList.append(newBox)

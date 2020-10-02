@@ -1,6 +1,6 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
-import DistributedSZTreasure
+from . import DistributedSZTreasure
 from direct.task.Task import Task
 import math
 import random
@@ -14,11 +14,11 @@ class DistributedEFlyingTreasure(DistributedSZTreasure.DistributedSZTreasure):
         self.scale = 2
         self.delT = math.pi * 2.0*random.random()
         self.shadow = 0
-        
+
     def disable(self):
         DistributedSZTreasure.DistributedSZTreasure.disable(self)
         taskMgr.remove(self.taskName("flying-treasure"))
-        
+
     def generateInit(self):
         DistributedSZTreasure.DistributedSZTreasure.generateInit(self)
 
@@ -32,7 +32,7 @@ class DistributedEFlyingTreasure(DistributedSZTreasure.DistributedSZTreasure):
     def startAnimation(self):
         taskMgr.add(self.animateTask,
                     self.taskName("flying-treasure"))
-                    
+
     def animateTask(self, task):
         pos = self.initPos
         t  = .5*math.pi*globalClock.getFrameTime()
@@ -43,5 +43,3 @@ class DistributedEFlyingTreasure(DistributedSZTreasure.DistributedSZTreasure):
             del self.pos
         self.pos = self.nodePath.getPos()
         return Task.cont
-
-    

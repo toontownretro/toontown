@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 import math
 import random
@@ -28,15 +28,15 @@ class GameSprite:
     colorDisolveAqua = Vec4(0.0,1.0,1.0,0.0)
     colorSteel= Vec4(0.5,0.5,0.5,1.0)
     colorSteelDissolve= Vec4(0.5,0.5,0.5,0.0)
-    
+
     colorList = (colorRed,colorBlue,colorGreen,colorWhite,colorBlack,colorPurple,colorYellow,colorOrange,colorAqua,colorSteel)
     disolveList = (colorDisolveRed,colorDisolveBlue,colorDisolveGreen,colorDisolveWhite,colorDisolveBlack,colorDisolvePurple,colorDisolveYellow,colorDisolveOrange,colorDisolveAqua,colorSteelDissolve)
-    
+
     def __init__(self, spriteBase, size,colorType = 0, foundation = 0, facing = 0):
         self.colorType = colorType
 
-        
-        
+
+
         self.spriteBase = spriteBase
         self.frame = self.spriteBase.getParent()
         self.foundation = foundation
@@ -60,46 +60,46 @@ class GameSprite:
         self.multiColorLevel = 0.0
         self.multiColorStep = 0.025
         self.facing = facing
-        
+
         self.breakable = 1
-        
+
         self.deleteFlag = 0
-        
+
         self.nodeObj = None
         self.inputSize = size
-        
+
         myColor = GameSprite.colorWhite
         myModel = 'phase_12/models/bossbotHQ/bust_a_cog_ball_white'
-        
-            
+
+
         self.setBallType(colorType)
-                
+
         self.size = 0.4 * self.sizeMult
         self.isQue = 0
-            
-        self.nodeObj.setTransparency(TransparencyAttrib.MAlpha)    
+
+        self.nodeObj.setTransparency(TransparencyAttrib.MAlpha)
         self.markedForDeath = 0
         self.gridPosX = None
         self.gridPosZ = None
-        
+
     def setBallType(self, type, solidOverride = 0):
-        
+
         if not self.nodeObj or self.nodeObj.isEmpty():
             self.nodeObj = None
         else:
             self.nodeObj.remove()
-            
+
         colorType = type
         self.multiColor = 0
         self.breakable = 1
-        
+
         solid = self.foundation
         if solidOverride:
             solid = 1
-        
+
         myColor = GameSprite.colorWhite
         myModel = 'phase_12/models/bossbotHQ/bust_a_cog_ball_white'
-        
+
         if (not solid) or (colorType > 9):
             if colorType == 0:
                 myColor = GameSprite.colorGhostRed
@@ -132,7 +132,7 @@ class GameSprite:
                 self.multiColorNext = 1
                 self.multiColorLevel = 0.0
                 self.multiColorStep = 0.025
-                
+
             elif colorType == 9:
                 myColor = GameSprite.colorSteel
                 self.breakable = 0
@@ -149,7 +149,7 @@ class GameSprite:
                 myModel = 'phase_12/models/bossbotHQ/bust_a_cog_ball_unknown'
                 self.giftId = 8
                 self.colorType = 1
-                
+
         else:
             if colorType == 0:
                 #myColor = GameSprite.colorRed
@@ -207,29 +207,29 @@ class GameSprite:
                 myModel = 'phase_12/models/bossbotHQ/bust_a_cog_ball_unknown'
                 self.giftId = 8
                 self.colorType = 1
-                
+
         self.nodeObj = loader.loadModel(myModel)
         self.nodeObj.setScale(self.inputSize)
         self.nodeObj.reparentTo(self.spriteBase)
         self.setColor(myColor)
-        
-        
+
+
     def removeDelay(self):
         self.delayRemove = 0
-            
+
     def delete(self):
         if not self.delayRemove:
             self.spriteBase.removeNode()
             self.deleteFlag = 1
-            
+
     def face(self):
         frameZ = self.frame.getZ()
         tilt = -95.0 + ((self.getZ() + frameZ)* 2.0)
         #tilt = -5.0 + ((self.getZ() + frameZ)* 2.0)
         self.nodeObj.setP(-tilt)
         #self.nodeObj.setR(180)
-        
-        
+
+
     def runColor(self):
         if self.multiColor:
 
@@ -247,18 +247,18 @@ class GameSprite:
                 self.multiColorNext = self.multiColorIndex + 1
                 if self.multiColorNext >= len(self.multiColorList):
                     self.multiColorNext = 0
-        
-        
-        
+
+
+
     def run(self, timeDelta):
         #print("Running")
         #print("Sprite Pos %s %s" % (self.nodeObj.getX(), self.nodeObj.getZ()))
         if self.facing:
             self.face()
-            
+
         self.runColor()
-          
-            
+
+
         if self.isActive and not self.isQue:
             self.prevX = self.spriteBase.getX()
             self.prevZ = self.spriteBase.getZ()
@@ -272,17 +272,17 @@ class GameSprite:
                 #self.addForce(self.accForce, self.accDir)
         if self.nodeObj.isEmpty():
             self.markedForDeath = 1
-                
+
     def reflectX(self):
         self.velX = -self.velX
         if self.accX != None:
             self.accX = -self.accX
-            
+
     def reflectZ(self):
         self.velZ = -self.velZ
         if self.accZ != None:
             self.accZ = -self.accZ
-            
+
     def warningBump(self):
         num1 = random.random() * 2.0
         num2 = random.random() * 2.0
@@ -301,7 +301,7 @@ class GameSprite:
                                     Point3(0.0,0.0,0.0)),
                         )
         track.start()
-        
+
     def shake(self):
         num1 = random.random() * 1.0
         num2 = random.random() * 1.0
@@ -314,7 +314,7 @@ class GameSprite:
                                     Point3(0.0,0.0,0.0)),
                         )
         track.start()
-        
+
     def deathEffect(self):
         if self.spriteBase.isEmpty():
             return
@@ -323,7 +323,7 @@ class GameSprite:
         num2 = random.random() * 1.0
         num3 = random.random() * 1.0
         notNum3 = 1.0 - num3
-        
+
         curr = self.spriteBase.getPos()
         self.delayRemove = 1
         self.canCollide = 0
@@ -347,7 +347,7 @@ class GameSprite:
                             Func(self.delete),
                         )
         track.start()
-        
+
     def wildEffect(self):
         if self.spriteBase.isEmpty():
             return
@@ -356,13 +356,13 @@ class GameSprite:
         num2 = random.random() * 1.0
         num3 = random.random() * 1.0
         notNum3 = 1.0 - num3
-        
+
         curr = self.spriteBase.getPos()
         self.delayRemove = 1
         self.canCollide = 0
         track = Sequence(
                             Parallel(
-         
+
                                 LerpScaleInterval(self.spriteBase, 1.0, 1.5,
                                   startScale=1.0),
                                 LerpColorScaleInterval(self.spriteBase,duration=1.0,
@@ -373,7 +373,7 @@ class GameSprite:
                             Func(self.delete),
                         )
         track.start()
-        
+
     def setActive(self, active):
         if active:
             self.isActive = 1
@@ -383,51 +383,50 @@ class GameSprite:
             self.velZ = 0
             self.accX = None
             self.accZ = None
-        
+
     def getX(self):
         if self.nodeObj.isEmpty():
             return None
         return self.spriteBase.getX()
-    
+
     def getZ(self):
         if self.nodeObj.isEmpty():
             return None
         return self.spriteBase.getZ()
-        
+
     def setX(self, x):
         if self.nodeObj.isEmpty():
             return None
         self.prevX = self.spriteBase.getX()
         self.spriteBase.setX(x)
-        
+
     def setZ(self, z):
         if self.nodeObj.isEmpty():
             return None
         self.prevZ = self.spriteBase.getZ()
         self.spriteBase.setZ(z)
-        
+
     def addForce(self, force, direction):
         if self.isActive:
             forceX = math.cos(direction) * force
             forceZ = math.sin(direction) * force
             self.velX += forceX
             self.velZ += forceZ
-            
+
     def setAccel(self, accel, direction):
         accelX = math.cos(direction) * accel
         accelZ = math.sin(direction) * accel
         self.accX = accelX
         self.accZ = accelZ
-        
+
     def setColorType(self, typeIndex):
         self.colorType = typeIndex
         self.setColor(GameSprite.colorList[typeIndex])
-        
+
     def setColor(self, trip):
         self.nodeObj.setColorScale(trip[0],trip[1],trip[2],trip[3])
-        
+
     def collide(self):
         if self.isActive:
             self.setX(self.prevX)
             self.setZ(self.prevZ)
-        

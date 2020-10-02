@@ -1,19 +1,19 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
-from BattleBase import *
-from BattleProps import *
+from .BattleBase import *
+from .BattleProps import *
 from toontown.toonbase.ToontownBattleGlobals import *
-from SuitBattleGlobals import *
+from .SuitBattleGlobals import *
 
 from direct.directnotify import DirectNotifyGlobal
 import random
-import MovieUtil
+from . import MovieUtil
 
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieCamera')
 
 
 ###########################################################
-##   _  _          _   ___ _        _      
+##   _  _          _   ___ _        _
 ##  | || |___ __ _| | / __| |_  ___| |_ ___
 ##  | __ / -_) _` | | \__ \ ' \/ _ \  _(_-<
 ##  |_||_\___\__,_|_| |___/_||_\___/\__/__/
@@ -21,9 +21,9 @@ notify = DirectNotifyGlobal.directNotify.newCategory('MovieCamera')
 ###########################################################
 
 
-def chooseHealShot(heals, attackDuration): 
+def chooseHealShot(heals, attackDuration):
     isUber = 0
-    
+
     for heal in heals:
         if (heal["level"] == 6) and not (heal.get("petId")):
             isUber = 1
@@ -38,7 +38,7 @@ def chooseHealShot(heals, attackDuration):
         # if the high dive is involved we want the gag to control camera and we
         #cut straight to the closing shot.
         # Pick a close shot
-        closeShot = chooseHealCloseShot(heals, 
+        closeShot = chooseHealCloseShot(heals,
                                          openDuration, openName, attackDuration * 3 , isUber)
         track = Sequence(closeShot)
     else:
@@ -47,7 +47,7 @@ def chooseHealShot(heals, attackDuration):
         openDuration = openShot.getDuration()
         openName = openShot.getName()
         # Pick a close shot
-        closeShot = chooseHealCloseShot(heals, 
+        closeShot = chooseHealCloseShot(heals,
                                          openDuration, openName, attackDuration, isUber)
         track = Sequence(openShot, closeShot)
     # Ensure we composed it to the right length
@@ -68,9 +68,9 @@ def chooseHealOpenShot(heals, attackDuration, isUber = 0):
         #allGroupLowShot, this is a bad choice
         ]
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
-    
+
 def chooseHealMidShot(heals, attackDuration, isUber = 0):
     # Setup
     numHeals = len(heals)
@@ -84,10 +84,10 @@ def chooseHealMidShot(heals, attackDuration, isUber = 0):
         #allGroupLowShot, this is a bad choice
         ]
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
-    
-def chooseHealCloseShot(heals, 
+
+def chooseHealCloseShot(heals,
                          openDuration, openName, attackDuration, isUber = 0):
     # Setup
     av = None
@@ -103,15 +103,15 @@ def chooseHealCloseShot(heals,
             # allGroupLowDiagonalShot, this is a bad choice
             ]
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 ###########################################################
-##   _____                ___ _        _      
+##   _____                ___ _        _
 ##  |_   _| _ __ _ _ __  / __| |_  ___| |_ ___
 ##    | || '_/ _` | '_ \ \__ \ ' \/ _ \  _(_-<
 ##    |_||_| \__,_| .__/ |___/_||_\___/\__/__/
-##                |_|                         
+##                |_|
 ###########################################################
 
 
@@ -123,7 +123,7 @@ def chooseTrapShot(traps, attackDuration, enterDuration = 0,
     openDuration = openShot.getDuration()
     openName = openShot.getName()
     # Pick a close shot
-    closeShot = chooseTrapCloseShot(traps, 
+    closeShot = chooseTrapCloseShot(traps,
                                      openDuration, openName, attackDuration)
     exitShot = chooseNPCExitShot(traps, exitDuration)
     # Compose the track
@@ -143,10 +143,10 @@ def chooseTrapOpenShot(traps, attackDuration):
         allGroupLowShot,
         ]
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
-    
-def chooseTrapCloseShot(traps, 
+
+def chooseTrapCloseShot(traps,
                          openDuration, openName, attackDuration):
     # Setup
     av = None
@@ -156,18 +156,18 @@ def chooseTrapCloseShot(traps,
         allGroupLowShot,
         ]
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 ###########################################################
-##   _                  ___ _        _      
+##   _                  ___ _        _
 ##  | |  _  _ _ _ ___  / __| |_  ___| |_ ___
 ##  | |_| || | '_/ -_) \__ \ ' \/ _ \  _(_-<
 ##  |____\_,_|_| \___| |___/_||_\___/\__/__/
 ##
 ###########################################################
 
-def chooseLureShot(lures, attackDuration, enterDuration = 0.0, 
+def chooseLureShot(lures, attackDuration, enterDuration = 0.0,
                                           exitDuration = 0.0):
     enterShot = chooseNPCEnterShot(lures, enterDuration)
     # Pick an open shot
@@ -175,7 +175,7 @@ def chooseLureShot(lures, attackDuration, enterDuration = 0.0,
     openDuration = openShot.getDuration()
     openName = openShot.getName()
     # Pick a close shot
-    closeShot = chooseLureCloseShot(lures, 
+    closeShot = chooseLureCloseShot(lures,
                                      openDuration, openName, attackDuration)
     exitShot = chooseNPCExitShot(lures, exitDuration)
     # Compose the track
@@ -197,10 +197,10 @@ def chooseLureOpenShot(lures, attackDuration):
         allGroupLowShot,
         ]
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
-    
-def chooseLureCloseShot(lures, 
+
+def chooseLureCloseShot(lures,
                          openDuration, openName, attackDuration):
     # Setup
     av = None
@@ -213,7 +213,7 @@ def chooseLureCloseShot(lures,
     for suit in battle.suits:
         if hasattr(suit,'battleTrap') and suit.battleTrap == UBER_GAG_LEVEL_INDEX:
             hasTrainTrackTrap = True
-            
+
     if hasTrainTrackTrap:
         shotChoices = [
             avatarBehindHighRightShot,
@@ -226,16 +226,16 @@ def chooseLureCloseShot(lures,
             allGroupLowShot,
             ]
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 ###########################################################
-##   ___                   _   ___ _        _      
+##   ___                   _   ___ _        _
 ##  / __| ___ _  _ _ _  __| | / __| |_  ___| |_ ___
 ##  \__ \/ _ \ || | ' \/ _` | \__ \ ' \/ _ \  _(_-<
 ##  |___/\___/\_,_|_||_\__,_| |___/_||_\___/\__/__/
 ##
-###########################################################                                                
+###########################################################
 
 def chooseSoundShot(sounds, targets, attackDuration, enterDuration = 0.0,
                                                      exitDuration = 0.0):
@@ -266,7 +266,7 @@ def chooseSoundOpenShot(sounds, targets, attackDuration):
     #import pdb; pdb.set_trace()
     numSounds = len(sounds)
     av = None
-    
+
     # The single toon case
     if numSounds == 1:
         # The attacking Toon
@@ -294,9 +294,9 @@ def chooseSoundOpenShot(sounds, targets, attackDuration):
     else:
         notify.error("Bad number of sounds: %s" % numSounds)
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
-    
+
 def chooseSoundCloseShot(sounds, targets,
                          openDuration, openName, attackDuration):
     # Setup
@@ -325,15 +325,15 @@ def chooseSoundCloseShot(sounds, targets,
     else:
         notify.error("Bad number of suits: %s" % numSuits)
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 ###########################################################
-##   _____ _                     ___ _        _      
+##   _____ _                     ___ _        _
 ##  |_   _| |_  _ _ _____ __ __ / __| |_  ___| |_ ___
 ##    | | | ' \| '_/ _ \ V  V / \__ \ ' \/ _ \  _(_-<
 ##    |_| |_||_|_| \___/\_/\_/  |___/_||_\___/\__/__/
-##                                                  
+##
 ###########################################################
 
 def chooseThrowShot(throws, suitThrowsDict, attackDuration):
@@ -379,7 +379,7 @@ def chooseThrowOpenShot(throws, suitThrowsDict, attackDuration):
     else:
         notify.error("Bad number of throws: %s" % numThrows)
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
 
     # Set up the play by play text
     # Whoops! No play by play for toons, since the multi-toon case is
@@ -388,9 +388,9 @@ def chooseThrowOpenShot(throws, suitThrowsDict, attackDuration):
     #pbpTrack = pbpText.getShowInterval(attack['prettyName'], duration)
 
     #mtrack = Parallel(track, pbpTrack)
-    
+
     return track
-    
+
 def chooseThrowCloseShot(throws, suitThrowsDict,
                          openDuration, openName, attackDuration):
     # Setup
@@ -400,12 +400,12 @@ def chooseThrowCloseShot(throws, suitThrowsDict,
     # The single suit case
     if numSuits == 1:
         # The attacked suit
-        av = base.cr.doId2do[suitThrowsDict.keys()[0]]
+        av = base.cr.doId2do[list(suitThrowsDict.keys())[0]]
         # Single suit choices
         shotChoices = [
             avatarCloseUpThrowShot,
             avatarCloseUpThreeQuarterLeftShot,
-            
+
             allGroupLowShot,
             suitGroupThreeQuarterLeftBehindShot,
             ]
@@ -419,15 +419,15 @@ def chooseThrowCloseShot(throws, suitThrowsDict,
     else:
         notify.error("Bad number of suits: %s" % numSuits)
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 ##########################################################################
-##   ___            _     _     ___ _        _      
+##   ___            _     _     ___ _        _
 ##  / __| __ _ _  _(_)_ _| |_  / __| |_  ___| |_ ___
 ##  \__ \/ _` | || | | '_|  _| \__ \ ' \/ _ \  _(_-<
 ##  |___/\__, |\_,_|_|_|  \__| |___/_||_\___/\__/__/
-##          |_|                                     
+##          |_|
 ##########################################################################
 
 def chooseSquirtShot(squirts, suitSquirtsDict, attackDuration):
@@ -473,9 +473,9 @@ def chooseSquirtOpenShot(squirts, suitSquirtsDict, attackDuration):
     else:
         notify.error("Bad number of squirts: %s" % numSquirts)
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
-    
+
 def chooseSquirtCloseShot(squirts, suitSquirtsDict,
                           openDuration, openName, attackDuration):
     # Setup
@@ -485,12 +485,12 @@ def chooseSquirtCloseShot(squirts, suitSquirtsDict,
     # The single suit case
     if numSuits == 1:
         # The attacked suit
-        av = base.cr.doId2do[suitSquirtsDict.keys()[0]]
+        av = base.cr.doId2do[list(suitSquirtsDict.keys())[0]]
         # Single suit choices
         shotChoices = [
             avatarCloseUpThrowShot,
             avatarCloseUpThreeQuarterLeftShot,
-            
+
             allGroupLowShot,
             suitGroupThreeQuarterLeftBehindShot,
             ]
@@ -504,16 +504,16 @@ def chooseSquirtCloseShot(squirts, suitSquirtsDict,
     else:
         notify.error("Bad number of suits: %s" % numSuits)
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
 ##########################################################################
-##   ___                 ___ _        _      
+##   ___                 ___ _        _
 ##  |   \ _ _ ___ _ __  / __| |_  ___| |_ ___
 ##  | |) | '_/ _ \ '_ \ \__ \ ' \/ _ \  _(_-<
 ##  |___/|_| \___/ .__/ |___/_||_\___/\__/__/
-##               |_|                         
+##               |_|
 ##########################################################################
 
 def chooseDropShot(drops, suitDropsDict, attackDuration, enterDuration = 0.0,
@@ -562,9 +562,9 @@ def chooseDropOpenShot(drops, suitDropsDict, attackDuration):
     else:
         notify.error("Bad number of drops: %s" % numDrops)
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
-    
+
 def chooseDropCloseShot(drops, suitDropsDict,
                          openDuration, openName, attackDuration):
     # Setup
@@ -574,15 +574,15 @@ def chooseDropCloseShot(drops, suitDropsDict,
     # The single suit case
     if numSuits == 1:
         # The attacked suit
-        av = base.cr.doId2do[suitDropsDict.keys()[0]]
+        av = base.cr.doId2do[list(suitDropsDict.keys())[0]]
         # Single suit choices
         shotChoices = [
             avatarCloseUpThrowShot,
-            avatarCloseUpThreeQuarterLeftShot,          
+            avatarCloseUpThreeQuarterLeftShot,
             allGroupLowShot,
             suitGroupThreeQuarterLeftBehindShot,
             ]
-    # The multi toon case (Uber drop gag can give 0 single drops)    
+    # The multi toon case (Uber drop gag can give 0 single drops)
     elif (numSuits >= 2 and numSuits <= 4) or (numSuits == 0):
         # Multi suit choices
         shotChoices = [
@@ -609,9 +609,9 @@ def chooseNPCEnterShot(enters, entersDuration):
         toonGroupShot,
         ]
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
-    
+
 def chooseNPCExitShot(exits, exitsDuration):
     # Setup
     av = None
@@ -621,11 +621,11 @@ def chooseNPCExitShot(exits, exitsDuration):
         toonGroupShot,
         ]
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 ##########################################################################
-##   ___      _ _     ___ _        _      
+##   ___      _ _     ___ _        _
 ##  / __|_  _(_) |_  / __| |_  ___| |_ ___
 ##  \__ \ || | |  _| \__ \ ' \/ _ \  _(_-<
 ##  |___/\_,_|_|\__| |___/_||_\___/\__/__/
@@ -642,7 +642,7 @@ def chooseSuitShot(attack, attackDuration):
     name = attack['id']
     battle = attack['battle']
     camTrack = Sequence()
-    
+
     # The default camera operation of a random opening and closing shot
     def defaultCamera(attack=attack, attackDuration=attackDuration,
                       openShotDuration=3.5, target=target):
@@ -809,7 +809,7 @@ def chooseSuitCloseShot(attack,
             #avatarBehindShot,
             #avatarBehindHighShot,
             avatarCloseUpThreeQuarterRightShot,
-            
+
             #allGroupLowShot,
             suitGroupThreeQuarterLeftBehindShot,
         ]
@@ -845,9 +845,9 @@ def chooseSuitCloseShot(attack,
             diedTrack = pbpText.getToonsDiedInterval(diedTextList, duration)
     else:
         notify.error("Bad groupStatus: %s" % groupStatus)
-    
+
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     if diedTrack == None:
         return track
     else:
@@ -891,7 +891,7 @@ def focusMoveShot(x, y, z, duration, target, other=None, name='focusMoveShot'):
                       duration, other, name)
 
 ##########################################################################
-##   ___  ___  ___   ___ _        _      
+##   ___  ___  ___   ___ _        _
 ##  / __|/ _ \/ __| / __| |_  ___| |_ ___
 ##  \__ \ (_) \__ \ \__ \ ' \/ _ \  _(_-<
 ##  |___/\___/|___/ |___/_||_\___/\__/__/
@@ -903,16 +903,16 @@ def chooseSOSShot(av, duration):
         avatarCloseUpThreeQuarterRightShot,
         avatarBehindShot,
         avatarBehindHighShot,
-        
+
         suitGroupThreeQuarterLeftBehindShot,
         ]
     # Pick a shot and return it
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
 ##########################################################################
-##   ___                        _   ___ _        _      
+##   ___                        _   ___ _        _
 ##  | _ \_____ __ ____ _ _ _ __| | / __| |_  ___| |_ ___
 ##  |   / -_) V  V / _` | '_/ _` | \__ \ ' \/ _ \  _(_-<
 ##  |_|_\___|\_/\_/\__,_|_| \__,_| |___/_||_\___/\__/__/
@@ -939,11 +939,11 @@ def chooseRewardShot(av, duration, allowGroupShot = 1):
                     Wait(duration))
 
 ##########################################################################
-##    ___                       _   _   _           ___ _        _      
+##    ___                       _   _   _           ___ _        _
 ##   / __|___ _ _  ___ _ _ __ _| | | | | |___ ___  / __| |_  ___| |_ ___
 ##  | (_ / -_) ' \/ -_) '_/ _` | | | |_| (_-</ -_) \__ \ ' \/ _ \  _(_-<
 ##   \___\___|_||_\___|_| \__,_|_|  \___//__/\___| |___/_||_\___/\__/__/
-##                                                                     
+##
 ##########################################################################
 
 def heldShot(x, y, z, h, p, r, duration, name="heldShot"):
@@ -963,7 +963,7 @@ def heldRelativeShot(other, x, y, z, h, p, r, duration,
 
     # Let the camera display the toons
     track.append(Func(camera.setPosHpr, other, x, y, z, h, p, r))
-    
+
     # Hold that pose
     track.append(Wait(duration))
 
@@ -979,7 +979,7 @@ def motionShot(x, y, z, h, p, r, duration, other=None, name="motionShot"):
         posTrack = LerpPosInterval(camera, duration, pos=Point3(x, y, z))
         hprTrack = LerpHprInterval(camera, duration, hpr=Point3(h, p, r))
     return Parallel(posTrack, hprTrack)
-        
+
 def allGroupShot(avatar, duration):
     return heldShot(10, 0, 10, 89, -30, 0, duration, "allGroupShot")
 
@@ -995,7 +995,7 @@ def toonGroupShot(avatar, duration):
 def toonGroupHighShot(avatar, duration):
     #return heldShot(10, 0, 30, 115, -60, 0, duration, "toonGroupHighShot")
     return heldShot(5, 0, 1, 115, 45, 0, duration, "toonGroupHighShot")
-        
+
 def suitGroupShot(avatar, duration):
     return heldShot(10, 0, 10, 65, -30, 0, duration, "suitGroupShot")
 
@@ -1011,7 +1011,7 @@ def suitGroupThreeQuarterLeftBehindShot(avatar, duration):
     else:
         x = -12.37
         h = -134.61
-        
+
     return heldShot(x, 11.5, 8.16, h, -22.70, 0, duration,
                     "suitGroupThreeQuarterLeftBehindShot")
 
@@ -1051,16 +1051,16 @@ def suitCameraShakeShot(avatar, duration, shakeIntensity, quake=0):
             Wait(shakeDuration/2),
             Func(camera.lookAt, Point3(0, 0, 0)),
             )
-            
+
         shakeTrack = Sequence()
         for i in range(0, numShakes):
             if (quake == 0):
                 shakeTrack.append(vertShakeTrack)
             else:
                 shakeTrack.append(Parallel(vertShakeTrack, horizShakeTrack))
-                
+
         return shakeTrack
-    
+
     # Allow a reasonable degree of randomness in the camera's positioning
     x = 10 + random.random()*3
     if (random.random() > 0.5):
@@ -1098,7 +1098,7 @@ def avatarCloseUpThreeQuarterRightShot(avatar, duration):
                             5.2, 5.45, avatar.getHeight() * 0.66,
                             131.5, 3.6, 0,
                             duration, "avatarCloseUpThreeQuarterRightShot")
-                            
+
 def avatarCloseUpThreeQuarterRightShotWide(avatar, duration):
     return heldRelativeShot(avatar,
                             7.2, 8.45, avatar.getHeight() * 0.66,
@@ -1130,7 +1130,7 @@ def avatarCloseUpThreeQuarterRightFollowShot(avatar, duration):
 
     track.append(Wait(duration * 0.25))
     return track
-    
+
 
 def avatarCloseUpZoomShot(avatar, duration):
     track = Sequence("avatarCloseUpZoomShot")
@@ -1147,7 +1147,7 @@ def avatarCloseUpZoomShot(avatar, duration):
         )
 
     track.append(Wait(duration/2))
-    
+
     return track
 
 def avatarBehindShot(avatar, duration):
@@ -1258,7 +1258,7 @@ def randomAttackCam(suit, toon, battle, attackDuration, openShotDuration,
         attacker = toon
         defender = suit
         defenderString = 'suit'
-        
+
     randomDouble = random.random()
     if (randomDouble > 0.6): # 40% chance
         openShot = randomActorShot(attacker, battle, openShotDuration, attackerString)
@@ -1276,7 +1276,7 @@ def randomAttackCam(suit, toon, battle, attackDuration, openShotDuration,
                                            closeShotDuration, focus=defenderString)
     else: # 20% chance
         closeShot = randomSplitShot(attacker, defender, battle, closeShotDuration)
-        
+
     return Sequence(openShot, closeShot)
 
 def randomGroupAttackCam(suit, targets, battle, attackDuration, openShotDuration):
@@ -1291,7 +1291,7 @@ def randomGroupAttackCam(suit, targets, battle, attackDuration, openShotDuration
     openShot = randomActorShot(suit, battle, openShotDuration, 'suit', groupShot=0)
     closeShot = randomToonGroupShot(targets, suit, closeShotDuration, battle)
     return Sequence(openShot, closeShot)
-    
+
 def randomActorShot(actor, battle, duration, actorType, groupShot=0):
     """ randomActorShot() creates a random though effective shot for an actor in
         a battle, specified by arg actor of type actorType ('suit' or 'toon').  This
@@ -1371,7 +1371,7 @@ def randomOverShoulderShot(suit, toon, battle, duration, focus):
 def randomCameraSelection(suit, attack, attackDuration, openShotDuration):
     """ randomCameraSelection() makes a random selection from a list of possible
         camera shots """
-    
+
     shotChoices = [
         avatarCloseUpThrowShot,
         avatarCloseUpThreeQuarterLeftShot,
@@ -1384,7 +1384,7 @@ def randomCameraSelection(suit, attack, attackDuration, openShotDuration):
         openShotDuration = attackDuration
     closeShotDuration = attackDuration - openShotDuration
 
-    openShot = apply(random.choice(shotChoices), [suit, openShotDuration])
+    openShot = random.choice(shotChoices)(*[suit, openShotDuration])
     closeShot = chooseSuitCloseShot(attack, closeShotDuration,
                                     openShot.getName(), attackDuration)
     return Sequence(openShot, closeShot)
@@ -1407,8 +1407,8 @@ def randomToonGroupShot(toons, suit, duration, battle):
     x = 1 + random.random()*6
     if (suitPos.getX() > 0):
         x = -x
-        
-    # We'll either shoot a close up or far back over the shoulders of the suits        
+
+    # We'll either shoot a close up or far back over the shoulders of the suits
     if (random.random() > 0.5): # 50% chance
         y = 4 + random.random()*1
         z = avgHeight + random.random()*6
@@ -1417,12 +1417,12 @@ def randomToonGroupShot(toons, suit, duration, battle):
         z = 13 + random.random()*2
     focalPoint = Point3(0, -4, avgHeight)
     return focusShot(x, y, z, duration, focalPoint)
-    
-    
+
+
 ###########################################################
 ##
 ## Fire Shots
-##                                                  
+##
 ###########################################################
 
 def chooseFireShot(throws, suitThrowsDict, attackDuration):
@@ -1469,8 +1469,8 @@ def chooseFireOpenShot(throws, suitThrowsDict, attackDuration):
         notify.error("Bad number of throws: %s" % numThrows)
     # Pick a shot and return it
     shotChoice = random.choice(shotChoices)
-    track = apply(shotChoice, [av, duration])
-    print ("chooseFireOpenShot %s" % (shotChoice))
+    track = shotChoice(*[av, duration])
+    print(("chooseFireOpenShot %s" % (shotChoice)))
 
     # Set up the play by play text
     # Whoops! No play by play for toons, since the multi-toon case is
@@ -1479,9 +1479,9 @@ def chooseFireOpenShot(throws, suitThrowsDict, attackDuration):
     #pbpTrack = pbpText.getShowInterval(attack['prettyName'], duration)
 
     #mtrack = Parallel(track, pbpTrack)
-    
+
     return track
-    
+
 def chooseFireCloseShot(throws, suitThrowsDict,
                          openDuration, openName, attackDuration):
     # Setup
@@ -1491,12 +1491,12 @@ def chooseFireCloseShot(throws, suitThrowsDict,
     # The single suit case
     if numSuits == 1:
         # The attacked suit
-        av = base.cr.doId2do[suitThrowsDict.keys()[0]]
+        av = base.cr.doId2do[list(suitThrowsDict.keys())[0]]
         # Single suit choices
         shotChoices = [
             avatarCloseUpFireShot,
             avatarCloseUpThreeQuarterLeftFireShot,
-            
+
             allGroupLowShot,
             suitGroupThreeQuarterLeftBehindShot,
             ]
@@ -1511,20 +1511,19 @@ def chooseFireCloseShot(throws, suitThrowsDict,
         notify.error("Bad number of suits: %s" % numSuits)
     # Pick a shot and return it
     shotChoice = random.choice(shotChoices)
-    track = apply(shotChoice, [av, duration])
-    print ("chooseFireOpenShot %s" % (shotChoice))
+    track = shotChoice(*[av, duration])
+    print(("chooseFireOpenShot %s" % (shotChoice)))
     return track
-    
+
 # Useful for throws and button pushes
 def avatarCloseUpFireShot(avatar, duration):
     return heldRelativeShot(avatar,
                             7, 17, avatar.getHeight() * 0.66,
                             159, 3.6, 0,
                             duration, "avatarCloseUpFireShot")
-                            
+
 def avatarCloseUpThreeQuarterLeftFireShot(avatar, duration):
     return heldRelativeShot(avatar,
                             -8.2, 8.45, avatar.getHeight() * 0.66,
                             -131.5, 3.6, 0,
                             duration, "avatarCloseUpThreeQuarterLeftShot")
-

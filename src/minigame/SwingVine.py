@@ -1,13 +1,13 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from direct.distributed import DistributedObject
 from direct.showutil import Rope
 import math
 from toontown.toonbase import ToontownGlobals
-import VineGameGlobals
-import VineSpider
+from . import VineGameGlobals
+from . import VineSpider
 
 class SwingVine(NodePath.NodePath):
     notify = DirectNotifyGlobal.directNotify.newCategory('SwingVine')
@@ -22,17 +22,17 @@ class SwingVine(NodePath.NodePath):
     SwingAnimSmall = 1
     SwingAnimMinimal = 2
 
-    MaxNumberOfFramesInSwingAnim = 144    
-    
+    MaxNumberOfFramesInSwingAnim = 144
+
     def __init__(self, vineIndex, x,y, z, length=20, baseAngle=40, period=4, spiderPeriod = 0 ):
         NodePath.__init__(self,'SwingVine')
         self.cableLength = length
-        self.numLinks = 3        
+        self.numLinks = 3
         self.links = []
         self.vineIndex = vineIndex
         self.spider = None
         self.spiderPeriod = spiderPeriod
-        self.hasSpider = not (spiderPeriod == 0) 
+        self.hasSpider = not (spiderPeriod == 0)
 
         self.numTubes = self.numLinks * 3
         self.tubeLength = float(self.cableLength) / self.numTubes
@@ -49,7 +49,7 @@ class SwingVine(NodePath.NodePath):
         self.swingT = 0 # how far into the swing are we
         self.swingAngle = 0 # what is the current angle of our vine
 
-        self.setPos(x, y, z)        
+        self.setPos(x, y, z)
         self.load()
 
         # WARNING debug only, comment this out or else it will leak
@@ -70,7 +70,7 @@ class SwingVine(NodePath.NodePath):
         #debugAxis = loader.loadModel('models/misc/xyzAxis')
         #debugAxis.reparentTo(self.topLink)
         #debugAxis.setScale(0.1)
-        
+
         self.setupCable()
         #self.root.setZ(30)
         self.reparentTo(render)
@@ -86,7 +86,7 @@ class SwingVine(NodePath.NodePath):
         nearBubbleNode.setCollideMask(GeomNode.getDefaultCollideMask())
         nearBubbleNode.addSolid(nearBubble)
         #self.attachNewNode(nearBubbleNode)
-        
+
         self.rope.setName('SwingVine-%d' % self.vineIndex)
         #self.rope.ropeNode.setName('SwingVine')
 
@@ -97,7 +97,7 @@ class SwingVine(NodePath.NodePath):
         if self.hasSpider:
             self.spider = VineSpider.VineSpider()
             self.spiderT = 0.25
-        
+
     def unload(self):
         self.unloading = True
         if self.ival:
@@ -105,7 +105,7 @@ class SwingVine(NodePath.NodePath):
             self.ival = None
         if self.spiderIval:
             self.spiderIval.finish()
-            self.spiderIval = None            
+            self.spiderIval = None
         if self.debugTangent:
             self.debugTangent.removeNode()
         for tube in self.tubes:
@@ -113,33 +113,33 @@ class SwingVine(NodePath.NodePath):
         self.tubes = []
         for tube in self.tubes2:
             tube.removeNode()
-        self.tubes2 = []        
+        self.tubes2 = []
         if self.hasSpider:
             self.spider.destroy()
             del self.spider
-        for toonInfo in self.attachedToons.values():
+        for toonInfo in list(self.attachedToons.values()):
             attachNode = toonInfo[4]
             if attachNode:
                 attachNode.removeNode()
             swingIval = toonInfo[6]
             if swingIval:
                 swingIval.finish()
-        
+
         self.removeNode()
 
-            
-    def setupCable(self):    
+
+    def setupCable(self):
         # The list of links is built up to pass to the Rope class, to
         # make a renderable spline for the cable.
         self.links = []
         self.links.append((self.topLink, Point3(0,0,0)))
 
         anchor = self.topLink
-        for linkNum in xrange(self.numLinks):
+        for linkNum in range(self.numLinks):
             anchor = self.__makeLink(anchor, linkNum)
-            
+
         self.bottomLink = self.links[-1][0]
-        self.link1 = self.links[-2][0]            
+        self.link1 = self.links[-2][0]
         self.rope= self.makeSpline()
         self.rope.reparentTo(self.root)
 
@@ -163,7 +163,7 @@ class SwingVine(NodePath.NodePath):
 
         if self.cableTex:
             self.setupStaticPart(self.cableTex)
-        
+
     def setupStaticPart(self, vineTexture):
         """Create the non moving part of the vine that goes off the top of the screen."""
         cm = CardMaker('card')
@@ -196,18 +196,18 @@ class SwingVine(NodePath.NodePath):
         colNode2.setCollideMask(ToontownGlobals.PieBitmask)
         colNode2.setBounds(BoundingSphere( Point3(0,0,0), 10))
         self.staticVine.attachNewNode(colNode2)
-        
+
     def setupTubes(self):
         self.tubes = []
         self.tubes2 = []
         radius = 0.5
-        for tubeIndex in xrange(self.numTubes):
+        for tubeIndex in range(self.numTubes):
             az = self.tubeLength / 2.0
             bz = - self.tubeLength / 2.0
             ct = CollisionTube(0, 0, az, 0, 0, bz, radius)
             ct.setTangible(0)
             colNode = CollisionNode('SwingVine-%d-%d' % (self.vineIndex, tubeIndex))
-            
+
             #colNode.addSolid(ct)
 
             # let's try using a collisionPoly to stop a fast moving toon moving through a vine
@@ -232,7 +232,7 @@ class SwingVine(NodePath.NodePath):
             # RAU I tried parenting the tube to self, but it made the rope disappear
             newTube = render.attachNewNode(colNode)
             self.tubes.append(newTube)
-            newTube2 = render.attachNewNode(colNode2)            
+            newTube2 = render.attachNewNode(colNode2)
             self.tubes2.append(newTube2)
 
         # calculate proper positions for the tubes
@@ -241,7 +241,7 @@ class SwingVine(NodePath.NodePath):
     def __makeLink(self, anchor, linkNum):
         an = ActorNode('link%s' % (linkNum))
         anp = NodePath(an)
-        
+
         anp.reparentTo(self.root)
         z =  float(linkNum + 1) / float(self.numLinks) * self.cableLength
         #self.notify.debug('computedZ for link %d = %f' % (linkNum, z))
@@ -259,22 +259,22 @@ class SwingVine(NodePath.NodePath):
     def makeSpline(self):
         # Use the Rope class to draw a spline between the joints of
         # the cable.
-        
+
         rope = Rope.Rope()
-        for i in xrange(len(self.links)):
+        for i in range(len(self.links)):
             pass
             #self.notify.debug('%s %s' % (self.links[i][0], self.links[i][0].getPos()))
-            
+
         rope.setup(min(len(self.links), 4), self.links)
-        for i in xrange(len(self.links)):
+        for i in range(len(self.links)):
             pass
-            #self.notify.debug('%s %s' % (self.links[i][0], self.links[i][0].getPos()))        
+            #self.notify.debug('%s %s' % (self.links[i][0], self.links[i][0].getPos()))
         rope.curve.normalizeKnots()
         self.notify.debug('after normalize Knots')
-        for i in xrange(len(self.links)):
+        for i in range(len(self.links)):
             pass
-            #self.notify.debug('%s %s' % (self.links[i][0], self.links[i][0].getPos()))           
-            
+            #self.notify.debug('%s %s' % (self.links[i][0], self.links[i][0].getPos()))
+
         rn = rope.ropeNode
         #rn.setRenderMode(RopeNode.RMTube)
         rn.setRenderMode(RopeNode.RMBillboard)
@@ -297,13 +297,13 @@ class SwingVine(NodePath.NodePath):
         lengthToUse = self.cableLength  * 2.0 / 3.0
         link1X = math.cos(link1AngleToUse) * lengthToUse
         link1Z = math.sin(link1AngleToUse) * lengthToUse
-        self.link1.setPos(link1X, 0, link1Z)    
+        self.link1.setPos(link1X, 0, link1Z)
 
     def swingForward(self, t):
         diffAngle = self.maxSwingAngle - self.minSwingAngle
         multiplier = t
         angleToUse = self.minSwingAngle + (multiplier * diffAngle)
-        
+
         newX = math.cos(angleToUse) * self.cableLength
         newZ = math.sin(angleToUse) * self.cableLength
         self.bottomLink.setPos(newX, 0, newZ)
@@ -316,7 +316,7 @@ class SwingVine(NodePath.NodePath):
         self.updateAttachedStuff()
         if not oldSwingingForward == self.swingingForward:
             self.updateSwingAnims()
-        
+
 
     def swingBack(self, t):
         diffAngle = self.maxSwingAngle - self.minSwingAngle
@@ -327,14 +327,14 @@ class SwingVine(NodePath.NodePath):
         newZ = math.sin(angleToUse) * self.cableLength
         self.bottomLink.setPos(newX, 0, newZ)
 
-        self.positionLink1(t, angleToUse)        
+        self.positionLink1(t, angleToUse)
         oldSwingingForward = self.swingingForward
         self.swingingForward = False
         self.swingT = t
         self.swingAngle = angleToUse
         self.updateAttachedStuff()
         if not oldSwingingForward == self.swingingForward:
-            self.updateSwingAnims()        
+            self.updateSwingAnims()
 
     def moveSpiderDown(self, t):
         self.spiderMovingDown = True
@@ -343,8 +343,8 @@ class SwingVine(NodePath.NodePath):
     def moveSpiderUp(self, t):
         self.spiderMovingDown = False
         self.spiderT = 1 -t
-        
-        
+
+
     def startSwing(self):
         forwardX = math.cos(self.maxSwingAngle) * self.cableLength
         forwardZ = math.sin(self.maxSwingAngle) * self.cableLength
@@ -378,7 +378,7 @@ class SwingVine(NodePath.NodePath):
     def getAttachNode(self, toonId):
         """Return the attachNode for a toon, create one if needed."""
         retval = None
-        if self.attachedToons.has_key(toonId):
+        if toonId in self.attachedToons:
             existingAttachNode = self.attachedToons[toonId][4]
             if existingAttachNode:
                 retval = existingAttachNode
@@ -405,7 +405,7 @@ class SwingVine(NodePath.NodePath):
 
     def doubleCheckOffset(self, toonId):
         """In case we somehow got an offset of zero, recalculate it."""
-        if self.attachedToons.has_key(toonId):
+        if toonId in self.attachedToons:
             curOffset = self.attachedToons[toonId][3]
             if curOffset == Point3.zero():
                 newOffset = self.calcOffset(toonId)
@@ -413,13 +413,13 @@ class SwingVine(NodePath.NodePath):
                 av = base.cr.doId2do.get(toonId)
                 self.notify.info('correcting wrong offset %s and changing to %s' % ( curOffset, newOffset))
                 if av:
-                    av.setPos(-newOffset)                
+                    av.setPos(-newOffset)
 
     def attachToon(self, toonId, t, facingRight, setupAnim = True):
         #av = base.cr.doId2do[toonId]
-        self.notify.debug('attachToon toonId=%d vineIndex=%d' % (toonId, self.vineIndex))        
+        self.notify.debug('attachToon toonId=%d vineIndex=%d' % (toonId, self.vineIndex))
         temp = Vec3(self.defaultNormal)
-        
+
         offset = self.calcOffset(toonId)
 
         attachNode = self.getAttachNode(toonId)
@@ -447,7 +447,7 @@ class SwingVine(NodePath.NodePath):
         """
         the toon climbed up or down the vine
         """
-        if self.attachedToons.has_key(toonId):
+        if toonId in self.attachedToons:
             oldT = self.attachedToons[toonId][0]
             self.attachedToons[toonId][0] = t
             oldSwingType = self.calcSwingAnimType(oldT)
@@ -463,7 +463,7 @@ class SwingVine(NodePath.NodePath):
         """
         the toon climbed up or down the vine
         """
-        if self.attachedToons.has_key(toonId):
+        if toonId in self.attachedToons:
             curT = self.attachedToons[toonId][0]
             self.detachToon(toonId)
             self.attachToon(toonId, curT, facing)
@@ -475,7 +475,7 @@ class SwingVine(NodePath.NodePath):
     def detachToon(self, toonId):
         assert self.notify.debugStateCall(self)
         self.notify.debug('detachToon toonId=%d vineIndex=%d' % (toonId, self.vineIndex))
-        if self.attachedToons.has_key(toonId):
+        if toonId in self.attachedToons:
             self.attachedToons[toonId][4].removeNode()
             swingIval = self.attachedToons[toonId][6]
             if swingIval:
@@ -487,7 +487,7 @@ class SwingVine(NodePath.NodePath):
             del self.attachedToons[toonId]
 
     def getAttachedToonInfo(self, toonId):
-        if self.attachedToons.has_key(toonId):
+        if toonId in self.attachedToons:
             return self.attachedToons[toonId]
         else:
             return None
@@ -499,7 +499,7 @@ class SwingVine(NodePath.NodePath):
     def updateTubes(self):
         newPoint = Vec3(0,0,0)
         curve = self.rope.ropeNode.getCurve().evaluate()
-        for tubeIndex in xrange(self.numTubes):
+        for tubeIndex in range(self.numTubes):
             tube = self.tubes[tubeIndex]
             t = self.getCenterTForTube(tubeIndex)
             curve.evalPoint(t, newPoint)
@@ -514,7 +514,7 @@ class SwingVine(NodePath.NodePath):
             rAngle = -90 - degrees
             tube.setR(rAngle)
 
-        for tubeIndex in xrange(self.numTubes):
+        for tubeIndex in range(self.numTubes):
             tube = self.tubes2[tubeIndex]
             t = self.getCenterTForTube(tubeIndex)
             curve.evalPoint(t, newPoint)
@@ -528,10 +528,10 @@ class SwingVine(NodePath.NodePath):
             degrees = rad2Deg(theta)
             rAngle = -90 - degrees
             tube.setR(rAngle)
-            
+
     def updateSpiders(self):
         curve = self.rope.ropeNode.getCurve().evaluate()
-            
+
         if self.hasSpider:
             t = self.spiderT
             newPoint = Vec3(0,0,0)
@@ -541,7 +541,7 @@ class SwingVine(NodePath.NodePath):
             # make the spider follow the vine
             tangent = Vec3(0,0,0)
             curve.evalTangent(t, tangent)
-            theta = math.atan2( tangent.getZ(), tangent.getX())            
+            theta = math.atan2( tangent.getZ(), tangent.getX())
             degrees = rad2Deg(theta)
             #self.notify.debug('spider degrees = %f' % degrees)
             pAngle = degrees + 90
@@ -558,8 +558,8 @@ class SwingVine(NodePath.NodePath):
         self.updateAttachedToons()
 
     def updateAttachedToons(self):
-        curve = self.rope.ropeNode.getCurve().evaluate()            
-        for avId in self.attachedToons.keys():
+        curve = self.rope.ropeNode.getCurve().evaluate()
+        for avId in list(self.attachedToons.keys()):
             self.doubleCheckOffset(avId)
             t = self.attachedToons[avId][0]
             newPoint = Vec3(0,0,0)
@@ -572,7 +572,7 @@ class SwingVine(NodePath.NodePath):
             tangent = Vec3(0,0,0)
             curve.evalTangent(t, tangent)
             tangent.normalize()
-            #self.notify.debug('tangent = %s' % tangent)            
+            #self.notify.debug('tangent = %s' % tangent)
 
             unitY = Vec3(0,1,0)
             normal = tangent.cross(unitY)
@@ -620,9 +620,9 @@ class SwingVine(NodePath.NodePath):
             retval = 0
         else:
             #import pdb; pdb.set_trace()
-            curve = self.rope.ropeNode.getCurve().evaluate()        
+            curve = self.rope.ropeNode.getCurve().evaluate()
             tangent = Vec3(0,0,0)
-            centerT = self.getCenterTForTube( tubeIndex)        
+            centerT = self.getCenterTForTube( tubeIndex)
             curve.evalTangent(centerT, tangent)
             tangent.normalize()
             #self.notify.debug('tangent = %s' % tangent)
@@ -634,7 +634,7 @@ class SwingVine(NodePath.NodePath):
             vector = endPos - tubePos
             #self.notify.debug('vector = %s' % vector)
             #vector.normalize()
-            #self.notify.debug('normalized vector = %s' % vector)        
+            #self.notify.debug('normalized vector = %s' % vector)
 
             projection = vector.dot(tangent)
             self.notify.debug('projection = %s' % projection)
@@ -676,13 +676,13 @@ class SwingVine(NodePath.NodePath):
     def setupSwingAnimFull(self, av, avId):
         """Use the full swing animation on a toon."""
         toonT = self.attachedToons[avId][0]
-                
+
         playRate = ( self.SwingAnimPeriod /self.period)
         #playRate = 1.0
         swingInterval = Sequence()
         duration = (1 - self.swingT) * self.period / 2.0
         if duration < 0.001:
-            duration = 0.001        
+            duration = 0.001
         # add a fudge
         # duration += 0.1
         #self.notify.debug('swing animDuration=%f' % duration)
@@ -736,14 +736,14 @@ class SwingVine(NodePath.NodePath):
             if 0 : #toonT < 0.5:
                 playRate = playRate * toonT
                 numLeftFramesChoppedOff = (maxLeftFrame - midFrame) * (1 - toonT)
-                numRightFramesChoppedOff = (midFrame - maxRightFrame) * (1 -toonT)                
+                numRightFramesChoppedOff = (midFrame - maxRightFrame) * (1 -toonT)
             #self.notify.debug('orig maxRight=%d maxLeft=%d' % ( maxRightFrame, maxLeftFrame))
             maxLeftFrame -= numLeftFramesChoppedOff
             maxRightFrame += numRightFramesChoppedOff
             #self.notify.debug('new maxRight=%f maxLeft=%f' % ( maxRightFrame, maxLeftFrame))
             numFrames = maxLeftFrame - maxRightFrame + 1
             # figure out the frame to use based on swingT
-            framesToChopOff = numFrames * self.swingT                    
+            framesToChopOff = numFrames * self.swingT
             startingFrame = maxRightFrame + framesToChopOff
             #self.notify.debug('startFrame=%d endFrame=%d playRate=%f' %(startingFrame, maxLeftFrame, playRate))
             toonSwing = ActorInterval(av, 'swing', startFrame = startingFrame,
@@ -768,7 +768,7 @@ class SwingVine(NodePath.NodePath):
         #duration = self.period / 2.0
         if duration == 0:
             return
-        toonT = self.attachedToons[avId][0] 
+        toonT = self.attachedToons[avId][0]
 
         #import pdb; pdb.set_trace()
         framesPerSecondBase = self.MaxNumberOfFramesInSwingAnim / self.SwingAnimPeriod
@@ -778,13 +778,13 @@ class SwingVine(NodePath.NodePath):
         #self.notify.debug('duration=%f slowedPlayRate=%f' % ( duration, slowedPlayRate))
         facingRight = self.attachedToons[avId][5]
         if (self.swingingForward and facingRight) or \
-           (not self.swingingForward and not facingRight):        
+           (not self.swingingForward and not facingRight):
             toonSwing1 = ActorInterval(av, 'swing', startFrame = startingLeftFrame  ,
                                       endFrame = maxLeftFrame,
                                       playRate = slowedPlayRate)
             toonSwing2 = ActorInterval(av, 'swing', startFrame = maxLeftFrame +1,
                                       endFrame = maxRightFrame - startingLeftFrame  ,
-                                      playRate = slowedPlayRate)            
+                                      playRate = slowedPlayRate)
             swingInterval.append(toonSwing1)
             swingInterval.append(toonSwing2)
         else:
@@ -794,13 +794,13 @@ class SwingVine(NodePath.NodePath):
                                        playRate = slowedPlayRate)
             toonSwing2 = ActorInterval(av, 'swing', startFrame = maxRightFrame ,
                                       endFrame = startingLeftFrame  ,
-                                      playRate = slowedPlayRate)            
+                                      playRate = slowedPlayRate)
             swingInterval.append(toonSwing1)
             swingInterval.append(toonSwing2)
 
         self.attachedToons[avId][6] = swingInterval
         swingInterval.start()
-        
+
     def setupSwingAnimMinimal(self, av, avId):
         """Use only a extremely small set of the swing animation for a near zero angle."""
         swingInterval = Sequence()
@@ -827,12 +827,12 @@ class SwingVine(NodePath.NodePath):
         swingInterval.append(toonSwing1)
         swingInterval.append(toonSwing2)
         self.attachedToons[avId][6] = swingInterval
-        swingInterval.start()        
-        
+        swingInterval.start()
+
     def setupSwingAnim(self, avId):
         """Figure out the swing anim when a toon has just attached to the vine."""
         #assert self.notify.debugStateCall(self)
-        if not self.attachedToons.has_key(avId):
+        if avId not in self.attachedToons:
             return
         av = base.cr.doId2do.get(avId)
         if not av:
@@ -840,9 +840,9 @@ class SwingVine(NodePath.NodePath):
         prevIval = self.attachedToons[avId][6]
         if prevIval:
             prevIval.pause()
-            del prevIval        
+            del prevIval
         # calculate our swing angle
-        toonT = self.attachedToons[avId][0]        
+        toonT = self.attachedToons[avId][0]
         swingAnimType= self.calcSwingAnimType(toonT)
         if swingAnimType == self.SwingAnimFull:
             self.setupSwingAnimFull(av, avId)
@@ -850,7 +850,7 @@ class SwingVine(NodePath.NodePath):
             self.setupSwingAnimSmall(av, avId)
         else:
             self.setupSwingAnimMinimal(av, avId)
-        
+
     def calcSwingAnimType(self,toonT):
         """Calculate what kind of swing animation based on his position on the vine."""
         angleInDegrees = toonT * self.baseAngle
@@ -862,12 +862,12 @@ class SwingVine(NodePath.NodePath):
         else:
             retval = self.SwingAnimMinimal
         return retval
-        
+
     def updateSwingAnims(self):
         """Calculate the new swing anim when the vine has reached max left or max right."""
         if self.unloading:
             return
-        
-        for avId in self.attachedToons.keys():
+
+        for avId in list(self.attachedToons.keys()):
             #self.notify.debugStateCall(self)
             self.setupSwingAnim(avId)

@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
-import ShtikerPage
+from toontown.toonbase.ToontownModules import *
+from . import ShtikerPage
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 import os
 from toontown.toonbase import ToontownGlobals
@@ -17,7 +17,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
         self.photos = {}
         self.selectedFileName = None
         self.photoIndex = 0
-        
+
     def load(self):
         self.title = DirectLabel(
             parent = self,
@@ -75,7 +75,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
             text_scale = 0.1,
             text_pos = (0, -0.1),
             text_font = ToontownGlobals.getInterfaceFont(),
-            textMayChange = 0,            
+            textMayChange = 0,
             relief = None,
             pos = (0.73, 0, -0.33),
             scale = 0.4,
@@ -104,7 +104,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
 
         guiButton.removeNode()
         trashcanGui.removeNode()
-        
+
         gui = loader.loadModel("phase_3.5/models/gui/friendslist_gui")
 
         self.scrollList = DirectScrolledList(
@@ -275,7 +275,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
     def renameDialog(self, str):
         separator = '_'
         validChars = string.letters + string.digits + ' -'
-        str = filter(lambda s: (s in validChars), str)
+        str = [s for s in str if (s in validChars)]
         if not str:
             self.renameCleanup()
             return 0
@@ -297,7 +297,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
 
     def renameCancel(self):
         self.renameCleanup()
-        
+
     def renameCleanup(self):
         self.renamePanel.hide()
         # Restore the background focus on the chat entry.
@@ -315,7 +315,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
         chatEntry['backgroundFocus'] = 0
         # And now we can set the focus on our entry.
         self.renameEntry['focus'] = 1
-        print self.selectedFileName
+        print(self.selectedFileName)
 
     def deleteConfirm(self):
         os.remove(self.selectedFileName)
@@ -325,7 +325,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
 
     def deleteCancel(self):
         self.deleteCleanup()
-        
+
     def deleteCleanup(self):
         self.deletePanel.hide()
 
@@ -393,24 +393,24 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
 
     def updateScrollList(self):
         newPhotos = self.getPhotos()
-        
+
         # Remove old buttons
-        for photo in self.photos.keys():
+        for photo in list(self.photos.keys()):
             if photo not in newPhotos:
                 photoButton = self.photos[photo]
                 self.scrollList.removeItem(photoButton)
                 photoButton.destroy()
                 del self.photos[photo]
-                
+
         # Add new photos
         for photo in newPhotos:
-            if not self.photos.has_key(photo):
+            if photo not in self.photos:
                 photoButton = self.makePhotoButton(photo)
                 self.scrollList.addItem(photoButton)
                 self.photos[photo] = photoButton
 
-        if self.photos.keys():
-            self.chosePhoto(self.photos.keys()[0])
+        if list(self.photos.keys()):
+            self.chosePhoto(list(self.photos.keys())[0])
         else:
             self.chosePhoto(None)
 
@@ -442,4 +442,3 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
 
     def nextPhoto(self):
         pass
-

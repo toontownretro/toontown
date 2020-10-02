@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
 from direct.task import Task
@@ -9,10 +9,10 @@ from toontown.golf import GolfGlobals
 from toontown.shtiker.GolfPage import GolfTrophy
 
 class GolfRewardDialog:
-    
+
     notify = directNotify.newCategory("GolfRewardDialog")
 
-    
+
     def __init__(self, avIdList, trophyList, rankingsList, holeBestList, courseBestList, cupList, localAvId, tieBreakWinner, aimTimesList, endMovieCallback = None):
         """Constructor for our golf reward dialog."""
         self.avIdList = avIdList
@@ -36,7 +36,7 @@ class GolfRewardDialog:
         if av and avId in self.avIdList:
             playerIndex = self.avIdList.index(avId)
             name = av.getName()
-            for trophyIndex in xrange(len(self.trophyList[playerIndex])):
+            for trophyIndex in range(len(self.trophyList[playerIndex])):
                 wonTrophy = self.trophyList[playerIndex][trophyIndex]
                 if wonTrophy:
                     trophyName = TTLocalizer.GolfTrophyDescriptions[trophyIndex]
@@ -60,25 +60,25 @@ class GolfRewardDialog:
                         cupName = TTLocalizer.GolfCupDescriptions[cupIndex]
                         text = TTLocalizer.GolfAvReceivesCup % { "name": name, "cup": cupName}
                         retval.append(text)
-                        
+
         for cupPlayerIndex in range(len(self.avIdList)):
             if(self.avIdList[cupPlayerIndex] == localAvId):
 
                 av = base.cr.doId2do.get(self.avIdList[cupPlayerIndex])
                 name = av.getName()
-                    
+
                 cupIndex = 0
-                    
+
                 for cupIndex in range(len(self.cupList[cupPlayerIndex])):
                     if( self.cupList[cupPlayerIndex][cupIndex] ):
                         cupName = TTLocalizer.GolfCupDescriptions[cupIndex]
                         text = TTLocalizer.GolfAvReceivesCup % { "name": name, "cup": cupName}
                         retval.append(text)
-                        
+
         return retval
 
     def calcRankings(self, localAvId):
-        retval = [] 
+        retval = []
         self.notify.debug('aimTimesList=%s' % self.aimTimesList)
         for rank in range( len(self.rankingsList) + 1 ):
             for avIndex in range(len(self.avIdList)):
@@ -117,25 +117,25 @@ class GolfRewardDialog:
 
                     av = base.cr.doId2do.get(self.avIdList[hbPlayerIndex])
                     name = av.getName()
-                
+
                     for hbIndex in range(len(self.holeBestList[hbPlayerIndex])):
                         if( self.holeBestList[hbPlayerIndex][hbIndex] ):
                             hbName = TTLocalizer.GolfHoleNames[hbIndex]
                             text = TTLocalizer.GolfAvReceivesHoleBest % { "name": name, "hole": hbName}
                             retval.append(text)
-                        
+
         for hbPlayerIndex in range(len(self.avIdList)):
             if(self.avIdList[hbPlayerIndex] == localAvId):
 
                 av = base.cr.doId2do.get(self.avIdList[hbPlayerIndex])
                 name = av.getName()
-                
+
                 for hbIndex in range(len(self.holeBestList[hbPlayerIndex])):
                     if( self.holeBestList[hbPlayerIndex][hbIndex] ):
                         hbName = TTLocalizer.GolfHoleNames[hbIndex]
                         text = TTLocalizer.GolfAvReceivesHoleBest % { "name": name, "hole": hbName}
                         retval.append(text)
-                        
+
         return retval
 
     def calcCourseBestTextListForAllPlayers(self, localAvId):
@@ -148,27 +148,27 @@ class GolfRewardDialog:
 
                     av = base.cr.doId2do.get(self.avIdList[cbPlayerIndex])
                     name = av.getName()
-                
+
                     for cbIndex in range(len(self.holeBestList[cbPlayerIndex])):
                         if( self.holeBestList[cbPlayerIndex][cbIndex] ):
                             cbName = TTLocalizer.GolfCourseNames[cbIndex]
                             text = TTLocalizer.GolfAvReceivesCourseBest % { "name": name, "course": cbName}
                             retval.append(text)
-                        
+
         for cbPlayerIndex in range(len(self.avIdList)):
             if(self.avIdList[cbPlayerIndex] == localAvId):
 
                 av = base.cr.doId2do.get(self.avIdList[cbPlayerIndex])
                 name = av.getName()
-                
+
                 for cbIndex in range(len(self.courseBestList[cbPlayerIndex])):
                     if( self.courseBestList[cbPlayerIndex][cbIndex] ):
                         cbName = TTLocalizer.GolfCourseNames[cbIndex]
                         text = TTLocalizer.GolfAvReceivesCourseBest % { "name": name, "course": cbName}
                         retval.append(text)
-                        
-        return retval 
-    
+
+        return retval
+
     def createRewardMovie(self, localAvId):
         """Creates and return an interval for our reward movie."""
         # TODO spice this up, with pictures and sound
@@ -188,7 +188,7 @@ class GolfRewardDialog:
             self.trophy.setScale(0.65, 1, 0.65)
             self.trophy.show()
             self.trophyLabel['text'] = text
-                
+
         def setRewardLabelText(text):
             self.rewardLabel.show()
             self.rankLabel.hide()
@@ -209,19 +209,19 @@ class GolfRewardDialog:
                 self.victory.play()
 
         # Display trophies
-        
+
         for avId in self.avIdList:
             if(avId != localAvId):
                 rewardTextList = self.calcTrophyTextListForOnePlayer(avId)
 
                 trophyIndex = 0
-                 
+
                 for rewardText in rewardTextList:
 
                     playerIndex = self.avIdList.index(avId)
 
                     var = (rewardText, playerIndex, trophyIndex)
-                    
+
                     oneTrophyIval = Parallel(
                         Func( setTrophyLabelText, rewardText, playerIndex, trophyIndex),
                         LerpColorScaleInterval( self.trophyLabel, 4, Vec4(1,1,1,0), startColorScale = Vec4(1,1,1,1), blendType = 'easeIn')
@@ -234,16 +234,16 @@ class GolfRewardDialog:
 
         trophyIndex = 0
         playerIndex = self.avIdList.index(localAvId)
-        
+
         for rewardText in rewardTextList:
 
             if len(rewardTextList) > 0:
                 var = (rewardText, playerIndex, trophyIndex)
-                
+
                 oneRewardIval = Parallel(
                     Func( setTrophyLabelText, rewardText, playerIndex, trophyIndex),
                     LerpColorScaleInterval( self.trophyLabel, 4, Vec4(1,1,1,0), startColorScale = Vec4(1,1,1,1), blendType = 'easeIn')
-                    ) 
+                    )
                 retval.append( oneRewardIval )
 
         # Display cups
@@ -274,7 +274,7 @@ class GolfRewardDialog:
                 retval.append( randomWinnerIval )
 
         # Display rankings
-        
+
         rankings = self.calcRankings(localAvId)
 
         rankText = TTLocalizer.GolfRanking + "\n"
@@ -286,7 +286,7 @@ class GolfRewardDialog:
             Func( setRankLabelText, rankText),
             LerpColorScaleInterval( self.rankLabel, 8, Vec4(1,1,1,1), startColorScale = Vec4(1,1,1,1), blendType = 'easeIn')
             )
-        retval.append( oneRankIval )        
+        retval.append( oneRankIval )
 
         # Hole Best
         # Hole and course best come after rankings because they are displayed individually for each person and everyone sees the rankings together before being split onto their personal accomplishments
@@ -310,12 +310,12 @@ class GolfRewardDialog:
                     LerpColorScaleInterval( self.rewardLabel, 4, Vec4(1,1,1,0), startColorScale = Vec4(1,1,1,1), blendType = 'easeIn')
                     )
                 retval.append( oneCourseIval )
-    
+
         if self.endMovieCallback:
             retval.append(Func( self.endMovieCallback))
 
         return retval
-        
+
     def setup(self, localAvId):
         """Setup gui components and the reward movie."""
         self.rewardBoard = DirectFrame(
@@ -327,7 +327,7 @@ class GolfRewardDialog:
                              pos = (0, 0, -0.6),
                              )
 
-                             
+
         self.rewardLabel = DirectLabel(
             parent = self.rewardBoard,
             relief = None,
@@ -345,7 +345,7 @@ class GolfRewardDialog:
             text_align = TextNode.ACenter,
             text = "",
             text_scale = 0.06,
-            )       
+            )
 
         self.trophyLabel = DirectLabel(
             parent = self.rewardBoard,
@@ -355,10 +355,10 @@ class GolfRewardDialog:
             text = "",
             text_scale = 0.06,
             text_wordwrap = 20
-            )    
+            )
 
         self.movie = self.createRewardMovie(localAvId)
-        
+
     def delete(self):
         """Delete and cleanup the reward dialog."""
         assert self.notify.debugStateCall(self)
@@ -372,5 +372,3 @@ class GolfRewardDialog:
 
     def getMovie(self):
         return self.movie
-
-

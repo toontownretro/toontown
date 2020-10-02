@@ -1,6 +1,6 @@
 ##########################################################################
 # Module: DistributedViewPadAI.py
-# Purpose: This class provides the necessary functionality for 
+# Purpose: This class provides the necessary functionality for
 # Date: 7/21/05
 # Author: jjtaylor
 ##########################################################################
@@ -11,7 +11,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.task import Task
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 ##########################################################################
 # Toontown Import Modules
@@ -51,13 +51,13 @@ class DistributedViewPadAI( DistributedKartPadAI ):
 
     def delete( self ):
         # Remove any outstanding tasks
-        for avId in self.kickAvDict.keys():
+        for avId in list(self.kickAvDict.keys()):
             self.stopTimeout( self.kickAvDict.get( avId ) )
             del self.kickAvDict[ avId ]
         del self.kickAvDict
 
         # Perform the Remaining Delete on the Super Class
-        DistributedKartPadAI.delete( self )        
+        DistributedKartPadAI.delete( self )
 
     def addAvBlock( self, avId, block, paid ):
         """
@@ -102,11 +102,11 @@ class DistributedViewPadAI( DistributedKartPadAI ):
 
         # Remove the avatar from the kick dictionary and update the
         # local client dictionary as well.
-        if( self.kickAvDict.has_key( avId ) ):
+        if( avId in self.kickAvDict ):
             self.stopCountdown(self.kickAvDict[avId])
             del self.kickAvDict[ avId ]
             #self.d_setAvExitPad( avId )
-        
+
 
     def __handleKickTimeout( self, avId ):
         """
@@ -133,4 +133,3 @@ class DistributedViewPadAI( DistributedKartPadAI ):
     def d_setAvExitPad( self, avId ):
         self.sendUpdate( 'setAvExitPad', [ avId ] )
     """
-        

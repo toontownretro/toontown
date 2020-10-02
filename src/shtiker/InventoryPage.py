@@ -1,9 +1,9 @@
 """InventoryPage module: contains the InventoryPage class"""
 
-import ShtikerPage
+from . import ShtikerPage
 from toontown.toonbase import ToontownBattleGlobals
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 
@@ -30,7 +30,7 @@ class InventoryPage(ShtikerPage.ShtikerPage):
             textMayChange = 1,
             pos = (0,0,0.62),
             )
-        
+
         self.gagFrame =  DirectFrame(
             parent = self,
             relief = None,
@@ -55,7 +55,7 @@ class InventoryPage(ShtikerPage.ShtikerPage):
             text_pos = (-0.65, 0.3),
             text_fg = (0.05, 0.14, 0.4, 1),
             )
-        
+
         self.trackProgress = DirectWaitBar(
             parent = self.trackInfo,
             pos = (0,0,-0.2),
@@ -126,7 +126,7 @@ class InventoryPage(ShtikerPage.ShtikerPage):
         base.localAvatar.inventory.hide()
         base.localAvatar.inventory.reparentTo(hidden)
         self.exitDeleteMode()
-        
+
     def enterDeleteMode(self):
         self.title['text'] = TTLocalizer.InventoryPageDeleteTitle
         self.title['text_fg'] = (0,0,0,1)
@@ -136,7 +136,7 @@ class InventoryPage(ShtikerPage.ShtikerPage):
         self.title['text'] = TTLocalizer.InventoryPageTitle
         self.title['text_fg'] = (0,0,0,1)
         self.book['image_color'] = Vec4(1,1,1,1)
-    
+
     def updateTrackInfo(self, trackIndex):
         self.currentTrackInfo = trackIndex
         trackName = TextEncoder.upper(ToontownBattleGlobals.Tracks[trackIndex])
@@ -152,7 +152,7 @@ class InventoryPage(ShtikerPage.ShtikerPage):
                 self.trackProgress["range"] = ToontownBattleGlobals.UberSkill
                 uberCurrExp = curExp - ToontownBattleGlobals.regMaxSkill
                 self.trackProgress["value"] = uberCurrExp
-               
+
             else:
                 morePoints = nextExp - curExp
                 if morePoints == 1:
@@ -183,7 +183,7 @@ class InventoryPage(ShtikerPage.ShtikerPage):
                    (trackName))
             self.trackInfo['text'] = str
             self.trackProgress.hide()
-            
+
 
     def clearTrackInfo(self, trackIndex):
         # Since our tracks might overlap a tiny bit (one pixel), we
@@ -198,17 +198,17 @@ class InventoryPage(ShtikerPage.ShtikerPage):
         return
 
     # for the hotkey that allows quick display of the inventory page
-    def acceptOnscreenHooks(self):        
+    def acceptOnscreenHooks(self):
         self.accept(ToontownGlobals.InventoryHotkeyOn, self.showInventoryOnscreen)
         self.accept(ToontownGlobals.InventoryHotkeyOff, self.hideInventoryOnscreen)
 
-    def ignoreOnscreenHooks(self):        
+    def ignoreOnscreenHooks(self):
         self.ignore(ToontownGlobals.InventoryHotkeyOn)
         self.ignore(ToontownGlobals.InventoryHotkeyOff)
 
     def showInventoryOnscreen(self):
         messenger.send('wakeup')
-        timedif = globalClock.getRealTime() - self.lastInventoryTime  
+        timedif = globalClock.getRealTime() - self.lastInventoryTime
         if timedif < 0.7:
             return
         self.lastInventoryTime = globalClock.getRealTime()
@@ -238,4 +238,3 @@ class InventoryPage(ShtikerPage.ShtikerPage):
         self.reparentTo(self.book)
         self.title.show()
         self.hide()
-              

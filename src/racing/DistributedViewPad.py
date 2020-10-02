@@ -1,6 +1,6 @@
 ##########################################################################
 # Module: DistributedViewPad.py
-# Purpose: This class provides the necessary functionality for 
+# Purpose: This class provides the necessary functionality for
 # Date: 7/21/05
 # Author: jjtaylor
 ##########################################################################
@@ -11,7 +11,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.task import Task
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 ##########################################################################
 # Toontown Import Modules
@@ -65,7 +65,7 @@ class DistributedViewPad( DistributedKartPad ):
         assert self.av2TimestampDict.has_key( avId ), error
         del self.av2TimestampDict[ avId ]
     """
-        
+
     def getTimestamp( self, avId ):
         """
         """
@@ -73,7 +73,7 @@ class DistributedViewPad( DistributedKartPad ):
         #assert self.av2TimestampDict.has_key( avId ), error
         #return self.av2TimestampDict.get( avId )
         return self.timeStamp
-    
+
     def addStartingBlock( self, block ):
         block.cameraPos = Point3(0, 23, 7)
         block.cameraHpr = Point3(180, -10, 0)

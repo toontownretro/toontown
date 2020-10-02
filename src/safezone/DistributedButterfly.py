@@ -1,5 +1,5 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 
@@ -7,15 +7,15 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from pandac.PandaModules import NodePath
+from toontown.toonbase.ToontownModules import NodePath
 from direct.directutil import Mopath
 from toontown.toonbase import ToontownGlobals
 from direct.actor import Actor
-import ButterflyGlobals
+from . import ButterflyGlobals
 from direct.showbase import RandomNumGen
 import random
 
-class DistributedButterfly(DistributedObject.DistributedObject): 
+class DistributedButterfly(DistributedObject.DistributedObject):
 
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedButterfly')
 
@@ -35,20 +35,20 @@ class DistributedButterfly(DistributedObject.DistributedObject):
                  'wings_4',
                  'wings_5',
                  'wings_6')
-    yellowColors = (Vec4(1, 1, 1, 1), 
-                    Vec4(0.2, 0, 1, 1), 
+    yellowColors = (Vec4(1, 1, 1, 1),
+                    Vec4(0.2, 0, 1, 1),
                     Vec4(0.8, 0, 1, 1))
-    whiteColors = (Vec4(0.8, 0, 0.8, 1), 
-                   Vec4(0, 0.8, 0.8, 1), 
-                   Vec4(0.9, 0.4, 0.6, 1), 
-                   Vec4(0.9, 0.4, 0.4, 1), 
-                   Vec4(0.8, 0.5, 0.9, 1), 
+    whiteColors = (Vec4(0.8, 0, 0.8, 1),
+                   Vec4(0, 0.8, 0.8, 1),
+                   Vec4(0.9, 0.4, 0.6, 1),
+                   Vec4(0.9, 0.4, 0.4, 1),
+                   Vec4(0.8, 0.5, 0.9, 1),
                    Vec4(0.4, 0.1, 0.7, 1))
-    paleYellowColors = (Vec4(0.8, 0, 0.8, 1), 
-                        Vec4(0.6, 0.6, 0.9, 1), 
-                        Vec4(0.7, 0.6, 0.9, 1), 
-                        Vec4(0.8, 0.6, 0.9, 1), 
-                        Vec4(0.9, 0.6, 0.9, 1), 
+    paleYellowColors = (Vec4(0.8, 0, 0.8, 1),
+                        Vec4(0.6, 0.6, 0.9, 1),
+                        Vec4(0.7, 0.6, 0.9, 1),
+                        Vec4(0.8, 0.6, 0.9, 1),
+                        Vec4(0.9, 0.6, 0.9, 1),
                         Vec4(1, 0.6, 0.9, 1))
     shadowScaleBig = Point3(0.07, 0.07, 0.07)
     shadowScaleSmall = Point3(0.01, 0.01, 0.01)
@@ -92,7 +92,7 @@ class DistributedButterfly(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.generate(self)
         if self.butterfly:
             return
-        
+
         self.butterfly = Actor.Actor()
         self.butterfly.loadModel(
             'phase_4/models/props/SZ_butterfly-mod.bam')
@@ -100,13 +100,13 @@ class DistributedButterfly(DistributedObject.DistributedObject):
             'flutter' : 'phase_4/models/props/SZ_butterfly-flutter.bam',
             'glide' :   'phase_4/models/props/SZ_butterfly-glide.bam',
             'land' :    'phase_4/models/props/SZ_butterfly-land.bam'})
-        
+
         # Randomly choose one of the butterfly wing patterns
         index = self.doId % len(self.wingTypes)
         chosenType = self.wingTypes[index]
         node = self.butterfly.getGeomNode()
         for type in self.wingTypes:
-            wing = node.find('**/' + type)    
+            wing = node.find('**/' + type)
             if (type != chosenType):
                 wing.removeNode()
             else:
@@ -161,7 +161,7 @@ class DistributedButterfly(DistributedObject.DistributedObject):
         lodNode = LODNode('butterfly-node')
         lodNode.addSwitch(100, 40)   # self.butterfly2
         lodNode.addSwitch(40, 0)     # self.butterfly
-        
+
         self.butterflyNode = NodePath(lodNode)
         self.butterfly2.setH(180.0)
         self.butterfly2.reparentTo(self.butterflyNode)
@@ -242,8 +242,8 @@ class DistributedButterfly(DistributedObject.DistributedObject):
         self.area = area
 
     def setState(self, stateIndex, curIndex, destIndex, time, timestamp):
-        self.curIndex = curIndex 
-        self.destIndex = destIndex 
+        self.curIndex = curIndex
+        self.destIndex = destIndex
         self.time = time
         self.fsm.request(ButterflyGlobals.states[stateIndex],
                          [globalClockDelta.localElapsedTime(timestamp)])
@@ -285,7 +285,7 @@ class DistributedButterfly(DistributedObject.DistributedObject):
             self.butterfly2.loop('flutter')
             self.ival = Sequence(
                 Parallel(
-                    LerpPosHprInterval(self.butterflyNode, 
+                    LerpPosHprInterval(self.butterflyNode,
                                        ButterflyGlobals.BUTTERFLY_TAKEOFF[self.playground],
                                        curPosHigh, newHpr),
                     LerpAnimInterval(self.butterfly,
@@ -303,7 +303,7 @@ class DistributedButterfly(DistributedObject.DistributedObject):
                         HideInterval(self.dropShadow)
                         ),
                     ),
-                LerpPosInterval(self.butterflyNode, flyTime, 
+                LerpPosInterval(self.butterflyNode, flyTime,
                                 destPosHigh),
                 Parallel(
                     LerpPosInterval(self.butterflyNode,

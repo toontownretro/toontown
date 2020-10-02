@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
-from toontown.building import ElevatorConstants 
+from toontown.building import ElevatorConstants
 from toontown.building import ElevatorUtils
 from toontown.building import DistributedElevatorFSM
 from toontown.toonbase import ToontownGlobals
@@ -17,9 +17,9 @@ from direct.showbase import PythonUtil
 
 class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedClubElevator')
-    
+
     JumpOutOffsets = ((3, 5, 0), (1.5, 4, 0), (-1.5, 4, 0), (-3, 4, 0))
-    
+
     defaultTransitions = {
         'Off'             : [ 'Opening', 'Closed'],
         'Opening'         : [ 'WaitEmpty', 'WaitCountdown', 'Opening', 'Closing'  ],
@@ -29,8 +29,8 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         'Closing'         : [ 'Closed', 'WaitEmpty', 'Closing', 'Opening'  ],
         'Closed'          : [ 'Opening' ],
     }
-    id = 0    
-    
+    id = 0
+
     def __init__(self, cr):
         DistributedElevatorFSM.DistributedElevatorFSM.__init__(self, cr)
         FSM.__init__( self, "ElevatorClub_%s_FSM" % ( self.id ) )
@@ -49,7 +49,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         self.wantState = 0
         #self.latchRoom = None
         self.latch = None
-        
+
         self.lastState = self.state
 
         self.kartModelPath = 'phase_12/models/bossbotHQ/Coggolf_cart3.bam'
@@ -59,21 +59,21 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         # Tracks on toons, for starting and stopping
         # stored by avId : track. There is only a need for one at a time,
         # in fact the point of the dict is to ensure only one is playing at a time
-        self.__toonTracks = {}        
+        self.__toonTracks = {}
 
-        
+
     def setupElevator(self):
         """setupElevator(self)
         Called when the building doId is set at construction time,
         this method sets up the elevator for business.
         """
-        
+
         # TODO: place this on a node indexed by the entraceId
         self.elevatorModel = loader.loadModel(
             "phase_11/models/lawbotHQ/LB_ElevatorScaled")
         if not self.elevatorModel:
             self.notify.error("No Elevator Model in DistributedElevatorFloor.setupElevator. Please inform JML. Fool!")
-            
+
         # The big cog icon on the top is only visible at the BossRoom.
         #icon = self.elevatorModel.find('**/big_frame/')
         #if not icon.isEmpty():
@@ -82,7 +82,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         self.leftDoor = self.elevatorModel.find("**/left-door")
         if self.leftDoor.isEmpty():
             self.leftDoor = self.elevatorModel.find("**/left_door")
-            
+
         self.rightDoor = self.elevatorModel.find("**/right-door")
         if self.rightDoor.isEmpty():
             self.rightDoor = self.elevatorModel.find("**/right_door")
@@ -90,13 +90,13 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         #self.elevatorModel.setH(180)
 
         DistributedElevatorFSM.DistributedElevatorFSM.setupElevator(self)
-        
+
     def generate(self):
         DistributedElevatorFSM.DistributedElevatorFSM.generate(self)
         #self.accept("LawOffice_Spec_Loaded", self.__placeElevator)
-        
+
        # Get the state machine stuff for playGame
-        self.loader = self.cr.playGame.hood.loader        
+        self.loader = self.cr.playGame.hood.loader
         self.golfKart = render.attachNewNode('golfKartNode')
         self.kart = loader.loadModel(self.kartModelPath)
         self.kart.setPos(0, 0, 0)
@@ -107,10 +107,10 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         # Wheels
         self.wheels = self.kart.findAllMatches('**/wheelNode*')
         self.numWheels = self.wheels.getNumPaths()
-        
+
         # temp only
         self.setPosHpr(0,0,0,0,0,0)
-        
+
     def announceGenerate(self):
         DistributedElevatorFSM.DistributedElevatorFSM.announceGenerate(self)
         if self.latch:
@@ -156,7 +156,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
             )
 
         self.setPos(0,0,0)
-        
+
     def __placeElevator(self):
         self.notify.debug("PLACING ELEVATOR FOOL!!")
         if self.isEntering:
@@ -176,7 +176,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
             else:
                 #explode
                 self.notify.debug("NO NODE SlidingDoor!!")
-                
+
     def setLatch(self, markerId):
         self.notify.info("Setting latch")
         #room = self.cr.doId2do.get(roomId)
@@ -185,7 +185,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
             [markerId], allCallback = self.set2Latch, timeout = 5)
         self.latch = markerId
 
-        
+
     def set2Latch(self, taskMgrFooler = None):
         self.latchRequest = None
         if hasattr(self, "cr"): #might callback to dead object
@@ -196,7 +196,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
                 return
             taskMgr.doMethodLater(10.0, self._repart2Marker, "elevatorfloor-markerReparent")
             self.notify.warning("Using backup, do method later version of latch")
-    
+
     def _repart2Marker(self, taskFoolio = 0):
         if hasattr(self, "cr") and self.cr: #might call to dead object
             marker = self.cr.doId2do.get(self.latch)
@@ -205,15 +205,15 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
                 self.getElevatorModel().reparentTo(marker)
             else:
                 self.notify.error("could not find latch even in defered try")
-        
+
     def setPos(self, x, y, z):
         self.getElevatorModel().setPos(x, y, z)
-    
+
     def setH(self, H):
         self.getElevatorModel().setH(H)
-        
+
     def delete(self):
-        self.request('Off') 
+        self.request('Off')
         DistributedElevatorFSM.DistributedElevatorFSM.delete(self)
         self.getElevatorModel().removeNode()
         del self.golfKart
@@ -225,7 +225,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         self.request('Off')
         self.clearToonTracks()
         DistributedElevatorFSM.DistributedElevatorFSM.disable(self)
-        
+
     def setEntranceId(self, entranceId):
         self.entranceId = entranceId
 
@@ -238,7 +238,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
             self.elevatorModel.setPosHpr(-162.25, 26.43, 0.00, 269.00, 0.00, 0.00)
         else:
             self.notify.error("Invalid entranceId: %s" % entranceId)
-    
+
 
 
     def gotBldg(self, buildingList):
@@ -248,14 +248,14 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         # Darken the old light:
         if self.currentFloor >= 0:
             self.bldg.floorIndicator[self.currentFloor].setColor(LIGHT_OFF_COLOR)
-            
+
         # Brighten the new light:
         if floorNumber >= 0:
             self.bldg.floorIndicator[floorNumber].setColor(LIGHT_ON_COLOR)
 
         # Remember the floor:
         self.currentFloor = floorNumber
-    
+
     def handleEnterSphere(self, collEntry):
         #print("Entering Elevator Sphere....")
         # Tell localToon we are considering entering the elevator
@@ -285,7 +285,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         self.accept(self.uniqueName('enterElevatorOK'),
                     self.handleEnterElevator)
         DistributedElevatorFSM.DistributedElevatorFSM.enterWaitEmpty(self, ts)
-        
+
     def exitWaitEmpty(self):
         self.lastState = self.state
         #print("Exiting WaitEmpty")
@@ -294,7 +294,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         self.ignore(self.uniqueName('enterelevatorSphere'))
         self.ignore(self.uniqueName('enterElevatorOK'))
         DistributedElevatorFSM.DistributedElevatorFSM.exitWaitEmpty(self)
-        
+
     ##### WaitCountdown state #####
 
     def enterWaitCountdown(self, ts):
@@ -311,23 +311,23 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         #print("Exiting WaitCountdown")
         self.ignore(self.uniqueName('enterElevatorOK'))
         DistributedElevatorFSM.DistributedElevatorFSM.exitWaitCountdown(self)
-        
+
     def enterClosing(self, ts):
         self.lastState = self.state
         #print("Entering Closing")
         #base.transitions.irisOut(2.0)
         taskMgr.doMethodLater(1.00, self._delayIris, "delayedIris")
         DistributedElevatorFSM.DistributedElevatorFSM.enterClosing(self, ts)
-        
+
     def _delayIris(self, tskfooler = 0):
         base.transitions.irisOut(1.0)
         base.localAvatar.pauseGlitchKiller()
         return Task.done
-        
+
     def kickToonsOut(self):
         #print"TOONS BEING KICKED OUT"
         if not self.localToonOnBoard:
-            zoneId = self.cr.playGame.hood.hoodId                
+            zoneId = self.cr.playGame.hood.hoodId
             self.cr.playGame.getPlace().fsm.request('teleportOut', [{
                 "loader": ZoneUtil.getLoaderName(zoneId),
                 "where": ZoneUtil.getToonWhereName(zoneId),
@@ -337,25 +337,25 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
                 "shardId": None,
                 "avId": -1,
                 }])
-        
-    
+
+
     def exitClosing(self):
         self.lastState = self.state
         #print("Exiting Closing")
         DistributedElevatorFSM.DistributedElevatorFSM.exitClosing(self)
-        
+
     def enterClosed(self, ts):
         self.lastState = self.state
         #print("Entering Closed")
         self.forceDoorsClosed()
         self.__doorsClosed(self.getZoneId())
         return
-    
+
     def exitClosed(self):
         self.lastState = self.state
         #print("Exiting Closed")
         DistributedElevatorFSM.DistributedElevatorFSM.exitClosed(self)
-        
+
     def enterOff(self):
         self.lastState = self.state
         #print("Entering Off")
@@ -363,28 +363,28 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
             self.demand('Closing')
         elif self.wantState == 'waitEmpty':
             self.demand('WaitEmpty')
-        
+
         DistributedElevatorFSM.DistributedElevatorFSM.enterOff(self)
-        
+
     def exitOff(self):
         self.lastState = self.state
         #print("Exiting Off")
         DistributedElevatorFSM.DistributedElevatorFSM.exitOff(self)
-    
+
     def enterOpening(self, ts):
         self.lastState = self.state
         #print("Entering Opening")
         DistributedElevatorFSM.DistributedElevatorFSM.enterOpening(self,ts)
-        
+
     def exitOpening(self):
         #print("Exiting Opening")
         #print("WE ARE ACTAULLY CALLING exitOpening!!!!")
         #import pdb; pdb.set_trace()
         DistributedElevatorFSM.DistributedElevatorFSM.exitOpening(self)
         self.kickEveryoneOut()
-            
+
         return
-        
+
     def getZoneId(self):
         return 0
 
@@ -413,26 +413,26 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
 
         self.boardedAvIds = {}
         self.finishSetup()
-        
+
 
     def getElevatorModel(self):
         return self.elevatorModel
-        
+
     def kickEveryoneOut(self):
         #makes the toons leave the elevator
         bailFlag = 0
         #print self.boardedAvIds
-        for avId, slot in self.boardedAvIds.items():
+        for avId, slot in list(self.boardedAvIds.items()):
             #print("Kicking toon out! avId %s Slot %s" % (avId, slot))
             self.emptySlot(slot, avId, bailFlag, globalClockDelta.getRealNetworkTime())
             if avId == base.localAvatar.doId:
                 pass
 
-                
+
 
     def __doorsClosed(self, zoneId):
         return
-        
+
     def onDoorCloseFinish(self):
         """this is called when the elevator doors finish closing on the client
         """
@@ -441,7 +441,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         self.isLocked = locked
         if locked:
             if self.state == 'WaitEmpty':
-                self.request('Closing') 
+                self.request('Closing')
             if self.countFullSeats() == 0:
                 self.wantState = 'closed'
             else:
@@ -449,25 +449,25 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         else:
             self.wantState = 'waitEmpty'
             if self.state == 'Closed':
-                self.request('Opening') 
-        
+                self.request('Opening')
+
     def getLocked(self):
         return self.isLocked
 
     def setEntering(self, entering):
         self.isEntering = entering
-        
+
     def getEntering(self):
         return self.isEntering
-        
-        
+
+
     def forceDoorsOpen(self):
         """Deliberately do nothing."""
         pass
 
     def forceDoorsClosed(self):
         """Deliberately do nothing."""
-        pass            
+        pass
 
     def enterOff(self):
         self.lastState = self.state
@@ -475,8 +475,8 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
 
     def exitOff(self):
         return
-        
-        
+
+
     def setLawOfficeInteriorZone(self, zoneId):
         if (self.localToonOnBoard):
             hoodId = self.cr.playGame.hood.hoodId
@@ -488,11 +488,11 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
                 'hoodId' : hoodId,
                 }
             self.cr.playGame.getPlace().elevator.signalDone(doneStatus)
-    
+
 #    def emptySlot(self, index, avId, bailFlag, timestamp):
 #        pass
 
-            
+
     def getElevatorModel(self):
         return self.golfKart
 
@@ -502,7 +502,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         self.startingPos = Vec3(x, y, z)
         self.enteringPos = Vec3(x, y, z - 10)
         self.startingHpr = Vec3(h, 0, 0)
-        self.golfKart.setPosHpr( x, y, z, h, 0, 0 )       
+        self.golfKart.setPosHpr( x, y, z, h, 0, 0 )
 
 
 
@@ -513,25 +513,25 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         if request:
             self.cr.relatedObjectMgr.abortRequest(request)
             del self.toonRequests[index]
-            
+
         if avId == 0:
             # This means that the slot is now empty, and no action should
             # be taken.
             pass
 
-        elif not self.cr.doId2do.has_key(avId):
+        elif avId not in self.cr.doId2do:
             # It's someone who hasn't been generated yet.
             func = PythonUtil.Functor(
                 self.gotToon, index, avId)
-                                      
-            assert not self.toonRequests.has_key(index)
+
+            assert index not in self.toonRequests
             self.toonRequests[index] = self.cr.relatedObjectMgr.requestObjects(
                 [avId], allCallback = func)
 
         elif not self.isSetup:
             # We haven't set up the elevator yet.
             self.deferredSlots.append((index, avId))
-        
+
         else:
             # If localToon is boarding, he needs to change state
             if avId == base.localAvatar.getDoId():
@@ -566,7 +566,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         """Return an interval of the toon jumping into the golf kart."""
         av.pose('sit', 47)
         hipOffset = av.getHipsParts()[2].getPos(av)
-        
+
         def getToonJumpTrack( av, seatIndex ):
             # using a local func allows the ProjectileInterval to
             # calculate this pos at run-time
@@ -582,7 +582,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
                         dest.setY( dest.getY() + 2 * hipOffset.getY())
                     dest.setZ(dest.getZ() + 0.1)
                 else:
-                    self.notify.warning('getJumpDestinvalid golfKart, returning (0,0,0)') 
+                    self.notify.warning('getJumpDestinvalid golfKart, returning (0,0,0)')
                 return dest
 
             def getJumpHpr(av = av, node = self.golfKart):
@@ -596,7 +596,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
                     angle = PythonUtil.fitDestAngle2Src(av.getH(), hpr.getX())
                     hpr.setX(angle)
                 else:
-                    self.notify.warning('getJumpHpr invalid golfKart, returning (0,0,0)')                    
+                    self.notify.warning('getJumpHpr invalid golfKart, returning (0,0,0)')
                 return hpr
 
             toonJumpTrack = Parallel(
@@ -624,7 +624,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
 
         toonJumpTrack = getToonJumpTrack( av, seatIndex )
         toonSitTrack = getToonSitTrack( av )
-        
+
         jumpTrack = Sequence(
             Parallel(
                 toonJumpTrack,
@@ -632,9 +632,9 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
                           toonSitTrack,
                           ),
                 ),
-            Func( av.wrtReparentTo, self.golfKart ),            
+            Func( av.wrtReparentTo, self.golfKart ),
             )
-        
+
         return jumpTrack
 
 
@@ -653,15 +653,15 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
             for slot in self.deferredSlots:
                 if slot[0] != index:
                     newSlots.append(slot)
-                    
+
             self.deferredSlots = newSlots
 
         else:
-            if self.cr.doId2do.has_key(avId):
+            if avId in self.cr.doId2do:
                 # See if we need to reset the clock
                 # (countdown assumes we've created a clockNode already)
                 if (bailFlag == 1 and hasattr(self, 'clockNode')):
-                    if (timestamp < self.countdownTime and 
+                    if (timestamp < self.countdownTime and
                         timestamp >= 0):
                         self.countdown(self.countdownTime - timestamp)
                     else:
@@ -708,7 +708,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
                                                   " cannot exit the elevator!")
 
     def generateToonReverseJumpTrack( self, av, seatIndex ):
-        """Return an interval of the toon jumping out of the golf kart."""        
+        """Return an interval of the toon jumping out of the golf kart."""
         self.notify.debug("av.getH() = %s" % av.getH())
         def getToonJumpTrack( av, destNode ):
             # using a local func allows the ProjectileInterval to
@@ -724,7 +724,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
                 angle = PythonUtil.fitDestAngle2Src(av.getH(), hpr.getX())
                 hpr.setX(angle)
                 return hpr
-            
+
             toonJumpTrack = Parallel(
                 ActorInterval( av, 'jump' ),
                 Sequence(
@@ -736,7 +736,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
                                                 endPos = getJumpDest,
                                                 duration = .9 ) )
                   )
-                )  
+                )
             return toonJumpTrack
 
         toonJumpTrack = getToonJumpTrack( av, self.golfKart)
@@ -775,7 +775,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         keyList = []
         for key in self.__toonTracks:
             keyList.append(key)
-            
+
         for key in keyList:
-            if self.__toonTracks.has_key(key):
+            if key in self.__toonTracks:
                 self.clearToonTrack(key)

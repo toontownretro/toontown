@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 
 class MinigamePowerMeter(DirectFrame):
@@ -18,14 +18,14 @@ class MinigamePowerMeter(DirectFrame):
                              #geom_scale = (.46,1,.72),
                              sortOrder = DGG.BACKGROUND_SORT_INDEX,
                              )
-                                    
+
         # For some reason, we need to set this after construction to
         # get it to work properly.
         self['image'] = DGG.getDefaultDialogGeom()
         #self['frameSize'] = (-base.win.getWidth()/2.0, base.win.getWidth()/2.0,
         #                     -base.win.getHeight()/2.0, base.win.getHeight()/2.0)
         self.resetFrameSize()
-            
+
         if label == None:
             label = TTLocalizer.MinigamePowerMeterLabel
         # Make a label for showing the score.
@@ -69,12 +69,12 @@ class MinigamePowerMeter(DirectFrame):
             if gauge:
                 del gauge
         del self.largeGauge
-        
+
         self.destroy()
 
     def __createSpeedGauge(self):
-        
-        # create a speed gauge  
+
+        # create a speed gauge
         gaugeA = DirectWaitBar(
             parent = self,
             relief = DGG.RAISED,
@@ -89,7 +89,7 @@ class MinigamePowerMeter(DirectFrame):
             )
         gaugeA.setR(-90)
         gaugeA['value'] = 0
-        self.largeGauge.append(gaugeA)        
+        self.largeGauge.append(gaugeA)
 
         # this is the top part of the target line
         gaugeTargetTop = DirectWaitBar(
@@ -131,12 +131,12 @@ class MinigamePowerMeter(DirectFrame):
 
         for gauge in self.largeGauge:
             gauge.show()
-        
+
     def setPower(self, power):
         self.largeGauge[0]['value'] = power
         #if (self.largeGauge[0]['value'] == self.largeGauge[2]['value']):
         #    self.largeGauge[2]['barColor'] = (0,1,0,.7)
-        #else:    
+        #else:
         #    self.largeGauge[2]['barColor'] = (1,1,1,1)
 
     def setTarget(self, target):
@@ -157,7 +157,6 @@ class MinigamePowerMeter(DirectFrame):
             self.tooSlow.show()
         elif curSpeed > target+2:
             self.tooFast.show()
-            
+
     def setBarColor(self, color):
         self.largeGauge[0]['barColor'] = color
-        

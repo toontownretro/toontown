@@ -2,7 +2,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 class CatalogNotifyDialog:
     """CatalogNotifyDialog:
@@ -32,7 +32,7 @@ class CatalogNotifyDialog:
             text_pos = (-0.1, 0.1),
             pos = (framePosX, 0, 0.78),
             )
-        
+
 
         buttons = loader.loadModel(
             'phase_3/models/gui/dialog_box_buttons_gui')
@@ -69,14 +69,14 @@ class CatalogNotifyDialog:
             # That was the last message.
             self.cleanup()
             return
-        
+
         # There's more text to display.
         self.frame['text'] = self.message[self.messageIndex]
         if self.messageIndex + 1 == len(self.message):
             # That's the last message.
             self.nextButton.hide()
             self.doneButton.show()
-        
+
     def cleanup(self):
         """cleanup(self):
         Cancels any pending request and removes the panel from the

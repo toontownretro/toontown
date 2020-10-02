@@ -1,8 +1,8 @@
 import os
 import time
 import datetime
-from pandac.PandaModules import Filename, DSearchPath, TextNode
-from pandac.PandaModules import HTTPClient, Ramfile, DocumentSpec
+from toontown.toonbase.ToontownModules import Filename, DSearchPath, TextNode
+from toontown.toonbase.ToontownModules import HTTPClient, Ramfile, DocumentSpec
 from direct.showbase import DirectObject
 from direct.gui.DirectGui import DirectFrame, DGG #, DirectButton, DirectLabel
 from direct.directnotify import DirectNotifyGlobal
@@ -28,7 +28,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
     # home page is considered one section, must always be first
     # home, news, events, talk of the town, ask toontown, toon resistance
     SectionIdents = ['hom', 'new', 'evt', 'tot', 'att', 'tnr']
-    
+
     def __init__(self, parent = aspect2d):
         DirectObject.DirectObject.__init__(self)
         self.accept("newsSnapshot", self.doSnapshot)
@@ -47,7 +47,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
         self.needsParseNews = True
         if self.NewsOverHttp:
             self.redownloadNews()
-        
+
         self.accept("newIssueOut", self.handleNewIssueOut)
         self.accept("clientCleanup", self.handleClientCleanup)
 
@@ -57,7 +57,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
             return
         assert not self.redownloadingNews
         self.needsParseNews = False
-        
+
         result = False
         newsDir = self.findNewsDir()
         if newsDir:
@@ -85,7 +85,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
             # we should get here only when a new issue comes out mid game
             self.createdTime = base.cr.inGameNewsMgr.getLatestIssue()
             self.notify.debug("setting created time to latest issue %s" % self.createdTime)
-        else:            
+        else:
             # this is sucky that at this point (initial load) we don't have in game news mgr
             self.createdTime = base.cr.toontownTimeManager.getCurServerDateTime()
             self.notify.debug("setting created time cur server time %s" % self.createdTime)
@@ -93,7 +93,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
 
     def getAllHomeFilenames(self, newsDir):
         """Find all the issues that are available."""
-            
+
         self.notify.debug("getAllHomeFilenames")
         newsDirAsFile = vfs.getFile(Filename(newsDir))
         fileList = newsDirAsFile.scanDirectory()
@@ -109,7 +109,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
                 homeFileNames.add(name)
             else:
                 self.notify.debug("hom1. not in baseName")
-                    
+
         if not homeFileNames:
             #self.notify.error("couldnt find hom1. in %s" % fileNames)
             self.notify.warning("couldnt find hom1. in %s" % fileNames)
@@ -121,7 +121,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
         homeFileNames = list(homeFileNames)
         homeFileNames.sort(cmp = fileCmp)
         self.notify.debug("returned homeFileNames=%s" % homeFileNames)
-        
+
         return homeFileNames
 
     def findNewsDir(self):
@@ -134,7 +134,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
             # If we're running news-over-http, we dump the news into a
             # staging directory.
             return self.NewsStageDir
-        
+
         searchPath = DSearchPath()
         if AppRunnerGlobal.appRunner:
             # In the web-publish runtime, it will always be here:
@@ -145,7 +145,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
             searchPath.appendDirectory(
                 Filename.fromOsSpecific(basePath+'/built/' + self.NewsBaseDir))
             searchPath.appendDirectory(Filename(self.NewsBaseDir))
-        
+
         pfile = Filename(self.NewsIndexFilename)
         found = vfs.resolveFilename(pfile, searchPath)
         if not found:
@@ -189,7 +189,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
 
     def removeDownloadingTextTask(self):
         """Add a simple little task to show in game news is downloading stuff."""
-        taskMgr.remove("DirectNewsFrameDownloadingTextTask")        
+        taskMgr.remove("DirectNewsFrameDownloadingTextTask")
 
     def loadMainPage(self):
         """Create the other gui for this."""
@@ -211,7 +211,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
             # let's assume he clicked yes
             self.redownloadNews()
             pass
-        
+
         else:
             self.addDownloadingTextTask()
 
@@ -232,7 +232,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
 
     def unload(self):
         """
-        self.deactivate()        
+        self.deactivate()
         HtmlView.HtmlView.unload(self)
         """
         self.removeDownloadingTextTask()
@@ -245,7 +245,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
     def handleClientCleanup(self):
         """User killing toontown, detach the backframe."""
         pass
-        
+
     def doSnapshot(self):
         "Save the current browser contents to a png file."""
         pass
@@ -362,7 +362,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
             # Hey, we're done!
             self.notify.info("Done downloading news.")
             self.percentDownloaded = 1
-            
+
             del self.newsFiles
             del self.nextNewsFile
             del self.newsUrl
@@ -380,7 +380,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
             return task.done
 
         self.percentDownloaded = float(self.nextNewsFile) / float(len(self.newsFiles))
-        
+
         # Get the next file on the list.
         self.filename = self.newsFiles[self.nextNewsFile]
         self.nextNewsFile += 1
@@ -396,7 +396,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
             if date and localFilename.exists() and (size == 0 or localFilename.getFileSize() == size):
                 doc.setDate(date)
                 doc.setRequestMode(doc.RMNewer)
-        
+
         self.ch.beginGetDocument(doc)
         self.ch.downloadToFile(localFilename)
 
@@ -434,7 +434,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
         # The HTTP "Entity Tag" appears to be useless with our CDN:
         # different CDN servers will serve up different etag values
         # for the same file.  We rely on file size and date instead.
-        
+
         size = self.ch.getFileSize()
         doc = self.ch.getDocumentSpec()
         date = ''
@@ -449,7 +449,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
 
     def readNewsCache(self):
         """ Reads cache_index.txt into self.newsCache. """
-        
+
         cacheIndexFilename = Filename(self.newsDir, self.CacheIndexFilename)
         self.newsCache = {}
         if cacheIndexFilename.isRegularFile():
@@ -471,9 +471,9 @@ class DirectNewsFrame(DirectObject.DirectObject):
         cacheIndexFilename = Filename(self.newsDir, self.CacheIndexFilename)
 
         file = open(cacheIndexFilename.toOsSpecific(), 'w')
-        for filename, (size, date) in self.newsCache.items():
-            print >> file, '%s\t%s\t%s' % (filename, size, date)
-        
+        for filename, (size, date) in list(self.newsCache.items()):
+            print('%s\t%s\t%s' % (filename, size, date), file=file)
+
     def handleNewIssueOut(self):
         """Handle getting this newIssueOut message."""
         # we will get this immediately after DistributedInGameNewsManager gets created
@@ -501,12 +501,12 @@ class DirectNewsFrame(DirectObject.DirectObject):
         else:
             try:
                 launcherUrl = base.launcher.getValue("GAME_IN_GAME_NEWS_URL", "")
-                if launcherUrl:                    
+                if launcherUrl:
                     result = launcherUrl
                     self.notify.info("got GAME_IN_GAME_NEWS_URL from launcher using %s" % result)
                 else:
                     self.notify.info("blank GAME_IN_GAME_NEWS_URL from launcher, using %s" % result)
-                    
+
             except:
                 self.notify.warning("got exception getting GAME_IN_GAME_NEWS_URL from launcher, using %s" % result)
         return result

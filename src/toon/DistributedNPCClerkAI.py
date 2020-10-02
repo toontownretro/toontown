@@ -1,8 +1,8 @@
 
 from otp.ai.AIBaseGlobal import *
 from direct.task.Task import Task
-from pandac.PandaModules import *
-from DistributedNPCToonBaseAI import *
+from toontown.toonbase.ToontownModules import *
+from .DistributedNPCToonBaseAI import *
 
 class DistributedNPCClerkAI(DistributedNPCToonBaseAI):
 
@@ -50,7 +50,7 @@ class DistributedNPCClerkAI(DistributedNPCToonBaseAI):
                         ClockDelta.globalClockDelta.getRealNetworkTime()])
 
         # Timeout
-        taskMgr.doMethodLater(NPCToons.CLERK_COUNTDOWN_TIME, 
+        taskMgr.doMethodLater(NPCToons.CLERK_COUNTDOWN_TIME,
                                 self.sendTimeoutMovie,
                                 self.uniqueName('clearMovie'))
 
@@ -73,7 +73,7 @@ class DistributedNPCClerkAI(DistributedNPCToonBaseAI):
 
     def sendClearMovie(self, task):
         assert self.notify.debug('sendClearMovie()')
-        
+
         # Ignore unexpected exits on whoever I was busy with
         self.ignore(self.air.getAvatarExitEvent(self.busy))
         self.busy = 0
@@ -102,7 +102,7 @@ class DistributedNPCClerkAI(DistributedNPCToonBaseAI):
             self.notify.warning('setInventory from unknown avId: %s busy: %s' % (avId, self.busy))
             return
 
-        if self.air.doId2do.has_key(avId):
+        if avId in self.air.doId2do:
             av = self.air.doId2do[avId]
             newInventory = av.inventory.makeFromNetString(blob)
             currentMoney = av.getMoney()
@@ -129,4 +129,4 @@ class DistributedNPCClerkAI(DistributedNPCToonBaseAI):
     def __handleUnexpectedExit(self, avId):
         self.notify.warning('avatar:' + str(avId) + ' has exited unexpectedly')
         self.sendTimeoutMovie(None)
-        return None 
+        return None

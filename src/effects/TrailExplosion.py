@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
-from EffectController import EffectController
-from PooledEffect import PooledEffect
+from .EffectController import EffectController
+from .PooledEffect import PooledEffect
 
 from toontown.effects.SparksTrailLong import SparksTrailLong
 import random
@@ -12,18 +12,18 @@ class TrailExplosion(PooledEffect, EffectController):
         [Vec3(150,-50,100), #three trails
          Vec3(-150,-50,100),
          Vec3(0,150,100)],
-                 
+
         [Vec3(120,120,100), #four trails
          Vec3(120,-120,100),
          Vec3(-120,120,100),
          Vec3(-120,-120,100)],
-                 
+
         [Vec3(0,150,100), #five trails
          Vec3(140,30,100),
          Vec3(-140,30,100),
          Vec3(30,-60,100),
          Vec3(-30,-60,100)]]
-    
+
     def __init__(self):
         PooledEffect.__init__(self)
         EffectController.__init__(self)
@@ -35,7 +35,7 @@ class TrailExplosion(PooledEffect, EffectController):
         self.trails = []
         self.trailEffects = []
         self.trailIval = Parallel()
-        
+
     def createTrack(self):
         self.trails = []
         self.trailEffects = []
@@ -44,7 +44,7 @@ class TrailExplosion(PooledEffect, EffectController):
         vels = None
         if (self.numTrails >=3 and self.numTrails <=5):
             vels = self.trailsVel[self.numTrails-3]
-        
+
         for i in range(self.numTrails):
             self.trails.append(self.attachNewNode("trail"))
             vel = Vec3(0,0,0)
@@ -71,7 +71,7 @@ class TrailExplosion(PooledEffect, EffectController):
                     Func(self.trailEffects[i].startLoop),
                     Wait(dur),
                     Func(self.trailEffects[i].stopLoop)))
-        
+
         self.track = Sequence(
             self.trailIval,
             Func(self.cleanUpEffect),
@@ -82,7 +82,7 @@ class TrailExplosion(PooledEffect, EffectController):
 
     def setEffectColor(self, color):
         self.effectColor = color
-        
+
     def cleanUpEffect(self):
         for effect in self.trailEffects:
             if effect:
@@ -91,7 +91,7 @@ class TrailExplosion(PooledEffect, EffectController):
         EffectController.cleanUpEffect(self)
         if self.pool and self.pool.isUsed(self):
             self.pool.checkin(self)
-        
+
     def destroy(self):
         EffectController.destroy(self)
         PooledEffect.destroy(self)

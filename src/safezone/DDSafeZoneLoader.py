@@ -1,8 +1,8 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
-import SafeZoneLoader
-import DDPlayground
+from . import SafeZoneLoader
+from . import DDPlayground
 from direct.fsm import State
 from toontown.char import CharDNA
 from toontown.char import Char
@@ -50,7 +50,7 @@ class DDSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         self.foghornSound = base.loadSfx('phase_5/audio/sfx/SZ_DD_foghorn.mp3')
         self.bellSound = base.loadSfx('phase_6/audio/sfx/SZ_DD_shipbell.mp3')
         self.waterSound = base.loadSfx('phase_6/audio/sfx/SZ_DD_waterlap.mp3')
-        
+
     def unload(self):
         SafeZoneLoader.SafeZoneLoader.unload(self)
         del self.seagullSound
@@ -67,6 +67,6 @@ class DDSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
 
     def enter(self, requestStatus):
         SafeZoneLoader.SafeZoneLoader.enter(self, requestStatus)
-        
+
     def exit(self):
         SafeZoneLoader.SafeZoneLoader.exit(self)

@@ -1,18 +1,18 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
-from BattleBase import *
+from .BattleBase import *
 
 from direct.actor import Actor
 from toontown.suit import SuitDNA
 from direct.directnotify import DirectNotifyGlobal
-import DistributedBattleBase
+from . import DistributedBattleBase
 from toontown.toon import TTEmote
 from otp.avatar import Emote
 from toontown.toonbase import TTLocalizer
-import MovieUtil
+from . import MovieUtil
 from direct.fsm import State
 from toontown.suit import Suit
-import SuitBattleGlobals
+from . import SuitBattleGlobals
 import random
 from toontown.toonbase import ToontownGlobals
 
@@ -59,12 +59,12 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
             self.battleMusic = base.loadMusic(
                 'phase_7/audio/bgm/encntr_general_bg_indoor.mid')
         base.playMusic(self.battleMusic, looping=1, volume=0.9)
-            
+
     def disable(self):
         """ disable()
         """
         DistributedBattleBase.DistributedBattleBase.disable(self)
-        self.battleMusic.stop()        
+        self.battleMusic.stop()
 
     def delete(self):
         """ delete()
@@ -156,7 +156,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
             suitTrack.append(oneSuitTrack)
 
 
-        # Do the toons faceoff 
+        # Do the toons faceoff
         toonTrack = Parallel()
         for toon in self.toons:
             oneToonTrack = Sequence()

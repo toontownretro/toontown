@@ -13,10 +13,10 @@ from toontown.racing import KartShopGlobals
 
 #added
 from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 import random
-import cPickle
+import pickle
 
 
 
@@ -52,14 +52,14 @@ class DistributedLeaderBoard(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.generate(self)
 
         self.buildListParts()
-        
+
 
     def announceGenerate(self):
         """
         """
         DistributedObject.DistributedObject.announceGenerate(self)
         self.board.reparentTo(render)
-        
+
         self.accept("decorator-holiday-%d-ending" % ToontownGlobals.CRASHED_LEADERBOARD, self.showLists)
         self.accept("decorator-holiday-%d-starting" % ToontownGlobals.CRASHED_LEADERBOARD, self.hideLists)
 
@@ -87,7 +87,7 @@ class DistributedLeaderBoard(DistributedObject.DistributedObject):
         # This message is sent from the AI when the leaderboard data should change
         # so the assumption is we should update the display afterwards
         self.notify.debug("setDisplay: changing leaderboard text on local side")
-        trackName, recordTitle, scores = cPickle.loads(pData)
+        trackName, recordTitle, scores = pickle.loads(pData)
         self.display(trackName, recordTitle, scores)
 
     def buildListParts(self):
@@ -251,5 +251,3 @@ class DistributedLeaderBoard(DistributedObject.DistributedObject):
         self.ignoreAll()
         self.board.removeNode()
         DistributedObject.DistributedObject.delete(self)
-
-

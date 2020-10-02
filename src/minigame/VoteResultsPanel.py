@@ -1,7 +1,7 @@
 from direct.gui.DirectGui import DirectFrame, DGG, DirectLabel
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import Point3, TextNode
+from toontown.toonbase.ToontownModules import Point3, TextNode
 from toontown.minigame import TravelGameGlobals
 from toontown.toonbase import TTLocalizer
 from direct.interval.IntervalGlobal import Parallel, Sequence, LerpFunc, Func, Wait
@@ -35,8 +35,8 @@ class VoteResultsPanel(DirectFrame):
         self.directions = directions * listMultiplier
         self.namesList = namesList * listMultiplier
         self.disconnectedList = disconnectedList * listMultiplier
-        self.directionToGo = directionToGo 
-        self.directionReason = directionReason 
+        self.directionToGo = directionToGo
+        self.directionReason = directionReason
         self.directionTotals = directionTotals
 
         self.entryList = []
@@ -47,7 +47,7 @@ class VoteResultsPanel(DirectFrame):
             relief=None,
             pos = self.getRowPos(-1),
             )
-            
+
         self.upLabel = DirectLabel(
             parent = self.upDownFrame,
             relief = None,
@@ -67,7 +67,7 @@ class VoteResultsPanel(DirectFrame):
             text_scale = 0.05,
             text_align = TextNode.ARight
             )
-        
+
         self.totalFrame = DirectFrame(
             parent=self,
             relief=None,
@@ -102,7 +102,7 @@ class VoteResultsPanel(DirectFrame):
             text_fg = (1.0, 0.0, 0.0, 1.0),
             text_scale = 0.05,
             text_align = TextNode.ARight
-            )        
+            )
         self.totalVotesLabels = [self.totalVotesUpLabel, self.totalVotesDownLabel]
 
         self.resultFrame = DirectFrame(
@@ -120,7 +120,7 @@ class VoteResultsPanel(DirectFrame):
             text_align = TextNode.ACenter
             )
         self.setupResultLabel()
-  
+
         for index in range(self.numPlayers):
             frame = DirectFrame(
                 parent=self,
@@ -163,7 +163,7 @@ class VoteResultsPanel(DirectFrame):
                 )
             nameLabel.hide()
             self.entryList.append((nameLabel, votesUpLabel, votesDownLabel))
-            
+
     def getRowPos(self, place):
         return Point3(-0.72,-0.01,0.2-place*0.1)
 
@@ -195,9 +195,9 @@ class VoteResultsPanel(DirectFrame):
             label['text'] = str( int(t*endVotes + startVotes))
 
         track = Parallel()
-        track.append(Func(self.entryList[index][0].show, name='showName %d' % index))        
+        track.append(Func(self.entryList[index][0].show, name='showName %d' % index))
         track.append(LerpFunc(ticketTicker,duration=duration, name='countVotes %d'% index))
-        
+
         # lets figure out the total before
         startVotes = 0
         for prev in range(index):
@@ -221,7 +221,7 @@ class VoteResultsPanel(DirectFrame):
             self.movie.append(Wait(0.75))
         self.movie.append(Func(self.resultLabel.show))
         self.movie.append(Wait(2.0))
-        
+
         self.movie.start()
 
     def destroy(self):

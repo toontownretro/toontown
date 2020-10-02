@@ -1,21 +1,21 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
-import DistributedNPCToonBase
+from . import DistributedNPCToonBase
 
 class DistributedNPCScientist(DistributedNPCToonBase.DistributedNPCToonBase):
 
     def __init__(self, cr):
         assert self.notify.debug("__init__")
         DistributedNPCToonBase.DistributedNPCToonBase.__init__(self, cr)
-            
+
     def getCollSphereRadius(self):
         return 2.5
-        
+
     def initPos(self):
         #self.clearMat()
-        self.setHpr(180, 0, 0)   
+        self.setHpr(180, 0, 0)
         self.setScale(1.0)
-        
+
     def handleCollisionSphereEnter(self, collEntry):
         """
         Response for a toon walking up to this NPC
@@ -23,11 +23,11 @@ class DistributedNPCScientist(DistributedNPCToonBase.DistributedNPCToonBase):
         assert self.notify.debug("Entering collision sphere...")
         self.nametag3d.setDepthTest(0)
         self.nametag3d.setBin('fixed', 0)
-                                                  
+
     def setChat(self, topic, partPos, partId, progress, flags):
         msg = TTLocalizer.toontownDialogues[topic][(partPos, partId)][progress]
         self.setChatMuted(msg, flags)
-        
+
     def generateToon(self):
         """generateToon(self)
         Create a toon from dna (an array of strings)
@@ -58,7 +58,7 @@ class DistributedNPCScientist(DistributedNPCToonBase.DistributedNPCToonBase):
         self.legsParts = []
         self.__bookActors = []
         self.__holeActors = []
-        
+
         self.setupToonNodes()
         if self.style.getTorsoSize() == "short" and self.style.getAnimal() == "duck":
             sillyReader = loader.loadModel("phase_4/models/props/tt_m_prp_acs_sillyReader")
@@ -77,14 +77,14 @@ class DistributedNPCScientist(DistributedNPCToonBase.DistributedNPCToonBase):
                 placeholder.setH(180)
                 placeholder.setScale(render, 1.0)
                 placeholder.setPos(0, 0, 0.1)
-                
+
     def startLookAround(self):
         """
-        Override this method from toonhead because we don't want our scientists looking at anything other 
+        Override this method from toonhead because we don't want our scientists looking at anything other
         than what the animation specifies
         """
-        pass 
-        
+        pass
+
     def scientistPlay(self):
         """
         During the scientist play animation

@@ -1,7 +1,7 @@
 from otp.ai.AIBaseGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
-from PurchaseManagerConstants import *
+from .PurchaseManagerConstants import *
 import copy
 from direct.task.Task import Task
 
@@ -26,7 +26,7 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
             self.votesArray = copy.deepcopy(votesArray)
         else:
             self.votesArray = []
-        
+
         self.metagameRound = metagameRound #this refers to the previous game played
         self.desiredNextGame = desiredNextGame
 
@@ -53,7 +53,7 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
                 self.playerStates[i] = PURCHASE_NO_CLIENT_STATE
                 self.playersReported[i] = PURCHASE_CANTREPORT_STATE
             # Player is in dictionary
-            elif self.air.doId2do.has_key(avId):
+            elif avId in self.air.doId2do:
                 if avId not in self.getInvolvedPlayerIds():
                     # either we are a normal purchaseMgr with some newbies, or
                     # we're a newbie purchaseMgr with non-newbies; either way,
@@ -72,7 +72,7 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
         # more processing for the toons that we 'own'
         for avId in self.getInvolvedPlayerIds():
             # 0 means no player, 1, 2, and 3 are suits.
-            if avId > 3 and self.air.doId2do.has_key(avId):
+            if avId > 3 and avId in self.air.doId2do:
                 self.acceptOnce(self.air.getAvatarExitEvent(avId),
                                 self.__handleUnexpectedExit,
                                 extraArgs=[avId])
@@ -131,8 +131,8 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
                 if self.metagameRound > -1 and \
                    self.metagameRound < TravelGameGlobals.FinalMetagameRoundIndex:
                     avIds.append(avId)
-                
-                
+
+
         return avIds
 
     def getMinigamePoints(self):
@@ -174,7 +174,7 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
                                       (avId, ))
             return
         if self.receivingButtons:
-            if self.air.doId2do.has_key(avId):
+            if avId in self.air.doId2do:
                 av = self.air.doId2do[avId]
                 if avIndex == None:
                     self.air.writeServerEvent('suspicious', avId, 'PurchaseManager.requestExit not on list')
@@ -213,7 +213,7 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
             self.air.writeServerEvent('suspicious', avId, 'PurchaseManager.requestPlayAgain: unknown avatar')
             return
         if self.receivingButtons:
-            if self.air.doId2do.has_key(avId):
+            if avId in self.air.doId2do:
                 av = self.air.doId2do[avId]
                 avIndex = self.findAvIndex(avId)
                 if avIndex == None:
@@ -254,7 +254,7 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
     def setInventory(self, blob, newMoney, done):
         avId = self.air.getAvatarIdFromSender()
         if self.receivingInventory:
-            if self.air.doId2do.has_key(avId):
+            if avId in self.air.doId2do:
                 av = self.air.doId2do[avId]
                 avIndex = self.findAvIndex(avId)
                 if avIndex == None:
@@ -286,13 +286,13 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
                         # Make sure the avatar is in sync with the AI.
                         av.d_setInventory(av.inventory.makeNetString())
                         av.d_setMoney(av.getMoney())
-                        
+
                     # Record report
                     self.playersReported[avIndex] = PURCHASE_REPORTED_STATE
                     # Test to see if we are waiting on anyone else
                     if self.getNumUnreported() == 0:
                         self.shutDown()
-                        
+
         else:
             self.air.writeServerEvent('suspicious', avId, 'PurchaseManager.setInventory not receiving inventory')
             self.notify.warning("Not receiving inventory. Ignored " +
@@ -336,7 +336,7 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
                 retval.append(self.votesArray[origIndex])
             else:
                 retval.append(0)
-            
+
 
         return retval
 
@@ -364,7 +364,7 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
             playAgainList = self.getPlayAgainList()
             newVotesArray = self.getVotesArrayMatchingPlayAgainList(playAgainList)
             newRound = self.metagameRound;
-            newbieIdsToPass = [] 
+            newbieIdsToPass = []
             if newRound > -1:
                 newbieIdsToPass= self.newbieIds # we must pass this on
                 if newRound < TravelGameGlobals.FinalMetagameRoundIndex:
@@ -372,19 +372,19 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
                 else:
                     newRound = 0
                     newVotesArray = [TravelGameGlobals.DefaultStartingVotes] * len(playAgainList)
-                    
+
             # but if we only have one player left, don't start the metagame
             if len(playAgainList) == 1 and \
                simbase.config.GetBool('metagame-min-2-players', 1):
                 newRound = -1
-                    
+
             MinigameCreatorAI.createMinigame(
                 self.air, playAgainList,
                 self.trolleyZone,
                 minigameZone = self.zoneId,
                 previousGameId = self.previousMinigameId,
                 newbieIds = newbieIdsToPass,
-                startingVotes = newVotesArray, 
+                startingVotes = newVotesArray,
                 metagameRound = newRound,
                 desiredNextGame = self.desiredNextGame)
         # If not, deallocate this zone, so it can be reused in the future.

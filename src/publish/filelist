@@ -93,7 +93,7 @@ file 2 $DIRECT/built/lib/libheapq.so toplevel OSX
 file 2 $DIRECT/built/lib/libheapq.dylib toplevel OSX
 
 # Show code.
-  
+
 # Don't attempt to download these modules--they're not part of the game.
 forbid_module _dummy_threading
 forbid_module direct.tkpanels
@@ -134,7 +134,7 @@ forbid_module libp3heapq
 forbid_module libp3direct
 
 # Don't try to import PandaModules here--it's part of Phase3.
-forbid_module pandac.PandaModules
+forbid_module toontown.toonbase.ToontownModules
 
 # Since we need to be able to import Phase3 after we download it, we
 # simply exclude it rather than completely forbid it.
@@ -143,7 +143,7 @@ exclude_module Phase3
 # The language-specific localizer file is dynamically imported.
 module otp.otpbase.OTPLocalizerEnglish
 module toontown.toonbase.TTLocalizerEnglish
-  
+
 freeze_exe 2 Toontown toontown.launcher.StartToontownLauncher toplevel
 
 ##################################################
@@ -250,7 +250,7 @@ file 2 $PANDA/built/lib/libpandafx.dll . WIN32
 file 2 $PANDA/built/lib/libpandagl.dll . WIN32
 file 2 $PANDA/built/lib/libtinydisplay.dll . WIN32
 file 2 $PANDA/built/lib/libtinydisplay.so . OSX
-file 2 $PANDA/built/lib/libtinydisplay.dylib . OSX 
+file 2 $PANDA/built/lib/libtinydisplay.dylib . OSX
 file 2 $PANDA/built/lib/libmiles_audio.dll . WIN32
 
 file 2 $OTP/built/lib/libmovement.so . OSX
@@ -334,7 +334,7 @@ file 0 $OTP/src/configfiles/gameserver.txt phase_3/etc WIN32,OSX
 # Show code.
 
 # Now it's time to import PandaModules.
-module pandac.PandaModules
+module toontown.toonbase.ToontownModules
 
 # These modules are dynamically loaded by the mint/factory code.
 module toontown.coghq.BossbotCountryClubEntrance_Action00

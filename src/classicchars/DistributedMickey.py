@@ -1,12 +1,12 @@
 """DistributedMickey module: contains the DistributedMickey class"""
 
-from pandac.PandaModules import *
-import DistributedCCharBase
+from toontown.toonbase.ToontownModules import *
+from . import DistributedCCharBase
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 #import MickeyChatter
-import CharStateDatas
+from . import CharStateDatas
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.hood import DGHood
@@ -43,7 +43,7 @@ class DistributedMickey(DistributedCCharBase.DistributedCCharBase):
                              # Final State
                              'Off',
                              )
-                             
+
             self.fsm.enterInitialState()
             self.handleHolidays()
 
@@ -132,7 +132,7 @@ class DistributedMickey(DistributedCCharBase.DistributedCCharBase):
 
     def walkSpeed(self):
         return ToontownGlobals.MickeySpeed
-            
+
     def handleHolidays(self):
         """
         Handle holiday specific behaviour

@@ -1,9 +1,9 @@
 
-from pandac.PandaModules import *
-import ToonHood
+from toontown.toonbase.ToontownModules import *
+from . import ToonHood
 from toontown.town import TutorialTownLoader
 from toontown.toonbase.ToontownGlobals import *
-import SkyUtil
+from . import SkyUtil
 
 class TutorialHood(ToonHood.ToonHood):
     def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
@@ -23,14 +23,14 @@ class TutorialHood(ToonHood.ToonHood):
     def load(self):
         ToonHood.ToonHood.load(self)
         self.parentFSM.getStateNamed("TutorialHood").addChild(self.fsm)
-        
+
     def unload(self):
         self.parentFSM.getStateNamed("TutorialHood").removeChild(self.fsm)
         ToonHood.ToonHood.unload(self)
-        
+
     def enter(self, *args):
         ToonHood.ToonHood.enter(self, *args)
-        
+
     def exit(self):
         ToonHood.ToonHood.exit(self)
 
@@ -39,4 +39,3 @@ class TutorialHood(ToonHood.ToonHood):
 
     def startSky(self):
         SkyUtil.startCloudSky(self)
-

@@ -6,7 +6,7 @@ reload(TTChatInputSpeedChat);reload(OTPLocalizerEnglish);reload(OTPLocalizer);re
 """
 
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from otp.speedchat.SpeedChatTypes import *
 from toontown.speedchat.TTSpeedChatTypes import *
 from otp.speedchat.SpeedChat import SpeedChat
@@ -28,7 +28,7 @@ from toontown.toonbase import ToontownGlobals
 ###### see SpeedChat.py for the format of this structure ######
 scStructure = [
     [OTPLocalizer.SCMenuHello,
-     {100:0},{101:0},{102:0},{103:0},{104:0},{105:0},106,107,108,109],     
+     {100:0},{101:0},{102:0},{103:0},{104:0},{105:0},106,107,108,109],
 
     [OTPLocalizer.SCMenuBye,
      # 208: put "I'll be back later" under "I'll be right back"
@@ -78,7 +78,7 @@ scStructure = [
      # I found what you need (1209) after I'm going to look for that
      [OTPLocalizer.SCMenuToontasksINeedMore, 1206,1210,1211,1212,1207,1213,1214,1215],
      1200,1201,1202,1208,1203,1209,1204,1205,],
-    
+
     [OTPLocalizer.SCMenuBattle,
      [OTPLocalizer.SCMenuBattleGags, 1500,1501,1502,1503,1504,1505,1506,
       1401,1402,1413,],
@@ -122,7 +122,7 @@ ceoMenuStructure = [
     2300,2301,2302,2303,2304,2305,2306,2307,2312,2313,2314,2315,
     2308,2309,2310,2311,2316,2317,
     ]
-    
+
 class TTChatInputSpeedChat(DirectObject.DirectObject):
     """TTChatInputSpeedChat class: controls the SpeedChat, and generates
     SpeedChat messages"""
@@ -170,7 +170,7 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
         self.createSpeedChat()
         self.whiteList = None
         self.allowWhiteListSpeedChat = base.config.GetBool('white-list-speed-chat', 0)
-        if self.allowWhiteListSpeedChat: 
+        if self.allowWhiteListSpeedChat:
             self.addWhiteList()
 
         self.factoryMenu = None
@@ -182,7 +182,7 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
         self.golfMenu = None
         self.boardingGroupMenu = None
         self.singingGroupMenu = None
-        self.aprilToonsMenu = None          
+        self.aprilToonsMenu = None
         self.carolMenu = None
         self.victoryPartiesMenu = None
         self.sillyPhaseOneMenu = None
@@ -190,7 +190,7 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
         self.sillyPhaseThreeMenu = None
         self.sillyPhaseFourMenu = None
         self.sillyPhaseFiveMenu = None
-                
+
         if __debug__:
             base.speedChat = self.speedChat
 
@@ -218,7 +218,7 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
                          self.handleSpeedChatStyleChange)
         listenForSCEvent(TTSCIndexedTerminal.TTSCIndexedMsgEvent,
                          self.handleStaticTextMsg)
-        
+
         self.fsm = ClassicFSM.ClassicFSM('SpeedChat',
                            [State.State('off',
                                         self.enterOff,
@@ -310,7 +310,7 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
 
         self.emoteNoAccessPanel.reparentTo(hidden)
 
-    # these handle selection messages coming from the speedchat object 
+    # these handle selection messages coming from the speedchat object
     def handleLinkedEmote(self, emoteId):
         # don't do the emote if we're whispering
         if self.whisperAvatarId is None:
@@ -330,7 +330,7 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
         else:
             self.chatMgr.sendSCSingingWhisperMessage(textId)
         self.toPlayer = 0
-    
+
     def handleCustomMsg(self, textId):
         if self.whisperAvatarId is None:
             self.chatMgr.sendSCCustomChatMessage(textId)
@@ -400,17 +400,17 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
         # tell the speedchat to generate the gui elements for the entire
         # tree, so that the menu won't be chuggy the first time it's used
         self.speedChat.finalizeAll()
-        
+
     def addFactoryMenu(self):
         if self.factoryMenu == None:
             menu = TTSCFactoryMenu()
             self.factoryMenu = SCMenuHolder(OTPLocalizer.SCMenuFactory, menu=menu)
             self.speedChat[2:2] = [self.factoryMenu]
-        
+
     def removeFactoryMenu(self):
         if self.factoryMenu:
             i = self.speedChat.index(self.factoryMenu)
-            del self.speedChat[i] 
+            del self.speedChat[i]
             self.factoryMenu.destroy()
             self.factoryMenu = None
 
@@ -420,24 +420,24 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
             menu = TTSCKartRacingMenu()
             self.kartRacingMenu = SCMenuHolder(OTPLocalizer.SCMenuKartRacing, menu=menu)
             self.speedChat[2:2] = [self.kartRacingMenu]
-        
+
     def removeKartRacingMenu(self):
         if self.kartRacingMenu:
             i = self.speedChat.index(self.kartRacingMenu)
-            del self.speedChat[i] 
+            del self.speedChat[i]
             self.kartRacingMenu.destroy()
             self.kartRacingMenu = None
-            
+
     def addCogMenu(self, indices):
         if self.cogMenu == None:
             menu = TTSCCogMenu(indices)
             self.cogMenu = SCMenuHolder(OTPLocalizer.SCMenuCog, menu=menu)
             self.speedChat[2:2] = [self.cogMenu]
-        
+
     def removeCogMenu(self):
         if self.cogMenu:
             i = self.speedChat.index(self.cogMenu)
-            del self.speedChat[i] 
+            del self.speedChat[i]
             self.cogMenu.destroy()
             self.cogMenu = None
 
@@ -451,7 +451,7 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
     def removeCFOMenu(self):
         if self.cfoMenu:
             i = self.speedChat.index(self.cfoMenu)
-            del self.speedChat[i] 
+            del self.speedChat[i]
             self.cfoMenu.destroy()
             self.cfoMenu = None
 
@@ -471,7 +471,7 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
     def removeCJMenu(self):
         if self.cjMenu:
             i = self.speedChat.index(self.cjMenu)
-            del self.speedChat[i] 
+            del self.speedChat[i]
             self.cjMenu.destroy()
             self.cjMenu = None
 
@@ -485,7 +485,7 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
     def removeCEOMenu(self):
         if self.ceoMenu:
             i = self.speedChat.index(self.ceoMenu)
-            del self.speedChat[i] 
+            del self.speedChat[i]
             self.ceoMenu.destroy()
             self.ceoMenu = None
 
@@ -498,17 +498,17 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
                 if (activity.activityId == activityId):
                     return True
             return False
-        
+
         def isDecorInParty(decorId):
             decorList = base.distributedParty.partyInfo.decors
             for decor in decorList:
                 if (decor.decorId == decorId):
                     return True
             return False
-        
+
         # This is the basic parties speedchat list.
         insidePartiesMenuStructure =  [ 5305, 5306, 5307, 5308, 5309 ]
-        
+
         if self.insidePartiesMenu == None:
             menu = SCMenu()
             # Add elements to the basic list on a case by case basic.
@@ -540,11 +540,11 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
                 # Add Decoration specific speedchat elements.
                 if len(base.distributedParty.partyInfo.decors):
                     insidePartiesMenuStructure.append(5321)
-                    
+
                     # Add Birthday Cake specific speedchat elements.
                     if isDecorInParty(3):
                         insidePartiesMenuStructure.append(5322)
-                
+
             menu.rebuildFromStructure(insidePartiesMenuStructure)
             self.insidePartiesMenu = SCMenuHolder(OTPLocalizer.SCMenuParties, menu=menu)
             self.speedChat[2:2] =  [self.insidePartiesMenu]
@@ -553,9 +553,9 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
         """Remove party phrases that can be said inside a party."""
         if self.insidePartiesMenu:
             i = self.speedChat.index(self.insidePartiesMenu)
-            del self.speedChat[i] 
+            del self.speedChat[i]
             self.insidePartiesMenu.destroy()
-            self.insidePartiesMenu = None                    
+            self.insidePartiesMenu = None
 
     # methods for creating Golf speed chat menus
     def addGolfMenu(self):
@@ -563,148 +563,148 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
             menu = TTSCGolfMenu()
             self.golfMenu = SCMenuHolder(OTPLocalizer.SCMenuGolf, menu=menu)
             self.speedChat[2:2] = [self.golfMenu]
-        
+
     def removeGolfMenu(self):
         if self.golfMenu:
             i = self.speedChat.index(self.golfMenu)
-            del self.speedChat[i] 
+            del self.speedChat[i]
             self.golfMenu.destroy()
             self.golfMenu = None
-            
+
     # Methods for creating Boarding Group chat menus
     def addBoardingGroupMenu(self, zoneId):
         if (self.boardingGroupMenu == None):
             menu = TTSCBoardingMenu(zoneId)
             self.boardingGroupMenu = SCMenuHolder(OTPLocalizer.SCMenuBoardingGroup, menu = menu)
             self.speedChat[2:2] = [self.boardingGroupMenu]
-            
+
     def removeBoardingGroupMenu(self):
         if self.boardingGroupMenu:
             i = self.speedChat.index(self.boardingGroupMenu)
             del self.speedChat[i]
             self.boardingGroupMenu.destroy()
             self.boardingGroupMenu = None
-            
+
     # Methods for creating Singing chat menus
     def addSingingGroupMenu(self):
         if (self.singingGroupMenu == None):
             menu = TTSCSingingMenu()
             self.singingGroupMenu = SCMenuHolder(OTPLocalizer.SCMenuSingingGroup, menu = menu)
             self.speedChat[2:2] = [self.singingGroupMenu]
-    
+
     def removeSingingMenu(self):
         if self.singingGroupMenu:
             i = self.speedChat.index(self.singingGroupMenu)
             del self.speedChat[i]
             self.singingGroupMenu.destroy()
             self.singingGroupMenu = None
-                        
+
     # Methods for creating April toons' chat menus
     def addAprilToonsMenu(self):
         if (self.aprilToonsMenu == None):
             menu = TTSCAprilToonsMenu()
             self.aprilToonsMenu = SCMenuHolder(OTPLocalizer.SCMenuAprilToons, menu = menu)
             self.speedChat[3:3] = [self.aprilToonsMenu]
-            
+
     def removeAprilToonsMenu(self):
         if self.aprilToonsMenu:
             i = self.speedChat.index(self.aprilToonsMenu)
             del self.speedChat[i]
             self.aprilToonsMenu.destroy()
             self.aprilToonsMenu = None
-            
+
     def addSillyPhaseOneMenu(self):
         if (self.sillyPhaseOneMenu == None):
             menu = TTSCSillyPhaseOneMenu()
             self.sillyPhaseOneMenu = SCMenuHolder(OTPLocalizer.SCMenuSillyHoliday, menu = menu)
             self.speedChat[3:3] = [self.sillyPhaseOneMenu]
-            
+
     def removeSillyPhaseOneMenu(self):
         if self.sillyPhaseOneMenu:
             i = self.speedChat.index(self.sillyPhaseOneMenu)
             del self.speedChat[i]
             self.sillyPhaseOneMenu.destroy()
             self.sillyPhaseOneMenu = None
-    
+
     def addSillyPhaseTwoMenu(self):
         if (self.sillyPhaseTwoMenu == None):
             menu = TTSCSillyPhaseTwoMenu()
             self.sillyPhaseTwoMenu = SCMenuHolder(OTPLocalizer.SCMenuSillyHoliday, menu = menu)
             self.speedChat[3:3] = [self.sillyPhaseTwoMenu]
-            
+
     def removeSillyPhaseTwoMenu(self):
         if self.sillyPhaseTwoMenu:
             i = self.speedChat.index(self.sillyPhaseTwoMenu)
             del self.speedChat[i]
             self.sillyPhaseTwoMenu.destroy()
             self.sillyPhaseTwoMenu = None
-    
+
     def addSillyPhaseThreeMenu(self):
         if (self.sillyPhaseThreeMenu == None):
             menu = TTSCSillyPhaseThreeMenu()
             self.sillyPhaseThreeMenu = SCMenuHolder(OTPLocalizer.SCMenuSillyHoliday, menu = menu)
             self.speedChat[3:3] = [self.sillyPhaseThreeMenu]
-            
+
     def removeSillyPhaseThreeMenu(self):
         if self.sillyPhaseThreeMenu:
             i = self.speedChat.index(self.sillyPhaseThreeMenu)
             del self.speedChat[i]
             self.sillyPhaseThreeMenu.destroy()
-            self.sillyPhaseThreeMenu = None     
+            self.sillyPhaseThreeMenu = None
 
     def addSillyPhaseFourMenu(self):
         if (self.sillyPhaseFourMenu == None):
             menu = TTSCSillyPhaseFourMenu()
             self.sillyPhaseFourMenu = SCMenuHolder(OTPLocalizer.SCMenuSillyHoliday, menu = menu)
             self.speedChat[3:3] = [self.sillyPhaseFourMenu]
-            
+
     def removeSillyPhaseFourMenu(self):
         if self.sillyPhaseFourMenu:
             i = self.speedChat.index(self.sillyPhaseFourMenu)
             del self.speedChat[i]
             self.sillyPhaseFourMenu.destroy()
             self.sillyPhaseFourMenu = None
-            
+
     def addSillyPhaseFiveMenu(self):
         if (self.sillyPhaseFiveMenu == None):
             menu = TTSCSillyPhaseFiveMenu()
             self.sillyPhaseFiveMenu = SCMenuHolder(OTPLocalizer.SCMenuSillyHoliday, menu = menu)
             self.speedChat[3:3] = [self.sillyPhaseFiveMenu]
-            
+
     def removeSillyPhaseFiveMenu(self):
         if self.sillyPhaseFiveMenu:
             i = self.speedChat.index(self.sillyPhaseFiveMenu)
             del self.speedChat[i]
             self.sillyPhaseFiveMenu.destroy()
             self.sillyPhaseFiveMenu = None
-         
+
     def addCarolMenu(self):
         if (self.carolMenu == None):
             if base.cr.isPaid():
                 menu = TTSCCarolMenu()
                 self.carolMenu = SCMenuHolder(OTPLocalizer.SCMenuCarol, menu = menu)
                 self.speedChat[3:3] = [self.carolMenu]
-                
+
     def removeCarolMenu(self):
         if self.carolMenu:
             i = self.speedChat.index(self.carolMenu)
             del self.speedChat[i]
             self.carolMenu.destroy()
-            self.carolMenu = None                
-            
+            self.carolMenu = None
+
     def addVictoryPartiesMenu(self):
         if self.victoryPartiesMenu == None:
             menu = TTSCVictoryPartiesMenu()
             self.victoryPartiesMenu = SCMenuHolder(OTPLocalizer.SCMenuVictoryParties, menu = menu)
             self.speedChat[3:3] = [self.victoryPartiesMenu]
-    
+
     def removeVictoryPartiesMenu(self):
         if self.victoryPartiesMenu:
             i = self.speedChat.index(self.victoryPartiesMenu)
             del self.speedChat[i]
             self.victoryPartiesMenu.destroy()
             self.victoryPartiesMenu = None
-            
+
     # methods for creating White List chat menus
     def addWhiteList(self):
         if self.whiteList == None:
@@ -713,10 +713,10 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
             #menu = TTSCWhiteListMenu()
             #self.whiteListMenu = SCMenuHolder(OTPLocalizer.SCMenuWhiteList, menu=menu)
             self.speedChat[1:1] = [self.whiteList]
-        
+
     def removeWhiteList(self):
         if self.whiteList:
             i = self.speedChat.index(self.whiteList)
-            del self.speedChat[i] 
+            del self.speedChat[i]
             self.whiteList.destroy()
             self.whiteList = None

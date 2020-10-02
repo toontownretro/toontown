@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import ToontownGlobals
 
 taskZoneId2pathId = {
@@ -213,9 +213,9 @@ Paths = { 'sellbotFactory': {
         ],
 
     ## Another West Catwalk goon ##
-    36:[Point3(98.1296081543,38.8174743652,-0.0102634429932), 
-        Point3(104.098999023,38.9267272949,-0.0109195709229), 
-        Point3(105.774627686,243.011169434,-0.0125999450684), 
+    36:[Point3(98.1296081543,38.8174743652,-0.0102634429932),
+        Point3(104.098999023,38.9267272949,-0.0109195709229),
+        Point3(105.774627686,243.011169434,-0.0125999450684),
         Point3(100.351745605,242.852386475,-0.0125999450684),
         ],
     37:[Point3(152.121673584,222.440261841,-5.0125999450684),
@@ -298,7 +298,7 @@ Paths = { 'sellbotFactory': {
         Vec3(10,0,0),
         ],
     },
-    
+
           'lawOfficeStage' : {
     ## PIPE ROOM RIGHT COGS ##
     28:[Vec3(-32.1953697205,-85.9077148438,0.0),
@@ -343,4 +343,3 @@ Paths = { 'sellbotFactory': {
         ],
     },
           }
-

@@ -1,9 +1,9 @@
 from direct.interval.IntervalGlobal import *
 
-import MovieCamera
+from . import MovieCamera
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieSOS')
 

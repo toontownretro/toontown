@@ -1,6 +1,6 @@
 """DistributedCogThiefGameAI module: contains the DistributedCogThiefGameAI class"""
 import random
-from pandac.PandaModules import Point3
+from toontown.toonbase.ToontownModules import Point3
 from direct.fsm import ClassicFSM
 from direct.fsm import State
 from direct.distributed.ClockDelta import globalClockDelta
@@ -13,9 +13,9 @@ CTGG = CogThiefGameGlobals
 class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
     """Client side class for the cog thief  game."""
     notify = directNotify.newCategory("DistributedCogThiefGameAI")
-    
+
     ExplodeWaitTime = 6.0 + CTGG.LyingDownDuration # computed by hitTrack.getDuration
-    
+
     def __init__(self, air, minigameId):
         try:
             self.DistributedCogThiefGameAI_initialized
@@ -46,7 +46,7 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
 
             # Add our game ClassicFSM to the framework ClassicFSM
             self.addChildGameFSM(self.gameFSM)
-            
+
             self.cogInfo = {}
             self.barrelInfo = {}
 
@@ -101,7 +101,7 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
             # give out the bonuses
             for avId in self.avIdList:
                 self.scoreDict[avId] += CTGG.PerfectBonus[len(self.avIdList)-1]
-                self.logPerfectGame(avId)            
+                self.logPerfectGame(avId)
         # call this when the game is done
         # clean things up in this class
         self.gameFSM.request('cleanup')
@@ -140,7 +140,7 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
 
     def initCogInfo(self):
         """For each cog, initialize the info about him."""
-        for cogIndex in xrange(self.getNumCogs()):
+        for cogIndex in range(self.getNumCogs()):
             self.cogInfo[cogIndex] = {
                 'pos' : Point3(CogThiefGameGlobals.CogStartingPositions[cogIndex]),
                 'goal' : CTGG.NoGoal,
@@ -150,7 +150,7 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
 
     def initBarrelInfo(self):
         """For each barrel, initialize the info about him."""
-        for barrelIndex in xrange(CogThiefGameGlobals.NumBarrels):
+        for barrelIndex in range(CogThiefGameGlobals.NumBarrels):
             self.barrelInfo[barrelIndex] = {
                 'pos' : Point3(CogThiefGameGlobals.BarrelStartingPositions[barrelIndex]),
                 'carriedBy' : CTGG.BarrelOnGround,
@@ -195,7 +195,7 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
         if self.barrelInfo[barrelIndex]['carriedBy'] != cogIndex:
             self.notify.error("self.barrelInfo[%s]['carriedBy'] != %s" %
                               (barrelIndex, cogIndex))
-        
+
         timestamp = globalClockDelta.localToNetworkTime(globalClock.getFrameTime(), bits=32)
         self.makeCogDropBarrel(timestamp, clientStamp, cogIndex, barrelIndex, barrelPos)
         self.d_makeCogDropBarrel(timestamp, clientStamp, cogIndex, barrelIndex, barrelPos)
@@ -203,19 +203,19 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
     def d_makeCogDropBarrel(self, timestamp, clientStamp, cogIndex, barrelIndex, barrelPos):
         """Tell the clients the cog is droping a barrel."""
         pos = barrelPos
-        gameTime = self.getCurrentGameTime()    
+        gameTime = self.getCurrentGameTime()
         self.sendUpdate('makeCogDropBarrel', [timestamp, clientStamp, cogIndex, barrelIndex,
-                                               pos[0], pos[1], pos[2]])            
+                                               pos[0], pos[1], pos[2]])
 
     def isCogCarryingABarrel(self, cogIndex):
         """Return true if the cog is carrying any barrel."""
         result = self.cogInfo[cogIndex]['barrel'] > CTGG.NoBarrelCarried
         return result
-    
+
     def isCogCarryingThisBarrel(self, cogIndex, barrelIndex):
         """Return true if the cog is carrying this barrel."""
         result = self.cogInfo[cogIndex]['barrel'] == barrelIndex
-        return result    
+        return result
 
     def startSuitGoals(self):
         """For each suit, give him something to do."""
@@ -224,13 +224,13 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
         #self.chaseToon(0, avId)
         #self.chaseBarrel(0, 0)
         delayTimes = []
-        for cogIndex in xrange(self.getNumCogs()):
+        for cogIndex in range(self.getNumCogs()):
             delayTimes.append(cogIndex *1.0)
         random.shuffle(delayTimes)
-        for cogIndex in xrange(self.getNumCogs()):        
+        for cogIndex in range(self.getNumCogs()):
             self.doMethodLater(delayTimes[cogIndex], self.chooseSuitGoal,
                                self.uniqueName('choseSuitGoal-%d-' % cogIndex),
-                               extraArgs = [cogIndex])            
+                               extraArgs = [cogIndex])
 
 
     def chaseToon(self, suitNum, avId):
@@ -249,11 +249,11 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
 
     def hitBySuit(self, avId, timestamp, suitNum, x, y ,z):
         """A toon hit a suit, have the suit do something else."""
-        assert self.notify.debugStateCall(self)        
+        assert self.notify.debugStateCall(self)
         if suitNum >= self.getNumCogs() :
             self.notify.warning('hitBySuit, possible hacker avId=%s' % avId)
             return
-        
+
         barrelIndex = self.cogInfo[suitNum]['barrel']
 
         # we must set the cog pos before we drop barrel,
@@ -263,14 +263,14 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
             # barrel right on it
             barrelPos = Point3(x,y,z)
             self.b_makeCogDropBarrel(timestamp, suitNum,  barrelIndex, barrelPos)
-        
+
         startPos = CTGG.CogStartingPositions[suitNum]
         self.cogInfo[suitNum]['pos'] = startPos
 
         self.cogInfo[suitNum]['goal'] = CTGG.NoGoal
         self.cogInfo[suitNum]['goalId'] = CTGG.InvalidGoalId
         self.sendSuitSync(timestamp, suitNum)
-        
+
         # TODO figure out if we want to chase a toon or go for a barrel
         self.doMethodLater(self.ExplodeWaitTime, self.chooseSuitGoal,
                            self.uniqueName('choseSuitGoal-%d-' % suitNum),
@@ -278,7 +278,7 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
 
     def sendSuitSync(self, clientstamp, suitNum):
         """Whatever this suit is doing, tell the clients."""
-        pos = self.cogInfo[suitNum]['pos'] 
+        pos = self.cogInfo[suitNum]['pos']
         timestamp = globalClockDelta.localToNetworkTime(globalClock.getFrameTime(), bits=32)
         goalType = self.cogInfo[suitNum]['goal']
         goalId = self.cogInfo[suitNum]['goalId']
@@ -307,9 +307,9 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
             else:
                 chaseToonId = random.choice(self.avIdList)
             self.chaseToon(suitNum, chaseToonId)
-        
+
         #self.chaseBarrel(suitNum, 0)
-        
+
 
     def chaseBarrel( self, suitNum, barrelIndex):
         """Make this suit try to grab the given barrel."""
@@ -323,12 +323,12 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
                                                                     suitNum, barrelIndex))
         gameTime = self.getCurrentGameTime()
         self.sendUpdate('updateSuitGoal', [timestamp, timestamp, suitNum,  goalType, goalId,
-                                           pos[0],pos[1], pos[2]])        
+                                           pos[0],pos[1], pos[2]])
 
     def getCogCarryingBarrel(self, barrelIndex):
         """Return -1 if no one is carrying barrel, cogIndex otherwise."""
         return self.barrelInfo[barrelIndex]['carriedBy']
-        
+
 
     def cogHitBarrel(self, clientStamp, cogIndex, barrelIndex, x, y ,z):
         """A cog hit the barrel, see if he should pick it up and run"""
@@ -357,7 +357,7 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
         # for now choose the nearest one and run to it
         shortestDistance = 10000
         shortestReturnIndex = -1
-        for retIndex in xrange(len(CTGG.CogReturnPositions)):
+        for retIndex in range(len(CTGG.CogReturnPositions)):
             retPos = CTGG.CogReturnPositions[retIndex]
             distance = (cogPos - retPos).length()
             if distance < shortestDistance:
@@ -366,16 +366,16 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
                 self.notify.debug('shortest distance=%s index=%s' % (shortestDistance, shortestReturnIndex))
         self.notify.debug('chooseReturnpos returning %s' % shortestReturnIndex)
         return shortestReturnIndex
-            
+
 
     def runAway(self, clientStamp, cogIndex, cogPos, barrelIndex, returnPosIndex):
         """Make this cog run away to a given reuturn position."""
         # should we use the info on where the toons were last were to influence where
         # we should go?
         assert self.notify.debugStateCall(self)
-            
+
         self.cogInfo[cogIndex]['pos'] = cogPos
-        
+
         self.b_makeCogCarryBarrel(clientStamp, cogIndex, barrelIndex)
         goalType = CTGG.RunAwayGoal
         goalId = returnPosIndex
@@ -385,17 +385,17 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
         timestamp = globalClockDelta.localToNetworkTime(globalClock.getFrameTime(), bits=32)
         gameTime = self.getCurrentGameTime()
         self.sendUpdate('updateSuitGoal', [timestamp, clientStamp, cogIndex,  goalType, goalId,
-                                           cogPos[0],cogPos[1], cogPos[2]])      
+                                           cogPos[0],cogPos[1], cogPos[2]])
 
-        
-        
+
+
     def pieHitSuit(self, avId, timestamp, suitNum, x, y ,z):
         """A toon hit a suit, have the suit do something else."""
-        assert self.notify.debugStateCall(self)        
+        assert self.notify.debugStateCall(self)
         if suitNum >= self.getNumCogs() :
             self.notify.warning('hitBySuit, possible hacker avId=%s' % avId)
             return
-        
+
         barrelIndex = self.cogInfo[suitNum]['barrel']
 
         # we must set the cog pos before we drop barrel,
@@ -405,15 +405,15 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
             # barrel right on it
             barrelPos = Point3(x,y,z)
             self.b_makeCogDropBarrel(timestamp, suitNum, barrelIndex, barrelPos)
-        
-        
+
+
         startPos = CTGG.CogStartingPositions[suitNum]
         self.cogInfo[suitNum]['pos'] = startPos
 
         self.cogInfo[suitNum]['goal'] = CTGG.NoGoal
         self.cogInfo[suitNum]['goalId'] = CTGG.InvalidGoalId
         self.sendSuitSync(timestamp, suitNum)
-        
+
         # TODO figure out if we want to chase a toon or go for a barrel
         self.doMethodLater(self.ExplodeWaitTime, self.chooseSuitGoal,
                            self.uniqueName('choseSuitGoal-%d-' % suitNum),
@@ -442,7 +442,7 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
                 #self.notify.debug('shortest distance=%s index=%s' % (shortestDistance, shortestBarrelIndex))
         #self.notify.debug('findClosestUnassignedBarrel returning %s' % shortestBarrelIndex)
         return shortestBarrelIndex
-                    
+
     def isCogGoingForBarrel(self, barrelIndex):
         """Return true if any cog is going for the barrel."""
         result = False
@@ -462,12 +462,12 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
     def getNumBarrelsStolen(self):
         """Return the number of stolen barrels."""
         numStolen = 0
-        for barrel in self.barrelInfo.values():
+        for barrel in list(self.barrelInfo.values()):
             if barrel['stolen']:
                 numStolen += 1
         return numStolen
-            
-        
+
+
     def cogAtReturnPos(self, clientstamp, cogIndex, barrelIndex):
         """Handle the client telling us the cog has returned and stolen a barrel."""
         # we may get this from multiple clients, and at different times
@@ -476,12 +476,12 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
             avId = self.air.getAvatarIdFromSender()
             self.air.writeServerEvent('suspicious cogAtReturnPos avId=%s, cogIndex=%s, barrelIndex=%s' % (avId, cogIndex, barrelIndex))
             return
-            
+
         if self.cogInfo[cogIndex]['goal'] == CTGG.RunAwayGoal:
             if self.isCogCarryingThisBarrel(cogIndex, barrelIndex):
                 # tell the clients to mark the barrel as stolen
                 self.markBarrelStolen(clientstamp, barrelIndex)
-                
+
                 returnPosIndex = self.cogInfo[cogIndex]['goalId']
                 retPos = CTGG.CogReturnPositions[returnPosIndex]
                 self.b_makeCogDropBarrel(clientstamp, cogIndex, barrelIndex, retPos)
@@ -490,7 +490,7 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
                 self.cogInfo[cogIndex]['pos'] = startPos
 
                 self.cogInfo[cogIndex]['goal'] = CTGG.NoGoal
-                self.cogInfo[cogIndex]['goalId'] = CTGG.InvalidGoalId                
+                self.cogInfo[cogIndex]['goalId'] = CTGG.InvalidGoalId
                 # TODO figure out if we want to chase a toon or go for a barrel
                 self.doMethodLater(0.5, self.chooseSuitGoal,
                                    self.uniqueName('choseSuitGoal-%d-' % cogIndex),
@@ -522,4 +522,3 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
             safezone = self.getSafezoneId()
             result = CTGG.calculateCogs(self.numPlayers, safezone)
         return result
-        

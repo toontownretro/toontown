@@ -2,13 +2,13 @@
 
 from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
-import HouseGlobals
+from . import HouseGlobals
 from toontown.catalog import CatalogItemList
 from toontown.catalog import CatalogItem
 from toontown.catalog import CatalogSurfaceItem
@@ -30,7 +30,7 @@ RoomNames = (
     "**/group2",
     "**/group1",
     )
-        
+
 WallNames = ("ceiling*", "wall_side_middle*", "wall_front_middle*",
              "windowcut_*")
 MouldingNames = ("wall_side_top*", "wall_front_top*")
@@ -38,7 +38,7 @@ FloorNames = ("floor*",)
 WainscotingNames = ("wall_side_bottom*", "wall_front_bottom*")
 BorderNames = ("wall_side_middle*_border", "wall_front_middle*_border",
                "windowcut_*_border")
-        
+
 WallpaperPieceNames = (WallNames, MouldingNames, FloorNames, WainscotingNames,
                        BorderNames)
 
@@ -49,7 +49,7 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
     if __debug__:
         notify = DirectNotifyGlobal.directNotify.newCategory(
                 'DistributedHouseInterior')
-    
+
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
 
@@ -58,7 +58,7 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
         self.interior = None
 
         self.exteriorWindowsHidden = 0
-        
+
     def generate(self):
         """generate(self)
         This method is called when the DistributedObject is reintroduced
@@ -66,7 +66,7 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
         """
         assert(self.debugPrint("generate()"))
         DistributedObject.DistributedObject.generate(self)
-    
+
     def announceGenerate(self):
         assert(self.debugPrint("announceGenerate()"))
         DistributedObject.DistributedObject.announceGenerate(self)
@@ -82,7 +82,7 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
         assert(self.debugPrint("delete()"))
         self.ignore(self.uniqueName('enterclosetSphere'))
         DistributedObject.DistributedObject.delete(self)
-    
+
     def setup(self):
         assert(self.debugPrint("setup()"))
 
@@ -93,7 +93,7 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
 
         assert(self.interior != None)
         self.interior.reparentTo(render)
-        
+
         # Door:
         doorModelName="door_double_round_ur" # hack  zzzzzzz
         door=dnaStore.findNode(doorModelName)
@@ -110,8 +110,8 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
         # We do this instead of decals
         houseColor = HouseGlobals.atticWood
         color = Vec4(houseColor[0], houseColor[1], houseColor[2], 1)
-        DNADoor.setupDoor(doorNP, 
-                          door_origin, door_origin, 
+        DNADoor.setupDoor(doorNP,
+                          door_origin, door_origin,
                           dnaStore,
                           str(self.houseId), color)
 
@@ -155,9 +155,9 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
 
         # Apply the windows
         self.__setupWindows()
-        
+
         messenger.send("houseInteriorLoaded-%d" % self.zoneId)
-      
+
 
     def __colorWalls(self):
         # The order here matches the order of ST* parameters in
@@ -213,7 +213,7 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
         nodes = self.interior.findAllMatches('**/arch*')
         for node in nodes:
             node.setColorScale(*(HouseGlobals.archWood + (1,)))
-            
+
     def __setupWindows(self):
         # Remove the old window views, if any.
         for plug, viewBase in self.windowSlots:
@@ -255,21 +255,21 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
             plug, viewBase = self.windowSlots[item.placement]
             if viewBase:
                 viewBase.findAllMatches('**/outside;+s').unstash()
-        
+
 
     def setHouseId(self, index):
         assert(self.debugPrint("exitToon()"))
         self.houseId = index
-        
+
     def setHouseIndex(self, index):
         self.houseIndex = index
 
-    
+
     def setWallpaper(self, items):
         self.wallpaper = CatalogItemList.CatalogItemList(items, store = CatalogItem.Customization)
         if self.interior:
             self.__colorWalls()
-    
+
     def setWindows(self, items):
         self.windows = CatalogItemList.CatalogItemList(items, store = CatalogItem.Customization | CatalogItem.WindowPlacement)
         if self.interior:
@@ -291,12 +291,8 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
             store = CatalogItem.Customization)
         if self.interior:
             self.__colorWalls()
-        
+
     if __debug__:
         def debugPrint(self, message):
             """for debugging"""
             return self.notify.debug(str(message))
-
-
-
-

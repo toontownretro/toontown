@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 
 from direct.fsm import ClassicFSM, State
@@ -78,7 +78,7 @@ class Elevator(StateData.StateData):
         self.downButton = self.buttonModels.find("**/InventoryButtonDown")
         self.rolloverButton = self.buttonModels.find(
             "**/InventoryButtonRollover")
-    
+
     def unload(self):
         self.elevatorState.removeChild(self.fsm)
         self.distElevator.elevatorFSM = None # kill the loop
@@ -90,7 +90,7 @@ class Elevator(StateData.StateData):
         del self.upButton
         del self.downButton
         del self.rolloverButton
-        
+
     def enter(self):
         self.fsm.enterInitialState()
         self.fsm.request("elevatorDFA")
@@ -144,16 +144,16 @@ class Elevator(StateData.StateData):
         pass
 
     def enterBoarding(self, nodePath):
-        camera.wrtReparentTo(nodePath)        
+        camera.wrtReparentTo(nodePath)
         if self.reverseBoardingCamera:
-            heading = PythonUtil.fitDestAngle2Src( camera.getH( nodePath), 180 )        
+            heading = PythonUtil.fitDestAngle2Src( camera.getH( nodePath), 180 )
             self.cameraBoardTrack = LerpPosHprInterval(camera, 1.5,
                                                        Point3(0, 18, 8),
                                                        Point3(heading, -10, 0))
         else:
             self.cameraBoardTrack = LerpPosHprInterval(
                 camera, 1.5, Point3(0, -16, 5.5), Point3(0, 0, 0))
-        
+
         self.cameraBoardTrack.start()
 
     def exitBoarding(self):
@@ -186,15 +186,15 @@ class Elevator(StateData.StateData):
             scale = 0.15,
             command = lambda self=self: self.fsm.request("requestExit"),
             )
-            
+
         if hasattr(localAvatar, "boardingParty") and \
            localAvatar.boardingParty and \
            localAvatar.boardingParty.getGroupLeader(localAvatar.doId) and \
            localAvatar.boardingParty.getGroupLeader(localAvatar.doId) != localAvatar.doId:
-           
+
             self.exitButton['command'] = None
             self.exitButton.hide()
-            
+
 ##            self.hopWarning = DirectLabel(
 ##                parent = self.exitButton,
 ##                relief = None,
@@ -205,7 +205,7 @@ class Elevator(StateData.StateData):
 ##                text_scale = 0.6,
 ##            )
 ##            self.hopWarning.reparentTo(self.exitButton.stateNodePath[2])
-            
+
         if self.distElevator.antiShuffle:
             self.hopWarning = DirectLabel(
                 parent = self.exitButton,
@@ -219,7 +219,7 @@ class Elevator(StateData.StateData):
             self.hopWarning.reparentTo(self.exitButton.stateNodePath[2])
 
         else:
-            self.hopWarning = None 
+            self.hopWarning = None
 
     def disableExitButton(self):
         if self.hopWarning:
@@ -236,7 +236,7 @@ class Elevator(StateData.StateData):
         # A camera move
         #camera.lerpPosHprXYZHPR(0, 18.55, 3.75, -180, 0, 0, 3,
         #                       blendType = "easeInOut", task="closingCamera")
-        
+
         # TODO: Actually go inside the building... Set doneStatus to
         # whatever is necessary to enter the building, and call the
         # done event.

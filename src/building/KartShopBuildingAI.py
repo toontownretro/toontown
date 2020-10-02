@@ -10,7 +10,7 @@
 # Panda/Direct Import Modules
 ##########################################################################
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 ##########################################################################
 # Toontwon Import Modules
@@ -42,7 +42,7 @@ class KartShopBuildingAI:
 
         Params: air - Reference to the AI Repository.
                 exteriorZone - b
-                interiorZone - b 
+                interiorZone - b
                 blockNumber - b
         Return: None
         """
@@ -55,7 +55,7 @@ class KartShopBuildingAI:
     def cleanup( self ):
         """
         Purpose: The cleanup Method properly handles the cleanup of the
-        references and objects that are associated with the 
+        references and objects that are associated with the
         """
 
         # Request Delete for NPC Objects
@@ -76,7 +76,7 @@ class KartShopBuildingAI:
         self.kartShopInterior.requestDelete()
         del self.kartShopInterior
 
-    def setup( self, blockNumber ):        
+    def setup( self, blockNumber ):
         # Create the Interior Object on the AI Side
         self.kartShopInterior = DistributedKartShopInteriorAI( blockNumber, self.air, self.interiorZone )
         # Initialize the npc clerks.
@@ -97,7 +97,7 @@ class KartShopBuildingAI:
         self.outsideDoor1.setOtherDoor( self.insideDoor1 )
         self.insideDoor0.setOtherDoor( self.outsideDoor0 )
         self.insideDoor1.setOtherDoor( self.outsideDoor1 )
-        
+
         # Place the doors in the proper zones.
         self.outsideDoor0.zoneId = self.exteriorZone
         self.outsideDoor1.zoneId = self.exteriorZone
@@ -109,7 +109,7 @@ class KartShopBuildingAI:
         self.outsideDoor1.generateWithRequired( self.exteriorZone )
         self.insideDoor0.generateWithRequired( self.interiorZone )
         self.insideDoor1.generateWithRequired( self.interiorZone )
-        
+
         self.outsideDoor0.sendUpdate( "setDoorIndex", [ self.outsideDoor0.getDoorIndex() ] )
         self.outsideDoor1.sendUpdate( "setDoorIndex", [ self.outsideDoor1.getDoorIndex() ] )
         self.insideDoor0.sendUpdate( "setDoorIndex", [ self.insideDoor0.getDoorIndex() ] )

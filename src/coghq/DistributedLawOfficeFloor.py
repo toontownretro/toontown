@@ -1,13 +1,13 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 import random
 from otp.level import DistributedLevel
 from direct.directnotify import DirectNotifyGlobal
-import LawOfficeBase
-import FactoryEntityCreator
-import FactorySpecs
+from . import LawOfficeBase
+from . import FactoryEntityCreator
+from . import FactorySpecs
 from otp.level import LevelSpec
 from otp.level import LevelConstants
 from toontown.toonbase import TTLocalizer
@@ -30,7 +30,7 @@ class DistributedLawOfficeFloor(DistributedLevel.DistributedLevel,
         self.joiningReserves = []
         self.suitsInitialized = 0
         self.goonClipPlanes = {}
-        
+
     def createEntityCreator(self):
         return FactoryEntityCreator.FactoryEntityCreator(level=self)
 
@@ -53,19 +53,19 @@ class DistributedLawOfficeFloor(DistributedLevel.DistributedLevel,
 
         self.accept('SOSPanelEnter', self.handleSOSPanel)
         #self.accept('lawOfficeFloorDone', self.handleFloorDone)
-        
+
         #print("local Avatar Position %s" % (base.localAvatar.getPos()))
         #base.localAvatar.setPos(0,0,0)
         #import pdb; pdb.set_trace()
-        
-        
-        
+
+
+
 
     def delete(self):
         #print("LAW OFFICE FLOOR DELETE")
-        
+
         DistributedLevel.DistributedLevel.delete(self)
-        
+
         # remove factory menu from SpeedChat
         base.localAvatar.chatMgr.chatInputSpeedChat.removeFactoryMenu()
         # remove special camera views
@@ -76,8 +76,8 @@ class DistributedLawOfficeFloor(DistributedLevel.DistributedLevel,
             base.factory = None
         if __dev__:
             bboard.removeIfEqual(EditorGlobals.EditTargetPostName, self)
-       
-        
+
+
     # required fields
     def setLawOfficeId(self, id):
         LawOfficeBase.LawOfficeBase.setLawOfficeId(self, id)
@@ -111,7 +111,7 @@ class DistributedLawOfficeFloor(DistributedLevel.DistributedLevel,
             # give the spec a factory EntityTypeRegistry.
             typeReg = self.getEntityTypeReg()
             factorySpec.setEntityTypeReg(typeReg)
-        
+
         DistributedLevel.DistributedLevel.initializeLevel(self, factorySpec)
 
         # if the AI is sending us a spec, we won't have it yet and the
@@ -119,10 +119,10 @@ class DistributedLawOfficeFloor(DistributedLevel.DistributedLevel,
         # can start doing stuff here. Much of what used to be here
         # has been moved to FactoryLevelMgr, where it really belongs, but...
         # this could be cleaner.
-        #import pdb; pdb.set_trace() 
+        #import pdb; pdb.set_trace()
         #print("LEVEL ANNOUNCE GENERATE DONE") #toon detached by here
-        
-        
+
+
 
     def privGotSpec(self, levelSpec):
         # OK, we've got the spec that we're going to use, either the one
@@ -162,8 +162,8 @@ class DistributedLawOfficeFloor(DistributedLevel.DistributedLevel,
             # print position of localToon relative to the zone that he's in
             pos = base.localAvatar.getPos(self.getZoneNode(self.lastToonZone))
             h = base.localAvatar.getH(self.getZoneNode(self.lastToonZone))
-            print 'factory pos: %s, h: %s, zone %s' % (
-                repr(pos), h, self.lastToonZone)
+            print('factory pos: %s, h: %s, zone %s' % (
+                repr(pos), h, self.lastToonZone))
             posStr = "X: %.3f" % pos[0] + "\nY: %.3f" % pos[1] + \
                   "\nZ: %.3f" % pos[2] + "\nH: %.3f" % h + \
                   "\nZone: %s" % str(self.lastToonZone)
@@ -186,7 +186,7 @@ class DistributedLawOfficeFloor(DistributedLevel.DistributedLevel,
             if base.cr.doId2do.get(avId):
                 avIds.append(avId)
         panel.setFactoryToonIdList(avIds)
-        
+
     def handleFloorDone(self):
         self.sendUpdate("readyForNextFloor")
 
@@ -254,7 +254,7 @@ class DistributedLawOfficeFloor(DistributedLevel.DistributedLevel,
         return TTLocalizer.FactoryBossTaunt
     def getBossBattleTaunt(self):
         return TTLocalizer.FactoryBossBattleTaunt
-        
+
     def placeLocalToon(self):
         initialZoneEnt = None
         # the entrancePoint entities register themselves with us
@@ -287,5 +287,3 @@ class DistributedLawOfficeFloor(DistributedLevel.DistributedLevel,
         if initialZoneEnt is not None:
             # kickstart the visibility
             self.enterZone(initialZoneEnt.entId)
-
-    

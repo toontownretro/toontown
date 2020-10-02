@@ -3370,7 +3370,7 @@ LauncherVerifyPhase = "Update Toontown läuft ..."
 # AvatarChoice.py
 AvatarChoiceMakeAToon = "Toon\nkreieren"
 AvatarChoicePlayThisToon = "Toon\neinsetzen"
-AvatarChoiceSubscribersOnly = " Jetzt\n\n\n\n\nabonnieren!" 
+AvatarChoiceSubscribersOnly = " Jetzt\n\n\n\n\nabonnieren!"
 AvatarChoiceDelete = "Löschen"
 AvatarChoiceDeleteConfirm = "Hiermit wird %s für immer gelöscht."
 AvatarChoiceNameRejected = "Name\nabgewiesen"
@@ -3920,8 +3920,8 @@ PetTutorialPage1 = "Wenn du auf ein Doodle klickst, wird das Doodle-Menü angeze
 PetTutorialPage2 = "Mit dem neuen Bereich 'Haustiere' im Schnell-Chat kannst du ein Doodle dazu bringen, einen Trick vorzuführen. Wenn es das tut, gib ihm eine Belohnung, dann wird es noch besser!"
 PetTutorialPage3 = "Kaufe neue Doodle-Tricks aus Klarabellas Kuhtalog. Bessere Tricks bringen besseres Toonen!"
 def getPetGuiAlign():
-	from pandac.PandaModules import TextNode
-	return TextNode.ACenter 
+	from toontown.toonbase.ToontownModules import TextNode
+	return TextNode.ACenter
 
 # Playground.py
 PlaygroundDeathAckMessage = "Die "+ Cogs +  " haben all deine Gags weggenommen!\n\nDu bist traurig. Du darfst den Spielplatz nicht verlassen, bis du fröhlich bist."
@@ -4402,7 +4402,7 @@ CagedToonBattleThreeMaxGivePies = 12
 CagedToonBattleThreeMaxTouchCage = 21
 CagedToonBattleThreeMaxAdvice = 106
 
-BossElevatorRejectMessage = "Du kannst erst in diesen Aufzug einsteigen, wenn du dir eine Beförderung verdient hast." 
+BossElevatorRejectMessage = "Du kannst erst in diesen Aufzug einsteigen, wenn du dir eine Beförderung verdient hast."
 
 # Types of catalog items--don't translate yet.
 FurnitureTypeName = "Möbel"
@@ -4640,7 +4640,7 @@ FlooringNames = {
 MouldingNames = {
     1000 : "Knorrig",
     1010 : "Angestrichen",
-    1020 : "Gebiss", 
+    1020 : "Gebiss",
     1030 : "Blumen ",
     1040 : "Blumen",
     1050 : "Marienkäfer",
@@ -4809,7 +4809,7 @@ NPCToonNames = {
     #
     # Toontown Central
     #
-    
+
     # Toontown Central Playground
 
     # This Flippy DNA matches the tutorial Flippy
@@ -4925,7 +4925,7 @@ NPCToonNames = {
     #
     # Donald's Dock
     #
-    
+
     # Donald's Dock Playground
     1001 : "Angestellter Willi",
     1002 : "Angestellter Billy",
@@ -5266,7 +5266,7 @@ NPCToonNames = {
     #
     # Daisy Gardens
     #
-    
+
     # Daisy Gardens Playground
     5001 : lHQOfficerM,
     5002 : lHQOfficerM,
@@ -5371,7 +5371,7 @@ NPCToonNames = {
     #
     # Dreamland
     #
-    
+
     # Dreamland Playground
     9001 : "Susan Dämmerts",
     9002 : "Tom Tiefschlaf",
@@ -6009,7 +6009,7 @@ PetTrait2descriptions = {
     'affectionThreshold': ('Selten Zärtlich', 'Manchmal zärtlich',
                          'Oft zärtlich', 'Immer zärtlich',),
     }
-    
+
 
 # end translate
 
@@ -6198,7 +6198,7 @@ TipDict = {
     "Die Lieferzeit für Tapeten und Fußbodenbeläge aus Klarabellas Kuhtalog beträgt eine Stunde.",
     "Die Lieferzeit für Möbel aus Klarabellas Kuhtalog beträgt einen Tag.",
     "Bewahre zusätzliche Möbel auf dem Dachboden auf.",
-    "Klarabella wird dich benachrichtigen, wenn ein neuer Kuhtalog da ist.", 
+    "Klarabella wird dich benachrichtigen, wenn ein neuer Kuhtalog da ist.",
     "Klarabella wird dich benachrichtigen, wenn eine Kuhtalog-Lieferung eintrifft.",
     "Jede Woche werden neue Kuhtaloge geliefert.",
     "Halte im Kuhtalog Ausschau nach limitierten Urlaubsgegenständen.",

@@ -1,8 +1,8 @@
 
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
-import FishPokerBase
-import FishGlobals
+from toontown.toonbase.ToontownModules import *
+from . import FishPokerBase
+from . import FishGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 
@@ -10,7 +10,7 @@ class FishPokerCard(DirectFrame):
 
     UnlockedColor = Vec4(*ToontownGlobals.GlobalDialogColor)
     LockedColor = Vec4(0.8,0.4,0.4,1)
-    
+
     def __init__(self, index, lockCallback, **kw):
         optiondefs = (
             ('relief',                                    None,    None),
@@ -83,7 +83,7 @@ class FishPokerCard(DirectFrame):
     def clear(self):
         self.update(None, 0)
         return
-    
+
 
 class FishPokerGui(FishPokerBase.FishPokerBase,
                    DirectFrame):
@@ -118,7 +118,7 @@ class FishPokerGui(FishPokerBase.FishPokerBase,
             command = self.cashIn,
             )
         guiButton.removeNode()
-        
+
         # Now update the base class, since it touched some of the
         # buttons on initialization
         FishPokerBase.FishPokerBase.__init__(self)
@@ -158,7 +158,7 @@ class FishPokerGui(FishPokerBase.FishPokerBase,
     def clear(self):
         FishPokerBase.FishPokerBase.clear(self)
         # Update the gui
-        for cardGui in self.__cardGuis.values():
+        for cardGui in list(self.__cardGuis.values()):
             cardGui.clear()
         # Update value
         self.updateCashIn()

@@ -1,9 +1,9 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.showbase import DirectObject
 from toontown.suit import SuitDNA
 from direct.directnotify import DirectNotifyGlobal
-import LevelBattleManagerAI
+from . import LevelBattleManagerAI
 import types
 import random
 
@@ -33,7 +33,7 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
         # create a dict that will keep track of what suits are attached
         # to what battle cell
         self.battleCellId2suits = {}
-        for id in self.battleCellSpecs.keys():
+        for id in list(self.battleCellSpecs.keys()):
             self.battleCellId2suits[id] = []
 
     def destroy(self):
@@ -45,7 +45,7 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
         del self.cogCtor
         del self.level
         del self.air
-        
+
     def __genJoinChances( self, num ):
         """
         ////////////////////////////////////////////////////////////////////
@@ -62,7 +62,7 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
 
     def __genSuitInfos(self, level, track):
         if __dev__:
-            assert type(level) == types.IntType
+            assert type(level) == int
 
         def getSuitDict(spec, cogId, level=level, track=track):
             suitDict = {}
@@ -76,7 +76,7 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
             suitDict['level'] += level
             suitDict['cogId'] = cogId
             return suitDict
-        
+
         # Build a dictionary with types, levels, and locations for suits
         self.suitInfos = {}
         self.suitInfos['activeSuits'] = []
@@ -85,7 +85,7 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
             self.suitInfos['activeSuits'].append(getSuitDict(spec, i))
 
         # reserveSuits
-        
+
         numReserve = len(self.reserveCogSpecs)
         joinChances = self.__genJoinChances(numReserve)
         self.suitInfos['reserveSuits'] = []
@@ -179,7 +179,7 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
                              battle.fsm.getCurrentState().getName(), toonId))
                     else:
                         self.notify.warning('battle not joinable: no battle for cell %s, toonId=%s' % (cellIndex, toonId))
-                        
+
                     return 0
 
         return 1
@@ -236,7 +236,7 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
 
                 # SDN: fsm-ify this?
                 self.reservesJoining(battle)
-                
+
                 level.d_setSuits()
                 return
 
@@ -254,7 +254,7 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
 
     def __handleBattleFinished(self, zoneId):
         pass
-    
+
     def reservesJoining(self, battle):
         # note, once we put in the animation for suits joining battle
         # we should delay this code by the time it takes to play the animation
@@ -262,7 +262,7 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
             battle.suitRequestJoin(info[0])
         battle.resume()
         self.joinedReserves = []
-            
+
     def getDoId(self):
         # This is a dummy function so we don't need to modify DistributedSuit
         return 0
@@ -278,7 +278,7 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
                 self.battleCellId2suits[oldCell].remove(suit)
             else:
                 self.notify.warning('FIXME crash bandaid suitBattleCellChange suit.doId =%s, oldCell=%s not in battleCellId2Suits.keys %s' %
-                                    (suit.doId, oldCell, self.battleCellId2suits.keys()))
+                                    (suit.doId, oldCell, list(self.battleCellId2suits.keys())))
             # remove suit from battle blocker
             blocker = self.battleMgr.battleBlockers.get(oldCell)
             if blocker:
@@ -288,7 +288,7 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
 
             # register suit with the blocker for this newCell
             def addSuitToBlocker(self=self):
-                blocker = self.battleMgr.battleBlockers.get(newCell) 
+                blocker = self.battleMgr.battleBlockers.get(newCell)
                 if blocker:
                     blocker.addSuit(suit)
                     return 1
@@ -297,6 +297,6 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
             if not addSuitToBlocker():
                 # wait for the creation of this blocker, then add this suit
                 self.accept(self.getBattleBlockerEvent(newCell), addSuitToBlocker)
-                
+
     def getBattleBlockerEvent(self, cellId):
         return "battleBlockerAdded-"+str(self.level.doId)+"-"+str(cellId)

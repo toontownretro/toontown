@@ -1,4 +1,4 @@
-from pandac.PandaModules import NodePath, Point3, CollisionTube, CollisionNode
+from toontown.toonbase.ToontownModules import NodePath, Point3, CollisionTube, CollisionNode
 from direct.fsm import FSM
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
@@ -26,7 +26,7 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
                        ]
     ToonupScales = [5, 5, 5, 4]
     ToonupZOffsets = [-0.25, -0.25, -0, -0.25]
-    
+
     def __init__(self, cr):
         """Create a new food belt."""
         DistributedObject.DistributedObject.__init__(self, cr)
@@ -49,7 +49,7 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         """Delete ourself from the world."""
         DistributedObject.DistributedObject.delete(self)
         self.cleanup()
-        
+
 
     def announceGenerate(self):
         """Handle all required fields being filled in."""
@@ -89,7 +89,7 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         elif state == 'I':
             self.demand('Inactive')
         elif state == 'T':
-            self.demand('Toonup')                        
+            self.demand('Toonup')
         else:
             self.notify.error("Invalid state from AI: %s" % (state))
 
@@ -97,14 +97,14 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
     def enterOn(self):
         """Handle entering the on state."""
         self.beltSoundInterval.loop()
-        for i in xrange(len(self.foodNodes)):
+        for i in range(len(self.foodNodes)):
             self.doMethodLater(self.foodWaitTimes[i], self.startFoodMoving,
                                'start-%d-%d' % (self.index, i),
                                extraArgs = [i])
     def exitOn(self):
         """Handle exiting the on state."""
         self.beltSoundInterval.finish()
-        for i in xrange(len(self.foodNodes)):
+        for i in range(len(self.foodNodes)):
             taskName = 'start-%d-%d' % (self.index, i)
             self.removeTask(taskName)
         pass
@@ -113,7 +113,7 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         """Handle entering the toonup state."""
         self.beltSound.setPlayRate(self.ToonupBeltSpeed / self.BeltSpeed)
         self.beltSoundInterval.loop()
-        for i in xrange(len(self.foodNodes)):
+        for i in range(len(self.foodNodes)):
             self.removeFood(i)
             self.beltActor.setPlayRate(self.ToonupBeltActorPlayRate, 'idle')
             self.doMethodLater(self.toonupWaitTimes[i], self.startToonupMoving,
@@ -122,18 +122,18 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
     def exitToonup(self):
         """Handle exiting the toonup state."""
         self.beltSoundInterval.finish()
-        for i in xrange(len(self.foodNodes)):
+        for i in range(len(self.foodNodes)):
             taskName = 'startToonup-%d-%d' % (self.index, i)
             self.removeTask(taskName)
-        pass    
+        pass
 
     def enterInactive(self):
         """Handle entering the inactive state."""
         for ival in self.foodIvals:
             ival.finish()
         for ival in self.toonupIvals:
-            ival.finish()            
-        for i in xrange(len(self.foodNodes)):
+            ival.finish()
+        for i in range(len(self.foodNodes)):
             self.removeFood(i)
             self.removeToonup(i)
         if self.beltActor:
@@ -161,7 +161,7 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         else:
             self.notify.warning('startToonupMoving invalid index %d' % toonupIndex)
         if self.beltActor:
-            self.beltActor.loop('idle')            
+            self.beltActor.loop('idle')
 
     ### loading assets ###
 
@@ -189,7 +189,7 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         else:
             self.beltActorModel = loader.loadModel("phase_12/models/bossbotHQ/food_belt2_model")
 
-        if (self.beltActorModel):            
+        if (self.beltActorModel):
             self.beltActor = Actor.Actor(self.beltActorModel)
             if self.index == 0:
                 self.beltActor.loadAnims({'idle': "phase_12/models/bossbotHQ/food_belt1"})
@@ -214,13 +214,13 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
                                            seamlessLoop = True,
                                            volume = 0.25,
                                            cutOff = 100)
-            
+
 
     def cleanup(self):
-        for i in xrange(len(self.foodNodes)):
+        for i in range(len(self.foodNodes)):
             taskName = 'start-%d-%d' % (self.index, i)
             self.removeTask(taskName)
-        for i in xrange(len(self.foodNodes)):
+        for i in range(len(self.foodNodes)):
             taskName = 'startToonup-%d-%d' % (self.index, i)
             self.removeTask(taskName)
         for ival in self.foodIvals:
@@ -234,15 +234,15 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         self.beltModel = None
         self.removeAllTasks()
         self.ignoreAll()
-              
+
     def setupFoodNodes(self):
         """Create the node paths the food will be parented to."""
         assert self.notify.debugStateCall(self)
         # we may later just load this from the belt model
-        for i in xrange(self.NumFoodNodes):
+        for i in range(self.NumFoodNodes):
             # we want index 0 to be the first one out
             newPosIndex = self.NumFoodNodes -1 - i
-            yPos = -(self.beltLength / 2.0) + (newPosIndex *self.distBetweenFoodNodes)            
+            yPos = -(self.beltLength / 2.0) + (newPosIndex *self.distBetweenFoodNodes)
             newFoodNode = NodePath('foodNode-%d-%d' % (self.index, i))
             newFoodNode.reparentTo(self.beltModel)
             newFoodNode.setPos(0, yPos, self.beltHeight)
@@ -253,11 +253,11 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
             # to make the front side of the cans come out of the belt
             newFoodNode.setH(180)
             self.foodNodes.append(newFoodNode)
-            
+
     def setupFoodIvals(self):
         """Create all the food intervals for the belt."""
-        assert self.notify.debugStateCall(self)        
-        for i in xrange(len(self.foodNodes)):
+        assert self.notify.debugStateCall(self)
+        for i in range(len(self.foodNodes)):
             foodIval = self.createOneFoodIval(self.foodNodes[i])
             self.foodIvals.append(foodIval)
 
@@ -269,7 +269,7 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         foodIndex = self.foodNodes.index(foodNode)
         waitTimeForOne = self.distBetweenFoodNodes / self.BeltSpeed
         waitTime = waitTimeForOne * foodIndex
-        self.foodWaitTimes.append(waitTime)        
+        self.foodWaitTimes.append(waitTime)
         totalTimeToTraverseBelt = self.beltLength / self.BeltSpeed
         startPosY = -(self.beltLength / 2.0)
         endPosY = (self.beltLength / 2.0)
@@ -283,7 +283,7 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
                                 endZ = 0),
             Func(self.removeFood, foodIndex),
             )
-                               
+
         return retval
 
     def loadFood(self, foodIndex):
@@ -336,17 +336,17 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         try:
             foodNum = int(into.getTag('foodNum'))
         except:
-            foodNum = 0            
+            foodNum = 0
         #self.notify.debug('touched food, beltIndex=%d, foodIndex=%d foodNum==%d' %
         #                  (beltIndex, foodIndex, foodNum))
         if self.boss:
             self.boss.localToonTouchedBeltFood(beltIndex, foodIndex, foodNum)
 
-            
+
     def setupToonupIvals(self):
         """Create all the toonup intervals for the belt."""
-        assert self.notify.debugStateCall(self)        
-        for i in xrange(len(self.foodNodes)):
+        assert self.notify.debugStateCall(self)
+        for i in range(len(self.foodNodes)):
             toonupIval = self.createOneToonupIval(self.foodNodes[i])
             self.toonupIvals.append(toonupIval)
 
@@ -358,7 +358,7 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         toonupIndex = self.foodNodes.index(foodNode)
         waitTimeForOne = self.distBetweenFoodNodes / self.ToonupBeltSpeed
         waitTime = waitTimeForOne * toonupIndex
-        self.toonupWaitTimes.append(waitTime)        
+        self.toonupWaitTimes.append(waitTime)
         totalTimeToTraverseBelt = self.beltLength / self.ToonupBeltSpeed
         startPosY = -(self.beltLength / 2.0)
         endPosY = (self.beltLength / 2.0)
@@ -372,7 +372,7 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
                                 endZ = 0),
             Func(self.removeToonup, toonupIndex),
             )
-                               
+
         return retval
 
     def loadToonup(self, toonupIndex):
@@ -380,7 +380,7 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         self.toonupNum += 1
         if toonupIndex in self.toonupModelDict:
             toonupModel = self.toonupModelDict[toonupIndex]
-            toonupModel.reparentTo(self.foodNodes[toonupIndex])            
+            toonupModel.reparentTo(self.foodNodes[toonupIndex])
             colNp = toonupModel.find('**/ToonupCol*')
             colNp.setTag('toonupNum', str(self.toonupNum))
         else:
@@ -418,7 +418,7 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         """Handle a toon touching the toonup collision."""
         # don't get a toonup if you're at full laff
         if base.localAvatar.hp >= base.localAvatar.maxHp:
-            return        
+            return
         into = colEntry.getIntoNodePath()
         try:
             beltIndex = int(into.getTag('beltIndex'))
@@ -431,9 +431,8 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         try:
             toonupNum = int(into.getTag('toonupNum'))
         except:
-            toonupNum = 0            
+            toonupNum = 0
         #self.notify.debug('touched toonup, beltIndex=%d, toonupIndex=%d toonupNum==%d' %
         #                  (beltIndex, toonupIndex, toonupNum))
         if self.boss:
             self.boss.localToonTouchedBeltToonup(beltIndex, toonupIndex, toonupNum)
-        

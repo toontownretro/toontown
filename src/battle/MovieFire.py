@@ -1,16 +1,16 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
-from BattleBase import *
-from BattleProps import *
-from BattleSounds import *
+from .BattleBase import *
+from .BattleProps import *
+from .BattleSounds import *
 from toontown.toon.ToonDNA import *
 from toontown.suit.SuitDNA import *
 
 from direct.directnotify import DirectNotifyGlobal
 import random
-import MovieCamera
-import MovieUtil
-from MovieUtil import calcAvgSuitPos
+from . import MovieCamera
+from . import MovieUtil
+from .MovieUtil import calcAvgSuitPos
 
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieThrow')
 
@@ -51,13 +51,13 @@ pieFlyTaskName = "MovieThrow-pieFly"
 
 
 def addHit (dict, suitId, hitCount):
-    if (dict.has_key(suitId)):
+    if (suitId in dict):
         dict[suitId] += hitCount
     else:
         dict[suitId] = hitCount
 
 def doFires(fires):
-    
+
     """ Throws occur in the following order:
         a) by suit, in order of increasing number of throws per suit
           1) level 1 throws, right to left, (TOON_THROW_DELAY later)
@@ -73,17 +73,17 @@ def doFires(fires):
 
     # Group the throws by targeted suit
     suitFiresDict = {}
-    # throw['toon'] is the thrower. 
-    
+    # throw['toon'] is the thrower.
+
     for fire in fires:
         suitId = fire['target']['suit'].doId
-        if (suitFiresDict.has_key(suitId)):
+        if (suitId in suitFiresDict):
             suitFiresDict[suitId].append(fire)
         else:
             suitFiresDict[suitId] = [fire]
-        
+
     # A list of lists of throws grouped by suit
-    suitFires = suitFiresDict.values()
+    suitFires = list(suitFiresDict.values())
     # Sort the suits based on the number of throws per suit
     def compFunc(a, b):
         if (len(a) > len(b)):
@@ -98,22 +98,22 @@ def doFires(fires):
     totalHitDict = {}
     singleHitDict = {}
     groupHitDict = {}
-    
+
     for fire in fires:
         if 1:
-            suitId = fire['target']['suit'].doId            
+            suitId = fire['target']['suit'].doId
             if fire['target']['hp'] > 0:
                 addHit(singleHitDict,suitId,1)
                 addHit(totalHitDict,suitId,1)
             else:
                 addHit(singleHitDict,suitId,0)
-                addHit(totalHitDict,suitId,0)                
+                addHit(totalHitDict,suitId,0)
 
     notify.debug('singleHitDict = %s' % singleHitDict)
     notify.debug('groupHitDict = %s' % groupHitDict)
     notify.debug('totalHitDict = %s' % totalHitDict)
 
-    
+
     # Apply attacks in order
     delay = 0.0
     mtrack = Parallel()
@@ -129,7 +129,7 @@ def doFires(fires):
     retTrack.append(mtrack)
 
 
-            
+
 
     camDuration = retTrack.getDuration()
     camTrack = MovieCamera.chooseFireShot(fires, suitFiresDict,
@@ -159,12 +159,12 @@ def __doSuitFires(fires):
         else:
             # Miss, no need to think about stun effect
             break
-    suitList = []        
-            
+    suitList = []
+
     for fire in fires:
         if not (fire['target']['suit'] in suitList):
             suitList.append(fire['target']['suit'])
-            
+
     for fire in fires:
         showSuitCannon = 1
         if not (fire['target']['suit'] in suitList):
@@ -284,13 +284,13 @@ def __piePreMissGroup(missDict, pies, suitPoint, other=render):
 
     notify.debug('startPos=%s' % missDict['startPos'])
     notify.debug('v=%s'  % v)
-    notify.debug('endPos=%s' % missDict['endPos'])    
+    notify.debug('endPos=%s' % missDict['endPos'])
 
 def __pieMissGroupLerpCallback(t, missDict):
     """
     Same as __pieMissLerpCallback, but handles multiple pie parts
     """
-    
+
     pies = missDict['pies']
     newPos = (missDict['startPos'] * (1.0 - t)) + (missDict['endPos'] * t)
     if t < tPieShrink:
@@ -301,10 +301,10 @@ def __pieMissGroupLerpCallback(t, missDict):
 
     for pie in pies:
         pie.setPos(newPos)
-        pie.setScale(newScale)    
+        pie.setScale(newScale)
 
 
-    
+
 
 
 def __getSoundTrack(level, hitSuit, node=None):
@@ -352,14 +352,14 @@ def __throwPie(throw, delay, hitCount, showCannon = 1):
     #    splatName = 'splat-birthday-cake'
     #splat = globalPropPool.getProp(splatName)
     #splatType = globalPropPool.getPropType(splatName)
-    
-    
+
+
     button = globalPropPool.getProp('button')
     buttonType = globalPropPool.getPropType('button')
     button2 = MovieUtil.copyProp(button)
     buttons = [button, button2]
     hands = toon.getLeftHands()
-    
+
 
     # make the toon throw the pie
     toonTrack = Sequence()
@@ -384,7 +384,7 @@ def __throwPie(throw, delay, hitCount, showCannon = 1):
     buttonTrack.append(Wait(2.5))
     buttonTrack.append(buttonScaleDown)
     buttonTrack.append(buttonHide)
-    
+
     soundTrack = __getSoundTrack(level, hitSuit, toon)
 
     suitResponseTrack = Sequence()
@@ -397,7 +397,7 @@ def __throwPie(throw, delay, hitCount, showCannon = 1):
         cannon = loader.loadModel("phase_4/models/minigames/toon_cannon")
         barrel = cannon.find("**/cannon")
         barrel.setHpr(0,90,0)
-        
+
         cannonHolder = render.attachNewNode('CannonHolder')
         cannon.reparentTo(cannonHolder)
         cannon.setPos(0,0,-8.6)
@@ -416,9 +416,9 @@ def __throwPie(throw, delay, hitCount, showCannon = 1):
         suit.setHpr(0,-90,0)
         suitLevel = suit.getActualLevel()
         deep = 2.5 + (suitLevel * 0.20)
-        
+
         #import pdb; pdb.set_trace()
-        
+
         #print "Fire anim suit name: %s" % (suit.dna.name)
         suitScale = 0.90
         import math
@@ -431,33 +431,33 @@ def __throwPie(throw, delay, hitCount, showCannon = 1):
         posInit = cannonHolder.getPos()
         posFinal = Point3(posInit[0] + 0.0, posInit[1] + 0.0, posInit[2] + 7.0)
         kapow = globalPropPool.getProp('kapow')
-    
+
         kapow.reparentTo(kapowAttachPoint)
         kapow.hide()
         kapow.setScale(0.25)
         kapow.setBillboardPointEye()
-        
-        
+
+
         smoke = loader.loadModel(
         "phase_4/models/props/test_clouds")
         smoke.reparentTo(cannonAttachPoint)
         smoke.setScale(.5)
         smoke.hide()
         smoke.setBillboardPointEye()
-        
+
         soundBomb = base.loadSfx("phase_4/audio/sfx/MG_cannon_fire_alt.mp3")
         playSoundBomb = SoundInterval(soundBomb,node=cannonHolder)
-        
+
         soundFly = base.loadSfx("phase_4/audio/sfx/firework_whistle_01.mp3")
         playSoundFly = SoundInterval(soundFly,node=cannonHolder)
-        
+
         soundCannonAdjust = base.loadSfx("phase_4/audio/sfx/MG_cannon_adjust.mp3")
         playSoundCannonAdjust = SoundInterval(soundCannonAdjust, duration = 0.6 ,node=cannonHolder)
-        
+
         soundCogPanic = base.loadSfx("phase_5/audio/sfx/ENC_cogafssm.mp3")
         playSoundCogPanic = SoundInterval(soundCogPanic,node=cannonHolder)
-    
-    
+
+
         reactIval = Parallel(   ActorInterval(suit, 'pie-small-react'),
                                 Sequence(
                                     Wait(0.0),
@@ -474,7 +474,7 @@ def __throwPie(throw, delay, hitCount, showCannon = 1):
                                         ),
                                     LerpPosInterval(cannonHolder, 1.0, posInit,
                                              startPos = posFinal, blendType='easeInOut'),
-                                    
+
                                          ),
                                 Sequence(
                                     Wait(0.0),
@@ -491,17 +491,17 @@ def __throwPie(throw, delay, hitCount, showCannon = 1):
                                                          ),
                                              ),
                                     Wait(2.5),
-                                    
+
                                     Parallel(
                                         playSoundBomb,
                                         playSoundFly,
-                                        Sequence( 
+                                        Sequence(
                                             Func(smoke.show),
                                             Parallel(LerpScaleInterval(smoke, .5, 3),
                                             LerpColorScaleInterval(smoke, .5, Vec4(2,2,2,0))),
                                             Func(smoke.hide),
                                         ),
-                                        Sequence( 
+                                        Sequence(
                                             Func(kapow.show),
                                             ActorInterval(kapow, 'kapow'),
                                             Func(kapow.hide),
@@ -512,7 +512,7 @@ def __throwPie(throw, delay, hitCount, showCannon = 1):
                                     Func(suit.hide),
                                     )
                             )
-        
+
         if (hitCount == 1):
             sival = Sequence(
                     Parallel(
@@ -537,7 +537,7 @@ def __throwPie(throw, delay, hitCount, showCannon = 1):
         if (hpbonus > 0):
             bonusTrack.append(Wait(0.75))
             bonusTrack.append(Func(suit.showHpText, -hpbonus, 1, openEnded=0))
-            
+
         if 0:
             if (revived != 0):
                 suitResponseTrack.append(MovieUtil.createSuitReviveTrack(suit, toon, battle))
@@ -545,23 +545,16 @@ def __throwPie(throw, delay, hitCount, showCannon = 1):
                 suitResponseTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle))
             else:
                 suitResponseTrack.append(Func(suit.loop, 'neutral'))
-            
+
         suitResponseTrack = Parallel(suitResponseTrack, bonusTrack)
-    
-      
-    
+
+
+
         # Since it's possible for there to be simultaneous throws, we only
         # want the suit to dodge one time at most.  Thus if the suit is
         # not hit (dodges) and that dodge is not from the first dodge
         # (which has delay=0) then we don't add another suit reaction.
         # Otherwise, we add the suit track as normal
-    
+
 
     return [toonTrack, soundTrack, buttonTrack, suitResponseTrack]
-
-
-
-
-
-
-

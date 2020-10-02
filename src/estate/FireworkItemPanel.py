@@ -1,10 +1,10 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.effects import FireworkGlobals
 from toontown.effects import Fireworks
-import FireworksGui
+from . import FireworksGui
 
 class FireworkItemPanel(DirectFrame):
     def __init__(self, itemName, itemNum, *extraArgs):
@@ -58,7 +58,7 @@ class FireworkItemPanel(DirectFrame):
             )
 
         #self.__dimSky()
-        
+
     def unload(self):
         del self.picture
         self.quantityLabel.destroy()
@@ -66,18 +66,17 @@ class FireworkItemPanel(DirectFrame):
         # call parent destructor
         DirectFrame.destroy(self)
         #self.__resetSky()
-        
+
     def destroy(self):
         # this is only so the DirectGui code cleans us up properly
         self.unload()
 
     def __launchFirework(self, index):
         messenger.send(self.shootEvent, [index])
-        
+
     def __dimSky(self):
         self.oldSkyScale = base.cr.playGame.hood.loader.sky.getColorScale()
         base.cr.playGame.hood.loader.sky.setColorScale(.3,.3,.3,1)
 
     def __resetSky(self):
         base.cr.playGame.hood.loader.sky.setColorScale(self.oldSkyScale)
-        

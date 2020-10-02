@@ -4373,7 +4373,7 @@ MickeyChatter = (
         "It's time for a nap. I'm going to Dreamland.",
         ]
     )
-    
+
 WinterMickeyCChatter = (
         [ # Greetings specific to Mickey
         "Hi, I'm Merry Mickey!",
@@ -4406,7 +4406,7 @@ WinterMickeyCChatter = (
         "I'm going caroling with Minnie!",
         ]
     )
-    
+
 ValentinesMickeyChatter = (
     [
     "Hi, I'm Mickey!",
@@ -4429,7 +4429,7 @@ ValentinesMickeyChatter = (
     "Tell Minnie I'll pick her up soon!",
     ]
     )
-    
+
 WinterMickeyDChatter = (
         [ # Greetings specific to Mickey
         "Hi, I'm Merry Mickey!",
@@ -4531,7 +4531,7 @@ MinnieChatter = (
         "It's time for a nap. I'm going to Dreamland.",
         ]
     )
-    
+
 WinterMinnieCChatter = (
         [ # Greetings
         "Hi, I'm Merry Minnie!",
@@ -4561,7 +4561,7 @@ WinterMinnieCChatter = (
         "Mickey is taking me caroling!",
         ]
     )
-    
+
 WinterMinnieDChatter = (
         [ # Greetings
         "Hi, I'm Merry Minnie!",
@@ -4585,7 +4585,7 @@ WinterMinnieDChatter = (
         "Mickey is taking me caroling!",
         ]
     )
-    
+
 ValentinesMinnieChatter = (
     [
     "Hello, I'm Minnie!",
@@ -4606,7 +4606,7 @@ ValentinesMinnieChatter = (
     "It was sweet having you visit!",
     ]
 )
-    
+
 WitchMinnieChatter = (
         [ # Greetings
         "Welcome to Magicland... I mean Melodyland!",
@@ -4669,7 +4669,7 @@ DaisyChatter = (
         "Oh, I'm a little sleepy. I think I'll go to Dreamland.",
         ]
     )
-    
+
 ValentinesDaisyChatter = (
     [
     "Hi, I'm Daisy!",
@@ -4691,7 +4691,7 @@ ValentinesDaisyChatter = (
     "Have a nice ValenToon's Day!",
     ]
 )
-    
+
 WinterDaisyCChatter = (
         [ # Greetings
         "Welcome to the only garden that grows in the winter!",
@@ -4723,7 +4723,7 @@ WinterDaisyCChatter = (
         "Donald is taking me caroling!",
         ]
     )
-    
+
 WinterDaisyDChatter = (
         [ # Greetings
         "Welcome to the only garden that grows in the winter!",
@@ -4747,7 +4747,7 @@ WinterDaisyDChatter = (
         "Donald is taking me caroling!",
         ]
     )
-    
+
 HalloweenDaisyChatter = (
         [ # Greetings
         "Welcome to Daisy Ghosts... I mean Gardens!",
@@ -4779,7 +4779,7 @@ HalloweenDaisyChatter = (
         "I'm going to check out the fun Halloween decorations."
         ]
     )
-        
+
 
 ChipChatter = (
         [ # Greetings
@@ -4801,7 +4801,7 @@ ChipChatter = (
         "Oh, I'm a little sleepy. I think I'll go to Dreamland.",
         ]
     )
-    
+
 ValentinesChipChatter = (
     [ # Greetings
     "I'm Chip!",
@@ -4819,7 +4819,7 @@ ValentinesChipChatter = (
     "Come back any time!",
     ]
 )
-    
+
 WinterChipChatter = (
         [ # Greetings
         "Happy Winter Holiday!",
@@ -4839,7 +4839,7 @@ WinterChipChatter = (
         "Have a joyful winter Holiday!",
         ]
     )
-    
+
 HalloweenChipChatter = (
         [ # Greetings
         "Play some MiniGhoul... I mean Golf!",
@@ -4857,7 +4857,7 @@ HalloweenChipChatter = (
         "%, watch out for Bloodsucker Cogs!",
         ]
     )
-        
+
 
 # Warning Dale's chatter is dependent on on Chip's, they should match up
 DaleChatter = (
@@ -4880,7 +4880,7 @@ DaleChatter = (
         "I'm getting tired and could use a nap.",
         ]
     )
-    
+
 ValentinesDaleChatter = (
     [ # Greetings
     "I'm Dale!",
@@ -4898,7 +4898,7 @@ ValentinesDaleChatter = (
     "Come back any time!",
     ]
 )
-    
+
 WinterDaleChatter = (
         [ # Greetings
         "Merry chipmunks!",
@@ -4910,28 +4910,28 @@ WinterDaleChatter = (
         "Happy Winter Holiday, Chip!",
         "Better not be on the geyser when it happens!",
         "And the golf clubs with icicles!",
-        "Whoever heard of singing chipmunks?",                
+        "Whoever heard of singing chipmunks?",
         "I told YOU to do that!",
         "Yes, a cream pie!",
         ],
         [ # Goodbyes
         "And bring some back for us!",
-        "Have a joyful Winter Holiday!",        
+        "Have a joyful Winter Holiday!",
         ]
     )
-    
+
 HalloweenDaleChatter = (
         [ # Greetings
         "Happy Halloween, %!",
         "Play some MiniGhoul... I mean Golf!",
-        "Happy Halloween!",        
+        "Happy Halloween!",
         ],
         [ # Comments
         "I hope you are enjoying our Halloween fun!",
         "We're nuts about Halloween!",
         "I'm Chip dressed as Dale.",
         "Play golf and get a Howl-In-One.",
-        "Candy corns are sweeter than acorns.",        
+        "Candy corns are sweeter than acorns.",
         ],
         [ # Goodbyes
         "%, watch out for Bloodsucker Cogs!",
@@ -4965,7 +4965,7 @@ GoofyChatter = (
         "It's time for a nap. I'm going to Dreamland.",
         ]
     )
-    
+
 WinterGoofyChatter = (
         [ # Greetings
         "I'm Goofy about the holidays!",
@@ -4990,7 +4990,7 @@ WinterGoofyChatter = (
         "Watch out for flrying reindeer!",
         ]
     )
-    
+
 ValentinesGoofyChatter = (
     [
     "I'm Goofy about ValenToon's Day!",
@@ -5017,7 +5017,7 @@ GoofySpeedwayChatter = (
         "Hi, my name is "+Goofy+". What's yours?",
         "Gawrsh, it's nice to see you %!",
         ],
-        [ # Comments        
+        [ # Comments
         "Boy, I saw a terrific race earlier.",
         "Watch out for banana peels on the race track!",
         "Have you upgraded your kart lately?",
@@ -5037,7 +5037,7 @@ GoofySpeedwayChatter = (
         "It's time for a nap. I'm going to Dreamland.",
         ]
     )
-    
+
 SuperGoofyChatter = (
         [ # Greetings
         "Welcome to my Super Speedway!",
@@ -5045,7 +5045,7 @@ SuperGoofyChatter = (
         "Happy Halloween!",
         "Happy Halloween, %!",
         ],
-        [ # Comments        
+        [ # Comments
         "I am feeling kind of batty today!",
         "Anybody see my cape around? Oh, there it is!",
         "Gawrsh! I don't know my own strength!",
@@ -5089,7 +5089,7 @@ DonaldChatter = (
         "I think I'll take my boat for a spin at my dock.",
         ]
     )
-    
+
 WinterDreamlandCChatter = (
         [ # Greetings
         "Hi, I'm Dozing Donald!",
@@ -5119,7 +5119,7 @@ WinterDreamlandCChatter = (
         "When I wake up I am going caroling!",
         ]
     )
-    
+
 WinterDreamlandDChatter = (
         [ # Greetings
         "Hi, I'm Dozing Donald!",
@@ -5142,7 +5142,7 @@ WinterDreamlandDChatter = (
         "When I wake up I am going caroling!",
         ]
     )
-    
+
 HalloweenDreamlandChatter = (
         [ # Greetings
         "Happy Halloween!",
@@ -5167,7 +5167,7 @@ HalloweenDreamlandChatter = (
         "When I wake up, I am going Trick-or-Treating!",
         ]
     )
-    
+
 ValentinesDreamlandChatter = (
     [
     "Hello, I'm (yawn) Donald!",
@@ -5223,7 +5223,7 @@ HalloweenDonaldChatter = (
         "I'm going to check out the spooky Halloween decorations."
         ]
     )
-    
+
 ValentinesDonaldChatter = (
     [
     "Ahoy, I'm Donald!",
@@ -5244,7 +5244,7 @@ ValentinesDonaldChatter = (
     "Give the Cogs my best!",
     ]
 )
-    
+
 WinterDonaldCChatter = (
         [ # Greetings
         "Welcome to Donald's Boat and Sleigh Dock!",
@@ -5279,7 +5279,7 @@ WinterDonaldCChatter = (
         "Enjoy your holiday!",
         ]
     )
-    
+
 WinterDonaldDChatter = (
         [ # Greetings
         "Welcome to Donald's Boat and Sleigh Dock!",
@@ -5304,7 +5304,7 @@ WinterDonaldDChatter = (
         "Enjoy your holiday!",
         ]
     )
-    
+
 WesternPlutoChatter = (
         [# Greetings
         "Boo! Don't be scared, it's just me ... Pluto!",
@@ -5331,7 +5331,7 @@ WesternPlutoChatter = (
         "I'm going to scare Donald!",
         ]
     )
-    
+
 WinterPlutoCChatter = (
         [# Greetings
         "Hi, I'm Pluto!",
@@ -5357,7 +5357,7 @@ WinterPlutoCChatter = (
         "Mickey is taking me caroling!",
         ]
     )
-    
+
 WinterPlutoDChatter = (
         [# Greetings
         "Hi, I'm Pluto!",
@@ -5493,7 +5493,7 @@ AFDonaldChatter = (
         "I need to work on my karts!  Bye!",
         ]
     )
-    
+
 AFDonaldDockChatter = (
         [ # Greetings
         "Happy April Toons' Week!",
@@ -5515,7 +5515,7 @@ AFDonaldDockChatter = (
         "Play a joke on the Cogs for me!",
         ]
     )
-    
+
 AFPlutoChatter = (
         [ # Greetings
         "Happy April Toons' Week!",
@@ -5580,7 +5580,7 @@ CLGoofySpeedwayChatter = (
         "Gawrsh, it's nice to see you %!",
         "Hi there!  Pardon my dusty clothes I've been busy fixin' that broken Leaderboard.",
         ],
-        [ # Comments        
+        [ # Comments
         "We better get this Leaderboard working soon, Grand Prix Weekend is coming up!",
         "Does anybody want to buy a slightly used kart? It's only been through the Leaderboard once!",
         "Grand Prix Weekend is coming, better get to practicing.",
@@ -5606,16 +5606,16 @@ CLGoofySpeedwayChatter = (
         "It's time for a nap. I'm going to Dreamland to dream about winnin' the Grand Prix.",
         ]
     )
-        
+
 
 GPGoofySpeedwayChatter = (
         [ # Greetings
-        "Welcome to "+lGoofySpeedway+".",        
+        "Welcome to "+lGoofySpeedway+".",
         "Welcome to Grand Prix Weekend!",
         "Hi, my name is "+Goofy+". What's yours?",
         "Gawrsh, it's nice to see you %!",
         ],
-        [ # Comments                
+        [ # Comments
         "Are you excited about the Grand Prix Weekend?",
         "Good thing we got the Leaderboard fixed.",
         "We got the Leaderboard fixed just in time for Grand Prix Weekend!",
@@ -5639,7 +5639,7 @@ GPGoofySpeedwayChatter = (
         "Gosh, I better go check on the new Leaderboard and make sure it is working right!",
         ]
     )
-    
+
 SillyPhase1Chatter = [
         "If you haven't seen the Silly Meter, head to Toon Hall!",
         "Toontown is getting sillier by the day!",
@@ -5647,7 +5647,7 @@ SillyPhase1Chatter = [
         "Objects on the street are starting to animate!",
         "I saw a fire hydrant on Silly Street move!",
     ]
-    
+
 SillyPhase2Chatter = [
         "Silly levels are still rising!",
         "The Silly Meter has climbed higher and gotten crazier!",
@@ -5665,7 +5665,7 @@ SillyPhase3Chatter = [
         "The Silly Meter went down after the Cog Invasions!",
         "Every street of Toontown has animated objects now!",
         "Toontown is sillier than ever!",
-]   
+]
 
 SillyPhase4Chatter = [
     "Fire hydrants make your Squirt Gags squirtier!",
@@ -5680,7 +5680,7 @@ for chatter in [MickeyChatter,DonaldChatter,MinnieChatter,GoofyChatter]:
     chatter[0].extend(SharedChatterGreetings)
     chatter[1].extend(SharedChatterComments)
     chatter[2].extend(SharedChatterGoodbyes)
-    
+
 # Toontown dialogues
 BoringTopic = "Boring"
 EmceeDialoguePhase1Topic = "EmceeDialoguePhase1"
@@ -5690,14 +5690,14 @@ EmceeDialoguePhase3_5Topic = "EmceeDialoguePhase3.5"
 EmceeDialoguePhase4Topic = "EmceeDialoguePhase4"
 EmceeDialoguePhase5Topic = "EmceeDialoguePhase5"
 EmceeDialoguePhase6Topic = "EmceeDialoguePhase6"
-toontownDialogues = { 
+toontownDialogues = {
    BoringTopic : { \
         (1, 2018)  : ['Hello Albert', 'It looks like the sillyness levels are rising', 'Yes and dont forget April Toons!'],
         (2, 2019) : ['Hello Newton', 'Yes I wonder how much the parties are contributing to all this',],
         (3, 2020) : ['Why hello there Albert and Newton', 'Halloween was pretty silly too!',],
         },
     EmceeDialoguePhase1Topic : {
-        (1, 2020) : [ 'Fellow Toons, this is the Silly Meter!', 
+        (1, 2020) : [ 'Fellow Toons, this is the Silly Meter!',
                           'It is tracking Toontown\'s rising silly levels...',
                           'Which are causing objects on the street to animate!',
                           'And YOU can help push these levels higher!',
@@ -5759,7 +5759,7 @@ toontownDialogues = {
                          'And enjoy the silliest place ever, Toontown!',],
         },
     }
-    
+
 # FriendsListPanel.py
 FriendsListPanelNewFriend = "New Friend"
 FriendsListPanelSecrets = "True Friend"
@@ -7041,7 +7041,7 @@ PetTutorialPage1 = "Click on a Doodle to display the Doodle panel.  From here yo
 PetTutorialPage2 = "Use the new 'Pets' area in the SpeedChat menu to get a Doodle to do a trick.  If he does it, reward him and he'll get better!"
 PetTutorialPage3 = "Purchase new Doodle tricks from Clarabelle's Cattlelog.  Better tricks give better Toon-Ups!"
 def getPetGuiAlign():
-	from pandac.PandaModules import TextNode
+	from toontown.toonbase.ToontownModules import TextNode
 	return TextNode.ACenter
 
 GardenTutorialTitle1 = "Gardening"
@@ -7749,7 +7749,7 @@ ShirtStylesDescriptions = {
     'c_ss9' : "cowboy shirt 4 : Series 4",
     'c_ss10' : "cowboy shirt 5 : Series 4",
     'c_ss11' : "cowboy shirt 6 : Series 4",
-    
+
     # Special Holiday-themed shirts.
     'hw_ss1' : "Halloween ghost",
     'hw_ss2' : "Halloween pumpkin",
@@ -7782,7 +7782,7 @@ ShirtStylesDescriptions = {
     'pj_ss1' : "Blue Banana Pajama shirt",
     'pj_ss2' : "Red Horn Pajama shirt",
     'pj_ss3' : "Purple Glasses Pajama shirt",
-    
+
     # Special award clothes
     'sa_ss1' : "Award Striped Shirt",
     'sa_ss2' : "Award Fishing Shirt 1",
@@ -7815,7 +7815,7 @@ ShirtStylesDescriptions = {
     'sc_1' : "Scientist top 1",
     'sc_2' : "Scientist top 2",
     'sc_3' : "Scientist top 3",
-    
+
     # Silly Story Shirts
     'sil_1' : "Silly Mailbox Shirt",
     'sil_2' : "Silly Trash Can Shirt",
@@ -7859,7 +7859,7 @@ BottomStylesDescriptions = {
     'wh_bs2' : 'Winter Holiday Shorts Style 2',
     'wh_bs3' : 'Winter Holiday Shorts Style 3',
     'wh_bs4' : 'Winter Holiday Shorts Style 4',
-    
+
     # Silly Story Shorts
     'sil_bs1' : 'Silly Cog-Crusher Shorts',
 
@@ -7941,7 +7941,7 @@ BottomStylesDescriptions = {
     'sc_gs1' : "Scientist bottom female 1",
     'sc_gs2' : "Scientist bottom female 2",
     'sc_gs3' : "Scientist bottom female 3",
-    
+
     'sil_bs1' : "Silly Cog-Crusher Shorts male",
     'sil_gs1' : "Silly Cog-Crusher Shorts female",
     }

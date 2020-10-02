@@ -1,17 +1,17 @@
 
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
-import CogHQLoader
+from . import CogHQLoader
 from toontown.toonbase import ToontownGlobals
 from direct.gui import DirectGui
 from toontown.toonbase import TTLocalizer
 from toontown.toon import Toon
 from direct.fsm import State
-import FactoryExterior
-import FactoryInterior
-import SellbotHQExterior
-import SellbotHQBossBattle
-from pandac.PandaModules import DecalEffect
+from . import FactoryExterior
+from . import FactoryInterior
+from . import SellbotHQExterior
+from . import SellbotHQBossBattle
+from toontown.toonbase.ToontownModules import DecalEffect
 
 # Used to compensate for scaling of Cog tunnel sign's
 # original aspect ratio of 1125x813 to a uniform ratio,
@@ -44,7 +44,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
         for stateName in ['quietZone']:
             state = self.fsm.getStateNamed(stateName)
             state.addTransition('factoryInterior')
-        
+
         self.musicFile = "phase_9/audio/bgm/encntr_suit_HQ_nbrhood.mid"
 
         self.cogHQExteriorModelPath = "phase_9/models/cogHQ/SellbotHQExterior"
@@ -69,7 +69,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
 
         # We shoud not look at the last 2 digits to match against these constants
         zoneId = (zoneId - (zoneId %100))
-        
+
         if zoneId == ToontownGlobals.SellbotHQ:
             self.geom = loader.loadModel(self.cogHQExteriorModelPath)
 
@@ -230,7 +230,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
 
             front = self.geom.find("**/frontWall")
             front.node().setEffect(DecalEffect.make())
-            
+
             door = self.geom.find("**/door_0")
             parent = door.getParent()
             door.wrtReparentTo(front)
@@ -246,9 +246,9 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
             # that is ok because we do not need to load any models - they all
             # get loaded by the distributed object
             self.notify.warning("loadPlaceGeom: unclassified zone %s" % zoneId)
-            
+
         CogHQLoader.CogHQLoader.loadPlaceGeom(self, zoneId)
-    
+
 
     def unload(self):
         CogHQLoader.CogHQLoader.unload(self)
@@ -260,7 +260,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.placeClass = FactoryExterior.FactoryExterior
         self.enterPlace(requestStatus)
         self.hood.spawnTitleText(requestStatus['zoneId'])
-        
+
     def exitFactoryExterior(self):
         taskMgr.remove("titleText")
         self.hood.hideTitleText()
@@ -270,7 +270,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
     def enterFactoryInterior(self, requestStatus):
         self.placeClass = FactoryInterior.FactoryInterior
         self.enterPlace(requestStatus)
-        
+
     def exitFactoryInterior(self):
         self.exitPlace()
         self.placeClass = None
@@ -280,4 +280,3 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
 
     def getBossPlaceClass(self):
         return SellbotHQBossBattle.SellbotHQBossBattle
-

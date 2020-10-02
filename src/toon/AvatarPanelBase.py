@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
 from direct.showbase import DirectObject
 from otp.avatar import AvatarPanel
@@ -25,13 +25,13 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             return (TTLocalizer.AvatarPanelStopIgnoring, self.handleStopIgnoring, STOP_IGNORE_SCALE)
         else:
             return (TTLocalizer.AvatarPanelIgnore, self.handleIgnore, IGNORE_SCALE)
-    
+
     def handleIgnore(self):
         isAvatarFriend = base.cr.isFriend(self.avatar.doId)
         isPlayerFriend = base.cr.playerFriendsManager.isAvatarOwnerPlayerFriend(self.avatar.doId)
-        
+
         isFriend = isAvatarFriend or isPlayerFriend
-        
+
 
         if isFriend:
             # tell the player they can't ignore a friend
@@ -43,10 +43,10 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
                 #okButtonText = TTLocalizer.AvatarPanelIgnoreCant,
                 cancelButtonText = TTLocalizer.lCancel,
                 doneEvent = "IgnoreBlocked",
-                command = self.freeLocalAvatar, 
+                command = self.freeLocalAvatar,
                 )
         else:
-        
+
             # put up an ignore confirmation dialog
             self.dialog  = TTDialog.TTGlobalDialog(
                 style = TTDialog.TwoChoice,
@@ -56,7 +56,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
                 okButtonText = TTLocalizer.AvatarPanelIgnore,
                 cancelButtonText = TTLocalizer.lCancel,
                 doneEvent = "IgnoreConfirm",
-                command = self.handleIgnoreConfirm, 
+                command = self.handleIgnoreConfirm,
                 )
 
         # Title
@@ -85,9 +85,9 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             cancelButtonText = TTLocalizer.lCancel,
             buttonPadSF = 4.0,
             doneEvent = "StopIgnoringConfirm",
-            command = self.handleStopIgnoringConfirm, 
+            command = self.handleStopIgnoringConfirm,
             )
-        
+
         # Title
         DirectLabel(
             parent = self.dialog,
@@ -106,10 +106,10 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
         if value == -1:
             self.freeLocalAvatar()
             return
-            
+
         # ignore target avId
         base.cr.avatarFriendsManager.addIgnore(self.avId)
-        
+
         # notify user they are now ignoring avId
         self.dialog  = TTDialog.TTGlobalDialog(
             style = TTDialog.Acknowledge,
@@ -120,7 +120,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             doneEvent = "IgnoreComplete",
             command = self.handleDoneIgnoring,
             )
-        
+
         # Title
         DirectLabel(
             parent = self.dialog,
@@ -139,7 +139,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
         if value == -1:
             self.freeLocalAvatar()
             return
-        
+
         # ignore target avId
         base.cr.avatarFriendsManager.removeIgnore(self.avId)
 
@@ -153,7 +153,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             doneEvent = "StopIgnoringComplete",
             command = self.handleDoneIgnoring,
             )
-        
+
         # Title
         DirectLabel(
             parent = self.dialog,
@@ -176,7 +176,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             self.alreadyReported()
         else:
             self.confirmReport()
-            
+
     def confirmReport(self):
         # determine if we are friends already
         if base.cr.isFriend(self.avId) or base.cr.playerFriendsManager.isPlayerFriend(self.avId):
@@ -195,9 +195,9 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             okButtonText = TTLocalizer.AvatarPanelReport,
             cancelButtonText = TTLocalizer.lCancel,
             doneEvent = "ReportConfirm",
-            command = self.handleReportConfirm, 
+            command = self.handleReportConfirm,
             )
-        
+
         # Title
         DirectLabel(
             parent = self.dialog,
@@ -230,7 +230,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             doneEvent = "AlreadyReported",
             command = self.handleAlreadyReported,
             )
-        
+
         # Title
         DirectLabel(
             parent = self.dialog,
@@ -247,7 +247,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
 
     def handleAlreadyReported(self, value):
         self.freeLocalAvatar()
-        
+
     def chooseReportCategory(self):
         # put up a confirmation dialog - need to make a custom one for buttons
         self.dialog  = TTDialog.TTGlobalDialog(
@@ -260,9 +260,9 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             midPad = 0.65,
             cancelButtonText = TTLocalizer.lCancel,
             doneEvent = "ReportCategory",
-            command = self.handleReportCategory, 
+            command = self.handleReportCategory,
             )
-        
+
         # Title
         DirectLabel(
             parent = self.dialog,
@@ -272,7 +272,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             textMayChange = 0,
             text_scale = 0.08,
             )
-        
+
         guiButton = loader.loadModel("phase_3/models/gui/quit_button")
 
         # Foul Language
@@ -342,7 +342,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             command = self.handleReportCategory,
             extraArgs = [3],
             )
-        
+
         guiButton.removeNode()
         self.dialog.show()
         self.__acceptStoppedStateMsg()
@@ -376,9 +376,9 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             okButtonText = TTLocalizer.AvatarPanelReport,
             cancelButtonText = TTLocalizer.lCancel,
             doneEvent = "ReportConfirmCategory",
-            command = self.handleReportCategoryConfirm, 
+            command = self.handleReportCategoryConfirm,
             )
-        
+
         # Title
         DirectLabel(
             parent = self.dialog,
@@ -404,14 +404,14 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             if base.cr.isFriend(self.avId):
                 base.cr.removeFriend(self.avId)
                 removed = 1
-                
+
             # if we are player friends, break the friendship
             if base.cr.playerFriendsManager.isPlayerFriend(self.playerId):
                 if self.playerId:
                     base.cr.playerFriendsManager.sendRequestRemove(self.playerId)
                     removed = 1
                     isPlayer = 1
-                
+
             # TODO: session-based ignore
             self.reportComplete(removed, isPlayer)
         else:
@@ -426,7 +426,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
                 string += " " + TTLocalizer.ReportPanelRemovedPlayerFriend % self.playerId
             else:
                 string += " " + TTLocalizer.ReportPanelRemovedFriend % self.avName
-                
+
             titlePos = 0.3
 
         # put up a confirmation category dialog
@@ -437,9 +437,9 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             text_scale = 0.06,
             topPad = 0.1,
             doneEvent = "ReportComplete",
-            command = self.handleReportComplete, 
+            command = self.handleReportComplete,
             )
-        
+
         # Title
         DirectLabel(
             parent = self.dialog,
@@ -457,11 +457,11 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
 
     def handleReportComplete(self, value):
         self.freeLocalAvatar()
-        
+
     def freeLocalAvatar(self, value = None):
         self.cleanupDialog()
         self.requestWalk()
-        
+
     def cleanupDialog(self):
         if self.dialog:
             self.dialog.ignore("exitingStoppedState")
@@ -472,14 +472,14 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
         """Safely go to the stopped state for the place."""
         #Make sure we aren't in the stickerBook state or else we can get into a bad state where the player gets stuck
         if not base.cr.playGame.getPlace().fsm.getCurrentState().getName() == "stickerBook":
-            if base.cr.playGame.getPlace().fsm.hasStateNamed('stopped'): 
+            if base.cr.playGame.getPlace().fsm.hasStateNamed('stopped'):
                 base.cr.playGame.getPlace().fsm.request('stopped')
             else:
                 self.notify.warning('skipping request to stopped in %s' %
                                     base.cr.playGame.getPlace())
         else:
             self.cleanup()
-            
+
     def requestWalk(self):
         """Safely go to the walked state for the place."""
         if base.cr.playGame.getPlace().fsm.hasStateNamed('finalBattle'):

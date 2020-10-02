@@ -5,21 +5,21 @@ from toontown.toonbase.ToontownGlobals import *
 from otp.otpbase import OTPGlobals
 from otp.ai.AIZoneData import AIZoneData
 from direct.distributed import DistributedObjectAI
-import DistributedHouseAI
+from . import DistributedHouseAI
 #import DistributedPlantAI
 from direct.fsm import ClassicFSM
 from direct.fsm import State
 from direct.task import Task
 import random
-import cPickle
-import HouseGlobals
+import pickle
+from . import HouseGlobals
 from toontown.safezone import DistributedButterflyAI
 from toontown.safezone import ButterflyGlobals
 from toontown.safezone import ETreasurePlannerAI
 from toontown.safezone import DistributedPicnicTableAI
 from toontown.safezone import DistributedChineseCheckersAI
-import DistributedTargetAI
-import GardenGlobals
+from . import DistributedTargetAI
+from . import GardenGlobals
 from toontown.estate import DistributedFlowerAI
 from toontown.estate import DistributedGagTreeAI
 from toontown.estate import DistributedStatuaryAI
@@ -299,7 +299,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
 
         if simbase.wantPets:
             if 0:#__dev__:
-                from pandac.PandaModules import ProfileTimer
+                from toontown.toonbase.ToontownModules import ProfileTimer
                 pt = ProfileTimer()
                 pt.init('estate model load')
                 pt.on()
@@ -331,7 +331,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
 
         if self.fireworksEnabled:
             pos = (29.7, -1.77, 10.93)
-            import DistributedFireworksCannonAI
+            from . import DistributedFireworksCannonAI
             self.estateFireworks = DistributedFireworksCannonAI.DistributedFireworksCannonAI(self.air, *pos)
             self.estateFireworks.generateWithRequired(self.zoneId)
 
@@ -387,7 +387,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
         if self.cannonFlag:
             return
         from toontown.safezone import EFlyingTreasurePlannerAI
-        import DistributedCannonAI
+        from . import DistributedCannonAI
 
         # create flying treasures
         if not self.estateFlyingTreasurePlanner:
@@ -469,7 +469,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
         if epochsToDo < 0:
             epochsToDo = 0
 
-        print("epochsToDo %s" % (epochsToDo))
+        print(("epochsToDo %s" % (epochsToDo)))
 
         #print("tuple times")
         #print tupleNewTime
@@ -658,7 +658,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
     def findLowestGagTreePlot(self, ownerIndex, gagTrack, gagLevel):
         """Returns the lowest plot index of a gag tree that matches paremeters.
         Returns -1 if not found"""
-        for plotIndex in xrange(len(self.gardenTable[ownerIndex])):
+        for plotIndex in range(len(self.gardenTable[ownerIndex])):
             distLawnDecor = self.gardenTable[ownerIndex][plotIndex]
             if hasattr(distLawnDecor, 'gagTrack') and hasattr(distLawnDecor, 'gagLevel'):
                 if distLawnDecor.gagTrack == gagTrack and \
@@ -770,7 +770,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
                 else:
                     someLawnDecor = self.gardenTable[index][specificHardPoint]
                     if someLawnDecor and hasattr(someLawnDecor,'b_setGrowthLevel'):
-                        someLawnDecor.b_setGrowthLevel(growthLevel)                        
+                        someLawnDecor.b_setGrowthLevel(growthLevel)
 
     def wiltMyGarden(self, avId, specificHardPoint = -1):
         self.notify.debug("wilting my garden %s" % (avId))
@@ -836,7 +836,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
             elif plantType == GardenGlobals.STATUARY_TYPE:
                 #print("STATUARY")
                 plantClass = DistributedStatuaryAI.DistributedStatuaryAI
-                if type in GardenGlobals.ToonStatuaryTypeIndices: 
+                if type in GardenGlobals.ToonStatuaryTypeIndices:
                     # Some hardcoded optional values for testing
                     # optional = 2325 #Pig = 3861 #Bear = 3349 #Monkey = 2837 #Duck = 2325 #Rabbit = 1813 #Mouse = 1557 #Horse = 1045 #Cat = 533 #Dog = 21
                     testPlant = DistributedToonStatuaryAI.DistributedToonStatuaryAI(type, waterLevel, growthLevel, optional, slot, hardPoint)
@@ -868,13 +868,13 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
             newBox.setupPetCollision()
             self.gardenBoxList[toonIndex].append(newBox)
         plotList = GardenGlobals.estatePlots[toonIndex]
-        for plotPointIndex in (range(len(plotList))):
+        for plotPointIndex in (list(range(len(plotList)))):
             item = self.findItemAtHardPoint(itemList, plotPointIndex)
             if not item or not GardenGlobals.PlantAttributes.get(item[0]):
                 item = None
             if item:
                 type = item[0]
-                if type not in GardenGlobals.PlantAttributes.keys():
+                if type not in list(GardenGlobals.PlantAttributes.keys()):
                     self.notify.warning('type %d not found in PlantAttributes, forcing it to 48' % type)
                     type = 48
                 hardPoint = item[1]
@@ -893,7 +893,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
         self.removePlant(slot, hardPoint)
         itemId = self.addGardenPlot(slot,hardPoint)
         return itemId
-    
+
     def addGardenPlot(self, slot, hardPoint):
 
             #print("HARDPOINT")
@@ -1018,7 +1018,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
         #print ("setDecorData %s" % (self.doId))
 
     def d_setDecorData(self, decorData):
-        print "FIXME when correct toon.dc is checked in"
+        print("FIXME when correct toon.dc is checked in")
         #self.sendUpdate("setDecorData", [decorData])
 
     def getDecorData(self):
@@ -1472,10 +1472,10 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
         secondsUntil = endTime - currentTime
         taskMgr.remove(self.uniqueName("endGameTable"))
         taskMgr.doMethodLater(secondsUntil, self.endGameTable, self.uniqueName("endGameTable"))
-        
+
     def startGameTable(self, avatar = 0):
         if self.gameTableFlag:
-            return        
+            return
         if not self.picnicTable:
             self.notify.debug('creating game table')
             # Create the game table
@@ -1485,7 +1485,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
                                                                                  pos[0], pos[1], pos[2],
                                                                                  hpr[0], hpr[1], hpr[2])
         self.gameTableFlag = True
-    
+
     def endGameTable(self, avatar = 0):
         self.notify.debug('endGameTable')
         if not self.gameTableFlag:
@@ -1495,14 +1495,14 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
             self.picnicTable.requestDelete()
             del self.picnicTable
             self.picnicTable = None
-            
+
         # Tell the client that the game table rental is over
         self.sendUpdate("gameTableOver", [])
-        
+
         self.gameTableFlag = False
-    
+
     def rentItem(self, type, duration):
-        timeleft = 0        
+        timeleft = 0
         currentTime = time.time()
         if self.rentalType == type:
             timeleft = self.rentalTimeStamp - currentTime
@@ -1510,7 +1510,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
                 timeleft = 0
         newTime = currentTime + (duration * 60) + timeleft
         self.air.writeServerEvent('rental', self.doId, "New rental end time %s." % (newTime))
-        
+
         self.b_setRentalTimeStamp(newTime)
         self.b_setRentalType(type)
         if type == ToontownGlobals.RentalCannon:
@@ -1527,4 +1527,4 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
 
     def printPlanterPos(self, slot, index):
         box = self.gardenBoxLispdb; t[slot][index]
-        print ("X %s Y%s Heading %s" % (box.getX(), box.getY, box.getH()))
+        print(("X %s Y%s Heading %s" % (box.getX(), box.getY, box.getH())))

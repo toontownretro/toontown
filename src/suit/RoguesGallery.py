@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.fsm import StateData
-import Suit
-import SuitDNA
+from . import Suit
+from . import SuitDNA
 from toontown.toonbase import ToontownGlobals
 import random
 
@@ -32,7 +32,7 @@ class RoguesGallery(StateData.StateData):
         self.right = 1.333
         self.bottom = -1.0
         self.top = 1.0
-            
+
         self.sideMargins = 0.1
         self.topMargins = 0.1
         self.xSpaceBetweenDifferentSuits = 0.01
@@ -56,7 +56,7 @@ class RoguesGallery(StateData.StateData):
                 self.xSpaceBetweenDifferentSuits = 0.0
                 self.xSpaceBetweenSameSuits = 0.0
                 self.ySpaceBetweenSuits = 0.0
-            
+
             self.ySuitInc = (
                 (self.height + self.ySpaceBetweenSuits) / self.numSuitDepts)
             self.ySuitMaxAllowed = self.ySuitInc - self.ySpaceBetweenSuits
@@ -89,7 +89,7 @@ class RoguesGallery(StateData.StateData):
     def exit(self):
         if StateData.StateData.exit(self):
             self.stop()
-            
+
             # Undo the damage we did with enter().
             render.show()
             aspect2d.show()
@@ -141,18 +141,18 @@ class RoguesGallery(StateData.StateData):
         # the suits correctly.
         self.gallery.setDepthWrite(1)
         self.gallery.setDepthTest(1)
-        
+
         self.suits = []
         self.actors = []
         self.text = TextNode("rogues")
         self.text.setFont(ToontownGlobals.getInterfaceFont())
         self.text.setAlign(TextNode.ACenter)
         self.text.setTextColor(0.0, 0.0, 0.0, 1.0)
-        
+
         self.rowHeight = 0.0
         self.minXScale = None
 
-        print "rognamestr='",self.rognamestr,"'\n"
+        print("rognamestr='",self.rognamestr,"'\n")
 
         if((self.rognamestr == None) or (len(self.rognamestr) == 0)):
             for dept in SuitDNA.suitDepts:
@@ -164,7 +164,7 @@ class RoguesGallery(StateData.StateData):
             self.minXScale = self.xRowSpace / self.rowWidth
             self.suits.append((self.rowWidth, self.suitRow))
             del self.suitRow
-            
+
         self.__rescaleSuits()
 
     def __makeDept(self, dept):
@@ -186,7 +186,7 @@ class RoguesGallery(StateData.StateData):
 
         self.suits.append((self.rowWidth, self.suitRow))
         del self.suitRow
-        
+
 
     def __makeSuit(self, dept, type, name = None):
         """__makeSuit(self, string dept, int type)
@@ -240,7 +240,7 @@ class RoguesGallery(StateData.StateData):
         self.suitRow.append((type, suitWidth, suit, suitDepth, profile))
         self.actors.append(suit)
         self.actors.append(profile)
-        
+
     def __rescaleSuits(self):
         """__rescaleSuits(self)
 
@@ -263,12 +263,12 @@ class RoguesGallery(StateData.StateData):
             # Distribute all the extra space for this row between each
             # suit.
             extraSpacePerSuit = extraSpace / ((self.numSuitTypes * 2) - 1)
-            
+
             x = self.left + self.sideMargins
             y -= self.ySuitInc
             for type, width, suit, depth, profile in suitRow:
                 left = x
-                
+
                 width *= scale
                 suit.setScale(scale)
                 suit.setPos(x + width / 2.0, 0.0, y)

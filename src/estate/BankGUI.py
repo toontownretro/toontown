@@ -1,5 +1,5 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -174,7 +174,7 @@ class BankGui(DirectFrame):
         self.__transactionAmount = min(self.__transactionAmount, maxBankMoney - bankMoney)
         self.__transactionAmount = -min(-self.__transactionAmount, maxJarMoney - jarMoney)
         self.__transactionAmount = -min(-self.__transactionAmount, bankMoney)
-        
+
         # Compute the new money for jar and bank
         newJarMoney = (jarMoney - self.__transactionAmount)
         newBankMoney = (bankMoney + self.__transactionAmount)
@@ -214,7 +214,7 @@ class BankGui(DirectFrame):
     def __depositButtonUp(self, event):
         messenger.send('wakeup')
         taskMgr.remove(self.taskName("runCounter"))
-        
+
     def __depositButtonDown(self, event):
         messenger.send('wakeup')
         task = Task(self.__runCounter)
@@ -235,7 +235,7 @@ class BankGui(DirectFrame):
         task.delayTime = 0.4
         task.prevTime = 0.0
         task.delta = -1
-        hitLimit, jar, bank, trans = self.__updateTransaction(task.delta)        
+        hitLimit, jar, bank, trans = self.__updateTransaction(task.delta)
         if not hitLimit:
             taskMgr.add(task, self.taskName("runCounter"))
 
@@ -244,6 +244,3 @@ class BankGui(DirectFrame):
 
     def __bankMoneyChange(self, bankMoney):
         self.__updateTransaction(0)
-        
-
-

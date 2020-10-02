@@ -1,4 +1,4 @@
-from CatalogSurfaceItem import *
+from .CatalogSurfaceItem import *
 
 # Indicies into Moulding Textures Dictionary
 MTTextureName = 0
@@ -42,7 +42,7 @@ class CatalogMouldingItem(CatalogSurfaceItem):
 
     This represents a texture/color combination for moulding.
     """
-    
+
     def makeNewItem(self, patternIndex, colorIndex):
         self.patternIndex = patternIndex
         self.colorIndex = colorIndex
@@ -71,7 +71,7 @@ class CatalogMouldingItem(CatalogSurfaceItem):
 
 ##        assert (not self.hasPicture)
         self.hasPicture=True
-        
+
         frame = self.makeFrame()
 
         sample = loader.loadModel('phase_5.5/models/estate/wallpaper_sample')
@@ -110,7 +110,7 @@ class CatalogMouldingItem(CatalogSurfaceItem):
         return MouldingTypes[self.patternIndex][MTBasePrice]
 
     def loadTexture(self):
-        from pandac.PandaModules import Texture
+        from toontown.toonbase.ToontownModules import Texture
         filename = MouldingTypes[self.patternIndex][MTTextureName]
         texture = loader.loadTexture(filename)
         texture.setMinfilter(Texture.FTLinearMipmapLinear)
@@ -128,7 +128,7 @@ class CatalogMouldingItem(CatalogSurfaceItem):
             if colorIndex < len(colors):
                 return colors[colorIndex]
             else:
-                print "Warning: colorIndex not in colors. Returning white."
+                print("Warning: colorIndex not in colors. Returning white.")
                 return CT_WHITE
         else:
             return CT_WHITE
@@ -145,7 +145,7 @@ class CatalogMouldingItem(CatalogSurfaceItem):
         # self.patternIndex is invalid.  The other fields can take
         # care of themselves.
         wtype = MouldingTypes[self.patternIndex]
-        
+
     def encodeDatagram(self, dg, store):
         CatalogAtticItem.CatalogAtticItem.encodeDatagram(self, dg, store)
         dg.addUint16(self.patternIndex)
@@ -154,14 +154,14 @@ class CatalogMouldingItem(CatalogSurfaceItem):
 def getMouldings(*indexList):
     # This function returns a list of CatalogMouldingItems
     # The returned items will all need to be customized (i.e
-    # have a color chosen by the user.  Until customization, 
+    # have a color chosen by the user.  Until customization,
     # use a default color index of 0 (if the pattern has a color
     # list) or CT_WHITE if the pattern has no color list
     list = []
     for index in indexList:
         list.append(CatalogMouldingItem(index))
     return list
-    
+
 
 def getAllMouldings(*indexList):
     # This function returns a list of all possible
@@ -176,7 +176,7 @@ def getAllMouldings(*indexList):
         else:
             list.append(CatalogMouldingItem(index, 0))
     return list
-    
+
 
 def getMouldingRange(fromIndex, toIndex, *otherRanges):
     # This function returns a list of all possible
@@ -196,8 +196,8 @@ def getMouldingRange(fromIndex, toIndex, *otherRanges):
         froms.append(otherRanges[i])
         tos.append(otherRanges[i+1])
         i += 2
-    
-    for patternIndex in MouldingTypes.keys():
+
+    for patternIndex in list(MouldingTypes.keys()):
         for fromIndex, toIndex in zip(froms,tos):
             if patternIndex >= fromIndex and patternIndex <= toIndex:
                 colors = MouldingTypes[patternIndex][MTColor]

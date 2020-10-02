@@ -1,6 +1,6 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
-from Ripples import *
+from .Ripples import *
 from toontown.battle.BattleProps import globalPropPool
 from toontown.battle import BattleParticles
 
@@ -66,7 +66,7 @@ class Splash(NodePath):
                 )
         else:
             particleSequence = Sequence()
-        
+
         # Create track
         self.track = Sequence(
             Func(self.show),
@@ -80,7 +80,7 @@ class Splash(NodePath):
             Func(self.hide),
             name = 'splashdown-%d-track' % self.trackId
             )
-    
+
     def play(self, rate = 1):
         # Stop existing track, if one exists
         self.stop()
@@ -88,7 +88,7 @@ class Splash(NodePath):
         self.createTrack(rate)
         # Play back track
         self.track.start()
-    
+
     def loop(self, rate = 1):
         # Stop existing track, if one exists
         self.stop()
@@ -96,7 +96,7 @@ class Splash(NodePath):
         self.createTrack(rate)
         # Loop track
         self.track.loop()
-    
+
     def stop(self):
         if self.track:
             self.track.finish()
@@ -111,4 +111,3 @@ class Splash(NodePath):
             del self.pSystem
             del self.particles
         self.removeNode()
-

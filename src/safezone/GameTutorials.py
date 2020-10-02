@@ -3,7 +3,7 @@ from direct.fsm import FSM
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 
 class ChineseTutorial(DirectFrame, FSM.FSM):
@@ -48,7 +48,7 @@ class ChineseTutorial(DirectFrame, FSM.FSM):
         images = loader.loadModel("phase_6/models/golf/checker_tutorial.bam")
         #images.reparentTo(aspect2d)
         images.setTransparency(1)
-  
+
         self.iPage1 = images.find('**/tutorialPage1*')
         self.iPage1.reparentTo(aspect2d)
         self.iPage1.setPos(0.43, -0.1, 0.0)
@@ -75,8 +75,8 @@ class ChineseTutorial(DirectFrame, FSM.FSM):
         self.iPage3.hide()
 
 
-        
-        
+
+
         # Create some buttons.
         buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
@@ -130,7 +130,7 @@ class ChineseTutorial(DirectFrame, FSM.FSM):
 
         self.request("Page1")
 
-    def __del__(self): 
+    def __del__(self):
         self.cleanup()
 
     def enterPage1(self, *args):
@@ -150,7 +150,7 @@ class ChineseTutorial(DirectFrame, FSM.FSM):
         self.blinker.append(LerpColorInterval(obj,  .5, Vec4(0.5,0.5,0,0.0), Vec4(.2,.2,.2, 1)))
         self.blinker.append(LerpColorInterval(obj, .5, Vec4(.2,.2,.2, 1) , Vec4(0.5,0.5,0,0.0) ))
         self.blinker.loop()
-                              
+
 
     def exitPage1(self, *args):
         self.bPrev['state'] = DGG.NORMAL
@@ -192,7 +192,7 @@ class ChineseTutorial(DirectFrame, FSM.FSM):
         self.doneFunction()
         if task != None:
             task.done
-        
+
 
 
 
@@ -208,7 +208,7 @@ class CheckersTutorial(DirectFrame, FSM.FSM):
         self.doneEvent = doneEvent
         self.callback = callback
         self.setStateArray(["Page1", "Page2","Page3","Quit"])
-        
+
         # initialize our base class.
         DirectFrame.__init__(self,
                              pos = (-0.7, 0.0, 0.0),
@@ -269,7 +269,7 @@ class CheckersTutorial(DirectFrame, FSM.FSM):
         self.obj = self.iPage3.find('**/king*')
         self.iPage3.hide()
 
-        
+
         self.iPage4 = images.find('**/tutorialPage4*')
         self.iPage4.reparentTo(aspect2d)
         self.iPage4.setPos(0.6, -0.1, -0.5)
@@ -277,8 +277,8 @@ class CheckersTutorial(DirectFrame, FSM.FSM):
         self.iPage4.setTransparency(1)
         self.iPage4.hide()
 
-        
-        
+
+
         # Create some buttons.
         buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
@@ -331,7 +331,7 @@ class CheckersTutorial(DirectFrame, FSM.FSM):
         gui.removeNode()
         self.request("Page1")
 
-    def __del__(self): 
+    def __del__(self):
         self.cleanup()
 
     def enterPage1(self, *args):
@@ -379,7 +379,7 @@ class CheckersTutorial(DirectFrame, FSM.FSM):
         self.blinker.append(LerpColorInterval(self.obj,  .5, Vec4(0.5,0.5,0,0.0), Vec4(0.9,0.9,0, 1)))
         self.blinker.append(LerpColorInterval(self.obj, .5, Vec4(0.9,0.9,0, 1) , Vec4(0.5,0.5,0,0.0) ))
         self.blinker.loop()
-        
+
         self.bNext.hide()
         self.iPage3.show()
         self.iPage4.show()

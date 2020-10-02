@@ -1,11 +1,11 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from direct.task import Task
-import FishBase
-import FishPicker
+from . import FishBase
+from . import FishPicker
 
 class FishSellGUI(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory("FishGui")
@@ -37,7 +37,7 @@ class FishSellGUI(DirectFrame):
         newTankFish = base.localAvatar.fishTank.getFish()
         self.picker.update(newTankFish)
         self.picker.show()
-        
+
         # Init buttons
         buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         okImageList = (buttons.find('**/ChtBx_OKBtn_UP'),
@@ -81,7 +81,7 @@ class FishSellGUI(DirectFrame):
 
     def __sellFish(self):
         messenger.send(self.doneEvent, [1])
-    
+
     def __updateFishValue(self):
         fishTank = base.localAvatar.getFishTank()
         num = len(fishTank)
@@ -89,5 +89,3 @@ class FishSellGUI(DirectFrame):
         self['text'] = TTLocalizer.FishTankValue % { "name": base.localAvatar.getName(),
                                                    "num": num, "value":value }
         self.setText()
-        
-        

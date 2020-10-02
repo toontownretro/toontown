@@ -1,5 +1,5 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 from toontown.coghq import BarrelBase
@@ -24,21 +24,21 @@ class DistributedBarrelBase(BasicEntities.DistributedNodePathEntity,
         self.gagNode = None
         self.gagModel = None
         self.barrel = None
-        
+
     def disable(self):
         BasicEntities.DistributedNodePathEntity.disable(self)
         self.ignoreAll()
         if self.animTrack:
             self.animTrack.pause()
             self.animTrack = None
-            
+
     def generate(self):
         """generate(self)
         This method is called when the DistributedEntity is reintroduced
         to the world, either for the first time or from the cache.
         """
         BasicEntities.DistributedNodePathEntity.generate(self)
-        
+
     def delete(self):
         BasicEntities.DistributedNodePathEntity.delete(self)
 
@@ -55,7 +55,7 @@ class DistributedBarrelBase(BasicEntities.DistributedNodePathEntity,
 
         # At this point DistributedEntity has filled out all its
         # attributes.  We can now load the model and apply the label
-        
+
         # Load the model, (using loadModelOnce), and child it to the nodepath
         self.loadModel()
 
@@ -70,12 +70,12 @@ class DistributedBarrelBase(BasicEntities.DistributedNodePathEntity,
         self.collNodePath = self.barrel.attachNewNode(self.collNode)
         self.collNodePath.hide()
         self.applyLabel()
-        
+
         # Add a hook looking for collisions with localToon, and call
         # requestGrab.
         self.accept(self.uniqueName('enterbarrelSphere'),
                     self.handleEnterSphere)
-        
+
     def loadModel(self):
         # Load the sound effect
         self.grabSound = base.loadSfx(self.grabSoundPath)
@@ -83,7 +83,7 @@ class DistributedBarrelBase(BasicEntities.DistributedNodePathEntity,
 
         # load the barrel model
         self.barrel = loader.loadModel("phase_4/models/cogHQ/gagTank")
-        
+
         self.barrel.setScale(self.barrelScale)
         self.barrel.reparentTo(self)
 
@@ -123,7 +123,7 @@ class DistributedBarrelBase(BasicEntities.DistributedNodePathEntity,
         if self.playSoundForRemoteToons or \
            (self.avId == base.localAvatar.getDoId()):
             base.playSfx(self.grabSound)
-            
+
         # Create the flying treasure track
         if self.animTrack:
             self.animTrack.finish()
@@ -156,4 +156,3 @@ class DistributedBarrelBase(BasicEntities.DistributedNodePathEntity,
         # listen to grab attempts again
         self.accept(self.uniqueName('entertreasureSphere'),
                     self.handleEnterSphere)
-

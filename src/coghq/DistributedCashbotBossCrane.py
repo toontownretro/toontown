@@ -1,5 +1,5 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.fsm import FSM
@@ -51,7 +51,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.boss = None
         self.index = None
         self.avId = 0
-        
+
         self.cableLength = 20
         self.numLinks = 3
         self.initialArmPosition = (0, 20, 0)
@@ -200,7 +200,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
 
         arm = self.boss.craneArm.copyTo(self.crane)
 
-        assert(not self.boss.cranes.has_key(self.index))
+        assert(self.index not in self.boss.cranes)
         self.boss.cranes[self.index] = self
 
     def disable(self):
@@ -237,7 +237,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         origCcPos = self.cc.getPos()
         origBottomPos = self.bottom.getPos()
         origStickHingeHpr = self.stickHinge.getHpr()
-        
+
         # First, scale the thing overall to match the toon's scale,
         # including cheesy effect scales.
         scale = toon.getGeomNode().getChild(0).getSz(render)
@@ -277,7 +277,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         # controls' scale to neutral position.  Unlike
         # accomodateToon(), it has no side effects; you must play (or
         # immediately finish) the interval to restore the scale.
-        
+
         lerpTime = 1
         return Parallel(
             self.controlModel.scaleInterval(lerpTime, 1, blendType = 'easeInOut'),
@@ -305,7 +305,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             reach = Sequence(ActorInterval(toon, 'walk', loop = 1,
                                            duration = walkTime - reach.getDuration()),
                              reach)
-            
+
         i = Sequence(
             Parallel(toon.posInterval(walkTime, newPos, origPos),
                      toon.hprInterval(walkTime, newHpr, origHpr),
@@ -347,7 +347,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         if self.toon:
             self.ignore(self.toon.uniqueName('disable'))
         self.toon = None
-        
+
     def __watchJoystick(self, task):
         # Ensure the toon is still standing at the controls.
         self.toon.setPosHpr(self.controls, 0, 0, 0, 0, 0, 0)
@@ -360,7 +360,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.notify.warning('%s: unexpected exit for %s' % (self.doId, toonId))
         if self.toon and self.toon.doId == toonId:
             self.stopWatchJoystick()
-        
+
 
     def __activatePhysics(self):
         if not self.physicsActivated:
@@ -382,7 +382,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         # Arbitrarily drops the cable right where it stands.
         for linkNum in range(self.numLinks):
             an, anp, cnp = self.activeLinks[linkNum]
-            
+
             an.getPhysicsObject().setVelocity(0, 0, 0)
             z = float(linkNum + 1) / float(self.numLinks) * self.cableLength
             anp.setPos(self.crane.getPos(self.cable))
@@ -471,11 +471,11 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
     def makeSpline(self):
         # Use the Rope class to draw a spline between the joints of
         # the cable.
-        
+
         rope = Rope.Rope()
         rope.setup(min(len(self.links), 4), self.links)
         rope.curve.normalizeKnots()
-            
+
         rn = rope.ropeNode
         rn.setRenderMode(RopeNode.RMTube)
         rn.setNumSlices(3)
@@ -521,7 +521,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         rn.setThickness(0.8)
         rn.setTubeUp(Vec3(0, 0, 1))
         rn.setMatrix(Mat4.translateMat(0, 0, self.shadowOffset) * Mat4.scaleMat(1, 1, 0.01))
-        
+
 
     def stopShadow(self):
         if self.shadow:
@@ -538,7 +538,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
 
         self.craneShadow.setPosHpr(self.crane, 0, 0, 0, 0, 0, 0)
         self.craneShadow.setZ(self.shadowOffset)
-        
+
         return Task.cont
 
     def __makeLink(self, anchor, linkNum):
@@ -603,7 +603,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             pos = (1.05, 0, -0.82),
             command = self.__exitCrane,
             )
-        
+
         self.accept('escape', self.__exitCrane)
 
         self.accept('control', self.__controlPressed)
@@ -707,7 +707,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
 
         self.__cleanupCraneAdvice()
         self.__cleanupMagnetAdvice()
-            
+
         self.d_requestFree()
 
     def __incrementChangeSeq(self):
@@ -764,7 +764,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             self.arrowHorz = -1
         elif self.arrowHorz < 0:
             self.arrowHorz = 0
-        
+
     def __moveCraneArcHinge(self, xd, yd):
         dt = globalClock.getDt()
 
@@ -808,7 +808,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             self.accept(self.snifferEvent, self.__sniffedSomething)
             self.startFlicker()
             self.snifferActivated = 1
-            
+
     def __deactivateSniffer(self):
         if self.snifferActivated:
             base.cTrav.removeCollider(self.sniffer)
@@ -819,7 +819,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
 
     def startFlicker(self):
         # Starts the lightning bolt effect flashing.
-        
+
         self.magnetSoundInterval.start()
 
         self.lightning = []
@@ -865,7 +865,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
     def __sniffedSomething(self, entry):
         # Something was sniffed as grabbable.
         np = entry.getIntoNodePath()
-        
+
         if np.hasNetTag('object'):
             doId = int(np.getNetTag('object'))
         else:
@@ -901,13 +901,13 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
 
         if obj.lerpInterval:
             obj.lerpInterval.finish()
-        
+
         obj.lerpInterval = Parallel(
             obj.posInterval(ToontownGlobals.CashbotBossToMagnetTime, Point3(*obj.grabPos)),
             obj.quatInterval(ToontownGlobals.CashbotBossToMagnetTime, VBase3(obj.getH(), 0, 0)),
             obj.toMagnetSoundInterval)
         obj.lerpInterval.start()
-        
+
         self.heldObject = obj
         self.handler.setDynamicFrictionCoef(obj.craneFrictionCoef)
         self.slideSpeed = obj.craneSlideSpeed
@@ -925,7 +925,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
 
         if obj.lerpInterval:
             obj.lerpInterval.finish()
-        
+
         obj.wrtReparentTo(render)
 
         obj.lerpInterval = Parallel(
@@ -955,9 +955,9 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         # to drop itself, so that the object will set its state
         # appropriately.  A side-effect of this call will be an
         # eventual call to dropObject() by the newly-released object.
-        
+
         assert(self.avId == localAvatar.doId)
-        
+
         if self.heldObject:
             obj = self.heldObject
             obj.d_requestDrop()
@@ -1115,7 +1115,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             if len(links) > self.numLinks:
                 self.notify.warning("Links passed in is greater than total number of links")
                 return
-            
+
             now = globalClock.getFrameTime()
             local = globalClockDelta.networkToLocalTime(timestamp, now)
 
@@ -1127,7 +1127,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             for linkNum in range(self.numLinks):
                 smoother = self.linkSmoothers[linkNum]
                 lp = links[linkNum]
-                
+
                 smoother.setPos(*lp)
                 smoother.setTimestamp(local)
                 smoother.markPosition()
@@ -1145,7 +1145,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
 
             p = anp.getPos()
             links.append((p[0], p[1], p[2]))
-        
+
         self.sendUpdate('setCablePos', [
             self.changeSeq, self.crane.getY(), self.arm.getH(), links, timestamp])
 
@@ -1231,11 +1231,11 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             self.toon.loop('neutral')
             self.toon.startSmooth()
         self.stopWatchJoystick()
-        
+
         self.stopPosHprBroadcast()
         self.stopShadow()
         self.stopSmooth()
-        
+
         if self.avId == localAvatar.doId:
             # The local toon is no longer in control of the crane.
 
@@ -1314,7 +1314,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         taskMgr.remove(self.triggerName)
         self.controlModel.clearColorScale()
         self.controlModel.clearTransparency()
-        
+
         self.trigger.stash()
         self.ignore(self.triggerEvent)
 

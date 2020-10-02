@@ -6,13 +6,13 @@
 #          and can send you to the party grounds to plan your party
 #-------------------------------------------------------------------------------
 
-from DistributedNPCToonBase import DistributedNPCToonBase
+from .DistributedNPCToonBase import DistributedNPCToonBase
 from direct.distributed.DistributedObject import DistributedObject
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 from direct.task.Task import Task
 from direct.distributed import ClockDelta
-from pandac.PandaModules import CFSpeech, CFTimeout, Point3
+from toontown.toonbase.ToontownModules import CFSpeech, CFTimeout, Point3
 from toontown.toontowngui import TTDialog
 from otp.otpbase import OTPLocalizer
 from toontown.parties import PartyGlobals
@@ -45,20 +45,20 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
             del self.askGui
 
         DistributedNPCToonBase.delete(self)
-        
+
     def generate(self):
         """
         This method is called when the DistributedObject is reintroduced
         to the world, either for the first time or from the cache.
         """
         DistributedNPCToonBase.generate(self)
-        
+
     def announceGenerate(self):
         DistributedNPCToonBase.announceGenerate(self)
-        
+
         # Make sure you look under stashed nodes as well, since street
         # visibility might have stashed the zone this origin is under
-        
+
         self.planPartyQuestionGuiDoneEvent = "planPartyQuestionDone"
 
         self.askGui = TTDialog.TTGlobalDialog(
@@ -69,8 +69,8 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
             okButtonText = OTPLocalizer.DialogYes,
             cancelButtonText = OTPLocalizer.DialogNo,
         )
-        self.askGui.hide()        
-        
+        self.askGui.hide()
+
     def initToonState(self):
         # announceGenerate in DistributedNPCToonBase tries to
         # parent the toon to a node called npc_origin_N.  For now
@@ -151,7 +151,7 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
     def setMovie(self, mode, npcId, avId, extraArgs, timestamp):
         """
         This is a message from the AI describing a movie between this NPC
-        and a Toon that has approached us. 
+        and a Toon that has approached us.
         """
         timeStamp = ClockDelta.globalClockDelta.localElapsedTime(timestamp)
         self.remain = NPCToons.CLERK_COUNTDOWN_TIME - timeStamp
@@ -160,7 +160,7 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
 
         # See if this is the local toon
         self.isInteractingWithLocalToon = (avId == base.localAvatar.doId)
-            
+
         assert(self.notify.debug("setMovie: %s %s %s %s" %
                           (mode, avId, timeStamp, self.isInteractingWithLocalToon)))
 
@@ -218,7 +218,7 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
             chatStr = TTLocalizer.PartyPlannerOnYourWay
             self.setChatAbsolute(chatStr, CFSpeech | CFTimeout)
             self.resetPartyPerson()
-            
+
             if self.isInteractingWithLocalToon:
                 base.localAvatar.aboutToPlanParty = True
                 base.cr.partyManager.setPartyPlannerStyle(self.style)
@@ -232,8 +232,8 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
                 requestStatus = {"loader": loaderId,
                                             "where": whereId,
                                             "how": "teleportIn",
-                                            "hoodId": hoodId, 
-                                            "zoneId": zoneId, 
+                                            "hoodId": hoodId,
+                                            "zoneId": zoneId,
                                             "shardId": None,
                                             "avId": avId}
                 # we need to do a requestLeave to make sure phase 13 is downloaded
@@ -257,7 +257,7 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
             chatStr = TTLocalizer.PartyPlannerHostingTooMany
             self.setChatAbsolute(chatStr, CFSpeech | CFTimeout)
             self.resetPartyPerson()
-            
+
         elif mode == NPCToons.PARTY_MOVIE_ONLYPAID:
             assert self.notify.debug('PARTY_MOVIE_ONLYPAID')
             chatStr = TTLocalizer.PartyPlannerOnlyPaid
@@ -273,7 +273,7 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
             assert self.notify.debug('PARTY_MOVIE_MINCOST')
             chatStr = TTLocalizer.PartyPlannerNpcMinCost % PartyGlobals.MinimumPartyCost
             self.setChatAbsolute(chatStr, CFSpeech | CFTimeout)
-            self.resetPartyPerson()               
+            self.resetPartyPerson()
 
         return
 
@@ -292,13 +292,13 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
             wantsToPlan = 0
         self.sendUpdate("answer", [wantsToPlan])
         self.askGui.hide()
-        
+
     def popupAskGUI(self, task):
         assert self.notify.debug('popupAskGUI()')
         self.setChatAbsolute('', CFSpeech)
-        self.acceptOnce(self.planPartyQuestionGuiDoneEvent, self.__handleAskDone)        
+        self.acceptOnce(self.planPartyQuestionGuiDoneEvent, self.__handleAskDone)
         self.askGui.show()
-        
+
     def handleOkTeaser(self):
         """Handle the user clicking ok on the teaser panel."""
         self.teaserDialog.destroy()

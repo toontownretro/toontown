@@ -1,7 +1,7 @@
 """EventsPage module: contains the EventsPage class"""
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
-from pandac.PandaModules import Vec4, Vec3, TextNode, PNMImage, StringStream, Texture, HTTPClient, DocumentSpec, Ramfile, Point3
+from toontown.toonbase.ToontownModules import Vec4, Vec3, TextNode, PNMImage, StringStream, Texture, HTTPClient, DocumentSpec, Ramfile, Point3
 
 from direct.task.Task import Task
 from direct.gui.DirectGui import DirectFrame, DirectLabel, DirectButton, DirectScrolledList, DirectCheckButton, OnscreenText
@@ -24,7 +24,7 @@ from toontown.parties.Party import Party
 from toontown.parties.ServerTimeGui import ServerTimeGui
 # from toontown.parties import feedparser
 
-import ShtikerPage
+from . import ShtikerPage
 
 # display tab modes
 EventsPage_Host = 0
@@ -83,7 +83,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
             text_scale = TTLocalizer.EPtitleLabel,
             textMayChange = True,
             pos = self.hostingGui.find("**/myNextParty_text_locator").getPos(),
-        )        
+        )
 
     def loadTabs(self):
         # The blue and yellow colors are trying to match the
@@ -152,7 +152,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
             command = self.setMode,
             extraArgs = [EventsPage_Calendar],
             pos = (0.92, 0, 0.1),
-        )        
+        )
         self.newsTab = DirectButton(
             parent = self,
             relief = None,
@@ -304,7 +304,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
             dialogName = self.uniqueName("confirmTooLatePartyGui"),
             doneEvent = self.confirmTooLatePartyEvent,
             message = TTLocalizer.EventsPageTooLateToStart,
-            style = TTDialog.Acknowledge,                
+            style = TTDialog.Acknowledge,
         )
         self.confirmTooLatePartyGui.hide()
 
@@ -314,10 +314,10 @@ class EventsPage(ShtikerPage.ShtikerPage):
             dialogName = self.uniqueName("confirmPublicPrivateGui"),
             doneEvent = self.confirmPublicPrivateChangeEvent,
             message = TTLocalizer.EventsPagePublicPrivateNoGo,
-            style = TTDialog.Acknowledge,                
+            style = TTDialog.Acknowledge,
         )
         self.confirmPublicPrivateGui.hide()
-        
+
         self.cancelPartyResultGuiEvent = "cancelPartyResultGuiEvent"
         self.accept(self.cancelPartyResultGuiEvent, self.cancelPartyResultGuiCommand)
         self.cancelPartyResultGui = TTDialog.TTGlobalDialog(
@@ -462,8 +462,8 @@ class EventsPage(ShtikerPage.ShtikerPage):
         )
         if self.UseNewsTab:
             self.downloadArticles() # putting it here means we download as soons as game starts
-        
-           
+
+
     def getGuestItem(self, name, inviteStatus):
         label = DirectLabel(
             relief = None,
@@ -490,7 +490,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
     def getActivityItem(self, activityBase, count =1):
         """
         Lookup label for the activity
-        
+
         Returns
             DirectLabel with activity information
         """
@@ -508,9 +508,9 @@ class EventsPage(ShtikerPage.ShtikerPage):
             iconString = PartyGlobals.ActivityIds.getString(PartyGlobals.ActivityIds.PartyDance)
         else:
             iconString = PartyGlobals.ActivityIds.getString(activityBase.activityId)
-            
+
         geom = getPartyActivityIcon(self.activityIconsModel, iconString)
-        
+
         label = DirectLabel(
             relief = None,
             geom = geom,
@@ -550,7 +550,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
 
     def getToonNameFromAvId(self, avId):
         result = TTLocalizer.EventsPageUnknownToon
-        sender = base.cr.identifyAvatar(avId)        
+        sender = base.cr.identifyAvatar(avId)
         if sender:
             result =sender.getName()
         return result
@@ -616,7 +616,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         self.invitationDateTimeLabel["text"] = TTLocalizer.EventsPageInvitedTabTime  % (
             PartyUtils.formatDate( startTime.year, startTime.month, startTime.day ),
             PartyUtils.formatTime( startTime.hour, startTime.minute ),
-            )        
+            )
 
     def fillInviteActivityList(self, activityIds):
         self.invitationActivityList.removeAndDestroyAllItems()
@@ -685,7 +685,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
                         PartyUtils.formatDate( partyInfo.startTime.year, partyInfo.startTime.month, partyInfo.startTime.day ),
                         PartyUtils.formatTime( partyInfo.startTime.hour, partyInfo.startTime.minute, ),
                     )
-                    
+
                     # public or private?
                     self.isPrivate = partyInfo.isPrivate
                     self.__setPublicPrivateButton()
@@ -707,7 +707,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
                             else:
                                 self.partyGoButton['state'] = DirectGuiGlobals.NORMAL # better to enable than disable at this point
                                 self.notify.warning("base.distributedParty is not defined when base.cr.playGame.getPlace is party. This should never happen.")
-                            
+
                         else:
                             self.partyGoButton['state'] = DirectGuiGlobals.NORMAL
                         self.partyGoButton['text'] = TTLocalizer.EventsPageGoBackButton,
@@ -724,7 +724,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
                     self.hostingDateLabel.show()
                     self.hostedPartyDisplay.show()
                     return
-        
+
         # You're not hosting a party right now
         self.hostingDateLabel["text"] = TTLocalizer.EventsPageHostingTabNoParty
         self.hostingCancelButton['state'] = DirectGuiGlobals.DISABLED
@@ -741,7 +741,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
            self.hostedPartyInfo.status == PartyGlobals.PartyStatus.CanStart:
             result = False
             self.confirmTooLatePartyGui.show()
-            
+
         return result
 
     def confirmTooLateParty(self):
@@ -753,7 +753,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         """Hide the public private display"""
         if hasattr(self, "confirmPublicPrivateGui"):
             self.confirmPublicPrivateGui.hide()
-    
+
     def _startParty(self):
         # Pass the burden onto Place.py after the book gets closed
         if not self.checkCanStartHostedParty():
@@ -768,7 +768,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
             "hostId" : None,
         }
         messenger.send(self.doneEvent)
-        
+
     def loadGuests(self):
         for partyReplyInfoBase in base.localAvatar.partyReplyInfoBases:
             if partyReplyInfoBase.partyId == self.hostedPartyInfo.partyId:
@@ -800,9 +800,9 @@ class EventsPage(ShtikerPage.ShtikerPage):
         idsUsed = []
         for decorBase in self.hostedPartyInfo.decors:
             if decorBase.decorId not in idsUsed:
-                count = countDict[decorBase.decorId] 
+                count = countDict[decorBase.decorId]
                 self.hostingDecorationList.addItem(self.getDecorationItem(decorBase, count))
-                idsUsed.append(decorBase.decorId) 
+                idsUsed.append(decorBase.decorId)
 
     def unloadGuests( self ):
         self.hostingGuestList.removeAndDestroyAllItems()
@@ -861,7 +861,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         if self.newsList:
             self.newsList.removeAndDestroyAllItems()
             self.newsList.destroy()
-            self.newsList = None            
+            self.newsList = None
         self.avatar = None
         self.hostingCancelButton.destroy()
         del self.hostingCancelButton
@@ -879,7 +879,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
 
         self.calendarGuiMonth.destroy()
         self.toontownTimeGui.destroy()
-        
+
         taskMgr.remove('EventsPageUpdateTask-doLater')
         taskMgr.remove(self.DownloadArticlesTaskName)
         ShtikerPage.ShtikerPage.unload(self)
@@ -902,7 +902,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         self.ignore("confirmDone")
         self.confirm.cleanup()
         del self.confirm
-    
+
     def createListAndLabel(self, parent, gui, typeString, itemsVisible, downString="DownArrow", upString="UpArrow", textString="_text_locator"):
         """
         Create a DirectScrolledList for different purposes depending on
@@ -957,7 +957,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
                 return
             else:
                 self.mode = mode
-        self.show()        
+        self.show()
 
         # just for GP's
         self.updatePage()
@@ -965,10 +965,10 @@ class EventsPage(ShtikerPage.ShtikerPage):
     def getMode(self):
         """Return the current tab we're in."""
         return self.mode
-        
+
     def updatePage(self):
         assert self.notify.debugStateCall(self)
-        
+
         if self.mode == EventsPage_Host:
             # this is the tab for hosted party details
             self.hostTab['state'] = DirectGuiGlobals.DISABLED
@@ -980,7 +980,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
             self.hostedPartyDisplay.show()
             self.calendarDisplay.hide()
             self.newsDisplay.hide()
-            
+
             self.loadHostedPartyInfo()
             if self.hostedPartyInfo is None:
                 self.titleLabel['text'] = TTLocalizer.EventsPageHostTabTitleNoParties
@@ -994,15 +994,15 @@ class EventsPage(ShtikerPage.ShtikerPage):
             self.invitedTab['state'] = DirectGuiGlobals.DISABLED
             self.calendarTab['state'] = DirectGuiGlobals.NORMAL
             self.newsTab['state'] = DirectGuiGlobals.NORMAL
-           
+
             self.hostedPartyDisplay.hide()
             self.invitationDisplay.show()
             self.calendarDisplay.hide()
             self.newsDisplay.hide()
-            
+
             # load invitations I've received
             self.loadInvitations()
-            
+
         elif self.mode == EventsPage_Calendar:
             # calendar tab
             self.titleLabel['text'] = ""
@@ -1014,9 +1014,9 @@ class EventsPage(ShtikerPage.ShtikerPage):
             self.hostedPartyDisplay.hide()
             self.invitationDisplay.hide()
             self.calendarDisplay.show()
-            self.newsDisplay.hide()            
+            self.newsDisplay.hide()
             self.calendarGuiMonth.changeMonth(0)
-            
+
         elif self.mode == EventsPage_News:
             self.titleLabel['text'] = "" #TTLocalizer.EventsPageNewsTabTitle
             self.hostTab['state'] = DirectGuiGlobals.NORMAL
@@ -1056,7 +1056,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         self.confirmPublicPrivateGui["text"] = TTLocalizer.EventsPagePublicPrivateChange
         self.confirmPublicPrivateGui.buttonList[0].hide()
         self.confirmPublicPrivateGui.show()
-        
+
         base.cr.partyManager.sendChangePrivateRequest(self.hostedPartyInfo.partyId, not self.isPrivate)
         self.accept("changePartyPrivateResponseReceived", self.changePartyPrivateResponseReceived)
         taskMgr.doMethodLater(5.0, self.changePartyPrivateResponseReceived, "changePartyPrivateResponseReceivedTimeOut", [0, 0, PartyGlobals.ChangePartyFieldErrorCode.DatabaseError] )
@@ -1079,7 +1079,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
                 self.confirmPublicPrivateGui["text"] = TTLocalizer.EventsPagePublicPrivateNoGo
         # Change the visual to reflect the actual status (uses self.isPrivate)
         self.__setPublicPrivateButton()
-        
+
     def __doCancelParty(self):
         if self.hostedPartyInfo:
             if self.hostedPartyInfo.status == PartyGlobals.PartyStatus.Pending or \
@@ -1090,7 +1090,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
 
     def confirmCancelOfParty(self):
         self.confirmCancelPartyGui.hide()
-        if self.confirmCancelPartyGui.doneStatus == "ok":            
+        if self.confirmCancelPartyGui.doneStatus == "ok":
             base.cr.partyManager.sendChangePartyStatusRequest(self.hostedPartyInfo.partyId, PartyGlobals.PartyStatus.Cancelled)
             self.accept("changePartyStatusResponseReceived", self.changePartyStatusResponseReceived)
         else:
@@ -1133,7 +1133,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
 
         def makeButton(itemName, itemNum, *extraArgs):
             def buttonCommand():
-                print itemName, itemNum
+                print(itemName, itemNum)
             return DirectLabel(text = itemName,
                         relief = None,
                         text_align = TextNode.ALeft,
@@ -1149,7 +1149,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         scrollBtmUp = self.newsFrame.find("**/scrollBtmUp")
         scrollBtmDown = self.newsFrame.find("**/scrollBtmDown")
         scrollBtmHover = self.newsFrame.find("**/scrollBtmHover")
-        
+
         decButtonPos = scrollTopUp.getPos(topLeft)
         incButtonPos = scrollBtmDown.getPos(topLeft)
         self.notify.debug("scrollTopUp pos wrt topLeft %s" % (decButtonPos))
@@ -1161,7 +1161,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         scrollBtmDown.setPos(0,0,0)
         scrollBtmHover.setPos(0,0,0)
         self.numLinesInTextList = 13
-        
+
         self.articleTextList = DirectScrolledList(
             parent = self.newsFrame,
             #items = [],
@@ -1174,8 +1174,8 @@ class EventsPage(ShtikerPage.ShtikerPage):
                                self.newsFrame.find("**/scrollBtmHover"),
                                self.newsFrame.find("**/scrollBtmUp"),
                                ),
-            
-            incButton_relief = None,            
+
+            incButton_relief = None,
             incButton_pos = incButtonPos,
             incButton_image3_color = (1.0,1.0,1.0,0.1),
 
@@ -1199,7 +1199,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
             itemMakeFunction = makeButton,
             forceHeight = itemHeight,
             )
-        
+
         oldParent = self.articleTextList.decButton.getParent()
         self.newsFrame.find("**/scroll").hide()
 
@@ -1249,9 +1249,9 @@ class EventsPage(ShtikerPage.ShtikerPage):
         if curArticleIndex in self.articleImages and \
            curArticleIndex in self.articleText:
             self.displayArticle(self.articleImages[curArticleIndex], self.articleText[curArticleIndex])
-        
-        
-        
+
+
+
     def getRssFeed(self):
         """Get our news feed and display it in the page."""
         if self.gotRssFeed:
@@ -1268,10 +1268,10 @@ class EventsPage(ShtikerPage.ShtikerPage):
                   text_scale = textSize,
                   text_align = TextNode.ALeft,
                   text_fg = color,
-                  textMayChange = 0,                  
+                  textMayChange = 0,
                   pos = (0,0,0),
                   ))
-                
+
         addFeedText(self.rssFeed['channel']['title'], 0.06)
         addFeedText( self.rssFeed['channel']['subtitle'], 0.04)
 
@@ -1280,7 +1280,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
             addFeedText(entry['title'],0.04, (0,0,1,1))
             addFeedText(entry['updated'], 0.025),
             addFeedText(entry['summary'], 0.035)
-        
+
         self.feedText = feedText
         self.createNewsList()
         self.gotRssFeed = True
@@ -1295,7 +1295,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
             if not taskMgr.hasTaskNamed(self.DownloadArticlesTaskName):
                 taskMgr.doMethodLater(0.5, self.downloadArticlesTask, self.DownloadArticlesTaskName, )
         else:
-            if not self.downloadArticlesInProgress:                
+            if not self.downloadArticlesInProgress:
                 self.downloadArticlesNonblocking();
 
     def downloadArticlesTask(self, task):
@@ -1303,7 +1303,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         self.articleImages = {}
         self.articleText = {}
         try:
-            urlfile = urllib.urlopen(self.getNewsUrl())
+            urlfile = urllib.request.urlopen(self.getNewsUrl())
         except IOError:
             self.notify.warning("Could not open %s" % self.getNewsUrl())
             self.newsStatusLabel["text"] = TTLocalizer.EventsPageNewsUnavailable
@@ -1313,16 +1313,16 @@ class EventsPage(ShtikerPage.ShtikerPage):
         urlfile.close()
         urls = urlStrings.split("\r\n")
 
-        for index in xrange(len(urls)/2):
+        for index in range(len(urls)/2):
             imageUrl = urls[(index*2)]
             textUrl = urls[(index*2) +1]
-            
+
             # read in the web image
             img = PNMImage()
             self.articleImages[index] = img
             try:
                 self.notify.info("opening %s" % imageUrl)
-                imageFile = urllib.urlopen(imageUrl)
+                imageFile = urllib.request.urlopen(imageUrl)
                 data = imageFile.read()
                 img.read(StringStream(data))
                 imageFile.close()
@@ -1335,7 +1335,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
                 self.notify.info("opening %s" % textUrl)
                 #if "garden" in textUrl:
                 #    import pdb; pdb.set_trace()
-                textFile = urllib.urlopen(textUrl)
+                textFile = urllib.request.urlopen(textUrl)
                 data = textFile.read()
                 data = data.replace("\\1","\1")
                 data = data.replace("\\2","\2")
@@ -1349,7 +1349,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         self.newsStatusLabel["text"] = ""
         self.gotArticles = True
         return task.done
-            
+
     def displayArticle(self, img, articleText):
         """Display one news article."""
         self.displayArticleImage(img)
@@ -1364,9 +1364,9 @@ class EventsPage(ShtikerPage.ShtikerPage):
 
         bottomLeft = self.newsFrame.find("**/loc_picture_BtmLf").getPos()
         topRight = self.newsFrame.find("**/loc_picture_TopRt").getPos()
-        maxFrameXSize = (topRight.getX() - bottomLeft.getX()) 
-        maxFrameYSize = (topRight.getZ() - bottomLeft.getZ()) 
-        
+        maxFrameXSize = (topRight.getX() - bottomLeft.getX())
+        maxFrameYSize = (topRight.getZ() - bottomLeft.getZ())
+
         center = (bottomLeft + topRight) / 2.0
 
         maxAspectRatio = maxFrameXSize / maxFrameYSize
@@ -1447,7 +1447,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         if self.newsList:
             self.newsList.removeAllItems()
             self.newsList.destroy()
-        
+
         selectedIndex = 0
         self.newsListXorigin = -0.02
         self.newsListFrameSizeX = 1.55
@@ -1457,7 +1457,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         self.newsItemFrameXorigin = -0.237
 
         self.newsButtonXstart = self.newsItemFrameXorigin + 0.725
-            
+
         self.newsList = DirectScrolledList(
             parent = self.newsFrame,
             items = self.feedText,
@@ -1509,7 +1509,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         self.notify.info("Starting download of news articles.")
         self.articleImages = {}
         self.articleText = {}
-                
+
         self.downloadArticlesInProgress = True
         self.httpSession = HTTPClient()
         self.nonBlock = self.httpSession.makeChannel(True)
@@ -1548,12 +1548,12 @@ class EventsPage(ShtikerPage.ShtikerPage):
             if self.urls:
                 self.subRight["text"]=self.urls[0]
                 self.urls = self.urls[1:]
-            
+
             self.curUrlIndex = 0
             self.curArticleIndex =0
             self.curDownloadIsJpg = True
             if self.curUrlIndex < len(self.urls):
-                url = self.urls[self.curUrlIndex]                
+                url = self.urls[self.curUrlIndex]
                 self.downloadUrl(url)
         else:
             if self.curDownloadIsJpg:
@@ -1574,7 +1574,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
                     textData = data.getData()
                 else:
                     textData = data
-                
+
                 textData =textData.replace("\\1","\1")
                 textData = textData.replace("\\2","\2")
                 textData = textData.replace("\r"," ") # \r showing us a box, no char definiton
@@ -1588,7 +1588,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
             if self.downloadedAllArticles():
                 self.notify.debug("we got everything")
             else:
-                url = self.urls[self.curUrlIndex]                
+                url = self.urls[self.curUrlIndex]
                 self.downloadUrl(url)
 
     def downloadedAllArticles(self):
@@ -1600,7 +1600,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         if self.curUrlIndex >= len(self.urls):
             result = True
         return result
-        
+
     def incrementCurFields(self):
         """Increment our fields that keep track what we're downloading."""
         if self.curDownloadIsJpg:
@@ -1619,16 +1619,16 @@ class EventsPage(ShtikerPage.ShtikerPage):
         """Get a local file url."""
         result = True
         urlStrings = ""
-        try: 
-            urlfile = urllib.urlopen(fileUrl)
+        try:
+            urlfile = urllib.request.urlopen(fileUrl)
             urlStrings = urlfile.read()
             urlfile.close()
         except IOError:
             self.notify.warning("Could not open %s" % fileUrl)
             result = False
         self.doneGettingUrl(fileUrl, urlStrings, result)
-        
-        
+
+
     def getHttpUrl(self, httpUrl):
         """Get something from the web."""
         docSpec = DocumentSpec(httpUrl)
@@ -1650,7 +1650,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
     def pollDownloadTask(self, task):
         """See if we're done getting data back."""
         result = self.nonBlock.run()
-        if result == 0:            
+        if result == 0:
             self.stopCheckingAsyncRequest()
             allOk = False
             if self.nonBlock.getStatusString() == "OK":
@@ -1689,8 +1689,3 @@ class EventsPage(ShtikerPage.ShtikerPage):
             result = self.NewsUrl
 
         return result
-        
-        
-        
-        
-

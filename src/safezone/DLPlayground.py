@@ -1,6 +1,6 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
-import Playground
+from . import Playground
 import random
 
 class DLPlayground(Playground.Playground):

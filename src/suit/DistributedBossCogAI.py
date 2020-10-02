@@ -7,8 +7,8 @@ from toontown.toon import InventoryBase
 from toontown.battle import DistributedBattleFinalAI
 from toontown.building import SuitPlannerInteriorAI
 from toontown.battle import BattleBase
-from pandac.PandaModules import *
-import SuitDNA
+from toontown.toonbase.ToontownModules import *
+from . import SuitDNA
 import random
 
 AllBossCogs = []
@@ -61,7 +61,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         # What attack code the boss has currently selected.
         self.attackCode = None
         self.attackAvId = 0
-            
+
         # The number of times we are hit during one dizzy spell.
         self.hitCount = 0
 
@@ -72,14 +72,14 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         if self in AllBossCogs:
             i = AllBossCogs.index(self)
             del AllBossCogs[i]
-            
+
         return DistributedAvatarAI.DistributedAvatarAI.delete(self)
 
     def getDNAString(self):
         return self.dna.makeNetString()
 
 
-        
+
     # avatarEnter/avatarExit is used for the ~bossBattle magic word to
     # stage toons in the area.  It probably won't be needed once we
     # integrate everything fully.
@@ -117,7 +117,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         self.removeToon(avId)
 
     def addToon(self, avId):
-        assert self.notify.debug('%s.addToon(%s)' % (self.doId, avId))        
+        assert self.notify.debug('%s.addToon(%s)' % (self.doId, avId))
         if avId not in self.looseToons and avId not in self.involvedToons:
             self.looseToons.append(avId)
 
@@ -125,7 +125,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             self.acceptOnce(event, self.__handleUnexpectedExit, extraArgs=[avId])
 
     def removeToon(self, avId):
-        assert self.notify.debug('%s.removeToon(%s)' % (self.doId, avId))        
+        assert self.notify.debug('%s.removeToon(%s)' % (self.doId, avId))
         resendIds = 0
         try:
             self.looseToons.remove(avId)
@@ -159,7 +159,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             # message.  But wait a few seconds first so the last Toon
             # won't see the universe vanish before he finishes his
             # teleport-out animation.
-            
+
             taskMgr.doMethodLater(10, self.__bossDone,
                                   self.uniqueName('BossDone'))
 
@@ -227,7 +227,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             self.toonOrigMerits, self.toonMerits,
             self.toonParts, self.suitsKilled, self.helpfulToons)
         return result
-    
+
 
     def b_setArenaSide(self, arenaSide):
         self.setArenaSide(arenaSide)
@@ -250,7 +250,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
 
     def d_setState(self, state):
         self.sendUpdate('setState', [state])
-        
+
     def setState(self, state):
         self.demand(state)
 
@@ -259,7 +259,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
                 self.air.writeServerEvent("bossBattle", self.doId, "%s|%s|%s|%s" %
                                           (self.dept, state, self.involvedToons,
                                            self.formatReward()))
-                
+
 
     def getState(self):
         return self.state
@@ -313,7 +313,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
                 toon = simbase.air.doId2do.get(toonId)
                 if toon:
                     self.notify.debug('%s. involved toon %s, %s/%s' % (self.doId, toonId, toon.getHp(), toon.getMaxHp()))
-            
+
 
         self.resetBattles()
 
@@ -326,7 +326,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
     def __doneElevator(self, avIds):
         assert self.notify.debug('%s.__doneElevator()' % (self.doId))
         self.b_setState("Introduction")
-        
+
     def exitElevator(self):
         self.ignoreBarrier(self.barrier)
 
@@ -350,7 +350,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
 
     def doneIntroduction(self, avIds):
         self.b_setState("BattleOne")
-        
+
     def exitIntroduction(self):
         self.ignoreBarrier(self.barrier)
 
@@ -424,7 +424,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
     def resetBattleCounters(self):
         # Resets all the statistics about who's won what battles.
         # This should normally only be done at startup.
-        
+
         self.battleNumber = 0
         self.battleA = None
         self.battleAId = 0
@@ -497,7 +497,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             numToonsB = numToons / 2
         else:
             numToonsB = (numToons + random.choice([0, 1])) / 2
-        
+
         self.toonsA = toons[numToonsB:numToons]
         self.toonsB = toons[:numToonsB]
         self.looseToons += toons[numToons:]
@@ -513,7 +513,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
                 self.involvedToons.append(toonId)
             else:
                 self.looseToons.append(toonId)
-                
+
         # Fill in the Toon's original experience and merits.  This
         # probably isn't strictly necessary, since it will happen
         # anyway when battle 1 and 2 start, but duplicating this code
@@ -537,7 +537,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         # Set up the pair of battle objects for the BattleOne or
         # BattleTwo phase.
         self.resetBattles()
-        
+
         if not self.involvedToons:
             self.notify.warning("initializeBattles: no toons!")
             return
@@ -627,7 +627,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         # of temporary nodes to do the matrix math for us.  Don't
         # panic, there's no harm in creating an unattached NodePath on
         # the AI!
-        
+
         bossNode = NodePath('bossNode')
         bossNode.setPosHpr(*cogPosHpr)
         battleNode = bossNode.attachNewNode('battleNode')
@@ -647,14 +647,14 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         # on the other side.
         for suit in active:
             self.reserveSuits.append((suit, 0))
-        
+
     def handleRoundADone(self, toonIds, totalHp, deadSuits):
         if self.battleA:
             assert self.notify.debug("%s. battle A round done, toonIds = %s, totalHp = %s, deadSuits = %s, suits = %s" % (self.doId, toonIds, totalHp, deadSuits, self.battleA.suits,))
             self.handleRoundDone(
                 self.battleA, self.suitsA, self.activeSuitsA,
                 toonIds, totalHp, deadSuits)
-        
+
     def handleRoundBDone(self, toonIds, totalHp, deadSuits):
         if self.battleB:
             assert self.notify.debug("%s. battle B round done, toonIds = %s, totalHp = %s, deadSuits = %s, suits = %s" % (self.doId, toonIds, totalHp, deadSuits, self.battleB.suits,))
@@ -706,10 +706,10 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
 
         planner = SuitPlannerInteriorAI.SuitPlannerInteriorAI(
             1, buildingCode, self.dna.dept, self.zoneId)
-        
+
         planner.respectInvasions = 0
         suits = planner.genFloorSuits(0)
-        
+
         if skelecog:
             # These cogs have already been generated, so we must do a
             # distributed setSkelecog
@@ -725,9 +725,9 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         # A derived class should override this to generate the
         # appropriate number and varient of suits for the indicated
         # battle.
-        
-        raise StandardError, 'generateSuits unimplemented'
-        
+
+        raise Exception('generateSuits unimplemented')
+
     def handleRoundDone(self, battle, suits, activeSuits,
                           toonIds, totalHp, deadSuits):
         # Determine if any reserves need to join
@@ -741,7 +741,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             activeSuits.remove(suit)
 
         joinedReserves = []
-        
+
         # Determine if any reserve suits need to join
         if (len(self.reserveSuits) > 0 and len(activeSuits) < 4):
             assert(self.notify.debug('%s. potential reserve suits: %d' % \
@@ -770,7 +770,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         # goes beyond 1, the battle should be considered to be in
         # overtime (and should rapidly become impossibly difficult, to
         # prevent toons from dying a slow, frustrating death).
-        
+
         elapsed = globalClock.getFrameTime() - self.battleThreeStart
         t1 = elapsed / float(self.battleThreeDuration)
         return t1
@@ -793,7 +793,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         # We actually progress the value based on the larger of the
         # two, so you can't spend all day in the battle.
         t = max(t0, t1)
-        
+
         return fromValue + (toValue - fromValue) * min(t, 1)
 
     def progressRandomValue(self, fromValue, toValue, radius = 0.2):
@@ -803,7 +803,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         # progress through the battle, but rather on a point *near*
         # the current progress through the battle (based on radius,
         # which is in the scale 0 to 0.5).
-        
+
         # The radius starts out at zero and increases linearly to its
         # specified value in the middle of the range, then decreases
         # linearly to zero again.
@@ -834,7 +834,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
     def getDamageMultiplier(self):
         """Return a multiplier for our damaging attacks."""
         return 1.0
-            
+
     def zapToon(self, x, y, z, h, p, r, bpx, bpy, attackCode, timestamp):
         # This is sent from the client when he detects a collision
         # with one of the boss attacks.
@@ -847,7 +847,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         if attackCode == ToontownGlobals.BossCogLawyerAttack and \
            self.dna.dept != 'l':
             self.notify.warning('got lawyer attack but not in CJ boss battle')
-            return        
+            return
 
         toon = simbase.air.doId2do.get(avId)
         if toon:
@@ -867,7 +867,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
                 if bpy < 0 and abs(bpx / bpy) > 0.5:
                     # If the toon hit us largely in the front and on
                     # the side, swat at him.
-                    
+
                     if bpx < 0:
                         self.b_setAttackCode(ToontownGlobals.BossCogSwatRight)
                     else:
@@ -879,7 +879,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
     def b_setAttackCode(self, attackCode, avId = 0):
         self.d_setAttackCode(attackCode, avId)
         self.setAttackCode(attackCode, avId)
-        
+
 
     def setAttackCode(self, attackCode, avId = 0):
         assert self.notify.debug('%s.setAttackCode(%s, %s)' % (self.doId, attackCode, avId))
@@ -900,7 +900,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
 
             # Wait a length of time after the slow attack.
             delayTime += self.progressValue(10, 0)
-            
+
         else:
             delayTime = ToontownGlobals.BossCogAttackTimes.get(attackCode)
             if delayTime == None:
@@ -911,7 +911,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
     def d_setAttackCode(self, attackCode, avId = 0):
         self.sendUpdate('setAttackCode', [attackCode, avId])
 
-                                
+
     def waitForNextAttack(self, delayTime):
         currState = self.getCurrentOrNextState()
         if (currState == 'BattleThree'):
@@ -930,4 +930,3 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         # This may be overridden by a derived class to handle the
         # boss's attacks in battle three.
         self.b_setAttackCode(ToontownGlobals.BossCogNoAttack)
-

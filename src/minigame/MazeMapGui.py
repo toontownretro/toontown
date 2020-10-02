@@ -16,10 +16,10 @@ import random
 # panda imports
 from direct.showbase.PythonUtil import Enum
 from direct.gui.DirectGui import DirectFrame, DGG
-from pandac.PandaModules import Vec2, VBase4D
-from pandac.PandaModules import CardMaker
-from pandac.PandaModules import Texture, PNMImage
-from pandac.PandaModules import Filename
+from toontown.toonbase.ToontownModules import Vec2, VBase4D
+from toontown.toonbase.ToontownModules import CardMaker
+from toontown.toonbase.ToontownModules import Texture, PNMImage
+from toontown.toonbase.ToontownModules import Filename
 
 #TODO:maze: move this to a config or global location
 

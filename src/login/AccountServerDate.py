@@ -1,11 +1,11 @@
 """AccountServerDate.py: contains the AccountServerDate class """
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from otp.login.HTTPUtil import *
 from direct.directnotify import DirectNotifyGlobal
 from otp.login import TTAccount
-import DateObject
-import TTDateObject
+from . import DateObject
+from . import TTDateObject
 import time
 
 class AccountServerDate:
@@ -28,38 +28,36 @@ class AccountServerDate:
     # this is used by the cr in error msgs
     def getServer(self):
         return TTAccount.getAccountServer().cStr()
-    
+
     def grabDate(self, force=0):
         """ might throw a TTAccountException """
         if self.__grabbed and not force:
             self.notify.debug('using cached account server date')
             return
-        
+
         if (base.cr.accountOldAuth or
             base.config.GetBool('use-local-date', 0)):
             self.__useLocalClock()
             return
-        
+
         url = URLSpec(self.getServer())
         url.setPath('/getDate.php')
         self.notify.debug('grabbing account server date from %s' %
                           url.cStr())
-            
+
         response = getHTTPResponse(url, http)
-        
+
         # make sure we got a valid response
         if response[0] != 'ACCOUNT SERVER DATE':
             self.notify.debug('invalid response header')
-            raise UnexpectedResponse, \
-                  "unexpected response, response=%s" % response
+            raise UnexpectedResponse("unexpected response, response=%s" % response)
 
         # grab the date
         try:
             epoch = int(response[1])
-        except ValueError, e:
+        except ValueError as e:
             self.notify.debug(str(e))
-            raise UnexpectedResponse, \
-                  "unexpected response, response=%s" % response
+            raise UnexpectedResponse("unexpected response, response=%s" % response)
 
         # since we're now dealing with birth-days, we need a precise day
         # value. Just use Pacific time for now; the rest of the world

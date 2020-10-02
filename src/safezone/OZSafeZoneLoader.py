@@ -14,7 +14,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from otp.avatar import Avatar
 
 
@@ -51,7 +51,7 @@ class OZSafeZoneLoader( SafeZoneLoader ):
         """
         """
         # Initialize Super Class
-        SafeZoneLoader.__init__( self, hood, parentFSM, doneEvent )     
+        SafeZoneLoader.__init__( self, hood, parentFSM, doneEvent )
 
         # Initialize Instance Variables
         self.musicFile = "phase_6/audio/bgm/OZ_SZ.mid"
@@ -105,33 +105,33 @@ class OZSafeZoneLoader( SafeZoneLoader ):
         self.geyserTrack = None
 
         SafeZoneLoader.load( self )
-        self.birdSound = map( base.loadSfx, [ 'phase_4/audio/sfx/SZ_TC_bird1.mp3',
+        self.birdSound = list(map( base.loadSfx, [ 'phase_4/audio/sfx/SZ_TC_bird1.mp3',
                                               'phase_4/audio/sfx/SZ_TC_bird2.mp3',
-                                              'phase_4/audio/sfx/SZ_TC_bird3.mp3' ] )
+                                              'phase_4/audio/sfx/SZ_TC_bird3.mp3' ] ))
         self.underwaterSound = base.loadSfx('phase_4/audio/sfx/AV_ambient_water.mp3')
         self.swimSound = base.loadSfx('phase_4/audio/sfx/AV_swim_single_stroke.mp3')
         self.submergeSound = base.loadSfx('phase_5.5/audio/sfx/AV_jump_in_water.mp3')
         geyserPlacer = self.geom.find("**/geyser*")
         waterfallPlacer = self.geom.find("**/waterfall*")
-        
+
         binMgr = CullBinManager.getGlobalPtr()
         binMgr.addBin('water', CullBinManager.BTFixed, 29)
         binMgr = CullBinManager.getGlobalPtr()
 
-        
+
         self.water = self.geom.find("**/water1*")
         self.water.setTransparency(1)
         self.water.setColorScale(1.0, 1.0, 1.0, 1.0)
         self.water.setBin('water', 51, 1)
-        
+
         pool = self.geom.find("**/pPlane5*")
         pool.setTransparency(1)
         pool.setColorScale(1.0, 1.0, 1.0, 1.0)
         pool.setBin('water', 50, 1)
-         
-   
-  
-        
+
+
+
+
         self.geyserModel = loader.loadModel("phase_6/models/golf/golf_geyser_model")
         self.geyserSound = loader.loadSfx("phase_6/audio/sfx/OZ_Geyser.mp3")
         self.geyserSoundInterval = SoundInterval(self.geyserSound, node=geyserPlacer,
@@ -139,7 +139,7 @@ class OZSafeZoneLoader( SafeZoneLoader ):
                                            seamlessLoop = False,
                                            volume = 1.0,
                                            cutOff = 120)
-                                
+
         self.geyserSoundNoToon = loader.loadSfx("phase_6/audio/sfx/OZ_Geyser_No_Toon.mp3")
         self.geyserSoundNoToonInterval = SoundInterval(self.geyserSoundNoToon, node=geyserPlacer,
                                            listenerNode = base.camera,
@@ -149,7 +149,7 @@ class OZSafeZoneLoader( SafeZoneLoader ):
         #self.geyserSoundInterval.start()
 
         if (self.geyserModel):
-            
+
             self.geyserActor = Actor.Actor(self.geyserModel)
             self.geyserActor.loadAnims({'idle': "phase_6/models/golf/golf_geyser"})
             self.geyserActor.reparentTo(render)
@@ -179,13 +179,13 @@ class OZSafeZoneLoader( SafeZoneLoader ):
                                                volume = 1.0,
                                                cutOff = 120)
             self.geyserPoolSoundInterval.loop()
-            
+
             self.bubbles = Bubbles.Bubbles(self.geyserPlacer, render)
             self.bubbles.renderParent.setDepthWrite(0)
             self.bubbles.start()
-        
+
         self.collBase = render.attachNewNode("collisionBase")
-        
+
         self.geyserCollSphere = CollisionSphere(0, 0, 0, 7.5)
         # Make the sphere intangible
         self.geyserCollSphere.setTangible(1)
@@ -193,18 +193,18 @@ class OZSafeZoneLoader( SafeZoneLoader ):
         self.geyserCollNode.setIntoCollideMask(OTPGlobals.WallBitmask)
         self.geyserCollNode.addSolid(self.geyserCollSphere)
         self.geyserNodePath = self.collBase.attachNewNode(self.geyserCollNode)
-        
+
         self.geyserNodePath.setPos(self.geyserPos[0], self.geyserPos[1], self.geyserPos[2] -100.0)
-        
+
         self.waterfallModel = loader.loadModel("phase_6/models/golf/golf_waterfall_model")
         if (self.waterfallModel):
-            
+
             self.waterfallActor = Actor.Actor(self.waterfallModel)
             self.waterfallActor.loadAnims({'idle': "phase_6/models/golf/golf_waterfall"})
             self.waterfallActor.reparentTo(render)
             self.waterfallActor.setPlayRate(3.5, 'idle')
             self.waterfallActor.loop('idle')
-            
+
 
             # 1st uv animation
 
@@ -214,20 +214,20 @@ class OZSafeZoneLoader( SafeZoneLoader ):
         self.waterfallActor.setPos(waterfallPlacer.getPos())
 
         self.accept('clientLogout', self._handleLogout)
-        
+
         #shadows = self.geom.findAllMatches("**/shadow_tree*")
         #for shadow in shadows:
         #    shadow.setDepthTest(0)
         #    shadow.setBin("shadow", 0)
 
-        
+
         #base.oz = self
 
     def exit(self):
         self.clearToonTracks()
         SafeZoneLoader.exit(self)
         self.ignore('clientLogout')
-        
+
     def startGeyser(self, task = None):
         if hasattr(base.cr, "DTimer") and base.cr.DTimer:
             self.geyserCycleTime = 20.0
@@ -237,7 +237,7 @@ class OZSafeZoneLoader( SafeZoneLoader ):
         else:
             taskMgr.doMethodLater(5.0, self.startGeyser, "start geyser Task")
             #return task.done
-        
+
     def doGeyser(self, task = None):
         #print("do geyser time is %s" % (globalClockDelta.networkToLocalTime(globalClockDelta.getRealNetworkTime())))
         if not self.done:
@@ -246,7 +246,7 @@ class OZSafeZoneLoader( SafeZoneLoader ):
             timeToNextGeyser = 20.0 - (useTime % 20.0)
             taskMgr.doMethodLater(timeToNextGeyser, self.doGeyser, "geyser Task")
         return task.done
-        
+
     def restoreLocal(self, task = None):
         place = base.cr.playGame.getPlace()
         if place:
@@ -254,35 +254,35 @@ class OZSafeZoneLoader( SafeZoneLoader ):
         base.localAvatar.setTeleportAvailable(1)
         base.localAvatar.collisionsOn()
         base.localAvatar.dropShadow.show()
-        
-        
+
+
     def restoreRemote(self, remoteAv,task = None):
         if remoteAv in Avatar.Avatar.ActiveAvatars:
             remoteAv.startSmooth()
             remoteAv.dropShadow.show()
 
-        
+
     def setGeyserAnim(self, task = None):
         if self.done:
             return
-            
+
         maxSize = (0.4 * random.random()) + 0.75
         time = 1.0 #(0.25 * random.random()) + 0.75
         self.geyserTrack = Sequence()
         upPos = Vec3(self.geyserPos[0],self.geyserPos[1],self.geyserPos[2])
         downPos = Vec3(self.geyserPos[0],self.geyserPos[1],self.geyserPos[2] - 8.0)
-        
-        
+
+
 
         #LerpPosInterval(suit, 0.6, pos=suitPos, other=battle),
-        
+
         avList = copy.copy(Avatar.Avatar.ActiveAvatars)
-        
+
         avList.append(base.localAvatar)
-        
+
         playSound = 0
-        
-        
+
+
         for av in avList:
             distance = self.geyserPlacer.getDistance(av)
             if distance < 7.0:
@@ -292,17 +292,17 @@ class OZSafeZoneLoader( SafeZoneLoader ):
                 upToon = Vec3(avPos[0],avPos[1], maxSize * self.geyserPos[2] + 40.0)
                 midToon = Vec3(avPos[0],avPos[1], maxSize * self.geyserPos[2] + 30.0)
                 downToon = Vec3(avPos[0],avPos[1],self.geyserPos[2])
-                
+
                 returnPoints = [(7,7), (8,0), (-8, 3), (-7,7), (3, -7), (0,8), (-10, 0), (8,-3), (5,8), (-8, 5), (-1, 7)]
                 pick = int(((float(av.doId) - 11.0) / 13.0) % len(returnPoints))
                 returnChoice = returnPoints[pick] #random.choice(returnPoints)
-                
+
                 toonReturn = Vec3(self.geyserPos[0] + returnChoice[0],self.geyserPos[1] + returnChoice[1],self.geyserPos[2] - 1.5)
-                
+
                 topTrack = Sequence()
                 av.dropShadow.hide()
                 playSound = 1
-                
+
                 # put toon in cannon
                 if av == base.localAvatar:
                     base.cr.playGame.getPlace().setState('fishing')
@@ -314,35 +314,35 @@ class OZSafeZoneLoader( SafeZoneLoader ):
                     topTrack.delayDeletes = [DelayDelete.DelayDelete(
                         av, 'OZSafeZoneLoader.setGeyserAnim')]
                     av.stopSmooth()
-                    
-                    
+
+
                     #import pdb; pdb.set_trace()
                 #print("FLY TOON FLY!!!")
-                
-                
-                
+
+
+
                 animTrack = Parallel()
-                
+
                 toonTrack = Sequence()
-                
+
                 toonTrack.append(Wait(0.50))
                 #toonTrack.append(Func(av.loop, 'jump-idle'))
                 animTrack.append(ActorInterval(av, 'jump-idle', loop = 1, endTime = 11.5 * time))
                 animTrack.append(ActorInterval(av, 'neutral', loop = 0, endTime = 0.25 * time))
-                
+
                 holder = render.attachNewNode("toon hold")
 
-                
+
                 base.holder = holder
                 toonPos = av.getPos(render)
                 toonHpr = av.getHpr(render)
-                print ("av Pos %s" % (av.getPos()) )
+                print(("av Pos %s" % (av.getPos()) ))
                 base.toonPos = toonPos
                 holder.setPos(toonPos)
                 av.reparentTo(holder)
-                
+
                 av.setPos(0,0,0)
-                
+
                 #cameraPosTrack = Sequence()
                 #camPos = camera.getPos()
                 #camHpr = camera.getHpr()
@@ -350,35 +350,35 @@ class OZSafeZoneLoader( SafeZoneLoader ):
                 #cameraPosTrack.append(LerpPosHprInterval(camera, 5.0 * time, pos=camPos, hpr = camHpr))
                 #cameraPosTrack.start()
                 lookAt = 180
-                
+
                 toonH = (lookAt + toonHpr[0]) % 360
                 newHpr = Vec3(toonH, toonHpr[1], toonHpr[2])
-                
-                
+
+
                 if toonH < 180:
                     lookIn = Vec3(0 + lookAt, -30, 0)
                 else:
                     lookIn = Vec3(360 + lookAt,-30,0)
-                
-                print("Camera Hprs toon %s; lookIn %s; final %s" % (newHpr, lookIn, (lookIn - newHpr)))
-                
+
+                print(("Camera Hprs toon %s; lookIn %s; final %s" % (newHpr, lookIn, (lookIn - newHpr))))
+
                 if local == 1:
                     pass
                     camPosOriginal = camera.getPos()
                     camHprOriginal = camera.getHpr()
                     camParentOriginal = camera.getParent()
                     cameraPivot = holder.attachNewNode("camera pivot")
-                    
+
                     chooseHeading = random.choice([-10.0, 15.0, 40.0])
-                    
+
                     cameraPivot.setHpr(chooseHeading,-20.0,0.0)#(av.getHpr())
                     cameraArm = cameraPivot.attachNewNode("camera arm")
                     cameraArm.setPos(0.0,-23.0,3.0)#(av.getHpr())
                     camPosStart = Point3(0.0,0.0,0.0)
                     camHprStart = Vec3(0.0,0.0,0.0)
-                    
+
                     self.changeCamera(cameraArm, camPosStart, camHprStart)
-                
+
                     cameraTrack = Sequence()
                     #cameraTrack.append(LerpPosHprInterval(cameraPivot, 1.25 * time, pos= Point3(0,-20,15),hpr=lookIn, startHpr = newHpr))
                     cameraTrack.append(Wait(11.0 * time))
@@ -386,14 +386,14 @@ class OZSafeZoneLoader( SafeZoneLoader ):
                     #cameraPosHprTrack.append(LerpPosHprInterval(cameraHolder, 5.0 * time, pos=Point3(0.0, -20.0, 20.0), hpr=Vec3(180, -45, 0),))
                     #cameraPosHprTrack.append(LerpPosHprInterval(cameraHolder, 5.0 * time, pos=camPos, hpr = camHpr))
                     cameraTrack.append(Func(self.changeCamera, camParentOriginal, camPosOriginal, camHprOriginal))
-                    
+
                     cameraTrack.start()
-                
+
                 moveTrack = Sequence()
                 moveTrack.append(Wait(0.50))
                 moveTrack.append(LerpPosInterval(holder,  3.0 * time, pos=upToon, startPos = downToon, blendType = 'easeOut')) #up
                 #toonTrack.append(LerpPosInterval(av,  1.0 * time, pos=upToon, startPos = midToon, blendType = 'noBlend')) #up
-                moveTrack.append(LerpPosInterval(holder,  2.0 * time, pos=midToon, startPos = upToon, blendType = 'easeInOut')) #down                    
+                moveTrack.append(LerpPosInterval(holder,  2.0 * time, pos=midToon, startPos = upToon, blendType = 'easeInOut')) #down
                 moveTrack.append(LerpPosInterval(holder,  1.0 * time, pos=upToon, startPos = midToon, blendType = 'easeInOut')) #up
                 moveTrack.append(LerpPosInterval(holder,  2.0 * time, pos=midToon, startPos = upToon, blendType = 'easeInOut')) #down
                 moveTrack.append(LerpPosInterval(holder,  1.0 * time, pos=upToon, startPos = midToon, blendType = 'easeInOut')) #up
@@ -407,7 +407,7 @@ class OZSafeZoneLoader( SafeZoneLoader ):
                 topTrack.append(Func(av.setPos, toonReturn))
                 topTrack.append(Func(av.reparentTo, render))
                 topTrack.append(Func(holder.remove))
-                
+
 
                 if local == 1:
                     topTrack.append(Func(self.restoreLocal))
@@ -422,10 +422,10 @@ class OZSafeZoneLoader( SafeZoneLoader ):
                 #topTrack.timeline()
                 self.storeToonTrack(av.doId, topTrack)
                 topTrack.start()
-                
+
         self.geyserTrack.append(Func(self.doPrint, "geyser start"))
         self.geyserTrack.append(Func(self.geyserNodePath.setPos, self.geyserPos[0], self.geyserPos[1], self.geyserPos[2]))
-        
+
         self.geyserTrack.append(
                     Parallel(
                             LerpScaleInterval(self.geyserActor, 2.0 * time, 0.75, 0.01),
@@ -433,7 +433,7 @@ class OZSafeZoneLoader( SafeZoneLoader ):
                             #Func(self.geyserActor.setPlayRate, 15.0, 'idle'),
                             )
                     )
-                    
+
         self.geyserTrack.append(
                     Parallel(
                             LerpScaleInterval(self.geyserActor, time, maxSize, 0.75),
@@ -469,7 +469,7 @@ class OZSafeZoneLoader( SafeZoneLoader ):
                             #Func(self.geyserActor.setPlayRate, 15.0, 'idle'),
                             )
                     )
-                    
+
         self.geyserTrack.append(
                     Parallel(
                             LerpScaleInterval(self.geyserActor, 4.0 * time, 0.01, maxSize),
@@ -483,20 +483,20 @@ class OZSafeZoneLoader( SafeZoneLoader ):
         #self.geyserTrack.append(Wait(5.0))
         #self.geyserTrack.append(Func(self.setGeyserAnim))
         self.geyserTrack.start()
-        
+
         if playSound:
             self.geyserSoundInterval.start()
         else:
             self.geyserSoundNoToonInterval.start()
-        
+
     def changeCamera(self, newParent, newPos, newHpr):
         camera.reparentTo(newParent)
         camera.setPosHpr(newPos, newHpr)
-        
+
     def doPrint(self, thing):
         return 0
-        print thing
-        
+        print(thing)
+
 
     def unload( self ):
         """
@@ -522,12 +522,12 @@ class OZSafeZoneLoader( SafeZoneLoader ):
         self.geyserSound.stop()
         self.geyserSoundInterval = None
         self.geyserSound = None
-        
+
         self.geyserSoundNoToonInterval.finish()
         self.geyserSoundNoToon.stop()
         self.geyserSoundNoToonInterval = None
         self.geyserSoundNoToon = None
-        
+
 
 
     def enterPlayground( self, requestStatus ):
@@ -568,14 +568,14 @@ class OZSafeZoneLoader( SafeZoneLoader ):
         if( ZoneUtil.isDynamicZone( status[ 'zoneId' ] ) ):
             return status[ 'hoodId' ] == self.hood.hoodId
         else:
-            return ZoneUtil.getHoodId( status[ 'zoneId' ] ) == self.hood.hoodId        
+            return ZoneUtil.getHoodId( status[ 'zoneId' ] ) == self.hood.hoodId
 
     def enterGolfCourse( self, requestStatus ):
         """
         """
 
         # GolfCourse will grab this off of us
-        if requestStatus.has_key('curseId'):
+        if 'curseId' in requestStatus:
             self.golfCourseId = requestStatus[ 'courseId' ]
         else:
             self.golfCourseId = 0
@@ -591,7 +591,7 @@ class OZSafeZoneLoader( SafeZoneLoader ):
         del self.golfCourseId
 
     def handleRaceOver(self):
-        print "you done!!"
+        print("you done!!")
 
     def handleLeftGolf(self):
         req={"loader":"safeZoneLoader","where":"playground","how":"teleportIn"
@@ -620,7 +620,7 @@ class OZSafeZoneLoader( SafeZoneLoader ):
         keyList = []
         for key in self.__toonTracks:
             keyList.append(key)
-            
+
         for key in keyList:
-            if self.__toonTracks.has_key(key):
+            if key in self.__toonTracks:
                 self.clearToonTrack(key)

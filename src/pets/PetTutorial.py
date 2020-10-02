@@ -1,5 +1,5 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.fsm import FSM
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
@@ -14,7 +14,7 @@ class PetTutorial(DirectFrame, FSM.FSM):
 
         self.doneEvent = doneEvent
         self.setStateArray(["Page1", "Page2", "Page3"])
-        
+
         # initialize our base class.
         DirectFrame.__init__(self,
                              pos = (0.0, 0.0, 0.0),
@@ -60,8 +60,8 @@ class PetTutorial(DirectFrame, FSM.FSM):
                                   )
         self.iPage3.hide()
 
-        
-        
+
+
         # Create some buttons.
         buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
@@ -154,6 +154,3 @@ class PetTutorial(DirectFrame, FSM.FSM):
     def __handleQuit(self):
         base.localAvatar.b_setPetTutorialDone(True)
         messenger.send(self.doneEvent)
-
-
-        

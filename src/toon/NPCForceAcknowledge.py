@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
 from direct.gui import DirectLabel
@@ -9,7 +9,7 @@ class NPCForceAcknowledge:
     def __init__(self, doneEvent):
         self.doneEvent = doneEvent
         self.dialog = None
-        
+
     def enter(self):
         doneStatus = {}
         questHistory = base.localAvatar.getQuestHistory()
@@ -37,8 +37,8 @@ class NPCForceAcknowledge:
                     imgNodePath = imageModel.find("**/hq-dialog-image")
                     imgPos = (0, 0, -0.02)
                     msg = TTLocalizer.NPCForceAcknowledgeMessage2
-                else: 
-                    imgNodePath = imageModel.find("**/trolley-dialog-image")                
+                else:
+                    imgNodePath = imageModel.find("**/trolley-dialog-image")
                     imgPos = (0, 0, 0.04)
                     msg = TTLocalizer.NPCForceAcknowledgeMessage
 
@@ -54,7 +54,7 @@ class NPCForceAcknowledge:
                 image = imgNodePath,
                 image_scale = imgScale,
                 )
-            
+
     def exit(self):
         if self.dialog:
             self.dialog.cleanup()

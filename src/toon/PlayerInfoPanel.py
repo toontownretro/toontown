@@ -1,6 +1,6 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 
 from toontown.friends import FriendHandle
@@ -10,9 +10,9 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.friends import ToontownFriendSecret
-import ToonAvatarDetailPanel
-import AvatarPanelBase
-import PlayerDetailPanel
+from . import ToonAvatarDetailPanel
+from . import AvatarPanelBase
+from . import PlayerDetailPanel
 from otp.otpbase import OTPGlobals
 
 GAME_LOGO_NAMES = {"Default" : 'GameLogo_Unknown',
@@ -27,7 +27,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
 
     """
     This is a panel that pops up in response to clicking on a Toon or
-    Cog nearby you, or to picking a Toon from your friends list. 
+    Cog nearby you, or to picking a Toon from your friends list.
     """
 
     def __init__(self, playerId):
@@ -37,18 +37,18 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
         self.setup(playerId)
         self.avId = 0
         self.avName = None
- 
+
     def setup(self, playerId):
         from toontown.friends import FriendsListPanel
         self.playerId = playerId
         self.playerInfo = base.cr.playerFriendsManager.playerId2Info.get(playerId)
-        
+
         if not self.playerInfo:
             return
-    
+
         avId = None
         avatar = None
-        
+
         # if you don't have an avatar and your online, try and go get one
         if playerId:
             if self.playerInfo.onlineYesNo:
@@ -61,7 +61,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
         self.noAv = 0
         if not avatar:
             self.noAv = 1
-        
+
         self.accountText = None
 
         self.listName = " "  #playerInfo.playerName
@@ -76,14 +76,14 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
             #state = avButtonState,
         else:
             avButtonState = DGG.NORMAL
-            
+
         self.online = self.playerInfo.onlineYesNo
         if self.online:
             onlineButtonState = DGG.NORMAL
             #state = onlineButtonState,
         else:
             onlineButtonState = DGG.DISABLED
-                
+
         base.localAvatar.obscureFriendsListButton(1)
 
         gui = loader.loadModel("phase_3.5/models/gui/avatar_panel_gui")
@@ -92,20 +92,20 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
                 relief = None,
                 pos = (1.1, 100, 0.525),
                 )
-                
+
         disabledImageColor = Vec4(1,1,1,0.4)
         text0Color = Vec4(1,1,1,1)
         text1Color = Vec4(0.5,1,0.5,1)
         text2Color = Vec4(1,1,0.5,1)
         text3Color = Vec4(0.6,0.6,0.6,1)
-        
+
         #load the logo image
 
         if self.playerInfo:
             logoImageName = GAME_LOGO_NAMES["Default"]
             if not self.playerInfo.onlineYesNo:
                 logoImageName = GAME_LOGO_NAMES["Default"]
-            elif GAME_LOGO_NAMES.has_key(self.playerInfo.location):
+            elif self.playerInfo.location in GAME_LOGO_NAMES:
                 logoImageName = GAME_LOGO_NAMES[self.playerInfo.location]
             model = loader.loadModel(GAME_LOGO_FILE)
             logoImage = model.find("**/" + logoImageName)
@@ -118,14 +118,14 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
                 image_color = (1.0, 1.0, 1.0, 1),
                 scale = (0.175,1,0.175),
                 )
-        
+
         # Put the player's name across the top.
         font = ToontownGlobals.getInterfaceFont()
         textScale = 0.047
         textWrap = 7.5
         textAlign = TextNode.ACenter
         textPos = (0, 0)
-            
+
         self.nameLabel = DirectLabel(
                 parent = self.frame,
                 pos = (0.0125, 0, 0.385),
@@ -139,7 +139,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
                 text_align = textAlign,
                 text_shadow = (1, 1, 1, 1),
                 )
-                
+
         if self.accountText:
             self.accountLabel = DirectLabel(
                     parent = self.frame,
@@ -155,7 +155,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
                     text_shadow = (1, 1, 1, 1),
                     )
             self.accountLabel.show()
-            
+
         self.closeButton = DirectButton(
                 parent = self.frame,
                 image = (gui.find("**/CloseBtn_UP"),
@@ -167,7 +167,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
                 pos = (0.157644, 0, -0.379167),
                 command = self.__handleClose,
                 )
-        
+
         self.friendButton = DirectButton(
                 parent = self.frame,
                 image = (gui.find("**/Frnds_Btn_UP"),
@@ -215,7 +215,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
                 command = self.__handleGoto,
                 )
         self.goToButton['state'] = DGG.DISABLED
-                
+
         self.whisperButton = DirectButton(
                 parent = self.frame,
                 image = (gui.find("**/ChtBx_ChtBtn_UP"),
@@ -225,7 +225,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
                          ),
                 image3_color = disabledImageColor,
                 relief = None,
-                image_scale = 0.90,               
+                image_scale = 0.90,
                 pos = (-0.103, 0, -0.0375),
                 text = TTLocalizer.AvatarPanelWhisper,
                 text0_fg = text0Color,
@@ -238,7 +238,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
                 state = onlineButtonState,
                 command = self.__handleWhisper,
                 )
-        
+
         self.secretsButton = DirectButton(
                 parent = self.frame,
                 image = (gui.find("**/ChtBx_ChtBtn_UP"),
@@ -262,7 +262,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
                 command = self.__handleSecrets,
                 )
         self.secretsButton['state'] = DGG.DISABLED
-                
+
         if not base.localAvatar.isTeleportAllowed():
             # Can't teleport to a friend while we're wearing our
             # cog suit or in certain other states.
@@ -270,7 +270,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
 
         # ignore or stop ignoring?
         ignoreStr, ignoreCmd, ignoreSize = self.getIgnoreButtonInfo()
-        
+
         self.ignoreButton = DirectButton(
                 parent = self.frame,
                 image = (gui.find("**/Ignore_Btn_UP"),
@@ -337,7 +337,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
                 state = DGG.NORMAL,
                 command = self.__handleDetails,
                 )
-                
+
         gui.removeNode()
 
         menuX = -0.05
@@ -350,12 +350,12 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
         self.accept("playerOffline", self.__handlePlayerChanged)
         self.accept(OTPGlobals.PlayerFriendUpdateEvent, self.__handlePlayerChanged)
         self.accept(OTPGlobals.PlayerFriendRemoveEvent, self.__handlePlayerUnfriend)
-        
-        
+
+
     def disableAll(self):
         self.detailButton['state'] = DGG.DISABLED
         self.ignoreButton['state'] = DGG.DISABLED
-	# disabled for intl 
+	# disabled for intl
         if not base.cr.productName in ['JP', 'DE', 'BR', 'FR'] :
             self.reportButton['state'] = DGG.DISABLED
         self.goToButton['state'] = DGG.DISABLED
@@ -363,7 +363,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
         self.whisperButton['state'] = DGG.DISABLED
         self.friendButton['state'] = DGG.DISABLED
         self.closeButton['state'] = DGG.DISABLED
-        
+
 
 
     def cleanup(self):
@@ -375,7 +375,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
 
         AvatarPanelBase.AvatarPanelBase.cleanup(self)
         return
-        
+
     def unsetup(self):
         if not hasattr(self, "frame") or (self.frame == None):
             return
@@ -397,7 +397,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
 
         if hasattr(self.avatar, "bFake") and self.avatar.bFake:
             self.avatar.delete()
-        
+
     def __handleGoto(self):
         if base.localAvatar.isTeleportAllowed():
             base.localAvatar.chatMgr.noWhisper()
@@ -429,7 +429,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
                     self.avName = avatar.getName()
                     if not self.avDisableName:
                         self.avDisableName = avatar.uniqueName('disable')
-        
+
     def __handleDetails(self):
         base.localAvatar.chatMgr.noWhisper()
         self.__getAvInfo()
@@ -441,16 +441,16 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
         avatar panel if it's not a friend.
         """
         pass
-            
+
     def __handlePlayerChanged(self, playerId, info = None):
         if playerId == self.playerId:
             self.unsetup()
             self.setup(playerId)
-            
+
     def __handlePlayerUnfriend(self, playerId):
         if playerId == self.playerId:
             self.__handleClose()
-        
+
 
     def __handleClose(self):
         self.cleanup()
@@ -458,23 +458,22 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
         if self.friendsListShown:
             # Restore the friends list if it was up before.
             self.FriendsListPanel.showFriendsList()
-            
+
     def getAvId(self):
         if hasattr(self, "avatar"):
             if self.avatar:
                 return self.avatar.doId
         return None
-       
+
     def getPlayerId(self):
         if hasattr(self, "playerId"):
             return self.playerId
         return None
-        
+
     def isHidden(self):
         if not hasattr(self, "frame") or not self.frame:
             return 1
         return self.frame.isHidden()
-        
+
     def getType(self):
         return "player"
-

@@ -1,12 +1,12 @@
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import BitMask32
+from toontown.toonbase.ToontownModules import BitMask32
 
 NumVines = 20 # how many vines in the game
 GameDuration = 70 # in seconds how long does the game last
 ShowScoresDuration = 4. # in seconds, how long to display the player's score
 VineStartingT = 0.25 # when game starts where are they in vine 0
 VineFellDownT = 0.1 # when they fall, where to place them on the last vine
-EndlessGame = False # continue even whe timer expires        
+EndlessGame = False # continue even whe timer expires
 
 BonusPerSecondLeft = 0.4 # for each second left how many more points to give
 JumpTimeBuffer = 0.5 # how soon to check collision on the vine we came from
@@ -17,7 +17,7 @@ VineHeight = 30 # how high is the vine
 BatMaxHeight = 28 # maximum height bat flies
 BatMinHeight = 10 # minimum height bat flies
 RadarCameraBitmask = BitMask32.bit(3) # bitmask for the radar camera
-    
+
 
 # each course section will cover 5 vines,
 # the harder difficulties will use the later sections
@@ -54,7 +54,7 @@ CourseSections = (
 CourseWeights = {
     ToontownGlobals.ToontownCentral : ( (0,25), (1,25), (2,25), (3,25) ),
     ToontownGlobals.DonaldsDock : ( (1,25), (2,25), (3,25), (4,25) ),
-    ToontownGlobals.DaisyGardens :  ( (2,25), (3,25), (4,25), (5,25) ), 
+    ToontownGlobals.DaisyGardens :  ( (2,25), (3,25), (4,25), (5,25) ),
     ToontownGlobals.MinniesMelodyland:  ( (3,25), (4,25), (5,25), (6,25) ),
     ToontownGlobals.TheBrrrgh: ( (4,25), (5,25), (6,25), (7,25) ),
     ToontownGlobals.DonaldsDreamland: ( (4,20), (5,20), (6,20), (7,20), (8,20) ),
@@ -64,7 +64,7 @@ CourseWeights = {
 BaseBonusOnEndVine = {
     ToontownGlobals.ToontownCentral : 4,
     ToontownGlobals.DonaldsDock : 5,
-    ToontownGlobals.DaisyGardens : 6, 
+    ToontownGlobals.DaisyGardens : 6,
     ToontownGlobals.MinniesMelodyland: 7,
     ToontownGlobals.TheBrrrgh: 8,
     ToontownGlobals.DonaldsDreamland: 9,
@@ -76,7 +76,7 @@ BaseBonusOnEndVine = {
 BatInfo = {
     ToontownGlobals.ToontownCentral : ( (60, 0, 0.35),),
     ToontownGlobals.DonaldsDock : ( (60, 0, 0.25), (30,30)),
-    ToontownGlobals.DaisyGardens :  ( (60, 0, 0.25), (15,30) ), 
+    ToontownGlobals.DaisyGardens :  ( (60, 0, 0.25), (15,30) ),
     ToontownGlobals.MinniesMelodyland:  (  (60, 0, 0.25), (10,25)  ),
     ToontownGlobals.TheBrrrgh: ((60, 0, 0.25), (30,30), (30, 20) ),
     ToontownGlobals.DonaldsDreamland: ( (60, 0, 0.25), (30,30), (10, 20)),
@@ -92,8 +92,8 @@ SpiderLimits = {
     ToontownGlobals.TheBrrrgh: 3,
     ToontownGlobals.DonaldsDreamland: 4
 }
-    
-   
+
+
 def getNumSpidersInSection( sectionIndex):
     if sectionIndex <0 or sectionIndex >= len(CourseSections):
         return 0
@@ -102,4 +102,3 @@ def getNumSpidersInSection( sectionIndex):
         if vine[3]:
             numSpiders += 1
     return numSpiders
-    

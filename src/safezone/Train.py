@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.DirectObject import DirectObject
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import globalClockDelta
@@ -16,7 +16,7 @@ from direct.actor import Actor
 # This class is more accurately a train TRACK, it handles many trains moving
 # across sequentially
 
-class Train(DirectObject): 
+class Train(DirectObject):
 
     notify = directNotify.newCategory('Train')
     #notify.setDebug(True)
@@ -77,14 +77,14 @@ class Train(DirectObject):
     def __networkTimeInSeconds(self):
         time = globalClockDelta.getRealNetworkTime(bits=32) / NetworkTimePrecision
         return time
-            
+
     # this gets a new set of cars, sets up a lerp track for the
     # next run and starts the run
 
     # A) first time through - get the last start time and start the interval in the middle
     # B) the last run started less than MarkDelta ago - start a new run sometime in the future
-    # C) the last run started more than MarkDelta ago - start a new run in the middle 
-    
+    # C) the last run started more than MarkDelta ago - start a new run in the middle
+
     def doNextRun(self, bFirstRun=False):
         if self.locomotive:
             if bFirstRun:
@@ -150,7 +150,7 @@ class Train(DirectObject):
 
     def __showStart(self):
         self.notify.debug("Starting train %s at %s." % (self.trainId,self.__networkTimeInSeconds()))
-            
+
     # set up a Lerp track for the upcoming run.  The final task
     # is a call to doNextRun.  It is up to doNextRun to determine
     # if another run should be made
@@ -231,7 +231,7 @@ class Train(DirectObject):
         # stop listening for toons.
         self.ignore('enter' + self.collNodeName)
         #self.collisionNode.setCollideMask(BitMask32(0))
-    
+
     def __handleCollisionSphereEnter(self, collEntry=None):
         # Response for the train hitting a toon
         assert(self.notify.debug("Entering collision sphere..."))

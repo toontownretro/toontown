@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.directnotify import DirectNotifyGlobal
-import Walk
+from . import Walk
 
 class PublicWalk(Walk.Walk):
     """
@@ -10,8 +10,8 @@ class PublicWalk(Walk.Walk):
     """
     # create a notify category
     notify = DirectNotifyGlobal.directNotify.newCategory("PublicWalk")
-    
-    
+
+
     def __init__(self, parentFSM, doneEvent):
         """
         doneEvent is a string.
@@ -26,7 +26,7 @@ class PublicWalk(Walk.Walk):
     def load(self):
         # Call up the chain
         Walk.Walk.load(self)
-            
+
     def unload(self):
         # Call up the chain
         Walk.Walk.unload(self)
@@ -35,7 +35,7 @@ class PublicWalk(Walk.Walk):
     def enter(self, slowWalk = 0):
         # Call up the chain
         Walk.Walk.enter(self, slowWalk)
-        
+
         # The shticker book and associated events
         base.localAvatar.book.showButton()
         self.accept(StickerBookHotkey, self.__handleStickerBookEntry)
@@ -49,7 +49,7 @@ class PublicWalk(Walk.Walk):
     def exit(self):
         # Call up the chain
         Walk.Walk.exit(self)
-        
+
         # Put away the book
         base.localAvatar.book.hideButton()
         self.ignore(StickerBookHotkey)
@@ -65,7 +65,7 @@ class PublicWalk(Walk.Walk):
         currentState = base.localAvatar.animFSM.getCurrentState().getName()
         if currentState == 'jumpAirborne':
             return
-            
+
         if base.localAvatar.book.isObscured():
             return
         else:
@@ -79,7 +79,7 @@ class PublicWalk(Walk.Walk):
         currentState = base.localAvatar.animFSM.getCurrentState().getName()
         if currentState == 'jumpAirborne':
             return
-        
+
         if base.localAvatar.book.isObscured():
             return
         else:

@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.directnotify import DirectNotifyGlobal
@@ -7,8 +7,8 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.battle import BattleExperience
 from toontown.battle import BattleBase
-import BossCog
-import SuitDNA
+from . import BossCog
+from . import SuitDNA
 from toontown.coghq import CogDisguiseGlobals
 from direct.showbase import Transitions
 from toontown.hood import ZoneUtil
@@ -127,7 +127,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
 
         # Have some bubbles ready to zap the toons with the swat
         # attacks too.
-        
+
         bubbleL = CollisionSphere(10, -5, 0, 10)
         bubbleL.setTangible(0)
         bubbleLNode = CollisionNode('BossZap')
@@ -136,7 +136,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         self.bubbleL = self.axle.attachNewNode(bubbleLNode)
         self.bubbleL.setTag('attackCode', str(ToontownGlobals.BossCogSwatLeft))
         self.bubbleL.stash()
-        
+
         bubbleR = CollisionSphere(-10, -5, 0, 10)
         bubbleR.setTangible(0)
         bubbleRNode = CollisionNode('BossZap')
@@ -145,7 +145,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         self.bubbleR = self.axle.attachNewNode(bubbleRNode)
         self.bubbleR.setTag('attackCode', str(ToontownGlobals.BossCogSwatRight))
         self.bubbleR.stash()
-        
+
         bubbleF = CollisionSphere(0, -25, 0, 12)
         bubbleF.setTangible(0)
         bubbleFNode = CollisionNode('BossZap')
@@ -176,7 +176,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         self.cleanupFlash()
         self.disableLocalToonSimpleCollisions()
         self.ignoreAll()
-        
+
     def delete(self):
         """
         This method is called when the DistributedObject is
@@ -233,7 +233,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         self.activeIntervals[name] = interval
 
     def cleanupIntervals(self):
-        for interval in self.activeIntervals.values():
+        for interval in list(self.activeIntervals.values()):
             interval.finish()
             DelayDelete.cleanupDelayDeletes(interval)
         self.activeIntervals = {}
@@ -241,13 +241,13 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
     def clearInterval(self, name, finish=1):
         """ Clean up the specified Interval
         """
-        if (self.activeIntervals.has_key(name)):
+        if (name in self.activeIntervals):
             ival = self.activeIntervals[name]
             if finish:
                 ival.finish()
             else:
                 ival.pause()
-            if self.activeIntervals.has_key(name):
+            if name in self.activeIntervals:
                 DelayDelete.cleanupDelayDeletes(ival)
                 del self.activeIntervals[name]
         else:
@@ -255,8 +255,8 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
 
     def finishInterval(self, name):
         """ Force the specified Interval to jump to the end
-        """ 
-        if (self.activeIntervals.has_key(name)):
+        """
+        if (name in self.activeIntervals):
             interval = self.activeIntervals[name]
             interval.finish()
 
@@ -273,7 +273,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
 
     def avatarNearExit(self, entry):
         self.sendUpdate('avatarNearExit', [])
-        
+
 
     def hasLocalToon(self):
         # Returns true if localToon is involved in the final movies or
@@ -304,7 +304,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
                             id7, origExp7, earnedExp7, origQuests7, items7, missedItems7,
                             origMerits7, merits7, parts7,
                             deathList, uberList, helpfulToons):
-        
+
         self.deathList = deathList
         self.uberList = uberList
         self.helpfulToons = helpfulToons
@@ -324,14 +324,14 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
                     origMerits6, merits6, parts6),
                    (id7, origExp7, earnedExp7, origQuests7, items7, missedItems7,
                     origMerits7, merits7, parts7))
-                   
+
         self.toonRewardDicts = BattleExperience.genRewardDicts(entries)
         self.toonRewardIds = [id0,id1,id2,id3,id4,id5,id6,id7]
 
 
     def setArenaSide(self, arenaSide):
         self.arenaSide = arenaSide
-    
+
     def setState(self, state):
         self.request(state)
 
@@ -360,17 +360,17 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         self.battleRequest = self.cr.relatedObjectMgr.requestObjects(
             [self.battleAId, self.battleBId],
             allCallback = self.__gotBattles)
-        
+
     def __gotBattles(self, battles):
         assert self.notify.debug("gotBattles(%s, %s)" % (repr(battles[0]), repr(battles[1])))
         self.battleRequest = None
 
         if self.battleA and self.battleA != battles[0]:
             self.battleA.cleanupBattle()
-        
+
         if self.battleB and self.battleB != battles[1]:
             self.battleB.cleanupBattle()
-        
+
         self.battleA = battles[0]
         self.battleB = battles[1]
 
@@ -379,7 +379,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         # they're not hanging on to toons or camera modes or
         # something.
         assert self.notify.debug("cleanupBattles()")
-        
+
         if self.battleA:
             self.battleA.cleanupBattle()
         if self.battleB:
@@ -395,7 +395,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
     def controlToons(self):
         # Turn off remote control of the toons.  We'll move them
         # around locally for now.
-        assert(self.notify.debug("controlToons"))        
+        assert(self.notify.debug("controlToons"))
         for toonId in self.involvedToons:
             toon = self.cr.doId2do.get(toonId)
             if toon:
@@ -423,12 +423,12 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
             self.toonSphereHandler.addCollider(self.toonSphere, localAvatar)
         self.toonSphere.reparentTo(localAvatar)
         base.cTrav.addCollider(self.toonSphere, self.toonSphereHandler)
-            
+
     def disableLocalToonSimpleCollisions(self):
         if self.toonSphere:
             base.cTrav.removeCollider(self.toonSphere)
             self.toonSphere.detachNode()
-    
+
     def toOuchMode(self):
         # Move the localToon to 'ouch' mode: we've been hit by
         # something and can't move while we recover.
@@ -436,7 +436,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
             place = self.cr.playGame.getPlace()
             if place and hasattr(place, 'fsm'):
                 place.setState('ouch')
-    
+
     def toCraneMode(self):
         # Move the localToon to 'crane' mode: we're not walking the
         # avatar around, but we're still controlling something
@@ -507,7 +507,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
 
         # First, create a CollisionRay in a node.  This same node is
         # instanced to each toon.
-        
+
         rayNode = CollisionNode('stickToonsToFloor')
         rayNode.addSolid(CollisionRay(0.0, 0.0, CollisionHandlerRayStart, 0.0, 0.0, -1.0))
         rayNode.setFromCollideMask(ToontownGlobals.FloorBitmask)
@@ -556,7 +556,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         self.ray1 = CollisionRay(0.0, 10.0, 20.0, 0.0, 0.0, -1.0)
         self.ray2 = CollisionRay(0.0, 0.0, 20.0, 0.0, 0.0, -1.0)
         self.ray3 = CollisionRay(0.0, -10.0, 20.0, 0.0, 0.0, -1.0)
-        
+
         rayNode = CollisionNode('stickBossToFloor')
         rayNode.addSolid(self.ray1)
         rayNode.addSolid(self.ray2)
@@ -583,7 +583,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
 
         if not self.cqueue:
             return
-        
+
         # Find the first three entries that correspond to our three
         # rays.
         self.cqueue.sortEntries()
@@ -608,7 +608,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         if not (self.e1 and self.e2 and self.e3):
             self.notify.debug("Some points missed in __liftBoss")
             return
-        
+
         # Now get the three points that each of these detected.
         p1 = self.e1.getSurfacePoint(self)
         p2 = self.e2.getSurfacePoint(self)
@@ -640,7 +640,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         else:
             # Otherwise, it's level.
             self.rotateNode.clearTransform()
-        
+
 
     def unstickBoss(self):
         # Undoes a previous call to stickBossToFloor(): this
@@ -649,7 +649,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         if self.rays:
             base.cTrav.removeCollider(self.rays)
             self.rays.removeNode()
-            
+
         self.rays = None
         self.ray1 = None
         self.ray2 = None
@@ -660,7 +660,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         self.rotateNode.clearTransform()
 
         self.cqueue = None
-            
+
     def rollBossToPoint(self, fromPos, fromHpr, toPos, toHpr, reverse):
         vector = Vec3(toPos - fromPos)
         distance = vector.length()
@@ -683,7 +683,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         else:
             # If no fromHpr is given, it's the same as toHpr.
             fromHpr = toHpr
-            
+
         turnTime = abs(toHpr[0] - fromHpr[0]) / ToontownGlobals.BossCogTurnSpeed
         if toHpr[0] < fromHpr[0]:
             leftRate = ToontownGlobals.BossCogTreadSpeed
@@ -693,7 +693,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
             rollTreadRate = -ToontownGlobals.BossCogTreadSpeed
         else:
             rollTreadRate = ToontownGlobals.BossCogTreadSpeed
-            
+
         rollTime = distance / ToontownGlobals.BossCogRollSpeed
         deltaPos = toPos - fromPos
         track = Sequence(Func(self.setPos, fromPos),
@@ -719,7 +719,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
 
     def setupElevator(self, elevatorModel):
         self.elevatorModel = elevatorModel
-    
+
         self.leftDoor = self.elevatorModel.find("**/left-door")
         if self.leftDoor.isEmpty():
             self.leftDoor = self.elevatorModel.find("**/left_door")
@@ -749,10 +749,10 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
 
         # This shouldn't be necessary.
         toon.getGeomNode().hide()
-        
+
     def placeToonInElevator(self, toon):
         self.putToonInCogSuit(toon)
-        
+
         toonIndex = self.involvedToons.index(toon.doId)
         toon.reparentTo(self.elevatorModel)
         toon.setPos(*ElevatorConstants.BigElevatorPoints[toonIndex])
@@ -772,7 +772,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
                 toon = base.cr.doId2do.get(toonId)
                 if toon:
                     toonObjs.append(toon)
-        
+
         seq = Sequence()
 
         for toon in toonObjs:
@@ -788,11 +788,11 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         # Maybe it's us!
         if avId == localAvatar.doId:
             self.localToonDied()
-            
+
 
     def localToonToSafeZone(self):
         assert self.notify.debug('localToonToSafeZone()')
-        
+
         target_sz = ZoneUtil.getSafeZoneId(localAvatar.defaultZone)
 
         place = self.cr.playGame.getPlace()
@@ -809,7 +809,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
 
     def localToonDied(self):
         assert self.notify.debug('localToonToSafeZone()')
-        
+
         target_sz = ZoneUtil.getSafeZoneId(localAvatar.defaultZone)
 
         place = self.cr.playGame.getPlace()
@@ -823,7 +823,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
             'avId' : -1,
             'battle' : 1,
             }])
-    
+
 
     def toonsToBattlePosition(self, toonIds, battleNode):
         # Position the toons in the list to their appropriate position
@@ -832,7 +832,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         points = BattleBase.BattleBase.toonPoints[len(toonIds) - 1]
 
         self.notify.debug("toonsToBattlePosition: points = %s" % points[0][0])
-        
+
         for i in range(len(toonIds)):
             toon = base.cr.doId2do.get(toonIds[i])
             if toon:
@@ -847,7 +847,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
                 self.notify.debug("battleNode.hpr = %s" % battleNode.getHpr())
                 toon.setPosHpr(battleNode, pos[0], pos[1], pos[2], h, 0, 0)
                 self.notify.debug("new toon pos %s " % toon.getPos())
-        
+
     def __touchedBoss(self, entry):
         assert self.notify.debug("__touchedBoss()")
         # The localToon has come into contact with the boss's
@@ -873,7 +873,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         if self.localToonIsSafe or localAvatar.ghostMode or localAvatar.isStunned:
             return
         messenger.send('interrupt-pie')
-        
+
         place = self.cr.playGame.getPlace()
         currentState = None
         if place:
@@ -884,7 +884,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
 
         toon = localAvatar
 
-        fling = 1 
+        fling = 1
         shake = 0
         if attackCode == ToontownGlobals.BossCogAreaAttack:
             # For an area attack, we don't fling or move the toons,
@@ -895,7 +895,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         if fling:
             if origin == None:
                 origin = self
-            
+
             # Face the toon towards the boss's center (so he can get
             # knocked backwards), but keep the camera in the same place.
             camera.wrtReparentTo(render)
@@ -907,7 +907,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         bossRelativePos = toon.getPos(self.getGeomNode())
         bp2d = Vec2(bossRelativePos[0], bossRelativePos[1])
         bp2d.normalize()
-        
+
         pos = toon.getPos()
         hpr = toon.getHpr()
         timestamp = globalClockDelta.getFrameNetworkTime()
@@ -925,7 +925,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         if toonId == localAvatar.doId:
             # Ignore messages about localToon; he already zapped himself.
             return
-            
+
         ts = globalClockDelta.localElapsedTime(timestamp)
         pos = Point3(x, y, z)
         hpr = VBase3(h, p, r)
@@ -943,7 +943,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
                 # Delay the zap by the same amount of time as the smoothing
                 # delay, so it will be in sync with the running animation.
                 ts -= toon.smoother.getDelay()
-            
+
             self.doZapToon(toon, pos = pos, hpr = hpr, ts = ts, fling = fling)
 
     def doZapToon(self, toon, pos = None, hpr = None, ts = 0,
@@ -951,10 +951,10 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         # The indicated distributed toon has come into contact with
         # something that hurts him.  Play a little movie showing him
         # getting zapped.
-        
+
         zapName = toon.uniqueName('zap')
         self.clearInterval(zapName)
-        
+
         zapTrack = Sequence(name = zapName)
 
         if toon == localAvatar:
@@ -992,9 +992,9 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
                           toon.posInterval(0.5, getSlideToPos, fluid = 1)]
         else:
             toonTrack += [ActorInterval(toon, 'slip-forward')]
-            
+
         zapTrack.append(toonTrack)
-        
+
         if toon == localAvatar:
             zapTrack.append(Func(self.disableLocalToonSimpleCollisions))
             currentState = self.state
@@ -1044,7 +1044,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         elif attackCode == ToontownGlobals.BossCogSwatLeft:
             self.setDizzy(0)
             self.doAnimate('ltSwing', now = 1)
-            
+
         elif attackCode == ToontownGlobals.BossCogSwatRight:
             self.setDizzy(0)
             self.doAnimate('rtSwing', now = 1)
@@ -1084,7 +1084,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
     def flashRed(self):
         # Flash the boss cog red to emphasize that he's been hit.
         self.cleanupFlash()
-        
+
         self.setColorScale(1, 1, 1, 1)
         i = Sequence(self.colorScaleInterval(0.1, colorScale = VBase4(1, 0, 0, 1)),
                      self.colorScaleInterval(0.3, colorScale = VBase4(1, 1, 1, 1)))
@@ -1104,17 +1104,17 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
 
 
     def getGearFrisbee(self):
-        return loader.loadModel('phase_9/models/char/gearProp')        
+        return loader.loadModel('phase_9/models/char/gearProp')
 
     def backupToonsToBattlePosition(self, toonIds, battleNode):
         # Returns a movie showing the toons backing up from promotion
         # position to battle position.
         self.notify.debug("backupToonsToBattlePosition:")
-        
+
         ival = Parallel()
 
         points = BattleBase.BattleBase.toonPoints[len(toonIds) - 1]
-        
+
         for i in range(len(toonIds)):
             toon = base.cr.doId2do.get(toonIds[i])
             if toon:
@@ -1184,7 +1184,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
                 Func(dustCloud.destroy)),
                             )
 
-        seq.append(suitsOff)        
+        seq.append(suitsOff)
         return seq
 
     def doDirectedAttack(self, avId, attackCode):
@@ -1230,7 +1230,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
                 self.raised = 1
             else:
                 neutral1Anim = ActorInterval(self, neutral, startFrame = 48)
-                
+
             throwAnim = self.getAnim('throw')
             neutral2Anim = ActorInterval(self, neutral)
 
@@ -1260,7 +1260,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         # to get this information without so many dots?
         if not getattr(localAvatar.controlManager.currentControls, "isAirborne", 0):
             self.zapLocalToon(ToontownGlobals.BossCogAreaAttack)
-        
+
 
     ##### Environment #####
 
@@ -1269,7 +1269,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         self.elevatorMusic = base.loadMusic(
             'phase_7/audio/bgm/tt_elevator.mid')
         self.stingMusic = base.loadMusic(
-            'phase_7/audio/bgm/encntr_suit_winning_indoor.mid')            
+            'phase_7/audio/bgm/encntr_suit_winning_indoor.mid')
             #'phase_9/audio/bgm/encntr_sting_announce.mid')
         # Battle one: play the standard street battle music
         self.battleOneMusic = base.loadMusic(
@@ -1281,8 +1281,8 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         # Reward: play the reward music
         self.epilogueMusic = base.loadMusic(
             'phase_9/audio/bgm/encntr_hall_of_fame.mid')
-            #'phase_9/audio/bgm/CogHQ_finale.mid')            
-        
+            #'phase_9/audio/bgm/CogHQ_finale.mid')
+
 
     def unloadEnvironment(self):
         pass
@@ -1324,7 +1324,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         self.transitions.fadeScreen(alpha = 1)
 
         NametagGlobals.setMasterArrowsOn(0)
-        
+
     def __doneWaitForToons(self):
         # All the expected toons have arrived; tell the AI so we can
         # move on.
@@ -1372,7 +1372,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
 
     def __doneElevator(self):
         self.doneBarrier('Elevator')
-        
+
     def exitElevator(self):
         intervalName = "ElevatorMovie"
         self.clearInterval(intervalName)
@@ -1419,7 +1419,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
     def __beginBattleOne(self):
         intervalName = "IntroductionMovie"
         self.clearInterval(intervalName)
-        
+
         self.doneBarrier('Introduction')
 
     def exitIntroduction(self):
@@ -1445,7 +1445,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         # Get the credit multiplier
         mult = ToontownBattleGlobals.getBossBattleCreditMultiplier(1)
         localAvatar.inventory.setBattleCreditMultiplier(mult)
-        
+
         # The toons should be in their battle position.
         self.toonsToBattlePosition(self.toonsA, self.battleANode)
         self.toonsToBattlePosition(self.toonsB, self.battleBNode)
@@ -1468,7 +1468,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
     # Added to enable all boss battles to support clicking on toon nametags.
     # This is a bit of a hack. I suppose we should inherit from FriendsListManager but
     # we really don't want the whole friends list interface...
-    
+
     def enterBattleThree(self):
         assert self.notify.debug('enterBattleThree()')
         self.cleanupIntervals()
@@ -1476,10 +1476,10 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         self.accept('clickedNametag', self.__clickedNameTag)
         self.accept('friendAvatar', self.__handleFriendAvatar)
         self.accept('avatarDetails', self.__handleAvatarDetails)
-        NametagGlobals.setMasterArrowsOn(0)        
+        NametagGlobals.setMasterArrowsOn(0)
         NametagGlobals.setMasterNametagsActive(1)
-                
-        
+
+
     def exitBattleThree(self):
         assert self.notify.debug('exitBattleThree()')
         self.ignore('clickedNameTag')
@@ -1495,7 +1495,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
             return
         if self.cr:
             place = self.cr.playGame.getPlace()
-            if place and hasattr(place, 'fsm'):        
+            if place and hasattr(place, 'fsm'):
                 FriendsListManager.FriendsListManager._FriendsListManager__handleClickedNametag(place, avatar)
 
     def __handleFriendAvatar(self, avId, avName, avDisableName):
@@ -1506,7 +1506,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
             return
         if self.cr:
             place = self.cr.playGame.getPlace()
-            if place and hasattr(place, 'fsm'):        
+            if place and hasattr(place, 'fsm'):
                 FriendsListManager.FriendsListManager._FriendsListManager__handleFriendAvatar(place, avId, avName, avDisableName)
 
     def __handleAvatarDetails(self, avId, avName, playerId = None):
@@ -1517,7 +1517,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
             return
         if self.cr:
             place = self.cr.playGame.getPlace()
-            if place and hasattr(place, 'fsm'):        
+            if place and hasattr(place, 'fsm'):
                 FriendsListManager.FriendsListManager._FriendsListManager__handleAvatarDetails(place, avId, avName, playerId)
 
 
@@ -1526,7 +1526,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
     # Added to enable all boss battles to support clicking on toon nametags.
     # This is a bit of a hack. I suppose we should inherit from FriendsListManager but
     # we really don't want the whole friends list interface...
-    
+
     def enterBattleFour(self):
         assert self.notify.debug('enterBattleFour()')
         self.cleanupIntervals()
@@ -1534,10 +1534,10 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         self.accept('clickedNametag', self.__clickedNameTag)
         self.accept('friendAvatar', self.__handleFriendAvatar)
         self.accept('avatarDetails', self.__handleAvatarDetails)
-        NametagGlobals.setMasterArrowsOn(0)        
+        NametagGlobals.setMasterArrowsOn(0)
         NametagGlobals.setMasterNametagsActive(1)
-                
-        
+
+
     def exitBattleFour(self):
         assert self.notify.debug('exitBattleFour()')
         self.ignore('clickedNameTag')
@@ -1545,7 +1545,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         self.ignore('avatarDetails')
         self.cleanupIntervals()
 
-        
+
     ##### Frolic state #####
 
     # This state is probably only useful for debugging.  The toons are
@@ -1580,7 +1580,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
                 if toon.isDisguised:
                     toon.suit.loop('neutral')
                 toon.loop('neutral')
- 
+
 
     def wearCogSuits(self, toons, battleNode, camLoc, arrayOfObjs = False, waiter = False):
         # Returns a movie showing the line of toons losing their Cog suits.
@@ -1636,5 +1636,5 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
                                   )),
                 Func(dustCloud.detachNode)))
 
-        seq.append(suitsOff)        
+        seq.append(suitsOff)
         return seq

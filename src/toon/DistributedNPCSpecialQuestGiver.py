@@ -1,5 +1,5 @@
-from pandac.PandaModules import *
-from DistributedNPCToonBase import *
+from toontown.toonbase.ToontownModules import *
+from .DistributedNPCToonBase import *
 from toontown.quest import QuestParser
 from toontown.quest import QuestChoiceGui
 from toontown.quest import TrackChoiceGui
@@ -17,12 +17,12 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
         self.curQuestMovie = None
         self.questChoiceGui = None
         self.trackChoiceGui = None
-        
+
     def announceGenerate(self):
         self.setAnimState("neutral", 0.9, None, None)
-        
-        npcOrigin = self.cr.playGame.hood.loader.geom.find("**/npc_origin_" + `self.posIndex`)
-        
+
+        npcOrigin = self.cr.playGame.hood.loader.geom.find("**/npc_origin_" + repr(self.posIndex))
+
          # Now he's no longer parented to render, but no one minds.
         if not npcOrigin.isEmpty():
             self.reparentTo(npcOrigin)
@@ -31,7 +31,7 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
             self.notify.warning("announceGenerate: Could not find npc_origin_" + str(self.posIndex))
 
         DistributedNPCToonBase.announceGenerate(self)
-            
+
     def delayDelete(self):
         DistributedNPCToonBase.delayDelete(self)
         # if there are situations where a quest movie should be able to stick around
@@ -47,14 +47,14 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
         self.cleanupMovie()
         DistributedNPCToonBase.disable(self)
 
-    def cleanupMovie(self):        
+    def cleanupMovie(self):
         self.clearChat()
         # Kill any quest choice guis that may be active
         self.ignore("chooseQuest")
         if self.questChoiceGui:
             self.questChoiceGui.destroy()
             self.questChoiceGui = None
-        # Kill any movies that may be playing 
+        # Kill any movies that may be playing
         self.ignore(self.uniqueName("doneChatPage"))
         if self.curQuestMovie:
             self.curQuestMovie.timeout(fFinish = 1)
@@ -64,7 +64,7 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
         if self.trackChoiceGui:
             self.trackChoiceGui.destroy()
             self.trackChoiceGui = None
-            
+
     def allowedToTalk(self):
         """Check if the local toon is allowed to talk to this NPC."""
         if base.cr.isPaid():
@@ -82,7 +82,7 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
             ):
             return True
         return False
-            
+
     def handleCollisionSphereEnter(self, collEntry):
         """
         Response for a toon walking up to this NPC
@@ -101,7 +101,7 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
             if place:
                 place.fsm.request('stopped')
             self.dialog = TeaserPanel.TeaserPanel(pageName='quests',
-                                                  doneFunc=self.handleOkTeaser)        
+                                                  doneFunc=self.handleOkTeaser)
 
     def handleOkTeaser(self):
         """Handle the user clicking ok on the teaser panel."""
@@ -147,18 +147,18 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
                               other=self,
                               blendType="easeOut",
                               task=self.uniqueName("lerpCamera"))
-        
+
 
     def setMovie(self, mode, npcId, avId, quests, timestamp):
         """
         This is a message from the AI describing a movie between this NPC
-        and a Toon that has approached us. 
+        and a Toon that has approached us.
         """
         timeStamp = ClockDelta.globalClockDelta.localElapsedTime(timestamp)
 
         # See if this is the local toon
         isLocalToon = (avId == base.localAvatar.doId)
-            
+
         assert(self.notify.debug("setMovie: %s %s %s %s %s %s" %
                                  (mode, npcId, avId, quests, timeStamp, isLocalToon)))
 
@@ -184,7 +184,7 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
             self.startLookAround()
             self.detectAvatars()
             return
-                
+
         av = base.cr.doId2do.get(avId)
         if av is None:
             self.notify.warning("Avatar %d not found in doId" % (avId))
@@ -215,7 +215,7 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
             return
 
         self.setupAvatars(av)
-            
+
         fullString = ""
         toNpcId = None
         if (mode == NPCToons.QUEST_MOVIE_COMPLETE):
@@ -239,13 +239,13 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
             leavingString = Quests.chooseQuestDialog(questId, Quests.LEAVING)
             if leavingString:
                 fullString += "\a" + leavingString
-            
+
         elif (mode == NPCToons.QUEST_MOVIE_QUEST_CHOICE_CANCEL):
             fullString = TTLocalizer.QuestMovieQuestChoiceCancel
-            
+
         elif (mode == NPCToons.QUEST_MOVIE_TRACK_CHOICE_CANCEL):
             fullString = TTLocalizer.QuestMovieTrackChoiceCancel
-            
+
         elif (mode == NPCToons.QUEST_MOVIE_INCOMPLETE):
             questId, completeStatus, toNpcId = quests
 
@@ -270,7 +270,7 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
             leavingString = Quests.chooseQuestDialog(questId, Quests.LEAVING)
             if leavingString:
                 fullString += "\a" + leavingString
-            
+
         elif (mode == NPCToons.QUEST_MOVIE_ASSIGN):
             questId, rewardId, toNpcId = quests
 

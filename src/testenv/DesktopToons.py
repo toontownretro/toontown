@@ -10,7 +10,7 @@
 # z-order bottom
 
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 background = loader.loadModel('phase_3/models/gui/loading-background').find("**/bg")
 background.reparentTo(render)
@@ -64,4 +64,3 @@ for i in range(5):
 for i in range(len(toonList)):
     t = toonList[i]
     t.setPosHpr((i * 5.0) - 10.0, 32 + random.random() * 5.0, -0.25, 120.0 + (random.random()*90), 0, 0)
-    

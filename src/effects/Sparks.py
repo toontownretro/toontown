@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.particles import ParticleEffect
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import AppRunnerGlobal
@@ -35,16 +35,16 @@ class Sparks(NodePath):
             particleSearchPath.appendDirectory(Filename('.'))
         pfile = Filename('sparks.ptf')
         found = vfs.resolveFilename(pfile, particleSearchPath)
-            
+
         if not found:
             notify.warning('loadParticleFile() - no path: %s' % pfile)
             return
         notify.debug('Loading particle file: %s' % pfile)
-        
+
         self.effect.loadConfig(pfile)
         ren = self.effect.getParticlesNamed('particles-1').getRenderer()
         ren.setTextureFromNode('phase_6/models/karting/particleSpark','**/*')
-        
+
     def start(self):
         self.effect.start(self, self.renderParent)
 
@@ -60,4 +60,3 @@ class Sparks(NodePath):
         self.renderParent.removeNode()
         del self.effect
         del self.renderParent
-

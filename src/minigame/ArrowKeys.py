@@ -1,6 +1,6 @@
 """ArrowKeys.py: contains the ArrowKeys class"""
 
-from pandac.PandaModules import ModifierButtons
+from toontown.toonbase.ToontownModules import ModifierButtons
 from direct.showbase.DirectObject import DirectObject
 
 class ArrowKeys(DirectObject):
@@ -33,28 +33,28 @@ class ArrowKeys(DirectObject):
 
     def enable(self):
         self.disable()
-        
+
         # listen for key presses
         self.accept(self.UP_KEY, self.__upKeyPressed)
         self.accept(self.DOWN_KEY, self.__downKeyPressed)
         self.accept(self.LEFT_KEY, self.__leftKeyPressed)
         self.accept(self.RIGHT_KEY, self.__rightKeyPressed)
         self.accept(self.JUMP_KEY, self.__jumpKeyPressed)
-        
+
     def disable(self):
         self.__upPressed = 0
         self.__downPressed = 0
         self.__leftPressed = 0
         self.__rightPressed = 0
         self.__jumpPressed = 0
-        
+
         # ignore all key presses
         self.ignore(self.UP_KEY)
         self.ignore(self.DOWN_KEY)
         self.ignore(self.LEFT_KEY)
         self.ignore(self.RIGHT_KEY)
         self.ignore(self.JUMP_KEY)
-        
+
         self.ignore(self.UP_KEY + '-up')
         self.ignore(self.DOWN_KEY + '-up')
         self.ignore(self.LEFT_KEY + '-up')
@@ -83,7 +83,7 @@ class ArrowKeys(DirectObject):
         return self.__rightPressed
     def jumpPressed(self):
         return self.__jumpPressed
-        
+
     def jumpPost(self):
         jumpCache = self.__jumpPost
         self.__jumpPost = 0
@@ -100,7 +100,7 @@ class ArrowKeys(DirectObject):
     def setReleaseHandlers(self, handlers):
         if len(handlers) == 4:
             # we got an old style parameter that just used 4
-            handlers.append(None)        
+            handlers.append(None)
         assert(len(handlers) == 5)
         self.__checkCallbacks(handlers)
         self.__releaseHandlers = handlers
@@ -143,7 +143,7 @@ class ArrowKeys(DirectObject):
         self.accept(self.RIGHT_KEY+"-up", self.__rightKeyReleased)
         self.__rightPressed = 1
         self.__doCallback(self.__pressHandlers[self.RIGHT_INDEX])
-        
+
     def __jumpKeyPressed(self):
         self.ignore(self.JUMP_KEY)
         self.accept(self.JUMP_KEY+"-up", self.__jumpKeyReleased)
@@ -176,7 +176,7 @@ class ArrowKeys(DirectObject):
         self.accept(self.RIGHT_KEY, self.__rightKeyPressed)
         self.__rightPressed = 0
         self.__doCallback(self.__releaseHandlers[self.RIGHT_INDEX])
-        
+
     def __jumpKeyReleased(self):
         self.ignore(self.JUMP_KEY+"-up")
         self.accept(self.JUMP_KEY, self.__jumpKeyPressed)

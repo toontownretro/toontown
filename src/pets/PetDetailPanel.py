@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer
@@ -77,7 +77,7 @@ class PetDetailPanel(DirectFrame):
         self.labels = {}
         # Bars indicate training progress and amount of laff points healed
         self.bars = {}
-        
+
         # Update trick info gui
         self.update(pet)
 
@@ -90,7 +90,7 @@ class PetDetailPanel(DirectFrame):
 
         Cancels any pending request and removes the panel from the
         screen.
-        
+
         """
         del self.labels
         del self.bars
@@ -99,7 +99,7 @@ class PetDetailPanel(DirectFrame):
     def update(self, pet):
         if not pet:
             return
-        for trickId in PetTricks.TrickId2scIds.keys():
+        for trickId in list(PetTricks.TrickId2scIds.keys()):
             trickText = TTLocalizer.PetTrickStrings[trickId]
             if trickId < len(pet.trickAptitudes):
                 aptitude = pet.trickAptitudes[trickId]
@@ -159,4 +159,4 @@ class PetDetailPanel(DirectFrame):
                     else:
                         # bars made, just update
                         bar['value'] = length + FUDGE_FACTOR
-                        bar['text'] = str(int(hp)) + " " + TTLocalizer.Laff, 
+                        bar['text'] = str(int(hp)) + " " + TTLocalizer.Laff,

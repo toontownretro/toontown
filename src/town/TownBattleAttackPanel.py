@@ -1,5 +1,5 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.directnotify import DirectNotifyGlobal
 import string
@@ -29,7 +29,7 @@ class TownBattleAttackPanel(StateData.StateData):
 
     def load(self):
         StateData.StateData.load(self)
-    
+
     def unload(self):
         StateData.StateData.unload(self)
 
@@ -65,12 +65,12 @@ class TownBattleAttackPanel(StateData.StateData):
         # Restore the normal chat behavior.
         # NametagGlobals.setOnscreenChatForced(0)
         return
-    
+
     def __handleRun(self):
         doneStatus = {'mode':'Run'}
         messenger.send(self.doneEvent, [doneStatus])
         return
-        
+
     def __handleSOS(self):
         doneStatus = {'mode':'SOS'}
         messenger.send(self.doneEvent, [doneStatus])
@@ -80,12 +80,12 @@ class TownBattleAttackPanel(StateData.StateData):
         doneStatus = {'mode':'Pass'}
         messenger.send(self.doneEvent, [doneStatus])
         return
-        
+
     def __handleFire(self):
         doneStatus = {'mode':'Fire'}
         messenger.send(self.doneEvent, [doneStatus])
         return
-    
+
     def __handleInventory(self, track, level):
         if (base.localAvatar.inventory.numItem(track, level) > 0):
             # Report the selection

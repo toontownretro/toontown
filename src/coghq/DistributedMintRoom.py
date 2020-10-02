@@ -1,13 +1,13 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 import random
 from otp.level import DistributedLevel
 from direct.directnotify import DirectNotifyGlobal
-import MintRoomBase, MintRoom
-import FactoryEntityCreator
-import MintRoomSpecs
+from . import MintRoomBase, MintRoom
+from . import FactoryEntityCreator
+from . import MintRoomSpecs
 from otp.level import LevelSpec, LevelConstants
 from toontown.toonbase import TTLocalizer
 if __dev__:
@@ -24,7 +24,7 @@ class DistributedMintRoom(DistributedLevel.DistributedLevel,
 
     # Any non-entrance mint room will not have an entrancePoint entity.
     EmulateEntrancePoint = False
-    
+
     def __init__(self, cr):
         DistributedLevel.DistributedLevel.__init__(self, cr)
         MintRoomBase.MintRoomBase.__init__(self)
@@ -50,7 +50,7 @@ class DistributedMintRoom(DistributedLevel.DistributedLevel,
         DistributedLevel.DistributedLevel.delete(self)
         MintRoom.MintRoom.delete(self)
         self.ignoreAll()
-        
+
     # required fields
     def setMintId(self, mintId):
         self.notify.debug('mintId: %s' % mintId)
@@ -76,7 +76,7 @@ class DistributedMintRoom(DistributedLevel.DistributedLevel,
             # give the spec a factory EntityTypeRegistry.
             typeReg = self.getMintEntityTypeReg()
             roomSpec.setEntityTypeReg(typeReg)
-        
+
         DistributedLevel.DistributedLevel.initializeLevel(self, roomSpec)
 
         # if the AI is sending us a spec, we won't have it yet and the
@@ -192,8 +192,8 @@ class DistributedMintRoom(DistributedLevel.DistributedLevel,
             pos = base.localAvatar.getPos(thisZone)
             h = base.localAvatar.getH(thisZone)
             roomName = MintRoomSpecs.CashbotMintRoomId2RoomName[self.roomId]
-            print 'mint pos: %s, h: %s, room: %s' % (
-                repr(pos), h, roomName)
+            print('mint pos: %s, h: %s, room: %s' % (
+                repr(pos), h, roomName))
             if self.mint is not None:
                 floorNum = self.mint.floorNum
             else:

@@ -1,14 +1,14 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectScrolledList import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
-import CatalogItem
-import CatalogInvalidItem
+from . import CatalogItem
+from . import CatalogInvalidItem
 from toontown.toonbase import TTLocalizer
-import CatalogItemPanel
-import CatalogItemTypes
+from . import CatalogItemPanel
+from . import CatalogItemTypes
 from direct.actor import Actor
 import random
 from toontown.toon import DistributedToon
@@ -41,7 +41,7 @@ class CatalogScreen(DirectFrame):
     This class presents the user interface to an individual's catalog.
     """
     notify = DirectNotifyGlobal.directNotify.newCategory("CatalogScreen")
-    
+
     def __init__(self, parent=aspect2d, **kw):
         guiItems = loader.loadModel('phase_5.5/models/gui/catalog_gui')
         background = guiItems.find('**/catalog_background')
@@ -148,7 +148,7 @@ class CatalogScreen(DirectFrame):
         self.backCatalogButton['state'] = DGG.DISABLED
         self.newCatalogButton['state'] = DGG.DISABLED
         self.loyaltyCatalogButton['state'] = DGG.NORMAL
-        
+
     def modeBackorderCatalog(self):
         self.backCatalogButton['state'] = DGG.DISABLED
         self.newCatalogButton['state'] = DGG.NORMAL
@@ -161,11 +161,11 @@ class CatalogScreen(DirectFrame):
         self.backCatalogButton['state'] = DGG.NORMAL
         self.newCatalogButton['state'] = DGG.NORMAL
         self.loyaltyCatalogButton['state'] = DGG.DISABLED
-        
+
     def showNewItems(self, index = None):
         # If you got here, you do not need to see this text
         taskMgr.remove("clarabelleHelpText1")
-        messenger.send('wakeup')        
+        messenger.send('wakeup')
         self.viewing = 'New'
         self.modeNewCatalog()
         self.setMaxPageIndex(self.numNewPages)
@@ -212,8 +212,8 @@ class CatalogScreen(DirectFrame):
         if self.viewing == None:
             self.modeNewCatalog()
             self.viewing == 'New'
-        
-        
+
+
         if ((self.viewing == 'New') and
             (self.pageIndex > self.maxPageIndex) and
             (self.numBackPages > 0)):
@@ -230,7 +230,7 @@ class CatalogScreen(DirectFrame):
             # If viewing backorder catalog, just clamp at last page
             self.pageIndex = min(self.pageIndex, self.maxPageIndex)
             self.showPageItems()
-            
+
     def showBackPage(self):
         # If you got here, you do not need to see this text
         taskMgr.remove("clarabelleHelpText1")
@@ -251,7 +251,7 @@ class CatalogScreen(DirectFrame):
         else:
             self.pageIndex = max(self.pageIndex, -1)
             self.showPageItems()
-            
+
     def showPageItems(self):
         self.hidePages()
         if self.viewing == None:
@@ -291,7 +291,7 @@ class CatalogScreen(DirectFrame):
                         type = self.visiblePanels[pIndex]['item'].getTypeCode()
                         #self.squares[i][j].setColor(CatalogPanelColors[type])
                         self.squares[i][j].setColor(
-                            CatalogPanelColors.values()[
+                            list(CatalogPanelColors.values())[
                             randGen.randint(0,len(CatalogPanelColors) - 1)])
                         cs = 0.7 + 0.3 * randGen.random()
                         self.squares[i][j].setColorScale(
@@ -320,7 +320,7 @@ class CatalogScreen(DirectFrame):
                 self.nextPageButton.hide()
             elif (self.viewing == 'Loyalty'):
                 self.nextPageButton.hide()
- 
+
 
             self.adjustForSound()
             self.update()
@@ -330,7 +330,7 @@ class CatalogScreen(DirectFrame):
         # first lets count the number of emote items in the visible panels
         numEmoteItems = 0
         emotePanels = []
-        for visIndex in xrange(len(self.visiblePanels)):
+        for visIndex in range(len(self.visiblePanels)):
             panel = self.visiblePanels[visIndex]
             item = panel['item']
             catalogType = item.getTypeCode()
@@ -341,7 +341,7 @@ class CatalogScreen(DirectFrame):
                 # make sure the buttons don't show
                 panel.soundOnButton.hide()
                 panel.soundOffButton.hide()
-                
+
         if numEmoteItems == 1:
             # we have exactly 1 item, turn on the sound
             emotePanels[0].handleSoundOnButton()
@@ -349,8 +349,8 @@ class CatalogScreen(DirectFrame):
             # we have more than 1, turn off all the sounds
             for panel in emotePanels:
                 panel.handleSoundOffButton()
-            
-            
+
+
     def hidePages(self):
         for page in self.pageList:
             page.hide()
@@ -420,7 +420,7 @@ class CatalogScreen(DirectFrame):
                 i = 0
         return numPages
 
-        
+
     def load(self, guiItems, guiButton, guiBack):
         # Initialize variables
         self.pageIndex = -1
@@ -451,7 +451,7 @@ class CatalogScreen(DirectFrame):
         giftToggleUp = guiItems.find('**/giftButtonUp')
         giftToggleDown = guiItems.find('**/giftButtonDown')
         giftFriends = guiItems.find('**/gift_names')
-        
+
         lift = 0.40
         smash = 0.80
 
@@ -472,7 +472,7 @@ class CatalogScreen(DirectFrame):
             text2_fg = (0.353, 0.427, 0.427, 1.000),
             )
         self.newCatalogButton.hide()
-        
+
         self.newCatalogButton2 = DirectButton(
             self.base, relief = None,
             frameSize = (-0.2, 0.25, 0.45, 1.2),
@@ -489,7 +489,7 @@ class CatalogScreen(DirectFrame):
             text2_fg = (0.353, 0.427, 0.427, 1.000),
             )
         self.newCatalogButton2.hide()
-        
+
         self.backCatalogButton = DirectButton(
             self.base, relief = None,
             frameSize = (-0.2, 0.25, -0.2, 0.40),
@@ -507,7 +507,7 @@ class CatalogScreen(DirectFrame):
             text2_fg = (0.392, 0.349, 0.427, 1.000),
             )
         self.backCatalogButton.hide()
-        
+
         self.backCatalogButton2 = DirectButton(
             self.base, relief = None,
             frameSize = (-0.2, 0.25, -0.2, 0.40),
@@ -524,7 +524,7 @@ class CatalogScreen(DirectFrame):
             text2_fg = (0.392, 0.349, 0.427, 1.000),
             )
         self.backCatalogButton2.hide()
-        
+
         self.loyaltyCatalogButton = DirectButton(
             self.base, relief = None,
             frameSize = (-0.2, 0.25, -0.85, -0.3),
@@ -542,7 +542,7 @@ class CatalogScreen(DirectFrame):
             text2_fg = (0.353, 0.427, 0.427, 1.000),
             )
         self.loyaltyCatalogButton.hide()
-        
+
         self.loyaltyCatalogButton2 = DirectButton(
             self.base, relief = None,
             frameSize = (-0.2, 0.25, -0.85, -0.3),
@@ -560,11 +560,11 @@ class CatalogScreen(DirectFrame):
             )
         self.loyaltyCatalogButton2.hide()
 
-        
+
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        #Friends list 
+        #Friends list
         self.__makeFFlist()
-                
+
         if len(self.ffList) > 0:
             self.giftToggle = DirectButton(
                 self.base,
@@ -590,8 +590,8 @@ class CatalogScreen(DirectFrame):
                 image3_color = Vec4(0.5, 0.45, 0.2, 1.0),
                 )
             self.giftToggle.setPos(0.0,0,-0.035)
-            
-            #says "this gift is for"             
+
+            #says "this gift is for"
             self.giftLabel = DirectLabel(
                 self.base, relief = None,
                 image = giftFriends,
@@ -606,7 +606,7 @@ class CatalogScreen(DirectFrame):
             )
             self.giftLabel.setPos(-0.15,0,0.080)
             self.giftLabel.hide()
-            
+
             #says the name of the friend the gift is for
             self.friendLabel = DirectLabel(
                 self.base, relief = None,
@@ -621,9 +621,9 @@ class CatalogScreen(DirectFrame):
             )
             self.friendLabel.setPos(0.5,0,-0.42)
             self.friendLabel.hide()
-           
+
             gui = loader.loadModel("phase_3.5/models/gui/friendslist_gui")
-            
+
             self.scrollList = DirectScrolledList(
                 parent = self,
                 relief = None,
@@ -649,7 +649,7 @@ class CatalogScreen(DirectFrame):
                 # Make the disabled button darker
                 decButton_image1_color = Vec4(1.0, 1.0, 0.6, 1.0),
                 decButton_image3_color = Vec4(1.0, 1.0, 0.6, 0.6),
-                
+
                 # itemFrame is a DirectFrame
                 itemFrame_pos = (-0.17, 0.0, 0.06),
                 itemFrame_relief = None,
@@ -660,28 +660,28 @@ class CatalogScreen(DirectFrame):
             self.scrollList.setPos(1.2,0,-0.58)
             self.scrollList.setScale(1.5)
             self.scrollList.hide()
-     
+
             # Set up a clipping plane to truncate names that would extend
             # off the right end of the scrolled list.
             clipper = PlaneNode('clipper')
             clipper.setPlane(Plane(Vec3(-1, 0, 0), Point3(0.17, 0, 0)))
             clipNP = self.scrollList.attachNewNode(clipper)
             self.scrollList.setClipPlane(clipNP)
-   
+
             #self.__addFamilyToScrollList()
             #self.__updateScrollList()
-            
+
             self.__makeScrollList()
-            
+
             #self.__setFriendLabelName() #sets the label name
             #self.__loadFriend()
-            
+
             friendId = self.ffList[0]
             self.__chooseFriend(self.ffList[0][0], self.ffList[0][1])
             self.update()
-            
+
             self.createdGiftGui = 1;
-            
+
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         for i in range(4):
 
@@ -705,7 +705,7 @@ class CatalogScreen(DirectFrame):
             priceA = a.getPrice(type)
             priceB = b.getPrice(type)
             return priceB - priceA
-            
+
         itemList = (base.localAvatar.monthlyCatalog +
                      base.localAvatar.weeklyCatalog)
         itemList.sort(lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeWeekly))
@@ -714,8 +714,8 @@ class CatalogScreen(DirectFrame):
             if isinstance(item, CatalogInvalidItem.CatalogInvalidItem):
                 self.notify.warning("skipping catalog invalid item %s" % item)
                 continue
-            
-            #check for loyalty program 
+
+            #check for loyalty program
             if item.loyaltyRequirement() != 0:
                 self.loyaltyPanelList.append(
                     CatalogItemPanel.CatalogItemPanel(
@@ -724,7 +724,7 @@ class CatalogScreen(DirectFrame):
                     type=CatalogItem.CatalogTypeLoyalty,
                     parentCatalogScreen = self,
                     ))
-                
+
             else:
                 self.panelList.append(
                     CatalogItemPanel.CatalogItemPanel(
@@ -733,7 +733,7 @@ class CatalogScreen(DirectFrame):
                     type=CatalogItem.CatalogTypeWeekly,
                     parentCatalogScreen = self,
                     ))
-            
+
         itemList = base.localAvatar.backCatalog
         itemList.sort(
             lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeBackorder))
@@ -742,8 +742,8 @@ class CatalogScreen(DirectFrame):
             if isinstance(item, CatalogInvalidItem.CatalogInvalidItem):
                 self.notify.warning("skipping catalog invalid item %s" % item)
                 continue
-                                    
-            #check for loyalty program 
+
+            #check for loyalty program
             if item.loyaltyRequirement() != 0:
                 self.loyaltyPanelList.append(
                     CatalogItemPanel.CatalogItemPanel(
@@ -760,12 +760,12 @@ class CatalogScreen(DirectFrame):
                     type=CatalogItem.CatalogTypeBackorder,
                     parentCatalogScreen = self,
                     ))
-            
+
         numPages = self.packPages(self.panelList, self.pageList, 'new')
         self.setNumNewPages(numPages)
         numPages = self.packPages(self.backPanelList,self.backPageList,'back')
         self.setNumBackPages(numPages)
-                
+
         numPages = self.packPages(self.loyaltyPanelList,self.loyaltyPageList,'loyalty')
         self.setNumLoyaltyPages(numPages)
 
@@ -775,7 +775,7 @@ class CatalogScreen(DirectFrame):
             seriesNumber = currentWeek / ToontownGlobals.CatalogNumWeeksPerSeries + 1
             weekNumber = currentWeek % ToontownGlobals.CatalogNumWeeksPerSeries + 1
         # Catalog Series 5 & 6 are short. Need some special math here.
-        elif currentWeek < 65: 
+        elif currentWeek < 65:
             seriesNumber = 6
             weekNumber = (currentWeek - 56)
         # All catalogs after 5 & 6 now need to get bumped up by
@@ -789,7 +789,7 @@ class CatalogScreen(DirectFrame):
         # is OK, and partly because we don't necessarily want all the
         # nodes.
         geom = NodePath('cover')
-        
+
         cover = guiItems.find('**/cover')
 
         # if the catalog has wrapped around, wrap around the images too
@@ -809,7 +809,7 @@ class CatalogScreen(DirectFrame):
         else:
             topSquare.setColor(0.651, 0.404, 0.322, 1.000)
             bottomSquare.setColor(0.655, 0.522, 0.263, 1.000)
-            
+
         bottomSquare.reparentTo(geom)
         topSquare.reparentTo(geom)
         cover.find('**/clarabelle_text').reparentTo(geom)
@@ -841,7 +841,7 @@ class CatalogScreen(DirectFrame):
             text_font = ToontownGlobals.getInterfaceFont()
             )
         self.catalogSeries.setShxz(0.4)
-                
+
         # Rings, visible when catalog is open
         self.rings = DirectLabel(
             self.base, relief = None, geom = guiItems.find('**/rings'))
@@ -925,7 +925,7 @@ class CatalogScreen(DirectFrame):
 
         self.cDr = base.win.makeDisplayRegion(0.58, 0.82, 0.53, 0.85)
         self.cDr.setSort(1)
-            
+
         self.cDr.setClearDepthActive(1)
         self.cDr.setClearColorActive(1)
         self.cDr.setClearColor(Vec4(0.3,0.3,0.3,1))
@@ -948,7 +948,7 @@ class CatalogScreen(DirectFrame):
         switchboard = loader.loadModel("phase_5.5/models/estate/switchboard")
         switchboard.reparentTo(self.clarabelle)
         switchboard.setPos(0, -2, 0)
-        
+
         # self.clarabelle = Char.Char()
         # clarabelleDNA = CharDNA.CharDNA()
         # clarabelleDNA.newChar('cl')
@@ -998,7 +998,7 @@ class CatalogScreen(DirectFrame):
                     type=CatalogItem.CatalogTypeLoyalty,
                     parentCatalogScreen = self,
                     ))
-                
+
             else:
                 self.panelList.append(
                     CatalogItemPanel.CatalogItemPanel(
@@ -1019,7 +1019,7 @@ class CatalogScreen(DirectFrame):
                     type=CatalogItem.CatalogTypeLoyalty,
                     parentCatalogScreen = self,
                     ))
-                
+
             else:
                 self.backPanelList.append(
                     CatalogItemPanel.CatalogItemPanel(
@@ -1031,7 +1031,7 @@ class CatalogScreen(DirectFrame):
         self.setNumNewPages(numPages)
         numPages = self.packPages(self.backPanelList,self.backPageList,'back')
         self.setNumBackPages(numPages)
-        
+
         numPages = self.packPages(self.loyaltyPanelList,self.loyaltyPageList,'loyalty')
         self.setNumLoyaltyPages(numPages)
 
@@ -1043,7 +1043,7 @@ class CatalogScreen(DirectFrame):
         self.setMaxPageIndex(self.numNewPages)
         self.setPageIndex(-1)
         self.showPageItems()
-        
+
     def unload(self):
         taskMgr.remove("clearClarabelleChat")
         taskMgr.remove("postGoodbyeHangUp")
@@ -1076,7 +1076,7 @@ class CatalogScreen(DirectFrame):
         del self.backCatalogButton2
         del self.loyaltyCatalogButton
         del self.loyaltyCatalogButton2
-        
+
         del self.pageLabel
         if self.createdGiftGui:
             del self.giftToggle
@@ -1088,9 +1088,9 @@ class CatalogScreen(DirectFrame):
         if self.responseDialog:
             self.responseDialog.cleanup()
             self.responseDialog = None
-            
+
         if self.giftAvatar:
-            if hasattr(self.giftAvatar, 'doId'):                
+            if hasattr(self.giftAvatar, 'doId'):
                 self.giftAvatar.delete()
             else:
                 self.giftAvatar = None
@@ -1127,12 +1127,12 @@ class CatalogScreen(DirectFrame):
         taskMgr.remove("clarabelleGreeting")
         taskMgr.remove("clarabelleHelpText1")
         taskMgr.remove("clarabelleAskAnythingElse")
-        
+
         def postGoodbyeHangUp(task):
             messenger.send(self['doneEvent'])
             self.unload()
         taskMgr.doMethodLater(1.5, postGoodbyeHangUp, "postGoodbyeHangUp")
-        
+
     def remoteUpdate(self):
         #print("remoteupdate")
         #print self.gifting
@@ -1157,19 +1157,19 @@ class CatalogScreen(DirectFrame):
                         item.updateButtons(self.gifting)
                     #item.updateBuyButton()
                     #item.updateGiftButton(giftActivate)
-                
+
     def __handlePurchaseRequest(self, item):
         # ask the user to customize this purchase (if necessary) and
         # then ask AI to make the purchase.
         item.requestPurchase(self['phone'], self.__handlePurchaseResponse)
         # If you are buying something else, she should not say this
         taskMgr.remove("clarabelleAskAnythingElse")
-        
+
     def __handleGiftPurchaseRequest(self, item):
         # ask the user to customize this purchase (if necessary) and
         # then ask AI to make the purchase.
         #friendPair = base.localAvatar.friendsList[self.friendGiftIndex]
-        #frienddoId = base.cr.identifyFriend(friendPair[0]).getDoId() 
+        #frienddoId = base.cr.identifyFriend(friendPair[0]).getDoId()
         item.requestGiftPurchase(self['phone'], self.frienddoId,self.__handleGiftPurchaseResponse)
         # If you are buying something else, she should not say this
         taskMgr.remove("clarabelleAskAnythingElse")
@@ -1190,7 +1190,7 @@ class CatalogScreen(DirectFrame):
             command = self.__clearDialog,
             )
         """
-        
+
     def __handleGiftPurchaseResponse(self, retCode, item):
         # AI has returned the status of the purchase in retCode
         if retCode == ToontownGlobals.P_UserCancelled:
@@ -1204,13 +1204,13 @@ class CatalogScreen(DirectFrame):
 
         def askAnythingElse(task):
             self.setClarabelleChat(TTLocalizer.CatalogAnythingElse)
-        
+
         if retCode >= 0:
             # success: update catalog screen and buttons
             # After a while, have Clarabelle ask if there is anything else you would like
             taskMgr.doMethodLater(8, askAnythingElse, "clarabelleAskAnythingElse")
-            
-            
+
+
     def __clearDialog(self, event):
         self.responseDialog.cleanup()
         self.responseDialog = None
@@ -1239,7 +1239,7 @@ class CatalogScreen(DirectFrame):
         self.clarabelleChatNP.setPos(0.7,0,0.6)
         if timeout:
             taskMgr.doMethodLater(timeout, self.clearClarabelleChat, "clearClarabelleChat")
-        
+
     def clearClarabelleChat(self, task=None):
         # Clean up old chat
         taskMgr.remove("clearClarabelleChat")
@@ -1247,7 +1247,7 @@ class CatalogScreen(DirectFrame):
             self.clarabelleChatNP.removeNode()
             self.clarabelleChatNP = None
             del self.clarabelleChat
-        
+
 
     def __moneyChange(self, money):
         if self.gifting > 0:
@@ -1269,8 +1269,8 @@ class CatalogScreen(DirectFrame):
             if familyMember.id == doId:
                 test = 1
         return test
-        
-        
+
+
     def __makeFFlist(self):
         for familyMember in base.cr.avList:
             if familyMember.id != base.localAvatar.doId:
@@ -1280,8 +1280,8 @@ class CatalogScreen(DirectFrame):
             friendId, flags = friendPair
             #print "adding friend"
             handle = base.cr.identifyFriend(friendId)
-            if handle and not self.checkFamily(friendId): 
-                if hasattr(handle, 'getName'):            
+            if handle and not self.checkFamily(friendId):
+                if hasattr(handle, 'getName'):
                     colorCode = NametagGroup.CCSpeedChat
                     if (flags & ToontownGlobals.FriendChat):
                         colorCode = NametagGroup.CCFreeChat
@@ -1296,8 +1296,8 @@ class CatalogScreen(DirectFrame):
                 playerId = base.cr.playerFriendsManager.findPlayerIdFromAvId(avatarId)
                 playerInfo = base.cr.playerFriendsManager.getFriendInfo(playerId)
                 freeChat = playerInfo.understandableYesNo
-                if handle and not self.checkFamily(avatarId): 
-                    if hasattr(handle, 'getName'):            
+                if handle and not self.checkFamily(avatarId):
+                    if hasattr(handle, 'getName'):
                         colorCode = NametagGroup.CCSpeedChat
                         if freeChat:
                             colorCode = NametagGroup.CCFreeChat
@@ -1306,7 +1306,7 @@ class CatalogScreen(DirectFrame):
                     else:
                         self.notify.warning("Bad Handle for getName in makeFFlist")
         #import pdb; pdb.set_trace()
-            
+
     def __makeScrollList(self):
         for ff in self.ffList:
             ffbutton = self.makeFamilyButton(ff[0], ff[1], ff[2])
@@ -1319,9 +1319,9 @@ class CatalogScreen(DirectFrame):
                 #print "not adding button"
                 #import pdb; pdb.set_trace()
         self.scrollList.refresh()
-            
-        
-            
+
+
+
     def makeFamilyButton(self, familyId, familyName, colorCode):
 
         #print("Making Family Button")
@@ -1330,9 +1330,9 @@ class CatalogScreen(DirectFrame):
         # appropriate nametag color, according to whether we are
         # "special friends" or not.
         fg = NametagGlobals.getNameFg(colorCode, PGButton.SInactive)
-        
+
         #print "made family button"
-        
+
         return DirectButton(
             relief = None,
             text = familyName,
@@ -1342,12 +1342,12 @@ class CatalogScreen(DirectFrame):
             text1_bg = self.textDownColor,
             text2_bg = self.textRolloverColor,
             text3_fg = self.textDisabledColor,
-            textMayChange = 0,            
+            textMayChange = 0,
             command = self.__chooseFriend,
             extraArgs = [familyId, familyName],
             )
 
-            
+
     def __chooseFriend(self, friendId, friendName):
         """selects a friend for loading"""
         #messenger.send('wakeup') # I have no idea what this is for
@@ -1358,12 +1358,12 @@ class CatalogScreen(DirectFrame):
         #    self.friendGiftHandle = handle;
         #    self.frienddoId = handle.getDoId()
         #    self.__loadFriend()
-        messenger.send('wakeup')            
+        messenger.send('wakeup')
         self.frienddoId = friendId
         self.receiverName = friendName
         self.friendLabel['text'] = (TTLocalizer.CatalogGiftTo % (self.receiverName))
         self.__loadFriend()
-            
+
     def __loadFriend(self):
 
             #return
@@ -1384,7 +1384,7 @@ class CatalogScreen(DirectFrame):
                 self.gotAvatar = 0 #sets the flag to false so we know we have a database request pending
                 self.allowGetDetails = 0
                 self.scrollList['state'] = DGG.DISABLED
-    
+
     def __handleAvatarDetails(self, gotData, avatar, dclass):
 
         """Receives and uses the detail avatar"""
@@ -1402,7 +1402,7 @@ class CatalogScreen(DirectFrame):
             self.scrollList['state'] = DGG.NORMAL
         self.allowGetDetails = 1
         self.update()
-        
+
     def __giftToggle(self):
         messenger.send('wakeup')
         if self.gifting == -1:
@@ -1419,23 +1419,13 @@ class CatalogScreen(DirectFrame):
             self.scrollList.hide()
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleOff
             self.update()
-            
+
     def __handleUDack(self, caller = None):
         taskMgr.remove("ackTimeOut")
         if hasattr(self, 'giftToggle') and self.giftToggle:
             self.giftToggle['state'] = DGG.NORMAL
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleOff
-        
+
     def __handleNoAck(self, caller = None):
         if hasattr(self, 'giftToggle') and self.giftToggle:
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleNoAck
-        
-
-        
-               
-        
-
-
-        
-    
-        

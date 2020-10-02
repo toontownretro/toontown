@@ -1,6 +1,6 @@
 """TownLoader module: contains the TownLoader class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.battle.BattleProps import *
 from toontown.battle.BattleSounds import *
 from toontown.distributed.ToontownMsgTypes import *
@@ -13,7 +13,7 @@ from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
-import TownBattle
+from . import TownBattle
 from toontown.toon import Toon
 from toontown.battle import BattleParticles
 from direct.fsm import StateData
@@ -29,7 +29,7 @@ class TownLoader(StateData.StateData):
 
     # create a notify category
     notify = DirectNotifyGlobal.directNotify.newCategory("TownLoader")
-    
+
     # special methods
 
     def __init__(self, hood, parentFSMState, doneEvent):
@@ -66,8 +66,8 @@ class TownLoader(StateData.StateData):
                            # Final State
                            'final',
                            )
-        self.branchZone = None        
-        self.canonicalBranchZone = None        
+        self.branchZone = None
+        self.canonicalBranchZone = None
         self.placeDoneEvent = "placeDone"
         self.townBattleDoneEvent = 'town-battle-done'
 
@@ -85,13 +85,13 @@ class TownLoader(StateData.StateData):
         # We'll need to know this to rename the visibility zones
         # correctly.
         self.zoneId = zoneId
-        
+
         # Prepare the state machine
         self.parentFSMState.addChild(self.fsm)
         # load Toon battle anims and props
         self.loadBattleAnims()
         # props loaded on the fly now
-        #globalPropPool.loadProps()     
+        #globalPropPool.loadProps()
         # TODO: Based on the zone id, load that branch
         self.branchZone = ZoneUtil.getBranchZone(zoneId)
         self.canonicalBranchZone = ZoneUtil.getCanonicalBranchZone(zoneId)
@@ -161,7 +161,7 @@ class TownLoader(StateData.StateData):
 
     def enterStart(self):
         assert self.notify.debug("enterStart()")
-        
+
     def exitStart(self):
         assert self.notify.debug("exitStart()")
 
@@ -175,7 +175,7 @@ class TownLoader(StateData.StateData):
         self.place.load()
         #self.hood.place = self.place
         base.cr.playGame.setPlace(self.place)
-        
+
         # The following call could actually take us out of the town
         # altogether, switching us out of street mode, unloading our
         # hood, and all the bad consequences that could go along with
@@ -184,7 +184,7 @@ class TownLoader(StateData.StateData):
         # function does, because anything done after this call might
         # be invalid.
         self.place.enter(requestStatus)
-        
+
     def exitStreet(self):
         assert self.notify.debug("exitStreet()")
         self.place.exit()
@@ -193,7 +193,7 @@ class TownLoader(StateData.StateData):
         #self.hood.place = self.place
         base.cr.playGame.setPlace(self.place)
 
-    
+
     def streetDone(self):
         self.requestStatus=self.place.doneStatus
         assert(self.notify.debug(
@@ -203,7 +203,7 @@ class TownLoader(StateData.StateData):
         if (status["loader"] == "townLoader" and
             ZoneUtil.getBranchZone(status["zoneId"]) == self.branchZone and
             status["shardId"] == None):
-            self.fsm.request("quietZone", [status])            
+            self.fsm.request("quietZone", [status])
         else:
             self.doneStatus = status
             messenger.send(self.doneEvent)
@@ -216,11 +216,11 @@ class TownLoader(StateData.StateData):
         self.place=ToonInterior.ToonInterior(self,
                                              self.fsm.getStateNamed("toonInterior"),
                                              self.placeDoneEvent)
-        #self.hood.place = self.place 
+        #self.hood.place = self.place
         base.cr.playGame.setPlace(self.place)
         self.place.load()
         self.place.enter(requestStatus)
-        
+
     def exitToonInterior(self):
         assert self.notify.debug("exitToonInterior()")
         self.ignore(self.placeDoneEvent)
@@ -229,13 +229,13 @@ class TownLoader(StateData.StateData):
         self.place.unload()
         self.place=None
         base.cr.playGame.setPlace(self.place)
-    
+
     def handleToonInteriorDone(self):
         assert self.notify.debug("handleToonInteriorDone()")
         status=self.place.doneStatus
         if (ZoneUtil.getBranchZone(status["zoneId"]) == self.branchZone and
             status["shardId"] == None):
-            self.fsm.request("quietZone", [status])            
+            self.fsm.request("quietZone", [status])
         else:
             self.doneStatus = status
             messenger.send(self.doneEvent)
@@ -270,7 +270,7 @@ class TownLoader(StateData.StateData):
 
     def enterFinal(self):
         assert self.notify.debug("enterFinal()")
-    
+
     def exitFinal(self):
         assert self.notify.debug("exitFinal()")
 
@@ -310,7 +310,7 @@ class TownLoader(StateData.StateData):
         npl = self.geom.findAllMatches('**/=DNARoot=holiday_prop')
         for i in range(npl.getNumPaths()):
             np = npl.getPath(i)
-            np.setTag('transformIndex', `i`)
+            np.setTag('transformIndex', repr(i))
             self.holidayPropTransforms[i] = np.getNetTransform()
         # Flatten the neighborhood
         #self.geom.flattenMedium()
@@ -336,7 +336,7 @@ class TownLoader(StateData.StateData):
         npc=self.geom.findAllMatches("**/sb*:*animated_building*_DNARoot")
         for i in range(npc.getNumPaths()):
             nodePath=npc.getPath(i)
-            nodePath.wrtReparentTo(bucket)  
+            nodePath.wrtReparentTo(bucket)
 
     def makeDictionaries(self, dnaStore):
         """
@@ -346,11 +346,11 @@ class TownLoader(StateData.StateData):
         # A map of zone ID's to a list of nodes that are visible from
         # that zone.
         self.nodeDict = {}
-        
+
         # A map of zone ID's to the particular node that corresponds
         # to that zone.
         self.zoneDict = {}
-        
+
         # A list of all visible nodes
         self.nodeList = []
 
@@ -370,7 +370,7 @@ class TownLoader(StateData.StateData):
             groupName = base.cr.hoodMgr.extractGroupName(groupFullName)
             zoneId = int(groupName)
             zoneId = ZoneUtil.getTrueZoneId(zoneId, self.zoneId)
-            
+
             groupNode = self.geom.find("**/" + groupFullName)
             if groupNode.isEmpty():
                 self.notify.error("Could not find visgroup")
@@ -430,7 +430,7 @@ class TownLoader(StateData.StateData):
         self.hood.dnaStore.resetPlaceNodes()
         self.hood.dnaStore.resetDNAGroups()
         self.hood.dnaStore.resetDNAVisGroups()
-        self.hood.dnaStore.resetDNAVisGroupsAI()       
+        self.hood.dnaStore.resetDNAVisGroupsAI()
 
     def renameFloorPolys(self, nodeList):
         assert self.notify.debug("renameFloorPolys()")
@@ -469,7 +469,7 @@ class TownLoader(StateData.StateData):
                     # The node name should be "animated_prop_ClassName_DNARoot"
                     # So strip off the first and last junk to get the ClassName
                     className = animPropNode.getName()[14:-8]
-                    
+
                 symbols = {}
                 base.cr.importModule(symbols, 'toontown.hood', [className])
 
@@ -477,7 +477,7 @@ class TownLoader(StateData.StateData):
                 animPropObj = classObj(animPropNode)
                 animPropList = self.animPropDict.setdefault(i, [])
                 animPropList.append(animPropObj)
-                
+
 
             interactivePropNodes = i.findAllMatches("**/interactive_prop_*")
             numInteractivePropNodes = interactivePropNodes.getNumPaths()
@@ -499,7 +499,7 @@ class TownLoader(StateData.StateData):
                 # [gjeon] I think we can use animPropList to store interactive props
                 animPropList = self.animPropDict.get(i)
                 if animPropList is None:
-                    animPropList = self.animPropDict.setdefault(i, []) 
+                    animPropList = self.animPropDict.setdefault(i, [])
                 animPropList.append(interactivePropObj)
                 if interactivePropObj.getCellIndex() == 0:
                     zoneId = int(i.getName())
@@ -508,12 +508,12 @@ class TownLoader(StateData.StateData):
                     else:
                         self.notify.error("already have interactive prop %s in zone %s" %
                                           (self.zoneIdToInteractivePropDict, zoneId))
-                    
+
             animatedBuildingNodes = i.findAllMatches("**/*:animated_building_*;-h")
             for np in animatedBuildingNodes:
                 if np.getName().startswith('sb'):
                     animatedBuildingNodes.removePath(np)
-                    
+
             numAnimatedBuildingNodes = animatedBuildingNodes.getNumPaths()
             for j in range(numAnimatedBuildingNodes):
                 animatedBuildingNode = animatedBuildingNodes.getPath(j)
@@ -527,28 +527,26 @@ class TownLoader(StateData.StateData):
                 # [gjeon] I think we can use animPropList to store interactive props
                 animPropList = self.animPropDict.get(i)
                 if animPropList is None:
-                    animPropList = self.animPropDict.setdefault(i, []) 
+                    animPropList = self.animPropDict.setdefault(i, [])
                 animPropList.append(animatedBuildingObj)
 
     def deleteAnimatedProps(self):
-        for zoneNode, animPropList in self.animPropDict.items():
+        for zoneNode, animPropList in list(self.animPropDict.items()):
             for animProp in animPropList:
                 animProp.delete()
         del self.animPropDict
 
     def enterAnimatedProps(self, zoneNode):
-        for animProp in self.animPropDict.get(zoneNode, ()):            
+        for animProp in self.animPropDict.get(zoneNode, ()):
             animProp.enter()
 
     def exitAnimatedProps(self, zoneNode):
         for animProp in self.animPropDict.get(zoneNode, ()):
             animProp.exit()
-        
+
     def getInteractiveProp(self, zoneId):
         """Return the interactive prop for the battle cell at zone id, may return None"""
         result = None
         if zoneId in self.zoneIdToInteractivePropDict:
             result = self.zoneIdToInteractivePropDict[zoneId]
         return result
-        
-    

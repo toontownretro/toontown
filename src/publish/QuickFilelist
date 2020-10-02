@@ -98,7 +98,7 @@ file 2 $DIRECT/built/lib/libheapq.so . OSX
 file 2 $DIRECT/built/lib/libheapq.dylib . OSX
 
 # Show code.
-  
+
 # Don't attempt to download these modules--they're not part of the game.
 forbid_module direct.tkpanels
 forbid_module direct.tkwidgets
@@ -139,7 +139,7 @@ forbid_module libp3heapq
 forbid_module libp3direct
 
 # Don't try to import PandaModules here--it's part of Phase3.
-forbid_module pandac.PandaModules
+forbid_module toontown.toonbase.ToontownModules
 
 exclude_module Phase2
 exclude_module Phase3
@@ -155,7 +155,7 @@ file 0 $OTP/src/configfiles/otp.dc phase_3/etc WIN32,OSX
 # Show code.
 
 # Now it's time to import PandaModules.
-module pandac.PandaModules
+module toontown.toonbase.ToontownModules
 
 # These modules are dynamically loaded by the mint/factory code.
 
@@ -641,7 +641,7 @@ dir 0 $TTMODELS/built/phase_11 phase_11
 ##################################################
 # PHASE 12
 ##################################################
-multifile phase_12.mf.pz 12 
+multifile phase_12.mf.pz 12
 
 # Models, textures, audio
 dir 0 $TTMODELS/built/phase_12 phase_12

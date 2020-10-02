@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.actor import Actor
 from otp.avatar import Avatar
@@ -8,9 +8,9 @@ from direct.fsm import FSM
 from direct.fsm import State
 from toontown.toonbase import TTLocalizer
 from toontown.battle import BattleParticles
-import Suit
+from . import Suit
 from direct.task.Task import Task
-import SuitDNA
+from . import SuitDNA
 from toontown.battle import BattleProps
 from direct.showbase.PythonUtil import Functor
 import string
@@ -134,7 +134,7 @@ class BossCog(Avatar.Avatar):
         self.dialogArray = [
             self.grunt, self.murmur, self.statement, self.question, self.statement, self.statement
             ]
-        
+
         dna = self.style
         filePrefix = ModelDict[dna.dept]
         # TODO: bosscogs have unique 'legs'
@@ -214,10 +214,10 @@ class BossCog(Avatar.Avatar):
 
     def initializeBodyCollisions(self, collIdStr):
         Avatar.Avatar.initializeBodyCollisions(self, collIdStr)
-        
+
         if not self.ghostMode:
             self.collNode.setCollideMask(self.collNode.getIntoCollideMask() | ToontownGlobals.PieBitmask)
-        
+
     def generateHealthBar(self):
         """
         Create a health meter for the suit and put it on his chest
@@ -249,7 +249,7 @@ class BossCog(Avatar.Avatar):
     def updateHealthBar(self):
         if self.healthBar == None:
             return
-        
+
         health = 1.0 - (float(self.bossDamage) / float(self.bossMaxDamage))
         if (health > 0.95):
             condition = 0
@@ -264,11 +264,11 @@ class BossCog(Avatar.Avatar):
             condition = 4
         else:
             # This should be blinking red even faster
-            condition = 5 
+            condition = 5
 
         if (self.healthCondition != condition):
             if (condition == 4):
-                blinkTask = Task.loop(Task(self.__blinkRed), 
+                blinkTask = Task.loop(Task(self.__blinkRed),
                                       Task.pause(0.75),
                                       Task(self.__blinkGray),
                                       Task.pause(0.1))
@@ -276,7 +276,7 @@ class BossCog(Avatar.Avatar):
             elif (condition == 5):
                 if (self.healthCondition == 4):
                     taskMgr.remove(self.uniqueName('blink-task'))
-                blinkTask = Task.loop(Task(self.__blinkRed), 
+                blinkTask = Task.loop(Task(self.__blinkRed),
                                       Task.pause(0.25),
                                       Task(self.__blinkGray),
                                       Task.pause(0.1))
@@ -325,7 +325,7 @@ class BossCog(Avatar.Avatar):
     def forwardBody(self):
         # Call this to undo the effects of reverseBody().
         self.pelvis.setHpr(self.pelvisForwardHpr)
-        
+
     def getShadowJoint(self):
         return self.getGeomNode()
 
@@ -390,7 +390,7 @@ class BossCog(Avatar.Avatar):
             if (request == 'close'):
                 return 'Closing'
             return self.defaultFilter(request, args)
-        
+
         def enterOpening(self):
             intervalName = self.uniqueName('open-%s' % (self.animate.getName()))
 
@@ -448,7 +448,7 @@ class BossCog(Avatar.Avatar):
             self.animate.setHpr(self.closedHpr)
             self.callback(0)
 
-    
+
     def __setupDoor(self, jointName, name, callback,
                     openedHpr, closedHpr, cPoly):
         # Find the door joint in the model and set it up for
@@ -489,7 +489,7 @@ class BossCog(Avatar.Avatar):
         # smart-playback mechanism.  See comments above.
 
         #self.notify.debug('BossCog.doAnimate anim=%s now=%s queueNeutral=%s raised=%s forward=%s happy=%s' % (anim, now,queueNeutral, raised, forward, happy))
-        
+
         if now:
             # Blow away the currently playing animation and saved
             # queue; we want to see this animation now.
@@ -597,7 +597,7 @@ class BossCog(Avatar.Avatar):
                             ival)
 
         if forward != self.forward:
-            # Spin to new facing.                
+            # Spin to new facing.
             if forward:
                 animName = 'Bb2Ff_spin'
             else:
@@ -657,7 +657,7 @@ class BossCog(Avatar.Avatar):
     def setDizzy(self, dizzy):
         if dizzy and not self.dizzy:
             base.playSfx(self.dizzyAlert)
-            
+
         self.dizzy = dizzy
         if dizzy:
             self.stars.reparentTo(self.neck)
@@ -711,11 +711,11 @@ class BossCog(Avatar.Avatar):
                     Func(self.reverseBody),
                     ival,
                     Func(self.forwardBody))
-            
+
         elif anim == 'down2Up':
             ival = Parallel(SoundInterval(self.upSfx, node = self),
                             self.getAngryActorInterval('Fb_down2Up'))
-                
+
             self.raised = 1
 
         elif anim == 'up2Down':
@@ -724,7 +724,7 @@ class BossCog(Avatar.Avatar):
                             self.getAngryActorInterval('Fb_down2Up', playRate = -1))
 
             self.raised = 0
-            
+
         elif anim == 'throw':
             self.doAnimate(None, raised = 1, happy = 0, queueNeutral = 0)
 
@@ -777,7 +777,7 @@ class BossCog(Avatar.Avatar):
                                         self.pelvis.hprInterval(0.5, self.pelvisForwardHpr,
                                                                 blendType = 'easeInOut')),
                     )
-                
+
             ival = Sequence(Track((0, ival),
                                   (0, SoundInterval(self.spinSfx, node = self)),
                                   (0.9, Parallel(SoundInterval(self.rainGearsSfx, node = self),
@@ -808,7 +808,7 @@ class BossCog(Avatar.Avatar):
                 self.happy = 0
             else:
                 self.happy = 1
-            
+
             self.raised = 1
 
         elif anim == 'Fb_fall':
@@ -816,7 +816,7 @@ class BossCog(Avatar.Avatar):
                             Sequence(SoundInterval(self.reelSfx, node = self),
                                      SoundInterval(self.deathSfx)))
 
-        elif isinstance(anim, types.StringType):
+        elif isinstance(anim, bytes):
             ival = ActorInterval(self, anim)
 
         else:

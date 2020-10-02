@@ -2,7 +2,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from toontown.toon import ToonAvatarPanel
 from toontown.toontowngui import TTDialog
@@ -30,10 +30,10 @@ class GroupPanel(DirectObject.DirectObject):
         self.accept('stickerBookEntered', self.__forceHide)
         self.ignore('stickerBookExited')
         self.accept('stickerBookExited', self.__forceShow)
-        
+
         if __debug__:
             base.gpanel = self
-        
+
     def cleanup(self):
         """cleanup(self):
         Cancels any pending request and removes the panel from the
@@ -41,40 +41,40 @@ class GroupPanel(DirectObject.DirectObject):
         """
         # Releasing the left cells of the screen so that chat msgs and arrows can appear there again.
         base.setCellsAvailable(base.leftCells, 1)
-        
+
         self.quitButton.destroy()
         self.hideButton.destroy()
         self.showButton.destroy()
         self.scrollList.destroy()
-        
+
         if self.goButton:
             self.goButton.destroy()
             self.goButton = None
-        
+
         if self.destScrollList:
             self.destScrollList.destroy()
             self.destScrollList = None
-        
+
         if self.destFrame:
             self.destFrame.destroy()
             self.destFrame = None
-            
+
         if self.goingToLabel:
             self.goingToLabel.destroy()
             self.goingToLabel = None
-        
+
         if self.frame:
             self.frame.destroy()
             self.frame = None
-        
+
         self.leaveButton = None
         self.boardingParty = None
         self.ignoreAll()
-        
-    def __load(self):    
+
+    def __load(self):
         self.guiBg = loader.loadModel('phase_9/models/gui/tt_m_gui_brd_groupListBg')
         self.__defineConstants()
-        
+
         if (self.boardingParty.maxSize == 4):
             bgImage = self.guiBg.find('**/tt_t_gui_brd_memberListTop_half')
             bgImageZPos = 0.14
@@ -85,7 +85,7 @@ class GroupPanel(DirectObject.DirectObject):
             bgImageZPos = 0
             frameZPos = 0.0278943
             quitButtonZPos = -0.30366
-        
+
         guiButtons = loader.loadModel('phase_9/models/gui/tt_m_gui_brd_status')
         self.frame = DirectFrame(
             relief = None,
@@ -96,24 +96,24 @@ class GroupPanel(DirectObject.DirectObject):
             pos = (-1.044, 0, frameZPos),
             )
         self.frameBounds = self.frame.getBounds()
-                                
+
         leaveButtonGui = loader.loadModel('phase_3.5/models/gui/tt_m_gui_brd_leaveBtn')
         leaveImageList = (leaveButtonGui.find('**/tt_t_gui_brd_leaveUp'),
                           leaveButtonGui.find('**/tt_t_gui_brd_leaveDown'),
                           leaveButtonGui.find('**/tt_t_gui_brd_leaveHover'),
                           leaveButtonGui.find('**/tt_t_gui_brd_leaveUp'))
-                            
+
         self.leaderButtonImage = guiButtons.find('**/tt_t_gui_brd_statusLeader')
         self.availableButtonImage = guiButtons.find('**/tt_t_gui_brd_statusOn')
         self.battleButtonImage = guiButtons.find('**/tt_t_gui_brd_statusBattle')
-        
+
         if (localAvatar.doId == self.leaderId):
             quitText = TTLocalizer.QuitBoardingPartyLeader
         else:
             quitText = TTLocalizer.QuitBoardingPartyNonLeader
-        
+
         self.disabledOrangeColor = Vec4(1,0.5,0.25,0.9)
-        
+
         self.quitButton = DirectButton(
             parent = self.frame,
             relief = None,
@@ -137,7 +137,7 @@ class GroupPanel(DirectObject.DirectObject):
         showImageList = (arrowGui.find('**/tt_t_gui_brd_arrow_up'),
                          arrowGui.find('**/tt_t_gui_brd_arrow_down'),
                          arrowGui.find('**/tt_t_gui_brd_arrow_hover'))
-        
+
         self.hideButton = DirectButton(
             relief = None,
             text_pos = (0, 0.15),
@@ -151,7 +151,7 @@ class GroupPanel(DirectObject.DirectObject):
             scale = 1.05,
             command = self.hide,
             )
-            
+
         self.showButton = DirectButton(
             relief = None,
             text = ("", TTLocalizer.BoardingGroupShow, TTLocalizer.BoardingGroupShow),
@@ -167,29 +167,29 @@ class GroupPanel(DirectObject.DirectObject):
             command = self.show,
             )
         self.showButton.hide()
-        
+
         self.frame.show()
         self.__makeAvatarNameScrolledList()
-        
+
         if (localAvatar.doId == self.leaderId):
             self.__makeDestinationScrolledList()
         else:
             self.__makeDestinationFrame()
         self.__makeGoingToLabel()
-            
+
         self.accept('updateGroupStatus', self.__checkGroupStatus)
         self.accept('ToonBattleIdUpdate', self.__possibleGroupUpdate)
-        
+
         # Blocking the left cells of the screen so that chat msgs and arrows don't block the gui.
         base.setCellsAvailable([base.leftCells[1], base.leftCells[2]], 0)
         # Block the bottom left cell only if you are the leader.
         # This is because the leader's Group Panel is a little bit longer.
         if self.boardingParty.isGroupLeader(localAvatar.doId):
             base.setCellsAvailable([base.leftCells[0]], 0)
-        
-        # Note: Include this line if you are testing using ~bgui 
+
+        # Note: Include this line if you are testing using ~bgui
         self.__addTestNames(self.boardingParty.maxSize)
-        
+
         self.guiBg.removeNode()
         guiButtons.removeNode()
         leaveButtonGui.removeNode()
@@ -197,18 +197,18 @@ class GroupPanel(DirectObject.DirectObject):
 
     def __defineConstants(self):
         self.forcedHidden = False
-        
+
         self.textFgcolor = NametagGlobals.getNameFg(NametagGroup.CCSpeedChat, PGButton.SInactive)
         self.textBgRolloverColor = Vec4(1,1,0,1)
         self.textBgDownColor = Vec4(0.5,0.9,1,1)
-        self.textBgDisabledColor = Vec4(0.4,0.8,0.4,1)        
-    
+        self.textBgDisabledColor = Vec4(0.4,0.8,0.4,1)
+
     def __handleLeaveButton(self):
         '''
         Confirm if the player really wants to leave the boarding group.
         '''
         #if we're clicking on buttons, we're not asleep
-        messenger.send('wakeup')        
+        messenger.send('wakeup')
 
         # Show the confirm dialog only if the toon is not already in the elevator.
         if not (base.cr.playGame.getPlace().getState() == 'elevator'):
@@ -218,7 +218,7 @@ class GroupPanel(DirectObject.DirectObject):
                 command = self.__confirmQuitCallback,
                 )
             self.confirmQuitDialog.show()
-        
+
     def __confirmQuitCallback(self, value):
         if self.confirmQuitDialog:
             self.confirmQuitDialog.destroy()
@@ -226,21 +226,21 @@ class GroupPanel(DirectObject.DirectObject):
         if value > 0:
             if self.boardingParty:
                 self.boardingParty.requestLeave()
-    
+
     def __handleGoButton(self):
         offset = self.destScrollList.getSelectedIndex()
         elevatorId = self.elevatorIdList[offset]
         self.boardingParty.requestGoToFirstTime(elevatorId)
-        
+
     def __handleCancelGoButton(self):
         self.boardingParty.cancelGoToElvatorDest()
-    
+
     def __checkGroupStatus(self):
         if not self.boardingParty:
             return
         self.notify.debug("__checkGroupStatus %s" % (self.boardingParty.getGroupMemberList(localAvatar.doId)))
         myMemberList = self.boardingParty.getGroupMemberList(localAvatar.doId)
-        
+
         # Remove and then add all items from the list because the list might have changed.
         self.scrollList.removeAndDestroyAllItems(refresh = 0)
         if myMemberList:
@@ -250,7 +250,7 @@ class GroupPanel(DirectObject.DirectObject):
                 if avatarButton:
                     self.scrollList.addItem(avatarButton, refresh = 0)
             self.scrollList.refresh()
-        
+
     def __possibleGroupUpdate(self, avId):
         self.notify.debug("GroupPanel __possibleGroupUpdate")
         if not self.boardingParty:
@@ -258,7 +258,7 @@ class GroupPanel(DirectObject.DirectObject):
         myMemberList = self.boardingParty.getGroupMemberList(localAvatar.doId)
         if avId in myMemberList:
             self.__checkGroupStatus()
-        
+
     def __makeAvatarNameScrolledList(self):
         friendsListGui = loader.loadModel("phase_3.5/models/gui/friendslist_gui")
 
@@ -277,7 +277,7 @@ class GroupPanel(DirectObject.DirectObject):
             incButton_image3_color = Vec4(1.0, 1.0, 0.6, 0),
             incButton_scale = (1.0, 1.0, -1.0),
             incButton_relief = None,
-             
+
             decButton_image = (friendsListGui.find("**/FndsLst_ScrollUp"),
                                friendsListGui.find("**/FndsLst_ScrollDN"),
                                friendsListGui.find("**/FndsLst_ScrollUp_Rllvr"),
@@ -304,9 +304,9 @@ class GroupPanel(DirectObject.DirectObject):
         clipper.setPlane(Plane(Vec3(-1, 0, 0), Point3(0.235, 0, 0)))
         clipNP = self.scrollList.attachNewNode(clipper)
         self.scrollList.setClipPlane(clipNP)
-        
+
         friendsListGui.removeNode()
-        
+
     def __makeDestinationScrolledList(self):
         arrowGui = loader.loadModel("phase_9/models/gui/tt_m_gui_brd_gotoArrow")
         incrementImageList = (arrowGui.find('**/tt_t_gui_brd_arrowL_gotoUp'),
@@ -317,9 +317,9 @@ class GroupPanel(DirectObject.DirectObject):
             zPos = -0.177083
         else:
             zPos = -0.463843
-        
+
         bottomImage = self.guiBg.find('**/tt_t_gui_brd_memberListBtm_leader')
-        
+
         self.destScrollList = DirectScrolledList(
             parent = self.frame,
             relief = None,
@@ -333,7 +333,7 @@ class GroupPanel(DirectObject.DirectObject):
             incButton_scale = (-0.5, 1, 0.5),
             incButton_relief = None,
             incButtonCallback = self.__informDestChange,
-             
+
             decButton_image = incrementImageList,
             decButton_pos = (-0.217302, 0, 0.07),
             decButton_scale = (0.5, 1, 0.5),
@@ -349,42 +349,42 @@ class GroupPanel(DirectObject.DirectObject):
             itemFrame_scale = TTLocalizer.GPdestScrollListScale,
             forceHeight = 0.07,
             items = [],
-            
+
             pos = (0, 0, zPos),
-            scrollSpeed = 0.1, 
+            scrollSpeed = 0.1,
         )
-        
+
         arrowGui.removeNode()
-        
+
         self.__addDestNames()
         self.__makeGoButton()
-    
+
     def __addDestNames(self):
-        for i in xrange(len(self.elevatorIdList)):
+        for i in range(len(self.elevatorIdList)):
             destName = self.__getDestName(i)
             self.destScrollList.addItem(destName, refresh = 0)
         self.destScrollList.refresh()
-    
+
     def __getDestName(self, offset):
         elevatorId = self.elevatorIdList[offset]
         elevator = base.cr.doId2do.get(elevatorId)
         if elevator:
             destName = elevator.getDestName()
         return destName
-    
+
     def __makeDestinationFrame(self):
         '''
         This function makes a frame containing the destination text.
         '''
         destName = self.__getDestName(self.destIndexSelected)
-        
+
         if (self.boardingParty.maxSize == 4):
             zPos = -0.12
         else:
             zPos = -0.404267
-            
+
         bottomImage = self.guiBg.find('**/tt_t_gui_brd_memberListBtm_nonLeader')
-        
+
         self.destFrame = DirectFrame(
             parent = self.frame,
             relief = None,
@@ -395,19 +395,19 @@ class GroupPanel(DirectObject.DirectObject):
             text_scale = TTLocalizer.GPdestFrameScale,
             pos = (0, 0, zPos),
         )
-    
+
     def __makeGoButton(self):
         goGui = loader.loadModel('phase_9/models/gui/tt_m_gui_brd_gotoBtn')
         self.goImageList = (goGui.find('**/tt_t_gui_brd_gotoUp'),
                             goGui.find('**/tt_t_gui_brd_gotoDown'),
                             goGui.find('**/tt_t_gui_brd_gotoHover'),
                             goGui.find('**/tt_t_gui_brd_gotoUp'))
-                            
+
         self.cancelGoImageList = (goGui.find('**/tt_t_gui_brd_cancelGotoUp'),
                                   goGui.find('**/tt_t_gui_brd_cancelGotoDown'),
                                   goGui.find('**/tt_t_gui_brd_cancelGotoHover'),
                                   goGui.find('**/tt_t_gui_brd_cancelGotoUp'))
-        
+
         if (self.boardingParty.maxSize == 4):
             zPos = -0.028
             zPos = -0.0360483
@@ -427,19 +427,19 @@ class GroupPanel(DirectObject.DirectObject):
             pos = (-0.003, 0, zPos),
         )
         goGui.removeNode()
-    
+
     def __getAvatarButton(self, avId):
         toon = base.cr.doId2do.get(avId)
-        
-        # The toon might have left the zone or got disconnected and 
-        # the toon's doId is not there in the doId2do dict 
+
+        # The toon might have left the zone or got disconnected and
+        # the toon's doId is not there in the doId2do dict
         if not toon:
             return None
-        
+
         toonName = toon.getName()
         inBattle = 0
         buttonImage = self.availableButtonImage
-        
+
         if toon.battleId:
             # Toon is in battle - change image to buttonImage to battleImage
             inBattle = 1
@@ -477,13 +477,13 @@ class GroupPanel(DirectObject.DirectObject):
         # You should not be able to open your own avatar panel.
         if (avId != localAvatar.doId) and avatar:
             messenger.send("clickedNametag", [avatar])
-    
+
     def __addTestNames(self, num):
-        for i in xrange(num):
+        for i in range(num):
             avatarButton = self.__getAvatarButton(localAvatar.doId)
             self.scrollList.addItem(avatarButton, refresh = 0)
         self.scrollList.refresh()
-        
+
     def __isForcedHidden(self):
         '''
         Returns True if the groupPanel is hidden forcefully.
@@ -492,40 +492,40 @@ class GroupPanel(DirectObject.DirectObject):
             return True
         else:
             return False
-    
+
     def hide(self):
         self.frame.hide()
         self.hideButton.hide()
         self.showButton.show()
-        
+
     def show(self):
         self.frame.show()
         self.forcedHidden = False
         self.showButton.hide()
-        self.hideButton.show()        
-        
+        self.hideButton.show()
+
     def __forceHide(self):
         '''
-        Forcefully hide the groupPanel, either because toon opened 
+        Forcefully hide the groupPanel, either because toon opened
         the shticker book or got into a battle.
         '''
         if not self.frame.isHidden():
             self.forcedHidden = True
             self.hide()
-        
+
     def __forceShow(self):
         '''
         Show the groupPanel ONLY if we have forcefully hidden the group panel.
         '''
         if self.__isForcedHidden():
             self.show()
-            
+
     def __informDestChange(self):
         '''
         This function is called everytime the leader changes the destination.
         '''
         self.boardingParty.informDestChange(self.destScrollList.getSelectedIndex())
-        
+
     def changeDestination(self, offset):
         '''
         This function changes the text of the destFrame to reflect the change in destination.
@@ -540,12 +540,12 @@ class GroupPanel(DirectObject.DirectObject):
         '''
         This method makes the destination scroll list point to the offset value.
         This is only for the leader.
-        '''    
+        '''
         if (localAvatar.doId == self.leaderId):
             if self.destScrollList:
                 self.destIndexSelected = offset
-                self.destScrollList.scrollTo(offset)    
-    
+                self.destScrollList.scrollTo(offset)
+
     def __makeGoingToLabel(self):
         if (self.boardingParty.maxSize == 4):
             zPos = -0.0466546
@@ -560,35 +560,35 @@ class GroupPanel(DirectObject.DirectObject):
             text_fg = Vec4(0, 0, 0, 1),
             pos = (-0.1966, 0, zPos),
             )
-            
+
     def disableQuitButton(self):
         if self.quitButton and not self.quitButton.isEmpty():
             self.quitButton['state'] = DGG.DISABLED
-        
+
     def enableQuitButton(self):
         if self.quitButton and not self.quitButton.isEmpty():
             self.quitButton['state'] = DGG.NORMAL
-        
+
     def disableGoButton(self):
         if self.goButton and not self.goButton.isEmpty():
             self.goButton['state'] = DGG.DISABLED
             self.goButton['image_color'] = Vec4(1, 1, 1, 0.4)
-            
+
     def enableGoButton(self):
         if self.goButton and not self.goButton.isEmpty():
             self.goButton['state'] = DGG.NORMAL
             self.goButton['image_color'] = Vec4(1, 1, 1, 1)
-            
+
     def disableDestinationScrolledList(self):
         if self.destScrollList and not self.destScrollList.isEmpty():
             self.destScrollList.incButton['state'] = DGG.DISABLED
             self.destScrollList.decButton['state'] = DGG.DISABLED
-    
+
     def enableDestinationScrolledList(self):
         if self.destScrollList and not self.destScrollList.isEmpty():
             self.destScrollList.incButton['state'] = DGG.NORMAL
             self.destScrollList.decButton['state'] = DGG.NORMAL
-            
+
     def changeGoToCancel(self):
         """
         Change the GO Button to Cancel Go Button.
@@ -597,7 +597,7 @@ class GroupPanel(DirectObject.DirectObject):
             self.goButton['image'] = self.cancelGoImageList
             self.goButton['text'] = (TTLocalizer.BoardingCancelGo, TTLocalizer.BoardingCancelGo, TTLocalizer.BoardingCancelGo, '')
             self.goButton['command'] = self.__handleCancelGoButton
-    
+
     def changeCancelToGo(self):
         """
         Change the Cancel Go Button to the GO Button.

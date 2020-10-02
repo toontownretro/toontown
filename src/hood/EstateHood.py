@@ -1,5 +1,5 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 from toontown.distributed.ToontownMsgTypes import *
@@ -8,12 +8,12 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.minigame import Purchase
 from otp.avatar import DistributedAvatar
-import SkyUtil
+from . import SkyUtil
 from direct.task.Task import Task
-import Hood
+from . import Hood
 from toontown.estate import EstateLoader
 from toontown.estate import HouseGlobals
-import ZoneUtil
+from . import ZoneUtil
 
 class EstateHood(Hood.Hood):
     """
@@ -66,12 +66,12 @@ class EstateHood(Hood.Hood):
         # Keyed off of the News Manager holiday IDs stored in ToontownGlobals
         self.holidayStorageDNADict = {WINTER_DECORATIONS : ['phase_5.5/dna/winter_storage_estate.dna'],
                                        HALLOWEEN_PROPS : ['phase_5.5/dna/halloween_props_storage_estate.dna']}
-                                       
+
         self.skyFile = "phase_3.5/models/props/TT_sky"
         self.spookySkyFile = "phase_3.5/models/props/BR_sky"
-        
+
         self.popupInfo = None
-        
+
     def load(self):
         assert(self.notify.debug("load()"))
         Hood.Hood.load(self)
@@ -105,7 +105,7 @@ class EstateHood(Hood.Hood):
             self.loader.unload()
             del self.loader
         Hood.Hood.exit(self)
-        
+
     # SafeZoneLoader state
 
     # Defined in Hood.py
@@ -124,8 +124,8 @@ class EstateHood(Hood.Hood):
         loaderName = requestStatus["loader"]
         #if loaderName=="estateLoader":
         if loaderName=="safeZoneLoader":
-            self.loader = self.safeZoneLoaderClass(self, 
-                    self.fsm.getStateNamed("safeZoneLoader"), 
+            self.loader = self.safeZoneLoaderClass(self,
+                    self.fsm.getStateNamed("safeZoneLoader"),
                     self.loaderDoneEvent)
             self.loader.load()
         else:
@@ -159,7 +159,7 @@ class EstateHood(Hood.Hood):
                 "avId" : -1,
                 }
             messenger.send(self.doneEvent)
-            
+
         elif retCode == 2:
             # we have been booted from the estate.  this only
             # happens if we have been de-friended by the owner,
@@ -215,10 +215,10 @@ class EstateHood(Hood.Hood):
                      pos = (0.0, 0.0, -0.30),
                      command = self.__handleKickoutOk)
         buttons.removeNode()
-        
+
         # Show the popup info (i.e. "Sorry, the owner has left...")
         self.popupInfo.reparentTo(aspect2d)
-        
+
     def __handleKickoutOk(self):
         # hide the popup
         self.popupInfo.reparentTo(hidden)
@@ -228,20 +228,20 @@ class EstateHood(Hood.Hood):
         return SkyUtil.cloudSkyTrack(task)
 
     def startSky(self):
-        
+
         # we have the wrong sky; load in the regular sky
         if not (self.sky.getTag("sky") == "Regular"):
             self.endSpookySky()
-            
+
         SkyUtil.startCloudSky(self)
         if base.cloudPlatformsEnabled:
             self.loader.startCloudPlatforms()
-        
+
     def stopSky(self):
         assert(self.notify.debug("stopSky"))
         Hood.Hood.stopSky(self)
         self.loader.stopCloudPlatforms()
-        
+
     def startSpookySky(self):
         if hasattr(self, "loader") and self.loader \
         and hasattr(self.loader, "cloudTrack") and self.loader.cloudTrack:

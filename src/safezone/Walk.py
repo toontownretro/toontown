@@ -1,7 +1,7 @@
 """Walk state module: contains the walk state which is used by
    multiple FSMs"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.task.Task import Task
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
@@ -58,7 +58,7 @@ class Walk(StateData.StateData):
 
     def load(self):
         pass
-            
+
     def unload(self):
         del self.fsm
 
@@ -73,7 +73,7 @@ class Walk(StateData.StateData):
         base.localAvatar.collisionsOn()
         base.localAvatar.startGlitchKiller()
         base.localAvatar.enableAvatarControls()
-        
+
     def exit(self):
         # Go to our final state explicitly
         self.fsm.request('off')
@@ -92,7 +92,7 @@ class Walk(StateData.StateData):
 
     def exitOff(self):
         pass
-    
+
     def enterWalking(self):
         if base.localAvatar.hp > 0:
             base.localAvatar.startTrackAnimToSpeed()
@@ -109,7 +109,7 @@ class Walk(StateData.StateData):
        if((IsSwimSoundAudible==0) and self.swimSoundPlaying):
             self.swimSound.stop()
             self.swimSoundPlaying = 0
-    
+
     def enterSwimming(self, swimSound):
         base.localAvatar.setWalkSpeedNormal()
         self.swimSound = swimSound
@@ -136,7 +136,7 @@ class Walk(StateData.StateData):
              self.swimSoundPlaying = 1
              base.playSfx(self.swimSound, looping = 1)
         return Task.cont
-    
+
     def enterSlowWalking(self):
         self.accept(base.localAvatar.uniqueName("positiveHP"),
                     self.__handlePositiveHP)

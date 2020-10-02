@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
@@ -51,7 +51,7 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
         self.allRooms = []
         self.curToonRoomNum = None
         self.allBlockedRooms = []
-        
+
         base.localAvatar.setCameraCollisionsCanMove(1)
 
         # place local toon here just in case we don't have an entrancePoint
@@ -66,9 +66,9 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
 
         # add factory menu to SpeedChat
         base.localAvatar.chatMgr.chatInputSpeedChat.addFactoryMenu()
-        
+
         self.__setupHighSky()
-        
+
     def startSky(self):
         # Parent the sky to our camera, the task will counter rotate it
         self.sky = loader.loadModel('phase_12/models/bossbotHQ/BossTestSkyBox')
@@ -90,7 +90,7 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
         # Remove the sky task just in case it was spawned.
         taskMgr.remove("skyTrack")
         self.sky.remove()#reparentTo(hidden)
-        
+
     def __setupHighSky(self):
         self.startSky()
         sky = self.sky
@@ -99,10 +99,10 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
         # visible.
         sky.setH(150)
         sky.setZ(-100)
-        
+
     def __cleanupHighSky(self):
         # Turn the sky off
-        
+
         # self.cloudRing.removeNode()
         sky = self.sky
         sky.setH(0)
@@ -112,7 +112,7 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
     # required fields
     def setZoneId(self, zoneId):
         self.zoneId = zoneId
-        
+
     def setCountryClubId(self, id):
         DistributedCountryClub.notify.debug('setCountryClubId: %s' % id)
         self.countryClubId = id
@@ -121,10 +121,10 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
         DistributedCountryClub.notify.debug('floorNum: %s' % num)
         self.floorNum = num
         self.layout = CountryClubLayout.CountryClubLayout(self.countryClubId, self.floorNum, self.layoutIndex)
-        
+
     def setLayoutIndex(self, layoutIndex):
         self.layoutIndex = layoutIndex
-            
+
     def getLayoutIndex(self):
         return self.layoutIndex
 
@@ -162,7 +162,7 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
                 room.attachTo(self.hallways[i-1], rng)
             self.allRooms.append(room)
             self.listenForFloorEvents(room)
-            
+
             if i < (numRooms-1):
                 # add a hallway leading out of the room
                 hallway = CountryClubRoom.CountryClubRoom(self.layout.getHallwayModel(i))
@@ -293,7 +293,7 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
     def warpToRoom(self, roomId):
         # returns False if invalid roomId
         # find a room with the right id
-        for i in xrange(len(self.rooms)):
+        for i in range(len(self.rooms)):
             room = self.rooms[i]
             if room.roomId == roomId:
                 break
@@ -306,11 +306,11 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
 
     def disable(self):
         self.notify.debug('disable')
-        
+
         if self.titleSequence:
             self.titleSequence.finish()
         self.titleSequence = None
-        
+
         self.__cleanupHighSky()
 
         self.ignoreAll()
@@ -340,7 +340,7 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
             del self.relatedObjectMgrRequest
 
         DistributedObject.DistributedObject.disable(self)
-        
+
 
     def delete(self):
         DistributedObject.DistributedObject.delete(self)
@@ -351,7 +351,7 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
         # remove special camera views
         self.factoryViews.delete()
         del self.factoryViews
-        
+
     def handleSOSPanel(self, panel):
         # make a list of toons that are still in the countryClub
         avIds = []
@@ -398,7 +398,7 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
             self.showInfoText(TTLocalizer.CountryClubToonEnterElevator % (name))
             #av = base.localAvatar
             #message = TLocalizer.stageToonEnterElevator % (name)
-            #av.setSystemMessage( 0, message)                    
+            #av.setSystemMessage( 0, message)
 
     def showInfoText(self, text = "hello world"):
         description = text
@@ -407,7 +407,7 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
             self.titleText.setColor(Vec4(*self.titleColor))
             self.titleText.setColorScale(1,1,1,1)
             self.titleText.setFg(self.titleColor)
-            
+
             if self.titleSequence:
                 self.titleSequence.finish()
 
@@ -419,16 +419,15 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
                             LerpColorScaleInterval(self.titleText, duration=0.5, colorScale = Vec4(1,1,1,0.0)),
                             Func(self.hideTitleText),
                         )
-                    
+
             self.titleSequence.start()
-        
-            
-            
+
+
+
     def showTitleText(self):
         if self.titleText:
             self.titleText.show()
-        
+
     def hideTitleText(self):
         if self.titleText or 1:
             self.titleText.hide()
-    

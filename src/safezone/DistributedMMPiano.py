@@ -2,13 +2,13 @@
     class which represents the client version of the round,
     spinning piano in Minnie's Melodyland safezone."""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.task.Task import Task
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 
 from direct.distributed import DistributedObject
-from pandac.PandaModules import NodePath
+from toontown.toonbase.ToontownModules import NodePath
 from toontown.toonbase import ToontownGlobals
 
 # This is the amount of time, in seconds, that must elapse between two
@@ -25,7 +25,7 @@ ChangeDirectionDebounce = 1.0
 # the new velocity.
 ChangeDirectionTime = 1.0
 
-class DistributedMMPiano(DistributedObject.DistributedObject): 
+class DistributedMMPiano(DistributedObject.DistributedObject):
     """
     ////////////////////////////////////////////////////////////////////
     //
@@ -138,7 +138,7 @@ class DistributedMMPiano(DistributedObject.DistributedObject):
             offset = self.oldOffset + t * (self.offset - self.oldOffset)
         else:
             offset = self.oldOffset
-        
+
         heading = \
                 (self.degreesPerSecond * (now - self.spinStartTime)) + \
                 offset
@@ -163,7 +163,7 @@ class DistributedMMPiano(DistributedObject.DistributedObject):
 
         self.ignore('entero7')
         self.ignore('entericon_center_collisions')
-        
+
         self.speedUpSound = None
         self.changeDirectionSound = None
         self.__stopSpin()
@@ -213,7 +213,7 @@ class DistributedMMPiano(DistributedObject.DistributedObject):
         self.oldOffset = oldOffset
         self.lerpStart = now
         self.lerpFinish = timestamp + ChangeDirectionTime
-        
+
     def playSpeedUp(self, avId):
         """playSpeedUp(self, uint32 avId)
 
@@ -301,4 +301,3 @@ class DistributedMMPiano(DistributedObject.DistributedObject):
 # 08Oct01    jlbutler    created.
 # 08Oct22    drose       modified to change speeds from time to time.
 #
-

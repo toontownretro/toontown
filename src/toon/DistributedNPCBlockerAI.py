@@ -1,8 +1,8 @@
 
 from otp.ai.AIBaseGlobal import *
-from pandac.PandaModules import *
-from DistributedNPCToonBaseAI import *
-import NPCToons
+from toontown.toonbase.ToontownModules import *
+from .DistributedNPCToonBaseAI import *
+from . import NPCToons
 from direct.task.Task import Task
 
 class DistributedNPCBlockerAI(DistributedNPCToonBaseAI):
@@ -75,4 +75,4 @@ class DistributedNPCBlockerAI(DistributedNPCToonBaseAI):
         self.notify.warning('avatar:' + str(avId) + ' has exited unexpectedly')
         if (not self.tutorial):
             self.sendTimeoutMovie(None)
-        return None 
+        return None

@@ -1,7 +1,7 @@
 """Trajectory module: contains the Trajectory class"""
 
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from math import *
 
 class Trajectory:
@@ -310,4 +310,3 @@ class Trajectory:
         # calculate intersection of trajectories in X,Y plane
         # if there's an intersection, compare heights at that point
         return -1.0
-

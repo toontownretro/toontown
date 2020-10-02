@@ -14,7 +14,7 @@
 #from direct.directbase import DirectStart
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import PythonUtil
 from direct.task import Task
 
@@ -27,7 +27,7 @@ from toontown.racing.Kart import Kart
 from toontown.racing import RaceGlobals
 from toontown.shtiker.ShtikerPage import ShtikerPage
 from toontown.toonbase import ToontownGlobals, TTLocalizer
-from FishPage import FishingTrophy
+from .FishPage import FishingTrophy
 
 ##########################################################################
 # Python Import Modules
@@ -41,7 +41,7 @@ if( __debug__ ):
 PageMode = PythonUtil.Enum( "Customize, Records, Trophy" )
 
 class KartPage( ShtikerPage ):
-            
+
     """
     Purpose: The KartPage class provides the basic functionality for
     switching between the different Kart pages which include customization,
@@ -52,11 +52,11 @@ class KartPage( ShtikerPage ):
     """
 
     ######################################################################
-    # Class variables 
+    # Class variables
     ######################################################################
     #__metaclass__ = PythonUtil.Singleton
     notify = DirectNotifyGlobal.directNotify.newCategory( "KartPage" )
-    
+
     def __init__( self ):
         """
         Purpose: The __init__ Method provides the intial construction
@@ -86,7 +86,7 @@ class KartPage( ShtikerPage ):
         if( not hasattr( self, "title" ) ):
             self.load()
         self.setMode( self.mode, 1 )
-            
+
         # Make the call to the superclass enter method.
         ShtikerPage.enter( self )
 
@@ -102,7 +102,7 @@ class KartPage( ShtikerPage ):
         self.kartCustomizer.hide()
         self.racingTrophies.hide()
         self.racingRecords.hide()
-            
+
         # Make the call to the superclass exit method.
         ShtikerPage.exit( self )
 
@@ -116,7 +116,7 @@ class KartPage( ShtikerPage ):
         """
 
         self.avatar = av
-        
+
     def getAvatar( self ):
         """
         Purpose: The getAvatar Method retrieves the current avatar who is
@@ -136,7 +136,7 @@ class KartPage( ShtikerPage ):
         Params: None
         Return: None
         """
-        
+
         assert self.notify.debugStateCall(self)
         ShtikerPage.load( self )
 
@@ -154,7 +154,7 @@ class KartPage( ShtikerPage ):
         self.racingTrophies = RacingTrophiesUI( self.avatar, self )
         self.racingTrophies.hide()
         self.racingTrophies.load()
-        
+
         # Page Title
         self.title = DirectLabel(
             parent = self,
@@ -170,7 +170,7 @@ class KartPage( ShtikerPage ):
         clickColor = (.8, .8, 0, 1)
         rolloverColor = (0.15, 0.82, 1.0, 1)
         diabledColor = (1.0, 0.98, 0.15, 1)
-        
+
         # Load the Fish Page to borrow its tabs
         gui = loader.loadModel( "phase_3.5/models/gui/fishingBook" )
 
@@ -238,7 +238,7 @@ class KartPage( ShtikerPage ):
         self.trophyTab.setPos(0.28,0,0.775)
 
         gui.removeNode()
-        
+
     def unload( self ):
         """
         Purpose: The unload Method performs the necessary unloading of
@@ -273,21 +273,21 @@ class KartPage( ShtikerPage ):
             self.customizeTab[ 'state' ] = DGG.DISABLED
             self.recordsTab[ 'state' ] = DGG.NORMAL
             self.trophyTab[ 'state' ] = DGG.NORMAL
-            
+
         elif( mode == PageMode.Records ):
             self.title[ 'text' ] = TTLocalizer.KartPageTitleRecords
             self.customizeTab[ 'state' ] = DGG.NORMAL
             self.recordsTab[ 'state' ] = DGG.DISABLED
             self.trophyTab[ 'state' ] = DGG.NORMAL
-            
+
         elif( mode == PageMode.Trophy ):
             self.title[ 'text' ] = TTLocalizer.KartPageTitleTrophy
             self.customizeTab[ 'state' ] = DGG.NORMAL
             self.recordsTab[ 'state' ] = DGG.NORMAL
             self.trophyTab[ 'state' ] = DGG.DISABLED
-            
+
         else:
-            raise StandardError, "KartPage::setMode - Invalid Mode %s" % ( mode )
+            raise Exception("KartPage::setMode - Invalid Mode %s" % ( mode ))
 
         self.updatePage()
 
@@ -313,7 +313,7 @@ class KartPage( ShtikerPage ):
             self.racingTrophies.show()
             self.racingRecords.hide()
         else:
-            raise StandardError, "KartPage::updatePage - Invalid Mode %s" % ( self.mode )
+            raise Exception("KartPage::updatePage - Invalid Mode %s" % ( self.mode ))
 
 
 class KartCustomizeUI( DirectFrame ):
@@ -369,7 +369,7 @@ class KartCustomizeUI( DirectFrame ):
         # Remove references to UI Components and instance variables for
         # garbage collection purposes.
         del self.avatar, self.itemSelector, self.kartViewer
-        
+
         # Destroy the DirectFrame super class.
         DirectFrame.destroy( self )
 
@@ -382,7 +382,7 @@ class KartCustomizeUI( DirectFrame ):
         Return: None
         """
 
-        # Load the uiRoot model 
+        # Load the uiRoot model
         uiRootNode = loader.loadModel( "phase_6/models/gui/ShtikerBookUI" )
 
         # Generate UI components
@@ -400,12 +400,12 @@ class KartCustomizeUI( DirectFrame ):
 
         self.itemSelector.itemViewers[ 'main' ].leftArrowButton.setZ( self.kartViewer.getZ() + 0.25 )
         self.itemSelector.itemViewers[ 'main' ].rightArrowButton.setZ( self.kartViewer.getZ() + 0.25 )
-        
-        self.kartViewer.setBounds( -0.38, 0.38, -0.25, 0.325 )   
+
+        self.kartViewer.setBounds( -0.38, 0.38, -0.25, 0.325 )
         #self.kartViewer.setBounds( -0.1, 0.1, -.1, .1 )
         self.kartViewer.setBgColor( 1.0, 1.0, 0.8, 1.0 )
         #self.kartViewer.setBgColor( 1, 0, 0, 1 )
-        
+
         # Remove the geom nodes
         uiRootNode.removeNode()
 
@@ -429,7 +429,7 @@ class KartCustomizeUI( DirectFrame ):
 
             if( hasattr( self.itemSelector.itemViewers['main'], 'confirmDlg' ) ):
                 self.itemSelector.itemViewers[ 'main' ].confirmDlg.hide()
-            
+
             self.itemSelector.hide()
         if( hasattr( self, "kartViewer" ) ):
             self.kartViewer.hide()
@@ -460,7 +460,7 @@ class RacingRecordsUI( DirectFrame ):
         self.avatar = avatar
         self.timeDisplayList = []
         self.lastTimes = []
-        
+
         # Construct the super class object
         DirectFrame.__init__(
             self,
@@ -483,7 +483,7 @@ class RacingRecordsUI( DirectFrame ):
         # Remove references to UI Components and instance variables for
         # garbage collection purposes.
         del self.avatar, self.lastTimes, self.timeDisplayList
-        
+
         # Destroy the DirectFrame super class.
         DirectFrame.destroy( self )
 
@@ -540,7 +540,7 @@ class RacingRecordsUI( DirectFrame ):
         DirectFrame.show( self )
 
 
-        
+
 class RacingTrophiesUI( DirectFrame ):
     """
     Purpose: The RacingTrophiesUI class initializes the user interface for
@@ -567,7 +567,7 @@ class RacingTrophiesUI( DirectFrame ):
         self.trophyPanels = []
         self.trophies = None
         self.trophyTextDisplay = None
-        
+
         # Construct the super class object
         DirectFrame.__init__(
             self,
@@ -590,16 +590,16 @@ class RacingTrophiesUI( DirectFrame ):
             panel.destroy()
         self.ticketDisplay.destroy()
         self.trophyTextDisplay.destroy()
-        
+
         # Remove references to UI Components and instance variables for
         # garbage collection purposes.
         del self.avatar, self.ticketDisplay, self.trophyPanels, self.trophies, self.trophyTextDisplay
-        
+
         # Destroy the DirectFrame super class.
         DirectFrame.destroy( self )
 
     def load( self ):
-        """pass                
+        """pass
         Purpose: The load Method handles the construction of the specific
         UI components that make up the RacingTrophiesUI object.
 
@@ -607,7 +607,7 @@ class RacingTrophiesUI( DirectFrame ):
         Return: None
         """
         self.trophies = base.localAvatar.getKartingTrophies()
-        
+
         xStart = -0.76
         yStart = 0.475
         xOffset = 0.17
@@ -675,7 +675,7 @@ class RacingTrophiesUI( DirectFrame ):
             text_pos = ( 0, -0.65),
             text_font = ToontownGlobals.getSignFont()
             )
-        
+
         # display the text description of a moused over trophy
         self.trophyTextDisplay = DirectLabel(
             parent = self,
@@ -689,7 +689,7 @@ class RacingTrophiesUI( DirectFrame ):
             )
 
         self.updateTrophies()
-        
+
     def grow(self, index, pos):
         self.trophyPanels[index]['image_color'] = Vec4(1.0, 1.0, 0.8, 1.0)
         self.trophyTextDisplay['text'] = TTLocalizer.KartPageTrophyDetail % (index+1, TTLocalizer.KartTrophyDescriptions[index])
@@ -697,7 +697,7 @@ class RacingTrophiesUI( DirectFrame ):
     def shrink(self, index, pos):
         self.trophyPanels[index]['image_color'] = Vec4(1.0, 1.0, 1.0, 1.0)
         self.trophyTextDisplay['text'] = ""
-    
+
     def show( self ):
         # update toon ticket count
         self.ticketDisplay['text'] = TTLocalizer.KartPageTickets + str(self.avatar.getTickets()),
@@ -706,7 +706,7 @@ class RacingTrophiesUI( DirectFrame ):
             self.trophies = base.localAvatar.getKartingTrophies()
             self.updateTrophies()
         DirectFrame.show( self )
-        
+
     def updateTrophies( self ):
         for t in range(len(self.trophyPanels)):
             if self.trophies[t]:
@@ -731,7 +731,7 @@ class ItemSelector( DirectFrame ):
     # Initialize class variables
     #__metaclass__ = PythonUtil.Singleton
     notify = DirectNotifyGlobal.directNotify.newCategory( "ItemSelector" )
-    
+
     class ItemViewer( DirectFrame ):
         """
         Purpose: The ItemViewer class shows specific kart items (accessories
@@ -765,25 +765,25 @@ class ItemSelector( DirectFrame ):
                 parent = parent,
                 relief = None,
                 pos = (0, 0, 0),
-                scale = (1.0, 1.0, 1.0),            
+                scale = (1.0, 1.0, 1.0),
                 )
 
         def destroy( self ):
             """
             Purpose: The destroy Method cleans up the UI components for
             the item viewer instance.
-            
+
             Params: None
             Return: None
             """
 
             # Destroy each component of the viewer
             self.uiBgFrame.destroy()
-            self.uiImagePlane.destroy()           
+            self.uiImagePlane.destroy()
             self.uiTextBox.destroy()
             self.leftArrowButton.destroy()
             self.rightArrowButton.destroy()
-            
+
             # Remove references
             del self.avatar, self.parent, self.currItem, self.itemList
             del self.uiBgFrame, self.uiImagePlane, self.uiTextBox
@@ -810,7 +810,7 @@ class ItemSelector( DirectFrame ):
             is being used with a kart based on the ui selection. This is
             primarily used for customization when a new item has been selected
             in the UI.
-            
+
             Params: None
             Return: None
             """
@@ -825,7 +825,7 @@ class ItemSelector( DirectFrame ):
             """
             """
             currKartDNA = self.avatar.getKartDNA()
-            for i in xrange( len( self.updatedDNA ) ):
+            for i in range( len( self.updatedDNA ) ):
                 if( self.updatedDNA[ i ] != currKartDNA[ i ] ):
                     self.avatar.requestKartDNAFieldUpdate( i, self.updatedDNA[ i ] )
 
@@ -836,18 +836,18 @@ class ItemSelector( DirectFrame ):
             Purpose: The setItemList Method assigns the item list for the
             specific category of items for the kart. For instance, the paint
             bucket colors that are available for the kart.
-            
+
             Params: itemList - a list of items based on an item category.
             Return: None
             """
             self.itemList = itemList
-    
+
         def load( self, uiRootNode ):
             """
             Purpose: The load Method loads the appropriate geometry for each
             of the UI componenets that are needed to create the item viewer
             object.
-            
+
             Params: uiRootNode - Node which holds all UI geometry.
             Return: None
             """
@@ -877,13 +877,13 @@ class ItemSelector( DirectFrame ):
             self.locator2 = self.attachNewNode( "locator2" )
             self.locator1.setPos( 0, 0, 0.035 )
             self.locator2.setPos( 0.0, 0.0, 0.0 )
-            
+
             tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.jpg",
                                       "phase_6/maps/NoAccessoryIcon3_a.rgb" )
-                
+
             self.uiImagePlane.component( 'geom0' ).setTexture( tex, self.texCount )
             self.texCount += 1
-            
+
             self.uiTextBox = DirectFrame(
                 parent = self,
                 relief = None,
@@ -909,7 +909,7 @@ class ItemSelector( DirectFrame ):
                 text_font = ToontownGlobals.getSignFont(),
                 text_pos = ( 0, -0.125, 0 ),
                 text_scale = TTLocalizer.KPdeleteButton,
-                text_fg = ( 1, 1, 1, 1 ),                
+                text_fg = ( 1, 1, 1, 1 ),
                 scale = 1.0,
                 pressEffect = False,
                 command = ( lambda : self.__handleItemDeleteConfirm() ),
@@ -965,7 +965,7 @@ class ItemSelector( DirectFrame ):
             """
             self.leftArrowButton['state'] = DGG.DISABLED
             self.rightArrowButton['state'] = DGG.DISABLED
-          
+
         def setupViewer( self, category ):
             """
             Purpose:
@@ -995,7 +995,7 @@ class ItemSelector( DirectFrame ):
                 # used in place of the actual toon dna because the updated dna
                 # holds the latest changes.
                 self.currItem = self.updatedDNA[ category ]
-                
+
                 if( category in colorTypeList ):
                     # If the Default Color is selected, do not allow a delete. It is
                     # always present, but doesn't count against the accessories owned by
@@ -1014,14 +1014,14 @@ class ItemSelector( DirectFrame ):
                     else:
                         self.__updateDeleteButton( DGG.NORMAL, TTLocalizer.KartShtikerDelete )
                     self.__handleShowItem()
-                    
+
                 elif( self.currItem != InvalidEntry and self.itemList != [] ):
                     if( self.currItem in self.avatar.accessories ):
                         self.__handleShowItem()
                         self.__updateDeleteButton( DGG.NORMAL, TTLocalizer.KartShtikerDelete )
                 else:
                     self.__handleHideItem()
-                    self.__updateDeleteButton( DGG.DISABLED )                    
+                    self.__updateDeleteButton( DGG.DISABLED )
 
                 if( len( self.itemList ) == 1 ):
                     if( self.currAccessoryType == KartDNA.rimsType ):
@@ -1029,7 +1029,7 @@ class ItemSelector( DirectFrame ):
                         self.setViewerText(TTLocalizer.KartShtikerDefault %getattr(TTLocalizer,AccessoryTypeNameDict[self.currAccessoryType]))
                         #self.__updateDeleteButton( DGG.DISABLED )
                     elif( self.currAccessoryType in colorTypeList ):
-                        self.disable()                        
+                        self.disable()
                         self.setViewerText(TTLocalizer.KartShtikerDefault % getattr(TTLocalizer,AccessoryTypeNameDict[self.currAccessoryType]))
                     #elif self.currItem == InvalidEntry:
                         #self.setViewerText(TTLocalizer.KartShtikerNo % getattr(TTLocalizer,AccessoryTypeNameDict[self.currAccessoryType]))
@@ -1041,12 +1041,12 @@ class ItemSelector( DirectFrame ):
                 else:
                     if( self.currAccessoryType == KartDNA.rimsType ):
                         self.setViewerText(TTLocalizer.KartShtikerDefault %getattr(TTLocalizer,AccessoryTypeNameDict[self.currAccessoryType]))
-                    elif( self.currAccessoryType in colorTypeList ):                      
+                    elif( self.currAccessoryType in colorTypeList ):
                         self.setViewerText(TTLocalizer.KartShtikerDefault % getattr(TTLocalizer,AccessoryTypeNameDict[self.currAccessoryType]))
                     elif self.currItem == InvalidEntry:
-                        self.setViewerText(TTLocalizer.KartShtikerNo % getattr(TTLocalizer,AccessoryTypeNameDict[self.currAccessoryType]))        
+                        self.setViewerText(TTLocalizer.KartShtikerNo % getattr(TTLocalizer,AccessoryTypeNameDict[self.currAccessoryType]))
                     self.enable()
-            
+
         def resetViewer( self ):
             """
             Purpose:
@@ -1094,7 +1094,7 @@ class ItemSelector( DirectFrame ):
             accList = [ KartDNA.bodyColor, KartDNA.accColor, KartDNA.rimsType ]
             if( self.currItem != InvalidEntry ):
                 self.__handleShowItem()
-                
+
 
                 # Now handle the UI Button update.
                 if( self.currItem not in self.avatar.accessories and self.currAccessoryType in accList ):
@@ -1103,7 +1103,7 @@ class ItemSelector( DirectFrame ):
                     self.__updateDeleteButton( DGG.NORMAL, TTLocalizer.KartShtikerDelete )
             else:
                 if( self.currAccessoryType in accList ):
-                    self.setViewerText(TTLocalizer.KartShtikerDefault % getattr(TTLocalizer,AccessoryTypeNameDict[self.currAccessoryType]))                            
+                    self.setViewerText(TTLocalizer.KartShtikerDefault % getattr(TTLocalizer,AccessoryTypeNameDict[self.currAccessoryType]))
                     self.__handleShowItem()
                 else:
                     self.__handleHideItem()
@@ -1116,7 +1116,7 @@ class ItemSelector( DirectFrame ):
             Purpose: The __handleItemChange Method provides the necessary
             functionality to 'scroll' through the item list for selecting
             a desired item.
-            
+
             Params: direction - move forward or backwards in the list.
             Return: None
             """
@@ -1159,8 +1159,8 @@ class ItemSelector( DirectFrame ):
             messenger.send('wakeup')
             updateItem()
             self.__updateViewerUI()
-          
-            self.notify.debug( "__handleItemChange: currItem %s" % ( self.currItem ) )            
+
+            self.notify.debug( "__handleItemChange: currItem %s" % ( self.currItem ) )
             self.updatedDNA[ self.currAccessoryType ] = self.currItem
 
             # obtain the kart and set the update
@@ -1171,7 +1171,7 @@ class ItemSelector( DirectFrame ):
             """
             """
             self.uiImagePlane.component('geom0').setColorScale( 1.0, 1.0, 1.0, 1.0 )
-                         
+
             if( self.currAccessoryType in [ KartDNA.ebType, KartDNA.spType, KartDNA.fwwType, KartDNA.bwwType ] ):
                 #pdb.set_trace()
                 texNodePath = getTexCardNode( self.currItem )
@@ -1179,40 +1179,40 @@ class ItemSelector( DirectFrame ):
                                           "phase_6/maps/%s_a.rgb" % ( texNodePath ) )
                 #if( tex is None ):
                 #    tex = loader.loadTexture( "phase_4/maps/robber-baron.jpg" )
-                    
+
             elif( self.currAccessoryType == KartDNA.rimsType ):
                 if( self.currItem == InvalidEntry ):
                     # THIS WILL LIKELY NEED TO BE FIXED WHEN NEW RIM
                     # IS ADDED TO COMPENSATE FOR LOSS OF DEFAULT RIM
                     # IN KART SELECTION.
                     texNodePath = getTexCardNode( getDefaultRim() )
-                else:                
+                else:
                     texNodePath = getTexCardNode( self.currItem )
                 tex = loader.loadTexture( "phase_6/maps/%s.jpg" % ( texNodePath ),
                                           "phase_6/maps/%s_a.rgb" % ( texNodePath ) )
-                    
+
             elif( self.currAccessoryType in [ KartDNA.bodyColor, KartDNA.accColor ] ):
                 tex = loader.loadTexture( "phase_6/maps/Kartmenu_paintbucket.jpg",
                                           "phase_6/maps/Kartmenu_paintbucket_a.rgb" )
- 
+
                 # Obtain the default color if the item is -1, handle this similar to the
                 # rims.
                 if( self.currItem == InvalidEntry ):
                     self.uiImagePlane.component( 'geom0' ).setColorScale( getDefaultColor() )
                 else:
                     self.uiImagePlane.component( 'geom0' ).setColorScale( getAccessory( self.currItem ) )
- 
+
             elif( self.currAccessoryType == KartDNA.decalType ):
                 kart = self.parent.parent.getKartViewer().getKart()
                 kartDecal = getDecalId( kart.kartDNA[ KartDNA.bodyType ] )
                 texNodePath = getTexCardNode( self.currItem )
-   
+
                 tex = loader.loadTexture( "phase_6/maps/%s.jpg" % (texNodePath) % ( kartDecal ),
                                           "phase_6/maps/%s_a.rgb" % (texNodePath) % ( kartDecal ) )
             else:
                 tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.jpg",
                                           "phase_6/maps/NoAccessoryIcon3_a.rgb" )
-                
+
             #display this accessory's name & type
             colorTypeList = [ KartDNA.bodyColor, KartDNA.accColor ]
             if( self.currItem == InvalidEntry ):
@@ -1224,8 +1224,8 @@ class ItemSelector( DirectFrame ):
                         self.setViewerText(TTLocalizer.KartShtikerNo % getattr(TTLocalizer,AccessoryTypeNameDict[self.currAccessoryType]))
             else:
                     self.setViewerText(getAccName(self.currItem) +" "+getattr(TTLocalizer,AccessoryTypeNameDict[self.currAccessoryType]))
-                    
-            
+
+
             self.uiImagePlane.component( 'geom0' ).setTexture( tex, self.texCount )
             self.texCount +=1
 
@@ -1242,7 +1242,7 @@ class ItemSelector( DirectFrame ):
         def __handleItemDeleteConfirm( self ):
             """
             """
-            
+
             self.notify.debug( "__handleItemDeleteConfirm:" )
             if( not hasattr( self, "confirmDlg" ) ):
                 uiRootNode = loader.loadModel( "phase_6/models/gui/ShtikerBookUI" )
@@ -1255,7 +1255,7 @@ class ItemSelector( DirectFrame ):
                                                text_pos = ( 0, 0.022 ) )
                 self.confirmDlg.hide()
                 self.confirmDlg.setPos( aspect2d, 0, -.195, -.195 )
-                
+
                 self.cancelButton = DirectButton(
                     parent = self.confirmDlg,
                     relief = None,
@@ -1276,7 +1276,7 @@ class ItemSelector( DirectFrame ):
                     scale = 1.0,
                     pressEffect = False,
                     command = self.__handleItemDelete )
-                
+
             self.confirmDlg.show()
 
         def __handleItemDelete( self ):
@@ -1289,37 +1289,37 @@ class ItemSelector( DirectFrame ):
                     if( self.updatedDNA[ KartDNA.accColor ] == deletedItem ):
                         self.avatar.requestKartDNAFieldUpdate( KartDNA.accColor, self.currItem )
                         self.updatedDNA[ KartDNA.accColor ] = self.currItem
-                        
+
                         # obtain the kart and set the update
                         kart = self.parent.parent.getKartViewer().getKart()
                         kart.updateDNAField( KartDNA.accColor, self.currItem )
-                        
+
                 elif( self.currAccessoryType == KartDNA.accColor ):
                     if( self.updatedDNA[ KartDNA.bodyColor ] == deletedItem ):
                         self.avatar.requestKartDNAFieldUpdate( KartDNA.bodyColor, self.currItem )
                         self.updatedDNA[ KartDNA.bodyColor ] = self.currItem
-                     
+
                         # obtain the kart and set the update
                         kart = self.parent.parent.getKartViewer().getKart()
                         kart.updateDNAField( KartDNA.bodyColor, self.currItem )
                 else:
                     pass
- 
+
             self.notify.debug( "__handleItemDelete: Delete request on accessory %s" % ( self.currItem ) )
             self.confirmDlg.hide()
-   
- 
+
+
             # if we are deleting parts we must be awake
             messenger.send('wakeup')
-            
+
             # What needs to be done?
             # - request that it is removed.
             deletedItem = self.currItem
             self.avatar.requestRemoveOwnedAccessory( deletedItem )
-            
+
             index = self.itemList.index( self.currItem )
-            self.itemList.pop( index )                  
-                   
+            self.itemList.pop( index )
+
             # If the current accessory is deleted, then make the
             # accessory the default value. ( InvalidEntry )
             self.currItem = InvalidEntry
@@ -1327,11 +1327,11 @@ class ItemSelector( DirectFrame ):
             # Update the viewer and keep track of the dna change.
             self.__updateViewerUI()
             self.updatedDNA[ self.currAccessoryType ] = self.currItem
-             
+
             # obtain the kart and set the update
             kart = self.parent.parent.getKartViewer().getKart()
             kart.updateDNAField( self.currAccessoryType, self.currItem )
-            
+
             if( self.avatar.getAccessoryByType( self.currAccessoryType ) == deletedItem ):
                 # Deleting the current item that is equipped on the kart
                 # in the database. Thus, we must change this now.
@@ -1340,7 +1340,7 @@ class ItemSelector( DirectFrame ):
             # If it is a color type, then handle the color delete accordingly.
             if( self.currAccessoryType in [ KartDNA.bodyColor, KartDNA.accColor ] ):
                 handleColorDelete()
-      
+
             if( self.itemList == [] or self.itemList[ 0 ] == InvalidEntry ):
                 # Do not allow the button corresponding to this
                 # category to be re-enabled because the last item
@@ -1348,7 +1348,7 @@ class ItemSelector( DirectFrame ):
                 self.disable()
                 #self.setViewerText( TTLocalizer.KartShtikerNoAccessories )
                 self.setViewerText(TTLocalizer.KartShtikerNo % getattr(TTLocalizer,AccessoryTypeNameDict[self.currAccessoryType]))
-            
+
 
     def __init__( self, avatar, parent = aspect2d ):
         """
@@ -1389,11 +1389,11 @@ class ItemSelector( DirectFrame ):
         """
 
         # Destroy UI Componenets
-        for key in self.buttonDict.keys():
+        for key in list(self.buttonDict.keys()):
             self.buttonDict[ key ].destroy()
             del self.buttonDict[ key ]
 
-        for key in self.itemViewers.keys():
+        for key in list(self.itemViewers.keys()):
             self.itemViewers[ key ].destroy()
             del self.itemViewers[ key ]
 
@@ -1411,18 +1411,18 @@ class ItemSelector( DirectFrame ):
         Purpose: The load Method loads the appropriate geometry for each
         of the UI componenets that are needed to create the item selector
         object.
-        
+
         Params: uiRootNode - Node which holds all UI geometry.
         Return: None
         """
-        
+
         # Initialize the Main Item Viewer which will be used by all
         # item category buttons save for the paint button.
         self.itemViewers[ 'main' ] = ItemSelector.ItemViewer( self.avatar, self )
         self.itemViewers[ 'main' ].load( uiRootNode )
         self.itemViewers[ 'main' ].setPos( self.getParent(),  uiRootNode.find( "**/uiAccessoryView" ).getPos() )
 
-        # Initialize Item Category Buttons 
+        # Initialize Item Category Buttons
         self.ebButton = DirectButton(
             parent = self,
             relief = None,
@@ -1545,7 +1545,7 @@ class ItemSelector( DirectFrame ):
         if( accessDict == {} ):
             self.itemViewers[ 'main' ].disable()
             self.itemViewers[ 'main' ].setViewerText( TTLocalizer.KartShtikerNoAccessories )
-            
+
             return
 
         #self.itemViewers[ 'main' ].setupViewer( self.state )
@@ -1560,7 +1560,7 @@ class ItemSelector( DirectFrame ):
         Params: None
         Return: None
         """
-        for key in self.buttonDict.keys():
+        for key in list(self.buttonDict.keys()):
             self.buttonDict[ key ].setProp( 'state', DGG.NORMAL )
 
         self.itemViewers[ 'main' ].show()
@@ -1568,7 +1568,7 @@ class ItemSelector( DirectFrame ):
 
         self.state = InvalidEntry
         self.itemViewers[ 'main' ].resetViewer()
-        
+
     def __changeItemCategory( self, buttonType ):
         """
         Purpose: The __changeItemCategory Method properly updates the item
@@ -1577,38 +1577,38 @@ class ItemSelector( DirectFrame ):
 
         Params: buttonType - the id of the button that was clicked.
         Return: None
-        """          
+        """
 
         if( buttonType == KartDNA.ebType ):
             # Disable the Category button and update the viewer text.
             self.ebButton[ 'state' ] = DGG.DISABLED
             self.itemViewers[ 'main' ].setViewerText( TTLocalizer.KartShtikerEngineBlocks )
             self.itemViewers[ 'main' ].setupViewer( KartDNA.ebType )
-                
+
         elif( buttonType == KartDNA.spType ):
             # Disable the Category button and update the viewer text.
             self.spButton[ 'state' ] = DGG.DISABLED
             self.itemViewers[ 'main' ].setViewerText( TTLocalizer.KartShtikerSpoilers )
             self.itemViewers[ 'main' ].setupViewer( KartDNA.spType )
-                                
+
         elif( buttonType == KartDNA.fwwType ):
             # Disable the Category button and update the viewer text.
             self.fwwButton[ 'state' ] = DGG.DISABLED
             self.itemViewers[ 'main' ].setViewerText( TTLocalizer.KartShtikerFrontWheelWells )
             self.itemViewers[ 'main' ].setupViewer( KartDNA.fwwType )
-                 
+
         elif( buttonType == KartDNA.bwwType ):
             # Disable the Category button and update the viewer text.
             self.bwwButton[ 'state' ] = DGG.DISABLED
             self.itemViewers[ 'main' ].setViewerText( TTLocalizer.KartShtikerBackWheelWells )
             self.itemViewers[ 'main' ].setupViewer( KartDNA.bwwType )
-                
+
         elif( buttonType == KartDNA.rimsType ):
             # Disable the Category button and update the viewer text.
             self.rimButton[ 'state' ] = DGG.DISABLED
             self.itemViewers[ 'main' ].setViewerText( TTLocalizer.KartShtikerRims )
             self.itemViewers[ 'main' ].setupViewer( KartDNA.rimsType )
-                
+
         elif( buttonType == KartDNA.decalType ):
             # Disable the Category button and update the viewer text.
             self.decalButton[ 'state' ] = DGG.DISABLED
@@ -1625,12 +1625,12 @@ class ItemSelector( DirectFrame ):
             # Disable the Category button and update the viewer text.
             self.paintAccessoryButton[ 'state' ] = DGG.DISABLED
             self.itemViewers[ 'main' ].setViewerText( TTLocalizer.KartShtikerAccColors )
-            self.itemViewers[ 'main' ].setupViewer( KartDNA.accColor )                 
+            self.itemViewers[ 'main' ].setupViewer( KartDNA.accColor )
         elif( buttonType == InvalidEntry ):
             self.itemViewers[ 'main' ].setViewerText( TTLocalizer.KartShtikerSelect )
             self.itemViewers[ 'main' ].setupViewer( buttonType )
         else:
-            raise StandardError, "KartPage.py::__changeItemCategory - INVALID Category Type!"                
+            raise Exception("KartPage.py::__changeItemCategory - INVALID Category Type!")
 
         # Update the state
         if( self.state != buttonType and self.state != InvalidEntry ):
@@ -1646,7 +1646,7 @@ class KartViewer( DirectFrame ):
     #__metaclass__ = PythonUtil.Singleton
     notify = DirectNotifyGlobal.directNotify.newCategory( "KartViewer" )
     #notify.setDebug(1)
-    
+
     def __init__( self, dna, parent ):
         """
         """
@@ -1659,11 +1659,11 @@ class KartViewer( DirectFrame ):
 
         self.bounds = None
         self.colors = None
-        
+
         self.uiRotateRight = None
         self.uiRotateLeft = None
         self.uiRotateLabel = None
-            
+
 
         # Construct the DirectFrame Super Class
         DirectFrame.__init__(
@@ -1696,11 +1696,11 @@ class KartViewer( DirectFrame ):
             del self.uiRotateRight
         if hasattr(self, "uiRotateLabelt") and self.uiRotateLabel:
             self.uiRotateLabel.destroy()
-            del self.uiRotateLabel                
+            del self.uiRotateLabel
         if hasattr(self, "dna"):
             del self.dna
         if hasattr(self, "parent"):
-            del self.parent                                
+            del self.parent
 
         # Destroy DirectFrame Super class
         DirectFrame.destroy( self )
@@ -1748,11 +1748,11 @@ class KartViewer( DirectFrame ):
                 text_font = ToontownGlobals.getSignFont(),
                 pressEffect = False,
                 )
-                
+
             self.uiRotateLeft.bind( DGG.B1PRESS, self.__handleKartRotate, [ -3 ] )
             self.uiRotateLeft.bind( DGG.B1RELEASE, self.__endKartRotate )
         if rightArrow and len(rightArrow)==5:
-            self.uiRotateRight = DirectButton( 
+            self.uiRotateRight = DirectButton(
                 parent = self,
                 relief = None,
                 geom = ( uiRootNode.find( "**/"+rightArrow[0]),
@@ -1788,9 +1788,9 @@ class KartViewer( DirectFrame ):
             self.kart = None
         if( not hasattr( self, "kartDisplayRegion" ) ):
             self.kartDisplayRegion = DirectRegion( parent = self )
-            apply( self.kartDisplayRegion.setBounds, self.bounds )
-            apply( self.kartDisplayRegion.setColor, self.colors )
-            
+            self.kartDisplayRegion.setBounds(*self.bounds)
+            self.kartDisplayRegion.setColor(*self.colors)
+
         frame = self.kartDisplayRegion.load()
         if self.dna:
             self.kart = Kart()
@@ -1827,7 +1827,7 @@ class KartViewer( DirectFrame ):
                 self.uiRotateLeft.hide()
             if self.uiRotateLabel:
                 self.uiRotateLabel.hide()
-            
+
         return frame
 
     def show( self, dna=None ):
@@ -1842,14 +1842,14 @@ class KartViewer( DirectFrame ):
             if( hasattr( self, "kartDisplayRegion" ) ):
                 self.kartDisplayRegion.unload()
             self.hide()
-        
+
         self.uiBgFrame.show()
-        
-        
+
+
         self.refresh(dna)
         #start with rotate - crashing in task on "no attrib pitch"
         self.__handleKartRotate(1)
-        
+
     def hide( self ):
         assert self.notify.debugStateCall(self)
         self.uiBgFrame.hide()
@@ -1882,10 +1882,10 @@ class KartViewer( DirectFrame ):
         """
         """
         return self.kart
-        
+
     def setDNA(self, dna):
             self.dna = dna
-    
+
     def refresh(self, dna=None):
         assert self.notify.debugStateCall(self)
         taskMgr.removeTasksMatching("kartRotateTask")
@@ -1894,7 +1894,7 @@ class KartViewer( DirectFrame ):
             self.dna = dna
         #temporarily save pitch
         curPitch = 0
-        if hasattr(self, "pitch"): 
+        if hasattr(self, "pitch"):
             curPitch = self.pitch.getH()
         else:
             curPitch = 0
@@ -1915,7 +1915,7 @@ class RacingTrophy(DirectFrame):
         opts = {'relief':None}
         opts.update(kwargs)
         DirectFrame.__init__(self,*args,**opts)
-        
+
         # This is a temporary location for this model
         self.trophy = loader.loadModel("phase_6/models/gui/racingTrophy")
         self.trophy.reparentTo(self)
@@ -1930,7 +1930,7 @@ class RacingTrophy(DirectFrame):
         # Give the base a nice marble look
         self.base.setColorScale(1,1,0.8,1)
         self.topBase.setColorScale(1,1,0.8,1)
-        
+
         self.greyBowl = loader.loadModel("phase_6/models/gui/racingTrophyBowl2")
         self.greyBowl.reparentTo(self)
         self.greyBowl.setPos(0,.5,0)
@@ -1951,12 +1951,12 @@ class RacingTrophy(DirectFrame):
             text_scale = 0.125,
             text_fg = Vec4(0.9,0.9,0.4,1),
             )
-        
+
         self.shadow = loader.loadModel("phase_3/models/props/drop_shadow")
         self.shadow.reparentTo(self)
         self.shadow.setColor(1,1,1,0.2)
         self.shadow.setPosHprScale(0,1,0.35, 0,90,0, 0.1,0.14,0.1)
-        
+
         self.setLevel(level)
 
     def setLevel(self, level):

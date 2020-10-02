@@ -1,7 +1,9 @@
-Makefile
 __init__.py
+Makefile
 pp.dep
-*.pyc
-*.pyo
+built
 **/Opt*-*
 *.o
+readlog.txt
+*.log
+*.bak

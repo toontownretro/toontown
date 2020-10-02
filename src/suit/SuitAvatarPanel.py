@@ -1,10 +1,10 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from otp.avatar import Avatar
 from direct.distributed import DistributedObject
-import SuitDNA
+from . import SuitDNA
 from toontown.toonbase import TTLocalizer
 from otp.avatar import AvatarPanel
 from toontown.friends import FriendsListPanel
@@ -34,7 +34,7 @@ class SuitAvatarPanel(AvatarPanel.AvatarPanel):
                 relief = None,
                 pos = (1.1, 100, 0.525),
                 )
-            
+
         disabledImageColor = Vec4(1,1,1,0.4)
         text0Color = Vec4(1,1,1,1)
         text1Color = Vec4(0.5,1,0.5,1)
@@ -75,7 +75,7 @@ class SuitAvatarPanel(AvatarPanel.AvatarPanel):
 
         level = avatar.getActualLevel()
         dept = SuitDNA.getSuitDeptFullname(avatar.dna.name)
-            
+
         self.levelLabel = DirectLabel(
                 parent = self.frame,
                 pos = (0, 0, -0.1),
@@ -128,7 +128,7 @@ class SuitAvatarPanel(AvatarPanel.AvatarPanel):
                 text_scale = 0.05,
                 command = self.__handleClose,
                 )
-                
+
         gui.removeNode()
 
         menuX = -0.05
@@ -136,10 +136,10 @@ class SuitAvatarPanel(AvatarPanel.AvatarPanel):
 
         # hide the friend and clarabelle gui
         base.localAvatar.obscureFriendsListButton(1)
-        
+
         self.frame.show()
         messenger.send("avPanelDone")
-        
+
     def cleanup(self):
         if self.frame == None:
             return

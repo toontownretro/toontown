@@ -1,4 +1,4 @@
-from CatalogSurfaceItem import *
+from .CatalogSurfaceItem import *
 
 # Indicies into Flooring Textures Dictionary
 FTTextureName = 0
@@ -15,9 +15,9 @@ FlooringTypes = {
             CTFlatColorDark, 150),
     1020 : ("phase_4/maps/flooring_tile_neutral.jpg",   # In phase 4 because it's also on the PetShopInterior model.
             CTFlatColorDark, 150),
-    1030 : ("phase_5.5/maps/flooring_tileB2.jpg", 
+    1030 : ("phase_5.5/maps/flooring_tileB2.jpg",
             None, 150),
-    # Grass, just for fun 
+    # Grass, just for fun
     1040 : ("phase_4/maps/grass.jpg", None, 150),
     # Beige bricks
     1050 : ("phase_4/maps/floor_tile_brick_diagonal2.jpg", None, 150),
@@ -55,7 +55,7 @@ FlooringTypes = {
     # Peach shell tile
     1160 : ("phase_5.5/maps/UWtileFloor3.jpg",
             None, 150),
-    
+
     # Sand shell tile
     1170 : ("phase_5.5/maps/UWtileFloor2.jpg",
             None, 150),
@@ -67,7 +67,7 @@ FlooringTypes = {
     # Sandy floor
     1190 : ("phase_5.5/maps/UWsandyFloor1.jpg",
             None, 150),
-    
+
 
     ## WINTER HOLIDAY ##
     # Ice cube
@@ -87,7 +87,7 @@ class CatalogFlooringItem(CatalogSurfaceItem):
     This represents a texture/color combination for floors.
 
     """
-    
+
     def makeNewItem(self, patternIndex, colorIndex = None):
         self.patternIndex = patternIndex
         self.colorIndex = colorIndex
@@ -160,7 +160,7 @@ class CatalogFlooringItem(CatalogSurfaceItem):
         return FlooringTypes[self.patternIndex][FTBasePrice]
 
     def loadTexture(self):
-        from pandac.PandaModules import Texture
+        from toontown.toonbase.ToontownModules import Texture
         filename = FlooringTypes[self.patternIndex][FTTextureName]
         texture = loader.loadTexture(filename)
         texture.setMinfilter(Texture.FTLinearMipmapLinear)
@@ -178,7 +178,7 @@ class CatalogFlooringItem(CatalogSurfaceItem):
             if colorIndex < len(colors):
                 return colors[colorIndex]
             else:
-                print "Warning: colorIndex not in colors. Returning white."
+                print("Warning: colorIndex not in colors. Returning white.")
                 return CT_WHITE
         else:
             return CT_WHITE
@@ -198,7 +198,7 @@ class CatalogFlooringItem(CatalogSurfaceItem):
         # self.patternIndex is invalid.  The other fields can take
         # care of themselves.
         wtype = FlooringTypes[self.patternIndex]
-        
+
     def encodeDatagram(self, dg, store):
         CatalogAtticItem.CatalogAtticItem.encodeDatagram(self, dg, store)
         dg.addUint16(self.patternIndex)
@@ -208,7 +208,7 @@ class CatalogFlooringItem(CatalogSurfaceItem):
 def getFloorings(*indexList):
     # This function returns a list of CatalogFlooringItems
     # The returned items will all need to be customized (i.e
-    # have a color chosen by the user.  Until customization, 
+    # have a color chosen by the user.  Until customization,
     # use a default color index of 0 (if the pattern has a color
     # list) or CT_WHITE if the pattern has no color list
     list = []
@@ -248,8 +248,8 @@ def getFlooringRange(fromIndex, toIndex, *otherRanges):
         froms.append(otherRanges[i])
         tos.append(otherRanges[i+1])
         i += 2
-    
-    for patternIndex in FlooringTypes.keys():
+
+    for patternIndex in list(FlooringTypes.keys()):
         for fromIndex, toIndex in zip(froms,tos):
             if patternIndex >= fromIndex and patternIndex <= toIndex:
                 colors = FlooringTypes[patternIndex][FTColor]

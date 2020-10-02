@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.effects.FireworkGlobals import *
 from toontown.effects.Firework import Firework
@@ -16,7 +16,7 @@ colors = [Vec4(1,1,1,1),    #white
           Vec4(1,.1,1,1),   #magenta
           Vec4(.1,1,1,1),   #cyan
           Vec4(.1,.5,1,1)]  #sea
-          
+
 fireworkShowTypes = [ ToontownGlobals.JULY4_FIREWORKS, PartyGlobals.FireworkShows.Summer, ToontownGlobals.NEWYEARS_FIREWORKS ]
 
 class FireworkShow(NodePath):
@@ -70,46 +70,46 @@ class FireworkShow(NodePath):
             ToontownGlobals.JULY4_FIREWORKS: [
             [FireworkType.GlowFlare, Vec3(-90,0,80), Vec3(120,0,0), rS(), Vec4(1,1,1,1), Vec4(1,1,1,1),  1.5, 0.0],
             [FireworkType.GlowFlare, Vec3(90,0,80), Vec3(-120,0,0), rS(), Vec4(1,1,1,1), Vec4(1,1,1,1),  1.5, 1.0],
-            
+
             [FireworkType.BasicPeony, Vec3(50,0,140), rP(), rS(), Vec4(1,1,1,1), Vec4(1,1,1,1),  rT(),0.0],
             [FireworkType.BasicPeony,Vec3(-50,0,140), rP(), rS(), Vec4(1,1,1,1), Vec4(1,1,1,1),  rT(),3.0],
-            
+
             [FireworkType.AdvancedPeony, Vec3(-90,0,110), rP(), rS(), rC(), rC(),  rT(),0.25],
             [FireworkType.AdvancedPeony, Vec3(0,0,90), rP(), rS(), rC(), rC(),  rT(),0.25],
             [FireworkType.AdvancedPeony, Vec3(90,0,110), rP(), rS(), rC(), rC(),  rT(), 4.0],
 
             [FireworkType.GlowFlare, Vec3(-90,0,80), Vec3(120,0,0), 1.5, Vec4(1,1,1,1), Vec4(1,1,1,1),  3.0, 3.0],
-            
+
             [FireworkType.Ring, Vec3(-90,0,120), rP(), rS(), rC(), rC(),  rT(), 0.2],
             [FireworkType.Ring, Vec3(-30,0,100), rP(), rS(), rC(), rC(),  rT(), 0.2],
             [FireworkType.Ring, Vec3(30,0,120), rP(), rS(), rC(), rC(),  rT(), 0.2],
             [FireworkType.Ring, Vec3(90,0,100), rP(), rS(), rC(), rC(),  rT(), 3.00],
-            
+
             [FireworkType.Bees, Vec3(0,50,120), rP(), rS(), rC(), rC(),  rT(), 2.0],
-            
+
             [FireworkType.TrailBurst, Vec3(-70,0,120), rP(), rS(), rC(), rC(),  rT(), 0.25],
             [FireworkType.TrailBurst, Vec3(70,0,120), rP(), rS(), rC(), rC(),  rT(), 3.0],
-            
+
             [FireworkType.DiademPeony, Vec3(90,0,120), rP(), rS(), rC(), rC(),  rT(), 0.15],
             [FireworkType.DiademPeony, Vec3(-30,0,120), rP(), rS(), rC(), rC(),  rT(), 0.15],
             [FireworkType.DiademPeony, Vec3(30,0,100), rP(), rS(), rC(), rC(),  rT(), 0.15],
-            [FireworkType.DiademPeony, Vec3(-90,0,100), rP(), rS(), rC(), rC(),  rT(), 3.00],          
-            
+            [FireworkType.DiademPeony, Vec3(-90,0,100), rP(), rS(), rC(), rC(),  rT(), 3.00],
+
             [FireworkType.PalmTree, Vec3(0,40,100), rP(), rS(), rC(), rC(),  rT(), 4.0],
-            
+
             [FireworkType.Chrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 0.0],
             [FireworkType.DiademChrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 0.5],
             [FireworkType.DiademChrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 3.00],
-            
+
             [FireworkType.Saturn,Vec3(90,0,120), rP(), rS(), rC(), rC(),  rT(), 0.0],
             [FireworkType.Saturn, Vec3(-90,0,120), rP(), rS(), rC(), rC(),  rT(), 2.5],
-            
+
             [FireworkType.GlowFlare, Vec3(0,0,90), Vec3(-120,0,0), rS(), Vec4(.1,.5,1,1), Vec4(1,1,1,1),  1.5, 1.0],
             [FireworkType.GlowFlare, Vec3(0,0,100), Vec3(-60,0,0), rS(), Vec4(.1,.5,1,1), Vec4(1,1,1,1),  1.5, 1.0],
             [FireworkType.GlowFlare, Vec3(0,0,110), Vec3(0,0,0), rS(), Vec4(.1,.5,1,1), Vec4(1,1,1,1),  1.5, 1.0],
             [FireworkType.GlowFlare, Vec3(0,0,120), Vec3(60,0,0), rS(), Vec4(.1,.5,1,1), Vec4(1,1,1,1),  1.5, 1.0],
             [FireworkType.GlowFlare, Vec3(0,0,130), Vec3(120,0,0), rS(), Vec4(.1,.5,1,1), Vec4(1,1,1,1),  1.5, 2.0],
-            
+
             [FireworkType.DiademChrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 0.5],
             [FireworkType.DiademChrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 2.0],
             [FireworkType.DiademChrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 0.5],
@@ -118,16 +118,16 @@ class FireworkShow(NodePath):
             [FireworkType.DiademChrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 1.0],
             [FireworkType.DiademChrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 0.5],
             [FireworkType.DiademChrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 3.0],
-            
-            [FireworkType.AmericanFlag, Vec3(0,0,230), Vec3(-50,0,0), rS(), rC(), rC(),  rT(), 6],            
-            
+
+            [FireworkType.AmericanFlag, Vec3(0,0,230), Vec3(-50,0,0), rS(), rC(), rC(),  rT(), 6],
+
             [FireworkType.DiademPeony, Vec3(90,0,120), rP(), rS(), rC(), rC(),  2.5, 0.15],
             [FireworkType.DiademPeony, Vec3(30,0,140), rP(), rS(), rC(), rC(),  2.5, 0.15],
             [FireworkType.DiademPeony, Vec3(-30,0,120), rP(), rS(), rC(), rC(),  2.5, 0.15],
-            [FireworkType.DiademPeony, Vec3(-90,0,140), rP(), rS(), rC(), rC(),  2.5, 3.00],   
-            
+            [FireworkType.DiademPeony, Vec3(-90,0,140), rP(), rS(), rC(), rC(),  2.5, 3.00],
+
             [FireworkType.Mickey, Vec3(0,0,100), rP(), 1.4, rC(), rC(),  2.0, 10.0],
-            
+
             # [FireworkType.DiademChrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 0.5],
             # [FireworkType.Ring, rV(), rP(), rS(), rC(), rC(),  rT(), 0.5],
             # [FireworkType.Saturn, rV(), rP(), rS(), rC(), rC(),  rT(), 0.5],
@@ -138,65 +138,65 @@ class FireworkShow(NodePath):
             # [FireworkType.AmericanFlag, rV(), rP(), rS(), rC(), rC(),  rT(), 5],
             # [FireworkType.Mickey, rV(), rP(), rS(), rC(), rC(),  rT(), 7],
             ],
-            
+
             PartyGlobals.FireworkShows.Summer: [
-            
+
             [FireworkType.DiademPeony, Vec3(90,0,120), rP(), rS(), rC(), rC(),  rT(), 0.0],
             [FireworkType.DiademPeony, Vec3(0,0,70), rP(), rS(), rC(), rC(),  rT(), 0.0],
-            [FireworkType.DiademPeony, Vec3(-90,0,100), rP(), rS(), rC(), rC(),  rT(), 3.00], 
-            
+            [FireworkType.DiademPeony, Vec3(-90,0,100), rP(), rS(), rC(), rC(),  rT(), 3.00],
+
             [FireworkType.GlowFlare, Vec3(0,0,130), Vec3(0,0,0), rS(), Vec4(.1,.5,1,1), Vec4(1,1,1,1),  3.5, 1.0],
             [FireworkType.GlowFlare, Vec3(0,0,90), Vec3(-50,0,0), rS(), Vec4(.1,.5,1,1), Vec4(1,1,1,1),  2.5, 0.0],
             [FireworkType.GlowFlare, Vec3(0,0,90), Vec3(50,0,0), rS(), Vec4(.1,.5,1,1), Vec4(1,1,1,1),  2.5, 2.0],
-            
+
             [FireworkType.DiademChrysanthemum, Vec3(40,50,140), rP(), rS(), rC(), rC(),  rT(), 1.5],
             [FireworkType.DiademChrysanthemum, Vec3(-40,-50,140), rP(), rS(), rC(), rC(),  rT(), 3.0],
 
             [FireworkType.GlowFlare, Vec3(-90,0,80), Vec3(120,0,0), 1.5, Vec4(1,1,1,1), Vec4(1,1,1,1),  3.0, 5.5],
-            
+
             [FireworkType.DiademChrysanthemum, Vec3(0,0,100), Vec3(-120,0,0), rS(), rC(), rC(),  rT(), 0.5],
             [FireworkType.GlowFlare, Vec3(0,0,100), Vec3(-120,0,0), rS(), rC(), rC(),  1.5, 1.0],
             [FireworkType.DiademChrysanthemum, Vec3(0,0,100), Vec3(0,20,0), rS(), rC(), rC(),  rT(), 0.5],
             [FireworkType.GlowFlare, Vec3(0,0,100), Vec3(0,20,0), rS(), rC(), rC(),  1.5, 1.0],
             [FireworkType.DiademChrysanthemum, Vec3(0,0,100), Vec3(120,0,0), rS(), rC(), rC(),  rT(), 0.5],
             [FireworkType.GlowFlare, Vec3(0,0,100), Vec3(120,0,0), rS(), rC(), rC(),  1.5, 5.0],
-            
+
             [FireworkType.AdvancedPeony, Vec3(-90,0,110), rP(), rS(), rC(), rC(),  rT(),0.25],
             [FireworkType.AdvancedPeony, Vec3(0,0,90), rP(), rS(), rC(), rC(),  rT(),0.25],
             [FireworkType.AdvancedPeony, Vec3(90,0,110), rP(), rS(), rC(), rC(),  rT(), 4.0],
-            
+
             [FireworkType.Mickey, Vec3(70,0,120), rP(), rS(), rC(), rC(),  rT(), 3.0],
-            
+
             [FireworkType.DiademPeony, Vec3(90,0,120), rP(), rS(), rC(), rC(),  rT(), 0.15],
             [FireworkType.DiademPeony, Vec3(-30,0,120), rP(), rS(), rC(), rC(),  rT(), 0.15],
             [FireworkType.DiademPeony, Vec3(30,0,100), rP(), rS(), rC(), rC(),  rT(), 0.15],
             [FireworkType.DiademPeony, Vec3(-90,0,100), rP(), rS(), rC(), rC(),  rT(), 3.00],
-            
+
             [FireworkType.Bees, Vec3(0,0,100), rP(), 1.4, rC(), rC(),  2.0, 4.0],
-            
+
             [FireworkType.Chrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 0.0],
             [FireworkType.DiademChrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 0.5],
             [FireworkType.DiademChrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 3.00],
-            
+
             [FireworkType.GlowFlare, Vec3(200,0,180), Vec3(-60,0,0), rS(), rC(), Vec4(1,1,1,1),  1.5, 2.0],
             [FireworkType.GlowFlare, Vec3(150,10,180), Vec3(-60,0,0), rS(), rC(), Vec4(1,1,1,1),  1.5, 1.0],
             [FireworkType.GlowFlare, Vec3(100,20,180), Vec3(-60,0,0), rS(), rC(), Vec4(1,1,1,1),  1.5, 1.0],
             [FireworkType.GlowFlare, Vec3(50,30,180), Vec3(-60,0,0), rS(), rC(), Vec4(1,1,1,1),  1.5, 1.0],
             [FireworkType.GlowFlare, Vec3(0,40,180), Vec3(-60,0,0), rS(), rC(), Vec4(1,1,1,1),  1.5, 2.0],
-            
+
             [FireworkType.Saturn, Vec3(0,0,100), Vec3(-120,0,0), rS(), rC(), rC(),  rT(), 0.5],
             [FireworkType.GlowFlare, Vec3(0,0,100), Vec3(-120,0,0), rS(), rC(), rC(),  1.5, 1.0],
             [FireworkType.Saturn, Vec3(0,0,100), Vec3(0,0,0), rS(), rC(), rC(),  rT(), 0.5],
             [FireworkType.GlowFlare, Vec3(0,0,100), Vec3(0,0,0), rS(), rC(), rC(),  1.5, 1.0],
             [FireworkType.Saturn, Vec3(0,0,100), Vec3(120,0,0), rS(), rC(), rC(),  rT(), 0.5],
             [FireworkType.GlowFlare, Vec3(0,0,100), Vec3(120,0,0), rS(), rC(), rC(),  1.5, 5.0],
-            
+
             [FireworkType.GlowFlare, Vec3(-15,0,60), Vec3(0,0,0), rS(), Vec4(1,1,0.4,1), Vec4(1,1,1,1),  2.5, 0.0],
             [FireworkType.GlowFlare, Vec3(15,0,60), Vec3(0,0,0), rS(), Vec4(1,1,0.4,1), Vec4(1,1,1,1),  2.5, 0.0],
             [FireworkType.IceCream, Vec3(0,0,80), Vec3(0,0,0),1.0, Vec4(1,1,1,1), Vec4(1,1,1,1),  1.5,0.0],
             [FireworkType.IceCream, Vec3(0,0,110), Vec3(0,0,0), 0.6, Vec4(1,1,1,1), Vec4(1,1,1,1),  1.5,0.0],
-            [FireworkType.IceCream, Vec3(0,0,130), Vec3(0,0,0), 0.3, Vec4(1,1,1,1), Vec4(1,1,1,1),  1.5,10.0],         
-            
+            [FireworkType.IceCream, Vec3(0,0,130), Vec3(0,0,0), 0.3, Vec4(1,1,1,1), Vec4(1,1,1,1),  1.5,10.0],
+
             ],
 
             # NEW YEARS firework sequence
@@ -230,32 +230,32 @@ class FireworkShow(NodePath):
             [FireworkType.DiademChrysanthemum, Vec3(0, 20, 100), Vec3(0,0,0), rS(), rC(), rC(),  1.5, 0.25],
             [FireworkType.DiademChrysanthemum, Vec3(-70,0,130), Vec3(0,0,0), rS(), rC(), rC(),  rT(), 0.5],
             [FireworkType.DiademChrysanthemum, Vec3(120,50,100), Vec3(0,0,0), rS(), rC(), rC(),  1.5, 3.5],
-            
+
             [FireworkType.Mickey, Vec3(70,0,120), rP(), rS(), rC(), rC(),  rT(), 3.5],
-            
+
             [FireworkType.DiademPeony, Vec3(90,0,120), rP(), rS(), rC(), rC(),  rT(), 0.15],
             [FireworkType.DiademPeony, Vec3(-30,0,120), rP(), rS(), rC(), rC(),  rT(), 0.15],
             [FireworkType.DiademPeony, Vec3(30,0,100), rP(), rS(), rC(), rC(),  rT(), 0.15],
             [FireworkType.DiademPeony, Vec3(-90,0,100), rP(), rS(), rC(), rC(),  rT(), 3.00],
-            
+
             [FireworkType.Chrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 0.15],
             [FireworkType.DiademChrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 0.5],
             [FireworkType.DiademChrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 1.5],
             [FireworkType.DiademChrysanthemum, rV(), rP(), rS(), rC(), rC(),  rT(), 3.00],
-            
+
             [FireworkType.Saturn, Vec3(0,0,100), Vec3(-120,0,0), rS(), rC(), rC(),  rT(), 0.5],
             [FireworkType.Saturn, Vec3(20,0,70), Vec3(-120,0,0), rS(), rC(), rC(),  rT(), 0.5],
             [FireworkType.DiademPeony, Vec3(-30,0,120), Vec3(120,0,0), rS(), rC(), rC(),  rT(), 0.5],
             [FireworkType.DiademPeony, Vec3(0,0,90), Vec3(120,0,0), rS(), rC(), rC(),  rT(), 4.0],
-            
+
             [FireworkType.DiademPeony, Vec3(-140,50,120), Vec3(0,0,0), rS(), rC(), rC(),  rT(), 0.25],
             [FireworkType.DiademChrysanthemum, Vec3(70,-40,90), Vec3(0,0,0), rS(), rC(), rC(),  1.5, 0.25],
             [FireworkType.DiademPeony, Vec3(-100,30,60), Vec3(0,0,0), rS(), rC(), rC(),  2.25, 0.25],
             [FireworkType.DiademChrysanthemum, Vec3(0, 20, 100), Vec3(0,0,0), rS(), rC(), rC(),  1.5, 2.0],
             [FireworkType.DiademPeony, Vec3(-70,0,130), Vec3(0,0,0), rS(), rC(), rC(),  rT(), 1.5],
             [FireworkType.DiademChrysanthemum, Vec3(120,50,100), Vec3(0,0,0), rS(), rC(), rC(),  1.5, 5.0],
-            
-            [FireworkType.Bees, Vec3(0,0,100), rP(), 1.4, rC(), rC(),  2.0, 10.0],        
+
+            [FireworkType.Bees, Vec3(0,0,100), rP(), 1.4, rC(), rC(),  2.0, 10.0],
             ],
             }
 
@@ -269,7 +269,7 @@ class FireworkShow(NodePath):
 
         self.showMusic = {
             }
-        
+
         del r, rV, rP, rS, rC, rT, rD
 
         self.delaySectionStart = None
@@ -280,7 +280,7 @@ class FireworkShow(NodePath):
         taskMgr.remove("beginSection"+str(startIndex)+str(endIndex))
         sectionIval = Parallel()
         time = 2.0
-        
+
         # request music for the show
         showMusic = self.showMusic.get(self.showType)
         if showMusic:
@@ -288,7 +288,7 @@ class FireworkShow(NodePath):
             musicOffset = self.getDuration(0,startIndex)-self.getDuration(startIndex,startIndex)+offset
             sectionIval.append(Func(base.musicMgr.request, showMusic, priority=2, looping=False))
             sectionIval.append(Func(base.musicMgr.offsetMusic, musicOffset))
-            
+
         # generate section interval and play it
         sectionData = self.showData.get(self.showType)[startIndex:endIndex]
         for fireworkInfo in sectionData:
@@ -312,7 +312,7 @@ class FireworkShow(NodePath):
 
         # if endIndex == len(self.showData.get(self.showType)):
             # sectionIval.append(Sequence(Wait(time), Func(self.cleanupShow)))
-            
+
         self.sectionIvals.append(sectionIval)
         #sectionIval.start(offset)
         self.curSection = sectionIval
@@ -335,7 +335,7 @@ class FireworkShow(NodePath):
                                       extraArgs=[startIndex, endIndex, timestamp])
                 time = time + sectionDur - timestamp
             timestamp -= sectionDur
-    
+
     def getDuration(self, startIndex=0, endIndex=None):
         duration = 0.0
         if endIndex == None:
@@ -343,13 +343,13 @@ class FireworkShow(NodePath):
         for firework in self.showData.get(self.showType)[startIndex:endIndex]:
             duration += firework[7]
         return duration
-        
+
     def getShowDuration(self, eventId = None):
         duration = 0.0
         if eventId:
             for firework in self.showData[eventId]:
                 duration += firework[7]
-        else:       
+        else:
             for firework in self.showData[self.showType]:
                 duration += firework[7]
         return duration
@@ -376,7 +376,7 @@ class FireworkShow(NodePath):
             ival.pause()
             del ival
             ival = None
-        self.sectionIvals = []        
+        self.sectionIvals = []
         for firework in self.fireworks:
             firework.cleanup()
             del firework

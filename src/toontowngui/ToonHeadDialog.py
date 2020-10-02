@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.directnotify import DirectNotifyGlobal
-import TTDialog
+from . import TTDialog
 from toontown.toon import ToonHead
 
 
@@ -52,7 +52,7 @@ class ToonHeadDialog(TTDialog.TTDialog):
         headModelCopy = self.stateNodePath[0].find('**/headModel')
         headModelCopy.removeNode()
         self.headModel.reparentTo(head)
-        
+
     def cleanup(self):
         """
         Stop head model tasks
@@ -61,5 +61,3 @@ class ToonHeadDialog(TTDialog.TTDialog):
         self.headModel.stopBlink()
         self.headModel.stopLookAroundNow()
         self.headModel.delete()
-        
-

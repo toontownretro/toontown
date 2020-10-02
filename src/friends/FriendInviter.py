@@ -1,8 +1,8 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.task.Task import Task
 from toontown.toonbase.ToontownGlobals import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
@@ -56,7 +56,7 @@ class FriendInviter(DirectFrame):
 
         # config player friends off until PAM templates integrate with the website
         self.wantPlayerFriends = base.config.GetBool('want-player-friends', 0)
-        
+
         # initialize our base class.
         DirectFrame.__init__(
             self,
@@ -78,7 +78,7 @@ class FriendInviter(DirectFrame):
         avatar = base.cr.doId2do.get(self.avId)
         self.playerId = None
         self.playerName = None
-        
+
         if avatar:
             # todo: what if these aren't defined?
             self.playerId = avatar.DISLid
@@ -279,7 +279,7 @@ class FriendInviter(DirectFrame):
             text_align = TextNode.ACenter,
             )
         toonText.reparentTo(self.bToon.stateNodePath[2])
-            
+
         self.bToon.hide()
 
         # make an account friend
@@ -295,7 +295,7 @@ class FriendInviter(DirectFrame):
             pos = (0.0, 0.0, -0.05),
             command = self.__handlePlayer
             )
-        
+
         # make a label to show feature desc on rollover
         playerText = DirectLabel(
             parent = self,
@@ -335,7 +335,7 @@ class FriendInviter(DirectFrame):
 
         self.destroy()
 
-    
+
     def getName(self):
         """getName(self):
 
@@ -402,25 +402,25 @@ class FriendInviter(DirectFrame):
 
         # ask the user what kind of friend we want to make
         self['text'] = TTLocalizer.FriendInviterBegin
-        
-        
+
+
         # slide this button over a bit to accomodate three options
         self.bCancel.setPos(0.35, 0.0, -0.05)
         self.bCancel.show()
-        
-        
+
+
         self.bToon.show()
         # cling-on products are not yet swicthboard compliant
         if self.wantPlayerFriends and (base.cr.productName != 'DisneyOnline-UK') and (base.cr.productName != 'DisneyOnline-AP'):
             self.bPlayer.show()
         else: #we can assume toon
             self.__handleToon()
-            
+
 
 
         # handle go away
         assert(self.avDisableName != None)
-        self.accept(self.avDisableName, self.__handleDisableAvatar)    
+        self.accept(self.avDisableName, self.__handleDisableAvatar)
 
 
     def exitBegin(self):
@@ -440,7 +440,7 @@ class FriendInviter(DirectFrame):
 
     def enterCheck(self):
         myId = base.localAvatar.doId
-        
+
         assert(self.avDisableName != None)
         self.accept(self.avDisableName, self.__handleDisableAvatar)
 
@@ -505,16 +505,16 @@ class FriendInviter(DirectFrame):
             # shouldn't be possible, but maybe someone managed to click
             # the "Friend" button before the AvatarPanel shut itself down
             # or something dumb like that.
-            if not base.cr.doId2do.has_key(self.avId):
+            if self.avId not in base.cr.doId2do:
                 self.fsm.request('wentAway')
                 return
 
-        if not base.cr.doId2do.has_key(self.avId):            
+        if self.avId not in base.cr.doId2do:
             self.fsm.request('wentAway')
             return
         else:
             avatar = base.cr.doId2do.get(self.avId)
-        
+
         if isinstance(avatar, Suit.Suit):
             # If we accidentally ask a Cog to be our friend, the Cog
             # will always say no!
@@ -550,7 +550,7 @@ class FriendInviter(DirectFrame):
             base.cr.friendManager.up_friendQuery(self.avId)
             self['text'] = OTPLocalizer.FriendInviterCheckAvailability % (self.toonName)
             self.accept('friendResponse', self.__friendResponse)
-            self.bCancel.show()        
+            self.bCancel.show()
 
         self.accept('friendConsidering', self.__friendConsidering)
 
@@ -705,12 +705,12 @@ class FriendInviter(DirectFrame):
         else:
             self.notify.info("### send avatar remove")
             base.cr.removeFriend(self.avId)
-            
+
         self['text'] = OTPLocalizer.FriendInviterFriendsNoMore % (self.getName())
         self.bOk.show()
 
         # TODO: determine if we need to do the below for player & toon friends
-        
+
         # Now, one special case.  Since the AvatarPanel is only
         # allowed to remain on a toon not in the zone if the toon is
         # our friend, we must shut down the AvatarPanel now if the
@@ -719,7 +719,7 @@ class FriendInviter(DirectFrame):
         # We cheat by sending a spurious "disable" message in this
         # case.  Presumably this will not confuse anyone, since no one
         # else should be listening for this toon's disable message.
-        if not base.cr.doId2do.has_key(self.avId):
+        if self.avId not in base.cr.doId2do:
             messenger.send(self.avDisableName)
 
     def exitFriendsNoMore(self):
@@ -964,4 +964,3 @@ class FriendInviter(DirectFrame):
 
         """
         self.fsm.request('wentAway')
-        

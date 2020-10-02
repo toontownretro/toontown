@@ -1,5 +1,5 @@
 import math
-from pandac.PandaModules import Point3
+from toontown.toonbase.ToontownModules import Point3
 from toontown.toonbase import ToontownGlobals
 
 # in seconds, how many seconds do we wait for them to decide
@@ -27,7 +27,7 @@ StartingPositions = ( Point3(MinWall[0] + WallMargin, # bottomLeft
                              MinWall[1] + WallMargin,
                              TireRadius),
                       )
-                          
+
 NumMatches = 3 # how many matches for the whole game
 NumRounds = 2 # how many rounds per match
 
@@ -55,7 +55,7 @@ ShowScoresDuration = 4. # in seconds, how long to display the player's score
 NumTreasures = {
      ToontownGlobals.ToontownCentral : 2,
      ToontownGlobals.DonaldsDock : 2,
-     ToontownGlobals.DaisyGardens : 2, 
+     ToontownGlobals.DaisyGardens : 2,
      ToontownGlobals.MinniesMelodyland: 2,
      ToontownGlobals.TheBrrrgh: 1,
      ToontownGlobals.DonaldsDreamland: 1,
@@ -65,7 +65,7 @@ NumTreasures = {
 NumPenalties = {
      ToontownGlobals.ToontownCentral : 0,
      ToontownGlobals.DonaldsDock : 1,
-     ToontownGlobals.DaisyGardens : 1, 
+     ToontownGlobals.DaisyGardens : 1,
      ToontownGlobals.MinniesMelodyland: 1,
      ToontownGlobals.TheBrrrgh: 2,
      ToontownGlobals.DonaldsDreamland: 2,
@@ -75,12 +75,12 @@ NumPenalties = {
 Obstacles = {
      ToontownGlobals.ToontownCentral : (),
      ToontownGlobals.DonaldsDock : ((0,0),),
-     ToontownGlobals.DaisyGardens : ((MinWall[0]/2,0), (MaxWall[0]/2,0)), 
-     ToontownGlobals.MinniesMelodyland: ((0,MinWall[1]/2), (0, MaxWall[1]/2)), 
+     ToontownGlobals.DaisyGardens : ((MinWall[0]/2,0), (MaxWall[0]/2,0)),
+     ToontownGlobals.MinniesMelodyland: ((0,MinWall[1]/2), (0, MaxWall[1]/2)),
      ToontownGlobals.TheBrrrgh: ((MinWall[0]/2,0),
                                  (MaxWall[0]/2 , 0),
                                  (0,MinWall[1]/2),
-                                 (0,MaxWall[1]/2) ), 
+                                 (0,MaxWall[1]/2) ),
      ToontownGlobals.DonaldsDreamland: ( ( MinWall[0]/2, MinWall[1]/2),
                                          ( MinWall[0]/2, MaxWall[1]/2),
                                          ( MaxWall[0]/2, MinWall[1]/2),
@@ -92,9 +92,8 @@ Obstacles = {
 ObstacleShapes = {
      ToontownGlobals.ToontownCentral : True ,
      ToontownGlobals.DonaldsDock : True ,
-     ToontownGlobals.DaisyGardens : True, 
-     ToontownGlobals.MinniesMelodyland: True, 
-     ToontownGlobals.TheBrrrgh: False, 
+     ToontownGlobals.DaisyGardens : True,
+     ToontownGlobals.MinniesMelodyland: True,
+     ToontownGlobals.TheBrrrgh: False,
      ToontownGlobals.DonaldsDreamland: False ,
      }
-    

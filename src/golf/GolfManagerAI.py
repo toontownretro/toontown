@@ -3,7 +3,7 @@ from direct.showbase import DirectObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.golf import DistributedGolfCourseAI
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 # This map is only used for support of the magic word ~golf hole
 RequestHole = {}
@@ -18,7 +18,7 @@ class __GolfManagerAI(DirectObject.DirectObject):
     def __init__(self):
         DirectObject.DirectObject.__init__(self)
         self.courseList = []
-        
+
     def delete(self):
         DirectObject.DirectObject.delete(self)
 
@@ -31,13 +31,13 @@ class __GolfManagerAI(DirectObject.DirectObject):
         for avId in avIds:
             if avId in RequestHole:
                 preferredHoleId = RequestHole[avId][0]
-        
+
         newCourse = DistributedGolfCourseAI.DistributedGolfCourseAI(golfZone, avIds, courseId, preferredHoleId)
         newCourse.generateWithRequired(golfZone)
-        
+
         self.courseList.append(newCourse)
         newCourse.addExpectedGolfers(avIds)
-        
+
         golfZone = newCourse.getZoneId()
         self.notify.debug('%s' %  self)
         self.notify.debug('returning %d' % golfZone)
@@ -62,4 +62,3 @@ class __GolfManagerAI(DirectObject.DirectObject):
                     if not RequestHole[avId][1]:
                         del RequestHole[avId]
             self.courseList.remove(course)
-        

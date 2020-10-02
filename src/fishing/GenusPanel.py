@@ -3,11 +3,11 @@
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
-import FishBase
-import FishGlobals
-import FishPhoto
+from . import FishBase
+from . import FishGlobals
+from . import FishPhoto
 
 class GenusPanel(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory("GenusPanel")
@@ -18,7 +18,7 @@ class GenusPanel(DirectFrame):
         genus is an integer key into FishGlobals.__fishDict.
         itemIndex is an integer index into the item list (see optiondefs
             in FishBrowser).
-        
+
         Create a DirectFrame for displaying the genus and it's species
         """
         assert self.notify.debugStateCall(self)
@@ -27,7 +27,7 @@ class GenusPanel(DirectFrame):
         # The picture frame is in the wrong order, should be drawn first (at the back)
         albumGui.find("**/picture_frame").reparentTo(albumGui, -1)
         albumGui.find("**/arrows").removeNode()
-        
+
         optiondefs = (
             ('relief',                                    None, None),
             ('state',                                   DGG.NORMAL, None),
@@ -40,7 +40,7 @@ class GenusPanel(DirectFrame):
             ('text_pos',                         (-0.5, -0.34), None),
             ('text_font',   ToontownGlobals.getInterfaceFont(), None),
             ('text_wordwrap',                             13.5, None),
-            ('text_align',                      TextNode.ALeft, None),            
+            ('text_align',                      TextNode.ALeft, None),
             )
         # Merge keyword options with default options
         self.defineoptions({}, optiondefs)
@@ -63,7 +63,7 @@ class GenusPanel(DirectFrame):
     def load(self):
         assert self.notify.debugStateCall(self)
         pass
-        
+
     def setGenus(self, genus):
         assert self.notify.debugStateCall(self)
         if self.genus == genus:

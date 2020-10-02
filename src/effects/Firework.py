@@ -2,15 +2,15 @@
 # Contact: Samik Bhowal
 # Created: 06/18/09
 #
-# Purpose: This class is used to directly import the fireworks used in 
+# Purpose: This class is used to directly import the fireworks used in
 #          Pirates of the Carribean Online. I haven't depracated the way Toontown
-#          natively did fireworks using Fireworks.py. Simply use the Fireworks.py class 
+#          natively did fireworks using Fireworks.py. Simply use the Fireworks.py class
 #          to create Toontown's old fireworks style or use Firework.py to create
-#          Pirate's style fireworks.  
+#          Pirate's style fireworks.
 #
 #-------------------------------------------------------------------------------
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 ##from toontown.effects import FireworkGlobals
 from toontown.effects.FireworkGlobals import *
@@ -18,13 +18,13 @@ from toontown.effects.FireworkEffect import FireworkEffect
 import random
 
 class Firework(NodePath):
-    
+
     def __init__(self, typeId,
                  velocity=Vec3(0,0,500),scale=1.0,
                  color1=Vec4(1,1,1,1), color2=None,
                  burstDelay=1.25):
         NodePath.__init__(self, "Firework")
-        
+
         self.typeId = typeId
         self.velocity = velocity
         self.scale = scale
@@ -41,13 +41,13 @@ class Firework(NodePath):
         if not self.fireworkIval:
             self.generateFireworkIval()
         self.fireworkIval.start()
-    
+
     def generateFireworkIval(self):
         if not self.fireworkIval:
             self.fireworkIval = Sequence()
 
             # BasicPeony - A special break of colored stars, the most commonly seen
-            #              shell type. Static stars appear without leaving trail. 
+            #              shell type. Static stars appear without leaving trail.
             # --------------------------------------------------------------------
             if (self.typeId == FireworkType.BasicPeony):
                 firework = FireworkEffect(FireworkBurstType.PeonyShell,
@@ -152,7 +152,7 @@ class Firework(NodePath):
                 firework.reparentTo(self)
                 self.fireworkEffects.append(firework)
                 self.fireworkIval.append(firework.getFireworkMainIval())
-                
+
 
             # Trail Burst
             # --------------------------------------------------------------------
@@ -166,7 +166,7 @@ class Firework(NodePath):
                 self.fireworkEffects.append(firework)
                 self.fireworkIval.append(firework.getFireworkMainIval())
 
-            
+
             # Glow Flare
             # --------------------------------------------------------------------
             elif (self.typeId == FireworkType.GlowFlare):
@@ -303,7 +303,7 @@ class Firework(NodePath):
                 self.fireworkIval.append(firework.getFireworkMainIval())
 
             self.fireworkIval.append(Func(self.cleanup))
-            
+
         return self.fireworkIval
 
     def cleanup(self):

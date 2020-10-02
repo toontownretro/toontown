@@ -1,6 +1,6 @@
 from otp.ai.AIBaseGlobal import *
-from pandac.PandaModules import *
-from DistributedNPCToonBaseAI import *
+from toontown.toonbase.ToontownModules import *
+from .DistributedNPCToonBaseAI import *
 from toontown.toonbase import TTLocalizer
 from direct.task import Task
 from toontown.fishing import FishGlobals
@@ -12,7 +12,7 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
         # Fishermen are not in the business of giving out quests
         self.givesQuests = 0
         self.busy = 0
-        
+
     def delete(self):
         taskMgr.remove(self.uniqueName('clearMovie'))
         self.ignoreAll()
@@ -22,8 +22,8 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
         avId = self.air.getAvatarIdFromSender()
         # this avatar has come within range
         assert self.notify.debug("avatar enter " + str(avId))
-        
-        if (not self.air.doId2do.has_key(avId)):
+
+        if (avId not in self.air.doId2do):
             self.notify.warning("Avatar: %s not found" % (avId))
             return
 
@@ -39,7 +39,7 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
         self.sendUpdateToAvatarId(avId, "setPetSeeds", [self.petSeeds])
 
         self.transactionType = ""
-        
+
         av = self.air.doId2do[avId]
         self.busy = avId
 
@@ -64,7 +64,7 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
                         [flag,
                          self.npcId, avId, extraArgs,
                          ClockDelta.globalClockDelta.getRealNetworkTime()])
-        
+
     def sendTimeoutMovie(self, task):
         assert self.notify.debug('sendTimeoutMovie()')
         # The timeout has expired.
@@ -89,7 +89,7 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
             self.air.writeServerEvent('suspicious', avId, 'DistributedNPCPetshopAI.fishSold busy with %s' % (self.busy))
             self.notify.warning("somebody called fishSold that I was not busy with! avId: %s" % avId)
             return
-            
+
         av = simbase.air.doId2do.get(avId)
         if av:
             # this function sells the fish, clears the tank, and
@@ -102,7 +102,7 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
             else:
                 movieType = NPCToons.SELL_MOVIE_COMPLETE
                 extraArgs = []
-            
+
             # Send a movie to reward the avatar
             self.d_setMovie(avId, movieType, extraArgs)
             self.transactionType = "fish"
@@ -165,7 +165,7 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
             self.air.writeServerEvent('suspicious', avId, 'DistributedNPCPetshopAI.petReturned busy with %s' % (self.busy))
             self.notify.warning("somebody called petReturned that I was not busy with! avId: %s" % avId)
             return
-            
+
         av = simbase.air.doId2do.get(avId)
         if av:
             # this function deletes the pet
@@ -202,4 +202,3 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
         self.notify.warning('not busy with avId: %s, busy: %s ' % (avId, self.busy))
         taskMgr.remove(self.uniqueName("clearMovie"))
         self.sendClearMovie(None)
-

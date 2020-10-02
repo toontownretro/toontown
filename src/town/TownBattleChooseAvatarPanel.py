@@ -4,7 +4,7 @@ from direct.fsm import StateData
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import BattleBase
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 
 class TownBattleChooseAvatarPanel(StateData.StateData):
@@ -40,7 +40,7 @@ class TownBattleChooseAvatarPanel(StateData.StateData):
             image_color = Vec4(0.5,0.9,0.5,1),
             pos = (0.611, 0, 0),
             )
-        
+
         self.textFrame = DirectFrame(
             parent = self.frame,
             relief = None,
@@ -56,7 +56,7 @@ class TownBattleChooseAvatarPanel(StateData.StateData):
             self.textFrame['text'] = TTLocalizer.TownBattleChooseAvatarToonTitle
         else:
             self.textFrame['text'] = TTLocalizer.TownBattleChooseAvatarCogTitle
-            
+
         self.avatarButtons = []
         for i in range(4):
             button = DirectButton(
@@ -75,7 +75,7 @@ class TownBattleChooseAvatarPanel(StateData.StateData):
                 button.setScale(1,1,1)
                 button.setPos(0,0,0.2)
             self.avatarButtons.append(button)
-        
+
         self.backButton = DirectButton(
             parent = self.frame,
             relief = None,
@@ -116,7 +116,7 @@ class TownBattleChooseAvatarPanel(StateData.StateData):
         if not self.toon:
             if (len(luredIndices) > 0):
                 # You can't place a trap in front of a suit that is already lured
-                if (track == BattleBase.TRAP or track == BattleBase.LURE): 
+                if (track == BattleBase.TRAP or track == BattleBase.LURE):
                     invalidTargets += luredIndices
             if (len(trappedIndices) > 0):
                 # You can't place a trap in front of a suit that is already trapped
@@ -137,7 +137,7 @@ class TownBattleChooseAvatarPanel(StateData.StateData):
         doneStatus = {'mode' : 'Back'}
         messenger.send(self.doneEvent, [doneStatus])
         return
-    
+
     def __handleAvatar(self, avatar):
         doneStatus = {'mode' : 'Avatar',
                       'avatar' : avatar}
@@ -150,7 +150,7 @@ class TownBattleChooseAvatarPanel(StateData.StateData):
         invalidTargets = []
         if (len(luredIndices) > 0):
             # You can't place a trap in front of a suit that is already lured
-            if (track == BattleBase.TRAP or track == BattleBase.LURE): 
+            if (track == BattleBase.TRAP or track == BattleBase.LURE):
                 invalidTargets += luredIndices
         if (len(trappedIndices) > 0):
             # You can't place a trap in front of a suit that is already trapped
@@ -193,5 +193,3 @@ class TownBattleChooseAvatarPanel(StateData.StateData):
             self.notify.error("Invalid number of avatars: %s" % numAvatars)
 
         return None
-
-    

@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.particles import ParticleEffect
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import AppRunnerGlobal
@@ -13,7 +13,7 @@ class CarSmoke(NodePath):
 
         self.effectNode = parent.attachNewNode('carSmoke')
         self.effectNode.setBin("fixed", 1)
-        self.effectNode.setDepthWrite(0)     
+        self.effectNode.setDepthWrite(0)
         self.effect = ParticleEffect.ParticleEffect()
 
         particleSearchPath = DSearchPath()
@@ -42,7 +42,7 @@ class CarSmoke(NodePath):
 
         self.effect.loadConfig(pfile)
         ren = self.effect.getParticlesNamed('particles-1').getRenderer()
-        ren.setTextureFromNode('phase_4/models/props/tt_m_efx_ext_smoke','**/*')        
+        ren.setTextureFromNode('phase_4/models/props/tt_m_efx_ext_smoke','**/*')
 
     def start(self):
         self.effect.start(parent = self.effectNode)
@@ -59,4 +59,3 @@ class CarSmoke(NodePath):
         self.effectNode.removeNode()
         del self.effect
         del self.effectNode
-

@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
@@ -80,7 +80,7 @@ class Trolley(StateData.StateData):
         self.rolloverButton = self.buttonModels.find(
             "**/InventoryButtonRollover")
         return
-    
+
     def unload(self):
         self.parentFSM.getStateNamed("trolley").removeChild(self.fsm)
         del self.fsm
@@ -91,7 +91,7 @@ class Trolley(StateData.StateData):
         del self.downButton
         del self.rolloverButton
         return
-        
+
     def enter(self):
         """enter(self)
         """
@@ -174,7 +174,7 @@ class Trolley(StateData.StateData):
         self.cameraBoardTrack = LerpPosHprInterval(camera, 1.5,
                                                    Point3(-35, 0, 8),
                                                    Point3(-90, 0, 0))
-        
+
         self.cameraBoardTrack.start()
         return None
 
@@ -260,4 +260,3 @@ class Trolley(StateData.StateData):
 
     def exitFinal(self):
         return None
-

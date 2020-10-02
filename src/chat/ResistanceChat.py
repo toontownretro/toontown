@@ -1,5 +1,5 @@
 from direct.interval.IntervalGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.battle import BattleParticles
@@ -79,9 +79,9 @@ def validateId(textId):
     # Returns true if the id is valid, false otherwise.
     if textId < 0:
         return 0
-    
+
     menuIndex, itemIndex = decodeId(textId)
-    if not resistanceDict.has_key(menuIndex):
+    if menuIndex not in resistanceDict:
         return 0
 
     if itemIndex >= len(resistanceDict[menuIndex]['values']):
@@ -105,7 +105,7 @@ def getItemText(textId):
             value = TTL.ResistanceToonupItemMax
     elif menuIndex is RESISTANCE_RESTOCK:
         value = resistanceDict[menuIndex]['extra'][itemIndex]
-        
+
     return text % str(value)
 
 def getChatText(textId):
@@ -131,7 +131,7 @@ def doEffect(textId, speakingToon, nearbyToons):
     # Plays the particle effect of the resistance chat out of
     # speakingToon, and briefly colors all involved toons, so they can
     # tell what's up.
-    
+
     menuIndex, itemIndex = decodeId(textId)
     itemValue = getItemValue(textId)
 
@@ -152,7 +152,7 @@ def doEffect(textId, speakingToon, nearbyToons):
             'particles-4' : (0, 0, 1, 1),
             'particles-5' : (1, 0, 1, 1),
             }
-        for name, color in colors.items():
+        for name, color in list(colors.items()):
             node = bean.copyTo(NodePath())
             node.setColorScale(*color)
 
@@ -175,7 +175,7 @@ def doEffect(textId, speakingToon, nearbyToons):
                 icons.append(invModel.find('**/%s' % (iconName)))
         else:
             # Choose a random six items, one from each of six tracks.
-            tracks = range(7)
+            tracks = list(range(7))
             random.shuffle(tracks)
             for i in range(6):
                 track = tracks[i]
@@ -192,7 +192,7 @@ def doEffect(textId, speakingToon, nearbyToons):
             'particles-5' : icons[4],
             'particles-6' : icons[5],
             }
-        for name, icon in iconDict.items():
+        for name, icon in list(iconDict.items()):
             p = effect.getParticlesNamed(name)
             p.renderer.setFromNode(icon)
 
@@ -216,4 +216,3 @@ def doEffect(textId, speakingToon, nearbyToons):
                  Sequence(Wait(0.2), recolorToons),
                  autoFinish = 1)
     i.start()
-    

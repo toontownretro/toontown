@@ -1,4 +1,4 @@
-from pandac.PandaModules import NodePath, BillboardEffect, Vec3, Point3, TextureStage, \
+from toontown.toonbase.ToontownModules import NodePath, BillboardEffect, Vec3, Point3, TextureStage, \
      TransparencyAttrib, DecalEffect, VBase4
 from direct.fsm import FSM
 from direct.gui.DirectGui import DirectFrame, DGG
@@ -7,8 +7,8 @@ from direct.interval.IntervalGlobal import LerpScaleInterval, LerpColorScaleInte
 
 
 class DinerStatusIndicator(NodePath.NodePath, FSM.FSM):
-    """Client only object that shows the status of one diner."""    
-    
+    """Client only object that shows the status of one diner."""
+
     def __init__(self, parent, pos=None, scale =None):
         """Create a new indicator object."""
         NodePath.NodePath.__init__(self, 'DinerStatusIndicator')
@@ -31,7 +31,7 @@ class DinerStatusIndicator(NodePath.NodePath, FSM.FSM):
         self.hungryIcon.removeNode()
         self.eatingIcon.removeNode()
         self.removeNode()
-        
+
     def loadAssets(self):
         """Load all the stuff we need."""
         iconsFile = loader.loadModel('phase_12/models/bossbotHQ/BanquetIcons')
@@ -62,13 +62,13 @@ class DinerStatusIndicator(NodePath.NodePath, FSM.FSM):
         dark.setTexProjector(TextureStage.getDefault(), center, retVal)
         retVal.hide()
         return retVal, center
-                                 
+
     def enterEating(self, timeToFinishFood):
         """Enter the eating state and display the meter interval."""
         self.eatingIcon.show()
         self.activeIval = self.createMeterInterval(self.eatingIcon, self.eatingMeter, timeToFinishFood)
         self.activeIval.start()
-        
+
     def exitEating(self):
         """Exit the eating state, cleanup the meter interval."""
         if self.activeIval:
@@ -81,7 +81,7 @@ class DinerStatusIndicator(NodePath.NodePath, FSM.FSM):
         self.hungryIcon.show()
         self.activeIval = self.createMeterInterval(self.hungryIcon, self.hungryMeter, timeToFinishFood)
         self.activeIval.start()
-        
+
     def exitHungry(self):
         """Exit the hungry state, cleanup the meter interval."""
         if self.activeIval:
@@ -114,7 +114,7 @@ class DinerStatusIndicator(NodePath.NodePath, FSM.FSM):
 
     def exitInactive(self):
         """Exit the dead state, cleanup the meter interval."""
-        pass    
+        pass
 
     def createMeterInterval(self, icon, meter, time):
         """Create and return the meter interval."""
@@ -125,7 +125,7 @@ class DinerStatusIndicator(NodePath.NodePath, FSM.FSM):
         flashDuration = 10
         if time > flashDuration:
             flashingTrack.append(Wait(time-flashDuration))
-            for i in xrange(10):
+            for i in range(10):
                 flashingTrack.append(Parallel(
                     LerpColorScaleInterval(icon, 0.5, VBase4(1, 0, 0, 1)),
                     icon.scaleInterval(0.5, 1.25)
@@ -134,7 +134,7 @@ class DinerStatusIndicator(NodePath.NodePath, FSM.FSM):
                     LerpColorScaleInterval(icon, 0.5, VBase4(1,1,1,1)),
                     icon.scaleInterval(0.5, 1)
                     ))
-                                     
+
         retIval = Parallel(
             ivalDarkness,
             flashingTrack

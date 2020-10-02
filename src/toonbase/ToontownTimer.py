@@ -1,5 +1,5 @@
 from otp.otpbase.OTPTimer import OTPTimer
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 class ToontownTimer(OTPTimer):
     """
@@ -9,7 +9,7 @@ class ToontownTimer(OTPTimer):
     def __init__(self, useImage=True, highlightNearEnd=True):
         # Initialize the parental stuff
         OTPTimer.__init__(self, useImage, highlightNearEnd)
-        self.initialiseoptions(ToontownTimer)   
+        self.initialiseoptions(ToontownTimer)
 
     def getImage(self):
         """

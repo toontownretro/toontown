@@ -1,4 +1,4 @@
-from pandac.PandaModules import NodePath, Point3, CollisionSphere, CollisionNode, Vec4
+from toontown.toonbase.ToontownModules import NodePath, Point3, CollisionSphere, CollisionNode, Vec4
 from direct.interval.IntervalGlobal import Sequence, LerpPosInterval, Parallel, LerpScaleInterval, Track,\
      ParticleInterval, Wait, Func
 from toontown.toonbase import ToontownGlobals
@@ -11,7 +11,7 @@ from toontown.battle import BattleProps
 class MoleHill(NodePath):
     """Represents one mole hill in a mole field. Exists only on the client."""
 
-    
+
     def __init__(self, x, y, z, moleField, index):
         """Construct the mole hill."""
         NodePath.__init__(self, 'MoleHill-%d' % index)
@@ -64,14 +64,14 @@ class MoleHill(NodePath):
             self.downIval = None
         self.removeNode()
         pass
-        
+
     def switchUp(self):
         self.isUp = 1
-        
+
     def switchDown(self):\
         self.isUp = 0
-        
-        
+
+
     def setHillType(self, type):
         if self.isUp and (((self.hillType == MoleFieldBase.HILL_MOLE) and (type == MoleFieldBase.HILL_BOMB)) or ((self.hillType == MoleFieldBase.HILL_BOMB ) and (type == MoleFieldBase.HILL_MOLE))):
             return
@@ -90,7 +90,7 @@ class MoleHill(NodePath):
                 self.doMoleDown()
                 BattleParticles.loadParticles()
                 #smallGears = BattleParticles.createParticleEffect(file='gearExplosionSmall')
-                singleGear = BattleParticles.createParticleEffect('GearExplosion', 
+                singleGear = BattleParticles.createParticleEffect('GearExplosion',
                                                                             numParticles=1)
                 smallGearExplosion = BattleParticles.createParticleEffect('GearExplosion',
                                                                           numParticles=10)
@@ -116,7 +116,7 @@ class MoleHill(NodePath):
                 #gearTrack = Parallel(gears2MTrack)
                 #gearTrack.start()
                 gears2MTrack.start()
-                
+
                 self.popIval = Sequence(
                     Parallel(
                         Sequence(
@@ -132,16 +132,16 @@ class MoleHill(NodePath):
                             LerpPosInterval(self.moleHead, 0.05, Point3(0.0,0.29,0.0)),
                             ),
                         ),
-                    
+
                     LerpPosInterval(self.mole, 0.5, Point3(0,0,-2.5)),
-       
+
                     Func(self.setHillType, MoleFieldBase.HILL_BOMB),
                     )
                 self.popIval.start()
-                
+
             else:
                 self.moleHead.setH(0)
-                
+
         if type == MoleFieldBase.HILL_WHACKED:
             self.moleHead = loader.loadModel("phase_12/models/bossbotHQ/mole_hit")
             self.mole.setBillboardAxis(0)
@@ -180,9 +180,9 @@ class MoleHill(NodePath):
                             LerpScaleInterval(self.moleHead, 0.5, 1.0),
                         ),
                     ),
-                
+
                 LerpPosInterval(self.mole, 0.5, Point3(0,0,-2.5)),
-   
+
                 Func(self.setHillType, MoleFieldBase.HILL_MOLE),
                 )
             self.popIval.start()
@@ -190,7 +190,7 @@ class MoleHill(NodePath):
 
     def doMolePop(self, startTime, timeToMoveUp, timeToStayUp, timeToMoveDown, moleType):
         """Show a mole popping up.
-        
+
         startTime = will be based from startupTime
         timeToMoveUp = number of seconds it takes to go up
         timeToStayUp = how long will the mole stay up
@@ -203,7 +203,7 @@ class MoleHill(NodePath):
         if self.downIval:
             self.downIval.pause()
             self.downIval = None
-            
+
         moleColor = None
         #if moleType == MoleFieldBase.HILL_BOMB:
         #    moleColor = Vec4(1,0,0,1)
@@ -237,7 +237,7 @@ class MoleHill(NodePath):
                 Func(self.switchDown),
                 )
         self.popIval.start()
-        
+
 
     def setGameStartTime(self, gameStartTime):
         """Set the game start time as dictated by parent mole field."""

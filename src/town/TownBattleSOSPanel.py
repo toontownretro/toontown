@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
@@ -23,7 +23,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
     def __init__(self, doneEvent):
         """__init__(self, doneEvent)
         """
-        
+
         DirectFrame.__init__(self, relief = None)
         self.initialiseoptions(TownBattleSOSPanel)
         StateData.StateData.__init__(self, doneEvent)
@@ -167,7 +167,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
 
     def makeFriendButton(self, friendPair):
         friendId, flags = friendPair
-        
+
         #handle = base.cr.identifyFriend(friendId)
         handle = base.cr.playerFriendsManager.identifyFriend(friendId)
         if handle == None:
@@ -186,7 +186,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
             com = self.__chosePet
         else:
             com = self.__choseFriend
-        
+
         return DirectButton(
             relief = None,
             text = friendName,
@@ -201,7 +201,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
             )
 
     def makeNPCFriendButton(self, NPCFriendId, numCalls):
-        if (not TTLocalizer.NPCToonNames.has_key(NPCFriendId)):
+        if (NPCFriendId not in TTLocalizer.NPCToonNames):
             return None
 
         friendName = TTLocalizer.NPCToonNames[NPCFriendId]
@@ -210,7 +210,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
         # On this panel, we display all names in black, regardless of
         # chat permission.
         fg = Vec4(0.0, 0.0, 0.0, 1.0)
-        
+
         return DirectButton(
             relief = None,
             text = friendName,
@@ -245,7 +245,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
         self.__updateNPCFriendsPanel()
         self.__updateTitleText()
         self.show()
-        
+
         self.accept('friendOnline', self.__friendOnline)
         self.accept('friendOffline', self.__friendOffline)
         self.accept('friendsListChanged', self.__friendsListChanged)
@@ -307,7 +307,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
 
         if base.wantPets and battlePets == 1 and base.localAvatar.hasPet():
             newFriends.append((base.localAvatar.getPetId(), 0))
-        
+
         # Only NPC friends should be visible inside buildings
         # in factories, we should show friends that are with us in the factory
         if (not self.bldg) or (self.factoryToonIdList is not None):
@@ -316,15 +316,15 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
                     if ((self.factoryToonIdList is None) or
                         (friendPair[0] in self.factoryToonIdList)):
                         newFriends.append(friendPair)
-                        
+
             if hasattr(base.cr, "playerFriendsManager"):
                 for avatarId in base.cr.playerFriendsManager.getAllOnlinePlayerAvatars():
                     if not base.cr.playerFriendsManager.askAvatarKnownElseWhere(avatarId):
                         newFriends.append((avatarId, 0))
 
-        
+
         # Remove old buttons
-        for friendPair in self.friends.keys():
+        for friendPair in list(self.friends.keys()):
             if friendPair not in newFriends:
                 friendButton = self.friends[friendPair]
                 self.scrollList.removeItem(friendButton)
@@ -334,25 +334,25 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
 
         # Add buttons for new friends
         for friendPair in newFriends:
-            if not self.friends.has_key(friendPair):
+            if friendPair not in self.friends:
                 friendButton = self.makeFriendButton(friendPair)
                 if friendButton:
                     self.scrollList.addItem(friendButton)
                     self.friends[friendPair] = friendButton
-                    
+
 
 
 
     def __updateNPCFriendsPanel(self):
         # Make a dict of the NPC Toons that are callable at this time
         self.NPCFriends = {}
-        
+
         # Determine if any should be disabled because their
         # attacks won't work (e.g. all the cogs are already lured)
-        for friend, count in base.localAvatar.NPCFriendsDict.items():
+        for friend, count in list(base.localAvatar.NPCFriendsDict.items()):
             track = NPCToons.getNPCTrack(friend)
             if ((track == ToontownBattleGlobals.LURE_TRACK and
-                 self.canLure == 0) or 
+                 self.canLure == 0) or
                 (track == ToontownBattleGlobals.TRAP_TRACK and
                  self.canTrap == 0)):
                 self.NPCFriends[friend] = 0
@@ -379,7 +379,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
         """
         self.__updateScrollList()
         self.__updateTitleText()
-        
+
     def __friendOffline(self, doId):
         """__friendOffline(self, int doId):
 
@@ -388,7 +388,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
         """
         self.__updateScrollList()
         self.__updateTitleText()
-        
+
     def __friendsListChanged(self):
         """__friendsListChanged(self):
 
@@ -397,4 +397,3 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
         """
         self.__updateScrollList()
         self.__updateTitleText()
-        

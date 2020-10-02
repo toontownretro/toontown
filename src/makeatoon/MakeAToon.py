@@ -1,6 +1,6 @@
 """MakeAToon module: contains the MakeAToon class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.distributed.ToontownMsgTypes import *
 from toontown.char import Char
 from otp.avatar import Avatar
@@ -16,15 +16,15 @@ from direct.actor.Actor import Actor
 from direct.task import Task
 from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer
-from MakeAToonGlobals import *
+from .MakeAToonGlobals import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toontowngui import TTDialog
-import GenderShop
-import BodyShop
-import ColorShop
-import MakeClothesGUI
-import NameShop
+from . import GenderShop
+from . import BodyShop
+from . import ColorShop
+from . import MakeClothesGUI
+from . import NameShop
 import random
 
 class MakeAToon(StateData.StateData):
@@ -32,7 +32,7 @@ class MakeAToon(StateData.StateData):
 
     notify = DirectNotifyGlobal.directNotify.newCategory('MakeAToon')
     # special methods
-    
+
     def __init__(self, parentFSM, avList, doneEvent, index, isPaid):
         """
         MakeAToon constructor: create a toon and let the guest customize it
@@ -66,7 +66,7 @@ class MakeAToon(StateData.StateData):
                 self.warp = 1
                 self.namelessPotAv = av
             self.nameList.append(av.name)
-            
+
         self.fsm = ClassicFSM.ClassicFSM('MakeAToon',
                         [State.State('Init',
                                      self.enterInit,
@@ -101,7 +101,7 @@ class MakeAToon(StateData.StateData):
                            # Final state
                            'Done',
                            )
-        
+
         self.parentFSM = parentFSM
         self.parentFSM.getStateNamed('createAvatar').addChild(self.fsm)
 
@@ -116,16 +116,16 @@ class MakeAToon(StateData.StateData):
 
         if self.warp:
             self.shopsVisited = [GENDERSHOP, BODYSHOP, COLORSHOP, CLOTHESSHOP]
-            
+
         # sound
         self.music = None
         self.soundBack = None
 
         self.fsm.enterInitialState()
-        
+
         if __debug__:
             base.mat = self
-            
+
         self.hprDelta = -1
         self.dropIval = None
         self.roomSquishIval = None
@@ -144,7 +144,7 @@ class MakeAToon(StateData.StateData):
         base.camLens.setFov(ToontownGlobals.MakeAToonCameraFov)
         base.playMusic(self.music, looping = 1, volume = self.musicVolume)
         camera.setPosHpr(-5.7, -12.3501, 2.15, -24.8499, 2.73, 0)
-        
+
         if self.warp:
             if (self.toon.style.torso[1] == 's'):
                 self.toon.gender = 's'
@@ -186,7 +186,7 @@ class MakeAToon(StateData.StateData):
         skipTutorialDown = gui.find("**/tt_t_gui_mat_skipDown")
         rotateUp = gui.find("**/tt_t_gui_mat_arrowRotateUp")
         rotateDown = gui.find("**/tt_t_gui_mat_arrowRotateDown")
-        
+
         self.guiTopBar = DirectFrame(
             relief = None,
             text = TTLocalizer.CreateYourToon,
@@ -211,7 +211,7 @@ class MakeAToon(StateData.StateData):
             image = (guiAcceptUp, guiAcceptDown, guiAcceptUp, guiAcceptDown),
             image_scale = halfButtonScale,
             image1_scale = halfButtonHoverScale,
-            image2_scale = halfButtonHoverScale,                
+            image2_scale = halfButtonHoverScale,
             pos = (1.165, 0, -0.018),
             command = self.__handleNext,
             text = ("", TTLocalizer.MakeAToonDone, TTLocalizer.MakeAToonDone),
@@ -279,7 +279,7 @@ class MakeAToon(StateData.StateData):
             text_shadow = (0,0,0,1),
             )
         self.guiLastButton.hide()
-        
+
         self.rotateLeftButton = DirectButton(
             parent = self.guiBottomBar,
             relief = None,
@@ -292,7 +292,7 @@ class MakeAToon(StateData.StateData):
         self.rotateLeftButton.hide()
         self.rotateLeftButton.bind(DGG.B1PRESS, self.rotateToonLeft)
         self.rotateLeftButton.bind(DGG.B1RELEASE, self.stopToonRotateLeftTask)
-        
+
         self.rotateRightButton = DirectButton(
             parent = self.guiBottomBar,
             relief = None,
@@ -305,29 +305,29 @@ class MakeAToon(StateData.StateData):
         self.rotateRightButton.hide()
         self.rotateRightButton.bind(DGG.B1PRESS, self.rotateToonRight)
         self.rotateRightButton.bind(DGG.B1RELEASE, self.stopToonRotateRightTask)
-        
+
         gui.removeNode()
-        
+
         # These are the drop and scale joints that the rooms are going to be parented to during transitions.
         self.roomDropActor = Actor()
         self.roomDropActor.loadModel('phase_3/models/makeatoon/roomAnim_model')
         self.roomDropActor.loadAnims({'drop':'phase_3/models/makeatoon/roomAnim_roomDrop'})
         self.roomDropActor.reparentTo(render)
         self.dropJoint = self.roomDropActor.find('**/droppingJoint')
-        
+
         self.roomSquishActor = Actor()
         self.roomSquishActor.loadModel('phase_3/models/makeatoon/roomAnim_model')
         self.roomSquishActor.loadAnims({'squish':'phase_3/models/makeatoon/roomAnim_roomSquish'})
         self.roomSquishActor.reparentTo(render)
         self.squishJoint = self.roomSquishActor.find('**/scalingJoint')
-        
+
         self.propSquishActor = Actor()
         self.propSquishActor.loadModel('phase_3/models/makeatoon/roomAnim_model')
         self.propSquishActor.loadAnims({'propSquish':'phase_3/models/makeatoon/roomAnim_propSquish'})
         self.propSquishActor.reparentTo(render)
         self.propSquishActor.pose('propSquish', 0)
         self.propJoint = self.propSquishActor.find('**/propJoint')
-        
+
         self.spotlightActor = Actor()
         self.spotlightActor.loadModel('phase_3/models/makeatoon/roomAnim_model')
         self.spotlightActor.loadAnims({'spotlightShake':'phase_3/models/makeatoon/roomAnim_spotlightShake'})
@@ -342,31 +342,31 @@ class MakeAToon(StateData.StateData):
         self.room = loader.loadModel("phase_3/models/makeatoon/tt_m_ara_mat_room")
         self.genderWalls = self.room.find('**/genderWalls')
         self.genderProps = self.room.find('**/genderProps')
-        
+
         self.bodyWalls = self.room.find('**/bodyWalls')
         self.bodyProps = self.room.find('**/bodyProps')
-        
+
         self.colorWalls = self.room.find('**/colorWalls')
         self.colorProps = self.room.find('**/colorProps')
-        
+
         self.clothesWalls = self.room.find('**/clothWalls')
         self.clothesProps = self.room.find('**/clothProps')
-        
+
         self.nameWalls = self.room.find('**/nameWalls')
         self.nameProps = self.room.find('**/nameProps')
-        
+
         self.background = self.room.find('**/background')
         self.background.reparentTo(render)
         self.floor = self.room.find('**/floor')
         self.floor.reparentTo(render)
-        
+
         self.spotlight = self.room.find('**/spotlight')
         self.spotlight.reparentTo(self.spotlightJoint)
         self.spotlight.setColor(1, 1, 1, 0.3)
         self.spotlight.setPos(1.18, -1.27, 0.41)
         self.spotlight.setScale(2.6)
         self.spotlight.setHpr(0, 0, 0)
-        
+
         smokeSeqNode = SequenceNode('smoke')
         smokeModel = loader.loadModel("phase_3/models/makeatoon/tt_m_ara_mat_smoke")
         smokeFrameList = smokeModel.findAllMatches('**/smoke_*').asList()
@@ -402,7 +402,7 @@ class MakeAToon(StateData.StateData):
         self.musicVolume = base.config.GetFloat("makeatoon-music-volume", 1)
         self.sfxVolume = base.config.GetFloat("makeatoon-sfx-volume", 1)
         self.soundBack = base.loadSfx("phase_3/audio/sfx/GUI_create_toon_back.mp3")
-            
+
         self.crashSounds = []
         self.crashSounds.append(base.loadSfx("phase_3/audio/sfx/tt_s_ara_mat_crash_boing.mp3"))
         self.crashSounds.append(base.loadSfx("phase_3/audio/sfx/tt_s_ara_mat_crash_glassBoing.mp3"))
@@ -421,7 +421,7 @@ class MakeAToon(StateData.StateData):
         self.cos.unload()
         self.cls.unload()
         self.ns.unload()
-        
+
         del self.gs
         del self.bs
         del self.cos
@@ -437,7 +437,7 @@ class MakeAToon(StateData.StateData):
         self.guiLastButton.destroy()
         self.rotateLeftButton.destroy()
         self.rotateRightButton.destroy()
-        
+
         del self.guiTopBar
         del self.guiBottomBar
         del self.guiCancelButton
@@ -451,7 +451,7 @@ class MakeAToon(StateData.StateData):
         del self.names
         del self.dnastring
         del self.nameList
-        
+
         del self.music
         del self.soundBack
 
@@ -459,41 +459,41 @@ class MakeAToon(StateData.StateData):
         if self.toon:
             self.toon.delete()
         del self.toon
-        
+
         self.cleanupDropIval()
         self.cleanupRoomSquishIval()
         self.cleanupPropSquishIval()
         self.cleanupFocusInIval()
         self.cleanupFocusOutIval()
-        
+
         self.room.removeNode()
         del self.room
-        
+
         self.genderWalls.removeNode()
         self.genderProps.removeNode()
         del self.genderWalls
         del self.genderProps
-        
+
         self.bodyWalls.removeNode()
         self.bodyProps.removeNode()
         del self.bodyWalls
         del self.bodyProps
-        
+
         self.colorWalls.removeNode()
         self.colorProps.removeNode()
         del self.colorWalls
         del self.colorProps
-        
+
         self.clothesWalls.removeNode()
         self.clothesProps.removeNode()
         del self.clothesWalls
         del self.clothesProps
-        
+
         self.nameWalls.removeNode()
         self.nameProps.removeNode()
         del self.nameWalls
         del self.nameProps
-        
+
         self.background.removeNode()
         del self.background
         self.floor.removeNode()
@@ -502,10 +502,10 @@ class MakeAToon(StateData.StateData):
         del self.spotlight
         self.smoke.removeNode()
         del self.smoke
-        
+
         while len(self.crashSounds):
             del self.crashSounds[0]
-        
+
         self.parentFSM.getStateNamed('createAvatar').removeChild(self.fsm)
         del self.parentFSM
         del self.fsm
@@ -534,7 +534,7 @@ class MakeAToon(StateData.StateData):
 
     def __handleCancel(self):
         self.doneStatus = "cancel"
-        
+
         #if self.fsm.getCurrentState().getName() == 'NameShop':
         self.shopsVisited = []
 
@@ -542,12 +542,12 @@ class MakeAToon(StateData.StateData):
 
     def toggleSlide(self):
         self.slide = 1 - self.slide
-        
+
     def goToNextShop(self):
         self.progressing = 1
         # go to the next shop
         if self.shop == GENDERSHOP:
-            self.fsm.request("BodyShop")            
+            self.fsm.request("BodyShop")
         elif self.shop == BODYSHOP:
             self.fsm.request("ColorShop")
         elif self.shop == COLORSHOP:
@@ -559,7 +559,7 @@ class MakeAToon(StateData.StateData):
         self.progressing = 0
         # go to the last shop
         if self.shop == BODYSHOP:
-            self.fsm.request("GenderShop")            
+            self.fsm.request("GenderShop")
         elif self.shop == COLORSHOP:
             self.fsm.request("BodyShop")
         elif self.shop == CLOTHESSHOP:
@@ -570,7 +570,7 @@ class MakeAToon(StateData.StateData):
     def charSez(self, char, statement, dialogue = None):
         import pdb; pdb.set_trace()
         char.setChatAbsolute(statement, CFSpeech, dialogue)
-    
+
     # Specific State functions
 
     def enterInit(self):
@@ -592,7 +592,7 @@ class MakeAToon(StateData.StateData):
             self.guiNextButton['state'] = DGG.DISABLED
         else:
             self.dropRoom(self.genderWalls, self.genderProps)
-        
+
         self.guiTopBar['text'] = TTLocalizer.CreateYourToonTitle
         self.guiTopBar['text_fg'] = (1,0.92,0.2,1)
 ##        self.guiTopBar['text_fg'] = (1, 1, 0, 1)
@@ -600,14 +600,14 @@ class MakeAToon(StateData.StateData):
         base.transitions.fadeIn()
         self.accept("GenderShop-done", self.__handleGenderShopDone)
         self.gs.enter()
-        
+
 ##        self.toon.setHpr(self.toonHpr)
-        
+
         self.guiNextButton.show()
         self.gs.showButtons()
         self.rotateLeftButton.hide()
         self.rotateRightButton.hide()
-        
+
     def exitGenderShop(self):
         self.squishRoom(self.genderWalls)
         self.squishProp(self.genderProps)
@@ -626,7 +626,7 @@ class MakeAToon(StateData.StateData):
         self.guiLastButton.show()
         self.rotateLeftButton.show()
         self.rotateRightButton.show()
-    
+
     def enterBodyShop(self):
         base.cr.centralLogger.writeClientEvent('MAT - enteringBodyShop')
         self.toon.show()
@@ -635,8 +635,8 @@ class MakeAToon(StateData.StateData):
         self.guiTopBar['text'] = TTLocalizer.ShapeYourToonTitle
         self.guiTopBar['text_fg'] = (0.0, 0.98, 0.5, 1)
 ##        self.guiTopBar['text_fg'] = (0, 1, 0, 1)
-        self.guiTopBar['text_scale'] = TTLocalizer.MATenterBodyShop        
-        
+        self.guiTopBar['text_scale'] = TTLocalizer.MATenterBodyShop
+
         #base.transitions.fadeIn()
         self.accept("BodyShop-done", self.__handleBodyShopDone)
         self.dropRoom(self.bodyWalls, self.bodyProps)
@@ -693,7 +693,7 @@ class MakeAToon(StateData.StateData):
         self.toon.setPos(self.toonPosition)
 ##        self.toon.setHpr(self.toonHpr)
         self.colorShopOpening()
-            
+
         self.cos.enter(self.toon, self.shopsVisited)
 
         if (COLORSHOP not in self.shopsVisited):
@@ -707,7 +707,7 @@ class MakeAToon(StateData.StateData):
 
     def __handleColorShopDone(self):
         self.guiNextButton.hide()
-        self.guiLastButton.hide()   
+        self.guiLastButton.hide()
         if self.cos.doneStatus == 'next':
             self.cos.hideButtons()
             self.goToNextShop()
@@ -734,12 +734,12 @@ class MakeAToon(StateData.StateData):
         self.dropRoom(self.clothesWalls, self.clothesProps)
         #Code added to return your toon to normal size
         self.toon.setScale(self.toonScale)
-            
+
         self.toon.setPos(self.toonPosition)
         if not self.progressing:
             self.toon.setHpr(self.toonHpr)
         self.clothesShopOpening()
-            
+
         self.cls.enter(self.toon)
         if (CLOTHESSHOP not in self.shopsVisited):
             self.shopsVisited.append(CLOTHESSHOP)
@@ -752,7 +752,7 @@ class MakeAToon(StateData.StateData):
 
     def __handleClothesShopDone(self):
         self.guiNextButton.hide()
-        self.guiLastButton.hide()    
+        self.guiLastButton.hide()
         if self.cls.doneStatus == 'next':
             self.cls.hideButtons()
             self.goToNextShop()
@@ -780,7 +780,7 @@ class MakeAToon(StateData.StateData):
         self.accept("NameShop-done", self.__handleNameShopDone)
         self.dropRoom(self.nameWalls, self.nameProps)
         self.spotlight.setPos(2, -1.95, 0.41)
-        self.spotlight.setScale(2.3)        
+        self.spotlight.setScale(2.3)
         self.toon.setPos(Point3(1.5, -4, 0))
         self.toon.setH(120)
         self.rotateLeftButton.hide()
@@ -841,31 +841,31 @@ class MakeAToon(StateData.StateData):
         self.proto = loader.loadModel("phase_3/models/makeatoon/tt_m_ara_mat_protoMachine")
         self.proto.setScale(0.2)
         self.proto.reparentTo(render)
-        
+
     def setup3DPicker(self):
         self.accept('mouse1', self.mouseDown)
         self.accept('mouse1-up', self.mouseUp)
-        
+
         self.pickerQueue = CollisionHandlerQueue()
         self.pickerTrav = CollisionTraverser('MousePickerTraverser')
         self.pickerTrav.setRespectPrevTransform(True)
-        
+
         self.pickerNode = CollisionNode('mouseRay')
         self.pickerNP = camera.attachNewNode(self.pickerNode)
         self.pickerNode.setFromCollideMask(GeomNode.getDefaultCollideMask())
         self.pickerRay = CollisionRay()
         self.pickerNode.addSolid(self.pickerRay)
         self.pickerTrav.addCollider(self.pickerNP, self.pickerQueue)
-        
+
     def mouseDown(self):
-        self.notify.debug('Mouse 1 Down')        
+        self.notify.debug('Mouse 1 Down')
         # This gives up the screen coordinates of the mouse
         mpos = base.mouseWatcherNode.getMouse()
-    
-        # This makes the ray's origin the camera and makes the ray point 
+
+        # This makes the ray's origin the camera and makes the ray point
         # to the screen coordinates of the mouse.
-        self.pickerRay.setFromLens(base.camNode, mpos.getX(), mpos.getY()) 
-        
+        self.pickerRay.setFromLens(base.camNode, mpos.getX(), mpos.getY())
+
         self.pickerTrav.traverse(render)
         if self.pickerQueue.getNumEntries() > 0:
             self.pickerQueue.sortEntries() #this is so we get the closest object
@@ -873,7 +873,7 @@ class MakeAToon(StateData.StateData):
 
     def mouseUp(self):
 		self.notify.debug('Mouse 1 Up')
-    
+
     def squishRoom(self, room):
         """
         Plays the squish animation on the given room.
@@ -887,7 +887,7 @@ class MakeAToon(StateData.StateData):
             Func(room.hide)
         )
         self.roomSquishIval.start()
-        
+
     def squishProp(self, prop):
         """
         Plays the squish animation on the given prop.
@@ -902,7 +902,7 @@ class MakeAToon(StateData.StateData):
                 Func(prop.hide)
             )
             self.propSquishIval.start()
-        
+
     def dropRoom(self, walls, props):
         """
         Plays the drop animation on the given room.
@@ -918,7 +918,7 @@ class MakeAToon(StateData.StateData):
             props.reparentTo(self.dropJoint)
             props.show()
         dropDuration = self.roomDropActor.getDuration('drop')
-        
+
         self.dropIval = Parallel(
         # Drop and Squish Interval.
         Sequence(
@@ -929,23 +929,23 @@ class MakeAToon(StateData.StateData):
             Func(self.propSquishActor.pose, 'propSquish', 0),
             Func(self.roomSquishActor.pose, 'squish', 0)
                 ),
-        
+
         # Smoke Interval.
         Sequence(Wait(0.25),
-                 Func(self.smoke.show), 
+                 Func(self.smoke.show),
                  Func(self.smoke.node().play),
                  LerpColorScaleInterval(self.smoke, 0.5, Vec4(1, 1, 1, 0), startColorScale = Vec4(1, 1, 1, 1)),
                  Func(self.smoke.hide)
                 ),
-        
+
         # Spotlight Interval.
         Func(self.spotlightActor.play, 'spotlightShake'),
-        
+
         # Play Sound.
         Func(self.playRandomCrashSound),
         )
         self.dropIval.start()
-        
+
     def startFocusOutIval(self):
         """
         Starts the focusOutIval after making sure that the focusInIval is paused.
@@ -955,7 +955,7 @@ class MakeAToon(StateData.StateData):
         if not self.focusOutIval.isPlaying():
             self.focusOutIval = LerpScaleInterval(self.spotlight, 0.25, self.spotlightFinalScale)
             self.focusOutIval.start()
-        
+
     def startFocusInIval(self):
         """
         Starts the focusInIval after making sure that the focusOutIval is paused.
@@ -965,7 +965,7 @@ class MakeAToon(StateData.StateData):
         if not self.focusInIval.isPlaying():
             self.focusInIval = LerpScaleInterval(self.spotlight, 0.25, self.spotlightOriginalScale)
             self.focusInIval.start()
-    
+
     def cleanupFocusOutIval(self):
         """
         Cleans up the focusInIval.
@@ -973,7 +973,7 @@ class MakeAToon(StateData.StateData):
         if self.focusOutIval:
             self.focusOutIval.finish()
             del self.focusOutIval
-        
+
     def cleanupFocusInIval(self):
         """
         Cleans up the focusOutIval.
@@ -981,7 +981,7 @@ class MakeAToon(StateData.StateData):
         if self.focusInIval:
             self.focusInIval.finish()
             del self.focusInIval
-    
+
     def cleanupDropIval(self):
         """
         Cleans up the dropIval.
@@ -989,7 +989,7 @@ class MakeAToon(StateData.StateData):
         if self.dropIval:
             self.dropIval.finish()
             del self.dropIval
-            
+
     def cleanupRoomSquishIval(self):
         """
         Cleans up the roomSquishIval.
@@ -997,7 +997,7 @@ class MakeAToon(StateData.StateData):
         if self.roomSquishIval:
             self.roomSquishIval.finish()
             del self.roomSquishIval
-            
+
     def cleanupPropSquishIval(self):
         """
         Cleans up the propSquishIval.
@@ -1005,47 +1005,45 @@ class MakeAToon(StateData.StateData):
         if self.propSquishIval:
             self.propSquishIval.finish()
             del self.propSquishIval
-    
+
     def setToon(self, toon):
         """
         Public method to set the toon of makeAToon.
         Eg: GenderShop sets the toon of makeAToon.
         """
         self.toon = toon
-        
+
     def setNextButtonState(self, state):
         """
         Public method to set the state of the next button.
         """
         self.guiNextButton['state'] = state
-        
+
     def playRandomCrashSound(self):
         """
         Plays a random crash sound from the crash sound list.
         """
         index = random.randint(0, (len(self.crashSounds) - 1))
         base.playSfx(self.crashSounds[index], volume = self.sfxVolume)
-    
+
     # Rotate Left
     def rotateToonLeft(self, event):
         taskMgr.add(self.rotateToonLeftTask, 'rotateToonLeftTask')
-        
+
     def rotateToonLeftTask(self, task):
         self.toon.setH(self.toon.getH() + self.hprDelta)
         return task.cont
-    
+
     def stopToonRotateLeftTask(self, event):
         taskMgr.remove('rotateToonLeftTask')
-        
+
     # Rotate Right
     def rotateToonRight(self, event):
         taskMgr.add(self.rotateToonRightTask, 'rotateToonRightTask')
-        
+
     def rotateToonRightTask(self, task):
         self.toon.setH(self.toon.getH() - self.hprDelta)
         return task.cont
-    
+
     def stopToonRotateRightTask(self, event):
         taskMgr.remove('rotateToonRightTask')
-
-

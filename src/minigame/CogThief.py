@@ -1,6 +1,6 @@
 """MazeSuit module: contains the CogThief class"""
 import math
-from pandac.PandaModules import CollisionSphere, CollisionNode, Point3, CollisionTube, \
+from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode, Point3, CollisionTube, \
      Vec3, rad2Deg
 from direct.showbase.DirectObject import DirectObject
 from direct.distributed.ClockDelta import globalClockDelta
@@ -23,8 +23,8 @@ class CogThief(DirectObject):
     Infinity = 100000.0 # just a really big number
     SeparationDistance = 6.0
     MinUrgency = 0.5
-    MaxUrgency = 0.75   
-    
+    MaxUrgency = 0.75
+
     def __init__(self, cogIndex, suitType, game, cogSpeed):
         self.cogIndex = cogIndex
         self.suitType = suitType
@@ -76,12 +76,12 @@ class CogThief(DirectObject):
 
         self.pieHitSound = globalBattleSoundCache.getSound('AA_wholepie_only.mp3')
 
-        
+
     def destroy(self):
         self.ignoreAll()
         self.suit.delete()
         self.game = None
-        
+
     def uniqueName(self, baseStr):
         return baseStr + '-' + str(self.game.doId)
 
@@ -91,20 +91,20 @@ class CogThief(DirectObject):
         intoNp =  collEntry.getIntoNodePath()
         self.notify.debug('handleEnterSphere suit %d hit %s' %
                           (self.cogIndex,intoNp))
-        if self.game: 
+        if self.game:
             self.game.handleEnterSphere(collEntry)
 
 
     def gameStart(self, gameStartTime):
         self.gameStartTime = gameStartTime
-        
+
         self.initCollisions()
         self.startWalkAnim()
 
     def gameEnd(self):
         self.moveIval.pause()
         del self.moveIval
-        
+
         self.shutdownCollisions()
 
         # keep the suits from walking in place
@@ -138,16 +138,16 @@ class CogThief(DirectObject):
         self.pieCollNode = CollisionNode(self.pieCollSphereName)
         self.pieCollNode.setIntoCollideMask(ToontownGlobals.PieBitmask )
         self.pieCollNode.addSolid(self.pieCollSphere)
-        self.pieCollNodePath = self.suit.attachNewNode(self.pieCollNode)        
+        self.pieCollNodePath = self.suit.attachNewNode(self.pieCollNode)
         #self.pieCollNodePath.show()
 
         # Add a hook looking for collisions with localToon
         #self.accept('enter' + self.pieCollSphereName,
-        #            self.handleEnter)        
+        #            self.handleEnter)
 
     def shutdownCollisions(self):
         self.ignore(self.uniqueName('enter' + self.collSphereName))
-        
+
         del self.collSphere
         self.collNodePath.removeNode()
         del self.collNodePath
@@ -178,7 +178,7 @@ class CogThief(DirectObject):
         if goalType == CTGG.RunAwayGoal:
             #import pdb; pdb.set_trace()
             pass
-        
+
         if inResponseClientStamp < self.netTimeSentToStartByHit and \
            self.goal == CTGG.NoGoal and \
            goalType == CTGG.RunAwayGoal:
@@ -195,14 +195,14 @@ class CogThief(DirectObject):
         self.signalledAtReturnPos = False
         # TODO move the suit to where we expect him to be given the time difference
 
-        
+
     def startWalkAnim(self):
         if self.suit:
             self.suit.loop('walk')
             speed = self.cogSpeed # float(MazeData.CELL_WIDTH) / self.cellWalkDuration
             self.defaultPlayRate = float(self.cogSpeed / self.DefaultSpeedWalkAnim)
             self.suit.setPlayRate( self.defaultPlayRate, 'walk')
-        
+
     def think(self):
         """Calculate where we should go."""
         if self.goal == CTGG.ToonGoal:
@@ -216,22 +216,22 @@ class CogThief(DirectObject):
         if not self.game:
             return
 
-        av = self.game.getAvatar(self.goalId)        
+        av = self.game.getAvatar(self.goalId)
         if av:
             if not self.lastThinkTime:
                 self.lastThinkTime = globalClock.getFrameTime()
-            diffTime = globalClock.getFrameTime() - self.lastThinkTime            
-            avPos = av.getPos()            
+            diffTime = globalClock.getFrameTime() - self.lastThinkTime
+            avPos = av.getPos()
             myPos = self.suit.getPos()
 
-            if not self.doneAdjust:            
+            if not self.doneAdjust:
                 myPos = self.lastPosFromAI
                 self.notify.debug('thinkAboutCatchingToon not doneAdjust setting pos %s'
                                   % myPos)
                 self.doneAdjust = True
-                                  
+
             self.suit.setPos(myPos)
-            
+
             if self.game.isToonPlayingHitTrack(self.goalId):
                 # do nothing, just look at toon
                 self.suit.headsUp(av)
@@ -240,10 +240,10 @@ class CogThief(DirectObject):
                 self.acceleration = Vec3(0,0,0)
             else:
                 self.commonMove()
-            
+
             newPos = self.suit.getPos()
             self.adjustPlayRate(newPos, myPos, diffTime)
-            
+
         self.lastThinkTime = globalClock.getFrameTime()
 
     def convertNetworkStampToGameTime(self, timestamp):
@@ -251,7 +251,7 @@ class CogThief(DirectObject):
         localStamp = globalClockDelta.networkToLocalTime(timestamp, bits=32)
         gameTime = self.game.local2GameTime(localStamp)
         return gameTime
-        
+
 
     def respondToToonHit(self, timestamp):
         """The toon hit us, react appropriately."""
@@ -281,10 +281,10 @@ class CogThief(DirectObject):
         """Go for  a barrel."""
         if not self.game:
             return
-        
+
         if not hasattr(self.game, 'barrels'):
             return
-        if not self.goalId in xrange(len(self.game.barrels)):
+        if not self.goalId in range(len(self.game.barrels)):
             return
 
         if not self.lastThinkTime:
@@ -292,10 +292,10 @@ class CogThief(DirectObject):
         diffTime = globalClock.getFrameTime() - self.lastThinkTime
         barrel = self.game.barrels[self.goalId]
         barrelPos = barrel.getPos()
-        myPos = self.suit.getPos() 
-        if not self.doneAdjust:            
+        myPos = self.suit.getPos()
+        if not self.doneAdjust:
             myPos = self.lastPosFromAI
-            self.notify.debug('thinkAboutGettingBarrel not doneAdjust setting position to %s' % myPos)            
+            self.notify.debug('thinkAboutGettingBarrel not doneAdjust setting position to %s' % myPos)
             self.suit.setPos(myPos)
             """
             diffTime = globalClock.getFrameTime()- self.lastLocalTimeStampFromAI
@@ -305,7 +305,7 @@ class CogThief(DirectObject):
                 diffTime = 0
                 self.notify.debug('forcing diffTime to %s' % diffTime)
             """
-            self.doneAdjust = True            
+            self.doneAdjust = True
         displacement = barrelPos - myPos
         distanceToToon = displacement.length()
         #self.notify.debug('diffTime = %s' % diffTime)
@@ -324,7 +324,7 @@ class CogThief(DirectObject):
         newPos.setZ(0)
         self.suit.setPos(newPos)
         self.adjustPlayRate(newPos, myPos, diffTime)
-            
+
         self.lastThinkTime = globalClock.getFrameTime()
 
     def stopWalking(self, timestamp):
@@ -343,7 +343,7 @@ class CogThief(DirectObject):
         diffTime = globalClock.getFrameTime() - self.lastThinkTime
 
         returnPos = CTGG.CogReturnPositions[self.goalId]
-        myPos = self.suit.getPos() 
+        myPos = self.suit.getPos()
         if not self.doneAdjust:
             myPos = self.lastPosFromAI
             self.suit.setPos(myPos)
@@ -355,7 +355,7 @@ class CogThief(DirectObject):
                 diffTime = 0
                 self.notify.debug('forcing diffTime to %s' % diffTime)
             """
-            self.doneAdjust = True            
+            self.doneAdjust = True
         displacement = returnPos - myPos
         distanceToToon = displacement.length()
         #self.notify.debug('diffTime = %s' % diffTime)
@@ -376,7 +376,7 @@ class CogThief(DirectObject):
         # always keep them grounded
         newPos.setZ(0)
         self.suit.setPos(newPos)
-        self.adjustPlayRate(newPos, myPos, diffTime)        
+        self.adjustPlayRate(newPos, myPos, diffTime)
 
         if (self.suit.getPos() - returnPos).length() < 0.0001:
             if not self.signalledAtReturnPos and self.barrel >= 0:
@@ -401,7 +401,7 @@ class CogThief(DirectObject):
                           (inResponseGameTime, self.netTimeSentToStartByHit))
         if inResponseClientStamp  < self.netTimeSentToStartByHit and \
            self.goal == CTGG.NoGoal:
-            self.notify.warning('ignoring makeCogCarrybarrel')            
+            self.notify.warning('ignoring makeCogCarrybarrel')
         else:
             barrelModel.setPos(0,-1.0,1.5)
             barrelModel.reparentTo(self.suit)
@@ -442,7 +442,7 @@ class CogThief(DirectObject):
                 self.netTimeSentToStartByHit = timestamp
         else:
             self.notify.debug('localStamp = %s, lastLocalTimeStampFromAI=%s, ignoring respondToPieHit' % (localStamp, self.lastLocalTimeStampFromAI))
-            self.notify.debug('respondToPieHit self.netTimeSentToStartByHit = %s' % self.netTimeSentToStartByHit)    
+            self.notify.debug('respondToPieHit self.netTimeSentToStartByHit = %s' % self.netTimeSentToStartByHit)
 
     def cleanup(self):
         """Do whatever is necessary to cleanup properly."""
@@ -453,7 +453,7 @@ class CogThief(DirectObject):
             self.kaboomTrack.finish()
         self.suit = None
         self.game = None
-                    
+
 
     def adjustPlayRate(self, newPos, oldPos, diffTime):
         """Adjust animation rate based on how far he's moved."""
@@ -470,7 +470,7 @@ class CogThief(DirectObject):
     def commonMove(self):
         """Move the cog thief. Common for all 3 behaviors """
         if not self.lastThinkTime:
-                self.lastThinkTime = globalClock.getFrameTime()        
+                self.lastThinkTime = globalClock.getFrameTime()
         dt = globalClock.getFrameTime() - self.lastThinkTime
 
         # Step 1:  Update our position.
@@ -496,7 +496,7 @@ class CogThief(DirectObject):
         # Step 3:  Flocking behavior.
         # Do we see any of our flockmates?  If yes, it's time to implement
         # the first Three Rules (they don't matter if we can't see anybody)
-   
+
         if self.numFlockmatesSeen > 0:
             #if hasattr(base,'doDebug') and base.doDebug:
             #    import pdb; pdb.set_trace()
@@ -507,8 +507,8 @@ class CogThief(DirectObject):
                 #self.notify.debug('oldAcc=%s, keepDist=%s newAcc=%s' %
                 #                  (oldAcc,keepDistanceVector, acc))
                 pass
-            
-            
+
+
 
         # Step 8:  Constrain acceleration
         # If our acceleration change is more than we allow, constrain it
@@ -546,13 +546,13 @@ class CogThief(DirectObject):
         heading = rad2Deg(math.atan2(self.velocity[1], self.velocity[0]))
         heading -= 90
         self.suit.setH( heading)
- 
+
 
     def getTargetVector(self):
         """Return a vector to my goal."""
         targetPos = Point3(0,0,0)
         if self.goal == CTGG.ToonGoal:
-            av = self.game.getAvatar(self.goalId)        
+            av = self.game.getAvatar(self.goalId)
             if av:
                 targetPos = av.getPos()
         elif self.goal == CTGG.BarrelGoal:
@@ -573,7 +573,7 @@ class CogThief(DirectObject):
         """Return the magnitude of the accumulated vector."""
 
         accumulator += valueToAdd;
-        
+
         return accumulator.length()
 
 
@@ -581,9 +581,9 @@ class CogThief(DirectObject):
         """Determines which flockmates a given flock boid can see."""
         # clear the existing visibility list of any holdover from last round
 
-        self.clearVisibleList();        
+        self.clearVisibleList();
 
-        for cogIndex in self.game.cogInfo.keys():
+        for cogIndex in list(self.game.cogInfo.keys()):
             if cogIndex == self.cogIndex:
                 continue
 
@@ -614,7 +614,7 @@ class CogThief(DirectObject):
             if self.cogIndex ==0:
                 #self.notify.debug('self.numFlockmatesSeen = %s' % self.numFlockmatesSeen)
                 pass
-            
+
 
 
     def canISee(self, cogIndex):
@@ -639,7 +639,7 @@ class CogThief(DirectObject):
         cogThief = self.game.getCogThief(cogIndex)
         result = (cogThief.goalId == self.goalId) and (cogThief.goal == self.goal)
         return result
-        
+
     def keepDistance(self):
         """Generates a vector for a flock boid to maintain his
         desired separation distance from the nearest flockmate he sees.
@@ -653,7 +653,7 @@ class CogThief(DirectObject):
         if ratio > self.MaxUrgency:
             ratio = self.MaxUrgency
 
-            
+
         # test:  are we too close to our nearest flockmate?
         if self.distToNearestFlockmate < self.SeparationDistance:
             #self.notify.debug('%d is too close to %d' % (self.cogIndex, self.nearestFlockmate))

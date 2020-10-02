@@ -1,9 +1,9 @@
 """GardenPage module: contains the GardenPage class"""
 
 from direct.directnotify import DirectNotifyGlobal
-import ShtikerPage
+from . import ShtikerPage
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.estate import FlowerBrowser
 from toontown.estate import GardenGlobals
@@ -37,7 +37,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
 
         self.accept("use-special-response", self.useSpecialDone)
         self.resultDialog = None
-        
+
     def enter(self):
         self.notify.debug('enter')
         assert self.notify.debugStateCall(self)
@@ -48,19 +48,19 @@ class GardenPage(ShtikerPage.ShtikerPage):
         self.accept(localAvatar.uniqueName("flowerBasketChange"), self.updatePage)
         ShtikerPage.ShtikerPage.enter(self)
 
-        
+
     def exit(self):
         self.notify.debug('exit')
         assert self.notify.debugStateCall(self)
         if hasattr(self, "picker"):
             self.picker.hide()
         if hasattr(self, "browser"):
-            self.browser.hide()      
-        if hasattr(self, "specialsFrame"):            
+            self.browser.hide()
+        if hasattr(self, "specialsFrame"):
             self.specialsFrame.hide()
-        if hasattr(self, "specialsPhoto"):            
+        if hasattr(self, "specialsPhoto"):
             self.specialsPhoto.hide()
-        if hasattr(self, "useSpecialButton"):            
+        if hasattr(self, "useSpecialButton"):
             self.hide()
         self.cleanupResultDialog()
         ShtikerPage.ShtikerPage.exit(self)
@@ -81,7 +81,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
         trophyCase.find("glass1").reparentTo(trophyCase,-1)
         trophyCase.find("shelf").reparentTo(trophyCase,-1)
         self.trophyCase=trophyCase
-        
+
 
        # page title
         self.title = DirectLabel(
@@ -178,11 +178,11 @@ class GardenPage(ShtikerPage.ShtikerPage):
             )
         self.basketTab.setPos(-0.75,0,0.775)
         self.collectionTab.setPos(-0.33,0,0.775)
-        self.trophyTab.setPos(0.09,0,0.775)      
-        self.specialsTab.setPos(0.51,0,0.775)      
+        self.trophyTab.setPos(0.09,0,0.775)
+        self.specialsTab.setPos(0.51,0,0.775)
 
         gui = loader.loadModel("phase_3.5/models/gui/friendslist_gui")
-        
+
         self.gardenSpecialsList = DirectScrolledList(
             parent = self,
             relief = None,
@@ -208,7 +208,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
             # Make the disabled button darker
             decButton_image1_color = Vec4(1.0, 1.0, 0.6, 1.0),
             decButton_image3_color = Vec4(1.0, 1.0, 0.6, 0.6),
-            
+
             # itemFrame is a DirectFrame
             itemFrame_pos = (-0.2, 0.0, 0.05),
             itemFrame_relief = None,
@@ -219,7 +219,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
             pos = (-0.60, 0, 0.45),
             )
         self.gardenSpecialsList.hide()
-        
+
         self.specialsFrame = DirectFrame(
             parent = self,
             relief = None,
@@ -229,7 +229,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
             text_pos = (0, -0.46),
             text_scale = 0.06,
             )
-            
+
         self.specialsInfo = DirectLabel(
             parent = self.specialsFrame,
             relief = None,
@@ -239,13 +239,13 @@ class GardenPage(ShtikerPage.ShtikerPage):
             text_pos = (0, -0.46),
             text_scale = 0.06,
             )
-        
+
         self.specialsPhoto = SpecialsPhoto.SpecialsPhoto(-1, parent = self.specialsFrame)
         self.specialsPhoto.setBackBounds(-0.3, 0.3, -0.235, 0.25)
         # Parchment paper background:
         self.specialsPhoto.setBackColor(1.0, 1.0, 0.74901, 1.0)
         #self.specialsPhoto.setPos(0.45, 0.0, 0.25)
-        
+
 
         # Init buttons
         buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
@@ -265,8 +265,8 @@ class GardenPage(ShtikerPage.ShtikerPage):
             command = self.__useSpecial,
             )
         buttons.removeNode()
-        
- 
+
+
     def setMode(self, mode, updateAnyways=0):
         assert self.notify.debugStateCall(self)
         messenger.send('wakeup')
@@ -281,23 +281,23 @@ class GardenPage(ShtikerPage.ShtikerPage):
         self.useSpecialButton.hide()
         if mode == GardenPage_Basket:
             self.title['text'] = TTLocalizer.GardenPageTitleBasket
-            
+
             if not hasattr(self, "picker"):
                 self.createFlowerPicker()
             self.picker.show()
-            
+
             if hasattr(self, "browser"):
                 self.browser.hide()
-            
+
             if hasattr(self, "trophyFrame"):
                 self.trophyFrame.hide()
-            
+
             self.basketTab['state'] = DGG.DISABLED
             self.collectionTab['state'] = DGG.NORMAL
             self.trophyTab['state'] = DGG.NORMAL
             self.specialsTab['state'] = DGG.NORMAL
-            
-            
+
+
         elif mode == GardenPage_Collection:
             self.title['text'] = TTLocalizer.GardenPageTitleCollection
             if hasattr(self, "picker"):
@@ -305,51 +305,51 @@ class GardenPage(ShtikerPage.ShtikerPage):
             if not hasattr(self, "browser"):
                 self.createAlbumBrowser()
                 pass
-            
+
             self.browser.show()
             if hasattr(self, "trophyFrame"):
-                self.trophyFrame.hide()                        
-            
+                self.trophyFrame.hide()
+
             self.basketTab['state'] = DGG.NORMAL
             self.collectionTab['state'] = DGG.DISABLED
             self.trophyTab['state'] = DGG.NORMAL
             self.specialsTab['state'] = DGG.NORMAL
         elif mode == GardenPage_Trophy:
             self.title['text'] = TTLocalizer.GardenPageTitleTrophy
-            
+
             if hasattr(self, "picker"):
                 self.picker.hide()
-            
+
             if hasattr(self, "browser"):
                 self.browser.hide()
-            
+
             if not hasattr(self, "trophyFrame"):
                 self.createGardenTrophyFrame()
-            self.trophyFrame.show()                        
-            
+            self.trophyFrame.show()
+
             self.basketTab['state'] = DGG.NORMAL
             self.collectionTab['state'] = DGG.NORMAL
             self.trophyTab['state'] = DGG.DISABLED
             self.specialsTab['state'] = DGG.NORMAL
-            
+
         elif mode == GardenPage_Specials:
             self.title['text'] = TTLocalizer.GardenPageTitleSpecials
-            
+
             if hasattr(self, "picker"):
                 self.picker.hide()
-            
+
             if hasattr(self, "browser"):
                 self.browser.hide()
-            
+
             if hasattr(self, "trophyFrame"):
                 self.trophyFrame.hide()
-            
+
             self.basketTab['state'] = DGG.NORMAL
             self.collectionTab['state'] = DGG.NORMAL
             self.trophyTab['state'] = DGG.NORMAL
             self.specialsTab['state'] = DGG.DISABLED
             self.gardenSpecialsList.show()
-            
+
             specialsList = localAvatar.getGardenSpecials()
             self.specialsPhoto.show()
             self.specialsFrame.show()
@@ -368,17 +368,17 @@ class GardenPage(ShtikerPage.ShtikerPage):
         self.useSpecialButton.hide()
         self.specialsPhoto.hide()
         self.specialsPhoto.update(-1)
-        self.specialsPhoto.show()        
-        
+        self.specialsPhoto.show()
+
         specialsList = localAvatar.getGardenSpecials()
         firstEntry = None
-            
+
         if len(specialsList) == 0:
             self.gardenSpecialsList["incButton_image1_color"] = Vec4(1.0, 0.9, 0.4, 0.0)
             self.gardenSpecialsList["incButton_image3_color"] = Vec4(1.0, 0.9, 0.4, 0.0)
             self.gardenSpecialsList["decButton_image1_color"] = Vec4(1.0, 0.9, 0.4, 0.0)
             self.gardenSpecialsList["decButton_image3_color"] = Vec4(1.0, 0.9, 0.4, 0.0)
-                
+
 
         else:
             self.gardenSpecialsList["incButton_image1_color"] = Vec4(1.0, 0.9, 0.4, 1.0)
@@ -403,9 +403,9 @@ class GardenPage(ShtikerPage.ShtikerPage):
                 self.specialsPhoto.show()
             if firstEntry:
                 self.showSpecialsPanel(firstEntry)
-            
-        
-        
+
+
+
     def showSpecialsPanel(self, entry):
         type = entry[0]
         number = entry[1]
@@ -415,7 +415,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
         self.specialsInfo['text'] = GardenGlobals.Specials[entry[0]]['description']
         self.selectedSpecial = type
         specialInfo = GardenGlobals.Specials[entry[0]]
-        if specialInfo.has_key('useFromShtiker') and specialInfo['useFromShtiker']:
+        if 'useFromShtiker' in specialInfo and specialInfo['useFromShtiker']:
             self.useSpecialButton.show()
         else:
             self.useSpecialButton.hide()
@@ -423,22 +423,22 @@ class GardenPage(ShtikerPage.ShtikerPage):
     def __useSpecial(self):
         #disable the button so we don't call it twice from the client
         self.useSpecialButton['state'] = DGG.DISABLED
-        
+
         localAvatar.sendUpdate('reqUseSpecial',[self.selectedSpecial])
         pass
-        
-        
+
+
     def clearGS(self):
         while len(self.gardenSpecialsList['items']) > 0:
             for item in self.gardenSpecialsList['items']:
                 #self.gardenSpecialsList.removeItem(item, 1)
                 self.gardenSpecialsList.removeItem(item, 1)
                 if hasattr(item, "destroy"):
-                    item.destroy()                
+                    item.destroy()
                 if hasattr(item, "delete"):
                     item.delete()
                 del item
-        
+
 
     def createAlbumBrowser(self):
         """
@@ -455,7 +455,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
                 text = "",
                 text_scale = 0.06,
                 pos = (0,0,-0.61),
-                )       
+                )
 
     def createGardenTrophyFrame(self):
         """
@@ -476,7 +476,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
             self.trophies = []
             hOffset = -0.5
             vOffset = 0.4
-            for level, trophyDesc in GardenGlobals.TrophyDict.items():
+            for level, trophyDesc in list(GardenGlobals.TrophyDict.items()):
                 trophy = GardenTrophy(-1)
                 trophy.nameLabel['text'] = trophyDesc[0]
                 trophy.reparentTo(self.trophyFrame)
@@ -499,7 +499,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
             self.picker.setPos(-0.555, 0, 0.1)
             self.picker.setScale(0.95)
 
-            
+
             # shovel info
             #self.shovel = DirectLabel(
             #    parent = self.picker,
@@ -509,7 +509,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
             #    text_scale = 0.06,
             #    pos = (0.65,0,-0.65),
             #    )
-                
+
             self.FUDGE_FACTOR = 0.01
             self.barLength = 1.1
             self.shovelBar = DirectWaitBar(
@@ -531,7 +531,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
                             text_align = TextNode.ALeft,
                             text_pos = (-0.57,-0.035),
                             )
-                            
+
             self.wateringCanBar = DirectWaitBar(
                             parent = self.picker,
                             pos = (0.95,0,-0.75),
@@ -551,7 +551,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
                             text_align = TextNode.ALeft,
                             text_pos = (-0.57,-0.035),
                             )
-            
+
 
     def unload(self):
         print("gardenPage Unloading")
@@ -577,7 +577,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
     def updatePage(self):
         #import pdb; pdb.set_trace()
         assert self.notify.debugStateCall(self)
-        
+
 
         if hasattr(self, "collectedTotal"):
             # update the total  collection
@@ -585,7 +585,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
                 TTLocalizer.GardenPageCollectedTotal %
                 (len(base.localAvatar.flowerCollection),
                 GardenGlobals.getNumberOfFlowerVarieties()))
-        
+
         if hasattr(self, "shovelBar"):
             # update the shovel info on the picker
             shovel = base.localAvatar.shovel
@@ -605,23 +605,23 @@ class GardenPage(ShtikerPage.ShtikerPage):
             #check if he's on the last watering can, if he is decrease max by 1
             if wateringCan == GardenGlobals.MAX_WATERING_CANS -1:
                 maxWateringCanSkill -= 1
-            
+
             textToUse = TTLocalizer.GardenPageShovelInfo % (
                 shovelName, curShovelSkill, maxShovelSkill)
-                
+
             self.shovelBar['text'] = textToUse
             self.shovelBar['value'] = ((float(curShovelSkill) / float(maxShovelSkill)) * self.barLength) + self.FUDGE_FACTOR
 
             textToUse = TTLocalizer.GardenPageWateringCanInfo % (
                 wateringCanName, curWateringCanSkill, maxWateringCanSkill)
-                
+
             self.wateringCanBar['text'] = textToUse
             self.wateringCanBar['value'] = ((float(curWateringCanSkill) / float(maxWateringCanSkill)) * self.barLength) + self.FUDGE_FACTOR
             #self.shovel['text'] = textToUse
-            
+
         else:
             print("no shovel bar")
-        
+
         if self.mode == GardenPage_Collection:
             if hasattr(self, "browser"):
                 # the flower collection  may have changed, update the browser
@@ -646,8 +646,8 @@ class GardenPage(ShtikerPage.ShtikerPage):
                 #this gets called when we get the fertilizer from the mailbox
                 #with the result that we see statue photo floating on the screen
                 #so now make sure it doesn't happen
-                self.specialsPhoto.hide()                        
-                
+                self.specialsPhoto.hide()
+
         pass
 
 
@@ -671,7 +671,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
             self.gardenSpecialsList.destroy()
         self.ignoreAll()
         self.cleanupResultDialog()
-        DirectFrame.destroy(self)    
+        DirectFrame.destroy(self)
 
 
     def useSpecialDone(self, response):
@@ -679,10 +679,10 @@ class GardenPage(ShtikerPage.ShtikerPage):
         if response == 'success':
             stringToShow = TTLocalizer.UseSpecialSuccess
         elif response == 'badlocation':
-            stringToShow = TTLocalizer.UseSpecialBadLocation 
+            stringToShow = TTLocalizer.UseSpecialBadLocation
         else:
             stringToShow = 'Unknown response %s' % response
-        
+
         self.resultDialog = TTDialog.TTDialog(
              parent = aspect2dp,
              style = TTDialog.Acknowledge,
@@ -690,15 +690,15 @@ class GardenPage(ShtikerPage.ShtikerPage):
              command = self.cleanupResultDialog,
              )
 
-      
-        
+
+
     def cleanupResultDialog(self, value = None):
         if self.resultDialog:
             self.resultDialog.destroy()
             self.resultDialog = None
-            self.useSpecialButton['state'] = DGG.NORMAL 
+            self.useSpecialButton['state'] = DGG.NORMAL
 
-        
+
 class GardenTrophy(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory("GardenTrophy")
 
@@ -747,7 +747,7 @@ class GardenTrophy(DirectFrame):
 
         letters = ('A','B','C','D')
         for index in range(4):
-            #letter = 'A' + index 
+            #letter = 'A' + index
             letter = letters[index]
             findStr = 'gardenTrophey'
             findStr += letter
@@ -759,7 +759,7 @@ class GardenTrophy(DirectFrame):
         self.allGardenTrophies.removeNode()
         """
 
-        self.setLevel(level)        
+        self.setLevel(level)
 
     def setLevel(self, level):
         assert self.notify.debugStateCall(self)
@@ -776,9 +776,9 @@ class GardenTrophy(DirectFrame):
             self.gardenTrophy.setScale(scales[level])
             self.gardenTrophy.reparentTo(self)
             self.metalTrophy = self.gardenTrophy.find('**/%s' % metalTrophy[level])
-            
 
-        
+
+
         if level == -1:
             self.trophy.hide()
             self.bowl.hide()
@@ -786,24 +786,24 @@ class GardenTrophy(DirectFrame):
         elif level == 0:
             self.trophy.show()
             self.trophy.hide()
-            self.bowl.hide()            
-            self.nameLabel.show()            
+            self.bowl.hide()
+            self.nameLabel.show()
             self.column.setScale(1.3229, 1.26468, 1.11878)
             self.top.setPos(0,0,-1)
             self.__bronze()
         elif level == 1:
             self.trophy.show()
             self.trophy.hide()
-            self.bowl.hide()            
-            self.nameLabel.show()            
+            self.bowl.hide()
+            self.nameLabel.show()
             self.column.setScale(1.3229, 1.26468, 1.61878)
             self.top.setPos(0,0,-0.5)
             self.__bronze()
         elif level == 2:
             self.trophy.show()
             self.trophy.hide()
-            self.bowl.hide()            
-            self.nameLabel.show()            
+            self.bowl.hide()
+            self.nameLabel.show()
             self.column.setScale(1.3229, 1.26468, 2.11878)
             self.top.setPos(0,0,0)
             self.__silver()
@@ -811,34 +811,34 @@ class GardenTrophy(DirectFrame):
             self.trophy.show()
             self.trophy.hide()
             self.bowl.hide()
-            self.nameLabel.show()            
+            self.nameLabel.show()
             self.column.setScale(1.3229, 1.26468, 2.61878)
             self.top.setPos(0,0,0.5)
             self.__silver()
         elif level == 4:
             self.trophy.show()
             self.bowl.hide()
-            self.nameLabel.show()            
+            self.nameLabel.show()
             self.column.setScale(1.3229, 1.26468, 3.11878)
             self.top.setPos(0,0,1)
-            self.__gold()            
+            self.__gold()
         elif level == 5:
             self.trophy.hide()
             self.bowl.show()
             self.bowlTop.setScale(1.75)
-            self.nameLabel.show()            
-            self.__bronze()            
+            self.nameLabel.show()
+            self.__bronze()
         elif level == 6:
             self.trophy.hide()
             self.bowl.show()
-            self.bowlTop.setScale(2.0)            
-            self.nameLabel.show()            
-            self.__silver()            
+            self.bowlTop.setScale(2.0)
+            self.nameLabel.show()
+            self.__silver()
         elif level >= 7:
             self.trophy.hide()
             self.bowl.show()
-            self.bowlTop.setScale(2.25)            
-            self.nameLabel.show()            
+            self.bowlTop.setScale(2.25)
+            self.nameLabel.show()
             self.__gold()
 
     def __bronze(self):
@@ -858,7 +858,7 @@ class GardenTrophy(DirectFrame):
         self.top.setColorScale(1,0.95,0.1,1)
         self.bowlTop.setColorScale(1,0.95,0.1,1)
         self.metalTrophy.setColorScale(1,0.95,0.1,1)
-        
+
 
     def destroy(self):
         assert self.notify.debugStateCall(self)
@@ -868,4 +868,3 @@ class GardenTrophy(DirectFrame):
         if hasattr(self,'gardenTrophy'):
             self.gardenTrophy.removeNode()
         DirectFrame.destroy(self)
-

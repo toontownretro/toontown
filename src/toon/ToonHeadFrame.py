@@ -1,6 +1,6 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
-import ToonHead
+from toontown.toonbase.ToontownModules import *
+from . import ToonHead
 from toontown.distributed import DelayDelete
 from toontown.toonbase import ToontownGlobals
 
@@ -21,12 +21,12 @@ class ToonHeadFrame(DirectFrame):
         # because we made a chat bubble and nametag on him
         # and try to delete them when we exit
         self.avKeep = DelayDelete.DelayDelete(av, 'ToonHeadFrame.avKeep')
-        
+
         self.head = self.stateNodePath[0].attachNewNode('head', 20)
         self.head.setPosHprScale(-0.27, 10.0, -0.09,
                                  180., 0., 0.,
                                  0.2, 0.2, 0.2)
-        
+
         self.headModel = ToonHead.ToonHead()
         self.headModel.startBlink()
         self.headModel.setupHead(self.av.style, forGui = 1)
@@ -51,7 +51,7 @@ class ToonHeadFrame(DirectFrame):
         self.tag2.setPosHprScale(-0.27, 10.0, 0.16,
                                  0,0,0,
                                  0.05,0.05,0.05)
-                                 
+
         self.extraData = DirectLabel(
             parent = self,
             relief = None,
@@ -61,10 +61,10 @@ class ToonHeadFrame(DirectFrame):
             #text_font = ToontownGlobals.getSignFont(),
             text0_fg = (0.3, 0.2, 1, 1),
             text_scale = (0.14,0.06),
-            text_pos = (0, -0.01),         
+            text_pos = (0, -0.01),
             )
         self.extraData.hide()
-        
+
     def destroy(self):
         DirectFrame.destroy(self)
         self.headModel.delete()
@@ -86,7 +86,7 @@ class ToonHeadFrame(DirectFrame):
             del self.avKeep
         self.extraData.removeNode()
         del self.extraData
-        
+
 
     def removeAvKeep(self):
         """Remove the delayDelete so the toon can disappear from the golf course."""

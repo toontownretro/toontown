@@ -1,8 +1,8 @@
 
 from otp.ai.AIBaseGlobal import *
 from direct.task.Task import Task
-from pandac.PandaModules import *
-from DistributedNPCToonBaseAI import *
+from toontown.toonbase.ToontownModules import *
+from .DistributedNPCToonBaseAI import *
 from toontown.quest import Quests
 
 class DistributedNPCToonAI(DistributedNPCToonBaseAI):
@@ -25,7 +25,7 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
 
     def getHq(self):
         return self.hq
-        
+
     def avatarEnter(self):
         avId = self.air.getAvatarIdFromSender()
         # this avatar has come within range
@@ -156,7 +156,7 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
         if not self.tutorial:
             taskMgr.doMethodLater(5.5, self.sendClearMovie, self.uniqueName("clearMovie"))
         return
-        
+
     def rejectAvatarTierNotDone(self, avId):
         self.busy = avId
         # Send a movie to reject the avatar with time stamp
@@ -263,7 +263,7 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
         avId = self.air.getAvatarIdFromSender()
         self.notify.debug("setMovieDone busy: %s avId: %s" % (self.busy, avId))
         if self.busy == avId:
-            # Kill all pending doLaters that will clear the movie 
+            # Kill all pending doLaters that will clear the movie
             taskMgr.remove(self.uniqueName("clearMovie"))
             self.sendClearMovie(None)
         elif self.busy:

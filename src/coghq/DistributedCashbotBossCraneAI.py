@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed import DistributedObjectAI
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
@@ -39,7 +39,7 @@ class DistributedCashbotBossCraneAI(DistributedObjectAI.DistributedObjectAI, FSM
     def requestControl(self):
         # A client wants to start controlling the crane.
         avId = self.air.getAvatarIdFromSender()
-        
+
         if avId in self.boss.involvedToons and self.avId == 0:
             # Also make sure the client isn't controlling some other
             # crane.
@@ -50,10 +50,10 @@ class DistributedCashbotBossCraneAI(DistributedObjectAI.DistributedObjectAI, FSM
     def requestFree(self):
         # The client is done controlling the crane.
         avId = self.air.getAvatarIdFromSender()
-        
+
         if avId == self.avId:
             self.request('Free')
-    
+
     def removeToon(self, avId):
         if avId == self.avId:
             self.request('Free')

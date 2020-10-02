@@ -1,5 +1,5 @@
 import random
-from pandac.PandaModules import VBase3, Point3
+from toontown.toonbase.ToontownModules import VBase3, Point3
 from direct.interval.IntervalGlobal import Sequence, Wait, Func, Parallel, Track, \
      LerpPosInterval, ProjectileInterval, SoundInterval, ActorInterval
 from direct.directnotify import DirectNotifyGlobal
@@ -12,10 +12,10 @@ from toontown.battle import BattleProps
 class DistributedBattleDiners(DistributedBattleFinal.DistributedBattleFinal):
 
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleDiners')
-                    
+
     def __init__(self, cr):
         """Create the diners battle."""
-        DistributedBattleFinal.DistributedBattleFinal.__init__(self, cr) 
+        DistributedBattleFinal.DistributedBattleFinal.__init__(self, cr)
         self.initialReservesJoiningDone = False
 
         #debug only remove this
@@ -53,7 +53,7 @@ class DistributedBattleDiners(DistributedBattleFinal.DistributedBattleFinal):
     def moveSuitsToInitialPos(self):
         """Force the inital suits to be in the right spot."""
         battlePts = self.suitPoints[len(self.suitPendingPoints)-1]
-        for i in xrange(len(self.suits)):
+        for i in range(len(self.suits)):
             suit = self.suits[i]
             suit.reparentTo(self)
             destPos, destHpr = self.getActorPosHpr(suit, self.suits)
@@ -83,11 +83,11 @@ class DistributedBattleDiners(DistributedBattleFinal.DistributedBattleFinal):
                 """
 
             suit.setState('Battle')
-            #RAU lawbot boss battle hack, 
+            #RAU lawbot boss battle hack,
             if suit.dna.dept == 'l':
                 suit.reparentTo(self.bossCog)
                 suit.setPos(0, 0, 0)
-            
+
             #suit.setScale(3.8 / suit.height)
 
             # Move all suits into position
@@ -102,14 +102,14 @@ class DistributedBattleDiners(DistributedBattleFinal.DistributedBattleFinal):
                                       ToontownGlobals.SuitWalkSpeed))
             self.notify.debug('startPos for %s = %s' % (suit, startPos))
             suit.reparentTo(self)
-            suit.setPos(startPos)            
-            suit.headsUp(self)                
+            suit.setPos(startPos)
+            suit.headsUp(self)
 
             moveIval = Sequence()
             chairInfo = self.bossCog.claimOneChair()
             if chairInfo:
                 moveIval = self.createDinerMoveIval(suit,destPos, chairInfo)
-                
+
             suitTrack.append(Track(
                 (delay, Sequence(moveIval,
                                  Func(suit.loop, 'neutral')))
@@ -148,16 +148,16 @@ class DistributedBattleDiners(DistributedBattleFinal.DistributedBattleFinal):
         fr = suit.getFrameRate('landing')
 
         landingDur = dur
-        
+
         totalDur = 7.3
         # length of time in animation spent in the air
         animTimeInAir = totalDur - dur
         flyingDur = animTimeInAir
-        
+
         # length of time in animation spent impacting and reacting to
         # the ground
-        impactLength = dur - animTimeInAir        
-        
+        impactLength = dur - animTimeInAir
+
         tableIndex = chairInfo[0]
         chairIndex = chairInfo[1]
         table = self.bossCog.tables[tableIndex]
@@ -177,7 +177,7 @@ class DistributedBattleDiners(DistributedBattleFinal.DistributedBattleFinal):
                                endPos = destPos, gravityMult=0.25),
             ActorInterval(suit, 'landing'),
             )
-        
+
 
         # now create info for the propeller's animation
         #
@@ -214,4 +214,3 @@ class DistributedBattleDiners(DistributedBattleFinal.DistributedBattleFinal):
                           propTrack,
                           )
         return result
-                

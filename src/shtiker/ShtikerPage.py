@@ -1,9 +1,9 @@
 """ShtikerPage module: contains the ShtikerPage class"""
 
-import ShtikerBook
+from . import ShtikerBook
 from direct.fsm import StateData
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 class ShtikerPage(DirectFrame, StateData.StateData):
     """ShtikerPage class"""
@@ -36,7 +36,7 @@ class ShtikerPage(DirectFrame, StateData.StateData):
 
     def setBook(self, book):
         self.book = book
-        
+
     def setPageName(self, pageName):
         """
         Sets the name of the page to pageName.
@@ -51,7 +51,7 @@ class ShtikerPage(DirectFrame, StateData.StateData):
         self.book['image_color'] = white
         self.book.nextArrow['image_color'] = white
         self.book.prevArrow['image_color'] = white
-        
+
     def makePageRed(self, item):
         """makePageRed(self):
         Make the book backdrop poly color red
@@ -60,5 +60,3 @@ class ShtikerPage(DirectFrame, StateData.StateData):
         self.book['image_color'] = red
         self.book.nextArrow['image_color'] = red
         self.book.prevArrow['image_color'] = red
-
-

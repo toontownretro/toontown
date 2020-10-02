@@ -1,8 +1,8 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 
-import SafeZoneLoader
-import BRPlayground
+from . import SafeZoneLoader
+from . import BRPlayground
 from toontown.battle import BattleParticles
 
 class BRSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
@@ -10,7 +10,7 @@ class BRSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
     # How quickly does the snow alpha fade in and out when we run
     # inside the igloo?
     SnowFadeLerpTime = 2.0
-    
+
     def __init__(self, hood, parentFSM, doneEvent):
         SafeZoneLoader.SafeZoneLoader.__init__(self, hood, parentFSM, doneEvent)
         self.playgroundClass = BRPlayground.BRPlayground
@@ -38,13 +38,13 @@ class BRSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         del self.snow
         del self.snowRender
         SafeZoneLoader.SafeZoneLoader.unload(self)
-        
+
     def enter(self, requestStatus):
         SafeZoneLoader.SafeZoneLoader.enter(self, requestStatus)
         self.snow.start(camera, self.snowRender)
         self.accept('enterigloo-interior', self.enterIgloo)
         self.accept('exitigloo-interior', self.exitIgloo)
-        
+
     def exit(self):
         self.ignore('enterigloo-interior')
         self.ignore('exitigloo-interior')
@@ -70,7 +70,7 @@ class BRSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
     def fadeInSnow(self):
         # Gradually lerp the snow's alpha back to full.
         self.resetSnowLerp()
-        
+
         currentScale = self.snowRender.getColorScale()[3]
         ivals = [LerpFunctionInterval(
             self.snowRender.setAlphaScale,
@@ -79,7 +79,7 @@ class BRSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
                  FunctionInterval(self.snowRender.clearColorScale)]
         self.snowFade = Track(ivals, 'snow-fade')
         self.snowFade.play()
-        
+
     def fadeOutSnow(self):
         # Gradually lerp the snow's alpha out to nothing.
         self.resetSnowLerp()

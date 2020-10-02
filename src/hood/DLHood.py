@@ -1,6 +1,6 @@
 
-from pandac.PandaModules import *
-import ToonHood
+from toontown.toonbase.ToontownModules import *
+from . import ToonHood
 from toontown.town import DLTownLoader
 from toontown.safezone import DLSafeZoneLoader
 from toontown.toonbase.ToontownGlobals import *
@@ -24,14 +24,13 @@ class DLHood(ToonHood.ToonHood):
     def load(self):
         ToonHood.ToonHood.load(self)
         self.parentFSM.getStateNamed("DLHood").addChild(self.fsm)
-        
+
     def unload(self):
         self.parentFSM.getStateNamed("DLHood").removeChild(self.fsm)
         ToonHood.ToonHood.unload(self)
-        
+
     def enter(self, *args):
         ToonHood.ToonHood.enter(self, *args)
-        
+
     def exit(self):
         ToonHood.ToonHood.exit(self)
-    

@@ -3,9 +3,9 @@
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
-import FishPanel
+from . import FishPanel
 
 
 class FishPicker(DirectScrolledList):
@@ -20,10 +20,10 @@ class FishPicker(DirectScrolledList):
         self.fishList = []
         self.parent = parent
         self.shown = 0
-        
+
         # make the scrolling pick list for the fish names
         gui = loader.loadModel("phase_3.5/models/gui/friendslist_gui")
-        
+
         optiondefs = (
             ('parent', self.parent,    None),
             ('relief', None,    None),
@@ -86,8 +86,8 @@ class FishPicker(DirectScrolledList):
         self.fishPanel = FishPanel.FishPanel(parent = self)
         # This is carefully placed over the book image.  Please try to keep
         # this in sync with the book position:
-        # (tip: DistributedFishingSpot.py uses the same bounds 
-        # for its fish dialog.  OK, maybe they should pull 
+        # (tip: DistributedFishingSpot.py uses the same bounds
+        # for its fish dialog.  OK, maybe they should pull
         # from the same variable; fix it if you like):
         self.fishPanel.setSwimBounds(-0.3, 0.3, -0.235, 0.25)
         # Parchment paper background:
@@ -101,11 +101,11 @@ class FishPicker(DirectScrolledList):
         self.parent = None
         self.fishList = []
         self.fishPanel = None
-        
+
     def hideFishPanel(self):
         assert self.notify.debugStateCall(self)
         self.fishPanel.hide()
-        
+
     def hide(self):
         assert self.notify.debugStateCall(self)
         if not hasattr(self, "loaded"):
@@ -113,7 +113,7 @@ class FishPicker(DirectScrolledList):
         self.hideFishPanel()
         DirectScrolledList.hide(self)
         self.shown = 0
-        
+
     def show(self):
         assert self.notify.debugStateCall(self)
         if not hasattr(self, "loaded"):
@@ -121,7 +121,7 @@ class FishPicker(DirectScrolledList):
         self.updatePanel()
         DirectScrolledList.show(self)
         self.shown = 1
-        
+
     def load(self):
         assert self.notify.debugStateCall(self)
         self.loaded=1
@@ -129,7 +129,7 @@ class FishPicker(DirectScrolledList):
         self.fishPanel.load()
         self.fishPanel.setPos(1.05,0,0.1)
         self.fishPanel.setScale(0.9)
-        
+
     def update(self, newFishes):
         assert self.notify.debugStateCall(self)
         # Remove old buttons
@@ -152,7 +152,7 @@ class FishPicker(DirectScrolledList):
         # if currently shown, reset panel
         if self.shown:
             self.updatePanel()
-            
+
     def updatePanel(self):
         # If we have any fish at all, show the first one
         if len(self.fishList) >= 1:
@@ -179,6 +179,3 @@ class FishPicker(DirectScrolledList):
         assert self.notify.debugStateCall(self)
         self.fishPanel.update(fish)
         self.fishPanel.show()
-        
-
-

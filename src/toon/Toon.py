@@ -2,13 +2,13 @@
 """Toon module: contains the Toon class"""
 
 from otp.avatar import Avatar
-import ToonDNA
+from . import ToonDNA
 from direct.task.Task import Task
 from toontown.suit import SuitDNA
 from direct.actor import Actor
 import string
-from ToonHead import *
-from pandac.PandaModules import *
+from .ToonHead import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
@@ -16,9 +16,9 @@ from otp.otpbase import OTPLocalizer
 from toontown.toonbase import TTLocalizer
 import random
 from toontown.effects import Wake
-import TTEmote
+from . import TTEmote
 from otp.avatar import Emote
-import Motion
+from . import Motion
 from toontown.hood import ZoneUtil
 from toontown.battle import SuitBattleGlobals
 from otp.otpbase import OTPGlobals
@@ -225,7 +225,7 @@ Phase4AnimList = (
     ("pet-start", "petin"),
     ("pet-loop", "petloop"),
     ("pet-end", "petend"),
-    
+
     # For toonhall
     ("scientistJealous", "scientistJealous"),
     ("scientistEmcee", "scientistEmcee"),
@@ -379,17 +379,17 @@ def loadModels():
             loadTex(bottom[0])
 
         # preload the leg models
-        for key in LegDict.keys():
+        for key in list(LegDict.keys()):
             fileRoot = LegDict[key]
             model = loader.loadModelNode("phase_3" + fileRoot + "1000")
             Preloaded.append(model)
             model = loader.loadModelNode("phase_3" + fileRoot + "500")
             Preloaded.append(model)
             model = loader.loadModelNode("phase_3" + fileRoot + "250")
-            Preloaded.append(model)                   
+            Preloaded.append(model)
 
         #preload the torso models
-        for key in TorsoDict.keys():
+        for key in list(TorsoDict.keys()):
             fileRoot = TorsoDict[key]
             model = loader.loadModelNode("phase_3" + fileRoot + "1000")
             Preloaded.append(model)
@@ -398,10 +398,10 @@ def loadModels():
                         model = loader.loadModelNode("phase_3" + fileRoot + "500")
                         Preloaded.append(model)
                         model = loader.loadModelNode("phase_3" + fileRoot + "250")
-                        Preloaded.append(model)    
+                        Preloaded.append(model)
 
         #preload the head models
-        for key in HeadDict.keys():
+        for key in list(HeadDict.keys()):
             fileRoot = HeadDict[key]
             model = loader.loadModelNode("phase_3" + fileRoot + "1000")
             Preloaded.append(model)
@@ -519,7 +519,7 @@ def loadPhaseAnims(phaseStr="phase_3", loadFlag = 1):
     # For now, we are loading on bind and relying on garbage collection
     # to tidy up the model pool. All we actually do here is delete the
     # anim controls from the localToon's dictionary
-    for key in LegDict.keys():
+    for key in list(LegDict.keys()):
         for anim in animList:
             #file = phaseStr + LegDict[key] + anim[1]
             if loadFlag:
@@ -527,11 +527,11 @@ def loadPhaseAnims(phaseStr="phase_3", loadFlag = 1):
                 pass
             else:
                 #loader.unloadModel(file)
-                if LegsAnimDict[key].has_key(anim[0]):
+                if anim[0] in LegsAnimDict[key]:
                     if (base.localAvatar.style.legs == key):
                         base.localAvatar.unloadAnims([anim[0]], "legs", None)
 
-    for key in TorsoDict.keys():
+    for key in list(TorsoDict.keys()):
         for anim in animList:
             #file = phaseStr + TorsoDict[key] + anim[1]
             if loadFlag:
@@ -539,11 +539,11 @@ def loadPhaseAnims(phaseStr="phase_3", loadFlag = 1):
                 pass
             else:
                 #loader.unloadModel(file)
-                if TorsoAnimDict[key].has_key(anim[0]):
+                if anim[0] in TorsoAnimDict[key]:
                     if (base.localAvatar.style.torso == key):
                         base.localAvatar.unloadAnims([anim[0]], "torso", None)
 
-    for key in HeadDict.keys():
+    for key in list(HeadDict.keys()):
         # only load anims for dog heads
         if (string.find(key,"d") >= 0):
             for anim in animList:
@@ -553,7 +553,7 @@ def loadPhaseAnims(phaseStr="phase_3", loadFlag = 1):
                     pass
                 else:
                     #loader.unloadModel(file)
-                    if HeadAnimDict[key].has_key(anim[0]):
+                    if anim[0] in HeadAnimDict[key]:
                         if (base.localAvatar.style.head == key):
                             base.localAvatar.unloadAnims([anim[0]], "head", None)
 
@@ -569,19 +569,19 @@ def compileGlobalAnimList():
 
     for animList in phaseList:
         phaseStr = phaseStrList[phaseList.index(animList)]
-        for key in LegDict.keys():
+        for key in list(LegDict.keys()):
             LegsAnimDict.setdefault(key, {})
             for anim in animList:
                 file = phaseStr + LegDict[key] + anim[1]
                 LegsAnimDict[key][anim[0]] = file
 
-        for key in TorsoDict.keys():
+        for key in list(TorsoDict.keys()):
             TorsoAnimDict.setdefault(key, {})
             for anim in animList:
                 file = phaseStr + TorsoDict[key] + anim[1]
                 TorsoAnimDict[key][anim[0]] = file
 
-        for key in HeadDict.keys():
+        for key in list(HeadDict.keys()):
             # only load anims for dog heads
             if (string.find(key,"d") >= 0):
                 HeadAnimDict.setdefault(key, {})
@@ -740,7 +740,7 @@ class Toon(Avatar.Avatar, ToonHead):
     notify = DirectNotifyGlobal.directNotify.newCategory("Toon")
 
     afkTimeout = base.config.GetInt('afk-timeout', 600)
-    
+
     # This is the tuple of allowed animations that can be set by using toon.setAnimState().
     # If you add an animation that you want to do a setAnimState on please add this
     # animation to this list.
@@ -908,7 +908,7 @@ class Toon(Avatar.Avatar, ToonHead):
             )
         self.animFSM.enterInitialState()
         # Note: When you add an animation to this animFSM list also add it to
-        # setAnimStateAllowedList if you want to use setAnimState to change to that animation. 
+        # setAnimStateAllowedList if you want to use setAnimState to change to that animation.
 
     def stopAnimations(self):
         assert self.notify.debugStateCall(self, "animFsm")
@@ -1237,7 +1237,7 @@ class Toon(Avatar.Avatar, ToonHead):
         if filePrefix is None:
             self.notify.error("unknown leg style: %s" % legStyle)
         # load the models
-        self.loadModel("phase_3" + filePrefix + "1000", "legs", "1000", copy)        
+        self.loadModel("phase_3" + filePrefix + "1000", "legs", "1000", copy)
         self.loadModel("phase_3" + filePrefix + "500", "legs", "500", copy)
         self.loadModel("phase_3" + filePrefix + "250", "legs", "250", copy)
         if not copy:
@@ -1294,7 +1294,7 @@ class Toon(Avatar.Avatar, ToonHead):
             self.loadModel("phase_3" + filePrefix + "1000", "torso", "250", copy)
         else:
             self.loadModel("phase_3" + filePrefix + "500", "torso", "500", copy)
-            self.loadModel("phase_3" + filePrefix + "250", "torso", "250", copy)                       
+            self.loadModel("phase_3" + filePrefix + "250", "torso", "250", copy)
         if not copy:
             self.showPart('torso', '1000')
             self.showPart('torso', '500')
@@ -1614,7 +1614,7 @@ class Toon(Avatar.Avatar, ToonHead):
         # which support the "getStareAtNodeAndOffset" interface
         # Build up a list of nodes around us and pick one to look at
         nodePathList = []
-        for id, obj in self.cr.doId2do.items():
+        for id, obj in list(self.cr.doId2do.items()):
             if (hasattr(obj, "getStareAtNodeAndOffset") and
                 (obj!=self)):
                 node, offset = obj.getStareAtNodeAndOffset()
@@ -2815,7 +2815,7 @@ class Toon(Avatar.Avatar, ToonHead):
             for partName, pieceNames in pieces:
                 part = self.getPart(partName, lodName)
                 if part:
-                    if type(pieceNames) == types.StringType:
+                    if type(pieceNames) == bytes:
                         pieceNames = (pieceNames,)
                     for pieceName in pieceNames:
                         npc = part.findAllMatches("**/" + pieceName)
@@ -2832,7 +2832,7 @@ class Toon(Avatar.Avatar, ToonHead):
         if self.effectTrack != None:
             self.effectTrack.finish()
             self.effectTrack = None
-        
+
         if self.cheesyEffect != effect:
             oldEffect = self.cheesyEffect
             self.cheesyEffect = effect
@@ -2944,7 +2944,7 @@ class Toon(Avatar.Avatar, ToonHead):
                 track.append(Wait(0.5))
             else:
                 dust.finish()
-            
+
             def hideParts():
                 self.notify.debug("HidePaths")
                 for hi in range(self.headParts.getNumPaths()):
@@ -2955,7 +2955,7 @@ class Toon(Avatar.Avatar, ToonHead):
                         if not p.isHidden():
                             p.hide()
                             p.setTag("pumpkin", "enabled")
-                            
+
             track.append(Func(hideParts))
             track.append(Func(self.enablePumpkins,True))
         else:
@@ -2964,7 +2964,7 @@ class Toon(Avatar.Avatar, ToonHead):
                 track.append(Wait(0.5))
             else:
                 dust.finish()
-                
+
             def showHiddenParts():
                 self.notify.debug("ShowHiddenPaths")
                 for hi in range(self.headParts.getNumPaths()):
@@ -2975,12 +2975,12 @@ class Toon(Avatar.Avatar, ToonHead):
                         if (not self.pumpkins.hasPath(p)) and p.getTag("pumpkin") == "enabled":
                             p.show()
                             p.setTag("pumpkin", "disabled")
-            
-            track.append(Func(showHiddenParts))            
+
+            track.append(Func(showHiddenParts))
             track.append(Func(self.enablePumpkins,False))
             track.append(Func(self.startBlink))
         return track
-        
+
     def __doSnowManHeadSwitch(self, lerpTime, toSnowMan):
         node = self.getGeomNode()
 
@@ -3008,7 +3008,7 @@ class Toon(Avatar.Avatar, ToonHead):
                 track.append(Wait(0.5))
             else:
                 dust.finish()
-            
+
             def hideParts():
                 self.notify.debug("HidePaths")
                 for hi in range(self.headParts.getNumPaths()):
@@ -3019,7 +3019,7 @@ class Toon(Avatar.Avatar, ToonHead):
                         if not p.isHidden():
                             p.hide()
                             p.setTag("snowman", "enabled")
-                            
+
             track.append(Func(hideParts))
             track.append(Func(self.enableSnowMen,True))
         else:
@@ -3030,7 +3030,7 @@ class Toon(Avatar.Avatar, ToonHead):
                 dust.finish()
             def showHiddenParts():
                 self.notify.debug("ShowHiddenPaths")
-                
+
                 for hi in range(self.headParts.getNumPaths()):
                     head = self.headParts[hi]
                     parts = head.getChildren()
@@ -3039,8 +3039,8 @@ class Toon(Avatar.Avatar, ToonHead):
                         if (not self.snowMen.hasPath(p)) and p.getTag("snowman") == "enabled":
                             p.show()
                             p.setTag("snowman", "disabled")
-                            
-            track.append(Func(showHiddenParts))    
+
+            track.append(Func(showHiddenParts))
             track.append(Func(self.enableSnowMen,False))
             track.append(Func(self.startBlink))
         return track
@@ -3374,9 +3374,9 @@ class Toon(Avatar.Avatar, ToonHead):
             self.controlManager.disableAvatarJump()
 
             # add some suit phrases to the speed chat
-            indices = range(OTPLocalizer.SCMenuCommonCogIndices[0], OTPLocalizer.SCMenuCommonCogIndices[1] + 1)
+            indices = list(range(OTPLocalizer.SCMenuCommonCogIndices[0], OTPLocalizer.SCMenuCommonCogIndices[1] + 1))
             customIndices = OTPLocalizer.SCMenuCustomCogIndices[suitType]
-            indices += range(customIndices[0], customIndices[1] + 1)
+            indices += list(range(customIndices[0], customIndices[1] + 1))
             self.chatMgr.chatInputSpeedChat.addCogMenu(indices)
 
         # make sure we start in neutral
@@ -3723,15 +3723,15 @@ class Toon(Avatar.Avatar, ToonHead):
     def exitCogThiefRunning(self):
         self.standWalkRunReverse = None
         self.stop()
-        self.motion.exit()        
-        
+        self.motion.exit()
+
     def enterScientistJealous(self, animMultiplier=1, ts=0,
                       callback=None, extraArgs=[]):
         self.loop("scientistJealous")
 
     def exitScientistJealous(self):
         self.stop()
-   
+
     def enterScientistEmcee(self, animMultiplier=1, ts=0,
                       callback=None, extraArgs=[]):
         #self.loop("scientistEmcee", fromFrame = 1, toFrame = 315)
@@ -3739,21 +3739,21 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def exitScientistEmcee(self):
         self.stop()
-        
+
     def enterScientistWork(self, animMultiplier=1, ts=0,
                       callback=None, extraArgs=[]):
         self.loop("scientistWork")
 
     def exitScientistWork(self):
         self.stop()
-        
+
     def enterScientistLessWork(self, animMultiplier=1, ts=0,
                       callback=None, extraArgs=[]):
         self.loop("scientistWork", fromFrame = 319, toFrame=619)
 
     def exitScientistLessWork(self):
         self.stop()
-        
+
     def enterScientistPlay(self, animMultiplier=1, ts=0,
                       callback=None, extraArgs=[]):
         self.loop("scientistGame")
@@ -3766,4 +3766,3 @@ class Toon(Avatar.Avatar, ToonHead):
 # module calls
 loadModels()
 compileGlobalAnimList()
-

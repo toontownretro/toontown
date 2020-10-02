@@ -1,5 +1,5 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 
@@ -9,7 +9,7 @@ from direct.directnotify import DirectNotifyGlobal
 class DistributedTreasure(DistributedObject.DistributedObject):
 
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedTreasure")
-    
+
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.av = None
@@ -49,7 +49,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         # leaving the safezone.  Calling unloadModel will force the
         # next treasure of this type to reload from disk.
         #loader.unloadModel(self.modelPath)
-        
+
         self.nodePath.removeNode()
 
     def announceGenerate(self):
@@ -58,13 +58,13 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         to the world, either for the first time or from the cache.
         """
         DistributedObject.DistributedObject.announceGenerate(self)
-        
+
         # Load the model, (using loadModelOnce), and child it to the nodepath
         self.loadModel(self.modelPath, self.modelFindString)
         # animate if necessary
         self.startAnimation()
         # Put this thing in the world
-        self.nodePath.wrtReparentTo(render)        
+        self.nodePath.wrtReparentTo(render)
         # Add a hook looking for collisions with localToon, and call
         # requestGrab.
         self.accept(self.uniqueName('entertreasureSphere'),
@@ -161,7 +161,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         if avId == 0:
             # avId of 0 indicates it hasn't been grabbed by anyone.
             return
-        
+
         # ignore this message if we have already called handleGrab
         if self.fly or avId != base.localAvatar.getDoId():
             self.handleGrab(avId)
@@ -186,7 +186,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
                                    blendType = 'easeOut'),
             name = self.uniqueName("treasureFlyTrack"))
         self.treasureFlyTrack.start()
-        
+
     def handleGrab(self, avId):
         # this function handles client-side 'grabbed' behavior
         # NOTE: if the treasure does not fly towards the toon,
@@ -194,7 +194,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         # AI comes back and announces that the treasure was grabbed.
         # Someone else may actually end up getting credit for the
         # grab from the AI, after this has been called.
-        
+
         # First, do not try to grab this treasure anymore.
         self.collNodePath.stash()
         # Save the avId for later, we may need it if there is an unexpected
@@ -202,7 +202,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         self.avId = avId
 
         # Look up the avatar
-        if self.cr.doId2do.has_key(avId):
+        if avId in self.cr.doId2do:
             av = self.cr.doId2do[avId]
             self.av = av
         else:
@@ -255,7 +255,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
                 name = self.uniqueName("treasureFlyTrack"))
 
         self.treasureFlyTrack.start()
-    
+
     def handleUnexpectedExit(self):
         # The avatar we were flying the treasure to just disconnected.
         self.notify.warning("While getting treasure, " + str(self.avId) +

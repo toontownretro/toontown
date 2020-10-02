@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedSmoothNode
@@ -29,7 +29,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
         self.avId = 0
         self.craneId = 0
         self.cleanedUp = 0
-            
+
         # A CollisionNode to keep me out of walls and floors, and to
         # keep others from bumping into me.  We use PieBitmask instead
         # of WallBitmask, to protect against objects (like goons)
@@ -165,14 +165,14 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
             vel = self.crane.root.getRelativeVector(render, vel)
             vel.normalize()
             impact = vel[1]
-        
+
             if impact >= self.getMinImpact():
-                print "hit! %s" % (impact)
+                print("hit! %s" % (impact))
                 self.hitBossSoundInterval.start()
                 self.doHitBoss(impact)
             else:
                 self.touchedBossSoundInterval.start()
-                print "--not hard enough: %s" % (impact)
+                print("--not hard enough: %s" % (impact))
 
     def doHitBoss(self, impact):
         # Derived classes can override this to do something specific
@@ -187,7 +187,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
     def fellOut(self):
         # Override in a derived class to do the right thing when the
         # object falls out of the world.
-        raise StandardError, 'fellOut unimplented'
+        raise Exception('fellOut unimplented')
 
     def getMinImpact(self):
         # This method returns the minimum impact, in feet per second,
@@ -199,7 +199,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
         # Checks the object for non-zero velocity.  When the velocity
         # reaches zero in the XY plane, we tell the AI we're done
         # moving it around.
-        
+
         v = self.physicsObject.getVelocity()
         if abs(v[0]) < 0.0001 and abs(v[1]) < 0.0001:
             self.d_requestFree()
@@ -275,7 +275,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
         # state transitions after the object has been disabled or
         # deleted, or before it has been fully generated.
         if self.boss == None:
-            raise FSM.RequestDenied, request
+            raise FSM.RequestDenied(request)
 
         return FSM.FSM.defaultFilter(self, request, args)
 
@@ -302,7 +302,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
 
         # We're not allowed to drop the object directly from this
         # state.
-        
+
         self.avId = avId
         self.craneId = craneId
 
@@ -336,7 +336,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
                 # turns out someone else grabbed it instead.
                 self.crane.dropObject(self)
                 self.prepareRelease()
-        
+
         self.avId = avId
         self.craneId = craneId
 
@@ -360,7 +360,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
         # As in LocalGrabbed, above, this state is entered locally
         # when we drop the safe, but we have not yet received
         # acknowledgement from the AI that we've dropped it.
-        
+
         self.avId = avId
         self.craneId = craneId
 
@@ -388,7 +388,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
         # Dropped (or flung) from a player's crane, or from the boss's
         # head.  In this case, craneId is the crane we were dropped
         # from (or the boss doId).
-        
+
         self.avId = avId
         self.craneId = craneId
 
@@ -431,7 +431,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
         if self.avId == base.localAvatar.doId:
             self.activatePhysics()
             self.startPosHprBroadcast()
-            
+
             self.handler.setStaticFrictionCoef(0.9)
             self.handler.setDynamicFrictionCoef(0.5)
 

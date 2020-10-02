@@ -1,10 +1,10 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import ToontownGlobals
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 import random
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 import HouseGlobals
 
@@ -42,7 +42,7 @@ class EstateManager(DistributedObject.DistributedObject):
             # going to our own home, provide AI with userName
             name = base.cr.userName
         self.sendUpdate("getEstateZone", [avId, name])
-  
+
     def setEstateZone(self, ownerId, zoneId):
         # The AI is telling us the zone for this avatars estate
         self.notify.debug("setEstateZone(%s, %s)" % (ownerId, zoneId))
@@ -56,7 +56,7 @@ class EstateManager(DistributedObject.DistributedObject):
 
         # register with the cr
         base.cr.estateMgr = self
-        
+
         # listen for requests
         #self.accept("requestEstateZone", self.allocateMyEstateZone)
         self.accept("getLocalEstateZone", self.getLocalEstateZone)
@@ -76,7 +76,7 @@ class EstateManager(DistributedObject.DistributedObject):
                 if ownerAv:
                     ownerAv.b_setHouseId(houseId)
                 return
-                
+
     def sendAvToPlayground(self, avId, retCode):
         self.notify.debug("sendAvToPlayground: %d" % avId)
         messenger.send("kickToPlayground", [retCode])
@@ -85,9 +85,9 @@ class EstateManager(DistributedObject.DistributedObject):
         if self.isDisabled():
             self.notify.warning("EstateManager disabled; unable to leave estate.")
             return
-        
+
         self.sendUpdate("exitEstate")
-        
+
     def removeFriend(self, ownerId, avId):
         self.notify.debug("removeFriend ownerId = %s, avId = %s" % (ownerId, avId))
         # The estate owner is  removing avId from his friends list.

@@ -1,14 +1,14 @@
 from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 
 from toontown.toonbase import ToontownGlobals
-import ToonInterior
+from . import ToonInterior
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 import random
-import ToonInteriorColors
+from . import ToonInteriorColors
 from toontown.hood import ZoneUtil
 from toontown.char import Char
 from toontown.suit import SuitDNA
@@ -20,13 +20,13 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
     if __debug__:
         notify = DirectNotifyGlobal.directNotify.newCategory(
                 'DistributedTutorialInterior')
-    
+
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
-        
+
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
-    
+
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
         self.setup()
@@ -46,10 +46,10 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         del self.suit
         self.ignore("enterTutotialInterior")
         DistributedObject.DistributedObject.disable(self)
-        
+
     def delete(self):
         DistributedObject.DistributedObject.delete(self)
-    
+
     def randomDNAItem(self, category, findFunc):
         codeCount = self.dnaStore.getNumCatalogCodes(category)
         index = self.randomGenerator.randint(0, codeCount-1)
@@ -62,7 +62,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         Here are the name     Here is
         prefixes that are     what they
         affected:             do:
-        
+
         random_mox_            change the Model Only.
         random_mcx_            change the Model and the Color.
         random_mrx_            change the Model and Recurse.
@@ -71,19 +71,19 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
 
         x is simply a uniquifying integer because Multigen will not
         let you have multiple nodes with the same name
-        
+
         """
         baseTag="random_"
         npc=model.findAllMatches("**/"+baseTag+"???_*")
         for i in range(npc.getNumPaths()):
             np=npc.getPath(i)
             name=np.getName()
-            
+
             b=len(baseTag)
             category=name[b+4:]
             key1=name[b]
             key2=name[b+1]
-            
+
             assert(key1 in ["m", "t"])
             assert(key2 in ["c", "o", "r"])
             if key1 == "m":
@@ -114,11 +114,11 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
     def setup(self):
         self.dnaStore=base.cr.playGame.dnaStore
         self.randomGenerator=random.Random()
-        
-        # The math here is a little arbitrary.  I'm trying to get a 
-        # substantially different seed for each zondId, even on the 
-        # same street.  But we don't want to weigh to much on the 
-        # block number, because we want the same block number on 
+
+        # The math here is a little arbitrary.  I'm trying to get a
+        # substantially different seed for each zondId, even on the
+        # same street.  But we don't want to weigh to much on the
+        # block number, because we want the same block number on
         # different streets to be different.
         # Here we use the block number and a little of the branchId:
         # seedX=self.zoneId&0x00ff
@@ -140,7 +140,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         self.street.find("**/tb2:toon_landmark_TT_A1_DNARoot").stash()
         # Get rid of the flashing doors on the HQ building
         self.street.find("**/tb1:toon_landmark_hqTT_DNARoot/**/door_flat_0").stash()
-        # Get rid of collisions because we do not need them and they get in the way 
+        # Get rid of collisions because we do not need them and they get in the way
         self.street.findAllMatches("**/+CollisionNode").stash()
         self.skyFile = "phase_3.5/models/props/TT_sky"
         self.sky = loader.loadModel(self.skyFile)
@@ -156,13 +156,13 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         # Make sure they are drawn in the correct order in the hierarchy
         # The sky should be first, then the clouds
         self.sky.find("**/Sky").reparentTo(self.sky, -1)
-        
+
         # Load a color dictionary for this hood:
         hoodId = ZoneUtil.getCanonicalHoodId(self.zoneId)
         self.colors = ToonInteriorColors.colors[hoodId]
         # Replace all the "random_xxx_" nodes:
         self.replaceRandomInModel(self.interior)
-        
+
         # Door:
         doorModelName="door_double_round_ul" # hack  zzzzzzz
         # Switch leaning of the door:
@@ -182,8 +182,8 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         # We do this instead of decals
         door_origin.setPos(door_origin, 0, -0.025, 0)
         color=self.randomGenerator.choice(self.colors["TI_door"])
-        DNADoor.setupDoor(doorNP, 
-                          self.interior, door_origin, 
+        DNADoor.setupDoor(doorNP,
+                          self.interior, door_origin,
                           self.dnaStore,
                           str(self.block), color)
         # Setting the wallpaper texture with a priority overrides
@@ -192,12 +192,12 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         # the wall:
         doorFrame = doorNP.find("door_*_flat")
         doorFrame.wrtReparentTo(self.interior)
-        doorFrame.setColor(color)            
+        doorFrame.setColor(color)
 
         del self.colors
         del self.dnaStore
         del self.randomGenerator
-            
+
         # Get rid of any transitions and extra nodes
         self.interior.flattenMedium()
 
@@ -206,7 +206,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         # of where to stand, but in this case the npc must be created first so the tutorial
         # can get a handle on him. Instead, I'll let the npc be created first which means
         # he will not find his origin. We'll just do that work here again.
-        npcOrigin = self.interior.find("**/npc_origin_" + `self.npc.posIndex`)
+        npcOrigin = self.interior.find("**/npc_origin_" + repr(self.npc.posIndex))
         # Now he's no longer parented to render, but no one minds.
         if not npcOrigin.isEmpty():
             self.npc.reparentTo(npcOrigin)
@@ -241,7 +241,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
             Wait(1.0),
             )
         self.suitWalkTrack.loop()
-    
+
     def setZoneIdAndBlock(self, zoneId, block):
         self.zoneId=zoneId
         self.block=block
@@ -249,7 +249,3 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
     def setTutorialNpcId(self, npcId):
         self.npcId = npcId
         self.npc = self.cr.doId2do[npcId]
-
-
-
-    

@@ -1,15 +1,15 @@
 
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
-import CogHQLoader, MintInterior
+from . import CogHQLoader, MintInterior
 from toontown.toonbase import ToontownGlobals
 from direct.gui import DirectGui
 from toontown.toonbase import TTLocalizer
 from toontown.toon import Toon
 from direct.fsm import State
-import CashbotHQExterior
-import CashbotHQBossBattle
-from pandac.PandaModules import DecalEffect
+from . import CashbotHQExterior
+from . import CashbotHQBossBattle
+from toontown.toonbase.ToontownModules import DecalEffect
 
 class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
 
@@ -70,7 +70,7 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
                 text = TTLocalizer.DonaldsDreamland[-1],
                 font = ToontownGlobals.getSuitFont(),
                 scale = 3,
-                fg = (0.87, 0.87, 0.87, 1), 
+                fg = (0.87, 0.87, 0.87, 1),
                 # required for DecalEffect (must be a GeomNode, not a TextNode)
                 mayChange=False,
                 parent = backgroundGeom)
@@ -83,12 +83,12 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
         # Note: the factory interior has a dynamically allocated zone but
         # that is ok because we do not need to load any models - they all
         # get loaded by the distributed object
-            
+
         else:
             self.notify.warning("loadPlaceGeom: unclassified zone %s" % zoneId)
-            
+
         CogHQLoader.CogHQLoader.loadPlaceGeom(self, zoneId)
-    
+
 
     def unload(self):
         CogHQLoader.CogHQLoader.unload(self)
@@ -101,7 +101,7 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.mintId = requestStatus['mintId']
         self.enterPlace(requestStatus)
         # spawnTitleText is done by MintInterior once the mint shows up
-        
+
     def exitMintInterior(self):
         self.exitPlace()
         self.placeClass = None
@@ -109,6 +109,6 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
 
     def getExteriorPlaceClass(self):
         return CashbotHQExterior.CashbotHQExterior
-    
+
     def getBossPlaceClass(self):
         return CashbotHQBossBattle.CashbotHQBossBattle

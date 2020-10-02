@@ -1,10 +1,10 @@
 
-from pandac.PandaModules import *
-import ToonHood
+from toontown.toonbase.ToontownModules import *
+from . import ToonHood
 from toontown.town import DGTownLoader
 from toontown.safezone import DGSafeZoneLoader
 from toontown.toonbase.ToontownGlobals import *
-import SkyUtil
+from . import SkyUtil
 
 class DGHood(ToonHood.ToonHood):
     def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
@@ -27,14 +27,14 @@ class DGHood(ToonHood.ToonHood):
     def load(self):
         ToonHood.ToonHood.load(self)
         self.parentFSM.getStateNamed("DGHood").addChild(self.fsm)
-        
+
     def unload(self):
         self.parentFSM.getStateNamed("DGHood").removeChild(self.fsm)
         ToonHood.ToonHood.unload(self)
-        
+
     def enter(self, *args):
         ToonHood.ToonHood.enter(self, *args)
-        
+
     def exit(self):
         ToonHood.ToonHood.exit(self)
 
@@ -42,13 +42,13 @@ class DGHood(ToonHood.ToonHood):
         return SkyUtil.cloudSkyTrack(task)
 
     def startSky(self):
-        
+
         # we have the wrong sky; load in the regular sky
         if not (self.sky.getTag("sky") == "Regular"):
             self.endSpookySky()
-            
+
         SkyUtil.startCloudSky(self)
-        
+
     def startSpookySky(self):
         if hasattr(self, "sky") and self.sky:
             self.stopSky()

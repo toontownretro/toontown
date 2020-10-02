@@ -1,13 +1,13 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 import random
 from otp.level import DistributedLevel
 from direct.directnotify import DirectNotifyGlobal
-import FactoryBase
-import FactoryEntityCreator
-import FactorySpecs
+from . import FactoryBase
+from . import FactoryEntityCreator
+from . import FactorySpecs
 from otp.level import LevelSpec
 from otp.level import LevelConstants
 from toontown.toonbase import TTLocalizer
@@ -29,7 +29,7 @@ class DistributedFactory(DistributedLevel.DistributedLevel,
         self.joiningReserves = []
         self.suitsInitialized = 0
         self.goonClipPlanes = {}
-        
+
     def createEntityCreator(self):
         return FactoryEntityCreator.FactoryEntityCreator(level=self)
 
@@ -63,7 +63,7 @@ class DistributedFactory(DistributedLevel.DistributedLevel,
             del base.factory
         if __dev__:
             bboard.removeIfEqual(EditorGlobals.EditTargetPostName, self)
-        
+
     # required fields
     def setFactoryId(self, id):
         FactoryBase.FactoryBase.setFactoryId(self, id)
@@ -95,7 +95,7 @@ class DistributedFactory(DistributedLevel.DistributedLevel,
             # give the spec a factory EntityTypeRegistry.
             typeReg = self.getEntityTypeReg()
             factorySpec.setEntityTypeReg(typeReg)
-        
+
         DistributedLevel.DistributedLevel.initializeLevel(self, factorySpec)
 
         # if the AI is sending us a spec, we won't have it yet and the
@@ -141,8 +141,8 @@ class DistributedFactory(DistributedLevel.DistributedLevel,
             # print position of localToon relative to the zone that he's in
             pos = base.localAvatar.getPos(self.getZoneNode(self.lastToonZone))
             h = base.localAvatar.getH(self.getZoneNode(self.lastToonZone))
-            print 'factory pos: %s, h: %s, zone %s' % (
-                repr(pos), h, self.lastToonZone)
+            print('factory pos: %s, h: %s, zone %s' % (
+                repr(pos), h, self.lastToonZone))
             posStr = "X: %.3f" % pos[0] + "\nY: %.3f" % pos[1] + \
                   "\nZ: %.3f" % pos[2] + "\nH: %.3f" % h + \
                   "\nZone: %s" % str(self.lastToonZone)
@@ -233,4 +233,3 @@ class DistributedFactory(DistributedLevel.DistributedLevel,
         return TTLocalizer.FactoryBossTaunt
     def getBossBattleTaunt(self):
         return TTLocalizer.FactoryBossBattleTaunt
-    

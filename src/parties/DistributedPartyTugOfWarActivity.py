@@ -9,11 +9,11 @@
 #-------------------------------------------------------------------------------
 import math
 
-from pandac.PandaModules import CollisionTube
-from pandac.PandaModules import CollisionNode
-from pandac.PandaModules import Point3
-from pandac.PandaModules import VBase3
-from pandac.PandaModules import RopeNode
+from toontown.toonbase.ToontownModules import CollisionTube
+from toontown.toonbase.ToontownModules import CollisionNode
+from toontown.toonbase.ToontownModules import Point3
+from toontown.toonbase.ToontownModules import VBase3
+from toontown.toonbase.ToontownModules import RopeNode
 
 from direct.interval.IntervalGlobal import LerpPosHprInterval
 from direct.interval.IntervalGlobal import LerpPosInterval
@@ -32,14 +32,14 @@ from toontown.effects import Splash
 from toontown.minigame.MinigamePowerMeter import MinigamePowerMeter
 from toontown.minigame.ArrowKeys import ArrowKeys
 
-import PartyGlobals
-import PartyUtils
-from DistributedPartyTeamActivity import DistributedPartyTeamActivity
+from . import PartyGlobals
+from . import PartyUtils
+from .DistributedPartyTeamActivity import DistributedPartyTeamActivity
 
 class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
 
     notify = directNotify.newCategory("DistributedPartyTugOfWarActivity")
-    
+
     def __init__(self, cr):
         """
         cr: instance of ClientRepository
@@ -51,10 +51,10 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             startDelay = PartyGlobals.TugOfWarStartDelay
         )
         assert(self.notify.debug("__init__"))
-        
+
         # these are the indices of the active buttons
         self.buttons = [0,1]
-        
+
         # these variables are used for calculation how fast the player is pressing the keys
         self.arrowKeys = None
         self.keyTTL = []
@@ -62,7 +62,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
         self.keyRate = 0
         self.allOutMode = False
         self.rateMatchAward = 0.0 # bonus for consistently hitting the ideal rate
-        
+
         self.toonIdsToStartPositions = {} # initial positions of toons
         self.toonIdsToIsPullingFlags = {} # whether or not a toon is pulling
         self.toonIdsToRightHands = {} # used for setting up ropes
@@ -81,20 +81,20 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
         self._rewardFinishedSV = StateVar(True)
         self._isWalkStateReadyFC = FunctionCall(self._testWalkStateReady,
                                                 self._hopOffFinishedSV, self._rewardFinishedSV)
-        
+
     def delete(self):
         self._isWalkStateReadyFC.destroy()
         self._hopOffFinishedSV.destroy()
         self._rewardFinishedSV.destroy()
 
         DistributedPartyTeamActivity.delete(self)
-            
+
 
     def handleToonJoined(self, toonId):
         DistributedPartyTeamActivity.handleToonJoined(self, toonId)
 
         self.toonIdsToAnimIntervals[toonId] = None
-        
+
         if toonId == base.localAvatar.doId:
             base.cr.playGame.getPlace().fsm.request("activity")
 
@@ -108,10 +108,10 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
                 other=self.root,
             )
             self.cameraMoveIval.start()
-            
+
             self.localToonPosIndex = self.getIndex(base.localAvatar.doId, self.localToonTeam)
             self.notify.debug("posIndex: %d" %self.localToonPosIndex)
-            
+
             toon = self.getAvatar(toonId)
             targetPos = self.dockPositions[self.localToonTeam][self.localToonPosIndex]
             # prevent toons from clipping through the dock by warping them to dock height
@@ -131,10 +131,10 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             )
             self.toonIdsToAnimIntervals[toonId].start()
 
-        
+
     def handleToonExited(self, toonId):
         DistributedPartyTeamActivity.handleToonExited(self, toonId)
-        
+
         # clean up local toon stuff
         if toonId == base.localAvatar.doId:
             self.cameraMoveIval.pause()
@@ -167,7 +167,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             else:
                 self._hopOffFinishedSV.set(True)
                 del self.toonIdsToAnimIntervals[toonId]
-        
+
 
     def handleRewardDone(self):
         # don't call down, it puts the toon in a bad state because it interferes with
@@ -176,17 +176,17 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
 
     def _testWalkStateReady(self, hoppedOff, rewardFinished):
         assert(self.notify.debug("_testWalkStateReady %d %d" % (hoppedOff, rewardFinished)))
-            
+
         if hoppedOff and rewardFinished:
             DistributedPartyTeamActivity.handleRewardDone(self)
-    
+
     def hopOffFinished(self, toonId):
         assert(self.notify.debug("hopOffFinished( toonId=%d )" %toonId))
-        
+
         if hasattr(self,"toonIdsToAnimIntervals") and \
            toonId in self.toonIdsToAnimIntervals:
             del self.toonIdsToAnimIntervals[toonId] # clean up anim dictionary
-            
+
         if toonId == base.localAvatar.doId:
             if hasattr(self._hopOffFinishedSV,'_value'):
                 self._hopOffFinishedSV.set(True)
@@ -194,7 +194,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
 
     def handleToonShifted(self, toonId):
         assert(self.notify.debug("handleToonShifted( toonId=%d )" %toonId))
-        
+
         if toonId == base.localAvatar.doId:
             # update local toon's position on the dock if they got shifted
             self.localToonPosIndex = self.getIndex( base.localAvatar.doId, self.localToonTeam )
@@ -212,14 +212,14 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             )
             self.toonIdsToAnimIntervals[toonId].start()
 
-            
+
     def handleToonDisabled(self, toonId):
         """
         A toon dropped unexpectedly from the game. Handle it!
         """
         assert(self.notify.debug("handleToonDisabled( toonId:%d )" %toonId ))
-        
-        if self.toonIdsToAnimIntervals.has_key(toonId):
+
+        if toonId in self.toonIdsToAnimIntervals:
             if self.toonIdsToAnimIntervals[toonId]:
                 if self.toonIdsToAnimIntervals[toonId].isPlaying():
                     self.toonIdsToAnimIntervals[toonId].finish()
@@ -236,31 +236,31 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             toon = self.getAvatar(toonId)
             if toon:
                 self.toonIdsToRightHands[toonId] = toon.getRightHands()[0]
-    
+
     def load(self):
         """
         Load the necessary assets
         """
         DistributedPartyTeamActivity.load(self)
-        
+
         assert(self.notify.debug("load"))
-        
+
         self.loadModels()
         self.loadGuiElements()
         self.loadSounds()
         self.loadIntervals()
         self.arrowKeys = ArrowKeys()
-        
-    
+
+
     def loadModels(self):
         # load the tug of war play area
         self.playArea = loader.loadModel("phase_13/models/parties/partyTugOfWar")
         # reparent to the party ground root
         self.playArea.reparentTo(self.root)
-        
+
         # place the activity sign
         self.sign.reparentTo( self.playArea.find("**/TugOfWar_sign_locator") )
-        
+
         # define initial positions, with index 0 being closest to the other team
         self.dockPositions = [
             [], # left team positions
@@ -293,12 +293,12 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             self.hopOffPositions[PartyGlobals.TeamActivityTeams.RightTeam].append(
                 self.playArea.find("**/rightTeamHopOff%d_locator" %i).getPos()
             )
-        
+
         # load positions for when toons fall into the water
         for i in range(1, 5):
             pos = self.playArea.find("**/fallenToon%d_locator" %i).getPos()
             self.fallenPositions.append(pos)
-        
+
         # load collision that allows toons to play the game
         # create one for each dock that lets toons join a particular team
         self.joinCollision = []
@@ -310,7 +310,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
                 PartyGlobals.TugOfWarJoinCollisionRadius
             )
             collShape.setTangible(True)
-            
+
             self.joinCollision.append( CollisionNode( "TugOfWarJoinCollision%d" %i ) )
             self.joinCollision[i].addSolid( collShape )
             tubeNp = self.playArea.attachNewNode( self.joinCollision[i] )
@@ -318,12 +318,12 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             self.joinCollisionNodePaths.append( tubeNp )
             self.joinCollisionNodePaths[i].setPos( PartyGlobals.TugOfWarJoinCollisionPositions[i] )
         self.__enableCollisions()
-        
+
         # Get the rope texture by extracting it from its model.
         ropeModel = loader.loadModel("phase_4/models/minigames/tug_of_war_rope")
         self.ropeTexture = ropeModel.findTexture("*")
         ropeModel.removeNode()
-        
+
         # create as many ropes as we will ever need
         for i in range(PartyGlobals.TugOfWarMaximumPlayersPerTeam*2 - 1):
             rope = Rope(self.uniqueName("TugRope%d" %i))
@@ -338,22 +338,22 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
                 rope.reparentTo(self.root)
                 rope.stash()
             self.tugRopes.append(rope)
-        
+
         # Splash object for when toon hits the water
         self.splash = Splash.Splash(self.root)
         self.splash.setScale(2.0, 4.0, 1.0)
         pos = self.fallenPositions[0]
         self.splash.setPos(pos[0], pos[1], PartyGlobals.TugOfWarSplashZOffset)
         self.splash.hide()
-        
-    
+
+
     def loadGuiElements(self):
         # load gui power meter
         self.powerMeter = MinigamePowerMeter(PartyGlobals.TugOfWarPowerMeterSize)
         self.powerMeter.reparentTo(aspect2d)
         self.powerMeter.setPos(0.0, 0.0, 0.6)
         self.powerMeter.hide()
-        
+
         # Load the arrows for button indicator
         self.arrows = [None] * 2
         for x in range(len(self.arrows)):
@@ -361,13 +361,13 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             self.arrows[x].reparentTo(self.powerMeter)
             self.arrows[x].setScale(.2-.4*x,.2,.2)
             self.arrows[x].setPos(.12-.24*x,0,-.26)
-    
-    
+
+
     def loadSounds(self):
         self.splashSound = base.loadSfx("phase_4/audio/sfx/MG_cannon_splash.mp3")
         self.whistleSound = base.loadSfx("phase_4/audio/sfx/AA_sound_whistle.mp3")
-    
-    
+
+
     def loadIntervals(self):
         # create an interval that updates the ideal key press rate for each stage
         self.updateIdealRateInterval = Sequence()
@@ -404,7 +404,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             Wait(PartyGlobals.TugOfWarKeyPressReportRate),
             Func(self.reportToServer),
         )
-        
+
         self.setupInterval = Parallel()
         # run this even if the local toon is not playing
         self.globalSetupInterval = Sequence(
@@ -425,23 +425,23 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             Func(self.updateKeyPressRateInterval.loop),
             Func(self.reportToServerInterval.loop),
         )
-        
+
         # interval for playing the splash sound and showing the splash visual effect
         self.splashInterval = Sequence(
             Func(base.playSfx, self.splashSound),
             Func(self.splash.play),
         )
-        
+
     def unload(self):
         DistributedPartyTeamActivity.unload(self)
-        
+
         self.arrowKeys.destroy()
         self.unloadIntervals()
         self.unloadModels()
         self.unloadGuiElements()
         self.unloadSounds()
-        
-        
+
+
         # delete variables
         if hasattr(self, "toonIds"):
             del self.toonIds
@@ -452,7 +452,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
         del self.keyRate
         del self.allOutMode
         del self.rateMatchAward
-        
+
         del self.toonIdsToStartPositions
         del self.toonIdsToIsPullingFlags
         del self.toonIdsToRightHands
@@ -461,16 +461,16 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
         del self.unusedFallenPositionsIndices
         self.toonIdsToAnimIntervals.clear()
         del self.toonIdsToAnimIntervals
-        
 
-        
+
+
     def unloadModels(self):
         self.playArea.removeNode()
         del self.playArea
-        
+
         del self.dockPositions
         del self.hopOffPositions
-        
+
         self.__disableCollisions()
         while len(self.joinCollision) > 0:
             collNode = self.joinCollision.pop()
@@ -479,145 +479,145 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             collNodePath = self.joinCollisionNodePaths.pop()
             collNodePath.removeNode()
             del collNodePath
-        
+
         while len(self.tugRopes) > 0:
             rope = self.tugRopes.pop()
             if rope is not None:
                 rope.removeNode()
             del rope
         del self.tugRopes
-        
+
         self.splash.destroy()
         del self.splash
-    
-    
+
+
     def unloadGuiElements(self):
         for arrow in self.arrows:
             if arrow is not None:
                 arrow.removeNode()
                 del arrow
         del self.arrows
-        
+
         if self.powerMeter is not None:
             self.powerMeter.cleanup()
             del self.powerMeter
-    
-    
+
+
     def unloadSounds(self):
         del self.splashSound
         del self.whistleSound
-    
+
 
     def unloadIntervals(self):
         self.updateIdealRateInterval.pause()
         del self.updateIdealRateInterval
-        
+
         self.updateKeyPressRateInterval.pause()
         del self.updateKeyPressRateInterval
-        
+
         self.reportToServerInterval.pause()
         del self.reportToServerInterval
-        
+
         self.setupInterval.pause()
         del self.setupInterval
-        
+
         self.globalSetupInterval.pause()
         del self.globalSetupInterval
-        
+
         self.localSetupInterval.pause()
         del self.localSetupInterval
-        
+
         self.splashInterval.pause()
         del self.splashInterval
-    
-    
+
+
     def __enableCollisions(self):
         assert(self.notify.debug("__enableCollisions"))
-        
+
         for i in range( len( PartyGlobals.TeamActivityTeams ) ):
             self.accept( "enterTugOfWarJoinCollision%d" %i, getattr(self, "_join%s" % PartyGlobals.TeamActivityTeams.getString(i)))
 
 
     def __disableCollisions(self):
         assert(self.notify.debug("__disableCollisions"))
-        
+
         for i in range( len( PartyGlobals.TeamActivityTeams ) ):
             self.ignore( "enterTugOfWarJoinCollision%d" %i )
-    
-    
+
+
     # FSM transition methods
     def startWaitForEnough(self):
         DistributedPartyTeamActivity.startWaitForEnough(self)
 
         self.__enableCollisions()
-    
-    
+
+
     def finishWaitForEnough(self):
         DistributedPartyTeamActivity.finishWaitForEnough(self)
-        
+
         self.__disableCollisions()
-        
-        
+
+
     def startWaitToStart(self, waitStartTimestamp):
         DistributedPartyTeamActivity.startWaitToStart(self, waitStartTimestamp)
-        
+
         self.__enableCollisions()
-    
-    
+
+
     def finishWaitToStart(self):
         DistributedPartyTeamActivity.finishWaitToStart(self)
 
         self.__disableCollisions()
-        
-        
+
+
     def startRules(self):
         DistributedPartyTeamActivity.startRules(self)
-        
+
         self.setUpRopes()
         # display rules to the local toon if we have one
         if self.isLocalToonPlaying:
             self.showControls()
-            
-    
+
+
     def finishRules(self):
         DistributedPartyTeamActivity.finishRules(self)
-         
+
         # check for a non-standard transition and do additional cleanup as needed
         if self.activityFSM.getCurrentOrNextState() == "WaitForEnough":
             self.hideRopes()
             self.hideControls()
-        
-        
+
+
     def finishWaitForServer(self):
         DistributedPartyTeamActivity.finishWaitForServer(self)
-        
+
         # check for a non-standard transition and do additional cleanup as needed
         if self.activityFSM.getCurrentOrNextState() == "WaitForEnough":
             self.hideRopes()
             self.hideControls()
-        
-        
+
+
     def startActive(self):
         DistributedPartyTeamActivity.startActive(self)
-        
+
         # reset active variables
         self.toonIdsToStartPositions.clear()
         self.toonIdsToIsPullingFlags.clear()
-        
+
         for toonId in self.getToonIdsAsList():
             self.toonIdsToIsPullingFlags[toonId] = False
             toon = self.getAvatar(toonId)
-        
+
             if toon:
                 self.toonIdsToStartPositions[toonId] = toon.getPos(self.root)
             else:
-                # what the heck do we do at this point? lets try 0,0,0 
+                # what the heck do we do at this point? lets try 0,0,0
                 self.notify.warning("couldn't find toon %d assigning 0,0,0 to startPos" % toonId)
                 self.toonIdsToStartPositions[toonId] = Point3(0,0,0)
-                
+
         self.unusedFallenPositionsIndices = [0,1,2,3]
         self.setupInterval = Parallel(self.globalSetupInterval)
-        
+
         if self.isLocalToonPlaying:
             self.keyTTL = []
             self.idealForce = 0.0
@@ -626,13 +626,13 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             self.allOutMode = False
             self.setIdealRate(PartyGlobals.TugOfWarTargetRateList[0][1])
             self.setupInterval.append(self.localSetupInterval)
-        
+
         self.setupInterval.start()
-        
-        
+
+
     def finishActive(self):
         DistributedPartyTeamActivity.finishActive(self)
-         
+
         self.hideControls()
         self.disableKeys()
         self.setupInterval.pause()
@@ -640,21 +640,21 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
         self.updateKeyPressRateInterval.pause()
         self.updateIdealRateInterval.pause()
         self.hideRopes()
-        
-        
+
+
     def startConclusion(self, losingTeam):
         DistributedPartyTeamActivity.startConclusion(self, losingTeam)
-        
+
         if self.isLocalToonPlaying:
             self._rewardFinishedSV.set(False)
-            
+
             if losingTeam == PartyGlobals.TeamActivityNeitherTeam:
                 self.setStatus(TTLocalizer.PartyTeamActivityGameTie)
             else:
                 self.setStatus(TTLocalizer.PartyTugOfWarGameEnd)
-            
+
             self.showStatus()
-            
+
         if losingTeam == PartyGlobals.TeamActivityNeitherTeam:
             # tie
             for toonId in self.getToonIdsAsList():
@@ -668,29 +668,29 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             for toonId in self.toonIds[1 - losingTeam]:
                 if self.getAvatar(toonId):
                     self.getAvatar(toonId).loop("victory")
-        
-        for ival in self.toonIdsToAnimIntervals.values():
+
+        for ival in list(self.toonIdsToAnimIntervals.values()):
             if ival is not None:
                 ival.finish()
-    
-    
+
+
     def finishConclusion(self):
         DistributedPartyTeamActivity.finishConclusion(self)
-        
+
         self.fallenToons = []
-    
-    
+
+
     def getTitle(self):
         return TTLocalizer.PartyTugOfWarTitle
 
 
     def getInstructions(self):
         return TTLocalizer.TugOfWarInstructions
-    
-    
+
+
     def showControls(self):
         # show the power meter and arrows so player can see them while they
-        # read the rules 
+        # read the rules
         for arrow in self.arrows:
             arrow.setColor(PartyGlobals.TugOfWarDisabledArrowColor)
         # set meter to first stage values
@@ -699,12 +699,12 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
         self.powerMeter.setBarColor((0.0, 1.0, 0.0, 0.5))
         self.powerMeter.clearTooSlowTooFast()
         self.powerMeter.show()
-        
-        
+
+
     def hideControls(self):
         self.powerMeter.hide()
-    
-    
+
+
     def setUpRopes(self):
         self.notify.debug("setUpRopes")
         ropeIndex = 0
@@ -728,7 +728,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             )
             self.tugRopes[ropeIndex].unstash()
             ropeIndex += 1
-        
+
         # setup ropes linking toons on the left team
         if len(self.toonIds[PartyGlobals.TeamActivityTeams.LeftTeam]) > 1:
             for i in range(len(self.toonIds[PartyGlobals.TeamActivityTeams.LeftTeam]) - 1, 0, -1):
@@ -744,7 +744,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
                 )
                 self.tugRopes[ropeIndex].unstash()
                 ropeIndex += 1
-        
+
         # setup ropes linking toons on the right team
         if len(self.toonIds[PartyGlobals.TeamActivityTeams.RightTeam]) > 1:
             for i in range(len(self.toonIds[PartyGlobals.TeamActivityTeams.RightTeam]) - 1):
@@ -760,8 +760,8 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
                 )
                 self.tugRopes[ropeIndex].unstash()
                 ropeIndex += 1
-    
-    
+
+
     def tightenRopes(self):
         """
         The pulling part has started. Make the rope between the teams taut.
@@ -776,26 +776,26 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             ),
             [0,0,0,1,1,1],
         )
-    
-    
+
+
     def hideRopes(self):
         self.notify.debug("hideRopes")
         for rope in self.tugRopes:
             rope.stash()
-    
-    
+
+
     def handleGameTimerExpired(self):
         assert(self.notify.debug("game timer expired"))
-        
+
         self.disableKeys() # do not allow any more input
-    
-    
+
+
     def setIdealRate(self, idealRate):
         self.notify.debug("setIdealRate( %d )" %idealRate)
         self.idealRate = idealRate
         self.idealForce = self.advantage*(4 + 0.4*self.idealRate)
-    
-    
+
+
     def updateKeyPressRate(self):
         # decrement times to live for each key press entry in keyTTL
         for i in range(len(self.keyTTL)):
@@ -812,22 +812,22 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
                 break
 
         self.keyRate = len(self.keyTTL)
-        
+
         # if the user has matched the idealRate several times in a row, add
         # a little bit to their power
         if self.keyRate == self.idealRate or self.keyRate == self.idealRate+1:
             self.rateMatchAward += 0.3
         else:
             self.rateMatchAward = 0.0
-    
-    
+
+
     def reportToServer(self):
         self.currentForce = self.computeForce(self.keyRate)
         self.sendUpdate("reportKeyRateForce", [self.keyRate, self.currentForce])
         self.setSpeedGauge()
         self.setAnimState(base.localAvatar.doId, self.keyRate)
 
-    
+
     def computeForce(self, keyRate):
         # return a force in the range 0-self.idealRate
         F = 0
@@ -839,8 +839,8 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             stdDev = 0.25*self.idealRate
             F = self.advantage * (self.rateMatchAward + 4 + 0.4*self.idealRate) * math.pow(math.e, -math.pow(keyRate - self.idealRate, 2)/(2.0*math.pow(stdDev,2)))
         return F
-    
-    
+
+
     def setSpeedGauge(self):
         # update the power meter to show the toon's speed and the target speed
         self.powerMeter.setPower(self.keyRate)
@@ -860,20 +860,20 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             self.powerMeter.setBarColor(color)
         else:
             self.powerMeter.setBarColor((0.0, 1.0, 0.0, 0.5))
-    
-    
+
+
     def updateToonKeyRate(self, toonId, keyRate):
         # since we set the local toon's pulling animation locally, don't do it
         # here
         if toonId != base.localAvatar.doId:
             self.setAnimState(toonId, keyRate)
-    
-    
+
+
     def setAnimState(self, toonId, keyRate):
         if self.activityFSM.state != "Active":
             return
         toon = self.getAvatar(toonId)
-        if not self.toonIdsToIsPullingFlags.has_key(toonId):
+        if toonId not in self.toonIdsToIsPullingFlags:
             if self.getTeam(toonId) == None:
                 self.notify.warning("setAnimState called with toonId (%d) that wasn't in self.toonIds" %toonId)
                 return
@@ -895,10 +895,10 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
                 self.notify.warning("toon %d is None, skipping toon.startLookAround" % toonId)
             self.toonIdsToIsPullingFlags[toonId] = False
 
-    
+
     def enableKeys(self):
         self.notify.debug("enableKeys")
-        # Change the order of the press handlers because we are only using 2 keys    
+        # Change the order of the press handlers because we are only using 2 keys
         self.arrowKeys.setPressHandlers(
             [
                 lambda : self.__pressHandler(2),
@@ -918,7 +918,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
         for arrow in self.arrows:
             arrow.setColor(PartyGlobals.TugOfWarEnabledArrowColor)
 
-            
+
     def disableKeys(self):
         self.arrowKeys.setPressHandlers(self.arrowKeys.NULL_HANDLERS)
         self.arrowKeys.setReleaseHandlers(self.arrowKeys.NULL_HANDLERS)
@@ -930,24 +930,24 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             self.arrows[index].setColor(PartyGlobals.TugOfWarHilightedArrowColor)
             self.keyTTL.insert(0, PartyGlobals.TugOfWarKeyPressTimeToLive)
             self.buttons.reverse()
-    
-            
+
+
     def __releaseHandler(self, index):
         if index in self.buttons:
             self.arrows[index].setColor(PartyGlobals.TugOfWarEnabledArrowColor)
-            
-            
+
+
     def updateToonPositions(self, offset):
         # Since the timer expires locally, we may still get a few
         # messages from the AI that were on the wire when we left
         # the play state, just ignore it
         if self.activityFSM.state != "Active":
             return
-        
+
         # adjust the camera angle
         if self.isLocalToonPlaying:
             camera.lookAt(self.root, offset, 0.0, PartyGlobals.TugOfWarCameraLookAtHeightOffset)
-        
+
         # this client sets the position of all toons playing
         for toonId in self.getToonIdsAsList():
             if hasattr(self,"fallenToons") and \
@@ -975,7 +975,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
                         )
                         self.toonIdsToAnimIntervals[toonId].start()
 
-    
+
     def checkIfFallen(self, toonId):
         # check if toon has fallen
         if hasattr(self,"fallenToons") and \
@@ -1006,7 +1006,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             if (fallenPosIndex < 0) or (fallenPosIndex >= 4):
                 fallenPosIndex = 0
             newPos = self.fallenPositions[fallenPosIndex]
-        
+
             # animate the toons falling into the water
             if self.toonIdsToAnimIntervals[toonId] is not None:
                 if self.toonIdsToAnimIntervals[toonId].isPlaying():
@@ -1021,7 +1021,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             else:
                 self.notify.warning("toon %d is none, skipping slip-forward" % toonId)
                 parallel = Parallel()
-                
+
             # only setup splash for the first toon
             if not splashSet:
                 splashSet = True
@@ -1036,9 +1036,9 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
                 self.notify.warning("toon %d is none, skipping toon.loop(neutral)" % toonId)
                 self.toonIdsToAnimIntervals[toonId] = parallel
             self.toonIdsToAnimIntervals[toonId].start()
-            
+
     def setAdvantage(self, advantage):
         DistributedPartyTeamActivity.setAdvantage(self, advantage)
-        
+
         if self.isLocalToonPlaying:
             self.setIdealRate(PartyGlobals.TugOfWarTargetRateList[0][1])

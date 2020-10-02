@@ -1,8 +1,8 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectScrolledList import *
 from toontown.toonbase import ToontownGlobals
-import FireworkItemPanel
+from . import FireworkItemPanel
 from direct.directnotify import DirectNotifyGlobal
 from toontown.effects import FireworkGlobals
 from toontown.effects import Fireworks
@@ -15,7 +15,7 @@ class FireworksGui(DirectFrame):
 
     This class presents the user interface to an individual catalog. It consists of
     a title and a scrolling list of firework items.
-    
+
     """
     notify = DirectNotifyGlobal.directNotify.newCategory("FireworksGui")
 
@@ -41,7 +41,7 @@ class FireworksGui(DirectFrame):
         itemStrings = []
         for i in itemTypes:
             itemStrings.append(FireworkGlobals.Names[i])
-        
+
         gui = loader.loadModel("phase_3.5/models/gui/friendslist_gui")
         # make a scrolled list of item panels
         self.panelPicker = DirectScrolledList(
@@ -96,7 +96,7 @@ class FireworksGui(DirectFrame):
         self.hilightColor = VBase4(1,1,1,1)
         self.bgColor = VBase4(.8,.8,.8,1)
         self.colorButtons = []
-        for i in Fireworks.colors.keys():
+        for i in list(Fireworks.colors.keys()):
             color = Fireworks.colors[i]
             height = .07
             paddedHeight = .10
@@ -122,17 +122,17 @@ class FireworksGui(DirectFrame):
             #self.initialiseoptions(button)
             self.colorButtons.append([button,buttonBg])
         self.__initColor(0)
-            
+
     def unload(self):
         # remove all graphical elements
         del self.parent
         del self.itemList
         del self.panelPicker
-        
+
     def update(self):
         # call this to update how many fireworks are left
         pass
-    
+
     def __cancel(self):
         assert(self.notify.debug("transaction cancelled"))
         messenger.send(self.doneEvent)
@@ -144,14 +144,14 @@ class FireworksGui(DirectFrame):
         self.colorButtons[index][1].setScale(1.2)
         self.curColor = index
         self.fadeColor = 0
-        
+
     def __handleColor(self, index):
         color = Fireworks.colors[index]
         # reset button backgrounds
         for i in range(len(self.colorButtons)):
             self.colorButtons[i][1]['geom_color'] = self.bgColor
             self.colorButtons[i][1].setScale(1)
-        
+
         # enlarge the selected color square
         self.colorButtons[index][1].setScale(1.2)
 
@@ -164,10 +164,9 @@ class FireworksGui(DirectFrame):
             self.fadeColor = 0
         self.colorButtons[index][1]['geom_color'] = Fireworks.colors[self.fadeColor]
         self.curColor = index
-        
+
     def scrollItem(self):
         pass
-        
+
     def getCurColor(self):
         return self.curColor, self.fadeColor
-        

@@ -1,14 +1,14 @@
 """AvatarChooser module: contains the AvatarChooser class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import ToontownGlobals
-import AvatarChoice
+from . import AvatarChoice
 from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.launcher import DownloadForceAcknowledge
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import DisplayOptions
 from direct.directnotify import DirectNotifyGlobal
@@ -17,10 +17,10 @@ from direct.interval.IntervalGlobal import *
 import random
 
 
-MAX_AVATARS = 6              
+MAX_AVATARS = 6
 POSITIONS = ( Vec3(-0.840167, 0, 0.359333), Vec3(0.00933349, 0, 0.306533), Vec3(0.862, 0, 0.3293),
               Vec3(-0.863554, 0, -0.445659), Vec3(0.00999999, 0, -0.5181), Vec3(0.864907, 0, -0.445659))
-              
+
 COLORS = ( Vec4(0.917, 0.164, 0.164, 1), Vec4(0.152, 0.750, 0.258, 1), Vec4(0.598, 0.402, 0.875, 1),
            Vec4(0.133, 0.590, 0.977, 1), Vec4(0.895, 0.348, 0.602, 1), Vec4(0.977, 0.816, 0.133, 1)  )
 
@@ -33,7 +33,7 @@ class AvatarChooser(StateData.StateData):
     choice or let the user make a new avatar
     """
 
-    # special methods    
+    # special methods
     def __init__(self, avatarList, parentFSM, doneEvent):
         """
         Set-up the login screen interface and prompt for a user name
@@ -60,7 +60,7 @@ class AvatarChooser(StateData.StateData):
         self.fsm.enterInitialState()
         self.parentFSM = parentFSM
         self.parentFSM.getCurrentState().addChild(self.fsm)
-        
+
         if __debug__:
             base.avChooser = self
 
@@ -93,7 +93,7 @@ class AvatarChooser(StateData.StateData):
         self.pickAToonBG.reparentTo(base.camera)
 
         choice = base.config.GetInt("auto-avatar-choice", -1)
-        
+
         # hang the choice panel hooks
         for panel in self.panelList:
             panel.show()
@@ -119,7 +119,7 @@ class AvatarChooser(StateData.StateData):
         self.title.reparentTo(hidden)
         self.quitButton.hide()
         self.logoutButton.hide()
-        
+
         self.pickAToonBG.reparentTo(hidden)
 
     def load(self, isPaid):
@@ -136,7 +136,7 @@ class AvatarChooser(StateData.StateData):
         self.pickAToonBG.reparentTo(hidden)
         self.pickAToonBG.setPos(0.0, 2.73, 0.0)
         self.pickAToonBG.setScale(1, 1, 1)
-        
+
         # set-up screen title
         self.title = OnscreenText(TTLocalizer.AvatarChooserPickAToon,
                                   scale = TTLocalizer.ACtitle,
@@ -146,7 +146,7 @@ class AvatarChooser(StateData.StateData):
                                   pos = (0.0, 0.82))
 
         quitHover = gui.find("**/QuitBtn_RLVR")
-        
+
         self.quitButton = DirectButton(
 ##            image = (gui.find("**/QuitBtn_UP"), gui.find("**/QuitBtn_DN"), gui.find("**/QuitBtn_RLVR")),
             image = (quitHover, quitHover, quitHover),
@@ -192,7 +192,7 @@ class AvatarChooser(StateData.StateData):
         # are logging in with a "blue" (and therefore can't log out to
         # a different user).
         self.logoutButton.hide()
-        
+
         gui.removeNode()
         gui2.removeNode()
         newGui.removeNode()
@@ -200,7 +200,7 @@ class AvatarChooser(StateData.StateData):
         # create the av panels w/ avatars
         self.panelList = []
         used_position_indexs = []
-        
+
         for av in self.avatarList:
             # decide whether or not to lock out all but one of the toon positions
             # is this a paid account?
@@ -228,11 +228,11 @@ class AvatarChooser(StateData.StateData):
                 self.panelList.append(panel)
 
         if(len(self.avatarList)>0):
-            self.initLookAtInfo()        
+            self.initLookAtInfo()
         self.isLoaded = 1
 
-        # self.avatarList not updated on av deletion, but it doesnt have to be, since on 
-        # deletion or creation of a single AvatarChoice, the whole AvatarChooser obj is unloaded 
+        # self.avatarList not updated on av deletion, but it doesnt have to be, since on
+        # deletion or creation of a single AvatarChoice, the whole AvatarChooser obj is unloaded
         # and re-created in ToontownClientRepository.py
 
     def getLookAtPosition(self, toonHead, toonidx):
@@ -300,14 +300,14 @@ class AvatarChooser(StateData.StateData):
                 self.IsLookingAt[lookingAtIdx] = toonidx
                 otherToonHead = None
                 # panelList idx is not the same idx as panel.position & toonidx !!
-                # could I precompute the panel.position->panelList idx map at loadtime, 
+                # could I precompute the panel.position->panelList idx map at loadtime,
                 # or does the panelList panel order change?
                 for panel in self.panelList:
                     if(panel.position == lookingAtIdx):
                         otherToonHead = panel.headModel
                 otherToonHead.doLookAroundToStareAt(otherToonHead, self.getLookAtToPosVec(lookingAtIdx, toonidx))
 
-            self.IsLookingAt[toonidx] = lookingAtIdx  
+            self.IsLookingAt[toonidx] = lookingAtIdx
             return self.getLookAtToPosVec(toonidx,lookingAtIdx)
 
     def getLookAtToPosVec(self, fromIdx, toIdx):
@@ -361,7 +361,7 @@ class AvatarChooser(StateData.StateData):
 
         self.pickAToonBG.removeNode()
         del self.pickAToonBG
-        
+
         del self.avatarList
 
         self.parentFSM.getCurrentState().removeChild(self.fsm)
@@ -417,7 +417,7 @@ class AvatarChooser(StateData.StateData):
         cleanupDialog("globalDialog")
         self.doneStatus = {'mode': "exit"}
         messenger.send(self.doneEvent, [self.doneStatus])
-        
+
     # Specific State functions
 
     #### Choose state ####

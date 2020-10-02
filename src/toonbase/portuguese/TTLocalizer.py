@@ -4808,7 +4808,7 @@ PetTutorialPage1 = "Clique em um Rabisco para exibir o painel de Rabiscos. Daqui
 PetTutorialPage2 = "Use a nova área 'Bichinhos' no menu Chat rápido para fazer com que um Rabisco faça um truque. Se ele fizer, recompense-o para ele melhorar ainda mais!"
 PetTutorialPage3 = "Compre novos truques de Rabiscos no Gadálogo da Clarabela. Truques melhores produzem Toonar melhores!"
 def getPetGuiAlign():
-	from pandac.PandaModules import TextNode
+	from toontown.toonbase.ToontownModules import TextNode
 	return TextNode.ACenter
 
 GardenTutorialTitle1 = "Jardinagem"
@@ -8404,4 +8404,3 @@ GardenTrophyNameDict = {
     }
 SkillTooLow = "Habilidade\nBaixa Demais"
 NoGarden = "Nenhum \nJardim"
-

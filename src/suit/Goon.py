@@ -1,11 +1,11 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.actor import Actor
-from otp.avatar import Avatar 
+from otp.avatar import Avatar
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
-import GoonGlobals
-import SuitDNA
+from . import GoonGlobals
+from . import SuitDNA
 import math
 
 # list of anims per goon type
@@ -66,10 +66,10 @@ class Goon(Avatar.Avatar):
 
     def initializeBodyCollisions(self, collIdStr):
         Avatar.Avatar.initializeBodyCollisions(self, collIdStr)
-        
+
         if not self.ghostMode:
             self.collNode.setCollideMask(self.collNode.getIntoCollideMask() | ToontownGlobals.PieBitmask)
-        
+
     def delete(self):
         try:
             self.Goon_deleted
@@ -116,7 +116,7 @@ class Goon(Avatar.Avatar):
             animDict[anim[0]] = filePrefix + anim[1]
 
         self.loadAnims(animDict)
-        
+
     def getShadowJoint(self):
         return self.getGeomNode()
 
@@ -160,20 +160,20 @@ class Goon(Avatar.Avatar):
         self.eye.setColor(1,1,0,1)
 
         self.radar = None
-        
+
     def scaleRadar(self):
         # Remove the old radar
         if self.radar:
             self.radar.removeNode()
 
         self.radar = self.eye.attachNewNode('radar')
-        
+
         # Load a new radar
         model = loader.loadModel("phase_9/models/cogHQ/alphaCone2")
         beam = self.radar.attachNewNode('beam')
         transformNode = model.find('**/transform')
         transformNode.getChildren().reparentTo(beam)
-            
+
         self.radar.setPos(0, -.5, .4)
         self.radar.setTransparency(1)
         self.radar.setDepthWrite(0)
@@ -189,7 +189,7 @@ class Goon(Avatar.Avatar):
 
         # Scale the beam to the right radius and fov
         beam.setScale(kw / self.scale, kl / self.scale, kw / self.scale)
-        beam.setHpr(0, self.halfFov, 0)        
+        beam.setHpr(0, self.halfFov, 0)
 
         # and make sure it reaches the floor.
         p = self.radar.getRelativePoint(beam, Point3(0, -6, -1.8))
@@ -208,7 +208,7 @@ class Goon(Avatar.Avatar):
             colorList = GoonGlobals.SG_COLORS
         else:
             return
-        
+
         # make the hat maroonish if these guys are powerful
         if self.strength >= 20:
             # red
@@ -218,5 +218,3 @@ class Goon(Avatar.Avatar):
             self.hat.setColorScale(colorList[1])
         else:
             self.hat.clearColorScale()
-        
-

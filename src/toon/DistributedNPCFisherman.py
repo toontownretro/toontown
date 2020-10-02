@@ -1,8 +1,8 @@
-from pandac.PandaModules import *
-from DistributedNPCToonBase import *
+from toontown.toonbase.ToontownModules import *
+from .DistributedNPCToonBase import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
-import NPCToons
+from toontown.toonbase.ToontownModules import *
+from . import NPCToons
 from toontown.toonbase import TTLocalizer
 from toontown.fishing import FishSellGUI
 from direct.task.Task import Task
@@ -16,7 +16,7 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
         self.button = None
         self.popupInfo = None
         self.fishGui = None
-            
+
     def disable(self):
         self.ignoreAll()
         taskMgr.remove(self.uniqueName('popupFishGUI'))
@@ -39,10 +39,10 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
         """
         DistributedNPCToonBase.generate(self)
         self.fishGuiDoneEvent = "fishGuiDone"
-        
+
     def announceGenerate(self):
         DistributedNPCToonBase.announceGenerate(self)
-        
+
     def initToonState(self):
         # announceGenerate in DistributedNPCToonBase tries to
         # parent the toon to a node called npc_origin_N.  For now
@@ -103,7 +103,7 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
         if self.fishGui:
             self.fishGui.destroy()
             self.fishGui = None
-            
+
         self.show()
         self.startLookAround()
         self.detectAvatars()
@@ -120,7 +120,7 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
     def setMovie(self, mode, npcId, avId, extraArgs, timestamp):
         """
         This is a message from the AI describing a movie between this NPC
-        and a Toon that has approached us. 
+        and a Toon that has approached us.
         """
         timeStamp = ClockDelta.globalClockDelta.localElapsedTime(timestamp)
         self.remain = NPCToons.CLERK_COUNTDOWN_TIME - timeStamp
@@ -129,7 +129,7 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
 
         # See if this is the local toon
         self.isLocalToon = (avId == base.localAvatar.doId)
-            
+
         assert(self.notify.debug("setMovie: %s %s %s %s" %
                           (mode, avId, timeStamp, self.isLocalToon)))
 
@@ -181,7 +181,7 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
             if (self.isLocalToon):
                 taskMgr.doMethodLater(1.0, self.popupFishGUI,
                                       self.uniqueName('popupFishGUI'))
-            
+
         elif (mode == NPCToons.SELL_MOVIE_COMPLETE):
             assert self.notify.debug('SELL_MOVIE_COMPLETE')
             # this is necessary to not show marketing message on test
@@ -220,11 +220,9 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
         self.sendUpdate("completeSale", [sell])
         self.fishGui.destroy()
         self.fishGui = None
-        
+
     def popupFishGUI(self, task):
         assert self.notify.debug('popupFishGUI()')
         self.setChatAbsolute('', CFSpeech)
         self.acceptOnce(self.fishGuiDoneEvent, self.__handleSaleDone)
         self.fishGui = FishSellGUI.FishSellGUI(self.fishGuiDoneEvent)
-        
-        

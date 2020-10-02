@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.particles import ParticleEffect
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
@@ -14,12 +14,12 @@ class RocketExplosion(NodePath):
 
         self.effectNode = parent.attachNewNode('RocketExplosion')
         self.effectNode.setBin("fixed", 1)
-        self.effectNode.setDepthWrite(1)     
-        
+        self.effectNode.setDepthWrite(1)
+
         self.smokeEffectNode = smokeParent.attachNewNode('RocketSmoke')
         self.smokeEffectNode.setBin("fixed", 1)
         self.smokeEffectNode.setDepthWrite(0)
-        
+
         self.effect = ParticleEffect.ParticleEffect('RocketFire')
         self.smokeEffect = ParticleEffect.ParticleEffect('RocketSmoke')
 
@@ -49,8 +49,8 @@ class RocketExplosion(NodePath):
 
         self.effect.loadConfig(pfile)
         ren = self.effect.getParticlesNamed('particles-1').getRenderer()
-        ren.setTextureFromNode('phase_4/models/props/tt_m_efx_fireball','**/*')        
-        
+        ren.setTextureFromNode('phase_4/models/props/tt_m_efx_fireball','**/*')
+
         # Smoke effect
         pfile = Filename('tt_p_efx_rocketLaunchSmoke.ptf')
         found = vfs.resolveFilename(pfile, particleSearchPath)
@@ -63,9 +63,9 @@ class RocketExplosion(NodePath):
         self.smokeEffect.loadConfig(pfile)
         ren = self.smokeEffect.getParticlesNamed('particles-1').getRenderer()
         ren.setTextureFromNode('phase_4/models/props/tt_m_efx_smoke','**/*')
-        
+
         self.endSeq = None
-        
+
         self.cleanupCompleted = 0
 
     def start(self):
@@ -78,7 +78,7 @@ class RocketExplosion(NodePath):
             self.smokeEffect.disable()
         except AttributeError:
             pass
-            
+
     def end(self):
         self.endSeq = Sequence(
                              LerpColorScaleInterval(

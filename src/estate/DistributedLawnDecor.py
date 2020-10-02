@@ -1,10 +1,10 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed import ClockDelta
 from direct.showbase.PythonUtil import lerp
 import math
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import NodePath
+from toontown.toonbase.ToontownModules import NodePath
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
 from direct.distributed import DistributedObject
@@ -18,7 +18,7 @@ from toontown.estate import GardenGlobals
 
 def recurseParent(intoNode, ParentName):
     parent = intoNode.getParent(0)
-    
+
     if not parent or parent.getName() == 'render':
         return 0
     elif parent.getName() == ParentName:
@@ -32,7 +32,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
 
     def __init__(self, cr):
         DistributedNode.DistributedNode.__init__(self, cr)
-        
+
         NodePath.__init__(self, "decor")
         ShadowCaster.ShadowCaster.__init__(self, False)
 
@@ -52,12 +52,12 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         self.shadowScale = 1
         self.expectingReplacement = 0
         self.movie = None
-        
+
     def setHeading(self, h):
         self.notify.debug("setting h")
         DistributedNode.DistributedNode.setH(self, h)
 
-        
+
     def generateInit(self):
         self.notify.debug('generateInit')
         DistributedNode.DistributedNode.generateInit(self)
@@ -66,7 +66,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         self.notify.debug('generate')
         self.reparentTo(render)
         DistributedNode.DistributedNode.generate(self)
-        
+
     def announceGenerate(self):
         self.notify.debug('announceGenerate')
         DistributedNode.DistributedNode.announceGenerate(self)
@@ -78,7 +78,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         self.makeMovieNode()
         self.stick2Ground()
         self.setupCollision()
-        
+
     def doModelSetup(self):
         pass
 
@@ -91,7 +91,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         DistributedNode.DistributedNode.disable(self)
         if hasattr(self, 'nodePath'):
             self.nodePath.detachNode()
-        
+
 
     def delete(self):
         self.notify.debug('delete')
@@ -99,7 +99,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         ShadowCaster.ShadowCaster.delete(self)
         self.unloadModel()
         DistributedNode.DistributedNode.delete(self)
-        
+
 
     def loadModel(self):
         if not self.rotateNode:
@@ -127,8 +127,8 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         #axis.reparentTo(self.movieNode)
         #self.stick2Ground()
 
-    def setupCollision(self):    
-        
+    def setupCollision(self):
+
         self.messageName = self.uniqueName("enterplotSphere")
         self.messageStartName = self.uniqueName("plotSphere")
         self.exitMessageName = self.uniqueName("exitplotSphere")
@@ -145,7 +145,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         colNode.addSolid(colSphere)
         colSphereNode = self.attachNewNode(colNode)
         self.colSphereNode = colSphereNode
-        
+
         #self.accept("enterplotSphere", self.handleEnterPlot)
         self.accept(self.messageName, self.handleEnterPlot)
         self.accept(self.exitMessageName, self.handleExitPlot)
@@ -165,11 +165,11 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         #self.notify.debug('handleExitPlot %d' % self.doId)
         #print("Plot Entered; Collision = %s" % (optional))
         #DistributedFlower.py will override and replace this
-        
+
     def handleWatering(self):
         self.handleExitPlot()
         base.localAvatar.removeShovelRelatedDoId(self.doId)
-        
+
     def unloadModel(self):
         if self.model:
             self.model.removeNode()
@@ -178,17 +178,17 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         if hasattr(self,'nodePath') and  self.nodePath:
             self.nodePath.removeNode()
             self.nodePath = None
-   
+
         taskMgr.remove(self.uniqueName("adjust tree"))
-        
+
     def setPos(self, x, y, z):
         DistributedNode.DistributedNode.setPos(self, x, y, z)
         self.stick2Ground()
-        
+
     def setPosition(self, x, y, z):
         DistributedNode.DistributedNode.setPos(self, x, y, z)
         self.stick2Ground()
-        
+
     def stick2Ground(self , taskfooler = 0):
         if self.isEmpty():
             return Task.done
@@ -206,7 +206,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
 
         picker = CollisionTraverser()
         picker.addCollider(cRayNodePath, queue)
-        
+
         # fix the movie node
         if self.movieNode:
             testPath.setPos(self.movieNode.getX(render),self.movieNode.getY(render),0)
@@ -240,24 +240,24 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         taskMgr.doMethodLater(1.0, self.stick2Ground, uniqueName("groundsticker"))
         #print("Not Sticking")
         return Task.done
-        
+
     def stickParts(self):
         return
-        
+
     def setPlot(self, plot):
         self.plot = plot
-        
+
     def setH(self, h):
         DistributedNode.DistributedNode.setH(self, h)
         #print("setting H %s foo!!" % (h))
-        
-        
+
+
     def getPlot(self):
         return self.plot
-        
+
     def setOwnerIndex(self, index):
         self.ownerIndex = index
-        
+
     def getOwnerIndex(self):
         return self.ownerIndex
 
@@ -272,7 +272,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
                 retval = estate.idList[self.ownerIndex]
 
         return retval
-            
+
     def canBePicked(self):
         """
         Other subclasses may extend this function, but at the very least,
@@ -284,15 +284,15 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         self.notify.debug('base.localAvatar.doId : %s' %base.localAvatar.doId)
         self.notify.debug('self.getOwnerId : %s ' %self.getOwnerId())
         self.notify.debug("statue's DoId : %s " %self.doId)
-        
+
         if not hasattr(base, 'localAvatar') or not (base.localAvatar.doId == self.getOwnerId()):
             retval = False
 
         return retval
-        
+
     def unlockPick(self):
         return True
-        
+
     def handleRemove(self):
         """
         At this point assume we've already asked the player if he really wants
@@ -303,13 +303,13 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         if not self.canBePicked():
             self.notify.debug("I don't own this item, just returning")
             return
-        
+
         base.localAvatar.hideShovelButton()
         base.localAvatar.hideWateringCanButton()
 
         # lock the toon down
         self.startInteraction()
-        
+
         self.sendUpdate('removeItem',[])
 
     def generateToonMoveTrack( self, toon ):
@@ -322,12 +322,12 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         node = NodePath('tempNode')
 
         displacement = Vec3( toon.getPos(render) - self.getPos(render) )
-        displacement.setZ(0) #hmmm should we set this to zero?        
+        displacement.setZ(0) #hmmm should we set this to zero?
         displacement.normalize()
 
         movieDistance = self.movieNode.getDistance(self.rotateNode)
         displacement *= movieDistance
-        
+
         node.reparentTo(render)
         node.setPos(displacement + self.getPos(render))
         node.lookAt(self)
@@ -360,10 +360,10 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
             Func( toon.loop, 'neutral' ),
             )
         return toonTrack
-        
+
     def unprint(self, string):
         print(string)
- 
+
     def startInteraction(self):
         #print "### LawnDecor: startInteraction"
         place = base.cr.playGame.getPlace()
@@ -390,7 +390,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
                 Func(base.localAvatar.setCameraPosForPetInteraction),
                 )
         return track
-    
+
     def stopCamIval(self, avId):
         track = Sequence()
         if avId == localAvatar.doId:
@@ -400,16 +400,16 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
                 Func(base.localAvatar.enableSmartCameraViews),
                 )
         return track
-    
+
     def canBeWatered(self):
         return 0
-        
+
     def getShovelAction(self):
         return None
-        
+
     def getShovelCommand(self):
         return None
-        
+
     def canBePlanted(self):
         return 0
 
@@ -427,14 +427,14 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         if self.movie:
             self.movie.finish()
             self.movie = None
-            
+
     def doDigupTrack(self, avId):
         toon = base.cr.doId2do.get(avId)
         if not toon:
             return
 
         self.finishMovies()
-            
+
         self.model.setTransparency(1)
         self.model.setAlphaScale(1)
 
@@ -492,7 +492,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         self.finishMovies()
 
         self.movie = Sequence()
-        
+
         if avId == localAvatar.doId:
             self.startInteraction()
 
@@ -507,7 +507,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         self.movie.append(Func( toon.loop, 'neutral'))
 
         #import pdb; pdb.set_trace()
-        
+
         if avId == localAvatar.doId:
             self.movie.append(Func(self.finishInteraction))
             self.movie.append(Func(self.movieDone))
@@ -515,12 +515,10 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
                 self.movie.append(Func(self.doResultDialog))
 
         self.movie.start()
-        
+
     def interactionDenied(self, avId):
         """
         server said someone else was using the plant, we can't do the shovel or wateringCan action
         """
         if avId == localAvatar.doId:
             self.finishInteraction()
-
-

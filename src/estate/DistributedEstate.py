@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 import math
@@ -15,18 +15,18 @@ from direct.showbase import RandomNumGen
 from direct.task.Task import Task
 from toontown.toonbase import TTLocalizer
 import random
-import cPickle
+import pickle
 import time
 from direct.showbase import PythonUtil
 from toontown.hood import Place
-import Estate
-import HouseGlobals
+from . import Estate
+from . import HouseGlobals
 from toontown.estate import GardenGlobals
 from toontown.estate import DistributedFlower
 from toontown.estate import DistributedGagTree
 from toontown.estate import DistributedStatuary
-import GardenDropGame
-import GardenProgressMeter
+from . import GardenDropGame
+from . import GardenProgressMeter
 from toontown.estate import FlowerSellGUI
 from toontown.toontowngui import TTDialog
 
@@ -53,7 +53,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         self.estateDoneEvent = "estateDone"
 
         self.load()
-        
+
         # Initialize the camera and play the intro camera lerp track
         # The positions of the avatars must be calculated by this point
         self.initCamera()
@@ -61,12 +61,12 @@ class DistributedEstate(DistributedObject.DistributedObject):
         #testFlower = DistributedFlower.DistributedFlower()
         #testGagTree = DistributedGagTree.DistributedGagTree()
         #testStatuary = DistributedStatuary.DistributedStatuary()
-        
+
         self.plotTable = []
         self.idList = [] #list of toon ids in this estate
         base.estate = self
-        self.flowerGuiDoneEvent = "flowerGuiDone"        
-        
+        self.flowerGuiDoneEvent = "flowerGuiDone"
+
     def disable(self):
         self.notify.debug("disable")
         self.__stopBirds()
@@ -83,7 +83,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         assert(self.notify.debug("load"))
 
         self.lt = base.localAvatar
-       
+
         # Load a witch for Halloween
         newsManager = base.cr.newsManager
 
@@ -93,7 +93,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
                 self.loadWitch()
             else:
                  self.loadAirplane()
-                 
+
         self.loadFlowerSellBox()
         # load music
         #self.music = base.loadMusic(self.bgm)
@@ -103,7 +103,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         # set the clear color to green to make it appear more grassy
         self.oldClear = base.win.getClearColor()
         base.win.setClearColor(Vec4(0.09, 0.55, 0.21, 1.0))
-        
+
     def unload(self):
         assert(self.notify.debug("unload"))
 
@@ -112,9 +112,9 @@ class DistributedEstate(DistributedObject.DistributedObject):
 
         # restore the clear color
         base.win.setClearColor(self.oldClear)
-        
+
         # Kill tasks
-        self.__killAirplaneTask() 
+        self.__killAirplaneTask()
         self.__killDaytimeTask()
         self.__stopBirds()
         self.__stopCrickets()
@@ -133,7 +133,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         if self.ground:
             self.ground.removeNode()
             del self.ground
-            
+
         if self.airplane:
             self.airplane.removeNode()
             del self.airplane
@@ -153,8 +153,8 @@ class DistributedEstate(DistributedObject.DistributedObject):
         assert(self.notify.debug("announceGenerate()"))
         DistributedObject.DistributedObject.announceGenerate(self)
         #self.startGame()
-        self.accept('gardenGame', self.startGame)        
-        
+        self.accept('gardenGame', self.startGame)
+
     def startGame(self):
         pass
         self.game = GardenDropGame.GardenDropGame()
@@ -165,7 +165,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         self.airplane.setScale(4)
         self.airplane.setPos(0,0,1)
         #self.airplane.setBillboardPointEye()
-        
+
         self.banner = self.airplane.find("**/*banner")
         bannerText = TextNode('bannerText')
         bannerText.setTextColor(1,0,0,1)
@@ -182,7 +182,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
     def loadWitch(self):
         if not self.airplane:
             self.airplane = loader.loadModel("phase_4/models/props/tt_m_prp_ext_flyingWitch.bam")
-            
+
         def __replaceAirplane__():
             self.airplane.reparentTo(hidden)
             del self.airplane
@@ -211,15 +211,15 @@ class DistributedEstate(DistributedObject.DistributedObject):
                     0.1, Vec4(1, 1, 1, 1)
                 ),
         )
-        
+
         replacement.start()
-        
+
     def unloadWitch(self):
         def __replaceWitch__():
             self.airplane.reparentTo(hidden)
             del self.airplane
             del self.bn
-            
+
             self.airplane = loader.loadModel("phase_4/models/props/airplane.bam")
             self.airplane.setScale(4)
             self.airplane.setPos(0,0,1)
@@ -247,9 +247,9 @@ class DistributedEstate(DistributedObject.DistributedObject):
                     0.1, Vec4(1, 1, 1, 1)
                 ),
         )
-        
+
         replacement.start()
-        
+
     def initCamera(self):
         # set up the camera
         initCamPos = VBase3(0, -10, 5)
@@ -257,10 +257,10 @@ class DistributedEstate(DistributedObject.DistributedObject):
 
     def setEstateType(self, index):
         self.estateType = index
-        
+
     def setHouseInfo(self, houseInfo):
         self.notify.debug("setHouseInfo")
-        houseType, housePos = cPickle.loads(houseInfo)
+        houseType, housePos = pickle.loads(houseInfo)
         self.loadEstate(houseType, housePos)
 
     def loadEstate(self, indexList, posList):
@@ -270,14 +270,14 @@ class DistributedEstate(DistributedObject.DistributedObject):
         self.numHouses = len(self.houseType)
         self.house = [None] * self.numHouses
 
-        
+
     def __startAirplaneTask(self):
         self.theta = 0
         self.phi = 0
         taskMgr.remove(self.taskName("estate-airplane"))
         taskMgr.add(self.airplaneFlyTask,
                     self.taskName("estate-airplane"))
-        
+
     def __pauseAirplaneTask(self):
         # pause time
         pause = 45
@@ -290,11 +290,11 @@ class DistributedEstate(DistributedObject.DistributedObject):
         taskMgr.remove(self.taskName("estate-airplane"))
         taskMgr.doMethodLater(pause, self.airplaneFlyTask,
                               self.taskName("estate-airplane"))
-        
+
     def __killAirplaneTask(self):
         assert(self.notify.debug("__killAirplaneTask"))
         taskMgr.remove(self.taskName("estate-airplane"))
-        
+
     def airplaneFlyTask(self, task):
         rad = 300.0
         amp = 80.0
@@ -304,7 +304,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         if (sinPhi <= 0):
             # stop the plane for a bit while it is low
             self.__pauseAirplaneTask()
-            
+
         angle = math.pi * self.theta/180.0
         x = rad * math.cos(angle)
         y = rad * math.sin(angle)
@@ -313,7 +313,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         self.airplane.setH(90+self.theta+180)
         self.airplane.setPos(x,y,z)
         return Task.cont
-        
+
     def sendHouseColor(self, index, r,g,b,a):
         self.house[index].setColor(r,g,b,a)
 
@@ -327,7 +327,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         self.dawnTime = ts
         # send a request to the server to get it's time
         self.sendUpdate("requestServerTime",[])
-        
+
     def setServerTime(self, ts):
         self.notify.debug("setServerTime")
         # the server is telling us what time it has
@@ -344,14 +344,14 @@ class DistributedEstate(DistributedObject.DistributedObject):
             self.__initDaytimeTask()
             self.__initSunTask()
         self.__startAirplaneTask()
-        
+
     def getDeltaTime(self):
         curTime = time.time() % HouseGlobals.DAY_NIGHT_PERIOD
         dawnTime = self.dawnTime
         dT = ((curTime - dawnTime) - self.deltaTime) % HouseGlobals.DAY_NIGHT_PERIOD
-        print ("getDeltaTime = %s. curTime=%s. dawnTime=%s. serverTime=%s.  deltaTime=%s" % (dT,curTime,dawnTime,self.serverTime,self.deltaTime))
+        print(("getDeltaTime = %s. curTime=%s. dawnTime=%s. serverTime=%s.  deltaTime=%s" % (dT,curTime,dawnTime,self.serverTime,self.deltaTime)))
         return dT
-        
+
     def __initDaytimeTask(self):
         # only call this fcn the first time, in order to pass the timestamp
         self.__killDaytimeTask()
@@ -366,7 +366,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
     def __killDaytimeTask(self):
         assert(self.notify.debug("__killDaytimeTask"))
         taskMgr.remove(self.taskName("daytime"))
-        
+
     def __dayTimeTask(self, task):
         # a full day is from t=[0,HouseGlobals.DAY_NIGHT_PERIOD]
         taskName = self.taskName("daytime")
@@ -393,14 +393,14 @@ class DistributedEstate(DistributedObject.DistributedObject):
                          Func(base.cr.playGame.hood.loader.geom.clearColorScale),
                          Func(base.cr.playGame.hood.sky.clearColorScale),
                          )
-        
+
         if self.dayTrack:
             self.dayTrack.finish()
         self.dayTrack = track
         ts = 0
         if hasattr(task, 'ts'):
             ts = task.ts
-        print "ts=%s" % ts
+        print("ts=%s" % ts)
         self.dayTrack.start(ts)
         taskMgr.doMethodLater(HouseGlobals.DAY_NIGHT_PERIOD-ts,
                               self.__dayTimeTask,
@@ -419,7 +419,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
     def __killSunTask(self):
         assert(self.notify.debug("__killSunTask"))
         taskMgr.remove(self.taskName("sunTask"))
-        
+
     def __sunTask(self, task):
         sunMoonNode = base.cr.playGame.hood.loader.sunMoonNode
         sun = base.cr.playGame.hood.loader.sun
@@ -456,7 +456,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
                          Func(sunMoonNode.setHpr, 0, h, 0),
                          Wait(HouseGlobals.HALF_DAY_PERIOD-.5)
                          )
-                      
+
         if self.sunTrack:
             self.sunTrack.finish()
         self.sunTrack = track
@@ -472,12 +472,12 @@ class DistributedEstate(DistributedObject.DistributedObject):
             else:
                 self.__stopCrickets()
                 self.__startBirds()
-        print "ts(sun)=%s" % ts
+        print("ts(sun)=%s" % ts)
         self.sunTrack.start(ts)
         taskMgr.doMethodLater(HouseGlobals.DAY_NIGHT_PERIOD-ts,
                               self.__sunTask,
                               self.taskName("sunTask"))
-        
+
         return Task.done
 
     def __stopBirds(self):
@@ -486,7 +486,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
     def __startBirds(self):
         self.__stopBirds()
         taskMgr.doMethodLater(1, self.__birds, 'estate-birds')
-        
+
     def __birds(self, task):
         base.playSfx(random.choice(base.cr.playGame.hood.loader.birdSound))
         t = (random.random() * 20.0) + 1
@@ -499,7 +499,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
     def __startCrickets(self):
         self.__stopCrickets()
         taskMgr.doMethodLater(1, self.__crickets, 'estate-crickets')
-        
+
     def __crickets(self, task):
         sfx = random.choice(base.cr.playGame.hood.loader.cricketSound)
         track = Sequence(Func(base.playSfx, sfx),
@@ -508,30 +508,30 @@ class DistributedEstate(DistributedObject.DistributedObject):
         t = (random.random() * 20.0) + 1
         taskMgr.doMethodLater(t, self.__crickets, 'estate-crickets')
         return Task.done
-        
+
     def getLastEpochTimeStamp(self):
         return self.lastEpochTimeStamp
-        
+
     def setLastEpochTimeStamp(self, ts):
         self.lastEpochTimeStamp = ts
-        
+
     def getIdList(self):
         return self.idList
-        
+
     def setIdList(self, idList):
         self.idList = idList
-        
+
     def loadFlowerSellBox(self):
         assert(self.notify.debug("loadFlowerSellBox"))
         self.flowerSellBox = loader.loadModel("phase_5.5/models/estate/wheelbarrel.bam")
         self.flowerSellBox.setPos(-142.586, 4.353, 0.025)
         self.flowerSellBox.reparentTo(render)
-        
+
         colNode = self.flowerSellBox.find('**/collision')
         colNode.setName('FlowerSellBox')
 
-        self.accept('enterFlowerSellBox', self.__touchedFlowerSellBox)        
-        
+        self.accept('enterFlowerSellBox', self.__touchedFlowerSellBox)
+
     def __touchedFlowerSellBox(self,entry):
         #self.notify.debug('%s' % entry)
         #popup the gui only if it's our wheelbarrow and we have stuff to sell
@@ -545,7 +545,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         self.sendUpdate("completeFlowerSale", [sell])
         self.ignore('stoppedAsleep')
         self.flowerGui.destroy()
-        self.flowerGui = None    
+        self.flowerGui = None
 
     def popupFlowerGUI(self):
         assert self.notify.debug('popupFlowerGUI()')
@@ -553,7 +553,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         self.acceptOnce(self.flowerGuiDoneEvent, self.__handleSaleDone)
         self.flowerGui = FlowerSellGUI.FlowerSellGUI(self.flowerGuiDoneEvent)
         self.accept('stoppedAsleep', self.__handleSaleDone)
-        
+
     def closedAwardDialog(self, value):
         self.awardDialog.destroy()
         base.cr.playGame.getPlace().detectedGardenPlotDone()
@@ -569,11 +569,11 @@ class DistributedEstate(DistributedObject.DistributedObject):
                 text = msg,
                 command = self.closedAwardDialog
                 )
-                
+
     def setClouds(self, clouds):
         self.clouds = clouds
         base.cr.playGame.hood.loader.setCloudSwitch(clouds)
-        
+
     def getClouds(self):
         if hasattr(self, "clouds"):
             return self.clouds

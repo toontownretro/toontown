@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.suit import DistributedSellbotBoss
 from direct.directnotify import DirectNotifyGlobal
@@ -7,7 +7,7 @@ from toontown.coghq import CogHQBossBattle
 class SellbotHQBossBattle(CogHQBossBattle.CogHQBossBattle):
     # create a notify category
     notify = DirectNotifyGlobal.directNotify.newCategory("SellbotHQBossBattle")
-    
+
     # special methods
     def __init__(self, loader, parentFSM, doneEvent):
         CogHQBossBattle.CogHQBossBattle.__init__(self, loader, parentFSM, doneEvent)
@@ -29,7 +29,7 @@ class SellbotHQBossBattle(CogHQBossBattle.CogHQBossBattle):
         CogHQBossBattle.CogHQBossBattle.exit(self)
 
         self.__cleanupHighSky()
-                
+
     def __setupHighSky(self):
         self.loader.hood.startSky()
         sky = self.loader.hood.sky
@@ -44,9 +44,9 @@ class SellbotHQBossBattle(CogHQBossBattle.CogHQBossBattle):
         self.cloudRing = sky.attachNewNode('cloudRing')
         self.cloudRing.setDepthWrite(0)
         self.cloudRing.setBin('background', 50)
-        
+
         cloud = loader.loadModel('phase_4/models/props/test_clouds')
-        cloud.find('**/p1').clearBillboard()        
+        cloud.find('**/p1').clearBillboard()
         cloud.setColor(1, 0.8, 0.6, 1)
         cloud.setScale(20, 10, 10)
         cloud.setHpr(180, 0, 0)
@@ -70,5 +70,3 @@ class SellbotHQBossBattle(CogHQBossBattle.CogHQBossBattle):
         sky = self.loader.hood.sky
         sky.setH(0)
         sky.setZ(0)
-
-

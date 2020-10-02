@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from toontown.toonbase import ToontownGlobals
-import Playground
+from . import Playground
 from toontown.launcher import DownloadForceAcknowledge
 from toontown.building import Elevator
 from toontown.toontowngui import TTDialog
@@ -24,7 +24,7 @@ class GZPlayground(Playground.Playground):
         state = self.fsm.getStateNamed('walk')
         state.addTransition('golfKartBlock')
 
-        self.golfKartDoneEvent = "golfKartDone"        
+        self.golfKartDoneEvent = "golfKartDone"
 
     def load(self):
         Playground.Playground.load(self)
@@ -140,7 +140,7 @@ class GZPlayground(Playground.Playground):
 
         # clear the anim state
         base.localAvatar.b_setAnimState("off", 1)
-        
+
         self.accept(self.golfKartDoneEvent, self.handleGolfKartDone)
         #self.trolley = GolfKart.GolfKart(self, self.fsm, self.golfKartDoneEvent, golfKart.golfCourse)
         self.trolley = GolfKart.GolfKart(self, self.fsm, self.golfKartDoneEvent, golfKart.getDoId())
@@ -151,14 +151,14 @@ class GZPlayground(Playground.Playground):
         assert(self.notify.debug("exitGolfKartBlock()"))
 
         # Turn off the laff meter
-        base.localAvatar.laffMeter.stop()        
+        base.localAvatar.laffMeter.stop()
 
         self.ignore(self.trolleyDoneEvent)
         self.trolley.unload()
         self.trolley.exit()
         del self.trolley
 
-        
+
 
     def detectedGolfKartCollision(self, golfKart):
         assert(self.notify.debug("detectedGolfkartCollision()"))
@@ -174,7 +174,7 @@ class GZPlayground(Playground.Playground):
         elif (where == 'exit'):
             self.fsm.request("walk")
         elif (where == 'racetrack'):
-            print "Entering Racetrack"
+            print("Entering Racetrack")
             self.doneStatus = doneStatus
             messenger.send(self.doneEvent)
         else:

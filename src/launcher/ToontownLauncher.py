@@ -138,16 +138,16 @@ if 1:   # flip this as necessary
     sys.stderr = logErr
 
     # Write to the log
-    print "\n\nStarting Toontown..."
-    print ("Current time: " + time.asctime(time.localtime(time.time()))
-           + " " + time.tzname[0])
-    print "sys.path = ", sys.path
-    print "sys.argv = ", sys.argv
+    print("\n\nStarting Toontown...")
+    print(("Current time: " + time.asctime(time.localtime(time.time()))
+           + " " + time.tzname[0]))
+    print("sys.path = ", sys.path)
+    print("sys.argv = ", sys.argv)
 
 from otp.launcher.LauncherBase import LauncherBase
 from otp.otpbase import OTPLauncherGlobals
 # LauncherBase sets up import path stuff, import Panda after
-from pandac.libpandaexpressModules import *
+from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 
 class ToontownLauncher(LauncherBase):
@@ -160,7 +160,7 @@ class ToontownLauncher(LauncherBase):
     # TODO: take this out when Pirates ships.
     VerifyFiles = 1
     DecompressMultifiles = True
-    
+
     def __init__(self):
         # Get the command line parameters
         # argv[0] : the name of this script
@@ -176,7 +176,7 @@ class ToontownLauncher(LauncherBase):
         # if it is there.
         if sys.argv[2] == 'Phase2.py':
             sys.argv = sys.argv[:1] + sys.argv[3:]
-        
+
         if ((len(sys.argv) == 5) or (len(sys.argv) == 6)):
             self.gameServer = sys.argv[2]
             # The account server, from the command line.
@@ -186,7 +186,7 @@ class ToontownLauncher(LauncherBase):
             self.testServerFlag = int(sys.argv[4])
         else:
             # This error message is a little too helpful for potential hackers
-            print "Error: Launcher: incorrect number of parameters"
+            print("Error: Launcher: incorrect number of parameters")
             sys.exit()
 
         # Used to pass to server for authentication
@@ -220,7 +220,7 @@ class ToontownLauncher(LauncherBase):
         # Before you go further, let's parse the web acct parameters
         self.webAcctParams = "WEB_ACCT_PARAMS"
         self.parseWebAcctParams()
-        
+
         self.mainLoop()
 
     def getValue(self, key, default=None):
@@ -256,11 +256,11 @@ class ToontownLauncher(LauncherBase):
 
         if not s:
             s = self.getRegistry(self.webAcctParams)
-            
+
         # Immediately clear out the Params so it will be more
         # difficult for a hacker to pull it out of the registry.
         self.setRegistry(self.webAcctParams, "")
-       
+
         # Parse the web account params to get chat related values
         # split s to the '&'
         l = s.split('&')
@@ -278,15 +278,15 @@ class ToontownLauncher(LauncherBase):
                 name, value = args
                 dict[name] = int(value)
 
-        self.secretNeedsParentPasswordKey = 1                
-        if dict.has_key('secretsNeedsParentPassword'):
+        self.secretNeedsParentPasswordKey = 1
+        if 'secretsNeedsParentPassword' in dict:
             self.secretNeedsParentPasswordKey = 1 and dict['secretsNeedsParentPassword']
         else:
             self.notify.warning('no secretNeedsParentPassword token in webAcctParams')
         self.notify.info('secretNeedsParentPassword = %d' % self.secretNeedsParentPasswordKey)
 
         self.chatEligibleKey = 0
-        if dict.has_key('chatEligible'):
+        if 'chatEligible' in dict:
             self.chatEligibleKey = 1 and dict['chatEligible']
         else:
             self.notify.warning('no chatEligible token in webAcctParams')
@@ -339,15 +339,15 @@ class ToontownLauncher(LauncherBase):
 
         # You can only set strings and integers in here
         t = type(value)
-        if (t == types.IntType):
+        if (t == int):
             WindowsRegistry.setIntValue(self.toontownRegistryKey, name, value)
 
-        elif (t == types.StringType):
+        elif (t == bytes):
             WindowsRegistry.setStringValue(self.toontownRegistryKey, name,
                                            value)
         else:
             self.notify.warning("setRegistry: Invalid type for registry value: "
-                                + `value`)
+                                + repr(value))
 
     def getRegistry(self, name, missingValue = None):
         # Return the value of this key.
@@ -452,7 +452,7 @@ class ToontownLauncher(LauncherBase):
 ##         return 1 and needPwForSecretKey
 
         """
-        Everything is already parsed if parseWebAcctParams was called 
+        Everything is already parsed if parseWebAcctParams was called
         """
         return self.secretNeedsParentPasswordKey
 
@@ -461,7 +461,7 @@ class ToontownLauncher(LauncherBase):
         Get the parent password set key
         """
 ##         return self.getRegistry(self.chatEligibleKey, 0)
-        # Everything is already parsed if parseWebAcctParams was called 
+        # Everything is already parsed if parseWebAcctParams was called
         return self.chatEligibleKey
 
     def MakeNTFSFilesGlobalWriteable(self, pathToSet = None ):
@@ -480,7 +480,7 @@ class ToontownLauncher(LauncherBase):
             os.remove('Phase3.py')
         except:
             pass
-        
+
         # Read in the Phase3.pyz file
         import Phase3
 

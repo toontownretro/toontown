@@ -4,13 +4,13 @@
 """
 from direct.showbase.DirectObject import DirectObject
 
-from pandac.PandaModules import NodePath, VBase4, Fog
+from toontown.toonbase.ToontownModules import NodePath, VBase4, Fog
 
 from toontown.minigame.DistributedMinigame import DistributedMinigame
 from toontown.minigame.MazeMapGui import MazeMapGui
 
-import CogdoMazeGameGlobals
-from CogdoMazeGameGlobals import CogdoMazeLockInfo
+from . import CogdoMazeGameGlobals
+from .CogdoMazeGameGlobals import CogdoMazeLockInfo
 
 class DistCogdoMazeGame(DistributedMinigame):
     """
@@ -178,7 +178,7 @@ class CogdoMazeGame(DirectObject):
         self.door.destroy()
         del self.door
 
-        for key in self.keyIdToKey.values():
+        for key in list(self.keyIdToKey.values()):
             key.destroy()
         del self.keyIdToKey
 
@@ -554,7 +554,7 @@ class CogdoMazeDoor:
         del self.openDoorModel
         del self.closedDoorModel
 
-        for lock in self.lockId2lock.values():
+        for lock in list(self.lockId2lock.values()):
             lock.destroy()
         del self.lockId2lock
 
@@ -587,13 +587,13 @@ class CogdoMazeDoor:
         return False
 
     def getLocks(self):
-        return self.lockId2lock.values()
+        return list(self.lockId2lock.values())
 
     def getLock(self, lockId):
         return self.lockId2lock.get(lockId)
 
     def isLocked(self):
-        return True in [lock.isLocked() for lock in self.lockId2lock.values()]
+        return True in [lock.isLocked() for lock in list(self.lockId2lock.values())]
 
     def playerEntersDoor(self, player):
         self.players.append(player)
@@ -667,7 +667,7 @@ class CogdoMazeLock:
 
 from toontown.toonbase import ToontownGlobals
 
-from pandac.PandaModules import CollisionSphere, CollisionNode
+from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode
 
 class CogdoMazeKey:
     def __init__(self, id, model, color):
@@ -820,7 +820,7 @@ class CogdoMazeLocalPlayer(CogdoMazePlayer):
 import math
 
 from direct.showbase.PythonUtil import bound as clamp
-from pandac.PandaModules import VBase3
+from toontown.toonbase.ToontownModules import VBase3
 
 class CogdoMazeCameraManager:
     def __init__(self, toon, maze, cam, root):
@@ -869,7 +869,7 @@ class CogdoMazeCameraManager:
 
 from direct.gui.OnscreenText import OnscreenText
 
-from pandac.PandaModules import TextNode
+from toontown.toonbase.ToontownModules import TextNode
 
 from toontown.toonbase.ToontownTimer import ToontownTimer
 
@@ -988,11 +988,11 @@ class CogdoMazeAudioManager(DirectObject):
         self.currentMusic = None
 
         self.music = {}
-        for name, file in CogdoMazeGameGlobals.MusicFiles.items():
+        for name, file in list(CogdoMazeGameGlobals.MusicFiles.items()):
             self.music[name] = base.loadMusic(file)
 
         self.sfx = {}
-        for name, file in CogdoMazeGameGlobals.SfxFiles.items():
+        for name, file in list(CogdoMazeGameGlobals.SfxFiles.items()):
             self.sfx[name] = loader.loadSfx(file)
 
         self.accept(CogdoMazeAudioManager.PLAY_SFX_EVENT, self.playSfx)
@@ -1006,7 +1006,7 @@ class CogdoMazeAudioManager(DirectObject):
             self.currentMusic.stop()
 
     def playMusic(self, name):
-        assert name in self.music.keys()
+        assert name in list(self.music.keys())
 
         if self.currentMusic is not None:
             self.stopMusic()
@@ -1017,13 +1017,9 @@ class CogdoMazeAudioManager(DirectObject):
         self.currentMusic.play()
 
     def playSfx(self, name):
-        assert name in self.sfx.keys()
+        assert name in list(self.sfx.keys())
 
         self.sfx[name].play()
 
     def stopAll(self):
         self.stopMusic()
-
-
-
-

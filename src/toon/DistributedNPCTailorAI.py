@@ -1,9 +1,9 @@
 
 from otp.ai.AIBaseGlobal import *
-from pandac.PandaModules import *
-from DistributedNPCToonBaseAI import *
+from toontown.toonbase.ToontownModules import *
+from .DistributedNPCToonBaseAI import *
 
-import ToonDNA
+from . import ToonDNA
 from direct.task.Task import Task
 from toontown.ai import DatabaseObject
 from toontown.estate import ClosetGlobals
@@ -33,8 +33,8 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
         avId = self.air.getAvatarIdFromSender()
         # this avatar has come within range
         assert self.notify.debug("avatar enter " + str(avId))
-        
-        if (not self.air.doId2do.has_key(avId)):
+
+        if (avId not in self.air.doId2do):
             self.notify.warning("Avatar: %s not found" % (avId))
             return
 
@@ -84,7 +84,7 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
                         ClockDelta.globalClockDelta.getRealNetworkTime()])
 
         # Timeout
-        taskMgr.doMethodLater(NPCToons.TAILOR_COUNTDOWN_TIME, 
+        taskMgr.doMethodLater(NPCToons.TAILOR_COUNTDOWN_TIME,
                                 self.sendTimeoutMovie,
                                 self.uniqueName('clearMovie'))
 
@@ -98,7 +98,7 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
         # The timeout has expired.  Restore the client back to his
         # original DNA automatically (instead of waiting for the
         # client to request this).
-        
+
         toon = self.air.doId2do.get(self.customerId)
         # On second thought, we're better off not asserting this.
         #assert(self.busy == self.customerId)
@@ -112,7 +112,7 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
         self.sendUpdate("setMovie", [NPCToons.PURCHASE_MOVIE_TIMEOUT,
                         self.npcId, self.busy,
                         ClockDelta.globalClockDelta.getRealNetworkTime()])
-        
+
         self.sendClearMovie(None)
         return Task.done
 
@@ -155,7 +155,7 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
             self.air.writeServerEvent('suspicious', avId, 'DistributedNPCTailorAI.setDNA: invalid dna: %s' % blob)
             return
 
-        if (self.air.doId2do.has_key(avId)):
+        if (avId in self.air.doId2do):
             av = self.air.doId2do[avId]
             if (finished == 2 and which > 0):
                 # Make sure client was actually able to purchase
@@ -166,8 +166,8 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
                     # SDN:  only add clothes if they have been changed (i.e. if (which & n) == 1)
                     if which & ClosetGlobals.SHIRT:
                         if (av.addToClothesTopsList(self.customerDNA.topTex,
-                                                    self.customerDNA.topTexColor, 
-                                                    self.customerDNA.sleeveTex, 
+                                                    self.customerDNA.topTexColor,
+                                                    self.customerDNA.sleeveTex,
                                                     self.customerDNA.sleeveTexColor) == 1):
                             av.b_setClothesTopsList(av.getClothesTopsList())
                         else:
@@ -182,7 +182,7 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
                     self.air.writeServerEvent(
                         'boughtTailorClothes', avId,
                         "%s|%s|%s" % (self.doId, which, self.customerDNA.asTuple()))
-                    
+
                 else:
                     self.air.writeServerEvent('suspicious', avId, 'DistributedNPCTailorAI.setDNA bogus clothing ticket')
                     self.notify.warning('NPCTailor: setDNA() - client tried to purchase with bogus clothing ticket!')
@@ -239,4 +239,3 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
             self.sendClearMovie(None)
         else:
             self.notify.warning('not busy with avId: %s, busy: %s ' % (avId, self.busy))
-

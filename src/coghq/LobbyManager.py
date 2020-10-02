@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import ToontownGlobals
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal

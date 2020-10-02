@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 
 from direct.directnotify import DirectNotifyGlobal
@@ -19,7 +19,7 @@ class CogdoInterior(Place.Place):
 
     # create a notify category
     notify = DirectNotifyGlobal.directNotify.newCategory("CogdoInterior")
-    
+
     # special methods
 
     def __init__(self, loader, parentFSM, doneEvent):
@@ -57,7 +57,7 @@ class CogdoInterior(Place.Place):
                                          'sit', 'died',
                                          'teleportOut',
                                          'Elevator',
-                                         'crane', 
+                                         'crane',
                                          'DFA', 'trialerFA',]),
                             State.State('sit',
                                         self.enterSit,
@@ -152,7 +152,7 @@ class CogdoInterior(Place.Place):
         assert(self.notify.debug("unload()"))
         # Call up the chain
         Place.Place.unload(self)
-        
+
         self.parentFSM.getStateNamed("cogdoInterior").removeChild(self.fsm)
         del self.parentFSM
         del self.fsm
@@ -242,7 +242,7 @@ class CogdoInterior(Place.Place):
         self.notify.debug("handling elevator done event")
         where = doneStatus['where']
         if (where == 'reject'):
-            # If there has been a reject the Elevator should show an 
+            # If there has been a reject the Elevator should show an
             # elevatorNotifier message and put the toon in the stopped state.
             # Don't request the walk state here. Let the the toon be stuck in the
             # stopped state till the player removes that message from his screen.
@@ -261,7 +261,7 @@ class CogdoInterior(Place.Place):
                               " in handleElevatorDone")
 
     # Game state
-    
+
     def enterGame(self):
         pass
     def exitGame(self):
@@ -293,12 +293,12 @@ class CogdoInterior(Place.Place):
         base.localAvatar.setTeleportAvailable(0)
         base.localAvatar.laffMeter.start()
         base.localAvatar.collisionsOn()
-        
+
     def exitCrane(self):
         assert(self.notify.debug("exitCrane()"))
         base.localAvatar.collisionsOff()
         base.localAvatar.laffMeter.stop()
-        
+
     # walk state inherited from Place.py
     def enterWalk(self, teleportIn=0):
         Place.Place.enterWalk(self, teleportIn)
@@ -316,12 +316,12 @@ class CogdoInterior(Place.Place):
         Place.Place.enterSit(self)
         self.ignore('teleportQuery')
         base.localAvatar.setTeleportAvailable(0)
-        
+
     # teleport in state
 
     def enterTeleportIn(self, requestStatus):
         # We can only teleport in if our goHome or teleport to toon
-        # request failed.  
+        # request failed.
         # Set localToon to the starting position within the
         # interior
         base.localAvatar.setPosHpr(2.5, 11.5, ToontownGlobals.FloorOffset,
@@ -333,7 +333,7 @@ class CogdoInterior(Place.Place):
 
     def enterTeleportOut(self, requestStatus):
         assert(self.notify.debug('enterTeleportOut()'))
-        Place.Place.enterTeleportOut(self, requestStatus, 
+        Place.Place.enterTeleportOut(self, requestStatus,
                         self.__teleportOutDone)
 
     def __teleportOutDone(self, requestStatus):

@@ -3,10 +3,10 @@ ToonBase module: defines constants that are global across Toontown, and
 may have meaning to several classes.
 """
 
-import TTLocalizer
+from . import TTLocalizer
 from otp.otpbase.OTPGlobals import *
 from direct.showbase.PythonUtil import Enum, invertDict
-from pandac.PandaModules import BitMask32, Vec4
+from toontown.toonbase.ToontownModules import BitMask32, Vec4
 
 AccountDatabaseChannelId = 4008
 ToonDatabaseChannelId = 4021
@@ -108,7 +108,7 @@ P_OnAwardOrderListFull = -25 # unlikely, but just in case, he won 30 awards and 
 P_AwardMailboxFull = -24 # the award mailbox is full and can't take more
 P_ItemInPetTricks= -23 # trying to give a pet trick award but the toon has it in his pet tricks
 P_ItemInMyPhrases= -22 # trying to give a speed chat award but the toon has it in his My Phrases
-P_ItemOnAwardOrder = -21 # trying to give an award but the toon has it onAwardOrder, 
+P_ItemOnAwardOrder = -21 # trying to give an award but the toon has it onAwardOrder,
 P_ItemInAwardMailbox = -20 # trying to give an award but the toon has it in his award mailbox
 P_ItemAlreadyWorn = -19  # trying to give an award but the toon is already wearing the clothing item
 P_ItemInCloset = -18  # trying to give an award but the toon has it in his closet
@@ -561,7 +561,7 @@ factoryId2factoryType = {
 
 # Street names
 StreetNames = TTLocalizer.GlobalStreetNames
-StreetBranchZones = StreetNames.keys()
+StreetBranchZones = list(StreetNames.keys())
 
 # hood name list
 Hoods = ( DonaldsDock,
@@ -673,7 +673,7 @@ MinigamePlayerMatrix = {
 
 # we are releasing one minigame a week for the new minigames
 MinigameReleaseDates = {
-    IceGameId : (2008, 8, 05),
+    IceGameId : (2008, 8, 0o5),
     PhotoGameId : (2008,8,13),
     TwoDGameId : (2008,8,20),
     CogThiefGameId : (2008,8,27),
@@ -1559,12 +1559,12 @@ DL = 8
 DefaultWantNewsPageSetting = 1
 
 # GM magic words
-gmMagicWordList = [ 
-    "restock",  "restockUber",  "autoRestock", 
-    "resistanceRestock", "restockSummons", 
-    "uberDrop", "rich", "maxBankMoney", 
+gmMagicWordList = [
+    "restock",  "restockUber",  "autoRestock",
+    "resistanceRestock", "restockSummons",
+    "uberDrop", "rich", "maxBankMoney",
     "toonUp", "rod", "cogPageFull", "pinkSlips",
-    "Tickets",  "newSummons", "who",  "who all" 
+    "Tickets",  "newSummons", "who",  "who all"
  ]
 
 NewsPageScaleAdjust = 0.85

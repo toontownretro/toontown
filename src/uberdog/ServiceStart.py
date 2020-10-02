@@ -1,13 +1,13 @@
 """
 Start the Toontown UberDog (Uber Distributed Object Globals server).
 """
-import __builtin__
+import builtins
 from direct.task.Task import Task
 
 class game:
     name = "uberDog"
     process = "server"
-__builtin__.game = game()
+builtins.game = game()
 
 import time
 import os
@@ -21,7 +21,7 @@ import ihooks
 ihooks.install()
 
 if os.getenv('TTMODELS'):
-    from pandac.PandaModules import getModelPath, Filename
+    from toontown.toonbase.ToontownModules import getModelPath, Filename
     # In the publish environment, TTMODELS won't be on the model
     # path by default, so we always add it there.  In the dev
     # environment, it'll be on the model path already, but it
@@ -51,14 +51,14 @@ try:
                                  'mysqlhost=',
                                  'crDbName=',
                                  ])
-except Exception, e:
-    print e
-    print helpString
+except Exception as e:
+    print(e)
+    print(helpString)
     sys.exit(1)
 
 # Only four of the items are required
 if len(opts) < 4:
-    print helpString
+    print(helpString)
     sys.exit(1)
 
 # Default values
@@ -125,12 +125,12 @@ for opt in opts:
     elif (flag == '--bwDictPath'):
         bwDictPath = value
     elif (flag == '--mysqlhost'):
-        mysqlhost = value    
+        mysqlhost = value
     elif (flag == '--crDbName'):
-        crDbName = value    
+        crDbName = value
     else:
-        print "Error: Illegal option: " + flag
-        print helpString
+        print("Error: Illegal option: " + flag)
+        print(helpString)
         sys.exit(1)
 
 # date_hour_sequence.log will be added to the logfile name by RotatingLog():
@@ -156,7 +156,7 @@ logErr = LogAndOutput(sys.__stderr__, log)
 sys.stdout = logOut
 sys.stderr = logErr
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 # Give Panda the same log we use
 nout = MultiplexStream()
@@ -168,10 +168,10 @@ nout.addSystemDebug()
 # We prefer writing the date on the same line as the starting message,
 # so we can more easily grep for a restart on a particular date in the
 # log files.
-print "\n\nStarting Uberdog on %s port %s. %s %s" % \
-      (uber.mdip, uber.mdport, time.asctime(time.localtime(time.time())), time.tzname[0])
+print("\n\nStarting Uberdog on %s port %s. %s %s" % \
+      (uber.mdip, uber.mdport, time.asctime(time.localtime(time.time())), time.tzname[0]))
 
-print "Initializing the Toontown UberDog (Uber Distributed Object Globals server)..."
+print("Initializing the Toontown UberDog (Uber Distributed Object Globals server)...")
 
 from toontown.uberdog.ToontownUberDog import ToontownUberDog
 from direct.showbase.PythonUtil import *
@@ -215,4 +215,3 @@ except:
     info = describeException()
     #uber.air.writeServerEvent('uberdog-exception', districtNumber, info)
     raise
-

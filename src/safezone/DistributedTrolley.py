@@ -1,8 +1,8 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *
-from TrolleyConstants import *
+from .TrolleyConstants import *
 
 from toontown.toonbase import ToontownGlobals
 from direct.distributed import DistributedObject
@@ -18,7 +18,7 @@ from toontown.toontowngui import TeaserPanel
 class DistributedTrolley(DistributedObject.DistributedObject):
 
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedTrolley")
-    
+
     def __init__(self, cr):
         """__init__(cr)
         """
@@ -92,7 +92,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         exitFog.setLinearFallback(70.0, 999.0, 1000.0)
         self.trolleyExitFog = self.trolleyStation.attachNewNode(exitFog)
         self.trolleyExitFogNode = exitFog
-        
+
         enterFog = Fog("TrolleyEnterFog")
         enterFog.setColor(0.0, 0.0, 0.0)
         enterFog.setLinearOnsetPoint(0.0, 14.0, 0.0)
@@ -117,7 +117,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         for i in range(self.numKeys):
             key = self.keys[i]
             key.setTwoSided(1)
-            ref = self.trolleyCar.attachNewNode('key' + `i` + 'ref')
+            ref = self.trolleyCar.attachNewNode('key' + repr(i) + 'ref')
             ref.iPosHpr(key)
             self.keyRef.append(ref)
             self.keyInit.append(key.getTransform())
@@ -128,7 +128,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         self.frontWheelRef = []
         for i in range(self.numFrontWheels):
             wheel = self.frontWheels[i]
-            ref = self.trolleyCar.attachNewNode('frontWheel' + `i` + 'ref')
+            ref = self.trolleyCar.attachNewNode('frontWheel' + repr(i) + 'ref')
             ref.iPosHpr(wheel)
             self.frontWheelRef.append(ref)
             self.frontWheelInit.append(wheel.getTransform())
@@ -139,7 +139,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         self.backWheelRef = []
         for i in range(self.numBackWheels):
             wheel = self.backWheels[i]
-            ref = self.trolleyCar.attachNewNode('backWheel' + `i` + 'ref')
+            ref = self.trolleyCar.attachNewNode('backWheel' + repr(i) + 'ref')
             ref.iPosHpr(wheel)
             self.backWheelRef.append(ref)
             self.backWheelInit.append(wheel.getTransform())
@@ -159,11 +159,11 @@ class DistributedTrolley(DistributedObject.DistributedObject):
             blendType="easeOut"))
         if base.wantFog:
             trolleyEnterPos.append(Func(self.trolleyCar.setFogOff))
-            
-        trolleyEnterTrack = Sequence(trolleyAnimationReset, 
+
+        trolleyEnterTrack = Sequence(trolleyAnimationReset,
                                      trolleyEnterPos,
                                      name = 'trolleyEnter')
-        # 
+        #
         # How many revolutions of the wheel?
         keyAngle = round(TROLLEY_ENTER_TIME) * 360
         dist = Vec3(trolleyEnterEndPos - trolleyEnterStartPos).length()
@@ -194,8 +194,8 @@ class DistributedTrolley(DistributedObject.DistributedObject):
             blendType="easeIn"))
         if base.wantFog:
             trolleyExitPos.append(Func(self.trolleyCar.setFogOff))
-        
-        
+
+
         trolleyExitBellInterval = SoundInterval(self.trolleyBellSfx, node=self.trolleyCar)
         trolleyExitAwayInterval = SoundInterval(self.trolleyAwaySfx, node=self.trolleyCar)
 
@@ -255,13 +255,13 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         del self.numBackWheels
         del self.backWheelInit
         del self.backWheelRef
-    
+
     def delete(self):
         del self.trolleyAwaySfx
         del self.trolleyBellSfx
         DistributedObject.DistributedObject.delete(self)
         del self.fsm
-    
+
     def setState(self, state, timestamp):
         self.fsm.request(state, [globalClockDelta.localElapsedTime(timestamp)])
 
@@ -286,11 +286,11 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         del self.dialog
         place = base.cr.playGame.getPlace()
         if place:
-            place.fsm.request('walk')         
+            place.fsm.request('walk')
 
     def handleEnterTrolleySphere(self, collEntry):
         self.notify.debug("Entering Trolley Sphere....")
-        
+
         # To counter the toon trap bug
         if(base.localAvatar.getPos(render).getZ() < (self.trolleyCar.getPos(render).getZ())):
             return
@@ -302,8 +302,8 @@ class DistributedTrolley(DistributedObject.DistributedObject):
             if place:
                 place.fsm.request('stopped')
             self.dialog = TeaserPanel.TeaserPanel(pageName='minigames',
-                                                  doneFunc=self.handleOkTeaser)            
-    
+                                                  doneFunc=self.handleOkTeaser)
+
     def handleEnterTrolley(self):
         # Tell the server that this avatar wants to board.
         toon = base.localAvatar
@@ -311,13 +311,13 @@ class DistributedTrolley(DistributedObject.DistributedObject):
 
     def fillSlot0(self, avId):
         self.fillSlot(0, avId)
-    
+
     def fillSlot1(self, avId):
         self.fillSlot(1, avId)
-    
+
     def fillSlot2(self, avId):
         self.fillSlot(2, avId)
-    
+
     def fillSlot3(self, avId):
         self.fillSlot(3, avId)
 
@@ -333,18 +333,18 @@ class DistributedTrolley(DistributedObject.DistributedObject):
                 # Ignore this message if it comes late (e.g., trolley is in the leaving state).
                 if not (self.fsm.getCurrentState().getName() == 'waitEmpty' or
                         self.fsm.getCurrentState().getName() == 'waitCountdown'):
-                    self.notify.warning("Can't board the trolley while in the '%s' state." % 
+                    self.notify.warning("Can't board the trolley while in the '%s' state." %
                         (self.fsm.getCurrentState().getName()))
                     self.loader.place.fsm.request('walk')
                     return
-                    
+
                 self.loader.place.trolley.fsm.request("boarding", [self.trolleyCar])
                 self.localToonOnBoard = 1
-                
+
 				# Tell him he's on the trolley now.
                 self.loader.place.trolley.fsm.request("boarded")
 
-            if self.cr.doId2do.has_key(avId):
+            if avId in self.cr.doId2do:
                 # If the toon exists, look it up
                 toon = self.cr.doId2do[avId]
                 # Parent it to the trolley
@@ -370,7 +370,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
                     Func(self.clearToonTrack, avId),
                     name = toon.uniqueName("fillTrolley"),
                     autoPause = 1)
-                
+
                 track.delayDelete = DelayDelete.DelayDelete(toon, 'Trolley.fillSlot')
                 self.storeToonTrack(avId, track)
                 track.start()
@@ -399,7 +399,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         else:
             toon.startSmooth()
         return
-                
+
     def emptySlot(self, index, avId, timestamp):
         #print "Emptying slot: %d for %d" % (index, avId)
         # If localToon is exiting, he needs to change state
@@ -408,7 +408,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
             # should be taken
             pass
         else:
-            if self.cr.doId2do.has_key(avId):
+            if avId in self.cr.doId2do:
                 # If the toon exists, look it up
                 toon = self.cr.doId2do[avId]
                 # Parent it to render
@@ -416,7 +416,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
                 toon.wrtReparentTo(render)
                 toon.stopSmooth()
                 # toon.setAnimState("run", 1.0)
-                
+
                 # Place it on the appropriate spot relative to the
                 # trolley station
 
@@ -468,7 +468,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
 
     def setMinigameZone(self, zoneId, minigameId):
         # This is how the server puts the clients into a minigame
-        self.localToonOnBoard = 0        
+        self.localToonOnBoard = 0
         messenger.send("playMinigame", [zoneId, minigameId])
 
     def __enableCollisions(self):
@@ -482,7 +482,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         self.ignore('entertrolley_sphere')
         self.ignore('enterTrolleyOK')
         self.trolleySphereNode.setCollideMask(BitMask32(0))
-    
+
     ##### Off state #####
 
     def enterOff(self):
@@ -490,7 +490,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
 
     def exitOff(self):
         return None
-    
+
     ##### Entering state #####
 
     def enterEntering(self, ts):
@@ -552,7 +552,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
     def handleExitButton(self):
         # This gets called when the exit button gets pushed.
         self.sendUpdate("requestExit")
-        
+
     def exitWaitCountdown(self):
         # Toons may not attempt to board the trolley if it isn't waiting
         self.__disableCollisions()
@@ -562,7 +562,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         self.clock.removeNode()
         del self.clock
         del self.clockNode
-        
+
     ##### Leaving state #####
 
     def enterLeaving(self, ts):
@@ -571,7 +571,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         if self.localToonOnBoard:
             if hasattr(self.loader.place, 'trolley') and self.loader.place.trolley:
                 self.loader.place.trolley.fsm.request("trolleyLeaving")
-        
+
     def exitLeaving(self):
         self.trolleyExitTrack.finish()
 
@@ -623,11 +623,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         keyList = []
         for key in self.__toonTracks:
             keyList.append(key)
-            
-        for key in keyList:
-            if self.__toonTracks.has_key(key):
-                self.clearToonTrack(key)
-            
-        
 
-        
+        for key in keyList:
+            if key in self.__toonTracks:
+                self.clearToonTrack(key)

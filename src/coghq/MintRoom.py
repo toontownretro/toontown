@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from direct.fsm import ClassicFSM, State
 from toontown.toonbase import ToontownGlobals
@@ -11,7 +11,7 @@ class MintRoom(DirectObject.DirectObject):
     adjacent rooms."""
     FloorCollPrefix = 'mintFloorColl'
     CashbotMintDoorFrame = 'phase_10/models/cashbotHQ/DoorFrame'
-    
+
     def __init__(self, path=None):
         if path is not None:
             if path in MintRoomSpecs.CashbotMintConnectorRooms:
@@ -19,7 +19,7 @@ class MintRoom(DirectObject.DirectObject):
             else:
                 loadFunc = loader.loadModel
             self.setGeom(loadFunc(path))
-        
+
         self.localToonFSM = ClassicFSM.ClassicFSM('MintRoomLocalToonPresent',
                                           [State.State('off',
                                                        self.enterLtOff,
@@ -48,7 +48,7 @@ class MintRoom(DirectObject.DirectObject):
         self.localToonFSM.request('notPresent')
     def exit(self):
         self.localToonFSM.requestFinalState()
-        
+
     def setRoomNum(self, num):
         # First room in the mint is room zero, first hallway is one, second
         # room is two, etc.
@@ -95,7 +95,7 @@ class MintRoom(DirectObject.DirectObject):
     def initFloorCollisions(self):
         # call this after calling setGeom and before adding anything under
         # the room geometry
-        
+
         # we handle floor collisions differently from a standard level. Our
         # entire level is going to be treated as one 'zone' (this level
         # represents one room of the mint)
@@ -158,4 +158,3 @@ class MintRoom(DirectObject.DirectObject):
             for axis in self.axes:
                 axis.removeNode()
             del self.axes
-

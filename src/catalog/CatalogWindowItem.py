@@ -1,6 +1,6 @@
-from pandac.PandaModules import *
-import CatalogAtticItem
-import CatalogItem
+from toontown.toonbase.ToontownModules import *
+from . import CatalogAtticItem
+from . import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 
@@ -39,9 +39,9 @@ class CatalogWindowItem(CatalogAtticItem.CatalogAtticItem):
     """CatalogWindowItem
 
     # This represents a view to hang outside a window in a house.
-    
+
     """
-    
+
     def makeNewItem(self, windowType, placement = None):
         self.windowType = windowType
         self.placement = placement
@@ -72,7 +72,7 @@ class CatalogWindowItem(CatalogAtticItem.CatalogAtticItem):
         # Returns the elapsed time in minutes from purchase to
         # delivery for this particular item.
         return 4 * 60  # 4 hours.
-    
+
     def getPicture(self, avatar):
         # Returns a (DirectWidget, Interval) pair to draw and animate a
         # little representation of the item, or (None, None) if the
@@ -107,12 +107,12 @@ class CatalogWindowItem(CatalogAtticItem.CatalogAtticItem):
             if not bgNodePath.isEmpty():
                 # Put it at the front of the list to be drawn first
                 bgNodePath.reparentTo(model, -1)
-        
+
         # Get rid of the window frame that is in the model
         windowFrame = model.find("**/frame")
         if not windowFrame.isEmpty():
             windowFrame.removeNode()
-            
+
         model.setPos(0,2,0)
         model.setScale(0.4)
         model.reparentTo(frame)

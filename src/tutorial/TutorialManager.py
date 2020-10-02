@@ -1,5 +1,5 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
@@ -57,7 +57,7 @@ class TutorialManager(DistributedObject.DistributedObject):
         # reset the toon properties in preparation for the tutorial
         # (in case they bailed halfway through before)
         self.acceptOnce("toonArrivedTutorial", self.d_toonArrived)
-        
+
     def __handleStopTutorial(self):
         base.localAvatar.cantLeaveGame = 0
         self.d_allDone()

@@ -1,6 +1,6 @@
 
-from pandac.PandaModules import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.DirectObject import DirectObject
 from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleProps import *
@@ -10,12 +10,12 @@ class EffectManager(DirectObject):
 
     def __init__(self):
         self.effectList = []
-    
+
     def delete(self):
         for effect in effectList:
             self.__removeEffect(effect)
             #effect.finish()
-    
+
     def addSplatEffect(self, spawner, splatName = "splat-creampie", time = 1, size = 6, parent = render):
         splat = globalPropPool.getProp(splatName)
         splatSeq = Sequence()
@@ -31,13 +31,13 @@ class EffectManager(DirectObject):
         splatSeq.append(splatRemove)
         splatSeq.start()
         self.effectList.append(splatSeq)
-        
+
     def __showProp(self, prop, size, parent, pos):
         prop.reparentTo(parent)
         prop.setScale(size)
         prop.setBillboardPointEye()
         prop.setPos(pos + Vec3(0, 0, size/2))
-        
+
     def __removeEffect(self, effect):
         if effect.isPlaying():
             effect.finish()

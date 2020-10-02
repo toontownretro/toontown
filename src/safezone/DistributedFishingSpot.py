@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directtools.DirectGeometry import LineNodePath
 
 from direct.distributed import DistributedObject
@@ -126,7 +126,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         if self.guiTrack != None:
             if self.guiTrack.isPlaying():
                 self.guiTrack.finish()
-            self.guiTrack = None        
+            self.guiTrack = None
         self.__hideBob()
         self.nodePath.detachNode()
         self.__unmakeGui()
@@ -156,7 +156,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         # repositioned around according to our setPos.
         self.nodePath = NodePath(self.uniqueName('FishingSpot'))
         self.angleNP = self.nodePath.attachNewNode(self.uniqueName('FishingSpotAngleNP'))
-        
+
         # Make a collision sphere to detect when an avatar enters the
         # fishing spot.
         self.collSphere = CollisionSphere(0, 0, 0, self.getSphereRadius())
@@ -185,7 +185,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         # and accept the sphere event
         # Put the fishing spot in the world
         self.nodePath.reparentTo(self.getParentNodePath())
-        
+
         # When the localToon steps onto the fishing spot, we call
         # requestEnter.
         self.accept(self.uniqueName('enterFishingSpotSphere'),
@@ -243,7 +243,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             if place:
                 place.fsm.request('stopped')
             self.dialog = TeaserPanel.TeaserPanel(pageName='fishing',
-                                                  doneFunc=self.handleOkTeaser)              
+                                                  doneFunc=self.handleOkTeaser)
 
     def d_requestEnter(self):
         assert self.notify.debugStateCall(self)
@@ -305,7 +305,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
 
         if self.avId == 0:
             # No one is in the fishing spot; it's available.
-            self.collSphere.setTangible(0)            
+            self.collSphere.setTangible(0)
         else:
             # The fishing spot is occupied; no one else may be here.
             self.collSphere.setTangible(1)
@@ -444,7 +444,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             self.placedAvatar = 1
             self.__holdPole()
             self.av.setPosHpr(0, 0, 0, 0, 0, 0)
-        
+
     def __holdPole(self):
         assert self.notify.debugStateCall(self)
         if self.poleNode != []:
@@ -539,7 +539,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         z = math.sin(task.time * 1.8) * 0.08
         self.bob.setZ(self.waterLevel + z)
         return Task.cont
-        
+
     def __userExit(self, event=None):
         assert self.notify.debugStateCall(self)
         if self.localToonFishing:
@@ -586,11 +586,11 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         target = base.cr.doFind("DistributedTarget")
         if target:
             target.hideGui()
-        
+
         # Should guard this for publish
         if base.wantBingo:
             self.__setBingoCastGui()
-        
+
         # I need to make these helper funcs because the event from bind
         # adds a mouse parameter onto the message that screws up the fsm request
         def requestLocalAdjusting(mouseEvent):
@@ -601,7 +601,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         def requestLocalCasting(mouseEvent):
             if not (self.av.isFishTankFull() and self.__allowSellFish()):
                 self.fsm.request("localCasting")
-            
+
         # Lets go ahead and bind both left and right mouse buttons
         # so nobody is confused
         self.castButton.bind(DGG.B1PRESS, requestLocalAdjusting)
@@ -612,20 +612,20 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             (len(self.av.fishCollection) == 0) and
             (len(self.av.fishTank) == 0)):
             self.__showHowTo(TTLocalizer.FishingHowToFirstTime)
-        elif (base.wantBingo and 
+        elif (base.wantBingo and
               self.pond.hasPondBingoManager() and
               not self.av.bFishBingoTutorialDone):
             self.__showHowTo(TTLocalizer.FishBingoHelpMain)
             self.av.b_setFishBingoTutorialDone(True)
-            
+
 
     def __moneyChange(self, money):
         self.jar["text"] = str(money)
-   
+
     def __initCastGui(self):
         assert self.notify.debugStateCall(self)
         self.timer.countdown(FishGlobals.CastTimeout)
-            
+
     def __showQuestItem(self, itemId):
         assert self.notify.debugStateCall(self)
         # Tells the user what quest item he just caught.
@@ -710,8 +710,8 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
                 self.fishPanel.setPos(0,0,0.5)
         else:
             self.fishPanel.setPos(0,0,0.5)
-        
-        
+
+
     def __updateFishTankGui(self):
         assert self.notify.debugStateCall(self)
         # Update our fish tank display base on the latest value we have from the AI
@@ -719,7 +719,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         lenFishTank = len(fishTank)
         maxFishTank = self.av.getMaxFishTank()
         self.bucket['text'] = ("%s/%s" % (lenFishTank, maxFishTank))
-            
+
     def __showFailureReason(self, code):
         assert self.notify.debugStateCall(self)
         # Tells the user why he caught nothing.
@@ -778,7 +778,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.__makeGui()
         self.__showFailureReason(FishGlobals.OverTankLimit)
         self.castButton['state'] = DGG.DISABLED
-        
+
     def __hideCastGui(self):
         assert self.notify.debugStateCall(self)
 
@@ -786,7 +786,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         target = base.cr.doFind("DistributedTarget")
         if target:
             target.showGui()
-        
+
         if self.madeGui:
             self.timer.hide()
             self.castGui.detachNode()
@@ -816,7 +816,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.timer = ToontownTimer.ToontownTimer()
         self.timer.posInTopRightCorner()
         self.timer.hide()
-        
+
         self.castGui = loader.loadModel("phase_4/models/gui/fishingGui")
         self.castGui.setScale(0.67)
         self.castGui.setPos(0,1,0)
@@ -950,7 +950,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.itemJellybean.hide()
         self.itemBoot.hide()
         self.itemPackage.hide()
-        
+
         self.failureDialog = TTDialog.TTGlobalDialog(
             dialogName = self.uniqueName("failureDialog"),
             doneEvent = self.uniqueName("failureDialog"),
@@ -960,7 +960,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             cancelButtonText = TTLocalizer.FishingExit,
             )
         self.failureDialog.hide()
-        
+
         self.sellFishDialog = TTDialog.TTGlobalDialog(
             dialogName = self.uniqueName("sellFishDialog"),
             doneEvent = self.uniqueName("sellFishDialog"),
@@ -969,7 +969,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             style = TTDialog.YesNo,
             )
         self.sellFishDialog.hide()
-        
+
         self.sellFishConfirmDialog = TTDialog.TTGlobalDialog(
             dialogName = self.uniqueName("sellFishConfirmDialog"),
             doneEvent = self.uniqueName("sellFishConfirmDialog"),
@@ -978,7 +978,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             style = TTDialog.Acknowledge,
             )
         self.sellFishConfirmDialog.hide()
-        
+
         self.brokeDialog = TTDialog.TTGlobalDialog(
             dialogName = self.uniqueName("brokeDialog"),
             doneEvent = self.uniqueName("brokeDialog"),
@@ -1025,7 +1025,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             self.jar.reparentTo(jar)
 
             base.setCellsAvailable(base.rightCells, 0)
-            
+
             bucket.setScale(0.9)
             bucket.setX(-1.9)
             bucket.setZ(-.11)
@@ -1040,11 +1040,11 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             bucket = self.castGui.find("**/bucket")
             bucket.setScale(1)
             bucket.setPos(0,0,0)
-            
+
             jar = self.castGui.find("**/jar")
             jar.setScale(1)
             jar.setPos(0,0,0)
-            
+
 
     ############################################################
     # Method: resetCastGui
@@ -1116,7 +1116,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
 
         self.guiTrack = Parallel( bucketTrack, jarTrack )
         self.guiTrack.start()
-    
+
     ############################################################
     # Method: setJarAmount
     # Purpose: This method sets the new jellybean count.
@@ -1127,7 +1127,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         if self.madeGui:
             money = int(self.jar['text']) + amount
             pocketMoney = min(money, self.av.getMaxMoney())
-            self.jar.setProp('text', str(pocketMoney))        
+            self.jar.setProp('text', str(pocketMoney))
 
     def __unmakeGui(self):
         assert self.notify.debugStateCall(self)
@@ -1147,7 +1147,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.brokeDialog.cleanup()
         self.howToDialog.cleanup()
         self.castGui.removeNode()
-        self.madeGui = 0        
+        self.madeGui = 0
 
     def localAdjustingCastTask(self, state):
         assert self.notify.debugStateCall(self)
@@ -1169,12 +1169,12 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         dist = math.sqrt(deltaX * deltaX + deltaY * deltaY)
         delta = (dist/0.5)
         self.power = max(min(abs(delta), 1.0), 0.0)
-        
+
         # Based on the current power reading, pull the rod back
         # This is done by setting the T value of the track containing
         # that animation
         self.castTrack.setT(0.2 + self.power * 0.7)
-        
+
         # Calculate the angle we are casting at
         angle = rad2Deg(math.atan(deltaX/deltaY))
         if self.power < 0.25:
@@ -1194,7 +1194,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             angle = maxAngle
         else:
             self.arrow.setColorScale(1, 1 - math.pow(self.power, 3), 0.1, 0.7)
-            
+
         # Scale the arrow tale based on the power so it looks like you
         # are pulling the arrow out of the cast button
         self.arrowTail.setScale(0.075,0.075,self.power*0.2)
@@ -1217,7 +1217,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         angle = deltaX * -180.0
         self.angleNP.setH(self.startAngleNP - angle)
         return Task.cont
-        
+
     def getMouse(self):
         assert self.notify.debugStateCall(self)
         if (base.mouseWatcherNode.hasMouse()):
@@ -1280,7 +1280,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
     def enterOff(self):
         assert self.notify.debugStateCall(self)
         pass
-    
+
     def exitOff(self):
         assert self.notify.debugStateCall(self)
         pass
@@ -1347,7 +1347,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
     ############################################################
     def __appendBingoMethod(self, interval, callback):
         interval.append(Func(callback))
-    
+
     def exitWaiting(self):
         assert self.notify.debugStateCall(self)
         self.track.finish()
@@ -1418,7 +1418,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             self.av.loop('pole-neutral')
             self.track = None
             return
-            
+
         # Subtract money from jellybean jar gui (the AI does the real work)
         castCost = FishGlobals.getCastCost(self.av.getFishingRod())
         self.jar['text'] = str(max(self.av.getMoney() - castCost, 0))
@@ -1447,7 +1447,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             self.castTrack.pause()
         self.__hideLine()
         self.__hideBob()
-    
+
     def enterDistCasting(self, power, h):
         assert self.notify.debugStateCall(self)
         assert(not self.localToonFishing)
@@ -1562,11 +1562,11 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             self.fishPanel.hide()
             self.fishPanel.destroy()
             self.fishPanel = None
-        
+
     def hideBootPanel(self):
         if self.madeGui and self.itemBoot:
             self.__itemGuiClose()
-        
+
     def exitReward(self):
         assert self.notify.debugStateCall(self)
         if self.localToonFishing:
@@ -1600,7 +1600,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         if self.localToonFishing:
             self.track.append(Func(self.fsm.requestFinalState))
         self.track.start()
-        
+
     def exitLeaving(self):
         assert self.notify.debugStateCall(self)
         self.track.pause()
@@ -1638,4 +1638,3 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
                 if hoodId == ToontownGlobals.MyEstate:
                     return True
         return False
-        

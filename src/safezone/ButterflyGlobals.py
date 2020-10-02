@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 import random
 
@@ -11,9 +11,9 @@ states = {
     LANDED : 'Landed',
     }
 
-NUM_BUTTERFLIES = (6, 36, 5) 
+NUM_BUTTERFLIES = (6, 36, 5)
 NUM_BUTTERFLY_AREAS = (4, 1, 4)
-BUTTERFLY_SPEED = 2.0 
+BUTTERFLY_SPEED = 2.0
 BUTTERFLY_HEIGHT = (2.2, 3.2, 2.2)
 BUTTERFLY_TAKEOFF = (1.4, 1.8, 1.4)
 BUTTERFLY_LANDING = (1.4, 1.8, 1.4)
@@ -96,7 +96,7 @@ ButterflyPoints = ((
          Point3(70.0, 95.0, 3.1),
         )),
         # Daisy Gardens points
-        ( 
+        (
         (Point3(-7.9, 22.9, 0.05),
          Point3(-8.0, 17.0, 2.1),
          Point3(-7.5, 18.0, 2.1),
@@ -163,7 +163,7 @@ ButterflyPoints = ((
          Point3(72.9, 121.8, 0.05),
         ),),
         # Estate points
-        ( 
+        (
         (Point3(-40, -137, 0.025),
          Point3(2.35, -167.95, 0.025),
          Point3(70.8, -125.3, 0.025),
@@ -208,7 +208,7 @@ ButterflyPoints = ((
          Point3(-48.993, -21.968, 3.98),
          Point3(-30.088, -5.987, 7.025),
         )),
-       ) 
+       )
 
 # Nowadays, because hoods may come and go (e.g. Estates and
 # WelcomeValley), we have to allocate all of the butterfly indices
@@ -216,19 +216,19 @@ ButterflyPoints = ((
 allocatedIndexes = {}
 
 def generateIndexes(doId, playground):
-    assert((doId != None) and (not allocatedIndexes.has_key(doId)))
+    assert((doId != None) and (doId not in allocatedIndexes))
 
     # Build a list of used and unused index numbers for each area of
     # the indicated playground.
     usedI = []
     unusedI = []
     for area in ButterflyPoints[playground]:
-        usedI.append(range(0, len(area)))
+        usedI.append(list(range(0, len(area))))
         unusedI.append([])
     allocatedIndexes[doId] = (usedI, unusedI)
 
 def clearIndexes(doId):
-    if (allocatedIndexes.has_key(doId)):
+    if (doId in allocatedIndexes):
         del allocatedIndexes[doId]
 
 def getFirstRoute(playground, area, doId):
@@ -241,7 +241,7 @@ def getFirstRoute(playground, area, doId):
 def __getCurrentPos(playground, area, doId):
     """ Return a valid starting point
     """
-    if (allocatedIndexes.has_key(doId)):
+    if (doId in allocatedIndexes):
         unusedI = allocatedIndexes[doId][0][area]
         usedI = allocatedIndexes[doId][1][area]
     else:
@@ -259,9 +259,9 @@ def __getCurrentPos(playground, area, doId):
 
 def getNextPos(currentPos, playground, area, doId):
     """ Return a tuple of a Point3, its index, and the time required to
-        get there 
+        get there
     """
-    if (allocatedIndexes.has_key(doId)):
+    if (doId in allocatedIndexes):
         unusedI = allocatedIndexes[doId][0][area]
         usedI = allocatedIndexes[doId][1][area]
     else:
@@ -285,7 +285,7 @@ def getNextPos(currentPos, playground, area, doId):
     return (nextPos, index, time)
 
 def recycleIndex(index, playground, area, doId):
-    if (allocatedIndexes.has_key(doId)):
+    if (doId in allocatedIndexes):
         unusedI = allocatedIndexes[doId][0][area]
         usedI = allocatedIndexes[doId][1][area]
     else:

@@ -1,21 +1,21 @@
-from pandac.PandaModules import *
-from DistributedNPCToon import *
+from toontown.toonbase.ToontownModules import *
+from .DistributedNPCToon import *
 
 class DistributedNPCFlippyInToonHall(DistributedNPCToon):
 
     def __init__(self, cr):
         assert self.notify.debug("__init__")
         DistributedNPCToon.__init__(self, cr)
-            
+
     def getCollSphereRadius(self):
         return 4
-        
+
     def initPos(self):
         self.clearMat()
         self.setScale(1.25)
         #self.setHpr(180, 0, 0)
         pass
-        
+
     def handleCollisionSphereEnter(self, collEntry):
         """
         Response for a toon walking up to this NPC
@@ -35,4 +35,4 @@ class DistributedNPCFlippyInToonHall(DistributedNPCToon):
             if place:
                 place.fsm.request('stopped')
             self.dialog = TeaserPanel.TeaserPanel(pageName='quests',
-                                                  doneFunc=self.handleOkTeaser)        
+                                                  doneFunc=self.handleOkTeaser)

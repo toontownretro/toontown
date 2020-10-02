@@ -12,7 +12,7 @@ from direct.showbase.EventManagerGlobal import *
 from direct.task.TaskManagerGlobal import *
 from direct.task.Task import Task
 from direct.directnotify.DirectNotifyGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from otp.launcher.LauncherBase import LauncherBase
 from toontown.toonbase import TTLocalizer
@@ -37,12 +37,12 @@ class QuickLauncher(LauncherBase):
     CompressionExt = 'bz2'
     PatchExt = 'pch'
 
-    def __init__(self):        
-        print "Running: ToontownQuickLauncher"
-        
+    def __init__(self):
+        print("Running: ToontownQuickLauncher")
+
         # Used to pass to server for authentication
         self.toontownBlueKey = "TOONTOWN_BLUE"
-        
+
         # Used to communicate status back to the Updating Toontown flash movie
         self.launcherMessageKey = "LAUNCHER_MESSAGE"
         # Is the flash game1 done? (int 1 or 0)
@@ -56,10 +56,10 @@ class QuickLauncher(LauncherBase):
         self.useTTSpecificLogin = config.GetBool('tt-specific-login', 0)
         # Used to pass to server for authentication
         if self.useTTSpecificLogin :
-            self.toontownPlayTokenKey = "LOGIN_TOKEN"            
+            self.toontownPlayTokenKey = "LOGIN_TOKEN"
         else:
             self.toontownPlayTokenKey = "PLAYTOKEN"
-        print ("useTTSpecificLogin=%s" % self.useTTSpecificLogin)
+        print(("useTTSpecificLogin=%s" % self.useTTSpecificLogin))
         self.contentDir = '/'
 
         # HACK: to make connecting to server happy
@@ -73,11 +73,11 @@ class QuickLauncher(LauncherBase):
         # Before you go further, let's parse the web acct parameters
         self.webAcctParams = "WEB_ACCT_PARAMS"
         self.parseWebAcctParams()
-        
+
         # This will cause the game to start immediately
         self.showPhase = -1
         self.maybeStartGame()
-        
+
         self.mainLoop()
 
     def addDownloadVersion(self, serverFilePath):
@@ -161,8 +161,8 @@ class QuickLauncher(LauncherBase):
             if self.currentMfname in self.requiredInstallFiles:
                 self.requiredInstallFiles.remove(self.currentMfname)
             else:
-                self.notify.warning("avoiding crash ValueError: list.remove(x): x not in list") 
-            
+                self.notify.warning("avoiding crash ValueError: list.remove(x): x not in list")
+
             curVer, expectedSize, expectedMd5 = self.mfDetails[self.currentMfname]
             self.curPhaseFile = Filename(self.topDir, Filename(self.currentMfname))
             self.notify.info('working on: %s' % self.curPhaseFile)
@@ -189,10 +189,10 @@ class QuickLauncher(LauncherBase):
         if not self.requiredInstallFiles:
             self.notify.info('ALL PHASES COMPLETE')
             messenger.send("launcherAllPhasesComplete")
-            self.cleanup()            
+            self.cleanup()
             return
 
-        raise StandardError, 'Some phases not listed in LauncherPhases: %s' % (self.requiredInstallFiles)
+        raise Exception('Some phases not listed in LauncherPhases: %s' % (self.requiredInstallFiles))
 
     def getDecompressMultifile(self, mfname):
         if not self.DecompressMultifiles:
@@ -263,7 +263,7 @@ class QuickLauncher(LauncherBase):
             renamed = task.mfFilename.renameTo(realMf)
             if not renamed:
                 self.notify.warning('rename failed on file: %s' % task.mfFilename.cStr())
-            
+
             # Decompression is done
             self.launcherMessage(self.Localizer.LauncherDecompressingPercent %
                                      {"name": self.currentPhaseName,
@@ -287,16 +287,16 @@ class QuickLauncher(LauncherBase):
 
         self.finalizePhase()
 
-        self.notify.info('Done updating multifiles in phase: ' + `self.currentPhase`)
+        self.notify.info('Done updating multifiles in phase: ' + repr(self.currentPhase))
         self.progressSoFar += int(round(self.phaseOverallMap[self.currentPhase]*100))
-        self.notify.info('progress so far ' + `self.progressSoFar`)
-        messenger.send('phaseComplete-' + `self.currentPhase`)
+        self.notify.info('progress so far ' + repr(self.progressSoFar))
+        messenger.send('phaseComplete-' + repr(self.currentPhase))
 
         self.resumeInstall()
 
     def finalizePhase(self):
         # Get this phase ready for the game to use.
-        
+
         mfFilename = Filename(self.topDir, Filename(self.currentMfname))
         self.MakeNTFSFilesGlobalWriteable(mfFilename)
 
@@ -304,7 +304,7 @@ class QuickLauncher(LauncherBase):
         # load files.
         vfs = VirtualFileSystem.getGlobalPtr()
         vfs.mount(mfFilename, '.', VirtualFileSystem.MFReadOnly)
-        
+
         # Ok, set the progress to 100 now
         self.setPercentPhaseComplete(self.currentPhase, 100)
 
@@ -341,11 +341,11 @@ class QuickLauncher(LauncherBase):
             s = self.getRegistry(self.webAcctParams)
 
         self.notify.info("webAcctParams = %s" % s)
-        
+
         # Immediately clear out the Params so it will be more
         # difficult for a hacker to pull it out of the registry.
         self.setRegistry(self.webAcctParams, "")
-       
+
         # Parse the web account params to get chat related values
         # split s to the '&'
         l = s.split('&')
@@ -362,12 +362,12 @@ class QuickLauncher(LauncherBase):
             elif len(args) == 2:
                 name, value = args
                 dict[name] = int(value)
-        if dict.has_key('secretsNeedsParentPassword'):
+        if 'secretsNeedsParentPassword' in dict:
             self.secretNeedsParentPasswordKey = 1 and dict['secretsNeedsParentPassword']
             self.notify.info('secretNeedsParentPassword = %d' % self.secretNeedsParentPasswordKey)
         else:
             self.notify.warning('no secretNeedsParentPassword token in webAcctParams')
-        if dict.has_key('chatEligible'):
+        if 'chatEligible' in dict:
             self.chatEligibleKey = 1 and dict['chatEligible']
             self.notify.info('chatEligibleKey = %d' % self.chatEligibleKey)
         else:
@@ -417,7 +417,7 @@ class QuickLauncher(LauncherBase):
         self.notify.info("getRegistry %s" % ((name, missingValue),))
         self.notify.info("self.VISTA = %s" % self.VISTA)
         self.notify.info("checking env" % os.environ)
-        
+
         if (missingValue == None):
             missingValue = ""
         value = os.environ.get(name, missingValue)
@@ -445,7 +445,7 @@ class QuickLauncher(LauncherBase):
         # return None
         # RAU oh yes we do! we need it for parent password authentication
         return self.getValue('ACCOUNT_SERVER', '')
-        
+
 
     def getGame2Done(self):
         # This function exists only to allow for backwards compatibility
@@ -469,7 +469,7 @@ class QuickLauncher(LauncherBase):
     def getParentPasswordSet(self):
         """
         Get the parent password set key
-        """        
+        """
         if self.useTTSpecificLogin:
             # ok we don't get web account params,
             # this value should have been set from the login response

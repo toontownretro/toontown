@@ -1,11 +1,11 @@
-import CatalogItem
+from . import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toon import ToonDNA
 import random
 from direct.showbase import PythonUtil
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 CTArticle = 0
 CTString = 1
@@ -39,23 +39,23 @@ ClothingTypes = {
     117 : (ABoysShirt, 'c_ss2', 80),   # Series 1
     118 : (ABoysShirt, 'c_bss1', 80),  # Series 1
     119 : (ABoysShirt, 'c_bss2', 80),  # Series 1
-    
+
     120 : (ABoysShirt, 'c_ss3', 80),   # Series 2
     121 : (ABoysShirt, 'c_bss3', 80),  # Series 2
     122 : (ABoysShirt, 'c_bss4', 80),  # Series 2
 
     123 : (ABoysShirt, 'c_ss4', 120),   # Series 3
     124 : (ABoysShirt, 'c_ss5', 120),   # Series 3
- 
+
     125 : (AShirt, 'c_ss6', 120),   # Series 4
     126 : (AShirt, 'c_ss7', 120),   # Series 4
     127 : (AShirt, 'c_ss8', 120),   # Series 4
     128 : (AShirt, 'c_ss9', 120),   # Series 4
     129 : (AShirt, 'c_ss10', 120),   # Series 4
     130 : (AShirt, 'c_ss11', 120),   # Series 4
-    
+
     131 : (ABoysShirt, 'c_ss12', 160),   # Series 7
-    
+
     # Basic girl's shirts (also available from Make-A-Toon)
     201 : (AGirlsShirt, 'gss1', 40),
     202 : (AGirlsShirt, 'gss2', 40),
@@ -68,7 +68,7 @@ ClothingTypes = {
     209 : (AGirlsShirt, 'gss9', 40),
     211 : (AGirlsShirt, 'gss11', 40),
     215 : (AGirlsShirt, 'gss15', 40),
-    
+
     # Catalog exclusive shirts are a bit pricier
     216 : (AGirlsShirt, 'c_ss1', 80),  # Series 1
     217 : (AGirlsShirt, 'c_ss2', 80),  # Series 1
@@ -184,19 +184,19 @@ ClothingTypes = {
     1708 : (AShirt, 'sa_ss9', 200),
     1709 : (AShirt, 'sa_ss10', 200),
     1710 : (AShirt, 'sa_ss11', 200),
-    
+
     1711 : (ABoysShorts, 'sa_bs1', 200),
     1712 : (ABoysShorts, 'sa_bs2', 200),
     1713 : (ABoysShorts, 'sa_bs3', 200),
     1714 : (ABoysShorts, 'sa_bs4', 200),
     1715 : (ABoysShorts, 'sa_bs5', 200),
-    
+
     1716 : (AGirlsSkirt, 'sa_gs1', 200),
     1717 : (AGirlsSkirt, 'sa_gs2', 200),
     1718 : (AGirlsSkirt, 'sa_gs3', 200),
     1719 : (AGirlsSkirt, 'sa_gs4', 200),
     1720 : (AGirlsSkirt, 'sa_gs5', 200),
-    
+
     1721 : (AShirt, 'sa_ss12', 200),
     1722 : (AShirt, 'sa_ss13', 200),
     1723 : (AShirt, 'sa_ss14', 250),
@@ -209,28 +209,28 @@ ClothingTypes = {
     1730 : (AShirt, 'sa_ss21', 200),
     1731 : (AShirt, 'sa_ss22', 200),
     1732 : (AShirt, 'sa_ss23', 200),
-    
+
     1733 : (ABoysShorts, 'sa_bs6', 200),
     1734 : (ABoysShorts, 'sa_bs7', 250),
     1735 : (ABoysShorts, 'sa_bs8', 250),
     1736 : (ABoysShorts, 'sa_bs9', 200),
     1737 : (ABoysShorts, 'sa_bs10', 200),
-    
+
     1738 : (AGirlsSkirt, 'sa_gs6', 200),
     1739 : (AGirlsSkirt, 'sa_gs7', 250),
     1740 : (AGirlsSkirt, 'sa_gs8', 250),
     1741 : (AGirlsSkirt, 'sa_gs9', 200),
     1742 : (AGirlsSkirt, 'sa_gs10', 200),
-    
+
     1743 : (AShirt, 'sa_ss24', 250),
     1744 : (AShirt, 'sa_ss25', 250),
     1745 : (ABoysShorts, 'sa_bs11', 250),
     1746 : (ABoysShorts, 'sa_bs12', 250),
     1747 : (AGirlsSkirt, 'sa_gs11', 250),
     1748 : (AGirlsSkirt, 'sa_gs12', 250),
-    
+
     # I'm setting the cost of any Code Redemption clothing item to an obvious
-    # 5000 jellybeans. They should never be offered for sale in the catalog. 
+    # 5000 jellybeans. They should never be offered for sale in the catalog.
     # They should only be available through the code redemption system.
     1749 : (AShirt, 'sil_1', 1),      # Silly Mailbox Shirt
     1750 : (AShirt, 'sil_2', 1),      # Silly Trash Can Shirt
@@ -242,7 +242,7 @@ ClothingTypes = {
     1756 : (AGirlsShorts, 'sil_gs1', 1),    # Silly Cogbuster Shorts
     1757 : (AShirt, 'sil_7', 20),      # Victory Party Shirt 1
     1758 : (AShirt, 'sil_8', 20),      # Victory Party Shirt 2
-    
+
     1762 : (AShirt, 'sa_ss26', 200),
     }
 
@@ -258,7 +258,7 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
     either a girl or a boy toon.
 
     """
-    
+
     def makeNewItem(self, clothingType, colorIndex, loyaltyDays = 0):
         self.clothingType = clothingType
         self.colorIndex = colorIndex
@@ -278,27 +278,27 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         if article == AShirt or article == AShorts:
             # This article is androgynous.
             return 0
-            
+
         forBoys = (article == ABoysShirt or article == ABoysShorts)
         if avatar.getStyle().getGender() == 'm':
             return not forBoys
         else:
             return forBoys
-            
+
     def forBoysOnly(self):
         article = ClothingTypes[self.clothingType][CTArticle]
         if (article == ABoysShirt or article == ABoysShorts):
             return 1
         else:
             return 0
-            
+
     def forGirlsOnly(self):
         article = ClothingTypes[self.clothingType][CTArticle]
         if (article == AGirlsShirt or article == AGirlsSkirt or article == AGirlsShorts):
             return 1
         else:
             return 0
-        
+
 
     def getPurchaseLimit(self):
         # Returns the maximum number of this particular item an avatar
@@ -313,7 +313,7 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         if avatar.onOrder.count(self) != 0:
             # It's on the way.
             return 1
-            
+
         if avatar.onGiftOrder.count(self) != 0:
             # someone has given it to you
             return 1
@@ -325,7 +325,7 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         if self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
             # check award queue and award mailbox too
             return 1
-        
+
         str = ClothingTypes[self.clothingType][CTString]
 
         dna = avatar.getStyle()
@@ -362,7 +362,7 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
 
         # Not found anywhere; go ahead and buy it.
         return 0
-            
+
 
     def getTypeName(self):
         # e.g. "shirt", "shorts", etc.
@@ -396,12 +396,12 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         # Save the avatar's current clothes in his closet.
         dna = avatar.getStyle()
         if self.isShirt():
-            added = avatar.addToClothesTopsList(dna.topTex, dna.topTexColor, 
+            added = avatar.addToClothesTopsList(dna.topTex, dna.topTexColor,
                                                 dna.sleeveTex, dna.sleeveTexColor)
             if added:
                 avatar.b_setClothesTopsList(avatar.getClothesTopsList())
                 self.notify.info('Avatar %s put shirt %d,%d,%d,%d in closet.' % (avatar.doId,
-                                                                                 dna.topTex, dna.topTexColor, 
+                                                                                 dna.topTex, dna.topTexColor,
                                                                                  dna.sleeveTex, dna.sleeveTexColor))
             else:
                 self.notify.warning('Avatar %s %s lost current shirt; closet full.' % (avatar.doId, dna.asTuple()))
@@ -475,18 +475,18 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         # appropriate clothes and throw the rest away.
         toon = Toon.Toon()
         toon.setDNA(dna)
-        
+
         model = NodePath('clothing')
 
         for name in pieceNames:
             for piece in toon.findAllMatches(name):
                 piece.wrtReparentTo(model)
-        
+
         model.setH(180)
 
         toon.delete()
-        
-        
+
+
         return self.makeFrameModel(model)
 
     def requestPurchase(self, phone, callback):
@@ -509,7 +509,7 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         for item in avatar.onOrder + avatar.mailboxContents:
             if item.storedInCloset():
                 clothesOnOrder += 1
-        
+
         if avatar.isClosetFull(clothesOnOrder):
             # If the avatar's closet is full, pop up a dialog warning
             # the user, and give him a chance to bail out.
@@ -558,7 +558,7 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         elif retcode == ToontownGlobals.P_NoRoomForItem:
             return TTLocalizer.CatalogAcceptClosetFull
         return CatalogItem.CatalogItem.getAcceptItemErrorText(self, retcode)
-    
+
 
     def getColorChoices(self):
         # Returns the list from ToonDNA that defines the clothing
@@ -650,15 +650,15 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
             color = ToonDNA.ShirtStyles[str][2][self.colorIndex]
         else:
             color = ToonDNA.BottomStyles[str][1][self.colorIndex]
-        
+
     def encodeDatagram(self, dg, store):
         CatalogItem.CatalogItem.encodeDatagram(self, dg, store)
         dg.addUint16(self.clothingType)
         dg.addUint8(self.colorIndex)
         dg.addUint16(self.loyaltyDays)
-        
+
     def isGift(self):
-        if (self.loyaltyRequirement() > 0):            
+        if (self.loyaltyRequirement() > 0):
             return 0
         else:
             if self.clothingType in LoyaltyClothingItems:
@@ -682,4 +682,3 @@ def getAllClothes(*clothingTypes):
             list.append(CatalogClothingItem(clothingType, n))
 
     return list
-    

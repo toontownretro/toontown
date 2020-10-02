@@ -9,7 +9,7 @@
 #          played next. This gui is controlled by DistributedJukeboxActivity.
 #-------------------------------------------------------------------------------
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.showbase.DirectObject import DirectObject
 from direct.gui.DirectGui import DirectFrame, DirectButton, DirectLabel
@@ -22,31 +22,31 @@ from toontown.parties import PartyUtils
 
 class JukeboxGui(DirectObject):
     notify = directNotify.newCategory("JukeboxGui")
-    
+
     CLOSE_EVENT = "JukeboxGui_CLOSE_EVENT"
     SONG_SELECT_EVENT = "JukeboxGui_SONG_SELECT_EVENT"
     QUEUE_SELECT_EVENT = "JukeboxGui_QUEUE_SELECT_EVENT"
     ADD_SONG_CLICK_EVENT = "JukeboxGui_ADD_SONG_CLICK_EVENT"
     MOVE_TO_TOP_CLICK_EVENT = "JukeboxGUI_MOVE_TO_TOP_EVENT"
-    
+
     def __init__(self, phaseToMusicData):
         self._loaded = False
         self._timerGui = None
         self._windowFrame = None
         self.phaseToMusicData = phaseToMusicData
-    
+
     def load(self):
         """
         Loads the Jukebox GUI model and initializes the lists, buttons and labels
         """
         if self.isLoaded():
             return
-        
+
         guiNode = loader.loadModel("phase_13/models/parties/jukeboxGUI")
-        
+
         # Timer
         self._timerGui = PartyUtils.getNewToontownTimer()
-        
+
         # Window
         self._windowFrame = DirectFrame(
             image = guiNode.find("**/background"),
@@ -54,7 +54,7 @@ class JukeboxGui(DirectObject):
             pos = (0, 0, 0),
             scale = 0.7,
             )
-        
+
         # Dashboard
         self._songFrame = DirectFrame(
             image = guiNode.find("**/songTitle_background"),
@@ -75,7 +75,7 @@ class JukeboxGui(DirectObject):
             text = TTLocalizer.JukeboxCurrentSongNothing,
             scale = TTLocalizer.JGsongNameLabel,
             )
-        
+
         # Playlist Queue
         self._queueList, self._queueLabel = self.__createLabeledScrolledList(
             guiNode,
@@ -83,7 +83,7 @@ class JukeboxGui(DirectObject):
             label = TTLocalizer.JukeboxQueueLabel,
             parent = self._windowFrame,
             )
-        
+
         # Song List
         self._songsList, self._songsLabel = self.__createLabeledScrolledList(
             guiNode,
@@ -91,7 +91,7 @@ class JukeboxGui(DirectObject):
             label = TTLocalizer.JukeboxSongsLabel,
             parent = self._windowFrame,
             )
-                
+
         pos = guiNode.find("**/addButton_text_locator").getPos()
         self._addSongButton = self.__createButton(
             guiNode,
@@ -104,14 +104,14 @@ class JukeboxGui(DirectObject):
             text_pos = (pos[0], pos[2]),
             text_scale = TTLocalizer.JGaddSongButton,
             )
-        
+
         self._closeButton = self.__createButton(
             guiNode,
             "can_cancelButton",
             parent = self._windowFrame,
             command = self.__handleCloseButtonClick,
             )
-        
+
         pos = guiNode.find("**/close_text_locator").getPos()
         self._closeButton = self.__createButton(
             guiNode,
@@ -123,17 +123,17 @@ class JukeboxGui(DirectObject):
             text_pos = (pos[0], pos[2]),
             text_scale = 0.08,
             )
-        
+
         self._moveToTopButton = self.__createButton(
             guiNode,
             "moveToTop",
             command = self.__handleMoveToTopButtonClick
             )
-        
+
         guiNode.removeNode()
-    
+
         self._loaded = True
-        
+
     def __createButton(self, guiNode, imagePrefix, parent=hidden, **kwargs):
         """
         Helper function that creates a button based on jukebox gui naming convention
@@ -148,7 +148,7 @@ class JukeboxGui(DirectObject):
                 ),
             **kwargs
             )
-        
+
     def __createLabel(self, guiNode, locatorPrefix, parent=hidden, **kwargs):
         """
         Helper function that creates a label based on jukebox gui naming convention
@@ -159,7 +159,7 @@ class JukeboxGui(DirectObject):
             pos = guiNode.find("**/%s_text_locator" % locatorPrefix).getPos(),
             **kwargs
             )
-        
+
     def __createLabeledScrolledList(self, guiNode, namePrefix, label, parent=hidden, **kwargs):
         """
         Helper function that creates labeled scroll list based on jukebox gui naming convention
@@ -208,52 +208,52 @@ class JukeboxGui(DirectObject):
             # Add the new party songs first, these are in Phase 13
             phase = 13
             tunes = self.phaseToMusicData[13]
-            for filename, info, in tunes.items():
+            for filename, info, in list(tunes.items()):
                 self.addToSongList(info[0], phase, filename, info[1])
-            
+
             # Add the songs automatically:
-            for phase, tunes in self.phaseToMusicData.items():
+            for phase, tunes in list(self.phaseToMusicData.items()):
                 if phase == 13:
                     continue
-                for filename, info, in tunes.items():
+                for filename, info, in list(tunes.items()):
                     self.addToSongList(info[0], phase, filename, info[1])
         self._windowFrame.show()
-        
+
         if timer > 0:
             self._timerGui.setTime(timer)
             self._timerGui.countdown(timer)
             self._timerGui.show()
-        
+
     def disable(self):
         self._windowFrame.hide()
         self._timerGui.hide()
-    
+
     def unload(self):
         self.ignoreAll()
-        
+
         if not self.isLoaded():
             return
-        
+
         if self._windowFrame is not None:
             self._windowFrame.destroy()
             self._windowFrame = None
 
             self._moveToTopButton.destroy()
             del self._moveToTopButton
-        
+
         if self._timerGui is not None:
             self._timerGui.destroy()
             self._timerGui = None
-        
+
         self._loaded = False
-        
+
     def isLoaded(self):
         """
         Checks whether the gui has been loaded or not. It exits because sometimes the class
         may be initialized, but it does not mean that the visuals are loaded up.
         """
         return self._loaded
-        
+
     def addToSongList(self, text, phase, filename, length):
         """
         Adds a song to the "all songs" list.
@@ -279,9 +279,9 @@ class JukeboxGui(DirectObject):
             )
         listItem.setPythonTag("value", (phase, filename, length))
         self._songsList.addItem(listItem)
-        
+
         return listItem
-    
+
     def __handleCloseButtonClick(self):
         """
         Called when the close button is clicked.
@@ -289,16 +289,16 @@ class JukeboxGui(DirectObject):
         """
         self.disable()
         messenger.send(JukeboxGui.CLOSE_EVENT)
-        
+
     def __handleMoveToTopButtonClick(self):
         """
         Called when the Move to top button is clicked.
         """
         messenger.send(JukeboxGui.MOVE_TO_TOP_CLICK_EVENT)
-        
+
     def __handleSongListItemSelect(self):
         pass
-        
+
     def __handleAddSongButtonClick(self):
         """
         Called when the "Add/Replace Song" button is clicked.
@@ -307,19 +307,19 @@ class JukeboxGui(DirectObject):
             song = self._songsList.currentSelected
             messenger.send(JukeboxGui.ADD_SONG_CLICK_EVENT,
                            [song["text"], song.getPythonTag("value")])
-        
+
     def disableAddSongButton(self):
         """
         Disables the ability to click on the "Add/Replace Song" Button
         """
         self._addSongButton["state"] = DirectGuiGlobals.DISABLED
-        
+
     def enableAddSongButton(self):
         """
         Enable the ability to click on the "Add/Replace Song" Button
         """
         self._addSongButton["state"] = DirectGuiGlobals.NORMAL
-    
+
     def addSongToQueue(self, text, highlight=False, moveToTopButton=False):
         """
         Adds a song to the playlist queue.
@@ -339,15 +339,15 @@ class JukeboxGui(DirectObject):
             listItem["text_fg"] = (0.0, 0.5, 0.0, 1.0)
             self._addSongButton["text"] = TTLocalizer.JukeboxReplaceSong
             listItem.setPythonTag("highlighted", True)
-            
+
         if moveToTopButton and len(self._queueList["items"]) > 1:
             self._moveToTopButton.reparentTo(listItem)
             self._moveToTopButton.setScale(self._windowFrame, 1.0)
             self._moveToTopButton.setPos(10.0, 0.0, 0.25)
             self._queueList.scrollTo(len(self._queueList["items"]) - 1)
-        
+
         return listItem
-        
+
     def popSongFromQueue(self):
         """
         Pops the item at the top of the song queue and returns its values.
@@ -359,16 +359,16 @@ class JukeboxGui(DirectObject):
             self._queueList.removeItem(item)
             if self._moveToTopButton.getParent() == item:
                 self._moveToTopButton.reparentTo(hidden)
-            
+
             if self._moveToTopButton.getParent() == item:
                 self._moveToTopButton.reparentTo(hidden)
             if item.getPythonTag("highlighted") == True:
                 self._addSongButton["text"] = TTLocalizer.JukeboxAddSong
-                
+
             item.removeNode()
             return item
         return None
-        
+
     def setSongCurrentlyPlaying(self, phase, filename):
         """
         Sets the dashboard to display the current song that is playing at the party.
@@ -379,7 +379,7 @@ class JukeboxGui(DirectObject):
             if songName:
                 self._songNameLabel["text"] = songName
                 self._currentlyPlayingLabel["text"] = TTLocalizer.JukeboxCurrentlyPlaying
-    
+
     def clearSongCurrentlyPlaying(self):
         """
         Clears the current song playing from the dashboard and replaces it with
@@ -387,7 +387,7 @@ class JukeboxGui(DirectObject):
         """
         self._currentlyPlayingLabel["text"] = TTLocalizer.JukeboxCurrentlyPlayingNothing
         self._songNameLabel["text"] = TTLocalizer.JukeboxCurrentSongNothing
-        
+
     def pushQueuedItemToTop(self, item):
         """
         Pushes the item passed to the top of the playlist queue.
@@ -397,4 +397,3 @@ class JukeboxGui(DirectObject):
         if self._moveToTopButton.getParent() == item:
             self._moveToTopButton.reparentTo(hidden)
         self._queueList.refresh()
-

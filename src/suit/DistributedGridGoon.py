@@ -1,9 +1,9 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleProps import *
 
 from direct.directnotify import DirectNotifyGlobal
-import DistributedGoon
+from . import DistributedGoon
 from toontown.toonbase import ToontownGlobals
 from toontown.coghq import MovingPlatform
 
@@ -35,7 +35,7 @@ class DistributedGridGoon(DistributedGoon.DistributedGoon):
 
     def setH(self, h):
         self.h = h
-        
+
     def setPathPts(self, xi, yi, zi, xf, yf, zf):
         self.notify.debug('setPathPts')
 
@@ -65,6 +65,6 @@ class DistributedGridGoon(DistributedGoon.DistributedGoon):
 
     def enterWalk(self, avId=None, ts=0):
         pass
-    
+
     def exitWalk(self):
         pass

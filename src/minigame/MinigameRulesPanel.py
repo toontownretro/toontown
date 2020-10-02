@@ -3,10 +3,10 @@ from direct.task import Task
 from direct.fsm import StateData
 from toontown.toonbase.ToontownGlobals import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import ToontownTimer
 from toontown.toonbase import TTLocalizer
-import MinigameGlobals
+from . import MinigameGlobals
 
 class MinigameRulesPanel(StateData.StateData):
     """
@@ -21,7 +21,7 @@ class MinigameRulesPanel(StateData.StateData):
     This is meant to be instantiated right when you need it, not
     in advance. When you create it, it will appear onscreen immediately
     """
-    
+
     def __init__(self, panelName, gameTitle, instructions, doneEvent, timeout = MinigameGlobals.rulesDuration):
         """
         panelName: no longer used
@@ -81,9 +81,9 @@ class MinigameRulesPanel(StateData.StateData):
         self.timer = ToontownTimer.ToontownTimer()
         self.timer.reparentTo(self.frame)
         self.timer.setScale(0.4)
-        self.timer.setPos(0.997, 0, 0.064)        
+        self.timer.setPos(0.997, 0, 0.064)
         self.frame.hide()
-        
+
     def unload(self):
         self.frame.destroy()
         del self.frame
@@ -92,7 +92,7 @@ class MinigameRulesPanel(StateData.StateData):
         self.playButton.destroy()
         del self.playButton
         del self.timer
-    
+
     def enter(self):
         self.frame.show()
         self.timer.countdown(self.TIMEOUT, self.playCallback)
@@ -107,7 +107,7 @@ class MinigameRulesPanel(StateData.StateData):
         self.frame.hide()
         self.timer.stop()
         self.ignore("enter")
-        
+
     def playCallback(self):
         """
         This is called either when the user click the play button
@@ -115,5 +115,3 @@ class MinigameRulesPanel(StateData.StateData):
         done event
         """
         messenger.send(self.doneEvent)
-
-        

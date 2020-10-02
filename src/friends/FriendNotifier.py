@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.showbase import DirectObject
 from direct.directnotify import DirectNotifyGlobal
@@ -22,7 +22,7 @@ class FriendNotifier(ToonHeadDialog.ToonHeadDialog):
         self.avName = avName
         self.avDNA = avDNA
         self.context = context
-        
+
 
         # Room for more
         text = OTPLocalizer.FriendNotifictation % (self.avName)
@@ -76,8 +76,8 @@ class FriendNotifier(ToonHeadDialog.ToonHeadDialog):
         #    base.cr.friendManager.up_inviteeFriendResponse(
         #         2, self.context)
         #    self.context = None
-        
-        
+
+
 
     ### Button handing methods
     def __handleButton(self, value):
@@ -104,5 +104,3 @@ class FriendNotifier(ToonHeadDialog.ToonHeadDialog):
             # the inviter has rescinded his/her offer.
             self.context = None
             self.cleanup()
-
-

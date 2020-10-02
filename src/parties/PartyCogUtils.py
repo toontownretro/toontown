@@ -6,9 +6,9 @@
 #===============================================================================
 import math
 
-from pandac.PandaModules import NodePath, Point3
+from toontown.toonbase.ToontownModules import NodePath, Point3
 
-import PartyGlobals
+from . import PartyGlobals
 
 inverse_e = 1.0/math.e
 
@@ -33,11 +33,11 @@ class CameraManager:
         self.enabled = False
 
         self.rate = 10.0
-        
+
     def destroy(self):
         if self.enabled:
             self.setEnabled(False)
-            
+
         self.lookAtNP.removeNode()
         del self.lookAtNP
         del self.targetPos
@@ -94,30 +94,30 @@ class StrafingControl:
     """
     Control scheme where the player moves only through strafing
     """
-     
+
     def __init__(self, player):
         self.player = player
         self.defaultOffset = Point3(1.0, -7.5, self.player.toon.getHeight()+1.0)
-        
+
     def destroy(self):
         self.player = None
         del self.player
-        
+
         self.defaultOffset = None
         del self.defaultOffset
-        
+
     def update(self):
         self.player.tempNP.setPos(self.player.locator, self.player.toon.getPos() + self.defaultOffset)
         self.player.cameraManager.setTargetPos(self.player.tempNP.getPos(render))
         self.player.tempNP.setPos(self.player.locator, self.player.toon.getPos() + self.defaultOffset + Point3(0,20,0))
         self.player.cameraManager.setTargetLookAtPos(self.player.tempNP.getPos(render))
-        
+
         if not self.player._aimMode and self.player.input.throwPiePressed:
             self.toggleAim()
-            
+
         if self.player._aimMode and not self.player.input.throwPiePressed and (self.player.input.upPressed or self.player.input.downPressed or self.player.input.leftPressed or self.player.input.rightPressed):
             self.toggleAim()
-            
+
         if not self.player._aimMode:
             if not (self.player.input.upPressed or self.player.input.downPressed or self.player.input.leftPressed or self.player.input.rightPressed):
                 self.player.faceForward()
@@ -125,10 +125,10 @@ class StrafingControl:
 
         if self.player.input.throwPiePressed:
             self.player.gui.updatePiePowerMeter(self.player.getPieThrowingPower(globalClock.getFrameTime()))
-    
+
     def toggleAim(self):
         self.player._aimMode = not self.player._aimMode
-        
+
         if not self.player._aimMode:
             self.player.orthoWalking = True
             self.player.orthoWalk.start()
@@ -141,7 +141,7 @@ class StrafingControl:
             self.player.orthoWalking = False
             self.player.toon.setH(0.0)
             self.player.gui.showPiePowerMeter()
-    
+
     def enable(self):
         self.player._aimMode = False
         camera.wrtReparentTo(self.player.locator)

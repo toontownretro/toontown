@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.PythonUtil import reduceAngle
 from otp.movement import Impulse
 import math
@@ -15,7 +15,7 @@ class PetChase(Impulse.Impulse):
         if moveAngle is None:
             moveAngle = 20.
         self.moveAngle = moveAngle
-        
+
         # create a node that we'll use to calculate hprs
         self.lookAtNode = NodePath('lookatNode')
         self.lookAtNode.hide()

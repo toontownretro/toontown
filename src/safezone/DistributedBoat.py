@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
@@ -6,18 +6,18 @@ from direct.interval.IntervalGlobal import *
 from direct.distributed import DistributedObject
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from pandac.PandaModules import NodePath
+from toontown.toonbase.ToontownModules import NodePath
 from direct.directutil import Mopath
 from toontown.toonbase import ToontownGlobals
 
-class DistributedBoat(DistributedObject.DistributedObject): 
+class DistributedBoat(DistributedObject.DistributedObject):
 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
 
         self.eastWestMopath = Mopath.Mopath()
         self.westEastMopath = Mopath.Mopath()
-        self.eastWestMopathInterval = None 
+        self.eastWestMopathInterval = None
         self.westEastMopathInterval = None
 
         self.fsm = ClassicFSM.ClassicFSM('DistributedBoat',

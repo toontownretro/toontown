@@ -1,15 +1,15 @@
 """ DistributedBuilding module: contains the DistributedBuilding
     class, the client side representation of a 'building'."""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.directtools.DirectGeometry import *
-from ElevatorConstants import *
-from ElevatorUtils import *
-from SuitBuildingGlobals import *
+from .ElevatorConstants import *
+from .ElevatorUtils import *
+from .SuitBuildingGlobals import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
@@ -128,7 +128,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         # self.generate will be called automatically.
 
         # TODO: Eventually, bossLevel will be one of the
-        # required fields. 
+        # required fields.
         self.bossLevel = 0
 
         # multitrack used to animate the transitions between suit and toon
@@ -154,7 +154,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self.cogWeakenSound = None
         self.toonGrowSound = None
         self.toonSettleSound = None
-        
+
     def generate(self):
         """generate(self)
         This method is called when the DistributedObject is reintroduced
@@ -167,7 +167,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         # can ignore the first call for toon take over).
         self.townTopLevel=self.cr.playGame.hood.loader.geom
         assert(not self.townTopLevel.isEmpty())
-    
+
     def disable(self):
         assert(self.debugPrint("disable()"))
         # Go to the off state when the object is put in the cache
@@ -176,7 +176,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self.stopTransition()
         DistributedObject.DistributedObject.disable(self)
         # self.delete() will automatically be called.
-    
+
     def delete(self):
         assert(self.debugPrint("delete()"))
         if self.elevatorNodePath:
@@ -192,17 +192,17 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self.unloadSfx()
         del self.fsm
         DistributedObject.DistributedObject.delete(self)
-    
+
     def setBlock(self, block, interiorZoneId):
         self.block = block
         self.interiorZoneId = interiorZoneId
-    
+
     def setSuitData(self, suitTrack, difficulty, numFloors):
         assert(self.debugPrint("setSuitData(%s, %d, %d)" %(suitTrack, difficulty, numFloors)))
         self.track=suitTrack
         self.difficulty=difficulty
         self.numFloors=numFloors
-    
+
     def setState(self, state, timestamp):
         assert(self.debugPrint("setState(%s, %d)" % (state, timestamp)))
         self.fsm.request(state, [globalClockDelta.localElapsedTime(timestamp)])
@@ -249,12 +249,12 @@ class DistributedBuilding(DistributedObject.DistributedObject):
 
     def setVictorList(self, victorList):
         self.victorList = victorList
-    
+
     ##### off state #####
-    
+
     def enterOff(self):
         assert(self.debugPrint("enterOff()"))
-    
+
     def exitOff(self):
         assert(self.debugPrint("exitOff()"))
 
@@ -303,7 +303,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         for light in self.floorIndicator:
             if light != None:
                 light.setColor(LIGHT_OFF_COLOR)
-            
+
         return
 
     def handleInsideVictorElevator(self):
@@ -316,7 +316,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             self.waitingMessage.destroy()
             self.waitingMessage = None
         return
-    
+
     ##### waitForVictorsFromCogdo state #####
     def enterWaitForVictorsFromCogdo(self, ts):
         if self.mode != 'cogdo':
@@ -362,7 +362,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         for light in self.floorIndicator:
             if light != None:
                 light.setColor(LIGHT_OFF_COLOR)
-            
+
         return
 
     def handleInsideVictorElevatorFromCogdo(self):
@@ -375,50 +375,50 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             self.waitingMessage.destroy()
             self.waitingMessage = None
         return
-    
+
     ##### becomingToon state #####
-    
+
     def enterBecomingToon(self, ts):
         assert(self.debugPrint("enterBecomingToon() %s" %(str(self.getDoId()))))
         # Start animation:
         self.animToToon(ts)
-    
+
     def exitBecomingToon(self):
         assert(self.debugPrint("exitBecomingToon()"))
         # Stop animation:
-    
+
     ##### becomingToonFromCogdo state #####
-    
+
     def enterBecomingToonFromCogdo(self, ts):
         assert(self.debugPrint("enterBecomingToonFromCogdo() %s" %(str(self.getDoId()))))
         # Start animation:
         self.animToToonFromCogdo(ts)
-    
+
     def exitBecomingToonFromCogdo(self):
         assert(self.debugPrint("exitBecomingToonFromCogdo()"))
         # Stop animation:
-    
+
     ##### toon state #####
-    
+
     def enterToon(self, ts):
         assert(self.debugPrint("enterToon()"))
         if self.getInteractiveProp():
             self.getInteractiveProp().buildingLiberated(self.doId)
         self.setToToon()
-    
+
     def exitToon(self):
         assert(self.debugPrint("exitToon()"))
-    
+
     ##### ClearOutToonInterior state #####
-    
+
     def enterClearOutToonInterior(self, ts):
         assert(self.debugPrint("enterClearOutToonInterior()"))
 
     def exitClearOutToonInterior(self):
         assert(self.debugPrint("exitClearOutToonInterior()"))
-    
+
     ##### becomingSuit state #####
-    
+
     def enterBecomingSuit(self, ts):
         assert(self.debugPrint("enterBecomingSuit()"))
         # Start animation:
@@ -429,28 +429,28 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         assert(self.debugPrint("exitBecomingSuit()"))
         # Stop animation:
         pass
-    
+
     ##### suit state #####
-    
+
     def enterSuit(self, ts):
         assert(self.debugPrint("enterSuit()"))
         #print "enterSuit %s" %(str(self.getDoId()))
         self.makePropSad()
         self.setToSuit()
-    
+
     def exitSuit(self):
         assert(self.debugPrint("exitSuit()"))
-    
+
     ##### ClearOutToonInterior state #####
-    
+
     def enterClearOutToonInteriorForCogdo(self, ts):
         assert(self.debugPrint("enterClearOutToonInteriorForCogdo()"))
 
     def exitClearOutToonInteriorForCogdo(self):
         assert(self.debugPrint("exitClearOutToonInteriorForCogdo()"))
-    
+
     ##### becomingCogdo state #####
-    
+
     def enterBecomingCogdo(self, ts):
         assert(self.debugPrint("enterBecomingCogdo()"))
         # Start animation:
@@ -461,19 +461,19 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         assert(self.debugPrint("exitBecomingCogdo()"))
         # Stop animation:
         pass
-    
+
     ##### cogdo state #####
-    
+
     def enterCogdo(self, ts):
         assert(self.debugPrint("enterCogdo()"))
         #print "enterCogdo %s" %(str(self.getDoId()))
         self.setToCogdo()
-    
+
     def exitCogdo(self):
         assert(self.debugPrint("exitCogdo()"))
-    
+
     #####
-    
+
     def getNodePaths(self):
         assert(self.debugPrint("getNodePaths()"))
         # Toon flat buildings:
@@ -505,7 +505,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                 np.setColor(LIGHT_OFF_COLOR)
             else:
                 np.hide()
-        
+
         self.elevatorModel.reparentTo(self.elevatorNodePath)
 
         if self.mode == 'suit':
@@ -526,14 +526,14 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             from toontown.suit import Suit
             corpIcon.setColor(Suit.Suit.medallionColors[dept])
             cogIcons.removeNode()
-        
+
         self.leftDoor = self.elevatorModel.find("**/left-door")
         self.rightDoor = self.elevatorModel.find("**/right-door")
-        
+
         # Find the door origin
         self.suitDoorOrigin = newNP.find("**/*_door_origin")
         assert(not self.suitDoorOrigin.isEmpty())
-        
+
         # Put the elevator under the door origin
         self.elevatorNodePath.reparentTo(self.suitDoorOrigin)
         self.normalizeElevator()
@@ -568,13 +568,13 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             self.cogLandSound = None
             self.cogSettleSound = None
             self.openSfx = None
-            
+
         if self.cogWeakenSound != None:
             self.cogWeakenSound = None
             self.toonGrowSound = None
             self.toonSettleSound = None
             self.openSfx = None
-        
+
     def _deleteTransitionTrack(self):
         if self.transitionTrack:
             DelayDelete.cleanupDelayDeletes(self.transitionTrack)
@@ -595,7 +595,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         if self.mode != 'toon':
             self.setToToon()
         self.loadAnimToSuitSfx()
-        
+
         # first find the side building portions
         #
         sideBldgNodes = self.getNodePaths()
@@ -614,7 +614,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         # create intervals to position and/or hide/stash the building parts
         # depending if it is part of the toon or suit version
         #
-        soundPlayed = 0  # don't want to play sound for every part 
+        soundPlayed = 0  # don't want to play sound for every part
         tracks = Parallel(name = self.taskName('toSuitTrack'))
         for i in sideBldgNodes:
             name=i.getName()
@@ -654,7 +654,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                     showTrack.append(Func(
                         base.playSfx, self.cogSettleSound, 0, 1, None, 0.))
                 tracks.append(showTrack)
-                
+
                 if not soundPlayed:
                     soundPlayed = 1
                 #print "moving suit flat from %s to %s"%(str(initPos),
@@ -703,11 +703,11 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self.stopTransition()
         self._deleteTransitionTrack()
         self.transitionTrack = tracks
-        
+
         #print "transitionTrack: %s" % self.transitionTrack
         #print "starting track at %s" % globalClock.getFrameTime()
         self.transitionTrack.start(timeStamp)
-    
+
     def setupSuitBuilding(self, nodePath):
         assert(self.debugPrint("setupSuitBuilding(nodePath=%s)"%(nodePath,)))
         dnaStore=self.cr.playGame.dnaStore
@@ -731,7 +731,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         else:
             buildingTitle += TTLocalizer.CogsIncExt
         buildingTitle += ("\n%s" % SuitDNA.getDeptFullname(chr(self.track)))
-        
+
         # Try to find this signText in the node map
         textNode = TextNode("sign")
         textNode.setTextColor(1.0, 1.0, 1.0, 1.0)
@@ -745,7 +745,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         # the sign accordingly.
         textHeight = textNode.getHeight()
         zScale = (textHeight + 2) / 3.0
-        
+
         # Determine where the sign should go:
         signOrigin=suitBuildingNP.find("**/sign_origin;+s")
         assert(not signOrigin.isEmpty())
@@ -782,7 +782,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         suitBuildingNP.flattenMedium()
         self.loadElevator(suitBuildingNP)
         return suitBuildingNP
-    
+
     def cleanupSuitBuilding(self):
         if hasattr(self, "floorIndicator"):
             del self.floorIndicator
@@ -796,7 +796,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         if self.mode != 'toon':
             self.setToToon()
         self.loadAnimToSuitSfx()
-        
+
         # first find the side building portions
         #
         sideBldgNodes = self.getNodePaths()
@@ -819,7 +819,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         # create intervals to position and/or hide/stash the building parts
         # depending if it is part of the toon or cogdo version
         #
-        soundPlayed = 0  # don't want to play sound for every part 
+        soundPlayed = 0  # don't want to play sound for every part
         tracks = Parallel(name = self.taskName('toCogdoTrack'))
         for i in sideBldgNodes:
             name=i.getName()
@@ -859,7 +859,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                     showTrack.append(Func(
                         base.playSfx, self.cogSettleSound, 0, 1, None, 0.))
                 tracks.append(showTrack)
-                
+
                 if not soundPlayed:
                     soundPlayed = 1
                 #print "moving suit flat from %s to %s"%(str(initPos),
@@ -908,7 +908,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self.stopTransition()
         self._deleteTransitionTrack()
         self.transitionTrack = tracks
-        
+
         #print "transitionTrack: %s" % self.transitionTrack
         #print "starting track at %s" % globalClock.getFrameTime()
         self.transitionTrack.start(timeStamp)
@@ -935,7 +935,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             buildingTitle = TTLocalizer.Cogdominiums
         else:
             buildingTitle += TTLocalizer.CogdominiumsExt
-        
+
         # Try to find this signText in the node map
         textNode = TextNode("sign")
         textNode.setTextColor(1.0, 1.0, 1.0, 1.0)
@@ -949,7 +949,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         # the sign accordingly.
         textHeight = textNode.getHeight()
         zScale = (textHeight + 2) / 3.0
-        
+
         # Determine where the sign should go:
         signOrigin=suitBuildingNP.find("**/sign_origin;+s")
         assert(not signOrigin.isEmpty())
@@ -1011,7 +1011,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         # depending if it is part of the toon or suit version
         #
         suitSoundPlayed = 0 # don't want to play sound for every part
-        toonSoundPlayed = 0 # don't want to play sound for every part        
+        toonSoundPlayed = 0 # don't want to play sound for every part
         bldgNodes = self.getNodePaths()
         tracks = Parallel()
         for i in bldgNodes:
@@ -1135,7 +1135,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             freedomTrack2 = Func(
                 base.localAvatar.d_setParent,
                 ToontownGlobals.SPRender)
-            
+
             self.transitionTrack = Parallel(camTrack,
                                             Sequence(victoryRunTrack,
                                                      bldgMTrack,
@@ -1181,7 +1181,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         # depending if it is part of the toon or suit version
         #
         suitSoundPlayed = 0 # don't want to play sound for every part
-        toonSoundPlayed = 0 # don't want to play sound for every part        
+        toonSoundPlayed = 0 # don't want to play sound for every part
         bldgNodes = self.getNodePaths()
         tracks = Parallel()
         for i in bldgNodes:
@@ -1306,7 +1306,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             freedomTrack2 = Func(
                 base.localAvatar.d_setParent,
                 ToontownGlobals.SPRender)
-            
+
             self.transitionTrack = Parallel(camTrack,
                                             Sequence(victoryRunTrack,
                                                      bldgMTrack,
@@ -1354,7 +1354,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         #print "planting Victors %s !" % self.victorList
         retVal = 0
         for victor in self.victorList:
-            if victor != 0 and self.cr.doId2do.has_key(victor):
+            if victor != 0 and victor in self.cr.doId2do:
                 toon = self.cr.doId2do[victor]
                 toon.setPosHpr(self.elevatorModel, 0, -10, 0, 0, 0, 0)
                 toon.startSmooth()
@@ -1369,14 +1369,14 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         delayDeletes = []
         i = 0
         for victor in self.victorList:
-            if victor != 0 and self.cr.doId2do.has_key(victor):
+            if victor != 0 and victor in self.cr.doId2do:
                 toon = self.cr.doId2do[victor]
                 delayDeletes.append(DelayDelete.DelayDelete(toon, 'getVictoryRunTrack'))
                 toon.stopSmooth()
                 toon.setParent(ToontownGlobals.SPHidden)
                 origPosTrack.append(Func(toon.setPosHpr,
                                          self.elevatorNodePath,
-                                         apply(Point3, ElevatorPoints[i]),
+                                         Point3(*ElevatorPoints[i]),
                                          Point3(180, 0, 0)))
                 origPosTrack.append(Func(toon.setParent,
                                          ToontownGlobals.SPRender))
@@ -1390,7 +1390,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         runOutAll = Parallel()
         i = 0
         for victor in self.victorList:
-            if victor != 0 and self.cr.doId2do.has_key(victor):
+            if victor != 0 and victor in self.cr.doId2do:
                 toon = self.cr.doId2do[victor]
                 p0 = Point3(0, 0, 0)
                 p1 = Point3(ElevatorPoints[i][0],
@@ -1399,7 +1399,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                 p2 = Point3(ElevatorOutPoints[i][0],
                             ElevatorOutPoints[i][1],
                             ElevatorOutPoints[i][2])
-                
+
                 runOutSingle = Sequence(
                     # Disallow body emotes so we don't slide
                     Func(Emote.globalEmote.disableBody, toon, "getVictory"),
@@ -1424,14 +1424,14 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                     )
                 runOutAll.append(runOutSingle)
             i += 1
-                
+
         victoryRunTrack = Sequence(origPosTrack,
                                    openDoors,
                                    runOutAll,
                                    )
-        
+
         return (victoryRunTrack, delayDeletes)
-                    
+
     def localToonIsVictor(self):
         retVal = 0
         for victor in self.victorList:
@@ -1453,13 +1453,13 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             self.notify.warning(
                 "createBounceTrack called with invalid parameter")
             return
-        
+
         # add an extra bounce to make sure the object
         # is properly scaled to 1 on the last lerpScaleInterval
         #
         result = Sequence()
         numBounces+=1
-        
+
         # calculate how long, in seconds, each bounce should last, make
         # the time of each bounce smaller if we want to extend the length
         # the initial bounce
@@ -1493,7 +1493,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             # determine the direction that this scale should go,
             # alternating for each lerpScaleInterval to simulate
             # a spring effect
-            # 
+            #
             if currBounceScale == numBounces-1:
                 currScale = realScale[2]
             elif currBounceScale%2:
@@ -1519,14 +1519,14 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         if self.transitionTrack:
             self.transitionTrack.finish()
             self._deleteTransitionTrack()
-        
+
     def setToSuit(self):
         assert(self.debugPrint("setToSuit()"))
         self.stopTransition()
         if self.mode == 'suit':
             return
         self.mode = 'suit'
-        
+
         nodes=self.getNodePaths()
         for i in nodes:
             name=i.getName()
@@ -1550,21 +1550,21 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         # Copy the suit landmark building, based on the suit track and
         # difficulty:
         npc=hidden.findAllMatches(self.getSbSearchString())
-        
+
         assert(npc.getNumPaths()>0)
         for i in range(npc.getNumPaths()):
             nodePath=npc.getPath(i)
             self.adjustSbNodepathScale(nodePath)
             self.notify.debug("net transform = %s" % str(nodePath.getNetTransform()))
             self.setupSuitBuilding(nodePath)
-    
+
     def setToCogdo(self):
         assert(self.debugPrint("setToCogdo()"))
         self.stopTransition()
         if self.mode == 'cogdo':
             return
         self.mode = 'cogdo'
-        
+
         nodes=self.getNodePaths()
         for i in nodes:
             name=i.getName()
@@ -1592,21 +1592,21 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         # Copy the suit landmark building, based on the suit track and
         # difficulty:
         npc=hidden.findAllMatches(self.getSbSearchString())
-        
+
         assert(npc.getNumPaths()>0)
         for i in range(npc.getNumPaths()):
             nodePath=npc.getPath(i)
             self.adjustSbNodepathScale(nodePath)
             self.notify.debug("net transform = %s" % str(nodePath.getNetTransform()))
             self.setupCogdo(nodePath)
-    
+
     def setToToon(self):
         assert(self.debugPrint("setToToon() mode=%s" % (self.mode)))
         self.stopTransition()
         if self.mode == 'toon':
             return
         self.mode = 'toon'
-        
+
         # Clear reference to the suit door.
         self.suitDoorOrigin = None
         # Go through nodes, and do the right thing.
@@ -1629,7 +1629,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                     # Toon flat buildings:
                     # i.show()
                     i.unstash()
-                        
+
     def normalizeElevator(self):
         # Normalize the size of the elevator
         # The suit building probably has a funny scale on it,
@@ -1637,7 +1637,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self.elevatorNodePath.setScale(render, Vec3(1, 1, 1))
         self.elevatorNodePath.setPosHpr(0, 0, 0, 0, 0, 0)
         return
-    
+
     if __debug__:
         def debugPrint(self, message):
             """for debugging"""
@@ -1677,7 +1677,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                 else:
                    self.notify.warning("no loader.getInteractiveProp self.interactiveProp is None")
             else:
-               self.notify.warning("no hood self.interactiveProp is None")        
+               self.notify.warning("no hood self.interactiveProp is None")
         return result
 
 

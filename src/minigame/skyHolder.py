@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
@@ -15,11 +15,11 @@ class SkyHolder:
     def __init__(self, sky = None):
         self.skyNumber = self.SomeCounter
         self.SomeCounter += 1
-        
+
         self.skyIn = sky
-        
+
         self.setup()
-        
+
     def setup(self):
         self.baseNode = camera.attachNewNode("sky object")
         self.baseNode.show()
@@ -31,19 +31,16 @@ class SkyHolder:
         self.skyIn.setBin("background", 100)
         ce = CompassEffect.make(NodePath(), CompassEffect.PRot | CompassEffect.PZ)
         self.baseNode.node().setEffect(ce)
-        
+
         taskMgr.add(self.redraw, ("recreateBand %s" % (self.skyNumber)), priority=0)
 
-        
 
-        
+
+
     def delete(self):
         taskMgr.remove(("recreateBand %s" % (self.skyNumber)))
         self.skyGN.removeAllGeoms()
         self.baseNode.remove()
-        
+
     def redraw(self, task):
         return task.cont
-        
-        
-        

@@ -1,7 +1,7 @@
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from math import *
 import math
 from direct.fsm.FSM import FSM
@@ -10,7 +10,7 @@ from direct.showbase import PythonUtil
 from direct.showutil import Rope
 from direct.task import Task
 from direct.distributed.ClockDelta import *
-import BuildGeometry
+from . import BuildGeometry
 from toontown.golf import GolfGlobals
 from toontown.golf import PhysicsWorldBase
 import random, time
@@ -27,20 +27,20 @@ def length (vec):
 
 class DistributedPhysicsWorld(DistributedObject.DistributedObject, PhysicsWorldBase.PhysicsWorldBase):
 
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPhysicsWorld")    
+    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPhysicsWorld")
 
     def __init__(self,cr):
         DistributedObject.DistributedObject.__init__(self, cr)
         PhysicsWorldBase.PhysicsWorldBase.__init__(self, 1)
         self.accept("ode toggle contacts", self.__handleToggleContacts)
         self.physicsSfxDict = {}
-        
+
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
         self.setupSimulation()
         self.startSim()
 
-        
+
     def delete(self):
         DistributedObject.DistributedObject.delete(self)
         PhysicsWorldBase.PhysicsWorldBase.delete(self)
@@ -51,7 +51,7 @@ class DistributedPhysicsWorld(DistributedObject.DistributedObject, PhysicsWorldB
             sfxPair[0].stop()
             sfxPair[1].finish()
         self.physicsSfxDict = None
-        
+
     def clientCommonObject(self, type, commonId, pos, hpr, sizeX, sizeY, moveDistance):
         data = self.createCommonObject(type, commonId, pos, hpr, sizeX, sizeY, moveDistance)
         index = data[1]
@@ -72,7 +72,7 @@ class DistributedPhysicsWorld(DistributedObject.DistributedObject, PhysicsWorldB
                                                        volume = 0.5)
                     windMillSoundInterval.loop()
                     self.physicsSfxDict[index] = (windmillSfx, windMillSoundInterval)
-                    break            
+                    break
         elif type == 4:
             box = self.commonObjectDict[commonId][2]
             for pair in self.odePandaRelationList:
@@ -90,29 +90,26 @@ class DistributedPhysicsWorld(DistributedObject.DistributedObject, PhysicsWorldB
                     moverSoundInterval.start()
                     self.physicsSfxDict[index] = (moverSfx, moverSoundInterval,index)
                     break
-                    
+
     def commonObjectEvent(self, key, model, type, force, event):
         self.notify.debug("commonObjectForceEvent key %s model %s type %s force %s event %s" % (key, model, type, force, event))
         if type == 4:
             if event > 0:
                 self.physicsSfxDict[key][1].start()
-            
- 
-            
+
+
+
     def setCommonObjects(self, objectData):
         self.useCommonObjectData(objectData)
 
-            
+
     def upSendCommonObjects(self):
         self.sendUpdate("upSetCommonObjects", [self.getCommonObjectData()])
         #self.setCommonObjects(objectStream)
-        
-        
+
+
     def __handleToggleContacts(self, message = None):
         if self.showContacts:
             self.showContacts = 0
         else:
             self.showContacts = 1
-            
-        
-

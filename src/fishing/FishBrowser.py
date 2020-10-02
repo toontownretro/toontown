@@ -3,10 +3,10 @@
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
-import GenusPanel
-import FishGlobals
+from . import GenusPanel
+from . import FishGlobals
 
 class FishBrowser(DirectScrolledList):
     """
@@ -26,7 +26,7 @@ class FishBrowser(DirectScrolledList):
 
         # make the scrolling pick list for the fish names
         gui = loader.loadModel("phase_3.5/models/gui/friendslist_gui")
-        
+
         optiondefs = (
             ('parent', self.parent,    None),
             ('relief', None,    None),
@@ -54,7 +54,7 @@ class FishBrowser(DirectScrolledList):
             # Make the disabled button fade out
             ('decButton_image3_color',   Vec4(0.8,0.8,0.8,0.5), None),
             ('numItemsVisible',                              1, None),
-            ('items',        map(str, FishGlobals.getGenera()), None),
+            ('items',        list(map(str, FishGlobals.getGenera())), None),
             ('scrollSpeed',                                  4, None),
             ('itemMakeFunction',         GenusPanel.GenusPanel, None),
             ('itemMakeExtraArgs',                         None, None),
@@ -71,7 +71,7 @@ class FishBrowser(DirectScrolledList):
         assert self.notify.debugStateCall(self)
         DirectScrolledList.destroy(self)
         self.parent = None
-        
+
     #def load(self):
     #    assert self.notify.debugStateCall(self)
     #    pass
@@ -84,17 +84,16 @@ class FishBrowser(DirectScrolledList):
     def show(self):
         assert self.notify.debugStateCall(self)
         if not self.parent.isHidden():
-            self['items'][self.index].show()        
+            self['items'][self.index].show()
             DirectScrolledList.show(self)
             #print("fish parent not hidden showing")
-            #import pdb; pdb.set_trace()  
+            #import pdb; pdb.set_trace()
         else:
             #print("fish parent hidden not showing")
-            pass            
-                      
+            pass
+
 
     def hide(self):
         assert self.notify.debugStateCall(self)
         self['items'][self.index].hide()
-        DirectScrolledList.hide(self)        
-
+        DirectScrolledList.hide(self)

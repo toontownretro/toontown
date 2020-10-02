@@ -1,6 +1,6 @@
 from otp.level import DistributedEntity
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import NodePath
+from toontown.toonbase.ToontownModules import NodePath
 from otp.level import BasicEntities
 
 class DistributedCrushableEntity(DistributedEntity.DistributedEntity,
@@ -19,12 +19,12 @@ class DistributedCrushableEntity(DistributedEntity.DistributedEntity,
         # doesn't already derive from NodePath
         node = hidden.attachNewNode('DistributedNodePathEntity')
         NodePath.__init__(self, node)
-    
+
     def announceGenerate(self):
         DistributedEntity.DistributedEntity.announceGenerate(self)
         BasicEntities.NodePathAttribs.initNodePathAttribs(self)
         # inheritors should make sure to reparent geom to something under render
-        
+
     def disable(self):
         self.reparentTo(hidden)
         BasicEntities.NodePathAttribs.destroy(self)
@@ -48,6 +48,3 @@ class DistributedCrushableEntity(DistributedEntity.DistributedEntity,
         # such as scaling the object along the axis, or playing
         # a crush animation
         return
-
-
-    

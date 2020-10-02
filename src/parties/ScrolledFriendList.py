@@ -5,7 +5,7 @@ from direct.gui.DirectGui import DirectScrolledList, DirectCheckButton
 from direct.gui.DirectCheckBox import DirectCheckBox
 from direct.gui import DirectGuiGlobals
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import Vec3, Vec4, PlaneNode, Plane, Point3, TextNode, VBase4, NodePath
+from toontown.toonbase.ToontownModules import Vec3, Vec4, PlaneNode, Plane, Point3, TextNode, VBase4, NodePath
 
 class ScrolledFriendList( DirectScrolledList ):
     """
@@ -74,7 +74,7 @@ class ScrolledFriendList( DirectScrolledList ):
                 text_align = TextNode.ALeft,
                 text_scale = 0.7,
                 text_pos = (-3.7, -0.25),
-                command = self.clickCallback, 
+                command = self.clickCallback,
                 indicator_pos = (-4.8, 0.0, 0.0),
             )
             widget["extraArgs"] = [widget]

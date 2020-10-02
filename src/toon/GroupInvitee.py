@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.showbase import DirectObject
 from direct.directnotify import DirectNotifyGlobal
@@ -20,7 +20,7 @@ class GroupInvitee(ToonHeadDialog.ToonHeadDialog):
     def __init__(self):
         pass
 
-        
+
     def make(self, party,toon, leaderId, **kw):
         self.leaderId = leaderId
         self.avName = toon.getName()
@@ -29,7 +29,7 @@ class GroupInvitee(ToonHeadDialog.ToonHeadDialog):
         self.avDNA = toon.getStyle()
         self.party = party
         # Dialog depends upon number of friends in friends list
-   
+
         text = TTLocalizer.BoardingInviteeMessage % (self.avName)
         style = TTDialog.TwoChoice
         buttonTextList = [OTPLocalizer.FriendInviteeOK,
@@ -74,7 +74,7 @@ class GroupInvitee(ToonHeadDialog.ToonHeadDialog):
         Removes the panel from the screen.
         """
         ToonHeadDialog.ToonHeadDialog.cleanup(self)
-        
+
     def forceCleanup(self):
         """
         Cancels any pending request and removes the panel from the screen, unanswered.

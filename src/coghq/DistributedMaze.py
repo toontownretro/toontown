@@ -1,11 +1,11 @@
 from otp.level.BasicEntities import DistributedNodePathEntity
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 import random
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import globalClockDelta
-import DistributedBarrelBase
+from . import DistributedBarrelBase
 from otp.level.BasicEntities import DistributedNodePathEntity
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -16,7 +16,7 @@ from direct.gui.DirectGui import DGG, DirectFrame, DirectLabel
 class DistributedMaze(DistributedNodePathEntity):
 
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedMaze')
-    
+
     ScheduleTaskName = 'mazeScheduler'
 
     RemoveBlocksDict = {
@@ -26,7 +26,7 @@ class DistributedMaze(DistributedNodePathEntity):
              ('HedgeBlock_0_1','HedgeBlock_0_2','HedgeBlock_1_3','HedgeBlock_2_3'),
              )
         }
-        
+
     def __init__(self, cr):
         """Construct the maze."""
         DistributedNodePathEntity.__init__(self, cr)
@@ -46,7 +46,7 @@ class DistributedMaze(DistributedNodePathEntity):
         DistributedNodePathEntity.announceGenerate(self)
         self.addHints(self.roomHold)
         self.loadGui()
-        
+
     def disable(self):
         """Remove us from the cache."""
         assert self.notify.debugStateCall(self)
@@ -70,7 +70,7 @@ class DistributedMaze(DistributedNodePathEntity):
         else:
             self.roomRequest = self.cr.relatedObjectMgr.requestObjects(
                 [roomDoId], allCallback = self.gotRoom, timeout = 5)
-        
+
     def gotRoom(self, rooms):
         """Handle getting the actual room object we are in."""
         self.roomRequest = None
@@ -79,7 +79,7 @@ class DistributedMaze(DistributedNodePathEntity):
         rotations = [0,0,90,90,180,180,270,270]
         self.getRng().shuffle(rotations)
         self.numSections = 0
-        for i in xrange(0,4):
+        for i in range(0,4):
             maze = room.getGeom().find('**/Maze_Inside_%d' % i)
             if not maze.isEmpty():
                 self.numSections += 1
@@ -87,8 +87,8 @@ class DistributedMaze(DistributedNodePathEntity):
                     maze.setH(rotations.pop())
         self.GameDuration = 35.0 + (self.numSections * 15.0)
         self.removeHedgeBlocks(room)
-        
-        
+
+
     def addHints(self, room):
         self.focusPoint = self.attachNewNode("GolfGreenGameFrame")
         hintList = room.getGeom().findAllMatches('**/dead*')
@@ -101,13 +101,13 @@ class DistributedMaze(DistributedNodePathEntity):
             self.actSphereNodePath = hint.attachNewNode(self.actSphereNode)
             self.actSphereNode.setCollideMask(WallBitmask)
             self.actSphere.setTangible(0)
-    
+
             self.enterEvent = "enter" + self.actSphereNode.getName()
             self.accept(self.enterEvent, self.__handleToonEnterHint)
-            
+
             self.exitEvent = "exit" + self.actSphereNode.getName()
             self.accept(self.exitEvent, self.__handleToonExitHint)
-            
+
         enterance = room.getGeom().find('**/ENTRANCE')
         self.enterSphere = CollisionSphere(0,0,0,8.0)
         self.enterSphereNode = CollisionNode("mazegame_enter-%s-%s" %
@@ -119,7 +119,7 @@ class DistributedMaze(DistributedNodePathEntity):
 
         self.enteranceEvent = "enter" + self.enterSphereNode.getName()
         self.accept(self.enteranceEvent, self.__handleToonEnterance)
-        
+
         finish = room.getGeom().find('**/finish')
         self.finishSphere = CollisionSphere(0,0,0,15.0)
         self.finishSphereNode = CollisionNode("mazegame_finish-%s-%s" %
@@ -131,9 +131,9 @@ class DistributedMaze(DistributedNodePathEntity):
 
         self.finishEvent = "enter" + self.finishSphereNode.getName()
         self.accept(self.finishEvent, self.__handleToonFinish)
-        
 
-        
+
+
     def __handleToonEnterance(self, collEntry):
         #print "toon enterance"
         #self.setGameStart(0)
@@ -141,26 +141,26 @@ class DistributedMaze(DistributedNodePathEntity):
             self.notify.debug('sending clientTriggered for %d' % self.doId)
             self.sendUpdate('setClientTriggered',[])
             self.level.countryClub.showInfoText(self.toonEnteredText)
-        
+
     def __handleToonFinish(self, collEntry):
         #print "toon finish"
         self.sendUpdate("setFinishedMaze", [])
         self.finished = 1
-        
+
     def __handleToonEnterHint(self, collEntry):
         #print "hint enter"
         camHeight = base.localAvatar.getClampedAvatarHeight()
         heightScaleFactor = (camHeight * 0.3333333333)
         defLookAt = Point3(0.0, 1.5, camHeight)
-                     
+
         cameraPoint = Point3(0.0, (-22.0 * heightScaleFactor), (camHeight + 54.0))
 
         #base.localAvatar.setCameraSettings(cameraSetting[0])
-        
+
         base.localAvatar.stopUpdateSmartCamera()
         base.localAvatar.startUpdateSmartCamera(push = 0)
         base.localAvatar.setIdealCameraPos(cameraPoint)
-        
+
     def __handleToonExitHint(self, collEntry):
         #print "hint exit"
         base.localAvatar.stopUpdateSmartCamera()
@@ -180,7 +180,7 @@ class DistributedMaze(DistributedNodePathEntity):
                 block = room.getGeom().find('**/%s' % blockName)
                 if not block.isEmpty():
                     block.removeNode()
-                    
+
     def setGameStart(self, timestamp):
         """
         This method gets called from the AI when all avatars are ready
@@ -196,36 +196,36 @@ class DistributedMaze(DistributedNodePathEntity):
         self.cleanupTimer()
         self.timer = ToontownTimer.ToontownTimer()
         self.timer.posBelowTopRightCorner()
-        self.timer.setTime(timeLeft) 
+        self.timer.setTime(timeLeft)
         self.timer.countdown(timeLeft, self.timerExpired)
-        
+
         self.startScheduleTask()
         self.frame2D.show()
-        
+
     def setGameOver(self):
         #print "game over"
-        
+
         #import pdb; pdb.set_trace()
-        
+
         self.timedOut = 1
         if not self.finished:
             self.sendUpdate("damageMe", [])
             roomNum = self.level.roomNum
             club = self.level.countryClub
-            
+
             self.gameOverTrack = Sequence()
             self.gameOverTrack.append(localAvatar.getTeleportOutTrack())
             self.gameOverTrack.append(Func(localAvatar.setPos, self.finishSphereNodePath.getPos(render)))
             self.gameOverTrack.append(Func(localAvatar.play, 'jump'))
             self.gameOverTrack.append(Func(self.level.countryClub.camEnterRoom, roomNum))
             self.gameOverTrack.start()
-            
- 
-            
-            
+
+
+
+
         self.timerExpired()
-        
-                    
+
+
     # time-related utility functions
     def local2GameTime(self, timestamp):
         """
@@ -252,21 +252,21 @@ class DistributedMaze(DistributedNodePathEntity):
 
     def scheduleTask(self, task):
         curTime = self.getCurrentGameTime()
-                    
+
     def cleanupTimer(self):
-        """Stop and remove the molefield timer."""        
+        """Stop and remove the molefield timer."""
         if self.timer:
             self.timer.stop()
             self.timer.destroy()
-            self.timer = None      
+            self.timer = None
 
     def timerExpired(self):
         """Show something when the timer expires."""
         assert self.notify.debugStateCall(self)
         self.cleanupTimer()
         self.unloadGui()
-        
-        
+
+
     def loadGui(self):
         """Create the GUI."""
         self.frame2D =  DirectFrame(scale = 1.0,
@@ -286,7 +286,7 @@ class DistributedMaze(DistributedNodePathEntity):
             text_font = ToontownGlobals.getSignFont(),
             text0_fg = (1, 1, 1, 1),
             text_scale = 0.075,
-            text_pos = (0, -0.02),         
+            text_pos = (0, -0.02),
             )
 
     def unloadGui(self):
@@ -297,7 +297,7 @@ class DistributedMaze(DistributedNodePathEntity):
         if self.gameLabel:
             self.gameLabel.destroy()
         self.gameLabel = None
-            
+
     def toonFinished(self, avId, place, lastToon):
         #print("toonFinished received")
         toon = base.cr.doId2do.get(avId)
@@ -306,4 +306,3 @@ class DistributedMaze(DistributedNodePathEntity):
         if lastToon:
             self.setGameOver()
             pass
-            

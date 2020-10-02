@@ -10,7 +10,7 @@ from toontown.effects import Ripples
 import random
 from direct.showbase.DirectObject import DirectObject
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.directtools.DirectGeometry import LineNodePath
 
@@ -149,7 +149,7 @@ class Fisherman(Toon.Toon):
     def __init__(self, id, toNpcId = 20001, fAutonomous = 1):
         # Default NPC ID is Flippy
         Toon.Toon.__init__(self)
-        self.id = id 
+        self.id = id
         self.fAutonomous = fAutonomous
         npcInfo = NPCToons.NPCToonDict[toNpcId]
         dnaList = npcInfo[2]
@@ -217,7 +217,7 @@ class Fisherman(Toon.Toon):
             self.wiggleIval = None
             self.circleIval = None
             self.initFish()
-            
+
             self.targetButton = DirectButton(parent = self.buttonFrame,
                                              text = 'MOVE',
                                              relief = DGG.RAISED,
@@ -478,7 +478,7 @@ class Fisherman(Toon.Toon):
             fBite = (random.random() < 0.4) or (not self.fTargetMode)
             delay = self.fTargetMode * 0.25
             if fBite:
-                print 'BITE'
+                print('BITE')
                 Sequence(Wait(random.random() * delay),
                          Func(flashFunc),
                          Func(self.catchFish),
@@ -486,7 +486,7 @@ class Fisherman(Toon.Toon):
                          Func(moveFunc),
                          ).play()
             else:
-                print 'MISS'
+                print('MISS')
                 def moveIt():
                     moveFunc(targetPos = target.getPos())
                 Sequence(Wait(random.random() * delay),
@@ -658,4 +658,3 @@ def stopCasting():
 def startCasting():
     for f in fList:
         f.startCasting()
-

@@ -1,6 +1,6 @@
 """Stomper module: contains the Stomper class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.showbase.PythonUtil import lerp
@@ -129,7 +129,7 @@ class Stomper(StateData.StateData, NodePath):
         self.ival.loop()
         self.ival.setT((globalClock.getFrameTime() - startTime) +
                        (self.period * self.phaseShift))
-        
+
     def exit(self):
         self.ival.finish()
         del self.ival

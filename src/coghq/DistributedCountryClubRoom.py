@@ -1,13 +1,13 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 import random
 from otp.level import DistributedLevel
 from direct.directnotify import DirectNotifyGlobal
-import CountryClubRoomBase, CountryClubRoom
-import FactoryEntityCreator
-import CountryClubRoomSpecs
+from . import CountryClubRoomBase, CountryClubRoom
+from . import FactoryEntityCreator
+from . import CountryClubRoomSpecs
 from otp.level import LevelSpec, LevelConstants
 from toontown.toonbase import TTLocalizer
 if __dev__:
@@ -24,7 +24,7 @@ class DistributedCountryClubRoom(DistributedLevel.DistributedLevel,
 
     # Any non-entrance countryClub room will not have an entrancePoint entity.
     EmulateEntrancePoint = False
-    
+
     def __init__(self, cr):
         DistributedLevel.DistributedLevel.__init__(self, cr)
         CountryClubRoomBase.CountryClubRoomBase.__init__(self)
@@ -50,7 +50,7 @@ class DistributedCountryClubRoom(DistributedLevel.DistributedLevel,
         DistributedLevel.DistributedLevel.delete(self)
         CountryClubRoom.CountryClubRoom.delete(self)
         self.ignoreAll()
-        
+
     # required fields
     def setCountryClubId(self, countryClubId):
         self.notify.debug('countryClubId: %s' % countryClubId)
@@ -76,7 +76,7 @@ class DistributedCountryClubRoom(DistributedLevel.DistributedLevel,
             # give the spec a factory EntityTypeRegistry.
             typeReg = self.getCountryClubEntityTypeReg()
             roomSpec.setEntityTypeReg(typeReg)
-        
+
         DistributedLevel.DistributedLevel.initializeLevel(self, roomSpec)
 
         # if the AI is sending us a spec, we won't have it yet and the
@@ -194,8 +194,8 @@ class DistributedCountryClubRoom(DistributedLevel.DistributedLevel,
             pos = base.localAvatar.getPos(thisZone)
             h = base.localAvatar.getH(thisZone)
             roomName = CountryClubRoomSpecs.BossbotCountryClubRoomId2RoomName[self.roomId]
-            print 'countryClub pos: %s, h: %s, room: %s' % (
-                repr(pos), h, roomName)
+            print('countryClub pos: %s, h: %s, room: %s' % (
+                repr(pos), h, roomName))
             if self.countryClub is not None:
                 floorNum = self.countryClub.floorNum
             else:

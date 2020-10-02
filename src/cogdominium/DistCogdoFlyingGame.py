@@ -17,13 +17,14 @@ from direct.showbase.DirectObject import DirectObject
 from direct.showbase.PythonUtil import bound as clamp
 from direct.fsm.FSM import FSM
 
-from pandac.PandaModules import NodePath, VBase3, Vec3, VBase4, Fog
+from toontown.toonbase.ToontownModules import NodePath, VBase3, Vec3, VBase4, Fog
 
 from toontown.minigame.DistributedMinigame import DistributedMinigame
 from toontown.minigame import ArrowKeys
 from toontown.toonbase import ToontownTimer
 
-import CogdoFlyingGameGlobals
+from . import CogdoFlyingGameGlobals
+import importlib
 
 def loadMockup(fileName, dmodelsAlt="coffin"):
     try:
@@ -48,7 +49,7 @@ class DistCogdoFlyingGame(DistributedMinigame):
         self.game = CogdoFlyingGame(self)
 
     def codeReload(self):
-        reload(CogdoFlyingGameGlobals)
+        importlib.reload(CogdoFlyingGameGlobals)
 
     def load(self):
         DistributedMinigame.load(self)
@@ -60,7 +61,7 @@ class DistCogdoFlyingGame(DistributedMinigame):
         del self.game
         self.ignore("onCodeReload")
 
-        print "Unload Distributed Game"
+        print("Unload Distributed Game")
 
         DistributedMinigame.unload(self)
 
@@ -101,13 +102,13 @@ class CogdoFlyingGame(DirectObject):
 
         # Unused currently
         self.toonDropShadows = []
-        
+
         self.startPlatform = None
 #        self.currentPlatform = None
         self.endPlatform = None
         self.fuelPlatforms = {}
         self.isGameComplete = False
-        
+
         self.upLimit = 0.0
         self.downLimit = 0.0
         self.leftLimit = 0.0
@@ -121,24 +122,24 @@ class CogdoFlyingGame(DirectObject):
         self.world = loadMockup("cogdominium/mockup.egg")
         self.world.reparentTo(self.root)
         self.world.stash()
-        
+
         # Setup and placement of starting platform
         self.startPlatform = loadMockup("cogdominium/start_platform.egg")
         startPlatformLoc = self.world.find("**/start_platform_loc")
         self.startPlatform.reparentTo(startPlatformLoc)
         colModel = self.startPlatform.find("**/col_floor")
         colModel.setTag('start_platform', '%s' % base.localAvatar.doId)
-        
+
         # Here we set the current platform for the local player
         self.localPlayer.setCheckpointPlatform(self.startPlatform)
-        
+
         # Setup and placement of the end platform
         self.endPlatform = loadMockup("cogdominium/end_platform.egg")
         endPlatformLoc = self.world.find("**/end_platform_loc")
         self.endPlatform.reparentTo(endPlatformLoc)
         colModel = self.endPlatform.find("**/col_floor")
         colModel.setTag('end_platform', '%s' % base.localAvatar.doId)
-        
+
         # Setup and placement for all the fuel platforms
         fuelPlatformModel = loadMockup("cogdominium/fuel_platform.egg")
         fuelIndex = 1
@@ -153,10 +154,10 @@ class CogdoFlyingGame(DirectObject):
             self.fuelPlatforms[fuelModel.getName()] = fuelModel
             fuelIndex += 1
             fuelLoc = self.world.find('**/fuel_platform_loc_%d' % fuelIndex)
-            
-        
+
+
         self.accept("entercol_floor", self.handleCollision)
-        
+
         self.skybox = self.world.find("**/skybox")
         self.upLimit = self.world.find("**/limit_up").getPos(render).getZ()
         self.downLimit = self.world.find("**/limit_down").getPos(render).getZ()
@@ -184,15 +185,15 @@ class CogdoFlyingGame(DirectObject):
 
         self.root.detachNode()
         del self.root
-        
+
         self.ignore("entercol_floor")
-    
+
     def handleCollision(self, collEntry):
         fromNodePath = collEntry.getFromNodePath()
         intoNodePath = collEntry.getIntoNodePath()
         intoName = intoNodePath.getName()
         fromName = fromNodePath.getName()
-        
+
         if intoNodePath.getTag('fuel_platform') != "":
             if not int(intoNodePath.getTag('isUsed')) or CogdoFlyingGameGlobals.FlyingGame.MULTIPLE_REFUELS_PER_STATION:
                 intoNodePath.setTag('isUsed','%s' % 1)
@@ -200,7 +201,7 @@ class CogdoFlyingGame(DirectObject):
                 self.localPlayer.request("Refuel")
         if intoNodePath.getTag('end_platform') != "":
             self.localPlayer.request("WaitingForWin")
-    
+
     def enable(self):
         self.localPlayer.request("FreeFly")
         self.__startUpdateTask()
@@ -259,13 +260,13 @@ class CogdoFlyingGame(DirectObject):
 
     def __stopUpdateTask(self):
         taskMgr.remove(CogdoFlyingGame.UPDATE_TASK_NAME)
-    
+
     def __stopGameCompleteTask(self):
         taskMgr.remove(CogdoFlyingGame.GAME_COMPLETE_TASK_NAME)
-    
+
     def gameComplete(self):
         self.localPlayer.request("Win")
-    
+
     def __updateTask(self, task):
         self.localPlayer.update()
 
@@ -273,7 +274,7 @@ class CogdoFlyingGame(DirectObject):
         if self.localPlayer.state == "WaitingForWin" and not self.isGameComplete:
             self.isGameComplete = True
             taskMgr.doMethodLater(6.0, self.gameComplete, CogdoFlyingGame.GAME_COMPLETE_TASK_NAME, extraArgs=[])
-    
+
         self.skybox.setPos(self.skybox.getPos().getX(),
                            self.localPlayer.toon.getPos().getY(),
                            self.skybox.getPos().getZ())
@@ -335,7 +336,7 @@ class CogdoFlyingPlayer(FSM):
 
     def exitDeath(self):
         CogdoFlyingPlayer.notify.debug( "exit%s: '%s' -> '%s'" % (self.oldState, self.oldState, self.newState) )
-        
+
     def enterRefuel(self):
         CogdoFlyingPlayer.notify.info( "enter%s: '%s' -> '%s'" % (self.newState, self.oldState, self.newState) )
 
@@ -374,15 +375,15 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         self.inputMgr = CogdoFlyingInputManager()
         self.cameraMgr = CogdoFlyingCameraManager(self, camera, render)
         self.guiMgr = CogdoFlyingGuiManager(self)
-        
+
         self.checkpointPlatform = None
-        
+
         self.fuel = 0.0
         self.props = {}
-        
+
         self.initModels()
         self.initIntervals()
-        
+
         self.propSound = base.loadSfx('phase_4/audio/sfx/TB_propeller.wav')
 
 
@@ -395,11 +396,11 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
     def placePropeller(self, lod):
         prop = BattleProps.globalPropPool.getProp('propeller')
         prop.setScale(1.1)
-        
+
         self.props[lod] = prop
-        
+
         head = base.localAvatar.getPart('head', lod)
-        
+
         if head.isEmpty():
             return
 
@@ -435,7 +436,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             Func(self.request, "FreeFly"),
             name="%s.deathInterval" % (self.__class__.__name__)
         )
-        
+
         self.refuelInterval = Sequence(
             Func(self.guiMgr.setRefuelLerpFromData),
             Func(self.guiMgr.messageLabel.unstash),
@@ -457,7 +458,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             Func(self.request, "FreeFly"),
             name="%s.refuelInterval" % (self.__class__.__name__)
         )
-        
+
         self.waitingForWinInterval = Sequence(
             Func(self.guiMgr.setMessageLabelText, "Waiting for other players"),
             Wait(1.5),
@@ -469,7 +470,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             Wait(1.5),
             name="%s.waitingForWinInterval" % (self.__class__.__name__)
         )
-        
+
         self.winInterval = Sequence(
             Func(self.guiMgr.setMessageLabelText, ""),
             Wait(1.0),
@@ -521,18 +522,18 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
 #        print "unloading CogdoFlyingLocalPlayer"
         self.toon.showName()
         CogdoFlyingPlayer.unload(self)
-        
+
         self.checkpointPlatform = None
-        
+
         self.cameraMgr.disable()
         del self.cameraMgr
 
         base.localAvatar.controlManager.currentControls.setGravity(32.174*2.0)
         del self.game
-        
+
         self.inputMgr.destroy()
         del self.inputMgr
-        
+
         self.props['1000'].detachNode()
         self.props['500'].detachNode()
         self.props['250'].detachNode()
@@ -545,19 +546,19 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         del self.fastPropTrack
 
         del self.propSound
-        
+
         self.deathInterval.clearToInitial()
         del self.deathInterval
-        
+
         self.refuelInterval.clearToInitial()
         del self.refuelInterval
-        
+
         self.guiMgr.destroy()
         self.guiMgr = None
-    
+
     def setCheckpointPlatform(self, platform):
         self.checkpointPlatform = platform
-    
+
     def resetToon(self):
 #        print "Reset toon"
 #        print "------------------------"
@@ -616,7 +617,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
                 self.request("FreeFly")
 
         toonPos += self.velocity*dt
-        
+
         # TODO:flying: death probably needs to happen on the server...
         if (CogdoFlyingGameGlobals.FlyingGame.DISABLE_DEATH) or \
            (base.config.GetBool('cogdo-flying-game-disable-death', 0)):
@@ -671,7 +672,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
 
     def __updateFuel(self):
         dt = globalClock.getDt()
-        
+
         if CogdoFlyingGameGlobals.FlyingGame.INFINITE_FUEL:
             self.fuel = CogdoFlyingGameGlobals.FlyingGame.FUEL_START_AMT
         else:
@@ -679,7 +680,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
                 self.fuel -= CogdoFlyingGameGlobals.FlyingGame.FUEL_BURN_RATE * dt
             elif self.fuel < 0.0:
                 self.fuel = 0.0
-            
+
 
     def update(self):
         if self.state not in ["Inactive","Refuel","WaitingForWin","Win"]:
@@ -735,7 +736,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
     def exitDeath(self):
         CogdoFlyingPlayer.exitDeath(self)
         self.inputMgr.enable()
-        
+
     def enterWaitingForWin(self):
         CogdoFlyingPlayer.enterDeath(self)
         self.inputMgr.disable()
@@ -747,7 +748,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         self.waitingForWinInterval.clearToInitial()
         self.guiMgr.messageLabel.stash()
         self.inputMgr.enable()
-        
+
     def enterWin(self):
         CogdoFlyingPlayer.enterDeath(self)
         self.inputMgr.disable()
@@ -762,7 +763,7 @@ class CogdoFlyingInputManager:
     def __init__(self):
         self.arrowKeys = ArrowKeys.ArrowKeys()
         self.arrowKeys.disable()
-        
+
     def enable(self):
         #print "CogdoFlyingInputManager.enable()"
         self.arrowKeys.setPressHandlers([
@@ -778,11 +779,11 @@ class CogdoFlyingInputManager:
         self.arrowKeys.disable()
 
     def destroy(self):
-        print "Destroying CogdoFlyingInputManager"
+        print("Destroying CogdoFlyingInputManager")
         self.disable()
         self.arrowKeys.destroy()
         self.arrowKeys = None
-        
+
         self.refuelLerp = None
 
     def __upArrowPressed(self):
@@ -819,7 +820,7 @@ class FlyingCamera(CameraManager):
     def __init__(self, cameraNP):
         CameraManager.__init__(self,cameraNP)
         self.vecRate = Vec3(self.rate, self.rate, self.rate)
-        
+
     def rateInterpolate(self, currentPos, targetPos):
         dt = globalClock.getDt()
         vec = currentPos - targetPos
@@ -860,7 +861,7 @@ class CogdoFlyingCameraManager:
         newOffset = Vec3(self.player.instantaneousVelocity.getX()*0.1,self.player.instantaneousVelocity.getY()*2.0,self.player.velocity.getZ())
         targetPos = toonPos + self.camOffset + Vec3(0,0,-newOffset.getZ()*0.3)
         targetLookAt = toonPos + Vec3(0,35,0) + newOffset
-        
+
         if self.player.instantaneousVelocity.getY() < 0.0 or (self.player.instantaneousVelocity.getY() <= 0.0 and self.player.instantaneousVelocity.getZ() < 0.0):
             targetPos = targetPos + Vec3(0, +2.0, abs(self.player.instantaneousVelocity.getZ()*0.4))
             targetLookAt = targetLookAt + Vec3(0,0,-abs(self.player.instantaneousVelocity.getZ()*0.2))
@@ -878,29 +879,29 @@ class CogdoFlyingCameraManager:
         self.cameraManager.setTargetLookAtPos(targetLookAt)
 
 
-from pandac.PandaModules import CardMaker, TextNode
+from toontown.toonbase.ToontownModules import CardMaker, TextNode
 from direct.gui.DirectGui import DirectLabel
 from toontown.toonbase import ToontownGlobals
 
 class CogdoFlyingGuiManager:
     def __init__(self, player):
-        
+
         self.player = player
-        
+
         self.root = NodePath("CogdoFlyingGui")
         self.root.reparentTo(aspect2d)
-        
+
         self.fuelMeter = NodePath("scrubMeter")
         self.fuelMeter.reparentTo(self.root)
         self.fuelMeter.setPos(1.1, 0.0, -0.7)
         self.fuelMeter.setSz(2.0)
-        
+
         cm = CardMaker('card')
         cm.setFrame( -0.07, 0.07, 0.0, 0.75 )
         self.fuelMeterBar = self.fuelMeter.attachNewNode(cm.generate())
         self.fuelMeterBar.setColor(0.95, 0.95, 0.0, 1.0)
-        
-        
+
+
         self.fuelLabel = DirectLabel(
             parent = self.root,
             relief = None,
@@ -911,7 +912,7 @@ class CogdoFlyingGuiManager:
             text_shadow = (0, 0, 0, 1),
             text_font = ToontownGlobals.getInterfaceFont(),
         )
-        
+
         self.messageLabel = DirectLabel(
             parent = self.root,
             relief = None,
@@ -925,7 +926,7 @@ class CogdoFlyingGuiManager:
             textMayChange = 1,
         )
         self.messageLabel.stash()
-        
+
         self.winLabel = DirectLabel(
             parent = self.root,
             relief = None,
@@ -938,17 +939,17 @@ class CogdoFlyingGuiManager:
             text_font = ToontownGlobals.getInterfaceFont(),
         )
         self.winLabel.stash()
-        
+
         self.refuelLerp = LerpFunctionInterval(self.fuelMeterBar.setSz, fromData=0.0, toData=1.0, duration=2.0)
-        
+
     def setRefuelLerpFromData(self):
         startScale = self.fuelMeterBar.getSz()
         self.refuelLerp.fromData = startScale
-    
+
     def setMessageLabelText(self,text):
         self.messageLabel["text"] = text
         self.messageLabel.setText()
-    
+
     def update(self):
         self.fuelMeterBar.setSz(self.player.fuel)
 
@@ -956,19 +957,17 @@ class CogdoFlyingGuiManager:
 #        print "Destroying GUI"
         self.fuelMeterBar.detachNode()
         self.fuelMeterBar = None
-        
+
         self.fuelLabel.detachNode()
         self.fuelLabel = None
-        
+
         self.fuelMeter.detachNode()
         self.fuelMeter = None
-        
+
         self.winLabel.detachNode()
         self.winLabel = None
-        
+
         self.root.detachNode()
         self.root = None
-        
+
         self.player = None
-
-

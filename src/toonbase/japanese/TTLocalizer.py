@@ -631,7 +631,7 @@ QuestsItemDict = {
     3025 : ["あみ針", "あみ針", ""],
     3026 : ["アリバイ", "アリバイ", ""],
     3027 : ["気温センサー", "気温センサー", ""],
-    
+
     #Dreamland Quests
     6001 : ["マネーボット本部プラン", "マネーボット本部プラン", ""],
     6002 : ["ロッド", "ロッド", ""],
@@ -645,7 +645,7 @@ QuestsItemDict = {
     6010 : ["ザイデコのレコード", "ザイデコのレコード", ""],
     6011 : ["ズッキーニ", "ズッキーニ", ""],
     6012 : ["ズート･スーツ", "ズート･スーツ", ""],
-    
+
     #Dreamland+1 quests
     7001 : ["プレーンベッド", "プレーンベッド", ""],
     7002 : ["ファンシーベッド", "ファンシーベッド", ""],
@@ -1091,7 +1091,7 @@ QuestDialogDict = {
              LEAVING : "それじゃあな！",
              COMPLETE : "おー！やるじゃないか！\aちゃんとコグのパーツの一部を見つけたようだな。\aコグを作る途中で出来たものに違いない！\a持ち運びも出来る大きさだから、時間があるときに集めてみると良いかもな。\aひょっとしたら、コグのスーツのパーツ全てが集まるかもしれないしな。何かに使えるかもしれんし…",
              },
-    
+
     4001 : {GREETING : "",
             QUEST : "次に覚えたいギャグトラックを選ぼう。\aじっくり考えてから決めてね。\a決める準備ができたらここに戻っておいで。",
             INCOMPLETE_PROGRESS : "選択する前に、もう一度よく考えてね。",
@@ -1545,13 +1545,13 @@ QuestDialogDict = {
              QUEST : "え、終わった？すべてのコグをやっつけた？\a何かの聞き間違いでしょう、私はマネーボットを倒してくれと言ったのです。" },
 
     # Eddie the will give you laff point for helping him
-    5301 : { QUEST : "ゲラゲラポイントs, でもひょっとしたら_toNpcName_が手伝ってくれるかも。\a彼はちょっと気むずかしいところがあるんだけどね。_where_" }, 
+    5301 : { QUEST : "ゲラゲラポイントs, でもひょっとしたら_toNpcName_が手伝ってくれるかも。\a彼はちょっと気むずかしいところがあるんだけどね。_where_" },
     5302 : { GREETING : "",
              LEAVING : "",
              COMPLETE : "思ったとおりだ！\aありがとな！ゲラゲラポイントだ！",
              INCOMPLETE_PROGRESS : "やあ！\aここでまた何しているんだい。",
              QUEST : "ゲラゲラポイントが欲しいって？\aまず最初に悪いロウボット達をやっつけてからにしてくれ。" },
-    
+
     # Johnny Cashmere will knit you a large bag if...
     5303 : { QUEST : lTheBrrrgh+"が危険なコグ達であふれかえっているんだ。\aもし僕がキミなら、ここではギャグをもっと持ち歩くね。\aもしキミが足を棒にして働くんだったら、_toNpcName_が大きいバッグを作ることができるみたいだよ。_where_" },
     5304 : { GREETING: "",
@@ -1572,7 +1572,7 @@ QuestDialogDict = {
              QUEST : "確かに僕のあみ針だ。\aあみものをしている間に、コグビルをやっつけてくれないかい？",
              COMPLETE : "本当にすごいね、キミは！\aそしてこれもすごいよ…\aキミの新しいバッグだよ！" },
 
-    # March Harry can also give you max quest = 4. 
+    # March Harry can also give you max quest = 4.
     5308 : { GREETING : "",
              LEAVING : "",
              QUEST : "_toNpcName_が何か問題をかかえてるみたいなんだ。\aちょっと立ち寄って聞いてきてくれない？_where_"  },
@@ -1648,7 +1648,7 @@ QuestDialogDict = {
              COMPLETE : "よぉ、_avName_！これでボスボットもえばらなくなったかもね～！\aほ～らよっと！どでかいごほうびだ！トラブルにはまきこまれるな～！",
              },
 
-    # Nat & PJ will get you acquainted with the new 
+    # Nat & PJ will get you acquainted with the new
     # HQ. And they'll give you your first suit part
     6231 : { QUEST : "パジャマ・プレイスにいるナットがマネーボット本部のうわさを聞いたって。\aちょっと手伝えるかどうか彼のところに向かってくれる？ where_",
              },
@@ -1674,7 +1674,7 @@ QuestDialogDict = {
              COMPLETE : "えっ、「プラン」を持ってきたって！\aすばらしい！ふむふむ…。\aマネーボットがお金工場で「コグドル」を作っているって！\aきっとマネーボットだらけなんだろうね！でもより深く調べないと！\aコグに変装できればなぁ…。ちょっと待てよ。どこかにコグスーツのパーツがあったはずなんだけど…。\aあった！これを持っていけば何か役に立つはず。手伝ってくれてありがとう！",
              },
 
-    # The Countess can't concentrate on counting her sheep with all 
+    # The Countess can't concentrate on counting her sheep with all
     # these Cogs around. Clean up a bit and she'll reward you handsomely.
     # Reward: MaxMoneyReward 705 - 150 jellybeans
     6241 : { QUEST : "カウンテスがキミのことを探し回っていたよ。彼女のところにいって声をかけてあげて！_where_",
@@ -1780,7 +1780,7 @@ QuestDialogDict = {
              },
 
     # Teddy Blair has a piece of a cog suit to give you if you will
-    # clear out some cogs. Of course, his ear plugs make it tough. 
+    # clear out some cogs. Of course, his ear plugs make it tough.
     6281 : { QUEST : "テディ・ブレアのところに行って、キミの仕事をもらおう！_where_",
              },
     6282 : { GREETING : "",
@@ -1788,8 +1788,8 @@ QuestDialogDict = {
              QUEST : "何だって？キミの仕事なんてないよ。\a仕事！どうしてそう言ってくれなかったんだ！もっとちゃんと言ってれなきゃ。\aコグたちがじゃまして冬眠ができないんだ。もしキミがドリームランドを静かにしてくれたら、\aちょっとした何かをあげるよ。",
              INCOMPLETE_PROGRESS: "「ゴグ」をやっつけた？「ゴグ」って何かって？\aああ、「コグ」ね！ そうしてそう言ってくれなかったんだ！\aまだ静かになってないから、もう少しやっつけてくれないかい？",
              COMPLETE : "たのしかった？えっ？「たおした」って？\aやったね。本当に助けてくれてありがとう！\a部屋の奥にあったんだけど、使わないからどうぞ！\aきっと何かのパーツだから、他のパーツと一緒に使うんじゃない？ありがとう、_avName_！",
-             },    
-    
+             },
+
     # William Teller needs help! Those darn Cashbots swiped his 3
     # money bags to use in the Mint! Retrieve them and he'll give you
     # another cog Suit piece.
@@ -1799,7 +1799,7 @@ QuestDialogDict = {
              INCOMPLETE_PROGRESS : "ランプが必要なんだ！お願いだから探し続けて！",
              COMPLETE : "よく戻ったね！それに読書ランプも！\a感謝しつくしてもし尽くせないけど、お礼にこれをあげよう！",
              },
-    
+
     # Help Nina Nightlight get a bed in stock -
     # she'll give you a suit part
     7201 : { QUEST : "ニーナ・ナイトライトがキミを探してたよ、_avName_。彼女が助けが必要だって。_where_",
@@ -1872,7 +1872,7 @@ QuestDialogDict = {
              INCOMPLETE_PROGRESS : "これ以上のものはないよ。\aハニーがきっと待ってるよ。",
              COMPLETE : "あら、まあ！なんてすてきなの！やっぱりこのデザインじゃないと！\aじゃあ、すてきな夢でもみるかしらね。じゃあね、_avName_。\aなあに？まだいるの？レディーが寝ようとしてるのがわからない？\aどうぞ、これを受け取って、私を休ませて。おやすみなさい！",
              },
- 
+
     7218 : { QUEST : "ドリーミー・ダフネが「誰かに手伝ってもらいたい」って言ってたよ。_where_",
              },
     7219 : { GREETING : "",
@@ -1905,7 +1905,7 @@ QuestDialogDict = {
              INCOMPLETE_PROGRESS : "このまくら、とってもかたいよ！ダフネもとっても気に入るはず。",
              COMPLETE : "きっとテックスならかたいまくらを持っているって信じてたわ。\aさわりごこちといい、かたさといいパーフェクト！\aこのコグスーツのパーツを受け取ってくれるかしら。",
              },
- 
+
     # Sandy Sandman lost her pajamas but Big Mama
     # and Cat can help her out. If you hang in there,
     # you'll get another Cog Suit part.
@@ -1971,7 +1971,7 @@ QuestDialogDict = {
              INCOMPLETE_PROGRESS : "ねぇ、_avName_。サンディーがきっと首を長くしてパジャマを待ってるよ、",
              COMPLETE : "足つきのピンクのパジャマ！ かーんぺき！\aそれにサイズもぴったし。\a手伝ってくれた御礼をしないとね！\aこれなんてどうかしら？道でひろったんだけどね。",
              },
- 
+
     # Smudgy Mascara needs Wrinkle Cream but
     # 39's missing ingredients. Help them out
     # and get a piece of Cog suit
@@ -4315,7 +4315,7 @@ MinnieChatter = (
         "ふぁーっ、ドリームランドに行こうかしら？", #CC_minnie_chatter_goodbyes03.mp3
         ]
     )
-    
+
 DaisyChatter = (
         [ # Greetings
         "マイガーデンへようこそ！",
@@ -4640,7 +4640,7 @@ EventsPageToontownTimeIs = "TOONTOWN TIME IS"
 
 EventsPageHostTabName = "Hosting" # displayed on the physical tab
 EventsPageHostTabTitle = "My Next Party" # banner text displayed across the top
-EventsPageHostTabDateTimeLabel = "You are having a party on %s at %s Toontown Time." 
+EventsPageHostTabDateTimeLabel = "You are having a party on %s at %s Toontown Time."
 EventsPageHostingTabNoParty = "Go to a playground\nParty Gate to plan\nyour own party!"
 EventsPageHostTabPublicPrivateLabel = "Party is"
 EventsPageHostTabToggleToPrivate = "Private"
@@ -4858,7 +4858,7 @@ PartyCatchActivityAnvils      = 'anvils'
 FireworksActivityInstructions = "Hit the \"Page Up\" key to see better."
 FireworksActivityBeginning = "Party fireworks are about to start! Enjoy the show!"
 FireworksActivityEnding = "Hope you enjoyed the show!"
-PartyFireworksAlreadyActive = "The fireworks show has already started." 
+PartyFireworksAlreadyActive = "The fireworks show has already started."
 PartyFireworksAlreadyDone = "You've already had your fireworks show."
 
 # DistributedPartyTrampolineActivity.py
@@ -5294,7 +5294,7 @@ TownBattleWaitBack = lBack
 TownBattleSOSPetSearchTitle = "ドゥードゥルを探しています\n%s..."
 
 # TownBattleSOSPetInfoPanel.py
-TownBattleSOSPetInfoTitle = "%s is %s" 
+TownBattleSOSPetInfoTitle = "%s is %s"
 TownBattleSOSPetInfoOK = lOK
 
 # Trolley.py
@@ -5400,7 +5400,7 @@ PetTutorialPage1 = "ドゥードゥルをクリックすると、ドゥードゥ
 PetTutorialPage2 = "ドゥードゥルに「トリック」をさせたければ、スピードチャットの「ペット」の項目を使ってね。 「トリック」をしたら、ちゃんとごほうびをあげればごきげんになるよ。"
 PetTutorialPage3 = "クララベルのショッピングカタログからドゥードゥルの新しい「トリック」を買ってね。 より良い「トリック」はより多くのトゥーンアップができるよ。"
 def getPetGuiAlign():
-	from pandac.PandaModules import TextNode
+	from toontown.toonbase.ToontownModules import TextNode
 	return TextNode.ALeft
 
 GardenTutorialTitle1 = "ガーデニング" #localize
@@ -5757,7 +5757,7 @@ AnimalToSpecies = {
     'duck' : 'ﾀﾞｯｸ',
     'monkey' : 'ﾓﾝｷｰ',
     'bear'   : 'ﾍﾞｱ',
-    'pig'    : 'ﾋﾟｯｸﾞ'	
+    'pig'    : 'ﾋﾟｯｸﾞ'
     }
 NameTooLong = "なまえは全角8文字までだよ。もう一度入力してね。"
 ToonAlreadyExists = "もうトゥーン名%sができてるよ！"
@@ -5945,10 +5945,10 @@ CagedToonBattleThree = {
     10: "いいジャンプだよ、%(toon)s。  パイをどうぞ！",
     11: "やあ、%(toon)s！  パイをどうぞ！",
     12: "こんにちは、%(toon)s！  パイを手に入れたよ！",
-    
+
     20: "ねぇ、%(toon)s！  オリのところまでジャンプして、パイを投げて！",
     21: "おーい、%(toon)s!  Ctrlキーを使ってジャンプして、オリをさわって！",
-    
+
     100: "Insertキーを押すとパイを投げるよ！",
     101: "パイがどのくらい飛ぶかは青いパワーメーターでわかるよ！",
     102: "まず彼の土台に向けてパイを投げて、彼の動きを狂わせよう！",
@@ -6495,7 +6495,7 @@ NPCToonNames = {
     #
     # Toontown Central
     #
-    
+
     # Toontown Central Playground
 
     # This Flippy DNA matches the tutorial Flippy
@@ -6614,7 +6614,7 @@ NPCToonNames = {
     #
     # Donald's Dock
     #
-    
+
     # Donald's Dock Playground
     1001 : "てんいんの\nウィリー",
     1002 : "てんいんの\nビリー",
@@ -6830,7 +6830,7 @@ NPCToonNames = {
     3305 : "マック・ラメイ",
     3306 : "ポーラ・ベアー",
     # NPC Fisherman
-    3307 : "つりびとのフレドリカ", 
+    3307 : "つりびとのフレドリカ",
     3308 : "ドナルド・フランプ",
     3309 : "ブーツィー",
     3310 : "フレークきょうじゅ",
@@ -6996,7 +6996,7 @@ NPCToonNames = {
     #
     # Daisy Gardens
     #
-    
+
     # Daisy Gardens Playground
     5001 : lHQOfficerM,
     5002 : lHQOfficerM,
@@ -7968,7 +7968,7 @@ TipDict = {
     # Karting
     "スピードウェイでキミのホットロッドを展示してレース相手を探そう!",
     "トゥーンタウン・セントラルのタイヤがたのトンネルから、グーフィー・サーキットに行こう!",
-    "グーフィー・サーキットでゲラゲラポイントをゲットしよう!", 
+    "グーフィー・サーキットでゲラゲラポイントをゲットしよう!",
     "グーフィー・サーキットには、６つのレーストラックがあるよ。 "
     ),
 
@@ -8098,17 +8098,17 @@ TipDict = {
     ),
    TIP_KARTING : (
     # Goofy Speedway zone specific
-    "グーフィーのオートショップで、ロードスターやトゥーンヴィークルや、クルーザーを買おう。", 
-    "グーフィーのオートショップで、キミのカートの色やパーツをカスタムしよう。", 
+    "グーフィーのオートショップで、ロードスターやトゥーンヴィークルや、クルーザーを買おう。",
+    "グーフィーのオートショップで、キミのカートの色やパーツをカスタムしよう。",
     "グーフィー・サーキットでレースをして、チケットをゲットしよう。",
     "グーフィーのオートショップで買い物をする時は、チケットを使うんだ。",
     "レース参加に使うデポジットは、レースのあとに返ってくるよ。",
-    "トゥーンガイドのステッカーブックで、キミのカートをカスタムしよう。", 
-    "トゥーンガイドのステッカーブックで、キミのカートでのベストラップがみれるよ。", 
-    "トゥーンガイドのステッカーブックで、キミがレースでゲットしたトロフィーが見れるよ。", 
-    "スクリュースタジアムがグーフィー・サーキットで一番かんたんなコースだよ。", 
-    "エアボーン・エーカースはグーフィー・サーキットで一番ジャンプが多いコースだよ。", 
-    "ブリザード・ブルバードはグーフィー・サーキットで一番むずかしいんだ。", 
+    "トゥーンガイドのステッカーブックで、キミのカートをカスタムしよう。",
+    "トゥーンガイドのステッカーブックで、キミのカートでのベストラップがみれるよ。",
+    "トゥーンガイドのステッカーブックで、キミがレースでゲットしたトロフィーが見れるよ。",
+    "スクリュースタジアムがグーフィー・サーキットで一番かんたんなコースだよ。",
+    "エアボーン・エーカースはグーフィー・サーキットで一番ジャンプが多いコースだよ。",
+    "ブリザード・ブルバードはグーフィー・サーキットで一番むずかしいんだ。",
     ),
     TIP_GOLF: (
     # Golfing specific
@@ -8774,7 +8774,7 @@ KartRecordStrings = {
     RaceGlobals.Weekly : 'こんしゅうの',
     RaceGlobals.AllTime : 'れきだいの',
     }
-    
+
 KartRace_FirstSuffix = '位'
 KartRace_SecondSuffix = '位'
 KartRace_ThirdSuffix = '位'
@@ -8783,7 +8783,7 @@ KartRace_WrongWay = '逆方向!'
 KartRace_LapText = "ラップ %s"
 KartRace_FinalLapText = "ファイナルラップ！"
 KartRace_Exit = "レースしゅうりょう"
-KartRace_NextRace = "次のレース" 
+KartRace_NextRace = "次のレース"
 KartRace_Leave = "レースをやめる"
 KartRace_Qualified = "よせんつうか！"
 KartRace_Record = "しんきろく！"
@@ -8904,7 +8904,7 @@ LaserGameDefault = "知らないゲーム"
 # Pinball text
 #PinballHiScore = "ﾊｲｽｺｱ： %d %s\n"
 #PinballYourBestScore = "ﾍﾞｽﾄｽｺｱ： %d\n"
-#PinballScore = "ｽｺｱ： %d x %d：%d" 
+#PinballScore = "ｽｺｱ： %d x %d：%d"
 PinballHiScore = "ﾊｲｽｺｱ： %s\n"
 PinballHiScoreAbbrev = "…"
 PinballYourBestScore = "ﾍﾞｽﾄｽｺｱ： \n"
@@ -8939,7 +8939,7 @@ FlowerSpeciesNames = {
     53: 'ﾀﾞﾌｫﾃﾞｨﾙ',
     54: 'ﾊﾟﾝｼﾞｰ',
     55: 'ﾍﾟﾁｭﾆｱ',
-    56: 'ﾛｰｽﾞ',    
+    56: 'ﾛｰｽﾞ',
     }
 #see GardenGlobals.py for PlantAttributes, keys must match, varieties must match
 FlowerFunnyNames = {
@@ -8989,7 +8989,7 @@ FlowerFunnyNames = {
          'ｺｰﾝﾛｰｽﾞ',
          'ﾃｨﾝﾄﾛｰｽﾞ',
          'ｽﾃｨﾝｷﾝｸﾞﾛｰｽﾞ',
-         'ｲｽﾃｨﾗﾛｰｽﾞ',         
+         'ｲｽﾃｨﾗﾛｰｽﾞ',
          ),
     }
 FlowerVarietyNameFormat = "%s %s"
@@ -9098,11 +9098,11 @@ def getRecipeBeanText(beanTuple):
                 retval += ", %s" % BeanColorWords[beanTuple[index]]
 
     return retval
-    
+
 GardenTextMagicBeans = "マジックビーン"
 GardenTextMagicBeansB = "ふつうのビーン"
 GardenSpecialDiscription = "この文章はどのようにガーデンスペシャルを使うかを説明するものです。"
-GardenSpecialDiscriptionB = "この文章はどのようにガーデンスペシャルを使うかを説明するものです。" 
+GardenSpecialDiscriptionB = "この文章はどのようにガーデンスペシャルを使うかを説明するものです。"
 GardenTrophyAwarded = "ワオ！花、%s輪（%s輪のうち）をゲット！トロフィーとゲラゲラポイントアップ！"
 GardenTrophyNameDict = {
     0 : "ﾃｵｼｸﾞﾙﾏ",
@@ -9479,7 +9479,7 @@ BossbotRTMaxed = "\aI see that you have a level %s Cog Suit. Very impressive!\aO
 GolfAreaAttackTaunt = "Fore!"
 OvertimeAttackTaunts = [ "It's time to reorganize.",
                         "Now let's downsize."]
-                        
+
 #ElevatorDestination Names
 ElevatorBossBotBoss = "C.E.O Battle"
 ElevatorBossBotCourse0 = "The Front Three"
@@ -9498,7 +9498,7 @@ ElevatorLawBotCourse1 = "Office B"
 ElevatorLawBotCourse2 = "Office C"
 ElevatorLawBotCourse3 = "Office D"
 
-                        
+
 
 # CatalogNameTagItem.py
 DaysToGo = "Wait\n%s Days"
@@ -9631,4 +9631,4 @@ HolidayNamesInCalendar = {
    24: ("Ides of March", "Beware the Ides of March! Stop the Backstabber Cogs from invading Toontown!"),
    26: ("Halloween Decor", "Celebrate Halloween as spooky trees and streetlights transform Toontown!"),
     }
-UnknownHoliday = "Unknown Holiday %d" 
+UnknownHoliday = "Unknown Holiday %d"

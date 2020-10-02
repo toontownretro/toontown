@@ -1,24 +1,24 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
-from StomperGlobals import *
+from .StomperGlobals import *
 from direct.distributed import ClockDelta
 from direct.showbase.PythonUtil import lerp
 import math
 from otp.level import DistributedEntity
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import NodePath
+from toontown.toonbase.ToontownModules import NodePath
 from otp.level import BasicEntities
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
 
 class DistributedElevatorMarker(BasicEntities.DistributedNodePathEntity):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedElevatorMarker')
-    
+
     elevatorMarkerModels = ['phase_9/models/cogHQ/square_stomper',]
-    
+
     def __init__(self, cr):
         BasicEntities.DistributedNodePathEntity.__init__(self, cr)
-        
+
     def generateInit(self):
         self.notify.debug('generateInit')
         BasicEntities.DistributedNodePathEntity.generateInit(self)
@@ -26,8 +26,8 @@ class DistributedElevatorMarker(BasicEntities.DistributedNodePathEntity):
     def generate(self):
         self.notify.debug('generate')
         BasicEntities.DistributedNodePathEntity.generate(self)
-        
-        
+
+
     def announceGenerate(self):
         self.notify.debug('announceGenerate')
         BasicEntities.DistributedNodePathEntity.announceGenerate(self)
@@ -36,7 +36,7 @@ class DistributedElevatorMarker(BasicEntities.DistributedNodePathEntity):
 
         self.loadModel()
         #self.detectName = (("elevatorMarker %s") % (self.doId))
-        
+
     def disable(self):
         self.notify.debug('disable')
         # stop things
@@ -49,7 +49,7 @@ class DistributedElevatorMarker(BasicEntities.DistributedNodePathEntity):
         # unload things
         self.unloadModel()
         BasicEntities.DistributedNodePathEntity.delete(self)
-        
+
     def loadModel(self):
         self.rotateNode = self.attachNewNode('rotate')
         self.model = None
@@ -62,8 +62,3 @@ class DistributedElevatorMarker(BasicEntities.DistributedNodePathEntity):
             self.model.removeNode()
             del self.model
             self.model = None
-            
-
-        
-            
-    

@@ -1,7 +1,7 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 
 class DateOfBirthEntry(DirectFrame):
@@ -26,8 +26,8 @@ class DateOfBirthEntry(DirectFrame):
         optiondefs = {}
         self.defineoptions(kw, optiondefs)
         DirectFrame.__init__(self, parent, relief = None)
-        self.initialiseoptions(DateOfBirthEntry)        
-        
+        self.initialiseoptions(DateOfBirthEntry)
+
         # for scroll list buttons
         gui = loader.loadModel("phase_3/models/gui/month_year_gui")
 
@@ -82,13 +82,13 @@ class DateOfBirthEntry(DirectFrame):
             itemFrame_scale = itemFrameScale,
             itemFrame_relief = None,
             #itemFrame_frameSize = (-0.1,0.1,-0.1,0.1),
-            #itemFrame_frameColor = mcolor,  
+            #itemFrame_frameColor = mcolor,
             #itemFrame_borderWidth = (0.01, 0.01),
             )
 
         # set to empty by default
-        self.days = range(1,31+1)
-        strDays = map(str, self.days)
+        self.days = list(range(1,31+1))
+        strDays = list(map(str, self.days))
         self.dayControl = DirectScrolledList(
             parent = self,
             relief = None,
@@ -121,7 +121,7 @@ class DateOfBirthEntry(DirectFrame):
             itemFrame_scale = itemFrameScale,
             itemFrame_relief = None,
             #itemFrame_frameSize = (-0.1,0.1,-0.1,0.1),
-            #itemFrame_frameColor = mcolor,  
+            #itemFrame_frameColor = mcolor,
             #itemFrame_borderWidth = (0.01, 0.01),
             )
         # this has to be set before we do anything that triggers
@@ -131,11 +131,11 @@ class DateOfBirthEntry(DirectFrame):
 
         if curYear == None:
             curYear = self.dateObject.getYear()
-        self.years = range(self.firstYear, curYear+1)
+        self.years = list(range(self.firstYear, curYear+1))
         # reverse the list so that the up button increments the year
         self.years.reverse()
         # convert the list of integers to strings
-        strYears = map(str, self.years)
+        strYears = list(map(str, self.years))
         self.yearControl = DirectScrolledList(
             parent = self,
             items = strYears,
@@ -166,7 +166,7 @@ class DateOfBirthEntry(DirectFrame):
             itemFrame_scale = itemFrameScale,
             itemFrame_relief = None,
             #itemFrame_frameSize = (-0.1,0.1,-0.1,0.1),
-            #itemFrame_frameColor = mcolor,  
+            #itemFrame_frameColor = mcolor,
             #itemFrame_borderWidth = (0.01, 0.01),
             )
         # start on default age
@@ -215,16 +215,16 @@ class DateOfBirthEntry(DirectFrame):
         if month in [1,2,3,4,5,6,7,8,9,10,11,12]:
             self.monthControl.scrollTo(month-1)
         else:
-            print ("month not found in list: %s" % (month))
+            print(("month not found in list: %s" % (month)))
             self.monthControl.scrollTo(0)
         self.__updateDaysInMonth()
-        
+
     def setDay(self, day):
         """ day: int """
         if day in self.days:
             self.dayControl.scrollTo(self.days.index(day))
         else:
-            print ("day not found in list: %s" % (day))
+            print(("day not found in list: %s" % (day)))
             self.dayControl.scrollTo(0)
 
     def setYear(self, year):
@@ -232,7 +232,7 @@ class DateOfBirthEntry(DirectFrame):
         if year in self.years:
             self.yearControl.scrollTo(self.years.index(year))
         else:
-            print ("year not found in list: %s" % (year))
+            print(("year not found in list: %s" % (year)))
             self.yearControl.scrollTo(0)
         self.__updateDaysInMonth()
 
@@ -277,7 +277,7 @@ class DateOfBirthEntry(DirectFrame):
         oldNumDays = len(self.days)
         numDays = self.dateObject.getNumDaysInMonth(month=self.getMonth(),
                                                     year=self.getYear())
-        self.days = range(1,numDays+1)
+        self.days = list(range(1,numDays+1))
 
         self.__updateDayControlLength(oldNumDays, numDays)
 

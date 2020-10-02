@@ -2,7 +2,7 @@ from direct.directtools.DirectSelection import *
 from direct.directtools.DirectUtil import ROUND_TO
 from direct.directtools.DirectGeometry import LineNodePath
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.DirectObject import DirectObject
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
@@ -55,7 +55,7 @@ class FurnitureItemPanel(DirectButton):
 
     This is a single button in the list of attic items.  It represents
     one item in the attic.
-    
+
     """
     def __init__(self, item, itemId, command = None, deleteMode = 0,
                  withinFunc = None, helpCategory = None):
@@ -120,7 +120,7 @@ class FurnitureItemPanel(DirectButton):
             # and centered.
             text = self.item.getTypeName() + ": " + self.item.getName()
             text_pos = (0, -0.3, 0)
-            
+
         if self.ival:
             # Start it looping, but immediately pause it, so resume()
             # above will work.
@@ -139,7 +139,7 @@ class FurnitureItemPanel(DirectButton):
             text_font = ToontownGlobals.getInterfaceFont(),
             text_wordwrap = panelWidth,
             )
-            
+
     def clicked(self):
         # We can't use a functor to store these two parameters,
         # because the owner of this object might directly adjust
@@ -159,7 +159,7 @@ class FurnitureItemPanel(DirectButton):
             self.ival.finish()
         del self.ival
         del self.picture
-        
+
         self.command = None
 
     def destroy(self):
@@ -181,7 +181,7 @@ class FurnitureItemPanel(DirectButton):
         """ Delete-mode panels are reddish. """
         self.deleteMode = deleteMode
         self.__updateAppearance()
-    
+
     def enable(self, enabled):
         """ Disabled panels are dimmed. """
         if enabled:
@@ -189,7 +189,7 @@ class FurnitureItemPanel(DirectButton):
         else:
             self['state'] = DGG.DISABLED
         self.__updateAppearance()
-            
+
     def __updateAppearance(self):
         """ Change the panel's appearance to match its disabled/delete state. """
         color = NormalPickerPanelColor
@@ -226,7 +226,7 @@ class MovableObject(NodePath, DirectObject):
 
         # And now we can reparent it at will.
         self.reparentTo(parent)
-        
+
         # Tag this top level node as a movable object
         self.setTag('movableObject', '1')
         # Find the built in collision nodes and get rid of them before
@@ -238,7 +238,7 @@ class MovableObject(NodePath, DirectObject):
         shadows = self.findAllMatches('**/*shadow*')
         shadows.addPathsFrom(self.findAllMatches('**/*Shadow*'))
         shadows.stash()
-        
+
         # Init flags
         flags = self.dfitem.item.getFlags()
         if flags & CatalogFurnitureItem.FLPainting:
@@ -262,7 +262,7 @@ class MovableObject(NodePath, DirectObject):
             self.setIsTable(1)
         else:
             self.setIsTable(0)
-        
+
         # Special case fixes
         # Compute bounding box
         m = self.getTransform()
@@ -351,13 +351,13 @@ class MovableObject(NodePath, DirectObject):
         if self.getOnTable():
             return ToontownGlobals.FloorBitmask | ToontownGlobals.FurnitureTopBitmask
         else:
-            return ToontownGlobals.FloorBitmask    
+            return ToontownGlobals.FloorBitmask
 
     def getWallBitmask(self):
         # Returns a suitable bitmask to test for surfaces this object
         # may not penetrate and may align itself with.
         if self.getIsRug() or self.getOnWall():
-            return ToontownGlobals.WallBitmask    
+            return ToontownGlobals.WallBitmask
         else:
             return ToontownGlobals.WallBitmask | ToontownGlobals.FurnitureSideBitmask
 
@@ -368,7 +368,7 @@ class MovableObject(NodePath, DirectObject):
         if self.getIsRug() or self.getOnWall():
             # Rugs and paintings don't have any collision boxes.
             return
-        
+
         # Get coords of bounding box
         mx = self.bounds[0][0] - 0.01
         Mx = self.bounds[1][0] + 0.01
@@ -414,14 +414,14 @@ class MovableObject(NodePath, DirectObject):
             cn.setIntoCollideMask(ToontownGlobals.FurnitureTopBitmask)
 
             self.collisionNodePath.attachNewNode(cn)
-            
+
             # Min X face
             cp = CollisionPolygon(Point3(mx,my,Mz),
                                   Point3(Mx,my,Mz),
                                   Point3(Mx,My,Mz),
                                   Point3(mx,My,Mz))
             cn.addSolid(cp)
-                
+
 class ObjectManager(NodePath, DirectObject):
     notify = DirectNotifyGlobal.directNotify.newCategory("ObjectManager")
 
@@ -481,7 +481,7 @@ class ObjectManager(NodePath, DirectObject):
         self.inRoomPicker = None
         self.inTrashPicker = None
         self.dialog = None
-        
+
         self.deleteMode = 0
         self.nonDeletableItem = None
         self.verifyFrame = None
@@ -491,7 +491,7 @@ class ObjectManager(NodePath, DirectObject):
         self.itemIval = None
         self.itemPanel = None
         self.guiInterval = None
-        
+
         self.accept('enterFurnitureMode', self.enterFurnitureMode)
         self.accept('exitFurnitureMode', self.exitFurnitureMode)
 
@@ -502,11 +502,11 @@ class ObjectManager(NodePath, DirectObject):
             if self.furnitureManager:
                 self.exitFurnitureMode(self.furnitureManager)
             return
-            
+
         if furnitureManager == self.furnitureManager:
             # Already in furniture mode.
             return
-        
+
         if self.furnitureManager != None:
             # In furniture mode with some other manager; reset.
             self.exitFurnitureMode(self.furnitureManager)
@@ -550,7 +550,7 @@ class ObjectManager(NodePath, DirectObject):
         self.guiInterval.start()
         taskMgr.add(self.recenterButtonFrameTask,'recenterButtonFrameTask',10)
         messenger.send('wakeup')
-        
+
     def exitFurnitureMode(self, furnitureManager):
         if (furnitureManager != self.furnitureManager):
             return
@@ -670,7 +670,7 @@ class ObjectManager(NodePath, DirectObject):
 
     def pickInRoom(self, objectId):
         self.selectObject(self.objectDict.get(objectId))
-        
+
     def selectObject(self, selectedObject):
         messenger.send('wakeup')
         if self.selectedObject:
@@ -734,7 +734,7 @@ class ObjectManager(NodePath, DirectObject):
                 self.selectedObject.collisionNodePath.unstash()
                 self.selectedObject.dfitem.stopAdjustPosHpr()
             # Make sure collision nodes are unstashed
-            for object in self.objectDict.values():
+            for object in list(self.objectDict.values()):
                 object.unstashBuiltInCollisionNodes()
             # Adjust center marker image
             self.centerMarker['image'] = [self.grabUp,self.grabDown,
@@ -757,7 +757,7 @@ class ObjectManager(NodePath, DirectObject):
         messenger.send('wakeup')
         # If user selected an object
         if self.selectedObject:
-            for object in self.objectDict.values():
+            for object in list(self.objectDict.values()):
                 object.stashBuiltInCollisionNodes()
             # And stash furniture collision node of selected object
             self.selectedObject.collisionNodePath.stash()
@@ -827,7 +827,7 @@ class ObjectManager(NodePath, DirectObject):
 
         # Got a collision, move self to hit point
         self.setPos(base.cam, entry.getSurfacePoint(base.cam))
-        # If this is the first time, you can now reparent the selected object 
+        # If this is the first time, you can now reparent the selected object
         if self.firstTime:
             # Initialize auxiliary node paths and reparent selected object
             self.moveObjectInit()
@@ -927,13 +927,13 @@ class ObjectManager(NodePath, DirectObject):
         # Now check for collisions and try to respond accordingly
         isValid = self.collisionTest()
         self.markNewPosition(isValid)
-        
+
         # Done for this frame
         return Task.cont
 
     def collisionTest(self):
         # Returns true if the position is valid, false otherwise.
-        
+
         so = self.selectedObject
         target = self.targetNodePath
         entry = self.segmentCollision()
@@ -964,14 +964,14 @@ class ObjectManager(NodePath, DirectObject):
         # We detected some collisions, try to sum up offsets to fix
         if offsetDict:
             # Find orthogonal components
-            keys = offsetDict.keys()
+            keys = list(offsetDict.keys())
             # Pick first offset as first cardinal direction
             ortho1 = offsetDict[keys[0]]
             ortho2 = Vec3(0)
             v1 = Vec3(ortho1)
             v1.normalize()
             # Compare parallel and orthogonal components of
-            # the remaining offset vectors 
+            # the remaining offset vectors
             for key in keys[1:]:
                 # Get next offset and convert to offset1 space
                 offset = offsetDict[key]
@@ -1009,7 +1009,7 @@ class ObjectManager(NodePath, DirectObject):
             # If we haven't moved, quit, since we can't use
             # zero length collision segments
             return 1
-        # Check for collisions along segments from currentPose to startPose 
+        # Check for collisions along segments from currentPose to startPose
         # To see how far you have to move to clear the collision condition
         self.iSegment4.setParentNP(so)
         entry = self.iSegment4.pickBitMask(
@@ -1086,7 +1086,7 @@ class ObjectManager(NodePath, DirectObject):
         # We're on the front side, continue....
         # Precompute length of normal
         nLen = normal.length()
-        # Determine how much you have to offset collision segment 
+        # Determine how much you have to offset collision segment
         # to move it to the front side of the collision plane
         # Check position of endpoints relative to collision plane
         # Test point A first
@@ -1114,7 +1114,7 @@ class ObjectManager(NodePath, DirectObject):
             # No way to check the alignment of the object it collided
             # with; give up.
             return 0
-        
+
         # Convert the normal to the target's (i.e. room's) space
         normal = entry.getSurfaceNormal(target)
         # Check how upright the collision surface was
@@ -1167,7 +1167,7 @@ class ObjectManager(NodePath, DirectObject):
             newH = ROUND_TO(startH - 22.5, 22.5)
             self.gridSnapNP.setHpr(self.targetNodePath, newH, 0, 0)
             self.collisionTest()
-            
+
         so.wrtReparentTo(self.targetNodePath)
         self.disableButtonFrameTask()
         so.dfitem.stopAdjustPosHpr()
@@ -1175,7 +1175,7 @@ class ObjectManager(NodePath, DirectObject):
     def rotateRight(self):
         if not self.selectedObject:
             return
-        # Rotate object about the drag point 
+        # Rotate object about the drag point
         so = self.selectedObject
         so.dfitem.startAdjustPosHpr()
         self.iPosHpr(so)
@@ -1189,7 +1189,7 @@ class ObjectManager(NodePath, DirectObject):
             newH = ROUND_TO(startH + 22.5, 22.5) % 360.0
             self.gridSnapNP.setHpr(self.targetNodePath, newH, 0, 0)
             self.collisionTest()
-            
+
         so.wrtReparentTo(self.targetNodePath)
         self.disableButtonFrameTask()
         so.dfitem.stopAdjustPosHpr()
@@ -1202,7 +1202,7 @@ class ObjectManager(NodePath, DirectObject):
         self.selectedObject.wrtReparentTo(self.collisionOffsetNP)
 
     def resetFurniture(self):
-        for o in self.objectDict.values():
+        for o in list(self.objectDict.values()):
             o.resetMovableObject()
         self.objectDict = {}
         self.deselectObject()
@@ -1515,7 +1515,7 @@ class ObjectManager(NodePath, DirectObject):
             text_align = TextNode.ACenter,
             text_pos = (0, -0.12),
             text_font = ToontownGlobals.getInterfaceFont(),
-            textMayChange = 0,    
+            textMayChange = 0,
             relief = None,
             pos = (3.70, 0.00, -13.80),
             scale = 7.13,
@@ -1532,7 +1532,7 @@ class ObjectManager(NodePath, DirectObject):
             text_align = TextNode.ACenter,
             text_pos = (0, -0.12),
             text_font = ToontownGlobals.getInterfaceFont(),
-            textMayChange = 0,    
+            textMayChange = 0,
             relief = None,
             pos = (3.70, 0.00, -13.80),
             scale = 7.13,
@@ -1566,7 +1566,7 @@ class ObjectManager(NodePath, DirectObject):
 
     def createAtticPicker(self):
         assert(self.atticPicker == None)
-        
+
         # First, generate a list of FurnitureItemPanels.
         self.atticItemPanels = []
         for itemIndex in range(len(self.furnitureManager.atticItems)):
@@ -1635,7 +1635,7 @@ class ObjectManager(NodePath, DirectObject):
         # the room.
         # First, generate a list of FurnitureItemPanels.
         self.inRoomPanels = []
-        for objectId, object in self.objectDict.items():
+        for objectId, object in list(self.objectDict.items()):
             panel = FurnitureItemPanel(object.dfitem.item, objectId,
                                        command = self.requestReturnToAttic,
                                        deleteMode = self.deleteMode,
@@ -1767,7 +1767,7 @@ class ObjectManager(NodePath, DirectObject):
 
     def showInTrashPicker(self):
         messenger.send('wakeup')
-        if not self.inTrashPicker:  
+        if not self.inTrashPicker:
             self.createInTrashPicker()
         self.atticPicker.hide()
         if self.inRoomPicker:
@@ -1784,7 +1784,7 @@ class ObjectManager(NodePath, DirectObject):
         if self.selectedObject:
             callback = PythonUtil.Functor(
                 self.__sendItemToAtticCallback, self.selectedObject.id())
-                                          
+
             self.furnitureManager.moveItemToAttic(
                 self.selectedObject.dfitem, callback)
 
@@ -1809,7 +1809,7 @@ class ObjectManager(NodePath, DirectObject):
             # the scene graph.
             self.selectedObject.detachNode()
             self.deselectObject()
-        
+
         # Add the item to the end of our attic list (since that's what
         # the AI did).
         itemIndex = len(self.atticItemPanels)
@@ -1851,7 +1851,7 @@ class ObjectManager(NodePath, DirectObject):
     def __updateDeleteMode(self):
         if not self.atticPicker:
             return
-            
+
         self.notify.debug("__updateDeleteMode deleteMode=%s" % (self.deleteMode))
 
         if self.deleteMode:
@@ -1932,19 +1932,19 @@ class ObjectManager(NodePath, DirectObject):
             base.localAvatar, Point3(0, 2, 0))
         hpr = Point3(0, 0, 0)
 
-        # x and y limited to [-3276.8, 3276.7], z is limited to [-327.68, 327.67]. Warn if pos is 
+        # x and y limited to [-3276.8, 3276.7], z is limited to [-327.68, 327.67]. Warn if pos is
         # near those values (dclass definition will throw an exception if it's out of range). This
         # warning provides more info for TOON-1959.
         assert abs(pos[0]) <= 3000 and abs(pos[1]) <= 3000 and abs(pos[2]) <= 300
         if abs(pos[0]) > 3000 or abs(pos[1]) > 3000 or abs(pos[2]) > 300:
-            self.notify.warning("bringItemFromAttic extreme pos targetNodePath=%s avatar=%s %s" % 
-                (repr(self.targetNodePath.getPos(render)), 
-                 repr(base.localAvatar.getPos(render)), 
+            self.notify.warning("bringItemFromAttic extreme pos targetNodePath=%s avatar=%s %s" %
+                (repr(self.targetNodePath.getPos(render)),
+                 repr(base.localAvatar.getPos(render)),
                  repr(pos)))
 
         if item.getFlags() & CatalogFurnitureItem.FLPainting:
             # Paintings are started out on a wall.
-            for object in self.objectDict.values():
+            for object in list(self.objectDict.values()):
                 object.stashBuiltInCollisionNodes()
             self.gridSnapNP.iPosHpr()
             target = self.targetNodePath
@@ -1955,7 +1955,7 @@ class ObjectManager(NodePath, DirectObject):
                 origin = Point3(0, 0, 6),
                 dir = Vec3(0, 1, 0),
                 skipFlags = SKIP_BACKFACE | SKIP_CAMERA | SKIP_UNPICKABLE)
-            for object in self.objectDict.values():
+            for object in list(self.objectDict.values()):
                 object.unstashBuiltInCollisionNodes()
             if entry:
                 self.alignObject(entry, target, fClosest = 0, wallOffset = 0.1)
@@ -2031,7 +2031,7 @@ class ObjectManager(NodePath, DirectObject):
         # I don't understand DirectScrolledList.removeItem(), so
         # we'll just regenerate the list object for now.
         self.regenerateAtticPicker()
-            
+
 
     def bringWallpaperFromAttic(self, item, itemIndex):
         messenger.send('wakeup')
@@ -2131,7 +2131,7 @@ class ObjectManager(NodePath, DirectObject):
             slot = 2
         else:
             slot = 4
-        
+
         self.furnitureManager.moveWindowFromAttic(
             itemIndex, slot, self.__bringWindowFromAtticCallback)
 
@@ -2195,7 +2195,7 @@ class ObjectManager(NodePath, DirectObject):
             self.atticWindowPanels[i].itemId -= 1
 
         self.regenerateAtticPicker()
-        
+
     def setGridSpacingString(self, spacingStr):
         spacing = eval(spacingStr)
         self.setGridSpacing(spacing)
@@ -2361,7 +2361,7 @@ class ObjectManager(NodePath, DirectObject):
             buttonState = DGG.NORMAL
         else:
             buttonState = DGG.DISABLED
-        
+
         # Also control paging between pickers to prevent exceptions if you
         # switch pickers while waiting for an AI response.
         if hasattr(self, 'inAtticButton'):
@@ -2370,19 +2370,19 @@ class ObjectManager(NodePath, DirectObject):
             self.inRoomButton['state'] = buttonState
         if hasattr(self, 'inTrashButton'):
             self.inTrashButton['state'] = buttonState
-        
+
         # Update the enabled state of all panels.
         pickers = [self.atticPicker,
                    self.inRoomPicker,
                    self.inTrashPicker
                   ]
-       
+
         for picker in pickers:
             if picker:
                 for panel in picker['items']:
                     if not panel.isEmpty():
                         panel.enable(enabled)
-    
+
     def __resetAndCleanup(self, *args):
         self.__enableItemButtons(1)
         self.__cleanupVerifyDelete()
@@ -2426,7 +2426,7 @@ class ObjectManager(NodePath, DirectObject):
 
         if self.furnitureManager.ownerId != base.localAvatar.doId:
             message = TTLocalizer.HDNonDeletableNotOwner % (self.furnitureManager.ownerName)
-            
+
         self.nonDeletableItem = TTDialog.TTDialog(
             text = message,
             style = TTDialog.Acknowledge,
@@ -2558,15 +2558,15 @@ class ObjectManager(NodePath, DirectObject):
             command = self.cleanupDialog,
             )
         self.dialog.show()
-    
+
     def bindHelpText(self, button, category):
         # No item names are needed here
         button.bind(DGG.ENTER, self.showHelpText, extraArgs=[category, None])
         button.bind(DGG.EXIT, self.hideHelpText)
-        
+
     def showHelpText(self, category, itemName, xy):
 
-        def showIt(task):            
+        def showIt(task):
             helpText = TTLocalizer.HDHelpDict.get(category)
             if helpText:
                 if itemName:
@@ -2574,7 +2574,7 @@ class ObjectManager(NodePath, DirectObject):
                 self.helpText['text'] = helpText
                 self.helpText.show()
             else:
-                print "category: %s not found"
+                print("category: %s not found")
 
         # Give it a pause before displaying
         taskMgr.doMethodLater(0.75, showIt, "showHelpTextDoLater")

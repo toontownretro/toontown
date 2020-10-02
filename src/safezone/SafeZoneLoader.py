@@ -1,6 +1,6 @@
 """SafeZoneLoader module: contains the SafeZoneLoader class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from toontown.distributed.ToontownMsgTypes import *
 from toontown.hood import ZoneUtil
@@ -26,7 +26,7 @@ class SafeZoneLoader(StateData.StateData):
 
     def __init__(self, hood, parentFSMState, doneEvent):
         """
-        SafeZoneLoader constructor: 
+        SafeZoneLoader constructor:
         """
         assert(self.notify.debug("__init__(hood="+str(hood)
                 +", parentFSMState="+str(parentFSMState)
@@ -38,7 +38,7 @@ class SafeZoneLoader(StateData.StateData):
                            [State.State('start',
                                         self.enterStart,
                                         self.exitStart,
-                                        ['quietZone', 
+                                        ['quietZone',
                                         'playground',
                                          'toonInterior']),
                             State.State('playground',
@@ -112,7 +112,7 @@ class SafeZoneLoader(StateData.StateData):
         assert(self.notify.debug("setState(stateName="
                 +str(stateName)+", requestStatus="+str(requestStatus)+")"))
         self.fsm.request(stateName, [requestStatus])
-    
+
     def createSafeZone(self, dnaFile):
         assert(self.notify.debug("createSafeZone()"))
         # Load the safe zone specific models and textures
@@ -138,7 +138,7 @@ class SafeZoneLoader(StateData.StateData):
         npl = self.geom.findAllMatches('**/=DNARoot=holiday_prop')
         for i in range(npl.getNumPaths()):
             np = npl.getPath(i)
-            np.setTag('transformIndex', `i`)
+            np.setTag('transformIndex', repr(i))
             self.holidayPropTransforms[i] = np.getNetTransform()
         # Flatten the safe zone
         self.geom.flattenMedium()
@@ -176,7 +176,7 @@ class SafeZoneLoader(StateData.StateData):
         npc = self.geom.findAllMatches("**/suit_building_origin")
         for i in range(npc.getNumPaths()):
             npc.getPath(i).removeNode()
-    
+
     # start state
 
     def enterStart(self):
@@ -184,7 +184,7 @@ class SafeZoneLoader(StateData.StateData):
 
     def exitStart(self):
         assert(self.notify.debug("exitStart()"))
-        
+
     # playground state
 
     def enterPlayground(self, requestStatus):
@@ -204,25 +204,25 @@ class SafeZoneLoader(StateData.StateData):
         self.place.unload()
         self.place=None
         #self.hood.place = None
-        base.cr.playGame.setPlace(self.place) 
-   
+        base.cr.playGame.setPlace(self.place)
+
     def handlePlaygroundDone(self):
         assert(self.notify.debug("handlePlaygroundDone()"))
         status=self.place.doneStatus
         if (ZoneUtil.getBranchZone(status["zoneId"]) == self.hood.hoodId and
             status["shardId"] == None):
-            self.fsm.request("quietZone", [status])            
+            self.fsm.request("quietZone", [status])
         else:
             self.doneStatus = status
             messenger.send(self.doneEvent)
-    
+
     # toonInterior state
 
     def enterToonInterior(self, requestStatus):
         assert(self.notify.debug("enterToonInterior(requestStatus="
                 +str(requestStatus)+")"))
         self.acceptOnce(self.placeDoneEvent, self.handleToonInteriorDone)
-        self.place=ToonInterior.ToonInterior(self, 
+        self.place=ToonInterior.ToonInterior(self,
                 self.fsm.getStateNamed("toonInterior"), self.placeDoneEvent)
         base.cr.playGame.setPlace(self.place)
         self.place.load()
@@ -233,15 +233,15 @@ class SafeZoneLoader(StateData.StateData):
         self.ignore(self.placeDoneEvent)
         self.place.exit()
         self.place.unload()
-        self.place=None 
+        self.place=None
         base.cr.playGame.setPlace(self.place)
-   
+
     def handleToonInteriorDone(self):
         assert(self.notify.debug("handleToonInteriorDone()"))
         status=self.place.doneStatus
         if (ZoneUtil.getBranchZone(status["zoneId"]) == self.hood.hoodId and
             status["shardId"] == None):
-            self.fsm.request("quietZone", [status])            
+            self.fsm.request("quietZone", [status])
         else:
             self.doneStatus = status
             messenger.send(self.doneEvent)
@@ -275,7 +275,7 @@ class SafeZoneLoader(StateData.StateData):
             messenger.send(self.doneEvent)
         else:
             self.fsm.request(status["where"], [status])
-        
+
 
     # final state
 
@@ -325,11 +325,11 @@ class SafeZoneLoader(StateData.StateData):
                 # [gjeon] I think we can use animPropList to store interactive props
                 animPropList = self.animPropDict.get(i)
                 if animPropList is None:
-                    animPropList = self.animPropDict.setdefault(i, [])                    
+                    animPropList = self.animPropDict.setdefault(i, [])
                 animPropList.append(interactivePropObj)
 
     def deleteAnimatedProps(self):
-        for zoneNode, animPropList in self.animPropDict.items():
+        for zoneNode, animPropList in list(self.animPropDict.items()):
             for animProp in animPropList:
                 animProp.delete()
         del self.animPropDict
@@ -341,7 +341,7 @@ class SafeZoneLoader(StateData.StateData):
     def exitAnimatedProps(self, zoneNode):
         for animProp in self.animPropDict.get(zoneNode, ()):
             animProp.exit()
-            
+
     def enterGolfcourse( self, requestStatus ):
         """
         """

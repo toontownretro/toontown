@@ -2,21 +2,21 @@
 ToonTown LevelEditor
 """
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.leveleditor.LevelEditorBase import *
 from direct.gui import DirectGui
-from ObjectMgr import *
-from ObjectHandler import *
-from ObjectPalette import *
-from LevelEditorUI import *
-from ProtoPalette import *
+from .ObjectMgr import *
+from .ObjectHandler import *
+from .ObjectPalette import *
+from .LevelEditorUI import *
+from .ProtoPalette import *
 
-from LevelStyleManager import *
-from ToonControlManager import *
+from .LevelStyleManager import *
+from .ToonControlManager import *
 #from LevelEditorGlobals import *
 
 class ToonLevelEditor(LevelEditorBase):
-    """ Class for ToonTown LevelEditor """ 
+    """ Class for ToonTown LevelEditor """
     def __init__(self):
         self.controlMgr = ToonControlManager(self)
         LevelEditorBase.__init__(self)
@@ -71,7 +71,7 @@ class ToonLevelEditor(LevelEditorBase):
         LevelEditorBase.reset(self)
         if self.ui.useDriveModeMenuItem.IsChecked():
             self.ui.useDriveModeMenuItem.Toggle()
-        
+
         # Reset path markers
         self.ui.resetPathMarkers()
         # Reset battle cell markers
@@ -108,15 +108,15 @@ class ToonLevelEditor(LevelEditorBase):
         self.DNAToplevel = dnaNode
         self.NPToplevel = self.objectMgr.addNewObject('__group__', parent=render, fSelectObject=False, nodePath=GroupObj(self, '', dnaNode, nodePath))
         self.DNAData.add(self.DNAToplevel)
-        
+
         # Update parent pointers
         self.DNAParent = self.DNAToplevel
         self.NPParent = self.NPToplevel
         self.VGParent = None
-        
+
     def setEditMode(self, hoodId):
-        self.styleManager.setEditMode(HOOD_IDS[hoodId])        
-        
+        self.styleManager.setEditMode(HOOD_IDS[hoodId])
+
     def exportDna(self):
         binaryFilename = Filename(self.currentFile)
         binaryFilename.setBinary()
@@ -143,7 +143,7 @@ class ToonLevelEditor(LevelEditorBase):
                     self.NPToplevel = obj[OG.OBJ_NP]
                 else:
                     self.suitPointToplevel = obj[OG.OBJ_NP]
-                    
+
             self.DNAToplevel = self.findDNANode(self.NPToplevel)
             self.DNAData.add(self.DNAToplevel)
 
@@ -158,17 +158,17 @@ class ToonLevelEditor(LevelEditorBase):
 
         # reset the landmark block number:
         (self.landmarkBlock, needTraverse)=self.findHighestLandmarkBlock(
-            self.DNAToplevel, self.NPToplevel)            
+            self.DNAToplevel, self.NPToplevel)
 
         # now update look of objects from loaded DNA
         self.objectMgr.replace(self.NPToplevel)
         self.ui.populateBattleCells()
         self.ui.populateSuitPaths()
         self.currentFile = fileName
-        
+
     def importDna(self, filename):
         self.reset(fCreateToplevel = 0)
-        node = loadDNAFile(DNASTORE, Filename.fromOsSpecific(filename).cStr(), CSDefault, 1)        
+        node = loadDNAFile(DNASTORE, Filename.fromOsSpecific(filename).cStr(), CSDefault, 1)
 
         for hood in NEIGHBORHOODS:
             if filename.startswith(hood):
@@ -225,7 +225,7 @@ class ToonLevelEditor(LevelEditorBase):
         # Make a list of flat building names, outside of the
         # recursive function:
         self.flatNames=['random'] + BUILDING_TYPES
-        self.flatNames=map(lambda n: n+'_DNARoot', self.flatNames)
+        self.flatNames=[n+'_DNARoot' for n in self.flatNames]
         # Search/recurse the dna:
         newHighest=self.convertToLandmarkBlocks(highest, dnaRoot)
         # Get rid of the list of flat building names:
@@ -255,7 +255,7 @@ class ToonLevelEditor(LevelEditorBase):
             else:
                 block = self.convertToLandmarkBlocks(block, child)
         return block
-        
+
     def handleMouse1(self, modifiers):
         if base.direct.fAlt or modifiers == 4:
             return
@@ -272,13 +272,13 @@ class ToonLevelEditor(LevelEditorBase):
             dnaNode.setName(newName)
 
     def createNewGroup(self, type = 'dna'):
-        print "createNewGroup"
+        print("createNewGroup")
         """ Create a new DNA Node group under the active parent """
         # Create a new DNA Node group
         if type == 'dna':
-            newDNANode = DNANode('group_' + `self.getGroupNum()`)
+            newDNANode = DNANode('group_' + repr(self.getGroupNum()))
         else:
-            newDNANode = DNAVisGroup('VisGroup_' + `self.getGroupNum()`)
+            newDNANode = DNAVisGroup('VisGroup_' + repr(self.getGroupNum()))
             # Increment group counter
         self.setGroupNum(self.getGroupNum() + 1)
         # Add new DNA Node group to the current parent DNA Object
@@ -325,7 +325,7 @@ class ToonLevelEditor(LevelEditorBase):
     def storeMousePos(self):
         v = self.getGridSnapIntersectionPoint()
         mat = base.direct.grid.getMat(self.NPParent)
-        self.lastMousePos = Point3(mat.xformPoint(v))         
+        self.lastMousePos = Point3(mat.xformPoint(v))
 
     def getGridSnapIntersectionPoint(self):
         """
@@ -378,7 +378,7 @@ class ToonLevelEditor(LevelEditorBase):
                     # Update DNA
                     pointOrCell.setPos(newPos)
                     if (type == 'suitPointMarker'):
-                        print "Found suit point!", pointOrCell
+                        print("Found suit point!", pointOrCell)
                         # Ok, now update all the lines into that node
                         for edge in self.point2edgeDict[pointOrCell]:
                             # Is it still in edge dict?
@@ -392,7 +392,7 @@ class ToonLevelEditor(LevelEditorBase):
                                     edge, self.NPParent)
                                 self.edgeDict[edge] = newEdgeLine
                     elif (type == 'battleCellMarker'):
-                        print "Found battle cell!", pointOrCell
+                        print("Found battle cell!", pointOrCell)
 
     def updatePose(self, dnaObject, nodePath):
         """

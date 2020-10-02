@@ -1,9 +1,9 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
-from ElevatorConstants import *
-from ElevatorUtils import *
-import DistributedElevator
+from .ElevatorConstants import *
+from .ElevatorUtils import *
+from . import DistributedElevator
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
@@ -39,7 +39,7 @@ class DistributedElevatorExt(DistributedElevator.DistributedElevator):
     def disable(self):
         self.clearNametag()
         DistributedElevator.DistributedElevator.disable(self)
-    
+
     def setupNametag(self):
         if self.nametag == None:
             self.nametag = NametagGroup()
@@ -56,7 +56,7 @@ class DistributedElevatorExt(DistributedElevator.DistributedElevator):
                 name = TTLocalizer.CogsInc
             else:
                 name += TTLocalizer.CogsIncExt
-                
+
             self.nametag.setName(name)
             self.nametag.manage(base.marginManager)
 
@@ -95,17 +95,17 @@ class DistributedElevatorExt(DistributedElevator.DistributedElevator):
         # Darken the old light:
         if self.currentFloor >= 0:
             self.bldg.floorIndicator[self.currentFloor].setColor(LIGHT_OFF_COLOR)
-            
+
         # Brighten the new light:
         if floorNumber >= 0:
             self.bldg.floorIndicator[floorNumber].setColor(LIGHT_ON_COLOR)
 
         # Remember the floor:
         self.currentFloor = floorNumber
-    
+
     def handleEnterSphere(self, collEntry):
         self.notify.debug("Entering Elevator Sphere....")
-        
+
         # If the localAvatar is part of a boarding group and is not a leader,
         # he is not allowed to enter the elevator - Show a message.
         if hasattr(localAvatar, "boardingParty") and \
@@ -125,7 +125,7 @@ class DistributedElevatorExt(DistributedElevator.DistributedElevator):
 
     def handleEnterElevator(self):
         #print("EXT handleEnterSphere elevator%s avatar%s" % (self.elevatorTripId, localAvatar.lastElevatorLeft))
-        
+
         # If the leader of the boarding group wants to enter an elevator do it the Boarding Group style.
         if hasattr(localAvatar, "boardingParty") and \
            localAvatar.boardingParty and \
@@ -133,7 +133,7 @@ class DistributedElevatorExt(DistributedElevator.DistributedElevator):
             # If you are the leader of the boarding group, do it the boarding group way.
             if localAvatar.boardingParty.getGroupLeader(localAvatar.doId) == localAvatar.doId:
                 localAvatar.boardingParty.handleEnterElevator(self)
-                        
+
         elif self.elevatorTripId and (localAvatar.lastElevatorLeft == self.elevatorTripId):
             self.rejectBoard(base.localAvatar.doId, REJECT_SHUFFLE)
 
@@ -157,14 +157,14 @@ class DistributedElevatorExt(DistributedElevator.DistributedElevator):
         self.accept(self.uniqueName('enterElevatorOK'),
                     self.handleEnterElevator)
         DistributedElevator.DistributedElevator.enterWaitEmpty(self, ts)
-        
+
     def exitWaitEmpty(self):
         self.elevatorSphereNodePath.stash()
         # Toons may not attempt to board the elevator if it isn't waiting
         self.ignore(self.uniqueName('enterelevatorSphere'))
         self.ignore(self.uniqueName('enterElevatorOK'))
         DistributedElevator.DistributedElevator.exitWaitEmpty(self)
-        
+
     ##### WaitCountdown state #####
 
     def enterWaitCountdown(self, ts):
@@ -177,10 +177,9 @@ class DistributedElevatorExt(DistributedElevator.DistributedElevator):
     def exitWaitCountdown(self):
         self.ignore(self.uniqueName('enterElevatorOK'))
         DistributedElevator.DistributedElevator.exitWaitCountdown(self)
-        
+
     def getZoneId(self):
         return self.bldg.interiorZoneId
 
     def getElevatorModel(self):
         return self.bldg.getSuitElevatorNodePath()
-

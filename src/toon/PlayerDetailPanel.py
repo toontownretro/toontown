@@ -1,14 +1,14 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.directnotify import DirectNotifyGlobal
-import DistributedToon
+from . import DistributedToon
 from toontown.friends import FriendInviter
-import ToonTeleportPanel
+from . import ToonTeleportPanel
 from toontown.toonbase import TTLocalizer
 from toontown.hood import ZoneUtil
 from toontown.toonbase.ToontownBattleGlobals import Tracks, Levels
@@ -21,7 +21,7 @@ def showPlayerDetail(avId, avName, playerId = None):
     if globalAvatarDetail != None:
         globalAvatarDetail.cleanup()
         globalAvatarDetail = None
-        
+
     globalAvatarDetail = PlayerDetailPanel(avId, avName, playerId)
 
 def hidePlayerDetail():
@@ -50,33 +50,33 @@ class PlayerDetailPanel(DirectFrame):
     def __init__(self, avId, avName,  playerId = None, parent = aspect2dp, **kw):
         # Inherits from DirectFrame
         # Must specify avId and avName on creation
-        
+
         self.playerId = playerId
         self.isPlayer = 0
         self.playerInfo = None
         if playerId:
            self.isPlayer = 1
-           if base.cr.playerFriendsManager.playerId2Info.has_key(playerId):
+           if playerId in base.cr.playerFriendsManager.playerId2Info:
                self.playerInfo = base.cr.playerFriendsManager.playerId2Info[playerId]
                if not self.playerInfo.onlineYesNo:
                    avId = None
            else:
                avId = None
-               
+
         self.avId = avId
         self.avName = avName
         self.avatar = None
         self.createdAvatar = None
-        
+
         # Load required models
         buttons = loader.loadModel(
             'phase_3/models/gui/dialog_box_buttons_gui')
         gui = loader.loadModel('phase_3.5/models/gui/avatar_panel_gui')
         detailPanel = gui.find('**/avatarInfoPanel')
-        
+
         textScale = 0.132
         textWrap = 10.4
-        
+
         if self.playerId:
            textScale = 0.100
            textWrap = 18.0
@@ -111,7 +111,7 @@ class PlayerDetailPanel(DirectFrame):
                                     )
 
 
-        
+
         if self.avId:
             self.avText = DirectLabel(self,
                                         text = (TTLocalizer.PlayerToonName % {"toonname" : self.avName}),
@@ -122,7 +122,7 @@ class PlayerDetailPanel(DirectFrame):
                                         pos = (-0.85, 0.0, 0.56),
                                         )
             guiButton = loader.loadModel("phase_3/models/gui/quit_button")
-            
+
             self.gotoToonButton = DirectButton(
                                     parent = self,
                                     relief = None,
@@ -171,7 +171,7 @@ class PlayerDetailPanel(DirectFrame):
 
         Cancels any pending request and removes the panel from the
         screen.
-        
+
         """
 
         if self.createdAvatar:
@@ -189,7 +189,7 @@ class PlayerDetailPanel(DirectFrame):
     ### Support methods
 
     def __showData(self):
-            
+
         if self.isPlayer and self.playerInfo: #a player coming in from trhough switch board from some other game
             if self.playerInfo.onlineYesNo:
                 someworld = self.playerInfo.location
@@ -214,10 +214,3 @@ class PlayerDetailPanel(DirectFrame):
         if handle != None:
             self.notify.info("Clicked on name in friend's list. doId = %s" % handle.doId)
             messenger.send("clickedNametagPlayer", [handle, self.playerId, 0])
-
-
-
-
-
-
-                

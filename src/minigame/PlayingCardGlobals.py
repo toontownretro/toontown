@@ -1,7 +1,7 @@
 # RAU modified from pirates
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
-from pandac.PandaModules import Vec4
+from toontown.toonbase.ToontownModules import Vec4
 # For dealing
 Up = 1
 Down = 0
@@ -59,7 +59,7 @@ def convertValueToGagTrackAndLevel(value):
     return track,level
 
 def convertRankToGagTrackAndLevel(rank):
-    # for a stand deck, converts 0 to 12 to a gag    
+    # for a stand deck, converts 0 to 12 to a gag
     assert rank < (ToontownBattleGlobals.MAX_TRACK_INDEX +1) *\
            (ToontownBattleGlobals.MAX_LEVEL_INDEX +1)
     track = rank  %( ToontownBattleGlobals.MAX_TRACK_INDEX +1)
@@ -84,15 +84,15 @@ def initCardImages():
                 cardNode = cardModel.find('**/%s' % propName)
                 assert not cardNode.isEmpty()
                 CardImages[style][suitIndex][rankIndex] = cardNode
-                
+
         # Card back for this style
         propName = ToontownBattleGlobals.AvPropsNew[ToontownBattleGlobals.MAX_TRACK_INDEX][ToontownBattleGlobals.MAX_LEVEL_INDEX]
         CardImages[style]['back'] = cardModel.find(propName)
-        
+
     global _cardImagesInitialized
     _cardImagesInitialized = 1
 
-def getImage(style, suit, rank):    
+def getImage(style, suit, rank):
     if _cardImagesInitialized == 0:
         initCardImages()
     return CardImages[style][suit][rank]
@@ -101,4 +101,3 @@ def getBack(style):
     if _cardImagesInitialized == 0:
         initCardImages()
     return CardImages[style]['back']
-

@@ -3,8 +3,8 @@
 from direct.showbase.DirectObject import DirectObject
 from toontown.toonbase.ToontownGlobals import *
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
-import VineGameGlobals
+from toontown.toonbase.ToontownModules import *
+from . import VineGameGlobals
 from direct.interval.SoundInterval import SoundInterval
 
 
@@ -12,7 +12,7 @@ class VineBat(NodePath.NodePath, DirectObject):
     """
     Treasures toons can pickup swinging from vine to vine.  Based on MazeTreasure
     """
-    
+
     notify = DirectNotifyGlobal.directNotify.newCategory("VineBat")
     notify.setDebug(True)
 
@@ -32,10 +32,10 @@ class VineBat(NodePath.NodePath, DirectObject):
         serialNum = 0
         gameId = 0
         self.serialNum = serialNum
-        
+
         self.batIndex = batIndex
         self.timeToTraverseField = timeToTraverseField
-        
+
         #import pdb; pdb.set_trace()
         gameAssets = loader.loadModel("phase_4/models/minigames/vine_game")
         bat3 = gameAssets.find('**/bat3')
@@ -44,11 +44,11 @@ class VineBat(NodePath.NodePath, DirectObject):
         seqNode = SequenceNode.SequenceNode('bat')
         seqNode.addChild(bat1.node())
         seqNode.addChild(bat2.node())
-        seqNode.addChild(bat3.node())        
+        seqNode.addChild(bat3.node())
         seqNode.setFrameRate(12)
         seqNode.pingpong(False)
         self.batModel = self.attachNewNode(seqNode)
-        self.batModel.reparentTo(self)        
+        self.batModel.reparentTo(self)
         gameAssets.removeNode()
         #self.batModel.setH(180)
 
@@ -56,13 +56,13 @@ class VineBat(NodePath.NodePath, DirectObject):
         self.batModel.copyTo(self.batModelIcon)
         #bat1.copyTo(self.batModelIcon)
         regularCamMask = BitMask32.bit(0)
-        self.batModelIcon.hide(regularCamMask)        
+        self.batModelIcon.hide(regularCamMask)
         self.batModelIcon.show(VineGameGlobals.RadarCameraBitmask)
         self.batModelIcon.setScale(0.55)
         self.batModel.setScale(0.15)
         #self.batModel.setScale(0.35)
 
-        
+
         self.setPos(-100,0,0)
         center = Point3(0, 0, 0)
 
@@ -74,19 +74,19 @@ class VineBat(NodePath.NodePath, DirectObject):
         self.collSphere.setTangible(0)
         self.collNode = CollisionNode(self.sphereName)
         self.collNode.setIntoCollideMask(VineGameGlobals.SpiderBitmask)
-        
+
         self.collNode.addSolid(self.collSphere)
         self.collNodePath = self.attachNewNode(self.collNode)
         self.collNodePath.hide()
 
         # Add a hook looking for collisions with localToon
         self.accept('enter' + self.sphereName, self.__handleEnterSphere)
-        
+
         # now that the treasure and sphere have been placed, flatten the
         # whole silly thing
         #self.flattenLight()
 
-        
+
         self.screechSfx = base.loadSfx("phase_4/audio/sfx/MG_sfx_vine_game_bat_shriek_3.mp3")
 
         #self.flySfx = base.loadSfx("phase_4/audio/sfx/MG_sfx_vine_game_bat_flying_lp.mp3")
@@ -108,7 +108,7 @@ class VineBat(NodePath.NodePath, DirectObject):
         self.velocity = float (startX - endX) / self.timeToTraverseField # in ft/s
         #self.warnDistance = 3 * self.velocity # in feet
         self.warnDistance = 35
-        
+
     def destroy(self):
         self.ignoreAll()
         self.batModel.removeNode()
@@ -160,4 +160,3 @@ class VineBat(NodePath.NodePath, DirectObject):
                 if not self.warnedForThisLap:
                     self.screechSfx.play()
                     self.warnedForThisLap = True
-                

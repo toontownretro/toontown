@@ -1,11 +1,11 @@
 """MapPage module: contains the MapPage class"""
 
-import ShtikerPage
+from . import ShtikerPage
 from toontown.toonbase import ToontownGlobals
 from direct.showbase import PythonUtil
 from toontown.hood import ZoneUtil
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 
 class MapPage(ShtikerPage.ShtikerPage):
@@ -41,19 +41,19 @@ class MapPage(ShtikerPage.ShtikerPage):
         self.cloudScaleList = ( ((0.55, 0, 0.4), (0.35, 0, 0.25)),
                                 (),
                                 ((0.45, 0, 0.45), (0.5, 0, 0.4),),
-                                ((0.7, 0, 0.45),), 
-                                ((0.55, 0, 0.4),), 
+                                ((0.7, 0, 0.45),),
+                                ((0.55, 0, 0.4),),
                                 ((0.6, 0, 0.4), (0.5332, 0, 0.32)),
                                 (),
                                 ((0.7, 0, 0.45),(0.7, 0, 0.45),),
                                 ((0.7998, 0, 0.39),),
-                                ((0.5, 0, 0.4),), # boss 
+                                ((0.5, 0, 0.4),), # boss
                                 ((-0.45, 0, 0.4),), # sell
                                 ((-0.45, 0, 0.35),), # cash
                                 ((0.5, 0, 0.35),), # law
                                 ((0.5, 0, 0.35),), # golf
                                 )
-                                
+
         self.cloudPosList = ( ((0.575, 0., -0.04), (0.45, 0., -0.25)),
                               (),
                               ((0.375, 0., 0.4), (0.5625, 0., 0.2)),
@@ -82,19 +82,19 @@ class MapPage(ShtikerPage.ShtikerPage):
                               (-0.7, 0., -0.5), # Sellbot HQ
                               (-0.7, 0., 0.5), # Cashbot HQ
                               (0.7, 0. , 0.5), # Lawbot HQ
-                              (0.45, 0. , -0.45), # golf zone                    
+                              (0.45, 0. , -0.45), # golf zone
                               )
-        
+
         self.labels = []
         self.clouds = []
-        
+
         guiButton = loader.loadModel("phase_3/models/gui/quit_button")
 
         buttonLoc = (0.45, 0, -0.74)
         if base.housingEnabled:
             # this is the location when the go home button is enabled
             buttonLoc = (0.55,0,-0.74)
-            
+
         self.safeZoneButton = DirectButton(
             parent = self.map,
             relief = None,
@@ -107,7 +107,7 @@ class MapPage(ShtikerPage.ShtikerPage):
             text = TTLocalizer.MapPageBackToPlayground,
             text_scale = TTLocalizer.MPbackToPlayground,
             text_pos = (0,-0.02),
-            textMayChange = 0,            
+            textMayChange = 0,
             command = self.backToSafeZone,
             )
 
@@ -123,7 +123,7 @@ class MapPage(ShtikerPage.ShtikerPage):
             text = TTLocalizer.MapPageGoHome,
             text_scale = TTLocalizer.MPgoHome,
             text_pos = (0,-0.02),
-            textMayChange = 0,            
+            textMayChange = 0,
             command = self.goHome,
             )
         self.goHomeButton.hide()
@@ -192,7 +192,7 @@ class MapPage(ShtikerPage.ShtikerPage):
         cloudModel.removeNode()
         self.resetFrameSize()
         return
-    
+
     def unload(self):
         for labelButton in self.labels:
             labelButton.destroy()
@@ -257,13 +257,13 @@ class MapPage(ShtikerPage.ShtikerPage):
 
         #print "### hoods visited = ", safeZonesVisited
         #print "### hoods avail = ", hoodsAvailable
-        
+
         # The hoods that we can see is the intersection of the zones we have
         # visited and the hoods that are available
         hoodVisibleList = PythonUtil.intersection(safeZonesVisited, hoodsAvailable)
 
         #print "### hoods viz = ", hoodVisibleList
-        
+
         # The hoods that we can teleport to is the intersection of the hoods
         # we can see and the hoods the local toon has teleport access to
         hoodTeleportList = base.localAvatar.getTeleportAccess()
@@ -306,7 +306,7 @@ class MapPage(ShtikerPage.ShtikerPage):
                            "hood" : base.localAvatar.lastHood,
                            }
         messenger.send(self.doneEvent)
-        
+
     def __buttonCallback(self, hood):
         """
         a hood has been selected

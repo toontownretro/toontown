@@ -1,10 +1,10 @@
 
-from pandac.PandaModules import *
-import ToonHood
+from toontown.toonbase.ToontownModules import *
+from . import ToonHood
 from toontown.safezone import OZSafeZoneLoader
 from toontown.toonbase.ToontownGlobals import *
 from toontown.racing import DistributedVehicle
-import SkyUtil
+from . import SkyUtil
 
 class OZHood(ToonHood.ToonHood):
     def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
@@ -23,23 +23,23 @@ class OZHood(ToonHood.ToonHood):
         self.spookySkyFile = "phase_3.5/models/props/BR_sky"
         self.titleColor = (1.0, 0.5, 0.4, 1.0)
         self.whiteFogColor = Vec4(.95, 0.95, 0.95, 1)
-        self.underwaterFogColor = Vec4(0.0, 0.0, 0.6, 1.0)        
+        self.underwaterFogColor = Vec4(0.0, 0.0, 0.6, 1.0)
 
     def load(self):
         ToonHood.ToonHood.load(self)
         self.parentFSM.getStateNamed("OZHood").addChild(self.fsm)
         self.fog = Fog("OZFog")
-        
+
     def unload(self):
         self.parentFSM.getStateNamed("OZHood").removeChild(self.fsm)
         ToonHood.ToonHood.unload(self)
-        
+
     def enter(self, *args):
         ToonHood.ToonHood.enter(self, *args)
         base.camLens.setNearFar(SpeedwayCameraNear,
                                 SpeedwayCameraFar)
 
-        
+
     def exit(self):
         base.camLens.setNearFar(DefaultCameraNear,
                                 DefaultCameraFar)
@@ -49,11 +49,11 @@ class OZHood(ToonHood.ToonHood):
         return SkyUtil.cloudSkyTrack(task)
 
     def startSky(self):
-        
+
         # we have the wrong sky; load in the regular sky
         if not (self.sky.getTag("sky") == "Regular"):
             self.endSpookySky()
-            
+
         SkyUtil.startCloudSky(self)
 
     def setUnderwaterFog(self):
@@ -62,7 +62,7 @@ class OZHood(ToonHood.ToonHood):
             self.fog.setLinearRange(0.1, 100.0)
             render.setFog(self.fog)
             self.sky.setFog(self.fog)
-        
+
     def setWhiteFog(self):
         if base.wantFog:
             self.fog.setColor(self.whiteFogColor)

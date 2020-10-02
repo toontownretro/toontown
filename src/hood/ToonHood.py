@@ -1,5 +1,5 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 from toontown.distributed.ToontownMsgTypes import *
@@ -8,7 +8,7 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.minigame import Purchase
 from otp.avatar import DistributedAvatar
-import Hood
+from . import Hood
 from toontown.building import SuitInterior
 from toontown.cogdominium import CogdoInterior
 
@@ -51,7 +51,7 @@ class ToonHood(Hood.Hood):
                                         self.enterSafeZoneLoader,
                                         self.exitSafeZoneLoader,
                                         ['quietZone',
-                                         'suitInterior', 'cogdoInterior', 'townLoader', 
+                                         'suitInterior', 'cogdoInterior', 'townLoader',
                                          'minigame',
                                          #'tutorial',
                                          ]),
@@ -77,7 +77,7 @@ class ToonHood(Hood.Hood):
                             State.State('quietZone',
                                         self.enterQuietZone,
                                         self.exitQuietZone,
-                                        ['safeZoneLoader', 'townLoader', 
+                                        ['safeZoneLoader', 'townLoader',
                                         'suitInterior', 'cogdoInterior', 'minigame']),
                             State.State('final',
                                         self.enterFinal,
@@ -88,7 +88,7 @@ class ToonHood(Hood.Hood):
                            'final',
                            )
         self.fsm.enterInitialState()
-        
+
     def load(self):
         Hood.Hood.load(self)
 
@@ -102,20 +102,20 @@ class ToonHood(Hood.Hood):
                                  +str(requestStatus)+")"))
         loaderName = requestStatus["loader"]
         if loaderName=="safeZoneLoader":
-            self.loader = self.safeZoneLoaderClass(self, 
-                    self.fsm.getStateNamed("safeZoneLoader"), 
+            self.loader = self.safeZoneLoaderClass(self,
+                    self.fsm.getStateNamed("safeZoneLoader"),
                     self.loaderDoneEvent)
             self.loader.load()
         elif loaderName=="townLoader":
-            self.loader = self.townLoaderClass(self, 
-                    self.fsm.getStateNamed("townLoader"), 
+            self.loader = self.townLoaderClass(self,
+                    self.fsm.getStateNamed("townLoader"),
                     self.loaderDoneEvent)
             self.loader.load(requestStatus["zoneId"])
         else:
             assert(self.notify.debug("  unknown loaderName: "+str(loaderName)))
 
     # TownLoader state
-    
+
     def enterTownLoader(self, requestStatus):
         """enterTownLoader(self)
         """
@@ -133,7 +133,7 @@ class ToonHood(Hood.Hood):
         self.ignore(self.loaderDoneEvent)
         self.loader.exit()
         self.loader.unload()
-        del self.loader        
+        del self.loader
 
     def handleTownLoaderDone(self):
         """
@@ -183,8 +183,8 @@ class ToonHood(Hood.Hood):
         # Turn laff numbers back on
         DistributedAvatar.DistributedAvatar.HpTextEnabled = 1
         # Turn off laff meter
-        base.localAvatar.laffMeter.stop()        
-        
+        base.localAvatar.laffMeter.stop()
+
         self.ignore(self.purchaseDoneEvent)
         self.purchase.exit()
         self.purchase.unload()
@@ -215,12 +215,12 @@ class ToonHood(Hood.Hood):
         assert(self.notify.debug("enterSuitInterior"))
         self.placeDoneEvent = 'suit-interior-done'
         self.acceptOnce(self.placeDoneEvent, self.handleSuitInteriorDone)
-        self.place = SuitInterior.SuitInterior(self, self.fsm, 
+        self.place = SuitInterior.SuitInterior(self, self.fsm,
                                                         self.placeDoneEvent)
         self.place.load()
         self.place.enter(requestStatus)
         base.cr.playGame.setPlace(self.place)
-        
+
     def exitSuitInterior(self):
         """exitSuitInterior(self)
         """
@@ -231,7 +231,7 @@ class ToonHood(Hood.Hood):
         self.place.unload()
         self.place=None
         base.cr.playGame.setPlace(self.place)
-    
+
     def handleSuitInteriorDone(self):
         assert(self.notify.debug("handleSuitInteriorDone()"))
         doneStatus = self.place.getDoneStatus()
@@ -250,12 +250,12 @@ class ToonHood(Hood.Hood):
         assert(self.notify.debug("enterCogdoInterior"))
         self.placeDoneEvent = 'cogdo-interior-done'
         self.acceptOnce(self.placeDoneEvent, self.handleCogdoInteriorDone)
-        self.place = CogdoInterior.CogdoInterior(self, self.fsm, 
+        self.place = CogdoInterior.CogdoInterior(self, self.fsm,
                                                         self.placeDoneEvent)
         self.place.load()
         self.place.enter(requestStatus)
         base.cr.playGame.setPlace(self.place)
-        
+
     def exitCogdoInterior(self):
         """exitCogdoInterior(self)
         """
@@ -266,7 +266,7 @@ class ToonHood(Hood.Hood):
         self.place.unload()
         self.place=None
         base.cr.playGame.setPlace(self.place)
-    
+
     def handleCogdoInteriorDone(self):
         assert(self.notify.debug("handleCogdoInteriorDone()"))
         doneStatus = self.place.getDoneStatus()
@@ -294,7 +294,7 @@ class ToonHood(Hood.Hood):
         base.localAvatar.laffMeter.start()
         # Cheesy rendering effects are not allowed in minigames.
         base.cr.forbidCheesyEffects(1)
-        
+
         # Wait for the real minigame to say it is done
         self.acceptOnce(self.minigameDoneEvent, self.handleMinigameDone)
         return None
@@ -310,7 +310,7 @@ class ToonHood(Hood.Hood):
         base.localAvatar.laffMeter.stop()
         # Restore cheesy rendering effects.
         base.cr.forbidCheesyEffects(0)
-        
+
         self.ignore(self.minigameDoneEvent)
         # Remove the minigame child state machine if it has not been already
         minigameState = self.fsm.getStateNamed("minigame")
@@ -330,4 +330,3 @@ class ToonHood(Hood.Hood):
 
     # quietZone state
     # Defined in Hood.py
-

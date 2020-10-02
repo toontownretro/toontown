@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from direct.showbase.PythonUtil import Functor
 from direct.task.Task import Task
@@ -18,7 +18,7 @@ from toontown.pets import Pet, PetConstants, PetDetailPanel
 class PetAvatarPanel(AvatarPanel.AvatarPanel):
     """PetAvatarPanel:
 
-    This is a panel that pops up in response to clicking on a Pet nearby you, 
+    This is a panel that pops up in response to clicking on a Pet nearby you,
     or to picking a Toon from your friends list.  It draws a little picture
     of the pet's head, and gives you a few options to pick from re the avatar.
 
@@ -57,7 +57,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
                 pos = guiPos,
                 relief = None,
                 )
-            
+
         disabledImageColor = Vec4(.6,.6,.6,1)
         text0Color = Vec4(1,1,1,1)
         text1Color = Vec4(0.5,1,0.5,1)
@@ -191,22 +191,22 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
                 command = self.__handleDetail,
                 )
         self.detailButton.setScale(7.5)
-        
+
         if (not self.petIsLocal):
-            self.detailButton['state'] = DGG.DISABLED 
+            self.detailButton['state'] = DGG.DISABLED
 
         gui.removeNode()
         toonGui.removeNode()
 
         self.petDetailPanel = None
-        
+
         self.__fillPetInfo(self.avatar)
-        
+
         self.accept("petNameChanged", self.__refreshPetInfo)
         self.accept("petStateUpdated", self.__refreshPetInfo)
-        
+
         self.frame.show()
- 
+
         if self.petIsLocal:
             #if this pet is real, set up a task to check his proximity
             proxTask = Task.loop(Task(self.__checkPetProximity),
@@ -221,7 +221,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
             self.listenForInteractionDone()
 
         messenger.send("petPanelDone")
-        
+
         # refresh the pet info
         if ((not self.petIsLocal) and
             hasattr(self.avatar, 'updateMoodFromServer')):
@@ -254,7 +254,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
                 distance = diff.length()
 
                 self.notify.debug("pet distance is %s" % distance)
-                
+
                 if distance > 20.0:
                     self.scratchButton['state'] = DGG.DISABLED
                     self.feedButton['state'] = DGG.DISABLED
@@ -306,7 +306,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
             return DGG.NORMAL
         else:
             return DGG.DISABLED
-    
+
     def cleanup(self):
         self.notify.debug("cleanup(): doId=%s" % self.avatar.doId)
         """cleanup(self)"""
@@ -316,10 +316,10 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         self.cancelListenForInteractionDone()
 
         taskMgr.remove("petpanel-proximity-check")
-        
+
         if hasattr(self, "toonDetail"):
             del self.toonDetail
-        
+
         self.frame.destroy()
         del self.frame
         self.frame = None
@@ -342,7 +342,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         AvatarPanel.AvatarPanel.cleanup(self)
 
         base.panel = None
-        
+
         return
 
     def disableAll(self):
@@ -375,7 +375,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
             self.disableAll()
             from toontown.toon import ToonDetail
             self.toonDetail = ToonDetail.ToonDetail(self.avatar.ownerId, self.__ownerDetailsLoaded)
-            
+
     def __ownerDetailsLoaded(self, avatar):
         self.notify.debug("__ownerDetailsLoaded(): doId=%s" % self.avatar.doId)
         self.cleanup()
@@ -391,7 +391,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         if self.avatar.trickIval is not None and self.avatar.trickIval.isPlaying():
             self.avatar.trickIval.finish()
         # Go into pet mode so we get out of walk mode
-        base.cr.playGame.getPlace().setState('pet')        
+        base.cr.playGame.getPlace().setState('pet')
         base.localAvatar.lock()
 
     def __handleFeed(self):
@@ -405,7 +405,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         # Go into pet mode so we get out of walk mode
         base.cr.playGame.getPlace().setState('pet')
         base.localAvatar.lock()
-            
+
     def __handleScratch(self):
         self.notify.debug("__handleScratch(): doId=%s" % self.avatar.doId)
         base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_SCRATCH)
@@ -415,9 +415,9 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         if self.avatar.trickIval is not None and self.avatar.trickIval.isPlaying():
             self.avatar.trickIval.finish()
         # Go into pet mode so we get out of walk mode
-        base.cr.playGame.getPlace().setState('pet')        
+        base.cr.playGame.getPlace().setState('pet')
         base.localAvatar.lock()
-            
+
     def __handleDisableAvatar(self):
         self.notify.debug("__handleDisableAvatar(): doId=%s" % self.avatar.doId)
         """__handleDisableAvatar(self)
@@ -451,7 +451,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         self.petModel.reparentTo(self.petView)
         self.petModel.enterNeutralHappy()
         self.petModel.startBlink()
-        
+
         # Put the avatar's name across the top.
         self.nameLabel = DirectLabel(
                 parent = self.frame,
@@ -465,7 +465,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
                 text_wordwrap = 7.5,
                 text_shadow = (1, 1, 1, 1),
                 )
-                
+
         # Put the avatar's 'state' (biggest need)
         self.stateLabel = DirectLabel(
                 parent = self.frame,
@@ -478,13 +478,13 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
                 text_wordwrap = TTLocalizer.PAPstateLabelwordwrap,
                 text_shadow = (1, 1, 1, 1),
                 )
-        
+
         self.__refreshPetInfo(avatar)
-        
+
     def __refreshPetInfo(self, avatar):
         self.notify.debug("__refreshPetInfo(): doId=%s" % avatar.doId)
         if avatar.doId != self.avatar.doId:
-            self.notify.warning("avatar not self!") 
+            self.notify.warning("avatar not self!")
             return
 
         # Check to see if this panel has already been cleaned up

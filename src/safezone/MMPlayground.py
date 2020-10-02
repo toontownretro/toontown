@@ -2,9 +2,9 @@
     class which represents the client version of
     Minnie's Melodyland safezone."""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
-import Playground
+from . import Playground
 import random
 from direct.fsm import ClassicFSM, State
 from direct.actor import Actor
@@ -48,7 +48,7 @@ class MMPlayground(Playground.Playground):
 
     def enter(self, requestStatus):
         Playground.Playground.enter(self, requestStatus)
-        
+
     def exit(self):
         Playground.Playground.exit(self)
 

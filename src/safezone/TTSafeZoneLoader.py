@@ -1,11 +1,11 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
-import SafeZoneLoader
-import TTPlayground
+from . import SafeZoneLoader
+from . import TTPlayground
 import random
 from toontown.launcher import DownloadForceAcknowledge
 
-    
+
 class TTSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
     def __init__(self, hood, parentFSM, doneEvent):
         SafeZoneLoader.SafeZoneLoader.__init__(self, hood, parentFSM, doneEvent)
@@ -17,11 +17,11 @@ class TTSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
 
     def load(self):
         SafeZoneLoader.SafeZoneLoader.load(self)
-        self.birdSound=map(base.loadSfx, [
+        self.birdSound=list(map(base.loadSfx, [
                 'phase_4/audio/sfx/SZ_TC_bird1.mp3',
                 'phase_4/audio/sfx/SZ_TC_bird2.mp3',
-                'phase_4/audio/sfx/SZ_TC_bird3.mp3'])
-    
+                'phase_4/audio/sfx/SZ_TC_bird3.mp3']))
+
     def unload(self):
         del self.birdSound
         SafeZoneLoader.SafeZoneLoader.unload(self)
@@ -31,4 +31,3 @@ class TTSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
 
     def exit(self):
         SafeZoneLoader.SafeZoneLoader.exit(self)
-

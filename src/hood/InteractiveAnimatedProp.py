@@ -1,11 +1,11 @@
 import math
 import random
-import GenericAnimatedProp
+from . import GenericAnimatedProp
 from direct.actor import Actor
 from direct.interval.IntervalGlobal import Sequence, ActorInterval,Wait, Func, SoundInterval, Parallel
 from direct.fsm import FSM
 from direct.showbase.PythonUtil import weightedChoice
-from pandac.PandaModules import TextNode, Vec3
+from toontown.toonbase.ToontownModules import TextNode, Vec3
 from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil
 
@@ -68,7 +68,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         self.battleCheerInterval = None
         self.sadInterval = None
         self.victoryInterval = None
-        pass        
+        pass
 
     def getCellIndex(self):
         """Returns the battle cell index, -1 if it's not associated with any."""
@@ -78,7 +78,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         """Loop the battle cheer animation."""
         self.node.loop("battleCheer")
 
-        
+
     def setupActor(self, node):
         """Setup the animation/s for our actor."""
         if self.hoodId in self.ZoneToIdles:
@@ -91,11 +91,11 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         self.trashcan.reparentTo(node)
         animDict = {}
         animDict['anim'] = "%s/%s"%(self.path,anim)
-        
-        for i in xrange(self.numIdles):
+
+        for i in range(self.numIdles):
             baseAnim = self.ZoneToIdles[self.hoodId][i]
             if isinstance(baseAnim, tuple):
-                baseAnim=baseAnim[0]                
+                baseAnim=baseAnim[0]
             animStr = self.path + '/' + baseAnim
             animKey = "idle%d" % i
             animDict[animKey] = animStr
@@ -104,9 +104,9 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
             if settleName:
                 settleStr = self.path + '/' + settleName
                 settleKey = "settle%d"  % i
-                animDict[settleKey] = settleStr                
-            
-        for i in xrange(self.numFightAnims):
+                animDict[settleKey] = settleStr
+
+        for i in range(self.numFightAnims):
             animStr = self.path + '/' + self.ZoneToFightAnims[self.hoodId][i]
             animKey = "fight%d" % i
             animDict[animKey] = animStr
@@ -121,8 +121,8 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         if self.hoodId in self.ZoneToSadAnims:
             animStr = self.path + '/' + self.ZoneToSadAnims[self.hoodId]
             animKey = "sad"
-            animDict[animKey] = animStr   
-            
+            animDict[animKey] = animStr
+
         self.trashcan.loadAnims(animDict)
         self.trashcan.pose('anim', 0)
         self.node = self.trashcan
@@ -130,14 +130,14 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         self.battleCheerInterval = self.createBattleCheerInterval()
         self.victoryInterval = self.createVictoryInterval()
         self.sadInterval = self.createSadInterval()
-        
+
     def createIdleInterval(self):
         """Returns an interval that we use when w're just idling."""
         result = Sequence()
         if self.numIdles >= 3:
             numberOfAnimsAbove2 = self.numIdles - 2
-            for rareIdle in xrange( 2, self.numIdles):
-                for i in xrange(2):
+            for rareIdle in range( 2, self.numIdles):
+                for i in range(2):
                     result.append(ActorInterval( self.node, 'idle0'))
                     result.append(Wait(self.IdlePauseTime))
                     result.append(ActorInterval( self.node, 'idle1'))
@@ -145,25 +145,25 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
                 result.append(ActorInterval(self.node, 'idle%d' % rareIdle))
                 result.append(Wait(self.IdlePauseTime))
         else:
-            for i in xrange(self.numIdles):
+            for i in range(self.numIdles):
                 result.append(ActorInterval(self.node, "idle%d" % i))
-        self.notify.debug("idle interval=%s" % result)                    
+        self.notify.debug("idle interval=%s" % result)
         return result
 
     def createBattleCheerText(self):
         """Create the text node to parent above the prop when he plays fight boost."""
         # Set the font
         self.HpTextGenerator.setFont(ToontownGlobals.getSignFont())
-        
+
         # Show  the text
         self.HpTextGenerator.setText(self.BattleCheerText)
-            
+
         # No shadow
         self.HpTextGenerator.clearShadow()
 
         # Center the number
         self.HpTextGenerator.setAlign(TextNode.ACenter)
-        
+
         # Blue copied from DistributedSuitBase.showHPText
         r = 0
         g = 0
@@ -171,9 +171,9 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         a = 1
 
         self.HpTextGenerator.setTextColor(r, g, b, a)
-                
+
         self.hpTextNode = self.HpTextGenerator.generate()
-                
+
         # Put the hpText over the head of the avatar
         self.hpText = self.node.attachNewNode(self.hpTextNode)
         self.hpText.setScale(1)
@@ -190,7 +190,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
     def createBattleCheerInterval(self):
         """Create a looping interval that the prop plays when buffing battles."""
         result=Sequence()
-        for i in xrange(self.numFightAnims):
+        for i in range(self.numFightAnims):
             animKey = "fight%d" % i
             animAndSoundIval = self.createAnimAndSoundIval(animKey)
             origAnimName = self.node.getAnimFilename(animKey).split('/')[-1]
@@ -209,7 +209,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
                                        self.hpText.posInterval(duration=4.0, pos = Vec3(0,0,7), startPos=(0,0,3)),
                                        Func(self.hpText.hide),
                                        )
-                                            
+
         ivalWithText = Parallel( battleCheerTextIval,
                                  result)
         return ivalWithText
@@ -219,7 +219,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         result=Sequence()
         if self.hoodId in self.ZoneToSadAnims:
             result = self.createAnimAndSoundIval('sad')
-        return result    
+        return result
 
     def hasSpecialIval(self, origAnimName):
         """Returns true if for a given animation, it needs to play with a special interval."""
@@ -242,7 +242,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
     def getOverrideIval(self, origAnimName):
         """Returns an Interval if for a given animation, it needs to play more than just an actor interval."""
         # overriden by 'fightBoost' for mailbox interactive props'
-        return Sequence()      
+        return Sequence()
 
     def createVictoryInterval(self):
         """Create a victory interval that the prop plays when toons win battles."""
@@ -250,8 +250,8 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         if self.hoodId in self.ZoneToVictoryAnims:
             animAndSoundIval = self.createAnimAndSoundIval("victory")
             result.append(animAndSoundIval)
-        return result    
-        
+        return result
+
     def enter(self):
         """Don't animate if props helping in battle is not turned on."""
         GenericAnimatedProp.GenericAnimatedProp.enter(self)
@@ -291,7 +291,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         """Go to sad if there's nearby cog buildings, doIdleAnim otherwise."""
         if not hasattr(self, 'node') or not self.node:
             self.notify.warning("requestIdleOrSad  returning hasattr(self,'node')=%s" % hasattr(self,'node'))
-            return 
+            return
         if self.buildingsMakingMeSad:
             self.request("Sad")
         else:
@@ -303,7 +303,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         self.okToStartNextAnim = True
         self.notify.debug("%s %d okToStartNextAnim=%s" % (self, self.visId,self.okToStartNextAnim))
         self.startNextIdleAnim()
-        
+
     def exitDoIdleAnim(self):
         """Stop the currently playing animation."""
         self.notify.debug("exitDoIdlesAnim numIdles=%d" % self.numIdles)
@@ -336,7 +336,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         result = self.numIdles -1
         if base.config.GetBool('randomize-interactive-idles', True):
             pairs = []
-            for i in xrange(self.numIdles):
+            for i in range(self.numIdles):
                 # actually we want idle2 to have a lower chance of occcurring
                 # as it's the niftier idle compared to idle1 and idle0
                 reversedChance = self.numIdles - i -1
@@ -350,7 +350,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
             # takes a really long time for AwesomeIdles to play
             result = self.lastPlayingAnimPhase + 1
             if result >= len(self.ZoneToIdles[self.hoodId]):
-                result = 0 
+                result = 0
         return result
 
 
@@ -399,7 +399,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         if not hasattr(self, 'node') or not self.node:
             self.notify.warning("createIdleAnimSequence returning dummyResult hasattr(self,'node')=%s" % hasattr(self,'node'))
             return dummyResult
-        idleAnimAndSound = self.createIdleAnimAndSoundInterval(whichIdleAnim)            
+        idleAnimAndSound = self.createIdleAnimAndSoundInterval(whichIdleAnim)
         result = Sequence( idleAnimAndSound,
                            Wait(self.IdlePauseTime),
                            Func(self.startNextIdleAnim)
@@ -419,13 +419,13 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
             numberOfLoops = random.randrange(minLoop, maxLoop+1)
             pauseTime = random.randrange(minPauseTime, maxPauseTime+1)
             result = Sequence()
-            for i in xrange(numberOfLoops):
+            for i in range(numberOfLoops):
                 result.append(idleAnimAndSound)
             if self.getSettleName(whichIdleAnim):
                 result.append(self.node.actorInterval('settle%d' % whichIdleAnim))
             result.append(Wait(pauseTime))
-            result.append(Func(self.startNextIdleAnim))                        
-        
+            result.append(Func(self.startNextIdleAnim))
+
         # self.notify.debug("createAnimSequence %s" % result)
         return result
 
@@ -435,7 +435,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         if base.cr.newsManager.isHolidayRunning(self.holidayId):
             self.request("Faceoff")
         else:
-            self.notify.debug("not going to faceoff because holiday %d is not running" %self.holidayId)            
+            self.notify.debug("not going to faceoff because holiday %d is not running" %self.holidayId)
 
     def gotoBattleCheer(self):
         """Request the battle cheer state, so only the prop makes fsm requests."""
@@ -475,7 +475,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         self.buildingsMakingMeSad.discard(buildingDoId)
         if not self.buildingsMakingMeSad:
             self.gotoIdle()
-    
+
     def enterFaceoff(self):
         """Finish the last idle animation, then play idleIntoFight, then request battleCheer."""
         self.notify.debugStateCall(self)
@@ -488,11 +488,11 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         self.notify.debugStateCall(self)
         self.curIval.pause()
         self.curIval = None
-        pass    
+        pass
 
     def calcWhichIdleAnim(self, animName):
         """Given an anim name, which index does it correspond to."""
-        result = 0        
+        result = 0
         info = self.ZoneToIdles[self.hoodId]
         for index, curInfo in enumerate(info):
             if isinstance(curInfo, tuple):
@@ -504,7 +504,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
                     result = index
                     breal
         return result
-                
+
 
     def createFaceoffInterval(self):
         """Creat an interval the finishes the last idle animation, then play idleIntoFight, then request battleCheer."""
@@ -517,8 +517,8 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         result.append(idleIntoFightIval)
         result.append(Func(self.gotoBattleCheer))
         return result
-        
-        
+
+
     def enterBattleCheer(self):
         """Loop ourself in the battle cheer interval."""
         self.notify.debugStateCall(self)
@@ -555,7 +555,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         self.notify.debugStateCall(self)
         self.curIval.finish()
         self.curIval = None
-            
+
     def getSettleName(self, whichIdleAnim):
         """Checks if the settle anim is defined in self.ZoneToIdles, then returns that."""
         result = None
@@ -600,7 +600,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
                 baseAnimName = animName.split('/')[-1]
                 if localAvatar.zoneId == self.visId:
                     self.notify.info("playing %s" % baseAnimName)
-            except Exception,e:
+            except Exception as e:
                 self.notify.warning("Unknown error in printAnimIfClose, giving up:\n%s" % str(e))
 
     def clearCurIval(self):

@@ -1,10 +1,10 @@
 """FactoryUtil module: contains useful stuff for factory mockup"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase import ToontownGlobals
-import MovingPlatform
+from . import MovingPlatform
 from direct.task.Task import Task
 from toontown.suit import Suit
 from toontown.suit import SuitDNA
@@ -17,7 +17,7 @@ class Ouch(DirectObject.DirectObject):
     def destroy(self):
         self.ignoreAll()
 
-    
+
 class CyclePlacer(DirectObject.DirectObject):
     def __init__(self, locations, keyEvent, startIndex=0):
         """
@@ -125,7 +125,7 @@ class WalkingSuit:
     def destroy(self):
         self.suit.delete()
         del self.suit
-    
+
     def start(self, startTime):
         self.walkIval = Sequence(name='factorySuitWalk%s' % self.serialNum)
         for i in range(len(self.wayPoints)):

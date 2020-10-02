@@ -1,13 +1,13 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.battle import SuitBattleGlobals
 from toontown.toonbase import TTLocalizer
-import HolidayDecorator
-import HalloweenHolidayDecorator
-import CrashedLeaderBoardDecorator
+from . import HolidayDecorator
+from . import HalloweenHolidayDecorator
+from . import CrashedLeaderBoardDecorator
 from direct.interval.IntervalGlobal import *
 import calendar
 from copy import deepcopy
@@ -28,7 +28,7 @@ promotionalSpeedChatHolidays = [ToontownGlobals.ELECTION_PROMOTION]
 
 class NewsManager(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory("NewsManager")
-    
+
     neverDisable = 1
 
     YearlyHolidayType = 1
@@ -68,10 +68,10 @@ class NewsManager(DistributedObject.DistributedObject):
 
     def getPopulation(self):
         return population
-        
+
     def sendSystemMessage(self, message, style):
         base.localAvatar.setSystemMessage(style, message)
-        
+
     def setInvasionStatus(self, msgType, cogType, numRemaining, skeleton):
         # Let the player know the status of any cog invasion taking place
         self.notify.info("setInvasionStatus: msgType: %s cogType: %s, numRemaining: %s, skeleton: %s" %
@@ -83,7 +83,7 @@ class NewsManager(DistributedObject.DistributedObject):
         if skeleton:
             cogName = TTLocalizer.Skeleton
             cogNameP = TTLocalizer.SkeletonP
-            
+
         if msgType == ToontownGlobals.SuitInvasionBegin:
             msg1 = TTLocalizer.SuitInvasionBegin1
             msg2 = TTLocalizer.SuitInvasionBegin2 % cogNameP
@@ -121,7 +121,7 @@ class NewsManager(DistributedObject.DistributedObject):
         else:
             mult = 1
         base.localAvatar.inventory.setInvasionCreditMultiplier(mult)
-        
+
         # TODO: this gets stomped at load time
         Sequence(
             Wait(1.0),
@@ -147,8 +147,8 @@ class NewsManager(DistributedObject.DistributedObject):
                     hasattr(base.cr.playGame.hood, 'loader')):
                     # Put up decorations
                     if holidayId == ToontownGlobals.HALLOWEEN_COSTUMES:
-                        self.holidayDecorator = HalloweenHolidayDecorator.HalloweenHolidayDecorator()                        
-                    elif holidayId == ToontownGlobals.CRASHED_LEADERBOARD:                    
+                        self.holidayDecorator = HalloweenHolidayDecorator.HalloweenHolidayDecorator()
+                    elif holidayId == ToontownGlobals.CRASHED_LEADERBOARD:
                         self.holidayDecorator = CrashedLeaderBoardDecorator.CrashedLeaderBoardDecorator()
                     else:
                         self.holidayDecorator = HolidayDecorator.HolidayDecorator()
@@ -167,7 +167,7 @@ class NewsManager(DistributedObject.DistributedObject):
                 self.setHydrantZeroHolidayStart()
             elif holidayId == ToontownGlobals.APRIL_FOOLS_COSTUMES:
                 if hasattr(base, 'localAvatar') and base.localAvatar and hasattr(base.localAvatar, 'chatMgr') and base.localAvatar.chatMgr:
-                    base.localAvatar.chatMgr.chatInputSpeedChat.addAprilToonsMenu()   
+                    base.localAvatar.chatMgr.chatInputSpeedChat.addAprilToonsMenu()
             elif holidayId == ToontownGlobals.WINTER_CAROLING:
                 if hasattr(base, 'localAvatar') and base.localAvatar and hasattr(base.localAvatar, 'chatMgr') and base.localAvatar.chatMgr:
                     base.localAvatar.chatMgr.chatInputSpeedChat.addCarolMenu()
@@ -192,7 +192,7 @@ class NewsManager(DistributedObject.DistributedObject):
             elif holidayId == ToontownGlobals.VICTORY_PARTY_HOLIDAY:
                 if hasattr(base, 'localAvatar') and base.localAvatar and hasattr(base.localAvatar, 'chatMgr') and base.localAvatar.chatMgr:
                     base.localAvatar.chatMgr.chatInputSpeedChat.addVictoryPartiesMenu()
-    
+
     def endHoliday(self, holidayId):
         if holidayId in self.holidayIdList:
             self.notify.info("setHolidayId: Ending Holiday %s" % (holidayId))
@@ -204,8 +204,8 @@ class NewsManager(DistributedObject.DistributedObject):
                     hasattr(base.cr.playGame, 'hood') and
                     hasattr(base.cr.playGame.hood, 'loader')):
                     if holidayId == ToontownGlobals.HALLOWEEN_COSTUMES:
-                        self.holidayDecorator = HalloweenHolidayDecorator.HalloweenHolidayDecorator()                        
-                    elif holidayId == ToontownGlobals.CRASHED_LEADERBOARD:                    
+                        self.holidayDecorator = HalloweenHolidayDecorator.HalloweenHolidayDecorator()
+                    elif holidayId == ToontownGlobals.CRASHED_LEADERBOARD:
                         self.holidayDecorator = CrashedLeaderBoardDecorator.CrashedLeaderBoardDecorator()
                     else:
                         self.holidayDecorator = HolidayDecorator.HolidayDecorator()
@@ -220,15 +220,15 @@ class NewsManager(DistributedObject.DistributedObject):
                 self.setJellybeanDayEnd()
             elif holidayId == ToontownGlobals.CIRCUIT_RACING_EVENT:
                 self.setGrandPrixWeekendEnd()
-            elif holidayId == ToontownGlobals.APRIL_FOOLS_COSTUMES:            
+            elif holidayId == ToontownGlobals.APRIL_FOOLS_COSTUMES:
                 if hasattr(base, 'localAvatar') and base.localAvatar and hasattr(base.localAvatar, 'chatMgr') and base.localAvatar.chatMgr:
-                    base.localAvatar.chatMgr.chatInputSpeedChat.removeAprilToonsMenu() 
-            elif holidayId == ToontownGlobals.WINTER_CAROLING:            
+                    base.localAvatar.chatMgr.chatInputSpeedChat.removeAprilToonsMenu()
+            elif holidayId == ToontownGlobals.WINTER_CAROLING:
                 if hasattr(base, 'localAvatar') and base.localAvatar and hasattr(base.localAvatar, 'chatMgr') and base.localAvatar.chatMgr:
                     base.localAvatar.chatMgr.chatInputSpeedChat.removeCarolMenu()
             elif holidayId == ToontownGlobals.VALENTINES_DAY:
                 messenger.send('ValentinesDayStop')
-                base.localAvatar.setSystemMessage(0, TTLocalizer.ValentinesDayEnd)      
+                base.localAvatar.setSystemMessage(0, TTLocalizer.ValentinesDayEnd)
             elif holidayId == ToontownGlobals.SILLY_CHATTER_ONE:
                 if hasattr(base, 'localAvatar') and base.localAvatar and hasattr(base.localAvatar, 'chatMgr') and base.localAvatar.chatMgr:
                     base.localAvatar.chatMgr.chatInputSpeedChat.removeSillyPhaseOneMenu()
@@ -254,11 +254,11 @@ class NewsManager(DistributedObject.DistributedObject):
         def isStarting(id):
             return id not in self.holidayIdList
         # Which holidays are ending?
-        toEnd = filter(isEnding, self.holidayIdList)
+        toEnd = list(filter(isEnding, self.holidayIdList))
         for endingHolidayId in toEnd:
             self.endHoliday(endingHolidayId)
         # Which holidays are starting?
-        toStart = filter(isStarting, holidayIdList)
+        toStart = list(filter(isStarting, holidayIdList))
         for startingHolidayId in toStart:
             self.startHoliday(startingHolidayId)
         messenger.send("setHolidayIdList", [holidayIdList])
@@ -271,28 +271,28 @@ class NewsManager(DistributedObject.DistributedObject):
 
     def setBingoWin(self, zoneId):
         base.localAvatar.setSystemMessage(0, "Bingo congrats!")
-        
+
     def setBingoStart(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.FishBingoStart)
-        
+
     def setBingoOngoing(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.FishBingoOngoing)
-        
+
     def setBingoEnd(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.FishBingoEnd)
-        
+
     def setCircuitRaceStart(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.CircuitRaceStart)
-        
+
     def setCircuitRaceOngoing(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.CircuitRaceOngoing)
-        
+
     def setCircuitRaceEnd(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.CircuitRaceEnd)
 
     def setTrolleyHolidayStart(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.TrolleyHolidayStart)
-        
+
     def setTrolleyHolidayOngoing(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.TrolleyHolidayOngoing)
 
@@ -308,21 +308,21 @@ class NewsManager(DistributedObject.DistributedObject):
     def setRoamingTrialerWeekendStart(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.RoamingTrialerWeekendStart)
         base.roamingTrialers = True
-        
+
     def setRoamingTrialerWeekendOngoing(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.RoamingTrialerWeekendOngoing)
         base.roamingTrialers = True
-        
+
     def setRoamingTrialerWeekendEnd(self):
-        base.localAvatar.setSystemMessage(0, TTLocalizer.RoamingTrialerWeekendEnd)        
+        base.localAvatar.setSystemMessage(0, TTLocalizer.RoamingTrialerWeekendEnd)
         base.roamingTrialers = False
 
     def setMoreXpHolidayStart(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.MoreXpHolidayStart)
-        
+
     def setMoreXpHolidayOngoing(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.MoreXpHolidayOngoing)
-        
+
     def setMoreXpHolidayEnd(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.MoreXpHolidayEnd)
 
@@ -340,8 +340,8 @@ class NewsManager(DistributedObject.DistributedObject):
 
     def setHydrantZeroHolidayStart(self):
         messenger.send("HydrantZeroIsRunning", [True])
-        
-        
+
+
     def holidayNotify(self):
         # this function is used to notify players just logging in of which Silly Saturday event is going
         for id in self.holidayIdList:
@@ -376,12 +376,12 @@ class NewsManager(DistributedObject.DistributedObject):
         for item in self.yearlyCalendarHolidays:
             if item[1][0] == theDate.month and item[1][1] == theDate.day:
                 # holiday starts on this date
-                newItem =  [self.YearlyHolidayType] + list(item) 
+                newItem =  [self.YearlyHolidayType] + list(item)
                 result.append(tuple(newItem))
                 continue
             if item[2][0] == theDate.month and item[2][1] == theDate.day:
                 # holiday ends on this date
-                newItem = [self.YearlyHolidayType] + list(item)  
+                newItem = [self.YearlyHolidayType] + list(item)
                 result.append(tuple(newItem))
         return result
 
@@ -405,7 +405,7 @@ class NewsManager(DistributedObject.DistributedObject):
                     # holiday starts on this date
                     # We fake the calendarGuiDay and say this is a oncely holiday
                     fakeOncelyHoliday = [theHoliday[0], startTime, endTime]
-                    newItem = [self.OncelyMultipleStartHolidayType]+ fakeOncelyHoliday 
+                    newItem = [self.OncelyMultipleStartHolidayType]+ fakeOncelyHoliday
                     result.append(tuple(newItem))
                     continue
                 if endTime[0] == theDate.year and endTime[1] == theDate.month and \
@@ -414,13 +414,13 @@ class NewsManager(DistributedObject.DistributedObject):
                      fakeOncelyHoliday = [theHoliday[0], startTime, endTime]
                      newItem =  [self.OncelyMultipleStartHolidayType] + fakeOncelyHoliday
                      result.append(tuple(newItem))
-        return result        
+        return result
 
     def setOncelyCalendarHolidays(self, oncelyCalendarHolidays):
         """Handle the AI server telling us which oncely holidays to display."""
         # oncely differs from yearly holidays in that they have a fixed year
         self.oncelyCalendarHolidays = oncelyCalendarHolidays
-           
+
 
     def getOncelyHolidaysForDate(self, theDate):
         """Return the oncely holidays which start or stop on the given date."""
@@ -429,7 +429,7 @@ class NewsManager(DistributedObject.DistributedObject):
             if item[1][0] == theDate.year and item[1][1] == theDate.month and \
                item[1][2] == theDate.day:
                 # holiday starts on this date
-                newItem = [self.OncelyHolidayType]+ list(item) 
+                newItem = [self.OncelyHolidayType]+ list(item)
                 result.append(tuple(newItem))
                 continue
             if item[2][0] == theDate.year and item[2][1] == theDate.month and \
@@ -438,7 +438,7 @@ class NewsManager(DistributedObject.DistributedObject):
                 newItem =  [self.OncelyHolidayType] + list(item)
                 result.append(tuple(newItem))
         return result
-    
+
     def setRelativelyCalendarHolidays(self, relativelyCalendarHolidays):
         """Handle the AI server telling us which relatively holidays to display."""
         self.relativelyCalendarHolidays = relativelyCalendarHolidays
@@ -454,7 +454,7 @@ class NewsManager(DistributedObject.DistributedObject):
                                                         # one more time than the other days.
         for i in range(7):                              # The minimum number of times a day repeats in a month
             self.weekDaysInMonth.append((i,4))
-            
+
         for holidayItem in self.relativelyCalendarHolidays:
             item = deepcopy(holidayItem)
             newItem = []
@@ -470,7 +470,7 @@ class NewsManager(DistributedObject.DistributedObject):
                     while(self.weekDaysInMonth[sWeekday][1] < sRepNum):
                         sRepNum -= 1
                     sDay = self.dayForWeekday(theDate.year, item[i][0], sWeekday, sRepNum)
-                    
+
                     self.initRepMatrix(theDate.year, item[i+1][0])
                     while(self.weekDaysInMonth[eWeekday][1] < eRepNum):
                         eRepNum -= 1
@@ -478,8 +478,8 @@ class NewsManager(DistributedObject.DistributedObject):
                     if(((nDay>sDay) and (item[i+1][0] == item[i][0]) \
                         and ((item[i+1][1] - item[i][1]) <= (nDay-sDay+abs(eWeekday-sWeekday))/7))
                         or (item[i+1][0] != item[i][0])):
-                        break                    
-                    
+                        break
+
                     # Handles the case when the end weekday is less than the start
                     if(self.weekDaysInMonth[eWeekday][1] > eRepNum):
                         eRepNum += 1
@@ -502,7 +502,7 @@ class NewsManager(DistributedObject.DistributedObject):
                 nItem =  [self.RelativelyHolidayType] + list(newItem)
                 result.append(tuple(nItem))
         return result
-    
+
     ############################################################
     # Method: dayForWeekday(month, weekday, repNum)
     # Returns the day for a given weekday that has repeated
@@ -513,7 +513,7 @@ class NewsManager(DistributedObject.DistributedObject):
         if(monthDays[0][weekday] == 0):
             repNum += 1
         return monthDays[(repNum-1)][weekday]
-    
+
     ############################################################
     # Method: initRepMatrix
     # Initialize the number of times weekdays get
@@ -543,4 +543,3 @@ class NewsManager(DistributedObject.DistributedObject):
         # and vampire mickey
         result = holidayId in self.holidayIdList
         return result
-        

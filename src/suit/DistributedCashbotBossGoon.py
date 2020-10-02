@@ -1,15 +1,15 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.task.TaskManagerGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.directnotify import DirectNotifyGlobal
-import GoonGlobals
+from . import GoonGlobals
 from direct.task.Task import Task
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
 from toontown.coghq import DistributedCashbotBossObject
 from direct.showbase import PythonUtil
-import DistributedGoon
+from . import DistributedGoon
 
 class DistributedCashbotBossGoon(DistributedGoon.DistributedGoon,
                                  DistributedCashbotBossObject.DistributedCashbotBossObject):
@@ -80,7 +80,7 @@ class DistributedCashbotBossGoon(DistributedGoon.DistributedGoon,
 
         assert self not in self.boss.goons
         self.boss.goons.append(self)
-        
+
         self.reparentTo(render)
 
     def disable(self):
@@ -156,9 +156,9 @@ class DistributedCashbotBossGoon(DistributedGoon.DistributedGoon,
         h = math.sin(elapsed * 17) * 5
         p = math.sin(elapsed * 29) * 10
         self.crane.wiggleMagnet.setHpr(h, p, 0)
-        
+
         return Task.cont
-            
+
     def __wiggleFree(self, task):
         # We've successfully wiggled free after being picked up.
         self.crane.releaseObject()
@@ -175,9 +175,9 @@ class DistributedCashbotBossGoon(DistributedGoon.DistributedGoon,
     def handleToonDetect(self, collEntry=None):
         if self.boss.localToonIsSafe:
             return
-        
+
         DistributedGoon.DistributedGoon.handleToonDetect(self, collEntry)
-        
+
     def prepareGrab(self):
         DistributedCashbotBossObject.DistributedCashbotBossObject.prepareGrab(self)
         if self.isStunned or self.boss.localToonIsSafe:
@@ -245,13 +245,13 @@ class DistributedCashbotBossGoon(DistributedGoon.DistributedGoon,
         if not self.isDead:
             self.playCrushMovie(None, None)
         self.demand('Off')
-        
+
     ### FSM States ###
 
     def enterOff(self):
         DistributedGoon.DistributedGoon.enterOff(self)
         DistributedCashbotBossObject.DistributedCashbotBossObject.enterOff(self)
-        
+
     def exitOff(self):
         DistributedCashbotBossObject.DistributedCashbotBossObject.exitOff(self)
         DistributedGoon.DistributedGoon.exitOff(self)
@@ -300,7 +300,7 @@ class DistributedCashbotBossGoon(DistributedGoon.DistributedGoon,
             self.boss.doorB.request('close')
         self.radar.show()
         self.__stopWalk()
-        
+
     def enterBattle(self, avId = None, ts = 0):
         DistributedGoon.DistributedGoon.enterBattle(self, avId, ts)
 

@@ -1,13 +1,13 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 import random
 from otp.level import DistributedLevel
 from direct.directnotify import DirectNotifyGlobal
-import LawOfficeBase
-import FactoryEntityCreator
-import FactorySpecs
+from . import LawOfficeBase
+from . import FactoryEntityCreator
+from . import FactorySpecs
 from otp.level import LevelSpec
 from otp.level import LevelConstants
 from toontown.toonbase import TTLocalizer
@@ -32,13 +32,13 @@ class DistributedLawOffice(DistributedObject,
         self.suitsInitialized = 0
         self.goonClipPlanes = {}
         self.level = None
-        
+
 
 
     def generate(self):
         self.notify.debug('generate')
         self.accept('lawOfficeFloorDone', self.handleFloorDone)
-        
+
 
     def delete(self):
         #self.level.delete(self)
@@ -49,12 +49,12 @@ class DistributedLawOffice(DistributedObject,
         if __debug__:
             del base.factory
 
-        
+
     # required fields
     def setLawOfficeId(self, id):
         LawOfficeBase.LawOfficeBase.setLawOfficeId(self, id)
 
- 
+
 
     def levelAnnounceGenerate(self):
         self.notify.debug('levelAnnounceGenerate')
@@ -72,7 +72,7 @@ class DistributedLawOffice(DistributedObject,
             if base.cr.doId2do.get(avId):
                 avIds.append(avId)
         panel.setFactoryToonIdList(avIds)
-        
+
     def handleFloorDone(self):
         self.sendUpdate("readyForNextFloor")
 
@@ -85,11 +85,9 @@ class DistributedLawOffice(DistributedObject,
 
     def getTaskZoneId(self):
         return self.lawOfficeId
-        
+
     def startSignal(self):
         base.camera.setScale(base.localAvatar.getScale())
         localAvatar.setCameraFov(DefaultCameraFov)
         base.camera.clearMat()
         pass
-
-

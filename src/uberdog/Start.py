@@ -2,13 +2,13 @@
 Start the Toontown UberDog (Uber Distributed Object Globals server).
 """
 
-import __builtin__
+import builtins
 from direct.task.Task import Task
 
 class game:
     name = "uberDog"
     process = "server"
-__builtin__.game = game()
+builtins.game = game()
 
 import time
 import os
@@ -21,7 +21,7 @@ import ihooks
 ihooks.install()
 
 if os.getenv('TTMODELS'):
-    from pandac.PandaModules import getModelPath, Filename
+    from toontown.toonbase.ToontownModules import getModelPath, Filename
     # In the publish environment, TTMODELS won't be on the model
     # path by default, so we always add it there.  In the dev
     # environment, it'll be on the model path already, but it
@@ -34,7 +34,7 @@ from toontown.coderedemption import TTCodeRedemptionConsts
 from toontown.uberdog.ToontownUberDog import ToontownUberDog
 from toontown.uberdog import PartiesUdConfig
 
-print "Initializing the Toontown UberDog (Uber Distributed Object Globals server)..."
+print("Initializing the Toontown UberDog (Uber Distributed Object Globals server)...")
 
 uber.mdip = uber.config.GetString("msg-director-ip", "localhost")
 uber.mdport = uber.config.GetInt("msg-director-port", 6666)
@@ -104,4 +104,3 @@ except:
     info = describeException()
     #uber.air.writeServerEvent('uberdog-exception', districtNumber, info)
     raise
-

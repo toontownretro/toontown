@@ -6,7 +6,7 @@ import math
 
 from direct.showbase import PythonUtil
 
-from pandac.PandaModules import VBase4
+from toontown.toonbase.ToontownModules import VBase4
 
 from toontown.minigame import MazeData
 

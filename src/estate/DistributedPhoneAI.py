@@ -1,12 +1,12 @@
-import DistributedFurnitureItemAI
-import PhoneGlobals
+from . import DistributedFurnitureItemAI
+from . import PhoneGlobals
 from toontown.catalog import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.ai import DatabaseObject
 from toontown.catalog import CatalogItemList
 from direct.distributed import ClockDelta
 from direct.directnotify.DirectNotifyGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
 
@@ -33,7 +33,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI.DistributedFurnitureItemAI):
             scale = ToontownGlobals.toonBodyScales[animalStyle]
 
         self.initialScale = (scale, scale, scale)
-        
+
 
     def getInitialScale(self):
         return self.initialScale
@@ -64,7 +64,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI.DistributedFurnitureItemAI):
             return
 
         # Fetch the actual avatar object
-        av = self.air.doId2do.get(avId)        
+        av = self.air.doId2do.get(avId)
         if not av:
             self.air.writeServerEvent('suspicious', avId, 'DistributedPhoneAI.avatarEnter unknown')
             self.notify.warning("av %s not in doId2do tried to pick up phone" % (avId))
@@ -87,7 +87,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI.DistributedFurnitureItemAI):
         # any phone.
         if len(av.weeklyCatalog) + len(av.monthlyCatalog) + len(av.backCatalog) != 0:
             self.lookupHouse()
-            
+
         else:
             # No catalog yet.
             self.d_setMovie(PhoneGlobals.PHONE_MOVIE_EMPTY, avId)
@@ -139,9 +139,9 @@ class DistributedPhoneAI(DistributedFurnitureItemAI.DistributedFurnitureItemAI):
 
         db.getFields(['setAtticItems', 'setAtticWallpaper',
                       'setAtticWindows', 'setInteriorItems'])
-                                 
+
     def __gotHouse(self, db, retcode):
-        assert(self.notify.debug("__gotHouse(%s, %s): %s" % (db.values.keys(), retcode, self.doId)))
+        assert(self.notify.debug("__gotHouse(%s, %s): %s" % (list(db.values.keys()), retcode, self.doId)))
         if retcode != 0:
             self.notify.warning("House %s for avatar %s does not exist!" % (self.av.houseId, self.av.doId))
             self.sendCatalog(0)
@@ -177,7 +177,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI.DistributedFurnitureItemAI):
         numAtticItems = len(atticItems) + len(atticWallpaper) + len(atticWindows)
         numHouseItems = numAtticItems + len(interiorItems)
         self.sendCatalog(numHouseItems)
-            
+
 
     def sendCatalog(self, numHouseItems):
         # Send the setMovie command to the user to tell him to open up
@@ -187,7 +187,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI.DistributedFurnitureItemAI):
 
         # Now open the catalog up on the client.
         self.d_setMovie(PhoneGlobals.PHONE_MOVIE_PICKUP, self.av.doId)
-        
+
         # The avatar has seen his catalog now.
         if self.av.catalogNotify == ToontownGlobals.NewItems:
             self.av.b_setCatalogNotify(ToontownGlobals.OldItems, self.av.mailboxNotify)
@@ -210,7 +210,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI.DistributedFurnitureItemAI):
     def __handleBootMessage(self, avId):
         self.notify.warning('avatar:' + str(avId) + ' got booted ')
         self.sendClearMovie()
-        
+
     def sendClearMovie(self):
         assert(self.notify.debug('sendClearMovie()'))
         # Ignore unexpected exits on whoever I was busy with
@@ -230,9 +230,9 @@ class DistributedPhoneAI(DistributedFurnitureItemAI.DistributedFurnitureItemAI):
         else:
             # The user is requesting purchase of one particular item.
             retcode = self.air.catalogManager.purchaseItem(self.av, item, optional)
-            
+
         self.sendUpdateToAvatarId(avId, "requestPurchaseResponse", [context, retcode])
-        
+
     def requestGiftPurchaseMessage(self, context, targetDoID, blob, optional):
         # print "in the AI phone"
         # Sent from the client code to request a particular purchase item. to be sent to a target doid
@@ -245,19 +245,19 @@ class DistributedPhoneAI(DistributedFurnitureItemAI.DistributedFurnitureItemAI):
             retcode = ToontownGlobals.P_NotShopping
             #in this case we can send the response immediately
             self.sendUpdateToAvatarId(sAvId, "requestGiftPurchaseResponse", [context, retcode])
-            
+
         elif self.air.catalogManager.payForGiftItem(self.av, item, retcode):
             # The user is requesting purchase of one particular item.in this case we have to wait for the purchase to go through
             # which involves waiting for a query from the database: intancing the gift receiver on the local machine
-            
+
             self.checkAvatarThenGift(targetDoID, sAvId, item, context)
             #simbase.air.deliveryManager.sendRequestPurchaseGift(item, targetDoID, sAvId, context, self)
-            
+
             #can't return immediately must what for the query to go through
         else:
             retcode = ToontownGlobals.P_NotEnoughMoney
             self.sendUpdateToAvatarId(sAvId, "requestGiftPurchaseResponse", [context, retcode])
-            
+
     def checkAvatarThenGift(self, targetDoID, sAvId, item, context):
         # Requests a particular avatar.  The avatar will be requested
         # from the database and stored in self.rav when the response is
@@ -266,22 +266,22 @@ class DistributedPhoneAI(DistributedFurnitureItemAI.DistributedFurnitureItemAI):
         checkMessage = "gift check %s" % (targetDoID)
 
         self.acceptOnce(("gift check %s" % (targetDoID)), self.__gotAvGiftCheck, [targetDoID, sAvId, item, context])
-       
+
 
         db = DatabaseObject.DatabaseObject(self.air, targetDoID)
         db.doneEvent = checkMessage
         fields = ['setDNAString']
-        
+
         db.getFields(fields)
-        
+
     def __gotAvGiftCheck(self, targetDoID, sAvId, item, context, db, data2):
-        valid = db.values.has_key('setDNAString')
+        valid = 'setDNAString' in db.values
         if valid:
             simbase.air.deliveryManager.sendRequestPurchaseGift(item, targetDoID, sAvId, context, self)
         else:
             self.air.writeServerEvent('suspicious', sAvId, 'Attempted to buy a gift for %s which is not a toon' % (targetDoID))
-            
-        
+
+
 
     def d_setMovie(self, mode, avId):
         timestamp = ClockDelta.globalClockDelta.getRealNetworkTime(bits = 32)

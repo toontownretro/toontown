@@ -1,7 +1,7 @@
 import os
 from otp.launcher.WebLauncherBase import WebLauncherBase
 from toontown.toonbase import TTLocalizer
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 # it's important to derive from WebLauncherBase first so that Python
 # will find its methods before looking at the old launcher code.
@@ -24,13 +24,13 @@ class ToontownWebLauncher(WebLauncherBase):
         (12, 'tt_12'),
         (13, 'tt_13'),
         ]
-    
+
     Localizer = TTLocalizer
 
     def __init__(self, appRunner):
         WebLauncherBase.__init__(self, appRunner)
         self.http = HTTPClient.getGlobalPtr()
-        
+
         # Before you go further, let's parse the web acct parameters
         self.webAcctParams = "WEB_ACCT_PARAMS"
         self.parseWebAcctParams()
@@ -63,7 +63,7 @@ class ToontownWebLauncher(WebLauncherBase):
         """
         Get the parent password set key
         """
-        # Everything is already parsed if parseWebAcctParams was called 
+        # Everything is already parsed if parseWebAcctParams was called
         return self.chatEligibleKey
 
     def setTutorialComplete(self):
@@ -88,7 +88,7 @@ class ToontownWebLauncher(WebLauncherBase):
 
         if not s:
             s = self.getValue(self.webAcctParams, '')
-       
+
         # Parse the web account params to get chat related values
         # split s to the '&'
         l = s.split('&')
@@ -106,15 +106,15 @@ class ToontownWebLauncher(WebLauncherBase):
                 name, value = args
                 dict[name] = int(value)
 
-        self.secretNeedsParentPasswordKey = 1                
-        if dict.has_key('secretsNeedsParentPassword'):
+        self.secretNeedsParentPasswordKey = 1
+        if 'secretsNeedsParentPassword' in dict:
             self.secretNeedsParentPasswordKey = 1 and dict['secretsNeedsParentPassword']
         else:
             self.notify.warning('no secretNeedsParentPassword token in webAcctParams')
         self.notify.info('secretNeedsParentPassword = %d' % self.secretNeedsParentPasswordKey)
 
         self.chatEligibleKey = 0
-        if dict.has_key('chatEligible'):
+        if 'chatEligible' in dict:
             self.chatEligibleKey = 1 and dict['chatEligible']
         else:
             self.notify.warning('no chatEligible token in webAcctParams')

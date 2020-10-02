@@ -8,7 +8,7 @@
 #from direct.directbase import DirectStart
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import PythonUtil
 from direct.task import Task
 
@@ -18,7 +18,7 @@ from direct.task import Task
 from toontown.fishing.FishPhoto import DirectRegion
 from toontown.shtiker.ShtikerPage import ShtikerPage
 from toontown.toonbase import ToontownGlobals, TTLocalizer
-from FishPage import FishingTrophy
+from .FishPage import FishingTrophy
 from toontown.golf import GolfGlobals
 
 ##########################################################################
@@ -28,12 +28,12 @@ if( __debug__ ):
     import pdb
 
 ##########################################################################
-# Global Variables and Enumerations 
+# Global Variables and Enumerations
 ##########################################################################
 PageMode = PythonUtil.Enum( "Records, Trophy" )
 
 class GolfPage( ShtikerPage ):
-            
+
     """
     Purpose: The GolfPage class provides the basic functionality for
     switching between the different pages like records, and trophies.
@@ -43,11 +43,11 @@ class GolfPage( ShtikerPage ):
     """
 
     ######################################################################
-    # Class variables 
+    # Class variables
     ######################################################################
     #__metaclass__ = PythonUtil.Singleton
     notify = DirectNotifyGlobal.directNotify.newCategory( "GolfPage" )
-    
+
     def __init__( self ):
         """
         Purpose: The __init__ Method provides the intial construction
@@ -77,7 +77,7 @@ class GolfPage( ShtikerPage ):
         if( not hasattr( self, "title" ) ):
             self.load()
         self.setMode( self.mode, 1 )
-            
+
         # Make the call to the superclass enter method.
         ShtikerPage.enter( self )
 
@@ -92,7 +92,7 @@ class GolfPage( ShtikerPage ):
 
         self.golfTrophies.hide()
         self.golfRecords.hide()
-            
+
         # Make the call to the superclass exit method.
         ShtikerPage.exit( self )
 
@@ -106,7 +106,7 @@ class GolfPage( ShtikerPage ):
         """
 
         self.avatar = av
-        
+
     def getAvatar( self ):
         """
         Purpose: The getAvatar Method retrieves the current avatar who is
@@ -126,7 +126,7 @@ class GolfPage( ShtikerPage ):
         Params: None
         Return: None
         """
-        
+
         assert self.notify.debugStateCall(self)
         ShtikerPage.load( self )
 
@@ -139,7 +139,7 @@ class GolfPage( ShtikerPage ):
         self.golfTrophies = GolfTrophiesUI( self.avatar, self )
         self.golfTrophies.hide()
         self.golfTrophies.load()
-        
+
         # Page Title
         self.title = DirectLabel(
             parent = self,
@@ -155,7 +155,7 @@ class GolfPage( ShtikerPage ):
         clickColor = (.8, .8, 0, 1)
         rolloverColor = (0.15, 0.82, 1.0, 1)
         diabledColor = (1.0, 0.98, 0.15, 1)
-        
+
         # Load the Fish Page to borrow its tabs
         gui = loader.loadModel( "phase_3.5/models/gui/fishingBook" )
 
@@ -207,7 +207,7 @@ class GolfPage( ShtikerPage ):
         self.trophyTab.setX(self.trophyTab.getX() + adjust)
 
         gui.removeNode()
-        
+
     def unload( self ):
         """
         Purpose: The unload Method performs the necessary unloading of
@@ -242,14 +242,14 @@ class GolfPage( ShtikerPage ):
             self.title[ 'text' ] = TTLocalizer.GolfPageTitleRecords
             self.recordsTab[ 'state' ] = DGG.DISABLED
             self.trophyTab[ 'state' ] = DGG.NORMAL
-            
+
         elif( mode == PageMode.Trophy ):
             self.title[ 'text' ] = TTLocalizer.GolfPageTitleTrophy
             self.recordsTab[ 'state' ] = DGG.NORMAL
             self.trophyTab[ 'state' ] = DGG.DISABLED
-            
+
         else:
-            raise StandardError, "GolfPage::setMode - Invalid Mode %s" % ( mode )
+            raise Exception("GolfPage::setMode - Invalid Mode %s" % ( mode ))
 
         self.updatePage()
 
@@ -269,7 +269,7 @@ class GolfPage( ShtikerPage ):
             self.golfTrophies.show()
             self.golfRecords.hide()
         else:
-            raise StandardError, "GolfPage::updatePage - Invalid Mode %s" % ( self.mode )
+            raise Exception("GolfPage::updatePage - Invalid Mode %s" % ( self.mode ))
 
 
 class GolfingRecordsUI( DirectFrame ):
@@ -299,7 +299,7 @@ class GolfingRecordsUI( DirectFrame ):
         self.lastHoleBest = []
         self.lastCourseBest = []
         self.scrollList = None
-        
+
         # Construct the super class object
         DirectFrame.__init__(
             self,
@@ -324,7 +324,7 @@ class GolfingRecordsUI( DirectFrame ):
         self.gui.removeNode()
         self.scrollList.destroy()
         del self.avatar,  self.lastHoleBest, self.lastCourseBest, self.bestDisplayList, self.scrollList
-        
+
         # Destroy the DirectFrame super class.
         DirectFrame.destroy( self )
 
@@ -340,7 +340,7 @@ class GolfingRecordsUI( DirectFrame ):
 
         self.listXorigin = -0.5
         self.listFrameSizeX = 1.5
-        self.listZorigin = -0.9 
+        self.listZorigin = -0.9
         self.listFrameSizeZ = 1.04
         self.arrowButtonScale = 1.3
         self.itemFrameXorigin = -0.237
@@ -373,7 +373,7 @@ class GolfingRecordsUI( DirectFrame ):
             decButton_pos = (self.labelXstart, 0, self.itemFrameZorigin + 0.227),
             # Make the disabled button fade out
             decButton_image3_color = Vec4(1, 1, 1, 0.2),
-            
+
             # itemFrame is a DirectFrame
             itemFrame_pos = (self.itemFrameXorigin, 0, self.itemFrameZorigin),
             itemFrame_scale = 1.0,
@@ -421,7 +421,7 @@ class GolfingRecordsUI( DirectFrame ):
             self.bestDisplayList.append(bestScoreDisplay)
             # add to scrolled list
             self.scrollList.addItem(frame)
-            
+
         # hole bests
         for holeId in GolfGlobals.HoleInfo:
             holeName = GolfGlobals.getHoleName(holeId)
@@ -449,7 +449,7 @@ class GolfingRecordsUI( DirectFrame ):
                 text_font = ToontownGlobals.getToonFont()
                 )
             # save this one for updating
-            self.bestDisplayList.append(bestScoreDisplay)            
+            self.bestDisplayList.append(bestScoreDisplay)
             # add to scrolled list
             self.scrollList.addItem(frame)
 
@@ -459,16 +459,16 @@ class GolfingRecordsUI( DirectFrame ):
         bestCourses = self.avatar.getGolfCourseBest()
         # but only if they have changed
         if bestHoles != self.lastHoleBest or bestCourses != self.lastCourseBest:
-            numCourse = len(GolfGlobals.CourseInfo.keys())
-            numHoles = len(GolfGlobals.HoleInfo.keys())
-            for i in xrange(numCourse):
+            numCourse = len(list(GolfGlobals.CourseInfo.keys()))
+            numHoles = len(list(GolfGlobals.HoleInfo.keys()))
+            for i in range(numCourse):
                 score = bestCourses[i]
                 if score != 0:
                     # use their best score
                     self.bestDisplayList[i]['text'] = str(score),
                 else:
                     self.bestDisplayList[i]['text'] = TTLocalizer.KartRace_Unraced
-            for i in xrange(numHoles):
+            for i in range(numHoles):
                 score = bestHoles[i]
                 if score != 0:
                     self.bestDisplayList[i+numCourse]['text'] = str(score)
@@ -477,9 +477,9 @@ class GolfingRecordsUI( DirectFrame ):
         self.lastHoleBest = bestHoles[:]
         self.lastCourseBest = bestCourses[:]
         DirectFrame.show( self )
-        
+
     def regenerateScrollList(self):
-        print "### regen scroll"
+        print("### regen scroll")
         selectedIndex = 0
         if self.scrollList:
             selectedIndex = self.scrollList.getSelectedIndex()
@@ -487,10 +487,10 @@ class GolfingRecordsUI( DirectFrame ):
                 label.detachNode()
             self.scrollList.destroy()
             self.scrollList = None
-            
+
         self.scrollList.scrollTo(selectedIndex)
 
-        
+
 class GolfTrophiesUI( DirectFrame ):
     """
     Purpose: The GolfTrophiesUI class initializes the user interface for
@@ -519,7 +519,7 @@ class GolfTrophiesUI( DirectFrame ):
         self.trophies = None
         self.cups = None
         self.trophyTextDisplay = None
-        
+
         # Construct the super class object
         DirectFrame.__init__(
             self,
@@ -541,19 +541,19 @@ class GolfTrophiesUI( DirectFrame ):
         for panel in self.trophyPanels:
             panel.destroy()
         for panel in self.cupPanels:
-            panel.destroy()            
+            panel.destroy()
         self.currentHistory.destroy()
         self.trophyTextDisplay.destroy()
-        
+
         # Remove references to UI Components and instance variables for
         # garbage collection purposes.
         del self.avatar, self.currentHistory, self.trophyPanels, self.trophies, self.trophyTextDisplay, self.cups, self.cupPanels
-        
+
         # Destroy the DirectFrame super class.
         DirectFrame.destroy( self )
 
     def load( self ):
-        """pass                
+        """pass
         Purpose: The load Method handles the construction of the specific
         UI components that make up the RacingTrophiesUI object.
 
@@ -630,7 +630,7 @@ class GolfTrophiesUI( DirectFrame ):
             text_pos = ( 0, -0.65),
             #text_font = ToontownGlobals.getSignFont()
             )
-        
+
         # display the text description of a moused over trophy
         self.trophyTextDisplay = DirectLabel(
             parent = self,
@@ -644,7 +644,7 @@ class GolfTrophiesUI( DirectFrame ):
             )
 
         self.updateTrophies()
-        
+
     def grow(self, index, pos):
         self.trophyPanels[index]['image_color'] = Vec4(1.0, 1.0, 0.8, 1.0)
         if index < GolfGlobals.NumTrophies:
@@ -657,7 +657,7 @@ class GolfTrophiesUI( DirectFrame ):
                 self.currentHistory['text'] = TTLocalizer.GolfCurrentHistory % \
                                     {'historyDesc' : TTLocalizer.GolfHistoryDescriptions[historyIndex],
                                      'num' : self.avatar.getGolfHistory()[historyIndex]}
-                                     
+
 
     def shrink(self, index, pos):
         self.trophyPanels[index]['image_color'] = Vec4(1.0, 1.0, 1.0, 1.0)
@@ -672,8 +672,8 @@ class GolfTrophiesUI( DirectFrame ):
                                               'desc' : TTLocalizer.GolfCupDescriptions[index]}
     def shrinkCup(self, index, pos):
         self.cupPanels[index]['image_color'] = Vec4(1.0, 1.0, 1.0, 1.0)
-        self.trophyTextDisplay['text'] = ""            
-    
+        self.trophyTextDisplay['text'] = ""
+
     def show( self ):
         # update current history
         self.currentHistory['text'] = ''
@@ -683,7 +683,7 @@ class GolfTrophiesUI( DirectFrame ):
             self.cups = base.localAvatar.getGolfCups()
             self.updateTrophies()
         DirectFrame.show( self )
-        
+
     def updateTrophies( self ):
         for t in range(len(self.trophyPanels)):
             if self.trophies[t]:
@@ -736,7 +736,7 @@ class GolfTrophiesUI( DirectFrame ):
                 cupPanel['text'] = TTLocalizer.SuitPageMystery[0]
                 cupPanel['image_color'] = Vec4(0.8, 0.8, 0.8, 1)
                 cupPanel.unbind(DGG.ENTER)
-                cupPanel.unbind(DGG.EXIT)                
+                cupPanel.unbind(DGG.EXIT)
 
 class GolfTrophy(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory("GolfTrophy")
@@ -746,7 +746,7 @@ class GolfTrophy(DirectFrame):
         opts = {'relief':None}
         opts.update(kwargs)
         DirectFrame.__init__(self,*args,**opts)
-        
+
         # This is a temporary location for this model
         self.trophy = loader.loadModel("phase_6/models/golf/golfTrophy")
         self.trophy.reparentTo(self)
@@ -761,7 +761,7 @@ class GolfTrophy(DirectFrame):
         # Give the base a nice marble look
         self.base.setColorScale(1,1,0.8,1)
         self.topBase.setColorScale(1,1,0.8,1)
-        
+
         self.greyBowl = loader.loadModel("phase_6/models/gui/racingTrophyBowl2")
         self.greyBowl.reparentTo(self)
         self.greyBowl.setPos(0,.5,0)
@@ -782,12 +782,12 @@ class GolfTrophy(DirectFrame):
             text_scale = 0.125,
             text_fg = Vec4(0.9,0.9,0.4,1),
             )
-        
+
         self.shadow = loader.loadModel("phase_3/models/props/drop_shadow")
         self.shadow.reparentTo(self)
         self.shadow.setColor(1,1,1,0.2)
         self.shadow.setPosHprScale(0,1,0.35, 0,90,0, 0.1,0.14,0.1)
-        
+
         self.setLevel(level)
 
     def setLevel(self, level):

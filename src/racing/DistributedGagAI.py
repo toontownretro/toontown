@@ -1,6 +1,6 @@
 from direct.distributed import DistributedObjectAI
 from direct.distributed.ClockDelta import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 class DistributedGagAI(DistributedObjectAI.DistributedObjectAI):
     def __init__(self, air, ownerId, race, activateTime, x, y, z, type):
@@ -18,7 +18,7 @@ class DistributedGagAI(DistributedObjectAI.DistributedObjectAI):
 
     def announceGenerate(self):
         DistributedObjectAI.DistributedObjectAI.announceGenerate(self)
-        print "I'm Here!!!!"
+        print("I'm Here!!!!")
 
     def delete(self):
         DistributedObjectAI.DistributedObjectAI.delete(self)
@@ -52,4 +52,3 @@ class DistributedGagAI(DistributedObjectAI.DistributedObjectAI):
             taskMgr.doMethodLater(4, self.requestDelete, "deleting: "+self.uniqueName("banana"), extraArgs=[])
         elif self.type == 1:
             taskMgr.doMethodLater(4, self.requestDelete, "deleting: "+self.uniqueName("pie"), extraArgs=[])
-

@@ -1,5 +1,5 @@
-from pandac.PandaModules import *
-from ToontownAIMsgTypes import *
+from toontown.toonbase.ToontownModules import *
+from .ToontownAIMsgTypes import *
 from direct.directnotify.DirectNotifyGlobal import *
 from toontown.toon import DistributedToonAI
 from direct.distributed.PyDatagram import PyDatagram
@@ -16,7 +16,7 @@ class DatabaseObject:
 
     notify = directNotify.newCategory("DatabaseObject")
     notify.setInfo(0)
-    
+
     def __init__(self, air, doId=None, doneEvent="DatabaseObject"):
         self.air = air
         self.doId = doId
@@ -50,7 +50,7 @@ class DatabaseObject:
             from toontown.pets import DistributedPetProxyAI
             petProxy = DistributedPetProxyAI.DistributedPetProxyAI(self.air)
             self.readObject(petProxy, None)
-            return petProxy   
+            return petProxy
 
     def readObject(self, do, fields = None):
         # Reads a DistributedObject from the database and fills in its
@@ -85,11 +85,11 @@ class DatabaseObject:
             # If fields is supplied, it is a subset of fields to update.
             values = {}
             for field in fields:
-                if self.values.has_key(field):
+                if field in self.values:
                     values[field] = self.values[field]
                 else:
                     self.notify.warning("Field %s not defined." % (field))
-                    
+
         self.setFields(values)
 
     def getFields(self, fields):
@@ -98,7 +98,7 @@ class DatabaseObject:
         context = self.air.dbObjContext
         self.air.dbObjContext += 1
         self.air.dbObjMap[context] = self
-        
+
         dg = PyDatagram()
         dg.addServerHeader(DBSERVER_ID, self.air.ourChannel, DBSERVER_GET_STORED_VALUES)
         dg.addUint32(context)
@@ -106,7 +106,7 @@ class DatabaseObject:
         dg.addUint16(len(fields))
         for f in fields:
             dg.addString(f)
-            
+
         self.air.send(dg)
 
     def getFieldsResponse(self, di):
@@ -159,16 +159,16 @@ class DatabaseObject:
     def setFields(self, values):
         dg = PyDatagram()
         dg.addServerHeader(DBSERVER_ID, self.air.ourChannel, DBSERVER_SET_STORED_VALUES)
-        
+
         dg.addUint32(self.doId)
         dg.addUint16(len(values))
 
-        items = values.items()
+        items = list(values.items())
         for field, value in items:
             dg.addString(field)
         for field, value in items:
             dg.addString(value.getMessage())
-            
+
         self.air.send(dg)
 
     def getDatabaseFields(self, dclass):
@@ -186,7 +186,7 @@ class DatabaseObject:
                     fields.append(af.getName())
 
         return fields
-    
+
     def fillin(self, do, dclass):
         """fillin(self, DistributedObjectAI do, DCClass dclass)
 
@@ -196,13 +196,13 @@ class DatabaseObject:
 
         """
         do.doId = self.doId
-        for field, value in self.values.items():
+        for field, value in list(self.values.items()):
             # Special-case kludge for broken fields.
             if field == "setZonesVisited" and value.getLength() == 1:
                 self.notify.warning("Ignoring broken setZonesVisited")
             else:
                 dclass.directUpdate(do, field, value)
-            
+
     def reload(self, do, dclass, fields):
         """reload(self, DistributedObjectAI do, DCClass dclass)
 
@@ -221,7 +221,7 @@ class DatabaseObject:
                 packOk = dclass.packRequiredField(dg, do, field)
                 assert(packOk)
                 self.values[fieldName] = dg
-            
+
     def createObject(self, objectType):
         # If we just want the default values for the new object's fields,
         # there's no need to specify any field values here. (Upon generation,
@@ -235,12 +235,12 @@ class DatabaseObject:
         # AIDistUpdate.insertArg().
         values = {}
 
-        for key, value in values.items():
+        for key, value in list(values.items()):
             values[key] = PyDatagram(str(value))
 
         # objectType is an integer that the DB uses to distinguish object
         # types, i.e. ToontownAIMsgTypes.DBSERVER_PET_OBJECT_TYPE
-        assert type(objectType) is types.IntType
+        assert type(objectType) is int
 
         # Get a unique context for this query and associate ourselves
         # in the map.
@@ -252,15 +252,15 @@ class DatabaseObject:
 
         dg = PyDatagram()
         dg.addServerHeader(DBSERVER_ID, self.air.ourChannel, DBSERVER_CREATE_STORED_OBJECT)
-        
+
         dg.addUint32(context)
         dg.addString('')
         dg.addUint16(objectType)
         dg.addUint16(len(values))
 
-        for field in values.keys():
+        for field in list(values.keys()):
             dg.addString(field)
-        for value in values.values():
+        for value in list(values.values()):
             dg.addString(value.getMessage())
 
         self.air.send(dg)
@@ -284,9 +284,9 @@ class DatabaseObject:
 
         dg = PyDatagram()
         dg.addServerHeader(DBSERVER_ID, self.air.ourChannel, DBSERVER_DELETE_STORED_OBJECT)
-        
+
         dg.addUint32(self.doId)
-        dg.addUint32(0xdeadbeefL)
+        dg.addUint32(0xdeadbeef)
 
         # bye bye
         self.air.send(dg)

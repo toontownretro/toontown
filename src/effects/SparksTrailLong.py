@@ -1,8 +1,8 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.particles import ParticleEffect, Particles, ForceGroup
-from PooledEffect import PooledEffect
-from EffectController import EffectController
+from .PooledEffect import PooledEffect
+from .EffectController import EffectController
 
 class SparksTrailLong(PooledEffect, EffectController):
 
@@ -10,20 +10,20 @@ class SparksTrailLong(PooledEffect, EffectController):
         # Initialize the superclass
         PooledEffect.__init__(self)
         EffectController.__init__(self)
-        
+
         # Grab Texture off the Texture Card
         model = loader.loadModel("phase_4/models/props/tt_m_efx_ext_particleCards")
         self.card = model.find("**/tt_t_efx_ext_particleStars")
         self.cardScale = 64.0
-        
+
         self.effectColor = Vec4(1, 1, 1, 1)
         self.effectScale = 1.0
         self.lifespan = 2.0
-        
+
         if not SparksTrailLong.particleDummy:
             SparksTrailLong.particleDummy = render.attachNewNode(ModelNode('SparksTrailLongParticleDummy'))
             SparksTrailLong.particleDummy.setDepthWrite(0)
-            
+
         # Load Particle Effects
         self.f = ParticleEffect.ParticleEffect("SparksTrailLong")
         self.f.reparentTo(self)
@@ -114,12 +114,12 @@ class SparksTrailLong(PooledEffect, EffectController):
         self.p0.renderer.setInitialYScale(0.05*self.cardScale*scale)
         self.p0.renderer.setFinalYScale(.5*self.cardScale*scale)
         self.p0.emitter.setAmplitude(30.0*scale)
-        
+
     def cleanUpEffect(self):
         EffectController.cleanUpEffect(self)
         if self.pool and self.pool.isUsed(self):
             self.pool.checkin(self)
-        
+
     def destroy(self):
         EffectController.destroy(self)
         PooledEffect.destroy(self)

@@ -1,5 +1,5 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 
@@ -10,7 +10,7 @@ from direct.fsm import State
 from direct.directutil import Mopath
 from toontown.toonbase import ToontownGlobals
 from direct.actor import Actor
-import FishingTargetGlobals
+from . import FishingTargetGlobals
 import random
 import math
 from toontown.effects import Bubbles
@@ -21,11 +21,11 @@ class DistributedFishingTarget(DistributedNode.DistributedNode):
     the water.  They are shown as a shadow with bubbles coming up.  These
     are the things that the player 'shoots at' when fishing.
     """
-    
+
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedFishingTarget')
 
     radius = 2.5
-    
+
     def __init__(self, cr):
         DistributedNode.DistributedNode.__init__(self, cr)
         # Initialize our NodePath essense

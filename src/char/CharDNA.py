@@ -2,7 +2,7 @@
 multipart actors with a simple class"""
 
 import random
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 import random
 from direct.distributed.PyDatagram import PyDatagram
@@ -34,7 +34,7 @@ class CharDNA(AvatarDNA.AvatarDNA):
 
     """
     # special methods
-    
+
     def __init__(self, str=None, type=None, dna=None, r=None, b=None, g=None):
         """__init__(self, string=None, string=None, string()=None, float=None,
         float=None, float=None)
@@ -74,7 +74,7 @@ class CharDNA(AvatarDNA.AvatarDNA):
             notify.error("undefined avatar")
         else:
             notify.error("unknown avatar type: ", self.type)
-            
+
         return dg.getMessage()
 
     def makeFromNetString(self, string):
@@ -85,9 +85,9 @@ class CharDNA(AvatarDNA.AvatarDNA):
             self.name = sgi.getFixedString(2)
         else:
             notify.error("unknown avatar type: ", self.type)
-            
+
         return None
-    
+
     def __defaultChar(self):
         """__defaultChar(self)
         Make a default character dna

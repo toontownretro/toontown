@@ -5,7 +5,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.coghq import StageLayout, DistributedStageRoomAI
 from toontown.coghq import BattleExperienceAggregatorAI
 from toontown.building import DistributedElevatorFloorAI
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 class DistributedStageAI(DistributedObjectAI.DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedStageAI')
@@ -50,7 +50,7 @@ class DistributedStageAI(DistributedObjectAI.DistributedObjectAI):
         for room in self.rooms:
             roomDoIds.append(room.doId)
         self.sendUpdate('setRoomDoIds', [roomDoIds])
-        
+
         self.placeElevatorsOnMarkers()
 
         if __dev__:
@@ -61,7 +61,7 @@ class DistributedStageAI(DistributedObjectAI.DistributedObjectAI):
             self.stageId, self.floorNum, self.avIds)
         for avId in self.avIds:
             self.air.writeServerEvent('stageEntered', avId, description)
-            
+
 
     def requestDelete(self):
         self.notify.info('requestDelete: %s' % self.doId)
@@ -71,7 +71,7 @@ class DistributedStageAI(DistributedObjectAI.DistributedObjectAI):
         if hasattr(self, "elevatorList"):
             for elevator in self.elevatorList:
                 elevator.requestDelete()
-            
+
         DistributedObjectAI.DistributedObjectAI.requestDelete(self)
 
     def delete(self):
@@ -88,14 +88,14 @@ class DistributedStageAI(DistributedObjectAI.DistributedObjectAI):
             del self.layout
         if hasattr(self, "battleExpAggreg"):
             del self.battleExpAggreg
-            
-        
+
+
 
         DistributedObjectAI.DistributedObjectAI.delete(self)
 
     def getTaskZoneId(self):
         return self.stageId
-        
+
     def placeElevatorsOnMarkers(self):
         for room in self.rooms:
             if room.entType2ids['elevatorMarker']:
@@ -105,8 +105,8 @@ class DistributedStageAI(DistributedObjectAI.DistributedObjectAI):
                     #newElevator.setLatch(marker.doId)
                     newElevator.generateWithRequired(self.zoneId)
                     self.elevatorList.append(newElevator)
-            
-        
+
+
 
     def allToonsGone(self):
         # the stage room objs clean themselves up; in fact, the first stage
@@ -118,19 +118,19 @@ class DistributedStageAI(DistributedObjectAI.DistributedObjectAI):
     # required-field getters
     def getZoneId(self):
         return self.zoneId
-    
+
     def getStageId(self):
         return self.stageId
 
     def getFloorNum(self):
         return self.floorNum
-        
+
     def setLayoutIndex(self, layoutIndex):
         self.layoutIndex = layoutIndex
-            
+
     def getLayoutIndex(self):
         return self.layoutIndex
-        
+
     def startNextFloor(self):
         floor = self.floorNum + 1
 
@@ -144,10 +144,10 @@ class DistributedStageAI(DistributedObjectAI.DistributedObjectAI):
             #print("SENDING SETSTAGEZONE %s" % (avId))
             self.sendUpdateToAvatarId(avId, "setStageZone", [StageZone])
         self.requestDelete()
-            
+
     def elevatorAlert(self, avId):
         self.sendUpdate("elevatorAlert", [avId])
-        
+
     def increasePuzzelReward(self):
         self.puzzelReward += 5
         if self.puzzelReward > 10:
@@ -155,8 +155,6 @@ class DistributedStageAI(DistributedObjectAI.DistributedObjectAI):
 
     def resetPuzzelReward(self):
         self.puzzelReward = 5
-            
+
     def getPuzzelReward(self):
         return self.puzzelReward
-        
-        

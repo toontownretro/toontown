@@ -1,5 +1,5 @@
 import os
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import AppRunnerGlobal
 from otp.chat.WhiteList import WhiteList
 from toontown.toonbase import TTLocalizer
@@ -21,7 +21,7 @@ class TTWhiteList(WhiteList):
             searchPath.appendDirectory(Filename.fromOsSpecific(os.path.expandvars('toontown/chat')))
         found = vfs.resolveFilename(filename,searchPath)
         if not found:
-            print "Couldn't find whitelist data file!"
+            print("Couldn't find whitelist data file!")
 
         data = vfs.readFile(filename, 1)
 

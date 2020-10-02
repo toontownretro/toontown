@@ -1,7 +1,7 @@
 
-from pandac.PandaModules import *
-import SafeZoneLoader
-import MMPlayground
+from toontown.toonbase.ToontownModules import *
+from . import SafeZoneLoader
+from . import MMPlayground
 from toontown.toonbase import ToontownGlobals
 
 class MMSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
@@ -14,7 +14,7 @@ class MMSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         self.safeZoneStorageDNAFile = "phase_6/dna/storage_MM_sz.dna"
 
     def load(self):
-        print "loading MM safezone"
+        print("loading MM safezone")
         SafeZoneLoader.SafeZoneLoader.load(self)
         self.piano = self.geom.find('**/center_icon')
         if (self.piano.isEmpty()):
@@ -22,7 +22,7 @@ class MMSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         else:
             hq = self.geom.find('**/*toon_landmark_hqMM_DNARoot')
             hq.wrtReparentTo(self.piano)
-                
+
     def unload(self):
         SafeZoneLoader.SafeZoneLoader.unload(self)
         del self.piano

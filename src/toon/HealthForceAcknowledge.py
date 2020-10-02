@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
 
@@ -6,7 +6,7 @@ class HealthForceAcknowledge:
     def __init__(self, doneEvent):
         self.doneEvent = doneEvent
         self.dialog = None
-        
+
     def enter(self, hpLevel):
         doneStatus = {}
         toonHp = base.localAvatar.getHp()

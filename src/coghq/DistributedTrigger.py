@@ -1,24 +1,24 @@
 """ DistributedCogHqTrigger module: contains the DistributedCogHqTrigger
     class, the client side representation of a DistributedCogHqTriggerAI."""
 
-from pandac.PandaModules import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 
-import MovingPlatform
+from . import MovingPlatform
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
-import DistributedSwitch
+from . import DistributedSwitch
 from toontown.toonbase import TTLocalizer
 
 class DistributedTrigger(DistributedSwitch.DistributedSwitch):
     """
-    DistributedTrigger class:  The client side 
+    DistributedTrigger class:  The client side
     representation of a Cog HQ trigger.
     """
-    
+
     def setupSwitch(self):
         assert(self.debugPrint("setupSwitch()"))
         #DistributedSwitch.DistributedSwitch.setupSwitch(self)
@@ -38,12 +38,12 @@ class DistributedTrigger(DistributedSwitch.DistributedSwitch):
         self.cSphereNodePath.removeNode()
         del self.cSphereNodePath
         DistributedSwitch.DistributedSwitch.delete(self)
-    
+
     def enterTrigger(self, args=None):
         assert(self.debugPrint("enterTrigger(args="+str(args)+")"))
         DistributedSwitch.DistributedSwitch.enterTrigger(self, args)
         self.setIsOn(1)
-    
+
     def exitTrigger(self, args=None):
         assert(self.debugPrint("exitTrigger(args="+str(args)+")"))
         DistributedSwitch.DistributedSwitch.exitTrigger(self, args)

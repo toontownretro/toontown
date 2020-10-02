@@ -1,8 +1,8 @@
 """ConveyorBelt module: contains the ConveyorBelt class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
-import MovingPlatform
+from . import MovingPlatform
 from otp.level import BasicEntities
 
 # TODO: fix cracks between treads
@@ -33,7 +33,7 @@ class ConveyorBelt(BasicEntities.NodePathEntity):
         BasicEntities.NodePathEntity.__init__(self, level, entId)
 
         self.initBelt()
-        
+
     def destroy(self):
         self.destroyBelt()
         BasicEntities.NodePathEntity.destroy(self)
@@ -42,7 +42,7 @@ class ConveyorBelt(BasicEntities.NodePathEntity):
         treadModel = loader.loadModel(self.treadModelPath)
         treadModel.setSx(self.widthScale)
         treadModel.flattenLight()
-        
+
         # add one to cover the full belt length, one to compensate for
         # the tread's origin placement, then one more to cover a tread's
         # length of movement
@@ -52,7 +52,7 @@ class ConveyorBelt(BasicEntities.NodePathEntity):
 
         # make copies of the tread model
         self.treads = []
-        for i in xrange(self.numTreads):
+        for i in range(self.numTreads):
             mp = MovingPlatform.MovingPlatform()
             mp.parentingNode = render.attachNewNode('parentTarget')
             mp.setupCopyModel('conv%s-%s' % (self.getParentToken(), i),
@@ -76,14 +76,14 @@ class ConveyorBelt(BasicEntities.NodePathEntity):
         self.beltNode.removeNode()
 
         del self.beltNode
-            
+
     def start(self):
         startTime = self.level.startTime
         treadsIval = Parallel(name='treads')
         treadPeriod = self.treadLength / abs(self.speed)
         # the first tread should start fully behind the origin
         startY = -self.treadLength
-        for i in xrange(self.numTreads):
+        for i in range(self.numTreads):
             # one lerp will bring this tread to the end
             # another will bring it from the beginning to its starting point
             periodsToEnd = self.numTreads - i

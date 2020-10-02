@@ -1,10 +1,10 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 
 from direct.directnotify import DirectNotifyGlobal
-import DistributedBarrelBase
+from . import DistributedBarrelBase
 
 class DistributedGagBarrel(DistributedBarrelBase.DistributedBarrelBase):
 
@@ -22,7 +22,7 @@ class DistributedGagBarrel(DistributedBarrelBase.DistributedBarrelBase):
         self.gagModel.removeNode()
         del self.gagModel
         DistributedBarrelBase.DistributedBarrelBase.delete(self)
-        
+
     def applyLabel(self):
         invModel = loader.loadModel("phase_3.5/models/gui/inventory_icons")
         self.invModels = []
@@ -54,7 +54,7 @@ class DistributedGagBarrel(DistributedBarrelBase.DistributedBarrelBase):
 
     def setGrab(self, avId):
         DistributedBarrelBase.DistributedBarrelBase.setGrab(self,avId)
-        
+
     def resetBarrel(self):
         DistributedBarrelBase.DistributedBarrelBase.resetBarrel(self)
         # reset the scale

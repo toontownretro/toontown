@@ -1,15 +1,15 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase.ToontownBattleGlobals import *
 from toontown.toonbase.ToontownGlobals import *
-from SuitBattleGlobals import *
+from .SuitBattleGlobals import *
 from direct.interval.IntervalGlobal import *
 
 from direct.directnotify import DirectNotifyGlobal
 import string
 from direct.gui import OnscreenText
-import BattleBase
+from . import BattleBase
 
 class PlayByPlayText(OnscreenText.OnscreenText):
     """
@@ -19,7 +19,7 @@ class PlayByPlayText(OnscreenText.OnscreenText):
 
     def __init__(self):
         OnscreenText.OnscreenText.__init__(
-            self, 
+            self,
             mayChange = 1,
             pos = (0.0, 0.75),
             scale = TTLocalizer.PBPTonscreenText,
@@ -58,4 +58,3 @@ class PlayByPlayText(OnscreenText.OnscreenText):
             )
 
         return track
-        

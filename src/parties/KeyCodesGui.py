@@ -7,7 +7,7 @@
 #          corresponding text. Currently it only works with Arrow keys.
 #-------------------------------------------------------------------------------
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.showbase.DirectObject import DirectObject
 from direct.gui.DirectGui import DirectButton
@@ -25,22 +25,22 @@ KEY_TO_INDEX = {"u" : 0,
 
 class KeyCodesGui(DirectObject):
     notify = directNotify.newCategory("KeyCodesGui")
-    
+
     TIMEOUT_TASK = "KeyCodeGui_TIMEOUT_TASK"
-    
+
     def __init__(self, keyCodes, yOffset=.55, keyToIndex=KEY_TO_INDEX):
         self._keyCodes = keyCodes # KeyCodes instance reference
         self._keyToIndex = keyToIndex
-        
+
         self._arrowWidth = .18
         self._arrowSpaceInBetween = .05
         self._yOffset = yOffset
-        
+
         self._danceMoveLabel = None
         self._arrowNodes = []
-        
+
         self.timeoutTask = None
-    
+
     def load(self):
         """
         Loads an initializes arrow nodes and dance move label.
@@ -49,14 +49,14 @@ class KeyCodesGui(DirectObject):
         minnieArrow = matchingGameGui.find("**/minnieArrow")
         minnieArrow.setScale(0.6)
         minnieArrow.setZ(self._yOffset + 0.2)
-        
+
         maxLength = self._keyCodes.getLargestPatternLength()
         for i in range(maxLength):
             arrow = minnieArrow.copyTo(hidden)
             self._arrowNodes.append(arrow)
-            
+
         matchingGameGui.removeNode()
-        
+
         self._danceMoveLabel = OnscreenText(parent = aspect2d,
                                             text = "",
                                             pos = (0, self._yOffset),
@@ -68,31 +68,31 @@ class KeyCodesGui(DirectObject):
                                             mayChange = True,
                                             )
         self._danceMoveLabel.hide()
-    
+
         self.enable()
-    
+
     def unload(self):
         self.disable()
-        
+
         for arrow in self._arrowNodes:
             arrow.removeNode()
             arrow = None
         self._arrowNodes = []
-        
+
         if self._danceMoveLabel is not None:
             self._danceMoveLabel.removeNode()
             self._danceMoveLabel = None
-    
+
     def enable(self):
         self.notify.debug("KeyCodeGui enabled.")
         self.accept(KeyCodes.KEY_DOWN_EVENT, self.__handleKeyDown)
         self.accept(KeyCodes.CLEAR_CODE_EVENT, self.hideAll)
-    
+
     def disable(self):
         self.notify.debug("KeyCodeGui disabled.")
         self.__stopTimeout()
         self.ignoreAll()
-    
+
 #===============================================================================
 # Functions
 #===============================================================================
@@ -100,7 +100,7 @@ class KeyCodesGui(DirectObject):
     def hideArrows(self, startIndex=0):
         """
         Hides arrows.
-        
+
         Parameters:
             startIndex (optional): sets from what index start hiding the arrows.
         """
@@ -108,12 +108,12 @@ class KeyCodesGui(DirectObject):
         if startIndex < length:
             for i in range(startIndex, length):
                 self._arrowNodes[i].reparentTo(hidden)
-        
+
     def hideAll(self, startIndex=0):
         self.hideArrows(startIndex)
         if self._danceMoveLabel:
             self._danceMoveLabel.hide()
-    
+
     def showArrow(self, index, key):
         """
         Shows arrow at a specific index, and hides all of the arrows after that index.
@@ -124,9 +124,9 @@ class KeyCodesGui(DirectObject):
         self.__centerArrows()
         self._arrowNodes[index].reparentTo(aspect2d)
         self.hideAll(index + 1)
-        
+
         self.__startTimeout()
-        
+
     def showText(self, text=""):
         """
         Shows label text.
@@ -134,7 +134,7 @@ class KeyCodesGui(DirectObject):
         self.notify.debug('"Showing text "%s"' % text)
         self._danceMoveLabel["text"] = text
         self._danceMoveLabel.show()
-    
+
     def setColor(self, r, g, b):
         """
         Changes text and arrow color to a particular rgb value.
@@ -142,7 +142,7 @@ class KeyCodesGui(DirectObject):
         for arrow in self._arrowNodes:
             arrow.setColor(r, g, b)
         self._danceMoveLabel.setColorScale(r, g, b, 1)
-        
+
 #===============================================================================
 # Helpers
 #===============================================================================
@@ -179,11 +179,10 @@ class KeyCodesGui(DirectObject):
         for i in range(length):
             x = -(length * self._arrowWidth * 0.5) + (self._arrowWidth * (i + 0.5))
             self._arrowNodes[i].setX(x)
-    
+
     def __handleKeyDown(self, key, index):
         """
         Shows arrow when a keycode key is pressed down.
         """
         if index >= 0:
             self.showArrow(index, key)
-            

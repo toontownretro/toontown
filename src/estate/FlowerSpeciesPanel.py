@@ -3,11 +3,11 @@
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 #import FishBase
-import GardenGlobals
-import FlowerPhoto
+from . import GardenGlobals
+from . import FlowerPhoto
 from toontown.estate import BeanRecipeGui
 
 class FlowerSpeciesPanel(DirectFrame):
@@ -19,7 +19,7 @@ class FlowerSpeciesPanel(DirectFrame):
         genus is an integer key into GardenGlobals.PlantAttributes.
         itemIndex is an integer index into the item list (see optiondefs
             in FlowerBrowser).
-        
+
         Create a DirectFrame for displaying the genus and it's species
         """
         assert self.notify.debugStateCall(self)
@@ -34,7 +34,7 @@ class FlowerSpeciesPanel(DirectFrame):
         for name in hideList:
             temp = flowerGui.find("**/%s" % name)
             if not temp.isEmpty():
-                temp.wrtReparentTo(pictureGroup)        
+                temp.wrtReparentTo(pictureGroup)
 
         pictureGroup.setPos(0,0,1.0)
 
@@ -52,7 +52,7 @@ class FlowerSpeciesPanel(DirectFrame):
             ('text_pos',                         (-0.5, -0.34), None),
             ('text_font',   ToontownGlobals.getInterfaceFont(), None),
             ('text_wordwrap',                             13.5, None),
-            ('text_align',                      TextNode.ALeft, None),            
+            ('text_align',                      TextNode.ALeft, None),
             )
         # Merge keyword options with default options
         self.defineoptions({}, optiondefs)
@@ -62,10 +62,10 @@ class FlowerSpeciesPanel(DirectFrame):
         self.flowerPanel = None
         self.species = None
         self.variety = 0
-        self.flowerCollection = extraArgs[0]   
+        self.flowerCollection = extraArgs[0]
         self.setSpecies(int(species))
         self.setScale(1.2)
-        
+
         albumGui.removeNode()
         self.beanRecipeGui = None
 
@@ -75,7 +75,7 @@ class FlowerSpeciesPanel(DirectFrame):
             self.flowerPanel.destroy()
             del self.flowerPanel
         self.flowerCollection = None
-        self.cleanupBeanRecipeGui()        
+        self.cleanupBeanRecipeGui()
         DirectFrame.destroy(self)
 
 
@@ -84,7 +84,7 @@ class FlowerSpeciesPanel(DirectFrame):
         pass
 
 
-        
+
     def setSpecies(self, species):
         assert self.notify.debugStateCall(self)
         if self.species == species:
@@ -131,7 +131,7 @@ class FlowerSpeciesPanel(DirectFrame):
                     text = TTLocalizer.FlowerUnknown,
                     text_fg = (0.2,0.1,0.0,1),
                     text_scale = (0.045, 0.045, 0.45),
-                    text_align = TextNode.ALeft,                    
+                    text_align = TextNode.ALeft,
                     text_font = ToontownGlobals.getInterfaceFont(),
                     command = self.changeVariety,
                     extraArgs = [variety],
@@ -140,7 +140,7 @@ class FlowerSpeciesPanel(DirectFrame):
                     text3_fg = Vec4(0.4,0.8,0.4,1),
                     )
                 self.speciesLabels.append(label)
-            
+
 
     def show(self):
         assert self.notify.debugStateCall(self)
@@ -152,7 +152,7 @@ class FlowerSpeciesPanel(DirectFrame):
         if self.flowerPanel is not None:
             self.flowerPanel.hide()
         if self.beanRecipeGui is not None:
-            self.beanRecipeGui.hide()            
+            self.beanRecipeGui.hide()
         DirectFrame.hide(self)
 
     def showRecipe(self):
@@ -168,8 +168,8 @@ class FlowerSpeciesPanel(DirectFrame):
                 self.cleanupBeanRecipeGui()
         else:
             self['text'] = TTLocalizer.FlowerUnknown
-            self.cleanupBeanRecipeGui()            
-            
+            self.cleanupBeanRecipeGui()
+
     def update(self):
         assert self.notify.debugStateCall(self)
         if base.localAvatar.flowerCollection.hasSpecies(self.species):# and self.flowerPanel is not None:
@@ -184,19 +184,19 @@ class FlowerSpeciesPanel(DirectFrame):
                 self.speciesLabels[variety]['state'] = DGG.NORMAL
 
         self.showRecipe()
-                    
+
     def changeVariety(self, variety):
         #print 'changing variety to %d' % variety
         self.variety = variety
         self.flowerPanel.changeVariety(variety);
         self.flowerPanel.show()
         self.showRecipe()
-        
+
 
     def createBeanRecipeGui(self, recipe):
         if self.beanRecipeGui:
             self.beanRecipeGui.destroy()
-            
+
         #These are the 3 potential positions on where to put the recipe
         pos1 = (-0.2,0,-0.365) #bottom of page
         #if hasattr(self,'beanRecipeGui1'):
@@ -226,12 +226,11 @@ class FlowerSpeciesPanel(DirectFrame):
                                                          frameColor = (0.8, 0.8, 0.8,1.0),
                                                          )
 
-        
-        
+
+
 
     def cleanupBeanRecipeGui(self):
         assert self.notify.debugStateCall(self)
         if self.beanRecipeGui:
             self.beanRecipeGui.destroy()
             self.beanRecipeGui = None
-        

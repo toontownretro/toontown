@@ -1,6 +1,6 @@
 import math
 import random
-from pandac.PandaModules import NodePath, Point3, VBase4, TextNode, Vec3, deg2Rad, \
+from toontown.toonbase.ToontownModules import NodePath, Point3, VBase4, TextNode, Vec3, deg2Rad, \
      CollisionSegment, CollisionHandlerQueue, CollisionNode, BitMask32, SmoothMover
 from direct.fsm import FSM
 from direct.distributed import DistributedObject
@@ -48,14 +48,14 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
     TugOfWarControls = False
     OnlyUpArrow = True
     if OnlyUpArrow:
-        BASELINE_KEY_RATE = 3 # above this key rate, power increases    
+        BASELINE_KEY_RATE = 3 # above this key rate, power increases
     else:
         BASELINE_KEY_RATE = 6 # above this key rate, power increases
-    UPDATE_KEY_PRESS_RATE_TASK      = "BanquetTableUpdateKeyPressRateTask"    
+    UPDATE_KEY_PRESS_RATE_TASK      = "BanquetTableUpdateKeyPressRateTask"
 
     YELLOW_POWER_THRESHOLD = 0.75
     RED_POWER_THRESHOLD = 0.97
-    
+
     def __init__(self, cr):
         """Create a new banquet table."""
         DistributedObject.DistributedObject.__init__(self, cr)
@@ -90,9 +90,9 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         # stuff related to power bar
         self.setupPowerBar()
         self.aimStart = None
-        
+
         self.toonPitcherPosition = Point3(0,-2,0)
-        
+
         # can the local toon request control of this table
         self.allowLocalRequestControl = True
         self.fadeTrack = None
@@ -110,7 +110,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.moveSound = None
 
         self.releaseTrack = None
-        
+
     def disable(self):
         """Remove us from active duty and store in the cache."""
         DistributedObject.DistributedObject.disable(self)
@@ -127,24 +127,24 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             self.fireTrack.finish()
             self.fireTrack = None
         self.cleanupIntervals()
-        
+
 
     def delete(self):
         """Delete ourself from the world."""
         DistributedObject.DistributedObject.delete(self)
         self.boss = None
         self.ignoreAll()
-        for indicator in self.dinerStatusIndicators.values():
+        for indicator in list(self.dinerStatusIndicators.values()):
             indicator.delete()
         self.dinerStatusIndicators = {}
-        for diner in self.diners.values():
+        for diner in list(self.diners.values()):
             diner.delete()
-        self.diners = {}        
+        self.diners = {}
         self.powerBar.destroy()
         self.powerBar = None
         self.pitcherMoveSfx.stop()
-        
-        
+
+
     def announceGenerate(self):
         """Handle all required fields being filled in."""
         DistributedObject.DistributedObject.announceGenerate(self)
@@ -155,7 +155,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.waterPowerTaskName = self.uniqueName('updateWaterPower')
         self.triggerName = self.uniqueName('trigger')
         self.watchControlsName = self.uniqueName('watchControls')
-        
+
     ##### Messages To/From The Server #####
 
     def setBossCogId(self, bossCogId):
@@ -191,7 +191,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         elif state == 'C':
             self.demand('Controlled', avId)
         elif state == 'L':
-            self.demand('Flat', avId)            
+            self.demand('Flat', avId)
         else:
             self.notify.error("Invalid state from AI: %s" % (state))
 
@@ -202,12 +202,12 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
     def setDinerInfo(self, hungryDurations, eatingDurations, dinerLevels):
         """Handle the AI telling us how long each suit will be hungry or eating."""
         self.dinerInfo = {}
-        for i in xrange(len(hungryDurations)):
+        for i in range(len(hungryDurations)):
             hungryDur = hungryDurations[i]
             eatingDur = eatingDurations[i]
             dinerLevel = dinerLevels[i]
             self.dinerInfo[i] = (hungryDur, eatingDur, dinerLevel)
-        
+
     ### loading assets ###
 
     def loadAssets(self):
@@ -231,11 +231,11 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.serveFoodSfx = loader.loadSfx('phase_4/audio/sfx/MG_sfx_travel_game_bell_for_trolley.mp3')
         self.pitcherMoveSfx = base.loadSfx(
             "phase_4/audio/sfx/MG_cannon_adjust.mp3")
-            #"phase_9/audio/sfx/CHQ_FACT_elevator_up_down.mp3")        
+            #"phase_9/audio/sfx/CHQ_FACT_elevator_up_down.mp3")
 
     def setupDiners(self):
         """Create the suits seated on the chairs."""
-        for i in xrange(self.numDiners):
+        for i in range(self.numDiners):
             newDiner = self.createDiner(i)
             self.diners[i] = newDiner
             self.dinerStatus[i] = self.HUNGRY
@@ -248,7 +248,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         level = self.dinerInfo[i][2]
         level -= 4 # off by four somehow
         diner.dna.newSuitRandom(level = level, dept = 'c')
-        diner.setDNA(diner.dna)        
+        diner.setDNA(diner.dna)
         if self.useNewAnimations:
             diner.loop('sit', fromFrame = i)
         else:
@@ -261,18 +261,18 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         heading = self.rotationsPerSeatIndex[i]
         correctHeadingNp.setH(heading)
         sitLocator = correctHeadingNp.attachNewNode('sitLocator')
-        base.sitLocator = sitLocator 
+        base.sitLocator = sitLocator
         pos = correctHeadingNp.getPos(render)
         if SuitDNA.getSuitBodyType(diner.dna.name) == 'c':
             sitLocator.setPos(0.5, 3.65, -3.75)
         else:
-            sitLocator.setZ(-2.4)        
+            sitLocator.setZ(-2.4)
             sitLocator.setY(2.5)
             sitLocator.setX(0.5)
         self.sitLocators[i] = sitLocator
         # some fudging to make it look right
         diner.setScale(1.0/locatorScale)
-        diner.reparentTo(sitLocator)            
+        diner.reparentTo(sitLocator)
         #diner.setZ(-5.5)
 
         # create the nodePath where we serve food to
@@ -292,8 +292,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         return diner
 
     def setupChairCols(self):
-        """Setup the chair collisions of all chairs."""        
-        for i in xrange(self.numDiners):
+        """Setup the chair collisions of all chairs."""
+        for i in range(self.numDiners):
             chairCol = self.tableGroup.find('**/collision_chair_%d' % (i +1))
             colName = 'ChairCol-%d-%d' % (self.index,i)
             chairCol.setTag('chairIndex',str(i))
@@ -312,7 +312,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
 
     def serveFood(self, food, chairIndex):
         """Display putting food in front of a toon."""
-        assert self.notify.debugStateCall(self)        
+        assert self.notify.debugStateCall(self)
         self.removeFoodModel(chairIndex)
         serviceLoc = self.serviceLocs.get(chairIndex)
         if (not food) or food.isEmpty():
@@ -337,7 +337,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             foodMoveIval.start()
             self.activeIntervals[intervalName] = foodMoveIval
 
-        #The AI will send b_setDinerStatus    
+        #The AI will send b_setDinerStatus
         #self.setDinerStatus( chairIndex, self.EATING)
 
     def setDinerStatus(self, chairIndex, status):
@@ -356,14 +356,14 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
                     self.changeDinerToDead(chairIndex)
                 elif status == self.HIDDEN:
                     self.changeDinerToHidden(chairIndex)
-                    
+
     def removeFoodModel(self, chairIndex):
         """Remove the food in front of any diner."""
         serviceLoc = self.serviceLocs.get(chairIndex)
         if serviceLoc:
-            for i in xrange(serviceLoc.getNumChildren()):
-                serviceLoc.getChild(0).removeNode()             
-        
+            for i in range(serviceLoc.getNumChildren()):
+                serviceLoc.getChild(0).removeNode()
+
     def changeDinerToEating(self, chairIndex):
         """Change a diner to eating status."""
         assert self.notify.debugStateCall(self)
@@ -379,7 +379,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         eatOutTime = 21.0 / 24.0
         eatLoopTime = 19 / 24.0
         #import pdb; pdb.set_trace()
-        
+
         rightHand = diner.getRightHand()
         waitTime =5
         loopDuration = eatingDuration - eatInTime - eatOutTime - waitTime
@@ -412,7 +412,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             oldScale = foodModel.getScale()
             newScale = oldScale / scaleAdj
             foodModel.setScale(newScale)
-            
+
         eatIval = Sequence(
             ActorInterval(diner, 'sit', duration = waitTime),
             ActorInterval(diner, 'sit-eat-in', startFrame=0, endFrame=6),
@@ -424,7 +424,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             ActorInterval(diner, 'sit-eat-out', startFrame=12, endFrame = 21),
             )
         eatIval.start()
-        self.activeIntervals[intervalName] =eatIval  
+        self.activeIntervals[intervalName] =eatIval
 
     def changeDinerToHungry(self, chairIndex):
         """Change a diner to hungry."""
@@ -456,7 +456,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             if (not deathSuit.isEmpty()):
                 deathSuit.detachNode()
                 suit.cleanupLoseActor()
-                
+
         self.removeFoodModel(chairIndex)
         indicator = self.dinerStatusIndicators.get(chairIndex)
         if indicator:
@@ -475,7 +475,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             Func(deathSuit.setHpr, diner.getHpr()),
             Func(self.notify.debug,"before diner.hide"),
             Func(diner.hide),
-            Func(self.notify.debug,"before deathSuit.reparentTo"),            
+            Func(self.notify.debug,"before deathSuit.reparentTo"),
             Func(deathSuit.reparentTo, self.chairLocators[chairIndex]),
             Func(self.notify.debug,"befor ActorInterval lose"),
             ActorInterval(deathSuit, 'lose', duration = MovieUtil.SUIT_LOSE_DURATION),
@@ -491,11 +491,11 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             SoundInterval(spinningSound, duration=1.2, startTime = 1.5, volume=0.2, node=deathSuit),
             SoundInterval(spinningSound, duration=3.0, startTime = 0.6, volume=0.8, node=deathSuit),
             SoundInterval(deathSound, volume = 0.32, node=deathSuit),
-            )        
+            )
         intervalName = "dinerDie-%d-%d" % (self.index, chairIndex)
         deathIval = Parallel(ival, deathSoundTrack)
         deathIval.start()
-        self.activeIntervals[intervalName] =deathIval        
+        self.activeIntervals[intervalName] =deathIval
 
     def changeDinerToHidden(self, chairIndex):
         """Change a diner to Hidden."""
@@ -508,37 +508,37 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
 
     def setAllDinersToSitNeutral(self):
         startFrame = 0
-        for diner in self.diners.values():
+        for diner in list(self.diners.values()):
             if not diner.isHidden():
                 diner.loop('sit', fromFrame = startFrame)
                 startFrame += 1
-            
+
     ### Util code ###
 
     def cleanupIntervals(self):
         """Cleanup all intervals."""
-        for interval in self.activeIntervals.values():
+        for interval in list(self.activeIntervals.values()):
             interval.finish()
         self.activeIntervals = {}
 
     def clearInterval(self, name, finish=1):
         """ Clean up the specified Interval
         """
-        if (self.activeIntervals.has_key(name)):
+        if (name in self.activeIntervals):
             ival = self.activeIntervals[name]
             if finish:
                 ival.finish()
             else:
                 ival.pause()
-            if self.activeIntervals.has_key(name):
+            if name in self.activeIntervals:
                 del self.activeIntervals[name]
         else:
             self.notify.debug('interval: %s already cleared' % name)
 
     def finishInterval(self, name):
         """ Force the specified Interval to jump to the end
-        """ 
-        if (self.activeIntervals.has_key(name)):
+        """
+        if (name in self.activeIntervals):
             interval = self.activeIntervals[name]
             interval.finish()
 
@@ -546,12 +546,12 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
     def getNotDeadInfo(self):
         """Return a list of (<table index>, <chair Index>, <suit level>) suits that are not dead."""
         notDeadList  = []
-        for i in xrange(self.numDiners):
+        for i in range(self.numDiners):
             if self.dinerStatus[i] != self.DEAD:
                 notDeadList.append( (self.index, i, 12))
         return notDeadList
-        
-            
+
+
 
     def enterOn(self):
         """Handle entering the on state."""
@@ -563,7 +563,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
 
     def enterInactive(self):
         """Handle entering the inactive state."""
-        for chairIndex in xrange(self.numDiners):
+        for chairIndex in range(self.numDiners):
             indicator = self.dinerStatusIndicators.get(chairIndex)
             if indicator:
                 indicator.request('Inactive')
@@ -581,7 +581,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.resetPowerBar()
         if self.fadeTrack:
             self.fadeTrack.finish()
-            self.fadeTrack = None        
+            self.fadeTrack = None
         self.prepareForPhaseFour()
         if self.avId == localAvatar.doId:
             # Five second timeout on grabbing the same tabke again.  Go
@@ -598,11 +598,11 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
 
         else:
             # Other players can grab this table immediately.
-            self.allowLocalRequestControl = True            
+            self.allowLocalRequestControl = True
             #self.trigger.unstash()
             #self.accept(self.triggerEvent, self.__hitTrigger)
             pass
-        
+
         self.avId = 0
 
 
@@ -618,22 +618,22 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
            self.allowLocalRequestControl:
             self.d_requestControl()
         #self.boss.localToonTouchedTable(self.tableIndex)
-    
+
 
     def prepareForPhaseFour(self):
         """Set up geometry and collisions for phase four."""
         if not self.preparedForPhaseFour:
             # hide the chairs and chair collisions
-            for i in xrange(8):
+            for i in range(8):
                 chair = self.tableGroup.find('**/chair_%d' % (i +1))
                 if not chair.isEmpty():
                     chair.hide()
                 colChairs = self.tableGroup.findAllMatches('**/ChairCol*')
-                for i in xrange(colChairs.getNumPaths()):
+                for i in range(colChairs.getNumPaths()):
                     col = colChairs.getPath(i)
                     col.stash()
                 colChairs = self.tableGroup.findAllMatches('**/collision_chair*')
-                for i in xrange(colChairs.getNumPaths()):
+                for i in range(colChairs.getNumPaths()):
                     col = colChairs.getPath(i)
                     col.stash()
             # make colliding against the table do something
@@ -643,7 +643,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             tableCol.setName(colName)
             tableCol.setCollideMask(ToontownGlobals.WallBitmask |
                                     ToontownGlobals.BanquetTableBitmask)
-            self.accept('enter'+colName, self.touchedTable)            
+            self.accept('enter'+colName, self.touchedTable)
             self.preparedForPhaseFour = True
 
             # create the water pitcher
@@ -661,7 +661,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             self.nozzle = self.waterPitcherModel.find('**/nozzle_tip')
             self.handLocator = self.waterPitcherModel.find('**/hand_locator')
             self.handPos = self.handLocator.getPos()
-        
+
     def d_requestControl(self):
         """Tell AI our local toon is requesting control."""
         self.sendUpdate('requestControl')
@@ -683,9 +683,9 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.grabTrack = self.makeToonGrabInterval(toon)
         self.notify.debug('grabTrack=%s' % self.grabTrack)
         #self.pitcherCamPos = Point3(0,-self.toonPitcherPosition[1],2.5)
-        #self.pitcherCamHpr = Point3(0,0,0)        
+        #self.pitcherCamHpr = Point3(0,0,0)
         self.pitcherCamPos = Point3(0, -50, 40)
-        self.pitcherCamHpr = Point3(0, -21, 0)        
+        self.pitcherCamHpr = Point3(0, -21, 0)
 
 
         if avId == localAvatar.doId:
@@ -714,14 +714,14 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
 
             self.__activatePhysics()
             self.__enableControlInterface()
-            
+
             self.startShadow()
             """
 
             # If we get a message from the Place that we exited Crane
             # mode--for instance, because we got hit by flying
             # gears--then ask the AI to yield us up.
-            self.accept('exitCrane', self.gotBossZapped) 
+            self.accept('exitCrane', self.gotBossZapped)
 
         else:
             self.startSmooth()
@@ -732,8 +732,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.grabTrack.start()
 
     def exitControlled(self):
-        """Handle exiting  the controlled state."""        
-        self.ignore('exitCrane')        
+        """Handle exiting  the controlled state."""
+        self.ignore('exitCrane')
 
         if self.grabTrack:
             self.grabTrack.finish()
@@ -762,7 +762,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             self.stopSmooth()
             if self.avId == localAvatar.doId:
                 # The local toon is no longer in control of the crane.
-                    
+
                 # do an immediate reparent to render, in case we get flattened next
                 localAvatar.wrtReparentTo(render)
                 self.__disableControlInterface()
@@ -780,7 +780,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
                 toon = base.cr.doId2do.get(self.avId)
                 if toon:
                     # do an immediate reparent to prevent perma flattened bug
-                    toon.wrtReparentTo(render)                
+                    toon.wrtReparentTo(render)
 
             self.releaseTrack.start()
 
@@ -799,7 +799,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             if place and hasattr(place, 'fsm'):
                 if place.fsm.getCurrentState().getName() == 'crane':
                     place.setState('finalBattle')
-        
+
 
     def makeToonGrabInterval(self,toon):
         """Return an interval of the toon jumping to pitcher position."""
@@ -807,7 +807,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         toon.update()
         rightHandPos = toon.rightHand.getPos(toon)
         self.toonPitcherPosition = Point3(self.handPos[0]-rightHandPos[0], self.handPos[1]-rightHandPos[1], 0)
-        destZScale = rightHandPos[2] / self.handPos[2] 
+        destZScale = rightHandPos[2] / self.handPos[2]
         grabIval = Sequence(
             Func(toon.wrtReparentTo, self.waterPitcherNode),
             Func(toon.loop, 'neutral'),
@@ -815,7 +815,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
                ActorInterval(toon, 'jump'),
                Sequence(
                   Wait(0.43),
-                  Parallel(                
+                  Parallel(
                      ProjectileInterval(toon, duration = 0.9,
                                    startPos = toon.getPos(self.waterPitcherNode),
                                    endPos = self.toonPitcherPosition),
@@ -825,7 +825,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
                  ),
                ),
             Func(toon.setPos, self.toonPitcherPosition),
-            Func(toon.loop, 'leverNeutral'),           
+            Func(toon.loop, 'leverNeutral'),
             )
         return grabIval
 
@@ -842,7 +842,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
 
         def getSlideToPos(toon = toon):
             return render.getRelativePoint(toon, Point3(0, -10, 0))
-        
+
         if self.gotHitByBoss:
             self.notify.debug('creating zap interval instead')
             grabIval = Sequence(
@@ -868,8 +868,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
                       ),
                    ),
                 )
-        
-        return grabIval    
+
+        return grabIval
 
     ### Handle smoothing of distributed updates.  This is similar to
     ### code in DistributedSmoothNode, but streamlined for our
@@ -879,7 +879,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         """Tell us and other clients to clear smoothing."""
         self.d_clearSmoothing()
         self.clearSmoothing()
-        
+
     def d_clearSmoothing(self):
         """Tell other clients to clear smoothing."""
         self.sendUpdate("clearSmoothing", [0])
@@ -945,7 +945,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             pos = (1.05, 0, -0.82),
             command = self.__exitPitcher,
             )
-        
+
         self.accept('escape', self.__exitPitcher)
 
         self.accept('control', self.__controlPressed)
@@ -1000,7 +1000,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         #NametagGlobals.setOnscreenChatForced(0)
 
         taskMgr.remove(self.watchControlsName)
-        taskMgr.remove(self.waterPowerTaskName)        
+        taskMgr.remove(self.waterPowerTaskName)
         self.resetPowerBar()
         self.aimStart = None
         self.powerBar.hide()
@@ -1043,17 +1043,17 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
 
         self.__cleanupPitcherAdvice()
         #self.__cleanupMagnetAdvice()
-        
+
 
     def __exitPitcher(self):
         """Handle the toon clicking on exit button."""
         #import pdb; pdb.set_trace()
-        self.showExiting()   
+        self.showExiting()
         self.d_requestFree(False)
 
     def __controlPressed(self):
         """Handle control key being pressed."""
-        self.__cleanupPitcherAdvice()        
+        self.__cleanupPitcherAdvice()
         if self.TugOfWarControls:
             if self.power:
                 self.aimStart =1
@@ -1105,7 +1105,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             self.arrowHorz = -1
         elif self.arrowHorz < 0:
             self.arrowHorz = 0
-        
+
     def __incrementChangeSeq(self):
         """Increment our change counter."""
         self.changeSeq = (self.changeSeq + 1) & 0xff
@@ -1308,12 +1308,12 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         if self.avId != base.localAvatar.doId:
             # we didn't fire this pitcher
             return
-        
+
         tag = self.hitObject.getNetTag('pieCode')
         pieCode = int(tag)
         #print tag
         #print self.hitObject
-        
+
         if pieCode == ToontownGlobals.PieCodeBossCog:
             # Make the local toon hear the sfx immediately, then tell the other clients
             self.hitBossSoundInterval.start()
@@ -1335,7 +1335,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
                     damage =2
                 else:
                     damage =3
-                self.boss.d_hitBoss(damage)                
+                self.boss.d_hitBoss(damage)
             # this gets done again when the AI sets boss damage, do it only once
             #self.boss.flashRed()
             #self.boss.doAnimate('hit', now=1)
@@ -1344,7 +1344,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         """Handle another client telling us his water hit the boss."""
         if self.index == tableIndex:
             self.hitBossSoundInterval.start()
-        
+
 
     def setupPowerBar(self):
         """Create the power bar for the water pitcher."""
@@ -1364,10 +1364,10 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             text_align = TextNode.ACenter,
             text_pos = (0,-0.05),
             )
-            
+
         self.power = 0
         self.powerBar['value'] = self.power
-        self.powerBar.hide()        
+        self.powerBar.hide()
 
     def resetPowerBar(self):
         """Bring the power and power bar to zero."""
@@ -1377,10 +1377,10 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.keyTTL = []
 
     def __beginFireWater(self):
-        """Handle player pressing control and starting the power meter."""        
+        """Handle player pressing control and starting the power meter."""
         # The control key was pressed.
         if self.fireTrack and self.fireTrack.isPlaying():
-            return        
+            return
         if self.aimStart != None:
             # This is probably just key-repeat.
             return
@@ -1392,20 +1392,20 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.aimStart = time
         messenger.send('wakeup')
         taskMgr.add(self.__updateWaterPower, self.waterPowerTaskName)
-    
+
     def __endFireWater(self):
         """Handle player releasing control and shooting the ball."""
         # The control key was released.  Fire the water.
-        
+
         if self.aimStart == None:
             return
         if not self.state == 'Controlled':
-            return        
+            return
         if not self.avId == localAvatar.doId:
             return
         #if not self.power:
         #    return
-        taskMgr.remove(self.waterPowerTaskName)        
+        taskMgr.remove(self.waterPowerTaskName)
         messenger.send('wakeup')
         self.aimStart = None
         #self.sendSwingInfo()
@@ -1426,7 +1426,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         fromObject = render.attachNewNode(CollisionNode('pitcherColNode'))
         fromObject.node().addSolid(segment)
         fromObject.node().setFromCollideMask(ToontownGlobals.PieBitmask | ToontownGlobals.CameraBitmask | ToontownGlobals.FloorBitmask)
-        fromObject.node().setIntoCollideMask(BitMask32.allOff())        
+        fromObject.node().setIntoCollideMask(BitMask32.allOff())
 
         queue = CollisionHandlerQueue()
         base.cTrav.addCollider(fromObject, queue)
@@ -1445,12 +1445,12 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.resetPowerBar()
         pass
         #self.__turnOffMagnet()
-        
+
 
     def __updateWaterPower(self, task):
         """Change the value of the power meter."""
         if not self.powerBar:
-            print "### no power bar!!!"
+            print("### no power bar!!!")
             return task.done
 
         newPower =  self.__getWaterPower(globalClock.getFrameTime())
@@ -1462,7 +1462,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         elif self.power < self.RED_POWER_THRESHOLD:
             self.powerBar['barColor'] = VBase4(1.0, 1.0, 0.0, 0.8)
         else:
-            self.powerBar['barColor'] = VBase4(1.0, 0.0, 0.0, 0.8)        
+            self.powerBar['barColor'] = VBase4(1.0, 0.0, 0.0, 0.8)
         return task.cont
 
     def __getWaterPower(self, time):
@@ -1474,7 +1474,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             t = t % 1
         power = 1 - math.pow(1-t, exponent)
         if power > 1.0:
-            power = 1.0 
+            power = 1.0
         return power
 
     def d_firingWater(self, origin, target):
@@ -1491,16 +1491,16 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
 
     def fireWater(self, origin, target):
         """Code common to a toon firing water locally or from another client."""
-        color = VBase4(0.75, 0.75, 1, 0.8)        
+        color = VBase4(0.75, 0.75, 1, 0.8)
         dScaleUp = 0.1
         dHold = 0.3
         dScaleDown = 0.1
         horizScale = 0.1
-        vertScale = 0.1        
+        vertScale = 0.1
         sprayTrack = self.getSprayTrack(color, origin, target, dScaleUp,
                                        dHold, dScaleDown, horizScale,
                                        vertScale)
-        
+
         duration = self.squirtSfx.length()
         if sprayTrack.getDuration() < duration:
             duration = sprayTrack.getDuration()
@@ -1510,7 +1510,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             sprayTrack,
             soundTrack
             )
-        
+
         self.fireTrack.start()
 
     def getPos(self, wrt = render):
@@ -1533,10 +1533,10 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
                 toon.wrtReparentTo(render)
                 toon.setZ(0)
         self.tableGroup.setScale(1, 1, 0.01)
-        if self.avId and self.avId == localAvatar.doId:            
+        if self.avId and self.avId == localAvatar.doId:
             localAvatar.b_squish(ToontownGlobals.BossCogDamageLevels
                                  [ToontownGlobals.BossCogMoveAttack])
-            
+
 
     def exitFlat(self):
         """Handle exiting the flattened state."""
@@ -1562,8 +1562,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.allowLocalRequestControl = True
 
     def gotBossZapped(self):
-        """Handle the local toon getting hit by a ranged attack."""       
-        self.showExiting()   
+        """Handle the local toon getting hit by a ranged attack."""
+        self.showExiting()
         self.d_requestFree(True)
 
     def __upArrowKeyPressed(self):
@@ -1582,8 +1582,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             self.keyTTL.insert(0, 1.0)
             if not self.OnlyUpArrow:
                 self.buttons.reverse()
-                        
-        
+
+
     def __spawnUpdateKeyPressRateTask(self):
         taskMgr.remove(self.taskName(self.UPDATE_KEY_PRESS_RATE_TASK))
         taskMgr.doMethodLater(.1,
@@ -1592,12 +1592,12 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
 
     def __killUpdateKeyPressRateTask(self):
         taskMgr.remove(self.taskName(self.UPDATE_KEY_PRESS_RATE_TASK))
- 
+
 
     def __updateKeyPressRateTask(self, task):
         if not self.state in ('Controlled'):
             return Task.done
-        
+
         # decrement times to live for each key press entry in keyTTL
         for i in range(len(self.keyTTL)):
             self.keyTTL[i] -= .1
@@ -1624,7 +1624,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             newPower = 0
         self.notify.debug('diffPower=%.2f keyRate = %d, newPower=%.2f' % (diffPower, self.keyRate, newPower))
         self.power = newPower
-        self.powerBar['value'] = newPower        
+        self.powerBar['value'] = newPower
 
         if self.power < self.YELLOW_POWER_THRESHOLD:
             self.powerBar['barColor'] =  VBase4(0.75,0.75,1.0,0.8)
@@ -1632,7 +1632,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             self.powerBar['barColor'] = VBase4(1.0, 1.0, 0.0, 0.8)
         else:
             self.powerBar['barColor'] = VBase4(1.0, 0.0, 0.0, 0.8)
-            
+
         self.__spawnUpdateKeyPressRateTask()
         return Task.done
 

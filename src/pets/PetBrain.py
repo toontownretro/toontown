@@ -1,6 +1,6 @@
 """PetBrain module: contains the PetBrain class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.PythonUtil import weightedChoice, randFloat, Functor
 from direct.showbase.PythonUtil import list2dict
 from direct.showbase import DirectObject
@@ -61,8 +61,8 @@ class PetBrain(DirectObject.DirectObject, CPetBrain):
         del self.focus
         del self.pet
         if self.doId2goals:
-            self.notify.warning("destroy(): self.doId2goals is not empty: %s" % self.doId2goals.keys())
-            for goalList in self.doId2goals.values():
+            self.notify.warning("destroy(): self.doId2goals is not empty: %s" % list(self.doId2goals.keys()))
+            for goalList in list(self.doId2goals.values()):
                 for goal in goalList:
                     goal.destroy()
         del self.doId2goals
@@ -190,7 +190,7 @@ class PetBrain(DirectObject.DirectObject, CPetBrain):
             if len(self.nearbyAvs) > PetConstants.MaxAvatarAwareness:
                 self.nextAwarenessIndex %= len(self.nearbyAvs)
                 self._considerBecomeAwareOf(
-                    self.nearbyAvs.keys()[self.nextAwarenessIndex])
+                    list(self.nearbyAvs.keys())[self.nextAwarenessIndex])
                 self.nextAwarenessIndex += 1
             if __dev__:
                 self.pscAware.stop()
@@ -222,7 +222,7 @@ class PetBrain(DirectObject.DirectObject, CPetBrain):
     def _updatePriorities(self):
         # TODO: create and update values that the goals will reference,
         # such as 'how much do I like a particular toon right now'
-        
+
         # tell the goal manager to re-evaluate its priorities
         self.goalMgr.updatePriorities()
 
@@ -321,7 +321,7 @@ class PetBrain(DirectObject.DirectObject, CPetBrain):
     def _handleFocusHasLeft(self):
         # called when the avatar we are focusing on is about to leave
         # they're still actually here while we're in this function
-        
+
         # we need to transition away from chasing the avatar to prevent
         # a crash; inspect the avatar's last position instead
         if self.focus.isEmpty():
@@ -489,7 +489,7 @@ class PetBrain(DirectObject.DirectObject, CPetBrain):
             avatar = simbase.air.doId2do.get(avId)
             if avatar is not None:
                 avatar.setHatePets(0)
-        
+
         elif action == OA.SCRATCH:
             dbg('avatar %s is scratching me' % avId)
             self.pet.lerpMoods({
@@ -507,7 +507,7 @@ class PetBrain(DirectObject.DirectObject, CPetBrain):
             avatar = simbase.air.doId2do.get(avId)
             if avatar is not None:
                 avatar.setHatePets(0)
-            
+
         elif action == OA.GARDEN:
             dbg('avatar %s is gardening' % avId)
             avatar = simbase.air.doId2do.get(avId)
@@ -676,7 +676,7 @@ class PetBrain(DirectObject.DirectObject, CPetBrain):
         if av is None:
             PetBrain.notify.warning('_considerBecomeAwareOf: av %s does not exist' % avId)
             return
-        
+
         if avId in self.avAwareness:
             return
         def becomeAwareOf(avId, self=self):
@@ -763,7 +763,7 @@ class PetBrain(DirectObject.DirectObject, CPetBrain):
                               self.pet.requestDelete,
                               self.getTeleportTaskName()
                               )
-        
+
     def _handleEstateOwnerLeave(self):
         # TODO: make this happen sometime in the future
         self.pet.teleportOut()

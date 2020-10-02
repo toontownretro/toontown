@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from otp.level import BasicEntities
 
@@ -23,14 +23,14 @@ class GoonClipPlane(BasicEntities.NodePathEntity):
                 clipList.append(self.entId)
         else:
             self.level.goonClipPlanes[self.zoneNum]= [self.entId]
-            
+
     def unregisterWithFactory(self):
         # unregister this clip plane with the factory
         clipList = self.level.goonClipPlanes.get(self.zoneNum)
         if clipList:
             if self.entId in clipList:
                 clipList.remove(self.entId)
-        
+
     def initPlane(self):
         # Graphical debugging
         if __debug__:
@@ -45,9 +45,3 @@ class GoonClipPlane(BasicEntities.NodePathEntity):
 
     def getPlane(self):
         return self.coneClipPath
-
-         
-            
-        
-        
-    

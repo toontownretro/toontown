@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectScrolledList import *
 from direct.distributed.ClockDelta import *
 from toontown.toontowngui import TTDialog
@@ -16,9 +16,9 @@ from direct.showbase import RandomNumGen
 from toontown.toonbase import TTLocalizer
 import random
 import random
-import cPickle
+import pickle
 from direct.showbase import PythonUtil
-import GameSprite
+from . import GameSprite
 from math import pi
 from toontown.estate import GardenGlobals
 
@@ -36,7 +36,7 @@ class GardenProgressMeter(DirectObject.DirectObject):
         elif typePromotion == "game":
             self.typePromotion == GAMEWIN
         else:
-            print ("No type of %s" % (typePromotion))
+            print(("No type of %s" % (typePromotion)))
         self.level = level
         self.acceptErrorDialog = None
         self.doneEvent = "game Done"
@@ -44,19 +44,19 @@ class GardenProgressMeter(DirectObject.DirectObject):
         self.load()
         thing = self.model.find('**/item_board')
         self.block = self.model1.find('**/minnieCircle')
-        
 
-    
+
+
     def load(self):
         # load the buttons
         model = loader.loadModel('phase_5.5/models/gui/package_delivery_panel')
         model1 = loader.loadModel('phase_3.5/models/gui/matching_game_gui')
         self.model = model
         self.model1 = model1
-    
+
         background = model.find('**/bg')
         itemBoard = model.find('**/item_board')
-        
+
         congratsMessage = "Super Congratulations!!"
         if self.typePromotion == SHOVEL:
             congratsMessage = TTLocalizer.GardenShovelLevelUp + " \n" + GardenGlobals.ShovelAttributes[self.level]['name']
@@ -64,15 +64,15 @@ class GardenProgressMeter(DirectObject.DirectObject):
             congratsMessage = TTLocalizer.GardenWateringCanLevelUp + " \n" + GardenGlobals.WateringCanAttributes[self.level]['name']
         elif self.typePromotion == GAMEWIN:
             congratsMessage = TTLocalizer.GardenMiniGameWon
-            
-    
-        self.frame = DirectFrame(scale = 1.1, relief = None, 
+
+
+        self.frame = DirectFrame(scale = 1.1, relief = None,
                                  image = DGG.getDefaultDialogGeom(),
                                  image_scale = (1.75, 1, 0.75),
                                  image_color = ToontownGlobals.GlobalDialogColor,
                                  frameSize = (-0.5,0.5,-0.45,-0.05),
                                  )
-                                 
+
         self.congratsText = DirectLabel(scale = 1.1, relief = None,
                                         text_pos = (0, 0.2),
                                         text_wordwrap = 16,
@@ -83,11 +83,11 @@ class GardenProgressMeter(DirectObject.DirectObject):
                                         text0_fg = (1, 1, 1, 1),
                                         parent = self.frame
                                         )
-        
 
-        
+
+
         gui2 = loader.loadModel("phase_3/models/gui/quit_button")
-        
+
 
         self.quitButton = DirectButton(
             parent = self.frame,
@@ -104,10 +104,10 @@ class GardenProgressMeter(DirectObject.DirectObject):
             text1_fg = (1, 1, 1, 1),
             text2_fg = (1, 1, 1, 1),
             text_scale = 0.045,
-            text_pos = (0, -0.01),         
+            text_pos = (0, -0.01),
             command = self.__handleExit,
             )
-            
+
     def unload(self):
         self.frame.destroy()
         del self.frame
@@ -118,22 +118,18 @@ class GardenProgressMeter(DirectObject.DirectObject):
 
         taskMgr.remove("gameTask")
         self.ignoreAll()
-            
+
     def show(self):
         self.frame.show()
 
     def hide(self):
         self.frame.hide()
-            
+
     def __handleExit(self):
         self.__acceptExit()
-        
+
     def __acceptExit(self, buttonValue = None):
         if hasattr(self, 'frame'):
             self.hide()
             self.unload()
             messenger.send(self.doneEvent)
-                        
-            
-            
-

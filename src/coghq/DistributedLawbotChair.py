@@ -1,5 +1,5 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.fsm import FSM
@@ -24,9 +24,9 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedLawbotChair')
 
     chairCushionSurface = Point3(0, -0.75, 2.25)
-    landingPt = Point3(0, -1.5, 0)    
+    landingPt = Point3(0, -1.5, 0)
     courtroomCeiling = 30
-    
+
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
         FSM.FSM.__init__(self, 'DistributedLawbotBossChair')
@@ -34,9 +34,9 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         self.boss = None
         self.index = None
         self.avId = 0
-        
+
         #self.modelPath = "phase_5.5/models/estate/chairAdesat"
-        self.modelPath = "phase_11/models/lawbotHQ/JuryBoxChair"        
+        self.modelPath = "phase_11/models/lawbotHQ/JuryBoxChair"
         self.modelFindString = None
 
         self.nodePath = None
@@ -55,7 +55,7 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
 
         self.toonJurorIndex = -1
         self.toonJuror = None
-        
+
 
     def announceGenerate(self):
         self.notify.debug("announceGenerate: %s" % self.doId)
@@ -63,7 +63,7 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         self.name = 'Chair-%s' % (self.doId)
         #self.setName(self.name)
 
-  
+
 
         # Load the model, (using loadModelOnce), and child it to the nodepath
         self.loadModel(self.modelPath, self.modelFindString)
@@ -74,14 +74,14 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         # Set up random generator
         self.randomGenerator = random.Random()
         self.randomGenerator.seed(self.doId)
-        
+
         self.loadSounds()
         self.loadCogJuror()
         self.cogJuror.stash()
 
 
-        
-        #tempTuple = ToontownGlobals.LawbotBossChairPosHprs[self.index]        
+
+        #tempTuple = ToontownGlobals.LawbotBossChairPosHprs[self.index]
         #self.nodePath.setPosHpr(*tempTuple)
         #self.origHpr = Point3( tempTuple[3], tempTuple[4], tempTuple[5])
 
@@ -98,11 +98,11 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         chairParent = self.boss.getChairParent()
         self.nodePath.wrtReparentTo(chairParent)
 
-        
-        assert(not self.boss.chairs.has_key(self.index))
+
+        assert(self.index not in self.boss.chairs)
         self.boss.chairs[self.index] = self
 
-        
+
 
     def delete(self):
         # Call up the chain
@@ -137,7 +137,7 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
             trigger_chair.stash()
 
         collision_chair = self.chair.find('**/collision_chair')
-        if not collision_chair.isEmpty():            
+        if not collision_chair.isEmpty():
             collision_chair.stash()
 
         #hide the shadow, it looks wrong, bring it back if there's something solid under the chair
@@ -145,13 +145,13 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         if not shadow.isEmpty():
             #shadow.stash()
             pass
-        
+
         self.scale = 0.5
         self.chair.setScale(self.scale)
 
         self.attachColSphere()
 
-    
+
 
     def loadSounds(self):
         if self.propInSound == None:
@@ -171,8 +171,8 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         if self.cogJurorSound:
             del self.cogJurorSound
             self.cogJurorSound = None
-        
-        
+
+
 
     def loadCogJuror(self):
         self.cleanupCogJuror()
@@ -192,8 +192,8 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         self.cogJuror.pose('landing',0)
         #self.cogJuror.pose('neutral',0)
         self.cogJuror.reparentTo(self.nodePath)
- 
-            
+
+
 
         # now create info for the propeller's animation
         #
@@ -203,7 +203,7 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
 
         head = self.cogJuror.find("**/joint_head")
         self.cogJuror.prop.reparentTo(head)
-        
+
         self.propTrack = Sequence(
             ActorInterval(self.cogJuror.prop, 'propeller',
                           startFrame = 8,
@@ -214,7 +214,7 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
 
 
         #self.propTrack.loop()
-        
+
     def attachColSphere(self):
 
         chairTop = self.nodePath.find("**/top*")
@@ -230,22 +230,22 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
 
         #radius is a bit too big, scale it down a little
         radius *= 0.65
-        adjustedZ = center[2] 
+        adjustedZ = center[2]
         adjustedZ += 0.6
-        
+
         sphere1 = CollisionSphere(center[0], center[1], adjustedZ, radius)
         sphere1.setTangible(1)    #we want it tangible
         collNode.addSolid(sphere1)
-        #collNode.setTag('attackCode', str(ToontownGlobals.BossCogChairStomp))        
+        #collNode.setTag('attackCode', str(ToontownGlobals.BossCogChairStomp))
         collNode.setName('Chair-%s'% self.index)
 
-        
+
         self.collNodePath = self.nodePath.attachNewNode(collNode)
         #self.collNodePath.stash()
 
 
     def makeNodePath(self):
-        self.nodePath = Actor.Actor() #NodePath(self.uniqueName("chairNodePath"))        
+        self.nodePath = Actor.Actor() #NodePath(self.uniqueName("chairNodePath"))
 
         self.chair = self.nodePath.attachNewNode('myChair')
 
@@ -253,9 +253,9 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         DistributedObject.DistributedObject.disable(self)
         assert(self.boss.chairs.get(self.index) == self)
 
-        
+
         self.nodePath.detachNode()
-        if (self.ival):        
+        if (self.ival):
             self.ival.finish();
             self.ival = None
 
@@ -270,12 +270,12 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         if self.cogJurorTrack:
             self.cogJurorTrack.finish()
             self.cogJurorTrack = None
-            
+
         self.cleanupCogJuror()
         self.cleanupToonJuror()
 
     def stopCogsFlying(self):
-        if self.ival:        
+        if self.ival:
             self.ival.finish();
             self.ival = None
 
@@ -296,15 +296,15 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
             self.cogJuror.delete()
             del self.cogJuror
             self.cogJuror = None
-            
+
     def cleanupToonJuror(self):
         if self.toonJuror:
             self.toonJuror.detachNode()
             self.toonJuror.delete()
             del self.toonJuror
             self.toonJuror = None
-        
-        
+
+
     def cleanup(self):
         #if self.state != 'Off':
         #    self.demand('Off')
@@ -323,7 +323,7 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         z = self.courtroomCeiling - curPos[2]
         self.notify.debug('curPos =%s\nz=%f' % (curPos,z))
 
-        
+
         cogTrack = Sequence(
             Func(self.cogJuror.setPos,x,y,z),
             Func(self.cogJuror.unstash),
@@ -342,11 +342,11 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         #    timeToWait = 0
 
         #landingTrack = Sequence(
-        #    Func(self.cogJuror.pose,'landing',0),            
+        #    Func(self.cogJuror.pose,'landing',0),
         #    Wait(timeToWait),
         #    Func(self.cogJuror.loop,'landing')
         #    )
-        
+
         self.cogJurorTrack = Parallel(
             audioTrack,
             cogTrack,
@@ -380,14 +380,14 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
             self.toonJuror.reparentTo(self.nodePath)
             self.toonJuror.setH(180)
             self.toonJuror.setPos(0,-2.5,0.95)
-            self.toonJuror.animFSM.request('Sit')            
+            self.toonJuror.animFSM.request('Sit')
         else:
             self.notify.warning('putToonJurorOnSeat invalid toonJuror')
-            
+
     def showCogJurorFlying(self):
         self.notify.debug('showCogJurorFlying')
         self.startCogJuror(ToontownGlobals.LawbotBossCogJurorFlightTime, -ToontownGlobals.LawbotBossCogJurorDistance)
-            
+
 
 
     ##### Messages To/From The Server #####
@@ -455,7 +455,7 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
             self.cogJuror.stash()
 
         self.putToonJurorOnSeat()
-        
+
 
     def enterSuitJuror(self):
         #make it gray
@@ -470,7 +470,7 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         #make it white
         assert self.notify.debug('enterEmptyJuror')
         self.chair.setColorScale(1.0, 1.0, 1.0, 1.0)
-        
+
     def enterStopCogs(self):
         assert self.notify.debug('enterStopCogs')
         self.stopCogs()
@@ -493,7 +493,7 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
             nextIndex = index +1;
             if (nextIndex == len(myHeadings)):
                 nextIndex = 0
-                
+
             goingDown = self.nodePath.hprInterval(self.downTime,
                                                   Point3(myHeadings[index] + self.origHpr[0],
                                                   downAngle,
@@ -501,14 +501,14 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
                                                   startHpr = Point3(myHeadings[index] + self.origHpr[0] ,0,self.origHpr[2]))
             self.ival.append(goingDown)
             self.ival.append(Wait(self.stayDownTime))
-            
+
             goingUp = self.nodePath.hprInterval(self.upTime,
                                                 Point3(myHeadings[nextIndex] + self.origHpr[0],
                                                 0,
                                                 self.origHpr[2]),
                                                 startHpr = Point3(myHeadings[index] + self.origHpr[0], downAngle, self.origHpr[2]))
             self.ival.append(goingUp)
-            
+
 
         self.ival.loop() #globalClock.getFrameTime());
         self.accept('enterChairZap', self.__touchedChair)
@@ -523,7 +523,7 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         else:
             startPt = Point3(*ToontownGlobals.LawbotBossChairRow2PosA)
             endPt = Point3(*ToontownGlobals.LawbotBossChairRow2PosB)
-            
+
         totalDisplacement = endPt - startPt
         stepDisplacement = totalDisplacement / ( 6-1 )
 
@@ -534,19 +534,17 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
 
         #since we show the chairs now at the very start, offset it
         newPos -= Point3(*ToontownGlobals.LawbotBossJuryBoxRelativeEndPos)
-        self.notify.debug('newPos  = %s' % newPos)        
+        self.notify.debug('newPos  = %s' % newPos)
         return newPos
 
     def loadToonJuror(self):
-        self.cleanupToonJuror()        
+        self.cleanupToonJuror()
         self.toonJuror = NPCToons.createLocalNPC(ToontownGlobals.LawbotBossBaseJurorNpcId + self.toonJurorIndex)
         self.toonJuror.hide()
         pass
-    
-            
+
+
     def setToonJurorIndex(self, newVal):
         if not self.toonJurorIndex == newVal:
             self.toonJurorIndex = newVal
             self.loadToonJuror()
-
-            

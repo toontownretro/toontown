@@ -11,7 +11,7 @@
 ##########################################################################
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObject import DistributedObject
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 ##########################################################################
 # Toontwon Import Modules
@@ -59,7 +59,7 @@ class DistributedKartShopInterior( DistributedObject ):
         KartShopInterior object by generating the super class.
 
         Params: None
-        Return: None                  
+        Return: None
         """
         DistributedObject.generate( self )
 
@@ -88,7 +88,7 @@ class DistributedKartShopInterior( DistributedObject ):
         self.interior.removeNode()
         del self.interior
         DistributedObject.disable( self )
-        
+
 
     def setZoneIdAndBlock( self, zoneId, block ):
         """

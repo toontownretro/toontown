@@ -1,8 +1,8 @@
-from pandac.PandaModules import *
-import FriendsListPanel
-import FriendInviter
-import FriendInvitee
-import FriendNotifier
+from toontown.toonbase.ToontownModules import *
+from . import FriendsListPanel
+from . import FriendInviter
+from . import FriendInvitee
+from . import FriendNotifier
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toon import ToonTeleportPanel
 from toontown.friends import ToontownFriendSecret
@@ -15,7 +15,7 @@ from toontown.toon import ToonAvatarDetailPanel
 from toontown.toon import PlayerDetailPanel
 from toontown.toonbase import ToontownGlobals
 from toontown.toon import Toon
-import FriendHandle
+from . import FriendHandle
 from otp.otpbase import OTPGlobals
 
 class FriendsListManager:
@@ -28,20 +28,20 @@ class FriendsListManager:
     """
     # create a notify category
     notify = DirectNotifyGlobal.directNotify.newCategory("FriendsListManager")
-    
+
     def __init__(self):
         # Place holders
         self.avatarPanel = None
         self._preserveFriendsList = False
         self._entered = False
         self.friendsRequestQueue = []
-      
+
 
     def load(self):
         base.cr.friendManager.setGameSpecificFunction(self.processQueuedRequests)
         self.accept(OTPGlobals.AvatarNewFriendAddEvent, self.__friendAdded)
         pass
-            
+
     def unload(self):
         base.cr.friendManager.setGameSpecificFunction(None)
         # Call up the chain
@@ -61,7 +61,7 @@ class FriendsListManager:
             return
 
         self._entered = True
-        
+
         # The friends list and associated events
         self.accept("openFriendsList", self.__openFriendsList)
         self.accept("clickedNametag", self.__handleClickedNametag)
@@ -71,7 +71,7 @@ class FriendsListManager:
         # Since we're listening for the click event now, make the
         # nametags clickable.
         NametagGlobals.setMasterNametagsActive(1)
-        
+
         # The Avatar panel buttons
         self.accept("gotoAvatar", self.__handleGotoAvatar)
         self.accept("friendAvatar", self.__handleFriendAvatar)
@@ -81,10 +81,10 @@ class FriendsListManager:
         # An invitation to be someone's friend might come out of the
         # blue.
         self.accept("friendInvitation", self.__handleFriendInvitation)
-        
+
         # todo: check if player friends are available first?
         self.accept(OTPGlobals.PlayerFriendInvitationEvent, self.__handlePlayerFriendInvitation)
-        
+
         if base.cr.friendManager:
             base.cr.friendManager.setAvailable(1)
 
@@ -99,7 +99,7 @@ class FriendsListManager:
             return
 
         self._entered = False
-        
+
         # Put away the friends list
         self.ignore("openFriendsList")
         self.ignore("clickedNametag")
@@ -134,7 +134,7 @@ class FriendsListManager:
         FriendInviter.hideFriendInviter()
         ToonAvatarDetailPanel.hideAvatarDetail()
         ToonTeleportPanel.hideTeleportPanel()
-        
+
     def __openFriendsList(self):
         """
         Opens up the friends list when the user presses the hotkey.
@@ -163,7 +163,7 @@ class FriendsListManager:
             self.avatarPanel = ToonAvatarPanel.ToonAvatarPanel(avatar, playerId)
         else:
             self.avatarPanel = SuitAvatarPanel.SuitAvatarPanel(avatar)
-            
+
     def __handleClickedNametagPlayer(self, avatar, playerId, showType = 1):
         """
         Called when an avatar in the world has been picked directly by
@@ -186,13 +186,13 @@ class FriendsListManager:
                 if self.avatarPanel:
                     if (not hasattr(self.avatarPanel, "getAvId")) or (self.avatarPanel.getAvId() == avatar.doId):
                         if not self.avatarPanel.isHidden():
-                            if self.avatarPanel.getType() == "toon":    
+                            if self.avatarPanel.getType() == "toon":
                                 return
             self.avatarPanel = ToonAvatarPanel.ToonAvatarPanel(avatar, playerId)
-            
 
 
-    # Teleport to an avatar when you click "goto" from the Avatar panel. 
+
+    # Teleport to an avatar when you click "goto" from the Avatar panel.
     def __handleGotoAvatar(self, avId, avName, avDisableName):
         """__handleGotoAvatar(self, int avId, string avName, string avDisableName)
 
@@ -240,19 +240,19 @@ class FriendsListManager:
 
         if not base.cr.avatarFriendsManager.checkIgnored(avId):
             FriendInvitee.FriendInvitee(avId, avName, dna, context)
-        
+
     # Be invited by another player to be their friend.
     def __handlePlayerFriendInvitation(self, avId, avName, inviterDna = None, context = None):
         self.notify.debug("incoming switchboard friend event")
         self.friendsRequestQueue.append((avId, avName, inviterDna, context))
         if base.cr.friendManager.getAvailable():
             self.processQueuedRequests()
-            
+
     def processQueuedRequests(self):
         if len(self.friendsRequestQueue):
             request = self.friendsRequestQueue.pop(0)
-            self.__processFriendRequest(request[0], request[1], request[2], request[3])          
-            
+            self.__processFriendRequest(request[0], request[1], request[2], request[3])
+
     def __processFriendRequest(self, avId, avName, inviterDna = None, context = None):
         """__handleAvatarFriendInvitation(self, int avId, string avName,
                                     AvatarDNA dna, int context)
@@ -283,7 +283,7 @@ class FriendsListManager:
         Bring up a detail panel on a particular avatar.
         """
         ToonAvatarDetailPanel.showAvatarDetail(avId, avName, playerId)
-        
+
     def __handlePlayerDetails(self, avId, avName, playerId = None):
         """__handleAvatarDetails(self, int avId, string avName)
 
@@ -297,7 +297,7 @@ class FriendsListManager:
         that have the friends list enabled"""
         self.notify.debug("Preserving Friends List")
         self._preserveFriendsList = True
-        
+
     def __friendAdded(self, avId):
         if FriendInviter.globalFriendInviter != None:
             messenger.send("FriendsListManagerAddEvent", [avId])
@@ -308,5 +308,3 @@ class FriendsListManager:
                 dna = friendToon.getStyle()
                 #dna.makeFromNetString(askerToon.getStyle)
                 FriendNotifier.FriendNotifier(avId, friendToon.getName(), dna, None)
-        
-

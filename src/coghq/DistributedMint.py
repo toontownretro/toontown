@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
@@ -42,7 +42,7 @@ class DistributedMint(DistributedObject.DistributedObject):
     # required fields
     def setZoneId(self, zoneId):
         self.zoneId = zoneId
-        
+
     def setMintId(self, id):
         DistributedMint.notify.debug('setMintId: %s' % id)
         self.mintId = id
@@ -86,7 +86,7 @@ class DistributedMint(DistributedObject.DistributedObject):
                 room.attachTo(self.hallways[i-1], rng)
             self.allRooms.append(room)
             self.listenForFloorEvents(room)
-            
+
             if i < (numRooms-1):
                 # add a hallway leading out of the room
                 hallway = MintRoom.MintRoom(self.layout.getHallwayModel(i))
@@ -204,7 +204,7 @@ class DistributedMint(DistributedObject.DistributedObject):
     def warpToRoom(self, roomId):
         # returns False if invalid roomId
         # find a room with the right id
-        for i in xrange(len(self.rooms)):
+        for i in range(len(self.rooms)):
             room = self.rooms[i]
             if room.roomId == roomId:
                 break
@@ -250,7 +250,7 @@ class DistributedMint(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.delete(self)
         self.ignore('SOSPanelEnter')
         bboard.remove('mint')
-        
+
     def handleSOSPanel(self, panel):
         # make a list of toons that are still in the mint
         avIds = []

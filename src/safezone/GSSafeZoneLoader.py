@@ -14,7 +14,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 ##########################################################################
 # Toontwon Import Modules
@@ -44,7 +44,7 @@ class GSSafeZoneLoader( SafeZoneLoader ):
         """
 
         # Initialize Super Class
-        SafeZoneLoader.__init__( self, hood, parentFSM, doneEvent )     
+        SafeZoneLoader.__init__( self, hood, parentFSM, doneEvent )
 
         # Initialize Instance Variables
         self.musicFile = "phase_6/audio/bgm/GS_SZ.mid"
@@ -84,7 +84,7 @@ class GSSafeZoneLoader( SafeZoneLoader ):
                               # Initial State
                               'start',
                               # Final State
-                              'final', )                              
+                              'final', )
         self.smoke = None
 
     def load( self ):
@@ -92,25 +92,25 @@ class GSSafeZoneLoader( SafeZoneLoader ):
         """
 
 
-        SafeZoneLoader.load( self )                
-        
+        SafeZoneLoader.load( self )
+
         if base.cr.newsManager:
             holidayIds = base.cr.newsManager.getDecorationHolidayId()
             if ToontownGlobals.CRASHED_LEADERBOARD in holidayIds:
-                self.startSmokeEffect()                
-                
-        self.birdSound = map( base.loadSfx, [ 'phase_4/audio/sfx/SZ_TC_bird1.mp3',
+                self.startSmokeEffect()
+
+        self.birdSound = list(map( base.loadSfx, [ 'phase_4/audio/sfx/SZ_TC_bird1.mp3',
                                               'phase_4/audio/sfx/SZ_TC_bird2.mp3',
-                                              'phase_4/audio/sfx/SZ_TC_bird3.mp3' ] )
+                                              'phase_4/audio/sfx/SZ_TC_bird3.mp3' ] ))
 
     def unload( self ):
         """
         """
-        del self.birdSound                
-        
-        if self.smoke != None:        
-            self.stopSmokeEffect()             
-            
+        del self.birdSound
+
+        if self.smoke != None:
+            self.stopSmokeEffect()
+
         SafeZoneLoader.unload( self )
 
     def enterPlayground( self, requestStatus ):
@@ -140,7 +140,7 @@ class GSSafeZoneLoader( SafeZoneLoader ):
         elif (ZoneUtil.getBranchZone(status["zoneId"]) == self.hood.hoodId and
             # Going to Kart Shop
             status["shardId"] == None):
-            self.fsm.request("quietZone", [status])            
+            self.fsm.request("quietZone", [status])
         else:
             self.doneStatus = status
             messenger.send( self.doneEvent )
@@ -170,24 +170,24 @@ class GSSafeZoneLoader( SafeZoneLoader ):
         del self.trackId
 
     def handleRaceOver(self):
-        print "you done!!"
+        print("you done!!")
 
     def handleLeftRace(self):
         req={"loader":"safeZoneLoader","where":"playground","how":"teleportIn"
              ,"zoneId":8000,"hoodId":8000,"shardId":None}
-        self.fsm.request("quietZone",[req])        
-                
-    def startSmokeEffect(self):           
+        self.fsm.request("quietZone",[req])
+
+    def startSmokeEffect(self):
         if base.config.GetBool('want-crashedLeaderBoard-Smoke', 1):
-            leaderBoard = self.geom.find("**/*crashed*")      
+            leaderBoard = self.geom.find("**/*crashed*")
             locator = leaderBoard.find("**/*locator_smoke*")
-            if locator != None:          
-                self.smoke = CarSmoke(locator)            
-                self.smoke.start()                 
-                        
-    def stopSmokeEffect(self):   
-        if base.config.GetBool('want-crashedLeaderBoard-Smoke', 1):         
+            if locator != None:
+                self.smoke = CarSmoke(locator)
+                self.smoke.start()
+
+    def stopSmokeEffect(self):
+        if base.config.GetBool('want-crashedLeaderBoard-Smoke', 1):
             if self.smoke != None:
-                self.smoke.stop()        
-                self.smoke.destroy()                
+                self.smoke.stop()
+                self.smoke.destroy()
                 self.smoke = None

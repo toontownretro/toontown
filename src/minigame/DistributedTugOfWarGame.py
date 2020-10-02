@@ -1,11 +1,11 @@
 """DistributedTugOfWarGame module: contains the DistributedTugOfWarGame class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
-from DistributedMinigame import *
+from .DistributedMinigame import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.toonbase import ToontownTimer
@@ -13,32 +13,32 @@ from toontown.toon import ToonHead
 from toontown.suit import SuitDNA
 from toontown.suit import Suit
 from toontown.char import Char
-import ArrowKeys
+from . import ArrowKeys
 import random
 from toontown.toonbase import ToontownGlobals
 import string
 from toontown.toonbase import TTLocalizer
-import TugOfWarGameGlobals
+from . import TugOfWarGameGlobals
 from direct.showutil import Rope
 from toontown.effects import Splash
 from toontown.effects import Ripples
 from toontown.toonbase import TTLocalizer
-import MinigamePowerMeter
+from . import MinigamePowerMeter
 from direct.task.Task import Task
 
 class DistributedTugOfWarGame(DistributedMinigame):
 
     bgm = "phase_4/audio/bgm/MG_tug_o_war.mid"
-    
+
     toonAnimNames   = ['neutral', 'tug-o-war', 'slip-forward', 'slip-backward', 'victory', 'sad-neutral']
     suitAnimNames   = ['neutral', 'tug-o-war', 'slip-forward', 'slip-backward', 'flail', 'victory']
-    
+
     UPDATE_TIMER_TASK               = "TugOfWarGameUpdateTimerTask"
     UPDATE_KEY_PRESS_RATE_TASK      = "TugOfWarGameUpdateKeyPressRateTask"
     UPDATE_ROPE_TASK                = "TugOfWarGameUpdateRopeTask"
     H_TO_L                          = 0
     L_TO_H                          = 1
-    
+
     def __init__(self, cr):
         DistributedMinigame.__init__(self, cr)
 
@@ -82,8 +82,8 @@ class DistributedTugOfWarGame(DistributedMinigame):
         self.suitId = 666
         self.suitType = 'f'
         self.suitLevel = 1
-        
-        # this tells what side of the dock each avatar is on 
+
+        # this tells what side of the dock each avatar is on
         self.sides = {}
 
         # this holds lists of which avatars are side 0 and side 1
@@ -95,7 +95,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
         # mouseMode = 1 if mouse can be used to generate speed
         self.mouseMode = 0
         self.mouseSide = 0
-        
+
         # fill the fallenList when someone falls in the water
         self.fallenList = []
 
@@ -115,7 +115,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
         self.offsetDict = {}
         self.pullingDict = {}
         self.dropShadowDict = {}
-        
+
         # these variables are used for calculation how fast the player is pressing the keys
         self.arrowKeys = None
         self.keyTTL = []
@@ -124,12 +124,12 @@ class DistributedTugOfWarGame(DistributedMinigame):
         self.keyRate = 0
         self.allOutMode = 0
         self.rateMatchAward = 0
-        
+
         # tells clients how fast to push keys, and how long to sustain that rate
         # note:  list is stored [[duration, speed]]
         #  and durations should add up to equal the game length (40 sec)
         #self.targetRateList = [[8,7],[5,8],[6,9],[6,11],[7,12],[8,13]]
-        self.targetRateList = [[8,6],[5,7],[6,8],[6,10],[7,11],[8,12]] 
+        self.targetRateList = [[8,6],[5,7],[6,8],[6,10],[7,11],[8,12]]
         self.nextRateIndex = 0
 
         # Positions for toons in the water
@@ -146,7 +146,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
         self.setupTrack = None
         self.animTracks = {}
         self.randomNumGen = None
-        
+
     def getTitle(self):
         return TTLocalizer.TugOfWarGameTitle
 
@@ -172,7 +172,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
         ropeModel = loader.loadModel("phase_4/models/minigames/tug_of_war_rope")
         self.ropeTexture = ropeModel.findTexture("*")
         ropeModel.removeNode()
-        
+
         self.sky = loader.loadModel("phase_3.5/models/props/TT_sky")
         self.dropShadow = loader.loadModel("phase_3/models/props/drop_shadow")
         self.correctSound = base.loadSfx("phase_4/audio/sfx/MG_pos_buzzer.wav")
@@ -181,7 +181,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
 
         # load music
         self.music = base.loadMusic(self.bgm)
-        
+
         self.roundText = DirectLabel(
             text = '     ',
             text_fg = (0,1,0,1),
@@ -189,7 +189,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
             text_font = ToontownGlobals.getSignFont(),
             pos = (0.014, 0, -.84),
             scale = .2)
-       
+
         # Create speed gauges
         self.powerMeter = MinigamePowerMeter.MinigamePowerMeter(17)
         self.powerMeter.reparentTo(aspect2d)
@@ -228,8 +228,8 @@ class DistributedTugOfWarGame(DistributedMinigame):
             self.__releaseHandler(0)
             self.__releaseHandler(1)
             self.__killMouseSpeedTask()
-        
-        
+
+
     def unload(self):
         self.notify.debug("unload")
         DistributedMinigame.unload(self)
@@ -249,7 +249,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
 
         self.dropShadow.removeNode()
         del self.dropShadow
-        
+
         del self.correctSound
         del self.sndHitWater
         del self.whistleSound
@@ -258,7 +258,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
         #del self.eee
         #self.ee.destroy()
         #del self.ee
-        
+
         self.roundText.destroy()
         del self.roundText
 
@@ -286,7 +286,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
             self.suitRipples.stop()
             self.suitRipples.detachNode()
             del self.suitRipples
-            
+
         # Delete other things owned by this class
         for x in self.avList:
             del x
@@ -324,7 +324,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
         if self.suit:
             self.suit.delete()
             del self.suit
-            
+
         del self.sides
         del self.buttons
         del self.pullingDict
@@ -342,7 +342,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
         self.notify.debug("onstage")
         DistributedMinigame.onstage(self)
         self.lt = base.localAvatar
-        
+
         NametagGlobals.setGlobalNametagScale(1)
 
         # Turn on the little red arrows
@@ -366,10 +366,10 @@ class DistributedTugOfWarGame(DistributedMinigame):
         # bin only when it's over the water
         # undo with shadow.clearBin()
         self.dropShadow.setBin('fixed', 0, 1)
-         
+
         self.splash.reparentTo(render)
         self.suitSplash.reparentTo(render)
-        
+
         # Start music
         base.playMusic(self.music, looping = 1, volume = 1)
 
@@ -392,8 +392,8 @@ class DistributedTugOfWarGame(DistributedMinigame):
             self.introTrack.finish()
             del self.introTrack
             self.introTrack = None
-            
-        for track in self.animTracks.values():
+
+        for track in list(self.animTracks.values()):
             if track:
                 track.finish()
                 del track
@@ -431,15 +431,15 @@ class DistributedTugOfWarGame(DistributedMinigame):
         self.suitSplash.stop()
         self.ripples.reparentTo(hidden)
         self.ripples.stop()
-        
+
         self.hideControls()
-        
+
         #for x in self.arrows:
         #    if x:
         #        x.hide()
 
         self.roundText.hide()
-    
+
         # reset the toons' LODs
         for avId in self.avIdList:
             av = self.getAvatar(avId)
@@ -455,14 +455,14 @@ class DistributedTugOfWarGame(DistributedMinigame):
 
         if self.suit:
             self.suit.reparentTo(hidden)
-        
+
         for avId in self.avIdList:
             # this dict may not have been filled in
-            if self.dropShadowDict.has_key(avId):
+            if avId in self.dropShadowDict:
                 self.dropShadowDict[avId].reparentTo(hidden)
-        if self.dropShadowDict.has_key(self.suitId):
+        if self.suitId in self.dropShadowDict:
             self.dropShadowDict[self.suitId].reparentTo(hidden)
-                
+
     def initCamera(self):
         # set up the camera
         birdseyePosHpr = [1.95461, 18.4891, 38.4646, 1.18185, -87.5308, 0]
@@ -486,7 +486,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
                                              blendType = 'easeInOut',
                                              name=self.uniqueName('introLerpCameraPos'))
         self.introTrack.start()
-                                     
+
 
         # mave FOV wider if there are more toons
         base.camLens.setFov(60 + 2*self.numPlayers)
@@ -506,7 +506,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
             self.suitType = 'gh' # glad hander
         elif suit == 4:
             self.suitType = 'cr' # corporate raider
-        
+
     def setGameReady(self):
         if not self.hasLocalToon: return
         self.notify.debug("setGameReady")
@@ -514,7 +514,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
             return
 
         # initialize the toons, and cached their animations
-        self.initToons()        
+        self.initToons()
 
         # create suits if necessary
         self.createSuits()
@@ -525,7 +525,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
 
         # if a toon is facing a 1 on 2 battle, give him an advantage
         self.initHandycaps()
-        
+
         # create and initialize the ropes
         self.initRopes()
 
@@ -541,7 +541,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
         self.animTracks[self.suitId] = None  # for suit animTrack
         self.showTrack = None
         self.setupTrack = None
-        
+
         self.__initGameVars()
 
     def hideControls(self):
@@ -557,12 +557,12 @@ class DistributedTugOfWarGame(DistributedMinigame):
                 for texi in tex:
                     if texi:
                         texi.reparentTo(hidden)
-                
+
         if self.powerMeter != None:
             self.powerMeter.unbind(DGG.B1PRESS)
             self.powerMeter.unbind(DGG.B1RELEASE)
             self.powerMeter.hide()
-           
+
     def setUpRopes(self, notTaut):
         # Setting up the ropes is a bit messy.
         # Right now, the suit is a special case in the system, so
@@ -572,7 +572,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
         if self.numPlayers == 1:
             suitRightHand = self.suit.getRightHand()
             toonRightHand = self.rightHandDict[self.avIdList[0]]
-            
+
             if notTaut:
                 self.tugRopes[0].setup(3, ((toonRightHand, (0, 0, 0)),
                                            (render, (0, 18, -1)),
@@ -585,7 +585,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
                                            (suitRightHand, (0, 0, 0))),
                                        [0,0,0,1,1,1])
             self.tugRopes[0].reparentTo(render)
-                
+
         elif self.numPlayers == 2:
             if self.gameType == TugOfWarGameGlobals.TOON_VS_COG:
                 self.tugRopes[0].setup(3, ((self.rightHandDict[self.avIdList[0]], (0, 0, 0)),
@@ -607,7 +607,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
                                            [0,0,0,1,1,1])
                 self.tugRopes[0].reparentTo(render)
                 self.tugRopes[1].reparentTo(render)
-                
+
             else:
                 if notTaut:
                     self.tugRopes[0].setup(3, ((self.rightHandDict[self.avIdList[0]], (0, 0, 0)),
@@ -658,7 +658,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
                                                (self.rightHandDict[self.avIdList[1]], (0, 0, 0)),
                                                (self.rightHandDict[self.avIdList[2]], (0, 0, 0))),
                                            [0,0,0,1,1,1])
-                    
+
                 self.tugRopes[0].setup(3, ((self.rightHandDict[self.avIdList[0]], (0, 0, 0)),
                                            (self.rightHandDict[self.avIdList[0]], (0, 0, 0)),
                                            (self.rightHandDict[self.avIdList[1]], (0, 0, 0))),
@@ -682,7 +682,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
                                            (self.rightHandDict[self.avIdList[1]], (0, 0, 0))),
                                        [0,0,0,1,1,1])
                 suitRightHand = self.suit.getRightHand()
-                toonRightHand = self.rightHandDict[self.avIdList[3]] 
+                toonRightHand = self.rightHandDict[self.avIdList[3]]
                 if notTaut:
                     self.tugRopes[3].setup(3, ((toonRightHand, (0, 0, 0)),
                                                (render, (0, 18, -1)),
@@ -720,12 +720,12 @@ class DistributedTugOfWarGame(DistributedMinigame):
                 self.tugRopes[0].reparentTo(render)
                 self.tugRopes[1].reparentTo(render)
                 self.tugRopes[2].reparentTo(render)
-            
+
     def initToons(self):
         # show the remote toons
         for avId in self.avIdList: #self.remoteAvIdList:
             toon = self.getAvatar(avId)
-            
+
             if toon:
                 toon.reparentTo(render)
                 toon.useLOD(1000)
@@ -745,12 +745,12 @@ class DistributedTugOfWarGame(DistributedMinigame):
 
                 # hide the avatar's dropshadow
                 toon.dropShadow.hide()
-                
+
                 # create a copy of the drop shadow
                 self.dropShadowDict[avId] = self.dropShadow.copyTo(hidden)
                 self.dropShadowDict[avId].reparentTo(toon)
                 self.dropShadowDict[avId].setScale(.35)
-            
+
     def calculatePositions(self):
         hprPositions = [VBase3(240, 0, 0), VBase3(120, 0, 0)]
         dockPositions = []
@@ -774,7 +774,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
                 self.posDict[self.avIdList[0]] = dockPositions[1]
                 self.posDict[self.avIdList[1]] = dockPositions[2]
                 self.hprDict[self.avIdList[0]] = hprPositions[0]
-                self.hprDict[self.avIdList[1]] = hprPositions[0]                
+                self.hprDict[self.avIdList[1]] = hprPositions[0]
             else:
                 self.randomNumGen.shuffle(self.avIdList)
                 self.posDict[self.avIdList[0]] = dockPositions[2]
@@ -805,7 +805,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
                 self.arrangeByHeight(self.avIdList,self.H_TO_L,0,3)
                 self.posDict[self.suitId] = dockPositions[6]
                 self.posDict[self.avIdList[0]] = dockPositions[0]
-                self.posDict[self.avIdList[1]] = dockPositions[1] 
+                self.posDict[self.avIdList[1]] = dockPositions[1]
                 self.posDict[self.avIdList[2]] = dockPositions[2]
                 self.posDict[self.avIdList[3]] = dockPositions[3]
                 self.hprDict[self.avIdList[0]] = hprPositions[0]
@@ -853,7 +853,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
                     temp = avIdList[i]
                     avIdList[i] = avIdList[j]
                     avIdList[j] = temp
-        
+
     def disableArrow(self, a):
         a.setColor(1,0,0,.3)
 
@@ -862,10 +862,10 @@ class DistributedTugOfWarGame(DistributedMinigame):
 
     def hilightArrow(self, a):
         a.setColor(1,.7,0,1)
-        
+
     def unhilightArrow(self, a):
         self.enableArrow(a)
-        
+
     #def statified(self):
     #    self.stats = 1
 
@@ -885,7 +885,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
         # if the game is already over (i.e. because
         # of an exited avatar, ignore this message
         if not self.__playing(): return
-        
+
         # base class will cause gameFSM to enter initial state
         DistributedMinigame.setGameStart(self, timestamp)
         self.gameFSM.request("waitForGoSignal")
@@ -921,10 +921,10 @@ class DistributedTugOfWarGame(DistributedMinigame):
         taskMgr.doMethodLater(TugOfWarGameGlobals.WAIT_FOR_GO_TIMEOUT,
                               self.waitForGoTimeoutTask,
                               self.taskName("wait-for-go-timeout"))
-        
+
     def exitWaitForGoSignal(self):
         taskMgr.remove(self.taskName("wait-for-go-timeout"))
-    
+
     def enterTug(self):
         self.notify.debug("enterTug")
         # Start the timer and keypress tasks
@@ -936,7 +936,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
         taskMgr.doMethodLater(TugOfWarGameGlobals.TUG_TIMEOUT,
                               self.tugTimeoutTask,
                               self.taskName("tug-timeout"))
-        
+
         if self.suit:
             self.suit.loop('tug-o-war')
 
@@ -951,20 +951,20 @@ class DistributedTugOfWarGame(DistributedMinigame):
 
         # remove the timeout
         taskMgr.remove(self.taskName("tug-timeout"))
-        
+
     def enterGameDone(self):
         pass
-    
-    def exitGameDone(self): 
+
+    def exitGameDone(self):
         pass
-        
+
     def enterCleanup(self):
         self.notify.debug("enterCleanup")
         self.__killUpdateIdealRateTask()
         self.__killUpdateTimerTask()
         self.__killUpdateKeyPressRateTask()
         self.__killUpdateRopeTask()
-        
+
     def exitCleanup(self):
         pass
 
@@ -983,7 +983,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
             self.hilightArrow(self.arrows[index])
             self.keyTTL.insert(0,1.0)
             self.buttons.reverse()
-            
+
     def __releaseHandler(self, index):
         self.notify.debug("releaseHandler")
         if index in self.buttons:
@@ -992,7 +992,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
     def __updateKeyPressRateTask(self, task):
         if self.gameFSM.getCurrentState().getName() != 'tug':
             return Task.done
-        
+
         # decrement times to live for each key press entry in keyTTL
         for i in range(len(self.keyTTL)):
             self.keyTTL[i] -= .1
@@ -1015,10 +1015,10 @@ class DistributedTugOfWarGame(DistributedMinigame):
             self.rateMatchAward += .3
         else:
             self.rateMatchAward = 0
-        
+
         self.__spawnUpdateKeyPressRateTask()
         return Task.done
-        
+
     def __updateTimerTask(self, task):
         if self.gameFSM.getCurrentState().getName() != 'tug':
             return Task.done
@@ -1027,7 +1027,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
         self.sendUpdate("reportCurrentKeyRate", [self.keyRate, self.currentForce])
 
         self.setSpeedGauge()
-        self.setAnimState(self.localAvId, self.keyRate)             
+        self.setAnimState(self.localAvId, self.keyRate)
 
         # spawn another update
         self.__spawnUpdateTimerTask()
@@ -1051,15 +1051,15 @@ class DistributedTugOfWarGame(DistributedMinigame):
 
     def __killUpdateKeyPressRateTask(self):
         taskMgr.remove(self.taskName(self.UPDATE_KEY_PRESS_RATE_TASK))
-    
-     
+
+
     def __spawnUpdateIdealRateTask(self):
         self.idealRate = self.targetRateList[self.nextRateIndex][1]
         self.idealForce = self.advantage * (4+.4*self.idealRate)
         taskMgr.doMethodLater(self.targetRateList[self.nextRateIndex][0],
                               self.__updateIdealRateTask,
                               self.taskName("targetRateTimer"))
-        
+
     def __updateIdealRateTask(self, task):
         self.nextRateIndex = self.nextRateIndex + 1
         if self.nextRateIndex < len(self.targetRateList):
@@ -1074,15 +1074,15 @@ class DistributedTugOfWarGame(DistributedMinigame):
                                   self.__updateIdealRateTask,
                                   self.taskName("targetRateTimer"))
         return Task.done
-    
+
     def __killUpdateIdealRateTask(self):
         taskMgr.remove(self.taskName("targetRateTimer"))
-        
+
     def sendGoSignal(self, index):
         if not self.hasLocalToon: return
         self.notify.debug("sendGoSignal")
         self.buttons = index
-            
+
         self.setupTrack   = None
         self.showTrack = None
 
@@ -1098,7 +1098,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
                 self.__pressHandler(index)
             def keyRelease(self, index):
                 self.__releaseHandler(index)
-            # Change the order of the press handlers because we are only using 2 keys    
+            # Change the order of the press handlers because we are only using 2 keys
             self.arrowKeys.setPressHandlers([
                 lambda self=self,keyPress=keyPress: keyPress(self,2),
                 lambda self=self,keyPress=keyPress: keyPress(self,3),
@@ -1114,11 +1114,11 @@ class DistributedTugOfWarGame(DistributedMinigame):
             for x in index:
                 self.enableArrow(self.arrows[x])
 
-        # If the intro track is not 
+        # If the intro track is not
         if self.introTrack != None:
             self.introTrack.finish()
             self.introTrack = None
-            
+
         self.setupTrack = Sequence(
             Func(self.setText, self.roundText, TTLocalizer.TugOfWarGameReady),
             Wait(1.5),
@@ -1133,7 +1133,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
             Func(self.roundText.setScale, .2),
             )
         self.setupTrack.start()
-        
+
     def sendStopSignal(self, winners, losers, tieers):
         if not self.hasLocalToon: return
         self.notify.debug("sendStopSignal")
@@ -1186,7 +1186,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
                                                                    pos=newPos),
                                                    oopsTrack,
                                                    Func(self.suit.loop, 'neutral')))
-                
+
         # do toon reactions
         for avId in self.avIdList:
             toon = self.getAvatar(avId)
@@ -1197,7 +1197,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
                 reactSeq.append(Func(toon.loop, 'neutral'))
             else:
                 reactSeq.append(Func(toon.loop, 'neutral'))
-                
+
         if self.localAvId in winners:
             exitSeq.append(Func(
                 self.setText, self.roundText, TTLocalizer.TugOfWarGameEnd))
@@ -1207,14 +1207,14 @@ class DistributedTugOfWarGame(DistributedMinigame):
                 self.setText, self.roundText, TTLocalizer.TugOfWarGameEnd))
             exitSeq.append(Wait(4.8+suitSlipTime))
         else:
-            exitSeq.append(Func( 
+            exitSeq.append(Func(
                 self.setText, self.roundText, TTLocalizer.TugOfWarGameTie))
             exitSeq.append(Wait(2.5))
-            
+
         exitSeq.append(Func(self.gameOver))
         self.showTrack = Parallel(reactSeq, exitSeq)
-        
-        for x in self.animTracks.values():
+
+        for x in list(self.animTracks.values()):
             if x != None:
                 x.finish()
 
@@ -1238,7 +1238,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
             return
         self.suitOffset = suitOffset
         self.moveSuits()
-    
+
     def sendCurrentPosition(self, avIdList, offsetList):
         if not self.hasLocalToon: return
         # Since the timer expires locally, we may still get a few
@@ -1246,7 +1246,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
         # the play state, just ignore it
         if self.gameFSM.getCurrentState().getName() != 'tug':
             return
-        
+
         for i in range(len(avIdList)):
             self.offsetDict[avIdList[i]] = offsetList[i]
         self.moveToons()
@@ -1274,7 +1274,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
             self.dropShadowDict[self.suitId] = self.dropShadow.copyTo(hidden)
             self.dropShadowDict[self.suitId].reparentTo(self.suit)
             self.dropShadowDict[self.suitId].setScale(.45)
-           
+
     def initHandycaps(self):
         if self.numPlayers == 3 and self.gameType == TugOfWarGameGlobals.TOON_VS_TOON:
             # reduce the handycap of the single player side
@@ -1282,14 +1282,14 @@ class DistributedTugOfWarGame(DistributedMinigame):
             if len(self.avList[0])== 1:
                 toon = self.getAvatar(self.avList[0][0])
                 if (self.avList[0][0] == self.localAvId):
-                    self.advantage = 2.0                
+                    self.advantage = 2.0
                 toon.applyCheesyEffect(ToontownGlobals.CEBigHead)
             elif len(self.avList[1]) == 1:
                 toon = self.getAvatar(self.avList[1][0])
                 if (self.avList[1][0] == self.localAvId):
                     self.advantage = 2.0
                 toon.applyCheesyEffect(ToontownGlobals.CEBigHead)
-                
+
     def setSpeedGauge(self):
         # update the power meter to show the toon's speed and the target speed
         self.powerMeter.setPower(self.keyRate)
@@ -1311,11 +1311,11 @@ class DistributedTugOfWarGame(DistributedMinigame):
             self.powerMeter.setBarColor(color)
         else:
             self.powerMeter.setBarColor((0,1,0,.5))
-            
+
     def setAnimState(self, avId, keyRate):
         if self.gameFSM.getCurrentState().getName() != 'tug':
             return
-        
+
         toon = self.getAvatar(avId)
         if keyRate > 0 and self.pullingDict[avId] == 0:
             toon.loop('tug-o-war')
@@ -1343,7 +1343,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
                             Func(self.checkIfFallen, ),
                             )
             self.animTracks[self.suitId].start()
-            
+
     def moveToons(self):
         for avId in self.avIdList:
             if avId not in self.fallenList:
@@ -1352,7 +1352,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
                     origPos = self.posDict[avId]
                     curPos = toon.getPos()
                     newPos = VBase3(origPos[0]+self.offsetDict[avId]/self.handycap, curPos[1], curPos[2])
-                    
+
                     if self.animTracks[avId] != None:
                         if self.animTracks[avId].isPlaying():
                             self.animTracks[avId].finish()
@@ -1400,7 +1400,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
 
                         # report end of contest by telling server which side lost
                         self.sendUpdate("reportEndOfContest", [losingSide])
-                    
+
     def throwInWater(self, avId=None):
         if avId == None:
             # throw cog in water
@@ -1444,7 +1444,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
             Func(loser.loop, 'neutral'),
             )
         self.animTracks[animId].start()
-        
+
     def computeForce(self, keyRate):
         # return a force in the range 0-self.idealRate
         F = 0
@@ -1490,12 +1490,12 @@ class DistributedTugOfWarGame(DistributedMinigame):
                     self.ropePts[i] = self.tugRopes[i].getPoints(len(self.ropeTex[i]))
                     for j in range(len(self.ropePts[i])):
                         self.ropeTex[i][j].setPos(self.ropePts[i][j])
-                    
+
         return Task.cont
-    
+
     def __killUpdateRopeTask(self):
         taskMgr.remove(self.taskName(self.UPDATE_ROPE_TASK))
-        
+
     def tugTimeoutTask(self,task):
         self.gameOver()
         return Task.done
@@ -1511,7 +1511,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
 
     def __killMouseSpeedTask(self):
         taskMgr.remove(self.taskName("mouseSpeed"))
-        
+
     def __mouseSpeedTask(self, task):
         dx = .1
         if self.mouseMode:
@@ -1534,5 +1534,5 @@ class DistributedTugOfWarGame(DistributedMinigame):
                     self.__pressHandler(1)
                 elif mx < dx:
                     self.__releaseHandler(0)
-                    
+
         return Task.cont

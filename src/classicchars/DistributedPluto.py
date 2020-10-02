@@ -1,14 +1,14 @@
 """DistributedPluto module: contains the DistributedPluto class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 
-import DistributedCCharBase
+from . import DistributedCCharBase
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.toonbase import ToontownGlobals
-import CharStateDatas
+from . import CharStateDatas
 from direct.fsm import StateData
 from direct.task import Task
 from toontown.toonbase import TTLocalizer
@@ -155,17 +155,17 @@ class DistributedPluto(DistributedCCharBase.DistributedCCharBase):
 
     def walkSpeed(self):
         return ToontownGlobals.PlutoSpeed
-        
-    def handleHolidays(self):           
-        """        
-        Handle Holiday specific behaviour        
-        """         
+
+    def handleHolidays(self):
+        """
+        Handle Holiday specific behaviour
+        """
         DistributedCCharBase.DistributedCCharBase.handleHolidays(self)
         if hasattr(base.cr, "newsManager") and base.cr.newsManager:
             holidayIds = base.cr.newsManager.getHolidayIdList()
             if ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds and isinstance(self.cr.playGame.hood, MMHood.MMHood):
                 self.diffPath = TTLocalizer.Minnie
-        
+
     def getCCLocation(self):
         if self.diffPath == None:
             return 1

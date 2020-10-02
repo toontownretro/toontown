@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToonBaseGlobal import *
 from toontown.toonbase.ToontownGlobals import *
@@ -15,7 +15,7 @@ from toontown.hood import Place
 from toontown.hood import SkyUtil
 from toontown.pets import PetTutorial
 from direct.controls.GravityWalker import GravityWalker
-import HouseGlobals
+from . import HouseGlobals
 
 class Estate(Place.Place):
     notify = DirectNotifyGlobal.directNotify.newCategory("Estate")
@@ -165,14 +165,14 @@ class Estate(Place.Place):
 
     def unload(self):
         assert(self.notify.debug("unload()"))
-        self.ignoreAll()        
+        self.ignoreAll()
         self.notify.info("remove estate-check-toon-underwater to TaskMgr in unload()")
         taskMgr.remove('estate-check-toon-underwater')
         taskMgr.remove('estate-check-cam-underwater')
         self.parentFSMState.removeChild(self.fsm)
-        del self.fsm        
-        self.fog = None        
-        Place.Place.unload(self)        
+        del self.fsm
+        self.fog = None
+        Place.Place.unload(self)
 
     def enter(self, requestStatus):
         """
@@ -502,7 +502,7 @@ class Estate(Place.Place):
             #pos = base.localAvatar.getPos(render)
             #base.localAvatar.setPos(pos[0]-.5, pos[1]+.5, pos[2])
             return
-        self.notify.debug('continuing in __submergeToon')        
+        self.notify.debug('continuing in __submergeToon')
         if hasattr(self, 'loader') and self.loader:
             base.playSfx(self.loader.submergeSound)  # plays a splash sound
         # Make sure you are in walk mode This fixes a bug where you could
@@ -558,4 +558,3 @@ class Estate(Place.Place):
             render.setFog(self.fog)
             # don't set the sky fog, it looks depressing
             #self.loader.hood.sky.setFog(self.fog)
-

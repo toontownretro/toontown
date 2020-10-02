@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleBase import *
 from toontown.battle import DistributedBattle
@@ -39,15 +39,15 @@ class DistributedLevelBattle(DistributedBattle.DistributedBattle):
         # can set up our position and orientation immediately.  It is
         # important that we set up the battle position before we get
         # the call to setMembers, which will be coming momentarily.
-        
+
         def doPlacement(levelList, self=self):
             self.levelRequest = None
             self.level = levelList[0]
             spec = self.level.getBattleCellSpec(self.battleCellId)
             self.level.requestReparent(self, spec['parentEntId'])
             self.setPos(spec['pos'])
-            print "spec = %s" % (spec)
-            print "h = %s" % (spec.get('h'))
+            print("spec = %s" % (spec))
+            print("h = %s" % (spec.get('h')))
             # Battles really want to be parented to render.
             self.wrtReparentTo(render)
 
@@ -198,7 +198,7 @@ class DistributedLevelBattle(DistributedBattle.DistributedBattle):
         suitHeight = suitLeader.getHeight()
         suitOffsetPnt = Point3(0, 0, suitHeight)
 
-        # Do the toons faceoff 
+        # Do the toons faceoff
         toonTrack = Parallel()
         for toon in self.toons:
             oneToonTrack = Sequence()

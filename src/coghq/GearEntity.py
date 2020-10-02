@@ -2,8 +2,8 @@
 
 from direct.interval.IntervalGlobal import *
 from otp.level import BasicEntities
-import MovingPlatform
-from pandac.PandaModules import Vec3
+from . import MovingPlatform
+from toontown.toonbase.ToontownModules import Vec3
 
 class GearEntity(BasicEntities.NodePathEntity):
     ModelPaths = {
@@ -28,7 +28,7 @@ class GearEntity(BasicEntities.NodePathEntity):
             return
         # set the sentry
         self.in_initGear = True
-        
+
         self.destroyGear()
         model = loader.loadModel(GearEntity.ModelPaths[self.modelType])
         self.gearParent = self.attachNewNode('gearParent-%s' % self.entId)

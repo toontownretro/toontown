@@ -669,7 +669,7 @@ QuestsItemDict = {
     3025 : ["あみ針", "あみ針", ""],
     3026 : ["アリバイ", "アリバイ", ""],
     3027 : ["気温センサー", "気温センサー", ""],
-    
+
     #Dreamland Quests
     6001 : ["マネーボット本部プラン", "マネーボット本部プラン", ""],
     6002 : ["ロッド", "ロッド", ""],
@@ -683,7 +683,7 @@ QuestsItemDict = {
     6010 : ["ザイデコのレコード", "ザイデコのレコード", ""],
     6011 : ["ズッキーニ", "ズッキーニ", ""],
     6012 : ["ズート･スーツ", "ズート･スーツ", ""],
-    
+
     #Dreamland+1 quests
     7001 : ["プレーンベッド", "プレーンベッド", ""],
     7002 : ["ファンシーベッド", "ファンシーベッド", ""],
@@ -1129,7 +1129,7 @@ QuestDialogDict = {
              LEAVING : "それじゃあな！",
              COMPLETE : "おー！やるじゃないか！\aちゃんとコグのパーツの一部を見つけたようだな。\aコグを作る途中で出来たものに違いない！\a持ち運びも出来る大きさだから、時間があるときに集めてみると良いかもな。\aひょっとしたら、コグのスーツのパーツ全てが集まるかもしれないしな。何かに使えるかもしれんし…",
              },
-    
+
     4001 : {GREETING : "",
             QUEST : "次に覚えたいギャグトラックを選ぼう。\aじっくり考えてから決めてね。\a決める準備ができたらここに戻っておいで。",
             INCOMPLETE_PROGRESS : "選択する前に、もう一度よく考えてね。",
@@ -1583,13 +1583,13 @@ QuestDialogDict = {
              QUEST : "え、終わった？すべてのコグをやっつけた？\a何かの聞き間違いでしょう、私はマネーボットを倒してくれと言ったのです。" },
 
     # Eddie the will give you laff point for helping him
-    5301 : { QUEST : "ゲラゲラポイントs, でもひょっとしたら_toNpcName_が手伝ってくれるかも。\a彼はちょっと気むずかしいところがあるんだけどね。_where_" }, 
+    5301 : { QUEST : "ゲラゲラポイントs, でもひょっとしたら_toNpcName_が手伝ってくれるかも。\a彼はちょっと気むずかしいところがあるんだけどね。_where_" },
     5302 : { GREETING : "",
              LEAVING : "",
              COMPLETE : "思ったとおりだ！\aありがとな！ゲラゲラポイントだ！",
              INCOMPLETE_PROGRESS : "やあ！\aここでまた何しているんだい。",
              QUEST : "ゲラゲラポイントが欲しいって？\aまず最初に悪いロウボット達をやっつけてからにしてくれ。" },
-    
+
     # Johnny Cashmere will knit you a large bag if...
     5303 : { QUEST : lTheBrrrgh+"が危険なコグ達であふれかえっているんだ。\aもし僕がキミなら、ここではギャグをもっと持ち歩くね。\aもしキミが足を棒にして働くんだったら、_toNpcName_が大きいバッグを作ることができるみたいだよ。_where_" },
     5304 : { GREETING: "",
@@ -1610,7 +1610,7 @@ QuestDialogDict = {
              QUEST : "確かに僕のあみ針だ。\aあみものをしている間に、コグビルをやっつけてくれないかい？",
              COMPLETE : "本当にすごいね、キミは！\aそしてこれもすごいよ…\aキミの新しいバッグだよ！" },
 
-    # March Harry can also give you max quest = 4. 
+    # March Harry can also give you max quest = 4.
     5308 : { GREETING : "",
              LEAVING : "",
              QUEST : "_toNpcName_が何か問題をかかえてるみたいなんだ。\aちょっと立ち寄って聞いてきてくれない？_where_"  },
@@ -1686,7 +1686,7 @@ QuestDialogDict = {
              COMPLETE : "よぉ、_avName_！これでボスボットもいばらなくなったかもね～！\aほ～らよっと！どでかいごほうびだ！トラブルにはまきこまれるなよ～！",
              },
 
-    # Nat & PJ will get you acquainted with the new 
+    # Nat & PJ will get you acquainted with the new
     # HQ. And they'll give you your first suit part
     6231 : { QUEST : "パジャマ・プレイスにいるナットがマネーボット本部のうわさを聞いたって。\aちょっと手伝えるかどうか彼のところに向かってくれる？ where_",
              },
@@ -1712,7 +1712,7 @@ QuestDialogDict = {
              COMPLETE : "えっ、「プラン」を持ってきたって！\aすばらしい！ふむふむ…。\aマネーボットがお金工場で「コグドル」を作っているって！\aきっとマネーボットだらけなんだろうね！でもより深く調べないと！\aコグに変装できればなぁ…。ちょっと待てよ。どこかにコグスーツのパーツがあったはずなんだけど…。\aあった！これを持っていけば何か役に立つはず。手伝ってくれてありがとう！",
              },
 
-    # The Countess can't concentrate on counting her sheep with all 
+    # The Countess can't concentrate on counting her sheep with all
     # these Cogs around. Clean up a bit and she'll reward you handsomely.
     # Reward: MaxMoneyReward 705 - 150 jellybeans
     6241 : { QUEST : "カウンテスがキミのことを探し回っていたよ。彼女のところにいって声をかけてあげて！_where_",
@@ -1818,7 +1818,7 @@ QuestDialogDict = {
              },
 
     # Teddy Blair has a piece of a cog suit to give you if you will
-    # clear out some cogs. Of course, his ear plugs make it tough. 
+    # clear out some cogs. Of course, his ear plugs make it tough.
     6281 : { QUEST : "テディ・ブレアのところに行って、キミの仕事をもらおう！_where_",
              },
     6282 : { GREETING : "",
@@ -1826,8 +1826,8 @@ QuestDialogDict = {
              QUEST : "何だって？キミの仕事なんてないよ。\a仕事！どうしてそう言ってくれなかったんだ！もっとちゃんと言ってれなきゃ。\aコグたちがじゃまして冬眠ができないんだ。もしキミがドリームランドを静かにしてくれたら、\aちょっとした何かをあげるよ。",
              INCOMPLETE_PROGRESS: "「ゴグ」をやっつけた？「ゴグ」って何かって？\aああ、「コグ」ね！ そうしてそう言ってくれなかったんだ！\aまだ静かになってないから、もう少しやっつけてくれないかい？",
              COMPLETE : "たのしかった？えっ？「たおした」って？\aやったね。本当に助けてくれてありがとう！\a部屋の奥にあったんだけど、使わないからどうぞ！\aきっと何かのパーツだから、他のパーツと一緒に使うんじゃない？ありがとう、_avName_！",
-             },    
-    
+             },
+
     # William Teller needs help! Those darn Cashbots swiped his 3
     # money bags to use in the Mint! Retrieve them and he'll give you
     # another cog Suit piece.
@@ -1837,7 +1837,7 @@ QuestDialogDict = {
              INCOMPLETE_PROGRESS : "ランプが必要なんだ！お願いだから探し続けて！",
              COMPLETE : "よく戻ったね！それに読書ランプも！\a感謝しつくしてもし尽くせないけど、お礼にこれをあげよう！",
              },
-    
+
     # Help Nina Nightlight get a bed in stock -
     # she'll give you a suit part
     7201 : { QUEST : "ニーナ・ナイトライトがキミを探してたよ、_avName_。彼女が助けが必要だって。_where_",
@@ -1910,7 +1910,7 @@ QuestDialogDict = {
              INCOMPLETE_PROGRESS : "これ以上のものはないよ。\aハニーがきっと待ってるよ。",
              COMPLETE : "あら、まあ！なんてすてきなの！やっぱりこのデザインじゃないと！\aじゃあ、すてきな夢でもみるかしらね。じゃあね、_avName_。\aなあに？まだいるの？レディーが寝ようとしてるのがわからない？\aどうぞ、これを受け取って、私を休ませて。おやすみなさい！",
              },
- 
+
     7218 : { QUEST : "ドリーミー・ダフネが「誰かに手伝ってもらいたい」って言ってたよ。_where_",
              },
     7219 : { GREETING : "",
@@ -1943,7 +1943,7 @@ QuestDialogDict = {
              INCOMPLETE_PROGRESS : "このまくら、とってもかたいよ！ダフネもとっても気に入るはず。",
              COMPLETE : "きっとテックスならかたいまくらを持っているって信じてたわ。\aさわりごこちといい、かたさといいパーフェクト！\aこのコグスーツのパーツを受け取ってくれるかしら。",
              },
- 
+
     # Sandy Sandman lost her pajamas but Big Mama
     # and Cat can help her out. If you hang in there,
     # you'll get another Cog Suit part.
@@ -2009,7 +2009,7 @@ QuestDialogDict = {
              INCOMPLETE_PROGRESS : "ねぇ、_avName_。サンディーがきっと首を長くしてパジャマを待ってるよ、",
              COMPLETE : "足つきのピンクのパジャマ！ かーんぺき！\aそれにサイズもぴったし。\a手伝ってくれた御礼をしないとね！\aこれなんてどうかしら？道でひろったんだけどね。",
              },
- 
+
     # Smudgy Mascara needs Wrinkle Cream but
     # 39's missing ingredients. Help them out
     # and get a piece of Cog suit
@@ -4409,7 +4409,7 @@ MinnieChatter = (
         "ふぁーっ、ドリームランドに行こうかしら？", #CC_minnie_chatter_goodbyes03.mp3
         ]
     )
-    
+
 DaisyChatter = (
         [ # Greetings
         "マイガーデンへようこそ！",
@@ -4567,7 +4567,7 @@ DonaldChatter = (
 # April Fools Chatter's
 AFMickeyChatter = (
         [ # Greetings specific to Mickey
-        "Happy April Toons' Week!",        
+        "Happy April Toons' Week!",
         "Happy April Toons' Week, %!",
         "Hi, my name is "+Mickey+". What's yours?",
         ],
@@ -4586,8 +4586,8 @@ AFMickeyChatter = (
 
 AFMinnieChatter = (
         [ # Greetings
-        "Hi, my name is "+Minnie+". What's yours?",        
-        "Happy April Toons' Week!",        
+        "Hi, my name is "+Minnie+". What's yours?",
+        "Happy April Toons' Week!",
         "Happy April Toons' Week, %!",
         ],
         [ # Comments
@@ -4604,7 +4604,7 @@ AFMinnieChatter = (
 AFDaisyChatter = (
         [ # Greetings
         "Hello, I'm "+Daisy+". What's your name?",
-        "Happy April Toons' Week!",        
+        "Happy April Toons' Week!",
         "Happy April Toons' Week, %!",
         ],
         [ # Comments
@@ -4653,7 +4653,7 @@ AFDonaldChatter = (
         "Where are all those loud car noises suddenly coming from?",
         "I'm going to Melody Land to see %s!" % Minnie,
         ]
-    )    
+    )
 
 CLGoofySpeedwayChatter = (
         [ # Greetings
@@ -4662,7 +4662,7 @@ CLGoofySpeedwayChatter = (
         "Gawrsh, it's nice to see you %!",
         "Hi there!  Pardon my dusty clothes I've been busy fixin' that broken Leaderboard.",
         ],
-        [ # Comments        
+        [ # Comments
         "We better get this Leaderboard working soon, Grand Prix Weekend is coming up!",
         "Does anybody want to buy a slightly used kart? It's only been through the Leaderboard once!",
         "Grand Prix Weekend is coming, better get to practicing.",
@@ -4688,16 +4688,16 @@ CLGoofySpeedwayChatter = (
         "It's time for a nap. I'm going to Dreamland to dream about winnin' the Grand Prix.",
         ]
     )
-        
+
 
 GPGoofySpeedwayChatter = (
         [ # Greetings
-        "Welcome to "+lGoofySpeedway+".",        
+        "Welcome to "+lGoofySpeedway+".",
         "Welcome to Grand Prix Weekend!",
         "Hi, my name is "+Goofy+". What's yours?",
         "Gawrsh, it's nice to see you %!",
         ],
-        [ # Comments                
+        [ # Comments
         "Are you excited about the Grand Prix Weekend?",
         "Good thing we got the Leaderboard fixed.",
         "We got the Leaderboard fixed just in time for Grand Prix Weekend!",
@@ -5182,7 +5182,7 @@ PartyActivityNameDict = {
         "invite" : "20ムーブダンスフロア",
         "editor" : "ダンスフロア - 20",
         "description" : "20種類のムーブを使いこなせば、キミはもうダンスマスター♪"
-    },    
+    },
 }
 
 # Note : This dictionary is used to show the names of the decorations in various
@@ -5777,7 +5777,7 @@ TownBattleWaitBack = lBack
 TownBattleSOSPetSearchTitle = "ドゥードゥルを探しています\n%s..."
 
 # TownBattleSOSPetInfoPanel.py
-TownBattleSOSPetInfoTitle = "%sは%s " 
+TownBattleSOSPetInfoTitle = "%sは%s "
 TownBattleSOSPetInfoOK = lOK
 
 # Trolley.py
@@ -5883,7 +5883,7 @@ PetTutorialPage1 = "ドゥードゥルをクリックすると、ドゥードゥ
 PetTutorialPage2 = "ドゥードゥルに「トリック」をさせたければ、スピードチャットの「ペット」の項目を使ってね。 「トリック」をしたら、ちゃんとごほうびをあげればごきげんになるよ。"
 PetTutorialPage3 = "クララベルのショッピングカタログからドゥードゥルの新しい「トリック」を買ってね。 より良い「トリック」はより多くのトゥーンアップができるよ。"
 def getPetGuiAlign():
-	from pandac.PandaModules import TextNode
+	from toontown.toonbase.ToontownModules import TextNode
 	return TextNode.ALeft
 
 GardenTutorialTitle1 = "ガーデニング" #localize
@@ -6240,7 +6240,7 @@ AnimalToSpecies = {
     'duck' : 'アヒル',
     'monkey' : 'サル',
     'bear'   : 'クマ',
-    'pig'    : 'ブタ'	
+    'pig'    : 'ブタ'
     }
 NameTooLong = "なまえは全角8文字までだよ。もう一度入力してね。"
 ToonAlreadyExists = "もうトゥーン名%sができてるよ！"
@@ -6432,10 +6432,10 @@ CagedToonBattleThree = {
     10: "いいジャンプだよ、%(toon)s。  パイをどうぞ！",
     11: "やあ、%(toon)s！  パイをどうぞ！",
     12: "こんにちは、%(toon)s！  パイを手に入れたよ！",
-    
+
     20: "ねぇ、%(toon)s！  オリのところまでジャンプして、パイを投げて！",
     21: "おーい、%(toon)s!  Ctrlキーを使ってジャンプして、オリをさわって！",
-    
+
     100: "Insertキーを押すとパイを投げるよ！",
     101: "パイがどのくらい飛ぶかは青いパワーメーターでわかるよ！",
     102: "まず彼の土台に向けてパイを投げて、彼の動きを狂わせよう！",
@@ -6504,25 +6504,25 @@ NametagTypeName = "ネームタグ"
 # Make sure numbers match up to CatalogItemTypes.py
 CatalogItemTypeNames = {
     0 : "INVALID_ITEM",
-    1 : FurnitureTypeName, 
-    2 : ChatTypeName, 
-    3 : ClothingTypeName, 
-    4 : EmoteTypeName, 
+    1 : FurnitureTypeName,
+    2 : ChatTypeName,
+    3 : ClothingTypeName,
+    4 : EmoteTypeName,
     5 : "WALLPAPER_ITEM",
     6 : "WindowViewTypeName",
     7 : "FLOORING_ITEM",
     8 : "MOULDING_ITEM",
     9 : "WAINSCOTING_ITEM",
-    10 : PoleTypeName, 
-    11: PetTrickTypeName, 
-    12: BeanTypeName, 
-    13: GardenTypeName, 
-    14: RentalTypeName, 
-    15: GardenStarterTypeName, 
-    16: NametagTypeName, 
+    10 : PoleTypeName,
+    11: PetTrickTypeName,
+    12: BeanTypeName,
+    13: GardenTypeName,
+    14: RentalTypeName,
+    15: GardenStarterTypeName,
+    16: NametagTypeName,
     17: "TOON_STATUE_ITEM",
-    18: "ANIMATED_FURNITURE_ITEM",    
-}   
+    18: "ANIMATED_FURNITURE_ITEM",
+}
 
 
 # Make sure this is in sync with ToonDNA.ShirtStyles
@@ -6566,7 +6566,7 @@ ShirtStylesDescriptions = {
     'gss15' : "ﾌﾗﾜｰ",
 
     # -------------------------------------------------------------------------
-    # Special Catalog-only shirts. 
+    # Special Catalog-only shirts.
     # -------------------------------------------------------------------------
     # yellow hooded - Series 1
     'c_ss1' : "ｼﾘｰｽﾞ1 ﾊﾟｰｶｰ",
@@ -6589,7 +6589,7 @@ ShirtStylesDescriptions = {
     'c_ss9' : "ｼﾘｰｽﾞ4 ｶｳﾎﾞｰｲｼｬﾂ 4",
     'c_ss10' : "ｼﾘｰｽﾞ4 ｶｳﾎﾞｰｲｼｬﾂ 5",
     'c_ss11' : "ｼﾘｰｽﾞ 4 ｶｳﾎﾞｰｲｼｬﾂ 6",
-    
+
     # Special Holiday-themed shirts.
     'hw_ss1' : "ｺﾞｰｽﾄ",
     'hw_ss2' : "ﾊﾟﾝﾌﾟｷﾝ",
@@ -6621,7 +6621,7 @@ ShirtStylesDescriptions = {
     'pj_ss1' : "青 ﾊﾞﾅﾅｼｬﾂ",
     'pj_ss2' : "赤 ﾎｰﾝｼｬﾂ",
     'pj_ss3' : "紫 ﾒｶﾞﾈｼｬﾂ",
-    
+
     # Special award clothes
     'sa_ss1' : "ｽﾄﾗｲﾌﾟ ｼｬﾂ",
     'sa_ss2' : "ﾌｨｯｼﾝｸﾞ ｼｬﾂ1",
@@ -6629,11 +6629,11 @@ ShirtStylesDescriptions = {
     'sa_ss4' : "ｶﾞｰﾃﾞﾆﾝｸﾞ ｼｬﾂ 1",
     'sa_ss5' : "ｶﾞｰﾃﾞﾆﾝｸﾞ ｼｬﾂ 2",
     'sa_ss6' : "ﾊﾟｰﾃｨｰ ｼｬﾂ 1",
-    'sa_ss7' : "ﾊﾟｰﾃｨｰ ｼｬﾂ 2",    
-    'sa_ss8' : "ﾚｰｼﾝｸﾞ ｼｬﾂ 1",    
-    'sa_ss9' : "ﾚｰｼﾝｸﾞ ｼｬﾂ 2",    
-    'sa_ss10' : "ｻﾏｰ ｼｬﾂ 1",    
-    'sa_ss11' : "ｻﾏｰ ｼｬﾂ 2",    
+    'sa_ss7' : "ﾊﾟｰﾃｨｰ ｼｬﾂ 2",
+    'sa_ss8' : "ﾚｰｼﾝｸﾞ ｼｬﾂ 1",
+    'sa_ss9' : "ﾚｰｼﾝｸﾞ ｼｬﾂ 2",
+    'sa_ss10' : "ｻﾏｰ ｼｬﾂ 1",
+    'sa_ss11' : "ｻﾏｰ ｼｬﾂ 2",
 
     # name : [ shirtIdx, sleeveIdx, [(ShirtColorIdx, sleeveColorIdx), ... ]]
     }
@@ -6669,7 +6669,7 @@ BottomStylesDescriptions = {
     'wh_bs3' : 'ｳｨﾝﾀｰﾎﾘﾃﾞｰ 短パン3',
     'wh_bs4' : 'ｳｨﾝﾀｰﾎﾘﾃﾞｰ 短パン4',
 
-    
+
     # -------------------------------------------------------------------------
     # Girl styles (shorts and skirts)
     # -------------------------------------------------------------------------
@@ -6682,7 +6682,7 @@ BottomStylesDescriptions = {
     'gsk5' : 'ﾌﾗﾜｰ',
     'gsk6' : '2-ﾎﾟｹｯﾄ(ｽﾍﾟｼｬﾙ) ',
     'gsk7' : 'ﾃﾞﾆﾑ ｽｶｰﾄ',
-    
+
     # shorts
     # -------------------------------------------------------------------------
     'gsh1' : 'ポケット付',
@@ -6714,16 +6714,16 @@ BottomStylesDescriptions = {
     'wh_gsk2' : 'ｳｨﾝﾀｰﾎﾘﾃﾞｰ ｽｶｰﾄ2',
     'wh_gsk3' : 'ｳｨﾝﾀｰﾎﾘﾃﾞｰ ｽｶｰﾄ3',
     'wh_gsk4' : 'ｳｨﾝﾀｰﾎﾘﾃﾞｰ ｽｶｰﾄ4',
-    
+
     'sa_bs1' : "ﾌｨｯｼﾝｸﾞ 短パン",
     'sa_bs2' : "ｶﾞｰﾃﾞﾆﾝｸﾞ 短パン",
     'sa_bs3' : "ﾊﾟｰﾃｨｰ 短パン",
     'sa_bs4' : "ﾚｰｼﾝｸﾞ 短パン",
     'sa_bs5' : "ｻﾏｰ 短パン",
     'sa_gs1' : "ﾌｨｯｼﾝｸﾞ ｽｶｰﾄ",
-    'sa_gs2' : "ｶﾞｰﾃﾞﾆﾝｸﾞ  ｽｶｰﾄ",    
-    'sa_gs3' : "ﾊﾟｰﾃｨｰｽｶｰﾄ",    
-    'sa_gs4' : "ﾚｰｼﾝｸﾞ ｽｶｰﾄ",    
+    'sa_gs2' : "ｶﾞｰﾃﾞﾆﾝｸﾞ  ｽｶｰﾄ",
+    'sa_gs3' : "ﾊﾟｰﾃｨｰｽｶｰﾄ",
+    'sa_gs4' : "ﾚｰｼﾝｸﾞ ｽｶｰﾄ",
     'sa_gs5' : "ｻﾏｰ ｽｶｰﾄ",
     }
 
@@ -6738,7 +6738,7 @@ AwardMgrShirt = "シャツ"
 SpecialEventMailboxStrings = {
     1 : "トゥーン評議会からのスペシャルアイテム",
     2 : "メルビルのフィッシングトーナメントの賞品",
-    3 : "ビリー・バドのフィッシングトーナメントの商品",    
+    3 : "ビリー・バドのフィッシングトーナメントの商品",
     }
 
 #rental names
@@ -7556,7 +7556,7 @@ NPCToonNames = {
     3305 : "マック・ラメイ",
     3306 : "ポーラ・ベアー",
     # NPC Fisherman
-    3307 : "つりびとのフレドリカ", 
+    3307 : "つりびとのフレドリカ",
     3308 : "ドナルド・フランプ",
     3309 : "ブーツィー",
     3310 : "フレークきょうじゅ",
@@ -8696,7 +8696,7 @@ TipDict = {
     # Karting
     "スピードウェイでキミのホットロッドを展示してレース相手を探そう!",
     "トゥーンタウン・セントラルのタイヤがたのトンネルから、グーフィー・サーキットに行こう!",
-    "グーフィー・サーキットでゲラゲラポイントをゲットしよう!", 
+    "グーフィー・サーキットでゲラゲラポイントをゲットしよう!",
     "グーフィー・サーキットには、６つのレーストラックがあるよ。 "
     ),
 
@@ -8829,17 +8829,17 @@ TipDict = {
     ),
    TIP_KARTING : (
     # Goofy Speedway zone specific
-    "グーフィーのオートショップで、ロードスターやトゥーンヴィークルや、クルーザーを買おう。", 
-    "グーフィーのオートショップで、キミのカートの色やパーツをカスタムしよう。", 
+    "グーフィーのオートショップで、ロードスターやトゥーンヴィークルや、クルーザーを買おう。",
+    "グーフィーのオートショップで、キミのカートの色やパーツをカスタムしよう。",
     "グーフィー・サーキットでレースをして、チケットをゲットしよう。",
     "グーフィーのオートショップで買い物をする時は、チケットを使うんだ。",
     "レース参加に使うデポジットは、レースのあとに返ってくるよ。",
-    "トゥーンガイドのステッカーブックで、キミのカートをカスタムしよう。", 
-    "トゥーンガイドのステッカーブックで、キミのカートでのベストラップがみれるよ。", 
-    "トゥーンガイドのステッカーブックで、キミがレースでゲットしたトロフィーが見れるよ。", 
-    "スクリュースタジアムがグーフィー・サーキットで一番かんたんなコースだよ。", 
-    "エアボーン・エーカースはグーフィー・サーキットで一番ジャンプが多いコースだよ。", 
-    "ブリザード・ブルバードはグーフィー・サーキットで一番むずかしいんだ。", 
+    "トゥーンガイドのステッカーブックで、キミのカートをカスタムしよう。",
+    "トゥーンガイドのステッカーブックで、キミのカートでのベストラップがみれるよ。",
+    "トゥーンガイドのステッカーブックで、キミがレースでゲットしたトロフィーが見れるよ。",
+    "スクリュースタジアムがグーフィー・サーキットで一番かんたんなコースだよ。",
+    "エアボーン・エーカースはグーフィー・サーキットで一番ジャンプが多いコースだよ。",
+    "ブリザード・ブルバードはグーフィー・サーキットで一番むずかしいんだ。",
     ),
     TIP_GOLF: (
     # Golfing specific
@@ -9504,7 +9504,7 @@ KartRecordStrings = {
     RaceGlobals.Weekly : 'こんしゅうの',
     RaceGlobals.AllTime : 'れきだいの',
     }
-    
+
 KartRace_FirstSuffix = '位'
 KartRace_SecondSuffix = '位'
 KartRace_ThirdSuffix = '位'
@@ -9513,7 +9513,7 @@ KartRace_WrongWay = '逆方向!'
 KartRace_LapText = "ラップ %s"
 KartRace_FinalLapText = "ファイナルラップ！"
 KartRace_Exit = "レースしゅうりょう"
-KartRace_NextRace = "次のレース" 
+KartRace_NextRace = "次のレース"
 KartRace_Leave = "レースをやめる"
 KartRace_Qualified = "よせんつうか！"
 KartRace_Record = "しんきろく！"
@@ -9633,7 +9633,7 @@ LaserGameDefault = "知らないゲーム"
 # Pinball text
 #PinballHiScore = "ﾊｲｽｺｱ： %d %s\n"
 #PinballYourBestScore = "ﾍﾞｽﾄｽｺｱ： %d\n"
-#PinballScore = "ｽｺｱ： %d x %d：%d" 
+#PinballScore = "ｽｺｱ： %d x %d：%d"
 PinballHiScore = "ﾊｲｽｺｱ： %s\n"
 PinballHiScoreAbbrev = "…"
 PinballYourBestScore = "ﾍﾞｽﾄｽｺｱ： \n"
@@ -9668,7 +9668,7 @@ FlowerSpeciesNames = {
     53: 'ﾀﾞﾌｫﾃﾞｨﾙ',
     54: 'ﾊﾟﾝｼﾞｰ',
     55: 'ﾍﾟﾁｭﾆｱ',
-    56: 'ﾛｰｽﾞ',    
+    56: 'ﾛｰｽﾞ',
     }
 #see GardenGlobals.py for PlantAttributes, keys must match, varieties must match
 FlowerFunnyNames = {
@@ -9718,7 +9718,7 @@ FlowerFunnyNames = {
          'ｺｰﾝﾛｰｽﾞ',
          'ﾃｨﾝﾄﾛｰｽﾞ',
          'ｽﾃｨﾝｷﾝｸﾞﾛｰｽﾞ',
-         'ｲｽﾃｨﾗﾛｰｽﾞ',         
+         'ｲｽﾃｨﾗﾛｰｽﾞ',
          ),
     }
 FlowerVarietyNameFormat = "%s %s"
@@ -9827,11 +9827,11 @@ def getRecipeBeanText(beanTuple):
                 retval += ", %s" % BeanColorWords[beanTuple[index]]
 
     return retval
-    
+
 GardenTextMagicBeans = "マジックビーン"
 GardenTextMagicBeansB = "ふつうのビーン"
 GardenSpecialDiscription = "この文章はどのようにガーデンスペシャルを使うかを説明するものです。"
-GardenSpecialDiscriptionB = "この文章はどのようにガーデンスペシャルを使うかを説明するものです。" 
+GardenSpecialDiscriptionB = "この文章はどのようにガーデンスペシャルを使うかを説明するものです。"
 GardenTrophyAwarded = "ワオ！花、%s輪（%s輪のうち）をゲット！トロフィーとゲラゲラポイントアップ！"
 GardenTrophyNameDict = {
     0 : "ﾃｵｼｸﾞﾙﾏ",
@@ -10409,7 +10409,7 @@ HolidayNamesInCalendar = {
    53: ("ブアイソンの侵略", "ブアイソン達の侵略からトゥーンタウンを守れ！"),
    54: ("カッチリンの侵略", "カッチリン達の侵略からトゥーンタウンを守れ！"),
    55: ("ニマイジタンの侵略", "ニマイジタン達の侵略からトゥーンタウンを守れ！"),
-   56: ("リストラマンの侵略", "リストラマンの侵略からトゥーンタウンを守れ！"),    
+   56: ("リストラマンの侵略", "リストラマンの侵略からトゥーンタウンを守れ！"),
 
     }
 

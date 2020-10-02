@@ -7,7 +7,7 @@ from toontown.distributed import DelayDelete
 from toontown.distributed.DelayDeletable import DelayDeletable
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
 from direct.distributed.ClockDelta import *
 from direct.fsm.FSM import FSM
@@ -34,15 +34,15 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, base.cr)
         FSM.__init__( self, "Golf_%s_FSM" % ( self.id ) )
-        
+
         self.waitingStartLabel = DirectLabel(
             text = TTLocalizer.MinigameWaitingForOtherPlayers,
             text_fg = VBase4(1,1,1,1),
             relief = None,
             pos = (-0.6, 0, -0.75),
-            scale = 0.075)   
+            scale = 0.075)
         self.waitingStartLabel.hide()
-        
+
         # Initialize the avIdList to an empty list in case
         # we get booted before the avatars are ready
         self.avIdList = []
@@ -54,14 +54,14 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         self.exitedToonsWithPanels = []
 
         self.localAvId = base.localAvatar.doId
-        
+
         self.hasLocalToon = 0
-        
+
         # for the load bar
         self.modelCount = 500
 
         self.cleanupActions = []
-        
+
         #base.golfCourse = self
         self.courseId = None
         self.scores = {} # scores of each toon
@@ -72,18 +72,18 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
 
         self.exit = False
         self.drivingToons = [] # which toons can cheat and drive the ball
-       
+
     def generate(self):
         self.notify.debug("GOLF COURSE: generate, %s" % self.getTitle())
-        DistributedObject.DistributedObject.generate(self)        
-        
+        DistributedObject.DistributedObject.generate(self)
+
     def announceGenerate(self):
         """
         announceGenerate is called after all of the required fields are
         filled in
         """
         DistributedObject.DistributedObject.announceGenerate(self)
-        
+
         if not self.hasLocalToon: return
         self.notify.debug("BASE: handleAnnounceGenerate: send setAvatarJoined")
 
@@ -96,17 +96,17 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         #for avId in self.avIdList:
         #    blankScoreList = [0] * self.numHoles
         #    self.scores[avId] = blankScoreList
-        
+
         # don't allow ourselves to be deleted until we're good and ready
         self.__delayDelete = DelayDelete.DelayDelete(self, 'GolfCourse.self')
 
         # Update the minigame AI to join our local toon doId
         self.request("Join")
-        
+
 
         # if this flag is set to zero, we won't notify the server that
         # we've left at the end of the game
-        self.normalExit = 1 
+        self.normalExit = 1
 
         count = self.modelCount
         loader.beginBulkLoad("minigame",
@@ -123,7 +123,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
 
         # bring up the lights
         self.onstage()
-        
+
 
         # import pdb;
         # pdb.set_trace()
@@ -153,7 +153,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
             for x in range(len(self.toonPanels)):
                 self.toonPanels[x].destroy()
             self.toonPanels = None
-            
+
         self.scores = None
         # Stop music
         self.music.stop()
@@ -163,13 +163,13 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         for avId in self.avIdList:
             av = base.cr.doId2do.get(avId)
             if av:
-                av.show()        
-        
+                av.show()
+
     def load(self):
         self.music = base.loadMusic("phase_6/audio/bgm/GZ_PlayGolf.mid")
         pass
-        
-        
+
+
     def setCourseReady(self, numHoles, holeIds, coursePar):
         self.notify.debug("GOLF COURSE: received setCourseReady")
         if self.state == 'Cleanup':
@@ -195,7 +195,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                 av.setPos(0, 0, -100)
             else:
                 self.notify.warning('avId =%d does not exist')
-                
+
         self.scoreBoard = GolfScoreBoard.GolfScoreBoard(self)
 
         toonPanelsStart = 0.3
@@ -204,7 +204,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         tpDiff = - 0.45
 
         headPanel = loader.loadModel("phase_6/models/golf/headPanel")
-        
+
         if(self.numPlayers > 0):
             for avId in self.avIdList:
                 if not (self.localAvId == avId):
@@ -226,21 +226,21 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                     color += 1
         else:
             self.toonPanels = None
-            
+
         for avId in self.exitedAvIdList:
             if avId not in self.exitedToonsWithPanels:
                 self.exitMessageForToon(avId)
-            
+
 
     def setPlayHole(self):
         self.notify.debug("GOLF COURSE: received setPlayHole")
         if not self.state in ['PlayHole', 'Cleanup']:
             self.request('PlayHole')
-        
+
     def getTitle(self):
         """
         Return the title of the minigame.
-        Subclasses should redefine. 
+        Subclasses should redefine.
         """
         return GolfGlobals.getCourseName(self.courseId)
 
@@ -250,7 +250,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         Subclasses should redefine.
         """
         return "You should not be seeing this"
-        
+
     def setGolferIds(self, avIds):
         """
         called by the AI, this tells us the avatar ids of
@@ -279,7 +279,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                 self.remoteAvIdList.append(avId)
 
 
-                
+
     def setCourseAbort(self, avId):
         """
         This method is called if another player exits the game unexpectedly,
@@ -296,7 +296,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                 self.request("Cleanup")
             else:
                 self.notify.warning("GOLF COURSE: Attempting to clean up twice")
-                
+
     def onstage(self):
         """
         Set the stage for the minigame. This usually includes parenting
@@ -305,8 +305,8 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         """
         self.notify.debug("GOLF COURSE: onstage")
         # Start music
-        base.playMusic(self.music, looping = 1, volume = 0.9)        
-        
+        base.playMusic(self.music, looping = 1, volume = 0.9)
+
     def avExited(self, avId):
         self.exitedAvIdList.append(avId)
         hole = base.cr.doId2do.get(self.curHoleDoId)
@@ -321,7 +321,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
             self.setCourseAbort(0)
         self.exitMessageForToon(avId)
 
-                    
+
     def exitMessageForToon(self, avId):
         if self.toonPanels and self.localAvId != avId:
             y = 0
@@ -331,7 +331,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                     toonPanel.headModel.hide()
                     exitedToon = DirectLabel(
                         parent = self.toonPanels[y],
-                        relief = None,           
+                        relief = None,
                         pos = (0 , 0, 0.4),
                         color = (1, 1, 1, 1),
                         text_align = TextNode.ACenter,
@@ -348,9 +348,9 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
 
                 elif not(self.avIdList[x] == self.localAvId):
                     y += 1
-        
 
-        
+
+
     def enterJoin(self):
         self.sendUpdate("setAvatarJoined", [])
         # Spawn the task that checks to see if toon has fallen asleep
@@ -363,15 +363,15 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         #import pdb; pdb.set_trace()
         base.localAvatar.stopSleepWatch()
         base.localAvatar.forceGotoSleep()
-        self.sendUpdate('setAvatarExited',[])        
+        self.sendUpdate('setAvatarExited',[])
         #self.request('Cleanup')
-        
+
     def exitJoin(self):
         pass
-        
+
     def enterWaitStartHole(self):
         self.sendUpdate("setAvatarReadyCourse", [])
-        
+
     def exitWaitStartHole(self):
         pass
 
@@ -422,12 +422,12 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
 
             # OK, now it's safe to be deleted
             self._destroyDelayDelete()
-    
+
 
     def exitCleanup(self):
         assert self.notify.debugStateCall(self)
-        
-            
+
+
     def setCourseId(self, courseId):
         """Set the course Id as dictated by the AI."""
         self.courseId = courseId
@@ -449,7 +449,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
             holeInfo = GolfGlobals.HoleInfo[holeId]
             retval += holeInfo['par']
         return retval
-        
+
     def setScores(self, scoreList):
         scoreList.reverse()
         for avId in self.avIdList:
@@ -527,7 +527,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                 self.sendUpdate('setDoneReward', [])
                 self._destroyDelayDelete()
                 self.exit = True
-            
+
         self.golfRewardDialog = GolfRewardDialog.GolfRewardDialog(self.avIdList, self.trophiesList, self.rankingsList, self.holeBestList, self.courseBestList, self.cupList, self.localAvId, self.tieBreakWinner, self.aimTimesList)
         self.rewardIval = Sequence(
             Parallel(
@@ -536,7 +536,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                ),
             Func(doneWithRewardMovie),
             )
-        
+
         self.rewardIval.start()
 
     def exitEarly(self):
@@ -554,12 +554,12 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         if self.rewardIval:
             self.rewardIval.pause()
             self.rewardIval = None
-        
+
     def updateScoreBoard(self):
         """Update the scoreboard and show to the user."""
         if self.scoreBoard:
             self.scoreBoard.update()
-        
+
     def changeDrivePermission(self, avId, canDrive):
         """Change the drive cheat permission for this avId."""
         if canDrive:
@@ -573,4 +573,3 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         """Returns true if this toon can cheat and drive the ball."""
         retval = avId in self.drivingToons
         return retval
-

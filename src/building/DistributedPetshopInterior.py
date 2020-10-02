@@ -1,12 +1,12 @@
 from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 
 import random
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from direct.actor import Actor
-import ToonInteriorColors
+from . import ToonInteriorColors
 from toontown.hood import ZoneUtil
 
 
@@ -38,7 +38,7 @@ class DistributedPetshopInterior(DistributedObject.DistributedObject):
         Here are the name     Here is
         prefixes that are     what they
         affected:             do:
-        
+
         random_mox_            change the Model Only.
         random_mcx_            change the Model and the Color.
         random_mrx_            change the Model and Recurse.
@@ -47,19 +47,19 @@ class DistributedPetshopInterior(DistributedObject.DistributedObject):
 
         x is simply a uniquifying integer because Multigen will not
         let you have multiple nodes with the same name
-        
+
         """
         baseTag="random_"
         npc=model.findAllMatches("**/"+baseTag+"???_*")
         for i in range(npc.getNumPaths()):
             np=npc.getPath(i)
             name=np.getName()
-            
+
             b=len(baseTag)
             category=name[b+4:]
             key1=name[b]
             key2=name[b+1]
-            
+
             assert(key1 in ["m", "t"])
             assert(key2 in ["c", "o", "r"])
             if key1 == "m":
@@ -145,7 +145,7 @@ class DistributedPetshopInterior(DistributedObject.DistributedObject):
         doorColor = self.randomGenerator.choice(self.colors["TI_door"])
         DNADoor.setupDoor(doorNP,
                           self.interior, doorOrigin,
-                          self.dnaStore, str(self.block), 
+                          self.dnaStore, str(self.block),
                           doorColor)
         doorFrame = doorNP.find("door_*_flat")
         doorFrame.wrtReparentTo(self.interior)
@@ -155,7 +155,7 @@ class DistributedPetshopInterior(DistributedObject.DistributedObject):
         del self.dnaStore
         del self.randomGenerator
         self.interior.flattenMedium()
-                                      
+
     def disable(self):
         self.fish.stop()
         self.fish.cleanup()
@@ -163,5 +163,3 @@ class DistributedPetshopInterior(DistributedObject.DistributedObject):
         self.interior.removeNode()
         del self.interior
         DistributedObject.DistributedObject.disable(self)
-        
-        

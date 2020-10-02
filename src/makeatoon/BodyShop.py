@@ -1,15 +1,15 @@
 """BodyShop module: contains the BodyShop class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toon import ToonDNA
 from direct.fsm import StateData
 from direct.gui.DirectGui import *
-from MakeAToonGlobals import *
+from .MakeAToonGlobals import *
 import random
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toontowngui import TeaserPanel
-import ShuffleButton
+from . import ShuffleButton
 
 class BodyShop(StateData.StateData):
     """
@@ -39,13 +39,13 @@ class BodyShop(StateData.StateData):
         self.toon = toon
         self.dna = self.toon.getStyle()
         gender = self.toon.style.getGender()
-        
+
         self.speciesStart = self.getSpeciesStart()
         self.speciesChoice = self.speciesStart
         self.headStart = 0
         self.headChoice = ToonDNA.toonHeadTypes.index(self.dna.head) - ToonDNA.getHeadStartIndex(self.species)
         self.torsoStart = 0
-        self.torsoChoice = ToonDNA.toonTorsoTypes.index(self.dna.torso) % 3        
+        self.torsoChoice = ToonDNA.toonTorsoTypes.index(self.dna.torso) % 3
         self.legStart = 0
         self.legChoice = ToonDNA.toonLegTypes.index(self.dna.legs)
 
@@ -54,21 +54,21 @@ class BodyShop(StateData.StateData):
         else:
             self.clothesPicked = 0
         self.clothesPicked = 1
-            
-        if (gender == 'm' or 
+
+        if (gender == 'm' or
             ToonDNA.GirlBottoms[self.dna.botTex][1] == ToonDNA.SHORTS):
             torsoStyle = 's'
             torsoPool = ToonDNA.toonTorsoTypes[:3]
         else:
             torsoStyle = 'd'
             torsoPool = ToonDNA.toonTorsoTypes[3:6]
-        
+
         # update the clothes and eye lashes, just in case
         self.__swapSpecies(0)
         self.__swapHead(0)
         self.__swapTorso(0)
         self.__swapLegs(0)
-            
+
         choicePool = [ToonDNA.toonHeadTypes, torsoPool, ToonDNA.toonLegTypes]
         self.shuffleButton.setChoicePool(choicePool)
         self.accept(self.shuffleFetchMsg, self.changeBody)
@@ -77,7 +77,7 @@ class BodyShop(StateData.StateData):
         self.acceptOnce("last", self.__handleBackward)
         # set up the "next" button
         self.accept("next", self.__handleForward)
-        
+
         self.acceptOnce("MAT-newToonCreated", self.shuffleButton.cleanHistory)
 
         # possibly override the last hook
@@ -99,7 +99,7 @@ class BodyShop(StateData.StateData):
     def hideButtons(self):
         self.parentFrame.hide()
         self.memberButton.hide()
-        
+
     def exit(self):
         """
         Remove events and restore display
@@ -108,9 +108,9 @@ class BodyShop(StateData.StateData):
             del self.toon
         except:
             self.notify.warning("BodyShop: toon not found")
-            
+
         self.hideButtons()
-        
+
         self.ignore("last")
         self.ignore("next")
         self.ignore("enter")
@@ -123,23 +123,23 @@ class BodyShop(StateData.StateData):
         guiRArrowDown = self.gui.find("**/tt_t_gui_mat_arrowDown")
         guiRArrowRollover = self.gui.find("**/tt_t_gui_mat_arrowUp")
         guiRArrowDisabled = self.gui.find("**/tt_t_gui_mat_arrowDisabled")
-        
+
         shuffleFrame = self.gui.find("**/tt_t_gui_mat_shuffleFrame")
         shuffleArrowUp = self.gui.find("**/tt_t_gui_mat_shuffleArrowUp")
         shuffleArrowDown = self.gui.find("**/tt_t_gui_mat_shuffleArrowDown")
         shuffleArrowRollover = self.gui.find("**/tt_t_gui_mat_shuffleArrowUp")
         shuffleArrowDisabled = self.gui.find("**/tt_t_gui_mat_shuffleArrowDisabled")
-        
+
         self.upsellModel = loader.loadModel("phase_3/models/gui/tt_m_gui_ups_mainGui")
         upsellTex = self.upsellModel.find("**/tt_t_gui_ups_banner")
-        
+
         # Create an emtpy frame which houses all the option buttons including the shuffle button.
         self.parentFrame = DirectFrame(
             relief = DGG.RAISED,
             pos = (0.98, 0, 0.416),
             frameColor = (1, 0, 0, 0),
             )
-        
+
         # Create the Species Frame.
         self.speciesFrame = DirectFrame(
             parent = self.parentFrame,
@@ -155,7 +155,7 @@ class BodyShop(StateData.StateData):
             text_pos = (-0.001, -0.015),
             text_fg = (1, 1, 1, 1),
             )
-        
+
         self.speciesLButton = DirectButton(
             parent = self.speciesFrame,
             relief = None,
@@ -167,7 +167,7 @@ class BodyShop(StateData.StateData):
             command = self.__swapSpecies,
             extraArgs = [-1],
             )
-            
+
         self.speciesRButton = DirectButton(
             parent = self.speciesFrame,
             relief = None,
@@ -179,7 +179,7 @@ class BodyShop(StateData.StateData):
             command = self.__swapSpecies,
             extraArgs = [1],
             )
-        
+
         # Create the Head Frame.
         self.headFrame = DirectFrame(
             parent = self.parentFrame,
@@ -195,7 +195,7 @@ class BodyShop(StateData.StateData):
             text_pos = (-0.001, -0.015),
             text_fg = (1, 1, 1, 1),
             )
-        
+
         self.headLButton = DirectButton(
             parent = self.headFrame,
             relief = None,
@@ -207,7 +207,7 @@ class BodyShop(StateData.StateData):
             command = self.__swapHead,
             extraArgs = [-1],
             )
-            
+
         self.headRButton = DirectButton(
             parent = self.headFrame,
             relief = None,
@@ -235,7 +235,7 @@ class BodyShop(StateData.StateData):
             text_pos = (-0.001, -0.015),
             text_fg = (1, 1, 1, 1),
             )
-        
+
         self.torsoLButton = DirectButton(
             parent = self.bodyFrame,
             relief = None,
@@ -275,7 +275,7 @@ class BodyShop(StateData.StateData):
             text_pos = (-0.001, -0.015),
             text_fg = (1, 1, 1, 1),
             )
-        
+
         self.legLButton = DirectButton(
             parent = self.legsFrame,
             relief = None,
@@ -299,7 +299,7 @@ class BodyShop(StateData.StateData):
             command = self.__swapLegs,
             extraArgs = [1],
             )
-            
+
         self.memberButton = DirectButton(
             relief = None,
             image = (upsellTex, upsellTex, upsellTex, upsellTex),
@@ -313,14 +313,14 @@ class BodyShop(StateData.StateData):
 
         self.parentFrame.hide()
         self.memberButton.hide()
-        
+
         self.shuffleFetchMsg = 'BodyShopShuffle'
         self.shuffleButton = ShuffleButton.ShuffleButton(self, self.shuffleFetchMsg)
 
     def unload(self):
         self.gui.removeNode()
         del self.gui
-        
+
         self.upsellModel.removeNode()
         del self.upsellModel
 
@@ -353,7 +353,7 @@ class BodyShop(StateData.StateData):
         del self.legLButton
         del self.legRButton
         del self.memberButton
-        
+
         self.shuffleButton.unload()
         self.ignore("MAT-newToonCreated")
 
@@ -383,7 +383,7 @@ class BodyShop(StateData.StateData):
                 # valid index range for boys in case we're switching gender
                 if (self.toon.style.topTex not in ToonDNA.MakeAToonBoyShirts):
                     randomShirt = ToonDNA.getRandomTop(gender, ToonDNA.MAKE_A_TOON)
-                    shirtTex, shirtColor, sleeveTex, sleeveColor = randomShirt                    
+                    shirtTex, shirtColor, sleeveTex, sleeveColor = randomShirt
                     self.toon.style.topTex = shirtTex
                     self.toon.style.topTexColor = shirtColor
                     self.toon.style.sleeveTex = sleeveTex
@@ -394,7 +394,7 @@ class BodyShop(StateData.StateData):
                     botTex, botTexColor = ToonDNA.getRandomBottom(gender, ToonDNA.MAKE_A_TOON)
                     self.toon.style.botTex = botTex
                     self.toon.style.botTexColor = botTexColor
-                    
+
             # female (0-5)
             else:
                 length = len(ToonDNA.toonTorsoTypes[3:6])
@@ -412,7 +412,7 @@ class BodyShop(StateData.StateData):
                 # valid index range for girls in case we're switching gender
                 if (self.toon.style.topTex not in ToonDNA.MakeAToonGirlShirts):
                     randomShirt = ToonDNA.getRandomTop(gender, ToonDNA.MAKE_A_TOON)
-                    shirtTex, shirtColor, sleeveTex, sleeveColor = randomShirt                    
+                    shirtTex, shirtColor, sleeveTex, sleeveColor = randomShirt
                     self.toon.style.topTex = shirtTex
                     self.toon.style.topTexColor = shirtColor
                     self.toon.style.sleeveTex = sleeveTex
@@ -431,7 +431,7 @@ class BodyShop(StateData.StateData):
                         self.toon.style.botTex = botTex
                         self.toon.style.botTexColor = botTexColor
                         torsoOffset = 0
-                
+
         assert(self.notify.debug('torsoChoice before: %d' % self.torsoChoice))
         self.torsoChoice = (self.torsoChoice + offset) % length
         assert(self.notify.debug('new torsoChoice: %d offset: %d length: %d torsoOffset: %d torsoStart: %d' % (self.torsoChoice, offset, length, torsoOffset, self.torsoStart)))
@@ -444,7 +444,7 @@ class BodyShop(StateData.StateData):
         self.toon.swapToonTorso(torso)
         self.toon.loop("neutral", 0)
         self.toon.swapToonColor(self.dna)
-        
+
     def __swapLegs(self, offset):
         length = len(ToonDNA.toonLegTypes)
         self.legChoice = (self.legChoice + offset) % length
@@ -479,9 +479,9 @@ class BodyShop(StateData.StateData):
         maxHeadChoice = len(self.headList) - 1
         if (self.headChoice > maxHeadChoice):
             self.headChoice = maxHeadChoice
-        
-        self.__updateHead()        
-    
+
+        self.__updateHead()
+
     def __updateHead(self):
         self.__updateScrollButtons(self.headChoice, len(self.headList), self.headStart,
                                    self.headLButton, self.headRButton)
@@ -517,7 +517,7 @@ class BodyShop(StateData.StateData):
             else:
                 lButton['state']=DGG.NORMAL
                 rButton['state']=DGG.NORMAL
-            
+
     def __handleForward(self):
         self.doneStatus = 'next'
         messenger.send(self.doneEvent)
@@ -535,7 +535,7 @@ class BodyShop(StateData.StateData):
             else:
                 # reset the "next" button event
                 self.accept("next", self.__handleForward)
-           
+
     def __restrictForward(self):
         TeaserPanel.TeaserPanel(pageName='species')
 
@@ -550,18 +550,18 @@ class BodyShop(StateData.StateData):
         newHeadIndex = ToonDNA.toonHeadTypes.index(newHead) - ToonDNA.getHeadStartIndex(ToonDNA.getSpecies(newHead))
         newTorsoIndex = ToonDNA.toonTorsoTypes.index(newChoice[1])
         newLegsIndex = ToonDNA.toonLegTypes.index(newChoice[2])
-        
+
         oldHead = self.toon.style.head
         oldSpeciesIndex = ToonDNA.toonSpeciesTypes.index(ToonDNA.getSpecies(oldHead))
         oldHeadIndex = ToonDNA.toonHeadTypes.index(oldHead) - ToonDNA.getHeadStartIndex(ToonDNA.getSpecies(oldHead))
         oldTorsoIndex = ToonDNA.toonTorsoTypes.index(self.toon.style.torso)
         oldLegsIndex = ToonDNA.toonLegTypes.index(self.toon.style.legs)
-        
+
         self.__swapSpecies(newSpeciesIndex - oldSpeciesIndex)
         self.__swapHead(newHeadIndex - oldHeadIndex)
         self.__swapTorso(newTorsoIndex - oldTorsoIndex)
         self.__swapLegs(newLegsIndex - oldLegsIndex)
-        
+
     def getCurrToonSetting(self):
         """
         This method is called by ShuffleButton to get the current setting of the toon.
@@ -601,6 +601,6 @@ class BodyShop(StateData.StateData):
         elif (species == 's'):
             self.speciesFrame['text'] = TTLocalizer.AnimalToSpecies['pig']
             self.memberButton.hide()
-            
+
         if base.cr.isPaid():
             self.memberButton.hide()

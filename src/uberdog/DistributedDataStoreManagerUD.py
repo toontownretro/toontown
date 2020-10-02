@@ -1,5 +1,5 @@
 from otp.ai.AIBaseGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
@@ -24,12 +24,12 @@ class DistributedDataStoreManagerUD(DistributedObjectGlobalUD):
     destroyed by calling destroy().  If not, destroy() has no effect.
     It defaults to 'False'.
     """
-    
+
     notify = directNotify.newCategory('DistributedDataStoreManagerUD')
 
     serverDataFolder = simbase.config.GetString('server-data-folder', '.')
     enableDestroyStore = simbase.config.GetBool('enable-destroy-data-stores', True)
-    
+
     def __init__(self,air):
         DistributedObjectGlobalUD.__init__(self,air)
         self.stores = {}
@@ -37,13 +37,13 @@ class DistributedDataStoreManagerUD(DistributedObjectGlobalUD):
     def __getFilePath(self,storeId):
         #import pdb; pdb.set_trace()
         return '%s/TUDS-%s'%(self.serverDataFolder,
-                             `storeId`)
+                             repr(storeId))
 
     def __str__(self):
-        outStr = self.__class__.__name__ + ' - ' + `len(self.stores)` + ' Stores\n'
+        outStr = self.__class__.__name__ + ' - ' + repr(len(self.stores)) + ' Stores\n'
         outStr += '-'*40 + '\n'
-        for id in self.stores.keys():
-            outStr += `id` + '\t:  ' + self.stores[id].className + '\n'
+        for id in list(self.stores.keys()):
+            outStr += repr(id) + '\t:  ' + self.stores[id].className + '\n'
         return outStr
 
     # From AI
@@ -54,8 +54,8 @@ class DistributedDataStoreManagerUD(DistributedObjectGlobalUD):
         If the store is already present, it has no effect.
         """
         storeClass = DataStoreGlobals.getStoreClass(storeId)
-        
-        if not self.stores.get(storeId,None):            
+
+        if not self.stores.get(storeId,None):
             if storeClass is not None:
                 store = storeClass(self.__getFilePath(storeId))
                 if store:
@@ -66,7 +66,7 @@ class DistributedDataStoreManagerUD(DistributedObjectGlobalUD):
         else:
             self.notify.debug('%s already present on uberdog.' % \
                               (storeClass.__name__,))
-                
+
     def stopStore(self,storeId):
         """
         Closes the store corresponding to the id as specified
@@ -74,21 +74,21 @@ class DistributedDataStoreManagerUD(DistributedObjectGlobalUD):
         'enable-destroy-data-stores' is True.  Otherwise
         it just closes it, leaving the data on disk
         intact.
-        
+
         If the store is not present, it has no effect.
         """
         # import pdb; pdb.set_trace()
         store = self.stores.pop(storeId,None)
         if store:
             if self.enableDestroyStore:
-                self.notify.debug('Destroying %s.' % `DataStoreGlobals.getStoreClass(storeId)`)
+                self.notify.debug('Destroying %s.' % repr(DataStoreGlobals.getStoreClass(storeId)))
                 store.destroy()
             else:
-                self.notify.debug('Closing %s.' % `DataStoreGlobals.getStoreClass(storeId)`)
+                self.notify.debug('Closing %s.' % repr(DataStoreGlobals.getStoreClass(storeId)))
                 store.close()
         else:
-            self.notify.debug('%s not present on uberdog.' % `DataStoreGlobals.getStoreClass(storeId)`)
-            
+            self.notify.debug('%s not present on uberdog.' % repr(DataStoreGlobals.getStoreClass(storeId)))
+
     def queryStore(self,storeId,query,retry = False):
         """
         Pass a query on to the specified store and
@@ -105,7 +105,7 @@ class DistributedDataStoreManagerUD(DistributedObjectGlobalUD):
         infinite loop if the store cannot be started.
         """
         store = self.stores.get(storeId,None)
-        
+
         if store:
             result = store.query(query)
             self.respondToQuery(storeId,result)
@@ -113,7 +113,7 @@ class DistributedDataStoreManagerUD(DistributedObjectGlobalUD):
             if retry:
                 result = 'Store not found'
                 self.respondToQuery(storeId,result)
-                
+
                 storeClass = DataStoreGlobals.getStoreClass(storeId)
                 if storeClass:
                     self.notify.debug('%s not present on uberdog. Query dropped.' % \
@@ -124,8 +124,8 @@ class DistributedDataStoreManagerUD(DistributedObjectGlobalUD):
             else:
                 self.startStore(storeId)
                 self.queryStore(storeId,query,True)
-                
-                    
+
+
     # To AI
     def respondToQuery(self,storeId,data):
         """
@@ -135,7 +135,7 @@ class DistributedDataStoreManagerUD(DistributedObjectGlobalUD):
         replyToChannel = self.air.getSenderReturnChannel()
         self.sendUpdateToChannel(
             replyToChannel, 'receiveResults', [storeId,data])
-            
+
     def deleteBackupStores(self):
         """
         Delete any backed up stores from previous year's

@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.PythonUtil import Functor
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
@@ -32,7 +32,7 @@ class FactoryCameraViews:
                        [],
                        ],
                       ["moleFieldView",
-                       # Look at a bigger portion of mole field 
+                       # Look at a bigger portion of mole field
                        (Point3(0,-17.7,28.8), # pos
                         Point3(0,10,0), # fwd
                         Point3(0.0,1.5,15.75),                  # up
@@ -41,7 +41,7 @@ class FactoryCameraViews:
                        [],
                        ],
                       ]
-        
+
         camHeight = av.getClampedAvatarHeight()
 
         for i in range(len(self.views)):
@@ -52,8 +52,8 @@ class FactoryCameraViews:
             # camera can also switch specified events
             for msg in self.views[i][2]:
                 factory.accept(msg, self.checkCamPos)
-            
-        
+
+
     def delete(self):
         # stop listening for enter/exit events
         for i in range(len(self.views)):
@@ -73,14 +73,14 @@ class FactoryCameraViews:
         prevView = av.cameraIndex
 
         self.currentCamPos = viewIndex
-        
+
         # listen for exit event
         av.accept("exit" + self.views[viewIndex][0],
                   Functor(self.prevCamPos, prevView))
 
         self.notify.info('auto-switching to camera position %s' % viewIndex)
         av.setCameraSettings(self.views[viewIndex][1])
-        
+
     def prevCamPos(self, index, colEntry=None):
         av = base.localAvatar
         if len(av.cameraPositions) > index:
@@ -95,4 +95,3 @@ class FactoryCameraViews:
             viewIndex = self.currentCamPos
             self.notify.info('returning to camera position %s' % viewIndex)
             av.setCameraSettings(self.views[viewIndex][1])
-            

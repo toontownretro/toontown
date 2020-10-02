@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
@@ -8,16 +8,16 @@ from direct.showbase import BulletinBoardWatcher
 from direct.interval.IntervalGlobal import *
 from otp.otpbase import OTPGlobals
 from direct.interval.IntervalGlobal import *
-from RaceGag import RaceGag
+from .RaceGag import RaceGag
 from toontown.toonbase import ToontownGlobals, TTLocalizer
 from toontown.toon import ToonHeadFrame
 from toontown.racing.KartDNA import InvalidEntry, getAccessory, getDefaultColor
-from pandac.PandaModules import CardMaker, OrthographicLens, LineSegs
+from toontown.toonbase.ToontownModules import CardMaker, OrthographicLens, LineSegs
 from direct.distributed import DistributedSmoothNode
 from math import fmod
 from math import sqrt
-from RaceGUI import RaceGUI
-import RaceGlobals
+from .RaceGUI import RaceGUI
+from . import RaceGlobals
 from direct.task.Task import Task
 from toontown.hood import SkyUtil
 from direct.fsm import ClassicFSM, State
@@ -345,20 +345,20 @@ class DistributedRace(DistributedObject.DistributedObject):
         # if placeFixup = [1,0], it would mean move known place 0 to place 1
         # and known place 1 to place 0
         oldPlace = 0
-        
+
         if self.knownPlace.get(avId):
             oldPlace = self.knownPlace[avId]
             self.placeFixup.append([oldPlace-1, place-1])
 
         avatar=base.cr.doId2do.get(avId,None)
         if(avatar):
-            print ("circuit trophies %s" % (trophies))
-            print ("winnings %s" % (winnings))
+            print(("circuit trophies %s" % (trophies)))
+            print(("winnings %s" % (winnings)))
             #self.gui.racerFinishedCircuit(avId, place, winnings, trophies)
             self.gui.racerFinishedCircuit(avId, oldPlace, entryFee, winnings, bonus,trophies)
 
     def endCircuitRace(self):
-        print self.placeFixup
+        print(self.placeFixup)
         self.gui.circuitFinished(self.placeFixup)
 
     def prepForRace(self):
@@ -670,9 +670,9 @@ class DistributedRace(DistributedObject.DistributedObject):
         if self.localKart.amIClampingPosition():
             self.notify.debug("teleporting kart %d back to main track" % localAvatar.doId)
             self.localKart.setPos(self.curvePoints[self.currentPole])
-        
+
         kartPoint=self.localKart.getPos()
-            
+
         # There are about 4000 poles spread across the racetrack.
         # Together, these define line segments along the track that we
         # use for determining our position.  The more segments we
@@ -1058,7 +1058,7 @@ class DistributedRace(DistributedObject.DistributedObject):
                 maxNum = i
 
         #RAU do more special processing on the side streets
-        
+
         for side in ['innersidest', 'outersidest']:
             # Initialize some variables to be used later
             self.buildingGroups[side] = []
@@ -1096,7 +1096,7 @@ class DistributedRace(DistributedObject.DistributedObject):
         snowTreeNodes = self.townGeom.findAllMatches("**/prop_snow_tree_*")
         for snowTree in snowTreeNodes:
             snowTree.flattenStrong()
-            
+
 
 
         # Stash all building gropus initially
@@ -1142,7 +1142,7 @@ class DistributedRace(DistributedObject.DistributedObject):
 
     def showBuildings(self, t, forceRecompute = False):
         #RAU show buildings expect t to be between 0 and 1, not happening in Urban Track B
-        firstTimeCalled = 0        
+        firstTimeCalled = 0
         if (self.curve):
             t = t / self.curve.getMaxT()
         else:
@@ -1170,22 +1170,22 @@ class DistributedRace(DistributedObject.DistributedObject):
                     #force it NOT to update
                     if not firstTimeCalled:
                         bldgInd = self.currBldgInd[side]
-                else:                
-                    kartPoint = self.startPos                    
+                else:
+                    kartPoint = self.startPos
                     kart=base.cr.doId2do.get(self.kartMap.get(localAvatar.doId,None),None)
                     if (kart):
-                        #import pdb; pdb.set_trace()                        
+                        #import pdb; pdb.set_trace()
                         kartPoint=self.localKart.getPos()
-                        
+
                     #kartPoint = Vec3( kartPointPos[0], kartPointPos[1], kartPointPos[2])
                     if not self.currBldgInd[side]:
                         self.currBldgInd[side]=0
-                    
+
                     curInd = self.currBldgInd[side]
                     myCurGroup = self.buildingGroups[side][curInd]
                     prevGrp = (curInd - 1) % numBldgGroups
                     myPrevGroup = self.buildingGroups[side][prevGrp]
-                    nextGrp = (curInd + 1) % numBldgGroups                    
+                    nextGrp = (curInd + 1) % numBldgGroups
                     myNextGroup = self.buildingGroups[side][nextGrp]
 
                     #curDistance = myCurGroup.getDistance(self.localKart)
@@ -1207,7 +1207,7 @@ class DistributedRace(DistributedObject.DistributedObject):
 
                         #self.notify.debug("%s %s %s " % (myPrevGroup.getPos(), myCurGroup.getPos(), myNextGroup.getPos()))
 
-                      
+
                     if (curDistance <= prevDistance and curDistance <= nextDistance):
                         #force it NOT to udpate
                         bldgInd = self.currBldgInd[side]
@@ -1219,9 +1219,9 @@ class DistributedRace(DistributedObject.DistributedObject):
                         self.notify.warning("unhandled case!!!!")
                         bldgInd = self.currBldgInd[side]
 
-                       
-                
-                
+
+
+
 
             if bldgInd != self.currBldgInd[side]:
                 #self.notify.debug("bldgInd = %d numBldgGroups=%d" % (bldgInd, numBldgGroups))
@@ -1239,12 +1239,12 @@ class DistributedRace(DistributedObject.DistributedObject):
                 nextGrp = (bldgInd + 1) % numBldgGroups
                 nextGrp2 = (bldgInd + 2) % numBldgGroups
 
-                
+
                 self.currBldgGroups[side] = [prevGrp2, prevGrp, currGrp, nextGrp, nextGrp2]
 
 
                 #self.notify.debug("t=%f  %s currBldgs = %s" % (t, side,str(self.currBldgGroups[side])))
-                
+
                 for i in self.currBldgGroups[side]:
                     self.buildingGroups[side][i].unstash()
 
@@ -1260,7 +1260,7 @@ class DistributedRace(DistributedObject.DistributedObject):
 
         if (t != self.oldT):
             self.oldT = t;
-         
+
 
         #return
         #do special processing for side streets
@@ -1268,11 +1268,11 @@ class DistributedRace(DistributedObject.DistributedObject):
             #side street computation follows the reverse curve, so reverse t again
             if (self.reversed):
                 t = 1.0 - t
-        
+
             for side in ['innersidest', 'outersidest']:
                 segmentInd = int(t * self.barricadeSegments)
                 seglmentInd =segmentInd % self.barricadeSegments
-            
+
                 if segmentInd != self.currBldgInd[side] or forceRecompute:
                     currBldgGroups = self.currBldgGroups[side]
                     # Hide all previous bldg groups
@@ -1289,9 +1289,9 @@ class DistributedRace(DistributedObject.DistributedObject):
                     elif side == 'outersidest':
                         dict = self.outerBarricadeDict
 
-                    if dict.has_key(segmentInd):
+                    if segmentInd in dict:
                         self.currBldgGroups[side] = dict[segmentInd]
-                
+
                     #we should have the correct value in currBldgGroups at this point
                     for i in self.currBldgGroups[side]:
                         #self.notify.debug("showing %s" % self.buildingGroups[side][i].getName())
@@ -1355,11 +1355,11 @@ class DistributedRace(DistributedObject.DistributedObject):
         for i in range(4000):
             self.curvePoints.append(Point3(0, 0, 0))
             self.curve.getPoint((i/4000.0)*(self.curve.getMaxT()-.00000000001), self.curvePoints[-1])
-            self.curveTs.append((i/4000.0)*(self.curve.getMaxT()-.00000000001))            
+            self.curveTs.append((i/4000.0)*(self.curve.getMaxT()-.00000000001))
 
-        if self.trackId in (RaceGlobals.RT_Urban_2, RaceGlobals.RT_Urban_2_rev):                
+        if self.trackId in (RaceGlobals.RT_Urban_2, RaceGlobals.RT_Urban_2_rev):
             self.precomputeSideStreets()
-            
+
 
         for i in range(10):
             base.loader.tick()
@@ -1376,20 +1376,20 @@ class DistributedRace(DistributedObject.DistributedObject):
             base.loader.tick()
 
 
-            
+
 
     ################################################
     #Track Functions
     ################################################
     def precomputeSideStreets(self):
-        
+
         #the side streets are pretty far apart that we can't use the same technique as the main track
         #precompute which side streets we will show
         farDist = base.camLens.getFar() + 300
         farDistSquared = farDist * farDist
 
         #import pdb; pdb.set_trace()
-        for i in range(self.barricadeSegments):            
+        for i in range(self.barricadeSegments):
             testPoint = Point3(0,0,0)
             self.curve.getPoint(( i / self.barricadeSegments) * (self.curve.getMaxT()-.00000000001), testPoint)
             for side in ('innersidest','outersidest'):
@@ -1405,11 +1405,11 @@ class DistributedRace(DistributedObject.DistributedObject):
                                 dict = self.outerBarricadeDict
                             else:
                                 self.notify.error("unhandled side")
-                            
-                            if dict.has_key(i):
+
+                            if i in dict:
                                 if not bldgGroupIndex in dict[i]:
                                     dict[i].append(bldgGroupIndex)
-                                    #self.notify.debug("%s BarrierDict[%d] = %s" % (side, i, dict[i]))                                
+                                    #self.notify.debug("%s BarrierDict[%d] = %s" % (side, i, dict[i]))
                             else:
                                 dict[i] = [bldgGroupIndex]
                                 #self.notify.debug("%s BarrierDict[%d] = %s" % (side, i, dict[i]))
@@ -1420,7 +1420,7 @@ class DistributedRace(DistributedObject.DistributedObject):
                     for childIndex in (0,):
                         if (childIndex >= bldgGroup.getNumChildren()):
                             continue
-                    
+
                         childNodePath = bldgGroup.getChild(childIndex)
                         bldgPoint = childNodePath.node().getBounds().getCenter()
                         vector = testPoint - bldgPoint;
@@ -1431,18 +1431,18 @@ class DistributedRace(DistributedObject.DistributedObject):
                                 dict = self.outerBarricadeDict
                             else:
                                 self.notify.error("unhandled side")
-                             
-                            if dict.has_key(i):
+
+                            if i in dict:
                                 if not bldgGroupIndex in dict[i]:
                                    dict[i].append(bldgGroupIndex)
-                                   #self.notify.debug("%s BarrierDict[%d] = %s" % (side, i, dict[i])) 
+                                   #self.notify.debug("%s BarrierDict[%d] = %s" % (side, i, dict[i]))
                             else:
                                 dict[i] = [bldgGroupIndex]
                                 #self.notify.debug("%s BarrierDict[%d] = %s" % (side, i, dict[i]))
-                        
+
         #self.notify.debug("innerBarricadeDict = %s" % self.innerBarricadeDict);
         #self.notify.debug("outerBarricadeDict = %s" % self.outerBarricadeDict);
-                            
+
         for side in ('innersidest','outersidest'):
             for bldgGroup in self.buildingGroups[side]:
                 bldgGroup.flattenStrong()
@@ -1450,7 +1450,7 @@ class DistributedRace(DistributedObject.DistributedObject):
         #we need to call this again, since the first time arround the dictionary was not set up
         if self.isUrbanTrack:
             self.showBuildings(0, forceRecompute = True)
-        
+
 
     def findSegmentStart(self):
         kart=base.cr.doId2do.get(self.kartMap.get(localAvatar.doId, None), None)
@@ -1699,7 +1699,7 @@ class DistributedRace(DistributedObject.DistributedObject):
         idStr = into.getTag('boostId')
         arrowVec = self.boostDir.get(idStr)
         if arrowVec == None:
-            print "Unknown boost arrow %s" % (idStr)
+            print("Unknown boost arrow %s" % (idStr))
             return
 
         # Get the forward direction of the kart

@@ -5,7 +5,7 @@
 # Purpose: Client side of the party hat which is where toon's go to access
 #          public parties.
 #-------------------------------------------------------------------------------
-from pandac.PandaModules import Point3, CollisionSphere, CollisionNode, BitMask32, Vec3, NodePath, TextNode, Vec4
+from toontown.toonbase.ToontownModules import Point3, CollisionSphere, CollisionNode, BitMask32, Vec3, NodePath, TextNode, Vec4
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
 from direct.interval.IntervalGlobal import Sequence, Parallel, SoundInterval
@@ -23,7 +23,7 @@ from toontown.parties import PartyGlobals
 class DistributedPartyGate(DistributedObject.DistributedObject):
 
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPartyGate")
-    
+
     def __init__(self, cr):
         """__init__(cr)
         """
@@ -34,7 +34,7 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
         self.loadClockSounds()
         self.hourSoundInterval = Sequence()
         self.accept('stoppedAsleep', self.handleSleep)
-        
+
     def loadClockSounds(self):
         self.clockSounds = []
         for i in range(1,13):
@@ -66,7 +66,7 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
 #        self.tunnelOrigin = NodePath("PartyGateTunnelOrigin")
 #        self.tunnelOrigin.reparentTo(partyGate)
 #        self.tunnelOrigin.setPos(partyGate.find("**/clockText_locator").getPos() + Point3(0.0, 0.0, -12.0))
-        
+
         self.toontownTimeGui = ServerTimeGui(partyGate, hourCallback=self.hourChange)
         self.toontownTimeGui.setPos(partyGate.find("**/clockText_locator").getPos()+Point3(0.0,0.0,-0.2))
         self.toontownTimeGui.setHpr(partyGate.find("**/clockText_locator").getHpr())
@@ -96,7 +96,7 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
             text_font = gateFont,
             text_wordwrap = wordWrap,
             text_fg = Vec4(0.7, 0.3, 0.3, 1.0),
-            scale = signScale,            
+            scale = signScale,
         )
         rightSign = partyGate.find("**/signTextR_locatorFront")
         rightText = DirectLabel.DirectLabel(
@@ -108,12 +108,12 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
             text_font = gateFont,
             text_wordwrap = wordWrap,
             text_fg = Vec4(0.7, 0.3, 0.3, 1.0),
-            scale = signScale,            
+            scale = signScale,
         )
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
-        if ToontownGlobals.dnaMap.has_key(self.zoneId):
+        if self.zoneId in ToontownGlobals.dnaMap:
             playground = ToontownGlobals.dnaMap[self.zoneId]
         else:
             playground = ToontownGlobals.dnaMap[2000]
@@ -121,7 +121,7 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
         self.toontownTimeGui.colonLabel["text_fg"] = PartyGlobals.PlayGroundToPartyClockColors[playground]
         self.toontownTimeGui.minutesLabel["text_fg"] = PartyGlobals.PlayGroundToPartyClockColors[playground]
         self.toontownTimeGui.amLabel["text_fg"] = PartyGlobals.PlayGroundToPartyClockColors[playground]
-        
+
     def disable(self):
         DistributedObject.DistributedObject.disable(self)
         self.__disableCollisions()
@@ -163,7 +163,7 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
 
     def __handleAskDone(self):
         DistributedPartyGate.notify.debug("__handleAskDone")
-        self.ignore(self.publicPartyChooseGuiDoneEvent)        
+        self.ignore(self.publicPartyChooseGuiDoneEvent)
         doneStatus = self.publicPartyGui.doneStatus
         self.publicPartyGui.stash()
         if doneStatus is None:
@@ -189,7 +189,7 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
         Gets called by the AI server with the approved partyId.
         """
         DistributedPartyGate.notify.debug("setParty")
-        
+
         self.freeAvatar()
         if partyInfoTuple[0] == 0:
             DistributedPartyGate.notify.debug("Public Party closed before toon could get to it.")
@@ -240,10 +240,10 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
 
     def handleEnterGateSphere(self, collEntry):
         self.notify.debug("Entering steps Sphere....")
-        # Freeze the toon, don't let him walk away...  
+        # Freeze the toon, don't let him walk away...
         base.cr.playGame.getPlace().fsm.request('stopped')
         self.sendUpdate("getPartyList", [base.localAvatar.doId])
-    
+
     def listAllPublicParties(self, publicPartyInfo):
         """
         Called from DistributedPartyGateAI with a tuple of all the public party
@@ -251,11 +251,11 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
         newest party to oldest party.
         ( shardId, zoneId, numberOfGuests, hostName, activityIds, minLeft )
         """
-        self.notify.debug("listAllPublicParties : publicPartyInfo = %s" % publicPartyInfo)        
+        self.notify.debug("listAllPublicParties : publicPartyInfo = %s" % publicPartyInfo)
         self.acceptOnce(self.publicPartyChooseGuiDoneEvent, self.__handleAskDone)
         self.publicPartyGui.refresh(publicPartyInfo)
         self.publicPartyGui.unstash()
-        
+
     def __enableCollisions(self):
         # start listening for toons to enter.
         self.accept('enterPartyGateSphere', self.handleEnterGateSphere)
@@ -265,7 +265,7 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
         # stop listening for toons.
         self.ignore('enterPartyGateSphere')
         self.partyGateSphere.setCollideMask(BitMask32(0))
-    
+
     def handleSleep(self):
         if hasattr(self, 'messageGui'):
             self.__handleMessageDone()

@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from otp.level import BasicEntities
 from direct.directnotify import DirectNotifyGlobal
 
@@ -9,7 +9,7 @@ class ActiveCell(BasicEntities.DistributedNodePathEntity):
         BasicEntities.DistributedNodePathEntity.__init__(self,cr)
         self.occupantId = -1
         self.state = 0
-        
+
     def announceGenerate(self):
         BasicEntities.DistributedNodePathEntity.announceGenerate(self)
         self.loadModel()
@@ -45,4 +45,3 @@ class ActiveCell(BasicEntities.DistributedNodePathEntity):
             if not model.isEmpty():
                 model.removeNode()
             self.loadModel()
-            

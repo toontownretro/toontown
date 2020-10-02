@@ -1,9 +1,9 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
-import DistributedDoorAI
-import DistributedTutorialInteriorAI
-import FADoorCodes
-import DoorTypes
+from . import DistributedDoorAI
+from . import DistributedTutorialInteriorAI
+from . import FADoorCodes
+from . import DoorTypes
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 
@@ -17,14 +17,14 @@ class TutorialBuildingAI:
         self.air = air
         self.exteriorZone = exteriorZone
         self.interiorZone = interiorZone
-        
+
         # This is because we are "pretending" to be a DistributedBuilding.
         # The DistributedTutorialInterior takes a peek at savedBy. It really
         # should make a function call. Perhaps TutorialBuildingAI and
         # DistributedBuildingAI should inherit from each other somehow,
         # but I can't see an easy way to do that.
         self.savedBy = None
-        
+
         self.setup(blockNumber)
 
     def cleanup(self):
@@ -79,7 +79,7 @@ class TutorialBuildingAI:
         self.door=door
         self.insideDoor=insideDoor
         return
-       
+
     def unlockInteriorDoor(self):
         self.insideDoor.setDoorLock(FADoorCodes.UNLOCKED)
 

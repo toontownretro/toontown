@@ -5,7 +5,7 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.toonbase import ToontownGlobals
 from toontown.building import Elevator
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.coghq import CogHQExterior
 #from toontown.coghq import CogHQLobby
 
@@ -15,7 +15,7 @@ class BossbotHQExterior(CogHQExterior.CogHQExterior):
 
     def __init__(self, loader, parentFSM, doneEvent):
         CogHQExterior.CogHQExterior.__init__(self, loader, parentFSM, doneEvent)
-        
+
         self.elevatorDoneEvent = "elevatorDone"
         self.trains = None
 
@@ -31,12 +31,12 @@ class BossbotHQExterior(CogHQExterior.CogHQExterior):
         # Adding transition from stickerBook to elevator because this is possible when you are in a boarding group.
         state = self.fsm.getStateNamed('stickerBook')
         state.addTransition('elevator')
-        
+
     # elevator state
     # (For boarding a building elevator)
     def enterElevator(self, distElevator, skipDFABoard = 0):
         assert(self.notify.debug("enterElevator()"))
-        
+
         self.accept(self.elevatorDoneEvent, self.handleElevatorDone)
         self.elevator = Elevator.Elevator(self.fsm.getStateNamed("elevator"),
                                           self.elevatorDoneEvent,
@@ -63,7 +63,7 @@ class BossbotHQExterior(CogHQExterior.CogHQExterior):
         self.notify.debug("handling elevator done event")
         where = doneStatus['where']
         if (where == 'reject'):
-            # If there has been a reject the Elevator should show an 
+            # If there has been a reject the Elevator should show an
             # elevatorNotifier message and put the toon in the stopped state.
             # Don't request the walk state here. Let the the toon be stuck in the
             # stopped state till the player removes that message from his screen.
@@ -73,7 +73,7 @@ class BossbotHQExterior(CogHQExterior.CogHQExterior):
                 pass
             else:
                 self.fsm.request("walk")
-            
+
         elif (where == 'exit'):
             self.fsm.request("walk")
         elif (where == 'countryClubInterior'):
@@ -82,4 +82,3 @@ class BossbotHQExterior(CogHQExterior.CogHQExterior):
         else:
             self.notify.error("Unknown mode: " + where +
                               " in handleElevatorDone")
-        

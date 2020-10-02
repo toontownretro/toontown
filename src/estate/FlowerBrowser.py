@@ -3,10 +3,10 @@
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
-import FlowerSpeciesPanel
-import GardenGlobals
+from . import FlowerSpeciesPanel
+from . import GardenGlobals
 
 class FlowerBrowser(DirectScrolledList):
     """
@@ -26,7 +26,7 @@ class FlowerBrowser(DirectScrolledList):
 
         # make the scrolling pick list for the fish names
         gui = loader.loadModel("phase_3.5/models/gui/friendslist_gui")
-        
+
         optiondefs = (
             ('parent', self.parent,    None),
             ('relief', None,    None),
@@ -54,7 +54,7 @@ class FlowerBrowser(DirectScrolledList):
             # Make the disabled button fade out
             ('decButton_image3_color',   Vec4(0.8,0.8,0.8,0.5), None),
             ('numItemsVisible',                              1, None),
-            ('items',        map(str, GardenGlobals.getFlowerSpecies()), None),
+            ('items',        list(map(str, GardenGlobals.getFlowerSpecies())), None),
             ('scrollSpeed',                                  4, None),
             ('itemMakeFunction',         FlowerSpeciesPanel.FlowerSpeciesPanel, None),
             ('itemMakeExtraArgs',                         base.localAvatar.flowerCollection, None),
@@ -82,11 +82,10 @@ class FlowerBrowser(DirectScrolledList):
 
     def show(self):
         assert self.notify.debugStateCall(self)
-        self['items'][self.index].show()        
-        DirectScrolledList.show(self)                
+        self['items'][self.index].show()
+        DirectScrolledList.show(self)
 
     def hide(self):
         assert self.notify.debugStateCall(self)
         self['items'][self.index].hide()
-        DirectScrolledList.hide(self)        
-
+        DirectScrolledList.hide(self)

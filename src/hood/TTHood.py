@@ -1,16 +1,16 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
-import ToonHood
+from . import ToonHood
 from toontown.town import TTTownLoader
 from toontown.safezone import TTSafeZoneLoader
 from toontown.toonbase.ToontownGlobals import *
-import SkyUtil
+from . import SkyUtil
 from direct.directnotify import DirectNotifyGlobal
 
 class TTHood(ToonHood.ToonHood):
-    
+
     notify = DirectNotifyGlobal.directNotify.newCategory("TTHood")
-    
+
     def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
         ToonHood.ToonHood.__init__(self, parentFSM, doneEvent, dnaStore,
                                    hoodId)
@@ -34,14 +34,14 @@ class TTHood(ToonHood.ToonHood):
     def load(self):
         ToonHood.ToonHood.load(self)
         self.parentFSM.getStateNamed("TTHood").addChild(self.fsm)
-        
+
     def unload(self):
         self.parentFSM.getStateNamed("TTHood").removeChild(self.fsm)
         ToonHood.ToonHood.unload(self)
-        
+
     def enter(self, *args):
         ToonHood.ToonHood.enter(self, *args)
-        
+
     def exit(self):
         ToonHood.ToonHood.exit(self)
 
@@ -51,15 +51,15 @@ class TTHood(ToonHood.ToonHood):
     def startSky(self):
         #fade the sky in
         self.sky.setTransparency(TransparencyAttrib.MDual, 1)
-        
+
         self.notify.debug("The sky is: %s" %self.sky)
-        
+
         # we have the wrong sky; load in the regular sky
         if not (self.sky.getTag("sky") == "Regular"):
             self.endSpookySky()
-        
+
         SkyUtil.startCloudSky(self)
-        
+
     def startSpookySky(self):
         if hasattr(self, "sky") and self.sky:
             self.stopSky()
@@ -72,14 +72,14 @@ class TTHood(ToonHood.ToonHood):
         self.sky.setBin("background", 100)
         self.sky.setFogOff()
         self.sky.reparentTo(camera)
-        
+
         #fade the sky in
         self.sky.setTransparency(TransparencyAttrib.MDual, 1)
         fadeIn = self.sky.colorScaleInterval( 1.5, Vec4(1, 1, 1, 1),
                                                startColorScale = Vec4(1, 1, 1, 0.25),
                                                blendType = 'easeInOut')
         fadeIn.start()
-        
+
         # Nowadays we use a CompassEffect to counter-rotate the sky
         # automatically at render time, rather than depending on a
         # task to do this just before the scene is rendered.

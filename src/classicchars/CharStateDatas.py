@@ -2,14 +2,14 @@
 Contains the various state datas available to
 the classic character NPC's found in safezones
 """
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.fsm import StateData
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.PythonUtil import *
 from direct.task import Task
-import CCharPaths
+from . import CCharPaths
 from toontown.toonbase import ToontownGlobals
 
 class CharNeutralState(StateData.StateData):
@@ -354,13 +354,3 @@ class CharFollowChipState(CharWalkState):
 
         #self.notify.debug('t=%s diffTheta=%s curTheta=%s chip=%s dale=%s' %
         #                  (t, diffTheta, curTheta, chipPos, dalePos))
-
-
-
-
-
-
-
-
-
-

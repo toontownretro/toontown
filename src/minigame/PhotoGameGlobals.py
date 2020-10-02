@@ -1,4 +1,4 @@
-from pandac.PandaModules import * #for Point3
+from toontown.toonbase.ToontownModules import * #for Point3
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 
@@ -26,7 +26,7 @@ def calcScore(t):
     range = MAX_SCORE - MIN_SCORE
     score = MAX_SCORE - (range * (float(t) / GAME_TIME))
     return int(score + .5)
-    
+
 AREA_DATA = {}
 
 AREA_DATA[ToontownGlobals.ToontownCentral] = {}
@@ -36,9 +36,9 @@ AREA_DATA[ToontownGlobals.ToontownCentral]["CAMERA_INTIAL_POSTION"] = Point3(0,5
 AREA_DATA[ToontownGlobals.ToontownCentral]["DNA_TRIO"] = ("phase_4/dna/storage_TT_sz.dna", "phase_4/dna/storage_TT.dna", "phase_4/dna/toontown_central_sz.dna")
 AREA_DATA[ToontownGlobals.ToontownCentral]["TRIPOD_OFFSET"] = Point3(0,0,7.0)
 AREA_DATA[ToontownGlobals.ToontownCentral]["START_HPR"] = Point3(-87.8752, -0.378549, 0)
-AREA_DATA[ToontownGlobals.ToontownCentral]["PATHS"] = ([Point3(10,20,4.025), 
-                                        Point3(10,-3,4.025), 
-                                        Point3(32,-5,4.025), 
+AREA_DATA[ToontownGlobals.ToontownCentral]["PATHS"] = ([Point3(10,20,4.025),
+                                        Point3(10,-3,4.025),
+                                        Point3(32,-5,4.025),
                                         Point3(32,12,4.025)],
                                     [Point3(-58.396,  -51.972,  -1.386),
                                         Point3(-59.967,  -66.906,  0.025),
@@ -56,7 +56,7 @@ AREA_DATA[ToontownGlobals.ToontownCentral]["PATHS"] = ([Point3(10,20,4.025),
                                         Point3(-17.325,  83.591,  0.525),
                                         Point3(4.169,  69.942,  1.133),
                                         Point3(-10.625,  38.357,  0.036),],
-                                    [Point3(-84.761,  -74.520,  0.034),                                
+                                    [Point3(-84.761,  -74.520,  0.034),
                                         Point3(-101.685,  -75.619,  0.525),
                                         Point3(-113.606,  -71.806,  0.525),
                                         Point3(-111.463,  -63.672,  0.525),
@@ -64,11 +64,11 @@ AREA_DATA[ToontownGlobals.ToontownCentral]["PATHS"] = ([Point3(10,20,4.025),
                                         Point3(-94.049,  -60.519,  0.035),
                                         Point3(-66.868,  -64.715,  0.025),],
                                         )
-                                        
-                                        
 
-                                        
-AREA_DATA[ToontownGlobals.ToontownCentral]["PATHANIMREL"] = (0,0,1,2)                                        
+
+
+
+AREA_DATA[ToontownGlobals.ToontownCentral]["PATHANIMREL"] = (0,0,1,2)
 AREA_DATA[ToontownGlobals.ToontownCentral]["ANIMATIONS"] = ([('wave' , 2.0), (None , 1.0), (None , 1.0)], [('slip-forward', 2.0), (None , 1.0), (None , 1.0)],[('shrug' , 2.0), (None , 1.0)], )
 AREA_DATA[ToontownGlobals.ToontownCentral]["MOVEMODES"] = ([('walk', 1.0), ('run', 0.40)], [('run', 0.40)], [('walk', 1.0),('sad-walk', 2.5)])
 
@@ -83,10 +83,10 @@ AREA_DATA[ToontownGlobals.DonaldsDock]["START_HPR"] = Point3(218.211, -6.7879, 0
 AREA_DATA[ToontownGlobals.DonaldsDock]["PATHS"] = ([Point3(-115.6,39.4,5.692),
                                     Point3(-109.9,-14,5.692),
                                     Point3(-112.652,-46.7,5.692),
-                                    Point3(-68.9,-74.7,5.692), 
-                                    Point3(-0.2,-82.0,5.692), 
-                                    Point3(-73.5,-72.2,5.692), 
-                                    Point3(-112.0,-45,5.692), 
+                                    Point3(-68.9,-74.7,5.692),
+                                    Point3(-0.2,-82.0,5.692),
+                                    Point3(-73.5,-72.2,5.692),
+                                    Point3(-112.0,-45,5.692),
                                     Point3(-110.3,17.5,5.692)],
                                 [Point3(-67.143,131.117,3.280),
                                     Point3(-56.4,101.4,3.279),
@@ -114,7 +114,7 @@ AREA_DATA[ToontownGlobals.DonaldsDock]["PATHS"] = ([Point3(-115.6,39.4,5.692),
                                     Point3(-55.102,  4.041,  0.2),
                                     Point3(-54.247,  16.051,  0.2),],
                                     )
-AREA_DATA[ToontownGlobals.DonaldsDock]["PATHANIMREL"] = (0,0,1,2,3)    
+AREA_DATA[ToontownGlobals.DonaldsDock]["PATHANIMREL"] = (0,0,1,2,3)
 AREA_DATA[ToontownGlobals.DonaldsDock]["ANIMATIONS"] = ([('wave' , 2.0), (None , 1.0)], [('slip-forward', 2.0), (None , 1.0), (None , 1.0)],[('shrug' , 2.0), (None , 1.0)],[(None, 1.0)])
 AREA_DATA[ToontownGlobals.DonaldsDock]["MOVEMODES"] = ([('walk', 1.0)], [('run', 0.40)], [('walk', 1.0),('sad-walk', 2.5)], [('swim', 1.0)])
 
@@ -157,12 +157,12 @@ AREA_DATA[ToontownGlobals.DaisyGardens]["PATHS"] = ([Point3(-37.252, 25.513, 0.0
                                                         Point3(69.468, 23.798, 0.025),
                                                         Point3(46.430, 20.473, 0.025),],
                                         )
-                                        
 
 
 
-                                        
-AREA_DATA[ToontownGlobals.DaisyGardens]["PATHANIMREL"] = (0,0,1,2)                                        
+
+
+AREA_DATA[ToontownGlobals.DaisyGardens]["PATHANIMREL"] = (0,0,1,2)
 AREA_DATA[ToontownGlobals.DaisyGardens]["ANIMATIONS"] = ([('wave' , 2.0), (None , 1.0)], [('jump', 2.0), (None , 1.0), (None , 1.0)],[('bow' , 2.0), ('happy-dance' , 2.0), (None , 1.0)], )
 AREA_DATA[ToontownGlobals.DaisyGardens]["MOVEMODES"] = ([('walk', 1.0), ('run', 0.40)], [('run', 0.40)], [('walk', 1.0),('run', 0.4)])
 
@@ -200,7 +200,7 @@ AREA_DATA[ToontownGlobals.MinniesMelodyland]["PATHS"] = ([Point3(-42.35,-16.0,-1
                                                             Point3(14.322,-89.378,-14.562),
                                                             Point3(61.594,-91.931,-14.524),]
                                                         )
-AREA_DATA[ToontownGlobals.MinniesMelodyland]["PATHANIMREL"] = (0,0,1,2)                                        
+AREA_DATA[ToontownGlobals.MinniesMelodyland]["PATHANIMREL"] = (0,0,1,2)
 AREA_DATA[ToontownGlobals.MinniesMelodyland]["ANIMATIONS"] = ([('wave' , 2.0), (None , 1.0)], [('jump', 2.0), ('slip-forward', 2.0), (None , 1.0), (None , 1.0)],[('shrug' , 2.0), ('confused' , 2.0), (None , 1.0)], )
 AREA_DATA[ToontownGlobals.MinniesMelodyland]["MOVEMODES"] = ([('walk', 1.0), ('run', 0.40)], [('run', 0.40)], [('walk', 1.0),('sad-walk', 2.5)])
 
@@ -236,7 +236,7 @@ AREA_DATA[ToontownGlobals.TheBrrrgh]["PATHS"] = ([Point3(-82.520,  -28.727,  3.0
                                                     Point3(-135.815,  -39.935,  3.009),],
 
                                         )
-AREA_DATA[ToontownGlobals.TheBrrrgh]["PATHANIMREL"] = (0,0,1,2)                                        
+AREA_DATA[ToontownGlobals.TheBrrrgh]["PATHANIMREL"] = (0,0,1,2)
 AREA_DATA[ToontownGlobals.TheBrrrgh]["ANIMATIONS"] = ([('wave' , 2.0), (None , 1.0)], [('applause', 2.0), ('slip-forward', 2.0), (None , 1.0), (None , 1.0)],[('shrug' , 2.0), ('confused' , 2.0), ('angry' , 2.0), (None , 1.0)], )
 AREA_DATA[ToontownGlobals.TheBrrrgh]["MOVEMODES"] = ([('walk', 1.0), ('running-jump', 0.40)], [('run', 0.40)], [('walk', 1.0),('sad-walk', 2.5)])
 
@@ -278,11 +278,6 @@ AREA_DATA[ToontownGlobals.DonaldsDreamland]["PATHS"] = ([Point3(-51.222,  90.874
                                                             Point3(-25.728,  -14.665,  -13.975),
                                                             Point3(-43.923,  -32.324,  -14.634),],
                                                         )
-AREA_DATA[ToontownGlobals.DonaldsDreamland]["PATHANIMREL"] = (0,0,1,2)                                        
+AREA_DATA[ToontownGlobals.DonaldsDreamland]["PATHANIMREL"] = (0,0,1,2)
 AREA_DATA[ToontownGlobals.DonaldsDreamland]["ANIMATIONS"] = ([('wave' , 2.0), (None , 1.0)], [('applause', 2.0), ('jump', 2.0), ('slip-forward', 2.0), (None , 1.0), (None , 1.0)],[('shrug' , 2.0), ('angry' , 2.0), (None , 1.0)], )
 AREA_DATA[ToontownGlobals.DonaldsDreamland]["MOVEMODES"] = ([('walk', 1.0), ('catch-run', 0.40)], [('run', 0.40), ('running-jump', 0.40)], [('walk', 1.0),('sad-walk', 2.5)])
-
-
-
-
-

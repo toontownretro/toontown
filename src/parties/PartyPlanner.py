@@ -9,7 +9,7 @@
 import calendar
 from datetime import datetime
 from datetime import timedelta
-from pandac.PandaModules import Vec3,Vec4,Point3,TextNode,VBase4
+from toontown.toonbase.ToontownModules import Vec3,Vec4,Point3,TextNode,VBase4
 from otp.otpbase import OTPLocalizer
 from direct.gui.DirectGui import DirectFrame,DirectButton,DirectLabel,DirectScrolledList,DirectCheckButton
 from direct.gui import DirectGuiGlobals
@@ -30,12 +30,12 @@ from toontown.parties.PartyInfo import PartyInfo
 from toontown.parties import PartyUtils
 from toontown.parties.PartyEditor import PartyEditor
 from otp.otpbase import OTPGlobals
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
 
 class PartyPlanner(DirectFrame,FSM):
     """
-    This class provides the GUI for planning a party. 
+    This class provides the GUI for planning a party.
     """
     notify = DirectNotifyGlobal.directNotify.newCategory('PartyPlanner')
 
@@ -44,10 +44,10 @@ class PartyPlanner(DirectFrame,FSM):
         DirectFrame.__init__(self)
 
         self.doneEvent = doneEvent
-        
+
         #define the order the pages are displayed
         self.stateArray = ["Off","Welcome","PartyEditor","Guests","Date","Time","Invitation","Farewell" ]
-        
+
         self.partyTime = base.cr.toontownTimeManager.getCurServerDateTime()
         self.partyNowTime = base.cr.toontownTimeManager.getCurServerDateTime()
         minutesToNextFifteen = 15 - self.partyTime.minute%15
@@ -55,26 +55,26 @@ class PartyPlanner(DirectFrame,FSM):
         self.partyTime = self.cleanPartyTime
         self.guests = []
         self.isPrivate = False
-        
+
         self.selectedCalendarGuiDay = None
         # Party planner gui
         self.gui = loader.loadModel("phase_4/models/parties/partyPlannerGUI")
-        
+
         self.partyDuration = timedelta(hours=PartyGlobals.DefaultPartyDuration)
         self.timeTypeToMaxValue = { "hour" : 23, "minute" : 59 }
         self.timeTypeToChangeAmount = { "hour" : (1,-1), "minute" : (15,-15), "ampm" : (1,-1) }
-        
+
         self.partyInfo = None
         self.asapMinuteRounding = base.config.GetInt("party-asap-minute-rounding",
                                                      PartyGlobals.PartyPlannerAsapMinuteRounding)
-        
+
         # This is hiding mem leaks
         #if __debug__:
         #    base.pplanner = self
-        
+
         self.load()
         self.request("Welcome")
-        
+
     def enterWelcome(self,*args):
         self.prevButton['state'] = DirectGuiGlobals.DISABLED
         self.prevButton.hide()
@@ -147,14 +147,14 @@ class PartyPlanner(DirectFrame,FSM):
         baseTime = baseTime.replace(baseTime.year, baseTime.month, baseTime.day, baseTime.hour, baseTime.minute,
                                     second =0, microsecond = 0)
         minute = curServerTime.minute
-        remainder = minute % self.asapMinuteRounding 
+        remainder = minute % self.asapMinuteRounding
         if remainder:
             baseTime += timedelta(minutes = self.asapMinuteRounding - remainder)
-        else:            
+        else:
             baseTime += timedelta(minutes = self.asapMinuteRounding)
             #self.notify.info("baseTime is now %s" % str(baseTime))
         return baseTime
-        
+
 
     def enterTime(self,*args):
         self.prevButton.show()
@@ -168,12 +168,12 @@ class PartyPlanner(DirectFrame,FSM):
         self.timePage.hide()
         self.nextButton.show()
 
-    def enterInvitation(self,*args):       
+    def enterInvitation(self,*args):
         self.prevButton['state'] = DirectGuiGlobals.NORMAL
         self.nextButton.hide()
-        
+
         defaultInviteTheme = PartyGlobals.InviteTheme.GenericMale
-        
+
         # Default to victory party theme invite if in victory party holiday.
         if hasattr(base.cr, "newsManager") and base.cr.newsManager:
             if ToontownGlobals.VICTORY_PARTY_HOLIDAY in base.cr.newsManager.getHolidayIdList():
@@ -225,7 +225,7 @@ class PartyPlanner(DirectFrame,FSM):
 
     def __prevTheme(self):
         self.nextThemeButton.show()
-        
+
         prevTheme = self.currentInvitationTheme - 1
         while prevTheme not in self.inviteThemes:
             prevTheme -= 1
@@ -238,7 +238,7 @@ class PartyPlanner(DirectFrame,FSM):
 
     def __nextTheme(self):
         self.prevThemeButton.show()
-        
+
         nextTheme = self.currentInvitationTheme + 1
         while nextTheme not in self.inviteThemes:
             nextTheme += 1
@@ -254,11 +254,11 @@ class PartyPlanner(DirectFrame,FSM):
         self.selectedInviteThemeLabel["text"] = "%s %s (%d/%d)" % (
             self.inviteVisual.inviteThemesIdToInfo[self.currentInvitationTheme][1],
             TTLocalizer.PartyPlannerInvitationTheme,
-            self.inviteThemes.index(self.currentInvitationTheme)+1, 
+            self.inviteThemes.index(self.currentInvitationTheme)+1,
             len(self.inviteThemes))
         self.partyInfo.inviteTheme = self.currentInvitationTheme
         self.inviteVisual.updateInvitation(base.localAvatar.getName(),self.partyInfo)
-        
+
     def exitInvitation(self):
         self.invitationPage.hide()
         self.nextButton.show()
@@ -286,10 +286,10 @@ class PartyPlanner(DirectFrame,FSM):
         #self.quitButton.show()
 
     def load(self):
-        """ 
+        """
         Create all of the UI elements needed for the Party Planner.
         """
-        # Main frame for the planner        
+        # Main frame for the planner
         self.frame = DirectFrame(
             parent = aspect2d,
             geom = self.gui.find("**/background"),
@@ -299,7 +299,7 @@ class PartyPlanner(DirectFrame,FSM):
         )
         self.titleScale = TTLocalizer.PPtitleScale
         self._createNavButtons()
-        
+
         # welcome page shows a party planner and tells the guest what's up
         self.welcomePage = self._createWelcomePage()
         self.welcomePage.hide()
@@ -364,7 +364,7 @@ class PartyPlanner(DirectFrame,FSM):
             state = DirectGuiGlobals.DISABLED,
         )
         self.currentItem=None
-    
+
     def __createNametag(self, parent):
         if self.nametagGroup == None:
             self.nametagGroup = NametagGroup()
@@ -373,22 +373,22 @@ class PartyPlanner(DirectFrame,FSM):
             self.nametagGroup.setAvatar(self.partyPlannerHead)
             self.nametagGroup.manage(base.marginManager)
             self.nametagGroup.setColorCode(self.nametagGroup.CCNonPlayer)
-            
+
             # Make sure this nametag group does not show any 2d elements
             self.nametagGroup.getNametag2d().setContents(0)
-            
+
             # Create a nametag to display the name
             self.nametagNode = NametagFloat2d()
             self.nametagNode.setContents(Nametag.CName)
-            
+
             self.nametagGroup.addNametag(self.nametagNode)
             self.nametagGroup.setName(base.cr.partyManager.getPartyPlannerName())
             self.nametagNP = parent.attachNewNode(self.nametagNode.upcastToPandaNode())
             nametagPos = self.gui.find("**/step_01_partymanPeteNametag_locator").getPos()
-            self.nametagNP.setPosHprScale(nametagPos[0], 0, nametagPos[2], 
-                                          0, 0, 0, 
+            self.nametagNP.setPosHprScale(nametagPos[0], 0, nametagPos[2],
+                                          0, 0, 0,
                                           0.1, 1, 0.1)
-            
+
             # Create another nametag to display the instructions as a chat bubble
             self.chatNode = NametagFloat2d()
             self.chatNode.setContents(Nametag.CSpeech | Nametag.CThought)
@@ -399,10 +399,10 @@ class PartyPlanner(DirectFrame,FSM):
             self.chatNP.setPosHprScale(chatPos[0], 0, chatPos[2],
                                        0, 0, 0,
                                        0.08, 1, 0.08)
-                                       
+
     def clearNametag(self):
         if self.nametagGroup != None:
-            self.nametagGroup.unmanage(base.marginManager)            
+            self.nametagGroup.unmanage(base.marginManager)
             self.nametagGroup.removeNametag(self.nametagNode)
             self.nametagGroup.removeNametag(self.chatNode)
             self.nametagNP.removeNode()
@@ -410,10 +410,10 @@ class PartyPlanner(DirectFrame,FSM):
             del self.nametagNP
             del self.chatNP
             del self.nametagNode
-            del self.chatNode            
+            del self.chatNode
             self.nametagGroup.setAvatar(NodePath())
             self.nametagGroup = None
-    
+
     def _createWelcomePage(self):
         """
         The contents of the welcome page.  The page shows the party planner!
@@ -433,7 +433,7 @@ class PartyPlanner(DirectFrame,FSM):
         partyPlannerStyle = base.cr.partyManager.getPartyPlannerStyle()
         self.partyPlannerHead.setupHead(partyPlannerStyle, forGui = True)
         self.partyPlannerHead.setPos(self.gui.find("**/step_01_partymanPete_locator").getPos())
-        
+
         # Different animals require different head scales.
         animal = partyPlannerStyle.getAnimal()
         if (animal == 'cat' or animal == 'pig'):
@@ -445,10 +445,10 @@ class PartyPlanner(DirectFrame,FSM):
         else:
             headScale = 0.3
         self.partyPlannerHead.setScale(headScale)
-        
+
         self.partyPlannerHead.setH(180.0)
         self.partyPlannerHead.reparentTo(page)
-        
+
         self.__createNametag(page)
 
         return page
@@ -994,9 +994,9 @@ class PartyPlanner(DirectFrame,FSM):
 
     def _createInvitationPage(self):
         """ Internal method for creating the contents of the Invitation page. """
-        
+
         self.__handleHolidays()
-        
+
         page = DirectFrame(self.frame)
         page.setName("PartyPlannerInvitationPage")
         self.invitationTitleLabel = DirectLabel(
@@ -1057,16 +1057,16 @@ class PartyPlanner(DirectFrame,FSM):
             command = self.__handleComplete,
         )
         return page
-    
+
     def __handleHolidays(self):
         """
         Handle cases for game events
         """
-        self.inviteThemes = range(len(PartyGlobals.InviteTheme))
-        
+        self.inviteThemes = list(range(len(PartyGlobals.InviteTheme)))
+
         if hasattr(base.cr, "newsManager") and base.cr.newsManager:
             holidayIds = base.cr.newsManager.getHolidayIdList()
-            if ToontownGlobals.VALENTINES_DAY not in holidayIds:   
+            if ToontownGlobals.VALENTINES_DAY not in holidayIds:
                 self.inviteThemes.remove(PartyGlobals.InviteTheme.Valentoons)
             if ToontownGlobals.VICTORY_PARTY_HOLIDAY not in holidayIds:
                 self.inviteThemes.remove(PartyGlobals.InviteTheme.VictoryParty)
@@ -1156,7 +1156,7 @@ class PartyPlanner(DirectFrame,FSM):
         # activity. Each activity is a list of constructor arguments. See
         # ActivityBase.py for details.
         self.partyActivities = self.partyEditor.partyEditorGrid.getActivitiesOnGrid()
-        
+
         decorations = self.partyEditor.partyEditorGrid.getDecorationsOnGrid()
 
         invitees = self.getInvitees()
@@ -1219,7 +1219,7 @@ class PartyPlanner(DirectFrame,FSM):
         if self.state == "PartyEditor" and self.okWithGroundsGui.doneStatus != "ok":
             self.okWithGroundsGui.show()
             return
-        
+
         if self.state == "PartyEditor" and self.noFriends:
             self.request("Date")
             self.selectedCalendarGuiDay = None

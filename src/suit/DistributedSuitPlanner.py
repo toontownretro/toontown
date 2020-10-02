@@ -1,9 +1,9 @@
 """ DistributedSuitPlannerAI module:  contains the SuitPlannerAI class which
     handles management of all suits within a single neighborhood."""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed import DistributedObject
-import SuitPlannerBase
+from . import SuitPlannerBase
 from toontown.toonbase import ToontownGlobals
 
 class DistributedSuitPlanner( DistributedObject.DistributedObject,
@@ -67,7 +67,7 @@ class DistributedSuitPlanner( DistributedObject.DistributedObject,
     #
     # the following functions let client objects query the state of the suit world
     #
-    
+
     def d_suitListQuery(self):
         self.sendUpdate('suitListQuery')
 
@@ -78,7 +78,7 @@ class DistributedSuitPlanner( DistributedObject.DistributedObject,
 
     def d_buildingListQuery(self):
         self.sendUpdate('buildingListQuery')
-        
+
     def buildingListResponse(self, buildingList):
         self.buildingList = buildingList
         # let anyone know that might care
@@ -90,11 +90,11 @@ class DistributedSuitPlanner( DistributedObject.DistributedObject,
         if self.pathViz:
             self.pathViz.detachNode()
             self.pathViz = None
-    
+
     def showPaths(self):
         # Draw a visualization of the suit paths at runtime for the
         # user's convenience.
-        
+
         self.hidePaths()
         vizNode = GeomNode(self.uniqueName('PathViz'))
         lines = LineSegs()
@@ -107,7 +107,7 @@ class DistributedSuitPlanner( DistributedObject.DistributedObject,
         # cell.
         cnode = CollisionNode('battleCells')
         cnode.setCollideMask(BitMask32.allOff())
-        for zoneId, cellPos in self.battlePosDict.items():
+        for zoneId, cellPos in list(self.battlePosDict.items()):
             cnode.addSolid(CollisionSphere(cellPos, 9))
 
             text = "%s" % (zoneId)
@@ -131,7 +131,7 @@ class DistributedSuitPlanner( DistributedObject.DistributedObject,
                 # We've already visited this point, and presumably
                 # already drawn the edge.
                 return
-            
+
             pi = points.index(p)
             del points[pi]
 
@@ -140,11 +140,11 @@ class DistributedSuitPlanner( DistributedObject.DistributedObject,
         pos = p.getPos()
 
         if (p.getPointType() == DNASuitPoint.FRONTDOORPOINT):
-            color = (1, 0, 0, 1)            
+            color = (1, 0, 0, 1)
         elif (p.getPointType() == DNASuitPoint.SIDEDOORPOINT):
-            color = (0, 0, 1, 1)            
+            color = (0, 0, 1, 1)
         else:
-            color = (0, 1, 0, 1)            
+            color = (0, 1, 0, 1)
 
         self.__makePathVizText(text, pos[0], pos[1], pos[2], color)
 
@@ -165,7 +165,7 @@ class DistributedSuitPlanner( DistributedObject.DistributedObject,
             p1a = pp + v * 2 + c * 0.5
             p1b = pp + v * 3
             p1c = pp + v * 2 - c * 0.5
-            
+
             lines.reset()
             lines.moveTo(pp)
             lines.drawTo(qp)
@@ -174,7 +174,7 @@ class DistributedSuitPlanner( DistributedObject.DistributedObject,
             lines.moveTo(p1a)
             lines.drawTo(p1b)
             lines.drawTo(p1c)
-            
+
             lines.create(vizNode, 0)
             self.__doShowPoints(vizNode, lines, q, points)
 

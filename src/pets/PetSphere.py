@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.PythonUtil import reduceAngle
 from otp.movement import Impulse
 from otp.otpbase import OTPGlobals
@@ -27,7 +27,7 @@ class PetSphere(Impulse.Impulse):
         cSphereNode.setFromCollideMask(OTPGlobals.WallBitmask)
         # this is here to make pets collide with each other
         cSphereNode.setIntoCollideMask(OTPGlobals.WallBitmask)
-        
+
         self.pusher = CollisionHandlerPusher()
         self.pusher.setHorizontal(1)
         self.pusher.setInPattern("enter%in")
@@ -52,7 +52,7 @@ class PetSphere(Impulse.Impulse):
     def _getCollisionEvent(self):
         # this event will be thrown by the Panda collision system
         return 'petSphereColl-%s' % self.serialNum
-    
+
     def _handleCollision(self, collEntry):
         """
         cPoint = collEntry.getSurfacePoint(self.cSphereNodePath)

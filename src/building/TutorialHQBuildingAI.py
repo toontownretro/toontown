@@ -1,9 +1,9 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
-import DistributedDoorAI
-import DistributedHQInteriorAI
-import FADoorCodes
-import DoorTypes
+from . import DistributedDoorAI
+from . import DistributedHQInteriorAI
+from . import FADoorCodes
+from . import DoorTypes
 from toontown.toon import NPCToons
 from toontown.quest import Quests
 from toontown.toonbase import TTLocalizer
@@ -18,7 +18,7 @@ class TutorialHQBuildingAI:
         self.air = air
         self.exteriorZone = exteriorZone
         self.interiorZone = interiorZone
-        
+
         self.setup(blockNumber)
 
     def cleanup(self):
@@ -103,7 +103,7 @@ class TutorialHQBuildingAI:
         # hide the periscope
         self.interior.setTutorial(1)
         return
-       
+
     def unlockDoor(self, door):
         door.setDoorLock(FADoorCodes.UNLOCKED)
 

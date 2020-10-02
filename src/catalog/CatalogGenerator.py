@@ -1,30 +1,30 @@
 from direct.directnotify import DirectNotifyGlobal
-import CatalogItem
-import CatalogItemList
-from CatalogFurnitureItem import CatalogFurnitureItem, nextAvailableBank, getAllBanks, nextAvailableCloset, getAllClosets
-from CatalogAnimatedFurnitureItem import CatalogAnimatedFurnitureItem
-from CatalogClothingItem import CatalogClothingItem, getAllClothes
-from CatalogChatItem import CatalogChatItem, getChatRange
-from CatalogEmoteItem import CatalogEmoteItem
-from CatalogWallpaperItem import CatalogWallpaperItem, getWallpapers
-from CatalogFlooringItem import CatalogFlooringItem, getFloorings
-from CatalogMouldingItem import CatalogMouldingItem, getAllMouldings
-from CatalogWainscotingItem import CatalogWainscotingItem, getAllWainscotings
-from CatalogWindowItem import CatalogWindowItem
-from CatalogPoleItem import nextAvailablePole, getAllPoles
-from CatalogPetTrickItem import CatalogPetTrickItem, getAllPetTricks
-from CatalogGardenItem import CatalogGardenItem
-from CatalogToonStatueItem import CatalogToonStatueItem
-from CatalogRentalItem import CatalogRentalItem
-from CatalogGardenStarterItem import CatalogGardenStarterItem
-from CatalogNametagItem import CatalogNametagItem
+from . import CatalogItem
+from . import CatalogItemList
+from .CatalogFurnitureItem import CatalogFurnitureItem, nextAvailableBank, getAllBanks, nextAvailableCloset, getAllClosets
+from .CatalogAnimatedFurnitureItem import CatalogAnimatedFurnitureItem
+from .CatalogClothingItem import CatalogClothingItem, getAllClothes
+from .CatalogChatItem import CatalogChatItem, getChatRange
+from .CatalogEmoteItem import CatalogEmoteItem
+from .CatalogWallpaperItem import CatalogWallpaperItem, getWallpapers
+from .CatalogFlooringItem import CatalogFlooringItem, getFloorings
+from .CatalogMouldingItem import CatalogMouldingItem, getAllMouldings
+from .CatalogWainscotingItem import CatalogWainscotingItem, getAllWainscotings
+from .CatalogWindowItem import CatalogWindowItem
+from .CatalogPoleItem import nextAvailablePole, getAllPoles
+from .CatalogPetTrickItem import CatalogPetTrickItem, getAllPetTricks
+from .CatalogGardenItem import CatalogGardenItem
+from .CatalogToonStatueItem import CatalogToonStatueItem
+from .CatalogRentalItem import CatalogRentalItem
+from .CatalogGardenStarterItem import CatalogGardenStarterItem
+from .CatalogNametagItem import CatalogNametagItem
 from direct.actor import Actor
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 import types
 import random
 import time
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 # Index numbers that stand for catalog items within this file,
 # e.g. for MetaItems, are local to this file only.  These index
@@ -161,10 +161,10 @@ MonthlySchedule = (
       CatalogFurnitureItem(10000),
       CatalogFurnitureItem(10010),
       CatalogNametagItem(9),
-      
-      
+
+
       )),
-      
+
     # Winter items -- on sale 11/18 through 12/31
     # moved a little earlier to get thanksgiving phrases
     # before thanksgiving happens
@@ -203,7 +203,7 @@ MonthlySchedule = (
       CatalogWainscotingItem(1030, 1),
       CatalogMouldingItem(1060, 0),
       CatalogMouldingItem(1060, 1),
-      
+
       # 2009 Valentines Day Items
       CatalogClothingItem(1206, 0), # Valentines Day Shirt 1
       CatalogClothingItem(1207, 0), # Valentines Day Shirt 2
@@ -291,27 +291,27 @@ MonthlySchedule = (
       CatalogClothingItem(1109, 0),       # Winter Holiday Skirt Style 2
       CatalogClothingItem(1110, 0),       # Winter Holiday Skirt Style 3
       CatalogClothingItem(1111, 0),       # Winter Holiday Skirt Style 4
-      
+
       CatalogMouldingItem(1080, 0), # Winter String Lights Moulding 1
       CatalogMouldingItem(1085, 0), # Winter String Lights Moulding 2
       CatalogMouldingItem(1090, 0), # Winter String Lights Moulding 3
-      
+
       CatalogFurnitureItem(680),   # Candle
-      
+
       CatalogFurnitureItem(681),   # Lit Candle
-      
+
       CatalogFurnitureItem(1040),  # Presents
       CatalogFurnitureItem(1050),  # Sled
       )
      ),
-     
+
     # Silly Story Loony Labs Atom Shirt - on sale 6/9 to 7/15
     (6, 9, 7, 15,
      (
       CatalogClothingItem(1751, 0),       # Silly Story Loony Labs Atom Shirt
       )
      ),
-     
+
      # Silly Story Cogbuster Outfit - on sale 6/14 to 7/15
     (6, 14, 7, 15,
      (
@@ -321,7 +321,7 @@ MonthlySchedule = (
 
       )
      ),
-    
+
     # Victory Party and Silly Story shirts - on sale 7/21 to 8/17
     (7, 21, 8, 17,
      (
@@ -331,7 +331,7 @@ MonthlySchedule = (
       CatalogClothingItem(1758, 0),       # Victory Party Shirt 2
       )
      ),
-    
+
     # Items - on sale 1/1 through 12/31, always available
     (1, 1, 12, 31,
      (
@@ -343,16 +343,16 @@ MonthlySchedule = (
       CatalogGardenItem(103, 1),
       CatalogGardenItem(104, 1),
       CatalogToonStatueItem(105, endPoseIndex = 108),
-      
+
       # Rental Items
       CatalogRentalItem(1, 2880, 1000), # Renatl Cannon
 ##      CatalogRentalItem(2, 2880, 1000), # Rental Game Table
       CatalogGardenStarterItem(),
-        
+
       # Basic Nametags
       CatalogNametagItem(100),
       CatalogNametagItem(0),
-      
+
       # Loyalty Items # WARNING update CatalogClothingItem.LoyaltyItems if you add more
       CatalogClothingItem(1608, 0, 720),  # Purple Pajama girl pants
       CatalogClothingItem(1605, 0, 720),  # Purple Pajama boy pants
@@ -1462,7 +1462,7 @@ class CatalogGenerator:
         # Now build a list of items for this avatar.
 
         monthlyCatalog = CatalogItemList.CatalogItemList()
-        
+
         for list in itemLists:
             for item in list:
                 monthlyCatalog += self.__selectItem(avatar, item, [])
@@ -1609,11 +1609,11 @@ class CatalogGenerator:
         if callable(item):
             item = item(avatar, duplicateItems)
 
-        if isinstance(item, types.TupleType):
+        if isinstance(item, tuple):
             # Unpack a 2-tuple into a (chooseCount, list).
             chooseCount, item = item
 
-        if isinstance(item, types.IntType):
+        if isinstance(item, int):
             # If the item is a MetaItem, it's really a list.
             item = MetaItems[item]
 
@@ -1669,7 +1669,7 @@ class CatalogGenerator:
 
         # Now put the items into sorted order, which will collect
         # similar items together for the user's convenience.
-        items = sched.keys()
+        items = list(sched.keys())
         items.sort()
 
         for item in items:
@@ -1682,7 +1682,7 @@ class CatalogGenerator:
             seriesDict = {}
             self.__determineSeries(seriesDict, weeklist)
             self.__determineSeries(seriesDict, maybeWeeklist)
-            seriesList = seriesDict.keys()
+            seriesList = list(seriesDict.keys())
             seriesList.sort()
             series = str(seriesList)[1:-1]
 
@@ -1712,7 +1712,7 @@ class CatalogGenerator:
 
     def __determineSeries(self, seriesDict, weeklist):
         for week in weeklist:
-            if isinstance(week, types.IntType):
+            if isinstance(week, int):
                 # If the week is an integer, it's the week number (as
                 # opposed to a string, which represents a season).
                 series = ((week - 1) / ToontownGlobals.CatalogNumWeeksPerSeries) + 1
@@ -1776,12 +1776,12 @@ class CatalogGenerator:
                     self.notify.warning("Don't know how to interpret function " % (repr(name)))
                     item = None
 
-            elif isinstance(item, types.TupleType):
+            elif isinstance(item, tuple):
                 # A tuple is (chooseCount, list).  We don't care about
                 # the chooseCount here.
                 item = item[1]
 
-            if isinstance(item, types.IntType):
+            if isinstance(item, int):
                 # If the item is a MetaItem, it's really a list.
                 item = MetaItems[item]
 
@@ -1797,7 +1797,7 @@ class CatalogGenerator:
                     self.__recordScheduleItem(sched, None, weekCode, i)
 
     def __recordScheduleItem(self, sched, weekCode, maybeWeekCode, item):
-        if not sched.has_key(item):
+        if item not in sched:
             sched[item] = [[], []]
 
         #if item == CatalogWallpaperItem(2900) or item == CatalogWallpaperItem(2210):
@@ -1806,4 +1806,3 @@ class CatalogGenerator:
             sched[item][0].append(weekCode)
         if maybeWeekCode != None:
             sched[item][1].append(maybeWeekCode)
-

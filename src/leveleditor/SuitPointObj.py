@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 class SuitPointObj(NodePath):
     def __init__(self, editor, dna=None):

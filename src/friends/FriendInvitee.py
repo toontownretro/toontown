@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.showbase import DirectObject
 from direct.directnotify import DirectNotifyGlobal
@@ -86,10 +86,10 @@ class FriendInvitee(ToonHeadDialog.ToonHeadDialog):
             base.cr.friendManager.up_inviteeFriendResponse(
                 2, self.context)
             self.context = None
-        
+
         if base.friendMode == 1:
             base.cr.friendManager.executeGameSpecificFunction()
-        
+
 
     ### Button handing methods
     def __handleButton(self, value):
@@ -99,14 +99,14 @@ class FriendInvitee(ToonHeadDialog.ToonHeadDialog):
                 base.cr.friendManager.up_inviteeFriendResponse(1, self.context)
             elif base.friendMode == 1:
                 print("sending Request Invite")
-                base.cr.avatarFriendsManager.sendRequestInvite(self.avId)              
+                base.cr.avatarFriendsManager.sendRequestInvite(self.avId)
         else:
             if base.friendMode == 0:
                 base.cr.friendManager.up_inviteeFriendResponse(0, self.context)
-            elif base.friendMode == 1:    
+            elif base.friendMode == 1:
                 base.cr.avatarFriendsManager.sendRequestRemove(self.avId)
-            
-            
+
+
         self.context = None
         self.cleanup()
 
@@ -119,5 +119,3 @@ class FriendInvitee(ToonHeadDialog.ToonHeadDialog):
             # the inviter has rescinded his/her offer.
             self.context = None
             self.cleanup()
-
-

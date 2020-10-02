@@ -1,5 +1,5 @@
-from pandac.PandaModules import *
-from PurchaseManagerConstants import *
+from toontown.toonbase.ToontownModules import *
+from .PurchaseManagerConstants import *
 from direct.distributed.ClockDelta import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
@@ -83,7 +83,7 @@ class PurchaseManager(DistributedObject.DistributedObject):
 
         self.notify.debug('calcHasLocalToon returning %s' % retval)
         return retval
-        
+
 
     def playAgainHandler(self):
         self.d_requestPlayAgain()
@@ -93,7 +93,7 @@ class PurchaseManager(DistributedObject.DistributedObject):
         self.d_requestExit()
         self.playAgain = 0
         self.setPurchaseExit()
-        
+
     def d_requestExit(self):
         self.sendUpdate("requestExit", [])
 
@@ -123,7 +123,7 @@ class PurchaseManager(DistributedObject.DistributedObject):
             messenger.send("purchaseOver", [self.playAgain])
 
     def setMetagameRound(self, round):
-        self.notify.debug("setMetagameRound: %s" % (round,))        
+        self.notify.debug("setMetagameRound: %s" % (round,))
         self.metagameRound = round
 
     def setVotesArray(self, votesArray):

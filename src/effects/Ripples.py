@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleProps import globalPropPool
 
@@ -37,7 +37,7 @@ class Ripples(NodePath):
             Func(self.hide),
             name = 'ripples-track-%d' % self.trackId
             )
-    
+
     def play(self, rate = 1):
         # Stop existing track, if one exists
         self.stop()
@@ -45,7 +45,7 @@ class Ripples(NodePath):
         self.createTrack(rate)
         # Start track
         self.track.start()
-    
+
     def loop(self, rate = 1):
         # Stop existing track, if one exists
         self.stop()
@@ -53,11 +53,11 @@ class Ripples(NodePath):
         self.createTrack(rate)
         # Start track
         self.track.loop()
-    
+
     def stop(self):
         if self.track:
             self.track.finish()
-    
+
     def destroy(self):
         self.stop()
         self.track = None

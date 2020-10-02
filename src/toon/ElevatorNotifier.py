@@ -2,7 +2,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 class ElevatorNotifier:
     """CatalogNotifyDialog:
@@ -16,12 +16,12 @@ class ElevatorNotifier:
     def __init__(self):
         self.frame = None
         pass
-        
+
 
 
     def handleButton(self):
         self.__handleButton(1)
-        
+
     def createFrame(self, message, framePos = None, withStopping = True):
         if not framePos:
             framePos = (0.0, 0, 0.78)
@@ -59,7 +59,7 @@ class ElevatorNotifier:
         self.doneButton.show()
         self.frame.show()
 
-        
+
     def cleanup(self):
         """cleanup(self):
         Cancels any pending request and removes the panel from the
@@ -76,14 +76,14 @@ class ElevatorNotifier:
         place = base.cr.playGame.getPlace()
         if place:
             place.setState('walk')
-        
+
     def showMe(self, message, pos = None):
         if self.frame == None:
             place = base.cr.playGame.getPlace()
             if place:
                 self.createFrame(message, pos)
                 place.setState('stopped')
-            
+
     def showMeWithoutStopping(self, message, pos = None):
         """
         Some messages need not have the toon in a stopped state.
@@ -94,7 +94,7 @@ class ElevatorNotifier:
 
     def __handleButtonWithoutStopping(self):
         self.cleanup()
-        
+
     def isNotifierOpen(self):
         if self.frame:
             return True

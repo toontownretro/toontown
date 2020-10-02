@@ -1,9 +1,9 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
-from otp.avatar.ShadowCaster import ShadowCaster                          
+from otp.avatar.ShadowCaster import ShadowCaster
 
 
 class FlyingGag(NodePath, ShadowCaster):
@@ -14,7 +14,7 @@ class FlyingGag(NodePath, ShadowCaster):
         self.actorNode = an
         self.gag = None
         self.gagNode = None
-        
+
         ShadowCaster.__init__(self, False)
         if geom:
             self.gagNode = self.attachNewNode("PieNode")
@@ -28,7 +28,7 @@ class FlyingGag(NodePath, ShadowCaster):
             self.dropShadow.setPos(0,0,2)
             self.dropShadow.setScale(3)
 
-        
+
     def delete(self):
         ShadowCaster.delete(self)
         NodePath.remove(self)

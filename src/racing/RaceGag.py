@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase import DirectObject
-from DroppedGag import *
+from .DroppedGag import *
 types=["","Pie","Banana","Anvil"]
 
 
@@ -46,7 +46,7 @@ class RaceGag(DirectObject.DirectObject):
             return True
         else:
             return False
-    
+
     def genGag(self,spot,type):
         self.type=type
         fadein=self.geom.scaleInterval(1,4)
@@ -69,13 +69,10 @@ class RaceGag(DirectObject.DirectObject):
         self.fadeout=Sequence(self.geom.scaleInterval(.2,0),Func(self.hideGeom))
         self.fadeout.start()
 
-    
+
     def hitGag(self,cevent):
         if(not self.parent.currGag):
             self.pickupSound.play()
             self.parent.pickupGag(self.slot,self.type)
             #Move the gag into hidden after its faded out.
             self.disableGag()
-
-
-

@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
-import ShtikerPage
+from toontown.toonbase.ToontownModules import *
+from . import ShtikerPage
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.quest import Quests
 from toontown.toon import NPCToons
 from toontown.hood import ZoneUtil
@@ -25,14 +25,14 @@ class QuestPage(ShtikerPage.ShtikerPage):
         self.textDisabledColor = Vec4(0.4,0.8,0.4,1)
         self.onscreen = 0
         self.lastQuestTime = globalClock.getRealTime()
-        
+
     def load(self):
         self.title = DirectLabel(
             parent = self,
             relief = None,
             text = TTLocalizer.QuestPageToonTasks,
             text_scale = 0.12,
-            textMayChange = 0,            
+            textMayChange = 0,
             pos = (0,0,0.6),
             )
 
@@ -49,7 +49,7 @@ class QuestPage(ShtikerPage.ShtikerPage):
                                (0.45,0,0.25,0,0,0),
                                (0.45,0,-0.35,0,0,0),
                                )
-        
+
         self.questFrames = []
 
         for i in range(ToontownGlobals.MaxQuestCarryLimit):
@@ -60,11 +60,11 @@ class QuestPage(ShtikerPage.ShtikerPage):
             frame.setScale(1.06)
             self.questFrames.append(frame)
 
-    def acceptOnscreenHooks(self):        
+    def acceptOnscreenHooks(self):
         self.accept(ToontownGlobals.QuestsHotkeyOn, self.showQuestsOnscreen)
         self.accept(ToontownGlobals.QuestsHotkeyOff, self.hideQuestsOnscreen)
 
-    def ignoreOnscreenHooks(self):        
+    def ignoreOnscreenHooks(self):
         self.ignore(ToontownGlobals.QuestsHotkeyOn)
         self.ignore(ToontownGlobals.QuestsHotkeyOff)
 
@@ -82,7 +82,7 @@ class QuestPage(ShtikerPage.ShtikerPage):
     def fillQuestFrame(self, questDesc, index):
         self.questFrames[index].update(questDesc)
         self.quests[index] = questDesc
-        
+
     def getLowestUnusedIndex(self):
         for i in range(ToontownGlobals.MaxQuestCarryLimit):
             if self.quests[i] == None:
@@ -100,24 +100,24 @@ class QuestPage(ShtikerPage.ShtikerPage):
                 self.questFrames[i].show()
             else:
                 self.questFrames[i].hide()
-        
+
         # This is annoying - the newQuests are lists (not tuples) but
         # the keys to the page's quest dict must be tuples (not lists)
         # so they are immutable hashable keys. Convert where appropriate.
-        for index, questDesc in self.quests.items():
+        for index, questDesc in list(self.quests.items()):
             if ((questDesc is not None) and (list(questDesc) not in newQuests)):
                 # Must be an old quest we have completed
                 self.clearQuestFrame(index)
-                
+
         # Add new quests
         for questDesc in newQuests:
             newQuestDesc = tuple(questDesc)
-            if newQuestDesc not in self.quests.values():
+            if newQuestDesc not in list(self.quests.values()):
                 index = self.getLowestUnusedIndex()
                 self.fillQuestFrame(newQuestDesc, index)
 
         # Always update friend quests to see if they have changed
-        for i in self.quests.keys():
+        for i in list(self.quests.keys()):
             questDesc = self.quests[i]
             if questDesc:
                 questId = questDesc[0]
@@ -138,10 +138,10 @@ class QuestPage(ShtikerPage.ShtikerPage):
     def showQuestsOnscreenTutorial(self):
         self.setPos(0, 0, -0.2)
         self.showQuestsOnscreen()
-        
+
     def showQuestsOnscreen(self):
         messenger.send('wakeup')
-        timedif = globalClock.getRealTime() - self.lastQuestTime  
+        timedif = globalClock.getRealTime() - self.lastQuestTime
         if timedif < 0.7:
             return
         self.lastQuestTime = globalClock.getRealTime()
@@ -156,7 +156,7 @@ class QuestPage(ShtikerPage.ShtikerPage):
     def hideQuestsOnscreenTutorial(self):
         self.setPos(0, 0, 0)
         self.hideQuestsOnscreen()
-        
+
     def hideQuestsOnscreen(self):
         if not self.onscreen:
             return
@@ -164,4 +164,3 @@ class QuestPage(ShtikerPage.ShtikerPage):
         self.reparentTo(self.book)
         self.title.show()
         self.hide()
-              

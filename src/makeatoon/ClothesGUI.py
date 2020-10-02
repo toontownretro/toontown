@@ -1,14 +1,14 @@
 """ClothesGUI is a base class that contains the clothes picking interface"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toon import ToonDNA
 from direct.fsm import StateData
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
-from MakeAToonGlobals import *
+from toontown.toonbase.ToontownModules import *
+from .MakeAToonGlobals import *
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
-import ShuffleButton
+from . import ShuffleButton
 import random
 
 CLOTHES_MAKETOON = 0   # used by MakeAToon
@@ -32,7 +32,7 @@ class ClothesGUI(StateData.StateData):
         self.girlInShorts = 0
         self.swappedTorso = 0
         return
-        
+
     def load(self):
         # the basic interface with always have scroll buttons for
         # the shirts and the shorts, some text saying "shirts" and
@@ -43,20 +43,20 @@ class ClothesGUI(StateData.StateData):
         guiRArrowRollover = self.gui.find("**/tt_t_gui_mat_arrowUp")
         guiRArrowDown = self.gui.find("**/tt_t_gui_mat_arrowDown")
         guiRArrowDisabled = self.gui.find("**/tt_t_gui_mat_arrowDisabled")
-        
+
         shuffleFrame = self.gui.find("**/tt_t_gui_mat_shuffleFrame")
         shuffleArrowUp = self.gui.find("**/tt_t_gui_mat_shuffleArrowUp")
         shuffleArrowDown = self.gui.find("**/tt_t_gui_mat_shuffleArrowDown")
         shuffleArrowRollover = self.gui.find("**/tt_t_gui_mat_shuffleArrowUp")
         shuffleArrowDisabled = self.gui.find("**/tt_t_gui_mat_shuffleArrowDisabled")
-            
+
         # Create an emtpy frame which houses all the option buttons including the shuffle button.
         self.parentFrame = DirectFrame(
             relief = DGG.RAISED,
             pos = (0.98, 0, 0.416),
             frameColor = (1, 0, 0, 0),
             )
-            
+
         # Create the Shirts Frame.
         self.shirtFrame = DirectFrame(
             parent = self.parentFrame,
@@ -73,7 +73,7 @@ class ClothesGUI(StateData.StateData):
             text_pos = (-0.001, -0.015),
             text_fg = (1, 1, 1, 1),
             )
-        
+
         self.topLButton = DirectButton(
             parent = self.shirtFrame,
             relief = None,
@@ -85,7 +85,7 @@ class ClothesGUI(StateData.StateData):
             command = self.swapTop,
             extraArgs = [-1],
             )
-            
+
         self.topRButton = DirectButton(
             parent = self.shirtFrame,
             relief = None,
@@ -97,7 +97,7 @@ class ClothesGUI(StateData.StateData):
             command = self.swapTop,
             extraArgs = [1],
             )
-        
+
         # Create the Bottoms Frame.
         self.bottomFrame = DirectFrame(
             parent = self.parentFrame,
@@ -114,7 +114,7 @@ class ClothesGUI(StateData.StateData):
             text_pos = (-0.001, -0.015),
             text_fg = (1, 1, 1, 1),
             )
-        
+
         self.bottomLButton = DirectButton(
             parent = self.bottomFrame,
             relief = None,
@@ -126,7 +126,7 @@ class ClothesGUI(StateData.StateData):
             command = self.swapBottom,
             extraArgs = [-1],
             )
-            
+
         self.bottomRButton = DirectButton(
             parent = self.bottomFrame,
             relief = None,
@@ -138,9 +138,9 @@ class ClothesGUI(StateData.StateData):
             command = self.swapBottom,
             extraArgs = [1],
             )
-        
+
         self.parentFrame.hide()
-        
+
         self.shuffleFetchMsg = 'ClothesShopShuffle'
         self.shuffleButton = ShuffleButton.ShuffleButton(self, self.shuffleFetchMsg)
 
@@ -173,7 +173,7 @@ class ClothesGUI(StateData.StateData):
 
     def hideButtons(self):
         self.parentFrame.hide()
-        
+
     def enter(self, toon):
         """enter(self, toon)
         """
@@ -188,21 +188,21 @@ class ClothesGUI(StateData.StateData):
         # this method should be defined in the child
         # classes
         self.setupScrollInterface()
-        
+
         # The toon that has entered already has assigned clothes, which is not
         # at the beginning of the self.tops list. the self.topChoice also does
         # not point to it. To have a smooth transition we're going to force the
         # topChoice and bottomChoice to this pre-assigned top and bottom.
-        
+
         # The tailor shop doesn't add the toon's current clothes in the list, so don't do this.
         if not (self.type == CLOTHES_TAILOR):
-            currTop = (self.toon.style.topTex, self.toon.style.topTexColor, self.toon.style.sleeveTex, self.toon.style.sleeveTexColor)        
+            currTop = (self.toon.style.topTex, self.toon.style.topTexColor, self.toon.style.sleeveTex, self.toon.style.sleeveTexColor)
             currTopIndex = self.tops.index(currTop)
             self.swapTop(currTopIndex - self.topChoice)
             currBottom = (self.toon.style.botTex, self.toon.style.botTexColor)
             currBottomIndex = self.bottoms.index(currBottom)
             self.swapBottom(currBottomIndex - self.bottomChoice)
-        
+
         choicePool = [self.tops, self.bottoms]
         self.shuffleButton.setChoicePool(choicePool)
         self.accept(self.shuffleFetchMsg, self.changeClothes)
@@ -224,7 +224,7 @@ class ClothesGUI(StateData.StateData):
         self.ignore(self.shuffleFetchMsg)
 
     def setupButtons(self):
-        self.girlInShorts = 0 
+        self.girlInShorts = 0
         if (self.gender == 'f'):
             # See what kind of torso we need (shorts vs. skirt)
             if (self.bottomChoice == -1):
@@ -243,7 +243,7 @@ class ClothesGUI(StateData.StateData):
 ##            self.bottomLButton['text'] = TTLocalizer.ClothesShopBottoms
 ##            self.bottomRButton['text'] = TTLocalizer.ClothesShopBottoms
             self.bottomFrame['text'] = TTLocalizer.ClothesShopBottoms
-        
+
         # set exit event
         self.acceptOnce("last", self.__handleBackward)
         self.acceptOnce("next", self.__handleForward)
@@ -255,14 +255,14 @@ class ClothesGUI(StateData.StateData):
 
     def swapTop(self, offset):
         length = len(self.tops)
-        self.topChoice += offset 
+        self.topChoice += offset
         if (self.topChoice <= 0):
             self.topChoice = 0
         # ghost the pickers if at the end of the 'wheel'
         self.updateScrollButtons(self.topChoice, length, 0,
                                  self.topLButton, self.topRButton)
         # Put some index range checking here
-        if ((self.topChoice < 0) or (self.topChoice >= len(self.tops)) or 
+        if ((self.topChoice < 0) or (self.topChoice >= len(self.tops)) or
             (len(self.tops[self.topChoice]) != 4)):
             self.notify.warning("topChoice index is out of range!")
             return None
@@ -276,7 +276,7 @@ class ClothesGUI(StateData.StateData):
         if (self.swapEvent != None):
             messenger.send(self.swapEvent)
         messenger.send('wakeup')
-        
+
     def swapBottom(self, offset):
         length = len(self.bottoms)
         self.bottomChoice += offset
@@ -284,7 +284,7 @@ class ClothesGUI(StateData.StateData):
             self.bottomChoice = 0
         # ghost the pickers if at the end of the 'wheel'
         assert(self.notify.debug("bottoms: choice = %s, length = %s" % (self.bottomChoice, length)))
-        
+
         self.updateScrollButtons(self.bottomChoice, length, 0,
                                    self.bottomLButton, self.bottomRButton)
         if ((self.bottomChoice < 0) or (self.bottomChoice >= len(self.bottoms))
@@ -293,8 +293,8 @@ class ClothesGUI(StateData.StateData):
             return None
         self.toon.style.botTex = self.bottoms[self.bottomChoice][0]
         self.toon.style.botTexColor = self.bottoms[self.bottomChoice][1]
-        
-        if (self.toon.generateToonClothes() == 1):       
+
+        if (self.toon.generateToonClothes() == 1):
             self.toon.loop("neutral", 0)
             self.swappedTorso = 1
 
@@ -305,10 +305,10 @@ class ClothesGUI(StateData.StateData):
     def updateScrollButtons(self, choice, length, startTex,
                               lButton, rButton):
         # ghost the pickers if at the end of the 'wheel'
-        if choice >= length-1: 
-            rButton['state'] = DGG.DISABLED 
+        if choice >= length-1:
+            rButton['state'] = DGG.DISABLED
         else:
-            rButton['state'] = DGG.NORMAL 
+            rButton['state'] = DGG.NORMAL
         if choice <= 0:
             lButton['state'] = DGG.DISABLED
         else:
@@ -338,17 +338,17 @@ class ClothesGUI(StateData.StateData):
         pressed the shuffle button.
         """
         self.notify.debug('Entering changeClothes')
-        newChoice = self.shuffleButton.getCurrChoice()        
+        newChoice = self.shuffleButton.getCurrChoice()
         newTopIndex = self.tops.index(newChoice[0])
         newBottomIndex = self.bottoms.index(newChoice[1])
         oldTopIndex = self.topChoice
-        oldBottomIndex = self.bottomChoice        
+        oldBottomIndex = self.bottomChoice
         self.swapTop(newTopIndex - oldTopIndex)
         self.swapBottom(newBottomIndex - oldBottomIndex)
-        
+
     def getCurrToonSetting(self):
         """
         This method is called by ShuffleButton to get the current setting of the toon.
         The ShuffleButton saves this setting for it's history.
-        """        
+        """
         return [self.tops[self.topChoice], self.bottoms[self.bottomChoice]]

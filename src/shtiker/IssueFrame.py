@@ -1,8 +1,8 @@
 import os
-from pandac.PandaModules import VirtualFileSystem, Filename, DSearchPath
-from pandac.PandaModules import Texture, CardMaker, PNMImage, TextureStage
-from pandac.PandaModules import NodePath
-from pandac.PandaModules import Point2
+from toontown.toonbase.ToontownModules import VirtualFileSystem, Filename, DSearchPath
+from toontown.toonbase.ToontownModules import Texture, CardMaker, PNMImage, TextureStage
+from toontown.toonbase.ToontownModules import NodePath
+from toontown.toonbase.ToontownModules import Point2
 from direct.showbase import DirectObject
 from direct.gui.DirectGui import DirectFrame , DirectButton, DGG, DirectLabel
 from direct.directnotify import DirectNotifyGlobal
@@ -30,12 +30,12 @@ class IssueFrame(DirectFrame):
     # home page is considered one section, must always be first
     # home, news, events, talk of the town, ask toontown, toon resistance
     SectionIdents = ['hom', 'new', 'evt', 'tot', 'att', 'tnr']
-    
+
     def __init__(self, parent, newsDir, dateStr, myIssueIndex, numIssues, strFilenames):
         DirectFrame.__init__(self,
                              frameColor = (1,1,1,0),
                              frameSize = self.FrameDimensions,
-                             relief = DGG.FLAT,                             
+                             relief = DGG.FLAT,
                              parent = parent,
                              )
         self.hide()
@@ -86,7 +86,7 @@ class IssueFrame(DirectFrame):
                 subSectionList.append("error_" + str(fullName))
                 self.flatSubsectionList.append((section,0))
             self.sectionList.append(subSectionList)
-            
+
         self.notify.debug("%s" % self.sectionList)
 
     def getPreviousTarget(self, section, subSection):
@@ -111,7 +111,7 @@ class IssueFrame(DirectFrame):
         """Create the gui objects we need."""
         self.gui = loader.loadModel("phase_3.5/models/gui/tt_m_gui_ign_directNewsGui")
         self.guiNav = loader.loadModel("phase_3.5/models/gui/tt_m_gui_ign_directNewsGuiNav")
-        numPagesLoaded = 0        
+        numPagesLoaded = 0
         totalNumberOfPages = len(self.flatSubsectionList)
         assert self.notify.debug("before loop, numPagesLoaded=%d total=%d"% (numPagesLoaded,totalNumberOfPages))
         for  section, subSectionList in enumerate(self.sectionList):
@@ -122,16 +122,16 @@ class IssueFrame(DirectFrame):
                 newPage = self.createPage(section,subsection, fullFilename)
                 numPagesLoaded += 1
                 self.sectionFrames[section][subsection] = newPage
-                
+
         #self.loadBackground()
         #self.loadMainPage()
-        
+
     def createPage(self, section, subsection, fullFilename):
         """Create on page, with all the appropriate buttons."""
         assert self.notify.debugStateCall(self)
         upsellBackground = loader.loadModel("phase_3.5/models/gui/tt_m_gui_ign_newsStatusBackground")
         imageScaleX = self.FrameDimensions[1] - self.FrameDimensions[0]
-        imageScaleY = self.FrameDimensions[3] - self.FrameDimensions[2]        
+        imageScaleY = self.FrameDimensions[3] - self.FrameDimensions[2]
         pageFrame = DirectFrame(
             frameColor = (1,1,1,0),
             frameSize = self.FrameDimensions,
@@ -159,11 +159,11 @@ class IssueFrame(DirectFrame):
             self.loadNavButtons(pageFrame)
             pageFrame.hide()
         return pageFrame
-    
+
     def loadRightArrow(self,section, subsection, pageFrame):
         """Load the right arrow button, if needed."""
         nextTarget = self.getNextTarget(section, subsection)
-        
+
         position = (1.16,0,-0.69)
         # again numbers from direct screen captrues
         xSize = 48
@@ -234,7 +234,7 @@ class IssueFrame(DirectFrame):
         image_scale *= float(69)/70
 
         self.sectionBtns = []
-        for section in xrange(1, len(self.SectionIdents)):
+        for section in range(1, len(self.SectionIdents)):
             image = self.gui.find('**/%s' % buttonNames[section])
             rolloverImage = self.gui.find('**/%s' % rolloverButtonNames[section])
             if image.isEmpty():
@@ -272,7 +272,7 @@ class IssueFrame(DirectFrame):
         """Load the buttons to go back and forth through previous weeks."""
         # check if we even need this at all
         if self.numIssues <= 1:
-            return        
+            return
         if self.myIssueIndex == self.numIssues - 1:
             weekStr = TTLocalizer.IssueFrameThisWeek
         elif self.myIssueIndex == self.numIssues -2 :
@@ -318,7 +318,7 @@ class IssueFrame(DirectFrame):
             )
         if self.myIssueIndex == self.numIssues - 1:
             nextWeekBtn['state'] = DGG.DISABLED
-            
+
         actualX = 176.0
         desiredX = 89.0
         imageScale = desiredX / actualX
@@ -336,8 +336,8 @@ class IssueFrame(DirectFrame):
             text_pos = (0,-0.01, 0),
             pos = ( 0.983333, 0, 0.62),
             )
-        
-        
+
+
 
     def loadNavButtons(self, pageFrame):
         """Load the navigation buttons for the main page."""
@@ -372,7 +372,7 @@ class IssueFrame(DirectFrame):
         desiredXSize2 =152
         image_scale2 = float(desiredXSize2) / xSize2
         image_scale2 *= 30.0 / 30.0
-        
+
         rolloverPositions = [ (1.15, 0, 0.623333),
                               (1.15, 0, 0.533333),
                               (1.15, 0, 0.443333),
@@ -388,7 +388,7 @@ class IssueFrame(DirectFrame):
                         image_scale2,
                         image_scale2
                         ]
-        
+
         frameSizeAdj1 = 0.1
         frameSize1 = (-0.04 + frameSizeAdj1,
                       0.04 + frameSizeAdj1,
@@ -399,12 +399,12 @@ class IssueFrame(DirectFrame):
                       0.04 + frameSizeAdj2,
                       -0.04,
                       0.04)
-                      
+
         frameSizes = ( frameSize1, frameSize1, frameSize1,
                       frameSize2, frameSize2, frameSize2)
         # TODO get from Teani normal state buttons same size as rollover
         self.sectionBtns = []
-        for section in xrange(0, len(self.SectionIdents)):
+        for section in range(0, len(self.SectionIdents)):
             image = self.guiNav.find('**/%s' % buttonNames[section])
             rolloverImage = self.guiNav.find('**/%s' % rolloverButtonNames[section])
             if image.isEmpty():
@@ -418,11 +418,11 @@ class IssueFrame(DirectFrame):
                 command = self.gotoPage,
                 extraArgs = (section, 0),
                 enableEdit = 1,
-                pos = rolloverPositions[section] 
+                pos = rolloverPositions[section]
                 )
             #import pdb; pdb.set_trace()
-        
-        
+
+
     def gotoPage(self, section, subsection):
         """Display the sectionFrame that corresponds to that page."""
         self.sectionFrames[self.curSection][self.curSubsection].hide()
@@ -437,12 +437,12 @@ class IssueFrame(DirectFrame):
         assert self.notify.debugStateCall(self)
         #Texture.setTexturesPower2(AutoTextureScale.ATSUp)
         #Texture.setTexturesPower2(2)
-        
+
         cm = CardMaker('cm-%s'%fullFilename)
         cm.setColor(1.0, 1.0, 1.0, 1.0)
         aspect = base.camLens.getAspectRatio()
-        htmlWidth = 2.0*aspect * WEB_WIDTH_PIXELS / float(WIN_WIDTH)		
-        htmlHeight = 2.0*float(WEB_HEIGHT_PIXELS) / float(WIN_HEIGHT) 
+        htmlWidth = 2.0*aspect * WEB_WIDTH_PIXELS / float(WIN_WIDTH)
+        htmlHeight = 2.0*float(WEB_HEIGHT_PIXELS) / float(WIN_HEIGHT)
 
         # the html area will be center aligned and vertically top aligned
         #cm.setFrame(-htmlWidth/2.0, htmlWidth/2.0, 1.0 - htmlHeight, 1.0)
@@ -453,7 +453,7 @@ class IssueFrame(DirectFrame):
 
         #cm.setUvRange(Point2(0,0), Point2(bottomRightX, bottomRightY))
         cm.setUvRange(Point2(0,1-bottomRightY), Point2(bottomRightX,1))
-        
+
         card = cm.generate()
         quad = NodePath(card)
         #quad.reparentTo(self.parent)
@@ -468,8 +468,8 @@ class IssueFrame(DirectFrame):
             guiTex.setupTexture(Texture.TT2dTexture, WEB_WIDTH, WEB_HEIGHT, 1, Texture.TUnsignedByte, Texture.FRgba)
             guiTex.setMinfilter(Texture.FTLinear)
             guiTex.load(jpgFile)
-            #guiTex.setKeepRamImage(True)		
-            #guiTex.makeRamImage()				
+            #guiTex.setKeepRamImage(True)
+            #guiTex.makeRamImage()
             guiTex.setWrapU(Texture.WMClamp)
             guiTex.setWrapV(Texture.WMClamp)
 
@@ -491,7 +491,7 @@ class IssueFrame(DirectFrame):
 
     def loadBackground(self):
         """Create a plain white background image, that covers over the shtickerbook"""
-        
+
         # HtmlView: webFrame  = -1.30666637421 1.30666637421 -0.751666665077 0.751666665077
         self.backFrame = DirectFrame(
             parent = self,
@@ -510,9 +510,9 @@ class IssueFrame(DirectFrame):
             )
         #self.newsButton = DirectButton(
         #    parent = self.mainFrame,
-        #    image = 
+        #    image =
         #    parent
-        
+
 
     def activate(self):
         """
@@ -535,7 +535,7 @@ class IssueFrame(DirectFrame):
 
     def unload(self):
         """
-        self.deactivate()        
+        self.deactivate()
         HtmlView.HtmlView.unload(self)
         """
         self.ignore("newsSnapshot")
@@ -543,8 +543,7 @@ class IssueFrame(DirectFrame):
     def doSnapshot(self):
         "Save the current browser contents to a png file."""
         pass
-   
+
     def changeWeek(self, newIssueWeek):
         """Handle player pressing next or prev week buttons."""
         messenger.send("newsChangeWeek", [newIssueWeek])
-        

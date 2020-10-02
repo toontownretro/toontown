@@ -1,7 +1,7 @@
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from math import *
 import math
 from direct.fsm.FSM import FSM
@@ -9,7 +9,7 @@ from toontown.minigame import ArrowKeys
 from direct.showbase import PythonUtil
 from direct.task import Task
 from direct.distributed.ClockDelta import *
-import BuildGeometry
+from . import BuildGeometry
 from toontown.golf import GolfGlobals
 import random, time
 
@@ -24,34 +24,34 @@ def length (vec):
 
 class PhysicsWorldBase:
 
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPhysicsWorld")    
+    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPhysicsWorld")
 
     def __init__(self, canRender = 0):
         self.canRender = canRender
-        
+
         #universal ODE stuff
         self.world = OdeWorld()
         self.space = OdeSimpleSpace()
         self.contactgroup = OdeJointGroup()
-        
+
         # Items needed to render
         self.bodyList = [] # list of ODE bodies, or ode panda pairs if canRender
         self.geomList = []
         self.massList = []
         self.rayList = []
-        
+
         self.showContacts = 0
         self.jointMarkers = []
         self.jointMarkerCount = 64
-        
+
         self.meshDataList = []
         self.geomDataList = []
         self.commonObjectInfoDict = {}
-        
-        
+
+
         self.maxColCount = 0
-        
-        
+
+
         #items used to keep track on placement between ode and panda
         if self.canRender:
             self.odePandaRelationList = self.bodyList
@@ -59,31 +59,31 @@ class PhysicsWorldBase:
             #self.worldAttach = render.attachNewNode("physics geom attach point")
         else:
             self.root = NodePath("physics root node")
-            
+
         self.placerNode = self.root.attachNewNode("Placer")
         self.subPlacerNode = self.placerNode.attachNewNode("Placer Sub Node")
-        
-        #movable enviromnmental objects that need to be syncronized 
+
+        #movable enviromnmental objects that need to be syncronized
         self.commonObjectDict = {}
         self.commonId = 0
-        
+
         self.worldAttach = self.root.attachNewNode("physics geom attach point")
 
         self.timingCycleLength = 10.0
         self.timingCycleOffset = 0.0
-        
+
         self.timingSimTime = 0.0
         self.FPS = 90.0
         self.refFPS = 60.0
         self.DTAStep = 1.0 / self.FPS
         self.refCon = 1.2#(self.FPS / self.refFPS) * 2.0
-        
+
     def delete(self):
         self.notify.debug("Max Collision Count was %s" % (self.maxColCount))
         self.stopSim()
         self.commonObjectDict = None
-        
-        
+
+
         if self.canRender:
             for pair in self.odePandaRelationList:
                 pair[0].remove()
@@ -93,45 +93,45 @@ class PhysicsWorldBase:
             for body in self.bodyList:
                 body[1].destroy()
             self.bodyList = None
-            
+
         for mass in self.massList:
             #mass.destroy()
             mass = None
-            
-            
+
+
         for geom in self.geomList:
             geom.destroy()
             geom = None
 
-            
+
         for ray in self.rayList:
             ray.destroy()
             ray = None
-        
+
         self.placerNode.remove()
         self.root.remove()
-        
+
         for marker in self.jointMarkers:
             marker.remove()
         self.jointMarkers = None
 
         for data in self.geomDataList:
             data.destroy()
-            
-        
+
+
         for data in self.meshDataList:
             data.destroy()
-            
+
         self.floor.destroy()
         self.floor = None
-        
+
         self.contactgroup.empty()
         self.world.destroy()
         self.space.destroy()
         self.world = None
         self.space = None
-        
-        
+
+
     def setupSimulation(self):
         self.world.setAutoDisableFlag(0)
         self.world.setAutoDisableLinearThreshold(0.15)
@@ -142,14 +142,14 @@ class PhysicsWorldBase:
         self.world.setErp(0.8)
         self.world.setCfm(1E-5)
         self.world.initSurfaceTable(5)
-        
 
-        
+
+
         self.world.setSurfaceEntry(0,0, 150, 0.05, 0.1, 0.9, 0.00001, 0.0, 0.40 / self.refCon)
         self.world.setSurfaceEntry(1,1, 1500, 0.05, 0.1, 0.9, 0.00001, 0.0, 0.001 / self.refCon)
         self.world.setSurfaceEntry(2,2, 150, 0.05, 0.1, 0.9, 0.00001, 0.0, 0.40 / self.refCon)
-        
-        self.world.setSurfaceEntry(0,2, 150, 0.05, 0.1, 0.9, 0.00001, 0.0, 0.40 / self.refCon)     
+
+        self.world.setSurfaceEntry(0,2, 150, 0.05, 0.1, 0.9, 0.00001, 0.0, 0.40 / self.refCon)
 
         self.world.setSurfaceEntry(0,3, 150, 0.0, 0.1, 0.9, 0.00001, 0.0, 0.40 / self.refCon)
         # hole is 3, ball is 1,  ball hitting hole
@@ -157,9 +157,9 @@ class PhysicsWorldBase:
         self.world.setSurfaceEntry(2,3, 150, 0.0, 9.1, 0.9, 0.00001, 0.0, 0.40 / self.refCon)
         self.world.setSurfaceEntry(3,3, 150, 0.0, 9.1, 0.9, 0.00001, 0.0, 0.40 / self.refCon)
         self.world.setSurfaceEntry(4,4, 150, 0.0, 9.1, 0.9, 0.00001, 0.0, 0.40 / self.refCon)
-        
+
         self.world.setSurfaceEntry(1,4, 150, 0.0, 99.1, 0.9, 0.00001, 0.0, 0.001 / self.refCon)
-        
+
         # grass is 0, ball is 1,  ball hitting grass
         self.world.setSurfaceEntry( pos1 = 0, pos2 = 1,
                                     mu = 80,
@@ -169,7 +169,7 @@ class PhysicsWorldBase:
                                     soft_cfm = 0.00001,
                                     slip = 0.0,
                                     dampen = 0.35 / self.refCon)
-        
+
         # barrier is 2, ball is 1, ball hitting hard barrier
         self.world.setSurfaceEntry( pos1 = 2, pos2 = 1,
                                     mu = 1500,
@@ -178,20 +178,20 @@ class PhysicsWorldBase:
                                     soft_erp = 0.9,
                                     soft_cfm = 0.00001,
                                     slip = 0.0,
-                                    dampen = 0.001 / self.refCon)        
+                                    dampen = 0.001 / self.refCon)
 
         # Create a plane geom which prevent the objects from falling forever
         self.floor = OdePlaneGeom(self.space, Vec4(0.0,0.0,1.0,-20.0))
         self.floor.setCollideBits(BitMask32(0x00000000))
         self.floor.setCategoryBits(BitMask32(0x00000f00))
-        
+
         self.space.setAutoCollideWorld(self.world)
         self.space.setAutoCollideJointGroup(self.contactgroup)
         self.world.setQuickStepNumIterations(8)
         self.DTA = 0.0
-        
+
         self.frameCounter = 0
-        
+
         if self.canRender:
             for count in range(self.jointMarkerCount):
                 testMarker = render.attachNewNode("Joint Marker")
@@ -200,48 +200,48 @@ class PhysicsWorldBase:
                 ballmodel.setScale(0.1)
                 testMarker.setPos(0.0,0.0,-100.0)
                 self.jointMarkers.append(testMarker)
-        
+
     def setTimingCycleLength(self, time):
         self.timingCycleLength = time
-        
+
     def getTimingCycleLength(self):
         return self.timingCycleLength
-        
+
     def getCycleTime(self, doprint = 0):
         cycleTime = (globalClock.getRealTime() + self.timingCycleOffset) % self.timingCycleLength
         if doprint:
-            print ("Get Cycle Time %s" % (cycleTime))
+            print(("Get Cycle Time %s" % (cycleTime)))
         return cycleTime
-        
+
     def setTimeIntoCycle(self, time, doprint = 0):
         trueCycleTime = globalClock.getRealTime() % self.timingCycleLength
         self.timingCycleOffset = time - trueCycleTime
         if doprint:
             self.notify.debug("Set Cycle Time %s" % (self.timingCycleOffset))
             self.notify.debug("SET cycle time %s" % ((globalClock.getRealTime() + self.timingCycleOffset) % self.timingCycleLength))
-            
-        
+
+
     def getSimCycleTime(self):
         return
         #import pdb; pdb.set_trace()
         return self.timingSimTime % self.timingCycleLength
-        
+
     def startSim(self):
         taskMgr.add(self.__simulationTask, "simulation task")
-        
+
     def stopSim(self):
         taskMgr.remove("simulation task")
-        
+
     def __simulationTask(self, task):
         #dt = globalClock.getDt()
         self.DTA += globalClock.getDt()
         self.frameCounter += 1
         if self.frameCounter >= 10:
             self.frameCounter = 0
-        
+
         startTime = globalClock.getRealTime()
-    
-                
+
+
         #self.space.collide((self.odeWorld,self.contactgroup), near_callback)
         colCount = 0
         # Simulation step
@@ -251,30 +251,30 @@ class PhysicsWorldBase:
             self.preStep()
             self.simulate()
             self.postStep()
-                    
+
         if self.canRender:
-            self.placeBodies()   
-            
+            self.placeBodies()
+
         if self.frameCounter == 0:
             endTime = globalClock.getRealTime() - startTime
             #self.notify.debug ("physics Time = %s collision joints %s" % (endTime, colCount))
-        
+
         return task.cont
-        
+
     def simulate(self):
         self.colCount = self.space.autoCollide() # Detect collisions and create contact joints
         if self.maxColCount < self.colCount:
             self.maxColCount = self.colCount
             self.notify.debug("New Max Collision Count %s" % (self.maxColCount))
         self.world.quickStep(self.DTAStep) # Simulate
-        
+
         for bodyPair in self.bodyList:
             self.world.applyDampening(self.DTAStep, bodyPair[1])
-        
+
         self.contactgroup.empty() # Remove all contact joints
         self.commonObjectControl()
         self.timingSimTime = self.timingSimTime + self.DTAStep
-        
+
     def placeBodies(self):
         for pair in self.odePandaRelationList:
             pandaNodePathGeom = pair[0]
@@ -283,11 +283,11 @@ class PhysicsWorldBase:
                 pandaNodePathGeom.setPos(odeBody.getPosition())
                 rotation = (odeBody.getRotation() * (180.0/math.pi))
                 pandaNodePathGeom.setQuat(Quat(odeBody.getQuaternion()[0],odeBody.getQuaternion()[1],odeBody.getQuaternion()[2],odeBody.getQuaternion()[3]))
-                
-        
+
+
     def preStep(self):
         pass
-        
+
     def postStep(self):
         # mark the contact joints
         if self.showContacts and self.canRender:
@@ -297,7 +297,7 @@ class PhysicsWorldBase:
                     pandaNodePathGeom.setPos(self.space.getContactData((count *3) + 0), self.space.getContactData((count *3) + 1), self.space.getContactData((count *3) + 2))
                 else:
                     pandaNodePathGeom.setPos(0.0,0.0,-100.0)
-                    
+
     def commonObjectControl(self):
         time = self.getCycleTime()
         for key in self.commonObjectDict:
@@ -321,11 +321,11 @@ class PhysicsWorldBase:
                             self.commonObjectEvent(key, model, type, force, event)
                             self.commonObjectInfoDict[key] = event
                 motor.setParamVel(force)
-                
+
     def commonObjectEvent(self, key, model, type, force, event):
         self.notify.debug("commonObjectForceEvent %s %s %s %s %s" % (key, model, type, force, event))
-        
-        
+
+
     def getCommonObjectData(self):
         #print("getCommonObjectData %s" % (self.getCycleTime()))
         objectStream = [(0,0, self.getCycleTime(),0,0, 0,0,0,0, 0,0,0, 0,0,0)]
@@ -336,7 +336,7 @@ class PhysicsWorldBase:
             quat4 = object.getQuaternion()
             anV3 = object.getAngularVel()
             lnV3 = object.getLinearVel()
-            
+
             data = ( objectPair[0], objectPair[1],
                     pos3[0], pos3[1], pos3[2],
                     quat4[0], quat4[1], quat4[2], quat4[3],
@@ -353,9 +353,9 @@ class PhysicsWorldBase:
                     0, 0, 0
                     )
             objectStream.append(data)
-            
+
         return objectStream
-        
+
     def useCommonObjectData(self, objectData, enable = 1):
         if not objectData:
             return
@@ -378,28 +378,28 @@ class PhysicsWorldBase:
                 commonObject[2].enable()
             else:
                 commonObject[2].disable()
-            
-            
+
+
     def createCommonObject(self, type, commonId, pos, hpr, sizeX = 0 , sizeY = 0, moveDistance = 0):
         # an Id of None means it's a new object and it probably being created on the AI
         if commonId == None:
             commonId = self.commonId
             self.commonId += 1
-            
+
         vPos = Point3(float(pos[0]), float(pos[1]), float(pos[2]))
         vHpr = Vec3(float(hpr[0]), float(hpr[1]), float(hpr[2]))
         rHpr = Vec3(float(hpr[0]), float(hpr[1]), float(hpr[2]))
-        
+
         self.placerNode.setHpr(vHpr)
         self.placerNode.setPos(vPos)
-        
+
         if type == 0: # create Box
             model, box = self.createBox(self.world, self.space, 10.0, 5.0, 5.0, 5.0)
             box.setPosition(vPos)
             self.placerNode.setHpr(vHpr)
             box.setQuaternion(self.placerNode.getQuat())
             self.commonObjectDict[commonId] = (commonId, type, box)
-            
+
         elif type == 1: #rotating cross
             model, cross = self.createCross(self.world, self.space, 1.0, 3.0, 12.0, 2.0, 2)
             motor = OdeHingeJoint(self.world)
@@ -407,16 +407,16 @@ class PhysicsWorldBase:
             cross.setQuaternion(self.placerNode.getQuat())
             ourAxis = render.getRelativeVector(self.placerNode, Vec3(0,0,1))
             motor.setParamVel(1.5)
-            motor.setParamFMax(500000000.0)            
+            motor.setParamFMax(500000000.0)
             boxsize = Vec3(1.0, 1.0, 1.0)
             motor.attach(0, cross)
             motor.setAnchor(vPos)
             motor.setAxis(ourAxis)
             self.cross = cross
             cross.enable()
-            self.commonObjectDict[commonId] = (commonId, type, cross)            
+            self.commonObjectDict[commonId] = (commonId, type, cross)
 
-            
+
         elif type == 2: #timed sliding gate
             ourAxis = render.getRelativeVector(self.placerNode, Vec3(0,0,1))
             model, box = self.createBox(self.world, self.space, 10.0, 5.0, 5.0, 5.0, 2)
@@ -426,16 +426,16 @@ class PhysicsWorldBase:
             motor.attach(box, 0)
             motor.setAxis(ourAxis)
             motor.setParamVel(3.0)
-            motor.setParamFMax(5000000.0)  
+            motor.setParamFMax(5000000.0)
             motor.setParamHiStop(10.0)
             motor.setParamLoStop(-10.0)
             #base.s = motor
             #(time, )
             timeData = (0.0, 5.0)
             forceData = (3.0, -3.0)
-            eventData = (1,2) 
+            eventData = (1,2)
             self.commonObjectDict[commonId] = (commonId, type, box, motor, timeData, forceData, eventData, model)
-            
+
         elif type == 3: #Windmill
             #pos = Vec3(pos[0], pos[1], -12.0)
             vPos = Point3(float(pos[0]), float(pos[1]), float(pos[2]))
@@ -443,7 +443,7 @@ class PhysicsWorldBase:
             self.placerNode.setHpr(vHpr)
             self.placerNode.setPos(vPos)
             self.subPlacerNode.setPos(0,0,0)
-            
+
             if self.canRender:
                 myModel = loader.loadModel('phase_6/models/golf/golf_windmill_b')
                 #myModel = loader.loadModel('phase_6/models/golf/windmill')
@@ -452,7 +452,7 @@ class PhysicsWorldBase:
                 myModel = loader.loadModel('phase_6/models/golf/golf_windmill_b.bam')
                 #myModel = loader.loadModel('phase_6/models/golf/windmill.bam')
 
-            
+
             myModel.reparentTo(self.root)
             myModel.setPos(vPos)
             myModel.setHpr(vHpr)
@@ -465,40 +465,40 @@ class PhysicsWorldBase:
 
             self.windmillFanNodePath = millFan
             self.windmillBaseNodePath = millBase
-            
+
             millData = OdeTriMeshData (millBase)
             millGeom = OdeTriMeshGeom(self.space, millData)
             self.meshDataList.append(millData)
             millGeom.setPosition(self.subPlacerNode.getPos(self.root))
             millGeom.setQuaternion(self.subPlacerNode.getQuat())
-            millGeom.setCollideBits( BitMask32(0x0f000000)) 
+            millGeom.setCollideBits( BitMask32(0x0f000000))
             millGeom.setCategoryBits(BitMask32(0x00800000)) # the 8 is for the camera ray
             self.space.setCollideId(millGeom, 8) # GolfGlobals.WINDMILL_BASE_COLLIDE_ID
-            
+
             #if not self.canRender:
             #    myModel.remove()
-            
+
             vPos = Point3(float(pos[0]), float(pos[1]), float(pos[2]) + 5)
             vHpr = Vec3(float(hpr[0]), float(hpr[1] + 90), float(hpr[2]) - 90)
-            
+
             self.placerNode.setHpr(vHpr)
-            self.placerNode.setPos(vPos)            
+            self.placerNode.setPos(vPos)
             self.subPlacerNode.setPos(-1,0,0.0)
-            
+
 
             model, cross = self.createPinWheel(self.world, self.space, 10.0, 1.6, 4.0, 0.6, 5, 3.7, 1.2, 1, millFan, (0,0,90), (-4.6,-0.5,-0.25), 20)
-            
+
             self.placerNode.setHpr(vHpr)
-            self.placerNode.setPos(vPos)            
+            self.placerNode.setPos(vPos)
             self.subPlacerNode.setPos(-1,0,0.0)
-    
+
             motor = OdeHingeJoint(self.world)
             cross.setPosition(self.subPlacerNode.getPos(self.root))
             cross.setQuaternion(self.placerNode.getQuat())
             ourAxis = self.root.getRelativeVector(self.subPlacerNode, Vec3(0,0,1))
             motor.setParamVel(1.0)
             #motor.setParamVel(0)
-            motor.setParamFMax(50000.0)            
+            motor.setParamFMax(50000.0)
             boxsize = Vec3(1.0, 1.0, 1.0)
             motor.attach(0, cross)
             motor.setAnchor(self.subPlacerNode.getPos(self.root))
@@ -506,9 +506,9 @@ class PhysicsWorldBase:
             self.cross = cross
             cross.enable()
             self.commonObjectDict[commonId] = (commonId, type, cross)
-            
 
-            
+
+
         elif type == 4: #moving block
             ourAxis = self.root.getRelativeVector(self.placerNode, Vec3(0,1,0))
             model, box = self.createBox(self.world, self.space, 50.0, sizeX, sizeY, 1.0, 2)
@@ -518,7 +518,7 @@ class PhysicsWorldBase:
             motor.attach(box, 0)
             motor.setAxis(ourAxis)
             motor.setParamVel(moveDistance/4.0)
-            motor.setParamFMax(25000.0)  
+            motor.setParamFMax(25000.0)
             motor.setParamHiStop(moveDistance)
             motor.setParamLoStop(0)
             #base.s = motor
@@ -528,15 +528,15 @@ class PhysicsWorldBase:
             eventData = (-1,1,-2,2)
             #print ("Move Distance %s" % (moveDistance))
             radius = moveDistance + (sizeY * 0.5)
-            
+
             self.commonObjectDict[commonId] = (commonId, type, box, motor, timeData, forceData, eventData, model, radius)
-            
+
         #needed to send the common object over the wire
         return ([type, commonId, (pos[0], pos[1], pos[2]), (hpr[0], hpr[1], hpr[2]), sizeX, sizeY, moveDistance])
 
-        
-        
-        
+
+
+
     def createSphere(self, world, space, density, radius, ballIndex = None):
         # Create two bodies
         self.notify.debug("create sphere index %s" % (ballIndex))
@@ -545,18 +545,18 @@ class PhysicsWorldBase:
         M.setSphere(density, radius)
         body.setMass(M)
         body.setPosition(0,0,-100)
-        
-        
-        
-        
+
+
+
+
         geom = OdeSphereGeom(space, radius)
 
         self.space.setSurfaceType(geom, 1) # GolfGlobals.BALL_SURFACE
         self.notify.debug(("collide ID is %s") % (self.space.setCollideId(geom, 42))) # GolfGlobals.BALL_COLLIDE_ID
-    
+
         self.massList.append(M)
         self.geomList.append(geom)
-        
+
         if ballIndex == 1:
             self.notify.debug("1")
             geom.setCollideBits(BitMask32(0x00ffffff))
@@ -576,16 +576,16 @@ class PhysicsWorldBase:
         else:
             geom.setCollideBits(BitMask32(0xffffffff))
             geom.setCategoryBits(BitMask32(0xffffffff))
-            
+
         geom.setBody(body)
 
         if self.notify.getDebug():
             self.notify.debug('golf ball geom id')
             geom.write()
-            self.notify.debug(' -')            
+            self.notify.debug(' -')
 
         self.notify.debug("Collide Bits %s" % (geom.getCollideBits()))
-        
+
         if self.canRender:
             testball = render.attachNewNode("Ball Holder")
             ballmodel = loader.loadModel('phase_6/models/golf/golf_ball')
@@ -598,8 +598,8 @@ class PhysicsWorldBase:
             self.bodyList.append((None, body))
         return testball, body, geom
 
-        
-        
+
+
     def createBox(self, world, space, density, lx, ly, lz, colOnlyBall = 0):
         """Create a box body and its corresponding geom."""
         # Create body
@@ -613,17 +613,17 @@ class PhysicsWorldBase:
         geom.setBody(body)
         self.space.setSurfaceType(geom, 0)
         self.space.setCollideId(geom, 7) # GolfGlobals.MOVER_COLLIDE_ID
-        
+
         self.massList.append(M)
         self.geomList.append(geom)
-        
+
         if colOnlyBall:
                 geom.setCollideBits(BitMask32(0x0f000000))
                 geom.setCategoryBits(BitMask32(0x00000000))
         elif colOnlyBall == 2:
                 geom.setCollideBits(BitMask32(0x00000000))
                 geom.setCategoryBits(BitMask32(0x00000000))
-                
+
         if self.canRender:
             # Create a box geom for collision detection
             color = random.choice([Vec4(1.0,0.0,0.5,1.0), Vec4(0.5,0.5,1.0,1.0), Vec4(0.5,1.0,0.5,1.0)])
@@ -634,9 +634,9 @@ class PhysicsWorldBase:
         else:
             boxNodePathGeom = None
             self.bodyList.append((None, body))
-            
+
         return boxNodePathGeom, body
-        
+
     def createCross(self, world, space, density, lx, ly, lz, colOnlyBall = 0, attachedGeo = None, aHPR = None, aPos = None):
         """Create a box body and its corresponding geom."""
         # Create body
@@ -650,25 +650,25 @@ class PhysicsWorldBase:
         #body.shape = "box"
         boxsize = Vec3(lx, ly, lz)
         boxsize2 = Vec3(ly, lx, lz)
-        
+
 
         # Create a box geom for collision detection
         geom = OdeBoxGeom(space, boxsize)
         geom.setBody(body)
         self.space.setSurfaceType(geom, 0)
         self.space.setCollideId(geom, 13)
-        
+
         geom2 = OdeBoxGeom(space, boxsize2)
         geom2.setBody(body)
         self.space.setSurfaceType(geom2, 0)
         self.space.setCollideId(geom2, 26)
-        
+
         self.massList.append(M)
         self.geomList.append(geom)
         self.geomList.append(geom2)
 
         self.odePandaRelationList.append((boxNodePathGeom, body))
-        
+
         if colOnlyBall == 1:
                 geom.setCollideBits(BitMask32(0x0f000000))
                 geom.setCategoryBits(BitMask32(0x00000000))
@@ -679,14 +679,14 @@ class PhysicsWorldBase:
                 geom.setCategoryBits(BitMask32(0x00000000))
                 geom2.setCollideBits(BitMask32(0x00000000))
                 geom2.setCategoryBits(BitMask32(0x00000000))
-        
+
         if self.canRender:
             boxNodePathGeom, t1, t2 = BuildGeometry.addBoxGeom(self.worldAttach, lx, ly, lz, Vec4(1.0,1.0,1.0,1.0), 1)
             boxNodePathGeom.setPos(0,0,-100)
-            
+
             boxNodePathGeom2, t1, t2 = BuildGeometry.addBoxGeom(boxNodePathGeom, ly, lx, lz, Vec4(1.0,1.0,1.0,1.0), 1)
             boxNodePathGeom2.setPos(0,0,0)
-            
+
             if attachedGeo:
                 attachedGeo.reparentTo(boxNodePathGeom)
                 attachedGeo.setHpr(0,0,90)
@@ -696,13 +696,13 @@ class PhysicsWorldBase:
         else:
             boxNodePathGeom = None
             self.bodyList.append((None, body))
-            
+
         return boxNodePathGeom, body
-        
+
     def createCross2(self, world, space, density, lx, ly, lz, latSlide, colOnlyBall = 0, attachedGeo = None, aHPR = None, aPos = None):
         """Create a box body and its corresponding geom."""
-        
-        
+
+
         # Create body
         #latSlide = 0.35
         body = OdeBody(self.world)
@@ -711,45 +711,45 @@ class PhysicsWorldBase:
         body.setMass(M)
         body.setFiniteRotationMode(1)
         #import pdb; pdb.set_trace()
-        
+
         # Set parameters for drawing the body
         #body.shape = "box"
         boxsize = Vec3(lx, ly * 0.5, lz)
         boxsize2 = Vec3(ly * 0.5, lx, lz)
-        
-        
+
+
         # Create a box geom for collision detection
         geom = OdeBoxGeom(space, boxsize)
         geom.setBody(body)
         geom.setOffsetPosition(-latSlide,ly * 0.25,0)
         self.space.setSurfaceType(geom, 0)
         self.space.setCollideId(geom, 13)
-        
+
         geom2 = OdeBoxGeom(space, boxsize2)
         geom2.setBody(body)
         geom2.setOffsetPosition(ly * 0.25,latSlide ,0)
         self.space.setSurfaceType(geom2, 0)
         self.space.setCollideId(geom2, 13)
-        
+
         geom3 = OdeBoxGeom(space, boxsize)
         geom3.setBody(body)
         geom3.setOffsetPosition(latSlide,-ly * 0.25,0)
         self.space.setSurfaceType(geom3, 0)
         self.space.setCollideId(geom3, 13)
-        
+
         geom4 = OdeBoxGeom(space, boxsize2)
         geom4.setBody(body)
         geom4.setOffsetPosition(-ly * 0.25,-latSlide,0)
         self.space.setSurfaceType(geom4, 0)
         self.space.setCollideId(geom4, 13)
-        
+
         self.massList.append(M)
         self.geomList.append(geom)
         self.geomList.append(geom2)
         self.geomList.append(geom3)
         self.geomList.append(geom4)
-        
-        
+
+
         if colOnlyBall == 1:
                 geom.setCollideBits(BitMask32(0x0f000000))
                 geom.setCategoryBits(BitMask32(0x00000000))
@@ -768,25 +768,25 @@ class PhysicsWorldBase:
                 geom3.setCategoryBits(BitMask32(0x00000000))
                 geom4.setCollideBits(BitMask32(0x00000000))
                 geom4.setCategoryBits(BitMask32(0x00000000))
-        
+
         if self.canRender:
             someNodePathGeom = render.attachNewNode("pinwheel")
             if attachedGeo:
                 attachedGeo.reparentTo(someNodePathGeom)
                 attachedGeo.setHpr(aHPR[0], aHPR[1], aHPR[2])
                 attachedGeo.setPos(aPos[0], aPos[1], aPos[2])
-        
+
             else:
                 pass
             boxNodePathGeom, t1, t2 = BuildGeometry.addBoxGeom(someNodePathGeom, lx, ly * 0.5, lz, Vec4(1.0,1.0,1.0,1.0), 1)
             boxNodePathGeom.setPos(-latSlide,ly * 0.25,0)
-            
+
             boxNodePathGeom2, t1, t2 = BuildGeometry.addBoxGeom(someNodePathGeom, ly * 0.5, lx, lz, Vec4(1.0,1.0,1.0,1.0), 1)
             boxNodePathGeom2.setPos(ly * 0.25,latSlide ,0)
-            
+
             boxNodePathGeom3, t1, t2 = BuildGeometry.addBoxGeom(someNodePathGeom, lx, ly * 0.5, lz, Vec4(1.0,1.0,1.0,1.0), 1)
             boxNodePathGeom3.setPos(latSlide,-ly * 0.25,0)
-            
+
             boxNodePathGeom4, t1, t2 = BuildGeometry.addBoxGeom(someNodePathGeom, ly * 0.5, lx, lz, Vec4(1.0,1.0,1.0,1.0), 1)
             boxNodePathGeom4.setPos(-ly * 0.25,-latSlide,0)
 
@@ -794,13 +794,13 @@ class PhysicsWorldBase:
         else:
             someNodePathGeom = None
             self.bodyList.append((None, body))
-            
+
         return someNodePathGeom, body
-        
+
     def createPinWheel(self, world, space, density, lx, ly, lz, numBoxes, disV, disH, colOnlyBall = 0, attachedGeo = None, aHPR = None, aPos = None, offRot = 0):
         """Create a box body and its corresponding geom."""
-        
-        
+
+
         # Create body
         #latSlide = 0.35
         body = OdeBody(self.world)
@@ -808,33 +808,33 @@ class PhysicsWorldBase:
         M.setBox(density, lx, ly, lz)
         body.setMass(M)
         body.setFiniteRotationMode(1)
- 
-        
+
+
         # Set parameters for drawing the body
         #body.shape = "box"
         boxsize = Vec3(lx, ly * 0.5, lz)
         boxsize2 = Vec3(ly * 0.5, lx, lz)
-        
+
         self.massList.append(M)
 
-        
+
         self.placerNode.setPos(0,0,0)
         self.placerNode.setHpr(0,0,0)
         self.subPlacerNode.setHpr(0,0,0)
         self.subPlacerNode.setPos(disH, disV, 0)
-        
+
         if self.canRender:
             someNodePathGeom = render.attachNewNode("pinwheel")
         else:
             someNodePathGeom = self.root.attachNewNode("pinwheel")
-            
-        
+
+
         for num in range(numBoxes):
-            
+
             spin = 360.0 * float(num)/float(numBoxes) + float(offRot)
             self.placerNode.setH(spin)
 
-            
+
             geom = OdeBoxGeom(space, boxsize)
             geom.setBody(body)
             #geom2 = OdeBoxGeom(space, boxsize)
@@ -842,9 +842,9 @@ class PhysicsWorldBase:
             #geom.setOffsetPosition(0.0,ly * 0.25,0)
             geom.setOffsetPosition(self.subPlacerNode.getPos(self.root))
             geom.setOffsetQuaternion(self.subPlacerNode.getQuat(self.root))
-            
+
             self.geomList.append(geom)
-            
+
             #import pdb; pdb.set_trace()
             self.space.setSurfaceType(geom, 0)
             self.space.setCollideId(geom, 13)
@@ -861,7 +861,7 @@ class PhysicsWorldBase:
                 boxNodePathGeom.setPos(self.subPlacerNode.getPos(self.root))
                 boxNodePathGeom.setHpr(self.subPlacerNode.getHpr(self.root))
 
-        
+
         if attachedGeo and self.canRender:
             attachedGeo.reparentTo(someNodePathGeom)
             attachedGeo.setHpr(aHPR[0], aHPR[1], aHPR[2])
@@ -873,7 +873,7 @@ class PhysicsWorldBase:
         else:
             someNodePathGeom = None
             self.bodyList.append((None, body))
-            
+
         return someNodePathGeom, body
 
 
@@ -885,5 +885,3 @@ class PhysicsWorldBase:
             ballmodel.setScale(0.25)
             testMarker.setPos(0.0,0.0,-100.0)
             self.odePandaRelationList.append((testMarker, body))
-
- 

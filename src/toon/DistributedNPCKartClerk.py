@@ -5,15 +5,15 @@
 # Author: shaskell
 ##########################################################################
 
-#from pandac.PandaModules import *
-from DistributedNPCToonBase import *
+#from toontown.toonbase.ToontownModules import *
+from .DistributedNPCToonBase import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
-import NPCToons
+from toontown.toonbase.ToontownModules import *
+from . import NPCToons
 from direct.task.Task import Task
 from toontown.toonbase import TTLocalizer
 from toontown.racing.KartShopGui import *
-from toontown.racing.KartShopGlobals import * 
+from toontown.racing.KartShopGlobals import *
 
 class DistributedNPCKartClerk(DistributedNPCToonBase):
 
@@ -24,7 +24,7 @@ class DistributedNPCKartClerk(DistributedNPCToonBase):
         self.button = None
         self.popupInfo = None
         self.kartShopGui = None
-            
+
     def disable(self):
         self.ignoreAll()
         taskMgr.remove(self.uniqueName('popupKartShopGUI'))
@@ -48,7 +48,7 @@ class DistributedNPCKartClerk(DistributedNPCToonBase):
         """
         DistributedNPCToonBase.generate(self)
 
-        
+
     def getCollSphereRadius(self):
         """
         Override DistributedNPCToonBase here to spec a smaller radius
@@ -77,7 +77,7 @@ class DistributedNPCKartClerk(DistributedNPCToonBase):
         if self.kartShopGui:
             self.kartShopGui.destroy()
             self.kartShopGui = None
-            
+
         self.show()
         self.startLookAround()
         self.detectAvatars()
@@ -89,17 +89,17 @@ class DistributedNPCKartClerk(DistributedNPCToonBase):
         # to read through the chat balloons, just free us
         if (self.isLocalToon):
             self.freeAvatar()
-        
+
         return Task.done
 
     def ignoreEventDict(self):
         for event in KartShopGlobals.EVENTDICT:
             self.ignore(event)
-            
+
     def setMovie(self, mode, npcId, avId, extraArgs, timestamp):
         """
         This is a message from the AI describing a movie between this NPC
-        and a Toon that has approached us. 
+        and a Toon that has approached us.
         """
         timeStamp = ClockDelta.globalClockDelta.localElapsedTime(timestamp)
         self.remain = NPCToons.CLERK_COUNTDOWN_TIME - timeStamp
@@ -108,7 +108,7 @@ class DistributedNPCKartClerk(DistributedNPCToonBase):
 
         # See if this is the local toon
         self.isLocalToon = (avId == base.localAvatar.doId)
-            
+
         assert(self.notify.debug("setMovie: %s %s %s %s" %
                           (mode, avId, timeStamp, self.isLocalToon)))
 
@@ -161,7 +161,7 @@ class DistributedNPCKartClerk(DistributedNPCToonBase):
                 taskMgr.doMethodLater(1.0, self.popupKartShopGUI,
                                       self.uniqueName('popupKartShopGUI'))
 
-        #Player made at least one successful purchase    
+        #Player made at least one successful purchase
         elif (mode == NPCToons.SELL_MOVIE_COMPLETE):
             assert self.notify.debug('SELL_MOVIE_COMPLETE')
             #TODO: change this appropriately
@@ -187,15 +187,15 @@ class DistributedNPCKartClerk(DistributedNPCToonBase):
 
  #        self.sendUpdate("petAdopted", [whichPet, nameIndex])
 
-    def __handleBuyKart(self, kartID): 
+    def __handleBuyKart(self, kartID):
               #base.localAvatar.requestKartDNAFieldUpdate( KartDNA.bodyType, kartID )
                #base.localAvatar.requestKartDNAFieldUpdate( KartDNA.bodyColor, getDefaultColor() )
         self.sendUpdate("buyKart", [kartID])
-                    
+
     def __handleBuyAccessory(self, accID):
         #base.localAvatar.requestAddOwnedAccessory(accID )
         self.sendUpdate("buyAccessory", [accID])
-        
+
     def __handleGuiDone(self, bTimedOut=False):
         self.ignoreAll()
         if hasattr(self, 'kartShopGui') and self.kartShopGui != None:
@@ -204,14 +204,13 @@ class DistributedNPCKartClerk(DistributedNPCToonBase):
         #TODO: Need this?
         if not bTimedOut:
             self.sendUpdate("transactionDone")
-        
+
     def popupKartShopGUI(self, task):
         assert self.notify.debug('popupKartShopGUI()')
         self.setChatAbsolute('', CFSpeech)
-        
+
         self.accept( KartShopGlobals.EVENTDICT["buyAccessory"], self.__handleBuyAccessory )
         self.accept( KartShopGlobals.EVENTDICT["buyKart"], self.__handleBuyKart )
         self.acceptOnce(  KartShopGlobals.EVENTDICT[ 'guiDone' ], self.__handleGuiDone )
-                                
-        self.kartShopGui = KartShopGuiMgr(KartShopGlobals.EVENTDICT)
 
+        self.kartShopGui = KartShopGuiMgr(KartShopGlobals.EVENTDICT)

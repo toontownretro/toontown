@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.PythonUtil import clampScalar
 from direct.distributed.ClockDelta import *
 from direct.distributed import DistributedObject
@@ -15,7 +15,7 @@ from toontown.racing.RaceHeadFrame import RaceHeadFrame
 from toontown.racing.RaceGag import RaceGag
 from toontown.racing.RaceEndPanels import RaceEndPanel
 from toontown.racing import RaceGlobals
-from pandac.PandaModules import CardMaker,OrthographicLens,LineSegs
+from toontown.toonbase.ToontownModules import CardMaker,OrthographicLens,LineSegs
 from direct.particles.ParticleEffect import *
 from math import fmod
 from math import sqrt
@@ -27,8 +27,8 @@ import random
 class RaceGUI:
     GagPie = 0
     gagRoot="phase_3.5/maps/inventory_"
-    
-    class RacerInfo:            
+
+    class RacerInfo:
         def __init__(self,face,mapSpot):
             self.curvetime = 0
             self.maxlaphit = 0
@@ -38,7 +38,7 @@ class RaceGUI:
             self.enabled = True
             self.finished = False
             self.gag = None
-            
+
         def update(self,curvetime = None, maxlaphit = None, faceX = None, mapspotPt = None, place = None, finished = None):
             if(self.enabled):
                 if(not curvetime == None):
@@ -64,7 +64,7 @@ class RaceGUI:
             self.enabled = True
             self.face.show()
             self.mapspot.show()
-                         
+
     def __init__(self,distRace):
         self.race = distRace
         self.timerEnabled = False
@@ -82,20 +82,20 @@ class RaceGUI:
                              ]
         self.gagTextures[1].setScale(7.5)
         self.gagTextures[3].setScale(7.5)
-        self.gagTextures[4].setScale(7.5)        
-            
+        self.gagTextures[4].setScale(7.5)
+
         self.cardMaker = CardMaker('card')
 
         #racer info
         self.racerDict = {}
-        
+
         #setup render2d
         self.render2dRoot = render2d.attachNewNode('RaceGuiRender2dRoot')
         self.render2dRoot.setDepthWrite(1)
 
         #setup a list of directobjects
         self.directObjList = []
-        
+
         #setup aspect2d
         self.aspect2dRoot = aspect2d.attachNewNode('RaceGuiAspect2dRoot')
         self.aspect2dRoot.setDepthWrite(1)
@@ -122,7 +122,7 @@ class RaceGUI:
             )
         self.closeButton.reparentTo(self.aspect2dRoot)
         self.directObjList.append(self.closeButton)
-        
+
         #setup the race gui
         self.raceTimeDelta = 0
         self.raceModeReady = False
@@ -157,16 +157,16 @@ class RaceGUI:
 ##                 if (dr.getCamera().getName() == 'MapCam'):
 ##                     self.mapCam = dr.getCamera()
 ##                     break
-                    
+
 ##         if(self.mapCam == None):
 ##             self.mapCam = base.makeCamera(base.win,sort=30,displayRegion = (self.mapX,self.mapX+self.mapSize,self.mapY,self.mapY+self.mapSize),camName = 'MapCam')
-                
+
 ##         self.mapCam.setY(-10)
 ##         self.mapCam.node().setLens(OrthographicLens())
 ##         self.mapCam.node().getLens().setFilmSize(2)
 ##         self.mapCam.node().getLens().setAspectRatio(4.0/3.0)
 ##         self.mapCam.reparentTo(self.mapScene)
-        
+
 ##         self.cardMaker.reset()
 ##         self.cardMaker.setName('MapBackground')
 ##         self.cardMaker.setFrame(-1,1,-1,1)
@@ -177,29 +177,29 @@ class RaceGUI:
         self.mapScene = self.raceModeRoot.attachNewNode('MapScene')
         self.mapScene.setPos(1.1, 0, 0.75)
         self.mapScene.setScale(0.25,0.001,0.25)
-        
+
         maxT = self.race.curve.getMaxT()
         pt = Vec3(0, 0, 0)
-        
+
         ls = LineSegs('MapLines')
         ls.setColor(1,1,1,1)
         ls.setThickness(2)
-        
+
         for x in range(101):
             self.race.curve.getPoint(x/100.0*maxT,pt)
             if(x == 0):
                 ls.moveTo(pt[0],pt[1],pt[2])
             else:
                 ls.drawTo(pt[0],pt[1],pt[2])
-                
+
         self.mapLines = self.mapScene.attachNewNode(ls.create())
         self.mapLines.setScale(0.00025*RaceGlobals.TrackDict[self.race.trackId][6])
         self.mapLines.setP(90)
-        
+
         #setup face info
         self.faceStartPos = Vec3(-0.80,0,0.93)
         self.faceEndPos = Vec3(0.80,0,0.93)
-        
+
         #setup place(1st,2nd,...) reporting
         self.placeLabelNum = DirectLabel(
             relief = None,
@@ -211,7 +211,7 @@ class RaceGUI:
             )
         self.placeLabelNum.reparentTo(self.raceModeRoot)
         self.directObjList.append(self.placeLabelNum)
-            
+
         self.placeLabelStr = DirectLabel(
             relief = None,
             pos = TTLocalizer.RGplaceLabelStrPos,
@@ -222,13 +222,13 @@ class RaceGUI:
             )
         self.placeLabelStr.reparentTo(self.raceModeRoot)
         self.directObjList.append(self.placeLabelStr)
-        
-        #setup lap reporting        
+
+        #setup lap reporting
         self.lapLabel = DirectLabel(
             relief = None,
             pos = (1.1, 0, 0.45),
             text = '1/'+str(self.race.lapCount),
-            text_scale = 0.1,          
+            text_scale = 0.1,
             text_fg = (0.95, 0.95, 0, 1),
             text_font = ToontownGlobals.getSignFont(),
             )
@@ -264,7 +264,7 @@ class RaceGUI:
             self.wrongWayLabel.colorScaleInterval(0.25,colorScale = Vec4(1,1,1,1), startColorScale = Vec4(1,1,1,0)),
             self.wrongWayLabel.colorScaleInterval(0.25,colorScale = Vec4(1,1,1,0), startColorScale = Vec4(1,1,1,1)),
             )
-        
+
         #setup time reporting
         interpolateFacePos = lambda x: self.faceStartPos*(1.0-x) + self.faceEndPos*(x)
         self.timeLabels = []
@@ -303,7 +303,7 @@ class RaceGUI:
             fractionLabel.reparentTo(self.raceModeRoot)
             self.directObjList.append(fractionLabel)
             self.timeLabels.append((minLabel,secLabel,fractionLabel))
-        
+
         #setup gag indicator
         self.cardMaker.reset()
         self.cardMaker.setName('GagIndicator')
@@ -315,7 +315,7 @@ class RaceGUI:
             relief = None,
             image = loader.loadModel('phase_6/models/karting/gag_panel'),
             image_scale = 0.25,
-            pos = (-1.13,0,-0.5),            
+            pos = (-1.13,0,-0.5),
             )
         self.directObjList.append(self.gagPanel)
 
@@ -324,7 +324,7 @@ class RaceGUI:
         for gag in self.gagTextures:
             gag.reparentTo(self.gag)
             gag.hide()
-        
+
         #setup face line
         self.cardMaker.reset()
         self.cardMaker.setName('RaceProgressLine')
@@ -332,7 +332,7 @@ class RaceGUI:
         line = self.raceModeRoot.attachNewNode(self.cardMaker.generate())
         line.setScale(self.faceEndPos[0]-self.faceStartPos[0],1,0.01)
         line.setPos(0,0,self.faceStartPos[2])
-        
+
         self.cardMaker.setName('RaceProgressLineHash')
         for n in range(self.race.lapCount+1):
             hash = self.raceModeRoot.attachNewNode(self.cardMaker.generate())
@@ -354,9 +354,9 @@ class RaceGUI:
     def showGag(self,gagIndex):
         if gagIndex < len(self.gagTextures):
             for gag in self.gagTextures:
-                gag.hide()        
+                gag.hide()
             self.gagTextures[gagIndex].show()
-            
+
     def updateGag(self,gagIndex):
         if(self.gag):
             # Make sure the gag cycle interval is cleaned up.
@@ -383,7 +383,7 @@ class RaceGUI:
     def waitingOnGag(self, cycleTime):
         if(self.gag):
             numTextures = len(self.gagTextures)
-            startOffset = random.choice(range(0,numTextures))
+            startOffset = random.choice(list(range(0,numTextures)))
             self.gag.show()
             self.gagCycleInterval = Parallel(
                 LerpFunc(self.showNextGag,
@@ -411,10 +411,10 @@ class RaceGUI:
 
     def enableSpeedometer(self):
         self.race.localKart.showSpeedometer()
-        
+
     def disableSpeedometer(self):
         self.race.localKart.hideSpeedometer()
-        
+
     def disableRaceMode(self):
         self.disableSpeedometer()
 ##         self.mapCam.node().getDisplayRegion(0).setActive(False)
@@ -426,10 +426,10 @@ class RaceGUI:
                 y.hide()
 
         self.setTimerEnabled(False)
-        
+
     def disableResultMode(self):
         self.endPanel.disable()
-    
+
     def disable(self):
         self.closeButton.hide()
         taskMgr.removeTasksMatching("clearRaceEndPanel")
@@ -439,7 +439,7 @@ class RaceGUI:
 
         if self.resultModeReady :
             self.disableResultMode()
-        
+
     def enableRaceMode(self):
         self.enableSpeedometer()
 
@@ -462,7 +462,7 @@ class RaceGUI:
         self.endPanel.enable()
         # make this panel eventually go away eventually if this is the last race
         if not self.race.circuitLoop:
-            taskMgr.doMethodLater(180, self.endPanel.closeButtonPressed, "clearRaceEndPanel", extraArgs=[]) 
+            taskMgr.doMethodLater(180, self.endPanel.closeButtonPressed, "clearRaceEndPanel", extraArgs=[])
 
     def destroy(self):
         self.disable()
@@ -474,20 +474,20 @@ class RaceGUI:
         taskMgr.removeTasksMatching('removeIt')
         taskMgr.removeTasksMatching('removeCam*')
         taskMgr.removeTasksMatching("clearRaceEndPanel")
-        
+
         for obj in self.directObjList:
             obj.destroy()
-            
+
         if hasattr(self, "mapScene"):
             self.mapScene.removeNode()
             self.mapScene = None
-        
+
         self.aspect2dRoot.removeNode()
         self.aspect2dRoot = None
 
         self.raceModeRoot.removeNode()
         self.raceModeRoot = None
-        
+
         self.render2dRoot.removeNode()
         self.render2dRoot = None
 
@@ -504,10 +504,10 @@ class RaceGUI:
     def setSpotAsymptotic(self,diffT,spot):
         p = (-1,1)[diffT>0]*(1-1/pow(abs(diffT)/self.cutoff+1,2))
         spot.setX(p)
-            
+
     def setSpotRaceLinear(self,t,spot):
         spot.setX(-1.0+2.0*(t/self.lapCount))
-                
+
     def setSpotLapLinear(self,t,spot):
         spot.setX(-1.0+2.0*(t-int(t)))
 
@@ -516,19 +516,19 @@ class RaceGUI:
         placeCount = 0
 
         # begin updates for all racers
-        for key in self.racerDict.keys():
+        for key in list(self.racerDict.keys()):
             racer = self.racerDict[key]
-            curvetime = racer.curvetime            
+            curvetime = racer.curvetime
             face = racer.face
             mapspot = racer.mapspot
             maxlaphit = racer.maxlaphit
 
-            
+
             if(not racer.finished and racer.enabled):
                 placeSorter.append((curvetime,key))
             if(racer.finished or racer.enabled):
                 placeCount += 1
-                
+
             pt = Vec3(0, 0, 0)
 
             mapT = ((curvetime%1+self.race.startT/self.race.curve.getMaxT())%1)*self.race.curve.getMaxT()
@@ -550,7 +550,7 @@ class RaceGUI:
                 if(self.race.laps > maxlaphit):
                     racer.update(maxlaphit = self.race.laps)
                     self.maxLapHit = racer.maxlaphit
-                    
+
                     if(self.maxLapHit < self.race.lapCount):
                         for y in self.timeLabels[self.maxLapHit-1]:
                             y.configure(text_font = ToontownGlobals.getSignFont())
@@ -560,7 +560,7 @@ class RaceGUI:
                             y.configure(text_font = ToontownGlobals.getSignFont())
 
                         self.raceTimeDelta = globalClock.getFrameTime() - self.race.baseTime
-                        
+
                         lapNotice=DirectLabel()
                         lapNotice.setScale(.1)
                         if(self.maxLapHit==self.race.lapCount-1):
@@ -568,17 +568,17 @@ class RaceGUI:
                         else:
                             lapNotice['text']=TTLocalizer.KartRace_LapText % str(self.maxLapHit+1)
                         taskMgr.doMethodLater(2,lapNotice.remove,"removeIt",extraArgs=[])
-                
+
 
                 self.lapLabel['text'] = str(clampScalar(self.maxLapHit+1,1,self.race.lapCount))+'/'+str(self.race.lapCount)
-            
+
         suffix = {1 : TTLocalizer.KartRace_FirstSuffix,
                   2 : TTLocalizer.KartRace_SecondSuffix,
                   3 : TTLocalizer.KartRace_ThirdSuffix,
                   4 : TTLocalizer.KartRace_FourthSuffix,
                   }
         placeSorter.sort()
-        for x,p in zip(placeSorter,xrange(len(placeSorter),0,-1)):
+        for x,p in zip(placeSorter,range(len(placeSorter),0,-1)):
             self.racerDict[x[1]].update(place = (p+placeCount-len(placeSorter)))
 
         # if we are close to the finish line, and so is someone else,
@@ -586,7 +586,7 @@ class RaceGUI:
         localRacer = self.racerDict[localAvatar.doId]
         (nearDiff, farDiff) = RaceGlobals.TrackDict[self.race.trackId][8]
         if (not localRacer.finished) and (self.faceEndPos[0] - localRacer.face.getX() < nearDiff):
-            for racerId in self.racerDict.keys():
+            for racerId in list(self.racerDict.keys()):
                 racer = self.racerDict[racerId]
                 if (not racer.enabled or (racerId == localAvatar.doId) or
                     (racer.face.getX() >= self.faceEndPos[0])):
@@ -622,10 +622,10 @@ class RaceGUI:
             self.wrongWaySeq.loop()
         elif (not self.race.wrongWay and self.wrongWaySeq.isPlaying()):
             self.wrongWaySeq.finish()
-            
-    
+
+
     def updateRacerInfo(self,avId,curvetime = None, maxlaphit = None):
-        if ( avId in self.racerDict.keys() ):
+        if ( avId in list(self.racerDict.keys()) ):
             self.racerDict[avId].update(curvetime=curvetime,maxlaphit=maxlaphit)
 
     #####################################################
@@ -637,7 +637,7 @@ class RaceGUI:
 
         if(not toon or not kart):
             return
-        
+
         if( kart.getBodyColor() == InvalidEntry ):
             bodyColor = getDefaultColor()
         else:
@@ -667,9 +667,9 @@ class RaceGUI:
 ##             f.destroy()
 ##             s.removeNode()
 ##         # if using this doMethodLater, be sure to remove it from the taskMgr
-##         # 
+##         #
 ##         taskMgr.doMethodLater(1,cleanUpPortrait,'removeCam:%d'%avId)
-        
+
 
 ##         #setup face
 ##         self.cardMaker.reset()
@@ -691,7 +691,7 @@ class RaceGUI:
         headframe.setDepthTest(True)
         headframe.reparentTo(self.raceModeRoot)
         self.directObjList.append(headframe)
-        
+
         #setup map place
         mapspot = loader.loadModel('phase_6/models/karting/race_mapspot')
         mapspot.setColor(bodyColor)
@@ -699,7 +699,7 @@ class RaceGUI:
         mapspot.setHpr(self.mapScene,0,0,0)
 
         self.racerDict[avId] = self.RacerInfo(headframe,mapspot)
-        for key,i in zip(self.racerDict.keys(),range(len(self.racerDict.keys()))):
+        for key,i in zip(list(self.racerDict.keys()),list(range(len(list(self.racerDict.keys()))))):
             face = self.racerDict[key].face
             mapspot = self.racerDict[key].mapspot
 
@@ -710,17 +710,17 @@ class RaceGUI:
             mapspot.getChild(0).setY((-5-5*(i+1))*1000)
             mapspot.setScale(self.mapScene,0.15)
             mapspot.setPos(self.race.startingPos[0][0])
-            
+
             if(key == localAvatar.doId):
                 face.setY(-1)
-                face.setScale(face.getScale()*1.25)                
-                
+                face.setScale(face.getScale()*1.25)
+
                 mapspot.getChild(0).setY((-5)*1000)
                 mapspot.setScale(mapspot.getScale()*1.25)
-                
+
                 self.face = face
                 self.mapspot = mapspot
-                
+
     def racerLeft(self,avId,unexpected = False):
         racer=self.racerDict.get(avId,None)
         if(racer):
@@ -740,7 +740,7 @@ class RaceGUI:
                 self.disableRaceMode()
                 self.enableResultMode()
                 self.endPanel.startWinningsPanel(entryFee,winnings,trackId,bonus,trophies)
-            
+
     def racerFinishedCircuit(self,avId,place, entryFee,winnings, bonus,trophies):
         #print("racerFinishedCircuit")
         racer = self.racerDict.get(avId,None)
@@ -748,13 +748,13 @@ class RaceGUI:
             newTotalTickets = winnings + entryFee + bonus
             self.endPanel.updateWinnings(place, newTotalTickets)
 
-            if(avId == localAvatar.doId):             
+            if(avId == localAvatar.doId):
                 self.endPanel.updateWinningsFromCircuit(place, entryFee,winnings, bonus,trophies)
                 pass
             #    self.disableRaceMode()
             #    self.enableResultMode()
             #    self.endPanel.startWinningsPanel(entryFee,winnings,trackId,bonus,trophies)
-                
+
 
     def circuitFinished(self, placeFixup):
         #print "circuit finished"

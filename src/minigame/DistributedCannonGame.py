@@ -1,8 +1,8 @@
 
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
-from DistributedMinigame import *
+from .DistributedMinigame import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm import ClassicFSM, State
@@ -10,14 +10,14 @@ from direct.fsm import State
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownTimer
 from direct.task.Task import Task
-import Trajectory
+from . import Trajectory
 import math
 from toontown.toon import ToonHead
 from toontown.effects import Splash
 from toontown.effects import DustCloud
-import CannonGameGlobals
+from . import CannonGameGlobals
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 
 # some constants
@@ -373,7 +373,7 @@ class DistributedCannonGame(DistributedMinigame):
             # this flag will show whether or not you'll win if you shoot
             # with the current cannon orientation
             self.cheat = config.GetBool('cannon-game-cheat', 0)
-            
+
     def unload(self):
         self.notify.debug("unload")
         DistributedMinigame.unload(self)
@@ -415,7 +415,7 @@ class DistributedCannonGame(DistributedMinigame):
         del self.rewardPanel
         self.jarImage.removeNode()
         del self.jarImage
-        
+
         # Get rid of audio
         del self.music
         del self.sndCannonMove
@@ -437,7 +437,7 @@ class DistributedCannonGame(DistributedMinigame):
         del self.rightButton
 
         # make sure the blink and lookaround tasks are cleaned up
-        for avId in self.toonHeadDict.keys():
+        for avId in list(self.toonHeadDict.keys()):
             head = self.toonHeadDict[avId]
             head.stopBlink()
             head.stopLookAroundNow()
@@ -449,11 +449,11 @@ class DistributedCannonGame(DistributedMinigame):
                 av.nametag.removeNametag(head.tag)
             head.delete()
         del self.toonHeadDict
-        for model in self.toonModelDict.values():
+        for model in list(self.toonModelDict.values()):
             model.removeNode()
         del self.toonModelDict
         del self.toonScaleDict
-        for interval in self.toonIntervalDict.values():
+        for interval in list(self.toonIntervalDict.values()):
             interval.finish()
         del self.toonIntervalDict
 
@@ -522,7 +522,7 @@ class DistributedCannonGame(DistributedMinigame):
         for avId in self.avIdList:
             self.cannonDict[avId][0].reparentTo(hidden)
             # this dict may not have been filled in
-            if self.dropShadowDict.has_key(avId):
+            if avId in self.dropShadowDict:
                 self.dropShadowDict[avId].reparentTo(hidden)
 
             av = self.getAvatar(avId)
@@ -733,7 +733,7 @@ class DistributedCannonGame(DistributedMinigame):
     def __playing(self):
         return (self.gameFSM.getCurrentState() !=
                 self.gameFSM.getFinalState())
-        
+
     def updateCannonPosition(self, avId, zRot, angle):
         if not self.hasLocalToon: return
         # if the game is already over, ignore this message
@@ -1206,7 +1206,7 @@ class DistributedCannonGame(DistributedMinigame):
         flightResults = self.__calcFlightResults(avId, launchTime)
         # pull all the results into the local namespace
         for key in flightResults:
-            exec "%s = flightResults['%s']" % (key, key)
+            exec("%s = flightResults['%s']" % (key, key))
 
         self.notify.debug("start position: " + str(startPos))
         self.notify.debug("start velocity: " + str(startVel))
@@ -1485,7 +1485,7 @@ class DistributedCannonGame(DistributedMinigame):
                 self.dustCloud.setScale(0.35)
                 self.dustCloud.play()
                 base.playSfx(self.sndHitGround)
-                # Make him wiggle his legs                
+                # Make him wiggle his legs
                 avatar.setPlayRate(2.0, 'run')
                 avatar.loop("run")
             return Task.done
@@ -1522,7 +1522,7 @@ class DistributedCannonGame(DistributedMinigame):
         # Reward panel was never created, game ended before it even began.
         if not hasattr(self, 'rewardPanel'):
             return Task.cont
-    
+
         curTime = self.getCurrentGameTime()
 
         # if it's time for the clock to stop, stop it
@@ -1533,7 +1533,7 @@ class DistributedCannonGame(DistributedMinigame):
                 # we show the same number of jbeans that we'll see
                 # in the reward screen
                 curTime = self.clockStopTime
-            
+
         # if this is the first time through, init the task's
         # record of the score
         score = int(self.scoreMult * CannonGameGlobals.calcScore(curTime)+.5)
@@ -1724,4 +1724,3 @@ class DistributedCannonGame(DistributedMinigame):
                        blendType = "easeInOut",
                        task = self.INTRO_TASK_NAME_CAMERA_LERP)
         return Task.done
-

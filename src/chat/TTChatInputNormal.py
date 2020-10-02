@@ -1,7 +1,7 @@
 """TTChatInputNormal module: contains the TTChatInputNormal class"""
 
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from otp.chat import ChatInputNormal
 from otp.otpbase import OTPLocalizer
 from otp.otpbase import OTPGlobals
@@ -16,7 +16,7 @@ class TTChatInputNormal(ChatInputNormal.ChatInputNormal):
 
         # load the chat balloon
         gui = loader.loadModel("phase_3.5/models/gui/chat_input_gui")
-        
+
         self.chatFrame = DirectFrame(
             parent = aspect2dp,
             image = gui.find("**/Chat_Bx_FNL"),
@@ -53,7 +53,7 @@ class TTChatInputNormal(ChatInputNormal.ChatInputNormal):
                      gui.find("**/CloseBtn_DN"),
                      gui.find("**/CloseBtn_Rllvr"),
                      ),
-            pos = (-0.151, 0, -0.088),                            
+            pos = (-0.151, 0, -0.088),
             relief = None,
             text = ("",
                     OTPLocalizer.ChatInputNormalCancel,
@@ -103,23 +103,23 @@ class TTChatInputNormal(ChatInputNormal.ChatInputNormal):
         self.cancelButton.destroy()
         ChatInputNormal.ChatInputNormal.delete(self)
         loader.unloadModel("phase_3.5/models/gui/chat_input_gui")
-    
+
     def importExecNamespace(self):
         ChatInputNormal.ChatInputNormal.importExecNamespace(self)
-        
-        exec 'from toontown.toonbase.ToonBaseGlobal import *' in globals(), self.ExecNamespace
-        
+
+        exec('from toontown.toonbase.ToonBaseGlobal import *', globals(), self.ExecNamespace)
+
     def typeCallback(self, extraArgs):
         #if hasattr(base, "whiteList"):
         #    if base.whiteList:
         #        return
         #print("typeCallback")
-        
+
         if localAvatar.chatMgr.chatInputWhiteList.isActive():
             return
         else:
             messenger.send('enterNormalChat')
-            
+
     def checkForOverRide(self):
         return False
         #ChatInputNormal likes to intercept other direct entries

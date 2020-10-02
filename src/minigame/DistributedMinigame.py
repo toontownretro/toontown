@@ -1,21 +1,21 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from toontown.toonbase import ToontownGlobals
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-import MinigameRulesPanel
+from . import MinigameRulesPanel
 from direct.task.Task import Task
 from toontown.toon import Toon
 from direct.showbase import RandomNumGen
 from toontown.toonbase import TTLocalizer
 import random
-import MinigameGlobals
+from . import MinigameGlobals
 from direct.showbase import PythonUtil
 from toontown.toon import TTEmote
 from otp.avatar import Emote
@@ -37,7 +37,7 @@ class DistributedMinigame(DistributedObject.DistributedObject):
             text_fg = VBase4(1,1,1,1),
             relief = None,
             pos = (-0.6, 0, -0.75),
-            scale = 0.075)   
+            scale = 0.075)
         self.waitingStartLabel.hide()
 
         # Initialize the avIdList to an empty list in case
@@ -147,7 +147,7 @@ class DistributedMinigame(DistributedObject.DistributedObject):
         #info needed for trolley metagame
         self.startingVotes = {}
         self.metagameRound = -1
-        
+
 
     def addChildGameFSM(self, gameFSM):
         """ inheritors should call this with their game ClassicFSM """
@@ -165,7 +165,7 @@ class DistributedMinigame(DistributedObject.DistributedObject):
     def getTitle(self):
         """
         Return the title of the minigame.
-        Subclasses should redefine. 
+        Subclasses should redefine.
         """
         return TTLocalizer.DefaultMinigameTitle
 
@@ -208,7 +208,7 @@ class DistributedMinigame(DistributedObject.DistributedObject):
         filled in
         """
         DistributedObject.DistributedObject.announceGenerate(self)
-        
+
         if not self.hasLocalToon: return
         self.notify.debug("BASE: handleAnnounceGenerate: send setAvatarJoined")
 
@@ -251,7 +251,7 @@ class DistributedMinigame(DistributedObject.DistributedObject):
             self.offstage()
             # make sure we clear the screen
             base.cr.renderFrame()
-            
+
             # If we didn't abort, tell the AI we are exiting
             if self.normalExit:
                 self.sendUpdate("setAvatarExited", [])
@@ -326,7 +326,7 @@ class DistributedMinigame(DistributedObject.DistributedObject):
                 taskMgr.doMethodLater(self.randomDisconnectDelay,
                                       self.doRandomDisconnect,
                                       self.uniqueName('random-disconnect'))
-                
+
             if base.randomMinigameNetworkPlugPull:
                 maxDuration = calcMaxDuration()
                 self.randomNetPlugPullDelay = random.random() * maxDuration
@@ -336,22 +336,22 @@ class DistributedMinigame(DistributedObject.DistributedObject):
                     self.uniqueName('random-netplugpull'))
 
     def doRandomAbort(self, task):
-        print ("*** DOING RANDOM MINIGAME ABORT AFTER %.2f SECONDS ***" %
-               self.randomAbortDelay)
+        print(("*** DOING RANDOM MINIGAME ABORT AFTER %.2f SECONDS ***" %
+               self.randomAbortDelay))
         self.d_requestExit()
         return Task.done
 
     def doRandomDisconnect(self, task):
-        print ("*** DOING RANDOM MINIGAME DISCONNECT AFTER %.2f SECONDS ***" %
-               self.randomDisconnectDelay)
+        print(("*** DOING RANDOM MINIGAME DISCONNECT AFTER %.2f SECONDS ***" %
+               self.randomDisconnectDelay))
         # this is a message that clients cannot send;
         # get booted off the server intentionally
         self.sendUpdate('setGameReady')
         return Task.done
 
     def doRandomNetworkPlugPull(self, task):
-        print ('*** DOING RANDOM MINIGAME NETWORK-PLUG-PULL AFTER '
-               '%.2f SECONDS ***' % self.randomNetPlugPullDelay)
+        print(('*** DOING RANDOM MINIGAME NETWORK-PLUG-PULL AFTER '
+               '%.2f SECONDS ***' % self.randomNetPlugPullDelay))
         base.cr.pullNetworkPlug()
         return Task.done
 
@@ -455,7 +455,7 @@ class DistributedMinigame(DistributedObject.DistributedObject):
         # assert that all of the remote toons are present
         for avId in self.remoteAvIdList:
             # make sure we have this avatar in our dictionary
-            if not self.cr.doId2do.has_key(avId):
+            if avId not in self.cr.doId2do:
                 # well gollee, the toon is already gone!
                 # end the minigame
                 self.notify.warning("BASE: toon %s already left or has not "
@@ -555,7 +555,7 @@ class DistributedMinigame(DistributedObject.DistributedObject):
         """
 
         # If it is an avatar, look it up in the doid2do
-        if self.cr.doId2do.has_key(avId):
+        if avId in self.cr.doId2do:
             return self.cr.doId2do[avId]
         # I do not know what this avId is
         else:
@@ -605,7 +605,7 @@ class DistributedMinigame(DistributedObject.DistributedObject):
         # tune emote access
         self.setEmotes()
         self.cleanupActions.append(self.unsetEmotes)
-        
+
     def exitFrameworkInit(self):
         pass
 
@@ -631,7 +631,7 @@ class DistributedMinigame(DistributedObject.DistributedObject):
         # DEBUG: instantly press the play button on the rules panel
         if 0:
             messenger.send(self.rulesDoneEvent)
-        
+
     def exitFrameworkRules(self):
         # Hide the rules
         self.ignore(self.rulesDoneEvent)
@@ -792,7 +792,7 @@ class DistributedMinigame(DistributedObject.DistributedObject):
             self.notify.error('length does not match, startingVotes=%s, avIdList=%s' %
                               (startingVotesArray, self.avIdList))
             return
-        
+
         for index  in range(len( self.avIdList)):
             avId = self.avIdList[index]
             self.startingVotes[avId] = startingVotesArray[index]

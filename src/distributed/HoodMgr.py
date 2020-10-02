@@ -1,6 +1,6 @@
 """HoodMgr module: contains the HoodMgr class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.launcher import DownloadForceAcknowledge
@@ -55,7 +55,7 @@ class HoodMgr(DirectObject.DirectObject):
         [-2, -79, 5.7, 57.4, -0.0, 0.0],
         [-38, -78, 5.7, 9.1, -0.0, 0.0],
         ),
-        
+
         ToontownGlobals.ToontownCentral: (
         [-60, -8, 1.3, -90, 0, 0],  # veranda center
         [-66, -9, 1.3, -274, 0, 0],  # veranda off-center
@@ -72,7 +72,7 @@ class HoodMgr(DirectObject.DirectObject):
         [-46.875, 43.68, -1.05, 124, 0, 0],
         [34, -105, 2.55, 45, 0, 0],
         [16, -75, 2.55, 56, 0, 0],
-        [-27, -56, 0.1, 45, 0, 0],       
+        [-27, -56, 0.1, 45, 0, 0],
 
         [100, 27, 4.1, 150, 0, 0],
         [-70, 4.6, -1.9, 90, 0, 0],
@@ -166,7 +166,7 @@ class HoodMgr(DirectObject.DirectObject):
         ToontownGlobals.Tutorial: (
         [130.9, -8.6, -1.3, 105.5, 0, 0],
         ),
-        
+
         ToontownGlobals.SellbotHQ:(
         [64, -128, 0.26, 36, 0, 0],
         [9, -140, 0.26, 0, 0, 0],
@@ -277,7 +277,7 @@ class HoodMgr(DirectObject.DirectObject):
         assert(self.notify.debug("getZonesInPhase()"))
         # return the zone id's available in given phase
         p = []
-        for i in ToontownGlobals.phaseMap.items():
+        for i in list(ToontownGlobals.phaseMap.items()):
             if (i[1] == phase):
                 p.append(i[0])
         return p
@@ -286,7 +286,7 @@ class HoodMgr(DirectObject.DirectObject):
         hoodId = ZoneUtil.getCanonicalHoodId(hoodId)
         assert(self.notify.debug("getPhaseFromHood()"))
         # return the phase that the specified zone is in
-        assert(ToontownGlobals.phaseMap.has_key(hoodId))
+        assert(hoodId in ToontownGlobals.phaseMap)
         return ToontownGlobals.phaseMap[hoodId]
 
     # TODO: put these points in the dna
@@ -348,7 +348,7 @@ class HoodMgr(DirectObject.DirectObject):
                 zoneId = int(zoneStr)
                 hoodId = ZoneUtil.getTrueZoneId(hoodId, currentZoneId)
                 zoneId = ZoneUtil.getTrueZoneId(zoneId, currentZoneId)
-                
+
                 # Get the actual collision sphere node
                 linkSphere = linkTunnel.find("**/tunnel_trigger")
                 # HACK: until cog tunnel trigger is renamed

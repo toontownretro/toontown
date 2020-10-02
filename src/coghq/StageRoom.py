@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from direct.fsm import ClassicFSM, State
 from toontown.toonbase import ToontownGlobals
@@ -11,7 +11,7 @@ class StageRoom(DirectObject.DirectObject):
     adjacent rooms."""
     FloorCollPrefix = 'stageFloorColl'
     CashbotStageDoorFrame = 'phase_10/models/cashbotHQ/DoorFrame'
-    
+
     def __init__(self, path=None):
         if path is not None:
             if path in StageRoomSpecs.CashbotStageConnectorRooms:
@@ -19,7 +19,7 @@ class StageRoom(DirectObject.DirectObject):
             else:
                 loadFunc = loader.loadModel
             self.setGeom(loadFunc(path))
-        
+
         self.localToonFSM = ClassicFSM.ClassicFSM('StageRoomLocalToonPresent',
                                           [State.State('off',
                                                        self.enterLtOff,
@@ -48,7 +48,7 @@ class StageRoom(DirectObject.DirectObject):
         self.localToonFSM.request('notPresent')
     def exit(self):
         self.localToonFSM.requestFinalState()
-        
+
     def setRoomNum(self, num):
         # First room in the stage is room zero, first hallway is one, second
         # room is two, etc.
@@ -63,9 +63,9 @@ class StageRoom(DirectObject.DirectObject):
         if not ug.isEmpty():
             ug.setBin('ground',-10)
 
-        
+
     def getGeom(self):
-        
+
         return self.__geom
 
 
@@ -104,7 +104,7 @@ class StageRoom(DirectObject.DirectObject):
     def initFloorCollisions(self):
         # call this after calling setGeom and before adding anything under
         # the room geometry
-        
+
         # we handle floor collisions differently from a standard level. Our
         # entire level is going to be treated as one 'zone' (this level
         # represents one room of the stage)
@@ -167,4 +167,3 @@ class StageRoom(DirectObject.DirectObject):
             for axis in self.axes:
                 axis.removeNode()
             del self.axes
-

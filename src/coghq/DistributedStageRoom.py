@@ -1,13 +1,13 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 import random
 from otp.level import DistributedLevel
 from direct.directnotify import DirectNotifyGlobal
-import StageRoomBase, StageRoom
-import FactoryEntityCreator
-import StageRoomSpecs
+from . import StageRoomBase, StageRoom
+from . import FactoryEntityCreator
+from . import StageRoomSpecs
 from otp.level import LevelSpec, LevelConstants
 from toontown.toonbase import TTLocalizer
 if __dev__:
@@ -24,7 +24,7 @@ class DistributedStageRoom(DistributedLevel.DistributedLevel,
 
     # Any non-entrance stage room will not have an entrancePoint entity.
     EmulateEntrancePoint = False
-    
+
     def __init__(self, cr):
         DistributedLevel.DistributedLevel.__init__(self, cr)
         StageRoomBase.StageRoomBase.__init__(self)
@@ -50,7 +50,7 @@ class DistributedStageRoom(DistributedLevel.DistributedLevel,
         DistributedLevel.DistributedLevel.delete(self)
         StageRoom.StageRoom.delete(self)
         self.ignoreAll()
-        
+
     # required fields
     def setStageId(self, stageId):
         self.notify.debug('stageId: %s' % stageId)
@@ -76,7 +76,7 @@ class DistributedStageRoom(DistributedLevel.DistributedLevel,
             # give the spec a factory EntityTypeRegistry.
             typeReg = self.getStageEntityTypeReg()
             roomSpec.setEntityTypeReg(typeReg)
-        
+
         DistributedLevel.DistributedLevel.initializeLevel(self, roomSpec)
 
         # if the AI is sending us a spec, we won't have it yet and the
@@ -192,8 +192,8 @@ class DistributedStageRoom(DistributedLevel.DistributedLevel,
             pos = base.localAvatar.getPos(thisZone)
             h = base.localAvatar.getH(thisZone)
             roomName = StageRoomSpecs.CashbotStageRoomId2RoomName[self.roomId]
-            print 'stage pos: %s, h: %s, room: %s' % (
-                repr(pos), h, roomName)
+            print('stage pos: %s, h: %s, room: %s' % (
+                repr(pos), h, roomName))
             if self.stage is not None:
                 floorNum = self.stage.floorNum
             else:
@@ -292,6 +292,6 @@ class DistributedStageRoom(DistributedLevel.DistributedLevel,
             return 'DistributedStageRoom'
     def __repr__(self):
         return str(self)
-        
+
     def complexVis(self):
         return 0

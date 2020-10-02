@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 
 # The various types of elevators
@@ -73,7 +73,7 @@ ElevatorData = {
                         },
     ELEVATOR_CJ     : { "openTime"  : 4.0,
                         "closeTime" : 4.0,
-                        "width"     : 15.8, 
+                        "width"     : 15.8,
                         "countdown" : bboard.get('elevatorCountdown',30.0),
                         "sfxVolume" : 0.7,
                         "collRadius": 7.5,
@@ -87,7 +87,7 @@ ElevatorData = {
                         },
     ELEVATOR_BB     : { "openTime"  : 4.0,
                         "closeTime" : 4.0,
-                        "width"     : 6.3, 
+                        "width"     : 6.3,
                         "countdown" : bboard.get('elevatorCountdown',30.0),
                         "sfxVolume" : 0.7,
                         "collRadius": 7.5,
@@ -98,7 +98,7 @@ ElevatorData = {
                         "countdown" : bboard.get('elevatorCountdown',15.0),
                         "sfxVolume" : 1.0,
                         "collRadius": 4,
-                        },    
+                        },
     }
 
 TOON_BOARD_ELEVATOR_TIME = 1.0
@@ -123,10 +123,10 @@ ElevatorPoints = [[-1.5, 5, 0.1],  # Back left
                   [-2.5, 3, 0.1],  # Front left
                   [2.5, 3, 0.1],   # Front right
                   [-3.5, 5, 0.1],  # Left of back left
-                  [3.5, 5, 0.1],   # Right of back right 
-                  [-4, 3, 0.1],    # Left of front left 
+                  [3.5, 5, 0.1],   # Right of back right
+                  [-4, 3, 0.1],    # Left of front left
                   [4, 3, 0.1]]     # Right of front right
-                  
+
 JumpOutOffsets = [[-1.5, -5, -0],  # Slot 1 - Back left
                   [1.5, -5, -0],  # Slot 2 - Back right
                   [-2.5, -7, -0],  # Slot 3 - Front left
@@ -152,7 +152,7 @@ BossbotElevatorPoints = [[-2.5, 7.5, 0.1],    # Back left center
                          [-2.5, 3.5, 0.1],    # Front left center
                          [2.5, 3.5, 0.1],     # Front right center
                          [-5.5, 3.5, 0.1],    # Front left left
-                         [5.5, 3.5, 0.1]]     # Front right right     
+                         [5.5, 3.5, 0.1]]     # Front right right
 
 # The victors will fan out into a semicircle after they leave the
 # elevator to observe the transformation.

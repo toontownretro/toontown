@@ -1,15 +1,15 @@
 """ In-Game Editor/Control Panel module """
-from pandac.PandaModules import Point3, Vec3, VBase3
+from toontown.toonbase.ToontownModules import Point3, Vec3, VBase3
 from direct.tkwidgets.AppShell import *
 from direct.showbase.TkGlobal import *
 from direct.tkwidgets.Tree import *
 from direct.tkwidgets import Slider, Floater
-from tkSimpleDialog import askstring
-from tkMessageBox import showwarning, askyesno
-from Tkinter import *
+from tkinter.simpledialog import askstring
+from tkinter.messagebox import showwarning, askyesno
+from tkinter import *
 from direct.showbase.PythonUtil import Functor, list2dict
 from direct.gui.DirectGui import DGG
-import tkFileDialog
+import tkinter.filedialog
 from direct.showbase import DirectObject
 import math
 import operator
@@ -76,7 +76,7 @@ class InGameEditor(AppShell):
 
     def getEntityName(self, entId):
         return self.level.levelSpec.getEntitySpec(entId)['name']
-        
+
     def appInit(self):
         # Initialize any instance variables you use here
         from direct.directtools import DirectSession
@@ -138,7 +138,7 @@ class InGameEditor(AppShell):
         # self.menuBar.component('Entity-menu').index('Remove Selected Entity')
         # To disable this entry (index 0)
         # self.menuBar.component('Entity-menu').entryconfigure(0,state='disabled')
-        
+
         menuBar.addmenuitem('Entity', 'command',
                             'Duplicate Selected Entity',
                             label = 'Duplicate Selected Entity',
@@ -150,7 +150,7 @@ class InGameEditor(AppShell):
         # a choice dialog with a list of entity types, or something
         permanentTypes = self.level.entTypeReg.getPermanentTypeNames()
         entTypes = list(self.level.entTypes)
-        map(entTypes.remove, permanentTypes)
+        list(map(entTypes.remove, permanentTypes))
         entTypes.sort()
         numEntities = len(entTypes)
         cascadeMenu = ''
@@ -201,7 +201,7 @@ class InGameEditor(AppShell):
                                  label = 'Enable',
                                  variable = direct.panel.directEnabled,
                                  command = direct.panel.toggleDirect)
-        
+
         self.menuBar.addmenuitem('DIRECT', 'checkbutton',
                                  'DIRECT Grid Enabled',
                                  label = 'Enable Grid',
@@ -218,7 +218,7 @@ class InGameEditor(AppShell):
             'Toggle Widget Move/COA Mode',
             label = 'Toggle Widget Mode',
             command = direct.manipulationControl.toggleObjectHandlesMode)
-        
+
         self.menuBar.addmenuitem('DIRECT', 'checkbutton',
                                  'DIRECT Widget On Top',
                                  label = 'Widget On Top',
@@ -367,7 +367,7 @@ class InGameEditor(AppShell):
             self.explorer.update(fUseCachedChildren = 0)
             if parentEntId:
                 self.selectEntity(parentEntId)
-        
+
     def removeSelectedEntityTree(self):
         if self.level.selectedEntity:
             parentEntId = self.level.selectedEntity.parentEntId
@@ -377,7 +377,7 @@ class InGameEditor(AppShell):
             self.explorer.update(fUseCachedChildren = 0)
             if parentEntId:
                 self.selectEntity(parentEntId)
-        
+
     def clearAttribEditPane(self):
         for widg in self.attribWidgets:
             widg.destroy()
@@ -396,7 +396,7 @@ class InGameEditor(AppShell):
                 self.entityCopy.setRenderModeWireframe()
                 self.entityCopy.setTextureOff(1)
                 self.entityCopy.setColor(1,0,0)
-                
+
     def updateAttribEditPane(self, entId, levelSpec, entTypeReg):
         self.clearAttribEditPane()
 
@@ -404,7 +404,7 @@ class InGameEditor(AppShell):
         widgetSetter = None
 
         entSpec = levelSpec.getEntitySpec(entId)
-        assert entSpec.has_key('type')
+        assert 'type' in entSpec
         typeDesc = entTypeReg.getTypeDesc(entSpec['type'])
         attribNames = typeDesc.getAttribNames()
         attribDescs = typeDesc.getAttribDescDict()
@@ -476,7 +476,7 @@ class InGameEditor(AppShell):
         self.attribWidgets.append(widg)
         # Add setter for undo/redo
         self.curEntWidgets[attribName] = lambda x: widg.set(x, 0)
-        
+
     def addFloatWidget(self, levelSpec, entSpec, entId, attribName, params):
         # Check for min/max values
         minVal = params.get('min', None)
@@ -499,7 +499,7 @@ class InGameEditor(AppShell):
         widg['command'] = clientFloatCommand
         widg['postCallback'] = finalFloatCommand
         widg.pack(fill = X, expand = 1)
-        self.attribWidgets.append(widg)        
+        self.attribWidgets.append(widg)
         # Add setter for undo/redo
         self.curEntWidgets[attribName] = lambda x: widg.set(x, 0)
 
@@ -544,7 +544,7 @@ class InGameEditor(AppShell):
             attribDesc = typeDesc.getAttribDescDict()[attribName]
             attributeValue = attribDesc.getDefaultValue()
         valueDict = params.get('valueDict', {})
-        for key,value in valueDict.items():
+        for key,value in list(valueDict.items()):
             if value == attributeValue:
                 attributeValue = key
                 break
@@ -565,10 +565,10 @@ class InGameEditor(AppShell):
         label.pack(side = LEFT, expand = 0)
         # Add radio buttons
         for choice in params.get('choiceSet', []):
-            if type(choice) is types.StringType:
+            if type(choice) is bytes:
                 choiceStr = choice
             else:
-                choiceStr = `choice`
+                choiceStr = repr(choice)
             # Store desired value by string repr (since that's what
             # we'll get back from the radio button command
             if choiceStr not in valueDict:
@@ -585,7 +585,7 @@ class InGameEditor(AppShell):
         self.attribWidgets.append(frame)
         # Update Tkinter variable on edits and undo/redo
         def setRadioVar(attributeValue):
-            for key,value in valueDict.items():
+            for key,value in list(valueDict.items()):
                 if value == attributeValue:
                     attributeValue = key
                     break
@@ -617,24 +617,24 @@ class InGameEditor(AppShell):
             # Command to update level based upon current radio button value
             def cbCommand(var, trueValue=trueValue):
                 vd = self.cbDict[attribName]
-                print vd
+                print(vd)
                 # Use value dict to translate current value
                 # If entry not found, just use current value
                 if var.get():
-                    print 'got it', trueValue, vd
+                    print('got it', trueValue, vd)
                     vd[trueValue] = 1
                 else:
-                    print 'not it', trueValue, vd
+                    print('not it', trueValue, vd)
                     if trueValue in vd:
                         del vd[trueValue]
-                value = vd.keys()
-                print 'SENDING', value
+                value = list(vd.keys())
+                print('SENDING', value)
                 self.level.setAttribEdit(entId, attribName, value)
             # Create check button
-            if type(choice) is types.StringType:
+            if type(choice) is bytes:
                 labelStr = choice
             else:
-                labelStr = `choice`
+                labelStr = repr(choice)
             func = Functor(cbCommand, cbVar)
             choiceButton = Checkbutton(
                 frame,
@@ -647,8 +647,8 @@ class InGameEditor(AppShell):
         self.attribWidgets.append(frame)
         # Update Tkinter variable on edits and undo/redo
         def setCheckbuttonVar(attributeValueList):
-            print 'COMING BACK', attributeValueList
-            for attributeValue, cb in checkbuttonDict.items():
+            print('COMING BACK', attributeValueList)
+            for attributeValue, cb in list(checkbuttonDict.items()):
                 if attributeValue in attributeValueList:
                     cb.set(1)
                 else:
@@ -664,7 +664,7 @@ class InGameEditor(AppShell):
             vec = Vec3(vec)
         # Compute some defaults for the widgets
         value = [vec[0],vec[1],vec[2]]
-        minVal = maxVal = None            
+        minVal = maxVal = None
         if datatype == 'pos':
             floaterLabels = ['x','y','z']
             floaterType = 'floater'
@@ -759,7 +759,7 @@ class InGameEditor(AppShell):
                 initialDir = Filename.expandFrom('$TTMODELS/built/').toOsSpecific()
             else:
                 initialDir = Filename.expandFrom('$TTMODELS/built/%s' % text.get()[1:-1]).toOsSpecific()
-            print text, text.get()[1:-1], initialDir
+            print(text, text.get()[1:-1], initialDir)
             #import pdb;pdb.set_trace()
             rawFilename = askopenfilename(
                 defaultextension = '*',
@@ -771,7 +771,7 @@ class InGameEditor(AppShell):
             if rawFilename != '':
                 filename = Filename.fromOsSpecific(rawFilename)
                 filename.findOnSearchpath(getModelPath().getValue())
-                text.set("'%s'" % `filename`)
+                text.set("'%s'" % repr(filename))
                 handleReturn(None)
         # Create widgets, label which does double duty as a button
         frame = Frame(self.pageOneFrame.interior())
@@ -884,10 +884,10 @@ class InGameEditor(AppShell):
             for eType in entTypeReg.getTypeNamesFromOutputType('bool'):
                 idDict[eType] = self.level.entType2ids.get(eType, [])
         else:
-            for eType in self.level.entType2ids.keys():
+            for eType in list(self.level.entType2ids.keys()):
                 idDict[eType] = self.level.entType2ids.get(eType, [])
         # Now build popup menu
-        typeKeys = idDict.keys()
+        typeKeys = list(idDict.keys())
         # Arrange according to entity type
         typeKeys.sort()
         def getChildEntIds(entity):
@@ -935,7 +935,7 @@ class InGameEditor(AppShell):
         # Record widget and undo/redo function
         self.attribWidgets.append(frame)
         self.curEntWidgets[attribName] = text.set
-        
+
     def addStringWidget(self, levelSpec, entSpec, entId, attribName, params):
         # String widget for valid python strings
         # Tkinter variable to hold python string
@@ -1035,7 +1035,7 @@ class InGameEditor(AppShell):
             self.balloon().configure(state = 'both')
         else:
             self.balloon().configure(state = 'none')
-            
+
     def onDestroy(self, event):
         """ Called on Level Panel shutdown """
         from direct.directtools import DirectSession
@@ -1046,7 +1046,7 @@ class InGameEditor(AppShell):
         self.ignore('DIRECT_manipulateObjectCleanup')
         self.ignore('DIRECT_undo')
         self.ignore('DIRECT_redo')
-        print 'InGameEditor.onDestroy()'
+        print('InGameEditor.onDestroy()')
         if self.visZonesEditor:
             self.visZonesEditor.destroy()
         self.explorer._node.destroy()
@@ -1058,7 +1058,7 @@ class InGameEditor(AppShell):
 
     def handleSaveAs(self):
         # error if we set parent=self
-        filename = tkFileDialog.asksaveasfilename(
+        filename = tkinter.filedialog.asksaveasfilename(
             parent=self.parent,
             defaultextension='.py',
             filetypes=[('Python Source Files', '.py'),
@@ -1085,7 +1085,7 @@ class InGameEditor(AppShell):
 
     def resetLevel(self):
         self.showTodo(what='resetLevel')
-        
+
     def showTodo(self, what=''):
         self.showWarning('%s\nThis is not yet implemented.' % what,
                          'TODO')
@@ -1126,7 +1126,7 @@ class LevelVisZonesEditor(Pmw.MegaToplevel):
         balloon = self.balloon = Pmw.Balloon(hull)
         # Start with balloon help disabled
         self.balloon.configure(state = 'none')
-        
+
         menuFrame = Frame(hull, relief = GROOVE, bd = 2)
         menuFrame.pack(fill = X, expand = 1)
 
@@ -1190,10 +1190,10 @@ class LevelVisZonesEditor(Pmw.MegaToplevel):
         self.showAllButton.pack(side = LEFT, fill = X, expand = 1)
         buttonFrame.pack(fill=X, expand = 1)
 
-        # Make sure input variables processed 
+        # Make sure input variables processed
         self.initialiseoptions(LevelVisZonesEditor)
         self.setVisible(visible)
-        
+
     def toggleVisZone(self, zoneStr, state):
         zoneNum = int(zoneStr.split('-')[0])
         if state == 0:
@@ -1245,7 +1245,7 @@ class LevelVisZonesEditor(Pmw.MegaToplevel):
 DEFAULT_MENU_ITEMS = [
     'Update Explorer',
     'Separator',
-    'Select', 'Deselect', 
+    'Select', 'Deselect',
     'Separator',
     'Delete',
     'Separator',
@@ -1264,19 +1264,19 @@ class LevelExplorer(Pmw.MegaWidget, DirectObject.DirectObject):
             ('menuItems',   [],   Pmw.INITOPT),
             )
         self.defineoptions(kw, optiondefs)
- 
+
         # Initialise superclass
         Pmw.MegaWidget.__init__(self, parent)
-        
+
         # Initialize some class variables
         self.editor = editor
 
         # Create the components.
-        
+
         # Setup up container
         interior = self.interior()
         interior.configure(relief = GROOVE, borderwidth = 2)
-        
+
         # Create a label and an entry
         self._scrolledCanvas = self.createcomponent(
             'scrolledCanvas',
@@ -1288,14 +1288,14 @@ class LevelExplorer(Pmw.MegaWidget, DirectObject.DirectObject):
         self._canvas['scrollregion'] = ('0i', '0i', '2i', '4i')
         self._scrolledCanvas.resizescrollregion()
         self._scrolledCanvas.pack(padx = 3, pady = 3, expand=1, fill = BOTH)
-        
+
         self._canvas.bind('<ButtonPress-2>', self.mouse2Down)
         self._canvas.bind('<B2-Motion>', self.mouse2Motion)
         self._canvas.bind('<Configure>',
                           lambda e, sc = self._scrolledCanvas:
                           sc.resizescrollregion())
         self.interior().bind('<Destroy>', self.onDestroy)
-        
+
         # Create the contents
         self._treeItem = LevelExplorerItem(self.editor.level, self.editor)
 
@@ -1322,7 +1322,7 @@ class LevelExplorer(Pmw.MegaWidget, DirectObject.DirectObject):
         self._width = 1.0 * self._canvas.winfo_width()
         self._height = 1.0 * self._canvas.winfo_height()
         xview = self._canvas.xview()
-        yview = self._canvas.yview()        
+        yview = self._canvas.yview()
         self._left = xview[0]
         self._top = yview[0]
         self._dxview = xview[1] - xview[0]

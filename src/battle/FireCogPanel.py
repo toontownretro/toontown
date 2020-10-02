@@ -4,7 +4,7 @@ from direct.fsm import StateData
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import BattleBase
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 
 class FireCogPanel(StateData.StateData):
@@ -41,7 +41,7 @@ class FireCogPanel(StateData.StateData):
             image_color = Vec4(0.5,0.9,0.5,1),
             pos = (0.611, 0, 0),
             )
-        
+
         self.textFrame = DirectFrame(
             parent = self.frame,
             relief = None,
@@ -56,7 +56,7 @@ class FireCogPanel(StateData.StateData):
             )
 
         self.textFrame['text'] = (TTLocalizer.FireCogTitle % (localAvatar.getPinkSlips()))
-            
+
         self.avatarButtons = []
         for i in range(4):
             button = DirectButton(
@@ -67,7 +67,7 @@ class FireCogPanel(StateData.StateData):
                 text_scale = 0.067,
                 text_pos = (0,-0.015,0),
                 textMayChange = 1,
-                image_scale = (1.0,1.0,1.0),                
+                image_scale = (1.0,1.0,1.0),
                 image = (gui.find("**/PckMn_Arrow_Up"),
                          gui.find("**/PckMn_Arrow_Dn"),
                          gui.find("**/PckMn_Arrow_Rlvr")),
@@ -78,7 +78,7 @@ class FireCogPanel(StateData.StateData):
             button.setScale(1,1,1)
             button.setPos(0,0,0.2)
             self.avatarButtons.append(button)
-        
+
         self.backButton = DirectButton(
             parent = self.frame,
             relief = None,
@@ -123,7 +123,7 @@ class FireCogPanel(StateData.StateData):
         if not self.toon:
             if (len(luredIndices) > 0):
                 # You can't place a trap in front of a suit that is already lured
-                if (track == BattleBase.TRAP or track == BattleBase.LURE): 
+                if (track == BattleBase.TRAP or track == BattleBase.LURE):
                     invalidTargets += luredIndices
             if (len(trappedIndices) > 0):
                 # You can't place a trap in front of a suit that is already trapped
@@ -144,7 +144,7 @@ class FireCogPanel(StateData.StateData):
         doneStatus = {'mode' : 'Back'}
         messenger.send(self.doneEvent, [doneStatus])
         return
-    
+
     def __handleAvatar(self, avatar):
         doneStatus = {'mode' : 'Avatar',
                       'avatar' : avatar}
@@ -157,7 +157,7 @@ class FireCogPanel(StateData.StateData):
         invalidTargets = []
         if (len(luredIndices) > 0):
             # You can't place a trap in front of a suit that is already lured
-            if (track == BattleBase.TRAP or track == BattleBase.LURE): 
+            if (track == BattleBase.TRAP or track == BattleBase.LURE):
                 invalidTargets += luredIndices
         if (len(trappedIndices) > 0):
             # You can't place a trap in front of a suit that is already trapped
@@ -173,7 +173,7 @@ class FireCogPanel(StateData.StateData):
     def __placeButtons(self, numAvatars, invalidTargets, localNum, fireCosts):
         # Place the buttons. NOTE: Remember, from the toons point of view
         # the avatars are numbered from right to left.
-        
+
         canfire = 0
         for i in range(4):
             # Only show the button if this avatar is in the battle
@@ -194,7 +194,7 @@ class FireCogPanel(StateData.StateData):
             self.textFrame['text'] = (TTLocalizer.FireCogTitle % (localAvatar.getPinkSlips()))
         else:
             self.textFrame['text'] = (TTLocalizer.FireCogLowTitle % (localAvatar.getPinkSlips()))
-            
+
 
         # Evenly positions the buttons on the bar
         if numAvatars == 1:
@@ -215,5 +215,3 @@ class FireCogPanel(StateData.StateData):
             self.notify.error("Invalid number of avatars: %s" % numAvatars)
 
         return None
-
-    

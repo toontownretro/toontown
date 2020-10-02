@@ -1,30 +1,30 @@
 from toontown.catalog.CatalogWallpaperItem import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import PythonUtil
 from toontown.toonbase import ToontownGlobals
 
 wallpaperDict = {}
 wallpaperTextures = []
-keys = WallpaperTypes.keys()
+keys = list(WallpaperTypes.keys())
 keys.sort()
 
 for key in keys:
     wallpaperData = WallpaperTypes[key]
     wallTexture = wallpaperData[WTTextureName]
-    if not wallpaperDict.has_key(wallTexture):
+    if wallTexture not in wallpaperDict:
         wallpaperDict[wallTexture] = key
         wallpaperTextures.append(wallTexture)
 
 borderDict = {}
 borderTextures = []
-bkeys = BorderTypes.keys()
+bkeys = list(BorderTypes.keys())
 bkeys.sort()
 
 for key in bkeys:
     borderData = BorderTypes[key]
     borderTexture = borderData[BDTextureName]
-    if not borderDict.has_key(borderTexture):
+    if borderTexture not in borderDict:
         borderDict[borderTexture] = key
         borderTextures.append(borderTexture)
 
@@ -92,7 +92,7 @@ class WallpaperDesignPanel(DirectFrame):
             pos = (1,0,0.7),
             command = self.nextPattern,
             )
-        
+
         guiItems = loader.loadModel('phase_5.5/models/gui/catalog_gui')
         nextUp = guiItems.find('**/arrow_up')
         nextRollover = guiItems.find('**/arrow_Rollover')
@@ -119,7 +119,7 @@ class WallpaperDesignPanel(DirectFrame):
             image2_color = (1,1,1,1),
             image3_color = (1,1,1,.1),
             command = self.prevBorder)
-        
+
         buttons = loader.loadModel(
             'phase_3/models/gui/dialog_box_buttons_gui')
         cancelButtonImage = (buttons.find('**/CloseBtn_UP'),
@@ -264,7 +264,7 @@ class WallpaperDesignPanel(DirectFrame):
             color = colorList[index]
             func = PythonUtil.Functor(self.setColorIndex, index)
             l = DirectButton(self.colorFrame, relief = DGG.RAISED,
-                             borderWidth = (0.01,0.01), 
+                             borderWidth = (0.01,0.01),
                              frameSize = (-hd, hd, -hd, hd),
                              frameColor = (color[0],color[1],color[2],1),
                              pos = (xOffset,0, yOffset),
@@ -282,7 +282,7 @@ class WallpaperDesignPanel(DirectFrame):
             color = colorList[index]
             func = PythonUtil.Functor(self.setBorderColorIndex, index)
             l = DirectButton(self.colorFrame, relief = DGG.RAISED,
-                             borderWidth = (0.01,0.01), 
+                             borderWidth = (0.01,0.01),
                              frameSize = (-hd, hd, -hd, hd),
                              frameColor = (color[0],color[1],color[2],1),
                              pos = (xOffset,0, yOffset),

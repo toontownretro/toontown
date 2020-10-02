@@ -6,10 +6,10 @@
 ##########################################################################
 
 from otp.ai.AIBaseGlobal import *
-from pandac.PandaModules import *
-from DistributedNPCToonBaseAI import *
+from toontown.toonbase.ToontownModules import *
+from .DistributedNPCToonBaseAI import *
 from toontown.toonbase import TTLocalizer
-from direct.task import Task     
+from direct.task import Task
 from toontown.racing.KartShopGlobals import *
 from toontown.racing.KartDNA import *
 
@@ -19,7 +19,7 @@ class DistributedNPCKartClerkAI(DistributedNPCToonBaseAI):
         # should kart clerks give out quests? not for now...
         self.givesQuests = 0
         self.busy = 0
-        
+
     def delete(self):
         taskMgr.remove(self.uniqueName('clearMovie'))
         self.ignoreAll()
@@ -29,8 +29,8 @@ class DistributedNPCKartClerkAI(DistributedNPCToonBaseAI):
         avId = self.air.getAvatarIdFromSender()
         # this avatar has come within range
         assert self.notify.debug("avatar enter " + str(avId))
-        
-        if (not self.air.doId2do.has_key(avId)):
+
+        if (avId not in self.air.doId2do):
             self.notify.warning("Avatar: %s not found" % (avId))
             return
 
@@ -39,7 +39,7 @@ class DistributedNPCKartClerkAI(DistributedNPCToonBaseAI):
             return
 
         self.transactionType = ""
-        
+
         av = self.air.doId2do[avId]
         self.busy = avId
 
@@ -64,7 +64,7 @@ class DistributedNPCKartClerkAI(DistributedNPCToonBaseAI):
                         [flag,
                          self.npcId, avId, extraArgs,
                          ClockDelta.globalClockDelta.getRealNetworkTime()])
-        
+
     def sendTimeoutMovie(self, task):
         assert self.notify.debug('sendTimeoutMovie()')
         # The timeout has expired.
@@ -88,9 +88,9 @@ class DistributedNPCKartClerkAI(DistributedNPCToonBaseAI):
         if self.busy != avId:
             self.air.writeServerEvent('suspicious', avId, 'DistributedNPCKartClerkAI.buyKart busy with %s' % (self.busy))
             self.notify.warning("somebody called buyKart that I was not busy with! avId: %s" % avId)
-            return    
+            return
         av = simbase.air.doId2do.get(avId)
-                
+
         if av:
             movieType = NPCToons.SELL_MOVIE_COMPLETE
             extraArgs = []
@@ -123,10 +123,10 @@ class DistributedNPCKartClerkAI(DistributedNPCToonBaseAI):
             # perhaps the avatar got disconnected
             pass
         #self.sendClearMovie(None)
-        
+
     def buyAccessory(self, whichAcc):
         assert self.notify.debug('buyAccessory()')
-            
+
         avId = self.air.getAvatarIdFromSender()
         av = simbase.air.doId2do.get(avId)
         if self.busy != avId:
@@ -140,7 +140,7 @@ class DistributedNPCKartClerkAI(DistributedNPCToonBaseAI):
             self.notify.warning("somebody called buyAcc and already has maximum allowed accessories! avId: %s" % avId)
             return
 
-            
+
         av = simbase.air.doId2do.get(avId)
         if av:
             movieType = NPCToons.SELL_MOVIE_COMPLETE
@@ -157,14 +157,14 @@ class DistributedNPCKartClerkAI(DistributedNPCToonBaseAI):
             self.air.writeServerEvent("kartingTicketsSpent", avId, "%s" % (cost))
 
             #add this accessory to list of owned accessories
-            av.addOwnedAccessory( whichAcc ) 
+            av.addOwnedAccessory( whichAcc )
 
             # Write to the server log
             self.air.writeServerEvent("kartingAccessoryPurchased", avId, "%s" % (whichAcc))
 
             #automagically put on this accessory
-            av.updateKartDNAField( getAccessoryType(whichAcc), whichAcc)               
- 
+            av.updateKartDNAField( getAccessoryType(whichAcc), whichAcc)
+
             # Send a movie to reward the avatar
             #self.d_setMovie(avId, movieType, extraArgs)
 
@@ -188,7 +188,7 @@ class DistributedNPCKartClerkAI(DistributedNPCToonBaseAI):
 
         av = simbase.air.doId2do.get(avId)
         if av:
-        
+
             # Send a movie to say goodbye
             movieType = NPCToons.SELL_MOVIE_COMPLETE
             extraArgs = []
@@ -199,7 +199,7 @@ class DistributedNPCKartClerkAI(DistributedNPCToonBaseAI):
             #TODO: movie for kart clerk? we're not exiting with every transaction
             #so do we need more than one?
             #self.d_setMovie(avId, NPCToons.SELL_MOVIE_PETCANCELED)
-            
+
 
         self.sendClearMovie(None)
         return
@@ -210,4 +210,3 @@ class DistributedNPCKartClerkAI(DistributedNPCToonBaseAI):
         self.notify.warning('not busy with avId: %s, busy: %s ' % (avId, self.busy))
         taskMgr.remove(self.uniqueName("clearMovie"))
         self.sendClearMovie(None)
-

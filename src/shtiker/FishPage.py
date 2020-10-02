@@ -1,10 +1,10 @@
 """FishPage module: contains the FishPage class"""
 
 from toontown.toonbase import ToontownGlobals
-import ShtikerPage
+from . import ShtikerPage
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.fishing import FishPicker
 from toontown.fishing import FishBrowser
@@ -22,7 +22,7 @@ class FishPage(ShtikerPage.ShtikerPage):
     FishPage keeps track of fish caught and their names.
     """
     notify = DirectNotifyGlobal.directNotify.newCategory("FishPage")
-    
+
     def __init__(self):
         """
         FishPage constructor: create the fish page
@@ -62,10 +62,10 @@ class FishPage(ShtikerPage.ShtikerPage):
         assert self.notify.debugStateCall(self)
         ShtikerPage.ShtikerPage.load(self)
         gui = loader.loadModel("phase_3.5/models/gui/fishingBook")
-        
+
         rodFrame = gui.find("**/bucket/fram1")
         rodFrame.removeNode()
-        
+
         trophyCase = gui.find("**/trophyCase1")
         trophyCase.find("glass1").reparentTo(trophyCase,-1)
         trophyCase.find("shelf").reparentTo(trophyCase,-1)
@@ -79,14 +79,14 @@ class FishPage(ShtikerPage.ShtikerPage):
             text_scale = 0.1,
             pos = (0,0,0.65),
             )
-        
+
         # The blue and yellow colors are trying to match the
         # rollover and select colors on the options page:
         normalColor = (1, 1, 1, 1)
         clickColor = (.8, .8, 0, 1)
         rolloverColor = (0.15, 0.82, 1.0, 1)
         diabledColor = (1.0, 0.98, 0.15, 1)
-        
+
         self.tankTab = DirectButton(
             parent = self,
             relief = None,
@@ -203,7 +203,7 @@ class FishPage(ShtikerPage.ShtikerPage):
             self.trophies = []
             hOffset = -0.5
             vOffset = 0.4
-            for level, trophyDesc in FishGlobals.TrophyDict.items():
+            for level, trophyDesc in list(FishGlobals.TrophyDict.items()):
                 trophy = FishingTrophy(-1)
                 trophy.nameLabel['text'] = trophyDesc[0]
                 trophy.reparentTo(self.trophyFrame)
@@ -224,7 +224,7 @@ class FishPage(ShtikerPage.ShtikerPage):
                 return
             else:
                 self.mode = mode
-        self.show()        
+        self.show()
         if mode == FishPage_Tank:
             self.title['text'] = TTLocalizer.FishPageTitleTank
             if not hasattr(self, "picker"):
@@ -234,7 +234,7 @@ class FishPage(ShtikerPage.ShtikerPage):
                 self.browser.hide()
             if hasattr(self, "trophyFrame"):
                 self.trophyFrame.hide()
-            
+
             self.tankTab['state'] = DGG.DISABLED
             self.collectionTab['state'] = DGG.NORMAL
             self.trophyTab['state'] = DGG.NORMAL
@@ -246,8 +246,8 @@ class FishPage(ShtikerPage.ShtikerPage):
                 self.createFishBrowser()
             self.browser.show()
             if hasattr(self, "trophyFrame"):
-                self.trophyFrame.hide()                        
-            
+                self.trophyFrame.hide()
+
             self.tankTab['state'] = DGG.NORMAL
             self.collectionTab['state'] = DGG.DISABLED
             self.trophyTab['state'] = DGG.NORMAL
@@ -259,8 +259,8 @@ class FishPage(ShtikerPage.ShtikerPage):
                 self.browser.hide()
             if not hasattr(self, "trophyFrame"):
                 self.createFishTrophyFrame()
-            self.trophyFrame.show()                        
-            
+            self.trophyFrame.show()
+
             self.tankTab['state'] = DGG.NORMAL
             self.collectionTab['state'] = DGG.NORMAL
             self.trophyTab['state'] = DGG.DISABLED
@@ -285,7 +285,7 @@ class FishPage(ShtikerPage.ShtikerPage):
 
     def updatePage(self):
         assert self.notify.debugStateCall(self)
-        
+
         if hasattr(self, "collectedTotal"):
             # update the total  collection
             self.collectedTotal['text'] = (
@@ -309,7 +309,7 @@ class FishPage(ShtikerPage.ShtikerPage):
         elif self.mode == FishPage_Collection:
             if hasattr(self, "browser"):
                 # the fish gallery may have changed, update the browser
-                self.browser.update()                  
+                self.browser.update()
         elif self.mode == FishPage_Trophy:
             if hasattr(self, "trophies"):
                 # the fishing trophy list may have changed, update the display
@@ -321,7 +321,7 @@ class FishPage(ShtikerPage.ShtikerPage):
     def destroy(self):
         self.notify.debug('destroy')
         DirectFrame.destroy(self)
-            
+
 class FishingTrophy(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory("FishingTrophy")
 
@@ -373,67 +373,67 @@ class FishingTrophy(DirectFrame):
             self.nameLabel.hide()
         elif level == 0:
             self.trophy.show()
-            self.bowl.hide()            
-            self.nameLabel.show()            
+            self.bowl.hide()
+            self.nameLabel.show()
             self.column.setScale(1.3229, 1.26468, 1.11878)
             self.top.setPos(0,0,-1)
             self.__bronze()
         elif level == 1:
             self.trophy.show()
-            self.bowl.hide()            
-            self.nameLabel.show()            
+            self.bowl.hide()
+            self.nameLabel.show()
             self.column.setScale(1.3229, 1.26468, 1.61878)
             self.top.setPos(0,0,-0.5)
             self.__bronze()
         elif level == 2:
             self.trophy.show()
-            self.bowl.hide()            
-            self.nameLabel.show()            
+            self.bowl.hide()
+            self.nameLabel.show()
             self.column.setScale(1.3229, 1.26468, 2.11878)
             self.top.setPos(0,0,0)
             self.__silver()
         elif level == 3:
             self.trophy.show()
             self.bowl.hide()
-            self.nameLabel.show()            
+            self.nameLabel.show()
             self.column.setScale(1.3229, 1.26468, 2.61878)
             self.top.setPos(0,0,0.5)
             self.__silver()
         elif level == 4:
             self.trophy.show()
             self.bowl.hide()
-            self.nameLabel.show()            
+            self.nameLabel.show()
             self.column.setScale(1.3229, 1.26468, 3.11878)
             self.top.setPos(0,0,1)
-            self.__gold()            
+            self.__gold()
         elif level == 5:
             self.trophy.hide()
             self.bowl.show()
             self.bowlTop.setScale(1.75)
-            self.nameLabel.show()            
-            self.__bronze()            
+            self.nameLabel.show()
+            self.__bronze()
         elif level == 6:
             self.trophy.hide()
             self.bowl.show()
-            self.bowlTop.setScale(2.0)            
-            self.nameLabel.show()            
-            self.__silver()            
+            self.bowlTop.setScale(2.0)
+            self.nameLabel.show()
+            self.__silver()
         elif level >= 7:
             self.trophy.hide()
             self.bowl.show()
-            self.bowlTop.setScale(2.25)            
-            self.nameLabel.show()            
-            self.__gold()            
+            self.bowlTop.setScale(2.25)
+            self.nameLabel.show()
+            self.__gold()
 
     def __bronze(self):
         assert self.notify.debugStateCall(self)
         self.top.setColorScale(0.9,0.6,0.33,1)
-        self.bowlTop.setColorScale(0.9,0.6,0.33,1)        
+        self.bowlTop.setColorScale(0.9,0.6,0.33,1)
 
     def __silver(self):
         assert self.notify.debugStateCall(self)
         self.top.setColorScale(0.9,0.9,1,1)
-        self.bowlTop.setColorScale(0.9,0.9,1,1)        
+        self.bowlTop.setColorScale(0.9,0.9,1,1)
 
     def __gold(self):
         assert self.notify.debugStateCall(self)
@@ -446,7 +446,7 @@ class FishingTrophy(DirectFrame):
         self.bowl.removeNode()
         self.shadow.removeNode()
         DirectFrame.destroy(self)
-        
+
     def show(self):
         ShtikerPage.show(self)
         #print("showing fishPage")

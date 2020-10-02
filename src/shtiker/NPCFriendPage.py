@@ -1,6 +1,6 @@
-import ShtikerPage
+from . import ShtikerPage
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toon import NPCFriendPanel
 from toontown.toonbase import TTLocalizer
 
@@ -9,14 +9,14 @@ class NPCFriendPage(ShtikerPage.ShtikerPage):
     # special methods
     def __init__(self):
         ShtikerPage.ShtikerPage.__init__(self)
-        
+
     def load(self):
         self.title = DirectLabel(
             parent = self,
             relief = None,
             text = TTLocalizer.NPCFriendPageTitle,
             text_scale = 0.12,
-            textMayChange = 0,            
+            textMayChange = 0,
             pos = (0,0,0.6),
             )
         self.friendPanel = NPCFriendPanel.NPCFriendPanel(parent = self)
@@ -43,4 +43,3 @@ class NPCFriendPage(ShtikerPage.ShtikerPage):
         """exit(self)
         """
         ShtikerPage.ShtikerPage.exit(self)
-

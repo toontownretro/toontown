@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.particles import ParticleEffect
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import AppRunnerGlobal
@@ -35,7 +35,7 @@ class Drift(NodePath):
             particleSearchPath.appendDirectory(Filename('.'))
         pfile = Filename('drift.ptf')
         found = vfs.resolveFilename(pfile, particleSearchPath)
-            
+
         if not found:
             notify.warning('loadParticleFile() - no path: %s' % pfile)
             return

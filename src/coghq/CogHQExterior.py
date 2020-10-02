@@ -4,12 +4,12 @@ from toontown.battle import BattlePlace
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 class CogHQExterior(BattlePlace.BattlePlace):
     # create a notify category
     notify = DirectNotifyGlobal.directNotify.newCategory("CogHQExterior")
-    
+
     # special methods
     def __init__(self, loader, parentFSM, doneEvent):
         assert(self.notify.debug("__init__()"))
@@ -113,7 +113,7 @@ class CogHQExterior(BattlePlace.BattlePlace):
     def unload(self):
         self.parentFSM.getStateNamed("cogHQExterior").removeChild(self.fsm)
         del self.fsm
-        BattlePlace.BattlePlace.unload(self)        
+        BattlePlace.BattlePlace.unload(self)
 
     def enter(self, requestStatus):
         self.zoneId = requestStatus["zoneId"]
@@ -161,7 +161,7 @@ class CogHQExterior(BattlePlace.BattlePlace):
         tunnelName = base.cr.hoodMgr.makeLinkTunnelName(
             self.loader.hood.id, fromZoneId)
         requestStatus["tunnelName"] = tunnelName
-        
+
         BattlePlace.BattlePlace.enterTunnelOut(self, requestStatus)
 
     def enterTeleportIn(self, requestStatus):
@@ -174,7 +174,7 @@ class CogHQExterior(BattlePlace.BattlePlace):
         # If the request comes from a battle, let the battle handle
         # the teleport animation sequence, otherwise use the distributed
         # toon version
-        if (requestStatus.has_key('battle')):
+        if ('battle' in requestStatus):
             self.__teleportOutDone(requestStatus)
         else:
             BattlePlace.BattlePlace.enterTeleportOut(self, requestStatus,
@@ -212,13 +212,12 @@ class CogHQExterior(BattlePlace.BattlePlace):
         taskMgr.doMethodLater(2.0,
                               self.handleSquishDone,
                               base.localAvatar.uniqueName("finishSquishTask"))
-        
+
     def handleSquishDone(self, extraArgs=[]):
         # put place back in walk state after squish is done
         base.cr.playGame.getPlace().setState("walk")
-        
+
     def exitSquished(self):
         assert(CogHQExterior.notify.debug("exitSquished()"))
         taskMgr.remove(base.localAvatar.uniqueName("finishSquishTask"))
         base.localAvatar.laffMeter.stop()
-    

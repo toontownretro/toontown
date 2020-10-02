@@ -1,7 +1,7 @@
 """ DistributedAnimDoor module: contains the DistributedAnimDoor
     class, the client side representation of a 'animated landmark door'."""
 
-from pandac.PandaModules import NodePath, VBase3
+from toontown.toonbase.ToontownModules import NodePath, VBase3
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import  Parallel, Sequence, Wait, \
      HprInterval, LerpHprInterval, SoundInterval
@@ -11,7 +11,7 @@ from toontown.building import DoorTypes
 if( __debug__ ):
     import pdb
 
-class DistributedAnimDoor(DistributedDoor.DistributedDoor):   
+class DistributedAnimDoor(DistributedDoor.DistributedDoor):
     """
     DistributedAnimDoor class:  The client side representation of a
     animated 'landmark door'.
@@ -32,7 +32,7 @@ class DistributedAnimDoor(DistributedDoor.DistributedDoor):
         """Return only a nodepath to our parent building.
         See also getAnimBuilding.
         """
-        if (not self.__dict__.has_key('building')):
+        if ('building' not in self.__dict__):
             if self.doorType == DoorTypes.EXT_ANIM_STANDARD:
                 searchStr = "**/??"+str(self.block)+":animated_building_*_DNARoot;+s"
                 self.notify.debug("searchStr=%s" % searchStr)
@@ -41,8 +41,8 @@ class DistributedAnimDoor(DistributedDoor.DistributedDoor):
                 self.notify.error("DistributedAnimDoor.getBuiding with doorType=%s"% self.doorType)
 
         assert(not self.building.isEmpty())
-        return self.building       
-   
+        return self.building
+
     def getDoorNodePath(self):
         """Return the nodepath to door origin."""
         if self.doorType == DoorTypes.EXT_ANIM_STANDARD:
@@ -50,7 +50,7 @@ class DistributedAnimDoor(DistributedDoor.DistributedDoor):
                 return self.tempDoorNodePath
             else:
                 # tempDoorNodePath gets removed in disable
-                # ...exterior door.                
+                # ...exterior door.
                 assert(self.debugPrint("getDoorNodePath() -- exterior"))
                 building = self.getBuilding()
                 doorNP = building.find("**/door_origin")
@@ -60,9 +60,9 @@ class DistributedAnimDoor(DistributedDoor.DistributedDoor):
                 otherNP.setPos(doorNP.getPos())
                 otherNP.setHpr(doorNP.getHpr()) #
                 otherNP.reparentTo(doorNP.getParent())
-                assert(not otherNP.isEmpty())                
+                assert(not otherNP.isEmpty())
                 # Store this for clean up later
-                self.tempDoorNodePath=otherNP                
+                self.tempDoorNodePath=otherNP
         else:
             self.notify.error("DistributedAnimDoor.getDoorNodePath with doorType=%s"% self.doorType)
         return otherNP
@@ -86,14 +86,14 @@ class DistributedAnimDoor(DistributedDoor.DistributedDoor):
     def getAnimBuilding(self):
         """Return a handle on the animated building prop."""
         # Once we find it, we store it, so we don't have to find it again.
-        if (not self.__dict__.has_key('animBuilding')):            
+        if ('animBuilding' not in self.__dict__):
             if self.doorType == DoorTypes.EXT_ANIM_STANDARD:
                 #self.building = self.cr.playGame.hood.loader.geom.find(
                 #        "**/??"+str(self.block)+":animated_building_*_DNARoot;+s")
                 bldg= self.getBuilding()
                 key = bldg.getParent().getParent()
                 animPropList = self.cr.playGame.hood.loader.animPropDict.get(key)
-                
+
                 if animPropList:
                     for prop in animPropList:
                         # TODO string matching is such a hack, maybe test paths?
@@ -167,7 +167,7 @@ class DistributedAnimDoor(DistributedDoor.DistributedDoor):
         if (rightDoor.isEmpty()):
             self.notify.warning("enterClosing(): did not find rightDoor")
             return
-        
+
         # Close the door:
         otherNP=self.getDoorNodePath()
         trackName = "doorClose-%d" % (self.doId)
@@ -203,7 +203,7 @@ class DistributedAnimDoor(DistributedDoor.DistributedDoor):
         if self.leftSwing:
             h = -100
         else:
-            h = 100        
+            h = 100
         if (not leftDoor.isEmpty()):
             # Open the door:
             otherNP=self.getDoorNodePath()
@@ -227,7 +227,7 @@ class DistributedAnimDoor(DistributedDoor.DistributedDoor):
             self.notify.warning("exitDoorEnterOpening(): did not find leftDoor")
 
     ##### Exit Door closing state #####
-    
+
     def exitDoorEnterClosing(self, ts):
         assert(self.debugPrint("exitDoorEnterClosing()"))
         # Start animation:
@@ -263,4 +263,3 @@ class DistributedAnimDoor(DistributedDoor.DistributedDoor):
             self.doorExitTrack.start(ts)
         #else:
         #    self.notify.error("enterOpening(): did not find leftDoor")
-    

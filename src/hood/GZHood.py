@@ -1,10 +1,10 @@
 
-from pandac.PandaModules import *
-import ToonHood
+from toontown.toonbase.ToontownModules import *
+from . import ToonHood
 from toontown.safezone import GZSafeZoneLoader
 from toontown.toonbase.ToontownGlobals import *
 from toontown.racing import DistributedVehicle
-import SkyUtil
+from . import SkyUtil
 
 class GZHood(ToonHood.ToonHood):
     def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
@@ -19,21 +19,21 @@ class GZHood(ToonHood.ToonHood):
         # Dictionary which holds holiday specific lists of Storage DNA Files
         # Keyed off of the News Manager holiday IDs stored in ToontownGlobals
         self.holidayStorageDNADict = {HALLOWEEN_PROPS : ['phase_6/dna/halloween_props_storage_GZ.dna']}
-        
+
         self.skyFile = "phase_3.5/models/props/TT_sky"
         self.spookySkyFile = "phase_3.5/models/props/BR_sky"
 
         self.titleColor = (1.0, 0.5, 0.4, 1.0)
-        
+
 
     def load(self):
         ToonHood.ToonHood.load(self)
         self.parentFSM.getStateNamed("GZHood").addChild(self.fsm)
-        
+
     def unload(self):
         self.parentFSM.getStateNamed("GZHood").removeChild(self.fsm)
         ToonHood.ToonHood.unload(self)
-        
+
     def enter(self, *args):
         ToonHood.ToonHood.enter(self, *args)
         #setup access to golf speedchat phrases
@@ -41,7 +41,7 @@ class GZHood(ToonHood.ToonHood):
         base.camLens.setNearFar(SpeedwayCameraNear,
                                 SpeedwayCameraFar)
 
-        
+
     def exit(self):
         base.camLens.setNearFar(DefaultCameraNear,
                                 DefaultCameraFar)
@@ -56,9 +56,9 @@ class GZHood(ToonHood.ToonHood):
         # we have the wrong sky; load in the regular sky
         if not (self.sky.getTag("sky") == "Regular"):
             self.endSpookySky()
-            
+
         SkyUtil.startCloudSky(self)
-        
+
     def startSpookySky(self):
         if hasattr(self, "sky") and self.sky:
             self.stopSky()

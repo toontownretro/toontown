@@ -1,6 +1,6 @@
 ### Experience module: contains the Experience class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownBattleGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.PyDatagram import PyDatagram
@@ -12,7 +12,7 @@ class Experience:
     notify = DirectNotifyGlobal.directNotify.newCategory('Experience')
 
     # special methods
-    
+
     def __init__(self, expStr=None, owner=None):
         """__init__(self, netString=None)
         Create a default experience if no netString given, or
@@ -33,7 +33,7 @@ class Experience:
         Experience print function
         """
         return str(self.experience)
-        
+
     def makeNetString(self):
         """makeNetString(self)
         Make a network packet out of the experience
@@ -44,7 +44,7 @@ class Experience:
             datagram.addUint16(dataList[track])
         dgi = PyDatagramIterator(datagram)
         return dgi.getRemainingBytes()
-        
+
     def makeFromNetString(self, netString):
         """makeFromNetString(self)
         Make an experience from a network packet
@@ -59,7 +59,7 @@ class Experience:
 
     # setters and getters
 
-    def addExp(self, track, amount=1):                        
+    def addExp(self, track, amount=1):
         """addExp(self, [int | string], int=1)
         Add 'amount' (defaults to 1) of experience to the given track.
         Track may be specified by an index (ie Tracks[index]) or
@@ -83,7 +83,7 @@ class Experience:
                     self.experience[track] += 0 #remain unchanged
                 else:
                     self.experience[track] = UnpaidMaxSkill
-        
+
     def maxOutExp(self):
         """maxOutExp(self):
         Set all experience fields to MaxSkill
@@ -97,11 +97,11 @@ class Experience:
         """
         for track in range(0, len(Tracks)):
             self.experience[track] = MaxSkill - 1
-            
+
     def makeExpHigh(self):
         for track in range(0, len(Tracks)):
             self.experience[track] = Levels[track][len(Levels[track]) - 1] - 1
-            
+
     def makeExpRegular(self):
         import random
         for track in range(0, len(Tracks)):
@@ -122,7 +122,7 @@ class Experience:
         """
         for track in range(0, len(Tracks)):
             self.experience[track] = num
-        
+
     def getExp(self, track):
         """getExp(self, [int | string])
         Return the raw experience of the given track.
@@ -134,7 +134,7 @@ class Experience:
             track = Tracks.index(track)
 
         return self.experience[track]
-        
+
     def setExp(self, track, exp):
         """setExp(self, [int | string])
         Sets the raw experience of the given track.
@@ -163,13 +163,13 @@ class Experience:
                 level = Levels[track].index(amount)
 
         return level
-            
+
     def getTotalExp(self):
         total = 0
         for level in self.experience:
             total += level
         return total
-            
+
     def getNextExpValue(self, track, curSkill=None):
         """
         Return the number of total experience to get to the next
@@ -206,7 +206,3 @@ class Experience:
             else:
                 nextExpValue = newNextExpValue
         return retList
-        
-
-
-

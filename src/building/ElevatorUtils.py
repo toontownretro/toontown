@@ -1,21 +1,21 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
-from ElevatorConstants import *
+from .ElevatorConstants import *
 
 def getLeftClosePoint(type):
     width = ElevatorData[type]["width"]
     return Point3(width, 0, 0)
-    
+
 def getRightClosePoint(type):
     width = ElevatorData[type]["width"]
     return Point3(-width, 0, 0)
-    
+
 def getLeftOpenPoint(type):
     return Point3(0, 0, 0)
-    
+
 def getRightOpenPoint(type):
     return Point3(0, 0, 0)
-    
+
 def closeDoors(leftDoor, rightDoor, type = ELEVATOR_NORMAL):
     closedPosLeft = getLeftClosePoint(type)
     closedPosRight = getRightClosePoint(type)
@@ -29,7 +29,7 @@ def openDoors(leftDoor, rightDoor, type = ELEVATOR_NORMAL):
 
     leftDoor.setPos(openPosLeft)
     rightDoor.setPos(openPosRight)
-    
+
 
 def getLeftOpenInterval(distObj, leftDoor, type):
     openTime = ElevatorData[type]["openTime"]
@@ -77,7 +77,7 @@ def getOpenInterval(distObj, leftDoor, rightDoor, openSfx, finalOpenSfx, type = 
         left,
         right,
         )
-    
+
 def getLeftCloseInterval(distObj, leftDoor, type):
     closeTime = ElevatorData[type]["closeTime"]
     closedPos = getLeftClosePoint(type)
@@ -98,7 +98,7 @@ def getRightCloseInterval(distObj, rightDoor, type):
     openPos = getRightOpenPoint(type)
     rightCloseInterval = LerpPosInterval(
         rightDoor,
-        closeTime, 
+        closeTime,
         closedPos,
         startPos = openPos,
         blendType = "easeOut",
@@ -139,7 +139,7 @@ def getRideElevatorInterval(type = ELEVATOR_NORMAL):
         zMin = 7
         zMid = 7.2
         zMax = 7.4
-        
+
     if type in (ELEVATOR_VP, ELEVATOR_CFO, ELEVATOR_CJ, ELEVATOR_BB):
         ival = Sequence(
             Wait(0.5),
@@ -163,7 +163,7 @@ def getRideElevatorInterval(type = ELEVATOR_NORMAL):
                             Point3(0, yValue, zMid),
                             startPos=Point3(0, yValue, zMax)),
             )
-    
+
     else:
         ival = Sequence(
             Wait(0.5),

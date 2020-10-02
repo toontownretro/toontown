@@ -1,5 +1,5 @@
 import random
-from pandac.PandaModules import VBase3, Point3
+from toontown.toonbase.ToontownModules import VBase3, Point3
 from direct.interval.IntervalGlobal import Sequence, Wait, Func, Parallel, Track
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import DistributedBattleFinal
@@ -10,10 +10,10 @@ from toontown.toonbase import ToontownGlobals
 class DistributedBattleWaiters(DistributedBattleFinal.DistributedBattleFinal):
 
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleWaiters')
-                    
+
     def __init__(self, cr):
         """Create the waiters battle."""
-        DistributedBattleFinal.DistributedBattleFinal.__init__(self, cr) 
+        DistributedBattleFinal.DistributedBattleFinal.__init__(self, cr)
         self.initialReservesJoiningDone = False
 
         #debug only remove this
@@ -57,7 +57,7 @@ class DistributedBattleWaiters(DistributedBattleFinal.DistributedBattleFinal):
         """Force the inital suits to be in the right spot."""
         #import pdb; pdb.set_trace()
         battlePts = self.suitPoints[len(self.suitPendingPoints)-1]
-        for i in xrange(len(self.suits)):
+        for i in range(len(self.suits)):
             suit = self.suits[i]
             suit.reparentTo(self)
             destPos, destHpr = self.getActorPosHpr(suit, self.suits)
@@ -85,11 +85,11 @@ class DistributedBattleWaiters(DistributedBattleFinal.DistributedBattleFinal):
                 """
             suit.makeWaiter()
             suit.setState('Battle')
-            #RAU lawbot boss battle hack, 
+            #RAU lawbot boss battle hack,
             if suit.dna.dept == 'l':
                 suit.reparentTo(self.bossCog)
                 suit.setPos(0, 0, 0)
-            
+
             #suit.setScale(3.8 / suit.height)
 
             # Move all suits into position
@@ -105,7 +105,7 @@ class DistributedBattleWaiters(DistributedBattleFinal.DistributedBattleFinal):
             self.notify.debug('startPos for %s = %s' % (suit, startPos))
             suit.reparentTo(self)
             suit.setPos(startPos)
-            suit.headsUp(self)                
+            suit.headsUp(self)
 
             flyIval = suit.beginSupaFlyMove(destPos, True,'flyIn')
             suitTrack.append(Track(

@@ -3,12 +3,12 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-import CogHQLobby
+from . import CogHQLobby
 from toontown.hood import QuietZoneState
 from toontown.hood import ZoneUtil
 from toontown.town import TownBattle
 from toontown.suit import Suit
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 class CogHQLoader(StateData.StateData):
 
@@ -153,7 +153,7 @@ class CogHQLoader(StateData.StateData):
             # And load the new one
             zoneId = status['zoneId']
             self.loadPlaceGeom(zoneId)
-            self.fsm.request("quietZone", [status])            
+            self.fsm.request("quietZone", [status])
         else:
             self.doneStatus = status
             messenger.send(self.doneEvent)
@@ -169,7 +169,7 @@ class CogHQLoader(StateData.StateData):
         self.placeClass = self.getExteriorPlaceClass()
         self.enterPlace(requestStatus)
         self.hood.spawnTitleText(requestStatus['zoneId'])
-        
+
     def exitCogHQExterior(self):
         taskMgr.remove("titleText")
         self.hood.hideTitleText()
@@ -181,20 +181,18 @@ class CogHQLoader(StateData.StateData):
         self.placeClass = CogHQLobby.CogHQLobby
         self.enterPlace(requestStatus)
         self.hood.spawnTitleText(requestStatus['zoneId'])
-        
+
     def exitCogHQLobby(self):
         taskMgr.remove("titleText")
         self.hood.hideTitleText()
         self.exitPlace()
         self.placeClass = None
 
-    
+
     def enterCogHQBossBattle(self, requestStatus):
         self.placeClass = self.getBossPlaceClass()
         self.enterPlace(requestStatus)
-        
+
     def exitCogHQBossBattle(self):
         self.exitPlace()
         self.placeClass = None
-
-

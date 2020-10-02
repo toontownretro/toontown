@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from toontown.building.ElevatorConstants import *
@@ -80,7 +80,7 @@ class DistributedFactoryElevatorExt(DistributedElevatorExt.DistributedElevatorEx
                 'hoodId' : hoodId,
                 }
             self.cr.playGame.getPlace().elevator.signalDone(doneStatus)
-            
+
     def setFactoryInteriorZoneForce(self, zoneId):
         place = self.cr.playGame.getPlace()
         if place:
@@ -99,10 +99,9 @@ class DistributedFactoryElevatorExt(DistributedElevatorExt.DistributedElevatorEx
                 self.notify.warning("setMintInteriorZoneForce: Couldn't find playGame.getPlace().elevator, zoneId: %s" %zoneId)
         else:
             self.notify.warning("setFactoryInteriorZoneForce: Couldn't find playGame.getPlace(), zoneId: %s" %zoneId)
-            
+
     def getDestName(self):
         if self.entranceId == 0:
             return TTLocalizer.ElevatorSellBotFactory0
         elif self.entranceId == 1:
             return TTLocalizer.ElevatorSellBotFactory1
-

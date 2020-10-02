@@ -2,9 +2,9 @@ from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-import FishGlobals
+from . import FishGlobals
 from toontown.fishing import DistributedPondBingoManager
-from pandac.PandaModules import Vec3
+from toontown.toonbase.ToontownModules import Vec3
 from direct.task import Task
 
 class DistributedFishingPond(DistributedObject.DistributedObject):
@@ -12,7 +12,7 @@ class DistributedFishingPond(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedFishingPond")
 
     pollInterval = 0.5
-    
+
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.notify.debug("init")
@@ -29,7 +29,7 @@ class DistributedFishingPond(DistributedObject.DistributedObject):
 
     def disable(self):
         self.visitedSpots.clear()
-        self.stopCheckingTargets()        
+        self.stopCheckingTargets()
         DistributedObject.DistributedObject.disable(self)
 
     def setArea(self, area):
@@ -48,7 +48,7 @@ class DistributedFishingPond(DistributedObject.DistributedObject):
 
     def startCheckingTargets(self, spot, bobPos):
         self.notify.debug("startCheckingTargets")
-        
+
         if base.wantBingo:
             assert( spot.getDoId() == self.localToonSpot.getDoId() )
 
@@ -61,7 +61,7 @@ class DistributedFishingPond(DistributedObject.DistributedObject):
 
     def stopCheckingTargets(self):
         self.notify.debug("stopCheckingTargets")
-        
+
         taskMgr.remove(self.taskName("checkTargets"))
         if not base.wantBingo:
             # We don't want this to happen when fish bingo is enabled.
@@ -76,7 +76,7 @@ class DistributedFishingPond(DistributedObject.DistributedObject):
         """
         self.notify.debug("checkTargets")
         if self.localToonSpot != None:
-            for target in self.targets.values():
+            for target in list(self.targets.values()):
                 targetPos = target.getPos(render)
                 distVec = Vec3(targetPos - self.localToonBobPos)
                 dist = distVec.length()
@@ -113,7 +113,7 @@ class DistributedFishingPond(DistributedObject.DistributedObject):
     # Purpose: This method deletes the reference to the PBMgrAI
     #          for this pond. This is called whenever Bingo
     #          Night closes and the PBMgrAI is ending.
-    #          
+    #
     # Input: None
     # Output: None
     ############################################################
@@ -183,19 +183,19 @@ class DistributedFishingPond(DistributedObject.DistributedObject):
     #          the local avatar has entered.
     # Note:    Initially, this was set only when the pond
     #          needed to check for targets during the 'fishing'
-    #          state 
+    #          state
     # Input: None
     # Output: None
     ############################################################
     def setLocalToonSpot(self, spot=None):
         self.localToonSpot = spot
 
-        if (spot is not None) and (not self.visitedSpots.has_key(spot.getDoId())):
-            self.visitedSpots[spot.getDoId()] = spot            
-            
+        if (spot is not None) and (spot.getDoId() not in self.visitedSpots):
+            self.visitedSpots[spot.getDoId()] = spot
+
     ############################################################
     # Method: showBingoGui
-    # Purpose: This method  tells the PondBingoManager to 
+    # Purpose: This method  tells the PondBingoManager to
     #          display the Bingo GUI.
     # Input: None
     # Output: None
@@ -225,7 +225,7 @@ class DistributedFishingPond(DistributedObject.DistributedObject):
     # Output: None
     ############################################################
     def resetSpotGui(self):
-        for spot in self.visitedSpots.values():
+        for spot in list(self.visitedSpots.values()):
             spot.resetCastGui()
 
     ############################################################
@@ -239,13 +239,5 @@ class DistributedFishingPond(DistributedObject.DistributedObject):
     # Output: None
     ############################################################
     def setSpotGui(self):
-        for spot in self.visitedSpots.values():
+        for spot in list(self.visitedSpots.values()):
             spot.setCastGui()
-    
-
-    
-            
-
-
-    
-        

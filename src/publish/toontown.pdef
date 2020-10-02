@@ -1,7 +1,7 @@
 # This file defines the downloadable packages that make up the
 # published version of Toontown Online.
 
-from pandac.PandaModules import Filename, PandaSystem
+from toontown.toonbase.ToontownModules import Filename, PandaSystem
 from direct.showutil import FreezeTool
 FreezeTool.sourceTrees = ['toontown', 'otp', 'direct']
 from toontown.publish import PRCEncryptionKey
@@ -116,7 +116,7 @@ class panda3d(package):
 
     # we need _strptime for Parties
     module('_strptime')
-  
+
     # Explicitly add the US/Pacific timezone, because we use that for
     # parties.
     module('pytz.zoneinfo.US.Pacific')
@@ -178,7 +178,7 @@ class panda3d(package):
     else:
         file(Filename.expandFrom('$TTMODELS/built/phase_3/models/gui/toontown_mac_icon.rgb'),
              extract = True)
-        
+
 
 ##################################################
 # PHASE 3
@@ -296,15 +296,14 @@ class tt_13(package):
 # Entry points.  This is the p3d application that can be used to
 # launch Toontown.
 ##################################################
-    
+
 class toontown(p3d):
     # Downloads only minimal phases before launching the game.  The
     # game itself will download the remaining phases once it begins.
-    
-    require('panda3d', 
+
+    require('panda3d',
             version = PandaSystem.getPackageVersionString())
     require('tt_3')
     config(log_basename='toontown', prc_name='toontown', start_dir='toontown')
 
     mainModule('toontown.launcher.StartToontownWebLauncher')
-    

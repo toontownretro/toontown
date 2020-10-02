@@ -1,4 +1,4 @@
-from pandac.PandaModules import NodePath
+from toontown.toonbase.ToontownModules import NodePath
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.estate import DistributedStatuary
@@ -51,14 +51,14 @@ class DistributedChangingStatuary(DistributedStatuary.DistributedStatuary):
             stage = len(growthThresholds)
         self.notify.debug('growth Stage=%d' % stage)
         # we know the right stage, hide the others
-        for index in xrange(len(growthThresholds) +1):
+        for index in range(len(growthThresholds) +1):
             if index != stage:
                 partName = '**/growthStage_%d' % index
                 self.notify.debug('trying to remove %s' % partName)
                 hideThis = self.model.find(partName)
                 if not hideThis.isEmpty():
                     hideThis.removeNode()
-                
+
     def setupShadow(self):
         # set up the shadow
         DistributedStatuary.DistributedStatuary.setupShadow(self)

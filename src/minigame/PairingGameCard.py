@@ -1,6 +1,6 @@
-from PlayingCard import PlayingCardNodePath
-import PlayingCardGlobals
-from pandac.PandaModules import NodePath, Vec3
+from .PlayingCard import PlayingCardNodePath
+from . import PlayingCardGlobals
+from toontown.toonbase.ToontownModules import NodePath, Vec3
 from direct.interval.IntervalGlobal import LerpHprInterval, Parallel, SoundInterval
 
 
@@ -24,14 +24,14 @@ class PairingGameCard(PlayingCardNodePath):
                    (0.996094, 0.957031, 0.597656, 1.0), # light yellow
                    (0.992188, 0.480469, 0.167969, 1.0), # orange
                    ]
-                   
+
     def __init__(self, value):
         """Constructor, value should be [0..51]."""
         style = PlayingCardGlobals.Styles[0]
         PlayingCardNodePath.__init__(self, style,value)
         self.enterCallback = None
         self.exitCallback = None
-    
+
     def load(self):
         """Load the assets."""
         # these are just temp assets
@@ -41,7 +41,7 @@ class PairingGameCard(PlayingCardNodePath):
         prop = self.attachNewNode('prop')
         PlayingCardGlobals.getImage(self.style, self.suit, self.rank).copyTo(prop)
         prop.setScale(7)
-        
+
         # remove the bits we don't want
         oneCard.find('**/glow').removeNode()
         #oneCard.find('**/shadow').removeNode()
@@ -73,12 +73,12 @@ class PairingGameCard(PlayingCardNodePath):
         cardModel = loader.loadModel('phase_3.5/models/gui/playingCard')
         logo = cardModel.find('**/logo')
         logo.reparentTo(self)
-        logo.setScale(0.45)        
+        logo.setScale(0.45)
         logo.setP(90)
         logo.setZ(0.025)
         logo.setX(-0.05)
         logo.setH(180)
- 
+
         cardModel.remove()
 
         self.setR(0) # the default value is face Up
@@ -87,7 +87,7 @@ class PairingGameCard(PlayingCardNodePath):
         self.flipIval = None
 
         self.turnUpSound = base.loadSfx("phase_4/audio/sfx/MG_pairing_card_flip_face_up.mp3")
-        self.turnDownSound = base.loadSfx("phase_4/audio/sfx/MG_pairing_card_flip_face_down.mp3")        
+        self.turnDownSound = base.loadSfx("phase_4/audio/sfx/MG_pairing_card_flip_face_down.mp3")
 
     def unload(self):
         """Unload the assets."""
@@ -100,7 +100,7 @@ class PairingGameCard(PlayingCardNodePath):
         """Turn up the card.
 
         doInterval -- if true do a sound and flip up animation
-        
+
         """
         assert self.value != PlayingCardGlobals.Unknown
         self.faceUp = 1
@@ -114,7 +114,7 @@ class PairingGameCard(PlayingCardNodePath):
                 )
             self.flipIval.start()
         else:
-            self.setR(0)        
+            self.setR(0)
 
     def clearFlipIval(self):
         """Clear any flip intervals on this card."""
@@ -126,8 +126,8 @@ class PairingGameCard(PlayingCardNodePath):
         """Turn up the card.
 
         doInterval -- if true do a sound and flip up animation
-        
-        """        
+
+        """
         self.faceUp = 0
         if doInterval:
             self.clearFlipIval()

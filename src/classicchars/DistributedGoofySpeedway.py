@@ -1,11 +1,11 @@
 """DistributedGoofy module: contains the DistributedGoofy class"""
 
-from pandac.PandaModules import *
-import DistributedCCharBase
+from toontown.toonbase.ToontownModules import *
+from . import DistributedCCharBase
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-import CharStateDatas
+from . import CharStateDatas
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.hood import DLHood
@@ -43,7 +43,7 @@ class DistributedGoofySpeedway(DistributedCCharBase.DistributedCCharBase):
                              'Off',
                              )
 
-            self.fsm.enterInitialState()            
+            self.fsm.enterInitialState()
         self.handleHolidays()
 
     def disable(self):
@@ -129,17 +129,17 @@ class DistributedGoofySpeedway(DistributedCCharBase.DistributedCCharBase):
 
     def walkSpeed(self):
         return ToontownGlobals.GoofySpeed
-        
-    def handleHolidays(self):           
-        """        
-        Handle Holiday specific behaviour        
+
+    def handleHolidays(self):
         """
-        DistributedCCharBase.DistributedCCharBase.handleHolidays(self)        
+        Handle Holiday specific behaviour
+        """
+        DistributedCCharBase.DistributedCCharBase.handleHolidays(self)
         if hasattr(base.cr, "newsManager") and base.cr.newsManager:
             holidayIds = base.cr.newsManager.getHolidayIdList()
             if ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds and isinstance(self.cr.playGame.hood, DLHood.DLHood):
-                self.diffPath = TTLocalizer.Donald                     
-        
+                self.diffPath = TTLocalizer.Donald
+
     def getCCLocation(self):
         if self.diffPath == None:
             return 1

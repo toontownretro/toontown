@@ -1,8 +1,8 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *
-from TrolleyConstants import *
+from .TrolleyConstants import *
 from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
@@ -57,7 +57,7 @@ class GameMenu(DirectFrame):
                                   pos = (0, 0, -0.7),
                                   command = self.checkersSelected,
                                  )
-        
+
         self.Checkers = DirectButton(self,
                                   image = (btn2.find("**/regular_checkersBtnUp"),
                                            btn2.find("**/regular_checkersBtnDn"),
@@ -89,13 +89,13 @@ class GameMenu(DirectFrame):
             self.FindFour['command'] = self.doNothing
             self.FindFour.setColor(.7,.7,.7,.7)
 
-        
+
         self.chineseText = OnscreenText(text = "Chinese Checkers", pos = (0, .56, -0.8), scale = 0.15,
                                        fg = Vec4(1,1,1,1), align = TextNode.ACenter,
                                        font =ToontownGlobals.getMinnieFont(), wordwrap = 7,
                                         shadow = (0,0,0,0.8), shadowOffset = (-0.1,-0.1), mayChange = True)
         self.chineseText.setR(-8)
-        
+
         self.checkersText = OnscreenText(text = "Checkers", pos = (0.81, -.1, -0.8), scale = 0.15,
                                        fg = Vec4(1,1,1,1), align = TextNode.ACenter,
                                         font =ToontownGlobals.getMinnieFont(), wordwrap = 7,
@@ -109,7 +109,7 @@ class GameMenu(DirectFrame):
 
     def delete(self):
         self.removeButtons()
-         
+
     def removeButtons(self):
         self.ChineseCheckers.destroy()
         self.Checkers.destroy()
@@ -118,7 +118,7 @@ class GameMenu(DirectFrame):
         self.checkersText.destroy()
         self.findFourText.destroy()
         DirectFrame.destroy(self)
-    
+
     def checkersSelected(self):
         #self.removeButtons()
         self.picnicFunction(1)

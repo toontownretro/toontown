@@ -1,6 +1,6 @@
 """ CatchGameToonSD: contains the catch game toon statedata. used by local and remote avatars """
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
@@ -9,7 +9,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-import CatchGameGlobals
+from . import CatchGameGlobals
 from direct.task.Task import Task
 
 class CatchGameToonSD(StateData.StateData):
@@ -35,7 +35,7 @@ class CatchGameToonSD(StateData.StateData):
         self.toon = self.game.getAvatar(self.avId)
         # prevent crash during cleanup if this client exits during the game
         self._delayDelete = DelayDelete(self.toon, 'CatchGameToonSD')
-        self.unexpectedExit = False        
+        self.unexpectedExit = False
 
         self.fsm = ClassicFSM.ClassicFSM(
             'CatchGameAnimFSM-%s' % self.avId,
@@ -76,7 +76,7 @@ class CatchGameToonSD(StateData.StateData):
         # cache the animations
         for anim in self.animList:
             self.toon.pose(anim, 0)
-        
+
     def unload(self):
         self._delayDelete.destroy()
         del self.fsm
@@ -90,8 +90,8 @@ class CatchGameToonSD(StateData.StateData):
         if self._exiting:
             return
         self._exiting = True
-        self.unexpectedExit = unexpectedExit        
-        
+        self.unexpectedExit = unexpectedExit
+
         self.fsm.requestFinalState()
         del self._exiting
 
@@ -243,7 +243,7 @@ class CatchGameToonSD(StateData.StateData):
             )
 
         self.fallFwdIval.start()
-        
+
     def exitFallForward(self):
         # don't 'stop/finish' the stunnedIval; it will attempt to
         # transition to 'normal', when we're already in the process

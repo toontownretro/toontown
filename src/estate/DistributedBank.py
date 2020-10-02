@@ -1,22 +1,22 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from toontown.toonbase import ToontownGlobals
-import DistributedFurnitureItem
+from . import DistributedFurnitureItem
 from toontown.toonbase import TTLocalizer
-import BankGUI
-from BankGlobals import *
+from . import BankGUI
+from .BankGlobals import *
 from toontown.toontowngui import TTDialog
 from toontown.catalog.CatalogFurnitureItem import FurnitureTypes
 from toontown.catalog.CatalogFurnitureItem import FTScale
 class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
 
     notify = directNotify.newCategory("DistributedBank")
-    
+
     def __init__(self, cr):
         DistributedFurnitureItem.DistributedFurnitureItem.__init__(self, cr)
         self.bankGui = None
@@ -42,7 +42,7 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
         self.notify.debug("announceGenerate")
         DistributedFurnitureItem.DistributedFurnitureItem.announceGenerate(self)
         self.accept(self.bankSphereEnterEvent,  self.__handleEnterSphere)
-        
+
     def disable(self):
         self.notify.debug("disable")
         self.ignore(self.bankSphereEnterEvent)
@@ -66,7 +66,7 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
     def delete(self):
         self.notify.debug("delete")
         DistributedFurnitureItem.DistributedFurnitureItem.delete(self)
-        
+
     def __handleEnterSphere(self, collEntry):
         if self.smoothStarted:
             # Ignore any sphere enter events while the object is
@@ -84,7 +84,7 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
         self.cr.playGame.getPlace().fsm.request('banking')
         self.hasLocalAvatar = 1
         self.sendUpdate("avatarEnter", [])
-        
+
     def __handleExitSphere(self, collEntry):
         self.notify.debug("Exiting Bank Sphere....")
         if self.bankTrack is not None:
@@ -94,7 +94,7 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
             self.bankDialog.cleanup()
             self.bankDialog = None
         self.__handleBankDone(0)
-            
+
     def __handleBankDone(self, transactionAmount):
         # Ask the AI to move the money between accounts
         self.notify.debug("__handleBankDone(transactionAmount=%s"%(transactionAmount,))
@@ -116,9 +116,9 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
             # If we are exiting and have localAvatar our place might already be gone
             if base.cr.playGame.place != None:
                 base.cr.playGame.getPlace().setState("walk")
-				
-            self.hasLocalAvatar = 0 
-            
+
+            self.hasLocalAvatar = 0
+
         # Start accepting the bank collision sphere event again
         self.accept(self.bankSphereEnterEvent, self.__handleEnterSphere)
 
@@ -131,14 +131,14 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
     def setMovie(self, mode, avId, timestamp):
         """
         This is a message from the AI describing a movie between this bank
-        and a Toon that has approached us. 
+        and a Toon that has approached us.
         """
         self.notify.debug("setMovie(mode=%s, avId=%s, timestamp=%s)"%(mode, avId, timestamp))
         timeStamp = globalClockDelta.localElapsedTime(timestamp)
 
         # See if this is the local toon
         isLocalToon = (avId == base.localAvatar.doId)
-            
+
         self.notify.info("setMovie: mode=%s, avId=%s, timeStamp=%s, isLocalToon=%s" %
                           (mode, avId, timeStamp, isLocalToon))
 
@@ -162,7 +162,7 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
         elif (mode == BANK_MOVIE_WITHDRAW):
             self.notify.debug("setMovie: withdraw")
             # TODO: play animation on bank
-            self.__putAwayToonJar(avId)            
+            self.__putAwayToonJar(avId)
         elif (mode == BANK_MOVIE_NO_OP):
             self.notify.debug("setMovie: no op")
             self.__putAwayToonJar(avId)
@@ -203,18 +203,18 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
     def __takeOutToonJar(self, avId):
         self.notify.debug("__takeOutToonJar(avId=%s)"%(avId,))
         # take out the jar
-        
+
         toon = base.cr.doId2do.get(avId)
         if toon == None:
             return
-        
+
         track = Sequence()
 
         # determine bank scale and use to calculate
         # distance walked forward during interaction
         index = self.item.furnitureType
         scale = FurnitureTypes[index][FTScale]
-        
+
         # walk to the bank
         walkToBank = Sequence(
             Func(toon.stopSmooth),
@@ -224,10 +224,10 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
             Func(toon.loop, 'neutral'),
             Func(toon.startSmooth))
         track.append(walkToBank)
-        
+
         if not toon.jar:
             toon.getJar()
-            
+
         # TODO: reparentTo jar to lod's too
         track.append(Func(toon.jar.reparentTo, toon.getRightHands()[0]))
         jarAndBank = Parallel(

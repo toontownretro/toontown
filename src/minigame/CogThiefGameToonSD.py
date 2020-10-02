@@ -1,6 +1,6 @@
 """ CogThiefGameToonSD: contains the catch game toon statedata. used by local and remote avatars """
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
@@ -73,7 +73,7 @@ class CogThiefGameToonSD(StateData.StateData):
         # cache the animations
         for anim in self.animList:
             self.toon.pose(anim, 0)
-        
+
     def unload(self):
         del self.fsm
 
@@ -85,7 +85,7 @@ class CogThiefGameToonSD(StateData.StateData):
         assert self.notify.debugStateCall(self)
         if self.exitAlreadyCalled:
             return
-        self.exitAlreadyCalled = True        
+        self.exitAlreadyCalled = True
         self.notify.debug('in exit self.toon.doId=%s' % self.toon.doId)
         self.unexpectedExit = unexpectedExit
         self.fsm.requestFinalState()
@@ -245,7 +245,7 @@ class CogThiefGameToonSD(StateData.StateData):
             )
 
         self.fallFwdIval.start()
-        
+
     def exitFallForward(self):
         # don't 'stop/finish' the stunnedIval; it will attempt to
         # transition to 'normal', when we're already in the process

@@ -1,6 +1,6 @@
 """ToonInterior module: contains the ToonInterior class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import Place
@@ -70,7 +70,7 @@ class ToonInterior(Place.Place):
                             State.State('DFA',
                                         self.enterDFA,
                                         self.exitDFA,
-                                        ['DFAReject', 'HFA', 'NPCFA', 'teleportOut', 
+                                        ['DFAReject', 'HFA', 'NPCFA', 'teleportOut',
                                         'doorOut']),
                             State.State('DFAReject',
                                         self.enterDFAReject,
@@ -157,7 +157,7 @@ class ToonInterior(Place.Place):
         assert(self.notify.debug("unload()"))
         # Call up the chain
         Place.Place.unload(self)
-        
+
         self.parentFSMState.removeChild(self.fsm)
         del self.parentFSMState
         del self.fsm
@@ -210,7 +210,7 @@ class ToonInterior(Place.Place):
         globalClock.tick()
         base.transitions.irisIn()
         messenger.send("enterTutorialInterior")
-        
+
 
     def exitTutorial(self):
         pass
@@ -222,7 +222,7 @@ class ToonInterior(Place.Place):
     # walk state inherited from Place.py
 
     # sticker book state inherited from Place.py
-        
+
     # doorIn/Out state inherited from Place.py
 
     # override DFA callback
@@ -251,10 +251,10 @@ class ToonInterior(Place.Place):
         else:
             # Some return code that is not handled
             self.notify.error("Unknown done status for DownloadForceAcknowledge: "
-                              + `doneStatus`)
+                              + repr(doneStatus))
 
     # NPCFA state
-            
+
     def enterNPCFA(self, requestStatus):
         """NPC Force Acknowledge"""
         assert(self.notify.debug("enterNPCFA()"))
@@ -262,11 +262,11 @@ class ToonInterior(Place.Place):
         self.acceptOnce(self.npcfaDoneEvent, self.enterNPCFACallback, [requestStatus])
         self.npcfa = NPCForceAcknowledge.NPCForceAcknowledge(self.npcfaDoneEvent)
         self.npcfa.enter()
-        
+
     def exitNPCFA(self):
         assert(self.notify.debug("exitNPCFA()"))
         self.ignore(self.npcfaDoneEvent)
-            
+
     def enterNPCFACallback(self, requestStatus, doneStatus):
         assert(self.notify.debug("enterNPCFACallback()"))
         self.npcfa.exit()
@@ -284,7 +284,7 @@ class ToonInterior(Place.Place):
         else:
             # Some return code that is not handled
             self.notify.error("Unknown done status for NPCForceAcknowledge: "
-                              + `doneStatus`)
+                              + repr(doneStatus))
 
     # npca reject state
 
@@ -292,7 +292,7 @@ class ToonInterior(Place.Place):
         assert(self.notify.debug("enterNPCFAReject()"))
         # TODO: reject movie, turn toon around
         self.fsm.request("walk")
-    
+
     def exitNPCFAReject(self):
         assert(self.notify.debug("exitNPCFAReject()"))
 
@@ -307,11 +307,11 @@ class ToonInterior(Place.Place):
         # This enforces the so-called time out penalty
         self.hfa = HealthForceAcknowledge.HealthForceAcknowledge(self.hfaDoneEvent)
         self.hfa.enter(1)
-        
+
     def exitHFA(self):
         assert(self.notify.debug("exitHFA()"))
         self.ignore(self.hfaDoneEvent)
-            
+
     def enterHFACallback(self, requestStatus, doneStatus):
         assert(self.notify.debug("enterHFACallback()"))
         self.hfa.exit()
@@ -329,7 +329,7 @@ class ToonInterior(Place.Place):
         else:
             # Some return code that is not handled
             self.notify.error("Unknown done status for HealthForceAcknowledge: "
-                              + `doneStatus`)
+                              + repr(doneStatus))
 
     # hfa reject state
 
@@ -337,7 +337,7 @@ class ToonInterior(Place.Place):
         assert(self.notify.debug("enterHFAReject()"))
         # TODO: reject movie, turn toon around
         self.fsm.request("walk")
-    
+
     def exitHFAReject(self):
         assert(self.notify.debug("exitHFAReject()"))
 
@@ -395,5 +395,3 @@ class ToonInterior(Place.Place):
 
     def exitTeleportOut(self):
         Place.Place.exitTeleportOut(self)
-
-

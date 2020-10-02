@@ -2,7 +2,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.task.Task import Task
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from otp.avatar import DistributedAvatar
 from toontown.toon import GMUtils
@@ -22,7 +22,7 @@ from toontown.hood import ZoneUtil
 class PartyHood(Hood.Hood):
     """
     This was originally copied from EstateHood.py
-    
+
     This is a subclass from hood, you need to define a Town, a SafeZone, a storage
     DNA file, a sky model file, and an id.
     """
@@ -63,16 +63,16 @@ class PartyHood(Hood.Hood):
         self.id = PartyHood
         # Create the safe zone state data
         self.safeZoneLoaderClass = PartyLoader.PartyLoader
-        
+
         self.partyActivityDoneEvent = "partyActivityDone"
-        
+
         self.storageDNAFile = "phase_13/dna/storage_party_sz.dna"
         # Dictionary which holds holiday specific lists of Storage DNA Files
         # Keyed off of the News Manager holiday IDs stored in ToontownGlobals
         self.holidayStorageDNADict = {WINTER_DECORATIONS : ['phase_5.5/dna/winter_storage_estate.dna']}
         self.skyFile = "phase_3.5/models/props/TT_sky"
         self.popupInfo = None
-        
+
     def load(self):
         assert(self.notify.debug("load()"))
         Hood.Hood.load(self)
@@ -167,10 +167,10 @@ class PartyHood(Hood.Hood):
                      pos = (0.0, 0.0, -0.30),
                      command = self.__handleKickoutOk)
         buttons.removeNode()
-        
+
         # Show the popup info (i.e. "Sorry, the owner has left...")
         self.popupInfo.reparentTo(aspect2d)
-        
+
     def __handleKickoutOk(self):
         # hide the popup
         self.popupInfo.reparentTo(hidden)
@@ -198,8 +198,8 @@ class PartyHood(Hood.Hood):
                                  +str(requestStatus)+")"))
         loaderName = requestStatus["loader"]
         if loaderName=="safeZoneLoader":
-            self.loader = self.safeZoneLoaderClass(self, 
-                    self.fsm.getStateNamed("safeZoneLoader"), 
+            self.loader = self.safeZoneLoaderClass(self,
+                    self.fsm.getStateNamed("safeZoneLoader"),
                     self.loaderDoneEvent)
             self.loader.load()
         else:
@@ -210,12 +210,12 @@ class PartyHood(Hood.Hood):
     #  "Your Estate" vs. "Fat Tooter's Estate" etc.)
     def spawnTitleText(self, zoneId):
         # This functionality is moved to DistributedParty.spawnTitleText()
-        # we need host name which we don't have here        
+        # we need host name which we don't have here
         return
 
     def hideTitleTextTask(self, task):
         # This functionality is moved to DistributedParty.spawnTitleText()
-        # we need host name which we don't have here        
+        # we need host name which we don't have here
         return
 
     def skyTrack(self, task):
@@ -225,9 +225,8 @@ class PartyHood(Hood.Hood):
         SkyUtil.startCloudSky(self)
         if base.cloudPlatformsEnabled:
             self.loader.startCloudPlatforms()
-        
+
     def stopSky(self):
         assert(self.notify.debug("stopSky"))
         Hood.Hood.stopSky(self)
         self.loader.stopCloudPlatforms()
-        

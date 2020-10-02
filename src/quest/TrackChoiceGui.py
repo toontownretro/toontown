@@ -1,5 +1,5 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import ToontownTimer
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
@@ -8,7 +8,7 @@ from toontown.toonbase import TTLocalizer
 class TrackPoster(DirectFrame):
 
     normalTextColor = (0.3,0.25,0.2,1)
-    
+
     def __init__(self, trackId, callback):
         DirectFrame.__init__(self, relief = None)
         self.initialiseoptions(TrackPoster)
@@ -35,7 +35,7 @@ class TrackPoster(DirectFrame):
             image = bookModel.find("**/questPictureFrame"),
             image_scale = 0.25,
             image_color = (.45,.8,.45,1),
-            text = trackName, 
+            text = trackName,
             text_font = ToontownGlobals.getInterfaceFont(),
             text_pos = (0,-0.16),
             text_fg = self.normalTextColor,
@@ -74,7 +74,7 @@ class TrackPoster(DirectFrame):
             textMayChange = 0,
             pos = (-0.05,0,0.14),
             )
-        
+
         guiButton = loader.loadModel("phase_3/models/gui/quit_button")
         self.chooseButton = DirectButton(
             parent = self.poster,

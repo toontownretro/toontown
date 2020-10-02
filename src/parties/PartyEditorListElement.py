@@ -7,7 +7,7 @@
 #          they spawn PartyEditorGridElements
 #-------------------------------------------------------------------------------
 
-from pandac.PandaModules import Vec3
+from toontown.toonbase.ToontownModules import Vec3
 
 from direct.gui.DirectGui import DirectButton, DirectLabel
 from direct.gui import DirectGuiGlobals
@@ -23,8 +23,8 @@ class PartyEditorListElement(DirectButton):
     when clicked spawn PartyEditorGridElements
     """
     notify = directNotify.newCategory("PartyEditorListElement")
-    
-    def __init__(self, partyEditor, id, isDecoration=False, **kw):        
+
+    def __init__(self, partyEditor, id, isDecoration=False, **kw):
         self.partyEditor = partyEditor
         self.id = id
         self.isDecoration = isDecoration
@@ -56,14 +56,14 @@ class PartyEditorListElement(DirectButton):
                 geom_pos = (0.0, 0.0, -3.0)
                 geom3_color = (0.5, 0.5, 0.5, 1.0)
                 scale = Vec3(0.06, 0.0001, 0.06)
-                
+
                 # Give these tall icons a bit more head room.
-                if self.id in [PartyGlobals.DecorationIds.CogStatueVictory, 
+                if self.id in [PartyGlobals.DecorationIds.CogStatueVictory,
                                PartyGlobals.DecorationIds.TubeCogVictory,
                                PartyGlobals.DecorationIds.cogIceCreamVictory]:
                     geom_pos = (0.0, 0.0, -3.9)
                     scale = Vec3(0.05, 0.0001, 0.05)
-                
+
         else:
             self.name = TTLocalizer.PartyActivityNameDict[self.id]["editor"]
             colorList = ( (0.0, 0.0, 0.0, 1.0), (0.0, 1.0, 0.0, 1.0), (1.0, 1.0, 0.0, 1.0), (0.5, 0.5, 0.5, 1.0))
@@ -72,7 +72,7 @@ class PartyEditorListElement(DirectButton):
                 iconString = PartyGlobals.ActivityIds.getString(PartyGlobals.ActivityIds.PartyJukebox)
             elif self.id == PartyGlobals.ActivityIds.PartyDance20:
                 iconString = PartyGlobals.ActivityIds.getString(PartyGlobals.ActivityIds.PartyDance)
-            
+
             geom = getPartyActivityIcon(self.partyEditor.activityIconsModel, iconString)
 
             scale = 0.35
@@ -91,7 +91,7 @@ class PartyEditorListElement(DirectButton):
             ('geom_pos', geom_pos, None),
             ('relief', None, None),
         )
-        
+
         # Merge keyword options with default options, plus, this call makes
         # DirectButton work... that and the initializeoptions below... without
         # those two calls, strange... and I mean hard to debug, stuff happens.
@@ -107,7 +107,7 @@ class PartyEditorListElement(DirectButton):
         # instead bind our own methods to press and release.
         self.bind(DirectGuiGlobals.B1PRESS, self.clicked)
         self.bind(DirectGuiGlobals.B1RELEASE, self.released)
-        
+
         self.partyEditorGridElements = []
         if self.isDecoration:
             for i in range(PartyGlobals.DecorationInformationDict[self.id]["limitPerParty"]):
@@ -117,8 +117,8 @@ class PartyEditorListElement(DirectButton):
                 self.partyEditorGridElements.append(PartyEditorGridElement(self.partyEditor, self.id, self.isDecoration, self.checkSoldOutAndPaidStatusAndAffordability))
         self.activeGridElementIndex = -1
 
-               
-        
+
+
         self.adjustForUnreleased()
 
     def calcUnreleased(self, id):
@@ -147,12 +147,12 @@ class PartyEditorListElement(DirectButton):
                 relief = None,
                 )
             self["state"] = DirectGuiGlobals.DISABLED
-            
- 
+
+
     def clearPartyGrounds(self):
         for gridElement in self.partyEditorGridElements:
             gridElement.removeFromGrid()
-            
+
     def elementSelectedFromList(self):
         """
         This element has been scrolled to in the list, replace the price and
@@ -180,7 +180,7 @@ class PartyEditorListElement(DirectButton):
             infoDict = PartyGlobals.DecorationInformationDict
         else:
             infoDict = PartyGlobals.ActivityInformationDict
-        
+
         # First check to see if they are allowed to get it based on whether they
         # are a paying customer or not.
         if not base.cr.isPaid() and infoDict[self.id]["paidOnly"]:
@@ -270,5 +270,3 @@ class PartyEditorListElement(DirectButton):
         # break the cycle to clean up properly
         self.partyEditor = None
         DirectButton.destroy(self)
-
-        

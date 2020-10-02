@@ -1,4 +1,4 @@
-from pandac.PandaModules import DecalEffect, DepthWriteAttrib
+from toontown.toonbase.ToontownModules import DecalEffect, DepthWriteAttrib
 from direct.directnotify import DirectNotifyGlobal
 from toontown.building import DistributedBuilding
 
@@ -7,7 +7,7 @@ class DistributedAnimBuilding(DistributedBuilding.DistributedBuilding):
     """
     DistributedAnimBuilding class:  The client side representation of a
     single ANIMATED building.
-    """    
+    """
     if __debug__:
         notify = DirectNotifyGlobal.directNotify.newCategory('DistributedAnimBuilding')
 

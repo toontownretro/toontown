@@ -8,17 +8,17 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 
-import HolidayDecorator
+from . import HolidayDecorator
 from toontown.toonbase import ToontownGlobals
 from toontown.safezone import Playground
 from toontown.town import Street
 from toontown.estate import Estate
-from pandac.PandaModules import Vec4, loadDNAFile, CSDefault, TransformState, NodePath, TransparencyAttrib
+from toontown.toonbase.ToontownModules import Vec4, loadDNAFile, CSDefault, TransformState, NodePath, TransparencyAttrib
 
 class HalloweenHolidayDecorator(HolidayDecorator.HolidayDecorator):
 
     notify = DirectNotifyGlobal.directNotify.newCategory('HalloweenHolidayDecorator')
-    
+
     def __init__(self):
         HolidayDecorator.HolidayDecorator.__init__(self)
 
@@ -38,7 +38,7 @@ class HalloweenHolidayDecorator(HolidayDecorator.HolidayDecorator):
             else:
                 self.notify.debug("Failed Street Check")
             return False
-        
+
      #####################################################
     # Function that checks the validity of a hood,
     # it's loader and the geometry
@@ -57,7 +57,7 @@ class HalloweenHolidayDecorator(HolidayDecorator.HolidayDecorator):
             else:
                 self.notify.debug("Failed Hood Check")
             return False
-        
+
     #####################################################
     # This function safely calls startSpookySky
     # for the halloween holiday
@@ -66,7 +66,7 @@ class HalloweenHolidayDecorator(HolidayDecorator.HolidayDecorator):
         if (self.__checkHoodValidity() or self.__checkStreetValidity()) and hasattr(base.cr.playGame.hood, "sky") \
         and base.cr.playGame.hood.sky:
             base.cr.playGame.hood.startSpookySky()
-            
+
     ####################################################
     # This function safely calls stopSpookySky
     # for the halloween holiday
@@ -75,14 +75,14 @@ class HalloweenHolidayDecorator(HolidayDecorator.HolidayDecorator):
         if (self.__checkHoodValidity() or self.__checkStreetValidity()) and hasattr(base.cr.playGame.hood, "sky") \
         and base.cr.playGame.hood.sky:
             base.cr.playGame.hood.endSpookySky()
-    
+
     def decorate(self):
         # Load the specified seasonal storage file
         self.updateHoodDNAStore()
         self.swapIval = self.getSwapVisibleIval()
         if self.swapIval:
             self.swapIval.start()
-        
+
         def __lightDecorationOn__():
             # import pdb; pdb.set_trace()
             place = base.cr.playGame.getPlace()
@@ -104,7 +104,7 @@ class HalloweenHolidayDecorator(HolidayDecorator.HolidayDecorator):
                     place.loader.hood.halloweenLights += place.loader.hood.loader.geom.findAllMatches("**/prop_snow_tree*")
                     for light in place.loader.hood.halloweenLights:
                         light.setColorScaleOff(0)
-        
+
         holidayIds = base.cr.newsManager.getDecorationHolidayId()
         if ToontownGlobals.HALLOWEEN_COSTUMES not in holidayIds:
             return
@@ -127,17 +127,17 @@ class HalloweenHolidayDecorator(HolidayDecorator.HolidayDecorator):
                 ),
                 Func(self.__startSpookySky),
             )
-        
+
             preShow.start()
-        
+
         # Replace the plane with the witch in the estate
         distributedEstate = base.cr.doFind("DistributedEstate")
-        
+
         if distributedEstate:
             distributedEstate.loadWitch()
-        
+
     def undecorate(self):
-                    
+
         # Fixes transition related crashes
         if (self.__checkHoodValidity() or self.__checkStreetValidity()) and hasattr(base.cr.playGame.hood, "sky") \
         and base.cr.playGame.hood.sky:
@@ -156,13 +156,13 @@ class HalloweenHolidayDecorator(HolidayDecorator.HolidayDecorator):
                 Func(self.__stopSpookySky),
             )
             postShow.start()
-        
+
         # Replace the witch wiht the plane
         distributedEstate = base.cr.doFind("DistributedEstate")
 
         if distributedEstate:
             distributedEstate.unloadWitch()
-            
+
         # if there are any other decoration holidays running
         holidayIds = base.cr.newsManager.getDecorationHolidayId()
         if len(holidayIds)>0:

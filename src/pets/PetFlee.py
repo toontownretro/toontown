@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.PythonUtil import reduceAngle
 from otp.movement import Impulse
 
@@ -12,7 +12,7 @@ class PetFlee(Impulse.Impulse):
         # how much do we need to be facing away from our chaser
         # before we start moving?
         self.moveAngle = moveAngle
-        
+
         # create a node that we'll use to calculate hprs
         self.lookAtNode = NodePath('lookatNode')
         self.lookAtNode.hide()

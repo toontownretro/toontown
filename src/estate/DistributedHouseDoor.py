@@ -2,7 +2,7 @@
     class, the client side representation of a 'landmark door'."""
 
 from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.distributed import DistributedObject
@@ -39,12 +39,12 @@ class DistributedHouseDoor(DistributedDoor.DistributedDoor):
         DistributedDoor.DistributedDoor.disable(self)
         self.ignoreAll()
 
-        
+
     def setZoneIdAndBlock(self, zoneId, block):
         # We override DistributedDoor's function so we can also set the houseId to the block
         self.houseId = block
         DistributedDoor.DistributedDoor.setZoneIdAndBlock(self, zoneId, block)
-        
+
 
     def getTriggerName(self):
         # HQ doors need to have an index appended, since they are
@@ -80,7 +80,7 @@ class DistributedHouseDoor(DistributedDoor.DistributedDoor):
         # this used to be done in DistributedDoor.announceGenerate
         # and DistributedHouseDoor.announceGenerate
         self.doPostAnnounceGenerate() # in DistributedDoor
-        
+
         # This is called when the door is completely created, so we know
         # that we have all the info we need to get a proper trigger event.
 
@@ -98,11 +98,11 @@ class DistributedHouseDoor(DistributedDoor.DistributedDoor):
         self.acceptOnce("clearOutToonInterior", self.doorTrigger)
 
         self.zoneDoneLoading = 0
-        
+
 
     def getBuilding(self, allowEmpty=False):
         # Once we find it, we store it, so we don't have to find it again.
-        if (not self.__dict__.has_key('building')):
+        if ('building' not in self.__dict__):
             if self.doorType == DoorTypes.INT_STANDARD:
                 #if ZoneUtil.isInterior(self.zoneId):
                 # building interior.
@@ -117,7 +117,7 @@ class DistributedHouseDoor(DistributedDoor.DistributedDoor):
 
         if allowEmpty:
             return self.building
-                    
+
         assert(not self.building.isEmpty())
         return self.building
 
@@ -125,7 +125,7 @@ class DistributedHouseDoor(DistributedDoor.DistributedDoor):
         if (self.doorType == DoorTypes.INT_STANDARD):
             return 1
         return 0
-                
+
     def getDoorNodePath(self):
         assert(self.debugPrint("getDoorNodePath()"))
         if self.doorType == DoorTypes.INT_STANDARD:
@@ -141,9 +141,9 @@ class DistributedHouseDoor(DistributedDoor.DistributedDoor):
             assert(not otherNP.isEmpty())
         else:
             self.notify.error("No such door type as " + str(self.doorType))
-                
+
         return otherNP
-        
+
     def enterClosing(self, ts):
         assert(self.debugPrint("enterClosing()"))
         # Start animation:
@@ -154,14 +154,14 @@ class DistributedHouseDoor(DistributedDoor.DistributedDoor):
         if (doorFrameHoleRight.isEmpty()):
             self.notify.warning("enterClosing(): did not find doorFrameHoleRight")
             return
-        
+
         # Right door:
         #rightDoor=building.find("rightDoor")
         rightDoor=self.findDoorNode("rightDoor")
         if (rightDoor.isEmpty()):
             self.notify.warning("enterClosing(): did not find rightDoor")
             return
-        
+
         # Close the door:
         otherNP=self.getDoorNodePath()
         trackName = "doorClose-%d" % (self.doId)
@@ -169,7 +169,7 @@ class DistributedHouseDoor(DistributedDoor.DistributedDoor):
             h = 100
         else:
             h = -100
-        self.finishDoorTrack()            
+        self.finishDoorTrack()
         self.doorTrack=Sequence(
                 LerpHprInterval(
                     nodePath=rightDoor,
@@ -208,7 +208,7 @@ class DistributedHouseDoor(DistributedDoor.DistributedDoor):
 
     if __debug__:
         def debugPrint(self, message):
-            """for debugging""" 
+            """for debugging"""
             type=self.__dict__.get('doorType', '?')
             if type == DoorTypes.INT_STANDARD:
                 type="INT_ST"

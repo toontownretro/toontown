@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.suit import DistributedCashbotBoss
 from direct.directnotify import DirectNotifyGlobal
@@ -7,7 +7,7 @@ from toontown.coghq import CogHQBossBattle
 class CashbotHQBossBattle(CogHQBossBattle.CogHQBossBattle):
     # create a notify category
     notify = DirectNotifyGlobal.directNotify.newCategory("CashbotHQBossBattle")
-    
+
     # special methods
     def __init__(self, loader, parentFSM, doneEvent):
         CogHQBossBattle.CogHQBossBattle.__init__(self, loader, parentFSM, doneEvent)

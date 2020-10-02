@@ -1,9 +1,9 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.fsm import FSM
 from direct.distributed import DistributedSmoothNode
 from direct.interval.IntervalGlobal import *
@@ -31,11 +31,11 @@ iceTurnFactor = 0.25
 iceAccelFactor = 0.4
 
 class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
-                         Kart.Kart, FSM.FSM): 
+                         Kart.Kart, FSM.FSM):
 
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedVehicle")
     #notify.setDebug(True)
-    
+
     cheatFactor = 1.0
     proRacer = 0
 
@@ -43,7 +43,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
     maxPhysicsDt = 1.0
     physicsDt = 1.0 / float(physicsCalculationsPerSecond)
     maxPhysicsFrames = maxPhysicsDt * physicsCalculationsPerSecond
-    
+
     maxSpeed = 200 * cheatFactor #jml
 
     # higher divisors = worse turn rate
@@ -51,11 +51,11 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
     accelerationMult = 35
     accelerationBase = 20
-    
+
     if proRacer:
         accelerationMult = 35
         accelerationBase = 30
-        
+
 
     surfaceModifiers = {
         'asphalt' : {'shake' : 0.1,
@@ -89,7 +89,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
                      'particleColor' : Vec4(1.0,1.0,1.0,1.0),
                      },
          }
-    
+
     SFX_BaseDir = "phase_6/audio/sfx/"
     SFX_WallHits = [ SFX_BaseDir + "KART_Hitting_Wood_Fence.mp3",
                      SFX_BaseDir + "KART_Hitting_Wood_Fence_1.mp3",
@@ -101,7 +101,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
     SFX_SkidLoop_Asphalt = SFX_BaseDir + "KART_Skidding_On_Asphalt.wav"
     SFX_TurboStart =       SFX_BaseDir + "KART_turboStart.mp3"
     SFX_TurboLoop =        SFX_BaseDir + "KART_turboLoop.wav"
-    
+
     def __init__(self, cr):
         DistributedSmoothNode.DistributedSmoothNode.__init__(self, cr)
         FSM.FSM.__init__(self, 'DistributedVehicle')
@@ -110,9 +110,9 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             DistributedVehicle.proRacer = 1
             DistributedVehicle.accelerationMult = 35
             DistributedVehicle.accelerationBase = 30
-            
-            
-        
+
+
+
         self.speedometer = None
         self.speedGauge = None
         self.leanAmount = 0
@@ -154,22 +154,22 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.cameraTightener = 3.0 # range 1.1 to infinity
         self.cameraArmBase = 0
         self.cameraArmExtend = 20
-        
+
         self.pieCount = 0
         self.numPieChunks = 6
         self.pieSlideSpeed = []
-        
+
         for piece in range(self.numPieChunks):
             self.pieSlideSpeed.append(randFloat(0.0,0.2))
 
         self.wantSmoke = ConfigVariableBool('want-kart-smoke',1).getValue()
         self.wantSparks = ConfigVariableBool('want-kart-sparks',1).getValue()
-        
+
         self.__loadTextures()
-            
+
     def __loadTextures(self):
             self.pieSplatter = loader.loadModel('phase_6/models/karting/pie_splat_1.bam')
-        
+
     def announceGenerate(self):
         DistributedSmoothNode.DistributedSmoothNode.announceGenerate(self)
         self.generateKart()
@@ -178,18 +178,18 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
         # use the highest LOD during racing
         self.LODnode.forceSwitch(self.LODnode.getHighestSwitch())
-        
+
         #create a node to parent the camera to
         self.cameraNode = NodePath('cameraNode')
         self.cameraNode.reparentTo(self)
-        
+
         if self.proRacer:
-            
+
             self.cameraArmNode = render.attachNewNode("cameraArm")
             self.cameraArmNode.reparentTo(self)
             #self.cameraNode.reparentTo(self)
             self.cameraNode.reparentTo(self.cameraArmNode)
-        
+
         self.proCameraDummyNode = render.attachNewNode("proCameraDummy")
         self.proCameraDummyNode.reparentTo(render)
 
@@ -226,8 +226,8 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.anvil.setTransparency(1)
         ###########################################################
         # Add the kart to the scene
-        self.reparentTo(render)       
-        
+        self.reparentTo(render)
+
     def setupPhysics(self):
         self.__setupCollisions()
         ###########################################################
@@ -237,7 +237,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.lastPhysicsFrame = 0
         integrator = LinearEulerIntegrator()
         self.physicsMgr.attachLinearIntegrator(integrator)
-        
+
         # add wind Resistance Force
         fn = ForceNode('windResistance')
         fnp = NodePath(fn)
@@ -246,7 +246,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         fn.addForce(windResistance)
         self.physicsMgr.addLinearForce(windResistance)
         self.windResistance = windResistance
-        
+
         #create an engine force
         fn = ForceNode("engine")
         fnp = NodePath(fn)
@@ -302,7 +302,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             if hasattr(self, 'piePieces'):
                 for piece in self.piePieces:
                     del piece
-            
+
     def getVelocity(self):
         return self.actorNode.getPhysicsObject().getVelocity()
 
@@ -311,23 +311,23 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         for wallHit in self.wallHitsSfx:
             wallHit.setVolume(vol)
         #self.wallLoopWoodSfx.setPlayRate(vol)
-        
+
     def __wallCollisionStart(self, entry):
 
-        
+
         #print("Now Hitting Wall")
         self.entry = entry
         self.__wallCollisionStop()
         self.hittingWall = 1
         hitToPlay = random.randrange(0, len(self.wallHitsSfx))
-            
+
         self.wallCollideTrack = Parallel(
             Func(self.wallHitsSfx[hitToPlay].play),
             #Sequence(Wait(0.2),
             #         Func(self.wallLoopWoodSfx.play)
             #         )
             )
-            
+
         self.__updateWallCollision()
         self.wallCollideTrack.start()
 
@@ -337,7 +337,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
                 self.fireSparkParticles('right')
             else:
                 self.fireSparkParticles('left')
-                
+
     def __wallCollisionStop(self, entry = None):
         #print("No longer hittingWall")
         self.hittingWall = 0
@@ -345,14 +345,14 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         if self.wallCollideTrack:
             self.wallCollideTrack.pause()
             #self.wallLoopWoodSfx.stop()
-    
+
     def __setupCollisions(self):
-        # We will use a separate collision traverser for walls to 
+        # We will use a separate collision traverser for walls to
         # get around the ordering issue (we must check walls before
         # floors)
         self.cWallTrav = CollisionTraverser("KartWall")
         self.cWallTrav.setRespectPrevTransform(True)
-        
+
         ###########################################################
         # A CollisionNode to keep me out of walls, and to
         # keep others from bumping into me.  We use PieBitmask instead
@@ -387,7 +387,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         cRayNode.setFromCollideMask(OTPGlobals.FloorBitmask)
         cRayNode.setIntoCollideMask(BitMask32.allOff())
         self.cRayNodePath = self.attachNewNode(cRayNode)
-        
+
         # set up floor collision mechanism
         self.lifter = CollisionHandlerGravity()
         self.lifter.setGravity(32.174 * 3.0)
@@ -420,7 +420,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
     def __groundCollision(self, entry):
         ground = entry.getIntoNodePath()
         #if we don't have a surface than just use the old one.
-        if ground.getNetTag("surface") == "":  
+        if ground.getNetTag("surface") == "":
             return
         self.groundType = ground.getNetTag("surface")
         #self.updateSkid()
@@ -445,7 +445,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             cQueue = CollisionHandlerQueue()
             self.cWallTrav.addCollider(rayNodePath, cQueue)
             self.cQueue.append(cQueue)
-        
+
         self.collisionNodePath.reparentTo(self)
 
     #Sets up the lap collisions for this vehicle
@@ -459,7 +459,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.lapNode.addSolid(self.cSphere)
         self.lapNode.setIntoCollideMask(BitMask32.allOff())
         self.lapNode.setFromCollideMask(self.lapBit)
-        
+
         self.lapNodePath=NodePath(self.lapNode)
         self.lapNodePath.reparentTo(self)
 
@@ -469,7 +469,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
     def __disableCollisions(self):
         # stop listening for toons.
         self.ignore("imIn-startLine")
-        self.ignore("imIn-quarterLine")        
+        self.ignore("imIn-quarterLine")
         self.ignore("imIn-midLine")
 
     def __handleCollisionSphereEnter(self, collEntry=None):
@@ -489,7 +489,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             self.cleanupDriftParticles()
         if (self.wantSparks):
             self.cleanupSparkParticles()
-        
+
     def setupDriftParticles(self):
         smokeMount = self.geom[0].attachNewNode('Smoke Effect')
         backLeft = smokeMount.attachNewNode('Back Left Smokemount')
@@ -521,20 +521,20 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
     def updateDriftParticles(self,leanAmount):
         for x in self.driftParticleForces:
             x.setAmplitude(leanAmount*30)
-            
+
         if self.skidding and not self.driftSeqStarted:
             self.driftSeqStarted = True
             self.driftSeq.start()
         elif not self.skidding and self.driftSeqStarted:
             self.driftSeqStarted = False
             self.driftSeq.finish()
-        
+
     def cleanupDriftParticles(self):
         self.driftSeq.finish()
         for x in self.drifts:
             x.destroy()
         self.smokeMount.remove()
-        
+
         del self.driftSeq
         del self.driftParticleForces
         del self.drifts
@@ -543,7 +543,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
     def setupSparkParticles(self):
         bodyType = self.kartDNA[ KartDNA.bodyType ]
         endPts = KartDict[bodyType][7]
-        
+
         self.sparkMount = self.geom[0].attachNewNode('Spark Effect')
         left = self.sparkMount.attachNewNode('Left Sparkmount')
         left.setPos(((self.geom[0].find('**/'+self.wheelData[self.LFWHEEL]['node']).getPos() + \
@@ -558,7 +558,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.sparks[0].effect.getParticlesNamed('particles-1').getEmitter().setEndpoint1(endPts[0])
         self.sparks[0].effect.getParticlesNamed('particles-1').getEmitter().setEndpoint2(endPts[1])
         self.sparks[0].effect.getParticlesNamed('particles-1').getLinearForce(0).setAmplitude(-50)
-        
+
         self.sparks[1].effect.getParticlesNamed('particles-1').getEmitter().setEndpoint1(Point3(-endPts[0][0],endPts[0][1],endPts[0][2]))
         self.sparks[1].effect.getParticlesNamed('particles-1').getEmitter().setEndpoint2(Point3(-endPts[1][0],endPts[1][1],endPts[1][2]))
         self.sparks[1].effect.getParticlesNamed('particles-1').getLinearForce(0).setAmplitude(50)
@@ -570,18 +570,18 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             spark.effect.getParticlesNamed('particles-1').setBirthRate(0.0200)
             spark.start()
             taskMgr.doMethodLater(0.25,self.stopSparkParticles,'sparkTimer-'+side,extraArgs = [side])
-            
+
     def stopSparkParticles(self,side = None):
         sides = {0:'right',1:'left'}
         if side == None:
-            for x in sides.keys():
+            for x in list(sides.keys()):
                 self.sparks[x].effect.getParticlesNamed('particles-1').setBirthRate(1000)
                 taskMgr.doMethodLater(0.75,self.sparks[x].stop,'stopSparks-'+sides[x],extraArgs = [])
         else:
             spark = self.sparks[{'right':0,'left':1}[side]]
             spark.effect.getParticlesNamed('particles-1').setBirthRate(1000)
             taskMgr.doMethodLater(0.75,spark.stop,'stopSparks-'+side,extraArgs = [])
-            
+
     def cleanupSparkParticles(self):
         taskMgr.remove('sparkTimer-left')
         taskMgr.remove('sparkTimer-right')
@@ -593,9 +593,9 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
         del self.sparks
         del self.sparkMount
-    
+
     ### Messages to/from the AI ###
-    
+
     def setState(self, state, avId):
         self.notify.debug("SetState received: %s avId: %s" % (state, avId))
         if state == 'C':
@@ -649,7 +649,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
         # make all chat appear in the margins
         NametagGlobals.setOnscreenChatForced(1)
-        
+
         if self.localVehicle:
             # The local toon is beginning to control the vehicle.
             camera.reparentTo(self.cameraNode)
@@ -715,9 +715,9 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         for hi in range(model.headParts.getNumPaths()):
             head = model.headParts[hi]
             head.setScale(scale)
-            
+
     def __createPieWindshield(self):
-        
+
         self.piePieces = []
         for piece in range(self.numPieChunks):
             self.piePieces.append(DirectLabel(
@@ -733,9 +733,9 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             textMayChange = 1,
             ))
             self.piePieces[piece].hide()
-            
+
         #import pdb; pdb.set_trace()
-        
+
     def showPieces(self):
         xRange = 0.3
         for piece in self.piePieces:
@@ -745,7 +745,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             xRange += (2.5 / self.numPieChunks)
         for piece in range(self.numPieChunks):
             self.pieSlideSpeed[piece] = (randFloat(0.0,0.2))
-        
+
     def splatPie(self):
         self.showPieces()
         if self.pieCount == 0:
@@ -755,7 +755,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         else:
             self.pieCount = 15
 
-            
+
     def __countPies(self):
         if self.pieCount > 0:
             #self.pieWindShield['text'] = ("PIE FOOL FACTOR:%s" % (self.pieCount))
@@ -767,10 +767,10 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             #self.pieWindShield.hide()
             for piece in self.piePieces:
                 piece.hide()
-            
+
     def __slidePies(self, optional = None):
         dt = globalClock.getDt()
-        
+
         for piece in range(self.numPieChunks):
             self.pieSlideSpeed[piece] += randFloat(0.0,0.25 * dt)
             pieSpeed = self.pieSlideSpeed[piece] * dt
@@ -779,9 +779,9 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
                                         self.piePieces[piece].getPos()[2] - pieSpeed)
         if self.pieCount == 0:
             return Task.done
-        else:        
+        else:
             return Task.cont
-        
+
 
     def __enableControlInterface(self):
         if(self.canRace):
@@ -826,11 +826,11 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             self.speedometerImages.attachNewNode(m.find('**/*gauge').node()).setColorScale(1,1,1,1)
             self.speedGauge = self.speedometerImages.attachNewNode(m.find('**/*spin').node())
             self.speedGauge.setColor(1,1,1,1)
-                       
+
             c = (Vec4(1,1,1,1)+accColor)/2.0
             c.setW(1.0)
             self.speedometerImages.attachNewNode(m.find('**/*face').node()).setColorScale(c)
-            
+
 
             c = (Vec4(2,2,2,2)-accColor)/2.0
             c = (bodyColor + Vec4(1,1,1,1))/2.0
@@ -883,7 +883,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         if self.speedometer:
             self.speedometer.show()
             self.speedometerImages.show()
-            
+
     def hideSpeedometer(self):
         if self.speedometer:
             self.speedometer.hide()
@@ -921,7 +921,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         if self.cameraTrack:
             self.cameraTrack.finish()
             self.cameraTrack = None
-        
+
     def startTurbo(self):
         # set up some data for our turbo
         newCameraPos = Point3(0, -25, 16)
@@ -931,7 +931,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
         if self.cameraTrack:
             self.cameraTrack.pause()
-            
+
         # create a camera track... modify pos and fov
         cameraZoomIn = Parallel(
             LerpPosInterval(camera, 2, newCameraPos),
@@ -961,7 +961,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
     def __stopTurbo(self, task = None):
         self.setTurbo(False)
-        
+
     def __controlPressed(self):
         self.__throwGag()
         #self.startTurbo()
@@ -973,12 +973,12 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
     def __upArrow(self, pressed):
         #self.__incrementChangeSeq()
         #self.__cleanupCraneAdvice()
-        if pressed: 
+        if pressed:
             self.arrowVert = 1
         else:
             if self.arrowVert > 0:
                 self.arrowVert = 0
-                
+
     def __downArrow(self, pressed):
         #self.__incrementChangeSeq()
         #self.__cleanupCraneAdvice()
@@ -1017,7 +1017,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.__animate()
 
         return Task.cont
-        
+
     # This  should get called for all cars, not just the local one
     def __animate(self):
         speed = self.curSpeed
@@ -1033,7 +1033,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         # local avatar
         if not self.localVehicle:
             dist = (self.getPos() - localAvatar.getPos()).length()
-        
+
         #let's keep track of whether we're off the ground or not.
         if self.localVehicle:
             if self.lifter.isOnGround():
@@ -1048,7 +1048,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
                 self.offGround = 0
             else:
                 self.offGround += 1
-            
+
         #add in a little 'jitter' based on the ground type
         if(self.offGround == 0):
             modifier = self.surfaceModifiers[self.groundType]['shake']*(speed/50.0)
@@ -1062,10 +1062,10 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
         self.rollSuspension(roll)
         self.pitchSuspension(pitch)
-        
+
         return Task.cont
 
-    
+
     def __clampPosition(self):
         """
         Make sure our x, y, and z is valid for a distributedSmoothNode.
@@ -1073,19 +1073,19 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         """
         retVal = False;
         if (self.getX() < -3276):
-            self.notify.debug("clamping X %d" % self.getX())            
+            self.notify.debug("clamping X %d" % self.getX())
             self.setX(-3276)
             retVal = True
         if (self.getX() > 3276):
-            self.notify.debug("clamping X %d" % self.getX())            
-            self.setX(3276)            
+            self.notify.debug("clamping X %d" % self.getX())
+            self.setX(3276)
             retVal = True
         if (self.getY() < -3276):
-            self.notify.debug("clamping Y %d" % self.getY())            
+            self.notify.debug("clamping Y %d" % self.getY())
             self.setY(-3276)
             retVal = True
         if (self.getY() > 3276):
-            self.notify.debug("clamping Y %d" % self.getY())                   
+            self.notify.debug("clamping Y %d" % self.getY())
             self.setY(3276)
             retVal = True
         if (self.getZ() < -3276):
@@ -1093,7 +1093,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             self.setZ(-3276)
             retVal = True
         if (self.getZ() > 3276):
-            self.notify.debug("clamping Z %d" % self.getZ()) 
+            self.notify.debug("clamping Z %d" % self.getZ())
             self.setZ(3276)
             retVal = True
 
@@ -1106,7 +1106,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
                 self.getY() == 3276 or
                 self.getZ() == -3276 or
                 self.getZ() == 3276)
-                
+
     def __computeTurnRatio(self, speed):
         effectiveSpeed = speed
         if effectiveSpeed > self.speedMinTurn:
@@ -1117,21 +1117,21 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         elif effectiveSpeed >= self.speedMaxTurn:
             turnRatio = 1.0 * (effectiveSpeed * (self.speedMaxTurn / speed))
         #self.turnRatio = turnRatio
-        
+
     def __updateWheelPos(self, dt, curSpeed):
         ratioIntoMax = (curSpeed - self.speedMinTurn) / (self.speedMaxTurn - self.speedMinTurn)
         if ratioIntoMax > 1.0:
             ratioIntoMax = 1.0
         if ratioIntoMax < 0.0:
             ratioIntoMax = 0.0
-            
+
         maxWheelDeflection = (self.wheelMaxTurn * ratioIntoMax) + (self.wheelMinTurn * (1.0 - ratioIntoMax))
-        
+
         if self.wheelPosition * self.arrowHorz > 0:
             self.wheelPosition += self.arrowHorz * dt / self.wheelTurnTime
         else:
             self.wheelPosition += self.arrowHorz * dt / self.wheelFightTime
-        
+
         #recenter wheel if controls are released
         if not self.arrowHorz:
             if self.wheelPosition > 0:
@@ -1142,34 +1142,34 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
                 self.wheelPosition += dt / self.wheelReturnTime
                 if self.wheelPosition > 0:
                     self.wheelPosition = 0
-        
+
         if abs(self.wheelPosition) >= maxWheelDeflection:
             if self.wheelPosition > 0:
                 self.wheelPosition = maxWheelDeflection
             else:
                 self.wheelPosition = -maxWheelDeflection
-        
+
         #self.outPutCounter += 1
         #if self.outPutCounter > 5:
-            #self.outPutCounter = 0           
+            #self.outPutCounter = 0
             #print("curSpeed:%s ratioIntoMax:%s Max %s" % (curSpeed, ratioIntoMax, maxWheelDeflection))
-        
+
 
     def __watchControls(self, task):
         dt = globalClock.getDt()
         curVelocity = self.actorNode.getPhysicsObject().getVelocity()
         curSpeed = curVelocity.length()
-        
+
         # Get the forward direction of the kart
         fvec = self.forward.getPos(render) - self.getPos(render)
         fvec.normalize()
-        
+
         dotProduct = curVelocity.dot(fvec)
         goingBack = -1
-        
+
         if dotProduct < 0:
             goingBack = 1
-        
+
         if self.proRacer:
             self.__computeTurnRatio(curSpeed)
             self.__updateWheelPos(dt, curSpeed)
@@ -1185,12 +1185,12 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
                 if effectiveSpeed > self.speedMinTurn:
                     effectiveSpeed = self.speedMinTurn
                 rotation = -goingBack * ((self.wheelPosition * dt * self.turnRatio * -1.8 * curSpeed/100) + (turnHelp * dt * self.turnRatio * -1.2))
-                
+
                 self.outPutCounter += 1
                 if self.outPutCounter > 5:
-                    self.outPutCounter = 0 
+                    self.outPutCounter = 0
                     #print("dotProduct: %s curVelocity: %s goingBack:%s " % (dotProduct, curVelocity, goingBack))
-                    
+
             else:
                 rotation = self.arrowHorz * dt * self.turnRatio * -1.2
             #rotate the model
@@ -1213,8 +1213,8 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
         if (self.groundType == 'ice' ):
             self.accelerationMult *= iceAccelFactor
-        
-        
+
+
         #apply an acceleration
         if self.stopped:
             self.acceleration = 0
@@ -1227,11 +1227,11 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
                 self.acceleration += (self.accelerationMult*1.5)
 
         self.engine.setVector(Vec3(0, self.acceleration, 0))
-        
+
         # rotMat is the rotation matrix corresponding to
         # the geometry heading.
         if (self.groundType == 'ice' ):
-            rotMat=Mat3.rotateMatNormaxis(newHForTurning, Vec3.up())            
+            rotMat=Mat3.rotateMatNormaxis(newHForTurning, Vec3.up())
         else:
             rotMat=Mat3.rotateMatNormaxis(self.getH(), Vec3.up())
         curHeading=rotMat.xform(Vec3.forward())
@@ -1252,7 +1252,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         # Perform exactly n physics calculations per second,
         # regardless of our rendering frame rate.  This will make the
         # race fairer to those with a slower computer.
-        
+
         physicsFrame = int((globalClock.getFrameTime() - self.physicsEpoch) * self.physicsCalculationsPerSecond)
         numFrames = min(physicsFrame - self.lastPhysicsFrame, self.maxPhysicsFrames)
         self.lastPhysicsFrame = physicsFrame
@@ -1279,7 +1279,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
             # rotate the velocity partially in the direction of the
             # geometry heading
-            driftVal = (abs(self.leanAmount) * 16 / self.cheatFactor) + 15 / self.cheatFactor 
+            driftVal = (abs(self.leanAmount) * 16 / self.cheatFactor) + 15 / self.cheatFactor
             curVelocity = Vec3(((curVelocity * driftVal)+ idealVelocity) / (driftVal+1))
 
             # cap speed to 200 (600/3)
@@ -1311,70 +1311,70 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         # make sure the camera follows the velocity direction,
         # not the kart facing
         if self.proRacer:
-            
+
             speedProporation = 1.0
             if curSpeed < self.speedMaxTurn:
                 speedProporation = 0.0
             else:
                 speedProporation = (curSpeed - self.speedMaxTurn) / self.speedMinTurn
-                
+
             cameraDist = self.cameraArmBase + self.cameraArmExtend * speedProporation
-                
+
             cameraOffset = Point3(0, -cameraDist, 0)
             self.cameraNode.setPos(cameraOffset)
-            
+
             behindPos = render.getRelativePoint(self, Point3(0, -30, 0))
             self.proCameraDummyNode.setPos(render, behindPos)
             self.proCameraDummyNode.lookAt(self)
             self.cameraNode.lookAt(self)
             dir1 = self.proCameraDummyNode.getH()
             dir2 = self.proCameraHeading
-            
+
             if dir1 > 180:
                 dir1 -= 360
             elif dir1 < -180:
                 dir1 += 360
-                
+
             if dir2 > 180:
                 dir2 -= 360
             elif dir2 < -180:
                 dir2 += 360
-                
+
             self.proCameraHeading = dir2
-                
+
             dif = dir1 - dir2
 
             if dif > 180:
                 dif -= 360
             elif dif < -180:
                 dif += 360
-            
+
             speedDif = abs(dif)
             if speedDif > 90:
                 speedDif = 90
-            
+
             cameraTightener = 1.0
 
             if curSpeed > self.speedMinTurn:
                 cameraTightener = self.cameraTightener
             else:
                 cameraTightener = 1.0 + (curSpeed / self.speedMinTurn) * (self.cameraTightener - 1.0)
-                
+
             swingSpeedRatio = speedDif / 90
             swingSpeed = (self.armSwingSpeedPerp * swingSpeedRatio) + (self.armSwingSpeedPara * (1 - swingSpeedRatio))
 
             self.proCameraHeading += dif * cameraTightener * (dt / swingSpeed)
-            
-            
-            
+
+
+
             #self.proCameraHeading = self.proCameraDummyNode.getH()
             #self.cameraNode.setH(self.proCameraDummyNode.getH())
             #self.cameraNode.setH(self.proCameraHeading - self.getH())
             self.cameraArmNode.setH(self.proCameraHeading - self.getH())
             #self.cameraArmNode.setH(-90)
-            
 
-            
+
+
         elif not self.stopped:
             self.cameraNode.setH(self.leanAmount)
 
@@ -1402,7 +1402,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             pass
 
         return Task.cont
-    
+
     def enableControls(self):
         self.canRace=True
         self.accept('control', self.__controlPressed)
@@ -1415,7 +1415,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
     def disableControls(self):
         self.arrowVert = 0
         self.arrowHorz = 0
-        
+
         #self.ignore('escape')
         self.ignore('control')
         self.ignore('control-up')
@@ -1441,7 +1441,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
         node = self.wheelCenters[nWheel].find('*Wheel')
         node.setZ(shakeFactor)
-        
+
 
     def stickCarToGround(self):
         posList = []
@@ -1514,8 +1514,8 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         """
         Purpose: The setBodyType Method sets the local AI side
         body type of the kart that the toon currently owns.
-        
-        
+
+
         Params: bodyType - the body type of the kart which the toon
         currently owns.
         Return: None
@@ -1527,7 +1527,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         Purpose: The setBodyColor Method appropriately sets
         the body color of the lient on the ai side by updating the
         local kart dna.
-        
+
         Params: bodyColor - the color of the kart body.
         Return: None
         """
@@ -1548,7 +1548,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         """
         Purpose: The setEngineBlockType Method sets the engine
         block type accessory for the kart by updating the Kart DNA.
-        
+
         Params: ebType - the type of engine block accessory.
         Return: None
         """
@@ -1558,7 +1558,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         """
         Purpose: The setSpoilerType Method sets the spoiler
         type accessory for the kart by updating the Kart DNA.
-        
+
         Params: spType - the type of spoiler accessory
         Return: None
         """
@@ -1569,7 +1569,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         Purpose: The setFrontWheelWellType Method sets the
         front wheel well accessory for the kart updating the
         Kart DNA.
-        
+
         Params: fwwType - the type of Front Wheel Well accessory
         Return: None
         """
@@ -1579,7 +1579,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         """
         Purpose: The setWheelWellType Method sets the Back
         Wheel Wheel accessory for the kart by updating the Kart DNA.
-        
+
         Params: bwwType - the type of Back Wheel Well accessory.
         Return: None
         """
@@ -1589,7 +1589,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         """
         Purpose: The setRimType Method sets the rims accessory
         for the karts tires by updating the Kart DNA.
-        
+
         Params: rimsType - the type of rims for the kart tires.
         Return: None
         """
@@ -1599,7 +1599,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         """
         Purpose: The setDecalType Method sets the decal
         accessory of the kart by updating the Kart DNA.
-        
+
         Params: decalType - the type of decal set for the kart.
         Return: None
         """
@@ -1630,7 +1630,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.imHitMult=1
         self.stopped=False
 
-    
+
     def hideAnvil(self):
         self.anvil.reparentTo(hidden)
         self.anvil.setAlphaScale(1)
@@ -1644,12 +1644,12 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         delta=-globalClockDelta.networkToLocalTime(timeStamp,globalClock.getFrameTime(),16,100)+globalClock.getFrameTime()
         self.spinAnim=LerpFunc(self.spinCar,fromData=0,toData=360,duration=min(1-delta,0))
         self.spinAnim.start()
-        
-        
+
+
 
     def __throwGag(self):
         base.race.shootGag()
-        
+
 
     #Mock up of a gag falling on your head, push tab to test on self
     def dropOnMe(self,timestamp):
@@ -1737,10 +1737,10 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             spinAnim=LerpFunc(self.spinCar,fromData=0,toData=360,duration=1)
         self.wipeOut=Sequence(Func(self.stopCar,.99),spinAnim,Func(self.startCar))
         self.wipeOut.start()
-        
+
 
     def hitPie(self):
-        print "yar, got Me with pi!"
+        print("yar, got Me with pi!")
         self.splatPie()
         if(self.wipeOut):
             self.wipeOut.pause()

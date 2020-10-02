@@ -1,7 +1,7 @@
 """CalendarGuiMonth module: contains the CalendarGuiMonth class"""
 import calendar
 from datetime import timedelta, datetime
-from pandac.PandaModules import Vec4, TextNode
+from toontown.toonbase.ToontownModules import Vec4, TextNode
 from direct.gui.DirectGui import DirectFrame, DirectLabel, DirectButton, DirectScrolledList, DGG
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
@@ -27,7 +27,7 @@ class CalendarGuiMonth(DirectFrame):
 
         # for debugging, show red dots for locators
         self.showMarkers = base.config.GetBool('show-calendar-markers',0)
-        
+
         # WARNING debug only, remove this or else we leak
         # base.cgm = self
 
@@ -36,7 +36,7 @@ class CalendarGuiMonth(DirectFrame):
         self.createGuiObjects()
         self.lastSelectedDate = None
         self.accept('clickedOnDay', self.clickedOnDay)
-        
+
 
     def createDummyLocators(self):
         """Put some programming locators until we get the real art assets."""
@@ -44,17 +44,17 @@ class CalendarGuiMonth(DirectFrame):
         self.monthLocator.setZ(0.6)
 
         self.weekDayLocators = []
-        for i in xrange(7):
+        for i in range(7):
             self.weekDayLocators.append( self.attachNewNode('weekDayLocator-%d'%i))
             self.weekDayLocators[i].setZ(0.5)
             self.weekDayLocators[i].setX( i*(0.24) + -0.75)
 
         dayTopLeftX = -0.8
         dayTopLeftZ = 0.4
-        self.dayLocators =[]        
-        for row in xrange(6):
+        self.dayLocators =[]
+        for row in range(6):
             oneWeek = []
-            for col in xrange(7):
+            for col in range(7):
                 newDayLoc = self.attachNewNode('dayLocator-row-%d-col-%d' %
                                                (row,col))
                 newDayLoc.setX( col *0.24 + dayTopLeftX)
@@ -74,7 +74,7 @@ class CalendarGuiMonth(DirectFrame):
             marker = loader.loadModel("phase_3/models/misc/sphere")
             marker.reparentTo(parent)
             marker.setScale(scale)
-            marker.setColor(*color)                     
+            marker.setColor(*color)
 
     def load(self):
         """Load our assets, make sure we have correct locators."""
@@ -82,22 +82,22 @@ class CalendarGuiMonth(DirectFrame):
         monthAsset.reparentTo(self)
         self.monthLocator = self.find('**/locator_month/locator_month')
         self.attachMarker(self.monthLocator)
-        
+
         self.weekDayLocators = []
-        for weekday in ('sun','mon','tue','wed','thu','fri','sat'):        
+        for weekday in ('sun','mon','tue','wed','thu','fri','sat'):
             weekDayLoc = self.find('**/loc_%s' % weekday)
             self.weekDayLocators.append(weekDayLoc)
             self.attachMarker(weekDayLoc)
 
-        self.dayLocators =[]        
-        for row in xrange(6):
+        self.dayLocators =[]
+        for row in range(6):
             oneWeek = []
-            for col in xrange(7):
+            for col in range(7):
                 newDayLoc = self.find('**/loc_box_%s_%s' % (row, col))
                 oneWeek.append(newDayLoc)
             self.dayLocators.append(oneWeek)
 
-        
+
         self.monthLeftLocator = self.find('**/locator_month_arrowL')
         self.monthRightLocator = self.find('**/locator_month_arrowR')
 
@@ -107,7 +107,7 @@ class CalendarGuiMonth(DirectFrame):
 
         self.yearLocator = self.attachNewNode("yearLocator")
         self.yearLocator.setPos(self.monthLocator, 0,0,-0.03)
-        
+
     def createGuiObjects(self):
         """Create the other gui objects in the month, assumes we have proper locators."""
         self.monthLabel =  DirectLabel(
@@ -129,7 +129,7 @@ class CalendarGuiMonth(DirectFrame):
             )
 
         self.weekdayLabels = []
-        for posIndex in xrange(7):
+        for posIndex in range(7):
             # Sunday is the usual first day of the week, but
             # self.startDate.weekDay() reports 0 for Monday
             adjustedNameIndex = (posIndex-1) % 7
@@ -152,7 +152,7 @@ class CalendarGuiMonth(DirectFrame):
                      arrowDown,
                      arrowHover,
                      arrowUp,
-                     ),            
+                     ),
             # make the disabled color more transparent
             image3_color = Vec4(1, 1, 1, 0.5),
             scale = (-1.0, 1.0, 1.0),  # make the arrow point left
@@ -168,16 +168,16 @@ class CalendarGuiMonth(DirectFrame):
                      arrowDown,
                      arrowHover,
                      arrowUp,
-                     ),                
+                     ),
             # make the disabled color more transparent
             image3_color = Vec4(1, 1, 1, 0.5),
             #pos = (0.65, 0, buttonbase_ycoord - textRowHeight * 4),
             command = self.__doMonthRight,
             )
-        
+
 
         def makeLabel(itemName, itemNum, *extraArgs):
-           
+
             return DirectLabel(text = itemName,
                                frameColor = (0,0,0,0),
                                #scale = 0.1,
@@ -197,12 +197,12 @@ class CalendarGuiMonth(DirectFrame):
             relief = None,
             pos = (0,0,0), #(0.65, 0, 0.7),
             image = None, #DGG.getDefaultDialogGeom(),
-            text_scale = 0.025,            
+            text_scale = 0.025,
             incButton_image = (arrowUp,
                                arrowDown,
                                arrowHover,
                                arrowUp,
-                               ),            
+                               ),
             incButton_relief = None,
             incButton_pos = filterLocatorDownPos, #(0.0, 0.0, -0.035),
             # Make the disabled button fade out
@@ -213,7 +213,7 @@ class CalendarGuiMonth(DirectFrame):
                                arrowDown,
                                arrowHover,
                                arrowUp,
-                               ),  
+                               ),
             decButton_relief = None,
             decButton_pos = filterLocatorUpPos, #(0.0, 0.0, 0.07),
             decButton_scale = (1,1,-1),
@@ -230,14 +230,14 @@ class CalendarGuiMonth(DirectFrame):
             itemFrame_frameColor = (0,0,0,0),
             )
         gui.removeNode()
-        
+
 
     def getTopLeftDate(self):
         """Return the top left date. Will probably be a date in the previous month."""
         # for the current month figure out how many days
         # we subtract to get to Sunday
         firstOfTheMonth = self.curDate.replace(day=1)
-        daysAwayFromSunday = (firstOfTheMonth.weekday() -6) % 7        
+        daysAwayFromSunday = (firstOfTheMonth.weekday() -6) % 7
         topLeftDate = firstOfTheMonth + timedelta(days = -daysAwayFromSunday)
         return topLeftDate
 
@@ -263,7 +263,7 @@ class CalendarGuiMonth(DirectFrame):
         for guiDay in self.guiDays:
             guiDay.changeDate(self.curDate, guiDayDate)
             guiDayDate += timedelta(days = 1)
-                
+
     def changeMonth(self, monthChange):
         """Change the month we are displaying."""
         # monthChange should be able to handle bigger values now
@@ -285,18 +285,18 @@ class CalendarGuiMonth(DirectFrame):
                 newYear, newMonth, 1,
                 self.curDate.time().hour, self.curDate.time().minute, self.curDate.time().second,
                 self.curDate.time().microsecond, self.curDate.tzinfo)
-                
+
         self.monthLabel['text'] = TTLocalizer.Months[self.curDate.month],
         self.yearLabel['text'] = str(self.curDate.year),
         startTime = globalClock.getRealTime()
         self.changeDateForGuiDays()
         endTime = globalClock.getRealTime()
         self.notify.debug('changeDate took %f seconds' % (endTime - startTime))
-        # if we have a selected date, it probably changed box        
+        # if we have a selected date, it probably changed box
         self.updateSelectedDate()
         if self.onlyFutureDaysClickable and (newMonth == self.startDate.month and newYear == self.startDate.year):
             self.monthLeftArrow.hide()
-    
+
     def __doMonthLeft(self):
         """Handle left month arrrow being pressed."""
         self.changeMonth(-1)
@@ -305,7 +305,7 @@ class CalendarGuiMonth(DirectFrame):
         """Handle right month arrow being pressed."""
         self.monthLeftArrow.show()
         self.changeMonth(1)
-        
+
     def destroy(self):
         """Clean ourself up."""
         self.ignoreAll()
@@ -319,7 +319,7 @@ class CalendarGuiMonth(DirectFrame):
             day = None
         self.filterList.destroy()
         DirectFrame.destroy(self)
-    
+
     def clickedOnDay(self, dayDate):
         """Handle one of our child day squares getting clicked on."""
         self.lastSelectedDate = dayDate

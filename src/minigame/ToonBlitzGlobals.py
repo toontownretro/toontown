@@ -1,7 +1,7 @@
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import BitMask32
+from toontown.toonbase.ToontownModules import BitMask32
 
-ShowScoresDuration = 4. # in seconds, how long to display the player's score 
+ShowScoresDuration = 4. # in seconds, how long to display the player's score
 
 EndlessGame = config.GetBool('endless-2d-game', 0)
 # jellybeans = sqrt(score * 5)
@@ -24,7 +24,7 @@ GameDuration = {
 BaseBonusOnCompletion = {
     ToontownGlobals.ToontownCentral : 15,
     ToontownGlobals.DonaldsDock : 17,
-    ToontownGlobals.DaisyGardens : 19, 
+    ToontownGlobals.DaisyGardens : 19,
     ToontownGlobals.MinniesMelodyland: 21,
     ToontownGlobals.TheBrrrgh: 23,
     ToontownGlobals.DonaldsDreamland: 25,
@@ -39,7 +39,7 @@ ScoreLossPerEnemyCollision = {
     ToontownGlobals.TheBrrrgh: -1,
     ToontownGlobals.DonaldsDreamland: -1,
     }
-    
+
 ScoreLossPerFallDown = {
     ToontownGlobals.ToontownCentral : -0,
     ToontownGlobals.DonaldsDock : -0,
@@ -48,7 +48,7 @@ ScoreLossPerFallDown = {
     ToontownGlobals.TheBrrrgh: -0,
     ToontownGlobals.DonaldsDreamland: -0,
     }
-    
+
 ScoreLossPerStomperSquish = {
     ToontownGlobals.ToontownCentral : -1,
     ToontownGlobals.DonaldsDock : -1,
@@ -63,69 +63,69 @@ ScoreLossPerStomperSquish = {
 SectionWeights = {
     ToontownGlobals.ToontownCentral : ( (0,25), (1,25), (2,25), (3,15), (4,10), (5,0) ),
     ToontownGlobals.DonaldsDock : ( (0,15), (1,25), (2,25), (3,15), (4,10), (5,10) ),
-    ToontownGlobals.DaisyGardens : ( (0,15), (1,15), (2,25), (3,25), (4,10), (5,10) ), 
+    ToontownGlobals.DaisyGardens : ( (0,15), (1,15), (2,25), (3,25), (4,10), (5,10) ),
     ToontownGlobals.MinniesMelodyland: ( (0,10), (1,10), (2,25), (3,25), (4,15), (5,15) ),
     ToontownGlobals.TheBrrrgh: ( (0,10), (1,10), (2,15), (3,25), (4,25), (5,15) ),
     ToontownGlobals.DonaldsDreamland: ( (0,10), (1,10), (2,15), (3,15), (4,25), (5,25) ),
     }
-    
+
 NumSections = {
     ToontownGlobals.ToontownCentral : 5,
     ToontownGlobals.DonaldsDock : 5,
-    ToontownGlobals.DaisyGardens : 5, 
+    ToontownGlobals.DaisyGardens : 5,
     ToontownGlobals.MinniesMelodyland: 5,
     ToontownGlobals.TheBrrrgh: 5,
     ToontownGlobals.DonaldsDreamland: 5,
     }
-    
+
 # Percent of the maxEnemies that will be there in a section.
 # DonaldsDreamland will have 100% of the maxEnemies.
 # ToontownCentral will have the least %.
 PercentMaxEnemies = {
     ToontownGlobals.ToontownCentral : 50,
     ToontownGlobals.DonaldsDock : 60,
-    ToontownGlobals.DaisyGardens : 70, 
+    ToontownGlobals.DaisyGardens : 70,
     ToontownGlobals.MinniesMelodyland: 80,
     ToontownGlobals.TheBrrrgh: 90,
     ToontownGlobals.DonaldsDreamland: 100,
     }
-    
+
 # Percent of the maxTreasures that will be there in a section.
 # DonaldsDreamland will have 100% of the maxTreasures.
 # ToontownCentral will have the least %.
 PercentMaxTreasures = {
     ToontownGlobals.ToontownCentral : 100,
     ToontownGlobals.DonaldsDock : 100,
-    ToontownGlobals.DaisyGardens : 100, 
+    ToontownGlobals.DaisyGardens : 100,
     ToontownGlobals.MinniesMelodyland: 100,
     ToontownGlobals.TheBrrrgh: 100,
     ToontownGlobals.DonaldsDreamland: 100,
     }
-    
+
 # Percent of the maxSpawnPoints that will be there in a section.
 # DonaldsDreamland will have 50% of the maxSpawnPoints.
 # ToontownCentral will have the most %.
 PercentMaxSpawnPoints = {
     ToontownGlobals.ToontownCentral : 100,
     ToontownGlobals.DonaldsDock : 90,
-    ToontownGlobals.DaisyGardens : 80, 
+    ToontownGlobals.DaisyGardens : 80,
     ToontownGlobals.MinniesMelodyland: 70,
     ToontownGlobals.TheBrrrgh: 60,
     ToontownGlobals.DonaldsDreamland: 50,
     }
-    
+
 # Percent of the maxStompers that will be there in a section.
 # DonaldsDreamland will have 100% of the maxStompers.
 # ToontownCentral will have the least %.
 PercentMaxStompers = {
     ToontownGlobals.ToontownCentral : 50,
     ToontownGlobals.DonaldsDock : 60,
-    ToontownGlobals.DaisyGardens : 70, 
+    ToontownGlobals.DaisyGardens : 70,
     ToontownGlobals.MinniesMelodyland: 80,
     ToontownGlobals.TheBrrrgh: 90,
     ToontownGlobals.DonaldsDreamland: 100,
     }
-    
+
 # Probability of a treasure of a particular value to appear.
 # value : probability
 TreasureValueProbability = {
@@ -170,14 +170,14 @@ BlockTypes = { BLOCK_H24 : ('00', (0,0,0), (0,0,0), (1,1,1)),
                BLOCK_V3F : ('03', (0,0,0), (0,0,270), (1,1,1)),
                BLOCK_V3B : ('03', (0,0,0), (0,0,90), (1,1,1)),
              }
-             
+
 """
 BlocksList is the list of all blocks in the level. This list is referred to make the level.
 Each element is stored in one of these formats:
 
 1) [BLOCK_TYPE, [(x, y, z)]] --> If you want a fixed block at the starting pos
 2) [BLOCK_TYPE, [(x, y, z)], [(h, p , r)]] --> If you want a fixed block at the starting pos & hpr
-2) [BLOCK_TYPE, [(x, y, z), (newX, newY, newZ), time]] --> If you want a 
+2) [BLOCK_TYPE, [(x, y, z), (newX, newY, newZ), time]] --> If you want a
     block which keeps moving from 1st position to 2nd in the given time
 3) [BLOCK_TYPE, [(x, y, z), (newX, newY, newZ), time], [(h, p, r)]] --> If you want a
     block of the previous type, but set at an initial angle
@@ -196,9 +196,9 @@ OR
 [(1,2,3)], --> save point: x=1, y=2, z=3; spawn point: x=1, y=2, z=3
 """
 SpawnPointList = []
-                 
+
 """
-CogsList is a list (x,y,z) values (possible cog spawn locations) 
+CogsList is a list (x,y,z) values (possible cog spawn locations)
 and (p,q,r) values (corresponding positions where their walk interval ends.
 
 suitTypes = ['f',  # flunky
@@ -225,7 +225,7 @@ EnemyHealthMultiplier = { 'f'  : 1,
 
 NumEnemies = 2
 EnemyList = []
-           
+
 """
 JewelsList is a list (x,y,z) values of all possible jewel locations.
 """
@@ -247,7 +247,7 @@ BlockList0 = [ [BLOCK_H24, [(0, 0, 12)]],
 EnemyList0 = [ ['tm', [(35, 0, 12.65), (30, 0, 12.65), 2]],
                ['tm', [(24, 0, 12.65), (24, 0, 30.), 2]],
              ]
-TreasureList0 = [ [(16, 0, 16)], 
+TreasureList0 = [ [(16, 0, 16)],
                  [(30, 0, 23)],
                  [(40, 0, 23)],
                  [(50, 0, 16)],
@@ -264,7 +264,7 @@ numCollSolids is the number of original collision solids that are required to be
 entire length of the stretched stomper.
 """
 StomperTypes = {
-    # typeNum : (motionType, scale, [headStartZ, headEndZ], [shaftStartScaleZ, shaftEndScaleZ], numCollSolids) 
+    # typeNum : (motionType, scale, [headStartZ, headEndZ], [shaftStartScaleZ, shaftEndScaleZ], numCollSolids)
     1 : (1, 2, [0, -4], [1, 6.75], 3),
     2 : (1, 5, [0.6, -0.34], [0.2, 1.5], 2),
     3 : (1, 2, [0, -9.85], [1, 15], 5),
@@ -280,7 +280,7 @@ Each element is stored in this format:
 Section 1:
                E E
        __      . .   __
-    __    __   E E __  
+    __    __   E E __
        E......E____E.....E
 """
 BlockList1 = [ [BLOCK_H12, [(0, 0, 12)]],
@@ -319,7 +319,7 @@ Section 2:
          E E.....E_E
        __.         .__
     __   .__     __.   __.....__
-        _E         E_ 
+        _E         E_
 """
 BlockList2 = [ [BLOCK_H12, [(0, 0, 12)]],
                [BLOCK_H12, [(16, 0, 18.75)]],
@@ -335,7 +335,7 @@ TreasureList2 = [ [(8, 0, 27.25)],
                   [(26, 0, 7.25)],
                   [(36, 0, 7.25)],
                   [(26, 0, 34)],
-                  [(66, 0, 34)],                  
+                  [(66, 0, 34)],
                   [(42, 0, 23)],
                   [(46, 0, 21)],
                   [(50, 0, 23)],
@@ -355,7 +355,7 @@ EnemyList2 = [ ['p', [(31, 0, 6), (31, 0, 31), 3.5]],
                ['sc', [(35, 0, 26.25), (57, 0, 26.25), 3.5]],
                ['tw', [(57, 0, 26.25), (35, 0, 26.25), 3.5]],
              ]
-             
+
 """
 Section 3:
           __ __ __                     __
@@ -375,7 +375,7 @@ BlockList3 = [ [BLOCK_H12, [(0, 0, 12)]],
 TreasureList3 = [ [(28, 0, 32)],
                   [(24, 0, 28)],
                   [(20, 0, 24)],
-                  [(16, 0, 20)],                  
+                  [(16, 0, 20)],
                   [(80, 0, 32)],
                   [(84, 0, 28)],
                   [(88, 0, 24)],
@@ -407,7 +407,7 @@ Section 5:
            __           __
         __    __     __    __
     ____________________________
-    
+
 """
 BlockList5 = [ [BLOCK_H24, [(0, 0, 12)]],
                [BLOCK_H24, [(24, 0, 12)]],
@@ -427,13 +427,13 @@ TreasureList5 = [ [(15, 0, 20.75)],
                   [(59, 0, 20.75)],
                 ]
 SpawnPointList5 = [ [(2, 0, 16)] ]
-                  
+
 """
 Section 6:
-    
-    ______   ____   ____   ______  
+
+    ______   ____   ____   ______
     ____________________________
-    
+
 """
 BlockList6 = [ [BLOCK_H24, [(0, 0, 12)]],
                [BLOCK_H24, [(0, 0, 5.25)]],
@@ -455,11 +455,11 @@ TreasureList6 = [ [(27, 0, 20.75)],
                   [(81, 0, 7.25)],
                ]
 SpawnPointList6 = [ [(2, 0, 16)] ]
-                  
+
 """
 Section 7:
          __         ______
-       __  __     __      __  
+       __  __     __      __
     ____    ______  __  __  __
        ______         __
 """
@@ -470,7 +470,7 @@ BlockList7 = [ [BLOCK_H12, [(0, 0, 12)]],
                [BLOCK_H24, [(40, 0, 12)]],
                [BLOCK_H24, [(14, 0, 5.25)]],
                [BLOCK_H3, [(11, 0, 5.25)]],
-               [BLOCK_H3, [(38, 0, 5.25)]],               
+               [BLOCK_H3, [(38, 0, 5.25)]],
                [BLOCK_H12, [(62, 0, 18.75)]],
                [BLOCK_H12, [(72, 0, 12)]],
                [BLOCK_H12, [(82, 0, 5.25)]],
@@ -506,7 +506,7 @@ Section 8:
 BlockList8 = [ [BLOCK_H12, [(0, 0, 12)]],
                [BLOCK_H24, [(0, 0, 5.25)]],
                [BLOCK_H12, [(16, 0, 18.75)]],
-               
+
                [BLOCK_H24, [(32, 0, 25.5)]],
                [BLOCK_H12, [(64, 0, 25.5)]],
                [BLOCK_H12, [(84, 0, 25.5)]],
@@ -515,7 +515,7 @@ BlockList8 = [ [BLOCK_H12, [(0, 0, 12)]],
                [BLOCK_H3, [(132, 0, 25.5)]],
                [BLOCK_H3, [(143, 0, 25.5)]],
                [BLOCK_H3, [(154, 0, 25.5)]],
-               
+
                [BLOCK_H24, [(32, 0, 5.25)]],
                [BLOCK_H12, [(64, 0, 5.25)]],
                [BLOCK_H12, [(84, 0, 5.25)]],
@@ -524,7 +524,7 @@ BlockList8 = [ [BLOCK_H12, [(0, 0, 12)]],
                [BLOCK_H3, [(132, 0, 5.25)]],
                [BLOCK_H3, [(143, 0, 5.25)]],
                [BLOCK_H3, [(154, 0, 5.25)]],
-               
+
                [BLOCK_H3, [(161, 0, 18.75)]],
                [BLOCK_H6, [(160, 0, 12)]],
              ]
@@ -533,7 +533,7 @@ TreasureList8 = [ [(1, 0, 7.25)],
                   [(26, 0, 34)],
                   [(10, 0, 28)],
                   [(154, 0, 20.75)],
-                  
+
                   [(60, 0, 34)],
                   [(80, 0, 34)],
                   [(100, 0, 34)],
@@ -541,7 +541,7 @@ TreasureList8 = [ [(1, 0, 7.25)],
                   [(128, 0, 34)],
                   [(139, 0, 34)],
                   [(150, 0, 34)],
-                  
+
                   [(60, 0, 13.75)],
                   [(80, 0, 13.75)],
                   [(100, 0, 13.75)],
@@ -603,7 +603,7 @@ BlockList10 =[ [BLOCK_H12, [(0, 0, 12)]],
                [BLOCK_H12, [(14, 0, 12), (40, 0, 12), 3.5]],
                [BLOCK_H6, [(40, 0, 25.5)]],
                [BLOCK_H6, [(40, 0, 5.25)]],
-               [BLOCK_H12, [(54, 0, 32), (54, 0, -1.5), 3.5]],               
+               [BLOCK_H12, [(54, 0, 32), (54, 0, -1.5), 3.5]],
                [BLOCK_H6, [(74, 0, 25.5)]],
                [BLOCK_H6, [(74, 0, 5.25)]],
                [BLOCK_H12, [(82, 0, 5.25), (114, 0, 5.25), 3.7]],
@@ -634,7 +634,7 @@ SpawnPointList10 = [ [(2, 0, 16)],
                      [(133, 0, 9.25)],
                      [(77, 0, 29.5)],
                    ]
-                   
+
 """
 Section 11:
         __           __                __          __
@@ -645,18 +645,18 @@ Section 11:
 BlockList11 =[ [BLOCK_H24, [(0, 0, 12)]],
                [BLOCK_H24, [(24, 0, 12)]],
                [BLOCK_H24, [(24, 0, 18.75)]],
-               [BLOCK_H24, [(48, 0, 12)]],               
-               
+               [BLOCK_H24, [(48, 0, 12)]],
+
                [BLOCK_H6, [(12, 0, 25.5)]],
                [BLOCK_H6, [(54, 0, 25.5)]],
-               
+
                [BLOCK_H24, [(72, 0, 5.25)]],
                [BLOCK_H12, [(78, 0, 18.75)]],
                [BLOCK_H24, [(96, 0, 12)]],
                [BLOCK_H24, [(120, 0, 18.75)]],
-               
+
                [BLOCK_H6, [(110, 0, 25.5)]],
-               [BLOCK_H6, [(148, 0, 25.5)]],               
+               [BLOCK_H6, [(148, 0, 25.5)]],
              ]
 TreasureList11 =[ [(4, 0, 34)],
                   [(26, 0, 34)],
@@ -682,7 +682,7 @@ Section 12:
           S         S             S__________
           S         S    ____     S      |
     ________    _________________________|
-    
+
 """
 BlockList12 =[ [BLOCK_H24, [(0, 0, 12)]],
                [BLOCK_H24, [(9, 0, 5.25)]],
@@ -709,14 +709,14 @@ StomperList12 = [ [1, (13, 0, 20.75), 2],
                   [1, (50, 0, 20.75), 2],
                   [1, (82, 0, 20.75), 1.5],
                ]
-               
+
 """
-Section 13:         
+Section 13:
        ________      S   E    S      ________
       S        S     S   .    S     S        S
       S        S   _____ .  _____   S        S  _
     ___E......E____      .        ___E......E___
-                         E 
+                         E
 """
 BlockList13 =[ [BLOCK_H24, [(0, 0, 12)]],
                [BLOCK_H24, [(24, 0, 12)]],
@@ -747,10 +747,10 @@ TreasureList13 =[ [(2, 0, 34)],
                   [(182, 0, 23)],
                   [(128, 0, 34)],
                   [(192, 0, 34)],
-                  
+
                 ]
 SpawnPointList13 = [ [(2, 0, 16)],
-                     [(67, 0, 22.75)], 
+                     [(67, 0, 22.75)],
                      [(130, 0, 16)],
                    ]
 EnemyList13 = [ ['cc', [(20, 0, 12.75), (48, 0, 12.75), 3.5]],
@@ -795,7 +795,7 @@ BlockList4 = [ [BLOCK_H12, [(0, 0, 12)]],
                [BLOCK_H3, [(0, 0, 0)]],
                [BLOCK_H3, [(0, 0, 0)]],
                [BLOCK_H3, [(0, 0, 0)]],
-               
+
                [BLOCK_V12F, [(0, 0, 0)]],
                [BLOCK_V12F, [(0, 0, 0)]],
                [BLOCK_V12B, [(0, 0, 0)]],
@@ -812,21 +812,21 @@ TreasureList4 = [ [(-3, 0, 25)],
                   [(-3, 0, 25)],
                ]
 SpawnPointList4 = [ [(9, 0, 16)] ]
-EnemyList4 = [ 
+EnemyList4 = [
                 ['cc', [(26, 0, 12.75), (46, 0, 12.75), 3.5]],
                ['tm', [(74, 0, 6), (94, 0, 6), 3.5]],
                ['sc', [(122, 0, 19.5), (142, 0, 19.5), 3.5]],
              ]
-StomperList4 = [ 
+StomperList4 = [
                   [1, (12, 0, 20.75), 2],
                   [1, (50, 0, 20.75), 2],
                   [1, (82, 0, 20.75), 2],
                ]
 
 SectionTypes = {
-    # Eg: 
+    # Eg:
     # SectionNum : (difficulty, length, blockList, enemyList, treasureList, spawnPointList, stomperList)
-    # [minEnemies, maxEnemies], [minTreasures, maxTreasures], 
+    # [minEnemies, maxEnemies], [minTreasures, maxTreasures],
     # [minSpawnPoints, maxSpawnPoints], [minStompers, maxStompers], avgTimeReqd(optional))
     'end' : (0, 24, BlockListEnd, None, None, SpawnPointListEnd, None, [], [], [1, 1], []),
     1 : (4, 100, BlockList1, EnemyList1, TreasureList1, SpawnPointList1, None, [3, 6], [10, 10], [1, 2], []),
@@ -840,12 +840,12 @@ SectionTypes = {
     10: (4, 214, BlockList10, None, TreasureList10, SpawnPointList10, None, [], [15, 15], [1, 3], []),
     11: (2, 164, BlockList11, EnemyList11, TreasureList11, SpawnPointList11, None, [3, 3], [10, 10], [1, 2], []),
     12 : (3, 120, BlockList12, None, TreasureList12, SpawnPointList12, StomperList12, [], [10, 10], [1, 1], [3, 3]),
-    13 : (3, 198, BlockList13, EnemyList13, TreasureList13, SpawnPointList13, StomperList13, [3, 6], [17, 17], [1, 3], [3,6]),    
-    
+    13 : (3, 198, BlockList13, EnemyList13, TreasureList13, SpawnPointList13, StomperList13, [3, 6], [17, 17], [1, 3], [3,6]),
+
     4 : (0, 1000, BlockList4, None, TreasureList4, SpawnPointList4, None, [25, 25], [10, 10], [10, 10], [10, 10]),
-    
+
     0 : (0, 75, BlockList0, None, TreasureList0, SpawnPointList0, None, [2, 5], [5, 10], [2, 5], []),
-    
+
     }
 
 SectionsPool = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13]

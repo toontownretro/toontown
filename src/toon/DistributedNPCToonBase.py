@@ -1,17 +1,17 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
 from direct.fsm import State
 from toontown.toonbase import ToontownGlobals
-import DistributedToon
+from . import DistributedToon
 from direct.distributed import DistributedObject
-import NPCToons
+from . import NPCToons
 from toontown.quest import Quests
 from direct.distributed import ClockDelta
 from toontown.quest import QuestParser
 from toontown.quest import QuestChoiceGui
 from direct.interval.IntervalGlobal import *
-import random 
+import random
 
 class DistributedNPCToonBase(DistributedToon.DistributedToon):
 
@@ -26,13 +26,13 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
             self.setPickable(0)
             # These guys are specifically non-player characters.
             self.setPlayerType(NametagGroup.CCNonPlayer)
-            
+
     def disable(self):
         # Ignore the sphere after the finish because
         # the end of the movie adds it in
         self.ignore("enter" + self.cSphereNode.getName())
         # Kill any quest choice guis that may be active
-        # Kill any movies that may be playing 
+        # Kill any movies that may be playing
         DistributedToon.DistributedToon.disable(self)
 
     def delete(self):
@@ -90,29 +90,29 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
         # been filled in.  In particular, the DNA will have been set,
         # so we can safely set an animation state.
         self.initToonState()     # This may be overidden by derived classes
-        
+
         DistributedToon.DistributedToon.announceGenerate(self)
-        
+
     def initToonState(self):
         # We'll make all NPC toons loop their neutral cycle by
         # default.  Normally this is sent from the AI, but because the
         # server sometimes loses updates that immediately follow the
         # generate, we might lose that message.
         self.setAnimState("neutral", 0.9, None, None)
-        
+
         # TODO: make this a node path collection
-        npcOrigin = render.find("**/npc_origin_" + `self.posIndex`)
-        
+        npcOrigin = render.find("**/npc_origin_" + repr(self.posIndex))
+
         # Now he's no longer parented to render, but no one minds.
         if not npcOrigin.isEmpty():
             self.reparentTo(npcOrigin)
             self.initPos()
         else:
-            self.notify.warning("announceGenerate: Could not find npc_origin_" + str(self.posIndex))     
-        
+            self.notify.warning("announceGenerate: Could not find npc_origin_" + str(self.posIndex))
+
     def initPos(self):
         self.clearMat()
-        
+
     def wantsSmoothing(self):
         # This overrides a function from DistributedSmoothNode to
         # indicate that NPC's should not ever be smoothed, even though
@@ -188,7 +188,7 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
     def d_setPageNumber(self, paragraph, pageNumber):
         timestamp = ClockDelta.globalClockDelta.getFrameNetworkTime()
         self.sendUpdate("setPageNumber", [paragraph, pageNumber, timestamp])
-        
+
     def freeAvatar(self):
         """
         This is a message from the AI used to free the avatar from movie mode
@@ -202,4 +202,3 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
         Each zone has N NPCs, and N corresponding NPC origins in the model.
         """
         self.posIndex = posIndex
-    

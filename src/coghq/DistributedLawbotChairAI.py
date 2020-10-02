@@ -1,5 +1,5 @@
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed import DistributedObjectAI
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
@@ -52,14 +52,14 @@ class DistributedLawbotChairAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM)
 
     def stopCogs(self):
         assert self.notify.debug('stopCogs')
- 
+
         #self.ignoreAll()
         taskName = self.uniqueName('startCogFlyTask')
         taskMgr.remove(taskName)
 
         changeTaskName = self.uniqueName('changeToCogJuror')
         taskMgr.remove(changeTaskName)
-        
+
 
     def getBossCogId(self):
         return self.boss.doId
@@ -82,7 +82,7 @@ class DistributedLawbotChairAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM)
 
     def setState(self, state):
         self.request(state)
-     
+
     def d_setState(self, state):
         newState = state
         if state == 'On':
@@ -99,26 +99,26 @@ class DistributedLawbotChairAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM)
             newState ='C'
         else:
             assert(self.notify.error("Unknown state %s", state))
-        
+
         self.sendUpdate('setState', [newState])
 
     def b_setState(self, state):
         self.request(state)
-        self.d_setState( state) 
-    
+        self.d_setState( state)
+
 
     def turnOn(self):
         #we've entered battle three so start stomping
         self.b_setState('On')
 
     def requestStopCogs(self):
-        self.b_setState('StopCogs')  
+        self.b_setState('StopCogs')
 
 
     def requestControl(self):
         # A client wants to start controlling the crane.
         avId = self.air.getAvatarIdFromSender()
-        
+
         if avId in self.boss.involvedToons and self.avId == 0:
             # Also make sure the client isn't controlling some other
             # crane.
@@ -129,10 +129,10 @@ class DistributedLawbotChairAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM)
     def requestFree(self):
         # The client is done controlling the crane.
         avId = self.air.getAvatarIdFromSender()
-        
+
         if avId == self.avId:
             self.request('Free')
-    
+
     def removeToon(self, avId):
         if avId == self.avId:
             self.request('Free')
@@ -161,12 +161,12 @@ class DistributedLawbotChairAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM)
                 self.startCogFlyTask = taskMgr.doMethodLater(\
                     delayTime,
                     self.cogFlyAndSit,
-                    self.uniqueName('startCogFlyTask'))                
+                    self.uniqueName('startCogFlyTask'))
 
-        
+
 
     def requestSuitJuror(self):
-        self.b_setState('SuitJuror')        
+        self.b_setState('SuitJuror')
 
     def requestEmptyJuror(self):
         self.b_setState('EmptyJuror')
@@ -206,7 +206,7 @@ class DistributedLawbotChairAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM)
 
     def exitOff(self):
         pass
-        #no Scene    
+        #no Scene
         #self.goonShield.reparentTo(self.boss.scene)
 
     def enterControlled(self, avId):

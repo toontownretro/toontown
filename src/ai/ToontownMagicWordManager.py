@@ -1,7 +1,7 @@
 from direct.interval.IntervalGlobal import *
 from direct.distributed import PyDatagram
 from direct.distributed.MsgTypes import MsgName2Id
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed import DistributedObject
 from toontown.toon import DistributedToon
 from direct.directnotify import DirectNotifyGlobal
@@ -29,7 +29,7 @@ from toontown.rpc import AwardManagerConsts
 if base.wantKarts:
     from toontown.racing.KartDNA import *
     from toontown.racing.KartShopGui import *
-    
+
 if (__debug__):
     import pdb
 
@@ -71,7 +71,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
         if autoRestock != -1:
             self.d_setMagicWord('~autoRestock %s' % autoRestock,
                                 base.localAvatar.doId, 0)
-        
+
         # NOTE: AI respects ~autoRich only for __dev__ and GMs.
         autoRich = base.config.GetInt('auto-rich', -1)
         if autoRich != -1:
@@ -100,10 +100,10 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             #Fanfare.makeFanfareWithMessageImage(0, base.localAvatar, 1, "This is the message", Vec2(0,0.2), 0.08, base.localAvatar.inventory.buttonLookup(1, 1), Vec3(0,0,0), 4)[0].start()
             #Fanfare.makeFanfare(0, base.localAvatar).start()
         elif wordIs("~endgame"):
-            print "Requesting minigame abort..."
+            print("Requesting minigame abort...")
             messenger.send("minigameAbort")
         elif wordIs("~wingame"):
-            print "Requesting minigame victory..."
+            print("Requesting minigame victory...")
             messenger.send("minigameVictory")
         elif wordIs("~walk"):
             try:
@@ -134,7 +134,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             # no longer keep rogues obj around after creation, so we can make a different one
 
         elif wordIs("~showPaths"):
-            for obj in self.cr.doId2do.values():
+            for obj in list(self.cr.doId2do.values()):
                 if isinstance(obj, DistributedSuitPlanner.DistributedSuitPlanner):
                     obj.showPaths()
             place = base.cr.playGame.getPlace()
@@ -142,7 +142,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                 place.showPaths()
 
         elif wordIs("~hidePaths"):
-            for obj in self.cr.doId2do.values():
+            for obj in list(self.cr.doId2do.values()):
                 if isinstance(obj, DistributedSuitPlanner.DistributedSuitPlanner):
                     obj.hidePaths()
             place = base.cr.playGame.getPlace()
@@ -210,7 +210,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
 
         elif wordIs('~addCameraPosition'):
             base.localAvatar.addCameraPosition()
-            
+
         elif wordIs('~removeCameraPosition'):
             base.localAvatar.removeCameraPosition()
 
@@ -233,24 +233,24 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                 if not camParent.isEmpty():
                     myCam.wrtReparentTo(camParent)
                 self.setMagicWordResponse(response)
-                print response
-                    
-                
-                
-            
-                
+                print(response)
+
+
+
+
+
         elif wordIs("~sync"):
             # Sync with the AI, like F6, but rather than accumulating
             # sync informatoin, throw away whatever information was
             # there from before.  If a second parameter is supplied,
             # it is a number of seconds of temporary extra skew to
             # apply; the default is 0.
-            
+
             tm = base.cr.timeManager
             if tm == None:
                 response = "No TimeManager."
                 self.setMagicWordResponse(response)
-                
+
             else:
                 tm.extraSkew = 0.0
                 skew = string.strip(word[5:])
@@ -263,7 +263,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             # Reset the period timer to expire in the indicated number
             # of seconds, or with no parameter, report the number of
             # seconds remaining.
-            
+
             timeout = string.strip(word[7:])
             if timeout != "":
                 seconds = int(timeout)
@@ -274,7 +274,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             # Now report the number of seconds remaining.
             if base.cr.periodTimerExpired:
                 response = "Period timer has expired."
-                
+
             elif base.cr.periodTimerStarted:
                 elapsed = globalClock.getFrameTime() - base.cr.periodTimerStarted
                 secondsRemaining = base.cr.periodTimerSecondsRemaining - elapsed
@@ -295,7 +295,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                 base.cr.stopHeartbeat()
                 response = "Network disconnected."
             self.setMagicWordResponse(response)
-            
+
         elif wordIs("~lag"):
             if not hasattr(base.cr, "magicLag"):
                 base.cr.startDelay(0.1,0.35)
@@ -306,8 +306,8 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                 del base.cr.magicLag
                 response = "Simulated Lag Off"
             self.setMagicWordResponse(response)
-            
-        
+
+
 
         elif wordIs("~cogPageFull"):
             # show all panels on cog page of Shticker book
@@ -401,7 +401,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             cmd = "~inGameEdit %s %s" % (level.doId, editUsername)
             # Now send the real magic word with the doId etc. also
             self.b_setMagicWord(cmd)
-                
+
         elif wordIs('~fshow'):
             from toontown.coghq import DistributedFactory
             factories = base.cr.doFindAll("DistributedFactory")
@@ -414,14 +414,14 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                 self.setMagicWordResponse('factory not found')
                 return
             factory.setColorZones(not factory.fColorZones)
-            
+
         elif wordIs('~fzone'):
             args = word.split()
             if len(args) < 2:
                 self.setMagicWordResponse('Usage: ~fzone <zoneNum>')
                 return
             zoneId = int(args[1])
-            
+
             from toontown.coghq import DistributedFactory
             factories = base.cr.doFindAll("DistributedFactory")
             factory = None
@@ -433,7 +433,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                 self.setMagicWordResponse('factory not found')
                 return
             factory.warpToZone(zoneId)
-            
+
         elif wordIs("~undead"):
             # regenerate dead goons
             try:
@@ -479,7 +479,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             if pet:
                 if pet.isLockedDown():
                     pet.unlockPet()
-     
+
         elif wordIs('~resetPetTutorial') and base.wantPets:
             base.localAvatar.setPetTutorialDone(False)
             response = "Pet Tutorial flag reset"
@@ -487,7 +487,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
 
         elif wordIs('~bossBattle'):
             self.doBossBattle(word)
-            
+
         elif wordIs("~RaceChat"):
                 #loadup chat phrases
                 base.localAvatar.chatMgr.chatInputSpeedChat.addKartRacingMenu()
@@ -503,10 +503,10 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                 else:
                     base.localAvatar.requestKartDNAFieldUpdate(KartDNA.rimsType, getDefaultRim())
                     taskMgr.doMethodLater(1.0, doShtikerLater, "doShtikerLater")
-                        
+
                 # NOTE - BE SURE TO CHECK AI VERSION OF THIS AS IT SETS ACCESSSORIES OWNED FOR THE TOONAI.
                 response = "Kart %s has been purchased with body and accessory color %s." % (word[9], getDefaultColor())
-                base.localAvatar.requestKartDNAFieldUpdate(KartDNA.bodyType, int(word[9]))                
+                base.localAvatar.requestKartDNAFieldUpdate(KartDNA.bodyType, int(word[9]))
                 self.setMagicWordResponse(response)
             else:
                 self.setMagicWordResponse("Enable wantKarts in Config.prc")
@@ -519,20 +519,20 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             messenger.send("gardenGame")
             response = "You must be on your estate"
             self.setMagicWordResponse(response)
-            
+
         elif wordIs("~verboseState"):
             # show all panels on cog page of Shticker book
             base.localAvatar.verboseState()
 
         elif wordIs('~golf'):
             self.doGolf(word)
-            
+
         elif wordIs('~whiteList'):
             base.localAvatar.chatMgr.chatInputSpeedChat.addWhiteList()
-          
+
         elif wordIs('~noWhiteList'):
             base.localAvatar.chatMgr.chatInputSpeedChat.removeWhiteList()
-            
+
         elif wordIs("~setPaid"):
             args = word.split()
             if len(args) > 1:
@@ -565,7 +565,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
         # In Game News
         elif wordIs("~news"):
             self.doNews(word, avId, zoneId)
-            
+
         # Boarding Party GUI
         elif wordIs('~bgui'):
             if not hasattr(self, 'groupPanel'):
@@ -592,7 +592,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                 response = "args: 0 default, 1 reversed, 2 shuffled"
                 self.setMagicWordResponse(response)
 
-               
+
         # Ruler
         elif wordIs('~ruler'):
             response = "Each unit is equal to one foot"
@@ -600,7 +600,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             if self.ruler:
                 self.ruler.detachNode()
                 del self.ruler
-                
+
             self.ruler = loader.loadModel("phase_3/models/props/xyzAxis")
             self.ruler.reparentTo(render)
             self.ruler.setPos(base.localAvatar.getPos())
@@ -613,7 +613,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                     # this forces the nametag font to be the basic font that has numbers
                     toon.setNametagStyle(0)
             messenger.send('nameTagShowAvId', [])
-            base.idTags = 1            
+            base.idTags = 1
 
         elif wordIs('~code'):
             # code redemption
@@ -639,12 +639,12 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
 
     def doParty(self,word, av, zoneId):
         args = word.split()
-        response = None        
+        response = None
         action = None
-        
+
         if len(args) == 1:
             return
-        
+
         action = args[1]
         if action == 'plan':
             # We need to know if we're about to plan a party upon entering the
@@ -689,17 +689,17 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
         elif action == 'showdoid':
             newVal = base.cr.partyManager.toggleShowDoid()
             response = "show doid = %s" % newVal
-            
+
         if response is not None:
             self.setMagicWordResponse(response)
-    
+
     def doCatalog(self, word):
         """Handle the ~catalog magic word: manage catalogs.  Most of
         these are handled by the AI."""
-        
+
         args = word.split()
 
-        
+
         if len(args) == 1:
             # No parameter.  Handled by AI.
             return
@@ -711,7 +711,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                 response = "Reloaded catalog screen"
             else:
                 response = "Phone is not active."
-            
+
         elif args[1] == "dump":
             if len(args) <= 2:
                 response = "Specify output filename."
@@ -720,13 +720,13 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                 cg = CatalogGenerator.CatalogGenerator()
                 cg.outputSchedule(args[2])
                 response = "Catalog schedule written to file %s." % (args[2])
-                
+
         else:
             # Some other parameter.  Handled by AI.
             return
 
         self.setMagicWordResponse(response)
-        
+
 
     def toggleRun(self):
         if (self.dbg_running_fast):
@@ -765,11 +765,11 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                                   [{"loader": loaderId,
                                     "where": whereId,
                                     "how": "teleportIn",
-                                    "hoodId": hoodId, 
-                                    "zoneId": zoneId, 
+                                    "hoodId": hoodId,
+                                    "zoneId": zoneId,
                                     "shardId": None,
                                     "avId": avId}])
-        
+
 
     def exit_rogues(self):
         self.rogues.exit()
@@ -783,7 +783,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
         result = []
         lowerName = string.lower(name)
 
-        for obj in base.cr.doId2do.values():
+        for obj in list(base.cr.doId2do.values()):
             className = obj.__class__.__name__
             try:
                 name = obj.getName()
@@ -860,7 +860,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
         # Find the particular Boss Cog that's in the same zone with
         # the avatar.
         bossCog = None
-        for distObj in self.cr.doId2do.values():
+        for distObj in list(self.cr.doId2do.values()):
             if isinstance(distObj, DistributedBossCog.DistributedBossCog):
                 bossCog = distObj
                 break
@@ -899,7 +899,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
 
         if response:
             self.setMagicWordResponse(response)
-    
+
 
     def doGolf(self, word):
         """Handle the ~golf magic word for valid client side stuff."""
@@ -936,7 +936,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                     golfHole.doMagicWordHeading(args[2])
                     response = ('setting heading to %s' % (args[2]))
             else:
-                response = 'need heading parameter'                
+                response = 'need heading parameter'
         elif args[1] == "list":
             response = ""
             for holeId in GolfGlobals.HoleInfo:
@@ -946,19 +946,19 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             response = ""
             for holeId in GolfGlobals.HoleInfo:
                 if holeId >= 18:
-                    response += '%d: %s\n'%(holeId, GolfGlobals.getHoleName(holeId))                    
-            
+                    response += '%d: %s\n'%(holeId, GolfGlobals.getHoleName(holeId))
+
         if response:
-            self.setMagicWordResponse(response)        
+            self.setMagicWordResponse(response)
 
     def doNews(self,word, av, zoneId):
         args = word.split()
-        response = None        
+        response = None
         action = None
-        
+
         if len(args) == 1:
             return
-        
+
         action = args[1]
         if action == 'frame':
 
@@ -969,6 +969,6 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             response = "putting in game news direct frame up"
         elif action == 'snapshot':
             response = localAvatar.newsPage.doSnapshot()
-            
+
         if response is not None:
             self.setMagicWordResponse(response)

@@ -1,12 +1,12 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.particles import ParticleEffect, Particles, ForceGroup
-from EffectController import EffectController
-from PooledEffect import PooledEffect
+from .EffectController import EffectController
+from .PooledEffect import PooledEffect
 import random
 
 class NoiseSparkles(PooledEffect, EffectController):
-    
+
     def __init__(self):
         PooledEffect.__init__(self)
         EffectController.__init__(self)
@@ -21,11 +21,11 @@ class NoiseSparkles(PooledEffect, EffectController):
 
         self.effectScale = 1.0
         self.effectColor = Vec4(1,1,1,1)
-        
+
         # Load Particle Effects
         self.f = ParticleEffect.ParticleEffect("NoiseSparkles")
         self.f.reparentTo(self)
-        
+
         self.p0 = Particles.Particles('particles-2')
         self.p0.setFactory("PointParticleFactory")
         self.p0.setRenderer("SpriteParticleRenderer")
@@ -47,7 +47,7 @@ class NoiseSparkles(PooledEffect, EffectController):
         self.noiseForce.setActive(0)
         f1.addForce(self.noiseForce)
         self.f.addForceGroup(f1)
-        
+
         self.p0.setPoolSize(150)
         self.p0.setBirthRate(0.02)
         self.p0.setLitterSize(50)

@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
@@ -84,7 +84,7 @@ class GolfKart(StateData.StateData):
         self.rolloverButton = self.buttonModels.find(
             "**/InventoryButtonRollover")
         return
-    
+
     def unload(self):
         self.parentFSM.getStateNamed("trolley").removeChild(self.fsm)
         del self.fsm
@@ -95,7 +95,7 @@ class GolfKart(StateData.StateData):
         del self.downButton
         del self.rolloverButton
         return
-        
+
     def enter(self):
         """enter(self)
         """
@@ -175,11 +175,11 @@ class GolfKart(StateData.StateData):
 
     def enterBoarding(self, nodePath):
         camera.wrtReparentTo(nodePath)
-        heading = PythonUtil.fitDestAngle2Src( camera.getH( nodePath), 180 )        
+        heading = PythonUtil.fitDestAngle2Src( camera.getH( nodePath), 180 )
         self.cameraBoardTrack = LerpPosHprInterval(camera, 1.5,
                                                    Point3(0, 18, 8),
                                                    Point3(heading, -10, 0))
-        
+
         self.cameraBoardTrack.start()
         return None
 
@@ -251,7 +251,7 @@ class GolfKart(StateData.StateData):
         doneStatus["zoneId"] = zoneId
         doneStatus["courseId"] = courseId
         messenger.send(self.doneEvent, [doneStatus])
-        
+
 
     def exitTrolleyLeaving(self):
         self.ignore("playMinigame")
@@ -275,4 +275,3 @@ class GolfKart(StateData.StateData):
 
     def exitFinal(self):
         return None
-

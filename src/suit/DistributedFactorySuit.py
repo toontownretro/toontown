@@ -1,10 +1,10 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.directnotify import DirectNotifyGlobal
-import DistributedSuitBase
+from . import DistributedSuitBase
 from direct.task.Task import Task
 import random
 from toontown.toonbase import ToontownGlobals
@@ -81,7 +81,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
             self.pauseTime = 0
             self.velocity = 3
             self.factoryRequest = None
-            
+
         return None
 
     def generate(self):
@@ -99,7 +99,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
     def denyBattle(self):
         # make this a warning so we see it in the logs
         self.notify.warning('denyBattle()')
-        
+
         place = self.cr.playGame.getPlace()
         if place.fsm.getCurrentState().getName() == 'WaitForBattle':
             place.setState('walk')
@@ -171,7 +171,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
 
 
         DistributedSuitBase.DistributedSuitBase.announceGenerate(self)
-        
+
     def disable(self):
         """
         ////////////////////////////////////////////////////////////////////
@@ -192,7 +192,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
         if self.walkTrack:
             del self.walkTrack
             self.walkTrack = None
-            
+
         DistributedSuitBase.DistributedSuitBase.disable(self)
         taskMgr.remove(self.taskName('returnTask'))
         taskMgr.remove(self.taskName('checkStray'))
@@ -238,7 +238,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
         blocker collision geom """
         self.__handleToonCollision(None)
 
-        
+
     def __handleToonCollision(self, collEntry):
         """
         /////////////////////////////////////////////////////////////
@@ -259,10 +259,10 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
             factoryZone = self.factory.lastToonZone
             unitsBelow = self.getPos(render)[2] - base.localAvatar.getPos(render)[2]
             if factoryZone == 24 and unitsBelow > 10.0:
-                self.notify.warning('Ignoring toon collision in %d from %f below.' 
+                self.notify.warning('Ignoring toon collision in %d from %f below.'
                     % (factoryZone, unitsBelow))
                 return
-                
+
         if not base.localAvatar.wantBattles:
             return
 
@@ -308,8 +308,8 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
             # make path track
             self.walkTrack = self.path.makePathTrack(self.idealPathNode, self.velocity,
                                                      self.uniqueName("suitWalk"))
-            
-            
+
+
         # Finally we can enter the walk state
         self.setState('Walk')
 
@@ -335,7 +335,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
     def disableBattleDetect(self):
         DistributedSuitBase.DistributedSuitBase.disableBattleDetect(self)
         self.lookForToon(0)
-        
+
     # Each state will have an enter function, an exit function,
     # and a datagram handler, which will be set during each enter function.
 
@@ -367,7 +367,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
         else:
             # Just stand here waiting for a toon to approach.
             self.loop('neutral', 0)
-            
+
     def exitWalk(self):
         self.disableBattleDetect()
         if self.walkTrack:
@@ -381,7 +381,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
                 self.accept(self.uniqueName("entertoonSphere"), self.__handleToonAlert)
             else:
                 self.ignore(self.uniqueName("entertoonSphere"))
-            
+
     def __handleToonAlert(self, collEntry):
         # TODO: check toonpos against the FOV of the suit
         self.notify.debug("%s: ahah!  i saw you" % self.doId)
@@ -398,9 +398,9 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
     def resumePath(self, state):
         # go back to walk state
         self.setState('Walk')
-        
+
     ########## Chase state and check stray functions ##########
-    
+
 
     def enterChase(self):
         self.enableBattleDetect('walk', self.__handleToonCollision)
@@ -408,7 +408,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
         # Start checking if we've strayed too far (or too long)
         self.startCheckStrayTask(1)
         self.startChaseTask()
-        
+
     def exitChase(self):
         self.disableBattleDetect()
         taskMgr.remove(self.taskName('chaseTask'))
@@ -437,7 +437,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
         # Chase an avatar around
         if not self.chasing:
             return Task.done
-        
+
         # make sure avatar exists
         av = base.cr.doId2do.get(self.chasing, None)
         if not av:
@@ -448,17 +448,17 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
         if (globalClock.getFrameTime() - self.startChaseTime > 3.0):
             self.setReturn()
             return Task.done
-        
+
         toonPos = av.getPos(self.getParent())
         suitPos = self.getPos()
         distance = Vec3(suitPos-toonPos).length()
-        
+
         # chase this toon
         if self.chaseTrack:
             self.chaseTrack.pause()
             del self.chaseTrack
             self.chaseTrack = None
-            
+
         import random
         rand1 = .5
         rand2 = .5
@@ -481,22 +481,22 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
 
         # course correct every second
         self.startChaseTask(1.0)
-    
+
     def startCheckStrayTask(self, on=1):
         taskMgr.remove(self.taskName("checkStray"))
         if on:
             taskMgr.add(self.checkStrayTask,
                         self.taskName("checkStray"))
-            
+
     def checkStrayTask(self, task):
         curPos = self.getPos()
         distance = Vec3(curPos - self.originalPos).length()
         if distance > 10.0:
             self.sendUpdate("setStrayed", [])
-            
+
 
     ############# Return state ##############
-            
+
     def enterReturn(self):
         # Return the cog to it's starting position
 
@@ -529,7 +529,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
         taskMgr.doMethodLater(delay,
                               self.returnTask,
                               self.taskName('returnTask'))
-        
+
     def returnTask(self, task):
         # return to parent node, which is the idealPathNode
         # first, do a straight reparent to our original parent
@@ -548,8 +548,8 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
         else:
             # head to the origin
             targetPos = self.originalPos
-            
-        track = Sequence(Func(self.headsUp, 
+
+        track = Sequence(Func(self.headsUp,
                               targetPos[0],
                               targetPos[1],
                               targetPos[2]),
@@ -572,7 +572,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
         # Return to neutral animation if not on a path
         if not self.path:
             self.loop('neutral')
-        
+
     def setActive(self, active):
         # suit is being put into action by AI, or it is being
         # told to take a break.  The initial active position is
@@ -585,7 +585,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
         else:
             # put into off state
             self.setState('Off')
-            
+
     def disableBattleDetect(self):
         if self.battleDetectName:
             self.ignore("enter" + self.battleDetectName)
@@ -593,7 +593,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
         if self.collNodePath:
             self.collNodePath.removeNode()
             self.collNodePath = None
-            
+
     def disableBodyCollisions(self):
         self.disableBattleDetect()
         self.enableRaycast(0)
@@ -605,7 +605,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
             del self.cRay
         if hasattr(self, "lifter"):
             del self.lifter
-            
+
     def removeCollisions(self):
         """
         clean up the suit's various collision data such
@@ -620,7 +620,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
         self.cRayNodePath = None
         self.lifter = None
         self.cTrav = None
-        
+
     def setVirtual(self, isVirtual = 1):
         self.virtual = isVirtual
         if self.virtual:
@@ -635,10 +635,10 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
                     thing.setDepthWrite(False)
                     thing.setBin('fixed', 1)
 
-        
+
     def getVirtual(self):
         return self.virtual
-        
+
     ##### Battle state #####
 
     # Defined in DistributedSuitBase.py

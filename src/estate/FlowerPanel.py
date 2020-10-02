@@ -3,11 +3,11 @@
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from direct.interval.IntervalGlobal import *
-import GardenGlobals
-import FlowerPhoto
+from . import GardenGlobals
+from . import FlowerPhoto
 
 class FlowerPanel(DirectFrame):
     """
@@ -43,7 +43,7 @@ class FlowerPanel(DirectFrame):
         self.flower = flower
         self.parent = parent
         self.photo = None
-        
+
     def destroy(self):
         assert self.notify.debugStateCall(self)
         if self.photo:
@@ -115,13 +115,13 @@ class FlowerPanel(DirectFrame):
                      buttons.find('**/CloseBtn_DN'),
                      buttons.find('**/CloseBtn_Rllvr')),
             image_scale = (0.6, 1, 0.6),
-            command = self.handleCancel,            
+            command = self.handleCancel,
             )
         buttons.removeNode()
         self.photo = FlowerPhoto.FlowerPhoto(parent=self)
         # make the scroll list
         self.update(self.flower)
-        
+
     def update(self, flower):
         assert self.notify.debugStateCall(self)
         self.flower = flower
@@ -157,14 +157,14 @@ class FlowerPanel(DirectFrame):
         """
         assert len(bounds) == 4
         self.swimBounds=bounds
-        
+
     def setSwimColor(self, *colors):
         """
         colors are floats: red, green, blue, alpha
         """
         assert len(colors) == 4
         self.swimColor=colors
-        
+
     def handleCancel(self):
         assert self.notify.debugStateCall(self)
         self.hide()
@@ -175,8 +175,8 @@ class FlowerPanel(DirectFrame):
         assert self.notify.debugStateCall(self)
         # if we are browsing flower we must be awake
         messenger.send('wakeup')
-        apply(self.photo.setSwimBounds, self.swimBounds)
-        apply(self.photo.setSwimColor, self.swimColor)
+        self.photo.setSwimBounds(*self.swimBounds)
+        self.photo.setSwimColor(*self.swimColor)
 
         if code == GardenGlobals.FlowerItem:
             self.extraLabel.hide()

@@ -1,30 +1,30 @@
 """
 ToonTown ObjectHandler
 """
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.actor import Actor
 from direct.leveleditor import ObjectGlobals as OG
 
-from SuitPointObj import *
-from GroupObj import *
-from PropObj import *
-from LandmarkObj import *
-from FlatBuildingObj import *
-from AnimBuildingObj import *
-from AnimPropObj import *
-from InteractivePropObj import *
-from StreetObj import *
+from .SuitPointObj import *
+from .GroupObj import *
+from .PropObj import *
+from .LandmarkObj import *
+from .FlatBuildingObj import *
+from .AnimBuildingObj import *
+from .AnimPropObj import *
+from .InteractivePropObj import *
+from .StreetObj import *
 
 class ObjectHandler:
     """ ObjectHandler will create and update objects """
-    
+
     def __init__(self, editor):
         self.editor = editor
 
     def createGroup(self, name=None):
         if name is None:
-            groupName = 'group_' + `self.editor.getGroupNum()`
+            groupName = 'group_' + repr(self.editor.getGroupNum())
             self.editor.setGroupNum(self.editor.getGroupNum() + 1)
         else:
             groupName = name
@@ -32,7 +32,7 @@ class ObjectHandler:
 
     def createVisGroup(self, name=None):
         if name is None:
-            groupName = 'VisGroup_' + `self.editor.getGroupNum()`
+            groupName = 'VisGroup_' + repr(self.editor.getGroupNum())
             self.editor.setGroupNum(self.editor.getGroupNum() + 1)
         else:
             groupName = name
@@ -42,7 +42,7 @@ class ObjectHandler:
 
     def createNode(self, name=None):
         if name is None:
-            groupName = 'node_' + `self.editor.getGroupNum()`
+            groupName = 'node_' + repr(self.editor.getGroupNum())
             self.editor.setGroupNum(self.editor.getGroupNum() + 1)
         else:
             groupName = name
@@ -85,7 +85,7 @@ class ObjectHandler:
 
     def updateTitle(self, val, obj):
         objNP = obj[OG.OBJ_NP]
-        objNP.dna.setTitle(val)        
+        objNP.dna.setTitle(val)
 
     def updateFlatBuildingWidth(self, val, obj, no_loading):
         objNP = obj[OG.OBJ_NP]
@@ -97,7 +97,7 @@ class ObjectHandler:
         objNP.dna.setAnim(val)
         objNP.animPropObj.exit()
         objNP.animPropObj.node.loadAnims({'anim':"%s/%s"%(objNP.animPropObj.path,val)})
-        objNP.animPropObj.enter()        
+        objNP.animPropObj.enter()
 
     def updateSuitPointIndex(self, val, obj):
         objNP = obj[OG.OBJ_NP]

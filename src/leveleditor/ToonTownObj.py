@@ -2,9 +2,9 @@
 Base class for toontown objects
 """
 import random
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.leveleditor import ObjectGlobals as OG
-from LevelStyleManager import *
+from .LevelStyleManager import *
 
 DNA_TYPE_DICT = {
     'cornice': DNA_CORNICE,
@@ -28,7 +28,7 @@ class ToonTownObjBase(NodePath):
             np = nodePath
         else:
             np = self.dna.traverse(self.editor.NPParent, DNASTORE, 1)
-        self.assign(np)    
+        self.assign(np)
 
     def initDNA(self):
         # You should implement this in subclass
@@ -94,7 +94,7 @@ class ToonTownObj(ToonTownObjBase):
     def setScale(self, newScale):
         NodePath.setScale(self, newScale)
         self.dna.setScale(newScale)
-        
+
     def getNextLandmarkBlock(self):
         self.editor.landmarkBlock=self.editor.landmarkBlock+1
         return str(self.editor.landmarkBlock)
@@ -142,7 +142,7 @@ class ToonTownObj(ToonTownObjBase):
     def setDNATargetCode(self, dnaType, dnaTarget, dnaParent, code):
         if dnaType != 'wall':
             dnaTarget = DNAGetChildOfClass(dnaParent, DNA_TYPE_DICT[dnaType])
-            
+
         if (dnaTarget != None) and (code != None):
             dnaTarget.setCode(code)
         elif (dnaTarget != None) and (code == None):
@@ -220,7 +220,7 @@ class ToonTownObj(ToonTownObjBase):
                 dnaTarget, style,
                 dnaTarget.getHeight())
             self.replace()
-        
+
     def replace(self, populateSubDna = True):
         parent = self.getParent()
         dnaParent = self.dna.getParent()
@@ -260,10 +260,9 @@ class ToonTownObj(ToonTownObjBase):
 
         if DNAClassEqual(self.dna, DNA_ANIM_BUILDING) or\
            DNAClassEqual(self.dna, DNA_ANIM_PROP) or\
-           DNAClassEqual(self.dna, DNA_INTERACTIVE_PROP): 
+           DNAClassEqual(self.dna, DNA_INTERACTIVE_PROP):
             self.createAnimatedProp()
 
         if populateSubDna:
             # update _subDna property
             obj[OG.OBJ_PROP]['_subDna'] = self.editor.objectMgr.populateSubDna(self.dna)
-

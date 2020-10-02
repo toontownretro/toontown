@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed import DistributedSmoothNodeAI
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
@@ -53,7 +53,7 @@ class DistributedCashbotBossObjectAI(DistributedSmoothNodeAI.DistributedSmoothNo
         # startWaitFree().
         waitFreeEvent = self.uniqueName('waitFree')
         taskMgr.remove(waitFreeEvent)
-        
+
 
     def doFree(self, task):
         # This method is fired as a do-later when we enter WaitFree.
@@ -110,7 +110,7 @@ class DistributedCashbotBossObjectAI(DistributedSmoothNodeAI.DistributedSmoothNo
         # The client controlling the object's free-fall has
         # relinquished all control of it.
         avId = self.air.getAvatarIdFromSender()
-        
+
         if avId == self.avId:
             self.setPosHpr(x, y, 0, h, 0, 0)
             self.demand('WaitFree')
@@ -124,7 +124,7 @@ class DistributedCashbotBossObjectAI(DistributedSmoothNodeAI.DistributedSmoothNo
         # Elvis has left the building.
         if avId == self.avId:
             self.doFree(None)
-            
+
 
     def __getCraneAndObject(self, avId):
         # Returns the pair (craneId, objectId) representing the crane
@@ -168,7 +168,7 @@ class DistributedCashbotBossObjectAI(DistributedSmoothNodeAI.DistributedSmoothNo
 
     def exitDropped(self):
         self.stopWaitFree()
-    
+
     def enterSlidingFloor(self, avId):
         self.avId = avId
         self.d_setObjectState('s', avId, 0)
@@ -177,14 +177,14 @@ class DistributedCashbotBossObjectAI(DistributedSmoothNodeAI.DistributedSmoothNo
 
     def exitSlidingFloor(self):
         self.stopWaitFree()
-    
+
     def enterWaitFree(self):
         # In this state, we have been asked by the controlling user to
         # free the object.  We will, in just a little bit, but we wait
         # half a second first to give the distributed users a chance
         # to see the object slide to its completion first.  This state
         # is not distributed.
-        
+
         self.avId = 0
         self.craneId = 0
 
@@ -195,7 +195,7 @@ class DistributedCashbotBossObjectAI(DistributedSmoothNodeAI.DistributedSmoothNo
 
     def enterFree(self):
         # The object is finally restored to its resting state.
-        
+
         self.avId = 0
         self.craneId = 0
         self.d_setObjectState('F', 0, 0)

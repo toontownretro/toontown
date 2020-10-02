@@ -1,8 +1,8 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
-import NPCToons
-import ToonHead
-import ToonDNA
+from toontown.toonbase.ToontownModules import *
+from . import NPCToons
+from . import ToonHead
+from . import ToonDNA
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
@@ -34,9 +34,9 @@ class NPCFriendPanel(DirectFrame):
                 yOffset = -2.3
         # Initialize instance
         self.initialiseoptions(NPCFriendPanel)
-        
+
     def update(self, friendDict, fCallable = 0):
-        friendList = friendDict.keys()
+        friendList = list(friendDict.keys())
         for i in range(8):
             card = self.cardList[i]
             try:
@@ -52,7 +52,7 @@ class NPCFriendCard(DirectFrame):
     maxRarity = 5
     sosTracks = (ToontownBattleGlobals.Tracks +
                  ToontownBattleGlobals.NPCTracks)
-    
+
     def __init__(self, parent = aspect2dp, **kw):
         # Define options
         optiondefs = (
@@ -193,7 +193,7 @@ class NPCFriendCard(DirectFrame):
                 # New NPC, get rid of old head if it exists
                 self.NPCHead.detachNode()
                 self.NPCHead.delete()
-                
+
             if NPCID is None:
                 # Show back of card
                 self.showBack()
@@ -245,7 +245,7 @@ class NPCFriendCard(DirectFrame):
         else:
             countText = "Unavailable"
             self.sosCallButton['state'] = DGG.DISABLED
-    
+
         self.sosCountInfo['text'] = countText
 
     def showFront(self):
@@ -293,4 +293,3 @@ class NPCFriendCard(DirectFrame):
                                  180, 0, 0,
                                  s, s, s)
         geomXform.reparentTo(geom)
-    

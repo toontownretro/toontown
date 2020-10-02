@@ -1,21 +1,21 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
-from DistributedMinigame import *
+from .DistributedMinigame import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.safezone import Walk
 from toontown.toonbase import ToontownTimer
 from direct.gui import OnscreenText
-import MinigameAvatarScorePanel
+from . import MinigameAvatarScorePanel
 from direct.distributed import DistributedSmoothNode
 import random
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPGlobals
-import TagGameGlobals
-import Trajectory
+from . import TagGameGlobals
+from . import Trajectory
 
 class DistributedTagGame(DistributedMinigame):
 
@@ -161,7 +161,7 @@ class DistributedTagGame(DistributedMinigame):
         DistributedSmoothNode.activateSmoothing(1, 1)
 
         self.IT = None
-        
+
     def offstage(self):
         self.notify.debug("offstage")
         # Restore normal non-predictive smoothing.
@@ -185,7 +185,7 @@ class DistributedTagGame(DistributedMinigame):
         self.notify.debug("setGameReady")
         if DistributedMinigame.setGameReady(self):
             return
-        
+
         # Allow us to tag the other avatars
         for avId in self.avIdList:
             self.acceptTagEvent(avId)
@@ -249,8 +249,8 @@ class DistributedTagGame(DistributedMinigame):
             # speed (which will also increase the turning radius).
             base.mouseInterfaceNode.setRotateSpeed(ToontownGlobals.ToonRotateSpeed *
                                                    self.IT_ROT_INCREASE)
-            
-        
+
+
         # Start counting down the game clock,
         # call timerExpired when it reaches 0
         self.timer = ToontownTimer.ToontownTimer()
@@ -311,14 +311,14 @@ class DistributedTagGame(DistributedMinigame):
         not be able to pick up treasure anymore
         """
         if not self.hasLocalToon: return
-        
+
         # Since the timer expires locally, we may still get a few
         # messages from the AI that were on the wire when we left
         # the play state, just ignore it
         if self.gameFSM.getCurrentState().getName() != "play":
             self.notify.debug("Ignoring setIt after done playing")
             return
-        
+
         self.itText.show()
         self.notify.debug(str(avId) + " is now it")
         if (avId == self.localAvId):
@@ -344,7 +344,7 @@ class DistributedTagGame(DistributedMinigame):
         if avatar:
             self.itPointer.reparentTo(avatar)
             self.itPointer.setZ(avatar.getHeight())
-        
+
         # Tag sound
         base.playSfx(self.tagSfx)
 
@@ -355,13 +355,13 @@ class DistributedTagGame(DistributedMinigame):
         # make sure the 'it' player has not disconnected
         if not toon:
             return
-        
+
         # spin the body
         spinTrack = LerpHprInterval(toon.getGeomNode(), duration,
                                     Point3(0,0,0),
                                     startHpr=Point3(-5.*360.,0,0),
                                     blendType='easeOut')
-        
+
         # scale up the head
         growTrack = Parallel()
         gs = 2.5

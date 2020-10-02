@@ -1,12 +1,12 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toon import ToonHead
 
 
 class VineHeadFrame(DirectFrame):
     def __init__(self, av = None, color = Vec4(1,1,1,1), *args, **kwargs):
-        #self.panelGeom = loader.loadModel('phase_6/models/karting/racing_panel')         
+        #self.panelGeom = loader.loadModel('phase_6/models/karting/racing_panel')
         #self.panelGeom.find('**/*fg').setColor(color)
         self.panelGeom = DGG.getDefaultDialogGeom()
 
@@ -16,7 +16,7 @@ class VineHeadFrame(DirectFrame):
                 'pos':(0,0,0),
                 }
         opts.update(kwargs)
-        apply(DirectFrame.__init__,(self,)+args,opts)
+        DirectFrame.__init__(*(self,)+args, **opts)
         self.initialiseoptions(VineHeadFrame)
 
         if (av):
@@ -24,13 +24,13 @@ class VineHeadFrame(DirectFrame):
 
         self.setScale(0.10)
         self.setTransparency(0)
-        
+
     def setAv(self,av):
         self.head = self.stateNodePath[0].attachNewNode('head', 20)
         self.head.setPosHprScale(0, -0.5, -0.09,
                                  180.0, 0.0, 0.0,
                                  0.2, 0.2, 0.2)
-        
+
         self.headModel = ToonHead.ToonHead()
         self.headModel.setupHead(av.style, forGui = 1)
         self.headModel.reparentTo(self.head)
@@ -45,7 +45,7 @@ class VineHeadFrame(DirectFrame):
 ##                                  0,0,0,
 ##                                  0.055,0.055,0.055)
 ##         self.tag1.hide()
-        
+
 ##         # As well as a nametag just to display the name.
 ##         self.tag2Node = NametagFloat2d()
 ##         self.tag2Node.setContents(Nametag.CName)
@@ -56,7 +56,7 @@ class VineHeadFrame(DirectFrame):
 ##                                  0,0,0,
 ##                                  0.05,0.05,0.05)
 ##         self.tag2.hide()
-        
+
     def destroy(self):
 ##         print '\ndestroying head frame for %s.\n' %(`self.av`,)
 ##         if( self.av ):

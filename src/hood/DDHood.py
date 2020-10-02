@@ -1,6 +1,6 @@
 
-from pandac.PandaModules import *
-import ToonHood
+from toontown.toonbase.ToontownModules import *
+from . import ToonHood
 from toontown.town import DDTownLoader
 from toontown.safezone import DDSafeZoneLoader
 from toontown.toonbase.ToontownGlobals import *
@@ -40,14 +40,14 @@ class DDHood(ToonHood.ToonHood):
 
     def exit(self):
         ToonHood.ToonHood.exit(self)
-    
+
     def setUnderwaterFog(self):
         if base.wantFog:
             self.fog.setColor(self.underwaterFogColor)
             self.fog.setLinearRange(0.1, 100.0)
             render.setFog(self.fog)
             self.sky.setFog(self.fog)
-        
+
     def setWhiteFog(self):
         if base.wantFog:
             self.fog.setColor(self.whiteFogColor)

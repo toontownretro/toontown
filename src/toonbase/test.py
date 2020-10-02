@@ -1,14 +1,14 @@
 #
 #imports
 #
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from otp.avatar import Avatar
 from otp.avatar import AvatarDNA
 from direct.task import Task
 from direct.showbase.MessengerGlobal import *
 import sys
-from pandac.PandaModules import ClockObject
-from pandac.PandaModules import PStatClient
+from toontown.toonbase.ToontownModules import ClockObject
+from toontown.toonbase.ToontownModules import PStatClient
 from ChatManagerGlobal import *
 #
 # globals
@@ -61,9 +61,9 @@ av2.reparentTo(render)
 #
 def handleEscKey():
         if (pStats.isConnected()):
-                print "disconnecting from PStatClient"
+                print("disconnecting from PStatClient")
                 pStats.disconnect()
-        print "bye!"
+        print("bye!")
         sys.exit()
 #
 # "1" - lerp to viewpoint #1
@@ -71,52 +71,52 @@ def handleEscKey():
 def handle1Key():
         base.disableMouse()
         camera.setPosHpr(vpl[0][0], vpl[0][1])
-        print "viewpoint 1"
+        print("viewpoint 1")
 #
 # "2" - lerp to viewpoint #2
 #
 def handle2Key():
         base.disableMouse()
         camera.setPosHpr(vpl[1][0], vpl[1][1])
-        print "viewpoint 2"
+        print("viewpoint 2")
 #
 # "3" - lerp to viewpoint #3
 #
 def handle3Key():
         base.disableMouse()
         camera.setPosHpr(vpl[2][0], vpl[2][1])
-        print "viewpoint 3"
+        print("viewpoint 3")
 #
 # "4" - lerp to viewpoint #4
 #
 def handle4Key():
         base.disableMouse()
         camera.setPosHpr(vpl[3][0], vpl[3][1])
-        print "viewpoint 4"
+        print("viewpoint 4")
 #
 # "5" - lerp to viewpoint #4
 #
 def handle5Key():
         base.disableMouse()
         camera.setPosHpr(vpl[4][0], vpl[4][1])
-        print "viewpoint 5"
+        print("viewpoint 5")
 #
 # "t" - trackball mode
 #
 def handleTKey():
-        print "using trackball mode..."
+        print("using trackball mode...")
         base.useTrackball()
 #
 # "m" - mouse mode
 #
 def handleDKey():
-        print "using drive mode..."
+        print("using drive mode...")
         base.useDrive()
 #
 # "p" - print the camera position
 #
 def handlePKey():
-        print "camera pos:"
+        print("camera pos:")
         camera.printPos()
         camera.printHpr()
 #
@@ -124,10 +124,10 @@ def handlePKey():
 #
 def handleSKey():
         if (pStats.isConnected()):
-                print "disconnecting from PStatClient"
+                print("disconnecting from PStatClient")
                 pStats.disconnect()
         else:
-                print "connecting to PStatClient"
+                print("connecting to PStatClient")
                 pStats.connect()
 #
 # "f" - print the frame rate
@@ -140,17 +140,17 @@ def handleFKey():
         frameCount = globalClock.getFrameCount()
         df = frameCount - startFrameCount
         if (df > 0):
-                print df, " frames in ", dt, "seconds"
-                print df/dt, " fps avg. (", 1000.0/(df/dt), "ms)"
+                print((df, " frames in ", dt, "seconds"))
+                print((df/dt, " fps avg. (", 1000.0/(df/dt), "ms)"))
 #
 # "a" - automatically lerp through viewpoint list
 #
 def handleAKey():
-        print "starting viewpoint lerps..."
+        print("starting viewpoint lerps...")
         base.disableMouse()
         camera.setPosHpr(vpl[0][0], vpl[0][1])
         lerpTimeline = Task.timeline(
-                        (2.0,  
+                        (2.0,
                          camera.lerpPosHpr(vpl[1][0], vpl[1][1], 1.0),
                          "lerp1"),
                         (5.0,
@@ -159,7 +159,7 @@ def handleAKey():
                         (9.0,
                          camera.lerpPosHpr(vpl[3][0], vpl[3][1], 3.0),
                          "lerp3"),
-                        (14.0, 
+                        (14.0,
                          camera.lerpPosHpr(vpl[4][0], vpl[4][1], 4.0),
                          "lerp4"))
 
@@ -192,17 +192,3 @@ globalClock.tick()
 startTime = globalClock.getFrameTime()
 startFrameCount = globalClock.getFrameCount()
 run()
-
-
-
-
-
-
-
-
-
-
-
-
-
-

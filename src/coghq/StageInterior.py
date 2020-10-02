@@ -4,7 +4,7 @@ from toontown.battle import BattlePlace
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.showbase import BulletinBoardWatcher
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toon import Toon
 from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil
@@ -17,7 +17,7 @@ from toontown.building import Elevator
 class StageInterior(BattlePlace.BattlePlace):
     # create a notify category
     notify = DirectNotifyGlobal.directNotify.newCategory("StageInterior")
-    
+
     # special methods
     def __init__(self, loader, parentFSM, doneEvent):
         assert(StageInterior.notify.debug("StageInterior()"))
@@ -39,8 +39,8 @@ class StageInterior(BattlePlace.BattlePlace):
                             State.State('walk',
                                         self.enterWalk,
                                         self.exitWalk,
-                                        ['push', 'sit', 'stickerBook', 
-                                         'WaitForBattle', 'battle', 
+                                        ['push', 'sit', 'stickerBook',
+                                         'WaitForBattle', 'battle',
                                          'died', 'teleportOut', 'squished',
                                          'DFA', 'fallDown', 'elevator',
                                          ]),
@@ -120,7 +120,7 @@ class StageInterior(BattlePlace.BattlePlace):
                                         self.enterFinal,
                                         self.exitFinal,
                                         ['start'])],
-                          
+
                            # Initial State
                            'start',
                            # Final State
@@ -269,7 +269,7 @@ class StageInterior(BattlePlace.BattlePlace):
 
     def enterTeleportOut(self, requestStatus):
         StageInterior.notify.debug('enterTeleportOut()')
-        BattlePlace.BattlePlace.enterTeleportOut(self, requestStatus, 
+        BattlePlace.BattlePlace.enterTeleportOut(self, requestStatus,
                         self.__teleportOutDone)
 
     def __processLeaveRequest(self, requestStatus):
@@ -295,11 +295,11 @@ class StageInterior(BattlePlace.BattlePlace):
             self.fsm.request('FLA', [requestStatus])
         else:
             self.__processLeaveRequest(requestStatus)
-        
+
     def exitTeleportOut(self):
         StageInterior.notify.debug('exitTeleportOut()')
         BattlePlace.BattlePlace.exitTeleportOut(self)
-         
+
     def handleStageWinEvent(self):
         """this handler is called when the stage has been defeated"""
         StageInterior.notify.debug('handleStageWinEvent')
@@ -358,11 +358,11 @@ class StageInterior(BattlePlace.BattlePlace):
         if hasattr(self, 'flaDialog'):
             self.flaDialog.cleanup()
             del self.flaDialog
-            
+
     def detectedElevatorCollision(self, distElevator):
         assert(self.notify.debug("detectedElevatorCollision()"))
         self.fsm.request("elevator", [distElevator])
-        
+
     def enterElevator(self, distElevator):
         assert(self.notify.debug("enterElevator()"))
         self.accept(self.elevatorDoneEvent, self.handleElevatorDone)
@@ -380,13 +380,13 @@ class StageInterior(BattlePlace.BattlePlace):
         self.elevator.unload()
         self.elevator.exit()
         #del self.elevator
-        
+
     def handleElevatorDone(self, doneStatus):
         assert(self.notify.debug("handleElevatorDone()"))
         self.notify.debug("handling elevator done event")
         where = doneStatus['where']
         if (where == 'reject'):
-            # If there has been a reject the Elevator should show an 
+            # If there has been a reject the Elevator should show an
             # elevatorNotifier message and put the toon in the stopped state.
             # Don't request the walk state here. Let the the toon be stuck in the
             # stopped state till the player removes that message from his screen.

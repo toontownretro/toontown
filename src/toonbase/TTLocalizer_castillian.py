@@ -642,8 +642,8 @@ QuestsItemDict = {
     6003 : ["Correa de transmisión", "Correas de transmisión", "una "],
     6004 : ["Tenazas", " Tenazas", "unas "],
     6005 : ["Lámpara portátil", "Lámparas portátiles", "una "],
-    6006 : ["Banjo", "Banjos", "un "],    
-    6007 : ["Pulidora de hielo", "Pulidoras de hielo", "un "],    
+    6006 : ["Banjo", "Banjos", "un "],
+    6007 : ["Pulidora de hielo", "Pulidoras de hielo", "un "],
     6008 : ["Esterilla cebra", "Esterilla cebra", "una "],
     6009 : ["Zinnias", "Zinnias", "unas "],
     6010 : ["Discos de Zydeco", "Discos de Zydeco", "algunos "],
@@ -654,15 +654,15 @@ QuestsItemDict = {
     7001 : ["Cama básica", "Camas básicas", "una "],
     7002 : ["Cama sofisticada", "Camas sofisticadas", "una "],
     7003 : ["Colcha azul", " Colchas azules", "una "],
-    7004 : ["Colcha de cachemir", "Colchas de cachemir", "una "],    
-    7005 : ["Almohada", "Almohadas", "una "],   
-    7006 : ["Almohada dura", " Almohadas duras", "una "], 
-    7007 : ["Pijama", "Pijamas", "un "],    
-    7008 : ["Pijama con pies", "Pijamas con pies", "un "],    
-    7009 : ["Pijama colorado con pies", "Pijamas colorado con pies", "un "], 
-    7010 : ["Pijama fucsia con pies", "Pijamas fucsia con pies", "un "],     
-    7011 : ["Coral coliflor", " Corales coliflor", "un "],      
-    7012 : ["Alga pegajosa", "Algas pegajosas", "un "],   
+    7004 : ["Colcha de cachemir", "Colchas de cachemir", "una "],
+    7005 : ["Almohada", "Almohadas", "una "],
+    7006 : ["Almohada dura", " Almohadas duras", "una "],
+    7007 : ["Pijama", "Pijamas", "un "],
+    7008 : ["Pijama con pies", "Pijamas con pies", "un "],
+    7009 : ["Pijama colorado con pies", "Pijamas colorado con pies", "un "],
+    7010 : ["Pijama fucsia con pies", "Pijamas fucsia con pies", "un "],
+    7011 : ["Coral coliflor", " Corales coliflor", "un "],
+    7012 : ["Alga pegajosa", "Algas pegajosas", "un "],
     7013 : ["Mazo de mortero", " Mazos de mortero", "una "],
     7014 : ["Tarro de crema antiarrugas ", " Tarro de crema antiarrugas", "un "],
     }
@@ -1652,7 +1652,7 @@ QuestDialogDict = {
              COMPLETE : "¡Eh, _avName_! Estás en mi lista de güenos.\aLos jefebots esos ya no son tan pesaos, ¿eh?\a¡Toma! Esto te vendrá que ni pintao. ¡Y no te metas en líos, diantre!",
              },
 
-    # Nat & PJ will get you acquainted with the new 
+    # Nat & PJ will get you acquainted with the new
     # HQ. And they'll give you your first suit part
     6231 : { QUEST : "Nat, en el Centro Pijama, oyó rumores sobre un Cuartel General chequebot.\aVete para allá a ver si puedes ayudarle._where_",
              },
@@ -1664,7 +1664,7 @@ QuestDialogDict = {
     6233 : { GREETING : "",
              LEAVING : "",
              QUEST : "Eh, _avName_, ¿a dónde vas?\a¿Al cuartel general de los chequebots? Yo no vi nada.\a¿Podrías ir al final de Centro Pijama a ver si es cierto?\aBusca chequebots en su cuartel general, derrota a unos cuantos y regresa a contármelo.",
-             INCOMPLETE_PROGRESS : "¿Ya encontraste el cuartel general? Para poder investigarlo, tendrás que derrotar a unos cuantos chequebots.", 
+             INCOMPLETE_PROGRESS : "¿Ya encontraste el cuartel general? Para poder investigarlo, tendrás que derrotar a unos cuantos chequebots.",
              },
     6234 : { GREETING : "",
              LEAVING : "",
@@ -1678,7 +1678,7 @@ QuestDialogDict = {
              COMPLETE : "¿Ya tienes los planos?\a¡Fantástico! A ver que dicen.\aYa veo... los chequebots construyeron una fabrica de monedas para fabricar botdólares.\aDebe de estar llena de chequebots. Tenemos que investigar más.\aQuizás, si fueras disfrazado... ¡Espera! Creo que tengo parte de un traje bot por alguna parte...\a¡Ya lo tengo! ¿Por qué no aceptas esto, por las molestias? ¡Y gracias de nuevo por tu ayuda!",
              },
 
-    # The Countess can't concentrate on counting her sheep with all 
+    # The Countess can't concentrate on counting her sheep with all
     # these Cogs around. Clean up a bit and she'll reward you handsomely.
     # Reward: MaxMoneyReward 705 - 150 jellybeans
     6241 : { QUEST : "¡La condesa te estuvo buscando por todas partes! Por favor, ve a visitarla para que deje de llamar._where_",
@@ -1784,7 +1784,7 @@ QuestDialogDict = {
              },
 
     # Teddy Blair has a piece of a cog suit to give you if you will
-    # clear out some cogs. Of course, his ear plugs make it tough. 
+    # clear out some cogs. Of course, his ear plugs make it tough.
     6281 : { QUEST : "Ve a hacerle una visita a Teddy Blair. Tiene un trabajo para ti._where_",
              },
     6282 : { GREETING : "",
@@ -1792,8 +1792,8 @@ QuestDialogDict = {
              QUEST : "¿Qué dijiste? Pero no, cómo voy a tener un tabaco para ti.\a¡Oh, un trabajo! ¿Por qué no lo dijiste antes? Tienes que hablar más alto.\aCon esos bots, resulta difícil hibernar.  Si me ayudas a hacer que Sueñolandia sea un lugar más tranquilo,\ate daré una cosa.",
              INCOMPLETE_PROGRESS: "¿Derrotaste a los botas? ¿Qué botas?\a¡Ah, los bots! ¿Por qué no lo dijiste antes?\aUmm, todavía hay mucho ruido. ¿Qué te parece si derrotas a unos cuantos más?",
              COMPLETE : "¿Te divertiste? ¿Eh? ¡Oh!\a¡Terminaste! Fantástico. Eres muy amable.\aEncontré esto en el galpón, pero a mí no me sirve para nada.\aA lo mejor a ti te resulta útil. ¡Hasta otra, _avName_!",
-             },    
-    
+             },
+
     # William Teller needs help! Those darn Cashbots swiped his 3
     # money bags to use in the Mint! Retrieve them and he'll give you
     # another cog Suit piece.
@@ -1803,7 +1803,7 @@ QuestDialogDict = {
              INCOMPLETE_PROGRESS : "Necesito recuperar las lámparas. ¡Sigue buscando!",
              COMPLETE : "¡Ya regresaste! ¡Y con mis lámparas!\aNo sé cómo agradecértelo, pero sí sé que puedo darte esto.",
              },
-    
+
     # Help Nina Nightlight get a bed in stock -
     # she'll give you a suit part
     7201 : { QUEST : "Vela Zascandil te andaba buscando, _avName_. Necesita ayuda._where_",
@@ -1876,7 +1876,7 @@ QuestDialogDict = {
              INCOMPLETE_PROGRESS : "Es todo lo que tengo en estos momentos.\aPor favor, llévale esa colcha a Luna.",
              COMPLETE : "¡Oh! ¡Qué lindo! El cachemir me encanta.\a¡Y ahora, mi cura de belleza y sueño! Hasta otra, _avName_.\a¿Qué? ¿Sigues aquí? ¿No ves que estoy intentando dormir?\aToma, llévate esto y déjame descansar. ¡Debo de estar horrorosa!",
              },
- 
+
     7218 : { QUEST : "A Dafne Marmota le vendría bien una ayudita._where_",
              },
     7219 : { GREETING : "",
@@ -1909,7 +1909,7 @@ QuestDialogDict = {
              INCOMPLETE_PROGRESS : "Sí, estas almohadas son durísimas. Espero que a Dafne le gusten.",
              COMPLETE : "Sabía que Tex tendría almohadas más duras.\aOh sí, son perfectas. Duras y cómodas.\a¿Te sirve de algo una pieza de traje bot? Bueno, llévatela por si acaso.",
              },
- 
+
     # Sandy Sandman lost her pajamas but Big Mama
     # and Cat can help her out. If you hang in there,
     # you'll get another Cog Suit part.
@@ -1975,7 +1975,7 @@ QuestDialogDict = {
              INCOMPLETE_PROGRESS : "Sandra está esperando el pijama, _avName_.",
              COMPLETE : "¡Un pijama fucsia con pies! ¡Perrrrfecto!\aAh, se acabó el problema. Veamos...\aOh, supongo que debería darte algo por ayudarme.\aQuizás esto te resulte útil. Alguien lo olvidó aquí.",
              },
- 
+
     # Smudgy Mascara needs Wrinkle Cream but
     # 39's missing ingredients. Help them out
     # and get a piece of Cog suit
@@ -4557,7 +4557,7 @@ DonaldChatter = (
 # April Fools Chatter's
 AFMickeyChatter = (
         [ # Greetings specific to Mickey
-        "¡Feliz Semana de los Dibus Inocentes!",        
+        "¡Feliz Semana de los Dibus Inocentes!",
         "¡Feliz Semana de los Dibus Inocentes, %!",
         "Hola, me llamo "+Mickey+". ¿y tú?",
         ],
@@ -4576,8 +4576,8 @@ AFMickeyChatter = (
 
 AFMinnieChatter = (
         [ # Greetings
-        "Hola, me llamo "+Minnie+". ¿Y tú?",        
-        "¡Feliz Semana de los Dibus Inocentes!",        
+        "Hola, me llamo "+Minnie+". ¿Y tú?",
+        "¡Feliz Semana de los Dibus Inocentes!",
         "¡Feliz Semana de los Dibus Inocentes, %!",
         ],
         [ # Comments
@@ -4594,7 +4594,7 @@ AFMinnieChatter = (
 AFDaisyChatter = (
         [ # Greetings
         "Hola, soy "+Daisy+". ¿Y tú?",
-        "¡Feliz Semana de los Dibus Inocentes!",        
+        "¡Feliz Semana de los Dibus Inocentes!",
         "¡Feliz Semana de los Dibus Inocentes, %!",
         ],
         [ # Comments
@@ -4643,7 +4643,7 @@ AFDonaldChatter = (
         "¿De dónde vienen de repente todos esos ruidos de autos?",
         "¡Me voy a Melodilandia a ver a %s!" % Minnie,
         ]
-    )    
+    )
 
 CLGoofySpeedwayChatter = (
         [ # Greetings
@@ -4652,7 +4652,7 @@ CLGoofySpeedwayChatter = (
         "¡Me alegro de verte %!",
         "¡Hola! Perdona que lleve tanto polvo, estuve arreglando el marcador roto.",
         ],
-        [ # Comments        
+        [ # Comments
         "Será mejor que arreglemos pronto el marcador, ¡se acerca el fin de semana Grand Prix!",
         "¿Alguien quiere comprar un kart un poco usado? ¡Sólo pasó una vez por el marcador!",
         "Se acerca el fin de semana Grand Prix, conviene practicar.",
@@ -4678,16 +4678,16 @@ CLGoofySpeedwayChatter = (
         "Es hora de la siesta. Me voy a Sueñolandia a soñar con el Grand Prix.",
         ]
     )
-        
+
 
 GPGoofySpeedwayChatter = (
         [ # Greetings
-        "Bienvenido al "+lGoofySpeedway+".",        
+        "Bienvenido al "+lGoofySpeedway+".",
         "¡Bienvenido al fin de semana Grand Prix!",
         "Hola, me llamo "+Goofy+". ¿Y tú?",
         "¡Me alegro de verte, %!",
         ],
-        [ # Comments                
+        [ # Comments
         "¿Estás nervioso por el fin de semana Grand Prix?",
         "Menos mal que arreglaste el marcador.",
         "¡Arreglamos el marcador justo a tiempo para el fin de semana Grand Prix!",
@@ -5161,7 +5161,7 @@ PartyActivityNameDict = {
         "invite" : "una pista de baile para 20 pasos",
         "editor" : "Pista de baile - 20",
         "description" : "¡¡Demuestra tu arte con los 20 pasos al auténtico estilo dibu!"
-    },    
+    },
 }
 
 # Note : This dictionary is used to show the names of the decorations in various
@@ -5557,16 +5557,16 @@ GardenPageShovelInfo = "%s Pala: %d / %d\n"
 GardenPageWateringCanInfo = "%s Regadera: %d / %d"
 
 # KartPage.py
-KartPageTitle = "Karts" 
+KartPageTitle = "Karts"
 KartPageTitleCustomize = "Personalizador de kart"
 KartPageTitleRecords = "Récords personales"
-KartPageTitleTrophy = "Trofeos de carreras" 
+KartPageTitleTrophy = "Trofeos de carreras"
 KartPageCustomizeTab = "Personalizar"
 KartPageRecordsTab = "Récords"
 KartPageTrophyTab = "Trofeo"
 KartPageTrophyDetail = "Trofeo %s : %s"
 KartPageTickets = "Boletos : "
-KartPageConfirmDelete = "¿Borrar accesorio?" 
+KartPageConfirmDelete = "¿Borrar accesorio?"
 
 #plural
 KartShtikerDelete = "Borrar"
@@ -5756,10 +5756,10 @@ TownSoloBattleWaitTitle = "Espera..."
 TownBattleWaitBack = "ATRÁS"
 
 # TownBattleSOSPetSearchPanel.py
-TownBattleSOSPetSearchTitle = "Buscando al Dibuperrito\n%s..." 
+TownBattleSOSPetSearchTitle = "Buscando al Dibuperrito\n%s..."
 
 # TownBattleSOSPetInfoPanel.py
-TownBattleSOSPetInfoTitle = "%s es %s" 
+TownBattleSOSPetInfoTitle = "%s es %s"
 TownBattleSOSPetInfoOK = lOK
 
 # Trolley.py
@@ -5865,7 +5865,7 @@ PetTutorialPage1 = "Haz clic en un Dibuperrito para abrir el panel Dibuperrito. 
 PetTutorialPage2 = "Utiliza la nueva zona 'Mascotas' en el menú SpeedChat para hacer que un Doodle haga una acrobacia. Si la hace, ¡dale un premio y aprenderá a hacerlo mejor!"
 PetTutorialPage3 = "Compra nuevas acrobacias para el Dibuperrito desde el catálogo tolón-tolón de Clarabel. ¡Las mejores acrobacias dan mejores curadibus!"
 def getPetGuiAlign():
-	from pandac.PandaModules import TextNode
+	from toontown.toonbase.ToontownModules import TextNode
 	return TextNode.ACenter
 
 GardenTutorialTitle1 = "Jardinería"
@@ -6464,7 +6464,7 @@ CashbotCraneAdvice = "Usa las teclas de flecha para mover la grúa."
 CashbotMagnetAdvice = "Mantén pulsada la tecla Ctrl para agarrar cosas."
 CashbotCraneLeaving = "Saliendo de la grúa..."
 
-MintElevatorRejectMessage = "No puedes entrar a las fabrica de monedas hasta haber completado tu traje bot %s." 
+MintElevatorRejectMessage = "No puedes entrar a las fabrica de monedas hasta haber completado tu traje bot %s."
 BossElevatorRejectMessage = "No puedes subir a este ascensor hasta que no te merezcas un ascenso."
 NotYetAvailable = "Este ascensor todavía no está disponible."
 
@@ -6486,25 +6486,25 @@ NametagTypeName = "Etiqueta para el nombre"
 # Make sure numbers match up to CatalogItemTypes.py
 CatalogItemTypeNames = {
     0 : "INVALID_ITEM",
-    1 : FurnitureTypeName, 
-    2 : ChatTypeName, 
-    3 : ClothingTypeName, 
-    4 : EmoteTypeName, 
+    1 : FurnitureTypeName,
+    2 : ChatTypeName,
+    3 : ClothingTypeName,
+    4 : EmoteTypeName,
     5 : "WALLPAPER_ITEM",
     6 : "WindowViewTypeName",
     7 : "FLOORING_ITEM",
     8 : "MOULDING_ITEM",
     9 : "WAINSCOTING_ITEM",
-    10 : PoleTypeName, 
-    11: PetTrickTypeName, 
-    12: BeanTypeName, 
-    13: GardenTypeName, 
-    14: RentalTypeName, 
-    15: GardenStarterTypeName, 
-    16: NametagTypeName, 
+    10 : PoleTypeName,
+    11: PetTrickTypeName,
+    12: BeanTypeName,
+    13: GardenTypeName,
+    14: RentalTypeName,
+    15: GardenStarterTypeName,
+    16: NametagTypeName,
     17: "TOON_STATUE_ITEM",
-    18: "ANIMATED_FURNITURE_ITEM",    
-}   
+    18: "ANIMATED_FURNITURE_ITEM",
+}
 
 
 # Make sure this is in sync with ToonDNA.ShirtStyles
@@ -6548,7 +6548,7 @@ ShirtStylesDescriptions = {
     'gss15' : "girl flower",
 
     # -------------------------------------------------------------------------
-    # Special Catalog-only shirts. 
+    # Special Catalog-only shirts.
     # -------------------------------------------------------------------------
     # yellow hooded - Series 1
     'c_ss1' : "yellow hooded - Series 1",
@@ -6571,7 +6571,7 @@ ShirtStylesDescriptions = {
     'c_ss9' : "cowboy shirt 4 : Series 4",
     'c_ss10' : "cowboy shirt 5 : Series 4",
     'c_ss11' : "cowboy shirt 6 : Series 4",
-    
+
     # Special Holiday-themed shirts.
     'hw_ss1' : "Halloween ghost",
     'hw_ss2' : "Halloween pumpkin",
@@ -6603,7 +6603,7 @@ ShirtStylesDescriptions = {
     'pj_ss1' : "Blue Banana Pajama shirt",
     'pj_ss2' : "Red Horn Pajama shirt",
     'pj_ss3' : "Purple Glasses Pajama shirt",
-    
+
     # Special award clothes
     'sa_ss1' : "Striped Shirt",
     'sa_ss2' : "Fishing Shirt 1",
@@ -6611,11 +6611,11 @@ ShirtStylesDescriptions = {
     'sa_ss4' : "Gardening Shirt 1",
     'sa_ss5' : "Gardening Shirt 2",
     'sa_ss6' : "Party Shirt 1",
-    'sa_ss7' : "Party Shirt 2",    
-    'sa_ss8' : "Racing Shirt 1",    
-    'sa_ss9' : "Racing Shirt 2",    
-    'sa_ss10' : "Summer Shirt 1",    
-    'sa_ss11' : "Summer Shirt 2",    
+    'sa_ss7' : "Party Shirt 2",
+    'sa_ss8' : "Racing Shirt 1",
+    'sa_ss9' : "Racing Shirt 2",
+    'sa_ss10' : "Summer Shirt 1",
+    'sa_ss11' : "Summer Shirt 2",
 
     # name : [ shirtIdx, sleeveIdx, [(ShirtColorIdx, sleeveColorIdx), ... ]]
     }
@@ -6650,7 +6650,7 @@ BottomStylesDescriptions = {
     'wh_bs2' : 'Winter Holiday Shorts Style 2',
     'wh_bs3' : 'Winter Holiday Shorts Style 3',
     'wh_bs4' : 'Winter Holiday Shorts Style 4',
-    
+
     # -------------------------------------------------------------------------
     # Girl styles (shorts and skirts)
     # -------------------------------------------------------------------------
@@ -6663,7 +6663,7 @@ BottomStylesDescriptions = {
     'gsk5' : 'flower print',
     'gsk6' : '2 pockets (special) ',
     'gsk7' : 'denim skirt',
-    
+
     # shorts
     # -------------------------------------------------------------------------
     'gsh1' : 'plain w/ pockets',
@@ -6695,16 +6695,16 @@ BottomStylesDescriptions = {
     'wh_gsk2' : 'Winter Holiday Skirt Style 2',
     'wh_gsk3' : 'Winter Holiday Skirt Style 3',
     'wh_gsk4' : 'Winter Holiday Skirt Style 4',
-    
+
     'sa_bs1' : "Fishing Shorts",
     'sa_bs2' : "Gardening Shorts",
     'sa_bs3' : "Party Shorts",
     'sa_bs4' : "Racing Shorts",
     'sa_bs5' : "Summer Shorts",
     'sa_gs1' : "Fishing Skirt",
-    'sa_gs2' : "Gardening Skirt",    
-    'sa_gs3' : "Party Skirt",    
-    'sa_gs4' : "Racing Skirt",    
+    'sa_gs2' : "Gardening Skirt",
+    'sa_gs3' : "Party Skirt",
+    'sa_gs4' : "Racing Skirt",
     'sa_gs5' : "Summer Skirt",
     }
 
@@ -6719,7 +6719,7 @@ AwardMgrShirt = "shirt"
 SpecialEventMailboxStrings = {
     1 : "A special item from the Toon council",
     2 : "Prize for Melville's Fishing Tournament",
-    3 : "Prize for Billy Bud's Fishing Tournament",    
+    3 : "Prize for Billy Bud's Fishing Tournament",
     }
 
 # Rental items
@@ -7824,18 +7824,18 @@ NPCToonNames = {
     #
     # Goofy's Speedway
     #
-    
+
     #default  area
     #kart clerk
     8001 : "Enrique Motores",
     8002 : "Ivón Carreras",
     8003 : "Victoria Repetidez",
     8004 : "Fabio Gas",
-   
+
     #
     # Dreamland
     #
-    
+
     # Dreamland Playground
     9001 : "Belinda Traspuesta",
     9002 : "Bello Durmiente",
@@ -8596,7 +8596,7 @@ PetTrait2descriptions = {
     'affectionThreshold': ('Raramente cariñoso', 'A veces cariñoso',
                          'A menudo cariñoso', 'Siempre cariñoso',),
     }
-    
+
 
 # end translate
 
@@ -10400,7 +10400,7 @@ HolidayNamesInCalendar = {
    53: ("Invasión de los aprovechados", "¡Impide que los bots aprovechados invadan Toontown!"),
    54: ("Invasión de los agarrados", "¡Impide que los bots agarrados invadan Toontown!"),
    55: ("Invasión de los embaucadores", "¡Impide que los bots embaucadores invadan Toontown!"),
-   56: ("Invasión de los reguladores de empleo", "¡Impide que los bots reguladores de empleo invadan Toontown!"),    
+   56: ("Invasión de los reguladores de empleo", "¡Impide que los bots reguladores de empleo invadan Toontown!"),
 
     }
 

@@ -1,13 +1,13 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.particles import ParticleEffect
-from StomperGlobals import *
+from .StomperGlobals import *
 from direct.distributed import ClockDelta
 from direct.showbase.PythonUtil import lerp
 import math
 from otp.level import DistributedEntity
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import NodePath
+from toontown.toonbase.ToontownModules import NodePath
 from otp.level import BasicEntities
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
@@ -22,11 +22,11 @@ from toontown.golf import BuildGeometry
 from direct.gui.DirectGui import *
 import random
 from direct.showbase import RandomNumGen
-import GameSprite3D
+from . import GameSprite3D
 from math import pi
 import math
 import random
-import cPickle
+import pickle
 from toontown.distributed import DelayDelete
 from toontown.toon import ToonHeadFrame
 from toontown.battle import BattleParticles
@@ -37,8 +37,8 @@ from toontown.toonbase import ToontownTimer
 
 class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedGolfGreenGame')
-    
-    
+
+
     def __init__(self, cr):
         BattleBlocker.BattleBlocker.__init__(self, cr)
         self.blankColor = Vec4(1.0,1.0,1.0,1.0)
@@ -57,52 +57,52 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.board = None
         self.attackPattern = None
         self.tooLowFlag = 0
-        
+
         self.toonPoints = (Point3(3.0,13.0,0.0),
                             Point3(6.0,13.0,0.0),
                             Point3(-3.0,13.0,0.0),
                             Point3(-6.0,13.0,0.0),
         )
-        
+
         self.joinedToons = []
         self.everJoinedToons = []
 
 
         self.flagNextLevel = 0
-        
+
         self.wildIndex = 8
         self.bombIndex = 7
-        
+
         self.sizeMult = 1.4
-        
+
         self.cellSizeX = 1.0 * self.sizeMult
         self.cellSizeZ = self.cellSizeX * 0.8 #for hex packing
-        
+
         self.radiusBall = 0.5 * self.cellSizeX #radius of the ball
-        
+
         self.gridDimX = 9
         self.gridDimZ = 15
-        
+
         #self.maxX = self.gridDimX  * 0.5 * self.cellSizeX
-        self.minX = (-1.0 * (self.gridDimX + 0.3751)) * 0.5 * self.cellSizeX  
+        self.minX = (-1.0 * (self.gridDimX + 0.3751)) * 0.5 * self.cellSizeX
         #self.maxZ = self.gridDimZ * 0.9 * self.cellSizeZ
         self.minZ = -self.gridDimZ * 0.1 * self.cellSizeZ
 
         self.newBallX = 0.0
         self.newBallZ = self.minZ + (0.1 * self.sizeMult)
-        
+
         self.rangeX = (self.gridDimX + 0.50) * self.cellSizeX
         self.rangeZ = self.gridDimZ * self.cellSizeZ
-        
+
         self.maxX = self.minX + self.rangeX
         self.maxZ = self.minZ + self.rangeZ
-        
+
         #self.sizeX = self.gridDimX * self.cellSizeX
         #self.sizeZ = self.gridDimZ * self.cellSizeZ
-        
+
         self.sizeX = self.rangeX
         self.sizeZ = self.rangeZ
-        
+
         self.isActive = 0
         self.boardsLeft = 0
         self.timeLeft = 0
@@ -110,24 +110,24 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.timeTotal = None
         self.timerTask = None
         self.timerTaskName = "golfgreengame timer task"
-        
+
         self.giftId = None
         self.holdGiftId = None
         self.rollTrack = None
-        
+
         self.zGap = 0.092
         self.screenSizeX = base.a2dRight - base.a2dLeft
         self.screenSizeZ = base.a2dTop - base.a2dBottom
         self.XtoZ = self.screenSizeX / (self.screenSizeZ * (1.0 - (self.zGap * 1.0)))
-        
+
         self.countTimeOld = None
         self.countDownRunning = 0
-        
+
         self.timer = None
-        
+
         self.hasEntered = 0
         #self.setup()
-        
+
         self.trackClosed = 0
         self.running = 0
         self.finished = 0
@@ -144,7 +144,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.clearToonTracks()
 
         BattleBlocker.BattleBlocker.disable(self)
-        
+
     def updateSpritePos(self):
         if self.spriteNode.isEmpty():
             return
@@ -154,7 +154,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 pass
                 #self.controlSprite.setZ(self.newBallZ + (self.spriteNotchPos * self.cellSizeZ))
         self.colorGridFlag = 1
-        
+
     def lerpSpritePos(self):
         if self.spriteNode.isEmpty():
             return
@@ -172,9 +172,9 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.rollTrack.start()
         if self.soundMove:
             self.soundMove.play()
-        messenger.send('wakeup') 
-        
-                
+        messenger.send('wakeup')
+
+
     def findLowestSprite(self):
         lowest = 100
         for sprite in self.sprites:
@@ -182,22 +182,22 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 if sprite.gridPosZ < lowest:
                     lowest = sprite.gridPosZ
         return lowest
-        
+
     def setup(self):
-        
+
         if not self.setupFlag:
             self.setupFlag = 1
         else:
             return
-            
-        
+
+
         self.updateSpritePos()
         self.spriteNode.setY(self.radiusBall)
-        
+
         thing = self.model.find('**/item_board')
         self.block = self.model1.find('**/minnieCircle')
-        
-        
+
+
         self.colorRed = (1,0,0,1)
         self.colorBlue = (0,0,1,1)
         self.colorGreen = (0,1,0,1)
@@ -207,20 +207,20 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.colorWhite = (1,1,1,1)
         self.colorBlack = (0,0,0,1.0)
         self.colorShadow = (0,0,0,0.5)
-        
+
         self.lastTime = None
         self.running = 0
         self.massCount = 0
         self.foundCount = 0
-        
- 
+
+
         self.controlOffsetX = 0.0
         self.controlOffsetZ = 0.0
 
-        
+
         self.grid = []
 
-        
+
         for countX in range(0,self.gridDimX):
             newRow = []
             for countZ in range(self.gridDimZ):
@@ -230,7 +230,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                     offset = self.cellSizeX * 0.5
                 newCell = [None, ((countX * self.cellSizeX) + self.minX + offset) + margin, ((countZ * self.cellSizeZ) + self.minZ), countX, countZ, None]
                 #print ("countZ %s sizeZ %s self.minZ %s" % (countZ, self.cellSizeZ, self.minZ))
-                
+
                 #groundCircle = BuildGeometry.addCircleGeom(self.spriteNode, 7, self.radiusBall * 0.8, color = Vec4(1.0,1.0,1.0,0.5))
                 #if groundCircle[0] == None:
                 #    import pdb; pdb.set_trace()
@@ -243,7 +243,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 #groundCircle[0].setBin("ground", 3)
                 #newCell[5] = groundCircle[0]
                 #newCell[5].setColorScale(self.blankColor)
-                
+
 
                 groundCircle = loader.loadModel('phase_12/models/bossbotHQ/bust_a_cog_hole')
                 groundCircle.reparentTo(self.spriteNode)
@@ -261,24 +261,24 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 #groundCircle.setBin("ground", 3)
                 newCell[5] = groundCircle
                 newCell[5].setColorScale(self.blankColor)
-                
-                
+
+
                 newRow.append(newCell)
             self.grid.append(newRow)
-            
-       
-        
-        
+
+
+
+
         self.cogSprite = self.addUnSprite(self.block,posX = 0.25, posZ = .50)
         self.cogSprite.setColor(self.colorShadow)
         self.cogSprite.nodeObj.hide()
-        
+
         self.standbySprite = self.addUnSprite(self.block,posX = 0.00, posZ = -3.0)
         self.standbySprite.setColor(self.colorShadow)
         self.standbySprite.spriteBase.reparentTo(self.frame)
         self.standbySprite.spriteBase.setY(self.radiusBall)
         self.standbySprite.nodeObj.hide()
-        
+
         self.boardData = [
                         ((1,0,0), (4,0,1),(6,0,2),(1,1,0)),
                         ((1,0,1), (4,0,1),(6,0,1),(1,1,1)),
@@ -289,37 +289,37 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                                 (0,0,1,1,2,2),
                                 (0,1,0,2),
                                ]
-        
+
 
         #self.pickLevelPattern()
-    
-        self.winCounter = 0
-        
 
-        
+        self.winCounter = 0
+
+
+
         self.matchList = []
-        
+
         self.newBallTime = 5.0
         self.newBallCountUp = 0.0
-        
+
         self.cogX = 0
         self.cogZ = 0
 
 
-        
+
         self.aimRadian = 0.0
-        
+
         self.ballLoaded = 0.0
-        
-        
-        
+
+
+
         self.countTime = 10
         self.countDown = self.countTime
 
-        
 
-        
-        
+
+
+
     def printGrid(self):
         printout = "       "
         for columnIndex in range(self.gridDimX-1, -1, -1):
@@ -327,7 +327,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 printout += ("%s  " % (columnIndex))
             else:
                 printout += ("%s " % (columnIndex))
-        print printout
+        print(printout)
         for rowIndex in range(self.gridDimZ-1, -1, -1):
             if rowIndex < 10:
                 printout = ("row  %s " % (rowIndex))
@@ -340,16 +340,16 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 if rowIndex < 10:
                     printout += ("%s  " % (hasSprite))
                 else:
-                    printout += ("%s  " % (hasSprite)) 
-            print printout
-        
+                    printout += ("%s  " % (hasSprite))
+            print(printout)
+
         count = 0
         for sprite in self.sprites:
-            print ("count %s X %s Z %s Color %s" % (count, sprite.gridPosX, sprite.gridPosZ, sprite.colorType))
+            print(("count %s X %s Z %s Color %s" % (count, sprite.gridPosX, sprite.gridPosZ, sprite.colorType)))
             count += 1
-        
+
     def pickLevelPattern(self):
-        self.boardIndex = random.choice(range(0, len(self.boardData)))
+        self.boardIndex = random.choice(list(range(0, len(self.boardData))))
         self.board = self.boardData[self.boardIndex]
         self.attackPattern = self.attackPatterns[self.boardIndex]
         self.attackCounter = 0
@@ -359,10 +359,10 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             self.placeIntoGrid(newSprite, ball[0], (self.gridDimZ - 1) - ball[1])
         self.colorGridFlag = 1
         self.updateSpritePos()
-        
 
-        
-        
+
+
+
     def load(self):
         # load the buttons
         #even = 0
@@ -379,16 +379,16 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         #    row.setP(-90)
         #    row.setY(-2.4)
 
-            
 
-        
+
+
         BattleParticles.loadParticles()
         model = loader.loadModel('phase_5.5/models/gui/package_delivery_panel')
         model1 = loader.loadModel('phase_3.5/models/gui/matching_game_gui')
         self.invModel = loader.loadModel("phase_3.5/models/gui/inventory_icons")
         self.model = model
         self.model1 = model1
-        
+
         self.soundFire = base.loadSfx("phase_6/audio/sfx/Golf_Hit_Ball.mp3")
         self.soundLand = base.loadSfx("phase_4/audio/sfx/MG_maze_pickup.mp3")
         self.soundBurst = base.loadSfx("phase_5/audio/sfx/Toon_bodyfall_synergy.mp3")
@@ -397,16 +397,16 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.soundWin = base.loadSfx("phase_4/audio/sfx/MG_pairing_match_bonus_both.mp3")
         self.soundDone = base.loadSfx("phase_3/audio/sfx/GUI_create_toon_back.mp3")
         self.soundMove = base.loadSfx('phase_3.5/audio/sfx/SA_shred.mp3')
-    
+
         background = model.find('**/bg')
         itemBoard = model.find('**/item_board')
-        
+
         self.focusPoint = self.baseNode.attachNewNode("GolfGreenGameFrame")
         self.frame2D = DirectFrame(scale = 1.1, relief = DGG.FLAT,
                                  frameSize = (-0.1,0.1,-0.1,-0.1),
                                 frameColor = (0.737, 0.573, 0.345, 0.300))
-        
-        gui2 = loader.loadModel("phase_3/models/gui/quit_button")    
+
+        gui2 = loader.loadModel("phase_3/models/gui/quit_button")
         self.quitButton = DirectButton(
             parent = self.frame2D,
             relief = None,
@@ -423,11 +423,11 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             text1_fg = (1, 1, 1, 1),
             text2_fg = (1, 1, 1, 1),
             text_scale = TTLocalizer.DGGGquitButton,
-            text_pos = (0, -0.01),         
+            text_pos = (0, -0.01),
             command = self.__leaveGame,
             )
         self.quitButton.hide()
-        
+
         self.instructions = DirectFrame(
             parent = self.frame2D,
             relief = None,
@@ -443,10 +443,10 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             pos = (0.0, 0, -0.0),
             )
         self.instructions.hide()
-        
+
         imageCogBall = loader.loadModel('phase_12/models/bossbotHQ/bust_a_cog_ball_cog')
         imageCogBall.setHpr(0,90,0)
-        
+
         self.instCogBall = DirectFrame(
             parent = self.instructions,
             relief = None,
@@ -455,13 +455,13 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             image_scale = (0.12, 0.12, 0.12),
             pos = (0.0, 0, -0.2),
             )
-        
+
         buttons = loader.loadModel(
             'phase_3/models/gui/dialog_box_buttons_gui')
         cancelImageList = (buttons.find('**/CloseBtn_UP'),
                            buttons.find('**/CloseBtn_DN'),
                            buttons.find('**/CloseBtn_Rllvr'))
-        
+
         self.doneButton = DirectButton(
             parent = self.instructions,
             relief = None,
@@ -469,7 +469,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             command = self.instructions.hide,
             pos = (0, 0, -0.40),
             )
-        
+
         self.howToButton = DirectButton(
             parent = self.frame2D,
             relief = None,
@@ -486,11 +486,11 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             text1_fg = (1, 1, 1, 1),
             text2_fg = (1, 1, 1, 1),
             text_scale = TTLocalizer.DGGGhowToButton,
-            text_pos = (0, -0.01),         
+            text_pos = (0, -0.01),
             command = self.instructions.show,
             )
         self.howToButton.hide()
-        
+
         self.timerLabel = DirectLabel(
             parent = self.frame2D,
             relief = None,
@@ -501,15 +501,15 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             text_font = ToontownGlobals.getSignFont(),
             text0_fg = (1, 1, 1, 1),
             text_scale = 0.045,
-            text_pos = (0, -0.01),         
+            text_pos = (0, -0.01),
             )
         self.timerLabel.hide()
-        
 
-        
+
+
         self.headPanel = loader.loadModel("phase_6/models/golf/headPanel")
-        
-        
+
+
         self.scoreBoard =  DirectFrame(scale = 1.0,
                                     pos = (0.0, 0, 0.90),
                                     relief = DGG.FLAT,
@@ -527,10 +527,10 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             text0_fg = (1, 1, 1, 1),
             text0_shadow = (0.0, 0.0, 0.0, 1),
             text_scale = TTLocalizer.DGGGscoreLabel,
-            text_pos = (0, -0.02),         
+            text_pos = (0, -0.02),
             )
         self.scoreBoard.hide()
-        
+
         self.bonusBoard = DirectFrame(
             parent = self.frame2D,
             relief = None,
@@ -545,11 +545,11 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             text0_fg = (1, 1, 1, 1),
             text0_shadow = (0.0, 0.0, 0.0, 1),
             text_scale = 0.055,
-            text_pos = (0, -0.1),      
-            textMayChange = 1,            
+            text_pos = (0, -0.1),
+            textMayChange = 1,
             )
         self.bonusBoard.hide()
-        
+
         self.backBoard = loader.loadModel('phase_12/models/bossbotHQ/bust_a_cog_background')
         self.backBoard.setCollideMask(BitMask32.allOff())
         self.backBoard.reparentTo(self.frame)
@@ -557,9 +557,9 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.backBoard.setHpr(0,-90,0)
         self.backBoard.setPos(0,-1.5,8.0)
         self.backBoard.hide()
-        
+
         base.bb = self.backBoard
-        
+
         self.aimbase = loader.loadModel('phase_12/models/bossbotHQ/bust_a_cog_shooter')
         self.aimbase.setHpr(90,0,90)
         self.aimbase.setScale(0.3, 0.3, 0.15)
@@ -567,11 +567,11 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.aimbase.setPos(0.0, 0.0, self.minZ + 0.1)
         self.aimer = self.aimbase.attachNewNode("GolfGreenGameBase")
         #aimer = BuildGeometry.addArrowGeom(self.aimer, 1.4,5.0)
-        
-        
+
+
         #import pdb; pdb.set_trace()
 
-        
+
         aimer = self.aimbase.find("**/moving*")
         #aimer.setHpr(90,0,90)
         aimer.reparentTo(self.aimer)
@@ -583,26 +583,26 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         #self.aimer = aimer[0] #loader.loadModel("models/misc/xyzAxis.bam")
         #self.aimer.reparentTo(self.frame)
         #self.aimer.setPos(0.0, 0.0, self.minZ)
-        
+
         #self.aimer.setScale(0.25)
         self.aimbase.hide()
-        
+
         #self.headPanel = loader.loadModel("phase_6/models/golf/headPanel")
         #self.headPanel = DGG.getDefaultDialogGeom()
         self.toonPanels = {}
-    
-        
+
+
     def addToonHeadPanel(self, toon):
         #av = base.cr.doId2do.get(localAvatar.doId)
-        
+
         #if self.toonPanels.has_key(toon.doId):
         #    import pdb; pdb.set_trace()
-        
+
         tPanels = ToonHeadFrame.ToonHeadFrame(toon, (0.4, 0.4, 0.4, 0.6), self.headPanel)
         tPanels.extraData["text_fg"] = (1.0,1.0,1.0,1.0)
         tPanels.extraData["text_shadow"] = (0.0, 0.0, 0.0, 1.0)
         tPanels.extraData.show()
-        
+
         tPanels.setScale(0.3,1,0.7)
         tPanels.head.setPos(0, 10, 0.18)
         tPanels.head.setScale(0.47,0.2,0.2)
@@ -611,18 +611,18 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         tPanels.tag2.setPos(0, 10, 0.43)
         tPanels.tag2.setScale(0.117,0.05,0.05)
         tPanels.hide()
-        
+
 
         self.toonPanels[toon.doId] = (tPanels)
-        
+
         self.arrangeToonHeadPanels()
-        
+
     def removeToonHeadPanel(self, avId):
-        if self.toonPanels.has_key(avId):
+        if avId in self.toonPanels:
             self.toonPanels[avId].destroy()
             del self.toonPanels[avId]
             self.arrangeToonHeadPanels()
-        
+
     def arrangeToonHeadPanels(self):
         toonPanelsStart = 0.0
         whichToon = 0
@@ -640,17 +640,17 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 panel.setPos(1, 0, toonPanelsStart + (whichToon - 2) * tpDiff)
             whichToon += 1
 
-                
-            
-        
-            
+
+
+
+
     def unload(self):
         self.cleanupTimer()
         for panelKey in self.toonPanels:
             self.toonPanels[panelKey].destroy()
         self.headPanel.remove()
         self.toonPanels = None
-        
+
         self.soundFire = None
         self.soundLand = None
         self.soundBurst = None
@@ -659,7 +659,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.soundWin = None
         self.soundDone = None
         self.soundMove = None
-        
+
         self.scoreBoard.destroy()
         self.instructions.destroy()
         self.frame2D.destroy()
@@ -671,18 +671,18 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             self.acceptErrorDialog = None
         self.stopCountDown()
         self.__stop()
-        
+
         self.ignoreAll()
-            
+
     def show(self):
         self.frame.show()
 
     def hide(self):
         self.frame.hide()
-            
+
     def __handleExit(self):
         self.__acceptExit()
-        
+
     def __startGame(self):
         if not self.setupFlag:
             self.setup()
@@ -702,11 +702,11 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         base.setCellsAvailable([base.bottomCells[1], base.bottomCells[2], base.bottomCells[3]], 0)
 
             #self.__run()
-            
-        self.setupFlag = 1
-        
 
-        
+        self.setupFlag = 1
+
+
+
     def startBoard(self, board, attackPattern):
         if self.finished:
             return
@@ -727,27 +727,27 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.killSprite(self.controlSprite)
         self.accept('mouse1', self.__handleMouseClick)
         self.__run()
-        
+
     def startCountDown(self):
         if self.countDownRunning == 0:
             taskMgr.add(self.doCountDown, "GolfGreenGame countdown")
             self.countDownRunning = 1
-        
+
     def stopCountDown(self):
-        taskMgr.remove("GolfGreenGame countdown") 
-        self.countDownRunning = 0 
-        self.countTimeOld = None        
-        
+        taskMgr.remove("GolfGreenGame countdown")
+        self.countDownRunning = 0
+        self.countTimeOld = None
+
     def doCountDown(self, task):
         currentTime = globalClock.getFrameTime()
         if self.countTimeOld == None:
             self.countTimeOld = currentTime
-            
+
         if (currentTime - self.countTimeOld) < 1.0:
             return task.cont
         else:
             self.countTimeOld = currentTime
-            
+
             #taskMgr.remove("GolfGreenGame countdown")
             self.countDown -= 1
             if self.countDown in [3,2,1]:
@@ -758,19 +758,19 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 self.spriteNotchPos += 1
                 self.lerpSpritePos()
                 self.checkForTooLow()
-                    
-            self.timerLabel['text'] = ("%s" % (self.countDown))    
+
+            self.timerLabel['text'] = ("%s" % (self.countDown))
             #taskMgr.doMethodLater(1.0, self.doCountDown, "Golf Green Game countdown task")
-            
+
             return task.cont
-        
-        
+
+
     def checkForTooLow(self):
         low = self.findLowestSprite()
         if low <= self.spriteNotchPos:
             self.doFail()
 
-            
+
     def doFail(self):
         self.tooLowFlag = 1
         #self.clearGrid(1)
@@ -780,16 +780,16 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             sprite.setColorType(4)
         self.__stop()
         self.ignore('mouse1')
-            
+
     def failBoard(self, task = None):
         #self.clearGrid()
         self.__finishBoard(0)
         #self.sendUpdate("requestBoard", [0])
-        
+
     def __handleWin(self):
         #GardenProgressMeter.GardenProgressMeter()
         self.__handleExit()
-        
+
     def __finishBoard(self, success = 1):
         if self.rollTrack:
             self.rollTrack.finish()
@@ -812,9 +812,9 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.ignore('mouse1')
         if (not self.tooLowFlag) or 1:
             self.sendUpdate("requestBoard", [success])
-        
-        
-        
+
+
+
     def __acceptExit(self, buttonValue = None):
         import pdb; pdb.set_trace()
         if hasattr(self, 'frame'):
@@ -823,24 +823,24 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             messenger.send(self.doneEvent)
         camera.reparentTo(base.localAvatar)
         base.localAvatar.startUpdateSmartCamera()
-        
+
     def __removeGame(self):
         self.spriteNode.remove()
         self.setupFlag = 0
-        
+
     def __leaveGame(self):
         taskMgr.remove("GolfGreenGameTask")
         self.stopCountDown()
         taskMgr.remove(self.timerTaskName)
         self.ignore('mouse1')
-        
+
         camera.reparentTo(base.localAvatar)
         base.localAvatar.startUpdateSmartCamera()
-        
+
         #self.__acceptExit()
-        
+
         base.cr.playGame.getPlace().fsm.request('walk')
-        
+
         for sprite in self.sprites:
             sprite.delete()
         self.sprites = []
@@ -862,11 +862,11 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         base.setCellsAvailable([base.bottomCells[1], base.bottomCells[2], base.bottomCells[3]], 1)
 
         self.sendUpdate("leaveGame", [])
-        
+
     def findGrid(self, x, z, force = 0):
         currentClosest = None
         currentDist = 10000000
-        
+
         for countX in range(self.gridDimX):
             for countZ in range(self.gridDimZ):
                 testDist = self.testPointDistanceSquare(x,z, self.grid[countX][countZ][1], self.grid[countX][countZ][2])
@@ -877,7 +877,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                    currentDist = testDist
                    #import pdb; pdb.set_trace()
         return currentClosest
-        
+
     def hasNeighbor(self, cellX, cellZ):
         gotNeighbor = None
         if cellZ % 2 == 0:
@@ -885,69 +885,69 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 gotNeighbor = cellZ
             elif self.testGridfull(self.getValidGrid(cellX + 1, cellZ)):
                 gotNeighbor = cellZ
-                
+
             elif self.testGridfull(self.getValidGrid(cellX, cellZ + 1)):
                 gotNeighbor = cellZ + 1
             elif self.testGridfull(self.getValidGrid(cellX + 1, cellZ + 1)):
                 gotNeighbor = cellZ + 1
-                
+
             elif self.testGridfull(self.getValidGrid(cellX, cellZ - 1)):
                 gotNeighbor = cellZ - 1
             elif self.testGridfull(self.getValidGrid(cellX + 1, cellZ - 1)):
                 gotNeighbor = cellZ - 1
-                
+
         else:
             if self.testGridfull(self.getValidGrid(cellX - 1, cellZ)):
                 gotNeighbor = cellZ
             elif self.testGridfull(self.getValidGrid(cellX + 1, cellZ)):
                 gotNeighbor = cellZ
-                
+
             elif self.testGridfull(self.getValidGrid(cellX, cellZ + 1)):
                 gotNeighbor = cellZ + 1
             elif self.testGridfull(self.getValidGrid(cellX - 1, cellZ + 1)):
                 gotNeighbor = cellZ + 1
-                
+
             elif self.testGridfull(self.getValidGrid(cellX, cellZ - 1)):
                 gotNeighbor = cellZ - 1
             elif self.testGridfull(self.getValidGrid(cellX - 1, cellZ - 1)):
                 gotNeighbor = cellZ - 1
-            
+
         return gotNeighbor
-        
+
     def clearFloaters(self):
         self.grounded = []
         self.unknown = []
-        
+
         groundZ = self.gridDimZ - 1
         for indexX in range(0,self.gridDimX):
             gridCell = self.grid[indexX][groundZ]
             if gridCell[0]:
                 self.grounded.append((indexX, groundZ))
-                
+
         for column in self.grid:
             for cell in column:
                 if cell[0] != None:
                     cellData = (cell[3], cell[4])
                     if cellData not in self.grounded:
                         self.unknown.append(cellData)
-                        
-        lastUnknownCount = 0              
-                        
+
+        lastUnknownCount = 0
+
         while len(self.unknown) != lastUnknownCount:
             lastUnknownCount = len(self.unknown)
             for cell in self.unknown:
                 if self.hasGroundedNeighbor(cell[0], cell[1]):
                     self.unknown.remove(cell)
                     self.grounded.append(cell)
-                    
+
         # at this point all unknowns are floaters
-                    
-        
+
+
         for entry in self.unknown:
             gridEntry = self.grid[entry[0]][entry[1]]
             sprite = gridEntry[0]
             self.killSprite(sprite)
-            
+
     def explodeBombs(self):
         didBomb = 0
         for column in self.grid:
@@ -958,47 +958,47 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                         didBomb += 1
         if didBomb:
             self.soundBomb.play()
-            
+
     def hasGroundedNeighbor(self, cellX, cellZ):
         gotNeighbor = None
         if cellZ % 2 == 0:
             #if (cellX - 1, cellZ) in self.grounded:
-                
+
             if (cellX - 1, cellZ) in self.grounded:
                 gotNeighbor = cellZ
             elif (cellX + 1, cellZ) in self.grounded:
                 gotNeighbor = cellZ
-               
-            elif (cellX, cellZ + 1) in self.grounded: 
+
+            elif (cellX, cellZ + 1) in self.grounded:
                 gotNeighbor = cellZ + 1
-            elif (cellX + 1, cellZ + 1) in self.grounded: 
+            elif (cellX + 1, cellZ + 1) in self.grounded:
                 gotNeighbor = cellZ + 1
-                
-            elif (cellX, cellZ - 1) in self.grounded: 
+
+            elif (cellX, cellZ - 1) in self.grounded:
                 gotNeighbor = cellZ - 1
-            elif(cellX + 1, cellZ - 1) in self.grounded: 
+            elif(cellX + 1, cellZ - 1) in self.grounded:
                 gotNeighbor = cellZ - 1
-                
+
         else:
-            if(cellX - 1, cellZ) in self.grounded: 
+            if(cellX - 1, cellZ) in self.grounded:
                 gotNeighbor = cellZ
-            elif(cellX + 1, cellZ) in self.grounded: 
+            elif(cellX + 1, cellZ) in self.grounded:
                 gotNeighbor = cellZ
-                
-            elif(cellX, cellZ + 1) in self.grounded: 
+
+            elif(cellX, cellZ + 1) in self.grounded:
                 gotNeighbor = cellZ + 1
-            elif(cellX - 1, cellZ + 1) in self.grounded: 
+            elif(cellX - 1, cellZ + 1) in self.grounded:
                 gotNeighbor = cellZ + 1
-                
-            elif(cellX, cellZ - 1) in self.grounded: 
+
+            elif(cellX, cellZ - 1) in self.grounded:
                 gotNeighbor = cellZ - 1
-            elif(cellX - 1, cellZ - 1) in self.grounded: 
+            elif(cellX - 1, cellZ - 1) in self.grounded:
                 gotNeighbor = cellZ - 1
-            
+
         return gotNeighbor
-            
-        
-        
+
+
+
     def clearMatchList(self, typeClear = 0):
         self.soundBurst.play()
         for entry in self.matchList:
@@ -1012,18 +1012,18 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             else:
                 pass
             self.killSprite(sprite)
-            
+
     def shakeList(self, neighbors):
         for entry in neighbors:
             gridEntry = self.grid[entry[0]][entry[1]]
             sprite = gridEntry[0]
             self.shakeSprite(sprite)
 
-        
+
     def createMatchList(self, x, z):
         self.matchList = []
         self.fillMatchList(x, z)
-        
+
     def matchWild(self, x, z, color):
         spriteType = self.getColorType(x,z)
         if not self.getBreakable(x,z):
@@ -1034,7 +1034,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             return 1
         else:
             return 0
-            
+
     def bombNeighbors(self, cellX, cellZ):
         self.soundBomb.play()
         self.matchList = []
@@ -1043,38 +1043,38 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 self.addToMatchList(cellX -1, cellZ)
             if (self.getColorType(cellX +1,cellZ) != -1):
                 self.addToMatchList(cellX +1,cellZ)
-                
+
             if (self.getColorType(cellX,cellZ+1) != -1):
                 self.addToMatchList(cellX,cellZ+1)
             if (self.getColorType(cellX+1,cellZ+1) != -1):
                 self.addToMatchList(cellX+1,cellZ+1)
-                
+
             if (self.getColorType(cellX,cellZ-1) != -1):
                 self.addToMatchList(cellX,cellZ-1)
             if (self.getColorType(cellX+1,cellZ-1) != -1):
                 self.addToMatchList(cellX+1,cellZ-1)
-                
+
         else:
-            
+
             if (self.getColorType(cellX -1,cellZ) != -1):
                 self.addToMatchList(cellX -1,cellZ)
             if (self.getColorType(cellX +1,cellZ) != -1):
                 self.addToMatchList(cellX +1,cellZ)
-                
+
             if (self.getColorType(cellX,cellZ+1) != -1):
                 self.addToMatchList(cellX,cellZ+1)
             if (self.getColorType(cellX-1,cellZ+1) != -1):
                 self.addToMatchList(cellX-1,cellZ+1)
-                
+
             if (self.getColorType(cellX,cellZ-1) != -1):
                 self.addToMatchList(cellX,cellZ-1)
             if (self.getColorType(cellX-1,cellZ-1) != -1):
                 self.addToMatchList(cellX-1,cellZ-1)
-                
+
     def addToMatchList(self, posX, posZ):
         if self.getBreakable(posX,posZ) > 0:
             self.matchList.append((posX,posZ))
-        
+
     def getNeighbors(self, cellX, cellZ):
         neighborList = []
         if cellZ % 2 == 0:
@@ -1082,38 +1082,38 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 neighborList.append((cellX -1, cellZ))
             if (self.getColorType(cellX +1,cellZ) != -1):
                 neighborList.append((cellX +1,cellZ))
-                
+
             if (self.getColorType(cellX,cellZ+1) != -1):
                 neighborList.append((cellX,cellZ+1))
             if (self.getColorType(cellX+1,cellZ+1) != -1):
                 neighborList.append((cellX+1,cellZ+1))
-                
+
             if (self.getColorType(cellX,cellZ-1) != -1):
                 neighborList.append((cellX,cellZ-1))
             if (self.getColorType(cellX+1,cellZ-1) != -1):
                 neighborList.append((cellX+1,cellZ-1))
-                
+
         else:
-            
+
             if (self.getColorType(cellX -1,cellZ) != -1):
                 neighborList.append((cellX -1,cellZ))
             if (self.getColorType(cellX +1,cellZ) != -1):
                 neighborList.append((cellX +1,cellZ))
-                
+
             if (self.getColorType(cellX,cellZ+1) != -1):
                 neighborList.append((cellX,cellZ+1))
             if (self.getColorType(cellX-1,cellZ+1) != -1):
                 neighborList.append((cellX-1,cellZ+1))
-                
+
             if (self.getColorType(cellX,cellZ-1) != -1):
                 neighborList.append((cellX,cellZ-1))
             if (self.getColorType(cellX-1,cellZ-1) != -1):
                 neighborList.append((cellX-1,cellZ-1))
-                
+
         return neighborList
-        
-        
-        
+
+
+
     def fillMatchList(self, cellX, cellZ):
         if (cellX, cellZ) in self.matchList:
             return
@@ -1122,37 +1122,37 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         if colorType == 4:
             return
         if cellZ % 2 == 0:
-            if (self.getColorType(cellX -1,cellZ) == colorType) or (self.matchWild(cellX -1,cellZ, colorType)): 
+            if (self.getColorType(cellX -1,cellZ) == colorType) or (self.matchWild(cellX -1,cellZ, colorType)):
                 self.fillMatchList(cellX -1, cellZ)
-            if (self.getColorType(cellX +1,cellZ) == colorType) or (self.matchWild(cellX +1,cellZ, colorType)): 
+            if (self.getColorType(cellX +1,cellZ) == colorType) or (self.matchWild(cellX +1,cellZ, colorType)):
                 self.fillMatchList(cellX +1, cellZ)
 
-            if (self.getColorType(cellX,cellZ+1) == colorType) or (self.matchWild(cellX,cellZ+1, colorType)): 
+            if (self.getColorType(cellX,cellZ+1) == colorType) or (self.matchWild(cellX,cellZ+1, colorType)):
                 self.fillMatchList(cellX, cellZ + 1)
-            if (self.getColorType(cellX+1,cellZ+1) == colorType) or (self.matchWild(cellX+1,cellZ+1, colorType)): 
+            if (self.getColorType(cellX+1,cellZ+1) == colorType) or (self.matchWild(cellX+1,cellZ+1, colorType)):
                 self.fillMatchList(cellX +1, cellZ +1)
 
-            if (self.getColorType(cellX,cellZ-1) == colorType) or (self.matchWild(cellX,cellZ-1, colorType)): 
+            if (self.getColorType(cellX,cellZ-1) == colorType) or (self.matchWild(cellX,cellZ-1, colorType)):
                 self.fillMatchList(cellX, cellZ - 1)
-            if (self.getColorType(cellX+1,cellZ-1) == colorType) or (self.matchWild(cellX+1,cellZ-1, colorType)): 
+            if (self.getColorType(cellX+1,cellZ-1) == colorType) or (self.matchWild(cellX+1,cellZ-1, colorType)):
                 self.fillMatchList(cellX +1, cellZ - 1)
         else:
-            if (self.getColorType(cellX -1,cellZ) == colorType) or (self.matchWild(cellX -1,cellZ, colorType)): 
+            if (self.getColorType(cellX -1,cellZ) == colorType) or (self.matchWild(cellX -1,cellZ, colorType)):
                 self.fillMatchList(cellX -1, cellZ)
-            if (self.getColorType(cellX +1,cellZ) == colorType) or (self.matchWild(cellX +1,cellZ, colorType)): 
+            if (self.getColorType(cellX +1,cellZ) == colorType) or (self.matchWild(cellX +1,cellZ, colorType)):
                 self.fillMatchList(cellX +1, cellZ)
 
-            if (self.getColorType(cellX,cellZ+1) == colorType) or (self.matchWild(cellX,cellZ+1, colorType)): 
+            if (self.getColorType(cellX,cellZ+1) == colorType) or (self.matchWild(cellX,cellZ+1, colorType)):
                 self.fillMatchList(cellX, cellZ + 1)
-            if (self.getColorType(cellX-1,cellZ+1) == colorType) or (self.matchWild(cellX-1,cellZ+1, colorType)): 
+            if (self.getColorType(cellX-1,cellZ+1) == colorType) or (self.matchWild(cellX-1,cellZ+1, colorType)):
                 self.fillMatchList(cellX-1, cellZ +1)
 
-            if (self.getColorType(cellX,cellZ-1) == colorType) or (self.matchWild(cellX,cellZ-1, colorType)): 
+            if (self.getColorType(cellX,cellZ-1) == colorType) or (self.matchWild(cellX,cellZ-1, colorType)):
                 self.fillMatchList(cellX, cellZ - 1)
-            if (self.getColorType(cellX-1,cellZ-1) == colorType) or (self.matchWild(cellX-1,cellZ-1, colorType)): 
+            if (self.getColorType(cellX-1,cellZ-1) == colorType) or (self.matchWild(cellX-1,cellZ-1, colorType)):
                 self.fillMatchList(cellX-1, cellZ - 1)
-        
-        
+
+
     def testGridfull(self, cell):
         if not cell:
             return 0
@@ -1160,7 +1160,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             return 1
         else:
             return 0
-        
+
     def getValidGrid(self, x, z):
         if x < 0 or x >= self.gridDimX:
             return None
@@ -1168,7 +1168,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             return None
         else:
             return self.grid[x][z]
-            
+
     def getColorType(self, x, z):
         if x < 0 or x >= self.gridDimX:
             return -1
@@ -1178,7 +1178,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             return -1
         else:
             return self.grid[x][z][0].colorType
-            
+
     def getBreakable(self, x, z):
         if x < 0 or x >= self.gridDimX:
             return -1
@@ -1189,7 +1189,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         else:
             #print self.grid[x][z][0].breakable
             return self.grid[x][z][0].breakable
-            
+
     def findGridCog(self):
         self.cogX = 0
         self.cogZ = 0
@@ -1200,7 +1200,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                     self.cogX += cell[1]
                     self.cogZ += cell[2]
                     self.massCount += 1
-        if self.massCount > 0: 
+        if self.massCount > 0:
             self.cogX = self.cogX / self.massCount
             self.cogZ = self.cogZ / self.massCount
             self.cogSprite.setX(self.cogX)
@@ -1210,7 +1210,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             #import pdb; pdb.set_trace()
             #self.doOnClearGrid()\pass
 
-            
+
     def doOnClearGrid(self):
         self.winCounter += 1
         self.clearGrid()
@@ -1218,7 +1218,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         if self.winCounter > 4:
             self.__handleWin()
         pass
-        
+
     def clearGrid(self):
         for row in self.grid:
             for cell in row:
@@ -1245,20 +1245,20 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             sprite.deathEffect()
         sprite.delete()
         self.hasChanged = 1
-        
+
     def shakeSprite(self, sprite):
         if sprite == None:
             return
         sprite.shake()
-        
+
     def questionSprite(self, sprite):
         newSprite = self.addSprite(self.block, found = 0, color = 1)
         newSprite.setX(sprite.getX())
         newSprite.setZ(sprite.getZ())
         newSprite.wildEffect()
-        
-        
-        
+
+
+
     def colorGrid(self):
         for row in self.grid:
             for cell in row:
@@ -1273,10 +1273,10 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                     cell[5].setColorScale(self.neighborColor)
                 else:
                     cell[5].setColorScale(self.blankColor)
-        
+
     def findPos(self,x,z):
         return self.grid[x][z][1], self.grid[x][z][2]
-        
+
     def placeIntoGrid(self, sprite, x, z):
             if self.grid[x][z][0] == None:
                 self.grid[x][z][0] = sprite
@@ -1295,7 +1295,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             else:
                 self.placeIntoGrid(sprite, x+1, z-1)
                 #import pdb; pdb.set_trace()
-                
+
     def stickInGrid(self, sprite, force = 0):
         if sprite.isActive:
             gridCell = self.findGrid(sprite.getX(), sprite.getZ(), force)
@@ -1307,7 +1307,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 if colorType == self.bombIndex:
                     kapow = MovieUtil.createKapowExplosionTrack(render, sprite.nodeObj.getPos(render))
                     kapow.start()
-                    
+
                     self.bombNeighbors(self.closestX, self.closestZ)
                     allNeighbors = []
                     for entry in self.matchList:
@@ -1325,30 +1325,30 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                     else:
                         neighbors = self.getNeighbors(self.closestX, self.closestZ)
                         self.shakeList(neighbors)
-            
-          
+
+
     def addSprite(self, image, size = 3.0, posX = 0, posZ = 0, found = 0, color = None):
         spriteBase = self.spriteNode.attachNewNode("sprite base")
         #nodeObj = loader.loadModel('phase_6/models/golf/golf_ball')
         #size = self.radiusBall * 4.0
         #facing = 0
-        
+
         #nodeObj = loader.loadModel('phase_10/models/cogHQ/BAC_CogGolfBall')
-        
+
         #nodeObj = loader.loadModel('phase_12/models/bossbotHQ/bust_a_cog_hole')
         #nodeObj = loader.loadModel('phase_12/models/bossbotHQ/bust_a_cog_ball_white')
         size = self.radiusBall * 2.0
         #nodeObj.setZ(self.radiusBall)
         #nodeObj.setH(180)
         facing = 1
-        
+
         #nodeObj.reparentTo(spriteBase)
         #nodeObj.setScale(size)
         #nodeObj.setPos(posX, 0.0, posZ)
-        #nodeObj.setTransparency(TransparencyAttrib.MAlpha)  
-        
-        if color == None:   
-            colorChoice = random.choice(range(0, 3))
+        #nodeObj.setTransparency(TransparencyAttrib.MAlpha)
+
+        if color == None:
+            colorChoice = random.choice(list(range(0, 3)))
         else:
             colorChoice = color
         newSprite = GameSprite3D.GameSprite(spriteBase, size, colorChoice, found, facing)
@@ -1361,13 +1361,13 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             pass
             #import pdb; pdb.set_trace()
         return newSprite
-        
+
     def addControlSprite(self, x=0.0, z=0.0, color = None):
         newSprite = self.addSprite(self.block,posX = x, posZ = z, color = color, found = 1)
         newSprite.spriteBase.reparentTo(self.frame)
         newSprite.spriteBase.setPos(0.0,0.7,-1.54)
         self.controlSprite = newSprite
-        
+
     def addUnSprite(self, image, size = 3.0, posX = 0, posZ = 0):
         size = self.radiusBall * 2.0
         spriteBase = self.spriteNode.attachNewNode("sprite base")
@@ -1375,12 +1375,12 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         #nodeObj.reparentTo(spriteBase)
         #nodeObj.setScale(size)
         #nodeObj.setPos(posX, 0.0, posZ)
-            
+
         newSprite = GameSprite3D.GameSprite(spriteBase, size)
         newSprite.setX(posX)
         newSprite.setZ(posZ)
         return newSprite
-        
+
     def __handleMouseClick(self):
         if self.ballLoaded == 2:
             pass
@@ -1391,25 +1391,25 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             self.controlSprite.setActive(1)
             self.soundFire.play()
             self.ballLoaded = 0
-        
+
     def __run(self, cont = 1):
-        
+
         if cont and not self.running:
             taskMgr.add(self.__run, "GolfGreenGameTask")
             self.running = 1
-            
+
         if self.lastTime == None:
             self.lastTime = globalClock.getRealTime()
         timeDelta = globalClock.getRealTime() - self.lastTime
         self.lastTime = globalClock.getRealTime()
         self.newBallCountUp += timeDelta
-        
+
         if base.mouseWatcherNode.hasMouse():# and self.controlSprite:
 
             inputX = base.mouseWatcherNode.getMouseX()
             inputZ = base.mouseWatcherNode.getMouseY()
             outputZ = (inputZ + (self.screenSizeZ * (0.5 - self.zGap)))
-            
+
             if outputZ <= 0.0:
                 outputZ = 0.0001
 
@@ -1425,37 +1425,37 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 self.aimRadian = -margin
             elif self.aimRadian <= (margin - pi):
                 self.aimRadian = margin - pi
-            
+
             degrees = self.__toDegrees(self.aimRadian)
-            self.aimer.setH(degrees)   
-    
+            self.aimer.setH(degrees)
+
         self.wallMaxX = self.maxX - self.radiusBall
         self.wallMinX = self.minX + self.radiusBall
         self.wallMaxZ = self.maxZ - self.radiusBall
         self.wallMinZ = self.minZ + self.radiusBall
-        
-        
+
+
         if self.controlSprite and self.controlSprite.nodeObj.isEmpty():
             self.controlSprite = None
-            
+
         if self.giftId:
             #self.killSprite(self.controlSprite)
             #self.addControlSprite(self.newBallX, (self.newBallZ + (self.spriteNotchPos * self.cellSizeZ)), self.giftId)
             self.ballLoaded = 2
             self.updateSpritePos()
-            
+
             self.standbySprite.holdType = self.giftId
             self.standbySprite.setBallType(self.giftId, 1)
             #self.standbySprite.setColorType(self.predictAttackPattern())
             self.standbySprite.face()
-            
+
             self.giftId = None
-            
+
         while self.controlSprite == None and self.attackPattern:
             if self.attackCounter > (len(self.attackPattern) -1):
                 self.attackCounter = 0
             #color = self.attackPattern[self.attackCounter]
-            print("Pattern %s Place %s Type %s" % (self.attackPattern, self.attackCounter, self.attackPattern[self.attackCounter]))
+            print(("Pattern %s Place %s Type %s" % (self.attackPattern, self.attackCounter, self.attackPattern[self.attackCounter])))
             if self.standbySprite.holdType != None:
                 color = self.standbySprite.holdType
                 sprite = self.addControlSprite(self.newBallX, (self.newBallZ + (self.spriteNotchPos * self.cellSizeZ)), color)
@@ -1467,11 +1467,11 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             #self.standbySprite.setColorType(self.predictAttackPattern())
             self.standbySprite.face()
             self.attackCounter += 1
-            
+
         self.standbySprite.runColor()
 
-            
-        
+
+
         for sprite in self.sprites:
             if sprite.deleteFlag:
                 self.sprites.remove(sprite)
@@ -1489,11 +1489,11 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                     pass
                     #sprite.setZ(self.wallMinZ)
                     #sprite.reflectZ()
-                    
-        
+
+
         self.__colTest()
-        
-        
+
+
         if self.hasChanged and self.running:
             self.clearFloaters()
             self.explodeBombs()
@@ -1517,58 +1517,58 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 self.killSprite(self.controlSprite)
                 self.standbySprite.holdType = None
             self.colorGridFlag = 1
-            
+
         self.hasChanged = 0
-            
+
         if self.colorGridFlag:
             self.colorGridFlag = 0
             self.colorGrid()
-      
+
 
         return Task.cont
-        
+
     def predictAttackPattern(self, numSteps = 1):
         predict = self.attackCounter + numSteps
         predict = predict % (len(self.attackPattern))
         return self.attackPattern[predict]
-        
+
     def __stop(self):
         taskMgr.remove("GolfGreenGameTask")
         self.running = 0
-        
+
     def __testWin(self):
         gridCount = 0
-        
+
         for column in self.grid:
             for cell in column:
                 if cell[0]:
                     gridCount += 1
-                
+
         if gridCount == 0:
             pass
             self.__handleWin()
             #import pdb; pdb.set_trace()
-        
-        
+
+
     def __toRadians(self, angle):
         return angle * 2.0 * math.pi / 360.0
-        
+
     def __toDegrees(self, angle):
         return angle * 360.0 / (2.0 * math.pi)
-        
 
-        
 
-        
+
+
+
     def __colTest(self):
         if not hasattr(self, "tick"):
             self.tick = 0
         self.tick += 1
         if self.tick > 5:
             self.tick = 0
-        
+
         sizeSprites = len(self.sprites)
-            
+
         for movingSpriteIndex in range(len(self.sprites)):
             #if self.sprites[movingSpriteIndex].isActive:
             for testSpriteIndex in range(movingSpriteIndex, len(self.sprites)):
@@ -1583,30 +1583,30 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                                 if movingSprite.canCollide and testSprite.canCollide:
                                     self.__collide(movingSprite, testSprite)
                                 #print("collide!")
-                       
+
                         if self.tick == 5:
                             pass
                             #print("distancG %s" % (movingSprite.nodeObj.getDistance(testSprite.nodeObj)))
                             #print("distancT %s" % (self.testDistance(movingSprite.nodeObj, testSprite.nodeObj)))
                             #import pdb; pdb.set_trace()
 
-                            
+
     def getSprite(self, spriteIndex):
         if spriteIndex >= len(self.sprites) or self.sprites[spriteIndex].markedForDeath:
             return None
         else:
             return self.sprites[spriteIndex]
-                            
+
     def testDistance(self, nodeA, nodeB):
         if nodeA.isEmpty() or nodeB.isEmpty():
             return 10000 #hack
-        
+
         distX = (nodeA.getX() - nodeB.getX())
         distZ = (nodeA.getZ() - nodeB.getZ())
         distC = (distX * distX) + (distZ * distZ)
         dist = math.sqrt(distC)
         return dist
-        
+
     def testPointDistance(self, x1, z1, x2, z2):
         distX = (x1 - x2)
         distZ = (z1 - z2)
@@ -1615,7 +1615,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         if dist == 0:
             dist = 0.0000000001
         return dist
-        
+
     def testPointDistanceSquare(self, x1, z1, x2, z2):
         distX = (x1 - x2)
         distZ = (z1 - z2)
@@ -1623,27 +1623,27 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         if distC == 0:
             distC = 0.0000000001
         return distC
-        
+
     def angleTwoSprites(self, sprite1, sprite2):
         x1 = sprite1.getX()
         z1 = sprite1.getZ()
-        
+
         x2 = sprite2.getX()
         z2 = sprite2.getZ()
-        
+
         x = x2 - x1
         z = z2 - z1
-        
+
         angle = math.atan2(-x,z)
         return (angle + (pi * 0.5))
-        
+
     def angleTwoPoints(self, x1, z1, x2, z2):
         x = x2 - x1
         z = z2 - z1
-        
+
         angle = math.atan2(-x,z)
         return (angle + (pi * 0.5))
-                        
+
     def __collide(self, move, test):
 
         test.velX = 0
@@ -1655,7 +1655,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.stickInGrid(move)
         self.stickInGrid(test)
 
-        
+
     def generateInit(self):
         self.notify.debug('generateInit')
         BattleBlocker.BattleBlocker.generateInit(self)
@@ -1663,16 +1663,16 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
     def generate(self):
         self.notify.debug('generate')
         BasicEntities.DistributedNodePathEntity.generate(self)
-        
-        
+
+
     def announceGenerate(self):
         self.notify.debug('announceGenerate')
         BattleBlocker.BattleBlocker.announceGenerate(self)
         # at this point all the entity attributes have been initialized
         # we can load the model now.
-        
+
         self.baseNode = self.attachNewNode("GolfGreenGameBase")
-        
+
         self.frame = self.baseNode.attachNewNode("GolfGreenGameFrame")
         self.spriteNode = self.frame.attachNewNode("GolfGreenGameSpriteNode")
 
@@ -1683,16 +1683,16 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         #base.fram = self.frame
         self.frame.setZ(2.0)
         self.spriteNode.setY(0.5)
- 
+
         self.hasChanged = 0
-        
+
         self.squareNode = self.frame.attachNewNode("GolfGreenGameBase")
-        
+
         #groundCircle = BuildGeometry.addCircleGeom(self.baseNode, 64, 18.0, color = Vec4(0.2,0.4,0.2,0.5))
         groundCircle = loader.loadModel('phase_12/models/bossbotHQ/bust_a_cog_golf_green')
         groundCircle.reparentTo(self.baseNode)
         groundCircle.setScale(0.24)
-        
+
         self.groundFlag = loader.loadModel('phase_12/models/bossbotHQ/bust_a_cog_golf_flag')
         self.groundFlag.reparentTo(self.baseNode)
         self.groundFlag.setScale(0.5)
@@ -1703,20 +1703,20 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.centerZ = ((self.minZ + self.maxZ) * 0.5)
         self.squareNode.setZ(((self.minZ + self.maxZ) * 0.5))
         self.squareNode.setP(-90)
-        
+
         groundCircle.setDepthWrite(False)
         groundCircle.setDepthTest(True)
         groundCircle.setBin("ground", 1)
         groundSquare[0].setDepthWrite(False)
         groundSquare[0].setDepthTest(False)
         groundSquare[0].setBin("ground", 2)
-        
+
         self.squareNode.hide()
 
         self.load()
-        
+
         #import pdb; pdb.set_trace()
-        
+
     def initCollisionGeom(self):
         pass #overwritting battle blocker
         self.actSphere = CollisionSphere(0,0,0,11.5)
@@ -1729,15 +1729,15 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
 
         self.enterEvent = "enter" + self.actSphereNode.getName()
         self.accept(self.enterEvent, self.__handleToonEnter)
-        
+
     def __handleToonEnter(self, collEntry):
         self.sendUpdate("requestJoin", [])
-        
+
     def __setCamera(self):
         camHeight = base.localAvatar.getClampedAvatarHeight()
         heightScaleFactor = (camHeight * 0.3333333333)
         defLookAt = Point3(0.0, 1.5, camHeight)
-                     
+
         cameraPoint = Point3(0.0, -16.0, 16.0)
 
         base.localAvatar.stopUpdateSmartCamera()
@@ -1753,7 +1753,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.focusPoint.setPos(0,12,27)
         self.focusPoint.setH(180)
         #base.fp = self.focusPoint
-        
+
     def acceptJoin(self, time, timeStamp,avIds):
         self.timeStart = timeStamp
         timePassed = globalClockDelta.localElapsedTime(self.timeStart)
@@ -1767,16 +1767,16 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             if not self.hasEntered:
                 self.level.countryClub.showInfoText(TTLocalizer.BustACogInstruction)
                 self.hasEntered = 1
-                
+
         for avId in self.joinedToons:
             if avId not in avIds:
-                
+
                 self.joinedToons.remove(avId)
                 self.removeToonHeadPanel(avId)
                 toon = base.cr.doId2do.get(avId)
                 if toon:
                     toon.startSmooth()
-        
+
         for avId in avIds:
             if avId and (not (avId in self.joinedToons)):
                 if not (avId in self.everJoinedToons):
@@ -1785,22 +1785,22 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 index = self.everJoinedToons.index(avId)
                 if (index > 3):
                     #LEAVE THIS AS A PRINT
-                    #WE ARE ABOUT TO CRASH 
-                    print("ERROR! green game has had more than 4 players, we are about to crash\n %s" % (self.everJoinedToons))
-                    print("Joining Toon is %s index is %s" % (avId, index))
+                    #WE ARE ABOUT TO CRASH
+                    print(("ERROR! green game has had more than 4 players, we are about to crash\n %s" % (self.everJoinedToons)))
+                    print(("Joining Toon is %s index is %s" % (avId, index)))
                 toon = base.cr.doId2do.get(avId)
                 selfPos = self.getPos(render)
                 offset = self.toonPoints[index]
                 if (index > 3):
                     print("odd... we should have crashed by now")
                 standPoint = render.getRelativePoint(self, offset)
-                
+
                 if toon:
                     toon.stopSmooth()
                     self.addToonHeadPanel(toon)
                     toon.setAnimState("run", 1.0)
                     animFunc = Func(toon.setAnimState, "neutral", 1.0)
-                        
+
                     track = Sequence(
                         LerpPosInterval(toon, 0.75,
                                         standPoint,
@@ -1815,10 +1815,10 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                     track.delayDelete = DelayDelete.DelayDelete(toon, 'GolfGreenGame.acceptJoin')
                     self.storeToonTrack(avId, track)
                     track.start()
-                        
 
 
-            
+
+
     def signalDone(self, success):
         self.finished = 1
         self.soundDone.play()
@@ -1830,10 +1830,10 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             self.level.countryClub.showInfoText(TTLocalizer.BustACogSuccess)
         else:
             self.level.countryClub.showInfoText(TTLocalizer.BustACogFailure)
-        
+
     def boardCleared(self, avId):
         self.doFail()
-        
+
     def setTimerStart(self, time, timeStamp):
         if self.timer == None:
             self.timeStart = timeStamp
@@ -1843,21 +1843,21 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             self.cleanupTimer()
             self.timer = ToontownTimer.ToontownTimer()
             self.timer.posBelowTopRightCorner()
-            self.timer.setTime(timeleft) 
+            self.timer.setTime(timeleft)
             self.timer.countdown(timeleft, self.timerExpired)
-            
+
     def cleanupTimer(self):
-        """Stop and remove the molefield timer."""        
+        """Stop and remove the molefield timer."""
         if self.timer:
             self.timer.stop()
             self.timer.destroy()
-            self.timer = None      
+            self.timer = None
 
     def timerExpired(self):
         """Show something when the timer expires."""
         assert self.notify.debugStateCall(self)
         self.cleanupTimer()
-        
+
     def useTime(self, time = None):
         if time != None:
             self.timeLeft = time
@@ -1865,33 +1865,33 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 taskMgr.remove(self.timerTaskName)
         if (time != None) and (time > 0.0) and self.isActive:
             self.timerTask = taskMgr.doMethodLater(1.0, self.gameCountDown, self.timerTaskName)
-                
+
         self.scoreLabel['text'] = (TTLocalizer.GolfGreenGameScoreString % (self.boardsLeft,int(self.timeLeft)))
-        
+
     def gameCountDown(self, task):
         self.timeLeft = self.timeTotal - globalClockDelta.localElapsedTime(self.timeStart)
         #self.useTime(self.timeLeft)
         return task.done
-        
+
     def scoreData(self, total = 2, closed = 1, scoreList = "hello world"):
-        
+
         self.boardsLeft = total - closed
         #self.useTime()
         #self.scoreBoard['text'] = (TTLocalizer.GolfGreenGameScoreString % ((self.boardsLeft),self.timeLeft))
-        
+
         for panelIndex in self.toonPanels:
             panel = self.toonPanels[panelIndex]
             panel.extraData["text"] = (TTLocalizer.GolfGreenGamePlayerScore % (0))
-            
-        
+
+
         for entryIndex in range(len(scoreList)):
             entry = scoreList[entryIndex]
-            if self.toonPanels.has_key(entry[0]):
+            if entry[0] in self.toonPanels:
                 panel = self.toonPanels[entry[0]]
                 panel.extraData["text"] = (TTLocalizer.GolfGreenGamePlayerScore % (entry[1]))
-                
+
         self.scoreLabel['text'] = (TTLocalizer.GolfGreenGameScoreString % (self.boardsLeft))
-                
+
     def informGag(self, track, level):
         #print TTLocalizer.BattleGlobalAvPropStringsSingular[track][level]
         self.bonusBoard.show()
@@ -1901,11 +1901,11 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.bonusBoard['image'] = icon
         self.bonusBoard['image_scale'] = (1.0,1,1.0)
         taskMgr.doMethodLater(4.0, self.hideBonusBoard, "hide bonus")
-        
+
     def helpOthers(self, avId):
         if (not (avId == localAvatar.doId)) and self.running:
             self.giftId = 7
-            
+
             toonName = ""
             toon = base.cr.doId2do[avId]
             if toon:
@@ -1917,14 +1917,14 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             self.bonusBoard['image_scale'] = (0.13)
             self.bonusBoard.show()
             taskMgr.doMethodLater(4.0, self.hideBonusBoard, "hide bonus")
-                        
-        
-        
+
+
+
     def hideBonusBoard(self, task):
         if self.bonusBoard:
             if not self.bonusBoard.isEmpty():
                 self.bonusBoard.hide()
-                
+
     def storeToonTrack(self, avId, track):
         # Clear out any currently playing tracks on this toon
         self.clearToonTrack(avId)
@@ -1945,10 +1945,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         keyList = []
         for key in self.__toonTracks:
             keyList.append(key)
-            
+
         for key in keyList:
-            if self.__toonTracks.has_key(key):
+            if key in self.__toonTracks:
                 self.clearToonTrack(key)
-                
-        
-                

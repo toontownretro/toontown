@@ -1,14 +1,14 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.directnotify import DirectNotifyGlobal
-import DistributedToon
+from . import DistributedToon
 from toontown.friends import FriendInviter
-import ToonTeleportPanel
+from . import ToonTeleportPanel
 from toontown.toonbase import TTLocalizer
 from toontown.hood import ZoneUtil
 from toontown.toonbase.ToontownBattleGlobals import Tracks, Levels
@@ -21,10 +21,10 @@ def showAvatarDetail(avId, avName, playerId = None):
     if globalAvatarDetail != None:
         globalAvatarDetail.cleanup()
         globalAvatarDetail = None
-        
- 
+
+
     playerId = base.cr.playerFriendsManager.findPlayerIdFromAvId(avId)
-        
+
     globalAvatarDetail = ToonAvatarDetailPanel(avId, avName, playerId)
 
 def hideAvatarDetail():
@@ -53,8 +53,8 @@ class ToonAvatarDetailPanel(DirectFrame):
     def __init__(self, avId, avName,  playerId = None, parent = aspect2dp, **kw):
         # Inherits from DirectFrame
         # Must specify avId and avName on creation
-        print("ToonAvatarDetailPanel %s" % (playerId))
-        
+        print(("ToonAvatarDetailPanel %s" % (playerId)))
+
         # Load required models
         buttons = loader.loadModel(
             'phase_3/models/gui/dialog_box_buttons_gui')
@@ -164,7 +164,7 @@ class ToonAvatarDetailPanel(DirectFrame):
 
         Cancels any pending request and removes the panel from the
         screen.
-        
+
         """
         if self.fsm:
             self.fsm.request('off')
@@ -181,7 +181,7 @@ class ToonAvatarDetailPanel(DirectFrame):
 
     # Represents the initial state of the detail query: no query in
     # progress.
-    
+
     def enterOff(self):
         pass
 
@@ -192,7 +192,7 @@ class ToonAvatarDetailPanel(DirectFrame):
 
     # We have clicked on the "details" button from the Avatar panel.
     # Start the ball rolling.
-    
+
     def enterBegin(self):
         myId = base.localAvatar.doId
 
@@ -213,7 +213,7 @@ class ToonAvatarDetailPanel(DirectFrame):
 
     # We are waiting for detailed information on the avatar to return
     # from the server.
-    
+
     def enterQuery(self):
         self.dataText['text'] = (
             TTLocalizer.AvatarDetailPanelLookup % (self.avName))
@@ -237,13 +237,13 @@ class ToonAvatarDetailPanel(DirectFrame):
             # getAvatarDetails puts a DelayDelete on the avatar, and this
             # is not a real DO, so bypass the 'generated' check
             self.avatar.forceAllowDelayDelete()
- 
+
         # Now ask the server to tell us more about this avatar.
         base.cr.getAvatarDetails(self.avatar, self.__handleAvatarDetails, "DistributedToon")
-        
+
     def exitQuery(self):
         self.bCancel.hide()
-        
+
     ##### Data state #####
 
     # We have detailed information now available in self.avatar.
@@ -252,10 +252,10 @@ class ToonAvatarDetailPanel(DirectFrame):
         self.bCancel['text'] = TTLocalizer.AvatarDetailPanelClose
         self.bCancel.show()
         self.__showData()
-    
+
     def exitData(self):
         self.bCancel.hide()
-        
+
     ##### Invalid state #####
 
     # For some reason, the server was unable to return data on the
@@ -264,7 +264,7 @@ class ToonAvatarDetailPanel(DirectFrame):
     def enterInvalid(self):
         self.dataText['text'] = (
             TTLocalizer.AvatarDetailPanelFailedLookup % (self.avName))
-    
+
     def exitInvalid(self):
         self.bCancel.hide()
 
@@ -281,7 +281,7 @@ class ToonAvatarDetailPanel(DirectFrame):
             # request.  Ignore it.
             self.notify.warning("Ignoring unexpected request for avatar %s" % (avatar.doId))
             return
-            
+
         if gotData:
             # We got a valid response.
             self.fsm.request('data')
@@ -296,7 +296,7 @@ class ToonAvatarDetailPanel(DirectFrame):
         online = 1
         if base.cr.isFriend(self.avId):
             online = base.cr.isFriendOnline(self.avId)
-            
+
         if online:
             shardName = base.cr.getShardName(av.defaultShard)
             hoodName = base.cr.hoodMgr.getFullnameFromId(av.lastHood)
@@ -319,13 +319,13 @@ class ToonAvatarDetailPanel(DirectFrame):
                         pos = (0.44, 0, 0.41),
                         command = self.__showAvatar,
                         )
-                
+
                 text = (TTLocalizer.AvatarDetailPanelOnlinePlayer %
                     {"district": shardName, "location": hoodName, "player" : self.playerInfo.playerName})
             else:
                 text = (TTLocalizer.AvatarDetailPanelOnline %
                     {"district": shardName, "location": hoodName})
-                
+
         else:
             text = TTLocalizer.AvatarDetailPanelOffline
         self.dataText['text'] = text
@@ -333,7 +333,7 @@ class ToonAvatarDetailPanel(DirectFrame):
         self.__updateTrackInfo()
         self.__updateTrophyInfo()
         self.__updateLaffInfo()
-        
+
     def __showAvatar(self):
         messenger.send('wakeup')
         # Picking a friend from your friends list has exactly the same
@@ -349,7 +349,7 @@ class ToonAvatarDetailPanel(DirectFrame):
     def __updateLaffInfo(self):
         # Send a message to force the avatar panel to display the laff meter
         avatar = self.avatar
-        messenger.send('updateLaffMeter', 
+        messenger.send('updateLaffMeter',
                        [avatar, avatar.hp, avatar.maxHp])
 
     def __updateTrackInfo(self):
@@ -364,7 +364,7 @@ class ToonAvatarDetailPanel(DirectFrame):
         for track in range(0, len(Tracks)):
             # Track Label
             DirectLabel(parent = self,
-                        relief = None, 
+                        relief = None,
                         text = TextEncoder.upper(TTLocalizer.BattleGlobalTracks[track]),
                         text_scale = TTLocalizer.TADPtrackLabel,
                         text_align = TextNode.ALeft,
@@ -426,4 +426,3 @@ class ToonAvatarDetailPanel(DirectFrame):
                 scale = 0.9,
                 relief = None)
             gui.removeNode()
-                

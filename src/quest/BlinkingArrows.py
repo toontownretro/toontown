@@ -1,5 +1,5 @@
 from direct.interval.IntervalGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 
 class BlinkingArrows:
@@ -80,4 +80,3 @@ class BlinkingArrows:
         self.arrow2.hide()
         if self.otherNode:
             self.otherNode.hide()
-        

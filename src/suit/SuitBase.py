@@ -2,16 +2,16 @@
 
 # AI code should not import ShowBaseGlobal because it creates a graphics window
 # from ShowBaseGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 
 import math
 import random
-from pandac.PandaModules import Point3
+from toontown.toonbase.ToontownModules import Point3
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import SuitBattleGlobals
-import SuitTimings
-import SuitDNA
+from . import SuitTimings
+from . import SuitDNA
 from toontown.toonbase import TTLocalizer
 
 # extra time to add (in seconds) to any time calculations for path movement
@@ -78,7 +78,7 @@ class SuitBase:
 
     def getSkelecog(self):
         return self.isSkelecog
-        
+
     def setSkelecog(self, flag):
         self.isSkelecog = flag
 
@@ -133,11 +133,11 @@ class SuitBase:
         """
         # print out the path
         #
-        print "%d points in path" % self.pathLength
+        print("%d points in path" % self.pathLength)
 #        print self.path
         for currPathPt in range( self.pathLength ):
             indexVal = self.path.getPointIndex( currPathPt )
-            print "\t", self.sp.dnaStore.getSuitPointWithIndex( indexVal )
+            print("\t", self.sp.dnaStore.getSuitPointWithIndex( indexVal ))
 
     def makeLegList(self):
         """makeLegList(self)
@@ -160,5 +160,3 @@ class SuitBase:
 #
 # 14Feb01       jlbutler        created
 #
-
-

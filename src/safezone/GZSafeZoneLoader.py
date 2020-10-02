@@ -15,7 +15,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.gui import DirectGui
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 ##########################################################################
 # Toontwon Import Modules
@@ -43,7 +43,7 @@ class GZSafeZoneLoader( SafeZoneLoader ):
         """
         """
         # Initialize Super Class
-        SafeZoneLoader.__init__( self, hood, parentFSM, doneEvent )     
+        SafeZoneLoader.__init__( self, hood, parentFSM, doneEvent )
 
         # Initialize Instance Variables
         self.musicFile = "phase_6/audio/bgm/GZ_SZ.mid"
@@ -91,9 +91,9 @@ class GZSafeZoneLoader( SafeZoneLoader ):
 
 
         SafeZoneLoader.load( self )
-        self.birdSound = map( base.loadSfx, [ 'phase_4/audio/sfx/SZ_TC_bird1.mp3',
+        self.birdSound = list(map( base.loadSfx, [ 'phase_4/audio/sfx/SZ_TC_bird1.mp3',
                                               'phase_4/audio/sfx/SZ_TC_bird2.mp3',
-                                              'phase_4/audio/sfx/SZ_TC_bird3.mp3' ] )
+                                              'phase_4/audio/sfx/SZ_TC_bird3.mp3' ] ))
 
     def unload( self ):
         """
@@ -116,13 +116,13 @@ class GZSafeZoneLoader( SafeZoneLoader ):
             text = TextEncoder.upper(TTLocalizer.BossbotHQ[-1]),
             font = ToontownGlobals.getSuitFont(),
             scale = TTLocalizer.GSZLbossbotSignScale,
-            fg = (0, 0, 0, 1), 
+            fg = (0, 0, 0, 1),
             # required for DecalEffect (must be a GeomNode, not a TextNode)
             mayChange=False,
             parent = sign)
         signText.setPosHpr(locator, 0, 0, -0.3, 0, 0, 0)
         signText.setDepthWrite(0)
-        
+
         # self.hood.spawnTitleText( requestStatus[ 'zoneId' ] )
 
     def exitPlayground( self ):
@@ -144,7 +144,7 @@ class GZSafeZoneLoader( SafeZoneLoader ):
         elif (ZoneUtil.getBranchZone(status["zoneId"]) == self.hood.hoodId and
             # Going to Kart Shop
             status["shardId"] == None):
-            self.fsm.request("quietZone", [status])            
+            self.fsm.request("quietZone", [status])
         else:
             self.doneStatus = status
             messenger.send( self.doneEvent )
@@ -163,14 +163,14 @@ class GZSafeZoneLoader( SafeZoneLoader ):
         if( ZoneUtil.isDynamicZone( status[ 'zoneId' ] ) ):
             return status[ 'hoodId' ] == self.hood.hoodId
         else:
-            return ZoneUtil.getHoodId( status[ 'zoneId' ] ) == self.hood.hoodId        
+            return ZoneUtil.getHoodId( status[ 'zoneId' ] ) == self.hood.hoodId
 
     def enterGolfCourse( self, requestStatus ):
         """
         """
 
         # GolfCourse will grab this off of us
-        if requestStatus.has_key('curseId'):
+        if 'curseId' in requestStatus:
             self.golfCourseId = requestStatus[ 'courseId' ]
         else:
             self.golfCourseId = 0
@@ -186,7 +186,7 @@ class GZSafeZoneLoader( SafeZoneLoader ):
         del self.golfCourseId
 
     def handleRaceOver(self):
-        print "you done!!"
+        print("you done!!")
 
     def handleLeftGolf(self):
         req={"loader":"safeZoneLoader","where":"playground","how":"teleportIn"

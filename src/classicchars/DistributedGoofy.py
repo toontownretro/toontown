@@ -1,11 +1,11 @@
 """DistributedGoofy module: contains the DistributedGoofy class"""
 
-from pandac.PandaModules import *
-import DistributedCCharBase
+from toontown.toonbase.ToontownModules import *
+from . import DistributedCCharBase
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-import CharStateDatas
+from . import CharStateDatas
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 
@@ -113,7 +113,7 @@ class DistributedGoofy(DistributedCCharBase.DistributedCCharBase):
         srcNode, were to walk from
         destNode, where to walk to
         timestamp, when server started walk
-        
+
         message sent from the server to say that this
         character should now go into walk state
         """

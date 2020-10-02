@@ -1,6 +1,6 @@
 """PetGoalMgr.py"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import DirectObject
 from direct.showbase.PythonUtil import randFloat, lerp
@@ -14,7 +14,7 @@ class PetGoalMgr(DirectObject.DirectObject):
     tricks until his owner is happy. This multi-step goal can be encapsulated
     in a PetGoal."""
     notify = DirectNotifyGlobal.directNotify.newCategory("PetGoalMgr")
-    
+
     def __init__(self, pet):
         self.pet = pet
         # quick-access 'list' of all goals
@@ -33,7 +33,7 @@ class PetGoalMgr(DirectObject.DirectObject):
             del self.pscSetup
             del self.pscFindPrimary
             del self.pscSetPrimary
-        goals = self.goals.keys()
+        goals = list(self.goals.keys())
         for goal in goals:
             self.removeGoal(goal)
             goal.destroy()

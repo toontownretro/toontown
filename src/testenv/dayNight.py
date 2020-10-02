@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 
 dayMusic = loader.loadMusic("phase_4/audio/bgm/TC_nbrhood.mid")
@@ -166,7 +166,7 @@ def makeNight():
     base.playMusic(nightMusic, volume=0.5)
     for b in butterflies:
         b.butterflyNode.hide()
-    
+
 
 def makeDay():
     for lamp in lamps:

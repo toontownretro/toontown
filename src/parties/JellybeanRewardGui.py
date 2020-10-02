@@ -6,7 +6,7 @@
 #-------------------------------------------------------------------------------
 
 # Panda imports
-from pandac.PandaModules import TextNode
+from toontown.toonbase.ToontownModules import TextNode
 from direct.gui.DirectGui import DirectFrame
 from direct.gui.DirectGui import DirectButton
 from direct.gui.DirectGui import DirectLabel
@@ -21,16 +21,16 @@ class JellybeanRewardGui(DirectFrame):
     This class does not load a gui model specifically created for this purpose.
     Instead, it loads sub-parts of other models and cobbles them together into
     a frankenstein gui. As such, changing any of those models could
-    inadvertently change how this gui looks. Ideally this class would be 
+    inadvertently change how this gui looks. Ideally this class would be
     refactored to use a gui model specific to this class.
     """
     notify = directNotify.newCategory("JellybeanRewardGui")
-    
+
     PreCountdownDelay = 1.0
     CountDownRate = 0.2 # how quickly we transfer beans from reward box to your jar
     JarLabelTextColor = (0.95, 0.95, 0.0, 1.0)
     JarLabelMaxedTextColor = (1.0, 0.0, 0.0, 1.0)
-    
+
     def __init__(self, doneEvent):
         self.doneEvent = doneEvent
         DirectFrame.__init__(self)
@@ -48,7 +48,7 @@ class JellybeanRewardGui(DirectFrame):
             geom_scale = 2.0,
             relief = None,
         )
-        
+
         # counter for beans won in the activity
         self.earnedLabel = DirectLabel(
             parent = self,
@@ -65,7 +65,7 @@ class JellybeanRewardGui(DirectFrame):
             pos = (-0.3, 0.0, 0.2),
             scale = 0.9,
         )
-        
+
         # counter with jellybean jar in the background for beans in the
         # "pocketbook" (the beans you carry around with you that are not in your
         # home bank)
@@ -89,7 +89,7 @@ class JellybeanRewardGui(DirectFrame):
         del purchaseModels
         jarImage.removeNode()
         del jarImage
-        
+
         # message text
         self.messageLabel = DirectLabel(
             parent = self,
@@ -114,7 +114,7 @@ class JellybeanRewardGui(DirectFrame):
             textMayChange = False,
         )
         self.doubledJellybeanLabel.hide()
-        
+
         # button to close the gui when the player is done reading it
         self.closeButton = DirectButton(
             parent = self,
@@ -132,10 +132,10 @@ class JellybeanRewardGui(DirectFrame):
             geom_pos = (-0.39, 0.0, 0.125), # place the geom to line up with the text
             command = self._close,
         )
-        
+
         publicPartyGui.removeNode()
         del publicPartyGui
-        
+
         self.countSound = base.loadSfx("phase_13/audio/sfx/tick_counter_short.mp3")
         self.overMaxSound = base.loadSfx("phase_13/audio/sfx/tick_counter_overflow.mp3")
 
@@ -143,11 +143,11 @@ class JellybeanRewardGui(DirectFrame):
     def showReward(self, earnedAmount, jarAmount, message):
         """
         This function assumes that the amount earned has already been updated
-        for the toon. 
-        
+        for the toon.
+
         Parameters:
           earnedAmount- How many jellybeans the toon gets
-          jarAmount- Amount in their pocketbook jar 
+          jarAmount- Amount in their pocketbook jar
           message- Activity-specific information to display while showing the
                    jellybean reward animation.
         """
@@ -187,7 +187,7 @@ class JellybeanRewardGui(DirectFrame):
         # if we have reached the max, color the jar text accordingly
         elif self.jarCount > self.jarMax:
             self.jarLabel["text_fg"] = JellybeanRewardGui.JarLabelMaxedTextColor
-        
+
         # play the counting sound
         if self.jarCount <= self.jarMax:
             base.playSfx(self.countSound)

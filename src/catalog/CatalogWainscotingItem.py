@@ -1,4 +1,4 @@
-from CatalogSurfaceItem import *
+from .CatalogSurfaceItem import *
 
 # Indicies into Wainscoting Textures Dictionary
 WSTTextureName = 0
@@ -25,9 +25,9 @@ class CatalogWainscotingItem(CatalogSurfaceItem):
     """CatalogWainscotingItem
 
     This represents a texture/color combination for wainscoting.
-    
+
     """
-    
+
     def makeNewItem(self, patternIndex, colorIndex):
         self.patternIndex = patternIndex
         self.colorIndex = colorIndex
@@ -68,7 +68,7 @@ class CatalogWainscotingItem(CatalogSurfaceItem):
         c.setColorScale(*self.getColor())
 
         sample.reparentTo(frame)
-        
+
 ##        assert (not self.hasPicture)
         self.hasPicture=True
 
@@ -94,7 +94,7 @@ class CatalogWainscotingItem(CatalogSurfaceItem):
         return WainscotingTypes[self.patternIndex][WSTBasePrice]
 
     def loadTexture(self):
-        from pandac.PandaModules import Texture
+        from toontown.toonbase.ToontownModules import Texture
         filename = WainscotingTypes[self.patternIndex][WSTTextureName]
         texture = loader.loadTexture(filename)
         texture.setMinfilter(Texture.FTLinearMipmapLinear)
@@ -112,7 +112,7 @@ class CatalogWainscotingItem(CatalogSurfaceItem):
             if colorIndex < len(colors):
                 return colors[colorIndex]
             else:
-                print "Warning: colorIndex not in colors. Returning white."
+                print("Warning: colorIndex not in colors. Returning white.")
                 return CT_WHITE
         else:
             return CT_WHITE
@@ -129,7 +129,7 @@ class CatalogWainscotingItem(CatalogSurfaceItem):
         # self.patternIndex is invalid.  The other fields can take
         # care of themselves.
         wtype = WainscotingTypes[self.patternIndex]
-        
+
     def encodeDatagram(self, dg, store):
         CatalogAtticItem.CatalogAtticItem.encodeDatagram(self, dg, store)
         dg.addUint16(self.patternIndex)
@@ -138,14 +138,14 @@ class CatalogWainscotingItem(CatalogSurfaceItem):
 def getWainscotings(*indexList):
     # This function returns a list of CatalogWainscotingItems
     # The returned items will all need to be customized (i.e
-    # have a color chosen by the user.  Until customization, 
+    # have a color chosen by the user.  Until customization,
     # use a default color index of 0 (if the pattern has a color
     # list) or CT_WHITE if the pattern has no color list
     list = []
     for index in indexList:
         list.append(CatalogWainscotingItem(index))
     return list
-    
+
 
 def getAllWainscotings(*indexList):
     # This function returns a list of all possible
@@ -160,7 +160,7 @@ def getAllWainscotings(*indexList):
         else:
             list.append(CatalogWainscotingItem(index, 0))
     return list
-    
+
 
 def getWainscotingRange(fromIndex, toIndex, *otherRanges):
     # This function returns a list of all possible
@@ -180,8 +180,8 @@ def getWainscotingRange(fromIndex, toIndex, *otherRanges):
         froms.append(otherRanges[i])
         tos.append(otherRanges[i+1])
         i += 2
-    
-    for patternIndex in WainscotingTypes.keys():
+
+    for patternIndex in list(WainscotingTypes.keys()):
         for fromIndex, toIndex in zip(froms,tos):
             if patternIndex >= fromIndex and patternIndex <= toIndex:
                 colors = WainscotingTypes[patternIndex][WSTColor]

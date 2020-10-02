@@ -1,6 +1,6 @@
 """Cog Thief Game Globals used by AI and client versions."""
 
-from pandac.PandaModules import VBase3, BitMask32
+from toontown.toonbase.ToontownModules import VBase3, BitMask32
 
 GameTime = 60
 NumBarrels = 4
@@ -32,7 +32,7 @@ CogStartingPositions = (
    VBase3(35, 9, 0),
    VBase3(-35, 9, 0),
    VBase3(35, -9, 0),
-   VBase3(-35, -9, 0),   
+   VBase3(-35, -9, 0),
    )
 
 # starting at top left, going clockwise
@@ -64,7 +64,7 @@ GoalStr = {NoGoal: 'NoGoal',
            ToonGoal: 'ToonGoal',
            RunAwayGoal: 'RunAwayGoal',
            InvalidGoalId: 'InvalidGoa',
-           }                     
+           }
 
 BarrelBitmask = BitMask32(0x200)
 
@@ -135,4 +135,3 @@ def calculateCogSpeed(numPlayers, safezone):
         if safezone in CogSpeedTable[numPlayers-1]:
             result = CogSpeedTable[numPlayers-1][safezone]
     return result
-

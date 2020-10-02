@@ -1,10 +1,10 @@
 """ShuffleButton module: Contains the ShuffleButton Class."""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-from MakeAToonGlobals import *
+from .MakeAToonGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 import random
@@ -40,10 +40,10 @@ class ShuffleButton:
         shuffleArrowUp = gui.find("**/tt_t_gui_mat_shuffleArrowUp")
         shuffleArrowDown = gui.find("**/tt_t_gui_mat_shuffleArrowDown")
         shuffleArrowDisabled = gui.find("**/tt_t_gui_mat_shuffleArrowDisabled")
-        
+
         gui.removeNode()
         del gui
-        
+
         # Create an emtpy frame which houses all the option buttons including the shuffle button.
         self.parentFrame = DirectFrame(
             parent = self.parent.parentFrame,
@@ -51,7 +51,7 @@ class ShuffleButton:
             pos = (0, 0, -1),
             frameColor = (1, 0, 0, 0),
             )
-        
+
         # Create the Shuffle Frame.
         self.shuffleFrame = DirectFrame(
 ##            parent = self.parent.parentFrame,
@@ -64,7 +64,7 @@ class ShuffleButton:
             frameColor = (1, 1, 1, 1),
             )
         self.shuffleFrame.hide()
-        
+
         # Create Shuffle Button.
         self.shuffleBtn = DirectButton(
 ##            parent = self.shuffleFrame,
@@ -100,7 +100,7 @@ class ShuffleButton:
             command = self.__goFrontHistory,
             )
         self.incBtn.hide()
-            
+
         # Create the Decrement Button - Left Arrow.
         self.decBtn = DirectButton(
 ##            parent = self.shuffleFrame,
@@ -116,13 +116,13 @@ class ShuffleButton:
             command = self.__goBackHistory,
             )
         self.decBtn.hide()
-        
+
         self.lerpDuration = 0.5
         self.showLerp = None
         self.frameShowLerp =  LerpColorInterval(self.shuffleFrame, self.lerpDuration, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0))
         self.incBtnShowLerp =  LerpColorInterval(self.incBtn, self.lerpDuration, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0))
         self.decBtnShowLerp =  LerpColorInterval(self.decBtn, self.lerpDuration, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0))
-        
+
         self.__updateArrows()
 
     def unload(self):
@@ -132,20 +132,20 @@ class ShuffleButton:
         if self.showLerp:
             self.showLerp.finish()
             del self.showLerp
-        
+
         self.parent = None
         self.parentFrame.destroy()
         self.shuffleFrame.destroy()
         self.shuffleBtn.destroy()
         self.incBtn.destroy()
         self.decBtn.destroy()
-        
+
         del self.parentFrame
         del self.shuffleFrame
         del self.shuffleBtn
         del self.incBtn
         del self.decBtn
-        
+
     def showButtons(self):
         """
         Shows all the GUI elements of ShuffleButton.
@@ -154,7 +154,7 @@ class ShuffleButton:
         self.shuffleBtn.show()
         self.incBtn.show()
         self.decBtn.show()
-        
+
     def hideButtons(self):
         """
         Hides all the GUI elements of ShuffleButton.
@@ -163,7 +163,7 @@ class ShuffleButton:
         self.shuffleBtn.hide()
         self.incBtn.hide()
         self.decBtn.hide()
-        
+
     def setChoicePool(self, pool):
         """
         This method is called by the parent class to set the pool of properties
@@ -174,7 +174,7 @@ class ShuffleButton:
         [[head1, head2], [body1, body2], [legs1, legs2]]
         """
         self.pool = pool
-    
+
     def chooseRandom(self):
         """
         This method makes a random selection of properties and stores it as a list.
@@ -185,7 +185,7 @@ class ShuffleButton:
         for prop in self.pool:
             self.currChoice.append(random.choice(prop))
         self.notify.debug('current choice : %s' %self.currChoice)
-            
+
         if (len(self.history) == self.maxHistory):
             self.history.remove(self.history[0])
         self.history.append(0)
@@ -193,16 +193,16 @@ class ShuffleButton:
 
         if (len(self.history) == 2):
             self.startShowLerp()
-        
+
         self.__updateArrows()
         messenger.send(self.fetchEvent)
-    
+
     def getCurrChoice(self):
         """
         This method is called by the parent to get the current choice of ShuffleButton.
         """
         return self.currChoice
-    
+
     def saveCurrChoice(self):
         """
         Everytime the Shuffle Button is pressed, it saves the current choice in
@@ -211,7 +211,7 @@ class ShuffleButton:
         # Ask the parent what the current configuration of the toon is.
         self.currChoice = self.parent.getCurrToonSetting()
         self.history[self.historyPtr] = self.currChoice
-        
+
     def __goBackHistory(self):
         """
         Go back to the previous toon setting in history.
@@ -222,7 +222,7 @@ class ShuffleButton:
         self.currChoice = self.history[self.historyPtr]
         self.__updateArrows()
         messenger.send(self.fetchEvent)
-        
+
     def __goFrontHistory(self):
         """
         Go front to the next toon setting in history.
@@ -233,7 +233,7 @@ class ShuffleButton:
         self.currChoice = self.history[self.historyPtr]
         self.__updateArrows()
         messenger.send(self.fetchEvent)
-    
+
     def __updateArrows(self):
         """
         Update the state of the arrows depending on the position of the historyPtr.
@@ -242,16 +242,16 @@ class ShuffleButton:
             self.decBtn['state'] = DGG.DISABLED
         else:
             self.decBtn['state'] = DGG.NORMAL
-        
+
         if (self.historyPtr >= (len(self.history) - 1)):
             self.incBtn['state'] = DGG.DISABLED
         else:
             self.incBtn['state'] = DGG.NORMAL
-            
+
     def startShowLerp(self):
         """
         Starts an interval which slowly makes the shuffleFrame, incBtn and decBtn visible.
-        """        
+        """
         self.showLerp = Sequence(
             Parallel(
                 Func(self.shuffleFrame.show),
@@ -260,11 +260,11 @@ class ShuffleButton:
             Parallel(
                 self.frameShowLerp,
                 self.incBtnShowLerp,
-                self.decBtnShowLerp)                
+                self.decBtnShowLerp)
             )
         self.showLerp.start()
-    
-    
+
+
     def cleanHistory(self):
         """
         Clean the history of the Shuffle Button.

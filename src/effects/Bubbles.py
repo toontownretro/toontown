@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.particles import ParticleEffect
 from direct.particles import Particles
@@ -58,7 +58,7 @@ class Bubbles(NodePath):
         self.effect.addForceGroup(gravityForceGroup)
         self.effect.addParticles(p0)
         self.effect.setPos(0,0,0)
-            
+
     def start(self):
         self.effect.start(self, self.renderParent)
 

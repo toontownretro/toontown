@@ -1,7 +1,7 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
-import CatalogItem
+from . import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
@@ -16,13 +16,13 @@ class CatalogChatItemPicker(DirectObject.DirectObject):
     a phrase from their custom phrase list to remove when it is full.
 
     """
-    
+
     def __init__(self, callback, newMsg):
         self.confirmDelete = None
-        
+
         # this callback is how we will let the caller know we are done
         self.doneCallback = callback
-        
+
         # make a panel to hold everything
         self.panel = DirectFrame(
             relief = None,
@@ -88,9 +88,9 @@ class CatalogChatItemPicker(DirectObject.DirectObject):
         clipper.setPlane(Plane(Vec3(-1, 0, 0), Point3(0.55, 0, 0)))
         clipNP = self.picker.attachNewNode(clipper)
         self.picker.setClipPlane(clipNP)
-        
+
         gui.removeNode()
-        
+
         # make a cancel button
         buttonModels = loader.loadModel("phase_3.5/models/gui/inventory_gui")
         upButton = buttonModels.find("**/InventoryButtonUp")
@@ -106,7 +106,7 @@ class CatalogChatItemPicker(DirectObject.DirectObject):
             text_scale = TTLocalizer.CCIPmessagePickerCancel,
             text_pos = (-0.005,-0.01),
             text_fg = Vec4(1,1,1,1),
-            textMayChange = 0,            
+            textMayChange = 0,
             image = (upButton,
                      downButton,
                      rolloverButton,
@@ -164,10 +164,10 @@ class CatalogChatItemPicker(DirectObject.DirectObject):
         self.hide()
         self.confirmDelete.show()
         self.accept("confirmDelete", self.__handleDeleteConfirm)
-        
+
     def __handleCancel(self):
         self.doneCallback("cancel")
-        
+
     def __handleDeleteConfirm(self):
         status = self.confirmDelete.doneStatus
         msg = self.confirmDelete.msg

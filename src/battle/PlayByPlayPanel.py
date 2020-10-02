@@ -1,8 +1,8 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownBattleGlobals import *
 from toontown.toonbase.ToontownGlobals import *
-from SuitBattleGlobals import *
+from .SuitBattleGlobals import *
 
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui import OnscreenText
@@ -15,11 +15,9 @@ class PlayByPlayText(OnscreenText.OnscreenText):
 
     def __init__(self):
         OnscreenText.OnscreenText.__init__(
-            self, 
+            self,
             mayChange = 1,
             pos = (0.0, 0.75),
             scale = 0.1,
             font = getSignFont(),
             )
-
-    

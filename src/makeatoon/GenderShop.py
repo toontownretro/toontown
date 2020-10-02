@@ -1,13 +1,13 @@
 """GenderShop module: contains the GenderShop class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.fsm import StateData
 from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toon import ToonDNA
 from toontown.toon import Toon
-from MakeAToonGlobals import *
+from .MakeAToonGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 import random
 
@@ -16,7 +16,7 @@ class GenderShop(StateData.StateData):
     gender via user input"""
 
     notify = DirectNotifyGlobal.directNotify.newCategory("GenderShop")
-    
+
     def __init__(self, makeAToon, doneEvent):
         """__init__(self, Event)
         Set-up the gender to shop to query user about toons gender
@@ -39,7 +39,7 @@ class GenderShop(StateData.StateData):
 
     def showButtons(self):
         return None
-        
+
     def exit(self):
         """exit(self)
         Remove events and restore display
@@ -74,7 +74,7 @@ class GenderShop(StateData.StateData):
             text_shadow = (0, 0, 0, 1),
             )
         self.boyButton.hide()
-        
+
         # Create Random Girl Button
         self.girlButton = DirectButton(
             relief = None,
@@ -86,17 +86,17 @@ class GenderShop(StateData.StateData):
             command = self.createRandomGirl,
             text = ("", TTLocalizer.GenderShopGirlButtonText, TTLocalizer.GenderShopGirlButtonText, ""),
             text_font = ToontownGlobals.getInterfaceFont(),
-            
+
             text_scale = 0.08,
             text_pos = (0, 0.19),
             text_fg = (1, 1, 1, 1),
             text_shadow = (0, 0, 0, 1),
             )
         self.girlButton.hide()
-            
+
         gui.removeNode()
         del gui
-        
+
         self.toon = None
 
     def unload(self):
@@ -104,18 +104,18 @@ class GenderShop(StateData.StateData):
         """
         self.boyButton.destroy()
         self.girlButton.destroy()
-        
+
         del self.boyButton
         del self.girlButton
-        
+
         if self.toon:
             self.toon.delete()
-            
+
         self.makeAToon = None
 
     def setGender(self, choice):
         self.__setGender(choice)
-        
+
     # event handlers
 
     def __setGender(self, choice):
@@ -123,35 +123,35 @@ class GenderShop(StateData.StateData):
         if self.toon:
             self.gender = self.toon.style.gender
         messenger.send(self.doneEvent)
-    
+
     def hideButtons(self):
         """
         Hides all the buttons in the gender selection screen.
         """
         self.boyButton.hide()
         self.girlButton.hide()
-        
+
     def showButtons(self):
         """
         Shows all the buttons in the gender selection screen.
         """
         self.boyButton.show()
         self.girlButton.show()
-        
+
     def createRandomBoy(self):
         """
         Creates a random boy toon.
         Takes care if the player is free of paid.
         """
         self._createRandomToon('m')
-    
+
     def createRandomGirl(self):
         """
         Creates a random girl toon.
         Takes care if the player is free of paid.
         """
         self._createRandomToon('f')
-    
+
     def _createRandomToon(self, gender):
         """
         Creates a random toon with a given gender.
@@ -161,11 +161,11 @@ class GenderShop(StateData.StateData):
             self.toon.stopBlink()
             self.toon.stopLookAroundNow()
             self.toon.delete()
-            
+
         self.dna = ToonDNA.ToonDNA()
         # stage = 1 is MAKE_A_TOON
         self.dna.newToonRandom(gender = gender, stage = 1)
-        
+
         self.toon = Toon.Toon()
         self.toon.setDNA(self.dna)
         # make sure the avatar uses its highest LOD
@@ -179,13 +179,13 @@ class GenderShop(StateData.StateData):
         self.toon.setHpr(self.makeAToon.toonHpr)
         self.toon.setScale(self.makeAToon.toonScale)
         self.toon.loop("neutral")
-        
+
         # Make the Next Button Active if a gender selection is made.
         self.makeAToon.setNextButtonState(DGG.NORMAL)
         self.makeAToon.setToon(self.toon)
-        
+
         messenger.send("MAT-newToonCreated")
-        
+
     def __handleForward(self):
         self.doneStatus = 'next'
         messenger.send(self.doneEvent)

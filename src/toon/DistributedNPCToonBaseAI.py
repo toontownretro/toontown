@@ -1,12 +1,12 @@
 
 from otp.ai.AIBaseGlobal import *
-from pandac.PandaModules import *
-import DistributedToonAI
+from toontown.toonbase.ToontownModules import *
+from . import DistributedToonAI
 from direct.fsm import ClassicFSM
 from direct.fsm import State
 from direct.distributed import ClockDelta
 from toontown.toonbase import ToontownGlobals
-import NPCToons
+from . import NPCToons
 from direct.task import Task
 from toontown.quest import Quests
 
@@ -78,7 +78,6 @@ class DistributedNPCToonBaseAI(DistributedToonAI.DistributedToonAI):
 
     def setPositionIndex(self, posIndex):
         self.posIndex = posIndex
-        
+
     def getPositionIndex(self):
         return self.posIndex
-    

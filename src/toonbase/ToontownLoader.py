@@ -1,6 +1,6 @@
 """ToontownLoader module: contains the extended loader that does wait bars"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.showbase import Loader
 from toontown.toontowngui import ToontownLoadingScreen
@@ -19,7 +19,7 @@ class ToontownLoader(Loader.Loader):
         self.loadingScreen.destroy()
         del self.loadingScreen
         Loader.Loader.destroy(self)
-        
+
     # our extentions
     def beginBulkLoad(self, name, label, range, gui, tipCategory):
         Loader.Loader.notify.info("starting bulk load of block '%s'" % (name))
@@ -27,7 +27,7 @@ class ToontownLoader(Loader.Loader):
             Loader.Loader.notify.warning("Tried to start a block ('%s'), but am already in a block ('%s')" % (name, self.blockName))
             return None
         self.inBulkBlock = 1
-        self.blockName = name        
+        self.blockName = name
         self.loadingScreen.begin(range, label, gui, tipCategory)
 
     def endBulkLoad(self, name):
@@ -94,7 +94,7 @@ class ToontownLoader(Loader.Loader):
         ret = loadDNAFileAI(dnaStore, dnaFile, CSDefault)
         self.tick()
         return ret
-    
+
     def loadDNAFile(self, dnaStore, dnaFile):
         ret = loadDNAFile(dnaStore, dnaFile, CSDefault, 0)
         self.tick()

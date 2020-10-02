@@ -4,12 +4,12 @@
 from otp.otpbase import OTPBase
 from otp.otpbase import OTPLauncherGlobals
 from direct.showbase.PythonUtil import *
-import ToontownGlobals
+from . import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
-import ToontownLoader
+from . import ToontownLoader
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 import sys
 import os
 from toontown.toonbase import TTLocalizer
@@ -23,7 +23,7 @@ class ToonBase(OTPBase.OTPBase):
     notify = DirectNotifyGlobal.directNotify.newCategory("ToonBase")
 
     # special methods
-    
+
     def __init__(self):
         """__init__(self)
         ToonBase constructor: create a toon and launch it into the world
@@ -38,12 +38,12 @@ class ToonBase(OTPBase.OTPBase):
             sfxVol = Settings.getSfxVolume()
             resList = [(640, 480),(800,600),(1024,768),(1280,1024),(1600,1200)] #copied from Resolution in settingsFile.h
             res = resList[Settings.getResolution()]
-            
+
             if mode == None:
                 mode = 1
             if res == None:
                 res = (800,600)
-            
+
             loadPrcFileData("toonBase Settings Window Res", ("win-size %s %s" % (res[0], res[1])))
             loadPrcFileData("toonBase Settings Window FullScreen", ("fullscreen %s" % (mode)))
             loadPrcFileData("toonBase Settings Music Active", ("audio-music-active %s" % (music)))
@@ -51,8 +51,8 @@ class ToonBase(OTPBase.OTPBase):
             loadPrcFileData("toonBase Settings Music Volume", ("audio-master-music-volume %s" % (musicVol)))
             loadPrcFileData("toonBase Settings Sfx Volume", ("audio-master-sfx-volume %s" % (sfxVol)))
             loadPrcFileData("toonBase Settings Toon Chat Sounds", ("toon-chat-sounds %s" % (toonChatSounds)))
-                        
-        OTPBase.OTPBase.__init__(self)        
+
+        OTPBase.OTPBase.__init__(self)
 
         if not self.isMainWindowOpen():
             try:
@@ -63,7 +63,7 @@ class ToonBase(OTPBase.OTPBase):
             except:
                 pass
             sys.exit(1)
-            
+
         self.disableShowbaseMouse()
 
         self.toonChatSounds = self.config.GetBool('toon-chat-sounds', 1)
@@ -72,7 +72,7 @@ class ToonBase(OTPBase.OTPBase):
         self.wantDynamicShadows = 0
         # this is temporary until we pull in the new launcher code in production
         self.exitErrorCode = 0
-        
+
         camera.setPosHpr(0, 0, 0, 0, 0, 0)
         self.camLens.setFov(ToontownGlobals.DefaultCameraFov)
         self.camLens.setNearFar(ToontownGlobals.DefaultCameraNear,
@@ -91,7 +91,7 @@ class ToonBase(OTPBase.OTPBase):
         tpm.setProperties('candidate_active', candidateActive)
         candidateInactive = TextProperties()
         candidateInactive.setTextColor(0.3, 0.3, 0.7, 1)
-        tpm.setProperties('candidate_inactive', candidateInactive)        
+        tpm.setProperties('candidate_inactive', candidateInactive)
 
         # set the showbase iris and fade models to point to
         # models in the ttmodels tree
@@ -109,9 +109,9 @@ class ToonBase(OTPBase.OTPBase):
         # error code to 12.  But if we terminate for any other reason
         # without giving Python a chance to catch the error, it will
         # remain exit code 11: sudden death without Python cleanup.
-        if __builtins__.has_key("launcher") and launcher:
+        if "launcher" in __builtins__ and launcher:
             launcher.setPandaErrorCode(11)
-        
+
         # Set our max dt so avatars with a low frame rate will
         # not pop through collision walls
 
@@ -154,7 +154,7 @@ class ToonBase(OTPBase.OTPBase):
         # Handle Alt-tab notification from gsg
         self.accept('PandaPaused', self.disableAllAudio)
         self.accept('PandaRestarted', self.enableAllAudio)
-        
+
         self.friendMode = self.config.GetBool("switchboard-friends", 0)
         self.wantPets = self.config.GetBool('want-pets', 1)
         self.wantBingo = self.config.GetBool('want-fish-bingo', 1)
@@ -166,7 +166,7 @@ class ToonBase(OTPBase.OTPBase):
         if self.inactivityTimeout:
             self.notify.debug('Enabling Panda timeout: %s' % self.inactivityTimeout)
             self.mouseWatcherNode.setInactivityTimeout(self.inactivityTimeout)
-            
+
         # minigame debug flags
         self.randomMinigameAbort = self.config.GetBool(
             'random-minigame-abort', 0)
@@ -204,7 +204,7 @@ class ToonBase(OTPBase.OTPBase):
         else:
             # convert to a bool
             self.creditCardUpFront = (self.creditCardUpFront != 0)
-        
+
         # housing
         self.housingEnabled = self.config.GetBool(
             'want-housing', 1)
@@ -224,7 +224,7 @@ class ToonBase(OTPBase.OTPBase):
         # cloud platforms in estates
         self.cloudPlatformsEnabled = self.config.GetBool(
             'estate-clouds', 0)
-            
+
         # greySpacing Allowed?
         self.greySpacing = self.config.GetBool(
             'allow-greyspacing', 0)
@@ -245,21 +245,21 @@ class ToonBase(OTPBase.OTPBase):
 
         self.killInterestResponse = self.config.GetBool(
             'kill-interest-response', 0)
-        
-        #whitelist text styles        
+
+        #whitelist text styles
         tpMgr = TextPropertiesManager.getGlobalPtr()
-        
+
         WLDisplay = TextProperties()
         WLDisplay.setSlant(0.3)
-        
+
         WLEnter = TextProperties()
         WLEnter.setTextColor(1.0,0.0,0.0,1)
-        
+
         tpMgr.setProperties('WLDisplay', WLDisplay)
         tpMgr.setProperties('WLEnter', WLEnter)
-        
+
         del tpMgr
-            
+
         self.lastScreenShotTime = globalClock.getRealTime()
         self.accept('InputState-forward', self.__walking)
         self.canScreenShot = 1
@@ -280,17 +280,17 @@ class ToonBase(OTPBase.OTPBase):
         if base.mouse2cam:
             self.mouse2cam.reparentTo(self.dataUnused)
         # end of hack.
-        
+
     def __walking(self, pressed):
         self.walking = pressed
-        
+
 
     def takeScreenShot(self):
         namePrefix = 'screenshot'
         namePrefix = launcher.logPrefix + namePrefix
-            
+
         #requires that you have at least 1 second between shots
-        timedif = globalClock.getRealTime() - self.lastScreenShotTime  
+        timedif = globalClock.getRealTime() - self.lastScreenShotTime
         if self.glitchCount > 10 and self.walking:
             return
         if timedif < 1.0 and self.walking:
@@ -318,7 +318,7 @@ class ToonBase(OTPBase.OTPBase):
             coordTextLabel = DirectLabel(
                 pos = (-0.81,0.001,-0.87),
                 text = ctext,
-                text_scale = 0.05, 
+                text_scale = 0.05,
                 text_fg = VBase4(1.0,1.0,1.0,1.0),
                 text_bg = (0,0,0,0),
                 text_shadow = (0,0,0,1),
@@ -330,7 +330,7 @@ class ToonBase(OTPBase.OTPBase):
                 strTextLabel = DirectLabel(
                     pos = (0.,0.001,0.9),
                     text = self.screenshotStr,
-                    text_scale = 0.05, 
+                    text_scale = 0.05,
                     text_fg = VBase4(1.0,1.0,1.0,1.0),
                     text_bg = (0,0,0,0),
                     text_shadow = (0,0,0,1),
@@ -389,7 +389,7 @@ class ToonBase(OTPBase.OTPBase):
         clickSound = DirectGuiGlobals.getDefaultClickSound()
         if clickSound:
             NametagGlobals.setClickSound(clickSound)
-        
+
         # For now, we'll leave the Toon at the same point as the
         # camera.  When we have a real toon later, we'll change it.
         NametagGlobals.setToon(self.cam)
@@ -483,7 +483,7 @@ class ToonBase(OTPBase.OTPBase):
             # gameservers on the launcher command line.  Once this
             # code has been published and the startup scripts modified
             # appropriately, we can remove this code.
-            
+
             failover = base.config.GetString("server-failover", "")
             serverURL = serverList[0]
             for arg in failover.split():
@@ -496,14 +496,14 @@ class ToonBase(OTPBase.OTPBase):
 
                 if url != serverURL:
                     serverList.append(url)
-            
+
         # Connect to the server
         cr.loginFSM.request("connect", [serverList])
-        
+
     def removeGlitchMessage(self):
         self.ignore('InputState-forward')
         print("ignoring InputState-forward")
-        
+
 
     def exitShow(self, errorCode = None):
         self.notify.info("Exiting Toontown: errorCode = %s" % errorCode)
@@ -552,14 +552,14 @@ class ToonBase(OTPBase.OTPBase):
         base.cr._userLoggingOut = False
         # make sure to get rid of all the DistributedObjects before tearing down
         # the playgame/login FSMs
-        try: 
+        try:
             localAvatar
         except:
             pass
         else:
             messenger.send('clientLogout')
             self.cr.dumpAllSubShardObjects()
-        
+
         self.cr.loginFSM.request("shutdown")
 
         # If that returned, it didn't stick.  No problem.
@@ -572,7 +572,7 @@ class ToonBase(OTPBase.OTPBase):
         # and boot the user to the appropriate web page.
 
         launcher.setPandaErrorCode(14)
-            
+
         if self.cr.timeManager:
             self.cr.timeManager.setDisconnectReason(ToontownGlobals.DisconnectGraphicsError)
 

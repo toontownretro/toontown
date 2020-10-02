@@ -1,6 +1,6 @@
 from direct.distributed import DistributedObject
 from toontown.toonbase import ToontownGlobals
-import MailboxGlobals
+from . import MailboxGlobals
 from toontown.catalog import CatalogItem
 from toontown.catalog import CatalogItemList
 from toontown.toontowngui import TTDialog
@@ -8,7 +8,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.catalog import MailboxScreen
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.distributed.ClockDelta import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 import random
 from direct.interval.IntervalGlobal import SoundInterval
 
@@ -27,14 +27,14 @@ class DistributedMailbox(DistributedObject.DistributedObject):
         self.flagIval = None
         self.nameText = None
         self.fullIndicator = 0
-        
+
         self.mailboxGui = None
         self.mailboxDialog = None
 
         # To be filled in later.
         self.mailboxSphereEvent = None
         self.mailboxSphereEnterEvent = None
-        
+
         self.mailboxGuiDoneEvent = "mailboxGuiDone"
 
     def announceGenerate(self):
@@ -59,13 +59,13 @@ class DistributedMailbox(DistributedObject.DistributedObject):
 
         houseNode = self.cr.playGame.hood.loader.houseNode[self.housePosInd]
         estateNode = houseNode.getParent()
-        
+
         zOffset = 0
         if self.housePosInd == 3:
             zOffset = -1
         elif self.housePosInd == 2:
             zOffset = 0.5
-        
+
         self.model = loader.loadModel('phase_5.5/models/estate/mailboxHouse')
         self.model.reparentTo(estateNode)
         self.model.setPos(houseNode, 19, -4, 0 + zOffset)
@@ -78,12 +78,12 @@ class DistributedMailbox(DistributedObject.DistributedObject):
             self.flag.setP(FlagPitchEmpty)
 
         self.__setupName()
-        
+
         # Find the collision tube and rename it so we can detect
         # collisions with the mailbox.
         collision = self.model.find('**/mailbox_collision')
         collision.setName(self.mailboxSphereEvent)
-        
+
     def disable(self):
         DistributedMailbox.notify.debug("disable")
         self.notify.debug("disable")
@@ -132,7 +132,7 @@ class DistributedMailbox(DistributedObject.DistributedObject):
                 if self.flagIval:
                     self.flagIval.pause()
                     self.flagIval = None
-                    
+
                 # Animate the flag going up or down.
                 p = FlagPitchEmpty
                 if self.fullIndicator:
@@ -140,8 +140,8 @@ class DistributedMailbox(DistributedObject.DistributedObject):
                 self.flagIval = self.flag.hprInterval(
                     0.5, VBase3(0, p, 0),blendType = 'easeInOut')
                 self.flagIval.start()
-            
-        
+
+
     def __handleEnterSphere(self, collEntry):
         DistributedMailbox.notify.debug("Entering Mailbox Sphere....")
         # don't let other toons open the mailbox now
@@ -172,7 +172,7 @@ class DistributedMailbox(DistributedObject.DistributedObject):
             self.mailboxDialog.cleanup()
             self.mailboxDialog = None
         self.__handleMailboxDone()
-        
+
     def __handleMailboxDone(self):
         DistributedMailbox.notify.debug("Mailbox Done")
         self.sendUpdate("avatarExit", [])
@@ -189,26 +189,26 @@ class DistributedMailbox(DistributedObject.DistributedObject):
         #when the tutorial ends
         #import pdb; pdb.set_trace()
         self.notify.debug("freeAvatar")
-        
+
         curState = base.cr.playGame.getPlace().getState()
         self.notify.debug('Estate.getState() == %s' % curState)
-        
+
         if not curState == 'stopped':
             base.cr.playGame.getPlace().setState("walk")
         self.ignore('mailboxAsleep')
-        
+
         # Start accepting the mailbox collision sphere event again
         self.accept(self.mailboxSphereEnterEvent, self.__handleEnterSphere)
 
     def setMovie(self, mode, avId):
         """
         This is a message from the AI describing a movie between this mailbox
-        and a Toon that has approached us. 
+        and a Toon that has approached us.
         """
-        
+
         # See if this is the local toon
         isLocalToon = (avId == base.localAvatar.doId)
-        
+
         if isLocalToon:
             DistributedMailbox.notify.debug("setMovie( mode=%d, avId=%d ) called on a local toon" %(mode, avId))
         else:
@@ -219,7 +219,7 @@ class DistributedMailbox(DistributedObject.DistributedObject):
         if (mode == MailboxGlobals.MAILBOX_MOVIE_CLEAR):
             DistributedMailbox.notify.debug("setMovie: clear")
             return
-        
+
         elif (mode == MailboxGlobals.MAILBOX_MOVIE_EXIT):
             # Play one of the two mailbox closing sounds
             if random.random() < 0.5:
@@ -229,10 +229,10 @@ class DistributedMailbox(DistributedObject.DistributedObject):
                 sfx= base.loadSfx(
                     "phase_5.5/audio/sfx/mailbox_close_2.mp3")
             sfxTrack = SoundInterval(sfx, node=self.model)
-            sfxTrack.start()                
+            sfxTrack.start()
             DistributedMailbox.notify.debug("setMovie: exit")
             return
-        
+
         elif (mode == MailboxGlobals.MAILBOX_MOVIE_EMPTY):
             DistributedMailbox.notify.debug("setMovie: empty")
             if isLocalToon:
@@ -245,7 +245,7 @@ class DistributedMailbox(DistributedObject.DistributedObject):
                     command = self.__clearDialog,
                     )
             return
-        
+
         elif (mode == MailboxGlobals.MAILBOX_MOVIE_WAITING):
             DistributedMailbox.notify.debug("setMovie: waiting")
             if isLocalToon:
@@ -258,7 +258,7 @@ class DistributedMailbox(DistributedObject.DistributedObject):
                     command = self.__clearDialog,
                     )
             return
-        
+
         elif (mode == MailboxGlobals.MAILBOX_MOVIE_READY):
             DistributedMailbox.notify.debug("setMovie: ready")
             # Play one of the two mailbox opening sounds
@@ -267,7 +267,7 @@ class DistributedMailbox(DistributedObject.DistributedObject):
             else:
                 sfx= base.loadSfx("phase_5.5/audio/sfx/mailbox_open_2.mp3")
             sfxTrack = SoundInterval(sfx, node=self.model)
-            sfxTrack.start()                
+            sfxTrack.start()
             # If you are local toon, show the mailbox gui
             if isLocalToon:
                 self.mailboxGui = MailboxScreen.MailboxScreen(
@@ -292,7 +292,7 @@ class DistributedMailbox(DistributedObject.DistributedObject):
 
         else:
             DistributedMailbox.notify.warning("unknown mode in setMovie: %s" % (mode))
-        
+
 
     def acceptItem(self, item, index, callback, optional = -1):
         # Requests the purchase of the given item from the AI.  When
@@ -322,7 +322,7 @@ class DistributedMailbox(DistributedObject.DistributedObject):
             print("DistributedMailbox User Canceled")
         # Sent from the AI in response to acceptItemMessage.
         self.doCallbackContext(context, [retcode])
-        
+
     def discardItem(self, item, index, callback, optional = -1):
         DistributedMailbox.notify.debug("discardItem")
         # Discards an item
@@ -338,8 +338,8 @@ class DistributedMailbox(DistributedObject.DistributedObject):
         """
         DistributedMailbox.notify.debug("rejectInvite")
         context = self.getCallbackContext(callback, [item, acceptingIndex])
-        self.sendUpdate("rejectInviteMessage", [context, item.inviteKey])        
-        
+        self.sendUpdate("rejectInviteMessage", [context, item.inviteKey])
+
     def discardItemResponse(self, context, retcode):
         DistributedMailbox.notify.debug("discardItemResponse")
         # Sent from the AI in response to acceptItemMessage.
@@ -361,7 +361,7 @@ class DistributedMailbox(DistributedObject.DistributedObject):
             text.setFont(ToontownGlobals.getToonFont())
             text.setWordwrap(7.5)
             text.setText(self.name)
-        
+
             self.nameText = nameOrigin.attachNewNode(text)
             self.nameText.setH(90)
             self.nameText.setScale(0.2)

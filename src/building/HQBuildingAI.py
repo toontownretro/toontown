@@ -1,9 +1,9 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
-import DistributedDoorAI
-import DistributedHQInteriorAI
-import FADoorCodes
-import DoorTypes
+from . import DistributedDoorAI
+from . import DistributedHQInteriorAI
+from . import FADoorCodes
+from . import DoorTypes
 from toontown.toon import NPCToons
 from toontown.quest import Quests
 
@@ -17,7 +17,7 @@ class HQBuildingAI:
         self.air = air
         self.exteriorZone = exteriorZone
         self.interiorZone = interiorZone
-        
+
         self.setup(blockNumber)
 
     def cleanup(self):
@@ -47,15 +47,15 @@ class HQBuildingAI:
         self.npcs = NPCToons.createNpcsInZone(self.air, self.interiorZone)
 
         self.interior.generateWithRequired(self.interiorZone)
-        # Outside door 0. 
+        # Outside door 0.
         door0=DistributedDoorAI.DistributedDoorAI(
             self.air, blockNumber, DoorTypes.EXT_HQ,
             doorIndex=0)
-        # Outside door 1. 
+        # Outside door 1.
         door1=DistributedDoorAI.DistributedDoorAI(
             self.air, blockNumber, DoorTypes.EXT_HQ,
             doorIndex=1)
-        # Inside door 0. 
+        # Inside door 0.
         insideDoor0=DistributedDoorAI.DistributedDoorAI(
             self.air,
             blockNumber,
@@ -90,9 +90,9 @@ class HQBuildingAI:
         self.door0=door0
         self.door1=door1
         self.insideDoor0=insideDoor0
-        self.insideDoor1=insideDoor1        
+        self.insideDoor1=insideDoor1
         return
-       
+
     def isSuitBlock(self):
         # For compatibility with DistributedBuildingAI
         return 0

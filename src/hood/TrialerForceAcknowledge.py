@@ -1,6 +1,6 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
-import ZoneUtil
+from . import ZoneUtil
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TeaserPanel
 
@@ -31,7 +31,7 @@ class TrialerForceAcknowledge:
             # paid user, let them through
             letThrough()
             return
-        
+
         if ZoneUtil.getCanonicalHoodId(destHood) in \
            (ToontownGlobals.ToontownCentral,
             ToontownGlobals.MyEstate,
@@ -47,7 +47,7 @@ class TrialerForceAcknowledge:
                 base.localAvatar.b_setAnimState('neutral', 1)
             except:
                 pass
-            
+
         doneStatus['mode'] = 'fail'
         self.doneStatus = doneStatus
         self.dialog = TeaserPanel.TeaserPanel(pageName='otherHoods',

@@ -1,6 +1,6 @@
-from pandac.PandaModules import Point3
+from toontown.toonbase.ToontownModules import Point3
 from direct.directnotify import DirectNotifyGlobal
-import HoodDataAI
+from . import HoodDataAI
 from toontown.toonbase import ToontownGlobals
 from toontown.coghq import DistributedCogHQDoorAI
 from toontown.building import DistributedDoorAI
@@ -47,17 +47,17 @@ class BossbotHQDataAI(HoodDataAI.HoodDataAI):
         self.lobbyMgr = LobbyManagerAI.LobbyManagerAI(self.air, DistributedBossbotBossAI.DistributedBossbotBossAI)
         self.lobbyMgr.generateWithRequired(ToontownGlobals.BossbotLobby)
         self.addDistObj(self.lobbyMgr)
-        
+
         self.lobbyElevator = DistributedBBElevatorAI.DistributedBBElevatorAI(self.air, self.lobbyMgr, ToontownGlobals.BossbotLobby, antiShuffle = 1) # antiShufflePOI
         self.lobbyElevator.generateWithRequired(ToontownGlobals.BossbotLobby)
         self.addDistObj(self.lobbyElevator)
-        
+
         if simbase.config.GetBool('want-boarding-groups', 1):
             self.boardingParty = DistributedBoardingPartyAI.DistributedBoardingPartyAI(self.air, [self.lobbyElevator.doId], 8)
             self.boardingParty.generateWithRequired(ToontownGlobals.BossbotLobby)
         #self.addDistObj(self.boardingParty)
-        
-        
+
+
 
         def makeDoor(destinationZone, intDoorIndex, extDoorIndex, lock=0):
             #set up both doors
@@ -70,7 +70,7 @@ class BossbotHQDataAI(HoodDataAI.HoodDataAI):
                 destinationZone, doorIndex=extDoorIndex, lockValue=lock)
 
             #point them to each other
-            extDoor.setOtherDoor(intDoor)                
+            extDoor.setOtherDoor(intDoor)
             intDoor.setOtherDoor(extDoor)
 
             #generate them
@@ -87,7 +87,7 @@ class BossbotHQDataAI(HoodDataAI.HoodDataAI):
         makeDoor(ToontownGlobals.BossbotLobby, 0, 0, FADoorCodes.BB_DISGUISE_INCOMPLETE)
         # Plaza -> Office
         #makeDoor(ToontownGlobals.LawbotOfficeExt, 0, 0)
-        
+
         kartIdList = self.createCogKarts()
         if simbase.config.GetBool('want-boarding-groups', 1):
             self.courseBoardingParty = DistributedBoardingPartyAI.DistributedBoardingPartyAI(self.air, kartIdList, 4)
@@ -99,7 +99,7 @@ class BossbotHQDataAI(HoodDataAI.HoodDataAI):
         hprList = ( (110.815, 0, 0), (61.231, 0,0), (-105.481,0,0) )
         mins = ToontownGlobals.FactoryLaffMinimums[3]
         kartIdList = []
-        for cogCourse in xrange(len(posList)):
+        for cogCourse in range(len(posList)):
             pos = posList[cogCourse]
             hpr = hprList[cogCourse]
             cogKart = DistributedCogKartAI.DistributedCogKartAI(self.air, cogCourse,

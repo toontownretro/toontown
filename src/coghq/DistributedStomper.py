@@ -1,13 +1,13 @@
 """Stomper module: contains the Stomper class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
-from StomperGlobals import *
+from .StomperGlobals import *
 from direct.distributed import ClockDelta
 from direct.showbase.PythonUtil import lerp
 import math
-import DistributedCrusherEntity
-import MovingPlatform
+from . import DistributedCrusherEntity
+from . import MovingPlatform
 from direct.directnotify import DirectNotifyGlobal
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
@@ -20,8 +20,8 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
                      'phase_9/audio/sfx/CHQ_FACT_stomper_large.mp3']
 
     stomperModels = ['phase_9/models/cogHQ/square_stomper',]
-    
-    
+
+
     def __init__(self, cr):
         self.stomperModels = ['phase_9/models/cogHQ/square_stomper',]
         self.lastPos = Point3(0,0,0)
@@ -47,7 +47,7 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
         for s in self.stomperSounds:
             self.sounds.append(loader.loadSfx(s))
         DistributedCrusherEntity.DistributedCrusherEntity.__init__(self, cr)
-        
+
     def generateInit(self):
         self.notify.debug('generateInit')
         DistributedCrusherEntity.DistributedCrusherEntity.generateInit(self)
@@ -55,7 +55,7 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
     def generate(self):
         self.notify.debug('generate')
         DistributedCrusherEntity.DistributedCrusherEntity.generate(self)
-        
+
     def announceGenerate(self):
         self.notify.debug('announceGenerate')
         DistributedCrusherEntity.DistributedCrusherEntity.announceGenerate(self)
@@ -76,12 +76,12 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             self.ival.pause()
             del self.ival
             self.ival = None
-  
+
         if self.smokeTrack:
             self.smokeTrack.pause()
             del self.smokeTrack
             self.smokeTrack = None
-            
+
         DistributedCrusherEntity.DistributedCrusherEntity.disable(self)
 
     def delete(self):
@@ -111,7 +111,7 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             model = stomperModel
 
             self.rotateNode.setP(-90)
-            
+
             # stash the up/side collisions
             sideList = model.findAllMatches("**/collSide")
             for side in sideList:
@@ -157,7 +157,7 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             floorShaft = model.find("**/shaft_collisions/**/collDownFloor").node()
             for i in range(floorShaft.getNumSolids()):
                 floorShaft.modifySolid(i).setEffectiveNormal(Vec3(0.0,-1.0,0.0))
-                
+
             # listen for our own stomperClosed event.  we only need to
             # do this for vertical stompers, since the floor is the other
             # "stomping" surface.  horizontal stompers actually need a stomperPair
@@ -182,7 +182,7 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             for child in head.findAllMatches('+ModelNode'):
                 child.node().setPreserveTransform(ModelNode.PTNet)
             model.flattenLight()
-            
+
             # stash the up/down collisions
             upList = model.findAllMatches("**/collUp")
             for up in upList:
@@ -190,7 +190,7 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             downList = model.findAllMatches("**/collDown")
             for down in downList:
                 down.stash()
-            
+
             # store the crushSurface so we can stash it when the toon is stunned
             # SDN: maybe we don't want to do this for horizontal stompers
             self.crushSurface = model.find("**/head_collisions/**/collSideWalls")
@@ -221,7 +221,7 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
         # up state by default
         if self.motion == MotionSwitched:
             self.model.setPos(0,-self.range, 0)
-            
+
         self.model.reparentTo(self.rotateNode)
 
         if self.wantSmoke:
@@ -239,13 +239,13 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
                 self.crushSurface.stash()
             else:
                 self.crushSurface.unstash()
-            
+
     def unloadModel(self):
         if self.ival:
             self.ival.pause()
             del self.ival
             self.ival = None
-            
+
         if self.smoke:
             self.smoke.removeNode()
             del self.smoke
@@ -283,14 +283,14 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
                 # along the given axis
                 crushable.playCrushMovie(self.entId, axis)
         self.crushedList = []
-        
+
     def getMotionIval(self, mode = STOMPER_START):
         if self.range == 0.:
             return (None, 0)
         # we have to return wantSound, because of the one case
         # of a switched stomper, where the motion ival might be a rising motion
         wantSound = self.soundOn
-        
+
         # stomper should hit at t=0
         if self.motion is MotionLinear:
             motionIval = Sequence(
@@ -404,20 +404,20 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
                 LerpFunctionInterval(halfSinusFunc, duration=self.period),
                 )
         return (motionIval,wantSound)
-    
+
     def startStomper(self, startTime, mode = STOMPER_START):
         if self.ival:
             self.ival.pause()
             del self.ival
             self.ival = None
-            
+
         # Get the motion track for this stomper
         motionIval,wantSound = self.getMotionIval(mode)
 
         if motionIval == None:
             # this should only happen in editor mode or if range is zero
             return
-        
+
         # put the motion interval into a Parallel so that we can easily add
         # concurrent ivals on (like sound, etc)
         self.ival = Parallel(
@@ -441,7 +441,7 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             self.ival.append(
                 Sequence(Wait(sndDur),
                          Func(base.playSfx, self.sound, node=self.model, volume=.45)))
-            
+
         # shadow
         if self.shadow is not None and self.animateShadow:
             def adjustShadowScale(t, self=self):
@@ -466,7 +466,7 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             # we got this message from the AI, so the startTime is
             # the elapsed time since the AI generated the stomp message
             self.ival.start(startTime)
-            
+
 
     def stopStomper(self):
         if self.ival:
@@ -475,12 +475,12 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             self.smokeTrack.finish()
             del self.smokeTrack
             self.smokeTrack = None
-            
+
     def setMovie(self, mode, timestamp, crushedList):
         self.notify.debug("setMovie %d" % mode)
         timestamp = ClockDelta.globalClockDelta.networkToLocalTime(timestamp)
         now = globalClock.getFrameTime()
-        
+
         if (mode == STOMPER_START or
             mode == STOMPER_RISE or
             mode == STOMPER_STOMP):
@@ -495,7 +495,7 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
         taskMgr.remove(self.taskName("smokeTask"))
         if self.wantSmoke:
             taskMgr.add(self.__smokeTask, self.taskName("smokeTask"))
-        
+
     def __smokeTask(self, task):
         # smoke cloud after the cannon fires
         self.smoke.reparentTo(self)

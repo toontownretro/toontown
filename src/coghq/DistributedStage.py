@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
@@ -22,7 +22,7 @@ class DistributedStage(DistributedObject.DistributedObject):
 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
-        
+
         self.titleColor = (1,1,1,1)
         self.titleText = OnscreenText.OnscreenText(
             "",
@@ -36,8 +36,8 @@ class DistributedStage(DistributedObject.DistributedObject):
             )
         self.titleSequence = None
         self.pendingZoneChange = 0
-        
-        
+
+
 
     def generate(self):
         self.notify.debug('generate: %s' % self.doId)
@@ -53,38 +53,38 @@ class DistributedStage(DistributedObject.DistributedObject):
         self.curToonRoomNum = None
 
         base.localAvatar.setCameraCollisionsCanMove(1)
-        
-        
+
+
 
         # place local toon here just in case we don't have an entrancePoint
         # entity set up
 
 
         self.accept('SOSPanelEnter', self.handleSOSPanel)
-        
+
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
 
-        
+
     def placeToon(self):
         pX = random.randint(-2,2)
         pY = random.randint(-2,2)
         base.localAvatar.reparentTo(render)
         base.localAvatar.setPosHpr(pX,pY,0,0,0,0)
         self.camEnterRoom(0)
-        
-    
+
+
     # required fields
-    
+
     def setLayoutIndex(self, layoutIndex):
         self.layoutIndex = layoutIndex
-            
+
     def getLayoutIndex(self):
         return self.layoutIndex
-        
+
     def setZoneId(self, zoneId):
         self.zoneId = zoneId
-        
+
     def setStageId(self, id):
         DistributedStage.notify.debug('setStageId: %s' % id)
         self.stageId = id
@@ -129,7 +129,7 @@ class DistributedStage(DistributedObject.DistributedObject):
                 room.attachTo(self.hallways[i-1], rng)
             self.allRooms.append(room)
             self.listenForFloorEvents(room)
-            
+
             if i < (numRooms-1):
                 # add a hallway leading out of the room
                 hallway = StageRoom.StageRoom(self.layout.getHallwayModel(i))
@@ -157,8 +157,8 @@ class DistributedStage(DistributedObject.DistributedObject):
                         % name)
                 else:
                     self.camEnterRoom(roomNum)
-                    print collEntry
-                    print 
+                    print(collEntry)
+                    print()
         self.accept('on-floor', handleCameraRayFloorCollision)
 
         if bboard.has('stageRoom'):
@@ -184,8 +184,8 @@ class DistributedStage(DistributedObject.DistributedObject):
         base.transitions.irisIn()
         #this next bit is a hack, but it's the only thing that works reliably
         taskMgr.doMethodLater(0.25, self._delayedInit, "delayedInit")
-        
-        
+
+
     def _delayedInit(self, taskFooler = 0):
         self.camEnterRoom(0)
         base.localAvatar.unpauseGlitchKiller()
@@ -195,7 +195,7 @@ class DistributedStage(DistributedObject.DistributedObject):
         except:
             pass
         return Task.done
-        
+
 
     def listenForFloorEvents(self, room):
         roomNum = room.getRoomNum()
@@ -272,7 +272,7 @@ class DistributedStage(DistributedObject.DistributedObject):
     def warpToRoom(self, roomId):
         # returns False if invalid roomId
         # find a room with the right id
-        for i in xrange(len(self.rooms)):
+        for i in range(len(self.rooms)):
             room = self.rooms[i]
             if room.roomId == roomId:
                 break
@@ -285,13 +285,13 @@ class DistributedStage(DistributedObject.DistributedObject):
 
     def disable(self):
         self.notify.debug('disable')
-        
+
         if self.titleSequence:
             self.titleSequence.finish()
         self.titleSequence = None
 
         self.ignoreAll()
-        
+
         if self.titleText:
             self.titleText.cleanup()
             self.titleText = None
@@ -326,7 +326,7 @@ class DistributedStage(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.delete(self)
         self.ignore('SOSPanelEnter')
         bboard.remove('stage')
-        
+
     def handleSOSPanel(self, panel):
         # make a list of toons that are still in the stage
         avIds = []
@@ -342,14 +342,14 @@ class DistributedStage(DistributedObject.DistributedObject):
             self.stageId, self.floorNum+1))
         if hasattr(self, 'currentRoomName'):
             base.addScreenshotString('%s' % self.currentRoomName)
-            
+
     def setStageZone(self, zoneId):
         #print("SETTING STAGE ZONE!")
         base.cr.sendSetZoneMsg(zoneId)
         base.cr.playGame.getPlace().fsm.request("walk")
         scale = base.localAvatar.getScale()
         base.camera.setScale(scale)
-        
+
     def showInfoText(self, text = "hello world"):
         description = text
         if description and description != '':
@@ -357,7 +357,7 @@ class DistributedStage(DistributedObject.DistributedObject):
             self.titleText.setColor(Vec4(*self.titleColor))
             self.titleText.setColorScale(1,1,1,1)
             self.titleText.setFg(self.titleColor)
-            
+
             if self.titleSequence:
                 self.titleSequence.finish()
 
@@ -369,20 +369,20 @@ class DistributedStage(DistributedObject.DistributedObject):
                             LerpColorScaleInterval(self.titleText, duration=0.5, colorScale = Vec4(1,1,1,0.0)),
                             Func(self.hideTitleText),
                         )
-                    
+
             self.titleSequence.start()
-        
-            
-            
+
+
+
     def showTitleText(self):
         if self.titleText:
             self.titleText.show()
-        
+
     def hideTitleText(self):
         if self.titleText or 1:
             self.titleText.hide()
             self.titleText.setText("")
-            
+
     def elevatorAlert(self, avId):
         if base.localAvatar.doId != avId:
             name = base.cr.doId2do[avId].getName()
@@ -390,4 +390,3 @@ class DistributedStage(DistributedObject.DistributedObject):
             #av = base.localAvatar
             #message = TLocalizer.stageToonEnterElevator % (name)
             #av.setSystemMessage( 0, message)
-            

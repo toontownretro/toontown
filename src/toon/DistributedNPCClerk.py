@@ -1,8 +1,8 @@
-from pandac.PandaModules import *
-from DistributedNPCToonBase import *
-from toontown.minigame import ClerkPurchase 
+from toontown.toonbase.ToontownModules import *
+from .DistributedNPCToonBase import *
+from toontown.minigame import ClerkPurchase
 from toontown.shtiker.PurchaseManagerConstants import *
-import NPCToons
+from . import NPCToons
 from direct.task.Task import Task
 from toontown.toonbase import TTLocalizer
 from toontown.hood import ZoneUtil
@@ -16,7 +16,7 @@ class DistributedNPCClerk(DistributedNPCToonBase):
         self.isLocalToon = 0
         self.av = None
         self.purchaseDoneEvent = 'purchaseDone'
-            
+
     def disable(self):
         self.ignoreAll()
         taskMgr.remove(self.uniqueName('popupPurchaseGUI'))
@@ -51,7 +51,7 @@ class DistributedNPCClerk(DistributedNPCToonBase):
         place = base.cr.playGame.getPlace()
         if place:
             place.fsm.request('walk')
-            
+
     def handleCollisionSphereEnter(self, collEntry):
         """
         Response for a toon walking up to this NPC
@@ -97,14 +97,14 @@ class DistributedNPCClerk(DistributedNPCToonBase):
     def setMovie(self, mode, npcId, avId, timestamp):
         """
         This is a message from the AI describing a movie between this NPC
-        and a Toon that has approached us. 
+        and a Toon that has approached us.
         """
         timeStamp = ClockDelta.globalClockDelta.localElapsedTime(timestamp)
         self.remain = NPCToons.CLERK_COUNTDOWN_TIME - timeStamp
 
         # See if this is the local toon
         self.isLocalToon = (avId == base.localAvatar.doId)
-            
+
         assert(self.notify.debug("setMovie: %s %s %s %s" %
                           (mode, avId, timeStamp, self.isLocalToon)))
 
@@ -153,7 +153,7 @@ class DistributedNPCClerk(DistributedNPCToonBase):
             if (self.isLocalToon):
                 taskMgr.doMethodLater(1.0, self.popupPurchaseGUI,
                                        self.uniqueName('popupPurchaseGUI'))
-            
+
         elif (mode == NPCToons.PURCHASE_MOVIE_COMPLETE):
             assert self.notify.debug('PURCHASE_MOVIE_COMPLETE')
             self.setChatAbsolute(TTLocalizer.STOREOWNER_GOODBYE,

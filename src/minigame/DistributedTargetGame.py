@@ -1,28 +1,28 @@
 """DistributedTargetGame module: contains the DistributedTargetGame class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
-from DistributedMinigame import *
+from .DistributedMinigame import *
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
-import ArrowKeys
-import TargetGameGlobals
+from . import ArrowKeys
+from . import TargetGameGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 import math
 from math import *
 import random
 import random
-import RubberBand
-import FogOverlay
+from . import RubberBand
+from . import FogOverlay
 
 def circleX(angle, radius, centerX, centerY):
     x = radius * cos(angle) + centerX
     return x
-    
+
 def circleY(angle, radius, centerX, centerY):
     y = radius * sin(angle) + centerY
     return y
@@ -33,26 +33,26 @@ def getCirclePoints(segCount, centerX, centerY, radius, wideX= 1.0, wideY = 1.0)
         coordX = wideX * (circleX(((pi * 2.0) * float(float(seg) / float(segCount))), radius, centerX, centerY))
         coordY = wideY * (circleY(((pi * 2.0) * float(float(seg) / float(segCount))), radius, centerX, centerY))
         returnShape.append((coordX, coordY, 1))
-            
+
     coordX =  wideX * (circleX(((pi * 2.0) * float(0 / segCount)), radius, centerX, centerY))
     coordY =  wideY * (circleY(((pi * 2.0) * float(0 / segCount)), radius, centerX, centerY))
     returnShape.append((coordX, coordY, 1))
     return returnShape
-    
+
 def getRingPoints(segCount, centerX, centerY, radius, thickness = 2.0 ,wideX= 1.0, wideY = 1.0):
     returnShape = []
     for seg in range(0, segCount):
         coordX = wideX * (circleX(((pi * 2.0) * float(float(seg) / float(segCount))), radius - thickness, centerX, centerY))
         coordY = wideY * (circleY(((pi * 2.0) * float(float(seg) / float(segCount))), radius - thickness, centerX, centerY))
         returnShape.append((coordX, coordY, 1))
-        
+
         coordX = wideX * (circleX(((pi * 2.0) * float(float(seg) / float(segCount))), radius, centerX, centerY))
         coordY = wideY * (circleY(((pi * 2.0) * float(float(seg) / float(segCount))), radius, centerX, centerY))
         returnShape.append((coordX, coordY, 1))
 
     return returnShape
-        
-    
+
+
 def addRing(attachNode, color, vertexCount, radius, layer = 0, thickness = 1.0 ):
     targetGN=GeomNode("target Circle")
     zFloat = 0.025
@@ -65,21 +65,21 @@ def addRing(attachNode, color, vertexCount, radius, layer = 0, thickness = 1.0 )
     for vertex in targetCircleShape:
         targetCircleVertexWriter.addData3f(0.0 + vertex[0] , 0.0 + vertex[1] , zFloat)
         targetCircleColorWriter.addData4f(1.0, 1.0, 1.0, 1.0)
-        
+
     targetTris=GeomTristrips(Geom.UHStatic) # triangle obejcet
-    
-    sizeTarget = len(targetCircleShape)    
+
+    sizeTarget = len(targetCircleShape)
     for countVertex in range(0, sizeTarget):
         targetTris.addVertex(countVertex)
-    targetTris.addVertex(0)  
-    targetTris.addVertex(1)       
+    targetTris.addVertex(0)
+    targetTris.addVertex(1)
     targetTris.closePrimitive()
-    
+
     targetGeom=Geom(targetCircleVertexData)
     targetGeom.addPrimitive(targetTris)
     attachNode.addGeom(targetGeom)
     return targetGeom
-    
+
 def addCircle(attachNode, color, vertexCount, radius, layer = 0):
     targetGN=GeomNode("target Circle")
     zFloat = 0.025
@@ -90,25 +90,25 @@ def addCircle(attachNode, color, vertexCount, radius, layer = 0):
     targetCircleColorWriter = GeomVertexWriter(targetCircleVertexData, "color")
     targetCircleVertexWriter.addData3f(0.0, 0.0, zFloat) #center
     targetCircleColorWriter.addData4f(1.0, 1.0, 1.0, 1.0)
-    
+
     for vertex in targetCircleShape:
         targetCircleVertexWriter.addData3f(0.0 + vertex[0] , 0.0 + vertex[1] , zFloat)
         targetCircleColorWriter.addData4f(1.0, 1.0, 1.0, 1.0)
-        
+
     targetTris=GeomTrifans(Geom.UHStatic) # triangle obejcet
-    
+
     sizeTarget = len(targetCircleShape)
-    targetTris.addVertex(0)        
+    targetTris.addVertex(0)
     for countVertex in range(1, sizeTarget + 1):
         targetTris.addVertex(countVertex)
-    targetTris.addVertex(1)      
+    targetTris.addVertex(1)
     targetTris.closePrimitive()
-    
+
     targetGeom=Geom(targetCircleVertexData)
     targetGeom.addPrimitive(targetTris)
     attachNode.addGeom(targetGeom)
     return targetGeom
-    
+
 def checkPlace(placeX, placeY, fillSize, placeList):
     goodPlacement = 1
     for place in placeList:
@@ -119,8 +119,8 @@ def checkPlace(placeX, placeY, fillSize, placeList):
             break
     return goodPlacement
 
-    
-    
+
+
 
 class DistributedTargetGame(DistributedMinigame):
 
@@ -132,7 +132,7 @@ class DistributedTargetGame(DistributedMinigame):
     UPDATE_POWERBAR_TASK = "TargetGameUpdatePowerBarTask"
     GAME_DONE_TASK = "gameDoneTask"
     UPDATE_COUNTDOWN_TASK = "countdown task"
-    
+
     FLY2FALL_CAM_TASK = "fly2FallCameraTask"
     PRELAUNCH_CAM_TASK = "prelaunchCameraTask"
     SCORE_CAM_TASK = "scoreCameraTask"
@@ -145,7 +145,7 @@ class DistributedTargetGame(DistributedMinigame):
     # update the shadow positions after collisions have been performed
     # but before render
     UPDATE_SHADOWS_PRIORITY = 47
-    
+
     UMBRELLA_TEXTURE_LIST = ['phase_4/maps/mg_slingshot_umbrella_blue.jpg',
                              'phase_4/maps/mg_slingshot_umbrella_purple.jpg',
                              'phase_4/maps/mg_slingshot_umbrella_red.jpg',
@@ -209,20 +209,20 @@ class DistributedTargetGame(DistributedMinigame):
         self.stretchX = 0
         self.stretchY = 0
         self.targetsPlaced = []
-        
 
-        
+
+
         self.pattern = None
         self.maxDist = 50
-        
+
         self.targetMarker = None
-        
+
         self.umbrellaColorSelect = [1,1,1,1]
-        
+
         self.localTrack = None
         self.hitInfo = None
         #base.targetGame = self
-        
+
 
     def getTitle(self):
         return TTLocalizer.TargetGameTitle
@@ -259,7 +259,7 @@ class DistributedTargetGame(DistributedMinigame):
         self.TOON_INITIAL_SPACING = 14.
         waterZOffset = 28.
         self.SEA_FLOOR_Z = (-self.WATER_DEPTH/2.) + waterZOffset
-        
+
         self.FOGDISTGROUND = 600
         self.FOGDISTCLOUD = 200
 
@@ -291,7 +291,7 @@ class DistributedTargetGame(DistributedMinigame):
 
         self.TOON_LOD = 1000
 
-        
+
         self.speedLaunch = 60
         self.speedStall = 30
         self.speedForward = 0
@@ -306,27 +306,27 @@ class DistributedTargetGame(DistributedMinigame):
         self.launchLaterial = 0
         self.laterial = 0
         self.gravity = 12.5
-        
-        self.inList = []
-        
 
-        
+        self.inList = []
+
+
+
         self.placeShift = 10
-        
+
         self.startPower = 10
         self.canPressRight = 1
         self.canPressLeft = 1
         self.jumpCount = 0
-        
+
         self.trampZ = 3.6
         self.trampBounceCount = 0
         self.cameraState = "Low"
         self.updateTick = 0
-        
-        self.hitInfo = None
-        
 
-        
+        self.hitInfo = None
+
+
+
 
 
     def load(self):
@@ -334,7 +334,7 @@ class DistributedTargetGame(DistributedMinigame):
         DistributedMinigame.load(self)
 
         self.defineConstants()
-        
+
         self.help = DirectLabel(
              parent = aspect2d,
              relief = None,
@@ -343,12 +343,12 @@ class DistributedTargetGame(DistributedMinigame):
              text_scale = 0.08,
              text_fg = (1, 1, 1, 1),
              )
-             
+
         self.help.hide()
-        
+
         self.fogOver = FogOverlay.FogOverlay(Point3(self.CLOUD_COLOR[0], self.CLOUD_COLOR[1], self.CLOUD_COLOR[2]))
-        
-        
+
+
         self.scoreboard = DirectFrame(
                              parent = aspect2d,
                              relief=None,
@@ -357,7 +357,7 @@ class DistributedTargetGame(DistributedMinigame):
                              geom_scale = (1.75, 1, 0.75),
                              pos = (0, 0, 0.587),
                              )
-                             
+
         self.roundLabel = DirectLabel(
             parent = self.scoreboard,
             relief = None,
@@ -365,7 +365,7 @@ class DistributedTargetGame(DistributedMinigame):
             text = (TTLocalizer.TargetGameBoard % (self.round)),
             text_scale = 0.08,
             )
-            
+
         av1Label = DirectLabel(
             parent = self.scoreboard,
             relief = None,
@@ -374,7 +374,7 @@ class DistributedTargetGame(DistributedMinigame):
             text = " ",
             text_scale = 0.08,
             )
-            
+
         av2Label = DirectLabel(
             parent = self.scoreboard,
             relief = None,
@@ -383,7 +383,7 @@ class DistributedTargetGame(DistributedMinigame):
             text = " ",
             text_scale = 0.08,
             )
-            
+
         av3Label = DirectLabel(
             parent = self.scoreboard,
             relief = None,
@@ -392,7 +392,7 @@ class DistributedTargetGame(DistributedMinigame):
             text = " ",
             text_scale = 0.08,
             )
-            
+
         av4Label = DirectLabel(
             parent = self.scoreboard,
             relief = None,
@@ -401,7 +401,7 @@ class DistributedTargetGame(DistributedMinigame):
             text = " ",
             text_scale = 0.08,
             )
-            
+
         score1Label = DirectLabel(
             parent = self.scoreboard,
             relief = None,
@@ -410,7 +410,7 @@ class DistributedTargetGame(DistributedMinigame):
             text = " ",
             text_scale = 0.08,
             )
-            
+
         score2Label = DirectLabel(
             parent = self.scoreboard,
             relief = None,
@@ -419,7 +419,7 @@ class DistributedTargetGame(DistributedMinigame):
             text = " ",
             text_scale = 0.08,
             )
-            
+
         score3Label = DirectLabel(
             parent = self.scoreboard,
             relief = None,
@@ -428,7 +428,7 @@ class DistributedTargetGame(DistributedMinigame):
             text = " ",
             text_scale = 0.08,
             )
-            
+
         score4Label = DirectLabel(
             parent = self.scoreboard,
             relief = None,
@@ -437,17 +437,17 @@ class DistributedTargetGame(DistributedMinigame):
             text = " ",
             text_scale = 0.08,
             )
-            
+
         self.avLabels = [av1Label, av2Label, av3Label, av4Label]
         self.scoreLabels = [score1Label, score2Label, score3Label, score4Label]
 
-                             
-        self.scoreboard.hide()        
+
+        self.scoreboard.hide()
         self.music = base.loadMusic("phase_4/audio/bgm/MG_Diving.mid")
         #self.music = None
 
         self.sndAmbience = None
-        
+
 
         self.skyListLow = []
         self.skyListMid = []
@@ -455,7 +455,7 @@ class DistributedTargetGame(DistributedMinigame):
         # load the environment model (water, ground)
         loadBase = "phase_4/models/minigames/"
         self.modelName = "slingshot_game_desert4.bam"
-        
+
         self.trampoline = loader.loadModel("phase_4/models/minigames/slingshot_game_tramp.bam")
         self.trampoline.setBin('ground', 100)
         self.trampoline.find("**/tramp_shadow").hide()
@@ -463,7 +463,7 @@ class DistributedTargetGame(DistributedMinigame):
         self.cacti = loader.loadModel("phase_4/models/minigames/slingshot_game_cacti.bam")
         self.cactusA = self.cacti.find('**/cactus_a')
         self.cactusB = self.cacti.find('**/cactus_b')
-        
+
         self.findGround = '**/sand_layer1'
         self.findSky = '**/blue_sky_layer1'
         self.findCloudExtra = '**/cloud_layer1'
@@ -475,38 +475,38 @@ class DistributedTargetGame(DistributedMinigame):
         self.environModel = loader.loadModel(loadBase + self.modelName)
         self.skyGN = GeomNode("sky Geometry")
         self.skyNode1 = self.environModel.attachNewNode(self.skyGN)
-        
+
         leftMountModel = self.environModel.find(self.findLeftMount)
         rightMountModel = self.environModel.find(self.findRightMount)
-        
+
         wrongCloud = self.environModel.find(self.findCloudExtra)
         wrongCloud.hide()
-        
+
         backModel = self.environModel.find(self.findBack)
         backModel.hide()
-        
+
         leftMountModel.hide()
         rightMountModel.hide()
-        
-        groundModel = self.environModel.find(self.findGround) 
+
+        groundModel = self.environModel.find(self.findGround)
         groundModel.setBin('ground', 0)
         groundModel.setZ(-0.05)
-        
-        
+
+
         skyModel = self.environModel.find(self.findSky)
 
-        
+
         skyModel2 = self.environModel.find(self.findCloud)
-        
+
         skyModel3 = self.environModel.attachNewNode("skyLow")
         skyModel2.copyTo(skyModel3)
-        
-        
+
+
         skyModel.setZ(76.0)
         skyModel.setColorScale(1.0, 1.0, 1.0, 1.0)
         skyModel.setBin('ground', 2)
-        
-        
+
+
         skyModel2.setZ(63.0)
         skyModel2.setDepthWrite(0)
         skyModel2.setTransparency(1)
@@ -514,7 +514,7 @@ class DistributedTargetGame(DistributedMinigame):
         skyModel2.setTwoSided(True)
         skyModel2.setBin('fixed', 3)
         skyModel2.setR(180)
-        
+
         skyModel3.setZ(50.0)
         skyModel3.setDepthWrite(0)
         skyModel3.setTransparency(1)
@@ -523,7 +523,7 @@ class DistributedTargetGame(DistributedMinigame):
         skyModel3.setBin('fixed', 4)
         self.skyListLow.append(skyModel3)
         self.lowSky =  skyModel3
-        
+
 
         self.environModel.setPos(0,-5.0,0)
         self.environModel.flattenMedium()
@@ -542,7 +542,7 @@ class DistributedTargetGame(DistributedMinigame):
         self.__textGen = TextNode("targetGame")
         self.__textGen.setFont(ToontownGlobals.getSignFont())
         self.__textGen.setAlign(TextNode.ACenter)
-        
+
         self.powerBar = DirectWaitBar(
             guiId = 'launch power bar',
             pos = (0.0, 0, -0.65),
@@ -560,23 +560,23 @@ class DistributedTargetGame(DistributedMinigame):
             text_align = TextNode.ACenter,
             text_pos = (0,-0.05),
             )
-            
+
         self.power = self.startPower
         self.powerBar['value'] = self.power
         self.powerBar.hide()
-        
+
         self.rubberBands = []
 
-        
+
         self.umbrella = loader.loadModel("phase_4/models/minigames/slingshot_game_umbrellas.bam")
-        
+
         pick = random.randint(0, 3)
         self.umbrellaColorSelect[pick] = 0
         tex = loader.loadTexture(DistributedTargetGame.UMBRELLA_TEXTURE_LIST[pick])
         tex.setMinfilter(Texture.FTLinearMipmapLinear)
         tex.setMagfilter(Texture.FTLinear)
         self.umbrella.setTexture(tex, 1)
-        
+
         open = self.umbrella.find('**/open_umbrella')
         open.hide()
         open.setPos(0.1, 0.2, -0.1)
@@ -584,16 +584,16 @@ class DistributedTargetGame(DistributedMinigame):
         closed = self.umbrella.find('**/closed_umbrella')
         closed.show()
         hands = localAvatar.getRightHands()
-        
+
         ce = CompassEffect.make(NodePath(), CompassEffect.PRot)
         closed.node().setEffect(ce)
         closed.setHpr(0.0,100.0,35.0)
 
         for hand in hands:
             self.umbrella.instanceTo(hand)
-        
+
         self.remoteUmbrellas = {}
-        
+
         self.addSound('wind1', "target_cloud.mp3", "phase_4/audio/sfx/")
         self.addSound('trampoline', "target_trampoline_2.mp3", "phase_4/audio/sfx/")
         self.addSound('launch', "target_launch.mp3", "phase_4/audio/sfx/")
@@ -602,25 +602,25 @@ class DistributedTargetGame(DistributedMinigame):
         self.addSound('impact', "target_impact_grunt1.mp3", "phase_4/audio/sfx/")
         self.addSound('umbrella', "target_chute.mp3", "phase_4/audio/sfx/")
         self.addSound('bounce', "target_impact_only.mp3", "phase_4/audio/sfx/")
-        
+
         self.flySound = loader.loadSfx("phase_4/audio/sfx/target_wind_fly_loop.wav")
         self.flySound.setVolume(0.0)
         self.flySound.setPlayRate(1.0)
         self.flySound.setLoop(True)
         self.flySound.play()
-        
+
         self.rubberSound = loader.loadSfx("phase_4/audio/sfx/target_stretching_aim_loop.mp3")
         self.rubberSound.setVolume(0.0)
         self.rubberSound.setPlayRate(1.0)
         self.rubberSound.setLoop(True)
         self.rubberSound.play()
-        
+
         self.flutterSound = loader.loadSfx("phase_4/audio/sfx/target_wind_float_clothloop.wav")
         self.flutterSound.setVolume(1.0)
         self.flutterSound.setPlayRate(1.0)
         self.flutterSound.setLoop(True)
 
-        
+
     def addSound(self, name, soundName, path = None):
         if not hasattr(self, "soundTable"):
             self.soundTable = {}
@@ -628,117 +628,117 @@ class DistributedTargetGame(DistributedMinigame):
             self.soundPath = path
         soundSource = ("%s%s" % (self.soundPath, soundName))
         self.soundTable[name] = loader.loadSfx(soundSource)
-        
+
     def playSound(self, name, volume = 1.0):
         if hasattr(self, 'soundTable'):
             self.soundTable[name].setVolume(volume)
             self.soundTable[name].play()
-        
+
     def addSkys(self, instance):
         low = instance.find('**/skyLow')
         mid = instance.find(self.findCloud)
         self.skyListLow.append(low)
         self.skyListMid.append(mid)
-        
+
     def setTargetSeed(self, targetSeed, extra = None):
         if not self.hasLocalToon: return
         random.seed(targetSeed)
         self.pattern = TargetGameGlobals.difficultyPatterns[self.getSafezoneId()]
-        print ("seed %s" % (targetSeed))
+        print(("seed %s" % (targetSeed)))
         self.setupTargets()
-        
+
     def setupTargets(self):
         fieldWidth = self.ENVIRON_WIDTH * 3
         fieldLength = self.ENVIRON_LENGTH * 3.70
 
         self.targetSubParts = [2,2,2,1]
-        
+
         self.targetList = self.pattern[0]
         self.targetValue = self.pattern[1]
         self.targetSize = self.pattern[2]
         self.targetColors = self.pattern[3]
         self.targetSubParts = self.pattern[4]
-        
+
         highestValue = 0
-        
+
         for value in self.targetValue:
             if value > highestValue:
                 highestValue = value
-        
+
         placeList = []
-        
-        
+
+
         self.jumpColor = TargetGameGlobals.colorBlack
         self.placeValue = highestValue * 0.5
-        
+
         self.jumpSize = self.pattern[5]
         self.jumpNum = self.pattern[6]
-                    
+
         self.accept("enterJump", self.jumpIn)
         self.accept("exitJump", self.jumpOut)
-        
+
         self.targets = render.attachNewNode("targetGameTargets")
-        
+
         for typeIndex in range(len(self.targetList)):
            for targetIndex in range(self.targetList[typeIndex]):
                 goodPlacement = 0
                 while not goodPlacement:
                     placeX = random.random()*(fieldWidth * 0.60) - ((fieldWidth * 0.60)  * 0.5)
-                    placeY = ((random.random() * 0.60) + (0.00 + (0.40 * ((self.placeValue * 1.0) / (highestValue * 1.0))))) * fieldLength 
+                    placeY = ((random.random() * 0.60) + (0.00 + (0.40 * ((self.placeValue * 1.0) / (highestValue * 1.0))))) * fieldLength
                     fillSize = self.targetSize[typeIndex]
                     goodPlacement = checkPlace(placeX, placeY, fillSize, placeList)
                 placeList.append((placeX, placeY, fillSize))
-                
+
                 subIndex = self.targetSubParts[typeIndex]
                 first = 1
                 while subIndex:
                     combinedIndex = typeIndex + subIndex - 1
-                    
+
                     targetGN=GeomNode("target Circle")
                     targetNodePathGeom = self.targets.attachNewNode(targetGN)
 
                     targetNodePathGeom.setPos(placeX,placeY,0)
                     points = (self.targetSize[combinedIndex] / 2) + 20
                     order = len(self.targetList) -combinedIndex + 10
-                    if first: 
+                    if first:
                         first = 0
                         geo = addCircle(targetGN, self.targetColors[combinedIndex], points, self.targetSize[combinedIndex], order)
                     else:
                         thickness = abs(self.targetSize[combinedIndex] - self.targetSize[combinedIndex + 1]) - 0.0
                         geo = addRing(targetGN, self.targetColors[combinedIndex], points, self.targetSize[combinedIndex], order, thickness)
-                        
+
                     targetNodePathGeom.setBin('ground', (combinedIndex * 2) + 1)
                     targetNodePathGeom.setColorScale(self.targetColors[combinedIndex]['Red'], self.targetColors[combinedIndex]['Green'], self.targetColors[combinedIndex]['Blue'], self.targetColors[combinedIndex]['Alpha'])
                     targetNodePathGeom.setDepthWrite(False)
                     targetNodePathGeom.setDepthTest(False)
                     targetNodePathGeom.setTransparency(TransparencyAttrib.MAlpha)
                     self.targetsPlaced.append((placeX, placeY, combinedIndex, geo))
-                    
+
                     subIndex -= 1
-                    
+
         for jump in range(self.jumpNum):
                 normJumpSize = 6.8
-                
+
                 goodPlacement = 0
                 while not goodPlacement:
                     placeX = random.random()*(fieldWidth * 0.60) - ((fieldWidth * 0.60)  * 0.5)
-                    placeY = ((random.random() * 0.60) + (0.00 + (0.40 * ((self.placeValue * 1.0) / (highestValue * 1.0))))) * fieldLength 
+                    placeY = ((random.random() * 0.60) + (0.00 + (0.40 * ((self.placeValue * 1.0) / (highestValue * 1.0))))) * fieldLength
                     fillSize = self.jumpSize
                     goodPlacement = checkPlace(placeX, placeY, fillSize, placeList)
                 placeList.append((placeX, placeY, fillSize))
-                
+
                 target = CollisionSphere(0,0,0,self.jumpSize)
                 target.setTangible(0)
                 targetNode = CollisionNode("Jump")
                 targetNode.addSolid(target)
                 targetGN=GeomNode("target jump Circle")
                 targetNodePathGeom = self.targets.attachNewNode(targetGN)
-                
+
                 trampI = self.trampoline.copyTo(self.targets)
                 trampI.setPos(placeX,placeY,0.05)
                 latScale = self.jumpSize / normJumpSize
                 trampI.setScale(latScale,latScale,1.0)
-                
+
                 targetNodePath = self.targets.attachNewNode(targetNode)
                 targetNodePath.setPos(placeX,placeY,0.0)
                 targetNodePathGeom.setPos(placeX,placeY,0.05)
@@ -749,25 +749,25 @@ class DistributedTargetGame(DistributedMinigame):
                 targetNodePathGeom.setBin('ground', 20)
                 targetNodePathGeom.setDepthWrite(True)
                 targetNodePathGeom.setTransparency(TransparencyAttrib.MAlpha)
-                
+
         cactusCount = 30
-        
+
         for cactus in range(cactusCount):
                 placeX = random.random() * (fieldWidth * 0.75) - ((fieldWidth * 0.75)  * 0.5)
                 placeY = 5.0 + (random.random() * (fieldLength - 5.0))
-                
+
                 targetGN=GeomNode("cactus")
                 cactus = random.choice([self.cactusA, self.cactusB])
                 targetNodePathGeom = self.targets.attachNewNode(targetGN)
                 targetNodePathGeom = self.targets.attachNewNode(targetGN)
-                
+
                 cactusI = cactus.copyTo(self.targets)
                 cactusI.setPos(placeX,placeY,0)
                 cactusI.setHpr(random.random() * 360 ,0,0)
                 cactusI.setScale(0.5 + random.random())
-        
-            
-                        
+
+
+
 
     def unload(self):
         #print("unloading")
@@ -786,7 +786,7 @@ class DistributedTargetGame(DistributedMinigame):
             self.remoteUmbrellas[umbrella].removeNode()
         self.remoteUmbrellas.clear()
         del self.remoteUmbrellas
-            
+
         self.flySound.stop()
         del self.flySound
         self.rubberSound.stop()
@@ -807,11 +807,11 @@ class DistributedTargetGame(DistributedMinigame):
         del self.powerBar
         self.help.destroy()
         del self.help
-        
+
         if self.localTrack:
             self.localTrack.finish()
             del self.localTrack
-    
+
 
     def onstage(self):
         self.notify.debug("onstage")
@@ -834,16 +834,16 @@ class DistributedTargetGame(DistributedMinigame):
         self.rubberBands.append(localBand)
         # hide the avatar's dropshadow
         toon.dropShadow.hide()
-        
+
         toonPos = base.localAvatar.getPos()
 
 
-        
+
         camera.reparentTo(render)
         toonPos = self.getAvatar(self.localAvId).getPos()
         camera.setPosHpr(toonPos[0],toonPos[1] - 18,toonPos[2] + 10,0,-15,0)
         base.camLens.setFov(80)
-        
+
 
         # set the far plane
         base.camLens.setFar(self.FOGDISTGROUND)
@@ -902,8 +902,8 @@ class DistributedTargetGame(DistributedMinigame):
                 if j ==  (jRange - 1):
                     sand = instance.find(self.findGround)
                     sand.hide()
-                        
-                    
+
+
             # add blocks on the right
             for j in range(0,jRange):
                 instance = self.environModel.copyTo(self.environNode)
@@ -942,7 +942,7 @@ class DistributedTargetGame(DistributedMinigame):
         # the environ node periodically 'jumps' back
         #self.targetNode = render.attachNewNode("targetNode")
 
-        
+
 
 
         # create a drop shadow for the local toon
@@ -957,10 +957,10 @@ class DistributedTargetGame(DistributedMinigame):
             base.playMusic(self.music, looping = 1, volume = 0.8)
         if None != self.sndAmbience:
             base.playSfx(self.sndAmbience, looping = 1, volume = 0.8)
-         
 
-            
-            
+
+
+
     def reset(self):
         toon = base.localAvatar
         toon.setAnimState('SitStart', 1.0)
@@ -976,7 +976,7 @@ class DistributedTargetGame(DistributedMinigame):
         #                 0, -15, 0)
         base.camLens.setFov(80)
         self.resetNums()
-        
+
     def resetNums(self):
         self.stretchX = 0
         self.stretchY = 0
@@ -986,7 +986,7 @@ class DistributedTargetGame(DistributedMinigame):
         self.jumpCount = 0
         self.trampBounceCount = 0
         self.cameraState = "Low"
-        
+
 
     def offstage(self):
         self.notify.debug("offstage")
@@ -1036,10 +1036,10 @@ class DistributedTargetGame(DistributedMinigame):
                 av.dropShadow.show()
                 av.resetLOD()
                 #av.setAnimState('neutral', 1.0)
-                
+
         for band in self.rubberBands:
             band.delete()
-            
+
         rubberBands = []
         self.targetsPlaced = []
 
@@ -1067,7 +1067,7 @@ class DistributedTargetGame(DistributedMinigame):
         pos = self.getToonPlace(avId)
         toon.setPosHpr(pos[0], pos[1], pos[2],#TargetGameGlobals.MAX_TOONXZ,
                        0, 0, 0)
-                       
+
     def getToonPlace(self, avId):
         """ places a toon in its starting position """
         toon = self.getAvatar(avId)
@@ -1077,17 +1077,17 @@ class DistributedTargetGame(DistributedMinigame):
         x -= (self.TOON_INITIAL_SPACING * (numToons-1)) / 2.
         pos = Point3(x + self.placeShift, self.TOON_Y, 1.0)
         return pos
-                       
+
 
     def setGameReady(self):
         if not self.hasLocalToon: return
         self.notify.debug("setGameReady")
         if DistributedMinigame.setGameReady(self):
             return
-            
 
-        
-        
+
+
+
 
         if not self.isSinglePlayer():
             # turn off the normal collisions
@@ -1142,11 +1142,11 @@ class DistributedTargetGame(DistributedMinigame):
                 tP = self.getToonPlace(avId)
                 pos = Point3(tP[0], tP[1] + 10, tP[2])
                 band.setPos(pos)
-                
+
                 self.rubberBands.append(band)
                 umbrella = self.umbrella.copyTo(render)
                 self.remoteUmbrellas[avId] = umbrella
-                
+
                 test = 0
                 kill = 16
                 while test == 0 and kill > 0:
@@ -1155,12 +1155,12 @@ class DistributedTargetGame(DistributedMinigame):
                     if self.umbrellaColorSelect[pick]:
                         self.umbrellaColorSelect[pick] = 0
                         test = 1
-                
+
                 tex = loader.loadTexture(DistributedTargetGame.UMBRELLA_TEXTURE_LIST[pick])
                 tex.setMinfilter(Texture.FTLinearMipmapLinear)
                 tex.setMagfilter(Texture.FTLinear)
                 umbrella.setTexture(tex, 1)
-                
+
                 open = umbrella.find('**/open_umbrella')
                 open.hide()
                 open.setPos(0.1, 0.2, -0.1)
@@ -1172,7 +1172,7 @@ class DistributedTargetGame(DistributedMinigame):
                 ce = CompassEffect.make(NodePath(), CompassEffect.PRot)
                 closed.node().setEffect(ce)
                 closed.setHpr(0.0,90.0,35.0)
-                
+
                 umbrella.reparentTo(hand)
                 # Start the smoothing task.
                 toon.startSmooth()
@@ -1183,8 +1183,8 @@ class DistributedTargetGame(DistributedMinigame):
         for avId in self.remoteAvIdList:
             toon = self.getAvatar(avId)
             self.remoteToons[avId] = toon
-            
-        labelIndex = 0         
+
+        labelIndex = 0
         for avId in self.avIdList:
             av = self.getAvatar(avId)
             self.avLabels[labelIndex]['text'] = av.getName()
@@ -1203,7 +1203,7 @@ class DistributedTargetGame(DistributedMinigame):
 
     def exitOff(self):
         pass
-        
+
     def enterPrelaunch(self):
         self.defineConstants()
         self.resetNums()
@@ -1221,22 +1221,22 @@ class DistributedTargetGame(DistributedMinigame):
         base.camLens.setFov(80)
         self.stretchY = self.startPower
         self.power = self.startPower
-        self.scoreboard.hide() 
-        
+        self.scoreboard.hide()
+
         open = self.umbrella.find('**/open_umbrella')
         open.hide()
         closed = self.umbrella.find('**/closed_umbrella')
         closed.show()
         self.umbrella.setScale(1.0)
-        
+
         if self.targetMarker:
             self.targetMarker.removeNode()
-        
-            
+
+
 
     def exitPrelaunch(self):
         pass
-        
+
     def enterLaunch(self):
         self.__spawnUpdatePowerBarTask()
         self.__spawnCountDownTask()
@@ -1271,16 +1271,16 @@ class DistributedTargetGame(DistributedMinigame):
         self.rubberSound.setVolume(0.0)
         self.rubberSound.setPlayRate(1.0)
         self.rubberSound.stop()
-        
-        
-        
+
+
+
     def exitFly(self):
         taskMgr.remove(self.END_GAME_WAIT_TASK)
         self.__killCollisionDetectionTask()
         self.help.hide()
 
-        
-        
+
+
     def enterFall(self):
         self.notify.debug("enterLaunch")
         toon = base.localAvatar
@@ -1293,7 +1293,7 @@ class DistributedTargetGame(DistributedMinigame):
         camera.lerpPosHpr(newPos, newHpr, 2.5,
                           blendType = "easeInOut",
                           task = self.FLY2FALL_CAM_TASK)
-                          
+
         open = self.umbrella.find('**/open_umbrella')
         open.show()
         closed = self.umbrella.find('**/closed_umbrella')
@@ -1308,7 +1308,7 @@ class DistributedTargetGame(DistributedMinigame):
     def exitFall(self):
         self.flutterSound.stop()
         pass
-        
+
     def enterBouncing(self):
         self.notify.debug("enterLaunch")
         self.gravity = 12.5
@@ -1323,10 +1323,10 @@ class DistributedTargetGame(DistributedMinigame):
         toon.dropShadow.hide()
         self.help.show()
         self.help['text'] = TTLocalizer.TargetGameBounceHelp
-        
+
     def exitBouncing(self):
         pass
-        
+
     def enterScore(self):
         def count(value, list):
             count = 0
@@ -1334,17 +1334,17 @@ class DistributedTargetGame(DistributedMinigame):
                 if value == item:
                     count += 1
             return count
-            
+
         self.notify.debug("enterScore")
         self.__killUpdateLocalToonTask()
         self.__spawnGameDoneTask()
-        
-        self.scoreboard.show() 
-        
+
+        self.scoreboard.show()
+
         score = 1
 
         self.sendUpdate("setScore", [base.localAvatar.getX(), base.localAvatar.getY()])
-        
+
         topValue = 0
         hitTarget = None
         for target in self.targetsPlaced:
@@ -1360,9 +1360,9 @@ class DistributedTargetGame(DistributedMinigame):
                 hitTarget = target
                 hitX = posX
                 hitY = posY
-            
-            
-        if hitTarget:     
+
+
+        if hitTarget:
             targetGN=GeomNode("target Circle")
             targetNodePathGeom = self.targets.attachNewNode(targetGN)
             targetNodePathGeom.setPos(hitX,hitY,0)
@@ -1373,7 +1373,7 @@ class DistributedTargetGame(DistributedMinigame):
             targetNodePathGeom.setDepthTest(False)
             targetNodePathGeom.setTransparency(TransparencyAttrib.MAlpha)
             self.targetMarker = targetNodePathGeom
-        
+
         score = topValue
 
         self.localTrack = Sequence()
@@ -1383,8 +1383,8 @@ class DistributedTargetGame(DistributedMinigame):
         else:
             self.localTrack.append(ActorInterval(base.localAvatar, 'slip-forward', startFrame= 50, endFrame = 55))
 
-            
-        self.localTrack.append(Wait(0.5)) 
+
+        self.localTrack.append(Wait(0.5))
         if score <=1:
             self.localTrack.append(Parallel(
                 Func(base.localAvatar.b_setAnimState,'Sad', 1.0),
@@ -1393,31 +1393,31 @@ class DistributedTargetGame(DistributedMinigame):
             self.localTrack.append(Parallel(
                 Func(base.localAvatar.b_setAnimState,'victory', 1.0),
                 Func(self.playSound,'score')))
-        
+
         newHpr = Point3(180, 10, 0)
         newPos = Point3(0, -(self.CAMERA_Y + self.TOON_Y + 12), 1)
         camera.lerpPosHpr(newPos, newHpr, 5.0,
                           blendType = "easeInOut",
                           task = self.SCORE_CAM_TASK)
-                          
+
         self.help.hide()
-        
+
 
         self.localTrack.start()
-        
-    
+
+
 
     def exitScore(self):
         pass
-        
-        
+
+
     def enterCleanup(self):
         self.notify.debug("enterCleanup")
 
         # toon/toon collisions were set up in setGameReady
         if not self.isSinglePlayer():
             # get rid of remote toon collisions
-            for np in self.remoteToonCollNPs.values():
+            for np in list(self.remoteToonCollNPs.values()):
                 np.removeNode()
             del self.remoteToonCollNPs
 
@@ -1431,7 +1431,7 @@ class DistributedTargetGame(DistributedMinigame):
 
     def exitCleanup(self):
         pass
-        
+
     def signalDone(self):
         self.sendUpdate('setPlayerDone', [])
 
@@ -1446,16 +1446,16 @@ class DistributedTargetGame(DistributedMinigame):
     def __killUpdatePowerBarTask(self):
         taskMgr.remove(self.UPDATE_POWERBAR_TASK)
         taskMgr.remove(self.TOONSTRETCHTASK)
-        
+
     def __spawnCountDownTask(self):
         self.countDown = 10 #ttest
         self.signalLaunch = 0
         taskMgr.remove(self.UPDATE_COUNTDOWN_TASK)
         self.doCountDown()
-        
+
     def __killCountDownTask(self):
         taskMgr.remove(self.UPDATE_COUNTDOWN_TASK)
-        
+
     def __spawnGameDoneTask(self):
         taskMgr.remove(self.GAME_DONE_TASK)
         taskMgr.doMethodLater(5.0, self.__gameDone, self.GAME_DONE_TASK)
@@ -1473,7 +1473,7 @@ class DistributedTargetGame(DistributedMinigame):
 
     def __killUpdateLocalToonTask(self):
         taskMgr.remove(self.UPDATE_LOCALTOON_TASK)
-        
+
     def doCountDown(self, task = None):
         if self.countDown < 0:
             self.signalLaunch = 1
@@ -1500,7 +1500,7 @@ class DistributedTargetGame(DistributedMinigame):
             # let DistributedSmoothNode figure out the deltas
             # we could optimize by creating a broadcastXZ func, but ehh
             self.getAvatar(self.localAvId).cnode.broadcastPosHprFull()
-            
+
     def __spawnUpdateEnvironTask(self):
         taskMgr.remove(self.UPDATE_ENVIRON_TASK)
         taskMgr.add(self.__updateEnvironTask, self.UPDATE_ENVIRON_TASK)
@@ -1519,11 +1519,11 @@ class DistributedTargetGame(DistributedMinigame):
         distance %= self.ENVIRON_LENGTH
         self.environNode.setY(-distance)
         return Task.cont
-        
+
     def __updatePowerBarTask(self, task):
         powerUp = 0
         timeDiff = None
-        
+
         if not self.arrowKeys.rightPressed():
             self.canPressRight = 1
         elif self.arrowKeys.rightPressed() and self.canPressRight:
@@ -1531,15 +1531,15 @@ class DistributedTargetGame(DistributedMinigame):
                 self.canPressRight = 0
 
         if not self.arrowKeys.leftPressed():
-            self.canPressLeft = 1    
+            self.canPressLeft = 1
         elif self.arrowKeys.leftPressed() and self.canPressLeft:
                 powerUp = 1
                 self.canPressLeft = 0
 
-            
+
         if self.lastPressTime:
             timeDiff = globalClock.getFrameTime() - self.lastPressTime
-            
+
         if powerUp and not self.lastPressTime:
             self.lastPressTime = globalClock.getFrameTime()
             self.ticker = 0.0
@@ -1550,18 +1550,18 @@ class DistributedTargetGame(DistributedMinigame):
             self.power += (0.6 / abs(timeDiff)) + 5.0
             self.lastPressTime = globalClock.getFrameTime()
             self.powerBar['value'] = self.power
-            
+
         if self.signalLaunch:
             self.lastPressTime = 1
             self.ticker = 1
             timeDiff = 100000
-            
+
         if self.lastPressTime:
             self.ticker += globalClock.getDt()
             if self.ticker >= 0.1:
                 self.ticker = 0.0
                 powerDiv = 0.05
-                self.power -= (1.0 + (0.20 * ((self.power * powerDiv) * (self.power * powerDiv)))) 
+                self.power -= (1.0 + (0.20 * ((self.power * powerDiv) * (self.power * powerDiv))))
             if timeDiff > 0.5: #ttest
                 self.power = self.powerBar['value']
                 self.signalLaunch = 0
@@ -1570,37 +1570,37 @@ class DistributedTargetGame(DistributedMinigame):
                 if self.power < 40:
                     self.power = 40
                 self.gameFSM.request("fly")
-                
+
         self.stretchY = (0.9 * self.stretchY) + (0.1 * self.power)
         self.stretchX = (0.9 * self.stretchX) + (0.1 * self.launchLaterial)
-                
+
         base.localAvatar.setY(self.localStartPos[1] - (self.stretchY * 0.12))
         base.localAvatar.setX(self.localStartPos[0] + self.stretchX)
-        
+
         # periodically send a position update
         dt = globalClock.getDt()
         self.__posBroadcast(dt)
-        
+
         stretchDiff = abs(self.stretchY - self.power) * 0.2
-        
+
         self.bandVolume += stretchDiff
         self.bandVolume -= globalClock.getDt()
-        
+
         self.rubberSound.setVolume(self.bandVolume)
         self.rubberSound.setPlayRate(1.0 + (self.stretchY  / 120.0))
-        
-            
+
+
         return task.cont
 
     def __updateLocalToonTask(self, task):
         stateName = None
         if self.gameFSM.getCurrentState():
             stateName = self.gameFSM.getCurrentState().getName()
-            
+
         toonPos = self.getAvatar(self.localAvId).getPos()
 
 
-            
+
         # move the local toon
         dt = globalClock.getDt()
         if stateName == 'fall':
@@ -1614,18 +1614,18 @@ class DistributedTargetGame(DistributedMinigame):
             self.laterial = self.laterial - (self.laterial * self.airResistance * dt)
         t = globalClock.getFrameTime() - self.__timeBase
         self.distance = self.distance + (dt * self.speedForward)
-        
+
         if self.distance > self.maxDist:
             self.distance = self.maxDist
-         
-        if stateName in ["fall", 'bouncing']:        
+
+        if stateName in ["fall", 'bouncing']:
             if self.distance < 15.00:
                 self.distance = 15.00
 
         # toonPos is a Point3, make a list
         pos = [toonPos[0], self.distance, toonPos[2]]
 
-        
+
         if stateName in ["fly", "fall"]:
             pos[0] += (dt * self.laterial)
 
@@ -1636,7 +1636,7 @@ class DistributedTargetGame(DistributedMinigame):
                 pass
             if self.arrowKeys.downPressed():
                 self.gameFSM.request('fall')
-                
+
         elif stateName == 'fall':
             if self.driftX > self.TOONXZ_SPEED:
                 self.driftX = self.TOONXZ_SPEED
@@ -1646,27 +1646,27 @@ class DistributedTargetGame(DistributedMinigame):
                 self.driftY = self.TOONXZ_SPEED
             if self.driftY < -self.TOONXZ_SPEED:
                 self.driftY = -self.TOONXZ_SPEED
-                
+
             if self.arrowKeys.rightPressed():
                 self.driftX += self.TOONXZ_SPEED * dt
             if self.arrowKeys.leftPressed():
                 self.driftX -= self.TOONXZ_SPEED * dt
-            
+
             if self.arrowKeys.upPressed():
                 self.driftY += self.TOONXZ_SPEED * dt
             if self.arrowKeys.downPressed():
                 self.driftY -= self.TOONXZ_SPEED * dt
-                
+
             pos[0] += self.driftX * dt
             pos[1] += self.driftY * dt
             self.distance = pos[1]
             liftMult = 1
-            
+
         elif stateName == 'bouncing':
             pos[0] += self.driftX * dt
             pos[1] += self.driftY * dt
             self.distance = pos[1]
-            
+
         else:
             xVel = 0.
             if self.arrowKeys.leftPressed():
@@ -1679,10 +1679,10 @@ class DistributedTargetGame(DistributedMinigame):
             if self.launchLaterial > TargetGameGlobals.MAX_LAT:
                 self.launchLaterial = TargetGameGlobals.MAX_LAT
             #self.launchLaterial = pos[0]
-            pos[0] =  self.getToonPlace(self.localAvId)[0] - self.launchLaterial 
+            pos[0] =  self.getToonPlace(self.localAvId)[0] - self.launchLaterial
             pass
-            
-            
+
+
         lift = ((self.speedForward - self.speedStall) / self.speedStall) * liftMult
         #print("Vel %s Lift %s Gravity %s Pos %s" % (self.zVel, lift, gravity, pos[2]))
         onScreenDebug.removeAllWithPrefix(self.getDisplayPrefix())
@@ -1691,20 +1691,20 @@ class DistributedTargetGame(DistributedMinigame):
         onScreenDebug.add("%s Gravity" % (self.getDisplayPrefix()), self.gravity)
         onScreenDebug.add("%s Pos" % (self.getDisplayPrefix()), pos[2])
         onScreenDebug.add("%s Drifty" % (self.getDisplayPrefix()), self.driftY)
-        
+
         if lift < 0:
             lift = 0
-            
+
         upforce = (lift * 10.0) - (self.gravity)
-        
+
         #self.zVel -= (0.1 * (self.speedStall - self.speedForward)) + 1.0 #Gravity
         self.zVel += (lift - self.gravity) * dt
-        
-        
 
-        
- 
-            
+
+
+
+
+
         pos[2] += self.zVel * dt
         if pos[2] < self.trampZ:
             if self.jumpCount:
@@ -1721,7 +1721,7 @@ class DistributedTargetGame(DistributedMinigame):
                     signZ = 1
                 self.zVel = -((self.zVel * rebound) - (signZ * 1.0))
                 self.trampBounceCount += 1
-                
+
                 if abs(self.zVel) < 1.0:
                     self.zVel = 0
                     toon = base.localAvatar
@@ -1729,9 +1729,9 @@ class DistributedTargetGame(DistributedMinigame):
                         toon.b_setAnimState("neutral", 1.0)
                         toon.dropShadow.hide()
                         self.gameFSM.request('score')
-                
-                        
-                
+
+
+
             elif pos[2] < 0.1:
                 toon = base.localAvatar
                 if stateName == 'fall' or stateName == 'fly':
@@ -1743,7 +1743,7 @@ class DistributedTargetGame(DistributedMinigame):
                     self.localTrack.start()
                     self.playSound('impact', ivolume)
                     self.playSound('bounce', ivolume)
-                    
+
                 elif stateName == 'fall' or stateName == 'bouncing':
                     ivolume = math.sqrt(abs(self.zVel) / 40.0)
                     if ivolume > 0.40:
@@ -1753,9 +1753,9 @@ class DistributedTargetGame(DistributedMinigame):
                         else:
                             self.localTrack = ActorInterval(toon, 'jump-land', startFrame= 6, endFrame = 21)
                             self.localTrack.start()
-                         
+
                         self.playSound('bounce', ivolume)
-                    
+
                 pos[2] = 0.1
                 rebound = 0.5
                 self.speedForward = self.speedForward * rebound
@@ -1771,7 +1771,7 @@ class DistributedTargetGame(DistributedMinigame):
                     self.zVel = 0
                     if stateName == 'fly' or stateName == 'bouncing':
                         self.gameFSM.request('score')
-        
+
         if pos[0] > TargetGameGlobals.MAX_FIELD_SPAN:
             pos[0] = TargetGameGlobals.MAX_FIELD_SPAN
             self.laterial = 0
@@ -1789,15 +1789,15 @@ class DistributedTargetGame(DistributedMinigame):
         # periodically send a position update
         if stateName in ["fly", "fall", 'bouncing']:
             self.__posBroadcast(dt)
-        
-        
+
+
         visZ = camera.getZ(render)
-        
-        
-        
+
+
+
         lowHeight = 100
         lowRange = 20
-        opacityLow = 1 
+        opacityLow = 1
         baseOpLow = 0.6
         baseTransLow = 1.0 - baseOpLow
         if (visZ < lowHeight - lowRange) or (visZ > lowHeight + lowRange):
@@ -1805,11 +1805,11 @@ class DistributedTargetGame(DistributedMinigame):
         else:
             dif = abs(visZ - lowHeight)
             transLow = dif / lowRange
-            
+
         for item in self.skyListLow:
             item.setColorScale(1.0, 1.0, 1.0, transLow * baseOpLow)
-            
-            
+
+
         midHeight = 126
         midRange = 20
         opacityMid= 1
@@ -1820,16 +1820,16 @@ class DistributedTargetGame(DistributedMinigame):
         else:
             dif = abs(visZ - midHeight)
             transMid = dif / midRange
-            
+
         for item in self.skyListMid:
             item.setColorScale(1.0, 1.0, 1.0, transMid * baseOpMid)
-            
+
         minTrans = min(1.0,transMid,transLow)
         fogVis = 1.0 - minTrans
-        
+
         fogColor = (self.AMB_COLOR * minTrans) + (self.CLOUD_COLOR * fogVis)
         fogRange = (minTrans * self.FOGDISTGROUND) + (fogVis * self.FOGDISTCLOUD)
-        
+
         newCamState = "Low"
 
         if visZ > midHeight:
@@ -1844,23 +1844,23 @@ class DistributedTargetGame(DistributedMinigame):
                     self.playSound('wind1')
                 self.cameraState = newCamState
                 self.cloudRendering("Mid")
-                
+
         else:
             newCamState = "Low"
             if self.cameraState != newCamState:
                 self.cameraState = newCamState
                 self.cloudRendering("Low")
-            
-    
 
-        
+
+
+
         overlayOp = 0.5
         self.fogOver.setOpacity(fogVis * overlayOp)
         vol = (self.speedForward + abs(self.zVel)) / 120.0
 
         self.flySound.setVolume(vol)
         self.flySound.setPlayRate(1.0 + (abs(self.zVel) * 0.0050))
-        
+
         # Remote Umbrella updating
         if self.updateTick % 5 == 0: # do this every 5 frames
 
@@ -1898,9 +1898,9 @@ class DistributedTargetGame(DistributedMinigame):
 
         self.updateTick += 1
         return Task.cont
-        
+
     def cloudRendering(self, layer):
-        
+
         if layer == "Low":
             #print "Flipping to Low"
             for item in self.skyListMid:
@@ -1922,7 +1922,7 @@ class DistributedTargetGame(DistributedMinigame):
             for item in self.skyListLow:
                 item.setBin('fixed', 3)
             #self.playSound('wind3')
-            
+
 
 
 
@@ -2028,39 +2028,37 @@ class DistributedTargetGame(DistributedMinigame):
         self.colorIndices = [a, b, c, d]
 
 
-        
+
     def getDisplayPrefix(self):
         return 'TargetGame'
-        
+
     def __gameDone(self, task = None):
         self.signalDone()
         #self.gameOver()
         return task.done
-        
+
     def setGameDone(self, extra = None):
         self.gameOver()
-        
+
     def setRoundDone(self):
         if not self.hasLocalToon: return
         self.round += 1
-        self.roundLabel['text'] = (TTLocalizer.TargetGameBoard % (self.round)) 
+        self.roundLabel['text'] = (TTLocalizer.TargetGameBoard % (self.round))
         self.reset()
         self.gameFSM.request('prelaunch')
-        
+
     def setSingleScore(self, score, avId):
         if not self.hasLocalToon: return
         for existIndex in range(len(self.avIdList)):
             if self.avIdList[existIndex] == avId:
                 self.scoreLabels[existIndex]['text'] = ("%s" % (score))
-        
+
     def jumpIn(self, colEntry):
         #print("In ***********************JUMP")
         self.jumpCount += 1
-        
+
     def jumpOut(self, colEntry):
         #print("Out ***********************JUMP")
         self.jumpCount -= 1
         if self.jumpCount < 0:
             self.jumpCount = 0
-            
-
