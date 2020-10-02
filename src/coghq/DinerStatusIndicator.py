@@ -6,12 +6,12 @@ from direct.interval.IntervalGlobal import LerpScaleInterval, LerpColorScaleInte
      Sequence, Wait
 
 
-class DinerStatusIndicator(NodePath.NodePath, FSM.FSM):
+class DinerStatusIndicator(NodePath, FSM.FSM):
     """Client only object that shows the status of one diner."""
 
     def __init__(self, parent, pos=None, scale =None):
         """Create a new indicator object."""
-        NodePath.NodePath.__init__(self, 'DinerStatusIndicator')
+        NodePath.__init__(self, 'DinerStatusIndicator')
         if parent:
             self.reparentTo(parent)
         if pos:

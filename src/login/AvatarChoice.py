@@ -405,7 +405,7 @@ class AvatarChoice(DirectButton):
                                                        text_scale = TTLocalizer.ACdeleteWithPassword,
                                                        text_pos = (0, 0.25),
                                                        textMayChange = 1,
-                                                       sortOrder = NO_FADE_SORT_INDEX,
+                                                       sortOrder = DGG.NO_FADE_SORT_INDEX,
                                                        )
             self.deleteWithPasswordFrame.hide()
 

@@ -176,7 +176,7 @@ class GZHoodDataAI(HoodDataAI.HoodDataAI):
         golfKarts = []
         golfKartGroups = []
 
-        if ((isinstance(dnaGroup, DNAGroup)) and (string.find(dnaGroup.getName(), type) >= 0)):
+        if ((isinstance(dnaGroup, DNAGroup)) and (dnaGroup.getName().find(type) >= 0)):
             golfKartGroups.append(dnaGroup)
             if (type == 'golf_kart'):
                 nameInfo = dnaGroup.getName().split('_')
@@ -190,7 +190,7 @@ class GZHoodDataAI(HoodDataAI.HoodDataAI):
                 for i in range(dnaGroup.getNumChildren()):
                     childDnaGroup = dnaGroup.at(i)
                     # TODO - check if DNAProp instance
-                    if ((string.find(childDnaGroup.getName(), 'starting_block') >= 0)):
+                    if ((childDnaGroup.getName().find('starting_block') >= 0)):
                         padLocation = dnaGroup.getName().split('_')[2]
                         pos = childDnaGroup.getPos()
                         hpr = childDnaGroup.getHpr()
@@ -250,7 +250,7 @@ class GZHoodDataAI(HoodDataAI.HoodDataAI):
             dnaGroup = dnaRacingPadGroup.at(i)
 
             # TODO - check if DNAProp instance
-            if ((string.find(dnaGroup.getName(), 'starting_block') >= 0)):
+            if ((dnaGroup.getName().find('starting_block') >= 0)):
                 padLocation = dnaGroup.getName().split('_')[2]
                 pos = dnaGroup.getPos()
                 hpr = dnaGroup.getHpr()

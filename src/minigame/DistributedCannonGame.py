@@ -263,11 +263,11 @@ class DistributedCannonGame(DistributedMinigame):
             )
 
         self.music = base.loadMusic(
-            #"phase_3/audio/bgm/create_a_toon.mid"
-            #"phase_4/audio/bgm/TC_SZ_activity.mid"
-            #"phase_4/audio/bgm/TC_nbrhood.mid"
-            #"phase_4/audio/bgm/minigame_race.mid"
-            "phase_4/audio/bgm/MG_cannon_game.mid"
+            #"phase_3/audio/bgm/create_a_toon.ogg"
+            #"phase_4/audio/bgm/TC_SZ_activity.ogg"
+            #"phase_4/audio/bgm/TC_nbrhood.ogg"
+            #"phase_4/audio/bgm/minigame_race.ogg"
+            "phase_4/audio/bgm/MG_cannon_game.ogg"
             )
 
         self.sndCannonMove = base.loadSfx(\

@@ -229,7 +229,7 @@ class DistributedPairingGame(DistributedMinigame):
 
         self.calcBonusTraversal()
 
-        self.music = base.loadMusic("phase_4/audio/bgm/MG_Pairing.mid")
+        self.music = base.loadMusic("phase_4/audio/bgm/MG_Pairing.ogg")
         self.matchSfx = base.loadSfx("phase_4/audio/sfx/MG_pairing_match.mp3")
         self.matchWithBonusSfx = base.loadSfx("phase_4/audio/sfx/MG_pairing_match_bonus_both.mp3")
         self.signalSfx = []

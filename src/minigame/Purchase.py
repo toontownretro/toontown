@@ -49,7 +49,7 @@ class Purchase(PurchaseBase):
         self.unexpectedEventNames = []
         self.unexpectedExits = [] # list of avIds who have disconnected
         self.setupUnexpectedExitHooks()
-    
+
     def load(self):
         purchaseModels = loader.loadModel("phase_4/models/gui/purchase_gui")
 
@@ -57,22 +57,22 @@ class Purchase(PurchaseBase):
 
         # This may change back to 4 when we get a real tutorial interior
         interiorPhase = 3.5
-        
+
         self.bg = loader.loadModel("phase_%s/models/modules/toon_interior" % interiorPhase)
         self.bg.setPos(0., 5., -1.)
 
         self.wt = self.bg.find("**/random_tc1_TI_wallpaper")
-        wallTex = loader.loadTexture("phase_%s/maps/wall_paper_a5.jpg" % interiorPhase)
+        wallTex = loader.loadTexture("phase_%s/maps/wall_paper_a5.png" % interiorPhase)
         self.wt.setTexture(wallTex, 100)
         self.wt.setColorScale(0.800, 0.670, 0.549, 1.0)
 
         self.bt = self.bg.find("**/random_tc1_TI_wallpaper_border")
-        wallTex = loader.loadTexture("phase_%s/maps/wall_paper_a5.jpg" % interiorPhase)
+        wallTex = loader.loadTexture("phase_%s/maps/wall_paper_a5.png" % interiorPhase)
         self.bt.setTexture(wallTex, 100)
         self.bt.setColorScale(0.800, 0.670, 0.549, 1.0)
 
         self.wb = self.bg.find("**/random_tc1_TI_wainscotting")
-        wainTex = loader.loadTexture("phase_%s/maps/wall_paper_b4.jpg" % interiorPhase)
+        wainTex = loader.loadTexture("phase_%s/maps/wall_paper_b4.png" % interiorPhase)
         self.wb.setTexture(wainTex, 100)
         self.wb.setColorScale(0.473, 0.675, 0.488, 1.0)
 
@@ -135,7 +135,7 @@ class Purchase(PurchaseBase):
             if ((self.states[index] != PURCHASE_NO_CLIENT_STATE) and
                 (self.states[index] != PURCHASE_DISCONNECTED_STATE)):
                 numAvs = numAvs + 1
-        
+
         # Determine which panels should be filled
         layoutList = (None, (0,), (0,2), (0,1,3), (0,1,2,3))
         layout = layoutList[numAvs]
@@ -144,7 +144,7 @@ class Purchase(PurchaseBase):
                             Vec3(0.105, 0, -0.776),
                             Vec3(0.85, 0, -0.555),
                             Vec3(-0.654, 0, -0.555))
-        
+
         # An array of avatars, layout positions, and indices into the
         # states array. Localtoon is listed first.
         AVID_INDEX = 0
@@ -281,7 +281,7 @@ class Purchase(PurchaseBase):
         self.toon.inventory.reparentTo(hidden)
         self.toon.inventory.hide()
         taskMgr.remove("resetStatusText")
-        taskMgr.remove("showBrokeMsgTask")        
+        taskMgr.remove("showBrokeMsgTask")
         self.statusLabel['text'] = TTLocalizer.GagShopWaitingOtherPlayers
         #self.statusLabel.setPos(0,0,0.1)
         messenger.send("purchasePlayAgain")
@@ -329,14 +329,14 @@ class Purchase(PurchaseBase):
     # Override PurchaseBase.enter() to go to reward state
 
     def enter(self):
-        assert self.notify.debugStateCall(self)           
+        assert self.notify.debugStateCall(self)
         base.playMusic(self.music, looping = 1, volume = 0.8)
-        self.fsm.request("reward")        
+        self.fsm.request("reward")
 
     ### Reward state functions ###
 
     def enterReward(self):
-        assert self.notify.debugStateCall(self)           
+        assert self.notify.debugStateCall(self)
         numToons = 0
         toonLayouts = ( (2,), (1,3), (0,2,4), (0,1,3,4), )
         toonPositions = ( 5.0, 1.75, -0.25, -1.75, -5.0 )
@@ -351,13 +351,13 @@ class Purchase(PurchaseBase):
         camera.setPos(0, 16.0, 2.0)
         camera.lookAt(0, 0, 0.75)
         base.transitions.irisIn(0.4)
-        
+
         # show background elements
         self.title.reparentTo(aspect2d)
         self.foreground.reparentTo(render)
         self.backgroundL.reparentTo(render)
         self.backgroundR.reparentTo(render)
-        self.sidewalk.reparentTo(render)        
+        self.sidewalk.reparentTo(render)
         self.door.reparentTo(render)
 
         # The backdrop in this scene is not really under our feet - it is a
@@ -378,7 +378,7 @@ class Purchase(PurchaseBase):
 
         # the bean counters take up a lot of real estate: clamp the whisper bubbles
         NametagGlobals.setOnscreenChatForced(1)
-        
+
         # find out how many toons there are, make point counters for
         # them and get their models
         for index in range(len(self.ids)):
@@ -403,7 +403,7 @@ class Purchase(PurchaseBase):
                     text_font = ToontownGlobals.getSignFont(),
                 )
                 counter['image'] = DGG.getDefaultDialogGeom()
-                counter['image_scale'] = (0.33, 1, 0.33)                
+                counter['image_scale'] = (0.33, 1, 0.33)
                 counter.setScale(0.5)
                 counter.count = 0
                 counter.max = self.pointsArray[index]
@@ -426,7 +426,7 @@ class Purchase(PurchaseBase):
                 totalCounter.count = money
                 totalCounter.max = toon.getMaxMoney()
                 self.totalCounters.append(totalCounter)
-                
+
         # add a hook when user unexpectedly closes toontown window
         self.accept('clientCleanup', self._handleClientCleanup)
 
@@ -451,7 +451,7 @@ class Purchase(PurchaseBase):
             self.totalCounters[pos].reparentTo(aspect2d)
             pos += 1
 
-        # find the max points won 
+        # find the max points won
         self.maxPoints = max(self.pointsArray)
 
         #find the maxVotes left
@@ -463,7 +463,7 @@ class Purchase(PurchaseBase):
         else:
             self.maxVotes = 0
             self.maxBeansFromVotes = 0
-        
+
 
         def reqCountUp(state):
             self.countUp()
@@ -475,7 +475,7 @@ class Purchase(PurchaseBase):
         def reqCountDown(state):
             self.countDown()
             return Task.done
-        
+
         countDownDelay = (countUpDelay +
                           self.maxPoints * COUNT_UP_RATE +
                           DELAY_AFTER_COUNT_UP)
@@ -493,10 +493,10 @@ class Purchase(PurchaseBase):
                     if avId in base.cr.doId2do:
                         toon = base.cr.doId2do[avId]
                         toon.setAnimState("jump", 1.0)
-                        
-            base.playSfx(task.celebrateSound)            
-            return Task.done     
-        
+
+            base.playSfx(task.celebrateSound)
+            return Task.done
+
         celebrateDelay = (countDownDelay +
                           self.maxPoints * COUNT_DOWN_RATE +
                           DELAY_AFTER_COUNT_DOWN)
@@ -512,19 +512,19 @@ class Purchase(PurchaseBase):
 
         def reqCountVotesDown(state):
             self.countVotesDown()
-            return Task.done        
+            return Task.done
 
         # show the player the votes left being converted to beans
         if self.metagameRound == TravelGameGlobals.FinalMetagameRoundIndex:
             countVotesUpDelay = celebrateDelay + DELAY_AFTER_CELEBRATE
             taskMgr.doMethodLater(countVotesUpDelay, reqCountVotesUp, "countVotesUpTask")
-            
+
             countVotesUpTime = (self.maxVotes * COUNT_UP_RATE) + DELAY_AFTER_COUNT_UP
             countVotesDownDelay = countVotesUpDelay + countVotesUpTime
-            taskMgr.doMethodLater(countVotesDownDelay, reqCountVotesDown, "countVotesDownTask")                                  
+            taskMgr.doMethodLater(countVotesDownDelay, reqCountVotesDown, "countVotesDownTask")
             celebrateDelay += countVotesUpTime + \
                               (self.maxVotes * COUNT_DOWN_RATE) + DELAY_AFTER_COUNT_DOWN
-            
+
         # transition to the purchase after the countup is finished
         def reqPurchase(state):
             self.fsm.request("purchase")
@@ -537,10 +537,10 @@ class Purchase(PurchaseBase):
 
         if base.skipMinigameReward:
             self.fsm.request('purchase')
-        
+
     def countUp(self):
         totalDelay = 0
-        
+
         def delayAdd(state):
             # count the beans won counter up
             state.counter.count += 1
@@ -564,10 +564,10 @@ class Purchase(PurchaseBase):
             # keep track of the total delay so we know
             # when the beans are done tallying
             totalDelay += COUNT_UP_RATE
-            
+
     def countDown(self):
         totalDelay = 0
-        
+
         def delaySubtract(state):
             # count the beans won counter down and the total counter up
             state.counter.count -= 1
@@ -592,7 +592,7 @@ class Purchase(PurchaseBase):
         for count in range(0, self.maxPoints):
             for counter in self.counters:
                 # if not zero change the display after COUNT_DOWN_RATE seconds
-                if count < counter.max: 
+                if count < counter.max:
                     index = self.counters.index(counter)
                     subtractTask = taskMgr.doMethodLater(totalDelay, delaySubtract, "delaySubtract")
                     subtractTask.counter = counter
@@ -600,7 +600,7 @@ class Purchase(PurchaseBase):
                     # find out who's counter this is
                     subtractTask.toonId = self.ids[index]
                     subtractTask.countSound = self.countSound
-                    subtractTask.overMaxSound = self.overMaxSound                
+                    subtractTask.overMaxSound = self.overMaxSound
             # keep track of the total delay so we know
             # when the beans are done tallying
             totalDelay += COUNT_DOWN_RATE
@@ -621,7 +621,7 @@ class Purchase(PurchaseBase):
                 self.counters[counterIndex].max = self.votesArray[index]
                 self.counters[counterIndex].show()
                 counterIndex += 1
-        
+
         def delayAdd(state):
             # count the votes left counter up
             state.counter.count += 1
@@ -650,7 +650,7 @@ class Purchase(PurchaseBase):
 
     def countVotesDown(self):
         totalDelay = 0
-        
+
         def delaySubtract(state):
             # count the beans won counter down and the total counter up
             state.counter.count -= 1
@@ -675,7 +675,7 @@ class Purchase(PurchaseBase):
         for count in range(0, self.maxVotes):
             for counter in self.counters:
                 # if not zero change the display after COUNT_DOWN_RATE seconds
-                if count < counter.max: 
+                if count < counter.max:
                     index = self.counters.index(counter)
                     subtractTask = taskMgr.doMethodLater(totalDelay, delaySubtract, "delaySubtract")
                     subtractTask.counter = counter
@@ -683,22 +683,22 @@ class Purchase(PurchaseBase):
                     # find out who's counter this is
                     subtractTask.toonId = self.ids[index]
                     subtractTask.countSound = self.countSound
-                    subtractTask.overMaxSound = self.overMaxSound                
+                    subtractTask.overMaxSound = self.overMaxSound
             # keep track of the total delay so we know
             # when the beans are done tallying
             totalDelay += COUNT_DOWN_RATE
-                        
-            
+
+
     def exitReward(self):
         self.ignore('clientCleanup')
         taskMgr.remove("countUpTask")
-        taskMgr.remove("countVotesUpTask")                
+        taskMgr.remove("countVotesUpTask")
         taskMgr.remove("countDownTask")
-        taskMgr.remove("countVotesDownTask")                        
+        taskMgr.remove("countVotesDownTask")
         taskMgr.remove("celebrate")
         taskMgr.remove("purchase-trans")
-        taskMgr.remove("delayAdd")        
-        taskMgr.remove("delaySubtract")                
+        taskMgr.remove("delayAdd")
+        taskMgr.remove("delaySubtract")
         # hide the toons
         for toon in self.toons:
             toon.detachNode()
@@ -729,21 +729,21 @@ class Purchase(PurchaseBase):
         if hasattr(self, 'toonsKeep'):
             for delayDelete in self.toonsKeep:
                 delayDelete.destroy()
-            del self.toonsKeep        
+            del self.toonsKeep
         self.ignore('clientCleanup')
         pass
-        
+
     ### Purchase state functions ###
 
     def enterPurchase(self):
-        assert self.notify.debugStateCall(self)   
+        assert self.notify.debugStateCall(self)
         PurchaseBase.enterPurchase(self)
         self.convertingVotesToBeansLabel.hide()
         self.bg.reparentTo(render)
 
         # Make the background light blue
         base.setBackgroundColor(0.05, 0.14, 0.4)
-        
+
         # Listen for other toons changing state
         self.accept("purchaseStateChange", self.__handleStateChange)
 
@@ -751,7 +751,7 @@ class Purchase(PurchaseBase):
         self.backToPlayground.reparentTo(self.toon.inventory.purchaseFrame)
         self.pointDisplay.reparentTo(self.toon.inventory.purchaseFrame)
         self.statusLabel.reparentTo(self.toon.inventory.purchaseFrame)
-        
+
 
         for headFrame in self.headFrames:
             headFrame[1].show()
@@ -772,7 +772,7 @@ class Purchase(PurchaseBase):
             if config.GetBool('metagame-disable-playAgain',0):
                 if self.metagameRound > -1:
                     self.disablePlayAgain()
-            
+
         else:
             # set up for the tutorial
             self.timer.hide()
@@ -787,7 +787,7 @@ class Purchase(PurchaseBase):
             for avId, headFrame in self.headFrames:
                 if avId != self.newbieId:
                     headFrame.hide()
-        
+
         messenger.send('gagScreenIsUp')
 
         if base.autoPlayAgain or self.doMetagamePlayAgain():
@@ -795,7 +795,7 @@ class Purchase(PurchaseBase):
             self.__handlePlayAgain()
 
     def exitPurchase(self):
-        assert self.notify.debugStateCall(self)        
+        assert self.notify.debugStateCall(self)
         PurchaseBase.exitPurchase(self)
         self.ignore('disableGagPanel')
         self.ignore('disableBackToPlayground')
@@ -832,7 +832,7 @@ class Purchase(PurchaseBase):
         # tutorial is now ready for gag to be purchased
         self.toon.inventory.setActivateMode('purchase', gagTutMode=1)
         self.checkForBroke()
-        
+
     def handleGagTutorialDone(self):
         self.enableBackToPlayground()
 
@@ -859,7 +859,7 @@ class Purchase(PurchaseBase):
 
         assert self.notify.debug('doMetagamePlayAgain 2 returning %s' % self.metagamePlayAgainResult)
         return self.metagamePlayAgainResult
-        
+
 
     def setupUnexpectedExitHooks(self):
         """Setup hooks to inform us when other toons exit unexpectedly."""
@@ -881,11 +881,11 @@ class Purchase(PurchaseBase):
         assert self.notify.debugStateCall(self)
         self.unexpectedExits.append(avId)
 
-        
+
 class PurchaseHeadFrame(DirectFrame):
 
     notify = DirectNotifyGlobal.directNotify.newCategory("Purchase")
-    
+
     def __init__(self, av, purchaseModels):
         DirectFrame.__init__(
             self,
@@ -910,12 +910,12 @@ class PurchaseHeadFrame(DirectFrame):
         # and try to delete them when we exit
         self.avKeep = DelayDelete.DelayDelete(av, 'PurchaseHeadFrame.av')
         self.accept('clientCleanup', self._handleClientCleanup)
-        
+
         self.head = self.stateNodePath[0].attachNewNode('head', 20)
         self.head.setPosHprScale(-0.22, 10.0, -0.1,
                                  180., 0., 0.,
                                  0.1, 0.1, 0.1)
-        
+
         self.headModel = ToonHead.ToonHead()
         self.headModel.setupHead(self.av.style, forGui = 1)
         self.headModel.reparentTo(self.head)
@@ -943,7 +943,7 @@ class PurchaseHeadFrame(DirectFrame):
                                  0.046,0.046,0.046)
 
         self.hide()
-        
+
     def destroy(self):
         assert self.notify.debugStateCall(self)
         DirectFrame.destroy(self)
@@ -1001,6 +1001,6 @@ class PurchaseHeadFrame(DirectFrame):
         if hasattr(self,'avKeep'):
             self.notify.debug('destroying avKeep %s' % self.avKeep)
             self.avKeep.destroy()
-            
+
             del self.avKeep
         self.ignore('clientCleanup')

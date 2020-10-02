@@ -45,7 +45,7 @@ class PurchaseBase(StateData.StateData):
             purchaseModels = loader.loadModel(
                 "phase_4/models/gui/purchase_gui")
 
-        self.music = base.loadMusic("phase_4/audio/bgm/FF_safezone.mid")
+        self.music = base.loadMusic("phase_4/audio/bgm/FF_safezone.ogg")
 
         self.jarImage = purchaseModels.find("**/Jar")
         self.jarImage.reparentTo(hidden)

@@ -155,7 +155,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
             text = 'Caption Photo',
             text_scale = 0.06,
             text_pos = (0.0, 0.13),
-            sortOrder = NO_FADE_SORT_INDEX,
+            sortOrder = DGG.NO_FADE_SORT_INDEX,
             )
 
         self.renameEntry = DirectEntry(
@@ -196,7 +196,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
             text = 'Delete Photo?',
             text_scale = 0.06,
             text_pos = (0.0, 0.13),
-            sortOrder = NO_FADE_SORT_INDEX,
+            sortOrder = DGG.NO_FADE_SORT_INDEX,
             )
 
         self.dOk = DirectButton(parent = self.deletePanel,
@@ -384,7 +384,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
         photos = []
         for fileName in files:
             if ((fileName[0:10] == 'screenshot') and
-                (fileName[-4:] == '.jpg')):
+                (fileName[-4:] == '.png')):
                 photos.append(fileName)
         return photos
 

@@ -1700,7 +1700,7 @@ class NameShop(StateData.StateData):
             buttonTextList = [TTLocalizer.MakeAToonEnterTutorial, TTLocalizer.MakeAToonSkipTutorial],
             button_text_scale = 0.06,
             buttonPadSF = 5.5,
-            sortOrder = NO_FADE_SORT_INDEX,
+            sortOrder = DGG.NO_FADE_SORT_INDEX,
             )
         self.promptTutorialDialog.show()
 

@@ -322,11 +322,9 @@ class Char(Avatar.Avatar):
         self.eyesClosed = None
 
         if (self.name == "mickey" or self.name == "minnie"):
-            self.eyesOpen = loader.loadTexture("phase_3/maps/eyes1.jpg",
-                                               "phase_3/maps/eyes1_a.rgb")
+            self.eyesOpen = loader.loadTexture("phase_3/maps/eyes1.png")
             self.eyesClosed = loader.loadTexture(
-                "phase_3/maps/mickey_eyes_closed.jpg",
-                "phase_3/maps/mickey_eyes_closed_a.rgb")
+                "phase_3/maps/mickey_eyes_closed.png")
                 # TODO: other LODs
             self.eyes = self.find("**/1200/**/eyes")
             # this fixes a dual-mode transparency problem
@@ -357,11 +355,9 @@ class Char(Avatar.Avatar):
                 part.hide()
         elif (self.name == "pluto"):
             self.eyesOpen = loader.loadTexture(
-                "phase_6/maps/plutoEyesOpen.jpg",
-                "phase_6/maps/plutoEyesOpen_a.rgb")
+                "phase_6/maps/plutoEyesOpen.png")
             self.eyesClosed = loader.loadTexture(
-                "phase_6/maps/plutoEyesClosed.jpg",
-                "phase_6/maps/plutoEyesClosed_a.rgb")
+                "phase_6/maps/plutoEyesClosed.png")
             # TODO: other LODs
             self.eyes = self.find("**/1000/**/eyes")
             self.lpupil = self.find("**/1000/**/joint_pupilL")
@@ -400,11 +396,9 @@ class Char(Avatar.Avatar):
 
         elif (self.name == "chip") or (self.name == "dale"):
             self.eyesOpen = loader.loadTexture(
-                "phase_6/maps/dale_eye1.jpg",
-                "phase_6/maps/dale_eye1_a.rgb")
+                "phase_6/maps/dale_eye1.png")
             self.eyesClosed = loader.loadTexture(
-                "phase_6/maps/chip_dale_eye1_blink.jpg",
-                "phase_6/maps/chip_dale_eye1_blink_a.rgb")
+                "phase_6/maps/chip_dale_eye1_blink.png")
             self.eyes = self.find("**/eyes")
             self.lpupil = self.find("**/pupil_left")
             self.rpupil = self.find("**/pupil_right")

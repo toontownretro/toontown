@@ -732,14 +732,14 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
         # before battles: play the boss theme music
         self.promotionMusic = base.loadMusic(
-            'phase_7/audio/bgm/encntr_suit_winning_indoor.mid')
-            # 'phase_9/audio/bgm/encntr_head_suit_theme.mid')
+            'phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
+            # 'phase_9/audio/bgm/encntr_head_suit_theme.ogg')
         # Between battle one and two: play the upbeat street battle music
         self.betweenBattleMusic = base.loadMusic(
-            'phase_9/audio/bgm/encntr_toon_winning.mid')
+            'phase_9/audio/bgm/encntr_toon_winning.ogg')
         # Battle two: play new jury music
         self.battleTwoMusic = base.loadMusic(
-            'phase_11/audio/bgm/LB_juryBG.mid')
+            'phase_11/audio/bgm/LB_juryBG.ogg')
 
         # Also replace the floor polygon with a plane, and rename it
         # so we can detect a collision with it.

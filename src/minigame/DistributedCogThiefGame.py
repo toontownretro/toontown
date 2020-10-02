@@ -112,7 +112,7 @@ class DistributedCogThiefGame(DistributedMinigame):
     def load(self):
         self.notify.debug("load")
         DistributedMinigame.load(self)
-        self.music = base.loadMusic("phase_4/audio/bgm/MG_CogThief.mid")
+        self.music = base.loadMusic("phase_4/audio/bgm/MG_CogThief.ogg")
         self.initCogInfo()
 
         # TODO: vary number based on diffculty?

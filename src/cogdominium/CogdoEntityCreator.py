@@ -9,7 +9,7 @@ class CogdoEntityCreator(EntityCreator.EntityCreator):
 
         # create short aliases for EntityCreator create funcs
         nothing = EntityCreator.nothing
-        nonlocal = EntityCreator.nonlocal
+        nonlocalEnt = EntityCreator.nonlocalEnt
 
         self.privRegisterTypes({
             'levelMgr': CogdoLevelMgr,
@@ -19,4 +19,3 @@ class CogdoEntityCreator(EntityCreator.EntityCreator):
     def _createCogdoSettings(self, level, entId):
         CogdoCraneGameConsts.Settings.initializeEntity(level, entId)
         return CogdoCraneGameConsts.Settings
-    

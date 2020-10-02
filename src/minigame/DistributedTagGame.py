@@ -92,7 +92,7 @@ class DistributedTagGame(DistributedMinigame):
         self.ground = loader.loadModel(
             "phase_4/models/minigames/tag_arena")
 
-        self.music = base.loadMusic("phase_4/audio/bgm/MG_toontag.mid")
+        self.music = base.loadMusic("phase_4/audio/bgm/MG_toontag.ogg")
         self.tagSfx = base.loadSfx("phase_4/audio/sfx/MG_Tag_C.mp3")
         self.itPointer = loader.loadModel(
             "phase_4/models/minigames/bboard-pointer")

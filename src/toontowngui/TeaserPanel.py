@@ -192,7 +192,7 @@ class TeaserPanel(DirectObject):
                               ],
             button_text_scale = TTLocalizer.TSRPbutton,
             buttonPadSF = 5.5,
-            sortOrder = NO_FADE_SORT_INDEX,
+            sortOrder = DGG.NO_FADE_SORT_INDEX,
             image =  self.upsellBackground,
             )
         self.dialog.setPos(0, 0, 0.75)

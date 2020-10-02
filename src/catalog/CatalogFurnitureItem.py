@@ -83,28 +83,28 @@ FurnitureTypes = {
     # These are examples to illustrate how we might apply color
     # options to furniture, and/or hide and show pieces or replace
     # textures to extend a single model for multiple purposes.
-    
+
 ##     # Wooden chair
 ##     100 : ("phase_5.5/models/estate/cushionChair",
 ##            (("**/cushion*", None)),
 ##            None,
 ##            50),
-    
+
 ##     # Cushioned chair
 ##     110 : ("phase_5.5/models/estate/cushionChair",
 ##            None,
 ##            None,
 ##            100),
-    
+
 ##     # Velvet chair
 ##     120 : ("phase_5.5/models/estate/cushionChair",
-##            (("**/cushion*", "phase_5.5/maps/velvet_cushion.jpg")),
+##            (("**/cushion*", "phase_5.5/maps/velvet_cushion.png")),
 ##            { 0 : (("**/cushion*", (1, 0, 0, 1)),),
 ##              1 : (("**/cushion*", (0.6, 0.2, 1, 1)),),
 ##              2 : (("**/cushion*", (0.2, 0.2, 0.6, 1)),),
 ##              },
 ##            250),
-    
+
 ##     # Library chair
 ##     130 : ("phase_5.5/models/estate/libraryChair",
 ##            None,
@@ -159,8 +159,8 @@ FurnitureTypes = {
     # Candy cupcake Chair - Series 6
     170 : ("phase_5.5/models/estate/cupcakeChair",
            None, None, 240),
-    
-     
+
+
     ## BEDS ##
     # Boy's bed - Initial Furniture
     200 : ("phase_5.5/models/estate/regular_bed",
@@ -195,7 +195,7 @@ FurnitureTypes = {
     # Bug Room Bed - Series 2
     230 : ("phase_5.5/models/estate/bugRoomBed",
            None, None, 600),
-    
+
     # Underwater Boat bed - Series 3
     240 : ("phase_5.5/models/estate/UWBoatBed",
            None, None, 600),
@@ -207,7 +207,7 @@ FurnitureTypes = {
     # Candy ice cream bed - Series 6
     260 : ("phase_5.5/models/estate/icecreamBed",
            None, None, 700),
-           
+
     # Trolley bed - CatalogAnimatedFurnitureItem
     270 : ("phase_5.5/models/estate/trolley_bed",
            None, None, 1200, None, None, 0.25),
@@ -242,31 +242,31 @@ FurnitureTypes = {
     # Candy Carmel Apple Fireplace - Series 6
     440 : ("phase_5.5/models/estate/CarmelAppleFireplace",
            None, None, 800),
-    
+
     # Coral Fireplace
     450 : ("phase_5.5/models/estate/fireplace_coral",
            None, None, 950),
-           
+
     # Coral Fireplace with fire
     460 : ("phase_5.5/models/estate/tt_m_prp_int_fireplace_coral",
            None, None, 1250, None, None, 0.5),
-           
+
     # Square Fireplace with fire
     470 : ("phase_5.5/models/estate/tt_m_prp_int_fireplace_square",
            None, None, 1100, None, None, 0.5),
-           
+
     # Round Fireplace with fire
     480 : ("phase_5.5/models/estate/tt_m_prp_int_fireplace_round",
            None, None, 1100, None, None, 0.5),
-           
+
     # Girly Fireplace with fire
     490 : ("phase_5.5/models/estate/tt_m_prp_int_fireplace_girlee",
            None, None, 1100, None, None, 0.5),
-           
+
     # Bug Room Fireplace with fire
     491 : ("phase_5.5/models/estate/tt_m_prp_int_fireplace_bugRoom",
            None, None, 1100, None, None, 0.5),
-           
+
     # Candy Caramel Apple Fireplace with fire
     492 : ("phase_5.5/models/estate/tt_m_prp_int_fireplace_caramelApple",
            None, None, 1100, None, None, 0.5),
@@ -341,7 +341,7 @@ FurnitureTypes = {
     # Underwater Lamp 1 - Series 3
     650 : ("phase_5.5/models/estate/UWlamp_jellyfish",
            None, None, 55, FLOnTable),
-           
+
     # Underwater Lamp 2 - Series 3
     660 : ("phase_5.5/models/estate/UWlamps_jellyfishB",
            None, None, 55, FLOnTable),
@@ -349,7 +349,7 @@ FurnitureTypes = {
     # Cowboy Lamp - series 4
     670 : ("phase_5.5/models/estate/West_cowboyLamp",
            None, None, 55, FLOnTable),
-           
+
     # Lamps
     680: ("phase_5.5/models/estate/tt_m_ara_int_candlestick",
         None,
@@ -361,8 +361,8 @@ FurnitureTypes = {
            5 : (("**/candlestick/candlestick", furnitureColors[5]),),
            6 : (("**/candlestick/candlestick", furnitureColors[0]),),
         },
-        20, FLOnTable),           
-    
+        20, FLOnTable),
+
     681: ("phase_5.5/models/estate/tt_m_ara_int_candlestickLit",
         None,
         { 0 : (("**/candlestick/candlestick", (1.0, 1.0, 1.0, 1.0),),),
@@ -373,7 +373,7 @@ FurnitureTypes = {
            5 : (("**/candlestickLit/candlestick", furnitureColors[5]),),
            6 : (("**/candlestickLit/candlestick", furnitureColors[0]),),
         },
-        25, FLOnTable),       
+        25, FLOnTable),
 
     ## COUCHES ##
     # 1-person couch - Series 1
@@ -463,7 +463,7 @@ FurnitureTypes = {
     # Western tepee - Series 4
     980 : ("phase_5.5/models/estate/West_Tepee",
            None, None, 150),
-    
+
     # Gag fan - CatalogAnimatedFurnitureItem
     990 : ("phase_5.5/models/estate/gag_fan",
            None, None, 500, None, None, 0.5),
@@ -496,11 +496,11 @@ FurnitureTypes = {
     # Bug Room Leaf Mat - Series 2
     1030 : ("phase_5.5/models/estate/bugRoomLeafMat",
             None, None, 75, FLRug),
-            
+
     # Presents
     1040 : ("phase_5.5/models/estate/tt_m_ara_int_presents",
               None, None, 300),
-              
+
     # Sled
     1050 : ("phase_5.5/models/estate/tt_m_ara_int_sled",
               None, None, 400),
@@ -509,7 +509,7 @@ FurnitureTypes = {
     # Red Wood Cabinet  - Series 1
     1100 : ("phase_5.5/models/estate/cabinetRwood",
             None, None, 825),
-    
+
     # Yellow Wood Cabinet - Series 2
     1110 : ("phase_5.5/models/estate/cabinetYwood",
             None, None, 825),
@@ -551,7 +551,7 @@ FurnitureTypes = {
     # Coffee table - Series 2
     1220 : ("phase_5.5/models/estate/coffeetableSq",
             None, None, 180, FLIsTable),
-            
+
     # Coffee table - Series 2
     1230 : ("phase_5.5/models/estate/coffeetableSq_BW",
             None, None, 180, FLIsTable),
@@ -581,11 +581,11 @@ FurnitureTypes = {
     # Jellybean Bank, 1000 beans - Initial Furniture
     1300 : ("phase_5.5/models/estate/jellybeanBank",
             None, None, 0, FLBank, 0.75),
-    
+
     # Jellybean Bank, 2500 beans - Series 1
     1310 : ("phase_5.5/models/estate/jellybeanBank",
             None, None, 400, FLBank, 1.0),
-    
+
     # Jellybean Bank, 5000 beans - Series 1
     1320 : ("phase_5.5/models/estate/jellybeanBank",
             None, None, 800, FLBank, 1.125),
@@ -635,8 +635,8 @@ FurnitureTypes = {
     # Painting: Toon Pie - Series 2
     1443 : ("phase_5.5/models/estate/MagPie",
             None, None, 425, FLPainting, 2.0),
-            
-    # Painting: Valentines Day - Mickey and Minney 
+
+    # Painting: Valentines Day - Mickey and Minney
     1450 : ("phase_5.5/models/estate/tt_m_prp_int_painting_valentine",
              None, None, 425, FLPainting),
 
@@ -691,16 +691,16 @@ FurnitureTypes = {
     # Underwater shell vase - Series 3
     1661 : ("phase_5.5/models/estate/UWshellVase",
             None, None, 120, (FLOnTable | FLBillboard) ),
-            
+
     # Valentines Day Vase - Rose Vase
     1670 : ("phase_5.5/models/estate/tt_m_prp_int_roseVase_valentine",
             None, None, 200, (FLOnTable)),
-            
+
     # Valentines Day Vase - Rose Water Can
     1680 : ("phase_5.5/models/estate/tt_m_prp_int_roseWatercan_valentine",
             None, None, 200, (FLOnTable)),
-            
-    
+
+
     ## KITSCH ##
     # Popcorn cart - Series 2
     1700 : ("phase_5.5/models/estate/popcornCart",
@@ -717,7 +717,7 @@ FurnitureTypes = {
     # Underwater clothes dryer - Series 3
     1725 : ("phase_5.5/models/estate/UWOceanDryer",
             None, None, 400),
-            
+
 
     ## Fishbowls ##
     # Underwater skull fish bowl - Series 3
@@ -737,7 +737,7 @@ FurnitureTypes = {
     # Underwater hammerhead wall hanging - Series 3
     1910 : ("phase_5.5/models/estate/UWhammerhead",
             None, None, 425, FLPainting),
-            
+
     # Western hanging horns - Series 4
     1920 : ("phase_5.5/models/estate/West_hangingHorns",
             None, None, 475, FLPainting),
@@ -812,12 +812,12 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
     (e.g. changing colors).
 
     """
-    
+
     def makeNewItem(self, furnitureType, colorOption = None, posHpr = None):
         self.furnitureType = furnitureType
         self.colorOption = colorOption
         self.posHpr = posHpr
-        
+
         CatalogAtticItem.CatalogAtticItem.makeNewItem(self)
 
     def needsCustomize(self):
@@ -850,7 +850,7 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
         # If replacesExisting returns true, this returns the name of
         # the already existing object, in sentence construct: "your
         # old ...".  If replacesExisting returns false, this is undefined.
-        
+
         if (self.getFlags() & FLCloset):
             return TTLocalizer.FurnitureYourOldCloset
         elif (self.getFlags() & FLBank):
@@ -919,7 +919,7 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
             # another one.
             if self in avatar.onOrder or self in avatar.mailboxContents:
                 return 1
-            
+
         return 0
 
     def getTypeName(self):
@@ -945,7 +945,7 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
                 return flag
         else:
             return 0
-            
+
     def isGift(self):
         if self.getFlags() & (FLCloset | FLBank):
             return 0
@@ -971,7 +971,7 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
                 # accordingly.  This property is also stored on the
                 # toon.
                 avatar.b_setMaxClothes(self.getMaxClothes())
-                
+
         return retcode
 
     def getDeliveryTime(self):
@@ -999,7 +999,7 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
 
 ##        assert (not self.hasPicture)
         self.hasPicture=True
-        
+
         return self.makeFrameModel(model, spin)
 
     def output(self, store = ~0):
@@ -1032,7 +1032,7 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
             else:
                 # Use the user's specified color option.
                 option = type[FTColorOptions].get(self.colorOption)
-            
+
             self.applyColor(model, option)
 
         if (FTScale < len(type)):
@@ -1059,14 +1059,14 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
                 # The following will raise an exception if
                 # self.colorOption is not valid.
                 option = type[FTColorOptions][self.colorOption]
-        
+
     def encodeDatagram(self, dg, store):
         CatalogAtticItem.CatalogAtticItem.encodeDatagram(self, dg, store)
         dg.addInt16(self.furnitureType)
         if FurnitureTypes[self.furnitureType][FTColorOptions]:
             if store & CatalogItem.Customization:
                 dg.addUint8(self.colorOption)
-        
+
 
 def nextAvailableBank(avatar, duplicateItems):
     bankId = MoneyToBank.get(avatar.getMaxBankMoney())

@@ -398,7 +398,7 @@ class MakeAToon(StateData.StateData):
         self.cls.load()
         self.ns.load()
 
-        self.music = base.loadMusic("phase_3/audio/bgm/create_a_toon.mid")
+        self.music = base.loadMusic("phase_3/audio/bgm/create_a_toon.ogg")
         self.musicVolume = base.config.GetFloat("makeatoon-music-volume", 1)
         self.sfxVolume = base.config.GetFloat("makeatoon-sfx-volume", 1)
         self.soundBack = base.loadSfx("phase_3/audio/sfx/GUI_create_toon_back.mp3")
@@ -872,7 +872,7 @@ class MakeAToon(StateData.StateData):
             self.pickedObj = self.pickerQueue.getEntry(0).getIntoNodePath()
 
     def mouseUp(self):
-		self.notify.debug('Mouse 1 Up')
+        self.notify.debug('Mouse 1 Up')
 
     def squishRoom(self, room):
         """

@@ -340,7 +340,7 @@ class DistributedTravelGame(DistributedMinigame):
         self.loadGui()
         self.introMovie = self.getIntroMovie()
 
-        self.music = base.loadMusic("phase_4/audio/bgm/MG_Travel.mid")
+        self.music = base.loadMusic("phase_4/audio/bgm/MG_Travel.ogg")
         self.flashWinningBeansTrack = None
 
     def loadTrainTrack(self, x1, y1, x2, y2, zAdj = 0):

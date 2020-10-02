@@ -377,7 +377,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
         if (self.music == None) and base.musicManagerIsValid:
             # Reload the music if we don't have it already.
-            self.music = base.musicManager.getSound("phase_3/audio/bgm/tt_theme.mid")
+            self.music = base.musicManager.getSound("phase_3/audio/bgm/tt_theme.ogg")
             # Set the music to play immediately after we load it.  It
             # is not clear why we need to do this even though we are
             # about to call base.playMusic() below, but it appears we

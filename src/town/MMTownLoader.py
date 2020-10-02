@@ -8,13 +8,13 @@ if __debug__:
 class MMTownLoader(TownLoader.TownLoader):
     if __debug__:
         notify = DirectNotifyGlobal.directNotify.newCategory("MMTownLoader")
-    
+
     def __init__(self, hood, parentFSM, doneEvent):
         assert self.notify.debug("__init__()")
         TownLoader.TownLoader.__init__(self, hood, parentFSM, doneEvent)
         self.streetClass = MMStreet.MMStreet
-        self.musicFile = "phase_6/audio/bgm/MM_SZ.mid"
-        self.activityMusicFile = "phase_6/audio/bgm/MM_SZ_activity.mid"
+        self.musicFile = "phase_6/audio/bgm/MM_SZ.ogg"
+        self.activityMusicFile = "phase_6/audio/bgm/MM_SZ_activity.ogg"
         self.townStorageDNAFile = "phase_6/dna/storage_MM_town.dna"
 
     def load(self, zoneId):
@@ -28,4 +28,3 @@ class MMTownLoader(TownLoader.TownLoader):
         assert self.notify.debug("__init__()")
         Suit.unloadSuits(2)
         TownLoader.TownLoader.unload(self)
-

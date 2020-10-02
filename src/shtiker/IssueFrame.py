@@ -25,7 +25,7 @@ class IssueFrame(DirectFrame):
     FrameDimensions = (-1.30666637421, 1.30666637421, -0.751666665077, 0.751666665077)
     notify = DirectNotifyGlobal.directNotify.newCategory("IssueFrame")
     # datestr, section, subsection #
-    ContentPattern = "tt_i_art_%s_%s%d.jpg"
+    ContentPattern = "tt_i_art_%s_%s%d.png"
 
     # home page is considered one section, must always be first
     # home, news, events, talk of the town, ask toontown, toon resistance

@@ -72,9 +72,9 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
         self.BossOffice_SuitHs = [170, 120, 12, 38]
 
         self.waitMusic = base.loadMusic(
-            'phase_7/audio/bgm/encntr_toon_winning_indoor.mid')
+            'phase_7/audio/bgm/encntr_toon_winning_indoor.ogg')
         self.elevatorMusic = base.loadMusic(
-            'phase_7/audio/bgm/tt_elevator.mid')
+            'phase_7/audio/bgm/tt_elevator.ogg')
 
         self.fsm = ClassicFSM.ClassicFSM('DistributedCogdoInterior',
                         [State.State('WaitForAllToonsInside',
@@ -92,15 +92,15 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
                         State.State('Battle',
                                 self.enterBattle,
                                 self.exitBattle,
-                                ['Resting', 
-                                'Reward', 
+                                ['Resting',
+                                'Reward',
                                 'ReservesJoining']),
                         State.State('ReservesJoining',
                                 self.enterReservesJoining,
                                 self.exitReservesJoining,
                                 ['Battle']),
                         State.State('Resting',
-                                self.enterResting,      
+                                self.enterResting,
                                 self.exitResting,
                                 ['Elevator']),
                         State.State('Reward',
@@ -110,7 +110,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
                         State.State('Off',
                                 self.enterOff,
                                 self.exitOff,
-                                ['Elevator', 
+                                ['Elevator',
                                 'WaitForAllToonsInside',
                                 'Battle']),
                 ],
@@ -240,7 +240,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
     def __removeToon(self, toon, unexpected=0):
         assert(self.notify.debug('removeToon() - toon: %d' % toon.doId))
         if (self.toons.count(toon) == 1):
-            self.toons.remove(toon) 
+            self.toons.remove(toon)
         self.ignore(toon.uniqueName('disable'))
 
     def __finishInterval(self, name):
@@ -347,7 +347,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
         if (len(self.joiningReserves) > 0):
             assert(self.notify.debug('setSuits() reserves joining'))
             self.fsm.request('ReservesJoining')
-    
+
     def setState(self, state, timestamp):
         assert(self.notify.debug("setState(%s, %d)" % \
                                 (state, timestamp)))
@@ -366,11 +366,11 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
     # Specific State Functions
 
     ##### Off state #####
-    
+
     def enterOff(self, ts=0):
         assert(self.notify.debug('enterOff()'))
         return None
-    
+
     def exitOff(self):
         return None
 
@@ -380,13 +380,13 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
         assert(self.notify.debug('enterWaitForAllToonsInside()'))
         return None
 
-    def exitWaitForAllToonsInside(self):        
+    def exitWaitForAllToonsInside(self):
         return None
 
     ##### Elevator state #####
 
     def __playElevator(self, ts, name, callback):
-        # Load the floor model 
+        # Load the floor model
 
         SuitHs = []   # Heading angles
         SuitPositions = []
@@ -403,7 +403,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
             # Top floor
             self.floorModel = loader.loadModel('phase_7/models/modules/boss_suit_office')
             SuitHs = self.BossOffice_SuitHs
-            SuitPositions = self.BossOffice_SuitPositions            
+            SuitPositions = self.BossOffice_SuitPositions
         else:
             # middle floor
             SuitHs = self.Cubicle_SuitHs
@@ -472,13 +472,13 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
                                           self.openSfx, None, type = ELEVATOR_NORMAL),
             Func(camera.wrtReparentTo, render),
             )
-                         
+
         for toon in self.toons:
             track.append(Func(toon.wrtReparentTo, render))
         track.append(Func(callback))
         track.start(ts)
         self.activeIntervals[name] = track
-        
+
     def enterElevator(self, ts=0):
         # Load model for the current floor and the suit models for the floor
         assert(self.notify.debug('enterElevator()'))
@@ -492,7 +492,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
         # unless it's the top floor, in that case leave it where it is
         if not self.isBossFloor(self.currentFloor):
             self.elevatorModelOut.detachNode()
-        
+
         self.__playElevator(ts, self.elevatorName, self.__handleElevatorDone)
 
         # Get the floor multiplier
@@ -515,7 +515,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
 
     def exitGame(self):
         pass
-    
+
     ##### Battle state #####
 
     def __playCloseElevatorOut(self, name):
@@ -523,10 +523,10 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
         track = Sequence(
             Wait(SUIT_LEAVE_ELEVATOR_TIME),
             Parallel(SoundInterval(self.closeSfx),
-                     LerpPosInterval(self.leftDoorOut, 
+                     LerpPosInterval(self.leftDoorOut,
                                      ElevatorData[ELEVATOR_NORMAL]['closeTime'],
                                      ElevatorUtils.getLeftClosePoint(ELEVATOR_NORMAL),
-                                     startPos=Point3(0, 0, 0), 
+                                     startPos=Point3(0, 0, 0),
                                      blendType='easeOut'),
                      LerpPosInterval(self.rightDoorOut,
                                      ElevatorData[ELEVATOR_NORMAL]['closeTime'],
@@ -584,14 +584,14 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
 
             # Open the elevator doors
             Parallel(SoundInterval(self.openSfx),
-                     LerpPosInterval(self.leftDoorOut, 
+                     LerpPosInterval(self.leftDoorOut,
                                      ElevatorData[ELEVATOR_NORMAL]['closeTime'],
-                                     Point3(0, 0, 0), 
+                                     Point3(0, 0, 0),
                                      startPos=ElevatorUtils.getLeftClosePoint(ELEVATOR_NORMAL),
                                      blendType='easeOut'),
                      LerpPosInterval(self.rightDoorOut,
                                      ElevatorData[ELEVATOR_NORMAL]['closeTime'],
-                                     Point3(0, 0, 0), 
+                                     Point3(0, 0, 0),
                                      startPos=ElevatorUtils.getRightClosePoint(ELEVATOR_NORMAL),
                                      blendType='easeOut'),
                      ),

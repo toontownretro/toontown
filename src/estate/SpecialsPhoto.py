@@ -43,7 +43,7 @@ class DirectRegion(NodePath):
         assert self.notify.debugStateCall(self)
 
     def hide(self):
-        NodePath.NodePath.hide(self)
+        NodePath.hide(self)
         assert self.notify.debugStateCall(self)
 
     def load(self):
@@ -244,7 +244,7 @@ class SpecialsPhoto(NodePath):
 
 
     def hide(self):
-        NodePath.NodePath.hide(self)
+        NodePath.hide(self)
         assert self.notify.debugStateCall(self)
         if hasattr(self, "specialsDisplayRegion"):
             self.specialsDisplayRegion.unload()

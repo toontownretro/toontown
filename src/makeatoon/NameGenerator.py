@@ -67,14 +67,14 @@ class NameGenerator:
 
         input = StreamReader(vfs.openReadFile(filename, 1), 1)
 
-        currentLine = input.readline()
+        currentLine = input.readlineStr()
         while currentLine:
             if currentLine.lstrip()[0:1] != '#':
                 a1 = currentLine.find('*')
                 a2 = currentLine.find('*', a1+1)
                 self.nameDictionary[int(currentLine[0:a1])]=(int(currentLine[a1+1:a2]),
                                                              currentLine[a2+1:len(currentLine)-1])
-            currentLine = input.readline()
+            currentLine = input.readlineStr()
 
         masterList = [self.boyTitles, self.girlTitles, self.neutralTitles,
                       self.boyFirsts, self.girlFirsts, self.neutralFirsts,

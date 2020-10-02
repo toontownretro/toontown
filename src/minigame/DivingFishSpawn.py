@@ -15,12 +15,12 @@ class DivingFishSpawn(DirectObject):
 
     def __init__(self, spawnId, direction, position, cHandler):
         loadBase = "phase_4/models/char/"
-        #self.kingCrab = Actor.Actor(loadBase + 'kingCrab-zero.bam',{'anim': loadBase + 'kingCrab-swimLOOP.bam'})                             
-        #self.clownFish = Actor.Actor(loadBase + 'clownFish-zero.bam',{'anim': loadBase + 'clownFish-swimLOOP.bam'})                             
-        #self.pbjFish = Actor.Actor(loadBase + 'PBJfish-zero.bam',{'anim': loadBase + 'PBJfish-swimLOOP.bam'})     
-        #self.nurseShark = Actor.Actor(loadBase + 'nurseShark-zero.bam',{'anim': loadBase + 'nurseShark-swimLOOP.bam'})     
-        #self.balloonFish = Actor.Actor(loadBase + 'balloonFish-zero.bam',{'anim': loadBase + 'balloonFish-swim.bam'})     
-        
+        #self.kingCrab = Actor.Actor(loadBase + 'kingCrab-zero.bam',{'anim': loadBase + 'kingCrab-swimLOOP.bam'})
+        #self.clownFish = Actor.Actor(loadBase + 'clownFish-zero.bam',{'anim': loadBase + 'clownFish-swimLOOP.bam'})
+        #self.pbjFish = Actor.Actor(loadBase + 'PBJfish-zero.bam',{'anim': loadBase + 'PBJfish-swimLOOP.bam'})
+        #self.nurseShark = Actor.Actor(loadBase + 'nurseShark-zero.bam',{'anim': loadBase + 'nurseShark-swimLOOP.bam'})
+        #self.balloonFish = Actor.Actor(loadBase + 'balloonFish-zero.bam',{'anim': loadBase + 'balloonFish-swim.bam'})
+
         self.entryNode = render.attachNewNode("entryNode")
 
         self.direction = direction
@@ -36,31 +36,31 @@ class DivingFishSpawn(DirectObject):
     def getUniqueNumber(self):
         self.id+=1
         return self.id
-    
+
     def createFish(self, fishcode):
         loadBase = "phase_4/models/char/"
-        if fishcode is 0:
+        if fishcode == 0:
             # clown fish
             fish = Actor.Actor('phase_4/models/char/clownFish-zero.bam',{'anim': loadBase + 'clownFish-swim.bam'})
             fish.name = 'clown'
-        elif fishcode is 1:
+        elif fishcode == 1:
             # pbj fish
             fish = Actor.Actor("phase_4/models/char/PBJfish-zero.bam",{'anim': "phase_4/models/char/PBJfish-swim.bam"})
             fish.name = 'pbj'
-        elif fishcode is 2:
+        elif fishcode == 2:
             # bearAcuda
             fish = Actor.Actor("phase_4/models/char/BearAcuda-zero.bam",{'anim': "phase_4/models/char/BearAcuda-swim.bam"})
             fish.name = 'bear'
-        elif fishcode is 3:
-            fish = Actor.Actor(loadBase + 'balloonFish-zero.bam',{'anim': loadBase + 'balloonFish-swim.bam'})    
+        elif fishcode == 3:
+            fish = Actor.Actor(loadBase + 'balloonFish-zero.bam',{'anim': loadBase + 'balloonFish-swim.bam'})
             fish.name = 'balloon'
             # balloonFish
-        elif fishcode is 4:
-            fish = Actor.Actor(loadBase + 'nurseShark-zero.bam',{'anim': loadBase + 'nurseShark-swim.bam'})    
+        elif fishcode == 4:
+            fish = Actor.Actor(loadBase + 'nurseShark-zero.bam',{'anim': loadBase + 'nurseShark-swim.bam'})
             fish.name = 'nurse'
             # nurse shark
-        elif fishcode is 5:
-            fish = Actor.Actor(loadBase + 'pianoTuna-zero.bam',{'anim': loadBase + 'pianoTuna-swim.bam'})    
+        elif fishcode == 5:
+            fish = Actor.Actor(loadBase + 'pianoTuna-zero.bam',{'anim': loadBase + 'pianoTuna-swim.bam'})
             fish.name = 'piano'
             # piano tuna
         else:
@@ -74,11 +74,11 @@ class DivingFishSpawn(DirectObject):
         self.fishArray[idCode] = fish
 
         fish.reparentTo(render)
-        
+
         fish.setScale(1)
         #fish.setPos(0,10,0)
         fish.moveLerp = Sequence()
-        
+
         # each fish needs to be tweaked a little to make it work properly
         if fish.name == 'clown':
             fish.setH(90*self.direction)
@@ -118,30 +118,30 @@ class DivingFishSpawn(DirectObject):
             fish.setScale(1.4)
             cSphere = CollisionSphere(0,0,0,1)
             fishSoundName = "Piano_Tuna.mp3"
-            if self.direction is -1:
+            if self.direction == -1:
                 fish.setH(0)
             else:
                 fish.setH(180)
-                
+
         cSphere.setTangible(0)
         fish.offset = 0
-        
+
         cSphereNode = CollisionNode("fc" + str(fish.code))
         cSphereNode.addSolid(cSphere)
         cSphereNode.setFromCollideMask(BitMask32.allOff())
         cSphereNode.setIntoCollideMask(DivingGameGlobals.CollideMask)
         cSphereNodePath = fish.attachNewNode(cSphereNode)
-        
+
         self.accept('into-' + "fc" +str(fish.code), self.__handleFishCollide)
 
         fish.moveloop = Sequence(Wait(4),LerpScaleInterval(fish, startScale=1, scale=3, duration=1),Wait(1.5),
                                               LerpScaleInterval(fish, startScale=3, scale=1, duration=.5))
-        # Removing the flattenMedium() because it is causing some of the 
-        # swim animations to not play. Besides we are not really achieving much 
-        # by flattening one node per fish anyways. 
+        # Removing the flattenMedium() because it is causing some of the
+        # swim animations to not play. Besides we are not really achieving much
+        # by flattening one node per fish anyways.
 ##        fish.flattenMedium()
         return fish
-    
+
     def destroy(self):
         self.ignoreAll()
         for fish in list(self.fishArray.values()):

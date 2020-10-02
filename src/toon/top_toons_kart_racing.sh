@@ -1,5 +1,5 @@
 #!/bin/sh
-DOW=`date +%A` 
+DOW=`date +%A`
 #DOW='Thursday'
 echo "$DOW"
 #Move to the location where you want to run the script
@@ -33,7 +33,7 @@ else
 echo "Not Thursday move on"
 fi
 
-awk -f /home/toonpub/scripts/word_freq.awk ttoon_quest 			| sort +1 -nr 	|  sed 5q 	> top_quests		
+awk -f /home/toonpub/scripts/word_freq.awk ttoon_quest 			| sort +1 -nr 	|  sed 5q 	> top_quests
 awk -f /home/toonpub/scripts/word_freq.awk ttoon_building_defeated 	| sort +1 -nr	|  sed 5q	> top_buildings
 awk -f /home/toonpub/scripts/word_freq.awk ttoon_fish 			| sort +1 -nr	|  sed 5q 	> top_fish
 awk -f /home/toonpub/scripts/word_freq.awk ttoon_boot 			| sort +1 -nr	|  sed 5q	> top_boot
@@ -82,11 +82,11 @@ rm /event_logs/top_toon_dna
 
 for file in $(cat /event_logs/toon_images);
 	do
-	wget --http-user=a1rw0lf --http-passwd=str33th4wk http://10.192.44.249:7780/_do_querry___data_toontown_dat?object_id=$file -O /event_logs/dna 
+	wget --http-user=a1rw0lf --http-passwd=str33th4wk http://10.192.44.249:7780/_do_querry___data_toontown_dat?object_id=$file -O /event_logs/dna
 	cat /event_logs/dna | sed -e 's/<\/TH>/<\/TH>\n/g' | grep -a "setDNA" -A 1 | awk -F \< '{print $5}' | sed '2q' |awk -F \> '{print $1}' >> /event_logs/top_toon_dna
 	done
 cat /event_logs/top_toon_dna | sed '/^$/d' > /game_logs/topToonPictures/TopToons.txt
-cat /game_logs/topToonPictures/TopToons.txt | awk -F \\n '{print$1".jpg"}'|sed 1,1's/^/topToonImages=/g' > /event_logs/topToonImages/`date -d yesterday +%Y_%m_%d_small`/TopToonImages.txt
+cat /game_logs/topToonPictures/TopToons.txt | awk -F \\n '{print$1".png"}'|sed 1,1's/^/topToonImages=/g' > /event_logs/topToonImages/`date -d yesterday +%Y_%m_%d_small`/TopToonImages.txt
 cat /event_logs/top_toons | awk -F \  '{print $1}' > /event_logs/toon_names
 rm /event_logs/names
 rm /event_logs/top_toon_names
@@ -95,13 +95,13 @@ for file in $(cat /event_logs/toon_names);
 	do
 	wget --http-user=a1rw0lf --http-passwd=str33th4wk http://10.192.44.249:7780/_do_querry___data_toontown_dat?object_id=$file -O /event_logs/names
 	grep -a "name='new_name" /event_logs/names | sed -e 's/<input type=text value=//g' | awk -F \' '{print $2}' >> /event_logs/top_toon_names
-	done 
+	done
 
 cat /event_logs/top_toon_names |sed 1,1's/^/topToons=/g'|sed 50's/$/\&/' > /event_logs/topToonImages/`date -d yesterday +%Y_%m_%d_small`/TopToons.txt
 cat /event_logs/topToonImages/`date -d yesterday +%Y_%m_%d_small`/TopToons.txt >> /event_logs/topToonImages/`date -d yesterday +%Y_%m_%d_small`/TopToon.txt
 rm /event_logs/toon_scores
 cat /event_logs/top_toons | awk -F \  '{print $2}' > /event_logs/toon_scores
-cat /event_logs/top_toons | awk -F \  '{print $2}' >> /event_logs/topToonImages/`date -d yesterday +%Y_%m_%d_small`/TopToon.txt 
+cat /event_logs/top_toons | awk -F \  '{print $2}' >> /event_logs/topToonImages/`date -d yesterday +%Y_%m_%d_small`/TopToon.txt
 cat /event_logs/toon_scores | sed 1,1's/^/\&topToonScores=/g' > /event_logs/top_toon_score_nav
 cat /event_logs/top_toon_score_nav >> /event_logs/topToonImages/`date -d yesterday +%Y_%m_%d_small`/TopToon.txt
 

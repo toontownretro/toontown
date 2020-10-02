@@ -6,7 +6,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase.ToontownModules import *
 from . import VineGameGlobals
 
-class VineSpider(NodePath.NodePath, DirectObject):
+class VineSpider(NodePath, DirectObject):
     """
     Treasures toons can pickup swinging from vine to vine.  Based on MazeTreasure
     """

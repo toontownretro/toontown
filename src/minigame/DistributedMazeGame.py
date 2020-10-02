@@ -374,8 +374,8 @@ class DistributedMazeGame(DistributedMinigame):
         self.treasureModel.setP(-90)
 
         self.music = base.loadMusic(
-            "phase_4/audio/bgm/MG_toontag.mid"
-            #"phase_4/audio/bgm/TC_SZ.mid"
+            "phase_4/audio/bgm/MG_toontag.ogg"
+            #"phase_4/audio/bgm/TC_SZ.ogg"
             )
 
         # make a dictionary of tracks for showing each toon

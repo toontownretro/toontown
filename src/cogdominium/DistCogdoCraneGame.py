@@ -1,4 +1,4 @@
-from pandac import PandaModules as PM
+from toontown.toonbase import ToontownModules as PM
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.task.Task import Task
 from otp.level import LevelConstants
@@ -37,7 +37,7 @@ class DistCogdoCraneGame(DistCogdoLevelGame, CogdoCraneGameBase):
 
     def enterLoaded(self):
         DistCogdoLevelGame.enterLoaded(self)
-        
+
         self.lightning = loader.loadModel('phase_10/models/cogHQ/CBLightning.bam')
         self.magnet = loader.loadModel('phase_10/models/cogHQ/CBMagnet.bam')
         self.craneArm = loader.loadModel('phase_10/models/cogHQ/CBCraneArm.bam')
@@ -46,7 +46,7 @@ class DistCogdoCraneGame(DistCogdoLevelGame, CogdoCraneGameBase):
         self.cableTex = self.craneArm.findTexture('MagnetControl')
 
         self.geomRoot = PM.NodePath('geom')
-        
+
         # Set up a physics manager for the cables and the objects
         # falling around in the room.
 
@@ -77,7 +77,7 @@ class DistCogdoCraneGame(DistCogdoLevelGame, CogdoCraneGameBase):
         # don't try to go through the wall.
         cn = self.endVault.find('**/wallsCollision').node()
         cn.setIntoCollideMask(OTPGlobals.WallBitmask | ToontownGlobals.PieBitmask |
-                              (PM.BitMask32.lowerOn(3) << 21))        
+                              (PM.BitMask32.lowerOn(3) << 21))
 
         # Find all the wall polygons and replace them with planes,
         # which are solid, so there will be zero chance of safes or
@@ -92,7 +92,7 @@ class DistCogdoCraneGame(DistCogdoLevelGame, CogdoCraneGameBase):
         # will unstash them when we move to battle three.
         self.evWalls.stash()
 
-       
+
         # Also replace the floor polygon with a plane, and rename it
         # so we can detect a collision with it.
         floor = self.endVault.find('**/EndVaultFloorCollision')
@@ -117,13 +117,13 @@ class DistCogdoCraneGame(DistCogdoLevelGame, CogdoCraneGameBase):
         collList = model.findAllMatches('**/+CollisionNode')
         if not collList:
             collList = [model]
-            
+
         for cnp in collList:
             cn = cnp.node()
             if not isinstance(cn, PM.CollisionNode):
                 self.notify.warning("Not a collision node: %s" % (repr(cnp)))
                 break
-            
+
             newCollideMask = newCollideMask | cn.getIntoCollideMask()
             for i in range(cn.getNumSolids()):
                 solid = cn.getSolid(i)
@@ -136,7 +136,7 @@ class DistCogdoCraneGame(DistCogdoLevelGame, CogdoCraneGameBase):
                     newCollisionNode.addSolid(plane)
 
         newCollisionNode.setIntoCollideMask(newCollideMask)
-        
+
         # Now sort all of the planes and remove the nonunique ones.
         # We can't use traditional dictionary-based tricks, because we
         # want to use Plane.compareTo(), not Plane.__hash__(), to make
@@ -216,4 +216,3 @@ class DistCogdoCraneGame(DistCogdoLevelGame, CogdoCraneGameBase):
     if __dev__:
         def _handleGameDurationChanged(self, gameDuration):
             messenger.send(self._durationChangedEvent)
-            

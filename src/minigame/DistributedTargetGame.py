@@ -146,10 +146,10 @@ class DistributedTargetGame(DistributedMinigame):
     # but before render
     UPDATE_SHADOWS_PRIORITY = 47
 
-    UMBRELLA_TEXTURE_LIST = ['phase_4/maps/mg_slingshot_umbrella_blue.jpg',
-                             'phase_4/maps/mg_slingshot_umbrella_purple.jpg',
-                             'phase_4/maps/mg_slingshot_umbrella_red.jpg',
-                             'phase_4/maps/mg_slingshot_umbrella_yellow.jpg',]
+    UMBRELLA_TEXTURE_LIST = ['phase_4/maps/mg_slingshot_umbrella_blue.png',
+                             'phase_4/maps/mg_slingshot_umbrella_purple.png',
+                             'phase_4/maps/mg_slingshot_umbrella_red.png',
+                             'phase_4/maps/mg_slingshot_umbrella_yellow.png',]
 
     # result types
     RT_UNKNOWN      = 0
@@ -443,7 +443,7 @@ class DistributedTargetGame(DistributedMinigame):
 
 
         self.scoreboard.hide()
-        self.music = base.loadMusic("phase_4/audio/bgm/MG_Diving.mid")
+        self.music = base.loadMusic("phase_4/audio/bgm/MG_Diving.ogg")
         #self.music = None
 
         self.sndAmbience = None

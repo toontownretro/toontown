@@ -179,7 +179,7 @@ class DistributedVineGame(DistributedMinigame):
         # load resources and create objects here
         self.defineConstants()
 
-        self.music = base.loadMusic("phase_4/audio/bgm/MG_Vine.mid")
+        self.music = base.loadMusic("phase_4/audio/bgm/MG_Vine.ogg")
 
         self.gameAssets = loader.loadModel("phase_4/models/minigames/vine_game")
         self.gameBoard = self.gameAssets.find('**/background')

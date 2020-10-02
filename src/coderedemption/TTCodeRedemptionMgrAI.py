@@ -1,4 +1,4 @@
-from pandac import PandaModules as PM
+from toontown.toonbase import ToontownModules as PM
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.showbase.DirectObject import DirectObject
@@ -20,7 +20,7 @@ class TTCRMAIRetryMgr(DirectObject):
         self._serialGen = SerialNumGen()
         self._retryPeriod = self.MinRetryPeriod
         self._redemptions = {}
-            
+
     def addRedemption(self, avId, context, code):
         assert self.notify.debugCall()
         serial = next(self._serialGen)

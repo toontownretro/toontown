@@ -2,7 +2,7 @@
 +++ src/ai/HolidayManagerAI.py	22 Jul 2008 23:59:29 -0000	1.48.4.2
 @@ -29,6 +29,18 @@
  from toontown.racing import RaceManagerAI
- 
+
  #################################################################
 +# Localization Specific Modules
 +#################################################################
@@ -29,7 +29,7 @@
  from toontown.toonbase.ToontownGlobals import *
  from SuitBattleGlobals import *
 @@ -21,7 +22,7 @@
-             self, 
+             self,
              mayChange = 1,
              pos = (0.0, 0.75),
 -            scale = 0.2,
@@ -43,7 +43,7 @@
                               relief=None,
                               geom = getDefaultDialogGeom(),
                               geom_color = ToontownGlobals.GlobalDialogColor,
--                             geom_scale = (1.75,1,0.75),                             
+-                             geom_scale = (1.75,1,0.75),
 +                             geom_scale = TTLocalizer.RPdirectFrame,
                               pos = (0,0,0.587),
                               )
@@ -52,7 +52,7 @@
              text_pos = (0, 0.2),
              text_scale = 0.08,
              )
--        
+-
 +
          self.itemLabel = DirectLabel(
              parent = self.itemFrame,
@@ -61,7 +61,7 @@
              label = DirectLabel(
                  parent = self.questFrame,
                  relief = None,
--                pos = (-0.85, 0, (-0.1*i)),                
+-                pos = (-0.85, 0, (-0.1*i)),
 +                pos = (-0.85, 0, (-0.1*i)),
                  text = (TTLocalizer.RewardPanelQuestLabel % (i)),
                  text_scale = 0.05,
@@ -70,17 +70,17 @@
              )
          self.congratsLeft = DirectLabel(
              parent = self.newGagFrame,
--            pos = (-0.2, 0, -0.1),            
+-            pos = (-0.2, 0, -0.1),
 +            pos = (-0.2, 0, -0.1),
              text = "",
              text_pos = (0, 0),
--            text_scale = 0.06,            
+-            text_scale = 0.06,
 +            text_scale = 0.06,
              )
          self.congratsLeft.setHpr(0, 0, -30)
          self.congratsRight = DirectLabel(
              parent = self.newGagFrame,
--            pos = (0.2, 0, -0.1),            
+-            pos = (0.2, 0, -0.1),
 +            pos = (0.2, 0, -0.1),
              text = "",
              text_pos = (0, 0),
@@ -89,7 +89,7 @@
          self.trackIncLabels = []
          self.trackBars = []
          self.trackBarsOffset = 0
--        
+-
 +
          self.meritLabels = []
          self.meritIncLabels = []
@@ -102,7 +102,7 @@
 +                pos = (0.7, 0, (-0.09*i) - 0.125),
                  text_pos = (0, -0.02),
                  ))
- 
+
 @@ -176,7 +176,7 @@
                  text = "",
                  text_scale = 0.05,
@@ -111,7 +111,7 @@
 +                pos = (0.85, 0, (-0.09*i) - 0.125),
                  text_pos = (0, -0.02),
                  ))
- 
+
 @@ -200,7 +200,7 @@
                  text_fg = (0, 0, 0, 1),
                  text_align = TextNode.ALeft,
@@ -119,15 +119,15 @@
 -                pos = (0.825, 0, (-0.09*i) - 0.125),
 +                pos = (0.975, 0, (-0.09*i) - 0.125),
                  ))
- 
+
          # loop and make all the track exp bars
 @@ -215,14 +215,14 @@
- 
+
          # loop and make all the track exp bars
          for i in range(len(ToontownBattleGlobals.Tracks)):
 -            trackName = ToontownBattleGlobals.Tracks[i].upper()
 +            trackName = TextEncoder.upper(ToontownBattleGlobals.Tracks[i])
- 
+
              # Name of track label
              self.trackLabels.append(DirectLabel(
                  parent = self.gagExpFrame,
@@ -142,16 +142,16 @@
      def initQuestFrame(self, toon, avQuests):
          self.gagExpFrame.hide()
          self.newGagFrame.hide()
--        self.promotionFrame.hide()        
+-        self.promotionFrame.hide()
 +        self.promotionFrame.hide()
          self.questFrame.show()
          self.itemFrame.hide()
          self.cogPartFrame.hide()
 @@ -396,7 +396,7 @@
          self.missedItemFrame.hide()
- 
+
          trackBarOffset = 0
--        
+-
 +
          # Initialize the cog merit bars if enabled
          for i in range(len(SuitDNA.suitDepts)):
@@ -160,7 +160,7 @@
                      # only do this once! :)
                      self.trackBarsOffset = 1
                  meritBar.show()
--                meritLabel.show()                
+-                meritLabel.show()
 +                meritLabel.show()
                  meritLabel.show()
                  if totalMerits:
@@ -169,7 +169,7 @@
                      else:
                          meritBar["text"] = ("%s/%s %s" % (merits,
                                                            totalMerits,
--                                                          TTLocalizer.RewardPanelMeritBarLabels[i],))                    
+-                                                          TTLocalizer.RewardPanelMeritBarLabels[i],))
 +                                                          TTLocalizer.RewardPanelMeritBarLabels[i],))
                  else:
                      # if total merits = None, this dept is maxed out
@@ -178,15 +178,15 @@
                      meritBar["text"] = TTLocalizer.RewardPanelMeritsMaxed
                  self.resetMeritBarColor(i)
              else:
--                meritBar.hide()                
+-                meritBar.hide()
 +                meritBar.hide()
                  meritLabel.hide()
- 
+
          # Initialize all the bars with the current and next exp
          for i in range(len(expList)):
              curExp = expList[i]
              trackBar = self.trackBars[i]
--            trackLabel = self.trackLabels[i]            
+-            trackLabel = self.trackLabels[i]
 +            trackLabel = self.trackLabels[i]
              trackIncLabel = self.trackIncLabels[i]
              trackBar.setX(trackBar.getX() - trackBarOffset)
@@ -194,40 +194,40 @@
 @@ -451,7 +451,7 @@
              else:
                  trackBar.hide()
- 
--                
+
+-
 +
          return
- 
+
      def incrementExp(self, track, newValue):
 @@ -484,7 +484,7 @@
              else:
                  meritBar["text"] = ("%s/%s %s" % (newValue,
                                                    totalMerits,
--                                                  TTLocalizer.RewardPanelMeritBarLabels[dept],))                    
+-                                                  TTLocalizer.RewardPanelMeritBarLabels[dept],))
 +                                                  TTLocalizer.RewardPanelMeritBarLabels[dept],))
          return
- 
- 
+
+
 @@ -506,7 +506,7 @@
- 
+
          numStrings = len(congratsStrings)
          assert(numStrings >= 2)
--                           
+-
 +
          indexList = range(numStrings)
- 
+
          index1 = whrandom.choice(indexList)
 @@ -521,11 +521,11 @@
      def newGag(self, toon, track, level):
          self.gagExpFrame.hide()
          self.newGagFrame.show()
--        self.promotionFrame.hide()        
+-        self.promotionFrame.hide()
 +        self.promotionFrame.hide()
          self.questFrame.hide()
          self.itemFrame.hide()
          self.missedItemFrame.hide()
--        
+-
 +
          self.newGagFrame['text'] = (TTLocalizer.RewardPanelNewGag %
                                      {"gagName": ToontownBattleGlobals.Tracks[track].capitalize(),
@@ -236,7 +236,7 @@
          self.newGagIcon = None
          self.gagExpFrame.show()
          self.newGagFrame.hide()
--        self.promotionFrame.hide()        
+-        self.promotionFrame.hide()
 +        self.promotionFrame.hide()
          self.questFrame.hide()
          self.itemFrame.hide()
@@ -244,8 +244,8 @@
 @@ -578,7 +578,7 @@
          self.meritIncLabels[dept]["text"] = "+ " + str(earnedMerits)
          self.meritIncLabels[dept].show()
- 
--        
+
+-
 +
      def getTrackIntervalList(self, toon, track, origSkill, earnedSkill):
          """
@@ -254,10 +254,10 @@
                  finalGagFlag = 1
              else:
                  nextExpValue = newNextExpValue
--            
+-
 +
          return intervalList
--            
+-
 +
      def getMeritIntervalList(self, toon, dept, origMerits, earnedMerits):
          """
@@ -266,7 +266,7 @@
          intervalList = []
          totalMerits = CogDisguiseGlobals.getTotalMerits(toon, dept)
          neededMerits = 0
--        
+-
 +
          # Only show the inc value if we are not maxed
          if totalMerits and (origMerits != totalMerits):
@@ -275,16 +275,16 @@
          # we don't need a promotion if we've reach level 50
          if (toon.cogLevels[dept] < ToontownGlobals.MaxCogSuitLevel):
              if neededMerits and toon.readyForPromotion(dept):
--                intervalList.append(Wait(0.4))            
+-                intervalList.append(Wait(0.4))
 +                intervalList.append(Wait(0.4))
                  intervalList += self.getPromotionIntervalList(toon, dept)
- 
+
          return intervalList
 @@ -670,12 +670,12 @@
      def promotion(self, toon, dept):
          self.gagExpFrame.hide()
          self.newGagFrame.hide()
--        self.promotionFrame.show()        
+-        self.promotionFrame.show()
 +        self.promotionFrame.show()
          self.questFrame.hide()
          self.itemFrame.hide()
@@ -292,14 +292,14 @@
          name = SuitDNA.suitDepts[dept]
 -        self.promotionFrame['text'] = "Ready for promotion in %s track!" % SuitDNA.suitDeptFullnames[name]
 +        self.promotionFrame['text'] = (TTLocalizer.RewardPanelPromotion % (SuitDNA.suitDeptFullnames[name]))
- 
+
          # copy a gag
          icons = loader.loadModelOnce('phase_3/models/gui/cog_icons')
 @@ -693,13 +693,13 @@
          # Set scale (big)
          self.deptIcon.setScale(0.33)
          return
--    
+-
 +
      def cleanupPromotion(self):
          # protect against multiple cleanups
@@ -308,7 +308,7 @@
          self.deptIcon = None
          self.gagExpFrame.show()
          self.newGagFrame.hide()
--        self.promotionFrame.hide()        
+-        self.promotionFrame.hide()
 +        self.promotionFrame.hide()
          self.questFrame.hide()
          self.itemFrame.hide()
@@ -317,16 +317,16 @@
                          Func(self.cleanupPromotion),
                          ]
          return intervalList
--    
+-
 +
      def getQuestIntervalList(self, toon, deathList, toonList, itemList):
          # This is the battle notifying us that a toon killed some cogs
          # See if this toon has a quest on these cogs. If so, update the
 @@ -828,7 +828,7 @@
          return intervalList
- 
+
      def getCogPartIntervalList(self, toon, cogPartList):
--        itemName = CogDisguiseGlobals.getPartName(cogPartList) 
+-        itemName = CogDisguiseGlobals.getPartName(cogPartList)
 +        itemName = CogDisguiseGlobals.getPartName(cogPartList)
          intervalList = []
          intervalList.append(Func(self.cogPartLabel.setProp, 'text', itemName))
@@ -335,18 +335,18 @@
                          if (quest.getCompletionStatus(toon, questDesc) == Quests.COMPLETE):
                              intervalList.append(Func(questLabel.setProp, 'text_fg', (0, 0.3, 0, 1)))
                          intervalList.append(Func(questLabel.setProp, 'text', str))
--                        intervalList.append(Wait(tickDelay))                    
--                
+-                        intervalList.append(Wait(tickDelay))
+-
 +                        intervalList.append(Wait(tickDelay))
 +
          return intervalList
- 
- 
+
+
 @@ -844,7 +844,7 @@
          return intervalList
- 
+
      def getCogPartIntervalList(self, toon, cogPartList):
--        itemName = CogDisguiseGlobals.getPartName(cogPartList) 
+-        itemName = CogDisguiseGlobals.getPartName(cogPartList)
 +        itemName = CogDisguiseGlobals.getPartName(cogPartList)
          intervalList = []
          intervalList.append(Func(self.cogPartLabel.setProp, 'text', itemName))
@@ -355,7 +355,7 @@
          list will be flattened triplets of (suitIndex, level, involvedToonBits)
          suitIndex is the index of the suit in SuitDNA.suitHeadTypes.
          For example, Flunky is suitIndex 0, Yes Man is suitIndex 2.
--        
+-
 +
          toonList is a list of toons that positionally corresponds to the
          bitmasks embedded in the deathlist; toons that are no longer
@@ -363,17 +363,17 @@
 @@ -907,7 +907,7 @@
              track += itemInterval
              track.append(Wait(1.0))
- 
--        missedItemInterval = self.getMissedItemIntervalList(toon, missedItemList) 
+
+-        missedItemInterval = self.getMissedItemIntervalList(toon, missedItemList)
 +        missedItemInterval = self.getMissedItemIntervalList(toon, missedItemList)
          if missedItemInterval:
              track.append(Func(self.initMissedItemFrame, toon))
              track.append(Wait(1.0))
 @@ -900,7 +900,7 @@
- 
+
          # debug
          self.notify.debug("partList = %s" % partList)
--        
+-
 +
          newPart = 0
          for part in partList:
@@ -382,16 +382,16 @@
              track.append(Wait(1.0))
              track += questList
              track.append(Wait(2.0))
--            
+-
 +
          return track
- 
- 
+
+
 @@ -957,7 +957,7 @@
              [3, 1, 3, 0, 2, 2, 1, 1, 30, 2, 1, 0], # deathList
              [], # itemList
              [], # missedItemList
--            [0, 0, 0, 0], # origMeritList            
+-            [0, 0, 0, 0], # origMeritList
 +            [0, 0, 0, 0], # origMeritList
              [0, 0, 0, 0], # meritList
              [], # cogPartList
@@ -406,7 +406,7 @@
 -        namePath.setScale(0.9)
 +        namePath.setPos(*TTLocalizer.DHtoonNamePos)
 +        namePath.setScale(TTLocalizer.DHtoonName)
- 
+
          # Text node for the score
          scoreText = TextNode("scoreText")
 @@ -145,7 +145,7 @@
@@ -415,7 +415,7 @@
          scorePath = row.attachNewNode(scoreText)
 -        scorePath.setPos(-4.6,0,0)
 +        scorePath.setPos(*TTLocalizer.DHscorePos)
- 
+
          # Put a star on the row, just like over the Toon heads
          trophyStar = self.buildTrophyStar()
 @@ -234,7 +234,7 @@
@@ -425,7 +425,7 @@
 -        trophyStar.setPos(-6.6,0,0.3)
 +        trophyStar.setPos(*TTLocalizer.DHtrophyPos)
          return trophyStar
- 
+
      def updateTrophyStar(self, trophyStar, score):
 --- src/building/DistributedKnockKnockDoor.py	1 Jun 2004 19:32:10 -0000	1.26
 +++ src/building/DistributedKnockKnockDoor.py	14 Dec 2004 02:18:29 -0000	1.26.6.1
@@ -459,13 +459,13 @@
 +            text_scale = TTLocalizer.CCIPmessagePickerCancel,
              text_pos = (-0.005,-0.01),
              text_fg = Vec4(1,1,1,1),
-             textMayChange = 0,            
+             textMayChange = 0,
 --- src/catalog/CatalogGenerator.py	18 Nov 2004 05:17:43 -0000	1.75
 +++ src/catalog/CatalogGenerator.py	3 Jun 2008 00:46:02 -0000	1.75.4.1
 @@ -141,8 +141,8 @@
        CatalogFlooringItem(10010),
        )),
- 
+
 -    # Valentines items -- on sale 2/1 through 2/14
 -    (2, 1, 2, 14,
 +    # Valentines items -- on sale
@@ -478,11 +478,11 @@
 @@ -11,7 +11,7 @@
  from CatalogFurnitureItem import getAllFurnitures
  from toontown.toontowngui.TeaserPanel import TeaserPanel
- 
+
 -CATALOG_PANEL_WORDWRAP = 8
 +CATALOG_PANEL_WORDWRAP = 10
- 
- 
+
+
  class CatalogItemPanel(DirectFrame):
 --- src/catalog/CatalogScreen.py	1 Jul 2008 00:58:23 -0000	1.83.6.3
 +++ src/catalog/CatalogScreen.py	5 Dec 2008 03:30:25 -0000	1.83.6.5
@@ -490,7 +490,7 @@
      This class presents the user interface to an individual's catalog.
      """
      notify = DirectNotifyGlobal.directNotify.newCategory("CatalogScreen")
--    
+-
 +
      def __init__(self, parent=aspect2d, **kw):
          guiItems = loader.loadModelCopy('phase_5.5/models/gui/catalog_gui')
@@ -498,11 +498,11 @@
 @@ -85,12 +85,7 @@
          self.gifting = -1
          self.createdGiftGui = None
- 
--        
--        
--        
--        
+
+-
+-
+-
+-
      def show(self):
 -
          # listen for update requests
@@ -512,7 +512,7 @@
              # get the appropriate text"
              if self.viewing == 'New':
                  text = TTLocalizer.CatalogNew
--                
+-
              else:
                  text = TTLocalizer.CatalogBackorder
              self.pageLabel['text'] = text + (' - %d' % (self.pageIndex + 1))
@@ -520,10 +520,10 @@
              elif ((self.viewing == 'Backorder') or
                    ((self.viewing == 'New') and (self.numBackPages == 0))):
                  self.nextPageButton.hide()
--                
+-
 +
              self.update()
--            
+-
 +
      def hidePages(self):
          for page in self.pageList:
@@ -531,8 +531,8 @@
 @@ -305,7 +299,7 @@
                  i = 0
          return numPages
- 
--        
+
+-
 +
      def load(self, guiItems, guiButton, guiBack):
          # Initialize variables
@@ -541,17 +541,17 @@
              text2_fg = (0.353, 0.427, 0.427, 1.000),
              )
          self.newCatalogButton2.hide()
--        
+-
 +
          #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--        #Friends list 
+-        #Friends list
 +        #Friends list
          self.__makeFFlist()
--                
+-
 +
          if len(self.ffList) > 0:
--            
--            
+-
+-
              self.giftToggle = DirectButton(
 -            self.base,
 -            relief = None,
@@ -596,9 +596,9 @@
 +                image3_color = Vec4(0.5, 0.45, 0.2, 1.0),
 +                )
              self.giftToggle.setPos(0.0,0,-0.035)
--            
--            
--            #says "this gift is for"             
+-
+-
+-            #says "this gift is for"
 +
 +            #says "this gift is for"
              self.giftLabel = DirectLabel(
@@ -608,7 +608,7 @@
              )
              self.giftLabel.setPos(-0.15,0,0.080)
              self.giftLabel.hide()
--            
+-
 +
              #says the name of the friend the gift is for
              self.friendLabel = DirectLabel(
@@ -617,11 +617,11 @@
              )
              self.friendLabel.setPos(0.5,0,-0.42)
              self.friendLabel.hide()
--            
- 
--           
+-
+
+-
              gui = loader.loadModelOnce("phase_3.5/models/gui/friendslist_gui")
--            
+-
 +
              self.scrollList = DirectScrolledList(
                  parent = self,
@@ -630,7 +630,7 @@
                  # Make the disabled button darker
                  decButton_image1_color = Vec4(1.0, 1.0, 0.6, 1.0),
                  decButton_image3_color = Vec4(1.0, 1.0, 0.6, 0.6),
--                
+-
 +
                  # itemFrame is a DirectFrame
                  itemFrame_pos = (-0.17, 0.0, 0.06),
@@ -639,7 +639,7 @@
              self.scrollList.setPos(1.2,0,-0.58)
              self.scrollList.setScale(1.5)
              self.scrollList.hide()
--     
+-
 +
              # Set up a clipping plane to truncate names that would extend
              # off the right end of the scrolled list.
@@ -648,29 +648,29 @@
              self.scrollList.attachNewNode(clipper)
              cpa = ClipPlaneAttrib.make(ClipPlaneAttrib.OSet, clipper)
              self.scrollList.node().setAttrib(cpa)
--   
+-
 +
              #self.__addFamilyToScrollList()
              #self.__updateScrollList()
--            
+-
 +
              self.__makeScrollList()
--            
+-
 +
              #self.__setFriendLabelName() #sets the label name
              #self.__loadFriend()
--            
+-
 +
              friendId = self.ffList[0]
              self.__chooseFriend(self.ffList[0][0], self.ffList[0][1])
              self.update()
--            
+-
 +
              self.createdGiftGui = 1;
--            
- 
--            
--        
+-
+
+-
+-
          #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
          for i in range(4):
              self.backCatalogButton.component('text%d' % i).setR(90)
@@ -678,7 +678,7 @@
          itemList.sort(lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeWeekly))
          itemList.reverse()
          for item in itemList:
--            
+-
 +
              self.panelList.append(
                  CatalogItemPanel.CatalogItemPanel(
@@ -687,14 +687,14 @@
                  type=CatalogItem.CatalogTypeWeekly,
                  parentCatalogScreen = self,
                  ))
--            
+-
 +
          itemList = base.localAvatar.backCatalog
          itemList.sort(
              lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeBackorder))
          itemList.reverse()
          for item in itemList:
--            
+-
 +
              self.backPanelList.append(
                  CatalogItemPanel.CatalogItemPanel(
@@ -703,7 +703,7 @@
                  type=CatalogItem.CatalogTypeBackorder,
                  parentCatalogScreen = self,
                  ))
--            
+-
 +
          numPages = self.packPages(self.panelList, self.pageList, 'new')
          self.setNumNewPages(numPages)
@@ -712,7 +712,7 @@
              seriesNumber = currentWeek / ToontownGlobals.CatalogNumWeeksPerSeries + 1
              weekNumber = currentWeek % ToontownGlobals.CatalogNumWeeksPerSeries + 1
          # Catalog Series 5 & 6 are short. Need some special math here.
--        elif currentWeek < 65: 
+-        elif currentWeek < 65:
 +        elif currentWeek < 65:
              seriesNumber = 6
              weekNumber = (currentWeek - 56)
@@ -721,16 +721,16 @@
          # is OK, and partly because we don't necessarily want all the
          # nodes.
          geom = NodePath('cover')
--        
+-
 +
          cover = guiItems.find('**/cover')
- 
+
          # if the catalog has wrapped around, wrap around the images too
 @@ -611,7 +597,7 @@
          else:
              topSquare.setColor(0.651, 0.404, 0.322, 1.000)
              bottomSquare.setColor(0.655, 0.522, 0.263, 1.000)
--            
+-
 +
          bottomSquare.reparentTo(geom)
          topSquare.reparentTo(geom)
@@ -739,16 +739,16 @@
              text_font = ToontownGlobals.getInterfaceFont()
              )
          self.catalogSeries.setShxz(0.4)
--                
+-
 +
          # Rings, visible when catalog is open
          self.rings = DirectLabel(
              self.base, relief = None, geom = guiItems.find('**/rings'))
 @@ -727,7 +713,7 @@
- 
+
          self.cDr = base.win.makeDisplayRegion(0.58, 0.82, 0.53, 0.85)
          self.cDr.setSort(1)
--            
+-
 +
          self.cDr.setClearDepthActive(1)
          self.cDr.setClearColorActive(1)
@@ -757,7 +757,7 @@
          switchboard = loader.loadModel("phase_5.5/models/estate/switchboard")
          switchboard.reparentTo(self.clarabelle)
          switchboard.setPos(0, -2, 0)
--        
+-
 +
          # self.clarabelle = Char.Char()
          # clarabelleDNA = CharDNA.CharDNA()
@@ -766,7 +766,7 @@
          self.setMaxPageIndex(self.numNewPages)
          self.setPageIndex(-1)
          self.showPageItems()
--        
+-
 +
      def unload(self):
          taskMgr.remove("clearClarabelleChat")
@@ -775,10 +775,10 @@
          if self.responseDialog:
              self.responseDialog.cleanup()
              self.responseDialog = None
--            
+-
 +
          if self.giftAvatar:
--            if hasattr(self.giftAvatar, 'doId'):                
+-            if hasattr(self.giftAvatar, 'doId'):
 +            if hasattr(self.giftAvatar, 'doId'):
                  self.giftAvatar.delete()
              else:
@@ -787,13 +787,13 @@
          taskMgr.remove("clarabelleGreeting")
          taskMgr.remove("clarabelleHelpText1")
          taskMgr.remove("clarabelleAskAnythingElse")
--        
+-
 +
          def postGoodbyeHangUp(task):
              messenger.send(self['doneEvent'])
              self.unload()
          taskMgr.doMethodLater(1.5, postGoodbyeHangUp, "postGoodbyeHangUp")
--        
+-
 +
      def remoteUpdate(self):
          print("remoteupdate")
@@ -802,7 +802,7 @@
                          item.updateButtons(self.gifting)
                      #item.updateBuyButton()
                      #item.updateGiftButton(giftActivate)
--                
+-
 +
      def __handlePurchaseRequest(self, item):
          # ask the user to customize this purchase (if necessary) and
@@ -810,13 +810,13 @@
          item.requestPurchase(self['phone'], self.__handlePurchaseResponse)
          # If you are buying something else, she should not say this
          taskMgr.remove("clarabelleAskAnythingElse")
--        
+-
 +
      def __handleGiftPurchaseRequest(self, item):
          # ask the user to customize this purchase (if necessary) and
          # then ask AI to make the purchase.
          #friendPair = base.localAvatar.friendsList[self.friendGiftIndex]
--        #frienddoId = base.cr.identifyFriend(friendPair[0]).getDoId() 
+-        #frienddoId = base.cr.identifyFriend(friendPair[0]).getDoId()
 +        #frienddoId = base.cr.identifyFriend(friendPair[0]).getDoId()
          item.requestGiftPurchase(self['phone'], self.frienddoId,self.__handleGiftPurchaseResponse)
          # If you are buying something else, she should not say this
@@ -825,7 +825,7 @@
              command = self.__clearDialog,
              )
          """
--        
+-
 +
      def __handleGiftPurchaseResponse(self, retCode, item):
          # AI has returned the status of the purchase in retCode
@@ -837,17 +837,17 @@
 +            return
          self.setClarabelleChat(item.getRequestGiftPurchaseErrorText(retCode) % (self.receiverName));
          self.__loadFriend()
- 
+
          def askAnythingElse(task):
              self.setClarabelleChat(TTLocalizer.CatalogAnythingElse)
--        
+-
 +
          if retCode >= 0:
              # success: update catalog screen and buttons
              # After a while, have Clarabelle ask if there is anything else you would like
              taskMgr.doMethodLater(8, askAnythingElse, "clarabelleAskAnythingElse")
--            
--            
+-
+-
 +
 +
      def __clearDialog(self, event):
@@ -857,7 +857,7 @@
          self.clarabelleChatNP.setPos(0.7,0,0.6)
          if timeout:
              taskMgr.doMethodLater(timeout, self.clearClarabelleChat, "clearClarabelleChat")
--        
+-
 +
      def clearClarabelleChat(self, task=None):
          # Clean up old chat
@@ -866,17 +866,17 @@
              self.clarabelleChatNP.removeNode()
              self.clarabelleChatNP = None
              del self.clarabelleChat
--        
+-
 +
- 
+
      def __moneyChange(self, money):
          if self.gifting > 0:
 @@ -1036,8 +1025,8 @@
              if familyMember.id == doId:
                  test = 1
          return test
--        
--        
+-
+-
 +
 +
      def __makeFFlist(self):
@@ -886,8 +886,8 @@
              friendId, flags = friendPair
              #print "adding friend"
              handle = base.cr.identifyFriend(friendId)
--            if handle and not self.checkFamily(friendId): 
--                if hasattr(handle, 'getName'):            
+-            if handle and not self.checkFamily(friendId):
+-                if hasattr(handle, 'getName'):
 +            if handle and not self.checkFamily(friendId):
 +                if hasattr(handle, 'getName'):
                      colorCode = NametagGroup.CCNoChat
@@ -897,7 +897,7 @@
                  else:
                      self.notify.warning("Bad Handle for getName in makeFFlist")
          #import pdb; pdb.set_trace()
--            
+-
 +
      def __makeScrollList(self):
          for ff in self.ffList:
@@ -906,21 +906,21 @@
                  #print "not adding button"
                  #import pdb; pdb.set_trace()
          self.scrollList.refresh()
--            
--        
--            
+-
+-
+-
 +
      def makeFamilyButton(self, familyId, familyName, colorCode):
- 
+
          #print("Making Family Button")
 @@ -1081,9 +1068,9 @@
          # appropriate nametag color, according to whether we are
          # "special friends" or not.
          fg = NametagGlobals.getNameFg(colorCode, PGButton.SInactive)
--        
+-
 +
          #print "made family button"
--        
+-
 +
          return DirectButton(
              relief = None,
@@ -929,13 +929,13 @@
              text1_bg = self.textDownColor,
              text2_bg = self.textRolloverColor,
              text3_fg = self.textDisabledColor,
--            textMayChange = 0,            
+-            textMayChange = 0,
 +            textMayChange = 0,
              command = self.__chooseFriend,
              extraArgs = [familyId, familyName],
              )
- 
--            
+
+-
 +
      def __chooseFriend(self, friendId, friendName):
          """selects a friend for loading"""
@@ -944,32 +944,32 @@
          #    self.friendGiftHandle = handle;
          #    self.frienddoId = handle.getDoId()
          #    self.__loadFriend()
--            
+-
 +
          self.frienddoId = friendId
          self.receiverName = friendName
          self.friendLabel['text'] = (TTLocalizer.CatalogGiftTo % (self.receiverName))
          self.__loadFriend()
--            
+-
 +
      def __loadFriend(self):
- 
+
              #return
 @@ -1133,8 +1120,6 @@
                  self.allowGetDetails = 0
                  self.scrollList['state'] = DISABLED
- 
--            
--    
+
+-
+-
      def __handleAvatarDetails(self, gotData, avatar, dclass):
- 
+
          """Receives and uses the detail avatar"""
 @@ -1153,8 +1138,6 @@
          self.allowGetDetails = 1
          self.update()
- 
--        
--        
+
+-
+-
      def __giftToggle(self):
          if self.gifting == -1:
              self.gifting = 1
@@ -977,15 +977,15 @@
              self.friendLabel.hide()
              self.scrollList.hide()
              self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleOff
--            self.update() 
--        
--               
--        
+-            self.update()
 -
 -
--        
--    
--        
+-
+-
+-
+-
+-
+-
 +            self.update()
 --- src/chat/TTChatInputSpeedChat.py	7 Oct 2004 03:23:56 -0000	1.20
 +++ src/chat/TTChatInputSpeedChat.py	15 Jul 2005 18:56:54 -0000	1.17.2.1.2.3
@@ -996,21 +996,21 @@
 +from toontown.toonbase import TTLocalizer
  from otp.otpbase import OTPGlobals
  from toontown.shtiker.OptionsPage import speedChatStyles
- 
+
 @@ -71,7 +71,7 @@
       # This isn't what you need (1208) after This isn't what I'm looking for
       # I found what you need (1209) after I'm going to look for that
       1200,1201,1202,1208,1203,1209,1204,1205,1206,1210,1211,1207,1213,1214],
--    
+-
 +
      [OTPLocalizer.SCMenuBattle,
       [OTPLocalizer.SCMenuBattleGags, 1500,1501,1502,1503,1504,1505,1506,
        1401,1402,1413,],
 @@ -271,7 +271,7 @@
- 
+
          self.emoteNoAccessPanel.reparentTo(hidden)
- 
--    # these handle selection messages coming from the speedchat object 
+
+-    # these handle selection messages coming from the speedchat object
 +    # these handle selection messages coming from the speedchat object
      def handleLinkedEmote(self, emoteId):
          # don't do the emote if we're whispering
@@ -1031,19 +1031,19 @@
          # tell the speedchat to generate the gui elements for the entire
          # tree, so that the menu won't be chuggy the first time it's used
          self.speedChat.finalizeAll()
--        
+-
 +
      def addFactoryMenu(self):
          if self.factoryMenu == None:
              menu = TTSCFactoryMenu()
              self.factoryMenu = SCMenuHolder(OTPLocalizer.SCMenuFactory, menu=menu)
              self.speedChat[2:2] = [self.factoryMenu]
--        
+-
 +
      def removeFactoryMenu(self):
          if self.factoryMenu:
              i = self.speedChat.index(self.factoryMenu)
--            del self.speedChat[i] 
+-            del self.speedChat[i]
 +            del self.speedChat[i]
              self.factoryMenu.destroy()
              self.factoryMenu = None
@@ -1052,46 +1052,46 @@
              menu = TTSCKartRacingMenu()
              self.kartRacingMenu = SCMenuHolder(OTPLocalizer.SCMenuKartRacing, menu=menu)
              self.speedChat[2:2] = [self.kartRacingMenu]
--        
+-
 +
      def removeKartRacingMenu(self):
          if self.kartRacingMenu:
              i = self.speedChat.index(self.kartRacingMenu)
--            del self.speedChat[i] 
+-            del self.speedChat[i]
 +            del self.speedChat[i]
              self.kartRacingMenu.destroy()
              self.kartRacingMenu = None
--            
+-
 +
      def addCogMenu(self, indices):
          if self.cogMenu == None:
              menu = TTSCCogMenu(indices)
              self.cogMenu = SCMenuHolder(OTPLocalizer.SCMenuCog, menu=menu)
              self.speedChat[2:2] = [self.cogMenu]
--        
+-
 +
      def removeCogMenu(self):
          if self.cogMenu:
              i = self.speedChat.index(self.cogMenu)
--            del self.speedChat[i] 
+-            del self.speedChat[i]
 +            del self.speedChat[i]
              self.cogMenu.destroy()
              self.cogMenu = None
- 
+
 @@ -400,7 +400,7 @@
      def removeCFOMenu(self):
          if self.cfoMenu:
              i = self.speedChat.index(self.cfoMenu)
--            del self.speedChat[i] 
+-            del self.speedChat[i]
 +            del self.speedChat[i]
              self.cfoMenu.destroy()
              self.cfoMenu = None
- 
+
 @@ -420,6 +420,6 @@
      def removeCJMenu(self):
          if self.cjMenu:
              i = self.speedChat.index(self.cjMenu)
--            del self.speedChat[i] 
+-            del self.speedChat[i]
 +            del self.speedChat[i]
              self.cjMenu.destroy()
              self.cjMenu = None
@@ -1109,13 +1109,13 @@
              relief = None,
              image_color = Vec4(1,1,1,1),
              text = ("", OTPLocalizer.ChatManagerChat, OTPLocalizer.ChatManagerChat),
--            text_align = TextNode.ALeft,            
+-            text_align = TextNode.ALeft,
 -            text_scale = 0.06,
 +            text_align = TextNode.ALeft,
 +            text_scale = TTLocalizer.CMnormalButton,
              text_fg = Vec4(1,1,1,1),
              text_shadow = Vec4(0,0,0,1),
--            text_pos = (-0.0525, -0.09),            
+-            text_pos = (-0.0525, -0.09),
 +            text_pos = (-0.0525, -0.09),
              textMayChange = 0,
              sortOrder = FOREGROUND_SORT_INDEX,
@@ -1159,15 +1159,15 @@
              textMayChange = 0,
              command = self.__whisperCancelPressed,
              )
--       
+-
 +
          gui.removeNode()
- 
--        ChatManager.ChatManager.__init__(self, cr, localAvatar) 
+
+-        ChatManager.ChatManager.__init__(self, cr, localAvatar)
 +        ChatManager.ChatManager.__init__(self, cr, localAvatar)
          self.chatInputSpeedChat = TTChatInputSpeedChat(self)
          self.chatInputNormal = TTChatInputNormal(self)
- 
+
 @@ -237,7 +238,7 @@
                             image_scale = (1.2, 1.0, 0.9),
                             text = OTPLocalizer.OpenChatWarning,
@@ -1181,7 +1181,7 @@
          normObs, scObs = self.isObscured()
          if (not scObs):
              self.scButton.show()
--        
+-
 +
      def exitOpenChatWarning(self):
          assert self.debugFunction()
@@ -1223,7 +1223,7 @@
                               image = buttonImage,
                               relief = None,
                               text = directButtonText,
--                             textMayChange = 0,                         
+-                             textMayChange = 0,
 +                             textMayChange = 0,
                               image_scale = (1.75, 1, 1.15),
                               text_scale = 0.06,
@@ -1232,7 +1232,7 @@
 +                             pos = (0.0, 0.0, TTLocalizer.CMNoPasswordContinue_y),
                               command = self.__handleUnpaidChatWarningContinue)
                  guiButton.removeNode()
- 
+
 @@ -308,7 +308,7 @@
                                                     text = directFrameText,
                                                     text_wordwrap = TTLocalizer.CMunpaidChatWarningwordwrap,
@@ -1253,7 +1253,7 @@
                               image = buttonImage,
                               relief = None,
                               text = directButtonText,
--                             textMayChange = 0,                         
+-                             textMayChange = 0,
 +                             textMayChange = 0,
                               image_scale = (1.75, 1, 1.15),
                               text_scale = 0.06,
@@ -1262,12 +1262,12 @@
 +                             pos = (0.0, 0.0, TTLocalizer.CMNoPasswordContinue_y),
                               command = self.__handleUnpaidChatWarningContinue)
                  guiButton.removeNode()
- 
+
 @@ -339,7 +339,7 @@
                  self.payButton.hide()
              else:
                  self.payButton.show()
--                
+-
 +
              self.unpaidChatWarning.show()
          else:
@@ -1276,30 +1276,30 @@
              place = base.cr.playGame.getPlace()
              if place:
                  place.fsm.request("stopped")
--            
+-
 +
              # make a teaser panel
              self.teaser = TeaserPanel.TeaserPanel('secretChat',
                                                    self.__handleUnpaidChatWarningDone)
--            
+-
 +
              # Do not show the pay button if they are in tutorial.
              # Let them finish the tutorial first or they will have to do it again.
              if base.localAvatar.inTutorial:
 @@ -364,7 +364,7 @@
- 
+
          # The speedchat button is visible in this mode, but not the
          # normal chat button.
--        normObs, scObs = self.isObscured()        
+-        normObs, scObs = self.isObscured()
 +        normObs, scObs = self.isObscured()
          if (not scObs):
              self.scButton.show()
- 
+
 @@ -387,7 +388,7 @@
- 
+
              # make sure these come up on top of everything else
              self.noSecretChatAtAll.setBin('gui-popup', 10)
--            
+-
 +
              DirectLabel(parent = self.noSecretChatAtAll,
                          relief = None,
@@ -1308,10 +1308,10 @@
                           pos = (0.0, 0.0, -0.35),
                           command = self.__handleNoSecretChatAtAllOK)
              buttons.removeNode()
--            
+-
 +
          self.noSecretChatAtAll.show()
--        
+-
 +
      def exitNoSecretChatAtAll(self):
          assert self.debugFunction()
@@ -1319,7 +1319,7 @@
 @@ -448,11 +448,11 @@
              # The Castillian (and all foreign) version relies on a seperate parent
              # password system. Omit the the password entry field and cancel button.
- 
+
 -            if base.cr.productName != "Terra-DMC":
 +            if toonbase.tcr.productName == 'DisneyOnline-US':
                  okPos = (-0.22, 0.0, -0.35)
@@ -1333,7 +1333,7 @@
 @@ -462,9 +463,6 @@
                             textMayChange = 1,
                             )
- 
+
 -            # make sure these come up on top of everything else
 -            self.noSecretChatWarning.setBin('gui-popup', 10)
 -
@@ -1344,14 +1344,14 @@
                           textMayChange = 0,
                           pos = okPos,
                           command = okCommand)
--                
+-
 +
              DirectLabel(parent = self.noSecretChatWarning,
                          relief = None,
                          pos = (0, 0, 0.35),
 @@ -491,7 +491,7 @@
                          text_scale = 0.08)
- 
+
              # if not foreign, make the domestic only password entry elements
 -            if base.cr.productName != "Terra-DMC":
 +            if toonbase.tcr.productName == 'DisneyOnline-US':
@@ -1362,19 +1362,19 @@
                      text = OTPLocalizer.ParentPassword,
                      text_scale = 0.06,
                      text_align = TextNode.ARight,
--                    textMayChange = 0,                
+-                    textMayChange = 0,
 +                    textMayChange = 0,
                      )
- 
+
                  self.passwordEntry = DirectEntry(
 @@ -535,9 +535,9 @@
              if self.passwordEntry:
                  self.passwordEntry['focus'] = 1
                  self.passwordEntry.enterText('')
--            
+-
 +
          self.noSecretChatWarning.show()
--        
+-
 +
      def exitNoSecretChatWarning(self):
          assert self.debugFunction()
@@ -1383,7 +1383,7 @@
          assert self.debugFunction()
          # The parent password has been entered, so now provide the
          # option to enable secret friends.
--        
+-
 +
          if self.activateChat == None:
              # setup ok/cancel button art
@@ -1408,7 +1408,7 @@
                  DirectButton(self.activateChat,
 @@ -689,8 +687,6 @@
          self.activateChat.show()
- 
+
      def __initializeCheckBoxen(self):
 -        print "### init check boxen: \n\tchat = %s\n\tneed password = %s\n" % (base.cr.secretChatAllowed,
 -                                                                               base.cr.secretChatNeedsParentPassword)
@@ -1419,7 +1419,7 @@
      def exitActivateChat(self):
          assert self.debugFunction()
          self.activateChat.hide()
--        
+-
 +
      def enterSecretChatActivated(self, mode=2):
          assert self.debugFunction()
@@ -1437,7 +1437,7 @@
      def enterProblemActivatingChat(self):
          assert self.debugFunction()
          # Some rare problem activating secret chat.
--        
+-
 +
          if self.problemActivatingChat == None:
              buttons = loader.loadModelOnce('phase_3/models/gui/dialog_box_buttons_gui')
@@ -1446,7 +1446,7 @@
                           command = self.__handleProblemActivatingChatOK)
              buttons.removeNode()
          self.problemActivatingChat.show()
--        
+-
 +
      def exitProblemActivatingChat(self):
          assert self.debugFunction()
@@ -1466,7 +1466,7 @@
 -                print "### nbp: no parentPasswordSet"
 +            elif not base.cr.isParentPasswordSet():
                  self.paidNoParentPassword = 1
--                self.fsm.request("unpaidChatWarning")            
+-                self.fsm.request("unpaidChatWarning")
 +                self.fsm.request("unpaidChatWarning")
              elif not base.cr.allowSecretChat():
 -                print "### nbp: not allowSecretChat"
@@ -1498,7 +1498,7 @@
 -            elif not base.localAvatar.canChat():
 -                self.fsm.request("openChatWarning")
 -            else:
--                self.fsm.request("normalChat")                
+-                self.fsm.request("normalChat")
 -        elif (base.cr.productName == "DisneyOnline-UK"):
 +        elif base.cr.productName in ['DisneyOnline-UK', 'DisneyOnline-AP', 'ES', 'JP', 'DE', 'BR', 'FR']:
              if not base.cr.isPaid():
@@ -1525,7 +1525,7 @@
                  self.fsm.request("normalChat")
          else:
              print ("ChatManager: productName: %s not recognized" % (base.cr.productName))
--        
+-
 +
      def __scButtonPressed(self):
          assert self.debugFunction()
@@ -1549,7 +1549,7 @@
 -            elif not base.localAvatar.canChat():
 -                self.fsm.request("openChatWarning")
 -            else:
--                self.fsm.request("normalChat")                
+-                self.fsm.request("normalChat")
 -        elif base.cr.productName in ['DisneyOnline-UK', "DisneyOnline-AP", 'ES', 'JP', 'T-Online', 'FR', 'Terra']:
 +        elif base.cr.productName in ['DisneyOnline-UK', 'DisneyOnline-AP', 'ES', 'JP', 'DE', 'BR', 'FR']:
              if not base.cr.isPaid():
@@ -1559,7 +1559,7 @@
      def __whisperButtonPressed(self, avatarName, avatarId):
          assert self.debugFunction()
          self.fsm.request("whisperChat", [avatarName, avatarId])
--        
+-
 +
      def __whisperScButtonPressed(self, avatarId):
          assert self.debugFunction()
@@ -1568,7 +1568,7 @@
              self.noSecretChatWarning['text'] = OTPLocalizer.NoSecretChatWarningWrongPassword
              self.passwordEntry['focus'] = 1
              self.passwordEntry.enterText('')
--            
+-
 +
      def __handleNoSecretChatWarningCancel(self):
          assert self.debugFunction()
@@ -1576,9 +1576,9 @@
 @@ -969,10 +944,6 @@
          password = self.passwordEntry.get()
          tt = base.cr.loginInterface
- 
+
 -        print "### setting secret chat flags!!!"
--        
+-
 -        # TODO: make the appropriate call based on mode
 -        # for now, a hack
          if self.dcb1['indicatorValue']:
@@ -1588,7 +1588,7 @@
              base.cr.secretChatAllowed = 1
              base.cr.secretChatNeedsParentPassword = 0
              mode = 2
--            
+-
 +
          okflag, message = tt.enableSecretFriends(
              base.cr.userName, base.cr.password, password)
@@ -1597,7 +1597,7 @@
      def __handleProblemActivatingChatOK(self):
          assert self.debugFunction()
          self.fsm.request("mainMenu")
--    
+-
 +
      if __debug__:
          def debugFunction(self):
@@ -1629,19 +1629,19 @@
        2880, 3770, 4660, 5500, 6440, 7330, 8220, 9110, 10000, 23300, # tbc 20-29
        2880, 3770, 4660, 5500, 6440, 7330, 8220, 9110, 10000, 23300, # tbc 30-39
        2880, 3770, 4660, 5500, 6440, 7330, 8220, 9110, 10000, 23300, # tbc 40-49
--      0), # tbc 
--     
+-      0), # tbc
+-
 +      0), # tbc
 +
       # lawbots
       (60, 80, 100, 120, 500), # bf 1-5
       (100, 130, 160, 190, 800), # b 2-6
 @@ -154,8 +154,8 @@
- 
+
  PartsQueryNames = (
      # bossbots
--    {1: PartNameStrings[0], 2: PartNameStrings[1], 4: PartNameStrings[2],       
--       8: PartNameStrings[3], 16: PartNameStrings[4], 32: PartNameStrings[5],       
+-    {1: PartNameStrings[0], 2: PartNameStrings[1], 4: PartNameStrings[2],
+-       8: PartNameStrings[3], 16: PartNameStrings[4], 32: PartNameStrings[5],
 +    {1: PartNameStrings[0], 2: PartNameStrings[1], 4: PartNameStrings[2],
 +       8: PartNameStrings[3], 16: PartNameStrings[4], 32: PartNameStrings[5],
         64: PartNameStrings[6], 128: PartNameStrings[7], 256: PartNameStrings[8],
@@ -1651,7 +1651,7 @@
      # map the cog level to btwn 0 and max
      cogLevel = max(min(cogLevel, len(MeritsPerLevel[cogIndex])-1), 0)
      return MeritsPerLevel[cogIndex][cogLevel]
--    
+-
 +
  def getTotalParts(bitString, shiftWidth=32):
      sum = 0
@@ -1659,19 +1659,19 @@
 @@ -270,9 +270,3 @@
          dept = SuitDNA.suitDepts.index(dept)
      return dept
- 
--    
+
 -
--    
--    
--    
--    
+-
+-
+-
+-
+-
 --- src/coghq/DistributedFactory.py	1 Jun 2004 19:32:13 -0000	1.89
 +++ src/coghq/DistributedFactory.py	21 Nov 2005 18:18:19 -0000	1.89.6.2
 @@ -30,6 +30,10 @@
      def createEntityCreator(self):
          return FactoryEntityCreator.FactoryEntityCreator(level=self)
- 
+
 +    # allow localized versions to change the scale of the room title text
 +    def getTitleTextScale(self):
 +        return TTLocalizer.DFfactoryRoomTitle
@@ -1700,7 +1700,7 @@
 +                pos = (0,-0.3), scale = TTLocalizer.SCLdgSign,
                  parent = dgSign)
              dgText.setDepthWrite(0)
- 
+
 @@ -151,7 +151,7 @@
              fdTypeText = DirectGui.OnscreenText(
                  text = TTLocalizer.Factory,
@@ -1715,7 +1715,7 @@
 @@ -1,3 +1,4 @@
 +from toontown.toonbase import TTLocalizer
  from SpecImports import *
- 
+
  GlobalEntities = {
 @@ -39,7 +40,7 @@
          'comment': '',
@@ -1991,7 +1991,7 @@
 +++ src/configfiles/Sources.pp	9 Sep 2005 00:40:36 -0000	1.12
 @@ -2,3 +2,17 @@
    toontown.init 60_toontown.prc
- 
+
  #include $[THISDIRPREFIX]toontown.prc.pp
 +
 +#if $[LANGUAGE]
@@ -2020,25 +2020,25 @@
 -                loader.beginBulkLoad("hood", (TTLocalizer.HeadingToHood % (toHoodPhrase,hoodName)), count,
 +                loader.beginBulkLoad("hood", (TTLocalizer.HeadingToHood % {'to':toHoodPhrase,'hood':hoodName}), count,
                                       1, TTLocalizer.TIP_GENERAL)
- 
+
          if hoodId == ToontownGlobals.Tutorial:
 --- src/distributed/ToontownClientRepository.py	22 Oct 2004 23:20:31 -0000	1.507.2.3
 +++ src/distributed/ToontownClientRepository.py	30 Oct 2007 01:23:28 -0000	1.507.2.3.2.1
 @@ -57,9 +57,6 @@
  import HoodMgr
  import PlayGame
- 
+
 -
 -
 -
  class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
      """ToontownClientRepository class: handle distribution for client"""
- 
+
 @@ -86,7 +83,7 @@
          setInterfaceFont(TTLocalizer.InterfaceFont)
          setSignFont(TTLocalizer.SignFont)
          self.toons = {}
--        
+-
 +
          # We won't bother to check expiration dates when validating
          # SSL certificates.  Users have a funny tendency to leave the
@@ -2047,40 +2047,40 @@
          self.welcomeValleyManager = None
          self.newsManager = None
          self.distributedDistrict = None
--        
+-
 +
          self.deliveryManager = self.generateGlobalObject(
              OtpDoGlobals.OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER,
--            "DistributedDeliveryManager") 
--        
+-            "DistributedDeliveryManager")
+-
 +            "DistributedDeliveryManager")
 +
          # This one is a little different, because it doesn't live in
          # the Uber zone; a different one lives in the zone for each
          # house.  But still it is similar.
 @@ -164,7 +161,7 @@
- 
+
          # The music will get passed in from ToontownStart
          self.hoodMgr = HoodMgr.HoodMgr(self)
--        
+-
 +
          self.setZonesEmulated = 0
          # this is used to emulate the old setzone behavior
          # with set location and set interest
 @@ -179,7 +176,7 @@
- 
+
          # keep track of the objects that we've manually deleted
          self._deletedSubShardDoIds = set()
--        
+-
 +
      # Each state will have an enter function, an exit function,
      # and a datagram handler, which will be set during each enter function.
- 
+
 @@ -221,7 +218,7 @@
                                       )
          buttons.removeNode()
          base.transitions.noFade()
--        
+-
 +
      def __handleCongrats(self, avatarChoice):
          self.acceptedBanner.destroy()
@@ -2089,16 +2089,16 @@
          datagram.addUint32(avatarChoice.id)
          datagram.addUint8(1)
          # Send the message
--        self.send(datagram)        
+-        self.send(datagram)
 +        self.send(datagram)
          self.loginFSM.request("waitForSetAvatarResponse", [avatarChoice])
- 
+
      def betterlucknexttime(self, avList, index):
 @@ -268,7 +265,7 @@
              # print "The sky is falling!"
              self.notify.error("Avatar rejected not found in avList.  Index is: " +
                                str(index))
--        
+-
 +
          datagram.addUint32(avid)
          datagram.addUint8(0)
@@ -2107,7 +2107,7 @@
      def enterChooseAvatar(self, avList):
          ModelPool.garbageCollect()
          TexturePool.garbageCollect()
--        
+-
 +
          # Set the current avatar state to zero, just in case
          # we were playing before. I'm not completely sure this is
@@ -2116,7 +2116,7 @@
                  self.music.setVolume(0.9)
                  self.music.play()
          base.playMusic(self.music, looping = 1, volume = 0.9, interrupt = None)
--        
+-
 +
          self.handler = self.handleMessageType
          # Display the avatar choice screen
@@ -2124,7 +2124,7 @@
 @@ -315,7 +312,6 @@
          self.accept(self.avChoiceDoneEvent, self.__handleAvatarChooserDone,
                      [avList])
- 
+
 -
      def __handleAvatarChooserDone(self, avList, doneStatus):
          done = doneStatus['mode']
@@ -2132,8 +2132,8 @@
 @@ -369,7 +365,7 @@
          self.downloadAck = None
          self.ignore("downloadAck-response")
- 
--        
+
+-
 +
      def exitChooseAvatar(self):
          self.handler = None
@@ -2142,16 +2142,16 @@
                  index,
                  1)
              avList.append(self.newPotAv)
--            
+-
 +
          # We need the avList in case we go back to chooseAvatar mode
          # Display the create avatar screen
          base.transitions.noFade()
 @@ -414,7 +410,7 @@
          self.avCreate.enter()
- 
+
          self.handler = self.handleCreateAvatar
--        
+-
 +
          # Hang hooks for when the selection is made
          self.accept("makeAToonComplete",
@@ -2160,16 +2160,16 @@
          self.avCreate = None
          self.handler = None
          if hasattr(self, 'newPotAv'):
--            del self.newPotAv                
+-            del self.newPotAv
 +            del self.newPotAv
- 
- 
+
+
      def handleAvatarResponseMsg(self, di):
 @@ -424,7 +420,7 @@
      def relayMessage(self, dg):
          #print dg.dumpHex(ostream)
          self.send(dg)
--        
+-
 +
      def handleCreateAvatar(self, msgType, di):
          #print di.getDatagram().dumpHex(ostream)
@@ -2178,16 +2178,16 @@
              self.avCreate.ns.nameShopHandler(msgType, di)
          else:
              self.handleMessageType(msgType, di)
--    
+-
 +
      def __handleMakeAToon(self, avList, avPosition):
          done = self.avCreate.getDoneStatus()
- 
+
 @@ -502,7 +501,7 @@
          # autoFinish set true.  These are intervals that the owners won't
          # necessarily stop when they get disabled.
          ivalMgr.interrupt()
--        
+-
 +
          # Note: the object manager is not a distributed object.  We just
          # need a good place to destroy it
@@ -2196,47 +2196,47 @@
              NametagGlobals.setToon(base.cam)
              del base.localAvatar
              del __builtins__["localAvatar"]
--            
+-
 +
          # Interrupt the loading bar, if it's up.
          loader.abortBulkLoad()
- 
+
 @@ -553,7 +552,7 @@
          FriendSecret.unloadFriendSecret()
          FriendsListPanel.unloadFriendsList()
          messenger.send('cancelFriendInvitation')
--        
+-
 +
          # Interrupt the loading bar, if it's up.
          loader.abortBulkLoad()
- 
+
 @@ -562,10 +561,10 @@
          # underlying problem of some objects that do not properly
          # clean themselves up.
          #self.abruptCleanup()
--        
+-
 +
          # Clean up messenger events for this global here:
          inputState.delete()
--        
+-
 +
          # Make sure there are no leftover tasks that shouldn't be here.
          allowedTasks = ("dataloop",
                          "resetPrevTransform",
 @@ -689,7 +688,7 @@
              self.trophyManager.d_requestTrophyScore()
- 
+
          OTPClientRepository.OTPClientRepository.reachedQuietZone(self)
--        
+-
 +
- 
+
      ##### gameFSM: tutorialQuestion #####
- 
+
 @@ -701,7 +700,7 @@
          self.handler = self.handleTutorialQuestion
          self.__requestTutorial(hoodId, zoneId, avId)
          return
--        
+-
 +
      def handleTutorialQuestion(self, msgType, di):
          if msgType == CLIENT_CREATE_OBJECT_REQUIRED:
@@ -2245,25 +2245,25 @@
      def addAvatarToFriendsList(self, avatar):
          self.friendsMap[avatar.doId] = avatar
          return
--        
+-
 +
      def identifyFriend(self, doId):
          """identifyFriend(self, doId)
- 
+
 @@ -899,7 +898,7 @@
          listed in the friends map, false otherwise.
- 
+
          """
--        
+-
 +
          for friendId, flags in base.localAvatar.friendsList:
              if self.identifyFriend(friendId) == None:
                  return 0
 @@ -1000,7 +999,7 @@
- 
+
          if doId and self.friendsMap.has_key(doId):
              del self.friendsMap[doId]
--        
+-
 +
      def addPetToFriendsMap(self, callback=None):
          #need to add the pet to the list
@@ -2272,16 +2272,16 @@
              if callback:
                  callback()
              return
--        
+-
 +
          def petDetailsCallback(petAvatar):
              #self.friendsMap[doId] = petAvatar
              handle = PetHandle.PetHandle(petAvatar)
 @@ -1021,7 +1020,7 @@
                  callback()
- 
+
          PetDetail.PetDetail(doId, petDetailsCallback)
--        
+-
 +
      def handleGetFriendsList(self, di):
          # Is this record in error?
@@ -2291,31 +2291,31 @@
 @@ -94,6 +94,31 @@
              startMessage = TTLocalizer.FireworksJuly4Beginning
              endMessage = TTLocalizer.FireworksJuly4Ending
-             musicFile ="phase_4/audio/bgm/firework_music.mid"
+             musicFile ="phase_4/audio/bgm/firework_music.ogg"
 +        elif holidayId == OCTOBER31_FIREWORKS: # German and French
 +            startMessage = TTLocalizer.FireworksOctober31Beginning
 +            endMessage = TTLocalizer.FireworksOctober31Ending
-+            musicFile ="phase_4/audio/bgm/firework_music.mid"
++            musicFile ="phase_4/audio/bgm/firework_music.ogg"
 +            holidayId = JULY4_FIREWORKS
 +        elif holidayId == NOVEMBER19_FIREWORKS: # German
 +            startMessage = TTLocalizer.FireworksNovember19Beginning
 +            endMessage = TTLocalizer.FireworksNovember19Ending
-+            musicFile ="phase_4/audio/bgm/firework_music.mid"
++            musicFile ="phase_4/audio/bgm/firework_music.ogg"
 +            holidayId = JULY4_FIREWORKS
 +        elif holidayId in [FEBRUARY14_FIREWORKS, VALENTINES_FIREWORKS] : # French, Brazil
 +            startMessage = TTLocalizer.FireworksValentinesBeginning
 +            endMessage = TTLocalizer.FireworksValentinesEnding
-+            musicFile ="phase_4/audio/bgm/firework_music.mid"
++            musicFile ="phase_4/audio/bgm/firework_music.ogg"
 +            holidayId = JULY4_FIREWORKS
 +        elif holidayId == JUNE22_FIREWORKS: # French
 +            startMessage = TTLocalizer.FireworksBeginning
 +            endMessage = TTLocalizer.FireworksEnding
-+            musicFile ="phase_4/audio/bgm/firework_music.mid"
++            musicFile ="phase_4/audio/bgm/firework_music.ogg"
 +            holidayId = JULY4_FIREWORKS
 +        elif holidayId == JULY14_FIREWORKS: # French
 +            startMessage = TTLocalizer.FireworksJuly14Beginning
 +            endMessage = TTLocalizer.FireworksJuly14Ending
-+            musicFile ="phase_4/audio/bgm/firework_music.mid"
++            musicFile ="phase_4/audio/bgm/firework_music.ogg"
 +            holidayId = JULY4_FIREWORKS
          elif holidayId == NEWYEARS_FIREWORKS:
              startMessage = TTLocalizer.FireworksNewYearsEveBeginning
@@ -2324,9 +2324,9 @@
 +++ src/effects/FireworkShows.py	22 Jul 2008 23:59:01 -0000	1.16.6.4
 @@ -1718,6 +1718,16 @@
      }
- 
+
  def getShow(holidayId, index):
-+    # if this firework is for german holidays, show JULY4_FIREWORKS 
++    # if this firework is for german holidays, show JULY4_FIREWORKS
 +    if ((holidayId >= ToontownGlobals.OCTOBER31_FIREWORKS) and (holidayId <= ToontownGlobals.NOVEMBER19_FIREWORKS)):
 +        holidayId = ToontownGlobals.JULY4_FIREWORKS
 +    # if this firework is for french holidays, show JULY4_FIREWORKS
@@ -2389,40 +2389,40 @@
  #################################################################
  # class: BingoCardGui.py
  # Purpose: Provide a base layout of the bingo card GUI which can
--#          be used in a variety of games. 
+-#          be used in a variety of games.
 +#          be used in a variety of games.
  #################################################################
- 
+
  #################################################################
 @@ -31,7 +32,7 @@
- 
+
  class BingoCardGui(DirectFrame):
      notify = DirectNotifyGlobal.directNotify.newCategory('BingoCardGui')
 -    notify.setDebug(True)
 +    #notify.setDebug(True)
- 
+
      #################################################################
      # Method: __init__
 @@ -69,7 +70,7 @@
          self.game = None
          self.cellGuiList = []
          self.parent = parent
--        
+-
 +
          self.load()
          self.hide()
- 
+
 @@ -81,12 +82,12 @@
              self.__indicateBingo(True)
              if self.game.getGameType() == BG.BLOCKOUT_CARD:
                  self.showJackpot()
--        
+-
 +
      def hide(self):
          self.hideTutorial()
          self.hideJackpot()
          DirectFrame.hide(self)
--        
+-
 +
      #################################################################
      # Method: loadTimer
@@ -2431,16 +2431,16 @@
      #################################################################
      def setJackpotText(self, text):
          if text:
--            str = "Win %s jellybeans!" % text 
+-            str = "Win %s jellybeans!" % text
 +            str = TTLocalizer.FishBingoJackpotWin % text
          else:
              str = ""
- 
+
 @@ -197,7 +198,7 @@
- 
+
      #################################################################
      # Method: resetGameTypeText
--    # Purpose: This method resets the Game Type text to ''. 
+-    # Purpose: This method resets the Game Type text to ''.
 +    # Purpose: This method resets the Game Type text to ''.
      # Input: text - text to display with the timer.
      # Output: None
@@ -2455,7 +2455,7 @@
 +                                    text_scale = TTLocalizer.BCGnextGame*BG.CardImageScale[2],
                                      text_fg = (1.0, 1.0, 1.0, 1),
                                      pos = (BG.GridXOffset, 0, 4*BG.CardImageScale[2]))
- 
+
 @@ -228,7 +229,7 @@
          self.nextGameTimer.reparentTo(self.nextGame)
          self.nextGameTimer.setPos(0, 0, -5*BG.CardImageScale[2])
@@ -2464,25 +2464,25 @@
 +        self.nextGameTimer.setProp('text_font', ToontownGlobals.getBuildingNametagFont())
          self.nextGameTimer.setProp('text_scale', 0.2*BG.CardImageScale[2])
          self.nextGameTimer.setFontColor(Vec4(1.0, 1.0, 1.0, 1))
- 
+
 @@ -259,18 +260,18 @@
          # Create Timer
          self.loadGameTimer()
          self.loadNextGameTimer()
--        
+-
 +
          textScale = 0.06 #0.125*BG.CardImageScale[2]
          textHeight = 0.38*BG.CardImageScale[2]
- 
+
          guiButton = loader.loadModelOnce("phase_3/models/gui/quit_button")
          self.bingo = DirectButton( parent = self,
--                                   pos = (BG.GridXOffset, 0, 0.305), 
+-                                   pos = (BG.GridXOffset, 0, 0.305),
 +                                   pos = (BG.GridXOffset, 0, 0.305),
                                     scale = (0.0343, 0.035, 0.035),
                                     relief = None,
                                     state = DISABLED,
                                     geom = self.model.find("**/BINGObutton"),
--                                   geom_pos = (0, 0, 0), 
+-                                   geom_pos = (0, 0, 0),
 +                                   geom_pos = (0, 0, 0),
                                     geom_hpr = (0, 90, 0),
                                     image = (self.model.find("**/Gold_TTButtUP"),
@@ -2518,7 +2518,7 @@
 -                                   text_wordwrap = 10.5)
 +                                   text_font = ToontownGlobals.getSignFont(),
 +                                   text_wordwrap = TTLocalizer.BCGjpTextWordwrap)
- 
+
          self.gameOver = DirectLabel( parent = self,
                                       pos = (BG.GridXOffset, 0, 0),
 @@ -338,7 +339,7 @@
@@ -2527,14 +2527,14 @@
                                       text_fg = (1, 1, 1, 1),
 -                                     text_font = ToontownGlobals.getSignFont())
 +                                     text_font = ToontownGlobals.getBuildingNametagFont())
- 
+
          #jpsign is parented to self.parent so we can place it behind the main card
          self.jpSign = DirectFrame( parent = self.parent,
 @@ -360,7 +361,7 @@
          self.hideJackpot()
- 
+
          self.makeTutorial()
--        
+-
 +
      #################################################################
      # Method: destroy
@@ -2543,16 +2543,16 @@
      #################################################################
      def destroy(self):
          self.cleanTutorial()
--        
+-
 +
          self.removeGame()
          del self.cellGuiList
- 
+
 @@ -380,7 +381,7 @@
          self.jpSign.destroy()
          self.nextGameTimer.destroy()
          self.nextGame.destroy()
--        self.timer.destroy()               
+-        self.timer.destroy()
 +        self.timer.destroy()
          self.bingo.destroy()
          self.gameType.destroy()
@@ -2561,7 +2561,7 @@
      #          attempt.
      # Input: None
      # Output: None
--    #################################################################               
+-    #################################################################
 +    #################################################################
      def disableCard(self):
          self.stopCellBlinking()
@@ -2570,7 +2570,7 @@
      #          callback routine. The Free Cell is never enabled.
      # Input: callback - A callback routine to handle a button press.
      # Output: None
--    #################################################################              
+-    #################################################################
 +    #################################################################
      def enableCard(self, callback=None):
          self.notify.info("enable Bingo card")
@@ -2579,16 +2579,16 @@
      #        zoneId - Needed to choose the appropriate fish for the
      #                 pond that the card instance is associated with.
      # Output: None
--    ################################################################# 
+-    #################################################################
 +    #################################################################
      def generateCard(self, tileSeed, zoneId):
          assert( self.game != None )
- 
+
 @@ -494,7 +495,7 @@
                  else:
                      choice = rng.randrange(0, len(fishList))
                      tmpFish = fishList.pop(choice)
-- 
+-
 +
                  xPos = BG.CellImageScale * (j-2) + BG.GridXOffset
                  yPos = BG.CellImageScale * (i-2) - 0.015
@@ -2597,15 +2597,15 @@
      #        Genus - Genus of the fish to check against.
      #        Species - Species of the fish to check against.
      # Output: None
--    ################################################################# 
+-    #################################################################
 +    #################################################################
      def cellUpdateCheck(self, id, genus, species):
          # For now, only check against genus. Perhaps
          # we shall move to species later if it is too easy.
--        fishTuple = (genus, species)       
+-        fishTuple = (genus, species)
 +        fishTuple = (genus, species)
          if (self.cellGuiList[id].getFishGenus() == genus) or (fishTuple == FishGlobals.BingoBoot):
--            self.notify.debug("Square found!  Cell disabled: %s" % id) 
+-            self.notify.debug("Square found!  Cell disabled: %s" % id)
 +            self.notify.debug("Square found!  Cell disabled: %s" % id)
              self.stopCellBlinking()
              self.cellGuiList[id].disable()
@@ -2614,11 +2614,11 @@
      # Purpose: This method updates a particular cell. Essentially,
      #          it disables this cell so that a player can no longer
      #          click the button and generate further checks against
--    #          it. 
+-    #          it.
 +    #          it.
      # Input: cellId - The Id of the Cell to update.
      # Output: None
--    ################################################################# 
+-    #################################################################
 +    #################################################################
      def cellUpdate(self, cellId):
          assert( 0 <= cellId < BG.CARD_SIZE )
@@ -2627,25 +2627,25 @@
      # Method: addGame
      # Input: game instance
      # Output: None
--    ################################################################# 
+-    #################################################################
 +    #################################################################
      def addGame(self, game):
          self.game = game
- 
+
 @@ -566,7 +567,7 @@
      #          is associated with the GUI instance.
      # Input: None
      # Output: returns the current bingo game
--    #################################################################   
+-    #################################################################
 +    #################################################################
      def getGame(self):
          return self.game
- 
+
 @@ -578,7 +579,7 @@
      #          will also occur the CardGui is destroyed.
      # Input: None
      # Output: None
--    #################################################################   
+-    #################################################################
 +    #################################################################
      def removeGame(self):
          self.stopCellBlinking()
@@ -2654,12 +2654,12 @@
      # Method: getUnmarkedMatches
      # Purpose: returns a list of cells that match
      #          a particular fish
--    ################################################################# 
+-    #################################################################
 +    #################################################################
      def getUnmarkedMatches(self, fish):
          if self.game is None:
              return []
--        
+-
 +
          matches = []
          for cell in self.cellGuiList:
@@ -2668,54 +2668,54 @@
      #          patterns such as Diagonals or Four Corner, etc.
      # Input: id - the Cell Id to return this color
      # Output: returns specific color or base color of a cell
--    ################################################################# 
+-    #################################################################
 +    #################################################################
      def getCellColor(self, id):
          if self.game.checkForColor(id):
              return BG.CellColorActive
 @@ -623,7 +624,7 @@
- 
+
      #################################################################
      # Method: resetCellColors
--    ################################################################# 
+-    #################################################################
 +    #################################################################
      def resetCellColors(self):
          for cell in self.cellGuiList:
              c = self.getCellColor(cell.cellId)
 @@ -632,7 +633,7 @@
- 
+
      #################################################################
      # Method: stopCellBlinking
--    ################################################################# 
+-    #################################################################
 +    #################################################################
      def stopCellBlinking(self):
          self.hideTutorial()
          self.resetCellColors()
 @@ -640,12 +641,12 @@
- 
+
      #################################################################
      # Method: __inidicateMatches
--    ################################################################# 
+-    #################################################################
 +    #################################################################
      def __indicateMatches(self, bFlipFlop, fish):
          unmarkedMatches = self.getUnmarkedMatches(fish)
          if len(unmarkedMatches) is 0:
              return Task.done
--        
+-
 +
          if bFlipFlop:
              #mark the cells
              for cell in unmarkedMatches:
 @@ -660,11 +661,11 @@
- 
+
      #################################################################
      # Method: fishCaught
--    # Purpose: This method is called when a fish has been caught.  
+-    # Purpose: This method is called when a fish has been caught.
 +    # Purpose: This method is called when a fish has been caught.
      #          It then indicates which squares match.
      # Input: fish - the caught fish
      # Output: None
--    ################################################################# 
+-    #################################################################
 +    #################################################################
      def fishCaught(self, fish):
          self.stopCellBlinking()
@@ -2724,8 +2724,8 @@
      # Output: Returns BG.WIN(2) or BG.NO_UPDATE(0)
      # Note: We may decide to DISABLE the button until there is a winner
      #       or more appropriately, make it flash a few times when
--    #       bingo is first detected. 
--    ################################################################# 
+-    #       bingo is first detected.
+-    #################################################################
 +    #       bingo is first detected.
 +    #################################################################
      def setBingo(self, state=DISABLED, callback=None):
@@ -2735,29 +2735,29 @@
              c = BG.getButtonColor(self.game.getGameType())
              self.bingo['image_color'] = Vec4(c[0], c[1], c[2], c[3])
              self.hideJackpot()
--            
+-
 +
          self.bingo['state'] = state
          self.bingo['command'] = callback
- 
+
 @@ -710,18 +711,18 @@
      #          and returns if there was a win.
      # Input: None
      # Output: Returns BG.WIN(2) or BG.NO_UPDATE(0)
--    ################################################################# 
+-    #################################################################
 +    #################################################################
      def checkForBingo(self):
          return self.game.checkForBingo()
- 
+
      #################################################################
      # Method: __inidicateBingo
--    ################################################################# 
+-    #################################################################
 +    #################################################################
      def __indicateBingo(self, bFlipFlop):
          if not self.game:
              #user has left, stop doing this task
              return Task.done
--        
+-
 +
          if bFlipFlop:
              gameType = self.game.getGameType()
@@ -2766,7 +2766,7 @@
          for light in self.jpLights:
              light.hide()
          taskMgr.remove("jackpotLightFlash")
--        
+-
 +
      def getLightName(self, lightIndex, bOn):
          lightIndex += 1
@@ -2774,24 +2774,24 @@
              return "**/LightOn_0%02d" % lightIndex
          else:
              return "**/LightOff_0%02d" % lightIndex
--    
+-
 +
      def makeJackpotLights(self, parent):
          self.jpLights = []
          for nLight in range(self.NumLights):
 @@ -817,13 +818,13 @@
- 
+
              nTimeIndex = (nTimeIndex + 1) % 2
              delay = 0.2
--            
+-
 +
          taskMgr.doMethodLater(delay, self.flashJackpotLights, "jackpotLightFlash", extraArgs = (flashMode,nTimeIndex))
          return Task.done
--            
+-
 +
      #################################################################
      # stuff for the FishBingo tutorial
--    ################################################################# 
+-    #################################################################
 +    #################################################################
      def makeTutorial(self):
          self.tutorial = TTDialog.TTDialog(
@@ -2807,18 +2807,18 @@
 +                self.tutorial['text'] = BG.getHelpString(gameType)
          elif messageType == BG.TutorialBingo:
              self.tutorial['text'] = TTLocalizer.FishBingoHelpBingo
- 
+
 @@ -859,12 +861,12 @@
      def hideTutorial(self, event=None):
          if self.tutorial:
              self.tutorial.hide()
--        
+-
 +
      def onMouseEnter(self, event):
          """ the mouse has just entered this entity """
          if self.gameType['text'] is not "":
              self.showTutorial(BG.TutorialCard)
--        
+-
 +
      def onMouseLeave(self, event):
          """ the mouse has just left this entity """
@@ -2834,35 +2834,35 @@
 +    #notify.setDebug(True)
 +    #notify.setInfo(True)
      serverDataFolder = simbase.config.GetString('server-data-folder', "")
- 
+
      DefaultReward = { TTG.DonaldsDock: [BG.MIN_SUPER_JACKPOT, 1],
 @@ -110,7 +110,7 @@
- 
+
          # CHEATS
          #initState = 'Intermission'
 -        for do in self.doId2do.values() :
 +        for do in self.doId2do.values():
              do.startup(initState)
          self.waitForIntermission()
- 
+
 --- src/fishing/DistributedPondBingoManagerAI.py	4 Dec 2004 02:12:01 -0000	1.22
 +++ src/fishing/DistributedPondBingoManagerAI.py	19 Jun 2008 03:12:13 -0000	1.22.4.1
 @@ -40,7 +40,7 @@
- 
+
  class DistributedPondBingoManagerAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM):
      notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPondBingoManagerAI")
 -    notify.setDebug(True)
 +    #notify.setDebug(True)
- 
+
      # Class Dictionary used as a c-like switch
      TimeoutSwitch = { BG.NORMAL_GAME: 'WaitCountdown',
 @@ -135,6 +135,7 @@
              self.air.bingoMgr.removePondBingoMgrAI(self.getDoId())
- 
+
          FSM.FSM.cleanup(self)
 +        self.__stopTimeout()
          DistributedObjectAI.DistributedObjectAI.delete(self)
- 
+
  #################################################################
 @@ -508,7 +509,9 @@
      # Output: None
@@ -2873,7 +2873,7 @@
 +        if hasattr(self, "zoneId"):
 +            self.request(state)
          return Task.done
- 
+
      ############################################################
 @@ -741,7 +744,7 @@
      def exitWaitCountdown(self):
@@ -2881,8 +2881,8 @@
          del self.timeStamp
 -        self.timerTask = None
 +        self.__stopTimeout()
- 
-     ################################################################# 
+
+     #################################################################
      # Method:  enterPlaying
 @@ -800,7 +803,7 @@
      def exitPlaying(self):
@@ -2890,8 +2890,8 @@
          del self.timeStamp
 -        self.timerTask = None
 +        self.__stopTimeout()
- 
-     ################################################################# 
+
+     #################################################################
      # Method:  enterReward
 @@ -869,7 +872,7 @@
      def exitReward(self):
@@ -2899,8 +2899,8 @@
          del self.timeStamp
 -        self.timerTask = None
 +        self.__stopTimeout()
- 
-     ################################################################# 
+
+     #################################################################
      # Method:  enterGameOver
 @@ -928,7 +931,7 @@
      def exitGameOver(self):
@@ -2908,8 +2908,8 @@
          del self.timeStamp
 -        self.timerTask = None
 +        self.__stopTimeout()
- 
-     ################################################################# 
+
+     #################################################################
      # Method:  enterIntermission
 @@ -975,7 +978,7 @@
      def exitIntermission(self):
@@ -2917,8 +2917,8 @@
          del self.timeStamp
 -        self.timerTask = None
 +        self.__stopTimeout()
- 
-     ################################################################# 
+
+     #################################################################
      # Method:  enterCloseEvent
 @@ -1024,7 +1027,7 @@
      def exitCloseEvent(self):
@@ -2926,8 +2926,8 @@
          del self.timeStamp
 -        self.timerTask = None
 +        self.__stopTimeout()
- 
-     ################################################################# 
+
+     #################################################################
      # Method:  shutdown
 @@ -1048,4 +1051,5 @@
      # Output: None
@@ -2941,7 +2941,7 @@
          self.fish = fish
          self.parent = parent
          self.photo = None
--        
+-
 +
      def destroy(self):
          assert self.notify.debugStateCall(self)
@@ -2950,14 +2950,14 @@
                       buttons.find('**/CloseBtn_DN'),
                       buttons.find('**/CloseBtn_Rllvr')),
              image_scale = (0.6, 1, 0.6),
--            command = self.handleCancel,            
+-            command = self.handleCancel,
 +            command = self.handleCancel,
              )
          buttons.removeNode()
          self.photo = FishPhoto.FishPhoto(parent=self)
          # make the scroll list
          self.update(self.fish)
--        
+-
 +
      def update(self, fish):
          assert self.notify.debugStateCall(self)
@@ -2966,7 +2966,7 @@
          """
          assert len(bounds) == 4
          self.swimBounds=bounds
--        
+-
 +
      def setSwimColor(self, *colors):
          """
@@ -2974,7 +2974,7 @@
          """
          assert len(colors) == 4
          self.swimColor=colors
--        
+-
 +
      def handleCancel(self):
          assert self.notify.debugStateCall(self)
@@ -2990,7 +2990,7 @@
              self.extraLabel.show()
              self.extraLabel['text'] = TTLocalizer.FishingNewRecord
 +            self.extraLabel['text_scale'] = TTLocalizer.FPnewRecord
- 
+
          self.photo.show()
          DirectFrame.show(self)
 --- src/fishing/FishSellGUI.py	22 Jul 2004 23:54:53 -0000	1.9
@@ -3019,7 +3019,7 @@
          genus is an integer key into FishGlobals.__fishDict.
          itemIndex is an integer index into the item list (see optiondefs
              in FishBrowser).
--        
+-
 +
          Create a DirectFrame for displaying the genus and it's species
          """
@@ -3028,7 +3028,7 @@
          # The picture frame is in the wrong order, should be drawn first (at the back)
          albumGui.find("**/picture_frame").reparentTo(albumGui, -1)
          albumGui.find("**/arrows").removeNode()
--        
+-
 +
          optiondefs = (
              ('relief',                                    None, None),
@@ -3037,7 +3037,7 @@
              ('text_pos',                         (-0.5, -0.34), None),
              ('text_font',   ToontownGlobals.getInterfaceFont(), None),
              ('text_wordwrap',                             13.5, None),
--            ('text_align',                      TextNode.ALeft, None),            
+-            ('text_align',                      TextNode.ALeft, None),
 +            ('text_align',                      TextNode.ALeft, None),
              )
          # Merge keyword options with default options
@@ -3046,7 +3046,7 @@
      def load(self):
          assert self.notify.debugStateCall(self)
          pass
--        
+-
 +
      def setGenus(self, genus):
          assert self.notify.debugStateCall(self)
@@ -3057,7 +3057,7 @@
                      text_fg = (0.2,0.1,0.0,1),
 -                    text_scale = 0.045,
 +                    text_scale = TTLocalizer.GPgenus,
-                     text_align = TextNode.ALeft,                    
+                     text_align = TextNode.ALeft,
                      text_font = ToontownGlobals.getInterfaceFont(),
                      )
 --- src/friends/FriendInviter.py	18 Aug 2004 01:55:32 -0000	1.62
@@ -3070,7 +3070,7 @@
 +                             text_scale = TTLocalizer.FIdialog,
                               text_pos = (0.0, 0.13),
                               )
- 
+
 @@ -193,7 +193,7 @@
                                             gui.find('**/Ignore_Btn_RLVR')),
                                    relief = None,
@@ -3107,7 +3107,7 @@
              text_fg = (0, 0, 0, 1),
              text_bg = (1, 1, 1, 1),
              text_pos = (-0.04, -0.085),
-             textMayChange = 0,            
+             textMayChange = 0,
              command = self.__secrets,
              )
 +        # hack: [french only] temporarily disallowed secrets-chat for french
@@ -3116,29 +3116,29 @@
 +            def noShow():
 +                pass
 +            self.secrets.show = noShow
- 
+
          gui.removeNode()
          auxGui.removeNode()
 @@ -230,7 +230,7 @@
              text_fg = (0, 0, 0, 1),
              text_bg = (1, 1, 1, 1),
              text_pos = (-0.04, -0.085),
--            textMayChange = 0,            
+-            textMayChange = 0,
 +            textMayChange = 0,
              command = self.__secrets,
              )
- 
+
 --- src/hood/Hood.py	25 Aug 2004 02:54:37 -0000	1.111
 +++ src/hood/Hood.py	15 Jul 2005 18:59:26 -0000	1.111.6.1
 @@ -33,7 +33,7 @@
- 
+
          self.parentFSM = parentFSM
          self.dnaStore = dnaStore
--        
+-
 +
          # The event for safe zone loader or town loader done
          self.loaderDoneEvent = "loaderDone"
- 
+
 @@ -73,7 +73,7 @@
              fg = self.titleColor,
              font = getSignFont(),
@@ -3160,9 +3160,9 @@
 --- src/launcher/Launcher.py	10 Dec 2004 09:43:49 -0000	1.221.2.3
 +++ src/launcher/Launcher.py	18 Apr 2008 03:25:57 -0000	1.221.2.1.2.4
 @@ -69,6 +69,19 @@
- 
+
  LauncherPhases = [3,3.5,4,5,5.5,6,7,8,9]
- 
+
 +import platform
 +WIN32 = (platform.system() == 'Windows')
 +VISTA = (string.find(platform.platform(), 'Vista') != -1)
@@ -3194,12 +3194,12 @@
      print "Resetting CONFIG_CONFIG"
 +
  os.environ["CONFIG_CONFIG"] = ":_:configdir_.:configpath_:configname_Configrc.exe:configexe_1:configargs_-stdout " + Configrc_args
- 
+
  import libdtoolconfig
 @@ -142,9 +156,9 @@
  nout.addFile(Filename(logfile))
  nout.addStandardOutput()
- 
+
 -
  # For registry access
  import win32api
@@ -3215,11 +3215,11 @@
 +        else:
              self.fromCD = tmpVal
          self.notify.info('patch directory is ' + `self.fromCD`)
- 
+
 @@ -416,6 +430,9 @@
          # Patch files extension
          self.patchExtension = 'pch'
- 
+
 +        # scan for hack programs
 +        self.scanForHacks()
 +
@@ -3232,7 +3232,7 @@
          if (t == types.IntType):
 -            WindowsRegistry.setIntValue(self.toontownRegistryKey, name, value)
 +            WindowsRegistry.setIntValue(self.toontownRegistryKey, name, value, WindowsRegistry.RlUser)
- 
+
          elif (t == types.StringType):
              WindowsRegistry.setStringValue(self.toontownRegistryKey, name,
 -                                           value)
@@ -3243,7 +3243,7 @@
 @@ -595,17 +612,17 @@
      def getRegistry(self, name, missingValue = None):
          # Return the value of this key.
- 
+
 -        t = WindowsRegistry.getKeyType(self.toontownRegistryKey, name)
 +        t = WindowsRegistry.getKeyType(self.toontownRegistryKey, name, WindowsRegistry.RlUser)
          if (t == WindowsRegistry.TInt):
@@ -3260,10 +3260,10 @@
 +                                                  missingValue, WindowsRegistry.RlUser)
          else:
              return missingValue
- 
+
 @@ -2454,6 +2424,10 @@
          self.httpChannel.setMaxBytesPerSecond(self.getBandwidth())
- 
+
      def MakeNTFSFilesGlobalWriteable(self, pathToSet = None ):
 +        if not WIN32:
 +            return
@@ -3275,7 +3275,7 @@
 @@ -2486,6 +2460,113 @@
          del self.httpChannel
          del self.http
- 
+
 +    #
 +    # scan for known speed hacks
 +    #
@@ -3787,7 +3787,7 @@
 +  Text=*** Do not Force to Japanese and Portuguese ***
 +end
  item: Remark
-   Text=Begin writing to the INSTALL.LOG 
+   Text=Begin writing to the INSTALL.LOG
  end
 @@ -578,11 +784,15 @@
    Key=Software\Disney\Disney Online\ToontownTest
@@ -3982,7 +3982,7 @@
 +end
 +item: Set Variable
 +  Variable=STARTMENU_URL
-+  Value=http://iplay.german.toontown.com/red/shortcut_play.php 
++  Value=http://iplay.german.toontown.com/red/shortcut_play.php
 +end
 +item: Set Variable
 +  Variable=DESKTOP_URL
@@ -4031,7 +4031,7 @@
 +end
 +item: Set Variable
 +  Variable=STARTMENU_URL
-+  Value=http://iplay.br.toontown.com/red/shortcut_play.php 
++  Value=http://iplay.br.toontown.com/red/shortcut_play.php
 +end
 +item: Set Variable
 +  Variable=DESKTOP_URL
@@ -4080,7 +4080,7 @@
 +end
 +item: Set Variable
 +  Variable=STARTMENU_URL
-+  Value=http://iplay.french.toontown.com/red/shortcut_play.php 
++  Value=http://iplay.french.toontown.com/red/shortcut_play.php
 +end
 +item: Set Variable
 +  Variable=DESKTOP_URL
@@ -4564,7 +4564,7 @@
 +            self['text1_scale'] = TTLocalizer.ACsubscribersOnly
 +            self['text2_scale'] = TTLocalizer.ACsubscribersOnly
              self['text0_fg'] = (0,1,0.8,0.0)
-             self['text1_fg'] = (0,1,0.8,1)            
+             self['text1_fg'] = (0,1,0.8,1)
              self['text2_fg'] = (0.3,1,0.9,1)
 @@ -110,8 +110,8 @@
              self['text'] = TTLocalizer.AvatarChoiceMakeAToon,
@@ -4575,7 +4575,7 @@
 +            self['text1_scale'] = TTLocalizer.ACmakeAToon
 +            self['text2_scale'] = TTLocalizer.ACmakeAToon
              self['text0_fg'] = (0,1,0.8,0.5)
-             self['text1_fg'] = (0,1,0.8,1)            
+             self['text1_fg'] = (0,1,0.8,1)
              self['text2_fg'] = (0.3,1,0.9,1)
 @@ -124,7 +124,7 @@
              self['text'] = ("",
@@ -4584,14 +4584,14 @@
 -            self['text_scale'] = 0.12
 +            self['text_scale'] = TTLocalizer.ACplayThisToon
              self['text_fg'] = (1,0.9,0.1,1)
- 
+
              # Support 3d on the frame for the avatar head
 @@ -327,7 +327,9 @@
- 
+
          tt = base.cr.loginInterface
          # UK behaves the same as castillian
 -        if tt.supportsAuthenticateDelete() and (base.cr.productName != 'DisneyOnline-UK'):
-+        if (tt.supportsAuthenticateDelete() and 
++        if (tt.supportsAuthenticateDelete() and
 +            base.cr.productName not in ['DisneyOnline-UK',
 +                'ES', 'JP', 'DE', 'BR', 'FR'] ):
              # If the login interface supports it, make the user
@@ -4600,7 +4600,7 @@
 --- src/login/AvatarChooser.py	16 Jun 2004 23:05:03 -0000	1.84
 +++ src/login/AvatarChooser.py	12 Jan 2005 01:52:27 -0000	1.84.6.2
 @@ -124,7 +124,7 @@
-         
+
          # set-up screen title
          self.title = OnscreenText(TTLocalizer.AvatarChooserPickAToon,
 -                                  scale = 0.125,
@@ -4630,9 +4630,9 @@
 +++ src/makeatoon/MakeAToon.py	30 Oct 2007 23:57:40 -0000	1.122.6.2
 @@ -29,7 +29,7 @@
      """MakeAToon class"""
- 
+
      # special methods
--    
+-
 +
      def __init__(self, parentFSM, avList, doneEvent, index, isPaid):
          """
@@ -4641,7 +4641,7 @@
                  self.warp = 1
                  self.namelessPotAv = av
              self.nameList.append(av.name)
--            
+-
 +
          self.fsm = ClassicFSM.ClassicFSM('MakeAToon',
                          [State.State('Init',
@@ -4650,16 +4650,16 @@
                             # Final state
                             'Done',
                             )
--        
+-
 +
          self.parentFSM = parentFSM
          self.parentFSM.getStateNamed('createAvatar').addChild(self.fsm)
- 
+
 @@ -114,7 +114,7 @@
- 
+
          if self.warp:
              self.shopsVisited = [GENDERSHOP, BODYSHOP, COLORSHOP, CLOTHESSHOP]
--            
+-
 +
          # sound
          self.music = None
@@ -4667,17 +4667,17 @@
 @@ -128,7 +128,7 @@
      def enter(self):
          base.camLens.setFov(ToontownGlobals.MakeAToonCameraFov)
- 
--        
+
+-
 +
          base.playMusic(self.music, looping = 1, volume = self.musicVolume)
- 
+
          self.toon.startBlink()
 @@ -140,7 +140,7 @@
          self.toon.loop("neutral")
          self.room.reparentTo(render)
          camera.setPosHpr(0.75, -22, 5.35, 0, -7.12, 0)
--        
+-
 +
          if self.warp:
              if (self.toon.style.torso[1] == 's'):
@@ -4686,29 +4686,29 @@
              self.toon.reparentTo(render)
              self.toon.loop("neutral")
              self.toon.setPosHpr(-4.1, -2, 0, 200, 0, 0)
--        else: 
+-        else:
 +        else:
              self.mickey.reparentTo(render)
              self.mickey.loop("neutral")
              self.mickey.setPosHpr(4.2, -1.9, 0, 160, 0, 0)
 @@ -172,7 +172,7 @@
- 
+
          self.guiTopBar.show()
          self.guiBottomBar.show()
--        self.guiCancelButton.show()       
+-        self.guiCancelButton.show()
 +        self.guiCancelButton.show()
- 
+
          if self.warp:
              self.progressing = 0
 @@ -186,7 +186,7 @@
- 
+
          self.guiTopBar.hide()
          self.guiBottomBar.hide()
--        
+-
 +
          self.music.stop()
          self.fsm.request("Done")
- 
+
 @@ -257,7 +257,7 @@
              text = ("", TTLocalizer.MakeAToonCancel,
                      TTLocalizer.MakeAToonCancel),
@@ -4722,8 +4722,8 @@
              animal = whrandom.choice(animalIndicesToUse)
              head = ToonDNA.toonHeadTypes[animal]
              torso = whrandom.choice(ToonDNA.toonTorsoTypes[-3:])
--            leg = whrandom.choice(ToonDNA.toonLegTypes)        
--            self.dna.newToon( (head, torso, leg, 'm') ) 
+-            leg = whrandom.choice(ToonDNA.toonLegTypes)
+-            self.dna.newToon( (head, torso, leg, 'm') )
 +            leg = whrandom.choice(ToonDNA.toonLegTypes)
 +            self.dna.newToon( (head, torso, leg, 'm') )
          else:
@@ -4733,7 +4733,7 @@
          self.toon.setNameVisible(0)
          self.toon.startBlink()
          self.toon.startLookAround()
--      
+-
 +
          # Create Mickey
          self.mickey = Char.Char()
@@ -4742,53 +4742,53 @@
          del self.sewingMachine
          self.room.removeNode()
          del self.room
--                
+-
 +
          self.toon.stopBlink()
          self.toon.stopLookAroundNow()
- 
+
 @@ -466,7 +466,7 @@
          del self.names
          del self.dnastring
          del self.nameList
--        
+-
 +
          del self.music
          del self.soundBack
- 
+
 @@ -481,7 +481,7 @@
          self.minnie.stopEarTask()
          self.minnie.delete()
          del self.minnie
--        
+-
 +
          self.parentFSM.getStateNamed('createAvatar').removeChild(self.fsm)
          del self.parentFSM
          del self.fsm
 @@ -510,10 +510,10 @@
- 
+
      def __handleCancel(self):
          self.doneStatus = "cancel"
--        
+-
 +
          #if self.fsm.getCurrentState().getName() == 'NameShop':
          self.shopsVisited = []
--            
+-
 +
          def sendDoneTask(self):
              messenger.send(self.doneEvent)
              return Task.done
 @@ -523,12 +523,12 @@
- 
+
      def toggleSlide(self):
          self.slide = 1 - self.slide
--        
+-
 +
      def goToNextShop(self):
          self.progressing = 1
          # go to the next shop
          if self.shop == GENDERSHOP:
--            self.fsm.request("BodyShop")            
+-            self.fsm.request("BodyShop")
 +            self.fsm.request("BodyShop")
          elif self.shop == BODYSHOP:
              self.fsm.request("ColorShop")
@@ -4797,25 +4797,25 @@
          self.progressing = 0
          # go to the last shop
          if self.shop == BODYSHOP:
--            self.fsm.request("GenderShop")            
+-            self.fsm.request("GenderShop")
 +            self.fsm.request("GenderShop")
          elif self.shop == COLORSHOP:
              self.fsm.request("BodyShop")
          elif self.shop == CLOTHESSHOP:
 @@ -553,7 +553,7 @@
- 
+
      def charSez(self, char, statement, dialogue = None):
          char.setChatAbsolute(statement, CFSpeech, dialogue)
--    
+-
 +
      # Specific State functions
- 
+
      def enterInit(self):
 @@ -596,7 +596,7 @@
                  Func(comm, *eA)
                  )
          return myInterval
--        
+-
 +
      def charRunToLeft(self, char, timelimit=1.6, comm=None, eA=[]):
          myInterval = Sequence()
@@ -4824,7 +4824,7 @@
                  Func(comm, *eA)
                  )
          return myInterval
--        
+-
 +
      def charRunFromRight(self, char, newpos, newhpr, timelimit=1, comm=None, eA=[]):
          myInterval = Sequence()
@@ -4833,7 +4833,7 @@
                  Func(comm, *eA)
                  )
          return myInterval
--        
+-
 +
      def charRunToRight(self, char, timelimit=1, comm=None, eA=[]):
          myInterval = Sequence()
@@ -4842,7 +4842,7 @@
          myInterval.append(
              Func(char.loop, "neutral")
              )
--        
+-
 +
          if comm:
              myInterval.append(
@@ -4851,7 +4851,7 @@
          self.host = self.mickey
          self.hostSez([TTLocalizer.GenderShopQuestionMickey,], self.mickeyDialogueArray[0])
          return Task.done
--        
+-
 +
      def enterGenderShop(self):
          self.toon.hide()
@@ -4869,8 +4869,8 @@
              ])
          self.bs.showButtons()
          self.guiNextButton.show()
--        self.guiLastButton.show() 
--    
+-        self.guiLastButton.show()
+-
 +        self.guiLastButton.show()
 +
      def enterBodyShop(self):
@@ -4884,16 +4884,16 @@
 +        self.guiTopBar['text_scale'] = TTLocalizer.MATenterBodyShop
          #base.transitions.fadeIn()
          self.accept("BodyShop-done", self.__handleBodyShopDone)
--        self.draftingTable.show()       
+-        self.draftingTable.show()
 +        self.draftingTable.show()
- 
+
          # we need to do this first for setup...
          self.bs.enter(self.toon, self.shopsVisited)
 @@ -825,7 +825,7 @@
- 
+
          if self.progressing:
              self.hostTrack = self.charRunFromLeft(
--                char=self.host, newpos=self.hostPosition, 
+-                char=self.host, newpos=self.hostPosition,
 +                char=self.host, newpos=self.hostPosition,
                  newhpr=self.hostHpr, comm=self.bodyShopOpening)
              self.hostTrack.start()
@@ -4911,16 +4911,16 @@
                                        comm=self.colorShopOpening),
                  self.charRunFromRight(self.toon, newpos=self.toonPosition, newhpr=self.toonHpr))
              self.hostTrack.start()
--            
+-
 +
          self.cos.enter(self.toon, self.shopsVisited)
- 
+
          if (COLORSHOP not in self.shopsVisited):
 @@ -924,7 +924,7 @@
- 
+
      def __handleColorShopDone(self):
          self.guiNextButton.hide()
--        self.guiLastButton.hide()   
+-        self.guiLastButton.hide()
 +        self.guiLastButton.hide()
          if self.cos.doneStatus == 'next':
              self.cos.hideButtons()
@@ -4937,7 +4937,7 @@
          self.toon.setScale(1.2, 1.2, 1.2)
          self.host.setScale(1, 1, 1)
          #End of new enlarging code
--            
+-
 +
          if self.progressing:
              self.hostTrack = Parallel( \
@@ -4946,16 +4946,16 @@
                                        comm=self.clothesShopOpening), \
                  self.charRunFromRight(self.toon, newpos=self.toonPosition, newhpr=self.toonHpr))
              self.hostTrack.start()
--            
+-
 +
          self.cls.enter(self.toon)
          if (CLOTHESSHOP not in self.shopsVisited):
              self.shopsVisited.append(CLOTHESSHOP)
 @@ -989,7 +989,7 @@
- 
+
      def __handleClothesShopDone(self):
          self.guiNextButton.hide()
--        self.guiLastButton.hide()    
+-        self.guiLastButton.hide()
 +        self.guiLastButton.hide()
          if self.cls.doneStatus == 'next':
              self.cls.hideButtons()
@@ -4968,21 +4968,21 @@
 +        self.guiTopBar['text_scale'] = TTLocalizer.MATenterNameShop
          self.accept("NameShop-done", self.__handleNameShopDone)
          self.accept("NameShop-mickeyChange", self.__changeHost)
- 
+
 @@ -1038,7 +1038,7 @@
          # self.host.setScale(.8, .8, .8)
          self.host.setScale(.9, .9, .9)
          # End of new shrinking code
--    
+-
 +
          if self.progressing:
              self.hostTrack = Parallel( \
                  self.charRunFromLeft(self.host, newpos=Point3(4.9, -1.9, 0), newhpr=self.hostHpr, \
 @@ -1073,7 +1073,7 @@
- 
+
      def __changeHost(self, newText):
          self.hostSez(newText)
--        
+-
 +
      def __handleNameShopDone(self):
          self.guiLastButton.hide()
@@ -4991,7 +4991,7 @@
                  return Task.done
              sdt = Task.Task(sendDoneTask)
              sdt.doneEvent = self.doneEvent
--            base.transitions.fadeOutTask(sdt)   
+-            base.transitions.fadeOutTask(sdt)
 +            base.transitions.fadeOutTask(sdt)
          else:
              self.doneStatus = "created"
@@ -5000,15 +5000,15 @@
              sdt = Task.Task(sendDoneTask)
              sdt.doneEvent = self.doneEvent
              base.transitions.fadeOutTask(sdt)
--    
+-
 +
      def __handleNext(self):
          messenger.send("next")
- 
+
 @@ -1115,18 +1115,3 @@
      def exitDone(self):
          pass
- 
+
 -
 -
 -
@@ -5031,19 +5031,19 @@
  from toontown.toontowngui import TeaserPanel
  from direct.distributed.PyDatagram import PyDatagram
 +from direct.showbase import PythonUtil
- 
+
 -MAX_NAME_WIDTH = 7.5
 +MAX_NAME_WIDTH = TTLocalizer.NSmaxNameWidth
- 
+
  ServerDialogTimeout = 3.0
- 
+
  class NameShop(PandaObject.PandaObject, StateData.StateData):
      """NameShop class: contains methods for setting the Avatar's
      name via user input"""
--        
+-
 +
      notify = DirectNotifyGlobal.directNotify.newCategory("NameShop")
--    
+-
 +    #notify.setDebug(True)
 +
      def __init__(self, parentFSM, doneEvent, avList, index, isPaid):
@@ -5053,7 +5053,7 @@
          self.avId = -1
          # test
          self.avExists = 0
--                
+-
 +
          # names is a list of the toon's name, wantName, approvedName, and
          # rejectedName
@@ -5062,22 +5062,22 @@
          self.titleActive = 0
          self.firstActive = 0
          self.lastActive = 0
--        
+-
 +
          self.quickFind = 0
          self.listsLoaded = 0
          self.addedGenderSpecific = 0
 @@ -88,12 +90,12 @@
- 
+
          self.pickANameGUIElements = []
          self.typeANameGUIElements = []
--        
+-
 +
          self.textRolloverColor = Vec4(1,1,0,1)
          self.textDownColor = Vec4(0.5,0.9,1,1)
          self.textDisabledColor = Vec4(0.4,0.8,0.4,1)
- 
--        
+
+-
 +
          # Add an fsm to NameShop to handle PayState, PickAName, TypeAName,
          #   NameAccepted, NameRejected, and ToonCouncil
@@ -5086,11 +5086,11 @@
                             # Final state
                             'Done',
                             )
--        
+-
 +
          self.parentFSM = parentFSM
          self.parentFSM.getStateNamed('NameShop').addChild(self.fsm)
- 
+
 @@ -161,14 +163,14 @@
              state = 'normal',
              relief = None,
@@ -5103,7 +5103,7 @@
              )
          df.bind(B1PRESS, lambda x, df = df: self.nameClickedOn(listName, index))
          return df
--    
+-
 +
      def nameClickedOn(self, listType, index):
          """If a name in one of the scrolled lists is clicked on,
@@ -5112,7 +5112,7 @@
              for g in self.avList:
                  if g.position == self.index:
                      self.avId = g.id
--            
+-
 +
          if toon == None:
              return None
@@ -5121,7 +5121,7 @@
          if (not self.addedGenderSpecific) or self.oldBoy != self.boy:
              self.oldBoy = self.boy
              self.listsLoaded = 0
--           
+-
 +
              # Fill titleScrollList
              self.allTitles = [" "] + [" "] + self.nameGen.boyTitles*self.boy + \
@@ -5129,7 +5129,7 @@
                               self.nameGen.neutralTitles
              self.allTitles.sort()
              self.allTitles += [" "] + [" "]
--            
+-
 +
              # Fill firstnameScrollList
              self.allFirsts = [" "] + [" "] + self.nameGen.boyFirsts*self.boy + \
@@ -5138,7 +5138,7 @@
                  self.allFirsts[k] = "von"
              except:
                  print "NameShop: Couldn't find von"
--                
+-
 +
              self.pickANameGUIElements.remove(self.titleScrollList)
              self.pickANameGUIElements.remove(self.firstnameScrollList)
@@ -5147,25 +5147,25 @@
              self.firstHigh = self.makeHighlight((-0.310367, 0.0, 0.122967))
              self.pickANameGUIElements.append(self.titleHigh)
              self.pickANameGUIElements.append(self.firstHigh)
--            
+-
 +
              panel = nameShopGui.find("**/namePanel")
              self.namePanel = DirectFrame(
                  parent = aspect2d,
 @@ -315,7 +317,7 @@
- 
+
              nameShopGui.removeNode()
              # If you're doing this you'd better make the highlights
--            # again so they're on top            
+-            # again so they're on top
 +            # again so they're on top
              self.listsLoaded = 1
              self.addedGenderSpecific = 1
              self.__randomName()
 @@ -339,7 +341,7 @@
- 
+
      def __overflowNameInput(self):
          self.rejectName(TTLocalizer.NameTooLong)
--        
+-
 +
      def exit(self):
          """exit(self)
@@ -5174,25 +5174,25 @@
          self.notify.debug('exit')
          if self.isLoaded == 0:
              return None
--        
+-
 +
          self.ignore("next")
--        self.ignore("last")        
+-        self.ignore("last")
 +        self.ignore("last")
- 
+
          self.hideAll()
          return None
 @@ -394,12 +396,12 @@
                      self.nameFlags[1] = 1
                  if self.lastActive:
                      newname += " "
--                    
+-
 +
              else:
                  self.firstHigh.hide()
                  self.stealth(self.firstnameScrollList)
                  self.nameIndices[1] = -1
--              
+-
 +
              if self.lastActive:
                  self.showList(self.lastprefixScrollList)
@@ -5201,14 +5201,14 @@
              itemFrame_scale = 1.0,
              itemFrame_relief = RAISED,
              itemFrame_frameSize = (-0.05,0.48,-0.5,0.1),
--            itemFrame_frameColor = mcolor,  
+-            itemFrame_frameColor = mcolor,
 +            itemFrame_frameColor = mcolor,
              itemFrame_borderWidth = (0.01, 0.01),
              numItemsVisible = 5,
 +            forceHeight = TTLocalizer.NSdirectScrolleList,
              )
          return ds
- 
+
 @@ -499,7 +503,7 @@
              pos = npos,
              text = ntex,
@@ -5222,13 +5222,13 @@
              relief = 'flat',
              scale = (.552,0,.11),
              state = 'disabled',
--            frameSize = (-0.05,0.48,-0.5,0.1), 
+-            frameSize = (-0.05,0.48,-0.5,0.1),
 +            frameSize = (-0.05,0.48,-0.5,0.1),
              borderWidth = (0.01, 0.01),
              pos = npos,
              frameColor = (1,0,1,.4),
              )
--    
+-
 +
      def titleToggle(self, value):
          """ Toggles titleCheck
@@ -5237,7 +5237,7 @@
          self.firstCheck.setIndicatorValue()
          self.lastCheck['indicatorValue'] = self.lastActive
          self.lastCheck.setIndicatorValue()
--        
+-
 +
      def load(self):
          """load(self)
@@ -5246,7 +5246,7 @@
          nameBalloon = loader.loadModel(
              "phase_3/models/props/chatbox_input")
          guiButton = loader.loadModelOnce("phase_3/models/gui/quit_button")
--      
+-
 +
          gui = loader.loadModelOnce("phase_3/models/gui/nameshop_gui")
          #### GUI Elements for TypeAName ####
@@ -5264,8 +5264,8 @@
              text_pos = (0, -0.02),
              command = self.__typedAName,
              )
--        self.typeANameGUIElements.append(self.submitButton) 
--        
+-        self.typeANameGUIElements.append(self.submitButton)
+-
 +        self.typeANameGUIElements.append(self.submitButton)
 +
          #### GUI Elements for PickAName ####
@@ -5281,14 +5281,14 @@
 +            text_pos = (0, TTLocalizer.NStypeANameButton_pos),
              command = self.__typeAName,
              )
- 
+
 -        if base.cr.productName == "Terra-DMC":
 -            # No type-a-name for DMC Terra (Spain)
 +        if base.cr.productName in ['ES', 'DE', 'BR']:
 +            # No type-a-name for ES (Spain), DE (German) and BR (Brazil)
              self.typeANameButton.hide()
          self.pickANameGUIElements.append(self.typeANameButton)
- 
+
 @@ -688,7 +692,7 @@
          self.nameResult = DirectLabel(
              parent = aspect2d,
@@ -5302,8 +5302,8 @@
          self.allSuffixes.sort()
          self.allPrefixes = [" "] + [" "] + self.allPrefixes + [" "] + [" "]
          self.allSuffixes = [" "] + [" "] + self.allSuffixes + [" "] + [" "]
--        
--       
+-
+-
 +
 +
          # Create 4 scrolled lists with different colors
@@ -5313,9 +5313,9 @@
          gui.removeNode()
          self.pickANameGUIElements.append(self.lastprefixScrollList)
          self.pickANameGUIElements.append(self.lastsuffixScrollList)
--        self.pickANameGUIElements.append(self.titleScrollList)        
--        self.pickANameGUIElements.append(self.firstnameScrollList)        
--        
+-        self.pickANameGUIElements.append(self.titleScrollList)
+-        self.pickANameGUIElements.append(self.firstnameScrollList)
+-
 +        self.pickANameGUIElements.append(self.titleScrollList)
 +        self.pickANameGUIElements.append(self.firstnameScrollList)
 +
@@ -5326,16 +5326,16 @@
          self.suffixHigh = self.makeHighlight((0.44, 0.0, 0.122967))
          self.pickANameGUIElements.append(self.prefixHigh)
          self.pickANameGUIElements.append(self.suffixHigh)
--        
+-
 +
          nameBalloon.removeNode()
- 
+
          ### GUI elements for PayState ###
 @@ -749,7 +753,7 @@
          buttonImage = [imageList, imageList]
          buttonText = [TTLocalizer.NameShopPay,
                        TTLocalizer.NameShopPlay]
--        
+-
 +
          self.payDialog = DirectDialog(dialogName = "paystate",
                                        topPad = 0,
@@ -5344,11 +5344,11 @@
          self.payDialog.buttonList[0]['text_pos'] = (0,-.02)
          self.payDialog.buttonList[1]['text_pos'] = (0,-.02)
          self.payDialog.hide()
--        
+-
 +
          buttonText = [TTLocalizer.NameShopContinueSubmission,
                        TTLocalizer.NameShopChooseAnother]
--        
+-
 +
          self.approvalDialog = DirectDialog(dialogName = "approvalstate",
                                        topPad = 0,
@@ -5357,18 +5357,18 @@
              self.approvalDialog.buttonList[x]['text_pos'] = (0,-.01)
              self.approvalDialog.buttonList[x]['text_scale'] = (.04,.05999)
              self.approvalDialog.buttonList[x].setScale(1.2,1,1)
--        
+-
 +
          self.approvalDialog.hide()
          guiButton.removeNode()
- 
+
          self.uberhide(self.typeANameGUIElements)
          self.uberhide(self.pickANameGUIElements)
--        
+-
 +
          self.isLoaded = 1
          return None
- 
+
      def ubershow(self, guiObjectsToShow):
 +        #self.notify.debug("ubershow %s" % str(guiObjectsToShow))
          for x in guiObjectsToShow:
@@ -5376,18 +5376,18 @@
                  x.show()
              except:
                  print "NameShop: Tried to show already removed object"
- 
+
 -        if base.cr.productName == "Terra-DMC":
 -            # No type-a-name for DMC Terra (Spain)
 +        if base.cr.productName in ['ES', 'DE', 'BR']:
 +            # No type-a-name for ES (Spain), DE (German) and BR (Brazil)
              self.typeANameButton.hide()
- 
+
 -
      def hideAll(self):
          self.uberhide(self.pickANameGUIElements)
          self.uberhide(self.typeANameGUIElements)
--        
+-
 +
      def uberhide(self, guiObjectsToHide):
 +        #self.notify.debug("uberhide %s" % str(guiObjectsToHide))
@@ -5396,7 +5396,7 @@
                  x.hide()
              except:
                  print "NameShop: Tried to hide already removed object"
--                
+-
 +
      def uberdestroy(self, guiObjectsToDestroy):
 +        #self.notify.debug("uberdestroy %s" % str(guiObjectsToDestroy))
@@ -5407,49 +5407,49 @@
          """getNameFlags(self)
          """
          return self.nameFlags
--    
+-
 +
      def getNameAction(self):
          """getNameAction(self)
          """
          return self.nameAction
--    
+-
 +
      def unload(self):
          """unload(self)
          """
 @@ -862,7 +868,7 @@
- 
+
          self.uberdestroy(self.pickANameGUIElements)
          self.uberdestroy(self.typeANameGUIElements)
--        
+-
 +
          del self.toon
- 
+
          self.payDialog.cleanup()
 @@ -873,7 +879,7 @@
          self.parentFSM.getStateNamed('NameShop').removeChild(self.fsm)
          del self.parentFSM
          del self.fsm
--        
+-
 +
          self.ignoreAll()
          self.isLoaded = 0
          return None
 @@ -895,7 +901,7 @@
- 
+
          # name has passed local checks
          return None
--    
+-
 +
      # event handlers
- 
+
      def setShopsVisited(self, list):
 @@ -910,7 +916,7 @@
- 
+
      def __handleChastised(self):
          self.chastiseDialog.cleanup()
--            
+-
 +
      def __createAvatar(self, *args):
          """__createAvatar(self)
@@ -5458,7 +5458,7 @@
          if self.fsm.getCurrentState().getName() == 'TypeAName':
              self.__typedAName()
              return
--        
+-
 +
          if not self.avExists:
              self.serverCreateAvatar()
@@ -5467,7 +5467,7 @@
                  # No empty names
                  self.rejectName(TTLocalizer.EmptyNameError)
              elif self.avId == 'deleteMe':
--                self.serverCreateAvatar()   
+-                self.serverCreateAvatar()
 +                self.serverCreateAvatar()
              else:
                  rejectReason = self.nameIsValid(self.names[0])
@@ -5475,7 +5475,7 @@
                      self.rejectName(rejectReason)
                  else:
                      self.checkNamePattern()
--                    
+-
 +
      def acceptName(self):
          self.notify.debug('acceptName')
@@ -5484,7 +5484,7 @@
          # Send our done event
          self.doneStatus = "done"
          messenger.send(self.doneEvent)
--        
+-
 +
      def rejectName(self, str):
          self.notify.debug('rejectName')
@@ -5495,17 +5495,17 @@
          self.nameEntry['focus'] = 1
 +        self.typeANameButton.show()
          # enable the done button again
--        self.acceptOnce("next", self.__createAvatar)        
+-        self.acceptOnce("next", self.__createAvatar)
 +        self.acceptOnce("next", self.__createAvatar)
- 
+
      def restoreIndexes(self, oi):
          self.titleIndex = oi[0]
 @@ -978,8 +985,8 @@
          listToDo.show()
          listToDo.decButton['state'] = 'normal'
          listToDo.incButton['state'] = 'normal'
--        
--        
+-
+-
 +
 +
      def updateLists(self):
@@ -5515,7 +5515,7 @@
          self.restoreIndexes(oldindex)
          self.lastsuffixScrollList.scrollTo(self.suffixIndex-2)
          self.restoreIndexes(oldindex)
--        
+-
 +
      def __randomName(self):
 +        #self.notify.debug("Finding random name")
@@ -5526,7 +5526,7 @@
          # is titleFlag)
          if uberReturn[0]:
              self.titleActive = 1
--            
+-
 +
          # If a first name is used (the second item in returned list
          # is firstFlag)
@@ -5535,7 +5535,7 @@
          except:
              print "NameShop : Should have found first name, uh oh!"
              print uberReturn
--            
+-
 +
          # If there was a last name used (you get it...)
          try:
@@ -5544,19 +5544,19 @@
          except:
              print "NameShop : Some part of last name not found, uh oh!"
              print uberReturn
--            
+-
 +
          self.updateCheckBoxes()
          self.updateLists()
- 
+
 @@ -1066,13 +1074,16 @@
- 
+
      def findTempName(self):
          colorstring = TTLocalizer.NumToColor[self.toon.style.headColor]
 -	animaltype = TTLocalizer.AnimalToSpecies[self.toon.style.getAnimal()]
 +        animaltype = TTLocalizer.AnimalToSpecies[self.toon.style.getAnimal()]
          tempname = colorstring + " " + \
--                   animaltype 
+-                   animaltype
 +                   animaltype
 +        if not TTLocalizer.NScolorPrecede:
 +            tempname = animaltype + " " + \
@@ -5564,16 +5564,16 @@
          self.names[0] = tempname
          tempname = '"' + tempname + '"'
          return tempname
--        
+-
 +
      # Specific State functions
      ##### Init state #####
      def enterInit(self):
 @@ -1080,7 +1091,7 @@
- 
+
      def exitInit(self):
          pass
--    
+-
 +
      ##### PayState State #####
      def enterPayState(self):
@@ -5582,16 +5582,16 @@
              tempname = self.findTempName()
              self.payDialog['text'] = TTLocalizer.NameShopOnlyPaid + tempname
              self.payDialog.show()
--            
+-
 +
      def exitPayState(self):
          pass
- 
+
 @@ -1125,7 +1136,7 @@
          self.typeANameButton.show()
          self.nameEntry.set("")
          self.nameEntry['focus'] = 1
--    
+-
 +
      def __typeAName(self):
          if base.restrictTrialers:
@@ -5600,30 +5600,30 @@
          if problem:
              self.rejectName(problem)
              return
--        
+-
 +
          if not self.avExists:
              self.nameAction = 2
              self.serverCreateAvatar()
 @@ -1164,6 +1175,9 @@
              self.checkNameTyped()
- 
+
      def exitTypeANameState(self):
 +        #fix type a name button shifting
 +        self.typeANameButton.wrtReparentTo(self.namePanel)
 +        #self.printTypeANameInfo("after reparent to self.namePanel")
          self.uberhide(self.typeANameGUIElements)
- 
+
      ##### Approval state #####
 @@ -1198,10 +1212,10 @@
                  datagram.addUint32(self.avId)
                  datagram.addUint8(0)
                  messenger.send("nameShopPost", [datagram])
--                
+-
 +
              self.typeANameButton['text'] = TTLocalizer.TypeANameButton
              self.fsm.request("PickAName")
--    
+-
 +
      def sendDeleteAvatarMsgCancelStyle(self, avId):
          # Delete the avatar
@@ -5632,11 +5632,11 @@
          # Send the message
          messenger.send("nameShopPost", [datagram])
          return None
--        
+-
 +
      def exitApprovalState(self):
          pass
--    
+-
 +
      ##### Accepted state #####
      def enterAcceptedState(self):
@@ -5645,41 +5645,41 @@
          # Everything is cool, send our done event
          self.doneStatus = "done"
          messenger.send(self.doneEvent)
--        
+-
 +
      def exitAcceptedState(self):
          pass
- 
+
 @@ -1251,7 +1265,7 @@
- 
+
      def exitRejectedState(self):
          pass
--    
+-
 +
      ##### Done state #####
- 
+
      def enterDone(self):
 @@ -1292,20 +1306,20 @@
          datagram.addUint16(self.nameIndices[2])
          datagram.addUint16(self.nameFlags[2])
          datagram.addUint16(self.nameIndices[3])
--        datagram.addUint16(self.nameFlags[3])      
+-        datagram.addUint16(self.nameFlags[3])
 +        datagram.addUint16(self.nameFlags[3])
          # Have TCR Send the message because it has a server open
          messenger.send("nameShopPost", [datagram])
--    
+-
 +
          # let the user know we are waiting to hear back
          self.waitForServer()
--        
+-
 +
- 
+
      def handleSetNamePatternAnswerMsg(self, di):
          self.notify.debug('handleSetNamePatternAnswerMsg')
- 
+
          # remove the wait msg
          self.cleanupWaitForServer()
--        
+-
 +
          # Get return code
          newavId = di.getUint32()
@@ -5688,16 +5688,16 @@
              # name creation was rejected by server
              self.notify.debug("name pattern rejected")
              self.rejectName(TTLocalizer.NameError)
--            
+-
 +
          return None
- 
- 
+
+
 @@ -1360,7 +1374,7 @@
- 
+
          # remove the wait msg
          self.cleanupWaitForServer()
--        
+-
 +
          # Get return code
          newavId = di.getUint32()
@@ -5706,7 +5706,7 @@
              self.notify.debug("doid's don't match up!")
              self.rejectName(TTLocalizer.NameError)
              pass
--        
+-
 +
          returnCode = di.getUint16()
          if returnCode == 0:
@@ -5715,7 +5715,7 @@
                                                             0)
                  self.avList.append(newPotAv)
                  self.fsm.request("Accepted")
--                
+-
 +
              elif wishname != "":
                  style = self.toon.getStyle()
@@ -5724,16 +5724,16 @@
              # name creation was rejected by server
              self.notify.debug("name typed rejected")
              self.rejectName(TTLocalizer.NameError)
--            
+-
 +
          return None
- 
- 
+
+
 @@ -1446,7 +1460,7 @@
                                                             self.index,
                                                             1)
                  self.avList.append(newPotAv)
--                        
+-
 +
                  # Send our done event
                  self.doneStatus = "done"
@@ -5742,7 +5742,7 @@
                  self.notify.debug("avatar invalid nameAction")
                  self.rejectName(TTLocalizer.NameError)
          else:
--            
+-
 +
              # create was rejected by server
              self.notify.debug("avatar rejected")
@@ -5751,12 +5751,12 @@
 +++ src/minigame/DistributedCannonGame.py	28 Mar 2006 07:27:02 -0000	1.107.6.4
 @@ -74,7 +73,6 @@
  class DistributedCannonGame(DistributedMinigame):
- 
+
      notify = DirectNotifyGlobal.directNotify.newCategory("DistributedMinigame")
 -    notify.setDebug(1)
- 
+
      font = ToontownGlobals.getToonFont()
- 
+
 @@ -250,7 +248,7 @@
              text_scale = 0.2,
              text_fg = (0.95, 0.95, 0, 1),
@@ -5769,13 +5769,13 @@
 --- src/minigame/DistributedCatchGame.py	1 Jun 2004 19:32:17 -0000	1.118
 +++ src/minigame/DistributedCatchGame.py	11 Nov 2005 21:17:33 -0000	1.118.6.3
 @@ -199,7 +199,7 @@
- 
+
          # this will be used to generate textnodes
          self.__textGen = TextNode("ringGame")
 -        self.__textGen.setFont(ToontownGlobals.getSignFont())
 +        self.__textGen.setFont(ToontownGlobals.getBuildingNametagFont())
          self.__textGen.setAlign(TextNode.ACenter)
- 
+
          self.introMovie = self.getIntroMovie()
 --- src/minigame/DistributedPatternGame.py	1 Jun 2004 19:32:18 -0000	1.117
 +++ src/minigame/DistributedPatternGame.py	11 Nov 2005 21:17:33 -0000	1.117.6.3
@@ -5787,7 +5787,7 @@
 +            text_font = ToontownGlobals.getBuildingNametagFont(),
              pos = (0,0,-.78),
              scale = .12)
-                 
+
 @@ -165,7 +165,7 @@
              text = self.strRound % 1,
              text_fg = self.normalTextColor,
@@ -5796,7 +5796,7 @@
 +            text_font = ToontownGlobals.getBuildingNametagFont(),
              pos = (0.014, 0, -.84),
              scale = .12)
-         
+
 --- src/minigame/DistributedRaceGame.py	1 Jun 2004 19:32:18 -0000	1.84
 +++ src/minigame/DistributedRaceGame.py	11 Nov 2005 21:17:33 -0000	1.84.6.3
 @@ -209,7 +209,7 @@
@@ -5811,13 +5811,13 @@
 --- src/minigame/DistributedRingGame.py	9 Nov 2004 23:07:36 -0000	1.135
 +++ src/minigame/DistributedRingGame.py	11 Nov 2005 21:17:33 -0000	1.135.4.3
 @@ -175,7 +175,7 @@
- 
+
          # this will be used to generate textnodes
          self.__textGen = TextNode("ringGame")
 -        self.__textGen.setFont(ToontownGlobals.getSignFont())
 +        self.__textGen.setFont(ToontownGlobals.getBuildingNametagFont())
          self.__textGen.setAlign(TextNode.ACenter)
- 
+
      def unload(self):
 @@ -476,7 +476,7 @@
      def __initTallyDisplay(self):
@@ -5826,7 +5826,7 @@
 -        self.__tallyTextNode.setFont(ToontownGlobals.getSignFont())
 +        self.__tallyTextNode.setFont(ToontownGlobals.getBuildingNametagFont())
          self.__tallyTextNode.setAlign(TextNode.ACenter)
- 
+
          self.tallyMarkers = [None] * self.__numRingGroups
 --- src/minigame/DistributedTagGame.py	9 Sep 2004 00:29:39 -0000	1.79
 +++ src/minigame/DistributedTagGame.py	11 Nov 2005 21:17:33 -0000	1.79.6.3
@@ -5849,7 +5849,7 @@
 +            text_font = ToontownGlobals.getBuildingNametagFont(),
              pos = (0.014, 0, -.84),
              scale = .2)
-        
+
 --- src/minigame/MinigameAvatarScorePanel.py	1 Jun 2004 19:32:18 -0000	1.11
 +++ src/minigame/MinigameAvatarScorePanel.py	20 Jan 2005 02:33:21 -0000	1.11.6.1
 @@ -30,7 +30,7 @@
@@ -5859,7 +5859,7 @@
 -                                     text_scale = 0.1,
 +                                     text_scale = TTLocalizer.MASPscoreText,
                                       pos = (0.1, 0.0, -0.09))
- 
+
          if self.avatar:
 @@ -50,7 +50,7 @@
          self.nameText = DirectLabel(self,
@@ -5879,7 +5879,7 @@
 -                                     text_scale = 0.07,
 +                                     text_scale = TTLocalizer.MPMpowerText,
                                       pos = (0.01, 0.0, .29))
- 
+
          # make labels for when keys are being hit too slow or too fast
 @@ -39,7 +39,7 @@
              parent = self,
@@ -5958,15 +5958,15 @@
 +            text_scale = TTLocalizer.PBstatusLabel,
              text_fg = (0.05, 0.14, 0.4, 1),
              )
-         
+
 --- src/pets/DistributedPetAI.py	6 Nov 2004 00:53:58 -0000	1.135
 +++ src/pets/DistributedPetAI.py	13 Oct 2004 01:38:45 -0000	1.133
 @@ -88,7 +88,7 @@
          self.__generateDistMoodFuncs()
- 
+
          self.busy = 0
 -
-+        
++
          # to set walking speed, etc.
          self.gaitFSM = ClassicFSM.ClassicFSM(
              'petGaitFSM',
@@ -5974,16 +5974,16 @@
 +++ src/pets/PetAvatarPanel.py	28 Mar 2006 07:27:37 -0000	1.37.2.4
 @@ -23,7 +23,6 @@
      """
- 
+
      notify = directNotify.newCategory("PetAvatarPanel")
 -    notify.setDebug(True)
- 
+
      def __init__(self, avatar):
          """__init__(self)"""
 @@ -46,7 +45,7 @@
- 
+
          base.panel = self
- 
+
 -        gui = loader.loadModelOnce("phase_4/models/gui/PetControlPannel")
 +        gui = loader.loadModelOnce("phase_3.5/models/gui/PetControlPannel")
          guiScale = 0.116
@@ -6041,7 +6041,7 @@
 +                text_wordwrap = TTLocalizer.PAPstateLabelwordwrap,
                  text_shadow = (1, 1, 1, 1),
                  )
-         
+
 --- src/pets/PetTutorial.py	2 Sep 2004 23:59:18 -0000	1.1
 +++ src/pets/PetTutorial.py	1 May 2008 22:29:25 -0000	1.1.6.4
 @@ -33,7 +33,7 @@
@@ -6054,7 +6054,7 @@
                                   #text_shadow = (1, 1, 1, 1),
                                   )
 @@ -116,8 +116,10 @@
- 
+
      def enterPage1(self, *args):
          self.title['text'] = TTLocalizer.PetTutorialTitle1,
 +        self.title['text_scale'] = TTLocalizer.PTtitleScale1
@@ -6066,7 +6066,7 @@
          self.bPrev['state'] = DISABLED
          self.iPage1.show()
 @@ -128,8 +130,10 @@
- 
+
      def enterPage2(self, *args):
          self.title['text'] = TTLocalizer.PetTutorialTitle2,
 +        self.title['text_scale'] = TTLocalizer.PTtitleScale2
@@ -6076,9 +6076,9 @@
 +        self['text_align'] = TTLocalizer.getPetGuiAlign()
          self['text_wordwrap'] = 13.5
          self.iPage2.show()
- 
+
 @@ -138,8 +142,10 @@
- 
+
      def enterPage3(self, *args):
          self.title['text'] = TTLocalizer.PetTutorialTitle3,
 +        self.title['text_scale'] = TTLocalizer.PTtitleScale3
@@ -6095,12 +6095,12 @@
          messenger.send(self.doneEvent)
 -
 -
--        
+-
 --- src/pets/PetshopGUI.py	26 Aug 2004 00:34:57 -0000	1.19
 +++ src/pets/PetshopGUI.py	30 Sep 2005 22:15:59 -0000	1.19.6.5
 @@ -38,7 +38,6 @@
          notify = DirectNotifyGlobal.directNotify.newCategory("GoHomeDlg")
- 
+
          def __init__(self, doneEvent):
 -
              # initialize our base class.
@@ -6110,7 +6110,7 @@
                                       pos = (-0.15, 0.0, -0.1),
                                       command = (lambda: messenger.send(doneEvent, [1])),
                                       )
-- 
+-
 +
              self.bNo = DirectButton(self,
                                      image = (buttons.find('**/CloseBtn_UP'),
@@ -6141,10 +6141,10 @@
                  geom = cancelIcon,
                  scale = modelScale,
                  pressEffect = False,
--                command = ( lambda: messenger.send(doneEvent, [-1]) ), 
-+                command = (lambda: messenger.send(doneEvent, [-1])), 
+-                command = ( lambda: messenger.send(doneEvent, [-1]) ),
++                command = (lambda: messenger.send(doneEvent, [-1])),
                  )
- 
+
              # Start with a Random Name
 @@ -230,7 +231,7 @@
          def rebuildNameList(self):
@@ -6153,19 +6153,19 @@
 -                if name[0] == self.curLetter:
 +                if name[0:TTLocalizer.PGUIcharLength] == self.curLetter:
                      self.curNames += [name]
- 
+
              if self.nameList:
 @@ -245,7 +246,7 @@
                  )
-             
+
          def updateNameText(self):
 -                self.nameResult['text'] = self.curName
 +            self.nameResult['text'] = self.curName
-             
+
          def nameClickedOn(self, listType, index):
              """If a name in one of the scrolled lists is clicked on,
 @@ -334,7 +335,7 @@
- 
+
              numNames = len(self.allNames)
              self.curName = self.allNames[random.randrange(numNames)]
 -            self.curLetter = self.curName[0]
@@ -6176,10 +6176,10 @@
 @@ -356,7 +357,7 @@
                                   )
              self.initialiseoptions(PetshopGUI.MainMenuDlg)
-             
+
 -            textScale = 1
 +            textScale =  TTLocalizer.PGUItextScale
- 
+
              # Init buttons
              sellFishImageList = (model.find('**/SellButtonUp'),
 @@ -385,7 +386,7 @@
@@ -6190,7 +6190,7 @@
 +                text_pos = TTLocalizer.PGUIpetshopCancelPos,
                  text_scale = 0.8,
                  pressEffect = False,
-                 command = ( lambda: messenger.send(doneEvent, [0]) ), 
+                 command = ( lambda: messenger.send(doneEvent, [0]) ),
 @@ -557,7 +558,7 @@
                                       pos = modelPos,
                                       text = TTLocalizer.PetshopReturnConfirm % avatar.getName(),
@@ -6229,14 +6229,14 @@
 +                text_wordwrap = TTLocalizer.PGUIwordwrap,
 +                text_scale = TTLocalizer.PGUIdescLabel,
                  )
- 
+
              if self.petCost[self.curPet] > base.localAvatar.getTotalMoney():
 --- src/publish/AIcopyfiles	4 Jun 2004 01:24:13 -0000	1.3
 +++ src/publish/AIcopyfiles	14 Feb 2007 09:40:42 -0000	1.5
 @@ -29,9 +29,31 @@
  	srcDir=`dirname ${moduleDir}`
          packageDir=`dirname ${srcDir}`
- 
+
 -        moduleDir=`basename ${moduleDir}`
 -        srcDir=`basename ${srcDir}`
 -        packageDir=`basename ${packageDir}`
@@ -6253,7 +6253,7 @@
 +        else
 +
 +             # subdir exists, need to use extra variable and
-+             # create new moduleDir 
++             # create new moduleDir
 +
 +             moduleSubDir=${moduleDir}
 +             moduleDir=`dirname ${moduleSubDir}`
@@ -6265,7 +6265,7 @@
 +             packageDir=`basename ${packageDir}`
 +        fi
 +
-         
+
          if [ `basename ${file} .py` != `basename ${file}` ]; then
              # The file is a Python file.  Is it in a src directory?
 --- src/publish/AIprintfiles-unix-installed	12 Aug 2004 01:55:33 -0000	1.24
@@ -6275,12 +6275,12 @@
  echo toontown/src/configfiles/download.par
  echo toontown/src/configfiles/PetNameMasterEnglish.txt
 +echo toontown/src/configfiles/PetNameMaster_${LANGUAGE}.txt
- 
+
  # Generated code for libpanda
  AIprintlib $INSTALL/lib/pandac libpanda
 @@ -132,6 +132,7 @@
  AIprintdir otp/src/uberdog .py
- 
+
  AIprintdir toontown/src/ai .py
 +AIprintdir toontown/src/ai/$LANGUAGE .py
  AIprintdir toontown/src/avatar .py
@@ -6293,19 +6293,19 @@
 +AIprintdir toontown/src/toonbase/$LANGUAGE .py
  AIprintdir toontown/src/toontowngui .py
  AIprintdir toontown/src/tutorial .py
- 
+
 --- src/publish/Scrubber.py	11 Aug 2004 01:23:22 -0000	1.81
 +++ src/publish/Scrubber.py	20 May 2008 03:10:33 -0000	1.84.8.3
 @@ -241,6 +241,7 @@
          self.contentDir = Filename(self.installDir, Filename('content/'))
- 
+
          self.phase2 = re.compile('phase_2.mf')
 +        self.Installer = 'InstallLauncher.exe'
- 
+
          if command == 'scrub':
              self.doScrubCommand()
 @@ -371,10 +385,10 @@
- 
+
          # The filelist is a developer maintained text file listing all the files
          # to publish, in each phase.
 -        self.filelistPath = Filename.expandFrom('$TOONTOWN/src/publish/filelist')
@@ -6315,7 +6315,7 @@
 +        self.filelist = open(filelistPath.toOsSpecific())
          self.lines = self.filelist.readlines()
 +        self.filelist.close()
- 
+
          # Initialize some placeholder variables
          self.currentMfname = None
 @@ -611,7 +625,7 @@
@@ -6329,7 +6329,7 @@
              if (self.phase2.search(sourceFilename.cStr()) == None):
 @@ -695,11 +709,16 @@
          basename = sourceFilename.getBasenameWoExtension()
-         
+
          if len(lineList) > 2 and lineList[2]:
 -            moduleName = '%s.%s' % (lineList[2], basename)
 +            moduleName = '%s.%s' % (Filename.expandFrom(lineList[2]).cStr(), basename)
@@ -6341,16 +6341,16 @@
 +            self.currentPyList.append((sourceFilename.toOsSpecific(), moduleName))
 +        else:
 +            self.notify.info("warn: %s does not exist!" % (sourceFilename.cStr()))
-             
+
 -        self.currentPyList.append((sourceFilename.toOsSpecific(), moduleName))
- 
+
      def parseFile(self, lineList):
          extractFlag = int(lineList[1])
 @@ -705,7 +706,7 @@
      def parseSqueeze(self, lineList):
          sourceFilename = Filename.expandFrom(lineList[1])
          basename = sourceFilename.getBasenameWoExtension()
--        
+-
 +
          if len(lineList) > 2 and lineList[2]:
              moduleName = '%s.%s' % (Filename.expandFrom(lineList[2]).cStr(), basename)
@@ -6366,36 +6366,36 @@
 +                py_compile.compile(pyfile.toOsSpecific(),
 +                                   sourceFilename.toOsSpecific(),
 +                                   sourceFilename.getBasename())
- 
+
          # The relative path where we want to put this file
          dir = Filename.expandFrom(lineList[3])
 @@ -753,8 +773,9 @@
              compressLevel = 6
- 
+
          # Add the actual file contents to the actual multifile
 -        self.currentMfile.addSubfile(relInstallFilename.getFullpath(),
 -                                     sourceFilename, compressLevel)
 +        if self.currentMfile.addSubfile(relInstallFilename.getFullpath(),
 +                sourceFilename, compressLevel) == "":
 +          self.notify.info("warn: %s does not exist!" % (sourceFilename.cStr()))
- 
+
          # Should we extract this file individually?
          if extractFlag >= 1:
 @@ -799,10 +820,15 @@
          # No need to write the list of hashes for that file, because launcherFileDb.ddb is now
          # copied to the download directory.
- 
+
 -        self.notify.info('------just creating a InstallLauncher.exe entry in launcherFileDb')
 -        self.launcherFile.write('InstallLauncher.exe' + '\n')
 +        self.notify.info('Just creating a '+self.Installer+' entry in launcherFileDb')
 +        self.launcherFile.write(self.Installer + '\n')
- 
+
      def parseDirCallback(self, args, dirname, filenames):
 +        dirnameBase = os.path.split(dirname)[1]
 +        if dirnameBase == 'CVS':
 +            # Ignore CVS directories.
 +            return
-+        
++
          # Parse out the args
          installDir, extractFlag = args
          for filename in filenames:
@@ -6409,8 +6409,8 @@
              self.copyFile(newFilename, installName)
              # copy the patch to publish directory
 @@ -1036,9 +1062,10 @@
- 
- 
+
+
      def copyFile(self, fromFilename, toFilename):
 -        self.notify.debug('Copying %s to %s' % (fromFilename.cStr(), toFilename.cStr()))
 -        shutil.copy(fromFilename.toOsSpecific(), toFilename.toOsSpecific())
@@ -6419,7 +6419,7 @@
 +            self.notify.debug('Copying %s to %s' % (fromFilename.cStr(), toFilename.cStr()))
 +            shutil.copy(fromFilename.toOsSpecific(), toFilename.toOsSpecific())
 +            os.system('chmod 644 "%s"' % toFilename.toOsSpecific())
- 
+
      def moveFile(self, fromFilename, toFilename):
          self.notify.debug('Moving %s to %s' % (fromFilename.cStr(), toFilename.cStr()))
 @@ -1114,12 +1141,12 @@
@@ -6436,13 +6436,13 @@
 +            wiseInstallFile = Filename(self.persistDir, Filename('../'+self.Installer))
 +        oldInstallFile = Filename(self.persistDir, Filename(self.Installer))
 +        InstallFilename = Filename(self.installDir, Filename(self.Installer))
- 
+
          # write the InstallLauncher file name and its size to progress
          installSize = os.path.getsize(wiseInstallFile.toOsSpecific())
 @@ -1158,8 +1185,7 @@
              ddbLine = dbLauncherFile.readline()
              dbLauncherFile.close()
- 
+
 -            # in light of 6/15/2004 corrupt launcherFile.ddb,
 -            # lets do some sanity checking
 +            # lets do some sanity checking for corrupt launcherFile.ddb
@@ -6452,7 +6452,7 @@
 @@ -1175,16 +1201,18 @@
          # Lookup the line about InstallLauncher, prepend the new md5 at the list of md5's
          #self.notify.info('WiseScrubber: number of lines in launcherdb = ' + `len(lines)`)
- 
+
 -        for i in range (0, len(lines)):
 -            if (lines[i].find('InstallLauncher.exe') > -1):
 +        found_line = -1
@@ -6471,7 +6471,7 @@
 -                break;
 +                    ddbLine = ddbLine.replace(self.Installer, self.Installer + ' ' + md5.asDec())
 +                break
- 
+
          # open launcherFileDb.ddb for writing
          dbLauncherFilename = Filename(self.persistDir, Filename('launcherFileDb.ddb'))
 @@ -1209,9 +1237,9 @@
@@ -6488,7 +6488,7 @@
              # just copy the newly created InstallLauncher.exe to persist and install directory
 @@ -1231,4 +1259,3 @@
          newLauncherFile.close()
- 
+
  scrubber = Scrubber()
 -
 --- src/publish/buildAIcvsfiles	18 Aug 2004 04:05:47 -0000	1.5
@@ -6502,12 +6502,12 @@
  find . -name '.#*' -exec rm -f {} \;
 -cvs update -Pd || exit
 +cvs update -Pd $* || exit
- 
+
  # Then completely empty the CVS directory of ordinary files (leaving
  # the CVS stuff behind).
 -find . -name CVS -prune -o -type f -a \! -name '*.buildings' -exec rm -f {} \;
 +find . -name CVS -prune -o -type f -a \! -name '*.buildings' -a \! -name autorestart.fc4 -a \! -name badwordpy.so -exec rm -f {} \;
- 
+
  # There should be just the directory "CVS" (and "." and "..") remaining.
  #numfiles=`\ls -a | wc -l`
 @@ -29,3 +29,8 @@
@@ -6523,15 +6523,15 @@
 +++ src/publish/commitAIcvsfiles	24 May 2007 03:03:56 -0000	1.14
 @@ -22,10 +22,10 @@
  $CVS add `find . -name CVS -prune -o -type d -mindepth 1 -print` 2>&1 | $teenew
- 
+
  # CVS add the text files
 -$CVS add `find . -name '*.py' -o -name '*.dna' -o -name '*.dc' -o -name '*.par' -o -name Configrc` 2>&1 | $teeadd
 +$CVS add `find . -name '*.py' -o -name '*.dna' -o -name '*.dc' -o -name '*.par' -o -name *.prc` 2>&1 | $teeadd
- 
+
  # CVS add the binary files
 -$CVS add -kb *.so.* autorestart 2>&1 | $teeadd
 +$CVS add -kb *.so *.so.* autorestart autorestart.fc4 2>&1 | $teeadd
- 
+
  # CVS remove anything that's not there anymore.
  $CVS remove 2>&1 | $teeadd || exit
 --- src/publish/filelist	3 Dec 2004 02:09:09 -0000	1.302.2.1
@@ -6545,7 +6545,7 @@
 +squeeze $TOONTOWN/src/launcher/Launcher.py toontown.launcher
 +squeeze $TOONTOWN/src/toonbase/TTLocalizer.py toontown.toonbase
 +squeeze $TOONTOWN/src/launcher/win32shell.py
- 
+
  # NOTE: This should be conditional per language
 -squeeze $OTP/src/otpbase/OTPLocalizerEnglish.py otp.otpbase
 -squeeze $TOONTOWN/src/toonbase/TTLocalizer.py toontown.toonbase
@@ -6554,13 +6554,13 @@
 +squeeze $TOONTOWN/src/toonbase/TTLocalizerEnglishProperty.py toontown.toonbase
 +squeeze $TOONTOWN/src/toonbase/${LANGUAGE}/TTLocalizer.py toontown.toonbase.${LANGUAGE}
 +squeeze $TOONTOWN/src/toonbase/${LANGUAGE}/TTLocalizer_Property.py toontown.toonbase.${LANGUAGE}
- 
+
  finalize_squeeze 2 pyz/Phase2.pyz toplevel toontown.launcher.Launcher
- 
+
 @@ -116,15 +161,16 @@
- 
+
  file 2 $OTP/lib/libotp.dll .
- 
+
 -# MilesWin
 +# MilesWin 1_x_14_branch and up
  file 2 $WINTOOLS/sdk/rad/MilesWin/redist/mss32.dll .
@@ -6580,7 +6580,7 @@
 +
  file 2 $DIRECT/lib/libdirect.dll .
  file 2 $TOONTOWN/lib/libtoontown.dll .
- 
+
 @@ -333,7 +383,10 @@
  squeeze $OTP/src/otpbase/OTPBase.py otp.otpbase
  squeeze $OTP/src/otpbase/OTPGlobals.py otp.otpbase
@@ -6590,18 +6590,18 @@
  squeeze $OTP/src/otpbase/OTPLocalizerEnglish.py otp.otpbase
 +squeeze $OTP/src/otpbase/OTPLocalizerEnglishProperty.py otp.otpbase
  squeeze $OTP/src/otpbase/OTPTimer.py otp.otpbase
- 
+
  squeeze $OTP/src/otpgui/OTPDialog.py otp.otpgui
 @@ -657,9 +715,10 @@
  squeeze $TOONTOWN/src/makeatoon/NameShop.py toontown.makeatoon
- 
+
  # NOTE: This should be conditional per language
 -#file 0 $TOONTOWN/src/configfiles/NameMasterCastillian.txt phase_3/etc
  file 0 $TOONTOWN/src/configfiles/NameMasterEnglish.txt phase_3/etc
 +file 0 $TOONTOWN/src/configfiles/NameMaster_${LANGUAGE}.txt phase_3/etc
  file 0 $TOONTOWN/src/configfiles/PetNameMasterEnglish.txt phase_3/etc
 +file 0 $TOONTOWN/src/configfiles/PetNameMaster_${LANGUAGE}.txt phase_3/etc
- 
+
  squeeze $TOONTOWN/src/minigame/ArrowKeys.py toontown.minigame
  squeeze $TOONTOWN/src/minigame/BuildMazeData.py toontown.minigame
 --- src/publish/publish	30 Nov 2004 03:16:42 -0000	1.125
@@ -6610,13 +6610,13 @@
  # parentheses for each option (without using the parentheses).
  #
  # Usage:
--# 
+-#
 +#
  # publish [options]
--# 
+-#
 +#
  #   Options:
--# 
+-#
 +#
  #    -m mode
  #        Specifies the publish mode.  This should be one of "live",
@@ -6625,21 +6625,21 @@
  #        This ensures you are generating patches against the
  #        most-recently published version, eliminating intervening
  #        patches you might have generated during test publishes.
--# 
+-#
 +#
  #    -r tag
  #        Specifies a CVS tag to use to update all source trees (dtool,
  #        panda, direct, toontown).  If this is omitted, the trees are
  #        not updated prior to running the script.  Omitting this also
  #        implicitly omits the 'b' (build) step from -o.
--# 
+-#
 +#
  #    -s series
  #        Specifies the series on ttown to publish to; e.g. 1400, 2000,
  #        3000, etc.  If this is omitted, the publish is built in the
  #        staging directory C:\publish-web, but is not copied to ttown.
  #        If you specify series 1400, you must also specify -m live.
--# 
+-#
 +#
  #    -u username
  #        Specifies the username on ttown to use when copying the files
@@ -6648,13 +6648,13 @@
  #        Specifies the name of the temporary staging web directory
  #        that files are copied to in a ready-to-install state, before
  #        they are scp'ed to ttown.  The default is "C:\publish-web".
--# 
+-#
 +#
  #    -l language
  #        Specifies the language to publish in
  #        Default is "english"
--# 
--#    -d 
+-#
+-#    -d
 +#
 +#    -d
  #        If this is specified, a debug publish will be generated,
@@ -6663,27 +6663,27 @@
  #        your Config.pp settings and has nothing to do with this
  #        script.
  #
--#    -R  [CD version patch rollup number] 
--#    
+-#    -R  [CD version patch rollup number]
+-#
 +#    -R  [CD version patch rollup number]
 +#
  #    -B  Make one more build pass during publish to pick up any missed changes.
--# 
+-#
 +#
  #ENDCOMMENT
- 
+
  mode=test
 @@ -196,10 +196,10 @@
    activex_optimize=4
  fi
- 
--if [ -z "$PPREMAKE_PLATFORM" ]; then    
+
+-if [ -z "$PPREMAKE_PLATFORM" ]; then
 +if [ -z "$PPREMAKE_PLATFORM" ]; then
    PPREMAKE_PLATFORM="Cygwin"
    export PPREMAKE_PLATFORM
--fi 
+-fi
 +fi
- 
+
  # Determine the language to build in
  # This gets set for Configrc.cxx to read
 @@ -211,6 +211,10 @@
@@ -6712,7 +6712,7 @@
    test "$cvs_tag" && cvs update -r "$cvs_tag" || exit
    ppremake || exit
    make install || exit
--  
+-
 +
    cd "$TOONTOWN" || exit
    test "$cvs_tag" && cvs update -r "$cvs_tag" || exit
@@ -6723,10 +6723,10 @@
    if [ $perform_x ]; then
 -  # testserver TT/installer be rebuilt with USE_TESTSERVER envvar build flag.
 -  # need to make sure it's up-to-date.
--  
+-
 -  echo "Rebuilding Toontown ActiveX installer"
--  installerDir="$TOONTOWN"/src/installer  
--  cd "$installerDir" || exit  
+-  installerDir="$TOONTOWN"/src/installer
+-  cd "$installerDir" || exit
 -  #  test "$cvs_tag" && cvs update -r "$cvs_tag" || exit
 -
 -  # We have to temporarily force the optimize level to a particular
@@ -6740,7 +6740,7 @@
 -  ./publish.pl $installerargs $language || exit
 +    # testserver TT/installer be rebuilt with USE_TESTSERVER envvar build flag.
 +    # need to make sure it's up-to-date.
- 
+
 -  # Now restore the installer directory to whatever optimize it
 -  # should be set to normally.
 -  unset PANDA_OPTIMIZE
@@ -6768,9 +6768,9 @@
 +    ppremake installer || exit
    fi
  fi
- 
+
  if [ $perform_p ]; then
--  
+-
 +
    # Clean out the previous persist directory if the user so requested.
    if [ $clean_persist ]; then
@@ -6779,11 +6779,11 @@
      cd "$persist" && rm -rf *
    elif [ $cvs_clean_persist ]; then
      if [ -z "$cvs_persist" ]; then
--      echo "You may only specify -C in conjunction with -m live." 
+-      echo "You may only specify -C in conjunction with -m live."
 +      echo "You may only specify -C in conjunction with -m live."
        exit 1
      fi
--  
+-
 +
      echo "Restoring persist directory."
      # Completely blow away the subdirectory in the ttpublish tree, and
@@ -6792,7 +6792,7 @@
      rm -rf "$base"
  #    cvs update -dP -A "$base" || exit	# this doesn't allow merging branches
      cvs update -dP "$base" || exit
--  
+-
 +
    else
      # Don't empty the tree, but do clean up junk that may have been left
@@ -6800,7 +6800,7 @@
 -    cd "$persist" && rm -rf pyz mftemp toplevel
 +    cd "$persist" && rm -rf pyz mftemp toplevel || exit
    fi
--  
+-
 +
    if [ $clean_persist ]; then
      echo "NOT generating patch files."
@@ -6808,7 +6808,7 @@
 @@ -510,19 +516,20 @@
        fi
    fi
- 
+
 +# This section is disabled in Vista-compatible ActiveX build universe (for now)
    # Copy in the ActiveX control too.
 -  installerDir=$TOONTOWN/src/installer
@@ -6829,12 +6829,12 @@
 +  #  cabFileBase=$cabFileBase-$language
 +  #fi
 +  #cabFile=$cabFileBase.cab
- 
+
 -  cp "$installerDir/$activeXBuildDir/$cabFile" $installDir || exit
 -  chmod 644 $installDir/$cabFile
 +  #cp "$installerDir/$activeXBuildDir/$cabFile" $installDir || exit
 +  #chmod 644 $installDir/$cabFile
- 
+
    # Now copy in InstallLauncher.exe.
    # Scrubber.py does the copy and takes care of its patches
 @@ -534,19 +541,39 @@
@@ -6843,7 +6843,7 @@
    chmod 755 $installDir/InstallLauncher.exe
 -  chmod 644 $installDir/InstallLauncher.exe.pch*
 +  chmod 644 $installDir/InstallLauncher.exe.*pch*
- 
+
    if [ "$ttown_series" ]; then
 -    if [ "$ttown_series" = "2100" ]; then       # castillian
 -      baseDir=''
@@ -6874,7 +6874,7 @@
 -      $SSH $ttown_username@ttown "rm -f $baseDir/toontown-$ttown_series/common/$installBase/content/*.pz"
 +      echo "Cleaning download directory on ttown2-$ttown_series."
 +      $SSH $ttown_username@ttown2 "rm -f $baseDir/$ttown_series/$installBase/content/*.pz; rm -f $baseDir/$ttown_series/common/$installBase/*.pch"
- 
+
 -      echo "Copying files to ttown-$ttown_series."
 -      cd "$web" || exit
 -      $SCP -r $web/* $ttown_username@ttown:$baseDir/toontown-$ttown_series/common/. || exit
@@ -6882,11 +6882,11 @@
 +      echo "Copying files to ttown2-$ttown_series."
 +      #cd "$web" || exit
 +      $SCP -r $web/* $ttown_username@ttown2:$baseDir/$ttown_series/. || exit
- 
+
      elif [ "$ttown_series" = "2200" ]; then     # japanese
        baseDir='/toontown'
 @@ -557,15 +584,58 @@
- 
+
        echo "Copying files to ttown2-$ttown_series."
        $SCP -r $web/* $ttown_username@ttown2:$baseDir/$ttown_series/common/. || exit
 +
@@ -6903,7 +6903,7 @@
        echo
 -      $SSH $ttown_username@ttown2 "rm -f $baseDir/$ttown_series/common/$installBase/content/*.pz"
 +      $SSH $ttown_username@ttown2 "rm -f $baseDir/$ttown_series/$installBase/content/*.pz"
- 
+
        echo "Copying files to ttown2-$ttown_series."
 -      $SCP -r $web/* $ttown_username@ttown2:$baseDir/$ttown_series/common/. || exit
 +      $SCP -r $web/download/german/* $ttown_username@ttown2:$baseDir/$ttown_series/download/german || exit
@@ -6947,13 +6947,13 @@
        baseDir='/toontown/web'
        echo
 @@ -574,7 +644,8 @@
- 
+
        echo
        echo "Copying files to ttown2-$ttown_series."
 -      $RSYNC $RSYNCFLAGS --delete --exclude='*.php' $web/download $ttown_username@ttown2:$baseDir/toontown-$ttown_series/common/ || exit
 +      EXCLUDE='--exclude=*.php --exclude=static/ --exclude="CD_*/"'
 +      $RSYNC $RSYNCFLAGS --delete $EXCLUDE $web/download/$language/currentVersion/ $ttown_username@ttown2:$baseDir/toontown-$ttown_series/common/download/$language/currentVersion/ || exit
- 
+
        # Copy over $TTMODELS data for Pets AI
        #
 --- src/publish/ttown-build-Config.pp	5 Jun 2004 01:01:44 -0000	1.18
@@ -6961,7 +6961,7 @@
 @@ -8,9 +8,19 @@
    #define OPTIMIZE 3
  #endif
- 
+
 +// use cached distributed compiles
 +#define CC ccache distcc i386-redhat-linux-gcc
 +#define CXX ccache distcc i386-redhat-linux-g++
@@ -6976,9 +6976,9 @@
 +#define MESA_LPATH /usr/local/mesa/lib
 +#define MESA_LIBS OSMesa MesaGLU MesaGL
 +#define MESA_MGL 1
- 
+
  #define INSTALL_DIR $[PLAYER]/install
- 
+
 @@ -34,3 +44,31 @@
  //#define NSPR_LPATH /usr/local/nspr/lib
  //#define NSPR_LIBS nspr4
@@ -7015,7 +7015,7 @@
 +++ src/publish/ttown-build-Config.pp	29 Oct 2008 04:09:04 -0000	1.25.18.1
 @@ -9,8 +9,13 @@
  #endif
- 
+
  // use cached distributed compiles
 +#if $[eq $[shell uname -i], x86_64]
 +  #define CC x86_64-redhat-linux-gcc
@@ -7024,23 +7024,23 @@
  #define CC ccache distcc i386-redhat-linux-gcc
  #define CXX ccache distcc i386-redhat-linux-g++
 +#endif
- 
+
  // python 2.4
  #define PYTHON_COMMAND python2.4
 @@ -44,14 +49,19 @@
- 
+
  #define GENPYCODE_LIBS libpandaexpress libpanda libpandaphysics libdirect libotp libtoontown
- 
+
 +#if $[eq $[shell uname -i], x86_64]
 +  #define OPTFLAGS -Os -march=opteron -mmmx -msse -mfpmath=sse -fomit-frame-pointer -finline-functions -frename-registers -pipe
 +#else
  #define OPTFLAGS -Os -march=pentium3 -mmmx -msse -mfpmath=sse -fomit-frame-pointer -finline-functions -frename-registers -pipe
 +#endif
- 
+
  // temp for drose
  //#define PYTHON_IPATH /usr/include/python2.2
  //#define PYTHON_LPATH
- 
+
 -//#define NSPR_IPATH /usr/local/nspr/include
 -//#define NSPR_LPATH /usr/local/nspr/lib
 +// NSPR is no longer needed
@@ -7048,10 +7048,10 @@
 +//#define NSPR_LPATH /usr/lib
  //#define NSPR_LIBS nspr4
  //#defer HAVE_NSPR $[libtest $[NSPR_LPATH],$[NSPR_LIBS]]
- 
+
 @@ -65,13 +75,13 @@
    #print Configuring $[LANGUAGE] build
- 
+
    #if $[eq $[LANGUAGE], castillian]
 -    #defer EXTRA_CDEFS $[EXTRA_CDEFS] USE_CASTILLIAN PRODUCT_NAME="_Terra-DMC"
 +    #defer EXTRA_CDEFS $[EXTRA_CDEFS] USE_CASTILLIAN PRODUCT_NAME="_ES"
@@ -7071,66 +7071,66 @@
 @@ -3,9 +3,10 @@
  # get some environment variable configuration
  source ~/player/toontown/src/publish/ttown-build-setup.sh
- 
+
 -export ROOT="-d :ext:$1@cvs.sourceforge.net:/cvsroot/panda3d"
 +export ROOT="-d :ext:$1@panda3d.cvs.sourceforge.net:/cvsroot/panda3d"
- 
+
  # you can control-c past cvs updating
 +echo 'control-c to skip this '
  ~/player/toontown/src/publish/ttown-cvsupdate-ai.sh $2 $3
- 
+
  /usr/bin/find ~/player/install \! -name '*.crt' -type f | xargs /bin/rm
 --- src/publish/ttown-ncbuild-ai.sh	19 May 2006 23:47:08 -0000	1.13
 +++ src/publish/ttown-ncbuild-ai.sh	3 Mar 2008 06:48:53 -0000	1.14
 @@ -1,39 +1,39 @@
  #! /bin/sh
- 
+
  # get some environment variable configuration
 -source ~/player/toontown/src/publish/ttown-build-setup.sh
 +source ./toontown/src/publish/ttown-build-setup.sh
- 
+
  export ROOT="-d :ext:$1@panda3d.cvs.sourceforge.net:/cvsroot/panda3d"
- 
+
  # you can control-c past cvs updating
 -~/player/toontown/src/publish/ttown-cvsupdate-ai.sh $2 $3
 +$PLAYER/toontown/src/publish/ttown-cvsupdate-ai.sh $2 $3
- 
+
 -/usr/bin/find ~/player/install \! -name '*.crt' -type f | xargs /bin/rm
 +/usr/bin/find $PLAYER/install \! -name '*.crt' -type f | xargs /bin/rm
- 
+
  # Rebuild dtool
  echo "Building dtool"
 -(cd ~/player/dtool && ppremake && make -j install) || exit
 +(cd $PLAYER/dtool && ppremake && make -j install) || exit
- 
+
  # Rebuild panda
  echo "Building panda"
 -(cd ~/player/panda && ppremake && make -j install) || exit
 +(cd $PLAYER/panda && ppremake && make -j install) || exit
- 
+
  # Rebuild direct
  echo "Building direct"
 -(cd ~/player/direct && ppremake && make -j install) || exit
 +(cd $PLAYER/direct && ppremake && make -j install) || exit
- 
+
  # Rebuild otp
  echo "Building otp"
 -(cd ~/player/otp && ppremake && make -j install) || exit
 +(cd $PLAYER/otp && ppremake && make -j install) || exit
- 
+
  # Rebuild toontown
  echo "Building toontown"
 -(cd ~/player/toontown && ppremake && make -j install) || exit
 +(cd $PLAYER/toontown && ppremake && make -j install) || exit
- 
+
  # Rebuild ttmodels
  echo "Building ttmodels"
  (cd $PLAYER/ttmodels && ppremake && make -j install-dna) || exit
- 
+
  # generate python code
 -(cd ~/player && install/bin/genPyCode -nO) || exit
 +(cd $PLAYER && install/bin/genPyCode -nO) || exit
- 
+
 --- src/quest/QuestPoster.py	1 Jun 2004 19:32:19 -0000	1.66
 +++ src/quest/QuestPoster.py	22 Jan 2005 01:38:01 -0000	1.66.6.1
 @@ -169,7 +169,7 @@
@@ -7146,7 +7146,7 @@
          objectiveStrings = quest.getObjectiveStrings()
          assert type(objectiveStrings) in (types.ListType, types.TupleType)
          captions = map(string.capwords,quest.getObjectiveStrings())
--        imageColor = Vec4(*self.colors['white'])        
+-        imageColor = Vec4(*self.colors['white'])
 +        imageColor = Vec4(*self.colors['white'])
          # Adjust poster for the particular quest type
          if ((quest.getType() == Quests.DeliverGagQuest) or
@@ -7155,7 +7155,7 @@
                      else:
                          rIconGeom = self.createSuitHead(holder)
                      lPos.setX(-0.18)
--                    auxText = TTLocalizer.QuestPosterAuxFrom                    
+-                    auxText = TTLocalizer.QuestPosterAuxFrom
 +                    auxText = TTLocalizer.QuestPosterAuxFrom
                  # Display location conditions for quest
 -                infoText = string.capwords(quest.getLocationName())
@@ -7194,7 +7194,7 @@
                      rIconGeom = None
                      lIconGeomScale = rIconGeomScale
                      rIconGeomScale = 1
--                    
+-
 +
              if not fComplete:
                  # Show the location of the cog/item
@@ -7202,7 +7202,7 @@
 +                infoText = quest.getLocationName()
                  if infoText == '':
                      infoText = TTLocalizer.QuestPosterAnywhere
--                
+-
 +
          if fComplete:
              # Make text and background green to show it is complete
@@ -7211,7 +7211,7 @@
                  self.laffMeter.destroy()
                  self.laffMeter = None
          else:
--            textColor = self.normalTextColor            
+-            textColor = self.normalTextColor
 +            textColor = self.normalTextColor
          # Show thyself
          self.show()
@@ -7220,7 +7220,7 @@
          # Update picture frame captions and locations
          self.lPictureFrame.show()
          self.lPictureFrame.setPos(lPos)
--        self.lPictureFrame['text_scale'] = TEXT_SCALE        
+-        self.lPictureFrame['text_scale'] = TEXT_SCALE
 +        self.lPictureFrame['text_scale'] = TEXT_SCALE
          # scale down the text if left picture is not centered
          if (lPos[0] != 0):
@@ -7229,7 +7229,7 @@
          if len(captions) > 1:
              self.rPictureFrame.show()
              self.rPictureFrame['text'] = captions[1]
--            self.rPictureFrame['text_scale'] = 0.0325             
+-            self.rPictureFrame['text_scale'] = 0.0325
 +            self.rPictureFrame['text_scale'] = 0.0325
              #self.rPictureFrame.setColor(*self.colors[frameBgColor])
              self.rPictureFrame['image_color'] =Vec4(*self.colors[frameBgColor])
@@ -7238,7 +7238,7 @@
          self.rQuestIcon['geom_pos'] = (0,10,0)
          if rIconGeom:
              self.rQuestIcon['geom_scale'] = rIconGeomScale
--            
+-
 +
          # Display auxiliary text if necessary
          if auxText:
@@ -7258,7 +7258,7 @@
              # plural
              itemName = TTLocalizer.QuestsItemNameAndNum % { "num" : TTLocalizer.getLocalNum(num),
                                                            "name" : ItemDict[item][1] }
--                        
+-
 +
          return (TTLocalizer.QuestsRecoverItemQuestRecoverFromSCString %
                  {"item"   : itemName,
@@ -7269,21 +7269,21 @@
          else:
 -            streetDesc = TTLocalizer.QuestsStreetLocationNamedStreet % (toStreetName, toHoodName)
 +            streetDesc = TTLocalizer.QuestsStreetLocationNamedStreet % {'toStreetName':toStreetName, 'toHoodName':toHoodName}
- 
+
      paragraph = TTLocalizer.QuestsLocationParagraph % {'building' : TTLocalizer.QuestsLocationBuilding % (toNpcName),
                                                       'buildingName' : toBuildingName,
 --- src/racing/DistributedLeaderBoard.py	27 Dec 2005 23:50:46 -0000	1.15
 +++ src/racing/DistributedLeaderBoard.py	5 Dec 2008 03:25:45 -0000	1.15.20.1
 @@ -72,7 +72,6 @@
          self.display(trackName, recordTitle, scores)
- 
+
      def buildListParts(self):
 -
          self.surface = self.board.attachNewNode("surface")
- 
+
          z = 7.7
 @@ -103,7 +102,6 @@
- 
+
          # Create blank entries for each row in the leaderboard
          for i in range(10):
 -
@@ -7291,16 +7291,16 @@
              self.nameTextNodes.append(nameText)
              placeText.setText(str(len(self.nameTextNodes))+".")
 @@ -112,8 +110,8 @@
- 
+
              #row.setH(-90)
              if len(self.nameTextNodes)== 6:
 -                        z = zListTop
 -                        x =  .35#.1
 +                z = zListTop
 +                x =  .35#.1
- 
+
              row.setX(x)
- 
+
 @@ -155,9 +153,9 @@
          # Build the title row on the leaderboard
          row = hidden.attachNewNode("TitleRow")
@@ -7322,7 +7322,7 @@
 -    pickle list could also sned message with new list so that other server side leader boards
 +    pickle list could also send message with new list so that other server side leader boards
      can benefit from one leader board's work? not sure which would be more taxing.
- 
+
      """
 --- src/racing/RaceEndPanels.py	20 Mar 2007 18:20:50 -0000	1.8.2.12.2.1
 +++ src/racing/RaceEndPanels.py	4 Sep 2008 20:46:00 -0000	1.8.2.12.2.3
@@ -7349,7 +7349,7 @@
 @@ -9,13 +9,20 @@
  import os
  import cPickle
- 
+
 +def getDefaultRecord(trackId):
 +    """
 +    Get the default record for this track. Used for reseting records.
@@ -7358,13 +7358,13 @@
 +    return (RaceGlobals.getDefaultRecordTime(trackId), 0, 1, TTLocalizer.Goofy)
 +
  class RaceManagerAI(DirectObject.DirectObject):
- 
+
      notify = DirectNotifyGlobal.directNotify.newCategory('RaceManagerAI')
      #notify.setDebug(1)
--    
+-
 +
      serverDataFolder = simbase.config.GetString('server-data-folder', "")
--        
+-
 +
      def __init__(self, air):
          DirectObject.DirectObject.__init__(self)
@@ -7379,7 +7379,7 @@
 +        z = math.sin(task.time * 1.8) * 0.08
          self.bob.setZ(self.waterLevel + z)
          return Task.cont
-         
+
 @@ -688,11 +688,6 @@
          if code == FishGlobals.OverTankLimit:
              reason = TTLocalizer.FishingOverTankLimit
@@ -7390,7 +7390,7 @@
 -	else:
 -            self.failureDialog['text_pos'] = (-.35,.8)
          self.failureDialog.show()
- 
+
      def __showSellFishDialog(self):
 @@ -923,6 +918,8 @@
              message = TTLocalizer.FishingFailure,
@@ -7400,7 +7400,7 @@
 +            text_scale = TTLocalizer.DFSfailureDialog,
              )
          self.failureDialog.hide()
-         
+
 @@ -951,6 +948,7 @@
              message = TTLocalizer.FishingBroke,
              style = TTDialog.CancelOnly,
@@ -7408,7 +7408,7 @@
 +            text_scale = TTLocalizer.DFSfailureDialog,
              )
          self.brokeDialog.hide()
- 
+
 --- src/safezone/Playground.py	6 Oct 2004 23:43:33 -0000	1.85
 +++ src/safezone/Playground.py	18 May 2006 20:05:21 -0000	1.85.6.2
 @@ -693,9 +693,9 @@
@@ -7442,7 +7442,7 @@
 +            text_scale = TTLocalizer.DPdeptLabel,
              text_pos = (-0.1, 0.8),
              )
- 
+
 @@ -179,7 +179,7 @@
              relief = None,
              text = "",
@@ -7474,7 +7474,7 @@
 +            pos = TTLocalizer.DSDwindowedButtonPos,
              command = self.__doWindowed,
              )
- 
+
 @@ -184,7 +184,7 @@
              boxImageScale = 2.5,
              boxImageColor = VBase4(0, 0.25, 0.5, 1),
@@ -7483,7 +7483,7 @@
 +            pos = TTLocalizer.DSDfullscreenButtonPos,
              command = self.__doFullscreen,
              )
- 
+
 @@ -212,7 +212,7 @@
                       guiButton.find("**/QuitBtn_RLVR"),
                       ),
@@ -7531,7 +7531,7 @@
 -            text_scale = 0.055,
 +            text_scale = TTLocalizer.MPbackToPlayground,
              text_pos = (0,-0.02),
-             textMayChange = 0,            
+             textMayChange = 0,
              command = self.backToSafeZone,
 @@ -116,7 +116,7 @@
              image_scale = (.66,1.1,1.1),
@@ -7540,7 +7540,7 @@
 -            text_scale = 0.055,
 +            text_scale = TTLocalizer.MPgoHome,
              text_pos = (0,-0.02),
-             textMayChange = 0,            
+             textMayChange = 0,
              command = self.goHome,
 @@ -129,9 +129,9 @@
              relief = None,
@@ -7553,23 +7553,23 @@
 +            text_wordwrap = TTLocalizer.MPhoodWordwrap,
              )
          self.hoodLabel.hide()
- 
+
 --- src/shtiker/OptionsPage.py	1 Jun 2004 19:32:21 -0000	1.73
 +++ src/shtiker/OptionsPage.py	1 May 2008 00:22:00 -0000	1.73.6.6
 @@ -107,7 +107,7 @@
          self.displaySettingsFullscreen = None
          self.displaySettingsApi = None
          self.displaySettingsApiChanged = 0
--        
+-
 +
          guiButton = loader.loadModelOnce("phase_3/models/gui/quit_button")
          gui = loader.loadModelOnce("phase_3.5/models/gui/friendslist_gui")
- 
+
 @@ -152,7 +152,7 @@
              text = "",
              text_align = TextNode.ALeft,
              text_scale = options_text_scale,
--            text_wordwrap = 16,            
+-            text_wordwrap = 16,
 +            text_wordwrap = 16,
              pos = (leftMargin, 0,
                     textStartHeight - textRowHeight),
@@ -7578,14 +7578,14 @@
              text_align = TextNode.ALeft,
              text_scale = options_text_scale,
              text_wordwrap = 16,
--            # adjust for taller two-row text            
+-            # adjust for taller two-row text
 +            # adjust for taller two-row text
              pos = (leftMargin, 0,
                     textStartHeight - 2 * textRowHeight),
              )
 @@ -293,8 +293,9 @@
          self.speedChatStyleText.reparentTo(self, FOREGROUND_SORT_INDEX)
- 
+
          if ((not base.cr.isPaid()) and
 -            ((base.cr.productName == "DisneyOnline-US") or
 -             (base.cr.productName == "DisneyOnline-UK"))):
@@ -7599,7 +7599,7 @@
      def __doneDisplaySettings(self, anyChanged, apiChanged):
          if anyChanged:
              self.__setDisplaySettings()
--        
+-
 +
              # Save the new settings so we can copy them to the
              # SettingsFile a little later.
@@ -7608,7 +7608,7 @@
              self.displaySettingsFullscreen = properties.getFullscreen()
              self.displaySettingsApi = base.pipe.getInterfaceName()
              self.displaySettingsApiChanged = apiChanged
--        
+-
 +
      def __setDisplaySettings(self):
          properties = base.win.getProperties()
@@ -7617,34 +7617,34 @@
              print "change display settings..."
              text = TTLocalizer.OptionsPageDisplaySettings % settings
          else:
--            print "no change display settings..."            
+-            print "no change display settings..."
 +            print "no change display settings..."
              text = TTLocalizer.OptionsPageDisplaySettingsNoApi % settings
          self.DisplaySettings_Label['text'] = text
- 
+
 @@ -529,7 +530,7 @@
              taskMgr.doMethodLater(self.DisplaySettingsDelay,
                                    self.writeDisplaySettings,
                                    self.DisplaySettingsTaskName)
--            
+-
 +
          ShtikerPage.ShtikerPage.exit(self)
- 
+
      def writeDisplaySettings(self, task = None):
 @@ -541,7 +542,7 @@
          # Make sure our timer task has been removed (we might call
          # this method explicitly, before the timer has expired).
          taskMgr.remove(self.DisplaySettingsTaskName)
--        
+-
 +
          self.notify.info("writing new display settings %s, %s, %s to SettingsFile." %
                           (self.displaySettingsSize, self.displaySettingsFullscreen,
                            self.displaySettingsApi))
 @@ -560,7 +561,7 @@
          self.displaySettingsChanged = 0
- 
+
          return Task.done
--        
+-
 +
      def unload(self):
          # Now that we're unloading, we're confident the user is
@@ -7688,14 +7688,14 @@
  ##         # available.
  ##         if self.currentSizeIndex == None:
  ##             self.currentSizeIndex = closestIndex
--            
+-
 +
  ##         self.numValidScreenSizes = len(self.validScreenSizes)
 --- src/shtiker/ShardPage.py	1 Jun 2004 19:32:21 -0000	1.57
 +++ src/shtiker/ShardPage.py	25 Oct 2005 21:10:05 -0000	1.57.6.1
 @@ -201,7 +201,7 @@
              )
- 
+
          # Japanese version uses colored discs instead of shard pop text
 -        if base.cr.productName == "NTT-DMC":
 +        if base.cr.productName == "JP":
@@ -7735,7 +7735,7 @@
 +++ src/shtiker/TrackPage.py	26 Jan 2005 06:14:28 -0000	1.11.6.1
 @@ -167,14 +167,14 @@
          self.endFrame = self.trackFrames[-1]
- 
+
          self.startFrame.frame['text'] = ""
 -        self.startFrame.frame['text_scale'] = 0.12
 +        self.startFrame.frame['text_scale'] = TTLocalizer.TPstartFrame
@@ -7743,7 +7743,7 @@
          self.startFrame.frame['text_fg'] = (1,1,1,1)
          self.startFrame.frame['text_pos'] = (0,0.08)
          self.startFrame.question.hide()
- 
+
          self.endFrame.frame['text'] = TTLocalizer.TrackPageDone
 -        self.endFrame.frame['text_scale'] = 0.12
 +        self.endFrame.frame['text_scale'] = TTLocalizer.TPendFrame
@@ -7754,7 +7754,7 @@
 +++ src/suit/HolidaySuitInvasionManagerAI.py	23 Jul 2008 00:00:02 -0000	1.7.6.1
 @@ -6,6 +6,20 @@
  class HolidaySuitInvasionManagerAI(HolidayBaseAI.HolidayBaseAI):
- 
+
      notify = DirectNotifyGlobal.directNotify.newCategory('HolidaySuitInvasionManagerAI')
 +
 +    holidayCogType = {
@@ -7770,7 +7770,7 @@
 +        ToontownGlobals.NUMBER_CRUNCHER_INVASION: 'nc',
 +        ToontownGlobals.YESMAN_INVASION: 'ym'
 +        }
-     
+
      def __init__(self, air, holidayId):
          HolidayBaseAI.HolidayBaseAI.__init__(self, air, holidayId)
 @@ -45,6 +59,11 @@
@@ -7794,9 +7794,9 @@
 +            text_scale = TTLocalizer.INdetailNameLabel,
              text_fg = (0.05, 0.14, 0.4, 1),
              #scale = 0.05,
-             scale = 0.04,            
+             scale = 0.04,
 @@ -317,10 +318,10 @@
- 
+
              # Add the name of the track
              self.trackNameLabels.append(DirectLabel(
 -                text = Tracks[track].upper(),
@@ -7816,7 +7816,7 @@
 +                                      text_scale = TTLocalizer.INrunButton,
                                        text_pos = (0,-0.02),
                                        text_fg = Vec4(1,1,1,1),
-                                       textMayChange = 0,            
+                                       textMayChange = 0,
 @@ -1447,7 +1448,7 @@
                                         relief = None,
                                         pos = (0.91, 0, -0.237),
@@ -7825,14 +7825,14 @@
 +                                       text_scale = TTLocalizer.INpassButton,
                                         text_pos = (0,-0.02),
                                         text_fg = Vec4(1,1,1,1),
-                                        textMayChange = 0,            
+                                        textMayChange = 0,
 @@ -1468,8 +1469,9 @@
                                     image_scale = 5.125,
                                     image_pos = (0, 0, -0.65),
                                     image_color = ToontownGlobals.GlobalDialogColor,
 +                                   text_scale = TTLocalizer.INclickToAttack,
                                     text = TTLocalizer.InventoryClickToAttack,
--                                   textMayChange = 0,            
+-                                   textMayChange = 0,
 +                                   textMayChange = 0,
                                     )
          # This should be initially hidden.
@@ -7852,7 +7852,7 @@
 +++ src/toon/NPCFriendPanel.py	6 Oct 2005 05:14:47 -0000	1.9.4.1
 @@ -234,7 +234,7 @@
              self.sosCountInfo['text_align'] = TextNode.ACenter
- 
+
          if count > 0:
 -            countText = "%d Remaining" % count
 +            countText = (TTLocalizer.NPCFriendPanelRemaining % (count))
@@ -7875,7 +7875,7 @@
 @@ -317,8 +314,8 @@
              # Track Label
              DirectLabel(parent = self,
-                         relief = None, 
+                         relief = None,
 -                        text = string.upper(TTLocalizer.BattleGlobalTracks[track]),
 -                        text_scale = 0.066,
 +                        text = TextEncoder.upper(TTLocalizer.BattleGlobalTracks[track]),
@@ -7922,7 +7922,7 @@
                  text_align = TextNode.ALeft,
                  command = self.__handleGoto,
                  )
- 
+
 +        # hack: [french only] temporarily disallowed secrets-chat for french
 +        if base.cr.productName == 'Wanadoo':
 +            self.secretsButton['state'] = DISABLED
@@ -7956,7 +7956,7 @@
 -    # if we are not running in English force the check
 -    if language != "english":
 -        checkLanguage = 1
-     
+
 +print ("TTLocalizer: Running in language: %s" % (language))
 +
 +if language != "english":
@@ -7971,7 +7971,7 @@
  # Ask what language we are running in. Returns a string.
  def getLanguage():
      return language
- 
+
 -print ("TTLocalizer: Running in language: %s" % (language))
 -_languageModule = "toontown.toonbase.TTLocalizer" + string.capitalize(language)
 -exec("from " + _languageModule + " import *")
@@ -7995,7 +7995,7 @@
 @@ -28,6 +28,10 @@
  #catalog/CatalogChatItemPicker.py
  CCIPmessagePickerCancel = 0.06
- 
+
 +#catalog/CatalogScreen.py
 +CSgiftTogglePos = (00.855, -0.13)
 +CSgiftToggle = 0.08
@@ -8004,11 +8004,11 @@
  CISCspeedChat = 0.055
  CISCtopLevelOverlap = 0.0
 @@ -195,6 +199,7 @@
- 
+
  #safezone/DistributedFishingSpot.py
  DFSfailureDialog = 1.0
 +DFSfailureDialog_pos = (-.35,.8)
- 
+
  #safezone/Playground.py
  PimgLabel = 1.0
 --- src/toonbase/ToontownGlobals.py	22 Jun 2007 02:39:13 -0000	1.345.2.1.2.3
@@ -8016,7 +8016,7 @@
 @@ -850,6 +850,22 @@
  KART_RECORD_WEEKLY_RESET = 12
  TRICK_OR_TREAT = 13
- 
+
 +VALENTINES_FIREWORKS = 1000
 +
 +# Cog Invasions
@@ -8041,7 +8041,7 @@
  JULY14_FIREWORKS = 52
  JUNE22_FIREWORKS = 53
 -BIGWIG_INVASION = 54
- 
+
  # Trick or Treat Holiday Values
  TOT_REWARD_JELLYBEAN_AMOUNT = 100
 --- src/toontowngui/TeaserPanel.py	20 Jul 2005 05:54:35 -0000	1.12
@@ -8049,35 +8049,35 @@
 @@ -26,5 +27,5 @@
      #                  members only flag,
      #                  )
--    
+-
 +
      'otherHoods' : (TTLocalizer.TeaserOtherHoods,
                      "features-hoods",
 @@ -124,5 +137,5 @@
- 
+
          self.doneFunc = doneFunc
-- 
+-
 +
          # if we don't have a feature browser, make one
          if not hasattr(self, "browser"):
 @@ -139,5 +152,5 @@
          self.cleanup()
          self.unload()
--        
+-
 +
          if choice == 1:
              self.__handlePay()
 @@ -163,5 +177,5 @@
      def destroy(self):
          self.cleanup()
--        
+-
 +
      # dialog callback code passes a value
      def cleanup(self):
 @@ -183,5 +197,5 @@
              self.browser.destroy()
              del self.browser
--        
+-
 +
      def showPage(self, pageName):
          if not pageName in PageOrder:
@@ -8096,12 +8096,12 @@
 -            button_text_scale = 0.07,
 +            button_text_scale = TTLocalizer.TPbutton,
              buttonPadSF = 5.5,
-             sortOrder = NO_FADE_SORT_INDEX,
+             sortOrder = DGG.NO_FADE_SORT_INDEX,
              )
 @@ -246,5 +272,5 @@
          # make the scrolling pick list for the member features
          gui = loader.loadModelOnce("phase_3/models/gui/scroll_arrows_gui")
--                
+-
 +
          optiondefs = (
              ('parent', self.parent,    None),
@@ -8127,7 +8127,7 @@
              # portrait
              elif aspect == 1:
                  scale = (0.7, 0, 0.9)
--                logoPos = (0.275, 0, -0.335)                
+-                logoPos = (0.275, 0, -0.335)
 +                logoPos = (0.275, 0, -0.335)
              # square
              else:
@@ -8146,7 +8146,7 @@
 @@ -98,4 +98,3 @@
          # update progress bar
          self.waitBar.update(self.__count)
- 
+
 -
 --- src/trolley/Trolley.py	1 Jun 2004 19:32:24 -0000	1.33
 +++ src/trolley/Trolley.py	15 Jul 2005 19:05:26 -0000	1.33.6.1

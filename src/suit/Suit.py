@@ -711,7 +711,7 @@ class Suit(Avatar.Avatar):
             self.scale = 6.75/cSize
             self.handColor = VBase4(0.85, 0.55, 0.55, 1.0)
             self.generateBody()
-            self.headTexture = "corporate-raider.jpg"
+            self.headTexture = "corporate-raider.png"
             self.generateHead("flunky")
             self.setHeight(8.23)
         elif (dna.name == 'tbc'):
@@ -728,7 +728,7 @@ class Suit(Avatar.Avatar):
             self.scale = 4.0/cSize
             self.handColor = SuitDNA.legalPolyColor
             self.generateBody()
-            self.headTexture = "bottom-feeder.jpg"
+            self.headTexture = "bottom-feeder.png"
             self.generateHead("tightwad")
             self.setHeight(4.81)
         elif (dna.name == 'b'):
@@ -736,7 +736,7 @@ class Suit(Avatar.Avatar):
             self.scale = 4.375/bSize
             self.handColor = VBase4(0.95, 0.95, 1.0, 1.0)
             self.generateBody()
-            self.headTexture = "blood-sucker.jpg"
+            self.headTexture = "blood-sucker.png"
             self.generateHead("movershaker")
             self.setHeight(6.17)
         elif (dna.name == 'dt'):
@@ -744,7 +744,7 @@ class Suit(Avatar.Avatar):
             self.scale = 4.25/aSize
             self.handColor = SuitDNA.legalPolyColor
             self.generateBody()
-            self.headTexture = "double-talker.jpg"
+            self.headTexture = "double-talker.png"
             self.generateHead("twoface")
             self.setHeight(5.63)
         elif (dna.name == 'ac'):
@@ -766,7 +766,7 @@ class Suit(Avatar.Avatar):
             self.scale = 5.65/bSize
             self.handColor = VBase4(0.5, 0.8, 0.75, 1.0)
             self.generateBody()
-            self.headTexture = "spin-doctor.jpg"
+            self.headTexture = "spin-doctor.png"
             self.generateHead("telemarketer")
             self.setHeight(7.90)
         elif (dna.name == 'le'):
@@ -839,7 +839,7 @@ class Suit(Avatar.Avatar):
             self.scale = 7.0/aSize
             self.handColor = SuitDNA.moneyPolyColor
             self.generateBody()
-            self.headTexture = "robber-baron.jpg"
+            self.headTexture = "robber-baron.png"
             self.generateHead("yesman")
             self.setHeight(8.95)
 
@@ -864,7 +864,7 @@ class Suit(Avatar.Avatar):
             self.scale = 4.35/aSize
             self.handColor = SuitDNA.salesPolyColor
             self.generateBody()
-            self.headTexture = "name-dropper.jpg"
+            self.headTexture = "name-dropper.png"
             self.generateHead("numbercruncher")
             self.setHeight(5.98)
         elif (dna.name == 'gh'):
@@ -893,7 +893,7 @@ class Suit(Avatar.Avatar):
             self.scale = 5.75/aSize
             self.handColor = SuitDNA.salesPolyColor
             self.generateBody()
-            self.headTexture = "mingler.jpg"
+            self.headTexture = "mingler.png"
             self.generateHead("twoface")
             self.setHeight(7.61)
         elif (dna.name == 'mh'):
@@ -992,13 +992,13 @@ class Suit(Avatar.Avatar):
         phase = 3.5
 
         # set the clothes textures for the suit dept
-        torsoTex = loader.loadTexture("phase_%s/maps/%s_blazer.jpg" % (phase, dept))
+        torsoTex = loader.loadTexture("phase_%s/maps/%s_blazer.png" % (phase, dept))
         torsoTex.setMinfilter(Texture.FTLinearMipmapLinear)
         torsoTex.setMagfilter(Texture.FTLinear)
-        legTex = loader.loadTexture("phase_%s/maps/%s_leg.jpg" % (phase, dept))
+        legTex = loader.loadTexture("phase_%s/maps/%s_leg.png" % (phase, dept))
         legTex.setMinfilter(Texture.FTLinearMipmapLinear)
         legTex.setMagfilter(Texture.FTLinear)
-        armTex = loader.loadTexture("phase_%s/maps/%s_sleeve.jpg" % (phase, dept))
+        armTex = loader.loadTexture("phase_%s/maps/%s_sleeve.png" % (phase, dept))
         armTex.setMinfilter(Texture.FTLinearMipmapLinear)
         armTex.setMagfilter(Texture.FTLinear)
 
@@ -1025,13 +1025,13 @@ class Suit(Avatar.Avatar):
 
         # set the clothes textures for a waiter
         self.isWaiter = 1
-        torsoTex = loader.loadTexture("phase_3.5/maps/waiter_m_blazer.jpg")
+        torsoTex = loader.loadTexture("phase_3.5/maps/waiter_m_blazer.png")
         torsoTex.setMinfilter(Texture.FTLinearMipmapLinear)
         torsoTex.setMagfilter(Texture.FTLinear)
-        legTex = loader.loadTexture("phase_3.5/maps/waiter_m_leg.jpg")
+        legTex = loader.loadTexture("phase_3.5/maps/waiter_m_leg.png")
         legTex.setMinfilter(Texture.FTLinearMipmapLinear)
         legTex.setMagfilter(Texture.FTLinear)
-        armTex = loader.loadTexture("phase_3.5/maps/waiter_m_sleeve.jpg")
+        armTex = loader.loadTexture("phase_3.5/maps/waiter_m_sleeve.png")
         armTex.setMinfilter(Texture.FTLinearMipmapLinear)
         armTex.setMagfilter(Texture.FTLinear)
 
@@ -1081,13 +1081,13 @@ class Suit(Avatar.Avatar):
             return
         #print '### loading %s tie' % (dept)
         if dept == 'c':
-            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_boss.jpg")
+            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_boss.png")
         elif dept == 's':
-            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_sales.jpg")
+            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_sales.png")
         elif dept == 'l':
-            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_legal.jpg")
+            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_legal.png")
         elif dept == 'm':
-            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_money.jpg")
+            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_money.png")
         tieTex.setMinfilter(Texture.FTLinearMipmapLinear)
         tieTex.setMagfilter(Texture.FTLinear)
         tie.setTexture(tieTex, 1)

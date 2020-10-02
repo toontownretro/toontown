@@ -238,17 +238,17 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
         # before battles: play the boss theme music
         self.promotionMusic = base.loadMusic(
-            'phase_7/audio/bgm/encntr_suit_winning_indoor.mid')
-            # 'phase_9/audio/bgm/encntr_head_suit_theme.mid')
+            'phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
+            # 'phase_9/audio/bgm/encntr_head_suit_theme.ogg')
 
         # Between  major phases, play the upbeat street battle music
         self.betweenPhaseMusic = base.loadMusic(
-            'phase_9/audio/bgm/encntr_toon_winning.mid')
+            'phase_9/audio/bgm/encntr_toon_winning.ogg')
         # Battle two: play new jury music
         self.phaseTwoMusic = base.loadMusic(
-            'phase_12/audio/bgm/BossBot_CEO_v1.mid')
+            'phase_12/audio/bgm/BossBot_CEO_v1.ogg')
         self.phaseFourMusic = base.loadMusic(
-           'phase_12/audio/bgm/BossBot_CEO_v2.mid')
+           'phase_12/audio/bgm/BossBot_CEO_v2.ogg')
 
         self.pickupFoodSfx = loader.loadSfx('phase_6/audio/sfx/SZ_MM_gliss.mp3')
         self.explodeSfx = loader.loadSfx('phase_4/audio/sfx/firework_distance_02.mp3')

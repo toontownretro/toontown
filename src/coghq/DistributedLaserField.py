@@ -73,7 +73,7 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
 
         #self.WireGN=GeomNode("grid")
 
-        #self.wireNode = NodePath.NodePath(self.WireGN)
+        #self.wireNode = NodePath(self.WireGN)
         self.successSound = loader.loadSfx("phase_11/audio/sfx/LB_capacitor_discharge_3.mp3")
         self.successTrack = Parallel(SoundInterval(self.successSound, node=self, volume=.8))
 

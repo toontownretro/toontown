@@ -1267,21 +1267,21 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
     def loadEnvironment(self):
         # Elevator: play the introduction-to-danger sting
         self.elevatorMusic = base.loadMusic(
-            'phase_7/audio/bgm/tt_elevator.mid')
+            'phase_7/audio/bgm/tt_elevator.ogg')
         self.stingMusic = base.loadMusic(
-            'phase_7/audio/bgm/encntr_suit_winning_indoor.mid')
-            #'phase_9/audio/bgm/encntr_sting_announce.mid')
+            'phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
+            #'phase_9/audio/bgm/encntr_sting_announce.ogg')
         # Battle one: play the standard street battle music
         self.battleOneMusic = base.loadMusic(
-            'phase_3.5/audio/bgm/encntr_general_bg.mid')
+            'phase_3.5/audio/bgm/encntr_general_bg.ogg')
         # Battle three: play the final boss battle music
         self.battleThreeMusic = base.loadMusic(
-            'phase_7/audio/bgm/encntr_suit_winning_indoor.mid')
-            # 'phase_9/audio/bgm/encntr_suit_winning.mid')
+            'phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
+            # 'phase_9/audio/bgm/encntr_suit_winning.ogg')
         # Reward: play the reward music
         self.epilogueMusic = base.loadMusic(
-            'phase_9/audio/bgm/encntr_hall_of_fame.mid')
-            #'phase_9/audio/bgm/CogHQ_finale.mid')
+            'phase_9/audio/bgm/encntr_hall_of_fame.ogg')
+            #'phase_9/audio/bgm/CogHQ_finale.ogg')
 
 
     def unloadEnvironment(self):

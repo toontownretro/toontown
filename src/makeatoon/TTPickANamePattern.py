@@ -14,9 +14,6 @@ class TTPickANamePattern(PickANamePatternTwoPartLastName):
             TTPickANamePattern.NameParts['m'] = ng.getMaleNameParts()
             TTPickANamePattern.NameParts['f'] = ng.getFemaleNameParts()
 
-        # make sure the dicts haven't been inverted
-        assert type(list(TTPickANamePattern.NameParts[gender][0].keys())[0]) is bytes
-
         return TTPickANamePattern.NameParts[gender]
 
     def _getLastNameCapPrefixes(self):
@@ -32,6 +29,6 @@ if __debug__:
     assert TTPickANamePattern('King Alvin Sourflap', 'm').hasNamePattern()
     assert not TTPickANamePattern('King Alvin ASDFflap', 'm').hasNamePattern()
     assert not TTPickANamePattern('test name', 'm').hasNamePattern()
-    
+
     assert TTPickANamePattern('', 'm').getNameString(TTPickANamePattern('King Alvin Sourflap', 'm').getNamePattern(), 'm') == 'King Alvin Sourflap'
     assert TTPickANamePattern('', 'm').getNameString(TTPickANamePattern('Knuckles McFlipper', 'm').getNamePattern(), 'm') == 'Knuckles McFlipper'

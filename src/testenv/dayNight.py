@@ -1,10 +1,10 @@
 from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 
-dayMusic = loader.loadMusic("phase_4/audio/bgm/TC_nbrhood.mid")
-# dayMusic = loader.loadMusic("phase_8/audio/bgm/TB_nbrhood.mid")
+dayMusic = loader.loadMusic("phase_4/audio/bgm/TC_nbrhood.ogg")
+# dayMusic = loader.loadMusic("phase_8/audio/bgm/TB_nbrhood.ogg")
 # base.cr.playGame.hood.loader.snow.cleanup()
-nightMusic = loader.loadMusic("phase_8/audio/bgm/DL_nbrhood.mid")
+nightMusic = loader.loadMusic("phase_8/audio/bgm/DL_nbrhood.ogg")
 
 # Load up some sfx
 birdSfx1 = loader.loadSfx("phase_8/audio/sfx/SZ_DG_bird_01.mp3")

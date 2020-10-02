@@ -53,7 +53,7 @@ BTA_OPTIONS = PythonUtil.Enum( 'Ok',-1)  #options for "you bought this accessory
 KS_TEXT_SIZE_BIG = TTLocalizer.KSGtextSizeBig
 KS_TEXT_SIZE_SMALL = TTLocalizer.KSGtextSizeSmall
 
-class KartShopGuiMgr( object, DirectObject.DirectObject ):
+class KartShopGuiMgr( DirectObject.DirectObject ):
     """
     Purpose: The KartShopGuiMgr provides a high level interface for
     managing the GUI Dialog Menus that are required for purchasing a
@@ -1213,8 +1213,7 @@ class KartShopGuiMgr( object, DirectObject.DirectObject ):
 
                 if( accType in [ KartDNA.ebType, KartDNA.spType, KartDNA.fwwType, KartDNA.bwwType ] ):
                         texNodePath = getTexCardNode( accID )
-                        tex = loader.loadTexture( "phase_6/maps/%s.jpg" % ( texNodePath ),
-                                                  "phase_6/maps/%s_a.rgb" % ( texNodePath ) )
+                        tex = loader.loadTexture( "phase_6/maps/%s.png" % ( texNodePath ) )
                 elif( accType == KartDNA.rimsType ):
                         if( accID == InvalidEntry ):
                                 # THIS WILL LIKELY NEED TO BE FIXED WHEN NEW RIM
@@ -1223,11 +1222,9 @@ class KartShopGuiMgr( object, DirectObject.DirectObject ):
                                 texNodePath = getTexCardNode( getDefaultRim() )
                         else:
                                 texNodePath = getTexCardNode( accID )
-                        tex = loader.loadTexture( "phase_6/maps/%s.jpg" % ( texNodePath ),
-                                                  "phase_6/maps/%s_a.rgb" % ( texNodePath ) )
+                        tex = loader.loadTexture( "phase_6/maps/%s.png" % ( texNodePath ) )
                 elif( accType in [ KartDNA.bodyColor, KartDNA.accColor ] ):
-                        tex = loader.loadTexture( "phase_6/maps/Kartmenu_paintbucket.jpg",
-                                                  "phase_6/maps/Kartmenu_paintbucket_a.rgb" )
+                        tex = loader.loadTexture( "phase_6/maps/Kartmenu_paintbucket.png" )
                         # Obtain the default color if the item is -1, handle this similar to the
                         # rims.
                         if( accID == InvalidEntry ):
@@ -1238,11 +1235,9 @@ class KartShopGuiMgr( object, DirectObject.DirectObject ):
                         #pdir(base.localAvatar)
                         kartDecal = getDecalId( base.localAvatar.getKartBodyType() )
                         texNodePath = getTexCardNode( accID )
-                        tex = loader.loadTexture( "phase_6/maps/%s.jpg" % (texNodePath) % ( kartDecal ),
-                                                 "phase_6/maps/%s_a.rgb" % (texNodePath) % ( kartDecal ) )
+                        tex = loader.loadTexture( "phase_6/maps/%s.png" % (texNodePath) % ( kartDecal ) )
                 else:
-                        tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.jpg",
-                                                  "phase_6/maps/NoAccessoryIcon3_a.rgb" )
+                        tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.png" )
 
 
                 # set the mipmaps
@@ -1369,8 +1364,7 @@ class KartShopGuiMgr( object, DirectObject.DirectObject ):
 
             if( accType in [ KartDNA.ebType, KartDNA.spType, KartDNA.fwwType, KartDNA.bwwType ] ):
                 texNodePath = getTexCardNode( accID )
-                tex = loader.loadTexture( "phase_6/maps/%s.jpg" % ( texNodePath ),
-                                          "phase_6/maps/%s_a.rgb" % ( texNodePath ) )
+                tex = loader.loadTexture( "phase_6/maps/%s.png" % ( texNodePath ) )
             elif( accType == KartDNA.rimsType ):
                 if( accID == InvalidEntry ):
                         # THIS WILL LIKELY NEED TO BE FIXED WHEN NEW RIM
@@ -1379,11 +1373,9 @@ class KartShopGuiMgr( object, DirectObject.DirectObject ):
                         texNodePath = getTexCardNode( getDefaultRim() )
                 else:
                         texNodePath = getTexCardNode( accID )
-                tex = loader.loadTexture( "phase_6/maps/%s.jpg" % ( texNodePath ),
-                                          "phase_6/maps/%s_a.rgb" % ( texNodePath ) )
+                tex = loader.loadTexture( "phase_6/maps/%s.png" % ( texNodePath ) )
             elif( accType in [ KartDNA.bodyColor, KartDNA.accColor ] ):
-                tex = loader.loadTexture( "phase_6/maps/Kartmenu_paintbucket.jpg",
-                                          "phase_6/maps/Kartmenu_paintbucket_a.rgb" )
+                tex = loader.loadTexture( "phase_6/maps/Kartmenu_paintbucket.png" )
                 # Obtain the default color if the item is -1, handle this similar to the
                 # rims.
                 if( accID == InvalidEntry ):
@@ -1394,11 +1386,9 @@ class KartShopGuiMgr( object, DirectObject.DirectObject ):
                 #pdir(base.localAvatar)
                 kartDecal = getDecalId( base.localAvatar.getKartBodyType() )
                 texNodePath = getTexCardNode( accID )
-                tex = loader.loadTexture( "phase_6/maps/%s.jpg" % (texNodePath) % ( kartDecal ),
-                                          "phase_6/maps/%s_a.rgb" % (texNodePath) % ( kartDecal ) )
+                tex = loader.loadTexture( "phase_6/maps/%s.png" % (texNodePath) % ( kartDecal ) )
             else:
-                tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.jpg",
-                                          "phase_6/maps/NoAccessoryIcon3_a.rgb" )
+                tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.png" )
 
             # set the mipmaps
             tex.setMinfilter(Texture.FTLinearMipmapLinear)
@@ -1659,11 +1649,11 @@ class KartShopGuiMgr( object, DirectObject.DirectObject ):
         else: #exitType is the id for a Kart # (exitType == BK_OPTIONS.BuyKart):
             #player is buyin the Kart
             #self.__popDialog()
-	    self.kartID = exitType
-	    if base.localAvatar.hasKart():
-	        self.__doDialog(MENUS.ReturnKart)
-	    else:
-	        self.__doDialog(MENUS.ConfirmBuyKart)
+            self.kartID = exitType
+            if base.localAvatar.hasKart():
+                self.__doDialog(MENUS.ReturnKart)
+            else:
+                self.__doDialog(MENUS.ConfirmBuyKart)
 
     def __handleBuyAccessoryDlg( self, exitType, args=[] ):
         """
@@ -1687,8 +1677,8 @@ class KartShopGuiMgr( object, DirectObject.DirectObject ):
             #messenger.send(self.eventDict['guiDone'])
         else: #exitType is the id for an accessory # (exitType == BK_OPTIONS.BuyKart):
             #player is buyin the Kart
-	    self.accID = exitType
-	    self.__doDialog( MENUS.ConfirmBuyAccessory )
+            self.accID = exitType
+            self.__doDialog( MENUS.ConfirmBuyAccessory )
 
     def __handleReturnKartDlg( self, exitType, args=[] ):
         """

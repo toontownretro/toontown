@@ -1956,16 +1956,16 @@ class LevelEditor(NodePath, DirectObject):
             # Record bldg/wall
             self.lastBuilding = dnaObject
             self.lastWall = wall
-            if string.find(menuMode,'wall') >= 0:
+            if menuMode.find('wall') >= 0:
                 self.DNATarget = wall
                 self.DNATargetParent = dnaObject
-            elif string.find(menuMode,'door') >= 0:
+            elif menuMode.find('door') >= 0:
                 self.DNATarget = DNAGetChildOfClass(wall, DNA_FLAT_DOOR)
                 self.DNATargetParent = wall
-            elif string.find(menuMode, 'window') >= 0:
+            elif menuMode.find('window') >= 0:
                 self.DNATarget = DNAGetChildOfClass(wall, DNA_WINDOWS)
                 self.DNATargetParent = wall
-            elif string.find(menuMode,'cornice') >= 0:
+            elif menuMode.find('cornice') >= 0:
                 self.DNATarget = DNAGetChildOfClass(wall, DNA_CORNICE)
                 self.DNATargetParent = wall
             else:
@@ -1987,10 +1987,10 @@ class LevelEditor(NodePath, DirectObject):
             # INSERT HERE
             # LANDMARK BUILDING OPERATIONS
             menuMode = self.getLandmarkBuildingMode(dnaObject, modifiers)
-            if string.find(menuMode, 'door') >= 0:
+            if menuMode.find('door') >= 0:
                 self.DNATarget = DNAGetChildOfClass(dnaObject, DNA_DOOR)
                 self.DNATargetParent = dnaObject
-            elif string.find(menuMode, 'sign') >= 0:
+            elif menuMode.find('sign') >= 0:
                 self.DNATarget = DNAGetChildOfClass(dnaObject, DNA_SIGN)
                 self.DNATargetParent = dnaObject
             else:
@@ -2014,10 +2014,10 @@ class LevelEditor(NodePath, DirectObject):
                 menuMode = 'animlist_%s'%dnaObject.getCode()
             else:
                 menuMode = self.getLandmarkBuildingMode(dnaObject, modifiers)
-                if string.find(menuMode, 'door') >= 0:
+                if menuMode.find('door') >= 0:
                     self.DNATarget = DNAGetChildOfClass(dnaObject, DNA_DOOR)
                     self.DNATargetParent = dnaObject
-                elif string.find(menuMode, 'sign') >= 0:
+                elif menuMode.find('sign') >= 0:
                     self.DNATarget = DNAGetChildOfClass(dnaObject, DNA_SIGN)
                     self.DNATargetParent = dnaObject
                 else:
@@ -2033,13 +2033,13 @@ class LevelEditor(NodePath, DirectObject):
         # Set initial state
         state = None
         if self.DNATarget:
-            if string.find(menuMode,'texture') >= 0:
+            if menuMode.find('texture') >= 0:
                 state = self.DNATarget.getCode()
-            elif string.find(menuMode, 'color') >= 0:
+            elif menuMode.find('color') >= 0:
                 state = self.DNATarget.getColor()
                 self.panel.setCurrentColor(state)
                 self.panel.setResetColor(state)
-            elif string.find(menuMode, 'orientation') >= 0:
+            elif menuMode.find('orientation') >= 0:
                 state = self.DNATarget.getCode()[-2:]
             elif menuMode == 'building_width':
                 state = self.DNATarget.getWidth()

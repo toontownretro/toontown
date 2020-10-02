@@ -252,7 +252,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             )
 
         self.music = base.loadMusic(
-            "phase_4/audio/bgm/MG_cannon_game.mid"
+            "phase_4/audio/bgm/MG_cannon_game.ogg"
             )
 
         self.sndPhotoMove = base.loadSfx(\

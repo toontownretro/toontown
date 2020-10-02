@@ -33,7 +33,7 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
                              text_scale = 0.12,
                              text_pos = (0, 0.4),
                              borderWidth = (0.01, 0.01),
-                             sortOrder = NO_FADE_SORT_INDEX,
+                             sortOrder = DGG.NO_FADE_SORT_INDEX,
                              )
         StateData.StateData.__init__(self, "summon-cog-done")
         self.initialiseoptions(SummonCogDialog)
@@ -250,7 +250,7 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
             self.popup = None
 
             # Restore our dialog to the top of the fade screen.
-            self.reparentTo(self.getParent(), NO_FADE_SORT_INDEX)
+            self.reparentTo(self.getParent(), DGG.NO_FADE_SORT_INDEX)
             base.transitions.fadeScreen(.5)
 
             if resp == DGG.DIALOG_OK:

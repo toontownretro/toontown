@@ -9,7 +9,7 @@ from toontown.toonbase import ToontownGlobals
 from . import VineGameGlobals
 from . import VineSpider
 
-class SwingVine(NodePath.NodePath):
+class SwingVine(NodePath):
     notify = DirectNotifyGlobal.directNotify.newCategory('SwingVine')
 
     defaultNormal = Vec3(1,0,0)
@@ -144,7 +144,7 @@ class SwingVine(NodePath.NodePath):
         self.rope.reparentTo(self.root)
 
         # setup the vine texture
-        myTexture = loader.loadTexture("phase_4/maps/swinging_vine.jpg")
+        myTexture = loader.loadTexture("phase_4/maps/swinging_vine.png")
         gameAssets = loader.loadModel("phase_4/models/minigames/vine_game")
         vine = gameAssets.find('**/vine1')
         self.cableTex = vine.findTexture("*")

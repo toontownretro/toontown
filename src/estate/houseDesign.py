@@ -2280,7 +2280,7 @@ class ObjectManager(NodePath, DirectObject):
                 text_scale = 0.06,
                 text_pos = (0, 0.5),
                 textMayChange = 1,
-                sortOrder = NO_FADE_SORT_INDEX,
+                sortOrder = DGG.NO_FADE_SORT_INDEX,
                 )
             self.okButton = DirectButton(
                 parent = self.verifyFrame,

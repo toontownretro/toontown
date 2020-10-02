@@ -215,8 +215,8 @@ class DisplayOptions:
             # libotp.dll, then we already have a NametagGlobals, and
             # we should keep it up-to-date with the new MouseWatcher
             # etc.
-            if 'libotp' in sys.modules:
-                from libotp import NametagGlobals
+            if 'panda3d.otp' in sys.modules:
+                from panda3d.otp import NametagGlobals
                 NametagGlobals.setCamera(base.cam)
                 NametagGlobals.setMouseWatcher(base.mouseWatcherNode)
 
