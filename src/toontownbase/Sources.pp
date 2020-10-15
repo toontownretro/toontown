@@ -4,8 +4,8 @@
   #define TARGET toontownbase
 
   #define OTHER_LIBS \
-      p3dtool:m \
-      p3prc p3dtoolutil:c p3dtoolbase:c
+      dtool:m \
+      prc dtoolutil:c dtoolbase:c
 
   #define SOURCES \
     toontownbase.cxx toontownbase.h toontownsymbols.h \

@@ -7,9 +7,9 @@
   #define LOCAL_LIBS toontownbase
   #define OTHER_LIBS \
     panda:m pandaexpress:m \
-    p3interrogatedb \
-    p3dtoolutil:c p3dtoolbase:c p3dtool:m \
-    p3prc
+    interrogatedb \
+    dtoolutil:c dtoolbase:c dtool:m \
+    prc
 
   #define SOURCES \
      config_dna.h dnaBuildings.h dnaConstants.h dnaCornice.h dnaData.I  \

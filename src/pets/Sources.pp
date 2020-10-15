@@ -5,15 +5,15 @@
 
   #define OTHER_LIBS \
     otp:m otpbase:c movement:c \
-    panda:m p3downloader:c p3express:c p3pandabase:c p3recorder:c \
-    p3pgraph:c p3pgraphnodes:c p3pipeline:c p3grutil:c p3chan:c p3pstatclient:c \
-    p3char:c p3collide:c p3cull:c p3device:c p3dgraph:c p3display:c \
-    p3event:c p3gobj:c p3gsgbase:c p3linmath:c p3mathutil:c p3parametrics:c \
-    p3pnmimagetypes:c p3pnmimage:c p3tform:c p3text:c \
-    p3putil:c p3audio:c p3pgui:c p3interrogatedb \
-    $[if $[HAVE_NET],p3net:c] $[if $[WANT_NATIVE_NET],p3nativenet:c] \
-    $[if $[HAVE_FREETYPE],p3pnmtext:c] \
-    p3dtoolutil:c p3dtoolbase:c p3prc
+    panda:m downloader:c express:c pandabase:c recorder:c \
+    pgraph:c pgraphnodes:c pipeline:c grutil:c chan:c pstatclient:c \
+    char:c collide:c cull:c device:c dgraph:c display:c \
+    event:c gobj:c gsgbase:c linmath:c mathutil:c parametrics:c \
+    pnmimagetypes:c pnmimage:c tform:c text:c \
+    putil:c audio:c pgui:c interrogatedb \
+    $[if $[HAVE_NET],net:c] $[if $[WANT_NATIVE_NET],nativenet:c] \
+    $[if $[HAVE_FREETYPE],pnmtext:c] \
+    dtoolutil:c dtoolbase:c prc
 
   #define SOURCES \
     config_pets.h config_pets.cxx \
