@@ -620,7 +620,12 @@ class Street(BattlePlace.BattlePlace):
 
             # Tell the server that we changed zones
             if newZoneId != None:
-                base.cr.sendSetZoneMsg(newZoneId)
+                if not base.cr.astronSupport:
+                    base.cr.sendSetZoneMsg(newZoneId)
+                else:
+                    visZones = [self.loader.node2zone[x] for x in self.loader.nodeDict[newZoneId]]
+                    visZones.append(ZoneUtil.getBranchZone(newZoneId))
+                    base.cr.sendSetZoneMsg(newZoneId, visZones)
                 self.notify.debug("Entering Zone %d" % (newZoneId))
 
             # The new zone is now old

@@ -338,11 +338,11 @@ class Pet(Avatar.Avatar):
 
         # set eye texture based on gender
         if self.style[8]:
-            self.eyesOpenTexture = loader.loadTexture('phase_4/maps/BeanEyeBoys2.png')
-            self.eyesClosedTexture = loader.loadTexture('phase_4/maps/BeanEyeBoysBlink.png')
+            self.eyesOpenTexture = loader.loadTexture('phase_4/maps/BeanEyeBoys2.tga')
+            self.eyesClosedTexture = loader.loadTexture('phase_4/maps/BeanEyeBoysBlink.tga')
         else:
-            self.eyesOpenTexture = loader.loadTexture('phase_4/maps/BeanEyeGirlsNew.png')
-            self.eyesClosedTexture = loader.loadTexture('phase_4/maps/BeanEyeGirlsBlinkNew.png')
+            self.eyesOpenTexture = loader.loadTexture('phase_4/maps/BeanEyeGirlsNew.tga')
+            self.eyesClosedTexture = loader.loadTexture('phase_4/maps/BeanEyeGirlsBlinkNew.tga')
 
         self.eyesOpenTexture.setMinfilter(Texture.FTLinear)
         self.eyesOpenTexture.setMagfilter(Texture.FTLinear)

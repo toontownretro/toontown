@@ -491,7 +491,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         # Load up an elevator
         self.elevatorNodePath = hidden.attachNewNode("elevatorNodePath")
         self.elevatorModel = loader.loadModel(
-                "phase_4/models/modules/elevator")
+                "phase_5/models/modules/elevator")
 
         # Put up a display to show the current floor of the elevator
         self.floorIndicator=[None, None, None, None, None]

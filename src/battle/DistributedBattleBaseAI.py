@@ -63,6 +63,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI,
         self.toonOrigMerits = {}
         self.toonMerits = {}
         self.toonParts = {}
+        from .BattleCalculatorAI import BattleCalculatorAI
         self.battleCalc = BattleCalculatorAI(self, tutorialFlag)
 
         # If there is an invasion, double the exp for the duration of this battle
@@ -379,6 +380,8 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI,
         self.sendUpdate('setMembers', self.getMembers())
 
     def getMembers(self):
+        from .BattleCalculatorAI import BattleCalculatorAI
+
         suits = []
         for s in self.suits:
             suits.append(s.doId)

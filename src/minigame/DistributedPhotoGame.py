@@ -252,7 +252,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             )
 
         self.music = base.loadMusic(
-            "phase_4/audio/bgm/MG_cannon_game.ogg"
+            "phase_4/audio/bgm/MG_cannon_game.mid"
             )
 
         self.sndPhotoMove = base.loadSfx(\
@@ -519,12 +519,12 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
 
         self.rayArray = []
 
-        vRange = (GOODROWS-BADROWS)/2
+        vRange = (GOODROWS-BADROWS)//2
 
 
-        for row in range(-(GOODROWS/2),(GOODROWS/2) + 1):
-            for column in range(-(GOODROWS/2),(GOODROWS/2) + 1):
-                goodRange = list(range(-((GOODROWS-BADROWS)/2),((GOODROWS-BADROWS)/2) + 1))
+        for row in range(-(GOODROWS//2),(GOODROWS//2) + 1):
+            for column in range(-(GOODROWS//2),(GOODROWS//2) + 1):
+                goodRange = list(range(-((GOODROWS-BADROWS)//2),((GOODROWS-BADROWS)//2) + 1))
                 rayQuality = "g"
                 if (not (row in goodRange)) or (not (column in goodRange)):
                     rayQuality = "l"

@@ -137,7 +137,7 @@ OTPGlobals.setDefaultProductPrefix(TTLocalizer.ProductPrefix)
 # handed off to the cr to control. This is done so keep the music
 # from skipping (if we stopped it and restarted it).
 if base.musicManagerIsValid:
-    music = base.musicManager.getSound("phase_3/audio/bgm/tt_theme.ogg")
+    music = base.musicManager.getSound("phase_3/audio/bgm/tt_theme.mid")
     if music:
         music.setLoop(1)
         music.setVolume(0.9)

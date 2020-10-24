@@ -142,7 +142,7 @@ class DistributedRingGame(DistributedMinigame):
         self.defineConstants()
 
         self.music = base.loadMusic(
-            "phase_4/audio/bgm/MG_toontag.ogg"
+            "phase_4/audio/bgm/MG_toontag.mid"
             )
 
         self.sndAmbience = base.loadSfx(

@@ -162,7 +162,7 @@ class DistributedRaceGame(DistributedMinigame):
         self.dice4 = self.dice.find("**/dice_button4")
         self.diceList = [self.dice1, self.dice2, self.dice3, self.dice4]
 
-        self.music = base.loadMusic("phase_4/audio/bgm/minigame_race.ogg")
+        self.music = base.loadMusic("phase_4/audio/bgm/minigame_race.mid")
         # The sound that is played when local toon gets a unique choice
         self.posBuzzer = base.loadSfx("phase_4/audio/sfx/MG_pos_buzzer.wav")
         # The sound that is played when local toon gets a bad choice

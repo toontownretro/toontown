@@ -62,17 +62,17 @@ class Purchase(PurchaseBase):
         self.bg.setPos(0., 5., -1.)
 
         self.wt = self.bg.find("**/random_tc1_TI_wallpaper")
-        wallTex = loader.loadTexture("phase_%s/maps/wall_paper_a5.png" % interiorPhase)
+        wallTex = loader.loadTexture("phase_%s/maps/wall_paper_a5.tga" % interiorPhase)
         self.wt.setTexture(wallTex, 100)
         self.wt.setColorScale(0.800, 0.670, 0.549, 1.0)
 
         self.bt = self.bg.find("**/random_tc1_TI_wallpaper_border")
-        wallTex = loader.loadTexture("phase_%s/maps/wall_paper_a5.png" % interiorPhase)
+        wallTex = loader.loadTexture("phase_%s/maps/wall_paper_a5.tga" % interiorPhase)
         self.bt.setTexture(wallTex, 100)
         self.bt.setColorScale(0.800, 0.670, 0.549, 1.0)
 
         self.wb = self.bg.find("**/random_tc1_TI_wainscotting")
-        wainTex = loader.loadTexture("phase_%s/maps/wall_paper_b4.png" % interiorPhase)
+        wainTex = loader.loadTexture("phase_%s/maps/wall_paper_b4.tga" % interiorPhase)
         self.wb.setTexture(wainTex, 100)
         self.wb.setColorScale(0.473, 0.675, 0.488, 1.0)
 

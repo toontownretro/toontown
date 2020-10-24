@@ -15,6 +15,7 @@ from toontown.minigame import DistributedIceWorld
 from toontown.minigame import IceGameGlobals
 from toontown.minigame import MinigameAvatarScorePanel
 from toontown.minigame import IceTreasure
+import functools
 
 class DistributedIceGame(DistributedMinigame.DistributedMinigame,
                          DistributedIceWorld.DistributedIceWorld):
@@ -216,7 +217,7 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame,
         # load resources and create objects here
         self.notify.debug("load")
         DistributedMinigame.DistributedMinigame.load(self)
-        self.music = base.loadMusic("phase_4/audio/bgm/MG_IceGame.ogg")
+        self.music = base.loadMusic("phase_4/audio/bgm/MG_IceGame.mid")
         #self.gameBoard = loader.loadModel("phase_4/models/minigames/toon_cannon_gameground")
         self.gameBoard = loader.loadModel("phase_4/models/minigames/ice_game_icerink")
         #background = loader.loadModel("phase_4/models/minigames/ice_game")
@@ -648,7 +649,7 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame,
                 return -1
             else:
                 return 0
-        sortedByDistance.sort(cmp = compareDistance)
+        sortedByDistance.sort(key = functools.cmp_to_key(compareDistance))
         self.scoreMovie = Sequence()
         curScale = 0.01
         curTime = 0

@@ -66,7 +66,7 @@ class ToonBlitzAssetMgr(DirectObject):
         self.world.attachNewNode(dropPlane)
 
         # Loading the music
-        self.gameMusic = base.loadMusic("phase_4/audio/bgm/MG_TwoDGame.ogg")
+        self.gameMusic = base.loadMusic("phase_4/audio/bgm/MG_TwoDGame.mid")
         self.treasureGrabSound = loader.loadSfx("phase_4/audio/sfx/SZ_DD_treasure.mp3")
         self.sndOof = base.loadSfx('phase_4/audio/sfx/MG_cannon_hit_dirt.mp3')
         self.soundJump = base.loadSfx('phase_4/audio/sfx/MG_sfx_vine_game_jump.mp3')

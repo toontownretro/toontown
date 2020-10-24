@@ -87,42 +87,68 @@ class QuietZoneState(StateData.StateData):
 
     ##### handlers #####
 
-    def handleWaitForQuietZoneResponse(self, msgType, di):
-        self.notify.debug("handleWaitForQuietZoneResponse("
-                                 +"msgType="+str(msgType)+", di="+str(di)+")")
-        if msgType == CLIENT_CREATE_OBJECT_REQUIRED:
-            # Call the special filtered quiet zone generate handler
-            base.cr.handleQuietZoneGenerateWithRequired(di)
-        elif msgType == CLIENT_CREATE_OBJECT_REQUIRED_OTHER:
-            # Call the special filtered quiet zone generate handler
-            base.cr.handleQuietZoneGenerateWithRequiredOther(di)
-        elif msgType == CLIENT_OBJECT_UPDATE_FIELD:
-            # Call the special filtered quiet zone field update handler
-            base.cr.handleQuietZoneUpdateField(di)
-        elif msgType in QUIET_ZONE_IGNORED_LIST:
-            # These are messages from the previous zone that we can
-            # safely ignore. Going to the quiet zone before hand will
-            # prevent most of these from even being sent to us, but
-            # there still may be some on the wire on the way to us
-            self.notify.debug("ignoring unwanted message from previous zone")
-        else:
-            # Dispatch back to the cr
-            base.cr.handlePlayGame(msgType, di)
+    if not config.GetBool('astron-support', True):
+        def handleWaitForQuietZoneResponse(self, msgType, di):
+            self.notify.debug("handleWaitForQuietZoneResponse("
+                                    +"msgType="+str(msgType)+", di="+str(di)+")")
+            if msgType == CLIENT_CREATE_OBJECT_REQUIRED:
+                # Call the special filtered quiet zone generate handler
+                base.cr.handleQuietZoneGenerateWithRequired(di)
+            elif msgType == CLIENT_CREATE_OBJECT_REQUIRED_OTHER:
+                # Call the special filtered quiet zone generate handler
+                base.cr.handleQuietZoneGenerateWithRequiredOther(di)
+            elif msgType == CLIENT_OBJECT_UPDATE_FIELD:
+                # Call the special filtered quiet zone field update handler
+                base.cr.handleQuietZoneUpdateField(di)
+            elif msgType in QUIET_ZONE_IGNORED_LIST:
+                # These are messages from the previous zone that we can
+                # safely ignore. Going to the quiet zone before hand will
+                # prevent most of these from even being sent to us, but
+                # there still may be some on the wire on the way to us
+                self.notify.debug("ignoring unwanted message from previous zone")
+            else:
+                # Dispatch back to the cr
+                base.cr.handlePlayGame(msgType, di)
+    else:
+        def handleWaitForQuietZoneResponse(self, msgType, di):
+            self.notify.debug('handleWaitForQuietZoneResponse(' + 'msgType=' + str(msgType) + ', di=' + str(di) + ')')
+            if msgType == CLIENT_ENTER_OBJECT_REQUIRED:
+                base.cr.handleQuietZoneGenerateWithRequired(di)
+            elif msgType == CLIENT_ENTER_OBJECT_REQUIRED_OTHER:
+                base.cr.handleQuietZoneGenerateWithRequiredOther(di)
+            elif msgType == CLIENT_OBJECT_SET_FIELD:
+                base.cr.handleQuietZoneUpdateField(di)
+            elif msgType in QUIET_ZONE_IGNORED_LIST:
+                self.notify.debug('ignoring unwanted message from previous zone')
+            else:
+                base.cr.handlePlayGame(msgType, di)
 
-    def handleWaitForZoneRedirect(self, msgType, di):
-        self.notify.debug("handleWaitForZoneRedirect("+"msgType="+str(msgType)+", di="+str(di)+")")
-        if msgType == CLIENT_CREATE_OBJECT_REQUIRED:
-            # Call the special filtered quiet zone generate handler
-            base.cr.handleQuietZoneGenerateWithRequired(di)
-        elif msgType == CLIENT_CREATE_OBJECT_REQUIRED_OTHER:
-            # Call the special filtered quiet zone generate handler
-            base.cr.handleQuietZoneGenerateWithRequiredOther(di)
-        elif msgType == CLIENT_OBJECT_UPDATE_FIELD:
-            # Call the special filtered quiet zone field update handler
-            base.cr.handleQuietZoneUpdateField(di)
-        else:
-            # Dispatch back to the cr
-            base.cr.handlePlayGame(msgType, di)
+    if not config.GetBool('astron-support', True):
+        def handleWaitForZoneRedirect(self, msgType, di):
+            self.notify.debug("handleWaitForZoneRedirect("+"msgType="+str(msgType)+", di="+str(di)+")")
+            if msgType == CLIENT_CREATE_OBJECT_REQUIRED:
+                # Call the special filtered quiet zone generate handler
+                base.cr.handleQuietZoneGenerateWithRequired(di)
+            elif msgType == CLIENT_CREATE_OBJECT_REQUIRED_OTHER:
+                # Call the special filtered quiet zone generate handler
+                base.cr.handleQuietZoneGenerateWithRequiredOther(di)
+            elif msgType == CLIENT_OBJECT_UPDATE_FIELD:
+                # Call the special filtered quiet zone field update handler
+                base.cr.handleQuietZoneUpdateField(di)
+            else:
+                # Dispatch back to the cr
+                base.cr.handlePlayGame(msgType, di)
+    else:
+        def handleWaitForZoneRedirect(self, msgType, di):
+            self.notify.debug('handleWaitForZoneRedirect(' + 'msgType=' + str(msgType) + ', di=' + str(di) + ')')
+            if msgType == CLIENT_ENTER_OBJECT_REQUIRED:
+                base.cr.handleQuietZoneGenerateWithRequired(di)
+            elif msgType == CLIENT_ENTER_OBJECT_REQUIRED_OTHER:
+                base.cr.handleQuietZoneGenerateWithRequiredOther(di)
+            elif msgType == CLIENT_OBJECT_SET_FIELD:
+                base.cr.handleQuietZoneUpdateField(di)
+            else:
+                base.cr.handlePlayGame(msgType, di)
 
     ##### Off #####
 

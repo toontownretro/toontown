@@ -2291,31 +2291,31 @@
 @@ -94,6 +94,31 @@
              startMessage = TTLocalizer.FireworksJuly4Beginning
              endMessage = TTLocalizer.FireworksJuly4Ending
-             musicFile ="phase_4/audio/bgm/firework_music.ogg"
+             musicFile ="phase_4/audio/bgm/firework_music.mid"
 +        elif holidayId == OCTOBER31_FIREWORKS: # German and French
 +            startMessage = TTLocalizer.FireworksOctober31Beginning
 +            endMessage = TTLocalizer.FireworksOctober31Ending
-+            musicFile ="phase_4/audio/bgm/firework_music.ogg"
++            musicFile ="phase_4/audio/bgm/firework_music.mid"
 +            holidayId = JULY4_FIREWORKS
 +        elif holidayId == NOVEMBER19_FIREWORKS: # German
 +            startMessage = TTLocalizer.FireworksNovember19Beginning
 +            endMessage = TTLocalizer.FireworksNovember19Ending
-+            musicFile ="phase_4/audio/bgm/firework_music.ogg"
++            musicFile ="phase_4/audio/bgm/firework_music.mid"
 +            holidayId = JULY4_FIREWORKS
 +        elif holidayId in [FEBRUARY14_FIREWORKS, VALENTINES_FIREWORKS] : # French, Brazil
 +            startMessage = TTLocalizer.FireworksValentinesBeginning
 +            endMessage = TTLocalizer.FireworksValentinesEnding
-+            musicFile ="phase_4/audio/bgm/firework_music.ogg"
++            musicFile ="phase_4/audio/bgm/firework_music.mid"
 +            holidayId = JULY4_FIREWORKS
 +        elif holidayId == JUNE22_FIREWORKS: # French
 +            startMessage = TTLocalizer.FireworksBeginning
 +            endMessage = TTLocalizer.FireworksEnding
-+            musicFile ="phase_4/audio/bgm/firework_music.ogg"
++            musicFile ="phase_4/audio/bgm/firework_music.mid"
 +            holidayId = JULY4_FIREWORKS
 +        elif holidayId == JULY14_FIREWORKS: # French
 +            startMessage = TTLocalizer.FireworksJuly14Beginning
 +            endMessage = TTLocalizer.FireworksJuly14Ending
-+            musicFile ="phase_4/audio/bgm/firework_music.ogg"
++            musicFile ="phase_4/audio/bgm/firework_music.mid"
 +            holidayId = JULY4_FIREWORKS
          elif holidayId == NEWYEARS_FIREWORKS:
              startMessage = TTLocalizer.FireworksNewYearsEveBeginning

@@ -185,6 +185,8 @@ class DistributedCannonGame(DistributedMinigame):
 
         self.modelCount = 14
 
+        self.introCameraSeq = None
+
     def getTitle(self):
         return TTLocalizer.CannonGameTitle
 
@@ -263,11 +265,11 @@ class DistributedCannonGame(DistributedMinigame):
             )
 
         self.music = base.loadMusic(
-            #"phase_3/audio/bgm/create_a_toon.ogg"
-            #"phase_4/audio/bgm/TC_SZ_activity.ogg"
-            #"phase_4/audio/bgm/TC_nbrhood.ogg"
-            #"phase_4/audio/bgm/minigame_race.ogg"
-            "phase_4/audio/bgm/MG_cannon_game.ogg"
+            #"phase_3/audio/bgm/create_a_toon.mid"
+            #"phase_4/audio/bgm/TC_SZ_activity.mid"
+            #"phase_4/audio/bgm/TC_nbrhood.mid"
+            #"phase_4/audio/bgm/minigame_race.mid"
+            "phase_4/audio/bgm/MG_cannon_game.mid"
             )
 
         self.sndCannonMove = base.loadSfx(\
@@ -563,7 +565,7 @@ class DistributedCannonGame(DistributedMinigame):
         # choose a number from yRange*0.3 to yRange
         # don't use the front 1/3 or so of the triangle, it's
         # too close to the cannons
-        yMin = yRange * .3
+        yMin = int(yRange * .3)
         yMax = yRange
         if self.DEBUG_TOWER_RANGE:
             if self.DEBUG_TOWER_NEAR:
@@ -1205,8 +1207,12 @@ class DistributedCannonGame(DistributedMinigame):
         # calculate the trajectory
         flightResults = self.__calcFlightResults(avId, launchTime)
         # pull all the results into the local namespace
-        for key in flightResults:
-            exec("%s = flightResults['%s']" % (key, key))
+        startPos = flightResults['startPos']
+        startVel = flightResults['startVel']
+        startHpr = flightResults['startHpr']
+        trajectory = flightResults['trajectory']
+        timeOfImpact = flightResults['timeOfImpact']
+        hitWhat = flightResults['hitWhat']
 
         self.notify.debug("start position: " + str(startPos))
         self.notify.debug("start velocity: " + str(startVel))
@@ -1619,7 +1625,9 @@ class DistributedCannonGame(DistributedMinigame):
 
     def __stopIntro(self):
         taskMgr.remove(self.INTRO_TASK_NAME)
-        taskMgr.remove(self.INTRO_TASK_NAME_CAMERA_LERP)
+        if self.introCameraSeq:
+            self.introCameraSeq.finish()
+            self.introCameraSeq = None
         # reclaim the camera
         camera.wrtReparentTo(render)
 
@@ -1636,16 +1644,17 @@ class DistributedCannonGame(DistributedMinigame):
         camera.lookAt(targetLookAt)
 
         # get the target HPR
-        targetHpr = camera.getHpr()
+        targetQuat = camera.getQuat()
 
         # put the camera back where we found it
         camera.setPos(oldPos)
         camera.setHpr(oldHpr)
 
         # spawn a camera LERP task
-        camera.lerpPosHpr(Point3(targetPos), targetHpr, duration,
-                          blendType = "easeInOut",
-                          task = self.INTRO_TASK_NAME_CAMERA_LERP)
+        self.introCameraSeq = camera.posQuatInterval(duration,
+            Point3(targetPos), targetQuat, blendType='easeInOut',
+            name=self.INTRO_TASK_NAME_CAMERA_LERP)
+        self.introCameraSeq.start()
 
     def __taskLookInWater(self, task):
         # place the camera a little above the tower, looking into the water
@@ -1715,12 +1724,14 @@ class DistributedCannonGame(DistributedMinigame):
         camera.setPos(relCamPos)
         camera.setHpr(relCamHpr)
 
-        # rotate the rotation node
-        lerpNode.lerpHpr(endRotation, self.T_TOONHEAD2CANNONBACK,
-                         blendType = "easeInOut",
-                         task = self.INTRO_TASK_NAME_CAMERA_LERP)
-        # lerp the camera position
-        camera.lerpPos(endPos, self.T_TOONHEAD2CANNONBACK,
+        # rotate the rotation node and lerp the camera position
+        self.introCameraSeq = Parallel(
+            lerpNode.hprInterval(self.T_TOONHEAD2CANNONBACK, endRotation,
+                                 blendType = "easeInOut",
+                                 name = self.INTRO_TASK_NAME_CAMERA_LERP),
+            camera.posInterval(self.T_TOONHEAD2CANNONBACK, endPos,
                        blendType = "easeInOut",
-                       task = self.INTRO_TASK_NAME_CAMERA_LERP)
+                       name = self.INTRO_TASK_NAME_CAMERA_LERP))
+        self.introCameraSeq.start()
+
         return Task.done

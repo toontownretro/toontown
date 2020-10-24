@@ -1,9 +1,9 @@
 # python imports
-import fpformat
 import string
 import time
 import random
 import datetime
+import functools
 
 
 # panda3d imports
@@ -45,14 +45,15 @@ from toontown.golf import GolfManagerAI
 from toontown.golf import GolfGlobals
 from toontown.parties import PartyGlobals
 from toontown.parties import PartyUtils
-from toontown.uberdog.DataStoreAIClient import DataStoreAIClient
-from toontown.uberdog import DataStoreGlobals
+#from toontown.uberdog.DataStoreAIClient import DataStoreAIClient
+#from toontown.uberdog import DataStoreGlobals
 
 if (simbase.wantKarts):
     from toontown.racing.KartDNA import *
 
 class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("ToontownMagicWordManagerAI")
+    notify.setDebug(True)
 
     GameAvatarClass = DistributedToonAI.DistributedToonAI
 
@@ -73,6 +74,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
 
     def __init__(self, air):
         MagicWordManagerAI.MagicWordManagerAI.__init__(self, air)
+        print("MAGIC WORD MGR")
         self.__bossBattleZoneId = [None, None, None, None]
         self.__bossCog = [None, None, None, None]
 
@@ -1515,10 +1517,10 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                 response += "%d unknown" % unknown
             self.down_setMagicWordResponse(senderId, response)
 
-        elif wordIs('~deleteBackupStores'):
-            storeClient = DataStoreAIClient(self.air, DataStoreGlobals.GEN, None)
-            storeClient.deleteBackupStores()
-            storeClient.closeStore()
+        #elif wordIs('~deleteBackupStores'):
+        #    storeClient = DataStoreAIClient(self.air, DataStoreGlobals.GEN, None)
+        #    storeClient.deleteBackupStores()
+        #    storeClient.closeStore()
 
         elif wordIs("~autoRich"):
             # Available only __dev__ and GMs. Guard against hacked clients sending this. If a non-GM

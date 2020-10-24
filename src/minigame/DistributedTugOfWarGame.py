@@ -28,7 +28,7 @@ from direct.task.Task import Task
 
 class DistributedTugOfWarGame(DistributedMinigame):
 
-    bgm = "phase_4/audio/bgm/MG_tug_o_war.ogg"
+    bgm = "phase_4/audio/bgm/MG_tug_o_war.mid"
 
     toonAnimNames   = ['neutral', 'tug-o-war', 'slip-forward', 'slip-backward', 'victory', 'sad-neutral']
     suitAnimNames   = ['neutral', 'tug-o-war', 'slip-forward', 'slip-backward', 'flail', 'victory']

@@ -988,8 +988,10 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         avatar = self.getVar(avatarKey)
         toAvatarKey = line[2]
         toAvatar = self.getVar(toAvatarKey)
+        print("toAvatar", toAvatar)
         # This is ugly...
         localizerAvatarName = toAvatar.getName().capitalize()
+        print(localizerAvatarName)
         toAvatarName = eval("TTLocalizer." + localizerAvatarName)
         chatString = eval("TTLocalizer." + line[3])
         chatString = chatString.replace('%s', toAvatarName)
@@ -1015,8 +1017,10 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         avatar = self.getVar(avatarKey)
         toAvatarKey = line[2]
         toAvatar = self.getVar(toAvatarKey)
+        print("toAvatar", toAvatar)
         # This is ugly...
         localizerAvatarName = toAvatar.getName().capitalize()
+        print(localizerAvatarName)
         toAvatarName = eval("TTLocalizer." + localizerAvatarName)
         if self.toon.getStyle().gender == 'm':
             chatString = eval("TTLocalizer." + (line[3] % 'Mickey'))

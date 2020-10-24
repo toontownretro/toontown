@@ -213,6 +213,7 @@ class TTChatInputWhiteList(ChatInputWhiteListFrame):
                 if flags & ToontownGlobals.FriendChat:
                     self.sendWhisperByFriend(friendId, text)
         elif not self.receiverId:
+            print("send open talk")
             base.talkAssistant.sendOpenTalk(text)
         elif self.receiverId and not self.toPlayer:
             base.talkAssistant.sendWhisperTalk(text, self.receiverId)

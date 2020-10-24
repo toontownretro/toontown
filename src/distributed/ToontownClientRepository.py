@@ -316,15 +316,19 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         del self.okButton
         del self.acceptedText
         del self.acceptedBanner
-        # Send an acception confirmed message to the server!
-        datagram = PyDatagram()
-        # Add message type
-        datagram.addUint16(CLIENT_SET_WISHNAME_CLEAR)
-        datagram.addUint32(avatarChoice.id)
-        datagram.addUint8(1)
-        # Send the message
-        self.send(datagram)
-        self.loginFSM.request("waitForSetAvatarResponse", [avatarChoice])
+        if not self.astronSupport:
+            # Send an acception confirmed message to the server!
+            datagram = PyDatagram()
+            # Add message type
+            datagram.addUint16(CLIENT_SET_WISHNAME_CLEAR)
+            datagram.addUint32(avatarChoice.id)
+            datagram.addUint8(1)
+            # Send the message
+            self.send(datagram)
+            self.loginFSM.request("waitForSetAvatarResponse", [avatarChoice])
+        else:
+            self.astronLoginManager.sendAcknowledgeAvatarName(avatarChoice.id,
+                                                              lambda: self.loginFSM.request('waitForSetAvatarResponse', [avatarChoice]))
 
     def betterlucknexttime(self, avList, index):
         self.rejectDoneEvent = "rejectDone"
@@ -339,10 +343,11 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
     def __handleReject(self, avList, index):
         self.rejectDialog.cleanup()
-        # Send a reject confirmed message to the server!
-        datagram = PyDatagram()
-        # Add message type
-        datagram.addUint16(CLIENT_SET_WISHNAME_CLEAR)
+        if not self.astronSupport:
+            # Send a reject confirmed message to the server!
+            datagram = PyDatagram()
+            # Add message type
+            datagram.addUint16(CLIENT_SET_WISHNAME_CLEAR)
         avid = 0
         for k in avList:
             if k.position == index:
@@ -354,12 +359,15 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             self.notify.error("Avatar rejected not found in avList.  Index is: " +
                               str(index))
 
-        datagram.addUint32(avid)
-        datagram.addUint8(0)
-        # Send the message
-        self.send(datagram)
-        self.loginFSM.request("waitForAvatarList")
-        #self.goToPickAName(avList, index)
+        if not self.astronSupport:
+            datagram.addUint32(avid)
+            datagram.addUint8(0)
+            # Send the message
+            self.send(datagram)
+            self.loginFSM.request("waitForAvatarList")
+            #self.goToPickAName(avList, index)
+        else:
+            self.astronLoginManager.sendAcknowledgeAvatarName(avId, lambda: self.loginFSM.request('waitForAvatarList'))
 
     def enterChooseAvatar(self, avList):
         ModelPool.garbageCollect()
@@ -377,7 +385,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
         if (self.music == None) and base.musicManagerIsValid:
             # Reload the music if we don't have it already.
-            self.music = base.musicManager.getSound("phase_3/audio/bgm/tt_theme.ogg")
+            self.music = base.musicManager.getSound("phase_3/audio/bgm/tt_theme.mid")
             # Set the music to play immediately after we load it.  It
             # is not clear why we need to do this even though we are
             # about to call base.playMusic() below, but it appears we
@@ -509,7 +517,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.avCreate.load()
         self.avCreate.enter()
 
-        self.handler = self.handleCreateAvatar
+        if not self.astronSupport:
+            self.handler = self.handleCreateAvatar
 
         # Hang hooks for when the selection is made
         self.accept("makeAToonComplete",
@@ -577,71 +586,96 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         if hasattr(self, 'newPotAv'):
             del self.newPotAv
 
+    if not config.GetBool('astron-support', True):
+        def handleAvatarResponseMsg(self, di):
+            """
+            This is the handler called at startup time when the server is
+            telling us details about our own avatar.  A different handler,
+            handleGetAvatarDetailsResp, is called in response to the
+            same message received while playing the game (in which case it
+            is a response to a query about someone else, not information
+            about ourselves).
+            """
+            self.cleanupWaitingForDatabase()
+            # This should be the avatar Id that we had sent
+            avatarId = di.getUint32()
+            # Check for a valid avatar
+            returnCode = di.getUint8()
+            if returnCode == 0:
+                # Put this avatar into the repository, but act like it
+                # is a normal distributedToon... This is weird, because
+                # we are simulating a "generate", but localAvatar is very
+                # special.
+                dclass = self.dclassesByName["DistributedToon"]
 
-    def handleAvatarResponseMsg(self, di):
-        """
-        This is the handler called at startup time when the server is
-        telling us details about our own avatar.  A different handler,
-        handleGetAvatarDetailsResp, is called in response to the
-        same message received while playing the game (in which case it
-        is a response to a query about someone else, not information
-        about ourselves).
-        """
-        self.cleanupWaitingForDatabase()
-        # This should be the avatar Id that we had sent
-        avatarId = di.getUint32()
-        # Check for a valid avatar
-        returnCode = di.getUint8()
-        if returnCode == 0:
-            # Put this avatar into the repository, but act like it
-            # is a normal distributedToon... This is weird, because
-            # we are simulating a "generate", but localAvatar is very
-            # special.
-            dclass = self.dclassesByName["DistributedToon"]
+                # Turn off the little red arrows until we get established
+                # in the game.
+                NametagGlobals.setMasterArrowsOn(0)
 
-            # Turn off the little red arrows until we get established
-            # in the game.
+                loader.beginBulkLoad("localAvatarPlayGame", OTPLocalizer.CREnteringToontown, 400,
+                                    1, TTLocalizer.TIP_GENERAL)
+                localAvatar = LocalToon.LocalToon(self)
+                localAvatar.dclass = dclass
+
+                # Hang onto the variable... We'll use it in playGame.
+                base.localAvatar = localAvatar
+                # Create a convenient global
+                __builtins__["localAvatar"] = base.localAvatar
+
+                # Also, make it the center of our arrows now.
+                NametagGlobals.setToon(base.localAvatar)
+
+                # Set the doId
+                localAvatar.doId = avatarId
+                # Store it locally too in case any DistributedObjects need to know
+                self.localAvatarDoId = avatarId
+
+                # Set the required fields
+                # TODO: ROGER: where should we get parentId and zoneId from?
+                parentId = None
+                zoneId = None
+                localAvatar.setLocation(parentId, zoneId)
+                localAvatar.generateInit()
+                localAvatar.generate()
+                localAvatar.updateAllRequiredFields(dclass, di)
+
+                # Put the new Obj in the dictionary
+                self.doId2do[avatarId] = localAvatar
+
+                # This stuff used to happen in announceGenerate for the localToon
+                localAvatar.initInterface()
+
+                # Ask for a friends list
+                self.sendGetFriendsListRequest()
+                # Start playing the game
+                self.loginFSM.request('playingGame')
+            else:
+                self.notify.error("Bad avatar: return code %d" % (returnCode))
+    else:
+        def handleAvatarResponseMsg(self, avatarId, di):
+            self.cleanupWaitingForDatabase()
+            dclass = self.dclassesByName['DistributedToon']
             NametagGlobals.setMasterArrowsOn(0)
-
-            loader.beginBulkLoad("localAvatarPlayGame", OTPLocalizer.CREnteringToontown, 400,
-                                 1, TTLocalizer.TIP_GENERAL)
+            loader.beginBulkLoad('localAvatarPlayGame', OTPLocalizer.CREnteringToontown, 400, 1, TTLocalizer.TIP_GENERAL)
             localAvatar = LocalToon.LocalToon(self)
             localAvatar.dclass = dclass
-
-            # Hang onto the variable... We'll use it in playGame.
             base.localAvatar = localAvatar
-            # Create a convenient global
-            __builtins__["localAvatar"] = base.localAvatar
-
-            # Also, make it the center of our arrows now.
+            __builtins__['localAvatar'] = base.localAvatar
             NametagGlobals.setToon(base.localAvatar)
-
-            # Set the doId
             localAvatar.doId = avatarId
-            # Store it locally too in case any DistributedObjects need to know
             self.localAvatarDoId = avatarId
-
-            # Set the required fields
-            # TODO: ROGER: where should we get parentId and zoneId from?
             parentId = None
             zoneId = None
             localAvatar.setLocation(parentId, zoneId)
             localAvatar.generateInit()
             localAvatar.generate()
-            localAvatar.updateAllRequiredFields(dclass, di)
-
-            # Put the new Obj in the dictionary
+            dclass.receiveUpdateBroadcastRequiredOwner(localAvatar, di)
+            localAvatar.announceGenerate()
+            localAvatar.postGenerateMessage()
             self.doId2do[avatarId] = localAvatar
-
-            # This stuff used to happen in announceGenerate for the localToon
             localAvatar.initInterface()
-
-            # Ask for a friends list
             self.sendGetFriendsListRequest()
-            # Start playing the game
             self.loginFSM.request('playingGame')
-        else:
-            self.notify.error("Bad avatar: return code %d" % (returnCode))
 
     ######### Get avatar details #########
 
@@ -865,7 +899,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.handlerArgs = {"hoodId": hoodId,
                             "zoneId": zoneId,
                             "avId": avId}
-        self.handler = self.handleTutorialQuestion
+        if not self.astronSupport:
+            self.handler = self.handleTutorialQuestion
         self.__requestSkipTutorial(hoodId, zoneId, avId)
 
 
@@ -903,7 +938,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     # state. Now the state has been short circuted so that if the state
     # is reached, we will always do the tutorial.
     def enterTutorialQuestion(self, hoodId, zoneId, avId):
-        self.handler = self.handleTutorialQuestion
+        if not self.astronSupport:
+            self.handler = self.handleTutorialQuestion
         self.__requestTutorial(hoodId, zoneId, avId)
 
     def handleTutorialQuestion(self, msgType, di):
@@ -989,24 +1025,43 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.handler = self.handleCloseShard
         self._removeLocalAvFromStateServer()
 
-    def handleCloseShard(self, msgType, di):
-        # ignore creates for objects that are children of the old shard
-        if msgType == CLIENT_CREATE_OBJECT_REQUIRED:
-            di2 = PyDatagramIterator(di)
-            parentId = di2.getUint32()
-            if self._doIdIsOnCurrentShard(parentId):
-                return
-        elif msgType == CLIENT_CREATE_OBJECT_REQUIRED_OTHER:
-            di2 = PyDatagramIterator(di)
-            parentId = di2.getUint32()
-            if self._doIdIsOnCurrentShard(parentId):
-                return
-        elif msgType == CLIENT_OBJECT_UPDATE_FIELD:
-            di2 = PyDatagramIterator(di)
-            doId = di2.getUint32()
-            if self._doIdIsOnCurrentShard(doId):
-                return
-        self.handleMessageType(msgType, di)
+    if not config.GetBool('astron-support', True):
+        def handleCloseShard(self, msgType, di):
+            # ignore creates for objects that are children of the old shard
+            if msgType == CLIENT_CREATE_OBJECT_REQUIRED:
+                di2 = PyDatagramIterator(di)
+                parentId = di2.getUint32()
+                if self._doIdIsOnCurrentShard(parentId):
+                    return
+            elif msgType == CLIENT_CREATE_OBJECT_REQUIRED_OTHER:
+                di2 = PyDatagramIterator(di)
+                parentId = di2.getUint32()
+                if self._doIdIsOnCurrentShard(parentId):
+                    return
+            elif msgType == CLIENT_OBJECT_UPDATE_FIELD:
+                di2 = PyDatagramIterator(di)
+                doId = di2.getUint32()
+                if self._doIdIsOnCurrentShard(doId):
+                    return
+            self.handleMessageType(msgType, di)
+    else:
+        def handleCloseShard(self, msgType, di):
+            if msgType == CLIENT_ENTER_OBJECT_REQUIRED:
+                di2 = PyDatagramIterator(di)
+                parentId = di2.getUint32()
+                if self._doIdIsOnCurrentShard(parentId):
+                    return
+            elif msgType == CLIENT_ENTER_OBJECT_REQUIRED_OTHER:
+                di2 = PyDatagramIterator(di)
+                parentId = di2.getUint32()
+                if self._doIdIsOnCurrentShard(parentId):
+                    return
+            elif msgType == CLIENT_OBJECT_SET_FIELD:
+                di2 = PyDatagramIterator(di)
+                doId = di2.getUint32()
+                if self._doIdIsOnCurrentShard(doId):
+                    return
+            self.handleMessageType(msgType, di)
 
     def _logFailedDisable(self, doId, ownerView):
         # intercept failed disables and don't log anything if we've manually
@@ -1374,6 +1429,10 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         friends along with their names and dnas.  This will be used to
         populate the friendsMap.
         """
+        if self.astronSupport:
+            print('sendGetFriendsListRequest TODO')
+            return
+
         self.friendsMapPending = 1
         self.friendsListError = 0
 
@@ -1593,7 +1652,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         # move the interest
         interestZones = zoneId
         if visibleZoneList is not None:
-            assert zoneId in visibleZoneList
             interestZones = visibleZoneList
 
         # We don't want more than one setInterest on the wire at
@@ -1680,41 +1738,76 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     def sendQuietZoneRequest(self):
         assert self.notify.debugStateCall(self, 'loginFSM', 'gameFSM')
         # Send the message
-        self.sendSetZoneMsg(OTPGlobals.QuietZone)
+        if self.astronSupport:
+            self.sendSetZoneMsg(OTPGlobals.QuietZone, [])
+        else:
+            self.sendSetZoneMsg(OTPGlobals.QuietZone)
 
-    def handleQuietZoneGenerateWithRequired(self, di):
-        # Special handler for quiet zone generates -- we need to filter
-        parentId = di.getUint32()
-        zoneId = di.getUint32()
-        assert parentId in self.doId2do
-        # Get the class Id
-        classId = di.getUint16()
-        # Get the DO Id
-        doId = di.getUint32()
-        # Look up the dclass
-        dclass = self.dclassesByNumber[classId]
-        # only create 'neverDisable' objects when we're in the quiet zone
-        if dclass.getClassDef().neverDisable:
-            dclass.startGenerate()
-            distObj = self.generateWithRequiredFields(dclass, doId, di, parentId, zoneId)
-            dclass.stopGenerate()
+    if not config.GetBool('astron-support', True):
+        def handleQuietZoneGenerateWithRequired(self, di):
+            # Special handler for quiet zone generates -- we need to filter
+            parentId = di.getUint32()
+            zoneId = di.getUint32()
+            assert parentId in self.doId2do
+            # Get the class Id
+            classId = di.getUint16()
+            # Get the DO Id
+            doId = di.getUint32()
+            # Look up the dclass
+            dclass = self.dclassesByNumber[classId]
+            # only create 'neverDisable' objects when we're in the quiet zone
+            if dclass.getClassDef().neverDisable:
+                dclass.startGenerate()
+                distObj = self.generateWithRequiredFields(dclass, doId, di, parentId, zoneId)
+                dclass.stopGenerate()
 
-    def handleQuietZoneGenerateWithRequiredOther(self, di):
-        # Special handler for quiet zone generates -- we need to filter
-        parentId = di.getUint32()
-        zoneId = di.getUint32()
-        assert parentId in self.doId2do
-        # Get the class Id
-        classId = di.getUint16()
-        # Get the DO Id
-        doId = di.getUint32()
-        # Look up the dclass
-        dclass = self.dclassesByNumber[classId]
-        # only create 'neverDisable' objects when we're in the quiet zone
-        if dclass.getClassDef().neverDisable:
-            dclass.startGenerate()
-            distObj = self.generateWithRequiredOtherFields(dclass, doId, di, parentId, zoneId)
-            dclass.stopGenerate()
+        def handleQuietZoneGenerateWithRequiredOther(self, di):
+            # Special handler for quiet zone generates -- we need to filter
+            parentId = di.getUint32()
+            zoneId = di.getUint32()
+            assert parentId in self.doId2do
+            # Get the class Id
+            classId = di.getUint16()
+            # Get the DO Id
+            doId = di.getUint32()
+            # Look up the dclass
+            dclass = self.dclassesByNumber[classId]
+            # only create 'neverDisable' objects when we're in the quiet zone
+            if dclass.getClassDef().neverDisable:
+                dclass.startGenerate()
+                distObj = self.generateWithRequiredOtherFields(dclass, doId, di, parentId, zoneId)
+                dclass.stopGenerate()
+    else:
+        def handleQuietZoneGenerateWithRequired(self, di):
+            doId = di.getUint32()
+            parentId = di.getUint32()
+            zoneId = di.getUint32()
+            classId = di.getUint16()
+            dclass = self.dclassesByNumber[classId]
+            if dclass.getClassDef().neverDisable:
+                dclass.startGenerate()
+                distObj = self.generateWithRequiredFields(dclass, doId, di, parentId, zoneId)
+                dclass.stopGenerate()
+
+        def handleQuietZoneGenerateWithRequiredOther(self, di):
+            doId = di.getUint32()
+            parentId = di.getUint32()
+            zoneId = di.getUint32()
+            classId = di.getUint16()
+            dclass = self.dclassesByNumber[classId]
+            if dclass.getClassDef().neverDisable:
+                dclass.startGenerate()
+                distObj = self.generateWithRequiredOtherFields(dclass, doId, di, parentId, zoneId)
+                dclass.stopGenerate()
+
+        def handleGenerateWithRequiredOtherOwner(self, di):
+            # OwnerViews are only used for LocalToon in Toontown.
+            if self.loginFSM.getCurrentState().getName() == 'waitForSetAvatarResponse':
+                doId = di.getUint32()
+                parentId = di.getUint32()
+                zoneId = di.getUint32()
+                classId = di.getUint16()
+                self.handleAvatarResponseMsg(doId, di)
 
     def handleQuietZoneUpdateField(self, di):
         # Special handler for quiet zone generates -- we need to filter

@@ -25,6 +25,15 @@ want-uberdog 0
 
 dna-preload    phase_4/dna/storage.dna
 
+want-new-anims 0
+
+framebuffer-multisample 1
+multisamples 16
+
+interpolate-frames 1
+
+textures-power-2 none
+
 load-file-type dna toontown
 
 dc-file $TOONTOWN/src/configfiles/toon.dc
@@ -37,7 +46,17 @@ icon-filename phase_3/models/gui/toontown_mac_icon.rgb
 #endif
 
 # Set your game server and port to be localhost
-game-server https://localhost:6667
+game-server http://localhost:6667
+
+audio-dls-file phase_3/etc/gm.dls
+
+tt-specific-login 1
+
+want-news-page 0
+
+fake-playtoken dev
+
+want-magic-words 1
 
 ssl-certificates $OTP/src/configfiles/certificates.txt
 ssl-certificates $OTP/src/configfiles/gameserver.txt

@@ -302,7 +302,7 @@ class QuestPoster(DirectFrame):
     def loadElevator(self, building, numFloors):
         # Load up an elevator and parent it the given building
         elevatorNodePath = hidden.attachNewNode("elevatorNodePath")
-        elevatorModel = loader.loadModel("phase_4/models/modules/elevator")
+        elevatorModel = loader.loadModel("phase_5/models/modules/elevator")
         # Put up a display to show the current floor of the elevator
         floorIndicator=[None, None, None, None, None]
         npc=elevatorModel.findAllMatches("**/floor_light_?;+s")

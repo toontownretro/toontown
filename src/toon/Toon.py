@@ -26,6 +26,7 @@ from toontown.effects import DustCloud
 from direct.showbase.PythonUtil import Functor
 from toontown.distributed import DelayDelete
 import types
+import functools
 
 """
 import Toon
@@ -812,6 +813,8 @@ class Toon(Avatar.Avatar, ToonHead):
         self.standWalkRunReverse = None
         self.playingAnim = None
         self.soundTeleport = None
+
+        self.swimBobSeq = None
 
         self.cheesyEffect = ToontownGlobals.CENormal
         self.effectTrack = None
@@ -1624,7 +1627,7 @@ class Toon(Avatar.Avatar, ToonHead):
         # If we found some, sort them to see what is closest
         if nodePathList:
             # Sort based on distance, closest first
-            nodePathList.sort(lambda x,y: cmp(x[0].getDistance(self), y[0].getDistance(self)))
+            nodePathList.sort(key=functools.cmp_to_key(lambda x, y: cmp(x[0].getDistance(self), y[0].getDistance(self))))
             # If there are more then two, choose one of the closest 2
             if len(nodePathList) >= 2:
                 if (self.randGen.random() < 0.9):
@@ -2100,20 +2103,22 @@ class Toon(Avatar.Avatar, ToonHead):
         Emote.globalEmote.releaseAll(self, "exitSwim")
 
     def startBobSwimTask(self):
-        swimTaskName = self.taskName("swimBobTask")
         taskMgr.remove("swimTask")
-        taskMgr.remove(swimTaskName)
+        if self.swimBobSeq:
+            self.swimBobSeq.finish()
+            self.swimBobSeq = None
         self.getGeomNode().setZ(4.0)
         self.nametag3d.setZ(5.0)
-        newTask = Task.loop(
-            self.getGeomNode().lerpPosXYZ(0, -3, 3, 1, blendType="easeInOut"),
-            self.getGeomNode().lerpPosXYZ(0, -3, 4, 1, blendType="easeInOut")
-            )
-        taskMgr.add(newTask, swimTaskName)
+        self.swimBobSeq = Sequence(
+            self.getGeomNode().posInterval(1, (0, -3, 3), (0, -3, 4), blendType="easeInOut"),
+            self.getGeomNode().posInterval(1, (0, -3, 4), (0, -3, 3), blendType="easeInOut")
+        )
+        self.swimBobSeq.loop()
 
     def stopBobSwimTask(self):
-        swimTaskName = self.taskName("swimBobTask")
-        taskMgr.remove(swimTaskName)
+        if self.swimBobSeq:
+            self.swimBobSeq.finish()
+            self.swimBobSeq = None
         self.getGeomNode().setPos(0, 0, 0)
         self.nametag3d.setZ(1.0)
 

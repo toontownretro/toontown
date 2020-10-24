@@ -47,10 +47,10 @@ LockNames = (
 #===============================================================================
 
 MusicFiles = {
-    "normal" : "phase_9/audio/bgm/CHQ_FACT_bg.ogg",
-    "suspense": "phase_7/audio/bgm/encntr_general_bg_indoor.ogg",
-    "timeRunningOut": "phase_7/audio/bgm/encntr_suit_winning_indoor.ogg",
-    "end" : "phase_4/audio/bgm/FF_safezone.ogg"
+    "normal" : "phase_9/audio/bgm/CHQ_FACT_bg.mid",
+    "suspense": "phase_7/audio/bgm/encntr_general_bg_indoor.mid",
+    "timeRunningOut": "phase_7/audio/bgm/encntr_suit_winning_indoor.mid",
+    "end" : "phase_4/audio/bgm/FF_safezone.mid"
     }
 
 SfxFiles = {

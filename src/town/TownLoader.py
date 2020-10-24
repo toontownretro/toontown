@@ -99,7 +99,7 @@ class TownLoader(StateData.StateData):
         self.music = base.loadMusic(self.musicFile)
         self.activityMusic = base.loadMusic(self.activityMusicFile)
         self.battleMusic = base.loadMusic(
-                'phase_3.5/audio/bgm/encntr_general_bg.ogg')
+                'phase_3.5/audio/bgm/encntr_general_bg.mid')
         # Load the battle UI:
         self.townBattle = TownBattle.TownBattle(self.townBattleDoneEvent)
         self.townBattle.load()
@@ -124,6 +124,8 @@ class TownLoader(StateData.StateData):
         del self.hood
         del self.nodeDict
         del self.zoneDict
+        if base.cr.astronSupport:
+            del self.node2zone
         del self.fadeInDict
         del self.fadeOutDict
         del self.nodeList
@@ -351,6 +353,9 @@ class TownLoader(StateData.StateData):
         # to that zone.
         self.zoneDict = {}
 
+        if base.cr.astronSupport:
+            self.node2zone = {}
+
         # A list of all visible nodes
         self.nodeList = []
 
@@ -387,6 +392,8 @@ class TownLoader(StateData.StateData):
             self.nodeDict[zoneId] = []
             self.nodeList.append(groupNode)
             self.zoneDict[zoneId] = groupNode
+            if base.cr.astronSupport:
+                self.node2zone[groupNode] = zoneId
 
             fadeDuration = 0.5
 

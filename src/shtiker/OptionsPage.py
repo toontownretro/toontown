@@ -66,7 +66,7 @@ speedChatStyles = (
 ##########################################################################
 # Global Variables and Enumerations
 ##########################################################################
-PageMode = PythonUtil.Enum("Options, Codes")
+PageMode = PythonUtil.Enum("Options")
 
 class OptionsPage(ShtikerPage.ShtikerPage):
     """OptionsPage class"""
@@ -92,8 +92,8 @@ class OptionsPage(ShtikerPage.ShtikerPage):
         self.optionsTabPage.hide()
 
         # Create the CodesTabPage
-        self.codesTabPage = CodesTabPage(self)
-        self.codesTabPage.hide()
+        #self.codesTabPage = CodesTabPage(self)
+        #self.codesTabPage.hide()
 
         titleHeight = 0.61 # bigger number means higher the title
         self.title = DirectLabel(
@@ -113,7 +113,7 @@ class OptionsPage(ShtikerPage.ShtikerPage):
 
         # Load the Fish Page to borrow its tabs
         gui = loader.loadModel( "phase_3.5/models/gui/fishingBook" )
-
+        """
         self.optionsTab = DirectButton(
             parent = self,
             relief = None,
@@ -155,6 +155,7 @@ class OptionsPage(ShtikerPage.ShtikerPage):
             extraArgs = [PageMode.Codes],
             pos = (0.11, 0, 0.77),
             )
+        """
 
     def enter(self):
         assert self.notify.debugStateCall(self)
@@ -168,7 +169,7 @@ class OptionsPage(ShtikerPage.ShtikerPage):
     def exit(self):
         assert self.notify.debugStateCall(self)
         self.optionsTabPage.exit()
-        self.codesTabPage.exit()
+        #self.codesTabPage.exit()
 
         # Make the call to the superclass exit method.
         ShtikerPage.ShtikerPage.exit(self)
@@ -200,18 +201,18 @@ class OptionsPage(ShtikerPage.ShtikerPage):
         if (mode == PageMode.Options):
             self.mode = PageMode.Options
             self.title['text'] = TTLocalizer.OptionsPageTitle
-            self.optionsTab['state'] = DGG.DISABLED
+            #self.optionsTab['state'] = DGG.DISABLED
             self.optionsTabPage.enter()
-            self.codesTab['state'] = DGG.NORMAL
-            self.codesTabPage.exit()
+            #self.codesTab['state'] = DGG.NORMAL
+            #self.codesTabPage.exit()
 
-        elif(mode == PageMode.Codes):
-            self.mode = PageMode.Codes
-            self.title['text'] = TTLocalizer.CdrPageTitle
-            self.optionsTab['state'] = DGG.NORMAL
-            self.optionsTabPage.exit()
-            self.codesTab['state'] = DGG.DISABLED
-            self.codesTabPage.enter()
+        #elif(mode == PageMode.Codes):
+        #    self.mode = PageMode.Codes
+        #    self.title['text'] = TTLocalizer.CdrPageTitle
+        #    self.optionsTab['state'] = DGG.NORMAL
+        #    self.optionsTabPage.exit()
+        #    self.codesTab['state'] = DGG.DISABLED
+        #    self.codesTabPage.enter()
 
         else:
             raise Exception("OptionsPage::setMode - Invalid Mode %s" % (mode))
@@ -261,12 +262,12 @@ class OptionsTabPage(DirectFrame):
         Params: None
         Return: None
         """
-        self.parent = parent
+        self._parent = parent
         self.currentSizeIndex = None
         # Construct the super class object from which the selector derives.
         DirectFrame.__init__(
             self,
-            parent = self.parent,
+            parent = self._parent,
             relief = None,
             pos = ( 0.0, 0.0, 0.0 ),
             scale = ( 1.0, 1.0, 1.0 ),
@@ -286,7 +287,7 @@ class OptionsTabPage(DirectFrame):
 
         # Remove references to UI Components and instance variables for
         # garbage collection purposes.
-        self.parent = None
+        self._parent = None
 
         # Destroy the DirectFrame super class.
         DirectFrame.destroy(self)
@@ -567,7 +568,7 @@ class OptionsTabPage(DirectFrame):
         self.speedChatStyleIndex = base.localAvatar.getSpeedChatStyleIndex()
         self.updateSpeedChatStyle()
 
-        if self.parent.book.safeMode:
+        if self._parent.book.safeMode:
             self.exitButton.hide()
         else:
             self.exitButton.show()
@@ -869,7 +870,7 @@ class OptionsTabPage(DirectFrame):
                                    message = TTLocalizer.OptionsPageExitConfirm,
                                    style = TTDialog.TwoChoice)
         self.confirm.show()
-        self.parent.doneStatus = {
+        self._parent.doneStatus = {
                 "mode": "exit",
                 "exitTo": "closeShard"}
         self.accept("confirmDone", self.__handleConfirm)
@@ -883,7 +884,7 @@ class OptionsTabPage(DirectFrame):
         del self.confirm
         if (status == "ok"):
             base.cr._userLoggingOut = True
-            messenger.send(self.parent.doneEvent)
+            messenger.send(self._parent.doneEvent)
             #self.cr.loginFSM.request("chooseAvatar", [self.cr.avList])
 
 class CodesTabPage(DirectFrame):
@@ -907,11 +908,11 @@ class CodesTabPage(DirectFrame):
         Params: None
         Return: None
         """
-        self.parent = parent
+        self._parent = parent
         # Construct the super class object from which the selector derives.
         DirectFrame.__init__(
             self,
-            parent = self.parent,
+            parent = self._parent,
             relief = None,
             pos = ( 0.0, 0.0, 0.0 ),
             scale = ( 1.0, 1.0, 1.0 ),
@@ -931,7 +932,7 @@ class CodesTabPage(DirectFrame):
 
         # Remove references to UI Components and instance variables for
         # garbage collection purposes.
-        self.parent = None
+        self._parent = None
 
         # Destroy the DirectFrame super class.
         DirectFrame.destroy(self)

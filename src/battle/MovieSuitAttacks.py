@@ -1028,7 +1028,7 @@ def getSplicedLerpAnims(animName, origDuration, newDuration, startTime=0, fps=30
     """
     anims = []
     addition = 0 # Addition will be added to the startTime to move animation forward
-    numAnims = origDuration * fps # Number of actor intervals to use
+    numAnims = int(origDuration * fps) # Number of actor intervals to use
     # The timeInterval is what to add before each actor interval to delay time
     timeInterval = newDuration / numAnims
     # The animInterval is how much the animation progresses forward each interval
@@ -1118,7 +1118,7 @@ def doClipOnTie(attack): # top tm: fixed
     toonTrack = getToonTrack(attack, damageDelay, ['conked'], dodgeDelay, ['sidestep'])
 
     throwSound = getSoundTrack('SA_powertie_throw.mp3', delay=throwDelay+1, node=suit)
-    
+
     return Parallel(suitTrack, toonTrack, tiePropTrack, throwSound)
 
 
@@ -1822,7 +1822,7 @@ def doBrainStorm(attack): # top mm(c), m/s(b): fixed
     BattleParticles.setEffectTexture(snowEffect3, 'brainstorm-track', color=effectColor)
     # cloud = MovieUtil.copyProp(toon.cloudActors[0])
     cloud = globalPropPool.getProp('stormcloud')
-    
+
     suitType = getSuitBodyType(attack['suitName'])
     if (suitType == 'a'): # not used with type a
         partDelay = 1.2
@@ -1873,7 +1873,7 @@ def doBrainStorm(attack): # top mm(c), m/s(b): fixed
                  ActorInterval(cloud, 'stormcloud', startTime=1,
                                duration=1.5)),
         ))
-        
+
     cloudPropTrack.append(Wait(0.4)) # Wait a moment before cloud goes away
     cloudPropTrack.append(LerpScaleInterval(cloud, 0.5,
                                          MovieUtil.PNT3_NEARZERO))
@@ -2931,7 +2931,7 @@ def doDoubleTalk(attack): # top cc(c), tm(b), dt(a) : fixed
                              dodgeDelay=dodgeDelay, splicedDodgeAnims=[['duck', 0.01, 1.4]],
                              showMissedExtraTime=0.9, showDamageExtraTime=0.8)
     soundTrack = getSoundTrack('SA_filibuster.mp3', delay=2.5, node=suit)
-    
+
     return Parallel(suitTrack, toonTrack, partTrack, partTrack2, soundTrack)
 
 
@@ -2947,7 +2947,7 @@ def doFreezeAssets(attack): # top cc(c), pp(a): fixed
     BattleParticles.setEffectTexture(snowEffect, 'snow-particle')
     # cloud = MovieUtil.copyProp(toon.cloudActors[0])
     cloud = globalPropPool.getProp('stormcloud')
-    
+
     suitType = getSuitBodyType(attack['suitName'])
     if (suitType == 'a'):
         partDelay = 0.2
@@ -3816,7 +3816,7 @@ def doFired(attack): # top tw: fixed
                              dodgeDelay=0.3, dodgeAnimNames=['sidestep'])
 
     soundTrack = getSoundTrack('SA_hot_air.mp3', delay=1.0, node=suit)
-    
+
     if (dmg > 0): # If toon takes damage, use the flames
         return Parallel(suitTrack, baseFlameTrack, flameTrack, flecksTrack,
                         toonTrack, colorTrack, soundTrack)
@@ -4062,7 +4062,7 @@ def doLiquidate(attack): # top b(b), moneybags(c) fixed
 
     # cloud = MovieUtil.copyProp(toon.cloudActors[0])
     cloud = globalPropPool.getProp('stormcloud')
-    
+
     suitType = getSuitBodyType(attack['suitName'])
     if (suitType == 'a'): # not used with type a
         partDelay = 0.2
@@ -4743,7 +4743,7 @@ def doSpin(attack): # sd(b) fixed
     spinEffect1.wrtReparentTo(battle)
     spinEffect2.wrtReparentTo(battle)
     spinEffect3.wrtReparentTo(battle)
-    
+
 
     suitTrack = getSuitTrack(attack) # Get suit animation track
     sprayTrack = getPartTrack(sprayEffect, 1.0, 1.9, [sprayEffect, suit, 0])
@@ -4888,4 +4888,3 @@ def doThrowBook(attack): # throw; conked; sidestep
 ############
 # End Revamped attacks using sub functions defined above.
 ############
-

@@ -142,9 +142,28 @@ class BattlePlace(Place.Place):
         if newZoneId != self.zoneId:
             # Tell the server that we changed zones
             if newZoneId != None:
-                base.cr.sendSetZoneMsg(newZoneId)
+                if base.cr.astronSupport:
+                    if hasattr(self, 'zoneVisDict'):
+                        visList = self.zoneVisDict[newZoneId]
+                    else:
+                        visList = base.cr.playGame.getPlace().loader.zoneVisDict[newZoneId]
+
+                    base.cr.sendSetZoneMsg(newZoneId, visList)
+                else:
+                    base.cr.sendSetZoneMsg(newZoneId)
                 self.notify.debug("Entering Zone %d" % (newZoneId))
 
             # The new zone is now old
             self.zoneId = newZoneId
         assert(self.notify.debug("  newZoneId="+str(newZoneId)))
+
+    if config.GetBool('astron-support', True):
+        def genDNAFileName(self, zoneId):
+            zoneId = ZoneUtil.getCanonicalZoneId(zoneId)
+            hoodId = ZoneUtil.getCanonicalHoodId(zoneId)
+            hood = ToontownGlobals.dnaMap[hoodId]
+            phase = ToontownGlobals.streetPhaseMap[hoodId]
+            if hoodId == zoneId:
+                zoneId = 'sz'
+
+            return 'phase_%s/dna/%s_%s.dna' % (phase, hood, zoneId)

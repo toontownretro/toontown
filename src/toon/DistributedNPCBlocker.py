@@ -27,7 +27,7 @@ class DistributedNPCBlocker(DistributedNPCToonBase):
         # generate, we might lose that message.
         self.setAnimState("neutral", 0.9, None, None)
         # Set the Blocker's position and orientation
-        posh = NPCToons.BlockerPositions[self.name]
+        posh = NPCToons.BlockerPositions[self._name]
         self.setPos(posh[0])
         self.setH(posh[1])
 

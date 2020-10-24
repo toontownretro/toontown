@@ -14,6 +14,7 @@ from toontown.ai.HolidayInfo import *
 import calendar
 import random
 import time
+import functools
 
 #################################################################
 # Class: HolidayInfo_Monthly
@@ -47,8 +48,8 @@ class HolidayInfo_Monthly(HolidayInfo_Base):
             self.tupleList.append(finalTuple)
             next(dateElemIter)
 
-        self.tupleList.sort(cmpDates)
-      
+        self.tupleList.sort(key=functools.cmp_to_key(cmpDates))
+
     #############################################################
     # Method: __clampTimeTuples(self, sTuple, eTuple)
     # Purpose: This method clamps any dates that go above the
@@ -77,10 +78,10 @@ class HolidayInfo_Monthly(HolidayInfo_Base):
             # This snippet of code emulates the C++ Ternary operator '?'
             # Clamp the startTuple day to 1 if the offset takes it below 0.
             day = ((sTuple[0]+dayOffset > 0) and [sTuple[0]+dayOffset] or [1])[0]
-          
+
             sTuple  = (day, sTuple[1], sTuple[2], sTuple[3])
             eTuple  = (eTuple[0]+dayOffset, eTuple[1], eTuple[2], eTuple[3])
-       
+
         return (sTuple, eTuple)
 
     # date comes in the form of date[year, month, day]
@@ -114,12 +115,12 @@ class HolidayInfo_Monthly(HolidayInfo_Base):
     #          computations for finding the time.
     # Input: currTime - current time
     # Output: returns the next start time of the holiday
-    #############################################################                              
+    #############################################################
     def getNextHolidayTime(self, currTime):
         currYear = time.localtime()[0]
         sCurrMonth = time.localtime()[1]
         eCurrMonth = sCurrMonth
-        
+
         for i in range(len(self.tupleList)):
             sDay = self.currElemIter.current()[0][0]
             nDay = self.currElemIter.peekNext()[0][0]
@@ -138,7 +139,7 @@ class HolidayInfo_Monthly(HolidayInfo_Base):
                 # then we have reached the end of the list and the next
                 # date should be in the proceeding month.
                 sTime = self.getTime((currYear, sCurrMonth+1,), startTuple)
-                eTime = self.getTime((currYear, eCurrMonth+1,), endTuple)                
+                eTime = self.getTime((currYear, eCurrMonth+1,), endTuple)
             elif sDay == nDay:
                 # Since the next tuple is of the same day, we must check
                 # the time tuples to see if the next time is greater than
@@ -178,9 +179,3 @@ class HolidayInfo_Monthly(HolidayInfo_Base):
     #############################################################
     def adjustDate(self, date):
         return (date[0], date[1]+1, date[2], date[3])
-  
-
-
- 
-
- 

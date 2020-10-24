@@ -92,6 +92,8 @@ class TwoDGameToonSD(StateData.StateData):
         self.progressLineLength = self.game.assetMgr.faceEndPos[0] - self.game.assetMgr.faceStartPos[0]
         self.conversionRatio = self.progressLineLength / self.game.gameLength
 
+        self.scoreTextSeq = None
+
     def load(self):
         # cache the animations
         for anim in self.animList:
@@ -396,18 +398,17 @@ class TwoDGameToonSD(StateData.StateData):
             self.scoreText.setDepthTest(0)
             self.scoreText.setDepthWrite(0)
 
-            seq = Task.sequence(
-                # Fly the number out of the character
-                self.scoreText.lerpPos(Point3(0, 0, self.toon.height + 2), 0.5, blendType = 'easeOut'),
-                # Fade the number
-                self.scoreText.lerpColor(Vec4(r, g, b, a), Vec4(r, g, b, 0), 0.25),
-                # Get rid of the number
-                Task(self.hideScoreTextTask))
-            taskMgr.add(seq, self.game.uniqueName("scoreText"))
+            self.scoreTextSeq = Sequence(
+                self.scoreText.posInterval(0.5, Point3(0, 0, self.toon.height + 2), blendType='easeOut'),
+                self.scoreText.colorInterval(0.25, Vec4(r, g, b, 0)),
+                Func(self.hideScoreText))
+            self.scoreTextSeq.start()
 
     def hideScoreText(self):
+        if self.scoreTextSeq:
+            self.scoreTextSeq.finish()
+            self.scoreTextSeq = None
         if self.scoreText:
-            taskMgr.remove(self.game.uniqueName("scoreText"))
             self.scoreText.removeNode()
             self.scoreText = None
 

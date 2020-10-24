@@ -7,10 +7,10 @@ class DGTownLoader(TownLoader.TownLoader):
     def __init__(self, hood, parentFSM, doneEvent):
         TownLoader.TownLoader.__init__(self, hood, parentFSM, doneEvent)
         self.streetClass = DGStreet.DGStreet
-        self.musicFile = "phase_8/audio/bgm/DG_SZ.ogg"
+        self.musicFile = "phase_8/audio/bgm/DG_SZ.mid"
         # Hack: There is not currently a DG_SZ_activity.mid file.
         # We'll use the SZ music:
-        self.activityMusicFile = "phase_8/audio/bgm/DG_SZ.ogg"
+        self.activityMusicFile = "phase_8/audio/bgm/DG_SZ.mid"
         self.townStorageDNAFile = "phase_8/dna/storage_DG_town.dna"
 
     def load(self, zoneId):

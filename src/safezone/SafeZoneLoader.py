@@ -307,6 +307,8 @@ class SafeZoneLoader(StateData.StateData):
                 base.cr.importModule(symbols, 'toontown.hood', [className])
 
                 classObj = getattr(symbols[className], className)
+                char = animPropNode.node()
+                print(char.getNumBundles())
                 animPropObj = classObj(animPropNode)
                 animPropList = self.animPropDict.setdefault(i, [])
                 animPropList.append(animPropObj)

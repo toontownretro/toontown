@@ -25,6 +25,7 @@ from .SuitBattleGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 from . import RewardPanel
 import random
+import functools
 from . import MovieUtil
 from toontown.toon import Toon
 from toontown.toonbase import ToontownGlobals
@@ -80,16 +81,16 @@ class Movie(DirectObject.DirectObject):
 
     def needRestoreHeadScale(self):
         self.restoreHeadScale = 1
-        
+
     def clearRestoreHeadScale(self):
         self.restoreHeadScale = 0
-        
+
     def needRestoreToonScale(self):
         self.restoreToonScale = 1
-        
+
     def clearRestoreToonScale(self):
         self.restoreToonScale = 0
-        
+
     def needRestoreParticleEffect(self, effect):
         self.specialParticleEffects.append(effect)
 
@@ -114,7 +115,7 @@ class Movie(DirectObject.DirectObject):
         # Speculation: all this work is no longer needed now that
         # interval.finish() guarantees completion.
         return
-    
+
         assert(self.notify.debug('restore()'))
         for toon in self.battle.activeToons:
             # Undo any change in animation
@@ -165,11 +166,11 @@ class Movie(DirectObject.DirectObject):
             if (self.restoreHeadScale == 1):
                 assert(self.notify.debug('restore head scale for toon: %d' % \
                         toon.doId))
-                
+
                 headScale = ToontownGlobals.toonHeadScales[toon.style.getAnimal()]
                 for lod in toon.getLODNames():
                     toon.getPart('head', lod).setScale(headScale)
-                    
+
             # Unshrink Downsize, restore toon back to proportion (1)
             if (self.restoreToonScale == 1):
                 assert(self.notify.debug('restore toon scale for toon: %d' % \
@@ -191,7 +192,7 @@ class Movie(DirectObject.DirectObject):
                 part.setPos(0, 0, 0)
 
             assert(self.notify.debug('restore toon arm parts for toon: %d' % toon.doId))
-            
+
             # Now restore the hpr on the arm, sleeve, and hand parts,
             # which were all originally hpr = 0, 0, 0
             arms = toon.findAllMatches('**/arms')
@@ -204,7 +205,7 @@ class Movie(DirectObject.DirectObject):
                 armPart.setHpr(0, 0, 0)
                 sleevePart.setHpr(0, 0, 0)
                 handsPart.setHpr(0, 0, 0)
-                                    
+
 
         for suit in self.battle.activeSuits:
             # Kludgey hack around mystery crash. Why are we cleaning up
@@ -224,7 +225,7 @@ class Movie(DirectObject.DirectObject):
                 for hand in hands:
                     props = hand.getChildren()
                     for prop in props:
-                        MovieUtil.removeProp(prop) 
+                        MovieUtil.removeProp(prop)
 
         # Clean up any special particle effects
         # RazzleDazzle, Rolodex
@@ -232,7 +233,7 @@ class Movie(DirectObject.DirectObject):
             if (effect != None):
                 assert(self.notify.debug('restore particle effect: %s' % \
                         effect.getName()))
-                effect.cleanup() 
+                effect.cleanup()
         self.specialParticleEffects = []
 
         # Remove any props that are parented to render
@@ -300,7 +301,7 @@ class Movie(DirectObject.DirectObject):
         # Make sure that any traps on suits are not regarded as freshly thrown in this round
         for s in self.battle.activeSuits:
             s.battleTrapIsFresh = 0
-            
+
         (tattacks, tcam) = self.__doToonAttacks()
         if (tattacks):
             ptrack.append(tattacks)
@@ -331,18 +332,18 @@ class Movie(DirectObject.DirectObject):
             self.track.delayDeletes.append(DelayDelete.DelayDelete(suit, 'Movie.play'))
         for toon in self.battle.toons:
             self.track.delayDeletes.append(DelayDelete.DelayDelete(toon, 'Movie.play'))
-        
+
         self.track.start(ts)
         return None
-        
-        
+
+
     def finish(self):
         """ finish()
             End the battle movie before it's done playing
         """
         self.track.finish()
         return None
-        
+
 
     def playReward(self, ts, name, callback):
         self.rewardHasBeenReset = 0
@@ -486,7 +487,7 @@ class Movie(DirectObject.DirectObject):
 
         # Need to lower battle music during dialogue
         music = base.cr.playGame.place.loader.battleMusic
-        
+
         # import pdb; pdb.set_trace()
 
         # Quest list is generated in playTutorialReward before the avatar's quest description
@@ -553,10 +554,10 @@ class Movie(DirectObject.DirectObject):
                 Wait(self.tutorialTom.getDuration("teleport")),
                 Wait(1.0),
                 Func(self.playTutorialReward_4, 0),
-                name='tutorial-reward-3cb'                
+                name='tutorial-reward-3cb'
                 ),
                 name='tutorial-reward-3c')
-                
+
             self.track1.start()
         else:
             self.playTutorialReward_4(0)
@@ -570,7 +571,7 @@ class Movie(DirectObject.DirectObject):
         self.questList = None
         self.rewardCallback()
         return
-        
+
     def stop(self):
         """ stop()
         """
@@ -591,12 +592,12 @@ class Movie(DirectObject.DirectObject):
         if base.config.GetBool("want-toon-attack-anims", 1):
             track = Sequence(name='toon-attacks')
             camTrack = Sequence(name='toon-attacks-cam')
-            
+
             (ival, camIval) = MovieFire.doFires(self.__findToonAttack(FIRE))
             if (ival):
                 track.append(ival)
                 camTrack.append(camIval)
-                
+
             (ival, camIval) = MovieSOS.doSOSs(self.__findToonAttack(SOS))
             if (ival):
                 track.append(ival)
@@ -645,7 +646,7 @@ class Movie(DirectObject.DirectObject):
                 return (track, camTrack)
         else:
             return (None, None)
-                
+
 
     def genRewardDicts(self,
                        id0, origExp0, earnedExp0, origQuests0, items0, missedItems0,
@@ -702,7 +703,7 @@ class Movie(DirectObject.DirectObject):
         """ Create a list of dictionaries for the
             toon attacks, sorted by increasing level
         """
-        
+
         assert(self.notify.debug('genToonAttackDicts() - toons: %s suits: %s toon attacks: %s' % (toons, suits, toonAttacks)))
         for ta in toonAttacks:
             targetGone = 0
@@ -727,7 +728,7 @@ class Movie(DirectObject.DirectObject):
                 if (track == NPCSOS):
                     # This will indicate attack was NPCSOS after we change
                     # the track
-                    adict['npcId'] = ta[TOON_TGT_COL] 
+                    adict['npcId'] = ta[TOON_TGT_COL]
                     toonId = ta[TOON_TGT_COL]
                     track, npc_level, npc_hp = NPCToons.getNPCTrackLevelHp(adict['npcId'])
                     if (track == None):
@@ -793,7 +794,7 @@ class Movie(DirectObject.DirectObject):
                                 tdict['toon'] = target
                                 assert(toons.index(t) < len(hps))
                                 tdict['hp'] = hps[toons.index(t)]
-                                self.notify.debug("PETSOS: toon: %d healed for hp: %d" % (target.doId, hps[toons.index(t)])) 
+                                self.notify.debug("PETSOS: toon: %d healed for hp: %d" % (target.doId, hps[toons.index(t)]))
                                 targets.append(tdict)
                         if (len(targets) > 0):
                             adict['target'] = targets
@@ -810,7 +811,7 @@ class Movie(DirectObject.DirectObject):
                                 tdict['toon'] = target
                                 assert(toons.index(t) < len(hps))
                                 tdict['hp'] = hps[toons.index(t)]
-                                self.notify.debug("HEAL: toon: %d healed for hp: %d" % (target.doId, hps[toons.index(t)])) 
+                                self.notify.debug("HEAL: toon: %d healed for hp: %d" % (target.doId, hps[toons.index(t)]))
                                 targets.append(tdict)
                         if (len(targets) > 0):
                             adict['target'] = targets
@@ -852,7 +853,7 @@ class Movie(DirectObject.DirectObject):
                                     elif (track == TRAP and
                                           (self.battle.isSuitLured(target) == 1 or
                                            target.battleTrap != NO_TRAP)):
-                                        continue 
+                                        continue
                                 targetIndex = suits.index(s)
                                 sdict = {}
                                 sdict['suit'] = target
@@ -920,7 +921,7 @@ class Movie(DirectObject.DirectObject):
                             if (sdict['died'] != 0):
                                 assert(self.notify.debug('suit: %d died' %
                                                          targetId))
-                            # MovieDrop and MovieTrap expect a list 
+                            # MovieDrop and MovieTrap expect a list
                             # (because NPC drops affect groups of suits)
                             if (track == DROP or track == TRAP):
                                 adict['target'] = [sdict]
@@ -940,7 +941,7 @@ class Movie(DirectObject.DirectObject):
 
         # Sort the dictionaries by ascending toon level ([TOON_LVL_COL])
         # I think this doesnt cause a problem similar to 'cogsmack' because
-        # the AI uses  BattleBase.py's findToonAttack() to also do sorting 
+        # the AI uses  BattleBase.py's findToonAttack() to also do sorting
         # by toon level
         def compFunc(a, b):
             alevel = a['level']
@@ -950,7 +951,7 @@ class Movie(DirectObject.DirectObject):
             elif (alevel < blevel):
                 return -1
             return 0
-        self.toonAttackDicts.sort(compFunc)
+        self.toonAttackDicts.sort(key=functools.cmp_to_key(compFunc))
 
     def __findToonAttack(self, track):
         """ Return a list of dictionaries for the
@@ -967,7 +968,7 @@ class Movie(DirectObject.DirectObject):
                 if track == SQUIRT:
                     setCapture = 1
                     #import pdb; pdb.set_trace()
-                
+
         # Do a special sort for TRAP attacks to ensure all non-NPC
         # traps happen before NPC traps (if any)
         if (track == TRAP):
@@ -980,11 +981,11 @@ class Movie(DirectObject.DirectObject):
                     sortedTraps.append(attack)
             assert(len(sortedTraps) == len(tp))
             tp = sortedTraps
-            
+
         if setCapture:
             #import pdb; pdb.set_trace()
             pass
-            
+
         return tp
 
     def __genSuitAttackDicts(self, toons, suits, suitAttacks):
@@ -1102,7 +1103,3 @@ class Movie(DirectObject.DirectObject):
             return (track, camTrack)
         else:
             return (None, None)
-
-
-
-

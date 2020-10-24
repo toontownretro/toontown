@@ -229,7 +229,7 @@ class DistributedPairingGame(DistributedMinigame):
 
         self.calcBonusTraversal()
 
-        self.music = base.loadMusic("phase_4/audio/bgm/MG_Pairing.ogg")
+        self.music = base.loadMusic("phase_4/audio/bgm/MG_Pairing.mid")
         self.matchSfx = base.loadSfx("phase_4/audio/sfx/MG_pairing_match.mp3")
         self.matchWithBonusSfx = base.loadSfx("phase_4/audio/sfx/MG_pairing_match_bonus_both.mp3")
         self.signalSfx = []
@@ -745,7 +745,7 @@ class DistributedPairingGame(DistributedMinigame):
 
     def getCardPos( self, deckOrderIndex):
         col = deckOrderIndex % self.cardsPerRow
-        row = deckOrderIndex / self.cardsPerRow
+        row = deckOrderIndex // self.cardsPerRow
         x = col* self.xCardInc
         y = row * self.yCardInc
         return x,y
@@ -762,7 +762,7 @@ class DistributedPairingGame(DistributedMinigame):
 
     def calcBonusTraversal(self):
         self.bonusTraversal = []
-        halfRow = self.cardsPerRow / 2
+        halfRow = self.cardsPerRow // 2
         if self.cardsPerRow % 2:
             halfRow += 1
         for i in range( halfRow):

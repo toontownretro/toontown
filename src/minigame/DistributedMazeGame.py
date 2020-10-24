@@ -154,9 +154,9 @@ class DistributedMazeGame(DistributedMinigame):
                         # there must be an even number of suits
                         assert not numSuits % 2
                         speeds = []
-                        for i in range(numSuits/2):
+                        for i in range(numSuits//2):
                             if fasterSuits:
-                                i += numSuits/2
+                                i += numSuits//2
                             t = i / float(numSuits-1)
                             # map t into 0..1
                             if fasterSuits:
@@ -374,8 +374,8 @@ class DistributedMazeGame(DistributedMinigame):
         self.treasureModel.setP(-90)
 
         self.music = base.loadMusic(
-            "phase_4/audio/bgm/MG_toontag.ogg"
-            #"phase_4/audio/bgm/TC_SZ.ogg"
+            "phase_4/audio/bgm/MG_toontag.mid"
+            #"phase_4/audio/bgm/TC_SZ.mid"
             )
 
         # make a dictionary of tracks for showing each toon
@@ -1156,7 +1156,7 @@ class DistributedMazeGame(DistributedMinigame):
             updateTics = self.suits[i].getThinkTimestampTics(curTic)
             suitUpdates.extend(list(zip(updateTics, [i]*len(updateTics))))
         # sort the list in-place
-        suitUpdates.sort(lambda a,b: a[0]-b[0])
+        suitUpdates.sort(key=lambda a,b: a[0]-b[0])
 
         if len(suitUpdates) > 0:
             # see below

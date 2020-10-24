@@ -72,33 +72,33 @@ class ToonHead(Actor.Actor):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonHead')
 
     # Eyes open and closed textures for blinks
-    EyesOpen = loader.loadTexture('phase_3/maps/eyes.png')
+    EyesOpen = loader.loadTexture('phase_3/maps/eyes.tga', 'phase_3/maps/eyes_a.rgb')
     EyesOpen.setMinfilter(Texture.FTLinear)
     EyesOpen.setMagfilter(Texture.FTLinear)
-    EyesClosed = loader.loadTexture('phase_3/maps/eyesClosed.png')
+    EyesClosed = loader.loadTexture('phase_3/maps/eyesClosed.tga', 'phase_3/maps/eyesClosed_a.rgb')
     EyesClosed.setMinfilter(Texture.FTLinear)
     EyesClosed.setMagfilter(Texture.FTLinear)
 
     # Emotional eye textures for tutorial
-    EyesSadOpen = loader.loadTexture('phase_3/maps/eyesSad.png')
+    EyesSadOpen = loader.loadTexture('phase_3/maps/eyesSad.tga', 'phase_3/maps/eyesSad_a.rgb')
     EyesSadOpen.setMinfilter(Texture.FTLinear)
     EyesSadOpen.setMagfilter(Texture.FTLinear)
-    EyesSadClosed = loader.loadTexture('phase_3/maps/eyesSadClosed.png')
+    EyesSadClosed = loader.loadTexture('phase_3/maps/eyesSadClosed.tga', 'phase_3/maps/eyesSadClosed_a.rgb')
     EyesSadClosed.setMinfilter(Texture.FTLinear)
     EyesSadClosed.setMagfilter(Texture.FTLinear)
-    EyesAngryOpen = loader.loadTexture('phase_3/maps/eyesAngry.png')
+    EyesAngryOpen = loader.loadTexture('phase_3/maps/eyesAngry.tga', 'phase_3/maps/eyesAngry_a.rgb')
     EyesAngryOpen.setMinfilter(Texture.FTLinear)
     EyesAngryOpen.setMagfilter(Texture.FTLinear)
-    EyesAngryClosed = loader.loadTexture('phase_3/maps/eyesAngryClosed.png')
+    EyesAngryClosed = loader.loadTexture('phase_3/maps/eyesAngryClosed.tga', 'phase_3/maps/eyesAngryClosed_a.rgb')
     EyesAngryClosed.setMinfilter(Texture.FTLinear)
     EyesAngryClosed.setMagfilter(Texture.FTLinear)
-    EyesSurprised = loader.loadTexture('phase_3/maps/eyesSurprised.png')
+    EyesSurprised = loader.loadTexture('phase_3/maps/eyesSurprised.tga', 'phase_3/maps/eyesSurprised_a.rgb')
     EyesSurprised.setMinfilter(Texture.FTLinear)
     EyesSurprised.setMagfilter(Texture.FTLinear)
-    Muzzle = loader.loadTexture('phase_3/maps/muzzleShrtGeneric.png')
+    Muzzle = loader.loadTexture('phase_3/maps/muzzleShrtGeneric.tga')
     Muzzle.setMinfilter(Texture.FTLinear)
     Muzzle.setMagfilter(Texture.FTLinear)
-    MuzzleSurprised = loader.loadTexture('phase_3/maps/muzzleShortSurprised.png')
+    MuzzleSurprised = loader.loadTexture('phase_3/maps/muzzleShortSurprised.tga')
     MuzzleSurprised.setMinfilter(Texture.FTLinear)
     MuzzleSurprised.setMagfilter(Texture.FTLinear)
 
@@ -1739,12 +1739,13 @@ class ToonHead(Actor.Actor):
                 muzzle = self.find('**/muzzle*')
                 filePrefix = DogMuzzleDict[style.head]
                 muzzles = loader.loadModel("phase_3" + filePrefix + '1000')
+                self.ls()
                 if base.config.GetBool('want-new-anims', 1):
                     if not self.find('**/def_head').isEmpty():
                         muzzles.reparentTo(self.find('**/def_head'))
                     else:
                         muzzles.reparentTo(self.find('**/joint_toHead'))
-                else:
+                elif self.find('**/joint_toHead'):
                     muzzles.reparentTo(self.find('**/joint_toHead'))
 
             surpriseMuzzle = self.find('**/muzzle*surprise')

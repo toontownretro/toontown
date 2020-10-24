@@ -44,6 +44,8 @@ class ToonBase(OTPBase.OTPBase):
             if res == None:
                 res = (800,600)
 
+            res = (1024, 768)
+
             loadPrcFileData("toonBase Settings Window Res", ("win-size %s %s" % (res[0], res[1])))
             loadPrcFileData("toonBase Settings Window FullScreen", ("fullscreen %s" % (mode)))
             loadPrcFileData("toonBase Settings Music Active", ("audio-music-active %s" % (music)))
@@ -65,6 +67,11 @@ class ToonBase(OTPBase.OTPBase):
             sys.exit(1)
 
         self.disableShowbaseMouse()
+
+        self.render.setAntialias(AntialiasAttrib.MMultisample)
+        self.render2d.setAntialias(AntialiasAttrib.MMultisample)
+        self.render2dp.setAntialias(AntialiasAttrib.MMultisample)
+        self.pixel2d.setAntialias(AntialiasAttrib.MMultisample)
 
         self.toonChatSounds = self.config.GetBool('toon-chat-sounds', 1)
 
@@ -266,7 +273,7 @@ class ToonBase(OTPBase.OTPBase):
         self.glitchCount = 0
         self.walking = 0
 
-        self.resetMusic = self.loadMusic("phase_3/audio/bgm/MIDI_Events_16channels.ogg")
+        self.resetMusic = self.loadMusic("phase_3/audio/bgm/MIDI_Events_16channels.mid")
 
     def disableShowbaseMouse(self):
         # Hack:
@@ -471,7 +478,7 @@ class ToonBase(OTPBase.OTPBase):
             url = URLSpec(name, 1)
             # Insist on a secure (SSL-wrapped) connection, regardless
             # of what was requested.
-            url.setScheme('s')
+            #url.setScheme('s')
             if not url.hasPort():
                 url.setPort(serverPort)
             serverList.append(url)
@@ -597,5 +604,5 @@ class ToonBase(OTPBase.OTPBase):
 
     def playMusic(self, music, looping = 0, interrupt = 1, volume = None, time = 0.0):
         # play the reset midi file to kill stuck notes
-        OTPBase.OTPBase.playMusic(self, self.resetMusic)
+        #OTPBase.OTPBase.playMusic(self, self.resetMusic)
         OTPBase.OTPBase.playMusic(self, music, looping, interrupt, volume, time)

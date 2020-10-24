@@ -1,6 +1,7 @@
 """CalendarGuiDay module: contains the CalendarGuiDay class"""
 import datetime
 import time
+import functools
 from toontown.toonbase.ToontownModules import TextNode, Vec3, Vec4, PlaneNode, Plane, \
      Point3
 from direct.gui.DirectGui import DirectFrame, DirectLabel, DirectButton, \
@@ -308,7 +309,7 @@ class CalendarGuiDay(DirectFrame):
             numItems = len(self.scrollList['items'])
         except e:
             numItems = 0
-        if numItems <= self.scrollList.numItemsVisible:
+        if numItems <= self.scrollList["numItemsVisible"]:
             self.scrollList.incButton.hide()
             self.scrollList.decButton.hide()
         else:
@@ -413,7 +414,7 @@ class CalendarGuiDay(DirectFrame):
                 return 0
             else:
                 return 1
-        self.timedEvents.sort( cmp = timedEventCompare)
+        self.timedEvents.sort( key = functools.cmp_to_key(timedEventCompare))
 
         # now add them to the scroll list
         for timedEvent in self.timedEvents:

@@ -49,13 +49,13 @@ class MazeSuit(DirectObject):
 
     def destroy(self):
         self.suit.delete()
-        
+
     def uniqueName(self, str):
         return str + repr(self.serialNum)
 
     def gameStart(self, gameStartTime):
         self.gameStartTime = gameStartTime
-        
+
         self.initCollisions()
         self.startWalkAnim()
 
@@ -68,7 +68,7 @@ class MazeSuit(DirectObject):
         # to avoid thinking all the suits on the first frame,
         # stagger the suits' first thinks by an nth of a second
         n = 20
-        self.nextThinkTic = (self.serialNum * MazeGameGlobals.SUIT_TIC_FREQ) / n
+        self.nextThinkTic = int((self.serialNum * MazeGameGlobals.SUIT_TIC_FREQ)) // n
 
         # create the Point3 objects up-front
         self.fromPos = Point3(0,0,0)
@@ -77,11 +77,11 @@ class MazeSuit(DirectObject):
         self.toHpr = Point3(0,0,0)
         # set the moveIval to a dummy interval
         self.moveIval = WaitInterval(1.)
-        
+
     def gameEnd(self):
         self.moveIval.pause()
         del self.moveIval
-        
+
         self.shutdownCollisions()
 
         # keep the suits from walking in place
@@ -105,7 +105,7 @@ class MazeSuit(DirectObject):
 
     def shutdownCollisions(self):
         self.ignore(self.uniqueName('enter' + self.COLL_SPHERE_NAME))
-        
+
         del self.collSphere
         self.collNodePath.removeNode()
         del self.collNodePath

@@ -43,7 +43,7 @@ class DistributedFactoryElevatorExt(DistributedElevatorExt.DistributedElevatorEx
         this method sets up the elevator for business.
         """
         # TODO: place this on a node indexed by the entraceId
-        self.elevatorModel = loader.loadModel("phase_4/models/modules/elevator")
+        self.elevatorModel = loader.loadModel("phase_5/models/modules/elevator")
         self.elevatorModel.reparentTo(render)
         self.elevatorModel.setScale(1.05)
         self.leftDoor = self.elevatorModel.find("**/left-door")

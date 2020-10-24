@@ -8,8 +8,7 @@ from . import SuitPlannerTutorialAI
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
-from toontown.ai import BlackCatHolidayMgrAI
-from toontown.ai import DistributedBlackCatMgrAI
+from toontown.ai import DistributedBlackCatMgrAI, BlackCatHolidayMgrAI
 
 class TutorialManagerAI(DistributedObjectAI.DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("TutorialManagerAI")
@@ -59,6 +58,7 @@ class TutorialManagerAI(DistributedObjectAI.DistributedObjectAI):
         # can client request tutorial if hp is at least 16? How do we
         # handle these cases?
         avId = self.air.getAvatarIdFromSender()
+        print("avatar", avId, "requesting tutorial")
         # Handle unexpected exits
         self.acceptOnce(self.air.getAvatarExitEvent(avId),
                         self.__handleUnexpectedExit,

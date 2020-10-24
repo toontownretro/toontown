@@ -38,7 +38,7 @@ class FishPanel(DirectFrame):
         self.initialiseoptions(FishPanel)
         self.doneEvent = doneEvent
         self.fish = fish
-        self.parent = parent
+        self._parent = parent
         self.photo = None
 
     def destroy(self):
@@ -48,7 +48,7 @@ class FishPanel(DirectFrame):
             self.photo = None
         self.fish = None
         DirectFrame.destroy(self)
-        self.parent = None
+        self._parent = None
 
     def load(self):
         assert self.notify.debugStateCall(self)

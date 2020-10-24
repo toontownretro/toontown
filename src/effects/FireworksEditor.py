@@ -11,6 +11,7 @@ from direct.tkwidgets import Slider
 from direct.task import Task
 import Types
 import string
+import functools
 
 NUM_RB_COLS = 8
 MAX_AMP = 100
@@ -139,7 +140,7 @@ class FireworksShow:
                 return 0
         # Sort the firework show by start time
         fwList = list(self.fwDict.values())
-        fwList.sort(sortFW)
+        fwList.sort(key=functools.cmp_to_key(sortFW))
         return fwList
 
     def getNextFirework(self, currFw):
@@ -747,8 +748,8 @@ class FireworksEditor(AppShell):
         # Load music
         # Set duration of show based on fireworks
         musicFilename = askopenfilename(
-            defaultextension = '.ogg',
-            filetypes = (('MIDI Files', '*.ogg'),('All files', '*')),
+            defaultextension = '.mid',
+            filetypes = (('MIDI Files', '*.mid'),('All files', '*')),
             initialdir = ttmodelsDirectory,
             title = 'Load Music File',
             parent = self.parent)

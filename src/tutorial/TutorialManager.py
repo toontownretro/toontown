@@ -16,6 +16,7 @@ class TutorialManager(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.generate(self)
         # Let the cr know we have arrived.
         messenger.send("tmGenerate")
+        print("TUTORIAL MANAGER GENERATE")
         # Wait for a tutorial request or rejection.
         self.accept("requestTutorial", self.d_requestTutorial)
         self.accept("requestSkipTutorial", self.d_requestSkipTutorial)
@@ -28,6 +29,7 @@ class TutorialManager(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.disable(self)
 
     def d_requestTutorial(self):
+        print("REQUESTING TUTORIAL!")
         self.sendUpdate("requestTutorial", [])
 
     def d_rejectTutorial(self):

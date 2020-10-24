@@ -25,7 +25,7 @@ REPARENTTO camera render
 POSHPRSCALE camera 11 7 3 52 0 0 1 1 1
 LOAD_CLASSIC_CHAR classicChar
 REPARENTTO classicChar render
-POS classicChar 0 0 0 
+POS classicChar 0 0 0
 HPR classicChar 0 0 0
 POS localToon 0 0 0
 HPR localToon 0 0 0
@@ -136,7 +136,7 @@ WAIT 0.6574
 LOOP_ANIM npc 'neutral' 1
 LOCAL_CHAT_CONFIRM npc QuestScript101_7 "CFReversed" tomDialogue_07
 # Make it look like the client has no inventory. Since the toon.dc
-# specifies that the user really does have 1 of each item, we will 
+# specifies that the user really does have 1 of each item, we will
 # just put on a show for the client of not having any items then
 # handing them out.
 SET_INVENTORY 4 0 0
@@ -149,7 +149,7 @@ SET_INVENTORY_YPOS 4 0  -.1
 SET_INVENTORY_YPOS 5 0  -.1
 LERP_SCALE inventory 3 .01 3 1
 WAIT 1
-REPARENTTO flower npc "**/1000/**/def_joint_right_hold"
+REPARENTTO flower npc "**/1000/**/joint_Rhold"
 POSHPRSCALE flower 0.10 -0.14 0.20 180.00 287.10 168.69 0.70 0.70 0.70
 PLAY_ANIM npc 'right-hand-start' 1.8
 WAIT 1.1574
@@ -164,7 +164,7 @@ WAIT 1
 ADD_INVENTORY 5 0 1
 POSHPRSCALE inventory -0.77 7.42 1.11 0 0 0 3 .01 3
 REPARENTTO flower hidden
-REPARENTTO tart npc "**/1000/**/def_joint_right_hold"
+REPARENTTO tart npc "**/1000/**/joint_Rhold"
 POSHPRSCALE tart 0.19 0.02 0.00 0.00 0.00 349.38 0.34 0.34 0.34
 PLAY_ANIM npc 'right-hand-start' 1.8
 WAIT 1.1574
@@ -377,9 +377,9 @@ POS camera 0.0 6.0 4.0
 HPR camera 180.0 0.0 0.0
 SET_MUSIC_VOLUME 0.4 music 0.5 0.8
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_1 blockerDialogue_01
-WAIT 0.8 
+WAIT 0.8
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_2 blockerDialogue_02
-WAIT 0.8 
+WAIT 0.8
 POS camera -5.0 -9.0 6.0
 HPR camera -25.0 -10.0 0.0
 POS localToon 203.8 18.64 -0.475
@@ -394,8 +394,8 @@ LERP_COLOR_SCALE chatScButton 1 1 1 0 1 1 1 1 0.5
 WAIT 0.5
 LERP_POS chatScButton -1.129 0 0.928 0.6
 LERP_SCALE chatScButton 1.179 1.179 1.179 0.6
-WAIT 0.6 
-ARROWS_ON -0.92 0.91 180 -1.12 0.74 -90 
+WAIT 0.6
+ARROWS_ON -0.92 0.91 180 -1.12 0.74 -90
 LOCAL_CHAT_PERSIST npc QuestScriptTutorialBlocker_4 blockerDialogue_04
 WAIT_EVENT "enterSpeedChat"
 ARROWS_OFF
@@ -407,7 +407,7 @@ CLEAR_CHAT localToon
 REPARENTTO camera localToon
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_5 "CFReversed" blockerDialogue_05a blockerDialogue_05b
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_6 "CFReversed" blockerDialogue_06
-OBSCURE_CHAT 0 0 
+OBSCURE_CHAT 0 0
 SHOW chatNormalButton
 POS chatNormalButton -0.3 0 -0.1
 SCALE chatNormalButton 2.0 2.0 2.0
@@ -415,7 +415,7 @@ LERP_COLOR_SCALE chatNormalButton 1 1 1 0 1 1 1 1 0.5
 WAIT 0.5
 LERP_POS chatNormalButton -1.2647 0 0.928 0.6
 LERP_SCALE chatNormalButton 1.179 1.179 1.179 0.6
-WAIT 0.6 
+WAIT 0.6
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_7 "CFReversed" blockerDialogue_07
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_8 1 "CFReversed" blockerDialogue_08
 SET_MUSIC_VOLUME 0.8 music 1.0 0.4
@@ -423,8 +423,8 @@ LOOP_ANIM npc "walk"
 LERP_HPR npc 270 0 0 0.5
 WAIT 0.5
 LOOP_ANIM npc "run"
-LERP_POS npc 217.4 18.81 -0.475 0.75 
-LERP_HPR npc 240 0 0 0.75 
+LERP_POS npc 217.4 18.81 -0.475 0.75
+LERP_HPR npc 240 0 0 0.75
 WAIT 0.75
 LERP_POS npc 222.4 15.0 -0.475 0.35
 LERP_HPR npc 180 0 0 0.35
@@ -435,10 +435,10 @@ REPARENTTO npc hidden
 FREE_LOCALTOON
 UPON_TIMEOUT ARROWS_OFF
 UPON_TIMEOUT POS chatScButton -1.129 0 0.928
-UPON_TIMEOUT SCALE chatScButton 1.179 1.179 1.179 
+UPON_TIMEOUT SCALE chatScButton 1.179 1.179 1.179
 UPON_TIMEOUT POS chatNormalButton -1.2647 0 0.928
-UPON_TIMEOUT SCALE chatNormalButton 1.179 1.179 1.179 
-UPON_TIMEOUT OBSCURE_CHAT 0 0 
+UPON_TIMEOUT SCALE chatNormalButton 1.179 1.179 1.179
+UPON_TIMEOUT OBSCURE_CHAT 0 0
 UPON_TIMEOUT REPARENTTO camera localToon
 FINISH_QUEST_MOVIE
 
@@ -457,7 +457,7 @@ WAIT .7
 SHOW inventory
 LOCAL_CHAT_CONFIRM npc QuestScriptGagShop_1a
 ## here's your jb jar
-#ARROWS_ON -1.22 0.09 0 -.93 -.2 -90 
+#ARROWS_ON -1.22 0.09 0 -.93 -.2 -90
 #LOCAL_CHAT_CONFIRM npc QuestScriptGagShop_2
 #ARROWS_OFF
 # try buying a gag
@@ -574,4 +574,3 @@ CHAT_CONFIRM npc QuestScript150_4 1
 UPON_TIMEOUT HIDE_FRIENDS_LIST
 UPON_TIMEOUT ARROWS_OFF
 FINISH_QUEST_MOVIE
-

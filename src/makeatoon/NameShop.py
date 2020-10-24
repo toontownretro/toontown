@@ -1372,65 +1372,92 @@ class NameShop(StateData.StateData):
 
     def checkNamePattern(self):
         self.notify.debug('checkNamePattern')
-
-        # Create a name from indices
-        datagram = PyDatagram()
-        # Add a message type
-        datagram.addUint16(CLIENT_SET_NAME_PATTERN)
-        # Put in the new doID
-        datagram.addUint32(self.avId)
-        # Put in name indices and flags
-        datagram.addInt16(self.nameIndices[0])
-        datagram.addInt16(self.nameFlags[0])
-        datagram.addInt16(self.nameIndices[1])
-        datagram.addInt16(self.nameFlags[1])
-        datagram.addInt16(self.nameIndices[2])
-        datagram.addInt16(self.nameFlags[2])
-        datagram.addInt16(self.nameIndices[3])
-        datagram.addInt16(self.nameFlags[3])
-        # Have TCR Send the message because it has a server open
-        messenger.send("nameShopPost", [datagram])
+        if base.cr.astronSupport:
+            base.cr.astronLoginManager.sendSetNamePattern(self.avId,
+                                                          self.nameIndices[0], self.nameFlags[0],
+                                                          self.nameIndices[1], self.nameFlags[1],
+                                                          self.nameIndices[2], self.nameFlags[2],
+                                                          self.nameIndices[3], self.nameFlags[3],
+                                                          self.handleSetNamePatternAnswerMsg)
+        else:
+            # Create a name from indices
+            datagram = PyDatagram()
+            # Add a message type
+            datagram.addUint16(CLIENT_SET_NAME_PATTERN)
+            # Put in the new doID
+            datagram.addUint32(self.avId)
+            # Put in name indices and flags
+            datagram.addInt16(self.nameIndices[0])
+            datagram.addInt16(self.nameFlags[0])
+            datagram.addInt16(self.nameIndices[1])
+            datagram.addInt16(self.nameFlags[1])
+            datagram.addInt16(self.nameIndices[2])
+            datagram.addInt16(self.nameFlags[2])
+            datagram.addInt16(self.nameIndices[3])
+            datagram.addInt16(self.nameFlags[3])
+            # Have TCR Send the message because it has a server open
+            messenger.send("nameShopPost", [datagram])
 
         # let the user know we are waiting to hear back
         self.waitForServer()
 
+    if not config.GetBool('astron-support', True):
+        def handleSetNamePatternAnswerMsg(self, di):
+            self.notify.debug('handleSetNamePatternAnswerMsg')
 
-    def handleSetNamePatternAnswerMsg(self, di):
-        self.notify.debug('handleSetNamePatternAnswerMsg')
+            # remove the wait msg
+            self.cleanupWaitForServer()
 
-        # remove the wait msg
-        self.cleanupWaitForServer()
+            # Get return code
+            newavId = di.getUint32()
+            if newavId != self.avId:
+                # Big trouble in little nameshop
+                self.notify.debug("doid's don't match up!")
+                self.rejectName(TTLocalizer.NameError)
+                pass
 
-        # Get return code
-        newavId = di.getUint32()
-        if newavId != self.avId:
-            # Big trouble in little nameshop
-            self.notify.debug("doid's don't match up!")
-            self.rejectName(TTLocalizer.NameError)
-            pass
+            returnCode = di.getUint8()
+            if returnCode == 0:
+                style = self.toon.getStyle()
+                avDNA = style.makeNetString()
+                self.notify.debug("pattern name accepted")
+                # add the new potential avatar to the list
+                newPotAv = PotentialAvatar.PotentialAvatar(newavId,
+                                                        self.names,
+                                                        avDNA,
+                                                        self.index,
+                                                        0)
+                self.avList.append(newPotAv)
+                # Everything is cool, send our done event
+                self.doneStatus = "done"
+                self.storeSkipTutorialRequest()
+                messenger.send(self.doneEvent)
+            else:
+                # name creation was rejected by server
+                self.notify.debug("name pattern rejected")
+                self.rejectName(TTLocalizer.NameError)
 
-        returnCode = di.getUint8()
-        if returnCode == 0:
-            style = self.toon.getStyle()
-            avDNA = style.makeNetString()
-            self.notify.debug("pattern name accepted")
-            # add the new potential avatar to the list
-            newPotAv = PotentialAvatar.PotentialAvatar(newavId,
-                                                       self.names,
-                                                       avDNA,
-                                                       self.index,
-                                                       0)
-            self.avList.append(newPotAv)
-            # Everything is cool, send our done event
-            self.doneStatus = "done"
-            self.storeSkipTutorialRequest()
-            messenger.send(self.doneEvent)
-        else:
-            # name creation was rejected by server
-            self.notify.debug("name pattern rejected")
-            self.rejectName(TTLocalizer.NameError)
-
-        return None
+            return None
+    else:
+        def handleSetNamePatternAnswerMsg(self, newavId, returnCode):
+            self.notify.debug('handleSetNamePatternAnswerMsg')
+            self.cleanupWaitForServer()
+            if newavId != self.avId:
+                self.notify.debug("doid's don't match up!")
+                self.rejectName(TTLocalizer.NameError)
+            if returnCode == 1:
+                style = self.toon.getStyle()
+                avDNA = style.makeNetString()
+                self.notify.debug('pattern name accepted')
+                newPotAv = PotentialAvatar.PotentialAvatar(newavId, self.names, avDNA, self.index, 0)
+                self.avList.append(newPotAv)
+                self.doneStatus = 'done'
+                self.storeSkipTutorialRequest()
+                messenger.send(self.doneEvent)
+            else:
+                self.notify.debug('name pattern rejected')
+                self.rejectName(TTLocalizer.NameError)
+            return None
 
     def _submitTypeANameAsPickAName(self):
         pnp = TTPickANamePattern(self.nameEntry.get(), self.toon.style.gender)
@@ -1461,10 +1488,11 @@ class NameShop(StateData.StateData):
         if self._submitTypeANameAsPickAName():
             return
 
-        # Contact server with self.nameEntry.get()
-        datagram = PyDatagram()
-        # Add a message type
-        datagram.addUint16(CLIENT_SET_WISHNAME)
+        if not base.cr.astronSupport:
+            # Contact server with self.nameEntry.get()
+            datagram = PyDatagram()
+            # Add a message type
+            datagram.addUint16(CLIENT_SET_WISHNAME)
         # Put in the new doID
         if justCheck:
             # just have the server check the name, don't assign it to
@@ -1472,103 +1500,151 @@ class NameShop(StateData.StateData):
             avId = 0
         else:
             avId = self.avId
-        datagram.addUint32(avId)
-        # Put in desired name
-        datagram.addString(self.nameEntry.get())
-        # Have TCR Send the message because it has a server open
-        messenger.send("nameShopPost", [datagram])
+        if not base.cr.astronSupport:
+            datagram.addUint32(avId)
+            # Put in desired name
+            datagram.addString(self.nameEntry.get())
+            # Have TCR Send the message because it has a server open
+            messenger.send("nameShopPost", [datagram])
+        else:
+            base.cr.astronLoginManager.sendSetNameTyped(avId, self.nameEntry.get(), self.handleSetNameTypedAnswerMsg)
 
         # let the user know we are waiting to hear back
         self.waitForServer()
 
+    if not config.GetBool('astron-support', True):
+        def handleSetNameTypedAnswerMsg(self, di):
+            self.notify.debug('handleSetNameTypedAnswerMsg')
 
-    def handleSetNameTypedAnswerMsg(self, di):
-        self.notify.debug('handleSetNameTypedAnswerMsg')
+            # remove the wait msg
+            self.cleanupWaitForServer()
 
-        # remove the wait msg
-        self.cleanupWaitForServer()
+            # Get return code
+            newavId = di.getUint32()
+            # avId is 0 if we just wanted to check the name
+            if newavId and newavId != self.avId:
+                # Big trouble in little nameshop
+                self.notify.debug("doid's don't match up!")
+                self.rejectName(TTLocalizer.NameError)
+                pass
 
-        # Get return code
-        newavId = di.getUint32()
-        # avId is 0 if we just wanted to check the name
-        if newavId and newavId != self.avId:
-            # Big trouble in little nameshop
-            self.notify.debug("doid's don't match up!")
-            self.rejectName(TTLocalizer.NameError)
-            pass
+            returnCode = di.getUint16()
+            if (newavId == 0):
+                # we were just checking the name to see if it would be rejected
+                if returnCode == 0:
+                    pendingname = di.getString()
+                    approvedname = di.getString()
+                    rejectedname = di.getString()
+                    if pendingname != "":
+                        # name will need to be approved by a human
+                        self.notify.debug("name check pending")
+                        self.fsm.request("Approval")
+                    elif approvedname != "":
+                        # it was accepted. continue with the process, create the avatar
+                        self.notify.debug("name check accepted")
+                        self.nameAction = 2
+                        self.serverCreateAvatar()
+                    elif rejectedname != "":
+                        # it was rejected.
+                        self.notify.debug("name check rejected")
+                        self.fsm.request('TypeAName')
+                        self.rejectName(TTLocalizer.NameError)
+                    else:
+                        # Something went wrong!
+                        self.notify.debug(
+                            "typed name response did not contain any return fields")
+                        self.rejectName(TTLocalizer.NameError)
 
-        returnCode = di.getUint16()
-        if (newavId == 0):
-            # we were just checking the name to see if it would be rejected
-            if returnCode == 0:
-                pendingname = di.getString()
+            elif returnCode == 0:
+                wishname = di.getString()
                 approvedname = di.getString()
                 rejectedname = di.getString()
-                if pendingname != "":
-                    # name will need to be approved by a human
-                    self.notify.debug("name check pending")
-                    self.fsm.request("Approval")
-                elif approvedname != "":
-                    # it was accepted. continue with the process, create the avatar
-                    self.notify.debug("name check accepted")
-                    self.nameAction = 2
-                    self.serverCreateAvatar()
+                if approvedname != "":
+                    style = self.toon.getStyle()
+                    avDNA = style.makeNetString()
+                    self.names[0] = self.nameEntry.get()
+                    self.notify.debug("typed name accepted")
+                    # add the new potential avatar to the list
+                    newPotAv = PotentialAvatar.PotentialAvatar(newavId,
+                                                            self.names,
+                                                            avDNA,
+                                                            self.index,
+                                                            0)
+                    self.avList.append(newPotAv)
+                    self.fsm.request("Accepted")
+
+                elif wishname != "":
+                    style = self.toon.getStyle()
+                    avDNA = style.makeNetString()
+                    self.names[1] = self.nameEntry.get()
+                    self.notify.debug("typed name needs approval")
+                    # add the new potential avatar to the list
+                    newPotAv = PotentialAvatar.PotentialAvatar(newavId,
+                                                            self.names,
+                                                            avDNA,
+                                                            self.index,
+                                                            1)
+                    if not self.newwarp:
+                        self.avList.append(newPotAv)
+                    self.fsm.request("ApprovalAccepted")
                 elif rejectedname != "":
-                    # it was rejected.
-                    self.notify.debug("name check rejected")
-                    self.fsm.request('TypeAName')
-                    self.rejectName(TTLocalizer.NameError)
+                    self.fsm.request("Rejected")
                 else:
                     # Something went wrong!
                     self.notify.debug(
-                        "typed name response did not contain any return fields")
+                        "name typed accepted but didn't fill any return fields")
                     self.rejectName(TTLocalizer.NameError)
-
-        elif returnCode == 0:
-            wishname = di.getString()
-            approvedname = di.getString()
-            rejectedname = di.getString()
-            if approvedname != "":
-                style = self.toon.getStyle()
-                avDNA = style.makeNetString()
-                self.names[0] = self.nameEntry.get()
-                self.notify.debug("typed name accepted")
-                # add the new potential avatar to the list
-                newPotAv = PotentialAvatar.PotentialAvatar(newavId,
-                                                           self.names,
-                                                           avDNA,
-                                                           self.index,
-                                                           0)
-                self.avList.append(newPotAv)
-                self.fsm.request("Accepted")
-
-            elif wishname != "":
-                style = self.toon.getStyle()
-                avDNA = style.makeNetString()
-                self.names[1] = self.nameEntry.get()
-                self.notify.debug("typed name needs approval")
-                # add the new potential avatar to the list
-                newPotAv = PotentialAvatar.PotentialAvatar(newavId,
-                                                           self.names,
-                                                           avDNA,
-                                                           self.index,
-                                                           1)
-                if not self.newwarp:
-                    self.avList.append(newPotAv)
-                self.fsm.request("ApprovalAccepted")
-            elif rejectedname != "":
-                self.fsm.request("Rejected")
             else:
-                # Something went wrong!
-                self.notify.debug(
-                    "name typed accepted but didn't fill any return fields")
+                # name creation was rejected by server
+                self.notify.debug("name typed rejected")
                 self.rejectName(TTLocalizer.NameError)
-        else:
-            # name creation was rejected by server
-            self.notify.debug("name typed rejected")
-            self.rejectName(TTLocalizer.NameError)
 
-        return None
+            return None
+    else:
+        def handleSetNameTypedAnswerMsg(self, newavId, returnCode):
+            self.notify.debug('handleSetNameTypedAnswerMsg')
+            self.cleanupWaitForServer()
+            if newavId and newavId != self.avId:
+                self.notify.debug("doid's don't match up!")
+                self.rejectName(TTLocalizer.NameError)
+            if newavId == 0:
+                if returnCode == 1:
+                    self.notify.debug('name check pending')
+                    self.fsm.request('Approval')
+                elif returnCode == 2:
+                    self.notify.debug('name check accepted')
+                    self.nameAction = 2
+                    self.serverCreateAvatar()
+                elif returnCode == 0:
+                    self.notify.debug('name check rejected')
+                    self.fsm.request('TypeAName')
+                    self.rejectName(TTLocalizer.NameError)
+                else:
+                    self.notify.debug('typed name response did not contain any return fields')
+                    self.rejectName(TTLocalizer.NameError)
+            else:
+                if returnCode == 2:
+                    style = self.toon.getStyle()
+                    avDNA = style.makeNetString()
+                    self.names[0] = self.nameEntry.get()
+                    self.notify.debug('typed name accepted')
+                    newPotAv = PotentialAvatar.PotentialAvatar(newavId, self.names, avDNA, self.index, 0)
+                    self.avList.append(newPotAv)
+                    self.fsm.request('Accepted')
+                elif returnCode == 1:
+                    style = self.toon.getStyle()
+                    avDNA = style.makeNetString()
+                    self.names[1] = self.nameEntry.get()
+                    self.notify.debug('typed name needs approval')
+                    newPotAv = PotentialAvatar.PotentialAvatar(newavId, self.names, avDNA, self.index, 1)
+                    if not self.newwarp:
+                        self.avList.append(newPotAv)
+                    self.fsm.request('ApprovalAccepted')
+                elif returnCode == 0:
+                    self.fsm.request('Rejected')
+                else:
+                    self.notify.debug("name typed accepted but didn't fill any return fields")
+                    self.rejectName(TTLocalizer.NameError)
 
 
     def serverCreateAvatar(self, skipTutorial = False):
@@ -1584,6 +1660,8 @@ class NameShop(StateData.StateData):
         # if the avatar doesn't exist, or exists and we want to delete it
         if not self.avExists or (self.avExists and self.avId == 'deleteMe'):
             messenger.send("nameShopCreateAvatar", [style, "", self.index])
+            if base.cr.astronSupport:
+                self.accept('nameShopCreateAvatarDone', self.handleCreateAvatarResponseMsg)
         else:
             # otherwise, just set the new name
             self.checkNameTyped()
@@ -1591,48 +1669,70 @@ class NameShop(StateData.StateData):
         self.notify.debug('Ending Make A Toon: %s' %self.toon.style)
         base.cr.centralLogger.writeClientEvent('MAT - endingMakeAToon: %s' %self.toon.style)
 
-    def handleCreateAvatarResponseMsg(self, di):
-        self.notify.debug('handleCreateAvatarResponseMsg')
-        # Unnecessary echo context
-        echoContext = di.getUint16()
-        # Get return code
-        returnCode = di.getUint8()
-        if returnCode == 0:
-            self.notify.debug("avatar with default name accepted")
-            self.avId = di.getUint32()
+    if not config.GetBool('astron-support', True):
+        def handleCreateAvatarResponseMsg(self, di):
+            self.notify.debug('handleCreateAvatarResponseMsg')
+            # Unnecessary echo context
+            echoContext = di.getUint16()
+            # Get return code
+            returnCode = di.getUint8()
+            if returnCode == 0:
+                self.notify.debug("avatar with default name accepted")
+                self.avId = di.getUint32()
+                self.avExists = 1
+                # If they just want 'blue duck'
+                if self.nameAction == 0:
+                    self.toon.setName(self.names[0])
+                    # add the new potential avatar to the list
+                    newPotAv = PotentialAvatar.PotentialAvatar(self.avId,
+                                                            self.names,
+                                                            self.newDNA,
+                                                            self.index,
+                                                            1)
+                    self.avList.append(newPotAv)
+
+                    # Send our done event
+                    self.doneStatus = "done"
+                    self.storeSkipTutorialRequest()
+                    messenger.send(self.doneEvent)
+                # If they used pickAName and there are indices to send
+                elif self.nameAction == 1:
+                    self.checkNamePattern()
+                # If they used typeAName and there is a name to send
+                elif self.nameAction == 2:
+                    self.checkNameTyped()
+                else:
+                    # Trouble, reject anyway
+                    self.notify.debug("avatar invalid nameAction")
+                    self.rejectName(TTLocalizer.NameError)
+            else:
+
+                # create was rejected by server
+                self.notify.debug("avatar rejected")
+                self.rejectName(TTLocalizer.NameError)
+
+            return None
+    else:
+        def handleCreateAvatarResponseMsg(self, avId):
+            self.notify.debug('handleCreateAvatarResponseMsg')
+            self.notify.debug('avatar with default name accepted')
+            self.avId = avId
             self.avExists = 1
-            # If they just want 'blue duck'
+            #self.logAvatarCreation()
             if self.nameAction == 0:
                 self.toon.setName(self.names[0])
-                # add the new potential avatar to the list
-                newPotAv = PotentialAvatar.PotentialAvatar(self.avId,
-                                                           self.names,
-                                                           self.newDNA,
-                                                           self.index,
-                                                           1)
+                newPotAv = PotentialAvatar.PotentialAvatar(self.avId, self.names, self.newDNA, self.index, 1)
                 self.avList.append(newPotAv)
-
-                # Send our done event
-                self.doneStatus = "done"
+                self.doneStatus = 'done'
                 self.storeSkipTutorialRequest()
                 messenger.send(self.doneEvent)
-            # If they used pickAName and there are indices to send
             elif self.nameAction == 1:
                 self.checkNamePattern()
-            # If they used typeAName and there is a name to send
             elif self.nameAction == 2:
                 self.checkNameTyped()
             else:
-                # Trouble, reject anyway
-                self.notify.debug("avatar invalid nameAction")
+                self.notify.debug('avatar invalid nameAction')
                 self.rejectName(TTLocalizer.NameError)
-        else:
-
-            # create was rejected by server
-            self.notify.debug("avatar rejected")
-            self.rejectName(TTLocalizer.NameError)
-
-        return None
 
 
     def waitForServer(self):

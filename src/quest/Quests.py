@@ -27,7 +27,7 @@ import random
 # DL LEVELS 5,6,7,8,9
 #
 # COG LEVELS PER DNA
-# 
+#
 # CORP LEVELS
 # f   1,2,3,4,5
 # p   2,3,4,5,6
@@ -227,8 +227,8 @@ def npcMatches(toNpcId, npc):
         # Quest wanted a generic Tailor npc and we found one
         ((toNpcId == ToonTailor) and (npc.getTailor()))
         )
-        
-        
+
+
 def calcRecoverChance(numberNotDone, baseChance, cap = 1):
     chance = baseChance
     avgNum2Kill = 1.0 / (chance / 100.0)
@@ -254,7 +254,7 @@ def simulateRecoveryVar(numNeeded, baseChance, list = 0, cap = 1):
         chance = calcRecoverChance(currentFail, baseChance, cap)
         test = random.random() * 100
         if chance == 1000:
-            capHits += 1    
+            capHits += 1
         if test < chance:
             numHave += 1
             if currentFail > greatestFailChain:
@@ -264,10 +264,10 @@ def simulateRecoveryVar(numNeeded, baseChance, list = 0, cap = 1):
             else:
                 attemptList[currentFail] = 1
             currentFail = 0
-            
+
         else:
             currentFail += 1
-    
+
     print(("Test results: %s tries, %s longest failure chain, %s cap hits" % (numTries, greatestFailChain, capHits)))
     if list:
         print(("failures for each succes %s" % (attemptList)))
@@ -518,7 +518,7 @@ class Quest:
         # Determine if this avatar has completed his quest wrt this npc
         notify.error("Pure virtual - please override me")
         return None
-    
+
 class LocationBasedQuest(Quest):
     """
     Virtual Quest Class for quests that are location based. This allows
@@ -543,7 +543,7 @@ class LocationBasedQuest(Quest):
             locName = TTLocalizer.QuestInLocationString % {
                 'inPhrase' : ToontownGlobals.hoodNameMap[loc][1],
                 'location' : ToontownGlobals.hoodNameMap[loc][-1] + TTLocalizer.QuestsLocationArticle}
-            
+
         elif loc in ToontownGlobals.StreetBranchZones:
             locName = TTLocalizer.QuestInLocationString % {
                 'inPhrase' : ToontownGlobals.StreetNames[loc][1],
@@ -606,7 +606,7 @@ class NewbieQuest:
             return TTLocalizer.QuestsCogNewNewbieQuestCaption % laff
         else:
             return TTLocalizer.QuestsCogOldNewbieQuestCaption % laff
-        
+
     def getNumNewbies(self, avId, avList):
         # given an avatar and a list of participants, returns the number
         # of 'newbies' among the other participants
@@ -614,7 +614,7 @@ class NewbieQuest:
         num = 0
         for av in avList:
             if (av.getDoId() != avId and av.getMaxHp() <= newbieHp):
-                num += 1  
+                num += 1
         return num
 
 class CogQuest(LocationBasedQuest):
@@ -635,7 +635,7 @@ class CogQuest(LocationBasedQuest):
         questId, fromNpcId, toNpcId, rewardId, toonProgress = questDesc
         questComplete = (toonProgress >= self.getNumCogs())
         return getCompleteStatusWithNpc(questComplete, toNpcId, npc)
-            
+
     def getProgressString(self, avatar, questDesc):
         if self.getCompletionStatus(avatar, questDesc) == COMPLETE:
             return CompleteString
@@ -683,7 +683,7 @@ class CogQuest(LocationBasedQuest):
             text = TTLocalizer.QuestsCogQuestSCStringP
         cogLoc = self.getLocationName()
         return (text % {"cogName" : cogName, "cogLoc" : cogLoc})
-    
+
     def getHeadlineString(self):
         return TTLocalizer.QuestsCogQuestHeadline
     def doesCogCount(self, avId, cogDict, zoneId, avList):
@@ -749,7 +749,7 @@ class CogTrackQuest(CogQuest):
             text = TTLocalizer.QuestsCogTrackDefeatDesc % {"numCogs" : numCogs,
                                                          "trackName" : self.trackNamesP[track]}
         return (text,)
-        
+
     def getString(self):
         # Return the full string
         return (TTLocalizer.QuestsCogTrackQuestDefeat % self.getObjectiveStrings()[0])
@@ -832,7 +832,7 @@ class CogLevelQuest(CogQuest):
         return (TTLocalizer.QuestsCogLevelQuestSCString % \
                 { "objective" : objective,
                   "location" : location} )
-    
+
     def getHeadlineString(self):
         return TTLocalizer.QuestsCogLevelQuestHeadline
     def doesCogCount(self, avId, cogDict, zoneId, avList):
@@ -861,7 +861,7 @@ class SkelecogQBase:
         return (cogDict['isSkelecog'] and
                 (avId in cogDict['activeToons']) and
                 self.isLocationMatch(zoneId))
-                
+
 class SkelecogQuest(CogQuest, SkelecogQBase):
     def __init__(self, id, quest):
         CogQuest.__init__(self, id, quest)
@@ -940,7 +940,7 @@ class SkeleReviveQBase:
         return (cogDict['hasRevives'] and
                 (avId in cogDict['activeToons']) and
                 self.isLocationMatch(zoneId))
-                
+
 class SkeleReviveQuest(CogQuest, SkeleReviveQBase):
     def __init__(self, id, quest):
         CogQuest.__init__(self, id, quest)
@@ -1202,7 +1202,7 @@ class BuildingQuest(CogQuest):
             type = TTLocalizer.Cog
         else:
             type = self.trackNames[self.trackCodes.index(buildingTrack)]
-            
+
         if count == 1:
             if floors == '':
                 text = TTLocalizer.QuestsBuildingQuestDesc
@@ -1217,7 +1217,7 @@ class BuildingQuest(CogQuest):
         return (text % { "count" : count,
                          "floors" : floors,
                          "type" : type },)
-    
+
     def getString(self):
         # Return the full string
         return (TTLocalizer.QuestsBuildingQuestString % self.getObjectiveStrings()[0])
@@ -1232,7 +1232,7 @@ class BuildingQuest(CogQuest):
             type = TTLocalizer.Cog
         else:
             type = self.trackNames[self.trackCodes.index(buildingTrack)]
-            
+
         if count == 1:
             if floors == '':
                 text = TTLocalizer.QuestsBuildingQuestDesc
@@ -1247,7 +1247,7 @@ class BuildingQuest(CogQuest):
         objective = text % { "floors" : floors,
                              "type" : type }
         location = self.getLocationName()
-        
+
         return TTLocalizer.QuestsBuildingQuestSCString % \
                { "objective" : objective,
                  "location" : location }
@@ -1276,7 +1276,7 @@ class BuildingNewbieQuest(BuildingQuest, NewbieQuest):
     def getHeadlineString(self):
         return TTLocalizer.QuestsNewbieQuestHeadline
     def doesBuildingCount(self, avId, avList):
-        return self.getNumNewbies(avId, avList) 
+        return self.getNumNewbies(avId, avList)
 
 
 class FactoryQuest(LocationBasedQuest):
@@ -1322,7 +1322,7 @@ class FactoryQuest(LocationBasedQuest):
             type = TTLocalizer.Cog
         else:
             type = FactoryQuest.factoryTypeNames[factoryType]
-            
+
         if count == 1:
             text = TTLocalizer.QuestsFactoryQuestDesc
         else:
@@ -1330,7 +1330,7 @@ class FactoryQuest(LocationBasedQuest):
 
         return (text % { "count" : count,
                          "type" : type },)
-    
+
     def getString(self):
         # Return the full string
         return (TTLocalizer.QuestsFactoryQuestString % self.getObjectiveStrings()[0])
@@ -1343,7 +1343,7 @@ class FactoryQuest(LocationBasedQuest):
             type = TTLocalizer.Cog
         else:
             type = FactoryQuest.factoryTypeNames[factoryType]
-            
+
         count = self.getNumFactories()
         if count == 1:
             text = TTLocalizer.QuestsFactoryQuestDesc
@@ -1352,7 +1352,7 @@ class FactoryQuest(LocationBasedQuest):
 
         objective = text % { "type" : type }
         location = self.getLocationName()
-        
+
         return TTLocalizer.QuestsFactoryQuestSCString % \
                { "objective" : objective,
                  "location" : location }
@@ -1378,7 +1378,7 @@ class FactoryNewbieQuest(FactoryQuest, NewbieQuest):
         if FactoryQuest.doesFactoryCount(self, avId, location, avList):
             return self.getNumNewbies(avId, avList)
         else:
-            return num 
+            return num
 
 
 class MintQuest(LocationBasedQuest):
@@ -1411,7 +1411,7 @@ class MintQuest(LocationBasedQuest):
         else:
             text = TTLocalizer.QuestsMintQuestDescC % {"count" : count}
         return (text,)
-    
+
     def getString(self):
         # Return the full string
         return (TTLocalizer.QuestsMintQuestString % self.getObjectiveStrings()[0])
@@ -1426,7 +1426,7 @@ class MintQuest(LocationBasedQuest):
             objective = TTLocalizer.QuestsMintQuestDescI
 
         location = self.getLocationName()
-        
+
         return TTLocalizer.QuestsMintQuestSCString % \
                { "objective" : objective,
                  "location" : location }
@@ -1452,7 +1452,7 @@ class MintNewbieQuest(MintQuest, NewbieQuest):
         if MintQuest.doesMintCount(self, avId, location, avList):
             return self.getNumNewbies(avId, avList)
         else:
-            return num 
+            return num
 
 
 # recover a cog-suit part from a factory (for your own Cog suit)
@@ -1483,14 +1483,14 @@ class CogPartQuest(LocationBasedQuest):
                          })
     def getObjectiveStrings(self):
         count = self.getNumParts()
-            
+
         if count == 1:
             text = TTLocalizer.QuestsCogPartQuestDesc
         else:
             text = TTLocalizer.QuestsCogPartQuestDescC
 
         return (text % { "count" : count },)
-    
+
     def getString(self):
         # Return the full string
         return (TTLocalizer.QuestsCogPartQuestString % self.getObjectiveStrings()[0])
@@ -1506,7 +1506,7 @@ class CogPartQuest(LocationBasedQuest):
 
         objective = text
         location = self.getLocationName()
-        
+
         return TTLocalizer.QuestsCogPartQuestSCString % \
                { "objective" : objective,
                  "location" : location }
@@ -1538,7 +1538,7 @@ class CogPartNewbieQuest(CogPartQuest, NewbieQuest):
         if CogPartQuest.doesCogPartCount(self, avId, location, avList):
             return self.getNumNewbies(avId, avList)
         else:
-            return num 
+            return num
 
 
 class DeliverGagQuest(Quest):
@@ -1713,7 +1713,7 @@ class RecoverItemQuest(LocationBasedQuest):
             self.checkRecoveryItemHolderAndType(self.quest[4], self.quest[5])
         else:
             self.checkRecoveryItemHolderAndType(self.quest[4])
-            
+
     def testRecover(self, progress):
         test = random.random() * 100
         chance = self.getPercentChance()
@@ -1721,16 +1721,16 @@ class RecoverItemQuest(LocationBasedQuest):
         numberDone = progress & (pow(2,16) - 1)
         numberNotDone = progress >> 16
         returnTest = None
-        
+
         avgNum2Kill = 1.0 / (chance / 100.0)
-        
+
         if numberNotDone >= (avgNum2Kill * 1.5):
             chance = 100
         elif numberNotDone > (avgNum2Kill * 0.5):
             diff = float(numberNotDone - (avgNum2Kill * 0.5))
             luck = 1.0 + abs(diff / (avgNum2Kill * 0.5))
             chance *= luck
-        
+
         if test <= chance:
             returnTest = 1
             numberNotDone = 0
@@ -1743,13 +1743,13 @@ class RecoverItemQuest(LocationBasedQuest):
             numberNotDone += 1
             numberDone += 0
             #print("not got")
-            
+
         returnCount = numberNotDone << 16
         returnCount += numberDone
         #import pdb; pdb.set_trace()
         #print("Quest Done %s NotDone %s Value %s Chance %s" % (numberDone, numberNotDone, returnCount, chance))
         return returnTest, returnCount
-        
+
     def testDone(self, progress):
         numberDone = progress & (pow(2,16) - 1)
         print(("Quest number done %s" % (numberDone)))
@@ -1757,7 +1757,7 @@ class RecoverItemQuest(LocationBasedQuest):
             return 1
         else:
             return 0
-            
+
     def getNumQuestItems(self):
         return self.getNumItems()
     def getNumItems(self):
@@ -1775,7 +1775,7 @@ class RecoverItemQuest(LocationBasedQuest):
         # The holder type if holder is a Cog (type, track, or level)
         # Defaults to 'type', which used to be the only option
         if (len(self.quest) == 5):
-            return 'type' 
+            return 'type'
         else:
             return self.quest[5]
     def getCompletionStatus(self, av, questDesc, npc=None):
@@ -1784,7 +1784,7 @@ class RecoverItemQuest(LocationBasedQuest):
         forwardProgress = toonProgress & (pow(2,16) - 1)
         questComplete = (forwardProgress >= self.getNumItems())
         return getCompleteStatusWithNpc(questComplete, toNpcId, npc)
-    
+
     def getProgressString(self, avatar, questDesc):
         if self.getCompletionStatus(avatar, questDesc) == COMPLETE:
             return CompleteString
@@ -1966,7 +1966,7 @@ class FriendQuest(Quest):
         else:
             return 0
     filterFunc = staticmethod(filterFunc)
-    
+
     def __init__(self, id, quest):
         Quest.__init__(self, id, quest)
     # Friend quest progress is special. We do not dynamically update
@@ -1991,7 +1991,7 @@ class FriendQuest(Quest):
             return getFinishToonTaskSCStrings(toNpcId)
         return TTLocalizer.QuestsFriendQuestSCString
     def getHeadlineString(self):
-        return TTLocalizer.QuestsFriendQuestHeadline    
+        return TTLocalizer.QuestsFriendQuestHeadline
     def getObjectiveStrings(self):
         return [TTLocalizer.QuestsFriendQuestString]
     def doesFriendCount(self, av, otherAv):
@@ -2160,7 +2160,7 @@ class MinigameNewbieQuest(Quest, NewbieQuest):
             if ((toon != av) and (toon.getMaxHp() <= newbieHp)):
                 points += 1
         return points
-        
+
 
 
 DefaultDialog = {GREETING : DefaultGreeting,
@@ -2199,7 +2199,7 @@ QuestDict = {
 
     # This is the tutorial quest
     101 : ( TT_TIER, Start, (CogQuest, Anywhere,  1, 'f'), Any, ToonHQ, NA, (110), DefaultDialog),
-    
+
     # 103 : ( TT_TIER, Start, (DeliverItemQuest, 110), 2018, 2004, 110, NA, DefaultDialog),
 
     # skip the delivery quest for now...
@@ -2232,7 +2232,7 @@ QuestDict = {
             TTLocalizer.QuestDialogDict[163]),
 
     # If you change this questID (175) make sure you change the constant PHONE_QUEST_ID
-    175 : ( TT_TIER, Cont, (PhoneQuest,), Same, ToonHQ, 100, NA, 
+    175 : ( TT_TIER, Cont, (PhoneQuest,), Same, ToonHQ, 100, NA,
             TTLocalizer.QuestDialogDict[175]),
 
     # First catalog will be delivered here
@@ -2242,15 +2242,15 @@ QuestDict = {
 
     164 : ( TT_TIER+1, Start, (VisitQuest,), Any, 2001, NA, (165),
              TTLocalizer.QuestDialogDict[164]),
-    165 : ( TT_TIER+1, Start, (CogQuest, Anywhere,  4, Any), 2001, Same, NA, (166, 167, 168, 169), 
+    165 : ( TT_TIER+1, Start, (CogQuest, Anywhere,  4, Any), 2001, Same, NA, (166, 167, 168, 169),
             TTLocalizer.QuestDialogDict[165]),
-    166 : ( TT_TIER+1, Cont, (CogTrackQuest, Anywhere,  4, 'c'), Same, Same, NA, (170, 171, 172), 
+    166 : ( TT_TIER+1, Cont, (CogTrackQuest, Anywhere,  4, 'c'), Same, Same, NA, (170, 171, 172),
             TTLocalizer.QuestDialogDict[166]),
-    167 : ( TT_TIER+1, Cont, (CogTrackQuest, Anywhere,  4, 'l'), Same, Same, NA, (170, 171, 172), 
+    167 : ( TT_TIER+1, Cont, (CogTrackQuest, Anywhere,  4, 'l'), Same, Same, NA, (170, 171, 172),
             TTLocalizer.QuestDialogDict[167]),
-    168 : ( TT_TIER+1, Cont, (CogTrackQuest, Anywhere,  4, 's'), Same, Same, NA, (170, 171, 172), 
+    168 : ( TT_TIER+1, Cont, (CogTrackQuest, Anywhere,  4, 's'), Same, Same, NA, (170, 171, 172),
             TTLocalizer.QuestDialogDict[168]),
-    169 : ( TT_TIER+1, Cont, (CogTrackQuest, Anywhere,  4, 'm'), Same, Same, NA, (170, 171, 172), 
+    169 : ( TT_TIER+1, Cont, (CogTrackQuest, Anywhere,  4, 'm'), Same, Same, NA, (170, 171, 172),
             TTLocalizer.QuestDialogDict[169]),
     170 : ( TT_TIER+1, Cont, (VisitQuest,), Same, 2005, NA, (400),
              TTLocalizer.QuestDialogDict[170]),
@@ -2283,7 +2283,7 @@ QuestDict = {
     1014 : ( TT_TIER+2, Start, (CogQuest, Anywhere, 4, 'p'), Any, ToonHQ, Any, NA, DefaultDialog),
     1015 : ( TT_TIER+2, Start, (CogQuest, Anywhere, 4, 'bf'), Any, ToonHQ, Any, NA, DefaultDialog),
     1016 : ( TT_TIER+2, Start, (CogQuest, Anywhere, 4, 'b'), Any, ToonHQ, Any, NA, DefaultDialog),
-    
+
     1017 : ( TT_TIER+2, Start, (CogQuest, Anywhere, 1, 'ym'), Any, ToonHQ, Any, NA, DefaultDialog),
     1018 : ( TT_TIER+2, Start, (CogQuest, Anywhere, 1, 'nd'), Any, ToonHQ, Any, NA, DefaultDialog),
     1019 : ( TT_TIER+2, Start, (CogQuest, Anywhere, 1, 'tw'), Any, ToonHQ, Any, NA, DefaultDialog),
@@ -2363,7 +2363,7 @@ QuestDict = {
     1062 : ( TT_TIER+2, Cont, (CogQuest, ToontownGlobals.ToontownCentral, 6, 'b'), Same, Same, 101, NA,
              TTLocalizer.QuestDialogDict[1062]),
 
-    # Two packages for Dr. ???  Reward is new track. 
+    # Two packages for Dr. ???  Reward is new track.
     900 : ( TT_TIER+3, Start, (VisitQuest,), Any, 2201, NA, (1063),
              TTLocalizer.QuestDialogDict[900]),
     1063 : ( TT_TIER+3, Start, (RecoverItemQuest, Anywhere, 1, 13, Medium, 3, 'level'), 2201, Same, NA, (1067),
@@ -2420,7 +2420,7 @@ QuestDict = {
     1089 : ( TT_TIER+2, Cont, (DeliverItemQuest, 19), Same, ToonHQ, 100, NA,
              TTLocalizer.QuestDialogDict[1089]),
 
-    # Learn about Cog Radar.  Kill Cogs.  Gain +2 HP. 
+    # Learn about Cog Radar.  Kill Cogs.  Gain +2 HP.
     1090 : ( TT_TIER+2, Start, (VisitQuest,), Any, 2119, NA, (1091),
              TTLocalizer.QuestDialogDict[1090]),
     1091 : ( TT_TIER+2, Start, (CogLevelQuest, ToontownGlobals.ToontownCentral, 8, 2), 2119, ToonHQ, 101, NA,
@@ -2456,7 +2456,7 @@ QuestDict = {
     1209 : ( TT_TIER+3, Start, (CogQuest, Anywhere, 4, 'sc'), Any, ToonHQ, Any, NA, DefaultDialog),
     1210 : ( TT_TIER+3, Start, (CogQuest, Anywhere, 4, 'pp'), Any, ToonHQ, Any, NA, DefaultDialog),
     1211 : ( TT_TIER+3, Start, (CogQuest, Anywhere, 4, 'cc'), Any, ToonHQ, Any, NA, DefaultDialog),
-    1212 : ( TT_TIER+3, Start, (CogQuest, Anywhere, 4, 'tm'), Any, ToonHQ, Any, NA, DefaultDialog),    
+    1212 : ( TT_TIER+3, Start, (CogQuest, Anywhere, 4, 'tm'), Any, ToonHQ, Any, NA, DefaultDialog),
 
     # Donald's Dock
     401 : ( DD_TIER, Start, (TrackChoiceQuest,
@@ -2493,7 +2493,7 @@ QuestDict = {
     # DD is heavy on low-level corporate (bossbot) cogs (levels 2-4)
     # and also medium-level money (cashbot) cogs (levels 3-6).  It's
     # light on legal and sales cogs.
-    
+
       2101 : ( DD_TIER+1, Start, (CogQuest, ToontownGlobals.DonaldsDock, 3, Any), Any, ToonHQ, Any, NA, DefaultDialog),
       2102 : ( DD_TIER+1, Start, (CogQuest, ToontownGlobals.DonaldsDock, 4, Any), Any, ToonHQ, Any, NA, DefaultDialog),
       2103 : ( DD_TIER+1, Start, (CogQuest, ToontownGlobals.DonaldsDock, 5, Any), Any, ToonHQ, Any, NA, DefaultDialog),
@@ -2569,7 +2569,7 @@ QuestDict = {
       2161 : ( DD_TIER+1, Start, (DeliverGagQuest, 1, ToontownBattleGlobals.SQUIRT_TRACK, 2),
                Any, Any, Any, NA, DefaultDialog),
       2162 : ( DD_TIER+1, Start, (DeliverGagQuest, 2, ToontownBattleGlobals.THROW_TRACK, 2),
-               Any, Any, Any, NA, DefaultDialog),    
+               Any, Any, Any, NA, DefaultDialog),
 
 
     # Billy Budd at the Barnacle Barn has lost an inner tube.  He
@@ -2619,7 +2619,7 @@ QuestDict = {
              TTLocalizer.QuestDialogDict[2214]),
     2215 : ( DD_TIER+1, Cont, (DeliverItemQuest, 2008), Same, 1302, 301, NA,
              TTLocalizer.QuestDialogDict[2215]),
-                            
+
 
     # Clothing quest: defeat some cogs then deliver clothing ticket to NPCTailor
     2500 : ( DD_TIER+1, Start, (CogQuest, ToontownGlobals.DonaldsDock, 15, Any), Any, ToonHQ, NA, (2501), DefaultDialog),
@@ -2866,33 +2866,33 @@ QuestDict = {
              TTLocalizer.QuestDialogDict[3225]),
     3226 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5201, NA, (3235),
              TTLocalizer.QuestDialog_3225),
-    3227 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5203, NA, (3235), 
+    3227 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5203, NA, (3235),
              TTLocalizer.QuestDialog_3225),
-    3228 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5204, NA, (3235), 
+    3228 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5204, NA, (3235),
              TTLocalizer.QuestDialog_3225),
-    3229 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5205, NA, (3235), 
+    3229 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5205, NA, (3235),
              TTLocalizer.QuestDialog_3225),
-    3230 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5102, NA, (3235), 
+    3230 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5102, NA, (3235),
              TTLocalizer.QuestDialog_3225),
-    3231 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5103, NA, (3235), 
+    3231 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5103, NA, (3235),
              TTLocalizer.QuestDialog_3225),
-    3232 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5104, NA, (3235), 
+    3232 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5104, NA, (3235),
              TTLocalizer.QuestDialog_3225),
-    3233 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5105, NA, (3235), 
+    3233 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5105, NA, (3235),
              TTLocalizer.QuestDialog_3225),
-    3234 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5207, NA, (3235), 
+    3234 : ( DG_TIER, Start, (DeliverItemQuest, 5011), 5108, 5207, NA, (3235),
              TTLocalizer.QuestDialog_3225),
     3235 : ( DG_TIER, Cont, (CogQuest, ToontownGlobals.DaisyGardens, 10, Any), Same, 5108, 100, NA,
              TTLocalizer.QuestDialogDict[3235]),
-               
+
     # OBSOLETE: This quest has been made obsolete to make room for the Sellbot Cog HQ Quest
     # Too many Lawbots!  Reclaim 3 lawbot buildings.  Oops, now too
     # many Sellbots!  Reclaim 3 sellbot buildings.  Reward: 80 max jellybeans.
     3236 : ( DG_TIER, OBSOLETE, (BuildingQuest, Anywhere, 3, 'l', 2), Any, ToonHQ, NA, (3237),
              TTLocalizer.QuestDialogDict[3236]),
-    3237 : ( DG_TIER, OBSOLETE, (BuildingQuest, Anywhere, 3, 's', 2), Same, Same, 702, NA, 
+    3237 : ( DG_TIER, OBSOLETE, (BuildingQuest, Anywhere, 3, 's', 2), Same, Same, 702, NA,
              TTLocalizer.QuestDialogDict[3237]),
-             
+
     # The Mingler has stolen the Key to Daisy Gardens.  Reclaim it
     # from him.  Oops, not that key, some other one!  Reward: teleport
     # access to Daisy Gardens.
@@ -2963,7 +2963,7 @@ QuestDict = {
     # Clothing quest: defeat some cogs then deliver clothing ticket to NPCTailor
     3500 : ( DG_TIER, Start, (CogQuest, ToontownGlobals.DaisyGardens, 25, Any), Any, ToonHQ, NA, (3501), DefaultDialog),
     3501 : ( DG_TIER, Cont, (DeliverItemQuest, 1000), Any, 5007, 1000, NA, DefaultDialog),
-    
+
     # Minnies melodyland
     # We will pick one of these quests depending on what the avatar chose previously
     # DO NOT change these quest indexes, as they are keys used in chooseQuest()
@@ -2972,7 +2972,7 @@ QuestDict = {
                           ToontownBattleGlobals.HEAL_TRACK,),
              Any, ToonHQ, 400, NA,
              TTLocalizer.QuestDialogDict[4001]),
-             
+
     4002 : ( MM_TIER, Start, (TrackChoiceQuest,
                           ToontownBattleGlobals.TRAP_TRACK,
                           ToontownBattleGlobals.SOUND_TRACK,),
@@ -3014,7 +3014,7 @@ QuestDict = {
     # MM is a little heavy on money (cashbot) cogs, but has a fairly
     # good cog distribution otherwise.  The sellbots in MM are
     # mostly level 2..4, while other type cogs are level 3..6.
-    
+
     4101 : ( MM_TIER+1, Start, (CogQuest, ToontownGlobals.MinniesMelodyland, 16, Any), Any, ToonHQ, Any, NA, DefaultDialog),
     4102 : ( MM_TIER+1, Start, (CogQuest, ToontownGlobals.MinniesMelodyland, 18, Any), Any, ToonHQ, Any, NA, DefaultDialog),
     4103 : ( MM_TIER+1, Start, (CogQuest, ToontownGlobals.MinniesMelodyland, 20, Any), Any, ToonHQ, Any, NA, DefaultDialog),
@@ -3118,7 +3118,7 @@ QuestDict = {
              TTLocalizer.QuestDialogDict[4209]),
     4210 : ( MM_TIER+1, Cont, (DeliverItemQuest, 4004), Same, 4101, 203, NA,
              TTLocalizer.QuestDialogDict[4210]),
-    
+
     # 303: MM teleport access
     # Dr. Fret is having trouble getting customers. First he thinks its the Number Crunchers
     # that are scaring everyone away. Then he think its cashbots in general. Finally he asks
@@ -3136,7 +3136,7 @@ QuestDict = {
     # 703: max money = 100
     # Gladhanders' have made off with Anna's customers' travel tickets. Retrieve them and
     # then deliver them to the following people:
-    #   Lumber Jack, Tabitha, Barry 
+    #   Lumber Jack, Tabitha, Barry
     4215 : ( MM_TIER+1, Start, (VisitQuest,), Any, 4302, NA, 4216,
               TTLocalizer.QuestDialogDict[4215]),
     4216 : ( MM_TIER+1, Start, (RecoverItemQuest, Anywhere, 1, 4005, VeryHard, 'gh'), 4302, Same, NA, 4217,
@@ -3161,7 +3161,7 @@ QuestDict = {
     # Clothing quest: defeat some cogs then deliver clothing ticket to NPCTailor
     4500 : ( MM_TIER+1, Start, (CogQuest, ToontownGlobals.MinniesMelodyland, 40, Any), Any, ToonHQ, NA, (4501), DefaultDialog),
     4501 : ( MM_TIER+1, Cont, (DeliverItemQuest, 1000), Any, 4008, 1000, NA, DefaultDialog),
- 
+
     # 902: track completion
     # Visit Leo at Leo's Fenders. He's going to give a concert tonight and needs his castanets
     # polished. Bring them to Carlos who says he can do it, but needs some squid ink to make
@@ -3181,7 +3181,7 @@ QuestDict = {
              TTLocalizer.QuestDialogDict[4904]),
     4905 : ( MM_TIER+2, Cont, (BuildingQuest, Anywhere, 1, Any, 1), Same, Same, NA, 4906,
              TTLocalizer.QuestDialogDict[4905]),
-    4906 : ( MM_TIER+2, Cont, (DeliverItemQuest, 4010), Same, 4303, NA, 4907, 
+    4906 : ( MM_TIER+2, Cont, (DeliverItemQuest, 4010), Same, 4303, NA, 4907,
              TTLocalizer.QuestDialogDict[4906]),
     4907 : ( MM_TIER+2, Cont, (VisitQuest,), Same, 4208, NA, 4908,
              TTLocalizer.QuestDialogDict[4907]),
@@ -3283,7 +3283,7 @@ QuestDict = {
                           ToontownBattleGlobals.TRAP_TRACK,
                           ToontownBattleGlobals.LURE_TRACK,),
              Same, Same, 400, NA, TTLocalizer.TheBrrrghTrackQuestDict),
-    
+
     # Optional quests to do while working on the bottleneck quest
     5020 : ( BR_TIER, Start, (CogQuest, Anywhere, 36, Any), Any, ToonHQ, Any, NA, DefaultDialog),
     5021 : ( BR_TIER, Start, (CogQuest, Anywhere, 38, Any), Any, ToonHQ, Any, NA, DefaultDialog),
@@ -3436,7 +3436,7 @@ QuestDict = {
              TTLocalizer.QuestDialogDict[5263]),
 
     # Toboggan Ted and his toboggan team crashed while racing and now
-    # are a bunch of absent-minded knuckleheads.  Ted sends you to each 
+    # are a bunch of absent-minded knuckleheads.  Ted sends you to each
     # team member looking for his large bag.  Each guy has misplaced something
     # that might remind him where the bag is or who another team member is.
     # Your eventual reward is the large bag (max gag = 50).
@@ -3489,7 +3489,7 @@ QuestDict = {
     # Micromanagers, then all the x's, then all the x's, but nothing seems
     # to calm him.  Maybe Fanny Freezes can cook him up a potion to calm him
     # down.  Fanny asks for a series of ingredients and then gives you
-    # the concoction to take to Harry.  Harry drinks it and gives you the 
+    # the concoction to take to Harry.  Harry drinks it and gives you the
     # max quest = 4.
     5217 : ( BR_TIER+1, Start, (VisitQuest,), Any, 3113, NA, (5218),
              TTLocalizer.QuestDialogDict[5217]),
@@ -3510,11 +3510,11 @@ QuestDict = {
 
     # Gus Gooseburger wants to reconcile with Grumpy Phil, with your help.
     # You see, Gus baked him some turnip bread which caused Grumpy Phil to
-    # break a tooth.  Phil has kept the tooth, but if you delivered it to 
+    # break a tooth.  Phil has kept the tooth, but if you delivered it to
     # Dr. Mumbleface he might be able to repair it.  Wacky comedy ensues when
     # Dr. Mumbleface loses the repaired tooth.  Finally, Phil gets his tooth
     # and lightens up on poor Gus.  Gus responds by baking a loaf of pine cone
-    # bread, which breaks another one of Phil's teeth.  You reward is 
+    # bread, which breaks another one of Phil's teeth.  You reward is
     # teleport to the Brrrgh.
     5225 : ( BR_TIER+1, Start, (VisitQuest,), Any, 3106, NA, (5226),
              TTLocalizer.QuestDialogDict[5225]),
@@ -3585,8 +3585,8 @@ QuestDict = {
     5284 : ( BR_TIER+1, Cont, (RecoverItemQuest, Anywhere, 1, 3021, Hard, "bw"), Same, Same, 102, NA,
              TTLocalizer.QuestDialogDict[5284]),
 
-    # Wynne Chill wants to trade.  If you wipe out cogs for her, she'll 
-    # give you +1 HP. 
+    # Wynne Chill wants to trade.  If you wipe out cogs for her, she'll
+    # give you +1 HP.
     5255 : ( BR_TIER+1, Start, (VisitQuest,), Any, 3228, NA, (5256, 5276),
              TTLocalizer.QuestDialogDict[5255]),
     5256 : ( BR_TIER+1, Cont, (CogTrackQuest, Anywhere, 45, 'c'), 3228, Same, NA, (5257, 5277),
@@ -3646,13 +3646,13 @@ QuestDict = {
 
 
     # It's time for the final challenge.  Return to Lil Oldman for him to
-    # review your progress.  Before you can begin, you must eat, Oldman asks 
+    # review your progress.  Before you can begin, you must eat, Oldman asks
     # for lumpy cheese from Big Cheeses to put in your broth.  Then he discovers
     # his spoon is missing - maybe a Robber Baron took it?  Next, Oldman
     # sends you to catch a talking toad from the pond.  The toad whispers
     # something you can't catch, which prompts Oldman to send you out for
-    # dessert, maybe popsicles?  It turns out the popsicles were carted off 
-    # by a bunch of high level corporate Cogs, so you've got to track them 
+    # dessert, maybe popsicles?  It turns out the popsicles were carted off
+    # by a bunch of high level corporate Cogs, so you've got to track them
     # down.  Finally, Oldman and his toad get their popsicles, and you get
     # your new track.
     903 : ( BR_TIER+2, Start, (VisitQuest,), Any, 3112, NA, (5234, 5278),
@@ -3667,7 +3667,7 @@ QuestDict = {
              TTLocalizer.QuestDialogDict[5279]),
     5236 : ( BR_TIER+2, Cont, (RecoverItemQuest, Anywhere, 1, 3014, VeryHard, AnyFish), Same, Same, NA, (5237),
              TTLocalizer.QuestDialogDict[5236]),
-    
+
     5237 : ( BR_TIER+2, Cont, (VisitQuest,), Same, 3128, NA, (5238, 5280),
             TTLocalizer.QuestDialogDict[5237]),
     5238 : ( BR_TIER+2, Cont, (RecoverItemQuest, Anywhere, 10, 3015, VeryEasy, 'mh'), Same, Same, NA, (5239),
@@ -3828,7 +3828,7 @@ QuestDict = {
     # Sellbot HQ quests
     # HQ/Exterior: Cogs level 4-6
     # Factory: Cogs level 4-9, Skelecogs level 5-7, Skelecog Foreman level 11
-    # OBSOLETE: These quests have been made obsolete 
+    # OBSOLETE: These quests have been made obsolete
     # by the Cashbot Cog HQ Quests -patricia
     6170 : ( DL_TIER, OBSOLETE, (CogQuest, ToontownGlobals.SellbotHQ, 40, Any), Any, ToonHQ, Any, NA, DefaultDialog),
     6171 : ( DL_TIER, OBSOLETE, (CogQuest, ToontownGlobals.SellbotHQ, 45, Any), Any, ToonHQ, Any, NA, DefaultDialog),
@@ -3879,8 +3879,8 @@ QuestDict = {
     # In fact, he'll give you a 3 LP bonus.
     6221 : ( DL_TIER, Start, (VisitQuest,), Any, 9119, NA, 6222, TTLocalizer.QuestDialogDict[6221]),
     6222 : ( DL_TIER, Start, (CogTrackQuest, ToontownGlobals.DonaldsDreamland, 50, 'c'), 9119, Same, 102, NA, TTLocalizer.QuestDialogDict[6222]),
- 
-    # Nat & PJ will get you acquainted with the new 
+
+    # Nat & PJ will get you acquainted with the new
     # HQ. And they'll give you your first suit part
     6231 : ( DL_TIER, Start, (VisitQuest,), Any, 9203, NA, 6232, TTLocalizer.QuestDialogDict[6231]),
     6232 : ( DL_TIER, Start, (VisitQuest,), 9203, 9103, NA, 6233, TTLocalizer.QuestDialogDict[6232]),
@@ -3888,7 +3888,7 @@ QuestDict = {
     6234 : ( DL_TIER, Cont, (VisitQuest,), Same, 9203, NA, 6235, TTLocalizer.QuestDialogDict[6234]),
     6235 : ( DL_TIER, Cont, (RecoverItemQuest, ToontownGlobals.CashbotHQ, 1, 6001, VeryHard, 'm', 'track'), Same, Same, 4000, NA, TTLocalizer.QuestDialogDict[6235]),
 
-    # The Countess can't concentrate on counting her sheep with all 
+    # The Countess can't concentrate on counting her sheep with all
     # these Cogs around. Clean up a bit and she'll reward you handsomely.
     # Reward: MaxMoneyReward 705 - 150 jellybeans
     6241 : ( DL_TIER, Start, (VisitQuest,), Any, 9219, NA, 6242, TTLocalizer.QuestDialogDict[6241]),
@@ -3920,10 +3920,10 @@ QuestDict = {
     6272 : ( DL_TIER, Start, (BuildingQuest, ToontownGlobals.DonaldsDreamland, 2, 'm', 5), 9208, Same, 305, NA, TTLocalizer.QuestDialogDict[6272]),
 
     # Teddy Blair has a piece of a cog suit to give you if you will
-    # clear out some cogs. Of course, his ear plugs make it tough. 
+    # clear out some cogs. Of course, his ear plugs make it tough.
     6281 : ( DL_TIER, Start, (VisitQuest,), Any, 9123, NA, 6282, TTLocalizer.QuestDialogDict[6281]),
     6282 : ( DL_TIER, Start, (CogTrackQuest, ToontownGlobals.DonaldsDreamland, 55, 'm'), 9123, Same, 4001, NA, TTLocalizer.QuestDialogDict[6282]),
-    
+
     # William Teller needs help! Those darn Cashbots swiped his 3
     # reading lamps! Retrieve them and he'll give you
     # another cog Suit piece.
@@ -4051,7 +4051,7 @@ QuestDict = {
     7166 : ( DL_TIER+1, Start, (BuildingNewbieQuest, Anywhere, 1, Any, 2, NEWBIE_HP), Any, ToonHQ, 608, NA, DefaultDialog),
     7167 : ( DL_TIER+1, Start, (BuildingNewbieQuest, Anywhere, 1, Any, 2, NEWBIE_HP), Any, ToonHQ, 608, NA, DefaultDialog),
 
-    # OBSOLETE: These quests have been made obsolete 
+    # OBSOLETE: These quests have been made obsolete
     # by the Cashbot Cog HQ Quests -patricia
     # Sellbot HQ quests
     7170 : ( DL_TIER+1, OBSOLETE, (CogQuest, ToontownGlobals.SellbotHQ, 80, Any), Any, ToonHQ, Any, NA, DefaultDialog),
@@ -4082,7 +4082,7 @@ QuestDict = {
     7196 : ( DL_TIER+1, Start, (ForemanNewbieQuest, ToontownGlobals.SellbotFactoryInt, 2, SELLBOT_HQ_NEWBIE_HP), Any, ToonHQ, 609, NA, DefaultDialog),
 
     # New DL+1 Tier Quests for Suit parts
-    # Get Nina Nightlight another bed for her stock 
+    # Get Nina Nightlight another bed for her stock
     # and she'll give you a suit part
     7201 : ( DL_TIER+1, Start, (VisitQuest,), Any, 9124, NA, 7202, TTLocalizer.QuestDialogDict[7201]),
     7202 : ( DL_TIER+1, Start, (VisitQuest,), 9124, 9128, NA, 7203, TTLocalizer.QuestDialogDict[7202]),
@@ -4091,7 +4091,7 @@ QuestDict = {
     7205 : ( DL_TIER+1, Cont, (CogQuest, ToontownGlobals.DonaldsDreamland, 140, Any), Same, Same, NA, 7206, TTLocalizer.QuestDialogDict[7205]),
     7206 : ( DL_TIER+1, Cont, (DeliverItemQuest, 7002), Same, 9124, 4003, NA, TTLocalizer.QuestDialogDict[7206]),
 
-    # Here's a quest to pick up a Cog Suit part. 
+    # Here's a quest to pick up a Cog Suit part.
     # Help Honey Moon get a new bedspread from Ed
     7209 : ( DL_TIER+1, Start, (VisitQuest,), Any, 9232, NA, 7210, TTLocalizer.QuestDialogDict[7209]),
     7210 : ( DL_TIER+1, Start, (VisitQuest,), 9232, 9101, NA, 7211, TTLocalizer.QuestDialogDict[7210]),
@@ -4101,7 +4101,7 @@ QuestDict = {
     7214 : ( DL_TIER+1, Cont, (CogTrackQuest, Anywhere, 65, 'm'), Same, Same, NA, 7215, TTLocalizer.QuestDialogDict[7214]),
     7215 : ( DL_TIER+1, Cont, (DeliverItemQuest, 7004), Same, 9232, 4004, NA, TTLocalizer.QuestDialogDict[7215]),
 
-    # Dreamy Daphne had her pillows stolen but Tex 
+    # Dreamy Daphne had her pillows stolen but Tex
     # can help her out. You'll get another Cog Suit part.
     7218 : ( DL_TIER+1, Start, (VisitQuest,), Any, 9109, NA, 7219, TTLocalizer.QuestDialogDict[7218]),
     7219 : ( DL_TIER+1, Start, (VisitQuest,), 9109, 9230, NA, 7220, TTLocalizer.QuestDialogDict[7219]),
@@ -4161,7 +4161,7 @@ QuestDict = {
     7268 : ( DL_TIER+1, Start, (CogLevelQuest, ToontownGlobals.CashbotMintIntB, 20, 11), Any, ToonHQ, Any, NA, DefaultDialog),
     7269 : ( DL_TIER+1, Start, (MintQuest, ToontownGlobals.CashbotMintIntB, 6), Any, ToonHQ, Any, NA, DefaultDialog),
     7270 : ( DL_TIER+1, Start, (SupervisorQuest, ToontownGlobals.CashbotMintIntB, 6), Any, ToonHQ, Any, NA, DefaultDialog),
-    
+
     # Clothing quest: defeat some cogs then deliver clothing ticket to NPCTailor
     7500 : ( DL_TIER+1, Start, (CogQuest, ToontownGlobals.DonaldsDreamland, 100, Any), Any, ToonHQ, NA, (7501), DefaultDialog),
     7501 : ( DL_TIER+1, Cont, (DeliverItemQuest, 1000), Any, 9010, 1000, NA, DefaultDialog),
@@ -4246,7 +4246,7 @@ QuestDict = {
     8166 : ( DL_TIER+2, Start, (BuildingNewbieQuest, Anywhere, 1, Any, 3, NEWBIE_HP), Any, ToonHQ, 609, NA, DefaultDialog),
     8167 : ( DL_TIER+2, Start, (BuildingNewbieQuest, Anywhere, 1, Any, 3, NEWBIE_HP), Any, ToonHQ, 609, NA, DefaultDialog),
 
-    # OBSOLETE: These quests have been made obsolete 
+    # OBSOLETE: These quests have been made obsolete
     # by the Cashbot Cog HQ Quests -patricia
     # Sellbot HQ quests
     8170 : ( DL_TIER+2, OBSOLETE, (CogQuest, ToontownGlobals.SellbotHQ, 160, Any), Any, ToonHQ, Any, NA, DefaultDialog),
@@ -4383,7 +4383,7 @@ QuestDict = {
     9165 : ( DL_TIER+3, Start, (BuildingNewbieQuest, Anywhere, 1, Any, 3, NEWBIE_HP), Any, ToonHQ, 609, NA, DefaultDialog),
     9166 : ( DL_TIER+3, Start, (BuildingNewbieQuest, Anywhere, 1, Any, 3, NEWBIE_HP), Any, ToonHQ, 609, NA, DefaultDialog),
     9167 : ( DL_TIER+3, Start, (BuildingNewbieQuest, Anywhere, 1, Any, 3, NEWBIE_HP), Any, ToonHQ, 609, NA, DefaultDialog),
-    # OBSOLETE: These quests have been made obsolete 
+    # OBSOLETE: These quests have been made obsolete
     # by the Cashbot Cog HQ Quests -patricia
     # Sellbot HQ quests
     9170 : ( DL_TIER+3, OBSOLETE, (CogQuest, ToontownGlobals.SellbotHQ, 350, Any), Any, ToonHQ, Any, NA, DefaultDialog),
@@ -4455,7 +4455,7 @@ QuestDict = {
     9501 : ( DL_TIER+3, Cont, (DeliverItemQuest, 1000), Any, 2004, 1000, NA, DefaultDialog),
 
 
-    # Elder quests 
+    # Elder quests
     10001 : ( ELDER_TIER, Start, (CogNewbieQuest, ToontownGlobals.ToontownCentral, 50, Any, NEWBIE_HP), Any, ToonHQ, Any, NA, DefaultDialog),
     10002 : ( ELDER_TIER, Start, (BuildingNewbieQuest, Anywhere, 4, Any, 1, NEWBIE_HP), Any, ToonHQ, Any, NA, DefaultDialog),
 
@@ -4487,7 +4487,7 @@ QuestDict = {
     # Defeat buildings for lots of beans
     10118 : ( ELDER_TIER, Start, (BuildingQuest, Anywhere, 50, Any, 1), Any, ToonHQ, 620, NA, DefaultDialog),
 
-    # OBSOLETE: These quests have been made obsolete 
+    # OBSOLETE: These quests have been made obsolete
     # by the Cashbot Cog HQ Quests -patricia
     # Sellbot HQ quests
     10120 : ( ELDER_TIER, OBSOLETE, (CogQuest, ToontownGlobals.SellbotHQ, 60, Any), Any, ToonHQ, Any, NA, DefaultDialog),
@@ -4523,7 +4523,7 @@ QuestDict = {
     # Clothing quest: help a newbie then deliver clothing ticket to NPCTailor
     10204 : ( ELDER_TIER, Start, (CogNewbieQuest, ToontownGlobals.ToontownCentral, 60, Any, NEWBIE_HP), Any, ToonHQ, NA, (10205), DefaultDialog),
     10205 : ( ELDER_TIER, Cont, (DeliverItemQuest, 1000), Any, ToonTailor, 1000, NA, DefaultDialog),
-    
+
     # Clothing quest: help a newbie then deliver clothing ticket to NPCTailor
     10206 : ( ELDER_TIER, Start, (BuildingNewbieQuest, Anywhere, 4, Any, 1, NEWBIE_HP), Any, ToonHQ, NA, (10207), DefaultDialog),
     10207 : ( ELDER_TIER, Cont, (DeliverItemQuest, 1000), Any, ToonTailor, 1000, NA, DefaultDialog),
@@ -4591,7 +4591,7 @@ QuestDict = {
     # Bossbot HQ suit part quests
 
     # Quest ID : ( tier, start, (questDesc), fromNpc, toNpc, reward, nextQuest, dialog )
-    
+
     # Shep Ahoy needs you to really take a bite out of the Bossbots to earn your bossbot suit
     12000 : ( BOSSBOT_HQ_TIER, Start, (VisitQuest,), Any, 1222, NA, (12001),
               TTLocalizer.QuestDialogDict[12000]),
@@ -4677,7 +4677,7 @@ for questId, questDesc in list(QuestDict.items()):
             Tier2QuestsDict[tier] = [questId]
 
 # Quest2RewardDict is a dict of {questId : rewardId}, chasing down multipart quests
-# Contains final rewards for all quests 
+# Contains final rewards for all quests
 Quest2RewardDict = {}
 # Tier2Reward2QuestsDict is a two-level dict of {tier : {reward : [questId, questId...]}}
 Tier2Reward2QuestsDict = {}
@@ -4764,10 +4764,10 @@ def getStartingQuests(tier = None):
                 startingQuests.append(questId)
     startingQuests.sort()
     return startingQuests
-            
+
 def getFinalRewardId(questId, fAll = 0):
     """
-    Returns the final rewardId if fAll is set, 
+    Returns the final rewardId if fAll is set,
     If fAll flag is not set, returns None if questId is not first part of mulitpart quest or singleton
     so that quest isn't added to avatars reward history in DistributedToonAI.py
     """
@@ -4868,7 +4868,7 @@ def filterQuests(entireQuestPool, currentNpc, av):
         history = av.getQuestHistory()
     if notify.getDebug():
         notify.debug('filterQuests: av quest history: %s' % (history))
-    
+
     currentQuests = av.quests
     for questId in entireQuestPool:
         # If we have had this quest before (or have it now),
@@ -4948,8 +4948,8 @@ def chooseTrackChoiceQuest(tier, av, fixed=0):
             return chooseTrackChoiceQuest(tier, av, fixed=1)
         else:
             # Already tried to fix this once, just return None
-            return None        
-    
+            return None
+
     bestQuest = None
     trackAccess = av.getTrackAccess()
     if (tier == MM_TIER):
@@ -5013,7 +5013,7 @@ def chooseTrackChoiceQuest(tier, av, fixed=0):
         notify.debug("chooseTrackChoiceQuest: avId: %s trackAccess: %s tier: %s bestQuest: %s" %
                      (av.getDoId(), trackAccess, tier, bestQuest))
     return bestQuest
-    
+
 
 def chooseMatchingQuest(tier, validQuestPool, rewardId, npc, av):
     """
@@ -5056,7 +5056,7 @@ def chooseMatchingQuest(tier, validQuestPool, rewardId, npc, av):
                 bestQuest = seededRandomChoice(validQuestsMatchingReward)
             else:
                 # still no matches
-                # check for AnyLawbotSuitPart matches 
+                # check for AnyLawbotSuitPart matches
                 questsMatchingReward = Tier2Reward2QuestsDict[tier].get(AnyLawbotSuitPart, [])
                 if notify.getDebug():
                     notify.debug("questsMatchingReward: AnyLawbotSuitPart tier: %s = %s" %
@@ -5120,11 +5120,11 @@ def transformReward(baseRewardId, av):
     else:
         # Return the reward unchanged
         return baseRewardId
-    
+
 
 def chooseBestQuests(tier, currentNpc, av):
     """
-    Returns a list of questIds from this tier 
+    Returns a list of questIds from this tier
     """
     # We seed the random number generator so this npc will present the same
     # quests to this avatar if the avatar thinks he's clever and repeatedly
@@ -5202,7 +5202,7 @@ def chooseBestQuests(tier, currentNpc, av):
         elif bestQuestToNpcId == ToonHQ:
             # flag as a toon hq npc
             bestQuestToNpcId = ToonHQ
-        
+
         # Append it to the list we are making
         bestQuests.append([bestQuestId, rewardId, bestQuestToNpcId])
 
@@ -5238,7 +5238,7 @@ def getQuestClass(id):
         return questEntry[QuestDictDescIndex][0]
     else:
         # Did not find it
-        return None    
+        return None
 
 def getVisitSCStrings(npcId):
     if npcId == ToonHQ:
@@ -5296,17 +5296,17 @@ def getNpcInfo(npcId):
     npcZone = NPCToons.getNPCZone(npcId)
     hoodId = ZoneUtil.getCanonicalHoodId(npcZone)
     hoodName = base.cr.hoodMgr.getFullnameFromId(hoodId)
-    buildingArticle = NPCToons.getBuildingArticle(npcZone)    
+    buildingArticle = NPCToons.getBuildingArticle(npcZone)
     buildingName = NPCToons.getBuildingTitle(npcZone)
     branchId = ZoneUtil.getCanonicalBranchZone(npcZone)
-    toStreet = ToontownGlobals.StreetNames[branchId][0]    
+    toStreet = ToontownGlobals.StreetNames[branchId][0]
     streetName = ToontownGlobals.StreetNames[branchId][-1]
     isInPlayground = ZoneUtil.isPlayground(branchId)
     return (npcName, hoodName, buildingArticle, buildingName, toStreet, streetName, isInPlayground)
 
 def getNpcLocationDialog(fromNpcId, toNpcId):
     # Returns (paragraph, buildingName, streetDesc)
-    
+
     if not toNpcId:
         return (None, None, None)
 
@@ -5337,15 +5337,15 @@ def getNpcLocationDialog(fromNpcId, toNpcId):
     paragraph = TTLocalizer.QuestsLocationParagraph % {'building' : TTLocalizer.QuestsLocationBuilding % (toNpcName),
                                                      'buildingName' : toBuildingName,
                                                      'buildingVerb' : TTLocalizer.QuestsLocationBuildingVerb,
-                                                     'street' : streetDesc}    
+                                                     'street' : streetDesc}
 
     return (paragraph, toBuildingName, streetDesc)
 
 def fillInQuestNames(text, avName = None, fromNpcId = None, toNpcId = None):
     text = copy.deepcopy(text)
-    
+
     if avName != None:
-        text = string.replace(text, '_avName_', avName)
+        text = text.replace('_avName_', avName)
 
     if toNpcId:
         if toNpcId == ToonHQ:
@@ -5353,24 +5353,24 @@ def fillInQuestNames(text, avName = None, fromNpcId = None, toNpcId = None):
             where = TTLocalizer.QuestsHQWhereFillin
             buildingName = TTLocalizer.QuestsHQBuildingNameFillin
             streetDesc = TTLocalizer.QuestsHQLocationNameFillin
-            
+
         elif toNpcId == ToonTailor:
             toNpcName = TTLocalizer.QuestsTailorFillin
             where = TTLocalizer.QuestsTailorWhereFillin
             buildingName = TTLocalizer.QuestsTailorBuildingNameFillin
             streetDesc = TTLocalizer.QuestsTailorLocationNameFillin
-            
+
         else:
             toNpcName = str(NPCToons.getNPCName(toNpcId))
             where, buildingName, streetDesc = getNpcLocationDialog(fromNpcId, toNpcId)
 
-        text = string.replace(text, '_toNpcName_', toNpcName)
-        text = string.replace(text, '_where_', where)
-        text = string.replace(text, '_buildingName_', buildingName)
-        text = string.replace(text, '_streetDesc_', streetDesc)
-            
+        text = text.replace('_toNpcName_', toNpcName)
+        text = text.replace('_where_', where)
+        text = text.replace('_buildingName_', buildingName)
+        text = text.replace('_streetDesc_', streetDesc)
+
     return text
-    
+
 
 def getVisitingQuest():
     """
@@ -5526,7 +5526,7 @@ TrackTrainingQuotas = {
     ToontownBattleGlobals.SQUIRT_TRACK : 15,
     ToontownBattleGlobals.DROP_TRACK : 15,
     }
-    
+
 class TrackTrainingReward(Reward):
     def __init__(self, id, reward):
         Reward.__init__(self, id, reward)
@@ -5608,7 +5608,7 @@ class ClothingTicketReward(Reward):
         return (TTLocalizer.QuestsClothingTicketReward)
     def getPosterString(self):
         return (TTLocalizer.QuestsClothingTicketRewardPoster)
-        
+
 class TIPClothingTicketReward(ClothingTicketReward):
     def __init__(self, id, reward):
         ClothingTicketReward.__init__(self, id, reward)
@@ -5657,7 +5657,7 @@ class CheesyEffectReward(Reward):
         else:
             return TTLocalizer.CheesyEffectIndefinite % {"effectName" : desc,
                                                        "whileIn" :    whileStr, }
-        
+
     def getPosterString(self):
         effect = self.getEffect()
         desc = TTLocalizer.CheesyEffectDescriptions[effect][0]
@@ -5694,7 +5694,7 @@ class CogSuitPartReward(Reward):
                 {'cogTrack':self.getCogTrackName(),
                  'part':self.getCogPartName()})
 
-    
+
 
 def getRewardClass(id):
     """
@@ -5736,7 +5736,7 @@ def getNextRewards(numChoices, tier, av):
     if av.getGameAccess() == OTPGlobals.AccessFull and \
        tier == TT_TIER +3:
         # force paid players to pickup the quest to finish their gag track
-        optRewards = [] 
+        optRewards = []
 
     if isLoopingFinalTier(tier):
         # If we are in the looping final tier, we do not maintain any
@@ -5798,7 +5798,7 @@ def getNextRewards(numChoices, tier, av):
     if numChoices == 0:
         if (len(rewardTier) == 0):
             return []
-        else: 
+        else:
             return [rewardTier[0]]
 
     # If there are none in the tier, make the player complete the ones he has and
@@ -5832,7 +5832,7 @@ def getNextRewards(numChoices, tier, av):
         if notify.getDebug():
             notify.debug('getNextRewards: no rewards left at all')
         return []
-    
+
     # Automatically pick the first one so you will always be presented
     # with a required reward, plus some optional
     finalRewardPool = [rewardPool.pop(0)]
@@ -5850,7 +5850,7 @@ def getNextRewards(numChoices, tier, av):
         notify.debug('getNextRewards: final reward pool: %s' % (finalRewardPool))
     return finalRewardPool
 
-    
+
 
 
 RewardDict = {
@@ -5894,7 +5894,7 @@ RewardDict = {
     # Real track access rewards - these are used by the QuestManagerAI
     # to assign the track training reward once the track has been chosen
     # by the player. They are not listed in the RewardDict.
-    401 : (TrackTrainingReward, ToontownBattleGlobals.HEAL_TRACK),    
+    401 : (TrackTrainingReward, ToontownBattleGlobals.HEAL_TRACK),
     402 : (TrackTrainingReward, ToontownBattleGlobals.TRAP_TRACK),
     403 : (TrackTrainingReward, ToontownBattleGlobals.LURE_TRACK),
     404 : (TrackTrainingReward, ToontownBattleGlobals.SOUND_TRACK),
@@ -5919,21 +5919,21 @@ RewardDict = {
     608 : (MoneyReward, 300),
     609 : (MoneyReward, 400),
     610 : (MoneyReward, 500),
-    611 : (MoneyReward, 600),    
-    612 : (MoneyReward, 700),    
-    613 : (MoneyReward, 800),    
-    614 : (MoneyReward, 900),    
-    615 : (MoneyReward, 1000),    
-    616 : (MoneyReward, 1100),    
-    617 : (MoneyReward, 1200),    
-    618 : (MoneyReward, 1300),    
-    619 : (MoneyReward, 1400),    
+    611 : (MoneyReward, 600),
+    612 : (MoneyReward, 700),
+    613 : (MoneyReward, 800),
+    614 : (MoneyReward, 900),
+    615 : (MoneyReward, 1000),
+    616 : (MoneyReward, 1100),
+    617 : (MoneyReward, 1200),
+    618 : (MoneyReward, 1300),
+    619 : (MoneyReward, 1400),
     620 : (MoneyReward, 1500),
     # Following added to accommodate CFO quests
     621 : (MoneyReward, 1750),
     622 : (MoneyReward, 2000),
-    623 : (MoneyReward, 2500),    
-    
+    623 : (MoneyReward, 2500),
+
     # These are absolute values
     700 : (MaxMoneyReward, 50),
     701 : (MaxMoneyReward, 60),
@@ -5959,7 +5959,7 @@ RewardDict = {
     813 : (TrackProgressReward, None, 13),
     814 : (TrackProgressReward, None, 14),
     815 : (TrackProgressReward, None, 15),
-    
+
     110: (TIPClothingTicketReward,),
     1000: (ClothingTicketReward,),
 
@@ -6050,7 +6050,7 @@ RewardDict = {
     # Real track complete rewards - these are used by the QuestManagerAI
     # to assign the track access once the track has been trained completely.
     # They are not listed in the RewardDict.
-    901 : (TrackCompleteReward, ToontownBattleGlobals.HEAL_TRACK),    
+    901 : (TrackCompleteReward, ToontownBattleGlobals.HEAL_TRACK),
     902 : (TrackCompleteReward, ToontownBattleGlobals.TRAP_TRACK),
     903 : (TrackCompleteReward, ToontownBattleGlobals.LURE_TRACK),
     904 : (TrackCompleteReward, ToontownBattleGlobals.SOUND_TRACK),
@@ -6068,7 +6068,7 @@ RewardDict = {
     # TT
     2205 : (CheesyEffectReward, ToontownGlobals.CEBigToon, 2000, 10),
     2206 : (CheesyEffectReward, ToontownGlobals.CESmallToon, 2000, 10),
-    
+
     # DD
     2101 : (CheesyEffectReward, ToontownGlobals.CEBigHead, 1000, 10),
     2102 : (CheesyEffectReward, ToontownGlobals.CESmallHead, 1000, 10),
@@ -6285,7 +6285,7 @@ RequiredRewardTrackDict = {
     # 61 HP
 
     # Note: Added first few pieces of Cashbot Cog Suit to DL Tier
-    # Note: Added remainder of Cashbot Cog Suit to DL+1-+3, 
+    # Note: Added remainder of Cashbot Cog Suit to DL+1-+3,
     #       redistributed some of the others to even out the tiers a bit
     DL_TIER    : (4000,100,205,101,102,705,103,305,4001,4002),
     # 71 HP
@@ -6297,7 +6297,7 @@ RequiredRewardTrackDict = {
     # 100 HP
 
     # I'm not sure why these were done as separate teirs - so the rewards could be strictly sequential?
-    
+
     # Lawbot cog suit parts
     LAWBOT_HQ_TIER : (4100,),
     LAWBOT_HQ_TIER+1 : (4101,),
@@ -6365,7 +6365,7 @@ OptionalRewardTrackDict = {
                  2305, 2306, 2307, 2308, 2309, 2310, 2311),
     BR_TIER+2 : (1000, 606, 606, 606, 606, 606, 607, 607, 607, 607, 607,
                  2305, 2306, 2307, 2308, 2309, 2310, 2311),
-    
+
     DL_TIER   : (607, 607, 607, 607, 608, 608, 608, 608,
                  2901, 2902, 2907, 2908, 2909, 2910, 2911),
     DL_TIER+1 : (1000, 607, 607, 607, 607, 608, 608, 608, 608,
@@ -6475,7 +6475,7 @@ def avatarHasAllRequiredRewards(av, tier):
     Return 1 is this avatar has all the required rewards in his history
     for this tier. 0 otherwise.
     """
-    
+
     # See what rewards we have worked on.
     # NOTE: list() gives us a copy of the reward history so
     # we can play with it without damaging the original.
@@ -6546,7 +6546,7 @@ def avatarHasAllRequiredRewards(av, tier):
             if not isRewardOptional(tier, rewardId):
                 notify.warning("required reward found, expected only optional: %s" %
                                (rewardId))
-        
+
     # If you made it here, you must have all rewards in your history.
     return 1
 
@@ -6629,4 +6629,3 @@ def assertAllQuestsValid():
         if start:
             # check the end reward(s)
             checkReward(questId)
-

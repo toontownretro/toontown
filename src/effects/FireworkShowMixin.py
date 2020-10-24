@@ -116,17 +116,17 @@ class FireworkShowMixin:
             instructionMessage = TTLocalizer.FireworksInstructions
             startMessage = TTLocalizer.FireworksJuly4Beginning
             endMessage = TTLocalizer.FireworksJuly4Ending
-            musicFile ="phase_4/audio/bgm/tt_party2.ogg"
+            musicFile ="phase_4/audio/bgm/tt_party2.mid"
         elif eventId == NEWYEARS_FIREWORKS:
             instructionMessage = TTLocalizer.FireworksInstructions
             startMessage = TTLocalizer.FireworksNewYearsEveBeginning
             endMessage = TTLocalizer.FireworksNewYearsEveEnding
-            musicFile ="phase_4/audio/bgm/tt_s_ara_gen_fireworks_auldLangSyne.ogg"
+            musicFile ="phase_4/audio/bgm/tt_s_ara_gen_fireworks_auldLangSyne.mid"
         elif eventId == PartyGlobals.FireworkShows.Summer:
             instructionMessage = TTLocalizer.FireworksActivityInstructions
             startMessage = TTLocalizer.FireworksActivityBeginning
             endMessage = TTLocalizer.FireworksActivityEnding
-            musicFile ="phase_4/audio/bgm/tt_summer.ogg"
+            musicFile ="phase_4/audio/bgm/tt_summer.mid"
         else:
             FireworkShowMixin.notify.warning(
                 "Invalid fireworks event ID: %d" % (eventId))
@@ -141,16 +141,16 @@ class FireworkShowMixin:
                 if not self.__checkStreetValidity():
                     return
                 else:
-                    place.halloweenLights = base.cr.playGame.getPlace().loader.geom.findAllMatches("**/*light*").asList()
-                    place.halloweenLights.extend(base.cr.playGame.getPlace().loader.geom.findAllMatches("**/*lamp*").asList())
+                    place.halloweenLights = base.cr.playGame.getPlace().loader.geom.findAllMatches("**/*light*")
+                    place.halloweenLights.extend(base.cr.playGame.getPlace().loader.geom.findAllMatches("**/*lamp*"))
                     for light in place.halloweenLights:
                         light.setColorScaleOff(0)
             else:
                 if not self.__checkHoodValidity():
                     return
                 else:
-                    place.loader.hood.halloweenLights = base.cr.playGame.hood.loader.geom.findAllMatches("**/*light*").asList()
-                    place.loader.hood.halloweenLights.extend(base.cr.playGame.hood.loader.geom.findAllMatches("**/*lamp*").asList())
+                    place.loader.hood.halloweenLights = base.cr.playGame.hood.loader.geom.findAllMatches("**/*light*")
+                    place.loader.hood.halloweenLights.extend(base.cr.playGame.hood.loader.geom.findAllMatches("**/*lamp*"))
                     for light in base.cr.playGame.hood.halloweenLights:
                         light.setColorScaleOff(0)
 

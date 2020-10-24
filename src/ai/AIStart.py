@@ -1,92 +1,42 @@
 import builtins
 
 class game:
-    name = "toontown"
-    process = "ai"
-builtins.game = game()
+    name = 'toontown'
+    process = 'server'
 
-# NOTE: this file is not used in production. See AIServiceStart.py
+builtins.game = game
 
-import time
-import os
-import sys
+from panda3d.core import *
 
-print("Initializing...")
+loadPrcFile('etc/Configrc.prc')
 
 from otp.ai.AIBaseGlobal import *
-from . import ToontownAIRepository
-from direct.showbase import PythonUtil
+from toontown.ai.ToontownAIRepository import ToontownAIRepository
 
-# Clear the default model extension for AI developers, so they'll know
-# when they screw up and omit it.
-from toontown.toonbase.ToontownModules import loadPrcFileData
-loadPrcFileData("AIStart.py", "default-model-extension")
+aiConfig = ''
+aiConfig += 'air-base-channel %s\n' % 101000000
+aiConfig += 'air-channel-allocation %s\n' % 999999
+aiConfig += 'air-stateserver %s\n' % 4002
+aiConfig += 'district-name %s\n' % 'Toon Valley'
+aiConfig += 'air-connect %s\n' % '127.0.0.1:7199'
+aiConfig += 'eventlog-host %s\n' % '127.0.0.1:7197'
+loadPrcFileData('AI Config', aiConfig)
 
-simbase.mdip = simbase.config.GetString("msg-director-ip", "localhost")
+simbase.air = ToontownAIRepository(config.GetInt('air-base-channel', 1000000), config.GetInt('air-stateserver', 4002), config.GetString('district-name', 'Toon Valley'))
 
-# Now the AI connects directly to the state server instead of the msg director
-simbase.mdport = simbase.config.GetInt("msg-director-port", 6666)
+host = config.GetString('air-connect', '127.0.0.1:7199')
+port = 7199
+if ':' in host:
+    host, port = host.split(':', 1)
+    port = int(port)
 
-simbase.esip = simbase.config.GetString("event-server-ip", "localhost")
-simbase.esport = simbase.config.GetInt("event-server-port", 4343)
-
-
-districtType = 0
-serverId = simbase.config.GetInt("district-ssid", 20100000)
-
-for i in range(1, 20+1):
-    # always set up for i==1, then take the first district above 1 (if any)
-    if i==1 or os.getenv("want_district_%s" % i):
-        if i==1:
-            postfix = ''
-        else:
-            postfix = '-%s' % i
-        districtNumber = simbase.config.GetInt(
-            "district-id%s"%postfix,
-            200000000 + i*1000000)
-        districtName = simbase.config.GetString(
-            "district-name%s"%postfix,
-            "%sville" % {1: 'Silly',
-                         2: 'Second',
-                         3: 'Third',
-                         4: 'Fourth',
-                         5: 'Fifth',
-                         6: 'Sixth',
-                         7: 'Seventh',
-                         8: 'Eighth',
-                         9: 'Ninth', }.get(i, str(i))
-                         )
-        districtMinChannel = simbase.config.GetInt(
-            "district-min-channel%s"%postfix,
-            200100000 + i*1000000)
-        districtMaxChannel = simbase.config.GetInt(
-            "district-max-channel%s"%postfix,
-            200149999 + i*1000000)
-        if i != 1:
-            break
-
-print("-"*30, "creating toontown district %s" % districtNumber, "-"*30)
-
-simbase.air = ToontownAIRepository.ToontownAIRepository(
-        simbase.mdip,
-        simbase.mdport,
-        simbase.esip,
-        simbase.esport,
-        None,
-        districtNumber,
-        districtName,
-        districtType,
-        serverId,
-        districtMinChannel,
-        districtMaxChannel)
-
-# How we let the world know we are not running a service
-simbase.aiService = 0
+simbase.air.connect(host, port)
 
 try:
-    simbase.air.fsm.request("districtReset")
     run()
-except:
-    info = PythonUtil.describeException()
-    simbase.air.writeServerEvent('ai-exception', districtNumber, info)
+except SystemExit:
+    raise
+except Exception:
+    from otp.otpbase import PythonUtil
+    print(PythonUtil.describeException())
     raise

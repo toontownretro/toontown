@@ -72,9 +72,9 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         self.BossOffice_SuitHs = [170, 120, 12, 38]
 
         self.waitMusic = base.loadMusic(
-            'phase_7/audio/bgm/encntr_toon_winning_indoor.ogg')
+            'phase_7/audio/bgm/encntr_toon_winning_indoor.mid')
         self.elevatorMusic = base.loadMusic(
-            'phase_7/audio/bgm/tt_elevator.ogg')
+            'phase_7/audio/bgm/tt_elevator.mid')
 
         self.fsm = ClassicFSM.ClassicFSM('DistributedSuitInterior',
                         [State.State('WaitForAllToonsInside',
@@ -138,12 +138,12 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
 
         # Load the elevator model
         self.elevatorModelIn = loader.loadModel(
-                                'phase_4/models/modules/elevator')
+                                'phase_5/models/modules/elevator')
         self.leftDoorIn = self.elevatorModelIn.find('**/left-door')
         self.rightDoorIn = self.elevatorModelIn.find('**/right-door')
 
         self.elevatorModelOut = loader.loadModel(
-                                'phase_4/models/modules/elevator')
+                                'phase_5/models/modules/elevator')
         self.leftDoorOut = self.elevatorModelOut.find('**/left-door')
         self.rightDoorOut = self.elevatorModelOut.find('**/right-door')
 

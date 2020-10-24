@@ -16,7 +16,7 @@ background = loader.loadModel('phase_3/models/gui/loading-background').find("**/
 background.reparentTo(render)
 
 # Fake desktop texture
-background.setTexture(loader.loadTexture('/c/desktop.png'), 1)
+background.setTexture(loader.loadTexture('/c/desktop.tga'), 1)
 background.setColor(1,1,1,1)
 
 # Plain colored cyan like default Windows desktop

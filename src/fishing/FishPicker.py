@@ -18,14 +18,14 @@ class FishPicker(DirectScrolledList):
         FishPicker constructor: create a scrolling list of fish
         """
         self.fishList = []
-        self.parent = parent
+        self._parent = parent
         self.shown = 0
 
         # make the scrolling pick list for the fish names
         gui = loader.loadModel("phase_3.5/models/gui/friendslist_gui")
 
         optiondefs = (
-            ('parent', self.parent,    None),
+            ('parent', self._parent,    None),
             ('relief', None,    None),
             # inc and dec are DirectButtons
             ('incButton_image', (gui.find("**/FndsLst_ScrollUp"),
@@ -98,7 +98,7 @@ class FishPicker(DirectScrolledList):
     def destroy(self):
         assert self.notify.debugStateCall(self)
         DirectScrolledList.destroy(self)
-        self.parent = None
+        self._parent = None
         self.fishList = []
         self.fishPanel = None
 

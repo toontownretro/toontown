@@ -30,7 +30,7 @@ class DistributedPatternGame(DistributedMinigame):
         phase4snd + "m_match_piano.mp3",
         )
 
-    bgm = "phase_4/audio/bgm/m_match_bg1.ogg"
+    bgm = "phase_4/audio/bgm/m_match_bg1.mid"
 
     # Minnie dialogue
     strWatch    = TTLocalizer.PatternGameWatch

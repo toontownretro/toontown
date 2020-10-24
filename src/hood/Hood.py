@@ -6,6 +6,7 @@ from toontown.distributed.ToontownMsgTypes import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
 from direct.task.Task import Task
+from direct.interval.IntervalGlobal import Sequence, Wait, Func
 from toontown.minigame import Purchase
 from direct.gui import OnscreenText
 from otp.avatar import DistributedAvatar
@@ -50,6 +51,7 @@ class Hood(StateData.StateData):
         self.hoodId = hoodId
 
         self.titleText = None
+        self.titleTextSeq = None
         # Title color should be overridden in base class
         self.titleColor = (1,1,1,1)
 
@@ -106,22 +108,16 @@ class Hood(StateData.StateData):
         self.titleText.setColor(Vec4(*self.titleColor))
         self.titleText.clearColorScale()
         self.titleText.setFg(self.titleColor)
-        seq = Task.sequence(
+        self.titleTextSeq = Sequence(
             # HACK! Let a pause go by to cover the loading pause
             # This tricks the taskMgr
-            Task.pause(0.1),
-            Task.pause(6.0),
-            self.titleText.lerpColorScale(
-            Vec4(1.0, 1.0, 1.0, 1.0),
-            Vec4(1.0, 1.0, 1.0, 0.0),
-            0.5),
-            Task(self.hideTitleTextTask))
-        taskMgr.add(seq, "titleText")
-
-    def hideTitleTextTask(self, task):
-        assert(self.notify.debug("hideTitleTextTask()"))
-        self.titleText.hide()
-        return Task.done
+            Wait(0.1),
+            Wait(6.0),
+            self.titleText.colorScaleInterval(
+            0.5,
+            Vec4(1.0, 1.0, 1.0, 0.0)),
+            Func(self.hideTitleText))
+        self.titleTextSeq.start()
 
     def hideTitleText(self):
         """
@@ -137,7 +133,9 @@ class Hood(StateData.StateData):
         exit this hood
         """
         assert(self.notify.debug("exit()"))
-        taskMgr.remove("titleText")
+        if self.titleTextSeq:
+            self.titleTextSeq.finish()
+            self.titleTextSeq = None
         if self.titleText:
             self.titleText.cleanup()
             self.titleText = None
@@ -315,7 +313,9 @@ class Hood(StateData.StateData):
         """exitSafeZoneLoader(self)
         """
         assert(self.notify.debug("exitSafeZoneLoader()"))
-        taskMgr.remove("titleText")
+        if self.titleTextSeq:
+            self.titleTextSeq.finish()
+            self.titleTextSeq = None
         self.hideTitleText()
         self.ignore(self.loaderDoneEvent)
         self.loader.exit()

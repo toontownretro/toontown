@@ -1,13 +1,5 @@
 from direct.directnotify import DirectNotifyGlobal
-from direct.distributed import DistributedObjectAI
-from toontown.ai import DistributedPhaseEventMgrAI
+from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
-class DistributedMailboxZeroMgrAI(DistributedPhaseEventMgrAI.DistributedPhaseEventMgrAI):
-    """Distributed Object to tell the client what phase we're in."""
-    
-    notify = DirectNotifyGlobal.directNotify.newCategory(
-        'DistributedMailboxZeroMgrAI')
-    
-    def __init__(self, air, startAndEndTimes, phaseDates):
-        """Construct ourself and calc required fields."""
-        DistributedPhaseEventMgrAI.DistributedPhaseEventMgrAI.__init__(self, air, startAndEndTimes,phaseDates)
+class DistributedMailboxZeroMgrAI(DistributedObjectAI):
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedMailboxZeroMgrAI')

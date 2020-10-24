@@ -223,6 +223,31 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.announceGenerate(self)
         if self.isPlayerControlled():
             messenger.send('avatarEntered', [self])
+            if config.GetBool('astron-support', True):
+                self.sendUpdate('setDefaultShard', [self.air.districtId])
+
+    if config.GetBool('astron-support', True):
+        def setLocation(self, parentId, zoneId):
+            DistributedPlayerAI.DistributedPlayerAI.setLocation(self, parentId, zoneId)
+            if self.isPlayerControlled():
+                if 100 <= zoneId < ToontownGlobals.DynamicZonesBegin:
+                    hood = ZoneUtil.getHoodId(zoneId)
+                    self.sendUpdate('setLastHood', [hood])
+                    self.setDefaultZone(hood)
+                    self.sendUpdate('setDefaultZone', [hood])
+
+                    canonicalZoneId = ZoneUtil.getCanonicalZoneId(zoneId)
+                    canonicalHood = ZoneUtil.getHoodId(canonicalZoneId)
+                    hoodsVisited = list(self.getHoodsVisited())
+                    if canonicalHood not in hoodsVisited:
+                        hoodsVisited.append(canonicalHood)
+                        self.b_setHoodsVisited(hoodsVisited)
+
+                    if canonicalZoneId == ToontownGlobals.GoofySpeedway:
+                        teleportAccess = self.getTeleportAccess()
+                        if ToontownGlobals.GoofySpeedway not in teleportAccess:
+                            teleportAccess.append(ToontownGlobals.GoofySpeedway)
+                            self.b_setTeleportAccess(teleportAccess)
 
     ### Field definitions
 
@@ -327,6 +352,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         # make sure ghost mode is disabled on zone change (fixes furniture arranger exploit)
         self.b_setGhostMode(0)
 
+
         # not quite sure where to do this - we need to assign teleport access
         # to the toon when he enters Goofy Stadium
         zoneId = ZoneUtil.getCanonicalZoneId(newZoneId)
@@ -336,7 +362,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         # NOTE: If others need to listen for zoneId changes then please remove the if statements
         elif zoneId == ToontownGlobals.ToonHall:
             messenger.send("ToonEnteredZone", [self.doId, zoneId])
-        zoneId = ZoneUtil.getCanonicalZoneId(oldZoneId)
+        zoneId = ZoneUtil.getCanonicalZoneId(oldZoneId) if oldZoneId is not None else 0
         if zoneId == ToontownGlobals.ToonHall:
             messenger.send("ToonLeftZone", [self.doId, zoneId])
         if simbase.wantPets:
@@ -2305,7 +2331,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
             if nextGiftTime == None:
                 nextGiftTime = nextTime
 
-            if nextGiftTime < nextTime:
+            if nextGiftTime is not None and nextTime is not None and nextGiftTime < nextTime:
                 nextTime = nextGiftTime
 
             existingDuration = None

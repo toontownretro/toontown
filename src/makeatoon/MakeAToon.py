@@ -332,6 +332,7 @@ class MakeAToon(StateData.StateData):
         self.spotlightActor.loadModel('phase_3/models/makeatoon/roomAnim_model')
         self.spotlightActor.loadAnims({'spotlightShake':'phase_3/models/makeatoon/roomAnim_spotlightShake'})
         self.spotlightActor.reparentTo(render)
+        self.spotlightActor.setTransparency(True, 1)
         self.spotlightJoint = self.spotlightActor.find('**/spotlightJoint')
 
         ee = DirectFrame(pos=(-1,1,1),frameSize=(-.01,.01,-.01,.01),
@@ -369,7 +370,7 @@ class MakeAToon(StateData.StateData):
 
         smokeSeqNode = SequenceNode('smoke')
         smokeModel = loader.loadModel("phase_3/models/makeatoon/tt_m_ara_mat_smoke")
-        smokeFrameList = smokeModel.findAllMatches('**/smoke_*').asList()
+        smokeFrameList = smokeModel.findAllMatches('**/smoke_*')
         smokeFrameList.reverse()
         for smokeFrame in smokeFrameList:
             smokeSeqNode.addChild(smokeFrame.node())
@@ -398,7 +399,7 @@ class MakeAToon(StateData.StateData):
         self.cls.load()
         self.ns.load()
 
-        self.music = base.loadMusic("phase_3/audio/bgm/create_a_toon.ogg")
+        self.music = base.loadMusic("phase_3/audio/bgm/create_a_toon.mid")
         self.musicVolume = base.config.GetFloat("makeatoon-music-volume", 1)
         self.sfxVolume = base.config.GetFloat("makeatoon-sfx-volume", 1)
         self.soundBack = base.loadSfx("phase_3/audio/sfx/GUI_create_toon_back.mp3")

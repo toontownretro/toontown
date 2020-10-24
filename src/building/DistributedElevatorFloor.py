@@ -50,7 +50,7 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
 
 
     def setupElevator2(self):
-        self.elevatorModel = loader.loadModel("phase_4/models/modules/elevator")
+        self.elevatorModel = loader.loadModel("phase_5/models/modules/elevator")
         #self.elevatorModel = loader.loadModel("phase_11/models/lawbotHQ/LB_Elevator")
         #self.elevatorModel.reparentTo(render)
         self.elevatorModel.reparentTo(hidden)
