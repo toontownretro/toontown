@@ -209,7 +209,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         # message in the WaitForToons state, or in the Off state if they
         # came in early (but someone might arrive to the battle very
         # late and see everything already advanced to the next state).
-        stateName = self.state
+        stateName = self._state
         assert self.notify.debug("gotToon(%s) in state %s" % (toon.doId, stateName))
 
         if stateName == "Elevator":

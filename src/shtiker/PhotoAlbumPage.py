@@ -384,7 +384,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
         photos = []
         for fileName in files:
             if ((fileName[0:10] == 'screenshot') and
-                (fileName[-4:] == '.tga')):
+                (fileName[-4:] == '.txo')):
                 photos.append(fileName)
         return photos
 

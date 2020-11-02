@@ -679,7 +679,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
 
     def identifyDistributedObjects(self, name):
         result = []
-        lowerName = string.lower(name)
+        lowerName = name.lower()
         for obj in list(base.cr.doId2do.values()):
             className = obj.__class__.__name__
             try:
@@ -687,13 +687,13 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             except:
                 name = className
 
-            if string.lower(name) == lowerName or string.lower(className) == lowerName or string.lower(className) == 'distributed' + lowerName:
+            if name.lower() == lowerName or className.lower() == lowerName or className.lower() == 'distributed' + lowerName:
                 result.append((name, obj))
 
         return result
 
-    def getCSBitmask(self, str):
-        words = string.lower(str).split()
+    def getCSBitmask(self, st):
+        words = st.lower().split()
         if len(words) == 0:
             return None
         invalid = ''

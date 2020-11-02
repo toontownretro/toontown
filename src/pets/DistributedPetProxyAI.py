@@ -12,7 +12,7 @@ import copy
 BATTLE_TRICK_HP_MULTIPLIER = 10.0
 
 class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
-    """A way to query pet DNA from the database without creating a 
+    """A way to query pet DNA from the database without creating a
        DistributedPet object"""
 
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPetProxyAI")
@@ -50,7 +50,7 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
         self.__generateDistMoodFuncs()
 
     def getSetterName(self, valueName, prefix='set'):
-        return '%s%s%s' % (prefix, string.upper(valueName[0]), valueName[1:])
+        return '%s%s%s' % (prefix, valueName[0].upper(), valueName[1:])
 
     def setDNA(self, dna):
         head, ears, nose, tail, body, color, colorScale, eyes, gender = dna
@@ -477,7 +477,7 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
                 'loneliness' : -.05,
                 })
 
-        if self._willDoTrick(trickId): 
+        if self._willDoTrick(trickId):
             #print "trick succeeded"
             self._handleDidTrick(trickId)
             self.b_setLastSeenTimestamp(self.getCurEpochTimestamp())

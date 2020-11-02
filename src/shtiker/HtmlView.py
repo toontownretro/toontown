@@ -262,7 +262,7 @@ class HtmlView( DirectObject):
         self.mouseUR = (aspect2d.getScale()[0] * ur[0], aspect2d.getScale()[2] * ur[2])
         self.notify.debug("original mouseLL=%s, mouseUR=%s" % (self.mouseLL, self.mouseUR))
 
-    def writeTex(self, filename = "guiText.tga"):
+    def writeTex(self, filename = "guiText.txo"):
         self.notify.debug("writing texture")
         self.guiTex.generateRamMipmapImages()
         self.guiTex.write(filename)

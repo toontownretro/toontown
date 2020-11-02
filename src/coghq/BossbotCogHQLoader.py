@@ -108,7 +108,7 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
                 fg = (0, 0, 0, 1),
                 parent = sign)
             signText.setPosHpr(locator, 0, -0.1, -0.25, 0, 0, 0)
-            signText.setDepthWrite(0)
+            signText.setDepthOffset(1)
 
         makeSign("Gate_2", "Sign_6", 10700)
         makeSign("TunnelEntrance", "Sign_2", 1000)

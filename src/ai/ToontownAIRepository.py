@@ -447,6 +447,9 @@ class ToontownAIRepository(ToontownInternalRepository):
     def getAvatarExitEvent(self, avId):
         return 'distObjDelete-%d' % avId
 
+    def setAvatarDisconnectReason(self, requesterId, disconnectCode):
+        pass
+
     def getAvatarDisconnectReason(self, avId):
         return self.timeManager.avId2disconnectcode.get(avId, ToontownGlobals.DisconnectUnknown)
 

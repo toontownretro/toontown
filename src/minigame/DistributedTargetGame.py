@@ -146,10 +146,10 @@ class DistributedTargetGame(DistributedMinigame):
     # but before render
     UPDATE_SHADOWS_PRIORITY = 47
 
-    UMBRELLA_TEXTURE_LIST = ['phase_4/maps/mg_slingshot_umbrella_blue.tga',
-                             'phase_4/maps/mg_slingshot_umbrella_purple.tga',
-                             'phase_4/maps/mg_slingshot_umbrella_red.tga',
-                             'phase_4/maps/mg_slingshot_umbrella_yellow.tga',]
+    UMBRELLA_TEXTURE_LIST = ['phase_4/maps/mg_slingshot_umbrella_blue.txo',
+                             'phase_4/maps/mg_slingshot_umbrella_purple.txo',
+                             'phase_4/maps/mg_slingshot_umbrella_red.txo',
+                             'phase_4/maps/mg_slingshot_umbrella_yellow.txo',]
 
     # result types
     RT_UNKNOWN      = 0

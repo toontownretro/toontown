@@ -711,7 +711,7 @@ class Suit(Avatar.Avatar):
             self.scale = 6.75/cSize
             self.handColor = VBase4(0.85, 0.55, 0.55, 1.0)
             self.generateBody()
-            self.headTexture = "corporate-raider.tga"
+            self.headTexture = "corporate-raider.txo"
             self.generateHead("flunky")
             self.setHeight(8.23)
         elif (dna.name == 'tbc'):
@@ -728,7 +728,7 @@ class Suit(Avatar.Avatar):
             self.scale = 4.0/cSize
             self.handColor = SuitDNA.legalPolyColor
             self.generateBody()
-            self.headTexture = "bottom-feeder.tga"
+            self.headTexture = "bottom-feeder.txo"
             self.generateHead("tightwad")
             self.setHeight(4.81)
         elif (dna.name == 'b'):
@@ -736,7 +736,7 @@ class Suit(Avatar.Avatar):
             self.scale = 4.375/bSize
             self.handColor = VBase4(0.95, 0.95, 1.0, 1.0)
             self.generateBody()
-            self.headTexture = "blood-sucker.tga"
+            self.headTexture = "blood-sucker.txo"
             self.generateHead("movershaker")
             self.setHeight(6.17)
         elif (dna.name == 'dt'):
@@ -744,7 +744,7 @@ class Suit(Avatar.Avatar):
             self.scale = 4.25/aSize
             self.handColor = SuitDNA.legalPolyColor
             self.generateBody()
-            self.headTexture = "double-talker.tga"
+            self.headTexture = "double-talker.txo"
             self.generateHead("twoface")
             self.setHeight(5.63)
         elif (dna.name == 'ac'):
@@ -766,7 +766,7 @@ class Suit(Avatar.Avatar):
             self.scale = 5.65/bSize
             self.handColor = VBase4(0.5, 0.8, 0.75, 1.0)
             self.generateBody()
-            self.headTexture = "spin-doctor.tga"
+            self.headTexture = "spin-doctor.txo"
             self.generateHead("telemarketer")
             self.setHeight(7.90)
         elif (dna.name == 'le'):
@@ -839,7 +839,7 @@ class Suit(Avatar.Avatar):
             self.scale = 7.0/aSize
             self.handColor = SuitDNA.moneyPolyColor
             self.generateBody()
-            self.headTexture = "robber-baron.tga"
+            self.headTexture = "robber-baron.txo"
             self.generateHead("yesman")
             self.setHeight(8.95)
 
@@ -864,7 +864,7 @@ class Suit(Avatar.Avatar):
             self.scale = 4.35/aSize
             self.handColor = SuitDNA.salesPolyColor
             self.generateBody()
-            self.headTexture = "name-dropper.tga"
+            self.headTexture = "name-dropper.txo"
             self.generateHead("numbercruncher")
             self.setHeight(5.98)
         elif (dna.name == 'gh'):
@@ -893,7 +893,7 @@ class Suit(Avatar.Avatar):
             self.scale = 5.75/aSize
             self.handColor = SuitDNA.salesPolyColor
             self.generateBody()
-            self.headTexture = "mingler.tga"
+            self.headTexture = "mingler.txo"
             self.generateHead("twoface")
             self.setHeight(7.61)
         elif (dna.name == 'mh'):
@@ -992,13 +992,13 @@ class Suit(Avatar.Avatar):
         phase = 3.5
 
         # set the clothes textures for the suit dept
-        torsoTex = loader.loadTexture("phase_%s/maps/%s_blazer.tga" % (phase, dept))
+        torsoTex = loader.loadTexture("phase_%s/maps/%s_blazer.txo" % (phase, dept))
         torsoTex.setMinfilter(Texture.FTLinearMipmapLinear)
         torsoTex.setMagfilter(Texture.FTLinear)
-        legTex = loader.loadTexture("phase_%s/maps/%s_leg.tga" % (phase, dept))
+        legTex = loader.loadTexture("phase_%s/maps/%s_leg.txo" % (phase, dept))
         legTex.setMinfilter(Texture.FTLinearMipmapLinear)
         legTex.setMagfilter(Texture.FTLinear)
-        armTex = loader.loadTexture("phase_%s/maps/%s_sleeve.tga" % (phase, dept))
+        armTex = loader.loadTexture("phase_%s/maps/%s_sleeve.txo" % (phase, dept))
         armTex.setMinfilter(Texture.FTLinearMipmapLinear)
         armTex.setMagfilter(Texture.FTLinear)
 
@@ -1025,13 +1025,13 @@ class Suit(Avatar.Avatar):
 
         # set the clothes textures for a waiter
         self.isWaiter = 1
-        torsoTex = loader.loadTexture("phase_3.5/maps/waiter_m_blazer.tga")
+        torsoTex = loader.loadTexture("phase_3.5/maps/waiter_m_blazer.txo")
         torsoTex.setMinfilter(Texture.FTLinearMipmapLinear)
         torsoTex.setMagfilter(Texture.FTLinear)
-        legTex = loader.loadTexture("phase_3.5/maps/waiter_m_leg.tga")
+        legTex = loader.loadTexture("phase_3.5/maps/waiter_m_leg.txo")
         legTex.setMinfilter(Texture.FTLinearMipmapLinear)
         legTex.setMagfilter(Texture.FTLinear)
-        armTex = loader.loadTexture("phase_3.5/maps/waiter_m_sleeve.tga")
+        armTex = loader.loadTexture("phase_3.5/maps/waiter_m_sleeve.txo")
         armTex.setMinfilter(Texture.FTLinearMipmapLinear)
         armTex.setMagfilter(Texture.FTLinear)
 
@@ -1081,13 +1081,13 @@ class Suit(Avatar.Avatar):
             return
         #print '### loading %s tie' % (dept)
         if dept == 'c':
-            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_boss.tga")
+            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_boss.txo")
         elif dept == 's':
-            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_sales.tga")
+            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_sales.txo")
         elif dept == 'l':
-            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_legal.tga")
+            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_legal.txo")
         elif dept == 'm':
-            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_money.tga")
+            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_money.txo")
         tieTex.setMinfilter(Texture.FTLinearMipmapLinear)
         tieTex.setMagfilter(Texture.FTLinear)
         tie.setTexture(tieTex, 1)
@@ -1234,7 +1234,7 @@ class Suit(Avatar.Avatar):
                     self.setSuitClothes(self.loseActor)
             else:
                 # skelecog
-                loseModel = "phase_5/models/char/cog" + string.upper(self.style.body) + "_robot-lose-mod"
+                loseModel = "phase_5/models/char/cog" + self.style.body.upper() + "_robot-lose-mod"
                 filePrefix, phase = TutorialModelDict[self.style.body]
                 loseAnim = "phase_" + str(phase) + filePrefix + "lose"
 
@@ -1272,7 +1272,7 @@ class Suit(Avatar.Avatar):
         """
         Convert to skeleton geometry.
         """
-        model = "phase_5/models/char/cog" + string.upper(self.style.body) + "_robot-zero"
+        model = "phase_5/models/char/cog" + self.style.body.upper() + "_robot-zero"
         anims = self.generateAnimDict()
 
         # remember the current anim

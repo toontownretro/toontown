@@ -612,7 +612,7 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity,
             # It doesn't count if the toon is already stunned.
             return
 
-        if self.state == 'Off':
+        if self._state == 'Off':
             return
 
         # Stop looking for localToon
@@ -665,10 +665,10 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity,
         self.notify.debug("%s: setMovie(%s,%s,%s,%s)" % (self.doId, mode,avId,pauseTime,ts))
 
         if mode == GOON_MOVIE_BATTLE:
-            if self.state != "Battle":
+            if self._state != "Battle":
                 self.request("Battle", avId, ts)
         elif mode == GOON_MOVIE_STUNNED:
-            if self.state != "Stunned":
+            if self._state != "Stunned":
                 # Client side check first to see if we're in a reasonable distance to the goon to stun it.
                 toon = base.cr.doId2do.get(avId)
                 if toon:
@@ -679,13 +679,13 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity,
                     else:
                         self.request("Stunned", ts)
         elif mode == GOON_MOVIE_RECOVERY:
-            if self.state != "Recovery":
+            if self._state != "Recovery":
                 self.request("Recovery", ts, pauseTime)
         elif mode == GOON_MOVIE_SYNC:
             if self.walkTrack:
                 self.walkTrack.pause()
                 self.paused = 1
-            if self.state == "Off" or self.state == "Walk":
+            if self._state == "Off" or self._state == "Walk":
                 self.request("Walk", avId, pauseTime+ts)
         else:
             # walk

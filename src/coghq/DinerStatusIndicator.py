@@ -52,14 +52,16 @@ class DinerStatusIndicator(NodePath, FSM.FSM):
         dark.reparentTo(retVal)
         dark.setColor(0.5,0.5,0.5,1)
         # make it look right when they are both on top of each other
-        retVal.setEffect(DecalEffect.make())
+        #retVal.setEffect(DecalEffect.make())
         retVal.setTransparency(TransparencyAttrib.MAlpha, 1)
         # now for the tricky part, move it down and do the texture projection
         ll, ur = dark.getTightBounds()
         center = retVal.attachNewNode('center')
         center.setPos(0, 0, ll[2])
+        center.setDepthOffset(1)
         dark.wrtReparentTo(center)
         dark.setTexProjector(TextureStage.getDefault(), center, retVal)
+        dark.setDepthOffset(2)
         retVal.hide()
         return retVal, center
 

@@ -3,10 +3,12 @@
 #from ShowBaseGlobal import *
 from otp.otpbase import OTPBase
 from otp.otpbase import OTPLauncherGlobals
+from otp.otpbase import OTPRender
 from direct.showbase.PythonUtil import *
 from . import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from . import ToontownLoader
+from .ToontownPostProcess import ToontownPostProcess
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import *
 from toontown.toonbase.ToontownModules import *
@@ -44,7 +46,7 @@ class ToonBase(OTPBase.OTPBase):
             if res == None:
                 res = (800,600)
 
-            res = (1024, 768)
+            res = (1280, 960)
 
             loadPrcFileData("toonBase Settings Window Res", ("win-size %s %s" % (res[0], res[1])))
             loadPrcFileData("toonBase Settings Window FullScreen", ("fullscreen %s" % (mode)))
@@ -73,12 +75,46 @@ class ToonBase(OTPBase.OTPBase):
         self.render2dp.setAntialias(AntialiasAttrib.MMultisample)
         self.pixel2d.setAntialias(AntialiasAttrib.MMultisample)
 
+        # Set up the post-processing system
+        self.postProcess = ToontownPostProcess()
+        self.postProcess.startup(self.win)
+        self.postProcess.addCamera(self.cam)
+        self.postProcess.setup()
+        self.taskMgr.add(self.__updatePostProcess, 'updatePostProcess')
+
         self.toonChatSounds = self.config.GetBool('toon-chat-sounds', 1)
 
         # Toontown doesn't care about dynamic shadows for now.
         self.wantDynamicShadows = 0
         # this is temporary until we pull in the new launcher code in production
         self.exitErrorCode = 0
+
+        def lightColor(rgbs):
+            s = rgbs[3] / 255.0
+            return LColor(
+                (rgbs[0] * s) / 255.0,
+                (rgbs[1] * s) / 255.0,
+                (rgbs[2] * s) / 255.0,
+                1.0
+            )
+
+        self.ambient = AmbientLight('ambient')
+        self.ambient.setColor(lightColor((200, 202, 230, 250)))
+        self.ambientNP = self.render.attachNewNode(self.ambient)
+        self.render.setLight(self.ambientNP)
+
+        self.sunlight = CascadeLight('sunlight')
+        self.sunlight.setColor(lightColor((221, 206, 189, 750)))
+        self.sunlight.setSceneCamera(self.cam)
+        self.sunlight.setShadowCaster(True, 4096, 4096)
+        self.sunlight.setCameraMask(OTPRender.ShadowCameraBitmask)
+        self.sunlightNP = self.render.attachNewNode(self.sunlight)
+        self.sunlightNP.setHpr(90 - 55, -65, 0)
+        self.render.setLight(self.sunlightNP)
+
+        #debugCSM = OnscreenImage(self.sunlight.getShadowMap(), scale = 0.3, pos = (0, 0, -0.7))
+        #debugCSM.setShader(Shader.load(Shader.SL_GLSL, "shaders/debug_csm.vert.glsl", "shaders/debug_csm.frag.glsl"))
+        #debugCSM.setShaderInput("cascadeSampler", self.sunlight.getShadowMap())
 
         camera.setPosHpr(0, 0, 0, 0, 0, 0)
         self.camLens.setFov(ToontownGlobals.DefaultCameraFov)
@@ -274,6 +310,10 @@ class ToonBase(OTPBase.OTPBase):
         self.walking = 0
 
         self.resetMusic = self.loadMusic("phase_3/audio/bgm/MIDI_Events_16channels.mid")
+
+    def __updatePostProcess(self, task):
+        self.postProcess.update()
+        return task.cont
 
     def disableShowbaseMouse(self):
         # Hack:

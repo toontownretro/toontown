@@ -648,7 +648,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
 
             # create the water pitcher
             #self.waterPitcherModel = loader.loadModel('models/misc/xyzAxis')
-            self.waterPitcherModel = loader.loadModel('phase_12/models/bossbotHQ/tt_m_ara_bhq_seltzerBottle')
+            self.waterPitcherModel = loader.loadModel('phase_12/models/bossbotHQ/bottle')
             lampNode = self.tableGroup.find('**/lamp_med_5')
             pos = lampNode.getPos(self.tableGroup)
             lampNode.hide()

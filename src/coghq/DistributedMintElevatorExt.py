@@ -49,17 +49,17 @@ class DistributedMintElevatorExt(DistributedElevatorExt.DistributedElevatorExt):
         # Create a sign for this elevator
         locator = geom.find('**/elevator_signorigin_%s' % originId)
         backgroundGeom = geom.find('**/ElevatorFrameFront_%d' % originId)
-        backgroundGeom.node().setEffect(DecalEffect.make())
+        #backgroundGeom.node().setEffect(DecalEffect.make())
         signText = DirectGui.OnscreenText(
             text = TextEncoder.upper(TTLocalizer.GlobalStreetNames[mintId][-1]),
             font = ToontownGlobals.getSuitFont(),
             scale = TTLocalizer.DMEEsignText,
-            fg = (0.87, 0.87, 0.87, 1), 
+            fg = (0.87, 0.87, 0.87, 1),
             # required for DecalEffect (must be a GeomNode, not a TextNode)
             mayChange=False,
             parent = backgroundGeom)
         signText.setPosHpr(locator, 0, 0, 0, 0, 0, 0)
-        signText.setDepthWrite(0)
+        signText.setDepthOffset(1)
 
     def setupElevator(self):
         """setupElevator(self)
@@ -76,7 +76,7 @@ class DistributedMintElevatorExt(DistributedElevatorExt.DistributedElevatorExt):
 
         # pull the collision sphere out a bit
         self.elevatorSphereNodePath.setY(-1.42)
-        
+
     def getElevatorModel(self):
         return self.elevatorModel
 
@@ -108,7 +108,7 @@ class DistributedMintElevatorExt(DistributedElevatorExt.DistributedElevatorExt):
                 'hoodId' : hoodId,
                 }
             self.cr.playGame.getPlace().elevator.signalDone(doneStatus)
-            
+
     def setMintInteriorZoneForce(self, zoneId):
         place = self.cr.playGame.getPlace()
         if place:

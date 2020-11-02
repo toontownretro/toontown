@@ -61,7 +61,7 @@ NodePath DNASignGraphic::traverse(NodePath &parent, DNAStorage *store, int editi
     node = geom_parent.node();
   }
   if (node->is_geom_node()) {
-    node->set_effect(DecalEffect::make());
+    //node->set_effect(DecalEffect::make());
   }
 
   // Try to find this sign graphic in the node map
@@ -87,6 +87,7 @@ NodePath DNASignGraphic::traverse(NodePath &parent, DNAStorage *store, int editi
            bl_hpr,
            bl_scale);
   graphic_node_path.set_color(color);
+  graphic_node_path.set_depth_offset(1);
 
   // Traverse each node in our vector
   pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();

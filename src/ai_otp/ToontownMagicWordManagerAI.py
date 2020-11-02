@@ -2546,7 +2546,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                     response = "minigame ID '%s' is out of range" % mgId
                     mgId = None
             except:
-                name = string.lower(name)
+                name = name.lower()
                 if name[-4:] == "game":
                     name = name[:-4]
                 if name[:11] == "distributed":
@@ -2558,7 +2558,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
             argIndex = 2
             while argIndex < len(args):
                 arg = args[argIndex]
-                arg = string.lower(arg)
+                arg = arg.lower()
                 argIndex += 1
 
                 # it's either a difficulty (float), 'keep',
@@ -3358,7 +3358,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                 argIndex = 2
                 while argIndex < len(args):
                     arg = args[argIndex]
-                    arg = string.lower(arg)
+                    arg = arg.lower()
                     argIndex += 1
 
                     # it's either a difficulty (float), 'keep',

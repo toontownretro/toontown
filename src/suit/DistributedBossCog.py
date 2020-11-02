@@ -75,8 +75,8 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         DistributedAvatar.DistributedAvatar.announceGenerate(self)
 
         # store the cog-suit level that localToon came in with
-        self.prevCogSuitLevel = localAvatar.getCogLevels()[
-            CogDisguiseGlobals.dept2deptIndex(self.style.dept)]
+        print(CogDisguiseGlobals.dept2deptIndex(self.style.dept))
+        self.prevCogSuitLevel = localAvatar.getCogLevels()[CogDisguiseGlobals.dept2deptIndex(self.style.dept)]
 
         # Put a big trigger bubble around the cog so we can tell the
         # AI when the avatar is within directed-attack range.
@@ -341,7 +341,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         # message in the WaitForToons state, or in the Off state if they
         # came in early (but someone might arrive to the battle very
         # late and see everything already advanced to the next state).
-        stateName = self.state
+        stateName = self._state
         assert self.notify.debug("gotToon(%s) in state %s" % (toon.doId, stateName))
 
     def __gotAllToons(self, toons):
@@ -997,7 +997,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
 
         if toon == localAvatar:
             zapTrack.append(Func(self.disableLocalToonSimpleCollisions))
-            currentState = self.state
+            currentState = self._state
             if currentState == 'BattleThree':
                 zapTrack.append(Func(self.toFinalBattleMode))
             else:
@@ -1489,7 +1489,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
 
     def __clickedNameTag(self, avatar):
         self.notify.debug('__clickedNameTag')
-        if not (self.state == 'BattleThree' or self.state == 'BattleFour'):
+        if not (self._state == 'BattleThree' or self._state == 'BattleFour'):
             return
         if not self.allowClickedNameTag:
             return
@@ -1500,7 +1500,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
 
     def __handleFriendAvatar(self, avId, avName, avDisableName):
         self.notify.debug('__handleFriendAvatar')
-        if not (self.state == 'BattleThree' or self.state == 'BattleFour'):
+        if not (self._state == 'BattleThree' or self._state == 'BattleFour'):
             return
         if not self.allowClickedNameTag:
             return
@@ -1511,7 +1511,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
 
     def __handleAvatarDetails(self, avId, avName, playerId = None):
         self.notify.debug('__handleAvatarDetails')
-        if not (self.state == 'BattleThree' or self.state == 'BattleFour'):
+        if not (self._state == 'BattleThree' or self._state == 'BattleFour'):
             return
         if not self.allowClickedNameTag:
             return

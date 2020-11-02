@@ -23,28 +23,28 @@ EarTextures = {
     'horns' : None,
     'antennae' : None,
     'dogEars' : None,
-    'catEars' : 'phase_4/maps/BeanCatEar6.tga',
-    'rabbitEars' : 'phase_4/maps/BeanBunnyEar6.tga',
+    'catEars' : 'phase_4/maps/BeanCatEar6.txo',
+    'rabbitEars' : 'phase_4/maps/BeanBunnyEar6.txo',
     }
 ExoticEarTextures = {
     'horns' : None,
     'antennae' : None,
     'dogEars' : None,
-    'catEars' : 'phase_4/maps/BeanCatEar3Yellow.tga',
-    'rabbitEars' : 'phase_4/maps/BeanBunnyEar6.tga',
+    'catEars' : 'phase_4/maps/BeanCatEar3Yellow.txo',
+    'rabbitEars' : 'phase_4/maps/BeanBunnyEar6.txo',
     }
 
 NoseParts = ['clownNose', 'dogNose', 'ovalNose', 'pigNose']
 
 TailParts = ['catTail', 'longTail', 'birdTail', 'bunnyTail']
 TailTextures = {
-    'catTail' : 'phase_4/maps/beanCatTail6.tga',
-    'longTail' : 'phase_4/maps/BeanLongTail6.tga',
+    'catTail' : 'phase_4/maps/beanCatTail6.txo',
+    'longTail' : 'phase_4/maps/BeanLongTail6.txo',
     'birdTail' : None,
     'bunnyTail' : None,
     }
-GiraffeTail = 'phase_4/maps/BeanLongTailGiraffe.tga'
-LeopardTail = 'phase_4/maps/BeanLongTailLepord.tga'
+GiraffeTail = 'phase_4/maps/BeanLongTailGiraffe.txo'
+LeopardTail = 'phase_4/maps/BeanLongTailLepord.txo'
 
 
 # these are generic critters and can have any color
@@ -107,20 +107,20 @@ PetRarities = {
     }
 
 BodyTextures = {
-    'dots' : 'phase_4/maps/BeanbodyDots6.tga',
-    'threeStripe' : 'phase_4/maps/Beanbody3stripes6.tga',
-    'tigerStripe' : 'phase_4/maps/BeanbodyZebraStripes6.tga',
-    'turtle' : 'phase_4/maps/BeanbodyTurtle.tga',
-    'giraffe' : 'phase_4/maps/BeanbodyGiraffe1.tga',
-    'leopard' : 'phase_4/maps/BeanbodyLepord2.tga',
-    'tummy' : 'phase_4/maps/BeanbodyTummy6.tga',
+    'dots' : 'phase_4/maps/BeanbodyDots6.txo',
+    'threeStripe' : 'phase_4/maps/Beanbody3stripes6.txo',
+    'tigerStripe' : 'phase_4/maps/BeanbodyZebraStripes6.txo',
+    'turtle' : 'phase_4/maps/BeanbodyTurtle.txo',
+    'giraffe' : 'phase_4/maps/BeanbodyGiraffe1.txo',
+    'leopard' : 'phase_4/maps/BeanbodyLepord2.txo',
+    'tummy' : 'phase_4/maps/BeanbodyTummy6.txo',
     }
 
 FeetTextures = {
-    'normal' : 'phase_4/maps/BeanFoot6.tga',
-    'turtle' : 'phase_4/maps/BeanFootTurttle.tga',
-    'giraffe' : 'phase_4/maps/BeanFootYellow3.tga',
-    'leopard' : 'phase_4/maps/BeanFootYellow3.tga',
+    'normal' : 'phase_4/maps/BeanFoot6.txo',
+    'turtle' : 'phase_4/maps/BeanFootTurttle.txo',
+    'giraffe' : 'phase_4/maps/BeanFootYellow3.txo',
+    'leopard' : 'phase_4/maps/BeanFootYellow3.txo',
     }
 
 AllPetColors = (

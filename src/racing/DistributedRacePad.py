@@ -1,6 +1,6 @@
 ##########################################################################
 # Module: DistributedRacePadAI.py
-# Purpose: This class provides the necessary functionality for 
+# Purpose: This class provides the necessary functionality for
 # Date: 6/28/05
 # Author: jjtaylor
 #########################################################################
@@ -16,6 +16,7 @@ from toontown.racing import RaceGlobals
 from toontown.toonbase.ToontownTimer import ToontownTimer
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
+from toontown.toonbase.ToontownModules import *
 from toontown.racing.KartShopGlobals import KartGlobals
 if __debug__:
     import pdb
@@ -51,7 +52,7 @@ class DistributedRacePad(DistributedKartPad, FSM):
         self.tunnelSign = None
         self.trackNameNode = None
         self.tunnelSignInterval = None
-        
+
     def disable(self):
         self.notify.debug("Disable")
         self.ignore("enterPlayground")
@@ -59,7 +60,7 @@ class DistributedRacePad(DistributedKartPad, FSM):
 
         if self.tunnelSignInterval:
             self.tunnelSignInterval = None
-            
+
         DistributedKartPad.disable(self)
 
     def enableStartingBlocks(self):
@@ -72,17 +73,17 @@ class DistributedRacePad(DistributedKartPad, FSM):
         for block in self.startingBlocks:
             self.notify.debug("Disabling kart block: %s" % block.getDoId())
             block.setActive(1)
-        
+
     def isPractice(self):
         return (self.trackType == RaceGlobals.Practice)
-                         
+
     ######################################################################
     # Distributed Methods
     ######################################################################
     def setState(self, state, timestamp):
         self.request(state, [timestamp])
 
-    def setRaceZone(self, zoneId):            
+    def setRaceZone(self, zoneId):
         for block in self.startingBlocks:
             if(block.avId == base.localAvatar.getDoId()):
                 hoodId = self.cr.playGame.hood.hoodId
@@ -98,7 +99,7 @@ class DistributedRacePad(DistributedKartPad, FSM):
                 #self.cr.playGame.getPlace().handleStartingBlockDone(doneStatus)
 
                 messenger.send(base.cr.playGame.getPlace().doneEvent)
-        
+
     def setTrackInfo(self, trackInfo):
         if self.isDisabled():
             return
@@ -184,7 +185,7 @@ class DistributedRacePad(DistributedKartPad, FSM):
             self.clockNodepath = None
             self.clockNode = None
             self.timerTask = None
-        
+
     def updateTimerTask(self, task):
         countdownTime = int(task.duration - task.time)
         timeStr = str(countdownTime)
@@ -207,7 +208,7 @@ class DistributedRacePad(DistributedKartPad, FSM):
 
     def addStartingBlock(self, block):
         DistributedKartPad.addStartingBlock(self, block)
-        if self.state == 'WaitCountdown':
+        if self._state == 'WaitCountdown':
             self.startCountdown()
 
 
@@ -216,7 +217,7 @@ class DistributedRacePad(DistributedKartPad, FSM):
     ######################################################################
     def makeClockGui(self):
         self.notify.debugStateCall(self)
-        
+
         # Check if the timer exists, if so then the gui has been
         # made.
         if self.clockNodepath is not None:
@@ -228,7 +229,7 @@ class DistributedRacePad(DistributedKartPad, FSM):
         self.clockNodepath.flattenLight()
 
         # can't figure out where to put this =[
-        #self.setTunnelSignText()        
+        #self.setTunnelSignText()
 
     def getTunnelSign(self):
         cPadId = RaceGlobals.RaceInfo2RacePadId(self.trackId, self.trackType)
@@ -305,7 +306,7 @@ class DistributedRacePad(DistributedKartPad, FSM):
         if not self.trackNameNode:
             self.notify.warning("invalid trackNameNode, just returning")
             return
-        
+
         self.trackNameNode.setText(trackNameString)
 
         trackTypeString = TTLocalizer.KartRace_RaceNames[self.trackType]
@@ -362,4 +363,3 @@ class DistributedRacePad(DistributedKartPad, FSM):
 
         self.tunnelSign = None
         self.trackNameNode = None
-        

@@ -65,7 +65,7 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
             # Put a handy sign on the link tunnel
             locator = self.geom.find('**/sign_origin')
             backgroundGeom = self.geom.find('**/EntranceFrameFront')
-            backgroundGeom.node().setEffect(DecalEffect.make())
+            #backgroundGeom.node().setEffect(DecalEffect.make())
             signText = DirectGui.OnscreenText(
                 text = TTLocalizer.DonaldsDreamland[-1],
                 font = ToontownGlobals.getSuitFont(),
@@ -75,7 +75,7 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
                 mayChange=False,
                 parent = backgroundGeom)
             signText.setPosHpr(locator, 0, 0, 0, 0, 0, 0)
-            signText.setDepthWrite(0)
+            signText.setDepthOffset(1)
 
         elif zoneId == ToontownGlobals.CashbotLobby:
             self.geom = loader.loadModel(self.cogHQLobbyModelPath)

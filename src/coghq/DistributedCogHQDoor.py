@@ -2,6 +2,8 @@
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 
+from toontown.toonbase.ToontownModules import *
+
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
@@ -41,7 +43,7 @@ class DistributedCogHQDoor(DistributedDoor.DistributedDoor):
                 "doorDoId":self.otherDoId
                 }
         return request
-        
+
     # HACK: the only reason we are overwriting this entire function is to
     # change the timing on the closeSfx. Perhaps there is a more elegant
     # way to handle this
@@ -59,13 +61,13 @@ class DistributedCogHQDoor(DistributedDoor.DistributedDoor):
         # good either.
         #if ZoneUtil.isInterior(self.zoneId):
         #    doorFrameHoleRight.setColor(1., 1., 1., 1.)
-        
+
         # Right door:
         rightDoor=self.findDoorNode("rightDoor")
         if (rightDoor.isEmpty()):
             self.notify.warning("enterClosing(): did not find rightDoor")
             return
-        
+
         # Close the door:
         otherNP=self.getDoorNodePath()
         trackName = "doorClose-%d" % (self.doId)
@@ -73,7 +75,7 @@ class DistributedCogHQDoor(DistributedDoor.DistributedDoor):
             h = 100
         else:
             h = -100
-        self.finishDoorTrack()            
+        self.finishDoorTrack()
         self.doorTrack=Parallel(Sequence(LerpHprInterval(nodePath=rightDoor,
                                                          duration=1.0,
                                                          hpr=VBase3(0, 0, 0),
@@ -91,7 +93,7 @@ class DistributedCogHQDoor(DistributedDoor.DistributedDoor):
         if hasattr(self, "done"):
             request = self.getRequestStatus()
             messenger.send("doorDoneEvent", [request])
-    
+
     # HACK: the only reason we are overwriting this entire function is to
     # change the timing on the closeSfx. Perhaps there is a more elegant
     # way to handle this
@@ -145,7 +147,7 @@ class DistributedCogHQDoor(DistributedDoor.DistributedDoor):
         if canonicalZoneId in (ToontownGlobals.BossbotHQ,
                                ToontownGlobals.BossbotLobby):
             self.doorX = 1.0
-        
+
 
     def enterDoor(self):
         assert(self.debugPrint("enterDoor()"))
@@ -158,7 +160,7 @@ class DistributedCogHQDoor(DistributedDoor.DistributedDoor):
                 place.fsm.request('stopped')
             self.dialog = TeaserPanel.TeaserPanel(pageName='cogHQ',
                                                   doneFunc=self.handleOkTeaser)
-                                                  
+
     def doorTrigger(self, args=None):
         # The local avatar cannot leave the zone if he is part of a boarding group.
         if localAvatar.hasActiveBoardingGroup():

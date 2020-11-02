@@ -210,13 +210,13 @@ class DistributedCashbotBossGoon(DistributedGoon.DistributedGoon,
         if state == 'W':
             self.demand('Walk')
         elif state == 'B':
-            if self.state != 'Battle':
+            if self._state != 'Battle':
                 self.demand('Battle')
         elif state == 'S':
-            if self.state != 'Stunned':
+            if self._state != 'Stunned':
                 self.demand('Stunned')
         elif state == 'R':
-            if self.state != 'Recovery':
+            if self._state != 'Recovery':
                 self.demand('Recovery')
         elif state == 'a':
             self.demand('EmergeA')
@@ -230,7 +230,7 @@ class DistributedCashbotBossGoon(DistributedGoon.DistributedGoon,
         self.targetH = h
         now = globalClock.getFrameTime()
         self.arrivalTime = globalClockDelta.networkToLocalTime(arrivalTime, now)
-        if self.state == 'Walk':
+        if self._state == 'Walk':
             self.__startWalk()
 
     def d_destroyGoon(self):

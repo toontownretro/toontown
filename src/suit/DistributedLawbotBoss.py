@@ -306,7 +306,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         """
         #self.notify.debug("----- gotToon")
 
-        stateName = self.state
+        stateName = self._state
         assert self.notify.debug("gotToon(%s) in state %s" % (toon.doId, stateName))
 
         if stateName == "Elevator":
@@ -3216,8 +3216,8 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.numToonJurorsSeated = 0
         for key in list(self.chairs.keys()):
             chair = self.chairs[key]
-            if chair.state == 'ToonJuror' or \
-               (chair.state == None and chair.newState == 'ToonJuror'):
+            if chair._state == 'ToonJuror' or \
+               (chair._state == None and chair.newState == 'ToonJuror'):
                 self.numToonJurorsSeated += 1
                 #self.notify.debug('self.numToonJurorsSeated = %d' % self.numToonJurorsSeated)
 
@@ -3271,8 +3271,8 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             self.notify.warning('returning from setTaunt, no attr state')
             gotError = True
         else:
-            if not self.state == 'BattleThree':
-                self.notify.warning('returning from setTaunt, not in battle three state, state=%s',self.state)
+            if not self._state == 'BattleThree':
+                self.notify.warning('returning from setTaunt, not in battle three state, state=%s',self._state)
                 gotError = True
 
         if not hasattr(self, 'nametag'):
@@ -3365,7 +3365,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         """
         retVal = 0
         for chair in list(self.chairs.values()):
-            if chair.state == "ToonJuror":
+            if chair._state == "ToonJuror":
                 if chair.toonJurorIndex == cannonIndex:
                     retVal +=1
         return retVal

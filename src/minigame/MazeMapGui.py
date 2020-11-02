@@ -111,9 +111,9 @@ class MazeMapGui(DirectFrame):
         blockFiles = []
         for i in range(5):
             blockFiles.append(PNMImage())
-            #blockFiles[i].read(Filename("mapBlock%i.tga"%(i+1)))
+            #blockFiles[i].read(Filename("mapBlock%i.txo"%(i+1)))
             # TODO:maze either reference a set of textures for each piece or fill with color
-            blockFiles[i].read(Filename('phase_4/maps/male_sleeve4New.tga'))
+            blockFiles[i].read(Filename('phase_4/maps/male_sleeve4New.txo'))
         mapImage.fill(0.8, 0.8, 0.8)
 
         # iterate through the map data and place a block in the map image where appropriate

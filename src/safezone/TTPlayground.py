@@ -20,6 +20,7 @@ class TTPlayground(Playground.Playground):
     def enter(self, requestStatus):
         Playground.Playground.enter(self, requestStatus)
         taskMgr.doMethodLater(1, self.__birds, 'TT-birds')
+        base.render.ls()
 
     def exit(self):
         Playground.Playground.exit(self)

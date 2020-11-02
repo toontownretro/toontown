@@ -903,7 +903,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         # It stuns all of the goons in the final battle sequence.
 
         for goon in self.goons:
-            if goon.state == 'Walk' or goon.state == 'Battle':
+            if goon._state == 'Walk' or goon._state == 'Battle':
                 goon.demand("Stunned")
                 goon.sendUpdate("requestStunned", [0])
 
@@ -912,7 +912,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         # It destroys all of the goons in the final battle sequence.
 
         for goon in self.goons:
-            if goon.state != 'Off' and not goon.isDead:
+            if goon._state != 'Off' and not goon.isDead:
                 goon.b_destroyGoon()
 
     def deactivateCranes(self):

@@ -10,6 +10,7 @@ from direct.interval.IntervalGlobal import Sequence, Wait, Func
 from toontown.minigame import Purchase
 from direct.gui import OnscreenText
 from otp.avatar import DistributedAvatar
+from otp.otpbase import OTPRender
 from toontown.building import SuitInterior
 from . import QuietZoneState
 from . import ZoneUtil
@@ -178,6 +179,9 @@ class Hood(StateData.StateData):
             # if we jump on the trolley.  Hoods like DD that require fog
             # will specifically turn fog on for the sky.
             self.sky.setFogOff()
+
+        self.sky.setLightOff()
+        OTPRender.renderShadow(False, self.sky)
 
     def unload(self):
         """

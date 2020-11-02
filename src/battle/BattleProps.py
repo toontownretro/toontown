@@ -287,14 +287,14 @@ class PropPool:
 
         # set the 5 dollar bill texture
         elif (name == '5dollar'):
-            tex = loader.loadTexture('phase_5/maps/dollar_5.tga')
+            tex = loader.loadTexture('phase_5/maps/dollar_5.txo')
             tex.setMinfilter(Texture.FTLinearMipmapLinear)
             tex.setMagfilter(Texture.FTLinear)
             self.props[name].setTexture(tex, 1)
 
         # set the 10 dollar bill texture
         elif (name == '10dollar'):
-            tex = loader.loadTexture('phase_5/maps/dollar_10.tga')
+            tex = loader.loadTexture('phase_5/maps/dollar_10.txo')
             tex.setMinfilter(Texture.FTLinearMipmapLinear)
             tex.setMagfilter(Texture.FTLinear)
             self.props[name].setTexture(tex, 1)

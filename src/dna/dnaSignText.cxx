@@ -149,6 +149,7 @@ NodePath DNASignText::traverse(NodePath &parent, DNAStorage *store, int editing)
   // Clear parent color higher in the hierarchy
   signText_node_path.set_color_off();
   signText_node_path.set_color(color);
+  signText_node_path.set_depth_offset(1);
 
   // Traverse each node in our vector
   pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();

@@ -20,6 +20,8 @@ model-path      $TTMODELS
 sound-path      $TTMODELS
 #endif
 
+assert-abort 0
+
 # remove this when we integrate Toontown with the Uberdog
 want-uberdog 0
 
@@ -32,7 +34,24 @@ multisamples 16
 
 interpolate-frames 1
 
+gl-version 3 2
+# gl-debug 1
+# gl-finish 1
+# notify-level-glgsg spam
+# notify-level-display spam
+# notify-level-shader debug
+
+framebuffer-srgb 1
+
+csm-distance 200
+csm-sun-distance 400
+csm-fixed-film-size 1
+
+show-buffers 0
+
 textures-power-2 none
+
+want-pstats 1
 
 load-file-type dna toontown
 

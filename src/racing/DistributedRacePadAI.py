@@ -23,7 +23,7 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
         DistributedKartPadAI.__init__(self, air)
         FSM.__init__(self, 'DistributedRacePadAI')
         self.genre = 'urban'
-        self.state = 'Off'
+        self._state = 'Off'
         self.trackInfo = [0, 0]
         self.laps = 3
         self.avIds = []
@@ -39,7 +39,7 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
         self.b_setState(state)
 
     def setState(self, state):
-        self.state = state
+        self._state = state
 
     def d_setState(self, state):
         self.sendUpdate('setState', [state, globalClockDelta.getRealNetworkTime()])
@@ -49,7 +49,7 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
         self.d_setState(state)
 
     def getState(self):
-        return self.state, globalClockDelta.getRealNetworkTime()
+        return self._state, globalClockDelta.getRealNetworkTime()
 
     def setTrackInfo(self, trackInfo):
         self.trackInfo = trackInfo
@@ -96,7 +96,7 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
     def considerAllAboard(self, task=None):
         for startingBlock in self.startingBlocks:
             if startingBlock.currentMovie:
-                if not self.state == 'WaitBoarding':
+                if not self._state == 'WaitBoarding':
                     self.request('WaitBoarding')
                 return
 
@@ -132,9 +132,9 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
 
         if not av.hasKart():
             return KartGlobals.ERROR_CODE.eNoKart
-        elif self.state == 'Off':
+        elif self._state == 'Off':
             return KartGlobals.ERROR_CODE.eTrackClosed
-        elif self.state in ('AllAboard', 'WaitBoarding'):
+        elif self._state in ('AllAboard', 'WaitBoarding'):
             return KartGlobals.ERROR_CODE.eBoardOver
         elif startingBlock.avId != 0:
             return KartGlobals.ERROR_CODE.eOcuppied
@@ -142,7 +142,7 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
             return KartGlobals.ERROR_CODE.eTickets
 
         self.avIds.append(avId)
-        if not self.state == 'WaitCountdown':
+        if not self._state == 'WaitCountdown':
             self.request('WaitCountdown')
 
         return KartGlobals.ERROR_CODE.success
@@ -152,7 +152,7 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
             self.avIds.remove(avId)
 
     def kartMovieDone(self):
-        if len(self.avIds) == 0 and not self.state == 'WaitEmpty':
+        if len(self.avIds) == 0 and not self._state == 'WaitEmpty':
             self.request('WaitEmpty')
-        if self.state == 'WaitBoarding':
+        if self._state == 'WaitBoarding':
             self.considerAllAboard()

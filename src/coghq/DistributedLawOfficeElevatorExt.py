@@ -46,17 +46,17 @@ class DistributedLawOfficeElevatorExt(DistributedElevatorExt.DistributedElevator
         # Create a sign for this elevator
         locator = geom.find('**/elevator_signorigin_%s' % entranceId)
         backgroundGeom = geom.find('**/ElevatorFrameFront_%d' % entranceId)
-        backgroundGeom.node().setEffect(DecalEffect.make())
+        #backgroundGeom.node().setEffect(DecalEffect.make())
         signText = DirectGui.OnscreenText(
             text = TextEncoder.upper(TTLocalizer.GlobalStreetNames[self.intZoneId][-1]),
             font = ToontownGlobals.getSuitFont(),
             scale = 2,
-            fg = (0.87, 0.87, 0.87, 1), 
+            fg = (0.87, 0.87, 0.87, 1),
             # required for DecalEffect (must be a GeomNode, not a TextNode)
             mayChange=False,
             parent = backgroundGeom)
         signText.setPosHpr(locator, 0, 0, 0, 0, 0, 0)
-        signText.setDepthWrite(0)
+        signText.setDepthOffset(1)
 
     def setupElevator(self):
         """setupElevator(self)
@@ -102,7 +102,7 @@ class DistributedLawOfficeElevatorExt(DistributedElevatorExt.DistributedElevator
                 'stageId': self.intZoneId,
                 }
             self.cr.playGame.getPlace().elevator.signalDone(doneStatus)
-            
+
     def setLawOfficeInteriorZoneForce(self, zoneId):
         place = self.cr.playGame.getPlace()
         if place:
@@ -122,7 +122,7 @@ class DistributedLawOfficeElevatorExt(DistributedElevatorExt.DistributedElevator
                 self.notify.warning("setMintInteriorZoneForce: Couldn't find playGame.getPlace().elevator, zoneId: %s" %zoneId)
         else:
             self.notify.warning("setLawOfficeInteriorZoneForce: Couldn't find playGame.getPlace(), zoneId: %s" %zoneId)
-            
+
     def getDestName(self):
         if self.intZoneId == ToontownGlobals.LawbotStageIntA:
             return TTLocalizer.ElevatorLawBotCourse0

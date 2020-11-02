@@ -387,7 +387,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         """Handle a toon requesting to get food from the conveyer belts."""
         grantRequest = False
         avId = self.air.getAvatarIdFromSender()
-        if self.state != 'BattleTwo':
+        if self._state != 'BattleTwo':
             grantRequest = False
         elif not (beltIndex, foodNum) in list(self.toonFoodStatus.values()):
             # no one else is carrying it, make sure the toon isn't carrying anything
@@ -404,7 +404,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         """Handle a toon requesting to get food from the conveyer belts."""
         grantRequest = False
         avId = self.air.getAvatarIdFromSender()
-        if self.state != 'BattleTwo':
+        if self._state != 'BattleTwo':
             grantRequest = False
         elif tableIndex < len( self.tables):
             table = self.tables[tableIndex]
@@ -1057,7 +1057,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         for toonId in self.threatDict:
             curThreat = self.threatDict[toonId]
             tableIndex = self.getToonTableIndex(toonId)
-            if tableIndex > -1 and self.tables[tableIndex].state == 'Flat':
+            if tableIndex > -1 and self.tables[tableIndex]._state == 'Flat':
                 # don't attack a flattened toon
                 pass
             else:
@@ -1084,7 +1084,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                 toonLevel = toon.getNumPromotions(self.dept)
                 totalCogSuitLevels += toonLevel
                 totalNumToons += 1
-                if (toon.cogLevels > highestCogSuitLevel):
+                if (toonLevel > highestCogSuitLevel):
                     highestCogSuitLevel = toonLevel
 
         if not totalNumToons:
@@ -1122,7 +1122,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         """Return a list of table indices who are still upright."""
         tableList = []
         for table in self.tables:
-            if table.state != 'Flat':
+            if table._state != 'Flat':
                 tableList.append(table.index)
         return tableList
 
@@ -1170,7 +1170,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.notify.debug('hitTable tableIndex=%d' % tableIndex)
         if tableIndex < len(self.tables):
             table = self.tables[tableIndex]
-            if table.state != 'Flat':
+            if table._state != 'Flat':
                 table.goFlat()
 
     def awayFromTable(self, tableIndex):
@@ -1186,7 +1186,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         """Unflatten the table."""
         if tableIndex < len(self.tables):
             table = self.tables[tableIndex]
-            if table.state == 'Flat':
+            if table._state == 'Flat':
                 if table.avId and \
                    table.avId in self.involvedToons:
                     table.forceControl(table.avId)
@@ -1232,7 +1232,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         """Handle a toon requesting to get toonup from the conveyer belts."""
         grantRequest = False
         avId = self.air.getAvatarIdFromSender()
-        if self.state != 'BattleFour':
+        if self._state != 'BattleFour':
             grantRequest = False
         elif not (beltIndex, toonupNum) in self.toonupsGranted:
             # make sure the toon is still there
@@ -1269,7 +1269,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         # goes beyond 1, the battle should be considered to be in
         # overtime (and should rapidly become impossibly difficult, to
         # prevent toons from dying a slow, frustrating death).
-        if self.state != 'BattleFour':
+        if self._state != 'BattleFour':
             t1 = 0
         else:
             elapsed = globalClock.getFrameTime() - self.battleFourStart

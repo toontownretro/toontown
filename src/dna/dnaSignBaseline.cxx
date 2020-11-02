@@ -176,6 +176,7 @@ NodePath DNASignBaseline::traverse(NodePath &parent, DNAStorage *store, int edit
            pos,
            hpr,
            LVector3f(1.0));
+  signBaseline_node_path.set_depth_offset(1);
 
   if (editing) {
     // Remember that this nodepath is associated with this dna group

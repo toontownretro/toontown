@@ -756,7 +756,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         backgroundNP.setPosHprScale(0.0, 0.0, textHeight * 0.8 / zScale,
                                     0.0, 0.0, 0.0,
                                     8.0, 8.0, 8.0 * zScale)
-        backgroundNP.node().setEffect(DecalEffect.make())
         # Get the text node path:
         signTextNodePath = backgroundNP.attachNewNode(textNode.generate())
         assert(not signTextNodePath.isEmpty())
@@ -766,11 +765,12 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                                         0.1, 0.1, 0.1 / zScale)
         # Clear parent color higher in the hierarchy
         signTextNodePath.setColor(1.0, 1.0, 1.0, 1.0)
+        signTextNodePath.setDepthOffset(1)
         # Decal sign onto the front of the building:
         frontNP = suitBuildingNP.find("**/*_front/+GeomNode;+s")
         assert(not frontNP.isEmpty())
         backgroundNP.wrtReparentTo(frontNP)
-        frontNP.node().setEffect(DecalEffect.make())
+        backgroundNP.setDepthOffset(1)
 
         # Rename the building:
         suitBuildingNP.setName("sb"+str(self.block)+":_landmark__DNARoot")
@@ -960,7 +960,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         backgroundNP.setPosHprScale(0.0, 0.0, textHeight * 0.8 / zScale,
                                     0.0, 0.0, 0.0,
                                     8.0, 8.0, 8.0 * zScale)
-        backgroundNP.node().setEffect(DecalEffect.make())
         # Get the text node path:
         signTextNodePath = backgroundNP.attachNewNode(textNode.generate())
         assert(not signTextNodePath.isEmpty())
@@ -968,13 +967,14 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         signTextNodePath.setPosHprScale(0.0, 0.0, -0.21 + textHeight * 0.1 / zScale,
                                         0.0, 0.0, 0.0,
                                         0.1, 0.1, 0.1 / zScale)
+        signTextNodePath.setDepthOffset(1)
         # Clear parent color higher in the hierarchy
         signTextNodePath.setColor(1.0, 1.0, 1.0, 1.0)
         # Decal sign onto the front of the building:
         frontNP = suitBuildingNP.find("**/*_front/+GeomNode;+s")
         assert(not frontNP.isEmpty())
         backgroundNP.wrtReparentTo(frontNP)
-        frontNP.node().setEffect(DecalEffect.make())
+        backgroundNP.setDepthOffset(1)
 
         # Rename the building:
         suitBuildingNP.setName("sb"+str(self.block)+":_landmark__DNARoot")
