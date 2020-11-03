@@ -15,7 +15,6 @@
 #define HAVE_VRPN
 #define HAVE_NSPR
 #define WANT_NATIVE_NET
-#define HAVE_CG
 #define HAVE_OPENCV
 #define HAVE_FFMPEG
 #define HAVE_MESA
