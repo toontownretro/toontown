@@ -1,6 +1,6 @@
 from panda3d.core import Shader, PTA_LVecBase3f, Vec3
 from panda3d.core import PostProcess, PostProcessPass, PostProcessEffect, HDREffect, \
-    BloomEffect, FXAA_Effect, SSAO_Effect, MotionBlur
+    BloomEffect, FXAA_Effect, SSAO_Effect, MotionBlur, PTA_LVecBase2f, AUXTEXTUREBITS_NORMAL, AUXTEXTURE_NORMAL
 
 #
 # Draw world
@@ -19,15 +19,35 @@ class ToontownPostProcess(PostProcess):
         self.ssao = None
         self.mb = None
 
-        self.enableHDR = False
+        self.enableHDR = True
         self.enableBloom = True
-        self.enableSSAO = False
+        self.enableSSAO = True
         self.enableFXAA = False
-        self.enableMB = True
+        self.enableMB = False
 
         self.flashEnabled = False
         self.flashColor = PTA_LVecBase3f.emptyArray(1)
         self.setFlashColor(Vec3(0))
+
+        self.exposureBias = PTA_LVecBase3f.emptyArray(1)
+        self.setExposureBias(1)
+
+        base.accept('f1', self.decExposureBias)
+        base.accept('f2', self.incExposureBias)
+
+    def setExposureBias(self, bias):
+        self.exposureBias[0] = bias
+
+    def getExposureBias(self):
+        return self.exposureBias[0]
+
+    def incExposureBias(self):
+        self.exposureBias[0] += 0.05
+        print(self.exposureBias[0])
+
+    def decExposureBias(self):
+        self.exposureBias[0] -= 0.05
+        print(self.exposureBias[0])
 
     def update(self):
         PostProcess.update(self)
@@ -77,7 +97,6 @@ class ToontownPostProcess(PostProcess):
 
         if self.enableHDR:
             self.hdr = HDREffect(self)
-            self.hdr.getHdrPass().setExposureOutput(base.shaderGenerator.getExposureAdjustment())
             self.addEffect(self.hdr)
             #textures["hdrDebug"] = self.hdr.getFinalTexture()
 
@@ -93,7 +112,7 @@ class ToontownPostProcess(PostProcess):
             textures["sceneColorSampler"] = self.fxaa.getFinalTexture()
 
         if self.enableSSAO:
-            self.ssao = SSAO_Effect(self)
+            self.ssao = SSAO_Effect(self, SSAO_Effect.M_HBAO)
             self.addEffect(self.ssao)
             textures["aoSampler"] = self.ssao.getFinalTexture()
 
@@ -103,7 +122,7 @@ class ToontownPostProcess(PostProcess):
             self.mb.setup()
             # sort value of 2 to do motion blur *after* the main scene,
             # which is sort 1
-            self.addCamera(self.mb.getCamera(), 1)
+            self.addCamera(self.mb.getCamera(), 0, 1)
 
         finalQuad = self.getScenePass().getQuad()
 
@@ -128,17 +147,63 @@ class ToontownPostProcess(PostProcess):
         if self.flashEnabled:
             ptext += "uniform vec3 flashColor[1];\n"
 
+        if self.enableHDR:
+            ptext += "const mat3 aces_input_mat = mat3(\n"
+            ptext += "  vec3(0.59719, 0.35458, 0.04823),\n"
+            ptext += "  vec3(0.07600, 0.90834, 0.01566),\n"
+            ptext += "  vec3(0.02840, 0.13383, 0.83777)\n"
+            ptext += ");\n"
+            ptext += "const mat3 aces_output_mat = mat3(\n"
+            ptext += "  vec3(1.60475, -0.53108, -0.07367),\n"
+            ptext += "  vec3(-0.10208,  1.10813, -0.00605),\n"
+            ptext += "  vec3(-0.00327, -0.07276,  1.07602)\n"
+            ptext += ");\n"
+            ptext += "vec3 rtt_and_odt_fit(vec3 v) {\n"
+            ptext += "  vec3 a = v * (v + 0.0245786f) - 0.000090537f;\n"
+            ptext += "  vec3 b = v * (0.983729f * v + 0.4329510f) + 0.238081f;\n"
+            ptext += "  return a / b;\n"
+            ptext += "}\n"
+            ptext += "vec3 uncharted2TonemapPartial(vec3 x) {\n"
+            ptext += "  float A = 0.15;\n"
+            ptext += "  float B = 0.50;\n"
+            ptext += "  float C = 0.10;\n"
+            ptext += "  float D = 0.20;\n"
+            ptext += "  float E = 0.02;\n"
+            ptext += "  float F = 0.30;\n"
+            ptext += "  return ((x*(A*x+C*B)+D*E)/(x*(A*x+B)+D*F))-E/F;\n"
+            ptext += "}\n"
+            #ptext += "uniform vec3 k_contrast[1];\n"
+            ptext += "uniform float p3d_ExposureScale;\n"
+
         ptext += "void main()\n"
         ptext += "{\n"
         ptext += "  outputColor = texture(sceneColorSampler, l_texcoord);\n"
         if self.enableSSAO:
-            ptext += "  outputColor.rgb *= texture(aoSampler, l_texcoord).rgb;\n"
+            ptext += "  outputColor.rgb *= texture(aoSampler, l_texcoord).r;\n"
         if self.enableBloom:
-            ptext += "  outputColor.rgb += texture(bloomSampler, l_texcoord).rgb;\n"
+            ptext += "  vec3 bloomSample = texture(bloomSampler, l_texcoord).rgb;\n"
+            if self.enableHDR:
+                ptext += "  bloomSample *= p3d_ExposureScale;\n"
+            ptext += "  outputColor.rgb += bloomSample;\n"
         if self.flashEnabled:
             ptext += "  outputColor.rgb += pow(flashColor[0], vec3(2.2));\n"
+        if self.enableHDR:
+            #ptext += "  outputColor.rgb *= p3d_ExposureScale;\n"
+            #ptext += "  outputColor.rgb = aces_input_mat * outputColor.rgb;\n"
+            #ptext += "  outputColor.rgb = rtt_and_odt_fit(outputColor.rgb);\n"
+            #ptext += "  outputColor.rgb = aces_output_mat * outputColor.rgb;\n"
+            #ptext += "  float exposureBias = p3d_ExposureScale * 2.0;\n"
+            #ptext += "  vec3 curr = uncharted2TonemapPartial(outputColor.rgb * exposureBias);\n"
+            #ptext += "  vec3 W = vec3(11.2);\n"
+            #ptext += "  vec3 whiteScale = vec3(1.0) / uncharted2TonemapPartial(W);\n"
+            # Raise the final color to a slight power to increase contrast
+            #ptext += "  outputColor.rgb = curr * whiteScale;\n"
+        #ptext += "  outputColor.rgb = clamp(outputColor.rgb, 0, 1);\n"
+            #ptext += "  outputColor.rgb = outputColor.rgb / (outputColor.rgb + vec3(0.155)) * 1.019;\n"
+        #if self.enableHDR:
+            ptext += "  outputColor.rgb = vec3(1.0) - exp(-outputColor.rgb * p3d_ExposureScale);\n"
         if self.enableSSAO:
-            ptext += "  outputColor.rgb = texture(aoSampler, l_texcoord).rgb;\n"
+            ptext += "  outputColor.rgb = vec3(texture(aoSampler, l_texcoord).x);\n"
         ptext += "}\n"
 
         shader = Shader.make(Shader.SL_GLSL, vtext, ptext)
@@ -152,3 +217,6 @@ class ToontownPostProcess(PostProcess):
 
         if self.flashEnabled:
             finalQuad.setShaderInput("flashColor", self.flashColor)
+
+        #if self.enableHDR:
+        #    finalQuad.setShaderInput("k_contrast", self.exposureBias)

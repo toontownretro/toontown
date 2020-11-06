@@ -75,10 +75,12 @@ class ToonBase(OTPBase.OTPBase):
         self.render2dp.setAntialias(AntialiasAttrib.MMultisample)
         self.pixel2d.setAntialias(AntialiasAttrib.MMultisample)
 
+        self.render.setAttrib(LightRampAttrib.makeHdr0())
+
         # Set up the post-processing system
         self.postProcess = ToontownPostProcess()
         self.postProcess.startup(self.win)
-        self.postProcess.addCamera(self.cam)
+        self.postProcess.addCamera(self.cam, 0)
         self.postProcess.setup()
         self.taskMgr.add(self.__updatePostProcess, 'updatePostProcess')
 
@@ -99,7 +101,7 @@ class ToonBase(OTPBase.OTPBase):
             )
 
         self.ambient = AmbientLight('ambient')
-        self.ambient.setColor(lightColor((200, 202, 230, 250)))
+        self.ambient.setColor(lightColor((200, 202, 230, 200)))
         self.ambientNP = self.render.attachNewNode(self.ambient)
         self.render.setLight(self.ambientNP)
 
