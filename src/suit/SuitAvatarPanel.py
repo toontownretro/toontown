@@ -140,6 +140,9 @@ class SuitAvatarPanel(AvatarPanel.AvatarPanel):
         self.frame.show()
         messenger.send("avPanelDone")
 
+        self.frame.reparentTo(base.a2dTopRight)
+        self.frame.setPos(-0.25, 0, -0.5)
+
     def cleanup(self):
         if self.frame == None:
             return

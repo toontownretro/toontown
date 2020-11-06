@@ -630,7 +630,8 @@ class DistributedMazeGame(DistributedMinigame):
             scorePanel = \
                        MinigameAvatarScorePanel.MinigameAvatarScorePanel(avId,
                                                                          avName)
-            scorePanel.setPos(1.12, 0.0, .5 - 0.28*i)
+            scorePanel.reparentTo(base.a2dTopRight)
+            scorePanel.setPos(-0.213, 0.0, -0.5 - 0.28 * i)
             self.scorePanels.append(scorePanel)
 
         self.goalBar.show()

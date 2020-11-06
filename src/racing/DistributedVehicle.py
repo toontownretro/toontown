@@ -804,9 +804,9 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             cm = CardMaker('speed')
             cm.setFrame(-0.5,0.5,-0.5,0.5)
 
-            self.speedometerImages = aspect2d.attachNewNode('SpeedometerImages')
+            self.speedometerImages = base.a2dBottomRight.attachNewNode('SpeedometerImages')
             self.speedometerImages.setTransparency(True)
-            self.speedometerImages.setPos(1.24, 0.0, -0.98)
+            self.speedometerImages.setPos(-0.1, 0.0, 0.03)
             self.speedometerImages.setScale(0.75)
 
             m = loader.loadModel('phase_6/models/karting/speedometer')
@@ -865,7 +865,8 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
             self.speedometer = DirectLabel(
                 relief = None,
-                pos = (1.24, 0.0, -0.98),
+                pos = (-0.1, 0.0, 0.03),
+                parent = base.a2dBottomRight,
                 text = str(0),
                 text_scale = 0.18,
                 text_fg = bodyColor,
@@ -925,9 +926,9 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
     def startTurbo(self):
         # set up some data for our turbo
         newCameraPos = Point3(0, -25, 16)
-        newCameraFov = 90
+        newCameraFov = 90 * ToontownGlobals.OriginalAspectRatio
         turboDuration = 3
-        startFov = base.camLens.getFov().getX()
+        startFov = base.camLens.getMinFov().getX()
 
         if self.cameraTrack:
             self.cameraTrack.pause()
@@ -935,7 +936,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         # create a camera track... modify pos and fov
         cameraZoomIn = Parallel(
             LerpPosInterval(camera, 2, newCameraPos),
-            LerpFunc(base.camLens.setFov,
+            LerpFunc(base.camLens.setMinFov,
                      fromData = startFov,
                      toData = newCameraFov,
                      duration = 2,
@@ -943,7 +944,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             )
         cameraToNormal = Parallel(
             LerpPosInterval(camera, 1, Point3(0,-33,16), newCameraPos),
-            LerpFunc(base.camLens.setFov,
+            LerpFunc(base.camLens.setMinFov,
                      fromData = newCameraFov,
                      toData=ToontownGlobals.DefaultCameraFov,
                      duration = 1,
@@ -1616,8 +1617,8 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
            self.cameraTrack.pause()
            cameraToNormal = Parallel(
             LerpPosInterval(camera, 0.05, Point3(0,-33,16),startPos=camera.getPos()),
-            LerpFunc(base.camLens.setFov,
-                     fromData = base.camLens.getFov()[0],
+            LerpFunc(base.camLens.setMinFov,
+                     fromData = base.camLens.getMinFov()[0],
                      toData=ToontownGlobals.DefaultCameraFov,
                      duration = 0.05,
                      ),

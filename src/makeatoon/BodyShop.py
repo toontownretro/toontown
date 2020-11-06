@@ -136,8 +136,9 @@ class BodyShop(StateData.StateData):
         # Create an emtpy frame which houses all the option buttons including the shuffle button.
         self.parentFrame = DirectFrame(
             relief = DGG.RAISED,
-            pos = (0.98, 0, 0.416),
+            pos = (-0.36, 0, -0.5),
             frameColor = (1, 0, 0, 0),
+            parent = base.a2dTopRight
             )
 
         # Create the Species Frame.

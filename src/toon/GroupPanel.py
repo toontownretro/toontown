@@ -88,12 +88,13 @@ class GroupPanel(DirectObject.DirectObject):
 
         guiButtons = loader.loadModel('phase_9/models/gui/tt_m_gui_brd_status')
         self.frame = DirectFrame(
+            parent = base.a2dLeftCenter,
             relief = None,
             image = bgImage,
             image_scale = (0.5, 1, 0.5),
             image_pos = (0, 0, bgImageZPos),
             textMayChange = 1,
-            pos = (-1.044, 0, frameZPos),
+            pos = (0.32, 0, 0),
             )
         self.frameBounds = self.frame.getBounds()
 
@@ -139,6 +140,7 @@ class GroupPanel(DirectObject.DirectObject):
                          arrowGui.find('**/tt_t_gui_brd_arrow_hover'))
 
         self.hideButton = DirectButton(
+            parent = base.a2dLeftCenter,
             relief = None,
             text_pos = (0, 0.15),
             text_scale = 0.06,
@@ -147,12 +149,13 @@ class GroupPanel(DirectObject.DirectObject):
             text_shadow = Vec4(1, 1, 1, 1),
             image = hideImageList,
             image_scale = (-0.35, 1, 0.5),
-            pos = (-1.3081, 0, 0.03),
+            pos = (0.04, 0, 0.03),
             scale = 1.05,
             command = self.hide,
             )
 
         self.showButton = DirectButton(
+            parent = base.a2dLeftCenter,
             relief = None,
             text = ("", TTLocalizer.BoardingGroupShow, TTLocalizer.BoardingGroupShow),
             text_pos = (0.03, 0),
@@ -162,7 +165,7 @@ class GroupPanel(DirectObject.DirectObject):
             text_shadow = Vec4(0,0,0,1),
             image = showImageList,
             image_scale = (0.35, 1, 0.5),
-            pos = (-1.3081, 0, 0.03),
+            pos = (0.04, 0, 0.03),
             scale = 1.05,
             command = self.show,
             )

@@ -69,6 +69,7 @@ if WantNewsPage:
     from toontown.shtiker import NewsPage
 
 AdjustmentForNewsButton = -0.275
+ClaraBaseXPos = 0.12
 
 if (__debug__):
     import pdb
@@ -132,7 +133,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                      friendsButtonPressed,
                      friendsButtonRollover),
                 relief = None,
-                pos = (1.192, 0, 0.875),
+                pos = (-0.141, 0, -0.125),
                 scale = newScale,
                 text = ("", TTLocalizer.FriendsListLabel, TTLocalizer.FriendsListLabel),
                 text_scale = 0.09,
@@ -141,6 +142,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                 text_pos = (0,-0.18),
                 text_font = ToontownGlobals.getInterfaceFont(),
                 command = self.sendFriendsListEvent,
+                parent = base.a2dTopRight
                 )
             self.bFriendsList.hide()
             self.friendsListButtonActive = 0
@@ -534,12 +536,13 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                                              self.maxHp)
         self.laffMeter.setAvatar(self)
         self.laffMeter.setScale(0.075)
+        self.laffMeter.reparentTo(base.a2dBottomLeft)
         if self.style.getAnimal() == "monkey":
             # The monkey laff meter is slightly bigger because the
             # ears hang off to the side, so slide it over to the right
-            self.laffMeter.setPos(-1.18, 0., -0.87)
+            self.laffMeter.setPos(0.153, 0.0, 0.13)
         else:
-            self.laffMeter.setPos(-1.2, 0., -0.87)
+            self.laffMeter.setPos(0.133, 0.0, 0.13)
         self.laffMeter.stop()
 
         # make a purchase button for non-paid players
@@ -1393,8 +1396,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         guiModels = loader.loadModel('phase_5.5/models/gui/house_design_gui')
         # This consists of an attic frame
         self.__furnitureGui = DirectFrame(
+            parent = base.a2dTopLeft,
             relief = None,
-            pos = (-1.19, 0.00, 0.33),
+            pos = (0.115, 0.0, -0.66),
             scale= 0.04,
             image = guiModels.find('**/attic')
             )
@@ -1449,14 +1453,14 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         # Prevent the picture of Clarabelle from changing colors as we
         # monkey with the color of the circle.
         icon.setColor(white)
-        claraXPos = 1.45
+        claraXPos = ClaraBaseXPos
         newScale = oldScale = 0.5
-        newPos = (claraXPos, 1.0, 0.37)
+        newPos = (claraXPos, 1.0, -0.63)
         if WantNewsPage:
             claraXPos  += AdjustmentForNewsButton
             oldPos = (claraXPos, 1.0, 0.37),
             newScale = oldScale * ToontownGlobals.NewsPageScaleAdjust
-            newPos = (claraXPos - 0.1, 1.0, 0.45)
+            newPos = (claraXPos - 0.1, 1.0, -0.63)
 
         self.__clarabelleButton = DirectButton(
             relief = None,
@@ -1474,7 +1478,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
         # Give it a sort of 1 so it appears on top of the
         # CatalogNotifyDialog.
-        self.__clarabelleButton.reparentTo(aspect2d, 1)
+        self.__clarabelleButton.reparentTo(base.a2dTopRight, 1)
 
         # Set up an interval to flash the circle slowly to catch the
         # player's attention.
@@ -1910,9 +1914,10 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             #geom_scale = (12, 1, 3),
             geom_scale=(0.17,1.0,0.3),
             #pos = (0, 0, 0.8),
-            pos = (-1.2, 0, 0.50),
+            pos = (0.14, 0, -0.5),
             #scale = 0.1,
             scale = 1.0,
+            parent = base.a2dTopLeft
 
             )
         self.__gardeningGui.setName('gardeningFrame')
@@ -1925,9 +1930,10 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             #geom_scale = (12, 1, 3),
             geom_scale=(0.17,1.0,0.3),
             #pos = (0, 0, 0.8),
-            pos = (-1.2, 0, 0.50),
+            pos = (0.14, 0, -0.5),
             #scale = 0.1,
             scale = 1.0,
+            parent = base.a2dTopLeft
 
             )
         self.__gardeningGuiFake.setName('gardeningFrameFake')

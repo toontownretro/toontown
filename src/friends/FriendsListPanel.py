@@ -168,7 +168,8 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
 
         background_image = gui.find("**/FriendsBox_Open")
         self['image'] = background_image
-        self.setPos(1.1, 0, 0.54)
+        self.reparentTo(base.a2dTopRight)
+        self.setPos(-0.233, 0, -0.46)
 
         self.scrollList = DirectScrolledList(
             parent = self,

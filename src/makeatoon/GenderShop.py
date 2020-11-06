@@ -64,7 +64,7 @@ class GenderShop(StateData.StateData):
             image_scale = halfButtonScale,
             image1_scale = halfButtonHoverScale,
             image2_scale = halfButtonHoverScale,
-            pos = (-0.4, 0, -0.8),
+            pos = (-0.45, 0, 0.19),
             command = self.createRandomBoy,
             text = ("", TTLocalizer.GenderShopBoyButtonText, TTLocalizer.GenderShopBoyButtonText, ""),
             text_font = ToontownGlobals.getInterfaceFont(),
@@ -72,6 +72,7 @@ class GenderShop(StateData.StateData):
             text_pos = (0, 0.19),
             text_fg = (1, 1, 1, 1),
             text_shadow = (0, 0, 0, 1),
+            parent = base.a2dBottomCenter
             )
         self.boyButton.hide()
 
@@ -82,7 +83,7 @@ class GenderShop(StateData.StateData):
             image_scale = halfButtonScale,
             image1_scale = halfButtonHoverScale,
             image2_scale = halfButtonHoverScale,
-            pos = (0.4, 0, -0.8),
+            pos = (0.45, 0, 0.19),
             command = self.createRandomGirl,
             text = ("", TTLocalizer.GenderShopGirlButtonText, TTLocalizer.GenderShopGirlButtonText, ""),
             text_font = ToontownGlobals.getInterfaceFont(),
@@ -91,6 +92,7 @@ class GenderShop(StateData.StateData):
             text_pos = (0, 0.19),
             text_fg = (1, 1, 1, 1),
             text_shadow = (0, 0, 0, 1),
+            parent = base.a2dBottomCenter
             )
         self.girlButton.hide()
 

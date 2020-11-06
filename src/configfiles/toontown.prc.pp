@@ -35,11 +35,6 @@ multisamples 16
 interpolate-frames 1
 
 gl-version 3 2
-# gl-debug 1
-# gl-finish 1
-# notify-level-glgsg spam
-# notify-level-display spam
-# notify-level-shader debug
 
 framebuffer-srgb 1
 
@@ -99,8 +94,9 @@ quest-sanity-check 1
 # their exposed joints, instead of combined with the rest of the head.
 egg-rigid-geometry 1
 
-# Toontown is designed for 4/3 aspect ratio, so let's force it to be so
-aspect-ratio 1.333333
+# Toontown is designed for 4/3 aspect ratio, so let's force it to be so.
+# Actually, don't turn this on, we support widescreen now.
+# aspect-ratio 1.333333
 
 # This keeps the joint hierarchies for the different LOD's of an Actor
 # separate.  Seems to be necessary for the Toons--some of the naked

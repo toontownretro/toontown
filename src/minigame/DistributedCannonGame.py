@@ -245,7 +245,7 @@ class DistributedCannonGame(DistributedMinigame):
         self.rewardPanel = DirectLabel(
             parent = hidden,
             relief = None,
-            pos = (1.16, 0.0, 0.45),
+            pos = (-0.173, 0.0, -0.55),
             scale = .65,
             text = '',
             text_scale = 0.2,
@@ -716,7 +716,7 @@ class DistributedCannonGame(DistributedMinigame):
             self.timer.countdown(CannonGameGlobals.GameTime,
                                  self.__gameTimerExpired)
 
-        self.rewardPanel.reparentTo(aspect2d)
+        self.rewardPanel.reparentTo(base.a2dTopRight)
         self.scoreMult = MinigameGlobals.getScoreMult(self.cr.playGame.hood.id)
         self.__startRewardCountdown()
 

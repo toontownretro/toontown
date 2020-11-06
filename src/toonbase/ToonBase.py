@@ -117,7 +117,7 @@ class ToonBase(OTPBase.OTPBase):
         #debugCSM.setShaderInput("cascadeSampler", self.sunlight.getShadowMap())
 
         camera.setPosHpr(0, 0, 0, 0, 0, 0)
-        self.camLens.setFov(ToontownGlobals.DefaultCameraFov)
+        self.camLens.setMinFov(ToontownGlobals.DefaultCameraFov)
         self.camLens.setNearFar(ToontownGlobals.DefaultCameraNear,
                                 ToontownGlobals.DefaultCameraFar)
 

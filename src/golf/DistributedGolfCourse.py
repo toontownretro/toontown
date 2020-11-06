@@ -211,7 +211,8 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                     av = base.cr.doId2do.get(avId)
                     if av:
                         tPanels = ToonHeadFrame.ToonHeadFrame(av, GolfGlobals.PlayerColors[color], headPanel)
-                        tPanels.setPos(-1.17, 0, toonPanelsStart + whichToon * tpDiff)
+                        tPanels.reparentTo(aspect2d)
+                        tPanels.setPos(base.a2dTopLeft.getPos()[0] + 0.1875, 0, toonPanelsStart + whichToon * tpDiff)
                         tPanels.setScale(0.3,1,0.7)
                         tPanels.head.setPos(0, 10, 0.18)
                         tPanels.head.setScale(0.47,0.2,0.2)

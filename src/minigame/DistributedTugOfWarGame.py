@@ -409,7 +409,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
             del self.setupTrack
             self.setupTrack = None
 
-        base.camLens.setFov(ToontownGlobals.DefaultCameraFov)
+        base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov)
         base.camLens.setNearFar(ToontownGlobals.DefaultCameraNear,
                                 ToontownGlobals.DefaultCameraFar)
         NametagGlobals.setGlobalNametagScale(1.0)
@@ -489,7 +489,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
 
 
         # mave FOV wider if there are more toons
-        base.camLens.setFov(60 + 2*self.numPlayers)
+        base.camLens.setMinFov((60 + 2*self.numPlayers) * ToontownGlobals.OriginalAspectRatio)
 
         # prevent sky from getting clipped
         base.camLens.setFar(450.)

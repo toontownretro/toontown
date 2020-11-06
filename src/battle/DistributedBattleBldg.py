@@ -21,7 +21,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
     notify = DirectNotifyGlobal.directNotify.newCategory(
                                                 'DistributedBattleBldg')
 
-    camFOFov = 30.0
+    camFOFov = 30.0 * ToontownGlobals.OriginalAspectRatio
     camFOPos = Point3(0, -10, 4)
 
     def __init__(self, cr):
@@ -169,7 +169,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         # Put the camera somewhere
         camTrack = Sequence()
         def setCamFov(fov):
-            base.camLens.setFov(fov)
+            base.camLens.setMinFov(fov)
         camTrack.append(Func(camera.wrtReparentTo, suitLeader))
 
         camTrack.append(Func(setCamFov, self.camFOFov))
@@ -226,7 +226,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         self.clearInterval(self.faceOffName)
         self._removeMembersKeep()
         camera.wrtReparentTo(self)
-        base.camLens.setFov(self.camFov)
+        base.camLens.setMinFov(self.camFov)
         return None
 
     ##### WaitForInput state #####

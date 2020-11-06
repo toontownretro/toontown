@@ -589,6 +589,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         gui = loader.loadModel("phase_3.5/models/gui/avatar_panel_gui")
 
         self.closeButton = DirectButton(
+            parent = base.a2dBottomRight,
             image = (gui.find("**/CloseBtn_UP"),
                      gui.find("**/CloseBtn_DN"),
                      gui.find("**/CloseBtn_Rllvr"),
@@ -600,7 +601,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             text_scale = 0.04,
             text_pos = (0, -0.07),
             text_fg = VBase4(1, 1, 1, 1),
-            pos = (1.05, 0, -0.82),
+            pos = (-0.25, 0, 0.175),
             command = self.__exitCrane,
             )
 
@@ -697,9 +698,10 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         if self.closeButton:
             self.closeButton.destroy()
             self.closeButton = DirectLabel(
+                parent = base.a2dBottomRight,
                 relief = None,
                 text = TTLocalizer.CashbotCraneLeaving,
-                pos = (1.05, 0, -0.88),
+                pos = (-0.25, 0, 0.125),
                 text_pos = (0, 0),
                 text_scale = 0.06,
                 text_fg = VBase4(1, 1, 1, 1),

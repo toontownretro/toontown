@@ -274,7 +274,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             camera.reparentTo(render)
             camera.setPosHpr(self.elevatorNodePath,
                              0, -32.5, 9.4, 0, 348, 0)
-            base.camLens.setFov(52.0)
+            base.camLens.setMinFov(52.0 * ToontownGlobals.OriginalAspectRatio)
 
             # Are we waiting for any other players to come out?
             anyOthers = 0
@@ -333,7 +333,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             camera.reparentTo(render)
             camera.setPosHpr(self.elevatorNodePath,
                              0, -32.5, 9.4, 0, 348, 0)
-            base.camLens.setFov(52.0)
+            base.camLens.setMinFov(52.0 * ToontownGlobals.OriginalAspectRatio)
 
             # Are we waiting for any other players to come out?
             anyOthers = 0
@@ -1337,16 +1337,16 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             Func(camera.setPosHpr,
                  self.elevatorNodePath,
                  0, -32.5, 9.4, 0, 348, 0),
-            Func(base.camLens.setFov, 52.0),
+            Func(base.camLens.setMinFov, 52.0 * ToontownGlobals.OriginalAspectRatio),
             Wait(VICTORY_RUN_TIME),
             # Watch the building transform
             Func(camera.setPosHpr,
                  self.elevatorNodePath,
                  0, -32.5, 17, 0, 347, 0),
-            Func(base.camLens.setFov, 75.0),
+            Func(base.camLens.setMinFov, 75.0 * ToontownGlobals.OriginalAspectRatio),
             Wait(TO_TOON_BLDG_TIME),
             # Put the camera fov back to normal
-            Func(base.camLens.setFov, 52.0),
+            Func(base.camLens.setMinFov, 52.0 * ToontownGlobals.OriginalAspectRatio),
             )
         return track
 

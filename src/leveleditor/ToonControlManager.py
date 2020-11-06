@@ -17,12 +17,12 @@ class ToonControlManager(ControlManager):
         self.editor = editor
         self.configureDriveModeCollisionData()
         ControlManager.__init__(self)
-        self.oldFov = base.camLens.getFov()
+        self.oldFov = base.camLens.getMinFov()
 
         self.avatarMoving = 0
         self.isPageUp=0
         self.isPageDown=0
-        
+
         avatarRadius = 1.4
         floorOffset = OTPGlobals.FloorOffset
         reach = 4.0
@@ -57,22 +57,22 @@ class ToonControlManager(ControlManager):
         self.avatar.stopUpdateSmartCamera()
         self.fStarting = False
         #ControlManager.disable(self)
-    
+
     def enable(self):
         if self.fStarting:
             return
-        
+
         self.prepareToStart()
         ControlManager.enable(self)
 
         if base.direct.selected.last:
             base.direct.selected.deselect(base.direct.selected.last)
-        
+
         self.avatarAnimTask = taskMgr.add(self.avatarAnimate, 'avatarAnimTask', 24)
         self.avatar.startUpdateSmartCamera()
-        
+
         self.avatarMoving = 0
-        
+
     def disable(self):
         self.prepareToStop()
         ControlManager.disable(self)
@@ -109,7 +109,7 @@ class ToonControlManager(ControlManager):
 
         if self.avatar:
             self.avatar.startUpdateSmartCamera()
-            
+
     def pageUp(self):
         if not self.isPageUp:
             self.lerpCameraP(36.8699, 0.6)
@@ -126,7 +126,7 @@ class ToonControlManager(ControlManager):
             self.isPageDown = 1
             #self.setCameraPositionByIndex(self.cameraIndex)
         else:
-            self.clearPageUpDown()            
+            self.clearPageUpDown()
 
     #--------------------------------------------------------------------------
     # Function:   animate avatar model based on if it is moving
@@ -362,15 +362,15 @@ class ToonControlManager(ControlManager):
         self.editor.ui.perspView.camera.setHpr(0)
         base.direct.fMouse1 = 0
         base.direct.fMouse2 = 0
-        base.direct.fMouse3 = 0        
+        base.direct.fMouse3 = 0
 
         base.direct.fAlt = 0
         base.direct.fConntrol = 0
-        base.direct.fShift = 0        
+        base.direct.fShift = 0
 
         self.editor.accept('page_up', self.pageUp)
-        self.editor.accept('page_down', self.pageDown)        
-        
+        self.editor.accept('page_down', self.pageDown)
+
         self.avatar.setPos(self.editor.ui.perspView.camera.getPos())
         self.avatar.reparentTo(render)
         """ Lerp down to eye level then switch to Drive mode """
@@ -387,7 +387,7 @@ class ToonControlManager(ControlManager):
         base.camera.wrtReparentTo(self.avatar)
         base.camera.setHpr(0, 0, 0)
         base.camera.setPos(0, -11.8125, 3.9375)
-        base.camLens.setFov(VBase2(60, 46.8265))        
+        base.camLens.setMinFov(60 * OTPGlobals.OriginalAspectRatio)
 
         # Turn on collisions
         #if self.panel.fColl.get():
@@ -413,7 +413,7 @@ class ToonControlManager(ControlManager):
         # Reset cam
         base.camera.iPos(base.direct.cam)
         base.direct.cam.iPosHpr()
-        base.camLens.setFov(self.oldFov)
+        base.camLens.setMinFov(self.oldFov)
         # Renable mouse
         #self.editor.enableMouse()
         #base.direct.enable()

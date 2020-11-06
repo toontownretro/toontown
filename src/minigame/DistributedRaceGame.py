@@ -178,10 +178,11 @@ class DistributedRaceGame(DistributedMinigame):
             diceButton = DirectButton(
                 image = (button, button_down, button_ro, None),
                 relief = None,
-                pos = (-0.9 + ((i-1)*0.2), 0.0, -0.85),
+                pos = (0.433 + (i - 1) * 0.2, 0.0, 0.15),
                 scale = 0.25,
                 command = self.handleInputChoice,
                 extraArgs = [i],
+                parent = base.a2dBottomLeft
                 )
             diceButton.hide()
             self.diceButtonList.append(diceButton)

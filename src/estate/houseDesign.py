@@ -1342,7 +1342,8 @@ class ObjectManager(NodePath, DirectObject):
         # Main attic/stop button
         self.furnitureGui = DirectFrame(
             relief = None,
-            pos = (-1.19, 1, 0.33),
+            parent = base.a2dTopLeft,
+            pos = (0.155, -0.6, -1.045),
             scale= 0.04,
             image = attic)
         bMoveStopUp = guiModels.find('**/bu_atticX/bu_attic_up')

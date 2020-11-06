@@ -47,6 +47,9 @@ class ToonHeadDialog(TTDialog.TTDialog):
         # Replace copy of head in dialog with blinking version
         self.postInitialiseFuncList.append(self.replaceHead)
 
+        self.reparentTo(base.a2dTopRight)
+        self.setPos(-0.85, 0, -0.25)
+
     def replaceHead(self):
         head = self.stateNodePath[0].find('**/head')
         headModelCopy = self.stateNodePath[0].find('**/headModel')
