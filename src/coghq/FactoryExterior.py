@@ -261,8 +261,8 @@ class FactoryExterior(BattlePlace.BattlePlace):
             # Next, we need to collect all of the visgroup zone IDs.
             self.zoneVisDict = {}
             for i in range(dnaStore.getNumDNAVisGroupsAI()):
-                groupFullName = dnaStore.getDNAVisGroupName(i)
                 visGroup = dnaStore.getDNAVisGroupAI(i)
+                groupFullName = visGroup.getName()
                 visZoneId = int(base.cr.hoodMgr.extractGroupName(groupFullName))
                 visZoneId = ZoneUtil.getTrueZoneId(visZoneId, self.zoneId)
                 visibles = []
