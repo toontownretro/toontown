@@ -317,6 +317,16 @@ class ToonBase(OTPBase.OTPBase):
         self.postProcess.update()
         return task.cont
 
+    def windowEvent(self, win):
+        if win != self.win:
+            # Not about our window.
+            return
+
+        # Pass it along to the postprocessing system.
+        self.postProcess.windowEvent()
+
+        OTPBase.OTPBase.windowEvent(self, win)
+
     def disableShowbaseMouse(self):
         # Hack:
         # Enable drive mode but turn it off, and reset the camera

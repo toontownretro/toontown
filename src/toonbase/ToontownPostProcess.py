@@ -1,6 +1,8 @@
-from panda3d.core import Shader, PTA_LVecBase3f, Vec3
+from panda3d.core import Shader, PTA_LVecBase3f, Vec3, loadPrcFileData
 from panda3d.core import PostProcess, PostProcessPass, PostProcessEffect, HDREffect, \
     BloomEffect, FXAA_Effect, SSAO_Effect, MotionBlur, PTA_LVecBase2f, AUXTEXTUREBITS_NORMAL, AUXTEXTURE_NORMAL
+
+from direct.gui.DirectGui import *
 
 #
 # Draw world
@@ -19,11 +21,14 @@ class ToontownPostProcess(PostProcess):
         self.ssao = None
         self.mb = None
 
-        self.enableHDR = True
-        self.enableBloom = True
-        self.enableSSAO = True
-        self.enableFXAA = False
-        self.enableMB = False
+        self.hbaoControls = []
+        self.hbaoControlZ = -0.2
+
+        self.enableHDR = base.config.GetBool("hdr-enable", True)
+        self.enableBloom = base.config.GetBool("bloom-enable", True)
+        self.enableSSAO = base.config.GetBool("ssao-enable", True)
+        self.enableFXAA = base.config.GetBool("fxaa-enable", True)
+        self.enableMB = base.config.GetBool("motion-blur-enable", False)
 
         self.flashEnabled = False
         self.flashColor = PTA_LVecBase3f.emptyArray(1)
@@ -34,6 +39,34 @@ class ToontownPostProcess(PostProcess):
 
         base.accept('f1', self.decExposureBias)
         base.accept('f2', self.incExposureBias)
+
+        #self.setupHBAOControls()
+
+    def titleSliderBar(self, title, min, max, varname):
+        def __updateVarValue(slider, title, text, varname):
+            loadPrcFileData("", "{0} {1}".format(varname, slider['value']))
+            text.setText("{0}: {1}".format(title, slider['value']))
+
+        value = base.config.GetFloat(varname, min)
+        frame = DirectFrame(parent = base.a2dTopLeft, pos = (0.3, 0, self.hbaoControlZ), scale = 0.3)
+        titleText = OnscreenText("{0}: {1}".format(title, value), parent = frame, scale = 0.1)
+        slider = DirectSlider(
+            range = (min, max),
+            value = value,
+            command = __updateVarValue,
+            pos = (0.1, 0, -0.1),
+            parent = frame
+        )
+        slider['extraArgs'] = [slider, title, titleText, varname]
+
+        self.hbaoControlZ -= 0.1
+
+    def setupHBAOControls(self):
+        self.titleSliderBar("Falloff", 0.05, 20, "hbao-falloff")
+        self.titleSliderBar("Max sample dist", 0.05, 20, "hbao-max-sample-distance")
+        self.titleSliderBar("Sample radius", 0.05, 20, "hbao-sample-radius")
+        self.titleSliderBar("Angle bias", 0, 1, "hbao-angle-bias")
+        self.titleSliderBar("Strength", 0, 75, "hbao-strength")
 
     def setExposureBias(self, bias):
         self.exposureBias[0] = bias
@@ -202,7 +235,7 @@ class ToontownPostProcess(PostProcess):
             #ptext += "  outputColor.rgb = outputColor.rgb / (outputColor.rgb + vec3(0.155)) * 1.019;\n"
         #if self.enableHDR:
             ptext += "  outputColor.rgb = vec3(1.0) - exp(-outputColor.rgb * p3d_ExposureScale);\n"
-        if self.enableSSAO:
+        if self.enableSSAO and base.config.GetBool("ao-debug", False):
             ptext += "  outputColor.rgb = vec3(texture(aoSampler, l_texcoord).x);\n"
         ptext += "}\n"
 
