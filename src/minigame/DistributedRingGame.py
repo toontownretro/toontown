@@ -334,7 +334,7 @@ class DistributedRingGame(DistributedMinigame):
         for avId in self.avIdList:
             av = self.getAvatar(avId)
             if av:
-                av.dropShadow.show()
+                av.showShadow()
                 av.resetLOD()
                 av.setAnimState('neutral', 1.0)
 

@@ -823,7 +823,7 @@ class DistributedCogThiefGame(DistributedMinigame):
             # show the toon's dropshadow
             toon = self.getAvatar(avId)
             if toon:
-                toon.dropShadow.show()
+                toon.showShadow()
 
                 # get rid of the extra nodes
                 geomNode = toon.getGeomNode()

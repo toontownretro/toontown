@@ -949,7 +949,7 @@ class DistributedMazeGame(DistributedMinigame):
             del dropShadow
 
             # show the toon's dropshadow
-            toon.dropShadow.show()
+            toon.showShadow()
 
             # get rid of the extra nodes
             geomNode = toon.getGeomNode()

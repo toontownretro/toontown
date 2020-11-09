@@ -365,7 +365,7 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame,
         for avId in self.avIdList:
             av = self.getAvatar(avId)
             if av:
-                av.dropShadow.show()
+                av.showShadow()
                 av.resetLOD() # we'll use the head frames instead
 
         taskMgr.remove(self.uniqueName("aimtask"))

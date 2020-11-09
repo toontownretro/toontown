@@ -615,7 +615,7 @@ class DistributedMoleField(DistributedNodePathEntity, MoleFieldBase.MoleFieldBas
 
             # show the toon's dropshadow
             if toon and toon.dropShadow:
-                toon.dropShadow.show()
+                toon.showShadow()
 
             # get rid of the extra nodes
             geomNode = toon.getGeomNode()

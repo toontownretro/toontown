@@ -61,7 +61,7 @@ SellBot (Sales): 's'
 """
 
 from direct.actor import Actor
-from otp.avatar import Avatar
+from otp.avatar import Avatar, ShadowCaster
 from . import SuitDNA
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownModules import *
@@ -1252,11 +1252,12 @@ class Suit(Avatar.Avatar):
         self.loseActor.setHpr(self.getHpr())
 
         # put a shadow under the lose actor
-        shadowJoint = self.loseActor.find("**/joint_shadow")
-        dropShadow = loader.loadModel("phase_3/models/props/drop_shadow")
-        dropShadow.setScale(0.45)
-        dropShadow.setColor(0.0, 0.0, 0.0, 0.5)
-        dropShadow.reparentTo(shadowJoint)
+        if ShadowCaster.globalDropShadowFlag:
+            shadowJoint = self.loseActor.find("**/joint_shadow")
+            dropShadow = loader.loadModel("phase_3/models/props/drop_shadow")
+            dropShadow.setScale(0.45)
+            dropShadow.setColor(0.0, 0.0, 0.0, 0.5)
+            dropShadow.reparentTo(shadowJoint)
 
         return(self.loseActor)
 

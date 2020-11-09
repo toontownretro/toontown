@@ -845,7 +845,7 @@ class DistributedLawbotCannon (DistributedObject.DistributedObject):
         #if (self.av != None):
         if (0):
             # show the toons original drop shadows..
-            self.av.dropShadow.show()
+            self.av.showShadow()
             # ... and destroy the one used for flight
             if (self.dropShadow != None):
                 self.dropShadow.removeNode()

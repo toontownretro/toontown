@@ -253,13 +253,13 @@ class OZSafeZoneLoader( SafeZoneLoader ):
             place.fsm.request("walk")
         base.localAvatar.setTeleportAvailable(1)
         base.localAvatar.collisionsOn()
-        base.localAvatar.dropShadow.show()
+        base.localAvatar.showShadow()
 
 
     def restoreRemote(self, remoteAv,task = None):
         if remoteAv in Avatar.Avatar.ActiveAvatars:
             remoteAv.startSmooth()
-            remoteAv.dropShadow.show()
+            remoteAv.showShadow()
 
 
     def setGeyserAnim(self, task = None):

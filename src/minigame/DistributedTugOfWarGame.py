@@ -447,7 +447,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
                 av.loop('neutral')
                 av.resetLOD()
                 # show the dropshadow again
-                av.dropShadow.show()
+                av.showShadow()
 
         for x in self.tugRopes:
             if x != None:

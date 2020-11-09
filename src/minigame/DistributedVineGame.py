@@ -415,7 +415,7 @@ class DistributedVineGame(DistributedMinigame):
         for avId in self.avIdList:
             av = self.getAvatar(avId)
             if av:
-                av.dropShadow.show()
+                av.showShadow()
                 av.resetLOD() # we'll use the head frames instead
 
         for treasure in self.treasures:
@@ -1923,7 +1923,7 @@ class DistributedVineGame(DistributedMinigame):
                 startRunningPos.setX( startRunningPos.getX() -7)
 
                 # show him looking at the vines confused
-                oneSeq.append(Func(av.dropShadow.show))
+                oneSeq.append(Func(av.showShadow))
                 oneSeq.append(Func(av.setH, -90))
                 oneSeq.append(Func(av.setPos, takeOffPos[0], takeOffPos[1], takeOffPos[2]))
                 exclamationSfx = av.getDialogueSfx('exclamation',0)
@@ -2055,7 +2055,7 @@ class DistributedVineGame(DistributedMinigame):
                                     wayPoint = Point3(midX, 0, midZ), timeToWayPoint = 1)
                 )
             endingTrack.append(landingIval)
-            endingTrack.append(Func(av.dropShadow.show))
+            endingTrack.append(Func(av.showShadow))
             endingTrack.append(Func(av.play, 'jump-land'))
             endingTrack.append(Func(self.winSound.play))
             endingTrack.append(Func(av.loop, 'victory'))

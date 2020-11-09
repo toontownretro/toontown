@@ -694,7 +694,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
 
         if self.toon and not self.toon.isDisabled() and not self.toon.isEmpty():
-            self.toon.dropShadow.show()
+            self.toon.showShadow()
             self.doHeadScale(self.toon,None)
             self.toon.setPosHpr(self.geom[0], 0, 8, 0, 0, 0, 0)
             for feet in self.toon.getPieces(('legs', 'feet')):

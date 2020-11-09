@@ -530,7 +530,7 @@ class DistributedCannonGame(DistributedMinigame):
             av = self.getAvatar(avId)
             if av:
                 # show the dropshadow again
-                av.dropShadow.show()
+                av.showShadow()
                 # restore the LODs
                 av.resetLOD()
         self.splash.reparentTo(hidden)

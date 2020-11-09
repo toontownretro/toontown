@@ -1,5 +1,6 @@
 from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
+from otp.avatar import ShadowCaster
 from toontown.battle.BattleProps import *
 from direct.distributed.ClockDelta import *
 from direct.showbase.PythonUtil import Functor
@@ -735,6 +736,9 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.__showOnscreenMessage(TTLocalizer.BuildingWaitingForVictors)
 
     def __placeCageShadow(self):
+        if not ShadowCaster.globalDropShadowFlag:
+            return
+
         if self.cageShadow == None:
             self.cageShadow = loader.loadModel('phase_3/models/props/drop_shadow')
             self.cageShadow.setPos(0, 77.9, 18)

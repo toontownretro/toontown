@@ -494,7 +494,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             av = self.getAvatar(avId)
             if av:
                 # show the dropshadow again
-                av.dropShadow.show()
+                av.showShadow()
                 # restore the LODs
                 av.resetLOD()
 

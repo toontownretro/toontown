@@ -7,6 +7,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
+from otp.avatar import ShadowCaster
 from toontown.toonbase.ToontownModules import NodePath
 from direct.directutil import Mopath
 from toontown.toonbase import ToontownGlobals
@@ -170,8 +171,11 @@ class DistributedButterfly(DistributedObject.DistributedObject):
         self.__initCollisions()
 
         # Set up the drop shadow
-        self.dropShadow = loader.loadModel(
-                                'phase_3/models/props/drop_shadow')
+        if ShadowCaster.globalDropShadowFlag:
+            self.dropShadow = loader.loadModel(
+                                    'phase_3/models/props/drop_shadow')
+        else:
+            self.dropShadow = NodePath("dummy_drop_shadow")
         self.dropShadow.setColor(0, 0, 0, 0.3)
         self.dropShadow.setPos(0, 0.1, -0.05)
         self.dropShadow.setScale(self.shadowScaleBig)

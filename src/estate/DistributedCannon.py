@@ -805,7 +805,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         assert(self.notify.debug("__destroyToonModels"))
         if (self.av != None):
             # show the toons original drop shadows..
-            self.av.dropShadow.show()
+            self.av.showShadow()
             # ... and destroy the one used for flight
             if (self.dropShadow != None):
                 self.dropShadow.removeNode()

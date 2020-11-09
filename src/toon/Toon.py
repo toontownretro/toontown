@@ -2073,7 +2073,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.stop()
         self.getGeomNode().setPos(0,0,0)
         self.playingAnim="neutral"
-        self.dropShadow.show()
+        self.showShadow()
         self.nametag3d.setPos(0, 0, self.height + 0.5)
 
     def enterSwimHold(self,animMultiplier=1, ts=0, callback=None, extraArgs=[]):
@@ -2085,7 +2085,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.stop()
         self.getGeomNode().setPos(0,0,0)
         self.playingAnim="neutral"
-        self.dropShadow.show()
+        self.showShadow()
         self.nametag3d.setPos(0, 0, self.height + 0.5)
         #self.playingAnim="neutral"
 
@@ -2096,7 +2096,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.stopBobSwimTask()
         self.getGeomNode().setPosHpr(0, 0, 0,
                                      0, 0, 0)
-        self.dropShadow.show()
+        self.showShadow()
         if self.isLocal():
             self.useWalkControls()
         self.nametag3d.setPos(0, 0, self.height + 0.5)
