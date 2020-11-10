@@ -34,7 +34,7 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
                 level = dinerLevel
             else:
                 level = random.choice(dinerLevel)
-                
+
             self.dinerInfo[i] = (hungryDuration, eatingDuration, level)
             # (hungryDuration, eatingDuration, dinerLevel)
             #self.dinerInfo[i] = (20, 30, self.dinerLevel)
@@ -45,7 +45,7 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
     def delete(self):
         """Delete ourself."""
         DistributedObjectAI.DistributedObjectAI.delete(self)
-        
+
     def getBossCogId(self):
         """Return the doId of the associated CEO."""
         return self.boss.doId
@@ -79,7 +79,7 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
             eatingDurations.append(self.dinerInfo[i][1])
             dinerLevels.append(self.dinerInfo[i][2])
         return hungryDurations, eatingDurations, dinerLevels
-                                   
+
 
     def d_setDinerStatus(self, chairIndex, newStatus):
         """Send the new diner status."""
@@ -92,7 +92,7 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
 
     def setState(self, state):
         self.request(state)
-    
+
     def d_setState(self, state, avId=0, extraInfo=0):
         newState = state
         if state == 'On':
@@ -109,15 +109,15 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
             newState = 'L'
         else:
             assert(self.notify.error("Unknown state %s", state))
-        
+
         self.sendUpdate('setState', [newState, avId, extraInfo])
- 
+
     def b_setState(self, state, avId =0, extraInfo = 0):
         if state == 'Controlled' or state == 'Flat':
             self.request(state, avId)
         else:
             self.request(state)
-        self.d_setState( state, avId, extraInfo) 
+        self.d_setState( state, avId, extraInfo)
 
     def turnOn(self):
         """Force us and clients to the On state."""
@@ -126,7 +126,7 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
     def turnOff(self):
         """Force us and clients to the Off state."""
         # happens when we are going to the reward state in the CEO battle
-        self.b_setState('Off')        
+        self.b_setState('Off')
 
     def foodServed(self, chairIndex):
         """Handle a player succesfully serving food on a diner."""
@@ -152,7 +152,7 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
             hungryDur = self.dinerInfo[chairIndex][0]
             newTask = self.doMethodLater(hungryDur, self.finishedHungry, taskName, extraArgs = [chairIndex])
             self.transitionTasks[chairIndex] = newTask
-            
+
     def incrementFoodEaten(self, chairIndex):
         """Increase the number of food eaten for a diner."""
         numFood = 0
@@ -173,11 +173,11 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
 
     def goFree(self):
         """Force a transition to go to free."""
-        self.b_setState('Free')        
+        self.b_setState('Free')
 
     def goFlat(self):
         """Force a transition to go to free."""
-        self.b_setState('Flat', self.avId)        
+        self.b_setState('Flat', self.avId)
 
 
     def getNotDeadInfo(self):
@@ -187,14 +187,14 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
             if self.dinerStatus[i] != self.DEAD:
                 notDeadList.append( (self.index, i, self.dinerInfo[i][2]))
         return notDeadList
-        
+
     def requestControl(self):
         """Handle request from client to control the pitcher."""
-        assert self.notify.debugStateCall(self)        
+        assert self.notify.debugStateCall(self)
         # A client wants to start controlling the pitcher.
         avId = self.air.getAvatarIdFromSender()
-        
-        if avId in self.boss.involvedToons and self.avId == 0 and self.state == 'Free':
+
+        if avId in self.boss.involvedToons and self.avId == 0 and self._state == 'Free':
             # Also make sure the client isn't controlling some other
             # table.
             tableId = self.__getTableId(avId)
@@ -211,25 +211,25 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
         self.notify.debug('forceContrl  tableIndex=%d avId=%d' % (self.index, avId))
         tableId = self.__getTableId(avId)
         if tableId == self.doId:
-            if self.state == 'Flat':
+            if self._state == 'Flat':
                 self.b_setState('Controlled', avId)
             else:
-                self.notify.warning('invalid forceControl from state %s' % self.state)
+                self.notify.warning('invalid forceControl from state %s' % self._state)
         else:
             self.notify.warning('tableId %d  != self.doId %d ' %(tableId, self.doId))
-        
+
 
     def requestFree(self, gotHitByBoss):
         """Handle request from client to exit the pitcher."""
         # The client is done controlling the Pitcher.
         avId = self.air.getAvatarIdFromSender()
         if avId == self.avId:
-            if self.state == 'Controlled':
+            if self._state == 'Controlled':
                 self.b_setState('Free', extraInfo = gotHitByBoss)
                 if self.boss:
                     self.boss.toonLeftTable(self.index)
             else:
-                self.notify.debug('requestFree denied in state %s' % self.state)          
+                self.notify.debug('requestFree denied in state %s' % self._state)
 
     def __getTableId(self, avId):
         # Returns the craneId for the crane that the indicated avatar
@@ -240,7 +240,7 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
                 if table.avId == avId:
                     return table.doId
 
-        return 0                
+        return 0
 
     ### FSM States ###
     def enterOn(self):
@@ -283,22 +283,22 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
 
     def enterControlled(self, avId):
         """Handle going to the controlled state by the given toon."""
-        self.notify.debug('enterControlled tableIndex=%d' % self.index)  
+        self.notify.debug('enterControlled tableIndex=%d' % self.index)
         self.avId = avId
         #self.d_setState('C', avId)
 
     def exitControlled(self):
-              
-        """Handle exiting to the controlled state by the given toon."""        
+
+        """Handle exiting to the controlled state by the given toon."""
         pass
 
     def enterFlat(self, avId):
         """Handle going to the controlled state by the given toon."""
-        self.notify.debug('enterFlat tableIndex=%d' % self.index)        
+        self.notify.debug('enterFlat tableIndex=%d' % self.index)
         #self.avId = avId
         #self.avId = 0
         pass
 
     def exitFlat(self):
-        """Handle exiting to the controlled state by the given toon."""        
+        """Handle exiting to the controlled state by the given toon."""
         pass

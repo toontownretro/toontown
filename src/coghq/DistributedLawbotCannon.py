@@ -639,8 +639,8 @@ class DistributedLawbotCannon (DistributedObject.DistributedObject):
     def __firePressed(self):
         self.notify.debug("fire pressed")
 
-        if not self.boss.state == 'BattleTwo':
-            self.notify.debug('boss is in state=%s, not firing' % self.boss.state)
+        if not self.boss._state == 'BattleTwo':
+            self.notify.debug('boss is in state=%s, not firing' % self.boss._state)
             return
 
         #return
@@ -1052,7 +1052,7 @@ class DistributedLawbotCannon (DistributedObject.DistributedObject):
 
         assert(self.notify.debug("FIRING CANNON FOR AVATAR " + str(avId)))
 
-        if self.toonHead == None or (not self.boss.state == 'BattleTwo'):
+        if self.toonHead == None or (not self.boss._state == 'BattleTwo'):
             #hopefully fix crash 18821
             return Task.done
 

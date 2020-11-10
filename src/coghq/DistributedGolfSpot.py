@@ -692,7 +692,7 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
         if self.aimStart != None:
             # This is probably just key-repeat.
             return
-        if not self.state == 'Controlled':
+        if not self._state == 'Controlled':
             return
         if not self.avId == localAvatar.doId:
             return
@@ -706,7 +706,7 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
         # The control key was released.  Fire the ball.
         if self.aimStart == None:
             return
-        if not self.state == 'Controlled':
+        if not self._state == 'Controlled':
             return
         if not self.avId == localAvatar.doId:
             return

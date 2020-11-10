@@ -614,7 +614,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         """Handle the toon touching one of the tables."""
         assert self.notify.debugStateCall(self)
         tableIndex = int( colEntry.getIntoNodePath().getTag('tableIndex'))
-        if self.state == 'Free' and self.avId == 0 and \
+        if self._state == 'Free' and self.avId == 0 and \
            self.allowLocalRequestControl:
             self.d_requestControl()
         #self.boss.localToonTouchedTable(self.tableIndex)
@@ -1059,7 +1059,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
                 self.aimStart =1
                 self.__endFireWater()
         else:
-            if self.state == 'Controlled':
+            if self._state == 'Controlled':
                 self.__beginFireWater()
 
     def __controlReleased(self):
@@ -1067,7 +1067,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         if self.TugOfWarControls:
             pass
         else:
-            if self.state == 'Controlled':
+            if self._state == 'Controlled':
                 self.__endFireWater()
 
     def __upArrow(self, pressed):
@@ -1384,7 +1384,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         if self.aimStart != None:
             # This is probably just key-repeat.
             return
-        if not self.state == 'Controlled':
+        if not self._state == 'Controlled':
             return
         if not self.avId == localAvatar.doId:
             return
@@ -1399,7 +1399,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
 
         if self.aimStart == None:
             return
-        if not self.state == 'Controlled':
+        if not self._state == 'Controlled':
             return
         if not self.avId == localAvatar.doId:
             return
@@ -1595,7 +1595,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
 
 
     def __updateKeyPressRateTask(self, task):
-        if not self.state in ('Controlled'):
+        if not self._state in ('Controlled'):
             return Task.done
 
         # decrement times to live for each key press entry in keyTTL

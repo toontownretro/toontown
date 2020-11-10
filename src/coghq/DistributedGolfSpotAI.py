@@ -15,7 +15,7 @@ class DistributedGolfSpotAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM):
 
     def delete(self):
         """Delete ourself."""
-        DistributedObjectAI.DistributedObjectAI.delete(self)        
+        DistributedObjectAI.DistributedObjectAI.delete(self)
 
     def getBossCogId(self):
         return self.boss.doId
@@ -31,9 +31,9 @@ class DistributedGolfSpotAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM):
         if not self.allowControl:
             return
         avId = self.air.getAvatarIdFromSender()
-        
+
         if avId in self.boss.involvedToons and self.avId == 0 and \
-           self.state != 'Off':
+           self._state != 'Off':
             # Also make sure the client isn't controlling some other
             # golfSpot.
             golfSpotId = self.__getGolfSpotId(avId)
@@ -48,14 +48,14 @@ class DistributedGolfSpotAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM):
     def requestFree(self, gotHitByBoss):
         # The client is done controlling the golfSpot.
         avId = self.air.getAvatarIdFromSender()
-        
-        if avId == self.avId and self.state == 'Controlled':
+
+        if avId == self.avId and self._state == 'Controlled':
             self.request('Free', gotHitByBoss)
 
     def forceFree(self):
         """Force us into the free state."""
         self.request('Free', 0)
-    
+
     def removeToon(self, avId):
         if avId == self.avId:
             self.request('Free')
@@ -72,7 +72,7 @@ class DistributedGolfSpotAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM):
         return 0
 
     def turnOff(self):
-        # 
+        #
         self.request('Off')
         self.allowControl = False
 

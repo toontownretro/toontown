@@ -68,7 +68,7 @@ class DistributedLift(BasicEntities.DistributedNodePathEntity):
         self.initPlatform()
 
         # fire it up
-        self.state = None
+        self._state = None
         self.fsm.request('moving', [self.initialState,
                                     self.initialFromState,
                                     self.initialStateTimestamp])
@@ -219,7 +219,7 @@ class DistributedLift(BasicEntities.DistributedNodePathEntity):
 
     def enterMoving(self, toState, fromState, arrivalTimestamp):
         self.notify.debug('enterMoving, %s->%s' % (fromState, toState))
-        if self.state == toState:
+        if self._state == toState:
             self.notify.warning('already in state %s' % toState)
 
         # TODO: optimization:
@@ -248,7 +248,7 @@ class DistributedLift(BasicEntities.DistributedNodePathEntity):
 
         def doneMoving(self=self, guard=endGuard, boardColl=endBoardColl,
                        newState=toState):
-            self.state = newState
+            self._state = newState
             if hasattr(self, 'soundIval'):
                 self.soundIval.pause()
                 del self.soundIval

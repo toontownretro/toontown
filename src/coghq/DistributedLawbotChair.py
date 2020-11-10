@@ -287,7 +287,7 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
             self.cogJurorTrack.finish()
             self.cogJurorTrack = None
 
-        #if not self.state == 'CogJuror':
+        #if not self._state == 'CogJuror':
         #    self.cleanupCogJuror()
 
     def cleanupCogJuror(self):
@@ -306,7 +306,7 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
 
 
     def cleanup(self):
-        #if self.state != 'Off':
+        #if self._state != 'Off':
         #    self.demand('Off')
         self.boss = None
 

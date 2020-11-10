@@ -210,7 +210,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.cleanup()
 
     def cleanup(self):
-        if self.state != 'Off':
+        if self._state != 'Off':
             self.demand('Off')
         self.boss = None
 
@@ -877,8 +877,8 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.notify.debug("__sniffedSomething %d" % doId)
 
         obj = base.cr.doId2do.get(doId)
-        if obj and obj.state != 'LocalDropped' and \
-           (obj.state != 'Dropped' or obj.craneId != self.doId):
+        if obj and obj._state != 'LocalDropped' and \
+           (obj._state != 'Dropped' or obj.craneId != self.doId):
             obj.d_requestGrab()
             obj.demand('LocalGrabbed', localAvatar.doId, self.doId)
 
@@ -887,7 +887,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         assert(self.notify.debug('%s.grabObject(%s)' % (self.doId, obj.doId)))
         assert(self.heldObject == None)
 
-        if self.state == 'Off':
+        if self._state == 'Off':
             return
 
         # This condition is just for sake of the publish, in case we
@@ -964,7 +964,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             obj = self.heldObject
             obj.d_requestDrop()
 
-            if obj.state == 'Grabbed':
+            if obj._state == 'Grabbed':
                 # Go ahead and move the local object instance into the
                 # 'LocalDropped' state--presumably the AI will grant our
                 # request shortly anyway, and we can avoid a hitch by

@@ -1685,7 +1685,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         """Make an interactive prop near us be sad when we're a cog building."""
         self.notify.debug("makePropSad")
         if self.getInteractiveProp():
-            if self.getInteractiveProp().state == "Sad":
+            if self.getInteractiveProp() == "Sad":
                 #import pdb; pdb.set_trace()
                 pass
             self.getInteractiveProp().gotoSad(self.doId)
