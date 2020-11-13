@@ -23,6 +23,8 @@ from . import MinigameAvatarScorePanel
 from . import MinigameGlobals
 from direct.task.Task import Task
 
+import functools
+
 class DistributedMazeGame(DistributedMinigame):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedMazeGame')
     # define constants that you won't want to tweak here
@@ -1157,7 +1159,7 @@ class DistributedMazeGame(DistributedMinigame):
             updateTics = self.suits[i].getThinkTimestampTics(curTic)
             suitUpdates.extend(list(zip(updateTics, [i]*len(updateTics))))
         # sort the list in-place
-        suitUpdates.sort(key=lambda a,b: a[0]-b[0])
+        suitUpdates.sort(key=functools.cmp_to_key(lambda a,b: a[0]-b[0]))
 
         if len(suitUpdates) > 0:
             # see below
