@@ -789,6 +789,14 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 else:
                     self.notify.debug('not found %s' % stuffToHide)
 
+        # Get rid of the fake reflection geometry, we're going to use planar
+        # render-to-texture reflections.
+        self.geom.find("**/Reflections").stash()
+
+        # Set up the planar reflection plane and apply it onto the ground.
+        base.planar.setup(Vec3.up(), 0)
+        base.planar.renderReflection(self.geom.find("**/CR3_Floor"))
+
         self.geom.reparentTo(render)
         self.loadWitnessStand()
         self.loadScale()
@@ -1146,6 +1154,8 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         """
         self.notify.debug("----- unloadEnvironment")
         DistributedBossCog.DistributedBossCog.unloadEnvironment(self)
+
+        base.planar.shutdown()
 
         self.geom.removeNode()
         del self.geom

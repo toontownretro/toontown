@@ -17,6 +17,7 @@ import os
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.launcher import ToontownDownloadWatcher
+from toontown.effects.PlanarReflector import PlanarReflector
 
 
 class ToonBase(OTPBase.OTPBase):
@@ -113,6 +114,8 @@ class ToonBase(OTPBase.OTPBase):
         self.sunlightNP = self.render.attachNewNode(self.sunlight)
         self.sunlightNP.setHpr(90 - 55, -65, 0)
         self.render.setLight(self.sunlightNP)
+
+        self.planar = PlanarReflector(1024)
 
         #debugCSM = OnscreenImage(self.sunlight.getShadowMap(), scale = 0.3, pos = (0, 0, -0.7))
         #debugCSM.setShader(Shader.load(Shader.SL_GLSL, "shaders/debug_csm.vert.glsl", "shaders/debug_csm.frag.glsl"))
