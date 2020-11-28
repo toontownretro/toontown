@@ -22,7 +22,7 @@ class DNASignText;
 //   Class : DNASignBaseline
 // Description : A Sign
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNASignBaseline : public DNANode  {
+class EXPCL_TOONTOWN_DNALOADER DNASignBaseline : public DNANode  {
 PUBLISHED:
   DNASignBaseline(const string &initial_name = "");
   DNASignBaseline(const DNASignBaseline &Sign);

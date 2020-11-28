@@ -20,7 +20,7 @@ class DNASuitPoint;
 // Description : This is a list of SuitLegs.  See SuitLeg for a more
 //               detailed explanation of its purpose.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN SuitLegList {
+class EXPCL_TOONTOWN_SUIT SuitLegList {
 PUBLISHED:
   SuitLegList(const DNASuitPath *path, const DNAStorage &storage,
               double suit_walk_speed, double from_sky_time,

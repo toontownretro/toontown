@@ -7,6 +7,8 @@
     dtoolutil:c dtoolbase:c dtool:m \
     prc
 
+  #define BUILDING_DLL BUILDING_TOONTOWN_SUIT
+
   #define SOURCES \
     suitLeg.I suitLeg.h \
     suitLegList.I suitLegList.h

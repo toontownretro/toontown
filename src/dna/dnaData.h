@@ -27,7 +27,7 @@
 //               disk.
 //
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNAData : public DNAGroup {
+class EXPCL_TOONTOWN_DNALOADER DNAData : public DNAGroup {
 PUBLISHED:
   INLINE DNAData(const string &initial_name = "");
   INLINE DNAData(const DNAData &copy);

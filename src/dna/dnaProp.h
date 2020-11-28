@@ -17,7 +17,7 @@
 //       Class : DNAProp
 // Description : A prop like a tree or fire hydrant.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNAProp : public DNANode  {
+class EXPCL_TOONTOWN_DNALOADER DNAProp : public DNANode  {
 PUBLISHED:
   DNAProp(const string &initial_name = "");
   DNAProp(const DNAProp &prop);

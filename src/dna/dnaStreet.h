@@ -22,7 +22,7 @@
 //       Class : DNAStreet
 // Description : A street.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNAStreet : public DNANode  {
+class EXPCL_TOONTOWN_DNALOADER DNAStreet : public DNANode  {
 PUBLISHED:
   DNAStreet(const string &initial_name);
   DNAStreet(const DNAStreet &street);

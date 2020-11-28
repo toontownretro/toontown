@@ -14,7 +14,7 @@
 #include "dnaStorage.h"
 #include "indent.h"
 
-class EXPCL_TOONTOWN DNANode : public DNAGroup {
+class EXPCL_TOONTOWN_DNALOADER DNANode : public DNAGroup {
 PUBLISHED:
   DNANode(const string &initial_name);
   DNANode(const DNANode &node);

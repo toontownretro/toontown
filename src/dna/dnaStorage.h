@@ -76,7 +76,7 @@ typedef pmap< int, PT(DNASuitPoint) > SuitPointMap;
 typedef pvector< PT(DNABattleCell) > BattleCellVector;
 
 
-class EXPCL_TOONTOWN DNAStorage {
+class EXPCL_TOONTOWN_DNALOADER DNAStorage {
 PUBLISHED:
   DNAStorage();
 

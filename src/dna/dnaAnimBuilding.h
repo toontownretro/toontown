@@ -17,7 +17,7 @@
 //       Class : DNAAnimBuilding
 // Description : An animated building like a sneeizing building.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNAAnimBuilding : public DNALandmarkBuilding  {
+class EXPCL_TOONTOWN_DNALOADER DNAAnimBuilding : public DNALandmarkBuilding  {
 PUBLISHED:
   DNAAnimBuilding(const string &initial_name = "");
   DNAAnimBuilding(const DNAAnimBuilding &anim_building);

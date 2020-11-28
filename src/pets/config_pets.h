@@ -12,6 +12,6 @@
 
 NotifyCategoryDeclNoExport(pets);
 
-extern EXPCL_TOONTOWN void init_libpets();
+extern EXPCL_TOONTOWN_PETS void init_libpets();
 
 #endif

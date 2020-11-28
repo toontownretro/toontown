@@ -17,7 +17,7 @@
 //       Class : DNASign
 // Description : A Sign
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNASign : public DNANode  {
+class EXPCL_TOONTOWN_DNALOADER DNASign : public DNANode  {
 PUBLISHED:
   DNASign(const string &initial_name = "");
   DNASign(const DNASign &Sign);

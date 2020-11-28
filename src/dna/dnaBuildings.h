@@ -21,14 +21,14 @@
 //               height to allow the next wall to be stacked properly
 //               on top
 ////////////////////////////////////////////////////////////////////
-extern float current_wall_height;
+extern EXPCL_TOONTOWN_DNALOADER float current_wall_height;
 
 
 ////////////////////////////////////////////////////////////////////
 //       Class : DNAWall
 // Description : A stackable wall.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNAWall : public DNANode  {
+class EXPCL_TOONTOWN_DNALOADER DNAWall : public DNANode  {
 PUBLISHED:
   DNAWall(const string &initial_name = "");
   DNAWall(const DNAWall &wall);
@@ -80,7 +80,7 @@ private:
 //       Class : DNAFlatBuilding
 // Description : A flat building.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNAFlatBuilding : public DNANode  {
+class EXPCL_TOONTOWN_DNALOADER DNAFlatBuilding : public DNANode  {
 PUBLISHED:
   DNAFlatBuilding(const string &initial_name = "");
   DNAFlatBuilding(const DNAFlatBuilding &building);
@@ -127,7 +127,7 @@ private:
 //       Class : DNALandmarkBuilding
 // Description : A landmark building.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNALandmarkBuilding : public DNANode  {
+class EXPCL_TOONTOWN_DNALOADER DNALandmarkBuilding : public DNANode  {
 PUBLISHED:
   DNALandmarkBuilding(const string &initial_name = "");
   DNALandmarkBuilding(const DNALandmarkBuilding &building);
