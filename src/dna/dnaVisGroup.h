@@ -32,7 +32,7 @@ class DNAStorage;
 //               all the other DNAVisGroups (including itself) that
 //               should be rendered when the avatar is standing in this group
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNAVisGroup : public DNAGroup {
+class EXPCL_TOONTOWN_DNALOADER DNAVisGroup : public DNAGroup {
 PUBLISHED:
   DNAVisGroup(const string &initial_name = "");
   DNAVisGroup(const DNAVisGroup &group);

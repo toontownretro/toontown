@@ -22,7 +22,7 @@
 //       Class : DNAWindows
 // Description : A group of windows with a default layout
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNAWindows : public DNAGroup  {
+class EXPCL_TOONTOWN_DNALOADER DNAWindows : public DNAGroup  {
 PUBLISHED:
   DNAWindows(const string &initial_name = "");
   DNAWindows(const DNAWindows &window);

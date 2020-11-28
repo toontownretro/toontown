@@ -33,7 +33,7 @@
 //               takes substantial time in Python but is negligible in
 //               C++.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN SuitLeg {
+class EXPCL_TOONTOWN_SUIT SuitLeg {
 PUBLISHED:
   // Various types of legs.  These leg types also correspond to named
   // states in the client-side DistributedSuit fsm.

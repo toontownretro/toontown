@@ -17,7 +17,7 @@
 //       Class : DNACornice
 // Description : A cornice at the top of a flat building
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNACornice : public DNAGroup  {
+class EXPCL_TOONTOWN_DNALOADER DNACornice : public DNAGroup  {
 PUBLISHED:
   DNACornice(const string &initial_name = "");
   DNACornice(const DNACornice &cornice);

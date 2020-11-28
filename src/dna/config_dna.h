@@ -17,11 +17,11 @@ class DSearchPath;
 
 NotifyCategoryDeclNoExport(dna);
 
-extern ConfigVariableList dna_preload;
-extern ConfigVariableSearchPath dna_path;
+extern EXPCL_TOONTOWN_DNALOADER ConfigVariableList dna_preload;
+extern EXPCL_TOONTOWN_DNALOADER ConfigVariableSearchPath dna_path;
 
 BEGIN_PUBLISH
-EXPCL_TOONTOWN const ConfigVariableSearchPath &get_dna_path();
+EXPCL_TOONTOWN_DNALOADER const ConfigVariableSearchPath &get_dna_path();
 END_PUBLISH
 
 #endif

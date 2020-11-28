@@ -11,6 +11,8 @@
     dtoolutil:c dtoolbase:c dtool:m \
     prc
 
+  #define BUILDING_DLL BUILDING_TOONTOWN_DNALOADER
+
   #define SOURCES \
      config_dna.h dnaBuildings.h dnaConstants.h dnaCornice.h dnaData.I  \
      dnaData.h dnaDoor.h dnaGroup.h dnaVisGroup.h dnaSign.I  \

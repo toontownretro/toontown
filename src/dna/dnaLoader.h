@@ -24,7 +24,7 @@
 //               dna file but not necessarily, into a scene graph
 //               suitable for rendering.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNALoader {
+class EXPCL_TOONTOWN_DNALOADER DNALoader {
 PUBLISHED:
   DNALoader();
   PT(PandaNode) build_graph(DNAStorage *dna_store, int editing=0);

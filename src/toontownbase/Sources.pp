@@ -1,6 +1,8 @@
 #begin lib_target
   #define TARGET toontownbase
 
+  #define BUILDING_DLL BUILDING_TOONTOWN_TOONTOWNBASE
+
   #define OTHER_LIBS \
       dtool:m \
       prc dtoolutil:c dtoolbase:c

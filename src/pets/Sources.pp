@@ -3,6 +3,8 @@
   #define LOCAL_LIBS \
     toontownbase
 
+  #define BUILDING_DLL BUILDING_TOONTOWN_PETS
+
   #define OTHER_LIBS \
     otp:m otpbase:c movement:c \
     panda:m downloader:c express:c pandabase:c recorder:c \

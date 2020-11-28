@@ -17,7 +17,7 @@
 //       Class : DNADoor
 // Description : A door
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNADoor : public DNAGroup  {
+class EXPCL_TOONTOWN_DNALOADER DNADoor : public DNAGroup  {
 PUBLISHED:
   DNADoor(const string &initial_name = "");
   DNADoor(const DNADoor &door);
@@ -67,7 +67,7 @@ private:
 //       Class : DNAFlatDoor
 // Description : A door for a flat buildings
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNAFlatDoor : public DNADoor {
+class EXPCL_TOONTOWN_DNALOADER DNAFlatDoor : public DNADoor {
 PUBLISHED:
   DNAFlatDoor(const string &initial_name = "");
   DNAFlatDoor(const DNAFlatDoor &door);

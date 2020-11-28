@@ -17,7 +17,7 @@
 //       Class : DNAInteractiveProp
 // Description : An interactive prop like a walking hydrant.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNAInteractiveProp : public DNAAnimProp  {
+class EXPCL_TOONTOWN_DNALOADER DNAInteractiveProp : public DNAAnimProp  {
 PUBLISHED:
   DNAInteractiveProp(const string &initial_name = "");
   DNAInteractiveProp(const DNAInteractiveProp &interactive_prop);

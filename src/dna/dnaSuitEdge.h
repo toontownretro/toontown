@@ -19,7 +19,7 @@ class DNAStorage;
 //       Class : DNASuitEdge
 // Description :
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNASuitEdge : public TypedReferenceCount {
+class EXPCL_TOONTOWN_DNALOADER DNASuitEdge : public TypedReferenceCount {
 
 PUBLISHED:
   DNASuitEdge(PT(DNASuitPoint) start_point,

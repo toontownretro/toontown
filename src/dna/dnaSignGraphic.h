@@ -17,7 +17,7 @@
 //   Class : DNASignGraphic
 // Description : A graphic
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNASignGraphic : public DNANode  {
+class EXPCL_TOONTOWN_DNALOADER DNASignGraphic : public DNANode  {
 PUBLISHED:
   DNASignGraphic(const string &initial_name = "");
   DNASignGraphic(const DNASignGraphic &graphic);

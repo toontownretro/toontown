@@ -22,7 +22,7 @@ class DNAStorage;
 //       Class : DNABattleCell
 // Description : A representation of an area where a battle may occur.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNABattleCell : public TypedReferenceCount  {
+class EXPCL_TOONTOWN_DNALOADER DNABattleCell : public TypedReferenceCount  {
 PUBLISHED:
   DNABattleCell(float width, float height, LPoint3f pos);
 
