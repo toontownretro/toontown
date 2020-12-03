@@ -13,7 +13,7 @@ builtins.getConfigExpress = getDConf
 
 
 # Temporary hack patch:
-builtins.__dict__.update(__import__('pandac.PandaModules', fromlist=['*']).__dict__)
+builtins.__dict__.update(__import__('toontown.toonbase.ToontownModules', fromlist=['*']).__dict__)
 from direct.extensions_native import HTTPChannel_extensions
 
 
@@ -61,5 +61,5 @@ except SystemExit:
 except Exception:
     import traceback
     info = traceback.format_exc()
-    simbase.air.writeServerEvent('uberdog-exception', simbase.air.getAvatarIdFromSender(), simbase.air.getAccountIdFromSender(), info) 
+    simbase.air.writeServerEvent('uberdog-exception', simbase.air.getAvatarIdFromSender(), simbase.air.getAccountIdFromSender(), info)
     raise

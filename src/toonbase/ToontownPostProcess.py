@@ -234,7 +234,8 @@ class ToontownPostProcess(PostProcess):
         #ptext += "  outputColor.rgb = clamp(outputColor.rgb, 0, 1);\n"
             #ptext += "  outputColor.rgb = outputColor.rgb / (outputColor.rgb + vec3(0.155)) * 1.019;\n"
         #if self.enableHDR:
-            ptext += "  outputColor.rgb = vec3(1.0) - exp(-outputColor.rgb * p3d_ExposureScale);\n"
+            #ptext += "  outputColor.rgb = vec3(1.0) - exp(-outputColor.rgb * p3d_ExposureScale);\n"
+            ptext += "  outputColor.rgb *= p3d_ExposureScale;"
         if self.enableSSAO and base.config.GetBool("ao-debug", False):
             ptext += "  outputColor.rgb = vec3(texture(aoSampler, l_texcoord).x);\n"
         ptext += "}\n"
