@@ -22,6 +22,47 @@ sound-path      $TTMODELS
 
 assert-abort 0
 
+framebuffer-multisample 0
+multisamples 0
+framebuffer-srgb 1
+
+ao-debug 0
+
+hbao-falloff 2.0
+hbao-max-sample-distance 20.0
+hbao-sample-radius 3.5
+hbao-angle-bias 0.564
+hbao-strength 5.0
+
+hdr-enable 1
+bloom-enable 1
+fxaa-enable 1
+ssao-enable 0
+
+ao-blur-normal-factor 0
+ao-blur-depth-factor 0
+
+level-edit-username lachbr
+
+sync-video 0
+
+pstats-gpu-timing 0
+
+gl-finish 0
+gl-coordinate-system default
+
+shadow-depth-bits 24
+
+hardware-animated-vertices 1
+
+want-dev 0
+
+texture-anisotropic-degree 16
+
+garbage-collect-states 0
+
+show-frame-rate-meter 1
+
 # remove this when we integrate Toontown with the Uberdog
 want-uberdog 0
 
@@ -29,14 +70,9 @@ dna-preload    phase_4/dna/storage.dna
 
 want-new-anims 0
 
-framebuffer-multisample 1
-multisamples 16
-
 interpolate-frames 1
 
-gl-version 3 2
-
-framebuffer-srgb 1
+gl-version 4 0
 
 csm-distance 200
 csm-sun-distance 400
