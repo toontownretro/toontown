@@ -10,8 +10,6 @@ builtins.game = game
 
 from panda3d.core import *
 
-loadPrcFile('etc/Configrc.prc')
-
 from otp.ai.AIBaseGlobal import *
 from toontown.uberdog.ToontownUDRepository import ToontownUDRepository
 
