@@ -3,6 +3,8 @@
 
   #define BUILDING_DLL BUILDING_TOONTOWN_TOONTOWNBASE
 
+  #define USE_PACKAGES eigen
+
   #define OTHER_LIBS \
       dtool:m \
       prc dtoolutil:c dtoolbase:c
