@@ -53,7 +53,8 @@ class ToontownChatManager(ChatManager.ChatManager):
                      gui.find("**/ChtBx_ChtBtn_DN"),
                      gui.find("**/ChtBx_ChtBtn_RLVR"),
                      ),
-            pos = (-1.2647, 0, 0.928),
+            pos = (0.0683, 0, -0.072),
+            parent = base.a2dTopLeft,
             scale = 1.179,
             relief = None,
             image_color = Vec4(1,1,1,1),
@@ -80,6 +81,7 @@ class ToontownChatManager(ChatManager.ChatManager):
                      gui.find("**/ChtBx_ChtBtn_RLVR"),
                      ),
             pos = TTLocalizer.CMscButtonPos,
+            parent = base.a2dTopLeft,
             scale = 1.179,
             relief = None,
             image_color = Vec4(0.75,1,0.6,1),
@@ -99,12 +101,12 @@ class ToontownChatManager(ChatManager.ChatManager):
         self.scButton.hide()
 
         self.whisperFrame = DirectFrame(
-            parent = aspect2dp,
+            parent = base.a2dTopLeft,
             relief = None,
             image = DGG.getDefaultDialogGeom(),
             image_scale = (0.45, 0.45, 0.45),
             image_color = OTPGlobals.GlobalDialogColor,
-            pos = (-0.4, 0, 0.754),
+            pos = (1.25, 0, -0.269),
             text = OTPLocalizer.ChatManagerWhisperTo,
             text_wordwrap = 7.0,
             text_scale = TTLocalizer.CMwhisperFrame,
@@ -186,8 +188,8 @@ class ToontownChatManager(ChatManager.ChatManager):
         self.defaultToWhiteList = base.config.GetBool('white-list-is-default', 1)
         self.chatInputSpeedChat = TTChatInputSpeedChat(self)
 
-        self.normalPos = Vec3(-1.083, 0, 0.804)
-        self.whisperPos = Vec3(0.0, 0, 0.71)
+        self.normalPos = Vec3(0.25, 0, -0.196)
+        self.whisperPos = Vec3(00, 0, -0.296)
         self.speedChatPlusPos = Vec3(-0.35, 0, 0.71)
 
         if self.defaultToWhiteList:
@@ -198,6 +200,7 @@ class ToontownChatManager(ChatManager.ChatManager):
             self.chatInputNormal = TTChatInputNormal(self)
         self.chatInputWhiteList = TTChatInputWhiteList()
         self.chatInputWhiteList.setPos(self.speedChatPlusPos)
+        self.chatInputWhiteList.reparentTo(base.a2dTopLeft)
         self.chatInputWhiteList.desc = "chatInputWhiteList"
 
     def delete(self):
@@ -316,6 +319,7 @@ class ToontownChatManager(ChatManager.ChatManager):
 
     def enterMainMenu(self):
         self.chatInputNormal.setPos(self.normalPos)
+        self.chatInputNormal.reparentTo(base.a2dTopLeft)
         if self.chatInputWhiteList.isActive():
             self.notify.debug('enterMainMenu calling checkObscured')
             ChatManager.ChatManager.checkObscurred(self)
@@ -984,6 +988,7 @@ class ToontownChatManager(ChatManager.ChatManager):
     def enterWhisperChat(self, avatarName, avatarId):
         result = ChatManager.ChatManager.enterWhisperChat(self, avatarName, avatarId)
         self.chatInputNormal.setPos(self.whisperPos)
+        self.chatInputNormal.reparentTo(base.a2dTopCenter)
         if result == None:
             self.notify.warning('something went wrong in enterWhisperChat, falling back to main menu')
             self.fsm.request('mainMenu')

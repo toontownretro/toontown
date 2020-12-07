@@ -16,6 +16,7 @@ from toontown.ai.HolidayInfo import *
 import calendar
 import random
 import time
+import functools
 from copy import deepcopy
 
 Day = Enum('MONDAY, TUESDAY, WEDNESDAY, THURSDAY, \
@@ -53,7 +54,7 @@ class HolidayInfo_Relatively(HolidayInfo_Base):
             self.tupleList.append((start, end))
             next(dateElemIter)
 
-        self.tupleList.sort(cmpDates)
+        self.tupleList.sort(key=functools.cmp_to_key(cmpDates))
         self.weekDaysInMonth = []                       # A matrix of the number of times a weekday repeats in a month
         self.numDaysCorMatrix = [(28,0), (29, 1),
                             (30, 2), (31, 3)]           # A matrix of the number of weekdays that repeat one extra

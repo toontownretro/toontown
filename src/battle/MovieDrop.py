@@ -9,6 +9,7 @@ from . import MovieUtil
 from . import MovieNPCSOS
 from .MovieUtil import calcAvgSuitPos
 from direct.showutil import Effects
+import functools
 
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieDrop')
 
@@ -110,7 +111,7 @@ def doDrops(drops):
         elif (len(a) < len(b)):
             return -1
         return 0
-    suitDrops.sort(compFunc)
+    suitDrops.sort(key=functools.cmp_to_key(compFunc))
     delay = 0.0
     mtrack = Parallel(name = 'toplevel-drop')
     npcDrops = {}

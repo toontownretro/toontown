@@ -92,7 +92,7 @@ class DistributedTagGame(DistributedMinigame):
         self.ground = loader.loadModel(
             "phase_4/models/minigames/tag_arena")
 
-        self.music = base.loadMusic("phase_4/audio/bgm/MG_toontag.ogg")
+        self.music = base.loadMusic("phase_4/audio/bgm/MG_toontag.mid")
         self.tagSfx = base.loadSfx("phase_4/audio/sfx/MG_Tag_C.mp3")
         self.itPointer = loader.loadModel(
             "phase_4/models/minigames/bboard-pointer")
@@ -228,7 +228,8 @@ class DistributedTagGame(DistributedMinigame):
             avName = self.getAvatarName(avId)
             scorePanel = MinigameAvatarScorePanel.MinigameAvatarScorePanel(avId,
                                                                            avName)
-            scorePanel.setPos(1.12, 0.0, 0.28*i - 0.34)
+            scorePanel.setPos(-0.213, 0.0, 0.28 * i + 0.66)
+            scorePanel.reparentTo(base.a2dBottomRight)
             self.scorePanels.append(scorePanel)
 
         # We need the right edge of the screen for display of the

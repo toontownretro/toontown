@@ -9,76 +9,76 @@ FTBasePrice = 2
 # Also see TTLocalizer.FlooringNames.
 FlooringTypes = {
     ## Series 1 ##
-    1000 : ("phase_5.5/maps/floor_wood_neutral.png",
+    1000 : ("phase_5.5/maps/floor_wood_neutral.tga",
             CTBasicWoodColorOnWhite, 150),
-    1010 : ("phase_5.5/maps/flooring_carpetA_neutral.png",
+    1010 : ("phase_5.5/maps/flooring_carpetA_neutral.tga",
             CTFlatColorDark, 150),
-    1020 : ("phase_4/maps/flooring_tile_neutral.png",   # In phase 4 because it's also on the PetShopInterior model.
+    1020 : ("phase_4/maps/flooring_tile_neutral.tga",   # In phase 4 because it's also on the PetShopInterior model.
             CTFlatColorDark, 150),
-    1030 : ("phase_5.5/maps/flooring_tileB2.png",
+    1030 : ("phase_5.5/maps/flooring_tileB2.tga",
             None, 150),
     # Grass, just for fun
-    1040 : ("phase_4/maps/grass.png", None, 150),
+    1040 : ("phase_4/maps/grass.tga", None, 150),
     # Beige bricks
-    1050 : ("phase_4/maps/floor_tile_brick_diagonal2.png", None, 150),
+    1050 : ("phase_4/maps/floor_tile_brick_diagonal2.tga", None, 150),
     # Red bricks
-    1060 : ("phase_4/maps/floor_tile_brick_diagonal.png", None, 150),
+    1060 : ("phase_4/maps/floor_tile_brick_diagonal.tga", None, 150),
     # Square beige tiles
-    1070 : ("phase_4/maps/plazz_tile.png", None, 150),
+    1070 : ("phase_4/maps/plazz_tile.tga", None, 150),
     # Sidewalk with colors
-    1080 : ("phase_4/maps/sidewalk.png", CTFlatColorDark, 150),
+    1080 : ("phase_4/maps/sidewalk.tga", CTFlatColorDark, 150),
     # Boardwalk
-    1090 : ("phase_3.5/maps/boardwalk_floor.png", None, 150),
+    1090 : ("phase_3.5/maps/boardwalk_floor.tga", None, 150),
     # Dirt
-    1100 : ("phase_3.5/maps/dustroad.png", None, 150),
+    1100 : ("phase_3.5/maps/dustroad.tga", None, 150),
 
     ## Series 2 ##
     # Wood Tile
-    1110 : ("phase_5.5/maps/floor_woodtile_neutral.png",
+    1110 : ("phase_5.5/maps/floor_woodtile_neutral.tga",
             CTBasicWoodColorOnWhite, 150),
     # Floor Tile
-    1120 : ("phase_5.5/maps/floor_tile_neutral.png",
+    1120 : ("phase_5.5/maps/floor_tile_neutral.tga",
             CTBasicWoodColorOnWhite + CTFlatColorDark, 150),
     # Floor Tile Honeycomb
-    1130 : ("phase_5.5/maps/floor_tile_honeycomb_neutral.png",
+    1130 : ("phase_5.5/maps/floor_tile_honeycomb_neutral.tga",
             CTBasicWoodColorOnWhite, 150),
 
     ## Series 3 ##
     # Water floor
-    1140 : ("phase_5.5/maps/UWwaterFloor1.png",
+    1140 : ("phase_5.5/maps/UWwaterFloor1.tga",
             None, 150),
 
     # Peach conch tile
-    1150 : ("phase_5.5/maps/UWtileFloor4.png",
+    1150 : ("phase_5.5/maps/UWtileFloor4.tga",
             None, 150),
 
     # Peach shell tile
-    1160 : ("phase_5.5/maps/UWtileFloor3.png",
+    1160 : ("phase_5.5/maps/UWtileFloor3.tga",
             None, 150),
 
     # Sand shell tile
-    1170 : ("phase_5.5/maps/UWtileFloor2.png",
+    1170 : ("phase_5.5/maps/UWtileFloor2.tga",
             None, 150),
 
     # Sand conch tile
-    1180 : ("phase_5.5/maps/UWtileFloor1.png",
+    1180 : ("phase_5.5/maps/UWtileFloor1.tga",
             None, 150),
 
     # Sandy floor
-    1190 : ("phase_5.5/maps/UWsandyFloor1.png",
+    1190 : ("phase_5.5/maps/UWsandyFloor1.tga",
             None, 150),
 
 
     ## WINTER HOLIDAY ##
     # Ice cube
-    10000 : ("phase_5.5/maps/floor_icecube.png", CTWhite, 225),
-    10010 : ("phase_5.5/maps/floor_snow.png", CTWhite, 225),
+    10000 : ("phase_5.5/maps/floor_icecube.tga", CTWhite, 225),
+    10010 : ("phase_5.5/maps/floor_snow.tga", CTWhite, 225),
 
     ## St. Patricks Day ##
     # Gold shamrock
-    11000 : ("phase_5.5/maps/StPatsFloor1.png", CTWhite, 225),
+    11000 : ("phase_5.5/maps/StPatsFloor1.tga", CTWhite, 225),
     # Green shamrock
-    11010 : ("phase_5.5/maps/StPatsFloor2.png", CTWhite, 225),
+    11010 : ("phase_5.5/maps/StPatsFloor2.tga", CTWhite, 225),
     }
 
 class CatalogFlooringItem(CatalogSurfaceItem):

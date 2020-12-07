@@ -262,7 +262,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
 
 
     def getState(self):
-        return self.state
+        return self._state
 
 
     def formatReward(self):
@@ -494,9 +494,9 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         # odd toon always ends up on side A, to give the boss someone
         # to address in the movies).
         if (numToons < 4):
-            numToonsB = numToons / 2
+            numToonsB = numToons // 2
         else:
-            numToonsB = (numToons + random.choice([0, 1])) / 2
+            numToonsB = (numToons + random.choice([0, 1])) // 2
 
         self.toonsA = toons[numToonsB:numToons]
         self.toonsB = toons[:numToonsB]

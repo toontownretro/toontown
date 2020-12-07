@@ -17,12 +17,13 @@ class CatalogNotifyDialog:
         self.message = message
         self.messageIndex = 0
 
-        framePosX = 0.40
+        framePosX = -0.93
         from toontown.toon import LocalToon # import here to stop cyclic import
         if LocalToon.WantNewsPage:
             framePosX += LocalToon.AdjustmentForNewsButton
         self.frame = DirectFrame(
             relief = None,
+            parent = base.a2dTopRight,
             image = DGG.getDefaultDialogGeom(),
             image_color = ToontownGlobals.GlobalDialogColor,
             image_scale = (1.2, 1.0, 0.4),
@@ -30,7 +31,7 @@ class CatalogNotifyDialog:
             text_wordwrap = 16,
             text_scale = 0.06,
             text_pos = (-0.1, 0.1),
-            pos = (framePosX, 0, 0.78),
+            pos = (framePosX, 0, -0.22),
             )
 
 

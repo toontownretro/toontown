@@ -7,6 +7,7 @@ class which handles management of all suits within a single neighborhood.
 # Use AIBaseGlobal instead
 from otp.ai.AIBaseGlobal import *
 
+from panda3d.toontown import *
 from direct.distributed import DistributedObjectAI
 from . import SuitPlannerBase
 from . import DistributedSuitAI

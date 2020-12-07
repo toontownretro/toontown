@@ -45,8 +45,8 @@ class GolfScoreBoard:
         highlight = loader.loadModel("phase_6/models/golf/headPanel")
 
         self.maximizeB = DirectButton(
-                             parent = aspect2d,
-                             pos = (1.2, 0, -0.85),
+                             parent = base.a2dBottomRight,
+                             pos = (-0.15, 0, 0.15),
                              relief = None,
                              state = DGG.NORMAL,
                              image = (guiModel.find("**/score_card_icon"),

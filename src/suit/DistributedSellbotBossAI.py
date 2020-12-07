@@ -102,7 +102,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     def hitBossInsides(self):
         # This is sent when the client successfully lobs a pie inside
         # the boss's chassis.
-        
+
         avId = self.air.getAvatarIdFromSender()
         assert self.notify.debug('%s.hitBossInsides(%s)' % (self.doId, avId))
 
@@ -117,7 +117,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
         self.b_setAttackCode(ToontownGlobals.BossCogDizzyNow)
         self.b_setBossDamage(self.getBossDamage(), 0, 0)
-        
+
     def hitToon(self, toonId):
         # This is sent when the client pies another toon during battle
         # three.  We have to take the client's word for it here too.
@@ -160,9 +160,9 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     def finalPieSplat(self):
         # A client reports he observed the final pie splat that sends
         # the boss over the edge.  This moves the state into Victory.
-        if self.state != 'NearVictory':
+        if self._state != 'NearVictory':
             return
-        
+
         self.b_setState('Victory')
 
     def doNextAttack(self, task):
@@ -184,7 +184,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                  ToontownGlobals.BossCogDirectedAttack,
                  ToontownGlobals.BossCogDirectedAttack,
                  ])
-            
+
         if attackCode == ToontownGlobals.BossCogAreaAttack:
             self.__doAreaAttack()
         elif attackCode == ToontownGlobals.BossCogDirectedAttack:
@@ -212,7 +212,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             # If we don't have anyone nearby to aim at, stomp in
             # frustration.
             self.__doAreaAttack()
-        
+
     def b_setBossDamage(self, bossDamage, recoverRate, recoverStartTime):
         self.d_setBossDamage(bossDamage, recoverRate, recoverStartTime)
         self.setBossDamage(bossDamage, recoverRate, recoverStartTime)
@@ -235,7 +235,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     def d_setBossDamage(self, bossDamage, recoverRate, recoverStartTime):
         timestamp = globalClockDelta.localToNetworkTime(recoverStartTime)
         self.sendUpdate('setBossDamage', [bossDamage, recoverRate, timestamp])
-                
+
     def waitForNextStrafe(self, delayTime):
         currState = self.getCurrentOrNextState()
         if (currState == 'BattleThree'):
@@ -267,7 +267,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         dooberIds = []
         for suit in self.doobers:
             dooberIds.append(suit.doId)
-            
+
         self.sendUpdate('setDooberIds', [dooberIds])
 
     def d_cagedToonBattleThree(self, index, avId):
@@ -280,7 +280,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     def makeBattleOneBattles(self):
         self.postBattleState = 'RollToBattleTwo'
         self.initializeBattles(1, ToontownGlobals.SellbotBossBattleOnePosHpr)
-    
+
     def generateSuits(self, battleNumber):
         if battleNumber == 1:
             # Battle 1
@@ -318,7 +318,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.__makeDoobers()
 
         self.b_setBossDamage(0, 0, 0)
-        
+
     def exitIntroduction(self):
         DistributedBossCogAI.DistributedBossCogAI.exitIntroduction(self)
 
@@ -535,7 +535,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
         # There is no race condition between AI and client here
         # because these messages are sent sequentially on the wire.
-        
+
         BattleExperienceAI.assignRewards(
             self.involvedToons, self.toonSkillPtsGained,
             self.suitsKilled,
@@ -620,5 +620,3 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
         # Launch an immediate front attack.
         self.b_setAttackCode(ToontownGlobals.BossCogRecoverDizzyAttack)
-            
-        

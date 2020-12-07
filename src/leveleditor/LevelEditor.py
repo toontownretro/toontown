@@ -730,7 +730,7 @@ class LevelEditor(NodePath, DirectObject):
         #base.camera.setPos(0, 0, 0)
         base.camera.setPos(0, -11.8125, 3.9375)
 
-        base.camLens.setFov(VBase2(60, 46.8265))
+        base.camLens.setMinFov(60 * OTPGlobals.OriginalAspectRatio)
 
         #self.initializeSmartCameraCollisions()
         #self._smartCamEnabled = False

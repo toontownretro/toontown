@@ -2,7 +2,7 @@
 from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
-
+from otp.avatar import ShadowCaster
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 
@@ -27,7 +27,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
 
         self.playSoundForRemoteToons = 1
         self.scale = 1.
-        self.shadow = 1
+        self.shadow = ShadowCaster.globalDropShadowFlag
         self.fly = 1
         self.zOffset = 0.
         self.billboard = 0

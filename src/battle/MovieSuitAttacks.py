@@ -1028,7 +1028,7 @@ def getSplicedLerpAnims(animName, origDuration, newDuration, startTime=0, fps=30
     """
     anims = []
     addition = 0 # Addition will be added to the startTime to move animation forward
-    numAnims = origDuration * fps # Number of actor intervals to use
+    numAnims = int(origDuration * fps) # Number of actor intervals to use
     # The timeInterval is what to add before each actor interval to delay time
     timeInterval = newDuration / numAnims
     # The animInterval is how much the animation progresses forward each interval

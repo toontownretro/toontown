@@ -1749,7 +1749,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         camera.setH(0)
         camera.setP(-70)
         camera.reparentTo(self.focusPoint)
-        base.camLens.setFov(60,46.8265)
+        base.camLens.setMinFov(60 * ToontownGlobals.OriginalAspectRatio)
         self.focusPoint.setPos(0,12,27)
         self.focusPoint.setH(180)
         #base.fp = self.focusPoint

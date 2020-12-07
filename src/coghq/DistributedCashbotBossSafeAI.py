@@ -47,7 +47,7 @@ class DistributedCashbotBossSafeAI(DistributedCashbotBossObjectAI.DistributedCas
         if avId not in self.boss.involvedToons:
             return
 
-        if self.state != 'Dropped' and self.state != 'Grabbed':
+        if self._state != 'Dropped' and self._state != 'Grabbed':
             return
 
         if self.avoidHelmet or self == self.boss.heldObject:

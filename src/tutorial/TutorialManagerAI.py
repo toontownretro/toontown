@@ -8,8 +8,7 @@ from . import SuitPlannerTutorialAI
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
-from toontown.ai import BlackCatHolidayMgrAI
-from toontown.ai import DistributedBlackCatMgrAI
+from toontown.ai import DistributedBlackCatMgrAI, BlackCatHolidayMgrAI
 
 class TutorialManagerAI(DistributedObjectAI.DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("TutorialManagerAI")

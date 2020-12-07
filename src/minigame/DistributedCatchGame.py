@@ -163,7 +163,7 @@ class DistributedCatchGame(DistributedMinigame):
                 model.setZ(-self.ObjRadius)
             model.flattenMedium()
 
-        self.music = base.loadMusic("phase_4/audio/bgm/MG_toontag.ogg")
+        self.music = base.loadMusic("phase_4/audio/bgm/MG_toontag.mid")
         self.sndGoodCatch = base.loadSfx('phase_4/audio/sfx/SZ_DD_treasure.mp3')
         self.sndOof = base.loadSfx(
             'phase_4/audio/sfx/MG_cannon_hit_dirt.mp3')
@@ -926,7 +926,8 @@ class DistributedCatchGame(DistributedMinigame):
                        MinigameAvatarScorePanel.MinigameAvatarScorePanel(avId,
                                                                          avName)
             scorePanel.setScale(.9)
-            scorePanel.setPos(.75 - spacing*((self.numPlayers-1)-i), 0.0, .85)
+            scorePanel.setPos(-0.583 - spacing * (self.numPlayers - 1 - i), 0.0, -0.15)
+            scorePanel.reparentTo(base.a2dTopRight)
             # make the panels slightly transparent
             scorePanel.makeTransparent(.75)
             self.scorePanels.append(scorePanel)

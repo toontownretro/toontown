@@ -6,7 +6,7 @@ from toontown.toonbase.ToontownModules import *
 from direct.fsm.FSM import FSM
 from toontown.ai.ToonBarrier import *
 from toontown.golf import GolfGlobals
-
+import functools
 
 # At one time golf course holds a single set of golfers and a single hole.
 
@@ -953,9 +953,9 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
 
         # sort it by score, make sure the avId gets sorted too
         if GolfGlobals.TIME_TIE_BREAKER:
-            totalScores.sort( scoreCompareWithTime)
+            totalScores.sort( key=functools.cmp_to_key(scoreCompareWithTime))
         else:
-            totalScores.sort( scoreCompareNoTime)
+            totalScores.sort( key=functools.cmp_to_key(scoreCompareNoTime))
 
         # calculate the rank, handle 2 1st place winners
         curRank = 0

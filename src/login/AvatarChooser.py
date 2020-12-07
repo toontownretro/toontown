@@ -164,7 +164,8 @@ class AvatarChooser(StateData.StateData):
             image2_scale = 1.05,
             scale = 1.05,
 ##            pos = (0, 0, -0.924),
-            pos = (1.08, 0, -0.907),
+            pos = (-0.25, 0, 0.075),
+            parent = base.a2dBottomRight,
             command = self.__handleQuit,
             )
 
@@ -181,11 +182,12 @@ class AvatarChooser(StateData.StateData):
             text_scale = TTLocalizer.AClogoutButton,
             text_pos = (0,-0.035),
 ##            pos = (1.105,0,-0.924),
-            pos = (-1.17,0,-0.914),
+            pos = (0.15, 0, 0.05),
             image_scale = 1.15,
             image1_scale = 1.15,
             image2_scale = 1.18,
             scale = 0.5,
+            parent = base.a2dBottomLeft,
             command = self.__handleLogoutWithoutConfirm,
             )
         # initially this is hidden since it might be invisible if we

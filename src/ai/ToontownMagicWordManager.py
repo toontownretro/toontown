@@ -781,7 +781,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
         # with the given name.  Returns a list of (name, obj) pairs.
 
         result = []
-        lowerName = string.lower(name)
+        lowerName = name.lower()
 
         for obj in list(base.cr.doId2do.values()):
             className = obj.__class__.__name__
@@ -790,18 +790,18 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             except:
                 name = className
 
-            if string.lower(name) == lowerName or \
-               string.lower(className) == lowerName or \
-               string.lower(className) == "distributed" + lowerName:
+            if name.lower() == lowerName or \
+               className.lower() == lowerName or \
+               className.lower() == "distributed" + lowerName:
                 result.append((name, obj))
 
         return result
 
-    def getCSBitmask(self, str):
+    def getCSBitmask(self, st):
         # Decompose the string into keywords, and return the
         # corresponding collision bitmask, suitable for passing to
         # NodePath.showCS() or hideCS().
-        words = string.lower(str).split()
+        words = st.lower().split()
         if len(words) == 0:
             return None
 

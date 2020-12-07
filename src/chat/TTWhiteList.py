@@ -23,7 +23,7 @@ class TTWhiteList(WhiteList):
         if not found:
             print("Couldn't find whitelist data file!")
 
-        data = vfs.readFile(filename, 1)
+        data = vfs.readFile(filename, 1).decode("latin-1")
 
         lines = data.split("\n")
 

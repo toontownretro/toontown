@@ -278,7 +278,7 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
                 # get the avatar's name
                 avName = avatar.getName()
                 # slap it in
-                str = string.replace(str, '%', avName)
+                str = str.replace('%', avName)
 
             track = Sequence()
 

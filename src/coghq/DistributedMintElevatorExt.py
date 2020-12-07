@@ -49,7 +49,7 @@ class DistributedMintElevatorExt(DistributedElevatorExt.DistributedElevatorExt):
         # Create a sign for this elevator
         locator = geom.find('**/elevator_signorigin_%s' % originId)
         backgroundGeom = geom.find('**/ElevatorFrameFront_%d' % originId)
-        backgroundGeom.node().setEffect(DecalEffect.make())
+        #backgroundGeom.node().setEffect(DecalEffect.make())
         signText = DirectGui.OnscreenText(
             text = TextEncoder.upper(TTLocalizer.GlobalStreetNames[mintId][-1]),
             font = ToontownGlobals.getSuitFont(),
@@ -59,7 +59,7 @@ class DistributedMintElevatorExt(DistributedElevatorExt.DistributedElevatorExt):
             mayChange=False,
             parent = backgroundGeom)
         signText.setPosHpr(locator, 0, 0, 0, 0, 0, 0)
-        signText.setDepthWrite(0)
+        signText.setDepthOffset(1)
 
     def setupElevator(self):
         """setupElevator(self)

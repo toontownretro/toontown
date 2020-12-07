@@ -25,6 +25,7 @@ from .SuitBattleGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 from . import RewardPanel
 import random
+import functools
 from . import MovieUtil
 from toontown.toon import Toon
 from toontown.toonbase import ToontownGlobals
@@ -950,7 +951,7 @@ class Movie(DirectObject.DirectObject):
             elif (alevel < blevel):
                 return -1
             return 0
-        self.toonAttackDicts.sort(compFunc)
+        self.toonAttackDicts.sort(key=functools.cmp_to_key(compFunc))
 
     def __findToonAttack(self, track):
         """ Return a list of dictionaries for the

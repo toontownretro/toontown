@@ -112,7 +112,7 @@ class DistributedCogThiefGame(DistributedMinigame):
     def load(self):
         self.notify.debug("load")
         DistributedMinigame.load(self)
-        self.music = base.loadMusic("phase_4/audio/bgm/MG_CogThief.ogg")
+        self.music = base.loadMusic("phase_4/audio/bgm/MG_CogThief.mid")
         self.initCogInfo()
 
         # TODO: vary number based on diffculty?
@@ -221,7 +221,7 @@ class DistributedCogThiefGame(DistributedMinigame):
         self.rewardPanel = DirectLabel(
             parent = hidden,
             relief = None,
-            pos = (1.16, 0.0, 0.45),
+            pos = (-0.173, 0.0, -0.55),
             scale = .65,
             text = '',
             text_scale = 0.2,
@@ -419,7 +419,7 @@ class DistributedCogThiefGame(DistributedMinigame):
                              self.__gameTimerExpired)
 
         self.clockStopTime = None
-        self.rewardPanel.reparentTo(aspect2d)
+        self.rewardPanel.reparentTo(base.a2dTopRight)
         self.scoreMult = MinigameGlobals.getScoreMult(self.cr.playGame.hood.id)
         self.__startRewardCountdown()
 
@@ -823,7 +823,7 @@ class DistributedCogThiefGame(DistributedMinigame):
             # show the toon's dropshadow
             toon = self.getAvatar(avId)
             if toon:
-                toon.dropShadow.show()
+                toon.showShadow()
 
                 # get rid of the extra nodes
                 geomNode = toon.getGeomNode()

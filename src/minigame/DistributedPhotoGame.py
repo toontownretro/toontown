@@ -231,7 +231,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.filmPanel = DirectLabel(
             parent = hidden,
             relief = None,
-            pos = (1.16, 0.0, 0.45),
+            pos = (-0.23, -1.2, -0.55),
             scale = .65,
             text = str(self.filmCount),
             text_scale = 0.2,
@@ -252,7 +252,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             )
 
         self.music = base.loadMusic(
-            "phase_4/audio/bgm/MG_cannon_game.ogg"
+            "phase_4/audio/bgm/MG_cannon_game.mid"
             )
 
         self.sndPhotoMove = base.loadSfx(\
@@ -474,7 +474,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         #self.outFov = VBase2(orgFov[0] * 1.0, orgFov[1] * 1.0)
         #self.zoomFov = VBase2(orgFov[0] * ZOOMRATIO, orgFov[1] * ZOOMRATIO)
 
-        orgFov = base.camLens.getFov()
+        orgFov = base.camLens.getMinFov()
         self.outFov = orgFov.getX()
         self.zoomFov = orgFov.getX() * ZOOMRATIO
 
@@ -494,7 +494,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             av = self.getAvatar(avId)
             if av:
                 # show the dropshadow again
-                av.dropShadow.show()
+                av.showShadow()
                 # restore the LODs
                 av.resetLOD()
 
@@ -519,12 +519,12 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
 
         self.rayArray = []
 
-        vRange = (GOODROWS-BADROWS)/2
+        vRange = (GOODROWS-BADROWS)//2
 
 
-        for row in range(-(GOODROWS/2),(GOODROWS/2) + 1):
-            for column in range(-(GOODROWS/2),(GOODROWS/2) + 1):
-                goodRange = list(range(-((GOODROWS-BADROWS)/2),((GOODROWS-BADROWS)/2) + 1))
+        for row in range(-(GOODROWS//2),(GOODROWS//2) + 1):
+            for column in range(-(GOODROWS//2),(GOODROWS//2) + 1):
+                goodRange = list(range(-((GOODROWS-BADROWS)//2),((GOODROWS-BADROWS)//2) + 1))
                 rayQuality = "g"
                 if (not (row in goodRange)) or (not (column in goodRange)):
                     rayQuality = "l"
@@ -926,7 +926,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             hMove = hMDegree * (1.0 - ZOOMRATIO)
             vMove = vMDegree * (1.0 - ZOOMRATIO)
             self.currentFov = self.zoomFov
-            base.camLens.setFov(self.zoomFov)
+            base.camLens.setMinFov(self.zoomFov)
             self.blackoutNode.show()
             self.swivel.setHpr(self.swivel, (hMove * -self.zoomFlip), (vMove * self.zoomFlip), 0)
             #self.swivel.setH(hCam + (hMove * -self.zoomFlip))
@@ -938,7 +938,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             hMove = hMDegree * ((1.0 - ZOOMRATIO) / ZOOMRATIO)
             vMove = vMDegree * ((1.0 - ZOOMRATIO) / ZOOMRATIO)
             self.currentFov = self.outFov
-            base.camLens.setFov(self.outFov)
+            base.camLens.setMinFov(self.outFov)
             self.blackoutNode.hide()
             self.swivel.setHpr(self.swivel, (hMove * self.zoomFlip), (vMove * -self.zoomFlip), 0)
             #self.swivel.setH(hCam + (hMove * self.zoomFlip))
@@ -981,7 +981,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             hMove = hMDegree * (1.0 - ZOOMRATIO)
             vMove = vMDegree * (1.0 - ZOOMRATIO)
             self.currentFov = self.zoomFov
-            base.camLens.setFov(self.zoomFov)
+            base.camLens.setMinFov(self.zoomFov)
             self.blackoutNode.show()
             #self.swivel.setHpr(self.swivel, (hMove * -self.zoomFlip), (vMove * self.zoomFlip), 0)
             #self.swivel.setH(hCam + (hMove * -self.zoomFlip))
@@ -997,7 +997,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
 
             zoomTrack = Parallel()
             zoomTrack.append(LerpQuatInterval(self.swivel, ZOOMTIME, newQuat))
-            zoomTrack.append(LerpFunc(base.camLens.setFov, fromData = self.outFov, toData = self.zoomFov, duration = ZOOMTIME))
+            zoomTrack.append(LerpFunc(base.camLens.setMinFov, fromData = self.outFov, toData = self.zoomFov, duration = ZOOMTIME))
             zoomTrack.append(LerpFunc(self.setBlackout, fromData = 0.0, toData = 0.5, duration = ZOOMTIME))
 
             self.cameraTrack.append(zoomTrack)
@@ -1009,7 +1009,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             hMove = hMDegree * ((1.0 - ZOOMRATIO) / ZOOMRATIO)#* ZOOMRATIO
             vMove = vMDegree * ((1.0 - ZOOMRATIO) / ZOOMRATIO)#* ZOOMRATIO
             self.currentFov = self.outFov
-            base.camLens.setFov(self.outFov)
+            base.camLens.setMinFov(self.outFov)
             #self.blackoutNode.hide()
             #self.swivel.setHpr(self.swivel, (hMove * self.zoomFlip), (vMove * -self.zoomFlip), 0)
             #self.swivel.setH(hCam + (hMove * self.zoomFlip))
@@ -1024,7 +1024,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
 
             zoomTrack = Parallel()
             zoomTrack.append(LerpQuatInterval(self.swivel, ZOOMTIME, newQuat))
-            zoomTrack.append(LerpFunc(base.camLens.setFov, fromData = self.zoomFov, toData = self.outFov, duration = ZOOMTIME))
+            zoomTrack.append(LerpFunc(base.camLens.setMinFov, fromData = self.zoomFov, toData = self.outFov, duration = ZOOMTIME))
             zoomTrack.append(LerpFunc(self.setBlackout, fromData = 0.5, toData = 0.0, duration = ZOOMTIME))
 
             self.cameraTrack.append(zoomTrack)
@@ -1283,7 +1283,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             self.timer.countdown(self.data["TIME"],
                                  self.__gameTimerExpired)
 
-        self.filmPanel.reparentTo(aspect2d)
+        self.filmPanel.reparentTo(base.a2dTopRight)
         self.scoreMult = MinigameGlobals.getScoreMult(self.cr.playGame.hood.id)
 
         self.clockStopTime = None
@@ -1296,8 +1296,8 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.generateAssignmentPanels()
 
         self.scorePanel = self.makeScoreFrame()
-        self.scorePanel.reparentTo(aspect2d)
-        self.scorePanel.setPos(1.05,0.0,-0.725)
+        self.scorePanel.reparentTo(base.a2dBottomRight)
+        self.scorePanel.setPos(-0.3, 0, 0.3)
 
         self.updateAssignmentPanels()
 

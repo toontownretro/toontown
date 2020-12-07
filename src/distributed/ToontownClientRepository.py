@@ -1770,6 +1770,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         else:
             # Otherwise, ignore it
             ClientRepository.notify.warning(
+            self.notify.warning(
                 "Asked to delete non-existent DistObj " + str(doId))
 
     def _abandonShard(self):

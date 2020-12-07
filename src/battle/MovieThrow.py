@@ -5,6 +5,7 @@ from .BattleProps import *
 from .BattleSounds import *
 from toontown.toon.ToonDNA import *
 from toontown.suit.SuitDNA import *
+import functools
 
 from direct.directnotify import DirectNotifyGlobal
 import random
@@ -100,7 +101,7 @@ def doThrows(throws):
         elif (len(a) < len(b)):
             return -1
         return 0
-    suitThrows.sort(compFunc)
+    suitThrows.sort(key=functools.cmp_to_key(compFunc))
 
     #since we have group throws now, we calculate how
     #many times each suit gets hit over here

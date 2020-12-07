@@ -14,7 +14,7 @@ class DistributedLawbotCannonAI (DistributedObjectAI.DistributedObjectAI):
         assert self.notify.debug('__init__')
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         #DistributedCannonAI.DistributedCannonAI.__init__(self, air, 0, x, y ,z, h, p, r)
-        
+
         self.index = index
         self.posHpr = [x, y, z, h, p, r]
         self.boss = lawbotBoss
@@ -26,8 +26,8 @@ class DistributedLawbotCannonAI (DistributedObjectAI.DistributedObjectAI):
         self.ignoreAll()
         #self.__stopTimeout()
         DistributedObjectAI.DistributedObjectAI.delete(self)
-        
-        
+
+
     # Generate is never called on the AI so we do not define one
     # Disable is never called on the AI so we do not define one
     def getBossCogId(self):
@@ -35,7 +35,7 @@ class DistributedLawbotCannonAI (DistributedObjectAI.DistributedObjectAI):
 
     def getIndex(self):
         return self.index
-                 
+
 
 
     def getPosHpr(self):
@@ -44,19 +44,19 @@ class DistributedLawbotCannonAI (DistributedObjectAI.DistributedObjectAI):
 
     def canEnterCannon(self):
         avId = self.air.getAvatarIdFromSender()
-        
+
         if self.boss.getCannonBallsLeft(avId) == 0:
             return False
 
-        if not self.boss.state == 'BattleTwo':
-            #self.notify.warning('got cannon requestEnter with state at %s' % self.boss.state)
+        if not self.boss._state == 'BattleTwo':
+            #self.notify.warning('got cannon requestEnter with state at %s' % self.boss._state)
             return False
 
         if not ( (self.avId == 0) or (self.avId == avId) ):
             return False
 
         return True
-        
+
 
     def requestEnter(self):
         assert self.notify.debug('requestEnter')
@@ -64,7 +64,7 @@ class DistributedLawbotCannonAI (DistributedObjectAI.DistributedObjectAI):
 
         if not self.canEnterCannon():
             return
-        
+
         if (self.avId == 0) or (self.avId == avId):
             self.avId = avId
 
@@ -85,8 +85,8 @@ class DistributedLawbotCannonAI (DistributedObjectAI.DistributedObjectAI):
     def setMovie(self, mode, avId, extraInfo):
         self.avId = avId
         self.sendUpdate("setMovie", [mode, avId, extraInfo])
-        
-    
+
+
     def __handleUnexpectedExit(self, avId):
         self.notify.warning('avatar:' + str(avId) + ' has exited unexpectedly')
         self.__doExit()
@@ -97,7 +97,7 @@ class DistributedLawbotCannonAI (DistributedObjectAI.DistributedObjectAI):
         assert self.notify.debug('__doExit')
         self.setMovie(CannonGlobals.CANNON_MOVIE_FORCE_EXIT, self.avId,0)
         self.avId = 0
-        
+
     def requestLeave(self):
         assert self.notify.debug('requestLeave')
         avId = self.air.getAvatarIdFromSender()
@@ -121,22 +121,22 @@ class DistributedLawbotCannonAI (DistributedObjectAI.DistributedObjectAI):
         if self.canEnterCannon():
             self.requestEnter()
         else:
-            self.setMovie(CannonGlobals.CANNON_MOVIE_LANDED, 0, 0)        
+            self.setMovie(CannonGlobals.CANNON_MOVIE_LANDED, 0, 0)
 
     def setCannonLit(self, zRot, angle):
         """Handle the client telling AI he's firing his cannon."""
         assert self.notify.debug('setCannon:it')
 
-        if not self.boss.state == 'BattleTwo':
-            self.notify.debug('ignoring setCannonList since boss in state %s' % self.boss.state)
-            return 
-        
+        if not self.boss._state == 'BattleTwo':
+            self.notify.debug('ignoring setCannonList since boss in state %s' % self.boss._state)
+            return
+
         avId = self.air.getAvatarIdFromSender()
 
         if self.boss.getCannonBallsLeft(avId) == 0:
             self.notify.debug('ignoring setCannonList since no balls left for %s' % avId)
             return
-        
+
         #self.__stopTimeout()
         # a client is telling us that their cannon's fuse is lit
         self.notify.debug("setCannonLit: " + str(avId) + ": zRot=" +

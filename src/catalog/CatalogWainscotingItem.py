@@ -9,16 +9,16 @@ WSTBasePrice = 2
 # Also see TTLocalizer.WainscotingNames.
 WainscotingTypes = {
     # Plain
-    1000 : ("phase_3.5/maps/wall_paper_b3.png", CTFlatColorDark, 200),
+    1000 : ("phase_3.5/maps/wall_paper_b3.tga", CTFlatColorDark, 200),
     # Wood version
-    1010 : ("phase_5.5/maps/wall_paper_b4_greyscale.png",
+    1010 : ("phase_5.5/maps/wall_paper_b4_greyscale.tga",
             CTBasicWoodColorOnWhite, 200),
     # Wood version - series 2
-    1020 : ("phase_5.5/maps/wainscotings_neutral.png", CTBasicWoodColorOnWhite, 200),
+    1020 : ("phase_5.5/maps/wainscotings_neutral.tga", CTBasicWoodColorOnWhite, 200),
     # Painted, valentines
-    1030 : ("phase_3.5/maps/wall_paper_b3.png", CTValentinesColors, 200),
+    1030 : ("phase_3.5/maps/wall_paper_b3.tga", CTValentinesColors, 200),
     # Painted, underwater colors
-    1040 : ("phase_3.5/maps/wall_paper_b3.png", CTUnderwaterColors, 200),
+    1040 : ("phase_3.5/maps/wall_paper_b3.tga", CTUnderwaterColors, 200),
     }
 
 class CatalogWainscotingItem(CatalogSurfaceItem):

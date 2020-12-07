@@ -141,7 +141,7 @@ class MakeAToon(StateData.StateData):
     def enter(self):
         self.notify.debug('Starting Make A Toon.')
         base.cr.centralLogger.writeClientEvent('MAT - startingMakeAToon')
-        base.camLens.setFov(ToontownGlobals.MakeAToonCameraFov)
+        base.camLens.setMinFov(ToontownGlobals.MakeAToonCameraFov)
         base.playMusic(self.music, looping = 1, volume = self.musicVolume)
         camera.setPosHpr(-5.7, -12.3501, 2.15, -24.8499, 2.73, 0)
 
@@ -166,7 +166,7 @@ class MakeAToon(StateData.StateData):
             self.fsm.request("GenderShop")
 
     def exit(self):
-        base.camLens.setFov(ToontownGlobals.DefaultCameraFov)
+        base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov)
         self.guiTopBar.hide()
         self.guiBottomBar.hide()
         self.music.stop()
@@ -206,13 +206,13 @@ class MakeAToon(StateData.StateData):
         self.guiBottomBar.hide()
 
         self.guiCheckButton = DirectButton(
-            parent = self.guiBottomBar,
+            parent = base.a2dBottomRight,
             relief = None,
             image = (guiAcceptUp, guiAcceptDown, guiAcceptUp, guiAcceptDown),
             image_scale = halfButtonScale,
             image1_scale = halfButtonHoverScale,
             image2_scale = halfButtonHoverScale,
-            pos = (1.165, 0, -0.018),
+            pos = (-0.13, 0, 0.13),
             command = self.__handleNext,
             text = ("", TTLocalizer.MakeAToonDone, TTLocalizer.MakeAToonDone),
             text_font = ToontownGlobals.getInterfaceFont(),
@@ -225,13 +225,13 @@ class MakeAToon(StateData.StateData):
         self.guiCheckButton.hide()
 
         self.guiCancelButton = DirectButton(
-            parent = self.guiBottomBar,
+            parent = base.a2dBottomLeft,
             relief = None,
             image = (guiCancelUp, guiCancelDown, guiCancelUp, guiCancelDown),
             image_scale = halfButtonScale,
             image1_scale = halfButtonHoverScale,
             image2_scale = halfButtonHoverScale,
-            pos = (-1.179, 0, -0.011),
+            pos = (0.13, 0, 0.13),
             command = self.__handleCancel,
             text = ("", TTLocalizer.MakeAToonCancel, TTLocalizer.MakeAToonCancel),
             text_font = ToontownGlobals.getInterfaceFont(),
@@ -243,13 +243,13 @@ class MakeAToon(StateData.StateData):
         self.guiCancelButton.hide()
 
         self.guiNextButton = DirectButton(
-            parent = self.guiBottomBar,
+            parent = base.a2dBottomRight,
             relief = None,
             image = (guiNextUp, guiNextDown, guiNextUp, guiNextDisabled),
             image_scale = (0.3, 0.3, 0.3),
             image1_scale = (0.35, 0.35, 0.35),
             image2_scale = (0.35, 0.35, 0.35),
-            pos = (1.165, 0, -0.018),
+            pos = (-0.13, 0, 0.13),
             command = self.__handleNext,
             text = ("", TTLocalizer.MakeAToonNext, TTLocalizer.MakeAToonNext, ""),
             text_font = ToontownGlobals.getInterfaceFont(),
@@ -261,14 +261,14 @@ class MakeAToon(StateData.StateData):
         self.guiNextButton.hide()
 
         self.guiLastButton = DirectButton(
-            parent = self.guiBottomBar,
+            parent = base.a2dBottomRight,
             relief = None,
             image = (guiNextUp, guiNextDown, guiNextUp, guiNextDown),
             image3_color = Vec4(0.5,0.5,0.5,0.75),
             image_scale = (-0.3, 0.3, 0.3),
             image1_scale = (-0.35, 0.35, 0.35),
             image2_scale = (-0.35, 0.35, 0.35),
-            pos = (0.825, 0, -0.018),
+            pos = (-0.37, 0, 0.13),
             command = self.__handleLast,
             text = ("", TTLocalizer.MakeAToonLast,
                     TTLocalizer.MakeAToonLast, ""),
@@ -281,26 +281,26 @@ class MakeAToon(StateData.StateData):
         self.guiLastButton.hide()
 
         self.rotateLeftButton = DirectButton(
-            parent = self.guiBottomBar,
+            parent = base.a2dBottomCenter,
             relief = None,
             image = (rotateUp, rotateDown, rotateUp, rotateDown),
             image_scale = (-0.4, 0.4, 0.4),
             image1_scale = (-0.5, 0.5, 0.5),
             image2_scale = (-0.5, 0.5, 0.5),
-            pos = (-0.329249, 0, 0.202961),
+            pos = (-0.355, 0, 0.36),
             )
         self.rotateLeftButton.hide()
         self.rotateLeftButton.bind(DGG.B1PRESS, self.rotateToonLeft)
         self.rotateLeftButton.bind(DGG.B1RELEASE, self.stopToonRotateLeftTask)
 
         self.rotateRightButton = DirectButton(
-            parent = self.guiBottomBar,
+            parent = base.a2dBottomCenter,
             relief = None,
             image = (rotateUp, rotateDown, rotateUp, rotateDown),
             image_scale = (0.4, 0.4, 0.4),
             image1_scale = (0.5, 0.5, 0.5),
             image2_scale = (0.5, 0.5, 0.5),
-            pos = (0.309534, 0, 0.206116),
+            pos = (0.355, 0, 0.36),
             )
         self.rotateRightButton.hide()
         self.rotateRightButton.bind(DGG.B1PRESS, self.rotateToonRight)
@@ -332,6 +332,7 @@ class MakeAToon(StateData.StateData):
         self.spotlightActor.loadModel('phase_3/models/makeatoon/roomAnim_model')
         self.spotlightActor.loadAnims({'spotlightShake':'phase_3/models/makeatoon/roomAnim_spotlightShake'})
         self.spotlightActor.reparentTo(render)
+        self.spotlightActor.setTransparency(True, 1)
         self.spotlightJoint = self.spotlightActor.find('**/spotlightJoint')
 
         ee = DirectFrame(pos=(-1,1,1),frameSize=(-.01,.01,-.01,.01),
@@ -369,7 +370,7 @@ class MakeAToon(StateData.StateData):
 
         smokeSeqNode = SequenceNode('smoke')
         smokeModel = loader.loadModel("phase_3/models/makeatoon/tt_m_ara_mat_smoke")
-        smokeFrameList = smokeModel.findAllMatches('**/smoke_*').asList()
+        smokeFrameList = smokeModel.findAllMatches('**/smoke_*')
         smokeFrameList.reverse()
         for smokeFrame in smokeFrameList:
             smokeSeqNode.addChild(smokeFrame.node())
@@ -398,7 +399,7 @@ class MakeAToon(StateData.StateData):
         self.cls.load()
         self.ns.load()
 
-        self.music = base.loadMusic("phase_3/audio/bgm/create_a_toon.ogg")
+        self.music = base.loadMusic("phase_3/audio/bgm/create_a_toon.mid")
         self.musicVolume = base.config.GetFloat("makeatoon-music-volume", 1)
         self.sfxVolume = base.config.GetFloat("makeatoon-sfx-volume", 1)
         self.soundBack = base.loadSfx("phase_3/audio/sfx/GUI_create_toon_back.mp3")

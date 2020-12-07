@@ -91,7 +91,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
                 0.00, -291.5, 29,
                 180.00, 0.00, 0.00,
                 cogSignSF, cogSignSF, cogSignSF * aspectSF)
-            dgSign.node().setEffect(DecalEffect.make())
+            #dgSign.node().setEffect(DecalEffect.make())
             dgText = DirectGui.OnscreenText(
                 text = TTLocalizer.DaisyGardens[-1],
                 font = ToontownGlobals.getSuitFont(),
@@ -99,7 +99,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
                 # required for DecalEffect (must be a GeomNode, not a TextNode)
                 mayChange=False,
                 parent = dgSign)
-            dgText.setDepthWrite(0)
+            dgText.setDepthOffset(1)
 
             # To Factory
             factorySign = cogSign.copyTo(factoryLinkTunnel)
@@ -108,7 +108,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
                 -90.00, 0.00, 0.00,
                 cogSignSF, cogSignSF, cogSignSF * aspectSF)
             # Make text a decal
-            factorySign.node().setEffect(DecalEffect.make())
+            #factorySign.node().setEffect(DecalEffect.make())
             factoryTypeText = DirectGui.OnscreenText(
                 text = TTLocalizer.Sellbot,
                 font = ToontownGlobals.getSuitFont(),
@@ -116,7 +116,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
                 # required for DecalEffect (must be a GeomNode, not a TextNode)
                 mayChange=False,
                 parent = factorySign)
-            factoryTypeText.setDepthWrite(0)
+            factoryTypeText.setDepthOffset(1)
             factoryText = DirectGui.OnscreenText(
                 text = TTLocalizer.Factory,
                 font = ToontownGlobals.getSuitFont(),
@@ -124,7 +124,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
                 # required for DecalEffect (must be a GeomNode, not a TextNode)
                 mayChange=False,
                 parent = factorySign)
-            factoryText.setDepthWrite(0)
+            factoryText.setDepthOffset(1)
 
             doors = self.geom.find("**/doors")
             door0 = doors.find("**/door_0")

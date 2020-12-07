@@ -14,6 +14,7 @@ from toontown.ai.HolidayInfo import *
 import calendar
 import random
 import time
+import functools
 
 #################################################################
 # Class: HolidayInfo_Monthly
@@ -47,7 +48,7 @@ class HolidayInfo_Monthly(HolidayInfo_Base):
             self.tupleList.append(finalTuple)
             next(dateElemIter)
 
-        self.tupleList.sort(cmpDates)
+        self.tupleList.sort(key=functools.cmp_to_key(cmpDates))
       
     #############################################################
     # Method: __clampTimeTuples(self, sTuple, eTuple)

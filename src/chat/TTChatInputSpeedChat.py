@@ -295,9 +295,9 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
             self.accept(self.terminalSelectedEvent, selectionMade)
 
         # set up the menu
-        self.speedChat.reparentTo(aspect2dp, DGG.FOREGROUND_SORT_INDEX)
-        scZ = .96
-        self.speedChat.setPos(-1.05, 0, scZ)
+        self.speedChat.reparentTo(base.a2dpTopLeft, DGG.FOREGROUND_SORT_INDEX)
+        scZ = -0.04
+        self.speedChat.setPos(0.283, 0, scZ)
         self.speedChat.setWhisperMode(self.whisperAvatarId != None)
         self.speedChat.enter()
 

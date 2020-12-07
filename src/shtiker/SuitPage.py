@@ -608,10 +608,10 @@ class SuitPage(ShtikerPage.ShtikerPage):
             panel.quotaLabel['text'] = TTLocalizer.SuitPageQuota % (count, quota)
         elif status == COG_COMPLETE1:
             # if first quota met show green frame
-            panel['image_color'] = PANEL_COLORS_COMPLETE1[(index / SuitDNA.suitsPerDept)]
+            panel['image_color'] = PANEL_COLORS_COMPLETE1[(index // SuitDNA.suitsPerDept)]
         elif status == COG_COMPLETE2:
             # if second quota met show gold frame
-            panel['image_color'] = PANEL_COLORS_COMPLETE2[index / SuitDNA.suitsPerDept]
+            panel['image_color'] = PANEL_COLORS_COMPLETE2[index // SuitDNA.suitsPerDept]
 
 
     #

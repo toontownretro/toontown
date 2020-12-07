@@ -50,7 +50,7 @@ class ToonAvatarDetailPanel(DirectFrame):
     """
     notify = DirectNotifyGlobal.directNotify.newCategory("ToonAvatarDetailPanel")
 
-    def __init__(self, avId, avName,  playerId = None, parent = aspect2dp, **kw):
+    def __init__(self, avId, avName,  playerId = None, parent = base.a2dTopRight, **kw):
         # Inherits from DirectFrame
         # Must specify avId and avName on creation
         print(("ToonAvatarDetailPanel %s" % (playerId)))
@@ -71,7 +71,7 @@ class ToonAvatarDetailPanel(DirectFrame):
            self.playerInfo = base.cr.playerFriendsManager.playerId2Info.get(playerId)
         # Specify default options
         optiondefs = (
-            ('pos',           (0.525, 0.0, 0.525),   None),
+            ('pos',           (-0.79, 0.0, -0.47),   None),
             ('scale',         0.5,                None),
             ('relief',        None,               None),
             ('image',         detailPanel,        None),

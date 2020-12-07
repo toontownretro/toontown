@@ -30,7 +30,7 @@ class DistributedPatternGame(DistributedMinigame):
         phase4snd + "m_match_piano.mp3",
         )
 
-    bgm = "phase_4/audio/bgm/m_match_bg1.ogg"
+    bgm = "phase_4/audio/bgm/m_match_bg1.mid"
 
     # Minnie dialogue
     strWatch    = TTLocalizer.PatternGameWatch
@@ -317,7 +317,7 @@ class DistributedPatternGame(DistributedMinigame):
         camera.reparentTo(render)
         camera.setPosHpr(0.00, -14.59, 10.56,
                          0.00, -16.39, 0.00)
-        base.camLens.setFov(24.66)
+        base.camLens.setMinFov(24.66 * ToontownGlobals.OriginalAspectRatio)
         NametagGlobals.setGlobalNametagScale(0.6)
 
         self.arrowKeys = ArrowKeys.ArrowKeys()
@@ -413,7 +413,7 @@ class DistributedPatternGame(DistributedMinigame):
         # Stop music
         self.music.stop()
 
-        base.camLens.setFov(ToontownGlobals.DefaultCameraFov)
+        base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov)
         NametagGlobals.setGlobalNametagScale(1.0)
 
         self.arrowKeys.destroy()

@@ -240,7 +240,7 @@ def calcHeadBounds():
     # Look for explicitly named ears and stash them
     ears = head.findAllMatches('**/ear*')
     # And stash them before computing bounds
-    for ear in ears.asList():
+    for ear in ears:
         ear.stash()
     stashed = []
     # If this is a horse and we didn't find any ears,
@@ -254,7 +254,7 @@ def calcHeadBounds():
     # Where is center of head in render space?
     p1,p2 = head.getTightBounds()
     # Put all stashed things back
-    for ear in ears.asList():
+    for ear in ears:
         ear.unstash()
     for child in stashed:
         child.unstash()

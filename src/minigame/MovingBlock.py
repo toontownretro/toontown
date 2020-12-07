@@ -28,10 +28,10 @@ class MovingBlock(DirectObject.DirectObject, NodePath):
 
     def __init__(self, index, model):
         self.token = ToontownGlobals.SPDynamic + index
-        self.name = "MovingBlock-%d" % (index)
-        NodePath.__init__(self, hidden.attachNewNode(self.name))
+        self._name = "MovingBlock-%d" % (index)
+        NodePath.__init__(self, hidden.attachNewNode(self._name))
         self.model = model.copyTo(self)
-        self.model.find("**/floor").setName(self.name)
+        self.model.find("**/floor").setName(self._name)
         base.cr.parentMgr.registerParent(self.token, self)
         self.accept('on-floor', self.__handleOnFloor)
         self.accept('off-floor', self.__handleOffFloor)
@@ -44,11 +44,11 @@ class MovingBlock(DirectObject.DirectObject, NodePath):
         self.ignore('off-floor')
 
     def __handleOnFloor(self, collEntry):
-        if (collEntry.getIntoNode().getName() == self.name):
-            print(('on floor %s' % (self.name)))
+        if (collEntry.getIntoNode().getName() == self._name):
+            print(('on floor %s' % (self._name)))
             base.localAvatar.b_setParent(self.token)
 
     def __handleOffFloor(self, collEntry):
-        if (collEntry.getIntoNode().getName() == self.name):
+        if (collEntry.getIntoNode().getName() == self._name):
             print(('off floor %s' % (self.name)))
             base.localAvatar.b_setParent(ToontownGlobals.SPRender)

@@ -271,7 +271,7 @@ class DistributedCashbotBossGoonAI(DistributedGoonAI.DistributedGoonAI,
         if avId not in self.boss.involvedToons:
             return
 
-        if self.state == 'Stunned' or self.state == 'Grabbed':
+        if self._state == 'Stunned' or self._state == 'Grabbed':
             # Already stunned, or just picked up by a magnet; don't
             # stun again.
             return
@@ -294,7 +294,7 @@ class DistributedCashbotBossGoonAI(DistributedGoonAI.DistributedGoonAI,
         if avId not in self.boss.involvedToons:
             return
 
-        if self.state == 'Dropped' or self.state == 'Grabbed':
+        if self._state == 'Dropped' or self._state == 'Grabbed':
             if not self.boss.heldObject:
                 # A goon can only hurt the boss when he's got a helmet on.
                 damage = int(impact * 25 * self.scale)

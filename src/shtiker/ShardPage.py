@@ -11,7 +11,7 @@ from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals
 from toontown.distributed import ToontownDistrictStats
 from toontown.toontowngui import TTDialog
-
+import functools
 
 
 POP_COLORS_NTT = (
@@ -377,7 +377,7 @@ class ShardPage(ShtikerPage.ShtikerPage):
                 return 1
             else:
                 return 0
-        curShardTuples.sort(compareShardTuples)
+        curShardTuples.sort(key=functools.cmp_to_key(compareShardTuples))
 
         if base.cr.welcomeValleyManager:
             curShardTuples.append((ToontownGlobals.WelcomeValleyToken,

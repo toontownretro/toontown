@@ -12,6 +12,8 @@ from . import LawbotHQExterior
 from . import LawbotHQBossBattle
 from . import LawbotOfficeExterior
 
+from panda3d.core import Vec3
+
 # Used to compensate for scaling of Cog tunnel sign's
 # original aspect ratio of 1125x813 to a uniform ratio,
 # scale z by factor of 0.7227
@@ -64,6 +66,7 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
         if self.geom:
             self.geom.removeNode()
             self.geom = None
+        base.planar.shutdown()
         CogHQLoader.CogHQLoader.unloadPlaceGeom(self)
 
     def loadPlaceGeom(self, zoneId):
@@ -80,6 +83,12 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
             # make sure the reflective floor renders properly
             ug = self.geom.find("**/underground")
             ug.setBin( "ground", -10)
+            ug.stash()
+
+            ground = self.geom.find("**/LB_PlazaGround")
+            ground.setTransparency(False, 1)
+            base.planar.setup(Vec3.up(), -68.367)
+            base.planar.renderReflection(ground)
 
             # Rename the link tunnels so they will hook up properly
             brLinkTunnel = self.geom.find("**/TunnelEntrance1")
@@ -172,6 +181,12 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
             # make sure the reflective floor renders properly
             ug = self.geom.find("**/underground")
             ug.setBin( "ground", -10)
+            ug.stash()
+
+            ground = self.geom.find("**/DA_LobbyFloor")
+            ground.setTransparency(False, 1)
+            base.planar.setup(Vec3.up(), 31.917)
+            base.planar.renderReflection(ground)
 
             """
             factoryLinkTunnel = self.geom.find("**/tunnel_group2")
@@ -266,6 +281,12 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
             # make sure the reflective floor renders properly
             ug = self.geom.find("**/underground")
             ug.setBin( "ground", -10)
+            ug.stash()
+
+            ground = self.geom.find("**/CH_LobbyFloor")
+            ground.setTransparency(False, 1)
+            base.planar.setup(Vec3.up(), 33.415)
+            base.planar.renderReflection(ground)
 
             """
             front = self.geom.find("**/frontWall")

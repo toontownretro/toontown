@@ -210,7 +210,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.cleanup()
 
     def cleanup(self):
-        if self.state != 'Off':
+        if self._state != 'Off':
             self.demand('Off')
         self.boss = None
 
@@ -589,6 +589,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         gui = loader.loadModel("phase_3.5/models/gui/avatar_panel_gui")
 
         self.closeButton = DirectButton(
+            parent = base.a2dBottomRight,
             image = (gui.find("**/CloseBtn_UP"),
                      gui.find("**/CloseBtn_DN"),
                      gui.find("**/CloseBtn_Rllvr"),
@@ -600,7 +601,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             text_scale = 0.04,
             text_pos = (0, -0.07),
             text_fg = VBase4(1, 1, 1, 1),
-            pos = (1.05, 0, -0.82),
+            pos = (-0.25, 0, 0.175),
             command = self.__exitCrane,
             )
 
@@ -697,9 +698,10 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         if self.closeButton:
             self.closeButton.destroy()
             self.closeButton = DirectLabel(
+                parent = base.a2dBottomRight,
                 relief = None,
                 text = TTLocalizer.CashbotCraneLeaving,
-                pos = (1.05, 0, -0.88),
+                pos = (-0.25, 0, 0.125),
                 text_pos = (0, 0),
                 text_scale = 0.06,
                 text_fg = VBase4(1, 1, 1, 1),
@@ -875,8 +877,8 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.notify.debug("__sniffedSomething %d" % doId)
 
         obj = base.cr.doId2do.get(doId)
-        if obj and obj.state != 'LocalDropped' and \
-           (obj.state != 'Dropped' or obj.craneId != self.doId):
+        if obj and obj._state != 'LocalDropped' and \
+           (obj._state != 'Dropped' or obj.craneId != self.doId):
             obj.d_requestGrab()
             obj.demand('LocalGrabbed', localAvatar.doId, self.doId)
 
@@ -885,7 +887,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         assert(self.notify.debug('%s.grabObject(%s)' % (self.doId, obj.doId)))
         assert(self.heldObject == None)
 
-        if self.state == 'Off':
+        if self._state == 'Off':
             return
 
         # This condition is just for sake of the publish, in case we
@@ -962,7 +964,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             obj = self.heldObject
             obj.d_requestDrop()
 
-            if obj.state == 'Grabbed':
+            if obj._state == 'Grabbed':
                 # Go ahead and move the local object instance into the
                 # 'LocalDropped' state--presumably the AI will grant our
                 # request shortly anyway, and we can avoid a hitch by

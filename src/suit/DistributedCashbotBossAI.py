@@ -12,6 +12,7 @@ from . import DistributedBossCogAI
 from . import SuitDNA
 import random
 import math
+import functools
 
 class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCashbotBossAI')
@@ -105,7 +106,7 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         # joinChance.
         def compareJoinChance(a, b):
             return cmp(a[1], b[1])
-        reserveSuits.sort(compareJoinChance)
+        reserveSuits.sort(key=functools.cmp_to_key(compareJoinChance))
 
         return { 'activeSuits' : activeSuits, 'reserveSuits' : reserveSuits }
 
@@ -217,7 +218,7 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         # ignore Z, and always place the treasure at Z == 0,
         # presumably the ground.
 
-        if self.state != 'BattleThree':
+        if self._state != 'BattleThree':
             return
 
         # The BossCog acts like a treasure planner as far as the
@@ -383,7 +384,7 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         # if any of them have recently been deleted and can be
         # recycled.
         for goon in self.goons:
-            if goon.state == 'Off':
+            if goon._state == 'Off':
                 return goon
 
     def waitForNextGoon(self, delayTime):
@@ -461,13 +462,13 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     def magicWordReset(self):
         # Resets all of the cranes and safes.
         # Called only by the magic word "~bossBattle reset"
-        if self.state == 'BattleThree':
+        if self._state == 'BattleThree':
             self.__resetBattleThreeObjects()
 
     def magicWordResetGoons(self):
         # Resets all of the goons.
         # Called only by the magic word "~bossBattle goons"
-        if self.state == 'BattleThree':
+        if self._state == 'BattleThree':
             if self.goons != None:
                 for goon in self.goons:
                     goon.request('Off')
@@ -483,7 +484,7 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                              'recordHit from unknown avatar'):
             return
 
-        if self.state != 'BattleThree':
+        if self._state != 'BattleThree':
             return
 
         # Record a successful hit in battle three.

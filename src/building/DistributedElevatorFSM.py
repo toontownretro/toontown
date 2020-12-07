@@ -501,7 +501,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
         self.accept(self.uniqueName('enterelevatorSphere'),
                     self.handleEnterSphere)
         self.accept("elevatorExitButton", self.handleExitButton)
-        self.lastState = self.state
+        self.lastState = self
         return
 
     def exitWaitCountdown(self):
@@ -575,14 +575,14 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
         closeDoors(self.leftDoor, self.rightDoor)
 
     def enterOff(self):
-        self.lastState = self.state
+        self.lastState = self
         return
 
     def exitOff(self):
         return
 
     def enterWaitEmpty(self, ts):
-        self.lastState = self.state
+        self.lastState = self
         return
 
     def exitWaitEmpty(self):
@@ -591,7 +591,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
     def enterOpening(self, ts):
         # Open the elevator doors
         self.openDoors.start(ts)
-        self.lastState = self.state
+        self.lastState = self
         return
 
     def exitOpening(self):

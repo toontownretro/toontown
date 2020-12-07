@@ -8,6 +8,7 @@ from direct.particles import ParticleEffect
 from . import BattleParticles
 from . import BattleProps
 from toontown.toonbase import TTLocalizer
+from toontown.toonbase.ToontownModules import *
 
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieUtil')
 
@@ -745,7 +746,8 @@ def createKapowExplosionTrack(parent, explosionPoint=None, scale = 1.0):
     explosionTrack = Sequence()
     explosion = loader.loadModel("phase_3.5/models/props/explosion.bam")
     explosion.setBillboardPointEye()
-    explosion.setDepthWrite(False)
+    #explosion.setDepthWrite(False)
+    explosion.setLightOff(1)
     if not explosionPoint:
         explosionPoint = Point3(0, 3.6, 2.1)
     explosionTrack.append(Func(explosion.reparentTo, parent))
@@ -753,7 +755,35 @@ def createKapowExplosionTrack(parent, explosionPoint=None, scale = 1.0):
     explosionTrack.append(Func(explosion.setScale, 0.4 * scale))
     explosionTrack.append(Wait(0.6))
     explosionTrack.append(Func(removeProp, explosion))
-    return explosionTrack
+    fullTrack.append(explosionTrack)
+
+    def gammaToLinear(color):
+        import math
+        return Vec4(math.pow(color[0], 2.2), math.pow(color[1], 2.2),
+                    math.pow(color[2], 2.2), color[3])
+
+    lightColor = gammaToLinear(Vec4(255 / 255, 209 / 255, 79 / 255, 1.0))
+    # Create a light that emits from the explosion.
+    explosionLight = PointLight('explosion')
+    explosionLight.setColor(Vec4(0, 0, 0, 1))
+    explosionLight.setAttenuation((0, 0, 0.11))
+    explosionLightNP = NodePath(explosionLight)
+    base.render.setLight(explosionLightNP)
+
+    def lerpLightColor(amount):
+        currLightColor = lightColor.getXyz() * amount
+        explosionLight.setColor(Vec4(currLightColor, 1.0))
+
+    lightTrack = Sequence()
+    lightTrack.append(Func(explosionLightNP.reparentTo, parent))
+    lightTrack.append(Func(explosionLightNP.setPos, explosionPoint))
+    lightTrack.append(LerpFunc(lerpLightColor, 0.25, 0, 2))
+    lightTrack.append(LerpFunc(lerpLightColor, 0.25, 2, 0))
+    lightTrack.append(Func(base.render.clearLight, explosionLightNP))
+    lightTrack.append(Func(explosionLightNP.removeNode))
+    fullTrack.append(lightTrack)
+
+    return fullTrack
 
 
 def createSuitStunInterval(suit, before, after):

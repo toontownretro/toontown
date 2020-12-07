@@ -142,12 +142,12 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
         self.collisionNodePath.unstash()
 
     def __hitFloor(self, entry):
-        if self.state == 'Dropped' or self.state == 'LocalDropped':
+        if self._state == 'Dropped' or self._state == 'LocalDropped':
             self.d_hitFloor()
             self.demand('SlidingFloor', localAvatar.doId)
 
     def __hitGoon(self, entry):
-        if self.state == 'Dropped' or self.state == 'LocalDropped':
+        if self._state == 'Dropped' or self._state == 'LocalDropped':
             goonId = int(entry.getIntoNodePath().getNetTag('doId'))
             goon = self.cr.doId2do.get(goonId)
             if goon:
@@ -159,7 +159,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
         pass
 
     def __hitBoss(self, entry):
-        if (self.state == 'Dropped' or self.state == 'LocalDropped') and \
+        if (self._state == 'Dropped' or self._state == 'LocalDropped') and \
            self.craneId != self.boss.doId:
             vel = self.physicsObject.getVelocity()
             vel = self.crane.root.getRelativeVector(render, vel)
@@ -238,10 +238,10 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
         if state == 'G':
             self.demand('Grabbed', avId, craneId)
         elif state == 'D':
-            if self.state != 'Dropped':
+            if self._state != 'Dropped':
                 self.demand('Dropped', avId, craneId)
         elif state == 's':
-            if self.state != 'SlidingFloor':
+            if self._state != 'SlidingFloor':
                 self.demand('SlidingFloor', avId)
         elif state == 'F':
             self.demand('Free')
@@ -253,7 +253,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
 
     def rejectGrab(self):
         # The server tells us we can't have it for whatever reason.
-        if self.state == 'LocalGrabbed':
+        if self._state == 'LocalGrabbed':
             self.demand('LocalDropped', self.avId, self.craneId)
 
     def d_requestDrop(self):

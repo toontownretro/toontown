@@ -61,7 +61,7 @@ SellBot (Sales): 's'
 """
 
 from direct.actor import Actor
-from otp.avatar import Avatar
+from otp.avatar import Avatar, ShadowCaster
 from . import SuitDNA
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownModules import *
@@ -711,7 +711,7 @@ class Suit(Avatar.Avatar):
             self.scale = 6.75/cSize
             self.handColor = VBase4(0.85, 0.55, 0.55, 1.0)
             self.generateBody()
-            self.headTexture = "corporate-raider.png"
+            self.headTexture = "corporate-raider.txo"
             self.generateHead("flunky")
             self.setHeight(8.23)
         elif (dna.name == 'tbc'):
@@ -728,7 +728,7 @@ class Suit(Avatar.Avatar):
             self.scale = 4.0/cSize
             self.handColor = SuitDNA.legalPolyColor
             self.generateBody()
-            self.headTexture = "bottom-feeder.png"
+            self.headTexture = "bottom-feeder.txo"
             self.generateHead("tightwad")
             self.setHeight(4.81)
         elif (dna.name == 'b'):
@@ -736,7 +736,7 @@ class Suit(Avatar.Avatar):
             self.scale = 4.375/bSize
             self.handColor = VBase4(0.95, 0.95, 1.0, 1.0)
             self.generateBody()
-            self.headTexture = "blood-sucker.png"
+            self.headTexture = "blood-sucker.txo"
             self.generateHead("movershaker")
             self.setHeight(6.17)
         elif (dna.name == 'dt'):
@@ -744,7 +744,7 @@ class Suit(Avatar.Avatar):
             self.scale = 4.25/aSize
             self.handColor = SuitDNA.legalPolyColor
             self.generateBody()
-            self.headTexture = "double-talker.png"
+            self.headTexture = "double-talker.txo"
             self.generateHead("twoface")
             self.setHeight(5.63)
         elif (dna.name == 'ac'):
@@ -766,7 +766,7 @@ class Suit(Avatar.Avatar):
             self.scale = 5.65/bSize
             self.handColor = VBase4(0.5, 0.8, 0.75, 1.0)
             self.generateBody()
-            self.headTexture = "spin-doctor.png"
+            self.headTexture = "spin-doctor.txo"
             self.generateHead("telemarketer")
             self.setHeight(7.90)
         elif (dna.name == 'le'):
@@ -839,7 +839,7 @@ class Suit(Avatar.Avatar):
             self.scale = 7.0/aSize
             self.handColor = SuitDNA.moneyPolyColor
             self.generateBody()
-            self.headTexture = "robber-baron.png"
+            self.headTexture = "robber-baron.txo"
             self.generateHead("yesman")
             self.setHeight(8.95)
 
@@ -864,7 +864,7 @@ class Suit(Avatar.Avatar):
             self.scale = 4.35/aSize
             self.handColor = SuitDNA.salesPolyColor
             self.generateBody()
-            self.headTexture = "name-dropper.png"
+            self.headTexture = "name-dropper.txo"
             self.generateHead("numbercruncher")
             self.setHeight(5.98)
         elif (dna.name == 'gh'):
@@ -893,7 +893,7 @@ class Suit(Avatar.Avatar):
             self.scale = 5.75/aSize
             self.handColor = SuitDNA.salesPolyColor
             self.generateBody()
-            self.headTexture = "mingler.png"
+            self.headTexture = "mingler.txo"
             self.generateHead("twoface")
             self.setHeight(7.61)
         elif (dna.name == 'mh'):
@@ -992,13 +992,13 @@ class Suit(Avatar.Avatar):
         phase = 3.5
 
         # set the clothes textures for the suit dept
-        torsoTex = loader.loadTexture("phase_%s/maps/%s_blazer.png" % (phase, dept))
+        torsoTex = loader.loadTexture("phase_%s/maps/%s_blazer.txo" % (phase, dept))
         torsoTex.setMinfilter(Texture.FTLinearMipmapLinear)
         torsoTex.setMagfilter(Texture.FTLinear)
-        legTex = loader.loadTexture("phase_%s/maps/%s_leg.png" % (phase, dept))
+        legTex = loader.loadTexture("phase_%s/maps/%s_leg.txo" % (phase, dept))
         legTex.setMinfilter(Texture.FTLinearMipmapLinear)
         legTex.setMagfilter(Texture.FTLinear)
-        armTex = loader.loadTexture("phase_%s/maps/%s_sleeve.png" % (phase, dept))
+        armTex = loader.loadTexture("phase_%s/maps/%s_sleeve.txo" % (phase, dept))
         armTex.setMinfilter(Texture.FTLinearMipmapLinear)
         armTex.setMagfilter(Texture.FTLinear)
 
@@ -1025,13 +1025,13 @@ class Suit(Avatar.Avatar):
 
         # set the clothes textures for a waiter
         self.isWaiter = 1
-        torsoTex = loader.loadTexture("phase_3.5/maps/waiter_m_blazer.png")
+        torsoTex = loader.loadTexture("phase_3.5/maps/waiter_m_blazer.txo")
         torsoTex.setMinfilter(Texture.FTLinearMipmapLinear)
         torsoTex.setMagfilter(Texture.FTLinear)
-        legTex = loader.loadTexture("phase_3.5/maps/waiter_m_leg.png")
+        legTex = loader.loadTexture("phase_3.5/maps/waiter_m_leg.txo")
         legTex.setMinfilter(Texture.FTLinearMipmapLinear)
         legTex.setMagfilter(Texture.FTLinear)
-        armTex = loader.loadTexture("phase_3.5/maps/waiter_m_sleeve.png")
+        armTex = loader.loadTexture("phase_3.5/maps/waiter_m_sleeve.txo")
         armTex.setMinfilter(Texture.FTLinearMipmapLinear)
         armTex.setMagfilter(Texture.FTLinear)
 
@@ -1081,13 +1081,13 @@ class Suit(Avatar.Avatar):
             return
         #print '### loading %s tie' % (dept)
         if dept == 'c':
-            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_boss.png")
+            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_boss.txo")
         elif dept == 's':
-            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_sales.png")
+            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_sales.txo")
         elif dept == 'l':
-            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_legal.png")
+            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_legal.txo")
         elif dept == 'm':
-            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_money.png")
+            tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_money.txo")
         tieTex.setMinfilter(Texture.FTLinearMipmapLinear)
         tieTex.setMagfilter(Texture.FTLinear)
         tie.setTexture(tieTex, 1)
@@ -1234,7 +1234,7 @@ class Suit(Avatar.Avatar):
                     self.setSuitClothes(self.loseActor)
             else:
                 # skelecog
-                loseModel = "phase_5/models/char/cog" + string.upper(self.style.body) + "_robot-lose-mod"
+                loseModel = "phase_5/models/char/cog" + self.style.body.upper() + "_robot-lose-mod"
                 filePrefix, phase = TutorialModelDict[self.style.body]
                 loseAnim = "phase_" + str(phase) + filePrefix + "lose"
 
@@ -1252,11 +1252,12 @@ class Suit(Avatar.Avatar):
         self.loseActor.setHpr(self.getHpr())
 
         # put a shadow under the lose actor
-        shadowJoint = self.loseActor.find("**/joint_shadow")
-        dropShadow = loader.loadModel("phase_3/models/props/drop_shadow")
-        dropShadow.setScale(0.45)
-        dropShadow.setColor(0.0, 0.0, 0.0, 0.5)
-        dropShadow.reparentTo(shadowJoint)
+        if ShadowCaster.globalDropShadowFlag:
+            shadowJoint = self.loseActor.find("**/joint_shadow")
+            dropShadow = loader.loadModel("phase_3/models/props/drop_shadow")
+            dropShadow.setScale(0.45)
+            dropShadow.setColor(0.0, 0.0, 0.0, 0.5)
+            dropShadow.reparentTo(shadowJoint)
 
         return(self.loseActor)
 
@@ -1272,7 +1273,7 @@ class Suit(Avatar.Avatar):
         """
         Convert to skeleton geometry.
         """
-        model = "phase_5/models/char/cog" + string.upper(self.style.body) + "_robot-zero"
+        model = "phase_5/models/char/cog" + self.style.body.upper() + "_robot-zero"
         anims = self.generateAnimDict()
 
         # remember the current anim
@@ -1308,7 +1309,7 @@ class Suit(Avatar.Avatar):
 
         # redo the nametag and drop shadow
         self.setName(TTLocalizer.Skeleton)
-        nameInfo = TTLocalizer.SuitBaseNameWithLevel % {"name":  self.name,
+        nameInfo = TTLocalizer.SuitBaseNameWithLevel % {"name":  self._name,
                                                         "dept":  self.getStyleDept(),
                                                         "level": self.getActualLevel(),}
         self.setDisplayName( nameInfo )

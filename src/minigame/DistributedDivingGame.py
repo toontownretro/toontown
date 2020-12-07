@@ -165,7 +165,7 @@ class DistributedDivingGame(DistributedMinigame):
         hitSoundPath = ("phase_4/audio/sfx/%s" % (hitSoundName))
         self.hitSound = loader.loadSfx(hitSoundPath)
 
-        self.music = base.loadMusic("phase_4/audio/bgm/MG_Target.ogg")
+        self.music = base.loadMusic("phase_4/audio/bgm/MG_Target.mid")
 
         self.addSound('dropGold', "diving_treasure_drop_off.mp3", "phase_4/audio/sfx/")
         self.addSound('getGold', "diving_treasure_pick_up.mp3", "phase_4/audio/sfx/")
@@ -368,7 +368,7 @@ class DistributedDivingGame(DistributedMinigame):
         camera.setH(0)
         camera.setX(0)
         #camera.setP(-7)
-        base.camLens.setFov(45)
+        base.camLens.setMinFov(45 * ToontownGlobals.OriginalAspectRatio)
         camera.setY(-54)
         base.camLens.setFar(1500)
 
@@ -462,10 +462,10 @@ class DistributedDivingGame(DistributedMinigame):
         #self.borderModel.hide()
 
         self.mapScaleRatio = 40
-        self.mapModel.reparentTo(aspect2d)
+        self.mapModel.reparentTo(base.a2dTopRight)
         self.mapModel.setScale((1.0 / self.mapScaleRatio))
         self.mapModel.setTransparency(1)
-        self.mapModel.setPos(1.15,-0.5,-0.125)
+        self.mapModel.setPos(-0.22, 0.0, -1.30)
         self.mapModel.setColorScale(1,1,1,.7)
         self.mapModel.hide()
 
@@ -490,7 +490,7 @@ class DistributedDivingGame(DistributedMinigame):
 
         # Restore camera
         base.camLens.setFar(ToontownGlobals.DefaultCameraFar)
-        base.camLens.setFov(ToontownGlobals.DefaultCameraFov)
+        base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov)
 
         # Restore the background color
         base.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
@@ -508,7 +508,7 @@ class DistributedDivingGame(DistributedMinigame):
         for avId in self.avIdList:
             av = self.getAvatar(avId)
             if av:
-                av.dropShadow.show()
+                av.showShadow()
                 av.resetLOD()
                 av.setAnimState('neutral', 1.0)
 
@@ -792,7 +792,8 @@ class DistributedDivingGame(DistributedMinigame):
 
         # score panel in the upper left
         self.treasurePanel = TreasureScorePanel.TreasureScorePanel()
-        self.treasurePanel.setPos(-1.19,0,.75)
+        self.treasurePanel.setPos(0.145, 0, -0.27)
+        self.treasurePanel.reparentTo(base.a2dTopLeft)
         self.treasurePanel.makeTransparent(.7)
 
         # make sure intro is finished

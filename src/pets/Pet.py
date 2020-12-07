@@ -600,7 +600,7 @@ class Pet(Avatar.Avatar):
                               ),
                      Sequence(Func(self.dropShadow.hide),
                               Wait(1.0),
-                              Func(self.dropShadow.show)
+                              Func(self.showShadow)
                               )
                      )
             )
