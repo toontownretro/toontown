@@ -42,7 +42,7 @@ class MinigamePowerMeter(DirectFrame):
             text = TTLocalizer.MinigamePowerMeterTooSlow,
             scale = TTLocalizer.MPMtooSlow,
             pos = (-.15, 0, 0.05),
-            color = (.1, .3, .6),
+            color = (.1, .3, .6, 1),
             )
         self.tooFast = DirectLabel(
             parent = self,
@@ -50,7 +50,7 @@ class MinigamePowerMeter(DirectFrame):
             text = TTLocalizer.MinigamePowerMeterTooFast,
             scale = TTLocalizer.MPMtooFast,
             pos = (.15, 0, 0.05),
-            color = (.1, .3, .6),
+            color = (.1, .3, .6, 1),
             )
         self.tooSlow.hide()
         self.tooFast.hide()

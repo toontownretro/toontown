@@ -49,9 +49,9 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
 
         gui = loader.loadModel("phase_3.5/models/gui/PetControlPannel")
         guiScale = 0.116
-        guiPos = (1.12, 0, 0.30)
+        guiPos = (-0.21, 0, -0.70)
         self.frame = DirectFrame(
-                parent = aspect2dp,
+                parent = base.a2dTopRight,
                 image = gui,
                 scale = guiScale,
                 pos = guiPos,

@@ -274,7 +274,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             camera.reparentTo(render)
             camera.setPosHpr(self.elevatorNodePath,
                              0, -32.5, 9.4, 0, 348, 0)
-            base.camLens.setFov(52.0)
+            base.camLens.setMinFov(52.0 * ToontownGlobals.OriginalAspectRatio)
 
             # Are we waiting for any other players to come out?
             anyOthers = 0
@@ -333,7 +333,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             camera.reparentTo(render)
             camera.setPosHpr(self.elevatorNodePath,
                              0, -32.5, 9.4, 0, 348, 0)
-            base.camLens.setFov(52.0)
+            base.camLens.setMinFov(52.0 * ToontownGlobals.OriginalAspectRatio)
 
             # Are we waiting for any other players to come out?
             anyOthers = 0
@@ -756,7 +756,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         backgroundNP.setPosHprScale(0.0, 0.0, textHeight * 0.8 / zScale,
                                     0.0, 0.0, 0.0,
                                     8.0, 8.0, 8.0 * zScale)
-        backgroundNP.node().setEffect(DecalEffect.make())
         # Get the text node path:
         signTextNodePath = backgroundNP.attachNewNode(textNode.generate())
         assert(not signTextNodePath.isEmpty())
@@ -960,7 +959,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         backgroundNP.setPosHprScale(0.0, 0.0, textHeight * 0.8 / zScale,
                                     0.0, 0.0, 0.0,
                                     8.0, 8.0, 8.0 * zScale)
-        backgroundNP.node().setEffect(DecalEffect.make())
         # Get the text node path:
         signTextNodePath = backgroundNP.attachNewNode(textNode.generate())
         assert(not signTextNodePath.isEmpty())
@@ -968,13 +966,14 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         signTextNodePath.setPosHprScale(0.0, 0.0, -0.21 + textHeight * 0.1 / zScale,
                                         0.0, 0.0, 0.0,
                                         0.1, 0.1, 0.1 / zScale)
+        signTextNodePath.setDepthOffset(1)
         # Clear parent color higher in the hierarchy
-        signTextNodePath.setColor(1.0, 1.0, 1.0, 1.0)
+        signTextNodePath.setDepthOffset(1)
         # Decal sign onto the front of the building:
         frontNP = suitBuildingNP.find("**/*_front/+GeomNode;+s")
         assert(not frontNP.isEmpty())
         backgroundNP.wrtReparentTo(frontNP)
-        frontNP.node().setEffect(DecalEffect.make())
+        backgroundNP.setDepthOffset(1)
 
         # Rename the building:
         suitBuildingNP.setName("sb"+str(self.block)+":_landmark__DNARoot")
@@ -1337,16 +1336,16 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             Func(camera.setPosHpr,
                  self.elevatorNodePath,
                  0, -32.5, 9.4, 0, 348, 0),
-            Func(base.camLens.setFov, 52.0),
+            Func(base.camLens.setMinFov, 52.0 * ToontownGlobals.OriginalAspectRatio),
             Wait(VICTORY_RUN_TIME),
             # Watch the building transform
             Func(camera.setPosHpr,
                  self.elevatorNodePath,
                  0, -32.5, 17, 0, 347, 0),
-            Func(base.camLens.setFov, 75.0),
+            Func(base.camLens.setMinFov, 75.0 * ToontownGlobals.OriginalAspectRatio),
             Wait(TO_TOON_BLDG_TIME),
             # Put the camera fov back to normal
-            Func(base.camLens.setFov, 52.0),
+            Func(base.camLens.setMinFov, 52.0 * ToontownGlobals.OriginalAspectRatio),
             )
         return track
 
@@ -1685,7 +1684,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         """Make an interactive prop near us be sad when we're a cog building."""
         self.notify.debug("makePropSad")
         if self.getInteractiveProp():
-            if self.getInteractiveProp().state == "Sad":
+            if self.getInteractiveProp() == "Sad":
                 #import pdb; pdb.set_trace()
                 pass
             self.getInteractiveProp().gotoSad(self.doId)

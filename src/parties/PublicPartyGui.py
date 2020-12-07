@@ -19,6 +19,8 @@ from toontown.toontowngui import TTDialog
 from toontown.parties import PartyGlobals
 from toontown.parties import PartyUtils
 
+import functools
+
 class PublicPartyGui(DirectFrame):
     """
     This class provides the GUI for choosing a public party.
@@ -169,7 +171,7 @@ class PublicPartyGui(DirectFrame):
                     return 1
             else:
                 return 1
-        sortedList.sort(cmp, reverse= True)
+        sortedList.sort(key=functools.cmp_to_key(cmp), reverse= True)
 
         # put parties with 20 or more toons on the bottom
         indexToCut = -1

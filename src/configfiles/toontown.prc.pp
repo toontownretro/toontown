@@ -20,10 +20,74 @@ model-path      $TTMODELS
 sound-path      $TTMODELS
 #endif
 
+assert-abort 0
+
+framebuffer-multisample 0
+multisamples 0
+framebuffer-srgb 1
+
+ao-debug 0
+
+hbao-falloff 2.0
+hbao-max-sample-distance 20.0
+hbao-sample-radius 3.5
+hbao-angle-bias 0.564
+hbao-strength 5.0
+
+hdr-enable 1
+bloom-enable 1
+fxaa-enable 1
+ssao-enable 0
+
+ao-blur-normal-factor 0
+ao-blur-depth-factor 0
+
+level-edit-username lachbr
+
+sync-video 0
+
+pstats-gpu-timing 0
+
+gl-finish 0
+gl-coordinate-system default
+
+shadow-depth-bits 24
+
+hardware-animated-vertices 1
+
+want-dev 0
+
+texture-anisotropic-degree 16
+
+garbage-collect-states 0
+
+show-frame-rate-meter 1
+
 # remove this when we integrate Toontown with the Uberdog
 want-uberdog 0
 
 dna-preload    phase_4/dna/storage.dna
+
+want-new-anims 0
+
+framebuffer-multisample 1
+multisamples 16
+
+interpolate-frames 1
+
+gl-version 3 2
+
+framebuffer-srgb 1
+
+csm-distance 200
+csm-sun-distance 400
+csm-fixed-film-size 1
+
+show-buffers 0
+
+textures-power-2 none
+
+want-pstats 1
 
 load-file-type dna toontown
 
@@ -37,7 +101,17 @@ icon-filename phase_3/models/gui/toontown_mac_icon.rgb
 #endif
 
 # Set your game server and port to be localhost
-game-server https://localhost:6667
+game-server http://localhost:6667
+
+audio-dls-file phase_3/etc/gm.dls
+
+tt-specific-login 1
+
+want-news-page 0
+
+fake-playtoken dev
+
+want-magic-words 1
 
 ssl-certificates $OTP/src/configfiles/certificates.txt
 ssl-certificates $OTP/src/configfiles/gameserver.txt
@@ -62,7 +136,8 @@ quest-sanity-check 1
 egg-rigid-geometry 1
 
 # Toontown is designed for 4/3 aspect ratio, so let's force it to be so
-aspect-ratio 1.333333
+# Actually, don't turn this on, we support widescreen now.
+# aspect-ratio 1.333333
 
 # This keeps the joint hierarchies for the different LOD's of an Actor
 # separate.  Seems to be necessary for the Toons--some of the naked

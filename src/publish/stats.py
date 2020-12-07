@@ -2907,10 +2907,10 @@ slice index (i.e., conservatively slices off proportiontocut).
 Usage:   atrim1(a,proportiontocut,tail='right')  or set tail='left'
 Returns: trimmed version of array a
 """
-    if string.lower(tail) == 'right':
+    if tail.lower() == 'right':
         lowercut = 0
         uppercut = len(a) - int(proportiontocut*len(a))
-    elif string.lower(tail) == 'left':
+    elif tail.lower() == 'left':
         lowercut = int(proportiontocut*len(a))
         uppercut = len(a)
     return a[lowercut:uppercut]

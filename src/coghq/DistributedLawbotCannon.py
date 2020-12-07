@@ -639,8 +639,8 @@ class DistributedLawbotCannon (DistributedObject.DistributedObject):
     def __firePressed(self):
         self.notify.debug("fire pressed")
 
-        if not self.boss.state == 'BattleTwo':
-            self.notify.debug('boss is in state=%s, not firing' % self.boss.state)
+        if not self.boss._state == 'BattleTwo':
+            self.notify.debug('boss is in state=%s, not firing' % self.boss._state)
             return
 
         #return
@@ -845,7 +845,7 @@ class DistributedLawbotCannon (DistributedObject.DistributedObject):
         #if (self.av != None):
         if (0):
             # show the toons original drop shadows..
-            self.av.dropShadow.show()
+            self.av.showShadow()
             # ... and destroy the one used for flight
             if (self.dropShadow != None):
                 self.dropShadow.removeNode()
@@ -1052,15 +1052,19 @@ class DistributedLawbotCannon (DistributedObject.DistributedObject):
 
         assert(self.notify.debug("FIRING CANNON FOR AVATAR " + str(avId)))
 
-        if self.toonHead == None or (not self.boss.state == 'BattleTwo'):
+        if self.toonHead == None or (not self.boss._state == 'BattleTwo'):
             #hopefully fix crash 18821
             return Task.done
 
         # calculate the trajectory
         flightResults = self.__calcFlightResults(avId, launchTime)
         # pull all the results into the local namespace
-        for key in flightResults:
-            exec("%s = flightResults['%s']" % (key, key))
+        startPos = flightResults['startPos']
+        startVel = flightResults['startVel']
+        startHpr = flightResults['startHpr']
+        trajectory = flightResults['trajectory']
+        timeOfImpact = flightResults['timeOfImpact']
+        hitWhat = flightResults['hitWhat']
 
         self.notify.debug("start position: " + str(startPos))
         self.notify.debug("start velocity: " + str(startVel))

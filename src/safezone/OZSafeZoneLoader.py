@@ -54,8 +54,8 @@ class OZSafeZoneLoader( SafeZoneLoader ):
         SafeZoneLoader.__init__( self, hood, parentFSM, doneEvent )
 
         # Initialize Instance Variables
-        self.musicFile = "phase_6/audio/bgm/OZ_SZ.ogg"
-        self.activityMusicFile = "phase_6/audio/bgm/GS_KartShop.ogg"
+        self.musicFile = "phase_6/audio/bgm/OZ_SZ.mid"
+        self.activityMusicFile = "phase_6/audio/bgm/GS_KartShop.mid"
         self.dnaFile = "phase_6/dna/outdoor_zone_sz.dna"
         self.safeZoneStorageDNAFile = "phase_6/dna/storage_OZ_sz.dna"
 
@@ -253,13 +253,13 @@ class OZSafeZoneLoader( SafeZoneLoader ):
             place.fsm.request("walk")
         base.localAvatar.setTeleportAvailable(1)
         base.localAvatar.collisionsOn()
-        base.localAvatar.dropShadow.show()
+        base.localAvatar.showShadow()
 
 
     def restoreRemote(self, remoteAv,task = None):
         if remoteAv in Avatar.Avatar.ActiveAvatars:
             remoteAv.startSmooth()
-            remoteAv.dropShadow.show()
+            remoteAv.showShadow()
 
 
     def setGeyserAnim(self, task = None):

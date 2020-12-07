@@ -3331,8 +3331,8 @@ class RobotToonControlPanel(AppShell):
 
         lowerFilename = self.filename.lower()
 
-        if not (lowerFilename.endswith('.png') or
-                lowerFilename.endswith('.png') or
+        if not (lowerFilename.endswith('.txo') or
+                lowerFilename.endswith('.txo') or
                 lowerFilename.endswith('.tif') or
                 lowerFilename.endswith('.bmp')):
             filename = self.filename + '.tif'
@@ -3385,8 +3385,8 @@ class RobotToonControlPanel(AppShell):
 
         lowerFilename = self.filename.lower()
 
-        if not (lowerFilename.endswith('.png') or
-                lowerFilename.endswith('.png') or
+        if not (lowerFilename.endswith('.txo') or
+                lowerFilename.endswith('.txo') or
                 lowerFilename.endswith('.tif') or
                 lowerFilename.endswith('.bmp')):
             filename = self.filename + '.tif'

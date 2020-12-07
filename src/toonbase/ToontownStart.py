@@ -163,10 +163,11 @@ from direct.gui.DirectGui import *
 serverVersion = base.config.GetString("server-version", "no_version_set")
 print(('ToontownStart: serverVersion: ', serverVersion))
 version = OnscreenText(serverVersion,
-                       pos = (-1.3, -0.975),
+                       pos = (0.03, 0.03),
                        scale = 0.06,
                        fg = Vec4(0,0,1,0.6),
-                       align = TextNode.ALeft
+                       align = TextNode.ALeft,
+                       parent = base.a2dBottomLeft
                        )
 
 # Now fire up toon base

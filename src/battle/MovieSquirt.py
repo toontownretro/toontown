@@ -4,7 +4,7 @@ from .BattleProps import *
 from .BattleSounds import *
 from toontown.toon.ToonDNA import *
 from toontown.suit.SuitDNA import *
-
+import functools
 
 from . import MovieUtil
 from . import MovieCamera
@@ -87,7 +87,7 @@ def doSquirts(squirts):
         elif (len(a) < len(b)):
             return -1
         return 0
-    suitSquirts.sort(compFunc)
+    suitSquirts.sort(key=functools.cmp_to_key(compFunc))
     delay = 0.0
     mtrack = Parallel()
     for st in suitSquirts:

@@ -21,6 +21,7 @@ from toontown.coghq import CogDisguiseGlobals
 from toontown.toonbase.ToontownModules import *
 import random
 import math
+import functools
 
 # This pointer keeps track of the one DistributedCashbotBoss that
 # should appear within the avatar's current visibility zones.  If
@@ -365,7 +366,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         # want to use Plane.compareTo(), not Plane.__hash__(), to make
         # the comparison.
         threshold = 0.1
-        planes.sort(lambda p1, p2: p1.compareTo(p2, threshold))
+        planes.sort(key=functools.cmp_to_key(lambda p1, p2: p1.compareTo(p2, threshold)))
         lastPlane = None
         for plane in planes:
             if lastPlane == None or plane.compareTo(lastPlane, threshold) != 0:
@@ -902,7 +903,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         # It stuns all of the goons in the final battle sequence.
 
         for goon in self.goons:
-            if goon.state == 'Walk' or goon.state == 'Battle':
+            if goon._state == 'Walk' or goon._state == 'Battle':
                 goon.demand("Stunned")
                 goon.sendUpdate("requestStunned", [0])
 
@@ -911,7 +912,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         # It destroys all of the goons in the final battle sequence.
 
         for goon in self.goons:
-            if goon.state != 'Off' and not goon.isDead:
+            if goon._state != 'Off' and not goon.isDead:
                 goon.b_destroyGoon()
 
     def deactivateCranes(self):

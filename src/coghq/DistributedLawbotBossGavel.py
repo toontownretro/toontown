@@ -183,7 +183,7 @@ class DistributedLawbotBossGavel(DistributedObject.DistributedObject, FSM.FSM):
         self.cleanup()
 
     def cleanup(self):
-        #if self.state != 'Off':
+        #if self._state != 'Off':
         #    self.demand('Off')
         self.boss = None
 

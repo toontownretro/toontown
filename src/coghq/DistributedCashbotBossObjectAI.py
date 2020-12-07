@@ -76,7 +76,7 @@ class DistributedCashbotBossObjectAI(DistributedSmoothNodeAI.DistributedSmoothNo
         # A client wants to pick up the object with his magnet.
         avId = self.air.getAvatarIdFromSender()
 
-        if self.state != 'Grabbed' and self.state != 'Off':
+        if self._state != 'Grabbed' and self._state != 'Off':
             # Also make sure the client is controlling some crane and
             # hasn't grabbed some other object already.
             craneId, objectId = self.__getCraneAndObject(avId)
@@ -92,7 +92,7 @@ class DistributedCashbotBossObjectAI(DistributedSmoothNodeAI.DistributedSmoothNo
         # (but is still controlling its free-fall).
         avId = self.air.getAvatarIdFromSender()
 
-        if avId == self.avId and self.state == 'Grabbed':
+        if avId == self.avId and self._state == 'Grabbed':
             craneId, objectId = self.__getCraneAndObject(avId)
             if craneId != 0 and objectId == self.doId:
                 self.demand('Dropped', avId, craneId)
@@ -102,7 +102,7 @@ class DistributedCashbotBossObjectAI(DistributedSmoothNodeAI.DistributedSmoothNo
         # just struck the floor.
         avId = self.air.getAvatarIdFromSender()
 
-        if avId == self.avId and self.state == 'Dropped':
+        if avId == self.avId and self._state == 'Dropped':
             self.demand('SlidingFloor', avId)
 
 

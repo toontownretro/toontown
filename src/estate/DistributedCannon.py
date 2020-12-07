@@ -566,7 +566,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         cannonGui = loader.loadModel(guiModel)
         self.aimPad = DirectFrame(image = cannonGui.find("**/CannonFire_PAD"),
                                   relief = None,
-                                  pos = (0.7, 0, -0.553333),
+                                  pos = (-0.320, 0.0, 0.300),
                                   scale = 0.8,
                                   )
         cannonGui.removeNode()
@@ -620,6 +620,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
 
         # set alpha on aim interface
         self.aimPad.setColor(1,1,1,0.9)
+        self.aimPad.reparentTo(base.a2dBottomRight)
 
         # set up the button press/release handlers
         def bindButton(button, upHandler, downHandler):
@@ -804,7 +805,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         assert(self.notify.debug("__destroyToonModels"))
         if (self.av != None):
             # show the toons original drop shadows..
-            self.av.dropShadow.show()
+            self.av.showShadow()
             # ... and destroy the one used for flight
             if (self.dropShadow != None):
                 self.dropShadow.removeNode()

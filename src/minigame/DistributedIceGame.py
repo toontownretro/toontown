@@ -15,6 +15,7 @@ from toontown.minigame import DistributedIceWorld
 from toontown.minigame import IceGameGlobals
 from toontown.minigame import MinigameAvatarScorePanel
 from toontown.minigame import IceTreasure
+import functools
 
 class DistributedIceGame(DistributedMinigame.DistributedMinigame,
                          DistributedIceWorld.DistributedIceWorld):
@@ -216,7 +217,7 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame,
         # load resources and create objects here
         self.notify.debug("load")
         DistributedMinigame.DistributedMinigame.load(self)
-        self.music = base.loadMusic("phase_4/audio/bgm/MG_IceGame.ogg")
+        self.music = base.loadMusic("phase_4/audio/bgm/MG_IceGame.mid")
         #self.gameBoard = loader.loadModel("phase_4/models/minigames/toon_cannon_gameground")
         self.gameBoard = loader.loadModel("phase_4/models/minigames/ice_game_icerink")
         #background = loader.loadModel("phase_4/models/minigames/ice_game")
@@ -364,7 +365,7 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame,
         for avId in self.avIdList:
             av = self.getAvatar(avId)
             if av:
-                av.dropShadow.show()
+                av.showShadow()
                 av.resetLOD() # we'll use the head frames instead
 
         taskMgr.remove(self.uniqueName("aimtask"))
@@ -439,7 +440,8 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame,
                        MinigameAvatarScorePanel.MinigameAvatarScorePanel(avId,
                                                                          avName)
             scorePanel.setScale(.9)
-            scorePanel.setPos(.75 - spacing*((self.numPlayers-1)-i), 0.0, .875)
+            scorePanel.setPos(-0.583 - spacing * (self.numPlayers - 1 - i), 0.0, -0.15)
+            scorePanel.reparentTo(base.a2dTopRight)
             # make the panels slightly transparent
             scorePanel.makeTransparent(.75)
             self.scorePanels.append(scorePanel)
@@ -648,7 +650,7 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame,
                 return -1
             else:
                 return 0
-        sortedByDistance.sort(cmp = compareDistance)
+        sortedByDistance.sort(key = functools.cmp_to_key(compareDistance))
         self.scoreMovie = Sequence()
         curScale = 0.01
         curTime = 0

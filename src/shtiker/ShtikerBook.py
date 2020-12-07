@@ -200,8 +200,9 @@ class ShtikerBook(DirectFrame, StateData.StateData):
                      bookModel.find("**/BookIcon_RLVR"),
                      ),
             relief = None,
-            pos = (1.175, 0, -0.83),
+            pos = (-0.158, 0, 0.17),
             scale = 0.305,
+            parent = base.a2dBottomRight,
             command = self.__open,
             )
 
@@ -211,9 +212,10 @@ class ShtikerBook(DirectFrame, StateData.StateData):
                      bookModel.find("**/BookIcon_RLVR2"),
                      ),
             relief = None,
-            pos = (1.175, 0, -0.83),
+            pos = (-0.158, 0, 0.17),
             scale = 0.305,
             command = self.__close,
+            parent = base.a2dBottomRight,
             )
 
         self.bookOpenButton.hide()

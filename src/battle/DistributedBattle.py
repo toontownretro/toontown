@@ -166,11 +166,11 @@ class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
 
             camTrack = Sequence()
             camTrack.append(Func(camera.wrtReparentTo, suit))
-            camTrack.append(Func(base.camLens.setFov, self.camFOFov))
+            camTrack.append(Func(base.camLens.setMinFov, self.camFOFov))
             camTrack.append(Func(camera.setPos, TauntCamX, TauntCamY, TauntCamHeight))
             camTrack.append(Func(camera.lookAt, suit, suitOffsetPnt))
             camTrack.append(Wait(delay))
-            camTrack.append(Func(base.camLens.setFov, self.camFov))
+            camTrack.append(Func(base.camLens.setMinFov, self.camFov))
             camTrack.append(Func(camera.wrtReparentTo, self))
             camTrack.append(Func(camera.setPos, self.camFOPos))
             camTrack.append(Func(camera.lookAt, suit.getPos(self)))

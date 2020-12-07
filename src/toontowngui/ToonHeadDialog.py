@@ -53,6 +53,9 @@ class ToonHeadDialog(TTDialog.TTDialog):
         headModelCopy.removeNode()
         self.headModel.reparentTo(head)
 
+        self.reparentTo(base.a2dTopRight)
+        self.setPos(-0.85, 0, -0.25)
+
     def cleanup(self):
         """
         Stop head model tasks

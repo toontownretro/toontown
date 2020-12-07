@@ -55,7 +55,7 @@ def convertValueToGagTrackAndLevel(value):
            (ToontownBattleGlobals.MAX_LEVEL_INDEX +1) * MaxSuit
     imageNum = int( rank / MaxSuit)
     track = imageNum  % (ToontownBattleGlobals.MAX_TRACK_INDEX +1)
-    level = imageNum / (ToontownBattleGlobals.MAX_TRACK_INDEX+1)
+    level = imageNum // (ToontownBattleGlobals.MAX_TRACK_INDEX+1)
     return track,level
 
 def convertRankToGagTrackAndLevel(rank):
@@ -63,7 +63,7 @@ def convertRankToGagTrackAndLevel(rank):
     assert rank < (ToontownBattleGlobals.MAX_TRACK_INDEX +1) *\
            (ToontownBattleGlobals.MAX_LEVEL_INDEX +1)
     track = rank  %( ToontownBattleGlobals.MAX_TRACK_INDEX +1)
-    level = rank / (ToontownBattleGlobals.MAX_TRACK_INDEX + 1)
+    level = rank // (ToontownBattleGlobals.MAX_TRACK_INDEX + 1)
     return track,level
 
 def initCardImages():

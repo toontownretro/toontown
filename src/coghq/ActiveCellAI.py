@@ -5,7 +5,7 @@ class ActiveCellAI(DistributedEntityAI.DistributedEntityAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("ActiveCellAI")
 
     def __init__(self, level, entId):
-        self.state = 0
+        self._state = 0
         self.grid = None
         self.occupantIds = []
         DistributedEntityAI.DistributedEntityAI.__init__(self, level, entId)
@@ -23,31 +23,31 @@ class ActiveCellAI(DistributedEntityAI.DistributedEntityAI):
 
     def generate(self):
         DistributedEntityAI.DistributedEntityAI.generate(self)
-        
+
     def delete(self):
         self.notify.debug('delete')
         self.ignoreAll()
         DistributedEntityAI.DistributedEntityAI.delete(self)
 
     def getState(self):
-        return self.state
+        return self._state
 
     def b_setState(self, state, objId = None):
         self.setState(state, objId)
         self.d_setState(state, objId)
-        
+
     def d_setState(self, state, objId = None):
         # SDN: note, we should send all occupantIds instead
         # of just the current objId
         if not objId:
             objId = 0
         self.sendUpdate('setState', [state, objId])
-    
+
     def setState(self, state, objId=None):
         assert(self.notify.debug("setState(%s,%s)" % (state,objId)))
         # derived classes should override this method to do something meaningful
         # when the state of this grid cell changes
-        self.state = state
+        self._state = state
 
         # object (i.e. crate, goon) contained in this cell
         if state:

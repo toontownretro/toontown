@@ -60,7 +60,8 @@ class FriendInviter(DirectFrame):
         # initialize our base class.
         DirectFrame.__init__(
             self,
-            pos = (0.3, 0.1, 0.65),
+            parent = base.a2dTopRight,
+            pos = (-1.033, 0.1, -0.35),
             image_color = GlobalDialogColor,
             image_scale = (1.0, 1.0, 0.6),
             text = '',

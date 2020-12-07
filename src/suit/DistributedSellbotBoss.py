@@ -1,5 +1,6 @@
 from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
+from otp.avatar import ShadowCaster
 from toontown.battle.BattleProps import *
 from direct.distributed.ClockDelta import *
 from direct.showbase.PythonUtil import Functor
@@ -209,7 +210,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         # message in the WaitForToons state, or in the Off state if they
         # came in early (but someone might arrive to the battle very
         # late and see everything already advanced to the next state).
-        stateName = self.state
+        stateName = self._state
         assert self.notify.debug("gotToon(%s) in state %s" % (toon.doId, stateName))
 
         if stateName == "Elevator":
@@ -735,6 +736,9 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.__showOnscreenMessage(TTLocalizer.BuildingWaitingForVictors)
 
     def __placeCageShadow(self):
+        if not ShadowCaster.globalDropShadowFlag:
+            return
+
         if self.cageShadow == None:
             self.cageShadow = loader.loadModel('phase_3/models/props/drop_shadow')
             self.cageShadow.setPos(0, 77.9, 18)
@@ -802,14 +806,14 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
         # before battles: play the boss theme music
         self.promotionMusic = base.loadMusic(
-            'phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
-            # 'phase_9/audio/bgm/encntr_head_suit_theme.ogg')
+            'phase_7/audio/bgm/encntr_suit_winning_indoor.mid')
+            # 'phase_9/audio/bgm/encntr_head_suit_theme.mid')
         # Between battle one and two: play the upbeat street battle music
         self.betweenBattleMusic = base.loadMusic(
-            'phase_9/audio/bgm/encntr_toon_winning.ogg')
+            'phase_9/audio/bgm/encntr_toon_winning.mid')
         # Battle two: play the top-of-the-building battle music
         self.battleTwoMusic = base.loadMusic(
-            'phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
+            'phase_7/audio/bgm/encntr_suit_winning_indoor.mid')
 
         self.geom.reparentTo(render)
 

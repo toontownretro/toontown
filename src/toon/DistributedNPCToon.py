@@ -17,6 +17,7 @@ class DistributedNPCToon(DistributedNPCToonBase):
         self.curQuestMovie = None
         self.questChoiceGui = None
         self.trackChoiceGui = None
+        self.lerpCamera = None
 
     def delayDelete(self):
         DistributedNPCToonBase.delayDelete(self)
@@ -113,7 +114,9 @@ class DistributedNPCToon(DistributedNPCToonBase):
         # TODO: make this a lerp
         self.initPos()
         if isLocalToon:
-            taskMgr.remove(self.uniqueName("lerpCamera"))
+            if self.lerpCamera:
+                self.lerpCamera.finish()
+                self.lerpCamera = None
             # Go back into walk mode
             base.localAvatar.posCamera(0,0)
             base.cr.playGame.getPlace().setState("walk")
@@ -127,15 +130,17 @@ class DistributedNPCToon(DistributedNPCToonBase):
         camera.wrtReparentTo(render)
         if ((mode == NPCToons.QUEST_MOVIE_QUEST_CHOICE) or
             (mode == NPCToons.QUEST_MOVIE_TRACK_CHOICE)):
-            camera.lerpPosHpr(5, 9, self.getHeight()-0.5, 155, -2, 0, 1,
+            self.lerpCamera = camera.posHprInterval(1, (5, 9, self.getHeight()-0.5), (155, -2, 0),
                               other=self,
                               blendType="easeOut",
-                              task=self.uniqueName("lerpCamera"))
+                              name=self.uniqueName("lerpCamera"))
+            self.lerpCamera.start()
         else:
-            camera.lerpPosHpr(-5, 9, self.getHeight()-0.5, -150, -2, 0, 1,
+            self.lerpCamera = camera.posHprInterval(1, (-5, 9, self.getHeight()-0.5), (-150, -2, 0),
                               other=self,
                               blendType="easeOut",
-                              task=self.uniqueName("lerpCamera"))
+                              name=self.uniqueName("lerpCamera"))
+            self.lerpCamera.start()
 
 
     def setMovie(self, mode, npcId, avId, quests, timestamp):

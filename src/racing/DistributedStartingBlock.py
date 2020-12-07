@@ -535,7 +535,7 @@ class DistributedStartingBlock( DistributedObject.DistributedObject, FSM ):
         self.cancelButton = DirectGui.DirectButton(
             relief = None,
             scale = (0.67),
-            pos = (1.16,0,-0.9),
+            pos = (-0.133, 0.0, 0.13),
             #pos = (0,0,0),
             text = ("", TTLocalizer.FishingExit, TTLocalizer.FishingExit),
             text_align = TextNode.ACenter,
@@ -549,6 +549,7 @@ class DistributedStartingBlock( DistributedObject.DistributedObject, FSM ):
                       fishGui.find("**/exit_buttonRollover") ),
             text_font = ToontownGlobals.getInterfaceFont(),
             command = self.d_requestExit,
+            parent = base.a2dBottomRight
             #pressEffect = False,
             )
         self.cancelButton.hide()

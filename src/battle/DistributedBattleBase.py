@@ -256,7 +256,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
             self.removeLocalToon()
             # Just for good measure.  In some cases, the above might
             # not restore the fov properly.
-            base.camLens.setFov(ToontownGlobals.DefaultCameraFov)
+            base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov)
         self.localToonFsm.request('WaitForServer')
 
         self.ignoreAll()
@@ -1062,7 +1062,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         if (av == base.localAvatar):
             camTrack = Sequence()
             def setCamFov(fov):
-                base.camLens.setFov(fov)
+                base.camLens.setMinFov(fov)
             camTrack.append(Func(setCamFov, self.camFov))
             camTrack.append(Func(camera.wrtReparentTo, self))
             camTrack.append(Func(camera.setPos, self.camJoinPos))
@@ -1390,7 +1390,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         # Move the camera into position
         # (assumes the camera is a child of the battle)
         camera.setPosHpr(self.camPos, self.camHpr)
-        base.camLens.setFov(self.camMenuFov)
+        base.camLens.setMinFov(self.camMenuFov)
         # No arrows - they just get in the way
         NametagGlobals.setMasterArrowsOn(0)
         # Put local toon into 'Attack' state
@@ -1446,7 +1446,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         if (self.localToonActive()):
             self.townBattle.setState('Off')
             # Back to the standard battle fov
-            base.camLens.setFov(self.camFov)
+            base.camLens.setMinFov(self.camFov)
             self.ignore(self.localToonBattleEvent)
             self.__stopTimer()
         return None
@@ -1663,7 +1663,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
                     self.interactivePropTrackBonus)
         # Establish battle camera parameters
         camera.wrtReparentTo(self)
-        base.camLens.setFov(self.camFov)
+        base.camLens.setMinFov(self.camFov)
         return None
 
     def exitHasLocalToon(self):
@@ -1696,7 +1696,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
             camera.wrtReparentTo(base.localAvatar)
             messenger.send('localToonLeftBattle')
 
-        base.camLens.setFov(ToontownGlobals.DefaultCameraFov)
+        base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov)
         return None
 
     ##### NoLocalToon state #####

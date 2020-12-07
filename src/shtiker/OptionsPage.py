@@ -261,12 +261,12 @@ class OptionsTabPage(DirectFrame):
         Params: None
         Return: None
         """
-        self.parent = parent
+        self._parent = parent
         self.currentSizeIndex = None
         # Construct the super class object from which the selector derives.
         DirectFrame.__init__(
             self,
-            parent = self.parent,
+            parent = self._parent,
             relief = None,
             pos = ( 0.0, 0.0, 0.0 ),
             scale = ( 1.0, 1.0, 1.0 ),
@@ -286,7 +286,7 @@ class OptionsTabPage(DirectFrame):
 
         # Remove references to UI Components and instance variables for
         # garbage collection purposes.
-        self.parent = None
+        self._parent = None
 
         # Destroy the DirectFrame super class.
         DirectFrame.destroy(self)
@@ -567,7 +567,7 @@ class OptionsTabPage(DirectFrame):
         self.speedChatStyleIndex = base.localAvatar.getSpeedChatStyleIndex()
         self.updateSpeedChatStyle()
 
-        if self.parent.book.safeMode:
+        if self._parent.book.safeMode:
             self.exitButton.hide()
         else:
             self.exitButton.show()
@@ -869,7 +869,7 @@ class OptionsTabPage(DirectFrame):
                                    message = TTLocalizer.OptionsPageExitConfirm,
                                    style = TTDialog.TwoChoice)
         self.confirm.show()
-        self.parent.doneStatus = {
+        self._parent.doneStatus = {
                 "mode": "exit",
                 "exitTo": "closeShard"}
         self.accept("confirmDone", self.__handleConfirm)
@@ -883,7 +883,7 @@ class OptionsTabPage(DirectFrame):
         del self.confirm
         if (status == "ok"):
             base.cr._userLoggingOut = True
-            messenger.send(self.parent.doneEvent)
+            messenger.send(self._parent.doneEvent)
             #self.cr.loginFSM.request("chooseAvatar", [self.cr.avList])
 
 class CodesTabPage(DirectFrame):
@@ -907,11 +907,11 @@ class CodesTabPage(DirectFrame):
         Params: None
         Return: None
         """
-        self.parent = parent
+        self._parent = parent
         # Construct the super class object from which the selector derives.
         DirectFrame.__init__(
             self,
-            parent = self.parent,
+            parent = self._parent,
             relief = None,
             pos = ( 0.0, 0.0, 0.0 ),
             scale = ( 1.0, 1.0, 1.0 ),
@@ -931,7 +931,7 @@ class CodesTabPage(DirectFrame):
 
         # Remove references to UI Components and instance variables for
         # garbage collection purposes.
-        self.parent = None
+        self._parent = None
 
         # Destroy the DirectFrame super class.
         DirectFrame.destroy(self)

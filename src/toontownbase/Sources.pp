@@ -1,9 +1,9 @@
-#define USE_PACKAGES cg  // from gobj.
-
 #begin lib_target
   #define TARGET toontownbase
 
   #define BUILDING_DLL BUILDING_TOONTOWN_TOONTOWNBASE
+
+  #define USE_PACKAGES eigen
 
   #define OTHER_LIBS \
       dtool:m \

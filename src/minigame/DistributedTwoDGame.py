@@ -282,7 +282,8 @@ class DistributedTwoDGame(DistributedMinigame):
                        MinigameAvatarScorePanel.MinigameAvatarScorePanel(avId,
                                                                          avName)
             scorePanel.setScale(.9)
-            scorePanel.setPos(.75 - spacing*((self.numPlayers-1)-i), 0.0, .85)
+            scorePanel.setPos(-0.583 - spacing * (self.numPlayers - 1 - i), 0.0, -0.15)
+            scorePanel.reparentTo(base.a2dTopRight)
             # make the panels slightly transparent
             scorePanel.makeTransparent(.75)
             self.scorePanels.append(scorePanel)

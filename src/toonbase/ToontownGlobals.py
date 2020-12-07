@@ -24,9 +24,9 @@ DatabaseIdFromClassName = {
     }
 
 # Toontown specific camera FOVs
-CogHQCameraFov = 60.0
-BossBattleCameraFov = 72.0
-MakeAToonCameraFov = 52.0
+CogHQCameraFov = 60.0 * OriginalAspectRatio
+BossBattleCameraFov = 72.0 * OriginalAspectRatio
+MakeAToonCameraFov = 52.0 * OriginalAspectRatio
 
 # Things we can throw a pie at.  (Pies also react to CameraBitmask and
 # FloorBitmask, but not WallBitmask.):

@@ -3506,7 +3506,7 @@ ElevatorHopOff = "Descer"
 # DistributedElevatorExt.py
 CogsIncExt = ", Inc."
 CogsIncModifier = "%s" + CogsIncExt
-CogsInc = string.upper(Cogs) + CogsIncExt
+CogsInc = Cogs.upper() + CogsIncExt
 
 # DistributedKnockKnockDoor.py
 DoorKnockKnock = "Toc, toc."

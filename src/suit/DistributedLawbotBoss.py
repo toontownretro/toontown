@@ -27,6 +27,7 @@ from toontown.toon import NPCToons
 from direct.task import Task
 import random
 import math
+import functools
 from toontown.coghq import CogDisguiseGlobals
 from toontown.building import ElevatorConstants
 from toontown.toonbase import ToontownTimer
@@ -305,7 +306,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         """
         #self.notify.debug("----- gotToon")
 
-        stateName = self.state
+        stateName = self._state
         assert self.notify.debug("gotToon(%s) in state %s" % (toon.doId, stateName))
 
         if stateName == "Elevator":
@@ -732,14 +733,14 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
         # before battles: play the boss theme music
         self.promotionMusic = base.loadMusic(
-            'phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
-            # 'phase_9/audio/bgm/encntr_head_suit_theme.ogg')
+            'phase_7/audio/bgm/encntr_suit_winning_indoor.mid')
+            # 'phase_9/audio/bgm/encntr_head_suit_theme.mid')
         # Between battle one and two: play the upbeat street battle music
         self.betweenBattleMusic = base.loadMusic(
-            'phase_9/audio/bgm/encntr_toon_winning.ogg')
+            'phase_9/audio/bgm/encntr_toon_winning.mid')
         # Battle two: play new jury music
         self.battleTwoMusic = base.loadMusic(
-            'phase_11/audio/bgm/LB_juryBG.ogg')
+            'phase_11/audio/bgm/LB_juryBG.mid')
 
         # Also replace the floor polygon with a plane, and rename it
         # so we can detect a collision with it.
@@ -787,6 +788,14 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                     stuffToHide.wrtReparentTo(self.reflectedMainDoor)
                 else:
                     self.notify.debug('not found %s' % stuffToHide)
+
+        # Get rid of the fake reflection geometry, we're going to use planar
+        # render-to-texture reflections.
+        self.geom.find("**/Reflections").stash()
+
+        # Set up the planar reflection plane and apply it onto the ground.
+        base.planar.setup(Vec3.up(), 0)
+        base.planar.renderReflection(self.geom.find("**/CR3_Floor"))
 
         self.geom.reparentTo(render)
         self.loadWitnessStand()
@@ -1145,6 +1154,8 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         """
         self.notify.debug("----- unloadEnvironment")
         DistributedBossCog.DistributedBossCog.unloadEnvironment(self)
+
+        base.planar.shutdown()
 
         self.geom.removeNode()
         del self.geom
@@ -2552,7 +2563,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         # want to use Plane.compareTo(), not Plane.__hash__(), to make
         # the comparison.
         threshold = 0.1
-        planes.sort(lambda p1, p2: p1.compareTo(p2, threshold))
+        planes.sort(key=functools.cmp_to_key(lambda p1, p2: p1.compareTo(p2, threshold)))
         lastPlane = None
         for plane in planes:
             if lastPlane == None or plane.compareTo(lastPlane, threshold) != 0:
@@ -3215,8 +3226,8 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.numToonJurorsSeated = 0
         for key in list(self.chairs.keys()):
             chair = self.chairs[key]
-            if chair.state == 'ToonJuror' or \
-               (chair.state == None and chair.newState == 'ToonJuror'):
+            if chair._state == 'ToonJuror' or \
+               (chair._state == None and chair.newState == 'ToonJuror'):
                 self.numToonJurorsSeated += 1
                 #self.notify.debug('self.numToonJurorsSeated = %d' % self.numToonJurorsSeated)
 
@@ -3270,8 +3281,8 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             self.notify.warning('returning from setTaunt, no attr state')
             gotError = True
         else:
-            if not self.state == 'BattleThree':
-                self.notify.warning('returning from setTaunt, not in battle three state, state=%s',self.state)
+            if not self._state == 'BattleThree':
+                self.notify.warning('returning from setTaunt, not in battle three state, state=%s',self._state)
                 gotError = True
 
         if not hasattr(self, 'nametag'):
@@ -3364,7 +3375,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         """
         retVal = 0
         for chair in list(self.chairs.values()):
-            if chair.state == "ToonJuror":
+            if chair._state == "ToonJuror":
                 if chair.toonJurorIndex == cannonIndex:
                     retVal +=1
         return retVal

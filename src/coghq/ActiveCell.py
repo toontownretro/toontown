@@ -8,7 +8,7 @@ class ActiveCell(BasicEntities.DistributedNodePathEntity):
     def __init__(self, cr):
         BasicEntities.DistributedNodePathEntity.__init__(self,cr)
         self.occupantId = -1
-        self.state = 0
+        self._state = 0
 
     def announceGenerate(self):
         BasicEntities.DistributedNodePathEntity.announceGenerate(self)
@@ -36,7 +36,7 @@ class ActiveCell(BasicEntities.DistributedNodePathEntity):
 
     def setState(self, state, objId):
         assert(self.notify.debug("entId(%d): setState(%d,%d)" % (self.entId, state, objId)))
-        self.state = state
+        self._state = state
         self.occupantId = objId
 
     if __dev__:

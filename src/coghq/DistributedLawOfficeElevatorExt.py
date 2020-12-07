@@ -46,7 +46,7 @@ class DistributedLawOfficeElevatorExt(DistributedElevatorExt.DistributedElevator
         # Create a sign for this elevator
         locator = geom.find('**/elevator_signorigin_%s' % entranceId)
         backgroundGeom = geom.find('**/ElevatorFrameFront_%d' % entranceId)
-        backgroundGeom.node().setEffect(DecalEffect.make())
+        #backgroundGeom.node().setEffect(DecalEffect.make())
         signText = DirectGui.OnscreenText(
             text = TextEncoder.upper(TTLocalizer.GlobalStreetNames[self.intZoneId][-1]),
             font = ToontownGlobals.getSuitFont(),
@@ -56,7 +56,7 @@ class DistributedLawOfficeElevatorExt(DistributedElevatorExt.DistributedElevator
             mayChange=False,
             parent = backgroundGeom)
         signText.setPosHpr(locator, 0, 0, 0, 0, 0, 0)
-        signText.setDepthWrite(0)
+        signText.setDepthOffset(1)
 
     def setupElevator(self):
         """setupElevator(self)

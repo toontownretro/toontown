@@ -48,8 +48,8 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
         self.golfSpotSmoother.setSmoothMode(SmoothMover.SMOn)
         self.smoothStarted = 0
         self.__broadcastPeriod = 0.2
-        if self.index > len(self.positions):
-            self.notify.error("Invalid index %d" % index)
+        if (self.index is not None) and (self.index > len(self.positions)):
+            self.notify.error("Invalid index %d" % self.index)
         self.fadeTrack = None
 
         # stuff related to power bar
@@ -692,7 +692,7 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
         if self.aimStart != None:
             # This is probably just key-repeat.
             return
-        if not self.state == 'Controlled':
+        if not self._state == 'Controlled':
             return
         if not self.avId == localAvatar.doId:
             return
@@ -706,7 +706,7 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
         # The control key was released.  Fire the ball.
         if self.aimStart == None:
             return
-        if not self.state == 'Controlled':
+        if not self._state == 'Controlled':
             return
         if not self.avId == localAvatar.doId:
             return

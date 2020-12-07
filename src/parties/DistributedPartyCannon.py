@@ -364,7 +364,7 @@ class DistributedPartyCannon(DistributedObject, Cannon):
             self.notify.debug("currentState=%s, requesting walk" % base.cr.playGame.getPlace().getState())
             base.cr.playGame.getPlace().setState('walk')
             self.notify.debug("after request walk currentState=%s," % base.cr.playGame.getPlace().getState())
-        toon.dropShadow.show()
+        toon.showShadow()
 
         self.d_setLanded()
 
@@ -457,7 +457,7 @@ class DistributedPartyCannon(DistributedObject, Cannon):
         assert(self.notify.debug("__destroyToonModels"))
         if (av != None):
             # show the toons original drop shadows..
-            av.dropShadow.show()
+            av.showShadow()
 
 
             self.hitBumper = 0

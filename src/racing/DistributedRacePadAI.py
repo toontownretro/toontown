@@ -123,7 +123,7 @@ class DistributedRacePadAI( DistributedKartPadAI, FSM ):
             if not ( (genre == RaceGlobals.Speedway) and (self.trackType == RaceGlobals.Practice) ):
                 return KartGlobals.ERROR_CODE.eUnpaid
 
-        if not(self.state == 'WaitEmpty' or self.state == 'WaitCountdown'):
+        if not(self._state == 'WaitEmpty' or self._state == 'WaitCountdown'):
             #you can only join a racepad in one of these states
             return KartGlobals.ERROR_CODE.eTooLate
 
@@ -255,7 +255,7 @@ class DistributedRacePadAI( DistributedKartPadAI, FSM ):
         """
         Comment:
         """
-        return self.state, globalClockDelta.getRealNetworkTime()
+        return self._state, globalClockDelta.getRealNetworkTime()
 
     ######################################################################
     # Distributed Methods
@@ -285,7 +285,7 @@ class DistributedRacePadAI( DistributedKartPadAI, FSM ):
         self.notify.debug( "exitOff: Exiting Off state for RacePad %s" % ( self.id ) )
 
         def handleCircuitHolidayStartStop(args = None):
-            if self.state == "WaitEmpty":
+            if self._state == "WaitEmpty":
                 taskMgr.remove(self.cycleTrackTask)
                 self.cycleTrack()
 

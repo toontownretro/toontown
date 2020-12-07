@@ -142,7 +142,7 @@ class DistributedRingGame(DistributedMinigame):
         self.defineConstants()
 
         self.music = base.loadMusic(
-            "phase_4/audio/bgm/MG_toontag.ogg"
+            "phase_4/audio/bgm/MG_toontag.mid"
             )
 
         self.sndAmbience = base.loadSfx(
@@ -221,7 +221,7 @@ class DistributedRingGame(DistributedMinigame):
         camera.reparentTo(base.localAvatar)
         camera.setPosHpr(0, self.CAMERA_Y + self.TOON_Y, 0,
                          0, 0, 0)
-        base.camLens.setFov(80)
+        base.camLens.setMinFov(80 * ToontownGlobals.OriginalAspectRatio)
 
         # set the far plane
         base.camLens.setFar(self.FAR_PLANE_DIST)
@@ -314,7 +314,7 @@ class DistributedRingGame(DistributedMinigame):
 
         render.clearFog()
         base.camLens.setFar(ToontownGlobals.DefaultCameraFar)
-        base.camLens.setFov(ToontownGlobals.DefaultCameraFov)
+        base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov)
 
         # Restore the background color
         base.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
@@ -334,7 +334,7 @@ class DistributedRingGame(DistributedMinigame):
         for avId in self.avIdList:
             av = self.getAvatar(avId)
             if av:
-                av.dropShadow.show()
+                av.showShadow()
                 av.resetLOD()
                 av.setAnimState('neutral', 1.0)
 
@@ -458,9 +458,9 @@ class DistributedRingGame(DistributedMinigame):
 
         # show a colored ring at the bottom of the screen
         self.colorRing = self.ringModel.copyTo(hidden)
-        self.colorRing.reparentTo(aspect2d)
+        self.colorRing.reparentTo(base.a2dBottomRight)
         self.colorRing.setTwoSided(0)
-        self.colorRing.setPos(1.19,10,-0.86)
+        self.colorRing.setPos(-0.143, 10, 0.14)
         self.colorRing.setScale(0.04)
 
         p = self.avIdList.index(self.localAvId)
@@ -507,14 +507,14 @@ class DistributedRingGame(DistributedMinigame):
         self.__tallyTextNode.setText(chars[result])
         node = self.__tallyTextNode.generate()
 
-        tallyText = aspect2d.attachNewNode(node)
+        tallyText = base.a2dBottomLeft.attachNewNode(node)
         tallyText.setColor(colors[result])
         tallyText.setScale(.1)
         zOffset = 0
         if result == self.RT_UNKNOWN:
             zOffset = 0.015
         xSpacing = .085
-        tallyText.setPos(-1. + (xSpacing * index), 0, -.93 + zOffset)
+        tallyText.setPos(0.333 + xSpacing * index, 0, 0.07 + zOffset)
         self.tallyMarkers[index] = tallyText
 
     def __deleteTallyMarker(self, index):

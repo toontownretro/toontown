@@ -43,7 +43,7 @@ CISCtopLevelOverlap = 0.
 
 #chat/ToontownChatManager.py
 CMnormalButton = 0.06
-CMscButtonPos = (-1.129, 0, 0.928)
+CMscButtonPos = (0.204, 0, -0.072)
 CMscButton = 0.06
 CMwhisperFrame = 0.06
 CMwhisperButton = 0.05
@@ -345,8 +345,8 @@ REPticket_text_x = -0.6
 
 #racing/RaceGUI.py
 RGphotoFinish = 0.25
-RGplaceLabelNumPos = (-1.2,0,-0.97)
-RGplaceLabelStrPos = (-1.05,0.0,-0.8)
+RGplaceLabelNumPos = (0.15, 0, 0.05)
+RGplaceLabelStrPos = (0.31, 0.0, 0.22)
 
 #racing/DistributedRaceAI.py
 DRAwaitingForJoin = 60

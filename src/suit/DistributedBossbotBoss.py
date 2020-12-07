@@ -1451,7 +1451,7 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         # animate some attack.
         assert self.notify.debug("setAttackCode(%s, %s) time=%f" %
                                  (attackCode, avId, globalClock.getFrameTime()))
-        if self.state != 'BattleFour':
+        if self._state != 'BattleFour':
             return
         self.numAttacks += 1
         self.notify.debug('numAttacks=%d' % self.numAttacks)
@@ -1748,7 +1748,7 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
         if toon == localAvatar:
             zapTrack.append(Func(self.disableLocalToonSimpleCollisions))
-            currentState = self.state
+            currentState = self._state
             if currentState in ( 'BattleFour', 'BattleTwo'):
                 zapTrack.append(Func(self.toFinalBattleMode))
             else:

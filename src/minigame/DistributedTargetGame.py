@@ -29,7 +29,7 @@ def circleY(angle, radius, centerX, centerY):
 
 def getCirclePoints(segCount, centerX, centerY, radius, wideX= 1.0, wideY = 1.0):
     returnShape = []
-    for seg in range(0, segCount):
+    for seg in range(0, int(segCount)):
         coordX = wideX * (circleX(((pi * 2.0) * float(float(seg) / float(segCount))), radius, centerX, centerY))
         coordY = wideY * (circleY(((pi * 2.0) * float(float(seg) / float(segCount))), radius, centerX, centerY))
         returnShape.append((coordX, coordY, 1))
@@ -41,7 +41,7 @@ def getCirclePoints(segCount, centerX, centerY, radius, wideX= 1.0, wideY = 1.0)
 
 def getRingPoints(segCount, centerX, centerY, radius, thickness = 2.0 ,wideX= 1.0, wideY = 1.0):
     returnShape = []
-    for seg in range(0, segCount):
+    for seg in range(0, int(segCount)):
         coordX = wideX * (circleX(((pi * 2.0) * float(float(seg) / float(segCount))), radius - thickness, centerX, centerY))
         coordY = wideY * (circleY(((pi * 2.0) * float(float(seg) / float(segCount))), radius - thickness, centerX, centerY))
         returnShape.append((coordX, coordY, 1))
@@ -146,10 +146,10 @@ class DistributedTargetGame(DistributedMinigame):
     # but before render
     UPDATE_SHADOWS_PRIORITY = 47
 
-    UMBRELLA_TEXTURE_LIST = ['phase_4/maps/mg_slingshot_umbrella_blue.png',
-                             'phase_4/maps/mg_slingshot_umbrella_purple.png',
-                             'phase_4/maps/mg_slingshot_umbrella_red.png',
-                             'phase_4/maps/mg_slingshot_umbrella_yellow.png',]
+    UMBRELLA_TEXTURE_LIST = ['phase_4/maps/mg_slingshot_umbrella_blue.txo',
+                             'phase_4/maps/mg_slingshot_umbrella_purple.txo',
+                             'phase_4/maps/mg_slingshot_umbrella_red.txo',
+                             'phase_4/maps/mg_slingshot_umbrella_yellow.txo',]
 
     # result types
     RT_UNKNOWN      = 0
@@ -443,7 +443,7 @@ class DistributedTargetGame(DistributedMinigame):
 
 
         self.scoreboard.hide()
-        self.music = base.loadMusic("phase_4/audio/bgm/MG_Diving.ogg")
+        self.music = base.loadMusic("phase_4/audio/bgm/MG_Diving.mid")
         #self.music = None
 
         self.sndAmbience = None
@@ -842,7 +842,7 @@ class DistributedTargetGame(DistributedMinigame):
         camera.reparentTo(render)
         toonPos = self.getAvatar(self.localAvId).getPos()
         camera.setPosHpr(toonPos[0],toonPos[1] - 18,toonPos[2] + 10,0,-15,0)
-        base.camLens.setFov(80)
+        base.camLens.setMinFov(80 * ToontownGlobals.OriginalAspectRatio)
 
 
         # set the far plane
@@ -974,7 +974,7 @@ class DistributedTargetGame(DistributedMinigame):
         camera.setPosHpr(toonPos[0],toonPos[1] - 26,toonPos[2] + 10,0,-15,0)
         #camera.setPosHpr(0, self.CAMERA_Y + self.TOON_Y + 12, 5,
         #                 0, -15, 0)
-        base.camLens.setFov(80)
+        base.camLens.setMinFov(80 * ToontownGlobals.OriginalAspectRatio)
         self.resetNums()
 
     def resetNums(self):
@@ -1012,7 +1012,7 @@ class DistributedTargetGame(DistributedMinigame):
 
         render.clearFog()
         base.camLens.setFar(ToontownGlobals.DefaultCameraFar)
-        base.camLens.setFov(ToontownGlobals.DefaultCameraFov)
+        base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov)
         camera.setHpr(0,90,0)
 
         # Restore the background color
@@ -1033,7 +1033,7 @@ class DistributedTargetGame(DistributedMinigame):
         for avId in self.avIdList:
             av = self.getAvatar(avId)
             if av:
-                av.dropShadow.show()
+                av.showShadow()
                 av.resetLOD()
                 #av.setAnimState('neutral', 1.0)
 
@@ -1218,7 +1218,7 @@ class DistributedTargetGame(DistributedMinigame):
         self.cameraWork =  camera.posHprInterval(2.5, newPos, newHpr,
                           blendType = "easeInOut")#,
         self.cameraWork.start()
-        base.camLens.setFov(80)
+        base.camLens.setMinFov(80 * ToontownGlobals.OriginalAspectRatio)
         self.stretchY = self.startPower
         self.power = self.startPower
         self.scoreboard.hide()
@@ -1265,7 +1265,7 @@ class DistributedTargetGame(DistributedMinigame):
         camera.reparentTo(base.localAvatar)
         camera.setPosHpr(0, self.CAMERA_Y + self.TOON_Y + 12, 5,
                          0, -15, 0)
-        base.camLens.setFov(80)
+        base.camLens.setMinFov(80 * ToontownGlobals.OriginalAspectRatio)
         self.help.show()
         self.help['text'] = TTLocalizer.TargetGameFlyHelp
         self.rubberSound.setVolume(0.0)
@@ -1522,7 +1522,7 @@ class DistributedTargetGame(DistributedMinigame):
 
     def __updatePowerBarTask(self, task):
         powerUp = 0
-        timeDiff = None
+        timeDiff = 0
 
         if not self.arrowKeys.rightPressed():
             self.canPressRight = 1

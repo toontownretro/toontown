@@ -13,6 +13,7 @@ from toontown.ai.HolidayInfo import *
 #################################################################
 import random
 import time
+import functools
 
 #################################################################
 # Class: HolidayInfo_Weekly
@@ -46,7 +47,7 @@ class HolidayInfo_Weekly(HolidayInfo_Base):
             self.tupleList.append((start, end))
             next(dateElemIter)
 
-        self.tupleList.sort(cmpDates)
+        self.tupleList.sort(key=functools.cmp_to_key(cmpDates))
 
     #############################################################
     # Method: getStartTime

@@ -28,7 +28,7 @@ from direct.task.Task import Task
 
 class DistributedTugOfWarGame(DistributedMinigame):
 
-    bgm = "phase_4/audio/bgm/MG_tug_o_war.ogg"
+    bgm = "phase_4/audio/bgm/MG_tug_o_war.mid"
 
     toonAnimNames   = ['neutral', 'tug-o-war', 'slip-forward', 'slip-backward', 'victory', 'sad-neutral']
     suitAnimNames   = ['neutral', 'tug-o-war', 'slip-forward', 'slip-backward', 'flail', 'victory']
@@ -409,7 +409,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
             del self.setupTrack
             self.setupTrack = None
 
-        base.camLens.setFov(ToontownGlobals.DefaultCameraFov)
+        base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov)
         base.camLens.setNearFar(ToontownGlobals.DefaultCameraNear,
                                 ToontownGlobals.DefaultCameraFar)
         NametagGlobals.setGlobalNametagScale(1.0)
@@ -447,7 +447,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
                 av.loop('neutral')
                 av.resetLOD()
                 # show the dropshadow again
-                av.dropShadow.show()
+                av.showShadow()
 
         for x in self.tugRopes:
             if x != None:
@@ -489,7 +489,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
 
 
         # mave FOV wider if there are more toons
-        base.camLens.setFov(60 + 2*self.numPlayers)
+        base.camLens.setMinFov((60 + 2*self.numPlayers) * ToontownGlobals.OriginalAspectRatio)
 
         # prevent sky from getting clipped
         base.camLens.setFar(450.)

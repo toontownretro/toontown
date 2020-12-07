@@ -9,6 +9,7 @@ from toontown.friends import ToontownFriendSecret
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPGlobals
+import functools
 
 # The various kinds of panels we might switch between.
 FLPPets = 1
@@ -167,7 +168,8 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
 
         background_image = gui.find("**/FriendsBox_Open")
         self['image'] = background_image
-        self.setPos(1.1, 0, 0.54)
+        self.reparentTo(base.a2dTopRight)
+        self.setPos(-0.233, 0, -0.46)
 
         self.scrollList = DirectScrolledList(
             parent = self,
@@ -733,15 +735,15 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
 
         #sort the lists
 
-        newFriends.sort(compareFriends)
-        petFriends.sort(compareFriends)
-        freeChatOneRef.sort(compareFriends)
+        newFriends.sort(key=functools.cmp_to_key(compareFriends))
+        petFriends.sort(key=functools.cmp_to_key(compareFriends))
+        freeChatOneRef.sort(key=functools.cmp_to_key(compareFriends))
 
-        speedChatOneRef.sort(compareFriends)
+        speedChatOneRef.sort(key=functools.cmp_to_key(compareFriends))
 
-        freeChatDouble.sort(compareFriends)
-        speedChatDouble.sort(compareFriends)
-        offlineFriends.sort(compareFriends)
+        freeChatDouble.sort(key=functools.cmp_to_key(compareFriends))
+        speedChatDouble.sort(key=functools.cmp_to_key(compareFriends))
+        offlineFriends.sort(key=functools.cmp_to_key(compareFriends))
 
         #print "freeChatDouble"
         #print freeChatDouble

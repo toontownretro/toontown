@@ -3,10 +3,12 @@
 #from ShowBaseGlobal import *
 from otp.otpbase import OTPBase
 from otp.otpbase import OTPLauncherGlobals
+from otp.otpbase import OTPRender
 from direct.showbase.PythonUtil import *
 from . import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from . import ToontownLoader
+from .ToontownPostProcess import ToontownPostProcess
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import *
 from toontown.toonbase.ToontownModules import *
@@ -15,6 +17,8 @@ import os
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.launcher import ToontownDownloadWatcher
+from toontown.effects.PlanarReflector import PlanarReflector
+
 
 
 class ToonBase(OTPBase.OTPBase):
@@ -44,6 +48,8 @@ class ToonBase(OTPBase.OTPBase):
             if res == None:
                 res = (800,600)
 
+            res = (1280, 960)
+
             loadPrcFileData("toonBase Settings Window Res", ("win-size %s %s" % (res[0], res[1])))
             loadPrcFileData("toonBase Settings Window FullScreen", ("fullscreen %s" % (mode)))
             loadPrcFileData("toonBase Settings Music Active", ("audio-music-active %s" % (music)))
@@ -66,6 +72,21 @@ class ToonBase(OTPBase.OTPBase):
 
         self.disableShowbaseMouse()
 
+        self.render.setAntialias(AntialiasAttrib.MMultisample)
+        self.render2d.setAntialias(AntialiasAttrib.MMultisample)
+        self.render2dp.setAntialias(AntialiasAttrib.MMultisample)
+        self.pixel2d.setAntialias(AntialiasAttrib.MMultisample)
+
+        self.render.setAttrib(LightRampAttrib.makeHdr0())
+
+
+        # Set up the post-processing system
+        self.postProcess = ToontownPostProcess()
+        self.postProcess.startup(self.win)
+        self.postProcess.addCamera(self.cam, 0)
+        self.postProcess.setup()
+        self.taskMgr.add(self.__updatePostProcess, 'updatePostProcess')
+
         self.toonChatSounds = self.config.GetBool('toon-chat-sounds', 1)
 
         # Toontown doesn't care about dynamic shadows for now.
@@ -73,8 +94,37 @@ class ToonBase(OTPBase.OTPBase):
         # this is temporary until we pull in the new launcher code in production
         self.exitErrorCode = 0
 
+        def lightColor(rgbs):
+            s = rgbs[3] / 255.0
+            return LColor(
+                (rgbs[0] * s) / 255.0,
+                (rgbs[1] * s) / 255.0,
+                (rgbs[2] * s) / 255.0,
+                1.0
+            )
+
+        self.ambient = AmbientLight('ambient')
+        self.ambient.setColor(lightColor((200, 202, 230, 200)))
+        self.ambientNP = self.render.attachNewNode(self.ambient)
+        self.render.setLight(self.ambientNP)
+
+        self.sunlight = CascadeLight('sunlight')
+        self.sunlight.setColor(lightColor((221, 206, 189, 750)))
+        self.sunlight.setSceneCamera(self.cam)
+        self.sunlight.setShadowCaster(True, 4096, 4096)
+        self.sunlight.setCameraMask(OTPRender.ShadowCameraBitmask)
+        self.sunlightNP = self.render.attachNewNode(self.sunlight)
+        self.sunlightNP.setHpr(90 - 55, -65, 0)
+        self.render.setLight(self.sunlightNP)
+
+        self.planar = PlanarReflector(1024)
+
+        #debugCSM = OnscreenImage(self.sunlight.getShadowMap(), scale = 0.3, pos = (0, 0, -0.7))
+        #debugCSM.setShader(Shader.load(Shader.SL_GLSL, "shaders/debug_csm.vert.glsl", "shaders/debug_csm.frag.glsl"))
+        #debugCSM.setShaderInput("cascadeSampler", self.sunlight.getShadowMap())
+
         camera.setPosHpr(0, 0, 0, 0, 0, 0)
-        self.camLens.setFov(ToontownGlobals.DefaultCameraFov)
+        self.camLens.setMinFov(ToontownGlobals.DefaultCameraFov)
         self.camLens.setNearFar(ToontownGlobals.DefaultCameraNear,
                                 ToontownGlobals.DefaultCameraFar)
 
@@ -267,6 +317,20 @@ class ToonBase(OTPBase.OTPBase):
         self.walking = 0
 
         self.resetMusic = self.loadMusic("phase_3/audio/bgm/MIDI_Events_16channels.ogg")
+
+    def __updatePostProcess(self, task):
+        self.postProcess.update()
+        return task.cont
+
+    def windowEvent(self, win):
+        if win != self.win:
+            # Not about our window.
+            return
+
+        # Pass it along to the postprocessing system.
+        self.postProcess.windowEvent()
+
+        OTPBase.OTPBase.windowEvent(self, win)
 
     def disableShowbaseMouse(self):
         # Hack:
@@ -471,7 +535,7 @@ class ToonBase(OTPBase.OTPBase):
             url = URLSpec(name, 1)
             # Insist on a secure (SSL-wrapped) connection, regardless
             # of what was requested.
-            url.setScheme('s')
+            #url.setScheme('s')
             if not url.hasPort():
                 url.setPort(serverPort)
             serverList.append(url)
