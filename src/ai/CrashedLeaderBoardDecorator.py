@@ -10,7 +10,7 @@ from direct.interval.IntervalGlobal import *
 
 from . import HolidayDecorator
 from toontown.toonbase import ToontownGlobals
-from panda3d.toontown import Vec4, loadDNAFile, CSDefault, TransformState, NodePath, TransparencyAttrib
+from toontown.toonbase.ToontownModules import Vec4, loadDNAFile, CSDefault, TransformState, NodePath, TransparencyAttrib
 from toontown.hood import GSHood
 
 class CrashedLeaderBoardDecorator(HolidayDecorator.HolidayDecorator):
