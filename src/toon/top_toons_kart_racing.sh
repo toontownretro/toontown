@@ -86,7 +86,7 @@ for file in $(cat /event_logs/toon_images);
 	cat /event_logs/dna | sed -e 's/<\/TH>/<\/TH>\n/g' | grep -a "setDNA" -A 1 | awk -F \< '{print $5}' | sed '2q' |awk -F \> '{print $1}' >> /event_logs/top_toon_dna
 	done
 cat /event_logs/top_toon_dna | sed '/^$/d' > /game_logs/topToonPictures/TopToons.txt
-cat /game_logs/topToonPictures/TopToons.txt | awk -F \\n '{print$1".png"}'|sed 1,1's/^/topToonImages=/g' > /event_logs/topToonImages/`date -d yesterday +%Y_%m_%d_small`/TopToonImages.txt
+cat /game_logs/topToonPictures/TopToons.txt | awk -F \\n '{print$1".txo"}'|sed 1,1's/^/topToonImages=/g' > /event_logs/topToonImages/`date -d yesterday +%Y_%m_%d_small`/TopToonImages.txt
 cat /event_logs/top_toons | awk -F \  '{print $1}' > /event_logs/toon_names
 rm /event_logs/names
 rm /event_logs/top_toon_names

@@ -131,10 +131,10 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
         # And only the high LOD has the desaturated textures.
         # Ideally all the LODs should have desaturated textures.
         # Since they don't we'll load the default textures and manually replace them.
-        desatShirtTex = loader.loadTexture("phase_3/maps/desat_shirt_1.tga")
-        desatSleeveTex = loader.loadTexture("phase_3/maps/desat_sleeve_1.tga")
-        desatShortsTex = loader.loadTexture("phase_3/maps/desat_shorts_1.tga")
-        desatSkirtTex = loader.loadTexture("phase_3/maps/desat_skirt_1.tga")
+        desatShirtTex = loader.loadTexture("phase_3/maps/desat_shirt_1.txo")
+        desatSleeveTex = loader.loadTexture("phase_3/maps/desat_sleeve_1.txo")
+        desatShortsTex = loader.loadTexture("phase_3/maps/desat_shorts_1.txo")
+        desatSkirtTex = loader.loadTexture("phase_3/maps/desat_skirt_1.txo")
 
         if (self.toon.hasLOD()):
             for lodName in self.toon.getLODNames():
@@ -163,7 +163,7 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
         gray = VBase4(1.6, 1.6, 1.6, 1)
         self.toon.setColor(gray, 10)
 
-        stoneTex = loader.loadTexture('phase_5.5/maps/smoothwall_1.tga')
+        stoneTex = loader.loadTexture('phase_5.5/maps/smoothwall_1.txo')
         # TextureStage for the entire toon model
         ts = TextureStage('ts')
         ts.setPriority(1)

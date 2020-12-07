@@ -50,8 +50,8 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
                            # Final State
                            'final',
                            )
-        self.musicFile = "phase_13/audio/bgm/party_original_theme.ogg"
-        self.activityMusicFile = "phase_13/audio/bgm/party_waltz_dance.ogg"
+        self.musicFile = "phase_13/audio/bgm/party_original_theme.mid"
+        self.activityMusicFile = "phase_13/audio/bgm/party_waltz_dance.mid"
         self.dnaFile = "phase_13/dna/party_sz.dna"
         # There is no safe zone specific DNA Storage for the party
         self.safeZoneStorageDNAFile = None

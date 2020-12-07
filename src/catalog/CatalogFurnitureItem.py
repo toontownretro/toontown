@@ -98,7 +98,7 @@ FurnitureTypes = {
 
 ##     # Velvet chair
 ##     120 : ("phase_5.5/models/estate/cushionChair",
-##            (("**/cushion*", "phase_5.5/maps/velvet_cushion.tga")),
+##            (("**/cushion*", "phase_5.5/maps/velvet_cushion.txo")),
 ##            { 0 : (("**/cushion*", (1, 0, 0, 1)),),
 ##              1 : (("**/cushion*", (0.6, 0.2, 1, 1)),),
 ##              2 : (("**/cushion*", (0.2, 0.2, 0.6, 1)),),

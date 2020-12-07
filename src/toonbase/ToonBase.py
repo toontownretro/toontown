@@ -316,7 +316,7 @@ class ToonBase(OTPBase.OTPBase):
         self.glitchCount = 0
         self.walking = 0
 
-        self.resetMusic = self.loadMusic("phase_3/audio/bgm/MIDI_Events_16channels.ogg")
+        self.resetMusic = self.loadMusic("phase_3/audio/bgm/MIDI_Events_16channels.mid")
 
     def __updatePostProcess(self, task):
         self.postProcess.update()

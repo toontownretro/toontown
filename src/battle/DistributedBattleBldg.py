@@ -54,10 +54,10 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         self.bossBattle = value
         if self.bossBattle:
             self.battleMusic = base.loadMusic(
-                'phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
+                'phase_7/audio/bgm/encntr_suit_winning_indoor.mid')
         else:
             self.battleMusic = base.loadMusic(
-                'phase_7/audio/bgm/encntr_general_bg_indoor.ogg')
+                'phase_7/audio/bgm/encntr_general_bg_indoor.mid')
         base.playMusic(self.battleMusic, looping=1, volume=0.9)
 
     def disable(self):

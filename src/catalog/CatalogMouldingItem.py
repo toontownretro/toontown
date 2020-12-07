@@ -9,32 +9,32 @@ MTBasePrice = 2
 # Also see TTLocalizer.MouldingNames.
 MouldingTypes = {
     # Wood - Series 1
-    1000 : ("phase_3.5/maps/molding_wood1.tga", CTBasicWoodColorOnWhite, 150),
+    1000 : ("phase_3.5/maps/molding_wood1.txo", CTBasicWoodColorOnWhite, 150),
     # Plain with colors - Series 1
-    1010 : ("phase_5.5/maps/bd_grey_border1.tga", CTFlatColorDark, 150),
+    1010 : ("phase_5.5/maps/bd_grey_border1.txo", CTFlatColorDark, 150),
     # Dental wood - Series 2
-    1020 : ("phase_5.5/maps/dental_Border_wood_neutral.tga", CTFlatColorDark, 150),
+    1020 : ("phase_5.5/maps/dental_Border_wood_neutral.txo", CTFlatColorDark, 150),
     # Flowers - Series 2
-    1030 : ("phase_5.5/maps/littleFlowers_border.tga", CTWhite, 150),
-    1040 : ("phase_5.5/maps/littleFlowers_border_neutral.tga", CTFlatColorDark, 150),
+    1030 : ("phase_5.5/maps/littleFlowers_border.txo", CTWhite, 150),
+    1040 : ("phase_5.5/maps/littleFlowers_border_neutral.txo", CTFlatColorDark, 150),
     # Ladybug - Unused
-    1050 : ("phase_5.5/maps/ladybugs2_Border.tga", CTFlatColorDark, 150),
+    1050 : ("phase_5.5/maps/ladybugs2_Border.txo", CTFlatColorDark, 150),
     # Valentines
-    1060 : ("phase_5.5/maps/bd_grey_border1.tga", CTValentinesColors, 150),
+    1060 : ("phase_5.5/maps/bd_grey_border1.txo", CTValentinesColors, 150),
     # Beach
-    1070 : ("phase_5.5/maps/bd_grey_border1.tga", CTUnderwaterColors, 150),
+    1070 : ("phase_5.5/maps/bd_grey_border1.txo", CTUnderwaterColors, 150),
     # Winter String Lights 1
-    1080 : ("phase_5.5/maps/tt_t_ara_int_border_winterLights1.tga", CTWhite, 150),
+    1080 : ("phase_5.5/maps/tt_t_ara_int_border_winterLights1.txo", CTWhite, 150),
     # Winter String Lights 2
-    1085 : ("phase_5.5/maps/tt_t_ara_int_border_winterLights2.tga", CTWhite, 150),
+    1085 : ("phase_5.5/maps/tt_t_ara_int_border_winterLights2.txo", CTWhite, 150),
     # Winter String Lights 3
-    1090 : ("phase_5.5/maps/tt_t_ara_int_border_winterLights3.tga", CTWhite, 150),
+    1090 : ("phase_5.5/maps/tt_t_ara_int_border_winterLights3.txo", CTWhite, 150),
     # Valentines Day - Cupid
-    1100 : ("phase_5.5/maps/tt_t_ara_int_border_valentine_cupid.tga", CTWhite, 150),
+    1100 : ("phase_5.5/maps/tt_t_ara_int_border_valentine_cupid.txo", CTWhite, 150),
     # Valentines Day - Heart 1
-    1110 : ("phase_5.5/maps/tt_t_ara_int_border_valentine_heart1.tga", CTWhite, 150),
+    1110 : ("phase_5.5/maps/tt_t_ara_int_border_valentine_heart1.txo", CTWhite, 150),
     # Valentines Day - Heart 2
-    1120 : ("phase_5.5/maps/tt_t_ara_int_border_valentine_heart2.tga", CTWhite, 150),
+    1120 : ("phase_5.5/maps/tt_t_ara_int_border_valentine_heart2.txo", CTWhite, 150),
     }
 
 class CatalogMouldingItem(CatalogSurfaceItem):

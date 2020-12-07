@@ -116,17 +116,17 @@ class FireworkShowMixin:
             instructionMessage = TTLocalizer.FireworksInstructions
             startMessage = TTLocalizer.FireworksJuly4Beginning
             endMessage = TTLocalizer.FireworksJuly4Ending
-            musicFile ="phase_4/audio/bgm/tt_party2.ogg"
+            musicFile ="phase_4/audio/bgm/tt_party2.mid"
         elif eventId == NEWYEARS_FIREWORKS:
             instructionMessage = TTLocalizer.FireworksInstructions
             startMessage = TTLocalizer.FireworksNewYearsEveBeginning
             endMessage = TTLocalizer.FireworksNewYearsEveEnding
-            musicFile ="phase_4/audio/bgm/tt_s_ara_gen_fireworks_auldLangSyne.ogg"
+            musicFile ="phase_4/audio/bgm/tt_s_ara_gen_fireworks_auldLangSyne.mid"
         elif eventId == PartyGlobals.FireworkShows.Summer:
             instructionMessage = TTLocalizer.FireworksActivityInstructions
             startMessage = TTLocalizer.FireworksActivityBeginning
             endMessage = TTLocalizer.FireworksActivityEnding
-            musicFile ="phase_4/audio/bgm/tt_summer.ogg"
+            musicFile ="phase_4/audio/bgm/tt_summer.mid"
         else:
             FireworkShowMixin.notify.warning(
                 "Invalid fireworks event ID: %d" % (eventId))

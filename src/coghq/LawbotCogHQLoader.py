@@ -46,7 +46,7 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
             state = self.fsm.getStateNamed(stateName)
             state.addTransition('factoryExterior')
 
-        self.musicFile = "phase_11/audio/bgm/LB_courtyard.ogg"
+        self.musicFile = "phase_11/audio/bgm/LB_courtyard.mid"
 
         self.cogHQExteriorModelPath = "phase_11/models/lawbotHQ/LawbotPlaza"
         #self.cogHQExteriorModelPath = "../../ttmodels.src/src/lawbotHQ/LawbotPlaza.mb"
