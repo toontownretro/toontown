@@ -1213,7 +1213,7 @@ class KartShopGuiMgr( DirectObject.DirectObject ):
 
                 if( accType in [ KartDNA.ebType, KartDNA.spType, KartDNA.fwwType, KartDNA.bwwType ] ):
                         texNodePath = getTexCardNode( accID )
-                        tex = loader.loadTexture( "phase_6/maps/%s.png" % ( texNodePath ) )
+                        tex = loader.loadTexture( "phase_6/maps/%s.txo" % ( texNodePath ) )
                 elif( accType == KartDNA.rimsType ):
                         if( accID == InvalidEntry ):
                                 # THIS WILL LIKELY NEED TO BE FIXED WHEN NEW RIM
@@ -1222,9 +1222,9 @@ class KartShopGuiMgr( DirectObject.DirectObject ):
                                 texNodePath = getTexCardNode( getDefaultRim() )
                         else:
                                 texNodePath = getTexCardNode( accID )
-                        tex = loader.loadTexture( "phase_6/maps/%s.png" % ( texNodePath ) )
+                        tex = loader.loadTexture( "phase_6/maps/%s.txo" % ( texNodePath ) )
                 elif( accType in [ KartDNA.bodyColor, KartDNA.accColor ] ):
-                        tex = loader.loadTexture( "phase_6/maps/Kartmenu_paintbucket.png" )
+                        tex = loader.loadTexture( "phase_6/maps/Kartmenu_paintbucket.txo" )
                         # Obtain the default color if the item is -1, handle this similar to the
                         # rims.
                         if( accID == InvalidEntry ):
@@ -1235,9 +1235,9 @@ class KartShopGuiMgr( DirectObject.DirectObject ):
                         #pdir(base.localAvatar)
                         kartDecal = getDecalId( base.localAvatar.getKartBodyType() )
                         texNodePath = getTexCardNode( accID )
-                        tex = loader.loadTexture( "phase_6/maps/%s.png" % (texNodePath) % ( kartDecal ) )
+                        tex = loader.loadTexture( "phase_6/maps/%s.txo" % (texNodePath) % ( kartDecal ) )
                 else:
-                        tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.png" )
+                        tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.txo" )
 
 
                 # set the mipmaps
@@ -1364,7 +1364,7 @@ class KartShopGuiMgr( DirectObject.DirectObject ):
 
             if( accType in [ KartDNA.ebType, KartDNA.spType, KartDNA.fwwType, KartDNA.bwwType ] ):
                 texNodePath = getTexCardNode( accID )
-                tex = loader.loadTexture( "phase_6/maps/%s.png" % ( texNodePath ) )
+                tex = loader.loadTexture( "phase_6/maps/%s.txo" % ( texNodePath ) )
             elif( accType == KartDNA.rimsType ):
                 if( accID == InvalidEntry ):
                         # THIS WILL LIKELY NEED TO BE FIXED WHEN NEW RIM
@@ -1373,9 +1373,9 @@ class KartShopGuiMgr( DirectObject.DirectObject ):
                         texNodePath = getTexCardNode( getDefaultRim() )
                 else:
                         texNodePath = getTexCardNode( accID )
-                tex = loader.loadTexture( "phase_6/maps/%s.png" % ( texNodePath ) )
+                tex = loader.loadTexture( "phase_6/maps/%s.txo" % ( texNodePath ) )
             elif( accType in [ KartDNA.bodyColor, KartDNA.accColor ] ):
-                tex = loader.loadTexture( "phase_6/maps/Kartmenu_paintbucket.png" )
+                tex = loader.loadTexture( "phase_6/maps/Kartmenu_paintbucket.txo" )
                 # Obtain the default color if the item is -1, handle this similar to the
                 # rims.
                 if( accID == InvalidEntry ):
@@ -1386,9 +1386,9 @@ class KartShopGuiMgr( DirectObject.DirectObject ):
                 #pdir(base.localAvatar)
                 kartDecal = getDecalId( base.localAvatar.getKartBodyType() )
                 texNodePath = getTexCardNode( accID )
-                tex = loader.loadTexture( "phase_6/maps/%s.png" % (texNodePath) % ( kartDecal ) )
+                tex = loader.loadTexture( "phase_6/maps/%s.txo" % (texNodePath) % ( kartDecal ) )
             else:
-                tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.png" )
+                tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.txo" )
 
             # set the mipmaps
             tex.setMinfilter(Texture.FTLinearMipmapLinear)

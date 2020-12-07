@@ -13,8 +13,8 @@ class MMTownLoader(TownLoader.TownLoader):
         assert self.notify.debug("__init__()")
         TownLoader.TownLoader.__init__(self, hood, parentFSM, doneEvent)
         self.streetClass = MMStreet.MMStreet
-        self.musicFile = "phase_6/audio/bgm/MM_SZ.ogg"
-        self.activityMusicFile = "phase_6/audio/bgm/MM_SZ_activity.ogg"
+        self.musicFile = "phase_6/audio/bgm/MM_SZ.mid"
+        self.activityMusicFile = "phase_6/audio/bgm/MM_SZ_activity.mid"
         self.townStorageDNAFile = "phase_6/dna/storage_MM_town.dna"
 
     def load(self, zoneId):

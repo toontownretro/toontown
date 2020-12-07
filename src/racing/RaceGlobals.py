@@ -360,31 +360,31 @@ TrackDict = {
     # id : (filepath, base qual time in secs, record qual time in sec, (race fee, circuit fee), gag pos list, turbo boost pos, gui map scale)
 
     # Stadium tracks
-    RT_Speedway_1     : (TrackPath + "RT_SpeedwayA", 240.00, 115.00, (50,500), RT_Speedway_1_Gags, Speedway_1_Boosts, 1.0, "GS_Race_SS.ogg", (0.01, 0.015)),
+    RT_Speedway_1     : (TrackPath + "RT_SpeedwayA", 240.00, 115.00, (50,500), RT_Speedway_1_Gags, Speedway_1_Boosts, 1.0, "GS_Race_SS.mid", (0.01, 0.015)),
 
-    RT_Speedway_1_rev : (TrackPath + "RT_SpeedwayA", 240.00, 115.00, (50,500), RT_Speedway_1_rev_Gags, Speedway_1_Rev_Boosts, 1.0, "GS_Race_SS.ogg", (0.01, 0.015)),
+    RT_Speedway_1_rev : (TrackPath + "RT_SpeedwayA", 240.00, 115.00, (50,500), RT_Speedway_1_rev_Gags, Speedway_1_Rev_Boosts, 1.0, "GS_Race_SS.mid", (0.01, 0.015)),
 
-    RT_Speedway_2     : (TrackPath + "RT_SpeedwayB", 335.00, 210.00, (75,1000), RT_Speedway_2_Gags, Speedway_2_Boosts, 1.0, "GS_Race_SS.ogg", (0.01, 0.015)),
+    RT_Speedway_2     : (TrackPath + "RT_SpeedwayB", 335.00, 210.00, (75,1000), RT_Speedway_2_Gags, Speedway_2_Boosts, 1.0, "GS_Race_SS.mid", (0.01, 0.015)),
 
-    RT_Speedway_2_rev : (TrackPath + "RT_SpeedwayB", 335.00, 210.00, (75,1000), RT_Speedway_2_Gags, Speedway_2_Rev_Boosts, 1.0, "GS_Race_SS.ogg", (0.01,  0.015)),
+    RT_Speedway_2_rev : (TrackPath + "RT_SpeedwayB", 335.00, 210.00, (75,1000), RT_Speedway_2_Gags, Speedway_2_Rev_Boosts, 1.0, "GS_Race_SS.mid", (0.01,  0.015)),
 
     # Rural tracks
-    RT_Rural_1        : (TrackPath + "RT_RuralB", 360.00, 230.00, (100,500), RT_Rural_1_Gags, Rural_1_Boosts, 0.75, "GS_Race_RR.ogg", (0.003, 0.004)),
+    RT_Rural_1        : (TrackPath + "RT_RuralB", 360.00, 230.00, (100,500), RT_Rural_1_Gags, Rural_1_Boosts, 0.75, "GS_Race_RR.mid", (0.003, 0.004)),
 
-    RT_Rural_1_rev    : (TrackPath + "RT_RuralB", 360.00, 230.00, (100,500), RT_Rural_1_Gags, Rural_1_Rev_Boosts, 0.75, "GS_Race_RR.ogg", (0.003, 0.004)),
+    RT_Rural_1_rev    : (TrackPath + "RT_RuralB", 360.00, 230.00, (100,500), RT_Rural_1_Gags, Rural_1_Rev_Boosts, 0.75, "GS_Race_RR.mid", (0.003, 0.004)),
 
-    RT_Rural_2        : (TrackPath + "RT_RuralB2", 480.00, 360.00, (150,1000), RT_Rural_2_Gags, Rural_2_Boosts, 0.75, "GS_Race_RR.ogg", (0.003, 0.004)),
+    RT_Rural_2        : (TrackPath + "RT_RuralB2", 480.00, 360.00, (150,1000), RT_Rural_2_Gags, Rural_2_Boosts, 0.75, "GS_Race_RR.mid", (0.003, 0.004)),
 
-    RT_Rural_2_rev    : (TrackPath + "RT_RuralB2", 480.00, 360.00, (150,1000), RT_Rural_2_Gags, Rural_2_Rev_Boosts, 0.75, "GS_Race_RR.ogg", (0.003, 0.004 )),
+    RT_Rural_2_rev    : (TrackPath + "RT_RuralB2", 480.00, 360.00, (150,1000), RT_Rural_2_Gags, Rural_2_Rev_Boosts, 0.75, "GS_Race_RR.mid", (0.003, 0.004 )),
 
     # City tracks
-    RT_Urban_1        : (TrackPath + "RT_UrbanA", 480.00, 305.00, (300,500), RT_Urban_1_Gags, Urban_1_Boosts, 1.0, "GS_Race_CC.ogg", (0.002, 0.003)),
+    RT_Urban_1        : (TrackPath + "RT_UrbanA", 480.00, 305.00, (300,500), RT_Urban_1_Gags, Urban_1_Boosts, 1.0, "GS_Race_CC.mid", (0.002, 0.003)),
 
-    RT_Urban_1_rev    : (TrackPath + "RT_UrbanA", 480.00, 305.00, (300,500), RT_Urban_1_rev_Gags, Urban_1_Rev_Boosts, 1.0, "GS_Race_CC.ogg", (0.002, 0.003)),
+    RT_Urban_1_rev    : (TrackPath + "RT_UrbanA", 480.00, 305.00, (300,500), RT_Urban_1_rev_Gags, Urban_1_Rev_Boosts, 1.0, "GS_Race_CC.mid", (0.002, 0.003)),
 
-    RT_Urban_2        : (TrackPath + "RT_UrbanB", 480.00, 280.00, (400,1000), RT_Urban_2_Gags, Urban_2_Boosts, 1.0, "GS_Race_CC.ogg", (0.002, 0.003)),
+    RT_Urban_2        : (TrackPath + "RT_UrbanB", 480.00, 280.00, (400,1000), RT_Urban_2_Gags, Urban_2_Boosts, 1.0, "GS_Race_CC.mid", (0.002, 0.003)),
 
-    RT_Urban_2_rev    : (TrackPath + "RT_UrbanB", 480.00, 280.00, (400,1000), RT_Urban_2_Gags, Urban_2_Rev_Boosts, 1.0, "GS_Race_CC.ogg", (0.002, 0.003))
+    RT_Urban_2_rev    : (TrackPath + "RT_UrbanB", 480.00, 280.00, (400,1000), RT_Urban_2_Gags, Urban_2_Rev_Boosts, 1.0, "GS_Race_CC.mid", (0.002, 0.003))
 
     }
 

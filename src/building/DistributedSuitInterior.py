@@ -72,9 +72,9 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         self.BossOffice_SuitHs = [170, 120, 12, 38]
 
         self.waitMusic = base.loadMusic(
-            'phase_7/audio/bgm/encntr_toon_winning_indoor.ogg')
+            'phase_7/audio/bgm/encntr_toon_winning_indoor.mid')
         self.elevatorMusic = base.loadMusic(
-            'phase_7/audio/bgm/tt_elevator.ogg')
+            'phase_7/audio/bgm/tt_elevator.mid')
 
         self.fsm = ClassicFSM.ClassicFSM('DistributedSuitInterior',
                         [State.State('WaitForAllToonsInside',

@@ -472,7 +472,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         else:
             rimTexPath = getAccessory( self.kartDNA[ KartDNA.rimsType ] )
 
-        rimTex = loader.loadTexture( "%s.png" % ( rimTexPath ) )
+        rimTex = loader.loadTexture( "%s.txo" % ( rimTexPath ) )
 
         for kart in self.geom:
             # Obtain the Rim nodes from the geometry.
@@ -635,8 +635,8 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
             decalId = getAccessory( self.kartDNA[ KartDNA.decalType ] )
             kartDecal = getDecalId( self.kartDNA[ KartDNA.bodyType ]  )
 
-            hoodDecalTex = loader.loadTexture( "phase_6/maps/%s_HoodDecal_%s.png" % ( kartDecal, decalId ) )
-            sideDecalTex = loader.loadTexture( "phase_6/maps/%s_SideDecal_%s.png" % ( kartDecal, decalId ) )
+            hoodDecalTex = loader.loadTexture( "phase_6/maps/%s_HoodDecal_%s.txo" % ( kartDecal, decalId ) )
+            sideDecalTex = loader.loadTexture( "phase_6/maps/%s_SideDecal_%s.txo" % ( kartDecal, decalId ) )
 
             # set the mipmaps
             hoodDecalTex.setMinfilter(Texture.FTLinearMipmapLinear)

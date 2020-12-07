@@ -36,8 +36,8 @@ class InGameNewsFrame(HtmlView.HtmlView):
         filename = "news_snapshot_" + curtime.isoformat()
         filename = filename.replace(":", "-")
         filename = filename.replace(".", "-")
-        pngfilename =filename + ".png"
+        pngfilename =filename + ".txo"
         self.writeTex(pngfilename)
-        jpgfilename = filename + ".png"
+        jpgfilename = filename + ".txo"
         self.writeTex(jpgfilename)
         return jpgfilename

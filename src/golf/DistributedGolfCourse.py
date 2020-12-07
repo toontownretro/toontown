@@ -166,7 +166,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                 av.show()
 
     def load(self):
-        self.music = base.loadMusic("phase_6/audio/bgm/GZ_PlayGolf.ogg")
+        self.music = base.loadMusic("phase_6/audio/bgm/GZ_PlayGolf.mid")
         pass
 
 

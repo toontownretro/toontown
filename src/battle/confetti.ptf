@@ -28,7 +28,7 @@ p0.renderer.setAlphaMode(BaseParticleRenderer.PRALPHAUSER)
 p0.renderer.setUserAlpha(1.00)
 # Sprite parameters
 p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/spark")
-#p0.renderer.addTextureFromFile('confetti.png')
+#p0.renderer.addTextureFromFile('confetti.txo')
 p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
 p0.renderer.setXScaleFlag(1)
 p0.renderer.setYScaleFlag(1)
