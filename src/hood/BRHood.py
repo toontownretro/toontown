@@ -23,6 +23,12 @@ class BRHood(ToonHood.ToonHood):
         self.spookySkyFile = "phase_3.5/models/props/BR_sky"
         self.titleColor = (0.3, 0.6, 1.0, 1.0)
 
+        self.sunTemp = 6500
+        self.sunIntensity = 50000
+        self.skyLightScale = 100
+        self.ambientTemp = 7000
+        self.sunShadowSoftnessFactor = 10.0
+
     def load(self):
         ToonHood.ToonHood.load(self)
         self.parentFSM.getStateNamed("BRHood").addChild(self.fsm)
