@@ -35,9 +35,20 @@ hbao-angle-bias 0.564
 hbao-strength 5.0
 
 hdr-enable 1
-bloom-enable 1
+bloom-enable 0
 fxaa-enable 1
-ssao-enable 0
+ssao-enable 1
+motion-blur-enable 0
+
+hdr-exposure-min 0
+hdr-exposure-max 2
+hdr-tonemap-scale 2
+hdr-max-shutter 30
+hdr-min-aperature 3.5
+hdr-max-iso 12800
+hdr-exposure-method 1
+
+bloom-downsample-factor 1
 
 ao-blur-normal-factor 0
 ao-blur-depth-factor 0
