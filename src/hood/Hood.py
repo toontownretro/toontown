@@ -65,6 +65,58 @@ class Hood(StateData.StateData):
         self.spookySkyFile = None
         self.halloweenLights = []
 
+        # The lighting configuration for this hood.
+        self.ambientLight = None
+        self.ambientTemp = 7000
+        self.ambientIntensity = 20000
+
+        self.wantSun = True
+        self.sunLight = None
+        self.sunTemp = 5000
+        self.sunIntensity = 110000
+        self.sunAngles = Vec3(35, -75, 0)
+        self.sunShadowSoftnessFactor = 2.0
+
+        # Color scale factor for the sky.
+        self.skyLightScale = 120
+
+    def createOutdoorLighting(self):
+        alight = AmbientLight("hood-ambient-light")
+        base.lightColor(alight, self.ambientTemp, self.ambientIntensity)
+        self.ambientLight = base.render.attachNewNode(alight)
+
+        if self.wantSun:
+            slight = CascadeLight("hood-sun-light")
+            base.lightColor(slight, self.sunTemp, self.sunIntensity)
+            slight.setSceneCamera(base.cam)
+            slight.setShadowCaster(True, 4096, 4096)
+            slight.setCameraMask(OTPRender.ShadowCameraBitmask)
+            slight.setSoftnessFactor(self.sunShadowSoftnessFactor)
+            self.sunLight = base.render.attachNewNode(slight)
+            self.sunLight.setHpr(self.sunAngles)
+
+    def destroyOutdoorLighting(self):
+        self.disableLights()
+
+        if self.ambientLight:
+            self.ambientLight.removeNode()
+            self.ambientLight = None
+        if self.sunLight:
+            self.sunLight.removeNode()
+            self.sunLight = None
+
+    def enableLights(self):
+        if self.ambientLight:
+            base.render.setLight(self.ambientLight)
+        if self.sunLight:
+            base.render.setLight(self.sunLight)
+
+    def disableLights(self):
+        if self.ambientLight:
+            base.render.clearLight(self.ambientLight)
+        if self.sunLight:
+            base.render.clearLight(self.sunLight)
+
     def enter(self, requestStatus):
         """
         enter this hood and start the state machine
@@ -84,6 +136,8 @@ class Hood(StateData.StateData):
             drawOrder = 0,
             mayChange = 1,
             )
+
+        self.enableLights()
 
         self.fsm.request(requestStatus["loader"], [requestStatus])
 
@@ -140,6 +194,7 @@ class Hood(StateData.StateData):
         if self.titleText:
             self.titleText.cleanup()
             self.titleText = None
+        self.disableLights()
         base.localAvatar.stopChat()
 
     def load(self):
@@ -163,17 +218,20 @@ class Hood(StateData.StateData):
             if (ToontownGlobals.HALLOWEEN_COSTUMES not in holidayIds) or (not self.spookySkyFile):
                 # Load the sky model so we will have it in memory for the entire hood
                 self.sky = loader.loadModel(self.skyFile)
+                self.sky.setColorScale(Vec4(Vec3(self.skyLightScale), 1.0))
                 self.sky.setTag("sky","Regular")
                 self.sky.setScale(1.0)
                 self.sky.setFogOff()
             else:
                 self.sky = loader.loadModel(self.spookySkyFile)
+                self.sky.setColorScale(Vec4(Vec3(self.skyLightScale), 1.0))
                 self.sky.setTag("sky","Halloween")
         if not newsManager:
             # Load the sky model so we will have it in memory for the entire hood
             self.sky = loader.loadModel(self.skyFile)
             self.sky.setTag("sky","Regular")
             self.sky.setScale(1.0)
+            self.sky.setColorScale(Vec4(Vec3(self.skyLightScale), 1.0))
             # Normally, fog is turned off for the sky.  This will prevent
             # the sky from being contaminated by the trolley tunnel shadow
             # if we jump on the trolley.  Hoods like DD that require fog
@@ -183,6 +241,8 @@ class Hood(StateData.StateData):
         self.sky.setLightOff()
         OTPRender.renderShadow(False, self.sky)
 
+        self.createOutdoorLighting()
+        
     def unload(self):
         """
         unload the hood models and dna storage
@@ -213,6 +273,8 @@ class Hood(StateData.StateData):
         self.sky.removeNode()
         del self.sky
 
+        self.destroyOutdoorLighting()
+         
         self.ignoreAll()
         # Get rid of any references to the models or textures from this hood
         ModelPool.garbageCollect()

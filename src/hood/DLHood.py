@@ -21,6 +21,12 @@ class DLHood(ToonHood.ToonHood):
         self.skyFile = "phase_8/models/props/DL_sky"
         self.titleColor = (1.0, 0.9, 0.5, 1.0)
 
+        self.ambientTemp = 7000
+        self.ambientIntensity = 0.08
+        self.sunTemp = 7500
+        self.sunIntensity = 0.1
+        self.skyLightScale = 0.2
+
     def load(self):
         ToonHood.ToonHood.load(self)
         self.parentFSM.getStateNamed("DLHood").addChild(self.fsm)

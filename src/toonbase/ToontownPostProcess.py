@@ -1,4 +1,4 @@
-from panda3d.core import Shader, PTA_LVecBase3f, Vec3, loadPrcFileData
+from panda3d.core import Shader, PTA_LVecBase3f, Vec3, loadPrcFileData, TextNode
 from panda3d.core import PostProcess, PostProcessPass, PostProcessEffect, HDREffect, \
     BloomEffect, FXAA_Effect, SSAO_Effect, MotionBlur, PTA_LVecBase2f, AUXTEXTUREBITS_NORMAL, AUXTEXTURE_NORMAL
 
@@ -24,6 +24,9 @@ class ToontownPostProcess(PostProcess):
         self.hbaoControls = []
         self.hbaoControlZ = -0.2
 
+        self.camDebugs = []
+        self.camDebugZ = -0.2
+
         self.enableHDR = base.config.GetBool("hdr-enable", True)
         self.enableBloom = base.config.GetBool("bloom-enable", True)
         self.enableSSAO = base.config.GetBool("ssao-enable", True)
@@ -41,6 +44,61 @@ class ToontownPostProcess(PostProcess):
         base.accept('f2', self.incExposureBias)
 
         #self.setupHBAOControls()
+        if self.enableHDR:
+            self.setupCamDebugs()
+            taskMgr.add(self.updateCamDebugs, "updateCamDebugs")
+
+    def addCamDebug(self):
+        self.camDebugs.append(OnscreenText("", align = TextNode.ALeft, scale = 0.1, pos = (0.05, self.camDebugZ), parent=base.a2dTopLeft, fg = (1, 1, 1, 1), shadow=(0, 0, 0, 1)))
+        self.camDebugZ -= 0.1
+
+    def setupCamDebugs(self):
+        for i in range(8):
+            # Auto method, Shutter speed, aperature, ISO, exposure, luminance, lum max
+            self.addCamDebug()
+
+    def updateCamDebugs(self, task):
+        method = self.camDebugs[0]
+        methodVal = base.config.GetInt("hdr-exposure-auto-method")
+        if methodVal == 0:
+            method.setText("Program AE")
+        elif methodVal == 1:
+            method.setText("Shutter priority AE")
+        elif methodVal == 2:
+            method.setText("Aperture priority AE")
+        shutter = self.camDebugs[1]
+        denom = self.hdr.getHdrPass().getShutterSpeed()
+        if denom >= 1:
+            shutter.setText(f"Shutter Speed: {int(denom)}\"")
+        else:
+            shutter.setText(f"Shutter Speed: 1/{int(1 / denom)}")
+
+        apSize = self.hdr.getHdrPass().getAperature()
+        aperature = self.camDebugs[2]
+        aperature.setText(f"Aperture: f{round(apSize * 2) / 2}")
+
+        isoVal = self.hdr.getHdrPass().getIso()
+        iso = self.camDebugs[3]
+        iso.setText(f"ISO: {int(isoVal)}")
+
+        expVal = self.hdr.getHdrPass().getExposure()
+        exp = self.camDebugs[4]
+        exp.setText(f"EV: {format(expVal, '.2f')}")
+
+        lumVal = self.hdr.getHdrPass().getLuminance()
+        lum = self.camDebugs[5]
+        lum.setText(f"L Avg: {format(lumVal, '.2f')}")
+
+        lMaxVal = self.hdr.getHdrPass().getMaxLuminance()
+        lMax = self.camDebugs[6]
+        lMax.setText(f"L Max: {format(lMaxVal, '.2f')}")
+
+        fVal = base.camLens.getFocalLength() * 25.4
+        f = self.camDebugs[7]
+        f.setText(f"Focal Length: {int(fVal)} mm")
+
+        task.delayTime = 1.0
+        return task.again
 
     def titleSliderBar(self, title, min, max, varname):
         def __updateVarValue(slider, title, text, varname):
@@ -174,6 +232,13 @@ class ToontownPostProcess(PostProcess):
         ptext += "out vec4 outputColor;\n"
         ptext += "in vec2 l_texcoord;\n"
 
+        ptext += "vec3 AccurateLinearToSRGB(vec3 linearCol) {\n"
+        ptext += "  vec3 sRGBLo = linearCol * 12.92;\n"
+        ptext += "  vec3 sRGBHi = (pow(abs(linearCol), vec3(1.0/2.4)) * 1.055) - 0.055;\n"
+        ptext += "  vec3 sRGB = (length(linearCol) <= 0.0031308) ? sRGBLo : sRGBHi;\n"
+        ptext += "  return sRGB;\n"
+        ptext += "}\n"
+
         for sampler in textures.keys():
             ptext += "uniform sampler2D " + sampler + ";\n"
 
@@ -205,7 +270,7 @@ class ToontownPostProcess(PostProcess):
             ptext += "  float F = 0.30;\n"
             ptext += "  return ((x*(A*x+C*B)+D*E)/(x*(A*x+B)+D*F))-E/F;\n"
             ptext += "}\n"
-            #ptext += "uniform vec3 k_contrast[1];\n"
+
             ptext += "uniform float p3d_ExposureScale;\n"
 
         ptext += "void main()\n"
@@ -215,8 +280,6 @@ class ToontownPostProcess(PostProcess):
             ptext += "  outputColor.rgb *= texture(aoSampler, l_texcoord).r;\n"
         if self.enableBloom:
             ptext += "  vec3 bloomSample = texture(bloomSampler, l_texcoord).rgb;\n"
-            if self.enableHDR:
-                ptext += "  bloomSample *= p3d_ExposureScale;\n"
             ptext += "  outputColor.rgb += bloomSample;\n"
         if self.flashEnabled:
             ptext += "  outputColor.rgb += pow(flashColor[0], vec3(2.2));\n"
@@ -234,8 +297,15 @@ class ToontownPostProcess(PostProcess):
         #ptext += "  outputColor.rgb = clamp(outputColor.rgb, 0, 1);\n"
             #ptext += "  outputColor.rgb = outputColor.rgb / (outputColor.rgb + vec3(0.155)) * 1.019;\n"
         #if self.enableHDR:
-            #ptext += "  outputColor.rgb = vec3(1.0) - exp(-outputColor.rgb * p3d_ExposureScale);\n"
-            ptext += "  outputColor.rgb *= p3d_ExposureScale;"
+            ptext += "  outputColor.rgb = vec3(1.0) - exp(-outputColor.rgb * p3d_ExposureScale);\n"
+        #ptext += "  outputColor.rgb = AccurateLinearToSRGB(outputColor.rgb);\n"
+            #ptext += "  float targetEV = ComputeTargetEV(p3d_ExposureScale);\n"
+            #ptext += "  float aperature = 0.0;\n"
+            #ptext += "  float shutterSpeed = 0.0;\n"
+            #ptext += "  float iso = 0.0;\n"
+            #ptext += "  ApplyProgramAuto(1.0, targetEV, aperature, shutterSpeed, iso);\n"
+            #ptext += "  outputColor.rgb *= GetSaturationBasedExposure(aperature, shutterSpeed, iso);\n"
+            #ptext += "  outputColor.rgb *= p3d_ExposureScale;\n"
         if self.enableSSAO and base.config.GetBool("ao-debug", False):
             ptext += "  outputColor.rgb = vec3(texture(aoSampler, l_texcoord).x);\n"
         ptext += "}\n"
