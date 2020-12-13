@@ -24,6 +24,10 @@ class MMHood(ToonHood.ToonHood):
 
         self.titleColor = (1.0, 0.5, 0.5, 1.0)
 
+        self.sunTemp = 3000
+        self.sunIntensity = 100000
+        self.sunAngles = Vec3(35, -45, 0)
+        
     def load(self):
         ToonHood.ToonHood.load(self)
         self.parentFSM.getStateNamed("MMHood").addChild(self.fsm)

@@ -24,6 +24,9 @@ class DGHood(ToonHood.ToonHood):
         self.spookySkyFile = "phase_3.5/models/props/BR_sky"
         self.titleColor = (0.8, 0.6, 1.0, 1.0)
 
+        # Use a lower ambient intensity.  DG isn't as bright as TTC.
+        #self.ambientIntensity = 4.5
+
     def load(self):
         ToonHood.ToonHood.load(self)
         self.parentFSM.getStateNamed("DGHood").addChild(self.fsm)

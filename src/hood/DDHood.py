@@ -25,6 +25,12 @@ class DDHood(ToonHood.ToonHood):
         self.underwaterFogColor = Vec4(0.0, 0.0, 0.6, 1.0)
         self.spookySkyFile = "phase_3.5/models/props/BR_sky"
 
+        self.sunTemp = 6500
+        self.sunIntensity = 50000
+        self.skyLightScale = 100
+        self.ambientTemp = 7000
+        self.sunShadowSoftnessFactor = 10.0
+
     def load(self):
         ToonHood.ToonHood.load(self)
         self.parentFSM.getStateNamed("DDHood").addChild(self.fsm)

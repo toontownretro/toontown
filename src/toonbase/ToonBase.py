@@ -94,28 +94,10 @@ class ToonBase(OTPBase.OTPBase):
         # this is temporary until we pull in the new launcher code in production
         self.exitErrorCode = 0
 
-        def lightColor(rgbs):
-            s = rgbs[3] / 255.0
-            return LColor(
-                (rgbs[0] * s) / 255.0,
-                (rgbs[1] * s) / 255.0,
-                (rgbs[2] * s) / 255.0,
-                1.0
-            )
-
-        self.ambient = AmbientLight('ambient')
-        self.ambient.setColor(lightColor((200, 202, 230, 200)))
-        self.ambientNP = self.render.attachNewNode(self.ambient)
-        self.render.setLight(self.ambientNP)
-
-        self.sunlight = CascadeLight('sunlight')
-        self.sunlight.setColor(lightColor((221, 206, 189, 750)))
-        self.sunlight.setSceneCamera(self.cam)
-        self.sunlight.setShadowCaster(True, 4096, 4096)
-        self.sunlight.setCameraMask(OTPRender.ShadowCameraBitmask)
-        self.sunlightNP = self.render.attachNewNode(self.sunlight)
-        self.sunlightNP.setHpr(90 - 55, -65, 0)
-        self.render.setLight(self.sunlightNP)
+        #self.fog = Fog('areafog')
+        #self.fog.setColor(self.ambient.getColor())
+        #self.fog.setExpDensity(0.0001)
+        #self.render.setFog(self.fog)
 
         self.planar = PlanarReflector(1024)
 
@@ -317,6 +299,10 @@ class ToonBase(OTPBase.OTPBase):
         self.walking = 0
 
         self.resetMusic = self.loadMusic("phase_3/audio/bgm/MIDI_Events_16channels.mid")
+
+    def lightColor(self, light, temp, intensity):
+        light.setColorTemperature(temp)
+        light.setColor(Vec4(light.getColor().getXyz() * intensity, 1.0))
 
     def __updatePostProcess(self, task):
         self.postProcess.update()
