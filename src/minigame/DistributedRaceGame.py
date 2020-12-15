@@ -1,6 +1,7 @@
 from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.distributed.ClockDelta import *
+from direct.interval.IntervalGlobal import *
 from .DistributedMinigame import *
 from direct.gui.DirectGui import *
 from toontown.toonbase.ToontownModules import *
@@ -135,6 +136,11 @@ class DistributedRaceGame(DistributedMinigame):
         # are filled in, the timer will be displayed.
         self.timer = None
         self.timerStartTime = None
+
+        # These hold the various intervals we create for moving and running
+        # avatars.
+        self.walkSeqs = {}
+        self.runSeqs = {}
 
     def getTitle(self):
         return TTLocalizer.RaceGameTitle
@@ -603,10 +609,9 @@ class DistributedRaceGame(DistributedMinigame):
         # chance card text
         base.playSfx(task.cardSound)
         self.chanceCard.reparentTo(render)
-        self.chanceCard.lerpPosHpr(19.62, 13.41, 13.14,
-                                   270, 0, -85.24, 1.0,
-                                   other=camera,
-                                   task="cardLerp")
+        quat = Quat()
+        quat.setHpr((270, 0, -85.24))
+        self.chanceCard.posQuatInterval(1.0, (19.62, 13.41, 13.14), quat, other=camera, name='cardLerp').start()
         return Task.done
 
     def hideChanceMarker(self, task):
@@ -708,15 +713,15 @@ class DistributedRaceGame(DistributedMinigame):
         camera.lookAt(posLookAt[0],posLookAt[1],posLookAt[2])
 
         # get the newly computed target HPR
-        CamHpr = camera.getHpr()
+        CamQuat = Quat()
+        CamQuat.setHpr(camera.getHpr())
 
         # put the camera back to original poshpr
         camera.setPos(savedCamPos)
         camera.setHpr(savedCamHpr)
 
         # set up lerp to new poshpr
-        camera.lerpPosHpr(CamPos[0], CamPos[1], CamPos[2],
-                          CamHpr[0], CamHpr[1], CamHpr[2], 0.75)
+        camera.posQuatInterval(0.75, CamPos, CamQuat).start()
 
     def getWalkDuration(self, squares_walked):
         # Walk duration is scaled to how far you need to walk
@@ -804,8 +809,16 @@ class DistributedRaceGame(DistributedMinigame):
                 if avatar:
                     # be sure to stop this avatar's neutral from playing
                     lane = str(self.avIdList.index(avId))
-                    taskMgr.remove("runAvatar-" + lane)
-                    taskMgr.remove("walkAvatar-" + lane)
+                    if lane in list(self.runSeqs.keys()):
+                        runSeq = self.runSeqs[lane]
+                        if runSeq:
+                            runSeq.finish()
+                        del self.runSeqs[lane]
+                    if lane in list(self.walkSeqs.keys()):
+                        walkSeq = self.walkSeqs[lane]
+                        if walkSeq:
+                            walkSeq.finish()
+                        del self.walkSeqs[lane]
                     avatar.setAnimState("jump", 1.0)
 
         taskMgr.doMethodLater(4.0, self.gameOverCallback, "playMovie")
@@ -835,33 +848,22 @@ class DistributedRaceGame(DistributedMinigame):
         place = min(place, len(self.posHprArray[lane]) - 1)
         posH = self.posHprArray[lane][place]
 
-        def startWalk(task):
-            task.avatar.setAnimState("walk", 1)
-            return Task.done
-        startWalkTask = Task(startWalk, "startWalk-" + str(lane))
-        startWalkTask.avatar = avatar
-
-        def stopWalk(task, raceBoard=self.raceBoard, posH=posH):
-            task.avatar.setAnimState("neutral", 1)
+        def stopWalk(raceBoard=self.raceBoard, posH=posH):
+            avatar.setAnimState("neutral", 1)
             if raceBoard.isEmpty():
-                task.avatar.setPosHpr(0, 0, 0, 0, 0, 0)
+                avatar.setPosHpr(0, 0, 0, 0, 0, 0)
             else:
-                task.avatar.setPosHpr(raceBoard,
-                                      posH[0], posH[1], posH[2],
-                                      posH[3], 0, 0)
-            return Task.done
-        stopWalkTask = Task(stopWalk, "stopWalk-" + str(lane))
-        stopWalkTask.avatar = avatar
+                avatar.setPosHpr(raceBoard,
+                                 posH[0], posH[1], posH[2],
+                                 posH[3], 0, 0)
 
-        walkTask = Task.sequence(startWalkTask,
-                                 avatar.lerpPosHpr(posH[0], posH[1], posH[2],
-                                                   posH[3], 0, 0,
-                                                   time, # seconds
-                                                   other=self.raceBoard),
-                                 stopWalkTask,
-                                 )
-
-        taskMgr.add(walkTask, "walkAvatar-" + str(lane))
+        posQuat = Quat()
+        posQuat.setHpr((posH[3], 0, 0))
+        walkSeq = Sequence(Func(avatar.setAnimState, 'walk', 1),
+                           avatar.posQuatInterval(time, (posH[0], posH[1], posH[2]), posQuat, other=self.raceBoard),
+                           Func(stopWalk))
+        self.walkSeqs[str(lane)] = walkSeq
+        walkSeq.start()
 
     def runInPlace(self, avatar, lane, currentPlace, newPlace, time):
         # Put the avatar in lane and place specified
@@ -875,38 +877,25 @@ class DistributedRaceGame(DistributedMinigame):
         pos2 = self.posHprArray[lane][currentPlace + 2 * step]
         pos3 = self.posHprArray[lane][place]
 
-        def startRun(task):
-            task.avatar.setAnimState("run", 1)
-            return Task.done
-        startRunTask = Task(startRun, "startRun-" + str(lane))
-        startRunTask.avatar = avatar
+        def stopRun(raceBoard=self.raceBoard, pos3=pos3):
+            avatar.setAnimState("neutral", 1)
+            avatar.setPosHpr(raceBoard,
+                             pos3[0], pos3[1], pos3[2],
+                             pos3[3], 0, 0)
 
-        def stopRun(task, raceBoard=self.raceBoard, pos3=pos3):
-            task.avatar.setAnimState("neutral", 1)
-            task.avatar.setPosHpr(raceBoard,
-                                  pos3[0], pos3[1], pos3[2],
-                                  pos3[3], 0, 0)
-            return Task.done
-        stopRunTask = Task(stopRun, "stopRun-" + str(lane))
-        stopRunTask.avatar = avatar
-
-        runTask = Task.sequence(startRunTask,
-                                avatar.lerpPosHpr(pos1[0], pos1[1], pos1[2],
-                                                  pos1[3], 0, 0,
-                                                  time / 3., # seconds
-                                                  other=self.raceBoard),
-                                avatar.lerpPosHpr(pos2[0], pos2[1], pos2[2],
-                                                  pos2[3], 0, 0,
-                                                  time / 3., # seconds
-                                                  other=self.raceBoard),
-                                avatar.lerpPosHpr(pos3[0], pos3[1], pos3[2],
-                                                  pos3[3], 0, 0,
-                                                  time / 3., # seconds
-                                                  other=self.raceBoard),
-                                stopRunTask,
-                                )
-
-        taskMgr.add(runTask, "runAvatar-" + str(lane))
+        pos1Quat = Quat()
+        pos1Quat.setHpr((pos1[3], 0, 0))
+        pos2Quat = Quat()
+        pos2Quat.setHpr((pos2[3], 0, 0))
+        pos3Quat = Quat()
+        pos3Quat.setHpr((pos3[3], 0, 0))
+        runSeq = Sequence(Func(avatar.setAnimState, 'run', 1),
+                          avatar.posQuatInterval(time / 3.0, (pos1[0], pos1[1], pos1[2]), pos1Quat, other=self.raceBoard),
+                          avatar.posQuatInterval(time / 3.0, (pos2[0], pos2[1], pos2[2]), pos2Quat, other=self.raceBoard),
+                          avatar.posQuatInterval(time / 3.0, (pos3[0], pos3[1], pos3[2]), pos3Quat, other=self.raceBoard),
+                          Func(stopRun))
+        self.runSeqs[str(lane)] = runSeq
+        runSeq.start()
 
     def setAvatarChoice(self, choice):
         # This should only be called on the server
