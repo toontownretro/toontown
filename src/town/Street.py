@@ -6,6 +6,7 @@ from toontown.battle.BattleSounds import *
 from toontown.distributed.ToontownMsgTypes import *
 from direct.gui.DirectGui import cleanupDialog
 from direct.directnotify import DirectNotifyGlobal
+from direct.showbase.PythonUtil import Functor, uniqueName
 from toontown.hood import Place
 from toontown.battle import BattlePlace
 from direct.showbase import DirectObject
@@ -340,18 +341,33 @@ class Street(BattlePlace.BattlePlace):
         # Hey! That's funny... We don't even seem to need this, unless
         # we want to use it to place ourselves inside the elevator while
         # we wait for the building to start the movie...
-        bldg = base.cr.doId2do.get(requestStatus['bldgDoId'])
+
+        # Start a task to wait for the building to show up.
+        self._eiwbTask = taskMgr.add(
+            Functor(self._elevInWaitBldgTask, requestStatus['bldgDoId']),
+            uniqueName('elevInWaitBldg'))
+
         # TODO: Place us in the elevator while we wait for the building
         # to start the movie.
 
+    def _elevInWaitBldgTask(self, bldgDoId, task):
+        bldg = base.cr.doId2do.get(bldgDoId)
+        if bldg:
+            if bldg.elevatorNodePath is not None:
+                # The building is finally generated, let the building know
+                # we're inside the elevator.
+                self._enterElevatorGotElevator()
+                return Task.done
+        return Task.cont
+
+    def _enterElevatorGotElevator(self):
         # We throw this event to tell the building that we are ready
         # to exit the building now.
-        messenger.send("insideVictorElevator")
-        assert bldg
+        messenger.send('insideVictorElevator')
 
     def exitElevatorIn(self):
         assert self.notify.debug("exitElevatorIn()")
-
+        taskMgr.remove(self._eiwbTask)
 
     # elevator state
     # (For boarding a building elevator)
