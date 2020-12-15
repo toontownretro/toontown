@@ -763,12 +763,11 @@ class DistributedPatternGame(DistributedMinigame):
                                 index, len(self.avIdList))
 
     # make minnie talk
-    def __setMinnieChat(self, str, giggle):
+    def __setMinnieChat(self, chat, giggle):
         # there may or may not be a %s in the string; replace with
         # toon name
-        str = string.replace(str, "%s",
-                             self.getAvatar(self.localAvId).getName())
-        self.minnie.setChatAbsolute(str, CFSpeech)
+        chat = chat.replace("%s", self.getAvatar(self.localAvId).getName())
+        self.minnie.setChatAbsolute(chat, CFSpeech)
         if giggle:
             self.minnie.playDialogue("statementA", 1)
 
