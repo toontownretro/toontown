@@ -474,7 +474,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         #self.outFov = VBase2(orgFov[0] * 1.0, orgFov[1] * 1.0)
         #self.zoomFov = VBase2(orgFov[0] * ZOOMRATIO, orgFov[1] * ZOOMRATIO)
 
-        orgFov = base.camLens.getMinFov()
+        orgFov = base.camLens.getFov()
         self.outFov = orgFov.getX()
         self.zoomFov = orgFov.getX() * ZOOMRATIO
 
