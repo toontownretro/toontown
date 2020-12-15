@@ -179,6 +179,8 @@ class MinigamePhysicsWorldBase:
     def simulate(self):
         """Do one physics step."""
         self.colCount = self.space.autoCollide() # Detect collisions and create contact joints
+        if self.colCount is None:
+            self.colCount = 0
         if self.maxColCount < self.colCount:
             self.maxColCount = self.colCount
             self.notify.debug("New Max Collision Count %s" % (self.maxColCount))
