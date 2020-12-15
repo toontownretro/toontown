@@ -150,7 +150,7 @@ class DistributedNPCClerk(DistributedNPCToonBase):
 
             if (self.isLocalToon):
                 camera.wrtReparentTo(render)
-                self.lerpCamera = camera.posHprInterval(1, (-5, 9, self.getHeight()-0.5), (-150, -2, 0),
+                self.lerpCamera = camera.posQuatInterval(1, (-5, 9, self.getHeight()-0.5), (-150, -2, 0),
                     other=self, blendType="easeOut", name=self.uniqueName('lerpCamera'))
                 self.lerpCamera.start()
 
