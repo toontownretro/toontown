@@ -1396,9 +1396,9 @@ class DistributedTargetGame(DistributedMinigame):
 
         newHpr = Point3(180, 10, 0)
         newPos = Point3(0, -(self.CAMERA_Y + self.TOON_Y + 12), 1)
-        camera.lerpPosHpr(newPos, newHpr, 5.0,
+        camera.posHprInterval(5.0, newPos, newHpr,
                           blendType = "easeInOut",
-                          task = self.SCORE_CAM_TASK)
+                          name = self.SCORE_CAM_TASK).start()
 
         self.help.hide()
 
