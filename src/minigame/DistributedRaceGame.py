@@ -459,7 +459,7 @@ class DistributedRaceGame(DistributedMinigame):
         # Make a copy for getLongestLerpTime to stomp on
         self.avatarPositionsCopy = self.avatarPositions.copy()
 
-        for i in range(0, len(choiceList)/self.numPlayers):
+        for i in range(0, len(choiceList)//self.numPlayers):
             startIndex = i * self.numPlayers
             endIndex = startIndex + self.numPlayers
             self.choiceList = choiceList[startIndex:endIndex]
