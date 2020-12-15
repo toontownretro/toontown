@@ -120,7 +120,7 @@ class EmotePage(ShtikerPage.ShtikerPage):
         self.emotes = []
         self.emoteFrames = []
         self.avatar = None
-        self.state = DGG.NORMAL
+        self._state = DGG.NORMAL
 
     def setAvatar(self, av):
         self.avatar = av

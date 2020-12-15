@@ -40,7 +40,7 @@ class IssueFrame(DirectFrame):
                              )
         self.hide()
         self.accept("newsSnapshot", self.doSnapshot)
-        self.parent = parent
+        self._parent = parent
         self.newsDir = newsDir
         self.dateStr = dateStr
         self.myIssueIndex = myIssueIndex
@@ -456,7 +456,7 @@ class IssueFrame(DirectFrame):
 
         card = cm.generate()
         quad = NodePath(card)
-        #quad.reparentTo(self.parent)
+        #quad.reparentTo(self._parent)
 
         jpgFile = PNMImage(WEB_WIDTH, WEB_HEIGHT)
         smallerJpgFile = PNMImage()

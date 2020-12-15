@@ -506,7 +506,7 @@ CircuitQualList = [CircuitQuals1, CircuitQuals2, CircuitQuals3]
 AllQualsList = [ SpeedwayQualsList, RuralQualsList, UrbanQualsList ]
 AllWinsList = [ SpeedwayWinsList, RuralWinsList, UrbanWinsList ]
 
-TrophiesPerCup = NumTrophies / NumCups
+TrophiesPerCup = NumTrophies // NumCups
 
 QualifiedRaces = [1, 10, 100]
 TotalQualifiedRaces = 100
