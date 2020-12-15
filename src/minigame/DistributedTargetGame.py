@@ -1290,9 +1290,9 @@ class DistributedTargetGame(DistributedMinigame):
         self.gravity = 4
         newHpr = Point3(0, -68, 0)
         newPos = Point3(0, self.CAMERA_Y + self.TOON_Y + 15, 15)
-        camera.lerpPosHpr(newPos, newHpr, 2.5,
+        camera.posHprInterval(2.5, newPos, newHpr
                           blendType = "easeInOut",
-                          task = self.FLY2FALL_CAM_TASK)
+                          name = self.FLY2FALL_CAM_TASK).start()
 
         open = self.umbrella.find('**/open_umbrella')
         open.show()
