@@ -42,7 +42,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
     physicsCalculationsPerSecond = 60
     maxPhysicsDt = 1.0
     physicsDt = 1.0 / float(physicsCalculationsPerSecond)
-    maxPhysicsFrames = maxPhysicsDt * physicsCalculationsPerSecond
+    maxPhysicsFrames = int(maxPhysicsDt * physicsCalculationsPerSecond)
 
     maxSpeed = 200 * cheatFactor #jml
 
