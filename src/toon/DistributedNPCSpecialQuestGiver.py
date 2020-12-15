@@ -17,6 +17,7 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
         self.curQuestMovie = None
         self.questChoiceGui = None
         self.trackChoiceGui = None
+        self.lerpCameraSeq = None
 
     def announceGenerate(self):
         self.setAnimState("neutral", 0.9, None, None)
@@ -124,7 +125,9 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
         # TODO: make this a lerp
         self.clearMat()
         if isLocalToon:
-            taskMgr.remove(self.uniqueName("lerpCamera"))
+            if self.lerpCameraSeq:
+                self.lerpCameraSeq.finish()
+                self.lerpCameraSeq = None
             # Go back into walk mode
             base.localAvatar.posCamera(0,0)
             base.cr.playGame.getPlace().setState("walk")
@@ -138,15 +141,17 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
         camera.wrtReparentTo(render)
         if ((mode == NPCToons.QUEST_MOVIE_QUEST_CHOICE) or
             (mode == NPCToons.QUEST_MOVIE_TRACK_CHOICE)):
-            camera.lerpPosHpr(5, 9, self.getHeight()-0.5, 155, -2, 0, 1,
-                              other=self,
-                              blendType="easeOut",
-                              task=self.uniqueName("lerpCamera"))
+            self.lerpCameraSeq = camera.posQuatInterval(
+                1, Point3(5, 9, base.localAvatar.getHeight() - 0.5),
+                Point3(155, -2, 0), other=self, blendType='easeOut',
+                name=self.uniqueName('lerpCamera'))
+            self.lerpCameraSeq.start()
         else:
-            camera.lerpPosHpr(-5, 9, self.getHeight()-0.5, -150, -2, 0, 1,
-                              other=self,
-                              blendType="easeOut",
-                              task=self.uniqueName("lerpCamera"))
+            self.lerpCameraSeq = camera.posQuatInterval(
+                1, Point3(-5, 9, base.localAvatar.getHeight() - 0.5),
+                Point3(-150, -2, 0), other=self, blendType='easeOut',
+                name=self.uniqueName('lerpCamera'))
+            self.lerpCameraSeq.start()
 
 
     def setMovie(self, mode, npcId, avId, quests, timestamp):

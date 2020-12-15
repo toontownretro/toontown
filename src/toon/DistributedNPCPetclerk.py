@@ -20,11 +20,14 @@ class DistributedNPCPetclerk(DistributedNPCToonBase):
         self.petshopGui = None
         self.petSeeds = None
         self.waitingForPetSeeds = False
+        self.lerpCameraSeq = None
 
     def disable(self):
         self.ignoreAll()
         taskMgr.remove(self.uniqueName('popupPetshopGUI'))
-        taskMgr.remove(self.uniqueName('lerpCamera'))
+        if self.lerpCameraSeq:
+            self.lerpCameraSeq.finish()
+            self.lerpCameraSeq = None
         if self.popupInfo:
             self.popupInfo.destroy()
             self.popupInfo = None
@@ -102,7 +105,9 @@ class DistributedNPCPetclerk(DistributedNPCToonBase):
         assert self.notify.debug('resetPetshopClerk')
         self.ignoreAll()
         taskMgr.remove(self.uniqueName('popupPetshopGUI'))
-        taskMgr.remove(self.uniqueName('lerpCamera'))
+        if self.lerpCameraSeq:
+            self.lerpCameraSeq.finish()
+            self.lerpCameraSeq = None
         if self.petshopGui:
             self.petshopGui.destroy()
             self.petshopGui = None
@@ -159,7 +164,9 @@ class DistributedNPCPetclerk(DistributedNPCToonBase):
         if (mode == NPCToons.SELL_MOVIE_TIMEOUT):
             assert self.notify.debug('SELL_MOVIE_TIMEOUT')
             # In case the GUI hasn't popped up yet
-            taskMgr.remove(self.uniqueName('lerpCamera'))
+            if self.lerpCameraSeq:
+                self.lerpCameraSeq.finish()
+                self.lerpCameraSeq = None
             # Stop listening for the GUI
             if (self.isLocalToon):
                 self.ignoreEventDict()
@@ -188,12 +195,11 @@ class DistributedNPCPetclerk(DistributedNPCToonBase):
 
             if (self.isLocalToon):
                 camera.wrtReparentTo(render)
-                camera.lerpPosHpr(-5, 9, base.localAvatar.getHeight()-0.5,
-                                  -150, -2, 0,
-                                  1,
-                                  other=self,
-                                  blendType="easeOut",
-                                  task=self.uniqueName('lerpCamera'))
+                self.lerpCameraSeq = camera.posQuatInterval(
+                    1, Point3(-5, 9, base.localAvatar.getHeight() - 0.5),
+                    Point3(-150, -2, 0), other=self, blendType='easeOut',
+                    name=self.uniqueName('lerpCamera'))
+                self.lerpCameraSeq.start()
 
             if (self.isLocalToon):
                 taskMgr.doMethodLater(1.0, self.popupPetshopGUI,

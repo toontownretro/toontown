@@ -28,11 +28,14 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
         self.button = None
         self.askGui = None
         self.teaserDialog = None
+        self.lerpCameraSeq = None
 
     def disable(self):
         self.ignoreAll()
         taskMgr.remove(self.uniqueName('popupAskGUI'))
-        taskMgr.remove(self.uniqueName('lerpCamera'))
+        if self.lerpCameraSeq:
+            self.lerpCameraSeq.finish()
+            self.lerpCameraSeq = None
         self.av = None
         if (self.isInteractingWithLocalToon):
             base.localAvatar.posCamera(0, 0)
@@ -130,7 +133,9 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
         assert self.notify.debug('resetPartyPerson')
         self.ignoreAll()
         taskMgr.remove(self.uniqueName('popupAskGUI'))
-        taskMgr.remove(self.uniqueName('lerpCamera'))
+        if self.lerpCameraSeq:
+            self.lerpCameraSeq.finish()
+            self.lerpCameraSeq = None
         if self.askGui:
             self.askGui.hide()
 
@@ -174,7 +179,9 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
         if mode == NPCToons.PARTY_MOVIE_TIMEOUT:
             assert self.notify.debug('PARTY_MOVIE_TIMEOUT')
             # In case the GUI hasn't popped up yet
-            taskMgr.remove(self.uniqueName('lerpCamera'))
+            if self.lerpCameraSeq:
+                self.lerpCameraSeq.finish()
+                self.lerpCameraSeq = None
             # Stop listening for the GUI
             if self.isInteractingWithLocalToon:
                 self.ignore(self.planPartyQuestionGuiDoneEvent)
@@ -201,12 +208,11 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
 
             if self.isInteractingWithLocalToon:
                 camera.wrtReparentTo(render)
-                camera.lerpPosHpr(-5, 9, base.localAvatar.getHeight()-0.5,
-                                  -150, -2, 0,
-                                  1,
-                                  other=self,
-                                  blendType="easeOut",
-                                  task=self.uniqueName('lerpCamera'))
+                self.lerpCameraSeq = camera.posQuatInterval(
+                    1, Point3(-5, 9, base.localAvatar.getHeight() - 0.5),
+                    Point3(-150, -2, 0), other=self, blendType='easeOut',
+                    name=self.uniqueName('lerpCamera'))
+                self.lerpCameraSeq.start()
                 taskMgr.doMethodLater(1.0, self.popupAskGUI,
                                       self.uniqueName('popupAskGUI'))
             else:
