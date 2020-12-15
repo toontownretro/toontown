@@ -1290,7 +1290,7 @@ class DistributedTargetGame(DistributedMinigame):
         self.gravity = 4
         newHpr = Point3(0, -68, 0)
         newPos = Point3(0, self.CAMERA_Y + self.TOON_Y + 15, 15)
-        camera.posHprInterval(2.5, newPos, newHpr
+        camera.posHprInterval(2.5, newPos, newHpr,
                           blendType = "easeInOut",
                           name = self.FLY2FALL_CAM_TASK).start()
 
