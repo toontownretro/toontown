@@ -754,7 +754,7 @@ class ItemSelector( DirectFrame ):
             # Initialize instance variables
             self.currItem = None
             self.itemList = None
-            self.parent = parent
+            self._parent = parent
             self.avatar = avatar
             self.currAccessoryType = None
             self.texCount = 1
@@ -785,7 +785,7 @@ class ItemSelector( DirectFrame ):
             self.rightArrowButton.destroy()
 
             # Remove references
-            del self.avatar, self.parent, self.currItem, self.itemList
+            del self.avatar, self._parent, self.currItem, self.itemList
             del self.uiBgFrame, self.uiImagePlane, self.uiTextBox
             del self.leftArrowButton, self.rightArrowButton, self.deleteButton
 
@@ -1163,7 +1163,7 @@ class ItemSelector( DirectFrame ):
             self.updatedDNA[ self.currAccessoryType ] = self.currItem
 
             # obtain the kart and set the update
-            kart = self.parent.parent.getKartViewer().getKart()
+            kart = self._parent.parent.getKartViewer().getKart()
             kart.updateDNAField( self.currAccessoryType, self.currItem )
 
         def __handleShowItem( self ):
@@ -1199,7 +1199,7 @@ class ItemSelector( DirectFrame ):
                     self.uiImagePlane.component( 'geom0' ).setColorScale( getAccessory( self.currItem ) )
 
             elif( self.currAccessoryType == KartDNA.decalType ):
-                kart = self.parent.parent.getKartViewer().getKart()
+                kart = self._parent.parent.getKartViewer().getKart()
                 kartDecal = getDecalId( kart.kartDNA[ KartDNA.bodyType ] )
                 texNodePath = getTexCardNode( self.currItem )
 
@@ -1284,7 +1284,7 @@ class ItemSelector( DirectFrame ):
                         self.updatedDNA[ KartDNA.accColor ] = self.currItem
 
                         # obtain the kart and set the update
-                        kart = self.parent.parent.getKartViewer().getKart()
+                        kart = self._parent.parent.getKartViewer().getKart()
                         kart.updateDNAField( KartDNA.accColor, self.currItem )
 
                 elif( self.currAccessoryType == KartDNA.accColor ):
@@ -1293,7 +1293,7 @@ class ItemSelector( DirectFrame ):
                         self.updatedDNA[ KartDNA.bodyColor ] = self.currItem
 
                         # obtain the kart and set the update
-                        kart = self.parent.parent.getKartViewer().getKart()
+                        kart = self._parent.parent.getKartViewer().getKart()
                         kart.updateDNAField( KartDNA.bodyColor, self.currItem )
                 else:
                     pass
@@ -1322,7 +1322,7 @@ class ItemSelector( DirectFrame ):
             self.updatedDNA[ self.currAccessoryType ] = self.currItem
 
             # obtain the kart and set the update
-            kart = self.parent.parent.getKartViewer().getKart()
+            kart = self._parent.parent.getKartViewer().getKart()
             kart.updateDNAField( self.currAccessoryType, self.currItem )
 
             if( self.avatar.getAccessoryByType( self.currAccessoryType ) == deletedItem ):
@@ -1354,11 +1354,11 @@ class ItemSelector( DirectFrame ):
         """
 
         # Initialize instance variables.
-        self.state = InvalidEntry
+        self._state = InvalidEntry
         self.avatar = avatar
         self.itemViewers = {}
         self.buttonDict = {}
-        self.parent = parent
+        self._parent = parent
 
         # Construct the DirectFrame super class from which the selector
         # is derived.
@@ -1541,8 +1541,8 @@ class ItemSelector( DirectFrame ):
 
             return
 
-        #self.itemViewers[ 'main' ].setupViewer( self.state )
-        self.__changeItemCategory( self.state )
+        #self.itemViewers[ 'main' ].setupViewer( self._state )
+        self.__changeItemCategory( self._state )
 
     def resetAccessoryIcons( self ):
         """
@@ -1559,7 +1559,7 @@ class ItemSelector( DirectFrame ):
         self.itemViewers[ 'main' ].show()
         self.itemViewers[ 'main' ].setViewerText( "" )
 
-        self.state = InvalidEntry
+        self._state = InvalidEntry
         self.itemViewers[ 'main' ].resetViewer()
 
     def __changeItemCategory( self, buttonType ):
@@ -1626,10 +1626,10 @@ class ItemSelector( DirectFrame ):
             raise Exception("KartPage.py::__changeItemCategory - INVALID Category Type!")
 
         # Update the state
-        if( self.state != buttonType and self.state != InvalidEntry ):
-            self.buttonDict[ self.state ][ 'state' ] = DGG.NORMAL
-            self.buttonDict[ self.state ].setColorScale( 1,1,1,1 )
-        self.state = buttonType
+        if( self._state != buttonType and self._state != InvalidEntry ):
+            self.buttonDict[ self._state ][ 'state' ] = DGG.NORMAL
+            self.buttonDict[ self._state ].setColorScale( 1,1,1,1 )
+        self._state = buttonType
 
 class KartViewer( DirectFrame ):
     """
@@ -1647,7 +1647,7 @@ class KartViewer( DirectFrame ):
         # Intiailize instance variables
         self.kart = None
         self.dna = dna
-        self.parent = parent
+        self._parent = parent
         self.kartFrame = None
 
         self.bounds = None
@@ -1692,8 +1692,8 @@ class KartViewer( DirectFrame ):
             del self.uiRotateLabel
         if hasattr(self, "dna"):
             del self.dna
-        if hasattr(self, "parent"):
-            del self.parent
+        if hasattr(self, "_parent"):
+            del self._parent
 
         # Destroy DirectFrame Super class
         DirectFrame.destroy( self )
