@@ -239,10 +239,10 @@ class FeatureBrowser(DirectScrolledList):
         """
         assert PythonUtil.sameElements(list(Pages.keys()), PageOrder)
 
-        self.parent = parent
+        self._parent = parent
 
         optiondefs = (
-            ('parent', self.parent,    None),
+            ('parent', self._parent,    None),
             ('relief', None,    None),
             ('numItemsVisible',  1,    None),
             ('items', [],    None),
