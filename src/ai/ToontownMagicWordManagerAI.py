@@ -2748,7 +2748,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
 
         # Strip of the "~dna" part; everything else is parameters to
         # AvatarDNA.updateToonProperties.
-        parms = string.strip(word[4:])
+        parms = str.strip(word[4:])
 
         # Get a copy of the avatar's current DNA.
         dna = ToonDNA.ToonDNA(av.dna.makeNetString())
