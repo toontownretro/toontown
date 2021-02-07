@@ -199,6 +199,9 @@ class FireworkShowMixin:
 
         hood = self.getHood()
 
+        from toontown.hood import GSHood
+        from toontown.hood import OZHood
+
         if isinstance(hood, OZHood.OZHood):
             base.camLens.setFar(SpeedwayCameraFar)
         elif isinstance(hood, GSHood.GSHood):
@@ -269,6 +272,16 @@ class FireworkShowMixin:
             self.fireworkShow.reparentTo(root)
 
             hood = self.getHood()
+
+            from toontown.hood import TTHood
+            from toontown.hood import DDHood
+            from toontown.hood import MMHood
+            from toontown.hood import BRHood
+            from toontown.hood import DGHood
+            from toontown.hood import DLHood
+            from toontown.hood import GSHood
+            from toontown.hood import OZHood
+            from toontown.hood import PartyHood
 
             if isinstance(hood, TTHood.TTHood):
                 self.fireworkShow.setPos(150,0,80)
