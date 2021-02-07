@@ -5,18 +5,27 @@ from toontown.effects import DustCloud
 
 def getDustCloudIval(toon):
     dustCloud = DustCloud.DustCloud(fBillboard=0)
-    dustCloud.setBillboardAxis(2.0)
+    dustCloud.setBillboardAxis(2.)
     dustCloud.setZ(3)
     dustCloud.setScale(0.4)
     dustCloud.createTrack()
     toon.laffMeter.color = toon.style.getBlackColor()
-    return Sequence(Wait(0.5), Func(dustCloud.reparentTo, toon), dustCloud.track, Func(dustCloud.detachNode), Func(toon.laffMeter.adjustFace, toon.hp, toon.maxHp))
-
+    return Sequence(
+        Wait(.5),
+        Func(dustCloud.reparentTo, toon),
+        dustCloud.track,
+        Func(dustCloud.detachNode),
+        Func(toon.laffMeter.adjustFace, toon.hp, toon.maxHp)
+        )
 
 class DistributedBlackCatMgr(DistributedObject.DistributedObject):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBlackCatMgr')
-    ActivateEvent = 'DistributedBlackCatMgr-activate'
+    """Black cat client implementation; turn a cat into a black cat if
+    they say 'Toontastic!' to Flippy in the tutorial on Halloween."""
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedBlackCatMgr')
 
+    ActivateEvent = 'DistributedBlackCatMgr-activate'
+    
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
 
@@ -26,9 +35,9 @@ class DistributedBlackCatMgr(DistributedObject.DistributedObject):
     def announceGenerate(self):
         DistributedBlackCatMgr.notify.debug('announceGenerate')
         DistributedObject.DistributedObject.announceGenerate(self)
-        self.acceptOnce(DistributedBlackCatMgr.ActivateEvent, self.doBlackCatTransformation)
+        self.acceptOnce(DistributedBlackCatMgr.ActivateEvent,
+                        self.doBlackCatTransformation)
         self.dustCloudIval = None
-        return
 
     def delete(self):
         if self.dustCloudIval:
@@ -36,16 +45,26 @@ class DistributedBlackCatMgr(DistributedObject.DistributedObject):
         del self.dustCloudIval
         self.ignore(DistributedBlackCatMgr.ActivateEvent)
         DistributedObject.DistributedObject.delete(self)
-
+        
     def doBlackCatTransformation(self):
         DistributedBlackCatMgr.notify.debug('doBlackCatTransformation')
         toon = base.cr.doId2do[self.avId]
         if not toon:
-            DistributedBlackCatMgr.notify.warning("couldn't find Toon %s" % self.avId)
+            DistributedBlackCatMgr.notify.warning(
+                "couldn't find Toon %s" % self.avId)
             return
+        # are they a cat?
         if toon.style.getAnimal() != 'cat':
-            DistributedBlackCatMgr.notify.warning('not a cat: %s' % self.avId)
+            DistributedBlackCatMgr.notify.warning("not a cat: %s" % self.avId)
             return
         self.sendUpdate('doBlackCatTransformation', [])
+
+        # kick off a dust cloud.
+        # If a player has a LOT of lag, the dust cloud will disappear before
+        # the cat turns black.
         self.dustCloudIval = getDustCloudIval(toon)
         self.dustCloudIval.start()
+
+
+
+
