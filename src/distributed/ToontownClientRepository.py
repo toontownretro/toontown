@@ -1769,9 +1769,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             self.cache.delete(doId)
         else:
             # Otherwise, ignore it
-            ClientRepository.notify.warning(
-            self.notify.warning(
-                "Asked to delete non-existent DistObj " + str(doId))
+            self.notify.warning("Asked to delete non-existent DistObj " + str(doId))
 
     def _abandonShard(self):
         # simulate removal of shard interest for quick shutdown

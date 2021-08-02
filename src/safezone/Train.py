@@ -158,7 +158,7 @@ class Train(DirectObject):
         self.__getCars()
         trainShouldStop = random.randrange(0, 4)
         nextRun = Sequence(Func(self.__showStart))
-        if trainShouldStop is 0:
+        if trainShouldStop == 0:
             waitTime = 3 #this is how long the delay is in the effect
             totalTime = random.randrange(4, (self.MarkDelta-waitTime)/2)
             sfxStopTime = 4.3 #this is where the train stops in the effect
