@@ -232,6 +232,8 @@ def getCanonicalZoneId(zoneId):
     # 40135 => 2135
 
     """
+    if zoneId == None:
+        return None
     if zoneId == WelcomeValleyToken:
         # need GS case?
         zoneId = ToontownCentral

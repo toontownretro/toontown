@@ -66,6 +66,7 @@ class ToontownPostProcess(PostProcess):
             method.setText("Shutter priority AE")
         elif methodVal == 2:
             method.setText("Aperture priority AE")
+
         shutter = self.camDebugs[1]
         denom = self.hdr.getHdrPass().getShutterSpeed()
         if denom >= 1:

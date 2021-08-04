@@ -45,7 +45,7 @@ class HolidayInfo_Oncely(HolidayInfo_Base):
         # Implicit in this definition, if a holiday has 1 phase date, there are 2 phases
         HolidayInfo_Base.__init__(self, holidayClass, displayOnCalendar)
         dateElemIter = ModifiedIter(dateList)
-        for i in range(len(dateList)/2):
+        for i in range(len(dateList)//2):
             start = dateElemIter.current()
             end = next(dateElemIter)
 

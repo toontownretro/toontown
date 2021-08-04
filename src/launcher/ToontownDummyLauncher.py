@@ -6,6 +6,7 @@ from toontown.launcher.ToontownLauncher import ToontownLauncher
 # will find its methods before looking at the real launcher
 class ToontownDummyLauncher(DummyLauncherBase, ToontownLauncher):
     notify = DirectNotifyGlobal.directNotify.newCategory("ToontownDummyLauncher")
+    
     def __init__(self):
         DummyLauncherBase.__init__(self)
         # If we are running the show, the first 3 phases must be complete

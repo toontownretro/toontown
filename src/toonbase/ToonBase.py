@@ -32,7 +32,7 @@ class ToonBase(OTPBase.OTPBase):
         """__init__(self)
         ToonBase constructor: create a toon and launch it into the world
         """
-        if not config.GetInt('ignore-user-options',0):
+        if not config.GetInt('ignore-user-options', 0):
             Settings.readSettings()
             mode = not Settings.getWindowedMode()
             music = Settings.getMusic()
@@ -71,23 +71,23 @@ class ToonBase(OTPBase.OTPBase):
             sys.exit(1)
 
         self.disableShowbaseMouse()
+        
+        if self.config.GetBool('want-shaders', True):
+            self.render.setAntialias(AntialiasAttrib.MMultisample)
+            self.render2d.setAntialias(AntialiasAttrib.MMultisample)
+            self.render2dp.setAntialias(AntialiasAttrib.MMultisample)
+            self.pixel2d.setAntialias(AntialiasAttrib.MMultisample)
 
-        self.render.setAntialias(AntialiasAttrib.MMultisample)
-        self.render2d.setAntialias(AntialiasAttrib.MMultisample)
-        self.render2dp.setAntialias(AntialiasAttrib.MMultisample)
-        self.pixel2d.setAntialias(AntialiasAttrib.MMultisample)
+            self.render.setAttrib(LightRampAttrib.makeHdr0())
 
-        self.render.setAttrib(LightRampAttrib.makeHdr0())
+            # Set up the post-processing system
+            self.postProcess = ToontownPostProcess()
+            self.postProcess.startup(self.win)
+            self.postProcess.addCamera(self.cam, 0)
+            self.postProcess.setup()
+            self.taskMgr.add(self.__updatePostProcess, 'updatePostProcess')
 
-
-        # Set up the post-processing system
-        self.postProcess = ToontownPostProcess()
-        self.postProcess.startup(self.win)
-        self.postProcess.addCamera(self.cam, 0)
-        self.postProcess.setup()
-        self.taskMgr.add(self.__updatePostProcess, 'updatePostProcess')
-
-        self.toonChatSounds = self.config.GetBool('toon-chat-sounds', 1)
+        self.toonChatSounds = self.config.GetBool('toon-chat-sounds', True)
 
         # Toontown doesn't care about dynamic shadows for now.
         self.wantDynamicShadows = 0
@@ -305,7 +305,8 @@ class ToonBase(OTPBase.OTPBase):
         light.setColor(Vec4(light.getColor().getXyz() * intensity, 1.0))
 
     def __updatePostProcess(self, task):
-        self.postProcess.update()
+        if hasattr(self, 'postProcess'):
+            self.postProcess.update()
         return task.cont
 
     def windowEvent(self, win):
@@ -314,7 +315,8 @@ class ToonBase(OTPBase.OTPBase):
             return
 
         # Pass it along to the postprocessing system.
-        self.postProcess.windowEvent()
+        if hasattr(self, 'postProcess'):
+            self.postProcess.windowEvent()
 
         OTPBase.OTPBase.windowEvent(self, win)
 

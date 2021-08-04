@@ -522,37 +522,39 @@ DaleOrbitDistanceOverride = {
 startNode = 'a'
 
 def getPaths(charName, location = 0):
-    if charName==TTLocalizer.Mickey:
+    charName = charName.lower()
+    if charName==TTLocalizer.Mickey.lower():
         return __mickeyPaths
-    elif charName==TTLocalizer.VampireMickey:
+    elif charName==TTLocalizer.VampireMickey.lower():
         return __mickeyPaths
-    elif charName==TTLocalizer.Minnie:
+    elif charName==TTLocalizer.Minnie.lower():
         return __minniePaths
-    elif charName == TTLocalizer.WitchMinnie:
+    elif charName == TTLocalizer.WitchMinnie.lower():
         return __minniePaths
-    elif charName==TTLocalizer.Daisy:
+    elif charName==TTLocalizer.Daisy.lower():
         return __daisyPaths
-    elif charName==TTLocalizer.Goofy:
+    elif charName==TTLocalizer.Goofy.lower():
         if location == 0:
             return __goofyPaths
         else:
             return __goofySpeedwayPaths
-    elif charName==TTLocalizer.SuperGoofy:
+    elif charName==TTLocalizer.SuperGoofy.lower():
         return __goofySpeedwayPaths
-    elif charName==TTLocalizer.Donald:
+    elif charName==TTLocalizer.Donald.lower():
         return __donaldPaths
-    elif charName==TTLocalizer.Pluto:
+    elif charName==TTLocalizer.Pluto.lower():
         return __plutoPaths
-    elif charName==TTLocalizer.WesternPluto:
+    elif charName==TTLocalizer.WesternPluto.lower():
         return __plutoPaths
-    elif charName==TTLocalizer.Chip:
+    elif charName==TTLocalizer.Chip.lower():
         return __chipPaths
-    elif charName==TTLocalizer.Dale:
+    elif charName==TTLocalizer.Dale.lower():
         return __chipPaths
-    elif charName==TTLocalizer.DonaldDock:
+    elif charName==TTLocalizer.DonaldDock.lower():
         return {'a':(Point3(0,0,0),'a')}
     else:
-        assert 0, "Unknown path information"
+        #assert 0, "Unknown path information"
+        return
 
 def __getWaypointList(paths):
     if paths==__mickeyPaths:

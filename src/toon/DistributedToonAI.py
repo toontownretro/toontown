@@ -2305,7 +2305,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
             if nextGiftTime == None:
                 nextGiftTime = nextTime
 
-            if nextGiftTime < nextTime:
+            if nextGiftTime and nextTime and nextGiftTime < nextTime:
                 nextTime = nextGiftTime
 
             existingDuration = None

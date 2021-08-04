@@ -593,9 +593,7 @@ class ToonHead(Actor.Actor):
         return headHeight
 
     def loadPumpkin(self,headStyle, lod, copy):
-        if (hasattr(base, 'launcher') and
-            ((not base.launcher) or
-             (base.launcher and base.launcher.getPhaseComplete(4)))):
+        if (hasattr(base, 'launcher') and ((not base.launcher) or (base.launcher and base.launcher.getPhaseComplete(4)))):
 
             if not hasattr(self,'pumpkins'):
                 self.pumpkins = NodePathCollection()
@@ -633,18 +631,19 @@ class ToonHead(Actor.Actor):
             ToonHead.notify.debug("phase_4 not complete yet. Postponing pumpkin head load.")
 
     def loadSnowMan(self, headStyle, lod, copy):
-        if hasattr(base, 'launcher') and ((not base.launcher) or
-                    (base.launcher and base.launcher.getPhaseComplete(4))):
+        if hasattr(base, 'launcher') and ((not base.launcher) or (base.launcher and base.launcher.getPhaseComplete(4))):
             if not hasattr(self, 'snowMen'):
                 self.snowMen = NodePathCollection()
 
             snowManPath = 'phase_4/models/props/tt_m_int_snowmanHead_'
             if headStyle == 'l':
-                snowManPath = snowManPath+'tall'
+                snowManPath = snowManPath + 'tall'
             else:
                 snowManPath = snowManPath + 'short'
-
-            model = loader.loadModel(snowManPath)
+            try:
+                model = loader.loadModel(snowManPath)
+            except:
+                model = None
             if model:
                 model.setScale(0.4)
                 model.setZ(-0.5)

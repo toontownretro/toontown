@@ -3,7 +3,6 @@ import datetime
 import os
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
-from direct.http.WebRequest import WebRequestDispatcher
 from otp.distributed import OtpDoGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.uberdog import InGameNewsResponses

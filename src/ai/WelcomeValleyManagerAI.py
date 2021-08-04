@@ -87,8 +87,8 @@ class WelcomeValleyManagerAI(DistributedObjectAI.DistributedObjectAI):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
 
         self.welcomeValleyAllocator = UniqueIdAllocator(
-            ToontownGlobals.WelcomeValleyBegin / 2000,
-            ToontownGlobals.WelcomeValleyEnd / 2000 - 1)
+            ToontownGlobals.WelcomeValleyBegin // 2000,
+            ToontownGlobals.WelcomeValleyEnd // 2000 - 1)
         self.welcomeValleys = {}
         self.avatarZones = {}
 
@@ -367,8 +367,7 @@ class WelcomeValleyManagerAI(DistributedObjectAI.DistributedObjectAI):
         avId = self.air.getAvatarIdFromSender()
         zoneId = self.avatarRequestZone(avId, origZoneId)
 
-        self.sendUpdateToAvatarId(avId, "requestZoneIdResponse",
-                                  [zoneId, context])
+        self.sendUpdateToAvatarId(avId, "requestZoneIdResponse", [zoneId, context])
 
 
     def chooseWelcomeValley(self, allowCreateNew = 1):
@@ -432,7 +431,7 @@ class WelcomeValleyManagerAI(DistributedObjectAI.DistributedObjectAI):
         assert((hoodId % 2000) == 0)
 
         del self.welcomeValleys[hoodId]
-        self.welcomeValleyAllocator.free(hoodId / 2000)
+        self.welcomeValleyAllocator.free(hoodId // 2000)
         self.air.shutdownHood(hood[0])
         self.air.shutdownHood(hood[1])
 

@@ -81,19 +81,20 @@ class Hood(StateData.StateData):
         self.skyLightScale = 120
 
     def createOutdoorLighting(self):
-        alight = AmbientLight("hood-ambient-light")
-        base.lightColor(alight, self.ambientTemp, self.ambientIntensity)
-        self.ambientLight = base.render.attachNewNode(alight)
+        if base.config.GetBool('want-shaders', True):
+            alight = AmbientLight("hood-ambient-light")
+            base.lightColor(alight, self.ambientTemp, self.ambientIntensity)
+            self.ambientLight = base.render.attachNewNode(alight)
 
-        if self.wantSun:
-            slight = CascadeLight("hood-sun-light")
-            base.lightColor(slight, self.sunTemp, self.sunIntensity)
-            slight.setSceneCamera(base.cam)
-            slight.setShadowCaster(True, 4096, 4096)
-            slight.setCameraMask(OTPRender.ShadowCameraBitmask)
-            slight.setSoftnessFactor(self.sunShadowSoftnessFactor)
-            self.sunLight = base.render.attachNewNode(slight)
-            self.sunLight.setHpr(self.sunAngles)
+            if self.wantSun:
+                slight = CascadeLight("hood-sun-light")
+                base.lightColor(slight, self.sunTemp, self.sunIntensity)
+                slight.setSceneCamera(base.cam)
+                slight.setShadowCaster(True, 4096, 4096)
+                slight.setCameraMask(OTPRender.ShadowCameraBitmask)
+                slight.setSoftnessFactor(self.sunShadowSoftnessFactor)
+                self.sunLight = base.render.attachNewNode(slight)
+                self.sunLight.setHpr(self.sunAngles)
 
     def destroyOutdoorLighting(self):
         self.disableLights()

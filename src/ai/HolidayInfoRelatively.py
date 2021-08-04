@@ -47,7 +47,7 @@ class HolidayInfo_Relatively(HolidayInfo_Base):
         HolidayInfo_Base.__init__(self, holidayClass, displayOnCalendar)
 
         dateElemIter = ModifiedIter(dateList)
-        for i in range(len(dateList)/2):
+        for i in range(len(dateList)//2):
             start = dateElemIter.current()
             end = next(dateElemIter)
 

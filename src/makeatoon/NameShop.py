@@ -1415,11 +1415,7 @@ class NameShop(StateData.StateData):
             avDNA = style.makeNetString()
             self.notify.debug("pattern name accepted")
             # add the new potential avatar to the list
-            newPotAv = PotentialAvatar.PotentialAvatar(newavId,
-                                                       self.names,
-                                                       avDNA,
-                                                       self.index,
-                                                       0)
+            newPotAv = PotentialAvatar.PotentialAvatar(newavId, self.names, avDNA, self.index, 0)
             self.avList.append(newPotAv)
             # Everything is cool, send our done event
             self.doneStatus = "done"
@@ -1429,8 +1425,6 @@ class NameShop(StateData.StateData):
             # name creation was rejected by server
             self.notify.debug("name pattern rejected")
             self.rejectName(TTLocalizer.NameError)
-
-        return None
 
     def _submitTypeANameAsPickAName(self):
         pnp = TTPickANamePattern(self.nameEntry.get(), self.toon.style.gender)

@@ -82,14 +82,14 @@ class QuietZoneState(StateData.StateData):
 
     def waitForDatabase(self, description):
         base.cr.waitForDatabaseTimeout(requestName='quietZoneState-%s' % description)
+        
     def clearWaitForDatabase(self):
         base.cr.cleanupWaitingForDatabase()
 
     ##### handlers #####
 
     def handleWaitForQuietZoneResponse(self, msgType, di):
-        self.notify.debug("handleWaitForQuietZoneResponse("
-                                 +"msgType="+str(msgType)+", di="+str(di)+")")
+        #self.notify.debug("handleWaitForQuietZoneResponse(msgType=%s, di=%s)" % (str(msgType), str(di)))
         if msgType == CLIENT_CREATE_OBJECT_REQUIRED:
             # Call the special filtered quiet zone generate handler
             base.cr.handleQuietZoneGenerateWithRequired(di)

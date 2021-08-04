@@ -1,5 +1,4 @@
 # python imports
-import fpformat
 import string
 import time
 import random
@@ -80,8 +79,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
         def wordIs(w, word=word):
             return word[:(len(w)+1)] == ('%s ' % w) or word == w
 
-        if (MagicWordManagerAI.MagicWordManagerAI.doMagicWord(self, word, av,
-                                                zoneId, senderId) == 1):
+        if (MagicWordManagerAI.MagicWordManagerAI.doMagicWord(self, word, av, zoneId, senderId) == 1):
             pass
         elif word == "~allstuff":
             av.inventory.maxOutInv()

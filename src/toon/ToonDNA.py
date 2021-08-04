@@ -1514,7 +1514,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         else:
             notify.error("unknown avatar type: ", self.type)
 
-        return dg.getMessage()
+        return dg.getMessage().decode("utf-8")
 
     def isValidNetString(self, string):
         dg=PyDatagram(string)
@@ -1573,7 +1573,6 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             return False
         if headColor >= len(allColorsList):
             return False
-
         return True
 
     def makeFromNetString(self, string):
@@ -1606,9 +1605,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             self.legColor = dgi.getUint8()
             self.headColor = dgi.getUint8()
         else:
-            notify.error("unknown avatar type: ", self.type)
-
-        return None
+            notify.error("unknown avatar type: %s" % (self.type))
 
     # dna methods
     def defaultColor(self):

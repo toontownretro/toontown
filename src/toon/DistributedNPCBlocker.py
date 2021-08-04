@@ -97,8 +97,6 @@ class DistributedNPCBlocker(DistributedNPCToonBase):
             assert self.notify.debug('BLOCKER_MOVIE_TIMEOUT')
             return
 
-        return
-
     def finishMovie(self, av, isLocalToon, elapsedTime):
         """
         Final cleanup for a movie that has finished

@@ -89,14 +89,15 @@ from toontown.parties import ToontownTimeManager
 from toontown.coderedemption.TTCodeRedemptionMgrAI import TTCodeRedemptionMgrAI
 from toontown.distributed.NonRepeatableRandomSourceAI import NonRepeatableRandomSourceAI
 
+from toontown.toonbase.ToontownModules import *
+
 from . import ToontownGroupManager
 
 if __debug__:
     import pdb
 
 class ToontownAIRepository(AIDistrict):
-    notify = DirectNotifyGlobal.directNotify.newCategory(
-            "ToontownAIRepository")
+    notify = DirectNotifyGlobal.directNotify.newCategory("ToontownAIRepository")
 
     # The zone table determines which dnaStores are created and
     # whether bulding manager or suit planner ai objects are created.
@@ -177,6 +178,8 @@ class ToontownAIRepository(AIDistrict):
             self.dnaSearchPath.appendDirectory(Filename.expandFrom('$TTMODELS/built/phase_9/dna'))
             self.dnaSearchPath.appendDirectory(Filename.expandFrom('$TTMODELS/built/phase_10/dna'))
             self.dnaSearchPath.appendDirectory(Filename.expandFrom('$TTMODELS/built/phase_11/dna'))
+            self.dnaSearchPath.appendDirectory(Filename.expandFrom('$TTMODELS/built/phase_12/dna'))
+            self.dnaSearchPath.appendDirectory(Filename.expandFrom('$TTMODELS/built/phase_13/dna'))
 
             # In the publish environment, TTMODELS won't be on the model
             # path by default, so we always add it there.  In the dev
