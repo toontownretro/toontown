@@ -144,7 +144,6 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         self.ignore(self.closetSphereEnterEvent)
         self.ignoreAll()
         taskMgr.remove(self.uniqueName('popupChangeClothesGUI'))
-        taskMgr.remove(self.uniqueName('lerpCamera'))
         taskMgr.remove(self.uniqueName('lerpToon'))
         if self.closetTrack:
             self.closetTrack.finish()
@@ -194,15 +193,14 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
             if self.customerId == base.localAvatar.doId:
                 # move camera to the back left
                 camera.wrtReparentTo(self)
-                camera.lerpPosHpr(
-                    -7.58, -6.02, 6.90, 286.3, 336.8, 0, 1,
+                newPos = (-7.58, -6.02, 6.90)
+                newHpr = (286.3, 336.8, 0)
+                camera.posHprInterval(1, newPos, newHpr,
                     #other=render,
                     other = self,
                     blendType="easeOut",
-                    task=self.uniqueName('lerpCamera'))
-                camera.setPosHpr(
-                    self,
-                    -7.58, -6.02, 6.90, 286.3, 336.8, 0)
+                    name=self.uniqueName('lerpCamera'))
+                camera.setPosHpr(self, -7.58, -6.02, 6.90, 286.3, 336.8, 0)
 
             # Move the avatar:
             if self.av:
@@ -367,7 +365,6 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         assert(self.notify.debug('resetCloset'))
         self.ignoreAll()
         taskMgr.remove(self.uniqueName('popupChangeClothesGUI'))
-        taskMgr.remove(self.uniqueName('lerpCamera'))
         taskMgr.remove(self.uniqueName('lerpToon'))
         if self.closetGUI:
             self.closetGUI.hideButtons()
@@ -561,7 +558,6 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         elif (mode == ClosetGlobals.CLOSET_MOVIE_TIMEOUT):
             assert(self.notify.debug('CLOSET_MOVIE_TIMEOUT'))
             # In case the GUI hasn't popped up yet
-            taskMgr.remove(self.uniqueName('lerpCamera'))
             taskMgr.remove(self.uniqueName('lerpToon'))
             # Stop listening for the GUI
             if (self.isLocalToon):

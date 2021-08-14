@@ -178,6 +178,7 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
 
     def getAvEnterEvent(self):
         return 'avatarEnterEstate'
+
     def getAvExitEvent(self, avId=None):
         # listen for all exits or a particular exit
         # event args:
@@ -185,15 +186,13 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
         #  if avId not given: avId, ownerId, zoneId
         if avId is None:
             return 'avatarExitEstate'
-        else:
-            return 'avatarExitEstate-%s' % avId
+        return 'avatarExitEstate-%s' % avId
 
     def __enterEstate(self, avId, ownerId):
         # Tasks that should always get called when entering an estate
 
         # Handle unexpected exit
-        self.acceptOnce(self.air.getAvatarExitEvent(avId),
-                        self.__handleUnexpectedExit, extraArgs=[avId])
+        self.acceptOnce(self.air.getAvatarExitEvent(avId), self.__handleUnexpectedExit, extraArgs=[avId])
 
         # Toonup
         try:
@@ -205,32 +204,23 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
     def _listenForToonEnterEstate(self, avId, ownerId, zoneId):
         #self.notify.debug('_listenForToonEnterEstate(avId=%s, ownerId=%s, zoneId=%s)' % (avId, ownerId, zoneId))
         if avId in self.avId2pendingEnter:
-            self.notify.warning(
-                '_listenForToonEnterEstate(avId=%s, ownerId=%s, zoneId=%s): '
-                '%s already in avId2pendingEnter. overwriting' % (
-                avId, ownerId, zoneId, avId))
+            self.notify.warning('_listenForToonEnterEstate(avId=%s, ownerId=%s, zoneId=%s): %s already in avId2pendingEnter. overwriting' % (avId, ownerId, zoneId, avId))
         self.avId2pendingEnter[avId] = (ownerId, zoneId)
-        self.accept(DistributedObjectAI.
-                    DistributedObjectAI.staticGetLogicalZoneChangeEvent(avId),
-                    Functor(self._toonChangedZone, avId))
+        self.accept(DistributedObjectAI. DistributedObjectAI.staticGetLogicalZoneChangeEvent(avId), Functor(self._toonChangedZone, avId))
 
     def _toonLeftBeforeArrival(self, avId):
         #self.notify.debug('_toonLeftBeforeArrival(avId=%s)' % avId)
         if avId not in self.avId2pendingEnter:
-            self.notify.warning('_toonLeftBeforeArrival: av %s not in table' %
-                                avId)
+            self.notify.warning('_toonLeftBeforeArrival: av %s not in table' % avId)
             return
         ownerId, zoneId = self.avId2pendingEnter[avId]
-        self.notify.warning(
-            '_toonLeftBeforeArrival: av %s left server before arriving in '
-            'estate (owner=%s, zone=%s)' % (avId, ownerId, zoneId))
+        self.notify.warning('_toonLeftBeforeArrival: av %s left server before arriving in estate (owner=%s, zone=%s)' % (avId, ownerId, zoneId))
         del self.avId2pendingEnter[avId]
 
     def _toonChangedZone(self, avId, newZoneId, oldZoneId):
         #self.notify.debug('_toonChangedZone(avId=%s, newZoneId=%s, oldZoneId=%s)' % (avId, newZoneId, oldZoneId))
         if avId not in self.avId2pendingEnter:
-            self.notify.warning('_toonChangedZone: av %s not in table' %
-                                avId)
+            self.notify.warning('_toonChangedZone: av %s not in table' % avId)
             return
         av = self.air.doId2do.get(avId)
         if not av:
@@ -240,22 +230,19 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
         estateZoneIds = self.getEstateZones(ownerId)
         if newZoneId in estateZoneIds:
             del self.avId2pendingEnter[avId]
-            self.ignore(DistributedObjectAI.
-                        DistributedObjectAI.staticGetLogicalZoneChangeEvent(avId))
+            self.ignore(DistributedObjectAI.DistributedObjectAI.staticGetLogicalZoneChangeEvent(avId))
             self.announceToonEnterEstate(avId, ownerId, estateZoneId)
 
     def announceToonEnterEstate(self, avId, ownerId, zoneId):
         """ announce to the rest of the system that a toon is entering
         an estate """
-        EstateManagerAI.notify.debug('announceToonEnterEstate: %s %s %s' %
-                                     (avId, ownerId, zoneId))
+        EstateManagerAI.notify.debug('announceToonEnterEstate: %s %s %s' % (avId, ownerId, zoneId))
         messenger.send(self.getAvEnterEvent(), [avId, ownerId, zoneId])
 
     def announceToonExitEstate(self, avId, ownerId, zoneId):
         """ announce to the rest of the system that a toon is exiting
         an estate """
-        EstateManagerAI.notify.debug('announceToonExitEstate: %s %s %s' %
-                                     (avId, ownerId, zoneId))
+        EstateManagerAI.notify.debug('announceToonExitEstate: %s %s %s' % (avId, ownerId, zoneId))
         messenger.send(self.getAvExitEvent(avId))
         messenger.send(self.getAvExitEvent(), [avId, ownerId, zoneId])
 
@@ -265,8 +252,7 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
         estate = self.estate.get(ownerId)
         if estate is not None:
             if not hasattr(estate, 'zoneId'):
-                self.notify.warning('getEstateZones: estate %s (owner %s) has no \'zoneId\'' %
-                                    (estate.doId, ownerId))
+                self.notify.warning('getEstateZones: estate %s (owner %s) has no \'zoneId\'' % (estate.doId, ownerId))
             else:
                 zones.append(estate.zoneId)
         houses = self.house.get(ownerId)
@@ -403,8 +389,7 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
             return 1
         return 0
 
-    def handleGetEstate(self, avId, ownerId, estateId, estateVal,
-                        numHouses, houseId, houseVal, petIds, valDict = None):
+    def handleGetEstate(self, avId, ownerId, estateId, estateVal, numHouses, houseId, houseVal, petIds, valDict = None):
         self.notify.debug("handleGetEstate %s" % avId)
         # this function is called after the estate data is pulled
         # from the database.  the houseAI object is initialized
@@ -434,23 +419,17 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
             if estateId in self.air.doId2do:
                 self.notify.warning("Already have distobj %s, not generating again" % (estateId))
             else:
-                self.notify.info('start estate %s init, owner=%s, frame=%s' %
-                                 (estateId, ownerId, globalClock.getFrameCount()))
+                self.notify.info('start estate %s init, owner=%s, frame=%s' % (estateId, ownerId, globalClock.getFrameCount()))
 
                 # give the estate a time seed
                 estateZoneId = self.estateZone[avId][0]
                 ts = time.time() % HouseGlobals.DAY_NIGHT_PERIOD
                 self.randomGenerator.seed(estateId)
                 dawn = HouseGlobals.DAY_NIGHT_PERIOD * self.randomGenerator.random()
-                estateAI = DistributedEstateAI.DistributedEstateAI(self.air, avId,
-                                                                   estateZoneId, ts, dawn, valDict)
+                estateAI = DistributedEstateAI.DistributedEstateAI(self.air, avId, estateZoneId, ts, dawn, valDict)
                 # MPG - We should make sure this works across districts
                 estateAI.dbObject = 1
-                estateAI.generateWithRequiredAndId(estateId,
-                                                   self.air.districtId,
-                                                   estateZoneId)
-
-
+                estateAI.generateWithRequiredAndId(estateId, self.air.districtId, estateZoneId)
 
                 estateAI.initEstateData(estateVal, numHouses, houseId, houseVal)
                 estateAI.setPetIds(petIds)
@@ -465,9 +444,7 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
                         self.notify.warning("doId of house %s conflicts with a %s!" % (houseId[i], self.air.doId2do[houseId[i]].__class__.__name__))
 
                     else:
-                        house = DistributedHouseAI.DistributedHouseAI(self.air,
-                                                                      houseId[i],
-                                                                      estateId, estateZoneId, i)
+                        house = DistributedHouseAI.DistributedHouseAI(self.air, houseId[i], estateId, estateZoneId, i)
 
                         # get house information
                         house.initFromServerResponse(houseVal[i])
@@ -479,9 +456,7 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
                         house.dbObject = 1
 
                         # MPG - We should make sure this works across districts
-                        house.generateWithRequiredAndId(houseId[i],
-                                                        self.air.districtId,
-                                                        estateZoneId)
+                        house.generateWithRequiredAndId(houseId[i], self.air.districtId, estateZoneId)
 
                         house.setupEnvirons()
 
@@ -500,18 +475,15 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
                     avIdList.append(avHouse.ownerId)
 
                 if simbase.wantPets:
-                    self.notify.debug('creating pet collisions for estate %s' %
-                                     estateId)
+                    self.notify.debug('creating pet collisions for estate %s' % estateId)
                     estateAI.createPetCollisions()
 
                 # create a pond bingo manager ai for the new estate
                 if simbase.wantBingo:
-                    self.notify.info('creating bingo mgr for estate %s' %
-                                     estateId)
+                    self.notify.info('creating bingo mgr for estate %s' % estateId)
                     self.air.createPondBingoMgrAI(estateAI)
 
-                self.notify.info('finish estate %s init, owner=%s' %
-                                 (estateId, ownerId))
+                self.notify.info('finish estate %s init, owner=%s' % (estateId, ownerId))
 
                 estateAI.gardenInit(avIdList)
 

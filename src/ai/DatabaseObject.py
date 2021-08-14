@@ -116,8 +116,9 @@ class DatabaseObject:
             return
 
         count = di.getUint16()
+
         fields = []
-        for i in range(count):
+        for i in range(0, count):
             name = di.getString()
             fields.append(name)
 
@@ -127,11 +128,11 @@ class DatabaseObject:
 
         else:
             values = []
-            for i in range(count):
-                value = di.getString()
+            for i in range(0, count):
+                value = di.getString().encode('ISO-8859-1')
                 values.append(value)
 
-            for i in range(count):
+            for i in range(0, count):
                 found = di.getUint8()
 
                 if not found:

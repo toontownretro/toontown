@@ -70,7 +70,7 @@ class BingoCardGui(DirectFrame):
         # Class Member Variable Definitions.
         self.game = None
         self.cellGuiList = []
-        self.parent = parent
+        self._parent = parent
 
         self.load()
         self.hide()
@@ -343,7 +343,7 @@ class BingoCardGui(DirectFrame):
                                      text_font = ToontownGlobals.getSignFont())
 
         #jpsign is parented to self.parent so we can place it behind the main card
-        self.jpSign = DirectFrame( parent = self.parent,
+        self.jpSign = DirectFrame( parent = self._parent,
                                    relief = None,
                                    state = DGG.NORMAL,
                                    pos = BG.CardPosition,

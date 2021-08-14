@@ -1,3 +1,4 @@
+from direct.directnotify import DirectNotifyGlobal
 from otp.ai.AIBaseGlobal import *
 from toontown.toonbase.ToontownModules import *
 from .DistributedNPCToonBaseAI import *
@@ -7,6 +8,8 @@ from toontown.fishing import FishGlobals
 from toontown.pets import PetUtil, PetDNA, PetConstants
 
 class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
+    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedNPCPetclerkAI")
+    
     def __init__(self, air, npcId):
         DistributedNPCToonBaseAI.__init__(self, air, npcId)
         # Fishermen are not in the business of giving out quests

@@ -40,6 +40,7 @@ class ToontownUberDog(UberDog):
 
         def isManagerFor(name):
             return len(uber.objectNames) == 0 or name in uber.objectNames
+ 
         self.isFriendsManager = False # latest from Ian this should not run anymore
         #self.isFriendsManager = isManagerFor('friends')
         self.isSpeedchatRelay = isManagerFor('speedchatRelay')
@@ -124,12 +125,12 @@ class ToontownUberDog(UberDog):
                 "NonRepeatableRandomSource")
 
     def getDatabaseIdForClassName(self, className):
-        return DatabaseIdFromClassName.get(
-            className, DefaultDatabaseChannelId)
+        return DatabaseIdFromClassName.get(className, DefaultDatabaseChannelId)
 
     if __debug__:
         def status(self):
             if self.isGiftingManager:
                 print("deliveryManager is", self.deliveryManager)
+  
             if self.isFriendsManager:
                 print("playerFriendsManager is ",self.playerFriendsManager)

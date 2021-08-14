@@ -490,17 +490,17 @@ class CatalogItem:
                 p = 0.0
                 r = 0.0
             elif versionNumber < 5:
-                h = di.getArg(STInt8, 256.0/360.0)
-                p = di.getArg(STInt8, 256.0/360.0)
-                r = di.getArg(STInt8, 256.0/360.0)
+                h = di.getArg(STInt16, 256.0/360.0)
+                p = di.getArg(STInt16, 256.0/360.0)
+                r = di.getArg(STInt16, 256.0/360.0)
                 hpr = oldToNewHpr(VBase3(h, p, r))
                 h = hpr[0]
                 p = hpr[1]
                 r = hpr[2]
             else:
-                h = di.getArg(STInt8, 256.0/360.0)
-                p = di.getArg(STInt8, 256.0/360.0)
-                r = di.getArg(STInt8, 256.0/360.0)
+                h = di.getArg(STInt16, 256.0/360.0)
+                p = di.getArg(STInt16, 256.0/360.0)
+                r = di.getArg(STInt16, 256.0/360.0)
 
             self.posHpr = (x, y, z, h, p, r)
         if store & GiftTag:
@@ -517,9 +517,9 @@ class CatalogItem:
             dg.putArg(self.posHpr[0], STInt16, 10)
             dg.putArg(self.posHpr[1], STInt16, 10)
             dg.putArg(self.posHpr[2], STInt16, 100)
-            dg.putArg(self.posHpr[3], STInt8, 256.0/360.0)
-            dg.putArg(self.posHpr[4], STInt8, 256.0/360.0)
-            dg.putArg(self.posHpr[5], STInt8, 256.0/360.0)
+            dg.putArg(self.posHpr[3], STInt16, 256.0/360.0)
+            dg.putArg(self.posHpr[4], STInt16, 256.0/360.0)
+            dg.putArg(self.posHpr[5], STInt16, 256.0/360.0)
         if store & GiftTag:
             dg.addString(self.giftTag)
         dg.addUint8(self.specialEventId)

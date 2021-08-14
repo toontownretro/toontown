@@ -44,7 +44,7 @@ class BingoCardBase:
         
         self.cellList = []
         self.gameType = None
-        self.gameState = 1<<self.cardSize/2
+        self.gameState = 1 << self.cardSize // 2
 
     #################################################################
     # Method: destroy
@@ -74,7 +74,7 @@ class BingoCardBase:
         fishList = FishGlobals.getPondGeneraList(zoneId)
 
         # Determine the number of cells left to fill.
-        emptyCells = (self.cardSize-1) - len(fishList)
+        emptyCells = (self.cardSize - 1) - len(fishList)
 
         rodId = 0
         for i in range(emptyCells):
@@ -88,8 +88,8 @@ class BingoCardBase:
 
         # Now, fill up the the card by randomly placing the fish in a cell.
         for index in range(self.cardSize):
-            if index != self.cardSize/2:
-                choice = rng.randrange(0,len(fishList))
+            if index != self.cardSize // 2:
+                choice = rng.randrange(0, len(fishList))
                 self.cellList.append( fishList.pop(choice) )
             else:
                 self.cellList.append( (None, None) )
@@ -192,7 +192,7 @@ class BingoCardBase:
             
         fishTuple = (genus, species)
         if (self.cellList[id][0] == genus) or (fishTuple == FishGlobals.BingoBoot):
-            self.gameState = self.gameState | (1<<id)
+            self.gameState = self.gameState | (1 << id)
             if self.checkForWin(id):
                 return BingoGlobals.WIN
             return BingoGlobals.UPDATE
@@ -218,7 +218,7 @@ class BingoCardBase:
     ################################################################# 
     def rowCheck(self, rowId):
         for colId in range(self.colSize):
-            if not (self.gameState & (1 << (self.rowSize*rowId+colId) )):
+            if not (self.gameState & (1 << (self.rowSize * rowId + colId) )):
                 return 0
         return 1
 
@@ -248,7 +248,7 @@ class BingoCardBase:
         checkNum = self.rowSize+1
         if not (id % checkNum):
             for i in range(self.rowSize):
-                if not (self.gameState & (1 << i*checkNum)):
+                if not (self.gameState & (1 << i * checkNum)):
                     return 0
             return 1
         else:
@@ -267,7 +267,7 @@ class BingoCardBase:
         checkNum = self.rowSize-1
         if not(id % checkNum) and (not(id==(self.cardSize-1))):
             for i in range(self.rowSize):
-                if not (self.gameState & (1 << (i*checkNum+checkNum))):
+                if not (self.gameState & (1 << (i * checkNum + checkNum))):
                     return 0
             return 1
         return 0
@@ -295,7 +295,7 @@ class BingoCardBase:
     # Output: returns 1 or 0 whether cell is on the specified row.
     ################################################################# 
     def onRow(self, row, id):
-        if int( id / self.rowSize ) == row:
+        if int( id // self.rowSize ) == row:
             return 1
         return 0
 

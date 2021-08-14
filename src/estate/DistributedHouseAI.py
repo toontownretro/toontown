@@ -87,34 +87,35 @@ class DistributedHouseAI(DistributedObjectAI.DistributedObjectAI):
         except:
             self.notify.debug("completing delete")
             self.House_deleted = 1
-            if hasattr(self, 'houseNode'):
-                self.houseNode.removeNode()
-                del self.houseNode
-            # clean up the doors
-            if self.interior:
-                del simbase.air.estateMgr.houseZone2estateZone[
-                    self.interiorZoneId]
-                self.air.deallocateZone(self.interiorZoneId)
-                self.interior.requestDelete()
-                self.interior = None
-                self.door.requestDelete()
-                del self.door
-                self.insideDoor.requestDelete()
-                del self.insideDoor
-                #if self.garden:
-                #    self.garden.requestDelete()
-                #    del self.garden
-                if self.cannon:
-                    self.cannon.requestDelete()
-                    del self.cannon
-                    self.cannon = None
-            if self.mailbox:
-                self.mailbox.requestDelete()
-                self.mailbox = None
-            if self.interiorManager:
-                self.interiorManager.requestDelete()
-                self.interiorManager = None
-            DistributedObjectAI.DistributedObjectAI.delete(self)
+
+        if hasattr(self, 'houseNode'):
+            self.houseNode.removeNode()
+            del self.houseNode
+        # clean up the doors
+        if self.interior:
+            del simbase.air.estateMgr.houseZone2estateZone[
+                self.interiorZoneId]
+            self.air.deallocateZone(self.interiorZoneId)
+            self.interior.requestDelete()
+            self.interior = None
+            self.door.requestDelete()
+            del self.door
+            self.insideDoor.requestDelete()
+            del self.insideDoor
+            #if self.garden:
+            #    self.garden.requestDelete()
+            #    del self.garden
+            if self.cannon:
+                self.cannon.requestDelete()
+                del self.cannon
+                self.cannon = None
+        if self.mailbox:
+            self.mailbox.requestDelete()
+            self.mailbox = None
+        if self.interiorManager:
+            self.interiorManager.requestDelete()
+            self.interiorManager = None
+        DistributedObjectAI.DistributedObjectAI.delete(self)
 
     def setupEnvirons(self):
         # This method is called by the EstateManager as it is creating
@@ -137,12 +138,10 @@ class DistributedHouseAI(DistributedObjectAI.DistributedObjectAI):
             self.mailbox.generateWithRequired(self.zoneId)
 
         # Outside door:
-        self.door = DistributedHouseDoorAI.DistributedHouseDoorAI(
-            self.air, self.doId, DoorTypes.EXT_STANDARD)
+        self.door = DistributedHouseDoorAI.DistributedHouseDoorAI(self.air, self.doId, DoorTypes.EXT_STANDARD)
 
         # Inside door of the same door (different zone, and different distributed object):
-        self.insideDoor = DistributedHouseDoorAI.DistributedHouseDoorAI(
-            self.air, self.doId, DoorTypes.INT_STANDARD)
+        self.insideDoor = DistributedHouseDoorAI.DistributedHouseDoorAI(self.air, self.doId, DoorTypes.INT_STANDARD)
 
         # Tell them about each other:
         self.door.setOtherDoor(self.insideDoor)
@@ -175,8 +174,7 @@ class DistributedHouseAI(DistributedObjectAI.DistributedObjectAI):
             self.doId, self.air, self.interiorZoneId, self)
         self.interior.generateWithRequired(self.interiorZoneId)
         # add this house to the map of house zone to estate zone
-        simbase.air.estateMgr.houseZone2estateZone[
-            self.interiorZoneId] = self.zoneId
+        simbase.air.estateMgr.houseZone2estateZone[self.interiorZoneId] = self.zoneId
 
         # This is a temporary hack, to ensure the user has a phone.
         # It's only necessary because some players on the test server
@@ -187,7 +185,6 @@ class DistributedHouseAI(DistributedObjectAI.DistributedObjectAI):
             item = CatalogFurnitureItem.CatalogFurnitureItem(1399, posHpr = (-12, 3, 0.025, 180, 0, 0))
             self.interiorItems.append(item)
             self.d_setInteriorItems(self.interiorItems)
-
 
         self.resetFurniture()
 
@@ -200,13 +197,10 @@ class DistributedHouseAI(DistributedObjectAI.DistributedObjectAI):
 
             # add ourselves to the estate model
             if not DistributedHouseAI.HouseModel:
-                DistributedHouseAI.HouseModel = loader.loadModel(
-                    HouseGlobals.houseModels[self.houseType])
+                DistributedHouseAI.HouseModel = loader.loadModel(HouseGlobals.houseModels[self.houseType])
             estate = simbase.air.doId2do[self.estateId]
-            self.houseNode = estate.geom.attachNewNode(
-                'esHouse_%s' % self.housePosInd)
-            self.houseNode.setPosHpr(
-                *HouseGlobals.houseDrops[self.housePosInd])
+            self.houseNode = estate.geom.attachNewNode('esHouse_%s' % self.housePosInd)
+            self.houseNode.setPosHpr(*HouseGlobals.houseDrops[self.housePosInd])
             DistributedHouseAI.HouseModel.instanceTo(self.houseNode)
 
             if 0:#__dev__:
@@ -302,10 +296,7 @@ class DistributedHouseAI(DistributedObjectAI.DistributedObjectAI):
 
         self.b_setDeletedItems(CatalogItemList.CatalogItemList())
         self.b_setAtticItems(CatalogItemList.CatalogItemList())
-        self.b_setInteriorItems(random.choice((InitialFurnitureA,
-                                               InitialFurnitureB,
-                                               InitialFurnitureC,
-                                               )))
+        self.b_setInteriorItems(random.choice((InitialFurnitureA, InitialFurnitureB, InitialFurnitureC,)))
         self.b_setAtticWallpaper(CatalogItemList.CatalogItemList())
 
         # Choose a random set of wallpapers, and use the same set for
@@ -325,10 +316,7 @@ class DistributedHouseAI(DistributedObjectAI.DistributedObjectAI):
         self.b_setAtticWindows(CatalogItemList.CatalogItemList())
 
         # Everyone starts out with a simple garden view, twice.
-        self.b_setInteriorWindows(CatalogItemList.CatalogItemList([
-            CatalogWindowItem.CatalogWindowItem(20, placement = 2),
-            CatalogWindowItem.CatalogWindowItem(20, placement = 4),
-            ]))
+        self.b_setInteriorWindows(CatalogItemList.CatalogItemList([CatalogWindowItem.CatalogWindowItem(20, placement = 2), CatalogWindowItem.CatalogWindowItem(20, placement = 4),]))
 
 
     def b_setHouseType(self, houseType):
@@ -664,7 +652,7 @@ class DistributedHouseAI(DistributedObjectAI.DistributedObjectAI):
 
         self.notify.debug("__checkOwner: %s" % (self.doId))
 
-        if self.ownerId == 0:
+        if self.ownerId <= 0:
             # No owner.  Duh.
             self.d_setHouseReady()
             return
@@ -680,7 +668,6 @@ class DistributedHouseAI(DistributedObjectAI.DistributedObjectAI):
             # We have to go query the database for the avatar's info.
             gotAvEvent = self.uniqueName("gotAvatar")
             self.acceptOnce(gotAvEvent, self.__gotOwnerAv)
-
             db = DatabaseObject.DatabaseObject(self.air, self.ownerId)
             db.doneEvent = gotAvEvent
 

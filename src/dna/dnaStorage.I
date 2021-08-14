@@ -19,8 +19,10 @@ INLINE void DNAStorage::store_node(const string &code_string, NodePath node, con
     node.copy_to(modelNode);
     node = modelNode;
   }
-  node.set_tag("DNACode", code_string);
-  node.set_tag("DNARoot", code_category);
+  if (!node.is_empty()) {
+    node.set_tag("DNACode", code_string);
+    node.set_tag("DNARoot", code_category);
+  }
   _node_map[code_string] = node;
 }
 
@@ -38,8 +40,10 @@ INLINE void DNAStorage::store_hood_node(const string &code_string, NodePath node
     node.copy_to(modelNode);
     node = modelNode;
   }
-  node.set_tag("DNACode", code_string);
-  node.set_tag("DNARoot", code_category);
+  if (!node.is_empty()) {
+    node.set_tag("DNACode", code_string);
+    node.set_tag("DNARoot", code_category);
+  }
   _hood_node_map[code_string] = node;
 }
 
@@ -56,8 +60,10 @@ INLINE void DNAStorage::store_place_node(const string &code_string, NodePath nod
     node.copy_to(modelNode);
     node = modelNode;
   }
-  node.set_tag("DNACode", code_string);
-  node.set_tag("DNARoot", code_category);
+  if (!node.is_empty()) {
+    node.set_tag("DNACode", code_string);
+    node.set_tag("DNARoot", code_category);
+  }
   _place_node_map[code_string] = node;
 }
 

@@ -8,7 +8,7 @@ from toontown.safezone import DistributedBoatAI
 from toontown.safezone import DistributedMMPianoAI
 from toontown.safezone import DistributedDGFlowerAI
 from toontown.safezone import DistributedTrolleyAI
-#from otp.friends import FriendManagerAI
+from otp.friends import FriendManagerAI
 from toontown.shtiker import DeleteManagerAI
 from toontown.safezone import SafeZoneManagerAI
 from . import ToontownMagicWordManagerAI
@@ -72,6 +72,7 @@ if simbase.wantPets:
 import string
 import os
 import time
+import sys
 
 from . import DatabaseObject
 from direct.distributed.PyDatagram import PyDatagram
@@ -432,8 +433,8 @@ class ToontownAIRepository(AIDistrict):
         self.bankMgr.generateWithRequired(OTPGlobals.UberZone)
 
         # The Friend Manager
-        #self.friendManager = FriendManagerAI.FriendManagerAI(self)
-        #self.friendManager.generateWithRequired(OTPGlobals.UberZone)
+        self.friendManager = FriendManagerAI.FriendManagerAI(self)
+        self.friendManager.generateWithRequired(OTPGlobals.UberZone)
 
         # The Delete Manager
         self.deleteManager = DeleteManagerAI.DeleteManagerAI(self)
@@ -474,8 +475,7 @@ class ToontownAIRepository(AIDistrict):
         # manager driven event and therefore the constructor needs a
         # holidayId. Pass in fourth of july as default.  To do: override
         # holiday ID with a magic word
-        self.fireworkManager = FireworkManagerAI.FireworkManagerAI(
-            self, NEWYEARS_FIREWORKS)
+        self.fireworkManager = FireworkManagerAI.FireworkManagerAI(self, NEWYEARS_FIREWORKS)
 
         # Create an NPC Dialogue manager that manages conversations
         # amongst a set of NPC's
@@ -895,7 +895,7 @@ class ToontownAIRepository(AIDistrict):
                 key = di.getString()
                 #key = key[2:]
                 #right why to do this???? ask Roger and/or Dave
-                value = di.getString()
+                value = di.getString().encode("ISO-8859-1")
                 found = di.getUint8()
 
                 #print key;
@@ -908,7 +908,6 @@ class ToontownAIRepository(AIDistrict):
                     #vdgi = PyDatagramIterator(vdg)
                     # do something with this data
                     estateVal[key] = value
-
 
             numHouses = di.getUint16()
             self.notify.debug("numHouses = %s" % numHouses)
@@ -931,14 +930,13 @@ class ToontownAIRepository(AIDistrict):
                 assert(numHouses2 == numHouses)
                 tempHouseVal[i] = [None] * numHouses
                 for j in range(numHouses):
-                    tempHouseVal[i][j] = di.getString()
+                    tempHouseVal[i][j] = di.getString().encode("ISO-8859-1")
                     # do we need a check for "value found" here?
 
             #print houseKey
             #print tempHouseVal
 
             numHouseFound = di.getUint16()
-
 
             # keep track of which attributes are found
             foundVal = [None] * numHouses
@@ -969,8 +967,7 @@ class ToontownAIRepository(AIDistrict):
             # and call DistributedEstateAI's initEstateData func
 
             # call function originally passed to getEstate
-            callback(estateId, estateVal, numHouses, houseId, houseVal,
-                     petIds, estateVal)
+            callback(estateId, estateVal, numHouses, houseId, houseVal, petIds, estateVal)
         else:
             print("ret code != 0, something went wrong with estate creation")
 

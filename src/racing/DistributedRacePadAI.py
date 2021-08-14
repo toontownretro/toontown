@@ -337,7 +337,7 @@ class DistributedRacePadAI( DistributedKartPadAI, FSM ):
             return 'AllAboard'
         elif( request in DistributedRacePadAI.defaultTransitions.get( 'WaitCountdown' ) ):
             return request
-        elif( request is 'WaitCountdown' ):
+        elif( request == 'WaitCountdown' ):
             # If in the WaitCountdown state, no need to loop back into
             # itself since it is already counting down to the race.
             return None

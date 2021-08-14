@@ -60,7 +60,9 @@ NodePath DNAAnimBuilding::traverse(NodePath &parent, DNAStorage *store, int edit
 
   // Set the building position
   building_node_path.set_pos_hpr_scale(_pos, _hpr, _scale);
-  building_node_path.set_tag("DNAAnim", _anim);
+  if (!building_node_path.is_empty()) {
+    building_node_path.set_tag("DNAAnim", _anim);
+  }
 
   // Remember the article and title of the building, for later:
   string block=store->get_block(get_name());

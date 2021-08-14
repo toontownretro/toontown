@@ -1449,10 +1449,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                     self.friendsOnline[doId] = handle
 
                 if doId in self.friendPendingChatSettings:
-                    self.notify.debug('calling setCommonAndWL %s' %
-                                     str(self.friendPendingChatSettings[doId]))
-                    handle.setCommonAndWhitelistChatFlags(
-                        * self.friendPendingChatSettings[doId])
+                    self.notify.debug('calling setCommonAndWL %s' % str(self.friendPendingChatSettings[doId]))
+                    handle.setCommonAndWhitelistChatFlags(* self.friendPendingChatSettings[doId])
 
             if base.wantPets and base.localAvatar.hasPet():
                 def handleAddedPet():
@@ -1492,8 +1490,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
         if avatarHandleList:
             messenger.send('gotExtraFriendHandles', [avatarHandleList])
-
-
 
     def handleFriendOnline(self, di):
         doId = di.getUint32()
@@ -1567,15 +1563,14 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         emulated setZone msg (not yet sent) completes, and we are fully
         in the new zone with all DOs in that zone"""
         assert self.notify.debugStateCall(self, 'loginFSM', 'gameFSM')
-        return '%s-%s' % (ToontownClientRepository.EmuSetZoneDoneEvent,
-                          self.setZonesEmulated+1)
+        return '%s-%s' % (ToontownClientRepository.EmuSetZoneDoneEvent,self.setZonesEmulated+1)
+
     def getLastSetZoneDoneEvent(self):
         """this returns the event that will be generated when the last
         emulated setZone msg (already sent) completes, and we are fully
         in the new zone with all DOs in that zone"""
         assert self.notify.debugStateCall(self, 'loginFSM', 'gameFSM')
-        return '%s-%s' % (ToontownClientRepository.EmuSetZoneDoneEvent,
-                          self.setZonesEmulated)
+        return '%s-%s' % (ToontownClientRepository.EmuSetZoneDoneEvent, self.setZonesEmulated)
 
     # recreate the behaviour of sendSetZoneMsg
     def sendSetZoneMsg(self, zoneId, visibleZoneList=None):

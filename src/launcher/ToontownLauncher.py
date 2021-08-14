@@ -87,6 +87,12 @@ import sys
 import time
 import types
 
+from otp.launcher.LauncherBase import LauncherBase
+from otp.otpbase import OTPLauncherGlobals
+# LauncherBase sets up import path stuff, import Panda after
+from panda3d.core import *
+from toontown.toonbase import TTLocalizer
+
 #
 # Original bootstrap logger that gets LOGGING IMMEDIATELY UP before any
 # Panda/Toontown dependencies are imported
@@ -136,6 +142,14 @@ if 1:   # flip this as necessary
     logErr = LogAndOutput(sys.__stderr__, log)
     sys.stdout = logOut
     sys.stderr = logErr
+    
+    # Give Panda the same log we use
+    if __debug__:
+        nout = MultiplexStream()
+        Notify.ptr().setOstreamPtr(nout, 0)
+        nout.addFile(Filename(logfile))
+        nout.addStandardOutput()
+        nout.addSystemDebug()
 
     # Write to the log
     print("\n\nStarting Toontown...")
@@ -143,12 +157,6 @@ if 1:   # flip this as necessary
            + " " + time.tzname[0]))
     print("sys.path = ", sys.path)
     print("sys.argv = ", sys.argv)
-
-from otp.launcher.LauncherBase import LauncherBase
-from otp.otpbase import OTPLauncherGlobals
-# LauncherBase sets up import path stuff, import Panda after
-from panda3d.core import *
-from toontown.toonbase import TTLocalizer
 
 class ToontownLauncher(LauncherBase):
     GameName = 'Toontown'

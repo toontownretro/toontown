@@ -49,8 +49,6 @@ class CatalogItemList:
             else:
                 # If the store types are different, we must copy the list.
                 self.__list = source[:]
-        else:
-            assert(source == None)
 
     def markDirty(self):
         # Call this whenever you know one of the items has changed
@@ -196,8 +194,7 @@ class CatalogItemList:
         self.__blob = None
         if index == None:
             return self.__list.pop()
-        else:
-            return self.__list.pop(index)
+        return self.__list.pop(index)
 
     def remove(self, item):
         if self.__list == None:

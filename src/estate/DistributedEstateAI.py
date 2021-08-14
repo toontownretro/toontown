@@ -1,23 +1,16 @@
-
-from otp.ai.AIBase import *
-from direct.distributed.ClockDelta import *
-from toontown.toonbase.ToontownGlobals import *
-from otp.otpbase import OTPGlobals
-from otp.ai.AIZoneData import AIZoneData
-from direct.distributed import DistributedObjectAI
-from . import DistributedHouseAI
-#import DistributedPlantAI
-from direct.fsm import ClassicFSM
-from direct.fsm import State
-from direct.task import Task
 import random
 import pickle
+from datetime import datetime
+from direct.distributed.ClockDelta import *
+from direct.distributed import DistributedObjectAI
+from direct.fsm import ClassicFSM, State
+from direct.task import Task
+from otp.ai.AIBase import *
+from otp.ai.AIZoneData import AIZoneData
+from otp.otpbase import OTPGlobals
+from . import DistributedHouseAI
+#import DistributedPlantAI
 from . import HouseGlobals
-from toontown.safezone import DistributedButterflyAI
-from toontown.safezone import ButterflyGlobals
-from toontown.safezone import ETreasurePlannerAI
-from toontown.safezone import DistributedPicnicTableAI
-from toontown.safezone import DistributedChineseCheckersAI
 from . import DistributedTargetAI
 from . import GardenGlobals
 from toontown.estate import DistributedFlowerAI
@@ -25,10 +18,16 @@ from toontown.estate import DistributedGagTreeAI
 from toontown.estate import DistributedStatuaryAI
 from toontown.estate import DistributedGardenPlotAI
 from toontown.estate import DistributedGardenBoxAI
-from toontown.toonbase import ToontownGlobals
-from toontown.toonbase import ToontownBattleGlobals
 from toontown.estate import DistributedChangingStatuaryAI
 from toontown.estate import DistributedToonStatuaryAI
+from toontown.safezone import DistributedButterflyAI
+from toontown.safezone import ButterflyGlobals
+from toontown.safezone import ETreasurePlannerAI
+from toontown.safezone import DistributedPicnicTableAI
+from toontown.safezone import DistributedChineseCheckersAI
+from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownGlobals import *
+from toontown.toonbase import ToontownGlobals, ToontownBattleGlobals
 
 class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
 
@@ -307,14 +306,9 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
             if not DistributedEstateAI.EstateModel:
                 # load up the estate model for the pets
                 self.dnaStore = DNAStorage()
-                simbase.air.loadDNAFile(
-                    self.dnaStore,
-                    self.air.lookupDNAFileName('storage_estate.dna'))
-                node = simbase.air.loadDNAFile(
-                    self.dnaStore,
-                    self.air.lookupDNAFileName('estate_1.dna'))
-                DistributedEstateAI.EstateModel = hidden.attachNewNode(
-                    node)
+                simbase.air.loadDNAFile(self.dnaStore, self.air.lookupDNAFileName('storage_estate.dna'))
+                node = simbase.air.loadDNAFile(self.dnaStore, self.air.lookupDNAFileName('estate_1.dna'))
+                DistributedEstateAI.EstateModel = hidden.attachNewNode(node)
             render = self.getRender()
             self.geom = DistributedEstateAI.EstateModel.copyTo(render)
             # for debugging, show what's in the model
@@ -346,8 +340,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
             from toontown.coghq import DistributedGagBarrelAI
             self.gagBarrels = [None]*4
             for i in range(4):
-                self.gagBarrels[i] = DistributedGagBarrelAI.DistributedGagBarrelAI(self.air, None,
-                                                                                   -100-10*i, 30-10*i, 0.2,i,i)
+                self.gagBarrels[i] = DistributedGagBarrelAI.DistributedGagBarrelAI(self.air, None, -100-10*i, 30-10*i, 0.2,i,i)
                 self.gagBarrels[i].generateWithRequired(self.zoneId)
             from toontown.coghq import DistributedBeanBarrelAI
             jelly = DistributedBeanBarrelAI.DistributedBeanBarrelAI(self.air, None,-150, -20, 0.2)
@@ -444,9 +437,8 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
 
         tupleNewTime = time.localtime(currentTime - self.epochHourInSeconds)
         tupleOldTime = time.localtime(self.lastEpochTimeStamp)
-
-        #tupleOldTime = (2006, 6, 18, 0, 36, 45, 0, 170, 1)
-        #tupleNewTime = (2006, 6, 19, 3, 36, 45, 0, 170, 1)
+        if (tupleOldTime < time.gmtime(0)):
+            tupleOldTime = time.gmtime(0)
 
         listLastDay = list(tupleOldTime)
         listLastDay[3] = 0 #set hour to epoch time
@@ -455,9 +447,8 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
         tupleLastDay = tuple(listLastDay)
 
         randomDelay = random.random() * 5 * 60 # random five minute range
-
+        
         secondsNextEpoch = (time.mktime(tupleLastDay) + self.epochHourInSeconds + self.dayInSeconds + randomDelay) - currentTime
-
 
         #should we do the epoch for the current day?
         #beforeEpoch = 1
@@ -468,8 +459,6 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
         #epochsToDo -= beforeEpoch
         if epochsToDo < 0:
             epochsToDo = 0
-
-        print(("epochsToDo %s" % (epochsToDo)))
 
         #print("tuple times")
         #print tupleNewTime
@@ -509,10 +498,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
 
         tupleNextEpoch = time.localtime(whenNextEpoch)
 
-        self.notify.info("Next epoch to happen at %s" % (tupleNextEpoch))
-
-
-
+        self.notify.info("Next epoch to happen at %s" % (str(tupleNextEpoch)))
 
     def gardenInit(self, avIdList):
         self.sendUpdate('setIdList', [avIdList])

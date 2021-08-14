@@ -1,3 +1,4 @@
+from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase.ToontownModules import *
 from .DistributedNPCToonBase import *
 from direct.gui.DirectGui import *
@@ -10,6 +11,7 @@ from toontown.hood import ZoneUtil
 from toontown.toontowngui import TeaserPanel
 
 class DistributedNPCPetclerk(DistributedNPCToonBase):
+    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedNPCPetclerk")
 
     def __init__(self, cr):
         DistributedNPCToonBase.__init__(self, cr)

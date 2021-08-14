@@ -54,8 +54,7 @@ class DistributedFishingSpotAI(DistributedObjectAI.DistributedObjectAI):
             self.avId = avId
             # Tell the pond we are here
             self.pond.addAvSpot(avId, self)
-            self.acceptOnce(self.air.getAvatarExitEvent(self.avId),
-                            self.unexpectedExit)
+            self.acceptOnce(self.air.getAvatarExitEvent(self.avId), self.unexpectedExit)
             self.__stopTimeout()
             self.d_setOccupied(self.avId)
             self.d_setMovie(FishGlobals.EnterMovie)
@@ -80,15 +79,11 @@ class DistributedFishingSpotAI(DistributedObjectAI.DistributedObjectAI):
         # The client begins a cast.
         avId = self.air.getAvatarIdFromSender()
         self.notify.debug("doCast: avId: %s" % (avId))
-        if not self.validate(avId, (self.avId == avId),
-                             "doCast: avId is not fishing in this spot"):
+        if not self.validate(avId, (self.avId == avId), "doCast: avId is not fishing in this spot"):
             return
-        if not self.validate(avId, (0.0 <= power <= 1.0),
-                             ("doCast: power: %s is out of range" % power)):
+        if not self.validate(avId, (0.0 <= power <= 1.0), ("doCast: power: %s is out of range" % power)):
             return
-        if not self.validate(avId,
-                             (-FishGlobals.FishingAngleMax <= heading <= FishGlobals.FishingAngleMax),
-                             ("doCast: heading: %s is out of range" % heading)):
+        if not self.validate(avId, (-FishGlobals.FishingAngleMax <= heading <= FishGlobals.FishingAngleMax), ("doCast: heading: %s is out of range" % heading)):
             return
 
         av = self.air.doId2do.get(self.avId)
@@ -111,9 +106,7 @@ class DistributedFishingSpotAI(DistributedObjectAI.DistributedObjectAI):
         self.__startTimeout(FishGlobals.CastTimeout)
                     
     def d_setMovie(self, mode, code=0, itemDesc1=0, itemDesc2=0, itemDesc3=0,  power=0, h=0):
-        self.notify.debug(
-            "setMovie: mode:%s code:%s itemDesc1:%s itemDesc2:%s itemDesc3:%s power:%s h:%s" %
-            (mode, code, itemDesc1, itemDesc2, itemDesc3, power, h))
+        self.notify.debug("setMovie: mode:%s code:%s itemDesc1:%s itemDesc2:%s itemDesc3:%s power:%s h:%s" % (mode, code, itemDesc1, itemDesc2, itemDesc3, power, h))
         self.sendUpdate("setMovie", [mode, code, itemDesc1, itemDesc2, itemDesc3, power, h])
 
     def getPosHpr(self):
@@ -128,9 +121,7 @@ class DistributedFishingSpotAI(DistributedObjectAI.DistributedObjectAI):
         # day.
         self.__stopTimeout()
         if self.wantTimeouts:
-            self.timeoutTask = taskMgr.doMethodLater(timeLimit,
-                                                     self.__handleTimeout,
-                                                     self.taskName("timeout"))
+            self.timeoutTask = taskMgr.doMethodLater(timeLimit, self.__handleTimeout, self.taskName("timeout"))
             
     def __stopTimeout(self):
         self.notify.debug("__stopTimeout")
@@ -160,8 +151,7 @@ class DistributedFishingSpotAI(DistributedObjectAI.DistributedObjectAI):
         self.d_setMovie(FishGlobals.ExitMovie)
         # Give everyone enough time to play the goodbye movie,
         # then dump the avatar.
-        taskMgr.doMethodLater(1.2, self.__clearEmpty,
-                              self.taskName("clearEmpty"))
+        taskMgr.doMethodLater(1.2, self.__clearEmpty, self.taskName("clearEmpty"))
 
     def __clearEmpty(self, task=None):
         self.notify.debug("__clearEmpty")
@@ -209,9 +199,8 @@ class DistributedFishingSpotAI(DistributedObjectAI.DistributedObjectAI):
         elif not self.validate(avId, (av), "sellFish: avId not currently logged in to this AI"):
             gotTrophy = False
 
-        if gotTrophy is -1:
+        if gotTrophy == -1:
             gotTrophy = self.air.fishManager.creditFishTank(av)
             self.d_sellFishComplete(avId, gotTrophy, len(av.fishCollection))
         else:
             self.d_sellFishComplete(avId, False, 0)
-            

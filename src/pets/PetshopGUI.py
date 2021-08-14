@@ -129,7 +129,7 @@ class PetshopGUI(DirectObject):
             self.letters = []
             for name in self.allNames:
                 if not (name[0:TTLocalizer.PGUIcharLength] in self.letters):
-                    self.letters.append(name[0:TTLocalizer.PGUIcharLength])
+                    self.letters.append(name[0:TTLocalizer.PGUIcharLength].decode())
             self.curLetter = self.letters[0]
             self.curNames = []
             self.curName = ""
@@ -229,8 +229,8 @@ class PetshopGUI(DirectObject):
         def rebuildNameList(self):
             self.curNames = []
             for name in self.allNames:
-                if name[0:TTLocalizer.PGUIcharLength] == self.curLetter:
-                    self.curNames += [name]
+                if name[0:TTLocalizer.PGUIcharLength].decode() == self.curLetter:
+                    self.curNames.append(name.decode())
 
             if self.nameList:
                 self.nameList.destroy()
@@ -332,7 +332,7 @@ class PetshopGUI(DirectObject):
         def randomName(self):
 
             numNames = len(self.allNames)
-            self.curName = self.allNames[random.randrange(numNames)]
+            self.curName = self.allNames[random.randrange(numNames)].decode()
             self.curLetter = self.curName[0:TTLocalizer.PGUIcharLength]
             self.rebuildNameList()
             self.updateNameText()
@@ -781,7 +781,7 @@ class PetshopGUI(DirectObject):
 
                 descList.append(TTLocalizer.PetshopDescCost % cost)
 
-                self.petDesc.append( string.join(descList, "\n") )
+                self.petDesc.append( "\n".join(descList) )
 
                 self.petCost.append(cost)
 
@@ -801,7 +801,6 @@ class PetshopGUI(DirectObject):
             self.petModel.delete()
             self.descLabel.destroy()
             self.showPet()
-            return
 
         def showPet(self):
             # Put the avatar's name across the top.

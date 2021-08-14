@@ -1,14 +1,10 @@
+from direct.gui.DirectGui import *
+from direct.interval.IntervalGlobal import *
+from direct.fsm import ClassicFSM, State, StateData
 from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
-from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
-from direct.interval.IntervalGlobal import *
-from direct.fsm import ClassicFSM, State
-from direct.fsm import State
-from direct.fsm import StateData
 from toontown.toontowngui import TTDialog
-from toontown.toonbase import ToontownGlobals
-from toontown.toonbase import TTLocalizer
+from toontown.toonbase import ToontownGlobals, TTLocalizer
 
 class Trolley(StateData.StateData):
     def __init__(self, safeZone, parentFSM, doneEvent):
@@ -71,16 +67,12 @@ class Trolley(StateData.StateData):
         self.parentFSM = parentFSM
         self.leavingCameraSeq = None
 
-        return None
-
     def load(self):
         self.parentFSM.getStateNamed("trolley").addChild(self.fsm)
         self.buttonModels = loader.loadModel("phase_3.5/models/gui/inventory_gui")
         self.upButton = self.buttonModels.find("**//InventoryButtonUp")
         self.downButton = self.buttonModels.find("**/InventoryButtonDown")
-        self.rolloverButton = self.buttonModels.find(
-            "**/InventoryButtonRollover")
-        return
+        self.rolloverButton = self.buttonModels.find("**/InventoryButtonRollover")
 
     def unload(self):
         self.parentFSM.getStateNamed("trolley").removeChild(self.fsm)
@@ -91,7 +83,6 @@ class Trolley(StateData.StateData):
         del self.upButton
         del self.downButton
         del self.rolloverButton
-        return
 
     def enter(self):
         """enter(self)
@@ -105,17 +96,15 @@ class Trolley(StateData.StateData):
         else:
             # can't board if we are 'sad'
             self.fsm.request("trolleyHFA")
-        return None
 
     def exit(self):
         self.ignoreAll()
-        return None
 
     def enterStart(self):
-        return None
+        return
 
     def exitStart(self):
-        return None
+        return
 
     def enterTrolleyHFA(self):
         self.noTrolleyBox = TTDialog.TTGlobalDialog(
@@ -125,13 +114,11 @@ class Trolley(StateData.StateData):
         self.noTrolleyBox.show()
         base.localAvatar.b_setAnimState("neutral", 1)
         self.accept("noTrolleyAck", self.__handleNoTrolleyAck)
-        return
 
     def exitTrolleyHFA(self):
         self.ignore("noTrolleyAck")
         self.noTrolleyBox.cleanup()
         del self.noTrolleyBox
-        return
 
     def enterTrolleyTFA(self):
         self.noTrolleyBox = TTDialog.TTGlobalDialog(
@@ -141,13 +128,11 @@ class Trolley(StateData.StateData):
         self.noTrolleyBox.show()
         base.localAvatar.b_setAnimState("neutral", 1)
         self.accept("noTrolleyAck", self.__handleNoTrolleyAck)
-        return
 
     def exitTrolleyTFA(self):
         self.ignore("noTrolleyAck")
         self.noTrolleyBox.cleanup()
         del self.noTrolleyBox
-        return
 
     def __handleNoTrolleyAck(self):
         ntbDoneStatus = self.noTrolleyBox.doneStatus
@@ -157,10 +142,9 @@ class Trolley(StateData.StateData):
             messenger.send(self.doneEvent, [doneStatus])
         else:
             self.notify.error("Unrecognized doneStatus: " + str(ntbDoneStatus))
-        return
 
     def enterRequestBoard(self):
-        return None
+        return
 
     def handleRejectBoard(self):
         doneStatus = {}
@@ -168,24 +152,18 @@ class Trolley(StateData.StateData):
         messenger.send(self.doneEvent, [doneStatus])
 
     def exitRequestBoard(self):
-        return None
+        return
 
     def enterBoarding(self, nodePath):
         camera.wrtReparentTo(nodePath)
-        self.cameraBoardTrack = LerpPosHprInterval(camera, 1.5,
-                                                   Point3(-35, 0, 8),
-                                                   Point3(-90, 0, 0))
-
+        self.cameraBoardTrack = LerpPosHprInterval(camera, 1.5, Point3(-35, 0, 8), Point3(-90, 0, 0))
         self.cameraBoardTrack.start()
-        return None
 
     def exitBoarding(self):
         self.ignore("boardedTrolley")
-        return None
 
     def enterBoarded(self):
         self.enableExitButton()
-        return None
 
     def exitBoarded(self):
         # Remove the boarding task... You might think this should be
@@ -195,7 +173,6 @@ class Trolley(StateData.StateData):
         # be the same state.
         self.cameraBoardTrack.finish()
         self.disableExitButton()
-        return None
 
     def enableExitButton(self):
         self.exitButton = DirectButton(
@@ -211,25 +188,21 @@ class Trolley(StateData.StateData):
             scale = 0.15,
             command = lambda self=self: self.fsm.request("requestExit"),
             )
-        return
 
     def disableExitButton(self):
         self.exitButton.destroy()
-        return
 
     def enterRequestExit(self):
         messenger.send("trolleyExitButton")
-        return None
 
     def exitRequestExit(self):
-        return None
+        return
 
     def enterTrolleyLeaving(self):
         # A camera move
         self.leavingCameraSeq = camera.posHprInterval(3, (0, 18.55, 3.75), (-180, 0, 0), blendType='easeInOut', name='leavingCamera')
         self.leavingCameraSeq.start()
         self.acceptOnce("playMinigame", self.handlePlayMinigame)
-        return None
 
     def handlePlayMinigame(self, zoneId, minigameId):
         base.localAvatar.b_setParent(ToontownGlobals.SPHidden)
@@ -244,22 +217,21 @@ class Trolley(StateData.StateData):
         if self.leavingCameraSeq:
             self.leavingCameraSeq.finish()
             self.leavingCameraSeq = None
-        return None
 
     def enterExiting(self):
-        return None
+        return
 
     def handleOffTrolley(self):
         doneStatus = {}
         doneStatus["mode"] = "exit"
         messenger.send(self.doneEvent, [doneStatus])
-        return None
+        return
 
     def exitExiting(self):
-        return None
+        return
 
     def enterFinal(self):
-        return None
+        return
 
     def exitFinal(self):
-        return None
+        return

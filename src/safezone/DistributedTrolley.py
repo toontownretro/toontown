@@ -301,8 +301,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
             place = base.cr.playGame.getPlace()
             if place:
                 place.fsm.request('stopped')
-            self.dialog = TeaserPanel.TeaserPanel(pageName='minigames',
-                                                  doneFunc=self.handleOkTeaser)
+            self.dialog = TeaserPanel.TeaserPanel(pageName='minigames', doneFunc=self.handleOkTeaser)
 
     def handleEnterTrolley(self):
         # Tell the server that this avatar wants to board.
@@ -356,13 +355,10 @@ class DistributedTrolley(DistributedObject.DistributedObject):
                 sitStartDuration = toon.getDuration("sit-start")
 
                 track = Sequence(
-                    LerpPosInterval(toon, TOON_BOARD_TIME * 0.75,
-                                    Point3(-5, -4.5 + (index * 3), 1.4)),
-                    LerpHprInterval(toon, TOON_BOARD_TIME * 0.25,
-                                    Point3(90, 0, 0)),
-                    Parallel(Sequence(Wait(sitStartDuration*0.25),
-                                      LerpPosInterval(toon, sitStartDuration*0.25,
-                                             Point3(-3.9, -4.5 + (index * 3), 3.0)),
+                    LerpPosInterval(toon, TOON_BOARD_TIME * 0.75, Point3(-5, -4.5 + (index * 3), 1.4)),
+                    LerpHprInterval(toon, TOON_BOARD_TIME * 0.25, Point3(90, 0, 0)),
+                    Parallel(Sequence(Wait(sitStartDuration * 0.25),
+                                      LerpPosInterval(toon, sitStartDuration * 0.25, Point3(-3.9, -4.5 + (index * 3), 3.0)),
                                       ),
                              ActorInterval(toon, "sit-start"),
                              ),
@@ -375,9 +371,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
                 self.storeToonTrack(avId, track)
                 track.start()
             else:
-                DistributedTrolley.notify.warning("toon: " + str(avId) +
-                                                  " doesn't exist, and" +
-                                                  " cannot board the trolley!")
+                DistributedTrolley.notify.warning("toon: " + str(avId) + " doesn't exist, and cannot board the trolley!")
 
     def emptySlot0(self, avId, timestamp):
         self.emptySlot(0, avId, timestamp)
@@ -398,7 +392,6 @@ class DistributedTrolley(DistributedObject.DistributedObject):
             self.localToonOnBoard = 0
         else:
             toon.startSmooth()
-        return
 
     def emptySlot(self, index, avId, timestamp):
         #print "Emptying slot: %d for %d" % (index, avId)
@@ -456,9 +449,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
                     self.loader.place.trolley.fsm.request("exiting")
 
             else:
-                DistributedTrolley.notify.warning("toon: " + str(avId) +
-                                                  " doesn't exist, and" +
-                                                  " cannot exit the trolley!")
+                DistributedTrolley.notify.warning("toon: " + str(avId) + " doesn't exist, and cannot exit the trolley!")
 
     def rejectBoard(self, avId):
         # This should only be sent to us if our localToon requested
@@ -486,10 +477,10 @@ class DistributedTrolley(DistributedObject.DistributedObject):
     ##### Off state #####
 
     def enterOff(self):
-        return None
+        return
 
     def exitOff(self):
-        return None
+        return
 
     ##### Entering state #####
 
@@ -524,12 +515,9 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         self.clockNode.setText("10")
         self.clock = self.trolleyStation.attachNewNode(self.clockNode)
         self.clock.setBillboardAxis()
-        self.clock.setPosHprScale(15.86, 13.82, 11.68,
-                                  -0.00, 0.00, 0.00,
-                                  3.02, 3.02, 3.02)
+        self.clock.setPosHprScale(15.86, 13.82, 11.68, -0.00, 0.00, 0.00, 3.02, 3.02, 3.02)
         if ts < self.trolleyCountdownTime:
             self.countdown(self.trolleyCountdownTime - ts)
-        return
 
     def timerTask(self, task):
         countdownTime = int(task.duration - task.time)
@@ -540,8 +528,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
 
         if task.time >= task.duration:
             return Task.done
-        else:
-            return Task.cont
+        return Task.cont
 
     def countdown(self, duration):
         countdownTask = Task(self.timerTask)

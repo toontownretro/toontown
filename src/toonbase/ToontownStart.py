@@ -80,6 +80,37 @@ print('ToontownStart: setting default font')
 from . import ToontownGlobals
 DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 
+if __debug__:
+    def __inject_wx(_):
+        code = textbox.GetValue()
+        try:
+            exec (code, globals())
+        except:
+            import traceback
+            traceback.print_exc()
+
+    def openInjector_wx():
+        import wx, threading
+
+        app = wx.App(redirect = False)
+
+        frame = wx.Frame(None, title = "Injector", size=(640, 400), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX)
+        panel = wx.Panel(frame)
+        button = wx.Button(parent = panel, id = -1, label = "Inject", size = (50, 20), pos = (295, 0))
+        global textbox
+        textbox = wx.TextCtrl(parent = panel, id = -1, pos = (20, 22), size = (600, 340), style = wx.TE_MULTILINE)
+        frame.Bind(wx.EVT_BUTTON, __inject_wx, button)
+
+        frame.Show()
+        app.SetTopWindow(frame)
+        
+        textbox.AppendText("")
+        
+        threading.Thread(target = app.MainLoop).start()
+
+    openInjector_wx()
+    
+
 # First open a window so we can show the loading screen
 
 # Set the error code indicating failure opening a window in case we
