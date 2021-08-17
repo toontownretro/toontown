@@ -381,9 +381,7 @@ class ToontownAIRepository(AIDistrict):
 
         # Create a new district (aka shard) for this AI:
         self.district = ToontownDistrictAI(self, self.districtName)
-        self.district.generateOtpObject(
-                OTP_DO_ID_TOONTOWN, OTP_ZONE_ID_DISTRICTS,
-                doId=self.districtId)
+        self.district.generateOtpObject(OTP_DO_ID_TOONTOWN, OTP_ZONE_ID_DISTRICTS, doId=self.districtId)
 
         # The Time manager.  This negotiates a timestamp exchange for
         # the purposes of synchronizing clocks between client and
@@ -395,30 +393,24 @@ class ToontownAIRepository(AIDistrict):
         # (particularly likely if the AI crashed while players were
         # in) will get a chance to synchronize.
         self.timeManager = TimeManagerAI.TimeManagerAI(self)
-        self.timeManager.generateOtpObject(
-            self.district.getDoId(), OTPGlobals.UberZone)
+        self.timeManager.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
         self.partyManager = DistributedPartyManagerAI.DistributedPartyManagerAI(self)
-        self.partyManager.generateOtpObject(
-            self.district.getDoId(), OTPGlobals.UberZone)
+        self.partyManager.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
         self.inGameNewsMgr = DistributedInGameNewsMgrAI.DistributedInGameNewsMgrAI(self)
-        self.inGameNewsMgr.generateOtpObject(
-            self.district.getDoId(), OTPGlobals.UberZone)
+        self.inGameNewsMgr.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
         self.cpuInfoMgr = DistributedCpuInfoMgrAI.DistributedCpuInfoMgrAI(self)
-        self.cpuInfoMgr.generateOtpObject(
-            self.district.getDoId(), OTPGlobals.UberZone)
+        self.cpuInfoMgr.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
         if config.GetBool('want-code-redemption', 1):
             self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
-            self.codeRedemptionManager.generateOtpObject(
-                self.district.getDoId(), OTPGlobals.UberZone)
+            self.codeRedemptionManager.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
         self.randomSourceManager = NonRepeatableRandomSourceAI(self)
         # QuietZone so that the client doesn't get a generate
-        self.randomSourceManager.generateOtpObject(
-            self.district.getDoId(), OTPGlobals.QuietZone)
+        self.randomSourceManager.generateOtpObject(self.district.getDoId(), OTPGlobals.QuietZone)
 
         self.welcomeValleyManager = WelcomeValleyManagerAI.WelcomeValleyManagerAI(self)
         self.welcomeValleyManager.generateWithRequired(OTPGlobals.UberZone)

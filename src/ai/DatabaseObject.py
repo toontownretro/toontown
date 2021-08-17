@@ -269,8 +269,7 @@ class DatabaseObject:
     def handleCreateObjectResponse(self, di):
         retCode = di.getUint8()
         if retCode != 0:
-            self.notify.warning("Database object %s create failed" %
-                                (self.createObjType))
+            self.notify.warning("Database object %s create failed" % (self.createObjType))
         else:
             del self.createObjType
             # The object has just been created in the database. We do not

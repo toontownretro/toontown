@@ -1020,20 +1020,16 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                 def handleCreate(success, petId, zoneId=zoneId):
                     if success:
                         self.air.petMgr.assignPetToToon(petId, av.doId)
-                        def handlePetGenerated(success, pet, avId=av.doId,
-                                               zoneId=zoneId):
+                        def handlePetGenerated(success, pet, avId=av.doId, zoneId=zoneId):
                             if success:
-                                pet._initDBVals(
-                                    avId,
-                                    traitSeed=PythonUtil.randUint31())
+                                pet._initDBVals(avId, traitSeed=PythonUtil.randUint31())
                                 pet.sendSetZone(zoneId)
                                 pet.delete()
                         # since this is the first time the pet is being
                         # created, and we're going to be setting properties
                         # on the pet, generate it in the Quiet zone first,
                         # then move it to the requested zone.
-                        summonPet(petId, callback=handlePetGenerated,
-                                  zoneId=ToontownGlobals.QuietZone)
+                        summonPet(petId, callback=handlePetGenerated, zoneId=ToontownGlobals.QuietZone)
                 self.air.petMgr.createNewPetObject(handleCreate)
                 response = 'creating new pet...'
             else:

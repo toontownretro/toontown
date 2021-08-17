@@ -78,7 +78,8 @@ class PetNameGenerator:
 
         for tu in list(self.nameDictionary.items()):
             for g in newtu:
-                if tu[1] == g:
+                nt = (tu[1][0], tu[1][1].decode())
+                if nt == g:
                     return tu[0]
         return -1
 

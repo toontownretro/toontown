@@ -330,7 +330,6 @@ class PetshopGUI(DirectObject):
 
         # Randomizes all the Name Tumblers and Harvests the Results
         def randomName(self):
-
             numNames = len(self.allNames)
             self.curName = self.allNames[random.randrange(numNames)].decode()
             self.curLetter = self.curName[0:TTLocalizer.PGUIcharLength]
@@ -456,7 +455,7 @@ class PetshopGUI(DirectObject):
 
             zoneId = ZoneUtil.getCanonicalSafeZoneId(base.localAvatar.getZoneId())
             name, dna, traitSeed = PetUtil.getPetInfoFromSeed(petSeed, zoneId)
-            name = PetNameGenerator.PetNameGenerator().getName(petNameIndex)
+            name = PetNameGenerator.PetNameGenerator().getName(petNameIndex).decode()
             cost = PetUtil.getPetCostFromSeed(petSeed, zoneId)
 
             model = loader.loadModel('phase_4/models/gui/AdoptPet')
@@ -945,12 +944,14 @@ class PetshopGUI(DirectObject):
     def __handleNamePickerDlg(self, exitVal):
         if exitVal == -1:   #Cancel
             self.popDialog()
-        else:   #Adopt
-            self.adoptPetNameIndex = exitVal
-            if base.localAvatar.hasPet():
-                self.doDialog(Dialog_ReturnPet)
-            else:
-                self.doDialog(Dialog_AdoptPet)
+            return
+
+        #Adopt
+        self.adoptPetNameIndex = exitVal
+        if base.localAvatar.hasPet():
+            self.doDialog(Dialog_ReturnPet)
+        else:
+            self.doDialog(Dialog_AdoptPet)
 
     def __handleAdoptPetDlg(self, exitVal):
         if exitVal == 0:     #Cancel

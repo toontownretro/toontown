@@ -187,14 +187,13 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI,
                 setterName = self.getSetterName(traitName, 'b_set')
                 self.__dict__[setterName](value)
 
-    def _initDBVals(self, ownerId, name=None, traitSeed=0, dna=None,
-                    safeZone=ToontownGlobals.ToontownCentral):
+    def _initDBVals(self, ownerId, name=None, traitSeed=0, dna=None, safeZone=ToontownGlobals.ToontownCentral):
         # Initializes the DB fields for a new, generated pet object to
         # valid/safe values.
         self.b_setOwnerId(ownerId)
         if name is None:
-            name = 'pet%s' % self.doId
-        self.b_setPetName(name)
+            name = b"pet%s" % self.doId
+        self.b_setPetName(name.decode())
         self.b_setTraitSeed(traitSeed)
         self.b_setSafeZone(safeZone)
 
