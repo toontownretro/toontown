@@ -578,6 +578,7 @@ class ToonBase(OTPBase.OTPBase):
                 }
             if code in exitCode2exitPage:
                 launcher.setRegistry("EXIT_PAGE", exitCode2exitPage[code])
+
     def getExitErrorCode(self):
         return self.exitErrorCode
 

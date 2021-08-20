@@ -132,6 +132,9 @@ class ObjectAnimBase(ObjectToon):
 
         # [gjeon] try to find proper animations
         code = kw['name']
+        if len(DNASTORE.findNode(code).getAncestors()) < 1:
+            print("Couldn't find any ancestors for code %s!" % (code))
+            return
         modelName = DNASTORE.findNode(code).getAncestors()[-1].getName()
         tokens =  modelName.split('.')[0].split('_r_')
 
@@ -157,7 +160,7 @@ class ObjectAnimBase(ObjectToon):
             modelPathStr += path
 
         modelPath = getModelPath().findFile(modelPathStr)
-        animFileList = glob.glob('%s%s/%s_a_%s_*.bam'%(os.environ['PANDA_ROOT'], modelPath, tokens[0], tokens[1]))
+        animFileList = glob.glob('%s/%s_a_%s_*.bam' % (modelPath, tokens[0], tokens[1]))
 
         # [gjeon] define anim list menu for selection
         animNameList = []

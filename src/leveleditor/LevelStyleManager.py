@@ -119,11 +119,14 @@ class LevelStyleManager:
         """
         numItems = len(dictionary)
         newStyleMenu = hidden.attachNewNode(neighborhood + '_style_menu')
-        radius = 0.7
-        angle = deg2Rad(360.0/numItems)
         keys = list(dictionary.keys())
         keys.sort()
         styles = list(map(lambda x, d = dictionary: d[x], keys))
+        if numItems < 1:
+            print("Couldn't load baseline style menu for neighborhood %s!" % (neighborhood))
+            return PieMenu(newStyleMenu, styles)
+        radius = 0.7
+        angle = deg2Rad(360.0 / numItems)
         sf = 0.1
         aspectRatio = (base.direct.dr.getWidth()/float(base.direct.dr.getHeight()))
         for i in range(numItems):
@@ -242,11 +245,14 @@ class LevelStyleManager:
         """
         numItems = len(dictionary)
         newStyleMenu = hidden.attachNewNode(neighborhood + '_style_menu')
-        radius = 0.7
-        angle = deg2Rad(360.0/numItems)
         keys = list(dictionary.keys())
         keys.sort()
         styles = list(map(lambda x, d = dictionary: d[x], keys))
+        if numItems < 1:
+            print("Couldn't load wall style menu for neighborhood %s!" % (neighborhood))
+            return PieMenu(newStyleMenu, styles)
+        radius = 0.7
+        angle = deg2Rad(360.0 / numItems)
         sf = 0.03
         aspectRatio = (base.direct.dr.getWidth()/float(base.direct.dr.getHeight()))
         for i in range(numItems):
@@ -444,11 +450,14 @@ class LevelStyleManager:
         """
         numItems = len(dictionary)
         newStyleMenu = hidden.attachNewNode(neighborhood + '_style_menu')
-        radius = 0.7
-        angle = deg2Rad(360.0/numItems)
         keys = list(dictionary.keys())
         keys.sort()
         styles = list(map(lambda x, d = dictionary: d[x], keys))
+        if numItems < 1:
+            print("Couldn't load building style menu for neighborhood %s!" % (neighborhood))
+            return PieMenu(newStyleMenu, styles)
+        radius = 0.7
+        angle = deg2Rad(360.0 / numItems)
         sf = 0.02
         aspectRatio = (base.direct.dr.getWidth()/float(base.direct.dr.getHeight()))
         for i in range(numItems):
@@ -640,7 +649,7 @@ class LevelStyleManager:
             dict[colorType] = DEFAULT_COLORS[:]
         # Add color information to appropriate sub-list
         for line in colorData:
-            pair = list(map(string.strip, line.split(':')))
+            pair = list(map(line.strip, line.split(b':')))
             key = pair[0]
             if key in dict:
                 dict[key].append(eval(pair[1]))
@@ -652,8 +661,7 @@ class LevelStyleManager:
         menuDict = {}
         keys = list(dictionary.keys())
         for key in keys:
-            menuDict[key] = (
-                self.createColorMenu(neighborhood + key, dictionary[key]))
+            menuDict[key] = (self.createColorMenu(neighborhood + key, dictionary[key]))
         return menuDict
 
     def createColorMenu(self, menuName, colorList, radius = 0.7, sf = 2.0):
@@ -886,7 +894,7 @@ class LevelStyleManager:
         f.close()
         styleData = []
         for line in rawData:
-            l = string.strip(line)
+            l = line.strip()
             if l:
                 styleData.append(l)
         return styleData
