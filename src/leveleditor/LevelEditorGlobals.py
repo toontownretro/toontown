@@ -1,9 +1,9 @@
 import string
+import traceback
 from toontown.toonbase.ToontownModules import *
 
-hoodString = base.config.GetString('level-editor-hoods',
-                                       'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA')
-hoods = string.split(hoodString)
+hoodString = base.config.GetString('level-editor-hoods', 'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA')
+hoods = hoodString.split()
 
 # The list of neighborhoods to edit
 HOOD_IDS = {'TT': 'toontown_central',
@@ -173,7 +173,6 @@ OBJECT_SNAP_POINTS = {
     'street_sunken_40x40': [(Vec3(40.0, 0, 0), Vec3(0)),
                             (Vec3(0), Vec3(0))],
     }
-
 
 # Precompute class types for type comparisons
 DNA_CORNICE = DNACornice.getClassType()

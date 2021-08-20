@@ -67,9 +67,8 @@ if sys.argv[1:]:
 # If you do not run from the command line, we just load all of them
 # or you can hack this up for your own purposes.
 else:
-    hoodString = base.config.GetString('level-editor-hoods',
-                                       'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA')
-    hoods = string.split(hoodString)
+    hoodString = base.config.GetString('level-editor-hoods', 'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA')
+    hoods = hoodString.split()
 
 # Init neighborhood arrays
 NEIGHBORHOODS = []
@@ -93,14 +92,15 @@ def loadStorageFile(pandaPath):
 try:
     if dnaLoaded:
         pass
-except NameError:
+except:
     print("Loading LevelEditor for hoods: ", hoods)
     # DNAStorage instance for storing level DNA info
 
     # We need to use the __builtin__.foo syntax, not the
     # __builtins__["foo"] syntax, since this file runs at the top
     # level.
-    builtins.DNASTORE = DNASTORE = DNAStorage()
+    DNASTORE = DNAStorage()
+    builtins.DNASTORE = DNASTORE
 
 ##    # Load the generic storage files
 ##    loadDNAFile(DNASTORE, 'dna/storage.dna', CSDefault, 1)
@@ -146,7 +146,8 @@ except NameError:
 ##        loadDNAFile(DNASTORE, 'phase_6/dna/storage_GZ_sz.dna', CSDefault, 1)
 ##    if 'CC' in hoods:
 ##        loadDNAFile(DNASTORE, 'phase_12/dna/storage_CC_sz.dna', CSDefault, 1)
-
+    
+    print("Loading Storage Files.")
     # Load the generic storage files
     loadStorageFile('dna/storage.dna')
     loadStorageFile('phase_4/dna/storage.dna')

@@ -4,12 +4,14 @@ ToonTown LevelEditor
 
 from toontown.toonbase.ToontownModules import *
 from direct.leveleditor.LevelEditorBase import *
+from direct.leveleditor.AnimMgr import *
+from direct.leveleditor.ProtoPalette import *
 from direct.gui import DirectGui
+
+from .LevelEditorUI import *
 from .ObjectMgr import *
 from .ObjectHandler import *
 from .ObjectPalette import *
-from .LevelEditorUI import *
-from .ProtoPalette import *
 
 from .LevelStyleManager import *
 from .ToonControlManager import *
@@ -23,27 +25,37 @@ class ToonLevelEditor(LevelEditorBase):
 
         # define your own config file similar to this
         self.settingsFile = os.path.dirname(__file__) + '/LevelEditor.cfg'
+        
+        self.DNAData = None
+        self.dnaDirectory = Filename.expandFrom(base.config.GetString("dna-directory", "$TTMODELS/src/dna"))
+        
+        self.NPToplevel = None
+        self.suitPointToplevel = None
+        self.lastMousePos = Point3()
 
         # If you have your own ObjectPalette and ObjectHandler
         # connect them in your own LevelEditor class
         self.objectMgr = ObjectMgr(self)
+        self.animMgr = AnimMgr(self)
         self.objectPalette = ObjectPalette()
         self.objectHandler = ObjectHandler(self)
         self.protoPalette = ProtoPalette()
 
         # LevelEditorUI class must declared after ObjectPalette
         self.ui = LevelEditorUI(self)
-
-        self.DNAData = None
-        self.dnaDirectory = Filename.expandFrom(base.config.GetString("dna-directory", "$TTMODELS/src/dna"))
-
-        self.NPToplevel = None
-        self.suitPointToplevel = None
-        self.lastMousePos = Point3()
+        self.ui.SetCursor(wx.Cursor(wx.CURSOR_WAIT))
+        self.objectPalette.populate()
+        self.protoPalette.populate()
+        
+        # Updating UI-panels based on the above data
+        self.ui.objectPaletteUI.populate()
+        self.ui.protoPaletteUI.populate()
 
         # When you define your own LevelEditor class inheriting LevelEditorBase
         # you should call self.initialize() at the end of __init__() function
         self.initialize()
+        self.ui.SetCursor(wx.Cursor(wx.CURSOR_ARROW))
+        
         self.styleManager = LevelStyleManager(NEIGHBORHOODS, NEIGHBORHOOD_CODES)
         self.accept('DIRECT-mouse1', self.handleMouse1)
 
@@ -128,8 +140,7 @@ class ToonLevelEditor(LevelEditorBase):
         """ Find node path's DNA Object in DNAStorage (if any) """
         if nodePath:
             return DNASTORE.findDNAGroup(nodePath.node())
-        else:
-            return None
+        return None
 
     def load(self, fileName):
         self.reset(fCreateToplevel = 0)

@@ -14,5 +14,7 @@ readlog.txt
 # MSBuild related files
 *.sln
 *.vcxproj
+*.user
+**/.vs
 **/x64
 **/Win32

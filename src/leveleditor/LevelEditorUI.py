@@ -35,9 +35,6 @@ class LevelEditorUI(LevelEditorUIBase):
     appname         = AppName
 
     def __init__(self, editor, *args, **kw):
-        if not kw.get('size'):
-            kw['size'] = wx.Size(self.frameWidth, self.frameHeight)
-
         self.MENU_TEXTS.update({
         ID_OPEN_DNA : ("Open DNA", None),
         ID_SAVE_DNA : ("&Save DNA", "LE-SaveDNA"),
