@@ -1589,17 +1589,17 @@ class LevelEditor(NodePath, DirectObject):
             # Yes, make a new copy of the dnaNode
             dnaNode = dnaNode.__class__(dnaNode)
             # And determine dnaNode type and perform any type specific updates
-            if nodeClass.eq(DNA_PROP):
+            if nodeClass.__eq__(DNA_PROP):
                 dnaNode.setCode(self.getCurrent('prop_texture'))
-            elif nodeClass.eq(DNA_ANIM_PROP):
+            elif nodeClass.__eq__(DNA_ANIM_PROP):
                 dnaNode.setCode(self.getCurrent('anim_prop_texture'))
-            elif nodeClass.eq(DNA_INTERACTIVE_PROP):
+            elif nodeClass.__eq__(DNA_INTERACTIVE_PROP):
                 dnaNode.setCode(self.getCurrent('interactive_prop_texture'))
-            elif nodeClass.eq(DNA_ANIM_BUILDING):
+            elif nodeClass.__eq__(DNA_ANIM_BUILDING):
                 dnaNode.setCode(self.getCurrent('anim_building_texture'))
-            elif nodeClass.eq(DNA_STREET):
+            elif nodeClass.__eq__(DNA_STREET):
                 dnaNode.setCode(self.getCurrent('street_texture'))
-            elif nodeClass.eq(DNA_FLAT_BUILDING):
+            elif nodeClass.__eq__(DNA_FLAT_BUILDING):
                 # If insert, pick a new random style
                 if hotKey == 'insert':
                     self.setRandomBuildingStyle(dnaNode, dnaNode.getName())
@@ -1613,7 +1613,7 @@ class LevelEditor(NodePath, DirectObject):
         # destination (part of cleanup
         taskMgr.remove('autoPositionGrid')
         # Now find where to put node path
-        if (hotKey is not None) and (nodeClass.eq(DNA_PROP) or nodeClass.eq(DNA_ANIM_PROP)):
+        if (hotKey is not None) and (nodeClass.__eq__(DNA_PROP) or nodeClass.__eq__(DNA_ANIM_PROP)):
             # If its a prop and a copy, place it based upon current
             # mouse position
             hitPt = self.getGridIntersectionPoint()
@@ -2154,12 +2154,12 @@ class LevelEditor(NodePath, DirectObject):
         # Update panel color if appropriate
         if self.DNATarget:
             objClass = DNAGetClassType(self.DNATarget)
-            if ((objClass.eq(DNA_WALL)) or
-                (objClass.eq(DNA_WINDOWS)) or
-                (objClass.eq(DNA_DOOR)) or
-                (objClass.eq(DNA_FLAT_DOOR)) or
-                (objClass.eq(DNA_CORNICE)) or
-                (objClass.eq(DNA_PROP))
+            if ((objClass.__eq__(DNA_WALL)) or
+                (objClass.__eq__(DNA_WINDOWS)) or
+                (objClass.__eq__(DNA_DOOR)) or
+                (objClass.__eq__(DNA_FLAT_DOOR)) or
+                (objClass.__eq__(DNA_CORNICE)) or
+                (objClass.__eq__(DNA_PROP))
                 ):
                 self.panel.setCurrentColor(self.DNATarget.getColor())
 
@@ -2322,16 +2322,16 @@ class LevelEditor(NodePath, DirectObject):
         dnaNode = self.findDNANode(nodePath)
         if dnaNode:
             objClass = DNAGetClassType(dnaNode)
-            if ((objClass.eq(DNA_WALL)) or
-                (objClass.eq(DNA_WINDOWS)) or
-                (objClass.eq(DNA_DOOR)) or
-                (objClass.eq(DNA_FLAT_DOOR)) or
-                (objClass.eq(DNA_CORNICE)) or
-                (objClass.eq(DNA_PROP)) or
-                (objClass.eq(DNA_SIGN)) or
-                (objClass.eq(DNA_SIGN_BASELINE)) or
-                (objClass.eq(DNA_SIGN_TEXT)) or
-                (objClass.eq(DNA_SIGN_GRAPHIC))
+            if ((objClass.__eq__(DNA_WALL)) or
+                (objClass.__eq__(DNA_WINDOWS)) or
+                (objClass.__eq__(DNA_DOOR)) or
+                (objClass.__eq__(DNA_FLAT_DOOR)) or
+                (objClass.__eq__(DNA_CORNICE)) or
+                (objClass.__eq__(DNA_PROP)) or
+                (objClass.__eq__(DNA_SIGN)) or
+                (objClass.__eq__(DNA_SIGN_BASELINE)) or
+                (objClass.__eq__(DNA_SIGN_TEXT)) or
+                (objClass.__eq__(DNA_SIGN_GRAPHIC))
                 ):
                 # Update dna information
                 dnaNode.setColor(VBase4(r/255.0, g/255.0, b/255.0, a/255.0))
@@ -2757,14 +2757,14 @@ class LevelEditor(NodePath, DirectObject):
             nodeClass = DNAGetClassType(dnaNode)
             deltaPos = Point3(20, 0, 0)
             deltaHpr = VBase3(0)
-            if nodeClass.eq(DNA_FLAT_BUILDING):
+            if nodeClass.__eq__(DNA_FLAT_BUILDING):
                 deltaPos.setX(dnaNode.getWidth())
-            elif nodeClass.eq(DNA_STREET):
+            elif nodeClass.__eq__(DNA_STREET):
                 objectCode = dnaNode.getCode()
                 deltas = self.getNextSnapPoint()
                 deltaPos.assign(deltas[0])
                 deltaHpr.assign(deltas[1])
-            elif nodeClass.eq(DNA_LANDMARK_BUILDING):
+            elif nodeClass.__eq__(DNA_LANDMARK_BUILDING):
                 objectCode = dnaNode.getCode()
                 if objectCode[-2:-1] == 'A':
                     deltaPos.setX(25.0)
@@ -3045,17 +3045,17 @@ class LevelEditor(NodePath, DirectObject):
         obj = self.DNATarget
         if obj:
             classType = DNAGetClassType(obj)
-            if classType.eq(DNA_WALL):
+            if classType.__eq__(DNA_WALL):
                 tag = 'wall_color:'
-            elif classType.eq(DNA_WINDOWS):
+            elif classType.__eq__(DNA_WINDOWS):
                 tag = 'window_color:'
-            elif classType.eq(DNA_DOOR):
+            elif classType.__eq__(DNA_DOOR):
                 tag = 'door_color:'
-            elif classType.eq(DNA_FLAT_DOOR):
+            elif classType.__eq__(DNA_FLAT_DOOR):
                 tag = 'door_color:'
-            elif classType.eq(DNA_CORNICE):
+            elif classType.__eq__(DNA_CORNICE):
                 tag = 'cornice_color:'
-            elif classType.eq(DNA_PROP):
+            elif classType.__eq__(DNA_PROP):
                 tag = 'prop_color:'
             else:
                 return
@@ -3527,7 +3527,7 @@ class LevelEditor(NodePath, DirectObject):
         TODO: a reverse lookup pointDict would speed this up quite a bit
         """
         for point, marker in list(self.pointDict.items()):
-            if marker.eq(nodePath):
+            if marker.__eq__(nodePath):
                 return point
         return None
 
@@ -3589,7 +3589,7 @@ class LevelEditor(NodePath, DirectObject):
         TODO: a reverse lookup cellDict would speed this up quite a bit
         """
         for cell, marker in list(self.cellDict.items()):
-            if marker.eq(nodePath):
+            if marker.__eq__(nodePath):
                 return cell
         return None
 
@@ -4012,7 +4012,7 @@ class LevelEditor(NodePath, DirectObject):
             oldBldg.select()
             oldDNANode = self.findDNANode(oldBldg)
             nodeClass = DNAGetClassType(oldDNANode)
-            if nodeClass.eq(DNA_LANDMARK_BUILDING):
+            if nodeClass.__eq__(DNA_LANDMARK_BUILDING):
                 print("making landmark copy")
                 # Remove white and dark grey doors from color list
                 colorList = self.getAttribute('door_color').getList()
@@ -5329,9 +5329,9 @@ class LevelEditorPanel(Pmw.MegaToplevel):
         if not dnaRoot:
             return
         objClass=DNAGetClassType(dnaRoot)
-        if (objClass.eq(DNA_LANDMARK_BUILDING)
-            or objClass.eq(DNA_PROP)\
-            or objClass.eq(DNA_ANIM_BUILDING)):
+        if (objClass.__eq__(DNA_LANDMARK_BUILDING)
+            or objClass.__eq__(DNA_PROP)\
+            or objClass.__eq__(DNA_ANIM_BUILDING)):
             target=DNAGetChildRecursive(dnaRoot, DNA_SIGN)
             return target
 
@@ -5572,8 +5572,8 @@ class LevelEditorPanel(Pmw.MegaToplevel):
 
     def setSignBaslineFont(self, val):
         target=self.levelEditor.DNATarget
-        if target and (DNAGetClassType(target).eq(DNA_SIGN_BASELINE)
-                or DNAGetClassType(target).eq(DNA_SIGN_TEXT)):
+        if target and (DNAGetClassType(target).__eq__(DNA_SIGN_BASELINE)
+                or DNAGetClassType(target).__eq__(DNA_SIGN_TEXT)):
             target.setCode(val)
             self.levelEditor.replaceSelected()
 
@@ -5717,16 +5717,16 @@ class LevelEditorPanel(Pmw.MegaToplevel):
             obj = self.levelEditor.DNATarget
             if self.fUpdateSelected and (obj != None):
                 objClass = DNAGetClassType(obj)
-                if ((objClass.eq(DNA_WALL)) or
-                    (objClass.eq(DNA_WINDOWS)) or
-                    (objClass.eq(DNA_DOOR)) or
-                    (objClass.eq(DNA_FLAT_DOOR)) or
-                    (objClass.eq(DNA_CORNICE)) or
-                    (objClass.eq(DNA_PROP)) or
-                    (objClass.eq(DNA_SIGN)) or
-                    (objClass.eq(DNA_SIGN_BASELINE)) or
-                    (objClass.eq(DNA_SIGN_TEXT)) or
-                    (objClass.eq(DNA_SIGN_GRAPHIC))
+                if ((objClass.__eq__(DNA_WALL)) or
+                    (objClass.__eq__(DNA_WINDOWS)) or
+                    (objClass.__eq__(DNA_DOOR)) or
+                    (objClass.__eq__(DNA_FLAT_DOOR)) or
+                    (objClass.__eq__(DNA_CORNICE)) or
+                    (objClass.__eq__(DNA_PROP)) or
+                    (objClass.__eq__(DNA_SIGN)) or
+                    (objClass.__eq__(DNA_SIGN_BASELINE)) or
+                    (objClass.__eq__(DNA_SIGN_TEXT)) or
+                    (objClass.__eq__(DNA_SIGN_GRAPHIC))
                     ):
                     self.levelEditor.setDNATargetColor(
                         VBase4((color[0]/255.0),

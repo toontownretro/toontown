@@ -454,7 +454,7 @@ class LevelEditorUI(LevelEditorUIBase):
         path = self.editor.dnaDirectory.toOsSpecific()
         if not os.path.isdir(path):
            path = '.'
-        dialog = wx.FileDialog(None, "Choose a DNA file", path, "", "*.dna", wx.OPEN)
+        dialog = wx.FileDialog(None, "Choose a DNA file", path, "", "*.dna", wx.FD_OPEN)
         if dialog.ShowModal() == wx.ID_OK:
             self.editor.importDna(dialog.GetPath())
         dialog.Destroy()
