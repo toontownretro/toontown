@@ -293,7 +293,7 @@ def DNAGetClassType(dnaObject):
     return dnaObject.__class__.getClassType()
 
 def DNAClassEqual(dnaObject, classType):
-    return DNAGetClassType(dnaObject).eq(classType)
+    return DNAGetClassType(dnaObject).__eq__(classType)
 
 def DNAIsDerivedFrom(dnaObject, classType):
     return DNAGetClassType(dnaObject).isDerivedFrom(classType)

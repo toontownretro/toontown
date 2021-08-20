@@ -18,7 +18,7 @@ class ScrollMenu:
         
     def createScrolledList(self):
         # First create a frame in which direct elements maybe placed
-        self.frame = DirectFrame(scale = 1.1, relief = 1.0,
+        self.frame = DirectFrame(scale = 1.1,
                                  frameSize = (-0.5,0.2,-0.05,0.59),
                                  frameColor = (0.737, 0.573, 0.345, 0.000))
 

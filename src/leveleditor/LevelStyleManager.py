@@ -7,6 +7,7 @@ from .ScrollMenu import *
 
 from .LevelEditorGlobals import *
 from functools import reduce
+from locale import atof
 
 class LevelStyleManager:
     """Class which reads in style files and manages class variables"""
@@ -88,7 +89,7 @@ class LevelStyleManager:
                 # Note, endBaselineStyle line is *not* stripped off
                 return style, styleData
             else:
-                pair = list(map(string.strip, l.split(':')))
+                pair = [h.strip() for h in l.split(':')]
                 if pair[0] in style.__dict__:
                     pair_0 = pair[0]
                     # Convert some numerical values
@@ -224,7 +225,7 @@ class LevelStyleManager:
                 # Note, endWallStyle line is *not* stripped off
                 return style, styleData
             else:
-                pair = list(map(string.strip, l.split(':')))
+                pair = [h.strip() for h in l.split(':')]
                 if pair[0] in style.__dict__:
                     # Convert colors and count strings to numerical values
                     if ((pair[0].find('_color') >= 0) or
@@ -233,8 +234,7 @@ class LevelStyleManager:
                     else:
                         style[pair[0]] = pair[1]
                 else:
-                    print('getStyleDictionaryFromStyleData: Invalid Key')
-                    print(pair[0])
+                    print(f'getStyleDictionaryFromStyleData: Invalid Key {pair[0]}')
             styleData = styleData[1:]
         # No end of style found, return style data as is
         return style, None
@@ -315,7 +315,7 @@ class LevelStyleManager:
             # to be used in creating attribute dicts below
             typeList = typeDict[neighborhood] = []
             for style in attribute.getList():
-                heightType = string.strip(string.split(style.name, ':')[1])
+                heightType = style.name.split(':')[1].strip()
                 if heightType not in typeList:
                     typeList.append(heightType)
                 if heightType not in masterTypeList:
@@ -357,8 +357,8 @@ class LevelStyleManager:
             # Sort through the styles and store in separate lists
             for style in styleDict[neighborhood].getList():
                 # Put in code for number of walls into building styles
-                heightType = string.strip(string.split(style.name, ':')[1])
-                heightList = list(map(string.atof, string.split(heightType, '_')))
+                heightType = style.name.split(':')[1].strip()
+                heightList = [atof(l) for l in heightType.split('_')]
                 numWalls = len(heightList)
                 # This one stores styles sorted by type
                 typeAttributes[heightType].add(style)
@@ -412,8 +412,8 @@ class LevelStyleManager:
                 # Start with empty style list
                 bldgStyle = DNAFlatBuildingStyle(styleList = [])
                 # Extract height information found at end of line
-                heightCode = string.strip(string.split(l, ':')[1])
-                heightList = list(map(string.atof, string.split(heightCode, '_')))
+                heightCode = l.split(':')[1].strip()
+                heightList = [atof(l) for l in heightCode.split('_')]
                 # Construct name for building style.  Tack on height code
                 # to be used later to split styles by heightCode
                 bldgStyle.name = (
@@ -649,7 +649,7 @@ class LevelStyleManager:
             dict[colorType] = DEFAULT_COLORS[:]
         # Add color information to appropriate sub-list
         for line in colorData:
-            pair = list(map(line.strip, line.split(b':')))
+            pair = [h.strip() for h in line.split(':')]
             key = pair[0]
             if key in dict:
                 dict[key].append(eval(pair[1]))
@@ -894,7 +894,7 @@ class LevelStyleManager:
         f.close()
         styleData = []
         for line in rawData:
-            l = line.strip()
+            l = line.strip().decode('utf-8')
             if l:
                 styleData.append(l)
         return styleData
@@ -913,14 +913,14 @@ class LevelStyleManager:
         """ Return specified attribute for current neighborhood """
         if attribute not in self.attributeDictionary:
             return 0
-        else:
-            levelAttribute = self.attributeDictionary[attribute]
-            # Get attribute for current neighborhood
-            if (type(levelAttribute) == dict):
-                editMode = self.getEditMode()
-                return editMode in levelAttribute
-            else:
-                return 1
+
+        levelAttribute = self.attributeDictionary[attribute]
+        # Get attribute for current neighborhood
+        if (type(levelAttribute) == dict):
+            editMode = self.getEditMode()
+            return editMode in levelAttribute
+
+        return 1
 
     def getCatalogCode(self, category, i):
         return DNASTORE.getCatalogCode(category, i)
