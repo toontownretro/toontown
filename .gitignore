@@ -4,6 +4,7 @@ pp.dep
 built
 **/Opt*-*
 *.o
+*.cfg
 readlog.txt
 *.log
 *.bak
