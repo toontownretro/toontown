@@ -4,7 +4,7 @@
 level-editor-hoods TT DD DG MM BR DL
 style-path-prefix /i
 
-load-display pandadx8
+load-display pandagl
 chan-config-sanity-check #f
 multipass-viz none
 win-width 800
@@ -74,6 +74,7 @@ cull-bin shadow 15 unsorted
 # The ID of the server that we are compatible with
 server-version sv1.0.14
 
+want-tk #t
 
 notify-level-chan   error
 

@@ -1,9 +1,9 @@
-from . import Toon
+from toontown.toon import Toon
 from toontown.suit import Suit
 from toontown.pets import Pet
 from otp.avatar import Avatar
-from . import NPCToons
-from . import ToonDNA
+from toontown.toon import NPCToons
+from toontown.toon import ToonDNA
 from toontown.suit import SuitDNA
 from toontown.toonbase import ToontownGlobals
 import math
@@ -42,6 +42,7 @@ class RobotAvatarBase:
             self.accept('playRTMRunIval', lambda: self.setAnimState('run'))
         self.setAnimState(state)
         self.state = state
+
     def convertServerDNAString(self, serverString, type = 't'):
         # Strip out blank space and take last 30 characters
         serverString = serverString.replace(' ', '')
@@ -55,6 +56,7 @@ class RobotAvatarBase:
         for i in range(0,len(serverString),2):
             eval('dg.addUint8(0x%s)' % serverString[i:i+2])
         return dg.getMessage()
+
     def setAnimState(self,state):
         self.stopIvals()
         self.state = state
@@ -73,14 +75,19 @@ class RobotAvatarBase:
             else:
                 self.setPosHpr(self.startPos, self.startHpr)
         self.loop(state)
+
     def setStartPos(self, pos):
         self.startPos = Point3(pos)
+
     def setEndPos(self, pos):
         self.endPos = Point3(pos)
+
     def setStartHpr(self, hpr):
         self.startHpr = Point3(hpr)
+
     def setEndHpr(self, hpr):
         self.endHpr = Point3(hpr)
+
     def updateStartPos(self, pos):
         self.setStartPos(pos)
         self.updateWalkIval()
@@ -88,6 +95,7 @@ class RobotAvatarBase:
             self.setAnimState('walk')
         else:
             self.setAnimState(self.state)
+
     def updateEndPos(self, pos):
         self.setEndPos(pos)
         self.updateWalkIval()
@@ -95,6 +103,7 @@ class RobotAvatarBase:
             self.setAnimState('walk')
         else:
             self.setAnimState(self.state)
+
     def updateWalkIval(self):
         self.stopIvals()
         start2Stop = Vec3(self.endPos - self.startPos)
@@ -146,11 +155,13 @@ class RobotAvatarBase:
         else:
             # doodle don't have a victory anim
             self.victoryIval = None
+
     def stopIvals(self):
         if self.ival != None:
             self.ival.finish()
         if self.victoryIval != None:
             self.victoryIval.finish()
+
     def destroy(self):
         self.stopIvals()
         self.stop()

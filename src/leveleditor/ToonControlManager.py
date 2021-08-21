@@ -232,7 +232,7 @@ class ToonControlManager(ControlManager):
         # "345:safe_zone:exit_zone"... These are hypotheticals. The main
         # idea is that there are colon separated flags after the initial
         # zone name.
-        return(string.split(groupFullName, ":", 1)[0])
+        return (groupFullName.split(":", 1)[0])
 
     def renameFloorPolys(self, nodeList):
         for i in nodeList:
@@ -411,8 +411,8 @@ class ToonControlManager(ControlManager):
         self.visibilityOff()
         base.camera.wrtReparentTo(render)
         # Reset cam
-        base.camera.iPos(base.direct.cam)
-        base.direct.cam.iPosHpr()
+        base.camera.setPos(base.direct.cam, 0, 0, 0)
+        base.direct.cam.setPosHpr(0, 0, 0, 0, 0, 0)
         base.camLens.setMinFov(self.oldFov)
         # Renable mouse
         #self.editor.enableMouse()

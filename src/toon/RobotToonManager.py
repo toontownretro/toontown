@@ -9,7 +9,7 @@ except NameError:
 
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase import ShowBase
-from .RobotToon import *
+from toontown.toon.RobotToon import *
 from toontown.battle.BattleProps import *
 from direct.gui.DirectGui import *
 from direct.gui import DirectGuiGlobals
@@ -28,7 +28,7 @@ from toontown.battle.SuitBattleGlobals import SuitAttributes
 from toontown.makeatoon import NameGenerator
 from direct.tkwidgets import Valuator
 from direct.tkwidgets import Slider
-from . import ToonDNA
+from toontown.toon import ToonDNA
 from direct.task.Task import Task
 from toontown.suit import SuitDNA
 from toontown.suit import Suit
@@ -536,9 +536,8 @@ if sys.argv[1:]:
 # If you do not run from the command line, we just load all of them
 # or you can hack this up for your own purposes.
 else:
-    hoodString = base.config.GetString('level-editor-hoods',
-                                       'TT DD BR DG DL MM PA')
-    hoods = string.split(hoodString)
+    hoodString = base.config.GetString('level-editor-hoods', 'TT DD BR DG DL MM PA')
+    hoods = hoodString.split()
 
 # The list of neighborhoods to edit
 hoodIds = {'TT' : 'toontown_central',

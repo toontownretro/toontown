@@ -602,7 +602,7 @@ class LevelEditorUI(LevelEditorUIBase):
                 edge = dnaVisGroup.getSuitEdge(i)
                 edgeLine = self.drawSuitEdge(edge, np)
                 self.edgeDict[edge] = edgeLine
-                self.np2EdgeDict[edgeLine.id()] = [edge, dnaVisGroup]
+                self.np2EdgeDict[hash(edgeLine)] = [edge, dnaVisGroup]
                 # Store the edge on each point in case we move the point
                 # we can update the edge
                 for point in [edge.getStartPoint(), edge.getEndPoint()]:
@@ -837,7 +837,7 @@ class LevelEditorUI(LevelEditorUIBase):
                 edge = dnaVisGroup.getSuitEdge(i)
                 edgeLine = self.drawSuitEdge(edge, np)
                 self.edgeDict[edge] = edgeLine
-                self.np2EdgeDict[edgeLine.id()] = [edge, dnaVisGroup]
+                self.np2EdgeDict[hash(edgeLine)] = [edge, dnaVisGroup]
                 # Store the edge on each point in case we move the point
                 # we can update the edge
                 for point in [edge.getStartPoint(), edge.getEndPoint()]:

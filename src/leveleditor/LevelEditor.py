@@ -608,8 +608,8 @@ class LevelEditor(NodePath, DirectObject):
         self.visibilityOff()
         base.camera.wrtReparentTo(render)
         # Reset cam
-        base.camera.iPos(base.cam)
-        base.cam.iPosHpr()
+        base.camera.setPos(base.cam, 0, 0, 0)
+        base.cam.setPosHpr(0, 0, 0, 0, 0, 0)
         # Renable mouse
         self.enableMouse()
         base.direct.enable()
@@ -3893,13 +3893,13 @@ class LevelEditor(NodePath, DirectObject):
         for i in range(numBldgs):
             bldg = bldgs[i]
             if ref == None:
-                base.direct.grid.iPosHpr(bldgGroup)
+                base.direct.grid.setPosHpr(bldgGroup, 0, 0, 0, 0, 0, 0)
             else:
                 ref.select()
                 self.autoPositionGrid(fLerp = 0)
             if base.direct.grid.getX() >= streetLength:
                 base.direct.grid.setPosHpr(base.direct.grid, 0, -40, 0, 180, 0, 0)
-            bldg.iPosHpr(base.direct.grid)
+            bldg.setPosHpr(base.direct.grid, 0, 0, 0, 0, 0, 0)
             self.updateSelectedPose([bldg])
             self.adjustPropChildren(bldg)
             ref = bldg
