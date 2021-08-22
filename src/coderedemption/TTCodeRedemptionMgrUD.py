@@ -693,7 +693,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                                      expirationDate=expDate)
             self._showCreateLotResults(replyTo, page, body, values)
         else:
-            createLotId = next(self._createLotSerialGen)
+            createLotId = self._createLotSerialGen.next()
             gen = self._db.createLot(self._requestRandomSamples, values.lotName, numCodes,
                                      values.rewardType, values.rewardItemId,
                                      expirationDate=expDate)
@@ -724,7 +724,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
     def _requestRandomSamples(self, callback, numSamples):
         assert self.notify.debugCall()
-        context = next(self._randSampleContextGen)
+        context = self._randSampleContextGen.next()
         self._randSampleContext2callback[context] = callback
         self.air.dispatchUpdateToGlobalDoId(
             "NonRepeatableRandomSourceUD", "getRandomSamples",
@@ -1580,7 +1580,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                     self._doRedeemForm(body, replyTo, values, errors)
                 else:
                     avId = int(values.avId)
-                    context = next(self._redeemContextGen)
+                    context = self._redeemContextGen.next()
                     self._redeemContext2session[context] = ScratchPad(
                         result = None,
                         avId = avId,
@@ -1692,7 +1692,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
     def _giveReward(self, avId, rewardType, rewardItemId, callback):
         assert self.notify.debugCall()
         # callback takes result
-        context = next(self._rewardSerialNumGen)
+        context = self._rewardSerialNumGen.next()
         self._rewardContextTable[context] = callback
         self.air.dispatchUpdateToGlobalDoId(
             "AwardManagerUD", "giveAwardToToon",
