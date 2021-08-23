@@ -870,7 +870,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
 
 
     def setAnimState(self, toonId, keyRate):
-        if self.activityFSM.state != "Active":
+        if self.activityFSM._state != "Active":
             return
         toon = self.getAvatar(toonId)
         if toonId not in self.toonIdsToIsPullingFlags:
@@ -941,7 +941,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
         # Since the timer expires locally, we may still get a few
         # messages from the AI that were on the wire when we left
         # the play state, just ignore it
-        if self.activityFSM.state != "Active":
+        if self.activityFSM._state != "Active":
             return
 
         # adjust the camera angle

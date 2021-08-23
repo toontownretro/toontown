@@ -33,7 +33,7 @@ class PartyEditorListElement(DirectButton):
 
         # Change the name and the up, down, rollover, and disabled colors
         if self.isDecoration:
-            self.name = TTLocalizer.PartyDecorationNameDict[self.id]["editor"]
+            self._name = TTLocalizer.PartyDecorationNameDict[self.id]["editor"]
             colorList = ( (1.0, 0.0, 1.0, 1.0), (0.0, 0.0, 1.0, 1.0), (0.0, 1.0, 1.0, 1.0), (0.5, 0.5, 0.5, 1.0))
             assetName = PartyGlobals.DecorationIds.getString(self.id)
             if assetName == "Hydra":
@@ -65,7 +65,7 @@ class PartyEditorListElement(DirectButton):
                     scale = Vec3(0.05, 0.0001, 0.05)
 
         else:
-            self.name = TTLocalizer.PartyActivityNameDict[self.id]["editor"]
+            self._name = TTLocalizer.PartyActivityNameDict[self.id]["editor"]
             colorList = ( (0.0, 0.0, 0.0, 1.0), (0.0, 1.0, 0.0, 1.0), (1.0, 1.0, 0.0, 1.0), (0.5, 0.5, 0.5, 1.0))
             iconString = PartyGlobals.ActivityIds.getString(self.id)
             if self.id == PartyGlobals.ActivityIds.PartyJukebox40:
@@ -82,7 +82,7 @@ class PartyEditorListElement(DirectButton):
             self.comingSoonTextScale = 0.25
 
         #self.icon.setPos(self.partyEditor.partyPlanner.gui.find("**/step_05_activitiesIcon_locator").getPos())
-        #self.icon.reparentTo(self.partyEditor.parent)
+        #self.icon.reparentTo(self.partyEditor._parent)
         #self.icon.stash()
 
         optiondefs = (
@@ -98,7 +98,7 @@ class PartyEditorListElement(DirectButton):
         self.defineoptions(kw, optiondefs)
         DirectButton.__init__(self,self.partyEditor.elementList)
         self.initialiseoptions(PartyEditorListElement)
-        self.setName("%sListElement"%self.name)
+        self.setName("%sListElement"%self._name)
 
         self.setScale(scale)
 
@@ -158,15 +158,15 @@ class PartyEditorListElement(DirectButton):
         This element has been scrolled to in the list, replace the price and
         description text with it's own
         """
-        PartyEditorListElement.notify.debug("Element %s clicked" % self.name)
+        PartyEditorListElement.notify.debug("Element %s clicked" % self._name)
         if self.isDecoration:
             self.partyEditor.partyPlanner.elementDescriptionNode.setText(TTLocalizer.PartyDecorationNameDict[self.id]["description"])
             self.partyEditor.partyPlanner.elementPriceNode.setText("%d %s" % ( PartyGlobals.DecorationInformationDict[self.id]["cost"], TTLocalizer.PartyPlannerBeans))
-            self.partyEditor.partyPlanner.elementTitleLabel["text"] = self.name
+            self.partyEditor.partyPlanner.elementTitleLabel["text"] = self._name
         else:
             self.partyEditor.partyPlanner.elementDescriptionNode.setText(TTLocalizer.PartyActivityNameDict[self.id]["description"])
             self.partyEditor.partyPlanner.elementPriceNode.setText("%d %s" % ( PartyGlobals.ActivityInformationDict[self.id]["cost"], TTLocalizer.PartyPlannerBeans))
-            self.partyEditor.partyPlanner.elementTitleLabel["text"] = self.name
+            self.partyEditor.partyPlanner.elementTitleLabel["text"] = self._name
         self.checkSoldOutAndPaidStatusAndAffordability()
 
     def checkSoldOutAndPaidStatusAndAffordability(self):
@@ -237,7 +237,7 @@ class PartyEditorListElement(DirectButton):
             self.partyEditor.partyPlanner.elementBuyButton["state"] = DirectGuiGlobals.DISABLED
 
     def clicked(self, mouseEvent):
-        PartyEditorListElement.notify.debug("Element %s's icon was clicked" % self.name)
+        PartyEditorListElement.notify.debug("Element %s's icon was clicked" % self._name)
         self.partyEditor.listElementClicked()
         for i in range(len(self.partyEditorGridElements)):
             if not self.partyEditorGridElements[i].overValidSquare:
@@ -256,7 +256,7 @@ class PartyEditorListElement(DirectButton):
                     return False
 
     def released(self, mouseEvent):
-        PartyEditorListElement.notify.debug("Element %s's icon was released" % self.name)
+        PartyEditorListElement.notify.debug("Element %s's icon was released" % self._name)
         self.partyEditor.listElementReleased()
         if self.activeGridElementIndex != -1:
             self.partyEditorGridElements[self.activeGridElementIndex].detach(mouseEvent)

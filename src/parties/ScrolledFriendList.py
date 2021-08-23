@@ -18,7 +18,7 @@ class ScrolledFriendList( DirectScrolledList ):
         """
         self.makeItemsCheckBoxes = makeItemsCheckBoxes
         self.clickCallback = clickCallback
-        self.parent = parent
+        self._parent = parent
         self.gui = gui
         self.scrollSpeed = 1
         DirectScrolledList.__init__( self,

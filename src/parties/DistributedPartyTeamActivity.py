@@ -161,7 +161,7 @@ class DistributedPartyTeamActivity(DistributedPartyActivity):
         if self.isLocalToonInActivity():
             return
         
-        if (self.activityFSM.state in ["WaitForEnough", "WaitToStart"] and
+        if (self.activityFSM._state in ["WaitForEnough", "WaitToStart"] and
             self._localToonRequestStatus is None):
             assert(self.notify.debug("d_toonJoinRequest( team=%s )" % PartyGlobals.TeamActivityTeams.getString(team)))
 
@@ -344,7 +344,7 @@ class DistributedPartyTeamActivity(DistributedPartyActivity):
             if self._canSwitchTeams:
                 self.teamActivityGui.enableSwitchButton()
             
-            if self.activityFSM.state == "WaitToStart":
+            if self.activityFSM._state == "WaitToStart":
                 self.showWaitToStartCountdown()
             else:
                 self.showStatus() # display game status
@@ -361,7 +361,7 @@ class DistributedPartyTeamActivity(DistributedPartyActivity):
             if self._canSwitchTeams:
                 self.teamActivityGui.disableSwitchButton()
             
-            if self.activityFSM.state == "WaitToStart":
+            if self.activityFSM._state == "WaitToStart":
                 self.hideWaitToStartCountdown()
             
             self.teamActivityGui.unload()

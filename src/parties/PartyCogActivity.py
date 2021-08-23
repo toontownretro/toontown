@@ -512,7 +512,7 @@ class PartyCogActivity(DirectObject):
         # LerpPosInterval and startPosHprBroadcast (both in the run ival) causes the toon to be
         # immobile for approx. 200 ms or more if we call ival.finish().
         def conditionallyShowSwitchButton(self=self, enable=True):
-            if enable and self.activity.activityFSM.state in ["WaitForEnough", "WaitToStart"]:
+            if enable and self.activity.activityFSM._state in ["WaitForEnough", "WaitToStart"]:
                 self.activity.teamActivityGui.enableSwitchButton()
             else:
                 self.activity.teamActivityGui.disableSwitchButton()

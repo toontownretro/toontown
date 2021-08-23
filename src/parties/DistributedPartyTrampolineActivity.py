@@ -547,7 +547,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
     # Event Handling
     #---------------------------------------------------
     def onTrampolineTrigger(self, collEntry):
-        if (self.activityFSM.state == "Idle") and (self.toon == None) and (base.cr.playGame.getPlace().fsm.getCurrentState().getName() == "walk"):
+        if (self.activityFSM._state == "Idle") and (self.toon == None) and (base.cr.playGame.getPlace().fsm.getCurrentState().getName() == "walk"):
             base.cr.playGame.getPlace().fsm.request("activity")
             self.d_toonJoinRequest()
         else:
@@ -754,12 +754,12 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
         if topOfJump:
             if newZ > (self.trampHeight + 20.0):
                 self.b_requestAnim( "Falling" )
-            elif self.animFSM.state == "Jump":
+            elif self.animFSM._state == "Jump":
                 self.b_requestAnim( "Falling" )
         if (newZ <= self.trampHeight) and (z > self.trampHeight):
-            if self.animFSM.state == "Falling":
+            if self.animFSM._state == "Falling":
                 self.b_requestAnim( "Land" )
-            elif self.animFSM.state != "Neutral":
+            elif self.animFSM._state != "Neutral":
                 self.b_requestAnim( "Neutral" )
 
         # Play "boing" sound.
@@ -844,7 +844,7 @@ class TrampolineAnimFSM(FSM):
         self.activity = activity
 
     def defaultFilter(self, request, args):
-        if request == self.state:
+        if request == self._state:
             return None
         else:
             return FSM.defaultFilter( self, request, args )

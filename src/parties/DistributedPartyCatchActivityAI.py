@@ -134,7 +134,7 @@ class DistributedPartyCatchActivityAI(DistributedPartyActivityAI, DistributedPar
             timestamp = self._id2gen[genIndex].startTime + self.activityStartTime
             numPlayers = self._id2gen[genIndex].numPlayers
             generations.append([genIndex, globalClockDelta.localToNetworkTime(timestamp, bits=32), numPlayers])
-        
+
         self.sendUpdate('setGenerations', [generations])
 
         nextStartT = curGenStartTime + self.generationDuration
@@ -151,7 +151,7 @@ class DistributedPartyCatchActivityAI(DistributedPartyActivityAI, DistributedPar
 ##         """
 ##         DistributedPartyCatchActivityAI.notify.debug("requestActivityStart")
 ##         senderId = self.air.getAvatarIdFromSender()
-##         if self.activityFSM.state == "Idle":
+##         if self.activityFSM._state == "Idle":
 ##             self.activityFSM.request("Active")
 ##             self.sendUpdateToAvatarId(senderId, "startRequestResponse", [int(True)])
 ##         else:
@@ -167,13 +167,13 @@ class DistributedPartyCatchActivityAI(DistributedPartyActivityAI, DistributedPar
             self.sendToonJoinResponse(senderId, joined=False)
             return
         self._playerIds.add(senderId)
-        if self.activityFSM.state == "Idle":
+        if self.activityFSM._state == "Idle":
             if senderId != self.party.partyInfo.hostId:
                 self.air.writeServerEvent('suspicious', senderId, 'non-host trying to start party catch')
                 return
             self.sendToonJoinResponse(senderId, joined=True)
             self.activityFSM.request("Active")
-        elif self.activityFSM.state == "Active":
+        elif self.activityFSM._state == "Active":
             # TODO: check against maximum number of players limit
             self.sendToonJoinResponse(senderId, joined=True)
 
@@ -185,11 +185,11 @@ class DistributedPartyCatchActivityAI(DistributedPartyActivityAI, DistributedPar
             return
         if toonId in self.toonIdsToScores:
             reward = self.toonIdsToScores[toonId]
-            
+
             # if it's jelly bean day give us more jelly beans!
             if self.air.holidayManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_DAY):
                 reward *= PartyGlobals.JellyBeanDayMultiplier
-            
+
             if reward > PartyGlobals.CatchMaxTotalReward:
                 # put a cap so we don't go beyond something ridiculous
                 reward = PartyGlobals.CatchMaxTotalReward
@@ -209,7 +209,7 @@ class DistributedPartyCatchActivityAI(DistributedPartyActivityAI, DistributedPar
     def sendToonJoinResponse(self, toonId, joined):
         # since toons can join mid-activity, make sure to add to scores dictionary if needed
         if joined:
-            if toonId not in self.toonIdsToScores: 
+            if toonId not in self.toonIdsToScores:
                 self.toonIdsToScores[toonId] = 0
         DistributedPartyActivityAI.sendToonJoinResponse(self, toonId, joined)
         # number of players changed, start a new generation of drops
@@ -231,7 +231,7 @@ class DistributedPartyCatchActivityAI(DistributedPartyActivityAI, DistributedPar
 
     # Distributed (clsend airecv)
     def claimCatch(self, generation, objNum, DropObjTypeId):
-        if self.activityFSM.state != 'Active':
+        if self.activityFSM._state != 'Active':
             return
 
         # range check DropObjTypeId
@@ -272,7 +272,7 @@ class DistributedPartyCatchActivityAI(DistributedPartyActivityAI, DistributedPar
                 self.fruitsCaught += 1
 
 #    def reportDone(self):
-#        if self.activityFSM.state != 'Active':
+#        if self.activityFSM._state != 'Active':
 #            return
 #        avId = self.air.getAvatarIdFromSender()
 #        # all of the objects on this avatar's client have landed
@@ -289,10 +289,10 @@ class DistributedPartyCatchActivityAI(DistributedPartyActivityAI, DistributedPar
                 0,
             ]
         )
-    
+
     def finishIdle(self):
         DistributedPartyCatchActivityAI.notify.debug("finishIdle")
-        
+
     def startActive(self):
         DistributedPartyCatchActivityAI.notify.debug("startActive")
         self.activityStartTime = globalClock.getRealTime()
@@ -338,7 +338,7 @@ class DistributedPartyCatchActivityAI(DistributedPartyActivityAI, DistributedPar
                 0,
             ]
         )
-    
+
     def finishConclusion(self):
         DistributedPartyCatchActivityAI.notify.debug("finishIdle")
 

@@ -19,20 +19,20 @@ class Decoration(NodePath):
     def __init__(self, name, x, y, h):
         NodePath.__init__(self, name)
 
-        self.name = name
+        self._name = name
         decorId = PartyGlobals.DecorationIds.fromString(name)
         centerX, centerY = getCenterPosFromGridSize(x, y, PartyGlobals.DecorationInformationDict[decorId]["gridsize"])
         self.setPos(centerX, centerY, 0.0)
         self.setH(h)
 
-        if self.name == "CakeTower":
+        if self._name == "CakeTower":
             self.partyCake = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_cakeTower")
 
             tntSeqNode = self.partyCake.find("**/seqNode_tnt").node()
             tntSeqNode.setFrameRate(20)
             self.partyCake.reparentTo(self)
 
-        elif self.name == "BannerJellyBean":
+        elif self._name == "BannerJellyBean":
             partyBannerModel = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_bannerJellybean_model")
 
             banner = []
@@ -75,7 +75,7 @@ class Decoration(NodePath):
             self.partyBanner.loop("float")
             self.partyBanner.reparentTo(self)
 
-        elif self.name == "GagGlobe":
+        elif self._name == "GagGlobe":
             self.partyGlobe = Actor.Actor("phase_13/models/parties/tt_m_ara_pty_gagGlobe_model", \
                                     {'idle' : 'phase_13/models/parties/tt_m_ara_pty_gagGlobe',})
 
@@ -118,7 +118,7 @@ class Decoration(NodePath):
             self.partyGlobe.loop('idle')
             self.partyGlobe.reparentTo(self)
 
-        elif self.name == "FlyingHeart":
+        elif self._name == "FlyingHeart":
             flyingHeartModel = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_heartWing_model")
             self.flyingHeart = Actor.Actor(flyingHeartModel, \
                                     {'idle' : 'phase_13/models/parties/tt_m_ara_pty_heartWing',})
@@ -176,7 +176,7 @@ class Decoration(NodePath):
             self.flyingHeart.loop('idle')
             self.flyingHeart.reparentTo(self)
 
-        elif self.name == "HeartBanner":
+        elif self._name == "HeartBanner":
             self.heartBanner = Actor.Actor("phase_13/models/parties/tt_m_ara_pty_bannerValentine_model", \
                                     {'idle' : 'phase_13/models/parties/tt_m_ara_pty_bannerValentine',})
 
@@ -193,7 +193,7 @@ class Decoration(NodePath):
             self.heartBanner.loop('idle')
             self.heartBanner.reparentTo(self)
 
-        elif self.name == "Hydra":
+        elif self._name == "Hydra":
 
             self.hydra = Actor.Actor("phase_13/models/parties/tt_a_ara_pty_hydra_default", \
                                             {'dance' : 'phase_13/models/parties/tt_a_ara_pty_hydra_dance' })
@@ -216,7 +216,7 @@ class Decoration(NodePath):
             self.hydra.flattenStrong()
             self.hydra.reparentTo(self)
 
-        elif self.name == "TubeCogVictory":
+        elif self._name == "TubeCogVictory":
             self.tubeCog = Actor.Actor("phase_13/models/parties/tt_a_ara_pty_tubeCogVictory_default", \
                                             {'wave' : 'phase_13/models/parties/tt_a_ara_pty_tubeCogVictory_wave' })
             st = random.randint(0,10)
@@ -236,7 +236,7 @@ class Decoration(NodePath):
             self.tubeCog.flattenStrong()
             self.tubeCog.reparentTo(self)
 
-        elif self.name == "BannerVictory":
+        elif self._name == "BannerVictory":
             self.bannerVictory = Actor.Actor("phase_13/models/parties/tt_m_ara_pty_bannerVictory_model", \
                                     {'idle' : 'phase_13/models/parties/tt_m_ara_pty_bannerVictory',})
 
@@ -253,7 +253,7 @@ class Decoration(NodePath):
             self.bannerVictory.loop('idle')
             self.bannerVictory.reparentTo(self)
 
-        elif self.name == "CannonVictory":
+        elif self._name == "CannonVictory":
             self.cannonVictory = Actor.Actor("phase_13/models/parties/tt_m_ara_pty_cannonVictory_model", \
                                     {'idle' : 'phase_13/models/parties/tt_m_ara_pty_cannonVictory',})
 
@@ -269,12 +269,12 @@ class Decoration(NodePath):
             self.cannonVictory.loop('idle')
             self.cannonVictory.reparentTo(self)
 
-        elif self.name == "CogStatueVictory":
+        elif self._name == "CogStatueVictory":
             self.decorationModel = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_cogDoodleVictory")
             self.decorationModel.reparentTo(self)
             self.decorationShadow = self.setupAnimSeq()
 
-        elif self.name == "cogIceCreamVictory":
+        elif self._name == "cogIceCreamVictory":
             self.decorationModel = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_cogIceCreamVictory")
             self.decorationModel.reparentTo(self)
             self.decorationShadow = self.setupAnimSeq()
@@ -322,50 +322,50 @@ class Decoration(NodePath):
 
     def unload(self):
         self.notify.debug("Unloading")
-        if self.name == "GagGlobe":
+        if self._name == "GagGlobe":
             self.globeSphereNodePath.removeNode()
             del self.globeSphereNodePath
             del self.globeSphereNode
             del self.globeSphere
             self.partyGlobe.removeNode()
             del self.partyGlobe
-        elif self.name == "Hydra":
+        elif self._name == "Hydra":
             self.cleanUpAnimSequences()
             self.hydra.removeNode()
             del self.hydra
             if hasattr(self, "decSfx"):
                 del self.decSfx
-        elif self.name == "TubeCogVictory":
+        elif self._name == "TubeCogVictory":
             self.cleanUpAnimSequences()
             self.tubeCog.removeNode()
             del self.tubeCog
             if hasattr(self, "decSfx"):
                 del self.decSfx
-        elif self.name == "BannerJellyBean":
+        elif self._name == "BannerJellyBean":
             self.partyBanner.removeNode()
-        elif self.name == "CakeTower":
+        elif self._name == "CakeTower":
             self.partyCake.removeNode()
-        elif self.name == "FlyingHeart":
+        elif self._name == "FlyingHeart":
             self.globeSphereNodePath.removeNode()
             del self.globeSphereNodePath
             del self.globeSphereNode
             del self.globeSphere
             self.flyingHeart.removeNode()
-        elif self.name == "HeartBanner":
+        elif self._name == "HeartBanner":
             self.heartBanner.removeNode()
-        elif self.name == "CannonVictory":
+        elif self._name == "CannonVictory":
             self.cannonVictory.removeNode()
             del self.cannonVictory
-        elif self.name == "cogIceCreamVictory" \
-            or self.name == "CogStatueVictory":
+        elif self._name == "cogIceCreamVictory" \
+            or self._name == "CogStatueVictory":
             self.cleanUpAnimSequences()
             self.decorationModel.removeNode()
             self.decorationShadow.removeNode()
             del self.decorationShadow
-        elif self.name == "BannerVictory":
+        elif self._name == "BannerVictory":
             self.bannerVictory.removeNode()
             del self.bannerVictory
-        elif self.name == "CannonVictory":
+        elif self._name == "CannonVictory":
             self.decorationModel.removeNode()
             del self.decorationModel
         else:

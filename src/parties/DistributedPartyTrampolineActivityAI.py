@@ -32,7 +32,7 @@ class DistributedPartyTrampolineActivityAI(DistributedPartyActivityAI):
     def toonJoinRequest(self):
         DistributedPartyTrampolineActivityAI.notify.debug("toonJoinRequest")
         senderId = self.air.getAvatarIdFromSender()
-        if (self.activityFSM.state == "Idle") and (len(self.toonIds) == 0) and not self.party.isInActivity(senderId):
+        if (self.activityFSM._state == "Idle") and (len(self.toonIds) == 0) and not self.party.isInActivity(senderId):
             self.sendToonJoinResponse(senderId, True)
             self.activityFSM.request("Rules")
         else:
@@ -41,7 +41,7 @@ class DistributedPartyTrampolineActivityAI(DistributedPartyActivityAI):
     def toonReady(self):
         DistributedPartyTrampolineActivityAI.notify.debug("toonReady")
         senderId = self.air.getAvatarIdFromSender()
-        if (self.activityFSM.state == "Rules") and (senderId in self.toonIds):
+        if (self.activityFSM._state == "Rules") and (senderId in self.toonIds):
             self.activityFSM.request("Active")
         else:
             self.air.writeServerEvent("suspicious", senderId, "trampoline state not Rules or senderId not in toonIdsPlaying, in toonReady")
@@ -49,7 +49,7 @@ class DistributedPartyTrampolineActivityAI(DistributedPartyActivityAI):
     def toonExitDemand(self):
         DistributedPartyTrampolineActivityAI.notify.debug("toonExitDemand")
         senderId = self.air.getAvatarIdFromSender()
-        if (self.activityFSM.state == "Active") and (senderId in self.toonIds):
+        if (self.activityFSM._state == "Active") and (senderId in self.toonIds):
             self.activityFSM.request("Idle")
 
     def _handleUnexpectedToonExit(self, toonId):

@@ -762,7 +762,7 @@ class MiniInviteVisual(DirectFrame):
         DirectFrame.__init__(self, parent, pos = (0.1,0,-0.018))
         self.checkedHeight = True # Hack... we don't have height
         self.partyInfo = partyInfo
-        self.parent = parent
+        self._parent = parent
         self.inviteBackgrounds = loader.loadModel("phase_4/models/parties/partyStickerbook")
         backgrounds = ["calendar_popup_birthday", "calendar_popup_fun", "calendar_popup_cupcake", "tt_t_gui_sbk_calendar_popup_racing", "tt_t_gui_sbk_calendar_popup_valentine1", "tt_t_gui_sbk_calendar_popup_victoryParty"]
         self.background = DirectFrame(
@@ -800,9 +800,9 @@ class MiniInviteVisual(DirectFrame):
 
     def show(self):
         # we do this weirdness so it doesn't get clipped by the PlaneNode
-        self.reparentTo(self.parent)
+        self.reparentTo(self._parent)
         self.setPos(0.1,0,-0.018)
-        newParent = self.parent.getParent().getParent()
+        newParent = self._parent.getParent().getParent()
         self.wrtReparentTo(newParent)
         if self.whosePartyLabel["text"] == " ":
             host = base.cr.identifyAvatar(self.partyInfo.hostId)
@@ -830,7 +830,7 @@ class MiniInviteVisual(DirectFrame):
     def destroy(self):
         del self.checkedHeight
         del self.partyInfo
-        del self.parent
+        del self._parent
         del self.background
         del self.whosePartyLabel
         del self.whenTextLabel

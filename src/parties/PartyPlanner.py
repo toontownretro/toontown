@@ -1216,19 +1216,19 @@ class PartyPlanner(DirectFrame,FSM):
     def __nextItem(self):
         messenger.send('wakeup')
         # Not : This logic depends on the order of self.stateArray
-        if self.state == "PartyEditor" and self.okWithGroundsGui.doneStatus != "ok":
+        if self._state == "PartyEditor" and self.okWithGroundsGui.doneStatus != "ok":
             self.okWithGroundsGui.show()
             return
 
-        if self.state == "PartyEditor" and self.noFriends:
+        if self._state == "PartyEditor" and self.noFriends:
             self.request("Date")
             self.selectedCalendarGuiDay = None
             self.calendarGuiMonth.clearSelectedDay()
             return
-        if self.state == "Guests":
+        if self._state == "Guests":
             self.selectedCalendarGuiDay = None
             self.calendarGuiMonth.clearSelectedDay()
-        if self.state == "Time":
+        if self._state == "Time":
             if self.partyTime < base.cr.toontownTimeManager.getCurServerDateTime():
                 self.okChooseFutureTimeEvent = "okChooseFutureTimeEvent"
                 self.acceptOnce(self.okChooseFutureTimeEvent, self.okChooseFutureTime)
@@ -1254,10 +1254,10 @@ class PartyPlanner(DirectFrame,FSM):
     def __prevItem(self):
         messenger.send('wakeup')
         # Not : This logic depends on the order of self.stateArray
-        if self.state == "Date" and self.noFriends:
+        if self._state == "Date" and self.noFriends:
             self.request("PartyEditor")
             return
-        if self.state == "Invitation" and self.selectedCalendarGuiDay is None:
+        if self._state == "Invitation" and self.selectedCalendarGuiDay is None:
             self.request("Guests")
             return
         self.requestPrev()
