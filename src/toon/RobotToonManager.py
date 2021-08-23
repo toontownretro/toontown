@@ -48,7 +48,7 @@ from toontown.effects import Fireworks, FireworkShows, FireworkGlobals
 from toontown.battle import BattleParticles
 
 try:
-    if direct is None:
+    if base.direct is None:
         base.startDirect()
 except AttributeError:
     base.startDirect()
@@ -1960,7 +1960,7 @@ class RobotToonControlPanel(AppShell):
             if (suitIndex % 8) == 0:
                 subMenu = Menu(self.toonSuitMenu, tearoff = 0)
                 self.toonSuitMenu.add_cascade(
-                    label = SuitTrackList[suitIndex/8],
+                    label = SuitTrackList[suitIndex // 8],
                     menu = subMenu)
             suit = SuitDNAList[suitIndex]
             suitLabel = suit.split(':')[1].strip()
@@ -2076,7 +2076,7 @@ class RobotToonControlPanel(AppShell):
         for suitIndex in range(len(SuitDNAList)):
             if (suitIndex % 8) == 0:
                 subMenu = Menu(self.suitMenu, tearoff = 0)
-                self.suitMenu.add_cascade(label = SuitTrackList[suitIndex/8],
+                self.suitMenu.add_cascade(label = SuitTrackList[suitIndex // 8],
                                           menu = subMenu)
             suit = SuitDNAList[suitIndex]
             suitLabel = suit.split(':')[1].strip()
@@ -2778,7 +2778,7 @@ class RobotToonControlPanel(AppShell):
             self.topsCounter.invoke()
 
     def __switchTops(self, text):
-        value = string.atoi(text)
+        value = int(text)
         if (value < 0) or (value >= len(self.topsVariants)):
             return Pmw.ERROR
         else:
@@ -2806,7 +2806,7 @@ class RobotToonControlPanel(AppShell):
     def __switchBottoms(self, text):
         if not Pmw.integervalidator(text):
             return Pmw.ERROR
-        value = string.atoi(text)
+        value = int(text)
         if (value < 0) or (value >= len(self.bottomsVariants)):
             return Pmw.ERROR
         else:

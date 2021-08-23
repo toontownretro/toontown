@@ -1,10 +1,22 @@
-# want-tk 1
-# want-directtools 1
+# want-tk #t
+# want-directtools #t
 # level-editor-hoods TT
-level-editor-hoods TT DD DG MM BR DL
+level-editor-hoods TT DD DG MM BR DL PA
 style-path-prefix /i
 
 load-display pandagl
+aux-display pandadx9
+aux-display pandadx8
+aux-display tinydisplay
+stencil-bits 8
+framebuffer-alpha #t
+alpha-bits 8
+
+framebuffer-multisample #t
+multisamples 16
+
+framebuffer-srgb #t
+
 chan-config-sanity-check #f
 multipass-viz none
 win-width 800
@@ -24,6 +36,24 @@ vfs-mount /c/Program Files/Disney/Disney Online/Toontown/phase_6.mf /tt 0
 vfs-mount /c/Program Files/Disney/Disney Online/Toontown/phase_7.mf /tt 0
 vfs-mount /c/Program Files/Disney/Disney Online/Toontown/phase_8.mf /tt 0
 
+# Shader Stuff
+
+ao-debug #f
+
+hbao-falloff 2.0
+hbao-max-sample-distance 20.0
+hbao-sample-radius 3.5
+hbao-angle-bias 0.564
+hbao-strength 5.0
+
+hdr-enable #t
+bloom-enable #t
+fxaa-enable #t
+ssao-enable 0
+
+ao-blur-normal-factor 0
+ao-blur-depth-factor 0
+
 # Use local copy of ttmodels
 model-path     .
 # Putting this line after ttmodels means models will be read from here first
@@ -31,20 +61,32 @@ model-path     .
 model-path     $DMODELS
 sound-path     .
 dna-preload    phase_4/dna/storage.dna
+dna-directory .
 default-model-extension .bam
 
 load-file-type toontown
 
 window-title Toontown
 
-merge-lod-bundles 0
+merge-lod-bundles #f
 compress-channels #t
 text-encoding utf8
+
+# Don't break a line before the following punctuation marks (including
+# some Japanese punctuation marks).
+text-never-break-before ,.-:?!;。？！、
+
+# This enables in-game IME (e.g. for Japanese clients)
+ime-aware #t
+ime-hide #t
+
+# Make sure textures are forced to a power-of-2 size by default, as a
+# convenience.
+textures-power-2 down
 
 # We must currently set this to avoid messing up some of
 # the suits' faces.
 egg-retesselate-coplanar	#f
-
 
 # Custom ObjectTypes for Toontown.
 # "barrier" means a vertical wall, with bitmask 0x01
@@ -69,13 +111,15 @@ egg-object-type-dcs             <DCS> { 1 }
 # own bin and have them not fight with each other (or with other
 # transparent geometry).
 egg-object-type-shadow          <Scalar> bin { shadow } <Scalar> alpha { blend-no-occlude }
-cull-bin shadow 15 unsorted
+
+# We still need this off for now.
+temp-hpr-fix #f
 
 # The ID of the server that we are compatible with
-server-version sv1.0.14
+server-version sv1.0.40.25
+server-version-suffix
 
-want-tk #t
+cull-bin shadow 15 unsorted
+cull-bin ground 14 fixed
 
 notify-level-chan   error
-
-

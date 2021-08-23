@@ -310,6 +310,7 @@ class TTCRDBConnection(DBInterface):
 
     def enterDisconnected(self):
         pass
+
     def exitDisconnected(self):
         pass
 
