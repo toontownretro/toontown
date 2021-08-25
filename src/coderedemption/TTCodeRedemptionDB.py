@@ -23,11 +23,11 @@ from direct.stdpy import threading # MySQLdb blocks on locked table access
 from otp.uberdog.DBInterface import DBInterface
 from toontown.coderedemption.TTCodeDict import TTCodeDict
 from toontown.coderedemption import TTCodeRedemptionConsts
-from direct.directutil import DirectMySQLdb
-import _mysql_exceptions
+#from direct.directutil import DirectMySQLdb
 import random
 import datetime
 import MySQLdb
+import MySQLdb.cursors
 import os
 import subprocess
 import time
@@ -42,8 +42,10 @@ class TryAgainLater(Exception):
     def __init__(self, mysqlException, address):
         self._exception = mysqlException
         self._address = address
+        
     def getMySQLException(self):
         return self._exception
+        
     def __str__(self):
         return 'problem using MySQL DB at %s, try again later (%s)' % (self._address, self._exception)
 
@@ -59,7 +61,7 @@ class TTDBCursorBase:
             self.notify.debug('execute:\n%s' % u2ascii(args[0]))
         try:
             cursorBase.execute(self, *args, **kArgs)
-        except _mysql_exceptions.OperationalError as e:
+        except MySQLdb.OperationalError as e:
             if self._connection.getErrorCode(e) in TTDBCursorBase.ConnectionProblems:
                 # force a reconnect
                 TTCRDBConnection.db = None
@@ -175,7 +177,7 @@ class TTCRDBConnection(DBInterface):
                                                           port=self._port,
                                                           user=self._user,
                                                           passwd=self._passwd)
-            except _mysql_exceptions.OperationalError as e:
+            except MySQLdb.OperationalError as e:
                 """
                 self.notify.warning("Failed to connect to MySQL at %s:%d. Retrying in %s seconds."%(
                     self._host,self._port,self.RetryPeriod))
@@ -200,7 +202,7 @@ class TTCRDBConnection(DBInterface):
         cursor = self.getCursor()
         try:
             cursor.execute(command)
-        except _mysql_exceptions.OperationalError as e:
+        except MySQLdb.OperationalError as e:
             if self.getErrorCode(e) == MySQLErrors.TableAlreadyExists:
                 # table already exists
                 pass
@@ -215,7 +217,7 @@ class TTCRDBConnection(DBInterface):
             try:
                 cursor.execute("CREATE DATABASE %s" % self._dbName)
                 self.notify.info("database %s did not exist, created new one" % self._dbName)
-            except _mysql_exceptions.ProgrammingError as e:
+            except MySQLdb.ProgrammingError as e:
                 if self.getErrorCode(e) == MySQLErrors.DbAlreadyExists:
                     # db already exists
                     pass

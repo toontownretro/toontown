@@ -4,7 +4,7 @@ import datetime
 import os
 import pytz
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
-from direct.http.WebRequest import WebRequestDispatcher
+#from direct.http.WebRequest import WebRequestDispatcher
 from otp.distributed import OtpDoGlobals
 from otp.ai import BanManagerAI
 from toontown.toonbase import ToontownGlobals
@@ -53,7 +53,8 @@ class DistributedCpuInfoMgrUD(DistributedObjectGlobalUD):
         assert self.notify.debugCall()
         DistributedObjectGlobalUD.__init__(self, air)
         self.HTTPListenPort = uber.cpuInfoMgrHTTPListenPort
-
+        
+        '''
         self.webDispatcher = WebRequestDispatcher()
         self.webDispatcher.landingPage.setTitle("SecurityBanMgr")
         self.webDispatcher.landingPage.setDescription("SecurityBanMgr for now handles banning my mac address.")
@@ -63,6 +64,7 @@ class DistributedCpuInfoMgrUD(DistributedObjectGlobalUD):
         self.webDispatcher.registerGETHandler('securityBanMgrListFingerprints', self.listFingerprints)
         self.webDispatcher.listenOnPort(self.HTTPListenPort)
         self.webDispatcher.landingPage.addTab("SecurityBanMgr","/securityBanMgr")
+        '''
 
         self.air.setConnectionName("SecurityBanMgr")
         self.air.setConnectionURL("http://%s:%s/" % (socket.gethostbyname(socket.gethostname()),self.HTTPListenPort))

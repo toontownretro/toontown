@@ -400,9 +400,9 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             for key in flightResults:
                 exec("%s = flightResults['%s']" % (key, key))
 
-            self.notify.debug("start position: " + str(startPos))
-            self.notify.debug("start velocity: " + str(startVel))
-            self.notify.debug("time of launch: " + str(launchTime))
+            #self.notify.debug("start position: " + str(startPos))
+            #self.notify.debug("start velocity: " + str(startVel))
+           # self.notify.debug("time of launch: " + str(launchTime))
 
         cannon.removeToonReadyToFire()
 

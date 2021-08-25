@@ -15,6 +15,7 @@ from direct.distributed import DistributedObject
 from direct.task.Task import Task
 from direct.gui.DirectGui import DirectLabel
 from direct.gui import OnscreenText
+from direct.interval.IntervalGlobal import *
 
 from toontown.toonbase import ToontownGlobals
 from toontown.parties.PartyInfo import PartyInfo
@@ -86,8 +87,8 @@ class DistributedParty(DistributedObject.DistributedObject):
 
         # This uses essentially the same functionality as computeGridYRange and computeGridXRange.
         def fillGrid(x, y, size):
-            for i in range(-size[1]/2+1, size[1]/2+1):
-                for j in range(-size[0]/2+1, size[0]/2+1):
+            for i in range(-size[1]//2+1, size[1]//2+1):
+                for j in range(-size[0]//2+1, size[0]//2+1):
                     self.grid[i+y][j+x] = False
 
         for activityBase in self.partyInfo.activityList:
@@ -461,23 +462,16 @@ class DistributedParty(DistributedObject.DistributedObject):
         self.titleText.setColor(Vec4(*self.titleColor))
         self.titleText.clearColorScale()
         self.titleText.setFg(self.titleColor)
-        seq = Task.sequence(
-            # HACK! Let a pause go by to cover the loading pause
-            # This tricks the taskMgr
-            Task.pause(0.1),
-            Task.pause(6.0),
-            self.titleText.lerpColorScale(
-            Vec4(1.0, 1.0, 1.0, 1.0),
-            Vec4(1.0, 1.0, 1.0, 0.0),
-            0.5),
-            Task(self.hideTitleTextTask))
-        taskMgr.add(seq, "titleText")
-
-    def hideTitleTextTask(self, task):
-        assert(self.notify.debug("hideTitleTextTask()"))
-        self.titleText.hide()
-        return Task.done
-
+        seq = Sequence(
+            Wait(0.1),
+            Wait(6.0),
+            self.titleText.colorScaleInterval(
+            startColorScale=Vec4(1.0, 1.0, 1.0, 1.0),
+            colorScale=Vec4(1.0, 1.0, 1.0, 0.0),
+            duration=0.5),
+            Func(self.hideTitleText))
+        seq.start()
+        
     def hideTitleText(self):
         """
         This gets called from the town and safe zone to cleanup

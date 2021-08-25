@@ -3299,7 +3299,7 @@ class Toon(Avatar.Avatar, ToonHead):
         if self.isDisguised:
             self.takeOffSuit()
 
-        if not launcher.getPhaseComplete(5):
+        if launcher and not launcher.getPhaseComplete(5):
             # If we haven't downloaded phase 5 yet, don't attempt to
             # wear a suit; that will just crash the client.  This
             # should only be possible if someone is hacking us to wear

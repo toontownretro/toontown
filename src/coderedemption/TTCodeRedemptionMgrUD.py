@@ -1,11 +1,11 @@
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.directnotify.DirectNotifyGlobal import directNotify
-from direct.http.WebRequest import WebRequestDispatcher
-from direct.showbase import ElementTree as ET
-from direct.showbase.HTMLTree import HTMLTree
+#from direct.http.WebRequest import WebRequestDispatcher
+#from direct.showbase import ElementTree as ET
+#from direct.showbase.HTMLTree import HTMLTree
 from direct.showbase.PythonUtil import unescapeHtmlString as uhs
-from direct.showbase.PythonUtil import str2elements
-from direct.http import recaptcha
+#from direct.showbase.PythonUtil import str2elements
+#from direct.http import recaptcha
 from direct.task import Task
 from otp.distributed import OtpDoGlobals
 from toontown.catalog import CatalogItemTypes
@@ -23,7 +23,7 @@ import socket
 import string
 import re
 
-SE = ET.SubElement
+#SE = ET.SubElement
 
 class FormErrors:
     class Null:
@@ -104,6 +104,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
         self.HTTPListenPort = uber.codeRedemptionMgrHTTPListenPort
 
+        '''
         self.webDispatcher = WebRequestDispatcher()
         self.webDispatcher.landingPage.setTitle("TTCodeRedemptionMgr")
         self.webDispatcher.landingPage.setDescription("TTCodeRedemptionMgr enables generation and retrieval of reward codes.")
@@ -111,6 +112,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             "codeManagement",self.handleHTTPcodeManagement,returnsResponse=False,autoSkin=True)
         self.webDispatcher.landingPage.addTab("CodeMgmt","/codeManagement")
         self.webDispatcher.listenOnPort(self.HTTPListenPort)
+        '''
 
         self.DBuser = uber.config.GetString("mysql-user", PartiesUdConfig.ttDbUser)
         self.DBpasswd = uber.config.GetString("mysql-passwd", PartiesUdConfig.ttDbPasswd)

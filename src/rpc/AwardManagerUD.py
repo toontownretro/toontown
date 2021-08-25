@@ -1,7 +1,7 @@
 import socket
 import time
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
-from direct.http.WebRequest import WebRequestDispatcher
+#from direct.http.WebRequest import WebRequestDispatcher
 from otp.otpbase import OTPLocalizer
 from toontown.catalog import CatalogItemList
 from toontown.catalog import CatalogItem
@@ -124,7 +124,8 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         self.HTTPListenPort = uber.awardManagerHTTPListenPort
 
         self.numServed = 0
-
+        
+        '''
         self.webDispatcher = WebRequestDispatcher()
         self.webDispatcher.landingPage.setTitle("AwardManager")
         self.webDispatcher.landingPage.setDescription("AwardManager is a REST-like interface allowing in-game awards from other services.")
@@ -132,6 +133,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         self.webDispatcher.registerGETHandler('awardGive', self.giveAward)
         self.webDispatcher.listenOnPort(self.HTTPListenPort)
         self.webDispatcher.landingPage.addTab("AwardMgr","/awardMgr")
+        '''
 
 
         self.air.setConnectionName("AwardMgr")
