@@ -12,7 +12,7 @@ from otp.otpbase import OTPLocalizer
 #this is the structure of the racing menu
 CarolMenu = [ 
     (OTPLocalizer.CarolMenuSections[0],    
-        {60200:60220, 60201:60221, 60202:60222, 60203:60223, 60204:60224, 60205:60225}),
+        {30200:60220, 30201:30221, 30202:30222, 30203:30223, 30204:30224, 30205:30225}),
     ]
         
 class TTSCCarolMenu(SCMenu):

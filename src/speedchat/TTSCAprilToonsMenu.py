@@ -10,15 +10,15 @@ from otp.otpbase import OTPLocalizer
 #this is the structure of the racing menu
 AprilToonsMenu = [ 
     (OTPLocalizer.AprilToonsMenuSections[1],            # GREETINGS
-        [60100, 60101,]),
+        [30100, 30101,]),
     (OTPLocalizer.AprilToonsMenuSections[2],            # PLAYGROUNDS
-        [60110, 60111, 60112, 60113, 60114, 60115,]),
+        [30110, 30111, 30112, 30113, 30114, 30115,]),
     (OTPLocalizer.AprilToonsMenuSections[3],            # CHARACTERS
-        [60120, 60121, 60122, 60123, 60124, 60125, 60126,]),
+        [30120, 30121, 30122, 30123, 30124, 30125, 30126,]),
     (OTPLocalizer.AprilToonsMenuSections[4],            # ESTATES
-        [60130, 60131, 60132, 60133,]),   
+        [30130, 30131, 30132, 30133,]),   
     (OTPLocalizer.AprilToonsMenuSections[0],    
-        [60140, 60141,]),
+        [30140, 30141,]),
     ]
         
 class TTSCAprilToonsMenu(SCMenu):

@@ -21,3 +21,11 @@ from .TTSCSillyPhaseFourMenu import TTSCSillyPhaseFourMenu
 from .TTSCSillyPhaseFiveMenu import TTSCSillyPhaseFiveMenu
 from .TTSCCarolMenu import TTSCCarolMenu
 from .TTSCVictoryPartiesMenu import TTSCVictoryPartiesMenu
+from .TTSCSellbotNerfMenu import TTSCSellbotNerfMenu
+from .TTSCLawbotNerfMenu import TTSCLawbotNerfMenu
+from .TTSCJellybeanJamMenu import TTSCJellybeanJamMenu
+from .TTSCHalloweenMenu import TTSCHalloweenMenu
+from .TTSCWinterMenu import TTSCWinterMenu
+from .TTSCSellbotInvasionMenu import TTSCSellbotInvasionMenu
+from .TTSCSellbotFieldOfficeMenu import TTSCSellbotFieldOfficeMenu
+from .TTSCIdesOfMarchMenu import TTSCIdesOfMarchMenu

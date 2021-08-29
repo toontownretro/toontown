@@ -21,11 +21,14 @@ class DistributedNPCTailor(DistributedNPCToonBase):
         self.roomAvailable = 0
         self.button = None
         self.popupInfo = None
+        self.lerpCameraSeq = None
 
     def disable(self):
         self.ignoreAll()
         taskMgr.remove(self.uniqueName('popupPurchaseGUI'))
-        taskMgr.remove(self.uniqueName('lerpCamera'))
+        if self.lerpCameraSeq:
+            self.lerpCameraSeq.finish()
+            self.lerpCameraSeq = None
         if self.clothesGUI:
             self.clothesGUI.exit()
             self.clothesGUI.unload()
@@ -65,7 +68,9 @@ class DistributedNPCTailor(DistributedNPCToonBase):
         assert self.notify.debug('resetTailor')
         self.ignoreAll()
         taskMgr.remove(self.uniqueName('popupPurchaseGUI'))
-        taskMgr.remove(self.uniqueName('lerpCamera'))
+        if self.lerpCameraSeq:
+            self.lerpCameraSeq.finish()
+            self.lerpCameraSeq = None
         if self.clothesGUI:
             self.clothesGUI.hideButtons()
             self.clothesGUI.exit()
@@ -117,7 +122,9 @@ class DistributedNPCTailor(DistributedNPCToonBase):
         if (mode == NPCToons.PURCHASE_MOVIE_TIMEOUT):
             assert self.notify.debug('PURCHASE_MOVIE_TIMEOUT')
             # In case the GUI hasn't popped up yet
-            taskMgr.remove(self.uniqueName('lerpCamera'))
+            if self.lerpCameraSeq:
+                self.lerpCameraSeq.finish()
+                self.lerpCameraSeq = None
             # Stop listening for the GUI
             if (self.isLocalToon):
                 self.ignore(self.purchaseDoneEvent)
@@ -163,10 +170,13 @@ class DistributedNPCTailor(DistributedNPCToonBase):
 
             if (self.isLocalToon):
                 camera.wrtReparentTo(render)
-                camera.lerpPosHpr(-5, 9, self.getHeight()-0.5, -150, -2, 0, 1,
-                                  other=self,
-                                  blendType="easeOut",
-                                  task=self.uniqueName('lerpCamera'))
+                self.lerpCameraSeq = camera.posQuatInterval(
+                                     1, Point3(-5, 9, self.getHeight() - 0.5),
+                                     Point3(-150, -2, 0),
+                                     other=self,
+                                     blendType="easeOut",
+                                     name=self.uniqueName('lerpCamera'))
+                self.lerpCameraSeq.start()
 
             if (self.browsing == 0):
                 if (self.roomAvailable == 0):
