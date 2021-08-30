@@ -1,6 +1,7 @@
 from toontown.toonbase.TTLocalizerEnglishProperty import *
 from toontown.catalog import CatalogAccessoryItemGlobals
 from otp.otpbase import OTPLocalizer as OL
+OL.SpeedchatStaticText = dict(OL.SpeedChatStaticTextToontown)
 
 # To make sure the language checker is working
 # DO NOT TRANSLATE THIS
