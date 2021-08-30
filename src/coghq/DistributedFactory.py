@@ -33,6 +33,10 @@ class DistributedFactory(DistributedLevel.DistributedLevel,
     def createEntityCreator(self):
         return FactoryEntityCreator.FactoryEntityCreator(level=self)
 
+    # allow localized versions to change the scale of the room title text
+    def getTitleTextScale(self):
+        return TTLocalizer.DFfactoryRoomTitle
+
     def generate(self):
         self.notify.debug('generate')
         DistributedLevel.DistributedLevel.generate(self)
