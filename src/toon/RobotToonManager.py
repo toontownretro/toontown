@@ -7,6 +7,7 @@ except NameError:
     # Let the world know there is no localAvatar
     base.localAvatar = None
 
+from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase import ShowBase
 from toontown.toon.RobotToon import *
@@ -708,6 +709,8 @@ except NameError:
     builtins.dnaLoaded = 1
 
 class RobotToonManager(DirectObject):
+    notify = DirectNotifyGlobal.directNotify.newCategory("RobotToonManager")
+    
     def __init__(self, toonParent = None):
         if toonParent is None:
             toonParent = render.attachNewNode('toonTop')
@@ -1381,7 +1384,8 @@ class RobotToonManager(DirectObject):
     def getLastAngle(self):
         return self.lastAngle
 
-    def setToonAnimState(self,anim):
+    def setToonAnimState(self, anim):
+        self.notify.debug("setToonAnimState(%s)" % (anim))
         self.selectedToon.setAnimState(anim)
         self.animDisplay.setText("Animation: "+str(anim))
 
@@ -1443,6 +1447,7 @@ class RobotToonControlPanel(AppShell):
     contactname = 'Mark Mine'
     contactphone = '(818) 623-3915'
     contactemail = "Mark.Mine@disney.com"
+    notify = DirectNotifyGlobal.directNotify.newCategory("RobotToonControlPanel")
 
     def __init__(self, robotToonManager, **kw):
         DGG.INITOPT = Pmw.INITOPT
@@ -1491,7 +1496,9 @@ class RobotToonControlPanel(AppShell):
         self.doodleColorButtonList = []
         self.doodleColorScaleButtonList = []
         self.doodleEyeColorButtonList = []
-
+        
+        self.anim = StringVar()
+        self.anim.set('')
         self.lastPath = None
 
     def sortVariants(self, styleList):
@@ -2005,8 +2012,6 @@ class RobotToonControlPanel(AppShell):
                                          text = 'Anims',
                                          relief = RAISED,
                                          borderwidth = 2)
-            self.anim = StringVar()
-            self.anim.set('')
             self.animMenu = Menu(self.animButton)
             self.animButton['menu'] = self.animMenu
             self.animButton.pack(side = LEFT, expand = 0, fill = X)
@@ -3194,6 +3199,7 @@ class RobotToonControlPanel(AppShell):
             self.rtm.selectedToon.nametag.clearChat()
 
     def setToonAnim(self, anim):
+        self.notify.debug("setToonAnim(%s)" % (anim))
         self.anim.set(anim)
         st = self.rtm.selectedToon
         if st:
@@ -3211,6 +3217,7 @@ class RobotToonControlPanel(AppShell):
                 self.rtm.setToonAnimState(anim)
 
     def poseToon(self, frame):
+        self.notify.debug("poseToon(%d)" % (frame))
         st = self.rtm.selectedToon
         if st:
             if st.style.type == 't':

@@ -402,7 +402,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
 
             #self.notify.debug("start position: " + str(startPos))
             #self.notify.debug("start velocity: " + str(startVel))
-           # self.notify.debug("time of launch: " + str(launchTime))
+            #self.notify.debug("time of launch: " + str(launchTime))
 
         cannon.removeToonReadyToFire()
 
