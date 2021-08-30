@@ -398,15 +398,15 @@ class ToontownAIRepository(AIDistrict):
         self.partyManager = DistributedPartyManagerAI.DistributedPartyManagerAI(self)
         self.partyManager.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
-        self.inGameNewsMgr = DistributedInGameNewsMgrAI.DistributedInGameNewsMgrAI(self)
-        self.inGameNewsMgr.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
+        #self.inGameNewsMgr = DistributedInGameNewsMgrAI.DistributedInGameNewsMgrAI(self)
+        #self.inGameNewsMgr.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
-        self.cpuInfoMgr = DistributedCpuInfoMgrAI.DistributedCpuInfoMgrAI(self)
-        self.cpuInfoMgr.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
+        #self.cpuInfoMgr = DistributedCpuInfoMgrAI.DistributedCpuInfoMgrAI(self)
+        #self.cpuInfoMgr.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
-        if config.GetBool('want-code-redemption', 1):
-            self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
-            self.codeRedemptionManager.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
+        #if config.GetBool('want-code-redemption', 1):
+        #    self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
+        #    self.codeRedemptionManager.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
         self.randomSourceManager = NonRepeatableRandomSourceAI(self)
         # QuietZone so that the client doesn't get a generate

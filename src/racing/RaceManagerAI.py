@@ -942,7 +942,7 @@ class RaceManagerAI(DirectObject.DirectObject):
         """Load track record data from default location"""
         try:
             # Try to open the backup file:
-            file = open(self.filename + '.bu', 'r')
+            file = open(self.filename + '.bu', 'rb')
             # Remove the (assumed) broken file:
             if os.path.exists(self.filename):
                 os.remove(self.filename)
@@ -950,7 +950,7 @@ class RaceManagerAI(DirectObject.DirectObject):
             # OK, there's no backup file, good.
             try:
                 # Open the real file:
-                file = open(self.filename, 'r')
+                file = open(self.filename, 'rb')
             except IOError:
                 # OK, there's no file.  Grab the default times.
                 return self.getRecordTimes()
