@@ -1,6 +1,9 @@
 import string
 import time
 from toontown.toonbase.TTLocalizer_portuguese_Property import *
+from toontown.catalog import CatalogAccessoryItemGlobals
+from otp.otpbase import OTPLocalizer as OL
+OL.SpeedchatStaticText = dict(OL.SpeedChatStaticTextToontown)
 
 # To make sure the language checker is working
 # DO NOT TRANSLATE THIS
@@ -3862,7 +3865,7 @@ KartMinLaff = "Você precisa de %s pontos de risada para poder andar neste carte
 # DistributedElevatorExt.py
 CogsIncExt = ", Ltda."
 CogsIncModifier = "%s" + CogsIncExt
-CogsInc = string.upper(Cogs) + CogsIncExt
+CogsInc = Cogs.upper() + CogsIncExt
 
 # DistributedKnockKnockDoor.py
 DoorKnockKnock = "Toc, toc."
@@ -5766,7 +5769,7 @@ TownBattleRun = "Voltar correndo para o pátio?"
 
 # TownBattleChooseAvatarPanel.py
 TownBattleChooseAvatarToonTitle = "QUAL TOON?"
-TownBattleChooseAvatarCogTitle = "QUAL " + string.upper(Cog) + "?"
+TownBattleChooseAvatarCogTitle = "QUAL " + Cog.upper() + "?"
 TownBattleChooseAvatarBack = "VOLTAR"
 
 #firecogpanel
