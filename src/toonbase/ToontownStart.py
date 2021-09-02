@@ -81,30 +81,38 @@ from . import ToontownGlobals
 DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 
 if __debug__:
-    def __inject_wx(_):
-        code = textbox.GetValue()
-        try:
-            exec (code, globals())
-        except:
-            import traceback
-            traceback.print_exc()
+    import wx, threading
+    
+    class InjectorFrame(wx.Frame):
+    
+        def __init__(self):
+            super().__init__(None, title = "Injector", size=(640, 400), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX)
+            panel = wx.Panel(self)
+            
+            button = wx.Button(parent = panel, id = -1, label = "Inject", size = (50, 20), pos = (295, 0))
+            button.Bind(wx.EVT_BUTTON, self.__inject_wx)
+            
+            self.textbox = wx.TextCtrl(parent = panel, id = -1, pos = (20, 22), size = (600, 340), style = wx.TE_MULTILINE)
+            self.textbox.AppendText("")
+            
+        def OnClose(self, event):
+            self.Close()
+    
+        def __inject_wx(self, event):
+            code = self.textbox.GetValue()
+            try:
+                exec (code, globals())
+            except:
+                import traceback
+                traceback.print_exc()
 
     def openInjector_wx():
-        import wx, threading
-
         app = wx.App(redirect = False)
-
-        frame = wx.Frame(None, title = "Injector", size=(640, 400), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX)
-        panel = wx.Panel(frame)
-        button = wx.Button(parent = panel, id = -1, label = "Inject", size = (50, 20), pos = (295, 0))
-        global textbox
-        textbox = wx.TextCtrl(parent = panel, id = -1, pos = (20, 22), size = (600, 340), style = wx.TE_MULTILINE)
-        frame.Bind(wx.EVT_BUTTON, __inject_wx, button)
-
-        frame.Show()
-        app.SetTopWindow(frame)
         
-        textbox.AppendText("")
+        frame = InjectorFrame()
+        frame.Show()
+        
+        app.SetTopWindow(frame)
         
         threading.Thread(target = app.MainLoop).start()
 
