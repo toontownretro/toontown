@@ -5,25 +5,22 @@ from toontown.chat import TTChatInputSpeedChat;from otp.otpbase import OTPLocali
 reload(TTChatInputSpeedChat);reload(OTPLocalizerEnglish);reload(OTPLocalizer);reload(SCStaticTextTerminal);base.localAvatar.chatMgr.chatInputSpeedChat.createSpeedChat();base.localAvatar.chatMgr.chatInputSpeedChat.handleSpeedChatStyleChange()
 """
 
+import string
+from direct.fsm import ClassicFSM, State
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
+from direct.showbase import DirectObject
+from otp.otpbase import OTPLocalizer, OTPGlobals
 from otp.speedchat.SpeedChatTypes import *
-from toontown.speedchat.TTSpeedChatTypes import *
 from otp.speedchat.SpeedChat import SpeedChat
 from otp.speedchat import SpeedChatGlobals
+from toontown.shtiker.OptionsPage import speedChatStyles
 from toontown.speedchat import TTSpeedChatGlobals
 from toontown.speedchat import TTSCSingingTerminal
 from toontown.speedchat import TTSCIndexedTerminal
-from direct.showbase import DirectObject
-from direct.fsm import ClassicFSM, State
-from direct.fsm import State
-import string
-from otp.otpbase import OTPLocalizer
-from otp.otpbase import OTPGlobals
-from toontown.shtiker.OptionsPage import speedChatStyles
-from toontown.toonbase import TTLocalizer
+from toontown.speedchat.TTSpeedChatTypes import *
 from toontown.parties.PartyGlobals import ActivityIds, DecorationIds
-from toontown.toonbase import ToontownGlobals
+from toontown.toonbase import TTLocalizer, ToontownGlobals
+from toontown.toonbase.ToontownModules import *
 
 ###### see SpeedChat.py for the format of this structure ######
 scStructure = [
