@@ -635,7 +635,8 @@ class ToonHead(Actor.Actor):
             if not hasattr(self, 'snowMen'):
                 self.snowMen = NodePathCollection()
 
-            snowManPath = 'phase_4/models/props/tt_m_int_snowmanHead_'
+#            snowManPath = 'phase_4/models/props/tt_m_int_snowmanHead_'
+            snowManPath = 'phase_4/models/props/tt_m_efx_snowmanHead_'
             if headStyle == 'l':
                 snowManPath = snowManPath + 'tall'
             else:
