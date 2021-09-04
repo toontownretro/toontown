@@ -569,7 +569,7 @@ class GolfTrophiesUI( DirectFrame ):
         yOffset = 0.23
         # display the trophies a toon has
         for j in range(GolfGlobals.NumCups):
-            for i in range(GolfGlobals.TrophiesPerCup):
+            for i in range(int(GolfGlobals.TrophiesPerCup)):
                 trophyPanel = DirectLabel(
                     parent = self,
                     relief = None,
