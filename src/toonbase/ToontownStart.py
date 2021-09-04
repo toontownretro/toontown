@@ -80,7 +80,7 @@ print('ToontownStart: setting default font')
 from . import ToontownGlobals
 DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 
-if __debug__:
+if __debug__ and ConfigVariableBool('want-injector', False):
     import wx, threading
     
     class InjectorFrame(wx.Frame):
