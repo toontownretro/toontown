@@ -88,6 +88,10 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
 
         else:
             self.notify.warning("loadPlaceGeom: unclassified zone %s" % zoneId)
+            
+        # Flatten the geom a bit
+        if self.geom:
+            self.geom.flattenMedium()
 
         CogHQLoader.CogHQLoader.loadPlaceGeom(self, zoneId)
 

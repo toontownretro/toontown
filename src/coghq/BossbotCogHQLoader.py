@@ -91,6 +91,10 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
             # that is ok because we do not need to load any models - they all
             # get loaded by the distributed object
             self.notify.warning("loadPlaceGeom: unclassified zone %s" % zoneId)
+            
+        # Flatten the geom a bit
+        if self.geom:
+            self.geom.flattenMedium()
 
         CogHQLoader.CogHQLoader.loadPlaceGeom(self, zoneId)
 
