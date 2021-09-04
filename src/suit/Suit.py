@@ -385,7 +385,32 @@ bw = (
     ("throw-paper", "throw-paper", 5),     #added for lawbot boss battle
     )
 
-ModelDict = {
+if not base.config.GetBool('want-new-cogs', 0):
+    ModelDict = {
+     "a": ("/models/char/suitA-", 4),
+     "b": ("/models/char/suitB-", 4),
+     "c": ("/models/char/suitC-", 3.5),
+     }
+
+    TutorialModelDict = {
+     "a": ("/models/char/suitA-", 4),
+     "b": ("/models/char/suitB-", 4),
+     "c": ("/models/char/suitC-", 3.5),
+     }
+else:
+    ModelDict = {
+     "a": ("/models/char/tt_a_ene_cga_", 4),
+     "b": ("/models/char/tt_a_ene_cgb_", 4),
+     "c": ("/models/char/tt_a_ene_cgc_", 3.5),
+     }
+
+    TutorialModelDict = {
+     "a": ("/models/char/tt_a_ene_cga_", 4),
+     "b": ("/models/char/tt_a_ene_cgb_", 4),
+     "c": ("/models/char/tt_a_ene_cgc_", 3.5),
+     }
+
+HeadModelDict = {
     "a": ("/models/char/suitA-", 4),
     "b": ("/models/char/suitB-", 4),
     "c": ("/models/char/suitC-", 3.5),
