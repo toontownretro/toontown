@@ -80,7 +80,7 @@ print('ToontownStart: setting default font')
 from . import ToontownGlobals
 DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 
-if __debug__ and ConfigVariableBool('want-injector', False):
+if __debug__ and ConfigVariableBool('want-injector', False).getValue():
     import wx, threading
     
     class InjectorFrame(wx.Frame):
@@ -264,7 +264,7 @@ del version
 base.loader = base.loader
 builtins.loader = base.loader
 
-autoRun = ConfigVariableBool('toontown-auto-run', 1)
+autoRun = ConfigVariableBool('toontown-auto-run', 1).getValue()
 
 if autoRun and launcher.isDummy():
     # This try .. except block exists solely to test the logic of
