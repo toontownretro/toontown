@@ -77,8 +77,6 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
             signText.setPosHpr(locator, 0, 0, 0, 0, 0, 0)
             signText.setDepthOffset(1)
 
-            self.geom.flattenStrong()
-
         elif zoneId == ToontownGlobals.CashbotLobby:
             self.geom = loader.loadModel(self.cogHQLobbyModelPath)
 
@@ -91,7 +89,7 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
             
         # Flatten the geom a bit
         if self.geom:
-            self.geom.flattenMedium()
+            self.geom.flattenStrong()
 
         CogHQLoader.CogHQLoader.loadPlaceGeom(self, zoneId)
 
