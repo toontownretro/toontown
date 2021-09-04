@@ -2215,7 +2215,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         else:
             notify.error("unknown avatar type: ", self.type)
 
-        return dg.getMessage()
+        return dg.getMessage().decode("utf-8")
 
     def isValidNetString(self, string):
         dg=PyDatagram(string)
