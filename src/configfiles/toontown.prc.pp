@@ -46,13 +46,12 @@ csm-fixed-film-size #t
 
 # OpenGL stuff
 
-gl-version 3 2
 gl-finish 0
 gl-coordinate-system default
 
 # PStats stuff
 
-want-pstats #t
+want-pstats #f
 pstats-gpu-timing #f
 
 
