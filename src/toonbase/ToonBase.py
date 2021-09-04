@@ -452,24 +452,29 @@ class ToonBase(OTPBase.OTPBase):
         self.marginManager = MarginManager()
         self.margins = \
           self.aspect2d.attachNewNode(self.marginManager, DirectGuiGlobals.MIDGROUND_SORT_INDEX + 1)
+          
+        #right = base.a2dRight
+        #left = base.a2dLeft
+        right = 4. / 3
+        left = -right
 
         # And define a bunch of cells along the margins.
         mm = self.marginManager
         self.leftCells = [
-            mm.addGridCell(0, 1, base.a2dLeft, base.a2dRight, base.a2dBottom, base.a2dTop, self.a2dLeftCenter),
-            mm.addGridCell(0, 2, base.a2dLeft, base.a2dRight, base.a2dBottom, base.a2dTop, self.a2dLeftCenter),
-            mm.addGridCell(0, 3, base.a2dLeft, base.a2dRight, base.a2dBottom, base.a2dTop, self.a2dLeftCenter)
+            mm.addGridCell(2.98, 1, left, right, base.a2dBottom, base.a2dTop, self.a2dLeftCenter),
+            mm.addGridCell(2.98, 2.5, left, right, base.a2dBottom, base.a2dTop, self.a2dLeftCenter),
+            mm.addGridCell(2.98, 4, left, right, base.a2dBottom, base.a2dTop, self.a2dLeftCenter)
             ]
         self.bottomCells = [
-            mm.addGridCell(0.5, 0, base.a2dLeft, base.a2dRight, base.a2dBottom, base.a2dTop, self.a2dBottomCenter),
-            mm.addGridCell(1.5, 0, base.a2dLeft, base.a2dRight, base.a2dBottom, base.a2dTop, self.a2dBottomCenter),
-            mm.addGridCell(2.5, 0, base.a2dLeft, base.a2dRight, base.a2dBottom, base.a2dTop, self.a2dBottomCenter),
-            mm.addGridCell(3.5, 0, base.a2dLeft, base.a2dRight, base.a2dBottom, base.a2dTop, self.a2dBottomCenter),
-            mm.addGridCell(4.5, 0, base.a2dLeft, base.a2dRight, base.a2dBottom, base.a2dTop, self.a2dBottomCenter)
+            mm.addGridCell(0.5, 3, left, right, base.a2dBottom, base.a2dTop, self.a2dBottomCenter),
+            mm.addGridCell(1.5, 3, left, right, base.a2dBottom, base.a2dTop, self.a2dBottomCenter),
+            mm.addGridCell(2.5, 3, left, right, base.a2dBottom, base.a2dTop, self.a2dBottomCenter),
+            mm.addGridCell(3.5, 3, left, right, base.a2dBottom, base.a2dTop, self.a2dBottomCenter),
+            mm.addGridCell(4.5, 3, left, right, base.a2dBottom, base.a2dTop, self.a2dBottomCenter)
             ]
         self.rightCells = [
-            mm.addGridCell(5, 2, base.a2dLeft, base.a2dRight, base.a2dBottom, base.a2dTop, self.a2dRightCenter),
-            mm.addGridCell(5, 1, base.a2dLeft, base.a2dRight, base.a2dBottom, base.a2dTop, self.a2dRightCenter)
+            mm.addGridCell(2, 2.5, left, right, base.a2dBottom, base.a2dTop, self.a2dRightCenter),
+            mm.addGridCell(2, 1, left, right, base.a2dBottom, base.a2dTop, self.a2dRightCenter)
             ]
 
     def setCellsAvailable(self, cell_list, available):
