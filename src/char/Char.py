@@ -174,7 +174,9 @@ class Char(Avatar.Avatar):
             self.nametag3d.setBin('fixed', 0)
 
             # fix Chip and Dales wonky shadow
-            if (self._name == "chip") or (self._name == "dale"):
+            if (self._name == "chip") or (self._name == "dale") or \
+               (self._name == "police_chip") or (self._name == "jailbird_dale"):
+
                 self.find("**/drop-shadow").setScale(0.33)
 
 
@@ -187,7 +189,7 @@ class Char(Avatar.Avatar):
 
         # get the switch values
         levelOneIn = base.config.GetInt("lod1-in", 50)
-        levelOneOut = base.config.GetInt("lod1-out", 1)
+        levelOneOut = base.config.GetInt("lod1-out", 0)
         levelTwoIn = base.config.GetInt("lod2-in", 100)
         levelTwoOut = base.config.GetInt("lod2-out", 50)
         levelThreeIn = base.config.GetInt("lod3-in", 280)
@@ -281,19 +283,17 @@ class Char(Avatar.Avatar):
             # Clear the net transforms first, in case we have
             # merge-lod-bundles on (which would mean this is really
             # just one bundle).
-            for bundle in list(self.getPartBundleDict().values()):
-                bundle = bundle['modelRoot'].getBundle()
-                earNull = bundle.findChild("sphere3")
-                if not earNull:
-                    earNull = bundle.findChild("*sphere3")
-                earNull.clearNetTransforms()
+
+            #for bundle in self.getPartBundles():
+            #    earNull = bundle.findAttachment("sphere3")
+            #    if earNull == -1:
+            #        earNull = bundle.findAttachment("*sphere3")
+            #    assert earNull != -1
+            #    bundle.clearAttachmentNode(earNull)
 
             for bundle in list(self.getPartBundleDict().values()):
-                charNodepath = bundle['modelRoot'].partBundleNP
-                bundle = bundle['modelRoot'].getBundle()
-                earNull = bundle.findChild("sphere3")
-                if not earNull:
-                    earNull = bundle.findChild("*sphere3")
+                charNodepath = bundle['modelRoot'].charNP
+                bundle = bundle['modelRoot'].char
                 # import pdb; pdb.set_trace()
                 ears = charNodepath.find("**/sphere3")
                 if ears.isEmpty():
@@ -304,7 +304,11 @@ class Char(Avatar.Avatar):
                 earPitch.setP(40.)
                 ears.reparentTo(earPitch)
                 # put animation channel on ear root
-                earNull.addNetTransform(earRoot.node())
+                earNullAttach = bundle.findAttachment("sphere3")
+                if earNullAttach == -1:
+                    earNullAttach = bundle.findAttachment("*sphere3")
+                assert earNullAttach != -1
+                bundle.setAttachmentNode(earNullAttach, earRoot.node())
                 ears.clearMat()
                 # bake in the reverse pitch
                 ears.node().setPreserveTransform(ModelNode.PTNone)
@@ -313,6 +317,7 @@ class Char(Avatar.Avatar):
                 self.ears.append(ears)
                 # now make the ears rotate to the camera at this pitch.
                 ears.setBillboardAxis()
+
 
         # set up the blinking eyes
         self.eyes = None

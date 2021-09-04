@@ -1569,9 +1569,9 @@ class Toon(Avatar.Avatar, ToonHead):
         joints = []
         for lodName in self.getLODNames():
             bundle = self.getPartBundle('legs', lodName)
-            joint = bundle.findChild('joint_nameTag')
-            if joint:
-                joints.append(joint)
+            attach = bundle.findAttachment('joint_nameTag')
+            if attach >= 0:
+                joints.append((attach, bundle))
         return joints
 
     def getRightHands(self):

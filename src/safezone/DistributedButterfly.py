@@ -133,10 +133,21 @@ class DistributedButterfly(DistributedObject.DistributedObject):
         # animations.  All animations will be playing all the time;
         # we'll control which one is visible by varying the control
         # effect.
-        self.butterfly.enableBlend(blendType = PartBundle.BTLinear)
-        self.butterfly.loop('flutter')
-        self.butterfly.loop('land')
-        self.butterfly.loop('glide')
+        #self.butterfly.enableBlend(blendType = PartBundle.BTLinear)
+        #self.butterfly.loop('flutter', layer = 0)
+        #self.butterfly.loop('land', layer = 1)
+        #self.butterfly.loop('glide', layer = 2)
+
+        # Set up a pose parameter to blend between the butterfly animations.
+        #self.butterflyPoseParam = self.butterfly.addPoseParameter("butterfly", 0, 100)
+        # Now create the sequence that will blend between the animations using
+        # the pose parameter value.
+        #seq = AnimSequence("butterfly")
+        #seq.setNumFrames(50)
+        ##seq.setFrameRate(24)
+        #seq.addLayer(self.butterfly.getAnim("land"), 0, 0, 1, 1, False, False, False, self.butterflyPoseParam)
+        #seq.addLayer(self.butterfly.getAnim("glide"), 1, 1, 50, 50, False, False, False, self.butterflyPoseParam)
+        #seq.addLayer(self.butterfly.getAnim("land"), 50, 50, 100, 100, False, False, False, self.butterflyPoseParam)
 
         # Make a random play rate so all the butterflies will be
         # flapping at slightly different rates.  This doesn't affect
@@ -287,18 +298,19 @@ class DistributedButterfly(DistributedObject.DistributedObject):
             takeoffShadowT = 0.2 * ButterflyGlobals.BUTTERFLY_TAKEOFF[self.playground]
             landShadowT = 0.2 * ButterflyGlobals.BUTTERFLY_LANDING[self.playground]
             self.butterfly2.loop('flutter')
+            self.butterfly.loop('flutter')
             self.ival = Sequence(
                 Parallel(
                     LerpPosHprInterval(self.butterflyNode,
                                        ButterflyGlobals.BUTTERFLY_TAKEOFF[self.playground],
                                        curPosHigh, newHpr),
-                    LerpAnimInterval(self.butterfly,
-                                     ButterflyGlobals.BUTTERFLY_TAKEOFF[self.playground],
-                                     'land', 'flutter'),
-                    LerpAnimInterval(self.butterfly,
-                                     ButterflyGlobals.BUTTERFLY_TAKEOFF[self.playground],
-                                     None, 'glide',
-                                     startWeight = 0, endWeight = self.glideWeight),
+                    #LerpAnimInterval(self.butterfly,
+                    #                 ButterflyGlobals.BUTTERFLY_TAKEOFF[self.playground],
+                    #                 'land', 'flutter'),
+                    #LerpAnimInterval(self.butterfly,
+                    #                 ButterflyGlobals.BUTTERFLY_TAKEOFF[self.playground],
+                    #                 None, 'glide',
+                    #                 startWeight = 0, endWeight = self.glideWeight),
                     Sequence(
                         LerpScaleInterval(self.dropShadow,
                                           takeoffShadowT,
@@ -313,13 +325,13 @@ class DistributedButterfly(DistributedObject.DistributedObject):
                     LerpPosInterval(self.butterflyNode,
                                     ButterflyGlobals.BUTTERFLY_LANDING[self.playground],
                                     destPos),
-                    LerpAnimInterval(self.butterfly,
-                                     ButterflyGlobals.BUTTERFLY_LANDING[self.playground],
-                                     'flutter', 'land'),
-                    LerpAnimInterval(self.butterfly,
-                                     ButterflyGlobals.BUTTERFLY_LANDING[self.playground],
-                                     None, 'glide',
-                                     startWeight = self.glideWeight, endWeight = 0),
+                    #LerpAnimInterval(self.butterfly,
+                    #                 ButterflyGlobals.BUTTERFLY_LANDING[self.playground],
+                    #                 'flutter', 'land'),
+                    #LerpAnimInterval(self.butterfly,
+                    #                 ButterflyGlobals.BUTTERFLY_LANDING[self.playground],
+                    #                 None, 'glide',
+                    #                 startWeight = self.glideWeight, endWeight = 0),
                     Sequence(
                         Wait(ButterflyGlobals.BUTTERFLY_LANDING[self.playground] - landShadowT),
                         ShowInterval(self.dropShadow),
@@ -334,9 +346,10 @@ class DistributedButterfly(DistributedObject.DistributedObject):
         else:
             self.ival = None
             self.butterflyNode.setPos(destPos)
-            self.butterfly.setControlEffect('land', 1.0)
-            self.butterfly.setControlEffect('flutter', 0.0)
-            self.butterfly.setControlEffect('glide', 0.0)
+            self.butterfly.loop('land')
+            #self.butterfly.setControlEffect('land', 1.0)
+            #self.butterfly.setControlEffect('flutter', 0.0)
+            #self.butterfly.setControlEffect('glide', 0.0)
             self.butterfly2.loop('land')
         return None
 
@@ -355,9 +368,10 @@ class DistributedButterfly(DistributedObject.DistributedObject):
         self.butterflyNode.setPos(curPos)
         self.dropShadow.show()
         self.dropShadow.setScale(self.shadowScaleBig)
-        self.butterfly.setControlEffect('land', 1.0)
-        self.butterfly.setControlEffect('flutter', 0.0)
-        self.butterfly.setControlEffect('glide', 0.0)
+        self.butterfly.loop('land')
+        #self.butterfly.setControlEffect('land', 1.0)
+        #self.butterfly.setControlEffect('flutter', 0.0)
+        #self.butterfly.setControlEffect('glide', 0.0)
         self.butterfly2.pose('land', random.randrange(self.butterfly2.getNumFrames('land')))
         return None
 
