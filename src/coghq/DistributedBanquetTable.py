@@ -229,7 +229,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
                                                   volume = 1.0,
                                                   )
         self.serveFoodSfx = loader.loadSfx('phase_4/audio/sfx/MG_sfx_travel_game_bell_for_trolley.mp3')
-        self.pitcherMoveSfx = base.loadSfx(
+        self.pitcherMoveSfx = base.loader.loadSfx(
             "phase_4/audio/sfx/MG_cannon_adjust.mp3")
             #"phase_9/audio/sfx/CHQ_FACT_elevator_up_down.mp3")
 
@@ -484,8 +484,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             Func(self.notify.debug,"diner.stash"),
             Func(diner.stash),
             )
-        spinningSound = base.loadSfx("phase_3.5/audio/sfx/Cog_Death.mp3")
-        deathSound = base.loadSfx("phase_3.5/audio/sfx/ENC_cogfall_apart.mp3")
+        spinningSound = base.loader.loadSfx("phase_3.5/audio/sfx/Cog_Death.mp3")
+        deathSound = base.loader.loadSfx("phase_3.5/audio/sfx/ENC_cogfall_apart.mp3")
         deathSoundTrack = Sequence(
             Wait(0.8),
             SoundInterval(spinningSound, duration=1.2, startTime = 1.5, volume=0.2, node=deathSuit),

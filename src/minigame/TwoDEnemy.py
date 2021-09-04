@@ -151,7 +151,7 @@ class TwoDEnemy(DirectObject):
                                           ActorInterval(self.suit, 'landing', startFrame = 8, endFrame = 28, playRate = -0.5))
                 self.moveIval = Sequence(Func(setIsGoingUp, True), getForwardIval('easeInOut'),
                                     	 Func(setIsGoingUp, False), getBackwardIval('easeInOut'))
-                self.suitSound = base.loadSfx('phase_4/audio/sfx/TB_propeller.wav')
+                self.suitSound = base.loader.loadSfx('phase_4/audio/sfx/TB_propeller.wav')
             else:
                 # Cog has left right motion
                 self.isMovingLeftRight = True
@@ -290,8 +290,8 @@ class TwoDEnemy(DirectObject):
 
         treasureSpawnPoint = Point3(self.suit.getX(), self.suit.getY(), self.suit.getZ() + self.suit.height / 2.)
         gearPoint = Point3(0, 0, self.suit.height / 2. + 2.)
-        spinningSound = base.loadSfx("phase_3.5/audio/sfx/Cog_Death.mp3")
-        deathSound = base.loadSfx("phase_3.5/audio/sfx/ENC_cogfall_apart.mp3")
+        spinningSound = base.loader.loadSfx("phase_3.5/audio/sfx/Cog_Death.mp3")
+        deathSound = base.loader.loadSfx("phase_3.5/audio/sfx/ENC_cogfall_apart.mp3")
 
         smallGears = BattleParticles.createParticleEffect(file='gearExplosionSmall')
         singleGear = BattleParticles.createParticleEffect('GearExplosion', numParticles = 1)

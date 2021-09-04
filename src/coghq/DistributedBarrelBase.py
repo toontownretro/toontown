@@ -78,8 +78,8 @@ class DistributedBarrelBase(BasicEntities.DistributedNodePathEntity,
 
     def loadModel(self):
         # Load the sound effect
-        self.grabSound = base.loadSfx(self.grabSoundPath)
-        self.rejectSound = base.loadSfx(self.rejectSoundPath)
+        self.grabSound = base.loader.loadSfx(self.grabSoundPath)
+        self.rejectSound = base.loader.loadSfx(self.rejectSoundPath)
 
         # load the barrel model
         self.barrel = loader.loadModel("phase_4/models/cogHQ/gagTank")

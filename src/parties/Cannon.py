@@ -79,8 +79,8 @@ class Cannon:
         self.smokeNode = loader.loadModel("phase_4/models/props/test_clouds")
         self.smokeNode.setBillboardPointEye()
 
-        self.sndCannonMove = base.loadSfx("phase_4/audio/sfx/MG_cannon_adjust.mp3")
-        self.sndCannonFire = base.loadSfx("phase_4/audio/sfx/MG_cannon_fire_alt.mp3")
+        self.sndCannonMove = base.loader.loadSfx("phase_4/audio/sfx/MG_cannon_adjust.mp3")
+        self.sndCannonFire = base.loader.loadSfx("phase_4/audio/sfx/MG_cannon_fire_alt.mp3")
 
         # Create collision area for cannon
         # A collision sphere is good enough to trigger an "enter cannon" event

@@ -727,7 +727,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
 
     def parseLoadSfx(self, line):
         token, varName, fileName = line
-        sfx = base.loadSfx(fileName)
+        sfx = base.loader.loadSfx(fileName)
         self.setVar(varName, sfx)
         return
 
@@ -737,7 +737,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         if varName == 'tomDialogue_01':
             notify.debug("VarName tomDialogue getting added. Tutorial Ack: %d" %base.localAvatar.tutorialAck)
         if base.config.GetString("language", "english") == "japanese":
-            dialogue = base.loadSfx(fileName)
+            dialogue = base.loader.loadSfx(fileName)
         else:
             dialogue = None
         self.setVar(varName, dialogue)
@@ -752,7 +752,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
             classicChar = 'minnie'
         filename = filenameTemplate % classicChar
         if base.config.GetString("language", "english") == "japanese":
-            dialogue = base.loadSfx(filename)
+            dialogue = base.loader.loadSfx(filename)
         else:
             dialogue = None
         self.setVar(varName, dialogue)
@@ -1197,7 +1197,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
     def parseAddInventory(self, line):
         token, track, level, number = line
         inventory = self.getVar("inventory")
-        countSound = base.loadSfx("phase_3.5/audio/sfx/tick_counter.mp3")
+        countSound = base.loader.loadSfx("phase_3.5/audio/sfx/tick_counter.mp3")
         return Sequence(Func(base.playSfx, countSound),
                         Func(inventory.buttonBoing, track, level),
                         Func(inventory.addItems, track, level, number),

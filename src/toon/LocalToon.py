@@ -110,13 +110,13 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
             # Note: we cannot load these phase 4 sounds in the
             # initialize function because of the phased download
-            self.soundRun = base.loadSfx(
+            self.soundRun = base.loader.loadSfx(
                 "phase_3.5/audio/sfx/AV_footstep_runloop.wav")
-            self.soundWalk = base.loadSfx(
+            self.soundWalk = base.loader.loadSfx(
                 "phase_3.5/audio/sfx/AV_footstep_walkloop.wav")
-            self.soundWhisper = base.loadSfx(
+            self.soundWhisper = base.loader.loadSfx(
                 "phase_3.5/audio/sfx/GUI_whisper_3.mp3")
-            self.soundPhoneRing = base.loadSfx(
+            self.soundPhoneRing = base.loader.loadSfx(
                 "phase_3.5/audio/sfx/telephone_ring.mp3")
             self.positionExaminer = PositionExaminer.PositionExaminer()
 

@@ -20,8 +20,8 @@ class DistributedCogHQDoor(DistributedDoor.DistributedDoor):
         """constructor for the DistributedDoor"""
         DistributedDoor.DistributedDoor.__init__(self, cr)
         # We have our own sfx
-        self.openSfx = base.loadSfx("phase_9/audio/sfx/CHQ_door_open.mp3")
-        self.closeSfx = base.loadSfx("phase_9/audio/sfx/CHQ_door_close.mp3")
+        self.openSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_door_open.mp3")
+        self.closeSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_door_close.mp3")
 
     def wantsNametag(self):
         """ return true if this door needs an arrow pointing to it. """

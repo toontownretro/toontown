@@ -953,8 +953,8 @@ class CodesTabPage(DirectFrame):
         self.resultPanelFailureGui = cdrGui.find("**/tt_t_gui_sbk_cdrResultPanel_failure")
         self.resultPanelErrorGui = cdrGui.find("**/tt_t_gui_sbk_cdrResultPanel_error")
 
-        self.successSfx = base.loadSfx("phase_3.5/audio/sfx/tt_s_gui_sbk_cdrSuccess.mp3")
-        self.failureSfx = base.loadSfx("phase_3.5/audio/sfx/tt_s_gui_sbk_cdrFailure.mp3")
+        self.successSfx = base.loader.loadSfx("phase_3.5/audio/sfx/tt_s_gui_sbk_cdrSuccess.mp3")
+        self.failureSfx = base.loader.loadSfx("phase_3.5/audio/sfx/tt_s_gui_sbk_cdrFailure.mp3")
 
         self.instructionPanel = DirectFrame(
             parent = self,

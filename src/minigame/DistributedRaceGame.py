@@ -170,11 +170,11 @@ class DistributedRaceGame(DistributedMinigame):
 
         self.music = base.loadMusic("phase_4/audio/bgm/minigame_race.mid")
         # The sound that is played when local toon gets a unique choice
-        self.posBuzzer = base.loadSfx("phase_4/audio/sfx/MG_pos_buzzer.wav")
+        self.posBuzzer = base.loader.loadSfx("phase_4/audio/sfx/MG_pos_buzzer.wav")
         # The sound that is played when local toon gets a bad choice
-        self.negBuzzer = base.loadSfx("phase_4/audio/sfx/MG_neg_buzzer.wav")
-        self.winSting = base.loadSfx("phase_4/audio/sfx/MG_win.mp3")
-        self.loseSting = base.loadSfx("phase_4/audio/sfx/MG_lose.mp3")
+        self.negBuzzer = base.loader.loadSfx("phase_4/audio/sfx/MG_neg_buzzer.wav")
+        self.winSting = base.loader.loadSfx("phase_4/audio/sfx/MG_win.mp3")
+        self.loseSting = base.loader.loadSfx("phase_4/audio/sfx/MG_lose.mp3")
 
         self.diceButtonList = []
         for i in range(1,5):
@@ -223,7 +223,7 @@ class DistributedRaceGame(DistributedMinigame):
 
 
         # The sound that is played when chance card is revealed
-        self.cardSound = base.loadSfx(
+        self.cardSound = base.loader.loadSfx(
             "phase_3.5/audio/sfx/GUI_stickerbook_turn.mp3")
 
         self.chanceMarkers = []

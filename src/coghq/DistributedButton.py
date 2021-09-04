@@ -155,7 +155,7 @@ class DistributedButton(DistributedSwitch.DistributedSwitch):
         Animate the button turning on.
         """
         assert self.debugPrint("switchOnTrack()")
-        onSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_switch_pressed.mp3")
+        onSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_switch_pressed.mp3")
         duration = 0.8
         halfDur = duration*0.5
         pos=Vec3(0.0, 0.0, -0.2)
@@ -189,7 +189,7 @@ class DistributedButton(DistributedSwitch.DistributedSwitch):
         """
         assert self.debugPrint("switchCountdownTrack()")
         wait = self.secondsOn - self.countdownSeconds
-        countDownSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_switch_depressed.mp3")
+        countDownSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_switch_depressed.mp3")
         track=Parallel(
                 SoundInterval(countDownSfx),
                 Sequence( # 3.0 seconds.
@@ -269,7 +269,7 @@ class DistributedButton(DistributedSwitch.DistributedSwitch):
         Animate the button turning off.
         """
         assert self.debugPrint("switchOffTrack()")
-        offSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_switch_popup.mp3")
+        offSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_switch_popup.mp3")
         duration = 1.0
         halfDur = duration*0.5
         pos=Vec3(0.0)

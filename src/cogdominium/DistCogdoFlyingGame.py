@@ -384,7 +384,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         self.initModels()
         self.initIntervals()
 
-        self.propSound = base.loadSfx('phase_4/audio/sfx/TB_propeller.wav')
+        self.propSound = base.loader.loadSfx('phase_4/audio/sfx/TB_propeller.wav')
 
 
     def initModels(self):

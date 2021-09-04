@@ -37,9 +37,9 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
         self.deferredSlots = []
         self.localToonOnBoard = 0
         self.boardedAvIds = {}
-        self.openSfx = base.loadSfx("phase_5/audio/sfx/elevator_door_open.mp3")
+        self.openSfx = base.loader.loadSfx("phase_5/audio/sfx/elevator_door_open.mp3")
         self.finalOpenSfx = None
-        self.closeSfx = base.loadSfx("phase_5/audio/sfx/elevator_door_close.mp3")
+        self.closeSfx = base.loader.loadSfx("phase_5/audio/sfx/elevator_door_close.mp3")
         #Points to Elevator.Elevator when localAvatar steps inside
         self.elevatorFSM=None
         self.finalCloseSfx = None

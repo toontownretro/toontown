@@ -255,14 +255,14 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             "phase_4/audio/bgm/MG_cannon_game.mid"
             )
 
-        self.sndPhotoMove = base.loadSfx(\
+        self.sndPhotoMove = base.loader.loadSfx(\
                                  "phase_4/audio/sfx/MG_cannon_adjust.mp3")
-        self.sndPhotoFire = base.loadSfx(\
+        self.sndPhotoFire = base.loader.loadSfx(\
                                  "phase_4/audio/sfx/MG_cannon_fire_alt.mp3")
-        self.sndWin        = base.loadSfx(\
+        self.sndWin        = base.loader.loadSfx(\
                                  "phase_4/audio/sfx/MG_win.mp3")
 
-        self.sndFilmTick = base.loadSfx(\
+        self.sndFilmTick = base.loader.loadSfx(\
                                  "phase_4/audio/sfx/Photo_instamatic.mp3")
 
         self.timer = ToontownTimer.ToontownTimer()

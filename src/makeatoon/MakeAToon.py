@@ -406,14 +406,14 @@ class MakeAToon(StateData.StateData):
         self.music = base.loadMusic("phase_3/audio/bgm/create_a_toon.mid")
         self.musicVolume = base.config.GetFloat("makeatoon-music-volume", 1)
         self.sfxVolume = base.config.GetFloat("makeatoon-sfx-volume", 1)
-        self.soundBack = base.loadSfx("phase_3/audio/sfx/GUI_create_toon_back.mp3")
+        self.soundBack = base.loader.loadSfx("phase_3/audio/sfx/GUI_create_toon_back.mp3")
 
         self.crashSounds = []
-        self.crashSounds.append(base.loadSfx("phase_3/audio/sfx/tt_s_ara_mat_crash_boing.mp3"))
-        self.crashSounds.append(base.loadSfx("phase_3/audio/sfx/tt_s_ara_mat_crash_glassBoing.mp3"))
-        self.crashSounds.append(base.loadSfx("phase_3/audio/sfx/tt_s_ara_mat_crash_wood.mp3"))
-        self.crashSounds.append(base.loadSfx("phase_3/audio/sfx/tt_s_ara_mat_crash_woodBoing.mp3"))
-        self.crashSounds.append(base.loadSfx("phase_3/audio/sfx/tt_s_ara_mat_crash_woodGlass.mp3"))
+        self.crashSounds.append(base.loader.loadSfx("phase_3/audio/sfx/tt_s_ara_mat_crash_boing.mp3"))
+        self.crashSounds.append(base.loader.loadSfx("phase_3/audio/sfx/tt_s_ara_mat_crash_glassBoing.mp3"))
+        self.crashSounds.append(base.loader.loadSfx("phase_3/audio/sfx/tt_s_ara_mat_crash_wood.mp3"))
+        self.crashSounds.append(base.loader.loadSfx("phase_3/audio/sfx/tt_s_ara_mat_crash_woodBoing.mp3"))
+        self.crashSounds.append(base.loader.loadSfx("phase_3/audio/sfx/tt_s_ara_mat_crash_woodGlass.mp3"))
 
     def unload(self):
         self.exit()

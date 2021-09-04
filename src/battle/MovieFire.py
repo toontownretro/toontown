@@ -446,16 +446,16 @@ def __throwPie(throw, delay, hitCount, showCannon = 1):
         smoke.hide()
         smoke.setBillboardPointEye()
 
-        soundBomb = base.loadSfx("phase_4/audio/sfx/MG_cannon_fire_alt.mp3")
+        soundBomb = base.loader.loadSfx("phase_4/audio/sfx/MG_cannon_fire_alt.mp3")
         playSoundBomb = SoundInterval(soundBomb,node=cannonHolder)
 
-        soundFly = base.loadSfx("phase_4/audio/sfx/firework_whistle_01.mp3")
+        soundFly = base.loader.loadSfx("phase_4/audio/sfx/firework_whistle_01.mp3")
         playSoundFly = SoundInterval(soundFly,node=cannonHolder)
 
-        soundCannonAdjust = base.loadSfx("phase_4/audio/sfx/MG_cannon_adjust.mp3")
+        soundCannonAdjust = base.loader.loadSfx("phase_4/audio/sfx/MG_cannon_adjust.mp3")
         playSoundCannonAdjust = SoundInterval(soundCannonAdjust, duration = 0.6 ,node=cannonHolder)
 
-        soundCogPanic = base.loadSfx("phase_5/audio/sfx/ENC_cogafssm.mp3")
+        soundCogPanic = base.loader.loadSfx("phase_5/audio/sfx/ENC_cogafssm.mp3")
         playSoundCogPanic = SoundInterval(soundCogPanic,node=cannonHolder)
 
 

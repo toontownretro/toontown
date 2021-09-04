@@ -93,8 +93,8 @@ class DistributedTreasure(DistributedObject.DistributedObject):
 
     def loadModel(self, modelPath, modelFindString = None):
         # Load the sound effect
-        self.grabSound = base.loadSfx(self.grabSoundPath)
-        self.rejectSound = base.loadSfx(self.rejectSoundPath)
+        self.grabSound = base.loader.loadSfx(self.grabSoundPath)
+        self.rejectSound = base.loader.loadSfx(self.rejectSoundPath)
 
         if self.nodePath == None:
             self.makeNodePath()

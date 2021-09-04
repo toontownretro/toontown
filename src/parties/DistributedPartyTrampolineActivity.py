@@ -245,9 +245,9 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
         self.timer.reparentTo(self.screenPlaneElements)
 
     def loadSounds( self ):
-        self.jellyBeanSound = base.loadSfx("phase_4/audio/sfx/sparkly.mp3")
-        self.boingSound = base.loadSfx("phase_4/audio/sfx/target_trampoline_2.mp3")
-        self.whistleSound = base.loadSfx("phase_4/audio/sfx/AA_sound_whistle.mp3")
+        self.jellyBeanSound = base.loader.loadSfx("phase_4/audio/sfx/sparkly.mp3")
+        self.boingSound = base.loader.loadSfx("phase_4/audio/sfx/target_trampoline_2.mp3")
+        self.whistleSound = base.loader.loadSfx("phase_4/audio/sfx/AA_sound_whistle.mp3")
 
     def loadIntervals( self ):
         def prepareHeightText():

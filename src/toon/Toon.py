@@ -606,7 +606,7 @@ def loadDialog():
                          )
     # load the audio files and store into the dialogue array
     for file in DogDialogueFiles:
-        DogDialogueArray.append(base.loadSfx(loadPath + file + ".mp3"))
+        DogDialogueArray.append(base.loader.loadSfx(loadPath + file + ".mp3"))
 
     # load the cat dialogue
     catDialogueFiles = ( "AV_cat_short",
@@ -618,7 +618,7 @@ def loadDialog():
                          )
     # load the audio files and store into the dialogue array
     for file in catDialogueFiles:
-        CatDialogueArray.append(base.loadSfx(loadPath + file + ".mp3"))
+        CatDialogueArray.append(base.loader.loadSfx(loadPath + file + ".mp3"))
 
     # load the horse dialogue
     horseDialogueFiles = ( "AV_horse_short",
@@ -631,7 +631,7 @@ def loadDialog():
 
     # load the audio files and store into the dialogue array
     for file in horseDialogueFiles:
-        HorseDialogueArray.append(base.loadSfx(loadPath + file + ".mp3"))
+        HorseDialogueArray.append(base.loader.loadSfx(loadPath + file + ".mp3"))
 
     # load the rabbit dialogue
     rabbitDialogueFiles = ( "AV_rabbit_short",
@@ -644,7 +644,7 @@ def loadDialog():
 
     # load the audio files and store into the dialogue array
     for file in rabbitDialogueFiles:
-        RabbitDialogueArray.append(base.loadSfx(loadPath + file + ".mp3"))
+        RabbitDialogueArray.append(base.loader.loadSfx(loadPath + file + ".mp3"))
 
     # load the mouse dialogue
     # for now the mouse reuses the rabbit sounds
@@ -658,7 +658,7 @@ def loadDialog():
 
     # load the audio files and store into the dialogue array
     for file in mouseDialogueFiles:
-        MouseDialogueArray.append(base.loadSfx(loadPath + file + ".mp3"))
+        MouseDialogueArray.append(base.loader.loadSfx(loadPath + file + ".mp3"))
 
     # load the duck dialogue array
     duckDialogueFiles = ( "AV_duck_short",
@@ -671,7 +671,7 @@ def loadDialog():
 
     # load the audio files and store into the dialogue array
     for file in duckDialogueFiles:
-        DuckDialogueArray.append(base.loadSfx(loadPath + file + ".mp3"))
+        DuckDialogueArray.append(base.loader.loadSfx(loadPath + file + ".mp3"))
 
     # load the monkey dialogue array
     monkeyDialogueFiles = ( "AV_monkey_short",
@@ -684,7 +684,7 @@ def loadDialog():
 
     # load the audio files and store into the dialogue array
     for file in monkeyDialogueFiles:
-        MonkeyDialogueArray.append(base.loadSfx(loadPath + file + ".mp3"))
+        MonkeyDialogueArray.append(base.loader.loadSfx(loadPath + file + ".mp3"))
 
 
     # load the bear dialogue array
@@ -698,7 +698,7 @@ def loadDialog():
 
     # load the audio files and store into the dialogue array
     for file in bearDialogueFiles:
-        BearDialogueArray.append(base.loadSfx(loadPath + file + ".mp3"))
+        BearDialogueArray.append(base.loader.loadSfx(loadPath + file + ".mp3"))
 
 
     # load the pig dialogue array
@@ -712,7 +712,7 @@ def loadDialog():
 
     # load the audio files and store into the dialogue array
     for file in pigDialogueFiles:
-        PigDialogueArray.append(base.loadSfx(loadPath + file + ".mp3"))
+        PigDialogueArray.append(base.loader.loadSfx(loadPath + file + ".mp3"))
 
 def unloadDialog():
     global DogDialogueArray
@@ -851,7 +851,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.setFont(ToontownGlobals.getToonFont())
 
         # chat balloon sound
-        self.soundChatBubble = base.loadSfx("phase_3/audio/sfx/GUI_balloon_popup.mp3")
+        self.soundChatBubble = base.loader.loadSfx("phase_3/audio/sfx/GUI_balloon_popup.mp3")
 
         # The animFSM doesn't really have any restrictions on
         # transitions between states--we don't care which anim
@@ -2220,7 +2220,7 @@ class Toon(Avatar.Avatar, ToonHead):
         # This is loaded on demand so it does not need to be downloaded with the tutorial
         # which does not use it
         if not self.soundTeleport:
-            self.soundTeleport = base.loadSfx("phase_3.5/audio/sfx/AV_teleport.mp3")
+            self.soundTeleport = base.loader.loadSfx("phase_3.5/audio/sfx/AV_teleport.mp3")
         return self.soundTeleport
 
     def getTeleportOutTrack(self, autoFinishTrack = 1):

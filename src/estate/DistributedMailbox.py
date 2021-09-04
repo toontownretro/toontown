@@ -223,10 +223,10 @@ class DistributedMailbox(DistributedObject.DistributedObject):
         elif (mode == MailboxGlobals.MAILBOX_MOVIE_EXIT):
             # Play one of the two mailbox closing sounds
             if random.random() < 0.5:
-                sfx = base.loadSfx(
+                sfx = base.loader.loadSfx(
                     "phase_5.5/audio/sfx/mailbox_close_1.mp3")
             else:
-                sfx= base.loadSfx(
+                sfx= base.loader.loadSfx(
                     "phase_5.5/audio/sfx/mailbox_close_2.mp3")
             sfxTrack = SoundInterval(sfx, node=self.model)
             sfxTrack.start()
@@ -263,9 +263,9 @@ class DistributedMailbox(DistributedObject.DistributedObject):
             DistributedMailbox.notify.debug("setMovie: ready")
             # Play one of the two mailbox opening sounds
             if random.random() < 0.5:
-                sfx= base.loadSfx("phase_5.5/audio/sfx/mailbox_open_1.mp3")
+                sfx= base.loader.loadSfx("phase_5.5/audio/sfx/mailbox_open_1.mp3")
             else:
-                sfx= base.loadSfx("phase_5.5/audio/sfx/mailbox_open_2.mp3")
+                sfx= base.loader.loadSfx("phase_5.5/audio/sfx/mailbox_open_2.mp3")
             sfxTrack = SoundInterval(sfx, node=self.model)
             sfxTrack.start()
             # If you are local toon, show the mailbox gui

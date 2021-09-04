@@ -102,7 +102,7 @@ class DistributedDoorEntityLock(DistributedDoorEntityBase.LockBase, FourState.Fo
         assert self.debugPrint("lockingTrack()")
         FourState.FourState.enterState1(self)
         beat=self.duration*0.05
-        slideSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_arms_retracting.mp3")
+        slideSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_arms_retracting.mp3")
         self.setTrack(
             Sequence(
                 Wait(beat*2.0),
@@ -157,8 +157,8 @@ class DistributedDoorEntityLock(DistributedDoorEntityBase.LockBase, FourState.Fo
         """
         assert self.debugPrint("unlockingTrack()")
         FourState.FourState.enterState3(self)
-        unlockSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_unlock.mp3")
-        slideSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_arms_retracting.mp3")
+        unlockSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_unlock.mp3")
+        slideSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_arms_retracting.mp3")
         beat=self.duration*0.05
         self.setTrack(
             Sequence(
@@ -623,8 +623,8 @@ class DistributedDoorEntity(
         if (not self.level.complexVis()) or (self.isOuterDoorOpen and (not self.isVisBlocker or self.isVisReady)):
             print("openInnerDoors stage Two")
             duration=self.duration
-            slideSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_open_sliding.mp3")
-            finalSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_open_final.mp3")
+            slideSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_open_sliding.mp3")
+            finalSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_open_final.mp3")
             # Each door is 7.5 high, we move them a bit more and then hide them:
             moveDistance=8.0
             self.setInnerDoorsTrack(
@@ -665,8 +665,8 @@ class DistributedDoorEntity(
         """
         assert(self.debugPrint("closeInnerDoors()"))
         duration=self.duration
-        slideSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_open_sliding.mp3")
-        finalSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_open_final.mp3")
+        slideSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_open_sliding.mp3")
+        finalSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_open_final.mp3")
         # Each door is 7.5 high, we move them a bit more and then hide them:
         moveDistance=8.0
         self.setInnerDoorsTrack(
@@ -715,8 +715,8 @@ class DistributedDoorEntity(
         else:
             self.okToUnblockVis()
         duration=self.duration
-        slideSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_open_sliding.mp3")
-        finalSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_open_final.mp3")
+        slideSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_open_sliding.mp3")
+        finalSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_open_final.mp3")
         # Each door is 7.5 high, we move them a bit more and then hide them:
         moveDistance=8.0
         self.setTrack(
@@ -784,8 +784,8 @@ class DistributedDoorEntity(
         assert(self.debugPrint("closingTrack()"))
         FourState.FourState.enterState3(self)
         duration=self.duration
-        slideSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_open_sliding.mp3")
-        finalSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_open_final.mp3")
+        slideSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_open_sliding.mp3")
+        finalSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_door_open_final.mp3")
         self.setTrack(
             Sequence(
                 Wait(duration*.1),

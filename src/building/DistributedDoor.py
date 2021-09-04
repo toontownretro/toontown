@@ -42,8 +42,8 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         """constructor for the DistributedDoor"""
         DistributedObject.DistributedObject.__init__(self, cr)
 
-        self.openSfx = base.loadSfx("phase_3.5/audio/sfx/Door_Open_1.mp3")
-        self.closeSfx = base.loadSfx("phase_3.5/audio/sfx/Door_Close_1.mp3")
+        self.openSfx = base.loader.loadSfx("phase_3.5/audio/sfx/Door_Open_1.mp3")
+        self.closeSfx = base.loader.loadSfx("phase_3.5/audio/sfx/Door_Close_1.mp3")
 
         # When we get enough information about the door, we can set up
         # its nametag.  The nametag points out nearby buildings to the

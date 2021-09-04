@@ -198,11 +198,11 @@ class DistributedCogThiefGame(DistributedMinigame):
         # a dictionary of throwing pie tracks
         self.toonPieTracks = {}
 
-        self.sndOof = base.loadSfx(
+        self.sndOof = base.loader.loadSfx(
             'phase_4/audio/sfx/MG_cannon_hit_dirt.mp3')
-        self.sndRewardTick = base.loadSfx(\
+        self.sndRewardTick = base.loader.loadSfx(\
                                  "phase_3.5/audio/sfx/tick_counter.mp3")
-        self.sndPerfect = base.loadSfx(
+        self.sndPerfect = base.loader.loadSfx(
             "phase_4/audio/sfx/ring_perfect.mp3")
 
 
@@ -320,11 +320,11 @@ class DistributedCogThiefGame(DistributedMinigame):
             "falling"   : [None] * self.numPlayers,
             }
         for i in range(self.numPlayers):
-            self.sndTable["hitBySuit"][i] =  base.loadSfx(
+            self.sndTable["hitBySuit"][i] =  base.loader.loadSfx(
                 "phase_4/audio/sfx/MG_Tag_C.mp3"
                 #"phase_4/audio/sfx/MG_cannon_fire_alt.mp3"
                 )
-            self.sndTable["falling"][i] = base.loadSfx(
+            self.sndTable["falling"][i] = base.loader.loadSfx(
                 "phase_4/audio/sfx/MG_cannon_whizz.mp3")
 
         # Start music

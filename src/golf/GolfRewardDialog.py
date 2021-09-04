@@ -205,7 +205,7 @@ class GolfRewardDialog:
                 self.trophy.hide()
             self.rankLabel['text'] = text
             if(len(self.avIdList) > 1):
-                self.victory=base.loadSfx("phase_6/audio/sfx/KART_Applause_%d.mp3" % self.myPlace)
+                self.victory=base.loader.loadSfx("phase_6/audio/sfx/KART_Applause_%d.mp3" % self.myPlace)
                 self.victory.play()
 
         # Display trophies

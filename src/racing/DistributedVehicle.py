@@ -207,15 +207,15 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         # Load sounds
         self.wallHitsSfx = []
         for wallHit in self.SFX_WallHits:
-            self.wallHitsSfx.append( base.loadSfx(wallHit) )
-        #self.wallLoopWoodSfx = base.loadSfx(self.SFX_WallLoop_Wood)
+            self.wallHitsSfx.append( base.loader.loadSfx(wallHit) )
+        #self.wallLoopWoodSfx = base.loader.loadSfx(self.SFX_WallLoop_Wood)
         #self.wallLoopWoodSfx.setLoop()
-        self.skidLoopAsphaltSfx = base.loadSfx(self.SFX_SkidLoop_Asphalt)
+        self.skidLoopAsphaltSfx = base.loader.loadSfx(self.SFX_SkidLoop_Asphalt)
         self.skidLoopAsphaltSfx.setLoop()
-        self.skidLoopGrassSfx = base.loadSfx(self.SFX_SkidLoop_Grass)
+        self.skidLoopGrassSfx = base.loader.loadSfx(self.SFX_SkidLoop_Grass)
         self.skidLoopGrassSfx.setLoop()
-        self.turboStartSfx = base.loadSfx(self.SFX_TurboStart)
-        self.turboLoopSfx = base.loadSfx(self.SFX_TurboLoop)
+        self.turboStartSfx = base.loader.loadSfx(self.SFX_TurboStart)
+        self.turboLoopSfx = base.loader.loadSfx(self.SFX_TurboLoop)
         self.turboLoopSfx.setLoop()
 
         self.forward.reparentTo(self.geom[0])

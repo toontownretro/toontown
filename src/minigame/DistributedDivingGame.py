@@ -93,7 +93,7 @@ class DistributedDivingGame(DistributedMinigame):
         loadBase = "phase_4/models/minigames/"
         loadBaseShip = "phase_5/models/props/"
 
-        self.sndAmbience = base.loadSfx(
+        self.sndAmbience = base.loader.loadSfx(
             'phase_4/audio/sfx/AV_ambient_water.mp3')
 
         self.environModel = loader.loadModel(loadBase + "diving_game.bam")

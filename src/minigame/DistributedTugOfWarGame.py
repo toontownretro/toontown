@@ -175,9 +175,9 @@ class DistributedTugOfWarGame(DistributedMinigame):
 
         self.sky = loader.loadModel("phase_3.5/models/props/TT_sky")
         self.dropShadow = loader.loadModel("phase_3/models/props/drop_shadow")
-        self.correctSound = base.loadSfx("phase_4/audio/sfx/MG_pos_buzzer.wav")
-        self.sndHitWater  = base.loadSfx("phase_4/audio/sfx/MG_cannon_splash.mp3")
-        self.whistleSound = base.loadSfx("phase_4/audio/sfx/AA_sound_whistle.mp3")
+        self.correctSound = base.loader.loadSfx("phase_4/audio/sfx/MG_pos_buzzer.wav")
+        self.sndHitWater  = base.loader.loadSfx("phase_4/audio/sfx/MG_cannon_splash.mp3")
+        self.whistleSound = base.loader.loadSfx("phase_4/audio/sfx/AA_sound_whistle.mp3")
 
         # load music
         self.music = base.loadMusic(self.bgm)

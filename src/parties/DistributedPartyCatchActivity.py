@@ -265,10 +265,10 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
                 model.setZ(-self.ObjRadius)
             model.flattenStrong()
 
-        self.sndGoodCatch = base.loadSfx('phase_4/audio/sfx/SZ_DD_treasure.mp3')
-        self.sndOof = base.loadSfx('phase_4/audio/sfx/MG_cannon_hit_dirt.mp3')
-        self.sndAnvilLand = base.loadSfx('phase_4/audio/sfx/AA_drop_anvil_miss.mp3')
-        self.sndPerfect = base.loadSfx('phase_4/audio/sfx/ring_perfect.mp3')
+        self.sndGoodCatch = base.loader.loadSfx('phase_4/audio/sfx/SZ_DD_treasure.mp3')
+        self.sndOof = base.loader.loadSfx('phase_4/audio/sfx/MG_cannon_hit_dirt.mp3')
+        self.sndAnvilLand = base.loader.loadSfx('phase_4/audio/sfx/AA_drop_anvil_miss.mp3')
+        self.sndPerfect = base.loader.loadSfx('phase_4/audio/sfx/ring_perfect.mp3')
 
         # this will be used to generate textnodes
         self.__textGen = TextNode("partyCatchActivity")

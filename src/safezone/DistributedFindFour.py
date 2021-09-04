@@ -100,9 +100,9 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         self.ghostConstant = Vec4(0,0,0,.5)
 
 
-        self.knockSound = base.loadSfx("phase_5/audio/sfx/GUI_knock_1.mp3")
-        self.clickSound = base.loadSfx("phase_3/audio/sfx/GUI_balloon_popup.mp3")
-        self.moveSound = base.loadSfx("phase_6/audio/sfx/CC_move.mp3")
+        self.knockSound = base.loader.loadSfx("phase_5/audio/sfx/GUI_knock_1.mp3")
+        self.clickSound = base.loader.loadSfx("phase_3/audio/sfx/GUI_balloon_popup.mp3")
+        self.moveSound = base.loader.loadSfx("phase_6/audio/sfx/CC_move.mp3")
         self.accept('stoppedAsleep', self.handleSleep)
 
 

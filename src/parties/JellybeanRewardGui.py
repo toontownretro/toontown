@@ -136,8 +136,8 @@ class JellybeanRewardGui(DirectFrame):
         publicPartyGui.removeNode()
         del publicPartyGui
 
-        self.countSound = base.loadSfx("phase_13/audio/sfx/tick_counter_short.mp3")
-        self.overMaxSound = base.loadSfx("phase_13/audio/sfx/tick_counter_overflow.mp3")
+        self.countSound = base.loader.loadSfx("phase_13/audio/sfx/tick_counter_short.mp3")
+        self.overMaxSound = base.loader.loadSfx("phase_13/audio/sfx/tick_counter_overflow.mp3")
 
 
     def showReward(self, earnedAmount, jarAmount, message):

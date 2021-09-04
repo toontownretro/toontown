@@ -1708,7 +1708,7 @@ class ToonHead(Actor.Actor):
                                 muzzles.reparentTo(self.find('**/' + lodName + '/**/joint_toHead'))
                         elif self.find('**/' + lodName + '/**/joint_toHead'):
                             muzzles.reparentTo(self.find('**/' + lodName + '/**/joint_toHead'))
-
+                
                 surpriseMuzzle = self.find('**/' + lodName + '/**/muzzle*surprise')
                 angryMuzzle = self.find('**/' + lodName + '/**/muzzle*angry')
                 sadMuzzle = self.find('**/' + lodName + '/**/muzzle*sad')

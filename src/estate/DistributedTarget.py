@@ -55,8 +55,8 @@ class DistributedTarget(DistributedObject.DistributedObject):
         self.geom.setPos(0, 0, 40)
         self.geom.setScale(3)
         self.geom.stash()
-        self.hitSound = base.loadSfx("phase_4/audio/sfx/MG_Tag_A.mp3")
-        self.rewardSound = base.loadSfx("phase_4/audio/sfx/MG_pos_buzzer.wav")
+        self.hitSound = base.loader.loadSfx("phase_4/audio/sfx/MG_Tag_A.mp3")
+        self.rewardSound = base.loader.loadSfx("phase_4/audio/sfx/MG_pos_buzzer.wav")
 
         # create a text node to display the score
         self.scoreText = TextNode("scoreText")

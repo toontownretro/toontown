@@ -106,15 +106,15 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.craneAdviceLabel = None
         self.magnetAdviceLabel = None
 
-        self.atLimitSfx = base.loadSfx(
+        self.atLimitSfx = base.loader.loadSfx(
             "phase_4/audio/sfx/MG_cannon_adjust.mp3")
 
-        self.magnetOnSfx = base.loadSfx(
+        self.magnetOnSfx = base.loader.loadSfx(
             "phase_10/audio/sfx/CBHQ_CFO_magnet_on.mp3")
 
         # We prefer a wav file for this looping sound effect, since
         # looping an mp3 always introduces some stutter.
-        self.magnetLoopSfx = base.loadSfx(
+        self.magnetLoopSfx = base.loader.loadSfx(
             "phase_10/audio/sfx/CBHQ_CFO_magnet_loop.wav")
 
         # Make these overlap just a bit.
@@ -123,7 +123,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
             Sequence(Wait(0.5),
                      Func(base.playSfx, self.magnetLoopSfx, looping=1)))
 
-        self.craneMoveSfx = base.loadSfx(
+        self.craneMoveSfx = base.loader.loadSfx(
             "phase_9/audio/sfx/CHQ_FACT_elevator_up_down.mp3")
 
         self.fadeTrack = None

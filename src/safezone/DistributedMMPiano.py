@@ -83,8 +83,8 @@ class DistributedMMPiano(DistributedObject.DistributedObject):
 
         # We need some handy sound effects to play in response to the
         # above.
-        self.speedUpSound = base.loadSfx('phase_6/audio/sfx/SZ_MM_gliss.mp3')
-        self.changeDirectionSound = base.loadSfx('phase_6/audio/sfx/SZ_MM_cymbal.mp3')
+        self.speedUpSound = base.loader.loadSfx('phase_6/audio/sfx/SZ_MM_gliss.mp3')
+        self.changeDirectionSound = base.loader.loadSfx('phase_6/audio/sfx/SZ_MM_cymbal.mp3')
 
         self.__setupSpin()
         DistributedObject.DistributedObject.generate(self)

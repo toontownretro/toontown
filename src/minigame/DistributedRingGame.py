@@ -145,9 +145,9 @@ class DistributedRingGame(DistributedMinigame):
             "phase_4/audio/bgm/MG_toontag.mid"
             )
 
-        self.sndAmbience = base.loadSfx(
+        self.sndAmbience = base.loader.loadSfx(
             'phase_4/audio/sfx/AV_ambient_water.mp3')
-        self.sndPerfect = base.loadSfx(
+        self.sndPerfect = base.loader.loadSfx(
             "phase_4/audio/sfx/ring_perfect.mp3")
         # don't use the 'swimming forward' sound; we're always swimming
         # forward, and the sound would get irritating
@@ -274,9 +274,9 @@ class DistributedRingGame(DistributedMinigame):
             "missedRing" : [None] * self.numPlayers,
             }
         for i in range(0,self.numPlayers):
-            self.sndTable["gotRing"][i] =  base.loadSfx(\
+            self.sndTable["gotRing"][i] =  base.loader.loadSfx(\
                   "phase_4/audio/sfx/ring_get.mp3")
-            self.sndTable["missedRing"][i] = base.loadSfx(\
+            self.sndTable["missedRing"][i] = base.loader.loadSfx(\
                   "phase_4/audio/sfx/ring_miss.mp3")
 
         # create a drop shadow for the local toon

@@ -36,7 +36,7 @@ class Stomper(StateData.StateData, NodePath):
         self.sound = sound
         self.soundLen = soundLen
         if self.sound is not None:
-            self.sound = base.loadSfx(sound)
+            self.sound = base.loader.loadSfx(sound)
 
         self.motionType = motionType
         if self.motionType is None:

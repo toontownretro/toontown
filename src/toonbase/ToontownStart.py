@@ -162,8 +162,8 @@ if __debug__:
         from toontown.quest import Quests
         Quests.assertAllQuestsValid()
 
-DirectGuiGlobals.setDefaultRolloverSound(base.loadSfx("phase_3/audio/sfx/GUI_rollover.mp3"))
-DirectGuiGlobals.setDefaultClickSound(base.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.mp3"))
+DirectGuiGlobals.setDefaultRolloverSound(base.loader.loadSfx("phase_3/audio/sfx/GUI_rollover.mp3"))
+DirectGuiGlobals.setDefaultClickSound(base.loader.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.mp3"))
 DirectGuiGlobals.setDefaultDialogGeom(loader.loadModel('phase_3/models/gui/dialog_box_gui'))
 
 # Set default product prefix
@@ -184,9 +184,9 @@ if base.musicManagerIsValid:
     # Update default sound
     print('ToontownStart: Loading default gui sounds')
     DirectGuiGlobals.setDefaultRolloverSound(
-        base.loadSfx("phase_3/audio/sfx/GUI_rollover.mp3"))
+        base.loader.loadSfx("phase_3/audio/sfx/GUI_rollover.mp3"))
     DirectGuiGlobals.setDefaultClickSound(
-        base.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.mp3"))
+        base.loader.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.mp3"))
 else:
     music = None
 

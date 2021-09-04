@@ -518,7 +518,7 @@ class Char(Avatar.Avatar):
             for fileIndex in audioIndexArray[categoryIndex]:
                 if fileIndex:
                     self.chatterArray[categoryIndex].append(
-                        base.loadSfx("%s/CC_%s_chatter_%s%02d.mp3" %
+                        base.loader.loadSfx("%s/CC_%s_chatter_%s%02d.mp3" %
                                      (loadPath, name, chatterType, fileIndex))
                         )
                 else:
@@ -539,7 +539,7 @@ class Char(Avatar.Avatar):
 
         if (char == "mk"):
             # load Mickey's dialogue array
-            dialogueFile = base.loadSfx("phase_3/audio/dial/mickey.wav")
+            dialogueFile = base.loader.loadSfx("phase_3/audio/dial/mickey.wav")
             for i in range(0,6):
                 self.dialogueArray.append(dialogueFile)
             # load Mickey's chatter
@@ -556,7 +556,7 @@ class Char(Avatar.Avatar):
                                          "phase_3/audio/dial", language)
         elif (char == "vmk"):
             # load Mickey's dialogue array
-            dialogueFile = base.loadSfx("phase_3/audio/dial/mickey.wav")
+            dialogueFile = base.loader.loadSfx("phase_3/audio/dial/mickey.wav")
             for i in range(0,6):
                 self.dialogueArray.append(dialogueFile)
             # load Mickey's chatter
@@ -573,7 +573,7 @@ class Char(Avatar.Avatar):
                                          "phase_3/audio/dial", language)
         elif (char == "mn" or char == "wmn"):
             # load Minnie's dialogue array
-            dialogueFile = base.loadSfx("phase_3/audio/dial/minnie.wav")
+            dialogueFile = base.loader.loadSfx("phase_3/audio/dial/minnie.wav")
             for i in range(0,6):
                 self.dialogueArray.append(dialogueFile)
             # load Minnie's chatter
@@ -590,7 +590,7 @@ class Char(Avatar.Avatar):
                                          "phase_3/audio/dial", language)
         elif (char == "dd"):
             # load Daisy's dialogue array
-            dialogueFile = base.loadSfx("phase_4/audio/dial/daisy.wav")
+            dialogueFile = base.loader.loadSfx("phase_4/audio/dial/daisy.wav")
             for i in range(0,6):
                 self.dialogueArray.append(dialogueFile)
             # load Diasy's chatter
@@ -607,7 +607,7 @@ class Char(Avatar.Avatar):
                                          "phase_8/audio/dial", language)
         elif (char == "g" or char == "sg"):
             # load Goofy's dialogue array
-            dialogueFile = base.loadSfx("phase_6/audio/dial/goofy.wav")
+            dialogueFile = base.loader.loadSfx("phase_6/audio/dial/goofy.wav")
             for i in range(0,6):
                 self.dialogueArray.append(dialogueFile)
             # load Goofy's chatter
@@ -624,7 +624,7 @@ class Char(Avatar.Avatar):
                                          "phase_6/audio/dial", language)
         elif (char == "d" or char == "dw"):
             # load Donald's dialogue array
-            dialogueFile = base.loadSfx("phase_6/audio/dial/donald.wav")
+            dialogueFile = base.loader.loadSfx("phase_6/audio/dial/donald.wav")
             for i in range(0,6):
                 self.dialogueArray.append(dialogueFile)
             if char == 'd':
@@ -642,20 +642,20 @@ class Char(Avatar.Avatar):
                                              "phase_6/audio/dial", language)
         elif (char == "p" or char == "wp"):
             # load Pluto's dialogue array
-            dialogueFile = base.loadSfx("phase_3.5/audio/dial/AV_dog_med.mp3")
+            dialogueFile = base.loader.loadSfx("phase_3.5/audio/dial/AV_dog_med.mp3")
             for i in range(0,6):
                 self.dialogueArray.append(dialogueFile)
         elif (char == "cl"):
             # TODO: load Clarabelle's dialog array
-            dialogueFile = base.loadSfx("phase_3.5/audio/dial/AV_dog_med.mp3")
+            dialogueFile = base.loader.loadSfx("phase_3.5/audio/dial/AV_dog_med.mp3")
             for i in range(0,6):
                 self.dialogueArray.append(dialogueFile)
         elif (char == "ch"):
-            dialogueFile = base.loadSfx("phase_6/audio/dial/chip.wav")
+            dialogueFile = base.loader.loadSfx("phase_6/audio/dial/chip.wav")
             for i in range(0,6):
                 self.dialogueArray.append(dialogueFile)
         elif (char == "da"):
-            dialogueFile = base.loadSfx("phase_6/audio/dial/dale.wav")
+            dialogueFile = base.loader.loadSfx("phase_6/audio/dial/dale.wav")
             for i in range(0,6):
                 self.dialogueArray.append(dialogueFile)
         else:
