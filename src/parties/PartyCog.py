@@ -207,8 +207,7 @@ class PartyCog(FSM):
 
     def enterDown(self):
         if self.oldState == "Off":
-            downAnimControl = self.actor.getAnimControl("down")
-            self.actor.pose("down", downAnimControl.getNumFrames()-1)
+            self.actor.pose("down", self.actor.getNumFrames("down")-1)
             return
 
         self.clearHitInterval()
