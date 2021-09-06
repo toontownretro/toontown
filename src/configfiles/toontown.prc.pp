@@ -46,14 +46,10 @@ csm-fixed-film-size #t
 
 # OpenGL stuff
 
-gl-finish 0
-gl-coordinate-system default
-
 # PStats stuff
 
 want-pstats #f
 pstats-gpu-timing #f
-
 
 level-edit-username lachbr
 
@@ -72,22 +68,12 @@ dna-preload    phase_4/dna/storage.dna
 
 want-new-anims #f
 
-stencil-bits 16
-framebuffer-alpha #t
-alpha-bits 16
-
-framebuffer-multisample #t
-multisamples 16
-
 framebuffer-srgb #t
 
-texture-anisotropic-degree 16
 shadow-depth-bits 24
 hardware-animated-vertices #t
 
 interpolate-frames #t
-
-show-buffers #f
 
 textures-power-2 none
 
