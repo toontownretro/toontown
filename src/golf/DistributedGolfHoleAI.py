@@ -341,8 +341,8 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
             for id in self.golfCourse.getStillPlayingAvIds():
                 if not id == sentFromId:
                     self.sendUpdateToAvatarId(id, "ballMovie2Client", [cycleTime, avId, movie, spinMovie, ballInFrame, ballTouchedHoleFrame,  ballFirstTouchedHoleFrame, commonObjectData])
-            if self.state == 'WaitPlayback' or self.state == 'WaitTee':
-                self.notify.warning('ballMovie2AI requesting from %s to WaitPlayback' % self.state)
+            if self._state == 'WaitPlayback' or self._state == 'WaitTee':
+                self.notify.warning('ballMovie2AI requesting from %s to WaitPlayback' % self._state)
             self.request("WaitPlayback")
         #self.sendUpdate("ballMovie2Client", [cycleTime, avId, movie, spinMovie, ballInFrame, ballTouchedHoleFrame, commonObjectData])
         elif self.trustedPlayerId == None:
@@ -356,7 +356,7 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
         #print("performReadyAction")
         avId = self.storeAction[0]
         # it is possible for the client to send 2 post swings, avoid the crash
-        if self.state == 'WaitPlayback':
+        if self._state == 'WaitPlayback':
             self.notify.debugStateCall(self)
             self.notify.debug('ignoring the postSwing for avId=%d since we are in WaitPlayback' % avId)
             return
@@ -372,8 +372,8 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
             position = Vec3(self.storeAction[3], self.storeAction[4], self.storeAction[5])
         self.useCommonObjectData(self.commonHoldData)
         newPos = self.trackRecordBodyFlight(self.ball, self.storeAction[1], self.storeAction[2], position, self.storeAction[6], self.storeAction[7])
-        if self.state == 'WaitPlayback' or self.state == 'WaitTee':
-            self.notify.warning('performReadyAction requesting from %s to WaitPlayback' % self.state)
+        if self._state == 'WaitPlayback' or self._state == 'WaitTee':
+            self.notify.warning('performReadyAction requesting from %s to WaitPlayback' % self._state)
         self.request("WaitPlayback")
         #self.sendUpdate("ballMovie2Client", [self.storeAction[1], avId, self.recording, self.aVRecording, self.ballInHoleFrame, self.ballTouchedHoleFrame])
         self.sendUpdate("ballMovie2Client", [self.storeAction[1], avId, self.recording, self.aVRecording, self.ballInHoleFrame, self.ballTouchedHoleFrame, self.ballFirstTouchedHoleFrame, self.commonHoldData])
@@ -431,6 +431,11 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
         """Returns True if the current ball is inside a hole, False otherwise."""
         #import pdb; pdb.set_trace()
         retval = False
+        senderId = self.air.getAvatarIdFromSender()
+        if golferId not in self.ballPos:
+            self.notify.warning("golferId=%s not in self.ballPos=%s" % (golferId, self.ballPos))
+            simbase.air.writeServerEvent('suspicious', senderId, 'isCurBallInHole golferId=%s not in self.ballPos=%s' % (golferId, self.ballPos))
+            return False
         for holePos in self.holePositions:
             #displacement = self.ball.getPosition() - holePos
             displacement = self.ballPos[golferId] - holePos
@@ -468,7 +473,7 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
 
     def avatarDropped(self, avId):
         """Handle one of the player dropping unexpectedly."""
-        self.notify.warning('avId %d dropped, self.state=%s' % (avId, self.state))
+        self.notify.warning('avId %d dropped, self._state=%s' % (avId, self._state))
         if self.barrierPlayback:
             self.barrierPlayback.clear(avId)
         else:

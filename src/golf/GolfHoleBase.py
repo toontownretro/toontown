@@ -178,6 +178,7 @@ class GolfHoleBase:
         self.ballRay = None
         self.skyRay = None
         self.recording = None
+        self.ignore(self.collisionEventName)
         self.avRecording = None
         self.llv = None
 
@@ -263,7 +264,7 @@ class GolfHoleBase:
         # simulate the time before the ball is hit
         # common objects will move during this time, otherwise it is useless
         startTime =  GolfGlobals.BALL_CONTACT_FRAME / 24
-        startFrame = startTime * self.FPS
+        startFrame = int(startTime * self.FPS)
         for frame in range(startFrame):
             self.simulate()
             self.setTimeIntoCycle(self.swingTime + (float(frameCount) * self.DTAStep))
@@ -399,9 +400,9 @@ class GolfHoleBase:
             self.skyRay.setPosition(bp[0],bp[1],50.0)
 
 
-    def getOrderedContacts(self, count):
-        c0 = self.space.getContactId(count,0 )
-        c1 = self.space.getContactId(count,1 )
+    def getOrderedContacts(self, entry):
+        c0 = self.space.getCollideId(entry.getGeom1()) 
+        c1 = self.space.getCollideId(entry.getGeom2())
         if c0 > c1:
             chold = c1
             c1 = c0
@@ -421,12 +422,13 @@ class GolfHoleBase:
         skyRayHitPos = None
         ballRayHitPos = None
         bp = self.curGolfBall().getPosition()
-        for count in range(self.colCount):
-            c0, c1 = self.getOrderedContacts(count,)
+        for entry in self.colEntries:
+            c0, c1 = self.getOrderedContacts(entry,)
             #print("contacts %s %s" % (c0, c1))
-            x = self.space.getContactData((count *3) + 0)
-            y = self.space.getContactData((count *3) + 1)
-            z = self.space.getContactData((count *3) + 2)
+#            x = self.space.getContactData((count *3) + 0)
+#            y = self.space.getContactData((count *3) + 1)
+#            z = self.space.getContactData((count *3) + 2)
+            x, y, z = entry.getContactPoint(0)
 
             if ((c0 == GolfGlobals.OOB_RAY_COLLIDE_ID ) or \
                 (c1 == GolfGlobals.OOB_RAY_COLLIDE_ID)):
@@ -469,10 +471,10 @@ class GolfHoleBase:
                         self.llv = self.curGolfBall().getLinearVel()
                 elif (GolfGlobals.BALL_COLLIDE_ID in [c0,c1]) and \
                      (GolfGlobals.HOLE_CUP_COLLIDE_ID in [c0, c1]):
-                    zCon = self.space.getContactData((count *3) + 2)
+#                    zCon = self.space.getContactData((count *3) + 2)
                     self.ballTouchedHoleFrame = self.frame
                     ballUndersideZ = self.curGolfBall().getPosition()[2] - 0.05
-                    if zCon < ballUndersideZ:
+                    if z < ballUndersideZ:
                         if not self.ballInHoleFrame:
                             self.ballInHoleFrame = self.frame
                     else:
@@ -507,9 +509,9 @@ class GolfHoleBase:
                 if self.canRender:
                     if (c0 == GolfGlobals.TOON_RAY_COLLIDE_ID) or \
                        (c1 == GolfGlobals.TOON_RAY_COLLIDE_ID):
-                        x = self.space.getContactData((count *3) + 0)
-                        y = self.space.getContactData((count *3) + 1)
-                        z = self.space.getContactData((count *3) + 2)
+#                        x = self.space.getContactData((count *3) + 0)
+#                        y = self.space.getContactData((count *3) + 1)
+#                        z = self.space.getContactData((count *3) + 2)
                         self.toonRayCollisionCallback(x, y, z)
                     if GolfGlobals.CAMERA_RAY_COLLIDE_ID in [c0, c1] and \
                        GolfGlobals.WINDMILL_BASE_COLLIDE_ID in [c0, c1]:
@@ -697,3 +699,15 @@ class GolfHoleBase:
         """Handle the ball hitting something non-grass."""
         # AI version is to do nothing
         pass
+
+    def __handleCollision(self, entry):
+        self.colEntries.append(entry)
+
+    def simulate(self):
+        self.colEntries = []
+        self.colCount = len(self.colEntries)
+        self.space.autoCollide()
+        eventMgr.doEvents()
+        if self.maxColCount < self.colCount:
+            self.maxColCount = self.colCount
+            self.notify.debug('New Max Collision Count %s' % self.maxColCount)

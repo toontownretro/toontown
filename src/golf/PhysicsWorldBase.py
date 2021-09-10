@@ -78,6 +78,10 @@ class PhysicsWorldBase:
         self.DTAStep = 1.0 / self.FPS
         self.refCon = 1.2#(self.FPS / self.refFPS) * 2.0
 
+        self.collisionEventName = 'ode-collision-%s' % id(self)
+        self.space.setCollisionEvent(self.collisionEventName)
+        self.accept(self.collisionEventName, self.__handleCollision)
+
     def delete(self):
         self.notify.debug("Max Collision Count was %s" % (self.maxColCount))
         self.stopSim()
@@ -261,8 +265,14 @@ class PhysicsWorldBase:
 
         return task.cont
 
+    def __handleCollision(self, entry):
+        self.colEntries.append(entry)
+
     def simulate(self):
-        self.colCount = self.space.autoCollide() # Detect collisions and create contact joints
+        self.colEntries = []
+        self.space.autoCollide() # Detect collisions and create contact joints
+        eventMgr.doEvents()
+        self.colCount = len(self.colEntries)
         if self.maxColCount < self.colCount:
             self.maxColCount = self.colCount
             self.notify.debug("New Max Collision Count %s" % (self.maxColCount))
@@ -409,7 +419,7 @@ class PhysicsWorldBase:
             motor.setParamVel(1.5)
             motor.setParamFMax(500000000.0)
             boxsize = Vec3(1.0, 1.0, 1.0)
-            motor.attach(0, cross)
+            motor.attachBody(0, cross)
             motor.setAnchor(vPos)
             motor.setAxis(ourAxis)
             self.cross = cross
@@ -423,7 +433,7 @@ class PhysicsWorldBase:
             box.setPosition(vPos)
             box.setQuaternion(self.placerNode.getQuat())
             motor = OdeSliderJoint(self.world)
-            motor.attach(box, 0)
+            motor.attachBody(box, 0)
             motor.setAxis(ourAxis)
             motor.setParamVel(3.0)
             motor.setParamFMax(5000000.0)
@@ -500,7 +510,7 @@ class PhysicsWorldBase:
             #motor.setParamVel(0)
             motor.setParamFMax(50000.0)
             boxsize = Vec3(1.0, 1.0, 1.0)
-            motor.attach(0, cross)
+            motor.attachBody(0, cross)
             motor.setAnchor(self.subPlacerNode.getPos(self.root))
             motor.setAxis(ourAxis)
             self.cross = cross
@@ -515,7 +525,7 @@ class PhysicsWorldBase:
             box.setPosition(vPos)
             box.setQuaternion(self.placerNode.getQuat())
             motor = OdeSliderJoint(self.world)
-            motor.attach(box, 0)
+            motor.attachBody(box, 0)
             motor.setAxis(ourAxis)
             motor.setParamVel(moveDistance/4.0)
             motor.setParamFMax(25000.0)

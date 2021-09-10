@@ -166,13 +166,13 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                 av.show()
 
     def load(self):
-        self.music = base.loadMusic("phase_6/audio/bgm/GZ_PlayGolf.mid")
+        self.music = base.loader.loadMusic("phase_6/audio/bgm/GZ_PlayGolf.mid")
         pass
 
 
     def setCourseReady(self, numHoles, holeIds, coursePar):
         self.notify.debug("GOLF COURSE: received setCourseReady")
-        if self.state == 'Cleanup':
+        if self._state == 'Cleanup':
             return
 
         self.numHoles = numHoles
@@ -235,7 +235,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
 
     def setPlayHole(self):
         self.notify.debug("GOLF COURSE: received setPlayHole")
-        if not self.state in ['PlayHole', 'Cleanup']:
+        if not self._state in ['PlayHole', 'Cleanup']:
             self.request('PlayHole')
 
     def getTitle(self):
@@ -293,7 +293,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
             if not self.hasLocalToon: return
             self.notify.warning("GOLF COURSE: setGameAbort: Aborting game")
             self.normalExit = 0
-            if not self.state == "Cleanup":
+            if not self._state == "Cleanup":
                 self.request("Cleanup")
             else:
                 self.notify.warning("GOLF COURSE: Attempting to clean up twice")
@@ -317,7 +317,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         # we don't have a toon panel of ourself, so avoid crash if we dont swing
         if self.localAvId == avId:
             self.notify.debug('forcing setCourseAbort')
-            if self.state == 'Join':
+            if self._state == 'Join':
                 loader.endBulkLoad("minigame")
             self.setCourseAbort(0)
         self.exitMessageForToon(avId)
@@ -491,7 +491,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
     def isGameDone(self):
         """ returns true if the game is done. """
         retval = False
-        self.notify.debug("Self state is: %s" %  self.state)
+        self.notify.debug("Self state is: %s" %  self._state)
         # import pdb;
         # pdb.set_trace()
         if self.getCurrentOrNextState() == 'WaitReward' or self.getCurrentOrNextState() == 'WaitFinishCourse':
@@ -510,7 +510,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         self.cupList = cupList
         self.tieBreakWinner = tieBreakWinner
         self.aimTimesList = [aim0, aim1, aim2, aim3]
-        if self.state not in ['Cleanup']:
+        if self._state not in ['Cleanup']:
             self.demand('WaitReward')
 
     def enterWaitReward(self):
