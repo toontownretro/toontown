@@ -1,3 +1,4 @@
+from toontown.toonbase.ToontownModules import CFSpeech, CFTimeout
 from toontown.toonbase import TTLocalizer
 from direct.distributed.ClockDelta import *
 from direct.directnotify import DirectNotifyGlobal
