@@ -181,7 +181,7 @@ class ObjectMgr(ObjectMgrBase):
 ##             name = dnaNode.getName()
 ##             index = name.find('toon_landmark')
 ##             if index < 0:
-##                 print 'Wrong landmark building DNA', name
+##                 print('Wrong landmark building DNA', name)
 ## ##                 if dnaNode.getNumChildren() == 0:
 ## ##                     dnaParent.remove(dnaNode)
 ##             else:

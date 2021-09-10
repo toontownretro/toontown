@@ -256,7 +256,7 @@ class DistributedMoleField(DistributedNodePathEntity, MoleFieldBase.MoleFieldBas
         moleHill.stashMoleCollision()
         popupNum = moleHill.getPopupNum()
         if moleHill.hillType == MoleFieldBase.HILL_MOLE:
-            #print "blamO!"
+            #print("blamO!")
             #self.__showToonHitByBomb(localAvatar.doId)
             timestamp = globalClockDelta.getFrameNetworkTime()
             moleHill.setHillType(MoleFieldBase.HILL_WHACKED)
@@ -332,7 +332,7 @@ class DistributedMoleField(DistributedNodePathEntity, MoleFieldBase.MoleFieldBas
         self.doToonOutOfRange()
 
     def __detect(self, task):
-        #print "detect beat"
+        #print("detect beat")
 
         distance = self.centerNode.getDistance(localAvatar)
         greaterDim = self.dimensionX

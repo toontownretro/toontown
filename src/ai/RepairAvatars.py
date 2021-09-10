@@ -653,7 +653,7 @@ class AvatarPrinter(AvatarIterator):
         #oldDna = self.backupDict.get(av.doId)
         #newDna = av.dna.asTuple()
         #if oldDna and (oldDna != newDna):
-        #    print '================'
+        #    print('================')
         #    print av.doId
         #    print oldDna
         #    print newDna
@@ -664,8 +664,8 @@ class AvatarPrinter(AvatarIterator):
         #import ToonDNA
         #newDNA = ToonDNA.ToonDNA()
         #newDNA.newToonFromProperties(*av.dna.asTuple())
-        #print 'old: ', av.dna
-        #print 'new: ', newDNA
+        #print('old: ', av.dna)
+        #print('new: ', newDNA)
 
         if av.doId % 10000 == 0:
             print(("Working on avatar: %s" % av.doId))
@@ -765,7 +765,7 @@ r.start()
 for avId, backupDna in backupDict.items():
     newDna = newDict.get(avId):
     if newDna and (newDna != backupDna):
-        print "================"
+        print("================")
         print avId
         print backupDna
         print newDna
@@ -782,13 +782,13 @@ def fixAv(doId):
     db = DatabaseObject.DatabaseObject(simbase.air, av.doId)
     db.fillin(av, simbase.air.dclassesByName['DistributedToonAI'])
     oldD = oldDna.get(doId)
-    print 'backup DNA', oldD
+    print('backup DNA', oldD)
     newD = ToonDNA.ToonDNA()
     newD.newToonFromProperties(*oldD)
-    print '   new DNA', newD.asTuple()
+    print('   new DNA', newD.asTuple())
     av.b_setDNAString(newD.makeNetString())
     db.storeObject(av, ["setDNAString"])
-    print 'done'
+    print('done')
 
 def fixAv(doId):
 
@@ -800,11 +800,11 @@ db.fillin(av, simbase.air.dclassesByName['DistributedToonAI'])
 print doId
 progressId, progress = av.getTrackProgress()
 trackAccess = av.getTrackAccess()
-print "old progressId: %s progress: %s" % (progressId, progress)
-print "trackAccess: ", trackAccess
-print "Tier: ", av.rewardTier
+print("old progressId: %s progress: %s" % (progressId, progress))
+print("trackAccess: ", trackAccess)
+print("Tier: ", av.rewardTier)
 # av.b_setTrackProgress(trackId, progress)
 # db.storeObject(av, ["setTrackProgress"])
-print 'done'
+print('done')
 
 """

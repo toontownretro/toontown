@@ -964,7 +964,7 @@ class PurchaseHeadFrame(DirectFrame):
         self.removeAvKeep()
 
     def setAvatarState(self, state):
-        #print "setavatarstate: ", self.av.doId, state
+        #print("setavatarstate: ", self.av.doId, state)
         if state == PURCHASE_DISCONNECTED_STATE:
             self.statusLabel['text'] = TTLocalizer.GagShopPlayerDisconnected % self.av.getName()
             self.statusLabel['text_pos'] = (0.015, 0.072, 0)

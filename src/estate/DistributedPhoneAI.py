@@ -234,7 +234,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI.DistributedFurnitureItemAI):
         self.sendUpdateToAvatarId(avId, "requestPurchaseResponse", [context, retcode])
 
     def requestGiftPurchaseMessage(self, context, targetDoID, blob, optional):
-        # print "in the AI phone"
+        # print("in the AI phone")
         # Sent from the client code to request a particular purchase item. to be sent to a target doid
         sAvId = self.air.getAvatarIdFromSender()
         item = CatalogItem.getItem(blob, store = CatalogItem.Customization)

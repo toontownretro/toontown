@@ -1409,15 +1409,15 @@ class DistributedLawbotCannon (DistributedObject.DistributedObject):
     def __hitGround(self, avatar, pos, extraArgs=[]):
         assert(self.notify.debug("__hitGround"))
         hitP = avatar.getPos(render)
-        #print "hitGround pos = %s, hitP = %s" % (pos, hitP)
-        #print "avatar hpr = %s" % avatar.getHpr()
+        #print("hitGround pos = %s, hitP = %s" % (pos, hitP))
+        #print("avatar hpr = %s" % avatar.getHpr())
         h = self.barrel.getH(render)
         avatar.setPos(pos[0],pos[1],pos[2]+avatar.getHeight()/3.0)
         # make avatar look in direction of velocity
         avatar.setHpr(h,-135,0)
 
-        #print "parent = %s" % avatar.getParent()
-        #print "new pos,hpr = %s,%s" % (avatar.getPos(render),avatar.getHpr(render))
+        #print("parent = %s" % avatar.getParent())
+        #print("new pos,hpr = %s,%s" % (avatar.getPos(render),avatar.getHpr(render)))
         self.dustCloud.setPos(render, pos[0], pos[1], pos[2]+avatar.getHeight()/3.0)
         self.dustCloud.setScale(0.35)
         self.dustCloud.play()
@@ -1433,15 +1433,15 @@ class DistributedLawbotCannon (DistributedObject.DistributedObject):
     def __hitChair(self, avatar, pos, extraArgs=[]):
         assert(self.notify.debug("__hitGround"))
         hitP = avatar.getPos(render)
-        #print "hitGround pos = %s, hitP = %s" % (pos, hitP)
-        #print "avatar hpr = %s" % avatar.getHpr()
+        #print("hitGround pos = %s, hitP = %s" % (pos, hitP))
+        #print("avatar hpr = %s" % avatar.getHpr())
         h = self.barrel.getH(render)
         avatar.setPos(pos[0],pos[1],pos[2]+avatar.getHeight()/3.0)
         # make avatar look in direction of velocity
         avatar.setHpr(h,-135,0)
 
-        #print "parent = %s" % avatar.getParent()
-        #print "new pos,hpr = %s,%s" % (avatar.getPos(render),avatar.getHpr(render))
+        #print("parent = %s" % avatar.getParent())
+        #print("new pos,hpr = %s,%s" % (avatar.getPos(render),avatar.getHpr(render)))
         self.dustCloud.setPos(render, pos[0], pos[1], pos[2]+avatar.getHeight()/3.0)
         self.dustCloud.setScale(0.35)
         self.dustCloud.play()

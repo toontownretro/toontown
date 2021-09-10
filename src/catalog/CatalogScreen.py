@@ -1279,7 +1279,7 @@ class CatalogScreen(DirectFrame):
                 self.ffList.append(newFF)
         for friendPair in base.localAvatar.friendsList:
             friendId, flags = friendPair
-            #print "adding friend"
+            #print("adding friend")
             handle = base.cr.identifyFriend(friendId)
             if handle and not self.checkFamily(friendId):
                 if hasattr(handle, 'getName'):
@@ -1312,12 +1312,12 @@ class CatalogScreen(DirectFrame):
         for ff in self.ffList:
             ffbutton = self.makeFamilyButton(ff[0], ff[1], ff[2])
             if ffbutton:
-                #print "adding button"
+                #print("adding button")
                 self.scrollList.addItem(ffbutton, refresh=0)
                 self.friends[ff] = ffbutton
             else:
                 pass
-                #print "not adding button"
+                #print("not adding button")
                 #import pdb; pdb.set_trace()
         self.scrollList.refresh()
 
@@ -1332,7 +1332,7 @@ class CatalogScreen(DirectFrame):
         # "special friends" or not.
         fg = NametagGlobals.getNameFg(colorCode, PGButton.SInactive)
 
-        #print "made family button"
+        #print("made family button")
 
         return DirectButton(
             relief = None,

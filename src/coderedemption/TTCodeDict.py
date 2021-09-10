@@ -129,7 +129,7 @@ class TTCodeDict:
         if prime >= numValues:
             raise 'could not find prime smaller than %s' % numValues
         cls._Primes[codeLength] = prime
-        #print 'codeLength %s, prime=%s' % (codeLength, prime)
+        #print('codeLength %s, prime=%s' % (codeLength, prime))
         print('done.')
         return prime
 

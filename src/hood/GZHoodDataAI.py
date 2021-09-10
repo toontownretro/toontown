@@ -55,10 +55,10 @@ class GZHoodDataAI(HoodDataAI.HoodDataAI):
         #    vBlockAI = self.air.getViewingBlockDict()
 
         #    for racePadId in racePadAI:
-        #        print "RacePad %s has starting blocks %s\n" %( racePadId, sBlockAI.get( racePadId )  )
+        #        print("RacePad %s has starting blocks %s\n" %( racePadId, sBlockAI.get( racePadId )  ))
 
         #    for viewPadId in viewPadAI:
-        #        print "viewPad %s has starting blocks %s\n" %( viewPadId, vBlockAI.get( viewPadId )  )
+        #        print("viewPad %s has starting blocks %s\n" %( viewPadId, vBlockAI.get( viewPadId )  ))
 
         #    pdb.set_trace()
 
@@ -181,8 +181,8 @@ class GZHoodDataAI(HoodDataAI.HoodDataAI):
             if (type == 'golf_kart'):
                 nameInfo = dnaGroup.getName().split('_')
                 #pdb.set_trace()
-                #print "Name Info: ", nameInfo
-                #print "Race Info: ", raceInfo
+                #print("Name Info: ", nameInfo)
+                #print("Race Info: ", raceInfo)
                 golfCourse = int(nameInfo[2])
 
                 pos = Point3(0,0,0)

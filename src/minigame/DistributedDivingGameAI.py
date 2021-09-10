@@ -291,7 +291,7 @@ class DistributedDivingGameAI(DistributedMinigameAI):
     def timerExpired(self, task):
         # Show's over folks
         self.notify.debug("timer expired")
-        #print "time to kick everyone out"
+        #print("time to kick everyone out")
         
         # make sure players get at least 5
         for avId in list(self.scoreDict.keys()):

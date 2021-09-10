@@ -180,7 +180,7 @@ class ToonStatueSelectionGUI(DirectFrame):
                 self.ffList.append(newFF)
         for friendPair in base.localAvatar.friendsList:
             friendId, flags = friendPair
-            #print "adding friend"
+            #print("adding friend")
             handle = base.cr.identifyFriend(friendId)
             if handle and not self.checkFamily(friendId):
                 if hasattr(handle, 'getName'):

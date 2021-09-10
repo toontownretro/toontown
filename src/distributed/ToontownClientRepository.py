@@ -350,7 +350,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         if avid == 0:
             # Trouble!  For some reason the toon picked couldn't be found in the list
             #  of potential avatars...
-            # print "The sky is falling!"
+            # print("The sky is falling!")
             self.notify.error("Avatar rejected not found in avList.  Index is: " +
                               str(index))
 

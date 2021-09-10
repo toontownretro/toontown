@@ -899,7 +899,7 @@ class DistributedCogThiefGame(DistributedMinigame):
         taskMgr.remove(self.UPDATE_SUITS_TASK)
 
     def updateSuitsTask(self, task):
-        #print "__updateSuitsTask"
+        #print("__updateSuitsTask")
         if self.gameIsEnding:
             return task.done
         for cogIndex in self.cogInfo:

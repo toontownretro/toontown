@@ -422,7 +422,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
     def enterBecomingSuit(self, ts):
         assert(self.debugPrint("enterBecomingSuit()"))
         # Start animation:
-        #print "enterBecomingSuit %s" %(str(self.getDoId()))
+        #print("enterBecomingSuit %s" %(str(self.getDoId())))
         self.animToSuit(ts)
 
     def exitBecomingSuit(self):
@@ -434,7 +434,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
 
     def enterSuit(self, ts):
         assert(self.debugPrint("enterSuit()"))
-        #print "enterSuit %s" %(str(self.getDoId()))
+        #print("enterSuit %s" %(str(self.getDoId())))
         self.makePropSad()
         self.setToSuit()
 
@@ -454,7 +454,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
     def enterBecomingCogdo(self, ts):
         assert(self.debugPrint("enterBecomingCogdo()"))
         # Start animation:
-        #print "enterBecomingCogdo %s" %(str(self.getDoId()))
+        #print("enterBecomingCogdo %s" %(str(self.getDoId())))
         self.animToCogdo(ts)
 
     def exitBecomingCogdo(self):
@@ -466,7 +466,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
 
     def enterCogdo(self, ts):
         assert(self.debugPrint("enterCogdo()"))
-        #print "enterCogdo %s" %(str(self.getDoId()))
+        #print("enterCogdo %s" %(str(self.getDoId())))
         self.setToCogdo()
 
     def exitCogdo(self):
@@ -620,7 +620,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             name=i.getName()
             timeForDrop = TO_SUIT_BLDG_TIME*0.85
             if (name[0]=='s'):
-                #print 'anim2suit: suit flat scale: %s' % repr(i.getScale())
+                #print('anim2suit: suit flat scale: %s' % repr(i.getScale()))
                 # set the position of the node, then unstash it to show it
                 showTrack = Sequence(
                     name = self.taskName('ToSuitFlatsTrack') +
@@ -634,8 +634,8 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                 # the landmark bldg itself.
                 if i == sideBldgNodes[len(sideBldgNodes) - 1]:
                     showTrack.append(Func(self.normalizeElevator))
-                #print "moving suit bldg part from %s to %s"%(str(initPos),
-                #                                             str(i.getPos()))
+                #print("moving suit bldg part from %s to %s"%(str(initPos),
+                #                                             str(i.getPos())))
                 if not soundPlayed:
                     showTrack.append(Func(
                         base.playSfx, self.cogDropSound, 0, 1, None, 0.))
@@ -657,8 +657,8 @@ class DistributedBuilding(DistributedObject.DistributedObject):
 
                 if not soundPlayed:
                     soundPlayed = 1
-                #print "moving suit flat from %s to %s"%(str(initPos),
-                #                                        str(i.getPos()))
+                #print("moving suit flat from %s to %s"%(str(initPos),
+                #                                        str(i.getPos())))
                 # lerp the alpha in for the building part, making sure to
                 # remove the transparency transition when the fade is done
                 # CCC is it ok if we have this other track also manipulate
@@ -704,8 +704,8 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self._deleteTransitionTrack()
         self.transitionTrack = tracks
 
-        #print "transitionTrack: %s" % self.transitionTrack
-        #print "starting track at %s" % globalClock.getFrameTime()
+        #print("transitionTrack: %s" % self.transitionTrack)
+        #print("starting track at %s" % globalClock.getFrameTime())
         self.transitionTrack.start(timeStamp)
 
     def setupSuitBuilding(self, nodePath):
@@ -824,7 +824,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             name=i.getName()
             timeForDrop = TO_SUIT_BLDG_TIME*0.85
             if (name[0]=='s'):
-                #print 'anim2suit: suit flat scale: %s' % repr(i.getScale())
+                #print('anim2suit: suit flat scale: %s' % repr(i.getScale()))
                 # set the position of the node, then unstash it to show it
                 showTrack = Sequence(
                     name = self.taskName('ToCogdoFlatsTrack') +
@@ -838,8 +838,8 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                 # the landmark bldg itself.
                 if i == sideBldgNodes[len(sideBldgNodes) - 1]:
                     showTrack.append(Func(self.normalizeElevator))
-                #print "moving suit bldg part from %s to %s"%(str(initPos),
-                #                                             str(i.getPos()))
+                #print("moving suit bldg part from %s to %s"%(str(initPos),
+                #                                             str(i.getPos())))
                 if not soundPlayed:
                     showTrack.append(Func(
                         base.playSfx, self.cogDropSound, 0, 1, None, 0.))
@@ -861,8 +861,8 @@ class DistributedBuilding(DistributedObject.DistributedObject):
 
                 if not soundPlayed:
                     soundPlayed = 1
-                #print "moving suit flat from %s to %s"%(str(initPos),
-                #                                        str(i.getPos()))
+                #print("moving suit flat from %s to %s"%(str(initPos),
+                #                                        str(i.getPos())))
                 # lerp the alpha in for the building part, making sure to
                 # remove the transparency transition when the fade is done
                 # CCC is it ok if we have this other track also manipulate
@@ -908,8 +908,8 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self._deleteTransitionTrack()
         self.transitionTrack = tracks
 
-        #print "transitionTrack: %s" % self.transitionTrack
-        #print "starting track at %s" % globalClock.getFrameTime()
+        #print("transitionTrack: %s" % self.transitionTrack)
+        #print("starting track at %s" % globalClock.getFrameTime())
         self.transitionTrack.start(timeStamp)
 
     def setupCogdo(self, nodePath):
@@ -1021,7 +1021,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                 # have the suit building scale away
                 #
                 #origPos = i.getPos()
-                #print "sidebldgpos: %s" % str(origPos)
+                #print("sidebldgpos: %s" % str(origPos))
                 #tgtPos = Point3(
                 #    Point3(0,0,-self.SUIT_INIT_HEIGHT) + \
                 #    origPos)
@@ -1035,7 +1035,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                 #    self.shakePart,
                 #    extraArgs=[i,landmark,
                 #               origPos.getX(),origPos.getY()]))
-                #print 'anim2toon: suit flat scale: %s' % repr(i.getScale())
+                #print('anim2toon: suit flat scale: %s' % repr(i.getScale()))
                 if not suitSoundPlayed:
                     hideTrack.append(Func(
                         base.playSfx, self.cogWeakenSound, 0, 1, None, 0.))
@@ -1113,8 +1113,8 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         #    'ToToonMTrack'))
         bldgMTrack = tracks
 
-        #print "transitionTrack: %s" % self.transitionTrack
-        #print "starting track at %s" % globalClock.getFrameTime()
+        #print("transitionTrack: %s" % self.transitionTrack)
+        #print("starting track at %s" % globalClock.getFrameTime())
 
         # TODO: integrate the toons running out of the building into
         # the multitrack. For now, Just plant them outside the elevator.
@@ -1192,7 +1192,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                 # have the suit building scale away
                 #
                 #origPos = i.getPos()
-                #print "sidebldgpos: %s" % str(origPos)
+                #print("sidebldgpos: %s" % str(origPos))
                 #tgtPos = Point3(
                 #    Point3(0,0,-self.SUIT_INIT_HEIGHT) + \
                 #    origPos)
@@ -1206,7 +1206,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                 #    self.shakePart,
                 #    extraArgs=[i,landmark,
                 #               origPos.getX(),origPos.getY()]))
-                #print 'anim2toon: suit flat scale: %s' % repr(i.getScale())
+                #print('anim2toon: suit flat scale: %s' % repr(i.getScale()))
                 if not suitSoundPlayed:
                     hideTrack.append(Func(
                         base.playSfx, self.cogWeakenSound, 0, 1, None, 0.))
@@ -1284,8 +1284,8 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         #    'ToToonMTrack'))
         bldgMTrack = tracks
 
-        #print "transitionTrack: %s" % self.transitionTrack
-        #print "starting track at %s" % globalClock.getFrameTime()
+        #print("transitionTrack: %s" % self.transitionTrack)
+        #print("starting track at %s" % globalClock.getFrameTime())
 
         # TODO: integrate the toons running out of the building into
         # the multitrack. For now, Just plant them outside the elevator.
@@ -1350,7 +1350,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         return track
 
     def plantVictorsOutsideBldg(self):
-        #print "planting Victors %s !" % self.victorList
+        #print("planting Victors %s !" % self.victorList)
         retVal = 0
         for victor in self.victorList:
             if victor != 0 and victor in self.cr.doId2do:

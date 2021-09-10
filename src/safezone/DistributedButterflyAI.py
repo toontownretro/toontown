@@ -78,7 +78,7 @@ class DistributedButterflyAI(DistributedObjectAI.DistributedObjectAI):
         self.fsm.request('Flying')
 
     def avatarEnter(self):
-        #print 'aha!'
+        #print('aha!')
         if (self.fsm.getCurrentState().getName() == 'Landed'):
             self.__ready()
         return None

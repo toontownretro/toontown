@@ -134,16 +134,16 @@ class QuestRewardCounter:
                 self.notify.debug("Assigning reward %d" % (rewardId))
 
         # For the current tier, only give credit for rewards we have completed
-        #print 'rewardHistory: ', rewardHistory
+        #print('rewardHistory: ', rewardHistory)
         for rewardId in rewardHistory:
             # Only count required rewards
             if rewardId in Quests.getRewardsInTier(tier):
                 if rewardIds.count(rewardId) != 0:
                     # This is a reward we're still working on.
-                    #print 'before: ', rewardIds
+                    #print('before: ', rewardIds)
                     rewardIds.remove(rewardId)
                     self.notify.debug("Ignoring reward %d" % (rewardId))
-                    #print 'after: ', rewardIds
+                    #print('after: ', rewardIds)
                 else:
                     reward = Quests.getReward(rewardId)
                     reward.countReward(self)

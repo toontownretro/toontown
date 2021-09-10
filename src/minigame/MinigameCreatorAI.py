@@ -147,7 +147,7 @@ def createMinigame(air, playerArray, trolleyZone,
 
 
     """
-    print "\n\n\n\n\n\n\n\n\n\n"
+    print("\n\n\n\n\n\n\n\n\n\n")
 
     print mgCtors
     print air
@@ -155,7 +155,7 @@ def createMinigame(air, playerArray, trolleyZone,
     print mgCtors[mgId]
     print mgCtors[mgId](air,mgId)
 
-    print "\n\n\n\n\n\n\n\n\n\n"
+    print("\n\n\n\n\n\n\n\n\n\n")
     """
     try:
         #import pdb; pdb.set_trace()

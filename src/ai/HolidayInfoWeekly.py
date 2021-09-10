@@ -87,7 +87,7 @@ class HolidayInfo_Weekly(HolidayInfo_Base):
     # Output: returns the time in secs based on date and t
     #############################################################
     def getTime(self, date, t, isStart = True, isNextWeek=False):
-        #print "Getting time for date = %s and t = %s" % (date, t)
+        #print("Getting time for date = %s and t = %s" % (date, t))
         cWDay = date[3]
         sWDay = t[0]
         dayOffset = sWDay - cWDay

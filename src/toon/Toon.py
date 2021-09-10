@@ -2037,7 +2037,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.setActiveShadow(0)
 
     def enterCringe(self,animMultiplier=1, ts=0, callback=None, extraArgs=[]):
-        #print "cringing"
+        #print("cringing")
         self.loop("cringe")
         self.getGeomNode().setPos(0,0,-2)
         self.setPlayRate(animMultiplier,"swim")
@@ -2047,7 +2047,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def exitCringe(self,animMultiplier=1, ts=0, callback=None, extraArgs=[]):
         #self.loop("cringe")
-        #print "end cringe"
+        #print("end cringe")
         self.stop()
         self.getGeomNode().setPos(0,0,0)
         self.playingAnim="neutral"
@@ -2057,7 +2057,7 @@ class Toon(Avatar.Avatar, ToonHead):
         #self.nametag3d.setPos(0,-2,1)
 
     def enterDive(self,animMultiplier=1, ts=0, callback=None, extraArgs=[]):
-        #print "swimming"
+        #print("swimming")
         self.loop("swim")
         #self.pose('swim', 55)
         # 40 is arms back, 20 is arms middle
@@ -2069,7 +2069,7 @@ class Toon(Avatar.Avatar, ToonHead):
             self.nametag3d.setPos(0,-2,1)
 
     def exitDive(self):
-        #print "end swim"
+        #print("end swim")
         self.stop()
         self.getGeomNode().setPos(0,0,0)
         self.playingAnim="neutral"

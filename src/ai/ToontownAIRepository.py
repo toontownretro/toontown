@@ -720,8 +720,8 @@ class ToontownAIRepository(AIDistrict):
             if (type == 'racing_pad'):
                 nameInfo = dnaGroup.getName().split('_')
                 #pdb.set_trace()
-                #print "Name Info: ", nameInfo
-                #print "Race Info: ", raceInfo
+                #print("Name Info: ", nameInfo)
+                #print("Race Info: ", raceInfo)
                 racingPad = DistributedRacePadAI(self, area, nameInfo[3], int(nameInfo[2]))
             else:
                 racingPad = DistributedViewPadAI(self, area)

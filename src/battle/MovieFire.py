@@ -420,7 +420,7 @@ def __throwPie(throw, delay, hitCount, showCannon = 1):
 
         #import pdb; pdb.set_trace()
 
-        #print "Fire anim suit name: %s" % (suit.dna.name)
+        #print("Fire anim suit name: %s" % (suit.dna.name))
         suitScale = 0.90
         import math
         suitScale = 0.9 - (math.sqrt(suitLevel) * 0.10)

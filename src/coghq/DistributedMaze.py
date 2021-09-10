@@ -135,7 +135,7 @@ class DistributedMaze(DistributedNodePathEntity):
 
 
     def __handleToonEnterance(self, collEntry):
-        #print "toon enterance"
+        #print("toon enterance")
         #self.setGameStart(0)
         if not self.gameStarted:
             self.notify.debug('sending clientTriggered for %d' % self.doId)
@@ -143,12 +143,12 @@ class DistributedMaze(DistributedNodePathEntity):
             self.level.countryClub.showInfoText(self.toonEnteredText)
 
     def __handleToonFinish(self, collEntry):
-        #print "toon finish"
+        #print("toon finish")
         self.sendUpdate("setFinishedMaze", [])
         self.finished = 1
 
     def __handleToonEnterHint(self, collEntry):
-        #print "hint enter"
+        #print("hint enter")
         camHeight = base.localAvatar.getClampedAvatarHeight()
         heightScaleFactor = (camHeight * 0.3333333333)
         defLookAt = Point3(0.0, 1.5, camHeight)
@@ -162,7 +162,7 @@ class DistributedMaze(DistributedNodePathEntity):
         base.localAvatar.setIdealCameraPos(cameraPoint)
 
     def __handleToonExitHint(self, collEntry):
-        #print "hint exit"
+        #print("hint exit")
         base.localAvatar.stopUpdateSmartCamera()
         base.localAvatar.startUpdateSmartCamera()
         base.localAvatar.setCameraPositionByIndex(base.localAvatar.cameraIndex)
@@ -203,7 +203,7 @@ class DistributedMaze(DistributedNodePathEntity):
         self.frame2D.show()
 
     def setGameOver(self):
-        #print "game over"
+        #print("game over")
 
         #import pdb; pdb.set_trace()
 

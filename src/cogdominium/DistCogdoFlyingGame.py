@@ -42,10 +42,10 @@ class DistCogdoFlyingGame(DistributedMinigame):
 
     def __init__(self, cr):
         DistributedMinigame.__init__(self, cr)
-        #print "adding onCodeReload"
+        #print("adding onCodeReload")
         self.accept("onCodeReload", self.codeReload)
 
-        #print "FLYING COGDO GAME CREATED!"
+        #print("FLYING COGDO GAME CREATED!")
         self.game = CogdoFlyingGame(self)
 
     def codeReload(self):
@@ -83,7 +83,7 @@ class DistCogdoFlyingGame(DistributedMinigame):
         self.acceptOnce("escape", self.d_requestExit)
         self.game.enable()
         #self.fsm.request('Game')
-        #print "setGameStart"
+        #print("setGameStart")
 
     def delete(self):
         pass
@@ -173,7 +173,7 @@ class CogdoFlyingGame(DirectObject):
         self.__stopUpdateTask()
         self.__stopGameCompleteTask()
         self._destroyFog()
-#        print "Unload Flying CogdoGame"
+#        print("Unload Flying CogdoGame")
         self.localPlayer.unload()
         del self.localPlayer
 
@@ -494,7 +494,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         )
 
     def onstage(self):
-#        print "local player onstage"
+#        print("local player onstage")
         CogdoFlyingPlayer.onstage(self)
         self.toon.reparentTo(render)
         self.toon.hideName()
@@ -504,13 +504,13 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         # When we had the toon in anim state swim we needed this so that the
         # player wasn't getting stuck to floors
         self.toon.controlManager.currentControls.setGravity(0)
-#        print "setting gravity to 0"
+#        print("setting gravity to 0")
         self.resetToon()
         self.cameraMgr.enable()
         self.cameraMgr.update()
 
     def offstage(self):
-        #print "local player offstage"
+        #print("local player offstage")
         CogdoFlyingPlayer.offstage(self)
         self.cameraMgr.disable()
         base.localAvatar.controlManager.currentControls.setGravity(32.174*2.0)
@@ -519,7 +519,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         #self.unload()
 
     def unload(self):
-#        print "unloading CogdoFlyingLocalPlayer"
+#        print("unloading CogdoFlyingLocalPlayer")
         self.toon.showName()
         CogdoFlyingPlayer.unload(self)
 
@@ -560,8 +560,8 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         self.checkpointPlatform = platform
 
     def resetToon(self):
-#        print "Reset toon"
-#        print "------------------------"
+#        print("Reset toon")
+#        print("------------------------")
 #        self.checkpointPlatform.ls()
         self.toon.setPos(render, self.checkpointPlatform.find("**/start_p1").getPos(render))
         self.toon.setHpr(render, 0, 0, 0)
@@ -609,11 +609,11 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         if jumpPressed and self.isFuelLeft():
             self.velocity[2] += CogdoFlyingGameGlobals.FlyingGame.TOON_ACCELERATION["vertical"]*dt
             if self.state == "FreeFly" and self.isInTransition() == False:
-                #print "Going to flying up"
+                #print("Going to flying up")
                 self.request("FlyingUp")
         else:
             if self.state == "FlyingUp" and self.isInTransition() == False:
-                #print "Going to free fly"
+                #print("Going to free fly")
                 self.request("FreeFly")
 
         toonPos += self.velocity*dt
@@ -633,7 +633,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         # Sets toon position based on velocity
         self.toon.setPos(toonPos)
 
-        #print "Before degrades:",self.velocity
+        #print("Before degrades:",self.velocity)
 
         # Degrades left/right velocity values back to normal
         minVal = -CogdoFlyingGameGlobals.FlyingGame.TOON_VEL_MAX["turning"]
@@ -668,7 +668,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
 
         #print self.lastVelocity, self.velocity
 #        if self.lastVelocity != self.velocity:
-#            print "Velocity:",self.velocity
+#            print("Velocity:",self.velocity)
 
     def __updateFuel(self):
         dt = globalClock.getDt()
@@ -765,7 +765,7 @@ class CogdoFlyingInputManager:
         self.arrowKeys.disable()
 
     def enable(self):
-        #print "CogdoFlyingInputManager.enable()"
+        #print("CogdoFlyingInputManager.enable()")
         self.arrowKeys.setPressHandlers([
             self.__upArrowPressed,
             self.__downArrowPressed,
@@ -789,27 +789,27 @@ class CogdoFlyingInputManager:
     def __upArrowPressed(self):
         """Handle up arrow being pressed."""
         pass
-        #print "__upArrowPressed"
+        #print("__upArrowPressed")
 
     def __downArrowPressed(self):
         """Handle down arrow being pressed."""
         pass
-#        print "__downArrowPressed"
+#        print("__downArrowPressed")
 
     def __leftArrowPressed(self):
         """Handle left arrow being pressed."""
         pass
-#        print "__leftArrowPressed"
+#        print("__leftArrowPressed")
 
     def __rightArrowPressed(self):
         """Handle right arrow being pressed."""
         pass
-#        print "__rightArrowPressed"
+#        print("__rightArrowPressed")
 
     def __controlPressed(self):
         """Handle control key being pressed."""
         pass
-#        print "__controlPressed"
+#        print("__controlPressed")
 
 import math
 from toontown.parties.PartyCogUtils import CameraManager
@@ -954,7 +954,7 @@ class CogdoFlyingGuiManager:
         self.fuelMeterBar.setSz(self.player.fuel)
 
     def destroy(self):
-#        print "Destroying GUI"
+#        print("Destroying GUI")
         self.fuelMeterBar.detachNode()
         self.fuelMeterBar = None
 

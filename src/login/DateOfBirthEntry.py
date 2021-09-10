@@ -250,19 +250,19 @@ class DateOfBirthEntry(DirectFrame):
         self.yearHandler = handler
 
     def __handleMonth(self):
-        #print 'handleMonth'
+        #print('handleMonth')
         self.__updateDaysInMonth()
         if self.monthHandler:
             self.monthHandler(self.getMonth())
 
     def __handleDay(self):
-        #print 'handleDay'
+        #print('handleDay')
         self.lastChosenDay = self.getDay()
         if self.dayHandler:
             self.dayHandler(self.getDay())
 
     def __handleYear(self):
-        #print 'handleYear'
+        #print('handleYear')
         self.__updateDaysInMonth()
         if self.yearHandler:
             self.yearHandler(self.getYear())

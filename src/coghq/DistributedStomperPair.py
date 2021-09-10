@@ -45,8 +45,8 @@ class DistributedStomperPair(BasicEntities.DistributedNodePathEntity):
         xRange = 3.0
         if (tPos[1] < yRange and tPos[1] > -yRange and
             tPos[0] < xRange and tPos[0] > -xRange):
-            #print "Squashed!!"
+            #print("Squashed!!")
             self.level.b_setOuch(3)
         else:
-            #print "toon is far enough away: %s" % tPos
+            #print("toon is far enough away: %s" % tPos)
             pass

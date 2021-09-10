@@ -31,7 +31,7 @@ class CatalogChatItem(CatalogItem.CatalogItem):
         # has already bought his limit on this item.
         #assert avatar.onGiftOrder, "on gift order is None"
         #print avatar.onGiftOrder
-        #print "self in onGiftOrder: %s" % (self in avatar.onGiftOrder)
+        #print("self in onGiftOrder: %s" % (self in avatar.onGiftOrder))
         if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder \
            or self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
             return 1

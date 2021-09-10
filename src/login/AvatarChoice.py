@@ -127,7 +127,7 @@ class AvatarChoice(DirectButton):
             upsellModel.removeNode()
 
         elif self.mode is AvatarChoice.MODE_CREATE:
-            #print 'MODE_CREATE 2'
+            #print('MODE_CREATE 2')
             # Click callback on the main button
             self['command'] = self.__handleCreate
             self['text'] = TTLocalizer.AvatarChoiceMakeAToon,

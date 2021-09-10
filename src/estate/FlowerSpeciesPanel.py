@@ -186,7 +186,7 @@ class FlowerSpeciesPanel(DirectFrame):
         self.showRecipe()
 
     def changeVariety(self, variety):
-        #print 'changing variety to %d' % variety
+        #print('changing variety to %d' % variety)
         self.variety = variety
         self.flowerPanel.changeVariety(variety);
         self.flowerPanel.show()

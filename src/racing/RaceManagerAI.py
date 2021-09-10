@@ -37,7 +37,7 @@ class RaceManagerAI(DirectObject.DirectObject):
         return 0
 
     def createRace(self, trackId, raceType, laps, players, circuitLoop, circuitPoints, circuitTimes, qualTimes = [], circuitTimeList = {}, circuitTotalBonusTickets = {}):
-        #print 'Creating Race: circuit Points %s' % circuitPoints
+        #print('Creating Race: circuit Points %s' % circuitPoints)
         assert self.notify.debug("createRace: players = %s" % players)
         raceZone = self.air.allocateZone()
         race = DistributedRaceAI.DistributedRaceAI(

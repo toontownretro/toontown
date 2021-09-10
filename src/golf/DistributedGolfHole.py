@@ -608,7 +608,7 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
             self.power = float(base.golfPower)
         if not self.swingInfoSent:
             self.sendUpdate("postSwingState", [self.getCycleTime(), self.power, b.getPosition()[0],b.getPosition()[1],b.getPosition()[2], x, y, curAimTime, self.getCommonObjectData()])
-        # print "Swing State"
+        # print("Swing State")
         # print self.getCycleTime()
         # print self.getCommonObjectData()
         self.swingInfoSent = True
@@ -1527,7 +1527,7 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
             ball.enable()
         else:
             ball.disable()
-            #print "disable after playback"
+            #print("disable after playback")
         self.setCamera2Ball()
         self.placeBodies()
         if doAVPrint:

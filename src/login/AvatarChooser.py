@@ -252,7 +252,7 @@ class AvatarChooser(StateData.StateData):
                 lookAtOthersPercent = 0.65
 
         #for i in range(MAX_AVATARS):
-        #    print "[",i,"] present: ",(self.panelList[i].dna!=None),", posn: ",self.panelList[i].position
+        #    print("[",i,"] present: ",(self.panelList[i].dna!=None),", posn: ",self.panelList[i].position)
 
         lookRandomPercent = 1.0 - lookFwdPercent - lookAtOthersPercent
 

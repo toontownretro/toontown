@@ -31,7 +31,7 @@ if __debug__:
 
 class AddGiftRequestFR(AsyncRequest):
     def __init__(self, distObj, replyToChannelId,avatarId, newGift, senderId, context, retcode, timeout = 4.0):
-        #print "AddGiftRequestFR INIT"
+        #print("AddGiftRequestFR INIT")
         AsyncRequest.__init__(self, distObj.air, replyToChannelId, timeout)
         self.distObj=distObj
         self.avatarId=avatarId
@@ -42,7 +42,7 @@ class AddGiftRequestFR(AsyncRequest):
         self.askForObjectField(
                     "DistributedToonUD", "setGiftSchedule", avatarId)
     def finish(self):
-        #print "AddGiftRequestFR FINISH"
+        #print("AddGiftRequestFR FINISH")
         """
         gift = self.distObj.avatarIdToGifts.get(self.avatarId)
         if gift == None:
@@ -64,7 +64,7 @@ class AddGiftRequestFR(AsyncRequest):
 
 class AddGift(AsyncRequest):
     def __init__(self, distObj, replyToChannelId,avatarId, newGift, timeout = 4.0):
-        #print "AddGiftRequestFR INIT"
+        #print("AddGiftRequestFR INIT")
         AsyncRequest.__init__(self, distObj.air, replyToChannelId, timeout)
         self.distObj=distObj
         self.avatarId=avatarId
@@ -72,7 +72,7 @@ class AddGift(AsyncRequest):
         self.askForObjectField(
                     "DistributedToonUD", "setGiftSchedule", avatarId)
     def finish(self):
-        #print "AddGiftRequestFR FINISH"
+        #print("AddGiftRequestFR FINISH")
         """
         gift = self.distObj.avatarIdToGifts.get(self.avatarId)
         if gift == None:

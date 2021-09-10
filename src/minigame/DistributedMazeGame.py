@@ -1144,7 +1144,7 @@ class DistributedMazeGame(DistributedMinigame):
             suit.gameEnd()
 
     def __updateSuitsTask(self, task):
-        #print "__updateSuitsTask"
+        #print("__updateSuitsTask")
 
         curT = globalClock.getFrameTime() - self.gameStartTime
         curTic = int(curT * float(MazeGameGlobals.SUIT_TIC_FREQ))

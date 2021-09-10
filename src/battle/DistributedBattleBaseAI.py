@@ -1749,7 +1749,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI,
         self.timer.startCallback(movieTime, self.__serverMovieDone)
 
         # print out the experience table
-        #print 'tSPG: %s' % self.battleCalc.toonSkillPtsGained
+        #print('tSPG: %s' % self.battleCalc.toonSkillPtsGained)
 
     def __serverMovieDone(self):
         self.notify.debug('movie timed out on server')

@@ -526,11 +526,11 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             if (tPos[2] < zRange and tPos[2] > -zRange and
                 tPos[0] < xRange and tPos[0] > -xRange and
                 tPos[1] < yRange/10. and tPos[1] > -yRange):
-                #print "(%s) Squashed!! %s" % (self.entId, tPos)
+                #print("(%s) Squashed!! %s" % (self.entId, tPos))
                 self.level.b_setOuch(self.damage, 'Squish')
                 base.localAvatar.setZ(self.getZ(render)+.025)
             else:
-                #print "(%s) toon is far enough away: %s" % (self.entId, tPos)
+                #print("(%s) toon is far enough away: %s" % (self.entId, tPos))
                 pass
 
     ## Setters

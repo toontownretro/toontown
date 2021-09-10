@@ -330,7 +330,7 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
     def ballMovie2AI(self, cycleTime, avId, movie, spinMovie, ballInFrame, ballTouchedHoleFrame, ballFirstTouchedHoleFrame, commonObjectData):
         sentFromId = self.air.getAvatarIdFromSender()
         if sentFromId == self.trustedPlayerId:
-            #print'ballMovie2AI'
+            #print('ballMovie2AI')
             lastFrameNum = len(movie) - 2
             if lastFrameNum < 0:
                 lastFrameNum = 0

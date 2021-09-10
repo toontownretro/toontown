@@ -23,7 +23,7 @@ class DistributedGagTreeAI(DistributedPlantBaseAI.DistributedPlantBaseAI):
             growthLevel = self.getGrowthLevel()
 
             if waterLevel > 0:
-                #print "growing plant"
+                #print("growing plant")
                 # grow the plant if it's not wilted
                 if self.isWilted():
                     self.b_setWilted(False)

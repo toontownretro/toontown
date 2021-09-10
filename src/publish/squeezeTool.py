@@ -330,7 +330,7 @@ def squeeze(app, start, filelist):
 
     sq = Squeezer(archiveid)
     for file, moduleName in filelist:
-        # print 'addmodule:', file, moduleName
+        # print('addmodule:', file, moduleName)
         sq.addmodule(file, moduleName)
 
     package = sq.getarchive()

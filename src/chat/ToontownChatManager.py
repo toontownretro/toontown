@@ -340,12 +340,12 @@ class ToontownChatManager(ChatManager.ChatManager):
         # Pop up a dialog indicating the user can't chat and show the appropriate
         # dialog box
         if base.cr.productName in ['DisneyOnline-UK', 'JP', 'DE', 'BR', 'FR']:
-            #print "### paid - uk user need to enable chat!!!"
+            #print("### paid - uk user need to enable chat!!!")
             directFrameText = OTPLocalizer.PaidParentPasswordUKWarning
             payButtonText = OTPLocalizer.PaidParentPasswordUKWarningSet
             directButtonText = OTPLocalizer.PaidParentPasswordUKWarningContinue
         else:
-            #print "### paid - no parent password!!!"
+            #print("### paid - no parent password!!!")
             directFrameText = OTPLocalizer.PaidNoParentPasswordWarning
             payButtonText = OTPLocalizer.PaidNoParentPasswordWarningSet
             directButtonText = OTPLocalizer.PaidNoParentPasswordWarningContinue

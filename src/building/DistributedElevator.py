@@ -422,7 +422,7 @@ class DistributedElevator(DistributedObject.DistributedObject):
             self.fillSlotTrack.finish()
             self.fillSlotTrack = None
 
-        #print "Emptying slot: %d for %d" % (index, avId)
+        #print("Emptying slot: %d for %d" % (index, avId))
         # If localToon is exiting, he needs to change state
         if avId == 0:
             # This means that no one is currently exiting, and no action

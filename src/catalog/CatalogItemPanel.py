@@ -602,7 +602,7 @@ class CatalogItemPanel(DirectFrame):
                 auxText = TTLocalizer.CatalogNotAGift
                 self.auxText['text'] = auxText
                 return
-                #print "not a gift"
+                #print("not a gift")
                 #self.giftButton.hide()
             #otherwise if you have a valid avater for your friend attempt to activate the button
             elif (self.parentCatalogScreen.gotAvatar == 1):
@@ -613,7 +613,7 @@ class CatalogItemPanel(DirectFrame):
                     self.giftButton['state'] = DGG.DISABLED
                     auxText = TTLocalizer.CatalogNoFit
                     self.auxText['text'] = auxText
-                    #print "fit"
+                    #print("fit")
                     return
                 #if it's purchase limit is reached fail
                 elif(self['item'].reachedPurchaseLimit(avatar)):
@@ -621,7 +621,7 @@ class CatalogItemPanel(DirectFrame):
                     self.giftButton['state'] = DGG.DISABLED
                     auxText = TTLocalizer.CatalogPurchasedGiftText
                     self.auxText['text'] = auxText
-                    #print "limit"
+                    #print("limit")
                     return
                 #if their onGiftorder box is full
                 elif len(avatar.mailboxContents) + len(avatar.onGiftOrder) >= ToontownGlobals.MaxMailboxContents:
@@ -629,7 +629,7 @@ class CatalogItemPanel(DirectFrame):
                     self.giftButton['state'] = DGG.DISABLED
                     auxText = TTLocalizer.CatalogMailboxFull
                     self.auxText['text'] = auxText
-                    #print "full"
+                    #print("full")
                     return
                 #if can you afford it activate the gift button
                 elif ( self['item'].getPrice(self['type']) <=

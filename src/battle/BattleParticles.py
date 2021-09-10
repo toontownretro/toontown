@@ -125,7 +125,7 @@ def loadParticleFile(name):
         return
     notify.debug('Loading particle file: %s' % pfile)
     effect = ParticleEffect()
-    # print "particle filename = ", pfile.getFullpath()
+    # print("particle filename = ", pfile.getFullpath())
     effect.loadConfig(pfile)
     # Don't render shadows on any particles.  There are some particles that are
     # non-triangles (like points or lines).  The shadow render shader does not

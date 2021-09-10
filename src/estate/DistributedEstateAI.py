@@ -523,7 +523,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
                 pass
             elif self.getItems(index) or self.getItems(index) == []:
                 self.placeLawnDecor(index, self.getItems(index))
-                #print "Item Check"
+                #print("Item Check")
                 #print self.getItems(index)
                 pass
             self.updateToonBonusLevels(index)

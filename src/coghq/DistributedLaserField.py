@@ -471,7 +471,7 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
         self.startBattle()
 
     def __detect(self, task):
-        #print "detect beat"
+        #print("detect beat")
 
         distance = self.centerNode.getDistance(localAvatar)
         greaterDim = self.gridScaleX
@@ -530,7 +530,7 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
         self.cameraHold = None
 
     def __toonHit(self):
-        #print "Toon Hit"
+        #print("Toon Hit")
 
         posX = localAvatar.getPos(self)[0]
         posY = localAvatar.getPos(self)[1]

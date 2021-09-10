@@ -122,7 +122,7 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI,
 
         
     def __detect(self, task):
-        #print "detect beat"
+        #print("detect beat")
         isThereAnyToons = False
         if hasattr(self, 'level'):
             toonInRange = 0

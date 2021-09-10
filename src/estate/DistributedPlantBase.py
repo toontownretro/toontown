@@ -281,7 +281,7 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
         return 1
         
     def finishInteraction(self):
-        #print "### PlantBase: finishInteraction"
+        #print("### PlantBase: finishInteraction")
         DistributedLawnDecor.DistributedLawnDecor.finishInteraction(self)
         #messenger.send("endPlantInteraction")
         base.localAvatar.handleEndPlantInteraction(self)

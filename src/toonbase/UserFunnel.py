@@ -272,12 +272,12 @@ class UserFunnel:
     # This will go out to the download server and get the current Disney Funnel logging URL
 
     def getFunnelURL(self):
-        # print 'VRS URL: ' + self.dynamicVRFunnel
+        # print('VRS URL: ' + self.dynamicVRFunnel)
         if (patcherVer() == ['OFFLINE']):
-            # print "Funnel System Offline"
+            # print("Funnel System Offline")
             return
         if (patcherVer() == []):
-            # print "Funnel URL not set. Setting now"
+            # print("Funnel URL not set. Setting now")
             patcherHTTP = HTTPClient()
             if checkParamFile() == None:
                 patcherDoc = patcherHTTP.getDocument(URLSpec('http://download.toontown.com/english/currentVersion/content/patcher.ver'))
@@ -295,7 +295,7 @@ class UserFunnel:
                 # The file did not download, need to set
                 # the patcherVer to offline
                 patcherVer('w','OFFLINE')
-                # print 'Patcher system could not be reached'
+                # print('Patcher system could not be reached')
                 return
             self.patcherURL = self.patcherURL.split('\n')
             del rf, patcherDoc, patcherHTTP
@@ -401,21 +401,21 @@ class UserFunnel:
         if a.getName():
             self.pandaHTTPClientVarWSS = ['.hitbox.com', '/', 'WSS_GW', a.getValue()]
         else:
-            # print 'WSS_GW Cookie Value not set'
+            # print('WSS_GW Cookie Value not set')
             pass
 
         b = self.httpSession.getCookie(HTTPCookie('CTG', '/', '.hitbox.com'))
         if b.getName():
             self.pandaHTTPClientVarCTG = ['.hitbox.com', '/', 'CTG', b.getValue()]
         else:
-            # print 'CTG Cookie Value not set'
+            # print('CTG Cookie Value not set')
             pass
 
         c = self.httpSession.getCookie(HTTPCookie(self.hitboxAcct + 'V6', '/', 'ehg-dig.hitbox.com'))
         if c.getName():
             self.pandaHTTPClientVarDM = ['ehg-dig.hitbox.com', '/', self.hitboxAcct + 'V6', c.getValue()]
         else:
-            #print self.hitboxAcct + 'V6 Cookie Value not set'
+            #print(self.hitboxAcct + 'V6 Cookie Value not set')
             pass
 
         del a, b, c
@@ -570,7 +570,7 @@ def logSubmit(setHostID, setMileStone):
     # trackItem.start()
     trackItem.run()
     # del trackItem
-    # print 'Hitbox logging executed: ' + setMileStone
+    # print('Hitbox logging executed: ' + setMileStone)
 
 def getVRSFunnelURL():
     # Autopilot to get the funnel URL
@@ -579,7 +579,7 @@ def getVRSFunnelURL():
 
 class HitBoxCookie:
     def __init__(self):
-        # print 'UserFunnel: Created New HitBoxCookie Object'
+        # print('UserFunnel: Created New HitBoxCookie Object')
         # Cookie file path and cookie file names
         self.ieCookieDir = os.getenv('USERPROFILE') + '\\Cookies'
         self.pythonCookieFile = 'cf.txt'
@@ -621,13 +621,13 @@ class HitBoxCookie:
             if (temp.find('@ehg-dig.hitbox[') != -1):
                 self.ehgdigCookieFile = temp
         if (self.hitboxCookieFile != None and self.ehgdigCookieFile != None):
-            # print 'UserFunnel: Both Files Have been located'
+            # print('UserFunnel: Both Files Have been located')
             return 1
         if (self.hitboxCookieFile == None and self.ehgdigCookieFile == None):
-            # print 'UserFunnel: Error, neither file was located'
+            # print('UserFunnel: Error, neither file was located')
             return 0
         else:
-            # print 'UserFunnel: At least one cookie file was located'
+            # print('UserFunnel: At least one cookie file was located')
             return -1
 
     def openHitboxFile(self, filename, type = 'python'):
@@ -637,7 +637,7 @@ class HitBoxCookie:
             fullfile = self.ieCookieDir + '\\' + filename
         else:
             fullfile = filename
-        # print 'Opening ' + fullfile
+        # print('Opening ' + fullfile)
         cf = open(fullfile, 'r')
         data = cf.read()
         cf.close()
@@ -657,10 +657,10 @@ class HitBoxCookie:
 
     def writeIEHitBoxCookies(self):
         if ( self.ctg == None or self.wss_gw == None or self.dmAcct ==None):
-            # print 'UserFunnel: Error: CTG, WSS, or DM vars are not populated'
+            # print('UserFunnel: Error: CTG, WSS, or DM vars are not populated')
             return
         if (sys.platform != 'win32'):
-            # print 'Not Windows'
+            # print('Not Windows')
             return
         # First we need to get the path to the cookiejar
         # In case it hasn't been executed already, we'll run it again to
@@ -674,7 +674,7 @@ class HitBoxCookie:
         while (x < len(iecData)):
             if iecData[x].find(self.hitboxAcct) != -1:
                 # We've located the entry we need to modify
-                # print 'DM Found'
+                # print('DM Found')
                 iecData.pop(x)
                 print('Removed it from the list')
                 break
@@ -715,7 +715,7 @@ class HitBoxCookie:
 
     def OLDwritePythonHitBoxCookies(self, filename = 'cf.txt'):
         if ( self.ctg == None or self.wss_gw == None or self.dmAcct ==None):
-            # print 'UserFunnel: Error: CTG, WSS, or DM vars are not populated'
+            # print('UserFunnel: Error: CTG, WSS, or DM vars are not populated')
             return
         outputfile = open(filename,'w')
         # First we can write out the header
@@ -733,7 +733,7 @@ class HitBoxCookie:
 
     def writePythonHitBoxCookies(self, filename = 'cf.txt'):
         if ( self.ctg == None or self.wss_gw == None or self.dmAcct ==None):
-            # print 'UserFunnel: Error: CTG, WSS, or DM vars are not populated'
+            # print('UserFunnel: Error: CTG, WSS, or DM vars are not populated')
             return
         outputfile = open(filename,'w')
         # First we can write out the header
@@ -756,7 +756,7 @@ class HitBoxCookie:
 
     def loadPythonHitBoxCookies(self):
         if (os.path.isfile(self.pythonCookieFile) != 1):
-            # print 'The python cookie file does not exist.'
+            # print('The python cookie file does not exist.')
             return
         pythonStandard = self.openHitboxFile(self.pythonCookieFile, 'python')
         # print pythonStandard
@@ -767,24 +767,24 @@ class HitBoxCookie:
         # Now, we will locate the line with the DM, CTG, and WSS var
         for x in pythonStandard:
             if (x.find('\t' + self.hitboxAcct) != -1):
-                # print self.hitboxAcct
+                # print(self.hitboxAcct)
                 self.dmAcct = self.sortPythonCookie(x)
             if (x.find('\tCTG\t') != -1):
-                # print 'CTG Found'
+                # print('CTG Found')
                 self.ctg = self.sortPythonCookie(x)
             if (x.find('\tWSS_GW\t') != -1):
-                # print 'WSS_GW Found'
+                # print('WSS_GW Found')
                 self.wss_gw = self.sortPythonCookie(x)
 
     # This function will locate the IE hitbox cookies (relating to Pirates), and place them in the proper list variable
 
     def loadIEHitBoxCookies(self):
         if (self.findIECookieFiles() != 1):
-            # print 'UserFunnel: Error! One or both of the IE cookie files could not be loaded.'
+            # print('UserFunnel: Error! One or both of the IE cookie files could not be loaded.')
             return
 
         if (sys.platform != 'win32'):
-            # print 'Not Windows'
+            # print('Not Windows')
             return
 
         hitboxStandard = self.openHitboxFile(self.hitboxCookieFile, 'ie')
@@ -798,23 +798,23 @@ class HitBoxCookie:
         wss = None
         for x in hitboxStandard:
             if (x.find('CTG\n') != -1):
-                # print 'CTG Found'
+                # print('CTG Found')
                 ctg = x
             if (x.find('WSS_GW\n') != -1):
-                # print 'WSS_GW Found'
+                # print('WSS_GW Found')
                 wss = x
         if (ctg == None or wss == None):
-            # print 'Both Cookie Values in hitbox could not be found'
+            # print('Both Cookie Values in hitbox could not be found')
             return
 
         # Now locate the pirates account number in ehg-dig.hitbox file
         DM = None
         for x in hitboxDIG:
             if (x.find(self.hitboxAcct) != -1):
-                # print 'DM560804E8WD account found in cookie'
+                # print('DM560804E8WD account found in cookie')
                 DM = x
         if (DM == None):
-            # print 'DM Cookie Value in ehg-dig.hitbox could not be found'
+            # print('DM Cookie Value in ehg-dig.hitbox could not be found')
             return
 
         # Now split the streams into 3 elements of a list
@@ -1084,10 +1084,10 @@ def checkParamFile():
             newURL = newURL.replace(' ','')
             break
     if newURL == '':
-        #print 'Parameters.txt did not contain a new PATCHER_BASE_URL'
+        #print('Parameters.txt did not contain a new PATCHER_BASE_URL')
         return
     else:
-        #print 'Parameters.txt does have a new base url'
+        #print('Parameters.txt does have a new base url')
         return newURL + 'patcher.ver'
  # parameters.txt file not found
  return

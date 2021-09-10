@@ -268,7 +268,7 @@ class Estate(Place.Place):
         base.cr.cache.flush()
 
     def __setZoneId(self, zoneId):
-        #print "setting our local zone ID from %d to %d" % (self.zoneId, zoneId)
+        #print("setting our local zone ID from %d to %d" % (self.zoneId, zoneId))
         self.zoneId = zoneId
 
     def detectedMailboxCollision(self):

@@ -1742,7 +1742,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         #cs = self.cr.playGame.hood.loader.geom.getColorScale()
         #if ((cs[0] > .001) and (cs[1] > .001) and (cs[2] > .001)):
         #    ics = VBase4(1.0/cs[0], 1.0/cs[1], 1.0/cs[2], 1)
-        #    print "cs = %s, ics = %s, result = %s,%s,%s" % (cs, ics, cs[0]*ics[0], cs[1]*ics[1],cs[2]*ics[2])
+        #    print("cs = %s, ics = %s, result = %s,%s,%s" % (cs, ics, cs[0]*ics[0], cs[1]*ics[1],cs[2]*ics[2]))
         #    avatar.setColorScale(ics)
 
         h = self.barrel.getH(render)

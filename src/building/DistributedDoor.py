@@ -386,7 +386,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             #if ZoneUtil.isInterior(self.zoneId):
             #    self.building=self.cr.playGame.hood.loader.geom
             #    #self.building=render
-            #    print "---------------- door is interior -------"
+            #    print("---------------- door is interior -------")
             #else:
             #    self.building=self.cr.playGame.hood.loader.geom.find(
             #        "**/??"+str(self.block)+":*_landmark_*_DNARoot;+s")

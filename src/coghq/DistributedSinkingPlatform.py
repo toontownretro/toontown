@@ -155,12 +155,12 @@ class DistributedSinkingPlatform(BasicEntities.DistributedNodePathEntity):
             #if avId != base.localAvatar.doId:
             self.fsm.request('rising', [ts])
             #else:
-            #    print "ignoring server rise message"
+            #    print("ignoring server rise message")
         elif mode == SinkingPlatformGlobals.SINKING:
             #if avId != base.localAvatar.doId:
             self.fsm.request('sinking', [ts])
             #else:
-            #    print "ignoring server sink message"
+            #    print("ignoring server sink message")
 
     def startMoving(self, direction, ts):
         if direction == SinkingPlatformGlobals.RISING:
@@ -186,7 +186,7 @@ class DistributedSinkingPlatform(BasicEntities.DistributedNodePathEntity):
         duration = duration - ivalTime
         duration = max(0., duration)
 
-        #print "ivalTime = %s" % ivalTime
+        #print("ivalTime = %s" % ivalTime)
 
         moveNode = self.platform
         self.moveIval = Sequence()
@@ -200,6 +200,6 @@ class DistributedSinkingPlatform(BasicEntities.DistributedNodePathEntity):
                             fluid = 1),
             )
 
-        #print "timeStamp = %s, ivalStartT = %s, startTime = %s, curT = %s, duration= %s" % (
-        #    timestamp, ivalStartT, startT, curT, duration)
+        #print("timeStamp = %s, ivalStartT = %s, startTime = %s, curT = %s, duration= %s" % (
+        #    timestamp, ivalStartT, startT, curT, duration))
         self.moveIval.start()

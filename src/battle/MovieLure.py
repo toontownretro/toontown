@@ -306,7 +306,7 @@ def __createHypnoGogglesMultiTrack(lure, npcs = []):
         )
     tracks = Parallel(gogglesTrack, toonTrack)
     
-    #print "hypno!!!!"
+    #print("hypno!!!!")
     #print targets
 
     for target in targets:

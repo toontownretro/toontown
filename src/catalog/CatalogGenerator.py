@@ -1792,7 +1792,7 @@ class CatalogGenerator:
             elif item != None:
                 # Multiple items, each of which may be offered.
                 #if item == MetaItems[3020] or item == MetaItems[3010]:
-                #    print "%s: %s" % (weekCode, item)
+                #    print("%s: %s" % (weekCode, item))
                 for i in item:
                     self.__recordScheduleItem(sched, None, weekCode, i)
 
@@ -1801,7 +1801,7 @@ class CatalogGenerator:
             sched[item] = [[], []]
 
         #if item == CatalogWallpaperItem(2900) or item == CatalogWallpaperItem(2210):
-        #    print "%s,%s: %s" % (item, maybeWeekCode, sched[item])
+        #    print("%s,%s: %s" % (item, maybeWeekCode, sched[item]))
         if weekCode != None:
             sched[item][0].append(weekCode)
         if maybeWeekCode != None:

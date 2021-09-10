@@ -1197,7 +1197,7 @@ class Suit(Avatar.Avatar):
         if tie.isEmpty():
             self.notify.warning('skelecog has no tie model!!!')
             return
-        #print '### loading %s tie' % (dept)
+        #print('### loading %s tie' % (dept))
         if dept == 'c':
             tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_boss.txo")
         elif dept == 's':
@@ -1434,7 +1434,7 @@ class Suit(Avatar.Avatar):
         # some of the geometry needs to be backfaced and billboarded
         parts = self.findAllMatches('**/pPlane*')
         for partNum in range(0, parts.getNumPaths()):
-            #print 'found billboarded part!'
+            #print('found billboarded part!')
             bb = parts.getPath(partNum)
             bb.setTwoSided(1)
 

@@ -162,7 +162,7 @@ Returns: a 1D or 2D list of lists from whitespace delimited text files
 
     if len(fnames) == 0:
         if verbose:
-            print 'NO FILENAMES MATCH PATTERN !!'
+            print('NO FILENAMES MATCH PATTERN !!')
         return None
 
     if verbose:
@@ -198,7 +198,7 @@ Returns: a list of strings, one per line in each text file specified by
     fnames = glob.glob(namepattern)
     if len(fnames) == 0:
         if verbose:
-            print 'NO FILENAMES MATCH PATTERN !!'
+            print('NO FILENAMES MATCH PATTERN !!')
         return None
     if verbose:
         print fnames
@@ -262,7 +262,7 @@ Returns: an array of integers, floats or objects (type='O'), depending on the
     fnames = glob.glob(namepattern)
     if len(fnames) == 0:
         if verbose:
-            print 'NO FILENAMES MATCH PATTERN !!'
+            print('NO FILENAMES MATCH PATTERN !!')
             return None
     if verbose:
         print fnames
@@ -406,7 +406,7 @@ Usage:  brikget(imfile,unpackstr=N.Int16,shp=None)  default shp: (-1,48,61,51)
     lines = None
 
     print shp
-    print 'Using unpackstr:',unpackstr  #,', bytesperpixel=',bytesperpixel
+    print('Using unpackstr:',unpackstr)  #,', bytesperpixel=',bytesperpixel)
 
     file = open(imfile, "rb")
     bdata = file.read()
@@ -466,8 +466,8 @@ Usage:   mghbget(imfile, numslices=-1, xsize=64, ysize=64,
         bytesperpixel = 4.0
         sliceinit = 0.0
     else:
-        print 'Not a bshort, bfloat or img file.'
-        print 'Using unpackstr:',unpackstr,', bytesperpixel=',bytesperpixel
+        print('Not a bshort, bfloat or img file.')
+        print('Using unpackstr:',unpackstr,', bytesperpixel=',bytesperpixel)
 
     imsize = xsize*ysize
     file = open(imfile, "rb")
@@ -532,7 +532,7 @@ Usage:   bput (outarray,filename,writeheader=0,packtype=N.Int16,writetype='wb')
     elif suffix == 'bfloat':
         packtype = N.Float32
     else:
-        print 'Not a bshort or bfloat file.  Using packtype=',packtype
+        print('Not a bshort or bfloat file.  Using packtype=',packtype)
 
     outdata = N.ravel(outarray).astype(packtype)
     littleEndian = ( struct.pack('i',1)==struct.pack('<i',1) )
@@ -592,10 +592,10 @@ Returns: array filled with data in fname
     print fname,'read in.'
     d = d[linestocut:]
     d = map(string.split,d)
-    print 'Done with string.split on lines.'
+    print('Done with string.split on lines.')
     for i in range(len(d)):
         d[i] = map(string.atoi,d[i])
-    print 'Conversion to ints done.'
+    print('Conversion to ints done.')
     return N.array(d)
 
 def writedelimited (listoflists, delimiter, file, writetype='w'):

@@ -3476,7 +3476,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                             if gridEditor.grid[j][i] == None:
                                 return False
 
-                    #print "grid available: xy(%s %s) wh(%s %s)" % (x, y, w, h)
+                    #print("grid available: xy(%s %s) wh(%s %s)" % (x, y, w, h))
                     return True
 
                 # Returns the first x,y (centered) that has space for w,h.

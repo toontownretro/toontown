@@ -211,14 +211,14 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI,
                           
     def requestBoard(self, boardVerify):
         #print self.boardList
-        #print "requestBoard"
+        #print("requestBoard")
         senderId = self.air.getAvatarIdFromSender()
         assigned = self.checkForAssigned(senderId)
         if assigned != None:
             if self.boardList[assigned][0] == "closed":
                 return
             if boardVerify:
-                #print "success"
+                #print("success")
                 toon = simbase.air.doId2do.get(senderId)
                 if toon:
                     self.addGag(senderId)
@@ -232,7 +232,7 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI,
                 self.boardList[assigned][3] = senderId
                 self.sendScoreData()
             else:
-                #print "failure"
+                #print("failure")
                 self.boardList[assigned][0].remove(senderId)
         boardIndex = self.choosePattern()
         if boardIndex == None:
@@ -359,7 +359,7 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI,
 
         
     def __detect(self, task):
-        #print "detect beat"
+        #print("detect beat")
         isThereAnyToons = False
         if hasattr(self, 'level'):
             toonInRange = 0

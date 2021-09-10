@@ -781,7 +781,7 @@ for np in range(4):
     for sz in (2000,1000,5000,4000,3000,9000):
         numFruits = CatchActivityGlobals.NumFruits[np][sz]
         jb = int(int(numFruits / 2) + round(numFruits / 4.))
-        print '%s: %s: %s' % (np, sz, jb)
+        print('%s: %s: %s' % (np, sz, jb))
 """
 # this is for the AI, so it doesn't have to do calculations, and so the
 # client code can calculate these values in a straightforward manner.

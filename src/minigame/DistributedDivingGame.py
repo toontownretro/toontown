@@ -238,14 +238,14 @@ class DistributedDivingGame(DistributedMinigame):
         name = (collEntry.getIntoNodePath().getName())
         if len(name) >= 7:
             if name[0:6] == "crabby":
-                #print "fish collision() - crab"
+                #print("fish collision() - crab")
                 self.sendUpdate("handleCrabCollision", [avId, toonSD.status])
         else:
             # send information on the spawning location and the id of the fish
             spawnerId = int(name[2])
             spawnId = int(name[3:len(name)])
             if spawnId in self.spawners[spawnerId].fishArray:
-                #print "fish collision() - fish"
+                #print("fish collision() - fish")
                 self.sendUpdate("handleFishCollision", [avId, spawnId, spawnerId, toonSD.status])
 
     # called from the AI to create a fish, create its moveLerp, and set it moving
@@ -1111,7 +1111,7 @@ class DistributedDivingGame(DistributedMinigame):
 
             # clowns and pianos will turn around and head back to home
             if fish.name == 'clown' or fish.name == 'piano':
-                ##print "here"
+                ##print("here")
                 if fish.name != 'piano':
                     endHpr = Vec3(fish.getH()*-1, 0, 0)
                 else:
@@ -1148,7 +1148,7 @@ class DistributedDivingGame(DistributedMinigame):
         spawnId = int(code[1:len(code)])
         spawnerId = int(code[0])
 
-        #print "FISH REMOVE TOO"
+        #print("FISH REMOVE TOO")
         if spawnId in self.spawners[spawnerId].fishArray:
             fish = self.spawners[spawnerId].fishArray[spawnId]
             fish.specialLerp.finish()
@@ -1276,7 +1276,7 @@ class DistributedDivingGame(DistributedMinigame):
         seq = Sequence(Wait(wait),
                             LerpPosInterval(crab, duration=xTime, startPos = Point3(crabX,0,-40), pos=Point3(goalX,0,-40), blendType='easeIn'),
                             Parallel(
-                                Func(self.grabCrapVolume, crab),
+                                Func(self.grabCrabVolume, crab),
                                 LerpPosInterval(crab, duration=zTime, startPos=Point3(goalX,0,-40), pos=Point3(goalX,0,goalZ), blendType='easeOut'),
                             ),
                             LerpPosInterval(crab, duration=zTime, startPos=Point3(goalX,0,goalZ), pos=Point3(goalX,0,-40), blendType='easeInOut')
@@ -1290,7 +1290,7 @@ class DistributedDivingGame(DistributedMinigame):
     UPDATE LOCAL TASK
     """
 
-    def grabCrapVolume(self, crab):
+    def grabCrabVolume(self, crab):
         if crab:
             distance = base.localAvatar.getDistance(crab)
             self.crabVolume = 0

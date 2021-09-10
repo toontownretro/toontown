@@ -1902,21 +1902,21 @@ class DistributedTargetGame(DistributedMinigame):
     def cloudRendering(self, layer):
 
         if layer == "Low":
-            #print "Flipping to Low"
+            #print("Flipping to Low")
             for item in self.skyListMid:
                 item.setBin('fixed', 3)
             for item in self.skyListLow:
                 item.setBin('fixed', 4)
             #self.playSound('wind1')
         elif layer == "Mid":
-            #print "Flipping to Mid"
+            #print("Flipping to Mid")
             for item in self.skyListMid:
                 item.setBin('fixed', 3)
             for item in self.skyListLow:
                 item.setBin('fixed', 3)
             #self.playSound('wind2')
         elif layer == "High":
-            #print "Flipping to High"
+            #print("Flipping to High")
             for item in self.skyListMid:
                 item.setBin('fixed', 4)
             for item in self.skyListLow:

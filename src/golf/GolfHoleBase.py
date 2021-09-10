@@ -466,7 +466,7 @@ class GolfHoleBase:
                     (c1 == GolfGlobals.OOB_RAY_COLLIDE_ID)):
                     rayCount += 1
                     if c1 == GolfGlobals.GRASS_COLLIDE_ID:
-                        #print "soft surface"
+                        #print("soft surface")
                         self.greenIn = self.frame
                         self.llv = self.curGolfBall().getLinearVel()
                 elif (GolfGlobals.BALL_COLLIDE_ID in [c0,c1]) and \

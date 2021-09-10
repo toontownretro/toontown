@@ -538,7 +538,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI,
                 # to be called
                 self.__dict__[setterName](value)
             def d_moodSetter(value, setterName=setterName):
-                #print 'sending %s(%s)' % (setterName, value)
+                #print('sending %s(%s)' % (setterName, value))
                 self.sendUpdate(setterName, [value])
             def moodSetter(value, compName=compName):
                 self.__handleMoodSet(compName, value)
@@ -1046,7 +1046,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI,
                 # order is VERY important here
                 for comp in PetMood.PetMood.Components:
                     values.append(self.mood.getComponent(comp))
-                #print 'sending ALL moods'
+                #print('sending ALL moods')
                 self.sendUpdate('setMood', values)
             else:
                 for comp in components:

@@ -315,7 +315,7 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
             self.adjustWaterIndicator()
 
         #if self.colSphereNode:
-        #    print "setting colspherenode", collScale
+        #    print("setting colspherenode", collScale)
         #    self.colSphereNode.setScale(collScale)
 
         # in case the collision sphere hasn't been created yet

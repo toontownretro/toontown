@@ -745,14 +745,14 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         speedChatDouble.sort(key=functools.cmp_to_key(compareFriends))
         offlineFriends.sort(key=functools.cmp_to_key(compareFriends))
 
-        #print "freeChatDouble"
+        #print("freeChatDouble")
         #print freeChatDouble
-        #print "freeChatOneRef"
+        #print("freeChatOneRef")
         #print freeChatOneRef
 
-        #print "speedChatDouble"
+        #print("speedChatDouble")
         #print speedChatDouble
-        #print "speedChatOneRef"
+        #print("speedChatOneRef")
         #print speedChatOneRef
 
 

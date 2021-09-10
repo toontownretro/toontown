@@ -158,12 +158,12 @@ class CharWalkState(StateData.StateData):
 
             # make sure we don't do any wacky 279 degree turns
             reducedCurH = reduceAngle(curHpr[0])
-            #print "curH = ", reducedCurH
+            #print("curH = ", reducedCurH)
             reducedCurHpr = Vec3(reducedCurH, curHpr[1], curHpr[2])
             reducedDestH = reduceAngle(destHpr[0])
-            #print "destH = ", reducedDestH
+            #print("destH = ", reducedDestH)
             shortestAngle = closestDestAngle(reducedCurH, reducedDestH)
-            #print "shortest angle = ", shortestAngle
+            #print("shortest angle = ", shortestAngle)
             shortestHpr = Vec3(shortestAngle, destHpr[1], destHpr[2])
             turnTime = abs(shortestAngle)/270.
             # we need to set this hpr temporarily to calculate the next

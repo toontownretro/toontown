@@ -209,7 +209,7 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
         self.trackTargetList[3] = targetId
 
     def __detect(self, task):
-        #print "detect beat"
+        #print("detect beat")
 
         distance = self.getDistance(localAvatar)
         greaterDim = self.gridScaleX
@@ -232,7 +232,7 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
         return Task.done
 
     def __toonHit(self):
-        #print "Toon Hit"
+        #print("Toon Hit")
 
         posX = localAvatar.getPos(self)[0]
         posY = localAvatar.getPos(self)[1]

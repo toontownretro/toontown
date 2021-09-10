@@ -76,7 +76,7 @@ class PetCollider(Impulse.Impulse):
 
     def handleCollision(self, collEntry):
         print('collision!')
-        #print 'collision: %s' % collEntry
+        #print('collision: %s' % collEntry)
         #import pdb
         #pdb.set_trace()
         cPoint = collEntry.getSurfacePoint(self.cLineNodePath)

@@ -274,7 +274,7 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
         return Task.done
 
     def kickToonsOut(self):
-        #print"TOONS BEING KICKED OUT"
+        #print("TOONS BEING KICKED OUT")
         if not self.localToonOnBoard:
             zoneId = self.cr.playGame.hood.hoodId
             self.cr.playGame.getPlace().fsm.request('teleportOut', [{

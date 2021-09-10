@@ -1621,9 +1621,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         # for treasure placement, etc.
         pos = self.getPos()
         hpr = self.getHpr()
-        #print '(%d, %d, %0.1f),' % (pos[0], pos[1], pos[2])
-        # print '(%0.1f, %0.1f, %0.1f, %0.1f, %0.1f, %0.1f),' % \
-        #      (pos[0], pos[1], pos[2], hpr[0], hpr[1], hpr[2])
+        #print('(%d, %d, %0.1f),' % (pos[0], pos[1], pos[2]))
+        # print('(%0.1f, %0.1f, %0.1f, %0.1f, %0.1f, %0.1f),' % \
+        #      (pos[0], pos[1], pos[2], hpr[0], hpr[1], hpr[2]))
         chest = loader.loadModel("phase_4/models/props/coffin")
         chest.reparentTo(render)
         chest.setColor(1, 0, 0, 1)
@@ -2492,7 +2492,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         return None
 
     def handleEndPlantInteraction(self, object = None, replacement = 0):
-        #print "### LocalToon: handleEndPlantInteraction -> reactivateWater"
+        #print("### LocalToon: handleEndPlantInteraction -> reactivateWater")
         #self.unlockGardeningButtons()
         if not replacement:
             self.setInGardenAction(None, object)
@@ -2500,7 +2500,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         return None
 
     def __handleEndPlantInteraction(self, task = None):
-        #print "### LocalToon: handleEndPlantInteraction -> reactivateWater"
+        #print("### LocalToon: handleEndPlantInteraction -> reactivateWater")
         #self.unlockGardeningButtons()
         self.setInGardenAction(None)
         self.autoSetActivePlot()

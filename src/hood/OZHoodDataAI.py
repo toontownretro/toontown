@@ -97,10 +97,10 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
         #    vBlockAI = self.air.getViewingBlockDict()
 
         #    for racePadId in racePadAI:
-        #        print "RacePad %s has starting blocks %s\n" %( racePadId, sBlockAI.get( racePadId )  )
+        #        print("RacePad %s has starting blocks %s\n" %( racePadId, sBlockAI.get( racePadId )  ))
 
         #    for viewPadId in viewPadAI:
-        #        print "viewPad %s has starting blocks %s\n" %( viewPadId, vBlockAI.get( viewPadId )  )
+        #        print("viewPad %s has starting blocks %s\n" %( viewPadId, vBlockAI.get( viewPadId )  ))
 
         #    pdb.set_trace()
 
@@ -343,7 +343,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
         # Place each Golf Kart into the proper WaitEmpty State. Handle this
         # after each they have generated so that they are
         # placed in the proper active state.
-        #print "PICNIC TABLES" ,self.picnicTables
+        #print("PICNIC TABLES" ,self.picnicTables)
         for picnicTable in self.picnicTables:
             picnicTable.start()
             self.addDistObj( picnicTable )

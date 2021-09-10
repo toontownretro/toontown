@@ -140,7 +140,7 @@ class AvatarWallpaperFixer(RepairAvatars.AvatarIterator):
 
     def processAvatar(self, av, db):
         self.printSometimes(av)
-        #print "Processing Avatar: %d, %s" % (av.doId, av.name)
+        #print("Processing Avatar: %d, %s" % (av.doId, av.name))
         convertWallpaperItems(av.monthlyCatalog, fCatalog = 1)
         convertWallpaperItems(av.weeklyCatalog, fCatalog = 1)
         convertWallpaperItems(av.backCatalog, fCatalog = 1)
@@ -182,7 +182,7 @@ class HouseWallpaperFixer(RepairAvatars.HouseIterator):
 
     def processHouse(self, house, db):
         self.printSometimes(house)
-        #print "Processing house: %d, %s" % (house.doId, house.name)
+        #print("Processing house: %d, %s" % (house.doId, house.name))
         convertWallpaperItems(house.atticWallpaper)
         convertWallpaperItems(house.interiorWallpaper)
         convertWallpaperItems(house.deletedItems)

@@ -107,7 +107,7 @@ def __returnToBase(heal):
     toon = heal['toon']
     battle = heal['battle']
     origPos, origHpr = battle.getActorPosHpr(toon)
-    #print 'ORIG_HPR: %s' % origHpr
+    #print('ORIG_HPR: %s' % origHpr)
 
     runAnimI = ActorInterval(toon, 'run', duration=runHealTime)
     a = Func(toon.headsUp, battle, origPos)

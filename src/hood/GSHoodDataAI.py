@@ -44,10 +44,10 @@ class GSHoodDataAI(HoodDataAI.HoodDataAI):
         #    vBlockAI = self.air.getViewingBlockDict()
 
         #    for racePadId in racePadAI:
-        #        print "RacePad %s has starting blocks %s\n" %( racePadId, sBlockAI.get( racePadId )  )
+        #        print("RacePad %s has starting blocks %s\n" %( racePadId, sBlockAI.get( racePadId )  ))
 
         #    for viewPadId in viewPadAI:
-        #        print "viewPad %s has starting blocks %s\n" %( viewPadId, vBlockAI.get( viewPadId )  )
+        #        print("viewPad %s has starting blocks %s\n" %( viewPadId, vBlockAI.get( viewPadId )  ))
 
         #    pdb.set_trace()
 

@@ -57,7 +57,7 @@ class Room(NodePath):
         self.model.setPos(Vec3(0)-thisDoor.getPos(self.model))
         # rotate so that our door is facing the right way
         self.setH(-thisDoor.getH(otherDoor))
-        #print 'H: %s' % self.getH()
+        #print('H: %s' % self.getH())
         self.wrtReparentTo(other.getParent())
 
     def showAxes(self):

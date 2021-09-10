@@ -133,7 +133,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         self.messageStartName = self.uniqueName("plotSphere")
         self.exitMessageName = self.uniqueName("exitplotSphere")
         # setup a collision sphere
-        #print "collsphere", self.collSphereRadius
+        #print("collsphere", self.collSphereRadius)
         if self.collSphereOffset <= 0.1:
             colSphere = CollisionSphere(0,0,0,self.collSphereRadius)
         else:
@@ -365,14 +365,14 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         print(string)
 
     def startInteraction(self):
-        #print "### LawnDecor: startInteraction"
+        #print("### LawnDecor: startInteraction")
         place = base.cr.playGame.getPlace()
         if place:
             place.detectedGardenPlotUse()
             base.localAvatar.setInGardenAction(self)
 
     def finishInteraction(self):
-        #print "### LawnDecor: finishInteraction"
+        #print("### LawnDecor: finishInteraction")
         if hasattr(base.cr.playGame.getPlace(), 'detectedGardenPlotDone'):
             base.cr.playGame.getPlace().detectedGardenPlotDone()
             self.notify.debug( "done interaction")

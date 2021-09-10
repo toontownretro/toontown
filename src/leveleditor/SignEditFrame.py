@@ -81,9 +81,9 @@ class ToonSignTextCtrlValidator(wx.PyValidator):
       def Validate(self, win):
           textCtrl = self.GetWindow()
           text = textCtrl.GetValue()
-          #print "Validating %s" %(text)
+          #print("Validating %s" %(text))
           try:
-             #print "Valid %d" %(float(text))
+             #print("Valid %d" %(float(text)))
              return True
           except ValueError:
               return False
@@ -97,18 +97,18 @@ class ToonSignTextCtrl(wx.TextCtrl):
           self.Bind(wx.EVT_SET_FOCUS, self.OnSetFocus)
 
       def OnText(self, event):
-          #print "Got %s" %(self.GetValue())
+          #print("Got %s" %(self.GetValue()))
           try:
              val = float(self.GetValue())
              self.parent.WritePandaValue(self, val)
              self.parent.knobCtrl.SetTotal(val)
 
           except ValueError:
-              #print "Clearing..."
+              #print("Clearing...")
               i=0
 
       def OnSetFocus(self, event):
-          #print "Setting total %d" %(float(self.GetValue()))
+          #print("Setting total %d" %(float(self.GetValue())))
           self.parent.knobCtrl.SetTotal(float(self.GetValue()))
 
 class SignEditFrame(wx.MiniFrame):
