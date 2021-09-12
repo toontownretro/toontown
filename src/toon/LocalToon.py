@@ -60,6 +60,8 @@ from toontown.toon import ElevatorNotifier
 from . import DistributedToon
 from . import Toon
 from . import LaffMeter
+from toontown.quest import QuestMap
+from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 
 # Checks whether we want to display the news page
 # which uses Awesomium to render HTML
@@ -264,6 +266,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             # friend requests if they ever want it.
             self.acceptingNewFriends = Settings.getAcceptingNewFriends() and base.config.GetBool('accepting-new-friends-default', True)
 
+            self.questMap = None
+
     def wantLegacyLifter(self):
         return True
 
@@ -362,6 +366,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         """
         self.laffMeter.destroy()
         del self.laffMeter
+
+        self.questMap.destroy()
+        self.questMap = None
 
         if hasattr(self, 'purchaseButton'):
             self.purchaseButton.destroy()
@@ -543,6 +550,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         else:
             self.laffMeter.setPos(0.133, 0.0, 0.13)
         self.laffMeter.stop()
+
+        self.questMap = QuestMap.QuestMap(self)
+        self.questMap.stop()
 
         # make a purchase button for non-paid players
         if not base.cr.isPaid():
@@ -2827,3 +2837,11 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                     if self.book.isOnPage(self.newsPage):
                         result = True
         return result
+
+    def startQuestMap(self):
+        if self.questMap:
+            self.questMap.start()
+
+    def stopQuestMap(self):
+        if self.questMap:
+            self.questMap.stop()

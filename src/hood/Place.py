@@ -218,6 +218,7 @@ class Place(StateData.StateData,
         base.localAvatar.setTeleportAvailable(1)
         base.localAvatar.questPage.acceptOnscreenHooks()
         base.localAvatar.invPage.acceptOnscreenHooks()
+        base.localAvatar.questMap.acceptOnscreenHooks()
         #*#base.localAvatar.setActiveShadow(1)
         self.walkStateData.fsm.request('walking')
         self.enablePeriodTimer()
@@ -248,6 +249,8 @@ class Place(StateData.StateData,
         base.localAvatar.questPage.ignoreOnscreenHooks()
         base.localAvatar.invPage.ignoreOnscreenHooks()
         base.localAvatar.invPage.hideInventoryOnscreen()
+        base.localAvatar.questMap.hide()
+        base.localAvatar.questMap.ignoreOnscreenHooks()
 
     # this is no longer private as we need to call it from
     # other functions
@@ -732,6 +735,7 @@ class Place(StateData.StateData,
         #    VBase3(1, 1, 1),
         #    other=door_origin)
         base.localAvatar.obscureMoveFurnitureButton(1)
+        base.localAvatar.startQuestMap()
 
     def exitDoorIn(self):
         assert(self.notify.debug("exitDoorIn()"))
@@ -750,6 +754,7 @@ class Place(StateData.StateData,
     def exitDoorOut(self):
         assert(self.notify.debug("exitDoorOut()"))
         base.localAvatar.obscureMoveFurnitureButton(-1)
+        base.localAvatar.stopQuestMap()
 
     def handleDoorDoneEvent(self, requestStatus):
         assert(self.notify.debug("handleDoorDoneEvent(requestStatus="
@@ -773,6 +778,7 @@ class Place(StateData.StateData,
         self.accept("tunnelInMovieDone", self.__tunnelInMovieDone)
         base.localAvatar.reconsiderCheesyEffect()
         base.localAvatar.tunnelIn(tunnelOrigin)
+        base.localAvatar.startQuestMap()
 
     def __tunnelInMovieDone(self):
         self.ignore("tunnelInMovieDone")
@@ -808,6 +814,7 @@ class Place(StateData.StateData,
                            }
         self.accept("tunnelOutMovieDone", self.__tunnelOutMovieDone)
         base.localAvatar.tunnelOut(tunnelOrigin)
+        base.localAvatar.stopQuestMap()
 
     def __tunnelOutMovieDone(self):
         self.ignore("tunnelOutMovieDone")
@@ -829,6 +836,7 @@ class Place(StateData.StateData,
         assert(self.notify.debug("exitTeleportOut()"))
         base.localAvatar.laffMeter.stop()
         base.localAvatar.obscureMoveFurnitureButton(-1)
+        base.localAvatar.stopQuestMap()
         # It is a bad idea to broadcast these messages; first, it
         # shouldn't be necessary (since the server will send a disable
         # message to anyone around anyway); and second, it is possible

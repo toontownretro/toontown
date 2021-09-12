@@ -8,6 +8,11 @@ from otp.otpbase.OTPGlobals import *
 from direct.showbase.PythonUtil import Enum, invertDict
 from toontown.toonbase.ToontownModules import BitMask32, Vec4
 
+# Questmap Update
+MapHotkeyOn = "alt"
+MapHotkeyOff = "alt-up"
+MapHotkey = "alt"
+
 AccountDatabaseChannelId = 4008
 ToonDatabaseChannelId = 4021
 DoodleDatabaseChannelId = 4023
