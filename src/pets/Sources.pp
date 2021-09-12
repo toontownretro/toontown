@@ -8,8 +8,8 @@
   #define OTHER_LIBS \
     otp:m otpbase:c movement:c \
     panda:m downloader:c express:c pandabase:c recorder:c \
-    pgraph:c pgraphnodes:c pipeline:c grutil:c chan:c pstatclient:c \
-    char:c collide:c cull:c device:c dgraph:c display:c \
+    pgraph:c pgraphnodes:c pipeline:c grutil:c anim:c pstatclient:c \
+    collide:c cull:c device:c dgraph:c display:c \
     event:c gobj:c gsgbase:c linmath:c mathutil:c parametrics:c \
     pnmimagetypes:c pnmimage:c tform:c text:c \
     putil:c audio:c pgui:c interrogatedb \

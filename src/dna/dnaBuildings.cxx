@@ -15,6 +15,7 @@
 #include "decalEffect.h"
 #include "collisionSphere.h"
 #include "config_linmath.h"
+#include "dnaDoor.h"
 
 // For fixing encodings
 // #include "textNode.h"
