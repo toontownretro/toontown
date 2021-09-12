@@ -2,7 +2,7 @@
    multiple FSMs"""
 
 from toontown.toonbase.ToontownModules import *
-from direct.showbase.PythonUtil import Functor
+from direct.showbase.PythonUtil import Functor, PriorityCallbacks
 from direct.task import Task
 from toontown.distributed.ToontownMsgTypes import *
 from otp.otpbase import OTPGlobals
@@ -86,6 +86,40 @@ class QuietZoneState(StateData.StateData):
     def clearWaitForDatabase(self):
         base.cr.cleanupWaitingForDatabase()
 
+    def addLeftQuietZoneCallback(self, callback, priority = None):
+        if self._leftQuietZoneCallbacks:
+            return self._leftQuietZoneCallbacks.add(callback, priority)
+        else:
+            token = PriorityCallbacks.GetToken()
+            fdc = SubframeCall(callback, taskMgr.getCurrentTask().getPriority() - 1)
+            self._leftQuietZoneLocalCallbacks[token] = fdc
+            return token
+
+    def removeLeftQuietZoneCallback(self, token):
+        if token is not None:
+            lc = self._leftQuietZoneLocalCallbacks.pop(token, None)
+            if lc:
+                lc.cleanup()
+            if self._leftQuietZoneCallbacks:
+                self._leftQuietZoneCallbacks.remove(token)
+
+    def addSetZoneCompleteCallback(self, callback, priority = None):
+        if self._setZoneCompleteCallbacks:
+            return self._setZoneCompleteCallbacks.add(callback, priority)
+        else:
+            token = PriorityCallbacks.GetToken()
+            fdc = SubframeCall(callback, taskMgr.getCurrentTask().getPriority() - 1)
+            self._setZoneCompleteLocalCallbacks[token] = fdc
+            return token
+
+    def removeSetZoneCompleteCallback(self, token):
+        if token is not None:
+            lc = self._setZoneCompleteLocalCallbacks.pop(token, None)
+            if lc:
+                lc.cleanup()
+            if self._setZoneCompleteCallbacks:
+                self._setZoneCompleteCallbacks.remove(token)
+
     ##### handlers #####
 
     def handleWaitForQuietZoneResponse(self, msgType, di):
@@ -131,6 +165,10 @@ class QuietZoneState(StateData.StateData):
 
     def exitOff(self):
         self.notify.debug("exitOff()")
+        self._leftQuietZoneCallbacks = PriorityCallbacks()
+        self._setZoneCompleteCallbacks = PriorityCallbacks()
+        self._leftQuietZoneLocalCallbacks = {}
+        self._setZoneCompleteLocalCallbacks = {}
 
     ##### WaitForQuietZoneResponse #####
 

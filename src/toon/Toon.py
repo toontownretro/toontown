@@ -2,6 +2,7 @@
 """Toon module: contains the Toon class"""
 
 from otp.avatar import Avatar
+from otp.avatar.Avatar import teleportNotify
 from . import ToonDNA
 from direct.task.Task import Task
 from toontown.suit import SuitDNA
@@ -95,6 +96,13 @@ for partNum in range(0, parts.getNumPaths()):
     parts.getPath(partNum).setColor(c)
 
 """
+
+def teleportDebug(requestStatus, msg, onlyIfToAv = True):
+    if teleportNotify.getDebug():
+        teleport = 'teleport'
+        if 'how' in requestStatus and requestStatus['how'][:len(teleport)] == teleport:
+            if not onlyIfToAv or 'avId' in requestStatus and requestStatus['avId'] > 0:
+                teleportNotify.debug(msg)
 
 SLEEP_STRING = TTLocalizer.ToonSleepString
 

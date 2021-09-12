@@ -5,12 +5,14 @@ from toontown.toonbase.ToonBaseGlobal import *
 
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
+from direct.showbase.PythonUtil import PriorityCallbacks
 from toontown.safezone import PublicWalk
 from toontown.launcher import DownloadForceAcknowledge
 from . import TrialerForceAcknowledge
 from . import ZoneUtil
 from toontown.friends import FriendsListManager
 from toontown.toonbase import ToontownGlobals
+from toontown.toon.Toon import teleportDebug
 from toontown.estate import HouseGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
@@ -37,6 +39,10 @@ class Place(StateData.StateData,
         self.trialerFADoneEvent = 'trialerFADoneEvent'
         self.zoneId = None
         self.trialerFA = None
+        self._leftQuietZoneLocalCallbacks = PriorityCallbacks()
+        self._leftQuietZoneSubframeCall = None
+        self._setZoneCompleteLocalCallbacks = PriorityCallbacks()
+        self._setZoneCompleteSubframeCall = None
         # We don't keep a pointer to the FriendInvitee panel, since we
         # expect that to remain onscreen until the user deals with it,
         # even when switching hoods etc.
@@ -56,6 +62,14 @@ class Place(StateData.StateData,
         StateData.StateData.unload(self)
         FriendsListManager.FriendsListManager.unload(self)
         self.notify.info("Unloading Place (%s). Fsm in %s" % (self.zoneId, self._tempFSM.getCurrentState().getName()))
+        if self._leftQuietZoneSubframeCall:
+            self._leftQuietZoneSubframeCall.cleanup()
+            self._leftQuietZoneSubframeCall = None
+        if self._setZoneCompleteSubframeCall:
+            self._setZoneCompleteSubframeCall.cleanup()
+            self._setZoneCompleteSubframeCall = None
+        self._leftQuietZoneLocalCallbacks = None
+        self._setZoneCompleteLocalCallbacks = None
         del self._tempFSM
         taskMgr.remove("goHomeFailed")
         del self.walkDoneEvent
@@ -65,6 +79,63 @@ class Place(StateData.StateData,
         if self.trialerFA:
             self.trialerFA.exit()
             del self.trialerFA
+
+    def _getQZState(self):
+        if hasattr(base, 'cr') and hasattr(base.cr, 'playGame'):
+            if hasattr(base.cr.playGame, 'quietZoneStateData') and base.cr.playGame.quietZoneStateData:
+                return base.cr.playGame.quietZoneStateData
+        return None
+
+    def addLeftQuietZoneCallback(self, callback, priority = None):
+        qzsd = self._getQZState()
+        if qzsd:
+            return qzsd.addLeftQuietZoneCallback(callback, priority)
+        else:
+            token = self._leftQuietZoneLocalCallbacks.add(callback, priority=priority)
+            if not self._leftQuietZoneSubframeCall:
+                self._leftQuietZoneSubframeCall = SubframeCall(self._doLeftQuietZoneCallbacks, taskMgr.getCurrentTask().getPriority() - 1)
+            return token
+
+    def removeLeftQuietZoneCallback(self, token):
+        if token is not None:
+            if token in self._leftQuietZoneLocalCallbacks:
+                self._leftQuietZoneLocalCallbacks.remove(token)
+            qzsd = self._getQZState()
+            if qzsd:
+                qzsd.removeLeftQuietZoneCallback(token)
+        return
+
+    def _doLeftQuietZoneCallbacks(self):
+        self._leftQuietZoneLocalCallbacks()
+        self._leftQuietZoneLocalCallbacks.clear()
+        self._leftQuietZoneSubframeCall = None
+        return
+
+    def addSetZoneCompleteCallback(self, callback, priority = None):
+        qzsd = self._getQZState()
+        if qzsd:
+            return qzsd.addSetZoneCompleteCallback(callback, priority)
+        else:
+            token = self._setZoneCompleteLocalCallbacks.add(callback, priority=priority)
+            if not self._setZoneCompleteSubframeCall:
+                self._setZoneCompleteSubframeCall = SubframeCall(self._doSetZoneCompleteLocalCallbacks, taskMgr.getCurrentTask().getPriority() - 1)
+            return token
+
+    def removeSetZoneCompleteCallback(self, token):
+        if token is not None:
+            if token in self._setZoneCompleteLocalCallbacks:
+                self._setZoneCompleteLocalCallbacks.remove(token)
+            qzsd = self._getQZState()
+            if qzsd:
+                qzsd.removeSetZoneCompleteCallback(token)
+        return
+
+    def _doSetZoneCompleteLocalCallbacks(self):
+        self._setZoneCompleteSubframeCall = None
+        localCallbacks = self._setZoneCompleteLocalCallbacks
+        self._setZoneCompleteLocalCallbacks()
+        localCallbacks.clear()
+        return
 
     def setState(self, state):
         assert(self.notify.debug("setState(state="+str(state)+")"))
@@ -598,6 +669,7 @@ class Place(StateData.StateData,
 
     def requestLeave(self, requestStatus):
         # Request to leave the current location and go somewhere else.
+        teleportDebug(requestStatus, 'requestLeave(%s)' % (requestStatus,))
         if hasattr(self, 'fsm'):
             self.doRequestLeave(requestStatus)
 
@@ -607,6 +679,7 @@ class Place(StateData.StateData,
         # This was added to accomodate the trialerFA; we want to do the
         # trialer check before the download check, so that we don't get
         # their hopes up
+        teleportDebug(requestStatus, 'requestLeave(%s)' % (requestStatus,))
         self.fsm.request('DFA', [requestStatus])
 
     def enterDFA(self, requestStatus):
@@ -614,6 +687,7 @@ class Place(StateData.StateData,
         NOTE: TTPlayground redefines this because the TT streets are in phase 5,
         not the same phase as the safe zone like the rest of the hoods
         """
+        teleportDebug(requestStatus, 'enterDFA(%s)' % (requestStatus,))
         self.acceptOnce(self.dfaDoneEvent, self.enterDFACallback, [requestStatus])
         self.dfa = DownloadForceAcknowledge.DownloadForceAcknowledge(self.dfaDoneEvent)
         self.dfa.enter(base.cr.hoodMgr.getPhaseFromHood(requestStatus["hoodId"]))
@@ -648,6 +722,7 @@ class Place(StateData.StateData,
         Note: the SafeZone.py overrides this becuase the safe zone needs to
         check your health meter before letting you into the tunnel too.
         """
+        teleportDebug(requestStatus, 'enterDFACallback%s' % ((requestStatus, doneStatus),))
         self.dfa.exit()
         del self.dfa
         # Check the status from the fda
@@ -670,6 +745,8 @@ class Place(StateData.StateData,
                        "tunnelIn":"tunnelOut",
                        "doorIn":"doorOut"}
 
+            teleportDebug(requestStatus, 'requesting %s, requestStatus=%s' % (out[requestStatus['how']], requestStatus))
+
             assert(self.notify.info("HOW: " + out[requestStatus["how"]]))
             self.fsm.request(out[requestStatus["how"]], [requestStatus])
         # Rejected
@@ -689,6 +766,7 @@ class Place(StateData.StateData,
 
     # prevent trialers from leaving TTC
     def enterTrialerFA(self, requestStatus):
+        teleportDebug(requestStatus, 'enterTrialerFA(%s)' % requestStatus)
         self.acceptOnce(self.trialerFADoneEvent, self.trialerFACallback,
                         [requestStatus])
         self.trialerFA = TrialerForceAcknowledge.TrialerForceAcknowledge(
@@ -993,10 +1071,15 @@ class Place(StateData.StateData,
 
     def enterTeleportIn(self, requestStatus):
         assert(self.notify.debug("enterTeleportIn()"))
+        self._tiToken = self.addSetZoneCompleteCallback(Functor(self._placeTeleportInPostZoneComplete, requestStatus), 100)
+
+    def _placeTeleportInPostZoneComplete(self, requestStatus):
+        teleportDebug(requestStatus, '_placeTeleportInPostZoneComplete(%s)' % (requestStatus,))
 
         # Turn off the little red arrows while we teleport in.
         NametagGlobals.setMasterArrowsOn(0)
         base.localAvatar.laffMeter.start()
+        base.localAvatar.startQuestMap()
         base.localAvatar.reconsiderCheesyEffect()
         base.localAvatar.obscureMoveFurnitureButton(1)
 
@@ -1004,6 +1087,7 @@ class Place(StateData.StateData,
         if avId != -1:
             if avId in base.cr.doId2do:
                 # Teleport to avatar
+                teleportDebug(requestStatus, 'teleport to avatar')
                 avatar = base.cr.doId2do[avId]
                 avatar.forceToTruePosition()
                 base.localAvatar.gotoNode(avatar)
@@ -1012,6 +1096,7 @@ class Place(StateData.StateData,
                 # The avatar isn't here!
                 friend = base.cr.identifyAvatar(avId)
                 if friend != None:
+                    teleportDebug(requestStatus, 'friend not here, giving up')
                     base.localAvatar.setSystemMessage(
                         avId,
                         OTPLocalizer.WhisperTargetLeftVisit % (friend.getName(),))
