@@ -149,17 +149,17 @@ class TownBattle(StateData.StateData):
 
         self.SOSPetInfoPanelDoneEvent = 'SOSPetInfo-panel-done'
         self.SOSPetInfoPanel = TownBattleSOSPetInfoPanel.TownBattleSOSPetInfoPanel(self.SOSPetInfoPanelDoneEvent)
-        
-        
-        
+
+
+
         self.fireCogPanelDoneEvent = 'fire-cog-panel-done'
         self.FireCogPanel = FireCogPanel.FireCogPanel(
             self.fireCogPanelDoneEvent)
-            
+
         self.cogFireCosts = [None, None, None, None]
-        
-        
-        
+
+
+
 
         # These are not StateDatas, so they have no doneEvents
         self.toonPanels = (TownBattleToonPanel.TownBattleToonPanel(0),
@@ -168,7 +168,8 @@ class TownBattle(StateData.StateData):
                            TownBattleToonPanel.TownBattleToonPanel(3))
 
         self.timer = ToontownTimer.ToontownTimer()
-        self.timer.setPos(1.182, 0, 0.842)
+        self.timer.reparentTo(base.a2dTopRight)
+        self.timer.setPos(-0.151, 0, -0.158)
         self.timer.setScale(0.4)
         self.timer.hide()
         return
@@ -359,7 +360,7 @@ class TownBattle(StateData.StateData):
                         if target == -1:
                             # We haven't chosen a target yet.
                             numTargets = None
-                    
+
                 self.toonPanels[battleIndices[i]].setValues(battleIndices[i],
                       tracks[i], levels[i], numTargets, target, self.localNum)
 
@@ -745,8 +746,8 @@ class TownBattle(StateData.StateData):
             messenger.send(self.battleEvent, [response])
         else:
             self.fsm.request('Attack')
-            
-            
+
+
     ##### Fire state #####
 
     def enterFire(self):
@@ -763,8 +764,8 @@ class TownBattle(StateData.StateData):
         self.ignore(self.fireCogPanelDoneEvent)
         self.FireCogPanel.exit()
         return None
-        
-        
+
+
     def __handleCogFireDone(self, doneStatus):
         assert 'mode' in doneStatus
         mode = doneStatus['mode']
@@ -782,7 +783,7 @@ class TownBattle(StateData.StateData):
         else:
             self.notify.warning('unknown mode: %s' % mode)
 
-            
+
 
     ##### SOS state #####
 
@@ -909,9 +910,9 @@ class TownBattle(StateData.StateData):
         assert ((levelNum >= MIN_LEVEL_INDEX) and (levelNum <= MAX_LEVEL_INDEX) or
                 (trackNum == BattleBase.FIRE) and (levelNum == -1))
 
-        
+
         #RAU 2006/08/02 for uber gags, we consult BattleBase.AttackAffectsGroup
-        
+
         # Sound attacks are group attacks
         #if trackNum == SOUND_TRACK:
         #    return 1
@@ -924,8 +925,8 @@ class TownBattle(StateData.StateData):
 
         retval = BattleBase.attackAffectsGroup(trackNum, levelNum)
         return retval
-        
-        
+
+
 
     def __isGroupHeal(self, levelNum):
         # Odd numbered heals are group heals JML- not any more
@@ -935,4 +936,3 @@ class TownBattle(StateData.StateData):
         #    return 0
         retval = BattleBase.attackAffectsGroup(HEAL_TRACK, levelNum)
         return retval
-

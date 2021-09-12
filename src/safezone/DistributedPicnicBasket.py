@@ -126,7 +126,8 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         self.seatNumber = 0
 
         self.clockNode = ToontownTimer()
-        self.clockNode.setPos(1.16, 0, -0.83)
+        self.clockNode.reparentTo(base.a2dBottomRight)
+        self.clockNode.setPos(-0.173, 0, 0.17)
         self.clockNode.setScale(0.3)
         self.clockNode.hide()
 
