@@ -24,13 +24,19 @@ class RewardPanel(DirectFrame):
     This panel shows experience gained during a battle
     """
     notify = DirectNotifyGlobal.directNotify.newCategory('RewardPanel')
+    SkipBattleMovieEvent = 'skip-battle-movie-event'
 
     def __init__(self, name):
+        gscale = (TTLocalizer.RPdirectFrame[0], 
+                  TTLocalizer.RPdirectFrame[1], 
+                  TTLocalizer.RPdirectFrame[2] * 1.1)
         DirectFrame.__init__(self,
                              relief=None,
                              geom = DGG.getDefaultDialogGeom(),
                              geom_color = ToontownGlobals.GlobalDialogColor,
-                             geom_scale = TTLocalizer.RPdirectFrame,
+                             geom_pos=Point3(0, 0, -.05),
+                             #geom_scale = TTLocalizer.RPdirectFrame,
+                             geom_scale=gscale,
                              pos = (0, 0, 0.587),
                              )
         self.initialiseoptions(RewardPanel)
@@ -268,6 +274,28 @@ class RewardPanel(DirectFrame):
                 pos = (0.40, 0, -0.09*i),
                 ))
 
+        self._battleGui = loader.loadModel('phase_3.5/models/gui/battle_gui')
+        self.skipButton = DirectButton(
+            parent=self, 
+            relief=None, 
+            image=(self._battleGui.find('**/tt_t_gui_gen_skipSectionUp'),
+                   self._battleGui.find('**/tt_t_gui_gen_skipSectionDown'),
+                   self._battleGui.find('**/tt_t_gui_gen_skipSectionRollOver'),
+                   self._battleGui.find('**/tt_t_gui_gen_skipSectionDisabled')), 
+            pos=(0.815, 0, -0.395), 
+            scale=(0.39, 1.0, 0.39), 
+            text=('',
+                  TTLocalizer.RewardPanelSkip,
+                  TTLocalizer.RewardPanelSkip,
+                  ''), 
+            text_scale=TTLocalizer.RPskipScale, 
+            text_fg=Vec4(1, 1, 1, 1), 
+            text_shadow=Vec4(0, 0, 0, 1), 
+            text_pos=TTLocalizer.RPskipPos, 
+            textMayChange=0, 
+            command=self._handleSkip)
+
+
         return
 
     # Elemental operations:
@@ -404,7 +432,7 @@ class RewardPanel(DirectFrame):
                 else:
                     questLabel['text'] = questString + " :"
 
-    def initGagFrame(self, toon, expList, meritList):
+    def initGagFrame(self, toon, expList, meritList, noSkip = False):
         self.avNameLabel['text'] = toon.getName()
         self.endTrackFrame.hide()
         self.gagExpFrame.show()
@@ -416,6 +444,8 @@ class RewardPanel(DirectFrame):
         self.missedItemFrame.hide()
 
         trackBarOffset = 0
+
+        self.skipButton['state'] = choice(noSkip, DGG.DISABLED, DGG.NORMAL)
 
         # Initialize the cog merit bars if enabled
         for i in range(len(SuitDNA.suitDepts)):
@@ -1087,7 +1117,7 @@ class RewardPanel(DirectFrame):
 
     def getExpTrack(self, toon, origExp, earnedExp, deathList, origQuestsList, itemList,
                     missedItemList, origMeritList, meritList, partList,
-                    toonList, uberEntry, helpfulToonsList):
+                    toonList, uberEntry, helpfulToonsList, noSkip = False):
         """
         Assumes for input:
         origExp: a list of 7 values, corresponding to current experience
@@ -1106,7 +1136,7 @@ class RewardPanel(DirectFrame):
         have just recently dropped.
         """
 
-        track = Sequence(Func(self.initGagFrame, toon, origExp, origMeritList),
+        track = Sequence(Func(self.initGagFrame, toon, origExp, origMeritList, noSkip=noSkip),
                          Wait(1.0))
 
         endTracks = [0,0,0,0,0,0,0]
@@ -1233,3 +1263,6 @@ class RewardPanel(DirectFrame):
         else:
             self.notify.debug("no experience, no movie.")
         return None
+
+    def _handleSkip(self):
+        messenger.send(self.SkipBattleMovieEvent)
