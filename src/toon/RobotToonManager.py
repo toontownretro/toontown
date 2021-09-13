@@ -6,47 +6,44 @@ except NameError:
     from direct.directbase import DirectStart
     # Let the world know there is no localAvatar
     base.localAvatar = None
-
-from direct.directnotify import DirectNotifyGlobal
-from direct.showbase.DirectObject import DirectObject
-from direct.showbase import ShowBase
-from toontown.toon.RobotToon import *
-from toontown.battle.BattleProps import *
-from direct.gui.DirectGui import *
-from direct.gui import DirectGuiGlobals
-from toontown.toonbase.ToontownModules import *
-from toontown.leveleditor.PieMenu import *
-from direct.directtools.DirectSelection import SelectionRay
-from direct.showbase.TkGlobal import *
+    
+import builtins, sys, os, string, Pmw
+    
 from tkinter import *
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 from tkinter.simpledialog import askstring, askfloat
 from tkinter.messagebox import showwarning, showinfo
+from direct.directnotify import DirectNotifyGlobal
+from direct.directtools.DirectSelection import SelectionRay
+from direct.distributed.PyDatagram import PyDatagram
+from direct.gui.DirectGui import *
+from direct.gui import DirectGuiGlobals
+from direct.interval.IntervalGlobal import *
+from direct.showbase.DirectObject import DirectObject
+from direct.showbase import ShowBase
+from direct.showbase.TkGlobal import *
+from direct.task.Task import Task
 from direct.tkwidgets.AppShell import *
 from direct.tkwidgets.SceneGraphExplorer import *
-from direct.interval.IntervalGlobal import *
-from toontown.battle.SuitBattleGlobals import SuitAttributes
-from toontown.makeatoon import NameGenerator
 from direct.tkwidgets import Valuator
 from direct.tkwidgets import Slider
-from toontown.toon import ToonDNA
-from direct.task.Task import Task
+from otp.otpbase import OTPLocalizer
+from toontown.battle import BattleParticles
+from toontown.battle.BattleProps import *
+from toontown.battle.SuitBattleGlobals import SuitAttributes
+from toontown.effects import Fireworks, FireworkShows, FireworkGlobals
+from toontown.hood import SkyUtil
+from toontown.leveleditor.ToonStyleManager import *
+from toontown.leveleditor.PieMenu import *
+from toontown.makeatoon import NameGenerator
+from toontown.pets import PetDNA
 from toontown.suit import SuitDNA
 from toontown.suit import Suit
-from otp.otpbase import OTPLocalizer
+from toontown.toon.RobotToon import *
+from toontown.toon import ToonDNA
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
-import builtins
-from toontown.hood import SkyUtil
-from direct.distributed.PyDatagram import PyDatagram
-from toontown.pets import PetDNA
-import sys, os
-import string
-import Pmw
 
-from toontown.leveleditor.LevelStyleManager import *
-
-from toontown.effects import Fireworks, FireworkShows, FireworkGlobals
-from toontown.battle import BattleParticles
 
 try:
     if base.direct is None:
@@ -679,33 +676,6 @@ except NameError:
     loadDNAFile(DNASTORE, 'phase_5/dna/storage_town.dna', CSDefault, 1)
     loadDNAFile(DNASTORE, 'phase_5.5/dna/storage_estate.dna', CSDefault, 1)
     loadDNAFile(DNASTORE, 'phase_5.5/dna/storage_house_interior.dna', CSDefault, 1)
-    # Load all the neighborhood specific storage files
-    if 'TT' in hoods:
-        loadDNAFile(DNASTORE, 'phase_4/dna/storage_TT.dna', CSDefault, 1)
-        loadDNAFile(DNASTORE, 'phase_4/dna/storage_TT_sz.dna', CSDefault, 1)
-        loadDNAFile(DNASTORE, 'phase_5/dna/storage_TT_town.dna', CSDefault, 1)
-    if 'DD' in hoods:
-        loadDNAFile(DNASTORE, 'phase_6/dna/storage_DD.dna', CSDefault, 1)
-        loadDNAFile(DNASTORE, 'phase_6/dna/storage_DD_sz.dna', CSDefault, 1)
-        loadDNAFile(DNASTORE, 'phase_6/dna/storage_DD_town.dna', CSDefault, 1)
-    if 'MM' in hoods:
-        loadDNAFile(DNASTORE, 'phase_6/dna/storage_MM.dna', CSDefault, 1)
-        loadDNAFile(DNASTORE, 'phase_6/dna/storage_MM_sz.dna', CSDefault, 1)
-        loadDNAFile(DNASTORE, 'phase_6/dna/storage_MM_town.dna', CSDefault, 1)
-    if 'BR' in hoods:
-        loadDNAFile(DNASTORE, 'phase_8/dna/storage_BR.dna', CSDefault, 1)
-        loadDNAFile(DNASTORE, 'phase_8/dna/storage_BR_sz.dna', CSDefault, 1)
-        loadDNAFile(DNASTORE, 'phase_8/dna/storage_BR_town.dna', CSDefault, 1)
-    if 'DG' in hoods:
-        loadDNAFile(DNASTORE, 'phase_8/dna/storage_DG.dna', CSDefault, 1)
-        loadDNAFile(DNASTORE, 'phase_8/dna/storage_DG_sz.dna', CSDefault, 1)
-        loadDNAFile(DNASTORE, 'phase_8/dna/storage_DG_town.dna', CSDefault, 1)
-    if 'DL' in hoods:
-        loadDNAFile(DNASTORE, 'phase_8/dna/storage_DL.dna', CSDefault, 1)
-        loadDNAFile(DNASTORE, 'phase_8/dna/storage_DL_sz.dna', CSDefault, 1)
-        loadDNAFile(DNASTORE, 'phase_8/dna/storage_DL_town.dna', CSDefault, 1)
-    if 'PA' in hoods:
-        loadDNAFile(DNASTORE, 'phase_13/dna/storage_party_sz.dna', CSDefault, 1)
     builtins.dnaLoaded = 1
 
 class RobotToonManager(DirectObject):
@@ -792,7 +762,7 @@ class RobotToonManager(DirectObject):
         self.mouseMayaCamera = True
         base.direct.cameraControl.useMayaCamControls = True
         base.direct.cameraControl.lockRoll = True
-        self.styleManager = LevelStyleManager(NEIGHBORHOODS, NEIGHBORHOOD_CODES)
+        self.styleManager = ToonStyleManager()
 
         self.setLastAngle(0.0)
 
@@ -938,6 +908,7 @@ class RobotToonManager(DirectObject):
         self.setToonAnimState(state)
         messenger.send('SGE_Update Explorer', [t])
         return t
+
     def makeToonFromServerString(self, serverString,
                                  pos = Point3(0), hpr = Point3(0),
                                  startPos = Point3(0), startHpr = Point3(0),
@@ -948,6 +919,7 @@ class RobotToonManager(DirectObject):
         dna.makeFromNetString(netString)
         return self.makeToonFromProperties(
             dna.asTuple(),pos,hpr,startPos,startHpr,endPos,endHpr,state)
+
     def convertServerDNAString(self, serverString):
         # Strip out blank space and take last 30 characters
         serverString = serverString.replace(' ', '')
@@ -956,11 +928,15 @@ class RobotToonManager(DirectObject):
         dg = PyDatagram()
         for i in range(0,len(serverString),2):
             eval('dg.addUint8(0x%s)' % serverString[i:i+2])
+
         return dg.getMessage()
+
     def _setStartPos(self):
         self.setStartPos((self.pieMenu.originX, self.pieMenu.originY))
+
     def _setEndPos(self):
         self.setEndPos((self.pieMenu.originX, self.pieMenu.originY))
+
     def setStartPos(self, xy = None):
         # Check for intersection
         entry = self.iRay.pickGeom(
@@ -972,6 +948,7 @@ class RobotToonManager(DirectObject):
             st.setStartPos(st.getPos())
             st.setStartHpr(st.getHpr())
             st.updateWalkIval()
+
     def setEndPos(self, xy = None):
         # Check for intersection
         entry = self.iRay.pickGeom(
@@ -983,6 +960,7 @@ class RobotToonManager(DirectObject):
             st.setEndPos(st.getPos())
             st.setEndHpr(st.getHpr())
             st.updateWalkIval()
+
     def findSelectedToon(self, nodePath):
         id = nodePath.id()
         np = nodePath.findNetTag('robotAvatar')
@@ -992,6 +970,7 @@ class RobotToonManager(DirectObject):
             self.selectedToon = self.avatarDict.get(np.id())
             if self.panel:
                 self.panel.updateToonInfo()
+
     def makeSuitFromProperties(self, properties,
                                pos, hpr,
                                startPos, startHpr,
@@ -1004,6 +983,7 @@ class RobotToonManager(DirectObject):
         self.avatarDict[t.id()] = t
         messenger.send('SGE_Update Explorer', [t])
         return t
+
     def openCrowdFilePanel(self):
         tcfFilename = askopenfilename(
             defaultextension = '.tcf', initialdir = '.',
@@ -1011,6 +991,7 @@ class RobotToonManager(DirectObject):
             title = 'Open Toon Crowd File')
         if tcfFilename:
             self.openCrowdFile(tcfFilename)
+
     def openCrowdFile(self, tcfFilename):
             filename = Filename(tcfFilename)
             f = open(filename.toOsSpecific(), 'rb')
@@ -1025,6 +1006,7 @@ class RobotToonManager(DirectObject):
                     self.makeSuitFromProperties(
                         props,pos,hpr,startPos,startHpr,endPos,endHpr,state)
             f.close()
+
     def parseAvatarProperties(self, line):
         line = string.strip(line)
         if line:
@@ -2599,8 +2581,7 @@ class RobotToonControlPanel(AppShell):
             scrolledlist_items = codes
             )
         self.propType = self.styleManager.getCatalogCode('prop', 0)
-        self.propSelector.selectitem(
-            self.styleManager.getCatalogCode('prop', 0))
+        self.propSelector.selectitem(self.styleManager.getCatalogCode('prop', 0))
         self.propSelector.pack(expand = 1, fill = BOTH)
 
         # Effects tab
@@ -3369,9 +3350,46 @@ class RobotToonControlPanel(AppShell):
     def loadDNAFromFile(self, filename):
         # Reset level, destroying existing scene/DNA hierarcy
         self.resetScene()
+        
+        file = Filename.fromOsSpecific(filename).cStr()
+           
+        # Load all the neighborhood specific storage files
+        if 'toontown_central' in file:
+            loadDNAFile(DNASTORE, 'phase_4/dna/storage_TT.dna', CSDefault, 1)
+            loadDNAFile(DNASTORE, 'phase_4/dna/storage_TT_sz.dna', CSDefault, 1)
+            loadDNAFile(DNASTORE, 'phase_5/dna/storage_TT_town.dna', CSDefault, 1)
+            self.styleManager.loadNeighborhood("toontown_central", "TT")
+        elif 'donalds_dock' in file:
+            loadDNAFile(DNASTORE, 'phase_6/dna/storage_DD.dna', CSDefault, 1)
+            loadDNAFile(DNASTORE, 'phase_6/dna/storage_DD_sz.dna', CSDefault, 1)
+            loadDNAFile(DNASTORE, 'phase_6/dna/storage_DD_town.dna', CSDefault, 1)
+            self.styleManager.loadNeighborhood("donalds_dock", "DD")
+        elif 'minnies_melody_land' in file:
+            loadDNAFile(DNASTORE, 'phase_6/dna/storage_MM.dna', CSDefault, 1)
+            loadDNAFile(DNASTORE, 'phase_6/dna/storage_MM_sz.dna', CSDefault, 1)
+            loadDNAFile(DNASTORE, 'phase_6/dna/storage_MM_town.dna', CSDefault, 1)
+            self.styleManager.loadNeighborhood("minnies_melody_land", "MM")
+        elif 'the_burrrgh' in file:
+            loadDNAFile(DNASTORE, 'phase_8/dna/storage_BR.dna', CSDefault, 1)
+            loadDNAFile(DNASTORE, 'phase_8/dna/storage_BR_sz.dna', CSDefault, 1)
+            loadDNAFile(DNASTORE, 'phase_8/dna/storage_BR_town.dna', CSDefault, 1)
+            self.styleManager.loadNeighborhood("the_burrrgh", "BR")
+        elif 'daisys_garden' in file:
+            loadDNAFile(DNASTORE, 'phase_8/dna/storage_DG.dna', CSDefault, 1)
+            loadDNAFile(DNASTORE, 'phase_8/dna/storage_DG_sz.dna', CSDefault, 1)
+            loadDNAFile(DNASTORE, 'phase_8/dna/storage_DG_town.dna', CSDefault, 1)
+            self.styleManager.loadNeighborhood("daisys_garden", "DG")
+        elif 'donalds_dreamland' in file:
+            loadDNAFile(DNASTORE, 'phase_8/dna/storage_DL.dna', CSDefault, 1)
+            loadDNAFile(DNASTORE, 'phase_8/dna/storage_DL_sz.dna', CSDefault, 1)
+            loadDNAFile(DNASTORE, 'phase_8/dna/storage_DL_town.dna', CSDefault, 1)
+            self.styleManager.loadNeighborhood("donalds_dreamland", "DL")
+        elif 'party_zone' in file:
+            loadDNAFile(DNASTORE, 'phase_13/dna/storage_party_sz.dna', CSDefault, 1)
+            self.styleManager.loadNeighborhood("party_zone", "PA")
 
         node = loadDNAFile(DNASTORE,
-                           Filename.fromOsSpecific(filename).cStr(),
+                           file,
                            CSDefault, 1)
 
         self.npToplevel = render.attachNewNode(node)
