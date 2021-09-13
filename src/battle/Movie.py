@@ -345,24 +345,26 @@ class Movie(DirectObject.DirectObject):
         return None
         
 
-    def playReward(self, ts, name, callback):
+    def playReward(self, ts, name, callback, noSkip = False):
         self.rewardHasBeenReset = 0
         ptrack = Sequence()
         camtrack = Sequence()
         self.rewardPanel = RewardPanel.RewardPanel(name)
         self.rewardPanel.hide()
 
-        (victory, camVictory) = MovieToonVictory.doToonVictory(
-                                self.battle.localToonActive(),
-                                self.battle.activeToons,
-                                self.toonRewardIds,
-                                self.toonRewardDicts,
-                                self.deathList,
-                                self.rewardPanel,
-                                1,
-                                self.uberList,
-                                self.helpfulToonsList)
+        (victory, camVictory, skipper) = MovieToonVictory.doToonVictory(
+                                         self.battle.localToonActive(),
+                                         self.battle.activeToons,
+                                         self.toonRewardIds,
+                                         self.toonRewardDicts,
+                                         self.deathList,
+                                         self.rewardPanel,
+                                         1,
+                                         self.uberList,
+                                         self.helpfulToonsList,
+                                         noSkip=noSkip)
         if (victory):
+            skipper.setIvals((ptrack, camtrack), ptrack.getDuration())
             ptrack.append(victory)
             camtrack.append(camVictory)
         ptrack.append(Func(callback))
@@ -376,6 +378,8 @@ class Movie(DirectObject.DirectObject):
         self.track.delayDeletes = []
         for t in self.battle.activeToons:
             self.track.delayDeletes.append(DelayDelete.DelayDelete(t, 'Movie.playReward'))
+        skipper.setIvals((self.track,), 0.0)
+        skipper.setBattle(self.battle)
         self.track.start(ts)
         return None
 
@@ -426,7 +430,7 @@ class Movie(DirectObject.DirectObject):
         self.track.append(Func(self.rewardPanel.initGagFrame,
                           base.localAvatar,
                           [0, 0, 0, 0, 0, 0, 0],
-                          [0, 0, 0, 0]))
+                          [0, 0, 0, 0], noSkip=True))
         self.track += self.rewardPanel.getTrackIntervalList(base.localAvatar, THROW_TRACK, 0, 1, 0)
         self.track.append(Func(self.tutRewardDialog_1.show))
         self.track.start()

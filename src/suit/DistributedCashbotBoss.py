@@ -1275,14 +1275,15 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
         panelName = self.uniqueName('reward')
         self.rewardPanel = RewardPanel.RewardPanel(panelName)
-        (victory, camVictory) = MovieToonVictory.doToonVictory(
-                                1, self.involvedToons,
-                                self.toonRewardIds,
-                                self.toonRewardDicts,
-                                self.deathList,
-                                self.rewardPanel,
-                                allowGroupShot = 0,
-                                uberList = self.uberList)
+        (victory, camVictory, skipper) = MovieToonVictory.doToonVictory(
+                                         1, self.involvedToons,
+                                         self.toonRewardIds,
+                                         self.toonRewardDicts,
+                                         self.deathList,
+                                         self.rewardPanel,
+                                         allowGroupShot = 0,
+                                         uberList = self.uberList,
+                                         noSkip=True)
 
         ival = Sequence(
             Parallel(victory, camVictory),

@@ -276,7 +276,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         if (self.hasLocalToon()):
             NametagGlobals.setMasterArrowsOn(0)
         self.movie.playReward(ts, self.uniqueName('building-reward'),
-                                        self.__handleBuildingRewardDone)
+                                        self.__handleBuildingRewardDone, noSkip=True)
         return None
 
     def __handleBuildingRewardDone(self):
