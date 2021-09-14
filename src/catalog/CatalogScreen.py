@@ -709,7 +709,7 @@ class CatalogScreen(DirectFrame):
 
         itemList = (base.localAvatar.monthlyCatalog +
                      base.localAvatar.weeklyCatalog)
-        itemList.sort(key=lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeWeekly))
+        itemList.sort(lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeWeekly))
         itemList.reverse()
         for item in itemList:
             if isinstance(item, CatalogInvalidItem.CatalogInvalidItem):
@@ -737,7 +737,7 @@ class CatalogScreen(DirectFrame):
 
         itemList = base.localAvatar.backCatalog
         itemList.sort(
-            key=lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeBackorder))
+            lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeBackorder))
         itemList.reverse()
         for item in itemList:
             if isinstance(item, CatalogInvalidItem.CatalogInvalidItem):
@@ -773,7 +773,7 @@ class CatalogScreen(DirectFrame):
         currentWeek = base.localAvatar.catalogScheduleCurrentWeek - 1
 
         if currentWeek < 57:
-            seriesNumber = currentWeek / ToontownGlobals.CatalogNumWeeksPerSeries + 1
+            seriesNumber = currentWeek // ToontownGlobals.CatalogNumWeeksPerSeries + 1
             weekNumber = currentWeek % ToontownGlobals.CatalogNumWeeksPerSeries + 1
         # Catalog Series 5 & 6 are short. Need some special math here.
         elif currentWeek < 65:
@@ -782,7 +782,7 @@ class CatalogScreen(DirectFrame):
         # All catalogs after 5 & 6 now need to get bumped up by
         # one since the last 13 weeks used two series numbers.
         else:
-            seriesNumber = currentWeek / ToontownGlobals.CatalogNumWeeksPerSeries + 2
+            seriesNumber = currentWeek // ToontownGlobals.CatalogNumWeeksPerSeries + 2
             weekNumber = currentWeek % ToontownGlobals.CatalogNumWeeksPerSeries + 1
 
         # Cover.  We find the items we want out of the gui object and
@@ -794,7 +794,7 @@ class CatalogScreen(DirectFrame):
         cover = guiItems.find('**/cover')
 
         # if the catalog has wrapped around, wrap around the images too
-        maxSeries = (ToontownGlobals.CatalogNumWeeks / ToontownGlobals.CatalogNumWeeksPerSeries) + 1
+        maxSeries = (ToontownGlobals.CatalogNumWeeks // ToontownGlobals.CatalogNumWeeksPerSeries) + 1
         coverSeries = ((seriesNumber - 1) % maxSeries) + 1
 
         coverPicture = cover.find('**/cover_picture%s' % (coverSeries))
@@ -988,7 +988,7 @@ class CatalogScreen(DirectFrame):
         self.visiblePanels = []
         itemList = (base.localAvatar.monthlyCatalog +
                      base.localAvatar.weeklyCatalog)
-        itemList.sort(key=lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeWeekly))
+        itemList.sort(lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeWeekly))
         itemList.reverse()
         for item in itemList:
             if item.loyaltyRequirement() != 0:
@@ -1009,7 +1009,7 @@ class CatalogScreen(DirectFrame):
                     ))
         itemList = base.localAvatar.backCatalog
         itemList.sort(
-            key=lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeBackorder))
+            lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeBackorder))
         itemList.reverse()
         for item in itemList:
             if item.loyaltyRequirement() != 0:
@@ -1036,7 +1036,7 @@ class CatalogScreen(DirectFrame):
         numPages = self.packPages(self.loyaltyPanelList,self.loyaltyPageList,'loyalty')
         self.setNumLoyaltyPages(numPages)
 
-        seriesNumber = (base.localAvatar.catalogScheduleCurrentWeek - 1) / ToontownGlobals.CatalogNumWeeksPerSeries + 1
+        seriesNumber = (base.localAvatar.catalogScheduleCurrentWeek - 1) // ToontownGlobals.CatalogNumWeeksPerSeries + 1
         self.catalogSeries['text'] = Localizer.CatalogSeriesLabel % seriesNumber
         weekNumber = (base.localAvatar.catalogScheduleCurrentWeek - 1) % ToontownGlobals.CatalogNumWeeksPerSeries + 1
         self.catalogNumber['text'] = "#%d" % weekNumber
