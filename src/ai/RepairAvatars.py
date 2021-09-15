@@ -81,7 +81,7 @@ class AvatarGetter(DirectObject.DirectObject):
             # to prevent mem leaks, you should call toon.patchDelete at
             # some point.
 
-            print('Got avatar %s, "%s".' % (self.av.doId, self.av.name))
+            print('Got avatar %s, "%s".' % (self.av.doId, self.av._name))
             if self.event is not None:
                 messenger.send(self.event, [self.av])
         else:
@@ -185,7 +185,7 @@ class AvatarIterator(DirectObject.DirectObject):
     def printSometimes(self, av):
         now = time.time()
         if now - self.lastPrintTime > self.printInterval:
-            print("%d: %s" % (av.doId, av.name))
+            print("%d: %s" % (av.doId, av._name))
             self.lastPrintTime = now
 
     def processAvatar(self, av, db):
@@ -438,7 +438,7 @@ class AvatarFixer(AvatarIterator):
         if changed:
             db2 = DatabaseObject.DatabaseObject(self.air, av.doId)
             db2.storeObject(av, list(db.values.keys()))
-            print("%d: %s repaired (account %s)." % (av.doId, av.name, av.accountName))
+            print("%d: %s repaired (account %s)." % (av.doId, av._name, av.accountName))
         return
 
         numTracks = reduce(lambda a, b: a+b, av.trackArray)
@@ -659,7 +659,7 @@ class AvatarPrinter(AvatarIterator):
         #    print newDna
 
         #self.dnaDict[av.doId] = av.dna.asTuple()
-        #print av.doId, ' finished' #, av.name, "dna: ", av.dna.asTuple()
+        #print av.doId, ' finished' #, av._name, "dna: ", av.dna.asTuple()
         #return
         #import ToonDNA
         #newDNA = ToonDNA.ToonDNA()
@@ -676,7 +676,7 @@ class AvatarPrinter(AvatarIterator):
 
         print(("%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s" %
                (av.doId,
-                av.name,
+                av._name,
                 av.maxHp,
                 av.dna.head,
                 av.dna.topTex,

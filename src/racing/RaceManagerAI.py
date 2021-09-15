@@ -895,7 +895,7 @@ class RaceManagerAI(DirectObject.DirectObject):
                     av = simbase.air.doId2do.get(avId)
                     # TODO: what do we do if the av goes away?
                     if av:
-                        name = av.name
+                        name = av._name
                         # insert new record in this spot
                         self.trackRecords[trackId][period].insert(record, (time, raceType, numRacers, name))
                         # make sure we haven't gone over record list length
@@ -925,7 +925,7 @@ class RaceManagerAI(DirectObject.DirectObject):
             backup = self.filename + '.bu'
             if os.path.exists(self.filename):
                 os.rename(self.filename, backup)
-            file = open(self.filename, 'w')
+            file = open(self.filename, 'wb')
             file.seek(0)
             pickle.dump(self.trackRecords, file)
             file.close()

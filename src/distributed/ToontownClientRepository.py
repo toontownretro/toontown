@@ -424,7 +424,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                 avatarChoice = av
                 self.notify.info("================")
                 self.notify.info("Chose avatar id: %s" % (av.id))
-                self.notify.info("Chose avatar name: %s" % (av.name))
+                self.notify.info("Chose avatar name: %s" % (av._name))
                 dna = ToonDNA.ToonDNA()
                 dna.makeFromNetString(av.dna)
                 self.notify.info("Chose avatar dna: %s" % (dna.asTuple(),))

@@ -85,6 +85,13 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def announceGenerate(self):
         """Handle all required fields having been filled in."""
         DistributedBossCog.DistributedBossCog.announceGenerate(self)
+        # at this point all our attribs have been filled in.
+#        self.setName(TTLocalizer.BossbotBossName)
+#        nameInfo = TTLocalizer.BossCogNameWithDept % {
+#            "name":  self._name,
+#            "dept":  (SuitDNA.getDeptFullname(self.style.dept)),
+#            }
+#        self.setDisplayName(nameInfo)
         self.loadEnvironment()
         self.__makeResistanceToon()
 

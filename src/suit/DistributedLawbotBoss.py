@@ -127,7 +127,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         # at this point all our attribs have been filled in.
         self.setName(TTLocalizer.LawbotBossName)
         nameInfo = TTLocalizer.BossCogNameWithDept % {
-            "name":  self.name,
+            "name":  self._name,
             "dept":  (SuitDNA.getDeptFullname(self.style.dept)),
             }
         self.setDisplayName(nameInfo)
