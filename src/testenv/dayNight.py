@@ -35,7 +35,7 @@ dayCloud2.setBin("background", 101)
 dawnSky = loader.loadModel("phase_6/models/props/MM_sky")
 dawnSky.setScale(0.8)
 dawnSky.setTransparency(1)
-dawnSky.setBin("background", 102
+dawnSky.setBin("background", 102)
 
 pe = PolylightEffect.make()
 brightness = 1.25

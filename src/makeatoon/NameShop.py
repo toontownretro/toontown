@@ -940,8 +940,8 @@ class NameShop(StateData.StateData):
         def match(npcName, name=name):
             # TextEncoder.upper requires encoded strings
             name = TextEncoder().encodeWtext(name)
-            name = string.strip(name)
-            return (TextEncoder.upper(npcName) == TextEncoder.upper(name))
+            name = name.strip()
+            return (TextEncoder.upper(npcName) == TextEncoder.upper(name.decode('utf-8')))
 
         for npcId in list(NPCToons.NPCToonDict.keys()):
             npcName = NPCToons.NPCToonDict[npcId][1]
@@ -1254,12 +1254,12 @@ class NameShop(StateData.StateData):
         # strip leading/trailing whitespace
         name = self.nameEntry.get()
         # make sure we're able to recognize unicode whitespace
-        name = TextEncoder().decodeText(name)
+        name = TextEncoder().decodeText(name.encode('utf-8'))
         name = name.strip()
         name = TextEncoder().encodeWtext(name)
 
         # put the processed name back into the GUI
-        self.nameEntry.enterText(name)
+        self.nameEntry.enterText(name.decode('utf-8'))
 
         # do local name checks first
         problem = self.nameIsValid(self.nameEntry.get())
