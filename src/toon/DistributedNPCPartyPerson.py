@@ -228,7 +228,7 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
             if self.isInteractingWithLocalToon:
                 base.localAvatar.aboutToPlanParty = True
                 base.cr.partyManager.setPartyPlannerStyle(self.style)
-                base.cr.partyManager.setPartyPlannerName(self.name)
+                base.cr.partyManager.setPartyPlannerName(self._name)
                 base.localAvatar.creatingNewPartyWithMagicWord = False
                 loaderId = "safeZoneLoader"
                 whereId = "party"
