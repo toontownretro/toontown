@@ -66,10 +66,10 @@ class AvatarChoice(DirectButton):
             else:
                 self.mode = AvatarChoice.MODE_CHOOSE
                 # Handle the special case of GM toons
-                if GMUtils.testGMIdentity(av._name):
-                    self.name = self.__handleGMName(av._name)
+                if GMUtils.testGMIdentity(av.name):
+                    self.name = self.__handleGMName(av.name)
                 else:
-                    self.name = av._name
+                    self.name = av.name
                 self.dna = ToonDNA.ToonDNA(av.dna)
                 self.wantName = av.wantName
                 self.approvedName = av.approvedName
