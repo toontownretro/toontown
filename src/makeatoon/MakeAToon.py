@@ -65,7 +65,7 @@ class MakeAToon(StateData.StateData):
             if av.position==index:
                 self.warp = 1
                 self.namelessPotAv = av
-            self.nameList.append(av._name)
+            self.nameList.append(av.name)
 
         self.fsm = ClassicFSM.ClassicFSM('MakeAToon',
                         [State.State('Init',
