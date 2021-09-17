@@ -895,7 +895,7 @@ class RaceManagerAI(DirectObject.DirectObject):
                     av = simbase.air.doId2do.get(avId)
                     # TODO: what do we do if the av goes away?
                     if av:
-                        name = av._name
+                        name = av.name
                         # insert new record in this spot
                         self.trackRecords[trackId][period].insert(record, (time, raceType, numRacers, name))
                         # make sure we haven't gone over record list length

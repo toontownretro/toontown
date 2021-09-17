@@ -51,7 +51,7 @@ class DeadTaskRemover(RepairAvatars.AvatarIterator):
 
         # and store the changes in the DB
         if questsChanged:
-            print("Fixing %s: %s" % (av.doId, av._name))
+            print("Fixing %s: %s" % (av.doId, av.name))
             fields = ['setQuests']
             if questHistoryChanged:
                 fields.append('setQuestHistory')
@@ -63,7 +63,7 @@ class DeadTaskRemover(RepairAvatars.AvatarIterator):
     def printSometimes(self, av):
         now = time.time()
         if now - self.lastPrintTime > self.printInterval:
-            print("Avatar %d: %s" % (av.doId, av._name))
+            print("Avatar %d: %s" % (av.doId, av.name))
             self.lastPrintTime = now
 
 from . import UtilityStart

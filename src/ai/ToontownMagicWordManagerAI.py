@@ -84,11 +84,11 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
         elif word == "~allstuff":
             av.inventory.maxOutInv()
             av.d_setInventory(av.inventory.makeNetString())
-            self.notify.debug("Maxing out inventory for " + av._name)
+            self.notify.debug("Maxing out inventory for " + av.name)
         elif word == "~nostuff":
             av.inventory.zeroInv(1)
             av.d_setInventory(av.inventory.makeNetString())
-            self.notify.debug("Zeroing inventory for " + av._name)
+            self.notify.debug("Zeroing inventory for " + av.name)
         elif word == "~restock":
             av.doRestock(1)
         elif word == "~restockUber":
@@ -97,11 +97,11 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
         elif word == "~rich":
             av.b_setMoney(av.maxMoney)
             av.b_setBankMoney(av.maxBankMoney)
-            self.notify.debug(av._name + " is now rich")
+            self.notify.debug(av.name + " is now rich")
         elif word == "~poor":
             av.b_setMoney(0)
             av.b_setBankMoney(0)
-            self.notify.debug(av._name + " is now poor")
+            self.notify.debug(av.name + " is now poor")
         elif wordIs("~jelly"):
             args = word.split()
             if len(args) > 1:
@@ -164,7 +164,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
             newInv.maxOutInv()
             av.inventory.setToMin(newInv.inventory)
             av.d_setInventory(av.inventory.makeNetString())
-            self.notify.debug("Default exp for " + av._name)
+            self.notify.debug("Default exp for " + av.name)
         elif word == "~amateur+":
             av.experience.setAllExp(9)
             av.d_setExperience(av.experience.makeNetString())
@@ -175,7 +175,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
             newInv.maxOutInv()
             av.inventory.setToMin(newInv.inventory)
             av.d_setInventory(av.inventory.makeNetString())
-            self.notify.debug("Setting exp to 9 for " + av._name)
+            self.notify.debug("Setting exp to 9 for " + av.name)
         elif word == "~professional":
             av.b_setTrackAccess([1, 1, 1, 1, 1, 1, 1])
             av.b_setMaxCarry(ToontownGlobals.MaxCarryLimit)
@@ -184,7 +184,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
             av.d_setExperience(av.experience.makeNetString())
             av.b_setMaxHp(ToontownGlobals.MaxHpLimit)
             av.b_setHp(ToontownGlobals.MaxHpLimit)
-            self.notify.debug("Max exp for " + av._name)
+            self.notify.debug("Max exp for " + av.name)
         elif word == "~professional--":
             av.b_setTrackAccess([1, 1, 1, 1, 1, 1, 1])
             av.b_setMaxCarry(ToontownGlobals.MaxCarryLimit)
@@ -193,7 +193,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
             av.d_setExperience(av.experience.makeNetString())
             av.b_setMaxHp(ToontownGlobals.MaxHpLimit-15)
             av.b_setHp(ToontownGlobals.MaxHpLimit-15)
-            self.notify.debug("High exp for " + av._name)
+            self.notify.debug("High exp for " + av.name)
         elif word == "~regularToon":
             pickTrack = ([1, 1, 1, 1, 1, 1, 0],
                            [1, 1, 1, 0, 1, 1, 1],
@@ -207,7 +207,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
             laughminus = int(random.random() * 20.0) + 10.0
             av.b_setMaxHp(ToontownGlobals.MaxHpLimit-laughminus)
             av.b_setHp(ToontownGlobals.MaxHpLimit-laughminus)
-            self.notify.debug("regular exp for " + av._name)
+            self.notify.debug("regular exp for " + av.name)
         elif word == "~maxexp--":
             av.b_setTrackAccess([1, 1, 1, 1, 1, 1, 1])
             av.b_setMaxCarry(ToontownGlobals.MaxCarryLimit)
@@ -216,7 +216,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
             av.d_setExperience(av.experience.makeNetString())
             av.b_setMaxHp(ToontownGlobals.MaxHpLimit)
             av.b_setHp(ToontownGlobals.MaxHpLimit)
-            self.notify.debug("Max exp-- for " + av._name)
+            self.notify.debug("Max exp-- for " + av.name)
         elif wordIs('~mintRaider'):
             av.experience.maxOutExp()
             av.d_setExperience(av.experience.makeNetString())
@@ -244,7 +244,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                 score, avId = scores[i]
                 av = self.air.doId2do.get(avId, None)
                 if av:
-                    avName = av._name
+                    avName = av.name
                 else:
                     avName = avId
                 response += '%s %s\n' % (score, avName)
@@ -1614,7 +1614,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                         # it takes to get to the next track.
                         increment = av.experience.getNextExpValue(trackIndex) - av.experience.getExp(trackIndex)
 
-                    self.notify.debug("Adding %d to %s track for %s." % (increment, ToontownBattleGlobals.Tracks[trackIndex], av._name))
+                    self.notify.debug("Adding %d to %s track for %s." % (increment, ToontownBattleGlobals.Tracks[trackIndex], av.name))
                     av.experience.addExp(trackIndex, increment)
         else:
             if not gotIncrement:
@@ -1622,7 +1622,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                 # it takes to get to the next track.
                 increment = av.experience.getNextExpValue(trackIndex) - av.experience.getExp(trackIndex)
 
-            self.notify.debug("Adding %d to %s track for %s." % (increment, ToontownBattleGlobals.Tracks[trackIndex], av._name))
+            self.notify.debug("Adding %d to %s track for %s." % (increment, ToontownBattleGlobals.Tracks[trackIndex], av.name))
             av.experience.addExp(trackIndex, increment)
 
         av.d_setExperience(av.experience.makeNetString())
@@ -1954,7 +1954,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
             for i in blocks:
                 building = bm.getBuilding(i)
                 building.b_setVictorList([0, 0, 0, 0])
-                building.updateSavedBy([(av.doId, av._name, av.dna.asTuple())])
+                building.updateSavedBy([(av.doId, av.name, av.dna.asTuple())])
                 building.toonTakeOver()
                 self.notify.debug("Toon take over %s %s" % (i, streetId))
 

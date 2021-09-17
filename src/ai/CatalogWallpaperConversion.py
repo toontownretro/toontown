@@ -140,7 +140,7 @@ class AvatarWallpaperFixer(RepairAvatars.AvatarIterator):
 
     def processAvatar(self, av, db):
         self.printSometimes(av)
-        #print("Processing Avatar: %d, %s" % (av.doId, av._name))
+        #print("Processing Avatar: %d, %s" % (av.doId, av.name))
         convertWallpaperItems(av.monthlyCatalog, fCatalog = 1)
         convertWallpaperItems(av.weeklyCatalog, fCatalog = 1)
         convertWallpaperItems(av.backCatalog, fCatalog = 1)
@@ -166,7 +166,7 @@ class AvatarWallpaperFixer(RepairAvatars.AvatarIterator):
     def printSometimes(self, av):
         now = time.time()
         if now - self.lastPrintTime > self.printInterval:
-            print("Avatar %d: %s" % (av.doId, av._name))
+            print("Avatar %d: %s" % (av.doId, av.name))
             self.lastPrintTime = now
 
     
