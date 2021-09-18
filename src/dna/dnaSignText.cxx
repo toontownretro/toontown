@@ -138,6 +138,9 @@ NodePath DNASignText::traverse(NodePath &parent, DNAStorage *store, int editing)
   }
   baseline->baseline_next_pos_hpr_scale(bl_pos, bl_hpr, bl_scale,
     LVector3f(text_node->get_width(), 0.0, text_node->get_height()));
+    
+  // Fix for modern Panda's text rendering
+  bl_pos[1] -= 0.01;
 
   NodePath signText_node_path = parent.attach_new_node(text_node->generate());
   // Place the signText at the bottom center of the building,

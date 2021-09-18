@@ -304,18 +304,14 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             if light != None:
                 light.setColor(LIGHT_OFF_COLOR)
 
-        return
-
     def handleInsideVictorElevator(self):
         self.sendUpdate("setVictorReady", [])
-        return
 
     def exitWaitForVictors(self):
         self.ignore("insideVictorElevator")
         if self.waitingMessage != None:
             self.waitingMessage.destroy()
             self.waitingMessage = None
-        return
 
     ##### waitForVictorsFromCogdo state #####
     def enterWaitForVictorsFromCogdo(self, ts):
@@ -363,18 +359,14 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             if light != None:
                 light.setColor(LIGHT_OFF_COLOR)
 
-        return
-
     def handleInsideVictorElevatorFromCogdo(self):
         self.sendUpdate("setVictorReady", [])
-        return
 
     def exitWaitForVictorsFromCogdo(self):
         self.ignore("insideVictorElevator")
         if self.waitingMessage != None:
             self.waitingMessage.destroy()
             self.waitingMessage = None
-        return
 
     ##### becomingToon state #####
 
@@ -750,17 +742,18 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         signOrigin=suitBuildingNP.find("**/sign_origin;+s")
         assert(not signOrigin.isEmpty())
         # Get the background:
-        backgroundNP=loader.loadModel("phase_5/models/modules/suit_sign")
+        backgroundNP = loader.loadModel("phase_5/models/modules/suit_sign")
         assert(not backgroundNP.isEmpty())
         backgroundNP.reparentTo(signOrigin)
         backgroundNP.setPosHprScale(0.0, 0.0, textHeight * 0.8 / zScale,
                                     0.0, 0.0, 0.0,
                                     8.0, 8.0, 8.0 * zScale)
+        
         # Get the text node path:
         signTextNodePath = backgroundNP.attachNewNode(textNode.generate())
         assert(not signTextNodePath.isEmpty())
         # Scale the text:
-        signTextNodePath.setPosHprScale(0.0, 0.0, -0.21 + textHeight * 0.1 / zScale,
+        signTextNodePath.setPosHprScale(0.0, -0.005, -0.21 + textHeight * 0.1 / zScale,
                                         0.0, 0.0, 0.0,
                                         0.1, 0.1, 0.1 / zScale)
         # Clear parent color higher in the hierarchy
@@ -959,21 +952,21 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         backgroundNP.setPosHprScale(0.0, 0.0, textHeight * 0.8 / zScale,
                                     0.0, 0.0, 0.0,
                                     8.0, 8.0, 8.0 * zScale)
+        
         # Get the text node path:
         signTextNodePath = backgroundNP.attachNewNode(textNode.generate())
         assert(not signTextNodePath.isEmpty())
         # Scale the text:
-        signTextNodePath.setPosHprScale(0.0, 0.0, -0.21 + textHeight * 0.1 / zScale,
+        signTextNodePath.setPosHprScale(0.0, -0.005, -0.21 + textHeight * 0.1 / zScale,
                                         0.0, 0.0, 0.0,
                                         0.1, 0.1, 0.1 / zScale)
-        signTextNodePath.setDepthOffset(1)
         # Clear parent color higher in the hierarchy
-        signTextNodePath.setDepthOffset(1)
+        signTextNodePath.setColor(1.0, 1.0, 1.0, 1.0)
         # Decal sign onto the front of the building:
         frontNP = suitBuildingNP.find("**/*_front/+GeomNode;+s")
         assert(not frontNP.isEmpty())
         backgroundNP.wrtReparentTo(frontNP)
-        backgroundNP.setDepthOffset(1)
+        frontNP.node().setEffect(DecalEffect.make())
 
         # Rename the building:
         suitBuildingNP.setName("sb"+str(self.block)+":_landmark__DNARoot")
