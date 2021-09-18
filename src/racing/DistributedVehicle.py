@@ -117,9 +117,9 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.speedGauge = None
         self.leanAmount = 0
         self.leftHeld = 0
-        self.stopped=False
+        self.__stopped = False
         self.rightHeld = 0
-        self.canRace=False
+        self.canRace = False
         self.groundType = "gravel"
         self.offGround=0
         self.turbo = False
@@ -168,7 +168,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.__loadTextures()
 
     def __loadTextures(self):
-            self.pieSplatter = loader.loadModel('phase_6/models/karting/pie_splat_1.bam')
+        self.pieSplatter = loader.loadModel('phase_6/models/karting/pie_splat_1.bam')
 
     def announceGenerate(self):
         DistributedSmoothNode.DistributedSmoothNode.announceGenerate(self)
@@ -229,6 +229,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.reparentTo(render)
 
     def setupPhysics(self):
+        assert self.notify.debug("setupPhysics()")
         self.__setupCollisions()
         ###########################################################
         # Set up all the physics forces
@@ -261,7 +262,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         This method is called when the DistributedSmoothNode is removed from
         active duty and stored in a cache.
         """
-        assert self.notify.debug(" Disabling...")
+        assert self.notify.debug("Disabling...")
         self.finishMovies()
         self.request('Off')
         self.stopSkid()
@@ -285,7 +286,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         This method is called when the DistributedSmoothNode is permanently
         removed from the world and deleted from the cache.
         """
-        assert self.notify.debug(" Deleting...")
+        assert self.notify.debug("Deleting...")
         #self.eastWestMopath.reset()
         #self.westEastMopath.reset()
         #del self.eastWestMopath
@@ -347,6 +348,8 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             #self.wallLoopWoodSfx.stop()
 
     def __setupCollisions(self):
+        assert self.notify.debug("__setupCollisions()")
+        
         # We will use a separate collision traverser for walls to
         # get around the ordering issue (we must check walls before
         # floors)
@@ -411,6 +414,8 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         base.localAvatar.collisionsOff()
 
     def __undoCollisions(self):
+        assert self.notify.debug("__undoCollisions()")
+        
         base.cTrav.removeCollider(self.cRayNodePath)
 
         # Restore the local avatar's collisions.  This really should
@@ -427,6 +432,8 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         #print self.groundType
 
     def __enableCollisions(self):
+        assert self.notify.debug("__enableCollisions()")
+        
         self.cQueue = []
         self.cRays = NodePath('stickVehicleToFloor')
         self.cRays.reparentTo(self.geom[0])
@@ -450,6 +457,8 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
     #Sets up the lap collisions for this vehicle
     def setupLapCollisions(self):
+        assert self.notify.debug("setupLapCollisions()")
+        
         #TODO: make this a global
         self.lapBit=BitMask32(0x8000)
         self.lapHandler=CollisionHandlerEvent()
@@ -467,6 +476,8 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.cWallTrav.addCollider(self.lapNodePath,self.lapHandler)
 
     def __disableCollisions(self):
+        assert self.notify.debug("__disableCollisions()")
+        
         # stop listening for toons.
         self.ignore("imIn-startLine")
         self.ignore("imIn-quarterLine")
@@ -477,20 +488,26 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.d_requestControl()
 
     def setupParticles(self):
+        assert self.notify.debug("setupParticles()")
         if (self.wantSmoke):
             self.setupDriftParticles()
         if (self.wantSparks):
             self.setupSparkParticles()
-    def updateParticles(self,leanAmount):
+            
+    def updateParticles(self, leanAmount):
+        #assert self.notify.debug("updateParticles(%s)" % (str(leanAmount)))
         if (self.wantSmoke):
             self.updateDriftParticles(leanAmount)
+            
     def cleanupParticles(self):
+        assert self.notify.debug("cleanupParticles()")
         if (self.wantSmoke):
             self.cleanupDriftParticles()
         if (self.wantSparks):
             self.cleanupSparkParticles()
 
     def setupDriftParticles(self):
+        assert self.notify.debug("setupDriftParticles()")
         smokeMount = self.geom[0].attachNewNode('Smoke Effect')
         backLeft = smokeMount.attachNewNode('Back Left Smokemount')
         backLeft.setPos(self.geom[0].find('**/'+self.wheelData[self.LRWHEEL]['node']).getPos()+Vec3(-0.25,-1.0,-0.5))
@@ -518,7 +535,8 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         backLeft.hide();
         backRight.hide()
 
-    def updateDriftParticles(self,leanAmount):
+    def updateDriftParticles(self, leanAmount):
+        #assert self.notify.debug("updateDriftParticles(%s)" % (str(leanAmount)))
         for x in self.driftParticleForces:
             x.setAmplitude(leanAmount*30)
 
@@ -530,6 +548,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             self.driftSeq.finish()
 
     def cleanupDriftParticles(self):
+        assert self.notify.debug("cleanupDriftParticles()")
         self.driftSeq.finish()
         for x in self.drifts:
             x.destroy()
@@ -541,6 +560,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         del self.smokeMount
 
     def setupSparkParticles(self):
+        assert self.notify.debug("setupSparkParticles()")
         bodyType = self.kartDNA[ KartDNA.bodyType ]
         endPts = KartDict[bodyType][7]
 
@@ -583,6 +603,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             taskMgr.doMethodLater(0.75,spark.stop,'stopSparks-'+side,extraArgs = [])
 
     def cleanupSparkParticles(self):
+        assert self.notify.debug("cleanupSparkParticles()")
         taskMgr.remove('sparkTimer-left')
         taskMgr.remove('sparkTimer-right')
         taskMgr.remove('stopSparks-left')
@@ -629,8 +650,9 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
     #### Controlled state #####
     def enterControlled(self, avId):
+        assert self.notify.debug("enterControlled(%d)" % (avId))
         self.avId = avId
-        self.toon = base.cr.doId2do.get(avId,None)
+        self.toon = base.cr.doId2do.get(avId, None)
         if self.toon:
             self.toon.stopSmooth()
             self.toon.stopPosHprBroadcast()
@@ -670,6 +692,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
                 self.__updateNonlocalVehicle, taskName)
 
     def exitControlled(self):
+        assert self.notify.debug("enterControlled()")
         #import pdb;pdb.set_trace()
 
         if self.localVehicle:
@@ -784,6 +807,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
 
     def __enableControlInterface(self):
+        assert self.notify.debug("__enableControlInterface()")
         if(self.canRace):
             self.enableControls()
         taskMgr.remove('watchVehicleControls')
@@ -903,6 +927,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         #self.__setMoveSound(None)
 
     def __deleteControlInterface(self):
+        assert self.notify.debug("__deleteControlInterface()")
         if self.speedometer:
             self.speedometer.destroy()
             self.speedometer = None
@@ -964,32 +989,33 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.setTurbo(False)
 
     def __controlPressed(self):
+        #assert self.notify.debug("__controlPressed()")
         self.__throwGag()
         #self.startTurbo()
 
     def __controlReleased(self):
         pass
 
-
     def __upArrow(self, pressed):
+        #assert self.notify.debug("__upArrow(%s)" % (str(pressed)))
         #self.__incrementChangeSeq()
         #self.__cleanupCraneAdvice()
         if pressed:
             self.arrowVert = 1
-        else:
-            if self.arrowVert > 0:
-                self.arrowVert = 0
+        elif self.arrowVert > 0:
+            self.arrowVert = 0
 
     def __downArrow(self, pressed):
+        #assert self.notify.debug("__downArrow(%s)" % (str(pressed)))
         #self.__incrementChangeSeq()
         #self.__cleanupCraneAdvice()
         if pressed:
             self.arrowVert = -1
-        else:
-            if self.arrowVert < 0:
-                self.arrowVert = 0
+        elif self.arrowVert < 0:
+            self.arrowVert = 0
 
     def __rightArrow(self, pressed):
+        #assert self.notify.debug("__rightArrow(%s)" % (str(pressed)))
         #self.__incrementChangeSeq()
         #self.__cleanupCraneAdvice()
         if pressed:
@@ -1000,6 +1026,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             self.rightHeld = 0
 
     def __leftArrow(self, pressed):
+        #assert self.notify.debug("__leftArrow(%s)" % (str(pressed)))
         #self.__incrementChangeSeq()
         #self.__cleanupCraneAdvice()
         if pressed:
@@ -1176,7 +1203,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             self.__updateWheelPos(dt, curSpeed)
 
         newHForTurning = self.getH()
-        if (self.proRacer) or (not self.stopped and self.arrowHorz  and curSpeed > 1):
+        if (self.proRacer) or (not self.__stopped and self.arrowHorz  and curSpeed > 1):
             #scale the rotation
             if self.proRacer:
                 turnHelp = 0
@@ -1202,13 +1229,13 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             if (self.groundType == 'ice'):
                 newHForTurning = (oldH + rotation * iceTurnFactor) % 360
 
-        pitch=-self.getP()+5
+        pitch =- self.getP() + 5
 
         #pitch is now biased properly, now move everything below 30 up
 
         #Goal, lock acceleration at a base of 20
         accelBase = self.accelerationBase
-        pitch+=accelBase
+        pitch += accelBase
         pitch = clampScalar(pitch, accelBase-5, accelBase+5)
         self.accelerationMult=pitch*2
 
@@ -1217,7 +1244,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
 
         #apply an acceleration
-        if self.stopped:
+        if self.__stopped:
             self.acceleration = 0
         else:
             self.acceleration = self.arrowVert * self.accelerationMult * self.cheatFactor #jml
@@ -1225,22 +1252,22 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
                 if self.skidding:
                     self.acceleration = self.arrowVert * self.accelerationMult * self.cheatFactor * 0.5
             if self.turbo:
-                self.acceleration += (self.accelerationMult*1.5)
+                self.acceleration += (self.accelerationMult * 1.5)
 
         self.engine.setVector(Vec3(0, self.acceleration, 0))
 
         # rotMat is the rotation matrix corresponding to
         # the geometry heading.
         if (self.groundType == 'ice' ):
-            rotMat=Mat3.rotateMatNormaxis(newHForTurning, Vec3.up())
+            rotMat = Mat3.rotateMatNormaxis(newHForTurning, Vec3.up())
         else:
-            rotMat=Mat3.rotateMatNormaxis(self.getH(), Vec3.up())
-        curHeading=rotMat.xform(Vec3.forward())
-        push=(3-self.getP())*.02
-        curHeading.setZ(curHeading.getZ()-min(.2,max(-.2,push)))
+            rotMat = Mat3.rotateMatNormaxis(self.getH(), Vec3.up())
+        curHeading = rotMat.xform(Vec3.forward())
+        push = (3 - self.getP()) * .02
+        curHeading.setZ(curHeading.getZ() - min(.2, max(-.2, push)))
 
-        onScreenDebug.append("vehicle curHeading = %s\n"%curHeading.pPrintValues())
-        onScreenDebug.append("vehicle H = %s  newHForTurning=%f\n" % (self.getH(), newHForTurning))
+        onScreenDebug.append("vehicle curHeading = %s\n" % curHeading.pPrintValues())
+        onScreenDebug.append("vehicle H = %s, newHForTurning=%f\n" % (self.getH(), newHForTurning))
 
 
         #onScreenDebug.append("vehicle roll = %s\n"%roll)
@@ -1259,7 +1286,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.lastPhysicsFrame = physicsFrame
 
         leanIncrement = (self.arrowHorz * self.physicsDt * self.turnRatio)
-        if self.stopped:
+        if self.__stopped:
             leanIncrement = 0
 
         driftMin = self.surfaceModifiers[self.groundType]['driftMin'] #* 0.5 #jml
@@ -1376,7 +1403,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
 
 
-        elif not self.stopped:
+        elif not self.__stopped:
             self.cameraNode.setH(self.leanAmount)
 
         # update drift particles
@@ -1394,7 +1421,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             self.speedGauge.setR(min(110,max(0,curSpeed/3/120*110)))
 
         # make sure the car is angled to touch the ground
-        if not self.stopped:
+        if not self.__stopped:
             self.stickCarToGround()
 
         #some hacks so the client doesn't crash due to out range for position
@@ -1405,6 +1432,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         return Task.cont
 
     def enableControls(self):
+        assert self.notify.debug("enableControls()")
         self.canRace=True
         self.accept('control', self.__controlPressed)
         self.accept('control-up', self.__controlReleased)
@@ -1414,6 +1442,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.accept('InputState-turnRight', self.__rightArrow)
 
     def disableControls(self):
+        assert self.notify.debug("disableControls()")
         self.arrowVert = 0
         self.arrowHorz = 0
 
@@ -1427,9 +1456,10 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.ignore('InputState-turnRight')
 
     #A distributed call from the ai that allows it to start and stop the car
-    def setInput(self,on):
-        if(localAvatar.doId==self.ownerId):
-            if(on):
+    def setInput(self, on):
+        assert self.notify.debug("setInput(%s)" % (str(on)))
+        if (localAvatar.doId == self.ownerId):
+            if (on):
                 self.enableControls()
             else:
                 self.disableControls()
@@ -1489,7 +1519,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         curRoll = self.getR()
         newRoll = curRoll + rollVal*2.0
         self.setR(newRoll)
-        if(not self.stopped):
+        if (not self.__stopped):
             camera.setR(-newRoll)
 
         # the amount we should 'pitch' depends on the averaged
@@ -1507,7 +1537,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.setP((newPitch+curPitch)/2.0)
         if self.proRacer:
             self.cameraNode.setP(-newPitch)
-        elif(not self.stopped):
+        elif (not self.__stopped):
             self.cameraNode.setP(-newPitch)
 
 
@@ -1607,13 +1637,14 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.kartDNA[ KartDNA.decalType ] = decalType
 
     def setOwner(self,avId):
-        self.ownerId=avId
+        self.ownerId = avId
 
-    def stopCar(self,level):
+    def stopCar(self, level):
+        assert self.notify.debug("stopCar(%s)" % (str(level)))
         #vel=self.actorNode.getPhysicsObject().getVelocity()
         #vel=vel*.1
-        self.imHitMult=level
-        if(hasattr(self,"cameraTrack") and self.cameraTrack):
+        self.imHitMult = level
+        if (hasattr(self, "cameraTrack") and self.cameraTrack):
            self.cameraTrack.pause()
            cameraToNormal = Parallel(
             LerpPosInterval(camera, 0.05, Point3(0,-33,16),startPos=camera.getPos()),
@@ -1625,12 +1656,12 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             )
            cameraToNormal.start()
         self.__stopTurbo()
-        self.stopped=True
+        self.__stopped=True
 
     def startCar(self):
+        assert self.notify.debug("startCar()")
         self.imHitMult=1
-        self.stopped=False
-
+        self.__stopped = False
 
     def hideAnvil(self):
         self.anvil.reparentTo(hidden)
@@ -1638,8 +1669,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.dropShadow.setScale(self.ShadowScale)
 
     def spinCar(self,spin):
-        self.geom[0].setH(2*spin)
-
+        self.geom[0].setH(2 * spin)
 
     def playSpin(self,timeStamp):
         delta=-globalClockDelta.networkToLocalTime(timeStamp,globalClock.getFrameTime(),16,100)+globalClock.getFrameTime()
