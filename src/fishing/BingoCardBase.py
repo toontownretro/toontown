@@ -295,7 +295,7 @@ class BingoCardBase:
     # Output: returns 1 or 0 whether cell is on the specified row.
     ################################################################# 
     def onRow(self, row, id):
-        if int( id // self.rowSize ) == row:
+        if int( id / self.rowSize ) == row:
             return 1
         return 0
 

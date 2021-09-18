@@ -65,7 +65,7 @@ class BingoCardCell(DirectButton, FSM.FSM):
 
         # FishPanel Initialization should be completed by this point.
         # Finalize the remaining BingoCardCell initialization.
-        self.parent = parent
+        self._parent = parent
         self.fish = fish
         # Assign the cell Index of the card
         self.cellId = cellId

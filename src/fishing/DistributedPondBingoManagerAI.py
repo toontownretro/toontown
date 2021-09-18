@@ -336,7 +336,7 @@ class DistributedPondBingoManagerAI(DistributedObjectAI.DistributedObjectAI, FSM
     #############################################################
     def isUpdateValid(self, id, genus, species):
         result = 1
-        if self.state != 'Playing':
+        if self._state != 'Playing':
             self.notify.debug('isUpdateValid: Not in Play State.')
             result = 0
 
@@ -434,7 +434,7 @@ class DistributedPondBingoManagerAI(DistributedObjectAI.DistributedObjectAI, FSM
         self.d_setCardState(avId)
         if self.typeId == BingoGlobals.BLOCKOUT_CARD:
             self.d_setJackpot(avId)
-        self.d_setState(avId, self.state)        
+        self.d_setState(avId, self._state)        
         return 1        
  
     ############################################################
