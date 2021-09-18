@@ -235,10 +235,12 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
                     #print("Stickup %s" % (self.stickUp))
                     #print("Stick Height %s %s %s" % (entry.getSurfacePoint(render)[2],self.getX(),self.getY()))
                     self.stickParts()
+                    testPath.removeNode()
                     return Task.done
 
         taskMgr.doMethodLater(1.0, self.stick2Ground, uniqueName("groundsticker"))
         #print("Not Sticking")
+        testPath.removeNode()
         return Task.done
 
     def stickParts(self):

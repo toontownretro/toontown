@@ -473,7 +473,9 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
                     self.signModel.wrtReparentTo(self.rotateNode)
                     self.signHasBeenStuck2Ground = True
                     self.createBackupFruits()
+                    testPath.removeNode()
                     return Task.done
+        testPath.removeNode()
         return Task.done
 
 
