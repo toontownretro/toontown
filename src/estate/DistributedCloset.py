@@ -199,7 +199,7 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
                     #other=render,
                     other = self,
                     blendType="easeOut",
-                    name=self.uniqueName('lerpCamera'))
+                    name=self.uniqueName('lerpCamera')).start()
                 camera.setPosHpr(self, -7.58, -6.02, 6.90, 286.3, 336.8, 0)
 
             # Move the avatar:
