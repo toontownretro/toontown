@@ -349,7 +349,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
     def __setupCollisions(self):
         assert self.notify.debug("__setupCollisions()")
-        
+
         # We will use a separate collision traverser for walls to
         # get around the ordering issue (we must check walls before
         # floors)
@@ -415,7 +415,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
     def __undoCollisions(self):
         assert self.notify.debug("__undoCollisions()")
-        
+
         base.cTrav.removeCollider(self.cRayNodePath)
 
         # Restore the local avatar's collisions.  This really should
@@ -433,7 +433,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
     def __enableCollisions(self):
         assert self.notify.debug("__enableCollisions()")
-        
+
         self.cQueue = []
         self.cRays = NodePath('stickVehicleToFloor')
         self.cRays.reparentTo(self.geom[0])
@@ -458,7 +458,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
     #Sets up the lap collisions for this vehicle
     def setupLapCollisions(self):
         assert self.notify.debug("setupLapCollisions()")
-        
+
         #TODO: make this a global
         self.lapBit=BitMask32(0x8000)
         self.lapHandler=CollisionHandlerEvent()
@@ -477,7 +477,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
     def __disableCollisions(self):
         assert self.notify.debug("__disableCollisions()")
-        
+
         # stop listening for toons.
         self.ignore("imIn-startLine")
         self.ignore("imIn-quarterLine")
@@ -493,12 +493,12 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             self.setupDriftParticles()
         if (self.wantSparks):
             self.setupSparkParticles()
-            
+
     def updateParticles(self, leanAmount):
         #assert self.notify.debug("updateParticles(%s)" % (str(leanAmount)))
         if (self.wantSmoke):
             self.updateDriftParticles(leanAmount)
-            
+
     def cleanupParticles(self):
         assert self.notify.debug("cleanupParticles()")
         if (self.wantSmoke):
@@ -953,7 +953,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         newCameraPos = Point3(0, -25, 16)
         newCameraFov = 90 * ToontownGlobals.OriginalAspectRatio
         turboDuration = 3
-        startFov = base.camLens.getMinFov().getX()
+        startFov = base.camLens.getMinFov()
 
         if self.cameraTrack:
             self.cameraTrack.pause()
@@ -1649,7 +1649,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
            cameraToNormal = Parallel(
             LerpPosInterval(camera, 0.05, Point3(0,-33,16),startPos=camera.getPos()),
             LerpFunc(base.camLens.setMinFov,
-                     fromData = base.camLens.getMinFov()[0],
+                     fromData = base.camLens.getMinFov(),
                      toData=ToontownGlobals.DefaultCameraFov,
                      duration = 0.05,
                      ),
