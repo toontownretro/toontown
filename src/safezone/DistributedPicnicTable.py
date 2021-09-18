@@ -899,7 +899,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         oldTrack = self.__toonTracks.get(avId)
         if oldTrack:
             oldTrack.pause()
-            cleanupDelayDeletes(oldTrack)
+            DelayDelete.cleanupDelayDeletes(oldTrack)
             #del self.__toonTracks[avId]
 
     def clearToonTracks(self):
