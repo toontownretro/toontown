@@ -377,6 +377,10 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
                 self.CCChatter = ToontownGlobals.WINTER_CAROLING
             elif ToontownGlobals.WINTER_DECORATIONS in holidayIds:
                 self.CCChatter = ToontownGlobals.WINTER_DECORATIONS
+            elif ToontownGlobals.WACKY_WINTER_CAROLING in holidayIds:
+                self.CCChatter = ToontownGlobals.WACKY_WINTER_CAROLING
+            elif ToontownGlobals.WACKY_WINTER_DECORATIONS in holidayIds:
+                self.CCChatter = ToontownGlobals.WACKY_WINTER_DECORATIONS
             elif ToontownGlobals.VALENTINES_DAY in holidayIds:
                 self.CCChatter = ToontownGlobals.VALENTINES_DAY
             elif ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds:
@@ -391,6 +395,12 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
                 self.CCChatter = ToontownGlobals.SILLY_CHATTER_FOUR
             elif ToontownGlobals.SILLY_CHATTER_FIVE in holidayIds:
                 self.CCChatter = ToontownGlobals.SILLY_CHATTER_FOUR
+            elif ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds:
+                self.CCChatter = ToontownGlobals.HALLOWEEN_COSTUMES
+            elif ToontownGlobals.SPOOKY_COSTUMES in holidayIds:
+                self.CCChatter = ToontownGlobals.SPOOKY_COSTUMES
+            elif ToontownGlobals.SELLBOT_FIELD_OFFICE in holidayIds:
+                self.CCChatter = ToontownGlobals.SELLBOT_FIELD_OFFICE
 
     def fadeAway(self):
         fadeOut = self.colorScaleInterval( 0.5, Vec4(1, 1, 1, 0.5),

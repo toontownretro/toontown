@@ -10,8 +10,9 @@ import random
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
 
-from . import CCharChatter
-from . import CCharPaths
+from . import CCharChatter, CCharPaths
+
+CHATTY_DURATION = 120.0
 
 class CharLonelyStateAI(StateData.StateData):
     """
@@ -92,6 +93,7 @@ class CharChattyStateAI(StateData.StateData):
     """
 
     notify = DirectNotifyGlobal.directNotify.newCategory("CharChattyStateAI")
+    notify.setDebug(True)
 
     def __init__(self, doneEvent, character):
         StateData.StateData.__init__(self, doneEvent)
@@ -139,6 +141,9 @@ class CharChattyStateAI(StateData.StateData):
             taskMgr.remove(self.__chatTaskName)
             # spawn the new task
             taskMgr.add(self.blather, self.__chatTaskName)
+        else:
+            self.notify.debug('Chatter is none.. sending done message')
+            self.leave(timeout=1)
 
         StateData.StateData.enter(self)
 
@@ -178,9 +183,14 @@ class CharChattyStateAI(StateData.StateData):
             # character is bored.
             self.leave()
             return Task.done 
-            
+
+        if task.time > CHATTY_DURATION:
+            self.leave(timeout=1)
+            return Task.done            
         if not self.chatter:
-            self.notify.debug("I do not want to talk")
+            #self.notify.debug("I do not want to talk")
+            self.notify.debug("Chatter doesnt exist")
+            self.leave(timeout=1)
             return Task.done        
 
         if not self.character.getNearbyAvatars():
@@ -224,7 +234,10 @@ class CharChattyStateAI(StateData.StateData):
             msg = self.pickMsg(category)
         
         if msg == None:
-            self.notify.debug("I do not want to talk")
+            #self.notify.debug("I do not want to talk")
+            self.notify.debug("Cannot pick a message")
+            self.leave(timeout=1)
+
             return Task.done
             
         self.character.sendUpdate("setChat", [category, msg, target])
@@ -235,7 +248,7 @@ class CharChattyStateAI(StateData.StateData):
 
         return Task.cont
 
-    def leave(self):
+    def leave(self, timeout = 0):
         """
         ////////////////////////////////////////////////////////////////////
         // Function:   called when the character decides to leave and has
@@ -245,12 +258,17 @@ class CharChattyStateAI(StateData.StateData):
         ////////////////////////////////////////////////////////////////////
         """
         # if we talk, say goodbye.
-        if self.chatter != None:
+        if self.chatter != None and not timeout:
             category = CCharChatter.GOODBYE
             msg = random.randint(0,
                                    len(self.chatter[CCharChatter.GOODBYE])-1)
-            target = self.character.getNearbyAvatars()[0]
-            self.character.sendUpdate("setChat", [category, msg, target])
+            if len(self.character.getNearbyAvatars()) > 0:
+                target = self.character.getNearbyAvatars()[0]
+                self.character.sendUpdate("setChat", [category, msg, target])
+            else:
+                self.notify.warning("Nearby avatars left")
+        if timeout == 1:
+            self.notify.debug("We were stuck in the chatty state")
 
         # set up a doLater to make character walk away
         taskMgr.doMethodLater( 1, self.doneHandler,
@@ -566,7 +584,10 @@ class ChipChattyStateAI(CharChattyStateAI):
             # character is bored.
             self.leave()
             return Task.done 
-            
+
+        if task.time > CHATTY_DURATION:
+            self.leave(timeout=1)
+            return Task.done            
         if not self.chatter:
             self.notify.debug("I do not want to talk")
             return Task.done        
@@ -636,10 +657,13 @@ class ChipChattyStateAI(CharChattyStateAI):
             category = CCharChatter.GOODBYE
             msg = random.randint(0,
                                    len(self.chatter[CCharChatter.GOODBYE])-1)
-            target = self.character.getNearbyAvatars()[0]
-            self.character.sendUpdate("setChat", [category, msg, target])
-            if hasattr(self,'dale') and self.dale:
-                self.dale.sendUpdate("setChat", [category, msg, target])
+            if len(self.character.getNearbyAvatars()) > 0:
+                target = self.character.getNearbyAvatars()[0]
+                self.character.sendUpdate("setChat", [category, msg, target])
+                if hasattr(self,'dale') and self.dale:
+                    self.dale.sendUpdate("setChat", [category, msg, target])
+            else:
+                self.notify.warning("Nearby avatars left")
 
 
         # set up a doLater to make character walk away

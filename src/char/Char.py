@@ -51,6 +51,9 @@ AnimDict = {
           ("neutral", "neutral", 6),
           ("trans-back", "transBack", 6),
           ),
+    "fd": (("walk", "walk", 6),
+          ("neutral", "idle", 6)
+          ),
     "dw": (("wheel", "wheel", 6),
               ("neutral", "wheel", 6),
            ),
@@ -68,10 +71,19 @@ AnimDict = {
     "dd" : (("walk", "walk", 4),
           ("neutral", "idle", 4),
           ),
+    "shdd" : (("walk", "walk", 4),
+          ("neutral", "idle", 4),
+          ),
     "ch" : (("walk", "walk", 6),
           ("neutral", "idle", 6),
           ),
+    "pch" : (("walk", "walk", 6),
+          ("neutral", "idle", 6),
+          ),
     "da" : (("walk", "walk", 6),
+          ("neutral", "idle", 6),
+          ),
+    "jda" : (("walk", "walk", 6),
           ("neutral", "idle", 6),
           ),
     }
@@ -84,13 +96,17 @@ ModelDict = {
     "g" : "phase_6/models/char/TT_G",
     "sg" : "phase_6/models/char/tt_a_chr_csc_goofyCostume_",
     "d" : "phase_6/models/char/DL_donald-",
+    "fd": "phase_6/models/char/tt_a_chr_csc_donaldCostume_",
     "dw": "phase_6/models/char/donald-wheel-",
     "p" : "phase_6/models/char/pluto-",
     "wp" : "phase_6/models/char/tt_a_chr_csc_plutoCostume_",
     "cl": "phase_5.5/models/estate/Clara_pose2-",
     "dd": "phase_4/models/char/daisyduck_",
+    "shdd": "phase_4/models/char/tt_a_chr_csc_daisyCostume_",
     "ch": "phase_6/models/char/chip_",
+    "pch": "phase_6/models/char/tt_a_chr_csc_chipCostume_",
     "da": "phase_6/models/char/dale_",
+    "jda": "phase_6/models/char/tt_a_chr_csc_daleCostume_",
     }
 
 
@@ -103,13 +119,17 @@ LODModelDict = {
     "g" : [1500, 1000, 500],
     "sg": [1200, 800, 400],
     "d" : [1000, 500, 250],
+    'fd': ['default'],
     "dw": [1000],
     "p" : [1000, 500, 300],
     "wp" : [1200, 800, 400],
     "cl": [],
     "dd" : [1600, 800, 400],
+    "shdd": ["default"],
     "ch" : [1000, 500, 250],
+    "pch": ["default"],
     "da" : [1000, 500, 250],
+    "jda": ["default"],
     }
 
 class Char(Avatar.Avatar):
@@ -176,7 +196,7 @@ class Char(Avatar.Avatar):
             # fix Chip and Dales wonky shadow
             if (self._name == "chip") or (self._name == "dale") or \
                (self._name == "police_chip") or (self._name == "jailbird_dale"):
-
+            
                 self.find("**/drop-shadow").setScale(0.33)
 
 
@@ -223,9 +243,9 @@ class Char(Avatar.Avatar):
             height = 4.8
         elif (self._name == "super_goofy"):
             height = 4.8
-        elif (self._name == "donald" or self._name == "donald-wheel"):
+        elif (self._name == "donald" or self._name == "donald-wheel" or self._name == "franken_donald"):
             height = 4.5
-        elif (self._name == "daisy"):
+        elif (self._name == "daisy" or self._name == "sockHop_daisy"):
             height = 4.5
         elif (self._name == "pluto"):
             height = 3.0
@@ -236,6 +256,10 @@ class Char(Avatar.Avatar):
         elif (self._name == "chip"):
             height = 2.0
         elif (self._name == "dale"):
+            height = 2.0
+        elif (self._name == "police_chip"):
+            height = 2.0
+        elif (self._name == "jailbird_dale"):
             height = 2.0
 
         self.lodStrings = []
@@ -318,7 +342,6 @@ class Char(Avatar.Avatar):
                 # now make the ears rotate to the camera at this pitch.
                 ears.setBillboardAxis()
 
-
         # set up the blinking eyes
         self.eyes = None
         self.lpupil = None
@@ -341,7 +364,9 @@ class Char(Avatar.Avatar):
             for lodName in self.getLODNames():
                 self.drawInFront("joint_pupil?", "eyes*", -3, lodName=lodName)
         elif (self._name == "witch_minnie" or self._name == "vampire_mickey" \
-                or self._name == "super_goofy" or self._name == "western_pluto"):
+                or self._name == "super_goofy" or self._name == "western_pluto" \
+                or self._name == "police_chip" or self._name == "jailbird_dale" \
+                or self._name == "franken_donald" or self._name == "sockHop_daisy"):
             self.geoEyes = 1
             self.eyeOpenList = []
             self.eyeCloseList = []
@@ -588,7 +613,7 @@ class Char(Avatar.Avatar):
                     )
                 self.loadChatterDialogue("minnie", chatterIndexArray,
                                          "phase_3/audio/dial", language)
-        elif (char == "dd"):
+        elif (char == "dd" or char == "shdd"):
             # load Daisy's dialogue array
             dialogueFile = base.loader.loadSfx("phase_4/audio/dial/daisy.wav")
             for i in range(0,6):
@@ -622,7 +647,7 @@ class Char(Avatar.Avatar):
                     )
                 self.loadChatterDialogue("goofy", chatterIndexArray,
                                          "phase_6/audio/dial", language)
-        elif (char == "d" or char == "dw"):
+        elif (char == "d" or char == "dw" or char == "fd"):
             # load Donald's dialogue array
             dialogueFile = base.loader.loadSfx("phase_6/audio/dial/donald.wav")
             for i in range(0,6):
@@ -655,6 +680,14 @@ class Char(Avatar.Avatar):
             for i in range(0,6):
                 self.dialogueArray.append(dialogueFile)
         elif (char == "da"):
+            dialogueFile = base.loader.loadSfx("phase_6/audio/dial/dale.wav")
+            for i in range(0,6):
+                self.dialogueArray.append(dialogueFile)
+        elif (char == "pch"):
+            dialogueFile = base.loader.loadSfx("phase_6/audio/dial/chip.wav")
+            for i in range(0,6):
+                self.dialogueArray.append(dialogueFile)
+        elif (char == "jda"):
             dialogueFile = base.loader.loadSfx("phase_6/audio/dial/dale.wav")
             for i in range(0,6):
                 self.dialogueArray.append(dialogueFile)

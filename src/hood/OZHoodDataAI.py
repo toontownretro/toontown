@@ -27,6 +27,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
         if zoneId == None:
             zoneId = hoodId
         HoodDataAI.HoodDataAI.__init__(self, air, zoneId, hoodId)
+        self.classicChars = []
 
 
     def startup(self):
@@ -37,11 +38,13 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
             chip.generateWithRequired(self.zoneId)
             chip.start()
             self.addDistObj(chip)
+            self.classicChars.append(chip)
 
             dale = DistributedDaleAI.DistributedDaleAI(self.air, chip.doId)
             dale.generateWithRequired(self.zoneId)
             dale.start()
             self.addDistObj(dale)
+            self.classicChars.append(dale)
             chip.setDaleId(dale.doId)
 
         self.treasurePlanner = OZTreasurePlannerAI.OZTreasurePlannerAI(self.zoneId)

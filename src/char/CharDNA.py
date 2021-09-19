@@ -12,7 +12,7 @@ from otp.avatar import AvatarDNA
 notify = directNotify.newCategory("CharDNA")
 
 # char defines
-charTypes = [ "mk", "vmk", "mn", "wmn", "g", "sg", "d", "dw", "p", "wp", "cl", "dd", "ch", "da" ]
+charTypes = [ "mk", "vmk", "mn", "wmn", "g", "sg", "d", "fd", "dw", "p", "wp", "cl", "dd", "shdd", "ch", "da", "pch", "jda" ]
 # ...mickey, vampire mickey, minnie, Witch minnie, goofy, donald, donald-wheel, pluto, Clarabelle, Daisy, Chip, Dale
 
 class CharDNA(AvatarDNA.AvatarDNA):
@@ -142,8 +142,12 @@ class CharDNA(AvatarDNA.AvatarDNA):
             return("donald")
         elif (self.name == "dw"):
             return("donald-wheel")
+        elif (self.name == "fd"):
+            return("franken_donald")
         elif (self.name == "dd"):
             return("daisy")
+        elif (self.name == "shdd"):
+            return("sockHop_daisy")
         elif (self.name == "p"):
             return("pluto")
         elif( self.name == "wp"):
@@ -154,5 +158,9 @@ class CharDNA(AvatarDNA.AvatarDNA):
             return("chip")
         elif (self.name == "da"):
             return("dale")
+        elif (self.name == "pch"):
+            return("police_chip")
+        elif (self.name == "jda"):
+            return("jailbird_dale")
         else:
             notify.error("unknown char type: ", self.name)

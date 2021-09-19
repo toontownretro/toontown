@@ -40,7 +40,8 @@ dnaFiles = [
     # These paths are not connected!
     # "cog_hq_cashbot_sz.dna",
 
-    "cog_hq_lawbot_sz.dna",
+    # These paths are not connected!
+    # "cog_hq_lawbot_sz.dna",
     ]
 
 errors = []
@@ -58,6 +59,7 @@ if os.getenv('TTMODELS'):
     dnaSearchPath.appendDirectory(Filename.expandFrom('$TTMODELS/built/phase_8/dna'))
     dnaSearchPath.appendDirectory(Filename.expandFrom('$TTMODELS/built/phase_9/dna'))
     dnaSearchPath.appendDirectory(Filename.expandFrom('$TTMODELS/built/phase_10/dna'))
+    dnaSearchPath.appendDirectory(Filename.expandFrom('$TTMODELS/built/phase_11/dna'))
 
     # In the publish environment, TTMODELS won't be on the model
     # path by default, so we always add it there.  In the dev

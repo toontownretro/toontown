@@ -531,7 +531,7 @@ def getPaths(charName, location = 0):
         return __minniePaths
     elif charName == TTLocalizer.WitchMinnie.lower():
         return __minniePaths
-    elif charName==TTLocalizer.Daisy.lower():
+    elif charName==TTLocalizer.Daisy.lower() or charName == TTLocalizer.SockHopDaisy.lower():
         return __daisyPaths
     elif charName==TTLocalizer.Goofy.lower():
         if location == 0:
@@ -540,15 +540,15 @@ def getPaths(charName, location = 0):
             return __goofySpeedwayPaths
     elif charName==TTLocalizer.SuperGoofy.lower():
         return __goofySpeedwayPaths
-    elif charName==TTLocalizer.Donald.lower():
+    elif charName==TTLocalizer.Donald.lower() or charName == TTLocalizer.FrankenDonald.lower():
         return __donaldPaths
     elif charName==TTLocalizer.Pluto.lower():
         return __plutoPaths
     elif charName==TTLocalizer.WesternPluto.lower():
         return __plutoPaths
-    elif charName==TTLocalizer.Chip.lower():
+    elif charName==TTLocalizer.Chip.lower() or charName == TTLocalizer.PoliceChip.lower():
         return __chipPaths
-    elif charName==TTLocalizer.Dale.lower():
+    elif charName==TTLocalizer.Dale.lower() or charName == TTLocalizer.JailbirdDale.lower():
         return __chipPaths
     elif charName==TTLocalizer.DonaldDock.lower():
         return {'a':(Point3(0,0,0),'a')}
@@ -577,7 +577,7 @@ def __getWaypointList(paths):
         return __chipWaypoints
     else:
         assert 0, "Unknown waypoint information"
-
+        
 def getNodePos(node, paths):
     assert node in paths
     return paths[node][0]
