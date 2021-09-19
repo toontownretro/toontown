@@ -255,14 +255,14 @@ class MapPage(ShtikerPage.ShtikerPage):
         safeZonesVisited = base.localAvatar.hoodsVisited
         hoodsAvailable = base.cr.hoodMgr.getAvailableZones()
 
-        #print "### hoods visited = ", safeZonesVisited
-        #print "### hoods avail = ", hoodsAvailable
+        #print("### hoods visited = ", safeZonesVisited)
+        #print("### hoods avail = ", hoodsAvailable)
 
         # The hoods that we can see is the intersection of the zones we have
         # visited and the hoods that are available
         hoodVisibleList = PythonUtil.intersection(safeZonesVisited, hoodsAvailable)
 
-        #print "### hoods viz = ", hoodVisibleList
+        #print("### hoods viz = ", hoodVisibleList)
 
         # The hoods that we can teleport to is the intersection of the hoods
         # we can see and the hoods the local toon has teleport access to

@@ -201,7 +201,7 @@ class DistributedNPCSpecialQuestGiverAI(DistributedNPCToonBaseAI):
         # is over, but I don't think we need to.
         if self.questCallback:
             self.questCallback()
-        #print "assignQuest", avId
+        #print("assignQuest", avId)
         self.sendUpdate("setMovie", [NPCToons.QUEST_MOVIE_ASSIGN,
                                      self.npcId, avId, [questId, rewardId, toNpcId],
                                      ClockDelta.globalClockDelta.getRealNetworkTime()])

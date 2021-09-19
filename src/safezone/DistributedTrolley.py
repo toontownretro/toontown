@@ -321,7 +321,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         self.fillSlot(3, avId)
 
     def fillSlot(self, index, avId):
-        #print "fill Slot: %d for %d" % (index, avId)
+        #print("fill Slot: %d for %d" % (index, avId))
         if avId == 0:
             # This means that the slot is now empty, and no action should
             # be taken.
@@ -394,7 +394,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
             toon.startSmooth()
 
     def emptySlot(self, index, avId, timestamp):
-        #print "Emptying slot: %d for %d" % (index, avId)
+        #print("Emptying slot: %d for %d" % (index, avId))
         # If localToon is exiting, he needs to change state
         if avId == 0:
             # This means that no one is currently exiting, and no action

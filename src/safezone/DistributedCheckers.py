@@ -332,7 +332,7 @@ class DistributedCheckers(DistributedNode.DistributedNode):
     def enterPlaying(self):
         self.inGame = True
         self.enableScreenText()
-        #print "IM IN PLAYING?????!?!?!"
+        #print("IM IN PLAYING?????!?!?!")
         if self.table.fsm.getCurrentState().getName() != 'observing':
             self.enableLeaveButton()
 
@@ -536,7 +536,7 @@ class DistributedCheckers(DistributedNode.DistributedNode):
                         self.isMyTurn = False
                         self.moveList= []
                         return
-                    #print "CHECK LEGAL JUMP", self.checkLegalJump(lastItem, thisItem, self.moverType), "TYPE == ", self.moverType
+                    #print("CHECK LEGAL JUMP", self.checkLegalJump(lastItem, thisItem, self.moverType), "TYPE == ", self.moverType)
                     if self.checkLegalJump(lastItem, thisItem, self.moverType) == True: #There is a Legal Jump
                         #ghostConstant here is a small alpha offset to give it a transparent look
                         #tintConstant makes the peice a bit darker (necessary when ghosting)
@@ -898,7 +898,7 @@ class DistributedCheckers(DistributedNode.DistributedNode):
             pass
             #current flaw in the logic, but shouldnt really ever happen
             #though on live it might
-            #print "random move is empty"
+            #print("random move is empty")
         playSound = Sequence(SoundInterval(self.knockSound))
         playSound.start()
         self.d_requestMove(move)

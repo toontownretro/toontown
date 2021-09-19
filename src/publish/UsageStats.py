@@ -105,9 +105,9 @@ def convertTime(s):
     t = time.mktime((year, month, day, hour, min, sec, 0, 1, -1))
     if (month < 9) and (year == 2002):
         # Offset for toon27
-        # print "old t: ", time.ctime(t)
+        # print("old t: ", time.ctime(t))
         t += 12867601.0
-        # print "new t: ", time.ctime(t)
+        # print("new t: ", time.ctime(t))
     return t
     
 

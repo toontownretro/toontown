@@ -917,7 +917,7 @@ class PetshopGUI(DirectObject):
             self.dialog = self.GoHomeDlg(self.goHomeDlgDoneEvent)
 
     def __handleMainMenuDlg(self, exitVal):
-        #print "Exiting Main Menu"
+        #print("Exiting Main Menu")
         if exitVal == 0:  #Cancel
             messenger.send(self.eventDict['guiDone'])
         elif exitVal == 1: #Sell Fish
@@ -976,7 +976,7 @@ class PetshopGUI(DirectObject):
             place.goHomeNow(base.localAvatar.lastHood)
 
     def __handleReturnPetDlg(self, exitVal):
-        #print "Exiting Return Pet"
+        #print("Exiting Return Pet")
         if exitVal == 0:     #Cancel
             self.popDialog()
         elif exitVal == 1:   #Return

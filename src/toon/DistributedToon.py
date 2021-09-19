@@ -1197,7 +1197,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
     def readyForPromotion(self, dept):
         merits = base.localAvatar.cogMerits[dept]
         totalMerits = CogDisguiseGlobals.getTotalMerits(self, dept)
-        #print "print merits[%d]: %d/%d"  % (dept, merits, totalMerits)
+        #print("print merits[%d]: %d/%d"  % (dept, merits, totalMerits))
         if (merits >= totalMerits):
             return 1
         else:
@@ -1724,11 +1724,11 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
 
     #def d_goHome(self, zoneId):
     #    timestamp = globalClockDelta.getFrameNetworkTime()
-    #    print "i'm going to request my estate zone"
+    #    print("i'm going to request my estate zone")
     #    self.sendUpdate("requestEstateZone", [timestamp, zoneId])
 
     #def goHome(self, timestamp, zoneId):
-    #    print "i'm going loco on the client"
+    #    print("i'm going loco on the client")
 
     def b_setSpeedChatStyleIndex(self, index):
         realIndexToSend = 0

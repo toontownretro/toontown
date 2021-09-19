@@ -199,7 +199,7 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode,
     def __handleMoodSet(self, component, value):
         # THIS IS ONLY TO BE USED BY THE MOOD SET HANDLERS
         # see requiredMoodComponents comment in __init__
-        #print "Doid: %s Comp: %s Value: %s" % (self.doId, component, value)
+        #print("Doid: %s Comp: %s Value: %s" % (self.doId, component, value))
         if self.isGenerated():
             self.mood.setComponent(component, value)
         else:

@@ -286,7 +286,7 @@ class DistributedNPCPetclerk(DistributedNPCToonBase):
             self.waitingForPetSeeds = True
             return
 
-        #print "popupPetshopGui"
+        #print("popupPetshopGui")
         assert self.notify.debug('popupPetshopGUI()')
         self.setChatAbsolute('', CFSpeech)
 

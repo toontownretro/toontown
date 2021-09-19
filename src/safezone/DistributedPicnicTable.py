@@ -156,7 +156,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
 
         self.__enableCollisions()
     def handleSleep(self, task = None):
-       #print "GETTING TO SLEEP!!!"
+       #print("GETTING TO SLEEP!!!")
        if self.fsm.getCurrentState().getName() == "chooseMode":
            self.cancelButtonPushed()
        elif self.fsm.getCurrentState().getName() == "sitting":
@@ -200,7 +200,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         self.clearToonTracks()
         self.cameraBoardTrack = None
         #self.clearToonTrack()
-        #print " I AM DELETEING \n\n\n\n\n\n\n\n\n"
+        #print(" I AM DELETEING \n\n\n\n\n\n\n\n\n")
         #self.outTrack = None
         #del self
 
@@ -385,7 +385,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
     ##########
     def handleEnterPicnicTableSphere(self, i, collEntry):
         assert self.notify.debugStateCall(self)
-        #print "COLLISION!!!"
+        #print("COLLISION!!!")
         self.notify.debug("Entering Picnic Table Sphere.... %s" % self.getDoId())
 
 
@@ -454,7 +454,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             )
         base.cr.playGame.getPlace().setState('stopped')
     def tutorialButtonPushed(self):
-        #print "GETTING HERE!!!"
+        #print("GETTING HERE!!!")
         self.disableChoiceButtons()
         #self.tutorial = ChineseTutorial(self.tutorialDone)
         self.gameMenu = GameMenu(self.tutorialFunction, 1) # 1 == Tutorial Num
@@ -507,7 +507,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
     #the client if its ok for people to picnic table, and then animates them
     ##########
     def pickFunction(self, gameNum):
-        #print "SENDING PICK!"
+        #print("SENDING PICK!")
         if gameNum == 1: #Chinese Checkers
             self.sendUpdate('requestPickedGame', [gameNum])
         elif gameNum == 2:
@@ -520,8 +520,8 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
 
     def setZone(self, zoneId):
         #import pdb; pdb.set_trace()
-        #print "ZONE iD == " , zoneId
-        #print "CURRENT SATE?!?!? == ", self.fsm.getCurrentState().getName()
+        #print("ZONE iD == " , zoneId)
+        #print("CURRENT SATE?!?!? == ", self.fsm.getCurrentState().getName())
         #if self.fsm.getCurrentState().getName() == "chooseMode" or self.fsm.getCurrentState().getName() == "sitting":
         if self.fsm.getCurrentState().getName() == "sitting" or self.fsm.getCurrentState().getName() == "observing" :
             if self.tutorial == None:

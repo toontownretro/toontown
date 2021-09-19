@@ -24,7 +24,7 @@ class DistributedEFlyingTreasure(DistributedSZTreasure.DistributedSZTreasure):
 
     # The handler that catches the initial position established on the AI
     def setPosition(self, x, y, z):
-        #print "setPosition!"
+        #print("setPosition!")
         DistributedSZTreasure.DistributedSZTreasure.setPosition(self, x, y, z)
         self.initPos = self.nodePath.getPos()
         self.pos = self.nodePath.getPos()

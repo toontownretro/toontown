@@ -176,7 +176,7 @@ class Squeezer:
 # loader (used in bootstrap code)
 
 loader = """
-print "Beginning squeezetool loader"
+print("Beginning squeezetool loader")
 import ihooks
 import types
 
@@ -190,16 +190,16 @@ class Loader(ihooks.ModuleLoader):
         return ihooks.ModuleLoader.__init__(self)
 
     def find_module(self, name, path = None):
-        #print "%%s: find '%%s' on %%s" %% (self.archiveid, name, path)
+        #print("%%s: find '%%s' on %%s" %% (self.archiveid, name, path))
         if path != None:
             for dirname in path:
                 moduleName = dirname + '.' + name
                 if self.__modules.has_key(moduleName):
-                    #print "%%s: found as %%s" %% (self.archiveid, moduleName)
+                    #print("%%s: found as %%s" %% (self.archiveid, moduleName))
                     return None, moduleName, (None, None, PYZ_MODULE)
         else:
             if self.__modules.has_key(name):
-                #print "%%s: found as %%s" %% (self.archiveid, name)
+                #print("%%s: found as %%s" %% (self.archiveid, name))
                 return None, name, (None, None, PYZ_MODULE)
 
         return ihooks.ModuleLoader.find_module(self, name, path)
@@ -208,7 +208,7 @@ class Loader(ihooks.ModuleLoader):
         file, filename, (suff, mode, type) = stuff
         if type != PYZ_MODULE:
             return ihooks.ModuleLoader.load_module(self, name, stuff)
-        #print "%%s: load_module %%s" %% (self.archiveid, filename)
+        #print("%%s: load_module %%s" %% (self.archiveid, filename))
         code = self.__modules[filename]
         del self.__modules[filename] # no need to keep this one around
         m = self.hooks.add_module(name)
@@ -227,9 +227,9 @@ def boot(name, fp, size, offset = 0):
     try:
         import %(modules)s
     except ImportError:
-        print "PYZ:", "failed to load marshal and zlib libraries"
+        print("PYZ:", "failed to load marshal and zlib libraries")
         return # cannot boot from PYZ file
-    #print "PYZ:", "boot from", name+".PYZ"
+    #print("PYZ:", "boot from", name+".PYZ")
 
     # load archive and install import hook
     if offset:

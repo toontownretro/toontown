@@ -85,7 +85,7 @@ class DistributedChineseCheckersAI(DistributedNodeAI):
     def announceGenerate(self):
         self.parent.setGameDoId(self.doId)
     def getTableDoId(self):
-        #print "PARENT -- ", self.parent
+        #print("PARENT -- ", self.parent)
         return self.parentDo
     def delete(self):
         self.fsm.requestFinalState()
@@ -122,7 +122,7 @@ class DistributedChineseCheckersAI(DistributedNodeAI):
         
     def informGameOfPlayerLeave(self):
         self.playersSitting -= 1
-        #print "PLAYERSIT", self.playersSitting
+        #print("PLAYERSIT", self.playersSitting)
         if self.playersSitting < 2 and self.fsm.getCurrentState().getName() == 'waitingToBegin':
             self.timerEnd = 0
         if self.playersSitting > 2 and self.fsm.getCurrentState().getName() == 'waitingToBegin':
@@ -256,7 +256,7 @@ class DistributedChineseCheckersAI(DistributedNodeAI):
                 self.parent.announceWinner("Chinese Checkers", avId) 
                  #self.sendUpdate('announceWin', [avId])
         else:
-            pass #print "Player requested win, but didnt actually win! OH NOES"
+            pass #print("Player requested win, but didnt actually win! OH NOES")
         self.parent = None
             
             
@@ -350,8 +350,8 @@ class DistributedChineseCheckersAI(DistributedNodeAI):
         playerJoinOrder = [1,4,2,5,3,6]
         zz = 0
         numPlayers = 0
-        #print "WANT START", self.wantStart
-        #print "SEATS", self.parent.seats
+        #print("WANT START", self.wantStart)
+        #print("SEATS", self.parent.seats)
         for x in self.parent.seats:
             if x != None:
                 numPlayers += 1
@@ -486,7 +486,7 @@ class DistributedChineseCheckersAI(DistributedNodeAI):
                 playerSeatPos[self.parent.seats.index(id)] = x+1
         self.sendUpdate("announceSeatPositions", [playerSeatPos])
         self.playerSeatPos = playerSeatPos
-        #print "PLAYER SEAT POS!" , playerSeatPos
+        #print("PLAYER SEAT POS!" , playerSeatPos)
         self.sendGameState( [] )
         self.wantStart = []
         self.fsm.request('playing')

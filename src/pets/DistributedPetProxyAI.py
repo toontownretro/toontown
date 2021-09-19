@@ -478,12 +478,12 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
                 })
 
         if self._willDoTrick(trickId): 
-            #print "trick succeeded"
+            #print("trick succeeded")
             self._handleDidTrick(trickId)
             self.b_setLastSeenTimestamp(self.getCurEpochTimestamp())
             return 0
         else:
-            #print "trick failed"
+            #print("trick failed")
             #chosenTrick = PetTricks.Tricks.BALK
             self.b_setLastSeenTimestamp(self.getCurEpochTimestamp())
             return 1

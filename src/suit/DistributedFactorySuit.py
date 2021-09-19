@@ -149,7 +149,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
     def announceGenerate(self):
         self.notify.debug("announceGenerate %s" % self.doId)
 
-        #print "%s: originalPos = %s" % (self.doId, self.originalPos)
+        #print("%s: originalPos = %s" % (self.doId, self.originalPos))
         #self.setState('Walk')
         # Since Cogs are not entities, we need to jump through some
         # hoops here. We need to wait until the factory has been generated,

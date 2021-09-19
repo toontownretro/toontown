@@ -815,7 +815,7 @@ class Pet(Avatar.Avatar):
 
     def getInteractIval(self, interactId):
         anims = self.InteractAnims[interactId]
-        #print "getInteractIval: anims = ", anims
+        #print("getInteractIval: anims = ", anims)
         if type(anims) == bytes:
             animIval = ActorInterval(self, anims)
         else:

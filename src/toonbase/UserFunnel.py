@@ -448,7 +448,7 @@ class UserFunnel:
 
     def prerun(self):
 
-        # print "Begin Hitbox Thread"
+        # print("Begin Hitbox Thread")
         # Use start() method to execute this run() function in second thread
 
         # Commented out the next line (if statement) on 9-10-07,
@@ -464,16 +464,16 @@ class UserFunnel:
         # if (self.CurrentHost == 0):
         self.getFunnelURL()
 
-        # print "build url"
+        # print("build url")
         self.buildURL()
         if(os.path.isfile(self.cfCookieFile) == True):
-            # print "load preexisting cookie"
+            # print("load preexisting cookie")
             # self.cfCookie.load()
             if self.CurrentHost == 1 or self.CurrentHost == 2:
                 self.readInPandaCookie()
-        # print "Cookies before transaction"
+        # print("Cookies before transaction")
         # self.httpSession.writeCookies(ostream)
-        # print "Cookie Header Line"
+        # print("Cookie Header Line")
         # self.httpSession.sendCookies(ostream, URLSpec(self.URLtoSend))
 
     def run(self):
@@ -511,11 +511,11 @@ class UserFunnel:
         # delete the object
         # del doc
 
-        # print "The Funnel URL could not be accessed"
+        # print("The Funnel URL could not be accessed")
         # if (self.CurrentHost == 0):
         #    patcherVer('w','OFFLINE')
         # For testing, write out all cookies in memory
-        # print "Cookies after Transaction"
+        # print("Cookies after Transaction")
         # self.httpSession.writeCookies(ostream)
 
         # Commented out the following, moved it to the taskMgr call
@@ -532,17 +532,17 @@ class UserFunnel:
 
     def startCheckingAsyncRequest(self, name):
         taskMgr.remove(name)
-        # print "Starting Checking Async Request"
+        # print("Starting Checking Async Request")
         taskMgr.doMethodLater(0.5, self.pollFunnelTask, name)
 
     def stopCheckingFunnelTask(self, name):
         taskMgr.remove('pollFunnelTask')
 
     def pollFunnelTask(self, task):
-        # print "Polling....."
+        # print("Polling.....")
         result = self.nonBlock.run()
         if result == 0:
-            # print "Result = 0, Done"
+            # print("Result = 0, Done")
             # Funnel request complete
             self.stopCheckingFunnelTask(task)
             if self.CurrentHost == 1 or self.CurrentHost == 2:
@@ -555,11 +555,11 @@ def logSubmit(setHostID, setMileStone):
 
     # Autopilot. Just run logSubmit passing it the service ID and the milestone id. It will do the rest
     if __dev__:
-         # print "UserFunnel: Game running in Dev Mode. Not logging to Hitbox or VRS Collector."
+         # print("UserFunnel: Game running in Dev Mode. Not logging to Hitbox or VRS Collector.")
         assert notify.debug('UserFunnel: Game running in Dev Mode. Not logging to Hitbox or VRS Collector.')
         return
     if __debug__:
-        # print "UserFunnel: Game running in Debug Mode. Not logging to Hitbox or VRS Collector"
+        # print("UserFunnel: Game running in Debug Mode. Not logging to Hitbox or VRS Collector")
         assert notify.debug('UserFunnel: Game running in Debug Mode. Not logging to Hitbox or VRS Collector.')
         return
 
@@ -931,7 +931,7 @@ def getMAC(staticMAC = [None]):
         except:
             # Could not get MAC address due to lack of execute permissions
             # on the ipconfig program. (Most likely a Vista issue)
-            # print "MAC ADDRESS Recovery Problm"
+            # print("MAC ADDRESS Recovery Problm")
             staticMAC[0] = 'NO_MAC'
             return staticMAC[0]
 

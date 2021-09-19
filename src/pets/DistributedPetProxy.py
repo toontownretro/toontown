@@ -9,7 +9,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
 
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPetProxy")
 
-    def __init__(self, cr): 
+    def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
         # create our distributed trait and mood funcs
         self.__funcsToDelete = []
@@ -129,7 +129,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
     def __handleMoodSet(self, component, value):
         # THIS IS ONLY TO BE USED BY THE MOOD SET HANDLERS
         # see requiredMoodComponents comment in __init__
-        #print "Doid: %s Comp: %s Value: %s" % (self.doId, component, value)
+        #print("Doid: %s Comp: %s Value: %s" % (self.doId, component, value))
         if self.isGenerated():
             self.mood.setComponent(component, value)
         else:
@@ -232,4 +232,3 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
 
     def isProxy(self):
         return True
-

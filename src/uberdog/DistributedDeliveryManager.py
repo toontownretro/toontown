@@ -24,7 +24,7 @@ class DistributedDeliveryManager(DistributedObject):
         print("Distributed Delviery Manager Stub Test")
     """
     def sendRequestPurchaseGift(self, item, receiverId, callback):
-        print "sent request for gift"
+        print("sent request for gift")
         giftBlob = item.getBlob(store = CatalogItem.Customization)
         context = self.getCallbackContext(callback, [item])
         #self.sendUpdate("receiveRequestPurchaseGift", [giftBlob, receiverId, context])
@@ -32,9 +32,9 @@ class DistributedDeliveryManager(DistributedObject):
     """
     """
     def receiveAcceptPurchaseGift(self, context, retcode):
-        print "received AcceptPurchaseGift"
+        print("received AcceptPurchaseGift")
         self.doCallbackContext(context, [retcode])
     def receiveRejectPurchaseGift(self, context, retcode):
-        print "received RejectPurchaseGift"
+        print("received RejectPurchaseGift")
         self.doCallbackContext(context, [retcode])
     """

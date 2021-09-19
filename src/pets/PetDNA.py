@@ -234,7 +234,7 @@ def getBodyRarity(bodyIndex):
     minWeight = min(weight.values())
     rarity = (weight[bodyName]-minWeight) / (totalWeight-minWeight)
 
-    #print "Rarity of %s is %f" % (bodyName, rarity)
+    #print("Rarity of %s is %f" % (bodyName, rarity))
 
     return rarity
 

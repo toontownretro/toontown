@@ -757,7 +757,7 @@ class RaceGUI:
 
 
     def circuitFinished(self, placeFixup):
-        #print "circuit finished"
+        #print("circuit finished")
         self.endPanel.circuitFinished(placeFixup)
 
     def setTimerEnabled(self, enabled):

@@ -83,7 +83,7 @@ class DistributedCheckersAI(DistributedNodeAI):
     def announceGenerate(self):
         self.parent.setGameDoId(self.doId)
     def getTableDoId(self):
-        #print "PARENT -- ", self.parent
+        #print("PARENT -- ", self.parent)
         return self.parentDo
     def delete(self):
         self.fsm.requestFinalState()
@@ -292,7 +292,7 @@ class DistributedCheckersAI(DistributedNodeAI):
     #                    Legal Move Request/Checker
     ####
     def advancePlayerTurn(self):
-        #print "ADVANCING PLAYERS TURN -- " 
+        #print("ADVANCING PLAYERS TURN -- " )
         if self.playersTurn == 0:
             self.playersTurn = 1
             self.playerNum = 2

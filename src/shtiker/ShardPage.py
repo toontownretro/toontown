@@ -383,7 +383,7 @@ class ShardPage(ShtikerPage.ShtikerPage):
             curShardTuples.append((ToontownGlobals.WelcomeValleyToken,
                                    TTLocalizer.WelcomeValley[-1], 0, 0))
 
-        #print "curShardTuples=",curShardTuples
+        #print("curShardTuples=",curShardTuples)
         #print "self.shardButtns.keys=",self.shardButtons.keys()
 
         currentShardId = self.getCurrentShardId()

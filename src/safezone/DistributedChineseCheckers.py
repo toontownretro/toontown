@@ -250,7 +250,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
     def getTimer(self):
         self.sendUpdate('requestTimer', [])
     def setTimer(self, timerEnd):
-        #print "TIMEREND! ", timerEnd
+        #print("TIMEREND! ", timerEnd)
         if self.fsm.getCurrentState() != None and self.fsm.getCurrentState().getName() == 'waitingToBegin' and not self.table.fsm.getCurrentState().getName() == 'observing':
             self.clockNode.stop()
             time = globalClockDelta.networkToLocalTime(timerEnd)
@@ -319,7 +319,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
     def sendTurn(self,playersTurn):
         self.playersTurnBlinker.finish()
         if self.fsm.getCurrentState().getName() == 'playing':
-            #print "GETTING HERE!", playersTurn - 1, " LENGTH!!!" , self.playerTagList #self.playerTagList
+            #print("GETTING HERE!", playersTurn - 1, " LENGTH!!!" , self.playerTagList #self.playerTagList)
 
             if self.playerSeats == None:
                 self.sendUpdate("requestSeatPositions", [])
@@ -334,7 +334,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                 self.playersTurnBlinker.loop()
 
     def announceSeatPositions(self, playerPos):
-        #print "ANNOUNCESEATPOSITIONS!", playerPos
+        #print("ANNOUNCESEATPOSITIONS!", playerPos)
         self.playerSeats = playerPos
         for x in range(6):
             pos = self.table.seats[x].getPos(render)
@@ -554,8 +554,8 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
         message1 = TTLocalizer.ChineseCheckersIts
         if(self.turnText != None):
             self.turnText.destroy()
-        #print "player ---",player
-        #print "playerNum --" ,self.playerNum
+        #print("player ---",player)
+        #print("playerNum --" ,self.playerNum)
         if player == self.playerNum:
             message2 = TTLocalizer.ChineseCheckersYourTurn
             color = (0,0,0,1)
@@ -680,9 +680,9 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
             else:
                 #Check for Explicit adjacent move
                 if len(self.moveList) == 1 and self.board.squareList[index].getState() == 0:
-                    #print "I AM OUTSIDE"
+                    #print("I AM OUTSIDE")
                     if index in self.board.squareList[self.moveList[0]].getAdjacent():
-                        #print "I AM INSIDE"
+                        #print("I AM INSIDE")
                         for x in self.nonOpposingPositions:
                             if index in x:
                                 return #You cannot end a move in a non opposing players square
@@ -710,7 +710,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                     #Check for Normal jump
                     #Also check if its a 'finishing jump'
                     #Therefore no jumps possible after it
-                        ###print "CHECK LEGAL JUMP!", self.checkLegalMove(self.board.getSquare(self.moveList[len(self.moveList)-1]), self.board.getSquare(index)) == True
+                        ###print("CHECK LEGAL JUMP!", self.checkLegalMove(self.board.getSquare(self.moveList[len(self.moveList)-1]), self.board.getSquare(index)) == True)
                     elif self.checkLegalMove(self.board.getSquare(self.moveList[len(self.moveList)-1]), self.board.getSquare(index)) == True:
                         #this is the part that adds moves to a series of jumps
                         ##
@@ -721,7 +721,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                         #but this explicit check should fix that.
                         if not index in self.board.squareList[self.moveList[len(self.moveList)-1]].getAdjacent():
                             for x in self.nonOpposingPositions:
-                                #print " LEGAL JUMPS FROM! ", self.existsLegalJumpsFrom(index)
+                                #print(" LEGAL JUMPS FROM! ", self.existsLegalJumpsFrom(index))
                                 if self.existsLegalJumpsFrom(index) == False:
                                     if index in x:
                                         return #He tried to JUMP into non opposing players startPos => Illegal
@@ -803,8 +803,8 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                 elif self.board.squareList[x].getState() == 0:
                     pass
                 else:
-                    #print " FIRSTSQUARE ADJACENT AND X -- " , firstSquare.getAdjacent(), " X == " , x
-                    #print "Xs Adjacent and its Index", self.board.squareList[x].getAdjacent(), " INDEX == " , firstSquare.getAdjacent().index(x)
+                    #print(" FIRSTSQUARE ADJACENT AND X -- " , firstSquare.getAdjacent(), " X == " , x)
+                    #print("Xs Adjacent and its Index", self.board.squareList[x].getAdjacent(), " INDEX == " , firstSquare.getAdjacent().index(x))
                     if (self.board.squareList[x].getAdjacent()[firstSquare.getAdjacent().index(x)]) == secondSquare.getNum():
                         return True
             return False
@@ -940,7 +940,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                 pass
                 #current flaw in the logic, but shouldnt really ever happen
                 #though on live it might
-                #print "random move is empty"
+                #print("random move is empty")
             playSound = Sequence(SoundInterval(self.knockSound))
             playSound.start()
             self.d_requestMove(move)

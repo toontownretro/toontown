@@ -447,7 +447,7 @@ def loadSuitModelsAndAnims(level, flag = 0):
     Load (flag = 1) or unload (flag = 0) all suit anims and
     models for given suit level.
     """
-    # print "print loading level %d suits..." % level
+    # print("print loading level %d suits..." % level)
 
     for key in list(ModelDict.keys()):
         # load/unload the models

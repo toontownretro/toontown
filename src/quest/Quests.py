@@ -6567,7 +6567,7 @@ def checkReward(questId, forked=0):
     that it's the same reward
     'forked' is for internal use, do not override
     """
-    #print "checkReward: %s" % questId
+    #print("checkReward: %s" % questId)
     quest = QuestDict[questId]
     reward = quest[5]
     nextQuests = nextQuestList(quest[6])
@@ -6585,10 +6585,10 @@ def checkReward(questId, forked=0):
         assert reward is NA, "internal chain quest %s has a reward (%s)" % (questId, reward)
         forked = forked or len(nextQuests) > 1
         firstReward = checkReward(nextQuests[0], forked)
-        #print "firstReward: %s" % firstReward
+        #print("firstReward: %s" % firstReward)
         for qId in nextQuests[1:]:
             thisReward = checkReward(qId, forked)
-            #print "thisReward: %s (%s)" % (thisReward, firstReward)
+            #print("thisReward: %s (%s)" % (thisReward, firstReward))
             assert thisReward == firstReward, "quest %s leads to different rewards through chained quests %s(%s) and %s(%s)" % (questId, nextQuests[0], firstReward, qId, thisReward)
         return firstReward
 

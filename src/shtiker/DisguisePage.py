@@ -350,12 +350,12 @@ class DisguisePage(ShtikerPage.ShtikerPage):
         for part in self.parts:
             groupingBit = groupingBitmask & partBitmask
 
-            #print "not groupingBit and previousPart = %d and %d = %d" % (not groupingBit,
+            #print("not groupingBit and previousPart = %d and %d = %d" % (not groupingBit,
             #                                                             previousPart,
-            #                                                             (not groupingBit and previousPart))
-            #print "(%d & %d) & %d = \n %d & %d = %d" % (numParts, partBitmask, groupingBit,
+            #                                                             (not groupingBit and previousPart)))
+            #print("(%d & %d) & %d = \n %d & %d = %d" % (numParts, partBitmask, groupingBit,
             #                                            (numParts & partBitmask), groupingBit,
-            #                                            (numParts & partBitmask) & groupingBit)
+            #                                            (numParts & partBitmask) & groupingBit))
 
             # if we have the part
             if (numParts & partBitmask)& groupingBit:
@@ -374,7 +374,7 @@ class DisguisePage(ShtikerPage.ShtikerPage):
                 part.hide()
                 previousPart = 0
 
-            #print "previousPart = ", previousPart
+            #print("previousPart = ", previousPart)
 
             # shift the mask to look at the next bit
             partBitmask = partBitmask << 1

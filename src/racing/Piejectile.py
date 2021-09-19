@@ -159,9 +159,9 @@ class Piejectile(DirectObject, FlyingGag):
         throwVelCast = Vec3(throwVel[0], throwVel[1], throwVel[2] + 50)
 
         self.actorNode.getPhysicsObject().setVelocity(self.ownerKart.getVelocity() + throwVelCast)
-        #print "Kart Velocity"
+        #print("Kart Velocity")
         #print self.ownerKart.getVelocity()
-        #print "Pie Velocity"
+        #print("Pie Velocity")
         #print self.actorNode.getPhysicsObject().getVelocity()
         #self.physicsObj.setMass(self.physicsObj.getMass() / 10)
 
@@ -193,7 +193,7 @@ class Piejectile(DirectObject, FlyingGag):
         self.remove()
 
     def splat(self, optional = None):
-        #print "SPLAT!!!!!!"
+        #print("SPLAT!!!!!!")
         self.race.effectManager.addSplatEffect(spawner = self)
         taskMgr.remove(self.splatTaskName)
         self.remove()
@@ -231,7 +231,7 @@ class Piejectile(DirectObject, FlyingGag):
             self.lookAt(targetPos)
 
         if (self.d2t < 7) and self.hasTarget:
-            #print "hitting target"
+            #print("hitting target")
             self.splatTarget()
             return Task.done
 
@@ -263,7 +263,7 @@ class Piejectile(DirectObject, FlyingGag):
             self.physicsMgr.doPhysics(self.physicsDt)
 
         if self.count % 60 == 0:
-            #print "Pielocity info"
+            #print("Pielocity info")
             #print self.actorNode.getPhysicsObject().getVelocity()
             #print self.actorNode.getPhysicsObject().getPosition()
             pass

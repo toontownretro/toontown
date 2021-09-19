@@ -195,11 +195,11 @@ class DistributedNPCClerk(DistributedNPCToonBase):
         Cleanup the gui and send the message to the AI
         """
         assert self.notify.debug('handlePurchaseDone()')
-        #print "handlepurchasedone"
+        #print("handlepurchasedone")
         self.ignore('boughtGag')
         self.d_setInventory(base.localAvatar.inventory.makeNetString(),
                             base.localAvatar.getMoney(), 1)
-        #print "handlepurchasedone, set inventory"
+        #print("handlepurchasedone, set inventory")
         self.purchase.exit()
         self.purchase.unload()
         self.purchase = None

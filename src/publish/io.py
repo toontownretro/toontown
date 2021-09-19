@@ -288,7 +288,7 @@ Returns: an array of integers, floats or objects (type='O'), depending on the
         elements = elements + newelements
     for row in range(len(elements)):
         if N.add.reduce(N.array(map(isstring,elements[row])))==len(elements[row]):
-            print "A row of strings was found.  Returning a LIST."
+            print("A row of strings was found.  Returning a LIST.")
             return elements
     try:
         elements = N.array(elements)
@@ -369,7 +369,7 @@ Usage:  mincget(imfile,unpackstr=N.Int16,shp=None)  default shp = -1,20,64,64
     try:
         d = braw('minctemp.bshort',unpackstr)
     except:
-        print "Couldn't find file:  "+imfile
+        print("Couldn't find file:  "+imfile)
         raise IOError, "Couldn't find file in mincget()"
 
     print shp, d.shape
@@ -389,7 +389,7 @@ Usage:  brikget(imfile,unpackstr=N.Int16,shp=None)  default shp: (-1,48,61,51)
     try:
         file = open(imfile, "rb")
     except:
-        print "Couldn't find file:  "+imfile
+        print("Couldn't find file:  "+imfile)
         raise IOError, "Couldn't find file in brikget()"
     try:
         header = imfile[0:-4]+'HEAD'
@@ -402,7 +402,7 @@ Usage:  brikget(imfile,unpackstr=N.Int16,shp=None)  default shp: (-1,48,61,51)
         dims.reverse()
         shp = [-1]+dims
     except IOError:
-        print "No header file.  Continuing ..."
+        print("No header file.  Continuing ...")
     lines = None
 
     print shp
@@ -440,7 +440,7 @@ Usage:   mghbget(imfile, numslices=-1, xsize=64, ysize=64,
     try:
         file = open(imfile, "rb")
     except:
-        print "Couldn't find file:  "+imfile
+        print("Couldn't find file:  "+imfile)
         raise IOError, "Couldn't find file in bget()"
     try:
         header = imfile[0:-6]+'hdr'
@@ -454,7 +454,7 @@ Usage:   mghbget(imfile, numslices=-1, xsize=64, ysize=64,
             ysize = int(vals[1])
             numslices = int(vals[2])
     except:
-        print "No header file.  Continuing ..."
+        print("No header file.  Continuing ...")
 
     suffix = imfile[-6:]
     if suffix == 'bshort':
@@ -770,7 +770,7 @@ Returns: numpy array of specified type
         a[i:i+len(d)] = d
         i = i + len(d)
     end = time.time()
-    print "%d sec" % round(end-start,2)
+    print("%d sec" % round(end-start,2))
     data.close()
     os.remove(tmpname)
     return N.reshape(a,[numlines,numcols])

@@ -1759,7 +1759,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
 
     def hitBanana(self):
-        #print "yar, got Me"
+        #print("yar, got Me")
 
         if(self.wipeOut):
             self.wipeOut.pause()

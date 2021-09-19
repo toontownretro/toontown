@@ -156,7 +156,7 @@ class GetAvatarRequest(AsyncRequest):
 
 class PurchaseGiftRequest(AsyncRequest):
     def __init__(self, distObj, replyToChannelId, senderId, receiverId, itemBlob, context, timeout = 4.0):
-        #print "PurchaseGiftRequest INIT"
+        #print("PurchaseGiftRequest INIT")
         AsyncRequest.__init__(self, distObj.air, replyToChannelId, timeout)
         self.distObj=distObj
         self.senderId=senderId
@@ -171,7 +171,7 @@ class PurchaseGiftRequest(AsyncRequest):
         self.askForObject(senderId)
         self.askForObject(receiverId)
         self.cost = 0
-        #print "PurchaseGiftRequest INIT10"
+        #print("PurchaseGiftRequest INIT10")
 
     def checkCatalog(self, retcode):
         sAv = self.neededObjects[self.senderId]
@@ -232,7 +232,7 @@ class PurchaseGiftRequest(AsyncRequest):
 
 
     def finish(self):
-        #print "PurchaseGiftRequest FINISH"
+        #print("PurchaseGiftRequest FINISH")
         sAv = self.neededObjects[self.senderId]
         rAv = self.neededObjects[self.receiverId]
         self.item = CatalogItem.getItem(self.itemBlob, store = CatalogItem.Customization)
@@ -266,7 +266,7 @@ class PurchaseGiftRequest(AsyncRequest):
 
 class GiveItem(AsyncRequest):
     def __init__(self, distObj, replyToChannelId, receiverId, itemBlob, timeout = 4.0):
-        #print "AddItem INIT"
+        #print("AddItem INIT")
         AsyncRequest.__init__(self, distObj.air, replyToChannelId, timeout)
         self.distObj=distObj
         #self.senderId=senderId
@@ -278,12 +278,12 @@ class GiveItem(AsyncRequest):
         #self.askForObject(senderId)
         self.askForObject(receiverId)
         self.cost = 0
-        #print "AddItem INIT10"
+        #print("AddItem INIT10")
 
 
 
     def finish(self):
-        #print "AddItem FINISH"
+        #print("AddItem FINISH")
         rAv = self.neededObjects[self.receiverId]
         self.item = CatalogItem.getItem(self.itemBlob, store = CatalogItem.Customization)
 
@@ -345,14 +345,14 @@ class DistributedDeliveryManagerUD(DistributedObjectGlobalUD):
 
 
     def receiveRequestPurchaseGift(self, giftBlob, receiverId, senderId, context):
-        #print "receiveRequestPurchaseGift"
+        #print("receiveRequestPurchaseGift")
         # this is where the message gets sent back to, in this case it is the calling Client
         replyToChannelAI = self.air.getSenderReturnChannel()
         # senderId = self.air.getAvatarIdFromSender()
         myPGR=PurchaseGiftRequest(self, replyToChannelAI, senderId, receiverId, giftBlob, context)
 
     def addGiftFR(self, doId, newGift, senderId, context, retcode, replyToChannelId):
-        #print "addGiftFR"
+        #print("addGiftFR")
         """
         Appends an existing gift list with the parameter newGift
         doId is the DO that you want to append newGift onto
@@ -378,7 +378,7 @@ class DistributedDeliveryManagerUD(DistributedObjectGlobalUD):
 
 
     def writeGiftFR(self, avatarId, newGift, replyToChannelId, senderId, context, retcode):
-        #print "writeGiftFR"
+        #print("writeGiftFR")
         #print retcode
         """
         Writes the newly appended gift to the database
@@ -387,7 +387,7 @@ class DistributedDeliveryManagerUD(DistributedObjectGlobalUD):
         replyToChannel is where the message gets sent back to, in this case it is the calling AI
         """
         if 1 == 1: #case where it works
-            #print "sending acceptFR"
+            #print("sending acceptFR")
             self.avatarIdToGifts.putData(avatarId, newGift)#update the cache
             self.air.sendUpdateToDoId(
                 "DistributedToon",
@@ -397,14 +397,14 @@ class DistributedDeliveryManagerUD(DistributedObjectGlobalUD):
                 [senderId, context, retcode])
                 #return an Accept message to the AI caller
         else:
-            #print "sending rejectFR"
+            #print("sending rejectFR")
             self.sendUpdateToChannel(replyToChannelId, "receiveRejectPurchaseGift",
                 [senderid, context, retcode])
                 #return a Reject message to the AI caller
 
 
     def addGift(self, doId, newGift, replyToChannelId):
-        # print "addGift"
+        # print("addGift")
         """
         Appends an existing gift list with the parameter newGift
         doId is the DO that you want to append newGift onto
@@ -432,7 +432,7 @@ class DistributedDeliveryManagerUD(DistributedObjectGlobalUD):
             self.writeGift(doId, giftBlob, replyToChannelId)
 
     def writeGift(self, avatarId, newGift, replyToChannelId):
-        #print "writeGift"
+        #print("writeGift")
         #print retcode
         """
         Writes the newly appended gift to the database
@@ -440,7 +440,7 @@ class DistributedDeliveryManagerUD(DistributedObjectGlobalUD):
         newGift final appended blob to write to the database
         """
         if 1 == 1: #case where it works
-            #print "sending acceptFR"
+            #print("sending acceptFR")
             self.avatarIdToGifts.putData(avatarId, newGift)#update the cache
             self.air.sendUpdateToDoId(
                 "DistributedToon",
@@ -468,7 +468,7 @@ class DistributedDeliveryManagerUD(DistributedObjectGlobalUD):
 
         self.sendUpdateToChannel(replyToChannelId, "receiveAcceptDeliverGifts",
            [avId, "deliverGifts activated"])
-        #print "Delivering Gifts"
+        #print("Delivering Gifts")
 
 
     def writeGiftField(self, avatarId, giftBlob, replyToChannelId):

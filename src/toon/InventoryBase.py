@@ -415,7 +415,7 @@ class InventoryBase(DirectObject.DirectObject):
                     if (targetTrack != -1 and targetTrack != track):
                         continue
                     result = self.addItem(track, level)
-                    #print "track: %d level: %d result: %d" % (track, level, result)
+                    #print("track: %d level: %d result: %d" % (track, level, result))
                     trackResults.append(result)
                     if (result == -2):
                         break

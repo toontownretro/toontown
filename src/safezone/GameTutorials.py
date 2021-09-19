@@ -10,7 +10,7 @@ class ChineseTutorial(DirectFrame, FSM.FSM):
     #notify = DirectNotifyGlobal.directNotify.newCategory("GardenTutorial")
 
     def __init__(self, doneFunction, doneEvent=None, callback=None):
-        #print "GETTING HERE!!!"
+        #print("GETTING HERE!!!")
         FSM.FSM.__init__(self, "ChineseTutorial")
         self.doneFunction = doneFunction
         base.localAvatar.startSleepWatch(self.handleQuit)
