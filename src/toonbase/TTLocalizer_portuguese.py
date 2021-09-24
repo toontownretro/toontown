@@ -4480,8 +4480,8 @@ ValentinesMickeyChatter = (
     [
     "Olá, eu sou o Mickey!",
     "Bem-vindo à Dia dos namorados!",
-    "Feliz Dia dos namorados!".
-    "Feliz Dia dos namorados, %"',
+    "Feliz Dia dos namorados!",
+    "Feliz Dia dos namorados, %",
     ],
     [
     "O Amor está no ar! E borboletas também!",
@@ -4777,7 +4777,7 @@ ValentinesDaisyChatter = (
     ],
     [
     "Espero que o Donald não me traga outro Amore Eel!",
-    "O Donald está me levando ao "Deep-Sea"!",
+    "O Donald está me levando ao 'Deep-Sea'!",
     "Com certeza, eu tenho rosas suficientes!",
     "Aqueles corações são bons para melhorar o Laff!",
     "Eu adoraria ir a uma festa Dia dos namorados!",
@@ -5841,9 +5841,9 @@ toontownDialogues = {
                          'Toontown está cheia de vida!',
                          'As ruas estão repletas de bobagens!',
                          'Vá ver por si mesmo!', ],
-                         """'You deserve a reward!', # Probably would require a translation for code redemption
-                         'Enter the code SILLYMETER in your Shticker Book...',
-                         '...to get a Silly Meter T-Shirt!', ],"""
+                         #'You deserve a reward!', # Probably would require a translation for code redemption
+                         #'Enter the code SILLYMETER in your Shticker Book...',
+                         #'...to get a Silly Meter T-Shirt!', ],
         },
     EmceeDialoguePhase4Topic : {
         (1, 2020) : ['Atenção Toons!',
@@ -9079,7 +9079,7 @@ WainscotingNames = {
     1010 : "Painel de madeira",
     1020 : "Madeira",
     1030 : "Cartões do Dia dos Namorados",
-    1040 : "Subaquático',
+    1040 : "Subaquático",
     }
 
 # CatalogWindowItem.py--don't translate yet.
