@@ -147,22 +147,22 @@ GlobalStreetNames = {
     9100  : ("para a",  "na", "Travessa da Canção de Ninar"),
     9200  : ("para o",  "no", "Pedaço do Pijama"),
     10000 : ("","", ""),
-    10100 : ("para o",  "no", "Salão do "+lBossbotHQ),
+    10100 : ("para o",  "no", "Salão do Quartel do Robô-chefe"),
     10200 : ("para a", "na", "Sede do Clube"),
     10500 : ("para o", "no", "Três da Frente"),
     10600 : ("para o", "no", "Seis do Meio"),
     10700 : ("para o", "no", "Nove de Trás"),
     11000 : ("","", ""),
     11100 : ("para o",  "no", "Salão do "+lSellbotHQ),
-    11200 : ("para a",  "na", "Fábrica do "+Sellbot),
-    11500 : ("para a",  "na", "Fábrica do "+Sellbot),
+    11200 : ("para a",  "na", "Fábrica do Robô Vendedor"),
+    11500 : ("para a",  "na", "Fábrica do Robô Vendedor"),
     12000 : ("","", ""),
-    12100 : ("para o",  "no", "Salão do "+lCashbotHQ),
+    12100 : ("para o",  "no", "Salão do Quartel do Robô Mercenário"),
     12500 : ("para a",  "na", "Casa da Moeda"),
     12600 : ("para a",  "na", "Casa da Moeda de Dólar"),
     12700 : ("para a",  "na", "Casa da Moeda de Barras de Ouro"),
     13000 : ("","", ""),
-    13100 : ("para o",  "no", "Salão do "+lLawbotHQ),
+    13100 : ("para o",  "no", "Salão do Quartel do Robô da Lei"),
     13200 : ("para o", "no", "Lobby do Escritório do Promotor"),
     13300 : ("para o", "no", "Escritório da Lei A"),
     13400 : ("para o", "no", "Escritório da Lei B"),
@@ -180,13 +180,13 @@ OutdoorZone       = ("para a",  "na",    lOutdoorZone)
 FunnyFarm         = ("para a",  "na",    "Fazenda Divertida")
 GoofySpeedway     = ("para o",  "no",    lGoofySpeedway)
 DonaldsDreamland  = ("para a",  "na",    lDonaldsDreamland)
-BossbotHQ         = ("para o",  "no",    lBossbotHQ)
+BossbotHQ         = ("para o",  "no",    "Quartel do Robô-chefe")
 SellbotHQ         = ("para o",  "no",    lSellbotHQ)
-CashbotHQ         = ("para o",  "no",    lCashbotHQ)
-LawbotHQ          = ("para o",  "no",    lLawbotHQ)
-Tutorial          = ("para o",  "no",    lTutorial)
-MyEstate          = ("para a",  "na",    lMyEstate)
-WelcomeValley     = ("para o",  "no",    lWelcomeValley)
+CashbotHQ         = ("para o",  "no",    "Quartel do Robô Mercenário")
+LawbotHQ          = ("para o",  "no",    "Quartel do Robô da Lei")
+Tutorial          = ("para o",  "no",    "Toon-torial")
+MyEstate          = ("para a",  "na",    "sua casa")
+WelcomeValley     = ("para o",  "no",    "Vale Boas-vindas")
 GolfZone          = ("para a",  "na",    lGolfZone)
 PartyHood         = ("to the", "in the", lPartyHood)
 
@@ -198,7 +198,7 @@ Office = 'Escritório'
 
 FactoryNames = {
     0 : 'Molde da fábrica',
-    11500 : 'Fábrica do Cog '+Sellbot,
+    11500 : 'Fábrica do Cog Robô Vendedor',
     13300 : 'Escritório de Cogs Policiais', #remove me JML
     }
 
@@ -251,13 +251,13 @@ CogCFO = Cog + "Diretor Financeiro"
 CogCFOs = "Diretores Financeiros Cogs"
 ACogCFO = ACog + "Diretor Financeiro"
 
-lBossbotHQ = 'Quartel do Robô-chefe'
-lLawbotHQ = 'Quartel do Robô da Lei'
-lCashbotHQ = 'Quartel do Robô Mercenário'
-lSellbotHQ = 'Quartel do Robô Vendedor'
-lTutorial = 'Toon-torial'
-lMyEstate = 'sua casa'
-lWelcomeValley = 'Vale Boas-vindas'
+#lBossbotHQ = 'Quartel do Robô-chefe'
+#lLawbotHQ = 'Quartel do Robô da Lei'
+#lCashbotHQ = 'Quartel do Robô Mercenário'
+#lSellbotHQ = 'Quartel do Robô Vendedor'
+#lTutorial = 'Toon-torial'
+#lMyEstate = 'sua casa'
+#lWelcomeValley = 'Vale Boas-vindas'
 
 # Quests.py
 TheFish = "o Peixe"
@@ -688,7 +688,7 @@ QuestsItemDict = {
     3027 : ["Termômetro Externo", "Termômetros Externos", "um "],
 
     #Dreamland Quests
-    6001 : ["Plano do "+lCashbotHQ, "Planos do "+lCashbotHQ, "algum "],
+    6001 : ["Plano do Quartel do Robô Mercenário", "Planos do Quartel do Robô Mercenário", "algum "],
     6002 : ["Vara de pescar", "Varas de pescar", "uma "],
     6003 : ["Cinto de segurança", "Cintos de segurança", "um "],
     6004 : ["Par de pinças", "Pares de pinças", "um "],
@@ -3941,7 +3941,7 @@ KartMinLaff = "Você precisa de %s pontos de risada para poder andar neste carte
 # DistributedElevatorExt.py
 CogsIncExt = ", Ltda."
 CogsIncModifier = "%s" + CogsIncExt
-CogsInc = string.upper(Cogs) + CogsIncExt
+CogsInc = Cog.upper() + CogsIncExt
 #CogdominiumsExt = " Cogdominiums"
 # Translate
 CogdominiumsExt = " Field Office"
@@ -5970,10 +5970,9 @@ LauncherPhaseNames = {
     6   : "Bairros I",
     7   : Cog + " Edifícios dos",
     8   : "Bairros II",
-    9   : lSellbotHQ,
-    10  : lCashbotHQ,
-    11  : lLawbotHQ,
-    12  : lBossbotHQ,
+    9   : Sellbot + " Quartel dos",
+    10  : Cashbot + " Quartel dos",
+    11  : Lawbot + " Quartel dos",
     13  : "Festas",
     }
 
@@ -6841,8 +6840,8 @@ QuestPosterTailorBuildingName = "Loja de Roupas"
 QuestPosterTailorStreetName = "Qualquer pátio"
 QuestPosterTailorLocationName = "Qualquer bairro"
 QuestPosterPlayground = "No pátio"
-QuestPosterAtHome = "Na "+lMyEstate
-QuestPosterInHome = "Em "+lMyEstate
+QuestPosterAtHome = "Na sua casa"
+QuestPosterInHome = "Em sua casa"
 QuestPosterOnPhone = "No seu telefone"
 QuestPosterEstate = "Na sua propriedade"
 QuestPosterAnywhere = "Qualquer lugar"
@@ -7126,7 +7125,7 @@ TownBattleRun = "Voltar correndo para o pátio?"
 
 # TownBattleChooseAvatarPanel.py
 TownBattleChooseAvatarToonTitle = "QUAL TOON?"
-TownBattleChooseAvatarCogTitle = "QUAL " + string.upper(Cog) + "?"
+TownBattleChooseAvatarCogTitle = "QUAL " + Cog.upper() + "?"
 TownBattleChooseAvatarBack = "VOLTAR"
 
 #firecogpanel
