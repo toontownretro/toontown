@@ -11,6 +11,7 @@ class BlinkingArrows:
         # The otherNode is an optional node that can flash along with the
         # arrows.
         self.otherNode = otherNode
+        self.on = False
 
     def delete(self):
         self.arrowsOff()
@@ -39,6 +40,12 @@ class BlinkingArrows:
         self.stopArrowsFlashing()
         self.arrow1.reparentTo(hidden)
         self.arrow2.reparentTo(hidden)
+
+    def reparentTo(self, parent):
+        self.parent = parent
+        if self.on:
+            self.arrow1.reparentTo(self.parent)
+            self.arrow2.reparentTo(self.parent)
 
     def startArrowsFlashing(self):
         onColor = Vec4(1,1,1,1)

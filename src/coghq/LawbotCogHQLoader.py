@@ -12,7 +12,7 @@ from . import LawbotHQExterior
 from . import LawbotHQBossBattle
 from . import LawbotOfficeExterior
 
-from panda3d.core import Vec3
+#from panda3d.core import Vec3
 
 # Used to compensate for scaling of Cog tunnel sign's
 # original aspect ratio of 1125x813 to a uniform ratio,
@@ -26,7 +26,7 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
 
     def __init__(self, hood, parentFSMState, doneEvent):
         CogHQLoader.CogHQLoader.__init__(self, hood, parentFSMState, doneEvent)
-
+        
         self.fsm.addState(State.State('stageInterior',
                                       self.enterStageInterior,
                                       self.exitStageInterior,
@@ -45,7 +45,7 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
         for stateName in ['quietZone']:
             state = self.fsm.getStateNamed(stateName)
             state.addTransition('factoryExterior')
-
+        
         self.musicFile = "phase_11/audio/bgm/LB_courtyard.mid"
 
         self.cogHQExteriorModelPath = "phase_11/models/lawbotHQ/LawbotPlaza"
@@ -66,7 +66,7 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
         if self.geom:
             self.geom.removeNode()
             self.geom = None
-        base.planar.shutdown()
+        #base.planar.shutdown()
         CogHQLoader.CogHQLoader.unloadPlaceGeom(self)
 
     def loadPlaceGeom(self, zoneId):
@@ -76,25 +76,25 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
         zoneId = (zoneId - (zoneId %100))
 
         self.notify.debug("zoneId = %d ToontownGlobals.LawbotHQ=%d" % (zoneId,ToontownGlobals.LawbotHQ))
-
+            
         if zoneId == ToontownGlobals.LawbotHQ:
             self.geom = loader.loadModel(self.cogHQExteriorModelPath)
 
             # make sure the reflective floor renders properly
             ug = self.geom.find("**/underground")
             ug.setBin( "ground", -10)
-            ug.stash()
+            #ug.stash()
 
-            ground = self.geom.find("**/LB_PlazaGround")
-            ground.setTransparency(False, 1)
-            base.planar.setup(Vec3.up(), -68.367)
-            base.planar.renderReflection(ground)
-
+            #ground = self.geom.find("**/LB_PlazaGround")
+            #ground.setTransparency(False, 1)
+            #base.planar.setup(Vec3.up(), -68.367)
+            #base.planar.renderReflection(ground)
+            
             # Rename the link tunnels so they will hook up properly
             brLinkTunnel = self.geom.find("**/TunnelEntrance1")
 
 
-            #RAU
+            #RAU 
             brLinkTunnel.setName("linktunnel_br_3326_DNARoot")
             """
             factoryLinkTunnel = self.geom.find("**/Tunnel2")
@@ -102,7 +102,7 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
             factoryLinkTunnel.ls()
             factoryLinkTunnel.setName("linktunnel_lawhq_13200_DNARoot")
             ##factoryLinkTunnel.setName("linktunnel_sellhq_11200_DNARoot")
-
+ 
 
             # Put handy signs on the link tunnels
             cogSignModel = loader.loadModel(
@@ -174,19 +174,19 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
             door1.find("door_trigger_0").setName("door_trigger_1")
             door1.find("door_origin_0").setName("door_origin_1")
             """
-
+            
         elif zoneId == ToontownGlobals.LawbotOfficeExt:
             self.geom = loader.loadModel(self.factoryExteriorModelPath)
 
             # make sure the reflective floor renders properly
             ug = self.geom.find("**/underground")
             ug.setBin( "ground", -10)
-            ug.stash()
+            #ug.stash()
 
-            ground = self.geom.find("**/DA_LobbyFloor")
-            ground.setTransparency(False, 1)
-            base.planar.setup(Vec3.up(), 31.917)
-            base.planar.renderReflection(ground)
+            #ground = self.geom.find("**/DA_LobbyFloor")
+            #ground.setTransparency(False, 1)
+            #base.planar.setup(Vec3.up(), 31.917)
+            #base.planar.renderReflection(ground)
 
             """
             factoryLinkTunnel = self.geom.find("**/tunnel_group2")
@@ -281,17 +281,17 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
             # make sure the reflective floor renders properly
             ug = self.geom.find("**/underground")
             ug.setBin( "ground", -10)
-            ug.stash()
+            #ug.stash()
 
-            ground = self.geom.find("**/CH_LobbyFloor")
-            ground.setTransparency(False, 1)
-            base.planar.setup(Vec3.up(), 33.415)
-            base.planar.renderReflection(ground)
+            #ground = self.geom.find("**/CH_LobbyFloor")
+            #ground.setTransparency(False, 1)
+            #base.planar.setup(Vec3.up(), 33.415)
+            #base.planar.renderReflection(ground)
 
             """
             front = self.geom.find("**/frontWall")
             front.node().setEffect(DecalEffect.make())
-
+            
             door = self.geom.find("**/door_0")
             parent = door.getParent()
             door.wrtReparentTo(front)
@@ -309,12 +309,8 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
             # get loaded by the distributed object
             self.notify.warning("loadPlaceGeom: unclassified zone %s" % zoneId)
             
-        # Flatten the geom a bit
-        if self.geom:
-            self.geom.flattenMedium()
-
         CogHQLoader.CogHQLoader.loadPlaceGeom(self, zoneId)
-
+    
 
     def unload(self):
         CogHQLoader.CogHQLoader.unload(self)
@@ -325,16 +321,16 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
 #    def enterFactoryInterior(self, requestStatus):
 #        self.placeClass = FactoryInterior.FactoryInterior
 #        self.enterPlace(requestStatus)
-
+        
     def enterStageInterior(self, requestStatus):
         self.placeClass = StageInterior.StageInterior
         self.stageId = requestStatus['stageId']
         self.enterPlace(requestStatus)
-
+        
 #    def exitFactoryInterior(self):
 #        self.exitPlace()
 #        self.placeClass = None
-
+        
     def exitStageInterior(self):
         self.exitPlace()
         self.placeClass = None
@@ -346,12 +342,12 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
     def getBossPlaceClass(self):
         self.notify.debug("getBossPlaceClass")
         return LawbotHQBossBattle.LawbotHQBossBattle
-
+        
     def enterFactoryExterior(self, requestStatus):
         self.placeClass = LawbotOfficeExterior.LawbotOfficeExterior
         self.enterPlace(requestStatus)
         self.hood.spawnTitleText(requestStatus['zoneId'])
-
+        
     def exitFactoryExterior(self):
         taskMgr.remove("titleText")
         self.hood.hideTitleText()
@@ -362,8 +358,12 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.notify.debug("LawbotCogHQLoader.enterCogHQBossBattle")
         CogHQLoader.CogHQLoader.enterCogHQBossBattle(self, requestStatus)
         base.cr.forbidCheesyEffects(1)
-
+        
     def exitCogHQBossBattle(self):
         self.notify.debug("LawbotCogHQLoader.exitCogHQBossBattle")
         CogHQLoader.CogHQLoader.exitCogHQBossBattle(self)
-        base.cr.forbidCheesyEffects(0)
+        base.cr.forbidCheesyEffects(0)        
+        
+
+
+

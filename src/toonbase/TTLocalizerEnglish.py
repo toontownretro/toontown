@@ -169,7 +169,7 @@ ToontownCentral   = ("to",     "in",     lToontownCentral)
 TheBrrrgh         = ("to",     "in",     lTheBrrrgh)
 MinniesMelodyland = ("to",     "in",     lMinniesMelodyland)
 DaisyGardens      = ("to",     "in",     lDaisyGardens)
-#ConstructionZone = ("to the", "in the", "Construction Zone")
+ConstructionZone  = ("to the", "in the", "Construction Zone")
 OutdoorZone       = ("to",     "in",     lOutdoorZone)
 FunnyFarm         = ("to the", "in the", "Funny Farm")
 #GoofyStadium     = ("to",     "in",     "Goofy Stadium")
@@ -182,7 +182,7 @@ LawbotHQ          = ("to",     "in",     "Lawbot HQ")
 Tutorial          = ("to the", "in the", "Toon-torial")
 MyEstate          = ("to",     "in",     "your house")
 WelcomeValley     = ("to",     "in",     "Welcome Valley")
-GolfZone          = ("to", "in", lGolfZone)
+GolfZone          = ("to",     "in",     lGolfZone)
 PartyHood         = ("to the", "in the", lPartyHood)
 
 Factory = 'Factory'
@@ -231,7 +231,6 @@ SkeletonP = "Skelecogs"
 Av2Cog = "a Version 2.0 Cog"
 v2Cog = "Version 2.0 Cog"
 v2CogP = "Version 2.0 Cogs"
-ASkeleton = "a Skelecog"
 Foreman = "Factory Foreman"
 ForemanP = "Factory Foremen"
 AForeman = "a Factory Foreman"
@@ -4365,7 +4364,7 @@ SharedChatterComments = [
         "It's fun helping my friends.",
         "A-hem, are you lost? Don't forget your map is in your shticker Book.",
         "Try not to get tied up in the " + Cogs + "' Red Tape.",
-        "I hear " + Daisy + " has planted some new flowers in her garden.",
+        #"I hear " + Daisy + " has planted some new flowers in her garden.",
         "If you press the Page Up key, you can look up!",
         "If you help take over Cog buildings, you can earn a bronze star!",
         "If you press the Tab key, you can see different views of your surroundings!",
@@ -4564,6 +4563,7 @@ MinnieChatter = (
         "Boy, trotting around in heels all day is hard on your feet!",
         "Nice shirt, %.",
         "Is that a jellybean on the ground?",
+        "I hear " + Daisy + " has planted some new flowers in her garden.",
         ],
         [ # Goodbyes
         "Gosh, I'm late for my date with %s!" % Mickey,
@@ -6499,27 +6499,27 @@ PartyDecorationNameDict = {
     },
     22: {
         "editor": "CogCicle",
-        "description": "A Cog looking his holiday best."
+        "description": "A Cog looking his holiday best.",
     },
     23: {
         "editor": "Holiday Bandstand",
-        "description": "Everyone loves a Holiday Party!"
+        "description": "Everyone loves a Holiday Party!",
     },
     24: {
         "editor": "Chilly Cog",
-        "description": "Ouch! That's gotta hurt."
+        "description": "Ouch! That's gotta hurt.",
     },
     25: {
         "editor": "Snowman",
-        "description": "So cool, he's hot!"
+        "description": "So cool, he's hot!",
     },
     26: {
         "editor": "SnowDoodle",
-        "description": "His only trick is being cold!"
+        "description": "His only trick is being cold!",
     },
     27: {
         "editor": "ValenToons Anvil",
-        "description": "We've got your heart on a string!"
+        "description": "We've got your heart on a string!",
     },
 }
 
@@ -6858,6 +6858,8 @@ DisguisePageTitle = Cog + " Disguise"
 DisguisePageMeritAlert = "Ready for\npromotion!"
 DisguisePageCogLevel = "Level %s"
 DisguisePageMeritFull = "Full"
+DisguisePageMeritBar = "Merits"
+DisguisePageCogPartRatio = "%d/%d"
 
 # FishPage.py
 FishPageTitle = "Fishing"
@@ -7464,14 +7466,6 @@ GagShopPlayerPlayAgain = "Play Again"
 GagShopPlayerBuying = "Buying"
 
 # MakeAToon.py
-#
-# The voices for GenderShopQuestionMickey and Minnie should not be played simultaneously.
-# Options are as follows:
-# 1: Mickey first and Minnie follow in a few second.
-# 2: When player moves cursor onto the character, the voice to be played.
-#    But the voice shouldn't be played while other character is talking.
-# Please choose whichever feasible.
-#
 GenderShopQuestionMickey = "To make a boy toon, click on me!"
 GenderShopQuestionMinnie = "To make a girl toon, click on me!"
 GenderShopFollow = "Follow me!"
@@ -7675,19 +7669,9 @@ QuestScriptTutorialMickey_3 = "Tutorial Tom will tell you all about the Cogs.\aG
 QuestScriptTutorialMickey_4 = "Come here! Use the arrow keys to move."
 
 # These are needed to correspond to the Japanese gender specific phrases
-#
 QuestScriptTutorialMinnie_1 = "Toontown has a new citizen! Do you have some extra gags?"
 QuestScriptTutorialMinnie_2 = "Sure, %s!"
 QuestScriptTutorialMinnie_3 = "Tutorial Tom will tell you all about the Cogs.\aGotta go!"
-#
-
-#
-# If there is "\a" between the sentense, we would like to have one of the following sequence.
-# 1: display 1st text with 1st voice -> when voice finished, arrow appear. -> if player pushes the arrow button, display 2nd text with 2nd voice.
-# 2: display 1st text with 1st voice and altomatically display 2nd text with 2nd voice.
-# 3: display 1st text and play 1st voice (arrow is displayed) -> whenever player pushes the button, the voice will be skipped and display 2nd text with 2nd voice.
-# Anyway, we need to have some "Skip" rule while playing the voice because from DCV(Disney Character Voice)'s view, it is not preferrable to have voice skipped.
-#
 
 QuestScript101_1 = "These are Cogs. They are robots that are trying to take over Toontown."
 QuestScript101_2 = "There are many different kinds of Cogs and..."
@@ -8522,6 +8506,7 @@ RentalHours = "Hours"
 RentalOf = "Of"
 RentalCannon = "Cannons!"
 RentalGameTable = "Game Table!"
+RentalTime = "Hours of"
 
 EstateCannonGameEnd = "The Cannon Game rental is over."
 GameTableRentalEnd = "The Game Table rental is over."
@@ -8536,6 +8521,7 @@ NametagFrilly = "Frilly Name Tag"
 
 FurnitureYourOldCloset = "your old wardrobe"
 FurnitureYourOldBank = "your old bank"
+FurnitureYourOldTrunk = "your old trunk"
 
 # How to put quotation marks around chat items--don't translate yet.
 ChatItemQuotes = '"%s"'
@@ -8638,6 +8624,7 @@ FurnitureNames = {
   1320 : "5000 Bean Bank",
   1330 : "7500 Bean Bank",
   1340 : "10000 Bean Bank",
+  1350 : "12000 Bean Bank",
   1399 : "Telephone",
   1400 : "Cezanne Toon",
   1410 : "Flowers",
@@ -8782,6 +8769,7 @@ AwardManagerFurnitureNames = {
   1320 : "5000 Bean Bank",
   1330 : "7500 Bean Bank",
   1340 : "10000 Bean Bank",
+  1350 : "12000 Bean Bank",
   1399 : "Telephone",
   1400 : "Cezanne Toon",
   1410 : "Flowers",
@@ -8874,6 +8862,18 @@ ClothingTypeNames = {
     1606 : "Trap Outfit",
     1607 : "Sound Outfit",
     1608 : "Lure Outfit",
+    1723 : "Bee Shirt",
+    1724 : "SuperToon Shirt",
+    1734 : "Bee Shorts",
+    1735 : "SuperToon Shorts",
+    1739 : "Bee Skirt",
+    1740 : "SuperToon Skirt",
+    1743 : "Skeleton Shirt",
+    1744 : "Spider Shirt",
+    1745 : "Spider Shorts",
+    1746 : "Skeleton Shorts",
+    1747 : "Skeleton Skirt",
+    1748 : "Spider Skirt",
     1749 : "Silly Mailbox Shirt",
     1750 : "Silly Trash Can Shirt",
     1751 : "Loony Labs Shirt",
@@ -11347,7 +11347,7 @@ FishBingoJackpotWin = "Win %s jellybeans!"
 
 # ResistanceSCStrings: SpeedChat phrases rewarded for defeating the CFO.
 # It is safe to remove entries from this list, which will disable them
-# for use from any toons who have already purchased them. Note that the
+# for use from any toons who have already purchased them.  Note that the
 # index numbers are stored directly in the database, so once assigned
 # to a particular phrase, a given index number should never be
 # repurposed to any other phrase.
@@ -11800,6 +11800,7 @@ PinballScoreHolder = "%s\n"
 GagTreeFeather = "Feather Gag Tree"
 GagTreeJugglingBalls = "Juggling Balls Gag Tree"
 StatuaryFountain = "Fountain"
+StatuaryToonStatue = "Toon Statue"
 StatuaryDonald = "Donald Statue"
 StatuaryMinnie = "Minnie Statue"
 StatuaryMickey1 = "Mickey Statue"
@@ -12452,6 +12453,7 @@ OvertimeAttackTaunts = [ "It's time to reorganize.",
 
 #ElevatorDestination Names
 ElevatorBossBotBoss = "C.E.O. Battle"
+ElevatorBossBotCourse = "Cog Golf Course"
 ElevatorBossBotCourse0 = "The Front Three"
 ElevatorBossBotCourse1 = "The Middle Six"
 ElevatorBossBotCourse2 = "The Back Nine"
@@ -12659,6 +12661,7 @@ HolidayNamesInCalendar = {
    101: ("Top Toons New Year's Day Marathon", "Chances to win every hour! See the What's New Blog for details!"),
    105: ("Toons go GREEN!", "Toons make a green scene at Green Bean Jeans on Oak Street in Daisy Gardens!"),
    108: ("Operation: Lawbots Lose", "Lawbot HQ is open to everyone. Let's go fight the CJ!"),
+
     }
 
 UnknownHoliday = "Unknown Holiday %d"

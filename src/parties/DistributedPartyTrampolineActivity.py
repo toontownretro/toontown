@@ -227,7 +227,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
             image=(quitEarlyUp, quitEarlyDown, quitEarlyRollover),
             image_color=(1, 0, 0, 1),
             image_scale=(20, 1, 11),
-            pos=(0.0, -0.45),
+            pos=(-0.183, 0, -0.4),
             scale=0.09,
             command=self.leaveTrampoline,
         )

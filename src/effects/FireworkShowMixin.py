@@ -127,6 +127,36 @@ class FireworkShowMixin:
             startMessage = TTLocalizer.FireworksActivityBeginning
             endMessage = TTLocalizer.FireworksActivityEnding
             musicFile ="phase_4/audio/bgm/tt_summer.mid"
+        elif eventId == COMBO_FIREWORKS:
+            instructionMessage = TTLocalizer.FireworksInstructions
+            startMessage = TTLocalizer.FireworksComboBeginning
+            endMessage = TTLocalizer.FireworksComboEnding
+            musicFile ="phase_4/audio/bgm/tt_party2.mid"
+        elif holidayId == OCTOBER31_FIREWORKS: # German and French
+            startMessage = TTLocalizer.FireworksOctober31Beginning
+            endMessage = TTLocalizer.FireworksOctober31Ending
+            musicFile ="phase_4/audio/bgm/firework_music.mid"
+            holidayId = JULY4_FIREWORKS
+        elif holidayId == NOVEMBER19_FIREWORKS: # German
+            startMessage = TTLocalizer.FireworksNovember19Beginning
+            endMessage = TTLocalizer.FireworksNovember19Ending
+            musicFile ="phase_4/audio/bgm/firework_music.mid"
+            holidayId = JULY4_FIREWORKS
+        elif holidayId in [FEBRUARY14_FIREWORKS, VALENTINES_FIREWORKS] : # French, Brazil
+            startMessage = TTLocalizer.FireworksValentinesBeginning
+            endMessage = TTLocalizer.FireworksValentinesEnding
+            musicFile ="phase_4/audio/bgm/firework_music.mid"
+            holidayId = JULY4_FIREWORKS
+        elif holidayId == JUNE22_FIREWORKS: # French
+            startMessage = TTLocalizer.FireworksBeginning
+            endMessage = TTLocalizer.FireworksEnding
+            musicFile ="phase_4/audio/bgm/firework_music.mid"
+            holidayId = JULY4_FIREWORKS
+        elif holidayId == JULY14_FIREWORKS: # French
+            startMessage = TTLocalizer.FireworksJuly14Beginning
+            endMessage = TTLocalizer.FireworksJuly14Ending
+            musicFile ="phase_4/audio/bgm/firework_music.mid"
+            holidayId = JULY4_FIREWORKS
         else:
             FireworkShowMixin.notify.warning(
                 "Invalid fireworks event ID: %d" % (eventId))
@@ -137,6 +167,8 @@ class FireworkShowMixin:
         def __lightDecorationOn__():
             """ Switch the lights on """
             place = base.cr.playGame.getPlace()
+            if place is None:
+                return
             if hasattr(place, "halloweenLights"):
                 if not self.__checkStreetValidity():
                     return
@@ -199,6 +231,9 @@ class FireworkShowMixin:
 
         hood = self.getHood()
 
+        from toontown.hood import GSHood
+        from toontown.hood import OZHood
+
         if isinstance(hood, OZHood.OZHood):
             base.camLens.setFar(SpeedwayCameraFar)
         elif isinstance(hood, GSHood.GSHood):
@@ -211,8 +246,22 @@ class FireworkShowMixin:
             endMessage = TTLocalizer.FireworksJuly4Ending
         elif eventId == NEWYEARS_FIREWORKS:
             endMessage = TTLocalizer.FireworksNewYearsEveEnding
+        elif eventId == OCTOBER31_FIREWORKS: # German and French
+            endMessage = TTLocalizer.FireworksOctober31Ending
+        elif eventId == NOVEMBER19_FIREWORKS: # German
+            endMessage = TTLocalizer.FireworksNovember19Ending
+        elif eventId in [VALENTINES_FIREWORKS] : # Brazil
+            endMessage = TTLocalizer.FireworksValentinesEnding
+        elif eventId in [FEBRUARY14_FIREWORKS] : # French
+            endMessage = TTLocalizer.FireworksFebruary14Ending
+        elif eventId == JUNE22_FIREWORKS: # French
+            endMessage = TTLocalizer.FireworksEnding
+        elif eventId == JULY14_FIREWORKS: # French
+            endMessage = TTLocalizer.FireworksJuly14Ending
         elif eventId == PartyGlobals.FireworkShows.Summer:
             endMessage = TTLocalizer.FireworksActivityEnding
+        elif eventId == COMBO_FIREWORKS:
+            endMessage = TTLocalizer.FireworksComboEnding
         else:
             FireworkShowMixin.notify.warning(
                 "Invalid fireworks event ID: %d" % (eventId))
@@ -269,6 +318,16 @@ class FireworkShowMixin:
             self.fireworkShow.reparentTo(root)
 
             hood = self.getHood()
+
+            from toontown.hood import TTHood
+            from toontown.hood import DDHood
+            from toontown.hood import MMHood
+            from toontown.hood import BRHood
+            from toontown.hood import DGHood
+            from toontown.hood import DLHood
+            from toontown.hood import GSHood
+            from toontown.hood import OZHood
+            from toontown.hood import PartyHood
 
             if isinstance(hood, TTHood.TTHood):
                 self.fireworkShow.setPos(150,0,80)

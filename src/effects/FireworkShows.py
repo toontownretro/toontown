@@ -1890,6 +1890,17 @@ shows = {
 }
 
 def getShow(holidayId, index):
+#    if base.cr.productName in ['JP', 'DE', 'BR', 'FR']:
+#        print("getShow for INTL...")
+    # if this firework is for german holidays, show JULY4_FIREWORKS 
+    if holidayId >= ToontownGlobals.OCTOBER31_FIREWORKS and holidayId <= ToontownGlobals.NOVEMBER19_FIREWORKS:
+        holidayId = ToontownGlobals.JULY4_FIREWORKS        
+    # if this firework is for french holidays, show JULY4_FIREWORKS
+    if holidayId >= ToontownGlobals.FEBRUARY14_FIREWORKS and holidayId <= ToontownGlobals.JUNE22_FIREWORKS:
+        holidayId = ToontownGlobals.JULY4_FIREWORKS        
+    # generic support for Valentine's fireworks
+    if holidayId == ToontownGlobals.VALENTINES_FIREWORKS:
+        holidayId = ToontownGlobals.JULY4_FIREWORKS
     showList = shows.get(holidayId, [])
     if index < len(showList):
         return showList[index]

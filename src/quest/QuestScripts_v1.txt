@@ -8,7 +8,7 @@ LERP_SCALE laffMeter 0.2 0.2 0.2 1
 WAIT 1.5
 ADD_LAFFMETER 1
 WAIT 1
-LERP_POS laffMeter -1.18 0 -0.87 1
+LERP_POS laffMeter -1.2 0 -0.87 1
 LERP_SCALE laffMeter 0.075 0.075 0.075 1
 WAIT 1
 FINISH_QUEST_MOVIE
@@ -63,12 +63,11 @@ WAIT 2
 STOP_SFX soundRun
 REPARENTTO classicChar hidden
 UNLOAD_CHAR classicChar
-#CHAT npc QuestScriptTutorialMickey_4 mickeyTutorialDialogue_4
+CHAT npc QuestScriptTutorialMickey_4 mickeyTutorialDialogue_4
 REPARENTTO camera localToon
 POS localToon 1.6 9.8 0
 HPR localToon 14 0 0
 FREE_LOCALTOON
-LOCAL_CHAT_PERSIST npc QuestScriptTutorialMickey_4 mickeyTutorialDialogue_4
 
 ID quest_assign_101
 CLEAR_CHAT npc
@@ -102,12 +101,12 @@ REPARENTTO camera npc
 POS camera -2.2 5.2 3.3
 HPR camera 215 5 0
 WRTREPARENTTO camera localToon
-#PLAY_ANIM npc "right-hand-start" 1
+PLAY_ANIM npc "right-hand-start" 1
 WAIT 1
 REPARENTTO cogs camera
 LERP_SCALE cogs 1.875 1.875 1.875 0.5
 WAIT 1.0833
-#LOOP_ANIM npc "right-hand" 1
+LOOP_ANIM npc "right-hand" 1
 FUNCTION npc "angryEyes"
 FUNCTION npc "blinkEyes"
 LOCAL_CHAT_CONFIRM npc QuestScript101_1 "CFReversed" tomDialogue_01
@@ -149,7 +148,7 @@ SET_INVENTORY_YPOS 4 0  -.1
 SET_INVENTORY_YPOS 5 0  -.1
 LERP_SCALE inventory 3 .01 3 1
 WAIT 1
-REPARENTTO flower npc "**/1000/**/def_joint_right_hold"
+REPARENTTO flower npc "**/1000/**/joint-Rhold"
 POSHPRSCALE flower 0.10 -0.14 0.20 180.00 287.10 168.69 0.70 0.70 0.70
 PLAY_ANIM npc 'right-hand-start' 1.8
 WAIT 1.1574
@@ -164,7 +163,7 @@ WAIT 1
 ADD_INVENTORY 5 0 1
 POSHPRSCALE inventory -0.77 7.42 1.11 0 0 0 3 .01 3
 REPARENTTO flower hidden
-REPARENTTO tart npc "**/1000/**/def_joint_right_hold"
+REPARENTTO tart npc "**/1000/**/joint-Rhold"
 POSHPRSCALE tart 0.19 0.02 0.00 0.00 0.00 349.38 0.34 0.34 0.34
 PLAY_ANIM npc 'right-hand-start' 1.8
 WAIT 1.1574
@@ -191,9 +190,8 @@ SET_INVENTORY_DETAIL 0
 POSHPRSCALE inventory 0 0 0 0 0 0 1 1 1
 OBSCURE_LAFFMETER 0
 SHOW laffMeter
-POS laffMeter 0.153 0.0 0.13
-SCALE laffMeter 0.0 0.0 0.0
-WRTREPARENTTO laffMeter aspect2d
+POS laffMeter -1.2 0 -0.87
+SCALE laffMeter 0.075 0.075 0.075
 LERP_POS laffMeter -0.25 0 -0.15 1
 LERP_SCALE laffMeter 0.2 0.2 0.2 0.6
 WAIT 1.0833
@@ -237,9 +235,8 @@ LOCAL_CHAT_CONFIRM npc QuestScript101_10 "CFReversed" tomDialogue_10
 FUNCTION npc "normalEyes"
 FUNCTION npc "blinkEyes"
 LAFFMETER 15 15
-WRTREPARENTTO laffMeter bottomLeft
 WAIT 0.5
-LERP_POS laffMeter 0.153 0.0 0.13 0.6
+LERP_POS laffMeter -1.2 0 -0.87 0.6
 LERP_SCALE laffMeter 0.075 0.075 0.075 0.6
 PLAY_ANIM npc "right-hand-start" -2
 WAIT 1.0625
@@ -258,9 +255,9 @@ WAIT 1.0417
 FUNCTION npc "angryEyes"
 FUNCTION npc "blinkEyes"
 LOOP_ANIM npc "neutral"
-FUNCTION localToon "questPage.showQuestsOnscreenTutorial"
+FUNCTION localToon "questPage.showQuestsOnscreen"
 LOCAL_CHAT_CONFIRM npc QuestScript101_13 "CFReversed" tomDialogue_13
-FUNCTION localToon "questPage.hideQuestsOnscreenTutorial"
+FUNCTION localToon "questPage.hideQuestsOnscreen"
 LOCAL_CHAT_CONFIRM npc QuestScript101_14 1 "CFReversed" tomDialogue_14
 FUNCTION npc "normalEyes"
 FUNCTION npc "blinkEyes"
@@ -276,12 +273,9 @@ UPON_TIMEOUT LOOP_ANIM npc "neutral"
 UPON_TIMEOUT HIDE inventory
 UPON_TIMEOUT SET_INVENTORY_DETAIL 0
 UPON_TIMEOUT SHOW laffMeter
-UPON_TIMEOUT REPARENTTO laffMeter bottomLeft
-UPON_TIMEOUT POS laffMeter 0.15 0 0.13
+UPON_TIMEOUT POS laffMeter -1.2 0 -0.87
 UPON_TIMEOUT SCALE laffMeter 0.075 0.075 0.075
 UPON_TIMEOUT POSHPRSCALE inventory 0 0 0 0 0 0 1 1 1
-POS localToon 0.776 14.6 0
-HPR localToon 47.5 0 0
 FINISH_QUEST_MOVIE
 
 
@@ -301,20 +295,17 @@ LOAD_DIALOGUE harryDialogue_11 "phase_3.5/audio/dial/CC_harry_tutorial_questscri
 SET_MUSIC_VOLUME 0.4 activityMusic 0.5 0.7
 LOCAL_CHAT_CONFIRM npc QuestScript110_1 harryDialogue_01
 OBSCURE_BOOK 0
-REPARENTTO bookOpenButton aspect2d
 SHOW bookOpenButton
 POS bookOpenButton 0 0 0
 SCALE bookOpenButton 0.5 0.5 0.5
 LERP_COLOR_SCALE bookOpenButton 1 1 1 0 1 1 1 1 0.5
-WRTREPARENTTO bookOpenButton bottomRight
 WAIT 1.5
-LERP_POS bookOpenButton -0.158 0 0.17 1
+LERP_POS bookOpenButton 1.175 0 -0.83 1
 LERP_SCALE bookOpenButton 0.305 0.305 0.305 1
 WAIT 1
 LOCAL_CHAT_CONFIRM npc QuestScript110_2 harryDialogue_02
-REPARENTTO arrows bottomRight
-ARROWS_ON -0.41 0.11 0 -0.11 0.36 90
-LOCAL_CHAT_PERSIST npc QuestScript110_3 harryDialogue_03
+ARROWS_ON 0.92 -0.89 0 1.22 -0.64 270
+CHAT npc QuestScript110_3 harryDialogue_03
 WAIT_EVENT "enterStickerBook"
 ARROWS_OFF
 SHOW_BOOK
@@ -324,10 +315,9 @@ CLEAR_CHAT npc
 WAIT 0.5
 TOON_HEAD npc -0.2 -0.45 1
 LOCAL_CHAT_CONFIRM npc QuestScript110_4 harryDialogue_04
-REPARENTTO arrows aspect2d
-ARROWS_ON 0.85 -0.75 -90 0.85 -0.75 -90
+ARROWS_ON 0.85 -0.75 90 0.85 -0.75 90
 SHOW bookNextArrow
-LOCAL_CHAT_PERSIST npc QuestScript110_5 harryDialogue_05
+CHAT npc QuestScript110_5 harryDialogue_05
 WAIT_EVENT "stickerBookPageChange-3"
 HIDE bookPrevArrow
 HIDE bookNextArrow
@@ -335,9 +325,9 @@ ARROWS_OFF
 CLEAR_CHAT npc
 WAIT 0.5
 LOCAL_CHAT_CONFIRM npc QuestScript110_6 harryDialogue_06
-ARROWS_ON 0.85 -0.75 -90 0.85 -0.75 -90
+ARROWS_ON 0.85 -0.75 90 0.85 -0.75 90
 SHOW bookNextArrow
-LOCAL_CHAT_PERSIST npc QuestScript110_7 harryDialogue_07
+CHAT npc QuestScript110_7 harryDialogue_07
 WAIT_EVENT "stickerBookPageChange-4"
 HIDE bookNextArrow
 HIDE bookPrevArrow
@@ -345,10 +335,8 @@ ARROWS_OFF
 CLEAR_CHAT npc
 LOCAL_CHAT_CONFIRM npc QuestScript110_8 harryDialogue_08
 LOCAL_CHAT_CONFIRM npc QuestScript110_9 harryDialogue_09
-LOCAL_CHAT_PERSIST npc QuestScript110_10 harryDialogue_10
-ENABLE_CLOSE_BOOK
-REPARENTTO arrows bottomRight
-ARROWS_ON -0.41 0.11 0 -0.11 0.36 90
+CHAT npc QuestScript110_10 harryDialogue_10
+ARROWS_ON 0.92 -0.89 0 1.22 -0.64 270
 WAIT_EVENT "exitStickerBook"
 ARROWS_OFF
 TOON_HEAD npc 0 0 0
@@ -360,10 +348,9 @@ SET_MUSIC_VOLUME 0.7 activityMusic 1.0 0.4
 UPON_TIMEOUT DEBUG "testing upon death"
 UPON_TIMEOUT OBSCURE_BOOK 0
 UPON_TIMEOUT ARROWS_OFF
-UPON_TIMEOUT REPARENTTO arrows aspect2d
 UPON_TIMEOUT HIDE_BOOK
 UPON_TIMEOUT COLOR_SCALE bookOpenButton 1 1 1 1
-UPON_TIMEOUT POS bookOpenButton -0.158 0 0.17
+UPON_TIMEOUT POS bookOpenButton 1.175 0 -0.83
 UPON_TIMEOUT SCALE bookOpenButton 0.305 0.305 0.305
 UPON_TIMEOUT TOON_HEAD npc 0 0 0
 UPON_TIMEOUT SHOW bookOpenButton
@@ -381,7 +368,6 @@ LOAD_DIALOGUE blockerDialogue_07 "phase_3.5/audio/dial/CC_flippy_tutorial_blocke
 LOAD_DIALOGUE blockerDialogue_08 "phase_3.5/audio/dial/CC_flippy_tutorial_blocker09.mp3"
 HIDE localToon
 REPARENTTO camera npc
-FUNCTION npc "stopLookAround"
 POS camera 0.0 6.0 4.0
 HPR camera 180.0 0.0 0.0
 SET_MUSIC_VOLUME 0.4 music 0.5 0.8
@@ -396,38 +382,31 @@ HPR localToon -90.0 0.0 0.0
 SHOW localToon
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_3 blockerDialogue_03
 OBSCURE_CHAT 1 0
-REPARENTTO chatScButton aspect2d
 SHOW chatScButton
 POS chatScButton -0.3 0 -0.1
 SCALE chatScButton 2.0 2.0 2.0
 LERP_COLOR_SCALE chatScButton 1 1 1 0 1 1 1 1 0.5
-WRTREPARENTTO chatScButton topLeft
 WAIT 0.5
-LERP_POS chatScButton 0.204 0 -0.072 0.6
+LERP_POS chatScButton -1.129 0 0.928 0.6
 LERP_SCALE chatScButton 1.179 1.179 1.179 0.6
 WAIT 0.6 
-REPARENTTO arrows topLeft
-ARROWS_ON 0.41 -0.09 180 0.21 -0.26 -90
-LOCAL_CHAT_PERSIST npc QuestScriptTutorialBlocker_4 blockerDialogue_04
+ARROWS_ON -0.92 0.91 180 -1.12 0.74 90 
+CHAT npc QuestScriptTutorialBlocker_4 blockerDialogue_04
 WAIT_EVENT "enterSpeedChat"
 ARROWS_OFF
-BLACK_CAT_LISTEN 1
 WAIT_EVENT "SCChatEvent"
-BLACK_CAT_LISTEN 0
 WAIT 0.5
 CLEAR_CHAT localToon
 REPARENTTO camera localToon
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_5 "CFReversed" blockerDialogue_05a blockerDialogue_05b
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_6 "CFReversed" blockerDialogue_06
 OBSCURE_CHAT 0 0 
-REPARENTTO chatNormalButton aspect2d
 SHOW chatNormalButton
 POS chatNormalButton -0.3 0 -0.1
 SCALE chatNormalButton 2.0 2.0 2.0
 LERP_COLOR_SCALE chatNormalButton 1 1 1 0 1 1 1 1 0.5
 WAIT 0.5
-WRTREPARENTTO chatNormalButton topLeft
-LERP_POS chatNormalButton 0.068 0 -0.072 0.6
+LERP_POS chatNormalButton -1.2647 0 0.928 0.6
 LERP_SCALE chatNormalButton 1.179 1.179 1.179 0.6
 WAIT 0.6 
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_7 "CFReversed" blockerDialogue_07
@@ -448,92 +427,13 @@ WAIT 0.75
 REPARENTTO npc hidden
 FREE_LOCALTOON
 UPON_TIMEOUT ARROWS_OFF
-UPON_TIMEOUT REPARENTTO arrows aspect2d
-UPON_TIMEOUT POS chatScButton 0.204 0 -0.072
+UPON_TIMEOUT POS chatScButton -1.129 0 0.928
 UPON_TIMEOUT SCALE chatScButton 1.179 1.179 1.179 
-UPON_TIMEOUT POS chatNormalButton 0.068 0 -0.072
+UPON_TIMEOUT POS chatNormalButton -1.2647 0 0.928
 UPON_TIMEOUT SCALE chatNormalButton 1.179 1.179 1.179 
 UPON_TIMEOUT OBSCURE_CHAT 0 0 
 UPON_TIMEOUT REPARENTTO camera localToon
 FINISH_QUEST_MOVIE
-
-ID gag_intro
-SEND_EVENT "disableGagPanel"
-SEND_EVENT "disableBackToPlayground"
-HIDE inventory
-TOON_HEAD npc 0 0 1
-WAIT .1
-# Welcome to the Gag Shop!
-LOCAL_CHAT_CONFIRM npc QuestScriptGagShop_1
-WRTREPARENTTO npcToonHead bottomLeft
-LERP_POS npcToonHead .69 0 .26 .7
-LERP_SCALE npcToonHead .82 .82 .82 .7
-LERP_COLOR_SCALE purchaseBg 1 1 1 1  .6 .6 .6 1 .7
-WAIT .7
-SHOW inventory
-LOCAL_CHAT_CONFIRM npc QuestScriptGagShop_1a
-## here's your jb jar
-#ARROWS_ON -1.22 0.09 0 -.93 -.2 -90 
-#LOCAL_CHAT_CONFIRM npc QuestScriptGagShop_2
-#ARROWS_OFF
-# try buying a gag
-ARROWS_ON -0.19 0.04 180 -0.4 0.26 90
-LOCAL_CHAT_PERSIST npc QuestScriptGagShop_3
-SEND_EVENT "enableGagPanel"
-WAIT_EVENT "inventory-selection"
-ARROWS_OFF
-CLEAR_CHAT npc
-WAIT .5
-LOCAL_CHAT_CONFIRM npc QuestScriptGagShop_4
-# show advanced throw & squirt gags
-LOCAL_CHAT_PERSIST npc QuestScriptGagShop_5
-WAIT .5
-SHOW_THROW_SQUIRT_PREVIEW
-CLEAR_CHAT npc
-WAIT .5
-# show "Exit Back To Playground" button
-SET_BIN backToPlaygroundButton "gui-popup"
-LERP_POS backToPlaygroundButton -.12 0 .18 .5
-LERP_SCALE backToPlaygroundButton 2 2 2 .5
-LERP_COLOR_SCALE backToPlaygroundButton 1 1 1 1  2.78 2.78 2.78 1 .5
-LERP_COLOR_SCALE inventory 1 1 1 1  .6 .6 .6 1 .5
-WAIT .5
-START_THROB backToPlaygroundButton 2.78 2.78 2.78 1  2.78 2.78 2.78 .7  2
-LOCAL_CHAT_CONFIRM npc QuestScriptGagShop_6
-STOP_THROB
-LERP_POS backToPlaygroundButton .72 0 -.045 .5
-LERP_SCALE backToPlaygroundButton 1.04 1.04 1.04 .5
-LERP_COLOR_SCALE backToPlaygroundButton 2.78 2.78 2.78 1  1 1 1 1 .5
-WAIT .5
-CLEAR_BIN backToPlaygroundButton
-# show "Play Again" button
-SET_BIN playAgainButton "gui-popup"
-LERP_POS playAgainButton -.12 0 .18 .5
-LERP_SCALE playAgainButton 2 2 2 .5
-LERP_COLOR_SCALE playAgainButton 1 1 1 1  2.78 2.78 2.78 1 .5
-WAIT .5
-START_THROB playAgainButton 2.78 2.78 2.78 1  2.78 2.78 2.78 .7  2
-LOCAL_CHAT_CONFIRM npc QuestScriptGagShop_7
-STOP_THROB
-LERP_POS playAgainButton .72 0 -.24 .5
-LERP_SCALE playAgainButton 1.04 1.04 1.04 .5
-LERP_COLOR_SCALE playAgainButton 2.78 2.78 2.78 1  1 1 1 1 .5
-WAIT .5
-CLEAR_BIN playAgainButton
-# You're needed in Toon HQ!
-LOCAL_CHAT_CONFIRM npc QuestScriptGagShop_8 1
-TOON_HEAD npc 0 0 0
-WRTREPARENTTO npcToonHead aspect2d
-LERP_COLOR_SCALE inventory .6 .6 .6 1  1 1 1 1 .5
-LERP_COLOR_SCALE purchaseBg .6 .6 .6 1  1 1 1 1 .5
-WAIT .5
-SEND_EVENT "enableBackToPlayground"
-UPON_TIMEOUT TOON_HEAD npc 0 0 0
-UPON_TIMEOUT WRTREPARENTTO npcToonHead aspect2d
-UPON_TIMEOUT ARROWS_OFF
-UPON_TIMEOUT SHOW inventory
-UPON_TIMEOUT SEND_EVENT "enableGagPanel"
-UPON_TIMEOUT SEND_EVENT "enableBackToPlayground"
 
 ID quest_assign_120
 CHAT_CONFIRM npc QuestScript120_1
@@ -561,38 +461,18 @@ ID quest_assign_141
 CHAT_CONFIRM npc QuestScript141_1 1
 FINISH_QUEST_MOVIE
 
-ID quest_assign_145
-CHAT_CONFIRM npc QuestScript145_1 1
-LOAD frame "phase_4/models/gui/tfa_images" "FrameBlankA"
-LOAD tunnel "phase_4/models/gui/tfa_images" "tunnelSignA"
-POSHPRSCALE tunnel 0 0 0 0 0 0 0.8 0.8 0.8
-REPARENTTO tunnel frame
-POSHPRSCALE frame 0 0 0 0 0 0 0.1 0.1 0.1
-REPARENTTO frame aspect2d
-LERP_SCALE frame 1.0 1.0 1.0 1.0
-WAIT 3.0
-LERP_SCALE frame 0.1 0.1 0.1 0.5
-WAIT 0.5
-REPARENTTO frame hidden
-CHAT_CONFIRM npc QuestScript145_2 1
-UPON_TIMEOUT FUNCTION frame "removeNode"
-FINISH_QUEST_MOVIE
-
 
 ID quest_assign_150
 CHAT_CONFIRM npc QuestScript150_1
-REPARENTTO arrows topRight
-ARROWS_ON  -0.28 -0.49 -120 -0.28 -0.49 -120
+ARROWS_ON  1.05 0.51 120 1.05 0.51 120
 SHOW_FRIENDS_LIST
 CHAT_CONFIRM npc QuestScript150_2
 ARROWS_OFF
-REPARENTTO arrows aspect2d
 HIDE_FRIENDS_LIST
 CHAT_CONFIRM npc QuestScript150_3
 HIDE bFriendsList
 CHAT_CONFIRM npc QuestScript150_4 1
 UPON_TIMEOUT HIDE_FRIENDS_LIST
 UPON_TIMEOUT ARROWS_OFF
-UPON_TIMEOUT REPARENTTO arrows aspect2d
 FINISH_QUEST_MOVIE
 

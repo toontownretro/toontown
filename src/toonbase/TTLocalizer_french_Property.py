@@ -5,6 +5,8 @@ PBPTonscreenText = 0.15
 RPdirectFrame = (1.95,1,0.75)
 RPtrackLabels = 0.045
 RPmeritBarLabels = 0.15
+RPskipScale = 0.2
+RPskipPos = (0, -.28)
 
 #battle/RewardPanel.py
 RPmeritLabelXPosition = 0.68
@@ -43,7 +45,8 @@ CISCtopLevelOverlap = 0.08
 
 #chat/ToontownChatManager.py
 CMnormalButton = 0.06
-CMscButtonPos = (-1.129, 0, 0.928)
+CMscButtonPos = (0.204, 0, -0.072)
+#CMscButtonPos = (-1.129, 0, 0.928)
 CMscButton = 0.06
 CMwhisperFrame = 0.06
 CMwhisperButton = 0.05
@@ -56,6 +59,9 @@ CMopenChatWarning = 0.05
 CMactivateChat = 0.05
 CMchatActivated = 0.05
 CMNoPasswordContinue_z = -0.25
+
+#coghq/LawbotCogHQLoader.py
+LCLdgSign = 0.1      # the scale of the gate name
 
 #coghq/SellbotCogHQLoader.py
 SCLfdSign = 0.12
@@ -125,7 +131,11 @@ FLPsecretsPos = (0.125, 0.0, 0.14)
 #friends/FriendInviter.py
 FIstopButton = 0.042
 FIdialog = 0.05
+FIcancelButtonPosition = (0.20, 0.0, -0.1)
 FIcancelButtonPositionX = 0.0
+FIstopButtonPosition = (-0.2, 0.0, 0.05)
+FIstopButtonPositionX = -0.2
+FIstopTextPosition = (0.075, -0.015)
 FIstopTextPositionY = -0.015
 FIstopButtonPositionX = -0.2
 FIyesButtonPositionX = -0.15
@@ -158,6 +168,7 @@ ACplayThisToon = 0.09
 ACmakeAToon = 0.11
 ACsubscribersOnly = 0.095
 ACdeleteWithPassword = 0.06
+ACstatusText = 1.0
 
 #login/AvatarChooser.py
 ACtitle = 0.105
@@ -211,6 +222,9 @@ MATclothesGUIshirt_posL = 0.010
 MATclothesGUIshirt_posR = -0.014
 MATnextButtonScale = 0.07
 
+#makeatoon\ShuffleButton.py
+SBshuffleBtn = 0.07
+
 #minigame/DistributedPairingGame.py
 DPGPointsFrameTextScale = 0.45
 DPGFlipsFrameTextScale = 0.45
@@ -232,6 +246,45 @@ MRPInstructionsTextPos = (-0.12, 0.05, 0)
 
 #Stuff for trolley metagame
 TravelGameBonusBeansSize = 0.65
+
+#parties/InviteVisual.py
+IVwhenTextLabel = 0.06
+IVactivityTextLabel = 0.06
+
+#parties/PartyPlanner.py
+PPDescriptionScale = 0.06
+PPelementTitleLabelScale = 0.07
+PPelementBuyButtonTextScale = 0.055
+PPtitleScale = 0.1
+PPpbulicDescriptionLabel = 0.065
+PPprivateDescriptionLabel = 0.065
+PPpublicButton = 0.05
+PPprivateButton = 0.05
+PPcostLabel = 0.065
+PPpartyGroundsLabel = 1.0
+PPinstructionLabel = 0.07
+PPelementPrice = 0.065
+
+#parties/DistributedParty.py
+DPpartyCountdownClockTextScale = 1.1
+DPpartyCountdownClockMinutesScale = 1.1
+DPpartyCountdownClockColonScale = 1.1
+DPpartyCountdownClockSecondScale = 1.1
+DPpartyCountdownClockMinutesPosY = 0.0
+DPpartyCountdownClockColonPosY = 0.0
+DPpartyCountdownClockSecondPosY = 0.0
+
+#parties/PublicPartyGui.py
+PPGpartyStartButton = 0.065
+PPGinstructionsLabel = 0.065
+PPGcreatePartyListAndLabel = 0.06
+
+#parties/JukeboxGui.py
+JGcurrentlyPlayingLabel = 0.07
+JGsongNameLabel = 0.13
+JGaddSongButton = 0.1
+JGnumItemsVisible = 9
+JGlistItem = 1.0
 
 #pets/PetAvatarPanel.py & town/TownBattleSOSPetInfoPanel.py
 PAPfeed = 0.4
@@ -308,6 +361,23 @@ PimgLabel = 0.6
 #safezone/GZSafeZoneLoader.py
 GSZLbossbotSignScale = 0.8
 
+#shtiker/EventsPage.py
+EPtitleLabel = 0.12
+EPhostTab = 0.07
+EPinvitedTab = 0.07
+EPcalendarTab = 0.07
+EPnewsTab = 0.07
+EPhostingCancelButton = 0.04
+EPhostingDateLabel = 0.05
+EPpartyGoButton = 0.045
+EPpublicPrivateLabel = 0.05
+EPpublicButton= 0.5
+EPprivateButton = 0.5
+EPinvitePartyGoButton = 0.045
+EPdecorationItemLabel = 0.055
+EPactivityItemLabel = 0.055
+EPcreateListAndLabel = 0.055
+
 #shtiker/FishPage.py
 FPtankTab = 0.07
 FPcollectionTab = 0.07
@@ -318,6 +388,7 @@ DSDintroText = 0.06
 DSDintroTextwordwrap = 25
 DSDwindowedButtonPos = (0.0961, 0, -0.221)
 DSDfullscreenButtonPos = (0.097, 0, -0.311)
+DSDembeddedButtonPos = (0.097, 0, -0.411)
 DSDcancel = 0.06
 DSDcancelButtonPositionX = 0
 
@@ -332,6 +403,17 @@ TPendFrame = 0.08
 
 #shtiker/ShtikerBook.py
 SBpageTab = 0.55
+
+#shtiker/OptionsPage.py
+OPoptionsTab = 0.07
+OPCodesInstructionPanelTextPos = (0, -0.01)
+OPCodesInstructionPanelTextWordWrap = 6
+OPCodesResultPanelTextPos = (0, .35)
+OPCodesResultPanelTextScale = 0.06
+OPCodesResultPanelTextWordWrap = 9
+OPCodesInputTextScale = 0.8
+OPCodesSubmitTextScale = 0.07
+OPCodesSubmitTextPos = (0, -0.02)
 
 #shtiker/MapPage.py
 MPbackToPlayground = 0.050
@@ -357,6 +439,10 @@ GFPTrophyTabTextScale = 0.06
 GFPRecordsTabTextPos = (0.03, 0.0, 0.0)
 GFPRTrophyTabPos = (0.82, 0, -0.3)
 
+#toon/AvatarPanelBase.py
+APBignorePanelAddIgnoreTextScale = 0.06
+APBignorePanelTitlePosY = 0
+
 #toon/ToonAvatarPanel.py
 TAPfriendButton = 0.042
 TAPwhisperButton = 0.042
@@ -370,6 +456,11 @@ TAPdetailButton = 0.04
 TADPtrackLabel = 0.042
 TADPcancelButton = 0.035
 
+#toon/GroupPanel.py
+GPdestFrameScale = 0.05
+GPdestScrollListScale = 0.05
+GPgoButtonScale = 0.06
+
 #toon/InventoryNew.py
 INtrackNameLabels = 0.043
 INclickToAttack = 0.75
@@ -382,6 +473,8 @@ NPCFimgLabel = 0.6
 
 #toon/PlayerInfoPanel.py
 PIPsecretsButtonScale=0.045
+PIPwisperButton = 0.06
+PIPdetailButton = 0.05
 
 #toon/ToonAvatarPanel.py
 TAPsecretsButtonScale=0.045
@@ -391,7 +484,7 @@ TADPcancelPos = (-0.865, 0.0, -0.765)
 TADtrackLabelPosZ = 0.17
 
 #toontowngui/ToontownLoadingScreen.py
-TLStip = 0.15
+TLStip = 0.19
 
 #toontowngui/TeaserPanel.py
 TSRPdialogWordwrap = 20
@@ -401,6 +494,8 @@ TSRPpanelPos = (-0.65, -0.70)
 TSRPbrowserPosZ = -0.65
 TSRPbutton = 0.06
 TSRPteaserBottomScale = 0.06
+TSRPhaveFunText = 0.1
+TSRPjoinUsText = 0.1
 
 #toontowngui/TeaserPanel.py (OLD)
 TPtop = 0.065

@@ -423,6 +423,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             self.camNode.setPos(self.localFlyingToon.getPos())
             self.camNode.setHpr(self.localFlyingToon.getHpr())
             self.camNode.reparentTo(render)
+            startVel = cannon.getToonFireVel()
             self.lastStartVel = startVel
 
             place = base.cr.playGame.getPlace()
@@ -436,7 +437,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             self.localFlyingToon.wrtReparentTo(render)
             info = {}
             info['toonId'] = toonId
-            info['trajectory'] = trajectory
+            info['trajectory'] = self.trajectory
             info['launchTime'] = launchTime
             info['toon'] = self.localFlyingToon
             info['hRot'] = cannon.getRotation()

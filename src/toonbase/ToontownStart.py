@@ -272,7 +272,7 @@ if autoRun and launcher.isDummy():
     # useful only to those debugging that function; remove it if it
     # bugs you.
     try:
-        run()
+        base.run()
 
     except SystemExit:
         raise

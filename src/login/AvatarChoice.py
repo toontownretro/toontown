@@ -372,8 +372,13 @@ class AvatarChoice(DirectButton):
             'JP', 'FR', 'BR', 'DisneyOnline-AP'] ):
             # If the login interface supports it, make the user
             # type his/her password in order to delete the toon.
-            self.deleteWithPassword = 1
-            deleteText = TTLocalizer.AvatarChoiceDeletePasswordText % self.name
+#            self.deleteWithPassword = 1
+#            deleteText = TTLocalizer.AvatarChoiceDeletePasswordText % self.name
+# Temp fix to delete toons without password
+            self.deleteWithPassword = 0
+            deleteText = TTLocalizer.AvatarChoiceDeleteConfirmText % \
+                         { "name" : self.name,
+                           "confirm" : TTLocalizer.AvatarChoiceDeleteConfirmUserTypes }
         else:
             # Otherwise (for instance, maybe the user logged in
             # via a "blue" token, and we don't have any way of

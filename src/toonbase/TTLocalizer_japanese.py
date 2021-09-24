@@ -3,11 +3,17 @@ import time
 from toontown.toonbase.TTLocalizer_japanese_Property import *
 from toontown.catalog import CatalogAccessoryItemGlobals
 from otp.otpbase import OTPLocalizer as OL
-OL.SpeedchatStaticText = dict(OL.SpeedChatStaticTextToontown)
+OL.SpeedChatStaticText = dict(OL.SpeedChatStaticTextToontown)
+OL.SpeedChatStaticText.update(OL.SpeedChatStaticTextCommon)
 
 # To make sure the language checker is working
 # DO NOT TRANSLATE THIS
-ExtraKeySanityCheck = "Ignore me"
+#ExtraKeySanityCheck = "Ignore me"
+
+# commit strings
+#commitmanString = "bugfix! I changed this"
+#commitmanSting2 = "another string!"
+commitmantst = "kptmptest - removable"
 
 InterfaceFont = 'phase_3/models/fonts/HGHeiseiMarugothictaiW8.ttc'
 ToonFont = 'phase_3/models/fonts/HGHeiseiMarugothictaiW8.ttc'
@@ -50,6 +56,17 @@ NametagLabel = "ﾈｰﾑﾀｸﾞ"
 
 UnpaidNameTag = "シャドー"
 
+# GM nametags
+GM_1 = "TOON COUNCIL"
+GM_2 = "TOON TROOP"
+GM_3 = "TOON RESISTANCE"
+
+GM_NAMES = ("TOON COUNCIL",
+            "TOON TROOPER",
+            "RESISTANCE RANGER",
+            "GC",
+            )
+
 BuildingNametagFont = 'phase_3/models/fonts/DFKyG7.ttc:1'
 BuildingNametagShadow = (0.05, 0.05)
 
@@ -63,7 +80,9 @@ Minnie = "ミニー"
 WitchMinnie = "WitchMinnie"
 Donald = "ドナルド"
 DonaldDock = "DonaldDock"
+FrankenDonald = "FrankenDonald"
 Daisy  = "デイジー"
+SockHopDaisy = "SockHopDaisy"
 Goofy  = "グーフィー"
 SuperGoofy = "SuperGoofy"
 Pluto  = "プルート"
@@ -71,6 +90,8 @@ WesternPluto = "WesternPluto"
 Flippy = "フリッピー"
 Chip   = "チップ"
 Dale   = "デール"
+JailbirdDale = "JailbirdDale"
+PoliceChip = "PoliceChip"
 
 # common locations
 lTheBrrrgh = 'ブルブルランド'
@@ -86,84 +107,17 @@ lOutdoorZone = "チップとデールのドングリひろば"
 lGolfZone = "チップとデールのミニ・ゴルフ"
 lPartyHood = "パーティー会場"
 
-lGagShop = 'ギャグショップ'
-lClothingShop = 'ようふくや'
-lPetShop = 'ペットショップ'
+#lGagShop = 'ギャグショップ'
+#lClothingShop = 'ようふくや'
+#lPetShop = 'ペットショップ'
 
-# common strings
-lCancel = 'キャンセル'
-lClose = 'とじる'
-lOK = 'ＯＫ'
-lNext = 'つぎへ'
-lQuit = 'やめる'
-lYes = 'はい'
-lNo = 'いいえ'
-lBack = '戻る'
-
-sleep_auto_reply = "%s is sleeping right now"
-lHQ = '本部'
-
-lHQOfficerF = 'ＨＱスタッフ'
-lHQOfficerM = 'ＨＱスタッフ'
-
-MickeyMouse = "ミッキーマウス"
-
-AIStartDefaultDistrict = "シリーヴィル"
-
-Cog  = "コグ"
-Cogs = "コグ"
-ACog = "コグ"
-TheCogs = "コグ"
-ASkeleton = "ガイコグ"
-Skeleton = "ガイコグ"
-SkeletonP = "ガイコグ"
-Av2Cog = "a Version 2.0 Cog"
-v2Cog = "Version 2.0 Cog"
-v2CogP = "Version 2.0 Cogs"
-ASkeleton = "a Skelecog"
-Foreman = "工場長"
-ForemanP = "工場長"
-AForeman = "工場長"
-CogVP = "コグゼキュティブ"
-CogVPs = "コグゼキュティブの"
-ACogVP = "コグゼキュティブ"
-Supervisor = "金庫番"
-SupervisorP = "金庫番"
-ASupervisor = "金庫番"
-CogCFO = "マネーマネー"
-CogCFOs = "マネーマネーの"
-ACogCFO = "マネーマネー"
-
-# AvatarDNA.py
-Bossbot = "ボスボット"
-Lawbot = "ロウボット"
-Cashbot = "マネーボット"
-Sellbot = "セルボット"
-BossbotS = "ボスボット"
-LawbotS = "ロウボット"
-CashbotS = "マネーボット"
-SellbotS = "セルボット"
-BossbotP = "ボスボット"
-LawbotP = "ロウボット"
-CashbotP = "マネーボット"
-SellbotP = "セルボット"
-BossbotSkelS = BossbotS+" "+Skeleton
-LawbotSkelS = LawbotS+" "+Skeleton
-CashbotSkelS = CashbotS+" "+Skeleton
-SellbotSkelS = SellbotS+" "+Skeleton
-BossbotSkelP = Bossbot+" "+Skeleton
-LawbotSkelP = Lawbot+" "+Skeleton
-CashbotSkelP = Cashbot+" "+Skeleton
-SellbotSkelP = Sellbot+" "+Skeleton
-SkeleRevivePostFix = " v2.0"
-
-lBossbotHQ = Bossbot+lHQ
-lLawbotHQ = Lawbot+lHQ
-lCashbotHQ = Cashbot+lHQ
-lSellbotHQ = Sellbot+lHQ
-lTutorial = 'トゥーントリアル'
-lMyEstate = 'キミのおうち'
-lWelcomeValley = 'ｳｪﾙｶﾑﾊﾞﾚｰ'
+#lBossbotHQ = Bossbot+lHQ
+#lLawbotHQ = Lawbot+lHQ
+#lCashbotHQ = Cashbot+lHQ
+#lSellbotHQ = Sellbot+lHQ
+#lTutorial = 'トゥーントリアル'
+#lMyEstate = 'キミのおうち'
+#lWelcomeValley = 'ｳｪﾙｶﾑﾊﾞﾚｰ'
 
 # ToontownGlobals.py
 
@@ -198,22 +152,22 @@ GlobalStreetNames = {
     9100 : ("", "", "ララバイ・ストリート"),
     9200  : ("", "", "パジャマ・プレイス"),
     10000 : ("","", ""),
-    10100 : ("","", lBossbotHQ+'ロビー'),
+    10100 : ("","", 'ボスボット本部ロビーロビー'),
     10200 : ("", "", "クラブハウス"),
     10500 : ("", "", "フロント３"),
     10600 : ("", "", "ミドル６"),
     10700 : ("", "", "バック９"),
     11000 : ("","", ""),
-    11100 : ("","", lSellbotHQ+'ロビー'),
-    11200 : ("","", Sellbot+'ファクトリー'),
-    11500 : ("","", Sellbot+'ファクトリー'),
+    11100 : ("","", "セルボット本部ロビー"),
+    11200 : ("","", "セルボットファクトリー"),
+    11500 : ("","", "セルボットファクトリー"),
     12000 : ("","", ""),
-    12100 : ("","", lCashbotHQ+'ロビー'),
-    12500 : ("","", Cashbot+' コイン工場'),
-    12600 : ("","", Cashbot+' ドル工場'),
-    12700 : ("","", Cashbot+' ゴールド工場'),
+    12100 : ("","", "マネーボット本部ロビー"),
+    12500 : ("","", "マネーボットコイン工場"),
+    12600 : ("","", "マネーボットドル工場"),
+    12700 : ("","", "マネーボットゴールド工場"),
     13000 : ("","", ""),
-    13100 : ("","", lLawbotHQ+'ロビー'),
+    13100 : ("","", "ロウボット本部ロビー"),
     13200 : ("", "", "裁判所ロビー"),
     13300 : ("", "", "ロウボットＡオフィス"),
     13400 : ("", "", "ロウボットＢオフィス"),
@@ -258,6 +212,49 @@ FactoryTypeArm = 'アーム'
 FactoryTypeTorso = 'ボディ'
 
 MintFloorTitle = '%s階'
+
+# common strings
+lCancel = 'キャンセル'
+lClose = 'とじる'
+lOK = 'ＯＫ'
+lNext = 'つぎへ'
+lQuit = 'やめる'
+lYes = 'はい'
+lNo = 'いいえ'
+lBack = '戻る'
+
+sleep_auto_reply = "%s is sleeping right now"
+lHQ = '本部'
+
+lHQOfficerF = 'ＨＱスタッフ'
+lHQOfficerM = 'ＨＱスタッフ'
+
+MickeyMouse = "ミッキーマウス"
+
+AIStartDefaultDistrict = "シリーヴィル"
+
+Cog  = "コグ"
+Cogs = "コグ"
+ACog = "コグ"
+TheCogs = "コグ"
+ASkeleton = "ガイコグ"
+Skeleton = "ガイコグ"
+SkeletonP = "ガイコグ"
+Av2Cog = "a Version 2.0 Cog"
+v2Cog = "Version 2.0 Cog"
+v2CogP = "Version 2.0 Cogs"
+Foreman = "工場長"
+ForemanP = "工場長"
+AForeman = "工場長"
+CogVP = "コグゼキュティブ"
+CogVPs = "コグゼキュティブの"
+ACogVP = "コグゼキュティブ"
+Supervisor = "金庫番"
+SupervisorP = "金庫番"
+ASupervisor = "金庫番"
+CogCFO = "マネーマネー"
+CogCFOs = "マネーマネーの"
+ACogCFO = "マネーマネー"
 
 # Quests.py
 TheFish = "魚"
@@ -2374,6 +2371,29 @@ ChatGarblerBear = ["ガウ～", "ガルルル"]
 ChatGarblerPig = ["ブヒブヒ！", "ブーッ！", "ブホブホッ！"]
 ChatGarblerDefault = ["フガー"]
 
+# AvatarDNA.py
+Bossbot = "ボスボット"
+Lawbot = "ロウボット"
+Cashbot = "マネーボット"
+Sellbot = "セルボット"
+BossbotS = "ボスボット"
+LawbotS = "ロウボット"
+CashbotS = "マネーボット"
+SellbotS = "セルボット"
+BossbotP = "ボスボット"
+LawbotP = "ロウボット"
+CashbotP = "マネーボット"
+SellbotP = "セルボット"
+BossbotSkelS = BossbotS+" "+Skeleton
+LawbotSkelS = LawbotS+" "+Skeleton
+CashbotSkelS = CashbotS+" "+Skeleton
+SellbotSkelS = SellbotS+" "+Skeleton
+BossbotSkelP = Bossbot+" "+Skeleton
+LawbotSkelP = Lawbot+" "+Skeleton
+CashbotSkelP = Cashbot+" "+Skeleton
+SellbotSkelP = Sellbot+" "+Skeleton
+SkeleRevivePostFix = " v2.0"
+
 # AvatarDetailPanel.py
 AvatarDetailPanelOK = lOK
 AvatarDetailPanelCancel = ""
@@ -2431,12 +2451,14 @@ ReportPanelCategoryLanguage = "Foul Language"
 ReportPanelCategoryPii = "Sharing/Requesting Personal Info"
 ReportPanelCategoryRude = "Rude or Mean Behavior"
 ReportPanelCategoryName = "Bad Name"
+ReportPanelCategoryHacking = "Hacking"
 
 ReportPanelConfirmations = (
     "You are about to report that %s has used obscene, bigoted or sexually explicit language.",
     "You are about to report that %s is being unsafe by giving out or requesting a phone number, address, last name, email address, password or account name.",
     "You are about to report that %s is bullying, harassing, or using extreme behavior to disrupt the game.",
     "You are about to report that %s has created a name that does not follow Disney's House Rules.",
+    "You are about to report that %s has hacked/tampered with the game or used third party software.",
     )
 
 # Put on confirmation screen!
@@ -2514,8 +2536,8 @@ SpokenMoods = {
     }
 
 # DistributedAvatar.py
-DialogExclamation = "!"
-DialogQuestion = '?'
+DialogExclamation = "！"
+DialogQuestion = '？'
 
 # LocalAvatar.py
 FriendsListLabel = "ともだち"
@@ -2538,6 +2560,9 @@ TeleportPanelBusyShard = "%(avName)sは今こんざつしているロビーに�
 
 # DistributedBattleBldg.py
 BattleBldgBossTaunt = "私がボスだ！"
+
+# DistributedCogdoBattleBldg.py
+CogdoBattleBldgBossTaunt = "I don't take meetings with Toons."
 
 # DistributedBattleFactory.py
 FactoryBossTaunt = "私が工場長だ！"
@@ -2956,6 +2981,7 @@ RewardPanelEndTrack = "やったね! %(avName)sは%(gagName)sのギャグを全�
 RewardPanelMeritsMaxed = "まんたん"
 RewardPanelMeritBarLabels = [ "カイコツウチ", "ショーカンジョー", "コグドル", "メリット" ] #▲あとで要チェック★★★★★★★★★★★★★★★★★★★★★
 RewardPanelMeritAlert = "格上げの準備ＯＫ！"
+RewardPanelSkip = "Skip"
 
 RewardPanelCogPart = "コグ変装グッズをゲット！"
 RewardPanelPromotion = "%sトラックで\n格上げ準備オーケー！"
@@ -3860,6 +3886,9 @@ KartMinLaff = "このカートに乗るには\nゲラゲラメーターが%s必�
 CogsIncExt = "・インク"
 CogsIncModifier = "%s" + CogsIncExt
 CogsInc = Cogs.upper() + CogsIncExt
+#CogdominiumsExt = " Cogdominiums"
+CogdominiumsExt = " Field Office"
+Cogdominiums = Cog.upper() + CogdominiumsExt
 
 # DistributedKnockKnockDoor.py
 DoorKnockKnock = "コンコン！"
@@ -4311,7 +4340,7 @@ SharedChatterComments = [
         "ともだちを助けるのって楽しいよ。",
         "ええっと、迷子になったの？トゥーンガイドに地図があるから見てみてね。",
         "" + Cogs + "の「ガンジガラメ」こうげきはやっかいだよ～",
-        "" + Daisy + "がガーデンに新しい花を植えたんだって！",
+        #"" + Daisy + "がガーデンに新しい花を植えたんだって！",
         "PageUpキーを押し続けると、上を向けるよ！",
         "コグビルをたおすと、ブロンズの星がもらえるよ！",
         "Tabキーを押し続けると、周りを自分の視点で見られるよ！",
@@ -4353,6 +4382,7 @@ MickeyChatter = (
         "そろそろ" + Pluto + "に晩御飯の準備をしないと…", #CC_mickey_chatter_goodbyes03.mp3
         "キミは"+lDonaldsDock+"に泳ぎに行ったことある？", #CC_mickey_chatter_goodbyes04.mp3
         "ドリームランドにおひるねしに行こうかなぁ…", #CC_mickey_chatter_goodbyes05.mp3
+        "" + Daisy + "がガーデンに新しい花を植えたんだって！",
         ]
     )
 
@@ -4519,6 +4549,7 @@ MinnieChatter = (
         "ねぇ、歩き回ってつかれたんじゃなぁーい？", #CC_minnie_chatter_comments15.mp3
         "まぁ。素敵なシャツね！", #CC_minnie_chatter_comments16.mp3
         "あらっ、そこにあるのはゼリービーンかしら？", #CC_minnie_chatter_comments17.mp3
+        "" + Daisy + "がガーデンに新しい花を植えたんだって！",
         ],
         [ # Goodbyes
         "いっけなーい、" + Mickey + "と会う約束をしてたんだ。", #CC_minnie_chatter_goodbyes01.mp3
@@ -5398,98 +5429,201 @@ AFMickeyChatter = (
         [ # Greetings specific to Mickey
         "Happy April Toons' Week!",
         "Happy April Toons' Week, %!",
-        "Hi, my name is "+Mickey+". What's yours?",
         ],
         [ # Comments
-        "Have you seen Daisy around?",
-        "I want to wish Daisy a happy April Toons' Week!",
-        "Did you hear a Doodle talk?",
-        "My, aren't these flowers nice!",
-        "I bet Daisy has some great Gardening tips!",
+        "Welcome to the Gardens! I'm " + Daisy + "!",
+        "I'm " + Daisy + ", and I love to garden!",
+        "April Toons' Week is the silliest week of the year!",
+        "What, you've never seen a duck with mouse ears?",
+        "Hi, I'm " + Daisy + "! Quack!",
+        "It's tough quacking like a duck!",
+        "I'm not feeling like myself today!",
+        "Have you heard your Doodle talk yet?",
+        "Gravity has taken a holiday at the Estates!",
         ],
         [ # Goodbyes
-        "Hi, I am looking for Daisy. Have you seen her?",
-        "It's time for a nap. I'm going to Dreamland.",
+        "Have a wacky April Toons' Week!",
+        "Tell Mickey I said hi!",
         ]
     )
 
 AFMinnieChatter = (
         [ # Greetings
-        "Hi, my name is "+Minnie+". What's yours?",
         "Happy April Toons' Week!",
         "Happy April Toons' Week, %!",
         ],
         [ # Comments
-        "Hi, I need to give Pluto his lunch. Have you seen him?",
-        "I want to wish Pluto a happy April Toons' Week with a doggie treat!",
-        "Did you hear a Doodle talk?",
+        "Welcome to " + lTheBrrrgh + "! I'm " + Pluto + "!",
+        "Hi, I'm " + Pluto + "! What's your name?",
+        "What, you've never seen a dog with mouse ears?",
+        "I'm not feeling like myself today!",
+        "Does anyone have a doggie biscuit? I'm hungry!",
+        "Bark! My name is " + Pluto + "!",
+        "Isn't this silly?",
+        "Don't make me chase you around!",
+        "April Toons' Week is the silliest week of the year!",
+        "Have you heard your Doodle talk yet?",
+        "Gravity has taken a holiday at the Estates!",
         ],
         [ # Goodbyes
-        "Hi, I need to give Pluto his lunch. Have you seen him?",
-        "Gosh, I'm late for my date with %s!" % Mickey,
+        "Have a wacky April Toons' Week!",
+        "I have to go chase cars now! Bye!",
         ]
     )
 
 AFDaisyChatter = (
         [ # Greetings
-        "Hello, I'm "+Daisy+". What's your name?",
         "Happy April Toons' Week!",
         "Happy April Toons' Week, %!",
         ],
         [ # Comments
-        "I wonder if Mickey went to fight some Cogs?",
-        "Have you seen Mickey around?",
-        "I want to wish Mickey a happy April Toons' Week!",
-        "Did you hear a Doodle talk, or am I hearing things?",
+        "Welcome to " + lToontownCentral + "! I'm " + Mickey + " Mouse!",
+        "Hi, I'm " + Mickey + "! The happiest mouse in Toontown!",
+        "If you see " + Daisy + ", tell her " + Mickey + " said hi!",
+        "What, you've never seen a mouse with feathers?",
+        "Isn't this silly?",
+        "I'm not feeling like myself today!",
+        "April Toons' Week is the silliest week of the year!",
+        "Have you heard your Doodle talk yet?",
+        "Gravity has taken a holiday at the Estates!",
         ],
         [ # Goodbyes
-        "Hi, I need to talk with Micky. Have you seen him?",
-        "I think I'll go swimming at "+lDonaldsDock+".",
-        "Oh, I'm a little sleepy. I think I'll go to Dreamland.",
+        "Bye! Tell them " + Mickey + " sent you!",
+        "If you go to " + lDaisyGardens + ", say hi to her for me!",
         ]
     )
 
 AFGoofySpeedwayChatter = (
         [ # Greetings
-        "Happy Sleepy, er, April Toons' Week!",
+        "Happy April Toons' Week!",
         "Happy April Toons' Week, %!",
-        "Hi, my name is "+Goofy+". What's yours?",
         ],
         [ # Comments
-        "Gawrsh, have you seen Donald? I think he's been sleep walking again.",
-        "I want to wish Donald a happy April Toons' Week!",
-        "Did you hear a Doodle talk, or am I seeing things?",
-        "I hope everything is okay at the Speedway.",
+        "Welcome to Dreamland! I'm " + Donald + "!",
+        "Hello, I'm " + Donald + "! Is it nap time yet?",
+        "A duck needs his beauty rest, you know!",
+        "What, you've never seen a duck with dog ears?",
+        "Gawrsh! I mean -- Quack!",
+        "This would make a great race track ... um, I mean place to nap!",
+        "I'm not feeling like myself today!",
+        "April Toons' Week is the silliest week of the year!",
+        "Have you heard your Doodle talk yet?",
+        "Gravity has taken a holiday at the Estates!",
         ],
         [ # Goodbyes
-        "Gawrsh, I'm late for my game with %s!" % Donald,
+        "If you see " + Goofy + ", tell him " + Donald + " says hi!",
+        "Bye, and good night!",
         ]
     )
 
 AFDonaldChatter = (
         [ # Greetings
-        "Happy Sleepy, er, April Toons' Week!",
+        "Happy April Toons' Week!",
         "Happy April Toons' Week, %!",
-        "Hi, my name is %s. What's yours?" % Donald,
         ],
         [ # Comments
-        "Have you seen Goofy around?",
-        "I want to wish Goofy a happy April Toons' Week!",
-        "Did you hear a Doodle talk, or am I dreaming?",
-        "Where did the kart come from?",
+        "Welcome to the Speedway! I'm " + Goofy + "!",
+        "I'm " + Goofy + ", and I'm dreaming I'm " + Donald + "!",
+        "I've heard of sleep walking, but sleep kart driving?",
+        "Gawrsh! It sure is silly being " + Goofy + "!",
+        "How can I watch the races with my eyes closed?",
+        "I better grab a nap before my next race!",
+        "April Toons' Week is the silliest week of the year!",
+        "I'm not feeling like myself today!",
+        "Have you heard your Doodle talk yet?",
+        "Gravity has taken a holiday at the Estates!",
         ],
         [ # Goodbyes
-        "Where are all those loud car noises suddenly coming from?",
-        "I'm going to Melody Land to see %s!" % Minnie,
+        "Have a wacky April Toons' Week!",
+        "I need to work on my karts! Bye!",
         ]
     )
+
+AFDonaldDockChatter = (
+        [ # Greetings
+        "Happy April Toons' Week!",
+        "Happy April Toons' Week, %!",
+        ],
+        [ # Comments
+        "Everybody gets April Toons' Week off but me!",
+        "I'm the only one who has to work this week!",
+        "I only get time off when I sleep!",
+        "All my friends are pretending to be somebody else!",
+        "Round and round in this boat, all day long!",
+        "I heard Daisy is pretending to be Mickey!",
+        "The silliest week of the year, and I'm missing it!",
+        "Have you heard your Doodle talk yet?",
+        "Gravity has taken a holiday at the Estates!",
+        ],
+        [ # Goodbyes
+        "Have a wacky April Toons' Week!",
+        "Play a joke on the Cogs for me!",
+        ]
+    )
+
+AFPlutoChatter = (
+        [ # Greetings
+        "Happy April Toons' Week!",
+        "Happy April Toons' Week, %!",
+        ],
+        [ # Comments
+        "Welcome to Melodyland! I'm " + Minnie + "!",
+        "Hi, my name is " + Minnie + " Mouse!",
+        "I'm as happy as a mouse can be!",
+        "What, you've never seen a mouse with dog ears?",
+        "I love when " + Mickey + " and I go for walks!",
+        "What, you never heard a mouse talk before?",
+        "April Toons' Week is the silliest week of the year!",
+        "Have you heard your Doodle talk yet?",
+        "Gravity has taken a holiday at the Estates!",
+        ],
+        [ # Goodbyes
+        "Have a wacky April Toons' Week!",
+        "If you see " + Pluto + ", tell him " + Minnie + " says hi!",
+        ]
+    )
+
+AFChipChatter = (
+    [ # Greetings
+    "Happy April Toons' Week!",
+    "Happy April Toons' Week, %!",
+    ],
+    [ # Comments
+    "Hi, I'm " + Dale + "!",
+    "How are you today, " + Chip + "?",
+    "I always thought you were " + Dale + ", " + Chip + ".",
+    "You're sure you're " + Chip + " and not " + Dale + ", " + Chip + "?",
+    "April Toons' Week is the silliest week of the year!",
+    ],
+    [ # Goodbyes
+    "Bye from " + Chip + " and " + Dale + "!",
+    ]
+)
+
+# Warning Dale's chatter is dependent on on Chip's, they should match up
+AFDaleChatter = (
+    [ # Greetings
+    "Happy April Toons' Week!",
+    "Happy April Toons' Week, %!",
+    ],
+    [ # Comments
+    "Hi, I'm " + Chip + "!",
+    "Very well " + Dale + ", thanks!",
+    "Nope, I'm " + Chip + ", " + Dale + ".",
+    "Yes, " + Dale + ", I'm " + Chip + ", not " + Dale + ".",
+    "It sure is, " + Chip + "! I mean, " + Dale + ".",
+    ],
+    [ # Goodbyes
+    "Or " + Dale + " and " + Chip + "!",
+    ]
+)
 
 CLGoofySpeedwayChatter = (
         [ # Greetings
         "Welcome to "+lGoofySpeedway+".",
         "Hi, my name is "+Goofy+". What's yours?",
         "Gawrsh, it's nice to see you %!",
-        "Hi there!  Pardon my dusty clothes I've been busy fixin' that broken Leaderboard.",
+        "Hi there! Pardon my dusty clothes I've been busy fixin' that broken Leaderboard.",
         ],
         [ # Comments
         "We better get this Leaderboard working soon, Grand Prix Weekend is coming up!",
@@ -5513,7 +5647,7 @@ CLGoofySpeedwayChatter = (
         [ # Goodbyes
         "I better go get my kart a new paint job for the upcoming Grand Prix Weekend.",
         "Gosh, I better get workin' on this broken Leaderboard!",
-        "Hope I'll see y'all on Grand Prix Weekend!  Goodbye!",
+        "Hope I'll see y'all on Grand Prix Weekend! Goodbye!",
         "It's time for a nap. I'm going to Dreamland to dream about winnin' the Grand Prix.",
         ]
     )
@@ -5551,10 +5685,152 @@ GPGoofySpeedwayChatter = (
         ]
     )
 
-for chatter in [MickeyChatter,DonaldChatter,MinnieChatter,GoofyChatter]:
+SillyPhase1Chatter = [
+        "If you haven't seen the Silly Meter, head to Toon Hall!",
+        "Toontown is getting sillier by the day!",
+        "Cause silly surges in battle to boost Toontown's silly levels!",
+        "Objects on the street are starting to animate!",
+        "I saw a fire hydrant on Silly Street move!",
+    ]
+
+SillyPhase2Chatter = [
+        "Silly levels are still rising!",
+        "The Silly Meter has climbed higher and gotten crazier!",
+        "Someone saw a trash can moving on Maple Street!",
+        "A lot of hydrants on Silly Street have come alive!",
+        "A mailbox on Lighthouse Lane has gone nuts!",
+        "Go see the Silly Meter in Toon Hall!",
+        "Keep causing those silly surges!",
+    ]
+
+SillyPhase3Chatter = [
+        "The Cogs hated how silly Toontown was becoming!",
+        "Keep a sharp eye out for Cog Invasions!",
+        "Cog Invasions have caused the silly levels to drop!",
+        "The Silly Meter went down after the Cog Invasions!",
+        "Every street of Toontown has animated objects now!",
+        "Toontown is sillier than ever!",
+]
+
+SillyPhase4Chatter = [
+    "Fire hydrants make your Squirt Gags squirtier!",
+    "Mail Boxes give your Throw Gags a special delivery!",
+    "Those crazy Trash Cans can help boost your Toon-up!",
+    "Objects on the street can help you in battle!",
+    "I just know we'll get the Silly Meter back up soon!",
+    "Enjoy the sillier Toontown!",
+]
+
+for chatter in [MickeyChatter,DonaldChatter,MinnieChatter,GoofyChatter,DaisyChatter]:
     chatter[0].extend(SharedChatterGreetings)
     chatter[1].extend(SharedChatterComments)
     chatter[2].extend(SharedChatterGoodbyes)
+
+# Toontown dialogues
+BoringTopic = "Boring"
+EmceeDialoguePhase1Topic = "EmceeDialoguePhase1"
+EmceeDialoguePhase2Topic = "EmceeDialoguePhase2"
+EmceeDialoguePhase3Topic = "EmceeDialoguePhase3"
+EmceeDialoguePhase3_5Topic = "EmceeDialoguePhase3.5"
+EmceeDialoguePhase4Topic = "EmceeDialoguePhase4"
+EmceeDialoguePhase5Topic = "EmceeDialoguePhase5"
+EmceeDialoguePhase6Topic = "EmceeDialoguePhase6"
+
+AprilToonsPhasePreTopTopic = "AprilToonsPhasePreTopTopic"
+AprilToonsPhaseTopTopic = "AprilToonsPhaseTopTopic"
+AprilToonsExtPhaseTopTopic = "AprilToonsExtPhaseTopTopic"
+AprilToonsPhasePostTopTopic = "AprilToonsPhasePostTopTopic"
+toontownDialogues = {
+   BoringTopic : { \
+        (1, 2018)  : ['Hello Albert', 'It looks like the sillyness levels are rising', 'Yes and don\'t forget April Toons!'],
+        (2, 2019) : ['Hello Newton', 'Yes I wonder how much the parties are contributing to all this',],
+        (3, 2020) : ['Why hello there Albert and Newton', 'Halloween was pretty silly too!',],
+        },
+    AprilToonsPhasePreTopTopic : {
+        (1, 2020) : ["Gadzooks! The Silly Meter has come back to life!",
+                          "It\'s rising every day, and will reach the top soon!",
+                          "When it does, something silly is sure to happen!",
+                          "So get ready to get ridiculous!", ],
+        },
+    AprilToonsPhaseTopTopic : {
+        (1, 2020) : ["The Silly Meter has hit the top!",
+                          "Doodles are talking, Estates are bouncy!",
+                          "There\'s only one thing to say...",
+                          "HAPPY APRIL TOONS!", ],
+        },
+    AprilToonsExtPhaseTopTopic : {
+        (1, 2020) : ["The Silly Meter has hit the top!",
+                          "Doodles are talking, Estates are bouncy!", ],
+        },
+    AprilToonsPhasePostTopTopic : {
+        (1, 2020) : ["April Toons is over!",
+                          "It's time for us to return to our lab.",
+                          "But when things get REALLY crazy again...",
+                          "The Silly Meter will return!", ],
+        },
+    EmceeDialoguePhase1Topic : {
+        (1, 2020) : [ 'Fellow Toons, this is the Silly Meter!',
+                          'It is tracking Toontown\'s rising silly levels...',
+                          'Which are causing objects on the street to animate!',
+                          'And YOU can help push these levels higher!',
+                          'Battle Cogs to cause Silly Surges...',
+                          'Make Toontown sillier than ever...',
+                          'And let\'s watch the world come alive!',
+                          'Now I\'ll repeat what I said, but only once more.', ],
+        },
+    EmceeDialoguePhase2Topic : {
+        (1, 2020) : ['Good Gag work, Toons!',
+                         'You\'re keeping those silly levels rising...',
+                         'And Toontown is getting sillier every day!',
+                         'Fire hydrants, trash cans, and mailboxes are springing to life...',
+                         'Making the world more animated than ever!',
+                         'You know the Cogs aren\'t happy about this...',
+                         'But Toons sure are!', ],
+        },
+    EmceeDialoguePhase3Topic : {
+        (1, 2020) : ['Gadzooks! The Silly Meter is even crazier than expected!',
+                         'Your Silly Surges are working wonders...',
+                         'And Toontown is getting more animated every day!',
+                         'Keep up the good Gag work...',
+                         'And let\'s see how silly we can make Toontown!',
+                         'You know the Cogs aren\'t happy about what\'s going on...',
+                         'But Toons sure are!', ],
+        },
+    EmceeDialoguePhase3_5Topic : {
+        (1, 2020) : ['YOU DID IT TOONS!',
+                         'You brought the streets of Toontown to life!',
+                         'You deserve a reward!',
+                         'Enter the code SILLYMETER in your Shticker Book...',
+                         '...to get a Silly Meter T-Shirt!', ],
+        },
+    EmceeDialoguePhase4Topic : {
+        (1, 2020) : ['Attention all Toons!',
+                         'The sudden Cog invasions have been an unhappy event.',
+                         'As a result, silly levels have rapidly fallen...',
+                         'And no new objects are coming to life.',
+                         'But those that have are very thankful...',
+                         'So perhaps they\'ll find a way to show their appreciation!',
+                         'Stay Tooned!', ],
+        },
+    EmceeDialoguePhase5Topic : {
+        (1, 2020) : ['Attention all Toons!',
+                         'The Cog invasions have been an unhappy event.',
+                         'As a result, silly levels have rapidly fallen...',
+                         'And no new objects are coming to life.',
+                         'But those that have are very thankful...',
+                         'And are showing their appreciation by helping in battle!',
+                         'We may hold off the Cogs yet, so keep up the fight!', ],
+        },
+    EmceeDialoguePhase6Topic : {
+        (1, 2020) : ['Congratulations Toons!',
+                         'You all succesfully held off the Cog Invasions...',
+                         'With a little help from our newly animated friends...',
+                         'And brought Toontown back to its usual silly self!',
+                         'We hope to get the Silly Meter rising again soon...',
+                         'So in the meantime, keep up the Cog fight...',
+                         'And enjoy the silliest place ever, Toontown!',],
+        },
+    }
 
 # FriendsListPanel.py
 FriendsListPanelNewFriend = "新しいともだち"
@@ -5586,6 +5862,16 @@ FriendInviterEndFriendshipToon = "ほんとうに%sのともだちをやめて�
 FriendInviterEndFriendshipPlayer = "ほんとうに%sのともだちをやめてもいいかい？"
 FriendInviterRemainToon = "\n(%sとはまだおともだちトゥーンです。)"
 FriendInviterRemainPlayer = "\n(%sとはまだおともだちプレイヤーです。)"
+
+# DownloadForceAcknowledge.py
+DownloadForceAcknowledgeVerbList = [
+    "painted",
+    "unpacked",
+    "unfolded",
+    "drawn",
+    "inflated",
+    "built",
+]
 
 # DownloadForceAcknowledge.py
 # phase, percent
@@ -5631,6 +5917,11 @@ TeaserGardening = "登録受付けは終了しました！"
 TeaserHaveFun = "登録受付けは"
 TeaserJoinUs = "終了しました"
 
+TeaserPlantGags = "To plant these gags"
+TeaserPickGags = "To pick these gags"
+TeaserRestockGags = "To restock these gags"
+TeaserGetGags = "To get these gags"
+TeaserUseGags = "To use these gags"
 #TeaserCardsAndPosters = ""
 #TeaserFurniture = ""
 TeaserMinigames = TeaserOtherHoods
@@ -5640,12 +5931,6 @@ TeaserOtherGags = TeaserOtherHoods
 #TeaserRental = ""
 #TeaserBigger = ""
 TeaserTricks = TeaserOtherHoods
-
-
-# DownloadWatcher.py
-# phase, percent
-DownloadWatcherUpdate = "%sをﾀﾞｳﾝﾛｰﾄﾞ中…"
-DownloadWatcherInitializing = "ﾀﾞｳﾝﾛｰﾄﾞを始めます…"
 
 # Launcher.py
 LauncherPhaseNames = {
@@ -5690,6 +5975,9 @@ LauncherStartingGame = "ﾄｩｰﾝﾀｳﾝをスタート中…"
 LauncherRecoverFiles = "ﾄｩｰﾝﾀｳﾝをｱｯﾌﾟﾃﾞｰﾄしています。ﾌｧｲﾙをﾘｶﾊﾞﾘｰ中…"
 LauncherCheckUpdates = LauncherProgress + "のｱｯﾌﾟﾃﾞｰﾄを確認中…"
 LauncherVerifyPhase = "ﾄｩｰﾝﾀｳﾝをｱｯﾌﾟﾃﾞｰﾄ中…"
+
+# change Downloading Toontorial to Loading Toontorial
+LoadingDownloadWatcherUpdate = "Loading %s"
 
 # AvatarChoice.py
 AvatarChoiceMakeAToon = "トゥーンを\nつくろう！"
@@ -5807,9 +6095,18 @@ EventsPageNewsLeftSubtitle = "ジェリービーンで買える！"
 EventsPageNewsRightSubtitle = "トゥーン暦 2009年　創刊"
 
 # NewsPage.py
-NewsPageName = "News"
-NewsPageImportError = "Could not start in game news."
+NewsPageName = "ニュース"
+NewsPageImportError = 'Whoops! There is an issue loading the "Toon News ... for the Amused!" Please check back later.'
 
+NewsPageDownloadingNewsSubstr = 'Stay Tooned, while we bring you the latest issue of the \n"Toon News ... for the Amused!"'
+NewsPageDownloadingNews0 = NewsPageDownloadingNewsSubstr + " %s%% Complete."
+NewsPageDownloadingNews1 = NewsPageDownloadingNewsSubstr + " %s%% Complete.."
+NewsPageDownloadingNews2 = NewsPageDownloadingNewsSubstr + " %s%% Complete..."
+NewsPageErrorDownloadingFile = 'Whoops! Page %s is missing from "Toon News ... for the Amused!" Please check back later.'
+NewsPageErrorDownloadingFileCanStillRead = 'Whoops! Page %s \nis missing from the "Toon News ... for the Amused!" \nTurn the page to continue, while we work to get this page back.'
+NewsPageNoIssues = 'Whoops! The "Toon News ... for the Amused!" has gone missing! \nStay Tooned ... while we work to bring the news back!'
+
+# DirectNewsFrame.py
 IssueFrameThisWeek = "this week"
 IssueFrameLastWeek = "last week"
 IssueFrameWeeksAgo = "%d weeks ago"
@@ -5868,6 +6165,8 @@ PartyPlannerGenericMaleTheme = "スター"
 PartyPlannerGenericFemaleTheme = "フラワー"
 PartyPlannerRacingTheme = "レーシング"
 PartyPlannerValentoonsTheme = "バレントゥーン"
+PartyPlannerVictoryPartyTheme = "Victory"
+PartyPlannerWinterPartyTheme = "Winter"
 PartyPlannerGuestName = "ゲスト名"
 PartyPlannerClosePlanner = "プランナーを閉じる"
 PartyPlannerConfirmationAllOkTitle = "おめでとう！"
@@ -6040,10 +6339,64 @@ PartyActivityNameDict = {
         "description" : "20種類のムーブを使いこなせば、キミはもうダンスマスター♪"
     },
     10 : {
-        "generic" : "Cog Pie Toss",
-        "invite" : "Cog Pie Toss",
-        "editor" : "Cog Pie Toss",
-        "description" : "Team vs. Team\nThrow pies at cogs!",
+        "generic" : "Cog-O-War",
+        "invite" : "Cog-O-War",
+        "editor" : "Cog-O-War",
+        "description" : "The team vs. team game of Cog splatting!"
+    },
+    11 : {
+        "generic" : "Cog Trampoline",
+        "invite" : "Cog Trampoline",
+        "editor" : "Cog Trampoline",
+        "description" : "Jump on a Cog's face!"
+    },
+    12: {
+        "generic" : "Present Catch",
+        "invite" : "Present Catch",
+        "editor" : "Present Catch",
+        "description" : "Catch presents to win beans! Dodge those anvils!"
+    },
+    13: {
+        "generic" : "Holiday Trampoline",
+        "invite" : "Holiday Trampoline",
+        "editor" : "Holiday Trampoline",
+        "description" : "Jump if you love Winter Holidays!"
+    },
+    14: {
+        "generic" : "Holiday Cog-O-War",
+        "invite" : "Holiday Cog-O-War",
+        "editor" : "Holiday Cog-O-War",
+        "description" : "The team vs. team game of Cog splattering!"
+    },
+    15: {
+        "generic" : "Dance Floor\n10 moves",
+        "invite" : " 10 move ValenToons Dance Floor",
+        "editor" : "Dance Floor - 10",
+        "description" : "Get your ValenToon Groove On!"
+    },
+    16: {
+        "generic" : "Dance Floor\n20 moves",
+        "invite" : "a 20 move ValenToons Dance Floor",
+        "editor" : "Dance Floor - 20",
+        "description" : "Get your ValenToon Groove On!"
+    },
+    17: {
+        "generic" : "Jukebox\n20 songs",
+        "invite" : "a 20 song Valentoons Jukebox",
+        "editor" : "Jukebox - 20",
+        "description" : "Nothing sets the mood like music!"
+    },
+    18: {
+        "generic" : "Jukebox\n40 songs",
+        "invite" : "a 40 song Valentoons jukebox",
+        "editor" : "Jukebox - 40",
+        "description" : "Nothing sets the mood like music!"
+    },
+    19: {
+        "generic" : "Trampoline",
+        "invite" : "ValenToons Trampoline",
+        "editor" : "Trampoline",
+        "description" : "Jump to your heart's content!",
     },
 }
 
@@ -6115,6 +6468,54 @@ PartyDecorationNameDict = {
         "editor" : "フライング・\nハート",
         "description" : "バレントゥーンスピリットがしみるね！",
     },
+    16 : {
+        "editor" : "Victory Bandstand",
+        "description" : "All our new friends are ready to dance!",
+    },
+    17 : {
+        "editor" : "Victory Banner",
+        "description" : "Not just a normal banner!",
+    },
+    18 : {
+        "editor" : "Confetti Cannons",
+        "description" : "BOOM! Confetti! Fun!",
+    },
+    19 : {
+        "editor" : "Cog & Doodle",
+        "description" : "Ouch! That's gotta hurt.",
+    },
+    20 : {
+        "editor" : "Cog Flappy Man",
+        "description" : "A Cog full of hot air, what a shock!",
+    },
+    21 : {
+        "editor" : "Cog Ice Cream",
+        "description" : "A Cog looking his best",
+    },
+    22: {
+        "editor": "CogCicle",
+        "description": "A Cog looking his holiday best.",
+    },
+    23: {
+        "editor": "Holiday Bandstand",
+        "description": "Everyone loves a Holiday Party!",
+    },
+    24: {
+        "editor": "Chilly Cog",
+        "description": "Ouch! That's gotta hurt.",
+    },
+    25: {
+        "editor": "Snowman",
+        "description": "So cool, he's hot!",
+    },
+    26: {
+        "editor": "SnowDoodle",
+        "description": "His only trick is being cold!",
+    },
+    27: {
+        "editor": "ValenToons Anvil",
+        "description": "We've got your heart on a string!",
+    },
 }
 
 ActivityLabel = "コスト - アクティビティ名"
@@ -6168,6 +6569,8 @@ PartyCatchActivityAnvils      = 'カナドコ'
 PartyCatchStarted = "ゲームが始まってるよ。いそごう！"
 PartyCatchCannotStart = "ゲームが開始されませんでした。"
 PartyCatchRewardMessage = "キャッチしたフルーツ： %s\n\nジェリービーン: %sコ"
+WinterPartyCatchActivityInstructions = "Catch as many presents as you can. Try not to 'catch' any %(badThing)s!"
+WinterPartyCatchRewardMessage = "Presents caught: %s\n\nJellybeans earned: %s"
 
 # DistributedPartyDanceActivity.py
 PartyDanceActivityTitle = "パーティー ダンス・フロア"
@@ -6228,8 +6631,6 @@ PartyTrampolineGetHeight = "%dメートル"
 
 # DistributedPartyTeamActivity.py
 # extra spaces on purpose given the blocky font
-
-# DistributedPartyTugOfWarActivity.py
 PartyTeamActivityForMorePlural = "　"
 PartyTeamActivityForMore = "両側にあと%d 人%s\nひつようだよ"
 PartyTeamActivityForMoreWithBalance = "あと%d 人%s待っています"
@@ -6268,18 +6669,21 @@ PartyCogTimeUp = "時間切れ！"
 # PartyCogActivityGui.py
 PartyCogGuiScoreLabel = "スコア"
 PartyCogGuiPowerLabel = "パワー"
+PartyCogGuiSpamWarning = "Hold CONTROL for more power!"
+PartyCogBalanceBar = "BALANCE"
 
-PartyTugOfWarJoinDenied = "ごめん、今はつなひきには参加できないよ。"
-PartyTugOfWarTeamFull = "残念、このチームはもう満員です。"
-PartyTugOfWarExitButton = "おりる"
-PartyTugOfWarWaitingForMore = "他のトゥーンを待っています。" # extra spaces on purpose given the blocky font
-PartyTugOfWarWaitingToStart = "スタート待ち…"
-PartyTugOfWarWaitingForOtherPlayers = "他のトゥーンを待っています。"
+# DistributedPartyTugOfWarActivity.py
+#PartyTugOfWarJoinDenied = "ごめん、今はつなひきには参加できないよ。"
+#PartyTugOfWarTeamFull = "残念、このチームはもう満員です。"
+#PartyTugOfWarExitButton = "おりる"
+#PartyTugOfWarWaitingForMore = "他のトゥーンを待っています。" # extra spaces on purpose given the blocky font
+#PartyTugOfWarWaitingToStart = "スタート待ち…"
+#PartyTugOfWarWaitingForOtherPlayers = "他のトゥーンを待っています。"
 PartyTugOfWarReady = "ようい..."
 PartyTugOfWarGo = "スタート！"
 PartyTugOfWarGameEnd = "良い  ゲームだったね！"
-PartyTugOfWarGameTie = "ひき  わけ！"
-PartyTugOfWarRewardMessage = "ジェリービーン%dコかくとく。やったね！"
+#PartyTugOfWarGameTie = "ひき  わけ！"
+#PartyTugOfWarRewardMessage = "ジェリービーン%dコかくとく。やったね！"
 PartyTugOfWarTitle = "パーティー・つなひき"
 
 # CalendarGuiMonth.py
@@ -6314,6 +6718,7 @@ MapPageGoTo = "%s\nへ行く"
 
 # OptionsPage.py
 OptionsPageTitle = "オプション"
+OptionsTabTitle = "オプション\n& Codes"
 OptionsPagePurchase = "今すぐ申し込む"
 OptionsPageLogout = "ログアウト"
 OptionsPageExitToontown = "ゲームを終了する"
@@ -6325,8 +6730,11 @@ OptionsPageToonChatSoundsOnLabel = "チャットおん： あり"
 OptionsPageToonChatSoundsOffLabel = "チャットおん： なし"
 OptionsPageFriendsEnabledLabel = "ともだち：うけつける"
 OptionsPageFriendsDisabledLabel = "ともだち：うけつけない"
+OptionsPageWhisperEnabledLabel = "Allowing whispers from anyone."
+OptionsPageWhisperDisabledLabel = "Allowing whispers from friends only."
 OptionsPageSpeedChatStyleLabel = "スピードチャットの色"
 OptionsPageDisplayWindowed = "ウインドウ・モード"
+OptionsPageDisplayEmbedded = "In the browser"
 OptionsPageSelect = "選択する"
 OptionsPageToggleOn = "きりかえ"
 OptionsPageToggleOff = "きりかえ"
@@ -6349,6 +6757,23 @@ DisplaySettingsApplyWarning = "ＯＫボタンを押すと、表示設定が変�
 DisplaySettingsAccept = "これでよろしければＯＫボタンを押してください。何も押さないと、%s秒後に自動的に変更する前の設定に戻ります。"
 DisplaySettingsRevertUser = "前の表示設定に戻しました。"
 DisplaySettingsRevertFailed = "選択された表示設定はお客様のコンピュータでは作動しません。前の表示設定が復帰しました。"
+
+# Code Redemption (resides in the Options Page)
+OptionsPageCodesTab = "Enter Code"
+CdrPageTitle = "Enter a Code"
+CdrInstructions = "Enter your code to receive a special item in your mailbox."
+CdrResultSuccess = "Congratulations! Check your mailbox to claim your item!"
+CdrResultInvalidCode = "You've entered an invalid code. Please check the code and try again."
+CdrResultExpiredCode = "We're sorry. This code has expired."
+CdrResultUnknownError = "We're sorry. This code cannot be applied to your Toon."
+CdrResultMailboxFull = "Your mailbox is full. Please remove an item, then enter your code again."
+CdrResultAlreadyInMailbox = "You've already received this item. Check your mailbox to confirm."
+CdrResultAlreadyInQueue = "Your item is on its way. Check your mailbox in a few minutes to receive it."
+CdrResultAlreadyInCloset = "You've already received this item. Check your closet to confirm."
+CdrResultAlreadyBeingWorn = "You've already received this item, and you are wearing it!"
+CdrResultAlreadyReceived = "You've already received this item."
+CdrResultTooManyFails = "We're sorry. You've tried to enter an incorrect code too many times. Please try again after some time."
+CdrResultServiceUnavailable = "We're sorry. This feature is temporarily unavailable. Please try again during your next login."
 
 # TrackPage.py
 TrackPageTitle = "ギャグ・トラック・トレーニング"
@@ -6424,7 +6849,7 @@ ShardPageChoiceReject = "このロビーはこんざつしています。他を�
 
 # SuitPage.py
 SuitPageTitle = Cog + "ギャラリー"
-SuitPageMystery = "???"
+SuitPageMystery = "？？？"
 SuitPageQuota = "%s / %s"
 SuitPageCogRadar = "%s体発見！" #★
 SuitPageBuildingRadarS = "%s 建物"
@@ -6449,6 +6874,7 @@ FishPageWeightSmallP = "%dｵﾝｽ"
 FishPageWeightConversion = 16
 FishPageValueS = "ジェリービーン%d個分"
 FishPageValueP = FishPageValueS
+#FishPageTotalValue = ""
 FishPageCollectedTotal = "集めた魚: %d / %d種類"
 FishPageRodInfo = "%s釣りざお：\n%d～%dパウンドの\n重さまでＯＫ"
 FishPageTankTab = "タンク"
@@ -6493,6 +6919,13 @@ GardenPageValueP = "かち: ジェリービーン%dコ分"
 FlowerPickerTotalValue = "バスケット: %s / %s\nかち： ジェリービーン%dコ分"
 GardenPageShovelInfo = "ショベル%s: %d / %d\n"
 GardenPageWateringCanInfo = "ジョウロ%s: %d / %d"
+
+FlowerPageWeightConversion = 1
+FlowerPageWeightLargeP = "Large P"
+FlowerPageWeightLargeS = "LargeS "
+FlowerPageWeightSmallP = "SmallP "
+FlowerPageWeightSmallS = "SmallS "
+FlowerPageWeightStr = "Weight: %s"
 
 # KartPage.py
 KartPageTitle = "カート"
@@ -6669,7 +7102,7 @@ TownBattleRun = "さっきいたプレイグラウンドへ戻る？"
 
 # TownBattleChooseAvatarPanel.py
 TownBattleChooseAvatarToonTitle = "どのトゥーン？"
-TownBattleChooseAvatarCogTitle = "どの " + string.upper(Cog) + "？"
+TownBattleChooseAvatarCogTitle = "どの " + Cog.upper() + "？"
 TownBattleChooseAvatarBack = "戻る"
 
 #firecogpanel
@@ -7030,6 +7463,13 @@ GagShopPlayerPlayAgain = "もう１回！"
 GagShopPlayerBuying = "お買い物中"
 
 # MakeAToon.py
+#
+# The voices for GenderShopQuestionMickey and Minnie should not be played simultaneously.
+# Options are as follows:
+# 1: Mickey first and Minnie follow in a few second.
+# 2: When player moves cursor onto the character, the voice to be played.
+#    But the voice shouldn't be played while other character is talking.
+# Please choose whichever feasible.
 GenderShopQuestionMickey = "男の子のトゥーンをつくるには、\nぼくをおしてね！" #CC_mickey_create01.mp3
 GenderShopQuestionMinnie = "女の子のトゥーンをつくるには、わたしをおしてね！" #CC_minnie_create01.mp3
 GenderShopFollow = "ついてきて！" #CC_mickey_create02.mp3 (if Mickey)
@@ -7233,9 +7673,19 @@ QuestScriptTutorialMickey_3 = "彼がコグについて\nいろいろ教えて�
 QuestScriptTutorialMickey_4 = "やじるしキーを使ってこっちにおいで！" #CC_tom_tutorial_mickey02.mp3
 
 # These are needed to correspond to the Japanese gender specific phrases
+#
 QuestScriptTutorialMinnie_1 = "こんにちは、トム！\nトゥーンタウンの新しい住人になにか面白いギャグ、持ってない？" #CC_minnie_tutorial02.mp3　***DELETED "CC_minnie_tutorial01.mp3"***
 QuestScriptTutorialMinnie_2 = "もちろん、%s！" #CC_tom_tutorial_minnie01.mp3
 QuestScriptTutorialMinnie_3 = "彼がコグについて\nいろいろ教えてくれるのよ！\aそれじゃあ、\nまたね～！" #CC_minnie_tutorial03.mp3 \a CC_minnie_tutorial05.mp3 *** DELETED "CC_minnie_tutorial04.mp3"***
+#
+
+#
+# If there is "\a" between the sentense, we would like to have one of the following sequence.
+# 1: display 1st text with 1st voice -> when voice finished, arrow appear. -> if player pushes the arrow button, display 2nd text with 2nd voice.
+# 2: display 1st text with 1st voice and altomatically display 2nd text with 2nd voice.
+# 3: display 1st text and play 1st voice (arrow is displayed) -> whenever player pushes the button, the voice will be skipped and display 2nd text with 2nd voice.
+# Anyway, we need to have some "Skip" rule while playing the voice because from DCV(Disney Character Voice)'s view, it is not preferrable to have voice skipped.
+#
 
 QuestScript101_1 = "これらが「コグ」って言うんだ！\nトゥーンタウンをのっとろうとしているロボットたちなんだ。" #Please play "CC_tom_tutorial_questscript01.mp3" only / "CC_tom_tutorial_questscript02.mp3" is included.
 QuestScript101_2 = "たくさんの種類のコグがいるんだけど…" #CC_tom_tutorial_questscript03.mp3
@@ -7405,6 +7855,14 @@ MintElevatorRejectMessage = "キミの%sコグスーツを完成させるまで�
 BossElevatorRejectMessage = "キミのトゥーンが「格上げ」されるまでは、このエレベーターに乗ることはできません。"
 NotYetAvailable = "このエレベーターにはまだ乗れないよ"
 
+SellbotRentalSuitMessage = "Wear this Rental Suit so you can get close enough to the VP to attack.\n\nYou won't earn merits or promotions, but you can rescue a Toon for an SOS reward!"
+SellbotCogSuitNoMeritsMessage = "Your Sellbot Disguise will get you in, but since you don't have enough merits, you won't earn a promotion.\n\nIf you rescue the trapped Toon, you will earn an SOS Toon reward!"
+SellbotCogSuitHasMeritsMessage = "It's Operation: Storm Sellbot!\n\nBring 5 or more Rental Suit Toons with you to defeat the VP and earn credit towards a reward!"
+
+LawbotRentalSuitMessage = "Wear this Rental Suit so you can get close enough to the CJ to attack.\n\nYou won't earn jury notices or promotions, but you can rescue Bumpy for a summon reward!"
+LawbotCogSuitNoMeritsMessage = "Your Lawbot Disguise will get you in, but since you don't have enough jury notices, you won't earn a promotion.\n\nIf you rescue Bumpy, you will earn a summon reward!"
+LawbotCogSuitHasMeritsMessage = "It's Operation: Lawbots Lose!\n\nBring 5 or more Rental Suit Toons with you to defeat the CJ and earn credit towards a reward!"
+
 # Types of catalog items--don't translate yet.
 FurnitureTypeName = "家具"
 PaintingTypeName = "絵"
@@ -7419,6 +7877,7 @@ GardenTypeName = "ガーデンアイテム"
 RentalTypeName = "レンタルアイテム"
 GardenStarterTypeName = "ガーデニングキット"
 NametagTypeName = "ネームタグ"
+AccessoryTypeName = "Accessory"
 
 
 # Make sure numbers match up to CatalogItemTypes.py
@@ -7428,11 +7887,11 @@ CatalogItemTypeNames = {
     2 : ChatTypeName,
     3 : ClothingTypeName,
     4 : EmoteTypeName,
-    5 : "WALLPAPER_ITEM",
-    6 : "WindowViewTypeName",
-    7 : "FLOORING_ITEM",
-    8 : "MOULDING_ITEM",
-    9 : "WAINSCOTING_ITEM",
+    5 : "WALLPAPER",
+    6 : "Window View",
+    7 : "FLOORING",
+    8 : "MOULDING",
+    9 : "WAINSCOTING",
     10 : PoleTypeName,
     11: PetTrickTypeName,
     12: BeanTypeName,
@@ -7442,8 +7901,231 @@ CatalogItemTypeNames = {
     16: NametagTypeName,
     17: "TOON_STATUE",
     18: "ANIMATED FURNITURE",
+    19: AccessoryTypeName,
 }
 
+
+HatStylesDescriptions = {
+    'hbb1' : "Green Baseball Cap",
+    'hbb2' : "Blue Baseball Cap",
+    'hbb3' : "Orange Baseball Cap",
+    'hsf1' : "Beige Safari Hat",
+    'hsf2' : "Brown Safari Hat",
+    'hsf3' : "Green Safari Hat",
+    'hrb1' : "Pink Bow",
+    'hrb2' : "Red Bow",
+    'hrb3' : "Purple Bow",
+    'hht1' : "Pink Heart",
+    'hht2' : "Yellow Heart",
+    'htp1' : "Black Top Hat",
+    'htp2' : "Blue Top Hat",
+    'hav1' : "Anvil Hat",
+    'hfp1' : "Flower Hat",
+    'hsg1' : "Sandbag Hat",
+    'hwt1' : "Weight Hat",
+    'hfz1' : "Fez Hat",
+    'hgf1' : "Golf Hat",
+    'hpt1' : "Party Hat",
+    'hpt2' : "Toon Party Hat",
+    'hpb1' : "Fancy Hat",
+    'hcr1' : "Crown",
+    'hcw1' : "Cowboy Hat",
+    'hpr1' : "Pirate Hat",
+    'hpp1' : "Propeller Hat",
+    'hfs1' : "Fishing Hat",
+    'hsb1' : "Sombrero Hat",
+    'hst1' : "Straw Hat",
+    'hsu1' : "Sun Hat",
+    'hrb4' : "Yellow Bow",
+    'hrb5' : "Checker Bow",
+    'hrb6' : "Light Red Bow",
+    'hrb7' : "Rainbow Bow",
+    'hat1' : "Antenna Thingy",
+    'hhd1' : "Beehive Hairdo",
+    'hbw1' : "Bowler Hat",
+    'hch1' : "Chef Hat",
+    'hdt1' : "Detective Hat",
+    'hft1' : "Fancy Feathers Hat",
+    'hfd1' : "Fedora",
+    'hmk1' : "Mickey's Band Hat",
+    'hft2' : "Feather Headband",
+    'hhd2' : "Pompadour Hairdo",
+    'hpc1' : "Princess Hat",
+    'hrh1' : "Archer Hat",
+    'hhm1' : "Roman Helmet",
+    'hat2' : "Spider Antenna Thingy",
+    'htr1' : "Tiara",
+    'hhm2' : "Viking Helmet",
+    'hwz1' : "Witch Hat",
+    'hwz2' : "Wizard Hat",
+    'hhm3' : "Conquistador Helmet",
+    'hhm4' : "Firefighter Helmet",
+    'hfp2' : "Anti-Cog Control Hat",
+    'hhm5' : "Miner Hat",
+    'hnp1' : "Napoleon Hat",
+    'hpc2' : "Pilot Cap",
+    'hph1' : "Cop Hat",
+    'hwg1' : "Rainbow Wacky Wig",
+    'hbb4' : "Yellow Baseball Cap",
+    'hbb5' : "Red Baseball Cap",
+    'hbb6' : "Aqua Baseball Cap",
+    'hsl1' : "Sailor Hat",
+    'hfr1' : "Samba Hat",
+    'hby1' : "Bobby Hat",
+    'hrb8' : "Pink Dots Bow",
+    'hjh1' : "Jester Hat",
+    'hbb7' : "Purple Baseball Cap",
+    'hrb9' : "Green Checker Bow",
+    'hwt2' : "Winter Hat",
+    'hhw1' : "Bandana",
+    'hhw2' : "Toonosaur Hat",
+    'hob1' : "Jamboree Hat",
+    'hbn1' : "Bird Hat by Brianna",
+    }
+
+GlassesStylesDescriptions = {
+    'grd1' : "Round Glasses",
+    'gmb1' : "White Mini Blinds",
+    'gnr1' : "Purple Narrow Glasses",
+    'gst1' : "Yellow Star Glasses",
+    'g3d1' : "Movie Glasses",
+    'gav1' : "Aviator",
+    'gce1' : "Cateye Glasses",
+    'gdk1' : "Nerd Glasses",
+    'gjo1' : "Celebrity Shades",
+    'gsb1' : "Scuba Mask",
+    'ggl1' : "Goggles",
+    'ggm1' : "Groucho Glasses",
+    'ghg1' : "Heart Glasses",
+    'gie1' : "Bug Eye Glasses",
+    'gmt1' : "Black Secret ID Mask",
+    'gmt2' : "Blue Secret ID Mask",
+    'gmt3' : "Blue Carnivale Mask",
+    'gmt4' : "Purple Carnivale Mask",
+    'gmt5' : "Aqua Carnivale Mask",
+    'gmn1' : "Monocle",
+    'gmo1' : "Smooch Glasses",
+    'gsr1' : "Square Frame Glasses",
+    'ghw1' : "Skull Eyepatch",
+    'ghw2' : "Gem Eyepatch",
+    'gag1' : "Alien Eyes by Alexandra",
+    }
+
+BackpackStylesDescriptions = {
+    'bpb1' : "Blue Backpack",
+    'bpb2' : "Orange Backpack",
+    'bpb3' : "Purple BackPack",
+    'bpd1' : "Red Dot Backpack",
+    'bpd2' : "Yellow Dot Backpack",
+    'bwg1' : "Bat Wings",
+    'bwg2' : "Bee Wings",
+    'bwg3' : "DragonFly Wings",
+    'bst1' : "Scuba Tank",
+    'bfn1' : "Shark Fin",
+    'baw1' : "White Angel Wings",
+    'baw2' : "Rainbow Angel Wings",
+    'bwt1' : "Toys Backpack",
+    'bwg4' : "Butterfly Wings",
+    'bwg5' : "Pixie Wings",
+    'bwg6' : "Dragon Wings",
+    'bjp1' : "Jet Pack",
+    'blg1' : "Bug Backpack",
+    'bsa1' : "Plush Bear Pack",
+    'bwg7' : "Bird wings",
+    'bsa2' : "Plush Cat Pack",
+    'bsa3' : "Plush Dog Pack",
+    'bap1' : "Airplane Wings",
+    'bhw1' : "Pirate Sword",
+    'bhw2' : "Super Toon Cape",
+    'bhw3' : "Vampire Cape",
+    'bhw4' : "Toonosaur Backpack",
+    'bob1' : "Jamboree Pack",
+    'bfg1' : "Gag Attack Pack",
+    'bfl1' : "Cog Pack by Savanah",
+    }
+
+ShoesStylesDescriptions = {
+    'sat1' : "Green Athletic Shoes",
+    'sat2' : "Red Athletic Shoes",
+    'smb1' : "Green Toon Boots",
+    'scs1' : "Green Sneakers",
+    'swt1' : "Wingtips",
+    'smj1' : "Black Fancy Shoes",
+    'sdk1' : "Boat Shoes",
+    'sat3' : "Yellow Athletic Shoes",
+    'scs2' : "Black Sneakers",
+    'scs3' : "White Sneakers",
+    'scs4' : "Pink Sneakers",
+    'scb1' : "Cowboy Boots",
+    'sfb1' : "Purple Boots",
+    'sht1' : "Green Hi Top Sneakers",
+    'smj2' : "Brown Fancy Shoes",
+    'smj3' : "Red Fancy Shoes",
+    'ssb1' : "Red Super Toon Boots",
+    'sts1' : "Green Tennis Shoes",
+    'sts2' : "Pink Tennis Shoes",
+    'scs5' : "Red Sneakers",
+    'smb2' : "Aqua Toon Boots",
+    'smb3' : "Brown Toon Boots",
+    'smb4' : "Yellow Toon Boots",
+    'sfb2' : "Blue Square Boots",
+    'sfb3' : "Green Hearts Boots",
+    'sfb4' : "Gray Dots Boots",
+    'sfb5' : "Orange Stars Boots",
+    'sfb6' : "Pink Stars Boots",
+    'slf1' : "Loafers",
+    'smj4' : "Purple Fancy Shoes",
+    'smt1' : "Motorcycle Boots",
+    'sox1' : "Oxfords",
+    'srb1' : "Pink Rain Boots",
+    'sst1' : "Jolly Boots",
+    'swb1' : "Beige Winter Boots",
+    'swb2' : "Pink Winter Boots",
+    'swk1' : "Work Boots",
+    'scs6' : "Yellow Sneakers",
+    'smb5' : "Pink Toon Boots",
+    'sht2' : "Pink Hi Top Sneakers",
+    'srb2' : "Red Dots Rain Boots",
+    'sts3' : "Purple Tennis Shoes",
+    'sts4' : "Violet Tennis Shoes",
+    'sts5' : "Yellow Tennis Shoes",
+    'srb3' : "Blue Rain Boots",
+    'srb4' : "Yellow Rain Boots",
+    'sat4' : "Black Athletic Shoes",
+    'shw1' : "Pirate Shoes",
+    'shw2' : "Toonosaur Feet",
+    }
+
+AccessoryNamePrefix = {
+    0 : "hat unisex ",
+    1 : "glasses unisex ",
+    2 : "backpack unisex ",
+    3 : "shoes unisex ",
+    4 : "hat boy ",
+    5 : "glasses boy ",
+    6 : "backpack boy ",
+    7 : "shoes boy ",
+    8 : "hat girl ",
+    9 : "glasses girl ",
+    10 : "backpack girl ",
+    11 : "shoes girl ",
+    }
+
+AwardManagerAccessoryNames = {}
+AccessoryTypeNames = {}
+for accessoryId in CatalogAccessoryItemGlobals.AccessoryTypes.keys():
+    accessoryInfo = CatalogAccessoryItemGlobals.AccessoryTypes[accessoryId]
+    if accessoryInfo[0] % 4 == 0:
+        accessoryStyleDescription = HatStylesDescriptions
+    elif accessoryInfo[0] % 4 == 1:
+        accessoryStyleDescription = GlassesStylesDescriptions
+    elif accessoryInfo[0] % 4 == 2:
+        accessoryStyleDescription = BackpackStylesDescriptions
+    else:
+        accessoryStyleDescription = ShoesStylesDescriptions
+    if accessoryInfo[3]:
+        AwardManagerAccessoryNames[accessoryId] = AccessoryNamePrefix[accessoryInfo[0]] + accessoryStyleDescription[accessoryInfo[1]]
+    AccessoryTypeNames[accessoryId] = accessoryStyleDescription[accessoryInfo[1]]
 
 # Make sure this is in sync with ToonDNA.ShirtStyles
 ShirtStylesDescriptions = {
@@ -7513,10 +8195,17 @@ ShirtStylesDescriptions = {
     # Special Holiday-themed shirts.
     'hw_ss1' : "ｺﾞｰｽﾄ",
     'hw_ss2' : "ﾊﾟﾝﾌﾟｷﾝ",
-    'wh_ss1' : "ｳｨﾝﾀｰﾎﾘﾃﾞｰ 1",
-    'wh_ss2' : "ｳｨﾝﾀｰﾎﾘﾃﾞｰ 2",
-    'wh_ss3' : "ｳｨﾝﾀｰﾎﾘﾃﾞｰ 3",
-    'wh_ss4' : "ｳｨﾝﾀｰﾎﾘﾃﾞｰ 4",
+    'hw_ss3' : "Halloween Vampire",
+    'hw_ss4' : "Halloween Turtle",
+    'hw_ss5' : "Halloween Bee",
+    'hw_ss6' : "Halloween Pirate",
+    'hw_ss7' : "Halloween SuperToon",
+    'hw_ss8' : "Halloween Vampire NoCape",
+    'hw_ss9' : "Halloween Dinosaur",
+    'wh_ss1' : "Winter Holiday 1",
+    'wh_ss2' : "Winter Holiday 2",
+    'wh_ss3' : "Winter Holiday 3",
+    'wh_ss4' : "Winter Holiday 4",
 
     'vd_ss1' : "ﾊﾞﾚﾝﾀｲﾝﾃﾞｰ､ 赤いﾊｰﾄ(女の子)",
     'vd_ss2' : "ﾊﾞﾚﾝﾀｲﾝﾃﾞｰ､ 白いﾊｰﾄ",
@@ -7524,8 +8213,10 @@ ShirtStylesDescriptions = {
     'vd_ss4' : "ﾊﾞﾚﾝﾀｲﾝﾃﾞｰ､ 炎のﾊｰﾄ",
     'vd_ss5' : "ﾊﾞﾚﾝﾀｲﾝﾃﾞｰ､ ｷｭｰﾋﾟｯﾄﾞ",
     'vd_ss6' : "ﾊﾞﾚﾝﾀｲﾝﾃﾞｰ､ 緑と赤のﾊｰﾄ",
+    'vd_ss7' : "2010 Valentines day, red with white wings",
     'sd_ss1' : "ｾﾝﾄ ﾊﾟﾄﾘｯｸﾃﾞｰ､ 四葉のｸﾛｰﾊﾞ",
     'sd_ss2' : "ｾﾝﾄ ﾊﾟﾄﾘｯｸﾃﾞｰ､ 金のつぼ",
+    'sd_ss3' : "Ides of March greenToon shirt",
     'tc_ss1' : "T-ｼｬﾂ ｺﾝﾃｽﾄ､ ﾌｨｯｼﾝｸﾞﾍﾞｽﾄ",
     'tc_ss2' : "T-ｼｬﾂ ｺﾝﾃｽﾄ､ 金魚ばち",
     'tc_ss3' : "T-ｼｬﾂ ｺﾝﾃｽﾄ､ 足あと",
@@ -7569,6 +8260,77 @@ ShirtStylesDescriptions = {
     'sa_ss23' : "ｱﾜｰﾄﾞｳｨﾝﾀｰ ｼｬﾂ 1",
     'sa_ss24' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ3",
     'sa_ss25' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ4",
+    'sa_ss26' : "Award Most Cogs Defeated Shirt",
+    'sa_ss27' : "Award Most V.P.s Defeated Shirt",
+    'sa_ss28' : "Award Sellbot Smasher Shirt",
+    'sa_ss29' : "Award Most C.J.s Defeated Shirt",
+    'sa_ss30' : "Award Lawbot Smasher Shirt",
+    'sa_ss31' : "Award Racing Shirt 3",
+    'sa_ss32' : "Award Fishing Shirt 4",
+    'sa_ss33' : "Award Golf Shirt 3",
+    'sa_ss34' : "Award Most Cogs Defeated Shirt 2",
+    'sa_ss35' : "Award Racing Shirt 4",
+    'sa_ss36' : "Award Save Building Shirt 3",
+    'sa_ss37' : "Award Trolley Shirt 3",
+    'sa_ss38' : "Award Fishing Shirt 5",
+    'sa_ss39' : "Award Golf Shirt 4",
+    'sa_ss40' : "Award Halloween Witchy Moon Shirt",
+    'sa_ss41' : "Award Winter Holiday Sled Shirt",
+    'sa_ss42' : "Award Halloween Batty Moon Shirt",
+    'sa_ss43' : "Award Winter Holiday Mittens Shirt",
+    'sa_ss44' : "Award Fishing Shirt 6",
+    'sa_ss45' : "Award Fishing Shirt 7",
+    'sa_ss46' : "Award Golf Shirt 5",
+    'sa_ss47' : "Award Racing Shirt 5",
+    'sa_ss48' : "Award Racing Shirt 6",
+    'sa_ss49' : "Award Most Cogs Defeated shirt 3",
+    'sa_ss50' : "Award Most Cogs Defeated shirt 4",
+    'sa_ss51' : "Award Trolley shirt 4",
+    'sa_ss52' : "Award Trolley shirt 5",
+    'sa_ss53' : "Award Save Building Shirt 4",
+    'sa_ss54' : "Award Save Building Shirt 5",
+    'sa_ss55' : "Award Anniversary",
+
+    # Scientists
+    'sc_1' : "Scientist top 1",
+    'sc_2' : "Scientist top 2",
+    'sc_3' : "Scientist top 3",
+
+    # Silly Story Shirts
+    'sil_1' : "Silly Mailbox Shirt",
+    'sil_2' : "Silly Trash Can Shirt",
+    'sil_3' : "Loony Labs Shirt",
+    'sil_4' : "Silly Hydrant Shirt",
+    'sil_5' : "Sillymeter Whistle Shirt",
+    'sil_6' : "Silly Cog-Crusher Shirt",
+    'sil_7' : "Victory Party Shirt 1",
+    'sil_8' : "Victory Party Shirt 2",
+
+    # Placeholder Emblem Shirts
+    'emb_us1' : "placeholder emblem shirt 1",
+    'emb_us2' : "placeholder emblem shirt 2",
+    'emb_us3' : "placeholder emblem shirt 3",
+
+    # Sellbot Icon Shirt
+    'sb_1' : "Sellbot Icon Shirt",
+
+    # Lawbot Icon Shirt
+    'lb_1' : "Lawbot Icon Shirt",
+
+    # Jellybean Shirt
+    'jb_1' : "Jellybean Shirt",
+
+    # Doodle Shirt
+    'jb_2' : "Doodle Shirt",
+
+    # No longer in use.
+    #'cr_1' : "Mailbox Shirt",
+    #'cr_2' : "Trashcan Shirt",
+    #'cr_3' : "Loony Labs Shirt",
+    #'cr_4' : "Hydrant Shirt",
+
+    # Get Connected Shirt
+    'ugcms' : "Get Connected Mover & Shaker",
 
     # name : [ shirtIdx, sleeveIdx, [(ShirtColorIdx, sleeveColorIdx), ... ]]
     }
@@ -7596,6 +8358,7 @@ BottomStylesDescriptions = {
     'c_bs2' : "ｺﾞｰﾙﾄﾞ ｶﾌｽ ｽﾄﾗｲﾌﾟ",
     'c_bs5' : 'ｼﾘｰｽﾞ7  - ｸﾞﾘｰﾝｽﾄﾗｲﾌﾟ',
     'sd_bs1' : 'ﾚﾌﾟﾗｺｰﾝ ﾊﾟﾝﾂ',
+    'sd_bs2' : "Ides of March greenToon shorts",
     'pj_bs1' : 'ﾊﾞﾅﾅ ﾊﾟｼﾞｬﾏ ﾊﾟﾝﾂ',
     'pj_bs2' : 'ﾎｰﾝ ﾊﾟｼﾞｬﾏ ﾊﾟﾝﾂ',
     'pj_bs3' : 'ﾒｶﾞﾈ ﾊﾟｼﾞｬﾏ ﾊﾟﾝﾂ',
@@ -7603,7 +8366,14 @@ BottomStylesDescriptions = {
     'wh_bs2' : 'ｳｨﾝﾀｰﾎﾘﾃﾞｰ 短パン2',
     'wh_bs3' : 'ｳｨﾝﾀｰﾎﾘﾃﾞｰ 短パン3',
     'wh_bs4' : 'ｳｨﾝﾀｰﾎﾘﾃﾞｰ 短パン4',
+    'hw_bs1' : "Halloween Bee Shorts male",
+    'hw_bs2' : "Halloween Pirate Shorts male",
+    'hw_bs5' : "Halloween SuperToon Shorts male",
+    'hw_bs6' : "Halloween Vampire NoCape Shorts male",
+    'hw_bs7' : "Halloween Dinosaur Shorts male",
 
+    # Silly Story Shorts
+    'sil_bs1' : 'Silly Cog-Crusher Shorts',
 
     # -------------------------------------------------------------------------
     # Girl styles (shorts and skirts)
@@ -7634,6 +8404,7 @@ BottomStylesDescriptions = {
     'vd_gs3' : '緑・赤のﾊｰﾄ',
     'c_gsk4' : 'ﾚｲﾝﾎﾞｰ ? ｼﾘｰｽﾞ3',
     'sd_gs1' : 'St. ﾊﾟﾄﾘｯｸ 短パン',
+    'sd_gs2' : 'Ides of March greenToon skirt',
     'c_gsk5' : 'ｳｴｽﾀﾝ ｽｶｰﾄ1',
     'c_gsk6' : 'ｳｴｽﾀﾝ ｽｶｰﾄ2',
     # Western shorts
@@ -7655,18 +8426,66 @@ BottomStylesDescriptions = {
     'sa_bs3' : "ﾊﾟｰﾃｨｰ 短パン",
     'sa_bs4' : "ﾚｰｼﾝｸﾞ 短パン",
     'sa_bs5' : "ｻﾏｰ 短パン",
+    'sa_bs6' : "Award Golf Shorts 1",
+    'sa_bs7' : "Award Halloween Costume Shorts 1",
+    'sa_bs8' : "Award Halloween Costume Shorts 2",
+    'sa_bs9' : "Award Save Building Shorts 1",
+    'sa_bs10' : "Award Trolley Shorts 1",
+    'sa_bs11' : "Award Halloween Spider Shorts",
+    'sa_bs12' : "Award Halloween Skeleton Shorts",
+    'sa_bs13' : "Award Sellbot Smasher Shorts male",
+    'sa_bs14' : "Award Lawbot Smasher Shorts male",
+    'sa_bs15' : "Award Racing Shorts 1",
+    'sa_bs16' : "Award Golf Shorts 3",
+    'sa_bs17' : "Award Racing Shorts 4",
+    'sa_bs18' : "Award Golf Shorts 4",
+    'sa_bs19' : "Award Golf Shorts 5",
+    'sa_bs20' : "Award Racing Shorts 5",
+    'sa_bs21' : "Award Racing Shorts 6",
+
     'sa_gs1' : "ﾌｨｯｼﾝｸﾞ ｽｶｰﾄ",
     'sa_gs2' : "ｶﾞｰﾃﾞﾆﾝｸﾞ  ｽｶｰﾄ",
     'sa_gs3' : "ﾊﾟｰﾃｨｰｽｶｰﾄ",
     'sa_gs4' : "ﾚｰｼﾝｸﾞ ｽｶｰﾄ",
     'sa_gs5' : "ｻﾏｰ ｽｶｰﾄ",
     'sa_gs6' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ ｽｶｰﾄ 1",
-    'sa_gs7' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ ｽｶｰﾄ 1",
-    'sa_gs8' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ ｽｶｰﾄ 2",
+    'sa_gs7' : "Award Halloween Bee Skirt",
+    'sa_gs8' : "Award Halloween SuperToon Skirt",
     'sa_gs9' : "ｱﾜｰﾄﾞ ｾｰﾌﾞ ﾋﾞﾙﾃﾞｨﾝｸﾞ ｽｶｰﾄ 1",
     'sa_gs10' : "ｱﾜｰﾄﾞ ﾄﾛﾘｰ ｽｶｰﾄ 1",
-    'sa_gs11' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｽｶｰﾄ 3",
-    'sa_gs12' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｽｶｰﾄ 4"
+    'sa_gs11' : "Award Halloween Skeleton Skirt",
+    'sa_gs12' : "Award Halloween Spider Skirt",
+    'sa_gs13' : "Award Sellbot Smasher Shorts female",
+    'sa_gs14' : "Award Lawbot Smasher Shorts female",
+    'sa_gs15' : "Award Racing Skirt 1",
+    'sa_gs16' : "Award Golf Skirt 2",
+    'sa_gs17' : "Award Racing Skirt 4",
+    'sa_gs18' : "Award Golf Skirt 3",
+    'sa_gs19' : "Award Golf Skirt 4",
+    'sa_gs20' : "Award Racing Skirt 5",
+    'sa_gs21' : "Award Racing Skirt 6",
+
+    'sc_bs1' : "Scientist bottom male 1",
+    'sc_bs2' : "Scientist bottom male 2",
+    'sc_bs3' : "Scientist bottom male 3",
+
+    'sc_gs1' : "Scientist bottom female 1",
+    'sc_gs2' : "Scientist bottom female 2",
+    'sc_gs3' : "Scientist bottom female 3",
+
+    'sil_bs1' : "Silly Cog-Crusher Shorts male",
+    'sil_gs1' : "Silly Cog-Crusher Shorts female",
+
+    'hw_bs3' : "Halloween Vampire Shorts male",
+    'hw_gs3' : "Halloween Vampire Shorts female",
+    'hw_bs4' : "Halloween Turtle Shorts male",
+    'hw_gs4' : "Halloween Turtle Shorts female",
+    'hw_gs1' : "Halloween Bee Shorts female",
+    'hw_gs2' : "Halloween Pirate Shorts female",
+    'hw_gs5' : "Halloween SuperToon Shorts female",
+    'hw_gs6' : "Halloween Vampire NoCape Shorts female",
+    'hw_gs7' : "Halloween Dinosaur Shorts female",
+    'hw_gsk1' : "Halloween Pirate Skirt",
     }
 
 AwardMgrBoy = "男の子"
@@ -7702,6 +8521,7 @@ RentalHours = "時間"
 RentalOf = "の"
 RentalCannon = "ﾚﾝﾀﾙｷｬﾉﾝ"
 RentalGameTable = "ｹﾞｰﾑ・ﾃｰﾌﾞﾙ!"
+RentalTime = "時間の"
 
 EstateCannonGameEnd = "キャノンのレンタルが終わりました。"
 GameTableRentalEnd = "ゲーム・テーブルのレンタルが終わりました。"
@@ -7714,11 +8534,9 @@ NametagPaid = "シチズン・ネームタグ"
 NametagAction = "デザイン・ネームタグ"
 NametagFrilly = "ポップ・ネームタグ"
 
-MessageConfirmRent = "レンタルする？後でレンタルしたければキャンセルしてね。"
-MessageConfirmGarden = "ガーデニングするかい？"
-
 FurnitureYourOldCloset = "キミの古いクローゼット"
 FurnitureYourOldBank = "キミの古い銀行"
+FurnitureYourOldTrunk = "your old trunk"
 
 # How to put quotation marks around chat items--don't translate yet.
 ChatItemQuotes = '"%s"'
@@ -7820,6 +8638,7 @@ FurnitureNames = {
   1320 : "5000コ貯ビーン箱",
   1330 : "7500コ貯ビーン箱",
   1340 : "10000コ貯ビーン箱",
+  1350 : "12000コ貯ビーン箱",
   1399 : "電話",
   1400 : "ｾｻﾞﾝﾇ･ﾄｩｰﾝの絵",
   1410 : "お花",
@@ -7829,6 +8648,7 @@ FurnitureNames = {
   1441 : "ホイッスルホース",
   1442 : "トゥーンスター",
   1443 : "「パイじゃない」",
+  1450 : "Mickey and Minnie",
   1500 : "ラジオ",
   1510 : "ラジオ",
   1520 : "ラジオ",
@@ -7963,6 +8783,7 @@ AwardManagerFurnitureNames = {
   1320 : "5000 Bean Bank",
   1330 : "7500 Bean Bank",
   1340 : "10000 Bean Bank",
+  1350 : "12000 Bean Bank",
   1399 : "Telephone",
   1400 : "Cezanne Toon",
   1410 : "Flowers",
@@ -8022,6 +8843,27 @@ ClothingArticleNames = (
     )
 
 ClothingTypeNames = {
+    1001 : "Ghost Shirt",
+    1002 : "Pumpkin Shirt",
+    1112 : "Bee Shirt",
+    1113 : "Pirate Shirt",
+    1114 : "Super Toon Shirt",
+    1115 : "Vampire Shirt",
+    1116 : "Toonosaur Shirt",
+    1117 : "Bee Shorts",
+    1118 : "Pirate Shorts",
+    1119 : "Super Toon Shorts",
+    1120 : "Vampire Shorts",
+    1121 : "Toonosaur Shorts",
+    1122 : "Bee Shorts",
+    1123 : "Pirate Shorts",
+    1124 : "Super Toon Shorts",
+    1125 : "Vampire Shorts",
+    1126 : "Toonosaur Shorts",
+    1127 : "Pirate Skirt",
+    1304 : "O'Shirt",
+    1305 : "O'Shorts",
+    1306 : "O'Skirt",
     1400 : "ﾏｼｭｰのｼｬﾂ",
     1401 : "ｼﾞｪｼｶのｼｬﾂ",
     1402 : "ﾏﾘｯｻのｼｬﾂ",
@@ -8034,6 +8876,52 @@ ClothingTypeNames = {
     1606 : "ワナの洋服",
     1607 : "サウンドの洋服",
     1608 : "おとりの洋服",
+    1723 : "Bee Shirt",
+    1724 : "SuperToon Shirt",
+    1734 : "Bee Shorts",
+    1735 : "SuperToon Shorts",
+    1739 : "Bee Skirt",
+    1740 : "SuperToon Skirt",
+    1743 : "Skeleton Shirt",
+    1744 : "Spider Shirt",
+    1745 : "Spider Shorts",
+    1746 : "Skeleton Shorts",
+    1747 : "Skeleton Skirt",
+    1748 : "Spider Skirt",
+    1749 : "Silly Mailbox Shirt",
+    1750 : "Silly Trash Can Shirt",
+    1751 : "Loony Labs Shirt",
+    1752 : "Silly Hydrant Shirt",
+    1753 : "Silly Meter Shirt",
+    1754 : "Cog-Crusher Shirt",
+    1755 : "Cog-Crusher Shorts",
+    1756 : "Cog-Crusher Shorts",
+    1757 : "Victory Party Shirt",
+    1758 : "Relaxed Victory Shirt",
+    1763 : "Smashed Sellbot Shirt",
+    1764 : "Most V.P.s Defeated Shirt",
+    1765 : "Sellbot Smasher Shirt",
+    1766 : "Sellbot Smasher Shorts",
+    1767 : "Sellbot Smasher Shorts",
+    1768 : "Jellybean Bank Shirt",
+    1769 : "Doodle Shirt",
+    1770 : "Vampire Shirt",
+    1771 : "Turtle Shirt",
+    1772 : "Vampire Shorts",
+    1773 : "Vampire Shorts",
+    1774 : "Turtle Shorts",
+    1775 : "Turtle Shorts",
+    1776 : "Get Connected Mover & Shaker Shirt",
+    1777 : "Smashed Lawbot Shirt",
+    1778 : "Most C.J.s Defeated Shirt",
+    1779 : "Lawbot Smasher Shirt",
+    1780 : "Lawbot Smasher Shorts",
+    1781 : "Lawbot Smasher Shorts",
+    1782 : "Racing Shirt 3",
+    1783 : "Racing Shorts 1",
+    1784 : "Racing Skirt 1",
+    1801 : "Batty Moon Shirt",
+    1802 : "Mittens Shirt",
     }
 
 # CatalogSurfaceItem.py--don't translate yet.
@@ -8160,6 +9048,7 @@ WindowViewNames = {
     130 : "大通り",
     }
 
+SpecialEventNames = {
     1: "Generic Award",
     2: "Melville's Fishing Tournament",
     3: "Billy Budd's Fishing Tournament",
@@ -8173,9 +9062,9 @@ WindowViewNames = {
    11: "ToonTask Derby",
    12: "Save a Building Marathon",
    13: "Most Cogs Defeated",
-   15: "Operation Storm Sellbot Event",
+   15: "Operation: Storm Sellbot Event",
    16: "Most C.J.s Defeated",
-   17: "Operation Lawbots Lose Event",
+   17: "Operation: Lawbots Lose Event",
 }
 
 
@@ -8224,6 +9113,7 @@ CatalogHangUp = "電話を切る"
 CatalogNew = "しんせいひん"
 CatalogBackorder = "バックオーダー"
 CatalogLoyalty = "スペシャル"
+CatalogEmblem = "EMBLEM"
 CatalogPagePrefix = "ページ"
 CatalogGreeting = "お電話ありがとうございます。\nクララベルのショッピングカタログです。ご注文は？"
 CatalogGoodbyeList = ["それじゃ！",
@@ -8246,16 +9136,23 @@ CatalogPurchaseItemOnOrder = "お買いあげありがとうございます！�
 CatalogPurchaseGiftItemOnOrder = "かしこまりました! %sへのギフトはうけとり人のメールボックスに配達されます。"
 CatalogAnythingElse = "ほかの商品はよろしいですか？"
 CatalogPurchaseClosetFull = "キミのクローゼットはいっぱいだね。 この品物を購入してもいいけど、もしかしたらこの品物が到着した時に、クローゼットのスペースにあきをもたせるため、なにかをすてる必要がでてくるよ。\n\nまだこの品物を購入したい？"
+CatalogPurchaseNoTrunk = "In order to wear this item, you need to buy a trunk.\n\nDo you still want to purchase this item?"
+CatalogPurchaseTrunkFull = "Your trunk is full. If you purchase this item, you'll need to delete another item from your trunk to make more room.\n\nDo you still want to purchase this item?"
 CatalogAcceptClosetFull = "キミのクローゼットはいっぱいだね。この品物をメールボックスからとってくる前に、それ用にスペースにあきをもたせるため、クローゼットにはいってなにかを削除しなきゃね。"
 CatalogAcceptShirt = "あたらしいシャツを着るよ。今まで着ていたのはキミのクローゼットに入っているよ。"
 CatalogAcceptShorts = "あたらしい短パンをはくよ。今まではいてたのはキミのクローゼットに入っているよ。"
 CatalogAcceptSkirt = "あたらしいスカートをはくよ。今まではいてたのはキミのクローゼットに入っているよ。"
+CatalogAcceptHat = "You are now wearing your new hat. The hat you were wearing before has been moved to your trunk."
+CatalogAcceptGlasses = "You are now wearing your new glasses. The glasses you were wearing before have been moved to your trunk."
+CatalogAcceptBackpack = "You are now wearing your new backpack. The backpack you were wearing before has been moved to your trunk."
+CatalogAcceptShoes = "You are now wearing your new shoes. The shoes you were wearing before have been moved to your trunk."
 CatalogAcceptPole = "あたらしい釣ざおでもっと大きな魚を釣りに行こう！"
 CatalogAcceptPoleUnneeded = "これよりも良い釣りざおを持っているよ！"
 CatalogAcceptChat = "新しいスピードチャットのせりふを手に入れました!"
 CatalogAcceptEmote = "新しい“きもち”を手に入れました!"
 CatalogAcceptBeans = "ジェリービーンを受け取りました!"
 CatalogAcceptRATBeans = "トゥーン・リクルートのごほうびが届きました!"
+CatalogAcceptPartyRefund = "Your party was never started. Here's your refund!"
 CatalogAcceptNametag = "新しいネーム・タグが届いたよ！"
 CatalogAcceptGarden = "ガーデニングの道具が届いたよ!"
 CatalogAcceptPet = "キミのペットの新しいトリックを受け取りました!"
@@ -8302,6 +9199,7 @@ HDNonDeletableItem = "この種類の品物は削除できないよ！"
 HDNonDeletableBank = "キミの銀行は削除できないよ！"
 HDNonDeletableCloset = "キミのクローゼットは削除できないよ！"
 HDNonDeletablePhone = "キミの電話は削除できないよ！"
+HDNonDeletableTrunk = "You can't delete your trunk!"
 HDNonDeletableNotOwner = "キミは%s'sのものを削除できないよ！"
 HDHouseFull = "キミのうちが荷物でいっぱいだよ。部屋か屋根裏のアイテムを何か捨ててね。"
 
@@ -8391,6 +9289,9 @@ NPCToonNames = {
     # NPCPartyPerson
     2016 : "ﾊﾟｰﾃｨｰﾌﾟﾗﾝﾅｰの\nﾊﾟﾝﾌﾟｷﾝ",
     2017 : "ﾊﾟｰﾃｨｰﾌﾟﾗﾝﾅｰの\nﾎﾟﾘｰ",
+    2018 : "医者 Surlee",
+    2019 : "医者 Dimm",
+    2020 : "教授 Prepostera",
 
     # Silly Street
     2101 : "はいしゃのダニエル",
@@ -9085,6 +9986,32 @@ NPCToonNames = {
     9236 : lHQOfficerM,
     9237 : "りょうしのジャン",
 
+    #
+    # Funny Farms / Field Office
+    #
+
+    9301 : "Phil Bettur",
+    9302 : "Emma Phatic",
+    9303 : "GiggleMesh",
+    9304 : "Anne Ville",
+    9305 : "Bud Erfingerz",
+    9306 : "J.S. Bark",
+    9307 : "Bea Sharpe",
+    9308 : "Otto Toon",
+    9309 : "Al Capella",
+    9310 : "Des Traction",
+    9311 : "Dee Version",
+    9312 : "Bo Nanapeel",
+    7001 : "N. Prisoned",
+    7002 : "R.E. Leaseme",
+    7003 : "Lemmy Owte",
+    7004 : "T. Rapped",
+    7005 : "Little Helphere",
+    7006 : "Gimmy Ahand",
+    7007 : "Dewin Tymme",
+    7008 : "Ima Cagedtoon",
+    7009 : "Jimmy Thelock",
+
     # Tutorial IDs start at 20000, and are not part of this table.
     # Don't add any Toon id's at 20000 or above, for this reason!
     # Look in TutorialBuildingAI.py for more details.
@@ -9100,10 +10027,10 @@ zone2TitleDict = {
     2514 : ("トゥーンタウン バンク", ""),
     2516 : ("トゥーンタウン スクールハウス", ""),
     2518 : ("トゥーンタウン ライブラリー", ""),
-    2519 : (lGagShop, ""),
+    2519 : ("ギャグショップ", ""),
     2520 : (lToonHQ, ""),
-    2521 : (lClothingShop, ""),
-    2522 : (lPetShop, ""),
+    2521 : ("ようふくや", ""),
+    2522 : ("ペットショップ", ""),
     # titles for: phase_5/dna/toontown_central_2100.dna
     2601 : ("ニコニコ はいしゃ", ""),
     2602 : ("", ""),
@@ -9201,10 +10128,10 @@ zone2TitleDict = {
     2839 : ("パスパスパスタ", ""),
     2841 : ("", ""),
     # titles for: phase_6/dna/donalds_dock_sz.dna
-    1506 : (lGagShop, ""),
+    1506 : ("ギャグショップ", ""),
     1507 : (lToonHQ, ""),
-    1508 : (lClothingShop, ""),
-    1510 : (lPetShop, ""),
+    1508 : ("ようふくや", ""),
+    1510 : ("ペットショップ", ""),
     # titles for: phase_6/dna/donalds_dock_1100.dna
     1602 : ("中古 ライフセーバー ショップ", ""),
     1604 : ("ウェット スーツ ドライ クリーニング", ""),
@@ -9281,10 +10208,10 @@ zone2TitleDict = {
     1834 : ("ルディーの おもしろ ショップ", ""),
     1835 : ("", ""),
     # titles for: phase_6/dna/minnies_melody_land_sz.dna
-    4503 : (lGagShop, ""),
+    4503 : ("ギャグショップ", ""),
     4504 : (lToonHQ, ""),
-    4506 : (lClothingShop, ""),
-    4508 : (lPetShop, ""),
+    4506 : ("ようふくや", ""),
+    4508 : ("ペットショップ", ""),
     # titles for: phase_6/dna/minnies_melody_land_4100.dna
     4603 : ("トムトムの ドラム", ""),
     4604 : ("カッチコッチ タイム", ""),
@@ -9399,10 +10326,10 @@ zone2TitleDict = {
     4872 : ("フレディーの ギターショップ", ""),
     4873 : ("", ""),
     # titles for: phase_8/dna/daisys_garden_sz.dna
-    5501 : (lGagShop, ""),
+    5501 : ("ギャグショップ", ""),
     5502 : (lToonHQ, ""),
-    5503 : (lClothingShop, ""),
-    5505 : (lPetShop, ""),
+    5503 : ("ようふくや", ""),
+    5505 : ("ペットショップ", ""),
     # titles for: phase_8/dna/daisys_garden_5100.dna
     5601 : ("どんぐりまなこ メガネ店", ""),
     5602 : ("クタクタ ネクタイ店", ""),
@@ -9477,10 +10404,10 @@ zone2TitleDict = {
     # titles for: phase_8/dna/donalds_dreamland_sz.dna
     9501 : ("ララバイ ライブラリー", ""),
     9503 : ("バー こもりうた", ""),
-    9504 : (lGagShop, ""),
+    9504 : ("ギャグショップ", ""),
     9505 : (lToonHQ, ""),
-    9506 : (lClothingShop, ""),
-    9508 : (lPetShop, ""),
+    9506 : ("ようふくや", ""),
+    9508 : ("ペットショップ", ""),
     # titles for: phase_8/dna/donalds_dreamland_9100.dna
     9601 : ("ほしぞらホテル", ""),
     9602 : ("ウィンク まばたき ショップ", ""),
@@ -9552,10 +10479,10 @@ zone2TitleDict = {
     9756 : ("", ""),
     9759 : ("眠れる美女パーラー", ""),
     # titles for: phase_8/dna/the_burrrgh_sz.dna
-    3507 : (lGagShop, ""),
+    3507 : ("ギャグショップ", ""),
     3508 : (lToonHQ, ""),
-    3509 : (lClothingShop, ""),
-    3511 : (lPetShop, ""),
+    3509 : ("ようふくや", ""),
+    3511 : ("ペットショップ", ""),
     # titles for: phase_8/dna/the_burrrgh_3100.dna
     3601 : ("ノーザン ライト エレクトリックス", ""),
     3602 : ("北のご婦人 ぼうし屋", ""),
@@ -9673,6 +10600,19 @@ ClosetDeleteShirt = "シャツを\nすてる"
 ClosetDeleteShorts = "ズボンを\nすてる"
 ClosetDeleteSkirt = "ボトムを\nすてる"
 
+# DistributedTrunk.py
+TrunkNotOwnerMessage = "This isn't your trunk, but you may try on the accessories."
+TrunkNotPaidMessage = "Only Paid Members can wear accessories, but you may try them on."
+TrunkAreYouSureMessage = "You have deleted some accessories. Do you really want to delete them?"
+TrunkHat = "this hat"
+TrunkGlasses = "these glasses"
+TrunkBackpack = "this backpack"
+TrunkShoes = "these shoes"
+TrunkDeleteHat = "Delete\nhat"
+TrunkDeleteGlasses = "Delete\nglasses"
+TrunkDeleteBackpack = "Delete\nbackpack"
+TrunkDeleteShoes = "Delete\nshoes"
+
 # EstateLoader.py
 EstateOwnerLeftMessage = "ごめん、おうちの持ち主がいなくなっちゃった。 キミは%s秒以内にプレイグランドにワープするよ。"
 EstatePopupOK = lOK
@@ -9752,21 +10692,68 @@ PetTrait2descriptions = {
 
 # DistributedFireworkShow.py
 FireworksInstructions = lToonHQ+"：\"PageUp\"キーを押すと、よく見えるよ。"
+startFireworksResponse = "Usage: startFireworksShow [\'num\']\n \
+                                        \'num\' = %s - New Years\n \
+                                        %s - Party Summer \n \
+                                        %s - 4th of July"
 
 FireworksValentinesBeginning = ""
 FireworksValentinesEnding = ""
-FireworksJuly4Beginning = "トゥーンHQ：夏の花火大会へようこそ！楽しんでいってね！"
-FireworksJuly4Ending = "トゥーンHQ：花火楽しんでくれたかな？すてきな夏をすごしてね！"
+FireworksFebruary14Beginning = ""
+FireworksFebruary14Ending = ""
+FireworksJuly4Beginning = lToonHQ+"：夏の花火大会へようこそ！楽しんでいってね！"
+FireworksJuly4Ending = lToonHQ+"：花火楽しんでくれたかな？すてきな夏をすごしてね！"
 FireworksJuly14Beginning = lToonHQ+""
 FireworksJuly14Ending = lToonHQ+""
 FireworksOctober31Beginning = lToonHQ+""
 FireworksOctober31Ending = lToonHQ+""
 #FireworksNewYearsEveBeginning = lToonHQ+"：冬の花火大会へようこそ！"
 #FireworksNewYearsEveEnding = lToonHQ+"：明けましておめでとう！2010年もいっしょにサイコーの一年にしようね！"
+FireworksNovember19Beginning = lToonHQ+": Happy Birthday! Toontown turns 1 year old" # Germany
+FireworksNovember19Ending = lToonHQ+": Hope you enjoyed the show!" # Germany
 FireworksNewYearsEveBeginning = lToonHQ + "：タウン最後の花火大会へようこそ！"
 FireworksNewYearsEveEnding = lToonHQ + "：長い間本当にありがとう！みんな、さようなら！"
-FireworksBeginning = "トゥーンＨＱ：夏の花火へようこそ！楽しんでいってね！"
-FireworksEnding = "トゥーンＨＱ：花火楽しんでくれたかな？すてきな夏をすごしてね！"
+FireworksBeginning = lToonHQ+"：夏の花火へようこそ！楽しんでいってね！"
+FireworksEnding = lToonHQ+"：花火楽しんでくれたかな？すてきな夏をすごしてね！"
+FireworksComboBeginning = lToonHQ+": Enjoy lots of Laffs with Toon fireworks!"
+FireworksComboEnding = lToonHQ+": Thank you, Toons! Hope you enjoyed the show!"
+
+# ToontownLoadingBlocker.py
+BlockerTitle = "LOADING TOONTOWN..."
+BlockerLoadingTexts = [
+    "Scrubbing pie tins",
+    "Baking pie crusts",
+    "Heating pie filling",
+    "Loading Doodle chow",
+    "Stringing Jungle Vines",
+    "Uncaging those spiders who crawl down jungle vines",
+    "Planting squirting flower seeds",
+    "Stretching trampolines",
+    "Herding pigs",
+    "Tweaking 'SPLAT' sounds",
+    "Cleaning Hypno-glasses",
+    "Unbottling ink for Toon News",
+    "Clipping TNT fuses",
+    "Setting up 'Under Construction' sign in Acorn Acres",
+    "Waking Donald Duck",
+    "Teaching new moves to dancing fire hydrants",
+    "Binding Shticker Books",
+    "Analyzing quacks",
+    "Harvesting jellybean pods",
+    "Emptying fish buckets",
+    "Corralling trashcan trash",
+    "Spreading Cog grease",
+    "Polishing kart trophies",
+    "Balancing scale for weighing 1 Ton weights",
+    "Practicing Victory Dances",
+    "Preparing wackiness",
+    "Giving Mickey Mouse the 'five minutes' sign",
+    "Testing white gloves",
+    "Bending underwater rings",
+    "Spooling red tape",
+    "Freezing Brrrgh ice",
+    "Tuning falling pianos",
+    ]
 
 # ToontownLoadingScreen.py
 
@@ -10108,51 +11095,6 @@ FishSpeciesNames = {
            ),
     }
 
-CogPartNames = (
-    "左レッグ①", "左レッグ②", "左フット",
-    "右レッグ①", "右レッグ②", "右フット",
-    "左ショルダー",  "右ショルダー", "ボディ①", "コグメーター", "ボディ②",
-    "左アーム①",  "左アーム②", "左ハンド",
-    "右アーム①", "右アーム②", "右ハンド",
-    )
-
-CogPartNamesSimple = (
-    "ボディ上",
-    )
-
-# SellbotLegFactorySpec.py
-
-SellbotLegFactorySpecMainEntrance = "メインゲート"
-SellbotLegFactorySpecLobby = "ロビー"
-SellbotLegFactorySpecLobbyHallway = "廊下"
-SellbotLegFactorySpecGearRoom = "ギヤルーム"
-SellbotLegFactorySpecBoilerRoom = "ボイラールーム"
-SellbotLegFactorySpecEastCatwalk = "東の通路"
-SellbotLegFactorySpecPaintMixer = "ペンキルーム"
-SellbotLegFactorySpecPaintMixerStorageRoom = "ペンキルーム倉庫"
-SellbotLegFactorySpecWestSiloCatwalk = "西タワー通路"
-SellbotLegFactorySpecPipeRoom = "パイプルーム"
-SellbotLegFactorySpecDuctRoom = "ダクトルーム"
-SellbotLegFactorySpecSideEntrance = "サイドゲート"
-SellbotLegFactorySpecStomperAlley = "プレスルーム"
-SellbotLegFactorySpecLavaRoomFoyer = "ヨウガンルーム"
-SellbotLegFactorySpecLavaRoom = "ヨウガンルーム"
-SellbotLegFactorySpecLavaStorageRoom = "ヨウガンルーム倉庫"
-SellbotLegFactorySpecWestCatwalk = "西の通路"
-SellbotLegFactorySpecOilRoom = "オイルルーム"
-SellbotLegFactorySpecLookout = "見張り台"
-SellbotLegFactorySpecWarehouse = "倉庫"
-SellbotLegFactorySpecOilRoomHallway = "オイルルーム入口"
-SellbotLegFactorySpecEastSiloControlRoom = "東コントロールルーム"
-SellbotLegFactorySpecWestSiloControlRoom = "西コントロールルーム"
-SellbotLegFactorySpecCenterSiloControlRoom = "工場長の部屋"
-SellbotLegFactorySpecEastSilo = "東タワー屋上"
-SellbotLegFactorySpecWestSilo = "西タワー屋上"
-SellbotLegFactorySpecCenterSilo = "メインタワー屋上"
-SellbotLegFactorySpecEastSiloCatwalk = "東タワー通路"
-SellbotLegFactorySpecWestElevatorShaft = "西エレベーター"
-SellbotLegFactorySpecEastElevatorShaft = "東エレベーター"
-
 FishFirstNames = (
     "",
     "ｴﾝｼﾞｪﾙ",
@@ -10317,6 +11259,52 @@ FishLastSuffixNames = (
     "ﾄﾗｳﾄ",
     "ｳｫｰﾀｰ",
     )
+
+
+CogPartNames = (
+    "左レッグ①", "左レッグ②", "左フット",
+    "右レッグ①", "右レッグ②", "右フット",
+    "左ショルダー",  "右ショルダー", "ボディ①", "コグメーター", "ボディ②",
+    "左アーム①",  "左アーム②", "左ハンド",
+    "右アーム①", "右アーム②", "右ハンド",
+    )
+
+CogPartNamesSimple = (
+    "ボディ上",
+    )
+
+# SellbotLegFactorySpec.py
+
+SellbotLegFactorySpecMainEntrance = "メインゲート"
+SellbotLegFactorySpecLobby = "ロビー"
+SellbotLegFactorySpecLobbyHallway = "廊下"
+SellbotLegFactorySpecGearRoom = "ギヤルーム"
+SellbotLegFactorySpecBoilerRoom = "ボイラールーム"
+SellbotLegFactorySpecEastCatwalk = "東の通路"
+SellbotLegFactorySpecPaintMixer = "ペンキルーム"
+SellbotLegFactorySpecPaintMixerStorageRoom = "ペンキルーム倉庫"
+SellbotLegFactorySpecWestSiloCatwalk = "西タワー通路"
+SellbotLegFactorySpecPipeRoom = "パイプルーム"
+SellbotLegFactorySpecDuctRoom = "ダクトルーム"
+SellbotLegFactorySpecSideEntrance = "サイドゲート"
+SellbotLegFactorySpecStomperAlley = "プレスルーム"
+SellbotLegFactorySpecLavaRoomFoyer = "ヨウガンルーム"
+SellbotLegFactorySpecLavaRoom = "ヨウガンルーム"
+SellbotLegFactorySpecLavaStorageRoom = "ヨウガンルーム倉庫"
+SellbotLegFactorySpecWestCatwalk = "西の通路"
+SellbotLegFactorySpecOilRoom = "オイルルーム"
+SellbotLegFactorySpecLookout = "見張り台"
+SellbotLegFactorySpecWarehouse = "倉庫"
+SellbotLegFactorySpecOilRoomHallway = "オイルルーム入口"
+SellbotLegFactorySpecEastSiloControlRoom = "東コントロールルーム"
+SellbotLegFactorySpecWestSiloControlRoom = "西コントロールルーム"
+SellbotLegFactorySpecCenterSiloControlRoom = "工場長の部屋"
+SellbotLegFactorySpecEastSilo = "東タワー屋上"
+SellbotLegFactorySpecWestSilo = "西タワー屋上"
+SellbotLegFactorySpecCenterSilo = "メインタワー屋上"
+SellbotLegFactorySpecEastSiloCatwalk = "東タワー通路"
+SellbotLegFactorySpecWestElevatorShaft = "西エレベーター"
+SellbotLegFactorySpecEastElevatorShaft = "東エレベーター"
 
 #FISH BINGO
 FishBingoBingo = "ビンゴ！"
@@ -10689,10 +11677,9 @@ CircuitRaceStart = "グーフィー・サーキットでトゥーンタウン・
 CircuitRaceOngoing = "トゥーンタウン・グランプリをかいさい中だよ！"
 CircuitRaceEnd = "本日のトゥーンタウン・グランプリは終了しました。また来週月曜日に！"
 
-# Trick-or-Treat holiday
+# Scavenger hunt holidays
 TrickOrTreatMsg = 'キミはすでにこのトリートを\nみつけているよ！'
 
-# Caroling holiday
 WinterCarolingMsg = "You have already been caroling here!"
 
 #temp lawbot boss dialog text
@@ -10774,6 +11761,9 @@ PolarPlaceEffect1 = NPCToonNames[3306] + ": ポーラープレイスへようこ
 PolarPlaceEffect2 = NPCToonNames[3306] + ": ちょっとこれを着てサイズを見てくれる？"
 PolarPlaceEffect3 = NPCToonNames[3306] + ": このかっこうは " + lTheBrrrgh + "でしか、着れないけどねー"
 
+# Oak Street cheesy effect chat phrases
+GreenToonEffectMsg = NPCToonNames[5312] + ": You look Toontastic in green!"
+
 # LaserGrid game Labels
 LaserGameMine = "ガイコツを探せ！"
 LaserGameRoll = "マッチゲーム！"
@@ -10807,7 +11797,9 @@ StatuaryToonVictory = "勝利の像"
 StatuaryToonCrossedArms = '権威の像'
 StatuaryToonThinking = '喜びの像'
 StatuaryMeltingSnowman = 'とける雪だるま像'
+StatuaryMeltingSnowDoodle = "Melting SnowDoodle"
 StatuaryGardenAccelerator = "ﾖｸｿﾀﾞｰﾂ"
+AnimatedStatuaryFlappyCog = "Flappy Cog"
 #see GardenGlobals.py for corresponding FlowerColors
 FlowerColorStrings = ['ﾚｯﾄﾞ','ｵﾚﾝｼﾞ','ﾊﾞｲｵﾚｯﾄ','ﾌﾞﾙｰ','ﾋﾟﾝｸ','ｲｴﾛｰ','ﾎﾜｲﾄ','ｸﾞﾘｰﾝ']
 #see GardenGlobals.py for PlantAttributes, keys must match
@@ -10874,6 +11866,7 @@ FlowerFunnyNames = {
     }
 FlowerVarietyNameFormat = "%s %s"
 FlowerUnknown = "????"
+FloweringNewEntry = "New Entry"
 ShovelNameDict = {
     0 : "(スズ)",
     1 : "(銅)",
@@ -11036,6 +12029,7 @@ TravelGameWaitingChoices = "他のプレイヤーがとうひょうするのを�
 # e.g. NorthWest, NorthEast, etc.
 TravelGameDirections = ['上へ', '下へ']
 TravelGameTotals = 'ごうけい '
+TravelGameReasonVotes = 'とうひょう数%(numVotes)dで、トロリーは%(dir)s！'
 TravelGameReasonVotesPlural = 'とうひょう数%(numVotes)dで、トロリーは%(dir)s！'
 TravelGameReasonVotesSingular = 'とうひょう数%(numVotes)dで、トロリーは%(dir)s！'
 TravelGameReasonPlace = '%(name)sとどうてん！トロリーは%(dir)sすすむよ！'
@@ -11258,6 +12252,7 @@ GolfTimeTieBreakWinner = "%(name)sが最短時間でタイブレークに勝利!
 RoamingTrialerWeekendStart = "ツアー・トゥーンタウンが始まるよ！フリー・プランの入場制限が解除されるよ！"
 RoamingTrialerWeekendOngoing = "ツアー・トゥーンタウンへようこそ！フリー・プランの入場制限が解除されるよ！"
 RoamingTrialerWeekendEnd = "ツアー・トゥーンタウンは終了しました。"
+
 # change double if ToontownBattleGlobals.getMoreXpHolidayMultiplier() changes
 MoreXpHolidayStart = "Good news! Exclusive Test Toon double gag experience time has started."
 MoreXpHolidayOngoing = "Welcome! Exclusive Test Toon double gag experience time is currently ongoing."
@@ -11269,6 +12264,53 @@ PartyRewardDoubledJellybean = "ダブル・ジェリービーン!!"
 
 GrandPrixWeekendHolidayStart = "グーフィーサーキットでグランプリウィークエンド開催中！ ダレでも３連戦参加で大量ポイントゲットのチャンス！"
 GrandPrixWeekendHolidayEnd = "グランプリウィークエンドは終了しました。また次回に会おう！"
+
+KartRace_DoubleTickets = "Double Tickets"
+
+SellbotNerfHolidayStart = "Operation: Storm Sellbot is happening now! Battle the VP today!"
+SellbotNerfHolidayEnd = "Operation: Storm Sellbot has ended. Great work, Toons!"
+
+LawbotNerfHolidayStart = "Operation: Lawbots Lose is happening now! Battle the CJ today!"
+LawbotNerfHolidayEnd = "Operation: Lawbots Lose has ended. Great work, Toons!"
+
+JellybeanTrolleyHolidayStart = "Double Bean Days for Trolley Games have begun!"
+JellybeanTrolleyHolidayEnd = "Double Bean Days for Trolley Games have ended!"
+
+JellybeanFishingHolidayStart = "Double Bean Days for Fishing have begun!"
+JellybeanFishingHolidayEnd = "Double Bean Days for Fishing have ended!"
+
+JellybeanPartiesHolidayStart = "It's Jellybean Week! Get Double Jellybean rewards!"
+JellybeanPartiesHolidayEnd = "That's all for Jellybean Week. See you next year."
+
+JellybeanMonthHolidayStart = "Celebrate Toontown with double beans, Cattlelog items and silly surprises!"
+
+BankUpgradeHolidayStart = "Something Toontastic happened to your Jellybean Bank!"
+
+HalloweenPropsHolidayStart = "It's Halloween in Toontown!"
+HalloweenPropsHolidayEnd = "Halloween has ended. Boo!"
+
+SpookyPropsHolidayStart = "The Silly Meter spins Toontown into spooky mode!"
+
+BlackCatHolidayStart = "Create a Black Cat - Today only!"
+BlackCatHolidayEnd = "Black Cat day has ended!"
+
+SpookyBlackCatHolidayStart = "Friday 13th means a Black Cat blast!"
+
+TopToonsMarathonStart = "The Top Toons New Year's Day Marathon has begun!"
+TopToonsMarathonEnd = "The Top Toons New Year's Day Marathon has ended."
+
+WinterDecorationsStart = "It's Winter Holiday time in Toontown!"
+WinterDecorationsEnd = "Winter Holiday is over - Happy New Year!"
+
+WackyWinterDecorationsStart = "Brrr! The Silly Meter goes from silly to chilly!"
+
+WinterCarolingStart = "Caroling has come to Toontown. Sing for your Snowman Head - see the Blog for details!"
+
+ExpandedClosetsStart = "Attention Toons: For a limited time, Members can purchase the new 50 item Closet from the Cattlelog for the low price of 50 jellybeans!"
+
+KartingTicketsHolidayStart = "Get double tickets from Practice races at Goofy Speedway today!"
+
+IdesOfMarchStart = "Toons go GREEN!"
 
 LogoutForced = "You have done something wrong\n and are being logged out automatically,\n additionally your account may be frozen.\n Try going on a walk outside, it is fun."
 
@@ -11283,6 +12325,7 @@ ElevatorBlockedRoom = "さきにたおすあいてがいるみたいだよ。"
 MolesLeft = "のこりのモグラ: %d"
 MolesInstruction = "モール・ストンプ！\nあかいモグラのうえにとびのろう！"
 MolesFinished = "モール・ストンプをクリア！"
+MolesPityWin = "Stomp Failed! But the moles left."
 MolesRestarted = "モール・ストンプにしっぱい！もういちど・・・"
 
 # DistributedGolfGreenGame.py
@@ -11568,8 +12611,38 @@ HolidayNamesInCalendar = {
    55: ("ニマイジタンの侵略", "ニマイジタン達の侵略からトゥーンタウンを守れ！"),
    56: ("リストラマンの侵略", "リストラマンの侵略からトゥーンタウンを守れ！"),
    57: ("Toon Caroling", "Celebrate Winter Holiday by caroling around Toontown for a \"cool\" reward!"),
-   59: ("“バレントゥーン”デー", "ハッピー“バレントゥーン”デーを2月12日から16日までいっしょにお祝いしよう!"),
-
+   59: ("“バレントゥーン”デー", "ハッピー“バレントゥーン”デーを2月12日から16日までいっしょにお祝いしよう!"), # Update
+   59: ("ValenToon's Day", "Celebrate ValenToon's Day from Feb 09 to Feb 16!"),
+   72: ("Yes Men Invasion", "Stop the Yes Men Cogs from invading Toontown!"),
+   73: ("Tightwad Invasion", "Stop the Tightwad Cogs from invading Toontown!"),
+   74: ("Telemarketers Invasion", "Stop the Telemarketer Cogs from invading Toontown!"),
+   75: ("Head Hunter Invasion", "Stop the Head Hunter Cogs from invading Toontown!"),
+   76: ("Spin Doctor Invasion", "Stop the Spin Doctor Cogs from invading Toontown!"),
+   77: ("Moneybags Invasion", "Stop the Moneybags from invading Toontown!"),
+   78: ("Two-faces Invasion", "Stop the Two-faces from invading Toontown!"),
+   79: ("Mingler Invasion", "Stop the Mingler Cogs from invading Toontown!"),
+   80: ("Loan Shark Invasion", "Stop the Loanshark Cogs from invading Toontown!"),
+   81: ("Corporate Raider Invasion", "Stop the Corporate Raider Cogs from invading Toontown!"),
+   82: ("Robber Baron Invasion", "Stop the Robber Baron Cogs from invading Toontown!"),
+   83: ("Legal Eagle Invasion", "Stop the Legal Eagle Cogs from invading Toontown!"),
+   84: ("Big Wig Invasion", "Stop the Big Wig Cogs from invading Toontown!"),
+   85: ("Big Cheese Invasion", "Stop the Big Cheese from invading Toontown!"),
+   86: ("Down Sizer Invasion", "Stop the Down Sizer Cogs from invading Toontown!"),
+   87: ("Mover & Shaker Invasion", "Stop the Mover & Shaker Cogs from invading Toontown!"),
+   88: ("Double Talker Invasion", "Stop the Double Talkers Cogs from invading Toontown!"),
+   89: ("Penny Pincher Invasion", "Stop the Penny Pinchers Cogs from invading Toontown!"),
+   90: ("Name Dropper Invasion", "Stop the Name Dropper Cogs from invading Toontown!"),
+   91: ("Ambulance Chaser Invasion", "Stop the Ambulance Chaser Cogs from invading Toontown!"),
+   92: ("Micro Manager Invasion", "Stop the Micro Manager Cogs from invading Toontown!"),
+   93: ("Number Cruncher Invasion", "Stop the Number Cruncher Cogs from invading Toontown!"),
+   95: ("Victory Parties", "Celebrate our historic triumph against the Cogs!"), # placeholder
+   96: ("Operation: Storm Sellbot", "Sellbot HQ is open to everyone. Let's go fight the VP!"),
+   97: ("Double Bean Days - Trolley Games", ""),
+   98: ("Double Bean Days - Fishing", ""),
+   99: ("Jellybean Week", "Celebrate Jellybean Week with double Jellybean rewards!"),
+   101: ("Top Toons New Year's Day Marathon", "Chances to win every hour! See the What's New Blog for details!"),
+   105: ("Toons go GREEN!", "Toons make a green scene at Green Bean Jeans on Oak Street in Daisy Gardens!"),
+   108: ("Operation: Lawbots Lose", "Lawbot HQ is open to everyone. Let's go fight the CJ!"),
 
     }
 
@@ -11578,3 +12651,137 @@ HolidayFormat = "%m/%d "
 
 # parties/ToontownTimeManager.py
 TimeZone = "Japan"
+# Cogdo Memos
+CogdoMemoGuiTitle = "Memos:"
+CogdoMemoNames = "Barrel-Destruction Memos"
+
+# Cogdo Stomper Game
+CogdoStomperName = "Stomp-O-Matic"
+
+# Cogdo Boardroom Game
+BoardroomGameTitle = "Boardroom Hijinks"
+BoardroomGameInstructions = ("The COGS are having a meeting to decide what to do with stolen gags. "
+                             "Slide on through and grab as many gag-destruction memos as you can!")
+
+# Cogdo Crane Game
+CogdoCraneGameTitle = "Vend-A-Stomper"
+CogdoCraneGameInstructions = ("The COGS are using a coin-operated machine to destroy laff barrels. "
+                              "Use the cranes to pick up and throw money bags, in order to prevent "
+                              "barrel destruction!")
+
+
+# Cogdo Maze Game
+# No longer in use.
+"""
+CogdoMazeGameTitle = "Moving & Shaking Dept."
+CogdoMazeGameInstructions = "The big Mover & Shaker Cogs have the code to open the door. Defeat them with your water balloons in order to get it!"
+CogdoMazeIntroMovieDialogue = (("This should give you Toons a shiver! We're powering our offices with your Laff, and you're powerless to stop us!",
+                                "This will make you Toons quake! We're destroying barrels of your Laff, and you cannot stop us!",
+                                "This may come as an aftershock, but we're crushing barrels of Toon Laff in our %s, and there's nothing you can do about it!" % CogdoStomperName),
+                                ("Don't get rattled, Toons! Fill your water balloons, splash the BIG Cogs, and retrieve the PASS CODE that opens the exit! Good luck from the Toon Resistance!",
+                                "Are you ready to rumble, Toons? Go to the water coolers and fill up balloons to throw at Cogs. Hit the BIG Cogs to get the pass code for the exit! Toon Resistance out!",
+                                "Want some good vibrations? Fill your balloons at the water coolers, splash the BIG Movers & Shakers, complete the PASS CODE, and find the way out! Good luck, Toons!"),
+                                ("Hmph! I'm a Silver Sprocket Award winner, I don't need this!",
+                                "You're on shaky ground, Toons!",
+                                "Before you know it, you'll all be trembling!"),
+                                )
+CogdoMazeGameDoorOpens = "The Pass Code opened the Exit!\nGet there before it's too late!"
+CogdoMazeGameLocalToonFoundExit = "This Exit will open when\nyou get the Pass Code from the Big Cogs!"
+CogdoMazeGameWaitingForToons = "Waiting for %d other Toons..."
+CogdoMazeGameTimeOut = "Oh No! Time ran out!\nYou lost your Memos!"
+CogdoMazeGameBossGuiTitle = "Pass Code:"
+CogdoMazeFindHint = "Find a Water Cooler!"
+CogdoMazeThrowHint = "Press 'Ctrl' to throw your water balloon!"
+CogdoMazeSquashHint = "Careful! Falling objects pop your balloon!"
+CogdoMazeBossHint = "Big Cogs take %i hits to take them down!"
+CogdoMazeMinionHint = "Minions will drop bonus Memos!"
+"""
+
+# Cogdo Maze Game
+CogdoMazeGameTitle = "Mover & Shaker\nField Office"
+CogdoMazeGameInstructions = "The big Mover & Shaker Cogs have the code to open the door. Defeat them with your water balloons in order to get it!"
+CogdoMazeIntroMovieDialogue = (("This is the Toon Resistance! The Movers & Shakers\nhave our Jokes, and they've locked the exit!",),
+                               ("Grab water balloons at coolers, and throw them at Cogs!\nSmall Cogs drop Jokes, BIG COGS open the exit.",),
+                               ("The more Jokes you rescue, the bigger your Toon-Up\nat the end. Good luck!",),
+                               )
+CogdoMazeGameDoorOpens = "THE EXIT IS OPEN FOR 60 SECONDS!\nGET THERE FAST FOR A BIGGER TOON-UP!"
+CogdoMazeGameLocalToonFoundExit = "The exit will open when\nyou've busted all four BIG COGS!"
+CogdoMazeGameWaitingForToons = "Waiting for other Toons..."
+CogdoMazeGameTimeOut = "Oh no, time ran out! You lost your jokes."
+CogdoMazeGameTimeAlert = "Hurry up! 60 seconds to go!"
+CogdoMazeGameBossGuiTitle = "BIG COGS:"
+CogdoMazeFindHint = "Find a Water Cooler!"
+CogdoMazeThrowHint = "Press 'Ctrl' to throw your water balloon!"
+CogdoMazeSquashHint = "Falling objects pop your balloon!"
+CogdoMazeBossHint = "Big Cogs take TWO hits to defeat!"
+CogdoMazeMinionHint = "Smaller Cogs drop jokes!"
+
+# Cogdo Flying Game
+CogdoFlyingGameTitle = "Legal Eagle Offices"
+CogdoFlyingGameInstructions = "Fly through the Legal Eagles' lair. Watch out for obstacles and cogs along the way, and don't forget to refuel your helicopter!"
+CogdoFlyingIntroMovieDialogue = (("You won't ruffle our feathers, Toons! We're destroying barrels of your Laff, and you cannot stop us!",
+                                  "A flock of Toons! We're crushing barrels of your Laff in our %s, and there's nothing you can do about it!" % CogdoStomperName,
+                                  "You can't egg us on, Toons! We're powering our offices with your Laff, and you're powerless to stop us!"),
+                                 ("This is the Toon Resistance! A little bird told me you can use propellers to fly around, grab Barrel Destruction Memos, and keep Laff from being destroyed! Good luck, Toons!",
+                                  "Attention Toons! Wing it with a propeller and collect Barrel Destruction Memos to keep our Laff from being stomped! Toon Resistance out!",
+                                  "Toon Resistance here! Cause a flap by finding propellers, flying to the Barrel Destruction Memos, and keeping our Laff from being smashed! Have fun!"),
+                                 ("Squawk! I'm a Silver Sprocket Award winner, I don't need this!",
+                                  "Do your best, Toons! You will find us to be quite talon-ted!",
+                                  "We'll teach you to obey the pecking order, Toons!"),
+                                  )
+CogdoFlyingGameWaiting = "Waiting for other Toons%s"
+CogdoFlyingGameFuelLabel = "Fuel"
+CogdoFlyingGameLegalEagleTargeting = "A Legal Eagle has noticed you!"
+CogdoFlyingGameLegalEagleAttacking = "Incoming Eagle!"
+CogdoFlyingGamePickUpAPropeller = "You need a propeller to fly!"
+CogdoFlyingGamePressCtrlToFly = "Press 'Ctrl' to fly up!"
+CogdoFlyingGameYouAreInvincible = "Red Tape protects you!"
+CogdoFlyingGameTimeIsRunningOut = "Time is running out!"
+CogdoFlyingGameMinimapIntro = "This meter shows your progress!\nX marks the finish line."
+CogdoFlyingGameMemoIntro = "Memos prevent Laff Barrels in\nthe Stomper Room from being destroyed!"
+CogdoFlyingGameOutOfTime = "Oh No! You ran out of time!"
+CogdoFlyingGameYouMadeIt = "You made it on time!"
+CogdoFlyingGameYouMadeIt = "Good work, you made it on time!"
+CogdoFlyingGameTakingMemos = "The legal eagles took all your memos!"
+
+# Cogdo Elevator Reward
+CogdoElevatorRewardLaff = "Great job, Toons!\nYou get a Toon-Up from the jokes you saved!"
+
+# Cogdo Executive Suite
+CogdoExecutiveSuiteTitle = "Executive Suite"
+CogdoExecutiveSuiteIntroMessage = "Oh no, they've got the shop keeper!\nDefeat the Cogs and free the captive."
+CogdoExecutiveSuiteToonThankYou = "Thanks for the rescue!\nIf you need help in a fight, use this SOS card to call my friend %s."
+CogdoExecutiveSuiteToonBye = "Bye!"
+
+# Silly Surge Terms
+SillySurgeTerms = {
+    1:  "Amusing Ascent!",
+    2:  "Silly Surge!",
+    3:  "Ridiculous Rise!",
+    4:  "Giggle Growth!",
+    5:  "Funny Fueling!",
+    6:  "Batty Boost!",
+    7:  "Crazy Climb!",
+    8:  "Jolly Jump!",
+    9:  "Loony Lift!",
+    10: "Hilarity Hike!",
+    11: "Insanity Increase!",
+    12: "Cracked-Uptick!"
+    }
+# Interactive Prop Text
+InteractivePropTrackBonusTerms = {
+    0:  "Super Toon-Up!",
+    1:  "",
+    2:  "",
+    3:  "",
+    4:  "Super Throw!",
+    5:  "Super Squirt!",
+    6:  "",
+}
+
+PlayingCardUnknown = "Card Name is unknown"
+
+# No longer in use.
+#AllTrickOrTreatFounded = "Trick or Treat"
+#TrickOrTreatScavengerHuntCompleted = "Trick or Treat"
+

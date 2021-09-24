@@ -5,6 +5,8 @@ PBPTonscreenText = 0.15
 RPdirectFrame = (1.95,1,0.75)
 RPtrackLabels = 0.045
 RPmeritBarLabels = 0.15
+RPskipScale = 0.2
+RPskipPos = (0, -.28)
 
 #battle/RewardPanel.py
 RPmeritLabelXPosition = 0.68
@@ -384,6 +386,7 @@ DSDintroText = 0.06
 DSDintroTextwordwrap = 25
 DSDwindowedButtonPos = (0.0961, 0, -0.221)
 DSDfullscreenButtonPos = (0.097, 0, -0.311)
+DSDembeddedButtonPos = (0.097, 0, -0.411)
 DSDcancel = 0.06
 DSDcancelButtonPositionX = 0.05
 
@@ -398,6 +401,17 @@ TPendFrame = 0.08
 
 #shtiker/ShtikerBook.py
 SBpageTab = 0.55
+
+#shtiker/OptionsPage.py
+OPoptionsTab = 0.07
+OPCodesInstructionPanelTextPos = (0, -0.01)
+OPCodesInstructionPanelTextWordWrap = 6
+OPCodesResultPanelTextPos = (0, .35)
+OPCodesResultPanelTextScale = 0.06
+OPCodesResultPanelTextWordWrap = 9
+OPCodesInputTextScale = 0.8
+OPCodesSubmitTextScale = 0.07
+OPCodesSubmitTextPos = (0, -0.02)
 
 #shtiker/MapPage.py
 MPbackToPlayground = 0.050
