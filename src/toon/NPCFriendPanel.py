@@ -243,7 +243,7 @@ class NPCFriendCard(DirectFrame):
             countText = (TTLocalizer.NPCFriendPanelRemaining % (count))
             self.sosCallButton['state'] = DGG.NORMAL
         else:
-            countText = "Unavailable"
+            countText = (TTLocalizer.NPCFriendPanelUnavailable)
             self.sosCallButton['state'] = DGG.DISABLED
 
         self.sosCountInfo['text'] = countText

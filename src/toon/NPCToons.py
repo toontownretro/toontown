@@ -248,7 +248,7 @@ NPCToonDict = {
     #          topTexture, bottomTexture)
     # These are for the tutorial. We do not actually use the zoneId here
     # But the quest posters need to know his name
-    20000 : (-1, lnames[20000], ("dll" ,"ms" ,"m" ,"m" ,7 ,0 ,7 ,7 ,2 ,6 ,2 ,6 ,2 ,16), "m", 1, NPC_REGULAR),
+    20000 : (-1, lnames[20000], ("dls" ,"ms" ,"m" ,"m" ,7 ,0 ,7 ,7 ,2 ,6 ,2 ,6 ,2 ,16), "m", 1, NPC_REGULAR),
     999 : (-1, lnames[999], "r", "m", 1, NPC_TAILOR),
     1000 : (-1, lnames[1000], "r", "m", 1, NPC_HQ),
     # Flippy DNA matches marketing materials
@@ -321,7 +321,7 @@ NPCToonDict = {
     2140 : (2156, lnames[2140],("dls" ,"ls" ,"l" ,"m" ,10 ,0 ,10 ,10 ,1 ,9 ,1 ,9 ,1 ,10 ,), "m", 0, NPC_FISHERMAN),
 
     2201 : (2711, lnames[2201],("dss" ,"ss" ,"l" ,"m" ,13 ,0 ,13 ,13 ,1 ,6 ,1 ,6 ,0 ,17 ,), "m", 1, NPC_REGULAR),
-    2202 : (2718, lnames[2202], "r", "f", 1, NPC_REGULAR),
+    2202 : (2748, lnames[2202], "r", "f", 1, NPC_REGULAR),
     2203 : (2742, lnames[2203],("fss" ,"ms" ,"s" ,"m" ,19 ,0 ,19 ,19 ,0 ,7 ,0 ,7 ,0 ,11 ,), "m", 1, NPC_HQ),
     2204 : (2742, lnames[2204],("fls" ,"ss" ,"s" ,"m" ,13 ,0 ,13 ,13 ,0 ,7 ,0 ,7 ,0 ,6 ,), "m", 1, NPC_HQ),
     2205 : (2742, lnames[2205],("rsl" ,"md" ,"s" ,"f" ,4 ,0 ,4 ,4 ,0 ,11 ,0 ,11 ,16 ,27 ,), "f", 1, NPC_HQ),
@@ -333,7 +333,7 @@ NPCToonDict = {
     2211 : (2716, lnames[2211],("cll" ,"ss" ,"s" ,"f" ,3 ,0 ,3 ,3 ,1 ,22 ,1 ,22 ,25 ,27 ,), "f", 1, NPC_REGULAR),
     2212 : (2717, lnames[2212],("css" ,"ls" ,"s" ,"m" ,18 ,0 ,18 ,18 ,1 ,9 ,1 ,9 ,0 ,18 ,), "m", 0, NPC_REGULAR),
     2213 : (2720, lnames[2213],("cls" ,"ls" ,"s" ,"f" ,12 ,0 ,12 ,12 ,1 ,23 ,1 ,23 ,11 ,27 ,), "f", 1, NPC_REGULAR),
-    2214 : (2723, lnames[2214], "r", "m", 0, NPC_REGULAR),
+    2214 : (2747, lnames[2214], "r", "m", 0, NPC_REGULAR),
     2215 : (2727, lnames[2215],("dss" ,"ls" ,"m" ,"m" ,18 ,0 ,18 ,18 ,0 ,11 ,0 ,11 ,0 ,9 ,), "m", 0, NPC_REGULAR),
     2216 : (2728, lnames[2216],("fll" ,"sd" ,"m" ,"f" ,11 ,0 ,11 ,11 ,0 ,25 ,0 ,25 ,12 ,27 ,), "f", 0, NPC_REGULAR),
     2217 : (2729, lnames[2217],("fsl" ,"ss" ,"m" ,"m" ,4 ,0 ,4 ,4 ,0 ,12 ,0 ,12 ,0 ,20 ,), "m", 1, NPC_REGULAR),

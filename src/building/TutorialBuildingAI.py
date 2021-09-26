@@ -45,7 +45,7 @@ class TutorialBuildingAI:
             self.air, 20000,
             (self.interiorZone,
              TTLocalizer.NPCToonNames[20000],
-             ("dll" ,"ms" ,"m" ,"m" ,7 ,0 ,7 ,7 ,2 ,6 ,2 ,6 ,2 ,16), "m", 1, NPCToons.NPC_REGULAR),
+             ("dls" ,"ms" ,"m" ,"m" ,7 ,0 ,7 ,7 ,2 ,6 ,2 ,6 ,2 ,16), "m", 1, NPCToons.NPC_REGULAR),
             self.interiorZone,
             questCallback=self.unlockInteriorDoor)
         # Flag him as being part of tutorial

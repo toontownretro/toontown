@@ -6039,6 +6039,7 @@ NPCFriendPageTitle = "ＳＯＳトゥーン"
 
 # NPCFriendPanel.py
 NPCFriendPanelRemaining = "のこり%s回"
+NPCFriendPanelUnavailable = "Unavailable"
 
 # EventsPage.py
 #もともとMonthsに“1月”という表現だったので画面上で「1月月」と

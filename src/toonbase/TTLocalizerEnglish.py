@@ -6701,6 +6701,7 @@ CalendarPartyNeverStarted = "Never Started."
 
 # NPCFriendPanel.py
 NPCFriendPanelRemaining = "%d Remaining"
+NPCFriendPanelUnavailable = "Unavailable"
 
 # MapPage.py
 MapPageTitle = "Map"
