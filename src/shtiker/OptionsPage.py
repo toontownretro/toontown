@@ -113,7 +113,6 @@ class OptionsPage(ShtikerPage.ShtikerPage):
 
         # Load the Fish Page to borrow its tabs
         gui = loader.loadModel( "phase_3.5/models/gui/fishingBook" )
-
         self.optionsTab = DirectButton(
             parent = self,
             relief = None,
@@ -364,6 +363,17 @@ class OptionsTabPage(DirectFrame):
                    textStartHeight - 3 * textRowHeight),
             )
 
+        self.Whispers_Label = DirectLabel(
+            parent=self, 
+            relief=None, 
+            text="", 
+            text_align=TextNode.ALeft, 
+            text_scale=options_text_scale, 
+            text_wordwrap=16, 
+            pos=(leftMargin, 0, 
+                 textStartHeight - 4 * textRowHeight),
+            )
+
         self.DisplaySettings_Label = DirectLabel(
             parent = self,
             relief = None,
@@ -372,7 +382,7 @@ class OptionsTabPage(DirectFrame):
             text_scale = options_text_scale,
             text_wordwrap = 10,
             pos = (leftMargin, 0,
-                   textStartHeight - 4 * textRowHeight),
+                   textStartHeight - 5 * textRowHeight),
             )
 
         self.SpeedChatStyle_Label = DirectLabel(
@@ -383,7 +393,7 @@ class OptionsTabPage(DirectFrame):
             text_scale = options_text_scale,
             text_wordwrap = 10,
             pos = (leftMargin, 0,
-                   textStartHeight - 5 * textRowHeight),
+                   textStartHeight - 6 * textRowHeight),
             )
 
         self.ToonChatSounds_Label = DirectLabel(
@@ -443,6 +453,22 @@ class OptionsTabPage(DirectFrame):
             command = self.__doToggleAcceptFriends,
             )
 
+        self.Whispers_toggleButton = DirectButton(
+            parent=self, 
+            relief=None, 
+            image=(guiButton.find('**/QuitBtn_UP'), 
+                   guiButton.find('**/QuitBtn_DN'), 
+                   guiButton.find('**/QuitBtn_RLVR'),
+                   ),
+            image_scale=button_image_scale, 
+            text="", 
+            text_scale=options_text_scale, 
+            text_pos=button_textpos, 
+            pos=(buttonbase_xcoord, 0.0, 
+                 buttonbase_ycoord - textRowHeight * 4),
+            command=self.__doToggleAcceptWhispers,
+            )
+
         self.DisplaySettingsButton = DirectButton(
             parent = self,
             relief = None,
@@ -457,7 +483,7 @@ class OptionsTabPage(DirectFrame):
             text_scale = options_text_scale,
             text_pos = button_textpos,
             pos = (buttonbase_xcoord, 0.0,
-                   buttonbase_ycoord - textRowHeight * 4),
+                   buttonbase_ycoord - textRowHeight * 5),
             command = self.__doDisplaySettings,
             )
 
@@ -472,7 +498,7 @@ class OptionsTabPage(DirectFrame):
             # make the disabled color more transparent
             image3_color = Vec4(1, 1, 1, 0.5),
             scale = (-1.0, 1.0, 1.0),  # make the arrow point left
-            pos = (0.25, 0, buttonbase_ycoord - textRowHeight * 5),
+            pos = (0.25, 0, buttonbase_ycoord - textRowHeight * 6),
             command = self.__doSpeedChatStyleLeft,
             )
 
@@ -486,7 +512,7 @@ class OptionsTabPage(DirectFrame):
                      ),
             # make the disabled color more transparent
             image3_color = Vec4(1, 1, 1, 0.5),
-            pos = (0.65, 0, buttonbase_ycoord - textRowHeight * 5),
+            pos = (0.65, 0, buttonbase_ycoord - textRowHeight * 6),
             command = self.__doSpeedChatStyleRight,
             )
 
@@ -517,7 +543,8 @@ class OptionsTabPage(DirectFrame):
             guiModelName='phase_3.5/models/gui/speedChatGui')
         self.speedChatStyleText.setScale(self.speed_chat_scale)
         # This will be horizontally centered later
-        self.speedChatStyleText.setPos(0.37, 0, -0.27)
+#        self.speedChatStyleText.setPos(0.37, 0, -0.27)
+        self.speedChatStyleText.setPos(0.37, 0, buttonbase_ycoord - textRowHeight * 6 + 0.03)
         self.speedChatStyleText.reparentTo(self, DGG.FOREGROUND_SORT_INDEX)
 
         self.exitButton = DirectButton(
@@ -558,6 +585,7 @@ class OptionsTabPage(DirectFrame):
         self.__setMusicButton()
         self.__setSoundFXButton()
         self.__setAcceptFriendsButton()
+        self.__setAcceptWhispersButton()
         self.__setDisplaySettings()
         self.__setToonChatSoundsButton()
 
@@ -574,6 +602,7 @@ class OptionsTabPage(DirectFrame):
 
     def exit(self):
         assert self.notify.debugStateCall(self)
+        self.ignore("confirmDone")
         self.hide()
         if(self.settingsChanged != 0):
             Settings.writeSettings()
@@ -610,6 +639,7 @@ class OptionsTabPage(DirectFrame):
         self.Music_toggleButton.destroy()
         self.SoundFX_toggleButton.destroy()
         self.Friends_toggleButton.destroy()
+        self.Whispers_toggleButton.destroy()
         self.DisplaySettingsButton.destroy()
         self.speedChatStyleLeftArrow.destroy()
         self.speedChatStyleRightArrow.destroy()
@@ -617,10 +647,12 @@ class OptionsTabPage(DirectFrame):
         del self.SoundFX_Label
         del self.Music_Label
         del self.Friends_Label
+        del self.Whispers_Label
         del self.SpeedChatStyle_Label
         del self.SoundFX_toggleButton
         del self.Music_toggleButton
         del self.Friends_toggleButton
+        del self.Whispers_toggleButton
         del self.speedChatStyleLeftArrow
         del self.speedChatStyleRightArrow
         self.speedChatStyleText.exit()
@@ -724,6 +756,17 @@ class OptionsTabPage(DirectFrame):
         # maybe we shouldn't be saving it at all, and force the user
         # to re-enable it at each session.
 
+    def __doToggleAcceptWhispers(self):
+        messenger.send('wakeup')
+        if base.localAvatar.acceptingNonFriendWhispers:
+            base.localAvatar.acceptingNonFriendWhispers = 0
+            Settings.setAcceptingNonFriendWhispers(0)
+        else:
+            base.localAvatar.acceptingNonFriendWhispers = 1
+            Settings.setAcceptingNonFriendWhispers(1)
+        self.settingsChanged = 1
+        self.__setAcceptWhispersButton()
+
     def __setAcceptFriendsButton(self):
         if base.localAvatar.acceptingNewFriends:
             self.Friends_Label['text'] = TTLocalizer.OptionsPageFriendsEnabledLabel
@@ -731,6 +774,14 @@ class OptionsTabPage(DirectFrame):
         else:
             self.Friends_Label['text'] = TTLocalizer.OptionsPageFriendsDisabledLabel
             self.Friends_toggleButton['text'] = TTLocalizer.OptionsPageToggleOn
+
+    def __setAcceptWhispersButton(self):
+        if base.localAvatar.acceptingNonFriendWhispers:
+            self.Whispers_Label['text'] = TTLocalizer.OptionsPageWhisperEnabledLabel
+            self.Whispers_toggleButton['text'] = TTLocalizer.OptionsPageToggleOff
+        else:
+            self.Whispers_Label['text'] = TTLocalizer.OptionsPageWhisperDisabledLabel
+            self.Whispers_toggleButton['text'] = TTLocalizer.OptionsPageToggleOn
 
     def __doDisplaySettings(self):
         if self.displaySettings == None:
@@ -815,7 +866,7 @@ class OptionsTabPage(DirectFrame):
         self.speedChatStyleText.finalize()
         # manual horizonal centering
         self.speedChatStyleText.setPos(
-            0.445 - self.speedChatStyleText.getWidth() * self.speed_chat_scale / 2, 0, -0.27)
+            0.445 - self.speedChatStyleText.getWidth() * self.speed_chat_scale / 2, 0, self.speedChatStyleText.getPos()[2]) # -0.27)
 
         # show the appropriate arrows
         if self.speedChatStyleIndex > 0:
@@ -841,13 +892,14 @@ class OptionsTabPage(DirectFrame):
         # this method explicitly, before the timer has expired).
         taskMgr.remove(self.DisplaySettingsTaskName)
 
-        self.notify.info("writing new display settings %s, %s, %s to SettingsFile." %
-                         (self.displaySettingsSize, self.displaySettingsFullscreen,
+        self.notify.info("writing new display settings %s, fullscreen %s, embedded %s, %s to SettingsFile." %
+                         (self.displaySettingsSize, self.displaySettingsFullscreen, self.displaySettingsEmbedded,
                           self.displaySettingsApi))
 
         Settings.setResolutionDimensions(self.displaySettingsSize[0], self.displaySettingsSize[1])
 
         Settings.setWindowedMode(not self.displaySettingsFullscreen)
+        Settings.setEmbeddedMode(self.displaySettingsEmbedded)
         if self.displaySettingsApiChanged:
             api = self.DisplaySettingsApiMap.get(self.displaySettingsApi)
             if api == None:

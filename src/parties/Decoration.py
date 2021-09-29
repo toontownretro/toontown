@@ -217,8 +217,8 @@ class Decoration(NodePath):
             self.hydra.reparentTo(self)
 
         elif self._name == "TubeCogVictory":
-            self.tubeCog = Actor.Actor("phase_13/models/parties/tt_a_ara_pty_tubeCogVictory_default", \
-                                            {'wave' : 'phase_13/models/parties/tt_a_ara_pty_tubeCogVictory_wave' })
+            self.tubeCog = Actor.Actor("phase_5.5/models/estate/tt_a_ara_pty_tubeCogVictory_default", \
+                                            {'wave' : 'phase_5.5/models/estate/tt_a_ara_pty_tubeCogVictory_wave' })
             st = random.randint(0,10)
             animIval = ActorInterval(self.tubeCog, "wave")
             animIvalDur = animIval.getDuration()

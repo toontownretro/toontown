@@ -329,7 +329,7 @@ QuestsDefaultReject = ("Bonjour.",
                        "Si tu gagnes un combat, ton défitoon est crédité pour chaque " + Cog + " vaincu.",
                        "Si tu regagnes un bâtiment " + Cog + ", retourne à l'intérieur pour recevoir un remerciement spécial de la part de son propriétaire !",
                        "Si tu appuies sur la touche \"page précédente\", tu peux regarder vers le haut !",
-                       "Si tu appuies sur la touche de tabulation, tu peux voir différents points de vue de ce qui t'entoure!",
+                       "Si tu appuies sur la touche de tabulation, tu peux voir différents points de vue de ce qui t'entoure !",
                        "Pour montrer à tes amis ce que tu penses, entre un '.' avant ta pensée.",
                        "Si un " + Cog + " est assommé, il lui est plus difficile d'éviter les objets qui tombent.",
                        "Chaque type de bâtiment " + Cog + " a un aspect différent.",
@@ -2405,7 +2405,7 @@ AvatarDetailPanelCancel = lCancel
 AvatarDetailPanelClose = lClose
 AvatarDetailPanelLookup = "Recherche de coordonnées pour %s."
 AvatarDetailPanelFailedLookup = "Impossible d'obtenir les coordonnées de %s."
-#AvatarDetailPanelPlayer = "Joueur: %(player)s\nMonde: %(world)s\nLieu: %(location)s"
+#AvatarDetailPanelPlayer = "Joueur : %(player)s\nMonde : %(world)s\nLieu : %(location)s"
 # sublocation is not working now
 AvatarDetailPanelPlayer = "Joueur : %(player)s\nMonde : %(world)s"
 AvatarDetailPanelPlayerShort = "%(player)s\nMonde : %(world)s\nLieu : %(location)s"
@@ -2432,8 +2432,8 @@ AvatarPanelIgnore = "Ignorer"
 AvatarPanelIgnoreCant = "OK"
 AvatarPanelStopIgnoring = "Arrête d'ignorer"
 AvatarPanelReport = "Signaler"
-#AvatarPanelCogDetail = "Dépt : %s\nNiveau: %s\n"
-AvatarPanelCogLevel = "Niveau: %s"
+#AvatarPanelCogDetail = "Dépt : %s\nNiveau : %s\n"
+AvatarPanelCogLevel = "Niveau : %s"
 AvatarPanelCogDetailClose = lClose
 AvatarPanelDetail = "Détails du Toon"
 AvatarPanelGroupInvite = "Inviter dans le groupe"
@@ -2467,7 +2467,7 @@ ReportPanelConfirmations = (
     )
 
 # Put on confirmation screen!
-ReportPanelWarning = "Nous prenons les rapports très au sérieux. Ton rapport sera examiné par un modérateur, qui prendra les mesures appropriées envers toute personne ayant enfreint nos règles. S'il s'avère que ton compte a lui-même enfreint les règles, ou si tu fais de faux signalements ou utilises la fonction «Signaler un joueur» de manière abusive, un modérateur pourrait prendre des mesures contre ton compte. Es-tu sûr de vouloir signaler ce joueur?"
+ReportPanelWarning = "Nous prenons les rapports très au sérieux. Ton rapport sera examiné par un modérateur, qui prendra les mesures appropriées envers toute personne ayant enfreint nos règles. S'il s'avère que ton compte a lui-même enfreint les règles, ou si tu fais de faux signalements ou utilises la fonction «Signaler un joueur» de manière abusive, un modérateur pourrait prendre des mesures contre ton compte. Es-tu sûr de vouloir signaler ce joueur ?"
 
 ReportPanelThanks = "Merci. Ton rapport a été envoyé à un modérateur qui se chargera de son examen. Tu n'as pas besoin de nous contacter à nouveau concernant cet incident. L'équipe chargée de la modération prendra les mesures qui s'imposent à l'encontre de tout joueur ayant enfreint nos règles."
 
@@ -2724,7 +2724,7 @@ ToonHealJokes = [
      "Le sol."],
     ["Pourquoi les trains électriques vont-ils plus vite que les trains à vapeur ?",
      "Parce qu'ils ont arrêté de fumer."],
-    ["Qu'est ce qu'un arbuste dit à un géranium?",
+    ["Qu'est ce qu'un arbuste dit à un géranium ?",
      "Espèce d'empoté !"],
     ["Que recommande la maman allumette à ses enfants ?",
      "Surtout, ne vous grattez pas la tête !"],
@@ -2754,7 +2754,7 @@ ToonHealJokes = [
      "Parce que leurs pieds sentent mauvais."],
     ["Qu'est-ce qui est jaune et qui court très vite ?",
      "Un citron pressé."],
-    ["Pourquoi est-ce que les éléphants n'oublient jamais?",
+    ["Pourquoi est-ce que les éléphants n'oublient jamais ?",
      "Parce qu'on ne leur dit jamais rien."],
     ["Quel animal peut changer de tête facilement ?",
      "Un pou."],
@@ -2794,7 +2794,7 @@ ToonHealJokes = [
      "Parce que s'ils étaient petits et jaunes ce seraient des canaris."],
     ["Combien coûte cet aspirateur ?",
      "750 et des poussières."],
-    ["Quel est le comble pour un juge gourmand?",
+    ["Quel est le comble pour un juge gourmand ?",
      "De manger des avocats."],
     ["Pourquoi "+ Donald + " regarde-t-il à droite et à gauche lorsqu'il rentre dans une pièce ?",
      "Parce qu'il ne peut pas regarder des deux côtés à la fois."],
@@ -2884,7 +2884,7 @@ ToonHealJokes = [
      "Pour éviter que les oiseaux ne se cognent la tête en volant."],
     ["Qu'est ce qui est pire qu'une girafe qui a mal à la gorge ?",
      "Un mille-pattes avec des cors aux pieds."],
-    ["Qu'est-ce qui fait ABC...gloups...DEF...gloups?",
+    ["Qu'est-ce qui fait ABC...gloups...DEF...gloups ?",
      "Quelqu'un qui mange de la soupe aux pâtes alphabet."],
     ["Qu'est-ce qui est blanc et qui va vite ?",
      "Un frigo de course."],
@@ -2920,14 +2920,14 @@ ToonHealJokes = [
      "Un éléphant qui a honte."],
     ["Dans un virage à 60 degrés à droite, quelle est la roue qui tourne le moins vite ?",
      "La roue de secours."],
-    ["Comment reconnaît-on un idiot dans un magasin de chaussures?",
+    ["Comment reconnaît-on un idiot dans un magasin de chaussures ?",
      "C'est celui qui essaie les boîtes."],
     ["Que dit-on d'un enfant qui ramène le pain à la maison ?",
      "C'est le petit calepin."],
     ["Que dit la cacahuète à l'éléphant ?",
      "Rien, les cacahuètes ne parlent pas."],
     ["Que dit un éléphant lorsqu'il se heurte à un autre éléphant ?",
-     "Le monde est petit, n'est-ce pas?"],
+     "Le monde est petit, n'est-ce pas ?"],
     ["Que dit la comptable à la machine à calculer ?",
      "Je compte sur toi."],
     ["Que dit la puce à une autre puce ?",
@@ -2964,7 +2964,7 @@ ToonHealJokes = [
      "On fait Do, Ré, La, Sol."],
     ["Connaissez-vous l'histoire du chauffeur d'autobus ?",
      "Moi non plus, j'étais à l'arrière !"],
-    ["Crois-tu aux girafes?",
+    ["Crois-tu aux girafes ?",
      "Non, c'est un cou monté."],
     ["Que dit un crocodile s'il rencontre un chien ?",
      "Salut, sac à puces !"],
@@ -3180,7 +3180,7 @@ SuitAttackNames = {
   'Gavel' : 'Adjugé !',
   'GlowerPower' : 'Regard furieux !',
   'GuiltTrip' : 'Culpabilisation !',
-  'HalfWindsor' : 'Nœud de cravate!',
+  'HalfWindsor' : 'Nœud de cravate !',
   'HangUp' : 'Interruption !',
   'HeadShrink' : 'Rétrécissement de la tête !',
   'HotAir' : 'Air chaud !',
@@ -3420,7 +3420,7 @@ SuitAttackTaunts = {
               "Tu vas finir en bouillie.",
               "Tu n'es qu'un feu de paille.",
               "Je me trouve fondant.",
-              "Je suis d'une limpidité!",
+              "Je suis d'une limpidité !",
               "Et on n'en parle plus !",
               "Un Toon à la mer !",
               ],
@@ -3563,7 +3563,7 @@ SuitAttackTaunts = {
                    "Je m'attends à un choc boursier.",
                    "On dirait que le marché est sur la pente descendante.",
                    "Il vaudrait mieux que tu te retires du jeu !",
-                   "Vends! Vends! Vends !",
+                   "Vends ! Vends ! Vends !",
                    "Est-ce que je dois mener la récession ?",
                    "Tout le monde s'enfuit, tu devrais peut-être en faire autant ?",
                    ],
@@ -3578,7 +3578,7 @@ SuitAttackTaunts = {
                   "Je vais interjeter ça.",
                   "Je crois que ce sont les mots adéquats.",
                    ],
-    'ParadigmShift':["Fais attention! Je suis plutôt changeant.",
+    'ParadigmShift':["Fais attention ! Je suis plutôt changeant.",
                      "Prépare-toi pour un changement radical !",
                      "Voilà donc des substitutions intéressantes.",
                      "Tu n'es pas à ta place.",
@@ -3596,7 +3596,7 @@ SuitAttackTaunts = {
                     "Je vaux bien plus cher que toi !",
                     "La hiérarchie, il n'y a que ça de vrai !",
                     "Pourquoi est-ce que je ne trouve pas d'adversaire à ma taille ? Bof.",
-                    "À moi le pouvoir!",
+                    "À moi le pouvoir !",
                     ],
     'PickPocket': ["Laisse-moi vérifier tes valeurs.",
                    "Eh, c'est quoi par ici ?",
@@ -3662,7 +3662,7 @@ SuitAttackTaunts = {
     'PowerTrip': ["Fais tes valises, on fait un méga voyage.",
                   "Tu n'as pas perdu tes manies ?",
                   "C'est une manie que tu as de partir en vacances.",
-                  "Comment se sont passées les vacances?",
+                  "Comment se sont passées les vacances ?",
                   "C'est une vraie manie !",
                   "Ça a l'air méga ennuyeux.",
                   "Maintenant tu vois qui est le plus puissant !",
@@ -3691,7 +3691,7 @@ SuitAttackTaunts = {
                      "Ils ne sont pas choquants ?",
                      "Ça va décoiffer.",
                      "Je me lave les dents après tous les repas.",
-                     "Dis \"Cheese!\"",
+                     "Dis \"Cheese\" !",
                      ],
     'RedTape': ["Ça va être bien emballé.",
                 "Tu vas rester collé(e) là un bon moment.",
@@ -3860,10 +3860,10 @@ SuitAttackTaunts = {
                "Tu n'as pas peur d'un petit frémissement n'est-ce pas ?",
                "Au commencement était le frémissement.",
                "Tu as l'air de trembler.",
-               "Je vais un peu secouer les choses!",
+               "Je vais un peu secouer les choses !",
                "Tu te prépare à sursauter ?",
-               "Qu'est-ce qui ne va pas? Tu as l'air d'accuser la secousse.",
-               "Crainte et tremblements!",
+               "Qu'est-ce qui ne va pas ? Tu as l'air d'accuser la secousse.",
+               "Crainte et tremblements !",
                "Pourquoi trembles-tu de peur ?",
                ],
     'Watercooler': ["Ça devrait te rafraîchir.",
@@ -3941,9 +3941,9 @@ FADoorCodes_GO_TO_PLAYGROUND = "Mauvais chemin ! Tu dois aller au terrain de jeu
 FADoorCodes_DEFEAT_FLUNKY_TOM = "Marche jusqu'à ce Laquaistic pour te battre avec lui !"
 FADoorCodes_TALK_TO_HQ_TOM = "Va chercher ta récompense au QG des Toons !"
 FADoorCodes_SUIT_APPROACHING = None  # no message, just refuse entry.
-FADoorCodes_BUILDING_TAKEOVER = "Fais attention! Il y a un COG là-dedans!"
-FADoorCodes_DISGUISE_INCOMPLETE = "Tu vas te faire attraper si tu rentres là-dedans habillé en Toon ! Tu dois d'abord terminer ton déguisement de Cog !n\nConstruis ton déguisement de Cog avec des pièces de l'usine."
-FADoorCodes_SB_DISGUISE_INCOMPLETE = "Tu vas te faire attraper si tu rentres là-dedans habillé en Toon ! Tu dois d'abord terminer ton déguisement de Cog !n\nConstruis ton déguisement de Cog avec des pièces de l'usine."
+FADoorCodes_BUILDING_TAKEOVER = "Fais attention ! Il y a un COG là-dedans !"
+FADoorCodes_DISGUISE_INCOMPLETE = "Tu vas te faire attraper si tu rentres là-dedans habillé en Toon ! Tu dois d'abord terminer ton déguisement de Cog !\n\nConstruis ton déguisement de Cog avec des pièces de l'usine."
+FADoorCodes_SB_DISGUISE_INCOMPLETE = "Tu vas te faire attraper si tu rentres là-dedans habillé en Toon ! Tu dois d'abord terminer ton déguisement de Cog !\n\nConstruis ton déguisement de Cog avec des pièces de l'usine."
 FADoorCodes_CB_DISGUISE_INCOMPLETE = "Tu vas te faire prendre si tu entres ici en Toon ! Tu dois d'abord terminer ton déguisement de Caissbot !\n\nTermine ton déguisement de Caissbot en réussissant des défitoons au Pays des Rêves."
 FADoorCodes_LB_DISGUISE_INCOMPLETE = "Tu vas te faire attraper si tu rentres là-dedans habillé en Toon ! Tu dois d'abord terminer ton déguisement de Loibot !\n\nAssemble ton déguisement de Loibot en terminant les défitoons qui sont après le Pays des Rêves de Donald."
 FADoorCodes_BB_DISGUISE_INCOMPLETE = "Tu vas te faire attraper si tu rentres là-dedans habillé en Toon ! Tu dois d'abord terminer ton déguisement de Chefbot !\n\nAssemble ton déguisement de Chefbot en terminant les défitoons qui sont après le Pays des Rêves de Donald."
@@ -4063,7 +4063,7 @@ KnockKnockJokes = [
     "John Dœuf est déjà passé vendre de la mayonnaise ?"],
 
     ["Alain",
-    "Alain d'Issoire! C'est ça, bon dimanche."],
+    "Alain d'Issoire ! C'est ça, bon dimanche."],
 
     ["Steve",
     "Steve a, j'y vais aussi."],
@@ -4090,7 +4090,7 @@ KnockKnockJokes = [
     "Eddy donc toi là-bas, tu vas finir par venir ?"],
 
     ["Élie",
-    "Élie quoi? Le journal est déjà arrivé ?"],
+    "Élie quoi ? Le journal est déjà arrivé ?"],
 
     ["Mandy",
     "Mandy donc tu fais quoi là ?"],
@@ -4126,13 +4126,13 @@ KnockKnockJokes = [
     "Isidore que la nuit, il est parti à l'heure qu'il est."],
 
     ["Élodie",
-    "Élodie, donc? C'est pas fini ?"],
+    "Élodie, donc ? C'est pas fini ?"],
 
     ["Julien",
     "Julien du tout à te donner."],
 
     ["Yvan",
-    "Yvan quoi? J'ai besoin de rien."],
+    "Yvan quoi ? J'ai besoin de rien."],
 
     ["Eugène",
     "Eugène pas du tout, prend ton temps."],
@@ -4551,7 +4551,7 @@ MinnieChatter = (
         # the merry no longer goes round
         #"N'oublie pas d'essayer le grand manège tourne-disques !",
         "Tu as une chouette tenue, %.",
-        "Dis donc, as-tu vu " + Mickey + "?",
+        "Dis donc, as-tu vu " + Mickey + " ?",
         "Si tu vois mon ami " + Goofy + ", dis-lui bonjour de ma part.",
         "Aïe, il y a beaucoup de " + Cogs + " près du Pays des rêves de " + Donald + ".",
         "J'ai entendu dire qu'il y a du brouillard sur les quais " + Donald + ".",
@@ -5074,14 +5074,14 @@ GoofySpeedwayChatter = (
         "Nous venons d'acheter de nouvelles jantes dans le magasin de karts.",
         "Dis-donc, tu as vu "+Donald+" ?",
         "Si tu vois mon ami "+Mickey+", dis-lui bonjour de ma part.",
-        "Oh! J'ai oublié de préparer le petit déjeuner de "+Mickey+" !",
+        "Oh ! J'ai oublié de préparer le petit déjeuner de "+Mickey+" !",
         "Bon sang, c'est vrai qu'il y a un tas de "+Cogs+" sur les "+lDonaldsDock+".",
         "À la succursale du Glagla de ma boutique à gags, les lunettes hypnotiques sont en vente pour seulement 1 bonbon !",
         "La boutique à gags de Dingo propose les meilleurs blagues, astuces et chatouilles de tout Toontown !",
         "À la boutique à gags de Dingo, chaque tarte à la crème est garantie de te faire rire ou tes bonbons te seront remboursés !"
         ],
         [ # Goodbyes
-        "Je vais au Pays Musical pour voir %s !" % Mickey,
+        "Je vais au Pays Musical pour voir %s !" % Minnie,
         "Aïe, je suis en retard pour mon rendez-vous avec %s !" % Donald,
         "Je crois que je vais aller nager aux "+lDonaldsDock+".",
         "C'est l'heure de faire la sieste. Je vais au Pays des rêves.",
@@ -5123,7 +5123,7 @@ DonaldChatter = (
         "Cet endroit me donne quelquefois la chair de poule.",
         "N'oublie pas d'essayer le labyrinthe dans le jardin de " + Daisy + ".",
         "Oh, bon sang ! Quelle bonne journée.",
-        "Dis donc, as-tu vu " + Mickey + "?",
+        "Dis donc, as-tu vu " + Mickey + " ?",
         "Si tu vois mon copain " + Goofy + ", dis-lui bonjour de ma part."
         "Je crois bien que je vais aller à la pêche cet après-midi.",
         "Aïe, il y a beaucoup de " + Cogs + " près des quais " + Donald + ".",
@@ -5636,9 +5636,9 @@ AFDaleChatter = (
 
 CLGoofySpeedwayChatter = (
         [ # Greetings
-        "Welcome to "+lGoofySpeedway+".",
-        "Hi, my name is "+Goofy+". What's yours?",
-        "Gawrsh, it's nice to see you %!",
+        "Bienvenue au "+lGoofySpeedway+".",
+        "Salut, je m'appelle "+Goofy+". Et toi ?",
+        "Ouah, sympa de te voir % !",
         "Hi there! Pardon my dusty clothes I've been busy fixin' that broken Leaderboard.",
         ],
         [ # Comments
@@ -5648,17 +5648,17 @@ CLGoofySpeedwayChatter = (
         "Grand Prix Weekend will be here on Friday, May 22 through Monday, May 25!",
         "I'm gonna need a ladder to get that kart down.",
         "That Toon really wanted to get on the Leaderboard!",
-        "Boy, I saw a terrific race earlier.",
-        "Watch out for banana peels on the race track!",
-        "Have you upgraded your kart lately?",
-        "We just got in some new rims at the kart shop.",
-        "Hey, have you seen "+Donald+"?",
-        "If you see my friend "+Mickey+", say hi to him for me.",
-        "D'oh! I forgot to fix "+Mickey+"'s breakfast!",
-        "Gawrsh there sure are a lot of "+Cogs+" near "+lDonaldsDock+".",
-        "At the Brrrgh branch of my Gag Shop, Hypno-Goggles are on sale for only 1 jellybean!",
-        "Goofy's Gag Shops offer the best jokes, tricks, and funnybone-ticklers in all of Toontown!",
-        "At Goofy's Gag Shops, every pie in the face is guaranteed to make a laugh or you get your jellybeans back!"
+        "Bon sang, j'ai vu une super course tout à l'heure.",
+        "Attention aux peaux de banane sur la piste !",
+        "Est-ce que tu as fait des améliorations sur ton kart récemment ?",
+        "Nous venons d'acheter de nouvelles jantes dans le magasin de karts.",
+        "Dis-donc, tu as vu "+Donald+" ?",
+        "Si tu vois mon ami "+Mickey+", dis-lui bonjour de ma part.",
+        "Oh ! J'ai oublié de préparer le petit déjeuner de "+Mickey+" !",
+        "Bon sang, c'est vrai qu'il y a un tas de "+Cogs+" sur les "+lDonaldsDock+".",
+        "À la succursale du Glagla de ma boutique à gags, les lunettes hypnotiques sont en vente pour seulement 1 bonbon !",
+        "La boutique à gags de Dingo propose les meilleurs blagues, astuces et chatouilles de tout Toontown !",
+        "À la boutique à gags de Dingo, chaque tarte à la crème est garantie de te faire rire ou tes bonbons te seront remboursés !"
         ],
         [ # Goodbyes
         "I better go get my kart a new paint job for the upcoming Grand Prix Weekend.",
@@ -5671,27 +5671,27 @@ CLGoofySpeedwayChatter = (
 
 GPGoofySpeedwayChatter = (
         [ # Greetings
-        "Welcome to "+lGoofySpeedway+".",
+        "Bienvenue au "+lGoofySpeedway+".",
         "Welcome to Grand Prix Weekend!",
-        "Hi, my name is "+Goofy+". What's yours?",
-        "Gawrsh, it's nice to see you %!",
+        "Salut, je m'appelle "+Goofy+". Et toi ?",
+        "Ouah, sympa de te voir % !",
         ],
         [ # Comments
         "Are you excited about the Grand Prix Weekend?",
         "Good thing we got the Leaderboard fixed.",
         "We got the Leaderboard fixed just in time for Grand Prix Weekend!",
         "We never did find that Toon!",
-        "Boy, I saw a terrific race earlier.",
-        "Watch out for banana peels on the race track!",
-        "Have you upgraded your kart lately?",
-        "We just got in some new rims at the kart shop.",
-        "Hey, have you seen "+Donald+"? He said he was gonna come watch the Grand Prix!",
+        "Bon sang, j'ai vu une super course tout à l'heure.",
+        "Attention aux peaux de banane sur la piste !",
+        "Est-ce que tu as fait des améliorations sur ton kart récemment ?",
+        "Nous venons d'acheter de nouvelles jantes dans le magasin de karts.",
+        "Hey, have you seen "+Donald+" ? He said he was gonna come watch the Grand Prix!",
         "If you see my friend "+Mickey+", tell him he's missing some great racing!",
-        "D'oh! I forgot to fix "+Mickey+"'s breakfast!",
-        "Gawrsh there sure are a lot of "+Cogs+" near "+lDonaldsDock+".",
-        "At the Brrrgh branch of my Gag Shop, Hypno-Goggles are on sale for only 1 jellybean!",
-        "Goofy's Gag Shops offer the best jokes, tricks, and funnybone-ticklers in all of Toontown!",
-        "At Goofy's Gag Shops, every pie in the face is guaranteed to make a laugh or you get your jellybeans back!"
+        "Oh ! J'ai oublié de préparer le petit déjeuner de "+Mickey+" !",
+        "Bon sang, c'est vrai qu'il y a un tas de "+Cogs+" sur les "+lDonaldsDock+".",
+        "À la succursale du Glagla de ma boutique à gags, les lunettes hypnotiques sont en vente pour seulement 1 bonbon !",
+        "La boutique à gags de Dingo propose les meilleurs blagues, astuces et chatouilles de tout Toontown !",
+        "À la boutique à gags de Dingo, chaque tarte à la crème est garantie de te faire rire ou tes bonbons te seront remboursés !"
         ],
         [ # Goodbyes
         "Good luck in the Grand Prix!",
@@ -6014,11 +6014,11 @@ LoadingDownloadWatcherUpdate = "Loading %s"
 # AvatarChoice.py
 AvatarChoiceMakeAToon = "Faire un\nToon"
 AvatarChoicePlayThisToon = "Jouer\navec ce Toon"
-AvatarChoiceSubscribersOnly = "S'inscrire\n\n\n\nMaintenant!"
+AvatarChoiceSubscribersOnly = "S'inscrire\n\n\n\nMaintenant !"
 AvatarChoiceDelete = "Supprimer"
 AvatarChoiceDeleteConfirm = "Cela va supprimer %s pour toujours."
 AvatarChoiceNameRejected = "Nom\nrefusé"
-AvatarChoiceNameApproved = "Nom\naccordé!"
+AvatarChoiceNameApproved = "Nom\naccordé !"
 AvatarChoiceNameReview = "En cours\nd'examen"
 AvatarChoiceNameYourToon = "Donne un nom\nà ton Toon !"
 AvatarChoiceDeletePasswordText = "Attention ! Cela va supprimer %s pour toujours. Pour supprimer ce Toon, entre ton mot de passe."
@@ -7029,7 +7029,7 @@ InventorySkillCredit = "Crédit d'habileté : %s"
 InventorySkillCreditNone = "Crédit d'habileté : Aucun"
 InventoryDetailAmount = "%(numItems)s / %(maxItems)s"
 # acc, damage_string, damage, single_or_group
-InventoryDetailData = "Précision : %(accuracy)s\n%(damageString)s: %(damage)d\n%(singleOrGroup)s"
+InventoryDetailData = "Précision : %(accuracy)s\n%(damageString)s : %(damage)d\n%(singleOrGroup)s"
 InventoryTrackExp = "%(curExp)s / %(nextExp)s"
 InventoryUberTrackExp = "%(nextExp)s à terminer !"
 InventoryGuestExp = "Nombre maxi d'invités"
@@ -7244,7 +7244,7 @@ TutorialLaffMeter5 = "Lorsque tu finis des défitoons, tu reçois des récompens
 TutorialLaffMeter6 = "Fais attention ! Si les " + Cogs + " te battent, tu perds tous tes gags."
 TutorialLaffMeter7 = "Pour avoir plus de gags, joue aux jeux du tramway."
 TutorialTrolley1 = "Suis-moi jusqu'au tramway !"
-TutorialTrolley2 = "Monte à bord!"
+TutorialTrolley2 = "Monte à bord !"
 TutorialBye1 = "Joue à des jeux !"
 TutorialBye2 = "Joue à des jeux !\nAchète des gags !"
 TutorialBye3 = "Va voir " + Flippy + " quand tu auras fini !"
@@ -7421,9 +7421,9 @@ TargetGameFallHelp = "Utilise les flèches du clavier pour atterrir sur les cibl
 TargetGameBounceHelp = "En rebondissant, tu peux t'écarter de la cible"
 
 #Distributed Photo Game
-PhotoGameScoreTaken = "%s: %s\nToi : %s"
+PhotoGameScoreTaken = "%s : %s\nToi : %s"
 PhotoGameScoreBlank = "Score : %s"
-PhotoGameScoreOther = ""#"Score: %s\n%s"
+PhotoGameScoreOther = ""#"Score : %s\n%s"
 PhotoGameScoreYou = "\nMeilleur bonus !"
 
 
@@ -7440,7 +7440,7 @@ MazeGameInstructions = "Récupère les trésors. Essaie de les avoir tous, mais 
 # DistributedCatchGame.py
 CatchGameTitle = "Jeu du verger"
 CatchGameInstructions = "Attrape des %(fruit)s, autant que tu peux. Attention aux " + Cogs + ", et essaie de ne pas attraper des %(badThing)s !"
-CatchGamePerfect = "PARFAIT!"
+CatchGamePerfect = "PARFAIT !"
 CatchGameApples      = 'pommes'
 CatchGameOranges     = 'oranges'
 CatchGamePears       = 'poires'
@@ -7584,7 +7584,7 @@ NameShopContinueSubmission = "Continuer l'envoi"
 NameShopChooseAnother = "Choisir un autre nom"
 NameShopToonCouncil = "Le Conseil de Toontown\nva examiner ton\nnom.  "+ \
                        "L'examen peut\nprendre quelques jours.\nPendant que tu attends,\nton nom sera\n "
-PleaseTypeName = "Entre ton nom:"
+PleaseTypeName = "Entre ton nom :"
 AllNewNames = "Tous les noms\ndoivent être approuvés\npar le Conseil de Toontown."
 NameMessages = "Be creative and remember:\nno Disney-related names, please."
 NameShopNameRejected = "Le nom que tu as\nenvoyé a été refusé."
@@ -7626,7 +7626,7 @@ AnimalToSpecies = {
     'pig'    : 'Cochon'
     }
 NameTooLong = "Ce nom est trop long. Essaie encore."
-ToonAlreadyExists = "Tu as déjà un Toon qui s'appelle %s!"
+ToonAlreadyExists = "Tu as déjà un Toon qui s'appelle %s !"
 NameAlreadyInUse = "Ce nom est déjà utilisé !"
 EmptyNameError = "Tu dois indiquer un nom d'abord."
 NameError = "Désolé. Ce nom ne pourra pas convenir."
@@ -7653,7 +7653,7 @@ NCPeriodUsage = ("Ce nom n'utilise pas les points correctement. Les points sont"
 NCApostrophes = "Ton nom a trop d'apostrophes."
 
 # DistributedTrophyMgrAI.py
-RemoveTrophy = lToonHQ+" : Les " + Cogs + " ont repris un des bâtiments que tu avais sauvés!"
+RemoveTrophy = lToonHQ+" : Les " + Cogs + " ont repris un des bâtiments que tu avais sauvés !"
 
 # toon\DistributedNPCTailor/Clerk/Fisherman.py
 STOREOWNER_TOOKTOOLONG = 'Tu as besoin de plus de temps pour réfléchir ?'
@@ -7690,7 +7690,7 @@ SuitInvasionBulletin2 = lToonHQ+" : Les %s ont pris Toontown !!!"
 # DistributedHQInterior.py
 LeaderboardTitle = "Armée de Toons"
 # QuestScript.txt
-QuestScriptTutorialMickey_1 = "Toontown compte un nouveau citoyen! Est-ce que tu as des gags en plus ?"
+QuestScriptTutorialMickey_1 = "Toontown compte un nouveau citoyen ! Est-ce que tu as des gags en plus ?"
 QuestScriptTutorialMickey_2 = "Bien sûr, %s !"
 QuestScriptTutorialMickey_3 = "Tom Tuteur va te parler des Cogs.\aJe dois y aller !"
 QuestScriptTutorialMickey_4 = "Viens ici ! Utilise les flèches pour te déplacer."
@@ -7706,13 +7706,13 @@ QuestScript101_3 = "...ils transforment de bons bâtiments Toon..."
 QuestScript101_4 = "...en affreuses bâtisses Cog !"
 QuestScript101_5 = "Mais les COGS ne comprennent pas les blagues !"
 QuestScript101_6 = "Un bon gag les arrête."
-QuestScript101_7 = "Il y a des quantités de gags; prends ceux-là pour commencer."
+QuestScript101_7 = "Il y a des quantités de gags ; prends ceux-là pour commencer."
 QuestScript101_8 = "Oh ! Tu as aussi besoin d'un rigolmètre !"
 QuestScript101_9 = "Si ton rigolmètre descend trop bas, tu seras triste !"
 QuestScript101_10 = "Un Toon heureux est un Toon en bonne santé !"
-QuestScript101_11 = "OH NON! Il y a un COG devant ma boutique !"
+QuestScript101_11 = "OH NON ! Il y a un COG devant ma boutique !"
 QuestScript101_12 = "AIDE-MOI, S'IL TE PLAÎT ! Va vaincre ce COG !"
-QuestScript101_13 = "Voilà ton premier défitoon!"
+QuestScript101_13 = "Voilà ton premier défitoon !"
 QuestScript101_14 = "Dépêche-toi ! Va battre ce Laquaistic !"
 
 QuestScript110_1 = "Bon travail pour avoir vaincu ce Laquaistic. Je vais te donner un journal de bord..."
@@ -7789,7 +7789,7 @@ BossCogWelcomeToons = "Bienvenue aux nouveaux Cogs !"
 BossCogPromoteToons = "En vertu des pouvoirs qui me sont conférés, tu es promu au grade %s. Félicitations !"
 CagedToonInterruptBoss = "Hé ! Hou ! Hé là-bas !"
 CagedToonRescueQuery = "Alors les Toons, vous êtes venus me sauver ?"
-BossCogDiscoverToons = "Eh ? Des Toons! Déguisés !"
+BossCogDiscoverToons = "Eh ? Des Toons ! Déguisés !"
 BossCogAttackToons = "À l'attaque !!"
 CagedToonDrop = [
     "Bon travail ! Tu l'épuises !",
@@ -7802,8 +7802,8 @@ CagedToonPrepareBattleThree = "Youpi, je suis presque libre !\aMaintenant vous d
 BossBattleNeedMorePies = "Vous avez besoin de plus de tartes !"
 BossBattleHowToGetPies = "Sautez en l'air pour toucher la cage et avoir des tartes."
 BossBattleHowToThrowPies = "Appuyez sur la touche \"Inser\" pour lancer les tartes !"
-CagedToonYippee = "Génial!"
-CagedToonThankYou = "C'est super d'être libre !\aMerci pour toute votre aide !\aJe suis à votre service.\aSi jamais vous avez besoin d'aide pour un combat, vous pouvez m'appeler!\aCliquez simplement sur le bouton SOS pour m'appeler."
+CagedToonYippee = "Génial !"
+CagedToonThankYou = "C'est super d'être libre !\aMerci pour toute votre aide !\aJe suis à votre service.\aSi jamais vous avez besoin d'aide pour un combat, vous pouvez m'appeler !\aCliquez simplement sur le bouton SOS pour m'appeler."
 CagedToonPromotion = "\aDis donc - ce vice-président Cog a laissé derrière lui les papiers de ta promotion.\aJe vais les envoyer pour toi en sortant, pour que tu aies ta promotion !"
 CagedToonLastPromotion = "\aWaou, tu as atteint le niveau %s sur ton costume de Cog !\aLes Cogs ne montent pas en grade plus haut que ça.\aTu ne peux plus monter ton costume de Cog en grade, mais tu peux évidemment continuer à sauver des Toons !"
 CagedToonHPBoost = "\aTu as sauvé beaucoup de Toons dans ce QG.\aLe Conseil de Toontown a décidé de te donner un autre rigolpoint. Félicitations !"
@@ -7834,7 +7834,7 @@ CagedToonBattleThreeMaxAdvice = 106
 CashbotBossHadEnough = "Ça suffit. J'en ai assez de ces Toons si énervants !"
 CashbotBossOuttaHere = "J'ai un train à prendre !"
 ResistanceToonName = "Inès Pionne"
-ResistanceToonCongratulations = "Tu y es arrivé(e)! Félicitations!\aTu es un membre de valeur de la Résistance !\aVoici une phrase très spéciale que tu peux utiliser en cas de situation difficile :\a%s\aQuand tu la prononces, %s.\aMais tu ne peux l'utiliser qu'une seule fois, alors choisis bien ton moment !"
+ResistanceToonCongratulations = "Tu y es arrivé(e) ! Félicitations !\aTu es un membre de valeur de la Résistance !\aVoici une phrase très spéciale que tu peux utiliser en cas de situation difficile :\a%s\aQuand tu la prononces, %s.\aMais tu ne peux l'utiliser qu'une seule fois, alors choisis bien ton moment !"
 ResistanceToonToonupInstructions = "Tous les Toons qui sont près de toi vont gagner %s rigolpoints."
 ResistanceToonToonupAllInstructions = "Tous les Toons qui sont près de toi vont gagner un renouvellement de tout leur stock de rigolpoints."
 ResistanceToonMoneyInstructions = "Tous les Toons qui sont près de toi vont gagner %s bonbons."
@@ -7852,8 +7852,8 @@ ResistanceToonTooLate = "Zut alors ! Nous arrivons trop tard !"
 CashbotBossDiscoverToons1 = "Ah-AH !"
 CashbotBossDiscoverToons2 = "Il me semblait bien que ça sentait le Toon par ici ! Imposteurs !"
 ResistanceToonKeepHimBusy = "Occupe-le ! Je vais préparer un piège !"
-ResistanceToonWatchThis = "Regarde ça!"
-CashbotBossGetAwayFromThat = "Eh! Ne touche pas à ça !"
+ResistanceToonWatchThis = "Regarde ça !"
+CashbotBossGetAwayFromThat = "Eh ! Ne touche pas à ça !"
 ResistanceToonCraneInstructions1 = "Prends le contrôle d'un aimant en montant sur un podium."
 ResistanceToonCraneInstructions2 = "Utilise les flèches de ton clavier pour déplacer la grue et appuie sur la touche Ctrl pour attraper un objet."
 ResistanceToonCraneInstructions3 = "Attrape un coffre-fort avec un aimant et fais tomber le casque de sécurité du Vice-Président."
@@ -8537,8 +8537,8 @@ RentalTime = "Heures de"
 EstateCannonGameEnd = "La location du jeu du canon est terminée."
 GameTableRentalEnd = "La location de la table de jeu est terminée."
 
-MessageConfirmRent = "Commencer à louer? Annule pour enregistrer la location pour plus tard"
-MessageConfirmGarden = "Veux-tu vraiment commencer un jardin?"
+MessageConfirmRent = "Commencer à louer ? Annule pour enregistrer la location pour plus tard"
+MessageConfirmGarden = "Veux-tu vraiment commencer un jardin ?"
 
 #nametag Names
 NametagPaid = "Badge Citoyen"
@@ -8972,7 +8972,7 @@ WallpaperNames = {
     2000 : "Jardin de printemps",
     2100 : "Jardin classique",
     2200 : "Jour de course",
-    2300 : "Marqué!",
+    2300 : "Marqué !",
     2400 : "Nuage 9",
     2500 : "Vigne vierge",
     2600 : "Printemps",
@@ -9157,7 +9157,7 @@ CatalogGiftToggleWait = "En train d'essayer !..."
 CatalogGiftToggleNoAck = "Indisponible"
 CatalogPurchaseItemAvailable = "Parfait ! Peut commencer à utiliser ton cadeau dès maintenant."
 CatalogPurchaseGiftItemAvailable = "Parfait ! Ton cadeau pour %s sera livré dans sa boîte aux lettres."
-CatalogPurchaseItemOnOrder = "Félicitations! Ton achat sera bientôt livré dans ta boîte aux lettres."
+CatalogPurchaseItemOnOrder = "Félicitations ! Ton achat sera bientôt livré dans ta boîte aux lettres."
 CatalogPurchaseGiftItemOnOrder = " Parfait ! Ton cadeau pour %s sera livré dans sa boîte aux lettres."
 CatalogAnythingElse = "Puis-je autre chose pour toi ?"
 CatalogPurchaseClosetFull = "Ton placard est plein. Tu peux acheter cet article, mais tu devras supprimer quelque chose de ton placard pour faire de la place quand il arrivera.\n\nTu veux quand même acheter cet article ?"
@@ -9185,7 +9185,7 @@ CatalogPurchaseHouseFull = "Ta maison est pleine. Tu peux acheter cet article, m
 CatalogAcceptHouseFull = "Ta maison est pleine. Tu dois rentrer et supprimer quelque chose dans ta maison pour faire de la place pour cet objet avant de pouvoir le sortir de la boîte aux lettres."
 CatalogAcceptInAttic = "Ton nouvel article est maintenant dans ton grenier. Pour le placer dans ta maison, va à l'intérieur et clique sur le bouton \"Déplacer les meubles\"."
 CatalogAcceptInAtticP = "Tes nouveaux articles sont maintenant dans ton grenier. Pour les placer dans ta maison, va à l'intérieur et clique sur le bouton \"Déplacer les meubles\"."
-CatalogPurchaseMailboxFull = "Ta boîte aux lettres est pleine! Tu ne peux pas acheter cet article avant d'avoir sorti des articles de ta boîte aux lettres pour y faire de la place."
+CatalogPurchaseMailboxFull = "Ta boîte aux lettres est pleine ! Tu ne peux pas acheter cet article avant d'avoir sorti des articles de ta boîte aux lettres pour y faire de la place."
 CatalogPurchaseGiftMailboxFull = "La boîte aux lettres de %s est pleine ! Tu ne peux pas acheter cet article."
 CatalogPurchaseOnOrderListFull = "Tu as trop d'articles en commande actuellement. Tu ne peux pas commander d'autres articles avant que ceux que tu as déjà commandés ne soient arrivés."
 CatalogPurchaseGiftOnOrderListFull = "%s a actuellement trop d'articles en commande."
@@ -10175,7 +10175,7 @@ zone2TitleDict = {
     1612 : ("Banque Sixsous", ""),
     1613 : ("La Pieuvre, cabinet d'avocats", ""),
     1614 : ("Toutes voiles devant - Boutique", ""),
-    1615 : ("Yatch qu'à demander!", ""),
+    1615 : ("Yatch qu'à demander !", ""),
     1616 : ("Barbe Noire - Salon de beauté", ""),
     1617 : ("La mer à voir - Opticien", ""),
     1619 : ("L'écorcaire - Chirurgie arboricole", ""),
@@ -10218,10 +10218,10 @@ zone2TitleDict = {
     1805 : ("Un petit ver pour le déjeuner", ""),
     1806 : ("Toucoule - Chapelier", ""),
     1807 : ("Coûte que soute", ""),
-    1808 : ("Appât si vite!", ""),
+    1808 : ("Appât si vite !", ""),
     1809 : ("Seaux rouillés", ""),
     1810 : ("L'ancre noire", ""),
-    1811 : ("Mérou tu vas chercher tout ça?", ""),
+    1811 : ("Mérou tu vas chercher tout ça ?", ""),
     1813 : ("A mâts couverts, conseiller", ""),
     1814 : ("Le Ho Hisse", ""),
     1815 : ("Quoi de neuf dockteur ?", ""),
@@ -10231,7 +10231,7 @@ zone2TitleDict = {
     1821 : ("Chez Neptoon", ""),
     1823 : ("A la pomme de mât", ""),
     1824 : ("Au chien pas gai", ""),
-    1825 : ("Le hareng sort! Marché aux poissons", ""),
+    1825 : ("Le hareng sort ! Marché aux poissons", ""),
     1826 : ("Le placard de Gérard", ""),
     1828 : ("Palais du lest d'Ernest", ""),
     1829 : ("Merlan l'enchanteur", ""),
@@ -10239,7 +10239,7 @@ zone2TitleDict = {
     1831 : ("Une perle à domicile", ""),
     1832 : ("Supérette La Goélette", ""),
     1833 : ("Costumes pour gaillards d'avant", ""),
-    1834 : ("Tranchement ridicule!", ""),
+    1834 : ("Tranchement ridicule !", ""),
     1835 : ("Quartier Général des Toons", ""),
     # titles for: phase_6/dna/minnies_melody_land_sz.dna
     4503 : ("Boutique à gags", ""),
@@ -10253,14 +10253,14 @@ zone2TitleDict = {
     4606 : ("La case des castagnettes", ""),
     4607 : ("Vêtements Toon branchés", ""),
     4609 : ("Dot, Raie, Mie - Pianos", ""),
-    4610 : ("Attention refrain!", ""),
+    4610 : ("Attention refrain !", ""),
     4611 : ("Diapasons à l'unisson", ""),
     4612 : ("Dr. Tefaispasdebile - Dentiste", ""),
     4614 : ("On rase gratis pour une chanson", ""),
     4615 : ("Pizzéria chez Piccolo", ""),
     4617 : ("La mandoline joyeuse", ""),
     4618 : ("Salles des césures", ""),
-    4619 : ("En avant la musique!", ""),
+    4619 : ("En avant la musique !", ""),
     4622 : ("Oreillers à mentonnière", ""),
     4623 : ("Bémols à la dièse", ""),
     4625 : ("Tuba de dentifrice", ""),
@@ -10268,7 +10268,7 @@ zone2TitleDict = {
     4628 : ("Assurance accidentelle", ""),
     4629 : ("Riff - Assiettes en papier", ""),
     4630 : ("La musique est notre force", ""),
-    4631 : ("Canto de vous connaître!", ""),
+    4631 : ("Canto de vous connaître !", ""),
     4632 : ("Boutique de la danse des heures", ""),
     4635 : ("Le quotidien des cantatrices", ""),
     4637 : ("Pour la bonne mesure", ""),
@@ -10291,25 +10291,25 @@ zone2TitleDict = {
     # titles for: phase_6/dna/minnies_melody_land_4200.dna
     4701 : ("L'eau de rose - Ecole de valse", ""),
     4702 : (" Timbre de bois - Fournitures pour bûcherons", ""),
-    4703 : ("Gros Bizet à tous!", ""),
+    4703 : ("Gros Bizet à tous !", ""),
     4704 : ("Tina - Concerts de concertina", ""),
     4705 : ("Il est déjà cithare ?", ""),
     4707 : ("Studio d'effets sonores Doppler", ""),
     4709 : ("Pirouettes - Magasin d'alpinisme", ""),
     4710 : ("Polka tu routes si vite ? Auto-école", ""),
-    4712 : ("Mets un bémol! Réparation de pneus", ""),
+    4712 : ("Mets un bémol ! Réparation de pneus", ""),
     4713 : ("Dos dièse - Vêtements de luxe pour hommes", ""),
     4716 : ("Harmonicas à quatre voix", ""),
-    4717 : ("Sonate pas ta faute! Assurance automobile", ""),
+    4717 : ("Sonate pas ta faute ! Assurance automobile", ""),
     4718 : ("Chopins de bière et autres ustensiles de cuisine", ""),
     4719 : ("Camping-cars Madrigal", ""),
     4720 : ("Le bon Toon", ""),
     4722 : ("Doublures pour ouvertures", ""),
-    4723 : ("Bach à toi! Jeux et balançoires", ""),
+    4723 : ("Bach à toi ! Jeux et balançoires", ""),
     4724 : ("(Cale)sons blancs pour filles et garçons", ""),
     4725 : ("Le barbier baryton", ""),
     4727 : ("Cordes vocales tressées", ""),
-    4728 : ("Chante en sourdine!", ""),
+    4728 : ("Chante en sourdine !", ""),
     4729 : ("Librairie J'aime lyre", ""),
     4730 : ("Lettre à un pou", ""),
     4731 : ("Des Toons de bon ton", ""),
@@ -10326,7 +10326,7 @@ zone2TitleDict = {
     4803 : ("Quelle Mezzo! Service de domestiques", ""),
     4804 : ("Ecole myxolidienne pour serveurs de barres", ""),
     4807 : ("Massage des Brahms et des jambes", ""),
-    4809 : ("C'est une cata-strophe!", ""),
+    4809 : ("C'est une cata-strophe !", ""),
     4812 : ("", ""),
     4817 : ("Magasin d'animaux ternaires", ""),
     4819 : ("Chez Yuki - Ukélélés", ""),
@@ -10367,8 +10367,8 @@ zone2TitleDict = {
     # titles for: phase_8/dna/daisys_garden_5100.dna
     5601 : ("L'œil de bouillon - Optométrie", ""),
     5602 : ("Eugène Coulissant - Cravates", ""),
-    5603 : ("Arrête tes salades!", ""),
-    5604 : ("Gai, gai, marions-les!", ""),
+    5603 : ("Arrête tes salades !", ""),
+    5604 : ("Gai, gai, marions-les !", ""),
     5605 : ("Sols et meubles", ""),
     5606 : ("Pétales", ""),
     5607 : ("Bureau de composte", ""),
@@ -10421,7 +10421,7 @@ zone2TitleDict = {
     5804 : ("La vase de Soisson", ""),
     5805 : ("Le cerveau lent", ""),
     5809 : ("Drôle d'oiseau - Ecole de clowns", ""),
-    5810 : ("Ca ne rom à rain!", ""),
+    5810 : ("Ca ne rom à rain !", ""),
     5811 : ("Auberge Inn", ""),
     5815 : ("Des racines & des herbes", ""),
     5817 : ("Pommes et oranges", ""),
@@ -10472,7 +10472,7 @@ zone2TitleDict = {
     9643 : ("Les yeux clos - Optométrie", ""),
     9644 : ("Combats d'oreillers nocturnes", ""),
     9645 : ("Auberge Viensmeborder", ""),
-    9647 : ("Fais ton lit! Magasin de bricolage", ""),
+    9647 : ("Fais ton lit ! Magasin de bricolage", ""),
     9649 : ("Bonnet blanc et blanc bonnet", ""),
     9650 : ("Réparateur de soupirs", ""),
     9651 : ("La vie est un ronflement tranquille", ""),
@@ -10487,7 +10487,7 @@ zone2TitleDict = {
     9709 : ("Au Sommeil de Plomb - Plombier", ""),
     9710 : ("Rev'optique", ""),
     9711 : ("Service de réveil par téléphone", ""),
-    9712 : ("Nous comptons les moutons pour vous!", ""),
+    9712 : ("Nous comptons les moutons pour vous !", ""),
     9713 : ("Roupille & Pionce, Avocats", ""),
     9714 : ("Croisière de rêve - Accastillage", ""),
     9715 : ("Banque du Doudou d'Or", ""),
@@ -10522,7 +10522,7 @@ zone2TitleDict = {
     3602 : ("Bonnets de pâques", ""),
     3605 : ("", ""),
     3607 : ("Le vieillard du blizzard", ""),
-    3608 : ("A en perdre la boule (de neige)!", ""),
+    3608 : ("A en perdre la boule (de neige) !", ""),
     3610 : ("Supérette Les Mirettes", ""),
     3611 : ("M. Lapin - Chasse-neige", ""),
     3612 : ("Conception d'igloos", ""),
@@ -10530,7 +10530,7 @@ zone2TitleDict = {
     3614 : ("Fabriquant de flocons d'avoine", ""),
     3615 : ("Omelettes norvégiennes", ""),
     3617 : ("Voyages en ballon à air froid", ""),
-    3618 : ("Boule de neige! Gestion de crise", ""),
+    3618 : ("Boule de neige ! Gestion de crise", ""),
     3620 : ("Atelier de ski", ""),
     3621 : ("Glacier La fonte des neiges", ""),
     3622 : ("", ""),
@@ -10587,7 +10587,7 @@ zone2TitleDict = {
     3735 : ("Calottes glaciaires", ""),
     3736 : ("Cubes de glace bon marché", ""),
     3737 : ("Restaurant de la pente", ""),
-    3738 : ("Chaud devant!", ""),
+    3738 : ("Chaud devant !", ""),
     3739 : ("Quartier général des Toons", ""),
 # titles for: phase_8/dna/the_burrrgh_3300.dna
     3801 : (lToonHQ, ""),
@@ -10608,9 +10608,9 @@ zone2TitleDict = {
     3820 : ("Blanchisserie de neige", ""),
     3821 : ("Sports d'hibernation", ""),
     3823 : ("Fondation des Pluies", ""),
-    3824 : ("Froids les marrons!", ""),
+    3824 : ("Froids les marrons !", ""),
     3825 : ("Chapeaux tout frais", ""),
-    3826 : ("Saperlichaussette!", ""),
+    3826 : ("Saperlichaussette !", ""),
     3827 : ("Couronnes de gui", ""),
     3828 : ("Le potager du bonhomme de neige", ""),
     3829 : ("Frigo Déco", ""),
@@ -10732,15 +10732,15 @@ FireworksValentinesBeginning = lToonHQ+" : Joyeuse Saint Valentin à tous les am
 FireworksValentinesEnding = lToonHQ+" : Joyeuse Saint Valentin à tous les amoureux !" # Brazil
 FireworksFebruary14Beginning = lToonHQ+" : Joyeuse Saint Valentin à tous les amoureux !"
 FireworksFebruary14Ending = lToonHQ+" : Joyeuse Saint Valentin à tous les amoureux !"
-FireworksJuly4Beginning = lToonHQ+" : Bienvenue aux feux d'artifices d'été! Profitez du spectacle !"
-FireworksJuly4Ending = lToonHQ+" : Nous espérons que vous avez profité du spectacle! Passez un excellent été !"
-FireworksJuly14Beginning = lToonHQ+" : Feux d'artifices du 14 Juillet: Profitez du spectacle !"
+FireworksJuly4Beginning = lToonHQ+" : Bienvenue aux feux d'artifices d'été ! Profitez du spectacle !"
+FireworksJuly4Ending = lToonHQ+" : Nous espérons que vous avez profité du spectacle ! Passez un excellent été !"
+FireworksJuly14Beginning = lToonHQ+" : Feux d'artifices du 14 Juillet : Profitez du spectacle !"
 FireworksJuly14Ending = lToonHQ+" : Nous espérons que vous avez profité du spectacle !"
 FireworksOctober31Beginning = lToonHQ+" : Bons feux d'artifice !"
 FireworksOctober31Ending = lToonHQ+" : Nous espérons que vous avez aimé les feux d'artifice !"
 FireworksNovember19Beginning = lToonHQ+": Happy Birthday! Toontown turns 1 year old" # Germany
 FireworksNovember19Ending = lToonHQ+": Hope you enjoyed the show!" # Germany
-FireworksNewYearsEveBeginning = lToonHQ+" : Bonne année! Profitez du feu d'artifice !"
+FireworksNewYearsEveBeginning = lToonHQ+" : Bonne année ! Profitez du feu d'artifice !"
 FireworksNewYearsEveEnding = lToonHQ+" : Nous espérons que vous avez profité du spectacle ! Bonne année !"
 FireworksBeginning = lToonHQ+" : Bons feux d'artifice !"
 FireworksEnding = lToonHQ+" : Nous espérons que vous avez aimé les feux d'artifice !"
@@ -10796,7 +10796,7 @@ TIP_KARTING = 6
 TIP_GOLF = 7
 
 # As of 8/5/03, ToonTips shouldn't exceed 130 characters in length
-TipTitle = "ASTUCE TOON:"
+TipTitle = "ASTUCE TOON :"
 TipDict = {
     TIP_NONE : (
     "",
@@ -10807,7 +10807,7 @@ TipDict = {
     "Pour vérifier rapidement ta page de gags, maintiens enfoncée la touche \"Première page\".",
     "Pour ouvrir ta liste d'contacts, appuie sur la touche \"F7\".",
     "Pour ouvrir ou fermer ton journal de bord, appuie sur la touche \"F8\".",
-    "Pour regarder vers le haut, appuie sur la touche \"Page précédente\"; pour regarder vers le bas, appuie sur la touche \"Page suivante\".",
+    "Pour regarder vers le haut, appuie sur la touche \"Page précédente\" ; pour regarder vers le bas, appuie sur la touche \"Page suivante\".",
     "Appuie sur la touche \"Contrôle\" pour sauter.",
     "Appuie sur la touche \"F9\" pour faire une capture d'écran qui sera enregistrée dans le dossier Toontown de ton ordinateur.",
     # This one makes me nervous without mentioning Parent Passwords - but that would be too long
@@ -10881,7 +10881,7 @@ TipDict = {
     "Chaque rue de Toontown a différents types et niveaux de Cogs.",
     "Il n'y a pas de Cogs sur les trottoirs.",
     "Dans les rues, tu peux entendre des blagues en t'approchant des portes latérales.",
-    "Certains défitoons t'entraînent à de nouvelles séries de gags. Tu ne pourras choisir que six des sept séries de gags, alors choisis bien!",
+    "Certains défitoons t'entraînent à de nouvelles séries de gags. Tu ne pourras choisir que six des sept séries de gags, alors choisis bien !",
     "Les pièges ne sont utiles que si toi ou tes contacts vous mettez d'accord pour utiliser les leurres lors d'une bataille.",
     "Les leurres de plus haut niveau sont moins susceptibles de manquer leur cible.",
     "Les gags de plus bas niveau ont une précision moindre contre les Cogs de haut niveau.",
@@ -10945,18 +10945,18 @@ TipDict = {
     ),
   TIP_ESTATE : (
   # Doodles
-    "Les Doudous peuvent comprendre certaines expressions de Chat rapide. Essaie-les!",
+    "Les Doudous peuvent comprendre certaines expressions de Chat rapide. Essaie-les !",
     "Utilise le menu \"Animaux familiers\" du Chat rapide pour demander à ton Doudou de faire des tours.",
     "Tu peux apprendre des tours aux Doudous avec les leçons du catalogue vachement branché de Clarabelle.",
     "Récompense ton Doudou quand il fait des tours.",
     "Si tu te rends chez un ami, ton Doudou viendra aussi.",
     "Donne un bonbon à ton Doudou quand il a faim.",
     "Clique sur un Doudou pour afficher un menu grâce auquel tu pourras le nourrir, le cajoler et l'appeler.",
-    "Les Doudous aiment la compagnie. Invite tes contacts à venir jouer!",
+    "Les Doudous aiment la compagnie. Invite tes contacts à venir jouer !",
     "Chaque Doudou a une personnalité unique.",
     "Tu peux rapporter ton Doudou et en adopter un nouveau à l'animalerie.",
     "Quand un Doudou fait un tour, les Toons qui sont aux alentours sont soignés.",
-    "Les Doudous font leurs tours de mieux en mieux avec de l'entraînement. Un peu de persévérance!",
+    "Les Doudous font leurs tours de mieux en mieux avec de l'entraînement. Un peu de persévérance !",
     "Les tours plus avancés des Doudous soignent plus vite les Toons.",
     "Les Doudous expérimentés peuvent faire plus de tours avant de se fatiguer.",
     "Tu peux voir une liste des Doudous qui sont à proximité dans ta liste d'contacts.",
@@ -11343,7 +11343,7 @@ FishBingoTypeNormal = "Classique"
 FishBingoTypeCorners = "Quatre coins"
 FishBingoTypeDiagonal = "Diagonales"
 FishBingoTypeThreeway = "Trois voies"
-FishBingoTypeBlockout = "GRILLE ENTIERE!"
+FishBingoTypeBlockout = "GRILLE ENTIERE !"
 FishBingoStart = "C'est l'heure du loto des poissons ! Rends-toi sur n'importe quel ponton libre pour jouer !"
 FishBingoOngoing = "" # TODO
 FishBingoEnd = "J'espère que le loto des poissons t'a plu."
@@ -11355,8 +11355,8 @@ FishBingoHelpCorners = "Une grille de coins facile. Remplis les quatre coins pou
 FishBingoHelpThreeway = "Trois voies. Remplis les deux diagonales et la rangée du milieu pour gagner. Ça n'est pas facile !"
 FishBingoHelpBlockout = "Grille entière ! Remplis la grille entière pour gagner. Tu joues contre toutes les autres mares pour remporter un énorme jackpot !"
 FishBingoOfferToSellFish = "Ton seau est plein de poissons. Est-ce que tu voudrais en vendre ?"
-FishBingoJackpot = "Gain: %s bonbons !"
-FishBingoJackpotWin = "Gain: %s bonbons !"
+FishBingoJackpot = "Gain : %s bonbons !"
+FishBingoJackpotWin = "Gain : %s bonbons !"
 
 # ResistanceSCStrings: SpeedChat phrases rewarded for defeating the CFO.
 # It is safe to remove entries from this list, which will disable them
@@ -11387,7 +11387,7 @@ KartShop_Cancel = lCancel
 KartShop_BuyKart = "Acheter un kart"
 KartShop_BuyAccessories = "Acheter des accessoires"
 KartShop_BuyAccessory = "Acheter un accessoire"
-KartShop_Cost = "Prix: %d tickets"
+KartShop_Cost = "Prix : %d tickets"
 KartShop_ConfirmBuy = "Acheter cette %s pour %d tickets ?"
 KartShop_NoAvailableAcc = "Aucun accessoire de ce type n'est disponible."
 KartShop_FullTrunk = "Ton coffre est plein."
@@ -11432,7 +11432,7 @@ KartRace_RaceNames = [
 
 from toontown.racing import RaceGlobals
 
-KartRace_Go = "Partez!"
+KartRace_Go = "Partez !"
 KartRace_Reverse = " Inversé"
 
 #needed for leader boards
@@ -11632,9 +11632,9 @@ KartTrophyDescriptions = [
     # NOTE: to be added
     GrandTouring,
     # cups (+1 laff each)
-    str(RaceGlobals.TrophiesPerCup) + " Trophées gagnés aux courses de kart ! Rigol-augmentation!",
-    str(RaceGlobals.TrophiesPerCup * 2) + " Trophées gagnés aux courses de kart ! Rigol-augmentation!",
-    str(RaceGlobals.TrophiesPerCup * 3) + " Trophées gagnés aux courses de kart ! Rigol-augmentation!",
+    str(RaceGlobals.TrophiesPerCup) + " Trophées gagnés aux courses de kart ! Rigol-augmentation !",
+    str(RaceGlobals.TrophiesPerCup * 2) + " Trophées gagnés aux courses de kart ! Rigol-augmentation !",
+    str(RaceGlobals.TrophiesPerCup * 3) + " Trophées gagnés aux courses de kart ! Rigol-augmentation !",
     ]
 
 KartRace_TitleInfo = "Prépare-toi pour la course"
@@ -11741,7 +11741,7 @@ WitnessToonOneJuror = "Super ! Il y a 1Toon parmi les jurés !"
 WitnessToonSomeJurors = "Super ! Il y a %d Toons parmi les jurés !"
 WitnessToonAllJurors = "Fantastique ! Tous les jurés sont des Toons !"
 WitnessToonPrepareBattleThree = "Dépêche-toi de toucher la barre des témoins pour obtenir des preuves.\aAppuie sur la touche «Inser» pour envoyer les preuves sur les avocats ou sur la défense."
-WitnessToonCongratulations = "Tu as réussi! Merci pour cette défense spectaculaire !\aPrends ces papiers que le Juge a oubliés.\aAvec ça, tu pourras convoquer des Cogs à partir de ta page de Galerie de Cogs."
+WitnessToonCongratulations = "Tu as réussi ! Merci pour cette défense spectaculaire !\aPrends ces papiers que le Juge a oubliés.\aAvec ça, tu pourras convoquer des Cogs à partir de ta page de Galerie de Cogs."
 WitnessToonLastPromotion = "\aWow, tu as atteint le niveau %s sur ton costume de Cog !\aC'est la plus haute promotion que peuvent atteindre les Cogs.\aTu ne peux plus monter ton costume de Cog en grade, mais tu peux évidemment continuer à travailler pour la résistance !"
 WitnessToonHPBoost = "\aTu as fait beaucoup de travail pour la résistance.\aLe Conseil des Toons a décidé de te donner un autre rigolpoint. Félicitations !"
 WitnessToonMaxed = "\aJe vois que tu as un costume de Cog de niveau %s. Très impressionnant !\aLe Conseil des Toons te remercie d'être revenu défendre encore plus de Toons !"
@@ -11789,7 +11789,7 @@ PolarPlaceEffect3 = NPCToonNames[3306] + " : Ton nouveau look ne marchera que" +
 GreenToonEffectMsg = NPCToonNames[5312] + ": You look Toontastic in green!"
 
 # LaserGrid game Labels
-LaserGameMine = "Recherche de crâne!"
+LaserGameMine = "Recherche de crâne !"
 LaserGameRoll = "Correspondance"
 LaserGameAvoid = "Évite les crânes"
 LaserGameDrag = "Mets en trois de la même\ncouleur sur une rangée"
@@ -11799,10 +11799,10 @@ LaserGameDefault = "Jeu inconnu"
 #PinballHiScore = "High Score: %d %s\n"
 #PinballYourBestScore = "Your Best Score: %d\n"
 #PinballScore = "Score: %d x %d : %d"
-PinballHiScore = "Score élevé: %s\n"
+PinballHiScore = "Score élevé : %s\n"
 PinballHiScoreAbbrev = "..."
-PinballYourBestScore = "Ton meilleur score:\n"
-PinballScore = "Score: %d x %d ="
+PinballYourBestScore = "Ton meilleur score :\n"
+PinballScore = "Score : %d x %d ="
 PinballScoreHolder = "%s\n"
 
 
@@ -11926,7 +11926,7 @@ GardenShovelLevelUp = "Félicitations, tu as gagné une pelle %(shovel)s ! Tu as
 GardenShovelSkillLevelUp = "Félicitations ! Tu as maîtrisé les fleurs de %(oldbeans)d bonbons ! Pour avancer, tu dois cueillir des fleurs de %(newbeans)d bonbons."
 GardenShovelSkillMaxed = "Extraordinaire ! Tu as explosé ton habileté avec la pelle !"
 
-GardenWateringCanLevelUp = "Félicitations, tu as gagné un nouvel arrosoir!"
+GardenWateringCanLevelUp = "Félicitations, tu as gagné un nouvel arrosoir !"
 GardenMiniGameWon = "Félicitations, tu as arrosé la plante !"
 ShovelTin = "Pelle d'étain"
 ShovelSteel = "Pelle de bronze"
@@ -11948,10 +11948,10 @@ UseSpecialSuccess = 'Bravo ! Les plantes que tu as arrosées viennent de pousser
 ConfirmWiltedFlower = "Le plant de %(plant)s est fané. Veux-tu vraiment le retirer ? Ce plant n'ira pas dans ton panier de fleurs, et ton habileté n'augmentera pas."
 ConfirmUnbloomingFlower = "Le plant de %(plant)s ne fleurit pas. Veux-tu vraiment le retirer ? Ce plant n'ira pas dans ton panier de fleurs, et ton habileté n'augmentera pas."
 ConfirmNoSkillupFlower = "Veux-tu vraiment cueillir le plant de %(plant)s ? Ce plant ira dans ton panier de fleurs, mais ton habileté n'augmentera PAS."
-ConfirmSkillupFlower = "Veux-tu vraiment cueillir le plant de %(plant)s? Il ira dans ton panier de fleurs. Ton habileté augmentera aussi."
+ConfirmSkillupFlower = "Veux-tu vraiment cueillir le plant de %(plant)s ? Il ira dans ton panier de fleurs. Ton habileté augmentera aussi."
 ConfirmMaxedSkillFlower = "Veux-tu vraiment cueillir le plant de %(plant)s ? Il ira dans ton panier de fleurs. Ton habileté n'augmentera PAS car elle est déjà au maximum."
 ConfirmBasketFull = "Ton panier de fleurs est plein. Tu dois d'abord vendre des fleurs."
-ConfirmRemoveTree = "Veux-tu vraiment retirer le pied de %(tree)s?"
+ConfirmRemoveTree = "Veux-tu vraiment retirer le pied de %(tree)s ?"
 ConfirmWontBeAbleToHarvest = " Si tu retires cet arbre, tu ne pourras pas récolter de gags dans les arbres de plus haut niveau."
 ConfirmRemoveStatuary = "Veux-tu vraiment supprimer définitivement le plant de %(plant)s ?"
 ResultPlantedSomething  = "Félicitations ! Tu viens de planter un %s."

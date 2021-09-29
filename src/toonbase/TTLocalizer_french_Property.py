@@ -484,7 +484,7 @@ TADPcancelPos = (-0.865, 0.0, -0.765)
 TADtrackLabelPosZ = 0.17
 
 #toontowngui/ToontownLoadingScreen.py
-TLStip = 0.19
+TLStip = 0.18
 
 #toontowngui/TeaserPanel.py
 TSRPdialogWordwrap = 20

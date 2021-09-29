@@ -266,6 +266,10 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             # friend requests if they ever want it.
             self.acceptingNewFriends = Settings.getAcceptingNewFriends() and base.config.GetBool('accepting-new-friends-default', True)
 
+            # GMs have accepting-non-friend-whispers-default 0, which forces them to explicitly enable
+            # non friend whisper requests if they ever want it.
+            self.acceptingNonFriendWhispers = Settings.getAcceptingNonFriendWhispers() and base.config.GetBool('accepting-non-friend-whispers-default', True)
+
             self.questMap = None
 
     def wantLegacyLifter(self):

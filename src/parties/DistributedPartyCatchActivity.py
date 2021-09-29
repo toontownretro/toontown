@@ -229,7 +229,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         self.dropObjModels = {}
         for objType in PartyGlobals.DropObjectTypes:
             model = loader.loadModel(objType.modelPath)
-            self.dropObjModels[objType.name] = model
+            self.dropObjModels[objType._name] = model
 
             # all of the models need to be rescaled
             modelScales = {
@@ -240,27 +240,27 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
                 'watermelon' : .6,
                 'pineapple' : .45,
                 }
-            if objType.name in modelScales:
-                model.setScale(modelScales[objType.name])
+            if objType._name in modelScales:
+                model.setScale(modelScales[objType._name])
 
             # adjust the model if necessary
             # don't compare the name; this will crash if someone changes
             # or removes any of the referenced objects (and crashing is the
             # desired behaviour)
-            if objType == PartyGlobals.Name2DropObjectType['pear']:
+            if objType == PartyGlobals.name2DropObjectType['pear']:
                 # pear needs to be moved down
                 model.setZ(-.6)
-            if objType == PartyGlobals.Name2DropObjectType['coconut']:
+            if objType == PartyGlobals.name2DropObjectType['coconut']:
                 # turn the coconut upside-down so we can see the dots
                 model.setP(180)
-            if objType == PartyGlobals.Name2DropObjectType['watermelon']:
+            if objType == PartyGlobals.name2DropObjectType['watermelon']:
                 # turn the watermelon to an interesting angle, and move it down
                 model.setH(135)
                 model.setZ(-.5)
-            if objType == PartyGlobals.Name2DropObjectType['pineapple']:
+            if objType == PartyGlobals.name2DropObjectType['pineapple']:
                 # move the pineapple down
                 model.setZ(-1.7)
-            if objType == PartyGlobals.Name2DropObjectType['anvil']:
+            if objType == PartyGlobals.name2DropObjectType['anvil']:
                 # anvil needs to be moved down a foot
                 model.setZ(-self.ObjRadius)
             model.flattenStrong()
@@ -505,7 +505,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         # fix up the drop object table according to the difficulty level,
         # set up per-object-type Trajectory objects and related variables
         for objType in PartyGlobals.DropObjectTypes:
-            DistributedPartyCatchActivity.notify.debug("*** Object Type: %s" % objType.name)
+            DistributedPartyCatchActivity.notify.debug("*** Object Type: %s" % objType._name)
 
             # each object type has an onscreen drop duration multiplier
             # that specifies how long the object should be onscreen,
@@ -735,7 +735,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         self.showCatch(base.localAvatar.doId, generation, objNum)
         # tell the AI we caught this obj
         objName = self._id2gen[generation].droppedObjNames[objNum]
-        objTypeId = PartyGlobals.Name2DOTypeId[objName]
+        objTypeId = PartyGlobals.name2DOTypeId[objName]
         self.sendUpdate('claimCatch', [generation, objNum, objTypeId])
         # make the object disappear
         # NOTE: it is important to do this AFTER sending the claimCatch msg
@@ -752,7 +752,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         if not self._id2gen[generation].hasBeenScheduled:
             return
         objName = self._id2gen[generation].droppedObjNames[objNum]
-        objType = PartyGlobals.Name2DropObjectType[objName]
+        objType = PartyGlobals.name2DropObjectType[objName]
         if objType.good:
             # have we already shown this fruit being eaten?
             if objNum not in self._id2gen[generation].droppedObjCaught:
@@ -796,7 +796,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         gen = self._id2gen[generation]
         if gen.hasBeenScheduled:
             objName = gen.droppedObjNames[objNum]
-            if PartyGlobals.Name2DropObjectType[objName].good:
+            if PartyGlobals.name2DropObjectType[objName].good:
                 # If we're going from Idle to Conclusion because we entered the party
                 # during conclusion, we won't have scores.
                 if hasattr(self, "scores"):
@@ -988,7 +988,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
 
     def getDropIval(self, x, y, dropObjName, generation, num):
         """ x, y: -1..1 """
-        objType = PartyGlobals.Name2DropObjectType[dropObjName]
+        objType = PartyGlobals.name2DropObjectType[dropObjName]
 
         id = (generation, num)
         dropNode = hidden.attachNewNode('catchDropNode%s' % (id, ))
@@ -1121,7 +1121,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
             name='drop%s' % (id, ),
             )
 
-        if objType == PartyGlobals.Name2DropObjectType['anvil']:
+        if objType == PartyGlobals.name2DropObjectType['anvil']:
             ival.append(Func(self.playAnvil))
         return ival
 

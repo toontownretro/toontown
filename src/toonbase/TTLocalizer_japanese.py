@@ -297,9 +297,9 @@ QuestsDefaultIncompleteWrongNPC = ("よく出来たね。次は_toNpcName_のと
                                    )
 QuestsDefaultComplete = ("よくやったね！\nこれは君へのごほうびだよ。",
                          "やったね、_avName_！ はい、ごほうびだよ。",
-                         "素晴らしい出来だね、_avName_! これをごほうびにあげるよ。",
+                         "素晴らしい出来だね、_avName_！ これをごほうびにあげるよ。",
                          )
-QuestsDefaultLeaving = ("バイバイ!",
+QuestsDefaultLeaving = ("バイバイ！",
                         "さよなら！",
                         "じゃあね、_avName_",
                         "またね、_avName_！",
@@ -819,7 +819,7 @@ QuestDialogDict = {
              INCOMPLETE_PROGRESS : "まだＡＴＭを探してるの？" },
     1048 : { QUEST : "マシンを探してくれたのね、ありがとう！\aえーと…少しキズがついてるみたい。\aねえ、これを\"くすぐりマシーン\"にいる_toNpcName_のところに持っていってもらえるかな。彼女なら直せるかもしれない。",
              LEAVING : "", },
-    1049 : { QUEST : "こわれたＡＴＭ?\aマネーボットにやられた？\aま、とにかく見てみようか。\aなるほど、ギアが取れてる…しかもウチには在庫がないわ。\a大きなコグ達が持ってるコグ・ギアなら使えるかもしれない。\aそうね、レベル３のコグ・ギアをマシン１台につき２つ使うから、全部で１０コ取ってきて。\a一度に全部持ってきてね、マシンを一気に直してあげるわ",
+    1049 : { QUEST : "こわれたＡＴＭ？\aマネーボットにやられた？\aま、とにかく見てみようか。\aなるほど、ギアが取れてる…しかもウチには在庫がないわ。\a大きなコグ達が持ってるコグ・ギアなら使えるかもしれない。\aそうね、レベル３のコグ・ギアをマシン１台につき２つ使うから、全部で１０コ取ってきて。\a一度に全部持ってきてね、マシンを一気に直してあげるわ",
              LEAVING : "",
              INCOMPLETE_PROGRESS : "マシンを直すには１０コのギアが必要よ、忘れないようにね！" },
     1053 : { QUEST : "いっちょあがり！\aさ、マシンも全部直ったわよ。お代はけっこう。\aこいつらをファニマニバンクに持ってった時に私からもヨロシク言っといて",
@@ -1072,7 +1072,7 @@ QuestDialogDict = {
     3246 : { QUEST : "すばらしい！よし、あともうひとつ集めるだけだ。\a今度はドクター・トラブルのスプロケットである。\aこやつらを見つけるにはセルボットビルの中を捜すのが良かろう。\aひとつ持って帰ってきてくれればキミにお礼を差し上げよう。" },
 
     3220 : { QUEST : "ついさっき耳に入ったんだが、_toNpcName_がキミを探しているらしい。\a何事か聞いてみるとよかろう。_where_" },
-    3221 : { QUEST : "あら、_avName_!やっといたわ！\aあたし、あなたがみずでっぽう攻撃 のプロだって聞いたわ。\aデイジー・ガーデンのトゥーン達に自己防衛のいい例を見せてあげたいの。\aみずでっぽう攻撃でコグをたくさんやっつけてくれないかしら。\aそうすれば住民達もきっとみずでっぽうで反撃し始めるわ！\a２０体のコグをやっつけてきたらお礼をあげるわ、がんばってね。" },
+    3221 : { QUEST : "あら、_avName_！やっといたわ！\aあたし、あなたがみずでっぽう攻撃 のプロだって聞いたわ。\aデイジー・ガーデンのトゥーン達に自己防衛のいい例を見せてあげたいの。\aみずでっぽう攻撃でコグをたくさんやっつけてくれないかしら。\aそうすれば住民達もきっとみずでっぽうで反撃し始めるわ！\a２０体のコグをやっつけてきたらお礼をあげるわ、がんばってね。" },
 
     3222 : { QUEST : "キミのトゥーン魂を見せてほしい。\aコグに占領された建物を何棟か奪回してくれたら、クエストを３つ持てるようにしてやろう。\aまず、どれか２つのコグビルを奪い返してくれ。\a友達に協力してもらうのもよかろう。"},
     3223 : { QUEST : "よくやった。\aさあ、あと２棟だ。\a２階以上あるものを奪回してきなさい" },
@@ -1130,7 +1130,7 @@ QuestDialogDict = {
              COMPLETE : "キミならやれると信じてたよ！\nふむふむ、\a「セルボット達へ：」\a「昨日、ビッグスマイルとランチオンミーティングをしたよ。」\a「彼は、最近とても忙しいコグゼキュティブについて話をしてくれたんだけど、」\a「どうやら一生懸命働いて『格上げ』されたコグとしか会ってくれないらしいよ。」\a「あ、そうそう。\nオオゲーサと日曜日にゴルフに行くんだ。」\a「タッシャーナより」\aうーん、_avName_。これは非常に助かる情報だったね。\aこれはキミへのごほうびだよ。",
              },
 
-    3262 : { QUEST : "_toNpcName_ がセルボット本部の工場について何か新しい情報をつかんだみたいだよ。\a彼に会って、確認するといいよ！_where_" },
+    3262 : { QUEST : "_toNpcName_がセルボット本部の工場について何か新しい情報をつかんだみたいだよ。\a彼に会って、確認するといいよ！_where_" },
     3263 : { GREETING : "やあ！",
              QUEST : "わたしがコーチのヨーガだ。\aいいか、よーく聞いてくれ！\nセルボット達がとてつもなく大きな工場を完成させたみたいだ。１日２４時間、セルボットを作り続けるつもりらしい。\aキミのトゥーン仲間たちと一緒に工場をたたきつぶしにいってくれ！\aセルボット本部の中で、工場へのトンネルを探し出し、工場のエレベーターに乗ってくれ！\aギャグやゲラゲラメーターを一杯にしてから、強いトゥーンたちと一緒に立ち向かおう！\a中にいる工場長を倒せば、セルボットの生産がきっと遅れるはずだ！\aどうだ？キミにできるかな？",
              LEAVING : "それじゃあな！",
@@ -1327,7 +1327,7 @@ QuestDialogDict = {
              INCOMPLETE_PROGRESS : "もっともっと！ビル倒して、怖いのヨ！",
              COMPLETE : "オーウ！スバラシーイ！" },
     5208 : { GREETING : "",
-             LEAVING : "キャー！！!",
+             LEAVING : "キャー！！！",
              QUEST : "オーウ！スバラシーイ！\aふくろはスキー・クリニックにあるヨ" },
     5209 : { GREETING : "ちーす！",
              LEAVING : "じゃあな！",
@@ -1440,7 +1440,7 @@ QuestDialogDict = {
     5271 : { GREETING: "",
              QUEST : "やあ、戻って来たね！\aあの古い歯を治すのはあきらめて、代わりに新しい金の歯を作ってみたよ。\aだが、ビッグスマイルが来て盗んで行ってしまったんだ。\a急いで追いかければ捕まえられるかもしれない。",
              LEAVING : "",
-             INCOMPLETE_PROGRESS : "歯は見つかったかい？?" },
+             INCOMPLETE_PROGRESS : "歯は見つかったかい？？" },
     5272 : { GREETING: "",
              QUEST : "やあ、戻って来たね！\aあの古い歯を治すのはあきらめて、代わりに新しい金の歯を作ってみたよ。\aだが、ビッグホワイトが来て盗んで行ってしまったんだ。\a急いで追いかければ捕まえられるかもしれない。",
              LEAVING : "",
@@ -1656,7 +1656,7 @@ QuestDialogDict = {
              },
     6207 : { GREETING : "",
              LEAVING : "",
-             QUEST : "まったく！コグたちのせいで、商売があがったりなの。\a_avName_、助けてくれる？ \aいくつかのコグビルを取り返してくれたら、ごほうびをあげるわ。",
+             QUEST : "まったく！コグたちのせいで、商売があがったりなの。\a_avName_、助けてくれる？\aいくつかのコグビルを取り返してくれたら、ごほうびをあげるわ。",
              INCOMPLETE_PROGRESS : "がっかり…。まだコグビルを取り返してないの？",
              COMPLETE : "ありがとう！これで商売もうまくいくはず！そんな気がする。\aこれで楽しみな釣りの時間も取れるわ。じゃあ、キミの人生をちょっと豊かにしてあげるね。\aはい、これをどうぞ！",
              },
@@ -1679,7 +1679,7 @@ QuestDialogDict = {
              LEAVING : "",
              QUEST : "これこれ！これでチチンプイプイ！ちゃんと動くはず。\aあれ、でも道具がないや。\aセコビッチを倒して、「ペンチ」を持ってきてくれないかな？\aそうしてくれれば、コグたちをやっつける手助けができるんだけどな。よろしくね。",
              INCOMPLETE_PROGRESS : "ペンチはまだかい？探しつづけてね！",
-             COMPLETE : "すばらしい！ペンチでここをしめつけて、っと！\a直ったみたいだね。仕事に戻らないと！\aそういえば、電話がないけど、まあいいか。\aこれはお礼のしるし。グッド、ラック!",
+             COMPLETE : "すばらしい！ペンチでここをしめつけて、っと！\a直ったみたいだね。仕事に戻らないと！\aそういえば、電話がないけど、まあいいか。\aこれはお礼のしるし。グッド、ラック！",
              },
 
     # Scratch Rocco's back and he'll scratch yours.
@@ -2118,7 +2118,7 @@ QuestDialogDict = {
     11013 : { GREETING : "",
               LEAVING : "",
               QUEST : "_avName_、僕の大切な友達！\a今度は%sへ行って別の温度センサーを見つけてくれないかい？" % GlobalStreetNames[5100][-1],
-              INCOMPLETE_PROGRESS : "%sを探しているんだよね？?" % GlobalStreetNames[5100][-1],
+              INCOMPLETE_PROGRESS : "%sを探しているんだよね？？" % GlobalStreetNames[5100][-1],
               COMPLETE : "すばらしい！\aキミのおかげで研究が本当にはかどるよ！\aはい、ごほうび！",
              },
     11014 : { GREETING : "",
@@ -2339,7 +2339,7 @@ QuestDialogDict = {
               LEAVING : "",
               QUEST : "いやぁ、スマン！ヤツらの事でなやんでしまっていてね。\aもう一体だけたのめないかな？",
               INCOMPLETE_PROGRESS : "やはり%sにいるだろう。" % GlobalStreetNames[10000][-1],
-              COMPLETE : "「すばらしい!」の一言につきるよ！\aへんそうパーツだ。受け取ってくれ。",
+              COMPLETE : "「すばらしい！」の一言につきるよ！\aへんそうパーツだ。受け取ってくれ。",
              },
     12030 : { GREETING : "",
               LEAVING : "",
@@ -2355,7 +2355,7 @@ QuestDialogDict = {
               LEAVING : "",
               QUEST : "フリッピーにこの事を伝えてくれる？",
               INCOMPLETE_PROGRESS : "フリッピーはトゥーンホールにいるよ。",
-              COMPLETE : "新しいコグだって?!\a教えてくれてありがとう。\aお礼にさいごのへんそうパーツをあげるよ！",
+              COMPLETE : "新しいコグだって？！\a教えてくれてありがとう。\aお礼にさいごのへんそうパーツをあげるよ！",
               },
     }
 
@@ -2475,7 +2475,7 @@ ReportPanelAlreadyReported = "You have already reported %s during this session. 
 IgnorePanelTitle = "このトゥーンをむしする"
 IgnorePanelAddIgnore = "今回のログインセッションの間は%sをむししますか？"
 IgnorePanelIgnore = "%sをむししています"
-IgnorePanelRemoveIgnore = "%sをむしするのをやめますか?"
+IgnorePanelRemoveIgnore = "%sをむしするのをやめますか？"
 IgnorePanelEndIgnore = " %sをむしするのをやめました"
 IgnorePanelAddFriendAvatar = "%sはあなたのともだちです。ともだちをむしする事はできません。"
 IgnorePanelAddFriendPlayer = "%s (%s)はあなたのともだちです。ともだちをむしする事はできません。"
@@ -2531,7 +2531,7 @@ SpokenMoods = {
     'fatigue': 'トリックの練習は大変なんだよ。きゅうけいさせて！',
     'confusion': 'ん？あなたダレ？ここはドコ？？？',
     'anger': 'いつも私をおいて遊びに行っちゃうでしょ！',
-    'surprise': 'ワオッ！いつ帰ってきたの?!',
+    'surprise': 'ワオッ！いつ帰ってきたの？！',
     'affection': 'いっしょにいられてうれしいよ！',
     }
 
@@ -2556,7 +2556,7 @@ TeleportPanelUnknownHood = "%sへの行き方がわかりません！"
 TeleportPanelUnavailableHood = "%s はいそがしいようです。またあとでトライしてね。"
 TeleportPanelDenySelf = "自分をみつけられません！"
 TeleportPanelOtherShard = "%(avName)s は%(shardName)sにいて、キミは%(myShardName)sにいるよ。%(shardName)sに移動する？"
-TeleportPanelBusyShard = "%(avName)sは今こんざつしているロビーにいるよ。こんでいるロビーではゲームの反応がおそかったり安定しない場合があるけど、それでもワープする?"
+TeleportPanelBusyShard = "%(avName)sは今こんざつしているロビーにいるよ。こんでいるロビーではゲームの反応がおそかったり安定しない場合があるけど、それでもワープする？"
 
 # DistributedBattleBldg.py
 BattleBldgBossTaunt = "私がボスだ！"
@@ -2671,7 +2671,7 @@ ToonHealJokes = [
      "じゃあ、バックミラーで見てみら～！"],
     ["床って、ゆーかー！",
      "ゆかいだな、キミは"],
-    ["あなたは配送業ですか？?",
+    ["あなたは配送業ですか？？",
      "はい、そうです"],
     ["馬が、",
      "ウマれた！"],
@@ -2682,13 +2682,13 @@ ToonHealJokes = [
     ["逃げた虎を",
      "捕らえた"],
     ["豚が",
-     "ぶたれた?"],
+     "ぶたれた？"],
     ["犬が",
      "いぬる"],
     ["ラクダに乗ると",
      "楽だ"],
     ["象だ",
-     "ゾウー！?"],
+     "ゾウー！？"],
     ["トドが動物園に",
      "トドいた"],
     ["熊を",
@@ -2874,7 +2874,7 @@ ToonHealJokes = [
     ["小判を交番に届けるのを",
      "拒んだ"],
     ["映画を",
-     "観に行ってもええが?"],
+     "観に行ってもええが？"],
     ["スキーが",
      "好き～！"],
     ["太陽出ないと",
@@ -2932,7 +2932,7 @@ ToonHealJokes = [
     ["畑でレタスが",
      "取れたっす！"],
     ["そのつまらないギャグに、",
-     "ギャグ切れだ～！?"],
+     "ギャグ切れだ～！？"],
     ]
 
 # MovieHeal.py
@@ -2946,7 +2946,7 @@ MovieSOSWhisperHelp = "%sがバトルで助けが必要だって！"
 MovieSOSObserverHelp = "たすけて！"
 
 # MovieNPCSOS.py
-MovieNPCSOSGreeting = "おまたせ%s!\n手助けするよ！"
+MovieNPCSOSGreeting = "おまたせ%s！\n手助けするよ！"
 MovieNPCSOSGoodbye = "また後で！"
 MovieNPCSOSToonsHit = "ギャグがきまるよ！"
 MovieNPCSOSCogsMiss = "コグはミスするよ！"
@@ -2976,8 +2976,8 @@ RewardPanelQuestLabel = "クエスト：%s"
 RewardPanelCongratsStrings = ["やったね！", "おめでとう！", "いいかんじ！",
                               "よくやったね！", "サイコー！", "かっこいいよ！"]
 RewardPanelNewGag = "%(avName)sに新しいギャグ、\n%(gagName)sのごほうび！"
-RewardPanelUberGag = "%(avName)sは %(gagName)sのギャグを%(exp)sのけいけんちでゲット!"
-RewardPanelEndTrack = "やったね! %(avName)sは%(gagName)sのギャグを全部ゲットしたよ!"
+RewardPanelUberGag = "%(avName)sは %(gagName)sのギャグを%(exp)sのけいけんちでゲット！"
+RewardPanelEndTrack = "やったね！ %(avName)sは%(gagName)sのギャグを全部ゲットしたよ！"
 RewardPanelMeritsMaxed = "まんたん"
 RewardPanelMeritBarLabels = [ "カイコツウチ", "ショーカンジョー", "コグドル", "メリット" ] #▲あとで要チェック★★★★★★★★★★★★★★★★★★★★★
 RewardPanelMeritAlert = "格上げの準備ＯＫ！"
@@ -3903,7 +3903,7 @@ FADoorCodes_TALK_TO_TOM = "ギャグが必要だよ！チュートリアル・�
 FADoorCodes_DEFEAT_FLUNKY_HQ = "オベッカーを倒したらまた来てね！"
 FADoorCodes_TALK_TO_HQ = "ごほうびがＨＱスタッフのハリーからもらえるよ！"
 FADoorCodes_WRONG_DOOR_HQ = "間違い！プレイグラウンドに行くドアはもうひとつの方だよ。"
-FADoorCodes_GO_TO_PLAYGROUND = "間違い! プレイグランドに行かなくちゃ！"
+FADoorCodes_GO_TO_PLAYGROUND = "間違い！ プレイグランドに行かなくちゃ！"
 FADoorCodes_DEFEAT_FLUNKY_TOM = "バトルをはじめるには、オベッカーに近づいてみて！"
 FADoorCodes_TALK_TO_HQ_TOM = "トゥーンＨＱでごほうびがもらえるよ！"
 FADoorCodes_SUIT_APPROACHING = None  # no message, just refuse entry.
@@ -4429,7 +4429,7 @@ ValentinesMickeyChatter = (
     [
     "ラブラブな気分で楽しもう♪",
     "ハート型のゲラゲラブーストはもう試した？",
-    "ミニーへのプレゼント、よろこんでもらえるといいな!",
+    "ミニーへのプレゼント、よろこんでもらえるといいな！",
     "カタログはもう見た？“バレントゥーン”グッズがいっぱいだよ！",
     "“バレントゥーン”パーティーってのもいいね♪",
     "たくさんのパイでコグ達もお祝いしてあげよう！",
@@ -4491,29 +4491,29 @@ VampireMickeyChatter = (
 #        "今夜はきっともりあがるだろうね。",
         "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪",
         "ハロウィーンの仮装は楽しいね♪",
-        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪！",
         "ボクのコスチューム、どうかなぁ？",
-        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪！",
         "%、キュウケツキみたいなコグがいるでしょ？",
-        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪！",
         "ハロウィーンのデコレーションってワクワクするね♪",
-        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪！",
         "なんだかくろねこがたくさんいるね！",
-        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪！",
         "カボチャ頭のトゥーンを見た？",
-        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪！",
         "バァッ！びっくりした？ハハッ！",
-        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪！",
         "キバをみがいておかなきゃね☆",
-        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪！",
         "コワがらなくても大丈夫。ボクは親切なバンパイアだよ♪",
-        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪！",
         "ボクのマント、かっこいいでしょ♪",
-        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪！",
         "おっと、おどかしちゃったかな？",
-        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪！",
         "トゥーンタウンのハロウィーンを楽しんでね♪",
-        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪！",
         "コワくて眠れなくなっちゃうぞぉ～！ハハッ！",
         ],
         [ # Goodbyes
@@ -4807,7 +4807,7 @@ HalloweenDaisyChatter = (
 
 ChipChatter = (
         [ # Greetings
-        "%sにようこそ!" % lOutdoorZone,
+        "%sにようこそ！" % lOutdoorZone,
         "やぁ、僕は" + Chip + "。キミの名前は？",
         "僕が" + Chip + "だよ！",
         "%、会えてほんとうにうれしいよ！",
@@ -4830,7 +4830,7 @@ ValentinesChipChatter = (
     [ # Greetings
     "ボクはチップ！",
     "ハッピー　“バレントゥーン”デー！",
-    "ハッピー　“バレントゥーン”デー、, %!",
+    "ハッピー　“バレントゥーン”デー、, %！",
     ],
     [ # Comments
     "デール、“バレントゥーン”にはボクになにをくれるの？",
@@ -4848,7 +4848,7 @@ WinterChipChatter = (
     [ # Greetings
     "ハッピー・ウィンター・ホリデー！",
     "ボクの衣装いいでしょ？",
-    "ハッピー・ウィンター・ホリデー、 %!"
+    "ハッピー・ウィンター・ホリデー、 %！"
     ],
     [ # Comments
     "Happy Winter Holiday, Dale!",
@@ -4909,7 +4909,7 @@ ValentinesDaleChatter = (
     [ # Greetings
     "ボクはデール！",
     "ハッピー　“バレントゥーン”デー！",
-    "ハッピー　“バレントゥーン”デー、%!",
+    "ハッピー　“バレントゥーン”デー、%！",
     ],
     [ # Comments
     "去年と同じ、なんにも用意してないよ！",
@@ -5019,7 +5019,7 @@ ValentinesGoofyChatter = (
     [
     "“バレントゥーン”デーが大好きなグーフィーだよ！",
     "ハッピー　“バレントゥーン”デー！",
-    "ハッピー　“バレントゥーン”デー、 %!",
+    "ハッピー　“バレントゥーン”デー、 %！",
     ],
     [
     "オヒョッ！もう“バレントゥーン”かい？",
@@ -5039,7 +5039,7 @@ GoofySpeedwayChatter = (
         [ # Greetings
         "ようこそ！"+lGoofySpeedway+"へ！",
         "やあ、僕の名前は"+Goofy+"だよ。キミの名前を教えてよ。",
-        "オヒョッ！キミに会えてうれしいよ%!",
+        "オヒョッ！キミに会えてうれしいよ%！",
         ],
         [ # Comments
         "さっきすごいレースを見たんだよ！",
@@ -5196,7 +5196,7 @@ ValentinesDreamlandChatter = (
     [
     "やぁ、ボクはドナルドだ…グゥ～…",
     "ハッピー　“バレントゥーン”デー！",
-    "ハッピー　“バレントゥーン”デー、 %!",
+    "ハッピー　“バレントゥーン”デー、 %！",
     ],
     [
     "“バレントゥーン”デーだ、もう起きなきゃ…",
@@ -5252,7 +5252,7 @@ ValentinesDonaldChatter = (
     [
     "やぁ、ボクはドナルドだよ！",
     "ハッピー　“バレントゥーン”デー！",
-    "ハッピー　“バレントゥーン”デー、 %!",
+    "ハッピー　“バレントゥーン”デー、 %！",
     ],
     [
     "“バレントゥーン”にデイジーをデートにさそった方がいいかなぁ？",
@@ -5906,7 +5906,7 @@ TeaserSubscribe = "今すぐ申し込む"
 TeaserContinue = "お試し体験を続ける"
 #TeaserEmotions = "カタログでは「手をふる」、「ほめる」といったトゥーンの\n  表現も買うことができるよ。表現ゆたかなトゥーンにしよう！"
 #TeaserKarting = "ともだちのカートと一緒に楽しくレースしよう！"
-#TeaserKartingAccessories = "かっこいいアクセサリーで、キミのカートをカスタマイズしよう!"
+#TeaserKartingAccessories = "かっこいいアクセサリーで、キミのカートをカスタマイズしよう！"
 #TeaserGardening = "キミのおうちの庭を花や像やギャグの木できれいにかざろう！"
 #TeaserHaveFun = "楽しんでね！"
 #TeaserJoinUs = "登録しよう！"
@@ -6077,7 +6077,7 @@ EventsPageHostingTabDecorationsListTitle = "デコレーション"
 EventsPageHostingTabPartiesListTitle = "しゅさい者"
 EventsPageHostTabCancelButton = "パーティーをキャンセル"
 EventsPageGoButton = "パーティーを\n始める"
-EventsPageGoBackButton = "パーティーに\nようこそ!"
+EventsPageGoBackButton = "パーティーに\nようこそ！"
 EventsPageInviteGoButton = "パーティーに\n行こう！"
 EventsPageUnknownToon = "知らないトゥーン"
 
@@ -7107,7 +7107,7 @@ TownBattleChooseAvatarCogTitle = "どの " + Cog.upper() + "？"
 TownBattleChooseAvatarBack = "戻る"
 
 #firecogpanel
-FireCogTitle = "かいこ通知の数:%s\nどのコグをクビにする?"
+FireCogTitle = "かいこ通知の数:%s\nどのコグをクビにする？"
 FireCogLowTitle = "かいこ通知の数:%s\nたりないよ！"
 
 # TownBattleSOSPanel.py
@@ -7144,8 +7144,8 @@ FishingExit = "終了"
 FishingCast = "キャスト"
 FishingAutoReel = "オートリール"
 FishingItemFound = "釣ったのは…"
-FishingCrankTooSlow = "おそ\\すぎる!"
-FishingCrankTooFast = "はや\nすぎる!"
+FishingCrankTooSlow = "おそ\\すぎる！"
+FishingCrankTooFast = "はや\nすぎる！"
 FishingFailure = "何も釣れなかったよ！"
 FishingFailureTooSoon = "食いつきがあるまで、釣り糸を巻いちゃだめだよ。 うきがぴくぴく上下にすばやく動くまで待って！"
 FishingFailureTooLate = "魚が食いついている間に、釣り糸を巻くんだよ！"
@@ -7153,7 +7153,7 @@ FishingFailureAutoReel = "今回はオートリールが動かなかったね。
 FishingFailureTooSlow = "クランクを回すのがおそすぎるよ。他の魚よりもすばしっこい魚もいるからね。スピードバーを中心にしておいてみて！"
 FishingFailureTooFast = "クランクを回すのがはやすぎるよ。他の魚よりものろい魚もいるからね。スピードバーを中心にしておいてみて！"
 FishingOverTankLimit = "タンクが一杯だよ。\n魚を売ってから\nもう一度きてね！"
-FishingBroke = "釣り針につけるものがなくなっちゃったよ!  トロリーにのって、ジェリービーンをもっとあつめてきてね！"
+FishingBroke = "釣り針につけるものがなくなっちゃったよ！  トロリーにのって、ジェリービーンをもっとあつめてきてね！"
 FishingHowToFirstTime = "キャストボタンをクリックして、下の方向にドラッグしてね。ドラッグすればするほど、より遠くに投げることができるよ。ターゲットに向けて角度も調節しよう。\n\n今すぐ、試そう！"
 FishingHowToFailed = "キャストボタンをクリックして、下の方向にドラッグしてね。ドラッグすればするほど、より遠くに投げることができるよ。ターゲットに向けて角度も調節しよう。\n\nもう一度、試してみよう！"
 FishingBootItem = "ボロぐつ"
@@ -7202,7 +7202,7 @@ TutorialFriendsPanelMickeyChat = Flippy + " は、キミのともだちになり
 TutorialFriendsPanelYes = Flippy + "は、いいよって言ってるよ！"
 TutorialFriendsPanelNo = "あんまり感じよくないね！"
 TutorialFriendsPanelCongrats = "おめでとう！最初のともだちができたよ！"
-TutorialFlippyChat1 = "最初のトゥーンタスクの準備ができたら、会いにきてね!"
+TutorialFlippyChat1 = "最初のトゥーンタスクの準備ができたら、会いにきてね！"
 TutorialFlippyChat2 = "タウンホールにいるね！"
 TutorialAllFriendsButton = "ともだちボタンをクリックすると、キミの友だち全員をみることができるよ。やってみて…"
 TutorialEmptyFriendsList = Flippy + " は実際のプレイヤーじゃないから、キミのリストは今からっぽだよ。"
@@ -7218,14 +7218,14 @@ TutorialLaffMeter4 = "こんな具合にプレイグラウンドにいると、�
 TutorialLaffMeter5 = "トゥーンタスクが終わったら、キミのゲラゲラリミットが上がったりするごほうびがもらえるよ。"
 TutorialLaffMeter6 = "気をつけて！ もし" + Cogs + "にたおされたら、そいつにキミの持ってるギャグが全部持っていかれちゃうんだ！"
 TutorialLaffMeter7 = "トロリーゲームをして、ギャグをもっとゲットしよう！"
-TutorialTrolley1 = "トロリーに行くから、ついてきて!"
-TutorialTrolley2 = "乗るよ!"
+TutorialTrolley1 = "トロリーに行くから、ついてきて！"
+TutorialTrolley2 = "乗るよ！"
 TutorialBye1 = "ゲームをしよう！"
 TutorialBye2 = "ゲームをしよう！\nギャグを買おう！"
-TutorialBye3 = "終わったら、" + Flippy + " に会いにいこう!"
+TutorialBye3 = "終わったら、" + Flippy + " に会いにいこう！"
 
 # TutorialForceAcknowledge.py
-TutorialForceAcknowledgeMessage = "行き先がちがうよ！　" + Mickey + "をさがしにいって!"
+TutorialForceAcknowledgeMessage = "行き先がちがうよ！　" + Mickey + "をさがしにいって！"
 
 PetTutorialTitle1 = "ドゥードゥル パネル"
 PetTutorialTitle2 = "ドゥードゥル スピードチャット"
@@ -7250,7 +7250,7 @@ GardenTutorialPrev = "前ページ"
 GardenTutorialDone = "わかった"
 GardenTutorialPage1 = "キミのおうちをガーデニングでトゥーンアップ！お花や木を育ててデコレーションして、強力なギャグをしゅうかくしよう！"
 GardenTutorialPage2 = "花の育ち方はジェリービーンのびみょうなまぜ方で決まるよ。うまく育ったらキミの庭にある手押し車で売りに行こう。続けるといいことがあるよ！"
-GardenTutorialPage3 = "キミのもっているギャグを使って木をうえよう。何日かたつと、そのギャグが強力になってるよ!でも、その木の世話をしないとギャグはまたもとにもどっちゃうよ。"
+GardenTutorialPage3 = "キミのもっているギャグを使って木をうえよう。何日かたつと、そのギャグが強力になってるよ！でも、その木の世話をしないとギャグはまたもとにもどっちゃうよ。"
 GardenTutorialPage4 = "キミのおうちのまわりで花や木を育ててしゅうかくしてね。"
 GardenTutorialPage5 = "花のぞうは、クララベルのカタログで買えるよ。スキルをあげて、もっとステキな花のぞうを手に入れよう！"
 
@@ -7271,7 +7271,7 @@ ForemanConfrontedMsg = "%sは今、工場長と戦っているよ！"
 MintBossConfrontedMsg = "%sは今、金庫番と戦っているよ！"
 
 # DistributedStage.py #localize
-StageBossConfrontedMsg = "%sがクラークとバトル中!"
+StageBossConfrontedMsg = "%sがクラークとバトル中！"
 stageToonEnterElevator = "%s \nがエレベーターにのったよ。"
 ForcedLeaveStageAckMsg = "ロウクラークはキミがたどりつく前にたおされました。ショーカンジョーを取りもどせませんでした。"
 
@@ -7376,9 +7376,9 @@ ColorYellow = "きいろの"
 # DistributedDivingGame.py #localize
 DivingGameTitle = "ダイビングゲーム"
 # color
-DivingInstructionsSinglePlayer = "たからものはみずうみのそこにあるよ。矢印キーを使っておよいでね。サカナをさけながら、ボートまでたからをはこぼう!"
+DivingInstructionsSinglePlayer = "たからものはみずうみのそこにあるよ。矢印キーを使っておよいでね。サカナをさけながら、ボートまでたからをはこぼう！"
 # color
-DivingInstructionsMultiPlayer = "たからものはみずうみのそこにあるよ。矢印キーを使っておよいでね。みんなで力をあわせてボートまでたからものをはこぼう!"
+DivingInstructionsMultiPlayer = "たからものはみずうみのそこにあるよ。矢印キーを使っておよいでね。みんなで力をあわせてボートまでたからものをはこぼう！"
 DivingGameTreasuresRetrieved = "たからの数"
 
 #Distributed Target Game
@@ -7396,7 +7396,7 @@ TargetGameBounceHelp = "地面ではねるとターゲットからはずれち�
 PhotoGameScoreTaken = "%s: %s\nキミ: %s"
 PhotoGameScoreBlank = "スコア: %s"
 PhotoGameScoreOther = "\n%s"#"スコア: %s\n%s"
-PhotoGameScoreYou = "\nベスト・ボーナス!"#"スコア: %s\nベスト・ボーナス!"
+PhotoGameScoreYou = "\nベスト・ボーナス！"#"スコア: %s\nベスト・ボーナス！"
 
 
 # DistributedTagGame.py
@@ -7407,7 +7407,7 @@ TagGameSomeoneElseIsIt = "%s がオニだよ！"
 
 # DistributedMazeGame.py
 MazeGameTitle = "メイズゲーム"
-MazeGameInstructions = "ミッキーマークをできるだけあつめよう！\nでも、" + Cogs + "には気をつけてね!"
+MazeGameInstructions = "ミッキーマークをできるだけあつめよう！\nでも、" + Cogs + "には気をつけてね！"
 
 # DistributedCatchGame.py
 CatchGameTitle = "キャッチゲーム"
@@ -7437,7 +7437,7 @@ CogThiefGameInstructions = "コグ達からギャグ・バレルを守れ！矢�
 CogThiefBarrelsSaved = "%(num)d個のバレルを\n守った！"
 CogThiefBarrelSaved = "%(num)d個のバレルを\n守った！"
 CogThiefNoBarrelsSaved = "ぜんぶ\n盗まれちゃった…"
-CogThiefPerfect = "パーフェクト!"
+CogThiefPerfect = "パーフェクト！"
 
 # MinigameRulesPanel.py
 MinigameRulesPanelPlay = "プレイ"
@@ -7537,7 +7537,7 @@ WaitingForNameSubmission = "名前を登録します..."
 
 # PetshopGUI.py
 PetNameMaster = "PetNameMaster_japanese.txt"
-PetshopUnknownName = "名前: ???"
+PetshopUnknownName = "名前: ？？？"
 PetshopDescGender = "せいべつ:\t%s"
 PetshopDescCost = "かかく:\t%sジェリービーン"
 PetshopDescTrait = "とくせい:\t%s"
@@ -7556,7 +7556,7 @@ PetshopGoHomeText = 'おうちに戻って、新しいドゥードゥルと遊�
 
 # NameShop.py
 NameShopNameMaster = "NameMaster_japanese.txt"
-NameShopPay = "今すぐお申しこみを!"
+NameShopPay = "今すぐお申しこみを！"
 NameShopPlay = "登録無料"
 NameShopOnlyPaid = "フルアクセスメンバーだけが、\nトゥーンのなまえを変えることができるんだ。\nキミが申しこみするまでの\nトゥーンのなまえは\nだよ。"
 NameShopContinueSubmission = "なまえをとどける"
@@ -7805,7 +7805,7 @@ CagedToonBattleThree = {
     12: "こんにちは、%(toon)s！  パイを手に入れたよ！",
 
     20: "ねぇ、%(toon)s！  オリのところまでジャンプして、パイを投げて！",
-    21: "おーい、%(toon)s!  Ctrlキーを使ってジャンプして、オリをさわって！",
+    21: "おーい、%(toon)s！  Ctrlキーを使ってジャンプして、オリをさわって！",
 
     100: "Insertキーを押すとパイを投げるよ！",
     101: "パイがどのくらい飛ぶかは青いパワーメーターでわかるよ！",
@@ -8403,7 +8403,7 @@ BottomStylesDescriptions = {
     'vd_gs1' : 'ハート',
     'vd_gs2' : 'ﾎﾟﾙｶ ﾊｰﾄ',
     'vd_gs3' : '緑・赤のﾊｰﾄ',
-    'c_gsk4' : 'ﾚｲﾝﾎﾞｰ ? ｼﾘｰｽﾞ3',
+    'c_gsk4' : 'ﾚｲﾝﾎﾞｰ ？ ｼﾘｰｽﾞ3',
     'sd_gs1' : 'St. ﾊﾟﾄﾘｯｸ 短パン',
     'sd_gs2' : 'Ides of March greenToon skirt',
     'c_gsk5' : 'ｳｴｽﾀﾝ ｽｶｰﾄ1',
@@ -8413,7 +8413,7 @@ BottomStylesDescriptions = {
     'c_bs4' : 'ｳｴｽﾀﾝ 短パン 2',
     'j4_bs1' : 'July 4th 短パン',
     'j4_gs1' : 'July 4th ｽｶｰﾄ',
-    'c_gsk7' : 'ﾌﾗﾜｰ ? ｼﾘｰｽﾞ7',
+    'c_gsk7' : 'ﾌﾗﾜｰ ？ ｼﾘｰｽﾞ7',
     'pj_gs1' : 'ﾊﾞﾅﾅ ﾊﾟｼﾞｬﾏ ﾊﾟﾝﾂ',
     'pj_gs2' : 'ﾎｰﾝ ﾊﾟｼﾞｬﾏ ﾊﾟﾝﾂ',
     'pj_gs3' : 'ﾒｶﾞﾈ ﾊﾟｼﾞｬﾏ  ﾊﾟﾝﾂ',
@@ -8521,7 +8521,7 @@ SpecialEventMailboxStrings = {
 RentalHours = "時間"
 RentalOf = "の"
 RentalCannon = "ﾚﾝﾀﾙｷｬﾉﾝ"
-RentalGameTable = "ｹﾞｰﾑ・ﾃｰﾌﾞﾙ!"
+RentalGameTable = "ｹﾞｰﾑ・ﾃｰﾌﾞﾙ！"
 RentalTime = "時間の"
 
 EstateCannonGameEnd = "キャノンのレンタルが終わりました。"
@@ -9097,7 +9097,7 @@ MailboxAcceptButton = "荷物をうけとる"
 MailBoxDiscard = "このアイテムをすてる" #localize
 MailboxAcceptInvite = "さんかする"
 MailBoxRejectInvite = "さんかしない"
-MailBoxDiscardVerify = "本当に %s をすててもいい?"
+MailBoxDiscardVerify = "本当に %s をすててもいい？"
 MailBoxRejectVerify = "Are you sure you want to Reject %s?"
 MailboxOneItem = "品物が1つ届いています。"
 MailboxNumberOfItems = "品物が%sつ届いています。"
@@ -9132,9 +9132,9 @@ CatalogGiftToggleOff = "ギフトを買う"
 CatalogGiftToggleWait = "配達中 ..."
 CatalogGiftToggleNoAck = "配達できません"
 CatalogPurchaseItemAvailable = "お買いあげありがとう！ これはすぐに使うことができるわね。"
-CatalogPurchaseGiftItemAvailable = "すばらしい! %sはすぐにこのギフトをつかえそうだね。"
+CatalogPurchaseGiftItemAvailable = "すばらしい！ %sはすぐにこのギフトをつかえそうだね。"
 CatalogPurchaseItemOnOrder = "お買いあげありがとうございます！ご注文の商品はキミのメールボックスに届きます！\n\nメールボックスを後でチェックしてみてね。"
-CatalogPurchaseGiftItemOnOrder = "かしこまりました! %sへのギフトはうけとり人のメールボックスに配達されます。"
+CatalogPurchaseGiftItemOnOrder = "かしこまりました！ %sへのギフトはうけとり人のメールボックスに配達されます。"
 CatalogAnythingElse = "ほかの商品はよろしいですか？"
 CatalogPurchaseClosetFull = "キミのクローゼットはいっぱいだね。 この品物を購入してもいいけど、もしかしたらこの品物が到着した時に、クローゼットのスペースにあきをもたせるため、なにかをすてる必要がでてくるよ。\n\nまだこの品物を購入したい？"
 CatalogPurchaseNoTrunk = "In order to wear this item, you need to buy a trunk.\n\nDo you still want to purchase this item?"
@@ -9149,20 +9149,20 @@ CatalogAcceptBackpack = "You are now wearing your new backpack. The backpack you
 CatalogAcceptShoes = "You are now wearing your new shoes. The shoes you were wearing before have been moved to your trunk."
 CatalogAcceptPole = "あたらしい釣ざおでもっと大きな魚を釣りに行こう！"
 CatalogAcceptPoleUnneeded = "これよりも良い釣りざおを持っているよ！"
-CatalogAcceptChat = "新しいスピードチャットのせりふを手に入れました!"
-CatalogAcceptEmote = "新しい“きもち”を手に入れました!"
-CatalogAcceptBeans = "ジェリービーンを受け取りました!"
-CatalogAcceptRATBeans = "トゥーン・リクルートのごほうびが届きました!"
+CatalogAcceptChat = "新しいスピードチャットのせりふを手に入れました！"
+CatalogAcceptEmote = "新しい“きもち”を手に入れました！"
+CatalogAcceptBeans = "ジェリービーンを受け取りました！"
+CatalogAcceptRATBeans = "トゥーン・リクルートのごほうびが届きました！"
 CatalogAcceptPartyRefund = "Your party was never started. Here's your refund!"
 CatalogAcceptNametag = "新しいネーム・タグが届いたよ！"
-CatalogAcceptGarden = "ガーデニングの道具が届いたよ!"
-CatalogAcceptPet = "キミのペットの新しいトリックを受け取りました!"
+CatalogAcceptGarden = "ガーデニングの道具が届いたよ！"
+CatalogAcceptPet = "キミのペットの新しいトリックを受け取りました！"
 CatalogPurchaseHouseFull = "おうちの中が荷物でいっぱいよ。この品物を購入してもいいけど、もしかしたらこの品物が到着した時に、おうちのスペースにあきをもたせるため、なにかをすてる必要がでてくるわよ。\n\nまだこの品物を購入したい？ "
 CatalogAcceptHouseFull = "おうちの中が荷物でいっぱいよ。この品物をメールボックスからとってくる前に、それ用にスペースにあきをもたせるため、おうちの中のなにかを捨てなきゃね。"
 CatalogAcceptInAttic = "新しい品物は今キミの屋根裏にあるよ。  中にはいって、\"模様替え\"ボタンをクリックすると、キミの家の中におくことができるよ。"
 CatalogAcceptInAtticP = "新しい品物は今キミの屋根裏にあるよ。  中にはいって、\"模様替え\"ボタンをクリックすると、キミの家の中におくことができるよ。"
 CatalogPurchaseMailboxFull = "キミのメールボックスはいっぱいだね！ 品物をいくつかとりだしてスペースにあきをもたせるまで、この品物を購入することはできないよ。"
-CatalogPurchaseGiftMailboxFull = "%sのメールボックスはもういっぱいです!このアイテムは買えません。"
+CatalogPurchaseGiftMailboxFull = "%sのメールボックスはもういっぱいです！このアイテムは買えません。"
 CatalogPurchaseOnOrderListFull = "いま注文している品物が多すぎるよ。すでに注文したものがいくつか届くまで、キミはこれ以上なにも注文することはできないよ。"
 CatalogPurchaseGiftOnOrderListFull = "%sは、げんざい注文しすぎです。"
 CatalogPurchaseGeneralError = "ゲーム内のエラーにより、この品物は購入できません：エラーコード %s"
@@ -9172,10 +9172,10 @@ CatalogPurchaseGiftWillNotFit = "このアイテムは%sにはにあわないか
 CatalogPurchaseGiftLimitReached = "このアイテムはもう持っているのでおくれません。"
 CatalogPurchaseGiftNotEnoughMoney = "このアイテムはキミには高すぎて%sにはおくれないよ。"
 CatalogAcceptGeneralError = "ゲーム内のエラーにより、この品物はメールボックスから削除することはできません：エラーコード %s"
-CatalogAcceptRoomError = "置き場所がたりません。先になにかをすてなきゃネ!"
-CatalogAcceptLimitError = "もう持ちきれないよ。先になにかをすてなきゃネ!"
-CatalogAcceptFitError = "これはキミのサイズとちがうよ!他のトゥーンにあげよう。"
-CatalogAcceptInvalidError = "このアイテムはなんだかイケてないね…。他のトゥーンにあげよう!"
+CatalogAcceptRoomError = "置き場所がたりません。先になにかをすてなきゃネ！"
+CatalogAcceptLimitError = "もう持ちきれないよ。先になにかをすてなきゃネ！"
+CatalogAcceptFitError = "これはキミのサイズとちがうよ！他のトゥーンにあげよう。"
+CatalogAcceptInvalidError = "このアイテムはなんだかイケてないね…。他のトゥーンにあげよう！"
 
 MailboxOverflowButtonDicard = "すてる"
 MailboxOverflowButtonLeave = "そのまま"
@@ -9243,8 +9243,8 @@ CatalogSndOnText = "ｻｳﾝﾄﾞ"
 CatalogSndOffText = "ﾐｭｰﾄ"
 CatalogPurchasedMaxText = "これ以上、買えないよ！"
 CatalogVerifyPurchase = "ジェリービーン%(price)s個で%(item)sを買いますか？"
-CatalogVerifyRent = "%(item)sをジェリービーン%(price)s個でかりますか?"
-CatalogVerifyGift = "%(friend)sへのギフトとして%(item)sをジェリービーン%(price)s個で買いますか?"
+CatalogVerifyRent = "%(item)sをジェリービーン%(price)s個でかりますか？"
+CatalogVerifyGift = "%(friend)sへのギフトとして%(item)sをジェリービーン%(price)s個で買いますか？"
 CatalogOnlyOnePurchase = "この商品は一度にひとつしか持てないんだ。この品物を購入したら、%(old)sはなくなっちゃうんだ。\n\nほんとうにジェリービーン%(price)sの%(item)sを買う？"
 CatalogExitButtonText = "電話を切る"
 CatalogCurrentButtonText = "今もっている品物へ"
@@ -10829,9 +10829,9 @@ TipDict = {
     "どんなドゥードゥルがいるか、毎日ペットショップをチェックしに行ってみよう！",
     "ロビーが違うと、そこにいるドゥードゥルも違うよ。",
     # Karting
-    "スピードウェイでキミのホットロッドを展示してレース相手を探そう!",
-    "トゥーンタウン・セントラルのタイヤがたのトンネルから、グーフィー・サーキットに行こう!",
-    "グーフィー・サーキットでゲラゲラポイントをゲットしよう!",
+    "スピードウェイでキミのホットロッドを展示してレース相手を探そう！",
+    "トゥーンタウン・セントラルのタイヤがたのトンネルから、グーフィー・サーキットに行こう！",
+    "グーフィー・サーキットでゲラゲラポイントをゲットしよう！",
     "グーフィー・サーキットには、６つのレーストラックがあるよ。 "
     ),
 
@@ -10902,9 +10902,9 @@ TipDict = {
     "コグゼキュティブに会うときには、ギャグとゲラゲラメーターがまんたんかどうかをちゃんとチェックしてね。",
     "格上げされると、コグ変装グッズがアップデートされるよ。",
     "工場長を倒さないとコグに変装するパーツを手に入れることはできないよ。",
-    "ドナルドのドリームランドでトゥーンタスクをやると、マネーボットのへんそうスーツがゲットできるよ!",
+    "ドナルドのドリームランドでトゥーンタスクをやると、マネーボットのへんそうスーツがゲットできるよ！",
     "マネーボットほんぶには、コイン・ドル・ゴールドの3つの工場があるよ。",
-    "マネーマネーがフラフラの時にきんこを投げないと、ヘルメットがわりにとられちゃうよ!きんこを当てて、ヘルメットをはじき飛ばそう!",
+    "マネーマネーがフラフラの時にきんこを投げないと、ヘルメットがわりにとられちゃうよ！きんこを当てて、ヘルメットをはじき飛ばそう！",
     "バトルでロウボットを倒してショウカンジョーを集めよう。",
     "レベルの高いコグを倒すとより多くのメリットが得られるよ。",
     "ショウカンジョーを集めてじゅうぶん格上げされたら、ロウボット本部のサイバンチョーにちょうせんだ！",
@@ -11331,7 +11331,7 @@ FishBingoHelpThreeway = "3ウェイ！  ななめ２本と真ん中の横ライ�
 FishBingoHelpBingo = ""
 FishBingoHelpBlockout = "ブロックアウト！ 全ての場所をマークすれば勝ち。他の全ての池にいるトゥーンと競ってジャックポットを目指そう！"
 FishBingoOfferToSellFish = "キミのバケツが一杯だよ。魚を売りますか？"
-FishBingoJackpotWin = "%s　ジェリービーン　ゲット!"
+FishBingoJackpotWin = "%s　ジェリービーン　ゲット！"
 
 # ResistanceSCStrings: SpeedChat phrases rewarded for defeating the CFO.
 # It is safe to remove entries from this list, which will disable them
@@ -11342,7 +11342,7 @@ FishBingoJackpotWin = "%s　ジェリービーン　ゲット!"
 ResistanceToonupMenu = "ﾄｩｰﾝｱｯﾌﾟ"
 ResistanceToonupItem = "%s ﾄｩｰﾝｱｯﾌﾟ"
 ResistanceToonupItemMax = "さいだい"
-ResistanceToonupChat = "トゥーン最高！ﾄｩｰﾝｱｯﾌﾟ!" #▲
+ResistanceToonupChat = "トゥーン最高！ﾄｩｰﾝｱｯﾌﾟ！" #▲
 ResistanceRestockMenu = "ｷﾞｬｸﾞｱｯﾌﾟ"
 ResistanceRestockItem = "%s ｷﾞｬｸﾞｱｯﾌﾟ"
 ResistanceRestockItemAll = "すべて"
@@ -11384,7 +11384,7 @@ StartingBlock_EnterPractice = "れんしゅうのレースに出ますか？"
 StartingBlock_EnterNonPractice = "%sのレースにチケット%s枚で参加しますか？"
 StartingBlock_EnterShowPad = "ここにキミのカートを止めますか？"
 StartingBlock_KickSoloRacer = "トゥーンバトルレースはひとりではできないよ。"
-StartingBlock_Loading = "レースに行く!"
+StartingBlock_Loading = "レースに行く！"
 
 #stuff for leader boards
 LeaderBoard_Time = "タイム"
@@ -11545,7 +11545,7 @@ RaceHoodRural = "なごやか"
 RaceHoodUrban = "アーバン"
 RaceTypeCircuit = "トーナメント"
 RaceQualified = "よせんつうか"
-RaceSwept = "ぜんしょう!"
+RaceSwept = "ぜんしょう！"
 RaceWon = "かち"
 Race = "レース"
 Races = "レース"
@@ -11614,11 +11614,11 @@ KartTrophyDescriptions = [
 
 KartRace_TitleInfo = "レースの準備はいいかな？"
 KartRace_SSInfo = "スクリュースタジアムへようこそ！\nエンジンをふかして、ハンドルをにぎりしめて！\n"
-KartRace_CoCoInfo = "きりもみコロシアムにようこそ!\nスピードを落さないように、バンクをうまく使ってね。\n"
+KartRace_CoCoInfo = "きりもみコロシアムにようこそ！\nスピードを落さないように、バンクをうまく使ってね。\n"
 KartRace_RRInfo = "さびさびレースウェイへようこそ！\nコースをよーく見て！ライバルにおてやわらかに！\n"
-KartRace_AAInfo = "エアボーン・エーカースにようこそ!\nアップ・ダウンのはげしいコースに注意してね!\n"
+KartRace_AAInfo = "エアボーン・エーカースにようこそ！\nアップ・ダウンのはげしいコースに注意してね！\n"
 KartRace_CCInfo = "シティーサーキットへようこそ！\nダウンタウンを通りぬけるときには、ほこうしゃに気をつけて！\n"
-KartRace_BBInfo = "ブリザード・ブルバードにようこそ!\nスピード出しすぎ注意!道路がこおってるかも!?\n"
+KartRace_BBInfo = "ブリザード・ブルバードにようこそ！\nスピード出しすぎ注意！道路がこおってるかも！？\n"
 KartRace_GeneralInfo = "方向キーでカートをコントロールしよう！コース上でひろったギャグはコントロールキーで投げられるよ！"
 
 KartRace_TrackInfo = {
@@ -11646,7 +11646,7 @@ KartRace_FirstSuffix = '位'
 KartRace_SecondSuffix = '位'
 KartRace_ThirdSuffix = '位'
 KartRace_FourthSuffix = '位'
-KartRace_WrongWay = '逆方向!'
+KartRace_WrongWay = '逆方向！'
 KartRace_LapText = "ラップ %s"
 KartRace_FinalLapText = "ファイナルラップ！"
 KartRace_Exit = "レースしゅうりょう"
@@ -11656,7 +11656,7 @@ KartRace_Qualified = "よせんつうか！"
 KartRace_Record = "しんきろく！"
 KartRace_RecordString = '%sしんきろく！\n%sから\nチケット%s枚のボーナス！'
 KartRace_Tickets = "チケット"
-KartRace_Exclamations = "!"
+KartRace_Exclamations = "！"
 KartRace_Deposit = "デポジット"
 KartRace_Winnings = "しょうり"
 KartRace_Bonus = "ボーナス"
@@ -11670,11 +11670,11 @@ KartRace_DepositPhrase = KartRace_Deposit + KartRace_Colon + "\n"
 KartRace_QualifyPhrase = "よせんつうか:\n"
 KartRace_RaceTimeout = "タイムアップ！キミのチケットはもどったよ。がんばって！"
 KartRace_RaceTimeoutNoRefund = "じかんぎれです。グランプリはもう始まってしまったからチケットはもどらないよ。次は頑張ってね！"
-KartRace_RacerTooSlow = "ざんねん!じかんぎれです。デポジットはかえってこないけど、あきらめずにがんばってね!"
+KartRace_RacerTooSlow = "ざんねん！じかんぎれです。デポジットはかえってこないけど、あきらめずにがんばってね！"
 KartRace_PhotoFinish = "フォト・フィニッシュ！"
 KartRace_CircuitPoints = 'サーキットポイント'
 
-CircuitRaceStart = "グーフィー・サーキットでトゥーンタウン・グランプリが始まるよ！3つのレースにさんかして、一番ポイントをゲットしたらチャンピオンに!!"
+CircuitRaceStart = "グーフィー・サーキットでトゥーンタウン・グランプリが始まるよ！3つのレースにさんかして、一番ポイントをゲットしたらチャンピオンに！！"
 CircuitRaceOngoing = "トゥーンタウン・グランプリをかいさい中だよ！"
 CircuitRaceEnd = "本日のトゥーンタウン・グランプリは終了しました。また来週月曜日に！"
 
@@ -11866,7 +11866,7 @@ FlowerFunnyNames = {
          ),
     }
 FlowerVarietyNameFormat = "%s %s"
-FlowerUnknown = "????"
+FlowerUnknown = "？？？？"
 FloweringNewEntry = "New Entry"
 ShovelNameDict = {
     0 : "(スズ)",
@@ -11929,7 +11929,7 @@ ConfirmMaxedSkillFlower = "%(plant)sをしゅうかくして、キミの花の�
 ConfirmBasketFull = "キミのバスケットは一杯だよ。花を売るにはテオシグルマに行こう。"
 ConfirmRemoveTree = "%(tree)sを抜いてもいいかな？"
 ConfirmWontBeAbleToHarvest = "もしこの木を抜くと、高いレベルの木からギャグを育てることができなくなるよ。"
-ConfirmRemoveStatuary = "本当に%(item)sがなくなるけど、いいかな？?"
+ConfirmRemoveStatuary = "本当に%(item)sがなくなるけど、いいかな？？"
 ResultPlantedSomething  = "おめでとう！%sを植えました。"
 ResultPlantedSomethingAn  = "おめでとう！%sを植えました。"
 ResultPlantedNothing = "うまくいかなかったね。違うジェリービーンの組み合わせを試してね。"
@@ -12024,7 +12024,7 @@ TravelGameVotesToGo = "のこり"
 TravelGameVoteToGo = "のこり"
 TravelGameUp = "もっと！"
 TravelGameDown = "へらす。"
-TravelGameVoteWithExclamation = "とうひょう!"
+TravelGameVoteWithExclamation = "とうひょう！"
 TravelGameWaitingChoices = "他のプレイヤーがとうひょうするのを待っています..."
 # cross the bridge later when the first choice is different for each node,
 # e.g. NorthWest, NorthEast, etc.
@@ -12046,15 +12046,15 @@ TravelGameGoingBackToShop ="プレイヤーが１人しかいないからグー�
 PairingGameTitle = "トゥーンしんけいすいじゃく"
 PairingGameInstructions = "Deleteキーでカードをオープン。２枚そろえば得点。ボーナスマークは追加ポイントに！なるべく少ない回数でクリアしよう！"
 PairingGameInstructionsMulti = "Deleteキーでカードをオープン。Controlキーで他のプレイヤーにじゅんばんを知らせよう。２枚そろえば得点。ボーナスマークは追加ポイントに！なるべく少ない回数でクリアしよう"
-PairingGamePerfect = 'パーフェクト!!'
+PairingGamePerfect = 'パーフェクト！！'
 PairingGameFlips = 'オープン回数:'
 PairingGamePoints = 'ポイント:'
 
-TrolleyHolidayStart = "『ターン・テーブル』が始まるよ!２人いじょうでトロリーに乗ってね。"
-TrolleyHolidayOngoing = "ようこそ!『ターン・テーブル』をかいさいちゅうだよ。"
+TrolleyHolidayStart = "『ターン・テーブル』が始まるよ！２人いじょうでトロリーに乗ってね。"
+TrolleyHolidayOngoing = "ようこそ！『ターン・テーブル』をかいさいちゅうだよ。"
 TrolleyHolidayEnd = "『ターン・テーブル』をしゅうりょうします！また来週ね！！"
 
-TrolleyWeekendStart = "『ターン・テーブル』ウィークが始まるよ!２人いじょうでトロリーに乗ってね。"
+TrolleyWeekendStart = "『ターン・テーブル』ウィークが始まるよ！２人いじょうでトロリーに乗ってね。"
 TrolleyWeekendEnd = "『ターン・テーブル』ウィークをしゅうりょうします。"
 
 VineGameTitle = "『ジャングル・ジャンプ』"
@@ -12083,7 +12083,7 @@ GolfHoleNames = {
     9: 'ロックンロール・イン',
     10: 'ボギー・ナイツ',
     11: 'ティー・オフ・タイム',
-    12: 'ホーリー・マカレル!',
+    12: 'ホーリー・マカレル！',
     13: 'ワン・リトル・バーディー',
     14: 'ザ・ドライブ・イン',
     15: 'スィング・タイム',
@@ -12101,7 +12101,7 @@ GolfHoleNames = {
     27: 'ロックンロール・イン-2',
     28: 'ボギー・ナイツ-2',
     29: 'ティー・オフ・タイム-2',
-    30: 'ホーリー・マカレル!-2',
+    30: 'ホーリー・マカレル！-2',
     31: 'ワン・リトル・バーディー-2',
     32: 'ザ・ドライブ・イン-2',
     33: 'スィング・タイム-2',
@@ -12211,8 +12211,8 @@ GolfCupDescriptions = [
     str(GolfGlobals.TrophiesPerCup * 3) + "個のトロフィー",
 ]
 
-GolfAvReceivesHoleBest = "%(name)sが%(hole)sでホールレコードをこうしん!"
-GolfAvReceivesCourseBest = "%(name)sが%(course)sのコースレコードをこうしん!"
+GolfAvReceivesHoleBest = "%(name)sが%(hole)sでホールレコードをこうしん！"
+GolfAvReceivesCourseBest = "%(name)sが%(course)sのコースレコードをこうしん！"
 GolfAvReceivesCup = "%(name)sが%(cup)s杯をかくとく！賞品はｹﾞﾗｹﾞﾗﾌﾞｰｽﾄだ！！"
 GolfAvReceivesTrophy = "%(name)sが%(award)sのトロフィーをかくとく！"
 GolfRanking = "ランキング: \n"
@@ -12246,7 +12246,7 @@ GolfCupTextDisplay = "カップ%(number)s個 : %(desc)s"
 GolfCurrentHistory = "現在%(historyDesc)s : %(num)s"
 GolfTieBreakWinner = "%(name)sがランダムでタイブレークに勝利！"
 GolfSeconds = " -  %(time).2f秒"
-GolfTimeTieBreakWinner = "%(name)sが最短時間でタイブレークに勝利!!"
+GolfTimeTieBreakWinner = "%(name)sが最短時間でタイブレークに勝利！！"
 
 
 
@@ -12261,7 +12261,7 @@ MoreXpHolidayEnd = "Exclusive Test Toon double gag experience time has ended. Th
 
 JellybeanDayHolidayStart = "今日はジェリービーン・デーだよ！パーティーでいつもの二倍のジェリービーンをもらおう！"
 JellybeanDayHolidayEnd = "ジェリービーン・デーは終了しました。また次回に会おうね。"
-PartyRewardDoubledJellybean = "ダブル・ジェリービーン!!"
+PartyRewardDoubledJellybean = "ダブル・ジェリービーン！！"
 
 GrandPrixWeekendHolidayStart = "グーフィーサーキットでグランプリウィークエンド開催中！ ダレでも３連戦参加で大量ポイントゲットのチャンス！"
 GrandPrixWeekendHolidayEnd = "グランプリウィークエンドは終了しました。また次回に会おう！"
@@ -12317,7 +12317,7 @@ LogoutForced = "You have done something wrong\n and are being logged out automat
 
 # DistributedCountryClub.py
 CountryClubToonEnterElevator = "%s \nがゴルフカートにのったよ"
-CountryClubBossConfrontedMsg = "%sがクラブのオーナーとバトルちゅうだよ!"
+CountryClubBossConfrontedMsg = "%sがクラブのオーナーとバトルちゅうだよ！"
 
 # DistributedElevatorFSM.py
 ElevatorBlockedRoom = "さきにたおすあいてがいるみたいだよ。"
@@ -12340,18 +12340,18 @@ BustACogSuccess = "だいせいこう！"
 GolfGreenGameScoreString = "のこりのパズル: %s"
 GolfGreenGamePlayerScore = "クリアのかず %s"
 GolfGreenGameBonusGag = "ボーナス！%sかくとく"
-GolfGreenGameGotHelp = "%s パズルをクリア!"
+GolfGreenGameGotHelp = "%s パズルをクリア！"
 
 GolfGreenGameDirections = "マウスをつかってボールをねらってね！\n三つ同じ色をそろえるとボールが消せるよ。\nボードから全てのコグボールを消そう！"
 
 # DistributedMaze.py
-enterHedgeMaze = "さいしょにめいろをクリアして\nポイントをゲットしよう!"
-toonFinishedHedgeMaze = "%s \n  が %s でゴール!"
+enterHedgeMaze = "さいしょにめいろをクリアして\nポイントをゲットしよう！"
+toonFinishedHedgeMaze = "%s \n  が %s でゴール！"
 hedgeMazePlaces = ["1ばん","2ばん","3ばん","4ばん"]
 mazeLabel = "めいろでレース！"
 
 # Boarding Group
-BoardingPartyReadme = 'ボーディング・グループ?'
+BoardingPartyReadme = 'ボーディング・グループ？'
 BoardingGroupHide = 'かくす'
 BoardingGroupShow = 'ボーディング・グループを見る'
 BoardingPartyInform = '他のトゥーンをクリックしてエレベータ・ボーディング・グループに招待しよう。\nここではボーディング・グループは%s以下で作れます。'
@@ -12409,9 +12409,9 @@ BossbotBossName = "チーフ・ボスゼキュティブ"
 BossbotRTWelcome = "ここでは別のへんそうパーツがひつようなんだ。"
 BossbotRTRemoveSuit = "まずはコグ・スーツをぬいで..."
 BossbotRTFightWaiter = "ここのウェイターたちとたたかおう！"
-BossbotRTWearWaiter = "やったね! さぁ、ウェイターのようふくをきてみよう。"
+BossbotRTWearWaiter = "やったね！ さぁ、ウェイターのようふくをきてみよう。"
 BossbotBossPreTwo1 = "おい、まだか？ぐずぐずするな"
-BossbotBossPreTwo2 = "楽しいえんかいのスタートだ。テキパキとたのむぞ!"
+BossbotBossPreTwo2 = "楽しいえんかいのスタートだ。テキパキとたのむぞ！"
 BossbotRTServeFood1 = "さぁ、コンベアーにおいた料理をどんどんはこんでくれ。"
 BossbotRTServeFood2 = "３回つづけて同じコグにはこぶと、ばくはつするしかけなんだ。"
 BossbotResistanceToonName = "グッドール・ジル・ギグルス"
@@ -12430,11 +12430,11 @@ BossbotGolfSpotLeaving = "いどう中"
 BossbotGolfSpotAdvice = "左右のキーで向きをかえられるよ。\nCtrlキーではっしゃ"
 BossbotRewardSpeech1 = "なんてことを！おまえたち、わたしのカオをまるつぶれにしてくれたな！"
 BossbotRewardSpeech2 = "ガルルルッ！！"
-BossbotRTCongratulations = "すごいすごい!あのボスゼキュティブをついにたおしたぞ！\aさぁ、ボスゼキュティブが忘れていったカイコツウチだよ。\aこれでバトル中のコグをクビにできるんだ。"""
+BossbotRTCongratulations = "すごいすごい！あのボスゼキュティブをついにたおしたぞ！\aさぁ、ボスゼキュティブが忘れていったカイコツウチだよ。\aこれでバトル中のコグをクビにできるんだ。"""
 BossbotRTLastPromotion = "\aおぉ！キミのコグスーツはレベル%sになったよ！\aほんもののコグたちもそれ以上シュッセできないんだ。\aスーツのアップグレードはここまでだけど、レジスタンスを続けるとボーナスがもらえるんだ☆"
 BossbotRTHPBoost = "\aキミの日ごろのかつやくには目をみはるものがある！\aトゥーンひょうぎ会はそのえいよをたたえ、キミにｹﾞﾗｹﾞﾗﾎﾟｲﾝﾄをあたえる事にした。おめでとう！！"
 BossbotRTMaxed = "\aレベル%sのコグスーツを持っているんだね。キミに会えてこうえいだよ！\aトゥーンひょうぎ会にかわって、キミのトゥーン・レジスタンスへのこうけんにかんしゃするよ！"
-GolfAreaAttackTaunt = "ファ～ッ!"
+GolfAreaAttackTaunt = "ファ～ッ！"
 OvertimeAttackTaunts = [ "今のそしきではだめだ。",
                         "ダメなコグをリストラしたらまた相手をしてやる！"]
 
@@ -12533,7 +12533,7 @@ CheckersColorBlack = "キミはクロだよ"
 CheckersObserver = "けんがくちゅう…"
 RegularCheckers = "チェッカー"
 RegularCheckersGameOf = " が勝ったゲーム： "
-RegularCheckersYouWon = "おめでとう！チェッカーに勝利!"
+RegularCheckersYouWon = "おめでとう！チェッカーに勝利！"
 
 MailNotifyNewItems = "メールがとどいたよ！"
 MailNewMailButton = "メール"
@@ -12573,46 +12573,46 @@ DayNamesAbbrev = ("月", "火", "水", "木", "金", "土", "日")
 
 # numbers must match holiday ids in ToontownGlobals
 HolidayNamesInCalendar = {
-    1: ("夏の花火大会", "プレイグラウンドで1時間おきに開かれる花火大会をお友達といっしょに楽しもう！ "),
+    1: ("夏の花火大会", "プレイグラウンドで1時間おきに開かれる花火大会をお友達といっしょに楽しもう！"),
     2: ("新年の花火", "明けましておめでとう！プレイグラウンドで1時間おきにあがる花火でいっしょにお祝いしよう！"),
-    3: ("ガッツキーのしんりゃく", "ハッピー・ハロウィーン! 吸血鬼顔のガッツキーのしんりゃくをくい止めろ! "),
+    3: ("ガッツキーのしんりゃく", "ハッピー・ハロウィーン！ 吸血鬼顔のガッツキーのしんりゃくをくい止めろ！"),
     4: ("ウィンターデコレーション", "ムードたっぷりのストリートや木々のデコレーションをお楽しみください♪"),
-    5: ("ガイコグのしんりゃく", "キミ達の力でガイコグのしんりゃくをくい止めよう！ "),
+    5: ("ガイコグのしんりゃく", "キミ達の力でガイコグのしんりゃくをくい止めよう！"),
     6: ("ビッグスマイルの侵略", "ビッグスマイルの侵略をくいとめろ！"),
-    7: ("フィッシュビンゴ", "今日はフィッシュビンゴの日！なかまたちと“ビンゴ！”をめざそう。 "),
-    8: ("新種トゥーン投票", "キミはどんな新種トゥーンがいいと思う？ヤギ？ライオン？好きな新種に投票しよう！ "),
+    7: ("フィッシュビンゴ", "今日はフィッシュビンゴの日！なかまたちと“ビンゴ！”をめざそう。"),
+    8: ("新種トゥーン投票", "キミはどんな新種トゥーンがいいと思う？ヤギ？ライオン？好きな新種に投票しよう！"),
     9: ("くろねこトゥーン！", "ハッピー・ハロウィーン！キミもくろねこトゥーン！を作ってみよう。10/31限定だよ！"),
-   13: ("トリック・オア・トリート", "ハッピー・ハロウィーン！ハロウィーンのパンプキンヘッドをもらおう！ "),
+   13: ("トリック・オア・トリート", "ハッピー・ハロウィーン！ハロウィーンのパンプキンヘッドをもらおう！"),
    14: ("グランプリ", "グーフィーサーキットでグランプリ開催中！3連勝してチャンピオンを目指そう。"),
-   16: ("グランプリ・ウィークエンド", "フリー・プラン会員もレースに参加できるよ！ "),
-   17: ("トロリー・トラック", "今日はトロリー・トラックの日。二人以上でトロリーに乗ってトロリー・トラックを楽しもう！ "),
-   19: ("満タン・サタデー", "土曜日は一日中フィッシュビンゴにグランプリ、それからトロリー・トラックで楽しもう！ "),
+   16: ("グランプリ・ウィークエンド", "フリー・プラン会員もレースに参加できるよ！"),
+   17: ("トロリー・トラック", "今日はトロリー・トラックの日。二人以上でトロリーに乗ってトロリー・トラックを楽しもう！"),
+   19: ("満タン・サタデー", "土曜日は一日中フィッシュビンゴにグランプリ、それからトロリー・トラックで楽しもう！"),
    24: ("3月ツキナカ", "3月15日を警戒せよ！ウラギリンの侵略からトゥーンタウンを守れ！"),
    26: ("ハロウィーン デコレ", "おばけの木とデコレーションでさまがわりしたトゥーンタウンをお楽しみあれ！"),
    28: ("おし売りおことわり！", "セルボット達のしつこいセールス戦略には、バトルで“No”と言おう！"),
-   33: ("セルボット・サプライズ１", "セルボット・サプライズ！ブアイソン達の侵略からトゥーンタウンを守れ！ "),
-   34: ("セルボット・サプライズ２", "セルボット・サプライズ！タッシャーナ達の侵略からトゥーンタウンを守れ！ "),
+   33: ("セルボット・サプライズ１", "セルボット・サプライズ！ブアイソン達の侵略からトゥーンタウンを守れ！"),
+   34: ("セルボット・サプライズ２", "セルボット・サプライズ！タッシャーナ達の侵略からトゥーンタウンを守れ！"),
    35: ("セルボット・サプライズ３", "セルボット・サプライズ！オオゲーサの侵略からトゥーンタウンを守れ！"),
-   36: ("セルボット・サプライズ４", "セルボット・サプライズ！クロマクールの侵略からトゥーンタウンを守れ！ "),
-   37: ("マネーボット・スクランブル１", "マネーボット・スクランブル！チョロマカシー達の侵略からトゥーンタウンを守れ！ "),
+   36: ("セルボット・サプライズ４", "セルボット・サプライズ！クロマクールの侵略からトゥーンタウンを守れ！"),
+   37: ("マネーボット・スクランブル１", "マネーボット・スクランブル！チョロマカシー達の侵略からトゥーンタウンを守れ！"),
    38: ("マネーボット・スクランブル２", "マネーボット・スクランブル！セコビッチ達の侵略からトゥーンタウンを守れ！"),
-   39: ("マネーボット・スクランブル３", "マネーボット・スクランブル！カッチリン達の侵略からトゥーンタウンを守れ！ "),
-   40: ("マネーボット・スクランブル４", "マネーボット・スクランブル！スウジスキー達の侵略からトゥーンタウンを守れ！ "),
+   39: ("マネーボット・スクランブル３", "マネーボット・スクランブル！カッチリン達の侵略からトゥーンタウンを守れ！"),
+   40: ("マネーボット・スクランブル４", "マネーボット・スクランブル！スウジスキー達の侵略からトゥーンタウンを守れ！"),
    41: ("ロウボット・チャージ１", "ロウボット・チャージ！タイコモチー達の侵略からトゥーンタウンを守れ！"),
    42: ("ロウボット・チャージ２", "ロウボット・チャージ！ニマイジタン達の侵略からトゥーンタウンを守れ！"),
    43: ("ロウボット・チャージ３", "ロウボット・チャージ！ツケコミン達の侵略からトゥーンタウンを守れ！"),
-   44: ("ロウボット・チャージ４", "ロウボット・チャージ！ウラギリン達の侵略からトゥーンタウンを守れ！ "),
+   44: ("ロウボット・チャージ４", "ロウボット・チャージ！ウラギリン達の侵略からトゥーンタウンを守れ！"),
    45: ("ボスボット・リベンジ１", "ボスボット・リベンジ！オベッカー達の侵略からトゥーンタウンを守れ！"),
    46: ("ボスボット・リベンジ２", "ボスボット・リベンジ！カリカリン達の侵略からトゥーンタウンを守れ！"),
    47: ("ボスボット・リベンジ３", "ボスボット・リベンジ！ガミガミーナ達の侵略からトゥーンタウンを守れ！"),
    48: ("ボスボット・リベンジ４", "ボスボット・リベンジリストラマン達の侵略からトゥーンタウンを守れ！"),
-   49: ("ジェリービーン・デー", "今日はパーティーに参加するとごほうびのジェリービーンがいつもの二倍もらえるよ！ "),
+   49: ("ジェリービーン・デー", "今日はパーティーに参加するとごほうびのジェリービーンがいつもの二倍もらえるよ！"),
    53: ("ブアイソンの侵略", "ブアイソン達の侵略からトゥーンタウンを守れ！"),
    54: ("カッチリンの侵略", "カッチリン達の侵略からトゥーンタウンを守れ！"),
    55: ("ニマイジタンの侵略", "ニマイジタン達の侵略からトゥーンタウンを守れ！"),
    56: ("リストラマンの侵略", "リストラマンの侵略からトゥーンタウンを守れ！"),
    57: ("Toon Caroling", "Celebrate Winter Holiday by caroling around Toontown for a \"cool\" reward!"),
-   59: ("“バレントゥーン”デー", "ハッピー“バレントゥーン”デーを2月12日から16日までいっしょにお祝いしよう!"), # Update
+   59: ("“バレントゥーン”デー", "ハッピー“バレントゥーン”デーを2月12日から16日までいっしょにお祝いしよう！"), # Update
    59: ("ValenToon's Day", "Celebrate ValenToon's Day from Feb 09 to Feb 16!"),
    72: ("Yes Men Invasion", "Stop the Yes Men Cogs from invading Toontown!"),
    73: ("Tightwad Invasion", "Stop the Tightwad Cogs from invading Toontown!"),

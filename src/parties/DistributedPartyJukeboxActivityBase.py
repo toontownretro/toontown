@@ -297,7 +297,7 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
                 base.cr.playGame.getPlace().loader.music.stop()
             base.resetMusic.play()
             self.music.setTime(0.0)
-            self.music.setLoopCount(getMusicRepeatTimes(length))
+            self.music.setLoopCount(int(getMusicRepeatTimes(length)))
             self.music.play()
             if not self.jukebox.isChannelPlaying():
                 self.jukebox.loop("dance")

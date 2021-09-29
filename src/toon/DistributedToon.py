@@ -601,11 +601,18 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
         self.displayTalk(newText)
         base.talkAssistant.receiveOpenTalk(fromAV, avatarName, fromAC, None, newText)
 
+    def isAvFriend(self, avId):
+        return base.cr.isFriend(avId) or base.cr.playerFriendsManager.isAvatarOwnerPlayerFriend(avId)
+
     def setTalkWhisper(self, fromAV, fromAC, avatarName, chat, mods, flags):
         """ Overridden from Distributed player becase pirates ignores players a different way"""
 
         if GMUtils.testGMIdentity(avatarName):
             avatarName  = GMUtils.handleGMName(avatarName)
+
+        if not localAvatar.acceptingNonFriendWhispers:
+            if not self.isAvFriend(fromAV):
+                return
 
         if base.cr.avatarFriendsManager.checkIgnored(fromAV):
             # We're ignoring this jerk.
@@ -647,6 +654,10 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
             self.notify.warning('setWhisperSCEmoteFrom non-toon %s' % fromId)
             return
 
+        if not localAvatar.acceptingNonFriendWhispers:
+            if not self.isAvFriend(fromId):
+                return
+
         if base.cr.avatarFriendsManager.checkIgnored(fromId):
             # We're ignoring this jerk.
             self.d_setWhisperIgnored(fromId)
@@ -676,6 +687,10 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
             self.notify.warning('setWhisperSCFrom non-toon %s' % fromId)
             return
 
+        if not localAvatar.acceptingNonFriendWhispers:
+            if not self.isAvFriend(fromId):
+                return
+
         if base.cr.avatarFriendsManager.checkIgnored(fromId):
             # We're ignoring this jerk.
             self.d_setWhisperIgnored(fromId)
@@ -695,6 +710,17 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
         if chatString:
             self.displayWhisper(fromId, chatString, WhisperPopup.WTQuickTalker)
             base.talkAssistant.receiveAvatarWhisperSpeedChat(TalkAssistant.SPEEDCHAT_NORMAL, msgIndex, fromId)
+
+    def setWhisperSCCustomFrom(self, fromId, msgIndex):
+        handle = base.cr.identifyFriend(fromId)
+        if handle == None:
+            return
+
+        if not localAvatar.acceptingNonFriendWhispers:
+            if not self.isAvFriend(fromId):
+                return
+        return DistributedPlayer.DistributedPlayer.setWhisperSCCustomFrom(self, fromId, msgIndex)
+
 
     ### setWhisperSCToontask ###
 
@@ -717,6 +743,10 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
         sender = base.cr.identifyAvatar(fromId)
         if sender == None:
             return
+
+        if not localAvatar.acceptingNonFriendWhispers:
+            if not self.isAvFriend(fromId):
+                return
 
         if fromId in self.ignoreList:
             # We're ignoring this jerk.
