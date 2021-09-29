@@ -475,7 +475,7 @@ class ToonBase(OTPBase.OTPBase):
         self.rightCells = [
             mm.addGridCell(2, 1, left, right, base.a2dBottom, base.a2dTop, self.a2dRightCenter),
             mm.addGridCell(2, 2.5, left, right, base.a2dBottom, base.a2dTop, self.a2dRightCenter),
-            mm.addGridCell(2, 4, left, right, base.a2dBottom, base.a2dTop, self.a2dRightCenter)
+            #mm.addGridCell(2, 4, left, right, base.a2dBottom, base.a2dTop, self.a2dRightCenter)
             ]
 
     def setCellsAvailable(self, cell_list, available):
