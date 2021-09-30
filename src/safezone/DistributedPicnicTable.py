@@ -333,7 +333,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
                                        OTPGlobals.getInterfaceFont(),
                                        WhisperPopup.WTNormal)
             elif winString == "Find Four":
-                whisper = WhisperPopup("You won a game of Find Four!",
+                whisper = WhisperPopup(TTLocalizer.FindFourYouWon,
                                        OTPGlobals.getInterfaceFont(),
                                        WhisperPopup.WTNormal)
 
@@ -352,7 +352,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
                                              OTPGlobals.getInterfaceFont(),
                                              WhisperPopup.WTNormal)
                 elif winString == "Find Four":
-                    whisper = WhisperPopup(av.getName()  + " has won a game of" + " Find Four!" ,
+                    whisper = WhisperPopup(av.getName()  + TTLocalizer.FindFourGameOf + TTLocalizer.FindFour,
                                            OTPGlobals.getInterfaceFont(),
                                            WhisperPopup.WTNormal)
 

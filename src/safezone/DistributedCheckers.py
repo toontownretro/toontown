@@ -366,7 +366,7 @@ class DistributedCheckers(DistributedNode.DistributedNode):
     def enableExitButton(self):
         self.exitButton = DirectButton(
             relief = None,
-            text = TTLocalizer.ChineseCheckersGetUpButton,
+            text = TTLocalizer.CheckersGetUpButton,
             text_fg = (1, 1, 0.65, 1),
             text_pos = (0, -.23),
             text_scale = 0.8,
@@ -394,7 +394,7 @@ class DistributedCheckers(DistributedNode.DistributedNode):
     def enableStartButton(self):
         self.startButton = DirectButton(
             relief = None,
-            text = TTLocalizer.ChineseCheckersStartButton,
+            text = TTLocalizer.CheckersStartButton,
             text_fg = (1, 1, 0.65, 1),
             text_pos = (0, -.23),
             text_scale = 0.6,
@@ -409,7 +409,7 @@ class DistributedCheckers(DistributedNode.DistributedNode):
     def enableLeaveButton(self):
         self.leaveButton = DirectButton(
             relief = None,
-            text = TTLocalizer.ChineseCheckersQuitButton,
+            text = TTLocalizer.CheckersQuitButton,
             text_fg = (1, 1, 0.65, 1),
             text_pos = (0, -.13),
             text_scale = 0.5,
@@ -427,7 +427,7 @@ class DistributedCheckers(DistributedNode.DistributedNode):
         if(self.turnText != None):
             self.turnText.destroy()
         if player == self.playerNum:
-            message2 = TTLocalizer.ChineseCheckersYourTurn
+            message2 = TTLocalizer.CheckersYourTurn
             color = (0,0,0,1)
         else:
               if player == 1:

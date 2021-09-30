@@ -11542,7 +11542,7 @@ CheckersGetUpButton = "Levantarse"
 CheckersStartButton = "Empezar partida"
 CheckersQuitButton = "Abandonar partida"
 
-CheckersIts = "It's "
+CheckersIts = "Es "
 CheckersYourTurn = "Tu turno"
 CheckersWhiteTurn = "Turno de las blancas"
 CheckersBlackTurn = "Turno de las negras"
@@ -11553,6 +11553,25 @@ CheckersObserver = "Estás de observador"
 RegularCheckers = "Damas."
 RegularCheckersGameOf = " ganó una partida de "
 RegularCheckersYouWon = "¡Ganaste una partida de Damas!"
+
+#DistributedFindFour.py
+FindFourGetUpButton = "Levantarse"
+FindFourStartButton = "Empezar partida"
+FindFourQuitButton = "Abandonar partida"
+FindFourIts = "Es "
+
+FindFourYourTurn = "Tu turno"
+FindFourYellowTurn = "Turno de las amarillas"
+FindFourRedTurn = "Turno de las rojas"
+
+FindFourColorY = "Eres las amarillas"
+FindFourColorR = "Eres las rojas"
+FindFourObserver = "Estás de observador"
+
+FindFourYouWon = "You just won a game of Find Four!"
+FindFourTie = "This Find Four game has resulted in a Tie!"
+FindFour = "Coloca 4"
+FindFourGameOf = " acaba de ganar una partida de "
 
 MailNotifyNewItems = "¡Tienes correo!"
 MailNewMailButton = "Correo"

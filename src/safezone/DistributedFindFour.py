@@ -423,7 +423,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
     def enableExitButton(self):
         self.exitButton = DirectButton(
             relief = None,
-            text = TTLocalizer.ChineseCheckersGetUpButton,
+            text = TTLocalizer.FindFourGetUpButton,
             text_fg = (1, 1, 0.65, 1),
             text_pos = (0, -.23),
             text_scale = 0.8,
@@ -444,14 +444,14 @@ class DistributedFindFour(DistributedNode.DistributedNode):
             message = "You are Yellow"
             color = Vec4(1,1,0,1)
         else:
-            message = TTLocalizer.CheckersObserver
+            message = TTLocalizer.FindFourObserver
             color = Vec4(0,0,0,1)
             #defaultPos = (-.80, -0.25)
         self.screenText = OnscreenText(text = message, pos = defaultPos, scale = 0.10,fg=color,align=TextNode.ACenter,mayChange=1)
     def enableStartButton(self):
         self.startButton = DirectButton(
             relief = None,
-            text = TTLocalizer.ChineseCheckersStartButton,
+            text = TTLocalizer.FindFourStartButton,
             text_fg = (1, 1, 0.65, 1),
             text_pos = (0, -.23),
             text_scale = 0.6,
@@ -466,7 +466,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
     def enableLeaveButton(self):
         self.leaveButton = DirectButton(
             relief = None,
-            text = TTLocalizer.ChineseCheckersQuitButton,
+            text = TTLocalizer.FindFourQuitButton,
             text_fg = (1, 1, 0.65, 1),
             text_pos = (0, -.13),
             text_scale = 0.5,
@@ -480,18 +480,18 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         return
     def enableTurnScreenText(self,player):
         playerOrder = [1,4,2,5,3,6]
-        message1 = TTLocalizer.CheckersIts
+        message1 = TTLocalizer.FindFourIts
         if(self.turnText != None):
             self.turnText.destroy()
         if player == self.playerNum:
-            message2 = TTLocalizer.ChineseCheckersYourTurn
+            message2 = TTLocalizer.FindFourYourTurn
             color = (0,0,0,1)
         else:
               if player == 1:
-                  message2 = "Red's Turn"
+                  message2 = TTLocalizer.FindFourRedTurn
                   color = (1,0,0,1)
               elif player == 2:
-                  message2 = "Yellow's Turn"
+                  message2 = TTLocalizer.FindFourYellowTurn
                   color = (1,1,0,1)
         self.turnText = OnscreenText(text = message1+message2, pos = (-0.7, -0.39), scale = 0.092,fg=color,align=TextNode.ACenter,mayChange=1)
 

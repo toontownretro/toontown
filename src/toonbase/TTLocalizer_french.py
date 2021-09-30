@@ -4540,7 +4540,7 @@ VampireMickeyChatter = (
 FieldOfficeMickeyChatter = [
         "Have you heard about the new Mover & Shaker Field Offices?"
         ]
-    
+
 MinnieChatter = (
         [ # Greetings
         "Bienvenue au Pays musical.",
@@ -12527,7 +12527,7 @@ ChineseCheckersColorO = "Tu observes"
 
 ChineseCheckersYouWon = "Tu viens de remporter une partie de dames chinoises !"
 ChineseCheckers = "Dames chinoises."
-ChineseCheckersGameOf = "vient de remporter une partie de"
+ChineseCheckersGameOf = " vient de remporter une partie de "
 
 #GameTutorials.py
 ChineseTutorialTitle1 = "But"
@@ -12560,6 +12560,25 @@ CheckersObserver = "Tu observes"
 RegularCheckers = "Jeu de dames."
 RegularCheckersGameOf = "vient de remporter une partie de"
 RegularCheckersYouWon = "Tu viens de remporter une partie de dames !"
+
+#DistributedFindFour.py
+FindFourGetUpButton = " "
+FindFourStartButton = "Commencer jeu"
+FindFourQuitButton = "Quitter jeu"
+FindFourIts = "C'est "
+
+FindFourYourTurn = "Ton tour"
+FindFourYellowTurn = "Le tour des jaunes"
+FindFourRedTurn = "Le tour des rouges"
+
+FindFourColorY = "Tu es jaune"
+FindFourColorR = "Tu es rouge"
+FindFourObserver = "Tu observes"
+
+FindFourYouWon = "Tu viens de remporter une partie de puissance 4 !"
+FindFourTie = "This Find Four game has resulted in a Tie!"
+FindFour = "Puissance 4"
+FindFourGameOf = " vient de remporter une partie de "
 
 MailNotifyNewItems = "Tu as reçu un e-mail !"
 MailNewMailButton = "E-mail"

@@ -4497,7 +4497,7 @@ ValentinesMickeyChatter = (
     "Adorei a sua visita!",
     "Diga à Minnie que a pegarei em breve!",
     ]
-    )    
+    )
 
 WinterMickeyDChatter = (
         [ # Greetings specific to Mickey
@@ -4637,7 +4637,7 @@ WinterMinnieCChatter = (
         "Boas-Festas!",
         "Boas-Festas, %!",
         ],
-        [ # Comments        
+        [ # Comments
         "Você vai ganhar muito mais do que um corte de cabelo se cantar para Bárbara Sevilha na Um Penteado por Uma Canção!",
         "Solte a voz, Toon!",
         "Você vai ganhar muito mais do que um corte de cabelo se cantar para Bárbara Sevilha na Um Penteado por Uma Canção!",
@@ -4667,7 +4667,7 @@ WinterMinnieDChatter = (
         "Boas-Festas!",
         "Boas-Festas, %!",
         ],
-        [ # Comments        
+        [ # Comments
         "Solte a voz, Toon!",
         "Mostre como se canta, Toon!",
         "Você consegue seguir a melodia de Melodilândia?",
@@ -4684,7 +4684,7 @@ WinterMinnieDChatter = (
         "Mickey vai me levar para cantar canções de natal!",
         ]
     )
-        
+
 ValentinesMinnieChatter = (
     [
     "Olá, eu sou a Minnie!",
@@ -4881,7 +4881,7 @@ HalloweenDaisyChatter = (
         "Donald vai me levar para pedir gostosuras!",
         "Vou dar uma olhada nas decorações divertidas de Halloween."
         ]
-    )   
+    )
 
 
 ChipChatter = (
@@ -4942,7 +4942,7 @@ WinterChipChatter = (
         "Não se esqueça de dar um presente aos Cogs por nós!",
         ]
     )
-        
+
 HalloweenChipChatter = (
         [ # Greetings
         "Jogue um pouco de miniterror... quer dizer, minigolfe!",
@@ -5098,7 +5098,7 @@ WinterGoofyChatter = (
         "Cuidado com as renas aladas!",
         ]
     )
-        
+
 ValentinesGoofyChatter = (
     [
     "Eu sou o Pateta e estou animado para o Dia ValenToon!",
@@ -5250,7 +5250,7 @@ WinterDreamlandDChatter = (
         "Quando eu acordar, vou cantar canções de Natal!",
         ]
     )
-        
+
 HalloweenDreamlandChatter = (
         [ # Greetings
         "Feliz Halloween!",
@@ -5388,7 +5388,7 @@ WinterDonaldCChatter = (
         "Aproveite as Festas!",
         ]
     )
-        
+
 WinterDonaldDChatter = (
         [ # Greetings
         "Bem-vindo à Parada de Barcos e Trenós do Donald!",
@@ -5413,7 +5413,7 @@ WinterDonaldDChatter = (
         "Aproveite as Festas!",
         ]
     )
-        
+
 WesternPlutoChatter = (
         [# Greetings
         "Bu! Não se assuste, sou eu... Pluto!",
@@ -5440,7 +5440,7 @@ WesternPlutoChatter = (
         "Vou assustar o Donald!",
         ]
     )
-        
+
 WinterPlutoCChatter = (
         [# Greetings
         "Olá, eu sou o Pluto!",
@@ -5466,7 +5466,7 @@ WinterPlutoCChatter = (
         "Mickey vai me levar para cantar canções de natal!",
         ]
     )
-        
+
 WinterPlutoDChatter = (
         [# Greetings
         "Olá, eu sou o Pluto!",
@@ -5691,7 +5691,7 @@ CLGoofySpeedwayChatter = (
         "É hora de dar uma cochilada. Vou para a Sonholândia sonhar com a vitória no Grande Prêmio.",
         ]
     )
-        
+
 
 GPGoofySpeedwayChatter = (
         [ # Greetings
@@ -12554,6 +12554,25 @@ RegularCheckers = "Damas."
 RegularCheckersGameOf = " acaba de ganhar uma partida de "
 RegularCheckersYouWon = "Você acaba de ganhar uma partida de Damas!"
 
+#DistributedFindFour.py
+FindFourGetUpButton = "Levantar-se"
+FindFourStartButton = "Iniciar Jogo"
+FindFourQuitButton = "Sair do Jogo"
+FindFourIts = "É a "
+
+FindFourYourTurn = "Sua Vez"
+FindFourYellowTurn = "Vez do Amarelo"
+FindFourRedTurn = "Vez do Vermelho"
+
+FindFourColorY = "Você é o Amarelo"
+FindFourColorR = "Você é o Vermelho"
+FindFourObserver = "Você está Observando"
+
+FindFourYouWon = "You just won a game of Find Four!"
+FindFourTie = "This Find Four game has resulted in a Tie!"
+FindFour = "Connect 4" # TODO?
+FindFourGameOf = " acaba de ganhar uma partida de "
+
 MailNotifyNewItems = "Chegou correio para você!"
 MailNewMailButton = "Correio"
 MailSimpleMail = "Bilhete"
@@ -12805,4 +12824,3 @@ PlayingCardUnknown = "Nome de Cartão desconhecido"
 # No longer in use.
 #AllTrickOrTreatFounded = "Doces ou travessuras"
 #TrickOrTreatScavengerHuntCompleted = "Doces ou travessuras"
-

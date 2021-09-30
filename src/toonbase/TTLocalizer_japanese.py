@@ -6459,7 +6459,7 @@ PartyDecorationNameDict = {
     },
     13 : {
         "editor" : "キューピッドの\nハート",
-        "description" : "キミはバレントゥーン・デーのターゲットかも！", 
+        "description" : "キミはバレントゥーン・デーのターゲットかも！",
     },
     14 : {
         "editor" : "ハート・バナー",
@@ -8834,12 +8834,12 @@ AwardManagerFurnitureNames = {
 
 # CatalogClothingItem.py--don't translate yet.
 ClothingArticleNames = (
-    "シャツ", 
-    "シャツ", 
-    "シャツ", 
-    "短パン", 
-    "短パン", 
-    "スカート", 
+    "シャツ",
+    "シャツ",
+    "シャツ",
+    "短パン",
+    "短パン",
+    "スカート",
     "短パン",
     )
 
@@ -12535,6 +12535,25 @@ RegularCheckers = "チェッカー"
 RegularCheckersGameOf = " が勝ったゲーム： "
 RegularCheckersYouWon = "おめでとう！チェッカーに勝利！"
 
+#DistributedFindFour.py
+FindFourGetUpButton = "席を立つ"
+FindFourStartButton = "ゲーム開始"
+FindFourQuitButton = "ゲーム終了"
+FindFourIts = "次は"
+
+FindFourYourTurn = "キミの番だよ"
+FindFourYellowTurn = "黄色の番だよ"
+FindFourRedTurn = "赤の番だよ"
+
+FindFourColorY = "キミは黄色だよ"
+FindFourColorR = "キミは赤だよ"
+FindFourObserver = "キミはみているだけだよ"
+
+FindFourYouWon = "You just won a game of Find Four!"
+FindFourTie = "This Find Four game has resulted in a Tie!"
+FindFour = "Find Four"
+FindFourGameOf = " が勝ったゲーム： "
+
 MailNotifyNewItems = "メールがとどいたよ！"
 MailNewMailButton = "メール"
 MailSimpleMail = "ノート"
@@ -12785,4 +12804,3 @@ PlayingCardUnknown = "Card Name is unknown"
 # No longer in use.
 #AllTrickOrTreatFounded = "Trick or Treat"
 #TrickOrTreatScavengerHuntCompleted = "Trick or Treat"
-

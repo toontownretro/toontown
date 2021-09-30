@@ -12529,10 +12529,10 @@ ChineseTutorialDone = "Done"
 ChinesePage1 = "The goal of Chinese Checkers is to be the first  player to move all of your marbles from the bottom triangle across the board and into the triangle at the top. The first player to do so wins!"
 ChinesePage2 = "Players take turns moving any marble of their own color. A marble can move into an adjacent hole or it can hop over other marbles. Hops must go over a marble and end in an empty hole. It is possible to chain hops together for longer moves!"
 
-CheckersPage1 = "The goal of Checkers is to leave the opponent without any possible moves. To do this you can either capture all of his peices or block them in such that he has no available moves."
-CheckersPage2 = "Players take turns moving any peice of their own color. A peice can move one square diagonal and forward. A peice can only move into a square that is not occupied by another peice. Kings follow the same rules but are allowed to move backwards."
-CheckersPage3 = "To capture an opponents peice your peice must jump over it diagonally into the vacant square beyond it. If you have any jump moves during a turn, you must do one of them. You can chain jump moves together as long as it is with the same peice."
-CheckersPage4 = "A peice becomes a king when it reaches the last row on the board. A peice that has just become a king cannot continue jumping until the next turn. Additionally, kings are allowed to move all directions and are allowed to change directions while jumping."
+CheckersPage1 = "The goal of Checkers is to leave the opponent without any possible moves. To do this you can either capture all of his pieces or block them in such that he has no available moves."
+CheckersPage2 = "Players take turns moving any piece of their own color. A piece can move one square diagonal and forward. A piece can only move into a square that is not occupied by another piece. Kings follow the same rules but are allowed to move backwards."
+CheckersPage3 = "To capture an opponents piece your piece must jump over it diagonally into the vacant square beyond it. If you have any jump moves during a turn, you must do one of them. You can chain jump moves together as long as it is with the same piece."
+CheckersPage4 = "A piece becomes a king when it reaches the last row on the board. A piece that has just become a king cannot continue jumping until the next turn. Additionally, kings are allowed to move all directions and are allowed to change directions while jumping."
 
 
 
@@ -12552,6 +12552,25 @@ CheckersObserver = "You are Observing"
 RegularCheckers = "Checkers."
 RegularCheckersGameOf = " has just won a game of "
 RegularCheckersYouWon = "You just won a game of Checkers!"
+
+#DistributedFindFour.py
+FindFourGetUpButton = "Get Up"
+FindFourStartButton = "Start Game"
+FindFourQuitButton = "Quit Game"
+FindFourIts = "It's "
+
+FindFourYourTurn = "Your Turn"
+FindFourYellowTurn = "Yellow's Turn"
+FindFourRedTurn = "Red's Turn"
+
+FindFourColorY = "You are Yellow"
+FindFourColorR = "You are Red"
+FindFourObserver = "You are Observing"
+
+FindFourYouWon = "You just won a game of Find Four!"
+FindFourTie = "This Find Four game has resulted in a Tie!"
+FindFour = "Find Four"
+FindFourGameOf = " has just won a game of "
 
 MailNotifyNewItems = "You've got mail!"
 MailNewMailButton = "Mail"

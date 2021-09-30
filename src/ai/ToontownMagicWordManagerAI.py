@@ -3461,7 +3461,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                                         int(centerGrid - round(size/2.0)), -1))
 
                     # The result list should be the same size as given.
-                    assert len(result) == size, "Bad result range: c=%s s=%s result=%s" % (centerGrid, size, result)
+#                    assert len(result) == size, "Bad result range: c=%s s=%s result=%s" % (centerGrid, size, result)
 
                     return result
 
