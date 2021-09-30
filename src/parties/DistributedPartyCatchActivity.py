@@ -1,4 +1,4 @@
-66#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # Contact: Shawn Patton
 # Created: Sep 2008
 #
@@ -247,20 +247,20 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
             # don't compare the name; this will crash if someone changes
             # or removes any of the referenced objects (and crashing is the
             # desired behaviour)
-            if objType == PartyGlobals.name2DropObjectType['pear']:
+            if objType == PartyGlobals.Name2DropObjectType['pear']:
                 # pear needs to be moved down
                 model.setZ(-.6)
-            if objType == PartyGlobals.name2DropObjectType['coconut']:
+            if objType == PartyGlobals.Name2DropObjectType['coconut']:
                 # turn the coconut upside-down so we can see the dots
                 model.setP(180)
-            if objType == PartyGlobals.name2DropObjectType['watermelon']:
+            if objType == PartyGlobals.Name2DropObjectType['watermelon']:
                 # turn the watermelon to an interesting angle, and move it down
                 model.setH(135)
                 model.setZ(-.5)
-            if objType == PartyGlobals.name2DropObjectType['pineapple']:
+            if objType == PartyGlobals.Name2DropObjectType['pineapple']:
                 # move the pineapple down
                 model.setZ(-1.7)
-            if objType == PartyGlobals.name2DropObjectType['anvil']:
+            if objType == PartyGlobals.Name2DropObjectType['anvil']:
                 # anvil needs to be moved down a foot
                 model.setZ(-self.ObjRadius)
             model.flattenStrong()
@@ -342,9 +342,9 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
             toonSD = PartyCatchActivityToonSD(toonId, self)
             self.toonSDs[toonId] = toonSD
             toonSD.load()
-        self.notify.debug("handleToonJoined : currentState = %s" % self.activityFSM.state)
+        self.notify.debug("handleToonJoined : currentState = %s" % self.activityFSM._state)
         self.cr.doId2do[toonId].useLOD(500)
-        if self.activityFSM.state == "Active":
+        if self.activityFSM._state == "Active":
             if toonId in self.toonSDs:
                 self.toonSDs[toonId].enter()
             if base.localAvatar.doId == toonId:
@@ -426,16 +426,16 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
 
     def _toonEnteredTree(self, collEntry):
         self.notify.debug("_toonEnteredTree : avid = %s" % base.localAvatar.doId)
-        self.notify.debug("_toonEnteredTree : currentState = %s" % self.activityFSM.state)
+        self.notify.debug("_toonEnteredTree : currentState = %s" % self.activityFSM._state)
         if self.isLocalToonInActivity():
             # You've landed from the cannon... don't start catch
             assert(self.notify.debug("\tLocal toon in activity"))
             return
-        if self.activityFSM.state == "Active":
+        if self.activityFSM._state == "Active":
             assert(self.notify.debug("\tRequest join"))
             base.cr.playGame.getPlace().fsm.request("activity")
             self.d_toonJoinRequest()
-        elif self.activityFSM.state == "Idle":
+        elif self.activityFSM._state == "Idle":
             assert(self.notify.debug("\tRequest start"))
             base.cr.playGame.getPlace().fsm.request("activity")
             # game is always running
@@ -446,7 +446,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
     def _toonExitedTree(self, collEntry):
         self.notify.debug("_toonExitedTree : avid = %s" % base.localAvatar.doId)
         self._enteredTree = False
-        if (hasattr(base.cr.playGame.getPlace(), 'fsm') and self.activityFSM.state == "Active" and
+        if (hasattr(base.cr.playGame.getPlace(), 'fsm') and self.activityFSM._state == "Active" and
             self.isLocalToonInActivity()):
             if base.localAvatar.doId in self.toonSDs:
                 self.takeLocalAvatarOutOfActivity()
@@ -735,7 +735,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         self.showCatch(base.localAvatar.doId, generation, objNum)
         # tell the AI we caught this obj
         objName = self._id2gen[generation].droppedObjNames[objNum]
-        objTypeId = PartyGlobals.name2DOTypeId[objName]
+        objTypeId = PartyGlobals.Name2DOTypeId[objName]
         self.sendUpdate('claimCatch', [generation, objNum, objTypeId])
         # make the object disappear
         # NOTE: it is important to do this AFTER sending the claimCatch msg
@@ -752,7 +752,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         if not self._id2gen[generation].hasBeenScheduled:
             return
         objName = self._id2gen[generation].droppedObjNames[objNum]
-        objType = PartyGlobals.name2DropObjectType[objName]
+        objType = PartyGlobals.Name2DropObjectType[objName]
         if objType.good:
             # have we already shown this fruit being eaten?
             if objNum not in self._id2gen[generation].droppedObjCaught:
@@ -774,7 +774,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         """ called by the AI to announce a catch """
         self.notify.info('setObjectCaught(%s, %s, %s)' % (avId, generation, objNum))
 
-        if self.activityFSM.state != 'Active':
+        if self.activityFSM._state != 'Active':
             DistributedPartyCatchActivity.notify.warning(
                 'ignoring msg: object %s caught by %s' % (objNum, avId)
                 )
@@ -796,7 +796,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         gen = self._id2gen[generation]
         if gen.hasBeenScheduled:
             objName = gen.droppedObjNames[objNum]
-            if PartyGlobals.name2DropObjectType[objName].good:
+            if PartyGlobals.Name2DropObjectType[objName].good:
                 # If we're going from Idle to Conclusion because we entered the party
                 # during conclusion, we won't have scores.
                 if hasattr(self, "scores"):
@@ -988,7 +988,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
 
     def getDropIval(self, x, y, dropObjName, generation, num):
         """ x, y: -1..1 """
-        objType = PartyGlobals.name2DropObjectType[dropObjName]
+        objType = PartyGlobals.Name2DropObjectType[dropObjName]
 
         id = (generation, num)
         dropNode = hidden.attachNewNode('catchDropNode%s' % (id, ))
@@ -1121,7 +1121,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
             name='drop%s' % (id, ),
             )
 
-        if objType == PartyGlobals.name2DropObjectType['anvil']:
+        if objType == PartyGlobals.Name2DropObjectType['anvil']:
             ival.append(Func(self.playAnvil))
         return ival
 

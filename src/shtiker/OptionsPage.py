@@ -113,6 +113,7 @@ class OptionsPage(ShtikerPage.ShtikerPage):
 
         # Load the Fish Page to borrow its tabs
         gui = loader.loadModel( "phase_3.5/models/gui/fishingBook" )
+
         self.optionsTab = DirectButton(
             parent = self,
             relief = None,
