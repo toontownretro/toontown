@@ -1094,10 +1094,10 @@ def nextAvailableBank(avatar, duplicateItems):
     return item
 
 def getAllBanks():
-    list = []
+    banks = []
     for bankId in list(BankToMoney.keys()):
-        list.append(CatalogFurnitureItem(bankId))
-    return list
+        banks.append(CatalogFurnitureItem(bankId))
+    return banks
 
 def nextAvailableCloset(avatar, duplicateItems):
     # detemine which closet index in the tuple to use
