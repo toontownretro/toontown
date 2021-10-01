@@ -1132,17 +1132,17 @@ def nextAvailableCloset(avatar, duplicateItems):
     return item
 
 def getAllClosets():
-    list = []
-    for closetId in list(ClosetsToClothes.keys()):
-        list.append(CatalogFurnitureItem(closetId))
-    return list
+    closets = []
+    for closetId in list(ClosetToClothes.keys()):
+        closets.append(CatalogFurnitureItem(closetId))
+    return closets
 
 def getAllFurnitures(index):
     # This function returns a list of all possible
     # CatalogFurnitureItems (that is, all color variants)
     # for the indicated type index(es).
-    list = []
+    furnitures = []
     colors = FurnitureTypes[index][FTColorOptions]
     for n in range(len(colors)):
-        list.append(CatalogFurnitureItem(index, n))
-    return list
+        furnitures.append(CatalogFurnitureItem(index, n))
+    return furnitures

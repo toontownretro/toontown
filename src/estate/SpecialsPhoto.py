@@ -21,7 +21,7 @@ class DirectRegion(NodePath):
     def destroy(self):
         assert self.notify.debugStateCall(self)
         self.unload()
-        self.parent = None
+        self._parent = None
 
     def setBounds(self, *bounds):
         """
@@ -129,7 +129,7 @@ class SpecialsPhoto(NodePath):
         self.type = None
         del self.soundTrack
         del self.track
-        self.parent = None
+        self._parent = None
 
     def update(self, type):
         assert self.notify.debugStateCall(self)
@@ -169,9 +169,12 @@ class SpecialsPhoto(NodePath):
         scale = rotate.attachNewNode('scale')
         actor.reparentTo(scale)
         # Translate actor to the center.
-        bMin,bMax = actor.getTightBounds()
-        center = (bMin + bMax)/2.0
-        actor.setPos(-center[0], -center[1], -center[2])
+        if actor.getTightBounds():
+            bMin,bMax = actor.getTightBounds()
+            center = (bMin + bMax)/2.0
+            actor.setPos(-center[0], -center[1], -center[2])
+        else:
+            actor.setPos(0, 0, 0)
 
         pitch.setY(2.5)
 

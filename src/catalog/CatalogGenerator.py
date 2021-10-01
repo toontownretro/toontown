@@ -1663,7 +1663,7 @@ class CatalogGenerator:
         return item
 
     def outputSchedule(self, filename):
-        out = open(Filename(filename).toOsSpecific(), "w")
+        out = open(Filename(filename).toOsSpecific(), "wb")
 
         sched = self.generateScheduleDictionary()
 

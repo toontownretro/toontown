@@ -430,7 +430,7 @@ class PlantingGUI(DirectFrame):
         xIncrement = 0.1
         xPos = 0
         startingXCoord = (-0.1 * float(self.maxBoxes ) / 2.0)   + 0.05
-        for activeBox in range(self.availableBoxes):
+        for activeBox in range(int(self.availableBoxes)):
             xPos = xIncrement * activeBox + startingXCoord
             if USE_SCROLLING_BEAN_BOX:
                 self.createScrollingBeanBox(activeBox, xPos, zCoord, True)
@@ -438,7 +438,7 @@ class PlantingGUI(DirectFrame):
                 self.createSpiffyBeanBox(activeBox, xPos, zCoord, True)
 
 
-        for disabledBox in range(self.availableBoxes, self.maxBoxes):
+        for disabledBox in range(int(self.availableBoxes), self.maxBoxes):
             xPos = xIncrement * disabledBox + startingXCoord
             if USE_SCROLLING_BEAN_BOX:
                 self.createScrollingBeanBox(disabledBox, xPos, zCoord, False)

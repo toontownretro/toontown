@@ -216,24 +216,24 @@ def getFloorings(*indexList):
     # have a color chosen by the user.  Until customization,
     # use a default color index of 0 (if the pattern has a color
     # list) or CT_WHITE if the pattern has no color list
-    list = []
+    floorings = []
     for index in indexList:
-        list.append(CatalogFlooringItem(index))
-    return list
+        floorings.append(CatalogFlooringItem(index))
+    return floorings
 
 def getAllFloorings(*indexList):
     # This function returns a list of all possible
     # CatalogFlooringItems (that is, all color variants) for the
     # indicated type index(es).
-    list = []
+    floorings = []
     for index in indexList:
         colors = FlooringTypes[index][FTColor]
         if colors:
             for n in range(len(colors)):
-                list.append(CatalogFlooringItem(index, n))
+                floorings.append(CatalogFlooringItem(index, n))
         else:
-            list.append(CatalogFlooringItem(index, 0))
-    return list
+            floorings.append(CatalogFlooringItem(index, 0))
+    return floorings
 
 def getFlooringRange(fromIndex, toIndex, *otherRanges):
     # This function returns a list of all possible
@@ -243,7 +243,7 @@ def getFlooringRange(fromIndex, toIndex, *otherRanges):
     # Make sure we got an even number of otherRanges
     assert(len(otherRanges)%2 == 0)
 
-    list = []
+    flooringrange = []
 
     froms = [fromIndex,]
     tos = [toIndex,]
@@ -260,7 +260,7 @@ def getFlooringRange(fromIndex, toIndex, *otherRanges):
                 colors = FlooringTypes[patternIndex][FTColor]
                 if colors:
                     for n in range(len(colors)):
-                        list.append(CatalogFlooringItem(patternIndex, n))
+                        flooringrange.append(CatalogFlooringItem(patternIndex, n))
                 else:
-                    list.append(CatalogFlooringItem(patternIndex, 0))
-    return list
+                    flooringrange.append(CatalogFlooringItem(patternIndex, 0))
+    return flooringrange
