@@ -472,7 +472,7 @@ class CatalogItem:
         if not c:
             return False
 
-        # Otherwise, they are the same class; use compareTo.
+        # Otherwise, they are the same class; use equalsTo.
         return self.equalsTo(other)
 
     def __cmp__(self, other):
