@@ -153,6 +153,9 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
         return "CatalogEmoteItem(%s%s)" % (
             self.emoteIndex,
             self.formatOptionalData(store))
+            
+    def equalsTo(self, other):
+        return self.emoteIndex == other.emoteIndex
 
     def compareTo(self, other):
         return self.emoteIndex - other.emoteIndex

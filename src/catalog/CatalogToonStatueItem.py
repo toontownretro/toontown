@@ -72,6 +72,12 @@ class CatalogToonStatueItem(CatalogGardenItem.CatalogGardenItem):
         dg.addUint8(self.startPoseIndex)
         dg.addUint8(self.endPoseIndex)
         
+    def equalsTo(self, other):
+        #if self.startPoseIndex != other.startPoseIndex
+        #    return False
+        #return self.endPoseIndex == other.endPoseIndex
+        return True
+        
     def compareTo(self, other):
         if (self.gardenIndex >= self.startPoseIndex) and (self.gardenIndex <= self.endPoseIndex):
             return 0

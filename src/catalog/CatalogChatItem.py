@@ -82,6 +82,9 @@ class CatalogChatItem(CatalogItem.CatalogItem):
         return "CatalogChatItem(%s%s)" % (
             self.customIndex,
             self.formatOptionalData(store))
+            
+    def equalsTo(self, other):
+        return self.customIndex == other.customIndex
 
     def compareTo(self, other):
         return self.customIndex - other.customIndex

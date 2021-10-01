@@ -221,23 +221,43 @@ class CatalogItemList:
         if self.__list == None:
             self.__decodeList()
         return len(self.__list)
+        
+    def getitem(self, index):
+        return self.__getitem__(index)
 
     def __getitem__(self, index):
         if self.__list == None:
             self.__decodeList()
         return self.__list[index]
+        
+    def setitem(self, index, item):
+        self.__setitem__(index, item)
 
     def __setitem__(self, index, item):
         if self.__list == None:
             self.__decodeList()
         self.__list[index] = item
         self.__blob = None
+        
+    def delitem(self, index):
+        self.__delitem__(index)
 
     def __delitem__(self, index):
         if self.__list == None:
             self.__decodeList()
         del self.__list[index]
         self.__blob = None
+        
+    def contains(self, item):
+        return self.__contains__(item)
+        
+    def __contains__(self, item):
+        if self.__list == None:
+            self.__decodeList()
+        for i in range(0, len(self.__list)):
+            d = self.__list[i]
+            if d == item:
+                return True
 
     def __getslice__(self, i, j):
         if self.__list == None:
@@ -270,7 +290,6 @@ class CatalogItemList:
         copy = CatalogItemList(self, store = self.store)
         copy += other
         return copy
-
 
     def __repr__(self):
         return self.output()

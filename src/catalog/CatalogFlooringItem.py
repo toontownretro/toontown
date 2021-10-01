@@ -147,6 +147,11 @@ class CatalogFlooringItem(CatalogSurfaceItem):
 
     def getFilename(self):
         return FlooringTypes[self.patternIndex][FTTextureName]
+        
+    def equalsTo(self, other):
+        if self.patternIndex != other.patternIndex:
+            return False
+        return self.colorIndex == other.colorIndex
 
     def compareTo(self, other):
         if self.patternIndex != other.patternIndex:

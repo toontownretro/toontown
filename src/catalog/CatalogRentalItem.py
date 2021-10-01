@@ -98,6 +98,9 @@ class CatalogRentalItem(CatalogItem.CatalogItem):
         return "CatalogRentalItem(%s%s)" % (
             self.typeIndex,
             self.formatOptionalData(store))
+            
+    def equalsTo(self, other):
+        return self.typeIndex == other.typeIndex
 
     def compareTo(self, other):
         return self.typeIndex - other.typeIndex

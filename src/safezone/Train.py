@@ -17,7 +17,6 @@ from direct.actor import Actor
 # across sequentially
 
 class Train(DirectObject):
-
     notify = directNotify.newCategory('Train')
     #notify.setDebug(True)
 
@@ -41,6 +40,7 @@ class Train(DirectObject):
 
         # load up the models for the locomotive and the cars
         self.locomotive = loader.loadModel(self.LocomotiveFile)
+        self.locomotive.flattenStrong()
         self.cars = []
 
         self.trainPassingSfx = base.loader.loadSfx(self.Sfx_TrainPass)
@@ -146,6 +146,7 @@ class Train(DirectObject):
             car = loader.loadModel(self.CarFiles[carType])
             car.reparentTo(self.locomotive)
             car.setPos(self.CarLength*(nCar+1), 0, 0)
+            car.flattenStrong()
             self.cars.append(car)
 
     def __showStart(self):

@@ -447,6 +447,12 @@ class CatalogItem:
 
     def __repr__(self):
         return self.output()
+        
+    def equalsTo(self, other):
+        # All CatalogItem type objects are equivalent.
+        # Specializations of this class will redefine this method
+        # appropriately.
+        return True
 
     def compareTo(self, other):
         # All CatalogItem type objects are equivalent.
@@ -459,10 +465,19 @@ class CatalogItem:
         # return whatever pieces of the class are uniquely different
         # to each instance.
         return None
+        
+    def __eq__(self, other):        
+        # If the classes are different, they must be different objects.
+        c = type(self) == type(other)
+        if not c:
+            return False
+
+        # Otherwise, they are the same class; use compareTo.
+        return self.equalsTo(other)
 
     def __cmp__(self, other):
         # If the classes are different, they must be different objects.
-        c = cmp(self.__class__, other.__class__)
+        c = type(self) == type(other)
         if c != 0:
             return c
 

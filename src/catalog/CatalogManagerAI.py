@@ -212,7 +212,10 @@ class CatalogManagerAI(DistributedObjectAI.DistributedObjectAI):
         else:
             self.air.writeServerEvent('suspicious', avatar.doId, 'purchaseItem %s not in catalog' % (item))
             self.notify.warning("Avatar %s attempted to purchase %s, not on catalog." % (avatar.doId, item))
-            self.notify.warning("Avatar %s weekly: %s" % (avatar.doId, avatar.weeklyCatalog))
+            print(dir(avatar.monthlyCatalog))
+            self.notify.debug("Avatar %s monthly: %s" % (avatar.doId, avatar.monthlyCatalog))
+            self.notify.debug("Avatar %s weekly: %s" % (avatar.doId, avatar.weeklyCatalog))
+            self.notify.debug("Avatar %s backlog: %s" % (avatar.doId, avatar.backCatalog))
             return ToontownGlobals.P_NotInCatalog
 
         price = item.getPrice(catalogType)

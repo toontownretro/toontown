@@ -110,6 +110,9 @@ class CatalogNametagItem(CatalogItem.CatalogItem):
         return "CatalogNametagItem(%s%s)" % (
             self.nametagStyle,
             self.formatOptionalData(store))
+            
+    def equalsTo(self, other):
+        return self.nametagStyle == other.nametagStyle
 
     def compareTo(self, other):
         return self.nametagStyle - other.nametagStyle

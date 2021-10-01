@@ -90,6 +90,11 @@ class CatalogGardenItem(CatalogItem.CatalogItem):
         return "CatalogGardenItem(%s%s)" % (
             self.gardenIndex,
             self.formatOptionalData(store))
+            
+    def equalsTo(self, other):
+        if self.gardenIndex != other.gardenIndex:
+            return False
+        return self.numItems == other.numItems
 
     def compareTo(self, other):
         return 0

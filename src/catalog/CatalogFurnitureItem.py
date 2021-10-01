@@ -1010,6 +1010,11 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
     def getFilename(self):
         type = FurnitureTypes[self.furnitureType]
         return type[FTModelName]
+        
+    def equalsTo(self, other):
+        if self.furnitureType != other.furnitureType:
+            return False
+        return self.colorOption == other.colorOption
 
     def compareTo(self, other):
         return self.furnitureType - other.furnitureType

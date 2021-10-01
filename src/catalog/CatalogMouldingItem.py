@@ -97,6 +97,11 @@ class CatalogMouldingItem(CatalogSurfaceItem):
 
     def getFilename(self):
         return MouldingTypes[self.patternIndex][MTTextureName]
+        
+    def equalsTo(self, other):
+        if self.patternIndex != other.patternIndex:
+            return False
+        return self.colorIndex == other.colorIndex
 
     def compareTo(self, other):
         if self.patternIndex != other.patternIndex:

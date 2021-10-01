@@ -347,6 +347,15 @@ class CatalogWallpaperItem(CatalogSurfaceItem):
 
     def getFilename(self):
         return WallpaperTypes[self.patternIndex][WTTextureName]
+        
+    def equalsTo(self, other):
+        if self.patternIndex != other.patternIndex:
+            return False
+        elif self.colorIndex != other.colorIndex:
+            return False
+        elif self.borderIndex != other.borderIndex:
+            return False
+        return self.borderColorIndex == other.borderColorIndex
 
     def compareTo(self, other):
         if self.patternIndex != other.patternIndex:

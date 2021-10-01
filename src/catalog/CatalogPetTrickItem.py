@@ -113,6 +113,9 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
         return "CatalogPetTrickItem(%s%s)" % (
             self.trickId,
             self.formatOptionalData(store))
+            
+    def equalsTo(self, other):
+        return self.trickId == other.trickId
 
     def compareTo(self, other):
         return self.trickId - other.trickId

@@ -129,6 +129,9 @@ class CatalogPoleItem(CatalogItem.CatalogItem):
 
     def getFilename(self):
         return FishGlobals.RodFileDict.get(self.rodId)
+        
+    def equalsTo(self, other):
+        return self.rodId == other.rodId
 
     def compareTo(self, other):
         return self.rodId - other.rodId

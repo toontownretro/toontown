@@ -86,8 +86,10 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
         return self.makeFrameModel(model, spin)
 
     def output(self, store = ~0):
-        return "CatalogGardenStarterItem(%s)" % (
-            self.formatOptionalData(store))
+        return "CatalogGardenStarterItem(%s)" % (self.formatOptionalData(store))
+
+    def equalsTo(self, other):
+        return True
 
     def compareTo(self, other):
         return 0
