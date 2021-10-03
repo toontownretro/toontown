@@ -32,7 +32,7 @@ class BRPlayground(Playground.Playground):
         Playground.Playground.enter(self, requestStatus)
         self.nextWindTime = 0
         taskMgr.add(self.__windTask, 'br-wind')
-        self.state = 0
+        self._state = 0
 
     def exit(self):
         taskMgr.remove('br-wind')

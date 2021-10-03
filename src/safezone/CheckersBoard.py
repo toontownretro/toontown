@@ -86,12 +86,12 @@ class CheckersBoard:
         self.squareList[29].setJumps([20,None,None,22])
         self.squareList[30].setJumps([21,None,None,23])
         self.squareList[31].setJumps([22,None,None,None])
-        
+
     def delete(self):
         for x in self.squareList:
             x.delete()
         del self.squareList
-        
+
     def getSquare(self, arrayLoc):
         return self.squareList[arrayLoc]
     def getState(self, squareNum):
@@ -111,9 +111,9 @@ class CheckersBoard:
             self.squareList[x].setState(squares[x])
     def getJumps(self, squareNum):
         return self.squareList[squareNum].jumps
-    
-    
-        
+
+
+
 #STATES ==
 # 0 == unnocupied
 # 1 == Player 1 - normal peice
@@ -123,12 +123,12 @@ class CheckersBoard:
 class CheckersTile:
     def __init__(self, tileNum):
         self.tileNum = tileNum
-        self.state = 0
+        self._state = 0
         self.adjacent = []
         self.jumps = []
     def delete(self):
         del self.tileNum
-        del self.state
+        del self._state
         del self.adjacent
     def setJumps(self, jumpList):
         for x in jumpList:
@@ -141,9 +141,8 @@ class CheckersTile:
     def getAdjacent(self):
         return self.adjacent
     def setState(self, newState):
-        self.state = newState
+        self._state = newState
     def getState(self):
-        return self.state
+        return self._state
     def getNum(self):
         return self.tileNum
-        

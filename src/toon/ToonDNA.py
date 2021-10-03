@@ -292,34 +292,34 @@ Shirts = [
     "phase_4/maps/tt_t_chr_avt_shirt_mostCogsDefeated01.txo",  # 106 Most Cogs Defeated Shirt
     "phase_4/maps/tt_t_chr_avt_shirt_victoryParty01.txo",  # 107 Victory Party Shirt 1
     "phase_4/maps/tt_t_chr_avt_shirt_victoryParty02.txo",  # 108 Victory Party Shirt 2
-    
+
     "phase_4/maps/tt_t_chr_avt_shirt_sellbotIcon.txo",  # 109 Smashed Sellbot Shirt
     "phase_4/maps/tt_t_chr_avt_shirt_sellbotVPIcon.txo",  # 110 Most V.P.s Defeated Shirt
     "phase_4/maps/tt_t_chr_avt_shirt_sellbotCrusher.txo",  # 111 Sellbot Smasher Shirt
-    
+
     "phase_4/maps/tt_t_chr_avt_shirt_jellyBeans.txo",  # 112 Jellybean Bank Shirt
     "phase_4/maps/tt_t_chr_avt_shirt_doodle.txo",  # 113 Doodle Shirt
-    
+
     "phase_4/maps/tt_t_chr_avt_shirt_halloween5.txo",  # 114 Vampire Shirt
     "phase_4/maps/tt_t_chr_avt_shirt_halloweenTurtle.txo",  # 115 Turtle Shirt
-    
+
     "phase_4/maps/tt_t_chr_avt_shirt_greentoon1.txo",  # 116 Ides of March greenToon shirt
-    
+
     "phase_4/maps/tt_t_chr_avt_shirt_getConnectedMoverShaker.txo",  # 117 Get Connected Mover & Shaker
-    
+
     "phase_4/maps/tt_t_chr_avt_shirt_racingGrandPrix.txo",  # 118
-    
+
     "phase_4/maps/tt_t_chr_avt_shirt_lawbotIcon.txo",  # 119 Smashed Lawbot Shirt
     "phase_4/maps/tt_t_chr_avt_shirt_lawbotVPIcon.txo",  # 120 Most C.J.s Defeated Shirt
     "phase_4/maps/tt_t_chr_avt_shirt_lawbotCrusher.txo",  # 121 Lawbot Smasher Shirt
-    
+
     "phase_4/maps/tt_t_chr_avt_shirt_bee.txo",  # 121 Halloween Bee
     "phase_4/maps/tt_t_chr_avt_shirt_pirate.txo",  # 122 Halloween Pirate
     "phase_4/maps/tt_t_chr_avt_shirt_supertoon.txo",  # 123 Halloween SuperToon
     "phase_4/maps/tt_t_chr_avt_shirt_vampire.txo",  # 124 Halloween Vampire NoCape
     "phase_4/maps/tt_t_chr_avt_shirt_dinosaur.txo",  # 125 Halloween Dinosaur
-    
-    "phase_4/maps/tt_t_chr_avt_shirt_fishing04.txo",  # 126 Fishing Shirt 4    
+
+    "phase_4/maps/tt_t_chr_avt_shirt_fishing04.txo",  # 126 Fishing Shirt 4
     "phase_4/maps/tt_t_chr_avt_shirt_golf03.txo",  # 127 Golf Shirt 3
     "phase_4/maps/tt_t_chr_avt_shirt_mostCogsDefeated02.txo",  # 128 Most Cogs Defeated Shirt 2
     "phase_4/maps/tt_t_chr_avt_shirt_racing03.txo",  # 129 Racing Shirt 3
@@ -327,12 +327,12 @@ Shirts = [
     "phase_4/maps/tt_t_chr_avt_shirt_trolley03.txo",  # 131 Trolley Shirt 3
     "phase_4/maps/tt_t_chr_avt_shirt_fishing05.txo",  # 132 Fishing Shirt 5
     "phase_4/maps/tt_t_chr_avt_shirt_golf04.txo",  # 133 Golf Shirt 4
-    
+
     "phase_4/maps/tt_t_chr_avt_shirt_halloween06.txo",  # 134 Halloween Witchy Moon Shirt
     "phase_4/maps/tt_t_chr_avt_shirt_winter03.txo",  # 135 Winter Holiday Sled Shirt
     "phase_4/maps/tt_t_chr_avt_shirt_halloween07.txo",  # 136 Halloween Batty Moon Shirt
     "phase_4/maps/tt_t_chr_avt_shirt_winter02.txo",  # 137 Winter Holiday Mittens Shirt
-    
+
     "phase_4/maps/tt_t_chr_avt_shirt_fishing06.txo",  # 138 Fishing Shirt 6
     "phase_4/maps/tt_t_chr_avt_shirt_fishing07.txo",  # 139 Fishing Shirt 7
     "phase_4/maps/tt_t_chr_avt_shirt_golf05.txo",  # 140 Golf Shirt 5
@@ -344,7 +344,7 @@ Shirts = [
     "phase_4/maps/tt_t_chr_avt_shirt_trolley05.txo",  # 146 Trolley shirt 5
     "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding4.txo",  # 147 Save Building Shirt 4
     "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding05.txo",  # 148 Save Building Shirt 5
-    
+
     "phase_4/maps/tt_t_chr_avt_shirt_anniversary.txo",  # 149 Anniversary
     ]
 
@@ -498,34 +498,34 @@ Sleeves = [
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_mostCogsDefeated01.txo",# 93 Most Cogs Defeated Sleeves
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_victoryParty01.txo",    # 94 Victory Party Sleeves 1
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_victoryParty02.txo",    # 95 Victory Party Sleeves 2
-    
+
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_sellbotIcon.txo",  # 96 Smashed Sellbot Shirt
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_sellbotVPIcon.txo",  # 97 Most V.P.s Defeated Shirt
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_sellbotCrusher.txo",  # 98 Sellbot Smasher Shirt
-    
+
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_jellyBeans.txo",  # 99 Jellybean Bank Shirt
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_doodle.txo",  # 100 Doodle Shirt
-    
+
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween5.txo",  # 101 Vampire Shirt
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloweenTurtle.txo",  # 102 Turtle Shirt
-    
+
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_greentoon1.txo",  # 103 Ides of March greenToon shirt
-    
+
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_getConnectedMoverShaker.txo",  # 104 Get Connected Mover & Shaker
-    
+
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_racingGrandPrix.txo",  # 105
-    
+
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_lawbotIcon.txo",  # 106 Smashed Lawbot Shirt
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_lawbotVPIcon.txo",  # 107 Most C.J.s Defeated Shirt
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_lawbotCrusher.txo",  # 108 Lawbot Smasher Shirt
-    
+
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_bee.txo",  # 109 Halloween Bee
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_pirate.txo",  # 110 Halloween Pirate
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_supertoon.txo",  # 111 Halloween SuperToon
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_vampire.txo",  # 112 Halloween Vampire NoCape
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_dinosaur.txo",  # 113 Halloween Dinosaur
-    
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing04.txo",  # 114 Fishing Shirt 4    
+
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing04.txo",  # 114 Fishing Shirt 4
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf03.txo",  # 115 Golf Shirt 3
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_mostCogsDefeated02.txo",  # 116 Most Cogs Defeated Shirt 2
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing03.txo",  # 117 Racing Shirt 3
@@ -533,12 +533,12 @@ Sleeves = [
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley03.txo",  # 119 Trolley Shirt 3
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing05.txo",  # 120 Fishing Shirt 5
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf04.txo",  # 121 Golf Shirt 4
-    
+
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween06.txo",  # 122 Halloween Witchy Moon Shirt
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_winter03.txo",  # 123 Winter Holiday Sled Shirt
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween07.txo",  # 124 Halloween Batty Moon Shirt
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_winter02.txo",  # 125 Winter Holiday Mittens Shirt
-    
+
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing06.txo",  # 126 Fishing Shirt 6
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing07.txo",  # 127 Fishing Shirt 7
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf05.txo",  # 128 Golf Shirt 5
@@ -550,7 +550,7 @@ Sleeves = [
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley05.txo",  # 134 Trolley shirt 5
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding4.txo",  # 134 Save Building Shirt 4
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding05.txo",  # 135 Save Building Shirt 5
-    
+
     "phase_4/maps/tt_t_chr_avt_shirtSleeve_anniversary.txo",  # 136 Anniversary
     ]
 
@@ -621,22 +621,22 @@ BoyShorts = [
     "phase_4/maps/tt_t_chr_avt_shorts_cogbuster.txo",  # 40 Silly Cogbuster Shorts
 
     "phase_4/maps/tt_t_chr_avt_shorts_sellbotCrusher.txo",   # 41 Sellbot Smasher Shorts
-    
+
     "phase_4/maps/tt_t_chr_avt_shorts_halloween5.txo",   # 42 # Halloween Vampire Shorts
     "phase_4/maps/tt_t_chr_avt_shorts_halloweenTurtle.txo",   # 43 Halloween Turtle Shorts
-    
+
     "phase_4/maps/tt_t_chr_avt_shorts_greentoon1.txo",   # 44 Ides of March greenToon shorts
-    
+
     "phase_4/maps/tt_t_chr_avt_shorts_racingGrandPrix.txo",   # 45 Racing Grand Prix Shorts
-    
+
     "phase_4/maps/tt_t_chr_avt_shorts_lawbotCrusher.txo",   # 46 Lawbot Smasher Shorts
-    
+
     "phase_4/maps/tt_t_chr_avt_shorts_bee.txo",   # 47 Halloween Bee Shorts
     "phase_4/maps/tt_t_chr_avt_shorts_pirate.txo",   # 48 Halloween Pirate Shorts
     "phase_4/maps/tt_t_chr_avt_shorts_supertoon.txo",   # 49 Halloween SuperToon Shorts
     "phase_4/maps/tt_t_chr_avt_shorts_vampire.txo",   # 50 Halloween Vampire NoCape Shorts
     "phase_4/maps/tt_t_chr_avt_shorts_dinosaur.txo",   # 51 Halloween Dinosaur Shorts
-    
+
     "phase_4/maps/tt_t_chr_avt_shorts_golf02.txo",   # 52 Golf Shorts 2
     "phase_4/maps/tt_t_chr_avt_shorts_racing03.txo",   # 53 Racing Shorts 3
     "phase_4/maps/tt_t_chr_avt_shorts_golf03.txo",   # 54 Golf Shorts 3
@@ -722,23 +722,23 @@ GirlBottoms = [
     ("phase_4/maps/tt_t_chr_avt_shorts_cogbuster.txo", SHORTS),   # 44 Silly Cogbuster Shorts
 
     ("phase_4/maps/tt_t_chr_avt_shorts_sellbotCrusher.txo", SHORTS),   # 45 Sellbot Smasher Shorts
-    
+
     ("phase_4/maps/tt_t_chr_avt_shorts_halloween5.txo", SHORTS),   # 46 Halloween Vampire Shorts
     ("phase_4/maps/tt_t_chr_avt_shorts_halloweenTurtle.txo", SHORTS),   # 47 Halloween Turtle Shorts
-    
+
     ("phase_4/maps/tt_t_chr_avt_skirt_greentoon1.txo", SKIRT),   # 48 Ides of March greenToon skirt
-    
+
     ("phase_4/maps/tt_t_chr_avt_skirt_racingGrandPrix.txo", SKIRT),   # 49 Racing Grand Prix Skirt
-    
+
     ("phase_4/maps/tt_t_chr_avt_shorts_lawbotCrusher.txo", SHORTS),   # 50 Lawbot Smasher Shorts
-    
+
     ("phase_4/maps/tt_t_chr_avt_shorts_bee.txo", SHORTS),   # 51 Halloween Bee Shorts
     ("phase_4/maps/tt_t_chr_avt_shorts_pirate.txo", SHORTS),   # 52 Halloween Pirate Shorts
     ("phase_4/maps/tt_t_chr_avt_skirt_pirate.txo", SKIRT),   # 53 Halloween Pirate Skirt
     ("phase_4/maps/tt_t_chr_avt_shorts_supertoon.txo", SHORTS),   # 54 Halloween SuperToon Shorts
     ("phase_4/maps/tt_t_chr_avt_shorts_vampire.txo", SHORTS),   # 55 Halloween Vampire NoCape Shorts
     ("phase_4/maps/tt_t_chr_avt_shorts_dinosaur.txo", SHORTS),   # 56 Halloween Dinosaur Shorts
-    
+
     ("phase_4/maps/tt_t_chr_avt_skirt_golf02.txo", SKIRT),   # 57 Golf Skirt 2
     ("phase_4/maps/tt_t_chr_avt_skirt_racing03.txo", SKIRT),   # 58 Racing Skirt 3
     ("phase_4/maps/tt_t_chr_avt_skirt_golf03.txo", SKIRT),   # 59 Golf Skirt 3
@@ -1102,18 +1102,18 @@ ShirtStyles = {
     'sil_6' : [ 105, 92, [(27, 27),]],   # Silly Cogbuster Shirt
     'sil_7' : [ 107, 94, [(27, 27),]],   # Victory Party Shirt 1
     'sil_8' : [ 108, 95, [(27, 27),]],   # Victory Party Shirt 2
-    
+
     'emb_us1' : [103, 90, [(27, 27)]],
     'emb_us2' : [100, 87, [(27, 27)]],
     'emb_us3' : [101, 88, [(27, 27)]],
- 
+
     'sb_1' : [109, 96, [(27, 27)]],
- 
+
     'jb_1' : [112, 99, [(27, 27)]],
     'jb_2' : [113, 100, [(27, 27)]],
- 
+
     'ugcms' : [117, 104, [(27, 27)]],
- 
+
     'lb_1' : [119, 106, [(27, 27)]],
     # name : [ shirtIdx, sleeveIdx, [(ShirtColorIdx, sleeveColorIdx), ... ]]
     }
@@ -1328,15 +1328,15 @@ BottomStyles = {
 
     'sil_bs1' : [ 40, [27, ]], # Silly Cogbuster Shorts
     'sil_gs1' : [44, [27, ]], # Silly Cogbuster Shorts
-    
+
     'hw_bs3' : [42, [27, ]],
- 
+
     'hw_gs3' : [46, [27, ]],
- 
+
     'hw_bs4' : [43, [27, ]],
- 
+
     'hw_gs4' : [47, [27, ]],
- 
+
     'hw_gs1' : [51, [27, ]],
     'hw_gs2' : [52, [27, ]],
     'hw_gs5' : [54, [27, ]],
@@ -2471,7 +2471,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             else:
                 self.head = generator.choice(toonHeadTypes)
         else:
-            self.head = generator.choice(toonHeadTypes[:22])
+            self.head = generator.choice(toonHeadTypes[:33])
         top, topColor, sleeve, sleeveColor = getRandomTop(gender, generator = generator)
         bottom, bottomColor = getRandomBottom(gender, generator = generator)
         if gender == "m":

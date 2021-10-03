@@ -49,7 +49,7 @@ GlobalEntities = {
         'parentEntId': 0,
         'scale': Vec3(1, 1, 1),
         'description': TTLocalizer.SellbotLegFactorySpecLobby,
-        'visibility': [113, 114],
+        'visibility': [113, 114, 200],
         }, # end entity 4
     5: {
         'type': 'zone',
@@ -2337,6 +2337,7 @@ GlobalEntities = {
         'goonType': 'pg',
         'gridId': None,
         'hFov': 70,
+#        'strength': 10,
         'strength': 7,
         'velocity': 4,
         }, # end entity 20013
@@ -2353,6 +2354,7 @@ GlobalEntities = {
         'goonType': 'pg',
         'gridId': None,
         'hFov': 70,
+#        'strength': 15,
         'strength': 7,
         'velocity': 4,
         }, # end entity 20014
@@ -2369,6 +2371,7 @@ GlobalEntities = {
         'goonType': 'pg',
         'gridId': None,
         'hFov': 70,
+#        'strength': 15,
         'strength': 7,
         'velocity': 4,
         }, # end entity 20016
@@ -2385,6 +2388,7 @@ GlobalEntities = {
         'goonType': 'pg',
         'gridId': 20025,
         'hFov': 80.0,
+#        'strength': 20,
         'strength': 10,
         'velocity': 6.0,
         }, # end entity 20041
@@ -2401,6 +2405,7 @@ GlobalEntities = {
         'goonType': 'pg',
         'gridId': 20025,
         'hFov': 80.0,
+#        'strength': 20,
         'strength': 10,
         'velocity': 5.0,
         }, # end entity 20043
@@ -2417,6 +2422,7 @@ GlobalEntities = {
         'goonType': 'pg',
         'gridId': 20025,
         'hFov': 70,
+#        'strength': 20,
         'strength': 10,
         'velocity': 6.0,
         }, # end entity 20046
@@ -2433,6 +2439,7 @@ GlobalEntities = {
         'goonType': 'pg',
         'gridId': 20025,
         'hFov': 80.0,
+#        'strength': 20,
         'strength': 10,
         'velocity': 6.0,
         }, # end entity 20047
@@ -2449,6 +2456,7 @@ GlobalEntities = {
         'goonType': 'pg',
         'gridId': None,
         'hFov': 70,
+#        'strength': 5,
         'strength': 3,
         'velocity': 4.0,
         }, # end entity 20052
@@ -2465,6 +2473,7 @@ GlobalEntities = {
         'goonType': 'pg',
         'gridId': 20025,
         'hFov': 80.0,
+#        'strength': 20,
         'strength': 10,
         'velocity': 5.5,
         }, # end entity 20054
@@ -2481,6 +2490,7 @@ GlobalEntities = {
         'goonType': 'pg',
         'gridId': 20025,
         'hFov': 70,
+#        'strength': 20,
         'strength': 10,
         'velocity': 6.0,
         }, # end entity 20056
@@ -2497,6 +2507,7 @@ GlobalEntities = {
         'goonType': 'pg',
         'gridId': 20025,
         'hFov': 90.0,
+#        'strength': 20,
         'strength': 10,
         'velocity': 6.5,
         }, # end entity 20060
@@ -2513,6 +2524,7 @@ GlobalEntities = {
         'goonType': 'pg',
         'gridId': 20025,
         'hFov': 70,
+#        'strength': 20,
         'strength': 10,
         'velocity': 7.5,
         }, # end entity 20062
@@ -2529,6 +2541,7 @@ GlobalEntities = {
         'goonType': 'pg',
         'gridId': None,
         'hFov': 70,
+#        'strength': 10,
         'strength': 7,
         'velocity': 6.0,
         }, # end entity 20071
@@ -2545,6 +2558,7 @@ GlobalEntities = {
         'goonType': 'pg',
         'gridId': None,
         'hFov': 80.0,
+#        'strength': 15,
         'strength': 7,
         'velocity': 6.0,
         }, # end entity 20072
@@ -2561,6 +2575,7 @@ GlobalEntities = {
         'goonType': 'pg',
         'gridId': None,
         'hFov': 70,
+#        'strength': 10,
         'strength': 7,
         'velocity': 4,
         }, # end entity 20074
@@ -2577,6 +2592,7 @@ GlobalEntities = {
         'goonType': 'pg',
         'gridId': None,
         'hFov': 70,
+#        'strength': 15,
         'strength': 7,
         'velocity': 4,
         }, # end entity 20089

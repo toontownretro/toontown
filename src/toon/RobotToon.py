@@ -41,7 +41,7 @@ class RobotAvatarBase:
             self.accept('playRTMWalkIval', lambda: self.setAnimState('walk'))
             self.accept('playRTMRunIval', lambda: self.setAnimState('run'))
         self.setAnimState(state)
-        self.state = state
+        self._state = state
 
     def convertServerDNAString(self, serverString, type = 't'):
         # Strip out blank space and take last 30 characters
@@ -59,7 +59,7 @@ class RobotAvatarBase:
 
     def setAnimState(self,state):
         self.stopIvals()
-        self.state = state
+        self._state = state
         if not base.config.GetBool('want-new-anims',1):
             if state == 'victory':
                 if self.victoryIval != None:
@@ -91,18 +91,18 @@ class RobotAvatarBase:
     def updateStartPos(self, pos):
         self.setStartPos(pos)
         self.updateWalkIval()
-        if self.state == 'neutral':
+        if self._state == 'neutral':
             self.setAnimState('walk')
         else:
-            self.setAnimState(self.state)
+            self.setAnimState(self._state)
 
     def updateEndPos(self, pos):
         self.setEndPos(pos)
         self.updateWalkIval()
-        if self.state == 'neutral':
+        if self._state == 'neutral':
             self.setAnimState('walk')
         else:
-            self.setAnimState(self.state)
+            self.setAnimState(self._state)
 
     def updateWalkIval(self):
         self.stopIvals()

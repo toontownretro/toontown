@@ -206,7 +206,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.cleanup()
 
     def cleanup(self):
-        if self.state != 'Off':
+        if self._state != 'Off':
             self.demand('Off')
         self.craneGame = None
 
@@ -835,7 +835,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         assert(self.notify.debug('%s.grabObject(%s)' % (self.doId, obj.doId)))
         assert(self.heldObject == None)
 
-        if self.state == 'Off':
+        if self._state == 'Off':
             return
 
         # This condition is just for sake of the publish, in case we

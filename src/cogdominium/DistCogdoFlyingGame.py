@@ -608,11 +608,11 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
 #        print jumpPressed
         if jumpPressed and self.isFuelLeft():
             self.velocity[2] += CogdoFlyingGameGlobals.FlyingGame.TOON_ACCELERATION["vertical"]*dt
-            if self.state == "FreeFly" and self.isInTransition() == False:
+            if self._state == "FreeFly" and self.isInTransition() == False:
                 #print("Going to flying up")
                 self.request("FlyingUp")
         else:
-            if self.state == "FlyingUp" and self.isInTransition() == False:
+            if self._state == "FlyingUp" and self.isInTransition() == False:
                 #print("Going to free fly")
                 self.request("FreeFly")
 
@@ -624,7 +624,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             pass
         else:
             # Tests to see whether the toon has dropped low enough to die
-            if toonPos[2] < 0.0 and self.state in ["FreeFly","FlyingUp"]:
+            if toonPos[2] < 0.0 and self._state in ["FreeFly","FlyingUp"]:
                 self.request("Death")
 
         toonPos[2] = clamp(toonPos[2], self.game.downLimit, self.game.upLimit)
@@ -683,7 +683,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
 
 
     def update(self):
-        if self.state not in ["Inactive","Refuel","WaitingForWin","Win"]:
+        if self._state not in ["Inactive","Refuel","WaitingForWin","Win"]:
             self.__updateToonMovement()
             self.__updateFuel()
             self.cameraMgr.update()

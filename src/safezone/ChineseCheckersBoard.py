@@ -3,7 +3,7 @@
 #of the game board and manipulate it.
 #
 #**NOTE**
-# The design of this class is that such the AI will be the only one to 
+# The design of this class is that such the AI will be the only one to
 #manipulate the 'state' of the board. Important to make sure that the client
 #does not change anything in the board - rather just looks and asks the AI to
 #give him updates on the boards game state
@@ -17,7 +17,7 @@
 #       between 1 and 0 based indexing. This is needed because when the adjacent
 #       List was handwritten, the chart (below) is in 1 based indexing, thus in the
 #       adjacentcy list when traversing you would need to account for the offset.
-#                       
+#
 #
 #Board Looks like this in the squareList. Indexes of this are obviously off by
 #one because this chart is 1 based indexing.
@@ -63,7 +63,7 @@ class ChineseCheckersBoard:
         self.squareList = []
         for x in range(121):
             self.squareList.append(CheckersSquare(x))
-            
+
         self.squareList[ 0 ].setAdjacent([None,1,2,None,None,None])
         self.squareList[ 1 ].setAdjacent([None,3,4,2,0,None])
         self.squareList[ 2 ].setAdjacent([1,4,5,None,None,0])
@@ -189,7 +189,7 @@ class ChineseCheckersBoard:
         for x in self.squareList:
             x.delete()
         del self.squareList
-        
+
     def getSquare(self, arrayLoc):
         return self.squareList[arrayLoc]
     def getSquareOffset(self, arrayLoc):
@@ -215,9 +215,9 @@ class ChineseCheckersBoard:
         y = 0
         for x in range(121):
             self.squareList[x].setState(squares[x])
-            
-    
-    
+
+
+
 #---------------------------------------------------------------#
 #CheckersSquare: This is the  base object for
 #a square inside of a chinese checkers game. By 'square', I mean
@@ -227,7 +227,7 @@ class ChineseCheckersBoard:
 #       A state of 0    => Unnocupied
 #       A state of 1-6  => Owned By that corresponding player
 #
-#A Square also has a corresponding Adjacency list. Meaning: 
+#A Square also has a corresponding Adjacency list. Meaning:
 #from a given square there are up to 6 adjacent squares to it
 #that must be represented in a directed manner. This List for the
 #square will be represented in this fashion: X is the sqaure on the board
@@ -243,11 +243,11 @@ class ChineseCheckersBoard:
 class CheckersSquare:
     def __init__(self, tileNu):
         self.tileNum = tileNu
-        self.state = 0; #0 for Begins as unnocupied square
+        self._state = 0; #0 for Begins as unnocupied square
         self.adjacent = []
     def delete(self):
         del self.tileNum
-        del self.state
+        del self._state
         del self.adjacent
     def setAdjacent(self, adjList):
         for x in adjList:
@@ -255,14 +255,8 @@ class CheckersSquare:
     def getAdjacent(self):
         return self.adjacent
     def setState(self, newState):
-        self.state = newState
+        self._state = newState
     def getState(self):
-        return self.state
+        return self._state
     def getNum(self):
         return self.tileNum
-
-        
-        
-    
-    
-    
