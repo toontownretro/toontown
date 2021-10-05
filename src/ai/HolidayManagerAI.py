@@ -47,6 +47,19 @@ from toontown.ai import MailboxBuffHolidayAI
 from toontown.ai import TrashcanBuffHolidayAI
 from toontown.ai import ValentinesDayMgrAI
 from toontown.ai import SillyMeterHolidayAI
+
+#################################################################
+# Localization Specific Modules
+#################################################################
+#from toontown.toonbase import TTLocalizer
+#
+#language = TTLocalizer.getLanguage()
+#print ("HolidayManagerAI: Running in language: %s" % (language))
+#_languageModule = "toontown.ai."+language
+#
+#if language != 'english':
+#     exec("from "+_languageModule+" import HolidayManagerAI_local")
+
 #################################################################
 # Python Specific Modules
 #################################################################

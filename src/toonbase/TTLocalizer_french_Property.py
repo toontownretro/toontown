@@ -65,7 +65,7 @@ LCLdgSign = 0.1      # the scale of the gate name
 
 #coghq/SellbotCogHQLoader.py
 SCLfdSign = 0.12
-SCLdgSign = 0.1
+SCLdgSign = 0.1      # the scale of the gate name
 
 #coghq/DistributedFactory.py
 DFfactoryRoomTitle = 0.8
@@ -127,6 +127,7 @@ GPgenus = 0.035
 FLPnewFriend = 0.04
 FLPsecrets = 0.04
 FLPsecretsPos = (0.125, 0.0, 0.14)
+FLPtitleScale = 0.04
 
 #friends/FriendInviter.py
 FIstopButton = 0.042
@@ -139,6 +140,8 @@ FIstopTextPosition = (0.075, -0.015)
 FIstopTextPositionY = -0.015
 FIstopButtonPositionX = -0.2
 FIyesButtonPositionX = -0.15
+FIdirectFrameTextWorkWrap = 14
+FIdirectFrameTextPosZ = 0.2
 
 #golf/DistributedGolfHole.py
 DGHpowerReminder = 0.09
@@ -451,6 +454,8 @@ TAPgoToButton = 0.042
 TAPignoreButton = 0.042
 TAPpetButton = 0.26
 TAPdetailButton = 0.04
+TAPgroupFrameScale = 0.05
+TAPgroupButtonScale = 0.055
 
 #toon/ToonAvatarDetailPanel.py
 TADPtrackLabel = 0.042
@@ -478,6 +483,7 @@ PIPdetailButton = 0.05
 
 #toon/ToonAvatarPanel.py
 TAPsecretsButtonScale=0.045
+TAPwisperButtonScale=0.06
 
 #toon/ToonAvatarDetailPanel.py
 TADPcancelPos = (-0.865, 0.0, -0.765)

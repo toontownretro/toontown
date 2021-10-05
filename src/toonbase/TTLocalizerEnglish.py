@@ -3007,7 +3007,7 @@ RewardPanelMeritAlert = "Ready for promotion!"
 RewardPanelSkip = "Skip"
 
 RewardPanelCogPart = "You gained a Cog disguise part!"
-RewardPanelPromotion = "Ready for promotion in %s  track!"
+RewardPanelPromotion = "Ready for promotion in %s track!"
 
 # Cheesy effect descriptions: (short desc, sentence desc)
 CheesyEffectDescriptions = [

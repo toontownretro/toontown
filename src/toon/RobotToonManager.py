@@ -359,6 +359,197 @@ GirlBottomsDict = {
     62 : '62 - Racing 5',
     }
 
+HatStylesDict = {
+    0 : "00 - Green Baseball Cap",
+    1 : "01 - Blue Baseball Cap",
+    2 : "02 - Orange Baseball Cap",
+    3 : "03 - Beige Safari Hat",
+    4 : "04 - Brown Safari Hat",
+    5 : "05 - Green Safari Hat",
+    6 : "06 - Pink Bow",
+    7 : "07 - Red Bow",
+    8 : "08 - Purple Bow",
+    9 : "09 - Pink Heart",
+    10 : "10 - Yellow Heart",
+    11 : "11 - Black Top Hat",
+    12 : "12 - Blue Top Hat",
+    13 : "13 - Anvil Hat",
+    14 : "14 - Flower Hat",
+    15 : "15 - Sandbag Hat",
+    16 : "16 - Weight Hat",
+    17 : "17 - Fez Hat",
+    18 : "18 - Golf Hat",
+    19 : "19 - Party Hat",
+    20 : "20 - Toon Party Hat",
+    21 : "21 - Fancy Hat",
+    22 : "22 - Crown",
+    23 : "23 - Cowboy Hat",
+    24 : "24 - Pirate Hat",
+    25 : "25 - Propeller Hat",
+    26 : "26 - Fishing Hat",
+    27 : "27 - Sombrero Hat",
+    28 : "28 - Straw Hat",
+    29 : "29 - Sun Hat",
+    30 : "30 - Yellow Bow",
+    31 : "31 - Checker Bow",
+    32 : "32 - Light Red Bow",
+    33 : "33 - Rainbow Bow",
+    34 : "34 - Antenna Thingy",
+    35 : "35 - Beehive Hairdo",
+    36 : "36 - Bowler Hat",
+    37 : "37 - Chef Hat",
+    38 : "38 - Detective Hat",
+    39 : "39 - Fancy Feathers Hat",
+    40 : "40 - Fedora",
+    41 : "41 - Mickey's Band Hat",
+    42 : "42 - Feather Headband",
+    43 : "43 - Pompadour Hairdo",
+    44 : "44 - Princess Hat",
+    45 : "45 - Archer Hat",
+    46 : "46 - Roman Helmet",
+    47 : "47 - Spider Antenna Thingy",
+    48 : "48 - Tiara",
+    49 : "49 - Viking Helmet",
+    50 : "50 - Witch Hat",
+    51 : "51 - Wizard Hat",
+    52 : "52 - Conquistador Helmet",
+    53 : "53 - Firefighter Helmet",
+    54 : "54 - Anti-Cog Control Hat",
+    55 : "55 - Miner Hat",
+    56 : "56 - Napoleon Hat",
+    57 : "57 - Pilot Cap",
+    58 : "58 - Cop Hat",
+    59 : "59 - Rainbow Wacky Wig",
+    60 : "60 - Yellow Baseball Cap",
+    61 : "61 - Red Baseball Cap",
+    62 : "62 - Aqua Baseball Cap",
+    63 : "63 - Sailor Hat",
+    64 : "64 - Samba Hat",
+    65 : "65 - Bobby Hat",
+    66 : "66 - Pink Dots Bow",
+    67 : "67 - Jester Hat",
+    68 : "68 - Purple Baseball Cap",
+    69 : "69 - Green Checker Bow",
+    70 : "70 - Winter Hat",
+    71 : "71 - Bandana",
+    72 : "72 - Toonosaur Hat",
+    73 : "73 - Jamboree Hat",
+    74 : "74 - Bird Hat by Brianna",
+    }
+
+GlassesStylesDict = {
+    0 : "00 - Round Glasses",
+    1 : "01 - White Mini Blinds",
+    2 : "02 - Purple Narrow Glasses",
+    3 : "03 - Yellow Star Glasses",
+    4 : "04 - Movie Glasses",
+    5 : "05 - Aviator",
+    6 : "06 - Cateye Glasses",
+    7 : "07 - Nerd Glasses",
+    8 : "08 - Celebrity Shades",
+    9 : "09 - Scuba Mask",
+    10 : "10 - Goggles",
+    11 : "11 - Groucho Glasses",
+    12 : "12 - Heart Glasses",
+    13 : "13 - Bug Eye Glasses",
+    14 : "14 - Black Secret ID Mask",
+    15 : "15 - Blue Secret ID Mask",
+    16 : "16 - Blue Carnivale Mask",
+    17 : "17 - Purple Carnivale Mask",
+    18 : "18 - Aqua Carnivale Mask",
+    19 : "19 - Monocle",
+    20 : "20 - Smooch Glasses",
+    21 : "21 - Square Frame Glasses",
+    22 : "22 - Skull Eyepatch",
+    23 : "23 - Gem Eyepatch",
+    24 : "24 - Alien Eyes by Alexandra",
+    }
+
+BackpackStylesDict = {
+    0 : "00 - Blue Backpack",
+    1 : "01 - Orange Backpack",
+    2 : "02 - Purple BackPack",
+    3 : "03 - Red Dot Backpack",
+    4 : "04 - Yellow Dot Backpack",
+    5 : "05 - Bat Wings",
+    6 : "06 - Bee Wings",
+    7 : "07 - DragonFly Wings",
+    8 : "08 - Scuba Tank",
+    9 : "09 - Shark Fin",
+    10 : "10 - White Angel Wings",
+    11 : "11 - Rainbow Angel Wings",
+    12 : "12 - Toys Backpack",
+    13 : "13 - Butterfly Wings",
+    14 : "14 - Pixie Wings",
+    15 : "15 - Dragon Wings",
+    16 : "16 - Jet Pack",
+    17 : "17 - Bug Backpack",
+    18 : "18 - Plush Bear Pack",
+    19 : "19 - Bird wings",
+    20 : "20 - Plush Cat Pack",
+    23 : "21 - Plush Dog Pack",
+    24 : "22 - Airplane Wings",
+    25 : "23 - Pirate Sword",
+    26 : "24 - Super Toon Cape",
+    27 : "25 - Vampire Cape",
+    28 : "26 - Toonosaur Backpack",
+    29 : "27 - Jamboree Pack",
+    30 : "28 - Gag Attack Pack",
+    31 : "29 - Cog Pack by Savanah",
+    }
+
+ShoesStylesDict = {
+    0 : "00 - Green Athletic Shoes",
+    1 : "01 - Red Athletic Shoes",
+    2 : "02 - Green Toon Boots",
+    3 : "03 - Green Sneakers",
+    4 : "04 - Wingtips",
+    5 : "05 - Black Fancy Shoes",
+    6 : "06 - Boat Shoes",
+    7 : "07 - Yellow Athletic Shoes",
+    8 : "08 - Black Sneakers",
+    9 : "09 - White Sneakers",
+    10 : "10 - Pink Sneakers",
+    11 : "11 - Cowboy Boots",
+    12 : "12 - Purple Boots",
+    13 : "13 - Green Hi Top Sneakers",
+    14 : "14 - Brown Fancy Shoes",
+    15 : "15 - Red Fancy Shoes",
+    16 : "16 - Red Super Toon Boots",
+    17 : "17 - Green Tennis Shoes",
+    18 : "18 - Pink Tennis Shoes",
+    19 : "19 - Red Sneakers",
+    20 : "20 - Aqua Toon Boots",
+    21 : "21 - Brown Toon Boots",
+    22 : "22 - Yellow Toon Boots",
+    23 : "23 - Blue Square Boots",
+    24 : "24 - Green Hearts Boots",
+    25 : "25 - Gray Dots Boots",
+    26 : "26 - Orange Stars Boots",
+    27 : "27 - Pink Stars Boots",
+    28 : "28 - Loafers",
+    29 : "29 - Purple Fancy Shoes",
+    30 : "30 - Motorcycle Boots",
+    31 : "31 - Oxfords",
+    32 : "32 - Pink Rain Boots",
+    33 : "33 - Jolly Boots",
+    34 : "34 - Beige Winter Boots",
+    35 : "35 - Pink Winter Boots",
+    36 : "36 - Work Boots",
+    37 : "37 - Yellow Sneakers",
+    38 : "38 - Pink Toon Boots",
+    39 : "39 - Pink Hi Top Sneakers",
+    40 : "40 - Red Dots Rain Boots",
+    41 : "41 - Purple Tennis Shoes",
+    42 : "42 - Violet Tennis Shoes",
+    43 : "43 - Yellow Tennis Shoes",
+    44 : "44 - Blue Rain Boots",
+    45 : "45 - Yellow Rain Boots",
+    46 : "46 - Black Athletic Shoes",
+    47 : "47 - Pirate Shoes",
+    48 : "48 - Toonosaur Feet",
+    }
+
 ChatCategories = {
     1: 'Basic',
     100 : 'HELLO',
@@ -634,7 +825,7 @@ if sys.argv[1:]:
 # If you do not run from the command line, we just load all of them
 # or you can hack this up for your own purposes.
 else:
-    hoodString = base.config.GetString('level-editor-hoods', 'TT DD BR DG DL MM PA')
+    hoodString = base.config.GetString('level-editor-hoods', 'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA')
     hoods = hoodString.split()
 
 # The list of neighborhoods to edit
@@ -644,6 +835,13 @@ hoodIds = {'TT' : 'toontown_central',
            'BR' : 'the_burrrgh',
            'DG' : 'daisys_garden',
            'DL' : 'donalds_dreamland',
+           'CC' : 'cog_hq_bossbot',
+           'CL' : 'cog_hq_lawbot',
+           'CM' : 'cog_hq_cashbot',
+           'CS' : 'cog_hq_sellbot',
+           'GS' : 'goofy_speedway',
+           'OZ' : 'outdoor_zone',
+           'GZ' : 'golf_zone',
            'PA' : 'party_zone',
            }
 
@@ -811,16 +1009,20 @@ class RobotToonManager(DirectObject):
             base.cr.stopReaderPollTask()
             direct.selectedNPReadout.setText('POLL STOP')
             direct.selectedNPReadout.reparentTo(aspect2d)
+
     def printCameraPosition(self):
         base.localAvatar.printCameraPosition(base.localAvatar.cameraIndex)
+
     def showHiRes(self, switchIn = 10000):
         for t in list(self.avatarDict.values()):
             t.showHiRes(switchIn = switchIn)
+
     def findToonTop(self):
         if last:
             np = last.findNetTag('robotAvatar')
             if not np.isEmpty():
                 np.select()
+
     def makeRandomToon(self, toNpcId = None):
         # Check for intersection
         entry = self.iRay.pickGeom(
@@ -1065,6 +1267,7 @@ class RobotToonManager(DirectObject):
                 Point3(x2,y2,z2),
                 Point3(h2,p2,r2),
                 state)
+
     def saveCrowdFile(self):
         tcfFilename = asksaveasfilename(
             defaultextension = '.tcf', initialdir = '.',
@@ -1100,6 +1303,7 @@ class RobotToonManager(DirectObject):
                 f.write("%s*%s*%s*%s*%s*%s\n" %
                         (type,styleStr,pose,startPose,endPose,state))
             f.close()
+
     def pieMenuCommand(self, cmd):
         if base.config.GetBool('want-new-anims', 1):
             return
@@ -1110,6 +1314,7 @@ class RobotToonManager(DirectObject):
                 self._setEndPos()
             else:
                 self.selectedToon.setAnimState(cmd)
+
     def toggleRender2d(self):
         self.fRender2d = 1 - self.fRender2d
         if self.fRender2d:

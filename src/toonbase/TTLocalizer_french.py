@@ -2482,8 +2482,8 @@ IgnorePanelAddIgnore = "Veux-tu ignorer %s pour le reste de cette session ?"
 IgnorePanelIgnore = "À présent, tu ignores %s."
 IgnorePanelRemoveIgnore = "Veux-tu arrêter d'ignorer %s ?"
 IgnorePanelEndIgnore = "Tu n'ignores plus %s."
-IgnorePanelAddFriendAvatar = "%s est ton ami(e). Tu ne peux pas l'ignorer tant que vous êtes amis. %s (%s) est ton ami(e). Tu ne peux pas l'ignorer tant que vous êtes amis."
-IgnorePanelAddFriendPlayer = ""
+IgnorePanelAddFriendAvatar = "%s est ton ami(e). Tu ne peux pas l'ignorer tant que vous êtes amis."
+IgnorePanelAddFriendPlayer = "%s (%s) est ton ami(e). Tu ne peux pas l'ignorer tant que vous êtes amis."
 
 # PetAvatarPanel.py
 PetPanelFeed = "Nourrir"

@@ -27,7 +27,6 @@ from toontown.safezone import DistributedPartyGate/AI
 from toontown.suit import DistributedSuitPlanner/AI
 from toontown.suit import DistributedSuitBase/AI
 from toontown.suit import DistributedSuit/AI
-from toontown.suit import DistributedSuit/AI
 from toontown.suit import DistributedTutorialSuit/AI
 from toontown.suit import DistributedFactorySuit/AI
 from toontown.suit import DistributedMintSuit/AI
