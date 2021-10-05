@@ -3,6 +3,7 @@ from . import DistributedFurnitureItemAI
 from . import DistributedBankAI
 from . import DistributedClosetAI
 from . import DistributedPhoneAI
+#from . import DistributedTrunkAI
 from toontown.catalog import CatalogFurnitureItem
 from toontown.catalog import CatalogSurfaceItem
 from toontown.catalog import CatalogWindowItem
@@ -619,6 +620,8 @@ class DistributedFurnitureManagerAI(DistributedObjectAI.DistributedObjectAI):
             cl = DistributedClosetAI.DistributedClosetAI
         elif item.getFlags() & CatalogFurnitureItem.FLPhone:
             cl = DistributedPhoneAI.DistributedPhoneAI
+#        elif item.getFlags() & CatalogFurnitureItem.FLTrunk:
+#            cl = DistributedTrunkAI.DistributedTrunkAI
         else:
             cl = DistributedFurnitureItemAI.DistributedFurnitureItemAI
         

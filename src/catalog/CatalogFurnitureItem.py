@@ -2,6 +2,7 @@ from . import CatalogAtticItem
 from . import CatalogItem
 import random
 from toontown.toonbase import TTLocalizer
+from toontown.toonbase import ToontownGlobals
 
 FTModelName = 0
 FTColor = 1
@@ -18,6 +19,7 @@ FLOnTable  = 0x0010
 FLIsTable  = 0x0020
 FLPhone    = 0x0040
 FLBillboard = 0x0080
+FLTrunk    = 0x0160
 
 # this is essentially the same as HouseGlobals.houseColors2 with the addition of alpha = 1
 furnitureColors = [
@@ -47,11 +49,12 @@ BankToMoney = {
     1320 : 5000,
     1330 : 7500,
     1340 : 10000,
+    1350 : 12000,
     }
 MoneyToBank = {}
 for bankId, maxMoney in list(BankToMoney.items()):
     MoneyToBank[maxMoney] = bankId
-MaxBankId = 1340
+MaxBankId = 1350
 
 # This table maps the various closet ID's to the amount of clothes
 # they hold.
@@ -64,6 +67,7 @@ ClosetToClothes = {
     512 : 15,
     514 : 20,
     516 : 25,
+    518 : 50,
     }
 ClothesToCloset = {}
 for closetId, maxClothes in list(ClosetToClothes.items()):
@@ -74,6 +78,8 @@ for closetId, maxClothes in list(ClosetToClothes.items()):
     else:
         ClothesToCloset[maxClothes] += (closetId,)
 MaxClosetIds = (506, 516)
+
+MaxTrunkIds = (4000, 4010)
 
 
 # These index numbers are written to the database.  Don't mess with them.
@@ -288,6 +294,10 @@ FurnitureTypes = {
     506 : ("phase_5.5/models/estate/closetBoy",
            None, None, 500, FLCloset, 1.3),
 
+    # Boy's Wardrobe, 50 items
+    508 : ("phase_5.5/models/estate/closetBoy",
+           None, None, 500, FLCloset, 1.6),
+
 
     # Girl's Wardrobe, 10 items - Initial Furniture
     510 : ("phase_5.5/models/estate/closetGirl",
@@ -304,6 +314,10 @@ FurnitureTypes = {
     # Girl's Wardrobe, 25 items
     516 : ("phase_5.5/models/estate/closetGirl",
            None, None, 500, FLCloset, 1.3),
+
+    # Girl's Wardrobe, 50 items
+    518 : ("phase_5.5/models/estate/closetGirl",
+           None, None, 500, FLCloset, 1.6),
 
     ## LAMPS ##
     # Short lamp - Series 1
@@ -598,6 +612,10 @@ FurnitureTypes = {
     1340 : ("phase_5.5/models/estate/jellybeanBank",
             None, None, 3200, FLBank, 1.5),
 
+    # Jellybean Bank, 12000 beans - Series 1
+    1350 : ("phase_5.5/models/estate/jellybeanBank",
+            None, None, 6400, FLBank, 2.0),
+
     # Phone - Initial Furniture
     1399 : ("phase_5.5/models/estate/prop_phone-mod",
             None, None, 0, FLPhone),
@@ -778,6 +796,15 @@ FurnitureTypes = {
     # Candy banana split shower - Series 6
     3000 : ("phase_5.5/models/estate/BanannaSplitShower",
             None, None, 400),
+
+
+    ## Accessory Items ##
+    # Boy Trunk - Series 1
+    4000 : ("phase_5.5/models/estate/tt_m_ara_est_accessoryTrunkBoy",
+            None, None, 5, FLTrunk, 0.9),
+    # Girl Trunk - Series 1
+    4010 : ("phase_5.5/models/estate/tt_m_ara_est_accessoryTrunkGirl",
+            None, None, 5, FLTrunk, 0.9),
 
 
     ## SPECIAL HOLIDAY THEMED ITEMS FOLLOW ##
@@ -1131,11 +1158,53 @@ def nextAvailableCloset(avatar, duplicateItems):
 
     return item
 
+def get50ItemCloset(avatar, duplicateItems):
+    # detemine which closet index in the tuple to use
+    if avatar.getStyle().getGender() == 'm':
+        index = 0
+    else:
+        index = 1
+    closetId = MaxClosetIds[index]
+    item = CatalogFurnitureItem(closetId)
+    if item in avatar.onOrder or item in avatar.mailboxContents:
+        # No more closets for this avatar.
+        return None
+    return item
+
+
+def getMaxClosets():
+    closets = []
+    for closetId in MaxClosetIds:
+        closets.append(CatalogFurnitureItem(closetId))
+
+    return closets
+
 def getAllClosets():
     closets = []
     for closetId in list(ClosetToClothes.keys()):
         closets.append(CatalogFurnitureItem(closetId))
     return closets
+
+def get50ItemTrunk(avatar, duplicateItems):
+    # detemine which trunk index in the tuple to use
+    if avatar.getStyle().getGender() == 'm':
+        index = 0
+    else:
+        index = 1
+    trunkId = MaxTrunkIds[index]
+    item = CatalogFurnitureItem(trunkId)
+    if item in avatar.onOrder or item in avatar.mailboxContents:
+        # No more trunks for this avatar.
+        return None
+    return item
+
+
+def getMaxTrunks():
+    trunks = []
+    for trunkId in MaxTrunkIds:
+        trunks.append(CatalogFurnitureItem(trunkId))
+
+    return list
 
 def getAllFurnitures(index):
     # This function returns a list of all possible
