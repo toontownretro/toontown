@@ -7582,7 +7582,7 @@ NameShopPlay = "Essai gratuit"
 NameShopOnlyPaid = "Seuls les utilisateurs payants\npeuvent donner un nom à leurs Toons.\nJusqu'à ce que tu t'inscrives,\nton nom sera\n"
 NameShopContinueSubmission = "Continuer l'envoi"
 NameShopChooseAnother = "Choisir un autre nom"
-NameShopToonCouncil = "Le Conseil de Toontown\nva examiner ton\nnom.  "+ \
+NameShopToonCouncil = "Le Conseil de Toontown\nva examiner ton\nnom. "+ \
                        "L'examen peut\nprendre quelques jours.\nPendant que tu attends,\nton nom sera\n "
 PleaseTypeName = "Entre ton nom :"
 AllNewNames = "Tous les noms\ndoivent être approuvés\npar le Conseil de Toontown."

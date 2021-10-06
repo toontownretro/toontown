@@ -5875,9 +5875,9 @@ QuestPosterComplete = "COMPLETADA"
 # ShardPage.py
 ShardPageTitle = "Distritos"
 ShardPageHelpIntro = "Cada distrito es una copia del mundo de Toontown."
-ShardPageHelpWhere = "Ahora estás en el distrito \"%s\"."
-ShardPageHelpWelcomeValley = "Ahora estás en el distrito \"Valle Bienvenido\", dentro de \"%s\"."
-ShardPageHelpMove = "Para desplazarte a otro distrito, haz clic en su nombre."
+ShardPageHelpWhere = " Ahora estás en el distrito \"%s\"."
+ShardPageHelpWelcomeValley = " Ahora estás en el distrito \"Valle Bienvenido\", dentro de \"%s\"."
+ShardPageHelpMove = " Para desplazarte a otro distrito, haz clic en su nombre."
 
 ShardPagePopulationTotal = "N.º total de habitantes de Toontown:\n%d"
 ShardPageScrollTitle = "Nombre            Habitantes"
