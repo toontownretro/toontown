@@ -85,7 +85,7 @@ class ShardPage(ShtikerPage.ShtikerPage):
             relief = None,
             text = TTLocalizer.ShardPagePopulationTotal % (1),
             text_scale = main_text_scale,
-            text_wordwrap = 8,
+            text_wordwrap = 9,
             textMayChange = 1,
             text_align = TextNode.ACenter,
             pos = (0.38, 0, totalPop_ycoord),

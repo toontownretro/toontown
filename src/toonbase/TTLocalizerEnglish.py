@@ -6678,9 +6678,16 @@ PartyCogGuiSpamWarning = "Hold CONTROL for more power!"
 PartyCogBalanceBar = "BALANCE"
 
 # DistributedPartyTugOfWarActivity.py
+#PartyTugOfWarJoinDenied = "Sorry. You can't join Tug-O-War right now."
+#PartyTugOfWarExitButton = "Hop Off"
+#PartyTugOfWarWaitingForMore = "Waiting  for  more  players" # extra spaces on purpose given the blocky font
+#PartyTugOfWarWaitingToStart = "Waiting  to  start"
+#PartyTugOfWarWaitingForOtherPlayers = "Waiting  for  other  players"
 PartyTugOfWarReady = "Ready..."
 PartyTugOfWarGo = "GO!"
 PartyTugOfWarGameEnd = "Good  game!"
+#PartyTugOfWarGameTie = "You tied!"
+#PartyTugOfWarRewardMessage = "You got %d jellybeans. Good job!"
 PartyTugOfWarTitle = "Party Tug-of-War"
 
 # CalendarGuiMonth.py

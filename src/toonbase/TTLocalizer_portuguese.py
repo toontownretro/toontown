@@ -6572,7 +6572,7 @@ PartyCatchActivityTitle = "Atividade Pescaria de Festa"
 PartyCatchActivityInstructions = "Pegue o máximo de peças de frutas que puder. Tente não 'pescar' quaisquer %(badThing)s!"
 PartyCatchActivityFinishPerfect = "JOGO PERFEITO!"
 PartyCatchActivityFinish = "Bom Jogo!"
-PartyCatchActivityExit        = 'EXIT'
+PartyCatchActivityExit        = 'SAIR'
 PartyCatchActivityApples      = 'maçãs'
 PartyCatchActivityOranges     = 'laranjas'
 PartyCatchActivityPears       = 'peras'
@@ -6645,51 +6645,50 @@ PartyTrampolineGetHeight = "%d ft"
 
 # DistributedPartyTeamActivity.py
 # extra spaces on purpose given the blocky font
-PartyTeamActivityForMorePlural = "s"
-PartyTeamActivityForMore = "Waiting  for  %d  player%s\non  each  side..."
-PartyTeamActivityForMoreWithBalance = "Waiting  for  %d  more  player%s..."
-PartyTeamActivityWaitingForOtherPlayers = "Waiting  for  other  players..."
-PartyTeamActivityWaitingToStart = "Starting  in..."
-PartyTeamActivityExitButton = "Hop Off"
-PartyTeamActivitySwitchTeamsButton = "Switch\nTeams"
-PartyTeamActivityWins = "%s team wins!"
-PartyTeamActivityLocalAvatarTeamWins = "Your team won!"
-PartyTeamActivityGameTie = "It's a tie!"
-PartyTeamActivityJoinDenied = "Sorry, you can't join %s at this time."
-PartyTeamActivityExitDenied = "Sorry, you are unable to leave %s at this time."
-PartyTeamActivitySwitchDenied = "Sorry, you cant's switch teams at this time."
-PartyTeamActivityTeamFull = "Sorry, that team is already full!"
-PartyTeamActivityRewardMessage = "You got %d jellybeans. Good job!"
+PartyTeamActivityForMorePlural = "S"
+PartyTeamActivityForMore = "Aguardando %d jogadores%s\não de cada lado..."
+PartyTeamActivityForMoreWithBalance = "Aguardando mais %d jogadores%s..."
+PartyTeamActivityWaitingForOtherPlayers = "Aguardando outros jogadores..."
+PartyTeamActivityWaitingToStart = "Começando em..."
+PartyTeamActivityExitButton = "Pular Fora"
+PartyTeamActivitySwitchTeamsButton = "Mudar de\nEquipe"
+PartyTeamActivityWins = "A equipe %s venceu!"
+PartyTeamActivityLocalAvatarTeamWins = "Sua equipe venceu!"
+PartyTeamActivityGameTie = "Deu empate!"
+PartyTeamActivityJoinDenied = "Você não pode entrar para %s no momento."
+PartyTeamActivityExitDenied = "Você não pode sair de %s no momento."
+PartyTeamActivitySwitchDenied = "Você não pode mudar de equipe no momento."
+PartyTeamActivityTeamFull = "Esta equipe já está completa!"
+PartyTeamActivityRewardMessage = "Você tem %d balas de goma. Bom trabalho!"
 
 # DistributedPartyCogActivity/AI.py
-PartyCogTeams = ("Blue", "Orange") # (left, right)
-PartyCogRewardMessage = "Your Score: %d\n" # unused?
-PartyCogRewardBonus = "\nYou got %d additional jellybean%s because your team won!" # unused?
-PartyCogJellybeanPlural = "s" # unused?
-PartyCogSignNote = "HI-SCORE\n%s\n%d"
-PartyCogTitle = "Cog-O-War"
+PartyCogTeams = ("Azul", "Laranja") # (left, right)
+PartyCogRewardMessage = "Sua Pontuação: %d\n" # unused?
+PartyCogRewardBonus = "\nVocê tem %d balas de goma%s adicionais porque a sua equipe venceu!" # unused?
+PartyCogJellybeanPlural = "S" # unused?
+PartyCogSignNote = "RECORDE\n%s\n%d"
+PartyCogTitle = "Arremesso de Torta nos Cogs"
 # These instructions are slightly inaccurate: You want to push the three cogs cumulatively farther
 # than the other team. It doesn't matter how many are on each side.
 #"When time's up, the team who pushed the cogs farthest wins!"
 PartyCogInstructions = \
-"Throw pies at cogs to push them away from your team. " +\
-"When time's up, the team with most cogs on the other side wins!" +\
-"\n\nThrow with the CONTROL KEY. Move with the ARROW KEYS."
+"Jogue tortas nos cogs para afastá-los de sua equipe. " +\
+"Quando acabar o tempo, a equipe com menos cogs ganha!" +\
+"\n\nArremesse com a TECLA CTRL. Movimente-se com as SETAS DIRECIONAIS."
 
 # PartyCogActivity.py
 PartyCogDistance = "%d ft"
-PartyCogTimeUp = "Time's up!"
+PartyCogTimeUp = "O tempo acabou!"
 
 # PartyCogActivityGui.py
-PartyCogGuiScoreLabel = "SCORE"
-PartyCogGuiPowerLabel = "POWER"
-PartyCogGuiSpamWarning = "Hold CONTROL for more power!"
-PartyCogBalanceBar = "BALANCE"
+PartyCogGuiScoreLabel = "PONTOS"
+PartyCogGuiPowerLabel = "ENERGIA"
+PartyCogGuiSpamWarning = "Mantenha pressionada a tecla CONTROL para obter mais força!"
+PartyCogBalanceBar = "EQUILÍBRIO"
 
 # DistributedPartyTugOfWarActivity.py
 #PartyTugOfWarJoinDenied = "Desculpe. Você não pode participar do cabo de guerra no momento."
 #PartyTugOfWarTeamFull = "Desculpe. Essa equipe já está completa."
-#PartyTrampolineQuitEarlyButton = "Saltar"
 #PartyTugOfWarExitButton = "Sair"
 #PartyTugOfWarWaitingForMore = "Aguardando mais jogadores" # extra spaces on purpose given the blocky font
 #PartyTugOfWarWaitingToStart = "Aguardando para começar"
