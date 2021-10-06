@@ -466,6 +466,8 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             self.tutorial = ChineseTutorial(self.tutorialDone)
         elif tutVal == 2:
             self.tutorial = CheckersTutorial(self.tutorialDone)
+        #elif tutVal == 3:
+        #    self.tutorial = FindFourTutorial(self.tutorialDone)
         self.gameMenu.picnicFunction = None
         self.gameMenu = None
     def tutorialDone(self):

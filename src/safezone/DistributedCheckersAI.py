@@ -20,7 +20,7 @@ class DistributedCheckersAI(DistributedNodeAI):
         self.myHpr = (h,p,r)
         self.board = CheckersBoard.CheckersBoard()
 
-        self.parent = self.air.doId2do[parent]
+        self._parent = self.air.doId2do[parent]
         self.parentDo = parent
         self.wantStart = []
         self.playersPlaying = []
@@ -32,22 +32,22 @@ class DistributedCheckersAI(DistributedNodeAI):
 
         #players game positions (separate from where they are sitting down
         self.playersGamePos = [None, None]
-        
+
         self.wantTimer = True
         self.timerEnd = 0
         self.turnEnd = 0
-        
+
         self.playersObserving = []
         #Arbitrary numbers - can Adjust to feel
         self.winLaffPoints = 20
         self.movesRequiredToWin = 10
-        
+
         self.zoneId = self.air.allocateZone()
         self.generateOtpObject(air.districtId, self.zoneId, optionalFields = ["setX","setY","setZ", "setH", "setP", "setR"])
         #sets the ZoneId in the parent table so when people sit down they know what zone to add
         #interest to when they sit down
-        self.parent.setCheckersZoneId(self.zoneId)
-        
+        self._parent.setCheckersZoneId(self.zoneId)
+
         #parent.b_setCurrentGameId(self.doId)
 
         #Starting indexes inside of board for setting starting positions
@@ -76,12 +76,12 @@ class DistributedCheckersAI(DistributedNodeAI):
                                       )
 
 
-        
+
         self.fsm.enterInitialState()
         #self.setGameCountownTime()
 
     def announceGenerate(self):
-        self.parent.setGameDoId(self.doId)
+        self._parent.setGameDoId(self.doId)
     def getTableDoId(self):
         #print("PARENT -- ", self.parent)
         return self.parentDo
@@ -108,18 +108,18 @@ class DistributedCheckersAI(DistributedNodeAI):
             self.timerEnd = 0
         elif self.playersSitting == 2:
             self.timerEnd = globalClock.getRealTime() + 20
-            self.parent.isAccepting = False
-            self.parent.sendUpdate("setIsPlaying", [1])  # 1 is true
+            self._parent.isAccepting = False
+            self._parent.sendUpdate("setIsPlaying", [1])  # 1 is true
         elif self.playersSitting > 2:
             pass
         self.sendUpdate("setTimer", [globalClockDelta.localToNetworkTime(self.timerEnd)])
-        
+
     def informGameOfPlayerLeave(self):
         self.playersSitting -= 1
         if self.playersSitting < 2 and self.fsm.getCurrentState().getName() == 'waitingToBegin':
             self.timerEnd = 0
-            self.parent.isAccepting = True
-            self.parent.sendUpdate("setIsPlaying", [0])  # 1 is true
+            self._parent.isAccepting = True
+            self._parent.sendUpdate("setIsPlaying", [0])  # 1 is true
         if self.playersSitting > 2 and self.fsm.getCurrentState().getName() == 'waitingToBegin':
             pass
         else:
@@ -141,7 +141,7 @@ class DistributedCheckersAI(DistributedNodeAI):
         self.turnEnd = globalClock.getRealTime() + 40
     def getTimer(self):
         if self.timerEnd != 0:
-           return 0 
+           return 0
         else:
             return 0
     def getTurnTimer(self):
@@ -154,8 +154,8 @@ class DistributedCheckersAI(DistributedNodeAI):
     #
     #handlePlayerExit is the mother function that gets called when a player requests to leave an "active" game
     #of chinese checkers - there are many special cases here, comments inside the function itself.
-    ###    
-        
+    ###
+
     def handlePlayerExit(self, avId):
         if avId in self.wantStart:
             self.wantStart.remove(avId)
@@ -164,14 +164,14 @@ class DistributedCheckersAI(DistributedNodeAI):
             gamePos  = self.playersGamePos.index(avId)
             self.playersGamePos[gamePos] = None
             self.fsm.request('gameOver')
-            
+
     def handleEmptyGame(self):
         self.movesMade = 0
         #elf.playersPlaying = []
         self.playersTurn = 1
         self.playerNum = 1
         self.fsm.request('waitingToBegin')
-        self.parent.isAccepting = True
+        self._parent.isAccepting = True
     ###############################################################
     ##Request win and distributed Laugh points
     #
@@ -180,9 +180,9 @@ class DistributedCheckersAI(DistributedNodeAI):
     ##
     def requestWin(self):
         avId = self.air.getAvatarIdFromSender()
-         
+
     def distributeLaffPoints(self):
-        for x in self.parent.seats:
+        for x in self._parent.seats:
             if x != None:
                 av = self.air.doId2do.get(x)
                 av.toonUp(self.winLaffPoints)
@@ -195,13 +195,13 @@ class DistributedCheckersAI(DistributedNodeAI):
     ###
     def enterWaitingToBegin(self):
         self.setGameCountdownTime()
-        self.parent.isAccepting = True
+        self._parent.isAccepting = True
         #self.clearBoard()
         pass
     def exitWaitingToBegin(self):
         self.turnEnd = 0
     def enterPlaying(self):
-        self.parent.isAccepting = False
+        self._parent.isAccepting = False
         for x in self.playersGamePos:
             if x != None:
                 self.playersTurn = self.playersGamePos.index(x)
@@ -209,13 +209,13 @@ class DistributedCheckersAI(DistributedNodeAI):
                 break
         self.setTurnCountdownTime()
         self.sendUpdate("setTurnTimer", [globalClockDelta.localToNetworkTime(self.turnEnd)])
-        
+
     def exitPlaying(self):
         pass
     def enterGameOver(self):
         self.timerEnd = 0
         isAccepting = True
-        self.parent.handleGameOver()
+        self._parent.handleGameOver()
         self.playersObserving = []
         self.playersTurn = 1
         self.playerNum = 1
@@ -224,7 +224,7 @@ class DistributedCheckersAI(DistributedNodeAI):
         self.sendGameState( [] )
         self.movesMade = 0
         self.playersGamePos = [None, None, None, None, None, None]
-        self.parent.isAccepting = True
+        self._parent.isAccepting = True
         self.fsm.request('waitingToBegin')
     def exitGameOver(self):
         pass
@@ -236,8 +236,8 @@ class DistributedCheckersAI(DistributedNodeAI):
     #is necessary for how the game table must look if odd numbers of people
     #are playing IE (* = blank )
     #     3        4       5
-    #   . * .    * . .   . . .   
-    #   
+    #   . * .    * . .   . . .
+    #
     #   * . *    . . *   . . *
     #
     #
@@ -249,42 +249,42 @@ class DistributedCheckersAI(DistributedNodeAI):
         if not( avId in self.wantStart ):
             self.wantStart.append(avId)
         numPlayers = 0
-        for x in self.parent.seats:
+        for x in self._parent.seats:
             if x != None:
                 numPlayers = numPlayers + 1
         if len(self.wantStart) == numPlayers and numPlayers >= 2:
             self.d_gameStart(avId)
-            self.parent.sendIsPlaying()
+            self._parent.sendIsPlaying()
     def d_gameStart(self,avId):
         #255 is a special value just telling the client that he is an Observer
         for x in self.playersObserving:
             self.sendUpdateToAvatarId(x, "gameStart", [255])
-        ###    
-            
+        ###
+
 
         zz = 0
         numPlayers = 0
-        for x in self.parent.seats:
+        for x in self._parent.seats:
             if x != None:
                 numPlayers += 1
                 self.playersPlaying.append(x)
         if numPlayers == 2:
-            player1 = self.playersPlaying[0] 
+            player1 = self.playersPlaying[0]
             self.sendUpdateToAvatarId(player1, "gameStart", [1])
             self.playersGamePos[0] = player1
             for x in self.startingPositions[0]:
                 self.board.setState(x, 1)
-                
+
             player2 = self.playersPlaying[1]
             self.sendUpdateToAvatarId(player2, "gameStart", [2])
             self.playersGamePos[1] = player2
             for x in self.startingPositions[1]:
                 self.board.setState(x,2)
-     
+
         self.sendGameState( [] )
         self.wantStart = []
         self.fsm.request('playing')
-        self.parent.getTableState()
+        self._parent.getTableState()
     def d_sendTurn(self,playersTurn):
         self.sendUpdate("sendTurn", [playersTurn])
 
@@ -300,7 +300,7 @@ class DistributedCheckersAI(DistributedNodeAI):
             self.playerNum = 1
             self.playersTurn = 0
 
-                 
+
     def requestMove(self, moveList):
         #Check if its a legal move first
         if(self.checkLegalMoves(moveList) == True):
@@ -341,7 +341,7 @@ class DistributedCheckersAI(DistributedNodeAI):
         elif len(moveList) > 2: # Jump Move
             for x in range(len(moveList)-1):
                 y = self.checkLegalJump(self.board.getSquare(moveList[x]), self.board.getSquare(moveList[x+1]), moveType)
-                if y == False: 
+                if y == False:
                     return False
             return True
 
@@ -382,7 +382,7 @@ class DistributedCheckersAI(DistributedNodeAI):
                     self.board.squareList[lastElement].setState(4)
                     haveMoved = True
                     self.sendGameState( moveList)
-        
+
         if  haveMoved == False:
             spot1 = self.board.squareList[moveList[0]].getState()
             self.board.squareList[moveList[0]].setState(0)
@@ -394,7 +394,7 @@ class DistributedCheckersAI(DistributedNodeAI):
         if self.hasWon == True:
             return
         if self.hasPeicesAndMoves(1,3) == False:
-            self.parent.announceWinner("Checkers", self.playersPlaying[1])
+            self._parent.announceWinner("Checkers", self.playersPlaying[1])
             self.fsm.request("gameOver")
             self.hasWon = True
             return
@@ -402,7 +402,7 @@ class DistributedCheckersAI(DistributedNodeAI):
         temp = self.playerNum
         self.playerNum = 2
         if self.hasPeicesAndMoves(2,4) == False:
-            self.parent.announceWinner("Checkers", self.playersPlaying[0])
+            self._parent.announceWinner("Checkers", self.playersPlaying[0])
             self.fsm.request("gameOver")
             self.hasWon = True
             return
@@ -422,22 +422,22 @@ class DistributedCheckersAI(DistributedNodeAI):
                 if self.existsLegalJumpsFrom(x.getNum(), "king") == True:
                     return True
         return False
-                
+
     def getState(self):
         return self.fsm.getCurrentState().getName()
-    
+
     def getName(self):
-        return self.name                   
-   
-        
+        return self.name
+
+
     def getGameState(self):
           return [self.board.getStates(), [] ]
-    
+
     def sendGameState(self, moveList):
         gameState = self.board.getStates()
         self.sendUpdate('setGameState', [gameState, moveList])
 
-    
+
 
     def clearBoard(self):
         for x in self.board.squareList:
@@ -569,7 +569,7 @@ class DistributedCheckersAI(DistributedNodeAI):
                     if self.board.squareList[firstSquare.getAdjacent()[index]].getState() in opposingPeices: #is the peice jumping over yours or his
                         return True
                     else:
-                        return False 
+                        return False
                 else:
                     return False
             else:

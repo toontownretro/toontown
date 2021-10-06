@@ -45,7 +45,7 @@ CISCtopLevelOverlap = 0.08
 
 #chat/ToontownChatManager.py
 CMnormalButton = 0.06
-CMscButtonPos = (-1.129, 0, 0.928)
+CMscButtonPos = (0.204, 0, -0.072)
 CMscButton = 0.06
 CMwhisperFrame = 0.06
 CMwhisperButton = 0.05
