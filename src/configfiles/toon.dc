@@ -303,19 +303,22 @@ from toontown.ai import DistributedSillyMeterMgr/AI
 
 // Cogdominium
 from toontown.cogdominium import DistributedCogdoInterior/AI
+from toontown.cogdominium import DistributedCogdoBattleBldg/AI
 from toontown.cogdominium import DistributedCogdoElevatorExt/AI
 from toontown.cogdominium import DistributedCogdoElevatorInt/AI
+from toontown.cogdominium import DistributedCogdoBarrel/AI
 
 // Cogdominium Games
 from toontown.cogdominium import DistCogdoGame/AI
 from toontown.cogdominium import DistCogdoLevelGame/AI
-from toontown.cogdominium import DistBoardroomGame/AI
+from toontown.cogdominium import DistCogdoBoardroomGame/AI
 from toontown.cogdominium import DistCogdoCraneGame/AI
 from toontown.cogdominium import DistCogdoMazeGame/AI
 from toontown.cogdominium import DistCogdoFlyingGame/AI
 
 from toontown.cogdominium import DistCogdoCrane/AI
-
+from toontown.cogdominium import DistCogdoCraneMoneyBag/AI
+from toontown.cogdominium import DistCogdoCraneCog/AI
 
 //////////////STRUCTS GO HERE
 
@@ -2359,6 +2362,14 @@ dclass DistributedSuitInterior: DistributedObject {
   reserveJoinDone() airecv clsend; //appears safe
 };
 
+dclass DistributedCogdoBarrel : DistributedObject {
+  requestGrab() airecv clsend;
+  setIndex(uint32) required broadcast ram;
+  setState(uint32) required broadcast ram;
+  setGrab(uint32) broadcast ram;
+  setReject() broadcast;
+};
+
 dclass DistributedCogdoInterior: DistributedObject {
   setZoneId(uint32 zoneId) required broadcast ram;
   setExtZoneId(uint32 extZoneId) required broadcast ram;
@@ -2379,6 +2390,9 @@ dclass DistributedCogdoInterior: DistributedObject {
   reserveJoinDone() airecv clsend; //appears safe
 };
 
+dclass DistributedCogdoBattleBldg : DistributedBattleBldg {
+};
+
 dclass DistCogdoGame: DistributedObject {
   setInteriorId(uint32 interiorId) required broadcast ram;
   setIntroStart() broadcast;
@@ -2391,15 +2405,39 @@ dclass DistCogdoLevelGame: DistCogdoGame, DistributedLevel {
 };
 
 dclass DistCogdoMazeGame: DistributedMinigame {
-  setLocks(uint32array toonIds, uint16array spawnPointsX, uint16array spawnPointsY) required broadcast ram;
-  requestAction(uint8 action, uint32 data) airecv clsend;
-  doAction(uint8 action, uint32 data) broadcast;
+  requestAction(uint8, uint32) airecv clsend;
+  doAction(uint8, uint32, int16) broadcast;
+  setNumSuits(uint8 [3]) required broadcast;
+  requestUseGag(int16/10, int16/10, int16/10, int16) clsend airecv;
+  toonUsedGag(uint32, int16/10, int16/10, int16/10, int16) broadcast;
+  requestSuitHitByGag(uint8, uint8) clsend airecv;
+  suitHitByGag(uint32, uint8, uint8) broadcast;
+  requestHitBySuit(uint8, uint8, int16) clsend airecv;
+  toonHitBySuit(uint32, uint8, uint8, int16) broadcast;
+  requestHitByDrop() clsend airecv;
+  toonHitByDrop(uint32) broadcast;
+  requestPickUp(uint8) clsend airecv;
+  pickUp(uint32, uint8, int16) broadcast;
+  requestGag(uint8) clsend airecv;
+  hasGag(uint32, int16) broadcast;
 };
 
 dclass DistCogdoFlyingGame: DistributedMinigame {
+  requestAction(uint8, uint8) airecv clsend;
+  requestPickUp(uint16, uint8) airecv clsend;
+  pickUp(uint32, uint16, int16) broadcast;
+  debuffPowerup(uint32, uint16, int16) broadcast;
+  doAction(uint8, uint32) broadcast;
+  eagleExitCooldown(uint32, int16) broadcast;
+  toonSetAsEagleTarget(uint32, uint8, int16) broadcast;
+  toonClearAsEagleTarget(uint32, uint8, int16) broadcast;
+  toonDied(uint32, int32) broadcast;
+  toonSpawn(uint32, int32) broadcast;
+  toonSetBlades(uint32, int32) broadcast;
+  toonBladeLost(uint32) broadcast;
 };
 
-dclass DistBoardroomGame: DistCogdoGame {
+dclass DistCogdoBoardroomGame: DistCogdoGame {
 };
 
 dclass DistCogdoCraneGame: DistCogdoLevelGame {
@@ -2413,6 +2451,61 @@ dclass DistCogdoCrane: DistributedObject {
 
   clearSmoothing(int8 bogus) broadcast clsend;
   setCablePos(uint8 changeSeq, int16 y / 100, uint16 h % 360 / 100, LinkPosition links[3], int16 timestamp) broadcast clsend;
+};
+
+dclass DistCogdoCraneObject : DistributedObject {
+  setCraneGameId(uint32) required broadcast ram;
+  setObjectState(char, uint32, uint32) broadcast ram;
+  requestGrab() airecv clsend;
+  rejectGrab();
+  requestDrop() airecv clsend;
+  hitFloor() clsend;
+  requestFree(int16/10, int16/10, int16/10, uint16%360/100) airecv clsend;
+  hitBoss(uint16/255) airecv clsend;
+  setX(int16/10) broadcast ram clsend airecv;
+  setY(int16/10) broadcast ram clsend airecv;
+  setZ(int16/10) broadcast ram clsend airecv;
+  setH(int16%360/10) broadcast ram clsend airecv;
+  setP(int16%360/10) broadcast ram clsend airecv;
+  setR(int16%360/10) broadcast ram clsend airecv;
+  setPos : setX, setY, setZ;
+  setHpr : setH, setP, setR;
+  setPosHpr : setX, setY, setZ, setH, setP, setR;
+  setXY : setX, setY;
+  setXZ : setX, setZ;
+  setXYH : setX, setY, setH;
+  setXYZH : setX, setY, setZ, setH;
+  setComponentL(uint64) broadcast ram clsend airecv;
+  setComponentX(int16/10) broadcast ram clsend airecv;
+  setComponentY(int16/10) broadcast ram clsend airecv;
+  setComponentZ(int16/10) broadcast ram clsend airecv;
+  setComponentH(int16%360/10) broadcast ram clsend airecv;
+  setComponentP(int16%360/10) broadcast ram clsend airecv;
+  setComponentR(int16%360/10) broadcast ram clsend airecv;
+  setComponentT(int16) broadcast ram clsend airecv;
+  setSmStop : setComponentT;
+  setSmH : setComponentH, setComponentT;
+  setSmZ : setComponentZ, setComponentT;
+  setSmXY : setComponentX, setComponentY, setComponentT;
+  setSmXZ : setComponentX, setComponentZ, setComponentT;
+  setSmPos : setComponentX, setComponentY, setComponentZ, setComponentT;
+  setSmHpr : setComponentH, setComponentP, setComponentR, setComponentT;
+  setSmXYH : setComponentX, setComponentY, setComponentH, setComponentT;
+  setSmXYZH : setComponentX, setComponentY, setComponentZ, setComponentH, setComponentT;
+  setSmPosHpr : setComponentX, setComponentY, setComponentZ, setComponentH, setComponentP, setComponentR, setComponentT;
+  setSmPosHprL : setComponentL, setComponentX, setComponentY, setComponentZ, setComponentH, setComponentP, setComponentR, setComponentT;
+  clearSmoothing(int8) broadcast clsend;
+};
+
+dclass DistCogdoCraneMoneyBag : DistCogdoCraneObject {
+  setIndex(uint8) required broadcast ram;
+  requestInitial() airecv clsend;
+};
+
+dclass DistCogdoCraneCog : DistributedObject {
+  setGameId(uint32) required broadcast ram;
+  setDNAString(blob) required broadcast ram;
+  setSpawnInfo(uint8, int16) required broadcast ram;
 };
 
 dclass DistributedHQInterior: DistributedObject {

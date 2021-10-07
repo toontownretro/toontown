@@ -29,13 +29,30 @@ GlobalEntities = {
         'description': '',
         'visibility': [],
         }, # end entity 0
+    # COGDOCRANECOGSETTINGS
+    10001: {
+        'type': 'cogdoCraneCogSettings',
+        'name': '<unnamed>',
+        'comment': '',
+        'parentEntId': 0,
+        'CogFlyAwayDuration': 4.0,
+        'CogFlyAwayHeight': 50.0,
+        'CogMachineInteractDuration': 2.0,
+        'CogSpawnPeriod': 10.0,
+        'CogWalkSpeed': 12.07161265369133
+        },
     # COGDOCRANEGAMESETTINGS
     10000: {
         'type': 'cogdoCraneGameSettings',
         'name': '<unnamed>',
         'comment': '',
         'parentEntId': 0,
+        'EmptyFrictionCoef': 0.1,
         'GameDuration': 180.0,
+        'Gravity': -32,
+        'MagnetMass': 1.0,
+        'MoneyBagGrabHeight': -4.1,
+        'RopeLinkMass': 1.0
         }, # end entity 10000
     }
 

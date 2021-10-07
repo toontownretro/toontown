@@ -11,12 +11,13 @@ from toontown.toonbase import TTLocalizer as TTL
 from toontown.toonbase import ToontownGlobals
 import functools
 
-class DistCogdoCraneGame(DistCogdoLevelGame, CogdoCraneGameBase):
+class DistCogdoCraneGame(CogdoCraneGameBase, DistCogdoLevelGame):
     notify = directNotify.newCategory("DistCogdoCraneGame")
 
     def __init__(self, cr):
         DistCogdoLevelGame.__init__(self, cr)
         self.cranes = {}
+        self.moneyBags = {}
 
     def getTitle(self):
         return TTL.CogdoCraneGameTitle
@@ -45,8 +46,12 @@ class DistCogdoCraneGame(DistCogdoLevelGame, CogdoCraneGameBase):
         self.controls = loader.loadModel('phase_10/models/cogHQ/CBCraneControls.bam')
         self.stick = loader.loadModel('phase_10/models/cogHQ/CBCraneStick.bam')
         self.cableTex = self.craneArm.findTexture('MagnetControl')
+        self.moneyBag = loader.loadModel('phase_10/models/cashbotHQ/MoneyBag')
 
         self.geomRoot = PM.NodePath('geom')
+
+        self.sceneRoot = self.geomRoot.attachNewNode('sceneRoot')
+        self.sceneRoot.setPos(35.84, -115.46, 6.46)
 
         # Set up a physics manager for the cables and the objects
         # falling around in the room.
@@ -60,6 +65,12 @@ class DistCogdoCraneGame(DistCogdoLevelGame, CogdoCraneGameBase):
         gravity = PM.LinearVectorForce(0, 0, -32)
         fn.addForce(gravity)
         self.physicsMgr.addLinearForce(gravity)
+
+        self._gravityForce = gravity
+        self._gravityForceNode = fn
+
+    def getSceneRoot(self):
+        return self.sceneRoot
 
     def privGotSpec(self, levelSpec):
         DistCogdoLevelGame.privGotSpec(self, levelSpec)
@@ -159,6 +170,9 @@ class DistCogdoCraneGame(DistCogdoLevelGame, CogdoCraneGameBase):
 
         self.geomRoot.removeNode()
 
+        self._gravityForce = None
+        self._gravityForceNode = None
+
         DistCogdoLevelGame.exitLoaded(self)
 
     def toCraneMode(self):
@@ -171,9 +185,13 @@ class DistCogdoCraneGame(DistCogdoLevelGame, CogdoCraneGameBase):
             if place and hasattr(place, 'fsm'):
                 place.setState('crane')
 
-    def enterIntro(self):
-        DistCogdoLevelGame.enterIntro(self)
+    def enterVisible(self):
+        DistCogdoLevelGame.enterVisible(self)
         self.geomRoot.reparentTo(render)
+
+    def placeEntranceElev(self, elev):
+        elev.setPos(-10.63, -113.64, 6.03)
+        elev.setHpr(90, 0, 0)
 
     def enterGame(self):
         DistCogdoLevelGame.enterGame(self)
@@ -187,7 +205,7 @@ class DistCogdoCraneGame(DistCogdoLevelGame, CogdoCraneGameBase):
             self.accept(self._durationChangedEvent, self._startTimer)
 
     def _startTimer(self):
-        timeLeft = GameConsts.Settings.GameDuration.get() - (globalClock.getRealTime() - self.getStartTime())
+        timeLeft = GameConsts.Settings.GameDuration.get() - self.getCurrentGameTime()
         self.timer.posInTopRightCorner()
         self.timer.setTime(timeLeft)
         self.timer.countdown(timeLeft, self.timerExpired)
@@ -217,3 +235,26 @@ class DistCogdoCraneGame(DistCogdoLevelGame, CogdoCraneGameBase):
     if __dev__:
         def _handleGameDurationChanged(self, gameDuration):
             messenger.send(self._durationChangedEvent)
+
+        def _handleGravityChanged(self, gravity):
+            self.physicsMgr.removeLinearForce(self._gravityForce)
+            self._gravityForceNode.removeForce(self._gravityForce)
+            self._gravityForce = PM.LinearVectorForce(0, 0, gravity)
+            self.physicsMgr.addLinearForce(self._gravityForce)
+            self._gravityForceNode.addForce(self._gravityForce)
+
+        def _handleEmptyFrictionCoefChanged(self, coef):
+            for crane in self.cranes.values():
+                crane._handleEmptyFrictionCoefChanged(coef)
+
+        def _handleRopeLinkMassChanged(self, mass):
+            for crane in self.cranes.values():
+                crane._handleRopeLinkMassChanged(mass)
+
+        def _handleMagnetMassChanged(self, mass):
+            for crane in self.cranes.values():
+                crane._handleMagnetMassChanged(mass)
+
+        def _handleMoneyBagGrabHeightChanged(self, height):
+            for moneyBag in self.moneyBags.itervalues():
+                moneyBag._handleMoneyBagGrabHeightChanged(height)

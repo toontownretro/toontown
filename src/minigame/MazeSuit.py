@@ -10,6 +10,7 @@ from . import MazeGameGlobals
 from direct.showbase import RandomNumGen
 from toontown.suit import Suit
 from toontown.suit import SuitDNA
+import functools
 
 class MazeSuit(DirectObject):
     """this represents a single suit in the maze"""

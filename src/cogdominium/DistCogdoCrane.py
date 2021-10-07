@@ -1258,3 +1258,15 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
     def exitMovie(self):
         self.__deactivatePhysics()
         self.__straightenCable()
+
+    if __dev__:
+
+        def _handleEmptyFrictionCoefChanged(self, coef):
+            self.handler.setDynamicFrictionCoef(coef)
+
+        def _handleRopeLinkMassChanged(self, mass):
+            for an, anp, cnp in self.activeLinks:
+                an.getPhysicsObject().setMass(mass)
+
+        def _handleMagnetMassChanged(self, mass):
+            pass

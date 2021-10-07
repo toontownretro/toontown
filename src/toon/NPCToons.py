@@ -1025,7 +1025,7 @@ def getBuildingArticle(zoneId):
 def getBuildingTitle(zoneId):
     return TTLocalizer.zone2TitleDict.get(zoneId, "Toon Building")[0]
 
-npcFriends = {
+HQnpcFriends = {
     # A dictionary of tuples, indexed by rescued toon npcId
     # Each tuple consists of (type, level, hp, rarity) except for the
     # restock sos which consists of (type, track, 0, rarity)
@@ -1111,6 +1111,52 @@ npcFriends = {
     1329 : (ToontownBattleGlobals.NPC_RESTOCK_GAGS,
             ToontownBattleGlobals.DROP_TRACK, 0, 3),
     }
+
+FOnpcFriends = {
+    # Lurers
+    # Des Traction
+    9310 : (ToontownBattleGlobals.LURE_TRACK, 1, 0, 0),
+    # Dee Version
+    9311 : (ToontownBattleGlobals.LURE_TRACK, 1, 0, 1),
+    # Bo Nanapeel
+    9312 : (ToontownBattleGlobals.LURE_TRACK, 3, 0, 2),
+
+    # Musicians
+    # Bea Sharpe
+    9307 : (ToontownBattleGlobals.SOUND_TRACK, 1, 10, 0),
+    # Otto Toon
+    9308 : (ToontownBattleGlobals.SOUND_TRACK, 3, 20, 1),
+    # Al Capella
+    9309 : (ToontownBattleGlobals.SOUND_TRACK, 4, 30, 2),
+
+    # Droppers
+    # Anne Ville
+    9304 : (ToontownBattleGlobals.DROP_TRACK, 1,  20, 0),
+    # Bud Erfingerz
+    9305 : (ToontownBattleGlobals.DROP_TRACK, 2, 35, 1),
+    # J.S. Bark
+    9306 : (ToontownBattleGlobals.DROP_TRACK, 3, 50, 2),
+
+    # Healers
+    # Phil Bettur
+    9301 : (ToontownBattleGlobals.HEAL_TRACK, 3, 10, 0),
+    # Emma Phatic
+    9302 : (ToontownBattleGlobals.HEAL_TRACK, 3, 20, 1),
+    # GiggleMesh
+    9303 : (ToontownBattleGlobals.HEAL_TRACK, 3, 30, 2),
+    }
+
+npcFriends = dict(HQnpcFriends)
+npcFriends.update(FOnpcFriends)
+
+def getNPCName(npcId):
+    if npcId in NPCToonDict:
+        return NPCToonDict[npcId][1]
+    return None
+
+
+def npcFriendsMinMaxStars(minStars, maxStars):
+    return [ id for id in list(npcFriends.keys()) if getNPCTrackLevelHpRarity(id)[3] >= minStars and getNPCTrackLevelHpRarity(id)[3] <= maxStars ]
 
 def getNPCTrack(npcId):
     if (npcId in npcFriends):

@@ -1,10 +1,12 @@
 from direct.directnotify.DirectNotifyGlobal import directNotify
-from toontown.cogdominium.DistCogdoGame import DistCogdoGame
+from toontown.cogdominium.DistCogdoLevelGame import DistCogdoLevelGame
+from toontown.cogdominium.CogdoBoardroomGameBase import CogdoBoardroomGameBase
+from toontown.cogdominium import CogdoBoardroomGameConsts as Consts
 from toontown.toonbase import ToontownTimer
 from toontown.toonbase import TTLocalizer as TTL
 
-class DistBoardroomGame(DistCogdoGame):
-    notify = directNotify.newCategory("DistBoardroomGame")
+class DistCogdoBoardroomGame(CogdoBoardroomGameBase, DistCogdoLevelGame):
+    notify = directNotify.newCategory("DistCogdoBoardroomGame")
 
     def __init__(self, cr):
         DistCogdoGame.__init__(self, cr)
@@ -24,7 +26,7 @@ class DistBoardroomGame(DistCogdoGame):
         self.timer.destroy()
         self.timer = None
         DistCogdoGame.disable(self)
-        
+
     def enterGame(self):
         DistCogdoGame.enterGame(self)
         #self.timer.posInTopRightCorner()
@@ -42,3 +44,9 @@ class DistBoardroomGame(DistCogdoGame):
 
     def timerExpired(self):
         pass
+
+    if __dev__:
+
+        def _handleTimerScaleChanged(self, timerScale):
+            if hasattr(self, 'timer'):
+                self.timer.setScale(timerScale)

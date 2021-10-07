@@ -1,27 +1,54 @@
+from toontown.toonbase import ToontownModules as PM
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from toontown.cogdominium.DistCogdoLevelGameAI import DistCogdoLevelGameAI
 from toontown.cogdominium.DistCogdoCraneAI import DistCogdoCraneAI
 from toontown.cogdominium import CogdoCraneGameConsts as GameConsts
 from toontown.cogdominium.CogdoCraneGameBase import CogdoCraneGameBase
+from toontown.cogdominium import CogdoGameConsts
+from toontown.cogdominium.DistCogdoCraneMoneyBagAI import DistCogdoCraneMoneyBagAI
+from toontown.cogdominium.DistCogdoCraneCogAI import DistCogdoCraneCogAI
+from toontown.suit.SuitDNA import SuitDNA
+import random
 
-class DistCogdoCraneGameAI(DistCogdoLevelGameAI, CogdoCraneGameBase):
+class DistCogdoCraneGameAI(CogdoCraneGameBase, DistCogdoLevelGameAI, PM.NodePath):
     notify = directNotify.newCategory("DistCogdoCraneGameAI")
 
     def __init__(self, air, interior):
+        PM.NodePath.__init__(self, uniqueName("CraneGameAI"))
         DistCogdoLevelGameAI.__init__(self, air, interior)
-        self._cranes = [None,] * self.MaxPlayers
+        self._cranes = [None,] * CogdoGameConsts.MaxPlayers
+        self._moneyBags = [ None] * 8
+
+    def delete(self):
+        DistCogdoLevelGameAI.delete(self)
+        self.removeNode()
 
     def enterLoaded(self):
         DistCogdoLevelGameAI.enterLoaded(self)
         # create the cranes
-        for i in range(self.MaxPlayers):
+        self.scene = PM.NodePath('scene')
+        cn = PM.CollisionNode('walls')
+        cs = PM.CollisionSphere(0, 0, 0, 13)
+        cn.addSolid(cs)
+        cs = PM.CollisionInvSphere(0, 0, 0, 42)
+        cn.addSolid(cs)
+        self.attachNewNode(cn)
+        for i in range(CogdoGameConsts.MaxPlayers):
             crane = DistCogdoCraneAI(self.air, self, i)
             crane.generateWithRequired(self.zoneId)
             self._cranes[i] = crane
+        for i in range(len(self._moneyBags)):
+            mBag = DistCogdoCraneMoneyBagAI(self.air, self, i)
+            mBag.generateWithRequired(self.zoneId)
+            self._moneyBags[i] = mBag
 
     def exitLoaded(self):
         # destroy the cranes
-        for i in range(self.MaxPlayers):
+        for i in range(len(self._moneyBags)):
+            if self._moneyBags[i]:
+                self._moneyBags[i].requestDelete()
+                self._moneyBags[i] = None
+        for i in range(CogdoGameConsts.MaxPlayers):
             if self._cranes[i]:
                 self._cranes[i].requestDelete()
                 self._cranes[i] = None
@@ -33,6 +60,13 @@ class DistCogdoCraneGameAI(DistCogdoLevelGameAI, CogdoCraneGameBase):
         # put the players on the cranes
         for i in range(self.getNumPlayers()):
             self._cranes[i].request('Controlled', self.getToonIds()[i])
+
+        for i in range(len(self._moneyBags)):
+            if self._moneyBags[i]:
+                self._moneyBags[i].request('Initial')
+
+        self._cog = DistCogdoCraneCogAI(self.air, self, self.getDroneCogDNA(), random.randrange(4), globalClock.getFrameTime())
+        self._cog.generateWithRequired(self.zoneId)
 
         # start the game up. Or wait for a while, that's fun too
         self._scheduleGameDone()
@@ -46,6 +80,8 @@ class DistCogdoCraneGameAI(DistCogdoLevelGameAI, CogdoCraneGameBase):
             self._gameDoneDL()
             
     def exitGame(self):
+        self._cog.requestDelete()
+        self._cog = None
         taskMgr.remove(self._gameDoneEvent)
         self._gameDoneEvent = None
 

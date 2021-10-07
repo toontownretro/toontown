@@ -1,16 +1,14 @@
 from toontown.toonbase.ToontownModules import *
-from toontown.toonbase.ToonBaseGlobal import *
 
+from direct.task.Task import Task
 from direct.directnotify import DirectNotifyGlobal
-from toontown.hood import Place
-from direct.showbase import DirectObject
-from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
-from direct.fsm import State
+
+from toontown.hood import Place
+from toontown.toonbase.ToonBaseGlobal import *
 from toontown.town import TownBattle
 from toontown.suit import Suit
 from toontown.building import Elevator
-from direct.task.Task import Task
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 
@@ -263,9 +261,10 @@ class CogdoInterior(Place.Place):
     # Game state
 
     def enterGame(self):
-        pass
+        base.localAvatar.setTeleportAvailable(0)
+        base.localAvatar.laffMeter.start()
     def exitGame(self):
-        pass
+        base.localAvatar.laffMeter.stop()
 
     # Battle state
 

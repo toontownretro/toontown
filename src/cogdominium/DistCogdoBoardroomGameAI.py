@@ -1,8 +1,10 @@
 from direct.directnotify.DirectNotifyGlobal import directNotify
-from toontown.cogdominium.DistCogdoGameAI import DistCogdoGameAI
+from toontown.cogdominium.CogdoBoardroomGameBase import CogdoBoardroomGameBase
+from toontown.cogdominium.DistCogdoLevelGameAI import DistCogdoLevelGameAI
+from toontown.cogdominium import CogdoBoardroomGameConsts as Consts
 
-class DistBoardroomGameAI(DistCogdoGameAI):
-    notify = directNotify.newCategory("DistBoardroomGameAI")
+class DistCogdoBoardroomGameAI(CogdoBoardroomGameBase, DistCogdoLevelGameAI):
+    notify = directNotify.newCategory("DistCogdoBoardroomGameAI")
 
     def __init__(self, air, interior):
         DistCogdoGameAI.__init__(self, air, interior)
@@ -11,7 +13,7 @@ class DistBoardroomGameAI(DistCogdoGameAI):
         DistCogdoGameAI.enterGame(self)
         # start the game up. Or wait for a while, that's fun too
         self._gameDoneEvent = taskMgr.doMethodLater(
-            15., self._gameDoneDL, self.uniqueName('boardroomGameDone'))        
+            Consts.GameDuration.get(), self._gameDoneDL, self.uniqueName('boardroomGameDone'))
 
     def exitGame(self):
         taskMgr.remove(self._gameDoneEvent)
@@ -24,7 +26,7 @@ class DistBoardroomGameAI(DistCogdoGameAI):
     def enterFinish(self):
         DistCogdoGameAI.enterFinish(self)
         self._finishDoneEvent = taskMgr.doMethodLater(
-            10., self._finishDoneDL, self.uniqueName('boardroomFinishDone'))
+            Consts.FinishDuration.get(), self._finishDoneDL, self.uniqueName('boardroomFinishDone'))
 
     def exitFinish(self):
         taskMgr.remove(self._finishDoneEvent)
@@ -33,4 +35,3 @@ class DistBoardroomGameAI(DistCogdoGameAI):
     def _finishDoneDL(self, task):
         self.announceGameDone()
         return task.done
-    
