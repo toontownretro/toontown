@@ -71,7 +71,7 @@ class ToonBase(OTPBase.OTPBase):
             sys.exit(1)
 
         self.disableShowbaseMouse()
-        
+
         if self.config.GetBool('want-shaders', True):
             self.render.setAntialias(AntialiasAttrib.MMultisample)
             self.render2d.setAntialias(AntialiasAttrib.MMultisample)
@@ -221,6 +221,15 @@ class ToonBase(OTPBase.OTPBase):
             'minigame-safezone-id', -1)
         if self.minigameSafezoneId == -1:
             del self.minigameSafezoneId
+
+        cogdoGameSafezoneId = self.config.GetInt(
+            'cogdo-game-safezone-id', -1)
+        cogdoGameDifficulty = self.config.GetFloat(
+            'cogdo-game-difficulty', -1)
+        if cogdoGameDifficulty != -1:
+            self.cogdoGameDifficulty = cogdoGameDifficulty
+        if cogdoGameSafezoneId != -1:
+            self.cogdoGameSafezoneId = cogdoGameSafezoneId
 
         ToontownBattleGlobals.SkipMovie = self.config.GetBool(
             'skip-battle-movies', 0)
@@ -452,7 +461,7 @@ class ToonBase(OTPBase.OTPBase):
         self.marginManager = MarginManager()
         self.margins = \
           self.aspect2d.attachNewNode(self.marginManager, DirectGuiGlobals.MIDGROUND_SORT_INDEX + 1)
-          
+
         #right = base.a2dRight
         #left = base.a2dLeft
         right = 4. / 3

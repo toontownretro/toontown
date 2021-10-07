@@ -12580,7 +12580,7 @@ FindFourObserver = "You are Observing"
 
 FindFourYouWon = "You just won a game of Find Four!"
 FindFourTie = "This Find Four game has resulted in a Tie!"
-FindFour = "Find Four"
+FindFour = "Find Four."
 FindFourGameOf = " has just won a game of "
 
 MailNotifyNewItems = "You've got mail!"

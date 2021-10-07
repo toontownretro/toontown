@@ -84,6 +84,9 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         # True if this suit is planning a toon building takeover.
         self.attemptingTakeover = 0
 
+        # True if this suit is planning a toon building takeover.
+        self.takeoverIsCogdo = False
+
         # The block number of the building the suit is headed to,
         # either a suit or a toon building, or None.
         self.buildingDestination = None
@@ -608,8 +611,8 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
                                ( self.getDoId(), blockNumber, self.zoneId ) )
 
             difficulty = self.getActualLevel() - 1
+            dept = SuitDNA.getSuitDept(self.dna.name)
             if self.buildingDestinationIsCogdo:
-                self.sp.cogdoTakeOver(blockNumber, difficulty, self.buildingHeight)
+                self.sp.cogdoTakeOver(blockNumber, dept, difficulty, self.buildingHeight)
             else:
-                dept = SuitDNA.getSuitDept(self.dna.name)
                 self.sp.suitTakeOver(blockNumber, dept, difficulty, self.buildingHeight)

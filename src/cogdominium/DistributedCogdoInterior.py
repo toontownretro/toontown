@@ -142,12 +142,12 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
 
         # Load the elevator model
         self.elevatorModelIn = loader.loadModel(
-                                'phase_5/models/modules/elevator')
+                                'phase_4/models/modules/elevator')
         self.leftDoorIn = self.elevatorModelIn.find('**/left-door')
         self.rightDoorIn = self.elevatorModelIn.find('**/right-door')
 
         self.elevatorModelOut = loader.loadModel(
-                                'phase_5/models/modules/elevator')
+                                'phase_4/models/modules/elevator')
         self.leftDoorOut = self.elevatorModelOut.find('**/left-door')
         self.rightDoorOut = self.elevatorModelOut.find('**/right-door')
 

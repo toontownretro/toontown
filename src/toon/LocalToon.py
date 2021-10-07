@@ -2830,6 +2830,20 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
     def getLastTimeReadNews(self):
         return self.lastTimeReadNews
 
+    def cheatCogdoMazeGame(self, kindOfCheat = 0):
+        if base.config.GetBool('allow-cogdo-maze-suit-hit-cheat'):
+            maze = base.cr.doFind('DistCogdoMazeGame')
+            if maze:
+                if kindOfCheat == 0:
+                    for suitNum in maze.game.suitsById.keys():
+                        suit = maze.game.suitsById[suitNum]
+                        maze.sendUpdate('requestSuitHitByGag', [suit.type, suitNum])
+                elif kindOfCheat == 1:
+                    for joke in maze.game.pickups:
+                        maze.sendUpdate('requestPickUp', [joke.serialNum])
+        else:
+            self.sendUpdate('logSuspiciousEvent', ['cheatCogdoMazeGame'])
+
     def isReadingNews(self):
         """Returns true if the toon is reading the news."""
         result = False

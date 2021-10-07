@@ -90,17 +90,17 @@ class GameMenu(DirectFrame):
             self.FindFour.setColor(.7,.7,.7,.7)
 
 
-        self.chineseText = OnscreenText(text = "Chinese Checkers", pos = (0, .56, -0.8), scale = 0.15,
+        self.chineseText = OnscreenText(text = TTLocalizer.ChineseCheckers, pos = (0, .56, -0.8), scale = 0.15,
                                        fg = Vec4(1,1,1,1), align = TextNode.ACenter,
                                        font =ToontownGlobals.getMinnieFont(), wordwrap = 7,
                                         shadow = (0,0,0,0.8), shadowOffset = (-0.1,-0.1), mayChange = True)
         self.chineseText.setR(-8)
 
-        self.checkersText = OnscreenText(text = "Checkers", pos = (0.81, -.1, -0.8), scale = 0.15,
+        self.checkersText = OnscreenText(text = TTLocalizer.RegularCheckers, pos = (0.81, -.1, -0.8), scale = 0.15,
                                        fg = Vec4(1,1,1,1), align = TextNode.ACenter,
                                         font =ToontownGlobals.getMinnieFont(), wordwrap = 7,
                                         shadow = (0,0,0,0.8), shadowOffset = (0.1,-0.1), mayChange = True)
-        self.findFourText = OnscreenText(text = "Find Four", pos = (-0.81, -.08, -0.8), scale = 0.15,
+        self.findFourText = OnscreenText(text = TTLocalizer.FindFour, pos = (-0.81, -.08, -0.8), scale = 0.15,
                                        fg = Vec4(1,1,1,1), align = TextNode.ACenter,
                                         font =ToontownGlobals.getMinnieFont(), wordwrap = 8,
                                         shadow = (0,0,0,.8), shadowOffset = (-0.1,-0.1), mayChange = True)

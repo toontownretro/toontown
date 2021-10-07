@@ -9322,9 +9322,9 @@ NPCToonNames = {
     # NPCFisherman
     2012 : "Vendeur de l'animalerie",
     # NPCPetClerks
-    2013 : "M. Vacarme",
-    2014 : "Melle Vadrouille",
-    2015 : "M. Vagabond",
+    2013 : "M. Vacarme - Vendeur",
+    2014 : "Melle Vadrouille - Vendeuse",
+    2015 : "M. Vagabond - Vendeur",
     # NPCPartyPerson
     2016 : "Party Planner Pete",
     2017 : "Party Planner Penny",
@@ -9437,9 +9437,9 @@ NPCToonNames = {
     # NPCFisherman
     1008 : "Vendeur de l'animalerie",
     # NPCPetClerks
-    1009 : "M. Ouahouah",
-    1010 : "Melle Ronron",
-    1011 : "Mme Glouglou",
+    1009 : "M. Ouahouah - Vendeur",
+    1010 : "Melle Ronron - Vendeuse",
+    1011 : "Mme Glouglou - Vendeuse",
     # NPCPartyPerson
     1012 : "Party Planner Phil",
     1013 : "Party Planner Patty",
@@ -9550,9 +9550,9 @@ NPCToonNames = {
     # NPCPêcheur
     3009 : "Vendeur de l'animalerie",
     # NPCPetClerks
-    3010 : "M. Cabo",
-    3011 : "Melle Cabriole",
-    3012 : "M. Cadichon",
+    3010 : "M. Cabo - Vendeur",
+    3011 : "Melle Cabriole - Vendeuse",
+    3012 : "M. Cadichon - Vendeur",
     # NPCPartyPerson
     3013 : "Party Planner Paul",
     3014 : "Party Planner Polly",
@@ -9681,9 +9681,9 @@ NPCToonNames = {
     # NPCFisherman
     4009 : "Vendeur de l'animalerie",
     # NPCPetClerks
-    4010 : "M. Chris",
-    4011 : "M. Neil",
-    4012 : "Melle Western",
+    4010 : "M. Chris - Vendeur",
+    4011 : "M. Neil - Vendeur",
+    4012 : "Melle Western - Vendeuse",
     # NPCPartyPerson
     4013 : "Party Planner Preston",
     4014 : "Party Planner Penelope",
@@ -9819,9 +9819,9 @@ NPCToonNames = {
     # NPCFisherman
     5008 : "Vendeur de l'animalerie",
     # NPCPetClerks
-    5009 : "Mme Flore Halie",
-    5010 : "M. Tom Hatte",
-    5011 : "M. Ray Glisse",
+    5009 : "Mme Flore Halie - Vendeuse",
+    5010 : "M. Tom Hatte - Vendeur",
+    5011 : "M. Ray Glisse - Vendeur",
     # NPCPartyPerson
     5012 : "Party Planner Pierce",
     5013 : "Party Planner Peggy",
@@ -9941,9 +9941,9 @@ NPCToonNames = {
     # NPCFisherman
     9011 : "Vendeur de l'animalerie",
     # NPCPetClerks
-    9012 : "Melle Isabelle Bulle",
-    9013 : "Mme Dorothée Dor",
-    9014 : "M. Pierre Pionce",
+    9012 : "Melle Isabelle Bulle - Vendeuse",
+    9013 : "Mme Dorothée Dor - Vendeuse",
+    9014 : "M. Pierre Pionce - Vendeur",
     # NPCPartyPerson
     9015 : "Party Planner Patrick",
     9016 : "Party Planner Pearl",
@@ -12563,7 +12563,7 @@ CheckersColorWhite = "Tu es blanc"
 CheckersColorBlack = "Tu es noir"
 CheckersObserver = "Tu observes"
 RegularCheckers = "Jeu de dames."
-RegularCheckersGameOf = "vient de remporter une partie de"
+RegularCheckersGameOf = " vient de remporter une partie de "
 RegularCheckersYouWon = "Tu viens de remporter une partie de dames !"
 
 #DistributedFindFour.py
@@ -12580,9 +12580,9 @@ FindFourColorY = "Tu es jaune"
 FindFourColorR = "Tu es rouge"
 FindFourObserver = "Tu observes"
 
-FindFourYouWon = "Tu viens de remporter une partie de puissance 4 !"
+FindFourYouWon = "Tu viens de remporter une partie de puissance quatre !"
 FindFourTie = "This Find Four game has resulted in a Tie!"
-FindFour = "Puissance 4"
+FindFour = "Puissance quatre."
 FindFourGameOf = " vient de remporter une partie de "
 
 MailNotifyNewItems = "Tu as reçu un e-mail !"
