@@ -53,6 +53,9 @@ Rod2JellybeanDict = {
 # How much we heal when we catch a fish
 HealAmount = 1
 
+# How much the reward is multiplied during the double jelly bean holiday
+JellybeanFishingHolidayScoreMultiplier = 2
+
 # Most rare value
 MAX_RARITY = 10
 
@@ -433,7 +436,18 @@ def getValue(genus, species, weight):
     weightValue = pow(WEIGHT_VALUE_SCALE * weight, 1.1)
     value = OVERALL_VALUE_SCALE * (rarityValue + weightValue)
     # Round up because jellybeans should be integers
-    return int(ceil(value))
+    finalValue = int(ceil(value))
+    base = getBase()
+    if hasattr(base, 'cr') and base.cr:
+        if hasattr(base.cr, 'newsManager') and base.cr.newsManager:
+            holidayIds = base.cr.newsManager.getHolidayIdList()
+            if ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY in holidayIds or \
+               ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY_MONTH in holidayIds:
+                finalValue *= JellybeanFishingHolidayScoreMultiplier
+    elif ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY in simbase.air.holidayManager.currentHolidays or \
+         ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY_MONTH in simbase.air.holidayManager.currentHolidays:
+        finalValue *= JellybeanFishingHolidayScoreMultiplier
+    return finalValue
 
 
 """

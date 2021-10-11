@@ -70,7 +70,7 @@ class FishBrowser(DirectScrolledList):
     def destroy(self):
         assert self.notify.debugStateCall(self)
         DirectScrolledList.destroy(self)
-        self.parent = None
+        self._parent = None
 
     #def load(self):
     #    assert self.notify.debugStateCall(self)

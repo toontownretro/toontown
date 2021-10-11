@@ -66,6 +66,13 @@ class FishSellGUI(DirectFrame):
             text_pos = (0,-0.1),
             command = self.__sellFish,
             )
+        self.rewardDoubledJellybeanLabel = DirectLabel(
+            text="",
+            text_fg=(1.0, 0.125, 0.125, 1.0),
+            relief=None,
+            pos=(0.45, 0, -0.48),
+            scale=0.07,
+            )
 
         buttons.removeNode()
 
@@ -74,6 +81,8 @@ class FishSellGUI(DirectFrame):
 
     def destroy(self):
         DirectFrame.destroy(self)
+        self.rewardDoubledJellybeanLabel.removeNode()
+        del self.rewardDoubledJellybeanLabel
 
     def __cancel(self):
         assert(self.notify.debug("transaction cancelled"))
@@ -83,6 +92,12 @@ class FishSellGUI(DirectFrame):
         messenger.send(self.doneEvent, [1])
 
     def __updateFishValue(self):
+        doubledJellybean = ''
+        if base.cr.newsManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY) or \
+           base.cr.newsManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY_MONTH):
+            doubledJellybean = TTLocalizer.PartyRewardDoubledJellybean
+            self.rewardDoubledJellybeanLabel["text"] = doubledJellybean
+            self.rewardDoubledJellybeanLabel.setText()
         fishTank = base.localAvatar.getFishTank()
         num = len(fishTank)
         value = fishTank.getTotalValue()

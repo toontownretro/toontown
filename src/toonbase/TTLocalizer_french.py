@@ -8693,6 +8693,8 @@ FurnitureNames = {
   2000 : "Balançoire bonbon",
   2010 : "Toboggan gâteau",
   3000 : "Baignoire Banana Split",
+  4000 : "Boy Trunk",
+  4010 : "Girl Trunk",
   10000 : "Petite citrouille",
   10010 : "Grande citrouille",
   10020 : "Winter Tree",
@@ -8840,6 +8842,8 @@ AwardManagerFurnitureNames = {
   2000 : "Candy Swing Set",
   2010 : "Cake Slide",
   3000 : "Banana Split Tub",
+  4000 : "Boy Trunk",
+  4010 : "Girl Trunk",
   10000 : "Short Pumpkin",
   10010 : "Tall Pumpkin",
   10020 : "Winter Tree",
@@ -11350,7 +11354,7 @@ FishBingoTypeDiagonal = "Diagonales"
 FishBingoTypeThreeway = "Trois voies"
 FishBingoTypeBlockout = "GRILLE ENTIERE !"
 FishBingoStart = "C'est l'heure du loto des poissons ! Rends-toi sur n'importe quel ponton libre pour jouer !"
-FishBingoOngoing = "" # TODO
+FishBingoOngoing = "Bienvenue ! Le loto des poissons est en cours." # Check
 FishBingoEnd = "J'espère que le loto des poissons t'a plu."
 FishBingoHelpMain = "Bienvenue au loto des poissons de Toontown ! Tout le monde à la mare s'active pour remplir la grille avant la fin du temps imparti."
 FishBingoHelpFlash = "Quand tu attrapes un poisson, clique sur un des carrés clignotants pour marquer la grille."
@@ -12059,7 +12063,7 @@ TravelGameWaitingChoices = "Attendre que les autres joueurs votent..."
 # e.g. NorthWest, NorthEast, etc.
 TravelGameDirections = ['HAUT', 'BAS']
 TravelGameTotals = 'Totaux'
-TravelGameReasonVotes = 'The trolley is moving %(dir)s, winning by %(numVotes)d votes.'
+TravelGameReasonVotes = 'Le tramway se dirige vers le %(dir)s, avec une avance de %(numVotes)d votes.'
 TravelGameReasonVotesPlural = 'Le tramway se dirige vers le %(dir)s, avec une avance de %(numVotes)d votes.'
 TravelGameReasonVotesSingular = 'Le tramway se dirige vers le %(dir)s, avec une avance de %(numVotes)d vote.'
 TravelGameReasonPlace = '%(name)s brise le lien. Le tramway se dirige vers le %(dir)s.'

@@ -87,7 +87,7 @@ class DistributedCpuInfoMgrUD(DistributedObjectGlobalUD):
         """Start accepting http requests."""
         assert self.notify.debugCall()
         DistributedObjectGlobalUD.announceGenerate(self)
-        self.webDispatcher.startCheckingIncomingHTTP()
+        #self.webDispatcher.startCheckingIncomingHTTP()
 
     def securityBanMgr(self, replyTo, **kw):
         """Handle all calls to web requests awardMgr."""

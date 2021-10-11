@@ -59,7 +59,7 @@ class DistributedInGameNewsMgrUD(DistributedObjectGlobalUD):
         assert self.notify.debugCall()
         DistributedObjectGlobalUD.announceGenerate(self)
         self.b_setLatestIssue(self.latestIssue)
-        self.webDispatcher.startCheckingIncomingHTTP()
+        #self.webDispatcher.startCheckingIncomingHTTP()
 
     def inGameNewsMgr(self, replyTo, **kw):
         """Handle all calls to web requests awardMgr."""

@@ -145,7 +145,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         """Start accepting http requests."""
         assert self.notify.debugCall()
         DistributedObjectGlobalUD.announceGenerate(self)
-        self.webDispatcher.startCheckingIncomingHTTP()
+        #self.webDispatcher.startCheckingIncomingHTTP()
 
     def giveAward(self, replyTo, **kw):
         """Give the award in a try block, so as not to crash uberdog if all else fails."""

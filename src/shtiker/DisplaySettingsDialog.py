@@ -61,7 +61,9 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
                             (800, 600),
                             (1024, 768),
                             (1280, 1024),
-                            (1600, 1200))
+                            (1600, 1200),
+                            (1920, 1080),
+                            (3840, 2160))
 
         guiButton = loader.loadModel("phase_3/models/gui/quit_button")
         gui = loader.loadModel("phase_3.5/models/gui/friendslist_gui")

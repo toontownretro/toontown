@@ -47,17 +47,16 @@ from toontown.ai import MailboxBuffHolidayAI
 from toontown.ai import TrashcanBuffHolidayAI
 from toontown.ai import ValentinesDayMgrAI
 from toontown.ai import SillyMeterHolidayAI
-
 #################################################################
 # Localization Specific Modules
 #################################################################
 #from toontown.toonbase import TTLocalizer
-#
+
 #language = TTLocalizer.getLanguage()
 #print ("HolidayManagerAI: Running in language: %s" % (language))
 #_languageModule = "toontown.ai."+language
-#
-#if language != 'english':
+
+#if language == 'english':
 #     exec("from "+_languageModule+" import HolidayManagerAI_local")
 
 #################################################################
@@ -1463,6 +1462,435 @@ class HolidayManagerAI:
         [(2010, Month.JULY, 21, 0, 0, 1),
          (2010, Month.AUGUST, 17, 23, 59, 59)],
         displayOnCalendar = True,
+        ),
+        
+        ToontownGlobals.SELLBOT_NERF_HOLIDAY: HolidayInfo_Oncely(
+        None,
+        [(2010, Month.AUGUST, 25, 0, 0, 1),
+         (2010, Month.SEPTEMBER, 21, 23, 59, 59)],
+        displayOnCalendar = True,
+        ),
+        
+#        ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY: HolidayInfo_Oncely(
+#        None,
+#        [(2010, Month.OCTOBER, 1, 0, 0, 1),
+#         (2010, Month.OCTOBER, 5, 23, 59, 59)],
+#        displayOnCalendar = True,
+#        ),
+
+#        ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY: HolidayInfo_Oncely(
+#        None,
+#        [(2010, Month.OCTOBER, 6, 0, 0, 1),
+#         (2010, Month.OCTOBER, 12, 23, 59, 59)],
+#        displayOnCalendar = True,
+#        ),
+
+#        ToontownGlobals.JELLYBEAN_PARTIES_HOLIDAY: HolidayInfo_Oncely(
+#        None,
+#        [(2010, Month.OCTOBER, 13, 0, 0, 1),
+#         (2010, Month.OCTOBER, 19, 23, 59, 59)],
+#        displayOnCalendar = True,
+#        ),
+
+        # The Bank update shares the same dates as the Double Beans Holidays
+        
+        ToontownGlobals.BANK_UPGRADE_HOLIDAY: HolidayInfo_Oncely(
+        None,
+        [(2010, Month.SEPTEMBER, 29, 0, 0, 1),
+         (2010, Month.OCTOBER, 20, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),        
+
+        ToontownGlobals.TOP_TOONS_MARATHON: HolidayInfo_Yearly(
+        None,
+        [(Month.DECEMBER, 31, 9, 0, 0),
+         (Month.JANUARY, 1, 9, 0, 0)],
+        displayOnCalendar = True,
+        ),        
+        
+        ToontownGlobals.SELLBOT_INVASION: HolidayInfo_Oncely(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,         
+        [ (2011, Month.JANUARY, 26, 2, 0, 0),
+          (2011, Month.JANUARY, 26, 5, 0, 0),
+
+          (2011, Month.JANUARY, 26, 10, 0, 0),
+          (2011, Month.JANUARY, 26, 13, 0, 0),
+
+          (2011, Month.JANUARY, 26, 18, 0, 0),
+          (2011, Month.JANUARY, 26, 21, 0, 0),   
+          
+          
+          (2011, Month.JANUARY, 27, 2, 0, 0),
+          (2011, Month.JANUARY, 27, 5, 0, 0),
+
+          (2011, Month.JANUARY, 27, 10, 0, 0),
+          (2011, Month.JANUARY, 27, 13, 0, 0),
+
+          (2011, Month.JANUARY, 27, 18, 0, 0),
+          (2011, Month.JANUARY, 27, 21, 0, 0),   
+         
+         
+          (2011, Month.JANUARY, 28, 2, 0, 0),
+          (2011, Month.JANUARY, 28, 5, 0, 0),
+
+          (2011, Month.JANUARY, 28, 10, 0, 0),
+          (2011, Month.JANUARY, 28, 13, 0, 0),
+
+          (2011, Month.JANUARY, 28, 18, 0, 0),
+          (2011, Month.JANUARY, 28, 21, 0, 0),   
+         
+
+          (2011, Month.JANUARY, 29, 2, 0, 0),
+          (2011, Month.JANUARY, 29, 5, 0, 0),
+
+          (2011, Month.JANUARY, 29, 10, 0, 0),
+          (2011, Month.JANUARY, 29, 13, 0, 0),
+
+          (2011, Month.JANUARY, 29, 18, 0, 0),
+          (2011, Month.JANUARY, 29, 21, 0, 0),   
+
+
+          (2011, Month.JANUARY, 30, 2, 0, 0),
+          (2011, Month.JANUARY, 30, 5, 0, 0),
+
+          (2011, Month.JANUARY, 30, 10, 0, 0),
+          (2011, Month.JANUARY, 30, 13, 0, 0),
+
+          (2011, Month.JANUARY, 30, 18, 0, 0),
+          (2011, Month.JANUARY, 30, 21, 0, 0),   
+
+
+          (2011, Month.JANUARY, 31, 2, 0, 0),
+          (2011, Month.JANUARY, 31, 5, 0, 0),
+
+          (2011, Month.JANUARY, 31, 10, 0, 0),
+          (2011, Month.JANUARY, 31, 13, 0, 0),
+
+          (2011, Month.JANUARY, 31, 18, 0, 0),
+          (2011, Month.JANUARY, 31, 21, 0, 0),   
+
+
+          (2011, Month.FEBRUARY, 1, 2, 0, 0),
+          (2011, Month.FEBRUARY, 1, 5, 0, 0),
+
+          (2011, Month.FEBRUARY, 1, 10, 0, 0),
+          (2011, Month.FEBRUARY, 1, 13, 0, 0),
+
+          (2011, Month.FEBRUARY, 1, 18, 0, 0),
+          (2011, Month.FEBRUARY, 1, 21, 0, 0)],            
+        displayOnCalendar = False,
+        ),
+        
+        ToontownGlobals.SELLBOT_FIELD_OFFICE: HolidayInfo_Oncely(
+        None,
+        [(2010, Month.FEBRUARY, 17, 0, 0, 1),
+         (2010, Month.MARCH, 7, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+        
+        ToontownGlobals.SELLBOT_INVASION_MOVER_AND_SHAKER: HolidayInfo_Oncely(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,         
+        [ (2011, Month.FEBRUARY, 2, 2, 0, 0),
+          (2011, Month.FEBRUARY, 2, 5, 0, 0),
+
+          (2011, Month.FEBRUARY, 2, 10, 0, 0),
+          (2011, Month.FEBRUARY, 2, 13, 0, 0),
+
+          (2011, Month.FEBRUARY, 2, 18, 0, 0),
+          (2011, Month.FEBRUARY, 2, 21, 0, 0),   
+          
+          
+          (2011, Month.FEBRUARY, 3, 2, 0, 0),
+          (2011, Month.FEBRUARY, 3, 5, 0, 0),
+
+          (2011, Month.FEBRUARY, 3, 10, 0, 0),
+          (2011, Month.FEBRUARY, 3, 13, 0, 0),
+
+          (2011, Month.FEBRUARY, 3, 18, 0, 0),
+          (2011, Month.FEBRUARY, 3, 21, 0, 0),   
+         
+         
+          (2011, Month.FEBRUARY, 4, 2, 0, 0),
+          (2011, Month.FEBRUARY, 4, 5, 0, 0),
+
+          (2011, Month.FEBRUARY, 4, 10, 0, 0),
+          (2011, Month.FEBRUARY, 4, 13, 0, 0),
+
+          (2011, Month.FEBRUARY, 4, 18, 0, 0),
+          (2011, Month.FEBRUARY, 4, 21, 0, 0),   
+         
+
+          (2011, Month.FEBRUARY, 5, 2, 0, 0),
+          (2011, Month.FEBRUARY, 5, 5, 0, 0),
+
+          (2011, Month.FEBRUARY, 5, 10, 0, 0),
+          (2011, Month.FEBRUARY, 5, 13, 0, 0),
+
+          (2011, Month.FEBRUARY, 5, 18, 0, 0),
+          (2011, Month.FEBRUARY, 5, 21, 0, 0),   
+
+
+          (2011, Month.FEBRUARY, 6, 2, 0, 0),
+          (2011, Month.FEBRUARY, 6, 5, 0, 0),
+
+          (2011, Month.FEBRUARY, 6, 10, 0, 0),
+          (2011, Month.FEBRUARY, 6, 13, 0, 0),
+
+          (2011, Month.FEBRUARY, 6, 18, 0, 0),
+          (2011, Month.FEBRUARY, 6, 21, 0, 0),   
+
+
+          (2011, Month.FEBRUARY, 7, 2, 0, 0),
+          (2011, Month.FEBRUARY, 7, 5, 0, 0),
+
+          (2011, Month.FEBRUARY, 7, 10, 0, 0),
+          (2011, Month.FEBRUARY, 7, 13, 0, 0),
+
+          (2011, Month.FEBRUARY, 7, 18, 0, 0),
+          (2011, Month.FEBRUARY, 7, 21, 0, 0),   
+
+
+          (2011, Month.FEBRUARY, 8, 2, 0, 0),
+          (2011, Month.FEBRUARY, 8, 5, 0, 0),
+
+          (2011, Month.FEBRUARY, 8, 10, 0, 0),
+          (2011, Month.FEBRUARY, 8, 13, 0, 0),
+
+          (2011, Month.FEBRUARY, 8, 18, 0, 0),
+          (2011, Month.FEBRUARY, 8, 21, 0, 0)],            
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.IDES_OF_MARCH: HolidayInfo_Yearly(
+        None,
+        [(Month.MARCH, 16, 0, 0, 1),
+         (Month.MARCH, 20, 23, 59, 59)],
+        displayOnCalendar = True,
+        ),
+        
+        ToontownGlobals.EXPANDED_CLOSETS: HolidayInfo_Oncely(
+        None,
+        [(2011, Month.MARCH, 16, 0, 0, 1),
+         (2011, Month.APRIL, 6, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.TAX_DAY_INVASION: HolidayInfo_Yearly(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,
+        [ (Month.APRIL, 15, 2, 0, 0),
+          (Month.APRIL, 15, 5, 0, 0),
+
+          (Month.APRIL, 15, 10, 0, 0),
+          (Month.APRIL, 15, 13, 0, 0),
+
+          (Month.APRIL, 15, 18, 0, 0),
+          (Month.APRIL, 15, 21, 0, 0),          
+          ],
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY: HolidayInfo_Yearly(
+        None,
+        [(Month.JUNE, 8, 0, 0, 1),
+         (Month.JUNE, 14, 23, 59, 59)],
+        displayOnCalendar = True,
+        ),
+
+        ToontownGlobals.JELLYBEAN_PARTIES_HOLIDAY: HolidayInfo_Yearly(
+        None,
+        [(Month.JUNE, 8, 0, 0, 1),
+         (Month.JUNE, 14, 23, 59, 59)],
+        displayOnCalendar = True,
+        ),
+
+        ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY: HolidayInfo_Yearly(
+        None,
+        [(Month.JUNE, 8, 0, 0, 1),
+         (Month.JUNE, 14, 23, 59, 59)],
+        displayOnCalendar = True,
+        ),
+
+#LAWBOT_NERF_HOLIDAY
+        
+        ToontownGlobals.KARTING_TICKETS_HOLIDAY: HolidayInfo_Oncely(
+        None,
+        [(2012, Month.MAY, 24, 0, 0, 1),
+         (2012, Month.MAY, 28, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.PRE_JULY_4_DOWNSIZER_INVASION: HolidayInfo_Oncely(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,
+        [ (2012, Month.JUNE, 27, 2, 0, 0),
+          (2012, Month.JUNE, 27, 5, 0, 0),
+
+          (2012, Month.JUNE, 27, 10, 0, 0),
+          (2012, Month.JUNE, 27, 13, 0, 0),
+
+          (2012, Month.JUNE, 27, 18, 0, 0),
+          (2012, Month.JUNE, 27, 21, 0, 0),          
+          ],
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.PRE_JULY_4_BIGWIG_INVASION: HolidayInfo_Oncely(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,
+        [ (2012, Month.JUNE, 28, 2, 0, 0),
+          (2012, Month.JUNE, 28, 5, 0, 0),
+
+          (2012, Month.JUNE, 28, 10, 0, 0),
+          (2012, Month.JUNE, 28, 13, 0, 0),
+
+          (2012, Month.JUNE, 28, 18, 0, 0),
+          (2012, Month.JUNE, 28, 21, 0, 0),          
+          ],
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.SELLBOT_SURPRISE_3: HolidayInfo_Oncely(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,
+        [ (2013, Month.JUNE, 27, 2, 0, 0),
+          (2013, Month.JUNE, 27, 5, 0, 0),
+
+          (2013, Month.JUNE, 27, 10, 0, 0),
+          (2013, Month.JUNE, 27, 13, 0, 0),
+
+          (2013, Month.JUNE, 27, 18, 0, 0),
+          (2013, Month.JUNE, 27, 21, 0, 0),          
+          ],
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.LEGAL_EAGLE_INVASION: HolidayInfo_Oncely(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,
+        [ (2013, Month.JUNE, 28, 2, 0, 0),
+          (2013, Month.JUNE, 28, 5, 0, 0),
+
+          (2013, Month.JUNE, 28, 10, 0, 0),
+          (2013, Month.JUNE, 28, 13, 0, 0),
+
+          (2013, Month.JUNE, 28, 18, 0, 0),
+          (2013, Month.JUNE, 28, 21, 0, 0),          
+          ],
+        displayOnCalendar = False,
+        ),
+
+#ToontownGlobals.COMBO_FIREWORKS: HolidayInfo_Oncely(
+
+        ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY_MONTH: HolidayInfo_Oncely(
+        None,
+        [(2013, Month.AUGUST, 20, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 19, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY_MONTH: HolidayInfo_Oncely(
+        None,
+        [(2013, Month.AUGUST, 20, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 19, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.JELLYBEAN_PARTIES_HOLIDAY_MONTH: HolidayInfo_Oncely(
+        None,
+        [(2013, Month.AUGUST, 20, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 19, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.SILLYMETER_EXT_HOLIDAY: HolidayInfo_Oncely(
+        None,
+        [(2013, Month.AUGUST, 23, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 19, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.SPOOKY_BLACK_CAT: HolidayInfo_Oncely(
+        None,
+        [(2013, Month.SEPTEMBER, 13, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 13, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.SPOOKY_TRICK_OR_TREAT: HolidayInfo_Oncely(
+        None,
+        [(2013, Month.AUGUST, 30, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 5, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.SPOOKY_PROPS: HolidayInfo_Oncely(
+        None,
+        [(2013, Month.AUGUST, 30, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 5, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.SPOOKY_COSTUMES: HolidayInfo_Oncely(
+        None,
+        [(2013, Month.AUGUST, 30, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 5, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.WACKY_WINTER_DECORATIONS: HolidayInfo_Oncely(
+        None,
+        [(2013, Month.SEPTEMBER, 6, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 13, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.WACKY_WINTER_CAROLING: HolidayInfo_Oncely(
+        None,
+        [(2013, Month.SEPTEMBER, 6, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 13, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.COLD_CALLER_INVASION: HolidayInfo_Oncely(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,         
+        [ (2013, Month.SEPTEMBER, 11, 2, 0, 0),
+          (2013, Month.SEPTEMBER, 11, 5, 0, 0),
+
+          (2013, Month.SEPTEMBER, 11, 10, 0, 0),
+          (2013, Month.SEPTEMBER, 11, 13, 0, 0),
+
+          (2013, Month.SEPTEMBER, 11, 18, 0, 0),
+          (2013, Month.SEPTEMBER, 11, 21, 0, 0),   
+          
+          
+          (2013, Month.SEPTEMBER, 12, 2, 0, 0),
+          (2013, Month.SEPTEMBER, 12, 5, 0, 0),
+
+          (2013, Month.SEPTEMBER, 12, 10, 0, 0),
+          (2013, Month.SEPTEMBER, 12, 13, 0, 0),
+
+          (2013, Month.SEPTEMBER, 12, 18, 0, 0),
+          (2013, Month.SEPTEMBER, 12, 21, 0, 0)],            
+        displayOnCalendar = False,
+        ),
+
+        ToontownGlobals.BIG_CHEESE_INVASION: HolidayInfo_Oncely(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,         
+        [ (2013, Month.SEPTEMBER, 16, 2, 0, 0),
+          (2013, Month.SEPTEMBER, 16, 5, 0, 0),
+
+          (2013, Month.SEPTEMBER, 16, 10, 0, 0),
+          (2013, Month.SEPTEMBER, 16, 13, 0, 0),
+
+          (2013, Month.SEPTEMBER, 16, 18, 0, 0),
+          (2013, Month.SEPTEMBER, 16, 21, 0, 0),   
+          
+          
+          (2013, Month.SEPTEMBER, 17, 2, 0, 0),
+          (2013, Month.SEPTEMBER, 17, 5, 0, 0),
+
+          (2013, Month.SEPTEMBER, 17, 10, 0, 0),
+          (2013, Month.SEPTEMBER, 17, 13, 0, 0),
+
+          (2013, Month.SEPTEMBER, 17, 18, 0, 0),
+          (2013, Month.SEPTEMBER, 17, 21, 0, 0)],            
+        displayOnCalendar = False,
         ),
     }
 

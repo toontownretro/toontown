@@ -72,6 +72,8 @@ MaxLoadTime = 40.
 
 rulesDuration = 16
 
+JellybeanTrolleyHolidayScoreMultiplier = 2
+
 DifficultyOverrideMult = int(1 << 16)
 def QuantizeDifficultyOverride(diffOverride):
     """ use this function to get the closest value to the input
@@ -111,6 +113,3 @@ def getScoreMult(trolleyZone):
     multiplier = PythonUtil.lerp(
         1., 1.5, float(SafeZones.index(szId)) / (len(SafeZones)-1))
     return multiplier
-
-
-
