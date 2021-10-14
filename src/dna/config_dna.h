@@ -24,4 +24,6 @@ BEGIN_PUBLISH
 EXPCL_TOONTOWN_DNALOADER const ConfigVariableSearchPath &get_dna_path();
 END_PUBLISH
 
+extern EXPCL_TOONTOWN_DNALOADER void init_libdna();
+
 #endif

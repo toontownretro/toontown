@@ -20,6 +20,8 @@ model-path      $TTMODELS
 sound-path      $TTMODELS
 #endif
 
+plugin-path $TOONTOWN/built/lib
+
 assert-abort #f
 
 # Shader Stuff
