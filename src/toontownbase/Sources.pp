@@ -1,4 +1,4 @@
-#begin lib_target
+#begin interface_target
   #define TARGET toontownbase
 
   #define BUILDING_DLL BUILDING_TOONTOWN_TOONTOWNBASE
@@ -10,9 +10,9 @@
       prc dtoolutil:c dtoolbase:c
 
   #define SOURCES \
-    toontownbase.cxx toontownbase.h toontownsymbols.h \
+    toontownbase.h toontownsymbols.h \
 
   #define INSTALL_HEADERS \
     toontownbase.h toontownsymbols.h
 
-#end lib_target
+#end interface_target
