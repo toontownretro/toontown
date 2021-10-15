@@ -2956,8 +2956,8 @@ class RobotToonControlPanel(AppShell):
         tokens = text.split('x')
         if len(tokens) != 2:
             return
-        width = string.atoi(tokens[0])
-        height = string.atoi(tokens[1])
+        width = int(tokens[0])
+        height = int(tokens[1])
 
         props = WindowProperties(base.win.getProperties())
         props.setSize(width, height)
