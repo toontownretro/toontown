@@ -5,7 +5,7 @@
   express:c pandaexpress:m \
   dtoolutil:c dtoolbase:c prc dtool:m \
   pipeline:c pstatclient:c cull:c \
-  prc interrogatedb express:c pandabase:c downloader:c pgraph:c \
+  prc interrogatedb express:c downloader:c pgraph:c \
   pgraphnodes:c gobj:c pnmimage:c gsgbase:c text:c display:c \
   $[if $[HAVE_NET],net:c] $[if $[WANT_NATIVE_NET],nativenet:c]
 

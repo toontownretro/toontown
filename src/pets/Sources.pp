@@ -6,8 +6,8 @@
   #define BUILDING_DLL BUILDING_TOONTOWN_PETS
 
   #define OTHER_LIBS \
-    otp:m otpbase:c movement:c \
-    panda:m downloader:c express:c pandabase:c recorder:c \
+    otp:m movement:c \
+    panda:m downloader:c express:c recorder:c \
     pgraph:c pgraphnodes:c pipeline:c grutil:c anim:c pstatclient:c \
     collide:c cull:c device:c dgraph:c display:c \
     event:c gobj:c gsgbase:c linmath:c mathutil:c parametrics:c \
