@@ -2198,7 +2198,7 @@ QuestDialogDict = {
              },
     12000 : { GREETING : "",
               LEAVING : "",
-              QUEST : "If you are interested in Bossbot disguise parts you should visit _toNpcName_._where_", # TODO
+              QUEST : "Si tu es intéressé par les pièces de déguisement de Chefbot, tu devrais aller voir _toNpcName_._where_",
               },
     12001 : { GREETING : "",
               LEAVING : "",
@@ -2348,7 +2348,7 @@ QuestDialogDict = {
              },
     12030 : { GREETING : "",
               LEAVING : "",
-              QUEST : "_toNpcName_  commence à sonner comme un disque rayé ...",
+              QUEST : "_toNpcName_ commence à sonner comme un disque rayé ...",
               },
     12031 : { GREETING : "",
               LEAVING : "",
@@ -2359,7 +2359,7 @@ QuestDialogDict = {
     12032 : { GREETING : "",
               LEAVING : "",
               QUEST : "Tu dois aller raconter tout ça à Flippy...",
-              INCOMPLETE_PROGRESS : "Flippy se trouve dans Toon Hall",
+              INCOMPLETE_PROGRESS : "Flippy se trouve dans Mairie de Toontown",
               COMPLETE : "Une nouvelle espèce de Cog !\aBon travail !\aVoici ta dernière pièce de déguisement.",
               },
  }
