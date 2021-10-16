@@ -2642,6 +2642,43 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def getBankMoney(self):
         return self.bankMoney
 
+    def b_setEmblems(self, emblems):
+        self.setEmblems(emblems)
+        self.d_setEmblems(emblems)
+
+    def setEmblems(self, emblems):
+        self.emblems = emblems
+
+    def d_setEmblems(self, emblems):
+        if simbase.air.wantEmblems:
+            self.sendUpdate('setEmblems', [emblems])
+
+    def getEmblems(self):
+        return self.emblems
+
+    def addEmblems(self, emblemsToAdd):
+        newEmblems = self.emblems[:]
+        for i in xrange(ToontownGlobals.NumEmblemTypes):
+            newEmblems[i] += emblemsToAdd[i]
+
+        self.b_setEmblems(newEmblems)
+
+    def subtractEmblems(self, emblemsToSubtract):
+        newEmblems = self.emblems[:]
+        for i in xrange(ToontownGlobals.NumEmblemTypes):
+            newEmblems[i] -= emblemsToSubtract[i]
+
+        self.b_setEmblems(newEmblems)
+
+    def isEnoughEmblemsToBuy(self, itemEmblemPrices):
+        for emblemIndex, emblemPrice in enumerate(itemEmblemPrices):
+            if emblemIndex >= len(self.emblems):
+                return False
+            if self.emblems[emblemIndex] < emblemPrice:
+                return False
+
+        return True
+
     def tossPie(self, x, y, z, h, p, r, sequence, power, timestamp32):
         if not self.validate(
                 self.doId, self.numPies > 0,

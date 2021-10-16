@@ -33,6 +33,8 @@ CCIPmessagePickerCancel = 0.06
 #catalog/CatalogItemPanel.py
 CIPnameLabel = 1
 CIPwordwrapOffset = 0
+CIPtypeLabel = 0.075
+CIPbuyButton = (0.06, 0.05)
 
 #catalog/CatalogScreen.py
 CSgiftTogglePos = (00.855, -0.13)

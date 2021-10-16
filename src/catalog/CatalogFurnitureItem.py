@@ -974,7 +974,9 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
             return 0
 
     def isGift(self):
-        if self.getFlags() & (FLCloset | FLBank):
+        if self.getEmblemPrices():
+            return 0
+        if self.getFlags() & (FLCloset | FLBank | FLTrunk):
             return 0
         else:
             return 1

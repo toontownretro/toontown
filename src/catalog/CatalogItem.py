@@ -221,6 +221,8 @@ class CatalogItem:
         return self.saleItem
 
     def isGift(self):
+        if self.getEmblemPrices():
+            return 0
         return 1
 
     def isRental(self):
@@ -447,7 +449,7 @@ class CatalogItem:
 
     def __repr__(self):
         return self.output()
-        
+
     def equalsTo(self, other):
         # All CatalogItem type objects are equivalent.
         # Specializations of this class will redefine this method
@@ -465,8 +467,8 @@ class CatalogItem:
         # return whatever pieces of the class are uniquely different
         # to each instance.
         return None
-        
-    def __eq__(self, other):        
+
+    def __eq__(self, other):
         # If the classes are different, they must be different objects.
         c = type(self) == type(other)
         if not c:
@@ -489,6 +491,9 @@ class CatalogItem:
 
     def getBasePrice(self):
         return 0
+
+    def getEmblemPrices(self):
+        return ()
 
     def loadModel(self):
         return None

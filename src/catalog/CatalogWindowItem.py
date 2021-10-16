@@ -138,7 +138,7 @@ class CatalogWindowItem(CatalogAtticItem.CatalogAtticItem):
         if (store & CatalogItem.WindowPlacement) and self.placement != None:
             result += ", placement = %s" % (self.placement)
         return result
-        
+
     def equalsTo(self, other):
         return self.windowType == other.windowType
 

@@ -30,11 +30,11 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
         # has already bought his limit on this item.
         if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder \
            or self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
-            return 1        
+            return 1
         if self.emoteIndex >= len(avatar.emoteAccess):
             return 0
         return avatar.emoteAccess[self.emoteIndex] != 0
-        
+
     def getAcceptItemErrorText(self, retcode):
         # Returns a string describing the error that occurred on
         # attempting to accept the item from the mailbox.  The input
@@ -59,7 +59,7 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
         if self.emoteIndex < 0 or self.emoteIndex > len(avatar.emoteAccess):
             self.notify.warning("Invalid emote access: %s for avatar %s" % (self.emoteIndex, avatar.doId))
             return ToontownGlobals.P_InvalidIndex
-                         
+
         avatar.emoteAccess[self.emoteIndex] = 1
         avatar.d_setEmoteAccess(avatar.emoteAccess)
         return ToontownGlobals.P_ItemAvailable
@@ -90,13 +90,13 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
 
         toon.setH(180)
         model, ival = self.makeFrameModel(toon, 0)
-        
+
 
         # Discard the ival from makeFrameModel, since we don't want to
         # spin.
 
         track, duration = Emote.globalEmote.doEmote(toon, self.emoteIndex, volume = self.volume)
-        
+
         if duration == None:
             duration = 0
         name = "emote-item-%s" % (self.sequenceNumber)
@@ -122,7 +122,7 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
         from otp.avatar import Emote
 
         self.volume = volume
-        
+
         # assumes getPicture has been called previously
         if not hasattr(self, 'pictureToon'):
             return Sequence()
@@ -140,7 +140,7 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
                              Wait(duration + 4),
                              name = name)
         return track
-    
+
     def cleanupPicture(self):
         CatalogItem.CatalogItem.cleanupPicture(self)
         assert self.pictureToon
@@ -148,12 +148,12 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
         self.pictureToon.emote = None
         self.pictureToon.delete()
         self.pictureToon = None
-         
+
     def output(self, store = ~0):
         return "CatalogEmoteItem(%s%s)" % (
             self.emoteIndex,
             self.formatOptionalData(store))
-            
+
     def equalsTo(self, other):
         return self.emoteIndex == other.emoteIndex
 
@@ -177,13 +177,15 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
             self.loyaltyDays = 0
         if self.emoteIndex > len(OTPLocalizer.EmoteList):
             raise ValueError
-        
+
     def encodeDatagram(self, dg, store):
         CatalogItem.CatalogItem.encodeDatagram(self, dg, store)
         dg.addUint8(self.emoteIndex)
         dg.addUint16(self.loyaltyDays)
-        
+
     def isGift(self):
+        if self.getEmblemPrices():
+            return 0
         if (self.loyaltyRequirement() > 0):
             return 0
         else:
@@ -191,4 +193,3 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
                 return 0
             else:
                 return 1
-        

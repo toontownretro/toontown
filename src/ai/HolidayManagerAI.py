@@ -1691,21 +1691,21 @@ class HolidayManagerAI:
 
         ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY: HolidayInfo_Yearly(
         None,
-        [(Month.JUNE, 8, 0, 0, 1),
+        [(Month.JUNE, 6, 0, 0, 1),
          (Month.JUNE, 14, 23, 59, 59)],
         displayOnCalendar = True,
         ),
 
         ToontownGlobals.JELLYBEAN_PARTIES_HOLIDAY: HolidayInfo_Yearly(
         None,
-        [(Month.JUNE, 8, 0, 0, 1),
+        [(Month.JUNE, 6, 0, 0, 1),
          (Month.JUNE, 14, 23, 59, 59)],
         displayOnCalendar = True,
         ),
 
         ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY: HolidayInfo_Yearly(
         None,
-        [(Month.JUNE, 8, 0, 0, 1),
+        [(Month.JUNE, 6, 0, 0, 1),
          (Month.JUNE, 14, 23, 59, 59)],
         displayOnCalendar = True,
         ),
@@ -1775,7 +1775,12 @@ class HolidayManagerAI:
         displayOnCalendar = False,
         ),
 
-#ToontownGlobals.COMBO_FIREWORKS: HolidayInfo_Oncely(
+        ToontownGlobals.COMBO_FIREWORKS: HolidayInfo_Oncely(
+        FireworkManagerAI.FireworkManagerAI,
+        [(2012, Month.JULY, 1, 0, 30, 0),
+          (2012, Month.JULY, 16, 0, 30, 0)],
+        displayOnCalendar = False,
+        ),
 
         ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY_MONTH: HolidayInfo_Oncely(
         None,

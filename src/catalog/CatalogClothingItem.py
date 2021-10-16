@@ -10,6 +10,7 @@ from toontown.toonbase.ToontownModules import *
 CTArticle = 0
 CTString = 1
 CTBasePrice = 2
+CTEmblemPrices = 3
 
 ABoysShirt = 0
 AGirlsShirt = 1
@@ -243,7 +244,68 @@ ClothingTypes = {
     1757 : (AShirt, 'sil_7', 20),      # Victory Party Shirt 1
     1758 : (AShirt, 'sil_8', 20),      # Victory Party Shirt 2
 
+    1759 : (AShirt, 'emb_us1', 0, (20, 5)),
+    1760 : (AShirt, 'emb_us2', 234, (0, 7)),
+    1761 : (AShirt, 'emb_us3', 345, (8, 0)),
     1762 : (AShirt, 'sa_ss26', 200),
+    1763 : (AShirt, 'sb_1', 20),
+    1764 : (AShirt, 'sa_ss27', 5000),
+    1765 : (AShirt, 'sa_ss28', 5000),
+    1766 : (ABoysShorts, 'sa_bs13', 5000),
+    1767 : (AGirlsShorts, 'sa_gs13', 5000),
+    1768 : (AShirt, 'jb_1', 20),
+    1769 : (AShirt, 'jb_2', 20),
+    1770 : (AShirt, 'hw_ss3', 250),
+    1771 : (AShirt, 'hw_ss4', 250),
+    1772 : (ABoysShorts, 'hw_bs3', 250),
+    1773 : (AGirlsShorts, 'hw_gs3', 250),
+    1774 : (ABoysShorts, 'hw_bs4', 250),
+    1775 : (AGirlsShorts, 'hw_gs4', 250),
+    1776 : (AShirt, 'ugcms', 15000),
+    1777 : (AShirt, 'lb_1', 20),
+    1778 : (AShirt, 'sa_ss29', 5000),
+    1779 : (AShirt, 'sa_ss30', 5000),
+    1780 : (ABoysShorts, 'sa_bs14', 5000),
+    1781 : (AGirlsShorts, 'sa_gs14', 5000),
+    1782 : (AShirt, 'sa_ss31', 5000),
+    1783 : (ABoysShorts, 'sa_bs15', 5000),
+    1784 : (AGirlsSkirt, 'sa_gs15', 5000),
+    1785 : (AShirt, 'sa_ss32', 5000),
+    1786 : (AShirt, 'sa_ss33', 5000),
+    1787 : (AShirt, 'sa_ss34', 5000),
+    1788 : (AShirt, 'sa_ss35', 5000),
+    1789 : (AShirt, 'sa_ss36', 5000),
+    1790 : (AShirt, 'sa_ss37', 5000),
+    1791 : (ABoysShorts, 'sa_bs16', 5000),
+    1792 : (ABoysShorts, 'sa_bs17', 5000),
+    1793 : (AGirlsSkirt, 'sa_gs16', 5000),
+    1794 : (AGirlsSkirt, 'sa_gs17', 5000),
+    1795 : (AShirt, 'sa_ss38', 5000),
+    1796 : (AShirt, 'sa_ss39', 5000),
+    1797 : (ABoysShorts, 'sa_bs18', 5000),
+    1798 : (AGirlsSkirt, 'sa_gs18', 5000),
+    1799 : (AShirt, 'sa_ss40', 5000),
+    1800 : (AShirt, 'sa_ss41', 5000),
+    1801 : (AShirt, 'sa_ss42', 250),
+    1802 : (AGirlsShirt, 'sa_ss43', 250),
+    1803 : (AShirt, 'sa_ss44', 5000),
+    1804 : (AShirt, 'sa_ss45', 5000),
+    1805 : (AShirt, 'sa_ss46', 5000),
+    1806 : (AShirt, 'sa_ss47', 5000),
+    1807 : (AShirt, 'sa_ss48', 5000),
+    1808 : (AShirt, 'sa_ss49', 5000),
+    1809 : (AShirt, 'sa_ss50', 5000),
+    1810 : (AShirt, 'sa_ss51', 5000),
+    1811 : (AShirt, 'sa_ss52', 5000),
+    1812 : (AShirt, 'sa_ss53', 5000),
+    1813 : (AShirt, 'sa_ss54', 5000),
+    1814 : (ABoysShorts, 'sa_bs19', 5000),
+    1815 : (ABoysShorts, 'sa_bs20', 5000),
+    1816 : (ABoysShorts, 'sa_bs21', 5000),
+    1817 : (AGirlsSkirt, 'sa_gs19', 5000),
+    1818 : (AGirlsSkirt, 'sa_gs20', 5000),
+    1819 : (AGirlsSkirt, 'sa_gs21', 5000),
+    1820 : (AShirt, 'sa_ss55', 5000),
     }
 
 # A list of clothes that are loyalty items, needed by award manager
@@ -635,6 +697,13 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
     def getBasePrice(self):
         return ClothingTypes[self.clothingType][CTBasePrice]
 
+    def getEmblemPrices(self):
+        result = ()
+        info = ClothingTypes[self.clothingType]
+        if CTEmblemPrices <= len(info) - 1:
+            result = info[CTEmblemPrices]
+        return result
+
     def decodeDatagram(self, di, versionNumber, store):
         CatalogItem.CatalogItem.decodeDatagram(self, di, versionNumber, store)
         self.clothingType = di.getUint16()
@@ -662,6 +731,8 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         dg.addUint16(self.loyaltyDays)
 
     def isGift(self):
+        if self.getEmblemPrices():
+            return 0
         if (self.loyaltyRequirement() > 0):
             return 0
         else:

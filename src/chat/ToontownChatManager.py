@@ -511,7 +511,7 @@ class ToontownChatManager(ChatManager.ChatManager):
             # The Castillian (and all foreign) version relies on a seperate parent
             # password system. Omit the the password entry field and cancel button.
 
-            if base.cr.productName != "Terra-DMC":
+            if base.cr.productName != "ES":
                 okPos = (-0.22, 0.0, -0.35)
                 textPos = (0, 0.25)
                 okCommand = self.__handleNoSecretChatWarningOK
@@ -554,7 +554,7 @@ class ToontownChatManager(ChatManager.ChatManager):
                         text_scale = 0.08)
 
             # if not foreign, make the domestic only password entry elements
-            if base.cr.productName != "Terra-DMC":
+            if base.cr.productName != "ES":
                 self.passwordLabel = DirectLabel(
                     parent = self.noSecretChatWarning,
                     relief = None,
@@ -923,7 +923,7 @@ class ToontownChatManager(ChatManager.ChatManager):
                 self.fsm.request("openChatWarning")
             else:
                 self.fsm.request("normalChat")
-        elif (base.cr.productName == 'Terra-DMC'):
+        elif (base.cr.productName == 'ES'):
             if not base.cr.allowSecretChat():
                 self.fsm.request("noSecretChatWarning")
             elif not base.localAvatar.canChat():

@@ -10,11 +10,14 @@ from .CatalogFlooringItem import getAllFloorings
 from .CatalogMouldingItem import getAllMouldings
 from .CatalogWainscotingItem import getAllWainscotings
 from .CatalogFurnitureItem import getAllFurnitures
+from .CatalogFurnitureItem import FLTrunk
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 from otp.otpbase import OTPGlobals
+from direct.directnotify import DirectNotifyGlobal
 
 CATALOG_PANEL_WORDWRAP = 10
 CATALOG_PANEL_CHAT_WORDWRAP = 9
+CATALOG_PANEL_ACCESSORY_WORDWRAP = 11
 
 class CatalogItemPanel(DirectFrame):
     """
@@ -23,6 +26,8 @@ class CatalogItemPanel(DirectFrame):
     This class presents the graphical represntation of a catalog item in the
     Catalog GUI.
     """
+    notify = DirectNotifyGlobal.directNotify.newCategory('CatalogItemPanel')
+
     def __init__(self, parent=aspect2d, parentCatalogScreen = None ,**kw):
         optiondefs = (
             # Define type of DirectGuiWidget
@@ -168,13 +173,18 @@ class CatalogItemPanel(DirectFrame):
             else:
                 namePos = (0,0,0)
             nameScale = 0.063
+        elif self['item'].getTypeCode() == CatalogItemTypes.ACCESSORY_ITEM:
+            self.nameLabel['text_wordwrap'] = CATALOG_PANEL_ACCESSORY_WORDWRAP
+            namePos = (0, 0, -.22)
+            nameScale = 0.06
         else:
             namePos = (0,0,-.22)
             nameScale = 0.06
         self.nameLabel.setPos(*namePos)
         self.nameLabel.setScale(nameScale)
 
-        priceStr = str(self['item'].getPrice(self['type'])) + " " + TTLocalizer.CatalogCurrency
+        numericBeanPrice = self['item'].getPrice(self['type'])
+        priceStr = str(numericBeanPrice) + " " + TTLocalizer.CatalogCurrency
         priceScale = 0.07
         # prepend sale sign if necessary
         if self['item'].isSaleItem():
@@ -193,6 +203,8 @@ class CatalogItemPanel(DirectFrame):
             text_align = TextNode.ACenter,
             )
 
+        self.createEmblemPrices(numericBeanPrice)
+
         # buy button
         buttonModels = loader.loadModel(
             "phase_3.5/models/gui/inventory_gui")
@@ -201,6 +213,7 @@ class CatalogItemPanel(DirectFrame):
         rolloverButton = buttonModels.find("**/InventoryButtonRollover")
 
         buyText = TTLocalizer.CatalogBuyText
+        buyTextScale = TTLocalizer.CIPbuyButton
 
         if self['item'].isRental():
            buyText = TTLocalizer.CatalogRentText
@@ -211,7 +224,7 @@ class CatalogItemPanel(DirectFrame):
             pos = (0.2, 0, 0.15),
             scale = (0.7,1,0.8),
             text = buyText,
-            text_scale = (0.06, 0.05),
+            text_scale = buyTextScale,
             text_pos = (-0.005,-0.01),
             image = (upButton,
                      downButton,
@@ -239,7 +252,7 @@ class CatalogItemPanel(DirectFrame):
             scale = (0.7,1,0.8),
             #geom = soundOn,
             #text = TTLocalizer.CatalogSndOnText,
-            text_scale = (0.06, 0.05),
+            text_scale = buyTextScale,
             text_pos = (-0.005,-0.01),
             image = (upButton,
                      downButton,
@@ -263,7 +276,7 @@ class CatalogItemPanel(DirectFrame):
             pos = (0.2, 0, -0.15),
             scale = (0.7,1,0.8),
             #text = TTLocalizer.CatalogSndOffText,
-            text_scale = (0.06, 0.05),
+            text_scale = buyTextScale,
             text_pos = (-0.005,-0.01),
             image = (upButton,
                      downButton,
@@ -294,7 +307,7 @@ class CatalogItemPanel(DirectFrame):
             pos = (0.2, 0, 0.15),
             scale = (0.7,1,0.8),
             text = TTLocalizer.CatalogGiftText,
-            text_scale = (0.06, 0.05),
+            text_scale = buyTextScale,
             text_pos = (-0.005,-0.01),
             image = (upButton,
                      downButton,
@@ -309,6 +322,96 @@ class CatalogItemPanel(DirectFrame):
             command = self.__handleGiftRequest,
             )
         self.updateButtons()
+
+    def createEmblemPrices(self, numericBeanPrice):
+        priceScale = 0.07
+        emblemPrices = self['item'].getEmblemPrices()
+        if emblemPrices:
+            if numericBeanPrice:
+                self.priceLabel.hide()
+                beanModel = loader.loadModel('phase_5.5/models/estate/jellyBean')
+                beanModel.setColorScale(1, 0, 0, 1)
+                self.beanPriceLabel = DirectLabel(
+                    parent = self,
+                    relief = None,
+                    pos = (0, 0, -0.3),
+                    scale = priceScale,
+                    image = beanModel,
+                    image_pos = (-0.4, 0, 0.4),
+                    text = str(numericBeanPrice),
+                    text_fg = (0.95, 0.95, 0, 1),
+                    text_shadow = (0, 0, 0, 1),
+                    text_font = ToontownGlobals.getSignFont(),
+                    text_align = TextNode.ALeft,
+                    )
+            else:
+                self.priceLabel.hide()
+
+            goldPrice = 0
+            silverPrice = 0
+
+            emblemIcon = loader.loadModel('phase_3.5/models/gui/tt_m_gui_gen_emblemIcons')
+            silverModel = emblemIcon.find('**/tt_t_gui_gen_emblemSilver')
+            goldModel = emblemIcon.find('**/tt_t_gui_gen_emblemGold')
+
+            if ToontownGlobals.EmblemTypes.Silver < len(emblemPrices):
+                silverPrice = emblemPrices[ToontownGlobals.EmblemTypes.Silver]
+                if silverPrice:
+                    self.silverPriceLabel = DirectLabel(
+                        parent = self,
+                        relief = None,
+                        pos = (0, 0, -0.3),
+                        scale = priceScale,
+                        image = silverModel,
+                        image_pos = (-0.4, 0, 0.4),
+                        text = str(silverPrice),
+                        text_fg = (0.95, 0.95, 0, 1),
+                        text_shadow = (0, 0, 0, 1),
+                        text_font = ToontownGlobals.getSignFont(),
+                        text_align = TextNode.ALeft,
+                        )
+
+            if ToontownGlobals.EmblemTypes.Gold < len(emblemPrices):
+                goldPrice = emblemPrices[ToontownGlobals.EmblemTypes.Gold]
+                if goldPrice:
+                    self.goldPriceLabel = DirectLabel(
+                        parent = self,
+                        relief = None,
+                        pos = (0, 0, -0.3),
+                        scale = priceScale,
+                        image = goldModel,
+                        image_pos = (-0.4, 0, 0.4),
+                        text = str(goldPrice),
+                        text_fg = (0.95, 0.95, 0, 1),
+                        text_shadow = (0, 0, 0, 1),
+                        text_font = ToontownGlobals.getSignFont(),
+                        text_align = TextNode.ALeft,
+                        )
+
+            numPrices = 0
+
+            if numericBeanPrice:
+                numPrices += 1
+            if silverPrice:
+                numPrices += 1
+            if goldPrice:
+                numPrices += 1
+            if numPrices == 2:
+
+                if not numericBeanPrice:
+                    self.silverPriceLabel.setX(-0.15)
+                    self.goldPriceLabel.setX(0.15)
+                if not silverPrice:
+                    self.goldPriceLabel.setX(-0.15)
+                    self.beanPriceLabel.setX(0.15)
+                if not goldPrice:
+                    self.silverPriceLabel.setX(-0.15)
+                    self.beanPriceLabel.setX(0.15)
+
+            elif numPrices == 3:
+                self.silverPriceLabel.setX(-0.2)
+                self.goldPriceLabel.setX(0)
+                self.beanPriceLabel.setX(0.15)
 
     def showNextVariant(self):
         messenger.send('wakeup')
@@ -440,6 +543,8 @@ class CatalogItemPanel(DirectFrame):
                 if (localAvatar.getFont() == ToontownGlobals.getToonFont()):
                     auxText = TTLocalizer.CatalogCurrent
                     self.buyButton['state'] = DGG.DISABLED
+            elif self['item'].getPrice(self['type']) > base.localAvatar.getMoney() + base.localAvatar.getBankMoney():
+                self.buyButton['state'] = DGG.DISABLED
         elif isNameTag and (self['item'].nametagStyle == localAvatar.getNametagStyle()):
             auxText = TTLocalizer.CatalogCurrent
             self.buyButton['state'] = DGG.DISABLED
@@ -467,6 +572,8 @@ class CatalogItemPanel(DirectFrame):
                self['item'].getDaysToGo(base.localAvatar)):
             auxText = TTLocalizer.DaysToGo % self['item'].getDaysToGo(base.localAvatar)
             self.buyButton['state'] = DGG.DISABLED
+        elif self['item'].getEmblemPrices() and not base.localAvatar.isEnoughMoneyAndEmblemsToBuy(self['item'].getPrice(self['type']), self['item'].getEmblemPrices()):
+            self.buyButton['state'] = DGG.DISABLED
         elif ( self['item'].getPrice(self['type']) <=
               (base.localAvatar.getMoney() +
                base.localAvatar.getBankMoney()) ):
@@ -481,17 +588,76 @@ class CatalogItemPanel(DirectFrame):
     def __handlePurchaseRequest(self):
         # prompt the user to verify purchase
         if self['item'].replacesExisting() and self['item'].hasExisting():
-            message = TTLocalizer.CatalogOnlyOnePurchase % {
-                'old' : self['item'].getYourOldDesc(),
-                'item' : self['item'].getName(),
-                'price' : self['item'].getPrice(self['type']),
-                }
-        else:
-            if self['item'].isRental():
-                message = TTLocalizer.CatalogVerifyRent % {
+            if self['item'].getFlags() & FLTrunk:
+                message = TTLocalizer.CatalogVerifyPurchase % {
                     'item' : self['item'].getName(),
                     'price' : self['item'].getPrice(self['type']),
                     }
+            else:
+                message = TTLocalizer.CatalogOnlyOnePurchase % {
+                    'old' : self['item'].getYourOldDesc(),
+                    'item' : self['item'].getName(),
+                    'price' : self['item'].getPrice(self['type']),
+                    }
+        elif self['item'].isRental():
+            message = TTLocalizer.CatalogVerifyRent % {
+                'item' : self['item'].getName(),
+                'price' : self['item'].getPrice(self['type']),
+                 }
+        else:
+            emblemPrices = self['item'].getEmblemPrices()
+            if emblemPrices:
+                silver = emblemPrices[ToontownGlobals.EmblemTypes.Silver]
+                gold = emblemPrices[ToontownGlobals.EmblemTypes.Gold]
+                price = self['item'].getPrice(self['type'])
+                if price and silver and gold:
+                    message = TTLocalizer.CatalogVerifyPurchaseBeanSilverGold % {
+                        'item' : self['item'].getName(),
+                        'price' : self['item'].getPrice(self['type']),
+                        'silver' : silver,
+                        'gold' : gold,
+                        }
+                elif price and silver:
+                    message = TTLocalizer.CatalogVerifyPurchaseBeanSilver % {
+                        'item' : self['item'].getName(),
+                        'price' : self['item'].getPrice(self['type']),
+                        'silver' : silver,
+                        'gold' : gold,
+                        }
+                elif price and gold:
+                    message = TTLocalizer.CatalogVerifyPurchaseBeanGold % {
+                        'item' : self['item'].getName(),
+                        'price' : self['item'].getPrice(self['type']),
+                        'silver' : silver,
+                        'gold' : gold,
+                        }
+                elif silver and gold:
+                    message = TTLocalizer.CatalogVerifyPurchaseSilverGold % {
+                        'item' : self['item'].getName(),
+                        'price' : self['item'].getPrice(self['type']),
+                        'silver' : silver,
+                        'gold' : gold,
+                        }
+                elif silver:
+                    message = TTLocalizer.CatalogVerifyPurchaseSilver % {
+                        'item' : self['item'].getName(),
+                        'price' : self['item'].getPrice(self['type']),
+                        'silver' : silver,
+                        'gold' : gold,
+                        }
+                elif gold:
+                    message = TTLocalizer.CatalogVerifyPurchaseGold % {
+                        'item' : self['item'].getName(),
+                        'price' : self['item'].getPrice(self['type']),
+                        'silver' : silver,
+                        'gold' : gold,
+                        }
+                else:
+                    self.notify.warning("is this a completely free item %s?" % self['item'].getName())
+                    message = TTLocalizer.CatalogVerifyPurchase % {
+                        'item' : self['item'].getName(),
+                        'price' : self['item'].getPrice(self['type']),
+                        }
             else:
                 message = TTLocalizer.CatalogVerifyPurchase % {
                     'item' : self['item'].getName(),
@@ -506,6 +672,8 @@ class CatalogItemPanel(DirectFrame):
         self.accept("verifyDone", self.__handleVerifyPurchase)
 
     def __handleVerifyPurchase(self):
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: CATALOG: Order item')
         # prompt the user to verify purchase
         status = self.verify.doneStatus
         self.ignore("verifyDone")
@@ -549,6 +717,8 @@ class CatalogItemPanel(DirectFrame):
         self.accept("verifyGiftDone", self.__handleVerifyGift)
 
     def __handleVerifyGift(self):
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: CATALOG: Gift item')
         # prompt the user to verify purchase
         status = self.verify.doneStatus
         self.ignore("verifyGiftDone")

@@ -186,6 +186,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
         self.maxMoney = 0
         self.maxBankMoney = 0
 
+        self.emblems = [0, 0]
+
         self.petId = 0
         self.bPetTutorialDone = False
         self.bFishBingoTutorialDone = False
@@ -1839,6 +1841,37 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
         return self.getBankMoney() + self.getMoney()
 
 
+    ### setEmblems ###
+
+    def setEmblems(self, emblems):
+        if self.emblems != emblems:
+            self.emblems = emblems
+            messenger.send(self.uniqueName("emblemsChange"), [self.emblems])
+
+    def getEmblems(self):
+        return self.emblems
+
+    def isEnoughEmblemsToBuy(self, itemEmblemPrices):
+        for emblemIndex, emblemPrice in enumerate(itemEmblemPrices):
+            if emblemIndex >= len(self.emblems):
+                return False
+            if self.emblems[emblemIndex] < emblemPrice:
+                return False
+
+        return True
+
+    def isEnoughMoneyAndEmblemsToBuy(self, moneyPrice, itemEmblemPrices):
+        if self.getTotalMoney() < moneyPrice:
+            return False
+        for emblemIndex, emblemPrice in enumerate(itemEmblemPrices):
+            if emblemIndex >= len(self.emblems):
+                return False
+            if self.emblems[emblemIndex] < emblemPrice:
+                return False
+
+        return True
+        
+        
     ### Tossing a pie (used in final Boss Battle sequence)
 
     def presentPie(self, x, y, z, h, p, r, timestamp32):

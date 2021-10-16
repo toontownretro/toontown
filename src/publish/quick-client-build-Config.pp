@@ -58,13 +58,13 @@
   #print Configuring $[LANGUAGE] build
 
   #if $[eq $[LANGUAGE], castillian]
-    #defer EXTRA_CDEFS $[EXTRA_CDEFS] USE_CASTILLIAN PRODUCT_NAME="_Terra-DMC"
+    #defer EXTRA_CDEFS $[EXTRA_CDEFS] USE_CASTILLIAN PRODUCT_NAME="_ES"
   #elif $[eq $[LANGUAGE], japanese]
     #defer EXTRA_CDEFS $[EXTRA_CDEFS] USE_JAPANESE PRODUCT_NAME="_JP"
   #elif $[eq $[LANGUAGE], german]
-    #defer EXTRA_CDEFS $[EXTRA_CDEFS] USE_GERMAN PRODUCT_NAME="_T-Online"
+    #defer EXTRA_CDEFS $[EXTRA_CDEFS] USE_GERMAN PRODUCT_NAME="_DE"
   #elif $[eq $[LANGUAGE], portuguese]
-    #defer EXTRA_CDEFS $[EXTRA_CDEFS] USE_PORTUGUESE PRODUCT_NAME="_Terra"
+    #defer EXTRA_CDEFS $[EXTRA_CDEFS] USE_PORTUGUESE PRODUCT_NAME="_BR
   #elif $[eq $[LANGUAGE], french]
     #defer EXTRA_CDEFS $[EXTRA_CDEFS] USE_FRENCH PRODUCT_NAME="_FR"
   #else
