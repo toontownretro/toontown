@@ -2742,7 +2742,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
 
         # Strip of the "~dna" part; everything else is parameters to
         # AvatarDNA.updateToonProperties.
-        parms = string.strip(word[4:])
+        parms = str.strip(word[4:])
 
         # Get a copy of the avatar's current DNA.
         dna = ToonDNA.ToonDNA(av.dna.makeNetString())
@@ -3249,7 +3249,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
             args = word.split()
             import string
             for i in range(2, len(args)):
-                avList.append(string.atoi(args[i]))
+                avList.append(str.atoi(args[i]))
             manager = GolfManagerAI.GolfManagerAI()
             #simbase.golfGoer.generateWithRequired(OTPGlobals.UberZone)
             courseId = 0

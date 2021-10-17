@@ -110,6 +110,7 @@ WAIT 1.0833
 #LOOP_ANIM npc "right-hand" 1
 FUNCTION npc "angryEyes"
 FUNCTION npc "blinkEyes"
+FUNCTION npc "showAngryMuzzle"
 LOCAL_CHAT_CONFIRM npc QuestScript101_1 "CFReversed" tomDialogue_01
 LOCAL_CHAT_CONFIRM npc QuestScript101_2 "CFReversed" tomDialogue_02
 REPARENTTO cogs hidden
@@ -117,13 +118,16 @@ REPARENTTO toonBuilding camera
 LOCAL_CHAT_CONFIRM npc QuestScript101_3 "CFReversed" tomDialogue_03
 REPARENTTO toonBuilding hidden
 REPARENTTO cogBuilding camera
+FUNCTION npc "hideAngryMuzzle"
 FUNCTION npc "sadEyes"
 FUNCTION npc "blinkEyes"
+FUNCTION npc "showSadMuzzle"
 LOCAL_CHAT_CONFIRM npc QuestScript101_4 "CFReversed" tomDialogue_04
 REPARENTTO cogBuilding hidden
 REPARENTTO squirt1 camera
 FUNCTION npc "normalEyes"
 FUNCTION npc "blinkEyes"
+FUNCTION npc "hideSadMuzzle"
 LOCAL_CHAT_CONFIRM npc QuestScript101_5 "CFReversed" tomDialogue_05
 REPARENTTO squirt1 hidden
 REPARENTTO squirt2 camera
@@ -202,6 +206,7 @@ LOCAL_CHAT_CONFIRM npc QuestScript101_8 "CFReversed" tomDialogue_08
 LOCAL_CHAT_CONFIRM npc QuestScript101_9 "CFReversed" tomDialogue_09
 FUNCTION npc "sadEyes"
 FUNCTION npc "blinkEyes"
+FUNCTION npc "showSadMuzzle"
 LAFFMETER 15 15
 WAIT 0.1
 LAFFMETER 14 15
@@ -234,6 +239,7 @@ LAFFMETER 1 15
 WAIT 0.1
 LAFFMETER 0 15
 LOCAL_CHAT_CONFIRM npc QuestScript101_10 "CFReversed" tomDialogue_10
+FUNCTION npc "hideSadMuzzle"
 FUNCTION npc "normalEyes"
 FUNCTION npc "blinkEyes"
 LAFFMETER 15 15
@@ -247,6 +253,7 @@ LOOP_ANIM npc "neutral"
 WAIT 0.5
 LERP_HPR npc -50 0 0 0.5
 FUNCTION npc "surpriseEyes"
+FUNCTION npc "showSurpriseMuzzle"
 PLAY_ANIM npc "right-point-start" 1.5
 WAIT 0.6944
 LOOP_ANIM npc "right-point"
@@ -255,13 +262,16 @@ LOCAL_CHAT_CONFIRM npc QuestScript101_12 "CFReversed" tomDialogue_12
 PLAY_ANIM npc "right-point-start" -1
 LERP_HPR npc -0.068 0 0 0.75
 WAIT 1.0417
+FUNCTION npc "hideSurpriseMuzzle"
 FUNCTION npc "angryEyes"
 FUNCTION npc "blinkEyes"
+FUNCTION npc "showAngryMuzzle"
 LOOP_ANIM npc "neutral"
 FUNCTION localToon "questPage.showQuestsOnscreenTutorial"
 LOCAL_CHAT_CONFIRM npc QuestScript101_13 "CFReversed" tomDialogue_13
 FUNCTION localToon "questPage.hideQuestsOnscreenTutorial"
 LOCAL_CHAT_CONFIRM npc QuestScript101_14 1 "CFReversed" tomDialogue_14
+FUNCTION npc "hideAngryMuzzle"
 FUNCTION npc "normalEyes"
 FUNCTION npc "blinkEyes"
 # Cleanup
