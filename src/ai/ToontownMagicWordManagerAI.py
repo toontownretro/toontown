@@ -2742,7 +2742,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
 
         # Strip of the "~dna" part; everything else is parameters to
         # AvatarDNA.updateToonProperties.
-        parms = word[4:].strip()
+        parms = str.strip(word[4:])
 
         # Get a copy of the avatar's current DNA.
         dna = ToonDNA.ToonDNA(av.dna.makeNetString())
@@ -3339,9 +3339,9 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                         response = "hole ID '%s' is out of range" % holeId
                         holeId = None
                 except:
-                    #name = name.lower()
+                    #name = string.lower(name)
                     #for testHoleId in GolfGlobals.HoleInfo:
-                    #    holeName = GolfGlobals.getHoleName(testHoleId).lower()
+                    #    holeName = string.lower(GolfGlobals.getHoleName(testHoleId))
                     #    if name == holeName:
                     #        holeId = testHoleId
                     #        break;

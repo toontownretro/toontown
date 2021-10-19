@@ -19,13 +19,6 @@ notify = DirectNotifyGlobal.directNotify.newCategory('MovieThrow')
 # for creampie and fruitpie, wholecreampie and whole fruitpie and bdaycake
 # so the sound and animation can be synced at the end of variable-length throw
 # until we get these sounds, we just use these 'only' sounds as placeholders
-#hitSoundFiles = ('AA_tart_only.mp3',
-#                 'AA_throw_fruitpie.mp3',
-#                 'AA_throw_creampie.mp3',
-#                 'AA_throw_wfruitpie.mp3',
-#                 'AA_throw_wcreampie.mp3',
-#                 'AA_throw_bdaycake.mp3',
-#                 'AA_throw_wedding_cake.mp3',) #UBER
 hitSoundFiles = ('AA_tart_only.mp3',
                  'AA_slice_only.mp3',
                  'AA_slice_only.mp3',
@@ -37,13 +30,12 @@ hitSoundFiles = ('AA_tart_only.mp3',
 # need miss 'hitting' sounds to be separated from the 'throw' sounds
 # so the sound and animation can be synced at the end of variable-length throw
 # until we get these sounds, we just use 'AA_pie_throw_only.mp3' for all misses
-#missSoundFiles = ('AA_throw_fruitpie_miss.mp3',
-#                  'AA_throw_fruitpie_miss.mp3',
-#                  'AA_throw_creampie_miss.mp3',
-#                  'AA_throw_wfruitpie_miss.mp3',
-#                  'AA_throw_wcreampie_miss.mp3',
-#                  'AA_throw_bdaycake_miss.mp3',
-#                  'AA_throw_wedding_cake_miss.mp3',) #UBER
+#missSoundFiles = ('AA_pie_throw_only.mp3',
+#                  'AA_pie_throw_only.mp3',
+#                  'AA_pie_throw_only.mp3',
+#                  'AA_pie_throw_only.mp3',
+#                  'AA_pie_throw_only.mp3',
+#                  'AA_pie_throw_only.mp3',)
 
 #tPieLeavesHand = 2.755
 tPieLeavesHand = 2.7

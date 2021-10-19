@@ -266,10 +266,6 @@ Phase5AnimList = (
     ("struggle", "struggle"),
     ("lose", "lose"),
     ("melt", "melt"),
-    ("shift", "shift"),
-    ("shaking", "shake"),
-    ("spin", "spin"),
-    ("bounce", "bounce"),
     )
 
 # estate

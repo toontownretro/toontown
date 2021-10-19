@@ -1118,7 +1118,7 @@ def doClipOnTie(attack): # top tm: fixed
     toonTrack = getToonTrack(attack, damageDelay, ['conked'], dodgeDelay, ['sidestep'])
 
     throwSound = getSoundTrack('SA_powertie_throw.mp3', delay=throwDelay+1, node=suit)
-
+    
     return Parallel(suitTrack, toonTrack, tiePropTrack, throwSound)
 
 
@@ -1822,7 +1822,7 @@ def doBrainStorm(attack): # top mm(c), m/s(b): fixed
     BattleParticles.setEffectTexture(snowEffect3, 'brainstorm-track', color=effectColor)
     # cloud = MovieUtil.copyProp(toon.cloudActors[0])
     cloud = globalPropPool.getProp('stormcloud')
-
+    
     suitType = getSuitBodyType(attack['suitName'])
     if (suitType == 'a'): # not used with type a
         partDelay = 1.2
@@ -1873,7 +1873,7 @@ def doBrainStorm(attack): # top mm(c), m/s(b): fixed
                  ActorInterval(cloud, 'stormcloud', startTime=1,
                                duration=1.5)),
         ))
-
+        
     cloudPropTrack.append(Wait(0.4)) # Wait a moment before cloud goes away
     cloudPropTrack.append(LerpScaleInterval(cloud, 0.5,
                                          MovieUtil.PNT3_NEARZERO))
@@ -2886,34 +2886,16 @@ def doPowerTie(attack): # cr(c) throw; conked; sidestep
         return Parallel(suitTrack, toonTrack, tiePropTrack, throwSound)
 
 
+"""
 def doCigarSmoke(attack): # project w/ 1 prop; cringe; sidestep
-    """ This function returns Tracks portraying the CigarSmoke attack """
-    suit = attack['suit']
-    battle = attack['battle']
-    target = attack['target']
-    toon = target['toon']
-    dmg = target['hp']
-    cigar = globalPropPool.getProp('cigar')
-
-    suitTrack = getSuitTrack(attack) # Get suit animation track
-    cigarPosPoints = [Point3(-0.05, -0.90, -0.25), VBase3(180.0, 0.0, 0.0)]
-    cigarPropTrack = getPropTrack(cigar, suit.getRightHand(), cigarPosPoints,
-                                  0.6, 3.6, scaleUpPoint = Point3(8.0, 8.0, 8.0))
-
-
-    toonTrack = getToonTrack(attack, 3.55, ['cringe'], 3.0, ['sidestep'])
-
-    multiTrackList = Parallel(suitTrack, toonTrack)
-    multiTrackList.append(cigarPropTrack)
-
-    return Parallel(suitTrack, cigarPropTrack, toonTrack)
-
+    pass #later
 
 def doFloodTheMarket(attack): # project w/ 1 prop; slip-backward, jump; sidestep
     pass #later
 
 def doSongAndDance(attack): # group2 particle w/ 0 props; bounce, slip-backward; sidestep
     pass #later
+"""
 
 def doDoubleTalk(attack): # top cc(c), tm(b), dt(a) : fixed
     """ This function returns Tracks portraying the DoubleTalk attack """
@@ -2949,7 +2931,7 @@ def doDoubleTalk(attack): # top cc(c), tm(b), dt(a) : fixed
                              dodgeDelay=dodgeDelay, splicedDodgeAnims=[['duck', 0.01, 1.4]],
                              showMissedExtraTime=0.9, showDamageExtraTime=0.8)
     soundTrack = getSoundTrack('SA_filibuster.mp3', delay=2.5, node=suit)
-
+    
     return Parallel(suitTrack, toonTrack, partTrack, partTrack2, soundTrack)
 
 
@@ -2965,7 +2947,7 @@ def doFreezeAssets(attack): # top cc(c), pp(a): fixed
     BattleParticles.setEffectTexture(snowEffect, 'snow-particle')
     # cloud = MovieUtil.copyProp(toon.cloudActors[0])
     cloud = globalPropPool.getProp('stormcloud')
-
+    
     suitType = getSuitBodyType(attack['suitName'])
     if (suitType == 'a'):
         partDelay = 0.2
@@ -3231,9 +3213,9 @@ def doSchmooze(attack): # top gh(c), mingler(a): fixed
     toonTrack = getToonTrack(attack, damageDelay=damageDelay, splicedDamageAnims=damageAnims,
                              dodgeDelay=dodgeDelay, splicedDodgeAnims=dodgeAnims,
                              showMissedExtraTime=1.9, showDamageExtraTime=1.1)
-    soundTrack = getSoundTrack('SA_schmooze.mp3', delay=2.1, node=suit)
+#    soundTrack = getSoundTrack('SA_schmooze.mp3', delay=2.1, node=suit))
 
-    return Parallel(suitTrack, toonTrack, upperPartTracks, lowerPartTracks, soundTrack)
+    return Parallel(suitTrack, toonTrack, upperPartTracks, lowerPartTracks)
 
 
 def doQuake(attack): # group2 ms(b) special, camera shake; shake; sidestep
@@ -3834,7 +3816,7 @@ def doFired(attack): # top tw: fixed
                              dodgeDelay=0.3, dodgeAnimNames=['sidestep'])
 
     soundTrack = getSoundTrack('SA_hot_air.mp3', delay=1.0, node=suit)
-
+    
     if (dmg > 0): # If toon takes damage, use the flames
         return Parallel(suitTrack, baseFlameTrack, flameTrack, flecksTrack,
                         toonTrack, colorTrack, soundTrack)
@@ -3943,10 +3925,9 @@ def doCalculate(attack): # top bc: fixed
                                  anim=1, propName='calculator',
                                  animStartTime=0.5, animDuration=3.4)
     toonTrack = getToonTrack(attack, 3.2, ['conked'], 1.8, ['sidestep'])
-    soundTrack = getSoundTrack('SA_audit.mp3', delay=1.9, node=suit)
 
     return Parallel(suitTrack, toonTrack, calcPropTrack, partTrack, partTrack2,
-                    partTrack3, partTrack4, partTrack5, soundTrack)
+                    partTrack3, partTrack4, partTrack5)
 
 
 def doTabulate(attack): # top bc: fixed
@@ -4081,7 +4062,7 @@ def doLiquidate(attack): # top b(b), moneybags(c) fixed
 
     # cloud = MovieUtil.copyProp(toon.cloudActors[0])
     cloud = globalPropPool.getProp('stormcloud')
-
+    
     suitType = getSuitBodyType(attack['suitName'])
     if (suitType == 'a'): # not used with type a
         partDelay = 0.2
@@ -4445,24 +4426,10 @@ def doChomp(attack): # ls(b) throw; slip-backward; sidestep
     return Parallel(suitTrack, toonTrack, propTrack)
 
 
+"""
 def doFiveOClockShadow(attack): # throw; slip-forward; jump
-    suit = attack['suit']
-    battle = attack['battle']
-    target = attack['target']
-    toon = target['toon']
-
-    suitTrack = getSuitTrack(attack)
-    posPoints = [Point3(-0.04, 0.15, -1.38), VBase3(10.584, -11.945, 18.316)]
-    
-    hitPoint = __toonFacePoint(toon, parent=battle)
-    hitPoint.setX(hitPoint.getX() - 1.4)
-    missPoint = __toonGroundPoint(attack, toon, 0.7, parent=battle)
-    missPoint.setX(missPoint.getX() - 1.1)
-    
-    toonTrack = getToonTrack(attack, 3.4, ['slip-forward'], 2.8, ['jump'])
-    
-    return Parallel(suitTrack, toonTrack)
-
+    pass #later
+"""
 
 def doEvictionNotice(attack): # top b: fixed
     """ This function returns Tracks portraying the Eviction-Notice attack """
@@ -4776,7 +4743,7 @@ def doSpin(attack): # sd(b) fixed
     spinEffect1.wrtReparentTo(battle)
     spinEffect2.wrtReparentTo(battle)
     spinEffect3.wrtReparentTo(battle)
-
+    
 
     suitTrack = getSuitTrack(attack) # Get suit animation track
     sprayTrack = getPartTrack(sprayEffect, 1.0, 1.9, [sprayEffect, suit, 0])
@@ -4921,3 +4888,4 @@ def doThrowBook(attack): # throw; conked; sidestep
 ############
 # End Revamped attacks using sub functions defined above.
 ############
+

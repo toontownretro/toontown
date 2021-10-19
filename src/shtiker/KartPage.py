@@ -1163,7 +1163,7 @@ class ItemSelector( DirectFrame ):
             self.updatedDNA[ self.currAccessoryType ] = self.currItem
 
             # obtain the kart and set the update
-            kart = self._parent._parent.getKartViewer().getKart()
+            kart = self._parent.parent.getKartViewer().getKart()
             kart.updateDNAField( self.currAccessoryType, self.currItem )
 
         def __handleShowItem( self ):
@@ -1199,7 +1199,7 @@ class ItemSelector( DirectFrame ):
                     self.uiImagePlane.component( 'geom0' ).setColorScale( getAccessory( self.currItem ) )
 
             elif( self.currAccessoryType == KartDNA.decalType ):
-                kart = self._parent._parent.getKartViewer().getKart()
+                kart = self._parent.parent.getKartViewer().getKart()
                 kartDecal = getDecalId( kart.kartDNA[ KartDNA.bodyType ] )
                 texNodePath = getTexCardNode( self.currItem )
 
@@ -1284,7 +1284,7 @@ class ItemSelector( DirectFrame ):
                         self.updatedDNA[ KartDNA.accColor ] = self.currItem
 
                         # obtain the kart and set the update
-                        kart = self._parent._parent.getKartViewer().getKart()
+                        kart = self._parent.parent.getKartViewer().getKart()
                         kart.updateDNAField( KartDNA.accColor, self.currItem )
 
                 elif( self.currAccessoryType == KartDNA.accColor ):
@@ -1293,7 +1293,7 @@ class ItemSelector( DirectFrame ):
                         self.updatedDNA[ KartDNA.bodyColor ] = self.currItem
 
                         # obtain the kart and set the update
-                        kart = self._parent._parent.getKartViewer().getKart()
+                        kart = self._parent.parent.getKartViewer().getKart()
                         kart.updateDNAField( KartDNA.bodyColor, self.currItem )
                 else:
                     pass
@@ -1322,7 +1322,7 @@ class ItemSelector( DirectFrame ):
             self.updatedDNA[ self.currAccessoryType ] = self.currItem
 
             # obtain the kart and set the update
-            kart = self._parent._parent.getKartViewer().getKart()
+            kart = self._parent.parent.getKartViewer().getKart()
             kart.updateDNAField( self.currAccessoryType, self.currItem )
 
             if( self.avatar.getAccessoryByType( self.currAccessoryType ) == deletedItem ):

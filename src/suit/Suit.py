@@ -173,7 +173,7 @@ ds = (
 
 # Head Hunter (A) Corp 6
 hh = (
-    ("pen-squirt", "fountain-pen", 5),
+    ("pen-squirt", "fountain-pen", 7),
     ("glower", "glower", 5),
     ("throw-paper", "throw-paper", 5),
     ("magic1", "magic1", 5),
@@ -189,9 +189,9 @@ cr = (
 
 # The Big Cheese (A) Corp 8
 tbc = (
-    ("cigar-smoke", "cigar-smoke", 5),
+    ("cigar-smoke", "cigar-smoke", 8),
     ("glower", "glower", 5),
-    ("song-and-dance", "song-and-dance", 5),
+    ("song-and-dance", "song-and-dance", 8),
     ("golf-club-swing", "golf-club-swing", 5),
     )
 
@@ -235,7 +235,7 @@ ms = (
     ("effort", "effort", 5),
     ("throw-paper", "throw-paper", 5),
     ("stomp", "stomp", 5),
-    ("quick-jump", "jump", 5),
+    ("quick-jump", "jump", 6),
     )
 
 # Two-Face (A) Sales 6
@@ -382,7 +382,7 @@ le = (
 # Big Wig (A) Law 8
 bw = (
     ("finger-wag", "fingerwag", 5), # just as default for now
-    ("cigar-smoke", "cigar-smoke", 5),
+    ("cigar-smoke", "cigar-smoke", 8),
     ("gavel", "gavel", 8), # incomplete?
     ("magic1", "magic1", 5),
     ("throw-object", "throw-object", 5),
@@ -407,7 +407,7 @@ else:
      "b": ("/models/char/tt_a_ene_cgb_", 4),
      "c": ("/models/char/tt_a_ene_cgc_", 3.5),
      }
-
+     
     TutorialModelDict = {
      "a": ("/models/char/tt_a_ene_cga_", 4),
      "b": ("/models/char/tt_a_ene_cgb_", 4),
