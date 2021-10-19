@@ -3016,7 +3016,7 @@ RewardPanelNewGag = "Nouveau gag %(gagName)s pour %(avName)s !"
 RewardPanelUberGag = "%(avName)s earned the %(gagName)s gag with %(exp)s experience points !"
 RewardPanelEndTrack = "Haa ! %(avName)s a atteint la fin de la série de gags %(gagName)s !"
 RewardPanelMeritsMaxed = "Au maximum"
-RewardPanelMeritBarLabels = [ "Avis de licenciement", "Citations à comparaître", "Euros Cog", "Mérites" ]
+RewardPanelMeritBarLabels = [ "Option actions", "Convocation Du Jury", "Euros Cog", "Mérites" ]
 RewardPanelMeritAlert = "Prêt pour la promotion !"
 RewardPanelSkip = "Sauter"
 
@@ -7020,8 +7020,8 @@ HealthForceAcknowledgeMessage = "Tu ne peux pas quitter le terrain de jeux tant 
 
 # InventoryNew.py
 InventoryTotalGags = "Total des gags\n%d / %d"
-InventroyPinkSlips = "%s Avis de licenciement"
-InventroyPinkSlip = "1 Avis de licenciement"
+InventroyPinkSlips = "%s Avis de\nlicenciement"
+InventroyPinkSlip = "1 Avis de\nlicenciement"
 InventoryDelete = "SUPPRIMER"
 InventoryDone = "TERMINÉ"
 InventoryDeleteHelp = "Clique sur un gag pour le SUPPRIMER."
