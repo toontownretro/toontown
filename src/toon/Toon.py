@@ -267,7 +267,7 @@ Phase5AnimList = (
     ("lose", "lose"),
     ("melt", "melt"),
     ("shift", "shift"),
-    ("shake", "shaking"),
+    ("shaking", "shake"),
     ("spin", "spin"),
     ("bounce", "bounce"),
     )
