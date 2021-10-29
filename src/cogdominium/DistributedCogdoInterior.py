@@ -1047,7 +1047,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
                                   Func(self.shopOwnerNpc.loop, 'neutral')),
                                   Sequence(Wait(2.0),
                                   Func(self.exitCogdoBuilding),
-                                  Func(base.camLens.setFov, ToontownGlobals.DefaultCameraFov),
+                                  Func(base.camLens.setMinFov, ToontownGlobals.DefaultCameraFov),
                                   ),
                         )
         track.start()

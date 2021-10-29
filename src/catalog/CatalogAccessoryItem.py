@@ -1,5 +1,5 @@
 from . import CatalogItem
-from . import CatalogAccessoryItemGlobals 
+from .CatalogAccessoryItemGlobals import * 
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toon import ToonDNA
@@ -16,19 +16,15 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
         CatalogItem.CatalogItem.makeNewItem(self)
 
     def storedInTrunk(self):
+        # Returns true if this kind of item takes up space in the
+        # avatar's trunk, false otherwise.
         return 1
 
     def notOfferedTo(self, avatar):
         article = AccessoryTypes[self.accessoryType][ATArticle]
-        if article in [AHat,
-         AGlasses,
-         ABackpack,
-         AShoes]:
+        if article in [AHat, AGlasses, ABackpack, AShoes]:
             return 0
-        forBoys = article in [ABoysHat,
-         ABoysGlasses,
-         ABoysBackpack,
-         ABoysShoes]
+        forBoys = article in [ABoysHat, ABoysGlasses, ABoysBackpack, ABoysShoes]
         if avatar.getStyle().getGender() == 'm':
             return not forBoys
         else:
@@ -36,20 +32,14 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
 
     def forBoysOnly(self):
         article = AccessoryTypes[self.accessoryType][ATArticle]
-        if article in [ABoysHat,
-         ABoysGlasses,
-         ABoysBackpack,
-         ABoysShoes]:
+        if article in [ABoysHat, ABoysGlasses, ABoysBackpack, ABoysShoes]:
             return 1
         else:
             return 0
 
     def forGirlsOnly(self):
         article = AccessoryTypes[self.accessoryType][ATArticle]
-        if article in [AGirlsHat,
-         AGirlsGlasses,
-         AGirlsBackpack,
-         AGirlsShoes]:
+        if article in [AGirlsHat, AGirlsGlasses, AGirlsBackpack, AGirlsShoes]:
             return 1
         else:
             return 0
@@ -199,7 +189,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
     def applyColor(self, model, color):
         if model == None or color == None:
             return
-        if isinstance(color, types.StringType):
+        if isinstance(color, str):
             tex = loader.loadTexture(color)
             tex.setMinfilter(Texture.FTLinearMipmapLinear)
             tex.setMagfilter(Texture.FTLinear)
@@ -389,9 +379,9 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
 
 
 def getAllAccessories(*accessoryTypes):
-    list = []
+    accessories = []
     for accessoryType in accessoryTypes:
         base = CatalogAccessoryItem(accessoryType)
-        list.append(base)
+        accessories.append(base)
 
-    return list
+    return accessories

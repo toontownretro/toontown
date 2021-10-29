@@ -120,7 +120,7 @@ FPnewEntry = 0.08
 FPnewRecord = 0.08
 
 #fishing/GenusPanel.py
-GPgenus = 0.035
+GPgenus = 0.028
 
 #friends/FriendsListPanel.py
 FLPnewFriend = 0.04

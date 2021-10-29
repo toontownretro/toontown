@@ -11,7 +11,7 @@ for line in lines:
     if line[0] == "#" or len(line) < 2:
         continue
     else:
-        words = string.split(line)
+        words = line.split()
         # lines beginning in "file" have the filename in the 3rd column
         if words[0] == "file":
             filelist.append(words[2])
@@ -28,7 +28,7 @@ cvslist = []
 
 lines = f.readlines()
 for line in lines:
-    words = string.split(line)
+    words = line.split()
     # Ignore and __init.py files and files with "AI" or "UD" in them
     hasAI = "AI" in words[3]
     hasUD = "UD" in words[3]
@@ -51,4 +51,3 @@ for file in cvslist:
         continue
     else:
         print(file)
-        

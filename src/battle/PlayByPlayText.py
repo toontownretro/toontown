@@ -25,7 +25,7 @@ class PlayByPlayText(OnscreenText.OnscreenText):
             scale = TTLocalizer.PBPTonscreenText,
             fg = (1, 0, 0, 1),
             font = getSignFont(),
-            wordwrap = 13
+            wordwrap = 14
             )
 
     def getShowInterval(self, text, duration):

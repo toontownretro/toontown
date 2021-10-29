@@ -148,8 +148,8 @@ GlobalStreetNames = {
     9000  : ("vers le",     "sur le",     "Terrain de jeux"),
     9100  : ("vers le",     "sur le",     "Boulevard de la Berceuse"),
     9200  : ("vers la",     "sur la",     "Place de la Couette"),
-    10000 : ("vers le",     "au",         "QG Chefbot"),
-    10100 : ("vers le",     "dans le",    "hall du QG des Chefbots"),
+    10000 : ("vers le",     "au",         "Country Club du QG Chefbot"),
+    10100 : ("vers le",     "dans le",    "hall du QG Chefbot"),
     10200 : ("à",           "dans",       "Le Clubhouse"),
     10500 : ("à",           "dans",       "Les trois premiers à l'avant"),
     10600 : ("à",           "dans",       "Les six du milieu"),
@@ -158,12 +158,12 @@ GlobalStreetNames = {
     11100 : ("vers le",     "dans le",    "hall du QG Vendibot"),
     11200 : ("vers l'",     "à l'",       "usine Vendibot"),
     11500 : ("vers l'",     "à l'",       "usine Vendibot"),
-    12000 : ("vers le",     "au",         "QG Caissbot"),
+    12000 : ("vers le",     "sur la",     "cour de train du Caissbot"),
     12100 : ("vers le",     "dans le",    "hall du QG Caissbot"),
-    12500 : ("",            "",           "Fabrique à Sous Caissbot"),
-    12600 : ("",            "",           "Fabrique à Euros Caissbot"),
-    12700 : ("",            "",           "Fabrique à Lingots Caissbot"),
-    13000 : ("vers le",     "au",         "QG Loibot"),
+    12500 : ("vers la",     "sur la",     "Fabrique à Sous Caissbot"),
+    12600 : ("vers la",     "sur la",     "Fabrique à Euros Caissbot"),
+    12700 : ("vers la",     "sur la",     "Fabrique à Lingots Caissbot"),
+    13000 : ("vers le",     "sur la",     "cour du QG Loibot"),
     13100 : ("vers le",     "dans le",    "hall du QG Loibot"),
     13200 : ("vers le",     "au",         "hall du bureau du Procureur"),
     13300 : ("vers le",     "au",         "bureau Loibot A"),
@@ -3016,7 +3016,7 @@ RewardPanelNewGag = "Nouveau gag %(gagName)s pour %(avName)s !"
 RewardPanelUberGag = "%(avName)s earned the %(gagName)s gag with %(exp)s experience points !"
 RewardPanelEndTrack = "Haa ! %(avName)s a atteint la fin de la série de gags %(gagName)s !"
 RewardPanelMeritsMaxed = "Au maximum"
-RewardPanelMeritBarLabels = [ "Avis de licenciement", "Citations à comparaître", "Euros Cog", "Mérites" ]
+RewardPanelMeritBarLabels = [ "Option actions", "Convocation Du Jury", "Euros Cog", "Mérites" ]
 RewardPanelMeritAlert = "Prêt pour la promotion !"
 RewardPanelSkip = "Sauter"
 
@@ -3927,7 +3927,7 @@ CogsInc = Cogs.upper() + CogsIncExt
 # DistributedKnockKnockDoor.py
 DoorKnockKnock = "Toc, toc."
 DoorWhosThere = "Qui est là ?"
-DoorWhoAppendix = "qui ?"
+DoorWhoAppendix = " qui ?"
 DoorNametag = "Porte"
 
 # FADoorCodes.py
@@ -5981,7 +5981,7 @@ LauncherPhaseNames = {
     10  : "QG Caissbot",
     11  : "QG Loibot",
     12  : "QG Chefbot",
-    13  : "Des soirées",
+    13  : "Fêtes",
     }
 
 # Lets make these messages a little more friendly
@@ -6045,7 +6045,17 @@ DateOfBirthEntryDefaultLabel = "Date de naissance"
 AchievePageTitle = "Réussites\n (Bientôt disponible)"
 
 # PhotoPage.py
-PhotoPageTitle = "Photo\n (Bientôt disponible)"
+PhotoPageTitle = "Photo\n (Bientôt disponible)" # "Album photo"
+PhotoPageCaption = "Légende"
+PhotoPageDelete = "Supprimer"
+PhotoPagePrint = "Imprimer"
+PhotoPageCaptionPhoto = "Photo de légende"
+PhotoPageCancel = lCancel
+PhotoPageDeletePhoto = "Supprimer la photo ?"
+PhotoPageOK = lOK
+PhotoPageDeletePhotoWithName = "Supprimer la photo ?\n%s"
+PhotoPageNoName = "Sans nom"
+PhotoPageUnknownName = "Inconnu"
 
 # BuildingPage.py
 BuildingPageTitle = "Bâtiments\n (Bientôt disponible)"
@@ -7020,8 +7030,8 @@ HealthForceAcknowledgeMessage = "Tu ne peux pas quitter le terrain de jeux tant 
 
 # InventoryNew.py
 InventoryTotalGags = "Total des gags\n%d / %d"
-InventroyPinkSlips = "%s Avis de licenciement"
-InventroyPinkSlip = "1 Avis de licenciement"
+InventroyPinkSlips = "%s Avis de\nlicenciement"
+InventroyPinkSlip = "1 Avis de\nlicenciement"
 InventoryDelete = "SUPPRIMER"
 InventoryDone = "TERMINÉ"
 InventoryDeleteHelp = "Clique sur un gag pour le SUPPRIMER."
@@ -7460,8 +7470,8 @@ PhotoGameFilm = "FILM"
 PhotoGameScore = "Score par équipe : %s\n\nMeilleures photos: %s\n\nScore total : %s"
 
 # DistributedCogThiefGame.py
-CogThiefGameTitle = Cog + "Voleur"
-CogThiefGameInstructions = "Empêche-le" + Cogs + "de voler nos tonneaux de gags ! Appuie sur la touche Ctrl pour lancer une tarte. Utilise les flèches du clavier pour te déplacer. Astuce : tu peux te déplacer en diagonale."
+CogThiefGameTitle = Cog + " Voleur"
+CogThiefGameInstructions = "Empêche-le " + Cogs + " de voler nos tonneaux de gags ! Appuie sur la touche Ctrl pour lancer une tarte. Utilise les flèches du clavier pour te déplacer. Astuce : tu peux te déplacer en diagonale."
 CogThiefBarrelsSaved = "%(num)d Tonneaux\nsauvés !"
 CogThiefBarrelSaved = "%(num)d Tonneaux\nsauvés !"
 CogThiefNoBarrelsSaved = "Aucun tonneau\nsauvé"
@@ -7613,7 +7623,7 @@ NumToColor = ['Blanc', 'Pêche', 'Rouge vif', 'Rouge', 'Bordeaux',
               'Jaune', 'Crème', 'Jaune-vert', 'Citron vert', 'Vert marin',
               'Vert', 'Bleu clair', 'Turquoise', 'Bleu',
               'Pervenche', 'Bleu roi', 'Bleu ardoise', 'Violet',
-              'Lavande', 'Rose', 'Plum', 'Black']
+              'Lavande', 'Rose', 'Prune', 'Noir']
 AnimalToSpecies = {
     'dog'    : 'Chien',
     'cat'    : 'Chat',
@@ -8125,7 +8135,7 @@ AccessoryNamePrefix = {
 
 AwardManagerAccessoryNames = {}
 AccessoryTypeNames = {}
-for accessoryId in CatalogAccessoryItemGlobals.AccessoryTypes.keys():
+for accessoryId in list(CatalogAccessoryItemGlobals.AccessoryTypes.keys()):
     accessoryInfo = CatalogAccessoryItemGlobals.AccessoryTypes[accessoryId]
     if accessoryInfo[0] % 4 == 0:
         accessoryStyleDescription = HatStylesDescriptions

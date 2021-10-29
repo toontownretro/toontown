@@ -969,6 +969,20 @@ ShirtStyles = {
     'hw_ss1' : [ 29, 20, [(27, 27), ]],
     # Halloween pumpkin
     'hw_ss2' : [ 30, 21, [(27, 27), ]],
+    # Halloween vampire
+    'hw_ss3': [114, 101, [(27, 27)]],
+    # Halloween turtle
+    'hw_ss4': [115, 102, [(27, 27)]],
+    # Halloween bee
+    'hw_ss5': [122, 109, [(27, 27)]],
+    # Halloween pirate
+    'hw_ss6': [123, 110, [(27, 27)]],
+    # Halloween supertoon
+    'hw_ss7': [124, 111, [(27, 27)]],
+    # Halloween vampire nocape
+    'hw_ss8': [125, 112, [(27, 27)]],
+    # Halloween dinosaur
+    'hw_ss9': [126, 113, [(27, 27)]],
 
     # Winter Holiday
     'wh_ss1' : [ 31, 22, [(27, 27), ]],

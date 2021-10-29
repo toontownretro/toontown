@@ -6036,7 +6036,17 @@ DateOfBirthEntryDefaultLabel = "Data de nascimento"
 AchievePageTitle = "Realizações\n(em breve)"
 
 # PhotoPage.py
-PhotoPageTitle = "Foto\n(em breve)"
+PhotoPageTitle = "Foto\n(em breve)" # "Álbum de foto"
+PhotoPageCaption = "Legenda"
+PhotoPageDelete = "Excluir"
+PhotoPagePrint = "Imprimir"
+PhotoPageCaptionPhoto = "Foto da legenda"
+PhotoPageCancel = lCancel
+PhotoPageDeletePhoto = "Excluir foto?"
+PhotoPageOK = lOK
+PhotoPageDeletePhotoWithName = "Excluir foto?\n%s"
+PhotoPageNoName = "Sem nome"
+PhotoPageUnknownName = "Desconhecido"
 
 # BuildingPage.py
 BuildingPageTitle = "Edifícios\n(em breve)"
@@ -6733,7 +6743,7 @@ MapPageBackToPlayground = "Voltar para o pátio"
 MapPageBackToCogHQ = "Voltar para o Quartel de Cogs"
 MapPageGoHome = "Ir para casa"
 # hood name, street name
-MapPageYouAreHere = "Você está em: %s %s"
+MapPageYouAreHere = "Você está em: %s\n%s"
 MapPageYouAreAtHome = "Você está em\nsua propriedade"
 MapPageYouAreAtSomeonesHome = "Você está na propriedade de %s"
 MapPageGoTo = "Ir para\n%s"
@@ -8138,7 +8148,7 @@ AccessoryNamePrefix = {
 
 AwardManagerAccessoryNames = {}
 AccessoryTypeNames = {}
-for accessoryId in CatalogAccessoryItemGlobals.AccessoryTypes.keys():
+for accessoryId in list(CatalogAccessoryItemGlobals.AccessoryTypes.keys()):
     accessoryInfo = CatalogAccessoryItemGlobals.AccessoryTypes[accessoryId]
     if accessoryInfo[0] % 4 == 0:
         accessoryStyleDescription = HatStylesDescriptions
@@ -8220,6 +8230,8 @@ ShirtStylesDescriptions = {
     # Special Holiday-themed shirts.
     'hw_ss1' : "Fantasma de Halloween",
     'hw_ss2' : "Abóbora de Halloween",
+    'hw_ss3' : "Vampiro de Halloween",
+    'hw_ss4' : "Tartaruga de Halloween",
     'wh_ss1' : "Feriado de Inverno 1",
     'wh_ss2' : "Feriado de Inverno 2",
     'wh_ss3' : "Feriado de Inverno 3",
@@ -8241,14 +8253,14 @@ ShirtStylesDescriptions = {
     'vd_ss4' : "Dia dos namorados, rosa com corações flamejantes",
     'vd_ss5' : "Dia dos namorados 2009, branca com cupido vermelho",
     'vd_ss6' : "Dia dos namorados 2009, azul com verde e corações vermelhos",
-    'vd_ss7' : "2010 Dia dos namorados, red with white wings",
+    'vd_ss7' : "2010 Dia dos namorados, red with white wings", # Todo
     'sd_ss1' : "Dia de São Patrício, camisa com trevo-de-quatro-folhas",
     'sd_ss2' : "Dia de São Patrício, camisa com pote de ouro",
     'sd_ss3' : "Ides of March greenToon shirt", # Translate
     'tc_ss1' : "Concurso de Camiseta, Colete de Pesca",
     'tc_ss2' : "Concurso de Camiseta, Aquário",
-    'tc_ss3' : "Concurso de Camiseta, Pegada",
-    'tc_ss4' : "Concurso de Camiseta, Pegada",
+    'tc_ss3' : "Concurso de Camiseta, Pegada 1",
+    'tc_ss4' : "Concurso de Camiseta, Pegada 2",
     'tc_ss5' : "Concurso de Camiseta, Shorts de Couro",
     'tc_ss6' : "Concurso de Camiseta, Melancia",
     'tc_ss7' : "Concurso de Camiseta, Camisa de Corrida",
@@ -8291,33 +8303,35 @@ ShirtStylesDescriptions = {
     'sa_ss26' : "Prêmio Camiseta Maioria de Cogs Derrotados",
     'sa_ss27' : "Prêmio Camiseta Maioria de V.P.s Derrotados",
     'sa_ss28' : "Prêmio Camiseta de Esmagador do Robô Vendedor",
-    # Translate
-    'sa_ss29' : "Award Most C.J.s Defeated Shirt",
-    'sa_ss30' : "Award Lawbot Smasher Shirt",
-    'sa_ss31' : "Award Racing Shirt 3",
-    'sa_ss32' : "Award Fishing Shirt 4",
-    'sa_ss33' : "Award Golf Shirt 3",
-    'sa_ss34' : "Award Most Cogs Defeated Shirt 2",
-    'sa_ss35' : "Award Racing Shirt 4",
-    'sa_ss36' : "Award Save Building Shirt 3",
-    'sa_ss37' : "Award Trolley Shirt 3",
-    'sa_ss38' : "Award Fishing Shirt 5",
-    'sa_ss39' : "Award Golf Shirt 4",
+    'sa_ss29' : "Prêmio Camiseta Maioria de J.C.s Derrotados",
+    'sa_ss30' : "Prêmio Camiseta de Esmagador do Robô da Lei",
+    'sa_ss31' : "Camisa de Corrida 3",
+    'sa_ss32' : "Camisa de Pesca 4",
+    'sa_ss33' : "Camiseta de Golfe 3",
+    'sa_ss34' : "Prêmio Camiseta Maioria de Cogs Derrotados 2",
+    'sa_ss35' : "Amisa de Corrida 4",
+    'sa_ss36' : "Camiseta de Salvador de Edifícios 3",
+    'sa_ss37' : "Camiseta de Bonde 3",
+    'sa_ss38' : "Camisa de Pesca 5",
+    'sa_ss39' : "Camiseta de Golfe 4",
+    #
     'sa_ss40' : "Award Halloween Witchy Moon Shirt",
     'sa_ss41' : "Award Winter Holiday Sled Shirt",
     'sa_ss42' : "Award Halloween Batty Moon Shirt",
     'sa_ss43' : "Award Winter Holiday Mittens Shirt",
-    'sa_ss44' : "Award Fishing Shirt 6",
-    'sa_ss45' : "Award Fishing Shirt 7",
-    'sa_ss46' : "Award Golf Shirt 5",
-    'sa_ss47' : "Award Racing Shirt 5",
-    'sa_ss48' : "Award Racing Shirt 6",
-    'sa_ss49' : "Award Most Cogs Defeated shirt 3",
-    'sa_ss50' : "Award Most Cogs Defeated shirt 4",
-    'sa_ss51' : "Award Trolley shirt 4",
-    'sa_ss52' : "Award Trolley shirt 5",
-    'sa_ss53' : "Award Save Building Shirt 4",
-    'sa_ss54' : "Award Save Building Shirt 5",
+    #
+    'sa_ss44' : "Camisa de Pesca 6",
+    'sa_ss45' : "Camisa de Pesca 7",
+    'sa_ss46' : "Camiseta de Golfe 5",
+    'sa_ss47' : "Camisa de Corrida 5",
+    'sa_ss48' : "Camisa de Corrida 6",
+    'sa_ss49' : "Prêmio Camiseta Maioria de Cogs Derrotados 3",
+    'sa_ss50' : "Prêmio Camiseta Maioria de Cogs Derrotados 4",
+    'sa_ss51' : "Camiseta de Bonde 4",
+    'sa_ss52' : "Camiseta de Bonde 5",
+    'sa_ss53' : "Camiseta de Salvador de Edifícios 4",
+    'sa_ss54' : "Camiseta de Salvador de Edifícios 5",
+    #
     'sa_ss55' : "Award Anniversary",
 
     # Scientists
@@ -8397,6 +8411,7 @@ BottomStylesDescriptions = {
     'wh_bs2' : 'Shorts de Feriado de Inverno Estilo 2',
     'wh_bs3' : 'Shorts de Feriado de Inverno Estilo 3',
     'wh_bs4' : 'Shorts de Feriado de Inverno Estilo 4',
+    #
     'hw_bs1' : "Halloween Bee Shorts male",
     'hw_bs2' : "Halloween Pirate Shorts male",
     'hw_bs5' : "Halloween SuperToon Shorts male",
@@ -8464,38 +8479,37 @@ BottomStylesDescriptions = {
     'sa_bs10' : "Shorts de Bonde 1",
     'sa_bs11' : "Shorts de Halloween 3",
     'sa_bs12' : "Shorts de Halloween 4",
-    'sa_bs13' : "Prêmio Shorts Destruidor de Sellbot masculino",
-    # Translate
-    'sa_bs14' : "Award Lawbot Smasher Shorts male",
-    'sa_bs15' : "Award Racing Shorts 1",
-    'sa_bs16' : "Award Golf Shorts 3",
-    'sa_bs17' : "Award Racing Shorts 4",
-    'sa_bs18' : "Award Golf Shorts 4",
-    'sa_bs19' : "Award Golf Shorts 5",
-    'sa_bs20' : "Award Racing Shorts 5",
-    'sa_bs21' : "Award Racing Shorts 6",
+    'sa_bs13' : "Prêmio Shorts Destruidor de Robô Vendedor masculino",
+    'sa_bs14' : "Prêmio Shorts Destruidor de Robô da Lei masculino",
+    'sa_bs15' : "Shorts de Corrida 1",
+    'sa_bs16' : "Shorts de Golfe 3",
+    'sa_bs17' : "Shorts de Corrida 4",
+    'sa_bs18' : "Shorts de Golfe 4",
+    'sa_bs19' : "Shorts de Golfe 5",
+    'sa_bs20' : "Shorts de Corrida 5",
+    'sa_bs21' : "Shorts de Corrida 6",
 
     'sa_gs1' : "Saia de Pesca",
     'sa_gs2' : "Saia de Jardinagem",
     'sa_gs3' : "Saia de Festa",
     'sa_gs4' : "Saia de Corrida",
     'sa_gs5' : "Saia de Verão",
-    'sa_gs6' : "Award Golf Skirt 1",
+    'sa_gs6' : "Saia de Golfe 1",
     'sa_gs7' : "Award Halloween Bee Skirt",
     'sa_gs8' : "Award Halloween SuperToon Skirt",
     'sa_gs9' : "Award Save Building Skirt 1",
-    'sa_gs10' : "Award Trolley Skirt 1",
-    'sa_gs11' : "Award Halloween Skeleton Skirt",
-    'sa_gs12' : "Award Halloween Spider Skirt",
-    'sa_gs13' : "Award Sellbot Smasher Shorts female",
-    'sa_gs14' : "Award Lawbot Smasher Shorts female",
-    'sa_gs15' : "Award Racing Skirt 1",
-    'sa_gs16' : "Award Golf Skirt 2",
-    'sa_gs17' : "Award Racing Skirt 4",
-    'sa_gs18' : "Award Golf Skirt 3",
-    'sa_gs19' : "Award Golf Skirt 4",
-    'sa_gs20' : "Award Racing Skirt 5",
-    'sa_gs21' : "Award Racing Skirt 6",
+    'sa_gs10' : "Saia de Bonde 1",
+    'sa_gs11' : "Saia de Halloween 1",
+    'sa_gs12' : "Saia de Halloween 2",
+    'sa_gs13' : "Prêmio Shorts Destruidor de Robô da Lei feminino",
+    'sa_gs14' : "Prêmio Shorts Destruidor de Robô Vendedor feminino",
+    'sa_gs15' : "Saia de Corrida 1",
+    'sa_gs16' : "Saia de Golfe 2",
+    'sa_gs17' : "Saia de Corrida 4",
+    'sa_gs18' : "Saia de Golfe 3",
+    'sa_gs19' : "Saia de Golfe 4",
+    'sa_gs20' : "Saia de Corrida 5",
+    'sa_gs21' : "Saia de Corrida 6",
 
     'sc_bs1' : "O 1º cientista masculino ",
     'sc_bs2' : "O 2º cientista masculino ",
@@ -8758,7 +8772,7 @@ AwardManagerFurnitureNames = {
   490 : "Lareira Acesa – lareira de menina com fogo",
   491 : "Lareira Acesa – lareira da sala de insetos",
   492 : "Lareira Maçã Acesa",
-  500 :"Guarda-roupa de menino – 10 itens iniciais",
+  500 : "Guarda-roupa de menino – 10 itens iniciais",
   502 : "Guarda-roupa de menino com 15 itens",
   504 : "Guarda-roupa de menino com 20 itens",
   506 : "Guarda-roupa de menino com 25 itens",
@@ -8810,7 +8824,7 @@ AwardManagerFurnitureNames = {
   1130 : "Estante Baixa",
   1140 : "Baú-Sorvete",
   1200 : "Mesinha",
-  1210 : "Mesa Pequena – série 1 ",
+  1210 : "Mesa Pequena – série 1",
   1215 : "Mesa Pequena – série 7",
   1220 : "Mesa de Café quadrada",
   1230 : "Mesa de Café bw",

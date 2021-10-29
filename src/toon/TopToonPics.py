@@ -284,7 +284,7 @@ tt.setDNA(dna)
 tt.reparentTo(render)
 
 base.disableMouse()
-base.camLens.setFov(fov,fov)
+base.camLens.setMinFov(fov,fov)
 
 def convertServerDNAString(serverString):
     # Strip out blank space and take last 30 characters

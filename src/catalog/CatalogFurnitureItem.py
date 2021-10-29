@@ -63,6 +63,7 @@ ClosetToClothes = {
     502 : 15,
     504 : 20,
     506 : 25,
+    508 : 50,
     510 : 10,
     512 : 15,
     514 : 20,
@@ -862,7 +863,7 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
         # Returns true if an item of this type will, when purchased,
         # replace an existing item of the same type, or false if items
         # accumulate.
-        return (self.getFlags() & (FLCloset | FLBank)) != 0
+        return (self.getFlags() & (FLCloset | FLBank | FLTrunk)) != 0
 
     def hasExisting(self):
         # If replacesExisting returns true, this returns true if an
@@ -882,15 +883,17 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
             return TTLocalizer.FurnitureYourOldCloset
         elif (self.getFlags() & FLBank):
             return TTLocalizer.FurnitureYourOldBank
+        elif (self.getFlags() & FLTrunk):
+            return TTLocalizer.FurnitureYourOldTrunk
         else:
             return None
 
     def notOfferedTo(self, avatar):
-        if (self.getFlags() & FLCloset):
+        if (self.getFlags() & FLCloset or (self.getFlags() & FLTrunk)):
             # Boys can only buy boy wardrobes, and girls can only buy
             # girl wardrobes.  Sorry.
             decade = self.furnitureType - (self.furnitureType % 10)
-            forBoys = (decade == 500)
+            forBoys = (decade == 500 or decade == 4000)
             if avatar.getStyle().getGender() == 'm':
                 return not forBoys
             else:
@@ -902,7 +905,12 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
     def isDeletable(self):
         # Returns true if the item can be deleted from the attic,
         # false otherwise.
-        return (self.getFlags() & (FLBank | FLCloset | FLPhone)) == 0
+        return (self.getFlags() & (FLBank | FLCloset | FLPhone | FLTrunk)) == 0
+
+    def getMaxAccessories(self):
+        # This special method is only defined for accessory trunk items,
+        # and returns the capacity of the trunk in accessories.
+        return ToontownGlobals.MaxAccessories
 
     def getMaxBankMoney(self):
         # This special method is only defined for bank type items,
@@ -921,6 +929,8 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
             return 20
         elif index == 6:
             return 25
+        elif index == 8:
+            return 50
         else:
             return None
 
@@ -940,6 +950,13 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
         if self.getFlags() & FLCloset:
             # No point in buying an equal or smaller wardrobe.
             if self.getMaxClothes() <= avatar.getMaxClothes():
+                return 1
+            if self in avatar.onOrder or self in avatar.mailboxContents:
+                return 1
+
+        if self.getFlags() & FLTrunk:
+            # No point in buying an equal or smaller trunk.
+            if self.getMaxAccessories() <= avatar.getMaxAccessories():
                 return 1
 
             # Also if this particular wardrobe is on order, we don't need
@@ -988,6 +1005,12 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
         house, retcode = self.getHouseInfo(avatar)
         self.giftTag = None
         if retcode >= 0:
+            if (self.getFlags() & FLCloset):
+                if avatar.getMaxClothes() > self.getMaxClothes():
+                    return ToontownGlobals.P_AlreadyOwnBiggerCloset
+                avatar.b_setMaxClothes(self.getMaxClothes())
+            if (self.getFlags() & FLTrunk):
+                avatar.b_setMaxAccessories(self.getMaxAccessories())
             house.addAtticItem(self)
             if (self.getFlags() & FLBank):
                 # A special case: if we just bought a new bank, change
@@ -1000,6 +1023,12 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
                 # accordingly.  This property is also stored on the
                 # toon.
                 avatar.b_setMaxClothes(self.getMaxClothes())
+            if (self.getFlags() & FLTrunk):
+                # Yet another special case: if we just bought a new
+                # trunk, change our maximum accessory items
+                # accordingly.  This property is also stored on the
+                # toon.
+                avatar.b_setMaxAccessories(self.getMaxAccessories())
 
         return retcode
 
@@ -1039,7 +1068,7 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
     def getFilename(self):
         type = FurnitureTypes[self.furnitureType]
         return type[FTModelName]
-        
+
     def equalsTo(self, other):
         if self.furnitureType != other.furnitureType:
             return False
@@ -1050,6 +1079,12 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
 
     def getHashContents(self):
         return self.furnitureType
+
+    def getSalePrice(self):
+        if self.furnitureType in [508, 518]:
+            return 50
+        else:
+            return CatalogItem.CatalogItem.getSalePrice(self)
 
     def getBasePrice(self):
         return FurnitureTypes[self.furnitureType][FTBasePrice]
@@ -1100,6 +1135,11 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
         if FurnitureTypes[self.furnitureType][FTColorOptions]:
             if store & CatalogItem.Customization:
                 dg.addUint8(self.colorOption)
+
+    def getAcceptItemErrorText(self, retcode):
+        if retcode == ToontownGlobals.P_AlreadyOwnBiggerCloset:
+            return TTLocalizer.CatalogAcceptClosetError
+        return CatalogAtticItem.CatalogAtticItem.getAcceptItemErrorText(self, retcode)
 
 
 def nextAvailableBank(avatar, duplicateItems):

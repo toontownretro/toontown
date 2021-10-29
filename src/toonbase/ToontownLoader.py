@@ -73,8 +73,8 @@ class ToontownLoader(Loader.Loader):
         self.tick()
         return ret
 
-    def loadTexture(self, texturePath, alphaPath = None):
-        ret = Loader.Loader.loadTexture(self, texturePath, alphaPath)
+    def loadTexture(self, texturePath, alphaPath = None, okMissing = False):
+        ret = Loader.Loader.loadTexture(self, texturePath, alphaPath, okMissing = okMissing)
         self.tick()
         if alphaPath:
             self.tick()

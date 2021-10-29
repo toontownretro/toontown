@@ -1514,7 +1514,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         self.httpSession = HTTPClient()
         self.nonBlock = self.httpSession.makeChannel(True)
         newsUrl = self.getNewsUrl()
-        #newsUrl = "http://play.toontown.com/shared/images/newsimages/toons_love_to_party.txo"
+        #newsUrl = "http://play.toontown.com/shared/images/newsimages/toons_love_to_party.jpg"
         self.curUrlIndex = -1
         self.curArticleIndex =-1
         self.curDownloadIsJpg = True

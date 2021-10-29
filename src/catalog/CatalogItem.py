@@ -149,6 +149,11 @@ class CatalogItem:
         # avatar's closet, false otherwise.
         return 0
 
+    def storedInTrunk(self):
+        # Returns true if this kind of item takes up space in the
+        # avatar's trunk, false otherwise.
+        return 0
+
     def storedInAttic(self):
         # Returns true if this kind of item takes up space in the
         # avatar's attic, false otherwise.

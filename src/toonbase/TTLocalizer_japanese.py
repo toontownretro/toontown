@@ -6022,6 +6022,16 @@ AchievePageTitle = "アチーブメント\n(近日公開予定)"
 
 # PhotoPage.py
 PhotoPageTitle = "写真\n(近日公開予定)"
+PhotoPageCaption = "Caption"
+PhotoPageDelete = "Delete"
+PhotoPagePrint = "Print"
+PhotoPageCaptionPhoto = "Caption Photo"
+PhotoPageCancel = lCancel
+PhotoPageDeletePhoto = "Delete Photo?"
+PhotoPageOK = lOK
+PhotoPageDeletePhotoWithName = "Delete Photo?\n%s"
+PhotoPageNoName = "No Name"
+PhotoPageUnknownName = "Unknown"
 
 # BuildingPage.py
 BuildingPageTitle = "ビル\n(近日公開予定)"
@@ -7565,7 +7575,7 @@ NameShopToonCouncil = "キミのなまえが\n使えるかどうか調べるん�
                       "調べるのには数日かかるよ。\nそれまでのなまえは：\n"
 PleaseTypeName = "トゥーンになまえをつけてあげてね:"
 AllNewNames = "全ての新しいなまえは、\nトゥーン評議会のＯＫが\n必要なんだよ。"
-NameMessages = ""
+NameMessages = "" # Todo
 NameShopNameRejected = "申込んだ\nなまえは\nだめだって。"
 NameShopNameAccepted = "おめでとう！\n申込んだ\nなまえが\n使えるよ。"
 NoPunctuation = "なまえに句読点や記号（。、・等）は使えないよ！"
@@ -8114,7 +8124,7 @@ AccessoryNamePrefix = {
 
 AwardManagerAccessoryNames = {}
 AccessoryTypeNames = {}
-for accessoryId in CatalogAccessoryItemGlobals.AccessoryTypes.keys():
+for accessoryId in list(CatalogAccessoryItemGlobals.AccessoryTypes.keys()):
     accessoryInfo = CatalogAccessoryItemGlobals.AccessoryTypes[accessoryId]
     if accessoryInfo[0] % 4 == 0:
         accessoryStyleDescription = HatStylesDescriptions
@@ -8203,10 +8213,10 @@ ShirtStylesDescriptions = {
     'hw_ss7' : "Halloween SuperToon",
     'hw_ss8' : "Halloween Vampire NoCape",
     'hw_ss9' : "Halloween Dinosaur",
-    'wh_ss1' : "Winter Holiday 1",
-    'wh_ss2' : "Winter Holiday 2",
-    'wh_ss3' : "Winter Holiday 3",
-    'wh_ss4' : "Winter Holiday 4",
+    'wh_ss1' : "ｳｨﾝﾀｰﾎﾘﾃﾞｰ 1",
+    'wh_ss2' : "ｳｨﾝﾀｰﾎﾘﾃﾞｰ 2",
+    'wh_ss3' : "ｳｨﾝﾀｰﾎﾘﾃﾞｰ 3",
+    'wh_ss4' : "ｳｨﾝﾀｰﾎﾘﾃﾞｰ 4",
 
     'vd_ss1' : "ﾊﾞﾚﾝﾀｲﾝﾃﾞｰ､ 赤いﾊｰﾄ(女の子)",
     'vd_ss2' : "ﾊﾞﾚﾝﾀｲﾝﾃﾞｰ､ 白いﾊｰﾄ",
@@ -8236,7 +8246,7 @@ ShirtStylesDescriptions = {
 
     # Special award clothes
     'sa_ss1' : "ｽﾄﾗｲﾌﾟ ｼｬﾂ",
-    'sa_ss2' : "ﾌｨｯｼﾝｸﾞ ｼｬﾂ1",
+    'sa_ss2' : "ﾌｨｯｼﾝｸﾞ ｼｬﾂ 1",
     'sa_ss3' : "ﾌｨｯｼﾝｸﾞ ｼｬﾂ 2",
     'sa_ss4' : "ｶﾞｰﾃﾞﾆﾝｸﾞ ｼｬﾂ 1",
     'sa_ss5' : "ｶﾞｰﾃﾞﾆﾝｸﾞ ｼｬﾂ 2",
@@ -8247,49 +8257,49 @@ ShirtStylesDescriptions = {
     'sa_ss10' : "ｻﾏｰ ｼｬﾂ 1",
     'sa_ss11' : "ｻﾏｰ ｼｬﾂ 2",
     'sa_ss11' : "ｻﾏｰ ｼｬﾂ 2",
-    'sa_ss12' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ  ｼｬﾂ1",
-    'sa_ss13' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ  ｼｬﾂ2",
-    'sa_ss14' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ1",
+    'sa_ss12' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ  ｼｬﾂ 1",
+    'sa_ss13' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ  ｼｬﾂ 2",
+    'sa_ss14' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ 1",
     'sa_ss15' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ 2",
     'sa_ss16' : "ｱﾜｰﾄﾞ ﾏﾗｿﾝ ｼｬﾂ1",
-    'sa_ss17' : "ｱﾜｰﾄﾞ ｾｰﾌﾞ ﾋﾞﾙﾃﾞｨﾝｸﾞ ｼｬﾂ1",
-    'sa_ss18' : "ｱﾜｰﾄﾞ ｾｰﾌﾞ ﾋﾞﾙﾃﾞｨﾝｸﾞ ｼｬﾂ2",
-    'sa_ss19' : "ｱﾜｰﾄﾞ ﾄｩｰﾝ ﾀｽｸ ｼｬﾂ1",
-    'sa_ss20' : "ｱﾜｰﾄﾞ ﾄｩｰﾝ ﾀｽｸ ｼｬﾂ2",
+    'sa_ss17' : "ｱﾜｰﾄﾞ ｾｰﾌﾞ ﾋﾞﾙﾃﾞｨﾝｸﾞ ｼｬﾂ 1",
+    'sa_ss18' : "ｱﾜｰﾄﾞ ｾｰﾌﾞ ﾋﾞﾙﾃﾞｨﾝｸﾞ ｼｬﾂ 2",
+    'sa_ss19' : "ｱﾜｰﾄﾞ ﾄｩｰﾝ ﾀｽｸ ｼｬﾂ 1",
+    'sa_ss20' : "ｱﾜｰﾄﾞ ﾄｩｰﾝ ﾀｽｸ ｼｬﾂ 2",
     'sa_ss21' : "ｱﾜｰﾄﾞ ﾄﾛﾘｰ ｼｬﾂ 1",
     'sa_ss22' : "ｱﾜｰﾄﾞ ﾄﾛﾘｰ ｼｬﾂ 2",
     'sa_ss23' : "ｱﾜｰﾄﾞｳｨﾝﾀｰ ｼｬﾂ 1",
-    'sa_ss24' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ3",
-    'sa_ss25' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ4",
+    'sa_ss24' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ 3",
+    'sa_ss25' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ 4",
     'sa_ss26' : "Award Most Cogs Defeated Shirt",
     'sa_ss27' : "Award Most V.P.s Defeated Shirt",
     'sa_ss28' : "Award Sellbot Smasher Shirt",
     'sa_ss29' : "Award Most C.J.s Defeated Shirt",
     'sa_ss30' : "Award Lawbot Smasher Shirt",
-    'sa_ss31' : "Award Racing Shirt 3",
-    'sa_ss32' : "Award Fishing Shirt 4",
-    'sa_ss33' : "Award Golf Shirt 3",
+    'sa_ss31' : "ﾚｰｼﾝｸﾞ ｼｬﾂ 3",
+    'sa_ss32' : "ﾌｨｯｼﾝｸﾞ ｼｬﾂ 4",
+    'sa_ss33' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ  ｼｬﾂ 3",
     'sa_ss34' : "Award Most Cogs Defeated Shirt 2",
-    'sa_ss35' : "Award Racing Shirt 4",
-    'sa_ss36' : "Award Save Building Shirt 3",
-    'sa_ss37' : "Award Trolley Shirt 3",
-    'sa_ss38' : "Award Fishing Shirt 5",
-    'sa_ss39' : "Award Golf Shirt 4",
+    'sa_ss35' : "ﾚｰｼﾝｸﾞ ｼｬﾂ 4",
+    'sa_ss36' : "ｱﾜｰﾄﾞ ｾｰﾌﾞ ﾋﾞﾙﾃﾞｨﾝｸﾞ ｼｬﾂ 3",
+    'sa_ss37' : "ｱﾜｰﾄﾞ ﾄﾛﾘｰ ｼｬﾂ 3",
+    'sa_ss38' : "ﾌｨｯｼﾝｸﾞ ｼｬﾂ 5",
+    'sa_ss39' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ  ｼｬﾂ 4",
     'sa_ss40' : "Award Halloween Witchy Moon Shirt",
     'sa_ss41' : "Award Winter Holiday Sled Shirt",
     'sa_ss42' : "Award Halloween Batty Moon Shirt",
     'sa_ss43' : "Award Winter Holiday Mittens Shirt",
-    'sa_ss44' : "Award Fishing Shirt 6",
-    'sa_ss45' : "Award Fishing Shirt 7",
-    'sa_ss46' : "Award Golf Shirt 5",
-    'sa_ss47' : "Award Racing Shirt 5",
-    'sa_ss48' : "Award Racing Shirt 6",
+    'sa_ss44' : "ﾌｨｯｼﾝｸﾞ ｼｬﾂ 6",
+    'sa_ss45' : "ﾌｨｯｼﾝｸﾞ ｼｬﾂ 7",
+    'sa_ss46' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ  ｼｬﾂ 5",
+    'sa_ss47' : "ﾚｰｼﾝｸﾞ ｼｬﾂ 5",
+    'sa_ss48' : "ﾚｰｼﾝｸﾞ ｼｬﾂ 6",
     'sa_ss49' : "Award Most Cogs Defeated shirt 3",
     'sa_ss50' : "Award Most Cogs Defeated shirt 4",
-    'sa_ss51' : "Award Trolley shirt 4",
-    'sa_ss52' : "Award Trolley shirt 5",
-    'sa_ss53' : "Award Save Building Shirt 4",
-    'sa_ss54' : "Award Save Building Shirt 5",
+    'sa_ss51' : "ｱﾜｰﾄﾞ ﾄﾛﾘｰ ｼｬﾂ 4",
+    'sa_ss52' : "ｱﾜｰﾄﾞ ﾄﾛﾘｰ ｼｬﾂ 5",
+    'sa_ss53' : "ｱﾜｰﾄﾞ ｾｰﾌﾞ ﾋﾞﾙﾃﾞｨﾝｸﾞ ｼｬﾂ 4",
+    'sa_ss54' : "ｱﾜｰﾄﾞ ｾｰﾌﾞ ﾋﾞﾙﾃﾞｨﾝｸﾞ ｼｬﾂ 5",
     'sa_ss55' : "Award Anniversary",
 
     # Scientists
@@ -8427,22 +8437,22 @@ BottomStylesDescriptions = {
     'sa_bs3' : "ﾊﾟｰﾃｨｰ 短パン",
     'sa_bs4' : "ﾚｰｼﾝｸﾞ 短パン",
     'sa_bs5' : "ｻﾏｰ 短パン",
-    'sa_bs6' : "Award Golf Shorts 1",
-    'sa_bs7' : "Award Halloween Costume Shorts 1",
-    'sa_bs8' : "Award Halloween Costume Shorts 2",
-    'sa_bs9' : "Award Save Building Shorts 1",
-    'sa_bs10' : "Award Trolley Shorts 1",
-    'sa_bs11' : "Award Halloween Spider Shorts",
-    'sa_bs12' : "Award Halloween Skeleton Shorts",
+    'sa_bs6' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ  ｼｬﾂ 1",
+    'sa_bs7' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ 1",
+    'sa_bs8' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ 2",
+    'sa_bs9' : "ｱﾜｰﾄﾞ ｾｰﾌﾞ ﾋﾞﾙﾃﾞｨﾝｸﾞ ｼｬﾂ 1",
+    'sa_bs10' : "ｱﾜｰﾄﾞ ﾄﾛﾘｰ ｼｬﾂ 1",
+    'sa_bs11' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ 短パン 3",
+    'sa_bs12' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ 短パン 4",
     'sa_bs13' : "Award Sellbot Smasher Shorts male",
     'sa_bs14' : "Award Lawbot Smasher Shorts male",
-    'sa_bs15' : "Award Racing Shorts 1",
-    'sa_bs16' : "Award Golf Shorts 3",
-    'sa_bs17' : "Award Racing Shorts 4",
-    'sa_bs18' : "Award Golf Shorts 4",
-    'sa_bs19' : "Award Golf Shorts 5",
-    'sa_bs20' : "Award Racing Shorts 5",
-    'sa_bs21' : "Award Racing Shorts 6",
+    'sa_bs15' : "ﾚｰｼﾝｸﾞ 短パン 1",
+    'sa_bs16' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ  ｼｬﾂ 3",
+    'sa_bs17' : "ﾚｰｼﾝｸﾞ 短パン 4",
+    'sa_bs18' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ  ｼｬﾂ 4",
+    'sa_bs19' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ  ｼｬﾂ 5",
+    'sa_bs20' : "ﾚｰｼﾝｸﾞ 短パン 5",
+    'sa_bs21' : "ﾚｰｼﾝｸﾞ 短パン 6",
 
     'sa_gs1' : "ﾌｨｯｼﾝｸﾞ ｽｶｰﾄ",
     'sa_gs2' : "ｶﾞｰﾃﾞﾆﾝｸﾞ  ｽｶｰﾄ",
@@ -8450,21 +8460,21 @@ BottomStylesDescriptions = {
     'sa_gs4' : "ﾚｰｼﾝｸﾞ ｽｶｰﾄ",
     'sa_gs5' : "ｻﾏｰ ｽｶｰﾄ",
     'sa_gs6' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ ｽｶｰﾄ 1",
-    'sa_gs7' : "Award Halloween Bee Skirt",
-    'sa_gs8' : "Award Halloween SuperToon Skirt",
+    'sa_gs7' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ ｽｶｰﾄ 1",
+    'sa_gs8' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ ｽｶｰﾄ 2",
     'sa_gs9' : "ｱﾜｰﾄﾞ ｾｰﾌﾞ ﾋﾞﾙﾃﾞｨﾝｸﾞ ｽｶｰﾄ 1",
     'sa_gs10' : "ｱﾜｰﾄﾞ ﾄﾛﾘｰ ｽｶｰﾄ 1",
-    'sa_gs11' : "Award Halloween Skeleton Skirt",
-    'sa_gs12' : "Award Halloween Spider Skirt",
+    'sa_gs11' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｽｶｰﾄ 3",
+    'sa_gs12' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｽｶｰﾄ 4",
     'sa_gs13' : "Award Sellbot Smasher Shorts female",
     'sa_gs14' : "Award Lawbot Smasher Shorts female",
-    'sa_gs15' : "Award Racing Skirt 1",
-    'sa_gs16' : "Award Golf Skirt 2",
-    'sa_gs17' : "Award Racing Skirt 4",
-    'sa_gs18' : "Award Golf Skirt 3",
-    'sa_gs19' : "Award Golf Skirt 4",
-    'sa_gs20' : "Award Racing Skirt 5",
-    'sa_gs21' : "Award Racing Skirt 6",
+    'sa_gs15' : "ﾚｰｼﾝｸﾞ ｽｶｰﾄ 1",
+    'sa_gs16' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ ｽｶｰﾄ 2",
+    'sa_gs17' : "ﾚｰｼﾝｸﾞ ｽｶｰﾄ 4",
+    'sa_gs18' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ ｽｶｰﾄ 3",
+    'sa_gs19' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ ｽｶｰﾄ 4",
+    'sa_gs20' : "ﾚｰｼﾝｸﾞ ｽｶｰﾄ 5",
+    'sa_gs21' : "ﾚｰｼﾝｸﾞ ｽｶｰﾄ 6",
 
     'sc_bs1' : "Scientist bottom male 1",
     'sc_bs2' : "Scientist bottom male 2",
@@ -9298,9 +9308,9 @@ NPCToonNames = {
     # NPCPartyPerson
     2016 : "ﾊﾟｰﾃｨｰﾌﾟﾗﾝﾅｰの\nﾊﾟﾝﾌﾟｷﾝ",
     2017 : "ﾊﾟｰﾃｨｰﾌﾟﾗﾝﾅｰの\nﾎﾟﾘｰ",
-    2018 : "医者 Surlee",
-    2019 : "医者 Dimm",
-    2020 : "教授 Prepostera",
+    2018 : "Doctor Surlee",
+    2019 : "Doctor Dimm",
+    2020 : "Professor Prepostera",
 
     # Silly Street
     2101 : "はいしゃのダニエル",

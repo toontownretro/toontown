@@ -465,7 +465,7 @@ class DistributedRaceGame(DistributedMinigame):
         # Make a copy for getLongestLerpTime to stomp on
         self.avatarPositionsCopy = self.avatarPositions.copy()
 
-        for i in range(0, len(choiceList)/self.numPlayers):
+        for i in range(0, len(choiceList)//self.numPlayers):
             startIndex = i * self.numPlayers
             endIndex = startIndex + self.numPlayers
             self.choiceList = choiceList[startIndex:endIndex]
@@ -872,7 +872,7 @@ class DistributedRaceGame(DistributedMinigame):
 
         # we need to approximate the curve of the track
         # better by using more sample points
-        step = (place - currentPlace) / 3
+        step = (place - currentPlace) // 3
         pos1 = self.posHprArray[lane][currentPlace + step]
         pos2 = self.posHprArray[lane][currentPlace + 2 * step]
         pos3 = self.posHprArray[lane][place]

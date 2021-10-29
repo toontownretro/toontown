@@ -6,9 +6,9 @@ except NameError:
     from direct.directbase import DirectStart
     # Let the world know there is no localAvatar
     base.localAvatar = None
-    
+
 import builtins, sys, os, string, Pmw
-    
+
 from tkinter import *
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 from tkinter.simpledialog import askstring, askfloat
@@ -576,18 +576,18 @@ ChatCategories = {
     2200 : "CHIEF JUSTICE",
     2300 : "C.E.O.",
     3010 : "RACING",
-    3200 : "PLACES",
-    3300 : "COMPLIMENTS",
-    3400 : "TAUNTS",
-    3600 : "TRACKS",
+    3200 : "RACING PLACES",
+    3300 : "RACING COMPLIMENTS",
+    3400 : "RACING TAUNTS",
+    3600 : "RACING TRACKS",
     4000 : "GOLF",
-    4100 : "COURSES",
-    4200 : "TIPS",
-    4300 : "COMMENTS",
+    4100 : "GOLF COURSES",
+    4200 : "GOLF TIPS",
+    4300 : "GOLF COMMENTS",
     5000 : "BOARDING",
     5100 : "Let's Go to...",
     5200 : "We're going to...",
-    5300 : "PARTIES",    
+    5300 : "PARTIES",
     10000 : "Promotional",
     20000 : "Cog Phrases",
     20100 : "Cog Phrases",
@@ -601,16 +601,20 @@ ChatCategories = {
     30200 : "CAROLING",
     30250 : "HALLOWEEN",
     30275 : "WINTER",
-    #30301 : "
-#    50000 : "PIRATES",
-#    50100 : "PIRATES Common",
-#    50200 : "PIRATES Insults",
-#    50300 : "PIRATES Places",
-#    60100 : "GATEWAY Greetings",
-#    60200 : "GATEWAY Bye",
-#    60300 : "GATEWAY Happy",
-#    60400 : "GATEWAY Sad",
-#    60500 : "GATEWAY Places",
+    30301 : "SILLY METER",
+    30350 : "VICTORY PARTIES",
+    30400 : "SELLBOT FIELD OFFICE",
+    30450 : "IDES OF MARCH",
+    30460 : "LAWBOTS LOSE",
+    50000 : "PIRATES",
+    50100 : "PIRATES Common",
+    50200 : "PIRATES Insults",
+    50300 : "PIRATES Places",
+    60100 : "GATEWAY Greetings",
+    60200 : "GATEWAY Bye",
+    60300 : "GATEWAY Happy",
+    60400 : "GATEWAY Sad",
+    60500 : "GATEWAY Places",
     }
 
 chatDict = OTPLocalizer.SpeedChatStaticText
@@ -878,7 +882,7 @@ except NameError:
 
 class RobotToonManager(DirectObject):
     notify = DirectNotifyGlobal.directNotify.newCategory("RobotToonManager")
-    
+
     def __init__(self, toonParent = None):
         if toonParent is None:
             toonParent = render.attachNewNode('toonTop')
@@ -1683,7 +1687,7 @@ class RobotToonControlPanel(AppShell):
         self.doodleColorButtonList = []
         self.doodleColorScaleButtonList = []
         self.doodleEyeColorButtonList = []
-        
+
         self.anim = StringVar()
         self.anim.set('')
         self.lastPath = None
@@ -3555,9 +3559,9 @@ class RobotToonControlPanel(AppShell):
     def loadDNAFromFile(self, filename):
         # Reset level, destroying existing scene/DNA hierarcy
         self.resetScene()
-        
+
         file = Filename.fromOsSpecific(filename).cStr()
-           
+
         # Load all the neighborhood specific storage files
         if 'toontown_central' in file:
             loadDNAFile(DNASTORE, 'phase_4/dna/storage_TT.dna', CSDefault, 1)
@@ -3660,8 +3664,8 @@ class RobotToonControlPanel(AppShell):
 
         lowerFilename = self.filename.lower()
 
-        if not (lowerFilename.endswith('.txo') or
-                lowerFilename.endswith('.txo') or
+        if not (lowerFilename.endswith('.jpg') or
+                lowerFilename.endswith('.png') or
                 lowerFilename.endswith('.tif') or
                 lowerFilename.endswith('.bmp')):
             filename = self.filename + '.tif'
@@ -3714,8 +3718,8 @@ class RobotToonControlPanel(AppShell):
 
         lowerFilename = self.filename.lower()
 
-        if not (lowerFilename.endswith('.txo') or
-                lowerFilename.endswith('.txo') or
+        if not (lowerFilename.endswith('.jpg') or
+                lowerFilename.endswith('.png') or
                 lowerFilename.endswith('.tif') or
                 lowerFilename.endswith('.bmp')):
             filename = self.filename + '.tif'

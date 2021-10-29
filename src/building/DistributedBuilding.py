@@ -1409,6 +1409,9 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         openDoors = getOpenInterval(self, self.leftDoor, self.rightDoor,
                                     self.openSfx, None)
 
+        toonDoorPosHpr = self.cr.playGame.dnaStore.getDoorPosHprFromBlockNumber(self.block)
+        useFarExitPoints = toonDoorPosHpr.getPos().getZ() > 1.0
+
         # Run the toons out of the elevator
         runOutAll = Parallel()
         i = 0
@@ -1722,7 +1725,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         if self.mode == 'suit':
             return
         self.mode = 'suit'
-        
+
         nodes=self.getNodePaths()
         for i in nodes:
             name=i.getName()
@@ -1746,21 +1749,21 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         # Copy the suit landmark building, based on the suit track and
         # difficulty:
         npc=hidden.findAllMatches(self.getSbSearchString())
-        
+
         assert(npc.getNumPaths()>0)
         for i in range(npc.getNumPaths()):
             nodePath=npc.getPath(i)
             self.adjustSbNodepathScale(nodePath)
             self.notify.debug("net transform = %s" % str(nodePath.getNetTransform()))
             self.setupSuitBuilding(nodePath)
-    
+
     def setToCogdo(self):
         assert(self.debugPrint("setToCogdo()"))
         self.stopTransition()
         if self.mode == 'cogdo':
             return
         self.mode = 'cogdo'
-        
+
         nodes=self.getNodePaths()
         for i in nodes:
             name=i.getName()
@@ -1788,21 +1791,21 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         # Copy the suit landmark building, based on the suit track and
         # difficulty:
         npc=hidden.findAllMatches(self.getSbSearchString())
-        
+
         assert(npc.getNumPaths()>0)
         for i in range(npc.getNumPaths()):
             nodePath=npc.getPath(i)
             self.adjustSbNodepathScale(nodePath)
             self.notify.debug("net transform = %s" % str(nodePath.getNetTransform()))
             self.setupCogdo(nodePath)
-    
+
     def setToToon(self):
         assert(self.debugPrint("setToToon() mode=%s" % (self.mode)))
         self.stopTransition()
         if self.mode == 'toon':
             return
         self.mode = 'toon'
-        
+
         # Clear reference to the suit door.
         self.suitDoorOrigin = None
         # Go through nodes, and do the right thing.

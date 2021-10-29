@@ -33,6 +33,7 @@ CCIPmessagePickerCancel = 0.06
 #catalog/CatalogItemPanel.py
 CIPnameLabel = 0.85
 CIPwordwrapOffset = 2
+CIPbuyButton = (0.06, 0.05)
 
 #catalog/CatalogScreen.py
 CSgiftTogglePos = (00.855, -0.10)
@@ -419,9 +420,9 @@ OPCodesSubmitTextScale = 0.07
 OPCodesSubmitTextPos = (0, -0.02)
 
 #shtiker/MapPage.py
-MPbackToPlayground = 0.050
+MPbackToPlayground = 0.055
 MPgoHome = 0.050
-MPhoodLabel = 0.05
+MPhoodLabel = 0.06
 MPhoodWordwrap = 20
 
 #shtiker/KartPage.py
@@ -469,8 +470,8 @@ GPgoButtonScale = 0.06
 #toon/InventoryNew.py
 INtrackNameLabels = 0.043
 INclickToAttack = 0.75
-INpassButton = 0.032
-INrunButton = 0.045
+INpassButton = 0.035
+INrunButton = 0.042
 INdetailNameLabel = 1.0
 
 #toon/NPCForceAcknowledge.py

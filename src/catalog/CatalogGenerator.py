@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from . import CatalogItem
 from . import CatalogItemList
-from .CatalogFurnitureItem import CatalogFurnitureItem, nextAvailableBank, getAllBanks, nextAvailableCloset, getAllClosets
+from .CatalogFurnitureItem import CatalogFurnitureItem, nextAvailableBank, getAllBanks, nextAvailableCloset, getAllClosets, get50ItemCloset, getMaxClosets, get50ItemTrunk
 from .CatalogAnimatedFurnitureItem import CatalogAnimatedFurnitureItem
 from .CatalogClothingItem import CatalogClothingItem, getAllClothes
 from .CatalogChatItem import CatalogChatItem, getChatRange
@@ -18,6 +18,7 @@ from .CatalogToonStatueItem import CatalogToonStatueItem
 from .CatalogRentalItem import CatalogRentalItem
 from .CatalogGardenStarterItem import CatalogGardenStarterItem
 from .CatalogNametagItem import CatalogNametagItem
+from .CatalogAccessoryItem import CatalogAccessoryItem
 from direct.actor import Actor
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
@@ -57,7 +58,7 @@ MetaItems = {
     2050: getChatRange(7000, 7999),
 
     # Halloween chat
-    2900: getChatRange(10000, 10099),
+    2900: getChatRange(10000, 10002, 10005, 10005, 10007, 10008, 10010, 10099),
     # Fall Festivus chat
     2910: getChatRange(11000, 11099),
     # Valentines love chat
@@ -138,24 +139,199 @@ MonthlySchedule = (
 
     # startMM, startDD, endMM, endDD, (item, item, item, ...)
 
-    # Halloween items -- on sale 10/1 through 10/31.
-    (10, 1, 10, 31,
+    # Accessory items -- on sale 7/1 through 8/31.
+    (7, 1, 8, 31,
+     (
+      CatalogAccessoryItem(101),
+      CatalogAccessoryItem(103),
+      CatalogAccessoryItem(117),
+      CatalogAccessoryItem(118),
+      CatalogAccessoryItem(123),
+      CatalogAccessoryItem(124),
+      CatalogAccessoryItem(125),
+      CatalogAccessoryItem(126),
+      CatalogAccessoryItem(127),
+      CatalogAccessoryItem(128),
+      CatalogAccessoryItem(129),
+      CatalogAccessoryItem(130),
+      CatalogAccessoryItem(202),
+      CatalogAccessoryItem(204),
+      CatalogAccessoryItem(205),
+      CatalogAccessoryItem(206),
+      CatalogAccessoryItem(208),
+      CatalogAccessoryItem(209),
+      CatalogAccessoryItem(210),
+      CatalogAccessoryItem(302),
+      CatalogAccessoryItem(308),
+      CatalogAccessoryItem(309),
+      CatalogAccessoryItem(310),
+      CatalogAccessoryItem(317),
+      CatalogAccessoryItem(402),
+      CatalogAccessoryItem(403),
+      CatalogAccessoryItem(405),
+      CatalogAccessoryItem(406),
+      CatalogAccessoryItem(407),
+      CatalogAccessoryItem(408),
+      CatalogAccessoryItem(409),
+      CatalogAccessoryItem(410),
+      CatalogAccessoryItem(411),
+      CatalogAccessoryItem(412),
+      CatalogAccessoryItem(413),
+      )),
+
+    # Accessory items -- on sale 9/1 through 10/31.
+    (9, 1, 10, 31,
+     (
+      CatalogAccessoryItem(306),
+      CatalogAccessoryItem(318),
+      CatalogAccessoryItem(121),
+      CatalogAccessoryItem(212),
+      CatalogAccessoryItem(214),
+      CatalogAccessoryItem(312),
+      CatalogAccessoryItem(150),
+      CatalogAccessoryItem(151),
+      CatalogAccessoryItem(147),
+      CatalogAccessoryItem(422),
+      CatalogAccessoryItem(141),
+      CatalogAccessoryItem(146),
+      CatalogAccessoryItem(444),
+      CatalogAccessoryItem(122),
+      CatalogAccessoryItem(430),
+      CatalogAccessoryItem(145),
+      CatalogAccessoryItem(132),
+      CatalogAccessoryItem(161),
+      CatalogAccessoryItem(134),
+      CatalogAccessoryItem(149),
+      CatalogAccessoryItem(207),
+      CatalogAccessoryItem(215),
+      CatalogAccessoryItem(216),
+      CatalogAccessoryItem(417),
+      CatalogAccessoryItem(222),
+      CatalogAccessoryItem(321),
+      CatalogAccessoryItem(322),
+      CatalogAccessoryItem(307),
+      CatalogAccessoryItem(135),
+      CatalogAccessoryItem(174),
+      )),
+
+    # Accessory items -- on sale 11/1 through 12/31.
+    (11, 1, 12, 31,
+     (
+      CatalogAccessoryItem(434),
+      CatalogAccessoryItem(435),
+      CatalogAccessoryItem(441),
+      CatalogAccessoryItem(446),
+      CatalogAccessoryItem(429),
+      CatalogAccessoryItem(110),
+      CatalogAccessoryItem(148),
+      CatalogAccessoryItem(443),
+      CatalogAccessoryItem(426),
+      CatalogAccessoryItem(439),
+      CatalogAccessoryItem(143),
+      CatalogAccessoryItem(313),
+      CatalogAccessoryItem(311),
+      CatalogAccessoryItem(437),
+      CatalogAccessoryItem(415),
+      CatalogAccessoryItem(167),
+      CatalogAccessoryItem(157),
+      CatalogAccessoryItem(106),
+      CatalogAccessoryItem(109),
+      CatalogAccessoryItem(421),
+      CatalogAccessoryItem(401),
+      CatalogAccessoryItem(447),
+      CatalogAccessoryItem(213),
+      CatalogAccessoryItem(330),
+      )),
+
+    # Accessory items -- on sale 1/1 through 2/29.
+    (1, 1, 2, 29,
+     (
+      CatalogAccessoryItem(440),
+      CatalogAccessoryItem(425),
+      CatalogAccessoryItem(158),
+      CatalogAccessoryItem(431),
+      CatalogAccessoryItem(420),
+      CatalogAccessoryItem(155),
+      CatalogAccessoryItem(419),
+      CatalogAccessoryItem(436),
+      CatalogAccessoryItem(428),
+      CatalogAccessoryItem(304),
+      CatalogAccessoryItem(301),
+      CatalogAccessoryItem(416),
+      CatalogAccessoryItem(414),
+      CatalogAccessoryItem(164),
+      CatalogAccessoryItem(323),
+      CatalogAccessoryItem(108),
+      CatalogAccessoryItem(139),
+      CatalogAccessoryItem(316),
+      CatalogAccessoryItem(131),
+      CatalogAccessoryItem(170),
+      CatalogAccessoryItem(221),
+      CatalogAccessoryItem(225),
+      )),
+
+    # Accessory items -- on sale 3/1 through 4/30.
+    (3, 1, 4, 30,
+     (
+      CatalogAccessoryItem(305),
+      CatalogAccessoryItem(303),
+      CatalogAccessoryItem(144),
+      CatalogAccessoryItem(120),
+      CatalogAccessoryItem(116),
+      CatalogAccessoryItem(217),
+      CatalogAccessoryItem(218),
+      CatalogAccessoryItem(219),
+      CatalogAccessoryItem(445),
+      CatalogAccessoryItem(418),
+      CatalogAccessoryItem(432),
+      CatalogAccessoryItem(427),
+      CatalogAccessoryItem(423),
+      CatalogAccessoryItem(137),
+      CatalogAccessoryItem(163),
+      CatalogAccessoryItem(165),
+      CatalogAccessoryItem(153),
+      CatalogAccessoryItem(319),
+      CatalogAccessoryItem(154),
+      CatalogAccessoryItem(159),
+      CatalogAccessoryItem(162),
+      CatalogAccessoryItem(315),
+      CatalogAccessoryItem(160),
+      CatalogAccessoryItem(102),
+      )),
+
+    # Accessory items -- on sale 5/1 through 6/30.
+    (5, 1, 6, 30,
+     (
+      CatalogAccessoryItem(119),
+      CatalogAccessoryItem(136),
+      CatalogAccessoryItem(169),
+      CatalogAccessoryItem(140),
+      CatalogAccessoryItem(168),
+      CatalogAccessoryItem(138),
+      CatalogAccessoryItem(220),
+      CatalogAccessoryItem(433),
+      CatalogAccessoryItem(442),
+      CatalogAccessoryItem(424),
+      CatalogAccessoryItem(404),
+      CatalogAccessoryItem(156),
+      CatalogAccessoryItem(142),
+      CatalogAccessoryItem(152),
+      CatalogAccessoryItem(133),
+      CatalogAccessoryItem(166),
+      CatalogAccessoryItem(211),
+      CatalogAccessoryItem(314),
+      CatalogAccessoryItem(320),
+      CatalogAccessoryItem(173),
+      CatalogAccessoryItem(328),
+      CatalogAccessoryItem(329),
+      )),
+
+    # Halloween items -- on sale 10/3 through 11/2.
+    (10, 3, 11, 2,
      ((3, 2900),
       CatalogChatItem(10003),
       CatalogClothingItem(1001, 0),
       CatalogClothingItem(1002, 0),
-      CatalogClothingItem(1743, 0),
-      CatalogClothingItem(1744, 0),
-      CatalogClothingItem(1745, 0),
-      CatalogClothingItem(1746, 0),
-      CatalogClothingItem(1747, 0),
-      CatalogClothingItem(1748, 0),
-      CatalogClothingItem(1739, 0),
-      CatalogClothingItem(1740, 0),
-      CatalogClothingItem(1734, 0),
-      CatalogClothingItem(1735, 0),
-      CatalogClothingItem(1723, 0),
-      CatalogClothingItem(1724, 0),
       CatalogWallpaperItem(10100),
       CatalogWallpaperItem(10200),
       CatalogFurnitureItem(10000),
@@ -165,28 +341,88 @@ MonthlySchedule = (
 
       )),
 
+   # Halloween items -- on sale 10/3 through 11/2.
+
+    (10, 3, 11, 2,
+     (
+      # The following articles 
+      # were likely removed in
+      # 2011 to remove accessory
+      # parts, however
+      # Bee and SuperToon skirts
+      # were also removed and never
+      # readded so they should appear
+      # in the catalog again to fix
+      # this accidental removal
+      CatalogClothingItem(1739, 0), # Bee Skirt
+      CatalogClothingItem(1740, 0), # SuperToon Skirt
+      CatalogClothingItem(1734, 0), # Bee Shorts
+      CatalogClothingItem(1735, 0), # SuperToon Shorts
+      CatalogClothingItem(1723, 0), # Bee Shirt
+      CatalogClothingItem(1724, 0), # SuperToon Shirt
+      CatalogClothingItem(1770, 0), # Vampire Shirt
+      CatalogClothingItem(1772, 0), # Vampire Shorts
+      CatalogClothingItem(1773, 0), # Vampire Shorts
+      # End 2010 clothing + accessory items
+      CatalogClothingItem(1744, 0),
+      CatalogClothingItem(1745, 0),
+      CatalogClothingItem(1748, 0),
+      CatalogClothingItem(1771, 0),
+      CatalogClothingItem(1774, 0),
+      CatalogClothingItem(1775, 0),
+      CatalogClothingItem(1743, 0),
+      CatalogClothingItem(1746, 0),
+      CatalogClothingItem(1747, 0),
+      CatalogClothingItem(1112, 0),
+      CatalogClothingItem(1113, 0),
+      CatalogClothingItem(1114, 0),
+      CatalogClothingItem(1115, 0),
+      CatalogClothingItem(1116, 0),
+      CatalogClothingItem(1117, 0),
+      CatalogClothingItem(1118, 0),
+      CatalogClothingItem(1119, 0),
+      CatalogClothingItem(1120, 0),
+      CatalogClothingItem(1121, 0),
+      CatalogClothingItem(1122, 0),
+      CatalogClothingItem(1123, 0),
+      CatalogClothingItem(1124, 0),
+      CatalogClothingItem(1125, 0),
+      CatalogClothingItem(1126, 0),
+      CatalogClothingItem(1127, 0),
+      CatalogAccessoryItem(171),
+      CatalogAccessoryItem(172),
+      CatalogAccessoryItem(224),
+      CatalogAccessoryItem(324),
+      CatalogAccessoryItem(325),
+      CatalogAccessoryItem(326),
+      CatalogAccessoryItem(327),
+      CatalogAccessoryItem(448),
+      CatalogAccessoryItem(449),
+      CatalogClothingItem(1801, 0),
+      )),
+
     # Winter items -- on sale 11/18 through 12/31
     # moved a little earlier to get thanksgiving phrases
     # before thanksgiving happens
-    (11, 18, 1, 1,
-     ((3, 2910),
-      CatalogChatItem(11020), # Have a Wonderful Winter!
-      CatalogClothingItem(1100, 0),
-      CatalogClothingItem(1101, 0),
-      CatalogClothingItem(1102, 0),
-      CatalogClothingItem(1103, 0),
-      CatalogWallpaperItem(11000),
-      CatalogWallpaperItem(11100),
-      CatalogWallpaperItem(11200),
-      CatalogFlooringItem(10000),
-      CatalogFlooringItem(10010),
-      CatalogGardenItem(130, 1), # snowman
-      CatalogAnimatedFurnitureItem(10020), # winter tree
-      CatalogFurnitureItem(10030, 0), # winter wreath
-      )),
+#    (11, 18, 1, 1,
+#     ((3, 2910),
+#      CatalogChatItem(11020), # Have a Wonderful Winter!
+#      CatalogClothingItem(1100, 0),
+#      CatalogClothingItem(1101, 0),
+#      CatalogClothingItem(1102, 0),
+#      CatalogClothingItem(1103, 0),
+#      CatalogWallpaperItem(11000),
+#      CatalogWallpaperItem(11100),
+#      CatalogWallpaperItem(11200),
+#      CatalogFlooringItem(10000),
+#      CatalogFlooringItem(10010),
+#      CatalogGardenItem(130, 1), # snowman
+#      CatalogAnimatedFurnitureItem(10020), # winter tree
+#      CatalogFurnitureItem(10030, 0), # winter wreath
+#      )),
 
-    # Valentines items -- on sale 2/1 through 2/16
-    (2, 1, 2, 16,
+    # Valentines items -- on sale 2/1 through 2/28
+    (2, 1, 2, 28,
      ((3, 2920),
       (2, 2921),
       CatalogClothingItem(1200, 0),
@@ -220,13 +456,16 @@ MonthlySchedule = (
       CatalogMouldingItem(1120, 0), # Valentines Day Moulding - Hearts 2
       )),
 
-    # St Patrick's items -- on sale 3/8 through 3/21
-    (3, 8, 3, 21,
+    # St Patrick's items -- on sale 3/1 through 3/20
+    (3, 1, 3, 20,
      ((3, 2930),
       CatalogClothingItem(1300, 0),
       CatalogClothingItem(1301, 0),
       CatalogClothingItem(1302, 0),
       CatalogClothingItem(1303, 0),
+      CatalogClothingItem(1304, 0),
+      CatalogClothingItem(1305, 0),
+      CatalogClothingItem(1306, 0),
       CatalogWallpaperItem(13000),
       CatalogWallpaperItem(13100),
       CatalogWallpaperItem(13200),
@@ -266,12 +505,37 @@ MonthlySchedule = (
 
     # Estate Party speedchat items -- on sale 6/15 through 8/15
     (6, 15, 8, 15,
+#    (6, 15, 8, 15, 2010, 2010
      ((4, 2940),
       )
      ),
 
-    # July 4th clothing items -- on sale 6/18 through 7/16
-    (6, 18, 7, 16,
+    # Flappy Cog -- on sale 9/1 through 9/30
+    (9, 1, 9, 30,
+     (CatalogGardenItem(135, 1),
+      )
+     ),
+
+    # Flappy Cog -- on sale 1/1 through 1/31
+    (1, 1, 1, 31,
+     (CatalogGardenItem(135, 1),
+      )
+     ),
+
+    # Flappy Cog -- on sale 4/1 through 4/30
+    (4, 1, 4, 30,
+     (CatalogGardenItem(135, 1),
+      )
+     ),
+
+    # Flappy Cog -- on sale 6/1 through 6/30
+    (6, 1, 6, 30,
+     (CatalogGardenItem(135, 1),
+      )
+     ),
+
+    # July 4th clothing items -- on sale 6/26 through 7/16
+    (6, 26, 7, 16,
      (
       CatalogClothingItem(1500, 0),
       CatalogClothingItem(1501, 0),
@@ -280,40 +544,66 @@ MonthlySchedule = (
       )
      ),
 
-    # Winter Holiday items - on sale 12/17 to 1/20
-    (12, 8, 1, 20,
+    # Winter Holiday items - on sale 12/4 through 1/4
+    (12, 4, 1, 4,
+     ((3, 2910),
+     )),
+
+    # Winter Holiday items - on sale 12/4 through 1/4
+    (12, 4, 1, 4,
      (
+      CatalogFurnitureItem(680),   # Candle
+      CatalogFurnitureItem(681),   # Lit Candle
+      CatalogGardenItem(130, 1),
+      CatalogGardenItem(131, 1),
+      CatalogAnimatedFurnitureItem(10020),
+      CatalogFurnitureItem(10030, 0),
+      )),
+
+    # Winter Holiday items - on sale 12/4 to 1/4
+    (12, 4, 1, 4,
+     (
+      CatalogWallpaperItem(11000),
+      CatalogWallpaperItem(11100),
+      CatalogFlooringItem(10010),
+      CatalogMouldingItem(1090, 0), # Winter String Lights Moulding 3
+      CatalogClothingItem(1100, 0),
+      CatalogClothingItem(1101, 0),
       CatalogClothingItem(1104, 0),       # Winter Holiday Shorts Style 1
       CatalogClothingItem(1105, 0),       # Winter Holiday Shorts Style 2
-      CatalogClothingItem(1106, 0),       # Winter Holiday Shorts Style 3
-      CatalogClothingItem(1107, 0),       # Winter Holiday Shorts Style 4
       CatalogClothingItem(1108, 0),       # Winter Holiday Skirt Style 1
       CatalogClothingItem(1109, 0),       # Winter Holiday Skirt Style 2
-      CatalogClothingItem(1110, 0),       # Winter Holiday Skirt Style 3
-      CatalogClothingItem(1111, 0),       # Winter Holiday Skirt Style 4
+      CatalogClothingItem(1802, 0),
+      )
+     ),
 
-      CatalogMouldingItem(1080, 0), # Winter String Lights Moulding 1
-      CatalogMouldingItem(1085, 0), # Winter String Lights Moulding 2
-      CatalogMouldingItem(1090, 0), # Winter String Lights Moulding 3
-
-      CatalogFurnitureItem(680),   # Candle
-
-      CatalogFurnitureItem(681),   # Lit Candle
-
+    # Winter Holiday items - on sale 12/11 to 1/4
+    (12, 11, 1, 4,
+     (
       CatalogFurnitureItem(1040),  # Presents
       CatalogFurnitureItem(1050),  # Sled
+      CatalogWallpaperItem(11200),
+      CatalogFlooringItem(10000),
+      CatalogMouldingItem(1080, 0), # Winter String Lights Moulding 1
+      CatalogMouldingItem(1085, 0), # Winter String Lights Moulding 2
+      CatalogClothingItem(1102, 0),
+      CatalogClothingItem(1103, 0),
+      CatalogClothingItem(1106, 0),       # Winter Holiday Shorts Style 3
+      CatalogClothingItem(1107, 0),       # Winter Holiday Shorts Style 4
+      CatalogClothingItem(1110, 0),       # Winter Holiday Skirt Style 3
+      CatalogClothingItem(1111, 0),       # Winter Holiday Skirt Style 4
       )
      ),
 
     # Silly Story Loony Labs Atom Shirt - on sale 6/9 to 7/15
-    (6, 9, 7, 15,
+    (6, 9, 7, 15, 2010, 2010,
      (
       CatalogClothingItem(1751, 0),       # Silly Story Loony Labs Atom Shirt
       )
      ),
 
      # Silly Story Cogbuster Outfit - on sale 6/14 to 7/15
-    (6, 14, 7, 15,
+    (6, 14, 7, 15, 2010, 2010,
      (
       CatalogClothingItem(1754, 0),       # Silly Story Silly Cogbuster Shirt
       CatalogClothingItem(1755, 0),       # Silly Story Silly Cogbuster Shorts
@@ -323,12 +613,27 @@ MonthlySchedule = (
      ),
 
     # Victory Party and Silly Story shirts - on sale 7/21 to 8/17
-    (7, 21, 8, 17,
+    (7, 21, 8, 17, 2010, 2010,
      (
       CatalogClothingItem(1749, 0),       # Silly Mailbox Shirt
       CatalogClothingItem(1750, 0),       # Silly Trash Can Shirt
       CatalogClothingItem(1757, 0),       # Victory Party Shirt 1
       CatalogClothingItem(1758, 0),       # Victory Party Shirt 2
+      )
+     ),
+
+    # Sellbot Nerf shirt - on sale 8/25 to 9/21
+    (8, 25, 9, 21, 2010, 2010,
+     (
+      CatalogClothingItem(1763, 0),       # Smashed Sellbot Shirt
+      )
+     ),
+
+    # Jellybean Holiday shirts - on sale 6/5 to 7/1
+    (6, 5, 7, 1,
+     (
+      CatalogClothingItem(1768, 0),       # Jellybean Bank Shirt
+      CatalogClothingItem(1769, 0),       # Doodle Shirt
       )
      ),
 
@@ -370,6 +675,258 @@ MonthlySchedule = (
       CatalogEmoteItem(22, 360), # delighted
       CatalogEmoteItem(23, 540), # furious
       CatalogEmoteItem(24, 720), # laugh
+      )
+     ),
+
+    # Anniversary hat - on sale 5/26 through 6/30 2013
+    (5, 26, 6, 30, 2013, 2013,
+     (
+      CatalogAccessoryItem(175), # Anniversary Hat
+      )
+     ),
+
+    (8, 27, 9, 5, 2013, 2013,
+     ((3, 2900),
+      CatalogChatItem(10003),
+      CatalogClothingItem(1001, 0),
+      CatalogClothingItem(1002, 0),
+      CatalogWallpaperItem(10100),
+      CatalogWallpaperItem(10200),
+      CatalogFurnitureItem(10000),
+      CatalogFurnitureItem(10010),
+      CatalogNametagItem(9),
+      CatalogClothingItem(1744, 0),
+      CatalogClothingItem(1745, 0),
+      CatalogClothingItem(1748, 0),
+      CatalogClothingItem(1771, 0),
+      CatalogClothingItem(1774, 0),
+      CatalogClothingItem(1775, 0),
+      CatalogClothingItem(1743, 0),
+      CatalogClothingItem(1746, 0),
+      CatalogClothingItem(1747, 0),
+      CatalogClothingItem(1112, 0),
+      CatalogClothingItem(1113, 0),
+      CatalogClothingItem(1114, 0),
+      CatalogClothingItem(1115, 0),
+      CatalogClothingItem(1116, 0),
+      CatalogClothingItem(1117, 0),
+      CatalogClothingItem(1118, 0),
+      CatalogClothingItem(1119, 0),
+      CatalogClothingItem(1120, 0),
+      CatalogClothingItem(1121, 0),
+      CatalogClothingItem(1122, 0),
+      CatalogClothingItem(1123, 0),
+      CatalogClothingItem(1124, 0),
+      CatalogClothingItem(1125, 0),
+      CatalogClothingItem(1126, 0),
+      CatalogClothingItem(1127, 0),
+      CatalogAccessoryItem(171),
+      CatalogAccessoryItem(172),
+      CatalogAccessoryItem(224),
+      CatalogAccessoryItem(324),
+      CatalogAccessoryItem(325),
+      CatalogAccessoryItem(326),
+      CatalogAccessoryItem(327),
+      CatalogAccessoryItem(448),
+      CatalogAccessoryItem(449),
+      CatalogClothingItem(1801, 0),
+      CatalogAccessoryItem(175),
+      )
+    ),
+
+    (9, 3, 9, 12, 2013, 2013,
+     ((3, 2910),
+      CatalogFurnitureItem(680),
+      CatalogFurnitureItem(681),
+      CatalogGardenItem(130, 1),
+      CatalogGardenItem(131, 1),
+      CatalogAnimatedFurnitureItem(10020),
+      CatalogFurnitureItem(10030, 0),
+      CatalogWallpaperItem(11000),
+      CatalogWallpaperItem(11100),
+      CatalogFlooringItem(10010),
+      CatalogMouldingItem(1090, 0),
+      CatalogClothingItem(1100, 0),
+      CatalogClothingItem(1101, 0),
+      CatalogClothingItem(1104, 0),
+      CatalogClothingItem(1105, 0),
+      CatalogClothingItem(1108, 0),
+      CatalogClothingItem(1109, 0),
+      CatalogClothingItem(1802, 0),
+      CatalogFurnitureItem(1040),
+      CatalogFurnitureItem(1050),
+      CatalogWallpaperItem(11200),
+      CatalogFlooringItem(10000),
+      CatalogMouldingItem(1080, 0),
+      CatalogMouldingItem(1085, 0),
+      CatalogClothingItem(1102, 0),
+      CatalogClothingItem(1103, 0),
+      CatalogClothingItem(1106, 0),
+      CatalogClothingItem(1107, 0),
+      CatalogClothingItem(1110, 0),
+      CatalogClothingItem(1111, 0),
+      )
+    ),
+
+    (8, 20, 9, 19, 2013, 2013,
+     (
+      CatalogAccessoryItem(101),
+      CatalogAccessoryItem(103),
+      CatalogAccessoryItem(117),
+      CatalogAccessoryItem(118),
+      CatalogAccessoryItem(123),
+      CatalogAccessoryItem(124),
+      CatalogAccessoryItem(125),
+      CatalogAccessoryItem(126),
+      CatalogAccessoryItem(127),
+      CatalogAccessoryItem(128),
+      CatalogAccessoryItem(129),
+      CatalogAccessoryItem(130),
+      CatalogAccessoryItem(202),
+      CatalogAccessoryItem(204),
+      CatalogAccessoryItem(205),
+      CatalogAccessoryItem(206),
+      CatalogAccessoryItem(208),
+      CatalogAccessoryItem(209),
+      CatalogAccessoryItem(210),
+      CatalogAccessoryItem(302),
+      CatalogAccessoryItem(308),
+      CatalogAccessoryItem(309),
+      CatalogAccessoryItem(310),
+      CatalogAccessoryItem(317),
+      CatalogAccessoryItem(402),
+      CatalogAccessoryItem(403),
+      CatalogAccessoryItem(405),
+      CatalogAccessoryItem(406),
+      CatalogAccessoryItem(407),
+      CatalogAccessoryItem(408),
+      CatalogAccessoryItem(409),
+      CatalogAccessoryItem(410),
+      CatalogAccessoryItem(411),
+      CatalogAccessoryItem(412),
+      CatalogAccessoryItem(413),
+      CatalogAccessoryItem(306),
+      CatalogAccessoryItem(318),
+      CatalogAccessoryItem(121),
+      CatalogAccessoryItem(212),
+      CatalogAccessoryItem(214),
+      CatalogAccessoryItem(312),
+      CatalogAccessoryItem(150),
+      CatalogAccessoryItem(151),
+      CatalogAccessoryItem(147),
+      CatalogAccessoryItem(422),
+      CatalogAccessoryItem(141),
+      CatalogAccessoryItem(146),
+      CatalogAccessoryItem(444),
+      CatalogAccessoryItem(122),
+      CatalogAccessoryItem(430),
+      CatalogAccessoryItem(145),
+      CatalogAccessoryItem(132),
+      CatalogAccessoryItem(161),
+      CatalogAccessoryItem(134),
+      CatalogAccessoryItem(149),
+      CatalogAccessoryItem(207),
+      CatalogAccessoryItem(215),
+      CatalogAccessoryItem(216),
+      CatalogAccessoryItem(417),
+      CatalogAccessoryItem(222),
+      CatalogAccessoryItem(321),
+      CatalogAccessoryItem(322),
+      CatalogAccessoryItem(307),
+      CatalogAccessoryItem(135),
+      CatalogAccessoryItem(174),
+      CatalogAccessoryItem(434),
+      CatalogAccessoryItem(435),
+      CatalogAccessoryItem(441),
+      CatalogAccessoryItem(446),
+      CatalogAccessoryItem(429),
+      CatalogAccessoryItem(110),
+      CatalogAccessoryItem(148),
+      CatalogAccessoryItem(443),
+      CatalogAccessoryItem(426),
+      CatalogAccessoryItem(439),
+      CatalogAccessoryItem(143),
+      CatalogAccessoryItem(313),
+      CatalogAccessoryItem(311),
+      CatalogAccessoryItem(437),
+      CatalogAccessoryItem(415),
+      CatalogAccessoryItem(167),
+      CatalogAccessoryItem(157),
+      CatalogAccessoryItem(106),
+      CatalogAccessoryItem(109),
+      CatalogAccessoryItem(421),
+      CatalogAccessoryItem(401),
+      CatalogAccessoryItem(447),
+      CatalogAccessoryItem(213),
+      CatalogAccessoryItem(330),
+      CatalogAccessoryItem(440),
+      CatalogAccessoryItem(425),
+      CatalogAccessoryItem(158),
+      CatalogAccessoryItem(431),
+      CatalogAccessoryItem(420),
+      CatalogAccessoryItem(155),
+      CatalogAccessoryItem(419),
+      CatalogAccessoryItem(436),
+      CatalogAccessoryItem(428),
+      CatalogAccessoryItem(304),
+      CatalogAccessoryItem(301),
+      CatalogAccessoryItem(416),
+      CatalogAccessoryItem(414),
+      CatalogAccessoryItem(164),
+      CatalogAccessoryItem(323),
+      CatalogAccessoryItem(108),
+      CatalogAccessoryItem(139),
+      CatalogAccessoryItem(316),
+      CatalogAccessoryItem(131),
+      CatalogAccessoryItem(170),
+      CatalogAccessoryItem(221),
+      CatalogAccessoryItem(225),
+      CatalogAccessoryItem(305),
+      CatalogAccessoryItem(303),
+      CatalogAccessoryItem(144),
+      CatalogAccessoryItem(120),
+      CatalogAccessoryItem(116),
+      CatalogAccessoryItem(217),
+      CatalogAccessoryItem(218),
+      CatalogAccessoryItem(219),
+      CatalogAccessoryItem(445),
+      CatalogAccessoryItem(418),
+      CatalogAccessoryItem(432),
+      CatalogAccessoryItem(427),
+      CatalogAccessoryItem(423),
+      CatalogAccessoryItem(137),
+      CatalogAccessoryItem(163),
+      CatalogAccessoryItem(165),
+      CatalogAccessoryItem(153),
+      CatalogAccessoryItem(319),
+      CatalogAccessoryItem(154),
+      CatalogAccessoryItem(159),
+      CatalogAccessoryItem(162),
+      CatalogAccessoryItem(315),
+      CatalogAccessoryItem(160),
+      CatalogAccessoryItem(102),
+      CatalogAccessoryItem(119),
+      CatalogAccessoryItem(136),
+      CatalogAccessoryItem(169),
+      CatalogAccessoryItem(140),
+      CatalogAccessoryItem(168),
+      CatalogAccessoryItem(138),
+      CatalogAccessoryItem(220),
+      CatalogAccessoryItem(433),
+      CatalogAccessoryItem(442),
+      CatalogAccessoryItem(424),
+      CatalogAccessoryItem(404),
+      CatalogAccessoryItem(156),
+      CatalogAccessoryItem(142),
+      CatalogAccessoryItem(152),
+      CatalogAccessoryItem(133),
+      CatalogAccessoryItem(166),
+      CatalogAccessoryItem(211),
+      CatalogAccessoryItem(314),
+      CatalogAccessoryItem(320),
+      CatalogAccessoryItem(173),
+      CatalogAccessoryItem(328),
+      CatalogAccessoryItem(329),
       )
      ),
     )
@@ -1443,6 +2000,12 @@ class CatalogGenerator:
 
     def __init__(self):
         self.__itemLists = {}
+        self.__releasedItemLists = {}
+
+    def getReleasedCatalogList(self, weekStart):
+        dayNumber = int(weekStart / (24 * 60))
+        itemLists = self.__getReleasedItemLists(dayNumber, weekStart)
+        return itemLists
 
     def generateMonthlyCatalog(self, avatar, weekStart):
         # Generates the list of items that should be offered to the
@@ -1464,8 +2027,12 @@ class CatalogGenerator:
         monthlyCatalog = CatalogItemList.CatalogItemList()
 
         for list in itemLists:
+            saleItem = 0
+            if isinstance(list, Sale):
+                list = list.args
+                saleItem = 1
             for item in list:
-                monthlyCatalog += self.__selectItem(avatar, item, [])
+                monthlyCatalog += self.__selectItem(avatar, item, [], saleItem = saleItem)
         return monthlyCatalog
 
     def generateWeeklyCatalog(self, avatar, week, monthlyCatalog):
@@ -1490,6 +2057,10 @@ class CatalogGenerator:
             for item in schedule:
                 weeklyCatalog += self.__selectItem(avatar, item, monthlyCatalog,
                                                    saleItem = saleItem)
+
+            if nextAvailableCloset not in schedule:
+                weeklyCatalog += self.__selectItem(avatar, nextAvailableCloset, monthlyCatalog, saleItem = 0)
+            weeklyCatalog += self.__selectItem(avatar, get50ItemTrunk, monthlyCatalog, saleItem = 0)
 
         # Here is an ugly hack for ensuring that everyone gets at
         # least one pet trick offered in their first catalog when pets
@@ -1553,6 +2124,45 @@ class CatalogGenerator:
 
         return backCatalog
 
+    def __getReleasedItemLists(self, dayNumber, weekStart):
+        itemLists = self.__releasedItemLists.get(dayNumber)
+        if itemLists != None:
+            return itemLists
+        else:
+            self.__releasedItemLists.clear()
+
+        testDaysAhead = simbase.config.GetInt('test-server-holiday-days-ahead', 0)
+
+        # Hasn't been generated yet today; do so now.        
+        nowtuple = time.localtime(weekStart * 60 + testDaysAhead * 24 * 60 * 60)
+        year = nowtuple[0]
+        month = nowtuple[1]
+        day = nowtuple[2]
+
+        itemLists = []
+
+        for monthlyItems in MonthlySchedule:
+            startMM = monthlyItems[0]
+            startDD = monthlyItems[1]
+            endMM = monthlyItems[2]
+            endDD = monthlyItems[3]
+
+            if len(monthlyItems) == 7:
+                startYYYY = monthlyItems[4]
+                endYYYY = monthlyItems[5]
+                list = monthlyItems[6]
+            else:
+                startYYYY = 1969
+                endYYYY = year
+                list = monthlyItems[4]
+            pastStart = year > startYYYY or (year == startYYYY and (month > startMM or (month == startMM and day >= startDD)))
+
+            if pastStart:
+                itemLists.append(list)
+
+        self.__releasedItemLists[dayNumber] = itemLists
+        return itemLists
+
     def __getMonthlyItemLists(self, dayNumber, weekStart):
         # Returns a list of lists of seasonal items that should be
         # selected from for monthlyCatalogs generated on the indicated
@@ -1564,15 +2174,30 @@ class CatalogGenerator:
         if itemLists != None:
             return itemLists
 
+        testDaysAhead = simbase.config.GetInt('test-server-holiday-days-ahead', 0)
+
         # Hasn't been generated yet today; do so now.
         nowtuple = time.localtime(weekStart * 60)
         month = nowtuple[1]
         day = nowtuple[2]
+        year = nowtuple[0]
 
         self.notify.debug("Generating seasonal itemLists for %s/%s." % (month, day))
         itemLists = []
 
-        for startMM, startDD, endMM, endDD, list in MonthlySchedule:
+        for monthlyItems in MonthlySchedule:
+            startMM = monthlyItems[0]
+            startDD = monthlyItems[1]
+            endMM = monthlyItems[2]
+            endDD = monthlyItems[3]
+            if len(monthlyItems) == 7:
+                startYYYY = monthlyItems[4]
+                endYYYY = monthlyItems[5]
+                list = monthlyItems[6]
+            else:
+                startYYYY = 1969
+                endYYYY = year
+                list = monthlyItems[4]
             pastStart = (month > startMM) or (month == startMM and day >= startDD)
             beforeEnd = (month < endMM) or (month == endMM and day <= endDD)
 
@@ -1751,13 +2376,23 @@ class CatalogGenerator:
 
             self.__recordSchedule(sched, week, schedule)
 
-        for startMM, startDD, endMM, endDD, list in MonthlySchedule:
+        for monthlyItems in MonthlySchedule:
+            startMM = monthlyItems[0]
+            startDD = monthlyItems[1]
+            endMM = monthlyItems[2]
+            endDD = monthlyItems[3]
+            if len(monthlyItems) == 7:
+                list = monthlyItems[6]
+            else:
+                list = monthlyItems[4]
             string = "%02d/%02d - %02d/%02d" % (startMM, startDD, endMM, endDD)
             self.__recordSchedule(sched, string, list)
 
         return sched
 
     def __recordSchedule(self, sched, weekCode, schedule):
+        if isinstance(schedule, Sale):
+            schedule = schedule.args
         for item in schedule:
 
             # If the item is a function, we have to handle it as a
@@ -1771,6 +2406,12 @@ class CatalogGenerator:
 
                 elif item == nextAvailableCloset:
                     item = getAllClosets()
+
+                elif item == get50ItemCloset:
+                    item = getMaxClosets()
+
+                elif item == get50ItemTrunk:
+                    item = getMaxTrunks()
 
                 else:
                     self.notify.warning("Don't know how to interpret function " % (repr(name)))

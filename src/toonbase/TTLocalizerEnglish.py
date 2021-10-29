@@ -3899,7 +3899,7 @@ ElevatorLeaderOff = "Only your leader can decide when to hop off."
 ElevatorHoppedOff = "You need to wait for the next elevator."
 ElevatorMinLaff = "You need %s laff points to ride this elevator."
 ElevatorHopOK = "Okay"
-ElevatorGroupMember = "Only your group leader can\n decide when to board."
+ElevatorGroupMember = "Only your group leader can\ndecide when to board."
 
 # DistributedCogKart.py
 KartMinLaff = "You need %s laff points to ride this kart"
@@ -5919,7 +5919,7 @@ TeaserDefault = ",\nyou need to become a Member.\n\nJoin us!"
 TeaserOtherHoods = "For unlimited adventures in all 6 neighborhoods"
 TeaserTypeAName = "Type in your favorite name for your Toon!"
 TeaserSixToons = "To play more than one Toon"
-TeaserClothing = "To buy items from the Cattlelog \nto customize your toon"
+TeaserClothing = "To buy items from the Cattlelog\nto customize your toon"
 TeaserCogHQ = "To access awesome Cog HQs"
 TeaserSecretChat = "To use the True Friends Chat feature"
 TeaserSpecies = "To pick this type of Toon"
@@ -6030,7 +6030,17 @@ DateOfBirthEntryDefaultLabel = "Date of Birth"
 AchievePageTitle = "Achievements\n(Coming Soon)"
 
 # PhotoPage.py
-PhotoPageTitle = "Photo\n(Coming Soon)"
+PhotoPageTitle = "Photo\n(Coming Soon)" # "Photo Album"
+PhotoPageCaption = "Caption"
+PhotoPageDelete = "Delete"
+PhotoPagePrint = "Print"
+PhotoPageCaptionPhoto = "Caption Photo"
+PhotoPageCancel = lCancel
+PhotoPageDeletePhoto = "Delete Photo?"
+PhotoPageOK = lOK
+PhotoPageDeletePhotoWithName = "Delete Photo?\n%s"
+PhotoPageNoName = "No Name"
+PhotoPageUnknownName = "Unknown"
 
 # BuildingPage.py
 BuildingPageTitle = "Buildings\n(Coming Soon)"
@@ -6103,13 +6113,13 @@ EventsPageNewsRightSubtitle = "Established toon-thousand nine"
 NewsPageName = "News"
 NewsPageImportError = 'Whoops! There is an issue loading the "Toon News ... for the Amused!" Please check back later.'
 
-NewsPageDownloadingNewsSubstr = 'Stay Tooned, while we bring you the latest issue of the \n"Toon News ... for the Amused!"'
+NewsPageDownloadingNewsSubstr = 'Stay Tooned, while we bring you the latest issue of the\n"Toon News ... for the Amused!"'
 NewsPageDownloadingNews0 = NewsPageDownloadingNewsSubstr + " %s%% Complete."
 NewsPageDownloadingNews1 = NewsPageDownloadingNewsSubstr + " %s%% Complete.."
 NewsPageDownloadingNews2 = NewsPageDownloadingNewsSubstr + " %s%% Complete..."
 NewsPageErrorDownloadingFile = 'Whoops! Page %s is missing from "Toon News ... for the Amused!" Please check back later.'
-NewsPageErrorDownloadingFileCanStillRead = 'Whoops! Page %s \nis missing from the "Toon News ... for the Amused!" \nTurn the page to continue, while we work to get this page back.'
-NewsPageNoIssues = 'Whoops! The "Toon News ... for the Amused!" has gone missing! \nStay Tooned ... while we work to bring the news back!'
+NewsPageErrorDownloadingFileCanStillRead = 'Whoops! Page %s\nis missing from the "Toon News ... for the Amused!"\nTurn the page to continue, while we work to get this page back.'
+NewsPageNoIssues = 'Whoops! The "Toon News ... for the Amused!" has gone missing!\nStay Tooned ... while we work to bring the news back!'
 
 # DirectNewsFrame.py
 IssueFrameThisWeek = "this week"
@@ -7280,7 +7290,7 @@ MintBossConfrontedMsg = "%s is battling the Supervisor!"
 
 # DistributedStage.py
 StageBossConfrontedMsg = "%s is battling the Clerk!"
-stageToonEnterElevator = "%s \nhas entered the elevator"
+stageToonEnterElevator = "%s\nhas entered the elevator"
 #ForcedLeaveStageAckMsg = "The Law Clerk was defeated before you could reach him. You did not recovI:\beta\toons\maya\work\character_moods\temp\ModelFixes\Textureser any Jury Notices."
 ForcedLeaveStageAckMsg = "The Law Clerk was defeated before you could reach him. You did not recover any Jury Notices."
 
@@ -7355,8 +7365,8 @@ RaceGameForwardThreeSpaces = " forward 3 spaces"
 RaceGameBackOneSpace    = " back 1 space"
 RaceGameBackTwoSpaces   = " back 2 spaces"
 RaceGameBackThreeSpaces = " back 3 spaces"
-RaceGameOthersForwardThree = " all others forward \n3 spaces"
-RaceGameOthersBackThree = "all others back \n3 spaces"
+RaceGameOthersForwardThree = "all others forward\n3 spaces"
+RaceGameOthersBackThree = "all others back\n3 spaces"
 RaceGameInstantWinner = "Instant Winner!"
 RaceGameJellybeans2 = "2 jellybeans"
 RaceGameJellybeans4 = "4 jellybeans"
@@ -8107,7 +8117,7 @@ AccessoryNamePrefix = {
 
 AwardManagerAccessoryNames = {}
 AccessoryTypeNames = {}
-for accessoryId in CatalogAccessoryItemGlobals.AccessoryTypes.keys():
+for accessoryId in list(CatalogAccessoryItemGlobals.AccessoryTypes.keys()):
     accessoryInfo = CatalogAccessoryItemGlobals.AccessoryTypes[accessoryId]
     if accessoryInfo[0] % 4 == 0:
         accessoryStyleDescription = HatStylesDescriptions
@@ -9243,7 +9253,7 @@ HDHelpDict = {
 
 
 # don't translate yet
-MessagePickerTitle = "You have too many phrases. In order to purchase\n\"%s\"\n you must choose one to remove:"
+MessagePickerTitle = "You have too many phrases. In order to purchase\n\"%s\"\nyou must choose one to remove:"
 MessagePickerCancel = lCancel
 MessageConfirmDelete = "Are you sure you want to remove \"%s\" from your SpeedChat menu?"
 
@@ -10619,7 +10629,7 @@ zone2TitleDict = {
 
 # translate
 # DistributedCloset.py
-ClosetTimeoutMessage = "Sorry, you ran out\n of time."
+ClosetTimeoutMessage = "Sorry, you ran out\nof time."
 ClosetNotOwnerMessage = "This isn't your closet, but you may try on the clothes."
 ClosetPopupOK = lOK
 ClosetPopupCancel = lCancel
@@ -10660,7 +10670,7 @@ EstateTargetGameInst = "The more you hit the red target, the more you'll get Too
 EstateTargetGameEnd = "The Toon-up Target game is now over..."
 
 # DistributedHouse.py
-AvatarsHouse = "%s\n House"
+AvatarsHouse = "%s\nHouse"
 
 # BankGui.py
 BankGuiCancel = lCancel
@@ -11720,7 +11730,7 @@ LawbotBossTempIntro4 = "Wait a minute... You're Toons!"
 LawbotBossTempJury1 = "Jury selection will now commence."
 LawbotBossHowToGetEvidence = "Touch the witness stand to get evidence."
 LawbotBossTrialChat1 = "Court is now in session"
-LawbotBossHowToThrowPies = "Press the Delete key to throw the evidence\n at the lawyers or into the scale!"
+LawbotBossHowToThrowPies = "Press the Delete key to throw the evidence\nat the lawyers or into the scale!"
 LawbotBossNeedMoreEvidence = "You need to get more evidence!"
 LawbotBossDefenseWins1 = "Impossible! The defense won?"
 LawbotBossDefenseWins2 = "No. I declare a mistrial! A new one will be scheduled."
@@ -12244,7 +12254,7 @@ GolfAvReceivesHoleBest = "%(name)s scored a new hole best at %(hole)s!"
 GolfAvReceivesCourseBest = "%(name)s scored a new course best at %(course)s!"
 GolfAvReceivesCup = "%(name)s receives the %(cup)s cup!! Laff point boost!"
 GolfAvReceivesTrophy = "%(name)s receives the %(award)s trophy!!"
-GolfRanking = "Ranking: \n"
+GolfRanking = "Ranking:\n"
 GolfPowerBarText = "%(power)s%%"
 GolfChooseTeeInstructions = "Press Left or Right to change tee spot.\nPress Control to select."
 GolfWarningMustSwing = "Warning: You must press Control on your next swing."
@@ -12342,10 +12352,10 @@ KartingTicketsHolidayStart = "Get double tickets from Practice races at Goofy Sp
 
 IdesOfMarchStart = "Toons go GREEN!"
 
-LogoutForced = "You have done something wrong\n and are being logged out automatically,\n additionally your account may be frozen.\n Try going on a walk outside, it is fun."
+LogoutForced = "You have done something wrong\nand are being logged out automatically,\nadditionally your account may be frozen.\nTry going on a walk outside, it is fun."
 
 # DistributedCountryClub.py
-CountryClubToonEnterElevator = "%s \nhas jumped in the golf kart."
+CountryClubToonEnterElevator = "%s\nhas jumped in the golf kart."
 CountryClubBossConfrontedMsg = "%s is battling the Club President!"
 
 # DistributedElevatorFSM.py
@@ -12374,8 +12384,8 @@ GolfGreenGameGotHelp = "%s solved a Puzzle!"
 GolfGreenGameDirections = "Shoot balls using the the mouse\n\n\nMatching three of a color causes the balls to fall\n\n\nRemove all Cog balls from the board"
 
 # DistributedMaze.py
-enterHedgeMaze = "Race through the Hedge Maze\n for a laff bonus!"
-toonFinishedHedgeMaze = "%s \n  finished in %s place!"
+enterHedgeMaze = "Race through the Hedge Maze\nfor a laff bonus!"
+toonFinishedHedgeMaze = "%s\n  finished in %s place!"
 hedgeMazePlaces = ["first","second","third","Fourth"]
 mazeLabel = "Maze Race!"
 
@@ -12412,7 +12422,7 @@ BoardingInviteGroupFull = 'Your Boarding Group is already full.'
 BoardingAlreadyInGroup = 'You cannot accept this invitation because you are part of another Boarding Group.'
 BoardingGroupAlreadyFull = 'You cannot accept this invitation because the group is already full.'
 BoardingKickOutConfirm = 'Are you sure you want to remove %s?'
-BoardingPendingInvite = 'You need to deal with the\n pending invitation first.'
+BoardingPendingInvite = 'You need to deal with the\npending invitation first.'
 BoardingCannotLeaveZone = 'You cannot leave this area because you are part of a Boarding Group.'
 BoardingInviteeMessage = "%s would like you to join their Boarding Group."
 BoardingInvitingMessage = "Inviting %s to your Boarding Group."

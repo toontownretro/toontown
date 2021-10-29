@@ -779,7 +779,7 @@ QuestDialogDict = {
     172 : {QUEST : "Muy bien, ya sabes en qué se diferencian los cuatro tipos distintos de bots.\aCreo que ya estás listo para empezar a entrenarte en el tercer circuito de trucos.\aVe a ver a _toNpcName_ para elegir el próximo circuito de trucos; ella te aconsejará bien._where_" },
 
     175 : {GREETING : "",
-           QUEST : "¿Sabías que tienes tu propia casa dibu?\aLa vaca Clarabel lleva un catálogo telefónico donde puedes encargar muebles para decorar tu casa.\a¡También puedes comprar frases, ropa y otros artículos divertidos de SpeedChat!\aLe diré a Clarabel que te mande tu primer catálogo.\a¡Recibirás cada semana una catálogo de novedades!\aVete a casa y usa el teléfono para llamar a Clarabel.",
+           QUEST : "¿Sabías que tienes tu propia casa dibu?\aLa vaca Clarabel lleva un catálogo telefónico donde puedes encargar muebles para decorar tu casa.\a¡También puedes comprar frases, ropa y otros artículos divertidos de Charla rápida!\aLe diré a Clarabel que te mande tu primer catálogo.\a¡Recibirás cada semana una catálogo de novedades!\aVete a casa y usa el teléfono para llamar a Clarabel.",
            INCOMPLETE_PROGRESS : "Vete a casa y usa el teléfono para llamar a Clarabel.",
            COMPLETE : "¡Que te diviertas encargándole cosas a Clarabel!\aAcabo de terminar de redecorar mi casa. ¡Quedó dibufantástica!\a¡Sigue haciendo dibutareas para conseguir más recompensas!",
            LEAVING : QuestsDefaultLeaving,
@@ -5063,7 +5063,17 @@ DateOfBirthEntryDefaultLabel = "Fecha de nacimiento"
 AchievePageTitle = "Logros\n(próximamente)"
 
 # PhotoPage.py
-PhotoPageTitle = "Foto\n(próximamente)"
+PhotoPageTitle = "Foto\n(próximamente)" # "Album de fotos"
+PhotoPageCaption = "Leyenda"
+PhotoPageDelete = "Borrar"
+PhotoPagePrint = "Impresión"
+PhotoPageCaptionPhoto = "Leyenda foto"
+PhotoPageCancel = lCancel
+PhotoPageDeletePhoto = "Borrar foto?"
+PhotoPageOK = lOK
+PhotoPageDeletePhotoWithName = "Borrar foto?\n%s"
+PhotoPageNoName = "Sin nombre"
+PhotoPageUnknownName = "Desconocido"
 
 # BuildingPage.py
 BuildingPageTitle = "Edificios\n(próximamente)"
@@ -5596,7 +5606,7 @@ PartyCatchActivityTitle = "Actividad Atrápalo"
 PartyCatchActivityInstructions = "Atrapa todas las piezas de fruta que puedas. ¡Intenta no 'atrapar' %(badThing)s!"
 PartyCatchActivityFinishPerfect = "¡PERFECTO!"
 PartyCatchActivityFinish = "¡Bien!"
-PartyCatchActivityExit        = 'EXIT'
+PartyCatchActivityExit        = 'SALIR'
 PartyCatchActivityApples      = 'manzanas'
 PartyCatchActivityOranges     = 'naranjas'
 PartyCatchActivityPears       = 'peras'
@@ -5771,7 +5781,7 @@ OptionsPageFriendsEnabledLabel = "Se aceptan solicitudes de nuevos amigos."
 OptionsPageFriendsDisabledLabel = "No se aceptan solicitudes de nuevos amigos."
 OptionsPageWhisperEnabledLabel = "Allowing whispers from anyone."
 OptionsPageWhisperDisabledLabel = "Allowing whispers from friends only."
-OptionsPageSpeedChatStyleLabel = "Color para SpeedChat"
+OptionsPageSpeedChatStyleLabel = "Color para Charla rápida"
 OptionsPageDisplayWindowed = "en ventana"
 OptionsPageDisplayEmbedded = "In the browser"
 OptionsPageSelect = "Escoger"
@@ -6266,13 +6276,13 @@ TutorialBye3 = "Cuando termines, ve a ver a %s" % Flippy
 TutorialForceAcknowledgeMessage = "¡Vas en dirección contraria! ¡Ve a buscar a %s!" % Mickey
 
 PetTutorialTitle1 = "El panel Dibuperrito"
-PetTutorialTitle2 = "Dibuperrito de SpeedChat"
+PetTutorialTitle2 = "Dibuperrito de Charla rápida"
 PetTutorialTitle3 = "Catálogo tolón-tolón"
 PetTutorialNext = "Página siguiente"
 PetTutorialPrev = "Página anterior"
 PetTutorialDone = "Completado"
 PetTutorialPage1 = "Haz clic en un Dibuperrito para abrir el panel Dibuperrito. Desde aquí, podrás alimentar, rascar y llamar al Dibuperrito."
-PetTutorialPage2 = "Utiliza la nueva zona 'Mascotas' en el menú SpeedChat para hacer que un Doodle haga una acrobacia. Si la hace, ¡dale un premio y aprenderá a hacerlo mejor!"
+PetTutorialPage2 = "Utiliza la nueva zona 'Mascotas' en el menú Charla rápida para hacer que un Doodle haga una acrobacia. Si la hace, ¡dale un premio y aprenderá a hacerlo mejor!"
 PetTutorialPage3 = "Compra nuevas acrobacias para el Dibuperrito desde el catálogo tolón-tolón de Clarabel. ¡Las mejores acrobacias dan mejores curadibus!"
 def getPetGuiAlign():
 	from toontown.toonbase.ToontownModules import TextNode
@@ -6688,14 +6698,14 @@ STOREOWNER_TROPHY = "¡Uau! Conseguiste %s de %s peces. ¡Te mereces un trofeo y
 # end translate
 
 # NewsManager.py
-SuitInvasionBegin1 = lToonHQ+": ¡¡Hay una invasión de bots!!"
-SuitInvasionBegin2 = lToonHQ+": ¡¡Los %s tomaron Toontown!!!"
+SuitInvasionBegin1 = lToonHQ+": ¡¡¡Hay una invasión de bots!!!"
+SuitInvasionBegin2 = lToonHQ+": ¡¡¡Los %s tomaron Toontown!!!"
 SuitInvasionEnd1 = lToonHQ+": ¡¡¡La invasión de %s terminó!!!"
 SuitInvasionEnd2 = lToonHQ+": ¡¡¡Los dibus volvieron a salvarnos!!!"
 SuitInvasionUpdate1 = lToonHQ+": ¡¡¡La invasión de bots consta ahora de %s bots!!!"
 SuitInvasionUpdate2 = lToonHQ+": ¡¡¡Debemos derrotar a esos %s!!!"
 SuitInvasionBulletin1 = lToonHQ+": ¡¡¡Se está produciendo una invasión de bots!!!"
-SuitInvasionBulletin2 = lToonHQ+": ¡¡Los %s tomaron Toontown!!!"
+SuitInvasionBulletin2 = lToonHQ+": ¡¡¡Los %s tomaron Toontown!!!"
 
 # DistributedHQInterior.py
 LeaderboardTitle = "Pelotón de dibus"
@@ -6739,7 +6749,7 @@ QuestScript110_11 = "Vuelve al cuartel general cuando termines. ¡Adiós!"
 
 QuestScriptTutorialBlocker_1 = "¡Eh, hola!"
 QuestScriptTutorialBlocker_2 = "¿Hola?"
-QuestScriptTutorialBlocker_3 = "¡Oh! ¡No sabes cómo se usa SpeedChat!"
+QuestScriptTutorialBlocker_3 = "¡Oh! ¡No sabes cómo se usa Charla rápida!"
 QuestScriptTutorialBlocker_4 = "Haz clic en el botón para decir algo."
 QuestScriptTutorialBlocker_5 = "¡Muy bien!\aEn el sitio al que vas hay muchos dibus con los que puedes hablar."
 QuestScriptTutorialBlocker_6 = "Si quieres charlar con tus amigos mediante el teclado, tienes que usar otro botón."
@@ -6890,7 +6900,7 @@ LawbotCogSuitHasMeritsMessage = "It's Operation: Lawbots Lose!\n\nBring 5 or mor
 FurnitureTypeName = "Mueble"
 PaintingTypeName = "Cuadro"
 ClothingTypeName = "Ropa"
-ChatTypeName = "Frase de SpeedChat"
+ChatTypeName = "Frase de Charla rápida"
 EmoteTypeName = "Clases de teatro"
 BeanTypeName = "Golosinas"
 PoleTypeName = "Caña de pescar"
@@ -7135,7 +7145,7 @@ AccessoryNamePrefix = {
 
 AwardManagerAccessoryNames = {}
 AccessoryTypeNames = {}
-for accessoryId in CatalogAccessoryItemGlobals.AccessoryTypes.keys():
+for accessoryId in list(CatalogAccessoryItemGlobals.AccessoryTypes.keys()):
     accessoryInfo = CatalogAccessoryItemGlobals.AccessoryTypes[accessoryId]
     if accessoryInfo[0] % 4 == 0:
         accessoryStyleDescription = HatStylesDescriptions
@@ -8171,7 +8181,7 @@ CatalogAcceptBackpack = "You are now wearing your new backpack. The backpack you
 CatalogAcceptShoes = "You are now wearing your new shoes. The shoes you were wearing before have been moved to your trunk."
 CatalogAcceptPole = "Ahora, con tu caña nueva ya puedes pescar a lo grande."
 CatalogAcceptPoleUnneeded = "La caña de pescar que tienes es mejor que ésta."
-CatalogAcceptChat = "¡Tienes un nuevo SpeedChat!"
+CatalogAcceptChat = "¡Tienes un nuevo Charla rápida!"
 CatalogAcceptEmote = "¡Tienes una nueva Emoción!"
 CatalogAcceptBeans = "¡Recibiste golosinas!"
 CatalogAcceptRATBeans = "¡Llegó tu premio por reclutar dibus!"
@@ -8250,7 +8260,7 @@ HDHelpDict = {
 # don't translate yet
 MessagePickerTitle = "Tienes demasiadas frases. Si quieres comprar \n\"%s\"\n debes elegir una y borrarla:"
 MessagePickerCancel = lCancel
-MessageConfirmDelete = "¿Seguro que quieres borrar \"%s\" del menú de SpeedChat?"
+MessageConfirmDelete = "¿Seguro que quieres borrar \"%s\" del menú de Charla rápida?"
 
 
 # don't translate yet
@@ -9829,7 +9839,7 @@ TipDict = {
     "Una forma divertida de avanzar en el juego consiste en buscar amigos que tengan dibutareas parecidas.",
     "Nunca te hará falta guardar la partida en Toontown. Los servidores de Toontown almacenan toda la información necesaria de manera continua.",
     "Si quieres susurrar a otros dibus, haz clic en ellos o selecciónalos en tu Lista de amigos.",
-    "Algunas frases de SpeedChat hacen que tu dibu muestre emociones.",
+    "Algunas frases de Charla rápida hacen que tu dibu muestre emociones.",
     "Si la zona en la que estás está demasiado llena, trata de cambiar de distrito. Acude a la página de Distritos del dibucuaderno y selecciona otro distrito.",
     "Si recuperas edificios aparecerá una estrella de bronce, plata u oro sobre tu dibu.",
     "Si recuperas edificios suficientes para conseguir que aparezca una estrella sobre tu cabeza, quizá veas tu nombre escrito en la pizarra de un cuartel general.",
@@ -9950,8 +9960,8 @@ TipDict = {
     ),
   TIP_ESTATE : (
     # Doodles
-    "Los Dibuperritos entienden algunas frases de SpeedChat. ¡Pruébalas!",
-    "Utiliza el menú \"Mascota\" de SpeedChat para decirle a tu Dibuperrito que haga acrobacias.",
+    "Los Dibuperritos entienden algunas frases de Charla rápida. ¡Pruébalas!",
+    "Utiliza el menú \"Mascota\" de Charla rápida para decirle a tu Dibuperrito que haga acrobacias.",
     "Puedes enseñarles a los Dibuperritos a hacer acrobacias con clases del catálogo tolón-tolón de Clarabel.",
     "Premia a tu Dibuperrito cuando haga una acrobacia.",
     "Si visitas la hacienda de un amigo, tu Dibuperrito también irá.",
@@ -9989,7 +9999,7 @@ TipDict = {
     # Fish
     "Algunos peces, como la merluza de colar, son más comunes en las haciendas dibu.",
     # Misc
-    "Puedes invitar a tus amigos a tu hacienda utilizando SpeedChat.",
+    "Puedes invitar a tus amigos a tu hacienda utilizando Charla rápida.",
     "¿Sabías que el color de tu casa coincide con el color de tu panel Eligedibu?",
     ),
    TIP_KARTING : (

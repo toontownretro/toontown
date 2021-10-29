@@ -27,6 +27,7 @@ from toontown.fishing import FishTank
 from .NPCToons import npcFriends,isZoneProtected
 from toontown.coghq import CogDisguiseGlobals
 import random
+#import re
 from toontown.chat import ResistanceChat
 from toontown.racing import RaceGlobals
 from toontown.hood import ZoneUtil
@@ -42,6 +43,14 @@ from toontown.parties.PartyInfo import PartyInfoAI
 from toontown.parties.InviteInfo import InviteInfoBase
 from toontown.parties.PartyReplyInfo import PartyReplyInfoBase
 from toontown.parties.PartyGlobals import InviteStatus
+
+from toontown.toonbase import ToontownAccessAI
+from toontown.toonbase import TTLocalizer
+
+from toontown.catalog import CatalogAccessoryItem
+
+from toontown.minigame import MinigameCreatorAI
+#from . import ModuleListAI
 from functools import reduce
 
 if simbase.wantPets:
@@ -100,6 +109,14 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
         self.clothesTopsList = []
         self.clothesBottomsList = []
+        self.hatList = []
+        self.glassesList = []
+        self.backpackList = []
+        self.shoesList = []
+        self.hat = (0, 0, 0)
+        self.glasses = (0, 0, 0)
+        self.backpack = (0, 0, 0)
+        self.shoes = (0, 0, 0)
 
         # initialize these to lists of zeroes in case there is no
         # field in the database yet for old toons created before this
@@ -223,6 +240,23 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.announceGenerate(self)
         if self.isPlayerControlled():
             messenger.send('avatarEntered', [self])
+        if hasattr(self, 'gameAccess') and self.gameAccess != 2:
+            if self.hat[0] != 0:
+                self.replaceItemInAccessoriesList(ToonDNA.HAT, 0, 0, 0, self.hat[0], self.hat[1], self.hat[2])
+                self.b_setHatList(self.hatList)
+                self.b_setHat(0, 0, 0)
+            if self.glasses[0] != 0:
+                self.replaceItemInAccessoriesList(ToonDNA.GLASSES, 0, 0, 0, self.glasses[0], self.glasses[1], self.glasses[2])
+                self.b_setGlassesList(self.glassesList)
+                self.b_setGlasses(0, 0, 0)
+            if self.backpack[0] != 0:
+                self.replaceItemInAccessoriesList(ToonDNA.BACKPACK, 0, 0, 0, self.backpack[0], self.backpack[1], self.backpack[2])
+                self.b_setBackpackList(self.backpackList)
+                self.b_setBackpack(0, 0, 0)
+            if self.shoes[0] != 0:
+                self.replaceItemInAccessoriesList(ToonDNA.SHOES, 0, 0, 0, self.shoes[0], self.shoes[1], self.shoes[2])
+                self.b_setShoesList(self.shoesList)
+                self.b_setShoes(0, 0, 0)
 
     ### Field definitions
 
@@ -1109,6 +1143,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
     def d_catalogGenClothes(self):
         self.sendUpdate('catalogGenClothes', [self.doId])
+
+    def d_catalogGenAccessories(self):
+        self.sendUpdate('catalogGenAccessories', [self.doId])
 
     def takeDamage(self, hpLost, quietly = 0, sendTotal = 1):
         # Adds the indicated hit points to the avatar's total.  If

@@ -253,7 +253,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
 
             else:
                 tm.extraSkew = 0.0
-                skew = string.strip(word[5:])
+                skew = word[5:].strip()
                 if skew != "":
                     tm.extraSkew = float(skew)
                 globalClockDelta.clear()
@@ -264,7 +264,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             # of seconds, or with no parameter, report the number of
             # seconds remaining.
 
-            timeout = string.strip(word[7:])
+            timeout = word[7:].strip()
             if timeout != "":
                 seconds = int(timeout)
                 base.cr.stopPeriodTimer()

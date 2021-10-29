@@ -177,6 +177,7 @@ from toontown.suit import DistributedGridGoon/AI
 from toontown.coghq import BattleBlocker/AI
 from toontown.ai import DistributedBlackCatMgr/AI
 from toontown.ai import DistributedPolarPlaceEffectMgr/AI
+from toontown.ai import DistributedGreenToonEffectMgr/AI
 from toontown.ai import DistributedResistanceEmoteMgr/AI
 from toontown.ai import DistributedScavengerHuntTarget/AI
 from toontown.ai import DistributedTrickOrTreatTarget/AI
@@ -547,6 +548,16 @@ dclass DistributedToon: DistributedPlayer {
   setClothesTopsList(uint8array clothesTopsList = {}) required ownrecv db;
   setClothesBottomsList(uint8array clothesBottomsList = {}) required ownrecv db;
 
+  setMaxAccessories(uint32) required ownrecv db;
+  setHatList(uint8array) required ownrecv db;
+  setGlassesList(uint8array) required ownrecv db;
+  setBackpackList(uint8array) required ownrecv db;
+  setShoesList(uint8array) required ownrecv db;
+  setHat(uint8, uint8, uint8) required broadcast db ownrecv;
+  setGlasses(uint8, uint8, uint8) required broadcast db ownrecv;
+  setBackpack(uint8, uint8, uint8) required broadcast db ownrecv;
+  setShoes(uint8, uint8, uint8) required broadcast db ownrecv;
+
   setGardenSpecials(gardenSpecial []) required ownrecv db airecv;
 
   // The AI uses this to tell the toon how much earned experience he
@@ -725,6 +736,7 @@ dclass DistributedToon: DistributedPlayer {
   setNumPies(uint16 numPies) broadcast ownrecv ram;
 
   catalogGenClothes(uint32 avId) broadcast ownrecv;
+  catalogGenAccessories(uint32 avId) broadcast ownrecv;
 
   // TODO: We will allocate an id for the pet as soon as the toon is created
   // and keep it for the lifetime of the toon
@@ -3428,6 +3440,10 @@ dclass DistributedBlackCatMgr: DistributedObject {
 
 dclass DistributedPolarPlaceEffectMgr: DistributedObject {
   addPolarPlaceEffect() airecv clsend;
+};
+
+dclass DistributedGreenToonEffectMgr : DistributedObject {
+  addGreenToonEffect() airecv clsend;
 };
 
 dclass DistributedResistanceEmoteMgr: DistributedObject {

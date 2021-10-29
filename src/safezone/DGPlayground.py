@@ -45,4 +45,4 @@ class DGPlayground(Playground.Playground):
         # for showPathPoints().
         from toontown.classicchars import CCharPaths
         from toontown.toonbase import TTLocalizer
-        self.showPathPoints(CCharPaths.getPaths(TTLocalizer.Goofy))
+        self.showPathPoints(CCharPaths.getPaths(TTLocalizer.Daisy))

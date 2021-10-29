@@ -14,11 +14,11 @@ class QuestMap(DirectFrame):
     def __init__(self, av, **kw):
         DirectFrame.__init__(self, relief=None, sortOrder=50)
         self.initialiseoptions(QuestMap)
-        self.container = DirectFrame(parent=self, 
+        self.container = DirectFrame(parent=self,
                                      relief=None)
-        self.marker = DirectFrame(parent=self.container, 
+        self.marker = DirectFrame(parent=self.container,
                                   relief=None)
-        self.cogInfoFrame = DirectFrame(parent=self.container, 
+        self.cogInfoFrame = DirectFrame(parent=self.container,
                                         relief=None)
         cm = CardMaker('bg')
         cm.setFrame(-0.5, 0.5, -0.5, 0.5)
@@ -60,8 +60,26 @@ class QuestMap(DirectFrame):
         self.marker['image'] = iconNP
         self.marker.setScale(0.05)
         iconNP.removeNode()
-        self.mapOpenButton = DirectButton(image=(gui.find('**/tt_t_gui_qst_mapClose'), gui.find('**/tt_t_gui_qst_mapClose'), gui.find('**/tt_t_gui_qst_mapTryToOpen')), relief=None, pos=(1.25, 0, -0.63), scale=0.205, command=self.show)
-        self.mapCloseButton = DirectButton(image=(gui.find('**/tt_t_gui_qst_mapOpen'), gui.find('**/tt_t_gui_qst_mapOpen'), gui.find('**/tt_t_gui_qst_mapTryToClose')), relief=None, pos=(1.25, 0, -0.63), scale=0.205, command=self.hide)
+        self.mapOpenButton = DirectButton(image = (gui.find('**/tt_t_gui_qst_mapClose'),
+                                                   gui.find('**/tt_t_gui_qst_mapClose'),
+                                                   gui.find('**/tt_t_gui_qst_mapTryToOpen')
+                                                   ),
+                                          relief = None,
+                                          pos = (-0.084, 0, 0.37),
+                                          parent = base.a2dBottomRight,
+                                          scale = 0.205,
+                                          command = self.show,
+                                          )
+        self.mapCloseButton = DirectButton(image = (gui.find('**/tt_t_gui_qst_mapOpen'),
+                                                    gui.find('**/tt_t_gui_qst_mapOpen'),
+                                                    gui.find('**/tt_t_gui_qst_mapTryToClose')
+                                                    ),
+                                           relief = None,
+                                           pos = (-0.084, 0, 0.37),
+                                           parent = base.a2dBottomRight,
+                                           scale = 0.205,
+                                           command = self.hide,
+                                           )
         self.mapOpenButton.hide()
         self.mapCloseButton.hide()
         gui.removeNode()
@@ -73,14 +91,59 @@ class QuestMap(DirectFrame):
         cogInfoTextColor = (0.2, 0.2, 0.2, 1)
         textPos = (1.2, -0.2)
         textScale = 0.8
-        self.cInfo = DirectLabel(parent=self.cogInfoFrame, text='', text_fg=cogInfoTextColor, text_pos=textPos, text_scale=textScale, geom=cIcon, geom_pos=(-0.2, 0, 0), geom_scale=0.8, relief=None)
+
+        self.cInfo = DirectLabel(
+            parent = self.cogInfoFrame,
+            text = "",
+            text_fg = cogInfoTextColor,
+            text_pos = textPos,
+            text_scale = textScale,
+            geom = cIcon,
+            geom_pos = (-0.2, 0, 0),
+            geom_scale = 0.8,
+            relief = None,
+            )
         self.cInfo.setPos(-2.2, 0, 0.5)
-        self.lInfo = DirectLabel(parent=self.cogInfoFrame, text_fg=cogInfoTextColor, text='', text_pos=textPos, text_scale=textScale, geom=lIcon, geom_pos=(-0.2, 0, 0), geom_scale=0.8, relief=None)
+
+        self.lInfo = DirectLabel(
+            parent = self.cogInfoFrame,
+            text_fg = cogInfoTextColor,
+            text = "",
+            text_pos = textPos,
+            text_scale = textScale,
+            geom = lIcon,
+            geom_pos = (-0.2, 0, 0),
+            geom_scale = 0.8,
+            relief = None,
+            )
         self.lInfo.setPos(-2.2, 0, -0.5)
-        self.mInfo = DirectLabel(parent=self.cogInfoFrame, text_fg=cogInfoTextColor, text='', text_pos=textPos, text_scale=textScale, geom=mIcon, geom_pos=(-0.2, 0, 0), geom_scale=0.8, relief=None)
+
+        self.mInfo = DirectLabel(
+            parent = self.cogInfoFrame,
+            text_fg = cogInfoTextColor,
+            text = "",
+            text_pos = textPos,
+            text_scale = textScale,
+            geom = mIcon,
+            geom_pos = (-0.2, 0, 0),
+            geom_scale = 0.8,
+            relief = None,
+            )
         self.mInfo.setPos(0.8, 0, 0.5)
-        self.sInfo = DirectLabel(parent=self.cogInfoFrame, text_fg=cogInfoTextColor, text='', text_pos=textPos, text_scale=textScale, geom=sIcon, geom_pos=(-0.2, 0, 0), geom_scale=0.8, relief=None)
+
+        self.sInfo = DirectLabel(
+            parent = self.cogInfoFrame,
+            text_fg = cogInfoTextColor,
+            text = "",
+            text_pos = textPos,
+            text_scale = textScale,
+            geom = sIcon,
+            geom_pos = (-0.2, 0, 0),
+            geom_scale = 0.8,
+            relief = None,
+            )
         self.sInfo.setPos(0.8, 0, -0.5)
+
         icons.removeNode()
 
     def updateCogInfo(self):
@@ -155,7 +218,9 @@ class QuestMap(DirectFrame):
                         finalZone = branchZone + 500 + blockNumber
                         buildingType = dnaStore.getBlockBuildingType(blockNumber)
                         if npcZone == finalZone:
-                            self.putBuildingMarker(dnaStore.getDoorPosHprFromBlockNumber(blockNumber).getPos(), dnaStore.getDoorPosHprFromBlockNumber(blockNumber).getHpr(), mapIndex=mapIndex)
+                            self.putBuildingMarker(dnaStore.getDoorPosHprFromBlockNumber(blockNumber).getPos(),
+                                                   dnaStore.getDoorPosHprFromBlockNumber(blockNumber).getHpr(),
+                                                   mapIndex=mapIndex)
 
     def transformAvPos(self, pos):
         if self.cornerPosInfo is None:

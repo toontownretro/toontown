@@ -5,6 +5,7 @@ from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 import os
 from toontown.toonbase import ToontownGlobals
+import string
 
 class PhotoAlbumPage(ShtikerPage.ShtikerPage):
 
@@ -22,7 +23,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
         self.title = DirectLabel(
             parent = self,
             relief = None,
-            text = "Photo Album",
+            text = TTLocalizer.PhotoPageTitle,
             text_scale = 0.10,
             pos = (0,0,0.6),
             )
@@ -39,7 +40,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
         self.pictureCaption = DirectLabel(
             parent = self,
             relief = None,
-            text = "Caption",
+            text = TTLocalizer.PhotoPageCaption,
             text_scale = 0.05,
             text_wordwrap = 10,
             text_align = TextNode.ACenter,
@@ -55,7 +56,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
                      ),
             image_scale = (1,1,1),
             pos = (0.45,0,-0.35),
-            text = "Caption",
+            text = TTLocalizer.PhotoPageCaption,
             text_scale = 0.06,
             text_pos = (0,-0.02),
             command = self.renameImage,
@@ -69,7 +70,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
             image = (trashcanGui.find("**/TrashCan_CLSD"),
                      trashcanGui.find("**/TrashCan_OPEN"),
                      trashcanGui.find("**/TrashCan_RLVR")),
-            text = ("", "Delete", "Delete"),
+            text = ("", TTLocalizer.PhotoPageDelete, TTLocalizer.PhotoPageDelete),
             text_fg = (1,1,1,1),
             text_shadow = (0,0,0,1),
             text_scale = 0.1,
@@ -94,7 +95,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
                      ),
             image_scale = (1,1,1),
             pos = (0.45,0,-0.6),
-            text = "Print",
+            text = TTLocalizer.PhotoPagePrint,
             text_scale = 0.06,
             text_pos = (0,-0.02),
             state = DGG.DISABLED,
@@ -152,7 +153,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
             image = DGG.getDefaultDialogGeom(),
             image_color = ToontownGlobals.GlobalDialogColor,
             image_scale = (1.0, 1.0, 0.6),
-            text = 'Caption Photo',
+            text = TTLocalizer.PhotoPageCaptionPhoto,
             text_scale = 0.06,
             text_pos = (0.0, 0.13),
             sortOrder = DGG.NO_FADE_SORT_INDEX,
@@ -179,7 +180,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
                                              buttons.find('**/CloseBtn_DN'),
                                              buttons.find('**/CloseBtn_Rllvr')),
                                     relief = None,
-                                    text = "Cancel",
+                                    text = TTLocalizer.PhotoPageCancel,
                                     text_scale = 0.05,
                                     text_pos = (0.0, -0.1),
                                     pos = (0.0, 0.0, -0.1),
@@ -193,7 +194,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
             image = DGG.getDefaultDialogGeom(),
             image_color = ToontownGlobals.GlobalDialogColor,
             image_scale = (1.0, 1.0, 0.6),
-            text = 'Delete Photo?',
+            text = TTLocalizer.PhotoPageDeletePhoto,
             text_scale = 0.06,
             text_pos = (0.0, 0.13),
             sortOrder = DGG.NO_FADE_SORT_INDEX,
@@ -204,7 +205,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
                                          buttons.find('**/ChtBx_OKBtn_DN'),
                                          buttons.find('**/ChtBx_OKBtn_Rllvr')),
                                 relief = None,
-                                text = "Ok",
+                                text = TTLocalizer.PhotoPageOK,
                                 text_scale = 0.05,
                                 text_pos = (0.0, -0.1),
                                 pos = (-0.1, 0.0, -0.1),
@@ -215,7 +216,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
                                              buttons.find('**/CloseBtn_DN'),
                                              buttons.find('**/CloseBtn_Rllvr')),
                                     relief = None,
-                                    text = "Cancel",
+                                    text = TTLocalizer.PhotoPageCancel,
                                     text_scale = 0.05,
                                     text_pos = (0.0, -0.1),
                                     pos = (0.1, 0.0, -0.1),
@@ -274,7 +275,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
 
     def renameDialog(self, str):
         separator = '_'
-        validChars = string.letters + string.digits + ' -'
+        validChars = string.ascii_letters + string.digits + ' -'
         str = [s for s in str if (s in validChars)]
         if not str:
             self.renameCleanup()
@@ -331,7 +332,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
 
     def deleteImage(self):
         self.renameCleanup()
-        self.deletePanel['text'] = "Delete Photo?\n%s" % self.getPhotoName(self.selectedFileName)
+        self.deletePanel['text'] = TTLocalizer.PhotoPageDeletePhotoWithName % self.getPhotoName(self.selectedFileName)
         self.deletePanel.show()
 
     def makePhotoButton(self, fileName):
@@ -353,11 +354,11 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
         separator = '_'
         numUnders = fileName.count(separator)
         if (numUnders == 0):
-            return 'noname'
+            return TTLocalizer.PhotoPageNoName
         elif (numUnders == 2):
             return fileName.split(separator)[1]
         else:
-            return 'unknown'
+            return TTLocalizer.PhotoPageUnknownName
 
     def chosePhoto(self, fileName):
         if fileName:
@@ -384,7 +385,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
         photos = []
         for fileName in files:
             if ((fileName[0:10] == 'screenshot') and
-                (fileName[-4:] == '.txo')):
+                (fileName[-4:] == '.png')):
                 photos.append(fileName)
         return photos
 
@@ -435,10 +436,13 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
         return
 
     def updateArrows(self):
-        pass
+        self.photoIndex = 0
+        self.chosePhoto(self.getPhotos()[self.photoIndex])
 
     def prevPhoto(self):
-        pass
+        self.chosePhoto(self.getPhotos()[self.photoIndex])
+        self.photoIndex -= 1
 
     def nextPhoto(self):
-        pass
+        self.chosePhoto(self.getPhotos()[self.photoIndex])
+        self.photoIndex += 1
