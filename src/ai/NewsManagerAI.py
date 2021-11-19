@@ -9,7 +9,7 @@ class NewsManagerAI(DistributedObjectAI.DistributedObjectAI):
 
     def __init__(self, air):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
-        self.everyoneChats = simbase.config.GetBool("everyone-chats", 0)
+        self.everyoneChats = ConfigVariableBool("everyone-chats", 0).getValue()
         self.weeklyCalendarHolidays = []
         self.yearlyCalendarHolidays = []
         self.oncelyCalendarHolidays = []

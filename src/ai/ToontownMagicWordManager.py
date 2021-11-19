@@ -25,6 +25,7 @@ from toontown.golf import GolfGlobals
 from toontown.distributed import ToontownDistrictStats
 from toontown.coderedemption import TTCodeRedemptionConsts
 from toontown.rpc import AwardManagerConsts
+from toontown.toonbase.ToontownModules import *
 
 if base.wantKarts:
     from toontown.racing.KartDNA import *
@@ -51,29 +52,29 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
 
     def doLoginMagicWords(self):
         MagicWordManager.MagicWordManager.doLoginMagicWords(self)
-        if base.config.GetBool('want-chat', 0):
+        if ConfigVariableBool('want-chat', 0).getValue():
             # Automatically send ~chat if want-chat is true.
             self.d_setMagicWord('~chat', base.localAvatar.doId, 0)
-        if (base.config.GetBool('want-run', 0) or
-            base.config.GetBool('want-toontown-run', 0)):
+        if (ConfigVariableBool('want-run', 0).getValue() or
+            ConfigVariableBool('want-toontown-run', 0).getValue()):
             self.toggleRun()
-        if base.config.GetBool('immortal-mode', 0):
+        if ConfigVariableBool('immortal-mode', 0).getValue():
             self.d_setMagicWord('~immortal', base.localAvatar.doId, 0)
-        mintFloor = base.config.GetInt('mint-floor', -1)
+        mintFloor = ConfigVariableInt('mint-floor', -1).getValue()
         if mintFloor != -1:
             self.d_setMagicWord('~mintFloor %s' % mintFloor,
                                 base.localAvatar.doId, 0)
-        mintId = base.config.GetInt('mint-id', -1)
+        mintId = ConfigVariableInt('mint-id', -1).getValue()
         if mintId != -1:
             self.d_setMagicWord('~mint %s' % mintId,
                                 base.localAvatar.doId, 0)
-        autoRestock = base.config.GetInt('auto-restock', -1)
+        autoRestock = ConfigVariableInt('auto-restock', -1).getValue()
         if autoRestock != -1:
             self.d_setMagicWord('~autoRestock %s' % autoRestock,
                                 base.localAvatar.doId, 0)
 
         # NOTE: AI respects ~autoRich only for __dev__ and GMs.
-        autoRich = base.config.GetInt('auto-rich', -1)
+        autoRich = ConfigVariableInt('auto-rich', -1).getValue()
         if autoRich != -1:
             self.d_setMagicWord('~autoRich %s' % autoRich,
                                 base.localAvatar.doId, 0)
@@ -537,7 +538,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             args = word.split()
             if len(args) > 1:
                 paid = int(args[1])
-                statusString = base.config.GetString('force-paid-status', 'none')
+                statusString = ConfigVariableString('force-paid-status', 'none').getValue()
                 if paid:
                     paid = 1
                     if statusString != 'none':

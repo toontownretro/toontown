@@ -1,6 +1,5 @@
 from direct.gui.DirectGui import *
 from toontown.toonbase.ToontownModules import *
-from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase import ToontownTimer

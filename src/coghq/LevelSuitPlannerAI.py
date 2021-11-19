@@ -20,7 +20,7 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
         self.cogSpecs = cogSpecs
 
         # config off reserve suits for test server
-        if simbase.config.GetBool('level-reserve-suits', 0):
+        if ConfigVariableBool('level-reserve-suits', 0).getValue():
             self.reserveCogSpecs = reserveCogSpecs
         else:
             self.reserveCogSpecs = []

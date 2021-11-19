@@ -18,7 +18,7 @@ class DistributedElevatorIntAI(DistributedElevatorAI.DistributedElevatorAI):
         avIds is a list of the avatars we are waiting for to board.
         """
         DistributedElevatorAI.DistributedElevatorAI.__init__(self, air, bldg)
-        self.countdownTime = simbase.config.GetFloat('int-elevator-timeout', INTERIOR_ELEVATOR_COUNTDOWN_TIME)
+        self.countdownTime = ConfigVariableDouble('int-elevator-timeout', INTERIOR_ELEVATOR_COUNTDOWN_TIME).getValue()
 
         self.avIds = copy.copy(avIds)
         # Hang hooks for unexpected exit cases
@@ -173,7 +173,7 @@ class DistributedElevatorIntAI(DistributedElevatorAI.DistributedElevatorAI):
     def enterClosing(self):
         DistributedElevatorAI.DistributedElevatorAI.enterClosing(self)
         taskMgr.doMethodLater(ElevatorData[ELEVATOR_NORMAL]['closeTime'] + \
-                              BattleBase.SERVER_BUFFER_TIME, 
+                              BattleBase.SERVER_BUFFER_TIME,
                               self.elevatorClosedTask,
                               self.uniqueName('closing-timer'))
 
@@ -193,4 +193,3 @@ class DistributedElevatorIntAI(DistributedElevatorAI.DistributedElevatorAI):
     def enterClosed(self):
         DistributedElevatorAI.DistributedElevatorAI.enterClosed(self)
         self.__doorsClosed()
-

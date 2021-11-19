@@ -10,6 +10,7 @@ from direct.fsm import State
 from . import CashbotHQExterior
 from . import CashbotHQBossBattle
 from toontown.toonbase.ToontownModules import DecalEffect
+from toontown.toonbase.ToontownModules import *
 
 class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
 
@@ -78,6 +79,9 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
             signText.setDepthOffset(1)
 
         elif zoneId == ToontownGlobals.CashbotLobby:
+            if ConfigVariableBool('want-qa-regression', 0).getValue():
+                self.notify.info('QA-REGRESSION: COGHQ: Visit CashbotLobby')
+
             self.geom = loader.loadModel(self.cogHQLobbyModelPath)
 
         # Note: the factory interior has a dynamically allocated zone but
@@ -86,7 +90,7 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
 
         else:
             self.notify.warning("loadPlaceGeom: unclassified zone %s" % zoneId)
-            
+
         # Flatten the geom a bit
         if self.geom:
             self.geom.flattenStrong()

@@ -2,7 +2,6 @@
     class, the client side representation of a DistributedSwitchAI."""
 
 from toontown.toonbase.ToontownModules import *
-from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 
@@ -13,7 +12,7 @@ from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from otp.level import DistributedEntity
-#import TTLocalizer
+#from toontown.toonbase import TTLocalizer
 
 class DistributedSwitch(
         DistributedSwitchBase.DistributedSwitchBase,

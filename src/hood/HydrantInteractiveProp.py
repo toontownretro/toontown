@@ -4,8 +4,9 @@ from direct.interval.IntervalGlobal import Sequence,  Func
 from toontown.hood import InteractiveAnimatedProp
 from toontown.hood import GenericAnimatedProp
 from toontown.toonbase import ToontownGlobals, ToontownBattleGlobals, TTLocalizer
+from toontown.toonbase.ToontownModules import *
 
-    
+
 class HydrantInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
     """We need much more functionality than GenericAnimatedProp to
     make interactive props behave correctly in battle.
@@ -15,12 +16,12 @@ class HydrantInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
         'HydrantInteractiveProp')
 
     BattleCheerText =  TTLocalizer.InteractivePropTrackBonusTerms[ToontownBattleGlobals.SQUIRT_TRACK]
-    
+
     # ZoneToIdles format
     # sound has been taken out assumed to be same as animation file, but starts with tt_s
     # animation, minNumberOfLoops, maxNumberOfLoops, settleAnim, minPauseTime, maxPauseTime
-    
-    ZoneToIdles = { 
+
+    ZoneToIdles = {
         ToontownGlobals.ToontownCentral: (
         ('tt_a_ara_ttc_hydrant_idle0', 1, 1, None, 3, 10),
         ('tt_a_ara_ttc_hydrant_idle2', 1, 1, None, 3, 10),
@@ -89,7 +90,7 @@ class HydrantInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
         ToontownGlobals.MinniesMelodyland: 'tt_a_ara_mml_hydrant_fightSad',
         ToontownGlobals.TheBrrrgh: 'tt_a_ara_tbr_hydrant_fightSad',
         ToontownGlobals.DonaldsDreamland: 'tt_a_ara_ddl_hydrant_fightSad',
-     }       
+     }
 
     ZoneToFightAnims = {
         ToontownGlobals.ToontownCentral: (
@@ -125,14 +126,14 @@ class HydrantInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
         ),
      }
 
-    IdlePauseTime = base.config.GetFloat('prop-idle-pause-time',0.0)
+    IdlePauseTime = ConfigVariableDouble('prop-idle-pause-time',0.0).getValue()
 
     def __init__(self, node):
         """Construct ourself, in the correct orrder."""
         self.leftWater = None
         self.rightWater = None
         InteractiveAnimatedProp.InteractiveAnimatedProp.__init__(self, node, ToontownGlobals.HYDRANTS_BUFF_BATTLES)
-        
+
 
     def setupActor(self, node):
         InteractiveAnimatedProp.InteractiveAnimatedProp.setupActor(self, node)

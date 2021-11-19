@@ -27,8 +27,8 @@ class DistributedDataStoreManagerUD(DistributedObjectGlobalUD):
 
     notify = directNotify.newCategory('DistributedDataStoreManagerUD')
 
-    serverDataFolder = simbase.config.GetString('server-data-folder', '.')
-    enableDestroyStore = simbase.config.GetBool('enable-destroy-data-stores', True)
+    serverDataFolder = ConfigVariableString('server-data-folder', '.').getValue()
+    enableDestroyStore = ConfigVariableBool('enable-destroy-data-stores', True).getValue()
 
     def __init__(self,air):
         DistributedObjectGlobalUD.__init__(self,air)

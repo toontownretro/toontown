@@ -36,7 +36,7 @@ class AccountServerDate:
             return
 
         if (base.cr.accountOldAuth or
-            base.config.GetBool('use-local-date', 0)):
+            ConfigVariableBool('use-local-date', 0).getValue()):
             self.__useLocalClock()
             return
 

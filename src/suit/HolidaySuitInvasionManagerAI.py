@@ -6,7 +6,7 @@ from toontown.toonbase import ToontownGlobals
 class HolidaySuitInvasionManagerAI(HolidayBaseAI.HolidayBaseAI):
 
     notify = DirectNotifyGlobal.directNotify.newCategory('HolidaySuitInvasionManagerAI')
-    
+
     def __init__(self, air, holidayId):
         HolidayBaseAI.HolidayBaseAI.__init__(self, air, holidayId)
 
@@ -16,10 +16,10 @@ class HolidaySuitInvasionManagerAI(HolidayBaseAI.HolidayBaseAI):
             self.notify.info("Stopping current invasion to make room for holiday %s" %
                              (self.holidayId))
             self.air.suitInvasionManager.stopInvasion()
-            
-        if not simbase.config.GetBool('want-invasions', 1):
+
+        if not ConfigVariableBool('want-invasions', 1).getValue():
             return 1
-            
+
         if (self.holidayId == ToontownGlobals.HALLOWEEN):
             # Bloodsucker invasion on Halloween
             cogType = 'b'
@@ -30,7 +30,7 @@ class HolidaySuitInvasionManagerAI(HolidayBaseAI.HolidayBaseAI):
             # any cog will do
             from . import SuitDNA
             import random
-            cogType = random.choice(SuitDNA.suitHeadTypes) 
+            cogType = random.choice(SuitDNA.suitHeadTypes)
             # Max the number so they will not run out
             numCogs = 1000000000
             skeleton = 1
@@ -185,99 +185,99 @@ class HolidaySuitInvasionManagerAI(HolidayBaseAI.HolidayBaseAI):
             cogType = 'ds'
             # Max the number so they will not run out
             numCogs = 1000000000
-            skeleton = 0               
+            skeleton = 0
         elif (self.holidayId == ToontownGlobals.YES_MAN_INVASION):
             # The Trouble with Bossbots ... yes man
             cogType = 'ym'
             # Max the number so they will not run out
             numCogs = 1000000000
-            skeleton = 0      
+            skeleton = 0
         elif (self.holidayId == ToontownGlobals.TIGHTWAD_INVASION):
             # tightwad
             cogType = 'tw'
             # Max the number so they will not run out
             numCogs = 1000000000
-            skeleton = 0   
+            skeleton = 0
         elif (self.holidayId == ToontownGlobals.TELEMARKETER_INVASION):
             # telemarketer
             cogType = 'tm'
             # Max the number so they will not run out
             numCogs = 1000000000
-            skeleton = 0  
+            skeleton = 0
         elif (self.holidayId == ToontownGlobals.HEADHUNTER_INVASION):
             # head hunter
             cogType = 'hh'
             # Max the number so they will not run out
             numCogs = 1000000000
-            skeleton = 0  
+            skeleton = 0
         elif (self.holidayId == ToontownGlobals.SPINDOCTOR_INVASION):
             # spin doctor
             cogType = 'sd'
             # Max the number so they will not run out
             numCogs = 1000000000
-            skeleton = 0  
+            skeleton = 0
         elif (self.holidayId == ToontownGlobals.MONEYBAGS_INVASION):
             # money bags
             cogType = 'mb'
             # Max the number so they will not run out
             numCogs = 1000000000
-            skeleton = 0  
+            skeleton = 0
         elif (self.holidayId == ToontownGlobals.TWOFACES_INVASION):
             # two faces
             cogType = 'tf'
             # Max the number so they will not run out
             numCogs = 1000000000
-            skeleton = 0 
+            skeleton = 0
         elif (self.holidayId == ToontownGlobals.MINGLER_INVASION):
             # mingler
             cogType = 'm'
             # Max the number so they will not run out
             numCogs = 1000000000
-            skeleton = 0  
+            skeleton = 0
         elif (self.holidayId == ToontownGlobals.LOANSHARK_INVASION):
             # loan sharks
             cogType = 'ls'
             # Max the number so they will not run out
             numCogs = 1000000000
-            skeleton = 0  
+            skeleton = 0
         elif (self.holidayId == ToontownGlobals.CORPORATE_RAIDER_INVASION):
             # corporate raider
             cogType = 'cr'
             # Max the number so they will not run out
             numCogs = 1000000000
-            skeleton = 0  
+            skeleton = 0
         elif (self.holidayId == ToontownGlobals.LEGAL_EAGLE_INVASION):
             # legal eagle
             cogType = 'le'
             # Max the number so they will not run out
             numCogs = 1000000000
-            skeleton = 0  
+            skeleton = 0
         elif (self.holidayId == ToontownGlobals.ROBBER_BARON_INVASION):
             # robber baron
             cogType = 'rb'
             # Max the number so they will not run out
             numCogs = 1000000000
-            skeleton = 0  
+            skeleton = 0
         elif (self.holidayId == ToontownGlobals.BIG_WIG_INVASION):
             # big wig
             cogType = 'bw'
             # Max the number so they will not run out
             numCogs = 1000000000
-            skeleton = 0  
+            skeleton = 0
         elif (self.holidayId == ToontownGlobals.BIG_CHEESE_INVASION):
             # big cheese
             cogType = 'tbc'
             # Max the number so they will not run out
             numCogs = 1000000000
-            skeleton = 0  
+            skeleton = 0
         else:
             self.notify.warning("Unrecognized holidayId: %s" % (self.holidayId))
             return 0
-        
+
         self.air.suitInvasionManager.startInvasion(cogType, numCogs, skeleton)
         self.air.suitInvasionManager.waitForNextInvasion()
         return 1
-                        
+
     def stop(self):
         # Holiday is over, stop the invasion if it happens to still be running
         if self.air.suitInvasionManager.getInvading():

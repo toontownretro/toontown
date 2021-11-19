@@ -32,8 +32,8 @@ class SuitPlannerInteriorAI:
         # about all suits that will exist in this building
         #
 
-        self.dbg_4SuitsPerFloor = config.GetBool("4-suits-per-floor", 0)
-        self.dbg_1SuitPerFloor = config.GetBool("1-suit-per-floor", 0)  # formerly called 'wuss-suits'
+        self.dbg_4SuitsPerFloor = ConfigVariableBool("4-suits-per-floor", 0).getValue()
+        self.dbg_1SuitPerFloor = ConfigVariableBool("1-suit-per-floor", 0).getValue()  # formerly called 'wuss-suits'
 
         self.zoneId = zone
         self.numFloors = numFloors
@@ -44,7 +44,7 @@ class SuitPlannerInteriorAI:
         self.respectInvasions = respectInvasions
 
         # This dbg var forces the creations of all 1 suit type (overrides level/type restrictions)
-        dbg_defaultSuitName = simbase.config.GetString('suit-type', 'random')
+        dbg_defaultSuitName = ConfigVariableString('suit-type', 'random').getValue()
         if (dbg_defaultSuitName == 'random'):
             self.dbg_defaultSuitType = None
         else:

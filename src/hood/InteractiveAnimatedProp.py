@@ -8,6 +8,7 @@ from direct.showbase.PythonUtil import weightedChoice
 from toontown.toonbase.ToontownModules import TextNode, Vec3
 from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil
+from toontown.toonbase.ToontownModules import *
 
 
 def clearPythonIvals(ival):
@@ -31,7 +32,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
     ZoneToVictoryAnims = {}
     ZoneToSadAnims = {}
 
-    IdlePauseTime = base.config.GetFloat('prop-idle-pause-time',0.0)
+    IdlePauseTime = ConfigVariableDouble('prop-idle-pause-time',0.0).getValue()
 
     HpTextGenerator = TextNode("HpTextGenerator")
     BattleCheerText =  "+"
@@ -255,7 +256,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
     def enter(self):
         """Don't animate if props helping in battle is not turned on."""
         GenericAnimatedProp.GenericAnimatedProp.enter(self)
-        if base.config.GetBool('props-buff-battles', True):
+        if ConfigVariableBool('props-buff-battles', True).getValue():
             self.notify.debug("props buff battles is true")
             # even if props-buff-battles is true we need to make sure the buff holiday is running
             # and since each holiday is prop specific, deal with it on the sub class
@@ -263,7 +264,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
                 self.notify.debug("holiday is running, doing idle interval")
                 self.node.stop()
                 self.node.pose('idle0', 0 )
-                if base.config.GetBool("interactive-prop-random-idles", 1):
+                if ConfigVariableBool("interactive-prop-random-idles", 1).getValue():
                     self.requestIdleOrSad()
                 else:
                     self.idleInterval.loop()
@@ -334,7 +335,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         # and a 1/7 chance of picking 0
         assert self.notify.debugStateCall(self)
         result = self.numIdles -1
-        if base.config.GetBool('randomize-interactive-idles', True):
+        if ConfigVariableBool('randomize-interactive-idles', True).getValue():
             pairs = []
             for i in range(self.numIdles):
                 # actually we want idle2 to have a lower chance of occcurring
@@ -585,16 +586,16 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
             # used in mailbox with pie delivery
             specialIval = self.getSpecialIval(origAnimName)
             idleAnimAndSound = Parallel( animIval, soundIval, specialIval)
-            if base.config.GetBool("interactive-prop-info", False):
+            if ConfigVariableBool("interactive-prop-info", False).getValue():
                 idleAnimAndSound.append(printFunc)
         else:
             idleAnimAndSound = Parallel( animIval, soundIval)
-            if base.config.GetBool("interactive-prop-info", False):
+            if ConfigVariableBool("interactive-prop-info", False).getValue():
                 idleAnimAndSound.append(printFunc)
         return idleAnimAndSound
 
     def printAnimIfClose(self,animKey):
-        if base.config.GetBool("interactive-prop-info", False):
+        if ConfigVariableBool("interactive-prop-info", False).getValue():
             try:
                 animName = self.node.getAnimFilename(animKey)
                 baseAnimName = animName.split('/')[-1]

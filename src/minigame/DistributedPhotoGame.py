@@ -14,7 +14,6 @@ import math
 from toontown.toon import ToonHead
 from . import PhotoGameGlobals
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.golf import BuildGeometry
 from toontown.toon import Toon
@@ -1276,7 +1275,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         # place the camera behind our cannon
         self.__putCameraOnTripod()
 
-        if not base.config.GetBool('endless-cannon-game', 0):
+        if not ConfigVariableBool('endless-cannon-game', 0).getValue():
             # Start counting down the game clock,
             # call __gameTimerExpired when it reaches 0
             self.timer.show()

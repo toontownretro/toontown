@@ -82,22 +82,22 @@ DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 
 if __debug__ and ConfigVariableBool('want-injector', False).getValue():
     import wx, threading
-    
+
     class InjectorFrame(wx.Frame):
-    
+
         def __init__(self):
             super().__init__(None, title = "Injector", size=(640, 400), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX)
             panel = wx.Panel(self)
-            
+
             button = wx.Button(parent = panel, id = -1, label = "Inject", size = (50, 20), pos = (295, 0))
             button.Bind(wx.EVT_BUTTON, self.__inject_wx)
-            
+
             self.textbox = wx.TextCtrl(parent = panel, id = -1, pos = (20, 22), size = (600, 340), style = wx.TE_MULTILINE)
             self.textbox.AppendText("")
-            
+
         def OnClose(self, event):
             self.Close()
-    
+
         def __inject_wx(self, event):
             code = self.textbox.GetValue()
             try:
@@ -108,16 +108,16 @@ if __debug__ and ConfigVariableBool('want-injector', False).getValue():
 
     def openInjector_wx():
         app = wx.App(redirect = False)
-        
+
         frame = InjectorFrame()
         frame.Show()
-        
+
         app.SetTopWindow(frame)
-        
+
         threading.Thread(target = app.MainLoop).start()
 
     openInjector_wx()
-    
+
 
 # First open a window so we can show the loading screen
 
@@ -158,7 +158,7 @@ base.graphicsEngine.renderFrame()
 
 # do the quest sanity check
 if __debug__:
-    if base.config.GetBool('quest-sanity-check',0):
+    if ConfigVariableBool('quest-sanity-check',0).getValue():
         from toontown.quest import Quests
         Quests.assertAllQuestsValid()
 
@@ -199,7 +199,7 @@ from . import ToontownLoader
 
 from direct.gui.DirectGui import *
 
-serverVersion = base.config.GetString("server-version", "no_version_set")
+serverVersion = ConfigVariableString("server-version", "no_version_set").getValue()
 print(('ToontownStart: serverVersion: ', serverVersion))
 version = OnscreenText(serverVersion,
                        pos = (0.03, 0.03),

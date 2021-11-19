@@ -15,12 +15,12 @@ try:
     # Client
     # The Launcher will define config in the builtin namespace
     # before importing this file
-    language = getConfigExpress().GetString("language", "english")
-    checkLanguage = getConfigExpress().GetBool("check-language", 0)
+    language = getConfigExpress().ConfigVariableString("language", "english").getValue()
+    checkLanguage = getConfigExpress().ConfigVariableBool("check-language", 0).getValue()
 except:
     # AI
-    language = simbase.config.GetString("language", "english")
-    checkLanguage = simbase.config.GetBool("check-language", 0)
+    language = ConfigVariableString("language", "english").getValue()
+    checkLanguage = ConfigVariableBool("check-language", 0).getValue()
 
 # Ask what language we are running in. Returns a string.
 def getLanguage():

@@ -6,13 +6,14 @@ from direct.fsm import ClassicFSM, State
 from toontown.cogdominium import CogdoGameConsts
 from toontown.cogdominium.DistCogdoGameBase import DistCogdoGameBase
 from otp.ai.Barrier import Barrier
+from toontown.toonbase.ToontownModules import *
 
 class SadCallbackToken:
     pass
 
 class DistCogdoGameAI(DistCogdoGameBase, DistributedObjectAI):
     notify = directNotify.newCategory('DistCogdoGameAI')
-    EndlessCogdoGames = simbase.config.GetBool('endless-cogdo-games', 0)
+    EndlessCogdoGames = ConfigVariableBool('endless-cogdo-games', 0).getValue()
 
     def __init__(self, air, interior):
         DistributedObjectAI.__init__(self, air)

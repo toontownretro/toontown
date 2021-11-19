@@ -163,6 +163,8 @@ class Trolley(StateData.StateData):
         self.ignore("boardedTrolley")
 
     def enterBoarded(self):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: RIDETHETROLLEY: Ride the Trolley')
         self.enableExitButton()
 
     def exitBoarded(self):

@@ -264,7 +264,7 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
 
     def loadBlockers(self):
         """Load the programmable blockers."""
-        loadAll = simbase.config.GetBool('golf-all-blockers',0)
+        loadAll = ConfigVariableBool('golf-all-blockers',0).getValue()
         self.createLocatorDict()
         self.blockerNums = self.holeInfo['blockers']
 
@@ -319,7 +319,7 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
     def choosePlayerToSimulate(self):
         stillPlaying = self.golfCourse.getStillPlayingAvIds()
         playerId = 0
-        if simbase.air.config.GetBool('golf-trust-driver-first', 0):
+        if ConfigVariableBool('golf-trust-driver-first', 0).getValue():
             if stillPlaying:
                 playerId = stillPlaying[0]
         else:

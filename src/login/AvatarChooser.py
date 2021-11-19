@@ -8,7 +8,6 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.launcher import DownloadForceAcknowledge
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import DisplayOptions
 from direct.directnotify import DirectNotifyGlobal
@@ -92,7 +91,7 @@ class AvatarChooser(StateData.StateData):
         # aspect2d) at a suitable distance.
         self.pickAToonBG.reparentTo(base.camera)
 
-        choice = base.config.GetInt("auto-avatar-choice", -1)
+        choice = ConfigVariableInt("auto-avatar-choice", -1).getValue()
 
         # hang the choice panel hooks
         for panel in self.panelList:

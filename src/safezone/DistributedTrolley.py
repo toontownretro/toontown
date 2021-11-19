@@ -27,8 +27,8 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         self.localToonOnBoard = 0
 
         self.trolleyCountdownTime = \
-                              base.config.GetFloat("trolley-countdown-time",
-                                                   TROLLEY_COUNTDOWN_TIME)
+                              ConfigVariableDouble("trolley-countdown-time",
+                                                   TROLLEY_COUNTDOWN_TIME).getValue()
 
         self.fsm = ClassicFSM.ClassicFSM('DistributedTrolley',
                            [State.State('off',

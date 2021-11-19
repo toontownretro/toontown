@@ -3535,7 +3535,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                     PartyGlobals.DecorationIds.CannonVictory,        # 18: victory party
                     PartyGlobals.DecorationIds.CogStatueVictory,     # 19: victory party
                     PartyGlobals.DecorationIds.TubeCogVictory,       # 20: victory party
-                    PartyGlobals.DecorationIds.cogIceCreamVictory,   # 21: victory party
+                    PartyGlobals.DecorationIds.CogIceCreamVictory,   # 21: victory party
                 ]
 
                 activities = []

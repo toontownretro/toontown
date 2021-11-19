@@ -36,18 +36,18 @@ NametagFonts = ('phase_3/models/fonts/AnimGothic',      #0 *
                 'phase_3/models/fonts/OysterBar',       #12 *
                 'phase_3/models/fonts/RedDogSaloon',    #13 *
                 )
-NametagFontNames = ('Member',      #0 *
+NametagFontNames = ('Membre',      #0 *
                 'Shivering',      #1 *
                 'Wonky',   #2 *
-                'Fancy',        #3 *
+                'Fantaisie',        #3 *
                 'Silly',    #4 *
-                'Zany',          #5 *
-                'Practical',        #6 *
-                'Nautical',         #7 *
+                'Zany',          #5 * # drôle
+                'Pratique',        #6 *
+                'Nautique',         #7 *
                 'Whimsical',        #8 *
-                'Spooky',        #9 *
+                'Sinistre',        #9 *
                 'Action',          #10 *
-                'Poetic',            #11 *
+                'Poétique',            #11 *
                 'Boardwalk',       #12 *
                 'Western',    #13 *
                 )
@@ -57,11 +57,11 @@ NametagLabel = " Nametag"
 UnpaidNameTag = "Basic"
 
 # GM nametags
-GM_1 = "TOON COUNCIL"
+GM_1 = "CONSEIL DES TOONS"
 GM_2 = "TOON TROOP"
-GM_3 = "TOON RESISTANCE"
+GM_3 = "RÉSISTANCE DES TOONS"
 
-GM_NAMES = ("TOON COUNCIL",
+GM_NAMES = ("CONSEIL DES TOONS",
             "TOON TROOPER",
             "RESISTANCE RANGER",
             "GC",
@@ -104,7 +104,7 @@ lToonHQ = 'QG des Toons'
 lOutdoorZone = "Forêt de glands de Tic et Tac"
 lGoofySpeedway = "Circuit Dingo"
 lGolfZone = "Minigolf de Tic et Tac"
-lPartyHood = "Party Grounds"
+lPartyHood = "Terrain de fête"
 
 lGagShop = 'Boutique à gags'
 lClothingShop = 'Boutique de prêt-à-porter' # 'En tant que magasin de marchandises sèches'
@@ -174,24 +174,24 @@ GlobalStreetNames = {
 
 # reference the location name as [-1]; it's guaranteed to be the last entry
 DonaldsDock       = ("vers les",     "sur les",     "Quais Donald")
-ToontownCentral   = ("vers",     "à",     "Toontown Centre")
-TheBrrrgh         = ("vers",     "dans",     "le Glagla")
-MinniesMelodyland = ("vers le",     "au",     "Pays musical de Minnie")
-DaisyGardens      = ("vers les",     "au",     "Jardins de Daisy")
-ConstructionZone  = ("vers la", "dans la", "Zone de construction")
-OutdoorZone       = ("",     "",     lOutdoorZone)
-FunnyFarm         = ("vers la", "dans la", "Ferme farfelue")
-GoofySpeedway      = ("vers le",     "au",     "Circuit Dingo")
-DonaldsDreamland  = ("vers le",     "au",     "Pays des rêves de Donald")
-BossbotHQ         = ("vers le",     "dans le",     "QG Chefbot")
-SellbotHQ         = ("vers le",     "dans le",     "QG Vendibot")
-CashbotHQ         = ("vers le",     "dans le",     "QG Caissbot")
-LawbotHQ          = ("vers le",     "dans le",     "QG Loibot")
-Tutorial          = ("vers les", "aux", "Travaux pratiques")
-MyEstate          = ("vers",     "dans",     "ta maison")
-WelcomeValley     = ("vers la",     "dans la",     "Bienvenue")
-GolfZone          = ("à", "dans", lGolfZone)
-PartyHood         = ("to the", "in the", lPartyHood)
+ToontownCentral   = ("vers",         "à",           "Toontown Centre")
+TheBrrrgh         = ("vers",         "dans",        "le Glagla")
+MinniesMelodyland = ("vers le",      "au",          "Pays musical de Minnie")
+DaisyGardens      = ("vers les",     "au",          "Jardins de Daisy")
+ConstructionZone  = ("vers la",      "dans la",     "Zone de construction")
+OutdoorZone       = ("vers la",      "dans la",     lOutdoorZone)
+FunnyFarm         = ("vers la",      "dans la",     "Ferme farfelue")
+GoofySpeedway     = ("vers le",      "au",          "Circuit Dingo")
+DonaldsDreamland  = ("vers le",      "au",          "Pays des rêves de Donald")
+BossbotHQ         = ("vers le",      "dans le",     "QG Chefbot")
+SellbotHQ         = ("vers le",      "dans le",     "QG Vendibot")
+CashbotHQ         = ("vers le",      "dans le",     "QG Caissbot")
+LawbotHQ          = ("vers le",      "dans le",     "QG Loibot")
+Tutorial          = ("vers les",     "aux",         "Travaux pratiques")
+MyEstate          = ("vers",         "dans",        "ta maison")
+WelcomeValley     = ("vers la",      "dans la",     "Bienvenue")
+GolfZone          = ("à",            "dans",        lGolfZone)
+PartyHood         = ("vers le",      "sur le",      lPartyHood)
 
 Factory = 'Usine'
 Headquarters = 'Quartiers généraux'
@@ -234,7 +234,7 @@ AIStartDefaultDistrict = "Idioville"
 Cog  = "Cog"
 Cogs = "Cogs"
 ACog = "un Cog"
-TheCogs = "les Cogs"
+TheCogs = "Les Cogs"
 ASkeleton = "un Skelecog"
 Skeleton = "Skelecog"
 SkeletonP = "Skelecogs"
@@ -568,7 +568,7 @@ QuestsStreetLocationNamedStreet = "sur %(toStreetName)s dans %(toHoodName)s"
 QuestsLocationString = "%(string)s%(location)s"
 QuestsLocationBuilding = "Le bâtiment de %s est appelé"
 QuestsLocationBuildingVerb = "qui est"
-QuestsLocationParagraph =  "\a %(building)s \"%(buildingName)s \"...\a...%(buildingVerb)s %(street)s."
+QuestsLocationParagraph =  "\a%(building)s \" %(buildingName)s \"...\a...%(buildingVerb)s %(street)s."
 QuestsGenericFinishSCString = "Je dois terminer un défitoon."
 
 # MaxGagCarryReward names
@@ -2448,7 +2448,7 @@ AvatarPanelGroupMemberKick = "Kick Out"
 # Report Panel
 ReportPanelTitle = "Signaler un joueur"
 ReportPanelBody = "Cette fonction permet d'envoyer un rapport complet à un modérateur. Au lieu d'envoyer un rapport, tu peux opter pour l'une des options suivantes :\n\n - Te téléporter dans un autre district\n - Utiliser \" Ignorer \" sur le panneau de commande du Toon\n\nSouhaites-tu vraiment signaler %s à un modérateur ?"
-ReportPanelBodyFriends = "Cette fonction permet d'envoyer un rapport complet à un modérateur. Au lieu d'envoyer un rapport, tu peux opter pour l'une des options suivantes :\n\n - Te téléporter dans un autre district \n - Rompre votre amitié\n\n Souhaites-tu vraiment signaler %s à un modérateur ?\n\n(Cela rompra également votre amitié)"
+ReportPanelBodyFriends = "Cette fonction permet d'envoyer un rapport complet à un modérateur. Au lieu d'envoyer un rapport, tu peux opter pour l'une des options suivantes :\n\n - Te téléporter dans un autre district\n - Rompre votre amitié\n\n Souhaites-tu vraiment signaler %s à un modérateur ?\n\n(Cela rompra également votre amitié)"
 ReportPanelCategoryBody = "Tu es sur le point de signaler %s. Un modérateur sera alerté de ta plainte et prendra les mesures appropriées envers toute personne ayant enfreint nos règles. Sélectionne la raison pour laquelle tu signales %s :"
 ReportPanelBodyPlayer = "Cette fonction est en cours de développement et sera bientôt disponible. En attendant, tu peux :\n\n - Te rendre dans DXD pour rompre votre amitié.\n - Raconter ce qui s'est passé à un parent."
 
@@ -3908,12 +3908,12 @@ BuildingWaitingForVictors = "En attente des autres joueurs...",
 
 # Elevator.py
 ElevatorHopOff = "Quitter"
-ElevatorStayOff = "Si tu descends, tu devras attendre \nque l'ascenseur se vide ou parte"
+ElevatorStayOff = "Si tu descends, tu devras attendre\nque l'ascenseur se vide ou parte"
 ElevatorLeaderOff = "Seul ton chef peut décider du moment où descendre."
 ElevatorHoppedOff = "Tu dois attendre le prochain ascenseur"
 ElevatorMinLaff = "Il te faut %s rigolpoints pour prendre cet ascenseur"
 ElevatorHopOK = "OK"
-ElevatorGroupMember = "Seul le chef de ton groupe peut\n décider quand monter"
+ElevatorGroupMember = "Seul le chef de ton groupe peut\ndécider quand monter"
 
 # DistributedCogKart.py
 KartMinLaff = "Il te faut %s rigolpoints pour monter dans ce kart"
@@ -5894,58 +5894,25 @@ DownloadForceAcknowledgeVerbList = [
 DownloadForceAcknowledgeMsg = "Désolé, tu ne peux pas avancer parce que le téléchargement de %(phase)s n'en est qu'à %(percent)s% %.\n\nRéessaie plus tard."
 
 # TeaserPanel.py
-
-"""
-NO LONGER IN USE.
-TeaserTop = "Désolé ! Tu n'as pas accès à ceci pendant l'essai gratuit.\n\nInscris-toi maintenant et profite de ces super fonctionnalités :"
-TeaserBottom = "Subscribe now and enjoy these great features :"
+TeaserTop = "" # "Désolé ! Tu n'as pas accès à ceci pendant l'essai gratuit."
+TeaserBottom = "" # "Inscris-toi maintenant et profite de ces super fonctionnalités :"
+TeaserDefault = "\nYou need to become a Member.\n\nJoin us!"
 TeaserOtherHoods = "Visite les 6 quartiers exceptionnels !"
 TeaserTypeAName = "Inscris le nom que tu préfères pour ton Toon !"
 TeaserSixToons = "Crée jusqu'à 6 Toons par compte !"
-TeaserOtherGags = "Additionne 6 niveaux d'habileté\ndans 6 séries de gags différentes !"
 TeaserClothing = "Achète des vêtements originaux\npour personnaliser ton Toon !"
-TeaserFurniture = "Achète et dispose des meubles dans ta maison !"
 TeaserCogHQ = "Infiltre des zones dangereuses sur\nle territoire des Cogs !"
 TeaserSecretChat = "Échange des secrets avec tes contacts\npour pouvoir discuter en ligne avec eux !"
-TeaserCardsAndPosters = "Participe aux concours et compétitions gagne des trophées et \naugmente ta reserve des rigolpoints ! \nTon nom apparaîtra sur www.toontown.fr"
-TeaserHolidays = "Participe à des événements spéciaux et\npassionnants et à des fêtes !"
-TeaserQuests = "Relève des centaines de défitoons pour sauver Toontown !"
-TeaserEmotions = "Achète des émotions pour rendre ton\nToon plus expressif !"
-TeaserMinigames = "Joue aux 8 sortes de mini jeux !"
-TeaserKarting = "Fais la course contre d'autres Toons dans de super karts !"
-TeaserKartingAccessories = " Personnaliseton kart avec des accessoiressuper cool."
-TeaserTricks = " Entraîne ton Doudouà faire des tourspour\nqu'il t'aide dans les combats !"
-TeaserGardening = "Plante des fleurs, des statues et des arbres à gags pour embellir\n ta propriété."
-TeaserRental = "Loue des articles de fête amusants pour ta propriété !"
-TeaserBigger = "Achète des articles Toon meilleurs et plus gros !"
-TeaserTricks = "Entraîne ton Doudou à faire des tours pour t'aider dans le combat !"
 TeaserSpecies = "Crée des Toons singe, cheval et ours, et joue avec !"
 TeaserFishing = "Collectionne toutes les espèces de poissons !"
 TeaserGolf = "Joue sur des terrains de golf complètement dingues !"
 TeaserParties = "To plan a party"
-TeaserSubscribe = "S'inscrire maintenant"
+TeaserSubscribe = "S'inscrire"
 TeaserContinue = "Continuer l'essai"
-"""
-
-TeaserTop = ""
-TeaserBottom = ""
-TeaserDefault = ",\nyou need to become a Member.\n\nJoin us!"
-TeaserOtherHoods = "For unlimited adventures in all 6 neighborhoods"
-TeaserTypeAName = "Type in your favorite name for your Toon!"
-TeaserSixToons = "To play more than one Toon"
-TeaserClothing = "To buy items from the Cattlelog \nto customize your toon"
-TeaserCogHQ = "To access awesome Cog HQs"
-TeaserSecretChat = "To use the True Friends Chat feature"
-TeaserSpecies = "To pick this type of Toon"
-TeaserFishing = "To fish in all 6 neighborhoods"
-TeaserGolf = "To play Toon MiniGolf"
-TeaserParties = "To plan a party"
-TeaserSubscribe = "Subscribe"
-TeaserContinue = "Return To Game"
-TeaserEmotions = "To make your Toon more expressive"
-TeaserKarting = "To access unlimited Kart Racing"
-TeaserKartingAccessories = "To customize your Kart"
-TeaserGardening = "To continue gardening at your Toon Estate"
+TeaserEmotions = "Achète des émotions pour rendre ton\nToon plus expressif !"
+TeaserKarting = "Fais la course contre d'autres Toons dans de super karts !"
+TeaserKartingAccessories = " Personnaliseton kart avec des accessoiressuper cool."
+TeaserGardening = "Plante des fleurs, des statues et des arbres à gags pour embellir\nta propriété."
 TeaserHaveFun = "Have more fun!"
 TeaserJoinUs = "Join us!"
 
@@ -5954,15 +5921,15 @@ TeaserPickGags = "To pick these gags"
 TeaserRestockGags = "To restock these gags"
 TeaserGetGags = "To get these gags"
 TeaserUseGags = "To use these gags"
-#TeaserCardsAndPosters = "Collect Toontown trading cards and posters!"
-#TeaserFurniture = "Purchase and arrange furniture in your own house!"
-TeaserMinigames = TeaserOtherHoods # "Play all 8 minigame varieties!"
-#TeaserHolidays = "Participate in exciting special events and holiday celebrations!"
-TeaserQuests = TeaserOtherHoods # "Complete hundreds of ToonTasks to help save Toontown!"
-TeaserOtherGags = TeaserOtherHoods # "Collect 6 skill levels in 6 different gag tracks!"
-#TeaserRental = ""
-#TeaserBigger = ""
-TeaserTricks = TeaserOtherHoods
+#TeaserCardsAndPosters = "Participe aux concours et compétitions gagne des trophées et\naugmente ta reserve des rigolpoints !\nTon nom apparaîtra sur www.toontown.fr"
+#TeaserFurniture = "Achète et dispose des meubles dans ta maison !"
+TeaserMinigames = TeaserOtherHoods # "Joue aux 8 sortes de mini jeux !"
+#TeaserHolidays = "Participe à des événements spéciaux et\npassionnants et à des fêtes !"
+TeaserQuests = TeaserOtherHoods # "Relève des centaines de défitoons pour sauver Toontown !"
+TeaserOtherGags = TeaserOtherHoods # "Additionne 6 niveaux d'habileté\ndans 6 séries de gags différentes !"
+#TeaserRental = "Loue des articles de fête amusants pour ta propriété !"
+#TeaserBigger = "Achète des articles Toon meilleurs et plus gros !"
+TeaserTricks = TeaserOtherHoods # "Entraîne ton Doudou à faire des tours pour t'aider dans le combat !"
 
 # Launcher.py
 LauncherPhaseNames = {
@@ -6042,10 +6009,10 @@ DateOfBirthEntryDefaultLabel = "Date de naissance"
 
 
 # AchievePage.py
-AchievePageTitle = "Réussites\n (Bientôt disponible)"
+AchievePageTitle = "Réussites\n(Bientôt disponible)"
 
 # PhotoPage.py
-PhotoPageTitle = "Photo\n (Bientôt disponible)" # "Album photo"
+PhotoPageTitle = "Photo\n(Bientôt disponible)" # "Album photo"
 PhotoPageCaption = "Légende"
 PhotoPageDelete = "Supprimer"
 PhotoPagePrint = "Imprimer"
@@ -6058,14 +6025,14 @@ PhotoPageNoName = "Sans nom"
 PhotoPageUnknownName = "Inconnu"
 
 # BuildingPage.py
-BuildingPageTitle = "Bâtiments\n (Bientôt disponible)"
+BuildingPageTitle = "Bâtiments\n(Bientôt disponible)"
 
 # InventoryPage.py
 InventoryPageTitle = "Gags"
 InventoryPageDeleteTitle = "SUPPRIMER LES GAGS"
 InventoryPageTrackFull = "Tu as tous les gags de la série %s."
-InventoryPagePluralPoints = "Tu auras un nouveau gag de la série \n%(trackName)s lorsque tu\nauras %(numPoints)s points de %(trackName)s en plus."
-InventoryPageSinglePoint = "Tu auras un nouveau gag de la série \n%(trackName)s lorsque tu\nauras %(numPoints)s points de %(trackName)s en plus."
+InventoryPagePluralPoints = "Tu auras un nouveau gag de la série\n%(trackName)s lorsque tu\nauras %(numPoints)s points de %(trackName)s en plus."
+InventoryPageSinglePoint = "Tu auras un nouveau gag de la série\n%(trackName)s lorsque tu\nauras %(numPoints)s points de %(trackName)s en plus."
 InventoryPageNoAccess = "Tu n'as pas encore accès à la série %s."
 
 # NPCFriendPage.py
@@ -6080,9 +6047,9 @@ PartyCanStart = "It's Party Time, click Start Party in your Shticker Book Hostin
 PartyHasStartedAcceptedInvite = '%s party has started! Click the host then "Go To Party" in the Shticker Book Invites page.'
 PartyHasStartedNotAcceptedInvite = '%s party has started! You can still go to it by teleporting to the host.'
 
-EventsPageName = "Events"
-EventsPageCalendarTabName = "Calendar"
-EventsPageCalendarTabParty = "Party"
+EventsPageName = "Événements"
+EventsPageCalendarTabName = "Calendrier"
+EventsPageCalendarTabParty = "Fête"
 EventsPageToontownTimeIs = "TOONTOWN TIME IS"
 EventsPageConfirmCancel = "If you cancel, you will get a %d%% refund. Are you sure you want to cancel your party?"
 EventsPageCancelPartyResultOk = "Your party was cancelled and you got %d jellybeans back!"
@@ -6092,8 +6059,8 @@ EventsPageTooLateToStart = "Sorry, it is too late to start your party. You can c
 EventsPagePublicPrivateChange = "Changing your party's privacy setting..."
 EventsPagePublicPrivateNoGo = "Sorry, you can't change your party's privacy setting right now."
 EventsPagePublicPrivateAlreadyStarted = "Sorry, your party has already started, so you can't change your party's privacy setting."
-EventsPageHostTabName = "Hosting" # displayed on the physical tab
-EventsPageHostTabTitle = "My Next Party" # banner text displayed across the top
+EventsPageHostTabName = "Organiser" # displayed on the physical tab
+EventsPageHostTabTitle = "Ma prochaine fête" # banner text displayed across the top
 EventsPageHostTabTitleNoParties = "No Parties"
 EventsPageHostTabDateTimeLabel = "You are having a party on %s at %s Toontown Time."
 EventsPageHostingTabNoParty = "Go to a playground\nParty Gate to plan\nyour own party!"
@@ -6101,7 +6068,7 @@ EventsPageHostTabPublicPrivateLabel = "This party is:"
 EventsPageHostTabToggleToPrivate = "Private"
 EventsPageHostTabToggleToPublic = "Public"
 EventsPageHostingTabGuestListTitle = "Guests"
-EventsPageHostingTabActivityListTitle = "Activities"
+EventsPageHostingTabActivityListTitle = "Activités"
 EventsPageHostingTabDecorationsListTitle = "Decorations"
 EventsPageHostingTabPartiesListTitle = "Hosts"
 EventsPageHostTabCancelButton = "Cancel Party"
@@ -6111,9 +6078,9 @@ EventsPageInviteGoButton = "Go to\nParty!"
 EventsPageUnknownToon = "Unknown Toon"
 
 EventsPageInvitedTabName = "Invitations"
-EventsPageInvitedTabTitle = "Party Invitations"
+EventsPageInvitedTabTitle = "Invitations pour la fête"
 EventsPageInvitedTabInvitationListTitle = "Invitations"
-EventsPageInvitedTabActivityListTitle = "Activities"
+EventsPageInvitedTabActivityListTitle = "Activités"
 EventsPageInvitedTabTime = "%s %s Toontown Time"
 
 EventsPageNewsTabName = "News"
@@ -6128,13 +6095,13 @@ EventsPageNewsRightSubtitle = "Established toon-thousand nine"
 NewsPageName = "News"
 NewsPageImportError = 'Whoops! There is an issue loading the "Toon News ... for the Amused!" Please check back later.'
 
-NewsPageDownloadingNewsSubstr = 'Stay Tooned, while we bring you the latest issue of the \n"Toon News ... for the Amused!"'
+NewsPageDownloadingNewsSubstr = 'Stay Tooned, while we bring you the latest issue of the\n"Toon News ... for the Amused!"'
 NewsPageDownloadingNews0 = NewsPageDownloadingNewsSubstr + " %s%% Complete."
 NewsPageDownloadingNews1 = NewsPageDownloadingNewsSubstr + " %s%% Complete.."
 NewsPageDownloadingNews2 = NewsPageDownloadingNewsSubstr + " %s%% Complete..."
 NewsPageErrorDownloadingFile = 'Whoops! Page %s is missing from "Toon News ... for the Amused!" Please check back later.'
-NewsPageErrorDownloadingFileCanStillRead = 'Whoops! Page %s \nis missing from the "Toon News ... for the Amused!" \nTurn the page to continue, while we work to get this page back.'
-NewsPageNoIssues = 'Whoops! The "Toon News ... for the Amused!" has gone missing! \nStay Tooned ... while we work to bring the news back!'
+NewsPageErrorDownloadingFileCanStillRead = 'Whoops! Page %s\nis missing from the "Toon News ... for the Amused!"\nTurn the page to continue, while we work to get this page back.'
+NewsPageNoIssues = 'Whoops! The "Toon News ... for the Amused!" has gone missing!\nStay Tooned ... while we work to bring the news back!'
 
 # DirectNewsFrame.py
 IssueFrameThisWeek = "this week"
@@ -6192,14 +6159,14 @@ PartyPlannerInviteButton = "Send Invites"
 PartyPlannerInviteButtonNoFriends = "Plan Party"
 PartyPlannerBirthdayTheme = "Birthday"
 PartyPlannerGenericMaleTheme = "Star"
-PartyPlannerGenericFemaleTheme = "Flower"
+PartyPlannerGenericFemaleTheme = "Fleur"
 PartyPlannerRacingTheme = "Racing"
 PartyPlannerValentoonsTheme = "ValenToons"
 PartyPlannerVictoryPartyTheme = "Victory"
 PartyPlannerWinterPartyTheme = "Winter"
 PartyPlannerGuestName = "Guest Name"
 PartyPlannerClosePlanner = "Close Planner"
-PartyPlannerConfirmationAllOkTitle = "Congratulations!"
+PartyPlannerConfirmationAllOkTitle = "Félicitations !"
 PartyPlannerConfirmationAllOkText = "Your party has been created and your invitations sent out.\nThanks!"
 PartyPlannerConfirmationAllOkTextNoFriends = "Your party has been created!\nThanks!"
 PartyPlannerConfirmationErrorTitle = "Oops."
@@ -6229,7 +6196,7 @@ MusicCreateAToon = "The New Toon in Town"
 MusicTtTheme = "The Toontown Theme"
 MusicMinigameRace = "Slow and Steady"
 MusicMgPairing = "Remember Me?"
-MusicTcNbrhood = "Toontown Central"
+MusicTcNbrhood = "Toontown Centre"
 MusicMgDiving = "Treasure Lullaby"
 MusicMgCannonGame = "Fire the Cannons!"
 MusicMgTwodgame = "Running Toon"
@@ -6243,7 +6210,7 @@ MusicMMatchBg2 = "Jazzy Minnie"
 MusicMgTarget = "Soarin' Over Toontown"
 MusicFfSafezone = "The Funny Farm"
 MusicDdSz = "Waddling Way"
-MusicMmNbrhood = "Minnie's Melodyland"
+MusicMmNbrhood = "Le Pays Musical de Minnie"
 MusicGzPlaygolf = "Let's Play Golf!"
 MusicGsSz = "Goofy Speedway"
 MusicOzSz = "Chip 'n Dale's Acres"
@@ -6253,24 +6220,24 @@ MusicGsRaceRr = "Route 66"
 MusicGzSz = "The Putt-Putt Polka"
 MusicMmSz = "Dancing in the Streets"
 MusicMmSzActivity = "Here Comes Treble"
-MusicDdNbrhood = "Donald's Dock"
+MusicDdNbrhood = "Quais Donald"
 MusicGsKartshop = "Mr. Goofywrench"
 MusicDdSzActivity = "Sea Shanty"
 MusicEncntrGeneralBgIndoor = "Building Excitement"
 MusicTtElevator = "Going Up?"
 MusicEncntrToonWinningIndoor = "Toons Unite!"
 MusicEncntrGeneralSuitWinningIndoor = "Cog-tastrophe!"
-MusicTbNbrhood = "The Brrrgh"
-MusicDlNbrhood = "Donald's Dreamland"
+MusicTbNbrhood = "Le Glagla"
+MusicDlNbrhood = "Le Pays des Rêves de Donald"
 MusicDlSzActivity = "Counting Sheep"
 MusicDgSz = "Waltz of the Flowers"
 MusicDlSz = "Sleepwalking"
 MusicTbSzActivity = "Snow Problem"
 MusicTbSz = "Shiver and Shimmy"
-MusicDgNbrhood = "Daisy's Garden"
+MusicDgNbrhood = "Le Jardin de Daisy"
 MusicEncntrHallOfFame = "The Hall of Fame"
 MusicEncntrSuitHqNbrhood = "Dollars and Cents"
-MusicChqFactBg = "Cog Factory"
+MusicChqFactBg = "Usine des Cogs"
 MusicCoghqFinale = "Triumph of the Toons"
 MusicEncntrToonWinning = "Cashing In!"
 MusicEncntrSuitWinning = "Selling You Short"
@@ -6563,7 +6530,7 @@ PartyGateTitle = "Public Parties"
 PartyGateGoToParty = "Go to\nParty!"
 PartyGatePartiesListTitle = "Hosts"
 PartyGatesPartiesListToons = "Toons"
-PartyGatesPartiesListActivities = "Activities"
+PartyGatesPartiesListActivities = "Activités"
 PartyGatesPartiesListMinLeft = "Minutes Left"
 PartyGateLeftSign = "Come On In!"
 PartyGateRightSign = "Public Parties Here!"
@@ -6729,11 +6696,11 @@ NPCFriendPanelRemaining = "Restant %s"
 NPCFriendPanelUnavailable = "Indisponible"
 
 # PartiesPage.py
-PartiesPageTitle = "Fêtes"
-PartiesPageHostTab = "Organiser"
-PartiesPageInvitedTab = "Invitations"
-PartiesPageTitleHost = "Ma prochaine fête"
-PartiesPageTitleInvited = "Invitations pour la fête"
+#PartiesPageTitle = "Fêtes"
+#PartiesPageHostTab = "Organiser"
+#PartiesPageInvitedTab = "Invitations"
+#PartiesPageTitleHost = "Ma prochaine fête"
+#PartiesPageTitleInvited = "Invitations pour la fête"
 
 # MapPage.py
 MapPageTitle = "Carte"
@@ -6809,7 +6776,7 @@ CdrResultServiceUnavailable = "We're sorry. This feature is temporarily unavaila
 TrackPageTitle = "Entraînement à une série de gags"
 TrackPageShortTitle = "Entraînement\naux gags"
 TrackPageSubtitle = "Termine des défitoons pour apprendre à utiliser de nouveaux gags !"
-TrackPageTraining = "Tu t'entraînes pour utiliser les gags %s. \nLorsque tu auras terminé les 16 défis, tu\npourras utiliser les gags %s lors des combats."
+TrackPageTraining = "Tu t'entraînes pour utiliser les gags %s.\nLorsque tu auras terminé les 16 défis, tu\npourras utiliser les gags %s lors des combats."
 TrackPageClear = "Tu ne t'entraînes pour aucune série de gags actuellement."
 TrackPageFilmTitle = "Entraînement\naux gags %s\n."
 TrackPageDone = "FIN"
@@ -6817,9 +6784,9 @@ TrackPageDone = "FIN"
 # QuestPage.py
 QuestPageToonTasks = "Défitoons"
 # questName, toNpcName, toNpcBuilding, toNpcStreetName, toNpcLocationName, npcName
-#QuestPageDelivery = "%s\nTo: %s\n  %s\n  %s\n  %s\n\nFrom: %s"
+#QuestPageDelivery = "%s\nÀ : %s\n  %s\n  %s\n  %s\n\nDepuis : %s"
 # questName, toNpcName, toNpcBuilding, toNpcStreetName, toNpcLocationName, npcName
-#QuestPageVisit = "%s %s\n  %s\n  %s\n  %s\n\nFrom: %s"
+#QuestPageVisit = "%s %s\n  %s\n  %s\n  %s\n\nDepuis : %s"
 # questName, toNpcName, toNpcBuilding, toNpcStreetName, toNpcLocationName
 # Choose between trackA and trackB.
 #
@@ -6828,7 +6795,7 @@ QuestPageToonTasks = "Défitoons"
 #   Town Hall
 #   Playground
 #   Toontown Central
-#QuestPageTrackChoice = "%s\n\nTo choose, go see:\n  %s\n  %s\n  %s\n  %s"
+#QuestPageTrackChoice = "%s\n\nPour choisir, allez voir :\n  %s\n  %s\n  %s\n  %s"
 # questName, npcName, buildingName, streetName, locationName
 QuestPageChoose = "Choisis"
 QuestPageLocked = "Locked"
@@ -6857,8 +6824,8 @@ QuestPosterAuxFrom = "depuis :"
 QuestPosterAuxFor = "pour :"
 QuestPosterAuxOr = "ou :"
 QuestPosterAuxReturnTo = "Retourner à :"
-QuestPosterLocationIn = " à"
-QuestPosterLocationOn = " à"
+QuestPosterLocationIn = " à "
+QuestPosterLocationOn = " à "
 QuestPosterFun = "Juste pour s'amuser !"
 QuestPosterFishing = "ALLER PÊCHER"
 QuestPosterComplete = "TERMINÉ"
@@ -6899,17 +6866,17 @@ FishPageTitle = "Pêche"
 FishPageTitleTank = "Seau de pêche"
 FishPageTitleCollection = "Album de pêche"
 FishPageTitleTrophy = "Trophées de pêche"
-FishPageWeightStr = "Poids :"
-FishPageWeightLargeS = "%dkg"
-FishPageWeightLargeP = "%dkg"
-FishPageWeightSmallS = "%dg"
-FishPageWeightSmallP = "%dg"
+FishPageWeightStr = "Poids : "
+FishPageWeightLargeS = "%d kg "
+FishPageWeightLargeP = "%d kg "
+FishPageWeightSmallS = "%d g"
+FishPageWeightSmallP = "%d g"
 FishPageWeightConversion = 16
 FishPageValueS = "Valeur : %d bonbon"
 FishPageValueP = "Valeur : %d bonbons"
-FishPageTotalValue = ""
+#FishPageTotalValue = ""
 FishPageCollectedTotal = "Espèces de poissons pêchées : %d sur %d"
-FishPageRodInfo = "Canne %s \n%d - %d livres"
+FishPageRodInfo = "Canne %s\n%d - %d livres"
 FishPageTankTab = "Seau"
 FishPageCollectionTab = "Album"
 FishPageTrophyTab = "Trophées"
@@ -7054,7 +7021,7 @@ InventoryBattleMenu = "MENU DU COMBAT"
 InventoryRun = "COURIR"
 InventorySOS = "SOS"
 InventoryPass = "PASSER"
-InventoryFire = "FIRE"
+InventoryFire = "FEU" # Check
 InventoryClickToAttack = "Clique sur\nun gag pour\nattaquer."
 InventoryDamageBonus = "(+%d)"
 
@@ -7189,8 +7156,8 @@ FishingFailureTooSlow = "Tu as tourné la manivelle trop lentement. Certains poi
 FishingFailureTooFast = "Tu as tourné la manivelle trop rapidement. Certains poissons sont plus lents que d'autres. Essaie de conserver la ligne de vitesse au centre !"
 FishingOverTankLimit = "Ton seau de pêche est plein. Va vendre tes poissons au vendeur de l'animalerie et reviens."
 FishingBroke = "Tu n'as plus de bonbons pour appâter ! Va faire un tour de tramway ou vends des poissons aux vendeurs de l'animalerie pour avoir d'autres bonbons."
-FishingHowToFirstTime = "Clique sur le bouton de lancer et déplace le curseur vers le bas. Plus tu glisses vers le bas, plus ton lancer sera fort. Ajuste ton angle pour atteindre les poissons.\n\n Essaie maintenant !"
-FishingHowToFailed = "Clique sur le bouton de lancer et déplace le curseur vers le bas. Plus tu glisses vers le bas, plus ton lancer sera fort. Ajuste ton angle pour atteindre les poissons.\n\n Essaie encore maintenant !"
+FishingHowToFirstTime = "Clique sur le bouton de lancer et déplace le curseur vers le bas. Plus tu glisses vers le bas, plus ton lancer sera fort. Ajuste ton angle pour atteindre les poissons.\n\nEssaie maintenant !"
+FishingHowToFailed = "Clique sur le bouton de lancer et déplace le curseur vers le bas. Plus tu glisses vers le bas, plus ton lancer sera fort. Ajuste ton angle pour atteindre les poissons.\n\nEssaie encore maintenant !"
 FishingBootItem = "Une vieille chaussure"
 FishingJellybeanItem = "%s bonbons"
 FishingNewEntry = "Nouvelle espèce !"
@@ -7307,7 +7274,7 @@ MintBossConfrontedMsg = "%s est en train de combattre le Superviseur !"
 
 # DistributedStage.py
 StageBossConfrontedMsg = "%s se bat contre le juriste !"
-stageToonEnterElevator = "%s \nest maintenant dans l'ascenseur"
+stageToonEnterElevator = "%s\nest maintenant dans l'ascenseur"
 ForcedLeaveStageAckMsg = "Le juriste a été vaincu avant que tu ne le trouves. Tu n'as pas récupéré de convocations du jury."
 
 # DistributedMinigame.py
@@ -7365,9 +7332,6 @@ PatternGameOtherFastest = "\na été le(la) plus rapide !"
 PatternGameGreatJob = "Bon travail !"
 PatternGameRound = "Partie %s !" # Round 1! Round 2! ..
 PatternGameImprov = "Bien joué ! Maintenant monte !"
-
-# DistributedRaceAI.py
-WaitingForJoin = 90
 
 # DistributedRaceGame.py
 RaceGameTitle = "Jeu de l'oie"
@@ -7433,7 +7397,7 @@ TargetGameBounceHelp = "En rebondissant, tu peux t'écarter de la cible"
 #Distributed Photo Game
 PhotoGameScoreTaken = "%s : %s\nToi : %s"
 PhotoGameScoreBlank = "Score : %s"
-PhotoGameScoreOther = ""#"Score : %s\n%s"
+PhotoGameScoreOther = "\n%s"#"Score : %s\n%s"
 PhotoGameScoreYou = "\nMeilleur bonus !"
 
 
@@ -7487,7 +7451,7 @@ GagShopBackToPlayground = "RETOUR AU\nTERRAIN DE JEUX"
 GagShopYouHave = "Tu as %s à dépenser"
 GagShopYouHaveOne = "Tu as 1 bonbon à dépenser"
 GagShopTooManyProps = "Désolé, tu as trop d'accessoires"
-GagShopDoneShopping = "ACHATS\n TERMINÉS"
+GagShopDoneShopping = "ACHATS\nTERMINÉS"
 # name of a gag
 GagShopTooManyOfThatGag = "Désolé, tu as déjà assez de %s"
 GagShopInsufficientSkill = "Tu n'es pas encore assez habile pour cela"
@@ -7593,7 +7557,7 @@ NameShopOnlyPaid = "Seuls les utilisateurs payants\npeuvent donner un nom à leu
 NameShopContinueSubmission = "Continuer l'envoi"
 NameShopChooseAnother = "Choisir un autre nom"
 NameShopToonCouncil = "Le Conseil de Toontown\nva examiner ton\nnom. "+ \
-                       "L'examen peut\nprendre quelques jours.\nPendant que tu attends,\nton nom sera\n "
+                       "L'examen peut\nprendre quelques jours.\nPendant que tu attends,\nton nom sera\n"
 PleaseTypeName = "Entre ton nom :"
 AllNewNames = "Tous les noms\ndoivent être approuvés\npar le Conseil de Toontown."
 NameMessages = "Be creative and remember:\nno Disney-related names, please."
@@ -7900,7 +7864,7 @@ GardenTypeName = "Matériaux de jardinage"
 RentalTypeName = "Article à louer"
 GardenStarterTypeName = "Kit de jardinage"
 NametagTypeName = "Badge"
-AccessoryTypeName = "Accessory"
+AccessoryTypeName = "Accessoire"
 
 # Make sure numbers match up to CatalogItemTypes.py
 CatalogItemTypeNames = {
@@ -9124,7 +9088,7 @@ CatalogNotifyOldDelivery = "Des articles t'attendent encore dans ta boîte aux l
 CatalogNotifyInstructions = "Clique sur le bouton \"Retour à la maison\" sur la carte de ton journal de bord, puis va jusqu'au téléphone qui est dans ta maison."
 CatalogNewDeliveryButton = "Nouvelle\nlivraison !"
 CatalogNewCatalogButton = "Nouveau\ncatalogue"
-CatalogSaleItem = "Vente !"
+CatalogSaleItem = "Vente ! "
 
 # don't translate yet
 DistributedMailboxEmpty = "Ta boîte aux lettres est vide pour l'instant. Reviens ici chercher les articles que tu as commandés par téléphone quand ils seront livrés !"
@@ -9267,7 +9231,7 @@ HDHelpDict = {
     }
 
 # don't translate yet
-MessagePickerTitle = "Tu as trop de phrases. Pour pouvoir acheter\n\"%s\"\n tu dois choisir une chose à retirer :"
+MessagePickerTitle = "Tu as trop de phrases. Pour pouvoir acheter\n\"%s\"\ntu dois choisir une chose à retirer :"
 MessagePickerCancel = lCancel
 MessageConfirmDelete = "Es-tu certain de vouloir retirer \"%s\" de ton menu de Chat rapide ?"
 
@@ -10040,7 +10004,7 @@ NPCToonNames = {
     9237 : "S. André",
 
     #
-    # Funny Farms / Field Office
+    # Funny Farm / Field Office
     #
 
     9301 : "Phil Bettur",
@@ -10638,7 +10602,7 @@ zone2TitleDict = {
 
 # translate
 # DistributedCloset.py
-ClosetTimeoutMessage = "Désolé, tu n'as plus\n le temps."
+ClosetTimeoutMessage = "Désolé, tu n'as plus\nle temps."
 ClosetNotOwnerMessage = "Ce n'est pas ton placard, mais tu peux essayer les vêtements."
 ClosetPopupOK = lOK
 ClosetPopupCancel = lCancel
@@ -10672,6 +10636,8 @@ EstateOwnerLeftMessage = "Désolé, le(la) propriétaire de cette maison est par
 EstatePopupOK = lOK
 EstateTeleportFailed = "Impossible de retourner à la maison. Essaie encore !"
 EstateTeleportFailedNotFriends = "Désolé, %s est chez un Toon avec qui tu n'es pas ami(e)."
+EstatePlaneBanner = "Invasion de Cog !!!"
+EstateHalloweenBanner = "Joyeux Halloween !!!"
 
 # DistributedTarget.py
 EstateTargetGameStart = "Le jeu des cibles tooniques a commencé !"
@@ -10679,7 +10645,7 @@ EstateTargetGameInst = "Plus tu tires dans la cible rouge, et plus tu remportes 
 EstateTargetGameEnd = "le jeu des cibles tooniques est maintenant terminé..."
 
 # DistributedHouse.py
-AvatarsHouse = "Maison %s\n"
+AvatarsHouse = "Maison de\n%s"
 
 # BankGui.py
 BankGuiCancel = lCancel
@@ -10692,7 +10658,7 @@ DistributedBankNotOwner = "Désolé, ce n'est pas ta tirelire."
 # FishSellGui.py
 FishGuiCancel = lCancel
 FishGuiOk = "Tout vendre"
-FishTankValue = "Salut,%(name)s ! Tu as %(num)s poisson(s) dans ton seau pour une valeur totale de %(value)s bonbon(s). Veux-tu vendre le tout ?"
+FishTankValue = "Salut, %(name)s ! Tu as %(num)s poisson(s) dans ton seau pour une valeur totale de %(value)s bonbon(s). Veux-tu vendre le tout ?"
 
 #FlowerSellGui.py
 FlowerGuiCancel = lCancel
@@ -10702,9 +10668,9 @@ FlowerBasketValue = "%(name)s, tu as %(num)s fleurs dans ton panier d'une valeur
 
 def GetPossesive(name):
     if name[-1:] == 's':
-        possesive = "de " + name
+        possesive = "" + name
     else:
-        possesive = "de " + name
+        possesive = "" + name
     return possesive
 
 # PetTraits
@@ -10877,7 +10843,7 @@ TipDict = {
     "Dans les différents quartiers, il y a des Doudous différents à adopter.",
     # Karting
     "Fais chauffer ton super moteur et mets un coup de turbo à ta rigo-limite.",
-    "Rends-toi dans le Circuit Dingo par le tunnel en forme de pneu qui se trouve dans Toontown Central.",
+    "Rends-toi dans le Circuit Dingo par le tunnel en forme de pneu qui se trouve dans Toontown Centre.",
     "Gagne des rigolpoints au Circuit Dingo.",
     "Le Circuit Dingo a six pistes de course différentes."
     ),
@@ -10934,33 +10900,41 @@ TipDict = {
     ),
 
   TIP_COGHQ : (
-    "Tu dois terminer ton déguisement de Cog avant d'entrer dans le bâtiment du Chef.",
-    "Tu peux sauter sur les gardes du corps des Cogs pour les désactiver temporairement.",
+    #"Tu dois terminer ton déguisement de Cog avant d'entrer dans le bâtiment du Chef.", legacy
+    "Tu dois faire entièrement ton déguisement Vendibot avant d'aller voir le Vice-Président.",
+    "Tu dois faire entièrement ton déguisement Caissbot avant d'aller voir le Directeur Financier.",
     "Tu dois faire entièrement ton déguisement Loibot avant d'aller voir le Juge.",
-    "Additionne les mérites Cogs par tes victoires sur les Cogs.",
-    "Tu obtiens plus de mérites avec des Cogs de plus haut niveau.",
-    "Lorsque tu as additionné assez de mérites Cogs pour gagner une promotion, va voir le vice-président des Vendibots !",
-    "Tu peux parler comme un Cog lorsque tu portes ton déguisement de Cog.",
-    "Jusqu'à huit Toons peuvent faire équipe pour combattre le vice-président des Vendibots.",
+    "Tu dois faire entièrement ton déguisement Chefbot avant d'aller voir le Directeur Général.",
+    "Tu peux sauter sur les gardes du corps des Cogs pour les désactiver temporairement.",
     "Le vice-président des Vendibots est tout en haut du quartier général des Cogs.",
-    "À l'intérieur des usines des Cogs, monte les escaliers pour arriver jusqu'au contremaître.",
+    "Additionne les mérites Cogs par tes victoires sur les Cogs.",
+    # Add Cashbot Cog Bucks Text Here
+    "Récupère des Convocations du Jury en défiant des Loibots.",
+    # Add Bossbot Stock Options Text Here
+    #"Tu obtiens plus de mérites avec des Cogs de plus haut niveau.", # Legacy
+    "Tu reçois plus de Mérites, d'euros Cog, de Convocations du Jury ou d'option d'actions en combattant des Cogs de plus haut niveau.",
+    "Lorsque tu as additionné assez de mérites Cogs pour gagner une promotion, va voir le vice-président des Vendibots !",
+    # Add Cashbot promotion Text Here
+    "Quand tu as récupéré assez de Convocations du Jury pour gagner une promotion, va voir le Juge !",
+    # Add Bossbot promotion Text Here
+    "Tu peux parler comme un Cog lorsque tu portes ton déguisement de Cog.",    
+    "Jusqu'à huit Toons peuvent faire équipe pour combattre le Vice-Président des Vendibots.",
+    "Jusqu'à huit Toons peuvent faire équipe pour combattre le Directeur Financier des Caissbots.",
+    "Jusqu'à huit Toons peuvent faire équipe pour combattre le Juge des Loibots.", # "Jusqu'à huit Toons peuvent combattre ensemble le Juge Loibot.",
+    "Jusqu'à huit Toons peuvent faire équipe pour combattre le Directeur Général des Chefbots.",
+    "À l'intérieur des usines des Cogs, monte les escaliers pour arriver jusqu'au contremaître.", # Update?
     "Chaque fois que tu te bats dans l'usine, tu gagnes une pièce de ton déguisement de Cog.",
     "Tu peux visualiser le progrès de ton déguisement de Cog dans ton journal de bord.",
-    "Tu peux visualiser le progrès de tes mérites sur ta page de déguisements dans ton journal de bord.",
-    "Assure-toi d'avoir suffisamment de gags et un rigolmètre au maximum avant d'aller voir le vice-président.",
+    "Tu peux visualiser le progrès de tes mérites sur ta page de déguisements dans ton journal de bord.", # Update?
+    "Assure-toi d'avoir suffisamment de gags et un rigolmètre au maximum avant d'aller voir le vice-président.", # Update?
     "Si tu as une promotion, ton déguisement de Cog est mis à jour.",
-    "Tu dois vaincre le contremaître de l'usine pour récupérer une pièce du déguisement de Cog.",
-    "Récupère des Convocations du Jury en défiant des Loibots.",
-    "Tu reçois plus de Mérites, d'euros Cog ou de Convocations du Jury en combattant des Cogs de plus haut niveau.",
-    "Quand tu as récupéré assez de Convocations du Jury pour gagner une promotion, va voir le Juge !",
-    "Tu dois faire entièrement ton déguisement Loibot avant d'aller voir le Juge.",
-    "Jusqu'à huit Toons peuvent combattre ensemble le Juge Loibot.",
-    "Cela paie d'être perplexe : Les Cogs virtuels dans le QG Loibot ne t'accableront pas de Convocations du Jury.",
+    "Tu dois vaincre le contremaître de l'usine pour récupérer une pièce du déguisement de Cog.",    
     "Gagne des pièces de costume de Caissbot comme récompense en terminant les défitoons qui sont proposés dans le Pays des Rêves de Donald.",
     "Les Caissbots fabriquent et font circuler leur argent, les euros Cogs, à partir de trois Fabriques à Sous - Pièce, Euro et Lingot.",
     "Attends que le directeur financier soit étourdi avant de lui lancer un coffre dessus, ou il pourrait l'utiliser comme casque. Frapper le casque avec un autre coffre est la seule manière de le faire tomber.",
     "Gagne des pièces de costume de Loibot comme récompense en terminant les défitoons pour le professeur Flocon.",
-    "Ca paie de résoudre les problèmes : les Cogs virtuels du QG Loibot ne vont pas te récompenser avec des notices du jury.",
+    "Cela paie d'être perplexe : Les Cogs virtuels dans le QG Loibot ne t'accableront pas de Convocations du Jury.",            # Check
+    "Ca paie de résoudre les problèmes : les Cogs virtuels du QG Loibot ne vont pas te récompenser avec des notices du jury.",  # Check
     ),
   TIP_ESTATE : (
   # Doodles
@@ -11012,12 +10986,12 @@ TipDict = {
         "Customise ton kart avec des autocollants, des baguettes et plein d'autres déco au Centre Auto Dingo.",
     "Gagne des tickets en faisant la course sur le Circuit Dingo.",
     "Les tickets sont la seule monnaie acceptée par le Centre Auto Dingo.",
-        " Tu dois déposer des tickets pour pouvoir faire la course.",
+        "Tu dois déposer des tickets pour pouvoir faire la course.",
     "Une page spéciale de ton journal de bord te permet de customiser ton kart.",
     "Une page spéciale de ton journal de bord te permet de consulter tes scores sur chaque piste.",
     "Une page spéciale de ton journal de bord te permet d'afficher tes trophées.",
     "Le Colisée Tortillé est la piste la plus facile du Circuit Dingo.",
-        " Les Landes Légères est la piste qui a le plus de collines et de bosses du Circuit Dingo.",
+        "Les Landes Légères est la piste qui a le plus de collines et de bosses du Circuit Dingo.",
     "Le Boulevard du Blizzard est la piste la plus excitante du Circuit Dingo.",
     ),
     TIP_GOLF: (
@@ -11736,7 +11710,7 @@ LawbotBossTempIntro4 = "Attendez une minute... Vous êtes des Toons !"
 LawbotBossTempJury1 = "La sélection du jury va maintenant commencer."
 LawbotBossHowToGetEvidence = "Touche la barre des témoins pour obtenir des preuves."
 LawbotBossTrialChat1 = "La séance est ouverte."
-LawbotBossHowToThrowPies = "Appuie sur la touche « Inser » pour envoyer les preuves\n sur les avocats ou dans la balance !"
+LawbotBossHowToThrowPies = "Appuie sur la touche « Inser » pour envoyer les preuves\nsur les avocats ou dans la balance !"
 LawbotBossNeedMoreEvidence = "Il te faut plus de preuves !"
 LawbotBossDefenseWins1 = "Ce n'est pas possible ! La défense a gagné ?"
 LawbotBossDefenseWins2 = "Non. Je déclare le procès nul ! Un nouveau procès va être programmé."
@@ -11802,7 +11776,7 @@ SummonDlgShopkeeper = "Le commerçant"
 # Polar Place cheesy effect chat phrases
 PolarPlaceEffect1 = NPCToonNames[3306] + " : Bienvenue à la Place Polaire !"
 PolarPlaceEffect2 = NPCToonNames[3306] + " : Essaie pour voir si la taille te va."
-PolarPlaceEffect3 = NPCToonNames[3306] + " : Ton nouveau look ne marchera que" + lTheBrrrgh + "."
+PolarPlaceEffect3 = NPCToonNames[3306] + " : Ton nouveau look ne marchera que " + lTheBrrrgh + "."
 
 # Oak Street cheesy effect chat phrases
 GreenToonEffectMsg = NPCToonNames[5312] + ": You look Toontastic in green!"
@@ -11815,9 +11789,9 @@ LaserGameDrag = "Mets en trois de la même\ncouleur sur une rangée"
 LaserGameDefault = "Jeu inconnu"
 
 # Pinball text
-#PinballHiScore = "High Score: %d %s\n"
-#PinballYourBestScore = "Your Best Score: %d\n"
-#PinballScore = "Score: %d x %d : %d"
+#PinballHiScore = "Score élevé : %d %s\n"
+#PinballYourBestScore = "Ton meilleur score : %d\n"
+#PinballScore = "Score : %d x %d : %d"
 PinballHiScore = "Score élevé : %s\n"
 PinballHiScoreAbbrev = "..."
 PinballYourBestScore = "Ton meilleur score :\n"
@@ -12083,7 +12057,7 @@ TravelGameBonusBeans = "%(numBeans)d Bonbons"
 TravelGamePlaying = 'Ensuite, le %(game)s Jeu du Tramway.'
 TravelGameGotBonus = '%(name)s a obtenu un bonus de %(numBeans)s bonbons !'
 TravelGameNoOneGotBonus = "Personne n'a atteint son objectif secret. Chacun remporte 1 bonbon."
-TravelGameConvertingVotesToBeans = ""
+TravelGameConvertingVotesToBeans = "" # Fix
 TravelGameGoingBackToShop ="Il reste un seul joueur. En route pour la boutique à gags de Dingo."
 
 PairingGameTitle = "Jeu de mémoire Toon"
@@ -12258,13 +12232,13 @@ GolfAvReceivesHoleBest = "%(name)s a établi un nouveau record de parcours au  %
 GolfAvReceivesCourseBest = "%(name)s a établi un nouveau record de parcours au %(course)s !"
 GolfAvReceivesCup = "%(name)s remporte la %(cup)s coupe ! Rigol-augmentation !"
 GolfAvReceivesTrophy = "%(name)s remporte le %(award)s trophée !"
-GolfRanking = "Classement : \n"
+GolfRanking = "Classement :\n"
 GolfPowerBarText = "%(power)s%%"
 GolfChooseTeeInstructions = "Appuie sur la flèche gauche ou droite pour changer la position du tee.\nAppuie sur Ctrl pour sélectionner."
 GolfWarningMustSwing = "Avertissement : tu dois appuyer sur la touche Ctrl lors de ton prochain swing."
 GolfAimInstructions = "Appuie sur la flèche gauche ou droite pour viser.\nAppuie sur la touche Ctrl et maintiens-la enfoncée pour faire ton swing."
 GolferExited = "%s a quitté le terrain de golf."
-GolfPowerReminder = "Maintiens la touche Ctrl enfoncée plus longtemps pour \nEnvoyer la balle plus loin"
+GolfPowerReminder = "Maintiens la touche Ctrl enfoncée plus longtemps pour\nEnvoyer la balle plus loin"
 
 
 # GolfScoreBoard.py
@@ -12356,10 +12330,10 @@ KartingTicketsHolidayStart = "Get double tickets from Practice races at Goofy Sp
 
 IdesOfMarchStart = "Toons go GREEN!"
 
-LogoutForced = "Tu as fait une erreur\n et as été automatiquement déconnecté(e).\n Il se peut également que ton compte soit gelé.\n Sors et va faire une balade. C'est amusant."
+LogoutForced = "Tu as fait une erreur\net as été automatiquement déconnecté(e).\nIl se peut également que ton compte soit gelé.\nSors et va faire une balade. C'est amusant."
 
 # DistributedCountryClub.py
-CountryClubToonEnterElevator = "%s \na sauté dans la voiturette de golf."
+CountryClubToonEnterElevator = "%s\na sauté dans la voiturette de golf."
 CountryClubBossConfrontedMsg = "%s se bat contre le Président du Club !"
 
 # DistributedElevatorFSM.py
@@ -12388,8 +12362,8 @@ GolfGreenGameGotHelp = "%s a résolu une énigme !"
 GolfGreenGameDirections = "Lance les balles à l'aide de la souris\n\n\nSi tu parviens à regrouper trois balles de la même couleur, les balles tombent\n\n\nFais disparaître toutes les balles de Cog du tableau"
 
 # DistributedMaze.py
-enterHedgeMaze = "Retrouve vite la sortie du labyrinthe\n pour obtenir un bonus de rigolpoints !"
-toonFinishedHedgeMaze = "%s \n a fini en %s position !"
+enterHedgeMaze = "Retrouve vite la sortie du labyrinthe\npour obtenir un bonus de rigolpoints !"
+toonFinishedHedgeMaze = "%s\na fini en %s position !"
 hedgeMazePlaces = ["première","deuxième","troisième","quatrième"]
 mazeLabel = "Le jeu du labyrinthe !"
 
@@ -12426,7 +12400,7 @@ BoardingInviteGroupFull = 'Your Boarding Group is already full.'
 BoardingAlreadyInGroup = 'You cannot accept this invitation because you are part of another Boarding Group.'
 BoardingGroupAlreadyFull = 'You cannot accept this invitation because the group is already full.'
 BoardingKickOutConfirm = 'Are you sure you want to remove %s?'
-BoardingPendingInvite = 'You need to deal with the\n pending invitation first.'
+BoardingPendingInvite = 'You need to deal with the\npending invitation first.'
 BoardingCannotLeaveZone = 'You cannot leave this area because you are part of a Boarding Group.'
 BoardingInviteeMessage = "%s would like you to join their Boarding Group."
 BoardingInvitingMessage = "Inviting %s to your Boarding Group."
@@ -12554,7 +12528,7 @@ ChineseTutorialTitle2 = "Comment jouer"
 ChineseTutorialPrev = "Page précédente"
 ChineseTutorialNext = "Page suivante"
 ChineseTutorialDone = "Terminé"
-ChinesePage1 = "Le but du jeu des dames chinoises est d'être le premier joueur à déplacer toutes ses billes du triangle en bas du tableau vers le triangle en haut du tableau. Le premier joueur qui réussit a gagné. \n"
+ChinesePage1 = "Le but du jeu des dames chinoises est d'être le premier joueur à déplacer toutes ses billes du triangle en bas du tableau vers le triangle en haut du tableau. Le premier joueur qui réussit a gagné.\n"
 ChinesePage2 = "Chacun à son tour, les joueurs déplacent une bille de leur couleur. Celle-ci peut être placée dans un trou adjacent ou sauter par-dessus d'autres billes. Les sauts doivent passer au-dessus d'une bille et atterrir dans un trou vide. Il est possible d'enchaîner des sauts pour des mouvements plus longs."
 
 CheckersPage1 = "Le but du jeu de dames est de coincer l'adversaire pour qu'il ne puisse plus bouger. Pour ce faire, tu peux capturer toutes ses pièces ou les bloquer de manière à ce qu'il soit coincé et ne puisse plus bouger."

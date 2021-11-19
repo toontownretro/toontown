@@ -12,6 +12,7 @@ from toontown.building import DistributedBBElevatorAI
 from toontown.building import DistributedBoardingPartyAI
 from toontown.building import FADoorCodes
 from toontown.coghq import DistributedCogKartAI
+from toontown.toonbase.ToontownModules import *
 
 class BossbotHQDataAI(HoodDataAI.HoodDataAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("BossbotHQDataAI")
@@ -52,7 +53,7 @@ class BossbotHQDataAI(HoodDataAI.HoodDataAI):
         self.lobbyElevator.generateWithRequired(ToontownGlobals.BossbotLobby)
         self.addDistObj(self.lobbyElevator)
 
-        if simbase.config.GetBool('want-boarding-groups', 1):
+        if ConfigVariableBool('want-boarding-groups', 1).getValue():
             self.boardingParty = DistributedBoardingPartyAI.DistributedBoardingPartyAI(self.air, [self.lobbyElevator.doId], 8)
             self.boardingParty.generateWithRequired(ToontownGlobals.BossbotLobby)
         #self.addDistObj(self.boardingParty)
@@ -89,7 +90,7 @@ class BossbotHQDataAI(HoodDataAI.HoodDataAI):
         #makeDoor(ToontownGlobals.LawbotOfficeExt, 0, 0)
 
         kartIdList = self.createCogKarts()
-        if simbase.config.GetBool('want-boarding-groups', 1):
+        if ConfigVariableBool('want-boarding-groups', 1).getValue():
             self.courseBoardingParty = DistributedBoardingPartyAI.DistributedBoardingPartyAI(self.air, kartIdList, 4)
             self.courseBoardingParty.generateWithRequired(self.zoneId)
 

@@ -661,7 +661,7 @@ class AvatarPrinter(AvatarIterator):
         #self.dnaDict[av.doId] = av.dna.asTuple()
         #print av.doId, ' finished' #, av.name, "dna: ", av.dna.asTuple()
         #return
-        #import ToonDNA
+        #from toontown.toon import ToonDNA
         #newDNA = ToonDNA.ToonDNA()
         #newDNA.newToonFromProperties(*av.dna.asTuple())
         #print('old: ', av.dna)

@@ -128,7 +128,7 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         # and a 1/7 chance of picking 0
         assert self.notify.debugStateCall(self)
         result = self.curPhase
-        if base.config.GetBool("anim-props-randomized", True):
+        if ConfigVariableBool("anim-props-randomized", True).getValue():
             pairs = []
             for i in range(self.curPhase +1):
                 pairs.append(( math.pow(2,i) , i))
@@ -226,5 +226,3 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
             self.startIfNeeded()
         else:
             self.request('Off')
-
-

@@ -34,20 +34,20 @@ class DistributedFireworkShowAI(DistributedObjectAI.DistributedObjectAI):
         self.timestamp = timestamp
         self.sendUpdate("startShow",
                         (self.eventId, self.style, self.timestamp))
-        if simbase.air.config.GetBool('want-old-fireworks', 0):
+        if ConfigVariableBool('want-old-fireworks', 0).getValue():
             duration = getShowDuration(self.eventId, self.style)
             taskMgr.doMethodLater(duration, self.fireworkShowDone, self.taskName("waitForShowDone"))
         else:
-            
+
             duration = self.throwAwayShow.getShowDuration(self.eventId)
-            
+
             assert( DistributedFireworkShowAI.notify.debug("startShow: event: %s, networkTime: %s, showDuration: %s" \
             % (self.eventId, self.timestamp, duration) ) )
-            
+
             # Add the start and postShow delays and give ample time for postshow to complete
             duration += 20.0
             taskMgr.doMethodLater(duration, self.fireworkShowDone, self.taskName("waitForShowDone"))
-        
+
 
     def fireworkShowDone(self, task):
         # import pdb; pdb.set_trace()
@@ -66,9 +66,7 @@ class DistributedFireworkShowAI(DistributedObjectAI.DistributedObjectAI):
                 self.d_shootFirework(x, y, z, style, color1, color2)
                 # Charge the avId some jellybeans
         else:
-            self.d_shootFirework(x, y, z, style, color1,color2) 
+            self.d_shootFirework(x, y, z, style, color1,color2)
 
     def d_shootFirework(self, x, y, z, style, color1, color2):
         self.sendUpdate("shootFirework", (x, y, z, style, color1, color2))
-        
-    

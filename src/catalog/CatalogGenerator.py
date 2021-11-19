@@ -345,7 +345,7 @@ MonthlySchedule = (
 
     (10, 3, 11, 2,
      (
-      # The following articles 
+      # The following articles
       # were likely removed in
       # 2011 to remove accessory
       # parts, however
@@ -2131,9 +2131,9 @@ class CatalogGenerator:
         else:
             self.__releasedItemLists.clear()
 
-        testDaysAhead = simbase.config.GetInt('test-server-holiday-days-ahead', 0)
+        testDaysAhead = ConfigVariableInt('test-server-holiday-days-ahead', 0).getValue()
 
-        # Hasn't been generated yet today; do so now.        
+        # Hasn't been generated yet today; do so now.
         nowtuple = time.localtime(weekStart * 60 + testDaysAhead * 24 * 60 * 60)
         year = nowtuple[0]
         month = nowtuple[1]
@@ -2174,7 +2174,7 @@ class CatalogGenerator:
         if itemLists != None:
             return itemLists
 
-        testDaysAhead = simbase.config.GetInt('test-server-holiday-days-ahead', 0)
+        testDaysAhead = ConfigVariableInt('test-server-holiday-days-ahead', 0).getValue()
 
         # Hasn't been generated yet today; do so now.
         nowtuple = time.localtime(weekStart * 60)

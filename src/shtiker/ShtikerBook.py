@@ -5,7 +5,6 @@ from toontown.toonbase import ToontownGlobals
 from direct.showbase import DirectObject
 from direct.fsm import StateData
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.effects import DistributedFireworkShow
 from toontown.parties import DistributedPartyFireworksActivity
@@ -74,6 +73,9 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         self.safeMode = setting
 
     def enter(self):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: SHTICKERBOOK: Open')
+
         if self.entered:
             return
         self.entered = 1
@@ -184,6 +186,9 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         self.ignore(ToontownGlobals.StickerBookHotkey)
         self.ignore("arrow_right")
         self.ignore("arrow_left")
+
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: SHTICKERBOOK: Close')
 
     def load(self):
         """load(self)
@@ -339,6 +344,8 @@ class ShtikerBook(DirectFrame, StateData.StateData):
             localAvatar.newsButtonMgr.setGoingToNewsPageFromStickerBook(True)
             localAvatar.newsButtonMgr.showAppropriateButton()
             self.setPage(page)
+            if ConfigVariableBool('want-qa-regression', 0).getValue():
+                self.notify.info('QA-REGRESSION: SHTICKERBOOK: Browse tabs %s' % page.pageName)
 
 ##        yOffset = 0.07 * (len(self.pages) - 1)
         yOffset = 0.07 * pageIndex
@@ -423,7 +430,7 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         elif( pageName == TTLocalizer.NewsPageName ):
             iconModels = loader.loadModel(
                 "phase_3.5/models/gui/sos_textures")
-            iconGeom = iconModels.find('**/switch')
+            iconGeom = iconModels.find('**/tt_t_gui_sbk_newsPageTab')
             iconModels.detachNode()
             buttonPressedCommand = goToNewsPage
         # elif( pageName == TTLocalizer.TIPPageTitle ):

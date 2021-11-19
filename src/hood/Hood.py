@@ -78,13 +78,13 @@ class Hood(StateData.StateData):
         self.sunShadowSoftnessFactor = 2.0
 
         # Color scale factor for the sky.
-        if base.config.GetBool('want-shaders', True):
+        if ConfigVariableBool('want-shaders', True).getValue():
             self.skyLightScale = 120
         else:
             self.skyLightScale = 1
 
     def createOutdoorLighting(self):
-        if base.config.GetBool('want-shaders', True):
+        if ConfigVariableBool('want-shaders', True).getValue():
             alight = AmbientLight("hood-ambient-light")
             base.lightColor(alight, self.ambientTemp, self.ambientIntensity)
             self.ambientLight = base.render.attachNewNode(alight)

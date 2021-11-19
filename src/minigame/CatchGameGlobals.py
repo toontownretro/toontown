@@ -1,7 +1,9 @@
 # CatchGameGlobals.py: contains catch game stuff
 # used by both AI and client
 
-EndlessGame = config.GetBool('endless-catch-game', 0)
+from toontown.toonbase.ToontownModules import *
+
+EndlessGame = ConfigVariableBool('endless-catch-game', 0).getValue()
 
 #GameDuration = 60.
 # this is the duration of the tag game music...

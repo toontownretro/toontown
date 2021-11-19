@@ -3,6 +3,9 @@
 #import time
 import random
 import math
+import time
+import re
+import zlib
 
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
@@ -57,6 +60,7 @@ from toontown.battle import Fanfare
 from toontown.parties import PartyGlobals
 
 from toontown.toon import ElevatorNotifier
+from toontown.toon import ToonDNA
 from . import DistributedToon
 from . import Toon
 from . import LaffMeter
@@ -65,7 +69,7 @@ from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 
 # Checks whether we want to display the news page
 # which uses Awesomium to render HTML
-WantNewsPage = base.config.GetBool('want-news-page', ToontownGlobals.DefaultWantNewsPageSetting)
+WantNewsPage = ConfigVariableBool('want-news-page', ToontownGlobals.DefaultWantNewsPageSetting).getValue()
 from toontown.toontowngui import NewsPageButtonManager
 if WantNewsPage:
     from toontown.shtiker import NewsPage
@@ -120,6 +124,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                 "phase_3.5/audio/sfx/GUI_whisper_3.mp3")
             self.soundPhoneRing = base.loader.loadSfx(
                 "phase_3.5/audio/sfx/telephone_ring.mp3")
+            self.soundSystemMessage = base.loadSfx(
+                "phase_3/audio/sfx/clock03.mp3")
             self.positionExaminer = PositionExaminer.PositionExaminer()
 
             # A button to open up the Friends List.
@@ -201,9 +207,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             self.__presentingPie = 0
             self.__pieSequence = 0
 
-            self.wantBattles = base.config.GetBool('want-battles', 1)
-            self.seeGhosts = base.config.GetBool("see-ghosts", 0)
-            wantNameTagAvIds = base.config.GetBool('want-nametag-avids',0)
+            self.wantBattles = ConfigVariableBool('want-battles', 1).getValue()
+            self.seeGhosts = ConfigVariableBool("see-ghosts", 0).getValue()
+            wantNameTagAvIds = ConfigVariableBool('want-nametag-avids',0).getValue()
             if wantNameTagAvIds:
                 # simulate doing ~idTags
                 messenger.send('nameTagShowAvId', [])
@@ -217,7 +223,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             self.glitchOkay = 1
             self.tempGreySpacing = 0
 
-            self.wantStatePrint = base.config.GetBool('want-statePrint', 0)
+            self.wantStatePrint = ConfigVariableBool('want-statePrint', 0).getValue()
 
             #These items related to the gardening estates expansion
             self.__gardeningGui = None
@@ -264,11 +270,11 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
             # GMs have accepting-new-friends-default 0, which forces them to explicitly enable
             # friend requests if they ever want it.
-            self.acceptingNewFriends = Settings.getAcceptingNewFriends() and base.config.GetBool('accepting-new-friends-default', True)
+            self.acceptingNewFriends = Settings.getAcceptingNewFriends() and ConfigVariableBool('accepting-new-friends-default', True).getValue()
 
             # GMs have accepting-non-friend-whispers-default 0, which forces them to explicitly enable
             # non friend whisper requests if they ever want it.
-            self.acceptingNonFriendWhispers = Settings.getAcceptingNonFriendWhispers() and base.config.GetBool('accepting-non-friend-whispers-default', True)
+            self.acceptingNonFriendWhispers = Settings.getAcceptingNonFriendWhispers() and ConfigVariableBool('accepting-non-friend-whispers-default', True).getValue()
 
             self.questMap = None
 
@@ -501,7 +507,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.suitPage.load()
         self.book.addPage(self.suitPage, pageName = TTLocalizer.SuitPageTitle)
 
-        if base.config.GetBool("want-photo-album", 0):
+        if ConfigVariableBool("want-photo-album", 0).getValue():
             self.photoAlbumPage = PhotoAlbumPage.PhotoAlbumPage()
             self.photoAlbumPage.load()
             self.book.addPage(
@@ -715,11 +721,11 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.notify.debug("Setting GM State: %s in LocalToon" %state)
         DistributedToon.DistributedToon.setAsGM(self, state)
         if self.gmState:
-            if base.config.GetString('gm-nametag-string', '') != '':
-                self.gmNameTagString = base.config.GetString('gm-nametag-string')
-            if base.config.GetString('gm-nametag-color', '') != '':
-                self.gmNameTagColor = base.config.GetString('gm-nametag-color')
-            if base.config.GetInt('gm-nametag-enabled', 0):
+            if ConfigVariableString('gm-nametag-string', '').getValue() != '':
+                self.gmNameTagString = ConfigVariableString('gm-nametag-string').getValue()
+            if ConfigVariableString('gm-nametag-color', '').getValue() != '':
+                self.gmNameTagColor = ConfigVariableString('gm-nametag-color').getValue()
+            if ConfigVariableInt('gm-nametag-enabled', 0).getValue():
                 self.gmNameTagEnabled = 1
             self.d_updateGMNameTag()
 
@@ -1450,6 +1456,23 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         if self.__furnitureGui:
             self.__furnitureGui.hide()
 
+    def clarabelleNewsPageCollision(self, show = True):
+        if self.__clarabelleButton == None:
+            return
+        claraXPos = ClaraBaseXPos
+        notifyXPos = CatalogNotifyDialog.CatalogNotifyBaseXPos
+        if show:
+            claraXPos += AdjustmentForNewsButton
+            notifyXPos += AdjustmentForNewsButton
+        newPos = (claraXPos - 0.1, 1.0, -0.55)
+        self.__clarabelleButton.setPos(newPos)
+        if self.__catalogNotifyDialog == None or \
+           self.__catalogNotifyDialog.frame == None:
+            return
+        notifyPos = self.__catalogNotifyDialog.frame.getPos()
+        notifyPos[0] = notifyXPos
+        self.__catalogNotifyDialog.frame.setPos(notifyPos)
+
     def loadClarabelleGui(self):
         # Make sure we are not already loaded
         if self.__clarabelleButton:
@@ -1522,6 +1545,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
            ((self.simpleMailNotify != ToontownGlobals.NoItems) or (self.inviteMailNotify != ToontownGlobals.NoItems)):
             self.__clarabelleButton['text'] = ["",TTLocalizer.MailNewMailButton,
                                                TTLocalizer.MailNewMailButton]
+        if self.newsButtonMgr.isNewIssueButtonShown():
+            self.clarabelleNewsPageCollision(True)
 
         self.__clarabelleButton.show()
         self.__clarabelleFlash.resume()
@@ -1539,9 +1564,13 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         if self.__catalogNotifyDialog:
             self.__catalogNotifyDialog.cleanup()
             self.__catalogNotifyDialog = None
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: VISITESTATE: Visit estate')
         place.goHomeNow(self.lastHood)
 
     def __startMoveFurniture(self):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: ESTATE:  Furniture Placement')
         if self.cr.furnitureManager != None:
             self.cr.furnitureManager.d_suggestDirector(self.doId)
         elif self.furnitureManager != None:
@@ -2770,7 +2799,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         Note the returned value is a float.
         """
         days = 0
-        defaultDays = base.cr.config.GetInt('account-days', -1)
+        defaultDays = ConfigVariableInt('account-days', -1).getValue()
         if defaultDays >= 0:
             days = defaultDays
         elif hasattr(base.cr, 'accountDays'):

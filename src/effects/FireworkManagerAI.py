@@ -54,7 +54,7 @@ class FireworkManagerAI(HolidayBaseAI.HolidayBaseAI):
             showType = self.zoneToStyleDict.get(hood.canonicalHoodId)
             if showType is not None:
                 self.startShow(hood.zoneId, showType)
-            
+
         self.waitForNextShow()
         return Task.done
 
@@ -75,7 +75,7 @@ class FireworkManagerAI(HolidayBaseAI.HolidayBaseAI):
         """
         if zone in self.fireworkShows:
             self.notify.warning("startShow: already running a show in zone: %s" % (zone))
-            return 0        
+            return 0
         self.notify.debug("startShow: zone: %s showType: %s" % (zone, showType))
         # Create a show, passing ourselves in so it can tell us when
         # the show is over
@@ -83,7 +83,7 @@ class FireworkManagerAI(HolidayBaseAI.HolidayBaseAI):
         show.generateWithRequired(zone)
         self.fireworkShows[zone] = show
         # Currently needed to support legacy fireworks
-        if simbase.air.config.GetBool('want-old-fireworks', 0) or magicWord == 1:
+        if ConfigVariableBool('want-old-fireworks', 0).getValue() or magicWord == 1:
             show.d_startShow(showType, showType)
         else:
             show.d_startShow(self.holidayId, showType)
@@ -123,4 +123,3 @@ class FireworkManagerAI(HolidayBaseAI.HolidayBaseAI):
         Is there currently a show running in this zone?
         """
         return zone in self.fireworkShows
-        

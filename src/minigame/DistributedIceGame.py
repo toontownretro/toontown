@@ -1275,7 +1275,7 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame,
             for treasure in self.treasures:
                 treasure.destroy()
             self.treasures = []
-        #for index in xrange(self.numTreasures):
+        #for index in range(self.numTreasures):
         index = 0
         treasureMargin = IceGameGlobals.TireRadius + 1.0
         while len(self.treasures) < self.numTreasures:
@@ -1313,7 +1313,7 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame,
             for penalty in self.penalties:
                 penalty.destroy()
             self.penalties = []
-        #for index in xrange(self.numPenalties):
+        #for index in range(self.numPenalties):
         index = 0
         while len(self.penalties) < self.numPenalties:
 

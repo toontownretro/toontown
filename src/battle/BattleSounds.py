@@ -20,7 +20,7 @@ class BattleSounds:
         self.isValid=0
         if self.mgr != None and self.mgr.isValid():
             self.isValid=1
-            limit = base.config.GetInt('battle-sound-cache-size', 15)
+            limit = ConfigVariableInt('battle-sound-cache-size', 15).getValue()
             self.mgr.setCacheLimit(limit)
 
             # make sure user sound settings are applied to this snd manager

@@ -27,11 +27,11 @@ class ToontownPostProcess(PostProcess):
         self.camDebugs = []
         self.camDebugZ = -0.2
 
-        self.enableHDR = base.config.GetBool("hdr-enable", True)
-        self.enableBloom = base.config.GetBool("bloom-enable", True)
-        self.enableSSAO = base.config.GetBool("ssao-enable", True)
-        self.enableFXAA = base.config.GetBool("fxaa-enable", True)
-        self.enableMB = base.config.GetBool("motion-blur-enable", False)
+        self.enableHDR = ConfigVariableBool("hdr-enable", True).getValue()
+        self.enableBloom = ConfigVariableBool("bloom-enable", True).getValue()
+        self.enableSSAO = ConfigVariableBool("ssao-enable", True).getValue()
+        self.enableFXAA = ConfigVariableBool("fxaa-enable", True).getValue()
+        self.enableMB = ConfigVariableBool("motion-blur-enable", False).getValue()
 
         self.flashEnabled = False
         self.flashColor = PTA_LVecBase3f.emptyArray(1)
@@ -59,7 +59,7 @@ class ToontownPostProcess(PostProcess):
 
     def updateCamDebugs(self, task):
         method = self.camDebugs[0]
-        methodVal = base.config.GetInt("hdr-exposure-auto-method")
+        methodVal = ConfigVariableInt("hdr-exposure-auto-method").getValue()
         if methodVal == 0:
             method.setText("Program AE")
         elif methodVal == 1:
@@ -106,7 +106,7 @@ class ToontownPostProcess(PostProcess):
             loadPrcFileData("", "{0} {1}".format(varname, slider['value']))
             text.setText("{0}: {1}".format(title, slider['value']))
 
-        value = base.config.GetFloat(varname, min)
+        value = ConfigVariableDouble(varname, min).getValue()
         frame = DirectFrame(parent = base.a2dTopLeft, pos = (0.3, 0, self.hbaoControlZ), scale = 0.3)
         titleText = OnscreenText("{0}: {1}".format(title, value), parent = frame, scale = 0.1)
         slider = DirectSlider(
@@ -307,7 +307,7 @@ class ToontownPostProcess(PostProcess):
             #ptext += "  ApplyProgramAuto(1.0, targetEV, aperature, shutterSpeed, iso);\n"
             #ptext += "  outputColor.rgb *= GetSaturationBasedExposure(aperature, shutterSpeed, iso);\n"
             #ptext += "  outputColor.rgb *= p3d_ExposureScale;\n"
-        if self.enableSSAO and base.config.GetBool("ao-debug", False):
+        if self.enableSSAO and ConfigVariableBool("ao-debug", False).getValue():
             ptext += "  outputColor.rgb = vec3(texture(aoSampler, l_texcoord).x);\n"
         ptext += "}\n"
 

@@ -425,7 +425,7 @@ class Pet(Avatar.Avatar):
         if self.moodModel:
             self.moodModel.hide()
 
-        if base.config.GetBool('want-speech-bubble', 1):
+        if ConfigVariableBool('want-speech-bubble', 1).getValue():
             self.nametag.setChat(random.choice(TTLocalizer.SpokenMoods[mood]), CFSpeech)
         else:
             self.nametag.setChat(random.choice(TTLocalizer.SpokenMoods[mood]), CFThought)  # Note: Use CFTimeout?

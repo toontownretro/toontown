@@ -13,6 +13,7 @@ from toontown.coghq import BossbotOfficeExterior
 from toontown.coghq import CountryClubInterior
 from toontown.toonbase.ToontownModules import DecalEffect, TextEncoder
 import random
+from toontown.toonbase.ToontownModules import *
 
 # Used to compensate for scaling of Cog tunnel sign's
 # original aspect ratio of 1125x813 to a uniform ratio,
@@ -83,6 +84,8 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
             origin.setH(-33.33)
 
         elif zoneId == ToontownGlobals.BossbotLobby:
+            if ConfigVariableBool('want-qa-regression', 0).getValue():
+                self.notify.info('QA-REGRESSION: COGHQ: Visit BossbotLobby')
             self.notify.debug("cogHQLobbyModelPath = %s" % self.cogHQLobbyModelPath)
             self.geom = loader.loadModel(self.cogHQLobbyModelPath)
 
@@ -91,7 +94,7 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
             # that is ok because we do not need to load any models - they all
             # get loaded by the distributed object
             self.notify.warning("loadPlaceGeom: unclassified zone %s" % zoneId)
-            
+
         # Flatten the geom a bit
         if self.geom:
             self.geom.flattenMedium()

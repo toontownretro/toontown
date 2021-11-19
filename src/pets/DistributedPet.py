@@ -1,7 +1,6 @@
 """DistributedPet module: contains the DistributedPet class"""
 
 from toontown.toonbase.ToontownModules import *
-from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.PythonUtil import *
 from direct.directnotify import DirectNotifyGlobal

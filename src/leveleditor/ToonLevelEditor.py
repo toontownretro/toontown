@@ -25,10 +25,10 @@ class ToonLevelEditor(LevelEditorBase):
 
         # define your own config file similar to this
         self.settingsFile = os.path.dirname(__file__) + '/LevelEditor.cfg'
-        
+
         self.DNAData = None
-        self.dnaDirectory = Filename.expandFrom(base.config.GetString("dna-directory", "$TTMODELS/src/dna"))
-        
+        self.dnaDirectory = Filename.expandFrom(ConfigVariableString("dna-directory", "$TTMODELS/src/dna").getValue())
+
         self.NPToplevel = None
         self.suitPointToplevel = None
         self.lastMousePos = Point3()
@@ -46,7 +46,7 @@ class ToonLevelEditor(LevelEditorBase):
         self.ui.SetCursor(wx.Cursor(wx.CURSOR_WAIT))
         self.objectPalette.populate()
         self.protoPalette.populate()
-        
+
         # Updating UI-panels based on the above data
         self.ui.objectPaletteUI.populate()
         self.ui.protoPaletteUI.populate()
@@ -55,7 +55,7 @@ class ToonLevelEditor(LevelEditorBase):
         # you should call self.initialize() at the end of __init__() function
         self.initialize()
         self.ui.SetCursor(wx.Cursor(wx.CURSOR_ARROW))
-        
+
         self.styleManager = LevelStyleManager(NEIGHBORHOODS, NEIGHBORHOOD_CODES)
         self.accept('DIRECT-mouse1', self.handleMouse1)
 

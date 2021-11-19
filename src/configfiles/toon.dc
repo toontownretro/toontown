@@ -293,6 +293,7 @@ from toontown.uberdog.DistributedCpuInfoMgr/AI/UD import DistributedCpuInfoMgr/A
 from toontown.rpc.RATManager/UD import RATManager/UD
 
 from toontown.uberdog.DistributedInGameNewsMgr/AI/UD import DistributedInGameNewsMgr/AI/UD
+from toontown.uberdog.DistributedWhitelistMgr/AI/UD import DistributedWhitelistMgr/AI/UD
 from toontown.coderedemption.TTCodeRedemptionMgr/AI/UD import TTCodeRedemptionMgr/AI/UD
 from toontown.distributed.NonRepeatableRandomSourceAI import NonRepeatableRandomSourceAI
 from toontown.distributed.NonRepeatableRandomSourceUD import NonRepeatableRandomSourceUD
@@ -2268,7 +2269,7 @@ dclass DistributedLevel: DistributedObject {
   setOuch(uint8 penalty = 0) airecv clsend;        //appears safe, sanity check on penalty would be nice
 
   // for dev env
-  requestCurrentLevelSpec(int32 specHash, string entTypeRegHash) airecv clsend;   //appears safe
+  requestCurrentLevelSpec(int64 specHash, string entTypeRegHash) airecv clsend;   //appears safe
   setSpecDeny(blob reason);
   setSpecSenderDoId(uint32 doId);
 
@@ -4473,6 +4474,14 @@ dclass DistributedInGameNewsMgr : DistributedObjectGlobal {
    setLatestIssueStr(string latestissue) required broadcast ram;
    inGameNewsMgrAIStartingUp(uint32 doId, uint32 shardId); // ai to ud sent on inGameNewsManagerAI.announceGenerate
    newIssueUDtoAI(string latestIssue) airecv;  // ud to all AIs
+};
+
+// in the ideal world we'd only have a UD object which sends updates directly to client objects, without AI
+dclass DistributedWhitelistMgr : DistributedObjectGlobal {
+   // AI to clients
+  updateWhitelist() broadcast;
+  whitelistMgrAIStartingUp(uint32, doId, uint32 shardId); // ai to ud sent on whitelistManagerAI.announceGenerate
+  newListUDtoAI() airecv;
 };
 
 

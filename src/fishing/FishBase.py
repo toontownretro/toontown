@@ -12,7 +12,7 @@ class FishBase:
         self.genus = genus
         self.species = species
         self.weight = weight
- 
+
     def getGenus(self):
         return self.genus
 
@@ -56,7 +56,7 @@ class FishBase:
         dict = FishGlobals.FishFileDict
         fileInfo = dict.get(self.genus, dict[-1])
         return fileInfo[0]
-        
+
     def getActor(self):
         """
         Returns an actor comprised of the fish model and it's swim cycle.
@@ -80,7 +80,7 @@ class FishBase:
         loop = None
         delay = None
         playRate = None
-        if base.config.GetBool('want-fish-audio', 1):
+        if ConfigVariableBool('want-fish-audio', 1).getValue():
             soundDict = FishGlobals.FishAudioFileDict
             fileInfo = soundDict.get(self.genus, None)
             if fileInfo:
@@ -90,7 +90,7 @@ class FishBase:
                 delay = soundDict[self.genus][2]
                 playRate = soundDict[self.genus][3]
         return (sound, loop, delay, playRate)
-        
+
     def __str__(self):
         return ("%s, weight: %s value: %s" %
                 (self.getSpeciesName(), self.weight, self.getValue()))

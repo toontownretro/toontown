@@ -92,11 +92,11 @@ FLOOR_REWARD_TIMEOUT = 4
 BUILDING_REWARD_TIMEOUT = 300
 
 try:
-#    debugBattles = base.config.GetBool('debug-battles', 0)
-    CLIENT_INPUT_TIMEOUT = base.config.GetFloat('battle-input-timeout', TTLocalizer.BBbattleInputTimeout)
+#    debugBattles = ConfigVariableBool('debug-battles', 0).getValue()
+    CLIENT_INPUT_TIMEOUT = ConfigVariableDouble('battle-input-timeout', TTLocalizer.BBbattleInputTimeout).getValue()
 except:
-#    debugBattles = simbase.config.GetBool('debug-battles', 0)
-    CLIENT_INPUT_TIMEOUT = simbase.config.GetFloat('battle-input-timeout', TTLocalizer.BBbattleInputTimeout)
+#    debugBattles = ConfigVariableBool('debug-battles', 0).getValue()
+    CLIENT_INPUT_TIMEOUT = ConfigVariableDouble('battle-input-timeout', TTLocalizer.BBbattleInputTimeout).getValue()
 
 def levelAffectsGroup(track, level):
     #return (level % 2)

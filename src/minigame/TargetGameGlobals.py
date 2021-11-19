@@ -4,7 +4,7 @@ from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 
-ENDLESS_GAME = config.GetBool('endless-ring-game', 0)
+ENDLESS_GAME = ConfigVariableBool('endless-ring-game', 0).getValue()
 
 NUM_RING_GROUPS = 16
 

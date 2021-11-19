@@ -100,7 +100,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.panFlashInterval = None
 
         self.panDamage = ToontownGlobals.LawbotBossDefensePanDamage
-        if base.config.GetBool('lawbot-boss-cheat',0):
+        if ConfigVariableBool('lawbot-boss-cheat',0).getValue():
             self.panDamage = 25
 
         self.evidenceHitSfx = None
@@ -896,7 +896,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         """
         Load the scales of injustice.
         """
-        self.useProgrammerScale = base.config.GetBool('want-injustice-scale-debug',0)
+        self.useProgrammerScale = ConfigVariableBool('want-injustice-scale-debug',0).getValue()
         if self.useProgrammerScale:
             self.loadScaleOld()
         else:

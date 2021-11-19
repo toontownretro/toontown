@@ -30,9 +30,9 @@ class DistributedTrolleyAI(DistributedObjectAI.DistributedObjectAI):
         self.accepting = 0
 
         self.trolleyCountdownTime = \
-                          simbase.config.GetFloat("trolley-countdown-time",
-                                                  TROLLEY_COUNTDOWN_TIME)
-        
+                          ConfigVariableDouble("trolley-countdown-time",
+                                                  TROLLEY_COUNTDOWN_TIME).getValue()
+
         self.fsm = ClassicFSM.ClassicFSM('DistributedTrolleyAI',
                            [State.State('off',
                                         self.enterOff,
@@ -212,17 +212,17 @@ class DistributedTrolleyAI(DistributedObjectAI.DistributedObjectAI):
         avId = self.air.getAvatarIdFromSender()
         if (self.findAvatar(avId) != None):
             self.notify.warning("Ignoring multiple requests from %s to board." % (avId))
-            return        
+            return
 
         av = self.air.doId2do.get(avId)
         if av:
             newArgs = (avId,) + args
-            
+
             if not ToontownAccessAI.canAccess(avId, self.zoneId):
                 self.notify.warning("Tooon %s does not have access to the trolley." % (avId))
                 self.rejectingBoardersHandler(*newArgs)
                 return
-                
+
             # Only toons with hp greater than 0 may board the trolley.
             if (av.hp > 0) and self.accepting:
                 self.acceptingBoardersHandler(*newArgs)
@@ -399,7 +399,7 @@ class DistributedTrolleyAI(DistributedObjectAI.DistributedObjectAI):
             toonRodeTrolley() was only being used for the single first-time
             trolley quest, so I renamed it to toonRodeTrolleyFirstTime() and
             only call it from the newbie PurchaseMgr.
-            
+
             # Update the quest manager in case any toon had a trolley quest
             for avId in self.seats:
                 if avId:
@@ -416,12 +416,12 @@ class DistributedTrolleyAI(DistributedObjectAI.DistributedObjectAI):
 
             startingVotes = None
             metagameRound = -1
-            trolleyGoesToMetagame = simbase.config.GetBool('trolley-goes-to-metagame', 0)
+            trolleyGoesToMetagame = ConfigVariableBool('trolley-goes-to-metagame', 0).getValue()
             trolleyHoliday = bboard.get( TrolleyHolidayMgrAI.TrolleyHolidayMgrAI.PostName)
             trolleyWeekend = bboard.get( TrolleyWeekendMgrAI.TrolleyWeekendMgrAI.PostName)
             if trolleyGoesToMetagame or trolleyHoliday or trolleyWeekend:
                 metagameRound = 0
-                if simbase.config.GetBool('metagame-min-2-players', 1) and \
+                if ConfigVariableBool('metagame-min-2-players', 1).getValue() and \
                    len(playerArray) == 1:
                     # but if there's only 1, bring it back to a regular minigame
                     metagameRound = -1

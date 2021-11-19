@@ -35,8 +35,8 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         self.seed = 0
         self.random = None
         self.picnicCountdownTime = \
-                              base.config.GetFloat("picnic-countdown-time",
-                                                   ToontownGlobals.PICNIC_COUNTDOWN_TIME)
+                              ConfigVariableDouble("picnic-countdown-time",
+                                                   ToontownGlobals.PICNIC_COUNTDOWN_TIME).getValue()
         self.picnicBasketTrack = None # only one track contains the picnic basket shrink/grow
 
         self.fsm = ClassicFSM.ClassicFSM('DistributedTrolley',

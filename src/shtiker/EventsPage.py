@@ -26,6 +26,8 @@ from toontown.parties.ServerTimeGui import ServerTimeGui
 
 from . import ShtikerPage
 
+from toontown.toonbase.ToontownModules import *
+
 # display tab modes
 EventsPage_Host = 0
 EventsPage_Invited = 1
@@ -40,11 +42,11 @@ class EventsPage(ShtikerPage.ShtikerPage):
     notify = DirectNotifyGlobal.directNotify.newCategory("EventsPage")
 
     # warning self.rssFeed garbage leaks
-    UseNewsTab = base.config.GetBool('want-news-tab', 0)
+    UseNewsTab = ConfigVariableBool('want-news-tab', 0).getValue()
     DefaultNewsUrl = "/news/news_urls.txt"
-    NewsUrl = base.config.GetString('news-url', DefaultNewsUrl)
+    NewsUrl = ConfigVariableString('news-url', DefaultNewsUrl).getValue()
     DownloadArticlesTaskName = "downloadArticlesTask"
-    NonblockingDownload =  base.config.GetBool("news-nonblocking",1)
+    NonblockingDownload =  ConfigVariableBool("news-nonblocking",1).getValue()
 
     def __init__(self):
         """__init__(self)
@@ -53,7 +55,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         ShtikerPage.ShtikerPage.__init__(self)
         self.mode = EventsPage_Calendar
         self.setMode(self.mode)
-        self.noTeleport = config.GetBool("Parties-page-disable", 0)
+        self.noTeleport = ConfigVariableBool("Parties-page-disable", 0).getValue()
         self.isPrivate = True
         self.gotRssFeed = False
         self.gotArticles = False

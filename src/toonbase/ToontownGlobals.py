@@ -1024,6 +1024,9 @@ BossCogBattleBPosHpr = (0, 25, 0, 180, 0, 0)
 # How many pie hits does it take to kill the Sellbot VP?
 SellbotBossMaxDamage = 100
 
+# How many pie hits does it take to kill the Nerfed Sellbot VP?
+SellbotBossMaxDamageNerfed = 100
+
 # How many pie hits does it take to kill the Sellbot VP?
 SellbotBossMaxDamageNerfed = 100
 
@@ -1719,7 +1722,7 @@ ToonAnimStates = set([
     "ScientistPlay",
     ]
    )
-   
+
 # Pirates
 AV_FLAG_REASON_TOUCH = 1
 AV_FLAG_HISTORY_LEN = 500

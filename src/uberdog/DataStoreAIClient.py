@@ -2,6 +2,7 @@ from direct.directnotify.DirectNotifyGlobal import directNotify
 from toontown.uberdog import DataStoreGlobals
 from direct.showbase.DirectObject import DirectObject
 import pickle
+from toontown.toonbase.ToontownModules import *
 
 class DataStoreAIClient(DirectObject):
     """
@@ -26,10 +27,10 @@ class DataStoreAIClient(DirectObject):
     control on the Uberdog.  That way, we have only one point of control
     rather than several various AIs who may not be entirely in sync.
     """
-    
+
     notify = directNotify.newCategory('DataStoreAIClient')
-    wantDsm = simbase.config.GetBool('want-ddsm', 1)
-        
+    wantDsm = ConfigVariableBool('want-ddsm', 1).getValue()
+
     def __init__(self,air,storeId,resultsCallback):
         """
         storeId is a unique identifier to the type of store
@@ -76,13 +77,13 @@ class DataStoreAIClient(DirectObject):
 
     def isOpen(self):
         return self.__enabled
-    
+
     def getQueryTypes(self):
         return list(self.__queryTypesDict.keys())
 
     def getQueryTypeString(self,qId):
         return self.__queryStringDict.get(qId,None)
-    
+
     def sendQuery(self,queryTypeString,queryData):
         """
         Sends a query to the data store.  The format of the query is
@@ -99,7 +100,7 @@ class DataStoreAIClient(DirectObject):
                 self.notify.debug('Tried to send invalid query type: \'%s\'' % (queryTypeString,))
         else:
             self.notify.warning('Client currently stopped.  \'%s\' query will fail.' % (queryTypeString,))
-        
+
     def receiveResults(self,data):
         """
         Upon receiving a query, the store will respond with a result.
@@ -123,7 +124,7 @@ class DataStoreAIClient(DirectObject):
         """
         self.accept('TDS-results-%d'%self.__storeId,self.receiveResults)
         self.__enabled = True
-        
+
     def __stopClient(self):
         """
         Disallow the client from sending queries and receiving results

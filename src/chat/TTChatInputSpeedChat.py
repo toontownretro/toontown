@@ -166,7 +166,7 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
         self.insidePartiesMenu = None
         self.createSpeedChat()
         self.whiteList = None
-        self.allowWhiteListSpeedChat = base.config.GetBool('white-list-speed-chat', 0)
+        self.allowWhiteListSpeedChat = ConfigVariableBool('white-list-speed-chat', 0).getValue()
         if self.allowWhiteListSpeedChat:
             self.addWhiteList()
 
@@ -293,7 +293,7 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
             self.chatMgr.fsm.request("mainMenu")
         self.terminalSelectedEvent = self.speedChat.getEventName(
             SpeedChatGlobals.SCTerminalSelectedEvent)
-        if base.config.GetBool('want-sc-auto-hide', 1):
+        if ConfigVariableBool('want-sc-auto-hide', 1).getValue():
             # We're not hiding the whole speedchat after a single phrase is selected.
             # Hence, we're not accepting self.terminalSelectedEvent any more.
             self.accept(self.terminalSelectedEvent, selectionMade)

@@ -23,6 +23,8 @@ import socket
 import string
 import re
 
+from toontown.toonbase.ToontownModules import *
+
 #SE = ET.SubElement
 
 class FormErrors:
@@ -56,7 +58,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
     ReCAPTCHAPublicKey = '6Ld8gwkAAAAAALtgzi9Y0q8DqflAK7DwfeiKfTGN'
     ReCAPTCHAPrivateKey = '6Ld8gwkAAAAAAEtBhL2sblZNm4SFy3B8g-6PDIUI'
 
-    Disabled = config.GetBool('disable-code-redemption', 0)
+    Disabled = ConfigVariableBool('disable-code-redemption', 0).getValue()
 
     class GenericErrors:
         EmptyInput = 'This field is required'
@@ -114,11 +116,11 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         self.webDispatcher.listenOnPort(self.HTTPListenPort)
         '''
 
-        self.DBuser = uber.config.GetString("mysql-user", PartiesUdConfig.ttDbUser)
-        self.DBpasswd = uber.config.GetString("mysql-passwd", PartiesUdConfig.ttDbPasswd)
+        self.DBuser = ConfigVariableString("mysql-user", PartiesUdConfig.ttDbUser).getValue()
+        self.DBpasswd = ConfigVariableString("mysql-passwd", PartiesUdConfig.ttDbPasswd).getValue()
 
-        self.DBhost = uber.config.GetString("tt-code-db-host", uber.mysqlhost)
-        self.DBport = uber.config.GetInt("tt-code-db-port", PartiesUdConfig.ttDbPort)
+        self.DBhost = ConfigVariableString("tt-code-db-host", uber.mysqlhost).getValue()
+        self.DBport = ConfigVariableInt("tt-code-db-port", PartiesUdConfig.ttDbPort).getValue()
         self.DBname = choice(uber.crDbName != '', uber.crDbName, TTCodeRedemptionConsts.DefaultDbName)
 
         self._rewardSerialNumGen = SerialNumGen()
@@ -142,7 +144,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         self._randSampleContextGen = SerialMaskedGen((1<<32)-1)
 
         self._spamDetector = TTCodeRedemptionSpamDetector.TTCodeRedemptionSpamDetector()
-        self._wantSpamDetect = config.GetBool('want-code-redemption-spam-detect', 1)
+        self._wantSpamDetect = ConfigVariableBool('want-code-redemption-spam-detect', 1).getValue()
 
         if __dev__:
             self._testAvId = random.randrange(self.TestRedemptionSpamAvIdMin, self.TestRedemptionSpamAvIdMax)
@@ -365,7 +367,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         codeTypeDropdown = SE(codeTypeDropdownCell, 'select', name=codeTypeName)
 
         codeTypes = [('manual', 'Manually-created code, many toons use same code'), ]
-        if config.GetBool('want-unique-code-generation', 0):
+        if ConfigVariableBool('want-unique-code-generation', 0).getValue():
             codeTypes.append(('auto', 'Auto-generated codes, one redemption per code'))
 
         for formVal, desc in codeTypes:

@@ -35,17 +35,17 @@ GlobalWebcore = None
 class HtmlView( DirectObject):
 
     notify = DirectNotifyGlobal.directNotify.newCategory("HtmlView")
-    useHalfTexture = base.config.GetBool("news-half-texture", 0)
+    useHalfTexture = ConfigVariableBool("news-half-texture", 0).getValue()
 
     def __init__(self, parent = aspect2d):
         """Properly initialize ourself."""
         #AwWebViewListener.AwWebViewListener.__init__(self)
+        global GlobalWebcore
         self.parent = parent
         self.mx =0
         self.my = 0
         self.htmlFile = "index.html"
         self.transparency = False # this is important looks weird if it's true
-        global GlobalWebcore
         if GlobalWebcore:
             # we get a C++ crash if we construct webcore a second time
             pass
@@ -112,9 +112,9 @@ class HtmlView( DirectObject):
     def getInGameNewsUrl(self):
         """Get the appropriate URL to use if we are in test, qa, or live."""
         # First if all else fails, we hard code the live news url
-        result = base.config.GetString("fallback-news-url", "http://cdn.toontown.disney.go.com/toontown/en/gamenews/")
+        result = ConfigVariableString("fallback-news-url", "http://cdn.toontown.disney.go.com/toontown/en/gamenews/").getValue()
         # next check if we have an override, say they want to url to point to a file in their harddisk
-        override = base.config.GetString("in-game-news-url", "")
+        override = ConfigVariableString("in-game-news-url", "").getValue()
         if override:
             self.notify.info("got an override url,  using %s for in a game news" % override)
             result = override

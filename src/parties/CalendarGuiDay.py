@@ -14,6 +14,7 @@ from toontown.parties.PartyInfo import PartyInfo
 from toontown.parties import PartyGlobals
 from toontown.ai.NewsManager import NewsManager
 from toontown.toon import GMUtils
+from toontown.toonbase.ToontownModules import *
 
 def myStrftime( myTime):
     """Return a better time string without the leading zero"""
@@ -47,7 +48,7 @@ class CalendarGuiDay(DirectFrame):
         self.hostedPartiesToday = []
         self.yearlyHolidaysToday = [] # either ending or starting today
 
-        self.showMarkers = base.config.GetBool('show-calendar-markers',0)
+        self.showMarkers = ConfigVariableBool('show-calendar-markers',0).getValue()
 
         self.filter = ToontownGlobals.CalendarFilterShowAll
 
@@ -276,7 +277,7 @@ class CalendarGuiDay(DirectFrame):
                 self.addTitleAndDescToScrollList(holidayName, holidayDesc)
             self.scrollList.refresh()
 
-        if base.config.GetBool('calendar-test-items',0):
+        if ConfigVariableBool('calendar-test-items',0).getValue():
             # add test items just so we see scroll list arrows
             if self.myDate.date() + datetime.timedelta(days=-1) == base.cr.toontownTimeManager.getCurServerDateTime().date():
                 testItems = ("1:00 AM Party", "2:00 AM CEO", "11:15 AM Party",
@@ -764,7 +765,7 @@ class MiniInviteVisual(DirectFrame):
         self.partyInfo = partyInfo
         self._parent = parent
         self.inviteBackgrounds = loader.loadModel("phase_4/models/parties/partyStickerbook")
-        backgrounds = ["calendar_popup_birthday", "calendar_popup_fun", "calendar_popup_cupcake", "tt_t_gui_sbk_calendar_popup_racing", "tt_t_gui_sbk_calendar_popup_valentine1", "tt_t_gui_sbk_calendar_popup_victoryParty"]
+        backgrounds = ["calendar_popup_birthday", "calendar_popup_fun", "calendar_popup_cupcake", "tt_t_gui_sbk_calendar_popup_racing", "tt_t_gui_sbk_calendar_popup_valentine1", "tt_t_gui_sbk_calendar_popup_victoryParty", "tt_t_gui_sbk_calendar_popup_winter1"]
         self.background = DirectFrame(
             parent = self,
             relief = None,

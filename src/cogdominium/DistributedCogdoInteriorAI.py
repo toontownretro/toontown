@@ -47,7 +47,7 @@ IntGames = set([
     "defense",
     ])
 
-simbase.forcedCogdoGame = config.GetString('cogdo-game', '')
+simbase.forcedCogdoGame = ConfigVariableString('cogdo-game', '').getValue()
 
 GameRequests = {}
 
@@ -93,7 +93,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI.DistributedObjectAI):
 
         self._game = None
 
-        self._CogdoGameRepeat = config.GetBool('cogdo-game-repeat', 0)
+        self._CogdoGameRepeat = ConfigVariableBool('cogdo-game-repeat', 0).getValue()
 
         self.suits = []
         self.activeSuits = []
@@ -105,7 +105,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI.DistributedObjectAI):
 
         self.timer = Timer.Timer()
 
-        self._wantBarrelRoom = config.GetBool('cogdo-want-barrel-room', 0)
+        self._wantBarrelRoom = ConfigVariableBool('cogdo-want-barrel-room', 0).getValue()
         self.barrelRoom = None
 
         self.responses = {}
@@ -674,7 +674,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI.DistributedObjectAI):
         for (toonId, penalty) in self._penaltyLaff.items():
             if penalty:
                 av = self.air.doId2do.get(toonId)
-                if config.GetBool('want-cogdo-maze-no-sad', 1):
+                if ConfigVariableBool('want-cogdo-maze-no-sad', 1).getValue():
                     avHp = av.getHp()
                     if avHp < 1:
                         avHp = 1

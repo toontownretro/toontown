@@ -4,7 +4,7 @@ from toontown.toonbase.ToontownModules import *
 from toontown.ai.ToontownAIMsgTypes import *
 from direct.distributed import DistributedObjectAI
 from . import DistributedHouseAI
-# import DistributedGardenAI
+# from . import DistributedGardenAI
 from . import DistributedCannonAI
 from . import DistributedHouseInteriorAI
 from . import DistributedHouseDoorAI
@@ -160,7 +160,7 @@ class DistributedHouseAI(DistributedObjectAI.DistributedObjectAI):
         # self.garden_created = 1
 
         # create a cannon
-        #if self.cannonEnabled and simbase.config.GetBool('estate-cannons', 0):
+        #if self.cannonEnabled and ConfigVariableBool('estate-cannons', 0).getValue():
         #    posHpr = CannonGlobals.cannonDrops[self.housePosInd]
         #    self.cannon = DistributedCannonAI.DistributedCannonAI(self.air, self.estateId,
         #                                                         *posHpr)

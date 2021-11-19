@@ -3,7 +3,6 @@ from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
 from direct.showbase import Transitions
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from . import LaffMeter
 
 class DeathForceAcknowledge:
@@ -27,7 +26,7 @@ class DeathForceAcknowledge:
                 image_scale = 3.0,
                 state = DGG.NORMAL,
                 )
-            self.fade.reparentTo(aspect2d, DGG.FADE_SORT_INDEX)
+            self.fade.reparentTo(render2d, DGG.FADE_SORT_INDEX)
             fadeModel.removeNode()
         else:
             print("Problem loading fadeModel.")

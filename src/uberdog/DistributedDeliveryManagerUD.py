@@ -302,7 +302,7 @@ class GiveItem(AsyncRequest):
         AsyncRequest.finish(self)
 
 class DistributedDeliveryManagerUD(DistributedObjectGlobalUD):
-    timeScale = simbase.config.GetFloat('catalog-time-scale', 1.0)
+    timeScale = ConfigVariableDouble('catalog-time-scale', 1.0).getValue()
     def __init__(self, air):
         DistributedObjectGlobalUD.__init__(self, air)
         self.avatarIdToName = LRUlist(8192)#{} #cache for names from the database

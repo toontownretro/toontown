@@ -2,7 +2,6 @@
 
 from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 
 class PatternPad(DirectFrame):
     """PatternPad class: pad used by the pattern matching game

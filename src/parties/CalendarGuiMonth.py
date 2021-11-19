@@ -6,6 +6,7 @@ from direct.gui.DirectGui import DirectFrame, DirectLabel, DirectButton, DirectS
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.parties.CalendarGuiDay import CalendarGuiDay
+from toontown.toonbase.ToontownModules import *
 
 class CalendarGuiMonth(DirectFrame):
     """A class to represent the gui for one month.
@@ -26,7 +27,7 @@ class CalendarGuiMonth(DirectFrame):
         DirectFrame.__init__(self, parent=parent, scale=scale, pos = pos)
 
         # for debugging, show red dots for locators
-        self.showMarkers = base.config.GetBool('show-calendar-markers',0)
+        self.showMarkers = ConfigVariableBool('show-calendar-markers',0).getValue()
 
         # WARNING debug only, remove this or else we leak
         # base.cgm = self

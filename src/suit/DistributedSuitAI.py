@@ -35,9 +35,9 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
     """
 
 
-    SUIT_BUILDINGS             =simbase.config.GetBool('want-suit-buildings',1)
+    SUIT_BUILDINGS             =ConfigVariableBool('want-suit-buildings',1).getValue()
 
-    DEBUG_SUIT_POSITIONS       = simbase.config.GetBool('debug-suit-positions', 0)
+    DEBUG_SUIT_POSITIONS       = ConfigVariableBool('debug-suit-positions', 0).getValue()
 
     # Send an updated timestamp for each suit after about this many
     # seconds have elapsed since the last timestamp.

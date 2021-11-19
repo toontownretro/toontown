@@ -32,7 +32,7 @@ class CrashedLeaderBoardDecorator(HolidayDecorator.HolidayDecorator):
         if ToontownGlobals.CRASHED_LEADERBOARD not in holidayIds:
             return
 
-        if base.config.GetBool('want-crashedLeaderBoard-Smoke', 1):
+        if ConfigVariableBool('want-crashedLeaderBoard-Smoke', 1).getValue():
             self.startSmokeEffect()
 
     def startSmokeEffect(self):
@@ -44,7 +44,7 @@ class CrashedLeaderBoardDecorator(HolidayDecorator.HolidayDecorator):
             base.cr.playGame.getPlace().loader.stopSmokeEffect()
 
     def undecorate(self):
-        if base.config.GetBool('want-crashedLeaderBoard-Smoke', 1):
+        if ConfigVariableBool('want-crashedLeaderBoard-Smoke', 1).getValue():
             self.stopSmokeEffect()
 
         # if there are any other decoration holidays running

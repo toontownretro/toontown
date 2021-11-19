@@ -350,6 +350,9 @@ class PlayGame(StateData.StateData):
         avId = requestStatus.get("avId", -1)          # Better be conservative; some senders don't set this.
         ownerId = requestStatus.get("ownerId", avId)  # ditto
 
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: NEIGHBORHOODS: Visit %s' % hoodName)
+
         # Get the loading bar count
         count = ToontownGlobals.hoodCountMap[canonicalHoodId]
         if loaderName=="safeZoneLoader":
@@ -519,8 +522,8 @@ class PlayGame(StateData.StateData):
         # Replace teleport in with tutorial mode
         requestStatus["how"] = "tutorial"
         # Lower volume for japanese version so you can hear voice
-        if base.config.GetString("language", "english") == "japanese":
-            musicVolume = base.config.GetFloat("tutorial-music-volume", 0.5)
+        if ConfigVariableString("language", "english").getValue() == "japanese":
+            musicVolume = ConfigVariableDouble("tutorial-music-volume", 0.5).getValue()
             requestStatus['musicVolume'] = musicVolume
         self.hood.enter(requestStatus)
 

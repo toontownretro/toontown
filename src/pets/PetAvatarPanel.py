@@ -1,7 +1,6 @@
 from toontown.toonbase.ToontownModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from direct.showbase.PythonUtil import Functor
 from direct.task.Task import Task
@@ -383,6 +382,8 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
             messenger.send("clickedNametag", [avatar])
 
     def __handleCall(self):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: PET: Call')
         self.notify.debug("__handleCall(): doId=%s" % self.avatar.doId)
         base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_CALL)
         base.panel.disableInteractionButtons()
@@ -395,6 +396,8 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         base.localAvatar.lock()
 
     def __handleFeed(self):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: PET: Feed')
         self.notify.debug("__handleFeed(): doId=%s" % self.avatar.doId)
         base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_FEED)
         base.panel.disableInteractionButtons()
@@ -407,6 +410,8 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         base.localAvatar.lock()
 
     def __handleScratch(self):
+        if ConfigVariableBool('want-qa-regression', 1).getValue():
+            self.notify.info('QA-REGRESSION: PET: Scratch')
         self.notify.debug("__handleScratch(): doId=%s" % self.avatar.doId)
         base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_SCRATCH)
         base.panel.disableInteractionButtons()

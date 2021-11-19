@@ -178,7 +178,7 @@ class GSSafeZoneLoader( SafeZoneLoader ):
         self.fsm.request("quietZone",[req])
 
     def startSmokeEffect(self):
-        if base.config.GetBool('want-crashedLeaderBoard-Smoke', 1):
+        if ConfigVariableBool('want-crashedLeaderBoard-Smoke', 1).getValue():
             leaderBoard = self.geom.find("**/*crashed*")
             locator = leaderBoard.find("**/*locator_smoke*")
             if locator != None:
@@ -186,7 +186,7 @@ class GSSafeZoneLoader( SafeZoneLoader ):
                 self.smoke.start()
 
     def stopSmokeEffect(self):
-        if base.config.GetBool('want-crashedLeaderBoard-Smoke', 1):
+        if ConfigVariableBool('want-crashedLeaderBoard-Smoke', 1).getValue():
             if self.smoke != None:
                 self.smoke.stop()
                 self.smoke.destroy()

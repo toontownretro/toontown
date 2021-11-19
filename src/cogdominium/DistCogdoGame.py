@@ -11,8 +11,9 @@ from toontown.minigame.MinigameRulesPanel import MinigameRulesPanel
 from toontown.cogdominium.CogdoGameRulesPanel import CogdoGameRulesPanel
 from toontown.minigame import MinigameGlobals
 from toontown.toonbase import TTLocalizer as TTL
+from toontown.toonbase.ToontownModules import *
 
-SCHELLGAMES_DEV = __debug__ and base.config.GetBool('schellgames-dev', False)
+SCHELLGAMES_DEV = __debug__ and ConfigVariableBool('schellgames-dev', False).getValue()
 
 class DistCogdoGame(DistCogdoGameBase, DistributedObject):
     notify = directNotify.newCategory("DistCogdoGame")

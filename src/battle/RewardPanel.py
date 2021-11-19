@@ -1,6 +1,5 @@
 from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase import ToontownBattleGlobals
 from . import BattleBase
@@ -27,8 +26,8 @@ class RewardPanel(DirectFrame):
     SkipBattleMovieEvent = 'skip-battle-movie-event'
 
     def __init__(self, name):
-        gscale = (TTLocalizer.RPdirectFrame[0], 
-                  TTLocalizer.RPdirectFrame[1], 
+        gscale = (TTLocalizer.RPdirectFrame[0],
+                  TTLocalizer.RPdirectFrame[1],
                   TTLocalizer.RPdirectFrame[2] * 1.1)
         DirectFrame.__init__(self,
                              relief=None,
@@ -276,23 +275,23 @@ class RewardPanel(DirectFrame):
 
         self._battleGui = loader.loadModel('phase_3.5/models/gui/battle_gui')
         self.skipButton = DirectButton(
-            parent=self, 
-            relief=None, 
+            parent=self,
+            relief=None,
             image=(self._battleGui.find('**/tt_t_gui_gen_skipSectionUp'),
                    self._battleGui.find('**/tt_t_gui_gen_skipSectionDown'),
                    self._battleGui.find('**/tt_t_gui_gen_skipSectionRollOver'),
-                   self._battleGui.find('**/tt_t_gui_gen_skipSectionDisabled')), 
-            pos=(0.815, 0, -0.395), 
-            scale=(0.39, 1.0, 0.39), 
+                   self._battleGui.find('**/tt_t_gui_gen_skipSectionDisabled')),
+            pos=(0.815, 0, -0.395),
+            scale=(0.39, 1.0, 0.39),
             text=('',
                   TTLocalizer.RewardPanelSkip,
                   TTLocalizer.RewardPanelSkip,
-                  ''), 
-            text_scale=TTLocalizer.RPskipScale, 
-            text_fg=Vec4(1, 1, 1, 1), 
-            text_shadow=Vec4(0, 0, 0, 1), 
-            text_pos=TTLocalizer.RPskipPos, 
-            textMayChange=0, 
+                  ''),
+            text_scale=TTLocalizer.RPskipScale,
+            text_fg=Vec4(1, 1, 1, 1),
+            text_shadow=Vec4(0, 0, 0, 1),
+            text_pos=TTLocalizer.RPskipPos,
+            textMayChange=0,
             command=self._handleSkip)
 
 
@@ -1054,7 +1053,7 @@ class RewardPanel(DirectFrame):
                             num = quest.doesCogCount(avId, cogDict,
                                                      zoneId, toonShortList)
                         if num:
-                            if base.config.GetBool('battle-passing-no-credit', True):
+                            if ConfigVariableBool('battle-passing-no-credit', True).getValue():
                                 if avId in helpfulToonsList:
                                     earned += num
                                 else:

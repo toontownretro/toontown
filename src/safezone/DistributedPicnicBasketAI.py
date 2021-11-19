@@ -8,7 +8,7 @@ from toontown.toonbase import ToontownGlobals
 from direct.distributed import DistributedObjectAI
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from direct.task import Task 
+from direct.task import Task
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import RandomNumGen
 from toontown.minigame import MinigameCreatorAI
@@ -38,9 +38,9 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
         self.numPlayersExiting = 0
 
         self.trolleyCountdownTime = \
-                          simbase.config.GetFloat("picnic-countdown-time",
-                                                  ToontownGlobals.PICNIC_COUNTDOWN_TIME)
-        
+                          ConfigVariableDouble("picnic-countdown-time",
+                                                  ToontownGlobals.PICNIC_COUNTDOWN_TIME).getValue()
+
         self.fsm = ClassicFSM.ClassicFSM('DistributedPicnicBasketAI',
                            [State.State('off',
                                         self.enterOff,
@@ -70,7 +70,7 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
     def findAvailableSeat(self):
         for i in range(len(self.seats)):
             if self.seats[i] == None:
-                return i 
+                return i
         return None
 
     def findAvatar(self, avId):
@@ -171,7 +171,7 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
             # If all the seats are empty, go back into waitEmpty state
             #if self.countFullSeats() == 0:
             #    self.waitEmpty()
-            
+
             # Wait for the avatar to be done leaving the seat, and then
             # declare the emptying overwith...
             taskMgr.doMethodLater(TOON_EXIT_TIME,
@@ -212,7 +212,7 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
         avId = self.air.getAvatarIdFromSender()
         if (self.findAvatar(avId) != None):
             self.notify.warning("Ignoring multiple requests from %s to board." % (avId))
-            return        
+            return
 
         av = self.air.doId2do.get(avId)
         if av:
@@ -223,7 +223,7 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
             else:
                 self.notify.debug("rejecting boarder %d" % avId)
                 self.rejectingBoardersHandler(avId, si)
-        else: 
+        else:
             self.notify.warning(
                 "avid: %s does not exist, but tried to board a trolley" % avId
                 )
@@ -296,17 +296,17 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
         self.accepting = 1
 
     def exitWaitEmpty(self):
-        self.notify.debugStateCall(self)        
+        self.notify.debugStateCall(self)
         self.accepting = 0
 
     ##### WaitCountdown state #####
 
     def waitCountdown(self):
-        self.notify.debugStateCall(self)        
+        self.notify.debugStateCall(self)
         self.fsm.request("waitCountdown")
 
     def enterWaitCountdown(self):
-        self.notify.debugStateCall(self)                
+        self.notify.debugStateCall(self)
         self.d_setState('waitCountdown', self.seed)
         self.accepting = 1
         # Start the countdown...
@@ -327,7 +327,7 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
         return Task.done
 
     def exitWaitCountdown(self):
-        self.notify.debugStateCall(self)                
+        self.notify.debugStateCall(self)
         self.accepting = 0
         taskMgr.remove(self.uniqueName('countdown-timer'))
 
@@ -336,4 +336,3 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
 
     def getTableNumber(self):
         return self.tableNumber
-    

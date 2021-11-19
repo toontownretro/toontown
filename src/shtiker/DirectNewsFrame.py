@@ -10,20 +10,22 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.task.Task import Task
 from direct.showbase import AppRunnerGlobal
 from toontown.shtiker import IssueFrame
+from toontown.shtiker import IssueFrameV2
 from toontown.toonbase import TTLocalizer
+from toontown.toonbase.ToontownModules import *
 
 class DirectNewsFrame(DirectObject.DirectObject):
 
     TaskName = 'HtmlViewUpdateTask'
     TaskChainName = "RedownladTaskChain"
     RedownloadTaskName = "RedownloadNewsTask"
-    NewsBaseDir = config.GetString("news-base-dir", "phase_3.5/models/news")
-    NewsStageDir = config.GetString("news-stage-dir", "news")
+    NewsBaseDir = ConfigVariableString("news-base-dir", "phase_3.5/models/news").getValue() #ConfigVariableString("news-base-dir", "/httpNews").getValue()
+    NewsStageDir = ConfigVariableString("news-stage-dir", "news").getValue()
     # taken from In Game NewsFrame
     FrameDimensions = (-1.30666637421, 1.30666637421, -0.751666665077, 0.751666665077)
     notify = DirectNotifyGlobal.directNotify.newCategory("DirectNewsFrame")
-    NewsIndexFilename = config.GetString("news-index-filename", "http_news_index.txt")
-    NewsOverHttp = config.GetBool("news-over-http", True)
+    NewsIndexFilename = ConfigVariableString("news-index-filename", "http_news_index.txt").getValue()
+    NewsOverHttp = ConfigVariableBool("news-over-http", True).getValue()
     CacheIndexFilename = 'cache_index.txt'
 
     # home page is considered one section, must always be first
@@ -46,6 +48,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
         self.percentDownloaded = 0.0
         self.numIssuesExpected = 0
         self.needsParseNews = True
+        self.newsIndexEntries = []
         if self.NewsOverHttp:
             self.redownloadNews()
 
@@ -74,7 +77,14 @@ class DirectNewsFrame(DirectObject.DirectObject):
                     self.notify.debug("parseNewContent %s" % justFilename)
                     parts = justFilename.split('_')
                     dateStr = parts[3]
-                    oneIssue = IssueFrame.IssueFrame(self.backFrame, newsDir, dateStr, myIssueIndex, len(allHomeFiles), self.strFilenames)
+                    majorVer, minorVer = self.calcIssueVersion(dateStr)
+                    if majorVer == 1:
+                        oneIssue = IssueFrame.IssueFrame(self.backFrame, newsDir, dateStr, myIssueIndex, len(allHomeFiles), self.strFilenames)
+                    elif majorVer == 2:
+                        oneIssue = IssueFrameV2.IssueFrameV2(self.backFrame, newsDir, dateStr, myIssueIndex, len(allHomeFiles), self.strFilenames, self.newsIndexEntries)
+                    else:
+                        self.notify.warning("Dont know how to handle version %s, asuming v2" % majorVer)
+                        oneIssue = IssueFrameV2.IssueFrameV2(self.backFrame, newsDir, dateStr, myIssueIndex, len(allHomeFiles), self.strFilenames, self.newsIndexEntries)
                     oneIssue.hide()
                     self.issues.append(oneIssue)
                 if self.issues:
@@ -337,7 +347,9 @@ class DirectNewsFrame(DirectObject.DirectObject):
         del self.rf
 
         self.newsFiles.sort()
+        self.newsIndexEntries = list(self.newsFiles)
         self.notify.info("Server lists %s news files" % (len(self.newsFiles)))
+        self.notify.debug("self.newsIndexEntries=%s" % self.newsIndexEntries)
 
         # Now see if we already have copies of these files we
         # downloaded previously.
@@ -358,6 +370,9 @@ class DirectNewsFrame(DirectObject.DirectObject):
     def downloadNextFile(self, task):
         """ Starts the next news file downloading from the HTTP
         server. """
+
+        while self.nextNewsFile < len(self.newsFiles) and "aaver" in self.newsFiles[self.nextNewsFile]:
+            self.nextNewsFile += 1
 
         if self.nextNewsFile >= len(self.newsFiles):
             # Hey, we're done!
@@ -388,6 +403,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
         self.url = self.newsUrl + self.filename
 
         localFilename = Filename(self.newsDir, self.filename)
+        self.notify.info("testing for %s" % localFilename.getFullpath())
         doc = DocumentSpec(self.url)
         if self.filename in self.newsCache:
             # We have already downloaded this file.  Ask the
@@ -470,8 +486,11 @@ class DirectNewsFrame(DirectObject.DirectObject):
     def saveNewsCache(self):
         """ Saves self.newsCache to cache_index.txt """
         cacheIndexFilename = Filename(self.newsDir, self.CacheIndexFilename)
-
-        file = open(cacheIndexFilename.toOsSpecific(), 'w')
+        try:
+            file = open(cacheIndexFilename.toOsSpecific(), 'w')
+        except IOError as e:
+            self.notify.warning('error opening news cache file %s: %s' % (cacheIndexFilename, str(e)))
+            return
         for filename, (size, date) in list(self.newsCache.items()):
             print('%s\t%s\t%s' % (filename, size, date), file=file)
 
@@ -493,9 +512,9 @@ class DirectNewsFrame(DirectObject.DirectObject):
     def getInGameNewsUrl(self):
         """Get the appropriate URL to use if we are in test, qa, or live."""
         # First if all else fails, we hard code the live news url
-        result = base.config.GetString("fallback-news-url", "http://cdn.toontown.disney.go.com/toontown/en/gamenews/")
+        result = ConfigVariableString("fallback-news-url", "http://cdn.toontown.disney.go.com/toontown/en/gamenews/").getValue()
         # next check if we have an override, say they want to url to point to a file in their harddisk
-        override = base.config.GetString("in-game-news-url", "")
+        override = ConfigVariableString("in-game-news-url", "").getValue()
         if override:
             self.notify.info("got an override url,  using %s for in game news" % override)
             result = override
@@ -511,3 +530,26 @@ class DirectNewsFrame(DirectObject.DirectObject):
             except:
                 self.notify.warning("got exception getting GAME_IN_GAME_NEWS_URL from launcher, using %s" % result)
         return result
+
+    def calcIssueVersion(self, dateStr):
+        majorVer = 1
+        minorVer = 0
+        for entry in self.newsIndexEntries:
+            if "aaver" in entry and dateStr in entry:
+                parts = entry.split("_")
+                if len(parts) > 5:
+                    try:
+                        majorVer = int(parts[5])
+                    except:
+                        self.notify.warning("could not int %s" % parts[5])
+                else:
+                    self.notify.warning("expected more than 5 parts in %s" % entry)
+                if len(parts) > 6:
+                    try:
+                        minorVer = int(parts[6])
+                    except:
+                        self.notify.warning("could not int %s" % parts[6])
+                else:
+                    self.notify.warning("expected more than 6 parts in %s" % entry)
+                break
+        return (majorVer, minorVer)

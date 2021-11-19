@@ -28,6 +28,7 @@ from . import PartyUtils
 
 class DistributedParty(DistributedObject.DistributedObject):
     notify = directNotify.newCategory("DistributedParty")
+    generatedEvent = "distributedPartyGenerated"
 
     def __init__(self,cr):
         assert(self.notify.debug("__init__"))
@@ -208,7 +209,8 @@ class DistributedParty(DistributedObject.DistributedObject):
         self.startPartyClock()
         base.localAvatar.chatMgr.chatInputSpeedChat.addInsidePartiesMenu()
         self.spawnTitleText()
-        if config.GetBool('show-debug-party-grid', 0):
+        messenger.send(self.generatedEvent)
+        if ConfigVariableBool('show-debug-party-grid', 0).getValue():
             # Debug grid
             self.testGrid = NodePath("test_grid")
             self.testGrid.reparentTo(base.cr.playGame.hood.loader.geom)
@@ -471,7 +473,7 @@ class DistributedParty(DistributedObject.DistributedObject):
             duration=0.5),
             Func(self.hideTitleText))
         seq.start()
-        
+
     def hideTitleText(self):
         """
         This gets called from the town and safe zone to cleanup

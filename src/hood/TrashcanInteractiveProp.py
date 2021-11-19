@@ -3,8 +3,9 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import InteractiveAnimatedProp
 from toontown.hood import GenericAnimatedProp
 from toontown.toonbase import ToontownGlobals, ToontownBattleGlobals, TTLocalizer
+from toontown.toonbase.ToontownModules import *
 
-    
+
 class TrashcanInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
     """We need much more functionality than GenericAnimatedProp to
     make interactive props behave correctly in battle.
@@ -13,13 +14,13 @@ class TrashcanInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
     notify = DirectNotifyGlobal.directNotify.newCategory(
         'TrashcanInteractiveProp')
 
-    BattleCheerText =  TTLocalizer.InteractivePropTrackBonusTerms[ToontownBattleGlobals.HEAL_TRACK]    
+    BattleCheerText =  TTLocalizer.InteractivePropTrackBonusTerms[ToontownBattleGlobals.HEAL_TRACK]
 
     # ZoneToIdles format
-    # animation, minNumberOfLoops, maxNumberOfLoops, settleAnim, minPauseTime, maxPauseTime      
-    ZoneToIdles = { 
+    # animation, minNumberOfLoops, maxNumberOfLoops, settleAnim, minPauseTime, maxPauseTime
+    ZoneToIdles = {
         ToontownGlobals.ToontownCentral: (
-        ('tt_a_ara_ttc_trashcan_idleTake2', 1, 1, None, 3, 10),        
+        ('tt_a_ara_ttc_trashcan_idleTake2', 1, 1, None, 3, 10),
         ('tt_a_ara_ttc_trashcan_idleHiccup0', 1, 1, None, 3, 10),
         ('tt_a_ara_ttc_trashcan_idleLook1', 1, 1, None, 3, 10),
         ('tt_a_ara_ttc_trashcan_idleAwesome3', 1, 1, None, 3, 10),
@@ -34,18 +35,18 @@ class TrashcanInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
         ('tt_a_ara_dga_trashcan_idleTake2', 1, 1, None, 3, 10),
         ('tt_a_ara_dga_trashcan_idleHiccup0', 1, 1, None, 3, 10),
         ('tt_a_ara_dga_trashcan_idleLook1', 1, 1, None, 3, 10),
-        ('tt_a_ara_dga_trashcan_idleAwesome3', 1, 1, None, 3, 10), 
+        ('tt_a_ara_dga_trashcan_idleAwesome3', 1, 1, None, 3, 10),
         ),
         ToontownGlobals.MinniesMelodyland: (
-        ('tt_a_ara_mml_trashcan_idleBounce0', 3, 10, 'tt_a_ara_mml_trashcan_idle0settle', 3, 10),        
+        ('tt_a_ara_mml_trashcan_idleBounce0', 3, 10, 'tt_a_ara_mml_trashcan_idle0settle', 3, 10),
         ('tt_a_ara_mml_trashcan_idleLook1', 1, 1, None, 3, 10),
         ('tt_a_ara_mml_trashcan_idleHelicopter2', 1, 1, None, 3, 10),
         ('tt_a_ara_mml_trashcan_idleAwesome3', 1, 1, None, 3, 10),
         ),
-        ToontownGlobals.TheBrrrgh: (        
-        ('tt_a_ara_tbr_trashcan_idleShiver1', 1, 1, None, 3, 10),        
+        ToontownGlobals.TheBrrrgh: (
+        ('tt_a_ara_tbr_trashcan_idleShiver1', 1, 1, None, 3, 10),
         ('tt_a_ara_tbr_trashcan_idleSneeze2', 1, 1, None, 3, 10),
-        ('tt_a_ara_tbr_trashcan_idle0', 1, 1, None, 3, 10),        
+        ('tt_a_ara_tbr_trashcan_idle0', 1, 1, None, 3, 10),
         ('tt_a_ara_tbr_trashcan_idleAwesome3', 1, 1, None, 3, 10),
         ),
         ToontownGlobals.DonaldsDreamland: (
@@ -63,7 +64,7 @@ class TrashcanInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
         ToontownGlobals.MinniesMelodyland: 'tt_a_ara_mml_trashcan_idleIntoFight',
         ToontownGlobals.TheBrrrgh: 'tt_a_ara_tbr_trashcan_idleIntoFight',
         ToontownGlobals.DonaldsDreamland: 'tt_a_ara_ddl_trashcan_idleIntoFight',
-     }        
+     }
 
     ZoneToVictoryAnims = {
         ToontownGlobals.ToontownCentral: 'tt_a_ara_ttc_trashcan_victoryDance',
@@ -81,7 +82,7 @@ class TrashcanInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
         ToontownGlobals.MinniesMelodyland: 'tt_a_ara_mml_trashcan_fightSad',
         ToontownGlobals.TheBrrrgh: 'tt_a_ara_tbr_trashcan_fightSad',
         ToontownGlobals.DonaldsDreamland: 'tt_a_ara_ddl_trashcan_fightSad',
-     }          
+     }
 
     ZoneToFightAnims = {
         ToontownGlobals.ToontownCentral: (
@@ -117,9 +118,8 @@ class TrashcanInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
         ),
      }
 
-    IdlePauseTime = base.config.GetFloat('prop-idle-pause-time',0.0)
+    IdlePauseTime = ConfigVariableDouble('prop-idle-pause-time',0.0).getValue()
 
     def __init__(self, node):
         """Construct ourself, in the correct orrder."""
         InteractiveAnimatedProp.InteractiveAnimatedProp.__init__(self, node, ToontownGlobals.TRASHCANS_BUFF_BATTLES)
-        

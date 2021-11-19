@@ -8,6 +8,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.quest import Quests
 from toontown.suit import SuitPlannerBase
 from . import QuestMapGlobals
+from toontown.toonbase.ToontownModules import *
 
 class QuestMap(DirectFrame):
 
@@ -34,7 +35,7 @@ class QuestMap(DirectFrame):
         self.buildingMarkers = []
         self.av = av
         self.wantToggle = False
-        if base.config.GetBool('want-toggle-quest-map', True):
+        if ConfigVariableBool('want-toggle-quest-map', True).getValue():
             self.wantToggle = True
         self.updateMarker = True
         self.cornerPosInfo = None

@@ -26,6 +26,7 @@ from direct.interval.IntervalGlobal import Sequence, Parallel, \
 from direct.actor import Actor
 from toontown.golf import GolfHoleBase
 from toontown.distributed import DelayDelete
+from toontown.toonbase.ToontownModules import *
 
 class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, GolfHoleBase.GolfHoleBase):
 
@@ -48,8 +49,8 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
     }
     id = 0
     notify = directNotify.newCategory("DistributedGolfHole")
-    unlimitedAimTime = base.config.GetBool('unlimited-aim-time', 0)
-    unlimitedTeeTime = base.config.GetBool('unlimited-tee-time', 0)
+    unlimitedAimTime = ConfigVariableBool('unlimited-aim-time', 0).getValue()
+    unlimitedTeeTime = ConfigVariableBool('unlimited-tee-time', 0).getValue()
 
     # The number of seconds it takes to move the power meter to
     # full the first time.
@@ -326,7 +327,7 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
 
     def loadBlockers(self):
         """Load the programmable blockers."""
-        loadAll = base.config.GetBool('golf-all-blockers',0)
+        loadAll = ConfigVariableBool('golf-all-blockers',0).getValue()
         self.createLocatorDict()
         self.blockerNums = self.holeInfo['blockers']
 

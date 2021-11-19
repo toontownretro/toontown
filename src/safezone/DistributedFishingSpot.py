@@ -1,7 +1,6 @@
 from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from direct.directtools.DirectGeometry import LineNodePath
 
 from direct.distributed import DistributedObject
@@ -810,6 +809,8 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
 
     def __makeGui(self):
         assert self.notify.debugStateCall(self)
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: FISHING: ZoneId: %s' % self.pond.getArea())
         if self.madeGui:
             return
 
@@ -1387,7 +1388,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.initMouseX = self.mouseX
         self.initMouseY = self.mouseY
         self.__hideBob()
-        if config.GetBool('fishing-independent-axes', 0):
+        if ConfigVariableBool('fishing-independent-axes', 0).getValue():
             taskMgr.add(self.localAdjustingCastTaskIndAxes, self.taskName('adjustCastTask'))
         else:
             taskMgr.add(self.localAdjustingCastTask, self.taskName('adjustCastTask'))

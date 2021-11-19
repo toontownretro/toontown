@@ -30,37 +30,39 @@ from toontown.uberdog import PartiesUdConfig
 
 print("Initializing the Toontown UberDog (Uber Distributed Object Globals server)...")
 
-uber.mdip = uber.config.GetString("msg-director-ip", "localhost")
-uber.mdport = uber.config.GetInt("msg-director-port", 6666)
+uber.mdip = ConfigVariableString("msg-director-ip", "localhost").getValue()
+uber.mdport = ConfigVariableInt("msg-director-port", 6666).getValue()
 
-uber.esip = uber.config.GetString("event-server-ip", "localhost")
-uber.esport = uber.config.GetInt("event-server-port", 4343)
+uber.esip = ConfigVariableString("event-server-ip", "localhost").getValue()
+uber.esport = ConfigVariableInt("event-server-port", 4343).getValue()
 
-stateServerId = uber.config.GetInt("state-server-id", 20100000)
+stateServerId = ConfigVariableInt("state-server-id", 20100000).getValue()
 
 uber.objectNames = set(os.getenv("uberdog_objects", "").split())
 
-minChannel = uber.config.GetInt("uberdog-min-channel", 200400000)
-maxChannel = uber.config.GetInt("uberdog-max-channel", 200449999)
+minChannel = ConfigVariableInt("uberdog-min-channel", 200400000).getValue()
+maxChannel = ConfigVariableInt("uberdog-max-channel", 200449999).getValue()
 
-uber.sbNSHost = uber.config.GetString("sb-host","")
-uber.sbNSPort = uber.config.GetInt("sb-port",6053)
+uber.sbNSHost = ConfigVariableString("sb-host","").getValue()
+uber.sbNSPort = ConfigVariableInt("sb-port",6053).getValue()
 uber.sbListenPort = 6060
 uber.clHost = "localhost"
 uber.clPort = 9090
-uber.allowUnfilteredChat = uber.config.GetInt("allow-unfiltered-chat",0)
+uber.allowUnfilteredChat = ConfigVariableInt("allow-unfiltered-chat",0).getValue()
 uber.bwDictPath = ""
 
-uber.RATManagerHTTPListenPort = uber.config.GetInt("rat-port",8080)
-uber.awardManagerHTTPListenPort = uber.config.GetInt("award-port",8888)
-uber.inGameNewsMgrHTTPListenPort = uber.config.GetInt("in-game-news-port",8889)
-uber.mysqlhost = uber.config.GetString("mysql-host", PartiesUdConfig.ttDbHost)
+uber.RATManagerHTTPListenPort = ConfigVariableInt("rat-port",8080).getValue()
+uber.awardManagerHTTPListenPort = ConfigVariableInt("award-port",8888).getValue()
+uber.inGameNewsMgrHTTPListenPort = ConfigVariableInt("in-game-news-port",8889).getValue()
+uber.whitelistMgrHTTPListenPort = ConfigVariableInt("whitelist-port",8890).getValue()
+uber.mysqlhost = ConfigVariableString("mysql-host", PartiesUdConfig.ttDbHost).getValue()
 
 
-uber.codeRedemptionMgrHTTPListenPort = uber.config.GetInt('code-redemption-port', 8998)
-uber.crDbName = uber.config.GetString("tt-code-db-name", TTCodeRedemptionConsts.DefaultDbName)
+uber.codeRedemptionMgrHTTPListenPort = ConfigVariableInt('code-redemption-port', 8998).getValue()
+uber.crDbName = ConfigVariableString("tt-code-db-name", TTCodeRedemptionConsts.DefaultDbName).getValue()
 
-uber.cpuInfoMgrHTTPListenPort = uber.config.GetInt("security_ban_mgr_port",8892)
+uber.cpuInfoMgrHTTPListenPort = ConfigVariableInt("security_ban_mgr_port",8892).getValue()
+uber.securityMgrHTTPListenPort = ConfigVariableInt("security_port",8893).getValue()
 
 uber.air = ToontownUberDog(
         uber.mdip, uber.mdport,
@@ -73,11 +75,11 @@ uber.air = ToontownUberDog(
 # How we let the world know we are not running a service
 uber.aiService = 0
 
-uber.wantEmbeddedOtpServer = uber.config.GetInt(
-    "toontown-uberdog-want-embedded-otp-server", 0)
+uber.wantEmbeddedOtpServer = ConfigVariableInt(
+    "toontown-uberdog-want-embedded-otp-server", 0).getValue()
 if uber.wantEmbeddedOtpServer:
-    otpServerPath = uber.config.GetString(
-        "toontown-uberdog-otp-server-path", "c:/toonsrv")
+    otpServerPath = ConfigVariableString(
+        "toontown-uberdog-otp-server-path", "c:/toonsrv").getValue()
     sys.path.append(otpServerPath)
 
     import otp_server_py

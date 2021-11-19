@@ -79,13 +79,13 @@ class GameMenu(DirectFrame):
                                   #color = (.7,.7,.7,.7),
                                   command = self.findFourSelected,
                                  )
-        if not base.config.GetBool('want-chinese', 0):
+        if not ConfigVariableBool('want-chinese', 0).getValue():
             self.ChineseCheckers['command'] = self.doNothing
             self.ChineseCheckers.setColor(.7,.7,.7,.7)
-        if not base.config.GetBool('want-checkers', 0):
+        if not ConfigVariableBool('want-checkers', 0).getValue():
             self.Checkers['command'] = self.doNothing
             self.Checkers.setColor(.7,.7,.7,.7)
-        if not base.config.GetBool('want-findfour', 0):
+        if not ConfigVariableBool('want-findfour', 0).getValue():
             self.FindFour['command'] = self.doNothing
             self.FindFour.setColor(.7,.7,.7,.7)
 

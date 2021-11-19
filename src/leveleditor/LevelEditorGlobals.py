@@ -2,7 +2,7 @@ import string
 import traceback
 from toontown.toonbase.ToontownModules import *
 
-hoodString = base.config.GetString('level-editor-hoods', 'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA')
+hoodString = ConfigVariableString('level-editor-hoods', 'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA').getValue()
 hoods = hoodString.split()
 
 # The list of neighborhoods to edit
@@ -33,7 +33,7 @@ for hoodId in hoods:
     else:
         print('Error: no hood defined for: ', hoodId)
 
-dnaDirectory = Filename.expandFrom(base.config.GetString("dna-directory", "$TTMODELS/src/dna"))
+dnaDirectory = Filename.expandFrom(ConfigVariableString("dna-directory", "$TTMODELS/src/dna").getValue())
 
 
 # Colors used by all color menus

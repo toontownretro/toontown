@@ -1,3 +1,5 @@
+from toontown.toonbase.ToontownModules import *
+
 DefaultDbName = 'tt_code_redemption'
 
 RedeemErrors = Enum(
@@ -17,4 +19,4 @@ RedeemErrorStrings = {
 
 assert len(RedeemErrorStrings) == len(RedeemErrors)
 
-MaxCustomCodeLen = config.GetInt('tt-max-custom-code-len', 16)
+MaxCustomCodeLen = ConfigVariableInt('tt-max-custom-code-len', 16).getValue()

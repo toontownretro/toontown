@@ -6,7 +6,6 @@ from direct.interval.IntervalGlobal import *
 from .DistributedMinigame import *
 from .MazeSuit import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from direct.showbase.PythonUtil import *
 from .OrthoWalk import *
 from direct.showbase.PythonUtil import lerp
@@ -388,7 +387,7 @@ class DistributedMazeGame(DistributedMinigame):
 
         if __debug__:
             # this flag will allow you to walk right through suits
-            self.cheat = config.GetBool('maze-game-cheat', 0)
+            self.cheat = ConfigVariableBool('maze-game-cheat', 0).getValue()
 
     def unload(self):
         self.notify.debug("unload")

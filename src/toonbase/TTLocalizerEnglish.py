@@ -2435,7 +2435,7 @@ ReportPanelTitle = "Report A Player"
 ReportPanelBody = "This feature will send a complete report to a Moderator. Instead of sending a report, you might choose to do one of the following:\n\n  - Teleport to another district\n  - Use \"Ignore\" on the toon's panel\n\nDo you really want to report %s to a Moderator?"
 ReportPanelBodyFriends = "This feature will send a complete report to a Moderator. Instead of sending a report, you might choose to do one of the following:\n\n  - Teleport to another district\n  - Break your friendship\n\nDo you really want to report %s to a Moderator?\n\n(This will also break your friendship)"
 ReportPanelCategoryBody = "You are about to report %s. A Moderator will be alerted to your complaint and will take appropriate action for anyone breaking our rules. Please choose the reason you are reporting %s:"
-ReportPanelBodyPlayer = "This feature is stilling being worked on and will be coming soon. In the meantime you can do the following:\n\n  - Go to DXD and break the friendship there.\n - Tell a parent about what happened."
+ReportPanelBodyPlayer = "This feature is still being worked on and will be coming soon. In the meantime you can do the following:\n\n  - Go to DXD and break the friendship there.\n - Tell a parent about what happened."
 
 ReportPanelCategoryLanguage = "Foul Language"
 ReportPanelCategoryPii = "Sharing/Requesting Personal Info"
@@ -5913,8 +5913,8 @@ TeaserSubscribe = "Subscribe Now"
 TeaserContinue = "Continue Trial
 """
 
-TeaserTop = ""
-TeaserBottom = ""
+TeaserTop = "" # "Sorry, but you can't do that in the free trial."
+TeaserBottom = "" # "Subscribe now and enjoy these great features:"
 TeaserDefault = ",\nyou need to become a Member.\n\nJoin us!"
 TeaserOtherHoods = "For unlimited adventures in all 6 neighborhoods"
 TeaserTypeAName = "Type in your favorite name for your Toon!"
@@ -6719,6 +6719,13 @@ CalendarPartyNeverStarted = "Never Started."
 # NPCFriendPanel.py
 NPCFriendPanelRemaining = "%d Remaining"
 NPCFriendPanelUnavailable = "Unavailable"
+
+# PartiesPage.py
+#PartiesPageTitle = "Parties"
+#PartiesPageHostTab = "Hosting"
+#PartiesPageInvitedTab = "Invitations"
+#PartiesPageTitleHost = "My Next Party"
+#PartiesPageTitleInvited = "Party Invitations"
 
 # MapPage.py
 MapPageTitle = "Map"
@@ -10031,7 +10038,7 @@ NPCToonNames = {
     9237 : "Fisherman Jung",
 
     #
-    # Funny Farms / Field Office
+    # Funny Farm / Field Office
     #
 
     9301 : "Phil Bettur",
@@ -10173,7 +10180,7 @@ zone2TitleDict = {
     2841 : ("", ""),
     # titles for: phase_6/dna/donalds_dock_sz.dna
     1506 : ("Gag Shop", ""),
-    1507 : ("Toon Headquarters", ""),
+    1507 : (lToonHQ, ""),
     1508 : ("Clothing Shop", ""),
     1510 : ("", ""),
     # titles for: phase_6/dna/donalds_dock_1100.dna
@@ -10216,7 +10223,7 @@ zone2TitleDict = {
     1720 : ("The Reel Deal", ""),
     1721 : ("All For Nautical", ""),
     1723 : ("Squid's Seaweed", ""),
-    1724 : ("That's  a Moray!", ""),
+    1724 : ("That's a Moray!", ""),
     1725 : ("Ahab's Prefab Sea Crab Center", ""),
     1726 : ("Root Beer Afloats", ""),
     1727 : ("This Oar That", ""),
@@ -10600,7 +10607,7 @@ zone2TitleDict = {
     3738 : ("Heat-Get It While It's Hot", ""),
     3739 : ("", ""),
     # titles for: phase_8/dna/the_burrrgh_3300.dna
-    3801 : ("Toon HQ", ""),
+    3801 : (lToonHQ, ""),
     3806 : ("Alpine Chow Line", ""),
     3807 : ("Used Groundhog Shadows", ""),
     3808 : ("The Sweater Lodge", ""),
@@ -10663,6 +10670,8 @@ EstateOwnerLeftMessage = "Sorry, the owner of this estate left. You'll be sent t
 EstatePopupOK = lOK
 EstateTeleportFailed = "Couldn't go home. Try again!"
 EstateTeleportFailedNotFriends = "Sorry, %s is in a toon's estate that you are not friends with."
+EstatePlaneBanner = "Cog Invasion!!!"
+EstateHalloweenBanner = "Happy Halloween!!!"
 
 # DistributedTarget.py
 EstateTargetGameStart = "The Toon-up Target game has started!"
@@ -11385,7 +11394,7 @@ ResistanceRestockMenu = "Gag-up"
 ResistanceRestockItem = "Gag-up %s"
 ResistanceRestockItemAll = "All"
 ResistanceRestockChat = "Toons of the World, Gag-up!"
-ResistanceMoneyMenu = "jellybeans"
+ResistanceMoneyMenu = "Jellybeans"
 ResistanceMoneyItem = "%s jellybeans"
 ResistanceMoneyChat = "Toons of the World, Spend Wisely!"
 

@@ -4,7 +4,7 @@ from toontown.toonbase.ToontownModules import *
 import string
 
 def isValidEmailAddr(addr):
-    strict = config.GetBool('strict-email-check', 1)
+    strict = ConfigVariableBool('strict-email-check', 1).getValue()
     if not strict:
         return len(addr) > 0
 

@@ -21,7 +21,7 @@ from toontown.toonbase import TTLocalizer
 from direct.interval.IntervalGlobal import *
 
 
-visualizeZones = base.config.GetBool("visualize-zones", 0)
+visualizeZones = ConfigVariableBool("visualize-zones", 0).getValue()
 
 class Street(BattlePlace.BattlePlace):
     """

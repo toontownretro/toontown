@@ -169,7 +169,7 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
         return globalClockDelta.getRealNetworkTime()
 
     def startCountdown(self):
-        if not config.GetBool('disable-purchase-timer', 0):
+        if not ConfigVariableBool('disable-purchase-timer', 0).getValue():
             taskMgr.doMethodLater(PURCHASE_COUNTDOWN_TIME, self.timeIsUpTask,
                                   self.uniqueName("countdown-timer"))
 
@@ -383,7 +383,7 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
 
             # but if we only have one player left, don't start the metagame
             if len(playAgainList) == 1 and \
-               simbase.config.GetBool('metagame-min-2-players', 1):
+               ConfigVariableBool('metagame-min-2-players', 1).getValue():
                 newRound = -1
 
             MinigameCreatorAI.createMinigame(

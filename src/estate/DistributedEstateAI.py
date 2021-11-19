@@ -9,7 +9,7 @@ from otp.ai.AIBase import *
 from otp.ai.AIZoneData import AIZoneData
 from otp.otpbase import OTPGlobals
 from . import DistributedHouseAI
-#import DistributedPlantAI
+#from . import DistributedPlantAI
 from . import HouseGlobals
 from . import DistributedTargetAI
 from . import GardenGlobals
@@ -75,9 +75,9 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
         #if not hasattr(self, "decorData"):
         #    self.decorData = []
 
-        self.cannonsEnabled = 0#simbase.config.GetBool('estate-cannons', 0)
-        self.fireworksEnabled = simbase.config.GetBool('estate-fireworks', 0)
-        self.goonEnabled = simbase.config.GetBool('estate-goon', 0)
+        self.cannonsEnabled = 0#ConfigVariableBool('estate-cannons', 0).getValue()
+        self.fireworksEnabled = ConfigVariableBool('estate-fireworks', 0).getValue()
+        self.goonEnabled = ConfigVariableBool('estate-goon', 0).getValue()
         self.goons = None
         self.gagBarrels = None
         self.crate = None
@@ -270,7 +270,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
 
         # start butterflies
         self.estateButterflies = []
-        if simbase.config.GetBool('want-estate-butterflies', 0):
+        if ConfigVariableBool('want-estate-butterflies', 0).getValue():
             ButterflyGlobals.generateIndexes(self.avId, ButterflyGlobals.ESTATE)
             for i in range(0,
                     ButterflyGlobals.NUM_BUTTERFLY_AREAS[ButterflyGlobals.ESTATE]):
@@ -447,7 +447,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
         tupleLastDay = tuple(listLastDay)
 
         randomDelay = random.random() * 5 * 60 # random five minute range
-        
+
         secondsNextEpoch = (time.mktime(tupleLastDay) + self.epochHourInSeconds + self.dayInSeconds + randomDelay) - currentTime
 
         #should we do the epoch for the current day?

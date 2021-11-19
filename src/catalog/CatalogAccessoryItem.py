@@ -21,9 +21,14 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
         return 1
 
     def notOfferedTo(self, avatar):
+        # Boys can only buy boy clothing, and girls can only buy girl
+        # clothing.  Sorry.
         article = AccessoryTypes[self.accessoryType][ATArticle]
+
         if article in [AHat, AGlasses, ABackpack, AShoes]:
+            # This article is androgynous.
             return 0
+            
         forBoys = article in [ABoysHat, ABoysGlasses, ABoysBackpack, ABoysShoes]
         if avatar.getStyle().getGender() == 'm':
             return not forBoys
@@ -45,77 +50,135 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
             return 0
 
     def getPurchaseLimit(self):
+        # Returns the maximum number of this particular item an avatar
+        # may purchase.  This is either 0, 1, or some larger number; 0
+        # stands for infinity.
         return 1
 
     def reachedPurchaseLimit(self, avatar):
+        # Returns true if the item cannot be bought because the avatar
+        # has already bought his limit on this item.
+
         if avatar.onOrder.count(self) != 0:
+            # It's on the way.
             return 1
+
         if avatar.onGiftOrder.count(self) != 0:
+            # someone has given it to you
             return 1
+
         if avatar.mailboxContents.count(self) != 0:
+            # It's waiting in the mailbox.
             return 1
+
         if self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
+            # check award queue and award mailbox too
             return 1
+
         str = AccessoryTypes[self.accessoryType][ATString]
+
         if self.isHat():
+            # Check if the avatar is already wearing this hat.
             defn = ToonDNA.HatStyles[str]
             hat = avatar.getHat()
-            if hat[0] == defn[0] and hat[1] == defn[1] and hat[2] == defn[2]:
+            if (hat[0] == defn[0] and
+                hat[1] == defn[1] and
+                hat[2] == defn[2]):
                 return 1
+
+            # Check if the shirt is in the avatar's closet.
             l = avatar.hatList
             for i in range(0, len(l), 3):
-                if l[i] == defn[0] and l[i + 1] == defn[1] and l[i + 2] == defn[2]:
+                if (l[i] == defn[0] and
+                    l[i + 1] == defn[1] and
+                    l[i + 2] == defn[2]):
                     return 1
 
         elif self.areGlasses():
+            # Check if the avatar is already wearing these glasses.
             defn = ToonDNA.GlassesStyles[str]
             glasses = avatar.getGlasses()
-            if glasses[0] == defn[0] and glasses[1] == defn[1] and glasses[2] == defn[2]:
+            if (glasses[0] == defn[0] and
+                glasses[1] == defn[1] and
+                glasses[2] == defn[2]):
                 return 1
+
+            # Check if the shirt is in the avatar's closet.
             l = avatar.glassesList
             for i in range(0, len(l), 3):
-                if l[i] == defn[0] and l[i + 1] == defn[1] and l[i + 2] == defn[2]:
+                if (l[i] == defn[0] and
+                    l[i + 1] == defn[1] and
+                    l[i + 2] == defn[2]):
                     return 1
 
         elif self.isBackpack():
+            # Check if the avatar is already wearing this backpack.
             defn = ToonDNA.BackpackStyles[str]
             backpack = avatar.getBackpack()
-            if backpack[0] == defn[0] and backpack[1] == defn[1] and backpack[2] == defn[2]:
+            if (backpack[0] == defn[0] and
+                backpack[1] == defn[1] and
+                backpack[2] == defn[2]):
                 return 1
+
+            # Check if the shirt is in the avatar's closet.
             l = avatar.backpackList
             for i in range(0, len(l), 3):
-                if l[i] == defn[0] and l[i + 1] == defn[1] and l[i + 2] == defn[2]:
+                if (l[i] == defn[0] and
+                    l[i + 1] == defn[1] and
+                    l[i + 2] == defn[2]):
                     return 1
 
         else:
+            # Check if the avatar is already wearing these shoes.
             defn = ToonDNA.ShoesStyles[str]
             shoes = avatar.getShoes()
-            if shoes[0] == defn[0] and shoes[1] == defn[1] and shoes[2] == defn[2]:
+            if (shoes[0] == defn[0] and
+                shoes[1] == defn[1] and
+                shoes[2] == defn[2]):
                 return 1
+
+            # Check if the shirt is in the avatar's closet.
             l = avatar.shoesList
             for i in range(0, len(l), 3):
-                if l[i] == defn[0] and l[i + 1] == defn[1] and l[i + 2] == defn[2]:
+                if (l[i] == defn[0] and
+                    l[i + 1] == defn[1] and
+                    l[i + 2] == defn[2]):
                     return 1
 
+        # Not found anywhere; go ahead and buy it.
         return 0
 
+
     def getTypeName(self):
+        # e.g. "shirt", "shorts", etc.
+        #article = ClothingTypes[self.clothingType][CTArticle]
+        #return TTLocalizer.ClothingArticleNames[article]
+
+        # Until we have descriptive names per-item below, just return
+        # "Clothing" here.
         return TTLocalizer.AccessoryTypeName
 
     def getName(self):
         typeName = TTLocalizer.AccessoryTypeNames.get(self.accessoryType, 0)
+        # check for a specific item name
         if typeName:
             return typeName
+        # otherwise use a generic name
         else:
             article = AccessoryTypes[self.accessoryType][ATArticle]
             return TTLocalizer.AccessoryArticleNames[article]
 
     def recordPurchase(self, avatar, optional):
+        # Updates the appropriate field on the avatar to indicate the
+        # purchase (or delivery).  This makes the item available to
+        # use by the avatar.  This method is only called on the AI side.
+
         if avatar.isTrunkFull():
             if avatar.getMaxAccessories() == 0:
                 return ToontownGlobals.P_NoTrunk
             else:
                 return ToontownGlobals.P_NoRoomForItem
+
         str = AccessoryTypes[self.accessoryType][ATString]
 
         if self.isHat():
@@ -177,13 +240,18 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
         return ToontownGlobals.P_ItemAvailable
 
     def getDeliveryTime(self):
-        return 60
+        # Returns the elapsed time in minutes from purchase to
+        # delivery for this particular item.
+        return 60  # 1 hour.
 
     def getPicture(self, avatar):
         model = self.loadModel()
         spin = 1
         model.setBin('unsorted', 0, 1)
+
+        assert (not self.hasPicture)
         self.hasPicture = True
+
         return self.makeFrameModel(model, spin)
 
     def applyColor(self, model, color):
@@ -222,31 +290,50 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
         return model
 
     def requestPurchase(self, phone, callback):
+        # Orders the item via the indicated telephone.  Some items
+        # will pop up a dialog querying the user for more information
+        # before placing the order; other items will order
+        # immediately.
+
+        # In either case, the function will return immediately before
+        # the transaction is finished, but the given callback will be
+        # called later with two parameters: the return code (one of
+        # the P_* symbols defined in ToontownGlobals.py), followed by the
+        # item itself.
+
+        # This method is only called on the client.
         from toontown.toontowngui import TTDialog
         avatar = base.localAvatar
+        
         accessoriesOnOrder = 0
         for item in avatar.onOrder + avatar.mailboxContents:
             if item.storedInTrunk():
                 accessoriesOnOrder += 1
 
         if avatar.isTrunkFull(accessoriesOnOrder):
+            # If the avatar's closet is full, pop up a dialog warning
+            # the user, and give him a chance to bail out.
             self.requestPurchaseCleanup()
-            buttonCallback = PythonUtil.Functor(self.__handleFullPurchaseDialog, phone, callback)
+            buttonCallback = PythonUtil.Functor(
+                self.__handleFullPurchaseDialog, phone, callback)
             if avatar.getMaxAccessories() == 0:
                 text = TTLocalizer.CatalogPurchaseNoTrunk
             else:
                 text = TTLocalizer.CatalogPurchaseTrunkFull
-            self.dialog = TTDialog.TTDialog(style = TTDialog.YesNo,
-                                            text = text,
-                                            text_wordwrap = 15,
-                                            command = buttonCallback,
-                                            )
+            self.dialog = TTDialog.TTDialog(
+                style = TTDialog.YesNo,
+                text = text,
+                text_wordwrap = 15,
+                command = buttonCallback,
+                )
             self.dialog.show()
+
         else:
+            # The avatar's closet isn't full; just buy it.
             CatalogItem.CatalogItem.requestPurchase(self, phone, callback)
 
     def requestPurchaseCleanup(self):
-        if hasattr(self, 'dialog'):
+        if hasattr(self, "dialog"):
             self.dialog.cleanup()
             del self.dialog
 
@@ -254,11 +341,16 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
         from toontown.toontowngui import TTDialog
         self.requestPurchaseCleanup()
         if buttonValue == DGG.DIALOG_OK:
+            # Go ahead and purchase it.
             CatalogItem.CatalogItem.requestPurchase(self, phone, callback)
         else:
             callback(ToontownGlobals.P_UserCancelled, self)
 
     def getAcceptItemErrorText(self, retcode):
+        # Returns a string describing the error that occurred on
+        # attempting to accept the item from the mailbox.  The input
+        # parameter is the retcode returned by recordPurchase() or by
+        # mailbox.acceptItem().
         if retcode == ToontownGlobals.P_ItemAvailable:
             if self.isHat():
                 return TTLocalizer.CatalogAcceptHat
@@ -291,20 +383,26 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
         return article in [AShoes, ABoysShoes, AGirlsShoes]
 
     def output(self, store = -1):
-        return 'CatalogAccessoryItem(%s, %s)' % (self.accessoryType, self.formatOptionalData(store))
+        return "CatalogAccessoryItem(%s, %s)" % (
+            self.accessoryType,
+            self.formatOptionalData(store))
 
     def getFilename(self):
         str = AccessoryTypes[self.accessoryType][ATString]
         if self.isHat():
+            # It's a hat.
             defn = ToonDNA.HatStyles[str]
             modelPath = ToonDNA.HatModels[defn[0]]
         elif self.areGlasses():
+            # They're glasses..
             defn = ToonDNA.GlassesStyles[str]
             modelPath = ToonDNA.GlassesModels[defn[0]]
         elif self.isBackpack():
+            # It's a backpack.
             defn = ToonDNA.BackpackStyles[str]
             modelPath = ToonDNA.BackpackModels[defn[0]]
         else:
+            # They're shoes.
             defn = ToonDNA.ShoesStyles[str]
             modelPath = ToonDNA.ShoesModels[defn[0]]
         return modelPath
@@ -350,7 +448,13 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
         if versionNumber >= 6:
             self.loyaltyDays = di.getUint16()
         else:
+            #RAU this seeems safe, as an old user would never have the new loyalty items
             self.loyaltyDays = 0
+
+        # Now validate the indices by assigning into a variable,
+        # color, which we don't care about other than to prove the
+        # clothingType and colorIndex map to a valid definition.  If
+        # they don't, the following will raise an exception.            
         str = AccessoryTypes[self.accessoryType][ATString]
         if self.isHat():
             defn = ToonDNA.HatStyles[str]
@@ -370,15 +474,21 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
     def isGift(self):
         if self.getEmblemPrices():
             return 0
-        if self.loyaltyRequirement() > 0:
+        if (self.loyaltyRequirement() > 0):
             return 0
         elif self.accessoryType in LoyaltyAccessoryItems:
+            # we can get this case through award manager
+            # catalog generator is not creating the catalog item, hence no loyalty days
             return 0
         else:
             return 1
 
 
 def getAllAccessories(*accessoryTypes):
+    # This function returns a list of all possible
+    # CatalogClothingItems (that is, all color variants) for the
+    # indicated type index(es).
+
     accessories = []
     for accessoryType in accessoryTypes:
         base = CatalogAccessoryItem(accessoryType)

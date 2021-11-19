@@ -197,7 +197,7 @@ class ObjectAnimBuilding(ObjectAnimBase):
 
 class ObjectPalette(ObjectPaletteBase):
     def __init__(self):
-        self.dnaBuiltDirectory = Filename.expandFrom(base.config.GetString("dna-built-directory", "$TTMODELS/built"))
+        self.dnaBuiltDirectory = Filename.expandFrom(ConfigVariableString("dna-built-directory", "$TTMODELS/built").getValue())
         self.hoodDict = {}
         ObjectPaletteBase.__init__(self)
 

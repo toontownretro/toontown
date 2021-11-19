@@ -5878,59 +5878,42 @@ DownloadForceAcknowledgeVerbList = [
 DownloadForceAcknowledgeMsg = "%(phase)sのダウンロードが%(percent)s%%しかされていないので、先に進めません。\n\n後で再試行してください"
 
 # TeaserPanel.py
-TeaserTop = ""
-TeaserBottom = ""
-#TeaserDefault = "\nフルアクセス専用だよ。\n登録しよう！"
-#TeaserOtherHoods = "７つの変わったエリアで楽しもう！"
-#TeaserTypeAName = "自分のトゥーンに好きな名前をつけよう！"
-#TeaserSixToons = "１つのアカウントでトゥーンを６つ作れるよ！"
-#TeaserClothing = "ユニークなアイテムでキミのトゥーンを目立たせよう！"
-#TeaserCogHQ = "強いコグたちの危険なエリアに忍び込もう！"
-#TeaserSecretChat = "ともだちとパスワードを交換して、オンラインでチャットしよう！"
-#TeaserSpecies = "サルやウマ、クマのトゥーンを作って遊ぼう！"
-#TeaserFishing = "全種類のサカナを集めてみよう！"
-#TeaserGolf = "しかけが一杯のゴルフコースで楽しもう！"
-#TeaserParties = "パーティーを開こう"
-TeaserDefault = ""
-TeaserOtherHoods = "登録受付けは終了しました！"
-TeaserTypeAName = "登録受付けは終了しました！"
-TeaserSixToons = "登録受付けは終了しました！"
-TeaserClothing = "登録受付けは終了しました！"
-TeaserCogHQ = "登録受付けは終了しました！"
-TeaserSecretChat = "登録受付けは終了しました！"
-TeaserSpecies = "登録受付けは終了しました！"
-TeaserFishing = "登録受付けは終了しました！"
-TeaserGolf = "登録受付けは終了しました！"
-TeaserParties = "登録受付けは終了しました！"
+TeaserTop = "" # "今すぐ、オフィシャルメンバーになろう！"
+TeaserBottom = "" # "メンバーになるとこんなことができるよ。"
+TeaserDefault = "\nフルアクセス専用だよ。\n登録しよう！"
+TeaserOtherHoods = "７つの変わったエリアで楽しもう！"
+TeaserTypeAName = "自分のトゥーンに好きな名前をつけよう！"
+TeaserSixToons = "１つのアカウントでトゥーンを６つ作れるよ！"
+TeaserClothing = "ユニークなアイテムでキミのトゥーンを目立たせよう！"
+TeaserCogHQ = "強いコグたちの危険なエリアに忍び込もう！"
+TeaserSecretChat = "ともだちとパスワードを交換して、オンラインでチャットしよう！"
+TeaserSpecies = "サルやウマ、クマのトゥーンを作って遊ぼう！"
+TeaserFishing = "全種類のサカナを集めてみよう！"
+TeaserGolf = "しかけが一杯のゴルフコースで楽しもう！"
+TeaserParties = "パーティーを開こう"
 TeaserSubscribe = "今すぐ申し込む"
 TeaserContinue = "お試し体験を続ける"
-#TeaserEmotions = "カタログでは「手をふる」、「ほめる」といったトゥーンの\n  表現も買うことができるよ。表現ゆたかなトゥーンにしよう！"
-#TeaserKarting = "ともだちのカートと一緒に楽しくレースしよう！"
-#TeaserKartingAccessories = "かっこいいアクセサリーで、キミのカートをカスタマイズしよう！"
-#TeaserGardening = "キミのおうちの庭を花や像やギャグの木できれいにかざろう！"
-#TeaserHaveFun = "楽しんでね！"
-#TeaserJoinUs = "登録しよう！"
-TeaserEmotions = "登録受付けは終了しました！"
-TeaserKarting = "登録受付けは終了しました！"
-TeaserKartingAccessories = "登録受付けは終了しました！"
-TeaserGardening = "登録受付けは終了しました！"
-TeaserHaveFun = "登録受付けは"
-TeaserJoinUs = "終了しました"
+TeaserEmotions = "カタログでは「手をふる」、「ほめる」といったトゥーンの\n表現も買うことができるよ。表現ゆたかなトゥーンにしよう！"
+TeaserKarting = "ともだちのカートと一緒に楽しくレースしよう！"
+TeaserKartingAccessories = "かっこいいアクセサリーで、キミのカートをカスタマイズしよう！"
+TeaserGardening = "キミのおうちの庭を花や像やギャグの木できれいにかざろう！"
+TeaserHaveFun = "楽しんでね！"
+TeaserJoinUs = "登録しよう！"
 
 TeaserPlantGags = "To plant these gags"
 TeaserPickGags = "To pick these gags"
 TeaserRestockGags = "To restock these gags"
 TeaserGetGags = "To get these gags"
 TeaserUseGags = "To use these gags"
-#TeaserCardsAndPosters = ""
-#TeaserFurniture = ""
-TeaserMinigames = TeaserOtherHoods
-#TeaserHolidays = ""
-TeaserQuests = TeaserOtherHoods
-TeaserOtherGags = TeaserOtherHoods
-#TeaserRental = ""
-#TeaserBigger = ""
-TeaserTricks = TeaserOtherHoods
+#TeaserCardsAndPosters = "いろんなディズニーの仲間たちにも会えるよ！" #★In Japan, we don't have this.
+#TeaserFurniture = "家具を買って、キミのおうちをコーディネートしよう！"
+TeaserMinigames = TeaserOtherHoods # "８つのミニゲームを遊びたおそう！"
+#TeaserHolidays = "クリスマスやバレンタインといった\n季節スペシャルイベントにどんどん参加しよう！"
+TeaserQuests = TeaserOtherHoods # "もりだくさんのトゥーンタスクをこなして、\nトゥーンタウンを救おう！"
+TeaserOtherGags = TeaserOtherHoods # "トゥーンタウンには７種類のギャグと、\nそれぞれに６つのレベルがあるよ！"
+#TeaserRental = "キミのおうちの庭のために楽しいパーティーアイテムをかりよう！"
+#TeaserBigger = "もっと大きくて強力なアイテムを買おう！"
+TeaserTricks = TeaserOtherHoods # "キミのドゥードゥルにトリックをおしえて、\nバトルの時にたすけてもらおう！"
 
 # Launcher.py
 LauncherPhaseNames = {
@@ -5943,12 +5926,12 @@ LauncherPhaseNames = {
     5   : "ｽﾄﾘｰﾄ",
     5.5 : "おうち",
     6   : "ｴﾘｱ①",
-    7   : Cog,
+    7   : Cog + "ビル",
     8   : "ｴﾘｱ②",
-    9   : Cog + "本部",
+    9   : "セルボット本部",
     10  : "マネーボット本部",
     11  : "ロウボット本部",
-    12  : Bossbot + " HQ",
+    12  : "ボスボット本部",
     13  : "ﾊﾟｰﾃｨｰ",
     }
 
@@ -6715,6 +6698,13 @@ CalendarPartyNeverStarted = "スタートできません"
 
 # NPCFriendPanel.py
 NPCFriendPanelRemaining = "残り %s"
+
+# PartiesPage.py
+#PartiesPageTitle = "パーティー"
+#PartiesPageHostTab = "しゅさい者"
+#PartiesPageInvitedTab = "しょうたい客"
+#PartiesPageTitleHost = "次のパーティー"
+#PartiesPageTitleInvited = "しょうたい状"
 
 # MapPage.py
 MapPageTitle = "地図"
@@ -9099,7 +9089,7 @@ CatalogNotifyOldDelivery = "注文した商品がまだメールボックスに�
 CatalogNotifyInstructions = "トゥーンガイドの\"家に帰る\"ボタンを押して、おうちの電話まで行ってね！"
 CatalogNewDeliveryButton = "商品が\n届いたよ"
 CatalogNewCatalogButton = "新しい\nカタログ"
-CatalogSaleItem = ""
+CatalogSaleItem = "セール中! "
 
 # don't translate yet
 DistributedMailboxEmpty = "いまキミのメールボックスはからっぽだよ。電話注文したあとに、荷物をチェックしにここへ戻ってきて！"
@@ -10006,7 +9996,7 @@ NPCToonNames = {
     9237 : "りょうしのジャン",
 
     #
-    # Funny Farms / Field Office
+    # Funny Farm / Field Office
     #
 
     9301 : "Phil Bettur",
@@ -10637,6 +10627,8 @@ EstateOwnerLeftMessage = "ごめん、おうちの持ち主がいなくなっち
 EstatePopupOK = lOK
 EstateTeleportFailed = "家へ帰れない？\nもう一度やってみて！"
 EstateTeleportFailedNotFriends = "%sはキミの知らないトゥーンの家にいるよ。"
+EstatePlaneBanner = "Cog Invasion!!!"
+EstateHalloweenBanner = "ハッピー・ハロウィン！！！"
 
 # DistributedTarget.py
 EstateTargetGameStart = "トゥーンアップ ターゲットゲーム、スタート！"
@@ -10928,13 +10920,13 @@ TipDict = {
     "ショウカンジョーを集めてじゅうぶん格上げされたら、ロウボット本部のサイバンチョーにちょうせんだ！",
     "サイバンチョーにちょうせんするには、ロウボットのへんそうパーツがひつようだよ。",
     "サンバンチョーには同時に８人までいっしょにちょうせんできるよ。",
-    "パズルにちょうせん！しっぱいするとバーチャル・コグがキミのショウカンをじゃまするよ。 ",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
+    "パズルにちょうせん！しっぱいするとバーチャル・コグがキミのショウカンをじゃまするよ。",
+#    "",
+#    "",
+#    "",
+#    "",
+#    "",
+#    "",
     ),
   TIP_ESTATE : (
     # Doodles #★

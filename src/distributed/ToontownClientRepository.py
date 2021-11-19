@@ -5,7 +5,6 @@ import time
 from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import ivalMgr
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedSmoothNode
@@ -151,6 +150,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.distributedDistrict = None
         self.partyManager = None
         self.inGameNewsMgr = None
+        self.whitelistMgr = None
         self.toontownTimeManager = ToontownTimeManager.ToontownTimeManager()
 
         self.avatarFriendsManager = self.generateGlobalObject(
@@ -177,7 +177,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         #    OtpDoGlobals.OTP_DO_ID_TOONTOWN_IN_GAME_NEWS_MANAGER,
         #    "InGameNewsMgr")
 
-        if config.GetBool('want-code-redemption', 1):
+        if ConfigVariableBool('want-code-redemption', 1).getValue():
             self.codeRedemptionManager = self.generateGlobalObject(
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER,
                 "TTCodeRedemptionMgr")
@@ -246,10 +246,10 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         state = self.gameFSM.getStateNamed('playGame')
         state.addTransition('skipTutorialRequest')
 
-        self.wantCogdominiums = base.config.GetBool('want-cogdominiums', 0)
-        self.wantEmblems = base.config.GetBool('want-emblems', 0)
+        self.wantCogdominiums = ConfigVariableBool('want-cogdominiums', 0).getValue()
+        self.wantEmblems = ConfigVariableBool('want-emblems', 0).getValue()
 
-        if base.config.GetBool('tt-node-check', 0):
+        if ConfigVariableBool('tt-node-check', 0).getValue():
             # check for nodes in the models
             for species in ToonDNA.toonSpeciesTypes:
                 for head in ToonDNA.getHeadList(species):
@@ -402,7 +402,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.accept(self.avChoiceDoneEvent, self.__handleAvatarChooserDone,
                     [avList])
 
-        if config.GetBool('want-gib-loader', 0):
+        if ConfigVariableBool('want-gib-loader', 0).getValue():
             self.loadingBlocker = ToontownLoadingBlocker.ToontownLoadingBlocker(avList)
 
     def __handleAvatarChooserDone(self, avList, doneStatus):
@@ -1053,7 +1053,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                 'DistributedBankMgr', 'EstateManager', 'RaceManager',
                 'SafeZoneManager', 'DeleteManager', 'TutorialManager',
                 'ToontownDistrict', 'DistributedDeliveryManager', 'DistributedPartyManager',
-                'AvatarFriendsManager', 'InGameNewsMgr', 'TTCodeRedemptionMgr')
+                'AvatarFriendsManager', 'InGameNewsMgr', 'WhitelistMgr', 'TTCodeRedemptionMgr')
 
         # give objects a chance to clean themselves up before checking for DelayDelete leaks
         messenger.send('clientCleanup')

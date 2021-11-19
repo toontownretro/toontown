@@ -457,7 +457,7 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
             #self.notify.debug("listVersion[13] = ")
             #print listVersion[13]
 
-            if simbase.config.GetBool('lawbot-boss-cheat',0):
+            if ConfigVariableBool('lawbot-boss-cheat',0).getValue():
                 listVersion[13] = weakenedValue
                 SuitBuildingGlobals.SuitBuildingInfo = tuple(listVersion)
             return self.invokeSuitPlanner(13, 0)
@@ -843,7 +843,7 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
         dmgAdjust = jurorsOver * ToontownGlobals.LawbotBossDamagePerJuror
         self.b_setBossDamage(ToontownGlobals.LawbotBossInitialDamage + dmgAdjust, 0, 0)
         # make it close to losing if needed
-        if simbase.config.GetBool('lawbot-boss-cheat',0):
+        if ConfigVariableBool('lawbot-boss-cheat',0).getValue():
             pass
             self.b_setBossDamage(ToontownGlobals.LawbotBossMaxDamage - 1, 0, 0)
 

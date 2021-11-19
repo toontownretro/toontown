@@ -27,9 +27,9 @@ class NonRepeatableRandomSourceUD(DistributedObjectGlobalUD):
         self._fakeIt = 0
         if __dev__:
             # don't bloat RAM in dev
-            NonRepeatableRandomSourceUD.RandomNumberCacheSize = config.GetInt(
-                'random-source-cache-size', 5000)
-            self._fakeIt = config.GetBool('fake-non-repeatable-random-source', self._fakeIt)
+            NonRepeatableRandomSourceUD.RandomNumberCacheSize = ConfigVariableInt(
+                'random-source-cache-size', 5000).getValue()
+            self._fakeIt = ConfigVariableBool('fake-non-repeatable-random-source', self._fakeIt).getValue()
 
     def randomSample(self, nrrsDoId, random):
         # receive a random sample from an AI server

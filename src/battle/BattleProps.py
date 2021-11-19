@@ -158,7 +158,7 @@ class PropPool:
         self.propCache = []
         self.propStrings = {}
         self.propTypes = {}
-        self.maxPoolSize = base.config.GetInt("prop-pool-size", 8)
+        self.maxPoolSize = ConfigVariableInt("prop-pool-size", 8).getValue()
 
         # load ref's to the props enumerated above
         for p in Props:

@@ -6,8 +6,9 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.shtiker import ShtikerPage
 from toontown.toonbase import TTLocalizer
+from toontown.toonbase.ToontownModules import *
 
-UseDirectNewsFrame = config.GetBool("use-direct-news-frame", True)
+UseDirectNewsFrame = ConfigVariableBool("use-direct-news-frame", True).getValue()
 HaveNewsFrame = True
 if UseDirectNewsFrame:
     # we are using a news page that does not use awesomium or a browser
@@ -24,7 +25,7 @@ class NewsPage(ShtikerPage.ShtikerPage):
     """
 
     notify = DirectNotifyGlobal.directNotify.newCategory("NewsPage")
-    
+
     def __init__(self):
         ShtikerPage.ShtikerPage.__init__(self)
 
@@ -36,7 +37,7 @@ class NewsPage(ShtikerPage.ShtikerPage):
             text = TTLocalizer.NewsPageImportError ,
             text_scale = 0.12,
         )
-        
+
         if HaveNewsFrame:
             if UseDirectNewsFrame:
                 import datetime
@@ -49,16 +50,16 @@ class NewsPage(ShtikerPage.ShtikerPage):
                 # this forces a preload of the news web site
                 self.newsFrame.activate()
 
-        
+
     def unload(self):
         if HaveNewsFrame:
             self.newsFrame.unload()
             del self.newsFrame
 
-    def clearPage(self):        
+    def clearPage(self):
         return
 
-    def updatePage(self):        
+    def updatePage(self):
         return
 
     def enter(self):
@@ -71,7 +72,7 @@ class NewsPage(ShtikerPage.ShtikerPage):
             if self.book:
                 # hide the previous arrow
                 self.book.prevArrow.hide()
-                self.book.disableAllPageTabs()        
+                self.book.disableAllPageTabs()
             self.newsFrame.activate()
             # turn off the cells that obstruct
             base.setCellsAvailable(base.leftCells, 0)
@@ -91,13 +92,13 @@ class NewsPage(ShtikerPage.ShtikerPage):
         if HaveNewsFrame:
             self.newsFrame.deactivate()
             base.setCellsAvailable(base.leftCells, 1)
-            base.setCellsAvailable([base.rightCells[1]], 1)            
+            base.setCellsAvailable([base.rightCells[1]], 1)
             if localAvatar.book.shouldBookButtonBeHidden():
                 localAvatar.book.bookCloseButton.hide()
             else:
                 localAvatar.book.bookCloseButton.show()
         return
-              
+
     def doSnapshot(self):
         """Save our current browser page as png file."""
         if HaveNewsFrame:

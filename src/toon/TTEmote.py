@@ -255,8 +255,8 @@ def doSlipBackward(toon, volume = 1):
 def doThink(toon, volume = 1):
     duration = (47.0 / 24.0) * 2
     animTrack = Sequence(
-        ActorInterval(toon, 'think', startFrame = 0, endFrame = 46),
-        ActorInterval(toon, 'think', startFrame = 46, endFrame = 0),
+        ActorInterval(toon, 'think', startFrame = 0, endFrame = 45),
+        ActorInterval(toon, 'think', startFrame = 45, endFrame = 0),
         )
     track = Sequence(animTrack,
                      duration = 0)
@@ -451,7 +451,7 @@ def stopSinginAnim(toon):
     pass
 
 def singNote1(toon, volume = 1):
-    if base.config.GetBool('want-octaves', True):
+    if ConfigVariableBool('want-octaves', True).getValue():
         if toon.style.getTorsoSize() == 'short':
             return getSingingNote(toon, 'g1')
         elif toon.style.getTorsoSize()  == 'medium':
@@ -460,7 +460,7 @@ def singNote1(toon, volume = 1):
             return getSingingNote(toon, 'g3')
 
 def singNote2(toon, volume = 1):
-    if base.config.GetBool('want-octaves', True):
+    if ConfigVariableBool('want-octaves', True).getValue():
         if toon.style.getTorsoSize() == 'short':
             return getSingingNote(toon, 'a1')
         elif toon.style.getTorsoSize()  == 'medium':
@@ -469,7 +469,7 @@ def singNote2(toon, volume = 1):
             return getSingingNote(toon, 'a3')
 
 def singNote3(toon, volume = 1):
-    if base.config.GetBool('want-octaves', True):
+    if ConfigVariableBool('want-octaves', True).getValue():
         if toon.style.getTorsoSize() == 'short':
             return getSingingNote(toon, 'b1')
         elif toon.style.getTorsoSize()  == 'medium':
@@ -478,7 +478,7 @@ def singNote3(toon, volume = 1):
             return getSingingNote(toon, 'b3')
 
 def singNote4(toon, volume = 1):
-    if base.config.GetBool('want-octaves', True):
+    if ConfigVariableBool('want-octaves', True).getValue():
         if toon.style.getTorsoSize() == 'short':
             return getSingingNote(toon, 'c1')
         elif toon.style.getTorsoSize()  == 'medium':
@@ -487,7 +487,7 @@ def singNote4(toon, volume = 1):
             return getSingingNote(toon, 'c3')
 
 def singNote5(toon, volume = 1):
-    if base.config.GetBool('want-octaves', True):
+    if ConfigVariableBool('want-octaves', True).getValue():
         if toon.style.getTorsoSize() == 'short':
             return getSingingNote(toon, 'd1')
         elif toon.style.getTorsoSize()  == 'medium':
@@ -496,7 +496,7 @@ def singNote5(toon, volume = 1):
             return getSingingNote(toon, 'd3')
 
 def singNote6(toon, volume = 1):
-    if base.config.GetBool('want-octaves', True):
+    if ConfigVariableBool('want-octaves', True).getValue():
         if toon.style.getTorsoSize() == 'short':
             return getSingingNote(toon, 'e1')
         elif toon.style.getTorsoSize()  == 'medium':
@@ -505,7 +505,7 @@ def singNote6(toon, volume = 1):
             return getSingingNote(toon, 'e3')
 
 def singNote7(toon, volume = 1):
-    if base.config.GetBool('want-octaves', True):
+    if ConfigVariableBool('want-octaves', True).getValue():
         if toon.style.getTorsoSize() == 'short':
             return getSingingNote(toon, 'f1')
         elif toon.style.getTorsoSize()  == 'medium':
@@ -514,7 +514,7 @@ def singNote7(toon, volume = 1):
             return getSingingNote(toon, 'f3')
 
 def singNote8(toon, volume = 1):
-        if base.config.GetBool('want-octaves', True):
+        if ConfigVariableBool('want-octaves', True).getValue():
             if toon.style.getTorsoSize() == 'short':
                 return getSingingNote(toon, 'g2')
             elif toon.style.getTorsoSize()  == 'medium':

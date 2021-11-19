@@ -85,6 +85,7 @@ from toontown.toon import DistributedToonAI
 from otp.distributed import OtpDoGlobals
 from toontown.uberdog import DistributedPartyManagerAI
 from toontown.uberdog import DistributedInGameNewsMgrAI
+from toontown.uberdog import DistributedWhitelistMgrAI
 from toontown.uberdog import DistributedCpuInfoMgrAI
 from toontown.parties import ToontownTimeManager
 from toontown.coderedemption.TTCodeRedemptionMgrAI import TTCodeRedemptionMgrAI
@@ -166,7 +167,7 @@ class ToontownAIRepository(AIDistrict):
 
     def __init__(self, *args, **kw):
         AIDistrict.__init__(self, *args, **kw)
-        self.setTimeWarning(simbase.config.GetFloat('aimsg-time-warning', 4))
+        self.setTimeWarning(ConfigVariableDouble('aimsg-time-warning', 4).getValue())
 
         self.dnaSearchPath = DSearchPath()
         if os.getenv('TTMODELS'):
@@ -199,9 +200,9 @@ class ToontownAIRepository(AIDistrict):
         self.accept('queryToonMaxHp', self.__queryToonMaxHpResponse)
 
         # For debugging
-        wantNewToonhall = simbase.config.GetBool('want-new-toonhall', 1)
+        wantNewToonhall = ConfigVariableBool('want-new-toonhall', 1).getValue()
         if (not wantNewToonhall) or \
-            (wantNewToonhall and not simbase.config.GetBool('show-scientists', 0)):
+            (wantNewToonhall and not ConfigVariableBool('show-scientists', 0).getValue()):
                 for i in range(3):
                     npcId = 2018+i
                     if npcId in NPCToons.NPCToonDict:
@@ -209,7 +210,7 @@ class ToontownAIRepository(AIDistrict):
 
         NPCToons.generateZone2NpcDict()
 
-        if not simbase.config.GetBool('want-suits-everywhere', 1):
+        if not ConfigVariableBool('want-suits-everywhere', 1).getValue():
             # This is a special mode for development: we don't want
             # suits walking around all over the world.  Turn off all
             # the SuitPlanner flags.
@@ -217,28 +218,28 @@ class ToontownAIRepository(AIDistrict):
                 for zone in zones:
                     zone[2] = 0
 
-            if not simbase.config.GetBool('want-suits-nowhere', 1):
+            if not ConfigVariableBool('want-suits-nowhere', 1).getValue():
                 # However, we do want them in at least one street.
                 self.zoneTable[ToontownCentral][1][2] = 1
 
         # minigame debug flags
-        self.wantMinigameDifficulty = simbase.config.GetBool(
-            'want-minigame-difficulty', 0)
+        self.wantMinigameDifficulty = ConfigVariableBool(
+            'want-minigame-difficulty', 0).getValue()
 
-        self.minigameDifficulty = simbase.config.GetFloat(
-            'minigame-difficulty', -1.)
+        self.minigameDifficulty = ConfigVariableDouble(
+            'minigame-difficulty', -1.).getValue()
         if self.minigameDifficulty == -1.:
             del self.minigameDifficulty
-        self.minigameSafezoneId = simbase.config.GetInt(
-            'minigame-safezone-id', -1)
+        self.minigameSafezoneId = ConfigVariableInt(
+            'minigame-safezone-id', -1).getValue()
         if self.minigameSafezoneId == -1:
             del self.minigameSafezoneId
 
         # should we pick from the entire list of minigames regardless of
         # the number of participating toons? (for debugging)
-        self.useAllMinigames = simbase.config.GetBool('use-all-minigames', 0)
+        self.useAllMinigames = ConfigVariableBool('use-all-minigames', 0).getValue()
 
-        self.wantCogdominiums = simbase.config.GetBool('want-cogdominiums', 0)
+        self.wantCogdominiums = ConfigVariableBool('want-cogdominiums', 0).getValue()
 
         self.hoods = []
         self.buildingManagers = {}
@@ -254,7 +255,7 @@ class ToontownAIRepository(AIDistrict):
         # turn on garbage-collection debugging to see if it's related
         # to the chugs we're seeing
         # eventually we will probably put in our own gc pump
-        if simbase.config.GetBool('gc-debug', 0):
+        if ConfigVariableBool('gc-debug', 0).getValue():
             import gc
             gc.set_debug(gc.DEBUG_STATS)
 
@@ -278,7 +279,7 @@ class ToontownAIRepository(AIDistrict):
         #    OtpDoGlobals.OTP_DO_ID_TOONTOWN_NON_REPEATABLE_RANDOM_SOURCE,
         #    "NonRepeatableRandomSource")
 
-        if simbase.config.GetBool('want-ddsm', 1):
+        if ConfigVariableBool('want-ddsm', 1).getValue():
             self.dataStoreManager = self.generateGlobalObject(
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_TEMP_STORE_MANAGER,
                 "DistributedDataStoreManager")
@@ -398,13 +399,19 @@ class ToontownAIRepository(AIDistrict):
         self.partyManager = DistributedPartyManagerAI.DistributedPartyManagerAI(self)
         self.partyManager.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
-        #self.inGameNewsMgr = DistributedInGameNewsMgrAI.DistributedInGameNewsMgrAI(self)
-        #self.inGameNewsMgr.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
+        self.inGameNewsMgr = DistributedInGameNewsMgrAI.DistributedInGameNewsMgrAI(self)
+        self.inGameNewsMgr.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
-        #self.cpuInfoMgr = DistributedCpuInfoMgrAI.DistributedCpuInfoMgrAI(self)
-        #self.cpuInfoMgr.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
+        self.whitelistMgr = DistributedWhitelistMgrAI.DistributedWhitelistMgrAI(self)
+        self.whitelistMgr.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
-        #if config.GetBool('want-code-redemption', 1):
+        self.cpuInfoMgr = DistributedCpuInfoMgrAI.DistributedCpuInfoMgrAI(self)
+        self.cpuInfoMgr.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
+
+        #self.securityMgr = DistributedSecurityMgrAI.DistributedSecurityMgrAI(self)
+        #self.securityMgr.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
+
+        #if ConfigVariableBool('want-code-redemption', 1).getValue():
         #    self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
         #    self.codeRedemptionManager.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
@@ -437,7 +444,7 @@ class ToontownAIRepository(AIDistrict):
         self.safeZoneManager.generateWithRequired(OTPGlobals.UberZone)
 
         # The Magic Word Manager
-        magicWordString = simbase.config.GetString('want-magic-words', '1')
+        magicWordString = ConfigVariableString('want-magic-words', '1').getValue()
         if magicWordString not in ('', '0', '#f'):
             self.magicWordManager = ToontownMagicWordManagerAI.ToontownMagicWordManagerAI(self)
             self.magicWordManager.generateWithRequired(OTPGlobals.UberZone)
@@ -1046,6 +1053,21 @@ class ToontownAIRepository(AIDistrict):
             globalId = di.getUint32()
             if globalId != OtpDoGlobals.OTP_DO_ID_TOONTOWN_IN_GAME_NEWS_MANAGER:
                 self.notify.error('__handleInGameNewsManagerUdToAllAi  globalId=%d not equal to %d' %
+                                  (globalId, OtpDoGlobals.OTP_DO_ID_TOONTOWN_PARTY_MANAGER))
+            # Let the dclass finish the job
+            do.dclass.receiveUpdate(do, di)
+
+    def __handleWhitelistManagerUdToAllAi(self,di):
+        """Send all msgs of this type to the party manager on our district."""
+        # we know the format is STATE_SERVER_OBJECT_UPDATE_FIELD
+        # we just changed the msg type to PARTY_MANAGER_UD_TO_ALL_AI
+        # so that it gets handled here
+        # otherwise it just gets dropped on the floor
+        do = self.whitelistMgr
+        if do:
+            globalId = di.getUint32()
+            if globalId != OtpDoGlobals.OTP_DO_ID_TOONTOWN_WHITELIST_MANAGER:
+                self.notify.error('__handleWhitelistUdToAllAi  globalId=%d not equal to %d' %
                                   (globalId, OtpDoGlobals.OTP_DO_ID_TOONTOWN_PARTY_MANAGER))
             # Let the dclass finish the job
             do.dclass.receiveUpdate(do, di)

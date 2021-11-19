@@ -4,7 +4,6 @@ from toontown.toonbase.ToontownModules import *
 from toontown.toon import ToonDNA
 from direct.fsm import StateData
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from .MakeAToonGlobals import *
 from toontown.toonbase import TTLocalizer
 from . import ShuffleButton

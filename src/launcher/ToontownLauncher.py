@@ -142,7 +142,7 @@ if 1:   # flip this as necessary
     logErr = LogAndOutput(sys.__stderr__, log)
     sys.stdout = logOut
     sys.stderr = logErr
-    
+
     # Give Panda the same log we use
     if __debug__:
         nout = MultiplexStream()
@@ -260,7 +260,7 @@ class ToontownLauncher(LauncherBase):
         """
         # Allow a developer to stuff it in the config file if
         # necessary.
-        s = config.GetString("fake-web-acct-params", '')
+        s = ConfigVariableString("fake-web-acct-params", '').getValue()
 
         if not s:
             s = self.getRegistry(self.webAcctParams)

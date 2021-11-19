@@ -5,7 +5,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
 from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
-#import FishBase
+#from toontown.fishing import FishBase
 from . import GardenGlobals
 from . import FlowerPhoto
 from toontown.estate import BeanRecipeGui

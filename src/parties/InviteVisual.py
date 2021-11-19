@@ -36,6 +36,7 @@ class InviteVisual(DirectFrame):
             PartyGlobals.InviteTheme.Racing : ( self.gui.find("**/racingPage"), TTLocalizer.PartyPlannerRacingTheme, (0.0, 0.0, 0.0, 1.0) ),
             PartyGlobals.InviteTheme.Valentoons : ( self.gui.find("**/valentinePage1"), TTLocalizer.PartyPlannerValentoonsTheme, (0.0, 0.0, 0.0, 1.0) ),
             PartyGlobals.InviteTheme.VictoryParty : ( self.gui.find("**/victoryPartyPage"), TTLocalizer.PartyPlannerVictoryPartyTheme, (0.0, 0.0, 0.0, 1.0) ),
+            PartyGlobals.InviteTheme.Winter : ( self.gui.find("**/winterPartyPage1"), TTLocalizer.PartyPlannerWinterPartyTheme, (1.0, 1.0, 1.0, 1.0) ),
         }
         
         self.inviteThemeBackground = DirectFrame(

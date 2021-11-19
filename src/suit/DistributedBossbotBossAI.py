@@ -17,6 +17,7 @@ from toontown.battle import DistributedBattleWaitersAI
 from toontown.battle import DistributedBattleDinersAI
 from toontown.battle import BattleExperienceAI
 from direct.distributed.ClockDelta import globalClockDelta
+from toontown.toonbase.ToontownModules import *
 
 class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBossbotBossAI')
@@ -71,9 +72,9 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.doneOvertimeTwoAttack = False
 
         # what time will he destroy one food belt
-        self.overtimeOneTime = simbase.air.config.GetInt('overtime-one-time',1200)
+        self.overtimeOneTime = ConfigVariableInt('overtime-one-time',1200).getValue()
         # what time will he destroy the second food belt
-        self.battleFourDuration = simbase.air.config.GetInt('battle-four-duration',1800)
+        self.battleFourDuration = ConfigVariableInt('battle-four-duration',1800).getValue()
         self.overtimeOneStart = float(self.overtimeOneTime) / self.battleFourDuration
 
         self.moveAttackAllowed = True
@@ -115,8 +116,8 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
     def getHoodId(self):
         """Return our canonical hood id."""
-        #return ToontownGlobals.BossbotHQ
-        return ToontownGlobals.LawbotHQ
+        return ToontownGlobals.BossbotHQ
+        #return ToontownGlobals.LawbotHQ
 
     def generateSuits(self, battleNumber):
         """Create and generate the suits for a battle phase."""
@@ -131,7 +132,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                               ( 1, 1, 1, 1, 1 ) )
             listVersion = list(SuitBuildingGlobals.SuitBuildingInfo)
 
-            if simbase.config.GetBool('bossbot-boss-cheat',0):
+            if ConfigVariableBool('bossbot-boss-cheat',0).getValue():
                 listVersion[14] = weakenedValue
                 SuitBuildingGlobals.SuitBuildingInfo = tuple(listVersion)
             retval =  self.invokeSuitPlanner(14, 0)
@@ -463,7 +464,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         """Generate the diners that fight."""
         diners = []
         for i in range(len(self.notDeadList)):
-            if simbase.config.GetBool('bossbot-boss-cheat',0):
+            if ConfigVariableBool('bossbot-boss-cheat',0).getValue():
                 suit = self.__genSuitObject(self.zoneId, 2, 'c', 2, 0)
             else:
                 info = self.notDeadList[i]
@@ -474,7 +475,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         active = []
         # we make 2 more than the suits left
         for i in range(2):
-            if simbase.config.GetBool('bossbot-boss-cheat',0):
+            if ConfigVariableBool('bossbot-boss-cheat',0).getValue():
                 suit = self.__genSuitObject(self.zoneId, 2, 'c', 2, 0)
             else:
                 # BAND-AID: notDeadList might be empty?
@@ -1000,7 +1001,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                 self.numGolfAttacks += 1
             elif self.isToonOnTable(toonId):
                 # lets make him shoot a small percent of the time
-                doesMoveAttack = simbase.air.config.GetBool('ceo-does-move-attack',1)
+                doesMoveAttack = ConfigVariableBool('ceo-does-move-attack',1).getValue()
                 if doesMoveAttack:
                     chanceToShoot = 0.25
                 else:

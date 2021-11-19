@@ -2,6 +2,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase.ToontownModules import ConfigVariableBool
 from direct.task import Task
 
+#from string import maketrans
 import pickle
 import os
 import sys

@@ -8,6 +8,7 @@ from direct.task import Task
 from toontown.minigame import DistributedMinigameAI
 from toontown.minigame import MinigameGlobals
 from toontown.minigame import CogThiefGameGlobals
+from toontown.toonbase.ToontownModules import *
 
 CTGG = CogThiefGameGlobals
 class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
@@ -121,7 +122,7 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
         #self.gameOver()
 
         # Start the game timer
-        if not config.GetBool('cog-thief-endless', 0):
+        if not ConfigVariableBool('cog-thief-endless', 0).getValue():
             taskMgr.doMethodLater(CTGG.GameTime,
                                   self.timerExpired,
                                   self.taskName("gameTimer"))
@@ -504,8 +505,8 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
             if self.barrelInfo[key]['stolen']:
                 numStolen+=1
         self.notify.debug('numStolen = %s' % numStolen)
-        if simbase.config.GetBool('cog-thief-check-barrels', 1):
-            if not simbase.config.GetBool('cog-thief-endless', 0):
+        if ConfigVariableBool('cog-thief-check-barrels', 1).getValue():
+            if not ConfigVariableBool('cog-thief-endless', 0).getValue():
                 if numStolen == len(self.barrelInfo):
                     self.gameOver()
 
@@ -517,7 +518,7 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
 
     def getNumCogs(self):
         """Return the number of cogs we have for this game."""
-        result =  simbase.config.GetInt('cog-thief-num-cogs', 0)
+        result =  ConfigVariableInt('cog-thief-num-cogs', 0).getValue()
         if not result:
             safezone = self.getSafezoneId()
             result = CTGG.calculateCogs(self.numPlayers, safezone)

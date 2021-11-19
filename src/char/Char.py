@@ -4,7 +4,6 @@ from otp.avatar import Avatar
 from toontown.toonbase.ToontownModules import *
 from direct.task import Task
 import random
-from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
 
 AnimDict = {
@@ -196,7 +195,7 @@ class Char(Avatar.Avatar):
             # fix Chip and Dales wonky shadow
             if (self._name == "chip") or (self._name == "dale") or \
                (self._name == "police_chip") or (self._name == "jailbird_dale"):
-            
+
                 self.find("**/drop-shadow").setScale(0.33)
 
 
@@ -208,12 +207,12 @@ class Char(Avatar.Avatar):
         self.setLODNode()
 
         # get the switch values
-        levelOneIn = base.config.GetInt("lod1-in", 50)
-        levelOneOut = base.config.GetInt("lod1-out", 0)
-        levelTwoIn = base.config.GetInt("lod2-in", 100)
-        levelTwoOut = base.config.GetInt("lod2-out", 50)
-        levelThreeIn = base.config.GetInt("lod3-in", 280)
-        levelThreeOut = base.config.GetInt("lod3-out", 100)
+        levelOneIn = ConfigVariableInt("lod1-in", 50).getValue()
+        levelOneOut = ConfigVariableInt("lod1-out", 0).getValue()
+        levelTwoIn = ConfigVariableInt("lod2-in", 100).getValue()
+        levelTwoOut = ConfigVariableInt("lod2-out", 50).getValue()
+        levelThreeIn = ConfigVariableInt("lod3-in", 280).getValue()
+        levelThreeOut = ConfigVariableInt("lod3-out", 100).getValue()
 
         # add the LODs
         self.addLOD(LODModelDict[self.style.name][0], levelOneIn, levelOneOut)
@@ -560,7 +559,7 @@ class Char(Avatar.Avatar):
 
         self.unloadDialogue()
 
-        language = base.config.GetString("language", "english")
+        language = ConfigVariableString("language", "english").getValue()
 
         if (char == "mk"):
             # load Mickey's dialogue array

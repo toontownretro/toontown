@@ -1,7 +1,6 @@
 from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
 from direct.gui import DirectGuiGlobals
-from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
 from . import TTDialog
 from toontown.toonbase import TTLocalizer
@@ -199,7 +198,7 @@ class TeaserPanel(DirectObject):
         self.browser.reparentTo(self.dialog)
         base.transitions.fadeScreen(.5)
 
-        if base.config.GetBool('want-teaser-scroll-keys',0):
+        if ConfigVariableBool('want-teaser-scroll-keys',0).getValue():
             self.accept('arrow_right', self.showNextPage)
             self.accept('arrow_left',  self.showPrevPage)
         self.accept('stoppedAsleep', self.__handleDone)

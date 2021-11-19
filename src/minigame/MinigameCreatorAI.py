@@ -3,6 +3,7 @@ import random
 import time
 
 from toontown.toonbase import ToontownGlobals
+from toontown.toonbase.ToontownModules import *
 
 # Import all the minigames because we create them
 from . import DistributedMinigameTemplateAI
@@ -27,7 +28,7 @@ from . import TravelGameGlobals
 
 #------------------------------------------------------------------------------
 # This config allows devs to temporarily register temp games created with the minigame framework
-ALLOW_TEMP_MINIGAMES = simbase.config.GetBool('allow-temp-minigames', False)
+ALLOW_TEMP_MINIGAMES = ConfigVariableBool('allow-temp-minigames', False).getValue()
 
 if ALLOW_TEMP_MINIGAMES:
     # Import temp minigames
@@ -35,7 +36,7 @@ if ALLOW_TEMP_MINIGAMES:
 #------------------------------------------------------------------------------
 
 # put this on simbase so that it's easy to change on-the-fly
-simbase.forcedMinigameId = simbase.config.GetInt('minigame-id', 0)
+simbase.forcedMinigameId = ConfigVariableInt('minigame-id', 0).getValue()
 
 # This map is only used for support of the magic word ~minigame
 RequestMinigame = {}
@@ -249,22 +250,22 @@ def removeUnreleasedMinigames(startList, increaseChanceOfNewGames = 0):
             if gameId in randomList:
                 doRemove = True
                 if gameId == ToontownGlobals.CogThiefGameId and \
-                   simbase.air.config.GetBool('force-allow-thief-game',0):
+                   ConfigVariableBool('force-allow-thief-game',0).getValue():
                     doRemove = False
                     if increaseChanceOfNewGames:
                         randomList += [gameId]*4
                 elif gameId == ToontownGlobals.IceGameId and \
-                     simbase.air.config.GetBool('force-allow-ice-game',0):
+                     ConfigVariableBool('force-allow-ice-game',0).getValue():
                     doRemove = False
                     if increaseChanceOfNewGames:
                         randomList += [gameId]*4
                 elif gameId == ToontownGlobals.TwoDGameId and \
-                     simbase.air.config.GetBool('force-allow-2d-game', 0):
+                     ConfigVariableBool('force-allow-2d-game', 0).getValue():
                     doRemove = False
                     if increaseChanceOfNewGames:
                         randomList += [gameId]*4
                 elif gameId == ToontownGlobals.PhotoGameId and \
-                     simbase.air.config.GetBool('force-allow-photo-game',0):
+                     ConfigVariableBool('force-allow-photo-game',0).getValue():
                     doRemove = False
                     if increaseChanceOfNewGames:
                         randomList += [gameId]*4

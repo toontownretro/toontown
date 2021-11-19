@@ -22,17 +22,17 @@ from direct.showbase import PythonUtil
 from toontown.toonbase.ToontownModules import loadPrcFileData
 loadPrcFileData("AIStart.py", "default-model-extension")
 
-simbase.mdip = simbase.config.GetString("msg-director-ip", "localhost")
+simbase.mdip = ConfigVariableString("msg-director-ip", "localhost").getValue()
 
 # Now the AI connects directly to the state server instead of the msg director
-simbase.mdport = simbase.config.GetInt("msg-director-port", 6666)
+simbase.mdport = ConfigVariableInt("msg-director-port", 6666).getValue()
 
-simbase.esip = simbase.config.GetString("event-server-ip", "localhost")
-simbase.esport = simbase.config.GetInt("event-server-port", 4343)
+simbase.esip = ConfigVariableString("event-server-ip", "localhost").getValue()
+simbase.esport = ConfigVariableInt("event-server-port", 4343).getValue()
 
 
 districtType = 0
-serverId = simbase.config.GetInt("district-ssid", 20100000)
+serverId = ConfigVariableInt("district-ssid", 20100000).getValue()
 
 for i in range(1, 20+1):
     # always set up for i==1, then take the first district above 1 (if any)
@@ -41,10 +41,10 @@ for i in range(1, 20+1):
             postfix = ''
         else:
             postfix = '-%s' % i
-        districtNumber = simbase.config.GetInt(
+        districtNumber = ConfigVariableInt(
             "district-id%s"%postfix,
-            200000000 + i*1000000)
-        districtName = simbase.config.GetString(
+            200000000 + i*1000000).getValue()
+        districtName = ConfigVariableString(
             "district-name%s"%postfix,
             "%sville" % {1: 'Silly',
                          2: 'Second',
@@ -55,16 +55,16 @@ for i in range(1, 20+1):
                          7: 'Seventh',
                          8: 'Eighth',
                          9: 'Ninth', }.get(i, str(i))
-                         )
-        districtMinChannel = simbase.config.GetInt(
+                         ).getValue()
+        districtMinChannel = ConfigVariableInt(
             "district-min-channel%s"%postfix,
-            200100000 + i*1000000)
-        districtMaxChannel = simbase.config.GetInt(
+            200100000 + i*1000000).getValue()
+        districtMaxChannel = ConfigVariableInt(
             "district-max-channel%s"%postfix,
-            200149999 + i*1000000)
+            200149999 + i*1000000).getValue()
         if i != 1:
             break
-            
+
 # Setup the log files
 # We want C++ and Python to both go to the same log so they
 # will be interlaced properly.

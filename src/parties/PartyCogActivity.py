@@ -14,7 +14,7 @@ from direct.distributed.ClockDelta import globalClockDelta
 from direct.showbase.PythonUtil import bound, lerp # bound = clamp function
 from direct.showbase.DirectObject import DirectObject
 
-from toontown.toonbase.ToontownModules import NodePath, Point3, TextNode
+from toontown.toonbase.ToontownModules import NodePath, Point3, TextNode, LVecBase3f
 from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode, CollisionHandlerEvent
 
 from toontown.toonbase import ToontownGlobals
@@ -337,12 +337,11 @@ class PartyCogActivity(DirectObject):
 
         if ival is not None and ival.isPlaying():
             ival.pause()
-
+            
         if not opening:
-            pos = self._doorStartPos[team]
+            pos = LVecBase3f(tuple(self._doorStartPos[team]))
         else:
-            pos = self._doorStartPos[team] + Point3(0, 0, -7.0),
-
+            pos = LVecBase3f(tuple(self._doorStartPos[team])) + LVecBase3f(Point3(0, 0, -7.0))
         ival = self._arenaDoors[team].posInterval(
             0.75,
             pos,

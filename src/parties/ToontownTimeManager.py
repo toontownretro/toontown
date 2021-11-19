@@ -4,6 +4,7 @@ import pytz
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer
+from toontown.toonbase.ToontownModules import *
 
 class ToontownTimeManager(DistributedObject.DistributedObject):
     """
@@ -14,17 +15,17 @@ class ToontownTimeManager(DistributedObject.DistributedObject):
 
     ClockFormat = '%I:%M:%S %p' # uses am or pm
     #ClockFormat = '%H:%M:%S' # military time
-    formatStr= "%Y-%m-%d %H:%M:%S" 
+    formatStr= "%Y-%m-%d %H:%M:%S"
 
     def __init__(self, serverTimeUponLogin=0, clientTimeUponLogin=0,
                  globalClockRealTimeUponLogin=0):
         """Construct ourself. Default values are at 1970"""
         # TODO: Perhaps the AI and UD should have their own version of this class? SG-SLWP
         try:
-            self.serverTimeZoneString = base.config.GetString('server-timezone',TTLocalizer.TimeZone)
+            self.serverTimeZoneString = ConfigVariableString('server-timezone',TTLocalizer.TimeZone).getValue()
         except:
             try:
-                self.serverTimeZoneString = simbase.config.GetString('server-timezone',TTLocalizer.TimeZone)
+                self.serverTimeZoneString = ConfigVariableString('server-timezone',TTLocalizer.TimeZone).getValue()
             except:
                 notify.error("ToontownTimeManager does not have access to base or simbase.")
         self.serverTimeZone = pytz.timezone(self.serverTimeZoneString)
@@ -67,7 +68,7 @@ class ToontownTimeManager(DistributedObject.DistributedObject):
                         self.debugSecondsAdded
         curDateTime = self.serverDateTime + timedelta(seconds=secondsPassed)
         curDateTime = curDateTime.replace(tzinfo = self.serverTimeZone)
-        return curDateTime    
+        return curDateTime
 
     def getCurServerTimeStr(self):
         """Return a string representation of the current server time."""
@@ -119,7 +120,7 @@ class ToontownTimeManager(DistributedObject.DistributedObject):
         """Converts a utc date string and returns toontown time, any errors returns current server time."""
         curDateTime = self.getCurServerDateTime()
         try:
-            # we changed implementation since time.mktime is giving a incorrect result in published build            
+            # we changed implementation since time.mktime is giving a incorrect result in published build
             timeTuple = time.strptime(dateStr, self.formatStr)
             utcDateTime = datetime(timeTuple[0], timeTuple[1], timeTuple[2],
                                    timeTuple[3], timeTuple[4], timeTuple[5],
@@ -130,7 +131,4 @@ class ToontownTimeManager(DistributedObject.DistributedObject):
             self.notify.warning("error parsing date string=%s" % dateStr)
             pass
         result= curDateTime
-        return result    
-
-        
-                         
+        return result

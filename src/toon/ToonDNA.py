@@ -1193,6 +1193,13 @@ BottomStyles = {
     'wh_bs3' : [ 21, [27, ]], # Winter Holiday Shorts Style 3
     'wh_bs4' : [ 22, [27, ]], # Winter Holiday Shorts Style 4
 
+    # Halloween Holiday Shorts
+    'hw_bs1' : [ 47, [27, ]], # Halloween Bee Shorts
+    'hw_bs2' : [ 48, [27, ]], # Halloween Pirate Shorts
+    'hw_bs5' : [ 49, [27, ]], # Halloween SuperToon Shorts
+    'hw_bs6' : [ 50, [27, ]], # Halloween Vampire Shorts
+    'hw_bs7' : [ 51, [27, ]], # Halloween Dinosaur Shorts
+
     # -------------------------------------------------------------------------
     # Girl styles (shorts and skirts)
     # -------------------------------------------------------------------------

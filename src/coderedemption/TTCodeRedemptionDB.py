@@ -32,6 +32,8 @@ import os
 import subprocess
 import time
 
+from toontown.toonbase.ToontownModules import *
+
 class MySQLErrors:
     DbAlreadyExists = 1007
     TableAlreadyExists = 1050
@@ -42,10 +44,10 @@ class TryAgainLater(Exception):
     def __init__(self, mysqlException, address):
         self._exception = mysqlException
         self._address = address
-        
+
     def getMySQLException(self):
         return self._exception
-        
+
     def __str__(self):
         return 'problem using MySQL DB at %s, try again later (%s)' % (self._address, self._exception)
 
@@ -103,7 +105,7 @@ class TTCRDBConnection(DBInterface):
     LoggedConnectionInfo = False
     ConnectedEvent = 'TTCRDBConnectionMgr-Connected-%s'
 
-    WantTableLocking = config.GetBool('want-code-redemption-db-locking', 0)
+    WantTableLocking = ConfigVariableBool('want-code-redemption-db-locking', 0).getValue()
 
     db = None
 
@@ -212,7 +214,7 @@ class TTCRDBConnection(DBInterface):
     def enterInitializing(self):
         # create database
         cursor = self.getCursor()
-        initDb = config.GetBool('want-code-redemption-init-db', __dev__)
+        initDb = ConfigVariableBool('want-code-redemption-init-db', __dev__).getValue()
         if initDb:
             try:
                 cursor.execute("CREATE DATABASE %s" % self._dbName)
@@ -807,12 +809,12 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
     RewardTypeFieldName = 'reward_type'
     RewardItemIdFieldName = 'reward_item_id'
 
-    DoSelfTest = config.GetBool('code-redemption-self-test', 1)
+    DoSelfTest = ConfigVariableBool('code-redemption-self-test', 1).getValue()
 
     # optimization that reads in all codes and maps them to their lot
     # if the code set gets too large this might use up too much RAM
     # you can disable the optimization by turning this config off
-    CacheAllCodes = config.GetBool('code-redemption-cache-all-codes', 1)
+    CacheAllCodes = ConfigVariableBool('code-redemption-cache-all-codes', 1).getValue()
 
     class LotFilter:
         All = 'all'
@@ -848,7 +850,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         self._dbInitRetryTimeout = 5
         self._doInitialCleanup()
 
-        if config.GetBool('code-redemption-subprocess-test', 0):
+        if ConfigVariableBool('code-redemption-subprocess-test', 0).getValue():
             self._testSubProc()
 
         self._refreshCode2lotName()
@@ -987,7 +989,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         if self.lotExists(name):
             self.notify.error('tried to create lot %s that already exists' % name)
 
-        randSampleRequestSize = config.GetInt('code-redemption-rand-request-size', 50)
+        randSampleRequestSize = ConfigVariableInt('code-redemption-rand-request-size', 50).getValue()
         randSampleRequestThreshold = 2 * randSampleRequestSize
         randSamples = []
         randSamplesOnOrder = [0, ]

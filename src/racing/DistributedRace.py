@@ -988,6 +988,8 @@ class DistributedRace(DistributedObject.DistributedObject):
         loader.loadDNAFile(self.dnaStore, "phase_5/dna/storage_TT_town.dna")
         loader.loadDNAFile(self.dnaStore, "phase_8/dna/storage_BR.dna")
         loader.loadDNAFile(self.dnaStore, "phase_8/dna/storage_BR_town.dna")
+        # Fix for City Circuit Doors
+        loader.loadDNAFile(self.dnaStore, "phase_8/dna/storage_DL.dna")
 
 
         dnaFile = "phase_6/dna/urban_track_town.dna"

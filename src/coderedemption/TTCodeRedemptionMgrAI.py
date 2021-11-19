@@ -7,6 +7,7 @@ from otp.distributed import OtpDoGlobals
 from toontown.coderedemption import TTCodeRedemptionConsts
 import random
 import string
+from toontown.toonbase.ToontownModules import *
 
 class TTCRMAIRetryMgr(DirectObject):
     notify = directNotify.newCategory('TTCodeRedemptionMgrAI')
@@ -102,9 +103,9 @@ class TTCRMAIRetryMgr(DirectObject):
 class TTCodeRedemptionMgrAI(DistributedObjectAI):
     notify = directNotify.newCategory('TTCodeRedemptionMgrAI')
 
-    WantStressTest = config.GetBool('stress-test-code-redemption', 0)
-    StressTestRate = config.GetFloat('stress-test-code-redemption-rate', 3.)
-    RandomizeStressTestCode = config.GetBool('randomize-code-redemption-stress-test-code', 0)
+    WantStressTest = ConfigVariableBool('stress-test-code-redemption', 0).getValue()
+    StressTestRate = ConfigVariableDouble('stress-test-code-redemption-rate', 3.).getValue()
+    RandomizeStressTestCode = ConfigVariableBool('randomize-code-redemption-stress-test-code', 0).getValue()
 
     def __init__(self, air):
         DistributedObjectAI.__init__(self, air)

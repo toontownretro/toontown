@@ -302,6 +302,8 @@ class MapPage(ShtikerPage.ShtikerPage):
         messenger.send(self.doneEvent)
 
     def goHome(self):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: VISITESTATE: Visit estate')
         self.doneStatus = {"mode" : "gohome",
                            "hood" : base.localAvatar.lastHood,
                            }

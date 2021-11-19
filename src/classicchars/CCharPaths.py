@@ -409,7 +409,7 @@ __daisyPaths = {
     'b' : (Point3(48.893,208.912,10.027), # by flowers
            ('a','c')
            ),
-    'c' : (Point3(5.482,210.479,10.030), # in front of trolley
+    'c' : (Point3(5.482,205.479,10.030), # in front of trolley
            ('b','d')
            ),
     'd' : (Point3(-34.153,203.284,10.029), # near construction zone entrance
@@ -577,7 +577,7 @@ def __getWaypointList(paths):
         return __chipWaypoints
     else:
         assert 0, "Unknown waypoint information"
-        
+
 def getNodePos(node, paths):
     assert node in paths
     return paths[node][0]

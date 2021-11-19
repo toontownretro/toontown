@@ -1,6 +1,7 @@
 from toontown.hood import ZeroAnimatedProp
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
+from toontown.toonbase.ToontownModules import *
 
 
 class TrashcanOneAnimatedProp(ZeroAnimatedProp.ZeroAnimatedProp):
@@ -9,7 +10,7 @@ class TrashcanOneAnimatedProp(ZeroAnimatedProp.ZeroAnimatedProp):
     notify = DirectNotifyGlobal.directNotify.newCategory(
         'TrashcanOneAnimatedProp')
 
-    PauseTimeMult = base.config.GetFloat('zero-pause-mult', 1.0)
+    PauseTimeMult = ConfigVariableDouble('zero-pause-mult', 1.0).getValue()
 
     PhaseInfo = {
         0 : ('tt_a_ara_dga_trashcan_firstMoveLidFlip1',40 * PauseTimeMult),
@@ -20,9 +21,9 @@ class TrashcanOneAnimatedProp(ZeroAnimatedProp.ZeroAnimatedProp):
         5 : ('tt_a_ara_dga_trashcan_firstMoveJumpHit', 4 * PauseTimeMult),
         6 : ('tt_a_ara_dga_trashcan_firstMoveJumpJuggle', 2 * PauseTimeMult),
         }
-    
+
     PhaseWeStartAnimating = 3
-    
+
     def __init__(self, node):
         """Constuct ourself and correct assumptions in base class."""
         ZeroAnimatedProp.ZeroAnimatedProp.__init__(self, node,
@@ -30,12 +31,12 @@ class TrashcanOneAnimatedProp(ZeroAnimatedProp.ZeroAnimatedProp):
                                                    self.PhaseInfo,
                                                    ToontownGlobals.TRASHCAN_ZERO_HOLIDAY
                                                    )
-        
+
     def startIfNeeded(self):
         """Check our current phase, if valid go to the right state."""
         assert self.notify.debugStateCall(self)
         # we need a try to stop the level editor from crashing
-        try:            
+        try:
             self.curPhase = self.getPhaseToRun()
             if self.curPhase >= self.PhaseWeStartAnimating:
                 self.request('DoAnim')

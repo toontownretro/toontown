@@ -30,7 +30,7 @@ if __dev__:
         config = simbase.config
     except:
         config = base.config
-    elevatorCountdown = config.GetFloat('elevator-countdown', -1)
+    elevatorCountdown = ConfigVariableDouble('elevator-countdown', -1).getValue()
     if elevatorCountdown != -1:
         bboard.post('elevatorCountdown', elevatorCountdown)
 

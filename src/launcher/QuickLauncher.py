@@ -53,7 +53,7 @@ class QuickLauncher(LauncherBase):
         self.tutorialCompleteKey = "TUTORIAL_DONE"
 
         LauncherBase.__init__(self)
-        self.useTTSpecificLogin = config.GetBool('tt-specific-login', 0)
+        self.useTTSpecificLogin = ConfigVariableBool('tt-specific-login', 0).getValue()
         # Used to pass to server for authentication
         if self.useTTSpecificLogin :
             self.toontownPlayTokenKey = "LOGIN_TOKEN"
@@ -316,7 +316,7 @@ class QuickLauncher(LauncherBase):
 
     def getVerifyFiles(self):
         # TODO: take this out when we ship.
-        return config.GetInt('launcher-verify', 0)
+        return ConfigVariableInt('launcher-verify', 0).getValue()
 
     def getTestServerFlag(self):
         return self.getValue('IS_TEST_SERVER', 0)
@@ -335,7 +335,7 @@ class QuickLauncher(LauncherBase):
         """
         # Allow a developer to stuff it in the config file if
         # necessary.
-        s = config.GetString("fake-web-acct-params", '')
+        s = ConfigVariableString("fake-web-acct-params", '').getValue()
 
         if not s:
             s = self.getRegistry(self.webAcctParams)

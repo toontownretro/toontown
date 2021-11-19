@@ -7,7 +7,7 @@ from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
 from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TeaserPanel
-#import ToontownGlobals
+#from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
 from toontown.toonbase.ToontownModules import *
@@ -185,7 +185,7 @@ class ToontownChatManager(ChatManager.ChatManager):
         gui.removeNode()
 
         ChatManager.ChatManager.__init__(self, cr, localAvatar)
-        self.defaultToWhiteList = base.config.GetBool('white-list-is-default', 1)
+        self.defaultToWhiteList = ConfigVariableBool('white-list-is-default', 1).getValue()
         self.chatInputSpeedChat = TTChatInputSpeedChat(self)
 
         self.normalPos = Vec3(0.25, 0, -0.196)
@@ -910,6 +910,8 @@ class ToontownChatManager(ChatManager.ChatManager):
         that is normally used to do free chat.
         """
         assert self.debugFunction()
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: CHAT: Speedchat Plus')
         messenger.send('wakeup')
         if base.cr.productName in ["DisneyOnline-US", "ES"]:
             if base.cr.whiteListChatEnabled:
@@ -949,6 +951,8 @@ class ToontownChatManager(ChatManager.ChatManager):
 
     def __scButtonPressed(self):
         assert self.debugFunction()
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: CHAT: Speedchat')
         messenger.send('wakeup')
         if (self.fsm.getCurrentState().getName() == "speedChat"):
             self.fsm.request("mainMenu")
@@ -1065,6 +1069,8 @@ class ToontownChatManager(ChatManager.ChatManager):
 
     def __whisperScButtonPressed(self, avatarName, avatarId, playerId):
         assert self.debugFunction()
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: CHAT: Whisper')
         messenger.send('wakeup')
         #print("__whisperScButtonPressed %s %s" % (avatarId, playerId))
         hasManager = hasattr(base.cr, "playerFriendsManager")

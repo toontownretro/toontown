@@ -93,8 +93,8 @@ HDscrolledList = 0.07
 GardeningInstructionScale = 0.07
 
 #estate/FlowerPanel.py
-FPBlankLabelPos = -0.25
-FPBlankLabelTextScale = 0.025
+FPBlankLabelPos = -0.35
+FPBlankLabelTextScale = 0.05
 
 #estate/FlowerPicker.py
 FPFlowerValueTotal = 0.045
@@ -340,7 +340,7 @@ DRPnodeScale = 0.65
 
 #racing/KartShopGui.py
 KSGtextSizeBig = 0.06
-KSGtextSizeSmall = 0.04
+KSGtextSizeSmall = 0.06
 KSGaccDescriptionWordwrap = 22
 
 #racing/RaceEndPanels.py
@@ -366,7 +366,7 @@ PimgLabel = 0.6
 GSZLbossbotSignScale = 0.8
 
 #shtiker/EventsPage.py
-EPtitleLabel = 0.12
+EPtitleLabel = 0.08
 EPhostTab = 0.07
 EPinvitedTab = 0.07
 EPcalendarTab = 0.07
@@ -434,7 +434,7 @@ KProtateButton = 0.03
 GPBasketTabTextScale = 0.06
 GPCollectionTabTextScale = 0.06
 GPTrophyTabTextScale = 0.06
-GPSpecialsTabTextScale = 0.06
+GPSpecialsTabTextScale = 0.045
 
 #shtiker/GolfPage.py
 GFPRecordsTabTextScale = 0.06
@@ -494,12 +494,12 @@ TADtrackLabelPosZ = 0.17
 TLStip = 0.18
 
 #toontowngui/TeaserPanel.py
-TSRPdialogWordwrap = 20
-TSRPtop = 0.07
-TSRPpanelScale = 0.05
-TSRPpanelPos = (-0.65, -0.70)
-TSRPbrowserPosZ = -0.65
-TSRPbutton = 0.06
+TSRPdialogWordwrap = 22
+TSRPtop = 0.05
+TSRPpanelScale = 0.08
+TSRPpanelPos = (0., -0.7)
+TSRPbrowserPosZ = -0.45
+TSRPbutton = 0.05
 TSRPteaserBottomScale = 0.06
 TSRPhaveFunText = 0.1
 TSRPjoinUsText = 0.1

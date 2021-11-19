@@ -5,7 +5,6 @@ from toontown.battle.BattleProps import *
 from direct.distributed.ClockDelta import *
 from direct.showbase.PythonUtil import Functor
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from direct.fsm import FSM
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
@@ -1757,7 +1756,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         assert self.notify.debug("__pieSplat()")
         # A pie thrown by localToon or some other toon hit something;
         # show a visible reaction if that something is the boss.
-        if base.config.GetBool('easy-vp', 0):
+        if ConfigVariableBool('easy-vp', 0).getValue():
             if not self.dizzy:
                 pieCode = ToontownGlobals.PieCodeBossInsides
         if pieCode == ToontownGlobals.PieCodeBossInsides:

@@ -1,6 +1,5 @@
 from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectScrolledList import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
@@ -184,7 +183,7 @@ class CatalogScreen(DirectFrame):
         self.emblemCatalogButton['state'] = DGG.DISABLED
 
     def showNewItems(self, index = None):
-        if base.config.GetBool('want-qa-regression', 0):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
             self.notify.info('QA-REGRESSION: CATALOG: New item')
         # If you got here, you do not need to see this text
         taskMgr.remove("clarabelleHelpText1")
@@ -200,7 +199,7 @@ class CatalogScreen(DirectFrame):
             self.setPageIndex(0)
         self.showPageItems()
     def showBackorderItems(self, index = None):
-        if base.config.GetBool('want-qa-regression', 0):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
             self.notify.info('QA-REGRESSION: CATALOG: Backorder item')
         # If you got here, you do not need to see this text
         taskMgr.remove("clarabelleHelpText1")
@@ -216,7 +215,7 @@ class CatalogScreen(DirectFrame):
             self.setPageIndex(0)
         self.showPageItems()
     def showLoyaltyItems(self, index = None):
-        if base.config.GetBool('want-qa-regression', 0):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
             self.notify.info('QA-REGRESSION: CATALOG: Special item')
         # If you got here, you do not need to see this text
         taskMgr.remove("clarabelleHelpText1")
@@ -232,7 +231,7 @@ class CatalogScreen(DirectFrame):
             self.setPageIndex(0)
         self.showPageItems()
     def showEmblemItems(self, index = None):
-        if base.config.GetBool('want-qa-regression', 0):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
             self.notify.info('QA-REGRESSION: CATALOG: Emblem item')
         # If you got here, you do not need to see this text
         taskMgr.remove('clarabelleHelpText1')
@@ -295,8 +294,8 @@ class CatalogScreen(DirectFrame):
             (self.pageIndex < 0) and
             (self.numNewPages > 0)):
             self.showNewItems(self.numNewPages - 1)
-        elif ((self.viewing == 'Emblem') and 
-            (self.pageIndex < 0) and 
+        elif ((self.viewing == 'Emblem') and
+            (self.pageIndex < 0) and
             (self.numLoyaltyPages > 0)):
             self.showLoyaltyItems(self.numLoyaltyPages - 1)
         else:
@@ -528,7 +527,7 @@ class CatalogScreen(DirectFrame):
         lift2 = 0.05
         smash = 0.75
         priceScale = 0.15
-        
+
         emblemIcon = loader.loadModel('phase_3.5/models/gui/tt_m_gui_gen_emblemIcons')
         silverModel = emblemIcon.find('**/tt_t_gui_gen_emblemSilver')
         goldModel = emblemIcon.find('**/tt_t_gui_gen_emblemGold')
@@ -546,7 +545,7 @@ class CatalogScreen(DirectFrame):
             text_align = TextNode.ALeft,
             )
         base.silverLabel = self.silverLabel
-        
+
         self.goldLabel = DirectLabel(
             parent = self, relief=None,
             pos = (1.05, 0, -0.8),

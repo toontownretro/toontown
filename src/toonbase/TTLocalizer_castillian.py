@@ -140,22 +140,22 @@ GlobalStreetNames = {
     9100  : ("a la", "", "Avenida de la Nana"),
     9200  : ("al",     "en el",     "Centro Pijama"),
     10000 : ("al",   "", "Cuartel general jefebot"),
-    10100 : ("al",   "", "vestíbulo del cuartel general jefebot"),
-    10200 : ("a la", "en la", "Casa de Mickey Mouse"),
-    10500 : ("al", "en el", "El Tres Frontal"),
-    10600 : ("al", "en el", "El Seis Central"),
-    10700 : ("al", "en el", "El Nueve Trasero"),
+    10100 : ("al",   "en el", "vestíbulo del cuartel general jefebot"),
+    10200 : ("a", "en", "La Casa Club"),
+    10500 : ("al", "en", "El Tres Frontal"),
+    10600 : ("al", "en", "El Seis Central"),
+    10700 : ("al", "en", "El Nueve Trasero"),
     11000 : ("al",   "", "patio del cuartel general vendebot"),
-    11100 : ("al",   "", "vestíbulo del cuartel general vendebot"),
+    11100 : ("al",   "en el", "vestíbulo del cuartel general vendebot"),
     11200 : ("a la", "", "fábrica vendebot"),
     11500 : ("a la", "", "fábrica vendebot"),
     12000 : ("al",   "", "cuartel general chequebot"),
-    12100 : ("al",   "", "vestíbulo del cuartel general chequebot"),
+    12100 : ("al",   "en el", "vestíbulo del cuartel general chequebot"),
     12500 : ("a la", "en la", "Fabrica de moneditas Chequebot"),
     12600 : ("a la", "en la", "Fabrica de dólares Chequebot"),
     12700 : ("a la", "en la", "Fabrica de lingotes Chequebot"),
     13000 : ("al",   "", "cuartel general abogabot"),
-    13100 : ("al",   "", "vestíbulo del cuartel general abogabot"),
+    13100 : ("al",   "en el", "vestíbulo del cuartel general abogabot"),
     13200 : ("al", "en el", "vestíbulo de la oficina del fiscal del distrito"),
     13300 : ("a la", "en la", "Oficina del abogabot A"),
     13400 : ("a la", "en la", "Oficina del abogabot B"),
@@ -4940,7 +4940,7 @@ DownloadForceAcknowledgeMsg = "Lo siento, no puedes avanzar porque de la descarg
 # TeaserPanel.py
 TeaserTop = ""
 TeaserBottom = ""
-TeaserDefault = ",\nyou need to become a Member.\n\nJoin us!"
+TeaserDefault = "\nYou need to become a Member.\n\nJoin us!"
 TeaserOtherHoods = "Visita los 6 extraordinarios barrios."
 TeaserTypeAName = "Ponle a tu dibu el nombre que más te guste."
 TeaserSixToons = "Crea hasta 6 dibus distintos en una sola cuenta."
@@ -4988,10 +4988,10 @@ LauncherPhaseNames = {
     6   : "Barrio I",
     7   : "Edificios " + Cog,
     8   : "Barrio II",
-    9   : lToonHQ + " " + Cog,
-    10  : Cashbot + " Cuartel general",
-    11  : Lawbot + " Cuartel general",
-    12  : Bossbot + " Cuartel general",
+    9   : "Cuartel general " + Sellbot,
+    10  : "Cuartel general " + Cashbot,
+    11  : "Cuartel general " + Lawbot,
+    12  : "Cuartel general " + Bossbot,
     13  : "Fiestas",
     }
 
@@ -5753,6 +5753,13 @@ CalendarPartyNeverStarted = "Nunca comenzó."
 # NPCFriendPanel.py
 NPCFriendPanelRemaining = "Te restan %s"
 NPCFriendPanelUnavailable = "Indisponible"
+
+# PartiesPage.py
+#PartiesPageTitle = "Fiestas"
+#PartiesPageHostTab = "Anfitrión"
+#PartiesPageInvitedTab = "Invitaciones"
+#PartiesPageTitleHost = "Mi próxima fiesta"
+#PartiesPageTitleInvited = "Invitaciones a fiestas"
 
 # MapPage.py
 MapPageTitle = "Mapa"
@@ -9034,7 +9041,7 @@ NPCToonNames = {
     9237 : "Patricio Pescador",
 
     #
-    # Funny Farms / Field Office
+    # Funny Farm / Field Office
     #
 
     9301 : "Phil Bettur",
@@ -9666,6 +9673,8 @@ EstateOwnerLeftMessage = "Lo siento, el dueño de esta propiedad se marchó. Ser
 EstatePopupOK = "Muy bien"
 EstateTeleportFailed = "No pudiste irte a casa. ¡Inténtalo de nuevo!"
 EstateTeleportFailedNotFriends = "Lo siento, %s está en una dibuhacienda que no es amiga tuya."
+EstatePlaneBanner = "¡¡¡Invasión de bots!!!"
+EstateHalloweenBanner = "¡¡¡Feliz Halloween!!!"
 
 # DistributedTarget.py
 EstateTargetGameStart = "¡El juego del objetivo curadibu ya comenzó!"
@@ -9927,9 +9936,11 @@ TipDict = {
    ),
 
   TIP_COGHQ : (
-    "Antes de entrar en el edificio jefe debes completar el disfraz de bot.",
+    #"Antes de entrar en el edificio jefe debes completar el disfraz de bot.", # legacy
+    "Antes de visitar al VIP mayor debes completar el disfraz de vendebot.",
     "Antes de visitar al director financiero debes completar el disfraz de chequebot.",
     "Antes de visitar al Juez debes completar el disfraz de abogabot.",
+    "Antes de visitar al director general debes completar el disfraz de jefebot.",
    "Puedes saltar encima de los matones bots para dejarlos temporalmente incapacitados.",
     "Reúne méritos bot luchando contra bots y venciéndolos.",
     "Recoge botdólares derrotando chequebots en batalla.",

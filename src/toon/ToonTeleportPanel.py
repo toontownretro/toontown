@@ -1,6 +1,5 @@
 from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import ToontownGlobals
 from direct.showbase import DirectObject
 from direct.fsm import ClassicFSM, State

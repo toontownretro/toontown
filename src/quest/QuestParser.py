@@ -740,7 +740,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         token, varName, fileName = line
         if varName == 'tomDialogue_01':
             notify.debug("VarName tomDialogue getting added. Tutorial Ack: %d" %base.localAvatar.tutorialAck)
-        if base.config.GetString("language", "english") == "japanese":
+        if ConfigVariableString("language", "english") == "japanese".getValue():
             dialogue = base.loader.loadSfx(fileName)
         else:
             dialogue = None
@@ -755,7 +755,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         else:
             classicChar = 'minnie'
         filename = filenameTemplate % classicChar
-        if base.config.GetString("language", "english") == "japanese":
+        if ConfigVariableString("language", "english") == "japanese".getValue():
             dialogue = base.loader.loadSfx(filename)
         else:
             dialogue = None
@@ -1375,7 +1375,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
             )
 
     def parseSetMusicVolume(self, line):
-        if base.config.GetString("language", "english") == "japanese":
+        if ConfigVariable("language", "english") == "japanese".getValue():
             try:
                 loader = base.cr.playGame.place.loader
                 type = 'music'

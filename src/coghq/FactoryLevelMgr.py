@@ -4,6 +4,7 @@ from otp.level import LevelMgr
 from . import FactoryUtil
 from direct.showbase.PythonUtil import Functor
 from toontown.toonbase import ToontownGlobals
+from toontown.toonbase.ToontownModules import *
 
 class FactoryLevelMgr(LevelMgr.LevelMgr):
     """This class manages editable factory attributes"""
@@ -38,7 +39,7 @@ class FactoryLevelMgr(LevelMgr.LevelMgr):
     def __init__(self, level, entId):
         LevelMgr.LevelMgr.__init__(self, level, entId)
 
-        if base.config.GetBool('want-factory-lifter', 0):
+        if ConfigVariableBool('want-factory-lifter', 0).getValue():
             self.toonLifter = FactoryUtil.ToonLifter('f3')
 
         if __debug__:
@@ -70,7 +71,7 @@ class FactoryLevelMgr(LevelMgr.LevelMgr):
             #del self.ipPlacer
             self.ouchButton.destroy()
             del self.ouchButton
-                
+
         if hasattr(self, 'toonLifter'):
             self.toonLifter.destroy()
             del self.toonLifter

@@ -2,7 +2,6 @@ from toontown.toonbase.ToontownModules import *
 from direct.actor import Actor
 from otp.avatar import Avatar
 from toontown.toonbase import ToontownGlobals
-from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from . import GoonGlobals
 from . import SuitDNA

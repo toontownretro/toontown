@@ -4,6 +4,8 @@ from toontown.toonbase import TTLocalizer
 from direct.gui.DirectGui import *
 from toontown.toonbase.ToontownModules import *
 
+CatalogNotifyBaseXPos = -0.93
+
 class CatalogNotifyDialog:
     """CatalogNotifyDialog:
 
@@ -17,7 +19,7 @@ class CatalogNotifyDialog:
         self.message = message
         self.messageIndex = 0
 
-        framePosX = -0.93
+        framePosX = CatalogNotifyBaseXPos
         from toontown.toon import LocalToon # import here to stop cyclic import
         if LocalToon.WantNewsPage:
             framePosX += LocalToon.AdjustmentForNewsButton

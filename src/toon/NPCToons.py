@@ -258,6 +258,7 @@ NPCToonDict = {
     # This Flippy DNA matches the tutorial Flippy
     # He is in Toon Hall
     # Flippy DNA matches marketing materials
+    2001 : (2513, lnames[2001], ('dss', 'ms', 'm', 'm', 17,0,17,17,3,3,3,3,7,2), "m", 1, NPC_REGULAR),
     2002 : (2514, lnames[2002], ("hss" ,"ls" ,"l" ,"m" ,4 ,0 ,4 ,4 ,0 ,3 ,0 ,3 ,1 ,18), "m", 1, NPC_REGULAR),
     2003 : (2516, lnames[2003], ("cll" ,"ms" ,"l" ,"m" ,18 ,0 ,18 ,18 ,0 ,4 ,0 ,4 ,1 ,15), "m", 1, NPC_REGULAR),
     2004 : (2521, lnames[2004], ('rll', 'md', 'm', "f", 15,0,5,7,3,5,3,5,0,3), "f", 1, NPC_TAILOR),
@@ -974,7 +975,7 @@ try:
 except:
     config = base.config
 
-if config.GetBool("want-new-toonhall",1):
+if ConfigVariableBool("want-new-toonhall",1).getValue():
     NPCToonDict[2001] = (2513, lnames[2001], ('dss', 'ms', 'm', 'm', 17,0,17,17,3,3,3,3,7,2), "m", 1, NPC_FLIPPYTOONHALL)
 else:
     NPCToonDict[2001] = (2513, lnames[2001], ('dss', 'ms', 'm', 'm', 17,0,17,17,3,3,3,3,7,2), "m", 1, NPC_REGULAR)

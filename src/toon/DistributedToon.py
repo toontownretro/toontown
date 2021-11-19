@@ -638,7 +638,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
             self.d_setWhisperIgnored(fromAV)
             return
 
-        if base.config.GetBool('want-sleep-reply-on-regular-chat', 0):
+        if ConfigVariableBool('want-sleep-reply-on-regular-chat', 0).getValue():
             if base.localAvatar.sleepFlag == 1:
                 # I am sleeping so I send an autoreply message
                 self.sendUpdate("setSleepAutoReply" , [base.localAvatar.doId], fromAV)
@@ -3104,7 +3104,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
             return
 
         # Force a font that has numbers.
-        if base.config.GetBool('want-nametag-avids', 0):
+        if ConfigVariableBool('want-nametag-avids', 0).getValue():
             nametagStyle = 0
 
         self.nametagStyle = nametagStyle

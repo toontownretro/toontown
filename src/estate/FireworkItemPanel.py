@@ -11,7 +11,7 @@ class FireworkItemPanel(DirectFrame):
         self.gui = extraArgs[0][0]
         self.type = extraArgs[0][1][itemNum]
         self.shootEvent = extraArgs[0][2]
-        self.name = FireworkGlobals.Names[self.type]
+        self._name = FireworkGlobals.Names[self.type]
         DirectFrame.__init__(
             self,
             image = DGG.getDefaultDialogGeom(),
@@ -48,7 +48,7 @@ class FireworkItemPanel(DirectFrame):
             relief = None,
             pos = (0,0,0.0),
             scale = 0.45,
-            text = self.name,
+            text = self._name,
             text_scale = 0.6,
             text_fg = (0, 0, 0, 1),
             #text_shadow = (0, 0, 0, 1),

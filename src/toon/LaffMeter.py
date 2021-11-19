@@ -5,7 +5,6 @@ from toontown.toonbase.ToontownModules import *
 from otp.avatar import DistributedAvatar
 from toontown.toonbase import ToontownGlobals
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 
 class LaffMeter(DirectFrame):

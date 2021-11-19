@@ -6,7 +6,7 @@ from .TrolleyConstants import *
 from direct.distributed import DistributedObjectAI
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from direct.task import Task 
+from direct.task import Task
 from direct.directnotify import DirectNotifyGlobal
 from toontown.minigame import MinigameCreatorAI
 from toontown.quest import Quests
@@ -46,9 +46,9 @@ class DistributedGolfKartAI(DistributedObjectAI.DistributedObjectAI):
         self.accepting = 0
 
         self.trolleyCountdownTime = \
-                          simbase.config.GetFloat("trolley-countdown-time",
-                                                  TROLLEY_COUNTDOWN_TIME)
-        
+                          ConfigVariableDouble("trolley-countdown-time",
+                                                  TROLLEY_COUNTDOWN_TIME).getValue()
+
         self.fsm = ClassicFSM.ClassicFSM('DistributedGolfKartAI',
                            [State.State('off',
                                         self.enterOff,
@@ -228,7 +228,7 @@ class DistributedGolfKartAI(DistributedObjectAI.DistributedObjectAI):
         avId = self.air.getAvatarIdFromSender()
         if (self.findAvatar(avId) != None):
             self.notify.warning("Ignoring multiple requests from %s to board." % (avId))
-            return        
+            return
 
         av = self.air.doId2do.get(avId)
         if av:
@@ -389,7 +389,7 @@ class DistributedGolfKartAI(DistributedObjectAI.DistributedObjectAI):
              for seatIndex in range(len(self.seats)):
                 avId = self.seats[seatIndex]
                 avIdList.append(avId)
-                # Clear the fill slot                
+                # Clear the fill slot
                 self.clearFullNow(seatIndex)
 
              golfZone = GolfManagerAI.GolfManagerAI().readyGolfCourse(avIdList,
@@ -423,7 +423,7 @@ class DistributedGolfKartAI(DistributedObjectAI.DistributedObjectAI):
                 self.color = (self.color[0], self.color[0] + self.color[1], self.color[2])
             else:
                 self.color = (self.color[0], 255, self.color[2])
-                
+
         self.sendUpdate("setColor",
                         [self.color[0], self.color[1], self.color[2]])
         taskMgr.remove(self.uniqueName('leaving-timer'))

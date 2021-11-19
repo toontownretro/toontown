@@ -1,6 +1,5 @@
 from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from . import ToonHead
 from toontown.friends import FriendHandle
@@ -589,7 +588,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                         self.groupButton['command'] = self.handleInvite
                         self.groupButton['image'] = self.inviteImageList
                         self.groupButton['state'] = DGG.NORMAL
-                    if base.config.GetBool("want-boarding-groups", 1):
+                    if ConfigVariableBool("want-boarding-groups", 1).getValue():
                         # The boarding avatar panel interferes with the right middle sreen area,
                         # Switching it OFF before showing the boarding panel.
                         base.setCellsAvailable([base.rightCells[0]], 0)

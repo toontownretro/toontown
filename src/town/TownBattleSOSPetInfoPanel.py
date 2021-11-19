@@ -1,7 +1,6 @@
 from toontown.toonbase.ToontownModules import *
 from direct.fsm import StateData
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.pets import Pet, PetTricks, PetDetailPanel
 from toontown.speedchat import TTSCPetTrickMenu

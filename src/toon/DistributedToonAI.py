@@ -431,7 +431,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                  textureIdx,
                  colorIdx))
                 return 0
-            if not simbase.config.GetBool('want-check-accessory-sanity', False):
+            if not ConfigVariableBool('want-check-accessory-sanity', False).getValue():
                 return 1
             accessoryItem = CatalogAccessoryItem.CatalogAccessoryItem(accessoryItemId)
             result = self.air.catalogManager.isItemReleased(accessoryItem)
@@ -923,7 +923,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
             raise 'invalid accessory type %s' % accessoryType
         if cur == (geomIdx, texIdx, colorIdx):
             return True
-        for i in xrange(0, len(itemList), 3):
+        for i in range(0, len(itemList), 3):
             if itemList[i] == geomIdx and itemList[i + 1] == texIdx and itemList[i + 2] == colorIdx:
                 return True
 
@@ -970,7 +970,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                     styles = ToonDNA.ShoesStyles
                     descDict = TTLocalizer.ShoesStylesDescriptions
                 styleName = 'none'
-                for style in styles.items():
+                for style in list(styles.items()):
                     if style[1] == [geomIdx, texIdx, colorIdx]:
                         styleName = style[0]
                         break
@@ -3028,14 +3028,14 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
     def addEmblems(self, emblemsToAdd):
         newEmblems = self.emblems[:]
-        for i in xrange(ToontownGlobals.NumEmblemTypes):
+        for i in range(ToontownGlobals.NumEmblemTypes):
             newEmblems[i] += emblemsToAdd[i]
 
         self.b_setEmblems(newEmblems)
 
     def subtractEmblems(self, emblemsToSubtract):
         newEmblems = self.emblems[:]
-        for i in xrange(ToontownGlobals.NumEmblemTypes):
+        for i in range(ToontownGlobals.NumEmblemTypes):
             newEmblems[i] -= emblemsToSubtract[i]
 
         self.b_setEmblems(newEmblems)

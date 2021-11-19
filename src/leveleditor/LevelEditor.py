@@ -47,11 +47,11 @@ from .LevelStyleManager import *
 # Force direct and tk to be on
 base.startDirect(fWantDirect = 1, fWantTk = 1)
 
-visualizeZones = base.config.GetBool("visualize-zones", 0)
-dnaDirectory = Filename.expandFrom(base.config.GetString("dna-directory", "$TTMODELS/src/dna"))
-dnaBuiltDirectory = Filename.expandFrom(base.config.GetString("dna-built-directory", "$TTMODELS/built"))
-fUseCVS = base.config.GetBool("level-editor-use-cvs", 1)
-useSnowTree = base.config.GetBool("use-snow-tree", 0)
+visualizeZones = ConfigVariableBool("visualize-zones", 0).getValue()
+dnaDirectory = Filename.expandFrom(ConfigVariableString("dna-directory", "$TTMODELS/src/dna").getValue())
+dnaBuiltDirectory = Filename.expandFrom(ConfigVariableString("dna-built-directory", "$TTMODELS/built").getValue())
+fUseCVS = ConfigVariableBool("level-editor-use-cvs", 1).getValue()
+useSnowTree = ConfigVariableBool("use-snow-tree", 0).getValue()
 
 # NEIGHBORHOOD DATA
 # If you run this from the command line you can pass in the hood codes
@@ -67,7 +67,7 @@ if sys.argv[1:]:
 # If you do not run from the command line, we just load all of them
 # or you can hack this up for your own purposes.
 else:
-    hoodString = base.config.GetString('level-editor-hoods', 'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA')
+    hoodString = ConfigVariableString('level-editor-hoods', 'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA').getValue()
     hoods = hoodString.split()
 
 # Init neighborhood arrays
@@ -146,7 +146,7 @@ except:
 ##        loadDNAFile(DNASTORE, 'phase_6/dna/storage_GZ_sz.dna', CSDefault, 1)
 ##    if 'CC' in hoods:
 ##        loadDNAFile(DNASTORE, 'phase_12/dna/storage_CC_sz.dna', CSDefault, 1)
-    
+
     print("Loading Storage Files.")
     # Load the generic storage files
     loadStorageFile('dna/storage.dna')

@@ -321,6 +321,8 @@ class MailboxScreen(DirectObject.DirectObject):
 
     def __handleAccept(self):
         assert( MailboxScreen.notify.debug("__handleAccept") )
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: MAILBOX: Accept item')
         if self.acceptingIndex != None:
             # Ignore an extraneous click.
             return

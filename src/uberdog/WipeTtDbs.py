@@ -12,8 +12,8 @@ config = getConfigShowbase()
 from otp.uberdog.DBInterface import DBInterface
 from toontown.coderedemption import TTCodeRedemptionConsts
 
-username = config.GetString("mysql-user")
-password = config.GetString("mysql-passwd")
+username = ConfigVariableString("mysql-user").getValue()
+password = ConfigVariableString("mysql-passwd").getValue()
 
 if username == "" or password == "":
     print("Username or password not found, check your config.prc!")

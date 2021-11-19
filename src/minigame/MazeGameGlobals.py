@@ -2,8 +2,9 @@
 # used by both AI and client
 
 from direct.showbase import RandomNumGen
+from toontown.toonbase.ToontownModules import *
 
-ENDLESS_GAME = config.GetBool('endless-maze-game', 0)
+ENDLESS_GAME = ConfigVariableBool('endless-maze-game', 0).getValue()
 
 GAME_DURATION = 60.
 SHOWSCORES_DURATION = 2.

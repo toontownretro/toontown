@@ -389,7 +389,7 @@ bw = (
     ("throw-paper", "throw-paper", 5),     #added for lawbot boss battle
     )
 
-if not base.config.GetBool('want-new-cogs', 0):
+if not ConfigVariableBool('want-new-cogs', 0).getValue():
     ModelDict = {
      "a": ("/models/char/suitA-", 4),
      "b": ("/models/char/suitB-", 4),
@@ -453,12 +453,12 @@ def loadSuitModelsAndAnims(level, flag = 0):
         # load/unload the models
         # All the mods are in 3.5 now, except the suita and B headsd which are in 4
         model, phase = ModelDict[key]
-        if base.config.GetBool('want-new-cogs', 0):
+        if ConfigVariableBool('want-new-cogs', 0).getValue():
             headModel, headPhase = HeadModelDict[key]
         else:
             headModel, headPhase = ModelDict[key]
         if flag:
-            if base.config.GetBool('want-new-cogs', 0):
+            if ConfigVariableBool('want-new-cogs', 0).getValue():
                 filepath = "phase_3.5" + model + "zero"
                 if cogExists(model + "zero.bam"):
                     loader.loadModel(filepath).node()
@@ -466,7 +466,7 @@ def loadSuitModelsAndAnims(level, flag = 0):
                 loader.loadModel("phase_3.5" + model + "mod").node()
             loader.loadModel("phase_" + str(headPhase) + headModel + "heads").node()
         else:
-            if base.config.GetBool('want-new-cogs', 0):
+            if ConfigVariableBool('want-new-cogs', 0).getValue():
                 filepath = "phase_3.5" + model + "zero"
                 if cogExists(model + "zero.bam"):
                     loader.unloadModel(filepath)
@@ -972,7 +972,7 @@ class Suit(Avatar.Avatar):
         # NOTE: It is always phase 3.5 because the models are there
         # while everything else is in phase 5.
         filePrefix, bodyPhase = ModelDict[self.style.body]
-        if base.config.GetBool('want-new-cogs', 0):
+        if ConfigVariableBool('want-new-cogs', 0).getValue():
             if cogExists(filePrefix + "zero.bam"):
                 self.loadModel("phase_3.5" + filePrefix + "zero")
             else:
@@ -1004,7 +1004,7 @@ class Suit(Avatar.Avatar):
             # a=5, b=5, c=5
             animDict[anim[0]] = "phase_5" + filePrefix + anim[1]
 
-        if not base.config.GetBool('want-new-cogs', 0):
+        if not ConfigVariableBool('want-new-cogs', 0).getValue():
             if self.style.body == 'a':
                 animDict['neutral'] = 'phase_4/models/char/suitA-neutral'
                 # add the CEO battle specific anims
@@ -1076,7 +1076,7 @@ class Suit(Avatar.Avatar):
             self.shadowJoint = self.find("**/joint_shadow")
             self.nametagJoint = self.find("**/joint_nameTag")
 
-        if base.config.GetBool('want-new-cogs', 0):
+        if ConfigVariableBool('want-new-cogs', 0).getValue():
             if dept == 'c':
                 texType = 'bossbot'
             elif dept == 'm':
@@ -1153,7 +1153,7 @@ class Suit(Avatar.Avatar):
         Manipulate the head model to display only the appropriate head
         """
         # load the multi-head models
-        if base.config.GetBool('want-new-cogs', 0):
+        if ConfigVariableBool('want-new-cogs', 0).getValue():
             filePrefix, phase = HeadModelDict[self.style.body]
         else:
             filePrefix, phase = ModelDict[self.style.body]
@@ -1162,7 +1162,7 @@ class Suit(Avatar.Avatar):
         # search for the appropriate parts
         headReferences = headModel.findAllMatches("**/" + headType)
         for i in range(0, headReferences.getNumPaths()):
-            if base.config.GetBool('want-new-cogs', 0):
+            if ConfigVariableBool('want-new-cogs', 0).getValue():
                 headPart = self.instance(headReferences.getPath(i), "modelRoot",
                                          "to_head")
                 if not headPart:
@@ -1213,7 +1213,7 @@ class Suit(Avatar.Avatar):
     def generateCorporateMedallion(self):
         icons = loader.loadModel('phase_3/models/gui/cog_icons')
         dept = self.style.dept
-        if base.config.GetBool('want-new-cogs', 0):
+        if ConfigVariableBool('want-new-cogs', 0).getValue():
             chestNull = self.find('**/def_joint_attachMeter')
             if chestNull.isEmpty():
                 chestNull = self.find('**/joint_attachMeter')
@@ -1245,7 +1245,7 @@ class Suit(Avatar.Avatar):
         button.setScale(3.0)
         button.setH(180.0)
         button.setColor(self.healthColors[0])
-        if base.config.GetBool('want-new-cogs', 0):
+        if ConfigVariableBool('want-new-cogs', 0).getValue():
             chestNull = self.find('**/def_joint_attachMeter')
             if chestNull.isEmpty():
                 chestNull = self.find('**/joint_attachMeter')
@@ -1340,7 +1340,7 @@ class Suit(Avatar.Avatar):
         Return the lose geometry and anim for this type of suit
         as an actor. If we are a skelecog, get that lose actor instead
         """
-        if base.config.GetBool('want-new-cogs', 0):
+        if ConfigVariableBool('want-new-cogs', 0).getValue():
             if self.find("**/body"):
                 return self
         if (self.loseActor == None):

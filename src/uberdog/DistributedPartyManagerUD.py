@@ -13,9 +13,10 @@ from toontown.parties import PartyGlobals
 from toontown.parties import PartyUtils
 from toontown.uberdog.ttPartyDb import ttPartyDb
 from toontown.uberdog.ttInviteDb import ttInviteDb
-from toontown.ai.ToontownAIMsgTypes import PARTY_MANAGER_UD_TO_ALL_AI 
+from toontown.ai.ToontownAIMsgTypes import PARTY_MANAGER_UD_TO_ALL_AI
 from datetime import timedelta  # Used for testing, to create random test party
 from datetime import datetime   # Used for testing, to create random test party
+from toontown.toonbase.ToontownModules import *
 
 class DistributedPartyManagerUD(DistributedObjectGlobalUD):
     """UD side class for the party manager."""
@@ -23,31 +24,31 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
     # WARNING this is a global OTP object
     # DistributedPartyManagerAI is NOT!
     # Hence the use of sendUpdateToDoId when sending back to AI
-    
+
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPartyManagerUD")
-        
+
     def __init__(self, air):
         DistributedObjectGlobalUD.__init__(self, air)
-        self.printlog = partiesUdLog("PartiesUdMonitor","localhost",12346)        
-        user = uber.config.GetString("mysql-user", '')
-        passwd = uber.config.GetString("mysql-passwd",'')
+        self.printlog = partiesUdLog("PartiesUdMonitor","localhost",12346)
+        user = ConfigVariableString("mysql-user", '').getValue()
+        passwd = ConfigVariableString("mysql-passwd",'').getValue()
 
         # avId is key, if present, avatar is online
         self.isAvatarOnline = {}
-        
+
         self.hostAvIdToAllPartiesInfo = {}
         #                 0       1         2        3
         # hostAvId to ( shardId, zoneId, isPrivate, number of toons there,
         #                 4         5              6             7
         #               hostName,activityIds, actualStartTime, partyId)
-        
+
         # The uberdog has the database, and knows when every party in every shard
         # is allowed to start, or rather, when the 'go' button is activated. So,
         # every 15 minutes (parties can only start on increments of 15 minutes)
         # we'll check and see what parties are allowed to start and make the calls
         # to enable their go buttons.  We'll do the 1st check a minute in...
         taskMgr.doMethodLater(60, self._checkForPartiesStarting, "DistributedPartyManagerUD_checkForPartiesStarting" )
-        
+
         if not user:
             user = PartiesUdConfig.ttDbUser
         if not passwd:
@@ -56,24 +57,24 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         self.partyDb = ttPartyDb(host=uber.mysqlhost,
                                  port=PartiesUdConfig.ttDbPort,
                                  user = user,
-                                 passwd = passwd,                               
+                                 passwd = passwd,
                                  db=PartiesUdConfig.ttDbName)
 
         self.inviteDb = ttInviteDb(host=uber.mysqlhost,
                                    port=PartiesUdConfig.ttDbPort,
                                    user = user,
-                                   passwd = passwd,                               
+                                   passwd = passwd,
                                    db=PartiesUdConfig.ttDbName)
-        
+
         # in minutes, how often do we check if a party can start
-        self.startPartyFrequency = uber.config.GetFloat('start-party-frequency', PartyGlobals.UberdogCheckPartyStartFrequency)
+        self.startPartyFrequency = ConfigVariableDouble('start-party-frequency', PartyGlobals.UberdogCheckPartyStartFrequency).getValue()
 
         # The uberdog has the database, we need to check if party has been started but never finished
-        # We'll do the 1st check a 1 second in...                
-        self.partiesSanityCheckFrequency = uber.config.GetInt('parties-sanity-check-frequency',
-                                                              PartyGlobals.UberdogPartiesSanityCheckFrequency)
+        # We'll do the 1st check a 1 second in...
+        self.partiesSanityCheckFrequency = ConfigVariableInt('parties-sanity-check-frequency',
+                                                              PartyGlobals.UberdogPartiesSanityCheckFrequency).getValue()
         taskMgr.doMethodLater(1, self._sanityCheckParties, "DistributedPartyManagerUD_sanityCheckParties")
-        
+
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)
         self.accept("avatarOnlinePlusAccountInfo", self.avatarOnlinePlusAccountInfo, [])
@@ -81,8 +82,8 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         # assuming we are restarting, tell all the AIs so they can reply back with their
         # currently running parties
         self.sendUpdateToAllAis("partyManagerUdStartingUp", [])
-        
-        
+
+
     def avatarLoggedIn(self, avatarId):
         """Handle an avatar just logging in."""
         # Note this is no longer sent by the AI but is instead in response to
@@ -94,7 +95,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
 
         # we've sent invites, send party details related to those invites
         self._updateInvitedToParties( avatarId, partyIds, partyInfo )
-        
+
         # send out the details of the parties he's hosting
         hostedPartyIds, hostedPartyInfo = self._updateHostedParties( avatarId )
 
@@ -119,7 +120,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             partyId = partiesTuple[-1]['partyId'] # TODO-parties: is getting the -1 index guranteed to get the party we just pushed to the database?
             # send out the details of the parties he's hosting
             hostedPartyIds, hostedPartyInfo = self._updateHostedParties(hostId)
-            
+
             # Send out updates to invitees
             for inviteeId in inviteeIds:
                 self.inviteDb.putInvite(partyId, inviteeId)
@@ -140,7 +141,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         """Just mark the invite as read in the database."""
         invite = self.inviteDb.getOneInvite(inviteKey)
         if not invite:
-            # how the heck did this happen, inviteKey isn't there            
+            # how the heck did this happen, inviteKey isn't there
             DistributedPartyManagerUD.notify.warning('markInviteAsReadButNotReplied inviteKey=%s not found in inviteDb' % inviteKey)
             return
 
@@ -149,15 +150,15 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         party = self.partyDb.getParty(partyId)
         if not party:
             return
-        
+
         updateResult = self.inviteDb.updateInvite(inviteKey, PartyGlobals.InviteStatus.ReadButNotReplied)
         self.updateHostAndInviteeStatus(inviteKey, partyId, invite, party, PartyGlobals.InviteStatus.ReadButNotReplied )
-        
+
     def updateHostAndInviteeStatus(self, inviteKey, partyId, invite, party, newStatus):
         """Tell the invitee and host toons of the change in inviteStatus."""
         # tell the Invitee DistributedToon
         inviteeId = invite[0]['guestId']
-        
+
         DistributedPartyManagerUD.notify.debug( "Calling DistributedToon::updateInvite( inviteKey=%s, newStatus=%s ) across the network with inviteeId %d." %(inviteKey, PartyGlobals.InviteStatus.getString(newStatus), inviteeId ) )
         self.air.sendUpdateToDoId(
             "DistributedToon",
@@ -176,15 +177,15 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             hostId,
             [partyId, inviteeId, newStatus],
         )
-        
+
     def respondToInvite(self, partyManagerDoId, mailboxDoId, context, inviteKey, newStatus):
         """Handle accepting/rejecting an invite."""
         DistributedPartyManagerUD.notify.debug( "respondToInvite( partyManagerDoId=%d, mailboxDoId=%d, ..., inviteKey=%d, newStatus=%s )" %(partyManagerDoId, mailboxDoId, inviteKey, PartyGlobals.InviteStatus.getString(newStatus) ) )
-        replyToChannelAI = self.air.getSenderReturnChannel()        
+        replyToChannelAI = self.air.getSenderReturnChannel()
         retcode = ToontownGlobals.P_InvalidIndex
         invite = self.inviteDb.getOneInvite(inviteKey)
         if not invite:
-            # how the heck did this happen, inviteKey isn't there            
+            # how the heck did this happen, inviteKey isn't there
             DistributedPartyManagerUD.notify.warning('inviteKey=%s not found in inviteDb' % inviteKey)
             self.air.sendUpdateToDoId(
                 "DistributedPartyManager",
@@ -232,11 +233,11 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
     def _updateInvites(self, avatarId):
         """
         Push invites and setInviteMailNotify across to the DistributedToon.
-        
+
         Returns a list of prioritized partyIds and the partyInfo that avatarId is invited to.
         """
         DistributedPartyManagerUD.notify.debug( "_updateInvites( avatarId=%d )" % avatarId )
-        
+
         invitesTuple = self.inviteDb.getInvites(avatarId)
         DistributedPartyManagerUD.notify.debug( "Found %d invites for avatarId %d in the invite database." % (len(invitesTuple), avatarId) )
 
@@ -256,9 +257,9 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         # mailbox, but since it's so far in the future the partyInvitedTo is not sent
         # we get the case of a mailbox being flagged but having nothing in it!
         partyIds = [inviteInfo['partyId'] for inviteInfo in invitesTuple]
-        
+
         prioritizedPartyIds, prioritizedPartyInfo = self.reprioritizeParties(partyIds, PartyGlobals.MaxSetPartiesInvitedTo)
-               
+
         formattedInvites = []
         partyIds = []
         numOld = 0
@@ -268,7 +269,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             if partyId not in prioritizedPartyIds:
                 # skip this invite, too far in the past or in the future
                 continue
-            inviteKey = item['inviteId']            
+            inviteKey = item['inviteId']
             status = item['statusId']
             if status == PartyGlobals.InviteStatus.NotRead:
                 numNew += 1
@@ -288,7 +289,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
 
         # we let DistributedToon.updateInviteMailNotify() properly
         # set the right value for inviteMailNotify now instead of uberdog doing it here
-        
+
         return prioritizedPartyIds, prioritizedPartyInfo
 
     def reprioritizeParties(self, partyIds, limit):
@@ -314,29 +315,29 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
 
         if slotsLeft > 0:
             futureCancelledParties = self.partyDb.getPrioritizedParties(\
-                partyIds, 
+                partyIds,
                 thresholdTime.strftime("%Y-%m-%d %H:%M:%S"),
                 slotsLeft,
                 future = True,
                 cancelled = True)
             #self.notify.debug('futureCancelledParties = %s' % str(futureCancelledParties))
             prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in futureCancelledParties]
-            prioritizedPartyInfo += futureCancelledParties            
+            prioritizedPartyInfo += futureCancelledParties
         slotsLeft -= len(futureCancelledParties)
         if slotsLeft > 0:
             pastFinishedParties = self.partyDb.getPrioritizedParties(\
-                partyIds, 
+                partyIds,
                 thresholdTime.strftime("%Y-%m-%d %H:%M:%S"),
                 slotsLeft,
                 future = False,
                 cancelled = False)
             #self.notify.debug('pastFinishedParties = %s' % str(pastFinishedParties))
             prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in pastFinishedParties]
-            prioritizedPartyInfo += pastFinishedParties                
+            prioritizedPartyInfo += pastFinishedParties
         slotsLeft -= len(pastFinishedParties)
         if slotsLeft > 0:
             pastCancelledParties = self.partyDb.getPrioritizedParties(\
-                partyIds, 
+                partyIds,
                 thresholdTime.strftime("%Y-%m-%d %H:%M:%S"),
                 slotsLeft,
                 future = False,
@@ -348,13 +349,13 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         # prioritizedPartyIds should have everything, prioritizing pending parties in the future
         # then cancelled parties in the future, then started parties in the past
         # then cancelled parties in the past
-        
+
         return prioritizedPartyIds, prioritizedPartyInfo
-    
+
     def _updateInvitedToParties(self, avatarId, passedPartyIds, passedPartyInfo):
         """
         Push information about parties that avatarId is invited to across to the DistributedToon.
-        
+
         partyIds: list of partyIds that avatarId is invited to
         """
         partyIds = passedPartyIds
@@ -362,7 +363,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         DistributedPartyManagerUD.notify.debug( "_updateInvitedToParties( avatarId=%d, partyIds=%s )" %(avatarId, partyIds) )
         if partyInfo == None:
             partyIds, partyInfo = self.reprioritizeParties(passedPartyIds, PartyGlobals.MaxSetPartiesInvitedTo)
-        
+
         formattedPartiesInvitedTo = []
         formattedPartiesSize = 0
         for partyInfoDict in partyInfo:
@@ -375,7 +376,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
                 formattedPartiesInvitedTo.append(formattedPartyInfo)
             else:
                 break
-            
+
         DistributedPartyManagerUD.notify.debug( "Calling DistributedToon::setPartiesInvitedTo across the network with avatarId %d. Sending %d formatted parties." %(avatarId, len(formattedPartiesInvitedTo) ) )
         self.air.sendUpdateToDoId(
             "DistributedToon",
@@ -392,8 +393,8 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         thresholdTime = self.air.toontownTimeManager.getCurServerDateTime()
         thresholdTime += timedelta(hours = -(2*PartyGlobals.DefaultPartyDuration ))
 
-        return thresholdTime        
-    
+        return thresholdTime
+
     def getFormattedPartyInfo(self, partyInfoDict):
         startTime = partyInfoDict['startTime']
         endTime = partyInfoDict['endTime']
@@ -417,7 +418,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             formattedDecors.append(oneDecor)
         isPrivate = partyInfoDict['isPrivate']
         inviteTheme = partyInfoDict['inviteTheme']
-            
+
         return(
             partyInfoDict['partyId'],
             partyInfoDict['hostId'],
@@ -461,29 +462,29 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
 
         if slotsLeft > 0:
             futureCancelledParties = self.partyDb.getHostPrioritizedParties(\
-                hostId, 
+                hostId,
                 thresholdTime.strftime("%Y-%m-%d %H:%M:%S"),
                 slotsLeft,
                 future = True,
                 cancelled = True)
             self.notify.debug('futureCancelledParties = %s' % str(futureCancelledParties))
             prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in futureCancelledParties]
-            prioritizedPartyInfo += futureCancelledParties            
+            prioritizedPartyInfo += futureCancelledParties
         slotsLeft -= len(futureCancelledParties)
         if slotsLeft > 0:
             pastFinishedParties = self.partyDb.getHostPrioritizedParties(\
-                hostId, 
+                hostId,
                 thresholdTime.strftime("%Y-%m-%d %H:%M:%S"),
                 slotsLeft,
                 future = False,
                 cancelled = False)
             self.notify.debug('pastFinishedParties = %s' % str(pastFinishedParties))
             prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in pastFinishedParties]
-            prioritizedPartyInfo += pastFinishedParties                
+            prioritizedPartyInfo += pastFinishedParties
         slotsLeft -= len(pastFinishedParties)
         if slotsLeft > 0:
             pastCancelledParties = self.partyDb.getHostPrioritizedParties(\
-                hostId, 
+                hostId,
                 thresholdTime.strftime("%Y-%m-%d %H:%M:%S"),
                 slotsLeft,
                 future = False,
@@ -494,15 +495,15 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
 
         # prioritizedPartyIds should have everything, prioritizing pending parties in the future
         # then cancelled parties in the future, then started parties in the past
-        # then cancelled parties in the past            
-            
-        return prioritizedPartyIds, prioritizedPartyInfo 
+        # then cancelled parties in the past
+
+        return prioritizedPartyIds, prioritizedPartyInfo
 
 
     def _updateHostedParties(self, avatarId):
         """
         Push information about parties that avatarId is hosting across to the DistributedToon.
-        
+
         Returns a list of hostedPartyIds
         """
         DistributedPartyManagerUD.notify.debug( "_updateHostedParties( avatarId=%d )" % avatarId )
@@ -512,7 +513,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         formattedPartiesSize = 0
         for partyInfoDict in hostedParties:
             if partyInfoDict['startTime'] and partyInfoDict['endTime']:
-            
+
                 formattedPartyInfo = self.getFormattedPartyInfo(partyInfoDict)
                 partyInfoSize = self._getPartyInfoSize(formattedPartyInfo)
                 formattedPartiesSize += partyInfoSize
@@ -528,7 +529,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
                                       str(partyInfoDict['startTime']),
                                       str(partyInfoDict['endTime'])
                                       ))
-        
+
         DistributedPartyManagerUD.notify.debug( "Calling DistributedToon::setHostedParties across the network with avatarId %d. Sending %d formatted parties." %(avatarId, len(formattedHostedParties) ) )
         self.air.sendUpdateToDoId(
             "DistributedToon",
@@ -536,7 +537,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             avatarId,
             [formattedHostedParties],
         )
-        
+
         return hostedPartyIds, hostedParties
 
     def _updatePartyReplies(self, avatarId, hostedPartyIds, hostedParties):
@@ -545,7 +546,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         and push them across to DistributedToon.
         """
         DistributedPartyManagerUD.notify.debug( "_updatePartyReplies( avatarId=%d, hostedPartyIds=%s )" %(avatarId, hostedPartyIds) )
-        thresholdTime = self.getThresholdTime()        
+        thresholdTime = self.getThresholdTime()
         formattedRepliesForAllParties = []
         for index, partyId in enumerate( hostedPartyIds):
             if index >= len(hostedParties):
@@ -564,15 +565,15 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             if not gotCorrectPartyInfo:
                 self.notify.warning('partyId =%d not in hostedPartyIds' % partyId)
                 continue
-            
+
             getRepliesForThisParty = True
             # we only need replies for parties in the future that are not cancelled
             # temporarily turned off as shticker book is not happy
             #if partyInfoDict['statusId'] != PartyGlobals.PartyStatus.Cancelled and \
             #   thresholdTime < partyInfoDict['startTime']:
             #   getRepliesForThisParty = True
-               
-            if getRepliesForThisParty:   
+
+            if getRepliesForThisParty:
                 formattedReplies = []
                 replies = self.inviteDb.getReplies(partyId)
                 for oneReply in replies:
@@ -592,7 +593,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
     def changePrivateRequestAiToUd(self, pmDoId, partyId, newPrivateStatus):
         """Handle AI requesting to change a party to public or private."""
         errorCode = PartyGlobals.ChangePartyFieldErrorCode.AllOk
-        
+
         # verify the party is still there
         party = self.partyDb.getParty(partyId)
         if not party:
@@ -614,25 +615,25 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
                 [party[0]['hostId'], partyId, newPrivateStatus, errorCode ],
             )
             return
-            
 
-        # TODO updateResult is always empty, do we need to verify the update took?        
+
+        # TODO updateResult is always empty, do we need to verify the update took?
         updateResult = self.partyDb.changePrivate(partyId, newPrivateStatus)
-        
+
         self.air.sendUpdateToDoId(
             "DistributedPartyManager",
             'changePrivateResponseUdToAi',
             pmDoId,
             [ party[0]['hostId'], partyId, newPrivateStatus, errorCode ],
         )
-        
+
         # TODO do we need to send out partiesInvitedTo again?
 
     def changePartyStatusRequestAiToUd(self, pmDoId, partyId, newPartyStatus):
         """Handle AI requesting to change the party status."""
         DistributedPartyManagerUD.notify.debug("changePartyStatusRequestAiToUd partyId = %s, newPartyStatus = %s" % (partyId, newPartyStatus))
         errorCode = PartyGlobals.ChangePartyFieldErrorCode.AllOk
-        
+
         # verify the party is still there
         party = self.partyDb.getParty(partyId)
         if not party:
@@ -643,7 +644,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
                 pmDoId,
                 [0, partyId, newPartyStatus, errorCode ],
             )
-            
+
             return errorCode
         partyDict = party[0]
         # Check to see if this is a party that has finished
@@ -652,8 +653,8 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             if partyDict["hostId"] in self.hostAvIdToAllPartiesInfo:
                 self.sendUpdateToAllAis("partyHasFinishedUdToAllAi", [partyDict["hostId"]])
                 del self.hostAvIdToAllPartiesInfo[partyDict["hostId"]]
-        
-        # TODO updateResult is always empty, do we need to verify the update took?        
+
+        # TODO updateResult is always empty, do we need to verify the update took?
         updateResult = self.partyDb.changePartyStatus(partyId, newPartyStatus)
         self.air.sendUpdateToDoId(
             "DistributedPartyManager",
@@ -661,7 +662,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             pmDoId,
             [ partyDict['hostId'], partyId, newPartyStatus, errorCode ],
         )
-        
+
         return errorCode
         # TODO do we need to send out partiesInvitedTo again?
 
@@ -674,7 +675,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
 
         # Query the database, get the info!
         hostedParties = self.partyDb.getPartiesOfHostThatCanStart(hostId)
-        
+
         partyFail = False
         partyInfo = None
         if len(hostedParties) == 0:
@@ -685,7 +686,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             partyInfoDict = hostedParties[0]
             # Check to see if this party's startTime is before the current time
             # Note: Must make partyInfoDict["startTime"]'s time aware of any
-            #       time offsets by creating a new datetime based on it but 
+            #       time offsets by creating a new datetime based on it but
             #       using the ToontownTimeManager's serverTimeZone info
             partyStartTime = partyInfoDict["startTime"]
             partyStartTime = datetime(
@@ -727,7 +728,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
 
         if partyFail:
             # Something is fishy... this host is not allowed to start this party now or has no parties planned
-            randomPartyCreationAllowed = uber.config.GetBool('allow-random-party-creation', 0)
+            randomPartyCreationAllowed = ConfigVariableBool('allow-random-party-creation', 0).getValue()
             if not randomPartyCreationAllowed:
                 self.air.sendUpdateToDoId(
                     "DistributedPartyManager",
@@ -794,7 +795,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         self.forceFinishedForStarted()
         # first mark as never started parties who went past the end time
         self.forceNeverStartedForCanStart()
-        
+
         partiesStartingTuples = self.partyDb.getPartiesAvailableToStart(curServerDateTime.strftime("%Y-%m-%d %H:%M:%S"))
         # Now we know the partyIds and hostIds of parties that can start, let's
         # send those directly out to the DistributedToons who can use them!
@@ -814,7 +815,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             # if we got here through ~party checkStart, don't schedule another check
             self.notify.debug("not rescheduling self._checkForPartiesStarting")
 
-    def _sanityCheckParties(self, task):        
+    def _sanityCheckParties(self, task):
         """ Called every 60 minutes to check the database for started but never finished parties """
         self.notify.debug( "_sanityCheckParties :..." )
         self.forceFinishedForStarted()
@@ -841,7 +842,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             hostId = info['hostId']
             if self.isOnline(hostId):
                 status = PartyGlobals.PartyStatus.NeverStarted
-                self.sendNewPartyStatus(hostId, partyId, status)        
+                self.sendNewPartyStatus(hostId, partyId, status)
 
     def sendNewPartyStatus(self, avatarId, partyId, newStatus):
         """Tell a toon a party status has changed."""
@@ -852,7 +853,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             avatarId,
             [partyId, newStatus],
             )
-        
+
     def toonHasEnteredPartyAiToUd(self, hostId):
         """ This gets called when a toon enters a party. """
         DistributedPartyManagerUD.notify.debug("toonHasEnteredPartyAiToUd : someone entered hostIds %s party"%hostId)
@@ -868,10 +869,10 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             self.hostAvIdToAllPartiesInfo[hostId][3] -= 1
             if self.hostAvIdToAllPartiesInfo[hostId][3] >= 0:
                 self.sendUpdateToAllAis("updateToPublicPartyCountUdToAllAi", [hostId, self.hostAvIdToAllPartiesInfo[hostId][3]])
-            
+
     def partyHasStartedAiToUd(self, pmDoId, partyId, shardId, zoneId, hostName):
         """
-        This gets called by an AI when a party is started, updates 
+        This gets called by an AI when a party is started, updates
         hostAvIdToAllPartiesInfo for use by other AIs and their public party
         gates.
         """
@@ -898,7 +899,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         self.air.send(dg)
 
     def sendTestMsg(self):
-        """Send a test msg to all AIs to prove it can be done."""        
+        """Send a test msg to all AIs to prove it can be done."""
         fieldName = 'testMsgUdToAllAi'
         args = []
         dg = self.dclass.aiFormatUpdateMsgType(
@@ -924,7 +925,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
     def avatarOffline(self, avatarId):
         """Handle otp_server telling us an avatar is offline."""
         self.markAvatarOffline(avatarId)
-        
+
 
     def markAvatarOnline(self, avatarId):
         """Mark an avatar as online."""
@@ -1000,8 +1001,8 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         # tell all AI servers the party has finished since it was interrupted
         for hostId in interruptedHostIds:
             self.sendUpdateToAllAis("partyHasFinishedUdToAllAi", [hostId])
-            del self.hostAvIdToAllPartiesInfo[hostId]            
-            
+            del self.hostAvIdToAllPartiesInfo[hostId]
+
 
     def partyManagerAIStartingUp(self, pmDoId, shardId):
         """An AI server is starting up (or restarting) , send him all public parties running."""
@@ -1011,7 +1012,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         # we still need this check just in case uberdog was accidentally shut down
         # before the AI servers
         self.handleInterruptedPartiesOnShard(shardId)
-        
+
         for hostId in self.hostAvIdToAllPartiesInfo:
             publicInfo = self.hostAvIdToAllPartiesInfo[hostId]
             numToons = publicInfo[3]
@@ -1031,19 +1032,19 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         # shard have been interrupted
         assert self.notify.debugStateCall(self)
         self.handleInterruptedPartiesOnShard(shardId)
-                 
-        
+
+
     def updateAllPartyInfoToUd(self, hostId, startTime, shardId, zoneId, isPrivate, numberOfGuests, \
                                hostName, activityIds, partyId):
         """Handle an AI server telling us all the information about a party running on him."""
         if hostId in self.hostAvIdToAllPartiesInfo:
             self.notify.warning("hostId %s already in self.hostAvIdToAllPartiesInfo %s" % (
                 hostId, self.hostAvIdToAllPartiesInfo[hostId]))
-        
+
         self.hostAvIdToAllPartiesInfo[hostId] = [
             shardId, zoneId, isPrivate, numberOfGuests,
             hostName, activityIds, startTime, partyId]
-        
+
     def informInviteesPartyHasStarted(self, partyId):
         """The host has started his party, tell the invitees."""
         # WARNING since this is not sent through a ram field, if the toon switches
@@ -1055,7 +1056,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             avId = info['guestId']
             if self.isOnline(avId):
                 self.sendNewPartyStatus( avId, partyId, PartyGlobals.PartyStatus.Started)
-        
+
     def _getPartyInfoSize(self, partyInfo):
         """
         Calculate the size of the party info and return the value in bytes.
@@ -1081,26 +1082,25 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         };
         So the basic party info size is:
         partyInfoSize = (27 + 4*numberOfActivities + 4*numberOfDecors) bytes
-        
+
         Note: We assume that the party info format in toon.dc won't change.
-        Please change this method and calculation if the format changes. 
+        Please change this method and calculation if the format changes.
         """
         activities = partyInfo[14]
         decors = partyInfo[15]
         basePartySize = 27
         numActivities = 0
         numDecors = 0
-        
+
         if (type(activities) == type([])):
             numActivities = len(activities)
         else:
             self.notify.warning("partyId=%s has an incorrect partyInfo format for activities" %str(partyInfo[0]))
-        
+
         if (type(decors) == type([])):
             numDecors = len(decors)
         else:
             self.notify.warning("partyId=%s has an incorrect partyInfo format for decors" %str(partyInfo[0]))
-            
+
         partyInfoSize = basePartySize + (4 * numActivities) + (4 * numDecors)
         return partyInfoSize
-    

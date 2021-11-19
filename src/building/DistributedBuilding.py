@@ -9,7 +9,6 @@ from .ElevatorConstants import *
 from .ElevatorUtils import *
 from .SuitBuildingGlobals import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
@@ -563,7 +562,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         """loadAnimToSuitSfx(self)
         Loads up the sound effects necessary for the animToSuit effect.
         """
-        if base.config.GetBool('want-qa-regression', 0):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
             self.notify.info('QA-REGRESSION: COGBUILDING: Cog Take Over')
         if self.cogDropSound == None:
             self.cogDropSound = base.loader.loadSfx(self.TAKEOVER_SFX_PREFIX + "cogbldg_drop.mp3")
@@ -575,7 +574,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         """loadAnimToToonSfx(self)
         Loads up the sound effects necessary for the animToToon effect.
         """
-        if base.config.GetBool('want-qa-regression', 0):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
             self.notify.info('QA-REGRESSION: COGBUILDING: Toon Take Over')
         if self.cogWeakenSound == None:
             self.cogWeakenSound = base.loader.loadSfx(self.TAKEOVER_SFX_PREFIX + "cogbldg_weaken.mp3")

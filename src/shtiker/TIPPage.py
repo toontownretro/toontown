@@ -1,7 +1,6 @@
 from toontown.toonbase.ToontownModules import *
 from . import ShtikerPage
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from toontown.toon import NPCToons
 from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals

@@ -3,8 +3,10 @@ from direct.fsm import FSM
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectButton import DirectButton
 from toontown.toonbase import ToontownGlobals
+from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase import TTLocalizer
+from toontown.coghq import CogHQBossBattle
 
 class NewsPageButtonManager (FSM.FSM):
     """This will control which button shows up in the HUD, the Goto News, Goto Prev Page, or Goto 3d World."""
@@ -16,6 +18,7 @@ class NewsPageButtonManager (FSM.FSM):
         self.buttonsLoaded = False
         self.goingToNewsPageFrom3dWorld = False
         self.goingToNewsPageFromStickerBook = False
+        self.clearGoingToNewsInfo()
         self.__blinkIval = None
 
         self.load()
@@ -39,18 +42,22 @@ class NewsPageButtonManager (FSM.FSM):
         We're now loading the assets from phase 3.5.
         """
         btnGui = loader.loadModel('phase_3.5/models/gui/tt_m_gui_ign_newsBtnGui')
+        bookModel = loader.loadModel('phase_3.5/models/gui/tt_m_gui_ign_shtickerBook')
         self.openNewNewsUp = btnGui.find('**/tt_t_gui_ign_new')
         self.openNewNewsUpBlink = btnGui.find('**/tt_t_gui_ign_newBlink')
         self.openNewNewsHover = btnGui.find('**/tt_t_gui_ign_newHover')
         self.openOldNewsUp = btnGui.find('**/tt_t_gui_ign_oldNews')
         self.openOldNewsHover = btnGui.find('**/tt_t_gui_ign_oldHover')
-        self.closeNewsUp = btnGui.find('**/tt_t_gui_ign_open')
-        self.closeNewsHover = btnGui.find('**/tt_t_gui_ign_closeHover')
+        self.closeNewsUp = bookModel.find('**/tt_t_gui_sbk_newsPage1')
+        self.closeNewsHover = bookModel.find('**/tt_t_gui_sbk_newsPage2')
         btnGui.removeNode()
+        bookModel.removeNode()
 
         oldScale = 0.5
         newScale = 0.9
+        shtickerBookScale = 0.305
         newPos = VBase3(0.914, 0, 0.862)
+        shtickerBookPos = VBase3(1.175, 0, -0.83)
         textScale = 0.06
         self.gotoNewsButton = DirectButton(
             relief = None,
@@ -148,7 +155,7 @@ class NewsPageButtonManager (FSM.FSM):
     def clearGoingToNewsInfo(self):
         """Clear our flags on how we got to the news page."""
         self.goingToNewsPageFrom3dWorld = False
-        self.goingToNewsPageFromStickerBook = False
+        self.setGoingToNewsPageFromStickerBook(False)
 
     def __handleGotoNewsButton(self):
         # Don't open news if we are jumping
@@ -175,6 +182,8 @@ class NewsPageButtonManager (FSM.FSM):
                     fsm.request("stickerBook")
                     self.goingToNewsPageFromStickerBook = True
                     self.showAppropriateButton()
+                    if hasattr(localAvatar, "newsPage") and localAvatar.newsPage:
+                        localAvatar.book.goToNewsPage(localAvatar.newsPage)
 
 
 
@@ -183,13 +192,20 @@ class NewsPageButtonManager (FSM.FSM):
         localAvatar.book.setPageBeforeNews()
         self.clearGoingToNewsInfo()
         self.showAppropriateButton()
-        pass
+        self.ignoreEscapeKeyPress()
 
     def __handleGoto3dWorldButton(self):
         assert self.notify.debugStateCall(self)
         localAvatar.book.closeBook()
-        pass
 
+    def hideNewIssueButton(self):
+        if hasattr(self, "newIssueButton") and self.newIssueButton:
+            self.newIssueButton.hide()
+            localAvatar.clarabelleNewsPageCollision(False)
+
+    def __showNewIssueButton(self):
+        self.newIssueButton.show()
+        localAvatar.clarabelleNewsPageCollision(True)
 
     def hideAllButtons(self):
         """Hide everything."""
@@ -200,6 +216,11 @@ class NewsPageButtonManager (FSM.FSM):
         self.goto3dWorldButton.hide()
         self.newIssueButton.hide()
         self.__blinkIval.pause()
+
+    def isNewIssueButtonShown(self):
+        if localAvatar.getLastTimeReadNews() < base.cr.inGameNewsMgr.getLatestIssue():
+            return True
+        return False
 
     def enterHidden(self):
         """There are times when we don't want any of this buttons to show, like when the shtikerbook is hidden."""
@@ -216,10 +237,12 @@ class NewsPageButtonManager (FSM.FSM):
         if localAvatar.getLastTimeReadNews() < base.cr.inGameNewsMgr.getLatestIssue():
             self.gotoNewsButton.hide()
             self.newIssueButton.show()
+            self.__showNewIssueButton()
             self.__blinkIval.resume()
         else:
             self.gotoNewsButton.show()
             self.newIssueButton.hide()
+            self.hideNewIssueButton()
         self.gotoPrevPageButton.hide()
         self.goto3dWorldButton.hide()
 
@@ -255,7 +278,7 @@ class NewsPageButtonManager (FSM.FSM):
         if not self.buttonsLoaded:
             return
         self.hideAllButtons()
-##        localAvatar.book.setPageBeforeNews()
+        localAvatar.book.setPageBeforeNews()
         self.clearGoingToNewsInfo()
 
     def showAppropriateButton(self):
@@ -270,10 +293,11 @@ class NewsPageButtonManager (FSM.FSM):
            hasattr(base.cr.playGame.getPlace(),'fsm') and base.cr.playGame.getPlace().fsm:
             fsm = base.cr.playGame.getPlace().fsm
             curState = fsm.getCurrentState().getName()
+            book = localAvatar.book
             # do not show the news page button if we are in the tutorial
             # or in cog hq lobbies
             if curState == 'walk':
-                if localAvatar.tutorialAck and not localAvatar.isDisguised:
+                if localAvatar.tutorialAck and not localAvatar.isDisguised and not isinstance(base.cr.playGame.getPlace(), CogHQBossBattle.CogHQBossBattle):
                     self.request("NormalWalk")
                 else:
                     self.request("Hidden")
@@ -283,18 +307,16 @@ class NewsPageButtonManager (FSM.FSM):
                         self.request("GotoWorld")
                     else:
                         self.request("Hidden")
-                elif self.goingToNewsPageFromStickerBook:
+                elif self.goingToNewsPageFromStickerBook or hasattr(localAvatar, "newsPage") and localAvatar.book.isOnPage(localAvatar.newsPage):
                     if localAvatar.tutorialAck:
                         self.request("PrevPage")
                     else:
                         self.request("Hidden")
+                 # we get here when he just clicked on the sticker book button
+                elif localAvatar.tutorialAck:
+                    self.request("NormalWalk")
                 else:
-                    # we get here when he just clicked on the sticker book button
-                    if localAvatar.tutorialAck:
-                        self.request("NormalWalk")
-                    else:
-                        self.request("Hidden")
-
+                    self.request('Hidden')
 
     def setGoingToNewsPageFromStickerBook(self, newVal):
         """Called when the news page tab gets clicked in sticker book."""
@@ -345,3 +367,11 @@ class NewsPageButtonManager (FSM.FSM):
             pass
         else:
             self.showAppropriateButton()
+
+    def acceptEscapeKeyPress(self):
+        self.accept(ToontownGlobals.StickerBookHotkey, self.simulateEscapeKeyPress)
+        self.accept(ToontownGlobals.OptionsPageHotkey, self.simulateEscapeKeyPress)
+
+    def ignoreEscapeKeyPress(self):
+        self.ignore(ToontownGlobals.StickerBookHotkey)
+        self.ignore(ToontownGlobals.OptionsPageHotkey)

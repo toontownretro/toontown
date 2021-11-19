@@ -4,7 +4,6 @@ from toontown.toonbase.ToontownModules import *
 from . import ShtikerPage
 from toontown.toontowngui import TTDialog
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from . import DisplaySettingsDialog
 from direct.task import Task
@@ -243,8 +242,8 @@ class OptionsTabPage(DirectFrame):
     # If this variable is set to false, we're not allowed to change
     # the display settings using this interface, except for the screen
     # resolution.
-    ChangeDisplaySettings = base.config.GetBool('change-display-settings', 1)
-    ChangeDisplayAPI = base.config.GetBool('change-display-api', 0)
+    ChangeDisplaySettings = ConfigVariableBool('change-display-settings', 1).getValue()
+    ChangeDisplayAPI = ConfigVariableBool('change-display-api', 0).getValue()
 
     # This maps our expected API interfaces to a symbolic constant in the settings file.
     DisplaySettingsApiMap = {
@@ -365,13 +364,13 @@ class OptionsTabPage(DirectFrame):
             )
 
         self.Whispers_Label = DirectLabel(
-            parent=self, 
-            relief=None, 
-            text="", 
-            text_align=TextNode.ALeft, 
-            text_scale=options_text_scale, 
-            text_wordwrap=16, 
-            pos=(leftMargin, 0, 
+            parent=self,
+            relief=None,
+            text="",
+            text_align=TextNode.ALeft,
+            text_scale=options_text_scale,
+            text_wordwrap=16,
+            pos=(leftMargin, 0,
                  textStartHeight - 4 * textRowHeight),
             )
 
@@ -455,17 +454,17 @@ class OptionsTabPage(DirectFrame):
             )
 
         self.Whispers_toggleButton = DirectButton(
-            parent=self, 
-            relief=None, 
-            image=(guiButton.find('**/QuitBtn_UP'), 
-                   guiButton.find('**/QuitBtn_DN'), 
+            parent=self,
+            relief=None,
+            image=(guiButton.find('**/QuitBtn_UP'),
+                   guiButton.find('**/QuitBtn_DN'),
                    guiButton.find('**/QuitBtn_RLVR'),
                    ),
-            image_scale=button_image_scale, 
-            text="", 
-            text_scale=options_text_scale, 
-            text_pos=button_textpos, 
-            pos=(buttonbase_xcoord, 0.0, 
+            image_scale=button_image_scale,
+            text="",
+            text_scale=options_text_scale,
+            text_pos=button_textpos,
+            pos=(buttonbase_xcoord, 0.0,
                  buttonbase_ycoord - textRowHeight * 4),
             command=self.__doToggleAcceptWhispers,
             )

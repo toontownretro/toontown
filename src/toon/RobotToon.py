@@ -35,7 +35,7 @@ class RobotAvatarBase:
         self.setEndHpr(endHpr)
         self.setPosHpr(self.startPos, self.startHpr)
         self.ival = self.victoryIval = None
-        if not base.config.GetBool('want-new-anims',1):
+        if not ConfigVariableBool('want-new-anims',1).getValue():
             self.updateWalkIval()
             self.accept('playVictoryIval', lambda: self.setAnimState('victory'))
             self.accept('playRTMWalkIval', lambda: self.setAnimState('walk'))
@@ -60,7 +60,7 @@ class RobotAvatarBase:
     def setAnimState(self,state):
         self.stopIvals()
         self._state = state
-        if not base.config.GetBool('want-new-anims',1):
+        if not ConfigVariableBool('want-new-anims',1).getValue():
             if state == 'victory':
                 if self.victoryIval != None:
                     self.victoryIval.start()

@@ -99,7 +99,7 @@ class WelcomeValleyManagerAI(DistributedObjectAI.DistributedObjectAI):
     def generate(self):
         DistributedObjectAI.DistributedObjectAI.generate(self)
 
-        if simbase.config.GetBool('report-welcome-valleys', 0):
+        if ConfigVariableBool('report-welcome-valleys', 0).getValue():
             self.doReportLater()
 
     def delete(self):

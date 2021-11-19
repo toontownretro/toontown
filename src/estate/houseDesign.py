@@ -1781,6 +1781,8 @@ class ObjectManager(NodePath, DirectObject):
         self.deleteEnterButton['state'] = 'disabled'
 
     def sendItemToAttic(self):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: ESTATE:  Send Item to Attic')
         messenger.send('wakeup')
         if self.selectedObject:
             callback = PythonUtil.Functor(
@@ -1919,6 +1921,8 @@ class ObjectManager(NodePath, DirectObject):
             self.regenerateInRoomPicker()
 
     def bringItemFromAttic(self, item, itemIndex):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: ESTATE: Place Item in Room')
         messenger.send('wakeup')
         assert(item == self.furnitureManager.atticItems[itemIndex])
 
@@ -2334,6 +2338,8 @@ class ObjectManager(NodePath, DirectObject):
             self.itemIval.loop()
 
     def __handleVerifyDeleteOK(self):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: ESTATE:  Send Item to Trash')
         deleteFunction = self.verifyItems[0]
         # Copy args before deleting them
         deleteFunctionArgs = self.verifyItems[1:]
@@ -2460,6 +2466,8 @@ class ObjectManager(NodePath, DirectObject):
         self.verifyItems = (item, objectId)
 
     def __handleVerifyReturnOK(self):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: ESTATE:  Send Item to Attic')
         item, objectId = self.verifyItems
         self.__cleanupVerifyDelete()
         self.pickInRoom(objectId)

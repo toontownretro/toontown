@@ -1,7 +1,6 @@
 from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 import math
@@ -171,7 +170,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         bannerText.setTextColor(1,0,0,1)
         bannerText.setAlign(bannerText.ACenter)
         bannerText.setFont(ToontownGlobals.getSignFont())
-        bannerText.setText("Cog invasion!!!")
+        bannerText.setText(TTLocalizer.EstatePlaneBanner)
         self.bn = self.banner.attachNewNode(bannerText.generate())
         self.bn.setHpr(180,0,0)
         self.bn.setPos(-1.8,.1,0)
@@ -195,7 +194,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
             bannerText.setTextColor(1,0,0,1)
             bannerText.setAlign(bannerText.ACenter)
             bannerText.setFont(ToontownGlobals.getSignFont())
-            bannerText.setText("Happy halloween!!!")
+            bannerText.setText(TTLocalizer.EstateHalloweenBanner)
             self.bn = self.airplane.attachNewNode(bannerText.generate())
             self.bn.setHpr(0,0,0)
             self.bn.setPos( 20.0, -.1, 0)
@@ -229,7 +228,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
             bannerText.setTextColor(1,0,0,1)
             bannerText.setAlign(bannerText.ACenter)
             bannerText.setFont(ToontownGlobals.getSignFont())
-            bannerText.setText("Happy halloween!!!")
+            bannerText.setText(TTLocalizer.EstateHalloweenBanner)
             self.bn = self.banner.attachNewNode(bannerText.generate())
             self.bn.setHpr(180,0,0)
             self.bn.setPos(-1.8,.1,0)

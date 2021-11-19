@@ -4,7 +4,6 @@ from toontown.toonbase.ToontownModules import *
 from . import ShtikerPage
 from direct.task.Task import Task
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import ZoneUtil
@@ -48,8 +47,8 @@ class ShardPage(ShtikerPage.ShtikerPage):
         self.ShardInfoUpdateInterval = 5.0  # seconds
 
         self.lowPop, self.midPop, self.highPop = base.getShardPopLimits()
-        self.showPop = config.GetBool("show-total-population", 0)
-        self.noTeleport = config.GetBool("shard-page-disable", 0)
+        self.showPop = ConfigVariableBool("show-total-population", 0).getValue()
+        self.noTeleport = ConfigVariableBool("shard-page-disable", 0).getValue()
 
     def load(self):
         main_text_scale = 0.06

@@ -403,6 +403,22 @@ PlantAttributes = {
            'pinballScore' : (500,1),
            'growthThresholds': (1,2) # different models at growth level 0, 1, then 2 and up
            },
+    231 :{ 'name': TTLocalizer.StatuaryMeltingSnowDoodle,
+           'plantType' : STATUARY_TYPE,
+           'model' : "phase_5.5/models/estate/tt_m_prp_ext_snowDoodle",
+           'worldScale' : 1.0,
+           'varieties' : ( (1031,1,0),),
+           'pinballScore' : (500,1),
+           'growthThresholds' : (1,2) # different models at growth level 0, 1, then 2 and up
+           },
+    234 :{ 'name' : TTLocalizer.AnimatedStatuaryFlappyCog,
+           'plantType' : STATUARY_TYPE,
+           'model' : "phase_5.5/models/estate/tt_a_ara_pty_tubeCogVictory_",
+           'anims' : ["default", "wave"],
+           'worldScale' : 0.5,
+           'varieties' : ( (1035,1,0),),
+           'pinballScore' : (500,1)
+           },
     254 :{ 'name' : 'reserved tag', #HARDCODED!!!!!!!!!!!! HAHAHA!!!
            'plantType' : STATUARY_TYPE,
            'model' : "phase_5.5/models/estate/garden_minnie",
@@ -697,6 +713,14 @@ Recipes = {
     # melting snowman
     1030 : { 'beans': 'S',
              'special' : 130
+             },
+    # melting snowDoodle
+    1031 : { 'beans': 'S',
+             'special' : 131
+             },
+    # flappy cog
+    1035 : { 'beans': 'S',
+             'special' : 135
              },
     # reserved tag recipe, deliberately invalid color
     2001 : { 'beans': 'ZVOVOVO',
@@ -1385,6 +1409,29 @@ Specials = {
     'isCatalog' : True,
     'beanCost' : 25,
     'minSkill' : 0,
+    },
+131 : {
+    'subtype' : GARDEN_ITEM_SUBTYPE,
+    'photoModel' : "phase_5.5/models/estate/tt_m_prp_ext_snowDoodle_icon",
+    'photoScale' : 90.0,
+    'photoPos' : (0,0,0),
+    'photoName' : TTLocalizer.StatuaryMeltingSnowDoodle,
+    'description' : TTLocalizer.GardenSpecialDiscription,
+    'isCatalog' : True,
+    'beanCost' : 50,
+    'minSkill' : 0,
+    },
+135 : {
+    'subtype' : GARDEN_ITEM_SUBTYPE,
+    'photoModel' : "phase_5.5/models/estate/tt_a_ara_pty_tubeCogVictory_",
+    'photoAnimation' : ["default", "wave"],
+    'photoScale' : 1.25,
+    'photoPos' : (0,0,-0.04),
+    'photoName' : TTLocalizer.AnimatedStatuaryFlappyCog,
+    'description' : TTLocalizer.GardenSpecialDiscription,
+    'isCatalog' : True,
+    'beanCost' : 50,
+    'minSkill' : 1,
 
     },
 }

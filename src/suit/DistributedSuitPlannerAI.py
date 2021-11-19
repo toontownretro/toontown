@@ -109,9 +109,9 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
 
     # how many more buildings (suit & cogdo) do we want now that there
     # are cogdos in the Tooniverse?
-    CogdoPopFactor = config.GetFloat('cogdo-pop-factor', 1.5)
-    CogdoRatio = min(1., max(0., config.GetFloat('cogdo-ratio', .5)))
-    MinimumOfOne = config.GetBool('minimum-of-one-building', 0)
+    CogdoPopFactor = ConfigVariableDouble('cogdo-pop-factor', 1.5).getValue()
+    CogdoRatio = min(1., max(0., ConfigVariableDouble('cogdo-ratio', .5).getValue()))
+    MinimumOfOne = ConfigVariableBool('minimum-of-one-building', 0).getValue()
 
     SuitHoodInfo = [
         # TT is heavy on l, light on c
@@ -544,7 +544,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
         TOTAL_BWEIGHT_PER_HEIGHT[4] += weight * heights[4]
 
     # This Configrc constrains the kinds of suits we might create.
-    defaultSuitName = simbase.config.GetString('suit-type', 'random')
+    defaultSuitName = ConfigVariableString('suit-type', 'random').getValue()
     if defaultSuitName == 'random':
         defaultSuitName = None
 
@@ -681,10 +681,10 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
 
         # set the suit number override if one is provided in the xrc
         #
-        numSuits = simbase.config.GetInt( 'suit-count', -1 )
+        numSuits = ConfigVariableInt( 'suit-count', -1 ).getValue()
         if numSuits >= 0:
             self.currDesired = numSuits
-        suitHood = simbase.config.GetInt( 'suits-only-in-hood', -1 )
+        suitHood = ConfigVariableInt( 'suits-only-in-hood', -1 ).getValue()
         if suitHood >= 0:
             if self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_ZONE] != suitHood:
                 self.currDesired = 0
@@ -2170,7 +2170,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
 
         pos = self.battlePosDict[canonicalZoneId]
         interactivePropTrackBonus = -1
-        if simbase.config.GetBool("props-buff-battles", True) and \
+        if ConfigVariableBool("props-buff-battles", True).getValue() and \
            canonicalZoneId in self.cellToGagBonusDict :
             tentativeBonusTrack  = self.cellToGagBonusDict[canonicalZoneId]
             # next double check if the holiday for it to buff has started
@@ -2247,7 +2247,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
             # if we have a config to tell us that suits always join battles
             # with an empty slot
             #
-            if simbase.config.GetBool('suits-always-join', 0):
+            if ConfigVariableBool('suits-always-join', 0).getValue():
                  return 1
             jChanceList = self.SuitHoodInfo[ self.hoodInfoIdx ]\
                           [ self.SUIT_HOOD_INFO_JCHANCE ]

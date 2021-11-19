@@ -5,7 +5,6 @@ from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from otp.distributed import OtpDoGlobals
 from toontown.toonbase import ToontownGlobals
-from toontown.uberdog import WhitelistResponses
 
 ParentClass = DistributedObjectAI
 #ParentClass = DistributedObjectGlobal

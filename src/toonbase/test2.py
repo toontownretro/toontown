@@ -11,7 +11,7 @@ import sys
 from toontown.toonbase.ToontownModules import PStatClient
 
 from direct.showbase import ShowBase
-from ChatManagerGlobal import *
+from otp.chat import ChatManager
 
 #
 # globals

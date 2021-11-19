@@ -65,8 +65,8 @@ class PartyPlanner(DirectFrame,FSM):
         self.timeTypeToChangeAmount = { "hour" : (1,-1), "minute" : (15,-15), "ampm" : (1,-1) }
 
         self.partyInfo = None
-        self.asapMinuteRounding = base.config.GetInt("party-asap-minute-rounding",
-                                                     PartyGlobals.PartyPlannerAsapMinuteRounding)
+        self.asapMinuteRounding = ConfigVariableInt("party-asap-minute-rounding",
+                                                     PartyGlobals.PartyPlannerAsapMinuteRounding).getValue()
 
         # This is hiding mem leaks
         #if __debug__:
@@ -178,6 +178,11 @@ class PartyPlanner(DirectFrame,FSM):
         if hasattr(base.cr, "newsManager") and base.cr.newsManager:
             if ToontownGlobals.VICTORY_PARTY_HOLIDAY in base.cr.newsManager.getHolidayIdList():
                 defaultInviteTheme = PartyGlobals.InviteTheme.VictoryParty
+            elif ToontownGlobals.KARTING_TICKETS_HOLIDAY in base.cr.newsManager.getHolidayIdList() or \
+                 ToontownGlobals.CIRCUIT_RACING_EVENT in base.cr.newsManager.getHolidayIdList():
+                defaultInviteTheme = PartyGlobals.InviteTheme.Racing
+            elif ToontownGlobals.VALENTINES_DAY in base.cr.newsManager.getHolidayIdList():
+                defaultInviteTheme = PartyGlobals.InviteTheme.Valentoons
 
         if self.partyInfo is not None:
             del(self.partyInfo)
@@ -1070,6 +1075,9 @@ class PartyPlanner(DirectFrame,FSM):
                 self.inviteThemes.remove(PartyGlobals.InviteTheme.Valentoons)
             if ToontownGlobals.VICTORY_PARTY_HOLIDAY not in holidayIds:
                 self.inviteThemes.remove(PartyGlobals.InviteTheme.VictoryParty)
+            if ToontownGlobals.WINTER_DECORATIONS not in holidayIds and \
+               ToontownGlobals.WACKY_WINTER_DECORATIONS not in holidayIds:
+                self.inviteThemes.remove(PartyGlobals.InviteTheme.Winter)
 
     def _createFarewellPage(self):
         """ Internal method for creating the contents of the farewell page. """

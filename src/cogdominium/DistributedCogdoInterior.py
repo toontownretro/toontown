@@ -56,7 +56,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
 
         self.distBldgDoId = None
 
-        self._CogdoGameRepeat = config.GetBool('cogdo-game-repeat', 0)
+        self._CogdoGameRepeat = ConfigVariableBool('cogdo-game-repeat', 0).getValue()
 
         # we increment this each time we come out of an elevator:
         self.currentFloor = -1
@@ -89,7 +89,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
                          ]
         self.BossOffice_SuitHs = [170, 120, 12, 38]
 
-        self._wantBarrelRoom = config.GetBool('cogdo-want-barrel-room', 0)
+        self._wantBarrelRoom = ConfigVariableBool('cogdo-want-barrel-room', 0).getValue()
         self.barrelRoom = CogdoBarrelRoom.CogdoBarrelRoom()
         self.brResults = [[], []]
         self.barrelRoomIntroTrack = None

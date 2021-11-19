@@ -85,6 +85,7 @@ else :
 uber.RATManagerHTTPListenPort = 8080
 uber.awardManagerHTTPListenPort = 8888
 uber.inGameNewsMgrHTTPListenPort = 8889
+uber.whitelistMgrHTTPListenPort = 8890
 mysqlhost = "localhost"
 
 # example values
@@ -189,12 +190,14 @@ uber.bwDictPath = bwDictPath
 uber.RATManagerHTTPListenPort = int(os.getenv("RAT_PORT","8080"))
 uber.awardManagerHTTPListenPort = int(os.getenv("AWARD_MANAGER_PORT","8888"))
 uber.inGameNewsMgrHTTPListenPort = int(os.getenv("IN_GAME_NEWS_PORT","8889"))
+uber.whitelistMgrHTTPListenPort = int(os.getenv("WHITELIST_PORT","8890"))
 uber.mysqlhost = mysqlhost
 
 uber.codeRedemptionMgrHTTPListenPort = int(os.getenv("CODE_REDEMPTION_PORT","8998"))
 uber.crDbName = crDbName
 
 uber.cpuInfoMgrHTTPListenPort = int(os.getenv("SECURITY_BAN_MGR_PORT",8892))
+uber.securityMgrHTTPListenPort = int(os.getenv("SECURITY_PORT",8892))
 
 uber.air = ToontownUberDog(
         uber.mdip, uber.mdport,

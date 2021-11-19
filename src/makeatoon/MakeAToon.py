@@ -140,6 +140,8 @@ class MakeAToon(StateData.StateData):
 
     def enter(self):
         self.notify.debug('Starting Make A Toon.')
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: MAKEATOON: Starting Make A Toon')
         base.cr.centralLogger.writeClientEvent('MAT - startingMakeAToon')
         base.camLens.setMinFov(ToontownGlobals.MakeAToonCameraFov)
         base.playMusic(self.music, looping = 1, volume = self.musicVolume)
@@ -404,8 +406,8 @@ class MakeAToon(StateData.StateData):
         self.ns.load()
 
         self.music = base.loadMusic("phase_3/audio/bgm/create_a_toon.mid")
-        self.musicVolume = base.config.GetFloat("makeatoon-music-volume", 1)
-        self.sfxVolume = base.config.GetFloat("makeatoon-sfx-volume", 1)
+        self.musicVolume = ConfigVariableDouble("makeatoon-music-volume", 1).getValue()
+        self.sfxVolume = ConfigVariableDouble("makeatoon-sfx-volume", 1).getValue()
         self.soundBack = base.loader.loadSfx("phase_3/audio/sfx/GUI_create_toon_back.mp3")
 
         self.crashSounds = []
@@ -811,6 +813,8 @@ class MakeAToon(StateData.StateData):
         self.ns.rejectName(TTLocalizer.RejectNameText)
 
     def __handleNameShopDone(self):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: MAKEATOON: Creating A Toon')
         self.guiLastButton.hide()
         self.guiCheckButton.hide()
         if self.ns.getDoneStatus() == 'last':

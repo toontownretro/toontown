@@ -4,8 +4,9 @@ from direct.interval.IntervalGlobal import Sequence, Func
 from toontown.hood import InteractiveAnimatedProp
 from toontown.hood import GenericAnimatedProp
 from toontown.toonbase import ToontownGlobals, ToontownBattleGlobals, TTLocalizer
+from toontown.toonbase.ToontownModules import *
 
-    
+
 class MailboxInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
     """We need much more functionality than GenericAnimatedProp to
     make interactive props behave correctly in battle.
@@ -17,9 +18,9 @@ class MailboxInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
     BattleCheerText =  TTLocalizer.InteractivePropTrackBonusTerms[ToontownBattleGlobals.THROW_TRACK]
 
     # ZoneToIdles format
-    # animation, minNumberOfLoops, maxNumberOfLoops, settleAnim, minPauseTime, maxPauseTime    
-    ZoneToIdles = { 
-        ToontownGlobals.ToontownCentral: (        
+    # animation, minNumberOfLoops, maxNumberOfLoops, settleAnim, minPauseTime, maxPauseTime
+    ZoneToIdles = {
+        ToontownGlobals.ToontownCentral: (
         ('tt_a_ara_ttc_mailbox_idle0', 3, 10, 'tt_a_ara_ttc_mailbox_idle0settle', 3, 10),
         ('tt_a_ara_ttc_mailbox_idleTake2', 1, 1, None, 3, 10),
         ('tt_a_ara_ttc_mailbox_idleLook1', 1, 1, None, 3, 10),
@@ -46,8 +47,8 @@ class MailboxInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
         ToontownGlobals.TheBrrrgh: (
         ('tt_a_ara_tbr_mailbox_idleShiver1', 1, 1, None, 3, 10),
         ('tt_a_ara_tbr_mailbox_idleSneeze2', 1, 1, None, 3, 10),
-        ('tt_a_ara_tbr_mailbox_idleSpin0', 1, 1, None, 3, 10),        
-        ('tt_a_ara_tbr_mailbox_idleAwesome3', 1, 1, None, 3, 10),        
+        ('tt_a_ara_tbr_mailbox_idleSpin0', 1, 1, None, 3, 10),
+        ('tt_a_ara_tbr_mailbox_idleAwesome3', 1, 1, None, 3, 10),
         ),
         ToontownGlobals.DonaldsDreamland: (
         ('tt_a_ara_ddl_mailbox_idleSleep0', 3, 10, None, 0, 0),
@@ -82,7 +83,7 @@ class MailboxInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
         ToontownGlobals.MinniesMelodyland: 'tt_a_ara_mml_mailbox_fightSad',
         ToontownGlobals.TheBrrrgh: 'tt_a_ara_tbr_mailbox_fightSad',
         ToontownGlobals.DonaldsDreamland: 'tt_a_ara_ddl_mailbox_fightSad',
-     }       
+     }
 
     ZoneToFightAnims = {
         ToontownGlobals.ToontownCentral: (
@@ -117,19 +118,19 @@ class MailboxInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
         ),
      }
 
-    IdlePauseTime = base.config.GetFloat('prop-idle-pause-time',0.0)
+    IdlePauseTime = ConfigVariableDouble('prop-idle-pause-time',0.0).getValue()
 
     def __init__(self, node):
         """Construct ourself, in the correct orrder."""
         InteractiveAnimatedProp.InteractiveAnimatedProp.__init__(self, node, ToontownGlobals.MAILBOXES_BUFF_BATTLES)
-        
+
     def setupActor(self, node):
         """Add the pie package."""
         self.pieActor = Actor.Actor('phase_5/models/char/tt_r_prp_ext_piePackage', {
             'fightBoost': 'phase_5/models/char/tt_a_prp_ext_piePackage_fightBoost',
-            })        
+            })
         self.pieActor.reparentTo(self.node)
-        self.pieActor.hide()        
+        self.pieActor.hide()
         InteractiveAnimatedProp.InteractiveAnimatedProp.setupActor(self, node)
 
     def hasSpecialIval(self, origAnimName):
@@ -147,7 +148,5 @@ class MailboxInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
         if 'fightBoost' in origAnimName:
             result.append(Func(self.pieActor.show))
             result.append(self.pieActor.actorInterval('fightBoost'))
-            result.append(Func(self.pieActor.hide))            
+            result.append(Func(self.pieActor.hide))
         return result
-    
-    

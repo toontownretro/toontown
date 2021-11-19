@@ -599,7 +599,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         # Create the DistributedDoor:
         exteriorZoneId, interiorZoneId=self.getExteriorAndInteriorZoneId()
         # Toon interior:
-        if simbase.config.GetBool("want-new-toonhall",1) and \
+        if ConfigVariableBool("want-new-toonhall",1).getValue() and \
            ZoneUtil.getCanonicalZoneId(interiorZoneId)== ToonHall:
             self.interior=DistributedToonHallInteriorAI.DistributedToonHallInteriorAI(
                     self.block, self.air, interiorZoneId, self)

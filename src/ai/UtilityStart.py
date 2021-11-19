@@ -9,20 +9,20 @@ import ihooks
 ihooks.install()
 
 print("Initializing...")
-    
+
 from otp.ai.AIBaseGlobal import *
 from . import UtilityAIRepository
 
-simbase.mdip = simbase.config.GetString("msg-director-ip", "localhost")
-simbase.mdport = simbase.config.GetInt("msg-director-port", 6665)
-simbase.esip = simbase.config.GetString("event-server-ip", "localhost")
-simbase.esport = simbase.config.GetInt("event-server-port", 4343)
+simbase.mdip = ConfigVariableString("msg-director-ip", "localhost").getValue()
+simbase.mdport = ConfigVariableInt("msg-director-port", 6665).getValue()
+simbase.esip = ConfigVariableString("event-server-ip", "localhost").getValue()
+simbase.esport = ConfigVariableInt("event-server-port", 4343).getValue()
 
 districtType = 0
-ssId = simbase.config.GetInt("utility-ssid", 20100000)
-utilityChannel = simbase.config.GetInt("utility-channel", 399900000)
+ssId = ConfigVariableInt("utility-ssid", 20100000).getValue()
+utilityChannel = ConfigVariableInt("utility-channel", 399900000).getValue()
 
-if simbase.config.GetBool("want-dev", 0):
+if ConfigVariableBool("want-dev", 0).getValue():
     # In development, the dcfiles are specified in prc files
     dcFileNames = None
 else:

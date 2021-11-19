@@ -10,7 +10,7 @@ from otp.level import EditMgr
 # this is required in order to eval the incoming spec repr string
 from .SpecImports import *
 from .InGameEditorElements import *
-#import FactoryEntityCreator
+#from . import FactoryEntityCreator
 from toontown.cogdominium import CogdoEntityCreator
 import string
 
@@ -250,6 +250,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
             # make sure we're set up for editing
             from otp.level import EditorGlobals
             EditorGlobals.assertReadyToEdit()
+            print(self.editUsername, EditorGlobals.getEditUsername())
             assert self.editUsername == EditorGlobals.getEditUsername()
 
             # ask for the current spec; it will arrive in pieces, since

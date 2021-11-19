@@ -13,7 +13,7 @@ RPmeritLabelXPosition = 0.55
 RPmeritBarsXPosition = 0.825
 
 #battle/BattleBase.py
-BBbattleInputTimeout = 20.0
+BBbattleInputTimeout = 50.0
 
 #battle/FireCogPanel.py
 FCPtextFrameScale = 0.08
@@ -351,7 +351,7 @@ RGplaceLabelNumPos = (0.15, 0, 0.05)
 RGplaceLabelStrPos = (0.31, 0.0, 0.22)
 
 #racing/DistributedRaceAI.py
-DRAwaitingForJoin = 60
+DRAwaitingForJoin = 90
 
 #safezone/DistributedFishingSpot.py
 DFSfailureDialog = 0.05

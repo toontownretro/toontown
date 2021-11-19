@@ -8,7 +8,7 @@ under the minigame framework without hard-coding them in.
 from toontown.toonbase import ToontownGlobals
 
 # This config allows devs to temporarily register temp games created with the minigame framework
-ALLOW_TEMP_MINIGAMES = simbase.config.GetBool('allow-temp-minigames', False)
+ALLOW_TEMP_MINIGAMES = ConfigVariableBool('allow-temp-minigames', False).getValue()
 
 TEMP_MG_ID_COUNTER = ToontownGlobals.TravelGameId - 1
 
@@ -59,4 +59,3 @@ if ALLOW_TEMP_MINIGAMES:
     _registerTempMinigame("cogdoflying", DistCogdoFlyingGameAI, id=51)
 
     pass
-

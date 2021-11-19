@@ -5,7 +5,7 @@ from . import DistributedCCharBase
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-#import MickeyChatter
+#from toontown.toonbase.TTLocalizer import MickeyChatter
 from . import CharStateDatas
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer

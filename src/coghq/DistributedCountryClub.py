@@ -19,7 +19,7 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
 
     ReadyPost = 'CountryClubReady'
     WinEvent = 'CountryClubWinEvent'
-    doBlockRooms = base.config.GetBool('block-country-club-rooms',1)
+    doBlockRooms = ConfigVariableBool('block-country-club-rooms',1).getValue()
 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)

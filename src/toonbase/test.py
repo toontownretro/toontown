@@ -9,7 +9,7 @@ from direct.showbase.MessengerGlobal import *
 import sys
 from toontown.toonbase.ToontownModules import ClockObject
 from toontown.toonbase.ToontownModules import PStatClient
-from ChatManagerGlobal import *
+from otp.chat import ChatManager
 #
 # globals
 #

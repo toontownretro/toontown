@@ -1,7 +1,6 @@
 from toontown.toonbase.ToontownModules import *
 from .DistributedNPCToonBase import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from . import NPCToons
 from toontown.toonbase import TTLocalizer
 from direct.distributed import DistributedObject

@@ -12,6 +12,7 @@ from . import FactoryInterior
 from . import SellbotHQExterior
 from . import SellbotHQBossBattle
 from toontown.toonbase.ToontownModules import DecalEffect
+from toontown.toonbase.ToontownModules import *
 
 # Used to compensate for scaling of Cog tunnel sign's
 # original aspect ratio of 1125x813 to a uniform ratio,
@@ -226,6 +227,9 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
                 parent = sdSign)
             sdText.setDepthWrite(0)
         elif zoneId == ToontownGlobals.SellbotLobby:
+            if ConfigVariableBool('want-qa-regression', 0).getValue():
+                self.notify.info('QA-REGRESSION: COGHQ: Visit SellbotLobby')
+
             self.geom = loader.loadModel(self.cogHQLobbyModelPath)
 
             front = self.geom.find("**/frontWall")
@@ -246,7 +250,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
             # that is ok because we do not need to load any models - they all
             # get loaded by the distributed object
             self.notify.warning("loadPlaceGeom: unclassified zone %s" % zoneId)
-            
+
         # Flatten the geom a bit
         if self.geom:
             self.geom.flattenMedium()

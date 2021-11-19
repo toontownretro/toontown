@@ -2,7 +2,6 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase.ToontownModules import *
 from .DistributedNPCToonBase import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from . import NPCToons
 from direct.task.Task import Task
 from toontown.toonbase import TTLocalizer
@@ -257,6 +256,8 @@ class DistributedNPCPetclerk(DistributedNPCToonBase):
         return
 
     def __handlePetAdopted(self, whichPet, nameIndex):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: ADOPTADOOLE: Adopt a doodle.')
         #the pet adopted message automatically handles returning the
         #current pet, so we need to do this here too
         base.cr.removePetFromFriendsMap()

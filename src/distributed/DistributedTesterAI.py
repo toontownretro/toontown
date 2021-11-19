@@ -4,7 +4,7 @@ import random
 from direct.task import Task
 
 """
-import DistributedTesterAI
+from . import DistributedTesterAI
 d = DistributedTesterAI.DistributedTesterAI(simbase.air)
 d.generateWithRequired(2000) # Toontown Central safe zone
 d.sendMovieLoop(None)

@@ -4,7 +4,6 @@ class, the client side representation of a DistributedCogHqDoorAI.
 """
 
 from toontown.toonbase.ToontownModules import *
-from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 

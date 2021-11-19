@@ -17,7 +17,6 @@ from toontown.effects import Splash
 from toontown.effects import DustCloud
 from . import CannonGameGlobals
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 
 # some constants
@@ -374,7 +373,7 @@ class DistributedCannonGame(DistributedMinigame):
         if __debug__:
             # this flag will show whether or not you'll win if you shoot
             # with the current cannon orientation
-            self.cheat = config.GetBool('cannon-game-cheat', 0)
+            self.cheat = ConfigVariableBool('cannon-game-cheat', 0).getValue()
 
     def unload(self):
         self.notify.debug("unload")
@@ -709,7 +708,7 @@ class DistributedCannonGame(DistributedMinigame):
         # place the camera behind our cannon
         self.__putCameraBehindCannon()
 
-        if not base.config.GetBool('endless-cannon-game', 0):
+        if not ConfigVariableBool('endless-cannon-game', 0).getValue():
             # Start counting down the game clock,
             # call __gameTimerExpired when it reaches 0
             self.timer.show()

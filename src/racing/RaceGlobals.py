@@ -38,6 +38,9 @@ RT_Rural_2_rev = 63
 RT_Urban_2 = 64
 RT_Urban_2_rev = 65
 
+# Double Tickets Holiday Multiplier
+KARTING_TICKETS_HOLIDAY_MULTIPLIER = 2
+
 def getTrackGenre(trackId):
     if trackId in (RT_Speedway_1, RT_Speedway_1_rev, RT_Speedway_2, RT_Speedway_2_rev):
         return Speedway

@@ -4,7 +4,6 @@ from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from .DistributedMinigame import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task.Task import Task

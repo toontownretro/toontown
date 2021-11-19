@@ -2,7 +2,6 @@
     class, the client side representation of a DistributedCogHqButtonAI."""
 
 from toontown.toonbase.ToontownModules import *
-from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 

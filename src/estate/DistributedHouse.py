@@ -1,7 +1,6 @@
 from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from toontown.minigame.OrthoWalk import *
 from string import *
@@ -79,10 +78,10 @@ class DistributedHouse(DistributedObject.DistributedObject):
         # get hidden by the EstateLoader.  Only remove the house node on deletion
         if not self.house_loaded:
             if self.housePosInd == 1:
-                houseModelIndex = base.config.GetInt('want-custom-house',HouseGlobals.HOUSE_DEFAULT)
+                houseModelIndex = ConfigVariableInt('want-custom-house',HouseGlobals.HOUSE_DEFAULT).getValue()
             else:
                 houseModelIndex = HouseGlobals.HOUSE_DEFAULT
-            houseModelIndex = base.config.GetInt('want-custom-house-all',houseModelIndex)
+            houseModelIndex = ConfigVariableInt('want-custom-house-all',houseModelIndex).getValue()
             houseModel = self.cr.playGame.hood.loader.houseModels[houseModelIndex]
             self.house = houseModel.copyTo(self.cr.playGame.hood.loader.houseNode[self.housePosInd])
             self.house_loaded = 1

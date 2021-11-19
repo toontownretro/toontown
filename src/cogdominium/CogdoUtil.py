@@ -1,4 +1,5 @@
 from toontown.toonbase.ToontownModules import ColorBlendAttrib
+from toontown.toonbase.ToontownModules import *
 
 ModelPhase = 5
 
@@ -28,12 +29,8 @@ def getModelPath(baseName, game = 'shared', type = 'model', group = 'area'):
     extension = ''
     if hasattr(getBase(), 'air'):
         extension = '.bam'
-    return 'phase_%i/models/cogdominium/tt_%s_%s_%s_%s%s' % (ModelPhase,
-     ModelTypes[type],
-     ModelGroups[group],
-     Games[game],
-     baseName,
-     extension)
+    return 'phase_%i/models/cogdominium/tt_%s_%s_%s_%s%s' % (
+        ModelPhase, ModelTypes[type], ModelGroups[group], Games[game], baseName, extension)
 
 
 def loadModel(baseName, game = 'shared', type = 'model', group = 'area'):
@@ -46,7 +43,7 @@ class VariableContainer:
 class DevVariableContainer:
 
     def __init__(self, name):
-        self.__dict__['_enabled'] = config.GetBool('%s-dev' % name, False)
+        self.__dict__['_enabled'] = ConfigVariableBool('%s-dev' % name, False).getValue()
 
     def __setattr__(self, name, value):
         self.__dict__[name] = self._enabled and value

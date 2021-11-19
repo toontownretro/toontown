@@ -188,7 +188,7 @@ Tutorial          = ("para o",  "no",    "Toon-torial")
 MyEstate          = ("para a",  "na",    "sua casa")
 WelcomeValley     = ("para o",  "no",    "Vale Boas-vindas")
 GolfZone          = ("para a",  "na",    lGolfZone)
-PartyHood         = ("to the", "in the", lPartyHood)
+PartyHood         = ("para a",  "na",    lPartyHood)
 
 Factory = 'Fábrica'
 Headquarters = 'Quartel'
@@ -247,9 +247,9 @@ ACogVP = ACog + " VP"
 Supervisor = "Supervisor da Casa da Moeda"
 SupervisorP = "Supervisores da Casa da Moeda"
 ASupervisor = "um Supervisor da Casa da Moeda"
-CogCFO = Cog + "Diretor Financeiro"
+CogCFO = Cog + " Diretor Financeiro"
 CogCFOs = "Diretores Financeiros Cogs"
-ACogCFO = ACog + "Diretor Financeiro"
+ACogCFO = ACog + " Diretor Financeiro"
 
 #lBossbotHQ = 'Quartel do Robô-chefe'
 #lLawbotHQ = 'Quartel do Robô da Lei'
@@ -5920,9 +5920,9 @@ DownloadForceAcknowledgeVerbList = [
 DownloadForceAcknowledgeMsg = "Sinto muito, você não pode avançar porque o download de %(phase)s está apenas %(percent)s%% concluído.\n\nTente novamente mais tarde."
 
 # TeaserPanel.py
-TeaserTop = ""
-TeaserBottom = ""
-TeaserDefault = ",\nVocê precisa ser um associado.\nUna-se!"
+TeaserTop = "" # "Infelizmente não é possível fazer isto na versão de avaliação gratuita..."
+TeaserBottom = "" # "Assine já e aproveite esses recursos incríveis:"
+TeaserDefault = "\nVocê precisa ser um associado.\nUna-se!"
 TeaserOtherHoods = "Visite os 6 bairros exclusivos!"
 TeaserTypeAName = "Digite o seu nome favorito para o seu Toon!"
 TeaserSixToons = "Crie até 6 Toons em uma só conta!"
@@ -5932,7 +5932,7 @@ TeaserSecretChat = "Troque segredos\ncom seus amigos conversando on-line com ele
 TeaserSpecies = "Crie e jogue com Toons Macacos, Cavalos e Ursos!"
 TeaserFishing = "Colecione todas as espécies de peixes!"
 TeaserGolf = "Jogue em campos de golfe malucos!"
-TeaserParties = " Para planear Partes"
+TeaserParties = "Para planear Partes"
 TeaserSubscribe = "Assinar"
 TeaserContinue = "Continuar na versão gratuita"
 TeaserEmotions = "Para fazer seu Toon mais expressivo"
@@ -5947,15 +5947,15 @@ TeaserPickGags = "To pick these gags"
 TeaserRestockGags = "To restock these gags"
 TeaserGetGags = "To get these gags"
 TeaserUseGags = "To use these gags"
-#TeaserCardsAndPosters = ""
-#TeaserFurniture = ""
-TeaserMinigames = TeaserOtherHoods
-#TeaserHolidays = ""
-TeaserQuests = TeaserOtherHoods
-TeaserOtherGags = TeaserOtherHoods
-#TeaserRental = ""
-#TeaserBigger = ""
-TeaserTricks = TeaserOtherHoods
+#TeaserCardsAndPosters = ""Receba um pacote de boas-vindas e boletins mensais\ncom pôsteres e outras coisas maneiras!""
+#TeaserFurniture = "Compre e arrume os móveis da sua própria casa!"
+TeaserMinigames = TeaserOtherHoods # "Brinque com os 8 tipos de minijogos!"
+#TeaserHolidays = "Participe dos eventos especiais e de datas comemorativas incríveis!"
+TeaserQuests = TeaserOtherHoods # "Complete centenas de Tarefas Toon para salvar Toontown!"
+TeaserOtherGags = TeaserOtherHoods # "Passe por 6 níveis em 6 tipos de piadas diferentes!"
+#TeaserRental = "Alugue ítens de festa para seu terreno!"
+#TeaserBigger = "Compre ítens Toon maiores e melhores!"
+TeaserTricks = TeaserOtherHoods # "Treine seus Rabisocs para que eles façam truques e ajudem na batalha!"
 
 # Launcher.py
 LauncherPhaseNames = {
@@ -5973,6 +5973,7 @@ LauncherPhaseNames = {
     9   : Sellbot + " Quartel dos",
     10  : Cashbot + " Quartel dos",
     11  : Lawbot + " Quartel dos",
+    12  : Bossbot + " Quartel dos",
     13  : "Festas",
     }
 
@@ -6731,11 +6732,11 @@ NPCFriendPanelRemaining = "Restantes %s"
 NPCFriendPanelUnavailable = "Indisponível"
 
 # PartiesPage.py
-PartiesPageTitle = ""
-PartiesPageHostTab = ""
-PartiesPageInvitedTab = ""
-PartiesPageTitleHost = ""
-PartiesPageTitleInvited = ""
+#PartiesPageTitle = ""
+#PartiesPageHostTab = ""
+#PartiesPageInvitedTab = ""
+#PartiesPageTitleHost = ""
+#PartiesPageTitleInvited = ""
 
 # MapPage.py
 MapPageTitle = "Mapa"
@@ -7803,7 +7804,7 @@ MissingKeySanityCheck = "Ignore-me"
 
 SellbotBossName = "V. P. Sênior"
 CashbotBossName = "Diretor Financeiro"
-LawbotBossName = "Juiz-chefe"
+LawbotBossName = "Juiz-Chefe"
 BossCogNameWithDept = "%(name)s\n%(dept)s"
 BossCogPromoteDoobers = "Com isto, você está promovido a %s sênior. Parabéns!"
 BossCogDoobersAway = { 's' : "Vai! E faça essa venda!" }
@@ -9155,7 +9156,7 @@ CatalogNotifyOldDelivery = "Ainda há itens aguardando por você em sua caixa de
 CatalogNotifyInstructions = "Clique no botão \"Ir para casa\" na Página do mapa em seu Álbum Toon e vá até o telefone que há dentro da sua casa."
 CatalogNewDeliveryButton = "Nova\nentrega!"
 CatalogNewCatalogButton = "Novo\ncatálogo"
-CatalogSaleItem = "À venda!"
+CatalogSaleItem = "À venda! "
 
 # don't translate yet
 DistributedMailboxEmpty = "A sua caixa de correio está vazia no momento. Volte aqui para procurar entregas depois que você fizer um pedido pelo telefone!"
@@ -10061,7 +10062,7 @@ NPCToonNames = {
     9237 : "Jung Pescador",
 
     #
-    # Funny Farms / Field Office
+    # Funny Farm / Field Office
     #
 
     9301 : "Phil Bettur",
@@ -10679,6 +10680,8 @@ EstateOwnerLeftMessage = "Sinto muito, o dono desta propriedade saiu. Você ser�
 EstatePopupOK = lOK
 EstateTeleportFailed = "Não foi possível ir para casa. Tente novamente!"
 EstateTeleportFailedNotFriends = "Sinto muito, %s fica na propriedade de um toon com o qual você não fez amizade."
+EstatePlaneBanner = "Invasão de Cog!!!"
+EstateHalloweenBanner = "Feliz Dia das Bruxas!!!"
 
 # DistributedTarget.py
 EstateTargetGameStart = "O jogo do Alvo de Toonar começou!"
@@ -10938,6 +10941,7 @@ TipDict = {
     "Você deve completar o seu Disfarce de Robô Vendedor antes de visitar o VP.",
     "Você deve completar o seu Disfarce de Robô Mercenário antes de visitar o Diretor Financeiro.",
     "Você deve completar o seu Disfarce de Robô da Lei antes de visitar o Juiz-chefe.",
+    "Você deve completar o seu Disfarce de Robô-chefe antes de visitar o Presidente.",
     "Você pode pular em cima de cogs Brutamontes para desativá-los por um tempo.",
     "Ganhe Méritos de cogs ao derrotar Robôs Vendedores em batalha.",
     "Ganhe Cograna ao derrotar Robôs Mercenários em batalha.",
@@ -10947,9 +10951,10 @@ TipDict = {
     "Quando conseguir juntar Cogranas o suficiente para merecer uma promoção, vá ver o Diretor Financeiro dos Robôs Mercenários!",
     "Quando conseguir juntar Avisos de Júri o suficiente para merecer uma promoção, vá ver o Juiz-chefe dos Robôs da Lei!",
     "Você pode falar como um Cog quando estiver usando o seu Disfarce de Cog.",
-    "Até oito Toons podem lutar juntos contra o VP dos Robôs Vendedores",
-    "Até oito Toons podem lutar juntos contra o Diretor Financeiro dos Robôs Mercenários",
-    "Até oito Toons podem lutar juntos contra o Juiz-chefe dos Robôs da Lei",
+    "Até oito Toons podem lutar juntos contra o VP dos Robôs Vendedores.",
+    "Até oito Toons podem lutar juntos contra o Diretor Financeiro dos Robôs Mercenários.",
+    "Até oito Toons podem lutar juntos contra o Juiz-chefe dos Robôs da Lei.",
+    "Até oito Toons podem lutar juntos contra o Presidente dos Robôs-chefe.",
     "Dentro do Quartel dos Cogs, o caminho é subindo as escadas.",
     "Cada vez que lutar numa fábrica do Quartel dos Robôs Vendedores, você vai ganhar uma peça do seu Disfarce de Robô Vendedor.",
     "Você pode verificar o progresso do seu Disfarce no seu Álbum Toon.",
@@ -12480,18 +12485,18 @@ OvertimeAttackTaunts = [ "É hora de reorganizar.",
                         "Temos gente para demitir."]
 
 #ElevatorDestination Names
-ElevatorBossBotBoss = "Batalha do C.E.O."
+ElevatorBossBotBoss = "Batalha do Presidente."
 ElevatorBossBotCourse = "Campo de Golfe Cog"
-ElevatorBossBotCourse0 = "O Front Three (Três da Frente)"
-ElevatorBossBotCourse1 = "O Middle Six (Seis do Meio)"
-ElevatorBossBotCourse2 = "O Back Nine (Nove dos Fundos)"
-ElevatorCashBotBoss = "Batalha do C.F.O"
-ElevatorCashBotMint0 = "Coin Mint (a Mina de Moedas)"
-ElevatorCashBotMint1 = "Dollar Mint (a Mina de Dinheiro)"
-ElevatorCashBotMint2 = "Bullion Mint (a Mina de Ouro)"
-ElevatorSellBotBoss = "Batalha do Sellbot"
+ElevatorBossBotCourse0 = "O Três da Frente"
+ElevatorBossBotCourse1 = "O Seis do Meio"
+ElevatorBossBotCourse2 = "O Nove dos Fundos"
+ElevatorCashBotBoss = "Batalha do Diretor Financeiro"
+ElevatorCashBotMint0 = "Casa da Moeda"
+ElevatorCashBotMint1 = "Casa da Moeda de Dólar"
+ElevatorCashBotMint2 = "Casa da Moeda de Barras de Ouro"
+ElevatorSellBotBoss = "Batalha do V. P. Sênior"
 ElevatorSellBotFactory0 = "Entrada Principal"
-ElevatorSellBotFactory1 = "Entrada dos Fundos"
+ElevatorSellBotFactory1 = "Entrada Lateral"
 ElevatorLawBotBoss = "Batalha do Juiz-Chefe"
 ElevatorLawBotCourse0 = "Escritório A"
 ElevatorLawBotCourse1 = "Escritório B"

@@ -1,14 +1,15 @@
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase.PythonUtil import formatTimeExact
+from toontown.toonbase.ToontownModules import *
 
 Settings = ScratchPad(
-    DetectWindow = config.GetFloat('code-redemption-spam-detect-window', 30.), # minutes
-    DetectThreshold = config.GetInt('code-redemption-spam-detect-threshold', 10),
-    FirstPenalty = config.GetFloat('code-redemption-spam-first-penalty', .5), # minutes
-    PenaltyMultiplier = config.GetFloat('code-redemption-spam-penalty-multiplier', 2.),
-    MaxPenaltyDays = config.GetFloat('code-redemption-spam-max-penalty-days', 2.),
-    PenaltyResetDays = config.GetFloat('code-redemption-penalty-reset-days', 7.),
+    DetectWindow = ConfigVariableDouble('code-redemption-spam-detect-window', 30.).getValue(), # minutes
+    DetectThreshold = ConfigVariableInt('code-redemption-spam-detect-threshold', 10).getValue(),
+    FirstPenalty = ConfigVariableDouble('code-redemption-spam-first-penalty', .5).getValue(), # minutes
+    PenaltyMultiplier = ConfigVariableDouble('code-redemption-spam-penalty-multiplier', 2.).getValue(),
+    MaxPenaltyDays = ConfigVariableDouble('code-redemption-spam-max-penalty-days', 2.).getValue(),
+    PenaltyResetDays = ConfigVariableDouble('code-redemption-penalty-reset-days', 7.).getValue(),
     )
 
 class TTCodeRedemptionSpamDetector:
@@ -118,10 +119,10 @@ if __dev__:
             self.notify.info('starting tests...')
             self._thresholdTest()
             self._timeoutTest()
-            
+
         def destroy(self):
             self._detector = None
-            
+
         def _thresholdTest(self):
             avId = next(self._idGen)
             for i in range(Settings.DetectThreshold+1):
@@ -131,7 +132,7 @@ if __dev__:
                 else:
                     assert self._detector.avIsBlocked(avId)
             self.notify.info('threshold test passed.')
-                    
+
         def _timeoutTest(self):
             avId = next(self._idGen)
             for i in range(Settings.DetectThreshold+1):
@@ -144,13 +145,13 @@ if __dev__:
                                uniqueName('timeoutEarlyTest'))
             self.doMethodLater(Settings.FirstPenalty * 60 * 10, Functor(self._timeoutLateTest, avId),
                                uniqueName('timeoutLateTest'))
-            
+
         def _timeoutEarlyTest(self, avId, task=None):
             # only do this test if we didn't chug
             if (globalClock.getRealTime() - self._timeoutTestStartT) < (self._timeoutTestEventT * .9):
                 assert self._detector.avIsBlocked(avId)
             return task.done
-        
+
         def _timeoutLateTest(self, avId, task=None):
             assert not self._detector.avIsBlocked(avId)
             for i in range(Settings.DetectThreshold+1):

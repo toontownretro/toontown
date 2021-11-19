@@ -33,7 +33,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
     def startup(self):
         HoodDataAI.HoodDataAI.startup(self)
 
-        if simbase.air.config.GetBool('create-chip-and-dale', 1):
+        if ConfigVariableBool('create-chip-and-dale', 1).getValue():
             chip = DistributedChipAI.DistributedChipAI(self.air)
             chip.generateWithRequired(self.zoneId)
             chip.start()
@@ -60,7 +60,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
         self.createPicnicTables()
         #Code Copy Paste, create game tables from dna
 
-        if simbase.config.GetBool('want-game-tables', 0):
+        if ConfigVariableBool('want-game-tables', 0).getValue():
             self.createGameTables()
 
 	#more hacks!

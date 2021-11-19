@@ -766,11 +766,11 @@ class Purchase(PurchaseBase):
 
         if not self.tutorialMode:
             # Start the timer countdown
-            if not config.GetBool('disable-purchase-timer', 0):
+            if not ConfigVariableBool('disable-purchase-timer', 0).getValue():
                 self.timer.show()
                 self.timer.countdown(self.remain, self.__timerExpired)
 
-            if config.GetBool('metagame-disable-playAgain',0):
+            if ConfigVariableBool('metagame-disable-playAgain',0).getValue():
                 if self.metagameRound > -1:
                     self.disablePlayAgain()
 

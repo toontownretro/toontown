@@ -111,7 +111,7 @@ class DistributedRacePadAI( DistributedKartPadAI, FSM ):
 
         # Make sure this track is open
         #if (self.trackId in (RaceGlobals.RT_Urban_1, RaceGlobals.RT_Urban_1_rev) and
-        #    not simbase.config.GetBool('test-urban-track', 0)):
+        #    not ConfigVariableBool('test-urban-track', 0).getValue()):
         #    return KartGlobals.ERROR_CODE.eTrackClosed
 
         grandPrixWeekendRunning = self.air.holidayManager.isHolidayRunning(

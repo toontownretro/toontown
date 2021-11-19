@@ -435,6 +435,18 @@ class RaceWinningsPanel(DirectFrame):
             text_font = DGG.getDefaultFont()
             )
 
+        self.doubleTicketsLabel = DirectLabel(
+            parent = tFrame,
+            relief = None,
+            pos = (0.5, 0.0, -0.26),
+            text = TTLocalizer.KartRace_DoubleTickets,
+            text_fg = (1.0, 0.125, 0.125, 1.0),
+            text_scale = TTLocalizer.REPraceEnd,
+            text_align = TextNode.ACenter,
+            text_shadow = (0, 0, 0, 1),
+            text_font = DGG.getDefaultFont()
+            )
+
         fLabel = DirectLabel(
             parent = tFrame,
             relief = None,
@@ -599,6 +611,10 @@ class RaceWinningsPanel(DirectFrame):
         else:
             self.circuitTotalLabel.stash()
             self.raceTotalLabel.unstash()
+
+
+        if (ToontownGlobals.KARTING_TICKETS_HOLIDAY not in base.cr.newsManager.getHolidayIdList() or (self.race.raceType != RaceGlobals.Practice)):
+            self.doubleTicketsLabel.stash()
 
 
         if ticBonus:

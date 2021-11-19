@@ -716,14 +716,80 @@ SuitAnimList = [
     Suit.AllSuits,
     Suit.AllSuitsMinigame,
     Suit.AllSuitsTutorialBattle,
-    Suit.AllSuitsBattle
+    Suit.AllSuitsBattle,
+    Suit.SuitsCEOBattle,
+	Suit.f,
+	Suit.p,
+	Suit.ym,
+	Suit.mm,
+	Suit.ds,
+	Suit.hh,
+	Suit.cr,
+	Suit.tbc,
+	Suit.cc,
+	Suit.tm,
+	Suit.nd,
+	Suit.gh,
+	Suit.ms,
+	Suit.tf,
+	Suit.m,
+	Suit.mh,
+	Suit.sc,
+	Suit.pp,
+	Suit.tw,
+	Suit.bc,
+	Suit.nc,
+	Suit.mb,
+	Suit.ls,
+	Suit.rb,
+	Suit.bf,
+	Suit.b,
+	Suit.dt,
+	Suit.ac,
+	Suit.bs,
+	Suit.sd,
+	Suit.le,
+	Suit.bw
     ]
 
 SuitAnimCategories = [
     'All',
     'Minigame',
     'Tutorial',
-    'Battle'
+    'Battle',
+    'CEO',
+    'Flunky',
+    'Pencil Pusher',
+    'Yesman',
+	'Micromanager',
+	'Downsizer',
+	'Head Hunter',
+	'Corporate Raider',
+	'The Big Cheese',
+	'Cold Caller',
+	'Telemarketer',
+	'Name Dropper',
+	'Glad Hander',
+	'Mover & Shaker',
+	'Two-Face',
+	'The Mingler',
+	'Mr. Hollywood',
+	'Short Change',
+	'Penny Pincher',
+	'Tightwad',
+	'Bean Counter',
+	'Number Cruncher',
+	'Money Bag',
+	'Loan Shark',
+	'Robber Baron',
+	'Bottom Feeder',
+	'Bloodsucker',
+	'Double-Talker',
+	'Ambulance Chaser',
+	'Backstabber',
+	'Spin Doctor',
+	'Legal Eagle',
+	'Big Wig'
     ]
 
 SuitTrackList = [
@@ -829,7 +895,7 @@ if sys.argv[1:]:
 # If you do not run from the command line, we just load all of them
 # or you can hack this up for your own purposes.
 else:
-    hoodString = base.config.GetString('level-editor-hoods', 'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA')
+    hoodString = ConfigVariableString('level-editor-hoods', 'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA').getValue()
     hoods = hoodString.split()
 
 # The list of neighborhoods to edit
@@ -861,7 +927,7 @@ for hoodId in hoods:
         print('Error: no hood defined for: ', hoodId)
 
 # Load DNA
-dnaDirectory = Filename.expandFrom(base.config.GetString("dna-directory", "$TTMODELS/src/dna"))
+dnaDirectory = Filename.expandFrom(ConfigVariableString("dna-directory", "$TTMODELS/src/dna").getValue())
 
 try:
     if dnaLoaded:
@@ -1029,13 +1095,10 @@ class RobotToonManager(DirectObject):
 
     def makeRandomToon(self, toNpcId = None):
         # Check for intersection
-        entry = self.iRay.pickGeom(
-            skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA)
-        if not entry:
-            # Try again just at the center of the screen
-            entry = self.iRay.pickGeom(
-                skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA,
-                xy = (0, -0.2))
+        entry = self.iRay.pickGeom(skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA)
+#        if not entry:
+#            # Try again just at the center of the screen
+#            entry = self.iRay.pickGeom(skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA, xy = (0, -0.2))
         # If we got a valid intersection point
         if entry:
             self.s1.setPos(camera, entry.getSurfacePoint(entry.getFromNodePath()))
@@ -1200,7 +1263,7 @@ class RobotToonManager(DirectObject):
 
     def openCrowdFile(self, tcfFilename):
             filename = Filename(tcfFilename)
-            f = open(filename.toOsSpecific(), 'rb')
+            f = open(filename.toOsSpecific(), 'r')
             rawData = f.readlines()
             for line in rawData:
                 (type,props,pos,hpr,startPos,startHpr,
@@ -1214,7 +1277,7 @@ class RobotToonManager(DirectObject):
             f.close()
 
     def parseAvatarProperties(self, line):
-        line = string.strip(line)
+        line = str.strip(line)
         if line:
             line = line.split('*')
         i = 0
@@ -1224,16 +1287,16 @@ class RobotToonManager(DirectObject):
             torso = line[i];i+=1
             legs = line[i];i+=1
             gender = line[i];i+=1
-            armColor = string.atoi(line[i]);i+=1
-            gloveColor = string.atoi(line[i]);i+=1
-            legColor = string.atoi(line[i]);i+=1
-            headColor = string.atoi(line[i]);i+=1
-            topTexture = string.atoi(line[i]);i+=1
-            topTextureColor = string.atoi(line[i]);i+=1
-            sleeveTexture = string.atoi(line[i]);i+=1
-            sleeveTextureColor = string.atoi(line[i]);i+=1
-            bottomTexture = string.atoi(line[i]);i+=1
-            bottomTextureColor = string.atoi(line[i]);i+=1
+            armColor = int(line[i]);i+=1
+            gloveColor = int(line[i]);i+=1
+            legColor = int(line[i]);i+=1
+            headColor = int(line[i]);i+=1
+            topTexture = int(line[i]);i+=1
+            topTextureColor = int(line[i]);i+=1
+            sleeveTexture = int(line[i]);i+=1
+            sleeveTextureColor = int(line[i]);i+=1
+            bottomTexture = int(line[i]);i+=1
+            bottomTextureColor = int(line[i]);i+=1
             props = [head, torso, legs, gender,
                     armColor, gloveColor, legColor, headColor,
                     topTexture, topTextureColor, sleeveTexture,
@@ -1279,7 +1342,7 @@ class RobotToonManager(DirectObject):
             title = 'Save Toon Crowd File')
         if tcfFilename:
             filename = Filename(tcfFilename)
-            f = open(filename.toOsSpecific(), 'wb')
+            f = open(filename.toOsSpecific(), 'w')
             for t in list(self.avatarDict.values()):
                 type = t.style.type
                 if type == 't':
@@ -1303,13 +1366,13 @@ class RobotToonManager(DirectObject):
                 endPose = ("%0.2f*%0.2f*%0.2f*%0.2f*%0.2f*%0.2f" %
                            (t.endPos[0],t.endPos[1],t.endPos[2],
                             t.endHpr[0],t.endHpr[1],t.endHpr[2]))
-                state = t.state
+                state = t._state
                 f.write("%s*%s*%s*%s*%s*%s\n" %
                         (type,styleStr,pose,startPose,endPose,state))
             f.close()
 
     def pieMenuCommand(self, cmd):
-        if base.config.GetBool('want-new-anims', 1):
+        if ConfigVariableBool('want-new-anims', 1).getValue():
             return
         if self.selectedToon:
             if cmd == 'start pos':
@@ -1597,8 +1660,8 @@ class RobotToonManager(DirectObject):
                 self.selectedToon,session = self)
             self.animPanel.setDestroyCallBack(self.animPanelClosed)
 
-        if self.selectedToon and self.selectedToon.state:
-            self.setToonAnimState(self.selectedToon.state)
+        if self.selectedToon and self.selectedToon._state:
+            self.setToonAnimState(self.selectedToon._state)
 
     def animPanelClosed(self):
         self.animPanel = None
@@ -1607,8 +1670,8 @@ class RobotToonManager(DirectObject):
         if not self.animPanel:
             self.showAnimPanel()
         if self.selectedToon:
-            self.selectedToon.state = self.animPanel.actorControlList[0]['active']
-            return self.selectedToon.state
+            self.selectedToon._state = self.animPanel.actorControlList[0]['active']
+            return self.selectedToon._state
 
     def nextAnim(self, modifiers = 0):
         if not self.animPanel:
@@ -1768,7 +1831,7 @@ class RobotToonControlPanel(AppShell):
                                            scrolledCanvas_hull_height = 50)
         self.explorer.pack(fill = BOTH, expand = 1)
         self.explorerFrame.pack(fill = BOTH, expand = 1)
-        self.explorer._node.state = 'expanded'
+        self.explorer._node._state = 'expanded'
 
         # Create the notebook pages
         self.notebook = Pmw.NoteBook(self.notebookFrame)
@@ -2198,7 +2261,7 @@ class RobotToonControlPanel(AppShell):
 
         animFrame = Frame(self.pageOne)
 
-        if not base.config.GetBool('want-new-anims', 1):
+        if not ConfigVariableBool('want-new-anims', 1).getValue():
             self.animButton = Menubutton(animFrame, width = 18,
                                          text = 'Anims',
                                          relief = RAISED,
@@ -3186,7 +3249,7 @@ class RobotToonControlPanel(AppShell):
                 st.style.torso = 'ms'
                 st.swapToonTorso(st.style.torso)
                 st.generateToonClothes()
-                st.loop(st.state)
+                st.loop(st._state)
                 self.updateGenderRelatedInfo()
 
     def setGender(self, gender):
@@ -3342,7 +3405,7 @@ class RobotToonControlPanel(AppShell):
                 fUpdate = 0
             st.style.torso = torsoType
             st.swapToonTorso(st.style.torso)
-            st.loop(st.state)
+            st.loop(st._state)
             if fUpdate:
                 self.updateGenderRelatedInfo()
 
@@ -3354,7 +3417,7 @@ class RobotToonControlPanel(AppShell):
         if st:
             st.style.legs = legsType
             st.swapToonLegs(st.style.legs)
-            st.loop(st.state)
+            st.loop(st._state)
 
     def setToonName(self, event = None):
         if self.rtm.selectedToon:

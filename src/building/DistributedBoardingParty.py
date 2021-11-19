@@ -44,7 +44,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
         localAvatar.chatMgr.chatInputSpeedChat.addBoardingGroupMenu(canonicalZoneId)
 
         #REMOVE THIS from here and put it in the right place:
-        if base.config.GetBool('want-singing', 0):
+        if ConfigVariableBool('want-singing', 0).getValue():
             localAvatar.chatMgr.chatInputSpeedChat.addSingingGroupMenu()
 
     def delete(self):

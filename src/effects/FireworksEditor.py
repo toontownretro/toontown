@@ -20,7 +20,7 @@ ttmodelsDirectory = Filename.expandFrom("$TTMODELS")
 
 UppercaseColorNames = list(map(string.upper, ColorNames))
 
-dnaDirectory = Filename.expandFrom(base.config.GetString("dna-directory", "$TTMODELS/src/dna"))
+dnaDirectory = Filename.expandFrom(ConfigVariableString("dna-directory", "$TTMODELS/src/dna").getValue())
 
 def fwTuple2Str(tuple):
     styleStr = styleNames[tuple[FW_STYLE]]

@@ -1,7 +1,6 @@
 from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 
 from direct.fsm import ClassicFSM, State

@@ -156,7 +156,7 @@ class PublicPartyGui(DirectFrame):
         self.partyStartButton["state"] = DirectGuiGlobals.DISABLED
         # put parties with most toons at the top
         sortedList = partyInfoTupleList[:]
-        #for i in xrange(20):
+        #for i in range(20):
         #    sortedList.append((202000000, 61000, i+2, "Good ol' Knuckles CrunchenGrooven", [0, 1, 2, 4, 5, 7], 30-i))
 
         def cmp(left, right):

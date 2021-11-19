@@ -8,6 +8,7 @@ from direct.gui.DirectGui import DirectFrame , DirectButton, DGG, DirectLabel
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
+from toontown.toonbase.ToontownModules import *
 
 WEB_WIDTH_PIXELS = 784
 WEB_HEIGHT_PIXELS = 451
@@ -20,7 +21,7 @@ WIN_HEIGHT = 600
 
 class IssueFrame(DirectFrame):
 
-    NewsBaseDir = config.GetString("news-base-dir", "/httpNews")
+    NewsBaseDir = ConfigVariableString("news-base-dir", "/httpNews").getValue()
     # taken from In Game NewsFrame
     FrameDimensions = (-1.30666637421, 1.30666637421, -0.751666665077, 0.751666665077)
     notify = DirectNotifyGlobal.directNotify.newCategory("IssueFrame")
@@ -425,6 +426,8 @@ class IssueFrame(DirectFrame):
 
     def gotoPage(self, section, subsection):
         """Display the sectionFrame that corresponds to that page."""
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: INGAMENEWS: Goto Page')
         self.sectionFrames[self.curSection][self.curSubsection].hide()
         self.sectionFrames[section][subsection].show()
         self.curSection = section
@@ -546,4 +549,6 @@ class IssueFrame(DirectFrame):
 
     def changeWeek(self, newIssueWeek):
         """Handle player pressing next or prev week buttons."""
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: INGAMENEWS: Change Week')
         messenger.send("newsChangeWeek", [newIssueWeek])

@@ -1,9 +1,9 @@
-#from ShowBaseGlobal import *
-#import ToontownClientRepository
+#from direct.showbase.ShowBaseGlobal import *
+#from toontown.distributed import ToontownClientRepository
 
 #cr = ToontownClientRepository.ToontownClientRepository("D:\\Cygwin\\home\\jnschell\\player\\toontown\\src\\configfiles\\toon.dc")
 
-#import FSMInspector
+#from direct.tkpanels import FSMInspector
 #ins = FSMInspector.FSMInspector(ClassicFSM=cr.fsm)
 
 #cr.fsm.request("connect", ["206.18.93.17", 6667])

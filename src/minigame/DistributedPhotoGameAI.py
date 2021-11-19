@@ -9,12 +9,12 @@ from toontown.minigame import PhotoGameBase
 import random
 
 class DistributedPhotoGameAI(DistributedMinigameAI, PhotoGameBase.PhotoGameBase):
-    
+
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPhotoGameAI")
 
     def __init__(self, air, minigameId):
         DistributedMinigameAI.__init__(self, air, minigameId)
-        
+
         PhotoGameBase.PhotoGameBase.__init__(self)
 
         self.gameFSM = ClassicFSM.ClassicFSM('DistributedPhotoGameAI',
@@ -89,7 +89,7 @@ class DistributedPhotoGameAI(DistributedMinigameAI, PhotoGameBase.PhotoGameBase)
         self.notify.debug("enterPlay")
 
         # Start the game timer
-        if not config.GetBool('endless-photo-game', 0):
+        if not ConfigVariableBool('endless-photo-game', 0).getValue():
             taskMgr.doMethodLater(self.data["TIME"],
                                   self.timerExpired,
                                   self.taskName("gameTimer"))
@@ -121,7 +121,7 @@ class DistributedPhotoGameAI(DistributedMinigameAI, PhotoGameBase.PhotoGameBase)
             dataEntry = [template[0], template[1], playerScores, highScorer]
             assignmentData.append(dataEntry)
         return assignmentData
-        
+
     def checkForFilmOut(self):
         numOut = 0
         for entry in self.filmCountList:
@@ -133,7 +133,7 @@ class DistributedPhotoGameAI(DistributedMinigameAI, PhotoGameBase.PhotoGameBase)
                 numPlayers += 1
         if numOut >= numPlayers:
             self.timerExpired()
-    
+
     def filmOut(self):
         avId = self.air.getAvatarIdFromSender()
         if avId not in self.avIdList:
@@ -146,8 +146,8 @@ class DistributedPhotoGameAI(DistributedMinigameAI, PhotoGameBase.PhotoGameBase)
         playerIndex = self.avIdList.index(avId)
         self.filmCountList[playerIndex] = self.data["FILMCOUNT"]
         self.checkForFilmOut()
-        
-        
+
+
     def newClientPhotoScore(self, subjectIndex, pose, score):
         avId = self.air.getAvatarIdFromSender()
         if (self.gameFSM.getCurrentState() is None) or (self.gameFSM.getCurrentState().getName() != 'play'):
@@ -178,12 +178,12 @@ class DistributedPhotoGameAI(DistributedMinigameAI, PhotoGameBase.PhotoGameBase)
             elif self.assignmentData[assignmentIndex][2][highScorer] < self.assignmentData[assignmentIndex][2][playerIndex]:
                 self.assignmentData[assignmentIndex][3] = playerIndex
             self.sendUpdate("newAIPhotoScore", [avId, assignmentIndex, score])
-        
+
         self.notify.debug("newClientPhotoScore %s %s %s %s" % (avId, subjectIndex, pose, score))
         for data in self.assignmentData:
             self.notify.debug(str(data))
             pass
-            
+
     def calculateScores(self):
         playerBonus = [0.0,0.0,0.0,0.0]
         teamScore = 0.0
@@ -203,12 +203,12 @@ class DistributedPhotoGameAI(DistributedMinigameAI, PhotoGameBase.PhotoGameBase)
                 teamScore += highestScore
                 if highestIndex != None:
                     playerBonus[highestIndex] += 1.0
-            
+
         for avIdKey in self.scoreDict:
             playerIndex = self.avIdList.index(avIdKey)
             playerScore = playerBonus[playerIndex] + teamScore
             self.scoreDict[avIdKey] = playerScore
-            
+
         self.notify.debug("Calculated Scores")
         self.notify.debug("playerbonus")
         self.notify.debug(str(playerBonus))
@@ -216,8 +216,8 @@ class DistributedPhotoGameAI(DistributedMinigameAI, PhotoGameBase.PhotoGameBase)
         self.notify.debug(str(teamScore))
         self.notify.debug("dict")
         self.notify.debug(str(self.scoreDict))
-        
-        
+
+
 
     def exitPlay(self):
         taskMgr.remove(self.taskName("gameTimer"))

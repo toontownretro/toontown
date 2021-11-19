@@ -15,7 +15,7 @@ from . import GagshopBuildingAI
 from . import PetshopBuildingAI
 from toontown.building.KartShopBuildingAI import KartShopBuildingAI
 from toontown.building import DistributedAnimBuildingAI
-#import DistributedDoorAI
+#from . import DistributedDoorAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import ZoneUtil
 import time
@@ -59,7 +59,7 @@ class DistributedBuildingMgrAI:
     """
 
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBuildingMgrAI')
-    serverDatafolder = simbase.config.GetString('server-data-folder', "")
+    serverDatafolder = ConfigVariableString('server-data-folder', "").getValue()
 
     def __init__(self, air, branchID, dnaStore, trophyMgr):
         """

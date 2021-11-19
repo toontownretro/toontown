@@ -24,6 +24,7 @@ from toontown.minigame.DistributedMinigame import DistributedMinigame
 from toontown.minigame import Trajectory
 from toontown.minigame import MinigameGlobals
 from toontown.minigame import CogThiefWalk
+from toontown.toonbase.ToontownModules import *
 
 CTGG = CogThiefGameGlobals
 class DistributedCogThiefGame(DistributedMinigame):
@@ -88,7 +89,7 @@ class DistributedCogThiefGame(DistributedMinigame):
         self.cogInfo = {}
         self.lastTimeControlPressed = 0
         self.stolenBarrels = []
-        self.useOrthoWalk = base.config.GetBool('cog-thief-ortho', 1)
+        self.useOrthoWalk = ConfigVariableBool('cog-thief-ortho', 1).getValue()
 
         self.resultIval = None
         self.gameIsEnding = False
@@ -413,7 +414,7 @@ class DistributedCogThiefGame(DistributedMinigame):
 
         # Start counting down the game clock,
         # call __gameTimerExpired when it reaches 0
-        if not base.config.GetBool('cog-thief-endless', 0):
+        if not ConfigVariableBool('cog-thief-endless', 0).getValue():
             self.timer.show()
             self.timer.countdown(CTGG.GameTime,
                              self.__gameTimerExpired)
@@ -502,7 +503,7 @@ class DistributedCogThiefGame(DistributedMinigame):
         p = self.cameraTopView
         camera.setPosHpr(p[0], p[1], p[2], p[3], p[4], p[5])
 
-        camera.setZ(camera.getZ() + base.config.GetFloat('cog-thief-z-camera-adjust',0.0))
+        camera.setZ(camera.getZ() + ConfigVariableDouble('cog-thief-z-camera-adjust',0.0).getValue())
 
 
     # orthowalk init/shutdown
@@ -1203,8 +1204,8 @@ class DistributedCogThiefGame(DistributedMinigame):
             self.stolenBarrels.append(barrelIndex)
             barrel = self.barrels[barrelIndex]
             barrel.hide()
-        if base.config.GetBool('cog-thief-check-barrels', 1):
-            if not base.config.GetBool('cog-thief-endless', 0):
+        if ConfigVariableBool('cog-thief-check-barrels', 1).getValue():
+            if not ConfigVariableBool('cog-thief-endless', 0).getValue():
                 if len(self.stolenBarrels) == len(self.barrels):
                     localStamp = globalClockDelta.networkToLocalTime(timestamp, bits=32)
                     gameTime = self.local2GameTime(localStamp)
@@ -1312,7 +1313,7 @@ class DistributedCogThiefGame(DistributedMinigame):
 
     def getNumCogs(self):
         """Return the number of cogs we have for this game."""
-        result = base.config.GetInt('cog-thief-num-cogs', 0)
+        result = ConfigVariableInt('cog-thief-num-cogs', 0).getValue()
         if not result:
             safezone = self.getSafezoneId()
             result = CTGG.calculateCogs(self.numPlayers, safezone)

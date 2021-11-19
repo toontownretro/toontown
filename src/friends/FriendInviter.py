@@ -2,7 +2,6 @@ from toontown.toonbase.ToontownModules import *
 from direct.task.Task import Task
 from toontown.toonbase.ToontownGlobals import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
@@ -55,7 +54,7 @@ class FriendInviter(DirectFrame):
     def __init__(self, avId, avName, avDisableName):
 
         # config player friends off until PAM templates integrate with the website
-        self.wantPlayerFriends = base.config.GetBool('want-player-friends', 0)
+        self.wantPlayerFriends = ConfigVariableBool('want-player-friends', 0).getValue()
 
         # initialize our base class.
         DirectFrame.__init__(
@@ -849,6 +848,8 @@ class FriendInviter(DirectFrame):
     ### Button handing methods
 
     def __handleOk(self):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: MAKEAFRIENDSHIP: Make a friendship')
         unloadFriendInviter()
 
     def __handleCancel(self):
@@ -858,6 +859,8 @@ class FriendInviter(DirectFrame):
         unloadFriendInviter()
 
     def __handleStop(self):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: BREAKAFRIENDSHIP: Break a friendship')
         self.fsm.request('endFriendship')
 
     def __handleYes(self):

@@ -48,6 +48,7 @@ from toontown.ai import MailboxBuffHolidayAI
 from toontown.ai import TrashcanBuffHolidayAI
 from toontown.ai import ValentinesDayMgrAI
 from toontown.ai import SillyMeterHolidayAI
+from toontown.toonbase.ToontownModules import *
 
 #################################################################
 # Localization Specific Modules
@@ -111,7 +112,7 @@ OncelyMultipleStartHolidays = (ToontownGlobals.COLD_CALLER_INVASION,
 # StartHour = 19
 
 # we are creating this system so it's easier to start holidays on the test server ahead of schedule
-TestServerHolidayDaysAhead = simbase.config.GetInt("test-server-holiday-days-ahead", 0)
+TestServerHolidayDaysAhead = ConfigVariableInt("test-server-holiday-days-ahead", 0).getValue()
 TestServerHolidayTimeDelta = timedelta(days = TestServerHolidayDaysAhead)
 
 # TODO figure out how to make this work for more than just oncely holidays
@@ -993,7 +994,7 @@ class HolidayManagerAI:
         ),
     }
 
-    if not simbase.config.GetBool('want-silly-test', False):
+    if not ConfigVariableBool('want-silly-test', False).getValue():
         del holidaysCommon[ToontownGlobals.SILLY_TEST]
 
     holidaysEnglish = {
@@ -1714,10 +1715,10 @@ class HolidayManagerAI:
 
 #LAWBOT_NERF_HOLIDAY
 
-        ToontownGlobals.KARTING_TICKETS_HOLIDAY: HolidayInfo_Oncely(
+        ToontownGlobals.KARTING_TICKETS_HOLIDAY: HolidayInfo_Yearly(
         None,
-        [(2012, Month.MAY, 24, 0, 0, 1),
-         (2012, Month.MAY, 28, 23, 59, 59)],
+        [(Month.MAY, 24, 0, 0, 1),
+         (Month.MAY, 28, 23, 59, 59)],
         displayOnCalendar = False,
         ),
 
@@ -2067,7 +2068,7 @@ class HolidayManagerAI:
         )
     }
 
-    language = simbase.config.GetString('language', 'english')
+    language = ConfigVariableString('language', 'english').getValue()
     if language == 'english':
         holidaysCommon.update(holidaysEnglish)
     elif language == 'japanese':
@@ -2124,7 +2125,7 @@ class HolidayManagerAI:
                 displayOnCalendar = True,
                 )
 
-        if simbase.config.GetBool('want-trolley-holiday', 1):
+        if ConfigVariableBool('want-trolley-holiday', 1).getValue():
             holidays[ToontownGlobals.TROLLEY_HOLIDAY] = HolidayInfo_Weekly(
                 TrolleyHolidayMgrAI.TrolleyHolidayMgrAI,
                 [(Day.THURSDAY, 0, 0, 1),
@@ -2133,7 +2134,7 @@ class HolidayManagerAI:
                 displayOnCalendar = True,
                 )
 
-        if simbase.config.GetBool('want-trolley-holiday-everyday', 0):
+        if ConfigVariableBool('want-trolley-holiday-everyday', 0).getValue():
             holidays[ToontownGlobals.TROLLEY_HOLIDAY] = HolidayInfo_Daily(
                 TrolleyHolidayMgrAI.TrolleyHolidayMgrAI,
                 [(12, 0, 1),
@@ -2145,7 +2146,7 @@ class HolidayManagerAI:
         # Silly Saturday is a compound holiday - it is composed of alternating 2-hour blocks
         # of Fish Bingo, Circuit Racing, and Trolley Holiday for 24 hours
 
-        if simbase.config.GetBool('want-silly-saturday', 1):
+        if ConfigVariableBool('want-silly-saturday', 1).getValue():
             holidays[ToontownGlobals.SILLY_SATURDAY_BINGO] = HolidayInfo_Weekly(
                 BingoNightHolidayAI.BingoNightHolidayAI,
                 [(Day.SATURDAY, 0, 0, 1),

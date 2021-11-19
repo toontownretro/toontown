@@ -20,7 +20,7 @@ class DistributedInGameEditorAI(DistributedObjectAI.DistributedObjectAI):
         DistributedObjectAI.DistributedObjectAI.generate(self)
 
         simbase.levelEditor = self
-        
+
         self.acceptOnce(self.air.getAvatarExitEvent(self.editorAvId),
                         self.setFinished)
 
@@ -43,7 +43,7 @@ class DistributedInGameEditorAI(DistributedObjectAI.DistributedObjectAI):
 
     def getEditUsername(self):
         return self.editUsername
-    
+
     def getLevelDoId(self):
         return self.levelDoId
 
@@ -57,7 +57,7 @@ class DistributedInGameEditorAI(DistributedObjectAI.DistributedObjectAI):
         largeBlob = DistributedLargeBlobSenderAI.\
                     DistributedLargeBlobSenderAI(
             self.air, self.zoneId, self.editorAvId, specStr,
-            useDisk=simbase.config.GetBool('spec-by-disk', 1))
+            useDisk=ConfigVariableBool('spec-by-disk', 1).getValue())
         self.sendUpdateToAvatarId(self.editorAvId,
                                   'setSpecSenderDoId', [largeBlob.doId])
 

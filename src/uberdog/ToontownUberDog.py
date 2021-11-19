@@ -22,6 +22,7 @@ from toontown.rpc.RATManagerUD import RATManagerUD
 from toontown.rpc.AwardManagerUD import AwardManagerUD
 from toontown.uberdog import TTSpeedchatRelayUD
 from toontown.uberdog import DistributedInGameNewsMgrUD
+from toontown.uberdog import DistributedWhitelistMgrUD
 from toontown.uberdog import DistributedCpuInfoMgrUD
 
 from otp.uberdog.RejectCode import RejectCode
@@ -40,7 +41,7 @@ class ToontownUberDog(UberDog):
 
         def isManagerFor(name):
             return len(uber.objectNames) == 0 or name in uber.objectNames
- 
+
         self.isFriendsManager = False # latest from Ian this should not run anymore
         #self.isFriendsManager = isManagerFor('friends')
         self.isSpeedchatRelay = isManagerFor('speedchatRelay')
@@ -51,6 +52,7 @@ class ToontownUberDog(UberDog):
         self.isAwardManager = isManagerFor('award')
         self.isCodeRedemptionManager = isManagerFor('coderedemption')
         self.isInGameNewsMgr = isManagerFor('ingamenews')
+        self.isWhitelistMgr = isManagerFor('whitelist')
         self.isCpuInfoMgr = isManagerFor('cpuinfo')
         self.isRandomSourceManager = False # isManagerFor('randomsource')
 
@@ -88,7 +90,7 @@ class ToontownUberDog(UberDog):
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_PARTY_MANAGER,
                 "DistributedPartyManager")
 
-        if simbase.config.GetBool('want-ddsm', 1):
+        if ConfigVariableBool('want-ddsm', 1).getValue():
             self.dataStoreManager = self.generateGlobalObject(
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_TEMP_STORE_MANAGER,
                 "DistributedDataStoreManager")
@@ -103,7 +105,7 @@ class ToontownUberDog(UberDog):
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_AWARD_MANAGER,
                 "AwardManager")
 
-        if config.GetBool('want-code-redemption', 1):
+        if ConfigVariableBool('want-code-redemption', 1).getValue():
             if self.isCodeRedemptionManager:
                 self.codeRedemptionManager = self.generateGlobalObject(
                     OtpDoGlobals.OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER,
@@ -113,6 +115,11 @@ class ToontownUberDog(UberDog):
             self.inGameNewsMgr = self.generateGlobalObject(
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_IN_GAME_NEWS_MANAGER,
                 "DistributedInGameNewsMgr")
+
+        if self.isWhitelistMgr:
+            self.whitelistMgr = self.generateGlobalObject(
+                OtpDoGlobals.OTP_DO_ID_TOONTOWN_WHITELIST_MANAGER,
+                "DistributedWhitelistMgr")
 
         if self.isCpuInfoMgr:
             self.cpuInfoMgr = self.generateGlobalObject(
@@ -131,6 +138,6 @@ class ToontownUberDog(UberDog):
         def status(self):
             if self.isGiftingManager:
                 print("deliveryManager is", self.deliveryManager)
-  
+
             if self.isFriendsManager:
                 print("playerFriendsManager is ",self.playerFriendsManager)

@@ -1,6 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.suit import SuitDNA
+from toontown.toonbase.ToontownModules import *
 
 # This file contains a collection of functions to manage battle
 # experience and generation of reward movies on the AI side.  These
@@ -37,7 +38,7 @@ def getBattleExperience(numToons, activeToons, toonExp,
         BattleExperienceAINotify.warning("=============\nERROR ERROR helpfulToons=None in assignRewards , tell Red")
         if __debug__:
             import pdb; pdb.set_trace()
-    
+
     p = []
     for k in range(numToons):
         toon = None
@@ -52,7 +53,7 @@ def getBattleExperience(numToons, activeToons, toonExp,
             p.append([]) # orig quests
             p.append([]) # items
             p.append([]) # missed items
-            p.append([0, 0, 0, 0]) # orig merits                
+            p.append([0, 0, 0, 0]) # orig merits
             p.append([0, 0, 0, 0]) # merits
             p.append([0, 0, 0, 0]) # parts
         else:
@@ -71,9 +72,9 @@ def getBattleExperience(numToons, activeToons, toonExp,
             p.append(items[1])
             origMerits = toonOrigMerits.get(toonId, [])
             p.append(origMerits)
-            merits = toonMerits.get(toonId, [0, 0, 0, 0])                
+            merits = toonMerits.get(toonId, [0, 0, 0, 0])
             p.append(merits)
-            parts = toonParts.get(toonId, [0, 0, 0, 0])                
+            parts = toonParts.get(toonId, [0, 0, 0, 0])
             p.append(parts)
 
 
@@ -126,8 +127,8 @@ def getBattleExperience(numToons, activeToons, toonExp,
         deathList.extend([typeNum, level, toonBits, flags])
     # Put the deathList in the master array
     p.append(deathList)
-    
-    
+
+
     #add the bitfields of the toons ubergags
     #print("activeToons %s" % (activeToons))
     uberStats = getToonUberStatus(activeToons, numToons)
@@ -142,7 +143,7 @@ def getBattleExperience(numToons, activeToons, toonExp,
     p.append(helpfulToonsList)
 
     return p
-    
+
 def getToonUberStatus(toons, numToons):
     #UBERCHANGE
     #print("getToonUberStatus")
@@ -163,7 +164,7 @@ def getToonUberStatus(toons, numToons):
     if lenDif > 0:
         for index in range(lenDif):
             fieldList.append(-1)
-    #print(fieldList) 
+    #print(fieldList)
     return fieldList
 
 
@@ -173,7 +174,7 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
         BattleExperienceAINotify.warning("=============\nERROR ERROR helpfulToons=None in assignRewards , tell Red")
         if __debug__:
             import pdb; pdb.set_trace()
-        
+
     activeToonList = []
     for t in activeToons:
         toon = simbase.air.doId2do.get(t)
@@ -184,7 +185,7 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
     # toon.
     for toon in activeToonList:
         for i in range(len(ToontownBattleGlobals.Tracks)):
-            
+
             uberIndex = ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1
             exp = getSkillGained(toonSkillPtsGained, toon.doId, i)
             needed = ToontownBattleGlobals.Levels[i][ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1] + ToontownBattleGlobals.UberSkill
@@ -195,7 +196,7 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
             if (toon.inventory.numItem(i, uberIndex) > 0):
                 hasUber = 1
             if (totalExp >= (needed)) or (totalExp >= ToontownBattleGlobals.MaxSkill):
-            #the toon has exceeded the uberGag tredmill threshold 
+            #the toon has exceeded the uberGag tredmill threshold
             #and needs to be awarded the USE of an ubergag
             #then the toon should have their exp level reduced to the amount needed to have the uber gag
                 #print("uber threshold met")
@@ -230,7 +231,7 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
 
         # Tell the quest manager about the cogs this toon killed
         # so it can update the quest progress
-        if simbase.air.config.GetBool('battle-passing-no-credit', True):
+        if ConfigVariableBool('battle-passing-no-credit', True).getValue():
             # toons who just pass all the time will not get the quest credit
             if helpfulToons and (toon.doId in helpfulToons):
                 simbase.air.questManager.toonKilledCogs(toon, suitsKilled, zoneId, activeToonList)
@@ -242,5 +243,3 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
             simbase.air.questManager.toonKilledCogs(toon, suitsKilled, zoneId, activeToonList)
             # Tell the cog page manager about the cogs this toon killed
             simbase.air.cogPageManager.toonKilledCogs(toon, suitsKilled, zoneId)
-            
-        

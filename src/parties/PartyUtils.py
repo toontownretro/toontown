@@ -41,7 +41,18 @@ def getPartyActivityIcon(activityIconsModel, activityName):
     Returns
         activity icon NodePath
     """
-    icon = activityIconsModel.find("**/%sIcon" % activityName)
+    activityIconsDict = {
+        "PartyValentineDance" : "tt_t_ara_pty_iconDanceFloorValentine",
+        "PartyValentineDance20" : "tt_t_ara_pty_iconDanceFloorValentine",
+        "PartyValentineJukebox" : "tt_t_ara_pty_iconJukeboxValentine",
+        "PartyValentineJukebox40" : "tt_t_ara_pty_iconJukeboxValentine",
+        "PartyValentineTrampoline" : "tt_t_ara_pty_iconTrampolineValentine",
+        }
+    iconName = activityIconsDict.get(activityName)
+    if iconName:
+        icon = activityIconsModel.find("**/%s" % iconName)
+    else:
+        icon = activityIconsModel.find("**/%sIcon" % activityName)
     if icon.isEmpty():
         icon = activityIconsModel.find("**/PartyClockIcon")
         notify.warning("Couldn't find %sIcon in %s, using PartyClockIcon" %
