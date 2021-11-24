@@ -957,7 +957,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
 
         commandsList = list(SpecialCommandStrs.keys())
         commandsList.sort()
-        if uber.config.GetBool('awards-immediate'):
+        if ConfigVariableBool('awards-immediate', 0).getValue():
             commandsList.remove(GiveImmediately)
             commandsList.insert(0,GiveImmediately)
         for command in commandsList:

@@ -3,7 +3,7 @@
 
 # AI code should not import ShowBaseGlobal because it creates a graphics window
 # Use AIBaseGlobal instead
-# from ShowBaseGlobal import *
+# from direct.showbase.ShowBaseGlobal import *
 
 import os
 from direct.task.Task import Task

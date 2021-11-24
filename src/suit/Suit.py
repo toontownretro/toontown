@@ -407,7 +407,7 @@ else:
      "b": ("/models/char/tt_a_ene_cgb_", 4),
      "c": ("/models/char/tt_a_ene_cgc_", 3.5),
      }
-     
+
     TutorialModelDict = {
      "a": ("/models/char/tt_a_ene_cga_", 4),
      "b": ("/models/char/tt_a_ene_cgb_", 4),
@@ -1123,6 +1123,9 @@ class Suit(Avatar.Avatar):
         modelRoot.find("**/torso").setTexture(torsoTex, 1)
         modelRoot.find("**/arms").setTexture(armTex, 1)
         modelRoot.find("**/legs").setTexture(legTex, 1)
+
+        # set hand color
+        modelRoot.find("**/hands").setColor(self.handColor)
 
 
     def makeRentalSuit(self, suitType, modelRoot = None):

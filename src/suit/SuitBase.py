@@ -1,7 +1,7 @@
 """SuitBase module: contains the SuitBase class"""
 
 # AI code should not import ShowBaseGlobal because it creates a graphics window
-# from ShowBaseGlobal import *
+# from direct.showbase.ShowBaseGlobal import *
 from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 

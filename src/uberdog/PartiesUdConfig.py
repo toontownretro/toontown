@@ -22,6 +22,8 @@ if language == 'castillian':
 	ttDbName = "es_toontownTopDb"
 elif language == "japanese":
 	ttDbName = "jp_toontownTopDb"
+elif language == "german":
+	ttDbName = "de_toontownTopDb"
 elif language == "portuguese":
 	ttDbName = "br_toontownTopDb"
 elif language == "french":
@@ -31,4 +33,3 @@ else:
 
 ttDbUser = "ttDb_user"
 ttDbPasswd = "toontastic2008"
-

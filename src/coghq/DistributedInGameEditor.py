@@ -250,7 +250,6 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
             # make sure we're set up for editing
             from otp.level import EditorGlobals
             EditorGlobals.assertReadyToEdit()
-            print(self.editUsername, EditorGlobals.getEditUsername())
             assert self.editUsername == EditorGlobals.getEditUsername()
 
             # ask for the current spec; it will arrive in pieces, since

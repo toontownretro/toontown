@@ -124,7 +124,7 @@ class FireworkEffect(NodePath):
             # Config variable toontown-sfx-setting 0 = Low Special Effect Setting
             # Config variable toontown-sfx-setting 1 = Medium Special Effect Setting
             # Config variable toontown-sfx-setting 2 = High Special Effect Setting
-            if (base.config.GetInt('toontown-sfx-setting', 1) == 0):
+            if (ConfigVariableInt('toontown-sfx-setting', 1).getValue() == 0):
                 if self.trailTypeId != FireworkTrailType.LongGlowSparkle:
                     self.trailTypeId = FireworkTrailType.Default
 
@@ -224,7 +224,7 @@ class FireworkEffect(NodePath):
                     self.trailEffects.append(trailEffect)
                     self.trailEffectsIval.append(Func(trailEffect.startLoop))
                 # Medium setting
-                if (base.config.GetInt('toontown-sfx-setting', 1) >= 1):
+                if (ConfigVariableInt('toontown-sfx-setting', 1).getValue() >= 1):
                     trailEffect=GlowTrail.getEffect()
                     if trailEffect:
                         trailEffect.reparentTo(self.effectsNode)
@@ -269,7 +269,7 @@ class FireworkEffect(NodePath):
             self.burstEffects.append(primaryBlast)
 
             # Medium
-            if (base.config.GetInt('toontown-sfx-setting', 1) >= 1):
+            if (ConfigVariableInt('toontown-sfx-setting', 1).getValue() >= 1):
                 secondaryBlast = BlastEffect()
                 secondaryBlast.reparentTo(self.effectsNode)
                 secondaryBlast.setScale(250*self.scale)
@@ -305,7 +305,7 @@ class FireworkEffect(NodePath):
                     self.burstEffects.append(explosion)
 
                 # Medium
-                if (base.config.GetInt('toontown-sfx-setting', 1) >= 1):
+                if (ConfigVariableInt('toontown-sfx-setting', 1).getValue() >= 1):
                     rays = RayBurst()
                     rays.reparentTo(self.effectsNode)
                     rays.setEffectScale(self.scale)
@@ -314,7 +314,7 @@ class FireworkEffect(NodePath):
                     self.burstEffects.append(rays)
 
                 # High
-                if (base.config.GetInt('toontown-sfx-setting', 1) >= 2):
+                if (ConfigVariableInt('toontown-sfx-setting', 1).getValue() >= 2):
                     sparkles = FireworkSparkles.getEffect()
                     if sparkles:
                         sparkles.reparentTo(self.effectsNode)
@@ -325,7 +325,7 @@ class FireworkEffect(NodePath):
                         self.burstEffects.append(sparkles)
 
                 # Medium
-                if (base.config.GetInt('toontown-sfx-setting', 1) >= 1):
+                if (ConfigVariableInt('toontown-sfx-setting', 1).getValue() >= 1):
                     explosion = PeonyEffect.getEffect()
                     if explosion:
                         explosion.reparentTo(self.effectsNode)
@@ -348,7 +348,7 @@ class FireworkEffect(NodePath):
                     self.burstEffects.append(explosion)
 
                 # Medium
-                if (base.config.GetInt('toontown-sfx-setting', 1) >= 1):
+                if (ConfigVariableInt('toontown-sfx-setting', 1).getValue() >= 1):
                     rays = RayBurst()
                     rays.reparentTo(self.effectsNode)
                     rays.setEffectScale(self.scale*.75)
@@ -368,7 +368,7 @@ class FireworkEffect(NodePath):
                     self.burstEffects.append(explosion)
 
                 # Medium
-                if (base.config.GetInt('toontown-sfx-setting', 1) >= 1):
+                if (ConfigVariableInt('toontown-sfx-setting', 1).getValue() >= 1):
                     rays = RayBurst()
                     rays.reparentTo(self.effectsNode)
                     rays.setEffectScale(self.scale)
@@ -396,7 +396,7 @@ class FireworkEffect(NodePath):
                 self.burstEffects.append(explosion)
 
                 # Medium
-                if (base.config.GetInt('toontown-sfx-setting', 1) >= 2):
+                if (ConfigVariableInt('toontown-sfx-setting', 1).getValue() >= 2):
                     sparkles = FireworkSparkles.getEffect()
                     if sparkles:
                         sparkles.reparentTo(self.effectsNode)
@@ -468,7 +468,7 @@ class FireworkEffect(NodePath):
                     self.burstEffects.append(explosion)
 
                 # Medium
-                if (base.config.GetInt('toontown-sfx-setting', 1) >= 1):
+                if (ConfigVariableInt('toontown-sfx-setting', 1).getValue() >= 1):
                     rays = RayBurst()
                     rays.reparentTo(self.effectsNode)
                     rays.setEffectScale(self.scale)
@@ -498,7 +498,7 @@ class FireworkEffect(NodePath):
                     self.burstEffects.append(skullFlash)
 
                 # Medium
-                if (base.config.GetInt('toontown-sfx-setting', 1) >= 1):
+                if (ConfigVariableInt('toontown-sfx-setting', 1).getValue() >= 1):
                     rays = RayBurst()
                     rays.reparentTo(self.effectsNode)
                     rays.setEffectScale(self.scale)
@@ -507,7 +507,7 @@ class FireworkEffect(NodePath):
                     self.burstEffects.append(rays)
 
                 # High
-                if (base.config.GetInt('toontown-sfx-setting', 1) >= 2):
+                if (ConfigVariableInt('toontown-sfx-setting', 1).getValue() >= 2):
                     sparkles = FireworkSparkles.getEffect()
                     if sparkles:
                         sparkles.reparentTo(self.effectsNode)
@@ -526,7 +526,7 @@ class FireworkEffect(NodePath):
                     explosion.reparentTo(self.effectsNode)
                     explosion.setEffectScale(self.scale)
                     explosion.setEffectColor(self.primaryColor)
-                    explosion.numTrails = 3 + base.config.GetInt('toontown-sfx-setting', 1)
+                    explosion.numTrails = 3 + ConfigVariableInt('toontown-sfx-setting', 1).getValue()
                     self.burstEffectsIval.append(explosion.getTrack())
                     self.burstEffects.append(explosion)
 

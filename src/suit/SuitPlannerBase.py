@@ -3,7 +3,7 @@
 
 # AI code should not import ShowBaseGlobal because it creates a graphics window
 # If you need panda classes use PandaModules instead
-# from ShowBaseGlobal import *
+# from direct.showbase.ShowBaseGlobal import *
 from toontown.toonbase.ToontownModules import *
 
 import random

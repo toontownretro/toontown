@@ -38,18 +38,18 @@ NametagFonts = ('phase_3/models/fonts/AnimGothic',      #0 *
                 )
 NametagFontNames = ('Membre',      #0 *
                 'Shivering',      #1 *
-                'Wonky',   #2 *
-                'Fantaisie',        #3 *
-                'Silly',    #4 *
-                'Zany',          #5 * # drôle
-                'Pratique',        #6 *
-                'Nautique',         #7 *
-                'Whimsical',        #8 *
-                'Sinistre',        #9 *
-                'Action',          #10 *
-                'Poétique',            #11 *
-                'Boardwalk',       #12 *
-                'Western',    #13 *
+                'Wonky',          #2 *
+                'Fantaisie',      #3 *
+                'Silly',          #4 *
+                'Zany',           #5 * # drôle
+                'Pratique',       #6 *
+                'Nautique',       #7 *
+                'Whimsical',      #8 *
+                'Sinistre',       #9 *
+                'Action',         #10 *
+                'Poétique',       #11 *
+                'Promenade',      #12 *
+                'Western',        #13 *
                 )
 
 NametagLabel = " Nametag"
@@ -238,9 +238,9 @@ TheCogs = "Les Cogs"
 ASkeleton = "un Skelecog"
 Skeleton = "Skelecog"
 SkeletonP = "Skelecogs"
-Av2Cog = "un Version 2.0 Cog"
-v2Cog = "Version 2.0 Cog"
-v2CogP = "Version 2.0 Cogs"
+Av2Cog = "un Cog Version 2.0"
+v2Cog = "Cog Version 2.0"
+v2CogP = "Cogs Version 2.0"
 Foreman = "Contremaître de l'usine"
 ForemanP = "Contremaîtres de l'usine"
 AForeman = "un contremaître de l'usine"
@@ -604,7 +604,7 @@ QuestsItemDict = {
 
     # This is meant to be delivered to NPCTailors to complete
     # ClothingReward quests
-    110 : ["TIP Clothing Ticket", "Clothing Tickets", "a "],
+    110 : ["Ticket d'habillement TIP", "Tickets d'habillement", "un "],
     1000 : ["Ticket d'habillement", "Tickets d'habillement", "un "],
 
     # Donald's Dock quest items
@@ -646,7 +646,7 @@ QuestsItemDict = {
     5009 : ["Sac de graines pour oiseaux", "Sacs de graines pour oiseaux", "un "],
     5010 : ["Pignon", "Pignons", "un "],
     5011 : ["Salade", "Salades", "une "],
-    5012 : ["Clé du jardin de Daisy", "Clés du jardin de Daisy", "une "],
+    5012 : ["Clé du Jardin de Daisy", "Clés du Jardin de Daisy", "une "],
     5013 : ["Plans du QG Vendibot", "Plans du QG Vendibot", "des "],
     5014 : ["Note de service du QG Vendibot", "Notes de service du QG Vendibot", "une "],
     5015 : ["Note de service du QG Vendibot", "Notes de service du QG Vendibot", "une "],
@@ -809,15 +809,15 @@ QuestDialogDict = {
            },
     1039 : { QUEST : "Va voir _toNpcName_ si tu veux parcourir la ville plus facilement._where_" },
     1040 : { QUEST : "Va voir _toNpcName_ si tu veux parcourir la ville plus facilement._where_" },
-    1041 : { QUEST : "Salut ! Qu'est-ce qui t'amène ?\aTout le monde utilise son trou portable pour voyager dans Toontown.\aTu peux te téléporter vers tes contacts en utilisant la liste d'contacts, ou vers n'importe quel quartier en utilisant la carte du journal de bord.\aBien entendu, tu dois d'abord gagner le droit de le faire !\aDisons que je peux activer ton accès à Toontown centre par téléportation si tu aides un de mes contacts.\aOn dirait que les Cogs font du désordre sur l'avenue des Fondus. Va voir _toNpcName_._where_" },
-    1042 : { QUEST : "Salut ! Qu'est-ce qui t'amène ?\aTout le monde utilise son trou portable pour voyager dans Toontown.\aTu peux te téléporter vers tes contacts en utilisant la liste d'contacts, ou vers n'importe quel quartier en utilisant la carte du journal de bord.\aBien entendu, tu dois d'abord gagner le droit de le faire !\aDisons que je peux activer ton accès à Toontown centre par téléportation si tu aides un de mes contacts.\aOn dirait que les Cogs font du désordre sur l'avenue des Fondus. Va voir _toNpcName_._where_" },
-    1043 : { QUEST : "Salut ! Qu'est-ce qui t'amène ?\aTout le monde utilise son trou portable pour voyager dans Toontown.\aTu peux te téléporter vers tes contacts en utilisant la liste d'contacts, ou vers n'importe quel quartier en utilisant la carte du journal de bord.\aBien entendu, tu dois d'abord gagner le droit de le faire !\aDisons que je peux activer ton accès à Toontown centre par téléportation si tu aides un de mes contacts.\aOn dirait que les Cogs font du désordre sur l'avenue des Fondus. Va voir _toNpcName_._where_" },
+    1041 : { QUEST : "Salut ! Qu'est-ce qui t'amène ?\aTout le monde utilise son trou portable pour voyager dans Toontown.\aTu peux te téléporter vers tes contacts en utilisant la liste d'contacts, ou vers n'importe quel quartier en utilisant la carte du journal de bord.\aBien entendu, tu dois d'abord gagner le droit de le faire !\aDisons que je peux activer ton accès à Toontown Centre par téléportation si tu aides un de mes contacts.\aOn dirait que les Cogs font du désordre sur l'avenue des Fondus. Va voir _toNpcName_._where_" },
+    1042 : { QUEST : "Salut ! Qu'est-ce qui t'amène ?\aTout le monde utilise son trou portable pour voyager dans Toontown.\aTu peux te téléporter vers tes contacts en utilisant la liste d'contacts, ou vers n'importe quel quartier en utilisant la carte du journal de bord.\aBien entendu, tu dois d'abord gagner le droit de le faire !\aDisons que je peux activer ton accès à Toontown Centre par téléportation si tu aides un de mes contacts.\aOn dirait que les Cogs font du désordre sur l'avenue des Fondus. Va voir _toNpcName_._where_" },
+    1043 : { QUEST : "Salut ! Qu'est-ce qui t'amène ?\aTout le monde utilise son trou portable pour voyager dans Toontown.\aTu peux te téléporter vers tes contacts en utilisant la liste d'contacts, ou vers n'importe quel quartier en utilisant la carte du journal de bord.\aBien entendu, tu dois d'abord gagner le droit de le faire !\aDisons que je peux activer ton accès à Toontown Centre par téléportation si tu aides un de mes contacts.\aOn dirait que les Cogs font du désordre sur l'avenue des Fondus. Va voir _toNpcName_._where_" },
     1044 : { QUEST : "Oh, merci de passer par ici. J'ai vraiment besoin d'aide.\aComme tu peux voir, je n'ai pas de clients.\aMon livre de recettes secret est perdu et personne ne vient plus dans mon restaurant.\aLa dernière fois que je l'ai vu, c'était avant que ces Cogs ne prennent mon bâtiment.\aEst-ce que tu peux m'aider à retrouver quatre de mes célèbres recettes ?",
              LEAVING : "",
              INCOMPLETE_PROGRESS : "Est-ce que tu as pu retrouver mes recettes ?" },
     1045 : { QUEST : "Merci beaucoup !\aD'ici peu, j'aurai retrouvé toutes mes recettes et je pourrai rouvrir mon restaurant.\aOh, j'ai une petite note ici pour toi - quelque chose à propos de l'accès par téléportation ?\aC'est écrit, merci d'avoir aidé mon ami et d'avoir livré ceci au quartier général des Toons.\aEh bien, merci vraiment - au revoir !",
              LEAVING : "",
-             COMPLETE : "Ah oui, c'est écrit que tu as été d'une grande aide à de braves gens de l'avenue des Fondus.\aEt que tu as besoin d'un accès par téléportation à Toontown centre.\aBon, c'est comme si c'était fait.\aMaintenant tu peux revenir au terrain de jeux par téléportation depuis presque partout dans Toontown.\aOuvre simplement ta carte et clique sur Toontown centre." },
+             COMPLETE : "Ah oui, c'est écrit que tu as été d'une grande aide à de braves gens de l'avenue des Fondus.\aEt que tu as besoin d'un accès par téléportation à Toontown Centre.\aBon, c'est comme si c'était fait.\aMaintenant tu peux revenir au terrain de jeux par téléportation depuis presque partout dans Toontown.\aOuvre simplement ta carte et clique sur Toontown Centre." },
     1046 : { QUEST : "Les Caissbots ont vraiment ennuyé la Caisse d'épargne Drôle d'argent.\aVa donc y faire un tour et vois si tu peux faire quelque chose._where_" },
     1047 : { QUEST : "Les Caissbots se sont introduits dans la banque et ont volé nos machines.\aS'il te plaît, reprends 5 machines à calculer aux Caissbots.\aPour t'éviter de faire des allers et retours, rapporte-les toutes en une seule fois.",
              LEAVING : "",
@@ -831,7 +831,7 @@ QuestDialogDict = {
              LEAVING : "",
              COMPLETE : "Toutes les machines à calculer sont réparées ?\aJoli travail. Je crois bien que j'ai quelque chose par là pour te récompenser..." },
     1054 : { QUEST : "_toNpcName_ a besoin d'aide pour ses voitures de clown._where_" },
-    1055 : { QUEST : "Bon sang ! Je n'arrive pas à trouver les pneus de cette voiture de clown !\aTu crois que tu pourrais m'aider ?\aJe crois que Bob Fondu les a lancés dans la mare du terrain de jeux de Toontown centre.\aSi tu vas sur les pontons, de là tu peux essayer de repêcher les pneus.",
+    1055 : { QUEST : "Bon sang ! Je n'arrive pas à trouver les pneus de cette voiture de clown !\aTu crois que tu pourrais m'aider ?\aJe crois que Bob Fondu les a lancés dans la mare du terrain de jeux de Toontown Centre.\aSi tu vas sur les pontons, de là tu peux essayer de repêcher les pneus.",
              GREETING : "Youhouu !",
              LEAVING : "",
              INCOMPLETE_PROGRESS : "Tu as du mal à repêcher les 4 pneus ?" },
@@ -3016,7 +3016,7 @@ RewardPanelNewGag = "Nouveau gag %(gagName)s pour %(avName)s !"
 RewardPanelUberGag = "%(avName)s earned the %(gagName)s gag with %(exp)s experience points !"
 RewardPanelEndTrack = "Haa ! %(avName)s a atteint la fin de la série de gags %(gagName)s !"
 RewardPanelMeritsMaxed = "Au maximum"
-RewardPanelMeritBarLabels = [ "Option actions", "Convocation Du Jury", "Euros Cog", "Mérites" ]
+RewardPanelMeritBarLabels = [ "D'actions", "Convocation Du Jury", "Euros Cog", "Mérites" ]
 RewardPanelMeritAlert = "Prêt pour la promotion !"
 RewardPanelSkip = "Sauter"
 
@@ -4398,7 +4398,7 @@ MickeyChatter = (
         ],
         [ # Comments
         "Dis donc, as-tu vu " + Donald + " ?",
-        "Je vais aller regarder le brouillard se lever sur les quais " + Donald + ".",
+        "Je vais aller regarder le brouillard se lever sur les Quais " + Donald + ".",
         "Si tu vois mon copain " + Goofy + ", dis-lui bonjour de ma part.",
         "J'ai entendu dire que " + Daisy + " a planté de nouvelles fleurs dans son jardin.",
         ],
@@ -4406,7 +4406,7 @@ MickeyChatter = (
         "Je vais au pays musical voir " + Minnie + " !",
         "Aïe, je suis en retard pour mon rendez-vous avec " + Minnie +" !",
         "On dirait que c'est l'heure du dîner pour " + Pluto + ".",
-        "Je crois que je vais aller nager aux quais " + Donald + ".",
+        "Je crois que je vais aller nager aux Quais " + Donald + ".",
         "C'est l'heure de faire la sieste. Je vais au Pays des rêves.",
         ]
     )
@@ -4554,7 +4554,7 @@ MinnieChatter = (
         "Dis donc, as-tu vu " + Mickey + " ?",
         "Si tu vois mon ami " + Goofy + ", dis-lui bonjour de ma part.",
         "Aïe, il y a beaucoup de " + Cogs + " près du Pays des rêves de " + Donald + ".",
-        "J'ai entendu dire qu'il y a du brouillard sur les quais " + Donald + ".",
+        "J'ai entendu dire qu'il y a du brouillard sur les Quais " + Donald + ".",
         "N'oublie pas d'essayer le labyrinthe dans le jardin de " + Daisy + ".",
         "Je crois bien que je vais aller chercher quelques airs de musique.",
         "Hé %, regarde donc par là-bas.",
@@ -5002,7 +5002,7 @@ GoofyChatter = (
         "Dis donc, as-tu vu " + Donald + " ?",
         "Si tu vois mon ami " + Mickey + ", dis-lui bonjour de ma part.",
         "Oh ! J'ai oublié le petit déjeuner de " + Mickey + " !",
-        "Wof, il y a beaucoup de " + Cogs + " près des quais " + Donald + ".",
+        "Wof, il y a beaucoup de " + Cogs + " près des Quais " + Donald + ".",
         "On dirait que " + Daisy + " a planté de nouvelles fleurs dans son jardin.",
         "À la succursale du Glagla de ma boutique à gags, les lunettes hypnotiques sont en vente pour seulement 1 bonbon !",
         "La boutique à gags de Dingo propose les meilleurs blagues, astuces et chatouilles de tout Toontown !",
@@ -5011,7 +5011,7 @@ GoofyChatter = (
         [ # Goodbyes
         "Je vais au Pays musical voir " + Minnie + " !",
         "Aïe, je suis en retard pour mon rendez-vous avec " + Donald + " !",
-        "Je crois que je vais aller nager aux quais " + Donald + ".",
+        "Je crois que je vais aller nager aux Quais " + Donald + ".",
         "C'est l'heure de faire la sieste. Je vais au Pays des rêves.",
         ]
     )
@@ -5126,8 +5126,8 @@ DonaldChatter = (
         "Dis donc, as-tu vu " + Mickey + " ?",
         "Si tu vois mon copain " + Goofy + ", dis-lui bonjour de ma part."
         "Je crois bien que je vais aller à la pêche cet après-midi.",
-        "Aïe, il y a beaucoup de " + Cogs + " près des quais " + Donald + ".",
-        "Hé dis donc, tu n'as pas encore fait un tour de bateau avec moi aux quais " + Donald + " ?"
+        "Aïe, il y a beaucoup de " + Cogs + " près des Quais " + Donald + ".",
+        "Hé dis donc, tu n'as pas encore fait un tour de bateau avec moi aux Quais " + Donald + " ?"
         "Je n'ai pas vu " + Daisy + " de la journée.",
         "J'ai entendu dire que " + Daisy + " a planté de nouvelles fleurs dans son jardin."
         "Coin coin.",
@@ -6112,8 +6112,8 @@ IssueFrameWeeksAgo = "%d weeks ago"
 SelectedInvitationInformation = "%s is having a party on %s at %s Toontown Time."
 
 # PartyPlanner.py
-PartyPlannerNextButton = "Continue"
-PartyPlannerPreviousButton = "Back"
+PartyPlannerNextButton = "Continuer"
+PartyPlannerPreviousButton = "Retour"
 PartyPlannerWelcomeTitle = "Toontown Party Planner"
 PartyPlannerInstructions = "Hosting your own party is a lot of fun!\nStart planning with the arrows at the bottom!"
 PartyPlannerDateTitle = "Pick A Day For Your Party"
@@ -6123,21 +6123,21 @@ PartyPlannerEditorTitle = "Design Your Party\nPlace Activities and Decorations"
 PartyPlannerConfirmTitle = "Choose Invitations To Send"
 PartyPlannerConfirmTitleNoFriends = "Double Check Your Party"
 PartyPlannerTimeToontown = "Toontown"
-PartyPlannerTimeTime = "Time"
+PartyPlannerTimeTime = "Heure"
 PartyPlannerTimeRecap = "Party Date and Time"
 PartyPlannerPartyNow = "As Soon As Possible"
-PartyPlannerTimeToontownTime = "Toontown Time:"
+PartyPlannerTimeToontownTime = "Heure de Toontown :"
 PartyPlannerTimeLocalTime = "Party Local Time : "
 PartyPlannerPublicPrivateLabel = "This party will be:"
 PartyPlannerPublicDescription = "Any Toon\ncan come!"
 PartyPlannerPrivateDescription = "Only\nInvited Toons\ncan come!"
-PartyPlannerPublic = "Public"
-PartyPlannerPrivate = "Private"
+PartyPlannerPublic = "Publique"
+PartyPlannerPrivate = "Privé"
 PartyPlannerCheckAll = "Check\nAll"
 PartyPlannerUncheckAll = "Uncheck\nAll"
 PartyPlannerDateText = "Date"
-PartyPlannerTimeText = "Time"
-PartyPlannerTTTimeText = "Toontown Time"
+PartyPlannerTimeText = "Heure"
+PartyPlannerTTTimeText = "Heure de Toontown"
 PartyPlannerEditorInstructionsIdle = "Click on the Party Activity or Decoration you would like to purchase."
 PartyPlannerEditorInstructionsClickedElementActivity = "Click Buy or Drag the Activity Icon onto the Party Grounds Map"
 PartyPlannerEditorInstructionsClickedElementDecoration = "Click Buy or Drag the Decoration onto the Party Grounds Map"
@@ -6147,23 +6147,23 @@ PartyPlannerEditorInstructionsPartyGrounds = "Click and Drag items to move them 
 PartyPlannerEditorInstructionsTrash = "Drag an Activity or Decoration here to remove it."
 PartyPlannerEditorInstructionsNoRoom = "There is no room to place that activity."
 PartyPlannerEditorInstructionsRemoved = "%(removed)s removed since %(added)s was added."
-PartyPlannerBeans = "beans"
-PartyPlannerTotalCost = "Total Cost:\n%d beans"
+PartyPlannerBeans = "bonbons"
+PartyPlannerTotalCost = "Coût total :\n%d beans"
 PartyPlannerSoldOut = "SOLD OUT"
-PartyPlannerBuy = "BUY"
-PartyPlannerPaidOnly = "MEMBERS ONLY"
+PartyPlannerBuy = "ACHETER"
+PartyPlannerPaidOnly = "ABONNÉS SEULEMENT"
 PartyPlannerPartyGrounds = "PARTY GROUNDS MAP"
 PartyPlannerOkWithGroundsLayout = "Are you done moving your Party Activities and Decorations around the Party Grounds Map?"
 PartyPlannerChooseFutureTime = "Please choose a time in the future."
 PartyPlannerInviteButton = "Send Invites"
 PartyPlannerInviteButtonNoFriends = "Plan Party"
-PartyPlannerBirthdayTheme = "Birthday"
+PartyPlannerBirthdayTheme = "Anniversaire"
 PartyPlannerGenericMaleTheme = "Star"
 PartyPlannerGenericFemaleTheme = "Fleur"
-PartyPlannerRacingTheme = "Racing"
+PartyPlannerRacingTheme = "Course"
 PartyPlannerValentoonsTheme = "ValenToons"
-PartyPlannerVictoryPartyTheme = "Victory"
-PartyPlannerWinterPartyTheme = "Winter"
+PartyPlannerVictoryPartyTheme = "Victoire"
+PartyPlannerWinterPartyTheme = "Hiver"
 PartyPlannerGuestName = "Guest Name"
 PartyPlannerClosePlanner = "Close Planner"
 PartyPlannerConfirmationAllOkTitle = "Félicitations !"
@@ -6182,7 +6182,7 @@ PartyPlannerInvitationWhenSentence = "It will be %s,\nat %s Toontown Time.\nHope
 PartyPlannerInvitationWhenSentenceNoFriends = "It will be %s,\nat %s Toontown Time.\nToontastic!"
 PartyPlannerComingSoon = "Coming Soon"
 PartyPlannerCantBuy= "Can't Buy"
-PartyPlannerGenericName = "Party Planner"
+PartyPlannerGenericName = "Organisateur de Fête"
 
 # DistributedPartyJukeboxActivity.py
 PartyJukeboxOccupied = "Someone else is using the jukebox. Try again later."
@@ -7046,9 +7046,6 @@ MovieTutorialReward3 = "Bon travail ! Tu as terminé ton premier défitoon !"
 MovieTutorialReward4 = "Va chercher ta récompense au quartier général des Toons !"
 MovieTutorialReward5 = "Amuse-toi !"
 
-# BattleBase.py
-Battle_Input_Timeout = 50.0
-
 # ToontownBattleGlobals.py
 BattleGlobalTracks = ['toonique', 'piège', 'leurre', 'tapage', 'lancer', 'éclaboussure', 'chute']
 BattleGlobalNPCTracks = ['rechargement', 'Toons marquent', 'Cogs ratent']
@@ -7737,7 +7734,7 @@ QuestScript130_1 = "Bien, tu as trouvé le tramway !\aPendant qu'on y est, j'ai 
 
 QuestScript131_1 = "Oh, merci pour la craie.\aQuoi ?!?\aCes Cogs ont volé mon tableau. Va vaincre des Cogs pour retrouver le tableau qu'ils m'ont volé.\aQuand tu l'auras trouvé, ramène-le moi."
 
-QuestScript140_1 = "Bien, tu as trouvé le tramway !\aPendant qu'on y est, j'ai un ami, Larry le Libraire, qui est un rat de bibliothèque.\aJ'ai pris ce livre pour lui la dernière fois que j'ai été aux quais Donald.\aPourrais-tu lui apporter ? Il est à la bibliothèque, d'habitude."
+QuestScript140_1 = "Bien, tu as trouvé le tramway !\aPendant qu'on y est, j'ai un ami, Larry le Libraire, qui est un rat de bibliothèque.\aJ'ai pris ce livre pour lui la dernière fois que j'ai été aux Quais Donald.\aPourrais-tu lui apporter ? Il est à la bibliothèque, d'habitude."
 
 QuestScript141_1 = "Oh, oui, ce livre complète presque ma collection.\aVoyons ça...\aAh, oh...\aMais où est-ce que j'ai mis mes lunettes ?\aJe les avais juste avant que ces Cogs ne prennent mon bâtiment.\aVa vaincre des Cogs pour retrouver les lunettes qu'ils m'ont volées.\aQuand tu les auras retrouvées, reviens me voir pour avoir une récompense."
 
@@ -7755,7 +7752,7 @@ MissingKeySanityCheck = "Ignorer"
 
 SellbotBossName = "Premier Vice-\nPrésident"
 CashbotBossName = "Directeur\nFinancier"
-LawbotBossName = "Chief Justice"
+LawbotBossName = "Juge du fond" # Check
 BossCogNameWithDept = "%(name)s\n%(dept)s"
 BossCogPromoteDoobers = "En vertu des pouvoirs qui me sont conférés, tu es promu au grade %s. Félicitations !"
 BossCogDoobersAway = { 's' : "Va ! Et réalise cette vente !" }
@@ -9304,8 +9301,8 @@ NPCToonNames = {
     2014 : "Melle Vadrouille - Vendeuse",
     2015 : "M. Vagabond - Vendeur",
     # NPCPartyPerson
-    2016 : "Party Planner Pete",
-    2017 : "Party Planner Penny",
+    2016 : "Pete - Organisateur de Fête",
+    2017 : "Penny - Organisatrice de Fête",
     2018 : "Docteur Surlee",
     2019 : "Docteur Dimm",
     2020 : "Professeur Prepostera",
@@ -9419,8 +9416,8 @@ NPCToonNames = {
     1010 : "Melle Ronron - Vendeuse",
     1011 : "Mme Glouglou - Vendeuse",
     # NPCPartyPerson
-    1012 : "Party Planner Phil",
-    1013 : "Party Planner Patty",
+    1012 : "Phil - Organisateur de Fête",
+    1013 : "Patty - Organisatrice de Fête",
 
     # Barnacle Boulevard
     1101 : "Sam Suffit",
@@ -9532,8 +9529,8 @@ NPCToonNames = {
     3011 : "Melle Cabriole - Vendeuse",
     3012 : "M. Cadichon - Vendeur",
     # NPCPartyPerson
-    3013 : "Party Planner Paul",
-    3014 : "Party Planner Polly",
+    3013 : "Paul - Organisateur de Fête",
+    3014 : "Polly - Organisatrice de Fête",
 
     # Walrus Way
     3101 : "M. Lapin",
@@ -9619,7 +9616,7 @@ NPCToonNames = {
     3305 : "Mac Ramée",
     3306 : "Paul Hère",
     # NPC Fisherman
-    3307 : "Pêcheuse Frédérique",
+    3307 : "Frédérique la pêcheuse",
     3308 : "Marcel Glassault",
     3309 : "Théo Citron",
     3310 : "Professeur Flocon",
@@ -9663,8 +9660,8 @@ NPCToonNames = {
     4011 : "M. Neil - Vendeur",
     4012 : "Melle Western - Vendeuse",
     # NPCPartyPerson
-    4013 : "Party Planner Preston",
-    4014 : "Party Planner Penelope",
+    4013 : "Preston - Organisateur de Fête",
+    4014 : "Penelope - Organisatrice de Fête",
 
     # Alto Ave.
     4101 : "Tom",
@@ -9801,8 +9798,8 @@ NPCToonNames = {
     5010 : "M. Tom Hatte - Vendeur",
     5011 : "M. Ray Glisse - Vendeur",
     # NPCPartyPerson
-    5012 : "Party Planner Pierce",
-    5013 : "Party Planner Peggy",
+    5012 : "Pierce - Organisateur de Fête",
+    5013 : "Peggy - Organisatrice de Fête",
 
     # Elm Street
     5101 : "Eugène",
@@ -9923,8 +9920,8 @@ NPCToonNames = {
     9013 : "Mme Dorothée Dor - Vendeuse",
     9014 : "M. Pierre Pionce - Vendeur",
     # NPCPartyPerson
-    9015 : "Party Planner Patrick",
-    9016 : "Party Planner Pearl",
+    9015 : "Patrick - Organisateur de Fête",
+    9016 : "Perle - Organisatrice de Fête",
 
     # Lullaby Lane
     9101 : "Ed",
@@ -10001,7 +9998,7 @@ NPCToonNames = {
     9234 : lHQOfficerM,
     9235 : lHQOfficerM,
     9236 : lHQOfficerM,
-    9237 : "S. André",
+    9237 : "S. André le pêcheur",
 
     #
     # Funny Farm / Field Office
@@ -10047,7 +10044,7 @@ zone2TitleDict = {
     2519 : ("Boutique à gags", ""),
     2520 : ("Quartier Général des Toons", ""),
     2521 : ("Boutique de prêt-à-porter", ""),
-    2522 : ("ANIMALERIE", ""),
+    2522 : ("Animalerie", ""),
     # titles for: phase_5/dna/toontown_central_2100.dna
     2601 : ("Tout-sourire - Réparations dentaires", ""),
     2602 : ("", ""),
@@ -10148,7 +10145,7 @@ zone2TitleDict = {
     1506 : ("Boutique à gags", ""),
     1507 : ("Quartier Général des Toons", ""),
     1508 : ("Boutique de prêt-à-porter", ""),
-    1510 : ("ANIMALERIE", ""),
+    1510 : ("Animalerie", ""),
     # titles for: phase_6/dna/donalds_dock_1100.dna
     1602 : ("Gilets de sauvetage d'occasion", ""),
     1604 : ("Costumes de bain - Nettoyage à sec", ""),
@@ -10228,7 +10225,7 @@ zone2TitleDict = {
     4503 : ("Boutique à gags", ""),
     4504 : ("Quartier Général des Toons", ""),
     4506 : ("Boutique de prêt-à-porter", ""),
-    4508 : ("ANIMALERIE", ""),
+    4508 : ("Animalerie", ""),
     # titles for: phase_6/dna/minnies_melody_land_4100.dna
     4603 : ("Tom-Tom - Tambours", ""),
     4604 : ("A quatre temps", ""),
@@ -10273,7 +10270,7 @@ zone2TitleDict = {
     4659 : ("Quartier Général des Toons", ""),
     # titles for: phase_6/dna/minnies_melody_land_4200.dna
     4701 : ("L'eau de rose - Ecole de valse", ""),
-    4702 : (" Timbre de bois - Fournitures pour bûcherons", ""),
+    4702 : ("Timbre de bois - Fournitures pour bûcherons", ""),
     4703 : ("Gros Bizet à tous !", ""),
     4704 : ("Tina - Concerts de concertina", ""),
     4705 : ("Il est déjà cithare ?", ""),
@@ -10346,7 +10343,7 @@ zone2TitleDict = {
     5501 : ("Boutique à gags", ""),
     5502 : ("Quartier Général des Toons", ""),
     5503 : ("Boutique de prêt-à-porter", ""),
-    5505 : ("ANIMALERIE", ""),
+    5505 : ("Animalerie", ""),
     # titles for: phase_8/dna/daisys_garden_5100.dna
     5601 : ("L'œil de bouillon - Optométrie", ""),
     5602 : ("Eugène Coulissant - Cravates", ""),
@@ -10379,7 +10376,7 @@ zone2TitleDict = {
     5703 : ("Cynthia - Magasin de photosynthèses", ""),
     5704 : ("Citronelle Citron - Voitures d'occasion", ""),
     5705 : ("Meubles en herbe à puce", ""),
-    5706 : (" 14 carottes - Bijoutiers", ""),
+    5706 : ("14 carottes - Bijoutiers", ""),
     5707 : ("Fruit musical", ""),
     5708 : ("Sans soucis - Agence de voyages", ""),
     5709 : ("Astroturf - Tondeuses", ""),
@@ -10424,7 +10421,7 @@ zone2TitleDict = {
     9504 : ("Boutique à gags", ""),
     9505 : ("Quartier Général des Toons", ""),
     9506 : ("Boutique de prêt-à-porter", ""),
-    9508 : ("ANIMALERIE", ""),
+    9508 : ("Animalerie", ""),
     # titles for: phase_8/dna/donalds_dreamland_9100.dna
     9601 : ("Auberge des câlins", ""),
     9602 : ("Sommes au rabais", ""),
@@ -10499,7 +10496,7 @@ zone2TitleDict = {
     3507 : ("Boutique à gags", ""),
     3508 : ("Quartier général des Toons", ""),
     3509 : ("Boutique de prêt-à-porter", ""),
-    3511 : ("ANIMALERIE", ""),
+    3511 : ("Animalerie", ""),
     # titles for: phase_8/dna/the_burrrgh_3100.dna
     3601 : ("Aurore boréale - Electricité générale", ""),
     3602 : ("Bonnets de pâques", ""),
@@ -10895,7 +10892,7 @@ TipDict = {
     "Dans le jeu des anneaux, des points supplémentaires sont attribués quand le groupe entier réussit à nager dans les anneaux.",
     "Un jeu parfait d'\"Imite Minnie\" double tes points.",
     "Dans le tir à la corde, tu reçois plus de bonbons si tu joues contre un Cog plus fort.",
-    "La difficulté des jeux du tramway varie selon les quartiers, Toontown centre a les plus faciles et le Pays des rêves de Donald les plus difficiles.",
+    "La difficulté des jeux du tramway varie selon les quartiers, Toontown Centre a les plus faciles et le Pays des rêves de Donald les plus difficiles.",
     "Certains jeux du tramway ne peuvent être joués qu'en groupe.",
     ),
 
@@ -10912,12 +10909,12 @@ TipDict = {
     "Récupère des Convocations du Jury en défiant des Loibots.",
     # Add Bossbot Stock Options Text Here
     #"Tu obtiens plus de mérites avec des Cogs de plus haut niveau.", # Legacy
-    "Tu reçois plus de Mérites, d'euros Cog, de Convocations du Jury ou d'option d'actions en combattant des Cogs de plus haut niveau.",
+    "Tu reçois plus de Mérites, d'euros Cog, de Convocations du Jury ou d'actions en combattant des Cogs de plus haut niveau.",
     "Lorsque tu as additionné assez de mérites Cogs pour gagner une promotion, va voir le vice-président des Vendibots !",
     # Add Cashbot promotion Text Here
     "Quand tu as récupéré assez de Convocations du Jury pour gagner une promotion, va voir le Juge !",
     # Add Bossbot promotion Text Here
-    "Tu peux parler comme un Cog lorsque tu portes ton déguisement de Cog.",    
+    "Tu peux parler comme un Cog lorsque tu portes ton déguisement de Cog.",
     "Jusqu'à huit Toons peuvent faire équipe pour combattre le Vice-Président des Vendibots.",
     "Jusqu'à huit Toons peuvent faire équipe pour combattre le Directeur Financier des Caissbots.",
     "Jusqu'à huit Toons peuvent faire équipe pour combattre le Juge des Loibots.", # "Jusqu'à huit Toons peuvent combattre ensemble le Juge Loibot.",
@@ -10928,7 +10925,7 @@ TipDict = {
     "Tu peux visualiser le progrès de tes mérites sur ta page de déguisements dans ton journal de bord.", # Update?
     "Assure-toi d'avoir suffisamment de gags et un rigolmètre au maximum avant d'aller voir le vice-président.", # Update?
     "Si tu as une promotion, ton déguisement de Cog est mis à jour.",
-    "Tu dois vaincre le contremaître de l'usine pour récupérer une pièce du déguisement de Cog.",    
+    "Tu dois vaincre le contremaître de l'usine pour récupérer une pièce du déguisement de Cog.",
     "Gagne des pièces de costume de Caissbot comme récompense en terminant les défitoons qui sont proposés dans le Pays des Rêves de Donald.",
     "Les Caissbots fabriquent et font circuler leur argent, les euros Cogs, à partir de trois Fabriques à Sous - Pièce, Euro et Lingot.",
     "Attends que le directeur financier soit étourdi avant de lui lancer un coffre dessus, ou il pourrait l'utiliser comme casque. Frapper le casque avec un autre coffre est la seule manière de le faire tomber.",

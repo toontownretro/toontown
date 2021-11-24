@@ -1,6 +1,6 @@
 """ToonBase module: contains the ToonBase class"""
 
-#from ShowBaseGlobal import *
+#from direct.showbase.ShowBaseGlobal import *
 from otp.otpbase import OTPBase
 from otp.otpbase import OTPLauncherGlobals
 from otp.otpbase import OTPRender

@@ -1666,7 +1666,7 @@ class HolidayManagerAI:
 
         ToontownGlobals.IDES_OF_MARCH: HolidayInfo_Yearly(
         GreenToonEventMgrAI.GreenToonEventMgrAI,
-        [(Month.MARCH, 16, 0, 0, 1),
+        [(Month.MARCH, 14, 0, 0, 1),
          (Month.MARCH, 20, 23, 59, 59)],
         displayOnCalendar = True,
         ),

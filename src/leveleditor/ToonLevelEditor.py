@@ -15,7 +15,7 @@ from .ObjectPalette import *
 
 from .LevelStyleManager import *
 from .ToonControlManager import *
-#from LevelEditorGlobals import *
+#from .LevelEditorGlobals import *
 
 class ToonLevelEditor(LevelEditorBase):
     """ Class for ToonTown LevelEditor """

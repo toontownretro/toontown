@@ -508,7 +508,7 @@ class Estate(Place.Place):
         # Make sure you are in walk mode This fixes a bug where you could
         # open your stickerbook over the water and get stuck in swim mode
         # becuase the Place was still in StickerBook state.
-        if base.config.GetBool('disable-flying-glitch') == 0:
+        if ConfigVariableBool('disable-flying-glitch', 1).getValue() == 0:
             self.fsm.request('walk')
         # You have to pass in the swim sound effect to swim mode.
         self.walkStateData.fsm.request('swimming', [self.loader.swimSound])
