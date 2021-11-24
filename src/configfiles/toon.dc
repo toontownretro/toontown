@@ -3154,17 +3154,17 @@ dclass DistributedStageRoom: DistributedLevel {
 
 dclass DistributedInGameEditor: DistributedObject {
   setEditorAvId(uint32 avId) required broadcast ram;
-  setEditUsername(blob username) required broadcast ram;
+  setEditUsername(string username) required broadcast ram;
   setLevelDoId(uint32 doId) required broadcast ram;
 
   requestCurrentLevelSpec() airecv clsend; //appears safe, definitely, timing could be an issue though...owner, please check
   setSpecSenderDoId(uint32 doId);
 
   // this proposes a change from the client
-  setEdit(uint32 entId, blob attribName, blob value, blob username) airecv clsend; //security breach:entId, username etc. need validation...need help = DARREN
+  setEdit(uint32 entId, string attribName, blob value, string username) airecv clsend; //security breach:entId, username etc. need validation...need help = DARREN
   // this informs the client-side editor of actual changes that have
   // been made.
-  setAttribChange(uint32 entId, blob attribName, blob value, blob username);
+  setAttribChange(uint32 entId, string attribName, blob value, string username);
 
   setFinished() airecv clsend;     //security breach: no check against client validity
 };
@@ -4480,7 +4480,7 @@ dclass DistributedInGameNewsMgr : DistributedObjectGlobal {
 dclass DistributedWhitelistMgr : DistributedObjectGlobal {
    // AI to clients
   updateWhitelist() broadcast;
-  whitelistMgrAIStartingUp(uint32, doId, uint32 shardId); // ai to ud sent on whitelistManagerAI.announceGenerate
+  whitelistMgrAIStartingUp(uint32 doId, uint32 shardId); // ai to ud sent on whitelistManagerAI.announceGenerate
   newListUDtoAI() airecv;
 };
 
