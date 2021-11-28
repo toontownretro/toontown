@@ -4479,9 +4479,9 @@ dclass DistributedInGameNewsMgr : DistributedObjectGlobal {
 // in the ideal world we'd only have a UD object which sends updates directly to client objects, without AI
 dclass DistributedWhitelistMgr : DistributedObjectGlobal {
    // AI to clients
-  updateWhitelist() broadcast;
+  updateWhitelist(latestlist) broadcast;
   whitelistMgrAIStartingUp(uint32 doId, uint32 shardId); // ai to ud sent on whitelistManagerAI.announceGenerate
-  newListUDtoAI() airecv;
+  newListUDtoAI(latestList) airecv;  // ud to all AIs
 };
 
 

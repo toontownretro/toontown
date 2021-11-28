@@ -3357,7 +3357,7 @@ SuitAttackTaunts = {
                  "Ce modèle est disponible dans une plus petite taille.",
                  "C'est une attaque à taille unique !",
                  ],
-    # Hmmm - where is double talker ?
+    # Hmmm - where is double talker?
     'EvictionNotice': ["C'est l'heure de partir !",
                        "Fais tes bagages, Toon.",
                        "C'est le moment d'aller habiter ailleurs.",

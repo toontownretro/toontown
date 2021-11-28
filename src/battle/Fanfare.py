@@ -43,7 +43,7 @@ def makePanel(toon, showToonName):
     panel.setTransparency(1)
     panel.hide()
 
-    if showToonName is 1:
+    if showToonName == 1:
         panel.avNameLabel = DirectLabel(
                 parent = panel,
                 relief = None,
