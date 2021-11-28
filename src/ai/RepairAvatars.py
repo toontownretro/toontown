@@ -747,14 +747,14 @@ class HoodInfoStore:
 
 
 """
-import UtilityStart
-import RepairAvatars
+from . import UtilityStart
+from . import RepairAvatars
 r = RepairAvatars.AvatarFixer(simbase.air)
 r.start()
 
 
-import UtilityStart
-import RepairAvatars
+from . import UtilityStart
+from . import RepairAvatars
 r = RepairAvatars.AvatarPrinter(simbase.air)
 h = RepairAvatars.HoodInfoStore()
 r.start()

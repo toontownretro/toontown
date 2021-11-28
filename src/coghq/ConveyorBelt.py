@@ -176,7 +176,7 @@ class ConveyorBelt(BasicEntities.NodePathEntity):
             self.initBelt()
 
 """
-import ConveyorBelt
+from . import ConveyorBelt
 from toontown.toonbase import ToontownGlobals
 treadModel = loader.loadModel("phase_4/models/minigames/block")
 treadModel.setSx(3.)

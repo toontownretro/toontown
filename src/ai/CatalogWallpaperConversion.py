@@ -215,7 +215,7 @@ def convertWallpaperHouseVals():
     f2.start()
 
 """
-import UtilityStart
-from CatalogWallpaperConversion import *
+from . import UtilityStart
+from .CatalogWallpaperConversion import *
 convertWallpaper()
 """

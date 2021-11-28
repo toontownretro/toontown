@@ -61,7 +61,7 @@ for i in range(len(names)):
 DOTypeId2Name = names
 
 """
-import CatchGameGlobals
+from . import CatchGameGlobals
 for np in range(4):
     for sz in (2000,1000,5000,4000,3000,9000):
         numFruits = CatchGameGlobals.NumFruits[np][sz]

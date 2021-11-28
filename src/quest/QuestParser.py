@@ -25,7 +25,7 @@ from direct.interval.IntervalGlobal import *
 notify = DirectNotifyGlobal.directNotify.newCategory("QuestParser")
 
 """
-import QuestParser
+from . import QuestParser
 reload(QuestParser)
 QuestParser.init()
 npc = base.cr.doId2do[30004157]
