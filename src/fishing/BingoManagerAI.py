@@ -40,6 +40,7 @@ from toontown.toonbase.ToontownModules import *
 import pickle
 import os
 import time
+import sys
 
 #################################################################
 # Globals and Constants
