@@ -59,8 +59,6 @@ sync-video #f
 
 want-dev #f
 
-garbage-collect-states #f
-
 show-frame-rate-meter #t
 
 # remove this when we integrate Toontown with the Uberdog
