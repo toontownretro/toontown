@@ -397,7 +397,7 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
             name = base.cr.doId2do[avId].getName()
             self.showInfoText(TTLocalizer.CountryClubToonEnterElevator % (name))
             #av = base.localAvatar
-            #message = TLocalizer.stageToonEnterElevator % (name)
+            #message = TTLocalizer.stageToonEnterElevator % (name)
             #av.setSystemMessage( 0, message)
 
     def showInfoText(self, text = "hello world"):

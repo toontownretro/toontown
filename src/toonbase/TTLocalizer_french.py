@@ -6704,7 +6704,7 @@ NPCFriendPanelUnavailable = "Indisponible"
 
 # MapPage.py
 MapPageTitle = "Carte"
-MapPageBackToPlayground = "Au terrain de jeux"
+MapPageBackToPlayground = "Retour au terrain de jeux"
 MapPageBackToCogHQ = "Retour au QG des Cogs"
 MapPageGoHome = "À la maison"
 # hood name, street name

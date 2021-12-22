@@ -26,6 +26,8 @@ from toontown.parties import PartyGlobals
 from toontown.parties.Decoration import Decoration
 from . import PartyUtils
 
+from toontown.toonbase.ToontownModules import *
+
 class DistributedParty(DistributedObject.DistributedObject):
     notify = directNotify.newCategory("DistributedParty")
     generatedEvent = "distributedPartyGenerated"

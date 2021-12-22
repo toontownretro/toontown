@@ -6,46 +6,44 @@ from toontown.cogdominium import CogdoBarrelRoomConsts
 class CogdoBarrelRoomRewardPanel(DirectFrame):
 
     def __init__(self):
-        DirectFrame.__init__(self, relief=None,
-                             geom=DGG.getDefaultDialogGeom(),
-                             geom_color=ToontownGlobals.GlobalDialogColor,
-                             geom_scale=TTLocalizer.RPdirectFrame,
-                             pos=(0, 0, 0.587),
+        DirectFrame.__init__(self, relief = None,
+                             geom = DGG.getDefaultDialogGeom(),
+                             geom_color = ToontownGlobals.GlobalDialogColor,
+                             geom_scale = TTLocalizer.RPdirectFrame,
+                             pos = (0, 0, 0.587),
                              )
         self.initialiseoptions(CogdoBarrelRoomRewardPanel)
-        self.avNameLabel = DirectLabel(parent=self,
-                                       relief=None,
-                                       pos=(0, 0, 0.3),
-                                       text='Toon Ups', # Move to TTLocalizer
-                                       text_scale=0.08,
+        self.avNameLabel = DirectLabel(parent = self,
+                                       relief = None,
+                                       pos = (0, 0, 0.3),
+                                       text = "Toon Ups", # Move to TTLocalizer
+                                       text_scale = 0.08,
                                        )
         self.rewardLines = []
         for i in range(CogdoBarrelRoomConsts.MaxToons):
             rewardLine = {}
-            rewardLine['frame'] = DirectFrame(parent=self,
-                                              relief=None,
-                                              frameSize=(-0.5, 0.5, -0.045, 0.042),
-                                              pos=(0, 0, 0.1 + -0.09 * i),
+            rewardLine['frame'] = DirectFrame(parent = self,
+                                              relief = None,
+                                              frameSize = (-0.5, 0.5, -0.045, 0.042),
+                                              pos = (0, 0, 0.1 + -0.09 * i),
                                               )
             rewardLine['name'] = DirectLabel(parent=rewardLine['frame'],
-                                             relief=None,
-                                             text='',
-                                             text_scale=TTLocalizer.RPtrackLabels,
-                                             text_align=TextNode.ALeft,
-                                             pos=(-0.4, 0, 0),
-                                             text_pos=(0, -0.02),
+                                             relief = None,
+                                             text = "",
+                                             text_scale = TTLocalizer.RPtrackLabels,
+                                             text_align = TextNode.ALeft,
+                                             pos = (-0.4, 0, 0),
+                                             text_pos = (0, -0.02),
                                              )
-            rewardLine['laff'] = DirectLabel(parent=rewardLine['frame'],
-                                             relief=None,
-                                             text='',
-                                             text_scale=0.05,
-                                             text_align=TextNode.ARight,
-                                             pos=(0.4, 0, 0),
-                                             text_pos=(0, -0.02),
+            rewardLine['laff'] = DirectLabel(parent = rewardLine['frame'],
+                                             relief = None,
+                                             text = "",
+                                             text_scale = 0.05,
+                                             text_align = TextNode.ARight,
+                                             pos = (0.4, 0, 0),
+                                             text_pos = (0, -0.02),
                                              )
             self.rewardLines.append(rewardLine)
-
-        return
 
     def setRewards(self, results):
         for p in range(len(results[0])):

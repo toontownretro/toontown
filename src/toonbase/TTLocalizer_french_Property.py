@@ -420,7 +420,7 @@ OPCodesSubmitTextScale = 0.07
 OPCodesSubmitTextPos = (0, -0.02)
 
 #shtiker/MapPage.py
-MPbackToPlayground = 0.055
+MPbackToPlayground = 0.045
 MPgoHome = 0.050
 MPhoodLabel = 0.06
 MPhoodWordwrap = 20
