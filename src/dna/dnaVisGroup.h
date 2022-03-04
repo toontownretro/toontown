@@ -43,17 +43,17 @@ PUBLISHED:
   void add_visible(const string &vis_group_name);
   int remove_visible(const string &vis_group_name);
   int get_num_visibles() const;
-  string get_visible_name(uint i) const;
+  string get_visible_name(uint32_t i) const;
 
   void add_suit_edge(PT(DNASuitEdge) edge);
   int remove_suit_edge(PT(DNASuitEdge) edge);
   int get_num_suit_edges() const;
-  PT(DNASuitEdge) get_suit_edge(uint i) const;
+  PT(DNASuitEdge) get_suit_edge(uint32_t i) const;
 
   void add_battle_cell(PT(DNABattleCell) cell);
   int remove_battle_cell(PT(DNABattleCell) cell);
   int get_num_battle_cells() const;
-  PT(DNABattleCell) get_battle_cell(uint i) const;
+  PT(DNABattleCell) get_battle_cell(uint32_t i) const;
 
 private:
   virtual DNAGroup* make_copy();
