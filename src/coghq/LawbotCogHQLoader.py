@@ -67,7 +67,7 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
         if self.geom:
             self.geom.removeNode()
             self.geom = None
-        #base.planar.shutdown()
+        base.planar.shutdown()
         CogHQLoader.CogHQLoader.unloadPlaceGeom(self)
 
     def loadPlaceGeom(self, zoneId):
@@ -87,12 +87,12 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
             # make sure the reflective floor renders properly
             ug = self.geom.find("**/underground")
             ug.setBin( "ground", -10)
-            #ug.stash()
+            ug.stash()
 
-            #ground = self.geom.find("**/LB_PlazaGround")
-            #ground.setTransparency(False, 1)
-            #base.planar.setup(Vec3.up(), -68.367)
-            #base.planar.renderReflection(ground)
+            ground = self.geom.find("**/LB_PlazaGround")
+            ground.setTransparency(False, 1)
+            base.planar.setup(Vec3.up(), -68.367, 0.55)
+            base.planar.renderReflection(ground)
 
             # Rename the link tunnels so they will hook up properly
             brLinkTunnel = self.geom.find("**/TunnelEntrance1")
@@ -185,12 +185,12 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
             # make sure the reflective floor renders properly
             ug = self.geom.find("**/underground")
             ug.setBin( "ground", -10)
-            #ug.stash()
+            ug.stash()
 
-            #ground = self.geom.find("**/DA_LobbyFloor")
-            #ground.setTransparency(False, 1)
-            #base.planar.setup(Vec3.up(), 31.917)
-            #base.planar.renderReflection(ground)
+            ground = self.geom.find("**/DA_LobbyFloor")
+            ground.setTransparency(False, 1)
+            base.planar.setup(Vec3.up(), 31.917, 0.55)
+            base.planar.renderReflection(ground)
 
             """
             factoryLinkTunnel = self.geom.find("**/tunnel_group2")
@@ -285,12 +285,12 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
             # make sure the reflective floor renders properly
             ug = self.geom.find("**/underground")
             ug.setBin( "ground", -10)
-            #ug.stash()
+            ug.stash()
 
-            #ground = self.geom.find("**/CH_LobbyFloor")
-            #ground.setTransparency(False, 1)
-            #base.planar.setup(Vec3.up(), 33.415)
-            #base.planar.renderReflection(ground)
+            ground = self.geom.find("**/CH_LobbyFloor")
+            ground.setTransparency(False, 1)
+            base.planar.setup(Vec3.up(), 33.415, 0.55)
+            base.planar.renderReflection(ground)
 
             """
             front = self.geom.find("**/frontWall")

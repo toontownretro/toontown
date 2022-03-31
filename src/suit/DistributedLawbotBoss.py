@@ -501,10 +501,10 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         finalPodiumPos = Point3( self.podium.getX(), self.podium.getY(),
                                  self.podium.getZ() + ToontownGlobals.LawbotBossBattleTwoPosHpr[2])
 
-        finalReflectedPodiumPos = Point3(
-            self.reflectedPodium.getX(),
-            self.reflectedPodium.getY(),
-            self.reflectedPodium.getZ() + ToontownGlobals.LawbotBossBattleTwoPosHpr[2])
+        #finalReflectedPodiumPos = Point3(
+        #    self.reflectedPodium.getX(),
+        #    self.reflectedPodium.getY(),
+        #    self.reflectedPodium.getZ() + ToontownGlobals.LawbotBossBattleTwoPosHpr[2])
 
         # Needed to add another stash/unstash boss command because turning the boss cog around causes
         # the player to get stuck in the collision of the boss for some reason.
@@ -516,7 +516,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             Func(self.getGeomNode().setH, 0),
             Parallel(
                 self.podium.posInterval(5.0, finalPodiumPos),
-                self.reflectedPodium.posInterval(5.0, finalReflectedPodiumPos),
+                #self.reflectedPodium.posInterval(5.0, finalReflectedPodiumPos),
                 Func(self.stashBoss),
                 self.posInterval(5.0, battlePos),
                 Func(taskMgr.doMethodLater,.01, self.unstashBoss, 'unstashBoss'),
@@ -778,23 +778,23 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 else:
                     self.notify.debug('not found %s' % stuffToHide)
 
-        self.reflectedMainDoor = self.geom.find('**/interiorrefl/CR3_Door')
-        if not self.reflectedMainDoor.isEmpty():
-            itemsToHide = ['Reflections/Door_1']
-            for str in itemsToHide:
-                stuffToHide = self.geom.find('**/%s' % str)
-                if not stuffToHide.isEmpty():
-                    self.notify.debug('found %s' % stuffToHide)
-                    stuffToHide.wrtReparentTo(self.reflectedMainDoor)
-                else:
-                    self.notify.debug('not found %s' % stuffToHide)
+        #self.reflectedMainDoor = self.geom.find('**/interiorrefl/CR3_Door')
+        #if not self.reflectedMainDoor.isEmpty():
+        #    itemsToHide = ['Reflections/Door_1']
+        #    for str in itemsToHide:
+        #        stuffToHide = self.geom.find('**/%s' % str)
+        #        if not stuffToHide.isEmpty():
+        #            self.notify.debug('found %s' % stuffToHide)
+        #            stuffToHide.wrtReparentTo(self.reflectedMainDoor)
+        #        else:
+        #            self.notify.debug('not found %s' % stuffToHide)
 
         # Get rid of the fake reflection geometry, we're going to use planar
         # render-to-texture reflections.
         self.geom.find("**/Reflections").stash()
 
         # Set up the planar reflection plane and apply it onto the ground.
-        base.planar.setup(Vec3.up(), 0)
+        base.planar.setup(Vec3.up(), 0, 0.55)
         base.planar.renderReflection(self.geom.find("**/CR3_Floor"))
 
         self.geom.reparentTo(render)
@@ -823,21 +823,21 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             self.juryBox.setPos( newPos)
 
         #move / hide the reflected JuryBox
-        self.reflectedJuryBox = self.geom.find('**/JuryBox_Geo_Reflect')
+        #self.reflectedJuryBox = self.geom.find('**/JuryBox_Geo_Reflect')
 
-        reflectedJuryBoxPos = self.reflectedJuryBox.getPos()
-        newReflectedPos = reflectedJuryBoxPos - Point3(*ToontownGlobals.LawbotBossJuryBoxRelativeEndPos)
-        if not self.debugPositions:
-            self.reflectedJuryBox.setPos(newReflectedPos)
+        #reflectedJuryBoxPos = self.reflectedJuryBox.getPos()
+        #newReflectedPos = reflectedJuryBoxPos - Point3(*ToontownGlobals.LawbotBossJuryBoxRelativeEndPos)
+        #if not self.debugPositions:
+        #    self.reflectedJuryBox.setPos(newReflectedPos)
 
-        if not self.reflectedJuryBox.isEmpty():
-            if self.debugPositions:
-                self.reflectedJuryBox.show()
-            else:
+        #if not self.reflectedJuryBox.isEmpty():
+        #    if self.debugPositions:
+        #        self.reflectedJuryBox.show()
+        #    else:
                 #self.reflectedJuryBox.hide()
-                pass
+        #        pass
 
-        self.reflectedJuryBox.setZ( self.reflectedJuryBox.getZ() + ToontownGlobals.LawbotBossJuryBoxRelativeEndPos[2])
+        #self.reflectedJuryBox.setZ( self.reflectedJuryBox.getZ() + ToontownGlobals.LawbotBossJuryBoxRelativeEndPos[2])
 
 
     def loadPodium(self):
@@ -850,18 +850,18 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             self.podium.setZ(newZ)
 
         #move the reflected podium
-        self.reflectedPodium = self.geom.find('**/Podium_Geo1_Refl')
+        #self.reflectedPodium = self.geom.find('**/Podium_Geo1_Refl')
 
         #reflectedZ = self.reflectedPodium.getZ() - ToontownGlobals.LawbotBossBattleTwoPosHpr[2]
-        reflectedZ = self.reflectedPodium.getZ() #+ ToontownGlobals.LawbotBossBattleTwoPosHpr[2]
-        if not self.debugPositions:
-            self.reflectedPodium.setZ(reflectedZ)
-        if not self.reflectedPodium.isEmpty():
-            if self.debugPositions:
-                self.reflectedPodium.show()
-            else:
+        #reflectedZ = self.reflectedPodium.getZ() #+ ToontownGlobals.LawbotBossBattleTwoPosHpr[2]
+        #if not self.debugPositions:
+        #    self.reflectedPodium.setZ(reflectedZ)
+        #if not self.reflectedPodium.isEmpty():
+        #    if self.debugPositions:
+        #        self.reflectedPodium.show()
+        #    else:
                 #self.reflectedPodium.hide()
-                pass
+        #        pass
 
 
 
@@ -882,11 +882,11 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 self.realWitnessStand.stash()
                 pass
         #also hide the reflected witness stand
-        self.reflectedWitnessStand = self.geom.find('**/Witnessstand_Geo_Reflect')
-        if not self.reflectedWitnessStand.isEmpty():
-            if 0: #not self.debugPositions:
-                self.reflectedWitnessStand.stash()
-                pass
+        #self.reflectedWitnessStand = self.geom.find('**/Witnessstand_Geo_Reflect')
+        #if not self.reflectedWitnessStand.isEmpty():
+        #    if 0: #not self.debugPositions:
+        #        self.reflectedWitnessStand.stash()
+        #        pass
 
         colNode = self.realWitnessStand.find('**/witnessStandCollisions/Witnessstand_Collision')
         colNode.setName('WitnessStand')
@@ -1260,8 +1260,8 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
         if not self.mainDoor.isEmpty():
             self.mainDoor.stash()
-        if not self.reflectedMainDoor.isEmpty():
-            self.reflectedMainDoor.stash()
+        #if not self.reflectedMainDoor.isEmpty():
+        #    self.reflectedMainDoor.stash()
 
 
         # Position the camera behind the toons
@@ -1303,8 +1303,8 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
         if not self.mainDoor.isEmpty():
             self.mainDoor.stash()
-        if not self.reflectedMainDoor.isEmpty():
-            self.reflectedMainDoor.stash()
+        #if not self.reflectedMainDoor.isEmpty():
+        #    self.reflectedMainDoor.stash()
 
 
 
@@ -1320,8 +1320,8 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         if not self.mainDoor.isEmpty():
             #self.mainDoor.unstash()
             pass
-        if not self.reflectedMainDoor.isEmpty():
-            self.reflectedMainDoor.unstash()
+        #if not self.reflectedMainDoor.isEmpty():
+        #    self.reflectedMainDoor.unstash()
 
 
         if not self.elevatorEntrance.isEmpty():
@@ -1595,17 +1595,17 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                               ToontownGlobals.LawbotBossJuryBoxRelativeEndPos[2]
                               )
 
-        curReflectedPos = self.reflectedJuryBox.getPos()
-        reflectedEndingAbsPos = Point3 (curReflectedPos[0] +
-                              ToontownGlobals.LawbotBossJuryBoxRelativeEndPos[0],
-                              curReflectedPos[1] +
-                              ToontownGlobals.LawbotBossJuryBoxRelativeEndPos[1],
-                              curReflectedPos[2] +
-                              ToontownGlobals.LawbotBossJuryBoxRelativeEndPos[2]
-                              )
+        #curReflectedPos = self.reflectedJuryBox.getPos()
+        #reflectedEndingAbsPos = Point3 (curReflectedPos[0] +
+        #                      ToontownGlobals.LawbotBossJuryBoxRelativeEndPos[0],
+        #                      curReflectedPos[1] +
+        #                      ToontownGlobals.LawbotBossJuryBoxRelativeEndPos[1],
+        #                      curReflectedPos[2] +
+        #                      ToontownGlobals.LawbotBossJuryBoxRelativeEndPos[2]
+        #                      )
         self.juryBoxIval = Parallel(
             self.juryBox.posInterval( ToontownGlobals.LawbotBossJuryBoxMoveTime, endingAbsPos),
-            self.reflectedJuryBox.posInterval( ToontownGlobals.LawbotBossJuryBoxMoveTime, reflectedEndingAbsPos),
+            #self.reflectedJuryBox.posInterval( ToontownGlobals.LawbotBossJuryBoxMoveTime, reflectedEndingAbsPos),
             SoundInterval(self.juryMovesSfx, node = self.chairs[2].nodePath, duration = ToontownGlobals.LawbotBossJuryBoxMoveTime,  loop = 1, volume = 1.0),
             )
 

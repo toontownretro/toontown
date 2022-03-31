@@ -16,9 +16,9 @@ class PlanarReflector:
         fbp = FrameBufferProperties()
         fbp.clear()
         fbp.setForceHardware(True)
-        fbp.setFloatColor(True)
-        fbp.setRgbaBits(16, 16, 16, 0)
-        fbp.setDepthBits(8)
+        fbp.setFloatColor(False)
+        fbp.setRgbaBits(8, 8, 8, 0)
+        fbp.setDepthBits(24)
 
         winprops = WindowProperties()
         winprops.setSize(texSize, texSize)
@@ -60,7 +60,7 @@ class PlanarReflector:
         node.setTexture(ts, self.texture)
         node.hide(OTPRender.ReflectionCameraBitmask)
 
-    def setup(self, planeVec, distance):
+    def setup(self, planeVec, distance, scale=1.0):
         self.shutdown()
 
         self.distance = distance
@@ -69,6 +69,8 @@ class PlanarReflector:
         planeNP = base.render.attachNewNode(self.planeNode)
         stateNP = NodePath("statenp")
         stateNP.setClipPlane(planeNP)
+        # For tinting the reflections w/o materials.
+        stateNP.setColorScale((scale, scale, scale, 1.0))
         stateNP.setAttrib(CullFaceAttrib.makeReverse(), 100)
         stateNP.setAntialias(False, 100)
         self.camera.setInitialState(stateNP.getState())
