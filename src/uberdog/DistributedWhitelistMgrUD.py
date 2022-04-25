@@ -189,7 +189,7 @@ class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
         self.d_setLatestList(latestList)
 
     def d_setLatestList(self, latestList):
-        self.sendUpdateToAllAis('newListUDtoAI', [])
+        self.sendUpdateToAllAis('newListUDtoAI', [str(latestList)])
 
     def sendUpdateToAllAis(self, message, args):
         dg = self.dclass.aiFormatUpdateMsgType(
@@ -202,5 +202,5 @@ class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
                 "DistributedWhitelistMgr",
                 'newListUDtoAI',
                 doId ,
-                []
+                [str(self.latestList)]
             )
