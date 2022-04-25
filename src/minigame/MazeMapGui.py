@@ -16,10 +16,9 @@ import random
 # panda imports
 from direct.showbase.PythonUtil import Enum
 from direct.gui.DirectGui import DirectFrame, DGG
-from toontown.toonbase.ToontownModules import Vec2, VBase4D
-from toontown.toonbase.ToontownModules import CardMaker
+from toontown.toonbase.ToontownModules import Vec2, VBase4F
+from toontown.toonbase.ToontownModules import CardMaker, NodePath
 from toontown.toonbase.ToontownModules import Texture, PNMImage
-from toontown.toonbase.ToontownModules import Filename
 
 #TODO:maze: move this to a config or global location
 
@@ -29,7 +28,7 @@ DEFAULT_MASK_RESOLUTION = 32
 
 # Default ratio for the reveal radius.  This is essentially the percentage of
 # the map that is revealed with each step.
-DEFAULT_RADIUS_RATIO = 0.09
+DEFAULT_RADIUS_RATIO = 0.05 # 0.09
 
 # Resolution for the map image that will be generated based on the map data.
 MAP_RESOLUTION = 320
@@ -47,7 +46,7 @@ class MazeMapGui(DirectFrame):
 
     notify = directNotify.newCategory("MazeMapGui")
 
-    def __init__(self, mazeLayout, maskResolution=None, radiusRatio=None):
+    def __init__(self, mazeCollTable, maskResolution = None, radiusRatio = None, bgColor = (0.8, 0.8, 0.8), fgColor = (0.5, 0.5, 0.5, 1.0)):
         """
         Constructor for a MazeMap.  the mazeLayout parameter is a 2d array of
         bools (or ints... maybe more depth will be added with that).
@@ -61,8 +60,15 @@ class MazeMapGui(DirectFrame):
             sortOrder = DGG.BACKGROUND_SORT_INDEX,
         )
 
+        self.hide()
+        self._bgColor = bgColor
+        self._fgColor = fgColor
+        self._mazeCollTable = mazeCollTable
+        self._mazeWidth = len(self._mazeCollTable[0])
+        self._mazeHeight = len(self._mazeCollTable)
+
         # store / set parameters
-        self._mazeLayout = mazeLayout
+        #self._mazeLayout = mazeLayout
         self._maskResolution = maskResolution or DEFAULT_MASK_RESOLUTION
         if radiusRatio is None:
             self._radius = self._maskResolution * DEFAULT_RADIUS_RATIO
@@ -73,9 +79,9 @@ class MazeMapGui(DirectFrame):
         # been revealed yet.  This can prevent the expensive call to altering
         # the mask if a cell is already revealed
         self._revealedCells = []
-        for y in range( len(self._mazeLayout) ):
+        for y in range(self._mazeHeight):
             self._revealedCells.append([])
-            for x in range( len(self._mazeLayout[0]) ):
+            for u in range(self._mazeWidth):
                 self._revealedCells[y].append(False)
 
         # create reveal function mappings
@@ -93,6 +99,8 @@ class MazeMapGui(DirectFrame):
         self.mask = self._createMaskTextureCard()
         self.mask.reparentTo(self)
         self.visibleLayer = self.attachNewNode("visibleLayer")
+        self._laffMeterModel = loader.loadModel("phase_3/models/gui/laff_o_meter")
+        self._toon2marker = {}
 
         #TODO:maze: handle locks and doors
         self._players = []
@@ -108,20 +116,16 @@ class MazeMapGui(DirectFrame):
         """
         # create and fill empty map image
         mapImage = PNMImage(MAP_RESOLUTION, MAP_RESOLUTION)
-        blockFiles = []
-        for i in range(5):
-            blockFiles.append(PNMImage())
-            #blockFiles[i].read(Filename("mapBlock%i.txo"%(i+1)))
-            # TODO:maze either reference a set of textures for each piece or fill with color
-            blockFiles[i].read(Filename('phase_4/maps/male_sleeve4New.txo'))
-        mapImage.fill(0.8, 0.8, 0.8)
+        mapImage.fill(*self._bgColor)
+        fgColor = VBase4F(*self._fgColor)
 
         # iterate through the map data and place a block in the map image where appropriate
-        for x in range( len(self._mazeLayout[0]) ):
-            for y in range( len(self._mazeLayout) ):
-                if self._mazeLayout[y][x]:
-                    ax = float(x)/len(self._mazeLayout[0]) * MAP_RESOLUTION
-                    ay = float(y)/len(self._mazeLayout) * MAP_RESOLUTION
+        for x in range(self._mazeHeight):
+            for y in range(self._mazeWidth):
+                if self._mazeCollTable[y][x] == 1:
+                    ax = float(x)/self._mazeWidth * MAP_RESOLUTION
+                    invertedY = self._mazeHeight - 1 - y
+                    ay = float(invertedY)/self._mazeHeight * MAP_RESOLUTION
 
                     #TODO:maze use different blocks for different wall types or items
                     #mapImage.copySubImage(random.choice(blockFiles), int(ax), int(ay), 20, 20, 32, 32)
@@ -129,7 +133,7 @@ class MazeMapGui(DirectFrame):
                     #TODO:maze find the ideal block texture size for the map so we dont
                     #          have to do this strange offset
                     #mapImage.copySubImage(blockFiles[0], int(ax), int(ay), 0, 0, 32, 32)
-                    self._drawSquare(mapImage, int(ax), int(ay), 10, VBase4D(0.5, 0.5, 0.5, 1.0))
+                    self._drawSquare(mapImage, int(ax), int(ay), 10, fgColor)
 
         # create a texture from the map image
         mapTexture = Texture("mapTexture")
@@ -173,7 +177,7 @@ class MazeMapGui(DirectFrame):
 
         # put the mask texture on a card and return it
         cm = CardMaker("mask_cardMaker")
-        cm.setFrame(-1.0,1.0,-1.0,1.0)
+        cm.setFrame(-1.0,1.1,-1.1,1.1)
         mask = self.attachNewNode(cm.generate())
         mask.setTexture(self.maskTexture, 1)
         mask.setTransparency(1)
@@ -194,7 +198,7 @@ class MazeMapGui(DirectFrame):
             x += 1
 
     def destroy(self):
-        del self._mazeLayout
+        del self._mazeCollTable
         del self._maskResolution
         del self._radius
         del self._revealedCells
@@ -213,21 +217,14 @@ class MazeMapGui(DirectFrame):
         del self.visibleLayer
 
         # remove and delete all lists of nodes
-        for p in self._players:
-            p.removeNode()
-        del self._players
-        for k in self._locks:
-            k.removeNode()
-        del self._locks
-        for d in self._doors:
-            d.removeNode()
-        del self._doors
-
         self._maskImage.clear()
         del self._maskImage
 
         self.maskTexture.clear()
         del self.maskTexture
+
+        self._laffMeterModel.removeNode()
+        del self._laffMeterModel
 
         DirectFrame.destroy(self)
 
@@ -239,16 +236,16 @@ class MazeMapGui(DirectFrame):
         self._maskImage.setXelA(
             x,
             y,
-            VBase4D( 0.0, 0.0, 0.0, min(self._maskImage.getAlpha(x,y), goalAlpha*2.0))
+            VBase4F( 0.0, 0.0, 0.0, min(self._maskImage.getAlpha(x,y), goalAlpha*2.0))
         )
 
     def _revealHardCircle(self, x, y, center):
         length = (Vec2(x,y)-center).length()
         if length <= self._radius:
-            self._maskImage.setXelA(x,y,VBase4D(0,0,0,0))
+            self._maskImage.setXelA(x,y,VBase4F(0,0,0,0))
 
     def _revealSquare(self, x, y, center):
-        self._maskImage.setXelA(x,y,VBase4D(0,0,0,0))
+        self._maskImage.setXelA(x,y,VBase4F(0,0,0,0))
 
     #--- Private Functions ---##################################################
 
@@ -268,60 +265,36 @@ class MazeMapGui(DirectFrame):
         self.maskTexture.load(self._maskImage)
         self.mask.setTexture(self.maskTexture, 1)
 
-    def _tileToActualPosition(self, x, y):
-        y = len(self._mazeLayout) - y
-        cellWidth = self._maskResolution / len(self._mazeLayout[0])
-        cellHeight = self._maskResolution / len(self._mazeLayout)
-        ax = float(x)/len(self._mazeLayout[0]) * self._maskResolution
+    def _createSimpleMarker(self, size, color = (1, 1, 1)):
+        halfSize = size * 0.5
+        cm = CardMaker("mazemap_simple_marker")
+        cm.setFrame(-halfSize, halfSize, -halfSize, halfSize)
+        markerNP = self.maskedLayer.attachNewNode(cm.generate())
+        markerNP.setColor(*color)
+        return markerNP
+
+    def tile2gui(self, x, y):
+        y = self._mazeHeight - y
+        cellWidth = self._maskResolution / self._mazeWidth
+        cellHeight = self._maskResolution / self._mazeHeight
+        ax = float(x)/self._mazeWidth * self._maskResolution
         ax += cellWidth
-        ay = float(y)/len(self._mazeLayout) * self._maskResolution
+        ay = float(y)/self._mazeHeight * self._maskResolution
         ay += cellHeight
         return ax, ay
 
+    def gui2pos(self, x, y):
+        return (x / self._maskResolution * 2.0 - 0.97, 0, y / self._maskResolution * -2.0 + 1.02)
+
+    def _getToonMarker(self, toon):
+        hType = toon.style.getType()
+        if hType == "rabbit":
+            hType = "bunny"
+        return self._laffMeterModel.find("**/" + hType + "head")
+
     #--- Member Functions ---###################################################
 
-    def addDoor(self, x, y, color):
-        """
-        Adds a door to the minimap.  This will add a colored dot to the map
-        that represents a door.
-        --- This is subject to change pending a new player-lock data system. ---
-        """
-        assert self.notify.debugCall()
-
-        x, y = self._tileToActualPosition(x, y)
-
-        # TODO:maze: replace with door model / texture
-        cm = CardMaker("door_cardMaker")
-        cm.setFrame(-0.04,0.04,-0.04,0.04)
-        #door = self.visibleLayer.attachNewNode(cm.generate())
-        door = self.maskedLayer.attachNewNode(cm.generate())
-
-        door.setColor(color)
-        door.setPos(x/self._maskResolution*2.0 - 0.97, 0, y/self._maskResolution*-2.0 + 1.02)
-
-        self._doors.append(door)
-
-    def addLock(self, x, y, color):
-        """
-        Adds a lock to the minimap.  This will add a colored dot to the map
-        that represents a lock.
-        --- This is subject to change pending a new player-lock data system. ---
-        """
-        assert self.notify.debugCall()
-
-        x, y = self._tileToActualPosition(x, y)
-
-        # TODO:maze: replace with lock model / texture
-        cm = CardMaker("lock_cardMaker")
-        cm.setFrame(-0.04,0.04,-0.04,0.04)
-        lock = self.maskedLayer.attachNewNode(cm.generate())
-
-        lock.setColor(color)
-        lock.setPos(x/self._maskResolution*2.0 - 0.97, 0, y/self._maskResolution*-2.0 + 1.02)
-
-        self._locks.append(lock)
-
-    def addPlayer(self, x, y, color):
+    def addToon(self, toon, tX, tY):
         """
         Adds a player to the minimap.  This will add a colored dot to the map
         that represents the player.  The dot location can then be updated
@@ -329,40 +302,68 @@ class MazeMapGui(DirectFrame):
         --- This is subject to change pending a new player-lock data system. ---
         """
         assert self.notify.debugCall()
+        
+        marker = NodePath("toon_marker-%i" % toon.doId)
+        marker.reparentTo(self)
+        self._getToonMarker(toon).copyTo(marker)
+        marker.setColor(toon.style.getHeadColor())
+        if toon.isLocal():
+            marker.setScale(0.07)
+        else:
+            marker.setScale(0.05)
+        marker.flattenStrong()
+        marker.setPos(*self.gui2pos(*self.tile2gui(tX, tY)))
+        self._toon2marker[toon] = marker
 
-        x, y = self._tileToActualPosition(x, y)
+    def removeToon(self, toon):
+        if toon not in self._toon2marker:
+            return
+        self._toon2marker[toon].removeNode()
+        del self._toon2marker[toon]
 
-        # TODO:maze: replace with player model / texture
-        cm = CardMaker("player_cardMaker")
-        cm.setFrame(-0.04,0.04,-0.04,0.04)
-        player = self.visibleLayer.attachNewNode(cm.generate())
+    def updateToon(self, toon, tX, tY):
+        if toon not in self._toon2marker:
+            return
+        x, y = self.tile2gui(tX, tY)
+        self._toon2marker[toon].setPos(*self.gui2pos(x, y))
+        if tY < 0 or tY >= len(self._revealedCells):
+            self.notify.warning("updateToon earlying out:")
+            self.notify.warning("(tX, tY): (%s, %s)" % (tX, tY))
+            self.notify.warning("len(_revealedCells): %s" % (len(self._revealedCells),))
+            if len(self._revealedCells) > 0:
+                self.notify.warning("len(_revealedCells[0]): %s" % (len(self._revealedCells[0]),))
+            return
+        if tX < 0 or tX >= len(self._revealedCells[tY]):
+            self.notify.warning("updateToon earlying out:")
+            self.notify.warning("(tX, tY): (%s, %s)" % (tX, tY))
+            self.notify.warning("len(_revealedCells): %s" % (len(self._revealedCells),))
+            if tY < len(self._revealedCells):
+                self.notify.warning("len(_revealedCells[tY]): %s" % (len(self._revealedCells[tY]),))
+            elif len(self._revealedCells) > 0:
+                self.notify.warning("len(_revealedCells[0]): %s" % (len(self._revealedCells[0]),))
+            return
+        if not self._revealedCells[tY][tX]:
+            self._drawHole(x, y)
+            self._revealedCells[tY][tX] = True
 
-        player.setColor(color)
-        player.setPos(x/self._maskResolution*2.0 - 0.97, 0, y/self._maskResolution*-2.0 + 1.02)
-
-        self._players.append(player)
-
-    def revealCell(self, x, y, playerIndex=None):
+    def revealCell(self, x, y):
         """
         Clears out the mask around the given cell and stores that the cell has
         been revealed to prevent attempting to edit the mask for the cell again.
         """
 
-        ax, ay = self._tileToActualPosition(x, y)
+        ax, ay = self.tile2gui(x, y)
 
         if not self._revealedCells[y][x]:
             self._drawHole(ax, ay)
             self._revealedCells[y][x] = True
-
-        if playerIndex is not None:
-            assert(playerIndex < len(self._players))
-            self._players[playerIndex].setPos(ax/self._maskResolution*2.0 - 0.97, 0, ay/self._maskResolution*-2.0 + 1.02)
-
+            
     def revealAll(self):
         """ Clears out all of the mask. """
         for x in range(self._maskResolution):
             for y in range(self._maskResolution):
                 self._maskImage.setXelA(x,y,0,0,0,0)
+        self.revealCell(0, 0)
 
     def reset(self):
         """ Turns all of the mask on, covering the entire map. """

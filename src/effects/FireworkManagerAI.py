@@ -7,6 +7,7 @@ from . import FireworkShow
 from toontown.toonbase.ToontownGlobals import DonaldsDock, ToontownCentral, \
     TheBrrrgh, MinniesMelodyland, DaisyGardens, OutdoorZone, GoofySpeedway, DonaldsDreamland
 import time
+from toontown.toonbase.ToontownModules import *
 
 class FireworkManagerAI(HolidayBaseAI.HolidayBaseAI):
     """

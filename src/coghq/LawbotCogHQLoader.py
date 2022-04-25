@@ -13,7 +13,7 @@ from . import LawbotHQBossBattle
 from . import LawbotOfficeExterior
 from toontown.toonbase.ToontownModules import *
 
-#from panda3d.core import Vec3
+from panda3d.core import Vec3
 
 # Used to compensate for scaling of Cog tunnel sign's
 # original aspect ratio of 1125x813 to a uniform ratio,

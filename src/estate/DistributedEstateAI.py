@@ -435,6 +435,8 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
 
         #self.lastEpochTimeStamp = time.mktime((2006, 8, 24, 10, 50, 31, 4, 237, 1))
 
+        if self.lastEpochTimeStamp == 0:
+            self.lastEpochTimeStamp = time.time()
         tupleNewTime = time.localtime(currentTime - self.epochHourInSeconds)
         tupleOldTime = time.localtime(self.lastEpochTimeStamp)
         if (tupleOldTime < time.gmtime(0)):

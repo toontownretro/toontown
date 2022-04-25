@@ -1,5 +1,6 @@
 // See Also: "direct/src/doc/sample.dc"
 
+from direct.distributed import DistributedObjectGlobal
 from toontown.ai import WelcomeValleyManager/AI
 from toontown.building import DistributedAnimatedProp/AI
 from toontown.toon import DistributedToon/AI/UD
@@ -138,6 +139,7 @@ from toontown.estate import DistributedFurnitureManager/AI
 from toontown.estate import DistributedFurnitureItem/AI
 from toontown.estate import DistributedBank/AI
 from toontown.estate import DistributedCloset/AI
+//from toontown.estate import DistributedTrunk/AI
 from toontown.estate import DistributedPhone/AI
 from toontown.effects import DistributedFireworkShow/AI
 from toontown.estate import DistributedFireworksCannon/AI
@@ -221,6 +223,7 @@ from toontown.estate import DistributedGagTree/AI
 from toontown.estate import DistributedStatuary/AI
 from toontown.estate import DistributedToonStatuary/AI
 from toontown.estate import DistributedChangingStatuary/AI
+//from toontown.estate import DistributedAnimatedStatuary/AI
 from toontown.estate import DistributedPlantBase/AI
 from toontown.estate import DistributedLawnDecor/AI
 from toontown.minigame import DistributedTravelGame/AI
@@ -239,17 +242,25 @@ from toontown.parties import DistributedPartyTeamActivity/AI
 from toontown.parties import DistributedPartyCannon/AI
 from toontown.parties import DistributedPartyCannonActivity/AI
 from toontown.parties import DistributedPartyCatchActivity/AI
+from toontown.parties import DistributedPartyWinterCatchActivity/AI
 from toontown.parties import DistributedPartyCogActivity/AI
+from toontown.parties import DistributedPartyWinterCogActivity/AI
 from toontown.parties import DistributedPartyFireworksActivity/AI
 from toontown.parties import DistributedPartyDanceActivityBase/AI
 from toontown.parties import DistributedPartyDanceActivity/AI
 from toontown.parties import DistributedPartyDance20Activity/AI
+from toontown.parties import DistributedPartyValentineDanceActivity/AI
+from toontown.parties import DistributedPartyValentineDance20Activity/AI
 from toontown.parties import DistributedPartyTrampolineActivity/AI
+from toontown.parties import DistributedPartyValentineTrampolineActivity/AI
 from toontown.parties import DistributedPartyVictoryTrampolineActivity/AI
+from toontown.parties import DistributedPartyWinterTrampolineActivity/AI
 from toontown.parties import DistributedPartyTugOfWarActivity/AI
 from toontown.parties import DistributedPartyJukeboxActivityBase/AI
 from toontown.parties import DistributedPartyJukeboxActivity/AI
 from toontown.parties import DistributedPartyJukebox40Activity/AI
+from toontown.parties import DistributedPartyValentineJukeboxActivity/AI
+from toontown.parties import DistributedPartyValentineJukebox40Activity/AI
 
 
 //from toontown.friends import TTAvatarFriendsManager/UD
@@ -2389,6 +2400,10 @@ dclass DistributedCogdoInterior: DistributedObject {
   setDistBldgDoId(uint32) required broadcast ram;
   setNumFloors(int8 numFloors) required broadcast ram;
 
+  setShopOwnerNpcId(uint32) required broadcast ram;
+  setSOSNpcId(uint32) broadcast ram;
+  setFOType(int8) broadcast ram;
+
   setToons(uint32array toonsIds, uint16 hack) broadcast ram;
   setSuits(uint32array suitIds, uint32array reserveIds, uint16array values)
            broadcast ram;
@@ -2401,6 +2416,11 @@ dclass DistributedCogdoInterior: DistributedObject {
   setAvatarJoined() airecv clsend;   //possible security breach, name and dnaNetString need sanity check...need help = MIKE/DROSE
   elevatorDone() airecv clsend;    //appears safe
   reserveJoinDone() airecv clsend; //appears safe
+
+  toonLeftBarrelRoom() airecv clsend;
+  toonBarrelRoomIntroDone() airecv clsend;
+  setBarrelRoomReward(uint32 [], uint8 []) broadcast;
+  toonBarrelRoomRewardDone() airecv clsend;
 };
 
 dclass DistributedCogdoBattleBldg : DistributedBattleBldg {
@@ -2408,7 +2428,12 @@ dclass DistributedCogdoBattleBldg : DistributedBattleBldg {
 
 dclass DistCogdoGame: DistributedObject {
   setInteriorId(uint32 interiorId) required broadcast ram;
+  setExteriorZone(uint32) broadcast ram required;
+  setDifficultyOverrides(int32, int32) broadcast ram required;
+  setVisible() broadcast;
   setIntroStart() broadcast;
+  setToonSad(uint32) broadcast;
+  setToonDisconnect(uint32) broadcast;
   setAvatarReady() airecv clsend;
   setGameStart(int16 timestamp) broadcast;
   setGameFinish(int16 timestamp) broadcast;
@@ -2417,7 +2442,7 @@ dclass DistCogdoGame: DistributedObject {
 dclass DistCogdoLevelGame: DistCogdoGame, DistributedLevel {
 };
 
-dclass DistCogdoMazeGame: DistributedMinigame {
+dclass DistCogdoMazeGame: DistCogdoGame {
   requestAction(uint8, uint32) airecv clsend;
   doAction(uint8, uint32, int16) broadcast;
   setNumSuits(uint8 [3]) required broadcast;
@@ -2435,7 +2460,7 @@ dclass DistCogdoMazeGame: DistributedMinigame {
   hasGag(uint32, int16) broadcast;
 };
 
-dclass DistCogdoFlyingGame: DistributedMinigame {
+dclass DistCogdoFlyingGame: DistCogdoGame {
   requestAction(uint8, uint8) airecv clsend;
   requestPickUp(uint16, uint8) airecv clsend;
   pickUp(uint32, uint16, int16) broadcast;
@@ -2450,7 +2475,7 @@ dclass DistCogdoFlyingGame: DistributedMinigame {
   toonBladeLost(uint32) broadcast;
 };
 
-dclass DistCogdoBoardroomGame: DistCogdoGame {
+dclass DistCogdoBoardroomGame: DistCogdoLevelGame {
 };
 
 dclass DistCogdoCraneGame: DistCogdoLevelGame {

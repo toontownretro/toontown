@@ -283,7 +283,7 @@ class DistributedDivingGameAI(DistributedMinigameAI):
 
 
         # Start the game timer
-        #if not ConfigVariableBool('endless-cannon-game', 0).getValue():
+        #if not ConfigVariableBool('endless-diving-game', 0).getValue():
             #taskMgr.doMethodLater(CannonGameGlobals.GameTime,
                                   #self.timerExpired,
                                   #self.taskName("gameTimer"))

@@ -31,9 +31,9 @@ import types
 import functools
 
 """
-import Toon
+from . import Toon
 t = Toon.Toon()
-import ToonDNA
+from . import ToonDNA
 d = ToonDNA.ToonDNA()
 # d.newToon( ('dll', 'md', 'l', 'f') )
 d.newToonRandom(gender='f')
@@ -1859,6 +1859,10 @@ class Toon(Avatar.Avatar, ToonHead):
             ToonHead.findSomethingToLookAt(self)
 
 
+    def setForceJumpIdle(self, value):
+        self.forceJumpIdle = value
+
+
     def setupPickTrigger(self):
         """
         Overrides the similar function from Avatar to position the
@@ -3067,6 +3071,16 @@ class Toon(Avatar.Avatar, ToonHead):
                     self.__undoCheesyEffect(oldEffect, lerpTime / 2.0),
                     self.__doCheesyEffect(effect, lerpTime / 2.0))
             self.effectTrack.start()
+
+    def reapplyCheesyEffect(self, lerpTime = 0):
+        if self.effectTrack != None:
+            self.effectTrack.finish()
+            self.effectTrack = None
+        effect = self.cheesyEffect
+        self.effectTrack = Sequence(
+            self.__undoCheesyEffect(effect, 0),
+            self.__doCheesyEffect(effect, lerpTime))
+        self.effectTrack.start()
 
     def clearCheesyEffect(self, lerpTime = 0):
         self.applyCheesyEffect(ToontownGlobals.CENormal, lerpTime = lerpTime)

@@ -88,31 +88,172 @@ class CogdoFlyingPlayer(FSM):
 
     def initIntervals(self):
         self.baseSpinDuration = 1.0
-        self.propellerSpinLerp = LerpFunctionInterval(self.propeller.setH, fromData=0.0, toData=360.0, duration=self.baseSpinDuration, name='%s.propellerSpinLerp-%s' % (self.__class__.__name__, self.toon.doId))
+        self.propellerSpinLerp = LerpFunctionInterval(self.propeller.setH,
+                                                      fromData = 0.0,
+                                                      toData = 360.0,
+                                                      duration = self.baseSpinDuration,
+                                                      name = "%s.propellerSpinLerp-%s" % (self.__class__.__name__,
+                                                                                          self.toon.doId,
+                                                                                          ),
+                                                      )
         singleBlinkTime = Globals.Gameplay.TargetedWarningSingleBlinkTime
         blinkTime = Globals.Gameplay.TargetedWarningBlinkTime
-        self.blinkLoop = Sequence(Wait(singleBlinkTime / 2.0), Func(self.setBackpackTexture, Globals.Gameplay.BackpackStates.Attacked), Wait(singleBlinkTime / 2.0), Func(self.setBackpackTexture, Globals.Gameplay.BackpackStates.Targeted), name='%s.blinkLoop-%s' % (self.__class__.__name__, self.toon.doId))
-        self.blinkWarningSeq = Sequence(Func(self.blinkLoop.loop), Wait(blinkTime), Func(self.blinkLoop.clearToInitial), name='%s.blinkWarningSeq-%s' % (self.__class__.__name__, self.toon.doId))
+        self.blinkLoop = Sequence(Wait(singleBlinkTime / 2.0),
+                                  Func(self.setBackpackTexture,
+                                       Globals.Gameplay.BackpackStates.Attacked,
+                                       ),
+                                  Wait(singleBlinkTime / 2.0),
+                                  Func(self.setBackpackTexture,
+                                       Globals.Gameplay.BackpackStates.Targeted,
+                                       ),
+                                  name = "%s.blinkLoop-%s" % (self.__class__.__name__,
+                                                              self.toon.doId,
+                                                              ),
+                                  )
+        self.blinkWarningSeq = Sequence(Func(self.blinkLoop.loop),
+                                        Wait(blinkTime),
+                                        Func(self.blinkLoop.clearToInitial),
+                                        name = "%s.blinkWarningSeq-%s" % (self.__class__.__name__,
+                                                                          self.toon.doId,
+                                                                          ),
+                                        )
         dur = Globals.Gameplay.BackpackRefuelDuration
-        self.refuelSeq = Sequence(Func(self.setPropellerSpinRate, Globals.Gameplay.RefuelPropSpeed), Wait(dur), Func(self.returnBackpackToLastStateFunc), name='%s.refuelSeq-%s' % (self.__class__.__name__, self.toon.doId))
+        self.refuelSeq = Sequence(Func(self.setPropellerSpinRate,
+                                       Globals.Gameplay.RefuelPropSpeed,
+                                       ),
+                                  Wait(dur),
+                                  Func(self.returnBackpackToLastStateFunc),
+                                  name = "%s.refuelSeq-%s" % (self.__class__.__name__,
+                                                              self.toon.doId,
+                                                              ),
+                                  )
         scale = self.redTapeRing.getScale()
         pulseTime = 1.0
-        self.pulseBubbleSeq = Parallel(Sequence(LerpFunctionInterval(self.redTapeRing.setScale, fromData=scale, toData=scale * 1.1, duration=pulseTime / 2.0, blendType='easeInOut'), LerpFunctionInterval(self.redTapeRing.setScale, fromData=scale * 1.1, toData=scale, duration=pulseTime / 2.0, blendType='easeInOut')), LerpHprInterval(self.redTapeRing, pulseTime, Vec3(360, 0, 0), startHpr=Vec3(0, 0, 0)), name='%s.pulseBubbleSeq-%s' % (self.__class__.__name__, self.toon.doId))
+        self.pulseBubbleSeq = Parallel(Sequence(LerpFunctionInterval(self.redTapeRing.setScale,
+                                                                     fromData = scale,
+                                                                     toData = scale * 1.1,
+                                                                     duration = pulseTime / 2.0,
+                                                                     blendType = "easeInOut",
+                                                                     ),
+                                                LerpFunctionInterval(self.redTapeRing.setScale,
+                                                                     fromData = scale * 1.1,
+                                                                     toData = scale,
+                                                                     duration=pulseTime / 2.0,
+                                                                     blendType = "easeInOut",
+                                                                     ),
+                                                ),
+                                       LerpHprInterval(self.redTapeRing,
+                                                       pulseTime,
+                                                       Vec3(360, 0, 0),
+                                                       startHpr = Vec3(0, 0, 0),
+                                                       ),
+                                       name = "%s.pulseBubbleSeq-%s" % (self.__class__.__name__,
+                                                                        self.toon.doId,
+                                                                        ),
+                                       )
         bouncePercent = 1.2
         scaleTime = 0.5
         scaleBounceTime = 0.25
-        self.popUpBubbleLerp = LerpScaleInterval(self.redTapeRing, scaleTime, scale * bouncePercent, startScale=0.0, blendType='easeInOut')
-        self.popUpBubbleSeq = Sequence(Func(self.updateLerpStartScale, self.popUpBubbleLerp, self.redTapeRing), Func(self.redTapeRing.show), self.popUpBubbleLerp, LerpScaleInterval(self.redTapeRing, scaleBounceTime, scale, startScale=scale * bouncePercent, blendType='easeInOut'), Func(self.pulseBubbleSeq.loop), name='%s.popUpBubbleSeq-%s' % (self.__class__.__name__, self.toon.doId))
-        self.removeBubbleLerp = LerpScaleInterval(self.redTapeRing, scaleBounceTime, scale * bouncePercent, startScale=scale, blendType='easeInOut')
-        self.removeBubbleSeq = Sequence(Func(self.pulseBubbleSeq.clearToInitial), Func(self.updateLerpStartScale, self.removeBubbleLerp, self.redTapeRing), self.removeBubbleLerp, LerpScaleInterval(self.redTapeRing, scaleTime, 0.0, startScale=scale * bouncePercent, blendType='easeInOut'), Func(self.redTapeRing.hide), name='%s.removeBubbleSeq-%s' % (self.__class__.__name__, self.toon.doId))
+        self.popUpBubbleLerp = LerpScaleInterval(self.redTapeRing,
+                                                 scaleTime,
+                                                 scale * bouncePercent,
+                                                 startScale = 0.0,
+                                                 blendType = "easeInOut",
+                                                 )
+        self.popUpBubbleSeq = Sequence(Func(self.updateLerpStartScale,
+                                            self.popUpBubbleLerp,
+                                            self.redTapeRing,
+                                            ),
+                                       Func(self.redTapeRing.show),
+                                       self.popUpBubbleLerp,
+                                       LerpScaleInterval(self.redTapeRing,
+                                                         scaleBounceTime,
+                                                         scale,
+                                                         startScale = scale * bouncePercent,
+                                                         blendType = "easeInOut",
+                                                         ),
+                                       Func(self.pulseBubbleSeq.loop),
+                                       name = "%s.popUpBubbleSeq-%s" % (self.__class__.__name__,
+                                                                        self.toon.doId,
+                                                                        ),
+                                       )
+        self.removeBubbleLerp = LerpScaleInterval(self.redTapeRing,
+                                                  scaleBounceTime,
+                                                  scale * bouncePercent,
+                                                  startScale = scale,
+                                                  blendType = "easeInOut",
+                                                  )
+        self.removeBubbleSeq = Sequence(Func(self.pulseBubbleSeq.clearToInitial),
+                                        Func(self.updateLerpStartScale,
+                                             self.removeBubbleLerp,
+                                             self.redTapeRing,
+                                             ),
+                                        self.removeBubbleLerp,
+                                        LerpScaleInterval(self.redTapeRing,
+                                                          scaleTime,
+                                                          0.0,
+                                                          startScale = scale * bouncePercent,
+                                                          blendType = "easeInOut",
+                                                          ),
+                                        Func(self.redTapeRing.hide),
+                                        name = "%s.removeBubbleSeq-%s" % (self.__class__.__name__,
+                                                                          self.toon.doId,
+                                                                          ),
+                                        )
         self.redTapeRing.setScale(0.0)
-        self.deathInterval = Sequence(Parallel(LerpHprInterval(self.toon, 1.0, Vec3(720, 0, 0)), LerpFunctionInterval(self.toon.setScale, fromData=1.0, toData=0.1, duration=1.0)), Func(self.toon.stash), name='%s.deathInterval-%s' % (self.__class__.__name__, self.toon.doId))
-        self.spawnInterval = Sequence(Func(self.toon.stash), Func(self.resetToon), Wait(1.0), Func(self.toon.setAnimState, 'TeleportIn'), Func(self.toon.unstash), name='%s.spawnInterval-%s' % (self.__class__.__name__, self.toon.doId))
+        self.deathInterval = Sequence(Parallel(LerpHprInterval(self.toon,
+                                                               1.0,
+                                                               Vec3(720, 0, 0),
+                                                               ),
+                                               LerpFunctionInterval(self.toon.setScale,
+                                                                    fromData = 1.0,
+                                                                    toData = 0.1,
+                                                                    duration = 1.0,
+                                                                    ),
+                                                ),
+                                                Func(self.toon.stash),
+                                                name = "%s.deathInterval-%s" % (self.__class__.__name__,
+                                                                                self.toon.doId,
+                                                                                ),
+                                                )
+        self.spawnInterval = Sequence(Func(self.toon.stash),
+                                      Func(self.resetToon),
+                                      Wait(1.0),
+                                      Func(self.toon.setAnimState,
+                                           "TeleportIn",
+                                           ),
+                                      Func(self.toon.unstash),
+                                      name = "%s.spawnInterval-%s" % (self.__class__.__name__,
+                                                                      self.toon.doId,
+                                                                      ),
+                                      )
         singleBlinkTime = Globals.Gameplay.InvulSingleBlinkTime
         blinkTime = Globals.Gameplay.InvulBlinkTime
         invulBuffTime = Globals.Gameplay.InvulBuffTime
-        self.blinkBubbleLoop = Sequence(LerpFunctionInterval(self.redTapeRing.setAlphaScale, fromData=1.0, toData=0.0, duration=singleBlinkTime / 2.0, blendType='easeInOut'), LerpFunctionInterval(self.redTapeRing.setAlphaScale, fromData=0.0, toData=1.0, duration=singleBlinkTime / 2.0, blendType='easeInOut'), name='%s.blinkBubbleLoop-%s' % (self.__class__.__name__, self.toon.doId))
-        self.blinkBubbleSeq = Sequence(Wait(invulBuffTime - blinkTime), Func(self.blinkBubbleLoop.loop), Wait(blinkTime), Func(self.blinkBubbleLoop.finish), name='%s.blinkBubbleSeq-%s' % (self.__class__.__name__, self.toon.doId))
+        self.blinkBubbleLoop = Sequence(LerpFunctionInterval(self.redTapeRing.setAlphaScale,
+                                                             fromData = 1.0,
+                                                             toData = 0.0,
+                                                             duration = singleBlinkTime / 2.0,
+                                                             blendType = "easeInOut",
+                                                             ),
+                                        LerpFunctionInterval(self.redTapeRing.setAlphaScale,
+                                                             fromData = 0.0,
+                                                             toData = 1.0,
+                                                             duration = singleBlinkTime / 2.0,
+                                                             blendType = "easeInOut",
+                                                             ),
+                                        name = "%s.blinkBubbleLoop-%s" % (self.__class__.__name__,
+                                                                          self.toon.doId,
+                                                                          ),
+                                        )
+        self.blinkBubbleSeq = Sequence(Wait(invulBuffTime - blinkTime),
+                                       Func(self.blinkBubbleLoop.loop),
+                                       Wait(blinkTime),
+                                       Func(self.blinkBubbleLoop.finish),
+                                       name = "%s.blinkBubbleSeq-%s" % (self.__class__.__name__,
+                                                                        self.toon.doId,
+                                                                        ),
+                                       )
 
     def returnBackpackToLastStateFunc(self):
         if self.backpackState == Globals.Gameplay.BackpackStates.Refuel:

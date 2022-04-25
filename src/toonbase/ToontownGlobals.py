@@ -33,6 +33,10 @@ CogHQCameraFov = 60.0 * OriginalAspectRatio
 BossBattleCameraFov = 72.0 * OriginalAspectRatio
 MakeAToonCameraFov = 52.0 * OriginalAspectRatio
 
+# Cogdominium collisions
+CeilingBitmask = BitMask32(0x100)
+FloorEventBitmask = BitMask32(0x10)
+
 # Things we can throw a pie at.  (Pies also react to CameraBitmask and
 # FloorBitmask, but not WallBitmask.):
 # Brought in from OTPGlobals

@@ -193,6 +193,7 @@ class DistributedElevator(DistributedObject.DistributedObject):
         del self.openSfx
         del self.closeSfx
         self.isSetup = 0
+        self.fillSlotTrack = None
 
         self.offsetNP.removeNode()
         # Cleanup any leftover elevator messages while leaving the zone.
@@ -289,7 +290,10 @@ class DistributedElevator(DistributedObject.DistributedObject):
                 place.detectedElevatorCollision(self)
                 elevator = self.getPlaceElevator()
                 if elevator == None:
-                    place.fsm.request('elevator')
+                    if place.fsm.hasStateNamed('elevator'):
+                        place.fsm.request('elevator')
+                    elif place.fsm.hasStateNamed('Elevator'):
+                        place.fsm.request('Elevator')
                     elevator = self.getPlaceElevator()
                 if not elevator:
                     return

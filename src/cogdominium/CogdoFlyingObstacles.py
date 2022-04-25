@@ -118,14 +118,27 @@ class CogdoFlyingObstacle(DirectObject):
             def moveObstacle(value):
                 self.motionPath.goTo(self.model, value)
 
-            self.motionPath = Mopath.Mopath(name='obstacle-%i' % self.index)
+            self.motionPath = Mopath.Mopath(name = "obstacle-%i" % self.index)
             self.motionPath.loadNodePath(motionPath)
             dur = self.motionPath.getMaxT()
-            self.motionSequence = Sequence(name='%s.obstacle-%i-motionSequence' % (self.__class__.__name__, self.index))
-            movePart1 = LerpFunc(moveObstacle, fromData=0.0, toData=self.motionPath.getMaxT(), duration=dur, blendType=blendType)
+            self.motionSequence = Sequence(name = "%s.obstacle-%i-motionSequence" % (self.__class__.__name__,
+                                                                                     self.index,
+                                                                                     ),
+                                           )
+            movePart1 = LerpFunc(moveObstacle,
+                                 fromData = 0.0,
+                                 toData = self.motionPath.getMaxT(),
+                                 duration = dur,
+                                 blendType = blendType,
+                                 )
             self.motionSequence.append(movePart1)
             if self.motionPattern == CogdoFlyingObstacle.MotionTypes.BackForth:
-                movePart2 = LerpFunc(moveObstacle, fromData=self.motionPath.getMaxT(), toData=0.0, duration=dur, blendType=blendType)
+                movePart2 = LerpFunc(moveObstacle,
+                                     fromData = self.motionPath.getMaxT(),
+                                     toData = 0.0,
+                                     duration = dur,
+                                     blendType = blendType,
+                                     )
                 self.motionSequence.append(movePart2)
         return
 
@@ -196,8 +209,18 @@ from toontown.toonbase.ToontownModules import TransformState
 class CogdoFlyingWhirlwind(CogdoFlyingObstacle):
 
     def __init__(self, index, model, motionPath = None):
-        collSolid = CollisionTube(0, 0, 0, 0, 0, Globals.Gameplay.WhirlwindCollisionTubeHeight, Globals.Gameplay.WhirlwindCollisionTubeRadius)
-        CogdoFlyingObstacle.__init__(self, Globals.Level.ObstacleTypes.Whirlwind, index, model, collSolid, motionPath=motionPath, motionPattern=CogdoFlyingObstacle.MotionTypes.BackForth)
+        collSolid = CollisionTube(0, 0, 0, 0, 0,
+                                  Globals.Gameplay.WhirlwindCollisionTubeHeight,
+                                  Globals.Gameplay.WhirlwindCollisionTubeRadius,
+                                  )
+        CogdoFlyingObstacle.__init__(self,
+                                     Globals.Level.ObstacleTypes.Whirlwind,
+                                     index,
+                                     model,
+                                     collSolid,
+                                     motionPath = motionPath,
+                                     motionPattern = CogdoFlyingObstacle.MotionTypes.BackForth,
+                                     )
         self.t = 0.0
         self._initModel()
 
@@ -240,7 +263,16 @@ class CogdoFlyingMinion(CogdoFlyingObstacle):
         swapAvatarShadowPlacer(self.suit, 'minion-%sShadowPlacer' % index)
         self.mopathNodePath = NodePath('mopathNodePath')
         self.suit.reparentTo(self.mopathNodePath)
-        CogdoFlyingObstacle.__init__(self, Globals.Level.ObstacleTypes.Minion, index, self.mopathNodePath, collSolid, motionPath=motionPath, motionPattern=CogdoFlyingObstacle.MotionTypes.Loop, blendMotion=False, instanceModel=False)
+        CogdoFlyingObstacle.__init__(self,
+                                     Globals.Level.ObstacleTypes.Minion,
+                                     index,
+                                     self.mopathNodePath,
+                                     collSolid,
+                                     motionPath = motionPath,
+                                     motionPattern = CogdoFlyingObstacle.MotionTypes.Loop,
+                                     blendMotion = False,
+                                     instanceModel = False,
+                                     )
         self.lastPos = None
         self.suit.loop('neutral')
         return
@@ -292,13 +324,39 @@ class CogdoFlyingMinionFlying(CogdoFlyingMinion):
         collSolid = CollisionSphere(0, 0, offset, radius)
         CogdoFlyingMinion.__init__(self, index, collSolid, motionPath)
         self.attachPropeller()
-        self.propTrack = Sequence(ActorInterval(self.prop, 'propeller', startFrame=0, endFrame=14))
+        self.propTrack = Sequence(ActorInterval(self.prop,
+                                                "propeller",
+                                                startFrame = 0,
+                                                endFrame = 14,
+                                                ),
+                                  )
         dur = Globals.Gameplay.FlyingMinionFloatTime
         offset = Globals.Gameplay.FlyingMinionFloatOffset
         suitPos = self.suit.getPos()
         upperPos = suitPos + Point3(0.0, 0.0, offset / 2.0)
         lowerPos = suitPos + Point3(0.0, 0.0, -offset / 2.0)
-        self.floatSequence = Sequence(LerpPosInterval(self.suit, dur / 4.0, startPos=suitPos, pos=upperPos, blendType='easeInOut'), LerpPosInterval(self.suit, dur / 2.0, startPos=upperPos, pos=lowerPos, blendType='easeInOut'), LerpPosInterval(self.suit, dur / 4.0, startPos=lowerPos, pos=suitPos, blendType='easeInOut'), name='%s.floatSequence%i' % (self.__class__.__name__, self.index))
+        self.floatSequence = Sequence(LerpPosInterval(self.suit,
+                                                      dur / 4.0,
+                                                      startPos = suitPos,
+                                                      pos = upperPos,
+                                                      blendType = "easeInOut",
+                                                      ),
+                                      LerpPosInterval(self.suit,
+                                                      dur / 2.0,
+                                                      startPos = upperPos,
+                                                      pos = lowerPos,
+                                                      blendType = "easeInOut",
+                                                      ),
+                                      LerpPosInterval(self.suit,
+                                                      dur / 4.0,
+                                                      startPos = lowerPos,
+                                                      pos = suitPos,
+                                                      blendType = "easeInOut",
+                                                      ),
+                                      name = "%s.floatSequence%i" % (self.__class__.__name__,
+                                                                     self.index,
+                                                                     ),
+                                      )
 
     def startMoving(self, elapsedTime):
         CogdoFlyingMinion.startMoving(self, elapsedTime)
@@ -339,7 +397,10 @@ class CogdoFlyingMinionWalking(CogdoFlyingMinion):
 class CogdoFlyingFan(CogdoFlyingObstacle):
 
     def __init__(self, index, model, motionPath = None):
-        collSolid = CollisionTube(0, 0, 0, 0, 0, Globals.Gameplay.FanCollisionTubeHeight, Globals.Gameplay.FanCollisionTubeRadius)
+        collSolid = CollisionTube(0, 0, 0, 0, 0,
+                                  Globals.Gameplay.FanCollisionTubeHeight,
+                                  Globals.Gameplay.FanCollisionTubeRadius,
+                                  )
         CogdoFlyingObstacle.__init__(self, Globals.Level.ObstacleTypes.Fan, index, model, collSolid)
         self.streamers = self.model.findAllMatches('**/streamer*')
         self._initIntervals()
@@ -350,7 +411,15 @@ class CogdoFlyingFan(CogdoFlyingObstacle):
         maxDur = Globals.Gameplay.FanStreamerMaxDuration
         for streamer in self.streamers:
             dur = random.uniform(minDur, maxDur)
-            streamerLerp = LerpFunc(streamer.setH, fromData=0.0, toData=360.0, duration=dur, name='%s.streamerLerp%i-%s' % (self.__class__.__name__, self.index, streamer.getName()))
+            streamerLerp = LerpFunc(streamer.setH,
+                                    fromData = 0.0,
+                                    toData = 360.0,
+                                    duration = dur,
+                                    name = "%s.streamerLerp%i-%s" % (self.__class__.__name__,
+                                                                     self.index,
+                                                                     streamer.getName(),
+                                                                     ),
+                                    )
             self.streamerIvals.append(streamerLerp)
 
     def startMoving(self, elapsedTime = 0.0):

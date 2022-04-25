@@ -88,14 +88,14 @@ Gameplay.ToonAcceleration = {
     "fan" : 80.0,
 }
 # This effects how quickly the toon movement is dampened
-Gameplay.TOON_DECELERATION = {
+Gameplay.ToonDeceleration = {
     "forward" : 5.0,
     "backward": 3.0,
     "turning" : 10.0,
     "fan" : 25.0,
 }
 # This effects the max velocity in each direction
-Gameplay.ToonAcceleration = {
+Gameplay.ToonVelMax = {
     "forward" : 15.0,
     "backward" : 6.0,
     "turning" : 10.0,
@@ -165,7 +165,12 @@ Gameplay.TargetedWarningBlinkTime = 3.0
 Gameplay.HitKnockbackDist = 15.0
 Gameplay.HitKnockbackTime = 0.5
 Gameplay.HitCooldownTime = 2.0
-Gameplay.BackpackStates = PythonUtil.Enum(('Normal', 'Targeted', 'Attacked', 'Refuel'))
+Gameplay.BackpackStates = PythonUtil.Enum(('Normal',
+                                           'Targeted',
+                                           'Attacked',
+                                           'Refuel',
+                                           ),
+)
 Gameplay.BackpackRefuelDuration = 4.0
 Gameplay.BackpackState2TextureName = {
     Gameplay.BackpackStates.Normal : 'tt_t_ara_cfg_propellerPack',
@@ -173,7 +178,7 @@ Gameplay.BackpackState2TextureName = {
     Gameplay.BackpackStates.Attacked : 'tt_t_ara_cfg_propellerPack_eagleAttack',
     Gameplay.BackpackStates.Refuel : 'tt_t_ara_cfg_propellerPack_flash',
 }
-Gameplay.MinionDnaName = 'bf'
+Gameplay.MinionDnaName = "bf" # Bottom Feeder
 Gameplay.MinionScale = 0.8
 
 Gui = VariableContainer()

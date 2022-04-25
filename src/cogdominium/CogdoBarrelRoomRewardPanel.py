@@ -27,7 +27,7 @@ class CogdoBarrelRoomRewardPanel(DirectFrame):
                                               frameSize = (-0.5, 0.5, -0.045, 0.042),
                                               pos = (0, 0, 0.1 + -0.09 * i),
                                               )
-            rewardLine['name'] = DirectLabel(parent=rewardLine['frame'],
+            rewardLine['name'] = DirectLabel(parent = rewardLine['frame'],
                                              relief = None,
                                              text = "",
                                              text_scale = TTLocalizer.RPtrackLabels,

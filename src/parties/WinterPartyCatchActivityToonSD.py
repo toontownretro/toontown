@@ -1,9 +1,6 @@
 #-------------------------------------------------------------------------------
-# Contact: Shawn Patton
-# Created: Sep 2008
-#
-# Purpose: Contains the catch activity toon statedata.  Used by local and remote
-#          avatars
+# Contact: 
+# Created: 2010
 #-------------------------------------------------------------------------------
 
 from . import PartyCatchActivityToonSD
@@ -46,10 +43,7 @@ class WinterPartyCatchActivityToonSD(PartyCatchActivityToonSD.PartyCatchActivity
                      Sequence(LerpScaleInterval(fruitModel, duration/2.,
                                                 #fruitModel.getScale()*.5,
                                                 #blendType='easeInOut'),
-                                                Vec4(1.0, 1.0, 1.0, 0.0))))
-                              Func(fruitModel.hide),
-                              ),
-                     ),
+                                                Vec4(1.0, 1.0, 1.0, 0.0)))),
             Func(self.fsm.request, "normal"),
             name=self.toon.uniqueName('eatingIval')
             )

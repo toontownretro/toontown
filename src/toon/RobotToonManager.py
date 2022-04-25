@@ -3869,7 +3869,7 @@ base.rtm = RobotToonManager()
 base.rtm.popupControls()
 direct.grid.enable()
 camera.setPosHpr(0,-60,5,0,0,0)
-run()
+base.run()
 
 
 """

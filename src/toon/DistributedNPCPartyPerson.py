@@ -208,9 +208,11 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
 
             if self.isInteractingWithLocalToon:
                 camera.wrtReparentTo(render)
-                self.lerpCameraSeq = camera.posQuatInterval(
-                    1, Point3(-5, 9, base.localAvatar.getHeight() - 0.5),
-                    Point3(-150, -2, 0), other=self, blendType='easeOut',
+                self.lerpCameraSeq = camera.posQuatInterval(1,
+                    Point3(-5, 9, base.localAvatar.getHeight() - 0.5),
+                    Point3(-150, -2, 0),
+                    other=self,
+                    blendType="easeOut",
                     name=self.uniqueName('lerpCamera'))
                 self.lerpCameraSeq.start()
                 taskMgr.doMethodLater(1.0, self.popupAskGUI,

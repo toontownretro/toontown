@@ -14,7 +14,7 @@ class CogdoEntityCreator(EntityCreator.EntityCreator):
 
         self.privRegisterTypes({
             'levelMgr': CogdoLevelMgr,
-            'cogdoCraneGameSettings': Functor(self._createCogdoSettings, CogdoBoardroomGameConsts.Settings),
+            'cogdoBoardroomGameSettings': Functor(self._createCogdoSettings, CogdoBoardroomGameConsts.Settings),
             'cogdoCraneGameSettings': Functor(self._createCogdoSettings, CogdoCraneGameConsts.Settings),
             'cogdoCraneCogSettings': Functor(self._createCogdoSettings, CogdoCraneGameConsts.CogSettings),
             })

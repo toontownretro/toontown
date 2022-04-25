@@ -11,7 +11,7 @@ MEMOICON_SCALE = 0.2
 class CogdoMemoGui(DirectFrame):
 
     def __init__(self, parent):
-        DirectFrame.__init__(self, parent=parent, relief=None, state=DGG.NORMAL, sortOrder=DGG.BACKGROUND_SORT_INDEX)
+        DirectFrame.__init__(self, parent = parent, relief = None, state = DGG.NORMAL, sortOrder = DGG.BACKGROUND_SORT_INDEX)
         self._initModel()
         self.hide()
         return
@@ -28,17 +28,17 @@ class CogdoMemoGui(DirectFrame):
         self.setPos(-0.975, 0, -0.875)
 
     def _initModel(self):
-        self._countLabel = DirectLabel(parent=self,
-                                       relief=None,
-                                       pos=(0.0625, 0, -0.025),
-                                       scale=CogdoGameConsts.MemoGuiTextScale,
-                                       text=str(0),
-                                       text_fg=CogdoGameConsts.MemoGuiTextColor,
-                                       text_shadow=(0.2, 0.2, 0.2, 1),
-                                       text_align=TextNode.ALeft,
-                                       text_font=ToontownGlobals.getToonFont(),
+        self._countLabel = DirectLabel(parent = self,
+                                       relief = None,
+                                       pos = (0.0625, 0, -0.025),
+                                       scale = CogdoGameConsts.MemoGuiTextScale,
+                                       text = str(0),
+                                       text_fg = CogdoGameConsts.MemoGuiTextColor,
+                                       text_shadow = (0.2, 0.2, 0.2, 1),
+                                       text_align = TextNode.ALeft,
+                                       text_font = ToontownGlobals.getToonFont(),
                                        )
-        self._memoIcon = CogdoUtil.loadModel('memo_card', game='shared', group='gui')
+        self._memoIcon = CogdoUtil.loadModel('memo_card', game = 'shared', group = 'gui')
         self._memoIcon.reparentTo(self)
         self._memoIcon.setScale(MEMOICON_SCALE)
         return
@@ -47,4 +47,4 @@ class CogdoMemoGui(DirectFrame):
         self._countLabel['text'] = str(count)
         self._countLabel.setText()
         ToontownIntervals.cleanup('memocount_pulse')
-        ToontownIntervals.start(ToontownIntervals.getPulseLargerIval(self._memoIcon, 'memocount_pulse', scale=MEMOICON_SCALE))
+        ToontownIntervals.start(ToontownIntervals.getPulseLargerIval(self._memoIcon, 'memocount_pulse', scale = MEMOICON_SCALE))

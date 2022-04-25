@@ -718,7 +718,8 @@ class LevelStyleManager:
                 # Add in suit walls here for now
                 dnaList = ([None] +
                            self.getCatalogCodesSuffix(dnaType, '_ur') +
-                           self.getCatalogCodesSuffix('suit_wall', '_ur'))
+                           self.getCatalogCodesSuffix('suit_wall', '_ur') +
+                           self.getCatalogCodesSuffix('cogdo_wall', '_ur'))
             else:
                 dnaList = [None] + self.getCatalogCodesSuffix(dnaType, '_ur')
             # Add dnaCodes to attribute dictionary

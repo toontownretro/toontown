@@ -89,10 +89,10 @@ class DistributedClubElevatorAI(DistributedElevatorFSMAI.DistributedElevatorFSMA
         # this won't do anything.
 
         #import pdb; pdb.set_trace()
-        if self == "WaitEmpty" and (self.countFullSeats() < self.countAvsInZone()):
+        if self._state == "WaitEmpty" and (self.countFullSeats() < self.countAvsInZone()):
                 self.request("WaitCountdown")
                 self.bldg.elevatorAlert(avId)
-        elif (self in ("WaitCountdown", "WaitEmpty")) and (self.countFullSeats() >= self.countAvsInZone()):
+        elif (self._state in ("WaitCountdown", "WaitEmpty")) and (self.countFullSeats() >= self.countAvsInZone()):
             taskMgr.doMethodLater(ElevatorConstants.TOON_BOARD_ELEVATOR_TIME, self.goAllAboard, self.quickBoardTask)
 
     def countAvsInZone(self):
@@ -188,7 +188,7 @@ class DistributedClubElevatorAI(DistributedElevatorFSMAI.DistributedElevatorFSMA
         return Task.done
 
     def enterWaitEmpty(self):
-        self.lastState = self
+        self.lastState = self._state
         #print("DistributedElevatorFloorAI.enterWaitEmpty  %s %s from %s" % (self.isLocked, self.doId, self))
         #print("WAIT EMPTY FLOOR VATOR")
         for i in range(len(self.seats)):
@@ -207,7 +207,7 @@ class DistributedClubElevatorAI(DistributedElevatorFSMAI.DistributedElevatorFSMA
     ##### WaitCountdown state #####
 
     def enterWaitCountdown(self):
-        self.lastState = self
+        self.lastState = self._state
         #print("DistributedElevatorFloorAI.enterWaitCountdown %s from %s" % (self.doId, self))
         DistributedElevatorFSMAI.DistributedElevatorFSMAI.enterWaitCountdown(self)
         # Start the countdown...
@@ -317,7 +317,7 @@ class DistributedClubElevatorAI(DistributedElevatorFSMAI.DistributedElevatorFSMA
     def setLocked(self, locked):
         self.isLocked = locked
         if locked:
-            if self == 'WaitEmpty':
+            if self._state == 'WaitEmpty':
                 self.request('Closing')
             if self.countFullSeats() == 0:
                 self.wantState = 'closed'
@@ -325,7 +325,7 @@ class DistributedClubElevatorAI(DistributedElevatorFSMAI.DistributedElevatorFSMA
                 self.wantState = 'opening'
         else:
             self.wantState = 'waitEmpty'
-            if self == 'Closed':
+            if self._state == 'Closed':
                 self.request('Opening')
 
     def getLocked(self):
@@ -376,7 +376,7 @@ class DistributedClubElevatorAI(DistributedElevatorFSMAI.DistributedElevatorFSMA
 
 
     def enterOff(self):
-        self.lastState = self
+        self.lastState = self._state
         #print("DistributedElevatorFloorAI.enterOff")
         if self.wantState == 'closed':
             self.demand('Closing')

@@ -196,11 +196,13 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
     def setFloor(self, floorNumber):
         # Darken the old light:
         if self.currentFloor >= 0:
-            self.bldg.floorIndicator[self.currentFloor].setColor(LIGHT_OFF_COLOR)
+            if self.bldg.floorIndicator[self.currentFloor]:
+                self.bldg.floorIndicator[self.currentFloor].setColor(LIGHT_OFF_COLOR)
 
         # Brighten the new light:
         if floorNumber >= 0:
-            self.bldg.floorIndicator[floorNumber].setColor(LIGHT_ON_COLOR)
+            if self.bldg.floorIndicator[floorNumber]:
+                self.bldg.floorIndicator[floorNumber].setColor(LIGHT_ON_COLOR)
 
         # Remember the floor:
         self.currentFloor = floorNumber

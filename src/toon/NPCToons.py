@@ -364,7 +364,7 @@ NPCToonDict = {
     2316 : (2823, lnames[2316],("csl" ,"md" ,"l" ,"f" ,15 ,0 ,15 ,15 ,0 ,5 ,0 ,5 ,0 ,23 ,), "f", 0, NPC_REGULAR),
     2318 : (2829, lnames[2318],("dsl" ,"ss" ,"l" ,"m" ,21 ,0 ,21 ,21 ,1 ,4 ,1 ,4 ,1 ,0 ,), "m", 0, NPC_REGULAR),
     2319 : (2830, lnames[2319],("dss" ,"ls" ,"l" ,"m" ,14 ,0 ,14 ,14 ,1 ,5 ,1 ,5 ,1 ,18 ,), "m", 0, NPC_REGULAR),
-    2320 : (2839, lnames[2320], "r", "m", 0, NPC_REGULAR),
+    2320 : (2839, lnames[2320],("cll" ,"ss" ,"m" ,"m" ,6 ,0 ,6 ,6 ,1 ,0 ,1 ,0 ,1 ,17 ,), "m", 0, NPC_REGULAR), # Check
     2321 : (2341, lnames[2321],("fsl" ,"ss" ,"l" ,"m" ,21 ,0 ,21 ,21 ,1 ,5 ,1 ,5 ,0 ,12 ,), "m", 0, NPC_FISHERMAN),
 
     # Donald's Dock
@@ -384,7 +384,7 @@ NPCToonDict = {
 
     1101 : (1627, lnames[1101],("fll" ,"ls" ,"m" ,"m" ,14 ,0 ,14 ,14 ,1 ,3 ,1 ,3 ,1 ,9 ,), "m", 0, NPC_REGULAR),
     1102 : (1612, lnames[1102],("fsl" ,"ms" ,"m" ,"m" ,7 ,0 ,7 ,7 ,1 ,3 ,1 ,3 ,1 ,2 ,), "m", 0, NPC_REGULAR),
-    1103 : (1626, lnames[1103], "r", "m", 0, NPC_REGULAR),
+    1103 : (1626, lnames[1103],("hsl" ,"ls" ,"l" ,"m" ,4 ,0 ,4 ,4 ,0 ,27 ,0 ,27 ,1 ,4 ,), "m", 0, NPC_REGULAR), # Check
     1104 : (1617, lnames[1104], "r", "m", 0, NPC_REGULAR),
     1105 : (1606, lnames[1105],("rss" ,"ms" ,"m" ,"m" ,6 ,0 ,6 ,6 ,0 ,4 ,0 ,4 ,1 ,14 ,), "m", 0, NPC_REGULAR),
     1106 : (1604, lnames[1106], "r", "f", 0, NPC_REGULAR),

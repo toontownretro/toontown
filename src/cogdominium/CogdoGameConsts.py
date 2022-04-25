@@ -15,5 +15,5 @@ LaffRewardMin = 25
 LaffRewardRange = 112
 LaffPenalty = 50
 
-PenthouseElevatorInPath = '**/elevatorIN_node'
-PenthouseElevatorOutPath = '**/elevatorOUT_node'
+PenthouseElevatorInPath = "**/elevatorIN_node"
+PenthouseElevatorOutPath = "**/elevatorOUT_node"

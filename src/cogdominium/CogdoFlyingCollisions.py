@@ -3,6 +3,7 @@ from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode, Bi
 CollisionRay, CollisionHandlerGravity, CollisionHandlerFluidPusher, CollisionHandlerPusher
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
+from toontown.toonbase.ToontownModules import *
 
 class CogdoFlyingCollisions(GravityWalker):
     wantFloorSphere = 0

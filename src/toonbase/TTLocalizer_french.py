@@ -149,27 +149,27 @@ GlobalStreetNames = {
     9100  : ("vers le",     "sur le",     "Boulevard de la Berceuse"),
     9200  : ("vers la",     "sur la",     "Place de la Couette"),
     10000 : ("vers le",     "au",         "Country Club du QG Chefbot"),
-    10100 : ("vers le",     "dans le",    "hall du QG Chefbot"),
+    10100 : ("vers le",     "dans le",    "Hall du QG Chefbot"),
     10200 : ("à",           "dans",       "Le Clubhouse"),
     10500 : ("à",           "dans",       "Les trois premiers à l'avant"),
     10600 : ("à",           "dans",       "Les six du milieu"),
     10700 : ("à",           "dans",       "Les neuf du fond"),
-    11000 : ("vers la",     "sur la",     "cour du QG Vendibot"),
-    11100 : ("vers le",     "dans le",    "hall du QG Vendibot"),
-    11200 : ("vers l'",     "à l'",       "usine Vendibot"),
-    11500 : ("vers l'",     "à l'",       "usine Vendibot"),
-    12000 : ("vers le",     "sur la",     "cour de train du Caissbot"),
-    12100 : ("vers le",     "dans le",    "hall du QG Caissbot"),
+    11000 : ("vers la",     "sur la",     "Cour du QG Vendibot"),
+    11100 : ("vers le",     "dans le",    "Hall du QG Vendibot"),
+    11200 : ("vers l'",     "à l'",       "Usine Vendibot"),
+    11500 : ("vers l'",     "à l'",       "Usine Vendibot"),
+    12000 : ("vers le",     "sur la",     "Cour de train du Caissbot"),
+    12100 : ("vers le",     "dans le",    "Hall du QG Caissbot"),
     12500 : ("vers la",     "sur la",     "Fabrique à Sous Caissbot"),
     12600 : ("vers la",     "sur la",     "Fabrique à Euros Caissbot"),
     12700 : ("vers la",     "sur la",     "Fabrique à Lingots Caissbot"),
-    13000 : ("vers le",     "sur la",     "cour du QG Loibot"),
-    13100 : ("vers le",     "dans le",    "hall du QG Loibot"),
-    13200 : ("vers le",     "au",         "hall du bureau du Procureur"),
-    13300 : ("vers le",     "au",         "bureau Loibot A"),
-    13400 : ("vers le",     "au",         "bureau Loibot B"),
-    13500 : ("vers le",     "au",         "bureau Loibot C"),
-    13600 : ("vers le",     "au",         "bureau Loibot D"),
+    13000 : ("vers le",     "sur la",     "Cour du QG Loibot"),
+    13100 : ("vers le",     "dans le",    "Hall du QG Loibot"),
+    13200 : ("vers le",     "au",         "Hall du bureau du Procureur"),
+    13300 : ("vers le",     "au",         "Bureau Loibot A"),
+    13400 : ("vers le",     "au",         "Bureau Loibot B"),
+    13500 : ("vers le",     "au",         "Bureau Loibot C"),
+    13600 : ("vers le",     "au",         "Bureau Loibot D"),
     }
 
 # reference the location name as [-1]; it's guaranteed to be the last entry
@@ -865,13 +865,13 @@ QuestDialogDict = {
     1068 : { QUEST : "Je n'attendais pas de paquet. C'est peut-être pour le Dr E. Phorique ?\aMon assistant doit aller le voir aujourd'hui, je me charge de lui remettre.\aEn attendant, est-ce que tu voudrais bien débarrasser ma rue de quelques Cogs ?\aTu dois vaincre 10 Cogs dans Toontown Centre.",
              LEAVING : "",
              INCOMPLETE_PROGRESS : "Mon assistant n'est pas encore revenu." },
-    1069 : { QUEST : "Le Dr. E. Phorique dit qu'il n'attendait pas de paquet non plus.\aMalheureusement, un Caissbot l'a volé à mon assistant alors qu'il revenait.\aPourrais-tu essayer de le récupérer ?",
+    1069 : { QUEST : "Le Dr E. Phorique dit qu'il n'attendait pas de paquet non plus.\aMalheureusement, un Caissbot l'a volé à mon assistant alors qu'il revenait.\aPourrais-tu essayer de le récupérer ?",
              LEAVING : "",
              INCOMPLETE_PROGRESS : "Tu n'as pas retrouvé le paquet, hein ?" },
-    1070 : { QUEST : "Le Dr. E. Phorique dit qu'il n'attendait pas de paquet non plus.\aMalheureusement, un Vendibot l'a volé à mon assistant alors qu'il revenait.\aJe suis désolé, mais il va falloir que tu retrouves ce Vendibot pour le récupérer.",
+    1070 : { QUEST : "Le Dr E. Phorique dit qu'il n'attendait pas de paquet non plus.\aMalheureusement, un Vendibot l'a volé à mon assistant alors qu'il revenait.\aJe suis désolé, mais il va falloir que tu retrouves ce Vendibot pour le récupérer.",
              LEAVING : "",
              INCOMPLETE_PROGRESS : "Tu n'as pas retrouvé le paquet, hein ?" },
-    1071 : { QUEST : "Le Dr. E. Phorique dit qu'il n'attendait pas de paquet non plus.\aMalheureusement, un Chefbot l'a volé à mon assistant alors qu'il revenait.\aPourrais-tu essayer de le récupérer ?",
+    1071 : { QUEST : "Le Dr E. Phorique dit qu'il n'attendait pas de paquet non plus.\aMalheureusement, un Chefbot l'a volé à mon assistant alors qu'il revenait.\aPourrais-tu essayer de le récupérer ?",
              LEAVING : "",
              INCOMPLETE_PROGRESS : "Tu n'as pas retrouvé le paquet, hein ?" },
     1072 : { QUEST : "Super - tu l'as retrouvé !\aTu devrais peut-être essayer _toNpcName_, cela pourrait être pour lui._where_",
@@ -942,7 +942,7 @@ QuestDialogDict = {
              COMPLETE : "Tu as trouvé ma chambre à air ! Tu es vraiment très doué. Tiens, prends ta récompense...",
              },
     2203 : { QUEST : "Les Cogs sont en train de mettre la banque sens dessus dessous.\aVa voir le Capitaine Carl et vois ce que tu peux faire._where_" },
-    2204 : { QUEST : "Bienvenue à bord, moussaillon.\aGrrr ! Ces fripons de Cogs ont cassé mon monocle et je n'arrive plus à compter la monnaie sans lui.\aGarde les pieds sur terre et porte cette ordonnance au Dr. Queequeg puis rapporte m'en un nouveau._where_",
+    2204 : { QUEST : "Bienvenue à bord, moussaillon.\aGrrr ! Ces fripons de Cogs ont cassé mon monocle et je n'arrive plus à compter la monnaie sans lui.\aGarde les pieds sur terre et porte cette ordonnance au Dr Queequeg puis rapporte m'en un nouveau._where_",
              GREETING : "",
              LEAVING : "",
              },
@@ -1845,7 +1845,7 @@ QuestDialogDict = {
     # another cog Suit piece
     6291 : { QUEST : "Les Cogs ont pénétré dans la Banque du Doudou d'Or ! Va voir Laurent Lauronpat et vois si tu peux l'aider.",
              },
-    6292 : { QUEST : "Ah ces satanés Caissbots ! Ils ont volé mes lampes de lecture !\aJ'en ai besoin tout de suite. Tu peux aller les chercher ?\aSi tu me rapportes mes lampes de lecture, je pourrai peut-être t'aider à rencontrer le Vice-Président.\aFais vite !",
+    6292 : { QUEST : "Ah ces satanés Caissbots ! Ils ont volé mes lampes de lecture !\aJ'en ai besoin tout de suite. Tu peux aller les chercher ?\aSi tu me rapportes mes lampes de lecture, je pourrai peut-être t'aider à rencontrer le Directeur Financier.\aFais vite !",
              INCOMPLETE_PROGRESS : "Il me faut ces lampes. Continue de les chercher !",
              COMPLETE : "Te voilà revenu ! Et tu as mes lampes !\aJe ne peux pas te remercier comme il le faudrait mais je peux te donner ça.",
              },
@@ -2456,7 +2456,7 @@ ReportPanelCategoryLanguage = "Propos grossiers"
 ReportPanelCategoryPii = "Partage ou demande d'informations personnelles"
 ReportPanelCategoryRude = "Impoli ou méchant"
 ReportPanelCategoryName = "Mauvais nom"
-ReportPanelCategoryHacking = "Piratage"
+ReportPanelCategoryHacking = "Hacking"
 
 ReportPanelConfirmations = (
     "Tu es sur le point de signaler que %s a utilisé des propos obscènes, sectaires ou sexuellement explicites.",
@@ -3923,6 +3923,9 @@ KartMinLaff = "Il te faut %s rigolpoints pour monter dans ce kart"
 CogsIncExt = " SA"
 CogsIncModifier = "%s"+ CogsIncExt
 CogsInc = Cogs.upper() + CogsIncExt
+#CogdominiumsExt = "\nCogdominiums"
+CogdominiumsExt = "\nField  Office"
+Cogdominiums = Cog.upper() + CogdominiumsExt
 
 # DistributedKnockKnockDoor.py
 DoorKnockKnock = "Toc, toc."
@@ -3953,8 +3956,17 @@ KnockKnockContestJokes = {
     2100 : ["Tank",
             "Tank il ne regarde pas, lance-lui un gâteau !"],
 
-    2200 : ["Audrey",
+    # 2009 April fools contest Jokes. First few doors of Loopy lane
+    2200 : {28:["Audrey",
             "Audrey mieux sortir d'ici, voilà les Cogs qui arrivent !"],
+            41:["Dewey",
+            "Dewey want to go defeat some more Cogs?"],
+            40:["Minnie",
+            "Minnie people have asked that, and it's driving me crazy!"],
+##            25:["Audrey25",
+##            "Audrey mieux sortir d'ici, voilà les Cogs qui arrivent !"],
+            27:["Disguise",
+            "Disguise where the Cogs fly!"]},
 
     2300: ["Hadrien",
            "Hadrien que quelques pièces Cog et on y va !"],
@@ -7445,7 +7457,7 @@ MinigameRulesPanelPlay = "JOUER"
 GagShopName = "La boutique à gags de Dingo"
 GagShopPlayAgain = "REJOUER\n"
 GagShopBackToPlayground = "RETOUR AU\nTERRAIN DE JEUX"
-GagShopYouHave = "Tu as %s à dépenser"
+GagShopYouHave = "Tu as %s bonbons à dépenser"
 GagShopYouHaveOne = "Tu as 1 bonbon à dépenser"
 GagShopTooManyProps = "Désolé, tu as trop d'accessoires"
 GagShopDoneShopping = "ACHATS\nTERMINÉS"
@@ -7750,7 +7762,9 @@ QuestScript150_4 = "Certains défis sont trop difficiles pour un Toon seul !"
 # DO NOT TRANSLATE THIS
 MissingKeySanityCheck = "Ignorer"
 
-SellbotBossName = "Premier Vice-\nPrésident"
+#SellbotBossName = "Premier Vice-\nPrésident"
+SellbotBossName = "Vice-\nPrésident"
+#CashbotBossName = "Vice-\nPrésident"
 CashbotBossName = "Directeur\nFinancier"
 LawbotBossName = "Juge du fond" # Check
 BossCogNameWithDept = "%(name)s\n%(dept)s"
@@ -7818,7 +7832,7 @@ ResistanceToonHPBoost = "\aTu as beaucoup fait pour la Résistance.\aLe Conseil 
 ResistanceToonMaxed = "\aJe vois que tu as un costume de Cog de niveau %s. Très impressionnant !\aDe la part du Conseil des Toons, merci d'être revenu pour secourir encore plus de Toons !"
 
 CashbotBossCogAttack = "Attrapez-les !!!"
-ResistanceToonWelcome = "Ça y est, tu y es arrivé ! Suis-moi jusqu'au coffre-fort principal avant que le Vice-Président ne nous trouve !"
+ResistanceToonWelcome = "Ça y est, tu y es arrivé ! Suis-moi jusqu'au coffre-fort principal avant que le Directeur Financier ne nous trouve !"
 ResistanceToonTooLate = "Zut alors ! Nous arrivons trop tard !"
 CashbotBossDiscoverToons1 = "Ah-AH !"
 CashbotBossDiscoverToons2 = "Il me semblait bien que ça sentait le Toon par ici ! Imposteurs !"
@@ -7827,7 +7841,7 @@ ResistanceToonWatchThis = "Regarde ça !"
 CashbotBossGetAwayFromThat = "Eh ! Ne touche pas à ça !"
 ResistanceToonCraneInstructions1 = "Prends le contrôle d'un aimant en montant sur un podium."
 ResistanceToonCraneInstructions2 = "Utilise les flèches de ton clavier pour déplacer la grue et appuie sur la touche Ctrl pour attraper un objet."
-ResistanceToonCraneInstructions3 = "Attrape un coffre-fort avec un aimant et fais tomber le casque de sécurité du Vice-Président."
+ResistanceToonCraneInstructions3 = "Attrape un coffre-fort avec un aimant et fais tomber le casque de sécurité du Directeur Financier."
 ResistanceToonCraneInstructions4 = "Une fois que le casque est tombé, prends un goon désactivé et frappe-le à la tête !"
 ResistanceToonGetaway = "Eek ! Courons !"
 CashbotCraneLeave = "Quitter la grue"
@@ -10053,7 +10067,7 @@ zone2TitleDict = {
     2605 : ("Usine à pancartes de Toontown", ""),
     2606 : ("", ""),
     2607 : ("Haricots sauteurs", ""),
-    2610 : ("Dr. Tom Lepitre", ""),
+    2610 : ("Dr Tom Lepitre", ""),
     2611 : ("", ""),
     2616 : ("Barbefolle - Déguisements", ""),
     2617 : ("Cascades Comiques", ""),
@@ -10122,7 +10136,7 @@ zone2TitleDict = {
     2801 : ("Coussins sonores", ""),
     2802 : ("Boulets de démolition gonflables", ""),
     2803 : ("Théâtre de Toontown", ""),
-    2804 : ("Dr. Faismarcher, chiropracteur", ""),
+    2804 : ("Dr Faismarcher, chiropracteur", ""),
     2805 : ("", ""),
     2809 : ("Salle de gym Le Poids lent", ""),
     2814 : ("Théâtre de Toontown", ""),
@@ -10235,7 +10249,7 @@ zone2TitleDict = {
     4609 : ("Dot, Raie, Mie - Pianos", ""),
     4610 : ("Attention refrain !", ""),
     4611 : ("Diapasons à l'unisson", ""),
-    4612 : ("Dr. Tefaispasdebile - Dentiste", ""),
+    4612 : ("Dr Tefaispasdebile - Dentiste", ""),
     4614 : ("On rase gratis pour une chanson", ""),
     4615 : ("Pizzéria chez Piccolo", ""),
     4617 : ("La mandoline joyeuse", ""),
@@ -12340,7 +12354,7 @@ ElevatorBlockedRoom = "Tous les adversaires doivent être vaincus."
 MolesLeft = "Taupes restantes : %d"
 MolesInstruction = "Écrasement de taupes !\nSaute sur les taupes rouges !"
 MolesFinished = "Écrasement de taupe réussi !"
-MolesPityWin = "Écrasement de taupe manqué ! But the moles left."
+MolesPityWin = "Écrasement de taupe manqué ! But the moles left." # Finish
 MolesRestarted = "Écrasement de taupe manqué ! Recommence..."
 
 # DistributedGolfGreenGame.py

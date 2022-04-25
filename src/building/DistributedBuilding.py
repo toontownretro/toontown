@@ -315,6 +315,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                 light.setColor(LIGHT_OFF_COLOR)
 
     def handleInsideVictorElevator(self):
+        self.notify.info("inside victor elevator")
         self.sendUpdate("setVictorReady", [])
 
     def exitWaitForVictors(self):
@@ -505,13 +506,16 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         assert(self.debugPrint("loadElevator(newNP=%s)"%(newNP,)))
         # Load up an elevator
         self.elevatorNodePath = hidden.attachNewNode("elevatorNodePath")
-        self.elevatorModel = loader.loadModel(
-                "phase_4/models/modules/elevator")
+#        self.elevatorModel = loader.loadModel(
+#                "phase_4/models/modules/elevator")
 
         # Put up a display to show the current floor of the elevator
         self.floorIndicator=[None, None, None, None, None]
         if cogdo:
-            self.elevatorModel = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_csa_elevatorB')
+            self.elevatorModel = loader.loadModel(
+                "phase_5/models/cogdominium/tt_m_ara_csa_elevatorB")
+            #self.elevatorModel = loader.loadModel(
+            #    "phase_4/models/modules/elevator")
         else:
             self.elevatorModel = loader.loadModel('phase_4/models/modules/elevator')
             npc=self.elevatorModel.findAllMatches("**/floor_light_?;+s")
@@ -547,7 +551,11 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             cogIcons.removeNode()
 
         self.leftDoor = self.elevatorModel.find("**/left-door")
+        if self.leftDoor.isEmpty():
+            self.leftDoor = self.elevatorModel.find("**/left_door")
         self.rightDoor = self.elevatorModel.find("**/right-door")
+        if self.rightDoor.isEmpty():
+            self.rightDoor = self.elevatorModel.find("**/right_door")
 
         # Find the door origin
         self.suitDoorOrigin = newNP.find("**/*_door_origin")
@@ -847,7 +855,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         for i in sideBldgNodes:
             name=i.getName()
             timeForDrop = TO_SUIT_BLDG_TIME*0.85
-            if (name[0]=='s'):
+            if (name[0]=='c'):
                 #print('anim2suit: suit flat scale: %s' % repr(i.getScale()))
                 # set the position of the node, then unstash it to show it
                 showTrack = Sequence(
@@ -989,7 +997,8 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         # Scale the text:
         signTextNodePath.setPosHprScale(0.0, 0.0, -0.13 + textHeight * 0.1 / zScale,
                                         0.0, 0.0, 0.0,
-                                        20.0, 0.1, 0.1 / zScale)
+                                        0.1 * 8.0 / 20.0,
+                                        0.1, 0.1 / zScale)
         # Clear parent color higher in the hierarchy
         signTextNodePath.setColor(1.0, 1.0, 1.0, 1.0)
         # Decal sign onto the front of the building:
@@ -999,7 +1008,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         frontNP.node().setEffect(DecalEffect.make())
 
         # Rename the building:
-        suitBuildingNP.setName("sb"+str(self.block)+":_landmark__DNARoot")
+        suitBuildingNP.setName("cb"+str(self.block)+":_landmark__DNARoot")
         suitBuildingNP.setPosHprScale(nodePath,
                                       15.463, 0.0, 0.0,
                                       0.0, 0.0, 0.0,
@@ -1209,7 +1218,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         for i in bldgNodes:
             i.clearColorScale()
             name=i.getName()
-            if (name[0]=='s'):
+            if (name[0]=='c'):
                 hideTrack = Sequence(
                     name = self.taskName('ToToonCogdoFlatsTrack'))
                 # have the suit building scale away
@@ -1591,7 +1600,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             self._deleteTransitionTrack()
 
     # Use once Field Offices are more stable
-    """
     def setToSuit(self):
         assert(self.debugPrint("setToSuit()"))
         self.stopTransition()
@@ -1616,6 +1624,14 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                     i.stash()
                 else:
                     # Toon flat buildings:
+                    # i.hide()
+                    i.stash()
+            elif (name[0] == 'c'):
+                if name.find("_landmark_") != -1:
+                    # an old suit cogdo landmark instance.
+                    i.removeNode()
+                else:
+                    # Cogdo flat buildings:
                     # i.hide()
                     i.stash()
 
@@ -1708,125 +1724,15 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                 else:
                     # Toon flat buildings:
                     # i.hide()
-                    i.stash()
+                    # i.stash()
+                    i.unstash()
             elif (name[0]=='c'):
                 if (name.find("_landmark_") != -1):
                     i.removeNode()
                 else:
                     # Cogdo flat buildings:
                     # i.hide()
-                    i.unstash()
-                    """
-
-    def setToSuit(self):
-        assert(self.debugPrint("setToSuit()"))
-        self.stopTransition()
-        if self.mode == 'suit':
-            return
-        self.mode = 'suit'
-
-        nodes=self.getNodePaths()
-        for i in nodes:
-            name=i.getName()
-            if (name[0]=='s'):
-                if (name.find("_landmark_") != -1):
-                    # an old suit landmark instance.
-                    i.removeNode()
-                else:
-                    # Suit flat buildings:
-                    # i.show()
-                    i.unstash()
-            elif (name[0]=='t'):
-                if (name.find("_landmark_") != -1):
-                    # Toon landmark buildings:
                     i.stash()
-                else:
-                    # Toon flat buildings:
-                    # i.hide()
-                    i.stash()
-
-        # Copy the suit landmark building, based on the suit track and
-        # difficulty:
-        npc=hidden.findAllMatches(self.getSbSearchString())
-
-        assert(npc.getNumPaths()>0)
-        for i in range(npc.getNumPaths()):
-            nodePath=npc.getPath(i)
-            self.adjustSbNodepathScale(nodePath)
-            self.notify.debug("net transform = %s" % str(nodePath.getNetTransform()))
-            self.setupSuitBuilding(nodePath)
-
-    def setToCogdo(self):
-        assert(self.debugPrint("setToCogdo()"))
-        self.stopTransition()
-        if self.mode == 'cogdo':
-            return
-        self.mode = 'cogdo'
-
-        nodes=self.getNodePaths()
-        for i in nodes:
-            name=i.getName()
-            if (name[0]=='s'):
-                if (name.find("_landmark_") != -1):
-                    # an old suit landmark instance.
-                    i.removeNode()
-                else:
-                    # Suit flat buildings:
-                    # i.show()
-                    i.unstash()
-            elif (name[0]=='t'):
-                if (name.find("_landmark_") != -1):
-                    # Toon landmark buildings:
-                    i.stash()
-                else:
-                    # Toon flat buildings:
-                    # i.hide()
-                    i.stash()
-
-        for np in nodes:
-            if not np.isEmpty():
-                np.setColorScale(.6,.6,.6,1.)
-
-        # Copy the suit landmark building, based on the suit track and
-        # difficulty:
-        npc=hidden.findAllMatches(self.getSbSearchString())
-
-        assert(npc.getNumPaths()>0)
-        for i in range(npc.getNumPaths()):
-            nodePath=npc.getPath(i)
-            self.adjustSbNodepathScale(nodePath)
-            self.notify.debug("net transform = %s" % str(nodePath.getNetTransform()))
-            self.setupCogdo(nodePath)
-
-    def setToToon(self):
-        assert(self.debugPrint("setToToon() mode=%s" % (self.mode)))
-        self.stopTransition()
-        if self.mode == 'toon':
-            return
-        self.mode = 'toon'
-
-        # Clear reference to the suit door.
-        self.suitDoorOrigin = None
-        # Go through nodes, and do the right thing.
-        nodes=self.getNodePaths()
-        for i in nodes:
-            i.clearColorScale()
-            name=i.getName()
-            if (name[0]=='s'):
-                if (name.find("_landmark_") != -1):
-                    i.removeNode()
-                else:
-                    # Suit flat buildings:
-                    # i.hide()
-                    i.stash()
-            elif (name[0]=='t'):
-                if (name.find("_landmark_") != -1):
-                    # Toon landmark buildings:
-                    i.unstash()
-                else:
-                    # Toon flat buildings:
-                    # i.show()
-                    i.unstash()
 
     def normalizeElevator(self):
         # Normalize the size of the elevator
@@ -1883,7 +1789,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         """Make an interactive prop near us be sad when we're a cog building."""
         self.notify.debug("makePropSad")
         if self.getInteractiveProp():
-            if self.getInteractiveProp() == "Sad":
+            if self.getInteractiveProp()._state == "Sad":
                 #import pdb; pdb.set_trace()
                 pass
             self.getInteractiveProp().gotoSad(self.doId)

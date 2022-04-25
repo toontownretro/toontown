@@ -69,21 +69,22 @@ class CogdoExecutiveSuiteIntro(CogdoGameMovie):
                                  pos=(0.2, 0, -0.6667),
                                  )
         self.bg.wrtReparentTo(self.frame)
-        self.gameTitleText = DirectLabel(parent=self.frame,
-                                         text=TTLocalizer.CogdoExecutiveSuiteTitle,
-                                         scale=TTLocalizer.MRPgameTitleText * 0.8,
-                                         text_align=TextNode.ACenter,
-                                         text_font=getSignFont(),
-                                         text_fg=(1.0, 0.33, 0.33, 1.0),
-                                         pos=TTLocalizer.MRgameTitleTextPos,
-                                         relief=None,
+        self.gameTitleText = DirectLabel(parent = self.frame,
+                                         text = TTLocalizer.CogdoExecutiveSuiteTitle,
+                                         scale = TTLocalizer.MRPgameTitleText * 0.8,
+                                         text_align = TextNode.ACenter,
+                                         text_font = getSignFont(),
+                                         text_fg = (1.0, 0.33, 0.33, 1.0),
+                                         pos = TTLocalizer.MRgameTitleTextPos,
+                                         relief = None,
                                          )
         self.chatBubble.wrtReparentTo(self.frame)
         self.frame.hide()
         backgroundGui.removeNode()
+        
         # Create the Resistance Toon
         self.toonDNA = ToonDNA.ToonDNA()
-        self.toonDNA.newToonFromProperties('dss', 'ss', 'm', 'm', 2, 0, 2, 2, 1, 8, 1, 8, 1, 14)
+        self.toonDNA.newToonFromProperties("dss" ,"ss" ,"m" ,"m" ,2 ,0 ,2 ,2 ,1 ,8 ,1 ,8 , 1 ,14 ,)
         self.toonHead = Toon.Toon()
         self.toonHead.setDNA(self.toonDNA)
         self.makeSuit('sc')

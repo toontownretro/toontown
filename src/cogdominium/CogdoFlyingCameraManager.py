@@ -31,7 +31,7 @@ class CogdoFlyingCameraManager:
         self._prevToonY = 0.0
         levelBounds = self._level.getBounds()
         l = Globals.Camera.LevelBoundsFactor
-        self._bounds = ((levelBounds[0][0] * l[0],levelBounds[0][1] * l[0]),
+        self._bounds = ((levelBounds[0][0] * l[0], levelBounds[0][1] * l[0]),
                         (levelBounds[1][0] * l[1], levelBounds[1][1] * l[1]),
                         (levelBounds[2][0] * l[2], levelBounds[2][1] * l[2]),
                         )
@@ -55,7 +55,11 @@ class CogdoFlyingCameraManager:
         self._camCollRay = CollisionRay()
         camCollNode = CollisionNode('CameraToonRay')
         camCollNode.addSolid(self._camCollRay)
-        camCollNode.setFromCollideMask(OTPGlobals.WallBitmask | OTPGlobals.CameraBitmask | ToontownGlobals.FloorEventBitmask | ToontownGlobals.CeilingBitmask)
+        camCollNode.setFromCollideMask(OTPGlobals.WallBitmask | 
+                                       OTPGlobals.CameraBitmask |
+                                       ToontownGlobals.FloorEventBitmask |
+                                       ToontownGlobals.CeilingBitmask,
+                                       )
         camCollNode.setIntoCollideMask(0)
         self._camCollNP = self._camera.attachNewNode(camCollNode)
         self._camCollNP.show()
@@ -104,7 +108,7 @@ class CogdoFlyingCameraManager:
 
     def update(self, dt = 0.0):
         self._updateCam(dt)
-        self._updateCollisions()
+        #self._updateCollisions() # fix
 
     def _updateCam(self, dt):
         toonPos = self._toon.getPos()

@@ -256,5 +256,5 @@ class DistCogdoCraneGame(CogdoCraneGameBase, DistCogdoLevelGame):
                 crane._handleMagnetMassChanged(mass)
 
         def _handleMoneyBagGrabHeightChanged(self, height):
-            for moneyBag in self.moneyBags.itervalues():
+            for moneyBag in self.moneyBags.values():
                 moneyBag._handleMoneyBagGrabHeightChanged(height)

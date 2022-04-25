@@ -97,7 +97,7 @@ class CogdoMazePlayer(FSM, CogdoMazeSplattable):
         self.accept(Globals.GagCollisionName + '-into-' + self.gagCollisionName, self.handleGagHit)
 
     def hitByDrop(self):
-        if self.state == 'Normal':
+        if self._state == 'Normal':
             self.request('Hit')
         if self.equippedGag != None:
             self.removeGag()

@@ -66,7 +66,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
                                          'suit',
                                          'clearOutToonInteriorForCogdo',
                                          'becomingCogdo',
-                                         'becomingCogdoFromCogdo'
+                                         'becomingCogdoFromCogdo',
                                          'cogdo',
                                          ]),
                             State.State('waitForVictors',
@@ -137,6 +137,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         self.becameSuitTime=0
         self.frontDoorPoint=None
         self.suitPlannerExt=None
+        self.fSkipElevatorOpening=False
 
     def cleanup(self):
         if self.isDeleted():
@@ -244,6 +245,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         if not self.isToonBlock():
             return
 
+        self.updateSavedBy(None)
         numFloors = self.FieldOfficeNumFloors
         self.track=suitTrack
         self.difficulty=difficulty
@@ -257,15 +259,17 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         assert(self.debugPrint("toonTakeOver(savedBy=%s)"%(self.savedBy)))
         isCogdo = 'cogdo' in self.fsm.getCurrentState().getName().lower()
         takenOver = True
-        if isCogdo:
-            if self.buildingDefeated:
-                self.fsm.request('becomingToonFromCogdo')
-            else:
-                self.fsm.request('becomingCogdoFromCogdo')
-                takenOver = False
+#        if isCogdo:
+#            if self.buildingDefeated:
+#                self.fsm.request('becomingToonFromCogdo')
+#            else:
+#                self.fsm.request('becomingCogdoFromCogdo')
+#                takenOver = False
+        if 'cogdo' in self.fsm.getCurrentState().getName().lower():
+            self.fsm.request('becomingToonFromCogdo')
         else:
             self.fsm.request('becomingToon')
-        if self.suitPlannerExt:
+        if takenOver and self.suitPlannerExt:
             self.suitPlannerExt.recycleBuilding(isCogdo)
         if hasattr(self, "interior"):
             self.interior.requestDelete()
@@ -391,11 +395,14 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
             return
 
         assert(self.notify.debug("victor %d is ready for bldg %d" % (avId, self.doId)))
-        self.recordVictorResponse(avId)
+        #self.recordVictorResponse(avId)
 
         # Don't tell us about this avatar exiting any more.
         event = self.air.getAvatarExitEvent(avId)
         self.ignore(event)
+        if self.allVictorsResponded():
+            return
+        self.recordVictorResponse(avId)
 
         if self.allVictorsResponded():
             self.toonTakeOver()
@@ -405,6 +412,27 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         self.recordVictorResponse(avId)
         if self.allVictorsResponded():
             self.toonTakeOver()
+
+    def victorsTimedOutTask(self, task):
+        if self.allVictorsResponded():
+            return
+
+        if hasattr(self, "interior"):
+            self.notify.info("victorsTimedOutTask: ejecting players by deleting interior.")
+            self.interior.requestDelete()
+            del self.interior
+            task.delayTime = 15.0
+            return task.again
+        self.notify.info("victorsTimedOutTask: suspicious players remaining, advancing state.")
+        for i in range(len(self.victorList)):
+            if self.victorList[i] and self.victorResponses[i] == 0:
+                self.air.writeServerEvent('suspicious', self.victorList[i], 'DistributedBuildingAI toon client refused to leave building.')
+                self.recordVictorResponse(self.victorList[i])
+                event = self.air.getAvatarExitEvent(self.victorList[i])
+                self.ignore(event)
+
+        self.toonTakeOver()
+        return Task.done
 
     ##### off state #####
 
@@ -537,12 +565,14 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         self.updateSavedBy(savedBy)
         # List of victor responses
         self.victorResponses = [0, 0, 0, 0]
+        taskMgr.doMethodLater(30, self.victorsTimedOutTask, self.taskName(str(self.block) + '_waitForVictors-timer'))
         # Tell the client to go into waitForVictors state
         self.d_setState("waitForVictorsFromCogdo")
         return
 
     def exitWaitForVictorsFromCogdo(self):
         # Stop waiting for unexpected exits.
+        taskMgr.remove(self.taskName(str(self.block) + '_waitForVictors-timer'))
         self.victorResponses = None
         for victor in self.victorList:
             event = simbase.air.getAvatarExitEvent(victor)
@@ -856,7 +886,9 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         #todo: ...create the elevator.
         self.elevator = DistributedCogdoElevatorExtAI(
             self.air,
-            self)
+            self,
+            fSkipOpening = self.fSkipElevatorOpening)
+        self.fSkipElevatorOpening = False
         self.elevator.generateWithRequired(exteriorZoneId)
 
         self.air.writeServerEvent(

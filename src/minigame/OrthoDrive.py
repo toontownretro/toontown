@@ -1,9 +1,10 @@
 """ OrthoDrive.py: contains the OrthoDrive class """
 
-from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
-from . import ArrowKeys
 from direct.task.Task import Task
+from otp.otpbase import OTPGlobals
+from toontown.toonbase.ToonBaseGlobal import *
+from . import ArrowKeys
 
 class OrthoDrive:
     """
@@ -21,7 +22,8 @@ class OrthoDrive:
                  customCollisionCallback=None,
                  priority=0, setHeading=1,
                  upHeading=0,
-                 instantTurn=False):
+                 instantTurn=False,
+                 wantSound=False):
         """
         customCollisionCallback should accept (current position,
         proposed offset) and return a (potentially modified) offset
@@ -30,6 +32,7 @@ class OrthoDrive:
         of the 'up' key; defaults to zero
         instantTurn - True makes the toon turn instantly to his direction, needed for CogThief game
         """
+        self.wantSound = wantSound
         self.speed = speed
         self.maxFrameMove = maxFrameMove
         self.customCollisionCallback = customCollisionCallback
@@ -50,6 +53,7 @@ class OrthoDrive:
         self.__placeToonHOG(self.lt.getPos())
         taskMgr.add(self.__update, OrthoDrive.TASK_NAME,
                     priority=self.priority)
+        self.lastAction = None
 
     def __placeToonHOG(self, pos, h=None):
         # place the toon unconditionally in a new position
@@ -100,7 +104,18 @@ class OrthoDrive:
 
         ## animate the toon
         speed = vel.length()
-        self.lt.setSpeed(speed, 0)
+        action = self.lt.setSpeed(speed, 0)
+
+        if action != self.lastAction:
+            self.lastAction = action
+            
+            if self.wantSound:
+                if action == OTPGlobals.WALK_INDEX or action == OTPGlobals.REVERSE_INDEX:
+                    self.lt.walkSound()
+                elif action == OTPGlobals.RUN_INDEX:
+                    self.lt.runSound()
+                else:
+                    self.lt.stopSound()
 
         if self.setHeading:
             self.__handleHeading(xVel, yVel)

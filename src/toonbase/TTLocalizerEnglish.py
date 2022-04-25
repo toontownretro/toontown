@@ -634,7 +634,7 @@ QuestsItemDict = {
     5010 : ["Sprocket", "Sprockets", "a "],
     5011 : ["Salad", "Salads", "a "],
     5012 : ["Key to "+lDaisyGardens, "Keys to "+lDaisyGardens, "a "],
-    5013 : [lSellbotHQ+" Blueprints", lSellbotHQ+" HQ Blueprints", "some "],
+    5013 : [lSellbotHQ+" Blueprints", lSellbotHQ+" Blueprints", "some "],
     5014 : [lSellbotHQ+" Memo", lSellbotHQ+" Memos", "a "],
     5015 : [lSellbotHQ+" Memo", lSellbotHQ+" Memos", "a "],
     5016 : [lSellbotHQ+" Memo", lSellbotHQ+" Memos", "a "],
@@ -1066,7 +1066,7 @@ QuestDialogDict = {
     3220 : { QUEST : "I just heard that _toNpcName_ was asking around for you.\aWhy don't you drop by and see what she wants?_where_" },
     3221 : { QUEST : "Hi, _avName_! There you are!\aI heard you were quite an expert in squirt attacks.\aI need someone to set a good example for all the Toons in "+lDaisyGardens+".\aUse your squirt attacks to defeat a bunch of Cogs.\aEncourage your friends to use squirt too.\aWhen you have defeated 20 Cogs, come back here for a reward!" },
 
-    3222 : { QUEST : "It's time to demonstrate your Toonmanship.\aIf you successfully reclaim a number of Cog buildings, you'll earn the right to carry three quests.\aFirst, defeat any two Cog buildings.\aFeel free to call on your friends to help you out."},
+    3222 : { QUEST : "It's time to demonstrate your Toonmanship.\aIf you successfully reclaim a number of Cog buildings, you'll earn the right to carry three ToonTasks.\aFirst, defeat any two Cog buildings.\aFeel free to call on your friends to help you out."},
     3223 : { QUEST : "Great job on those buildings!\aNow, defeat two more buildings.\aThese buildings must be at least two stories high, or higher." },
     3224 : { QUEST : "Fantastic!\aNow just defeat two more buildings.\aThese buildings must be at least three stories high.\aWhen you finish, come back for your reward!",
              COMPLETE : "You did it, _avName_!\aYou demonstrated your superior Toonmanship.",
@@ -2511,9 +2511,9 @@ PetMoodAdjectives = {
 
 SpokenMoods = {
     'neutral': 'neutral',
-    'hunger': ["I'm tired of JellyBeans! How'bout giving me a slice of pie?",
-                "How'bout a Red JellyBean? I'm tired of the Green ones!",
-                "Oh, those JellyBeans were for planting?!! But I'm hungry!",
+    'hunger': ["I'm tired of Jellybeans! How 'bout giving me a slice of pie?",
+                "How 'bout a Red Jellybean? I'm tired of the Green ones!",
+                "Oh, those Jellybeans were for planting?!! But I'm hungry!",
                 ],
     'boredom': ["I'm dying of boredom over here!",
                 "You didn't think I understood you, huh?",
@@ -2542,10 +2542,10 @@ SpokenMoods = {
                 "I gotta get to Dreamland!",
                 ],
     'confusion': ["Where am I? Who are you again?",
-                  "What's a Toon-up again?",
+                  "What's a Toon-Up again?",
                   "Whoa, I'm standing between you and the Cogs! Run away!",
                   ],
-    'anger': ["... and you wonder why I never give you a Toon-up?!!!",
+    'anger': ["... and you wonder why I never give you a Toon-Up?!!!",
               "You always leave me behind!",
               "You love your gags more than you love me!"
               ],
@@ -3909,8 +3909,8 @@ KartMinLaff = "You need %s laff points to ride this kart"
 CogsIncExt = ", Inc."
 CogsIncModifier = "%s" + CogsIncExt
 CogsInc = Cogs.upper() + CogsIncExt
-#CogdominiumsExt = " Cogdominiums"
-CogdominiumsExt = " Field Office"
+#CogdominiumsExt = "\nCogdominiums"
+CogdominiumsExt = "\nField  Office"
 Cogdominiums = Cog.upper() + CogdominiumsExt
 
 # DistributedKnockKnockDoor.py
@@ -5729,7 +5729,7 @@ SillyPhase3Chatter = [
 SillyPhase4Chatter = [
     "Fire hydrants make your Squirt Gags squirtier!",
     "Mail Boxes give your Throw Gags a special delivery!",
-    "Those crazy Trash Cans can help boost your Toon-up!",
+    "Those crazy Trash Cans can help boost your Toon-Up!",
     "Objects on the street can help you in battle!",
     "I just know we'll get the Silly Meter back up soon!",
     "Enjoy the sillier Toontown!",
@@ -7040,7 +7040,7 @@ InventoryAffectsOneCog = "Affects: One " + Cog
 InventoryAffectsOneToon = "Affects: One Toon"
 InventoryAffectsAllToons = "Affects: All Toons"
 InventoryAffectsAllCogs = "Affects: All " + Cogs
-InventoryHealString = "Toon-up"
+InventoryHealString = "Toon-Up"
 InventoryDamageString = "Damage"
 InventoryBattleMenu = "BATTLE MENU"
 InventoryRun = "RUN"
@@ -7273,7 +7273,7 @@ GardenTutorialTitle5 = "Statues"
 GardenTutorialNext = "Next Page"
 GardenTutorialPrev = "Previous Page"
 GardenTutorialDone = "Done"
-GardenTutorialPage1 = "Toon up your Estate with a garden! You can plant flowers, grow trees, harvest super-powerful gags, and decorate with statues!"
+GardenTutorialPage1 = "Toon-Up your Estate with a garden! You can plant flowers, grow trees, harvest super-powerful gags, and decorate with statues!"
 GardenTutorialPage2 = "Flowers are finicky and require unique jellybean recipes. Once grown, put them in the wheelbarrow to sell them and work toward Laff boosts!"
 GardenTutorialPage3 = "Use a gag from your inventory to plant a tree. After a few days, that gag will do more damage! Remember to keep it healthy or the damage boost will go away."
 GardenTutorialPage4 = "Walk up to these spots to plant, water, dig up or harvest your garden."
@@ -10674,9 +10674,9 @@ EstatePlaneBanner = "Cog Invasion!!!"
 EstateHalloweenBanner = "Happy Halloween!!!"
 
 # DistributedTarget.py
-EstateTargetGameStart = "The Toon-up Target game has started!"
+EstateTargetGameStart = "The Toon-Up Target game has started!"
 EstateTargetGameInst = "The more you hit the red target, the more you'll get Tooned up."
-EstateTargetGameEnd = "The Toon-up Target game is now over..."
+EstateTargetGameEnd = "The Toon-Up Target game is now over..."
 
 # DistributedHouse.py
 AvatarsHouse = "%s\nHouse"
@@ -11386,10 +11386,10 @@ FishBingoJackpotWin = "Win %s jellybeans!"
 # index numbers are stored directly in the database, so once assigned
 # to a particular phrase, a given index number should never be
 # repurposed to any other phrase.
-ResistanceToonupMenu = "Toon-up"
-ResistanceToonupItem = "%s Toon-up"
+ResistanceToonupMenu = "Toon-Up"
+ResistanceToonupItem = "%s Toon-Up"
 ResistanceToonupItemMax = "Max"
-ResistanceToonupChat = "Toons of the World, Toon-up!"
+ResistanceToonupChat = "Toons of the World, Toon-Up!"
 ResistanceRestockMenu = "Gag-up"
 ResistanceRestockItem = "Gag-up %s"
 ResistanceRestockItemAll = "All"

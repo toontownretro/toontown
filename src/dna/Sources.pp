@@ -70,6 +70,7 @@
   #define OTHER_LIBS \
     express:c pandaexpress:m \
     panda:m \
+	pstatclient:c \
     interrogatedb:c dconfig:c dtoolconfig:m \
     dtoolutil:c dtoolbase:c dtool:m \
     pystub

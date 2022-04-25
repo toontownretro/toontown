@@ -112,6 +112,9 @@ WateringCanAttributes = {
     }
 
 
+WateringMult = 2
+
+
 def getWateringCanPower(wateringCan , wateringCanSkill):
     """
     based on his shovel and his current shovel skill,
@@ -133,13 +136,13 @@ def getWateringCanPower(wateringCan , wateringCanSkill):
             numBoxes += 1 + ( int(wateringCanSkill) / int(skillPtPerBox))
         else:
             numBoxes += curBoxes
-    return numBoxes
+    return numBoxes * WateringMult
 
 def getMaxWateringCanPower():
     retval = 0
     for wateringCanAttrib in list(WateringCanAttributes.values()):
         retval += wateringCanAttrib['numBoxes']
-    return retval
+    return retval * WateringMult
 
 # we could probably increase this
 FlowerColors = [
@@ -163,6 +166,7 @@ FLOWER_GREEN = 7
 
 ToonStatuaryTypeIndices = range(205,209) #  205,206,206,207,208
 ChangingStatuaryTypeIndices = range(230,231) # just 230
+AnimatedStatuaryTypeIndices = range(234, 238)
 
 PlantAttributes = {
     #### Gag trees ####

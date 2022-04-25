@@ -4369,6 +4369,87 @@ MickeyChatter = (
         ]
     )
 
+WinterMickeyCChatter = (
+        [ # Greetings specific to Mickey
+        "Hi, I'm Merry Mickey!",
+        "Welcome to Tinseltown... I mean, Toontown!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %",
+        ],
+        [ # Comments
+        "Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favor!",
+        "Golly, these halls sure are decked!",
+        "Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favor!",
+        "Just look at those tree lights! What a sight!",
+        "Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favor!",
+        "Not a creature is stirring, except this mouse!",
+        "Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favor!",
+        "I love this time of year!",
+        "Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favor!",
+        "I'm feeling jolly, how about you?",
+        "Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favor!",
+        "Know any good carols?",
+        "Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favor!",
+        "Oh boy! I love Winter Holiday!",
+        "Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favor!",
+        "I think I'll trade my gloves for mittens!",
+        ],
+        [ # Goodbyes
+        "Have a happy Winter Holiday!",
+        "Warm wishes to you!",
+        "Shucks, sorry you have to go. So long!",
+        "I'm going caroling with Minnie!",
+        ]
+    )
+
+ValentinesMickeyChatter = (
+    [
+    "Hi, I'm Mickey!",
+    "Welcome to ValenToontown Central!",
+    "Happy ValenToon's Day!",
+    "Happy ValenToon's Day, %",
+    ],
+    [
+    "Love is in the air! And butterflies!",
+    "Those hearts are good for Laff boosts!",
+    "I hope Minnie likes what I got her!",
+    "The Cattlelog has lots of ValenToon's Day gifts!",
+    "Throw a ValenToon's Day party!",
+    "Show the Cogs you love them with a pie in the face!",
+    "I'm taking Minnie out to the Kooky Cafe!",
+    "Will Minnie want chocolates or flowers?",
+    ],
+    [
+    "I loved having you visit!",
+    "Tell Minnie I'll pick her up soon!",
+    ]
+    )
+
+WinterMickeyDChatter = (
+        [ # Greetings specific to Mickey
+        "Hi, I'm Merry Mickey!",
+        "Welcome to Tinseltown... I mean, Toontown!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %",
+        ],
+        [ # Comments
+        "Golly, these halls sure are decked!",
+        "Just look at those tree lights! What a sight!",
+        "Not a creature is stirring, except this mouse!",
+        "I love this time of year!",
+        "I'm feeling jolly, how about you?",
+        "Know any good carols?",
+        "Oh boy! I love Winter Holiday!",
+        "I think I'll trade my gloves for mittens!",
+        ],
+        [ # Goodbyes
+        "Have a happy Winter Holiday!",
+        "Warm wishes to you!",
+        "Shucks, sorry you have to go. So long!",
+        "I'm going caroling with Minnie!",
+        ]
+    )
+
 VampireMickeyChatter = (
         [ # Greetings specific to Vampire Mickey
         "Bienvenido al "+lToontownCentral+".",
@@ -4400,6 +4481,10 @@ VampireMickeyChatter = (
         "Chsss, ven a asustar gente conmigo.",
         ]
     )
+
+FieldOfficeMickeyChatter = [
+        "Have you heard about the new Mover & Shaker Field Offices?"
+        ]
 
 MinnieChatter = (
         [ # Greetings
@@ -4433,6 +4518,120 @@ MinnieChatter = (
         ]
     )
 
+WinterMinnieCChatter = (
+        [ # Greetings
+        "Hi, I'm Merry Minnie!",
+        "Welcome to the land of carols!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "You'll get more than a Shave and a Haircut For a Song if you carol to Barbara Seville!",
+        "Belt out a tune, Toon!",
+        "You'll get more than a Shave and a Haircut For a Song if you carol to Barbara Seville!",
+        "Show us how to croon, Toon!",
+        "You'll get more than a Shave and a Haircut For a Song if you carol to Barbara Seville!",
+        "Can you carry a melody here in Melodyland?",
+        "You'll get more than a Shave and a Haircut For a Song if you carol to Barbara Seville!",
+        "Those lamps look warm in their scarves!",
+        "You'll get more than a Shave and a Haircut For a Song if you carol to Barbara Seville!",
+        "The sing's the thing!",
+        "You'll get more than a Shave and a Haircut For a Song if you carol to Barbara Seville!",
+        "I'll always like you, for better or verse!",
+        "You'll get more than a Shave and a Haircut For a Song if you carol to Barbara Seville!",
+        "Everything looks better with a wreath!",
+        ],
+        [ # Goodbyes
+        "Have a fun Winter Holiday!",
+        "Happy Trails!",
+        "Mickey is taking me caroling!",
+        ]
+    )
+
+WinterMinnieDChatter = (
+        [ # Greetings
+        "Hi, I'm Merry Minnie!",
+        "Welcome to the land of carols!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "Belt out a tune, Toon!",
+        "Show us how to croon, Toon!",
+        "Can you carry a melody here in Melodyland?",
+        "Those lamps look warm in their scarves!",
+        "The sing's the thing!",
+        "You can't go wrong with a song!",
+        "I'll always like you, for better or verse!",
+        "Everything looks better with a wreath!",
+        ],
+        [ # Goodbyes
+        "Have a fun Winter Holiday!",
+        "Happy Trails!",
+        "Mickey is taking me caroling!",
+        ]
+    )
+
+ValentinesMinnieChatter = (
+    [
+    "Hello, I'm Minnie!",
+    "Happy ValenToon's Day!",
+    "Happy ValenToon's Day, %",
+    ],
+    [
+    "I hope Mickey got me chocolates or flowers!",
+    "Those hearts are good for Laff boosts!",
+    "I want to go to a ValenToon Party!",
+    "I hope Mickey takes me to the Kooky Cafe!",
+    "Mickey is such a good ValenToon!",
+    "What did you get your ValenToon?",
+    "Mickey has never missed a ValenToon's Day!",
+    ],
+    [
+    "Spread the love out there!",
+    "It was sweet having you visit!",
+    ]
+)
+
+WitchMinnieChatter = (
+        [ # Greetings
+        "Welcome to Magicland... I mean Melodyland!",
+        "Hi, my name is Magic Minnie! What's yours?",
+        "Hello, I think you're enchanting!",
+        "Happy Halloween!",
+        "Happy Halloween, %!",
+        ],
+        [ # Comments
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "It's a magical day, don't you think?",
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "Now where did I put my spell book",
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "Abra-Cadabra!",
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "Toontown looks positively spooky today!",
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "Are you seeing stars too?",
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "Purple is really my color!",
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "I hope your Halloween is bewitching!",
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "Beware of musical spiders!",
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "I hope you are enjoying our Halloween fun!",
+        ],
+        [ # Goodbyes
+        "I'm going to disappear now!",
+        "Time for me to vanish!",
+        "Mickey is taking me Trick-or-Treating!",
+        ]
+    )
+
+FieldOfficeMinnieChatter = [
+        "Everyone is talking about the new Mover & Shaker Field Offices!"
+        ]
+
 DaisyChatter = (
         [ # Greetings
         "¡Bienvenido a mi jardín!",
@@ -4461,6 +4660,121 @@ DaisyChatter = (
         ]
     )
 
+ValentinesDaisyChatter = (
+    [
+    "Hi, I'm Daisy!",
+    "Happy ValenToon's Day!",
+    "Happy ValenToon's Day, %",
+    ],
+    [
+    "I hope Donald doesn't get me another Amore Eel!",
+    "Donald is taking me out to the Deep-see Diner!",
+    "I certainly have enough roses!",
+    "Those hearts are good for Laff boosts!",
+    "I'd love to go to a ValenToon's Day party!",
+    "This is the garden where love grows!",
+    "Donald better not sleep through ValenToon's Day again!",
+    "Maybe Donald and I can double-date with Mickey and Minnie!",
+    ],
+    [
+    "Tell Donald I'll be waiting for him!",
+    "Have a nice ValenToon's Day!",
+    ]
+)
+
+WinterDaisyCChatter = (
+        [ # Greetings
+        "Welcome to the only garden that grows in the winter!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why no craft her a carol",
+        "My garden needs more mistletoe!",
+        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why no craft her a carol",
+        "I need to plant holly for next year!",
+        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why no craft her a carol",
+        "I'm going to ask Goofy to build me a gingerbread house!",
+        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why no craft her a carol",
+        "Those lights on the lamps are lovely!",
+        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why no craft her a carol",
+        "That is some jolly holly!",
+        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why no craft her a carol",
+        "My snowman keeps melting!",
+        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why no craft her a carol",
+        "That duck is decked out!",
+        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why no craft her a carol",
+        "I grew all these lights myself!",
+        ],
+        [ # Goodbyes
+        "Have a jolly Winter Holiday!",
+        "Happy planting!",
+        "Tell Donald to stop by with presents!",
+        "Donald is taking me caroling!",
+        ]
+    )
+
+WinterDaisyDChatter = (
+        [ # Greetings
+        "Welcome to the only garden that grows in the winter!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "My garden needs more mistletoe!",
+        "I need to plant holly for next year!",
+        "I'm going to ask Goofy to build me a gingerbread house!",
+        "Those lights on the lamps are lovely!",
+        "That is some jolly holly!",
+        "My snowman keeps melting!",
+        "That duck is decked out!",
+        "I grew all these lights myself!",
+        ],
+        [ # Goodbyes
+        "Have a jolly Winter Holiday!",
+        "Happy planting!",
+        "Tell Donald to stop by with presents!",
+        "Donald is taking me caroling!",
+        ]
+    )
+
+HalloweenDaisyChatter = (
+        [ # Greetings
+        "Welcome to Daisy Ghosts... I mean Gardens!",
+        "Happy Halloween!",
+        "Happy Halloween, %!",
+        ],
+        [ # Comments
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "The pirate tree needs water.",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "Trick-or-Tree!",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "Do you notice anything strange about the trees?",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "I should grow some pumpkins!",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "WHO notices something different about the lamps?",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "Halloween really grows on me!",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "Twig-or-Treat!",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "Owl bet you didn't notice the spooky lamps!",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "I hope you are enjoying our Halloween fun!",
+        ],
+        [ # Goodbyes
+        "Donald is taking me Trick-or-Treating!",
+        "I'm going to check out the fun Halloween decorations."
+        ]
+    )
+
+
+FieldOfficeDaisyChatter = [
+        "Those Mover & Shaker Field Offices are popping up like weeds!"
+        ]
+
 ChipChatter = (
         [ # Greetings
         "¡Bienvenido a %s!" % lOutdoorZone,
@@ -4482,6 +4796,63 @@ ChipChatter = (
         ]
     )
 
+ValentinesChipChatter = (
+    [ # Greetings
+    "I'm Chip!",
+    "Happy ValenToon's Day!",
+    "Happy ValenToon's Day, %!",
+    ],
+    [ # Comments
+    "What did you get me for ValenToon's Day, Dale?",
+    "Those hearts are good for Laff boosts!",
+    "Will you be my ValenToon, Dale?",
+    "What did you get the Cogs for ValenToon's Day?",
+    "I love ValenToon's Day!",
+    ],
+    [ # Goodbyes
+    "Come back any time!",
+    ]
+)
+
+WinterChipChatter = (
+        [ # Greetings
+        "Happy Winter Holiday!",
+        "Dressed as chipmunks!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "Happy Winter Holiday, Dale!",
+        "All this water could freeze any minute!",
+        "We should switch the golf balls with snowballs!",
+        "If only chipmunks knew how to sing!",
+        "Did you remember to store nuts for the winter?",
+        "Did you get the Cogs a present?",
+        ],
+        [ # Goodbyes
+        "Go nuts this Winter Holiday!",
+        "Have a joyful winter Holiday!",
+        ]
+    )
+
+HalloweenChipChatter = (
+        [ # Greetings
+        "Play some MiniGhoul... I mean Golf!",
+        "Happy Halloween!",
+        "Happy Halloween, %!",
+        ],
+        [ # Comments
+        "We're nuts about Halloween!",
+        "I'm Dale dressed as Chip.",
+        "Play golf and get a Howl-In-One.",
+        "Candy corns are sweeter than acorns.",
+        "I hope you are enjoying our Halloween fun!",
+        ],
+        [ # Goodbyes
+        "%, watch out for Bloodsucker Cogs!",
+        ]
+    )
+
+
 # Warning Dale's chatter is dependent on on Chip's, they should match up
 DaleChatter = (
         [ # Greetings
@@ -4501,6 +4872,63 @@ DaleChatter = (
         "Sí, vamos a arreglar a %s." % Donald,
         "Nadar, qué agradable.",
         "Necesito descansar, quizás me eche una siesta.",
+        ]
+    )
+
+ValentinesDaleChatter = (
+    [ # Greetings
+    "I'm Dale!",
+    "Happy ValenToon's Day!",
+    "Happy ValenToon's Day, %!",
+    ],
+    [ # Comments
+    "Same thing as last year. Nothing!",
+    "I miss the nuts!",
+    "Will you be my ValenToon, Chip?",
+    "A pie in the face",
+    "Yeah, it's all right.",
+    ],
+    [ # Goodbyes
+    "Come back any time!",
+    ]
+)
+
+WinterDaleChatter = (
+        [ # Greetings
+        "Merry chipmunks!",
+        "Hi, we're two merry elves!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "Happy Winter Holiday, Chip!",
+        "Better not be on the geyser when it happens!",
+        "And the golf clubs with icicles!",
+        "Whoever heard of singing chipmunks?",
+        "I told YOU to do that!",
+        "Yes, a cream pie!",
+        ],
+        [ # Goodbyes
+        "And bring some back for us!",
+        "Have a joyful Winter Holiday!",
+        ]
+    )
+
+HalloweenDaleChatter = (
+        [ # Greetings
+        "Happy Halloween, %!",
+        "Play some MiniGhoul... I mean Golf!",
+        "Happy Halloween!",
+        ],
+        [ # Comments
+        "I hope you are enjoying our Halloween fun!",
+        "We're nuts about Halloween!",
+        "I'm Chip dressed as Dale.",
+        "Play golf and get a Howl-In-One.",
+        "Candy corns are sweeter than acorns.",
+        ],
+        [ # Goodbyes
+        "%, watch out for Bloodsucker Cogs!",
         ]
     )
 
@@ -4532,7 +4960,50 @@ GoofyChatter = (
         ]
     )
 
+WinterGoofyChatter = (
+        [ # Greetings
+        "I'm Goofy about the holidays!",
+        "Welcome to Snowball Speedway!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "Who needs reindeer when you have a fast kart?",
+        "Gawrsh! Is it Witer Holiday already?",
+        "I need my earmuffs!",
+        "I haven't done any shopping yet!",
+        "Don't drive your kart on ice!",
+        "Seems like it was Winter Holiday only a year ago!",
+        "Treat your kart to a present and spruce it up!",
+        "These karts are better than any old sleigh!",
+        "Is it hard to drive with a snowman head?",
+        ],
+        [ # Goodbyes
+        "Have a cheery Winter Holiday!",
+        "Drive safe, now!",
+        "Watch out for flrying reindeer!",
+        ]
+    )
 
+ValentinesGoofyChatter = (
+    [
+    "I'm Goofy about ValenToon's Day!",
+    "Happy ValenToon's Day!",
+    "Happy ValenToon's Day, %!",
+    ],
+    [
+    "Gawrsh! Is it ValenToon's Day already?",
+    "I LOVE kart racing!",
+    "Be sweet to each other out there!",
+    "Show your sweetie a new kart!",
+    "Toons love their karts!",
+    "Make some new friends on the track!",
+    ],
+    [
+    "Drive safe, now!",
+    "Show some love out there!",
+    ]
+)
 
 GoofySpeedwayChatter = (
         [ # Greetings
@@ -4561,6 +5032,32 @@ GoofySpeedwayChatter = (
         ]
     )
 
+SuperGoofyChatter = (
+        [ # Greetings
+        "Welcome to my Super Speedway!",
+        "Hi, I'm Super Goof! What's your name?",
+        "Happy Halloween!",
+        "Happy Halloween, %!",
+        ],
+        [ # Comments
+        "I am feeling kind of batty today!",
+        "Anybody see my cape around? Oh, there it is!",
+        "Gawrsh! I don't know my own strength!",
+        "Did somebody call for a superhero?",
+        "Beware Cogs, I'll save Halloween!",
+        "There's nothing scarier than me in a kart!",
+        "I bet you don't know who I am with this mask on!",
+        "It's fun to dress up for Halloween!",
+        "I hope you are enjoying our Halloween fun!",
+        ],
+        [ # Goodbyes
+        "Gotta fly!",
+        "Hi-Ho and away I go!",
+        "Should I fly or drive to Donald's Dock?",
+        "Gawrsh, have a Happy Halloween!",
+        ]
+    )
+
 DonaldChatter = (
         [ # Greetings
         "Bienvenido a Sueñolandia.",
@@ -4584,6 +5081,306 @@ DonaldChatter = (
         "¡Vaya! ¡Llego tarde a mi cita con %s!" % Daisy,
         "Creo que voy a mi puerto a nadar un poco.",
         "Creo que voy a darme una vuelta en mi barco en "+lDonaldsDock+".",
+        ]
+    )
+
+WinterDreamlandCChatter = (
+        [ # Greetings
+        "Hi, I'm Dozing Donald!",
+        "Welcome to Holiday Dreamland!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
+        "I wish I was nestled all snug in my bed!",
+        "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
+        "I'm dreaming of a white Toontown!",
+        "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
+        "I meant to leave out milk and cookies!",
+        "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
+        "When I wake up, I better see lots of presents!",
+        "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
+        "I hope I don't sleep through the holidays!",
+        "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
+        "I love a long winter's nap!",
+        "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
+        "The trees on the streets are convered in night lights!",
+        ],
+        [ # Goodbyes
+        "To all, a good night!",
+        "Sweet dreams!",
+        "When I wake up I am going caroling!",
+        ]
+    )
+
+WinterDreamlandDChatter = (
+        [ # Greetings
+        "Hi, I'm Dozing Donald!",
+        "Welcome to Holiday Dreamland!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "I wish I was nestled all snug in my bed!",
+        "I'm dreaming of a white Toontown!",
+        "I meant to leave out milk and cookies!",
+        "When I wake up, I better see lots of presents!",
+        "I hope I don't sleep through the holidays!",
+        "I love a long winter's nap!",
+        "The trees on the streets are convered in night lights!",
+        ],
+        [ # Goodbyes
+        "To all, a good night!",
+        "Sweet dreams!",
+        "When I wake up I am going caroling!",
+        ]
+    )
+
+HalloweenDreamlandChatter = (
+        [ # Greetings
+        "Happy Halloween!",
+        "Happy Halloween, %!",
+        "Hi, I'm FrankenDonald!",
+        ],
+        [ # Comments
+        "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
+        #"My dreams sure are spooky tonight!",
+        "Am I awake or dreaming?",
+        "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
+        #"I must be dreaming, that lamp is a witch!",
+        "I'm so scared, I can't fall asleep!",
+        "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
+        #"Am I dreaming, or did that Toon have a pumpkin head?",
+        "So this is what Dreamland looks like!",
+        "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
+        #"When I wake up, I hope things aren't as spooky!",
+        "Boy, I'm sleepy!",
+        "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
+        #"I hope I don't sleep through Halloween!",
+        "I hope I don't sleep through Halloween this year!",
+        "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
+        "I hope you are enjoying our Halloween fun!",
+        ],
+        [ # Goodbyes
+        "Sleep with the lights on tonight!",
+        "When I wake up, I am going Trick-or-Treating!",
+        ]
+    )
+
+ValentinesDreamlandChatter = (
+    [
+    "Hello, I'm (yawn) Donald!",
+    "Happy ValenToon's Day!",
+    "Happy ValenToon's Day, %!",
+    ],
+    [
+    "I hope I don't sleep through ValenToon's Day!",
+    "I'm dreaming of Daisy!",
+    "I had a nightmare that I missed ValenToon's Day!",
+    "Those hearts are good for Laff boosts!",
+    "Throw a ValenToon's Day party!",
+    "Show the Cogs you love them with a pie in the face!",
+    "I couldn't dream of a nicer holiday than ValenToon's Day!",
+    "I love sleeping!",
+    ],
+    [
+    "Nite-nite!",
+    "Wake me when it's ValenToon's Day!",
+    ]
+)
+
+FieldOfficeDreamlandChatter = [
+    "I dreamed about something called a Field Office..."
+    ]
+
+HalloweenDonaldChatter = (
+        [ # Greetings
+        "Welcome to my Halloween harbor!",
+        "Come aboard, if you have treats!",
+        "Happy Halloween!",
+        "Happy Halloween, %!",
+        ],
+        [ # Comments
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        #"But I wear a sailor costume every day!",
+        "I'm dressed as a sailor!",
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "Pumpkins make great lanterns!",
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "I've never seen palm trees with hairy legs before!",
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "Maybe I'll be a pirate next Halloween!",
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "I think the best treats are starfish!",
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "I'll take you Trick-or-Treating around the harbor!",
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "I hope those spiders stay in the trees!",
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "What do you call a ghost in the water? A BOO-y!",
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "I hope you are enjoying our Halloween fun!",
+        ],
+        [ # Goodbyes
+        "Set sail for scares!",
+        "Happy haunting!",
+        "I'm going to check out the spooky Halloween decorations."
+        ]
+    )
+
+ValentinesDonaldChatter = (
+    [
+    "Ahoy, I'm Donald!",
+    "Happy ValenToon's Day!",
+    "Happy ValenToon's Day, %!",
+    ],
+    [
+    "Was I supposed to take Daisy somewhere for ValenToon's Day?",
+    "Just once more around the dock, then I'll get Daisy something.",
+    "What would Daisy like for ValenToon's Day?",
+    "Those hearts in the water are good for Laff boosts!",
+    "Throw a ValenToon's Day party!",
+    "Show the Cogs you love them with a pie in the face!",
+    "I'll have to catch an Amore Eel for Daisy!",
+    ],
+    [
+    "Aloha!",
+    "Give the Cogs my best!",
+    ]
+)
+
+WinterDonaldCChatter = (
+        [ # Greetings
+        "Welcome to Donald's Boat and Sleigh Dock!",
+        "All aboard for the Winter Holiday cruise!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "How do you like my duck-orations?",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "What is snow doing on the lamp posts?",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "This water better not ice over!",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "How did they get the lights up in those trees?",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "This boat is better than a sleigh! or is it?",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "I don't need reindeer to pull this boat!",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "I'm glad I'm not a turkey this time of year!",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "My present to you? Free boat rides!",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "I hope I don't get a lump of coal again!",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        ],
+        [ # Goodbyes
+        "All ashore for holiday fun!",
+        "Remember to tip your boat driver on the way out!",
+        "Enjoy your holiday!",
+        ]
+    )
+
+WinterDonaldDChatter = (
+        [ # Greetings
+        "Welcome to Donald's Boat and Sleigh Dock!",
+        "All aboard for the Winter Holiday cruise!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "How do you like my duck-orations?",
+        "What is snow doing on the lamp posts?",
+        "This water better not ice over!",
+        "How did they get the lights up in those trees?",
+        "This boat is better than a sleigh! or is it?",
+        "I don't need reindeer to pull this boat!",
+        "I'm glad I'm not a turkey this time of year!",
+        "My present to you? Free boat rides!",
+        "I hope I don't get a lump of coal again!",
+        ],
+        [ # Goodbyes
+        "All ashore for holiday fun!",
+        "Remember to tip your boat driver on the way out!",
+        "Enjoy your holiday!",
+        ]
+    )
+
+WesternPlutoChatter = (
+        [# Greetings
+        "Boo! Don't be scared, it's just me ... Pluto!",
+        "Happy Halloween, pardner!",
+        "Happy Halloween, %!",
+        ],
+        [ # Comments
+        "Frosty Fred has treats for tricks, they make him feel like there's Snowplace Like Home!",
+        "I do tricks for treats!",
+        "Frosty Fred has treats for tricks, they make him feel like there's Snowplace Like Home!",
+        "Mickey's taking me Trick-or-Treating later!",
+        "Frosty Fred has treats for tricks, they make him feel like there's Snowplace Like Home!",
+        "It feels more like Winter Holiday than Halloween!",
+        "Frosty Fred has treats for tricks, they make him feel like there's Snowplace Like Home!",
+        "Bark! That's 'Trick-or-Treat' in dog!",
+        "Frosty Fred has treats for tricks, they make him feel like there's Snowplace Like Home!",
+        "I hope you are enjoying our Halloween fun!",
+        "Frosty Fred has treats for tricks, they make him feel like there's Snowplace Like Home!",
+        "I like to chase Black Cat Toons!",
+        ],
+        [ # Goodbyes
+        "I'm going to go dig up a treat!",
+        "I'm going to see if Mickey has some treats!",
+        "I'm going to scare Donald!",
+        ]
+    )
+
+WinterPlutoCChatter = (
+        [# Greetings
+        "Hi, I'm Pluto!",
+        "Welcome to the Brrrgh, where it's winter all year!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %",
+        ],
+        [ # Comments
+        "Eddie could use a good tune, because Snowman's Land is a lonely place for a Yeti!",
+        "I chewed on an icicle and got frost-bite!",
+        "Eddie could use a good tune, because Snowman's Land is a lonely place for a Yeti!",
+        "This is like living in a snow globe!",
+        "Eddie could use a good tune, because Snowman's Land is a lonely place for a Yeti!",
+        "I wish I was beside a warm fire!",
+        "Eddie could use a good tune, because Snowman's Land is a lonely place for a Yeti!",
+        "Arf! Arf! I need a scarf!",
+        "Eddie could use a good tune, because Snowman's Land is a lonely place for a Yeti!",
+        "At least my nose isn't red and glowing!",
+        ],
+        [ # Goodbyes
+        "Have a fun Winter Holiday!",
+        "Come back any time you want snow!",
+        "Mickey is taking me caroling!",
+        ]
+    )
+
+WinterPlutoDChatter = (
+        [# Greetings
+        "Hi, I'm Pluto!",
+        "Welcome to the Brrrgh, where it's winter all year!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %",
+        ],
+        [ # Comments
+        "I chewed on an icicle and got frost-bite!",
+        "This is like living in a snow globe!",
+        "I wish I was beside a warm fire!",
+        "Arf! Arf! I need a scarf!",
+        "At least my nose isn't red and glowing!",
+        ],
+        [ # Goodbyes
+        "Have a fun Winter Holiday!",
+        "Come back any time you want snow!",
+        "Mickey is taking me caroling!",
         ]
     )
 

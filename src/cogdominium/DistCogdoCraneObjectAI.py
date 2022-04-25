@@ -53,7 +53,7 @@ class DistCogdoCraneObjectAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, FS
 
     def requestGrab(self):
         avId = self.air.getAvatarIdFromSender()
-        if self.state != 'Grabbed' and self.state != 'Off':
+        if self._state != 'Grabbed' and self._state != 'Off':
             (craneId, objectId) = self.__getCraneAndObject(avId)
             if craneId != 0 and objectId == 0:
                 self.demand('Grabbed', avId, craneId)
@@ -63,14 +63,14 @@ class DistCogdoCraneObjectAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, FS
 
     def requestDrop(self):
         avId = self.air.getAvatarIdFromSender()
-        if avId == self.avId and self.state == 'Grabbed':
+        if avId == self.avId and self._state == 'Grabbed':
             (craneId, objectId) = self.__getCraneAndObject(avId)
             if craneId != 0 and objectId == self.doId:
                 self.demand('Dropped', avId, craneId)
 
     def hitFloor(self):
         avId = self.air.getAvatarIdFromSender()
-        if avId == self.avId and self.state == 'Dropped':
+        if avId == self.avId and self._state == 'Dropped':
             self.demand('SlidingFloor', avId)
 
     def requestFree(self, x, y, z, h):

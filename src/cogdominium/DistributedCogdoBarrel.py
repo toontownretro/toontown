@@ -10,7 +10,7 @@ class DistributedCogdoBarrel(DistributedObject.DistributedObject):
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.index = None
-        self.state = None
+        self._state = None
         self.model = None
         self.collSphere = None
         self.collNode = None
@@ -79,21 +79,21 @@ class DistributedCogdoBarrel(DistributedObject.DistributedObject):
         return CogdoBarrelRoomConsts.BarrelProps[self.index][prop]
 
     def setState(self, state):
-        self.state = state
+        self._state = state
         self.__updateState()
 
     def __updateState(self):
-        if self.state == CogdoBarrelRoomConsts.StateAvailable:
+        if self._state == CogdoBarrelRoomConsts.StateAvailable:
             if self.model:
                 self.model.unstash()
                 self.model.setTexture(self.availableTex, 100)
             self.accept(self.uniqueName('enterbarrelSphere'), self.handleEnterSphere)
-        elif self.state == CogdoBarrelRoomConsts.StateUsed:
+        elif self._state == CogdoBarrelRoomConsts.StateUsed:
             if self.model:
                 self.model.unstash()
                 self.model.setTexture(self.usedTex, 100)
             self.ignore(self.uniqueName('enterbarrelSphere'))
-        elif self.state == CogdoBarrelRoomConsts.StateHidden or self.state == CogdoBarrelRoomConsts.StateCrushed:
+        elif self._state == CogdoBarrelRoomConsts.StateHidden or self._state == CogdoBarrelRoomConsts.StateCrushed:
             if self.model:
                 self.model.stash()
             self.ignore(self.uniqueName('enterbarrelSphere'))

@@ -15,8 +15,8 @@ try:
     # Client
     # The Launcher will define config in the builtin namespace
     # before importing this file
-    language = getConfigExpress().ConfigVariableString("language", "english").getValue()
-    checkLanguage = getConfigExpress().ConfigVariableBool("check-language", 0).getValue()
+    language = ConfigVariableString("language", "english").getValue()
+    checkLanguage = ConfigVariableBool("check-language", 0).getValue()
 except:
     # AI
     language = ConfigVariableString("language", "english").getValue()

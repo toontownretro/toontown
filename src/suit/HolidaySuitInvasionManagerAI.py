@@ -2,6 +2,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.ai import HolidayBaseAI
 from . import SuitInvasionManagerAI
 from toontown.toonbase import ToontownGlobals
+from toontown.toonbase.ToontownModules import *
 
 class HolidaySuitInvasionManagerAI(HolidayBaseAI.HolidayBaseAI):
 

@@ -3,7 +3,8 @@ from direct.showbase.DirectObject import DirectObject
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm.FSM import FSM
 from direct.task.Task import Task
-from direct.interval.IntervalGlobal import Sequence, Parallel, LerpScaleInterval, LerpFunctionInterval, Func, Wait, LerpFunc, SoundInterval, ParallelEndTogether, LerpPosInterval, ActorInterval, LerpPosHprInterval, LerpHprInterval
+from direct.interval.IntervalGlobal import Sequence, Parallel, LerpScaleInterval, LerpFunctionInterval, \
+Func, Wait, LerpFunc, SoundInterval, ParallelEndTogether, LerpPosInterval, ActorInterval, LerpPosHprInterval, LerpHprInterval
 from direct.directutil import Mopath
 from direct.showbase.PythonUtil import bound as clamp
 from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode, CollisionTube, CollisionPolygon, Vec3, Point3
@@ -64,9 +65,9 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
         self.attackTargetPos = None
         self.startOfRetreatToSkyPos = None
         pathModel = CogdoUtil.loadFlyingModel('legalEaglePaths')
-        self.chargeUpMotionPath = Mopath.Mopath(name='chargeUpMotionPath-%i' % self.index)
+        self.chargeUpMotionPath = Mopath.Mopath(name = 'chargeUpMotionPath-%i' % self.index)
         self.chargeUpMotionPath.loadNodePath(pathModel.find('**/charge_path'))
-        self.retreatToSkyMotionPath = Mopath.Mopath(name='retreatToSkyMotionPath-%i' % self.index)
+        self.retreatToSkyMotionPath = Mopath.Mopath(name = 'retreatToSkyMotionPath-%i' % self.index)
         self.retreatToSkyMotionPath.loadNodePath(pathModel.find('**/retreat_path'))
         audioMgr = base.cogdoGameAudioMgr
         self._screamSfx = audioMgr.createSfx('legalEagleScream', self.suit)
@@ -98,31 +99,133 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
         return ival
 
     def initIntervals(self):
+        # Lift Off Time
         dur = Globals.LegalEagle.LiftOffTime
         nestPos = self.nest.getPos(render)
         airPos = nestPos + Vec3(0.0, 0.0, Globals.LegalEagle.LiftOffHeight)
-        self.takeOffSeq = Sequence(Parallel(Sequence(Wait(dur * 0.6), LerpPosInterval(self.suit, dur * 0.4, startPos=nestPos, pos=airPos, blendType='easeInOut'))), Wait(1.5), Func(self.request, 'next'), name='%s.takeOffSeq-%i' % (self.__class__.__name__, self.index))
-        self.landOnNestPosLerp = LerpPosInterval(self.suit, 1.0, startPos=airPos, pos=nestPos, blendType='easeInOut')
-        self.landingSeq = Sequence(Func(self.updateLandOnNestPosLerp), Parallel(self.landOnNestPosLerp), Func(self.request, 'next'), name='%s.landingSeq-%i' % (self.__class__.__name__, self.index))
+        self.takeOffSeq = Sequence(Parallel(Sequence(Wait(dur * 0.6),
+                                                     LerpPosInterval(self.suit,
+                                                                     dur * 0.4,
+                                                                     startPos = nestPos,
+                                                                     pos = airPos,
+                                                                     blendType = "easeInOut",
+                                                                     )
+                                                     )
+                                            ),
+                                   Wait(1.5),
+                                   Func(self.request, "next"),
+                                   name = "%s.takeOffSeq-%i" % (self.__class__.__name__,
+                                                                self.index,
+                                                                ),
+                                   )
+        self.landOnNestPosLerp = LerpPosInterval(self.suit,
+                                                 1.0,
+                                                 startPos = airPos,
+                                                 pos = nestPos,
+                                                 blendType = "easeInOut",
+                                                 )
+        self.landingSeq = Sequence(Func(self.updateLandOnNestPosLerp),
+                                   Parallel(self.landOnNestPosLerp),
+                                   Func(self.request, "next"),
+                                   name = "%s.landingSeq-%i" % (self.__class__.__name__,
+                                                                self.index,
+                                                                ),
+                                   )
+        # Charge Up Time
         dur = Globals.LegalEagle.ChargeUpTime
-        self.chargeUpPosLerp = LerpFunc(self.moveAlongChargeUpMopathFunc, fromData=0.0, toData=self.chargeUpMotionPath.getMaxT(), duration=dur, blendType='easeInOut')
-        self.chargeUpAttackSeq = Sequence(Func(self.updateChargeUpPosLerp), self.chargeUpPosLerp, Func(self.request, 'next'), name='%s.chargeUpAttackSeq-%i' % (self.__class__.__name__, self.index))
+        self.chargeUpPosLerp = LerpFunc(self.moveAlongChargeUpMopathFunc,
+                                        fromData = 0.0,
+                                        toData = self.chargeUpMotionPath.getMaxT(),
+                                        duration = dur,
+                                        blendType = "easeInOut",
+                                        )
+        self.chargeUpAttackSeq = Sequence(Func(self.updateChargeUpPosLerp), self.chargeUpPosLerp,
+                                          Func(self.request, "next"),
+                                          name = "%s.chargeUpAttackSeq-%i" % (self.__class__.__name__,
+                                                                              self.index,
+                                                                              ),
+                                          )
+        # Returning to Nest Time
         dur = Globals.LegalEagle.RetreatToNestTime
-        self.retreatToNestPosLerp = LerpPosInterval(self.suit, dur, startPos=Vec3(0, 0, 0), pos=airPos, blendType='easeInOut')
-        self.retreatToNestSeq = Sequence(Func(self.updateRetreatToNestPosLerp), self.retreatToNestPosLerp, Func(self.request, 'next'), name='%s.retreatToNestSeq-%i' % (self.__class__.__name__, self.index))
+        self.retreatToNestPosLerp = LerpPosInterval(self.suit,
+                                                    dur,
+                                                    startPos = Vec3(0, 0, 0),
+                                                    pos = airPos,
+                                                    blendType = "easeInOut",
+                                                    )
+        self.retreatToNestSeq = Sequence(Func(self.updateRetreatToNestPosLerp), self.retreatToNestPosLerp,
+                                         Func(self.request, "next"),
+                                         name = "%s.retreatToNestSeq-%i" % (self.__class__.__name__,
+                                                                            self.index,
+                                                                            ),
+                                         )
+        # Returning to Sky Position Time
         dur = Globals.LegalEagle.RetreatToSkyTime
-        self.retreatToSkyPosLerp = LerpFunc(self.moveAlongRetreatMopathFunc, fromData=0.0, toData=self.retreatToSkyMotionPath.getMaxT(), duration=dur, blendType='easeOut')
-        self.retreatToSkySeq = Sequence(Func(self.updateRetreatToSkyPosLerp), self.retreatToSkyPosLerp, Func(self.request, 'next'), name='%s.retreatToSkySeq-%i' % (self.__class__.__name__, self.index))
+        self.retreatToSkyPosLerp = LerpFunc(self.moveAlongRetreatMopathFunc,
+                                            fromData = 0.0,
+                                            toData = self.retreatToSkyMotionPath.getMaxT(),
+                                            duration = dur,
+                                            blendType = "easeOut",
+                                            )
+        self.retreatToSkySeq = Sequence(Func(self.updateRetreatToSkyPosLerp),self.retreatToSkyPosLerp,
+                                        Func(self.request, "next"),
+                                        name = "%s.retreatToSkySeq-%i" % (self.__class__.__name__,
+                                                                          self.index,
+                                                                          ),
+                                        )
+        # Pre-Attack Time
         dur = Globals.LegalEagle.PreAttackTime
-        self.preAttackLerpXY = LerpFunc(self.updateAttackXY, fromData=0.0, toData=1.0, duration=dur)
-        self.preAttackLerpZ = LerpFunc(self.updateAttackZ, fromData=0.0, toData=1.0, duration=dur, blendType='easeOut')
+        self.preAttackLerpXY = LerpFunc(self.updateAttackXY,
+                                        fromData = 0.0,
+                                        toData = 1.0,
+                                        duration = dur,
+                                        )
+        self.preAttackLerpZ = LerpFunc(self.updateAttackZ,
+                                       fromData = 0.0,
+                                       toData = 1.0,
+                                       duration = dur,
+                                       blendType = "easeOut",
+                                       )
+        # Post-Attack Time
         dur = Globals.LegalEagle.PostAttackTime
-        self.postAttackPosLerp = LerpPosInterval(self.suit, dur, startPos=Vec3(0, 0, 0), pos=Vec3(0, 0, 0))
-        self.attackSeq = Sequence(Parallel(self.preAttackLerpXY, self.preAttackLerpZ), Func(self.updatePostAttackPosLerp), self.postAttackPosLerp, Func(self.request, 'next'), name='%s.attackSeq-%i' % (self.__class__.__name__, self.index))
+        self.postAttackPosLerp = LerpPosInterval(self.suit,
+                                                 dur,
+                                                 startPos = Vec3(0, 0, 0),
+                                                 pos = Vec3(0, 0, 0),
+                                                 )
+        self.attackSeq = Sequence(Parallel(self.preAttackLerpXY, self.preAttackLerpZ),
+                                  Func(self.updatePostAttackPosLerp), self.postAttackPosLerp,
+                                  Func(self.request, "next"),
+                                  name = "%s.attackSeq-%i" % (self.__class__.__name__,
+                                                              self.index,
+                                                              ),
+                                  )
+        # Cooldown Time
         dur = Globals.LegalEagle.CooldownTime
-        self.cooldownSeq = Sequence(Wait(dur), Func(self.request, 'next'), name='%s.cooldownSeq-%i' % (self.__class__.__name__, self.index))
-        self.propTrack = Sequence(ActorInterval(self.prop, 'propeller', startFrame=0, endFrame=14))
-        self.hoverOverNestSeq = Sequence(ActorInterval(self.suit, 'landing', startFrame=10, endFrame=20, playRate=0.5), ActorInterval(self.suit, 'landing', startFrame=20, endFrame=10, playRate=0.5))
+        self.cooldownSeq = Sequence(Wait(dur),
+                                    Func(self.request, "next"),
+                                    name = "%s.cooldownSeq-%i" % (self.__class__.__name__,
+                                                                  self.index,
+                                                                  ),
+                                    )
+        self.propTrack = Sequence(ActorInterval(self.prop,
+                                                "propeller",
+                                                startFrame = 0,
+                                                endFrame = 14),
+                                                )
+        self.hoverOverNestSeq = Sequence(ActorInterval(self.suit,
+                                                       "landing",
+                                                       startFrame = 10,
+                                                       endFrame = 20,
+                                                       playRate = 0.5
+                                                       ),
+                                         ActorInterval(self.suit,
+                                                       "landing",
+                                                       startFrame = 20,
+                                                       endFrame = 10,
+                                                       playRate = 0.5,
+                                                       ),
+                                         )
 
     def initCollision(self):
         self.collSphere = CollisionSphere(0, 0, 0, 0)
@@ -248,27 +351,27 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
     def setTarget(self, toon, elapsedTime = 0.0):
         self.notify.debug('Setting eagle %i to target: %s, elapsed time: %s' % (self.index, toon.getName(), elapsedTime))
         self.target = toon
-        if self.state == 'Roost':
+        if self._state == 'Roost':
             self.request('next', elapsedTime)
-        if self.state == 'ChargeUpAttack':
+        if self._state == 'ChargeUpAttack':
             messenger.send(CogdoFlyingLegalEagle.ChargingToAttackEventName, [self.target.doId])
 
     def clearTarget(self, elapsedTime = 0.0):
         self.notify.debug('Clearing target from eagle %i, elapsed time: %s' % (self.index, elapsedTime))
         messenger.send(CogdoFlyingLegalEagle.CooldownEventName, [self.target.doId])
         self.target = None
-        if self.state in ['LockOnToon']:
+        if self._state in ['LockOnToon']:
             self.request('next', elapsedTime)
         return
 
     def leaveCooldown(self, elapsedTime = 0.0):
-        if self.state in ['Cooldown']:
+        if self._state in ['Cooldown']:
             self.request('next', elapsedTime)
 
     def shouldBeInFrame(self):
-        if self.state in ['TakeOff', 'LockOnToon', 'ChargeUpAttack']:
+        if self._state in ['TakeOff', 'LockOnToon', 'ChargeUpAttack']:
             return True
-        elif self.state == 'Attack':
+        elif self._state == 'Attack':
             distance = self.suit.getDistance(self.target)
             threshold = Globals.LegalEagle.EagleAndTargetDistCameraTrackThreshold
             suitPos = self.suit.getPos(render)
@@ -375,8 +478,8 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
         self.setCollSphereToNest()
 
     def filterRoost(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
-        if request == self.state:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self._state, request, args))
+        if request == self._state:
             return None
         elif request == 'next':
             return 'TakeOff'
@@ -398,8 +501,8 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
         self.hoverOverNestSeq.loop()
 
     def filterTakeOff(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
-        if request == self.state:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self._state, request, args))
+        if request == self._state:
             return None
         elif request == 'next':
             if self.hasTarget():
@@ -434,8 +537,8 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
         taskMgr.doMethodLater(dur, self.requestNext, taskName, extraArgs=[])
 
     def filterLockOnToon(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
-        if request == self.state:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self._state, request, args))
+        if request == self._state:
             return None
         elif request == 'next':
             if self.hasTarget():
@@ -460,8 +563,8 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
         messenger.send(CogdoFlyingLegalEagle.ChargingToAttackEventName, [self.target.doId])
 
     def filterChargeUpAttack(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
-        if request == self.state:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self._state, request, args))
+        if request == self._state:
             return None
         elif request == 'next':
             if self.hasTarget():
@@ -492,8 +595,8 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
         self.attackSeq.start(elapsedTime)
 
     def filterAttack(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
-        if request == self.state:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self._state, request, args))
+        if request == self._state:
             return None
         elif request == 'next':
             return 'RetreatToSky'
@@ -514,8 +617,8 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
         self.retreatToSkySeq.start(elapsedTime)
 
     def filterRetreatToSky(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
-        if request == self.state:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self._state, request, args))
+        if request == self._state:
             return None
         elif request == 'next':
             return 'Cooldown'
@@ -535,8 +638,8 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
         return
 
     def filterCooldown(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
-        if request == self.state:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self._state, request, args))
+        if request == self._state:
             return None
         elif request == 'next':
             if self.hasTarget():
@@ -571,8 +674,8 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
         self.retreatToNestSeq.start(elapsedTime)
 
     def filterRetreatToNest(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
-        if request == self.state:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self._state, request, args))
+        if request == self._state:
             return None
         elif request == 'next':
             return 'LandOnNest'
@@ -591,8 +694,8 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
         self.landingSeq.start(elapsedTime)
 
     def filterLandOnNest(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
-        if request == self.state:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self._state, request, args))
+        if request == self._state:
             return None
         elif request == 'next':
             if self.hasTarget():

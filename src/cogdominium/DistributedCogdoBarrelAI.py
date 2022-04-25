@@ -10,7 +10,7 @@ class DistributedCogdoBarrelAI(DistributedObjectAI.DistributedObjectAI):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         self.grabbedBy = []
         self.index = index
-        self.state = CogdoBarrelRoomConsts.StateHidden
+        self._state = CogdoBarrelRoomConsts.StateHidden
         self.interactive = False
         self.collectedCallback = collectedCallback
         self.laff = random.randint(*CogdoBarrelRoomConsts.ToonUp)
@@ -25,13 +25,13 @@ class DistributedCogdoBarrelAI(DistributedObjectAI.DistributedObjectAI):
         return self.index
 
     def getState(self):
-        return self.state
+        return self._state
 
     def d_setState(self, state):
-        self.state = state
+        self._state = state
         self.sendUpdate('setState', [
-            self.state])
-        if self.state == CogdoBarrelRoomConsts.StateAvailable:
+            self._state])
+        if self._state == CogdoBarrelRoomConsts.StateAvailable:
             self.grabbedBy = []
 
     def requestGrab(self):
@@ -47,7 +47,7 @@ class DistributedCogdoBarrelAI(DistributedObjectAI.DistributedObjectAI):
             self.d_setReject()
 
     def __canGrab(self, av):
-        return self.state == CogdoBarrelRoomConsts.StateAvailable and self.interactive and not av.isToonedUp() and av.doId not in self.grabbedBy
+        return self._state == CogdoBarrelRoomConsts.StateAvailable and self.interactive and not av.isToonedUp() and av.doId not in self.grabbedBy
 
     def d_setGrab(self, avId):
         self.collectedCallback(self, avId)

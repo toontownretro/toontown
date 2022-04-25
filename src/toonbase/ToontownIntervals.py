@@ -39,7 +39,7 @@ def getPulseIval(np, name, change, duration=PULSE_GUI_CHANGE, scale=1):
         )
 
     
-def getPresentGuiIval(np, name, waitDuration=0.5, moveDuration=1.0, parent=aspect2d):
+def getPresentGuiIval(np, name, waitDuration=0.5, moveDuration=1.0, parent=aspect2d, startPos=(0, 0, 0)):
     """
     Presents a new GUI:
     Shows/boings the gui right on the center of the screen,

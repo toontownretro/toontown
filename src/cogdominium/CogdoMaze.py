@@ -6,6 +6,7 @@ from . import CogdoMazeGameGlobals as Globals
 from .CogdoMazeGameObjects import CogdoMazeWaterCooler
 from . import CogdoMazeData
 from . import CogdoUtil
+from toontown.toonbase.ToontownModules import *
 
 class CogdoMaze(MazeBase, DirectObject):
 

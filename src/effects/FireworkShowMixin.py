@@ -320,12 +320,12 @@ class FireworkShowMixin:
             hood = self.getHood()
 
             from toontown.hood import TTHood
-            from toontown.hood import DDHood
-            from toontown.hood import MMHood
             from toontown.hood import BRHood
+            from toontown.hood import MMHood
             from toontown.hood import DGHood
             from toontown.hood import DLHood
             from toontown.hood import GSHood
+            from toontown.hood import DDHood
             from toontown.hood import OZHood
             from toontown.hood import PartyHood
 

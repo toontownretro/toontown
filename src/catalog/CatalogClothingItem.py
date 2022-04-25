@@ -166,6 +166,9 @@ ClothingTypes = {
     1301 : (AShirt, 'sd_ss2', 225),
     1302 : (AGirlsShorts, 'sd_gs1', 200),
     1303 : (ABoysShorts, 'sd_bs1', 200),
+    1304 : (AShirt, 'sd_ss3', 25),
+    1305 : (ABoysShorts, 'sd_bs2', 25),
+    1306 : (AGirlsSkirt, 'sd_gs2', 25),
     # T-Shirt Contest Shirts
     1400 : (AShirt, 'tc_ss1', 200),
     1401 : (AShirt, 'tc_ss2', 200),

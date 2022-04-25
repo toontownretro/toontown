@@ -121,7 +121,23 @@ class CogdoFlyingGatherableBase:
                                 )
         self._model.setTexture(self.ts, tex)
         dur = Globals.Gameplay.GatherableFlashTime
-        self.flashLoop = Sequence(LerpFunctionInterval(self.setTextureAlphaFunc, fromData=1.0, toData=0.25, duration=dur / 2.0, blendType='easeInOut'), LerpFunctionInterval(self.setTextureAlphaFunc, fromData=0.25, toData=1.0, duration=dur / 2.0, blendType='easeInOut'), Wait(1.0), name='%s.flashLoop-%s' % (self.__class__.__name__, self.serialNum))
+        self.flashLoop = Sequence(LerpFunctionInterval(self.setTextureAlphaFunc,
+                                                       fromData = 1.0,
+                                                       toData = 0.25,
+                                                       duration = dur / 2.0,
+                                                       blendType = "easeInOut",
+                                                       ),
+                                  LerpFunctionInterval(self.setTextureAlphaFunc,
+                                                       fromData = 0.25,
+                                                       toData = 1.0,
+                                                       duration = dur / 2.0,
+                                                       blendType = "easeInOut",
+                                                       ),
+                                  Wait(1.0),
+                                  name = "%s.flashLoop-%s" % (self.__class__.__name__,
+                                                              self.serialNum,
+                                                              ),
+                                  )
 
     def show(self):
         self.enableFlash()
@@ -183,7 +199,7 @@ class CogdoFlyingGatherable(CogdoGameGatherable, CogdoFlyingGatherableBase):
 class CogdoFlyingMemo(CogdoFlyingGatherableBase, CogdoMemo):
 
     def __init__(self, serialNum, model):
-        CogdoMemo.__init__(self, serialNum, triggerRadius=Globals.Gameplay.MemoCollisionRadius, spinRate=Globals.Gameplay.MemoSpinRate, model=model)
+        CogdoMemo.__init__(self, serialNum, triggerRadius = Globals.Gameplay.MemoCollisionRadius, spinRate = Globals.Gameplay.MemoSpinRate, model = model)
         CogdoFlyingGatherableBase.__init__(self, Globals.Level.GatherableTypes.Memo)
         self.floatTimer = 0.0
         self.floatSpeed = 1.0
@@ -235,10 +251,36 @@ class CogdoFlyingPowerup(CogdoFlyingGatherable):
     def initInterval(self):
         bouncePercent = 1.2
         scale = self._model.getScale()
-        shrinkPowerupLerp = LerpScaleInterval(self._model, 0.5, 0.0, startScale=0.0, blendType='easeInOut')
-        growPowerupLerp = LerpScaleInterval(self._model, 0.5, scale * bouncePercent, startScale=0.0, blendType='easeInOut')
-        bouncePowerupLerp = LerpScaleInterval(self._model, 0.25, scale, startScale=scale * bouncePercent, blendType='easeInOut')
-        self.pickUpSeq = Sequence(Func(self.updateLerpStartScale, shrinkPowerupLerp, self._model), shrinkPowerupLerp, Func(self.ghostPowerup), growPowerupLerp, bouncePowerupLerp, name='%s.pickUpSeq-%s' % (self.__class__.__name__, self.serialNum))
+        shrinkPowerupLerp = LerpScaleInterval(self._model,
+                                              0.5,
+                                              0.0,
+                                              startScale = 0.0,
+                                              blendType = "easeInOut",
+                                              )
+        growPowerupLerp = LerpScaleInterval(self._model,
+                                            0.5,
+                                            scale * bouncePercent,
+                                            startScale = 0.0,
+                                            blendType = "easeInOut",
+                                            )
+        bouncePowerupLerp = LerpScaleInterval(self._model,
+                                              0.25,
+                                              scale,
+                                              startScale = scale * bouncePercent,
+                                              blendType = "easeInOut",
+                                              )
+        self.pickUpSeq = Sequence(Func(self.updateLerpStartScale,
+                                       shrinkPowerupLerp,
+                                       self._model,
+                                       ),
+                                  shrinkPowerupLerp,
+                                  Func(self.ghostPowerup),
+                                  growPowerupLerp,
+                                  bouncePowerupLerp,
+                                  name = "%s.pickUpSeq-%s" % (self.__class__.__name__,
+                                                              self.serialNum,
+                                                              ),
+                                  )
 
     def isPowerUp(self):
         return True
@@ -294,7 +336,12 @@ class CogdoFlyingPropeller(CogdoFlyingGatherable):
     def initIntervals(self):
         self.animatedPropellerIval = Parallel(name='%s.object-%i-animatePropellerIval' % (self.__class__.__name__, self.serialNum))
         for propeller in self.activePropellers:
-            self.animatedPropellerIval.append(LerpHprInterval(propeller, duration=Globals.Level.PropellerSpinDuration, startHpr=Vec3(0.0, 0.0, 0.0), hpr=Vec3(360.0, 0.0, 0.0)))
+            self.animatedPropellerIval.append(LerpHprInterval(propeller,
+                                                              duration = Globals.Level.PropellerSpinDuration,
+                                                              startHpr = Vec3(0.0, 0.0, 0.0),
+                                                              hpr = Vec3(360.0, 0.0, 0.0),
+                                                              ),
+                                              )
 
     def show(self):
         self.animatedPropellerIval.loop()

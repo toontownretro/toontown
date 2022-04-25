@@ -1375,7 +1375,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
             )
 
     def parseSetMusicVolume(self, line):
-        if ConfigVariable("language", "english").getValue() == "japanese":
+        if ConfigVariableString("language", "english").getValue() == "japanese":
             try:
                 loader = base.cr.playGame.place.loader
                 type = 'music'

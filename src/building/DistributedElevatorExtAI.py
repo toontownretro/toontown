@@ -13,7 +13,7 @@ class DistributedElevatorExtAI(DistributedElevatorAI.DistributedElevatorAI):
     
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedElevatorExtAI")
     
-    def __init__(self, air, bldg, numSeats = 4, antiShuffle = 0, minLaff = 0): #antiShufflePOI
+    def __init__(self, air, bldg, numSeats = 4, antiShuffle = 0, minLaff = 0, fSkipOpening = False): #antiShufflePOI
         DistributedElevatorAI.DistributedElevatorAI.__init__(
             self, air, bldg, numSeats, antiShuffle = antiShuffle, minLaff = minLaff)
         # Do we need this?

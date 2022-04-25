@@ -19,6 +19,7 @@ from .CogdoFlyingGame import CogdoFlyingGame
 from .DistCogdoGame import DistCogdoGame
 from . import CogdoFlyingGameGlobals
 from . import CogdoFlyingGameGlobals as Globals
+from toontown.toonbase.ToontownModules import *
 
 class DistCogdoFlyingGame(DistCogdoGame):
     notify = directNotify.newCategory('DistCogdoFlyingGame')

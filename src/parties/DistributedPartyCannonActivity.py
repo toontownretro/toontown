@@ -395,14 +395,15 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             self.inWater = 0
 
             # calculate the trajectory
-            flightResults = self.__calcFlightResults(cannon, toonId, launchTime)
+            #flightResults = self.__calcFlightResults(cannon, toonId, launchTime)
+            startPos, startHpr, startVel, trajectory = self.__calcFlightResults(cannon, toonId, launchTime)
             # pull all the results (startPos, startHpr, startVel, trajectory) into the local namespace
-            for key in flightResults:
-                exec("%s = flightResults['%s']" % (key, key))
+            #for key in flightResults:
+            #    exec("%s = flightResults['%s']" % (key, key))
 
-            #self.notify.debug("start position: " + str(startPos))
-            #self.notify.debug("start velocity: " + str(startVel))
-            #self.notify.debug("time of launch: " + str(launchTime))
+            self.notify.debug("start position: " + str(startPos))
+            self.notify.debug("start velocity: " + str(startVel))
+            self.notify.debug("time of launch: " + str(launchTime))
 
         cannon.removeToonReadyToFire()
 
@@ -477,12 +478,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
         trajectory = Trajectory.Trajectory(launchTime, startPos, startVel)
         self.trajectory = trajectory
 
-        return {
-            'startPos' : startPos,
-            'startHpr' : startHpr,
-            'startVel' : startVel,
-            'trajectory' : trajectory,
-            }
+        return startPos, startHpr, startVel, trajectory,
 
     def __shootTask(self, task):
         """

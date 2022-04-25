@@ -90,7 +90,14 @@ class CogdoGameGatherable(NodePath, DirectObject):
                 self.setPos(self.getPos() + vec * t)
                 self.setScale(1.0 - t * 0.8)
 
-            self._animSeq = Sequence(LerpFunc(lerpFlyToToon, fromData=0.0, toData=1.0, duration=self._animDuration), Wait(0.1), Func(self.hide))
+            self._animSeq = Sequence(LerpFunc(lerpFlyToToon,
+                                              fromData = 0.0,
+                                              toData = 1.0,
+                                              duration = self._animDuration,
+                                              ),
+                                     Wait(0.1),
+                                     Func(self.hide),
+                                     )
             self._animSeq.start(elapsedSeconds)
         else:
             self.hide()
@@ -108,7 +115,7 @@ class CogdoMemo(CogdoGameGatherable):
             node.removeNode()
         model.setP(pitch)
         self._spinRate = spinRate
-        CogdoGameGatherable.__init__(self, serialNum, model, triggerRadius, name='CogdoMemo')
+        CogdoGameGatherable.__init__(self, serialNum, model, triggerRadius, name = 'CogdoMemo')
         return
 
     def destroy(self):

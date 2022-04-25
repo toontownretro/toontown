@@ -1713,7 +1713,12 @@ class HolidayManagerAI:
         displayOnCalendar = True,
         ),
 
-#LAWBOT_NERF_HOLIDAY
+        #LAWBOT_NERF_HOLIDAY: HolidayInfo_Oncely(
+        #None,
+        #[(2011, Month.XXX, XX, 0, 0, 1),
+        # (2011, Month.XXX, XX, 23, 59, 59)],
+        #displayOnCalendar = True,
+        #),
 
         ToontownGlobals.KARTING_TICKETS_HOLIDAY: HolidayInfo_Yearly(
         None,

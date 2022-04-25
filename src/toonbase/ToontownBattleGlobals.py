@@ -1,6 +1,7 @@
 from .ToontownGlobals import *
 import math
 from . import TTLocalizer
+from toontown.toonbase.ToontownModules import *
 
 ### ToontownBattle globals: central repository for all battle globals
 

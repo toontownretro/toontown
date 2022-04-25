@@ -16,6 +16,7 @@ from . import CogdoMazeGameGlobals as Globals
 from . import CogdoUtil
 import math
 import random
+from toontown.toonbase.ToontownModules import *
 
 class CogdoMazeGame(DirectObject):
     notify = directNotify.newCategory('CogdoMazeGame')
@@ -51,20 +52,35 @@ class CogdoMazeGame(DirectObject):
         serialNum = 0
         for i in range(numSuits[0]):
             suitRng = RandomNumGen(self.distGame.doId + serialNum * 10)
-            suit = CogdoMazeBossSuit(serialNum, self.maze, suitRng, difficulty, startTile=suitSpawnSpot[0][i])
+            suit = CogdoMazeBossSuit(serialNum,
+                                     self.maze,
+                                     suitRng,
+                                     difficulty,
+                                     startTile = suitSpawnSpot[0][i],
+                                     )
             self.addSuit(suit)
             self.guiMgr.mazeMapGui.addSuit(suit.suit)
             serialNum += 1
 
         for i in range(numSuits[1]):
             suitRng = RandomNumGen(self.distGame.doId + serialNum * 10)
-            suit = CogdoMazeFastMinionSuit(serialNum, self.maze, suitRng, difficulty, startTile=suitSpawnSpot[1][i])
+            suit = CogdoMazeFastMinionSuit(serialNum,
+                                           self.maze,
+                                           suitRng,
+                                           difficulty,
+                                           startTile = suitSpawnSpot[1][i],
+                                           )
             self.addSuit(suit)
             serialNum += 1
 
         for i in range(numSuits[2]):
             suitRng = RandomNumGen(self.distGame.doId + serialNum * 10)
-            suit = CogdoMazeSlowMinionSuit(serialNum, self.maze, suitRng, difficulty, startTile=suitSpawnSpot[2][i])
+            suit = CogdoMazeSlowMinionSuit(serialNum,
+                                           self.maze,
+                                           suitRng,
+                                           difficulty,
+                                           startTile = suitSpawnSpot[2][i],
+                                           )
             self.addSuit(suit)
             serialNum += 1
 
@@ -93,7 +109,11 @@ class CogdoMazeGame(DirectObject):
         return
 
     def _initAudio(self):
-        self._audioMgr = CogdoGameAudioManager(Globals.MusicFiles, Globals.SfxFiles, camera, cutoff=Globals.AudioCutoff)
+        self._audioMgr = CogdoGameAudioManager(Globals.MusicFiles,
+                                               Globals.SfxFiles,
+                                               camera,
+                                               cutoff = Globals.AudioCutoff,
+                                               )
         self._quakeSfx1 = self._audioMgr.createSfx('quake')
         self._quakeSfx2 = self._audioMgr.createSfx('quake')
 
@@ -205,18 +225,40 @@ class CogdoMazeGame(DirectObject):
         return
 
     def start(self):
-        self.accept(self.PlayerDropCollision, self.handleLocalToonMeetsDrop)
-        self.accept(self.PlayerCoolerCollision, self.handleLocalToonMeetsWaterCooler)
-        self.accept(CogdoMazeExit.EnterEventName, self.handleLocalToonEntersDoor)
-        self.accept(CogdoMemo.EnterEventName, self.handleLocalToonMeetsPickup)
+        self.accept(self.PlayerDropCollision,
+                    self.handleLocalToonMeetsDrop,
+                    )
+        self.accept(self.PlayerCoolerCollision,
+                    self.handleLocalToonMeetsWaterCooler,
+                    )
+        self.accept(CogdoMazeExit.EnterEventName,
+                    self.handleLocalToonEntersDoor,
+                    )
+        self.accept(CogdoMemo.EnterEventName,
+                    self.handleLocalToonMeetsPickup,
+                    )
         if self._allowSuitsHitToons:
-            self.accept(CogdoMazeSuit.COLLISION_EVENT_NAME, self.handleLocalToonMeetsSuit)
-        self.accept(CogdoMazePlayer.GagHitEventName, self.handleToonMeetsGag)
-        self.accept(CogdoMazeSuit.GagHitEventName, self.handleLocalSuitMeetsGag)
-        self.accept(CogdoMazeSuit.DeathEventName, self.handleSuitDeath)
-        self.accept(CogdoMazeSuit.ThinkEventName, self.handleSuitThink)
-        self.accept(CogdoMazeBossSuit.ShakeEventName, self.handleBossShake)
-        self.accept(CogdoMazePlayer.RemovedEventName, self._removePlayer)
+            self.accept(CogdoMazeSuit.COLLISION_EVENT_NAME,
+                        self.handleLocalToonMeetsSuit,
+                        )
+        self.accept(CogdoMazePlayer.GagHitEventName,
+                    self.handleToonMeetsGag,
+                    )
+        self.accept(CogdoMazeSuit.GagHitEventName,
+                    self.handleLocalSuitMeetsGag,
+                    )
+        self.accept(CogdoMazeSuit.DeathEventName,
+                    self.handleSuitDeath,
+                    )
+        self.accept(CogdoMazeSuit.ThinkEventName,
+                    self.handleSuitThink,
+                    )
+        self.accept(CogdoMazeBossSuit.ShakeEventName,
+                    self.handleBossShake,
+                    )
+        self.accept(CogdoMazePlayer.RemovedEventName,
+                    self._removePlayer,
+                    )
         self.__startUpdateTask()
         for player in self.players:
             player.handleGameStart()
@@ -334,12 +376,12 @@ class CogdoMazeGame(DirectObject):
             self._quakeSfx2.getAudioSound().setVolume(volume)
 
     def handleLocalToonMeetsSuit(self, suitType, suitNum):
-        if self.localPlayer.state == 'Normal' and not self.localPlayer.invulnerable:
+        if self.localPlayer._state == 'Normal' and not self.localPlayer.invulnerable:
             self.distGame.b_toonHitBySuit(suitType, suitNum)
 
     def toonHitBySuit(self, toonId, suitType, suitNum, elapsedTime = 0.0):
         player = self.toonId2Player[toonId]
-        if player.state == 'Normal':
+        if player._state == 'Normal':
             player.request('Hit', elapsedTime)
 
     def handleSuitDeath(self, suitType, suitNum):
@@ -422,7 +464,7 @@ class CogdoMazeGame(DirectObject):
         fcabinet = collEntry.getIntoNodePath()
         if fcabinet.getTag('isFalling') == str('False'):
             return
-        if self.localPlayer.state == 'Normal' and not self.localPlayer.invulnerable:
+        if self.localPlayer._state == 'Normal' and not self.localPlayer.invulnerable:
             self.distGame.b_toonHitByDrop()
 
     def toonHitByDrop(self, toonId):

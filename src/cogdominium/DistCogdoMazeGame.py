@@ -12,6 +12,7 @@ from .CogdoMazeGame import CogdoMazeGame
 from .CogdoMaze import CogdoMazeFactory
 from . import CogdoMazeGameGlobals
 from . import CogdoMazeGameGlobals as Globals
+from toontown.toonbase.ToontownModules import *
 
 class DistCogdoMazeGame(DistCogdoGame, DistCogdoMazeGameBase):
     """

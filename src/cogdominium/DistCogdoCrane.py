@@ -825,8 +825,8 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         doId = int(np.getNetTag('object'))
 
         obj = base.cr.doId2do.get(doId)
-        if obj and obj.state != 'LocalDropped' and \
-           (obj.state != 'Dropped' or obj.craneId != self.doId):
+        if obj and obj._state != 'LocalDropped' and \
+           (obj._state != 'Dropped' or obj.craneId != self.doId):
             obj.d_requestGrab()
             obj.demand('LocalGrabbed', localAvatar.doId, self.doId)
 
@@ -912,7 +912,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
             obj = self.heldObject
             obj.d_requestDrop()
 
-            if obj.state == 'Grabbed':
+            if obj._state == 'Grabbed':
                 # Go ahead and move the local object instance into the
                 # 'LocalDropped' state--presumably the AI will grant our
                 # request shortly anyway, and we can avoid a hitch by

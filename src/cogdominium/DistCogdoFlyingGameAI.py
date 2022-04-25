@@ -6,6 +6,7 @@ import random
 from direct.distributed.ClockDelta import globalClockDelta
 from .DistCogdoGameAI import DistCogdoGameAI
 from. import CogdoFlyingGameGlobals as Globals
+from toontown.toonbase.ToontownModules import *
 
 class DistCogdoFlyingGameAI(DistCogdoGameAI):
     notify = directNotify.newCategory('DistCogdoFlyingGameAI')

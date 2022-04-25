@@ -45,9 +45,15 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
             # Final state
             'NotLoaded')
 
+        self.loadFSM.enterInitialState()
+
         self.fsm = ClassicFSM.ClassicFSM(
             'DistCogdoGame',
-            [State.State('Intro',
+            [State.State('Visible',
+                         self.enterVisible,
+                         self.exitVisible,
+                         ['Intro']),
+             State.State('Intro',
                          self.enterIntro,
                          self.exitIntro,
                          ['WaitServerStart']),
@@ -66,7 +72,7 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
              State.State('Off',
                          self.enterOff,
                          self.exitOff,
-                         ['Intro'])],
+                         ['Visible'])],
             # Initial state
             'Off',
             # Final state

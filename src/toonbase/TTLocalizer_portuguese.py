@@ -9981,7 +9981,7 @@ NPCToonNames = {
     9013 : "Vendedora Gata na Lata",
     9014 : "Vendedor Cara Mujo",
     # NPCPartyPerson
-    9015 : "Planejador de Festa Pebbles (Pedregulho)",
+    9015 : "Planejador de Festa Pedregulho",
     9016 : "Planejadora de Festa Pérola",
 
     # Lullaby Lane

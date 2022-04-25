@@ -52,13 +52,15 @@ class CogdoFlyingLevel(DirectObject):
         self._frameModel.flattenStrong()
         self.gatherableFactory = CogdoFlyingGatherableFactory()
         self.obstacleFactory = CogdoFlyingObtacleFactory()
-        return
 
     def getExit(self):
         return self._exit
 
     def getBounds(self):
-        return ((self.leftLimit, self.rightLimit), (self.backLimit, self.forwardLimit), (self.downLimit, self.upLimit))
+        return ((self.leftLimit, self.rightLimit),
+                (self.backLimit, self.forwardLimit),
+                (self.downLimit, self.upLimit),
+                )
 
     def getGatherable(self, serialNum):
         for quadrant in self.quadrants:
@@ -79,8 +81,12 @@ class CogdoFlyingLevel(DirectObject):
         self.root.stash()
 
     def _initStartEndPlatforms(self):
-        self.startPlatform = CogdoFlyingPlatform(self._startPlatformModel, Globals.Level.PlatformTypes.StartPlatform)
-        self.endPlatform = CogdoFlyingPlatform(self._endPlatformModel, Globals.Level.PlatformTypes.EndPlatform)
+        self.startPlatform = CogdoFlyingPlatform(self._startPlatformModel,
+                                                 Globals.Level.PlatformTypes.StartPlatform,
+                                                 )
+        self.endPlatform = CogdoFlyingPlatform(self._endPlatformModel,
+                                               Globals.Level.PlatformTypes.EndPlatform,
+                                               )
         self._endPlatformModel.setY(self.convertQuadNumToY(self._numQuads))
         self.backLimit = self._startPlatformModel.getY(render) - Globals.Level.StartPlatformLength * 0.7
         self.forwardLimit = self._endPlatformModel.getY(render) + Globals.Level.EndPlatformLength * 0.7
@@ -212,7 +218,14 @@ class CogdoFlyingLevelFactory:
         frameModel.find('**/fogTranslucent_top').setBin('fixed', 2)
         frameModel.getChildren().reparentTo(levelNode)
         levelNode.hide()
-        self._level = CogdoFlyingLevel(self.parent, levelNode, startPlatformModel, endPlatformModel, self.quadLengthUnits, self.quadVisibiltyAhead, self.quadVisibiltyBehind)
+        self._level = CogdoFlyingLevel(self.parent,
+                                       levelNode,
+                                       startPlatformModel,
+                                       endPlatformModel,
+                                       self.quadLengthUnits,
+                                       self.quadVisibiltyAhead,
+                                       self.quadVisibiltyBehind,
+                                       )
         if Globals.Dev.WantTempLevel:
             quads = Globals.Dev.DevQuadsOrder
         else:

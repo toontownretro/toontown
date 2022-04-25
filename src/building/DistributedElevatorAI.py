@@ -14,8 +14,9 @@ class DistributedElevatorAI(DistributedObjectAI.DistributedObjectAI):
 
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedElevatorAI")
 
-    def __init__(self, air, bldg, numSeats = 4, antiShuffle = 0, minLaff = 0):
+    def __init__(self, air, bldg, numSeats = 4, antiShuffle = 0, minLaff = 0, fSkipOpening = False):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
+        self.fSkipOpening = fSkipOpening
         self.type = ELEVATOR_NORMAL
         self.countdownTime = ElevatorData[self.type]['countdown']
         self.bldg = bldg
@@ -87,7 +88,10 @@ class DistributedElevatorAI(DistributedObjectAI.DistributedObjectAI):
         self.boardingParty = party
 
     def generate(self):
-        self.start()
+        if not self.fSkipOpening:
+            self.start()
+        else:
+            self.fsm.request("waitEmpty")
         DistributedObjectAI.DistributedObjectAI.generate(self)
         
     def getBldgDoId(self):

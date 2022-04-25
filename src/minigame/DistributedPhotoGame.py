@@ -1275,7 +1275,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         # place the camera behind our cannon
         self.__putCameraOnTripod()
 
-        if not ConfigVariableBool('endless-cannon-game', 0).getValue():
+        if not ConfigVariableBool('endless-photo-game', 0).getValue():
             # Start counting down the game clock,
             # call __gameTimerExpired when it reaches 0
             self.timer.show()
