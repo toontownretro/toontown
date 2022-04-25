@@ -3,7 +3,7 @@
 
   #define BUILDING_DLL BUILDING_TOONTOWN_TOONTOWNBASE
 
-  #define USE_PACKAGES eigen
+  #define USE_PACKAGES eigen sleef
 
   #define OTHER_LIBS \
       dtool:m \
