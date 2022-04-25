@@ -794,7 +794,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.geom.find("**/Reflections").stash()
 
         # Set up the planar reflection plane and apply it onto the ground.
-        base.planar.setup(Vec3.up(), 0, 0.55)
+        base.planar.setup(Vec3.up(), 0)
         base.planar.renderReflection(self.geom.find("**/CR3_Floor"))
 
         self.geom.reparentTo(render)
@@ -808,8 +808,8 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.loadPodium()
 
         #make the floor reflective
-        ug = self.geom.find('**/Reflections')
-        ug.setBin('ground',-10)
+        #ug = self.geom.find('**/Reflections')
+        #ug.setBin('ground',-10)
 
     def loadJuryBox(self):
         """
