@@ -527,7 +527,8 @@ def loadDialog(level):
                         "COG_VO_statement",
                         "COG_VO_question"
                         ]
-        # load the audio files and store into the dialogue array
+
+    # load the audio files and store into the dialogue array
     for file in SuitDialogFiles:
         SuitDialogArray.append(base.loader.loadSfx(loadPath + file + ".mp3"))
     SuitDialogArray.append(SuitDialogArray[2])
@@ -538,7 +539,7 @@ def loadSkelDialog():
     global SkelSuitDialogArray
     if len(SkelSuitDialogArray) > 0:
         return
-        
+
     grunt = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_grunt.mp3')
     murmur = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_murmur.mp3')
     statement = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_statement.mp3')
@@ -657,7 +658,7 @@ class Suit(Avatar.Avatar):
             self.nametagJoint = None
         for part in self.headParts:
             part.removeNode()
-            self.headParts = []
+        self.headParts = []
         self.removeHealthBar()
         Avatar.Avatar.delete(self)
 
