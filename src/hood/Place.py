@@ -17,6 +17,7 @@ from toontown.estate import HouseGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
 from otp.avatar import Emote
+from otp.avatar.Avatar import teleportNotify
 from direct.task import Task
 from . import QuietZoneState
 from toontown.distributed import ToontownDistrictStats
@@ -39,6 +40,7 @@ class Place(StateData.StateData,
         self.trialerFADoneEvent = 'trialerFADoneEvent'
         self.zoneId = None
         self.trialerFA = None
+        self._tiToken = None
         self._leftQuietZoneLocalCallbacks = PriorityCallbacks()
         self._leftQuietZoneSubframeCall = None
         self._setZoneCompleteLocalCallbacks = PriorityCallbacks()
@@ -123,7 +125,7 @@ class Place(StateData.StateData,
 
     def removeSetZoneCompleteCallback(self, token):
         if token is not None:
-            if token in self._setZoneCompleteLocalCallbacks:
+            if any(token == x[1] for x in self._setZoneCompleteLocalCallbacks._callbacks):
                 self._setZoneCompleteLocalCallbacks.remove(token)
             qzsd = self._getQZState()
             if qzsd:
@@ -181,8 +183,16 @@ class Place(StateData.StateData,
         Called when another avatar somewhere in the world wants to
         teleport to us, and we're available to be teleported to.
         """
-        fromAvatar.d_teleportResponse(toAvatar.doId, 1, toAvatar.defaultShard,
-                                      base.cr.playGame.getPlaceId(), self.getZoneId())
+        if ConfigVariableBool('want-tptrack', False).getValue():
+            if toAvatar == localAvatar:
+                toAvatar.doTeleportResponse(fromAvatar, toAvatar, toAvatar.doId,
+                                            1, toAvatar.defaultShard, base.cr.playGame.getPlaceId(),
+                                            self.getZoneId(), fromAvatar.doId)
+            else:
+                self.notify.warning("handleTeleportQuery toAvatar.doId != localAvatar.doId" % (toAvatar.doId, localAvatar.doId))
+        else:
+            fromAvatar.d_teleportResponse(toAvatar.doId, 1, toAvatar.defaultShard,
+                                          base.cr.playGame.getPlaceId(), self.getZoneId())
 
     def enablePeriodTimer(self):
         """
@@ -913,6 +923,7 @@ class Place(StateData.StateData,
     def exitTeleportOut(self):
         assert(self.notify.debug("exitTeleportOut()"))
         base.localAvatar.laffMeter.stop()
+        base.localAvatar.stopQuestMap()
         base.localAvatar.obscureMoveFurnitureButton(-1)
         base.localAvatar.stopQuestMap()
         # It is a bad idea to broadcast these messages; first, it
@@ -1134,10 +1145,13 @@ class Place(StateData.StateData,
         assert(self.notify.debug("teleportInDone()"))
         # This will either go to "walk" or "popup"
         if hasattr(self, 'fsm'):
+            teleportNotify.debug("teleportInDone: %s" % self.nextState)
             self.fsm.request(self.nextState, [1])
 
     def exitTeleportIn(self):
         assert(self.notify.debug("exitTeleportIn()"))
+        self.removeSetZoneCompleteCallback(self._tiToken)
+        self._tiToken = None
         # Turn on the little red arrows now that we're done teleporting.
         NametagGlobals.setMasterArrowsOn(1)
         base.localAvatar.laffMeter.stop()
@@ -1150,8 +1164,12 @@ class Place(StateData.StateData,
 
 
     def requestTeleport(self, hoodId, zoneId, shardId, avId):
+        if avId > 0:
+            teleportNotify.debug("requestTeleport%s" % ((hoodId, zoneId, shardId, avId),))
         # The local avatar cannot leave the zone if he is part of a boarding group.
         if localAvatar.hasActiveBoardingGroup():
+            if avId > 0:
+                teleportNotify.debug("requestTeleport: has active boarding group")
             rejectText = TTLocalizer.BoardingCannotLeaveZone
             localAvatar.elevatorNotifier.showMe(rejectText)
             return

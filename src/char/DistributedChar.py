@@ -35,17 +35,17 @@ class DistributedChar(DistributedAvatar.DistributedAvatar, Char.Char):
         Char.Char.playDialogue(self, *args)
 
 #    def setPos(self, x, y, z):
-#        from ToonBaseGlobal import *
+#        from toontown.toonbase.ToonBaseGlobal import *
 #        self.reparentTo(render)
 #        Char.Char.setPos(self, x, y, z)
 
 #    def setHpr(self, h, p, r):
-#        from ToonBaseGlobal import *
+#        from toontown.toonbase.ToonBaseGlobal import *
 #        self.reparentTo(render)
 #        Char.Char.setHpr(self, h, p, r)
 
 #    def setPosHpr(self, x, y, z, h, p, r):
-#        from ToonBaseGlobal import *
+#        from toontown.toonbase.ToonBaseGlobal import *
 #        self.reparentTo(render)
 #        Char.Char.setPosHpr(self, x, y, z, h, p, r)
 

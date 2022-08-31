@@ -59,7 +59,12 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
         self.suit.stash()
         self.prop = None
         self.attachPropeller()
-        head = self.suit.find('**/joint_head')
+        if ConfigVariableBool('want-new-cogs', 0).getValue():
+            head = self.suit.find('**/to_head')
+            if head.isEmpty():
+                head = self.suit.find('**/joint*head')
+        else:
+            head = self.suit.find('**/joint*head')
         self.interestConeOrigin = self.nest.attachNewNode('fakeHeadNodePath')
         self.interestConeOrigin.setPos(render, head.getPos(render) + Vec3(0, Globals.LegalEagle.InterestConeOffset, 0))
         self.attackTargetPos = None
@@ -77,7 +82,12 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
     def attachPropeller(self):
         if self.prop == None:
             self.prop = BattleProps.globalPropPool.getProp('propeller')
-            head = self.suit.find('**/joint_head')
+            if ConfigVariableBool('want-new-cogs', 0).getValue():
+                head = self.suit.find('**/to_head')
+                if head.isEmpty():
+                    head = self.suit.find('**/joint*head')
+            else:
+                head = self.suit.find('**/joint*head')
             self.prop.reparentTo(head)
         return
 

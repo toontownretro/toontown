@@ -42,8 +42,8 @@ class DistributedLawbotBossGavel(DistributedObject.DistributedObject, FSM.FSM):
     def announceGenerate(self):
         self.notify.debug("announceGenerate: %s" % self.doId)
         DistributedObject.DistributedObject.announceGenerate(self)
-        self.name = 'gavel-%s' % (self.doId)
-        #self.setName(self.name)
+        self._name = 'gavel-%s' % (self.doId)
+        #self.setName(self._name)
 
 
 

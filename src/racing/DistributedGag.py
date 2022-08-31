@@ -33,9 +33,9 @@ class DistributedGag(DistributedObject.DistributedObject):
         #print self.delta
 
         if self.type == 0: #banana
-            self.name=self.uniqueName("banana")
+            self._name=self.uniqueName("banana")
         elif self.type == 1: #pie
-            self.name=self.uniqueName("pie")
+            self._name=self.uniqueName("pie")
 
         self.nodePath.reparentTo(self.race.geom)
         if(self.ownerId==localAvatar.doId):
@@ -52,14 +52,14 @@ class DistributedGag(DistributedObject.DistributedObject):
 
     def addCollider(self, t):
         bs=CollisionSphere(0, 0, 0, 2)
-        bn=CollisionNode(self.name)
+        bn=CollisionNode(self._name)
         self.bnp=NodePath(bn)
         self.bnp.reparentTo(self.nodePath)
         self.bnp.node().addSolid(bs)
         self.bnp.node().setIntoCollideMask(BitMask32(0x8000))
         self.bnp.node().setFromCollideMask(BitMask32(0x8000))
         #self.bnp.show()
-        self.accept("imIn-"+self.name, self.b_imHit)
+        self.accept("imIn-"+self._name, self.b_imHit)
 
     def b_imHit(self, cevent):
         self.ignoreAll()

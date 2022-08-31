@@ -7,6 +7,8 @@ from toontown.quest import Quests
 
 class DistributedNPCToonAI(DistributedNPCToonBaseAI):
 
+    FourthGagVelvetRopeBan = ConfigVariableBool('want-ban-fourth-gag-velvet-rope', 0).getValue()
+
     def __init__(self, air, npcId, questCallback=None, hq=0):
         DistributedNPCToonBaseAI.__init__(self, air, npcId, questCallback)
         # Am I a hq toon? Maybe this should be a subclass?
@@ -45,6 +47,9 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
         if (self.pendingAvId != avId):
             self.notify.warning("chooseQuest: not expecting an answer from this avatar: %s" % (avId))
             return
+        if (self.pendingQuests is None):
+            self.notify.warning("chooseQuest: not expecting a quest choice from this avatar: %s" % (avId))
+            self.air.writeServerEvent('suspicious', avId, 'unexpected chooseQuest')
 
         # See if the avatar cancelled
         if questId == 0:
@@ -56,6 +61,18 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
             # Tell the avatar goodbye then allow him to finish the movie
             self.cancelChoseQuest(avId)
             return
+
+        if (questId == 401):
+            av = self.air.getDo(avId)
+            if not av:
+                self.notify.warning('chooseQuest: av not present: %s' % avId)
+                return
+            if av.getGameAccess() != ToontownGlobals.AccessFull:
+                simbase.air.writeServerEvent('suspicious', avId, 'NPCToonAI.chooseQuest: non-paid player choosing task beyond velvet rope')
+                self.sendTimeoutMovie(None)
+                if self.FourthGagVelvetRopeBan:
+                    av.ban('fourth gag track velvet rope hacking')
+                return
 
         # See if the avatar chose any of the quests offered
         for quest in self.pendingQuests:
@@ -83,6 +100,10 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
             return
         if (self.pendingAvId != avId):
             self.notify.warning("chooseTrack: not expecting an answer from this avatar: %s" % (avId))
+            return
+        if (self.pendingTracks is None):
+            self.notify.warning("chooseTrack: not expecting a track choice from this avatar: %s" % (avId))
+            self.air.writeServerEvent('suspicious', avId, 'unexpected chooseTrack')
             return
 
         # See if the avatar cancelled

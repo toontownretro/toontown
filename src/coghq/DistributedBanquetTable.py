@@ -18,6 +18,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.coghq import BanquetTableBase
 from toontown.coghq import DinerStatusIndicator
 from toontown.battle import MovieUtil
+from toontown.toonbase.ToontownModules import *
 
 
 class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, BanquetTableBase.BanquetTableBase):
@@ -35,11 +36,11 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
 
     # The number of seconds it takes to move the power meter to
     # full the first time.
-    waterPowerSpeed = base.config.GetDouble('water-power-speed', 15)
+    waterPowerSpeed = ConfigVariableDouble('water-power-speed', 15).getValue()
 
     # The exponent that controls the factor at which the power
     # meter speeds up, see getWaterPower()
-    waterPowerExponent = base.config.GetDouble('water-power-exponent', 0.75)
+    waterPowerExponent = ConfigVariableDouble('water-power-exponent', 0.75).getValue()
 
     useNewAnimations = True
 
@@ -263,7 +264,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         sitLocator = correctHeadingNp.attachNewNode('sitLocator')
         base.sitLocator = sitLocator
         pos = correctHeadingNp.getPos(render)
-        if SuitDNA.getSuitBodyType(diner.dna.name) == 'c':
+        if SuitDNA.getSuitBodyType(diner.dna._name) == 'c':
             sitLocator.setPos(0.5, 3.65, -3.75)
         else:
             sitLocator.setZ(-2.4)
@@ -283,7 +284,12 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         base.serviceLoc = newLoc
 
         # create the status indicator
-        head = diner.find('**/joint_head')
+        if ConfigVariableBool('want-new-cogs', 0).getValue():
+            head = diner.find('**/to_head')
+            if head.isEmpty():
+                head = diner.find('**/joint*head')
+        else:
+            head = diner.find('**/joint*head')
         newIndicator = DinerStatusIndicator.DinerStatusIndicator(parent = head,
                                                                  pos = Point3(0,0,3.5),
                                                                  scale = 5.0)
@@ -390,7 +396,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             foodModel.setHpr( Point3(0,-94,0)),
             foodModel.setPos( Point3(-0.15,-0.7,-0.4)),
             scaleAdj = 1
-            if SuitDNA.getSuitBodyType(diner.dna.name) == 'c':
+            if SuitDNA.getSuitBodyType(diner.dna._name) == 'c':
                scaleAdj=0.6
                foodModel.setPos( Point3(0.1, -0.25, -0.31)),
             else:
@@ -405,7 +411,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             foodModel.reparentTo( serviceLoc),
             foodModel.setPosHpr( 0,0,0, 0,0,0),
             scaleAdj = 1
-            if SuitDNA.getSuitBodyType(diner.dna.name) == 'c':
+            if SuitDNA.getSuitBodyType(diner.dna._name) == 'c':
                scaleAdj=0.6
             else:
                 scakeAdj = 0.8

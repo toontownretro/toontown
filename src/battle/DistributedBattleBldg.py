@@ -60,6 +60,9 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
                 'phase_7/audio/bgm/encntr_general_bg_indoor.mid')
         base.playMusic(self.battleMusic, looping=1, volume=0.9)
 
+    def getBossBattleTaunt(self):
+        return TTLocalizer.BattleBldgBossTaunt
+
     def disable(self):
         """ disable()
         """
@@ -116,7 +119,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
                 # otherwise __genSuitInfos ensures nothing, so pick the suit with the highest type to be the leader
                 maxTypeNum = -1
                 for suit in self.suits:
-                    suitTypeNum = SuitDNA.getSuitType(suit.dna.name)
+                    suitTypeNum = SuitDNA.getSuitType(suit.dna._name)
                     if (maxTypeNum < suitTypeNum):
                         maxTypeNum = suitTypeNum
                         leaderIndex = self.suits.index(suit)
@@ -140,7 +143,8 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
 
                 # TODO: have an inside of building taunt here
                 if (self.bossBattle == 1):
-                    taunt = TTLocalizer.BattleBldgBossTaunt
+                    #taunt = TTLocalizer.BattleBldgBossTaunt
+                    taunt = self.getBossBattleTaunt()
                 else:
                     taunt = SuitBattleGlobals.getFaceoffTaunt(suit.getStyleName(), suit.doId)
 

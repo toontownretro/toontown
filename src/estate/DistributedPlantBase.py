@@ -47,7 +47,7 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
         assert self.notify.debugStateCall(self)
         self.typeIndex = typeIndex
         self.attributes = GardenGlobals.PlantAttributes[typeIndex]
-        self.name = self.attributes['name']
+        self._name = self.attributes['name']
         self.plantType = self.attributes['plantType']
         self.growthThresholds = self.attributes['growthThresholds']
         self.maxWaterLevel = self.attributes['maxWaterLevel']

@@ -258,9 +258,13 @@ class MailboxScreen(DirectObject.DirectObject):
         self.partyInviteVisual.setScale(0.73)
         self.partyInviteVisual.setPos(0.0, 0.0, 0.48)
         self.partyInviteVisual.stash()
+        if self.avatar:
+            self.avatar.applyCheesyEffect(ToontownGlobals.CENormal)
 
     def unload(self):
         assert( MailboxScreen.notify.debug("unload") )
+        if self.avatar:
+            self.avatar.reconsiderCheesyEffect()
         self.__clearCurrentItem()
         if hasattr(self,"frame"):
             self.frame.destroy()
@@ -638,6 +642,8 @@ class MailboxScreen(DirectObject.DirectObject):
 
                 if item.giftCode == ToontownGlobals.GIFT_RAT:
                     self.giftTagPanel['text'] = TTLocalizer.CatalogAcceptRATBeans
+                elif item.giftCode == ToontownGlobals.GIFT_partyrefund:
+                    self.giftTagPanel['text'] = TTLocalizer.CatalogAcceptPartyRefund
                 else:
                     self.giftTagPanel['text'] = (TTLocalizer.MailboxGiftTag % (nameOfSender))
 

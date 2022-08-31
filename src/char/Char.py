@@ -168,7 +168,7 @@ class Char(Avatar.Avatar):
         """updateCharDNA(self, AvatarDNA)
         update the char's appearance based on new DNA
         """
-        if (newDNA.name != self.style.name):
+        if (newDNA._name != self.style._name):
             self.swapCharModel(newDNA)
 
     def setDNAString(self, dnaString):
@@ -215,9 +215,9 @@ class Char(Avatar.Avatar):
         levelThreeOut = ConfigVariableInt("lod3-out", 100).getValue()
 
         # add the LODs
-        self.addLOD(LODModelDict[self.style.name][0], levelOneIn, levelOneOut)
-        self.addLOD(LODModelDict[self.style.name][1], levelTwoIn, levelTwoOut)
-        self.addLOD(LODModelDict[self.style.name][2], levelThreeIn, levelThreeOut)
+        self.addLOD(LODModelDict[self.style._name][0], levelOneIn, levelOneOut)
+        self.addLOD(LODModelDict[self.style._name][1], levelTwoIn, levelTwoOut)
+        self.addLOD(LODModelDict[self.style._name][2], levelThreeIn, levelThreeOut)
 
     def generateChar(self):
         """
@@ -227,9 +227,9 @@ class Char(Avatar.Avatar):
         self._name = dna.getCharName()
         self.geoEyes = 0
         # generate the LOD nodes, if necessary
-        if (len(LODModelDict[dna.name]) > 1):
+        if (len(LODModelDict[dna._name]) > 1):
             self.setLODs()
-        filePrefix = ModelDict[dna.name]
+        filePrefix = ModelDict[dna._name]
         if (self._name == "mickey"):
             height = 3.0
         elif (self._name == "vampire_mickey"):
@@ -262,7 +262,7 @@ class Char(Avatar.Avatar):
             height = 2.0
 
         self.lodStrings = []
-        for lod in LODModelDict[self.style.name]:
+        for lod in LODModelDict[self.style._name]:
             self.lodStrings.append(str(lod))
 
         if self.lodStrings:
@@ -280,7 +280,7 @@ class Char(Avatar.Avatar):
 
         animDict = {}
 
-        animList = AnimDict[self.style.name]
+        animList = AnimDict[self.style._name]
         for anim in animList:
             # anim files may be in different phases
             animFilePrefix = filePrefix[:6] + str(anim[2]) + filePrefix[7:]
@@ -296,7 +296,7 @@ class Char(Avatar.Avatar):
 
         self.setHeight(height)
 
-        self.loadDialogue(dna.name)
+        self.loadDialogue(dna._name)
 
         # set up the mouse ears for rotation
         self.ears = []
@@ -357,11 +357,11 @@ class Char(Avatar.Avatar):
             # this fixes a dual-mode transparency problem
             # that makes the pupils render poorly
             self.eyes.setBin('transparent', 0)
-            self.lpupil = self.find("**/1200/**/joint_pupilL")
-            self.rpupil = self.find("**/1200/**/joint_pupilR")
+            self.lpupil = self.find("**/1200/**/joint*pupilL")
+            self.rpupil = self.find("**/1200/**/joint*pupilR")
             # make them render correctly
             for lodName in self.getLODNames():
-                self.drawInFront("joint_pupil?", "eyes*", -3, lodName=lodName)
+                self.drawInFront("joint*pupil?", "eyes*", -3, lodName=lodName)
         elif (self._name == "witch_minnie" or self._name == "vampire_mickey" \
                 or self._name == "super_goofy" or self._name == "western_pluto" \
                 or self._name == "police_chip" or self._name == "jailbird_dale" \
@@ -389,11 +389,11 @@ class Char(Avatar.Avatar):
                 "phase_6/maps/plutoEyesClosed.txo")
             # TODO: other LODs
             self.eyes = self.find("**/1000/**/eyes")
-            self.lpupil = self.find("**/1000/**/joint_pupilL")
-            self.rpupil = self.find("**/1000/**/joint_pupilR")
+            self.lpupil = self.find("**/1000/**/joint*pupilL")
+            self.rpupil = self.find("**/1000/**/joint*pupilR")
             # make them render correctly
             for lodName in self.getLODNames():
-                self.drawInFront("joint_pupil?", "eyes*", -3, lodName=lodName)
+                self.drawInFront("joint*pupil?", "eyes*", -3, lodName=lodName)
         elif (self._name == "daisy"):
             self.geoEyes = 1
             self.eyeOpenList = []
@@ -418,10 +418,10 @@ class Char(Avatar.Avatar):
         elif (self._name == "donald-wheel"):
             # set them up for blinking
             self.eyes = self.find("**/eyes")
-            self.lpupil = self.find("**/joint_pupilL")
-            self.rpupil = self.find("**/joint_pupilR")
+            self.lpupil = self.find("**/joint*pupilL")
+            self.rpupil = self.find("**/joint*pupilR")
             # arrange donalds eyes to render properly
-            self.drawInFront("joint_pupil?", "eyes*", -3)
+            self.drawInFront("joint*pupil?", "eyes*", -3)
 
         elif (self._name == "chip") or (self._name == "dale"):
             self.eyesOpen = loader.loadTexture(

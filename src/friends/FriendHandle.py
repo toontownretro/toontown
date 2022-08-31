@@ -1,7 +1,8 @@
+from otp.avatar.Avatar import teleportNotify
 from toontown.toonbase import ToontownGlobals
 import copy
 from toontown.chat import ToonChatGarbler
-from toontown.toon import GMUtils
+#from toontown.toon import GMUtils
 
 class FriendHandle:
     """FriendHandle
@@ -22,10 +23,10 @@ class FriendHandle:
         self.isAPet = isAPet
         self.chatGarbler = ToonChatGarbler.ToonChatGarbler()
         
-        if GMUtils.testGMIdentity(name):
-            self.name = GMUtils.handleGMName(name)
-        else:
-            self.name = name
+#        if GMUtils.testGMIdentity(name):
+#            self._name = GMUtils.handleGMName(name)
+#        else:
+        self._name = name
     
     def getDoId(self):
         """getDoId(self)
@@ -43,7 +44,7 @@ class FriendHandle:
         return self.isAPet
 
     def getName(self):
-        return self.name
+        return self._name
 
     def getFont(self):
         # All friends are toons.
@@ -61,15 +62,19 @@ class FriendHandle:
                                       sendToId = self.doId)
 
     def d_teleportQuery(self, requesterId):
+        teleportNotify.debug("sending d_teleportQuery(%s)" % (requesterId,))
         base.localAvatar.sendUpdate("teleportQuery", [requesterId],
                                       sendToId = self.doId)
 
     def d_teleportResponse(self, avId, available, shardId, hoodId, zoneId):
+        teleportNotify.debug("sending teleportResponse%s" % ((
+                                avId, available, shardId, hoodId, zoneId),))
         base.localAvatar.sendUpdate("teleportResponse",
                                       [avId, available, shardId, hoodId, zoneId],
                                       sendToId = self.doId)
 
     def d_teleportGiveup(self, requesterId):
+        teleportNotify.debug("sending d_teleportGiveup(%s)" % (requesterId,))
         base.localAvatar.sendUpdate("teleportGiveup",
                                       [requesterId],
                                       sendToId = self.doId)

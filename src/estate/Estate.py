@@ -15,6 +15,7 @@ from toontown.hood import Place
 from toontown.hood import SkyUtil
 from toontown.pets import PetTutorial
 from direct.controls.GravityWalker import GravityWalker
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs, TLNull
 from . import HouseGlobals
 
 class Estate(Place.Place):
@@ -182,12 +183,19 @@ class Estate(Place.Place):
         hoodId = requestStatus["hoodId"]
         zoneId = requestStatus["zoneId"]
 
+        if ConfigVariableBool('want-estate-telemetry-limiter', 1).getValue():
+            limiter = TLGatherAllAvs('Estate', RotationLimitToH)
+        else:
+            limiter = TLNull()
+        self._telemLimiter = limiter
+
         # start the sky
         newsManager = base.cr.newsManager
 
         if newsManager:
             holidayIds = base.cr.newsManager.getDecorationHolidayId()
-            if (ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds) and self.loader.hood.spookySkyFile:
+            if (ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds or \
+                ToontownGlobals.SPOOKY_COSTUMES in holidayIds) and self.loader.hood.spookySkyFile:
 
                 lightsOff = Sequence(LerpColorScaleInterval(
                     base.cr.playGame.hood.loader.geom,

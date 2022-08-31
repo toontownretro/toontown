@@ -60,8 +60,8 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
     def announceGenerate(self):
         self.notify.debug("announceGenerate: %s" % self.doId)
         DistributedObject.DistributedObject.announceGenerate(self)
-        self.name = 'Chair-%s' % (self.doId)
-        #self.setName(self.name)
+        self._name = 'Chair-%s' % (self.doId)
+        #self.setName(self._name)
 
 
 
@@ -201,7 +201,12 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         if self.cogJuror.prop == None:
             self.cogJuror.prop = BattleProps.globalPropPool.getProp('propeller')
 
-        head = self.cogJuror.find("**/joint_head")
+        if ConfigVariableBool('want-new-cogs', 0).getValue():
+            head = self.cogJuror.find('**/to_head')
+            if head.isEmpty():
+                head = self.cogJuror.find('**/joint*head')
+        else:
+            head = self.cogJuror.find('**/joint*head')
         self.cogJuror.prop.reparentTo(head)
 
         self.propTrack = Sequence(

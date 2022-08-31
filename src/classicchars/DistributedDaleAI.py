@@ -230,3 +230,9 @@ class DistributedDaleAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
     def getChipId(self):
         """Return chip's doId."""
         return self.chipId
+
+    def enterTransitionToCostume(self):
+        pass
+
+    def exitTransitionToCostume(self):
+        pass

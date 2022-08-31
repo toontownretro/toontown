@@ -245,14 +245,26 @@ def __healTickle(heal,hasInteractivePropHealBonus):
 def __healJoke(heal, hasInteractivePropHealBonus):
     """ __healJoke(heal)
     """
-    toon = heal['toon']
+    # Determine if this is an NPC heal
+    #print("heal Joke Anim")
+    npcId = 0
+    if ('npcId' in heal):
+        npcId = heal['npcId']
+        toon = NPCToons.createLocalNPC(npcId)
+        if (toon == None):
+            return None
+    else:
+        toon = heal['toon']
     targets = heal['target']
     ineffective = heal['sidestep']
     level = heal['level']
     jokeIndex = heal['hpbonus'] % len(HealJokes.toonHealJokes)
 
-    # Make a 'sandwich' around the track specific interval
-    track = Sequence(__runToHealSpot(heal))
+    if npcId != 0:
+        track = Sequence(MovieNPCSOS.teleportIn(heal, toon))
+    else:
+        # Make a 'sandwich' around the track specific interval
+        track = Sequence(__runToHealSpot(heal))
 
     # start a multitrack
     tracks = Parallel()
@@ -328,10 +340,16 @@ def __healJoke(heal, hasInteractivePropHealBonus):
         reactTrack.append(Func(targetToon.clearChat))
     tracks.append(reactTrack)
 
-    tracks.append(Sequence(
-        Wait(tRunBack),
-        Func(toon.clearChat),
-        *__returnToBase(heal)))
+    if npcId != 0:
+        track.append(Sequence(
+            Wait(tRunBack),
+            Func(toon.clearChat),
+            *MovieNPCSOS.teleportOut(heal, toon)))
+    else:
+        tracks.append(Sequence(
+            Wait(tRunBack),
+            Func(toon.clearChat),
+            *__returnToBase(heal)))
 
     # lay down the multitrack
     track.append(tracks)
@@ -409,13 +427,25 @@ def __healSmooch(heal, hasInteractivePropHealBonus):
 def __healDance(heal, hasInteractivePropHealBonus):
     """ __healDance(heal)
     """
-    toon = heal['toon']
+    # Determine if this is an NPC heal
+    #print("heal Dance Anim")
+    npcId = 0
+    if ('npcId' in heal):
+        npcId = heal['npcId']
+        toon = NPCToons.createLocalNPC(npcId)
+        if (toon == None):
+            return None
+    else:
+        toon = heal['toon']
     targets = heal['target']
     ineffective = heal['sidestep']
     level = heal['level']
 
-    # Make a 'sandwich' around the track specific interval
-    track = Sequence(__runToHealSpot(heal))
+    if npcId != 0:
+        track = Sequence(MovieNPCSOS.teleportIn(heal, toon))
+    else:
+        # Make a 'sandwich' around the track specific interval
+        track = Sequence(__runToHealSpot(heal))
     delay = 3.0
     first = 1
     targetTrack = Sequence()
@@ -464,7 +494,10 @@ def __healDance(heal, hasInteractivePropHealBonus):
     track.append(Wait(0.1))
 
     track.append(mtrack)
-    track.append(__returnToBase(heal))
+    if npcId != 0:
+        track.append(MovieNPCSOS.teleportOut(heal, toon))
+    else:
+        track.append(__returnToBase(heal))
     for target in targets:
         targetToon = target['toon']
         track.append(Func(targetToon.clearChat))
@@ -556,8 +589,8 @@ def __healJuggle(heal, hasInteractivePropHealBonus):
     cube = globalPropPool.getProp('cubes')
     cube2 = MovieUtil.copyProp(cube)
     cubes = [cube, cube2]
-    hips = [toon.getLOD(toon.getLODNames()[0]).find("**/joint_hips"),
-            toon.getLOD(toon.getLODNames()[1]).find("**/joint_hips"),
+    hips = [toon.getLOD(toon.getLODNames()[0]).find("**/joint*hips"),
+            toon.getLOD(toon.getLODNames()[1]).find("**/joint*hips"),
             ]
     cubeTrack = Sequence(
         Func(MovieUtil.showProps, cubes, hips),

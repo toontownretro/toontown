@@ -514,7 +514,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         dna = SuitDNA.SuitDNA()
         dna.newSuitRandom( suitType, bldgTrack )
         suit.dna = dna
-        self.notify.debug("Creating suit type " + suit.dna.name +
+        self.notify.debug("Creating suit type " + suit.dna._name +
                           " of level " + str( suitLevel ) +
                           " from type " + str( suitType ) +
                           " and track " + str( bldgTrack ) )

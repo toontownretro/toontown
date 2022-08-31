@@ -130,8 +130,8 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
-        self.name = 'crane-%s' % (self.doId)
-        self.root.setName(self.name)
+        self._name = 'crane-%s' % (self.doId)
+        self.root.setName(self._name)
 
         self.root.setPosHpr(*GameConsts.CranePosHprs[self.index])
 
@@ -483,7 +483,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         return rope
 
     def startShadow(self):
-        self.shadow = self.craneGame.geomRoot.attachNewNode('%s-shadow' % (self.name))
+        self.shadow = self.craneGame.geomRoot.attachNewNode('%s-shadow' % (self._name))
         self.shadow.setColor(1, 1, 1, 0.3)
         self.shadow.setDepthWrite(0)
         self.shadow.setTransparency(1)

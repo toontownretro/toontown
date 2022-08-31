@@ -251,13 +251,13 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
     def chooseReportCategory(self):
         # put up a confirmation dialog - need to make a custom one for buttons
         self.dialog  = TTDialog.TTGlobalDialog(
-            pos = (0, 0, 0.2),
+            pos = (0, 0, 0.4),
             style = TTDialog.CancelOnly,
             text = TTLocalizer.ReportPanelCategoryBody % (self.avName, self.avName),
             text_wordwrap = 18.5,
             text_scale = 0.06,
             topPad = 0.05,
-            midPad = 0.65,
+            midPad = 0.75,
             cancelButtonText = TTLocalizer.lCancel,
             doneEvent = "ReportCategory",
             command = self.handleReportCategory,
@@ -343,6 +343,23 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             extraArgs = [3],
             )
 
+        # Hacking
+        DirectButton(
+            parent = self.dialog,
+            relief = None,
+            image = (guiButton.find('**/QuitBtn_UP'),
+                     guiButton.find('**/QuitBtn_DN'),
+                     guiButton.find('**/QuitBtn_RLVR'),
+                     ),
+            image_scale = (2.125, 1.0, 1.0),
+            text = TTLocalizer.ReportPanelCategoryHacking,
+            text_scale = 0.06,
+            text_pos = (0, -0.0125),
+            pos = (0, 0, -0.8),
+            command = self.handleReportCategory,
+            extraArgs = [4],
+            )
+
         guiButton.removeNode()
         self.dialog.show()
         self.__acceptStoppedStateMsg()
@@ -357,6 +374,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
                 CentralLogger.ReportPersonalInfo,
                 CentralLogger.ReportRudeBehavior,
                 CentralLogger.ReportBadName,
+                CentralLogger.ReportHacking,
                 ]
             self.category = cat[value]
             self.confirmReportCategory(value)
@@ -397,9 +415,13 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
         removed = 0
         isPlayer = 0
         if value > 0:
+            if self.category == CentralLogger.ReportHacking:
+                # log the chat records
+                base.cr.centralLogger.reportPlayer(self.category, self.playerId, self.avId)
+
+                self.category = CentralLogger.ReportRudeBehavior
             # log the chat records
             base.cr.centralLogger.reportPlayer(self.category, self.playerId, self.avId)
-
             # if we are avatar friends, break the friendship
             if base.cr.isFriend(self.avId):
                 base.cr.removeFriend(self.avId)

@@ -987,6 +987,8 @@ class ToontownAIRepository(AIDistrict):
             self.__handlePartyManagerUdToAllAi(di)
         elif msgType == IN_GAME_NEWS_MANAGER_UD_TO_ALL_AI:
             self.__handleInGameNewsManagerUdToAllAi(di)
+        elif msgType == WHITELIST_MANAGER_UD_TO_ALL_AI:
+            self.__handleWhitelistManagerUdToAllAi(di)
         else:
             AIDistrict.handlePlayGame(self, msgType, di)
 

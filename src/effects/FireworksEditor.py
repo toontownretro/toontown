@@ -725,7 +725,7 @@ class FireworksEditor(AppShell):
             filetypes = (('Fireworks Files', '*.fws'),('All files', '*')),
             initialdir = ttmodelsDirectory,
             title = 'Save Fireworks Show as',
-            parent = self.parent)
+            parent = self._parent)
         if fireworksFilename:
             self.fwShow.saveShow(fireworksFilename)
 
@@ -735,7 +735,7 @@ class FireworksEditor(AppShell):
             filetypes = (('Fireworks Files', '*.fws'),('All files', '*')),
             initialdir = ttmodelsDirectory,
             title = 'Save Fireworks Show as',
-            parent = self.parent)
+            parent = self._parent)
         if fireworksFilename:
             self.fwShow.loadShow(fireworksFilename)
             self.timeline.updateCanvas()
@@ -752,7 +752,7 @@ class FireworksEditor(AppShell):
             filetypes = (('MIDI Files', '*.mid'),('All files', '*')),
             initialdir = ttmodelsDirectory,
             title = 'Load Music File',
-            parent = self.parent)
+            parent = self._parent)
         if musicFilename:
             self.setMusicFile(musicFilename)
 
@@ -761,14 +761,14 @@ class FireworksEditor(AppShell):
         self.timeline.updateCanvas()
         if self.fwShow.musicFilename:
             basename = self.fwShow.musicFilename.getBasename()
-            self.parent.title('Fireworks Editor - %s' % basename)
+            self._parent.title('Fireworks Editor - %s' % basename)
         else:
-            self.parent.title('Fireworks Editor')
+            self._parent.title('Fireworks Editor')
 
     def clearShow(self):
         resp = askyesno('Fireworks Editor',
                         'Delete current fireworks show?',
-                        parent = self.parent)
+                        parent = self._parent)
         if resp == 1:
             self.fwShow.clearShow()
             self.timeline.updateCanvas()

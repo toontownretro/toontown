@@ -180,7 +180,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         dummyHide.hide()
 
     def setName(self, name):
-        self.name = name
+        self._name = name
 
     def announceGenerate(self):
         DistributedNode.DistributedNode.announceGenerate(self)

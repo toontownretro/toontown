@@ -17,7 +17,7 @@ class DistributedProjectileAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, N
 
     def announceGenerate(self):
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.announceGenerate(self)
-        self.name = self.uniqueName('projectile')
+        self._name = self.uniqueName('projectile')
         self.posHprBroadcastName = self.uniqueName('projectileBroadcast')
 
         self.geom=loader.loadModel("models/smiley")
@@ -34,7 +34,7 @@ class DistributedProjectileAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, N
 
     def generate(self):
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.generate(self)
-        self.name = self.uniqueName('projectile')
+        self._name = self.uniqueName('projectile')
         self.posHprBroadcastName = self.uniqueName('projectileBroadcast')
 
         self.geom=loader.loadModel("models/smiley")

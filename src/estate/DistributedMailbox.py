@@ -120,7 +120,7 @@ class DistributedMailbox(DistributedObject.DistributedObject):
 
     def setName(self, name):
         DistributedMailbox.notify.debug("setName( name=%s )" %name)
-        self.name = name
+        self._name = name
 
     def setFullIndicator(self, full):
         DistributedMailbox.notify.debug("setFullIndicator( full=%s )" %full)
@@ -360,7 +360,7 @@ class DistributedMailbox(DistributedObject.DistributedObject):
             text.setAlign(TextNode.ACenter)
             text.setFont(ToontownGlobals.getToonFont())
             text.setWordwrap(7.5)
-            text.setText(self.name)
+            text.setText(self._name)
 
             self.nameText = nameOrigin.attachNewNode(text)
             self.nameText.setH(90)

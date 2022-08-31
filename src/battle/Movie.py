@@ -47,6 +47,7 @@ class Movie(DirectObject.DirectObject):
         self.battle = battle
         self.track = None
         self.rewardPanel = None
+        self.rewardCallback = None
         self.playByPlayText = PlayByPlayText.PlayByPlayText()
         self.playByPlayText.hide()
         self.renderProps = []
@@ -66,6 +67,7 @@ class Movie(DirectObject.DirectObject):
         if (self.rewardPanel != None):
             self.rewardPanel.cleanup()
         self.rewardPanel = None
+        self.rewardCallback = None
 
     def needRestoreColor(self):
         self.restoreColor = 1
@@ -582,6 +584,15 @@ class Movie(DirectObject.DirectObject):
         if (self.track):
             self.track.finish()
             self._deleteTrack()
+        if hasattr(self, 'track1'):
+            self.track1.finish()
+            self.track1 = None
+        if hasattr(self, 'track2'):
+            self.track2.finish()
+            self.track2 = None
+        if hasattr(self, 'track3'):
+            self.track3.finish()
+            self.track3 = None
         # These next two are probably not needed.
         if (self.rewardPanel):
             self.rewardPanel.hide()
@@ -873,6 +884,7 @@ class Movie(DirectObject.DirectObject):
                                 if (sdict['died'] != 0):
                                     assert(self.notify.debug('suit: %d died' %
                                                              target.doId))
+                                    pass
                                 # leftSuits and rightSuits are used for
                                 # dodging, and since only NPC drops are
                                 # group drops, and NPC drops always hit,
@@ -925,6 +937,7 @@ class Movie(DirectObject.DirectObject):
                             if (sdict['died'] != 0):
                                 assert(self.notify.debug('suit: %d died' %
                                                          targetId))
+                                pass
                             # MovieDrop and MovieTrap expect a list
                             # (because NPC drops affect groups of suits)
                             if (track == DROP or track == TRAP):
@@ -1097,11 +1110,25 @@ class Movie(DirectObject.DirectObject):
         if ConfigVariableBool("want-suit-anims", 1).getValue():
             track = Sequence(name = 'suit-attacks')
             camTrack = Sequence(name = 'suit-attacks-cam')
+            isLocalToonSad = False
             for a in self.suitAttackDicts:
                 (ival, camIval) = MovieSuitAttacks.doSuitAttack(a)
                 if (ival):
                     track.append(ival)
                     camTrack.append(camIval)
+                targetField = a.get('target')
+                if targetField is None:
+                    continue
+                if a['group'] == ATK_TGT_GROUP:
+                    for target in targetField:
+                        if target['died'] and target['toon'].doId == base.localAvatar.doId:
+                            isLocalToonSad = True
+
+                elif a['group'] == ATK_TGT_SINGLE:
+                    if targetField['died'] and targetField['toon'].doId == base.localAvatar.doId:
+                        isLocalToonSad = True
+                if isLocalToonSad:
+                    break
             if (len(track) == 0):
                 return (None, None)
             return (track, camTrack)

@@ -66,8 +66,8 @@ class DistributedCashbotBossGoon(DistributedGoon.DistributedGoon,
 
         DistributedGoon.DistributedGoon.announceGenerate(self)
 
-        self.name = 'goon-%s' % (self.doId)
-        self.setName(self.name)
+        self._name = 'goon-%s' % (self.doId)
+        self.setName(self._name)
 
         self.setTag('doId', str(self.doId))
         self.collisionNode.setName('goon')

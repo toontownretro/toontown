@@ -1337,7 +1337,7 @@ class LevelEditor(NodePath, DirectObject):
             modelPathStr += path
 
         modelPath = getModelPath().findFile(modelPathStr)
-        animFileList = glob.glob('%s%s/%s_a_%s_*.bam'%(os.environ['PANDA_ROOT'], modelPath, tokens[0], tokens[1]))
+        animFileList = glob.glob('%s%s/%s_a_%s_*.bam'%(os.environ['PLAYER'], modelPath, tokens[0], tokens[1]))
 
         # [gjeon] define anim list menu for selection
         animNameList = []
@@ -1400,7 +1400,7 @@ class LevelEditor(NodePath, DirectObject):
             modelPathStr += path
 
         modelPath = getModelPath().findFile(modelPathStr)
-        animFileList = glob.glob('%s%s/%s_a_%s_*.bam'%(os.environ['PANDA_ROOT'], modelPath, tokens[0], tokens[1]))
+        animFileList = glob.glob('%s%s/%s_a_%s_*.bam'%(os.environ['PLAYER'], modelPath, tokens[0], tokens[1]))
         print(animFileList)
 
         # [gjeon] define anim list menu for selection

@@ -1311,7 +1311,7 @@ def doFountainPen(attack): # top p: fixed
     pen = globalPropPool.getProp('pen')
 
     def getPenTip(pen=pen):
-        tip = pen.find("**/joint_toSpray")
+        tip = pen.find("**/joint*toSpray")
         return tip.getPos(render)
     hitPoint = lambda toon=toon: __toonFacePoint(toon)
     missPoint = lambda prop=pen, toon=toon: __toonMissPoint(prop, toon, 0, parent=render)
@@ -3656,7 +3656,7 @@ def doWatercooler(attack): # top sc: fixed
     watercooler = globalPropPool.getProp('watercooler')
 
     def getCoolerSpout(watercooler=watercooler):
-        spout = watercooler.find("**/joint_toSpray")
+        spout = watercooler.find("**/joint*toSpray")
         return spout.getPos(render)
 
     hitPoint = lambda toon=toon: __toonFacePoint(toon)

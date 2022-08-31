@@ -9,3 +9,9 @@ class ToontownDistrict(DistributedDistrict.DistributedDistrict):
         DistributedDistrict.DistributedDistrict.__init__(self, cr)
         self.avatarCount=0
         self.newAvatarCount=0
+
+    def allowAHNNLog(self, allow):
+        self.allowAHNN = allow
+
+    def getAllowAHNNLog(self):
+        return self.allowAHNN

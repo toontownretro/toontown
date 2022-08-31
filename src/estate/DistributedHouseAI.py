@@ -62,7 +62,7 @@ class DistributedHouseAI(DistributedObjectAI.DistributedObjectAI):
         self.houseType = HouseGlobals.HOUSE_DEFAULT
         self.gardenPosInd = 0
         self.ownerId = 0
-        self.name = ""
+        self._name = ""
         self.colorIndex = posIndex
         self.atticItems = CatalogItemList.CatalogItemList()
         self.interiorItems = CatalogItemList.CatalogItemList()
@@ -380,13 +380,13 @@ class DistributedHouseAI(DistributedObjectAI.DistributedObjectAI):
         self.d_setName(name)
 
     def setName(self, name):
-        self.name = name
+        self._name = name
 
     def d_setName(self, name):
         self.sendUpdate("setName", [name])
 
     def getName(self):
-        return self.name
+        return self._name
 
     def b_setColor(self, colorInd):
         self.setColor(colorInd)

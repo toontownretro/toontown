@@ -4,6 +4,8 @@ from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
 from direct.interval.IntervalGlobal import *
 from toontown.estate import GardenGlobals
+from direct.actor import Actor
+from toontown.toonbase.ToontownModules import NodePath
 
 class CatalogGardenItem(CatalogItem.CatalogItem):
     """
@@ -63,28 +65,52 @@ class CatalogGardenItem(CatalogItem.CatalogItem):
         #if self.gardenIndex == GardenGlobals.GardenAcceleratorSpecial:
         #    return ToontownGlobals.P_ItemOnOrder
         #else:
+        if avatar:
+            avatar.addGardenItem(self.gardenIndex, self.numItems)
+            #TODO modify the toon's GardenSpecials field
         if 1:
-            if avatar:
-                pass
-                avatar.addGardenItem(self.gardenIndex, self.numItems)
-                #TODO modify the toon's GardenSpecials field
             return ToontownGlobals.P_ItemAvailable
 
     def getPicture(self, avatar):
         photoModel = GardenGlobals.Specials[self.gardenIndex]['photoModel']
-        beanJar = loader.loadModel(photoModel)
+        if 'photoAnimation' in GardenGlobals.Specials[self.gardenIndex]:
+            modelPath = photoModel + GardenGlobals.Specials[self.gardenIndex]['photoAnimation'][0]
+            animationName = GardenGlobals.Specials[self.gardenIndex]['photoAnimation'][1]
+            animationPath = photoModel + animationName
+
+            self.model = Actor.Actor()
+            self.model.loadModel(modelPath)
+            self.model.loadAnims(dict([[animationName, animationPath]]))
+
+            frame, ival = self.makeFrameModel(self.model, 0)
+            ival = ActorInterval(self.model, animationName, 2.0)
+
+            photoPos = GardenGlobals.Specials[self.gardenIndex]['photoPos']
+            frame.setPos(photoPos)
+            photoScale = GardenGlobals.Specials[self.gardenIndex]['photoScale']
+            self.model.setScale(photoScale)
+
+            self.hasPicture = True
+            return (frame, ival)
+        else:
+            self.model = loader.loadModel(photoModel)
         frame = self.makeFrame()
-        beanJar.reparentTo(frame)
+        self.model.reparentTo(frame)
 
         photoPos = GardenGlobals.Specials[self.gardenIndex]['photoPos']
-        beanJar.setPos(*photoPos)
+        self.model.setPos(*photoPos)
         photoScale = GardenGlobals.Specials[self.gardenIndex]['photoScale']
-        #beanJar.setScale(2.5)
-        beanJar.setScale(photoScale)
+        #self.model.setScale(2.5)
+        self.model.setScale(photoScale)
 
         assert (not self.hasPicture)
         self.hasPicture=True
         return (frame, None)
+
+    def cleanupPicture(self):
+        CatalogItem.CatalogItem.cleanupPicture(self)
+        self.model.detachNode()
+        self.model = None
 
     def output(self, store = ~0):
         return "CatalogGardenItem(%s%s)" % (

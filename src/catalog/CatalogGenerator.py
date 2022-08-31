@@ -351,7 +351,7 @@ MonthlySchedule = (
       # parts, however
       # Bee and SuperToon skirts
       # were also removed and never
-      # readded so they should appear
+      # re-added so they should appear
       # in the catalog again to fix
       # this accidental removal
       CatalogClothingItem(1739, 0), # Bee Skirt
@@ -2177,10 +2177,10 @@ class CatalogGenerator:
         testDaysAhead = ConfigVariableInt('test-server-holiday-days-ahead', 0).getValue()
 
         # Hasn't been generated yet today; do so now.
-        nowtuple = time.localtime(weekStart * 60)
+        nowtuple = time.localtime(weekStart * 60 + testDaysAhead * 24 * 60 * 60)
+        year = nowtuple[0]
         month = nowtuple[1]
         day = nowtuple[2]
-        year = nowtuple[0]
 
         self.notify.debug("Generating seasonal itemLists for %s/%s." % (month, day))
         itemLists = []
@@ -2198,8 +2198,8 @@ class CatalogGenerator:
                 startYYYY = 1969
                 endYYYY = year
                 list = monthlyItems[4]
-            pastStart = (month > startMM) or (month == startMM and day >= startDD)
-            beforeEnd = (month < endMM) or (month == endMM and day <= endDD)
+            pastStart = (year >= startYYYY) and (month > startMM) or (month == startMM and day >= startDD)
+            beforeEnd = (year <= endYYYY) and (month < endMM) or (month == endMM and day <= endDD)
 
             # We are within the range if we are pastStart and
             # beforeEnd (the normal case), or (pastStart or

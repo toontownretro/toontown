@@ -7,6 +7,7 @@ from direct.interval.IntervalGlobal import *
 from toontown.fishing import FishGlobals
 from . import GardenGlobals
 from direct.actor import Actor
+import random
 
 #WARNING Specials Photo is used in both GardenPage.py and PlantingGUI.py
 
@@ -201,7 +202,17 @@ class SpecialsPhoto(NodePath):
             self.toonStatuary.toon.reparentTo(pedestal)
             pedestal.setScale(GardenGlobals.Specials[specialsIndex]['photoScale'] * 0.5)
             return pedestal
-
+        elif specialsIndex == 135: # This is the range of Special indices in GardenGlobals.py
+            model = Actor.Actor()
+            modelPath = GardenGlobals.Specials[specialsIndex]['photoModel']
+            anims = GardenGlobals.Specials[specialsIndex]['photoAnimation']
+            animPath = modelPath + anims[1]
+            model.loadModel(modelPath + anims[0])
+            model.loadAnims(dict([[anims[1], animPath]]))
+            frameNo = random.randint(1, 2)
+            model.pose(anims[1], 1)
+            model.setScale(GardenGlobals.Specials[specialsIndex]['photoScale'] * 0.1)
+            return model
         else:
             modelName = GardenGlobals.Specials[specialsIndex]['photoModel']
             nodePath = loader.loadModel(modelName)

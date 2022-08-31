@@ -11,7 +11,7 @@ class PetHandle:
 
     def __init__(self, avatar):
         self.doId = avatar.doId
-        self.name = avatar.name
+        self._name = avatar.name
         self.style = avatar.style
         self.ownerId = avatar.ownerId
         self.bFake = False
@@ -44,7 +44,7 @@ class PetHandle:
         return True
 
     def getName(self):
-        return self.name
+        return self._name
 
     def getDNA(self):
         return self.style

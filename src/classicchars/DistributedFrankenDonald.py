@@ -50,6 +50,7 @@ class DistributedFrankenDonald(DistributedDonald.DistributedDonald):
             
             # We want him to show up as Donald
             self.nametag.setName(TTLocalizer.Donald)
+            self.handleHolidays()
 
     def disable(self):
         self.fsm.requestFinalState()

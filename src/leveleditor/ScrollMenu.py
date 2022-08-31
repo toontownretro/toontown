@@ -11,7 +11,7 @@ class ScrollMenu:
         self.action = None              #Call back fucntion
         self.textList = textList
         
-        self.parent = nodePath
+        self._parent = nodePath
         self.frame = None
 
         self.initialState = None        # To maintain backward compatibility
@@ -62,7 +62,7 @@ class ScrollMenu:
                   relief=1, command = self.__hide)
         b1.setPos(0.15, 0, -0.025)
         
-        self.frame.reparentTo(self.parent)
+        self.frame.reparentTo(self._parent)
         
         
     def __selected(self, text):
@@ -70,7 +70,7 @@ class ScrollMenu:
             self.action(text)
             
     def __hide(self):
-        self.frame.reparentTo(self.parent)
+        self.frame.reparentTo(self._parent)
 
 
     #######################################################

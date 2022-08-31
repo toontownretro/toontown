@@ -24,7 +24,11 @@ class TTHood(ToonHood.ToonHood):
         # Keyed off of the News Manager holiday IDs stored in ToontownGlobals
         self.holidayStorageDNADict = {WINTER_DECORATIONS : ['phase_4/dna/winter_storage_TT.dna',
                                                             'phase_4/dna/winter_storage_TT_sz.dna'],
+                                      WACKY_WINTER_DECORATIONS : ['phase_4/dna/winter_storage_TT.dna',
+                                                                  'phase_4/dna/winter_storage_TT_sz.dna'],
                                       HALLOWEEN_PROPS : ['phase_4/dna/halloween_props_storage_TT.dna',
+                                                      'phase_4/dna/halloween_props_storage_TT_sz.dna'  ],
+                                      SPOOKY_PROPS : ['phase_4/dna/halloween_props_storage_TT.dna',
                                                       'phase_4/dna/halloween_props_storage_TT_sz.dna'  ],
                                       }
         self.skyFile = "phase_3.5/models/props/TT_sky"

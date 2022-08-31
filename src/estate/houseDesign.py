@@ -1131,9 +1131,10 @@ class ObjectManager(NodePath, DirectObject):
             lookAtNormal *= -1
             # Orient temp NP so its Y axis is aligned with lookAtNormal
             tempNP.lookAt(lookAtNormal)
+            realAngle = ROUND_TO(self.gridSnapNP.getH(tempNP), 90.0)
             if fClosest:
                 # Now align gridSnapNP with tempNP
-                angle = ROUND_TO(self.gridSnapNP.getH(tempNP), 90.0)
+                angle = realAngle #ROUND_TO(self.gridSnapNP.getH(tempNP), 90.0)
             else:
                 angle = 0
             self.gridSnapNP.setHpr(tempNP, angle, 0, 0)
@@ -1147,6 +1148,8 @@ class ObjectManager(NodePath, DirectObject):
             self.gridSnapNP.setPos(tempNP, 0, -wallOffset, 0)
             # Clean up tempNP
             tempNP.removeNode()
+            if realAngle == 180.0:
+                self.gridSnapNP.setH(self.gridSnapNP.getH() + 180.0)
             return 1
         return 0
 
@@ -1165,8 +1168,15 @@ class ObjectManager(NodePath, DirectObject):
         else:
             startH = self.gridSnapNP.getH(self.targetNodePath)
             newH = ROUND_TO(startH - 22.5, 22.5)
-            self.gridSnapNP.setHpr(self.targetNodePath, newH, 0, 0)
-            self.collisionTest()
+            self.iSphere.setParentNP(self.gridSnapNP)
+            self.iSphere.setCenterRadius(0, Point3(0), so.radius * 1.25)
+            entry = self.iSphere.pickBitMask(bitMask = so.getWallBitmask(),
+                                             targetNodePath = self.targetNodePath,
+                                             skipFlags = SKIP_CAMERA |SKIP_UNPICKABLE,
+                                             )
+            if not entry:
+                self.gridSnapNP.setHpr(self.targetNodePath, newH, 0, 0)
+                self.collisionTest()
 
         so.wrtReparentTo(self.targetNodePath)
         self.disableButtonFrameTask()
@@ -1187,8 +1197,15 @@ class ObjectManager(NodePath, DirectObject):
         else:
             startH = self.gridSnapNP.getH(self.targetNodePath)
             newH = ROUND_TO(startH + 22.5, 22.5) % 360.0
-            self.gridSnapNP.setHpr(self.targetNodePath, newH, 0, 0)
-            self.collisionTest()
+            self.iSphere.setParentNP(self.gridSnapNP)
+            self.iSphere.setCenterRadius(0, Point3(0), so.radius * 1.25)
+            entry = self.iSphere.pickBitMask(bitMask = so.getWallBitmask(),
+                                             targetNodePath = self.targetNodePath,
+                                             skipFlags=SKIP_CAMERA | SKIP_UNPICKABLE,
+                                             )
+            if not entry:
+                self.gridSnapNP.setHpr(self.targetNodePath, newH, 0, 0)
+                self.collisionTest()
 
         so.wrtReparentTo(self.targetNodePath)
         self.disableButtonFrameTask()
@@ -2430,6 +2447,8 @@ class ObjectManager(NodePath, DirectObject):
                 message = TTLocalizer.HDNonDeletableCloset
             elif item.getFlags() & CatalogFurnitureItem.FLPhone:
                 message = TTLocalizer.HDNonDeletablePhone
+            elif item.getFlags() & CatalogFurnitureItem.FLTrunk:
+                message = TTLocalizer.HDNonDeletableTrunk
 
         if self.furnitureManager.ownerId != base.localAvatar.doId:
             message = TTLocalizer.HDNonDeletableNotOwner % (self.furnitureManager.ownerName)
@@ -2487,6 +2506,8 @@ class ObjectManager(NodePath, DirectObject):
         self.verifyItems = (item, itemIndex)
 
     def __handleVerifyReturnFromTrashOK(self):
+        if ConfigVariableBool('want-qa-regression', 0).getValue():
+            self.notify.info('QA-REGRESSION: ESTATE:  Send Item to Attic')
         item, itemIndex = self.verifyItems
         self.__cleanupVerifyDelete()
         self.recoverDeletedItem(item, itemIndex)

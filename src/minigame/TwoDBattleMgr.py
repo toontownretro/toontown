@@ -158,7 +158,7 @@ class TwoDBattleMgr(DirectObject):
         # if self.toon still exists and is not deleted.
         if self.toon:
             self.toon.update(0)   # force update of LOD 0 to current animation frame (dont know if it is being displayed or not)
-        joint = self.pistol.find("**/joint_nozzle")
+        joint = self.pistol.find("**/joint*nozzle")
         p = joint.getPos(render)
         self.origin = p
 

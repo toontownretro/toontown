@@ -763,6 +763,26 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         self.d_setNPCFriendsDict(self.NPCFriendsDict)
         return 1
 
+    def attemptSubtractNPCFriend(self, npcFriend):
+        if npcFriend not in self.NPCFriendsDict:
+            self.notify.warning('attemptSubtractNPCFriend: invalid NPC %s' % npcFriend)
+            return 0
+        if hasattr(self, 'autoRestockSOS') and self.autoRestockSOS:
+            cost = 0
+        else:
+            cost = 1
+        self.NPCFriendsDict[npcFriend] -= cost
+        if self.NPCFriendsDict[npcFriend] <= 0:
+            del self.NPCFriendsDict[npcFriend]
+        self.d_setNPCFriendsDict(self.NPCFriendsDict)
+        return 1
+
+    def restockAllNPCFriends(self):
+        desiredNpcFriends = [2001, 2011, 3112, 4119, 1116,3137, 3135]
+        self.resetNPCFriendsDict()
+        for npcId in desiredNpcFriends:
+            self.attemptAddNPCFriend(npcId, 1)
+
     def d_setMaxAccessories(self, max):
         self.sendUpdate('setMaxAccessories', [self.maxAccessories])
 
@@ -3241,19 +3261,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                 self.toonUp(self.maxHp)
             else:
                 self.toonUp(msgValue)
-            self.notify.debug("Toon-up for " + self.name)
+            self.notify.debug("Toon-up for " + self._name)
         elif msgType == ResistanceChat.RESISTANCE_RESTOCK:
             # Restock
             self.inventory.NPCMaxOutInv(msgValue)
             self.d_setInventory(self.inventory.makeNetString())
-            self.notify.debug("Restock for " + self.name)
+            self.notify.debug("Restock for " + self._name)
         elif msgType == ResistanceChat.RESISTANCE_MONEY:
             # Rich
             if msgValue == -1:
                 self.addMoney(999999)
             else:
                 self.addMoney(msgValue)
-            self.notify.debug("Money for " + self.name)
+            self.notify.debug("Money for " + self._name)
 
     def squish(self, damage):
         self.takeDamage(damage)
@@ -4397,6 +4417,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
             summons[suitIndex] = curSetting
             self.b_setCogSummonsEarned(summons)
 
+            if hasattr(self, 'autoRestockSummons') and self.autoRestockSummons:
+                self.restockAllCogSummons()
+            return True
+
         self.notify.warning("Toon %s doesn't have a %s summons for %s" % (self.doId, type, suitIndex))
         return False
 
@@ -4946,6 +4970,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
     def addPinkSlips(self, amountToAdd):
         pinkSlips = min( self.pinkSlips + amountToAdd, 0xff)
+        self.b_setPinkSlips(pinkSlips)
+
+    def removePinkSlips(self, amount):
+        if hasattr(self, 'autoRestockPinkSlips') and self.autoRestockPinkSlips:
+            amount = 0
+        pinkSlips = max(self.pinkSlips - amount, 0)
         self.b_setPinkSlips(pinkSlips)
 
     def setPreviousAccess(self, access):

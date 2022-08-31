@@ -5,7 +5,6 @@ from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from otp.distributed import OtpDoGlobals
 from toontown.toonbase import ToontownGlobals
-from toontown.uberdog import InGameNewsResponses
 
 ParentClass = DistributedObjectAI
 #ParentClass = DistributedObjectGlobal
@@ -13,7 +12,7 @@ class DistributedCpuInfoMgrAI(ParentClass ):
     """
     Uberdog object that keeps track of the last time in game news has been updated
     """
-    notify = directNotify.newCategory('DistributedInGameNewsMgrAI')
+    notify = directNotify.newCategory('DistributedCpuInfoMgrAI')
 
 
     def __init__(self, cr):
@@ -34,36 +33,6 @@ class DistributedCpuInfoMgrAI(ParentClass ):
         # tell uberdog we are starting up, so we can get info on the currently running public parties
         # do whatever other sanity checks is necessary here
         DistributedObjectAI.announceGenerate(self)
-        #self.air.sendUpdateToDoId("DistributedInGameNewsMgr",
-        #                          'inGameNewsMgrAIStartingUp',
-        #                          OtpDoGlobals.OTP_DO_ID_TOONTOWN_CPU_INFO_MANAGER,
-        #                           [self.doId, self.air.districtId]
-        #)
-    def setLatestIssueStr(self, issueStr):
-        """We normally get this once, we could get this when a new issue is released while logged in."""
-        # we receive this as a utc str
-        assert self.notify.debugStateCall(self)
-        self.latestIssueStr = issueStr
-        pass
-
-    def b_setLatestIssueStr(self, latestIssue):
-        self.setLatestIssueStr(latestIssue)
-        self.d_setLatestIssueStr(latestIssue)
-        
-    def d_setLatestIssueStr(self, latestIssue):
-        self.sendUpdate("setLatestIssueStr",[self.getLatestIssueStr()])
-        
-
-    def getLatestIssueStr(self):
-        """We normally get this once, we could get this when a new issue is released while logged in."""
-        assert self.notify.debugStateCall(self)
-        return self.latestIssueStr
-        pass
-    
-
-    def newIssueUDtoAI(self, issueStr):
-        """Well the UD is telling us we have a new issue, spread it to the clients."""
-        self.b_setLatestIssueStr(issueStr)
         
     def sendCpuInfoToUd(self, info, fingerprint):
         """Prepare to send the info to the UD, we don't have the DISLid yet.""" 

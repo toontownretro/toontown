@@ -1,4 +1,4 @@
-from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import NodePath
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.estate import DistributedStatuary

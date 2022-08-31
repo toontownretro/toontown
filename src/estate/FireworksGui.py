@@ -125,7 +125,7 @@ class FireworksGui(DirectFrame):
 
     def unload(self):
         # remove all graphical elements
-        del self.parent
+        del self._parent
         del self.itemList
         del self.panelPicker
 

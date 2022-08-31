@@ -34,8 +34,14 @@ class BankGui(DirectFrame):
         bankModel = loader.loadModel("phase_5.5/models/estate/jellybeanBank.bam")
         # If we set this on the entire bank, the billboard jellybeans goes away
         # Let's just set it on the pig, the rest of the bank looks ok
-        bankModel.find("**/pig").setDepthWrite(1)
-        bankModel.find("**/pig").setDepthTest(1)
+        # bankModel.find("**/pig").setDepthWrite(1)
+        # bankModel.find("**/pig").setDepthTest(1)
+
+        bankModel.setDepthWrite(1)
+        bankModel.setDepthTest(1)
+
+        bankModel.find("**/jellybeans").setDepthWrite(0)
+        bankModel.find("**/jellybeans").setDepthTest(0)
 
         # Init buttons
         okImageList = (buttons.find('**/ChtBx_OKBtn_UP'),

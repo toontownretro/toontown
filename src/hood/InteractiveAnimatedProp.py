@@ -524,25 +524,29 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         """Loop ourself in the battle cheer interval."""
         self.notify.debugStateCall(self)
         self.curIval = self.battleCheerInterval
-        self.curIval.loop()
+        if self.curIval:
+            self.curIval.loop()
 
     def exitBattleCheer(self):
         """Stop looping  ourself in the battle cheer interval."""
         self.notify.debugStateCall(self)
-        self.curIval.finish()
-        self.curIval = None
+        if self.curIval:
+            self.curIval.finish()
+            self.curIval = None
 
     def enterVictory(self):
         """Loop ourself in the victory interval."""
         self.notify.debugStateCall(self)
         self.curIval = self.victoryInterval
-        self.curIval.loop()
+        if self.curIval:
+            self.curIval.loop()
 
     def exitVictory(self):
         """Stop looping ourself in the victory interval."""
         self.notify.debugStateCall(self)
-        self.curIval.finish()
-        self.curIval = None
+        if self.curIval:
+            self.curIval.finish()
+            self.curIval = None
 
     def enterSad(self):
         """Loop ourself in the sad interval."""
@@ -554,8 +558,9 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
     def exitSad(self):
         """Stop looping ourself in the sad interval."""
         self.notify.debugStateCall(self)
-        self.curIval.finish()
-        self.curIval = None
+        if self.curIval:
+            self.curIval.finish()
+            self.curIval = None
 
     def getSettleName(self, whichIdleAnim):
         """Checks if the settle anim is defined in self.ZoneToIdles, then returns that."""

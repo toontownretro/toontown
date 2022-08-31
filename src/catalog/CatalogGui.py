@@ -17,7 +17,7 @@ class CatalogGui:
 
         self.type = type
         self.itemList = list
-        self.parent = parent
+        self._parent = parent
 
         self.panelPicker = None
         self.frame = DirectFrame(parent=parent, relief=None)
@@ -71,7 +71,7 @@ class CatalogGui:
 
     def unload(self):
         # remove all graphical elements
-        del self.parent
+        del self._parent
         del self.itemList
         del self.panelPicker
         self.frame.destroy()

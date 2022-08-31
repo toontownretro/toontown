@@ -10,7 +10,7 @@ from toontown.safezone import CheckersBoard
 class DistributedCheckersAI(DistributedNodeAI):
     def __init__(self, air, parent, name, x, y, z, h, p, r):
         DistributedNodeAI.__init__(self,air)
-        self.name = name
+        self._name = name
         self.air = air
 
         self.setPos(x,y,z)
@@ -83,7 +83,7 @@ class DistributedCheckersAI(DistributedNodeAI):
     def announceGenerate(self):
         self._parent.setGameDoId(self.doId)
     def getTableDoId(self):
-        #print("PARENT -- ", self.parent)
+        #print("PARENT -- ", self._parent)
         return self.parentDo
     def delete(self):
         self.fsm.requestFinalState()
@@ -427,7 +427,7 @@ class DistributedCheckersAI(DistributedNodeAI):
         return self.fsm.getCurrentState().getName()
 
     def getName(self):
-        return self.name
+        return self._name
 
 
     def getGameState(self):

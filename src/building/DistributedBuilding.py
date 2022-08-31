@@ -504,13 +504,14 @@ class DistributedBuilding(DistributedObject.DistributedObject):
 
     def loadElevator(self, newNP, cogdo = False):
         assert(self.debugPrint("loadElevator(newNP=%s)"%(newNP,)))
-        # Load up an elevator
-        self.elevatorNodePath = hidden.attachNewNode("elevatorNodePath")
 #        self.elevatorModel = loader.loadModel(
 #                "phase_4/models/modules/elevator")
 
         # Put up a display to show the current floor of the elevator
         self.floorIndicator=[None, None, None, None, None]
+
+        # Load up an elevator
+        self.elevatorNodePath = hidden.attachNewNode("elevatorNodePath")
         if cogdo:
             self.elevatorModel = loader.loadModel(
                 "phase_5/models/cogdominium/tt_m_ara_csa_elevatorB")

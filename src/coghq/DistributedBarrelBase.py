@@ -53,6 +53,8 @@ class DistributedBarrelBase(BasicEntities.DistributedNodePathEntity,
     def announceGenerate(self):
         BasicEntities.DistributedNodePathEntity.announceGenerate(self)
 
+        self.setTag('doId', str(self.getDoId()))
+
         # At this point DistributedEntity has filled out all its
         # attributes.  We can now load the model and apply the label
 

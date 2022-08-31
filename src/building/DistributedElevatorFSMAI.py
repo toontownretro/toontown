@@ -168,7 +168,7 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
         self.sendUpdate('setState', [state, globalClockDelta.getRealNetworkTime()])
 
     def getState(self):
-        return self
+        return self._state
 
     def avIsOKToBoard(self, av):
         return (av.hp > self.minLaff) and self.accepting

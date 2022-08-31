@@ -12,9 +12,9 @@ class DistributedLiftAI(DistributedEntityAI.DistributedEntityAI):
     def __init__(self, level, entId, initialState=LiftConstants.Down):
         DistributedEntityAI.DistributedEntityAI.__init__(self, level, entId)
 
-        self.name = 'Lift%s:%s' % (self.levelDoId, self.entId)
-        self.startMoveTaskName = '%s-StartMove' % self.name
-        self.moveDoneTaskName = '%s-MoveDone' % self.name
+        self._name = 'Lift%s:%s' % (self.levelDoId, self.entId)
+        self.startMoveTaskName = '%s-StartMove' % self._name
+        self.moveDoneTaskName = '%s-MoveDone' % self._name
 
         # set the initial state, and stipulate that the lift arrived
         # at this state... NOW

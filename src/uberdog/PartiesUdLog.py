@@ -6,7 +6,7 @@ from toontown.uberdog import PartiesUdConfig
 
 class partiesUdLog:
     def __init__(self,name,clHost=None,clPort=6060):
-        self.name = name
+        self._name = name
         self.clHost = clHost
         self.clPort = clPort
 
@@ -21,13 +21,13 @@ class partiesUdLog:
         return "%d-%02d-%02d %02d:%02d:%02d" % (tup[0],tup[1],tup[2],tup[3],tup[4],tup[5])
 
     def output(self,level,msg):
-        str = "%s %s(%s): %s"%(self.timeString(),self.name,level,msg)
+        str = "%s %s(%s): %s"%(self.timeString(),self._name,level,msg)
         print(str)
         self.memLog(str)
         sys.stdout.flush()
 
     def chatoutput(self,msg):
-        str = "%s %s(chat): %s"%(self.timeString(),self.name,msg)
+        str = "%s %s(chat): %s"%(self.timeString(),self._name,msg)
         print(str)
         self.memLog(str)
         sys.stdout.flush()
@@ -95,22 +95,22 @@ class partiesUdLog:
         if PartiesUdConfig.logChat:
             self.chatoutput("WHISPER %d->%d: %s" % (sender,dest,msg))
         if self.clHost:
-            self.remoteLog("Client Chat",self.name,sender,-1,"",dest,-1,"PEER","N",msg)
+            self.remoteLog("Client Chat",self._name,sender,-1,"",dest,-1,"PEER","N",msg)
 
     def mail(self,dest,sender,msg):
         if PartiesUdConfig.logChat:
             self.chatoutput("MAIL %d->%d: %s" % (sender,dest,msg))
         if self.clHost:
-            self.remoteLog("Client Chat",self.name,sender,-1,"",dest,-1,"MAIL","N",msg)
+            self.remoteLog("Client Chat",self._name,sender,-1,"",dest,-1,"MAIL","N",msg)
         
     def badChat(self,dest,sender,msg):
         if PartiesUdConfig.logChat:
             self.chatoutput("DIRTYCHAT %d->%d: %s" % (sender,dest,msg))
         if self.clHost:
-            self.remoteLog("Client Chat",self.name,sender,-1,"",dest,-1,"PEER","Y",msg)
+            self.remoteLog("Client Chat",self._name,sender,-1,"",dest,-1,"PEER","Y",msg)
 
     def badMail(self,dest,sender,msg):
         if PartiesUdConfig.logChat:
             self.chatoutput("DIRTYMAIL %d->%d: %s" % (sender,dest,msg))
         if self.clHost:
-            self.remoteLog("Client Chat",self.name,sender,-1,"",dest,-1,"MAIL","Y",msg)
+            self.remoteLog("Client Chat",self._name,sender,-1,"",dest,-1,"MAIL","Y",msg)

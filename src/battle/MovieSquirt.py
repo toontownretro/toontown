@@ -404,13 +404,13 @@ def __doFlower(squirt, delay, fShowStun):
         if not toonlod0.find('**/def_joint_attachFlower').isEmpty():
             flower_joint0 = toonlod0.find('**/def_joint_attachFlower')
     else:
-        flower_joint0 = toonlod0.find('**/joint_attachFlower')
+        flower_joint0 = toonlod0.find('**/joint*attachFlower')
 
     if ConfigVariableBool('want-new-anims', 1).getValue():
         if not toonlod1.find('**/def_joint_attachFlower').isEmpty():
             flower_joint1 = toonlod1.find('**/def_joint_attachFlower')
     else:
-        flower_joint1 = toonlod1.find('**/joint_attachFlower')
+        flower_joint1 = toonlod1.find('**/joint*attachFlower')
 
     # scale flower only once, use instances to create nodepaths attaching
     # all LOD joints to the 1 flower
@@ -529,9 +529,9 @@ def __doWaterGlass(squirt, delay, fShowStun):
             if not lod0.find("**/def_head").isEmpty():
                 joint = lod0.find("**/def_head")
             else:
-                joint = lod0.find("**/joint_head")
+                joint = lod0.find("**/joint*head")
         else:
-            joint = lod0.find("**/joint_head")
+            joint = lod0.find("**/joint*head")
 
         n = hidden.attachNewNode('pointInFrontOfHead')
         n.reparentTo(toon)
@@ -626,7 +626,7 @@ def __doWaterGun(squirt, delay, fShowStun):
         #note:  dont have to call toon.pose() since getSprayStartPos isnt called
         #       until the exact frame we need the posn, so the animation has already been updated
         toon.update(0)   # force update of LOD 0 to current animation frame (dont know if it is being displayed or not)
-        joint = pistol.find("**/joint_nozzle")
+        joint = pistol.find("**/joint*nozzle")
         p = joint.getPos(render)
         return p
 
@@ -730,7 +730,7 @@ def __doSeltzerBottle(squirt, delay, fShowStun):
         #note:  dont have to call toon.pose() since getSprayStartPos isnt called
         #       until the exact frame we need the posn, so the animation has already been updated
         toon.update(0)   # force update of LOD 0 to current animation frame (dont know if it is being displayed or not)
-        joint = bottle.find("**/joint_toSpray")
+        joint = bottle.find("**/joint*toSpray")
         n = hidden.attachNewNode('pointBehindSprayProp')
         n.reparentTo(toon)
         n.setPos(joint.getPos(toon) + Point3(0, -0.4, 0))
@@ -880,7 +880,7 @@ def __doFireHose(squirt, delay, fShowStun):
             else:
                 return targetPoint
 
-        joint = hose.find("**/joint_water_stream")
+        joint = hose.find("**/joint*water_stream")
         n = hidden.attachNewNode('pointBehindSprayProp')
         n.reparentTo(toon)
         # Now push the point back behind the nozzle for when the gun moves back

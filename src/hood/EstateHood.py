@@ -65,7 +65,9 @@ class EstateHood(Hood.Hood):
         # Dictionary which holds holiday specific lists of Storage DNA Files
         # Keyed off of the News Manager holiday IDs stored in ToontownGlobals
         self.holidayStorageDNADict = {WINTER_DECORATIONS : ['phase_5.5/dna/winter_storage_estate.dna'],
-                                       HALLOWEEN_PROPS : ['phase_5.5/dna/halloween_props_storage_estate.dna']}
+                                      WACKY_WINTER_DECORATIONS : ['phase_5.5/dna/winter_storage_estate.dna'],
+                                       HALLOWEEN_PROPS : ['phase_5.5/dna/halloween_props_storage_estate.dna'],
+                                       SPOOKY_PROPS : ['phase_5.5/dna/halloween_props_storage_estate.dna']}
 
         self.skyFile = "phase_3.5/models/props/TT_sky"
         self.spookySkyFile = "phase_3.5/models/props/BR_sky"

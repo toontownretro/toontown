@@ -605,6 +605,8 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                 bboard.remove(postName)
             self.down_setMagicWordResponse(senderId, 'autoRestock %s' % state)
 
+        # TODO: add ~autoRestockSOS, ~autoRestockPinkSlips, ~autoRestockSummons
+
         elif wordIs("~resistanceRestock"):
             from toontown.chat import ResistanceChat
             args = word.split()
@@ -2273,7 +2275,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                                         skelecog = skelecog,
                                         revives = revives)
                 if suit:
-                    response = "Here comes %s." % (SuitBattleGlobals.SuitAttributes[suit.dna.name]['name'])
+                    response = "Here comes %s." % (SuitBattleGlobals.SuitAttributes[suit.dna._name]['name'])
                 else:
                     response = "Could not create suit."
 

@@ -67,10 +67,10 @@ class DistributedToonUD(DistributedObjectUD):
         self.backCatalog = CatalogItemList.CatalogItemList(backCatalog)
 
     def setName(self, name):
-        self.name = name
+        self._name = name
 
     def getName(self):
-        return self.name
+        return self._name
 
     def setMoney(self, money):
         self.money = money

@@ -421,5 +421,11 @@ class DistributedNPCTailor(DistributedNPCToonBase):
             av = base.cr.doId2do.get(avId, None)
             if av:
                 if self.av == av:
+                    oldTorso = self.av.style.torso
                     self.av.style.makeFromNetString(dnaString)
+                    if len(oldTorso) == 2 and \
+                       len(self.av.style.torso) == 2 and \
+                       self.av.style.torso[1] != oldTorso[1]:
+                        self.av.swapToonTorso(self.av.style.torso, genClothes = 0)
+                        self.av.loop("neutral", 0)
                     self.av.generateToonClothes()

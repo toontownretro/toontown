@@ -216,6 +216,17 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         self.createSuit()
 
         self.mickeyMovie = QuestParser.NPCMoviePlayer("tutorial_mickey", base.localAvatar, self.npc)
+
+        place = base.cr.playGame.getPlace()
+        if place and hasattr(place, 'fsm') and place.fsm.getCurrentState().getName():
+            self.notify.info('Tutorial movie: Place ready.')
+            self.playMovie()
+        else:
+            self.notify.info("Tutorial movie: Waiting for place=%s, has fsm=%s" % (place, hasattr(place, 'fsm')))
+            if hasattr(place, 'fsm'):
+                self.notify.info("Tutorial movie: place state=%s" % place.fsm.getCurrentState().getName())
+
+
         self.acceptOnce("enterTutorialInterior", self.mickeyMovie.play)
 
     def createSuit(self):

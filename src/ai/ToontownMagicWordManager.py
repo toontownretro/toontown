@@ -79,6 +79,43 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             self.d_setMagicWord('~autoRich %s' % autoRich,
                                 base.localAvatar.doId, 0)
 
+        # NOTE: AI respects ~autoResistanceRestock only for __dev__ and GMs.
+        autoResistanceRestock = ConfigVariableInt('auto-resistance-restock', -1).getValue()
+        if autoResistanceRestock != -1:
+            self.d_setMagicWord('~autoResistanceRestock %s' % autoResistanceRestock,
+                                base.localAvatar.doId, 0)
+
+        # NOTE: AI respects ~autoRestockSOS only for __dev__ and GMs.
+        autoRestockSOS = ConfigVariableInt('auto-restock-sos', -1).getValue()
+        if autoRestockSOS != -1:
+            self.d_setMagicWord('~autoRestockSOS %s' % autoRestockSOS,
+                                base.localAvatar.doId, 0)
+
+        # NOTE: AI respects ~autoRestockPinkSlips only for __dev__ and GMs.
+        autoRestockPinkSlips = ConfigVariableInt('auto-restock-pink-slips', -1).getValue()
+        if autoRestockPinkSlips != -1:
+            self.d_setMagicWord('~autoRestockPinkSlips %s' % autoRestockPinkSlips,
+                                base.localAvatar.doId, 0)
+
+        # NOTE: AI respects ~autoRestockSummons only for __dev__ and GMs.
+        autoRestockSummons = ConfigVariableInt('auto-restock-summons', -1).getValue()
+        if autoRestockSummons != -1:
+            self.d_setMagicWord('~autoRestockSummons %s' % autoRestockSummons,
+                                base.localAvatar.doId, 0)
+
+        # NOTE: AI respects ~setPaid only for __dev__ and GMs.
+        paidStatus = ConfigVariableString('force-paid-status', 'none').getValue()
+        if paidStatus != 'none':
+            self.d_setMagicWord('~setPaid %s' % choice(paidStatus == 'paid', 1, 0),
+                                localAvatar.doId, 0)
+        self.doConfigMagicWords()
+
+    def doConfigMagicWords(self):
+        autoMagicWords = ConfigVariableString('auto-magic-words', '').getValue().split('|')
+        for command in autoMagicWords:
+            if command:
+                self.d_setMagicWord(command.strip(), base.localAvatar.doId, 0)
+
     def disable(self):
         self.ignore("magicWord")
         if self.dbg_running_fast:
@@ -308,6 +345,12 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                 response = "Simulated Lag Off"
             self.setMagicWordResponse(response)
 
+        elif wordIs("~endlessquietzone"):
+            base.endlessQuietZone = not base.endlessQuietZone
+            response = "endless quiet zone %s" % choice(base.endlessQuietZone,
+                       'ON', 'OFF')
+            self.setMagicWordResponse(response)
+
 
 
         elif wordIs("~cogPageFull"):
@@ -531,6 +574,10 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
         elif wordIs('~whiteList'):
             base.localAvatar.chatMgr.chatInputSpeedChat.addWhiteList()
 
+        elif wordIs('~updateWhiteList'):
+            self.notify.info('Updating WhiteList')
+            base.whiteList.redownloadWhitelist()
+
         elif wordIs('~noWhiteList'):
             base.localAvatar.chatMgr.chatInputSpeedChat.removeWhiteList()
 
@@ -690,6 +737,10 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
         elif action == 'showdoid':
             newVal = base.cr.partyManager.toggleShowDoid()
             response = "show doid = %s" % newVal
+        elif action == 'debugGrid':
+            newVal = not ConfigVariableBool('show-debug-party-grid').getValue()
+            ConfigVariableBool('show-debug-party-grid').setValue(newVal)
+            response = "Grid: %s; re-enter party to see changes." % newVal
 
         if response is not None:
             self.setMagicWordResponse(response)

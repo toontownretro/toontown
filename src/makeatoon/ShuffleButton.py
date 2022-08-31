@@ -21,7 +21,7 @@ class ShuffleButton:
         """__init__(self)
         Set-up the shuffle button.
         """
-        self.parent = parent    # This is the parent class that instantiated ShuffleButton.
+        self._parent = parent    # This is the parent class that instantiated ShuffleButton.
         self.fetchEvent = fetchEvent
         self.history = [0]
         self.historyPtr = 0     # This is the pointer which points to which toon
@@ -46,7 +46,7 @@ class ShuffleButton:
 
         # Create an emtpy frame which houses all the option buttons including the shuffle button.
         self.parentFrame = DirectFrame(
-            parent = self.parent.parentFrame,
+            parent = self._parent.parentFrame,
             relief = DGG.RAISED,
             pos = (0, 0, -1),
             frameColor = (1, 0, 0, 0),
@@ -133,7 +133,7 @@ class ShuffleButton:
             self.showLerp.finish()
             del self.showLerp
 
-        self.parent = None
+        self._parent = None
         self.parentFrame.destroy()
         self.shuffleFrame.destroy()
         self.shuffleBtn.destroy()
@@ -209,7 +209,7 @@ class ShuffleButton:
         in a list as a history, before generating another choice.
         """
         # Ask the parent what the current configuration of the toon is.
-        self.currChoice = self.parent.getCurrToonSetting()
+        self.currChoice = self._parent.getCurrToonSetting()
         self.history[self.historyPtr] = self.currChoice
 
     def __goBackHistory(self):

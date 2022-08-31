@@ -13,7 +13,7 @@ class DistributedStatuaryAI(DistributedLawnDecorAI.DistributedLawnDecorAI):
         self.waterLevel = waterLevel
         self.growthLevel = growthLevel
         self.optional = optional
-        self.name = GardenGlobals.PlantAttributes[typeIndex]['name']
+        self._name = GardenGlobals.PlantAttributes[typeIndex]['name']
         self.plantType = GardenGlobals.PlantAttributes[typeIndex]['plantType']
         self.modelPath = GardenGlobals.PlantAttributes[typeIndex]['model']
 

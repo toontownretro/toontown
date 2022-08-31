@@ -143,7 +143,12 @@ class TwoDEnemy(DirectObject):
                     self.suit.prop = BattleProps.globalPropPool.getProp('propeller')
                     self.suit.prop.setScale(1.1)
                     self.suit.prop.setColor(1, 1, 0.6, 1)
-                head = self.suit.find("**/joint_head")
+                if ConfigVariableBool('want-new-cogs', 0).getValue():
+                    head = self.suit.find('**/to_head')
+                    if head.isEmpty():
+                        head = self.suit.find('**/joint*head')
+                else:
+                    head = self.suit.find('**/joint*head')
                 self.suit.prop.reparentTo(head)
                 self.propTrack = Sequence(
                     ActorInterval(self.suit.prop, 'propeller', startFrame = 8, endFrame = 25, playRate = 2.))

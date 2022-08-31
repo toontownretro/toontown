@@ -4,6 +4,7 @@ from toontown.battle import BattlePlace
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.toonbase.ToontownModules import *
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.toon import Toon
 from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil

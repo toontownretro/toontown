@@ -48,7 +48,7 @@ class DistributedLeaderBoardAI(DistributedObjectAI.DistributedObjectAI):
         """
         self.notify.debug("__init__: initialization of leaderboard AI: name=%s, Subscriptions=%s, pos=%s, hpr=%s"%(pName, pSubscribeList, pos, hpr))
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
-        self.name = pName
+        self._name = pName
 
         #each subscription icludes: id : track title, period title, list of (time, name)
         self.subscriptionDict = {}
@@ -67,7 +67,7 @@ class DistributedLeaderBoardAI(DistributedObjectAI.DistributedObjectAI):
         self.start()
 
     def getName(self):
-        return self.name
+        return self._name
 
     def getPosHpr(self):
         """
@@ -91,15 +91,15 @@ class DistributedLeaderBoardAI(DistributedObjectAI.DistributedObjectAI):
 
         params: pSeconds - how many seconds between cycling
         '''
-        self.notify.debug("start: leaderboard cycling started on leaderboard %s"%(self.name))
+        self.notify.debug("start: leaderboard cycling started on leaderboard %s"%(self._name))
         self.accept("GS_LeaderBoardSwap" + str(self.zoneId), self.__switchDisplayData)
 
     def stop(self):
-        self.notify.debug("stop: leaderboard cycling stopped on leaderboard %s"%(self.name))
+        self.notify.debug("stop: leaderboard cycling stopped on leaderboard %s"%(self._name))
         self.ignore("GS_LeaderBoardSwap" + str(self.zoneId))
 
     def unsubscribeTo(self, pID):
-        self.notify.debug("unsubscribeTo: removing subscription %s for LB %s"%(pID, self.name))
+        self.notify.debug("unsubscribeTo: removing subscription %s for LB %s"%(pID, self._name))
         #if this subscription exists, remove it
         self.subscriptionDict.pop(pID)
         self.subscriptionList.remove(pID)
@@ -112,7 +112,7 @@ class DistributedLeaderBoardAI(DistributedObjectAI.DistributedObjectAI):
 
         params: pID  - the id to listen for
         '''
-        self.notify.debug("subscribeTo: adding subscription %s for LB %s"%(pID, self.name))
+        self.notify.debug("subscribeTo: adding subscription %s for LB %s"%(pID, self._name))
         #first check if we're already subscribed
         if pID in self.subscriptionList:
                 return
@@ -180,7 +180,7 @@ class DistributedLeaderBoardAI(DistributedObjectAI.DistributedObjectAI):
         #(3.12, "Bingo Buffworks"), (3.12, "Mickey Mouse")]
 
     def delete(self):
-        self.notify.debug("delete: stopping distributedleaderboardAI %s" % (self.name))
+        self.notify.debug("delete: stopping distributedleaderboardAI %s" % (self._name))
         self.ignore("UpdateRaceRecord")
         self.stop()
         DistributedObjectAI.DistributedObjectAI.delete(self)

@@ -96,10 +96,32 @@ Levels = [[0, 20, 200, 800, 2000, 6000, 10000], # heal
 regMaxSkill = 10000
 UberSkill = 500
 MaxSkill = UberSkill + regMaxSkill
+UnpaidMaxSkills = [
+    Levels[0][1] - 1,
+    Levels[1][1] - 1,
+    Levels[2][1] - 1,
+    Levels[3][1] - 1,
+    Levels[4][4] - 1,
+    Levels[5][4] - 1,
+    Levels[6][1] - 1,
+    ]
 UnpaidMaxSkill = 1999
 # This is the maximum amount of experience per track that may be
 # earned in one battle (or in one building).
 ExperienceCap = 200
+
+# Limit Gags for non-Paid Players
+def gagIsPaidOnly(track, level):
+    return Levels[track][level] > UnpaidMaxSkills[track]
+
+def gagIsVelvetRoped(track, level):
+    if level > 0:
+        if track in [4, 5]:
+            if level > 3:
+                return True
+        else:
+            return True
+    return False
 
 # This accuracy (a percentage) is the highest that can ever be attained.
 MaxToonAcc = 95

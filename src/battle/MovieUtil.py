@@ -197,7 +197,7 @@ def virtualize(deathsuit):
         parts = ()
         for thingIndex in range(0,actorCollection.getNumPaths()):
             thing = actorCollection[thingIndex]
-            if thing.getName() not in ('joint_attachMeter', 'joint_nameTag'):
+            if thing.getName() not in ('joint*attachMeter', 'joint*nameTag', 'def_nameTag'):
                 thing.setColorScale(1.0,0.0,0.0,1.0)
                 thing.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd))
                 thing.setDepthWrite(False)
@@ -734,7 +734,7 @@ def getSuitRakeOffset(suit):
         return 0
 
 def startSparksIval(tntProp):
-    tip = tntProp.find("**/joint_attachEmitter")
+    tip = tntProp.find("**/joint*attachEmitter")
     sparks = BattleParticles.createParticleEffect(file='tnt')
     return Func(sparks.start, tip)
 

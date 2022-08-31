@@ -707,8 +707,8 @@ def decodeCatalogItem(di, versionNumber, store):
     encodeCatalogItem().  The new catalog item is returned.
     """
 
-    from . import CatalogItemTypes
     global CatalogReverseType
+    from . import CatalogItemTypes
     if CatalogReverseType == None:
         # First, we have to create the reverse lookup.
         CatalogReverseType = {}

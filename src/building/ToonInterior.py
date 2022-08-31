@@ -10,6 +10,7 @@ from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toon import NPCForceAcknowledge
@@ -179,6 +180,7 @@ class ToonInterior(Place.Place):
         # Play music
         volume = requestStatus.get('musicVolume', 0.7)
         base.playMusic(self.loader.activityMusic, looping = 1, volume = volume)
+        self._telemLimiter = TLGatherAllAvs('ToonInterior', RotationLimitToH)
 
         #self.geom.reparentTo(render)
 
@@ -192,6 +194,8 @@ class ToonInterior(Place.Place):
         self.ignoreAll()
         # Let the safe zone manager know that we are leaving
         messenger.send("exitToonInterior")
+        self._telemLimiter.destroy()
+        del self._telemLimiter
         #self.geom.reparentTo(hidden)
 
         # Turn off the little red arrows.

@@ -11,6 +11,7 @@ from toontown.town import TownBattle
 from toontown.suit import Suit
 from . import Elevator
 from direct.task.Task import Task
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 
@@ -110,6 +111,7 @@ class SuitInterior(Place.Place):
     def enter(self, requestStatus):
         assert(self.notify.debug("enter(requestStatus="+str(requestStatus)+")"))
         self.fsm.enterInitialState()
+        self._telemLimiter = TLGatherAllAvs('SuitInterior', RotationLimitToH)
         # Let the safe zone manager know that we are here.
         #messenger.send("enterToonInterior")
 
@@ -121,6 +123,8 @@ class SuitInterior(Place.Place):
     def exit(self):
         assert(self.notify.debug("exit()"))
         self.ignoreAll()
+        self._telemLimiter.destroy()
+        del self._telemLimiter
         # Let the safe zone manager know that we are leaving
         #messenger.send("exitToonInterior")
         #self.geom.reparentTo(hidden)
@@ -286,6 +290,11 @@ class SuitInterior(Place.Place):
     # sit state inherited from Place.py
     def enterSit(self):
         Place.Place.enterSit(self)
+        self.ignore('teleportQuery')
+        base.localAvatar.setTeleportAvailable(0)
+    # stopped state inherited from Place.py
+    def enterStopped(self):
+        Place.Place.enterStopped(self)
         self.ignore('teleportQuery')
         base.localAvatar.setTeleportAvailable(0)
 

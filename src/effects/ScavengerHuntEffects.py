@@ -132,6 +132,18 @@ class TrickOrTreatTargetEffect(ScavengerHuntEffect):
                     image = ScavengerHuntEffect.images.find('**/tot_pumpkin_tall'),
                     )
 
+    def attemptFailedMsg(self):
+        pLabel = DirectLabel(
+                parent = self.npRoot,
+                relief = None,
+                pos = (0.0, 0.0, -0.15),
+                text = TTLocalizer.TrickOrTreatMsg,
+                text_fg = (0.95, 0.5, 0.0, 1.0),
+                text_scale = 0.12,
+                text_font = ToontownGlobals.getSignFont(),
+                )
+
+
     def destroy(self):
         if hasattr(self, "pumpkin") and self.pumpkin:
             self.pumpkin.destroy()

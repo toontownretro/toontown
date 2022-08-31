@@ -805,7 +805,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         assert(self.notify.debug("__destroyToonModels"))
         if (self.av != None):
             # show the toons original drop shadows..
-            self.av.showShadow()
+            self.av.dropShadow.show()
             # ... and destroy the one used for flight
             if (self.dropShadow != None):
                 self.dropShadow.removeNode()
@@ -1230,6 +1230,9 @@ class DistributedCannon(DistributedObject.DistributedObject):
 
         # calculate the trajectory
         flightResults = self.__calcFlightResults(avId, launchTime)
+        if not isClient():
+            print("EXECWARNING DistributedCannon: %s" % flightResults)
+            printStack()
         # pull all the results into the local namespace
         for key in flightResults:
             exec("%s = flightResults['%s']" % (key, key))

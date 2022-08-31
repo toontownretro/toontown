@@ -184,7 +184,8 @@ class NewsManager(DistributedObject.DistributedObject):
             elif holidayId == ToontownGlobals.MORE_XP_HOLIDAY:
                 self.setMoreXpHolidayStart()
             elif holidayId == ToontownGlobals.JELLYBEAN_DAY:
-                self.setJellybeanDayStart()
+                #self.setJellybeanDayStart()
+                pass
             elif holidayId == ToontownGlobals.CIRCUIT_RACING_EVENT:
                 self.setGrandPrixWeekendStart()
             elif holidayId == ToontownGlobals.HYDRANT_ZERO_HOLIDAY:
@@ -275,8 +276,7 @@ class NewsManager(DistributedObject.DistributedObject):
                     if hasattr(base, 'localAvatar') and base.localAvatar and hasattr(base.localAvatar, 'chatMgr') and base.localAvatar.chatMgr:
                         base.localAvatar.chatMgr.chatInputSpeedChat.removeHalloweenMenu()
                         self.setHalloweenPropsHolidayEnd()
-                elif holidayId == ToontownGlobals.SPOOKY_PROPS or \
-                     holidayId == ToontownGlobals.SPOOKY_COSTUMES:
+                elif holidayId == ToontownGlobals.SPOOKY_PROPS:
                     if hasattr(base, 'localAvatar') and base.localAvatar and hasattr(base.localAvatar, 'chatMgr') and base.localAvatar.chatMgr:
                         base.localAvatar.chatMgr.chatInputSpeedChat.removeHalloweenMenu()
                         self.setSpookyPropsHolidayEnd()
@@ -291,7 +291,8 @@ class NewsManager(DistributedObject.DistributedObject):
                 if (hasattr(base.cr.playGame, 'dnaStore') and
                     hasattr(base.cr.playGame, 'hood') and
                     hasattr(base.cr.playGame.hood, 'loader')):
-                    if holidayId == ToontownGlobals.HALLOWEEN_COSTUMES:
+                    if holidayId == ToontownGlobals.HALLOWEEN_COSTUMES or \
+                       holidayId == ToontownGlobals.SPOOKY_COSTUMES:
                         self.holidayDecorator = HalloweenHolidayDecorator.HalloweenHolidayDecorator()
                     elif holidayId == ToontownGlobals.CRASHED_LEADERBOARD:
                         self.holidayDecorator = CrashedLeaderBoardDecorator.CrashedLeaderBoardDecorator()

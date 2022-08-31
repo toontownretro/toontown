@@ -420,13 +420,13 @@ def __throwPie(throw, delay, hitCount, showCannon = 1):
 
         #import pdb; pdb.set_trace()
 
-        #print("Fire anim suit name: %s" % (suit.dna.name))
+        #print("Fire anim suit name: %s" % (suit.dna._name))
         suitScale = 0.90
         import math
         suitScale = 0.9 - (math.sqrt(suitLevel) * 0.10)
-        #if suit.dna.name == 'bf':
+        #if suit.dna._name == 'bf':
         #    suitScale = 0.80
-        #elif suit.dna.name == 'cr':
+        #elif suit.dna._name == 'cr':
         #    suitScale = 0.75
         sival = [] # Suit interval of its animation
         posInit = cannonHolder.getPos()

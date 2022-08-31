@@ -11,7 +11,7 @@ from direct.interval.IntervalGlobal import *
 class DistributedFindFourAI(DistributedNodeAI):
     def __init__(self, air, parent, name, x, y, z, h, p, r):
         DistributedNodeAI.__init__(self,air)
-        self.name = name
+        self._name = name
         self.air = air
 
         self.setPos(x,y,z)
@@ -91,7 +91,7 @@ class DistributedFindFourAI(DistributedNodeAI):
         return self.parentDo
     def delete(self):
         self.fsm.requestFinalState()
-        self.parent = None
+        self._parent = None
         self.parentDo = None
         del self.board
         del self.fsm
@@ -358,7 +358,7 @@ class DistributedFindFourAI(DistributedNodeAI):
         return self.fsm.getCurrentState().getName()
 
     def getName(self):
-        return self.name
+        return self._name
 
 
     def getGameState(self):\

@@ -109,7 +109,7 @@ class CogHQLoader(StateData.StateData):
         self.ignoreAll()
 
     def enterQuietZone(self, requestStatus):
-        self.quietZoneDoneEvent = "quietZoneDone"
+        self.quietZoneDoneEvent = uniqueName("quietZoneDone")
         self.acceptOnce(self.quietZoneDoneEvent, self.handleQuietZoneDone)
         self.quietZoneStateData = QuietZoneState.QuietZoneState(
                 self.quietZoneDoneEvent)

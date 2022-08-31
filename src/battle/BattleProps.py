@@ -287,14 +287,14 @@ class PropPool:
 
         # set the 5 dollar bill texture
         elif (name == '5dollar'):
-            tex = loader.loadTexture('phase_5/maps/dollar_5.txa')
+            tex = loader.loadTexture('phase_5/maps/dollar_5.txo')
             tex.setMinfilter(Texture.FTLinearMipmapLinear)
             tex.setMagfilter(Texture.FTLinear)
             self.props[name].setTexture(tex, 1)
 
         # set the 10 dollar bill texture
         elif (name == '10dollar'):
-            tex = loader.loadTexture('phase_5/maps/dollar_10.txa')
+            tex = loader.loadTexture('phase_5/maps/dollar_10.txo')
             tex.setMinfilter(Texture.FTLinearMipmapLinear)
             tex.setMagfilter(Texture.FTLinear)
             self.props[name].setTexture(tex, 1)
@@ -317,7 +317,7 @@ class PropPool:
 
         # pick random suit explosion text
         elif (name == 'suit_explosion'):
-            joints = ["**/joint_scale_POW", "**/joint_scale_BLAM", "**/joint_scale_BOOM",]
+            joints = ["**/joint*scale*POW", "**/joint*scale*BLAM", "**/joint*scale*BOOM",]
             # pick two joints to hide at random
             joint = random.choice(joints)
             self.props[name].find(joint).hide()

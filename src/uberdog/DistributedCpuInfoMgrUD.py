@@ -8,8 +8,6 @@ from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobal
 from otp.distributed import OtpDoGlobals
 from otp.ai import BanManagerAI
 from toontown.toonbase import ToontownGlobals
-from toontown.uberdog import InGameNewsResponses
-from toontown.ai.ToontownAIMsgTypes import IN_GAME_NEWS_MANAGER_UD_TO_ALL_AI
 from toontown.toonbase.ToontownModules import *
 
 
@@ -54,7 +52,7 @@ class DistributedCpuInfoMgrUD(DistributedObjectGlobalUD):
         assert self.notify.debugCall()
         DistributedObjectGlobalUD.__init__(self, air)
         self.HTTPListenPort = uber.cpuInfoMgrHTTPListenPort
-
+        
         '''
         self.webDispatcher = WebRequestDispatcher()
         self.webDispatcher.landingPage.setTitle("SecurityBanMgr")
@@ -66,7 +64,7 @@ class DistributedCpuInfoMgrUD(DistributedObjectGlobalUD):
         self.webDispatcher.listenOnPort(self.HTTPListenPort)
         self.webDispatcher.landingPage.addTab("SecurityBanMgr","/securityBanMgr")
         '''
-
+        
         self.air.setConnectionName("SecurityBanMgr")
         self.air.setConnectionURL("http://%s:%s/" % (socket.gethostbyname(socket.gethostname()),self.HTTPListenPort))
 
@@ -173,11 +171,6 @@ class DistributedCpuInfoMgrUD(DistributedObjectGlobalUD):
         result = "%s.bannedFingerprints" % (self.serverDataFolder)
         return result
 
-    def getDefaultLatestIssueTime(self):
-        """Hmmm what the heck do we give. Lets use the current time."""
-        result = self.air.toontownTimeManager.getCurServerDateTime()
-        return result
-
     def loadRecords(self):
         """Load track record data from default location"""
         try:
@@ -211,35 +204,6 @@ class DistributedCpuInfoMgrUD(DistributedObjectGlobalUD):
         except EOFError:
             pass
         return result
-
-    def setLatestIssueStr(self, issueStr):
-        self.notify.debugStateCall(self)
-
-
-    def setLatestIssue(self, latestIssue):
-        self.latestIssue = latestIssue
-
-    def b_setLatestIssue(self, latestIssue):
-        self.setLatestIssue(latestIssue)
-        self.d_setLatestIssue(latestIssue)
-
-    def d_setLatestIssue(self, latestIssue):
-        pass
-        #self.sendUpdateToAllAis('newIssueUDtoAI', [ self.getLatestIssueUtcStr()])
-
-    def sendUpdateToAllAis(self, message, args):
-        dg = self.dclass.aiFormatUpdateMsgType(
-                message, self.doId, self.doId, self.air.ourChannel, IN_GAME_NEWS_MANAGER_UD_TO_ALL_AI, args)
-        self.air.send(dg)
-
-    def inGameNewsMgrAIStartingUp(self,  doId,  shardId):
-        """Tell the new AI that just started up what the latest issue is."""
-        self.air.sendUpdateToDoId(
-                "DistributedInGameNewsMgr",
-                'newIssueUDtoAI',
-                doId ,
-                [self.getLatestIssueStr()]
-            )
 
 
     def addFingerprint(self, replyTo, **kw):
