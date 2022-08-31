@@ -60,19 +60,16 @@ SellBot (Sales): 's'
  Mr.Hollywood:    mh
 """
 
+import os, string
 from direct.actor import Actor
-from otp.avatar import Avatar, ShadowCaster
-from . import SuitDNA
-from toontown.toonbase import ToontownGlobals
-from toontown.toonbase.ToontownModules import *
-from toontown.battle import SuitBattleGlobals
-from direct.task.Task import Task
-from toontown.battle import BattleProps
-from toontown.toonbase import TTLocalizer
-import string
-from toontown.toonbase.ToontownModules import VirtualFileMountHTTP, VirtualFileSystem, Filename, DSearchPath
 from direct.showbase import AppRunnerGlobal
-import os
+from direct.task.Task import Task
+from otp.avatar import Avatar, ShadowCaster
+from toontown.battle import BattleProps, SuitBattleGlobals
+from toontown.suit import SuitDNA
+from toontown.toonbase import ToontownGlobals, TTLocalizer
+from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import VirtualFileMountHTTP, VirtualFileSystem, Filename, DSearchPath
 
 aSize = 6.06
 bSize = 5.29
@@ -523,30 +520,30 @@ def loadDialog(level):
     global SuitDialogArray
     if len(SuitDialogArray) > 0:
         return
-    else:
-        loadPath = "phase_3.5/audio/dial/"
-        SuitDialogFiles = [ "COG_VO_grunt",
-                            "COG_VO_murmur",
-                            "COG_VO_statement",
-                            "COG_VO_question"
-                            ]
-        # load the audio files and store into the dialogue array
-        for file in SuitDialogFiles:
-            SuitDialogArray.append(base.loader.loadSfx(loadPath + file + ".mp3"))
-        SuitDialogArray.append(SuitDialogArray[2])
-        SuitDialogArray.append(SuitDialogArray[2])
+
+    loadPath = "phase_3.5/audio/dial/"
+    SuitDialogFiles = [ "COG_VO_grunt",
+                        "COG_VO_murmur",
+                        "COG_VO_statement",
+                        "COG_VO_question"
+                        ]
+    # load the audio files and store into the dialogue array
+    for file in SuitDialogFiles:
+        SuitDialogArray.append(base.loader.loadSfx(loadPath + file + ".mp3"))
+    SuitDialogArray.append(SuitDialogArray[2])
+    SuitDialogArray.append(SuitDialogArray[2])
 
 def loadSkelDialog():
     # use the new dialog
     global SkelSuitDialogArray
     if len(SkelSuitDialogArray) > 0:
         return
-    else:
-        grunt = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_grunt.mp3')
-        murmur = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_murmur.mp3')
-        statement = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_statement.mp3')
-        question = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_question.mp3')
-        SkelSuitDialogArray = [grunt, murmur, statement, question, statement, statement]
+
+    grunt = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_grunt.mp3')
+    murmur = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_murmur.mp3')
+    statement = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_statement.mp3')
+    question = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_question.mp3')
+    SkelSuitDialogArray = [grunt, murmur, statement, question, statement, statement]
 
 def unloadDialog(level):
     global SuitDialogArray
@@ -642,26 +639,27 @@ class Suit(Avatar.Avatar):
     def delete(self):
         try:
             self.Suit_deleted
+            return
         except:
             self.Suit_deleted = 1
-            if self.leftHand:
-                self.leftHand.removeNode()
-                self.leftHand = None
-            if self.rightHand:
-                self.rightHand.removeNode()
-                self.rightHand = None
-            if self.shadowJoint:
-                self.shadowJoint.removeNode()
-                self.shadowJoint = None
-            if self.nametagJoint:
-                self.nametagJoint.removeNode()
-                self.nametagJoint = None
-            for part in self.headParts:
-                part.removeNode()
-            self.headParts = []
-            self.removeHealthBar()
-            Avatar.Avatar.delete(self)
-        return
+            
+        if self.leftHand:
+            self.leftHand.removeNode()
+            self.leftHand = None
+        if self.rightHand:
+            self.rightHand.removeNode()
+            self.rightHand = None
+        if self.shadowJoint:
+            self.shadowJoint.removeNode()
+            self.shadowJoint = None
+        if self.nametagJoint:
+            self.nametagJoint.removeNode()
+            self.nametagJoint = None
+        for part in self.headParts:
+            part.removeNode()
+        self.headParts = []
+        self.removeHealthBar()
+        Avatar.Avatar.delete(self)
 
     def setHeight(self, height):
         Avatar.Avatar.setHeight(self, height)
@@ -680,18 +678,18 @@ class Suit(Avatar.Avatar):
 
     def setDNA(self, dna):
         if self.style:
-            pass
-        else:
-            # store the DNA
-            self.style = dna
+            return
 
-            self.generateSuit()
+        # store the DNA
+        self.style = dna
 
-            # this no longer works in the Avatar init!
-            # I moved it here for lack of a better place
-            # make the drop shadow
-            self.initializeDropShadow()
-            self.initializeNametag3d()
+        self.generateSuit()
+
+        # this no longer works in the Avatar init!
+        # I moved it here for lack of a better place
+        # make the drop shadow
+        self.initializeDropShadow()
+        self.initializeNametag3d()
 
     def generateSuit(self):
         """
@@ -1270,9 +1268,7 @@ class Suit(Avatar.Avatar):
     def reseatHealthBarForSkele(self):
         self.healthBar.setPos(0.0, 0.1, 0.0)
 
-
     def updateHealthBar(self, hp, forceUpdate=0):
-
         if (hp > self.currHP):
             hp = self.currHP
         self.currHP -= hp
@@ -1452,7 +1448,7 @@ class Suit(Avatar.Avatar):
         self.leftHand = self.find("**/joint_Lhold")
         self.rightHand = self.find("**/joint_Rhold")
         self.shadowJoint = self.find("**/joint_shadow")
-        self.nametagNull = self.find("**/joint_nameTag")
+        self.nametagJoint = self.find("**/joint_nameTag")
 
         if not dropShadow.isEmpty():
             dropShadow.setScale(0.75)
@@ -1494,12 +1490,15 @@ class Suit(Avatar.Avatar):
         """
         Return the CharacterJoint that animates the nametag, in a list.
         """
-        # Not sure what the name is right now.
-        return []
+        joints = []
+        bundle = self.getPartBundle('modelRoot')
+        attach = bundle.findAttachment('joint_nameTag')
+        if attach >= 0:
+            joints.append((attach, bundle))
+        return joints
 
     def getDialogueArray(self):
         if self.isSkeleton:
             loadSkelDialog()
             return SkelSuitDialogArray
-        else:
-            return SuitDialogArray
+        return SuitDialogArray
