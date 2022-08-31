@@ -15,7 +15,7 @@ class DistributedPlantBaseAI(DistributedLawnDecorAI.DistributedLawnDecorAI):
         self.waterLevel = waterLevel
         self.growthLevel = growthLevel
         self.optional = optional
-        self._name = GardenGlobals.PlantAttributes[typeIndex]['name']
+        self.name = GardenGlobals.PlantAttributes[typeIndex]['name']
         self.plantType = GardenGlobals.PlantAttributes[typeIndex]['plantType']
         self.growthThresholds = GardenGlobals.PlantAttributes[typeIndex]['growthThresholds']
         self.maxWaterLevel = GardenGlobals.PlantAttributes[typeIndex]['maxWaterLevel']

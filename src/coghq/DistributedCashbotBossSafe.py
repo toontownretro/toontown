@@ -45,8 +45,8 @@ class DistributedCashbotBossSafe(DistributedCashbotBossObject.DistributedCashbot
 
     def announceGenerate(self):
         DistributedCashbotBossObject.DistributedCashbotBossObject.announceGenerate(self)
-        self._name = 'safe-%s' % (self.doId)
-        self.setName(self._name)
+        self.name = 'safe-%s' % (self.doId)
+        self.setName(self.name)
 
         self.boss.safe.copyTo(self)
         self.shadow = self.find('**/shadow')

@@ -778,7 +778,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI,
                 # add any suits present to the suits encountered list
                 for suit in self.activeSuits:
                     if hasattr(suit, 'dna'):
-                        self.suitsEncountered.append({'type': suit.dna._name,
+                        self.suitsEncountered.append({'type': suit.dna.name,
                                                       # Put a copy of active toons in the dict
                                                       # Only they get credit for seeing this suit
                                                       'activeToons': self.activeToons[:]})
@@ -793,7 +793,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI,
             if suit in self.newSuits:
                 if hasattr(suit, 'dna'):
                     # add any new suits to all active toons encounter list
-                    self.suitsEncountered.append({'type': suit.dna._name,
+                    self.suitsEncountered.append({'type': suit.dna.name,
                                                   # Put a copy of active toons in the dict
                                                   # Only they get credit for seeing this suit
                                                   'activeToons': self.activeToons[:]})
@@ -2085,7 +2085,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI,
                 self.notify.debug('whoops, suit %d is deleted.' % suit.doId)
             else:
                 self.notify.debug('suit had revives? %d' % suit.getMaxSkeleRevives())
-                encounter = {'type': suit.dna._name,
+                encounter = {'type': suit.dna.name,
                              'level': suit.getActualLevel(),
                              'track': suit.dna.dept,
                              'isSkelecog': suit.getSkelecog(),

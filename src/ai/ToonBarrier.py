@@ -33,7 +33,7 @@ class ToonBarrier(DirectObject.DirectObject):
         If you need to have additional parameters passed to your
         callback funcs, see PythonUtil.Functor
         """
-        self._name = name
+        self.name = name
         self.uniqueName = uniqueName + '-Barrier'
         self.avIdList = avIdList[:]
         self.pendingToons = self.avIdList[:]

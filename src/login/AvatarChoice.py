@@ -53,7 +53,7 @@ class AvatarChoice(DirectButton):
             if position not in AvatarChoice.NEW_TRIALER_OPEN_POS:
                 if not self.hasPaid:
                     self.mode = AvatarChoice.MODE_LOCKED
-                    self._name = ""
+                    self.name = ""
                     self.dna = None
 
         if self.mode is not AvatarChoice.MODE_LOCKED:
@@ -61,15 +61,15 @@ class AvatarChoice(DirectButton):
             if not av:
                 # the 'locked' panel is most like the create panel
                 self.mode = AvatarChoice.MODE_CREATE
-                self._name = ""
+                self.name = ""
                 self.dna = None
             else:
                 self.mode = AvatarChoice.MODE_CHOOSE
                 # Handle the special case of GM toons
                 if GMUtils.testGMIdentity(av.name):
-                    self._name = self.__handleGMName(av.name)
+                    self.name = self.__handleGMName(av.name)
                 else:
-                    self._name = av.name
+                    self.name = av.name
                 self.dna = ToonDNA.ToonDNA(av.dna)
                 self.wantName = av.wantName
                 self.approvedName = av.approvedName
@@ -163,7 +163,7 @@ class AvatarChoice(DirectButton):
                 relief = None,
                 scale = 0.08,
                 pos = NAME_POSITIONS[position],
-                text = self._name,
+                text = self.name,
                 hpr = (0, 0, NAME_ROTATIONS[position]),
                 text_fg = (1,1,1,1),
                 text_shadow = (0,0,0,1),
@@ -344,7 +344,7 @@ class AvatarChoice(DirectButton):
         # pop up verify dialogue box
         self.verify = TTDialog.TTGlobalDialog(
             doneEvent = "verifyDone",
-            message = TTLocalizer.AvatarChoiceDeleteConfirm % self._name,
+            message = TTLocalizer.AvatarChoiceDeleteConfirm % self.name,
             style = TTDialog.TwoChoice)
         self.verify.show()
         self.accept("verifyDone", self.__handleVerifyDelete)
@@ -373,11 +373,11 @@ class AvatarChoice(DirectButton):
             # If the login interface supports it, make the user
             # type his/her password in order to delete the toon.
 #            self.deleteWithPassword = 1
-#            deleteText = TTLocalizer.AvatarChoiceDeletePasswordText % self._name
+#            deleteText = TTLocalizer.AvatarChoiceDeletePasswordText % self.name
 # Temp fix to delete toons without password
             self.deleteWithPassword = 0
             deleteText = TTLocalizer.AvatarChoiceDeleteConfirmText % \
-                         { "name" : self._name,
+                         { "name" : self.name,
                            "confirm" : TTLocalizer.AvatarChoiceDeleteConfirmUserTypes }
         else:
             # Otherwise (for instance, maybe the user logged in
@@ -386,7 +386,7 @@ class AvatarChoice(DirectButton):
             # to delete the toon.
             self.deleteWithPassword = 0
             deleteText = TTLocalizer.AvatarChoiceDeleteConfirmText % \
-                         { "name" : self._name,
+                         { "name" : self.name,
                            "confirm" : TTLocalizer.AvatarChoiceDeleteConfirmUserTypes }
 
         if self.deleteWithPasswordFrame == None:
@@ -543,7 +543,7 @@ class AvatarChoice(DirectButton):
         else:
             # Wrong entry.
             self.deleteWithPasswordFrame['text'] = TTLocalizer.AvatarChoiceDeleteWrongConfirm % \
-              { "name" : self._name,
+              { "name" : self.name,
                 "confirm" : TTLocalizer.AvatarChoiceDeleteConfirmUserTypes }
 
             self.passwordEntry['focus'] = 1

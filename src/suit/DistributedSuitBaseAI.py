@@ -62,7 +62,7 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI,
                      set the level to be the one specified
         Parameters:  lvl, level the suit should be
         """
-        attributes = SuitBattleGlobals.SuitAttributes[ self.dna._name ]
+        attributes = SuitBattleGlobals.SuitAttributes[ self.dna.name ]
         if lvl:
             self.level = lvl - attributes[ 'level' ] - 1
         else:

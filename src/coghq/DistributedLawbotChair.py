@@ -60,8 +60,8 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
     def announceGenerate(self):
         self.notify.debug("announceGenerate: %s" % self.doId)
         DistributedObject.DistributedObject.announceGenerate(self)
-        self._name = 'Chair-%s' % (self.doId)
-        #self.setName(self._name)
+        self.name = 'Chair-%s' % (self.doId)
+        #self.setName(self.name)
 
 
 

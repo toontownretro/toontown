@@ -178,7 +178,7 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
                 self.doHarvesting()
             return
 
-        fullName = self._name
+        fullName = self.name
 
         text = TTLocalizer.ConfirmRemoveTree % {'tree': fullName}
         if self.hasDependentTrees():

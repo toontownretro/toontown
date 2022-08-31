@@ -2489,7 +2489,7 @@ class Toon(Avatar.Avatar, ToonHead):
         pass
 
     def enterTeleportOut(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
-        name = self._name
+        name = self.name
         if hasattr(self, "doId"):
             name += '-' + str( self.doId)
         self.notify.debug('enterTeleportOut %s' % name)
@@ -2551,7 +2551,7 @@ class Toon(Avatar.Avatar, ToonHead):
         # deleted while it is exiting from a state, so we arrange to
         # ensure it will be deleted here, instead.
 
-        name = self._name
+        name = self.name
         if hasattr(self, "doId"):
             name += '-' + str( self.doId)
         self.notify.debug('finishTeleportOut %s' % name)
@@ -2571,7 +2571,7 @@ class Toon(Avatar.Avatar, ToonHead):
             callback(*extraArgs)
 
     def exitTeleportOut(self):
-        name = self._name
+        name = self.name
         if hasattr(self, "doId"):
             name += '-' + str( self.doId)
         self.notify.debug('exitTeleportOut %s' % name)

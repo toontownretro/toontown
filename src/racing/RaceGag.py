@@ -10,20 +10,20 @@ class RaceGag(DirectObject.DirectObject):
         DirectObject.DirectObject.__init__(self)
         self._parent=parent
 
-        self._name='gag-'+str(slot)
-        self.geom=DroppedGag(self._name,base.race.qbox)
+        self.name='gag-'+str(slot)
+        self.geom=DroppedGag(self.name,base.race.qbox)
         self.geom.dropShadow.setScale(.7)
         self.geom.setPos(testPos+Vec3(0,0,-1))
         #qc=CollisionSphere(0,0,0,1)
         qc=CollisionTube(Point3(0,0,-2.5),Point3(0,0,2.5),1)
-        self.gagnp=NodePath(CollisionNode(self._name))
+        self.gagnp=NodePath(CollisionNode(self.name))
         self.gagnp.node().addSolid(qc)
         self.gagnp.reparentTo(self.geom)
         self.gagnp.node().setIntoCollideMask(BitMask32(0x8000))
         self.gagnp.node().setFromCollideMask(BitMask32(0x8000))
         self.slot=slot
         self.type=0
-        self.accept("imIn-"+self._name,self.hitGag)
+        self.accept("imIn-"+self.name,self.hitGag)
         self.pickupSound=base.loader.loadSfx("phase_6/audio/sfx/KART_getGag.mp3")
         self.fadeout = None
 
@@ -36,7 +36,7 @@ class RaceGag(DirectObject.DirectObject):
         self.geom.delete()
         self.geom = None
         del self._parent
-        self.ignore("imIn-"+self._name)
+        self.ignore("imIn-"+self.name)
 
     def getType(self):
         return self.type

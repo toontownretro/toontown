@@ -73,7 +73,7 @@ class SuitAvatarPanel(AvatarPanel.AvatarPanel):
                 )
 
         level = avatar.getActualLevel()
-        dept = SuitDNA.getSuitDeptFullname(avatar.dna._name)
+        dept = SuitDNA.getSuitDeptFullname(avatar.dna.name)
 
         self.levelLabel = DirectLabel(
                 parent = self.frame,

@@ -106,11 +106,11 @@ class Goon(Avatar.Avatar):
 
     def generateGoon(self):
         dna = self.style
-        filePrefix = ModelDict[dna._name]
+        filePrefix = ModelDict[dna.name]
         self.loadModel(filePrefix + "-zero")
 
         animDict = {}
-        animList = AnimDict[dna._name]
+        animList = AnimDict[dna.name]
         for anim in animList:
             animDict[anim[0]] = filePrefix + anim[1]
 

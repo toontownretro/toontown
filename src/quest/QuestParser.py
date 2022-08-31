@@ -368,7 +368,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
 
     def __unloadChar(self, char):
         char.removeActive()
-        if (char.style.name == 'mk' or char.style.name == 'mn'):
+        if (char.style._name == 'mk' or char.style._name == 'mn'):
             char.stopEarTask()
         char.delete()
         self.chars.remove(char)

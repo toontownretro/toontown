@@ -11,7 +11,7 @@ from toontown.safezone import DistributedFindFourAI
 class DistributedPicnicTableAI(DistributedNodeAI):
     def __init__(self, air, zone, name, x, y, z, h, p, r):
         DistributedNodeAI.__init__(self,air)
-        self._name = name
+        self.name = name
         self.air = air
 
         self.seats = [None, None, None, None, None, None]

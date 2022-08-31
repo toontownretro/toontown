@@ -19,7 +19,7 @@ class DistributedProjectile(DistributedSmoothNode, ShadowCaster, NodePath):
 
     def announceGenerate(self):
         DistributedSmoothNode.announceGenerate(self)
-        self._name = self.uniqueName('projectile')
+        self.name = self.uniqueName('projectile')
         self.posHprBroadcastName = self.uniqueName('projectileBroadcast')
 
         geom=loader.loadModel("models/smiley")
@@ -35,7 +35,7 @@ class DistributedProjectile(DistributedSmoothNode, ShadowCaster, NodePath):
 
     def generate(self):
         DistributedSmoothNode.generate(self)
-        self._name = self.uniqueName('projectile')
+        self.name = self.uniqueName('projectile')
         self.posHprBroadcastName = self.uniqueName('projectileBroadcast')
 
         geom=loader.loadModel("models/smiley")

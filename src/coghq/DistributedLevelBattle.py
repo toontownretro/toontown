@@ -151,7 +151,7 @@ class DistributedLevelBattle(DistributedBattle.DistributedBattle):
                 # otherwise __genSuitInfos ensures nothing, so pick the suit with the highest type to be the leader
                 maxTypeNum = -1
                 for suit in self.suits:
-                    suitTypeNum = SuitDNA.getSuitType(suit.dna._name)
+                    suitTypeNum = SuitDNA.getSuitType(suit.dna.name)
                     if (maxTypeNum < suitTypeNum):
                         maxTypeNum = suitTypeNum
                         leaderIndex = self.suits.index(suit)

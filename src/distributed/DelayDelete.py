@@ -51,14 +51,14 @@ class DelayDelete:
 
     def __init__(self, distObj, name):
         self._distObj = distObj
-        self._name = name
+        self.name = name
         self._token = self._distObj.acquireDelayDelete(name)
 
     def getObject(self):
         return self._distObj
 
     def getName(self):
-        return self._name
+        return self.name
 
     def destroy(self):
         token = self._token
@@ -67,7 +67,7 @@ class DelayDelete:
         del self._token
         self._distObj.releaseDelayDelete(token)
         del self._distObj
-        del self._name
+        del self.name
 
 # There is code in Toontown that puts interval-related DelayDeletes
 # directly on interval objects, relying on Python to __del__ the

@@ -502,7 +502,7 @@ class BattleCalculatorAI:
         """
         if atkTrack == HEAL:
             return 0
-        suitDef = SuitBattleGlobals.SuitAttributes[suit.dna._name]\
+        suitDef = SuitBattleGlobals.SuitAttributes[suit.dna.name]\
                     ['def'][suit.getLevel()]
         return -suitDef
 
@@ -2182,7 +2182,7 @@ class BattleCalculatorAI:
         Determine the best attack type for a suit
         """
         theSuit = self.battle.activeSuits[attackIndex]
-        attacks = SuitBattleGlobals.SuitAttributes[theSuit.dna._name]['attacks']
+        attacks = SuitBattleGlobals.SuitAttributes[thesuit.dna.name]['attacks']
         atk = SuitBattleGlobals.pickSuitAttack(attacks, theSuit.getLevel())
         return atk
 
@@ -2253,11 +2253,11 @@ class BattleCalculatorAI:
         theSuit = self.battle.activeSuits[attackIndex]
         atkType = self.battle.suitAttacks[attackIndex][SUIT_ATK_COL]
 
-        atkInfo = SuitBattleGlobals.getSuitAttack(theSuit.dna._name,
+        atkInfo = SuitBattleGlobals.getSuitAttack(thesuit.dna.name,
                                                    theSuit.getLevel(),
                                                    atkType)
         atkAcc = atkInfo['acc']
-        suitAcc = SuitBattleGlobals.SuitAttributes[theSuit.dna._name]\
+        suitAcc = SuitBattleGlobals.SuitAttributes[thesuit.dna.name]\
                   ['acc'][theSuit.getLevel()]
 
         # Jesse changed this because he doesn't think we need suit
@@ -2280,7 +2280,7 @@ class BattleCalculatorAI:
         # determine if the attack targets a group or an individual
         theSuit = self.battle.findSuit(attack[SUIT_ID_COL])
         assert theSuit != None
-        atkInfo = SuitBattleGlobals.getSuitAttack(theSuit.dna._name,
+        atkInfo = SuitBattleGlobals.getSuitAttack(thesuit.dna.name,
                                                    theSuit.getLevel(),
                                                    atkType)
         return atkInfo['group'] != SuitBattleGlobals.ATK_TGT_SINGLE
@@ -2344,7 +2344,7 @@ class BattleCalculatorAI:
 
                 theSuit = self.battle.findSuit(attack[SUIT_ID_COL])
                 atkInfo = SuitBattleGlobals.getSuitAttack(
-                    theSuit.dna._name,
+                    thesuit.dna.name,
                     theSuit.getLevel(),
                     atkType)
                 result = atkInfo['hp']

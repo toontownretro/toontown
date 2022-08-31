@@ -2275,7 +2275,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                                         skelecog = skelecog,
                                         revives = revives)
                 if suit:
-                    response = "Here comes %s." % (SuitBattleGlobals.SuitAttributes[suit.dna._name]['name'])
+                    response = "Here comes %s." % (SuitBattleGlobals.SuitAttributes[suit.dna.name]['name'])
                 else:
                     response = "Could not create suit."
 

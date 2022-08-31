@@ -10,7 +10,7 @@ from toontown.safezone import ChineseCheckersBoard
 class DistributedChineseCheckersAI(DistributedNodeAI):
     def __init__(self, air, parent, name, x, y, z, h, p, r):
         DistributedNodeAI.__init__(self,air)
-        self._name = name
+        self.name = name
         self.air = air
 
         self.setPos(x,y,z)
@@ -597,7 +597,7 @@ class DistributedChineseCheckersAI(DistributedNodeAI):
         return self.fsm.getCurrentState().getName()
 
     def getName(self):
-        return self._name
+        return self.name
 
 
     def getGameState(self):

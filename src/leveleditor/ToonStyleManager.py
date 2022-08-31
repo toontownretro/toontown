@@ -948,7 +948,7 @@ class LevelAttribute:
     
     def __init__(self, name):
         # Record name
-        self._name = name
+        self.name = name
         # Pie menu used to pick an option
         self._menu = None
         # Dictionary of available options
@@ -962,7 +962,7 @@ class LevelAttribute:
         self._current = newValue
         # Send event if specified
         if fEvent:
-            messenger.send('select_' + self._name, [self._current])
+            messenger.send('select_' + self.name, [self._current])
             
     def setMenu(self, menu):
         self._menu = menu
@@ -1013,7 +1013,7 @@ class LevelAttribute:
 class DNAFlatBuildingStyle:
     """Class to hold attributes of a building style"""
     def __init__(self, building = None, styleList = None, name = 'bldg_style'):
-        self._name = name
+        self.name = name
         if building:
             # Passed in a building
             self.copy(building)
@@ -1070,7 +1070,7 @@ class DNABaselineStyle:
     """Class to hold attributes of a baseline style (wiggle, colors, etc)"""
     def __init__(self, baseline = None, name = 'baseline_style'):
         # First initialize everything
-        self._name = name
+        self.name = name
         self.code = None # i.e. font
         self.kern = None
         self.wiggle = None
@@ -1151,8 +1151,8 @@ class DNABaselineStyle:
     def output(self, file = sys.stdout):
         """ Output style description to a file """
         file.write('baselineStyle\n')
-        if self._name != None:
-            file.write('name: %s\n' % self._name)
+        if self.name != None:
+            file.write('name: %s\n' % self.name)
         if self.code != None:
             file.write('code: %s\n' % self.code)
         if self.kern != None:
@@ -1191,7 +1191,7 @@ class DNABaselineStyle:
 
     def __repr__(self):
         return(
-            'name: %s\n' % self._name +
+            'name: %s\n' % self.name +
             'code: %s\n' % self.code +
             'kern: %s\n' % self.kern +
             'wiggle: %s\n' % self.wiggle +
@@ -1211,7 +1211,7 @@ class DNAWallStyle:
     """Class to hold attributes of a wall style (textures, colors, etc)"""
     def __init__(self, wall = None, name = 'wall_style'):
         # First initialize everything
-        self._name = name
+        self.name = name
         self.wall_texture = 'wall_md_blank_ur'
         self.wall_color = Vec4(1.0)
         self.window_count = 2
@@ -1281,7 +1281,7 @@ class DNAWallStyle:
 
     def __repr__(self):
         return(
-            'Name: %s\n' % self._name +
+            'Name: %s\n' % self.name +
             'Wall Texture: %s\n' % self.wall_texture +
             'Wall Color: %s\n' % self.wall_color +
             'Window Texture: %s\n' % self.window_texture +

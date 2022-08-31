@@ -6,7 +6,7 @@ class ServerEventBuffer:
         # name is the name of the event that we'll be writing to the server
         # period in minutes
         self.air = air
-        self._name = name
+        self.name = name
         self.avId = avId
         if period is None:
             # every 6 hours
@@ -22,7 +22,7 @@ class ServerEventBuffer:
         self.lastFlushTime = None
 
     def writeEvent(self, msg):
-        self.air.writeServerEvent(self._name, self.avId, msg)
+        self.air.writeServerEvent(self.name, self.avId, msg)
 
     def considerFlush(self):
         # if we haven't logged in a while, don't immediately flush out the

@@ -45,7 +45,7 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
         #import pdb; pdb.set_trace()
 
         self.typeIndex = typeIndex
-        self._name = GardenGlobals.PlantAttributes[typeIndex]['name']
+        self.name = GardenGlobals.PlantAttributes[typeIndex]['name']
         self.plantType = GardenGlobals.PlantAttributes[typeIndex]['plantType']
         self.modelPath = GardenGlobals.PlantAttributes[typeIndex]['model']
         self.pinballScore = None
@@ -111,7 +111,7 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
         """
         Confirm if the player really wants to remove or pick the plower.
         """
-        fullName = self._name
+        fullName = self.name
 
         #if we're clicking on buttons, we're not asleep
         messenger.send('wakeup')

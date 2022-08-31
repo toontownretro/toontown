@@ -24,9 +24,9 @@ class FriendHandle:
         self.chatGarbler = ToonChatGarbler.ToonChatGarbler()
         
 #        if GMUtils.testGMIdentity(name):
-#            self._name = GMUtils.handleGMName(name)
+#            self.name = GMUtils.handleGMName(name)
 #        else:
-        self._name = name
+        self.name = name
     
     def getDoId(self):
         """getDoId(self)
@@ -44,7 +44,7 @@ class FriendHandle:
         return self.isAPet
 
     def getName(self):
-        return self._name
+        return self.name
 
     def getFont(self):
         # All friends are toons.

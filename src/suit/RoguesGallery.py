@@ -220,7 +220,7 @@ class RoguesGallery(StateData.StateData):
         suitDepth = ur[1] - ll[1]
         suitHeight = ur[2] - ll[2]
 
-        #print("height of %s (%s) is %0.2f" % (dna._name, suit._name, suitHeight))
+        #print("height of %s (%s) is %0.2f" % (dna.name, suit._name, suitHeight))
 
         self.rowWidth += suitWidth + suitDepth
         self.rowHeight = max(self.rowHeight, suitHeight)

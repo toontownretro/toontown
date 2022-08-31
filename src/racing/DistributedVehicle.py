@@ -172,7 +172,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
     def announceGenerate(self):
         DistributedSmoothNode.DistributedSmoothNode.announceGenerate(self)
         self.generateKart()
-        self._name = self.uniqueName('vehicle')
+        self.name = self.uniqueName('vehicle')
         self.posHprBroadcastName = self.uniqueName('vehicleBroadcast')
 
         # use the highest LOD during racing

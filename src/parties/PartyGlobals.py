@@ -1104,7 +1104,7 @@ CatchConclusionDuration = 3.0
 #   on-screen half as long as a baseline object.
 class DropObject:
     def __init__(self, name, good, onscreenDurMult, modelPath):
-        self._name = name
+        self.name = name
         self.good = good
         self.onscreenDurMult = onscreenDurMult
         self.modelPath = modelPath
@@ -1128,7 +1128,7 @@ DropObjectTypes = [
 # (see class DropObject above for property names)
 Name2DropObjectType = {}
 for type in DropObjectTypes:
-    Name2DropObjectType[type._name] = type
+    Name2DropObjectType[type.name] = type
 
 # for transmitting drop-object types over the network, it's more efficient
 # to be sending a number (DOTypeId) than a string.

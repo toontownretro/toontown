@@ -27,8 +27,8 @@ class DistCogdoCraneMoneyBag(DistCogdoCraneObject):
 
     def announceGenerate(self):
         DistCogdoCraneObject.announceGenerate(self)
-        self._name = 'moneyBag-%s' % self.doId
-        self.setName(self._name)
+        self.name = 'moneyBag-%s' % self.doId
+        self.setName(self.name)
         self.craneGame.moneyBag.copyTo(self)
         self.shadow = NodePath('notAShadow')
         self.collisionNode.setName('moneyBag')

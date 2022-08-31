@@ -134,8 +134,8 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
-        self._name = 'crane-%s' % (self.doId)
-        self.root.setName(self._name)
+        self.name = 'crane-%s' % (self.doId)
+        self.root.setName(self.name)
 
         self.root.setPosHpr(*ToontownGlobals.CashbotBossCranePosHprs[self.index])
 
@@ -487,7 +487,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         return rope
 
     def startShadow(self):
-        self.shadow = self.boss.geom.attachNewNode('%s-shadow' % (self._name))
+        self.shadow = self.boss.geom.attachNewNode('%s-shadow' % (self.name))
         self.shadow.setColor(1, 1, 1, 0.3)
         self.shadow.setDepthWrite(0)
         self.shadow.setTransparency(1)

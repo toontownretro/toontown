@@ -3261,19 +3261,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                 self.toonUp(self.maxHp)
             else:
                 self.toonUp(msgValue)
-            self.notify.debug("Toon-up for " + self._name)
+            self.notify.debug("Toon-up for " + self.name)
         elif msgType == ResistanceChat.RESISTANCE_RESTOCK:
             # Restock
             self.inventory.NPCMaxOutInv(msgValue)
             self.d_setInventory(self.inventory.makeNetString())
-            self.notify.debug("Restock for " + self._name)
+            self.notify.debug("Restock for " + self.name)
         elif msgType == ResistanceChat.RESISTANCE_MONEY:
             # Rich
             if msgValue == -1:
                 self.addMoney(999999)
             else:
                 self.addMoney(msgValue)
-            self.notify.debug("Money for " + self._name)
+            self.notify.debug("Money for " + self.name)
 
     def squish(self, damage):
         self.takeDamage(damage)

@@ -161,7 +161,7 @@ class SuitDNA(AvatarDNA.AvatarDNA):
         """
         if (self.type == 's'):
             return "type = %s\nbody = %s, dept = %s, name = %s" % \
-                   ("suit", self.body, self.dept, self._name)
+                   ("suit", self.body, self.dept, self.name)
         elif (self.type == 'b'):
             return "type = boss cog\ndept = %s" % (self.dept)
         else:
@@ -173,7 +173,7 @@ class SuitDNA(AvatarDNA.AvatarDNA):
         dg = PyDatagram()
         dg.addFixedString(self.type, 1)
         if (self.type == 's'):
-            dg.addFixedString(self._name, 3)
+            dg.addFixedString(self.name, 3)
             dg.addFixedString(self.dept, 1)
         elif (self.type == 'b'):  # Boss Cog
             dg.addFixedString(self.dept, 1)
@@ -189,9 +189,9 @@ class SuitDNA(AvatarDNA.AvatarDNA):
         dgi=PyDatagramIterator(dg)
         self.type = dgi.getFixedString(1)
         if (self.type == 's'):  # Suit
-            self._name = dgi.getFixedString(3)
+            self.name = dgi.getFixedString(3)
             self.dept = dgi.getFixedString(1)
-            self.body = getSuitBodyType(self._name)
+            self.body = getSuitBodyType(self.name)
         elif (self.type == 'b'):  # Boss Cog
             self.dept = dgi.getFixedString(1)
         else:
@@ -204,16 +204,16 @@ class SuitDNA(AvatarDNA.AvatarDNA):
         Make a default character dna
         """
         self.type = 'g'
-        self._name = goonTypes[0]
+        self.name = goonTypes[0]
 
     def __defaultSuit(self):
         """__defaultSuit(self)
         Make a default suit dna
         """
         self.type = 's'
-        self._name = 'ds'
-        self.dept = getSuitDept(self._name)
-        self.body = getSuitBodyType(self._name)
+        self.name = 'ds'
+        self.dept = getSuitDept(self.name)
+        self.body = getSuitBodyType(self.name)
 
     def newSuit(self, name=None):
         """newSuit(self, string=None)
@@ -224,9 +224,9 @@ class SuitDNA(AvatarDNA.AvatarDNA):
             self.__defaultSuit()
         else:
             self.type = "s"
-            self._name = name
-            self.dept = getSuitDept(self._name)
-            self.body = getSuitBodyType(self._name)
+            self.name = name
+            self.dept = getSuitDept(self.name)
+            self.body = getSuitBodyType(self.name)
 
     def newBossCog(self, dept):
         self.type = "b"
@@ -264,8 +264,8 @@ class SuitDNA(AvatarDNA.AvatarDNA):
                 offset = offset + suitsPerLevel[i - 1]
         bottom = base + offset
         top = bottom + suitsPerLevel[level - 1]
-        self._name = suitHeadTypes[random.choice(list(range(bottom,top)))]
-        self.body = getSuitBodyType(self._name)
+        self.name = suitHeadTypes[random.choice(list(range(bottom,top)))]
+        self.body = getSuitBodyType(self.name)
 
     def newGoon(self, name = None):
         """newGoon(self, type)
@@ -277,7 +277,7 @@ class SuitDNA(AvatarDNA.AvatarDNA):
         else:
             self.type = 'g'
             if (name in  goonTypes):
-                self._name = name
+                self.name = name
             else:
                 notify.error("unknown goon type: ", name)
 

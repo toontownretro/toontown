@@ -33,7 +33,7 @@ class DistributedHouse(DistributedObject.DistributedObject):
         self.ownerId = 0
         self.colorIndex = 0
         self.house = None
-        self._name = ""
+        self.name = ""
         self.namePlate = None
         self.nameText = None
         self.nametag = None
@@ -202,12 +202,12 @@ class DistributedHouse(DistributedObject.DistributedObject):
         nameText.setWordwrap(16.0)
         xScale = 1.0
         numLines = 0
-        if (self._name == ""):
+        if (self.name == ""):
             # don't bother putting an empty string up
             return
         else:
             # make the name fit nicely on the floor mat
-            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self._name)
+            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name)
 
         nameText.setText(houseName)
         self.nameText = nameText
@@ -255,12 +255,12 @@ class DistributedHouse(DistributedObject.DistributedObject):
         matText.setWordwrap(10.0)
         xScale = 1.0
         numLines = 0
-        if (self._name == ""):
+        if (self.name == ""):
             # don't bother putting an empty string up
             return
         else:
             # make the name fit nicely on the floor mat
-            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self._name)
+            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name)
 
         matText.setText(houseName)
         self.matText = matText
@@ -286,10 +286,10 @@ class DistributedHouse(DistributedObject.DistributedObject):
         if self.nametag:
             self.clearNametag()
 
-        if (self._name == ""):
+        if (self.name == ""):
             houseName = ""
         else:
-            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self._name)
+            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name)
         self.nametag = NametagGroup()
         self.nametag.setFont(ToontownGlobals.getBuildingNametagFont())
         if TTLocalizer.BuildingNametagShadow:
@@ -374,17 +374,17 @@ class DistributedHouse(DistributedObject.DistributedObject):
         return self.ownerId
 
     def setName(self, name):
-        self._name = name
+        self.name = name
         # name plate has changed, so change the name
         if (self.nameText and
-            self.nameText.getText() != self._name):
-            if self._name == "":
+            self.nameText.getText() != self.name):
+            if self.name == "":
                 self.nameText.setText("")
             else:
-                self.nameText.setText(self._name+"'s\n House")
+                self.nameText.setText(self.name+"'s\n House")
 
     def getName(self):
-        return self._name
+        return self.name
 
     def b_setColor(self, colorInd):
         self.setColor(colorInd)
@@ -428,12 +428,12 @@ class DistributedHouse(DistributedObject.DistributedObject):
         nameText.setWordwrap(16.0)
         xScale = 1.0
         numLines = 0
-        if (self._name == ""):
+        if (self.name == ""):
             # don't bother putting an empty string up
             return
         else:
             # make the name fit nicely on the floor mat
-            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self._name)
+            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name)
 
         nameText.setText(houseName)
         self.nameText = nameText

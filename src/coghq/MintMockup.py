@@ -21,7 +21,7 @@ class Room(NodePath):
     def __init__(self, name=None, num=None, dbg=0):
         self.loaded = False
         self.num = num
-        self._name = name
+        self.name = name
         NodePath.__init__(self, hidden.attachNewNode(
             'MintRoom-%s' % self._getModelName()))
         self.load()
@@ -90,8 +90,8 @@ class Room(NodePath):
         self.model.removeNode()
 
     def _getModelName(self):
-        if self._name is not None:
-            return self._name
+        if self.name is not None:
+            return self.name
         return zoneNum2str(self.num)
 
     def _getEntrances(self):

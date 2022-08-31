@@ -213,7 +213,7 @@ class PetTraits:
     # particular trait.
     class Trait:
         def __init__(self, index, traitsObj, value=None):
-            self._name, distrib, self.hasWorth = PetTraits.TraitDescs[index]
+            self.name, distrib, self.hasWorth = PetTraits.TraitDescs[index]
             # pass in value if we already have it and are not gen'ing it
             if value is not None:
                 self.value = value
@@ -234,7 +234,7 @@ class PetTraits:
 
         def __repr__(self):
             return ('Trait: %s, %s, %s, %s' % (
-                self._name, self.value,
+                self.name, self.value,
                 TraitDistribution.TraitQuality.getString(self.quality),
                 self.howExtreme))
 
@@ -257,9 +257,9 @@ class PetTraits:
             else:
                 # otherwise, generate the trait value.
                 trait = PetTraits.Trait(i, self)
-            self.traits[trait._name] = trait
+            self.traits[trait.name] = trait
             # add a copy of the trait value on ourselves
-            self.__dict__[trait._name] = trait.value
+            self.__dict__[trait.name] = trait.value
             
         # pre-calculate the extreme traits, ordered by... extremity-ness
         extremeTraits = []
@@ -281,7 +281,7 @@ class PetTraits:
                             extremeTraits[i+1].howExtreme)
         self.extremeTraits = []
         for trait in extremeTraits:
-            self.extremeTraits.append((trait._name, trait.quality))
+            self.extremeTraits.append((trait.name, trait.quality))
 
     def getValueList(self):
         # returns ordered list of trait values

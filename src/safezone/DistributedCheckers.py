@@ -139,7 +139,7 @@ class DistributedCheckers(DistributedNode.DistributedNode):
            zz.hide()
 
     def setName(self, name):
-        self._name = name
+        self.name = name
 
     def announceGenerate(self):
         DistributedNode.DistributedNode.announceGenerate(self)

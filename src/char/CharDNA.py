@@ -59,7 +59,7 @@ class CharDNA(AvatarDNA.AvatarDNA):
         Avatar DNA print method
         """
         if (self.type == 'c'):
-            return "type = char, name = %s" % self._name
+            return "type = char, name = %s" % self.name
         else:
             return "type undefined"
 
@@ -69,7 +69,7 @@ class CharDNA(AvatarDNA.AvatarDNA):
         dg = PyDatagram()
         dg.addFixedString(self.type, 1)
         if (self.type == 'c'):  # Char
-            dg.addFixedString(self._name, 2)
+            dg.addFixedString(self.name, 2)
         elif (self.type == 'u'):
             notify.error("undefined avatar")
         else:
@@ -82,7 +82,7 @@ class CharDNA(AvatarDNA.AvatarDNA):
         dgi=PyDatagramIterator(dg)
         self.type = dgi.getFixedString(1)
         if (self.type == 'c'):  # Char
-            self._name = sgi.getFixedString(2)
+            self.name = sgi.getFixedString(2)
         else:
             notify.error("unknown avatar type: ", self.type)
 
@@ -93,7 +93,7 @@ class CharDNA(AvatarDNA.AvatarDNA):
         Make a default character dna
         """
         self.type = 'c'
-        self._name = charTypes[0]
+        self.name = charTypes[0]
 
     def newChar(self, name = None):
         """newChar(self, string = None)
@@ -105,7 +105,7 @@ class CharDNA(AvatarDNA.AvatarDNA):
         else:
             self.type = 'c'
             if (name in  charTypes):
-                self._name = name
+                self.name = name
             else:
                 notify.error("unknown avatar type: %s" % (name))
 
@@ -126,41 +126,41 @@ class CharDNA(AvatarDNA.AvatarDNA):
         """getCharName(self)
         Return the type of the character as a string
         """
-        if (self._name == "mk"):
+        if (self.name == "mk"):
             return("mickey")
-        elif(self._name=="vmk"):
+        elif(self.name=="vmk"):
             return("vampire_mickey")
-        elif (self._name == "mn"):
+        elif (self.name == "mn"):
             return("minnie")
-        elif (self._name == "wmn"):
+        elif (self.name == "wmn"):
             return("witch_minnie")
-        elif (self._name == "g"):
+        elif (self.name == "g"):
             return("goofy")
-        elif (self._name == "sg"):
+        elif (self.name == "sg"):
             return("super_goofy")
-        elif (self._name == "d"):
+        elif (self.name == "d"):
             return("donald")
-        elif (self._name == "dw"):
+        elif (self.name == "dw"):
             return("donald-wheel")
-        elif (self._name == "fd"):
+        elif (self.name == "fd"):
             return("franken_donald")
-        elif (self._name == "dd"):
+        elif (self.name == "dd"):
             return("daisy")
-        elif (self._name == "shdd"):
+        elif (self.name == "shdd"):
             return("sockHop_daisy")
-        elif (self._name == "p"):
+        elif (self.name == "p"):
             return("pluto")
-        elif( self._name == "wp"):
+        elif( self.name == "wp"):
             return("western_pluto")
-        elif (self._name == "cl"):
+        elif (self.name == "cl"):
             return("clarabelle")
-        elif (self._name == "ch"):
+        elif (self.name == "ch"):
             return("chip")
-        elif (self._name == "da"):
+        elif (self.name == "da"):
             return("dale")
-        elif (self._name == "pch"):
+        elif (self.name == "pch"):
             return("police_chip")
-        elif (self._name == "jda"):
+        elif (self.name == "jda"):
             return("jailbird_dale")
         else:
-            notify.error("unknown char type: ", self._name)
+            notify.error("unknown char type: ", self.name)

@@ -50,7 +50,7 @@ class SuitBase:
 
     def getStyleName(self):
         if (hasattr(self, "dna") and self.dna):
-            return self.dna._name
+            return self.dna.name
         else:
             self.notify.error('called getStyleName() before dna was set!')
             return 'unknown'
@@ -72,7 +72,7 @@ class SuitBase:
                                                         "level": self.getActualLevel(),}
         self.setDisplayName( nameWLevel )
         # Compute maxHP based on level
-        attributes = SuitBattleGlobals.SuitAttributes[self.dna._name]
+        attributes = SuitBattleGlobals.SuitAttributes[self.dna.name]
         self.maxHP = attributes['hp'][self.level]
         self.currHP = self.maxHP
 

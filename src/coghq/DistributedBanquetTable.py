@@ -264,7 +264,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         sitLocator = correctHeadingNp.attachNewNode('sitLocator')
         base.sitLocator = sitLocator
         pos = correctHeadingNp.getPos(render)
-        if SuitDNA.getSuitBodyType(diner.dna._name) == 'c':
+        if SuitDNA.getSuitBodyType(diner.dna.name) == 'c':
             sitLocator.setPos(0.5, 3.65, -3.75)
         else:
             sitLocator.setZ(-2.4)
@@ -396,7 +396,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             foodModel.setHpr( Point3(0,-94,0)),
             foodModel.setPos( Point3(-0.15,-0.7,-0.4)),
             scaleAdj = 1
-            if SuitDNA.getSuitBodyType(diner.dna._name) == 'c':
+            if SuitDNA.getSuitBodyType(diner.dna.name) == 'c':
                scaleAdj=0.6
                foodModel.setPos( Point3(0.1, -0.25, -0.31)),
             else:
@@ -411,7 +411,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             foodModel.reparentTo( serviceLoc),
             foodModel.setPosHpr( 0,0,0, 0,0,0),
             scaleAdj = 1
-            if SuitDNA.getSuitBodyType(diner.dna._name) == 'c':
+            if SuitDNA.getSuitBodyType(diner.dna.name) == 'c':
                scaleAdj=0.6
             else:
                 scakeAdj = 0.8

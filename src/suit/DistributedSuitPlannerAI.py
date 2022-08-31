@@ -2368,7 +2368,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
         # just send back a list of suit type indices
         suitIndexList = []
         for suit in self.suitList:
-            suitIndexList.append(SuitDNA.suitHeadTypes.index(suit.dna._name))
+            suitIndexList.append(SuitDNA.suitHeadTypes.index(suit.dna.name))
         self.sendUpdateToAvatarId( self.air.getAvatarIdFromSender(), 'suitListResponse', [ suitIndexList ] )
 
     def buildingListQuery( self ):

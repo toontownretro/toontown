@@ -21,13 +21,13 @@ class EmoteFrame(DirectFrame):
         DirectFrame.__init__(self, relief = None)
         bookModel = loader.loadModel("phase_3.5/models/gui/stickerbook_gui")
         self.normalTextColor = (0.3,0.25,0.2,1)
-        self._name = emoteName
+        self.name = emoteName
         self.frame = DirectFrame(
             parent = self,
             relief = None,
             image = bookModel.find("**/paper_note"),
             image_scale = (0.8,0.9,0.9),
-            text = self._name,
+            text = self.name,
             text_pos = (0,-0.34),
             text_fg = self.normalTextColor,
             text_scale = 0.15,
@@ -42,13 +42,13 @@ class EmoteFrame(DirectFrame):
             text_fg = (0.3,0.25,0.2,0.1),
             )
         self.toon = None
-        if self._name != '?':
+        if self.name != '?':
             self.makeToon()
         bookModel.removeNode()
 
     def updateEmote(self, emoteName):
-        self._name = emoteName
-        self.frame['text'] = self._name
+        self.name = emoteName
+        self.frame['text'] = self.name
         self.frame.setText()
         self.makeToon()
         self.question.hide()
@@ -68,7 +68,7 @@ class EmoteFrame(DirectFrame):
         self.toon.loop('neutral')
 
         try:
-            anim = emoteAnimDict[self._name]
+            anim = emoteAnimDict[self.name]
         except:
             print("we didnt get the right animation")
             anim = 'neutral'

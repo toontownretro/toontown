@@ -205,7 +205,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         #del self
 
     def setName(self, name):
-        self._name = name
+        self.name = name
     ################
     ##SetGameDoID -
     # This function is called by the child game after it is generated, in order

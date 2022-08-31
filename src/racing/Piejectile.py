@@ -39,7 +39,7 @@ class Piejectile(DirectObject, FlyingGag):
         self.curSpeed = 0
         self.acceleration = 0
         self.count = 0
-        self._name = name
+        self.name = name
         self.physicsObj = None
         self.ownerId = sourceId
         self.targetId = targetId
@@ -56,7 +56,7 @@ class Piejectile(DirectObject, FlyingGag):
         self.rotP = randFloat(-90,90)
         self.rotR = randFloat(-90,90)
 
-        print(("generating Pie %s" % (self._name)))
+        print(("generating Pie %s" % (self.name)))
 
         self.ownerKart = base.cr.doId2do.get(base.race.kartMap.get(sourceId,None),None)
         if(targetId != 0):
@@ -77,7 +77,7 @@ class Piejectile(DirectObject, FlyingGag):
         self.forward=NodePath("forward")
         self.forward.setPos(0,1,0)
 
-        self.splatTaskName = ("splatTask %s" % (self._name))
+        self.splatTaskName = ("splatTask %s" % (self.name))
 
         if self.hasTarget:
             self.splatTask = taskMgr.doMethodLater(self.maxTime, self.splat, self.splatTaskName)
@@ -168,7 +168,7 @@ class Piejectile(DirectObject, FlyingGag):
         lookPoint = render.getRelativePoint(self.ownerKart, Point3(0, 10, 0))
 
         self.lookAt(lookPoint)
-        self.taskName = ("updatePhysics%s" % (self._name))
+        self.taskName = ("updatePhysics%s" % (self.name))
         taskMgr.add(self.__updatePhysics, self.taskName, priority=25)
 
     def checkTargetDistance(self):
@@ -285,7 +285,7 @@ class Piejectile(DirectObject, FlyingGag):
         # keep others from bumping into me.  We use PieBitmask instead
         # of WallBitmask, to protect against objects (like goons)
         # self-colliding.
-        self.collisionNode = CollisionNode(self._name)
+        self.collisionNode = CollisionNode(self.name)
         self.collisionNode.setFromCollideMask(OTPGlobals.WallBitmask)
         self.collisionNode.setIntoCollideMask(BitMask32.allOff())
 
@@ -304,7 +304,7 @@ class Piejectile(DirectObject, FlyingGag):
 
         # This is a ray cast down to detect floor polygons
         cRay = CollisionRay(0.0, 0.0, 40000.0, 0.0, 0.0, -1.0)
-        pieFloorRayName = ("pieFloorRay%s" % (self._name))
+        pieFloorRayName = ("pieFloorRay%s" % (self.name))
         cRayNode = CollisionNode(pieFloorRayName)
         cRayNode.addSolid(cRay)
         cRayNode.setFromCollideMask(OTPGlobals.FloorBitmask)

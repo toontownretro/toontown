@@ -56,7 +56,7 @@ class InGameEditorEntityBase(InGameEditorElement):
         self.level.buildEntityTree()
 
     def setName(self, name):
-        self._name = name
+        self.name = name
         self.level.buildEntityTree()
 
 class InGameEditorEntity(Entity.Entity, InGameEditorEntityBase):
