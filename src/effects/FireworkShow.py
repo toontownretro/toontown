@@ -31,29 +31,23 @@ fireworkShowTypes = [ ToontownGlobals.JULY4_FIREWORKS,
 
 class FireworkShow(NodePath):
 
-    def __init__(self, showType=ToontownGlobals.NEWYEARS_FIREWORKS):
-        NodePath.__init__(self, "FireworkShow")
-        self.showType = showType
-        self.sectionIvals = []
-        self.fireworks = []
-
-        def r(): #randomize number
-            return random.randint(8,12)/10.0
-        def rV(): #randomize velocity
-            return Vec3(random.randint(-60,60),
-                        random.randint(10,30),
-                        random.randint(125, 150))
-        def rP(): #randomize position
-            return Point3(0,
-                          0,0)
-        def rS(): #randomize scale
-            return 1.0+ random.random()/2.0
-        def rC(): #randomize color
-            return random.choice(colors)
-        def rT(): #randomize trail duration
-            return random.randint(12,20)/10.0
-        def rD(): #randomize delay time
-            return random.randint(1,20)/10.0
+    def r(): #randomize number
+        return random.randint(8,12)/10.0
+    def rV(): #randomize velocity
+        return Vec3(random.randint(-60,60),
+                    random.randint(10,30),
+                    random.randint(125, 150))
+    def rP(): #randomize position
+        return Point3(0,
+                      0,0)
+    def rS(): #randomize scale
+        return 1.0+ random.random()/2.0
+    def rC(): #randomize color
+        return random.choice(colors)
+    def rT(): #randomize trail duration
+        return random.randint(12,20)/10.0
+    def rD(): #randomize delay time
+        return random.randint(1,20)/10.0
 
         # FIREWORK SHOW DATA
         ######################################################################
@@ -74,7 +68,7 @@ class FireworkShow(NodePath):
         # if color2 is set to -1, it will equal color1;
         # None means this attribute is preset for the firework type
         # --------------------------------------------------------------------
-        self.showData = {
+    showData = {
             # FOURTH OF JULY firework sequence
             # --------------------------------------------------------------------
             ToontownGlobals.JULY4_FIREWORKS: [
@@ -271,29 +265,29 @@ class FireworkShow(NodePath):
 
 
 
-        self.showData[ToontownGlobals.COMBO_FIREWORKS] = showData[ToontownGlobals.NEWYEARS_FIREWORKS]
+    showData[ToontownGlobals.COMBO_FIREWORKS] = showData[ToontownGlobals.NEWYEARS_FIREWORKS]
 
-        self.sectionData = {
+    sectionData = {
             ToontownGlobals.JULY4_FIREWORKS: [(0,24),
-                (24, len(self.showData[ToontownGlobals.JULY4_FIREWORKS]))],
+                (24, len(showData[ToontownGlobals.JULY4_FIREWORKS]))],
             PartyGlobals.FireworkShows.Summer: [(0,24),
-                (24, len(self.showData[PartyGlobals.FireworkShows.Summer]))],
-            ToontownGlobals.NEWYEARS_FIREWORKS: [(0,len(self.showData[PartyGlobals.FireworkShows.Summer]))],
+                (24, len(showData[PartyGlobals.FireworkShows.Summer]))],
+            ToontownGlobals.NEWYEARS_FIREWORKS: [(0,len(showData[PartyGlobals.FireworkShows.Summer]))],
             ToontownGlobals.COMBO_FIREWORKS: [(0, len(showData[PartyGlobals.FireworkShows.Summer]))],
             }
 
-        self.showMusic = {
+    showMusic = {
             }
 
     @classmethod
     def isValidShowType(cls, showType = -1):
-        if showType in cls.showData.keys():
+        if showType in list(cls.showData.keys()):
             return True
         else:
             return False
 
-    def __init__(self, showType = ToontownGlobals.NEWYEARS_FIREWORKS):
-        NodePath.__init__(self, 'FireworkShow')
+    def __init__(self, showType=ToontownGlobals.NEWYEARS_FIREWORKS):
+        NodePath.__init__(self, "FireworkShow")
         self.showType = showType
         self.sectionIvals = []
         self.fireworks = []
@@ -407,5 +401,5 @@ class FireworkShow(NodePath):
             del firework
             firework = None
         self.fireworks = []
-        del self.showData
-        self.showData = None
+        #del self.showData
+        #self.showData = None
