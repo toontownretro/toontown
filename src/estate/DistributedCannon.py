@@ -1234,8 +1234,12 @@ class DistributedCannon(DistributedObject.DistributedObject):
             print("EXECWARNING DistributedCannon: %s" % flightResults)
             printStack()
         # pull all the results into the local namespace
-        for key in flightResults:
-            exec("%s = flightResults['%s']" % (key, key))
+        startPos = flightResults['startPos']
+        startVel = flightResults['startVel']
+        startHpr = flightResults['startHpr']
+        trajectory = flightResults['trajectory']
+        timeOfImpact = flightResults['timeOfImpact']
+        hitWhat = flightResults['hitWhat']
 
         self.notify.debug("start position: " + str(startPos))
         self.notify.debug("start velocity: " + str(startVel))

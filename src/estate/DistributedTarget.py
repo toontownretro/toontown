@@ -122,14 +122,16 @@ class DistributedTarget(DistributedObject.DistributedObject):
                 self.fadeTrack = Sequence(
                     Func(base.localAvatar.setSystemMessage, 0, TTLocalizer.EstateTargetGameStart),
                     Func(self.geom.unstash),
-                    Func(self.geom.lerpColorScale, Vec4(1.0, 1.0, 1.0, 0.0), Vec4(1.0, 1.0, 1.0, 1.0), 1.0),
+                    # Todo lerpColorScale deprecated
+                    #Func(self.geom.lerpColorScale, Vec4(1.0, 1.0, 1.0, 0.0), Vec4(1.0, 1.0, 1.0, 1.0), 1.0),
                     Wait(1),
                     Func(base.localAvatar.setSystemMessage, 0, TTLocalizer.EstateTargetGameInst),
                     )
             else:
                 # fade out and hide the target
                 self.fadeTrack = Sequence(
-                    Func(self.geom.lerpColorScale, Vec4(1.0, 1.0, 1.0, 1.0), Vec4(1.0, 1.0, 1.0, 0.0), 1.0),
+                    # Todo lerpColorScale deprecated
+                    #Func(self.geom.lerpColorScale, Vec4(1.0, 1.0, 1.0, 1.0), Vec4(1.0, 1.0, 1.0, 0.0), 1.0),
                     Func(self.geom.stash),
                     Func(self.hideTimer),
                     Func(base.localAvatar.setSystemMessage, 0, TTLocalizer.EstateTargetGameEnd),
