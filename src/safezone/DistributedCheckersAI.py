@@ -83,7 +83,7 @@ class DistributedCheckersAI(DistributedNodeAI):
     def announceGenerate(self):
         self._parent.setGameDoId(self.doId)
     def getTableDoId(self):
-        #print("PARENT -- ", self.parent)
+        #print("PARENT -- ", self._parent)
         return self.parentDo
     def delete(self):
         self.fsm.requestFinalState()

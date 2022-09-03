@@ -5,7 +5,7 @@ class VisGroupsUI(wx.Dialog):
     def __init__(self, parent, id, title, editor, visGroups):
         wx.Dialog.__init__(self, parent, id, title, size=(200, 240))
 
-        self.parent = parent
+        self._parent = parent
         self.editor = editor
         self.visGroups = visGroups
 

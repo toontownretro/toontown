@@ -196,7 +196,7 @@ class RobotToon(Toon.Toon, RobotAvatarBase):
             elif isinstance(description, Datagram):
                 # Create dna straight from datagram
                 dna.makeFromNetString(description)
-            elif isinstance(description, bytes):
+            elif isinstance(description, str):
                 # Assume it is a server string description
                 # Convert to datagram then create dna
                 dna.makeFromNetString(self.convertServerDNAString(description))
@@ -253,7 +253,7 @@ class RobotSuit(Suit.Suit, RobotAvatarBase):
             dna = description
         else:
             dna = SuitDNA.SuitDNA()
-            if isinstance(description, bytes):
+            if isinstance(description, str):
                 # Assume it is a suit specification
                 dna.newSuit(description)
             elif isinstance(description, int):

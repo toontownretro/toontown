@@ -164,6 +164,9 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
                     self.inviterPanels.forceCleanup()
                 self.groupInviteePanel = GroupInvitee.GroupInvitee()
                 self.groupInviteePanel.make(self, inviter, leaderId)
+                if ConfigVariableBool('reject-boarding-group-invites', 0).getValue():
+                    self.groupInviteePanel.forceCleanup()
+                    self.groupInviteePanel = None
 
     def postKick(self, leaderId):
         self.notify.debug("%s was kicked out of the Boarding Group by %s" % (localAvatar.doId, leaderId))

@@ -5,6 +5,7 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.showbase import BulletinBoardWatcher
 from toontown.toonbase.ToontownModules import *
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.toon import Toon
 from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil
@@ -143,6 +144,9 @@ class StageInterior(BattlePlace.BattlePlace):
         self.fsm.enterInitialState()
         base.transitions.fadeOut(t=0)
 
+        self._telemLimiter = TLGatherAllAvs('StageInterior',
+                                            RotationLimitToH)
+
         # While we are here, we ignore invasion credit.
         base.localAvatar.inventory.setRespectInvasions(0)
 
@@ -180,6 +184,9 @@ class StageInterior(BattlePlace.BattlePlace):
     def exit(self):
         # Turn off the little red arrows.
         NametagGlobals.setMasterArrowsOn(0)
+
+        self._telemLimiter.destroy()
+        del self._telemLimiter
 
         bboard.remove(DistributedStage.DistributedStage.ReadyPost)
 

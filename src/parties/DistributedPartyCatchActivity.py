@@ -229,7 +229,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         self.dropObjModels = {}
         for objType in PartyGlobals.DropObjectTypes:
             model = loader.loadModel(objType.modelPath)
-            self.dropObjModels[objType._name] = model
+            self.dropObjModels[objtype.name] = model
 
             # all of the models need to be rescaled
             modelScales = {
@@ -240,8 +240,8 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
                 'watermelon' : .6,
                 'pineapple' : .45,
                 }
-            if objType._name in modelScales:
-                model.setScale(modelScales[objType._name])
+            if objtype.name in modelScales:
+                model.setScale(modelScales[objtype.name])
 
             # adjust the model if necessary
             # don't compare the name; this will crash if someone changes
@@ -505,7 +505,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         # fix up the drop object table according to the difficulty level,
         # set up per-object-type Trajectory objects and related variables
         for objType in PartyGlobals.DropObjectTypes:
-            DistributedPartyCatchActivity.notify.debug("*** Object Type: %s" % objType._name)
+            DistributedPartyCatchActivity.notify.debug("*** Object Type: %s" % objtype.name)
 
             # each object type has an onscreen drop duration multiplier
             # that specifies how long the object should be onscreen,

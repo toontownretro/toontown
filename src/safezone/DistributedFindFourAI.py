@@ -91,7 +91,7 @@ class DistributedFindFourAI(DistributedNodeAI):
         return self.parentDo
     def delete(self):
         self.fsm.requestFinalState()
-        self.parent = None
+        self._parent = None
         self.parentDo = None
         del self.board
         del self.fsm

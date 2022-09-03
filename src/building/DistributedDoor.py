@@ -546,6 +546,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             place.fsm.request('walk')
 
 
+    # Todo Update Access
     def allowedToEnter(self):
         """Check if the local toon is allowed to enter."""
         if base.cr.isPaid():

@@ -68,9 +68,22 @@ class DustCloud(NodePath):
             name = 'dustCloud-track-%d' % self.trackId,
             )
 
+    def _resetTrack(self):
+        self.seqNode.setFrameRate(0)
+        self.hide()
+
 
     def messaging(self):
         self.notify.debug("CREATING TRACK ID: %s" %self.trackId)
+
+    def isPlaying(self):
+        if self.track == None:
+            return False
+        if self.track.isPlaying():
+            return True
+        else:
+            return False
+        return
 
     def play(self, rate = 24):
         # Stop existing track, if one exists
@@ -91,10 +104,13 @@ class DustCloud(NodePath):
     def stop(self):
         if self.track:
             self.track.finish()
+            self.track.clearToInitial()
 
     def destroy(self):
         self.notify.debug("DESTROYING TRACK ID: %s" %self.trackId)
-        self.stop()
+        if self.track:
+            self._resetTrack()
+            self.track.clearToInitial()
         del self.track
         del self.seqNode
         self.removeNode()

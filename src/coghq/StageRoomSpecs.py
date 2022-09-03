@@ -62,6 +62,9 @@ CashbotStageConnectorRooms = ('phase_11/models/lawbotHQ/LB_connector_7cubeL2',
 
 # dict of roomId to spec Python module
 CashbotStageSpecModules = {}
+if not isClient():
+    print('EXECWARNING StageRoomSpecs: %s' % CashbotStageRoomName2RoomId)
+    printStack()
 for roomName, roomId in list(CashbotStageRoomName2RoomId.items()):
     exec('from toontown.coghq import %s' % roomName)
     CashbotStageSpecModules[roomId] = eval(roomName)

@@ -39,13 +39,13 @@ class CogdoMazeCameraManager:
         self._camTargetDistance = self._camDistance
 
     def enable(self):
-        self.parent = self.root.attachNewNode('GameCamParent')
-        self.parent.setPos(self.toon, 0, 0, 0)
-        self.parent.setHpr(self.root, 180, self._camAngle, 0)
-        self.camera.reparentTo(self.parent)
+        self._parent = self.root.attachNewNode('GameCamParent')
+        self._parent.setPos(self.toon, 0, 0, 0)
+        self._parent.setHpr(self.root, 180, self._camAngle, 0)
+        self.camera.reparentTo(self._parent)
         self.camera.setPos(0, self._camDistance, 0)
         self.camera.lookAt(self.toon)
-        self.defaultHeight = self.parent.getZ()
+        self.defaultHeight = self._parent.getZ()
         self.update(0)
 
     def setCameraTargetDistance(self, distance):
@@ -53,12 +53,12 @@ class CogdoMazeCameraManager:
 
     def disable(self):
         self.camera.wrtReparentTo(render)
-        self.parent.removeNode()
-        del self.parent
+        self._parent.removeNode()
+        del self._parent
 
     def update(self, dt):
         toonPos = self.toon.getPos()
-        self.parent.setPos(self.toon.getParent(), clamp(toonPos.getX(), self.minPos[0], self.maxPos[0]), clamp(toonPos.getY(), self.minPos[1], self.maxPos[1]), 0)
+        self._parent.setPos(self.toon.getParent(), clamp(toonPos.getX(), self.minPos[0], self.maxPos[0]), clamp(toonPos.getY(), self.minPos[1], self.maxPos[1]), 0)
         if self._camDistance != self._camTargetDistance:
             self._updateCameraDistance()
         if self.shakeOffset > 0 or self.shakeStrength > 0:

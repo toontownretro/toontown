@@ -298,7 +298,8 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.__cleanupIntervals()
         self._removeMembersKeep()
         # Eliminate a circular reference
-        self.movie.battle = None
+        #self.movie.battle = None
+        self.movie.cleanup()
         del self.townBattle
         self.removeNode()
         self.fsm = None
@@ -341,7 +342,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         elif (trapName == 'tnt'):
             trap.setP(90)
             # Start particle effect if there isn't one already
-            tip = trap.find("**/joint_attachEmitter")
+            tip = trap.find("**/joint*attachEmitter")
             sparks = BattleParticles.createParticleEffect(file='tnt')
             trap.sparksEffect = sparks
             sparks.start(tip)

@@ -2,7 +2,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.coghq import DistributedCogHQDoorAI
 from toontown.building import FADoorCodes, DoorTypes
 from toontown.toonbase import ToontownGlobals
-#from toontown.toonbase import ToontownAccessAI
+from toontown.toonbase import ToontownAccessAI
 from . import CogDisguiseGlobals
 from otp.otpbase import OTPGlobals
 
@@ -24,8 +24,7 @@ class DistributedSellbotHQDoorAI(DistributedCogHQDoorAI.DistributedCogHQDoorAI):
             self.sendUpdateToAvatarId(avatarID, "setOtherZoneIdAndDoId",
                                       [self.destinationZone, self.otherDoor.getDoId()])
             if ToontownGlobals.SELLBOT_NERF_HOLIDAY in self.air.holidayManager.currentHolidays:
-                self.sendUpdateToAvatarId(avatarID, "informPlayer', [
-                    suitType])
+                self.sendUpdateToAvatarId(avatarID, "informPlayer", [suitType])
 
     """
     def __getAccessLevel(self, avatarID):

@@ -12,6 +12,7 @@ from direct.showbase import DirectObject
 from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
 from direct.task import Task
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.battle import BattleParticles
 from toontown.building import Elevator
 from toontown.hood import ZoneUtil

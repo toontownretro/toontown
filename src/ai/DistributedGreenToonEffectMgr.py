@@ -16,7 +16,7 @@ class DistributedGreenToonEffectMgr(DistributedObject.DistributedObject):
 
         # go ahead and start listening to speedchat
         def phraseSaid(phraseId):
-            greenPhrase  = 104
+            greenPhrase  = 30450
             if phraseId == greenPhrase :
                 self.addGreenToonEffect()
         self.accept(SpeedChatGlobals.SCStaticTextMsgEvent, phraseSaid)

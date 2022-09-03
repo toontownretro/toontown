@@ -54,7 +54,10 @@ class CatalogNametagItem(CatalogItem.CatalogItem):
             name = TTLocalizer.UnpaidNameTag
         else:
             name = TTLocalizer.NametagFontNames[self.nametagStyle]
-        name = name + TTLocalizer.NametagLabel
+        if TTLocalizer.NametagReverse:
+            name = TTLocalizer.NametagLabel + name
+        else:
+            name = name + TTLocalizer.NametagLabel
         return name
         if self.nametagStyle == 0:
             name = TTLocalizer.NametagPaid

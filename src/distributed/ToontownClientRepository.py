@@ -36,6 +36,7 @@ from otp.distributed import OtpDoGlobals
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
 from otp.otpbase import OTPLauncherGlobals
+from otp.avatar.Avatar import teleportNotify
 
 
 from toontown.toonbase.ToonBaseGlobal import *
@@ -64,6 +65,7 @@ from .ToontownMsgTypes import *
 from . import HoodMgr
 from . import PlayGame
 from toontown.toontowngui import ToontownLoadingBlocker
+#from toontown.hood import StreetSign
 
 
 
@@ -147,6 +149,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.catalogManager = None
         self.welcomeValleyManager = None
         self.newsManager = None
+        self.streetSign = None
         self.distributedDistrict = None
         self.partyManager = None
         self.inGameNewsMgr = None
@@ -181,6 +184,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             self.codeRedemptionManager = self.generateGlobalObject(
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER,
                 "TTCodeRedemptionMgr")
+
+        self.streetSign = None
 
         # This one is a little different, because it doesn't live in
         # the Uber zone; a different one lives in the zone for each
@@ -428,11 +433,12 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                 self.notify.info("Chose avatar name: %s" % (av.name))
                 dna = ToonDNA.ToonDNA()
                 dna.makeFromNetString(av.dna)
-                self.notify.info("Chose avatar dna: %s" % (dna.asTuple(),))
-                self.notify.info("Chose avatar position: %s" % (av.position))
-                self.notify.info("isPaid: %s" % (self.isPaid()))
-                self.notify.info("freeTimeLeft: %s" % (self.freeTimeLeft()))
-                self.notify.info("allowSecretChat: %s" %
+                if base.logPrivateInfo:
+                    self.notify.info("Chose avatar dna: %s" % (dna.asTuple(),))
+                    self.notify.info("Chose avatar position: %s" % (av.position))
+                    self.notify.info("isPaid: %s" % (self.isPaid()))
+                    self.notify.info("freeTimeLeft: %s" % (self.freeTimeLeft()))
+                    self.notify.info("allowSecretChat: %s" %
                                  (self.allowSecretChat()))
                 self.notify.info("================")
         if (done == "chose"):
@@ -751,7 +757,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             pad.avatar.updateAllRequiredFields(dclass, di)
             gotData = 1
 
-        if isinstance(pad.func, bytes):
+        if isinstance(pad.func, str):
             # If the pad "function" is actually a string, send an
             # event instead of calling the function.
             messenger.send(pad.func, list((gotData, pad.avatar) + pad.args))
@@ -779,6 +785,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                               -1                              # avId
                               ])
         self._userLoggingOut = False
+        #if not self.streetSign:
+        #    self.streetSign = StreetSign.StreetSign()
 
     def exitPlayingGame(self):
         # First, stop all loose intervals that are tagged with autoPause or
@@ -1260,17 +1268,21 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         # we've heard about this session?
         avatar = None
         if doId in self.doId2do:
+            teleportNotify.debug('found friend %s in doId2do' % doId)
             avatar = self.doId2do[doId]
         elif self.cache.contains(doId):
+            teleportNotify.debug('found friend %s in cache' % doId)
             avatar = self.cache.dict[doId]
         elif self.playerFriendsManager.getAvHandleFromId(doId):
+            teleportNotify.debug('found friend %s in playerFriendsManager' % doId)
             avatar = base.cr.playerFriendsManager.getAvHandleFromId(doId)
         else:
             # Haven't got a clue.
             self.notify.warning("Don't know who friend %s is." % (doId))
             return None
 
-        if not (isinstance(avatar, DistributedToon.DistributedToon) or
+        if not ((isinstance(avatar, DistributedToon.DistributedToon) and
+                avatar.__class__ is DistributedToon.DistributedToon) or
                 isinstance(avatar, DistributedPet.DistributedPet)):
             self.notify.warning('friendsNotify%s: invalid friend object %s' % (
                 choice(source, '(%s)' % source, ''), doId))
@@ -1287,6 +1299,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         else:
             handle = FriendHandle.FriendHandle(doId, avatar.getName(), avatar.style, "")
 
+        teleportNotify.debug('adding %s to friendsMap' % doId)
         self.friendsMap[doId] = handle
         return handle
 
@@ -1573,6 +1586,9 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         assert self.notify.debugStateCall(self, 'loginFSM', 'gameFSM')
         return '%s-%s' % (ToontownClientRepository.EmuSetZoneDoneEvent, self.setZonesEmulated)
 
+    def getQuietZoneLeftEvent(self):
+        return 'leftQuietZone-%s' % (id(self),)
+
     # recreate the behaviour of sendSetZoneMsg
     def sendSetZoneMsg(self, zoneId, visibleZoneList=None):
         #########################################
@@ -1765,7 +1781,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             self.cache.delete(doId)
         else:
             # Otherwise, ignore it
-            self.notify.warning("Asked to delete non-existent DistObj " + str(doId))
+            ClientRepository.notify.warning("Asked to delete non-existent DistObj " + str(doId))
 
     def _abandonShard(self):
         # simulate removal of shard interest for quick shutdown

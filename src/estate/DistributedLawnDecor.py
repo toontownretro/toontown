@@ -292,6 +292,9 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
 
         return retval
 
+    def allowedToPick(self):
+        return True
+
     def unlockPick(self):
         return True
 

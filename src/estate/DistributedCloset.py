@@ -303,12 +303,13 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
 
                     # print out our clothes and closet information before we start
                     print ("-----------Starting closet interaction-----------")
-                    print("customerId: %s, gender: %s, ownerId: %s" % (self.av.doId, self.av.style.gender, ownerId))
-                    print("current top = %s,%s,%s,%s and  bot = %s,%s," % (self.av.style.topTex, self.av.style.topTexColor,
-                                                                           self.av.style.sleeveTex, self.av.style.sleeveTexColor,
-                                                                           self.av.style.botTex, self.av.style.botTexColor))
-                    print("topsList = %s" % self.av.getClothesTopsList())
-                    print("bottomsList = %s" % self.av.getClothesBottomsList())
+                    #print("customerId: %s, gender: %s, ownerId: %s" % (self.av.doId, self.av.style.gender, ownerId))
+                    #print("current top = %s,%s,%s,%s and  bot = %s,%s," % (self.av.style.topTex, self.av.style.topTexColor,
+                    #                                                       self.av.style.sleeveTex, self.av.style.sleeveTexColor,
+                    #                                                       self.av.style.botTex, self.av.style.botTexColor))
+                    #print("topsList = %s" % self.av.getClothesTopsList())
+                    #print("bottomsList = %s" % self.av.getClothesBottomsList())
+                    self.printInfo()
                     print ("-------------------------------------------------")
 
                     if not self.isOwner:
@@ -521,8 +522,22 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
             av = base.cr.doId2do.get(avId, None)
             if av:
                 if self.av == base.cr.doId2do[avId]:
+                    oldTorso = self.av.style.torso
                     self.av.style.makeFromNetString(dnaString)
+                    if len(oldTorso) == 2 and \
+                        len(self.av.style.torso) == 2 and \
+                        self.av.style.torso[1] != oldTorso[1]:
+                        self.av.swapToonTorso(self.av.style.torso, genClothes=0)
+                        self.av.loop('neutral', 0)
                     self.av.generateToonClothes()
+
+    def printInfo(self):
+        print("avid: %s, gender: %s" % (self.av.doId, self.av.style.gender))
+        print("current top = %s,%s,%s,%s and  bot = %s,%s," % (self.av.style.topTex, self.av.style.topTexColor,
+                                                               self.av.style.sleeveTex, self.av.style.sleeveTexColor,
+                                                               self.av.style.botTex, self.av.style.botTexColor))
+        print("topsList = %s" % self.av.getClothesTopsList())
+        print("bottomsList = %s" % self.av.getClothesBottomsList())
 
     def setMovie(self, mode, avId, timestamp):
         # See if this is the local toon
@@ -542,14 +557,15 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
             if self.isLocalToon:
                 self.__revertGender()
 
-                # print out our clothes and closet information before we start
-                print ("-----------ending closet interaction-----------")
-                print("avid: %s, gender: %s" % (self.av.doId, self.av.style.gender))
-                print("current top = %s,%s,%s,%s and  bot = %s,%s," % (self.av.style.topTex, self.av.style.topTexColor,
-                                                                       self.av.style.sleeveTex, self.av.style.sleeveTexColor,
-                                                                       self.av.style.botTex, self.av.style.botTexColor))
-                print("topsList = %s" % self.av.getClothesTopsList())
-                print("bottomsList = %s" % self.av.getClothesBottomsList())
+                # print out our clothes and trunk information before we start
+                print ("-----------ending trunk interaction-----------")
+                #print("avid: %s, gender: %s" % (self.av.doId, self.av.style.gender))
+                #print("current top = %s,%s,%s,%s and  bot = %s,%s," % (self.av.style.topTex, self.av.style.topTexColor,
+                #                                                       self.av.style.sleeveTex, self.av.style.sleeveTexColor,
+                #                                                       self.av.style.botTex, self.av.style.botTexColor))
+                #print("topsList = %s" % self.av.getClothesTopsList())
+                #print("bottomsList = %s" % self.av.getClothesBottomsList())
+                self.printInfo()
                 print ("-------------------------------------------------")
 
                 self.resetCloset()

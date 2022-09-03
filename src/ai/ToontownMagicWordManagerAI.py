@@ -605,6 +605,8 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                 bboard.remove(postName)
             self.down_setMagicWordResponse(senderId, 'autoRestock %s' % state)
 
+        # TODO: add ~autoRestockSOS, ~autoRestockPinkSlips, ~autoRestockSummons
+
         elif wordIs("~resistanceRestock"):
             from toontown.chat import ResistanceChat
             args = word.split()

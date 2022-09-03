@@ -220,6 +220,7 @@ class DistributedElevatorAI(DistributedObjectAI.DistributedObjectAI):
             
             # Check that player has full access
             if not ToontownAccessAI.canAccess(avId, self.zoneId):
+#            if not ToontownAccessAI.canAccess(avId, self.zoneId, "DistributedElevatorAI.requestBoard"):
                 self.notify.warning("Toon %s does not have access to theeleavtor. " % (avId))
                 self.rejectingBoardersHandler(*newArgs)
                 return

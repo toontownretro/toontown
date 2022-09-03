@@ -18,6 +18,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.coghq import BanquetTableBase
 from toontown.coghq import DinerStatusIndicator
 from toontown.battle import MovieUtil
+from toontown.toonbase.ToontownModules import *
 
 
 class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, BanquetTableBase.BanquetTableBase):
@@ -35,11 +36,11 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
 
     # The number of seconds it takes to move the power meter to
     # full the first time.
-    waterPowerSpeed = base.config.GetDouble('water-power-speed', 15)
+    waterPowerSpeed = ConfigVariableDouble('water-power-speed', 15).getValue()
 
     # The exponent that controls the factor at which the power
     # meter speeds up, see getWaterPower()
-    waterPowerExponent = base.config.GetDouble('water-power-exponent', 0.75)
+    waterPowerExponent = ConfigVariableDouble('water-power-exponent', 0.75).getValue()
 
     useNewAnimations = True
 
@@ -283,7 +284,12 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         base.serviceLoc = newLoc
 
         # create the status indicator
-        head = diner.find('**/joint_head')
+        if ConfigVariableBool('want-new-cogs', 0).getValue():
+            head = diner.find('**/to_head')
+            if head.isEmpty():
+                head = diner.find('**/joint*head')
+        else:
+            head = diner.find('**/joint*head')
         newIndicator = DinerStatusIndicator.DinerStatusIndicator(parent = head,
                                                                  pos = Point3(0,0,3.5),
                                                                  scale = 5.0)

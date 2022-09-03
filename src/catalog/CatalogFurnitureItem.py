@@ -78,7 +78,7 @@ for closetId, maxClothes in list(ClosetToClothes.items()):
         ClothesToCloset[maxClothes] = (closetId,)
     else:
         ClothesToCloset[maxClothes] += (closetId,)
-MaxClosetIds = (506, 516)
+MaxClosetIds = (506, 518)
 
 MaxTrunkIds = (4000, 4010)
 

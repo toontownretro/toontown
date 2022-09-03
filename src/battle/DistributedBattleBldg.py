@@ -60,6 +60,9 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
                 'phase_7/audio/bgm/encntr_general_bg_indoor.mid')
         base.playMusic(self.battleMusic, looping=1, volume=0.9)
 
+    def getBossBattleTaunt(self):
+        return TTLocalizer.BattleBldgBossTaunt
+
     def disable(self):
         """ disable()
         """
@@ -140,7 +143,8 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
 
                 # TODO: have an inside of building taunt here
                 if (self.bossBattle == 1):
-                    taunt = TTLocalizer.BattleBldgBossTaunt
+                    #taunt = TTLocalizer.BattleBldgBossTaunt
+                    taunt = self.getBossBattleTaunt()
                 else:
                     taunt = SuitBattleGlobals.getFaceoffTaunt(suit.getStyleName(), suit.doId)
 

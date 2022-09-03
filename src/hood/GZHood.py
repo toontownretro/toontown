@@ -18,7 +18,8 @@ class GZHood(ToonHood.ToonHood):
 
         # Dictionary which holds holiday specific lists of Storage DNA Files
         # Keyed off of the News Manager holiday IDs stored in ToontownGlobals
-        self.holidayStorageDNADict = {HALLOWEEN_PROPS : ['phase_6/dna/halloween_props_storage_GZ.dna']}
+        self.holidayStorageDNADict = {HALLOWEEN_PROPS : ['phase_6/dna/halloween_props_storage_GZ.dna'],
+                                      SPOOKY_PROPS : ['phase_6/dna/halloween_props_storage_GZ.dna']}
 
         self.skyFile = "phase_3.5/models/props/TT_sky"
         self.spookySkyFile = "phase_3.5/models/props/BR_sky"

@@ -326,7 +326,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
         self.sSphereBitMask = ToontownGlobals.WallBitmask
         self.sSphereNode.setCollideMask(self.sSphereBitMask)
         self.sSphere.setTangible(0)
-        self.accept("enter" + name, self.__handleToonCollision)
+        #self.accept("enter" + name, self.__handleToonCollision)
 
     def enableBattleDetect(self, name, handler):
         DistributedSuitBase.DistributedSuitBase.enableBattleDetect(self,name,handler)
@@ -533,7 +533,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
     def returnTask(self, task):
         # return to parent node, which is the idealPathNode
         # first, do a straight reparent to our original parent
-        self.factory.requestReparent(self, self.spec['parentEntId'])
+        #self.factory.requestReparent(self, self.spec['parentEntId'])
 
         # if we are on a path, or just the original pos
         # if it is a static suit
@@ -629,7 +629,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
             parts = ()
             for thingIndex in range(0,actorCollection.getNumPaths()):
                 thing = actorCollection[thingIndex]
-                if thing.getName() not in ('joint_attachMeter', 'joint_nameTag'):
+                if thing.getName() not in ('joint*attachMeter', 'joint*nameTag'):
                     thing.setColorScale(1.0,0.0,0.0,1.0)
                     thing.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd))
                     thing.setDepthWrite(False)

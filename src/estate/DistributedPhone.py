@@ -255,7 +255,8 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
             base.localAvatar.speed = 0
             taskMgr.remove(self.uniqueName("lerpCamera"))
             base.localAvatar.posCamera(0,0)
-            base.cr.playGame.getPlace().setState("walk")
+            if base.cr.playGame.place != None:
+                base.cr.playGame.getPlace().setState("walk")
             self.hasLocalAvatar = 0
 
         # Start accepting the phone collision sphere event again

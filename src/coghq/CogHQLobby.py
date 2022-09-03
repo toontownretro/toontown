@@ -6,6 +6,7 @@ from toontown.hood import Place
 from toontown.building import Elevator
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownModules import *
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 
 class CogHQLobby(Place.Place):
     # create a notify category
@@ -92,8 +93,11 @@ class CogHQLobby(Place.Place):
         NametagGlobals.setMasterArrowsOn(1)
         how=requestStatus["how"]
         self.fsm.request(how, [requestStatus])
+        self._telemLimiter = TLGatherAllAvs('CogHQLobby', RotationLimitToH)
 
     def exit(self):
+        self._telemLimiter.destroy()
+        del self._telemLimiter
         # Stop music
         self.fsm.requestFinalState()
         self.ignoreAll()

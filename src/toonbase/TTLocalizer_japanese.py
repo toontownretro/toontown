@@ -5987,13 +5987,6 @@ AvatarChoiceDeleteWrongConfirm = "入力されたものは間違っているよ�
 AvatarChooserPickAToon = "プレイするトゥーンをえらぶ"
 AvatarChooserQuit = lQuit
 
-# TTAccount.py
-# Fill in %s with phone number from account server
-TTAccountCallCustomerService = "ディズニー・インターネット・グループ・カスタマーセンター（%s）にごれんらくください。"
-# Fill in %s with phone number from account server
-TTAccountCustomerServiceHelp = "\nお問い合わせ等は、ディズニー・インターネット・グループ・カスタマーセンター（%s）までお願いします。"
-TTAccountIntractibleError = "エラーが発生しました。"
-
 # DateOfBirthEntry.py　★「月」だけでなく「年」や「日」にも単位をつけたい
 DateOfBirthEntryMonths = ['1月', '2月', '3月', '4月', '5月', '6月',
                           '7月', '8月', '9月', '10月', '11月', '12月',]

@@ -93,7 +93,7 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
 
         # Flatten the geom a bit
         if self.geom:
-            self.geom.flattenStrong()
+            self.geom.flattenMedium()
 
         CogHQLoader.CogHQLoader.loadPlaceGeom(self, zoneId)
 

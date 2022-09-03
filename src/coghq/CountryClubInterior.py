@@ -5,6 +5,7 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.showbase import BulletinBoardWatcher
 from toontown.toonbase.ToontownModules import *
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.toon import Toon
 from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil
@@ -157,6 +158,8 @@ class CountryClubInterior(BattlePlace.BattlePlace):
         # Cheesy rendering effects are not allowed in CountryClubs.
         base.cr.forbidCheesyEffects(1)
 
+        self._telemLimiter = TLGatherAllAvs('CountryClubInterior', RotationLimitToH)
+
         # wait until the CountryClub and any distributed entities have been
         # created before moving on
         def commence(self=self):
@@ -190,6 +193,9 @@ class CountryClubInterior(BattlePlace.BattlePlace):
         NametagGlobals.setMasterArrowsOn(0)
 
         bboard.remove(DistributedCountryClub.DistributedCountryClub.ReadyPost)
+
+        self._telemLimiter.destroy()
+        del self._telemLimiter
 
         # Restore cheesy rendering effects.
         base.cr.forbidCheesyEffects(0)

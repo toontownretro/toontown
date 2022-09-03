@@ -3,6 +3,7 @@ from . import HoodDataAI
 from toontown.toonbase import ToontownGlobals
 from toontown.coghq import DistributedFactoryElevatorExtAI
 from toontown.coghq import DistributedCogHQDoorAI
+from toontown.coghq import DistributedSellbotHQDoorAI
 from toontown.building import DoorTypes
 from toontown.coghq import LobbyManagerAI
 from toontown.building import DistributedBossElevatorAI
@@ -53,16 +54,16 @@ class CSHoodDataAI(HoodDataAI.HoodDataAI):
 
         # CogHQ Main building -> Lobby doors
         destinationZone = ToontownGlobals.SellbotLobby
-        extDoor0=DistributedCogHQDoorAI.DistributedCogHQDoorAI(
+        extDoor0=DistributedSellbotHQDoorAI.DistributedSellbotHQDoorAI(
             self.air, 0, DoorTypes.EXT_COGHQ,
             destinationZone, doorIndex=0)
-        extDoor1=DistributedCogHQDoorAI.DistributedCogHQDoorAI(
+        extDoor1=DistributedSellbotHQDoorAI.DistributedSellbotHQDoorAI(
             self.air, 1, DoorTypes.EXT_COGHQ,
             destinationZone, doorIndex=1)
-        extDoor2=DistributedCogHQDoorAI.DistributedCogHQDoorAI(
+        extDoor2=DistributedSellbotHQDoorAI.DistributedSellbotHQDoorAI(
             self.air, 2, DoorTypes.EXT_COGHQ,
             destinationZone, doorIndex=2)
-        extDoor3=DistributedCogHQDoorAI.DistributedCogHQDoorAI(
+        extDoor3=DistributedSellbotHQDoorAI.DistributedSellbotHQDoorAI(
             self.air, 3, DoorTypes.EXT_COGHQ,
             destinationZone, doorIndex=3)
         extDoorList = [extDoor0, extDoor1, extDoor2, extDoor3]

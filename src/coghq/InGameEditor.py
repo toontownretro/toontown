@@ -565,7 +565,7 @@ class InGameEditor(AppShell):
         label.pack(side = LEFT, expand = 0)
         # Add radio buttons
         for choice in params.get('choiceSet', []):
-            if type(choice) is bytes:
+            if type(choice) is str:
                 choiceStr = choice
             else:
                 choiceStr = repr(choice)
@@ -631,7 +631,7 @@ class InGameEditor(AppShell):
                 print('SENDING', value)
                 self.level.setAttribEdit(entId, attribName, value)
             # Create check button
-            if type(choice) is bytes:
+            if type(choice) is str:
                 labelStr = choice
             else:
                 labelStr = repr(choice)
@@ -1001,7 +1001,7 @@ class InGameEditor(AppShell):
             value = eval(newText)
         except:
             showwarning('ERROR', 'that is not a valid Python object',
-                        parent = self.parent)
+                        parent = self._parent)
             return
         # request the new value
         self.level.setAttribEdit(entId, attribName, value)
@@ -1059,7 +1059,7 @@ class InGameEditor(AppShell):
     def handleSaveAs(self):
         # error if we set parent=self
         filename = tkinter.filedialog.asksaveasfilename(
-            parent=self.parent,
+            parent=self._parent,
             defaultextension='.py',
             filetypes=[('Python Source Files', '.py'),
                        ('All Files', '*'),
@@ -1091,10 +1091,10 @@ class InGameEditor(AppShell):
                          'TODO')
 
     def showWarning(self, msg, title='Warning'):
-        showwarning(title, msg, parent = self.parent)
+        showwarning(title, msg, parent = self._parent)
 
     def askYesNo(self, msg, title='Query'):
-        return askyesno(title, msg, parent = self.parent)
+        return askyesno(title, msg, parent = self._parent)
 
     def popupLevelDialog(self):
         data = askstring('Input Level Data', 'Level Data:',

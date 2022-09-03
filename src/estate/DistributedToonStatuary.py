@@ -120,8 +120,8 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
         and set the color to gray.
         '''
 ##        gray = VBase4(0.6, 0.6, 0.6, 1)
-        gray = VBase4(1.6, 1.6, 1.6, 1)
-        self.toon.setColor(gray, 10)
+##        gray = VBase4(1.6, 1.6, 1.6, 1)
+##        self.toon.setColor(gray, 10)
 ##        self.toon.setColorScaleOff(10000)
 
         for node in self.toon.findAllMatches("**/*"):
@@ -153,11 +153,12 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
                 bottoms = torso.findAllMatches('**/torso-bot*')
                 for bottomNum in range(0, bottoms.getNumPaths()):
                     bottom = bottoms.getPath(bottomNum)
-                    # Replace whatever texture the toon has with the default desaturated textures.
-                    if (self.toon.style.torso[1] == 's'):
-                        bottom.setTexture(desatShortsTex, 1)
-                    else:
-                        bottom.setTexture(desatSkirtTex, 1)
+                    if bottom:
+                        # Replace whatever texture the toon has with the default desaturated textures.
+                        if (self.toon.style.torso[1] == 's'):
+                            bottom.setTexture(desatShortsTex, 1)
+                        else:
+                            bottom.setTexture(desatSkirtTex, 1)
 
     def setStoneTexture(self):
         gray = VBase4(1.6, 1.6, 1.6, 1)

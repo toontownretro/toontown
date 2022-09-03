@@ -32,6 +32,7 @@ class SuitPlannerInteriorAI:
         # about all suits that will exist in this building
         #
 
+        self.dbg_nSuits1stRound = ConfigVariableBool("n-suits-1st-round", 0).getValue()
         self.dbg_4SuitsPerFloor = ConfigVariableBool("4-suits-per-floor", 0).getValue()
         self.dbg_1SuitPerFloor = ConfigVariableBool("1-suit-per-floor", 0).getValue()  # formerly called 'wuss-suits'
 
@@ -50,7 +51,7 @@ class SuitPlannerInteriorAI:
         else:
             self.dbg_defaultSuitType = SuitDNA.getSuitType(dbg_defaultSuitName)
 
-        if (isinstance(bldgLevel, bytes)):
+        if (isinstance(bldgLevel, str)):
             self.notify.warning('bldgLevel is a string!')
             bldgLevel = int(bldgLevel)
         self._genSuitInfos( numFloors, bldgLevel, bldgTrack )
@@ -100,11 +101,12 @@ class SuitPlannerInteriorAI:
             # active suit is in the first position in the list
             #
             activeDicts = []
+            maxActive = min(4, len(lvls))
 
-            if (self.dbg_4SuitsPerFloor):
-                numActive = 4
+            if (self.dbg_nSuits1stRound):
+                numActive = min(self.dbg_nSuits1stRound, maxActive)
             else:
-                numActive = random.randint( 1, min( 4, len( lvls ) ) )
+                numActive = random.randint( 1, maxActive )
 
             if ((currFloor + 1) == numFloors and len(lvls) > 1):
                 # Make the boss be suit 1 (unless there is only 1 active suit)

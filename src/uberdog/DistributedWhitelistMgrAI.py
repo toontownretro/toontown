@@ -43,11 +43,12 @@ class DistributedWhitelistMgrAI(ParentClass ):
         pass
 
     def b_updateWhitelist(self, latestList):
-        self.updateWhitelist(latestList)
+        #self.updateWhitelist(latestList)
         self.d_updateWhitelist(latestList)
         
     def d_updateWhitelist(self, latestList):
-        self.sendUpdate("updateWhitelist",[self.updateWhitelist()])
+        #self.sendUpdate("updateWhitelist",[self.updateWhitelist()])
+        return
         
 
     def getUpdateWhitelist(self):

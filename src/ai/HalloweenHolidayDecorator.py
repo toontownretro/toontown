@@ -106,7 +106,7 @@ class HalloweenHolidayDecorator(HolidayDecorator.HolidayDecorator):
                         light.setColorScaleOff(0)
 
         holidayIds = base.cr.newsManager.getDecorationHolidayId()
-        if ToontownGlobals.HALLOWEEN_COSTUMES not in holidayIds:
+        if ToontownGlobals.HALLOWEEN_COSTUMES and ToontownGlobals.SPOOKY_COSTUMES not in holidayIds:
             return
         # Fixes transition related crashes
         if (self.__checkHoodValidity() or self.__checkStreetValidity()) and hasattr(base.cr.playGame, "hood") \

@@ -373,7 +373,7 @@ class CatalogScreen(DirectFrame):
                 self.nextPageButton.hide()
             elif ((self.viewing == 'Backorder') and (self.numLoyaltyPages == 0)):
                 self.nextPageButton.hide()
-            elif (self.viewing == 'Loyalty'):
+            elif ((self.viewing == 'Loyalty') and (self.numEmblemPages == 0)):
                 self.nextPageButton.hide()
             elif ((self.viewing == 'Loyalty') and (self.numEmblemPages > 0)):
                 self.nextPageButton.show()

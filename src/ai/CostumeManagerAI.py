@@ -85,7 +85,7 @@ class CostumeManagerAI(HolidayBaseAI.HolidayBaseAI, DirectObject.DirectObject):
 #                elif isinstance(hood, OZHoodDataAI.OZHoodDataAI):
 #                    self.hoods.append(hood)
 #                    self.__classicChars[str(hood)] = 1
-#                    hood.classicChar.transitionCostume()
+#                    hood.classicChars.transitionCostume()
 
         elif(self.holidayId == ToontownGlobals.APRIL_FOOLS_COSTUMES):
             self.accept("TTHoodSpawned", self.__welcomeValleySpawned)

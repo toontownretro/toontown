@@ -3227,7 +3227,7 @@ SuitAttackTaunts = {
               "On dirait que tu es dans le rouge.",
               "Laisse-moi t'aider à faire ta comptabilité.",
               "Tes débits sont beaucoup trop élevés.",
-              "Vérifions ton capital",
+              "Vérifions ton capital.",
               "Tu vas avoir des dettes.",
               "Regardons de plus près ce que tu dois.",
               "Cela devrait mettre ton compte à sec.",

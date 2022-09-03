@@ -10,11 +10,13 @@ from direct.task.Task import Task
 from toontown.toonbase import TTLocalizer
 import random
 from direct.showbase import PythonUtil
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs, TLNull
 from toontown.hood import Place
 from toontown.hood import SkyUtil
 from toontown.toon import GMUtils
 
 from toontown.parties import PartyPlanner
+from toontown.parties.DistributedParty import DistributedParty
 
 class Party(Place.Place):
     """
@@ -182,6 +184,12 @@ class Party(Place.Place):
 
         hoodId = requestStatus["hoodId"]
         zoneId = requestStatus["zoneId"]
+
+        if ConfigVariableBool('want-party-telemetry-limiter', 1).getValue():
+            limiter = TLGatherAllAvs('Party', RotationLimitToH)
+        else:
+            limiter = TLNull()
+        self._telemLimiter = limiter
 
         # start the sky
         self.loader.hood.startSky()

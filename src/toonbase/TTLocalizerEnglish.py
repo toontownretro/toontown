@@ -58,8 +58,9 @@ UnpaidNameTag = "Basic"
 
 # GM nametags
 GM_1 = "TOON COUNCIL"
-GM_2 = "TOON TROOP"
-GM_3 = "TOON RESISTANCE"
+GM_2 = "TOON TROOPER" # "TOON TROOP"
+GM_3 = "RESISTANCE RANGER" # "TOON RESISTANCE"
+GM_4 = "GC"
 
 GM_NAMES = ("TOON COUNCIL",
             "TOON TROOPER",
@@ -1597,8 +1598,8 @@ QuestDialogDict = {
              QUEST : "A bigger bag?\aI could probably whip one up for ya.\aI'll need some yarn though.\aSome Lawbots made off with mine yesterday morning." },
     5305 : { GREETING : "Howdy!",
              LEAVING : "",
-             INCOMPLETE_PROGRESS : "Go get some more cogs.\aThis color hasn't taken yet.",
-             QUEST : "That there's some fine yarn!\aNot my first choice of color though.\aTell you what...\aYou go out there and beat up some of the tougher cogs...\aAnd I'll get to work dyeing this yarn." },
+             INCOMPLETE_PROGRESS : "Go get some more Cogs.\aThis color hasn't taken yet.",
+             QUEST : "That there's some fine yarn!\aNot my first choice of color though.\aTell you what...\aYou go out there and beat up some of the tougher Cogs...\aAnd I'll get to work dyeing this yarn." },
     5306 : { GREETING : "",
              LEAVING : "",
              INCOMPLETE_PROGRESS : "They gotta be down there somewhere...",
@@ -1811,7 +1812,7 @@ QuestDialogDict = {
              },
     6272 : { GREETING : "",
              LEAVING : "",
-             QUEST : "What? Huh? Oh, I must've fallen asleep.\aYou know, those Cogs buildings are full of machinery that makes me really sleepy.\aI listen to them humming all day and...\aHuh? Oh, yeah, right. If you could get rid of some of those Cog buildings, I could stay awake.",
+             QUEST : "What? Huh? Oh, I must've fallen asleep.\aYou know, those Cog buildings are full of machinery that makes me really sleepy.\aI listen to them humming all day and...\aHuh? Oh, yeah, right. If you could get rid of some of those Cog buildings, I could stay awake.",
              INCOMPLETE_PROGRESS : "Zzzzz...huh? Oh, it's you, _avName_.\aBack already? I was just taking a little nap.\aCome back when you're done with those buildings.",
              COMPLETE : "What? I dropped off to sleep for a minute there.\aNow that those Cog buildings are gone I can finally relax.\aThanks for your help, _avName_.\aSee you later! I think maybe I'll take a little nap.",
              },
@@ -1832,7 +1833,7 @@ QuestDialogDict = {
     # another cog Suit piece.
     6291 : { QUEST : "Cogs broke into the First Security Blanket Bank! Go see William Teller and see if you can help.",
              },
-    6292 : { QUEST : "Oh those darn Cashbot Cogs! They stole my reading lamps!\aI need them back right away. Can you go look for them?\aIf you can get my reading lamps, I might be able to help you get into see the C.F.O.\aHurry!",
+    6292 : { QUEST : "Oh those darn Cashbot Cogs! They stole my reading lamps!\aI need them back right away. Can you go look for them?\aIf you can get my reading lamps, I might be able to help you get in to see the C.F.O.\aHurry!",
              INCOMPLETE_PROGRESS : "I need those lamps back. Keep looking for them!",
              COMPLETE : "You're back! And you got my lamps!\aI can't thank you enough but I can give you this.",
              },
@@ -2331,7 +2332,7 @@ QuestDialogDict = {
               },
     12029 : { GREETING : "",
               LEAVING : "",
-              QUEST : "I am still quite baffled by these new cogs.\aCould you go defeat another, please?",
+              QUEST : "I am still quite baffled by these new Cogs.\aCould you go defeat another, please?",
               INCOMPLETE_PROGRESS : "Try looking in %s" % GlobalStreetNames[10000][-1],
               COMPLETE : "Fascinating. Simply fascinating.\aA disguise part for your troubles.",
              },
@@ -5856,26 +5857,26 @@ FriendsListPanelPets = "NEARBY\nPETS"
 FriendsListPanelPlayers = "ALL PLAYER\nFRIENDS"
 FriendsListPanelOnlinePlayers = "ONLINE PLAYER\nFRIENDS"
 
-FriendInviterClickToon = "Click on the toon you would like to make friends with.\n\n(You have %s friends)"
+FriendInviterClickToon = "Click on the Toon you would like to make friends with.\n\n(You have %s friends)"
 
 # Support DISL account friends
 FriendInviterToon = "Toon"
-FriendInviterThatToon = "That toon"
+FriendInviterThatToon = "That Toon"
 FriendInviterPlayer = "Player"
-FriendInviterThatPlayer = "That player"
+FriendInviterThatPlayer = "That Player"
 FriendInviterBegin = "What type of friend would you like to make?"
 FriendInviterToonFriendInfo = "A friend only in Toontown"
 FriendInviterPlayerFriendInfo = "A friend across the Disney.com network"
-FriendInviterToonTooMany = "You have too many toon friends to add another one now. You will have to remove some toon friends if you want to make friends with %s. You could also try making player friends them."
-FriendInviterPlayerTooMany = "You have too many player friends to add another one now. You will have to remove some player friends if you want to make friends with %s. You could also try making toon friends with them."
-FriendInviterToonAlready = "%s is already your toon friend."
-FriendInviterPlayerAlready = "%s is already your player friend."
-FriendInviterStopBeingToonFriends = "Stop being toon friends"
-FriendInviterStopBeingPlayerFriends = "Stop being player friends"
-FriendInviterEndFriendshipToon = "Are you sure you want to stop being toon friends with %s?"
-FriendInviterEndFriendshipPlayer = "Are you sure you want to stop being player friends with %s?"
-FriendInviterRemainToon = "\n(You will still be toon friends with %s)"
-FriendInviterRemainPlayer = "\n(You will still be player friends with %s)"
+FriendInviterToonTooMany = "You have too many Toon friends to add another one now. You will have to remove some Toon friends if you want to make friends with %s. You could also try making Player friends them."
+FriendInviterPlayerTooMany = "You have too many Player friends to add another one now. You will have to remove some Player friends if you want to make friends with %s. You could also try making Toon friends with them."
+FriendInviterToonAlready = "%s is already your Toon friend."
+FriendInviterPlayerAlready = "%s is already your Player friend."
+FriendInviterStopBeingToonFriends = "Stop being Toon friends"
+FriendInviterStopBeingPlayerFriends = "Stop being Player friends"
+FriendInviterEndFriendshipToon = "Are you sure you want to stop being Toon friends with %s?"
+FriendInviterEndFriendshipPlayer = "Are you sure you want to stop being Player friends with %s?"
+FriendInviterRemainToon = "\n(You will still be Toon friends with %s)"
+FriendInviterRemainPlayer = "\n(You will still be Player friends with %s)"
 
 # DownloadForceAcknowledge.py
 DownloadForceAcknowledgeVerbList = [
@@ -6321,13 +6322,13 @@ PartyActivityNameDict = {
         "generic" : "Dance Floor\n10 moves",
         "invite" : "a 10 move Dance Floor",
         "editor" : "Dance Floor - 10",
-        "description" : "Show off all 10 of your moves, toon style!"
+        "description" : "Show off all 10 of your moves, Toon style!"
     },
     5 : {
         "generic" : "Party Tug-of-War",
         "invite" : "Party Tug-of-War",
         "editor" : "Tug-of-War",
-        "description" : "Up to 4 on 4 toon tugging craziness!"
+        "description" : "Up to 4 on 4 Toon tugging craziness!"
     },
     6 : {
         "generic" : "Party Fireworks",
@@ -6351,7 +6352,7 @@ PartyActivityNameDict = {
         "generic" : "Dance Floor\n20 moves",
         "invite" : "a 20 move Dance Floor",
         "editor" : "Dance Floor - 20",
-        "description" : "Show off all 20 of your moves, toon style!"
+        "description" : "Show off all 20 of your moves, Toon style!"
     },
     10 : {
         "generic" : "Cog-O-War",
@@ -6538,7 +6539,7 @@ PartyDoYouWantToPlan = "Would you like to plan a new party right now?"
 PartyPlannerOnYourWay = "Have fun planning your party!"
 PartyPlannerMaybeNextTime = "Maybe next time. Have a good day!"
 PartyPlannerHostingTooMany = "You can only host one party at a time, sorry."
-PartyPlannerOnlyPaid = "Only paid toons can host a party, sorry."
+PartyPlannerOnlyPaid = "Only paid Toons can host a party, sorry."
 PartyPlannerNpcComingSoon = "Parties are coming soon! Try again later."
 PartyPlannerNpcMinCost = "It costs a minimum of %d jellybeans to plan a party."
 
@@ -6673,8 +6674,8 @@ PartyCogTitle = "Cog-O-War"
 # than the other team. It doesn't matter how many are on each side.
 #"When time's up, the team who pushed the cogs farthest wins!"
 PartyCogInstructions = \
-"Throw pies at cogs to push them away from your team. " +\
-"When time's up, the team with most cogs on the other side wins!" +\
+"Throw pies at Cogs to push them away from your team. " +\
+"When time's up, the team with most Cogs on the other side wins!" +\
 "\n\nThrow with the CONTROL KEY. Move with the ARROW KEYS."
 
 # PartyCogActivity.py
@@ -7319,7 +7320,7 @@ MinigameTemplateInstructions = "This is a template minigame. Use it to create ne
 
 # DistributedCannonGame.py
 CannonGameTitle = "Cannon Game"
-CannonGameInstructions = "Shoot your toon into the water tower as quickly as you can. Use the mouse or the arrow keys to aim the cannon. Be quick and win a big reward for everyone!"
+CannonGameInstructions = "Shoot your Toon into the water tower as quickly as you can. Use the mouse or the arrow keys to aim the cannon. Be quick and win a big reward for everyone!"
 CannonGameReward = "REWARD"
 
 # DistributedTwoDGame.py
@@ -7453,7 +7454,7 @@ PieTossGameTitle = "Pie Toss Game"
 PieTossGameInstructions = "Toss pies at the targets."
 
 # DistributedPhotoGame.py
-PhotoGameInstructions = "Capture photos matching the toons shown at the bottom. Aim the camera with the mouse, and left click to take a picture. Press Ctrl to zoom in/out, and look around with the arrow keys. Pictures with higher ratings get more points!"
+PhotoGameInstructions = "Capture photos matching the Toons shown at the bottom. Aim the camera with the mouse, and left click to take a picture. Press Ctrl to zoom in/out, and look around with the arrow keys. Pictures with higher ratings get more points!"
 PhotoGameTitle = "Photo Fun"
 PhotoGameFilm = "FILM"
 PhotoGameScore = "Team Score: %s\n\nBest Photos: %s\n\nTotal Score: %s"
@@ -7535,10 +7536,10 @@ MakeAToonClickForNextScreen = "Click the arrow below to go to the next screen."
 PickClothes = "Click the arrows to pick clothes!"
 PaintYourToon = "Click the arrows to paint your toon!"
 MakeAToonYouCanGoBack = "You can go back to change your body too!"
-MakeAFunnyName = "Choose a funny name for your toon with my Pick-A-Name game!"
-MustHaveAFirstOrLast1 = "Your toon should have a first or last name, don't you think?"
-MustHaveAFirstOrLast2 = "Don't you want your toon to have a first or last name?"
-ApprovalForName1 = "That's it, your toon deserves a great name!"
+MakeAFunnyName = "Choose a funny name for your Toon with my Pick-A-Name game!"
+MustHaveAFirstOrLast1 = "Your Toon should have a first or last name, don't you think?"
+MustHaveAFirstOrLast2 = "Don't you want your Toon to have a first or last name?"
+ApprovalForName1 = "That's it, your Toon deserves a great name!"
 ApprovalForName2 = "Toon names are the best kind of names!"
 MakeAToonLastStep = "Last step before going to Toontown!"
 PickANameYouLike = "Pick a name you like!"
@@ -7624,7 +7625,7 @@ AnimalToSpecies = {
     'pig'    : 'Pig'
     }
 NameTooLong = "That name is too long. Please try again."
-ToonAlreadyExists = "You already have a toon named %s!"
+ToonAlreadyExists = "You already have a Toon named %s!"
 NameAlreadyInUse = "That name is already used!"
 EmptyNameError = "You must enter a name first."
 NameError = "Sorry. That name will not work."
@@ -9208,8 +9209,8 @@ CatalogPurchaseGiftNotEnoughMoney = "This item could not be sent to %s because y
 CatalogAcceptGeneralError = "The item could not be removed from your mailbox because of some internal game error: error code %s."
 CatalogAcceptRoomError = "You don't have any place to put this. You'll have to get rid of something."
 CatalogAcceptLimitError = "You already have as many of these as you can handle. You'll have to get rid of something."
-CatalogAcceptFitError = "This won't fit you! You donate it to needy toons."
-CatalogAcceptInvalidError = "This item has gone out of style! You donate it to needy toons."
+CatalogAcceptFitError = "This won't fit you! You donate it to needy Toons."
+CatalogAcceptInvalidError = "This item has gone out of style! You donate it to needy Toons."
 
 MailboxOverflowButtonDicard = "Discard"
 MailboxOverflowButtonLeave = "Leave"
@@ -11945,7 +11946,7 @@ PlantingGuiCancel = "Cancel"
 PlantingGuiReset = "Reset"
 GardeningChooseBeans = "Choose the jellybeans you want to plant."
 GardeningChooseBeansItem  = "Choose the jellybeans / item you want to plant."
-GardeningChooseToonStatue = "Choose the toon you want to create a statue of."
+GardeningChooseToonStatue = "Choose the Toon you want to create a statue of."
 GardenShovelLevelUp = "Congratulations you've earned a %(shovel)s! You've mastered the %(oldbeans)d bean flower! To progress you should pick %(newbeans)d bean flowers."
 GardenShovelSkillLevelUp = "Congratulations! You've mastered the %(oldbeans)d bean flower! To progress you should pick %(newbeans)d bean flowers."
 GardenShovelSkillMaxed = "Amazing! You've maxed out your shovel skill!"
@@ -12073,7 +12074,7 @@ TravelGameVoteToGo = "vote to go"
 TravelGameUp = "UP."
 TravelGameDown = "DOWN."
 TravelGameVoteWithExclamation = "Vote!"
-TravelGameWaitingChoices = "Waiting for other players to vote..."
+TravelGameWaitingChoices = "Waiting for other Players to vote..."
 # cross the bridge later when the first choice is different for each node,
 # e.g. NorthWest, NorthEast, etc.
 TravelGameDirections = ['UP', 'DOWN']
@@ -12098,11 +12099,11 @@ PairingGamePerfect = 'PERFECT!!'
 PairingGameFlips = 'Flips:'
 PairingGamePoints = 'Points:'
 
-TrolleyHolidayStart = "Trolley Tracks is about to begin! Board any trolley with 2 or more toons to play."
+TrolleyHolidayStart = "Trolley Tracks is about to begin! Board any trolley with 2 or more Toons to play."
 TrolleyHolidayOngoing = "Welcome! Trolley Tracks is currently in progress."
 TrolleyHolidayEnd = "That's all for today's Trolley Tracks. See you next week!"
 
-TrolleyWeekendStart = "Trolley Tracks Weekend is about to begin! Board any trolley with 2 or more toons to play."
+TrolleyWeekendStart = "Trolley Tracks Weekend is about to begin! Board any trolley with 2 or more Toons to play."
 TrolleyWeekendEnd = "That's all for Trolley Tracks Weekend."
 
 VineGameTitle = "Jungle Vines"
@@ -12454,7 +12455,7 @@ BoardingGoPreShow = 'Confirming...'
 
 # DistributedBossbotBoss.py
 BossbotBossName = "C.E.O."
-BossbotRTWelcome = "You toons will need different disguises."
+BossbotRTWelcome = "You Toons will need different disguises."
 BossbotRTRemoveSuit = "First take off your cog suits..."
 BossbotRTFightWaiter = "and then fight these waiters."
 BossbotRTWearWaiter = "Good Job! Now put on the waiters' clothes."
@@ -12464,7 +12465,7 @@ BossbotRTServeFood1 = "Hehe, serve the food I place on these conveyor belts."
 BossbotRTServeFood2 = "If you serve a cog three times in a row it will explode."
 BossbotResistanceToonName = "Good ol' Gil Giggles"
 BossbotPhase3Speech1 = "What's happening here?!"
-BossbotPhase3Speech2 = "These waiters are toons!"
+BossbotPhase3Speech2 = "These waiters are Toons!"
 BossbotPhase3Speech3 = "Get them!!!"
 BossbotPhase4Speech1 = "Hrrmmpph. When I need a job done right..."
 BossbotPhase4Speech2 = "I'll do it myself."
@@ -12514,8 +12515,8 @@ DaysToGo = "Wait\n%s Days"
 IceGameTitle = "Ice Slide"
 IceGameInstructions = "Get as close to the center by the end of the second round. Use arrow keys to change direction and force. Press Ctrl to launch your toon. Hit barrels for extra points and avoid the TNT!"
 IceGameInstructionsNoTnt = "Get as close to the center by the end of the second round. Use arrow keys to change direction and force. Press Ctrl to launch your toon. Hit barrels for extra points."
-IceGameWaitingForPlayersToFinishMove = "Waiting for other players..."
-IceGameWaitingForAISync = "Waiting for other players..."
+IceGameWaitingForPlayersToFinishMove = "Waiting for other Players..."
+IceGameWaitingForAISync = "Waiting for other Players..."
 IceGameInfo= "Match %(curMatch)d/%(numMatch)d, Round %(curRound)d/%(numRound)d"
 IceGameControlKeyWarning="Remember to press the Ctrl key!"
 
@@ -12560,7 +12561,7 @@ ChineseTutorialTitle2 = "How to Play"
 ChineseTutorialPrev = "Previous Page"
 ChineseTutorialNext = "Next Page"
 ChineseTutorialDone = "Done"
-ChinesePage1 = "The goal of Chinese Checkers is to be the first  player to move all of your marbles from the bottom triangle across the board and into the triangle at the top. The first player to do so wins!"
+ChinesePage1 = "The goal of Chinese Checkers is to be the first player to move all of your marbles from the bottom triangle across the board and into the triangle at the top. The first player to do so wins!"
 ChinesePage2 = "Players take turns moving any marble of their own color. A marble can move into an adjacent hole or it can hop over other marbles. Hops must go over a marble and end in an empty hole. It is possible to chain hops together for longer moves!"
 
 CheckersPage1 = "The goal of Checkers is to leave the opponent without any possible moves. To do this you can either capture all of his pieces or block them in such that he has no available moves."
@@ -12713,6 +12714,7 @@ HolidayNamesInCalendar = {
    98: ("Double Bean Days - Fishing", ""),
    99: ("Jellybean Week", "Celebrate Jellybean Week with double Jellybean rewards!"),
    101: ("Top Toons New Year's Day Marathon", "Chances to win every hour! See the What's New Blog for details!"),
+   #105: ("Ides of March", "The Ides of March are here!"),
    105: ("Toons go GREEN!", "Toons make a green scene at Green Bean Jeans on Oak Street in Daisy Gardens!"),
    108: ("Operation: Lawbots Lose", "Lawbot HQ is open to everyone. Let's go fight the CJ!"),
 
@@ -12791,7 +12793,7 @@ CogdoMazeMinionHint = "Smaller Cogs drop jokes!"
 
 # Cogdo Flying Game
 CogdoFlyingGameTitle = "Legal Eagle Offices"
-CogdoFlyingGameInstructions = "Fly through the Legal Eagles' lair. Watch out for obstacles and cogs along the way, and don't forget to refuel your helicopter!"
+CogdoFlyingGameInstructions = "Fly through the Legal Eagles' lair. Watch out for obstacles and Cogs along the way, and don't forget to refuel your helicopter!"
 CogdoFlyingIntroMovieDialogue = (("You won't ruffle our feathers, Toons! We're destroying barrels of your Laff, and you cannot stop us!",
                                   "A flock of Toons! We're crushing barrels of your Laff in our %s, and there's nothing you can do about it!" % CogdoStomperName,
                                   "You can't egg us on, Toons! We're powering our offices with your Laff, and you're powerless to stop us!"),
@@ -12815,7 +12817,7 @@ CogdoFlyingGameMemoIntro = "Memos prevent Laff Barrels in\nthe Stomper Room from
 CogdoFlyingGameOutOfTime = "Oh No! You ran out of time!"
 CogdoFlyingGameYouMadeIt = "You made it on time!"
 CogdoFlyingGameYouMadeIt = "Good work, you made it on time!"
-CogdoFlyingGameTakingMemos = "The legal eagles took all your memos!"
+CogdoFlyingGameTakingMemos = "The Legal Eagles took all your memos!"
 
 # Cogdo Elevator Reward
 CogdoElevatorRewardLaff = "Great job, Toons!\nYou get a Toon-Up from the jokes you saved!"

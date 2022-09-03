@@ -510,7 +510,7 @@ class DistributedElevator(DistributedObject.DistributedObject):
                 self.notify.warning("toon: " + str(avId) +
                                                   " doesn't exist, and" +
                                                   " cannot exit the elevator!")
-
+    #Update Access
     def allowedToEnter(self):
         """Check if the local toon is allowed to enter."""
         if base.cr.isPaid():
@@ -530,6 +530,7 @@ class DistributedElevator(DistributedObject.DistributedObject):
         self.notify.debug("Entering Elevator Sphere....")
         #print("handleEnterSphere elevator%s avatar%s" % (self.elevatorTripId, localAvatar.lastElevatorLeft))
         if self.allowedToEnter():
+        #if self.allowedToEnter(self.zoneId):
             if self.elevatorTripId and (localAvatar.lastElevatorLeft == self.elevatorTripId):
                 #print("NO BACKCIES!")
                 self.rejectBoard(base.localAvatar.doId, REJECT_SHUFFLE)

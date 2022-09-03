@@ -21,19 +21,23 @@ class DistributedChipAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
                            [State.State('Off',
                                         self.enterOff,
                                         self.exitOff,
-                                        ['Lonely']),
+                                        ['Lonely', 'TransitionToCostume']),
                             State.State('Lonely',
                                         self.enterLonely,
                                         self.exitLonely,
-                                        ['Chatty', 'Walk']),
+                                        ['Chatty', 'Walk', 'TransitionToCostume']),
                             State.State('Chatty',
                                         self.enterChatty,
                                         self.exitChatty,
-                                        ['Lonely', 'Walk']),
+                                        ['Lonely', 'Walk', 'TransitionToCostume']),
                             State.State('Walk',
                                         self.enterWalk,
                                         self.exitWalk,
-                                        ['Lonely', 'Chatty']),
+                                        ['Lonely', 'Chatty', 'TreansitionToCostume']),
+                            State.State('TransitionToCostume',
+                                        self.enterTransitionToCostume,
+                                        self.exitTransitionToCostume,
+                                        ['Off']),
                             ],
                            # Initial State
                            'Off',
@@ -91,6 +95,19 @@ class DistributedChipAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
         be transitioned into
         """
         assert('status' in doneStatus)
+
+        if(self.transitionToCostume == 1):
+            curWalkNode = self.walk.getDestNode()
+            if simbase.air.holidayManager:
+                if ToontownGlobals.HALLOWEEN_COSTUMES in simbase.air.holidayManager.currentHolidays and \
+                   simbase.air.holidayManager.currentHolidays[ToontownGlobals.HALLOWEEN_COSTUMES]:
+                    simbase.air.holidayManager.currentHolidays[ToontownGlobals.HALLOWEEN_COSTUMES].triggerSwitch(curWalkNode, self)
+                    self.fsm.request('TransitionToCostume')
+                else:
+                    self.notify.warning('transitionToCostume == 1 but no costume holiday')
+            else:
+                self.notify.warning('transitionToCostume == 1 but no holiday Manager')
+
         if doneStatus['state'] == 'lonely' and \
            doneStatus['status'] == 'done':
             self.fsm.request('Walk')
@@ -137,12 +154,25 @@ class DistributedChipAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
         self.acceptOnce(self.chattyDoneEvent, self.__decideNextState)
         if self.dale:
             self.dale.chipEnteringState(self.fsm.getCurrentState().getName())          
+        taskMgr.doMethodLater(CharStateDatasAI.CHATTY_DURATION + 10, self.forceLeaveChatty, self.taskName("forceLeaveChatty"))
+
+    def forceLeaveChatty(self, task):
+        self.notify.warning("Had to force change of state from Chatty state")
+        doneStatus = {}
+        doneStatus['state'] = 'chatty'
+        doneStatus['status'] = 'done'
+        self.__decideNextState(doneStatus)
+        return Task.done
+
+    def cleanUpChattyTasks(self):
+        taskMgr.removeTasksMatching(self.taskName("forceLeaveChatty"))
 
     def exitChatty(self):
         self.ignore(self.chattyDoneEvent)
         self.chatty.exit()
         if self.dale:
-            self.dale.chipLeavingState(self.fsm.getCurrentState().getName())        
+            self.dale.chipLeavingState(self.fsm.getCurrentState().getName())  
+        self.cleanUpChattyTasks()      
 
 
     ### Walk state ###
@@ -190,3 +220,9 @@ class DistributedChipAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
         self.daleId = daleId
         self.dale = self.air.doId2do.get(daleId)
         self.chatty.setDaleId(self.daleId)
+
+    def enterTransitionToCostume(self):
+        pass
+
+    def exitTransitionToCostume(self):
+        pass

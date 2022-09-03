@@ -261,6 +261,7 @@ class BattleCalculatorAI:
                 if (self.__suitIsLured(atkTargets[i].getDoId())):
                     assert(self.notify.debug("Drop on lured suit " +
                                              str(atkTargets[i].getDoId()) + " missed"))
+                    pass
                 else:
                     allLured = False
 
@@ -1011,10 +1012,11 @@ class BattleCalculatorAI:
                         if suit:
                             costToFire = 1#suit.getActualLevel()
                             abilityToFire = toon.getPinkSlips()
-                            numLeft = abilityToFire - costToFire
-                            if numLeft < 0:
-                                numLeft = 0
-                            toon.b_setPinkSlips(numLeft)
+#                            numLeft = abilityToFire - costToFire
+#                            if numLeft < 0:
+#                                numLeft = 0
+#                            toon.b_setPinkSlips(numLeft)
+                            toon.removePinkSlips(costToFire)
                             if costToFire > abilityToFire:
                                 commentStr = "Toon attempting to fire a %s cost cog with %s pinkslips" % (costToFire, abilityToFire)
                                 simbase.air.writeServerEvent('suspicious', toonId, commentStr)

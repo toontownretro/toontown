@@ -19,7 +19,7 @@ class Decoration(NodePath):
     def __init__(self, name, x, y, h):
         NodePath.__init__(self, name)
 
-        self._name = name
+        self.name = name
         decorId = PartyGlobals.DecorationIds.fromString(name)
         centerX, centerY = getCenterPosFromGridSize(x, y, PartyGlobals.DecorationInformationDict[decorId]["gridsize"])
         self.setPos(centerX, centerY, 0.0)
@@ -193,9 +193,9 @@ class Decoration(NodePath):
             self.heartBanner.loop('idle')
             self.heartBanner.reparentTo(self)
 
-        elif self._name == "Hydra" or self.name == "StageWinter":
+        elif self._name == "Hydra" or self._name == "StageWinter":
 
-            if self.name == "StageWinter":
+            if self._name == "StageWinter":
                 self.hydra = Actor.Actor("phase_13/models/parties/tt_r_ara_pty_winterProps", \
                                                 {"dance" : "phase_13/models/parties/tt_a_ara_pty_hydra_dance" })
             else:
@@ -220,7 +220,7 @@ class Decoration(NodePath):
             self.hydra.flattenStrong()
             self.hydra.reparentTo(self)
 
-            if self.name == "StageWinter":
+            if self._name == "StageWinter":
                 stageBounds = self.hydra.find("**/stage").node().getBounds()
                 self.hydra.node().setBounds(stageBounds)
                 self.hydra.node().setFinal(1)
@@ -288,23 +288,23 @@ class Decoration(NodePath):
             self.decorationModel.reparentTo(self)
             self.decorationShadow = self.setupAnimSeq()
 
-        elif self.name == "cogIceCreamWinter":
+        elif self._name == "cogIceCreamWinter":
             self.decorationModel = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_cogIceCreamWinter")
             self.decorationModel.reparentTo(self)
             self.decorationShadow = self.setupAnimSeq()
 
-        elif self.name == "CogStatueWinter":
+        elif self._name == "CogStatueWinter":
             self.decorationModel = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_cogDoodleWinter")
             self.decorationModel.reparentTo(self)
             self.decorationShadow = self.setupAnimSeq()
 
-        elif self.name == "snowman":
+        elif self._name == "snowman":
             self.decorationModel = loader.loadModel("phase_13/models/estate/tt_m_prp_ext_snowman")
             self.decorationModel.reparentTo(self)
             self.decorationModel.find("**/growthStage_1").hide()
             self.decorationModel.find("**/growthStage_2").hide()
 
-        elif self.name == "snowDoodle":
+        elif self._name == "snowDoodle":
             self.decorationModel = loader.loadModel('phase_5.5/models/estate/tt_m_prp_ext_snowDoodle')
             self.decorationModel.reparentTo(self)
             self.decorationModel.find("**/growthStage_1").hide()

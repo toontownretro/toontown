@@ -17,7 +17,17 @@ colors = [Vec4(1,1,1,1),    #white
           Vec4(.1,1,1,1),   #cyan
           Vec4(.1,.5,1,1)]  #sea
 
-fireworkShowTypes = [ ToontownGlobals.JULY4_FIREWORKS, PartyGlobals.FireworkShows.Summer, ToontownGlobals.NEWYEARS_FIREWORKS ]
+fireworkShowTypes = [ ToontownGlobals.JULY4_FIREWORKS,
+                      PartyGlobals.FireworkShows.Summer,
+                      ToontownGlobals.NEWYEARS_FIREWORKS,
+                      ToontownGlobals.VALENTINES_FIREWORKS, # BR
+                      ToontownGlobals.OCTOBER31_FIREWORKS, # Halloween
+                      ToontownGlobals.NOVEMBER19_FIREWORKS, # DE
+                      ToontownGlobals.FEBRUARY14_FIREWORKS, # Valentines
+                      ToontownGlobals.JULY14_FIREWORKS, # FR
+                      ToontownGlobals.JUNE22_FIREWORKS, # FR
+                      ToontownGlobals.COMBO_FIREWORKS,
+                      ]
 
 class FireworkShow(NodePath):
 
@@ -259,19 +269,34 @@ class FireworkShow(NodePath):
             ],
             }
 
+
+
+        self.showData[ToontownGlobals.COMBO_FIREWORKS] = showData[ToontownGlobals.NEWYEARS_FIREWORKS]
+
         self.sectionData = {
             ToontownGlobals.JULY4_FIREWORKS: [(0,24),
                 (24, len(self.showData[ToontownGlobals.JULY4_FIREWORKS]))],
             PartyGlobals.FireworkShows.Summer: [(0,24),
                 (24, len(self.showData[PartyGlobals.FireworkShows.Summer]))],
             ToontownGlobals.NEWYEARS_FIREWORKS: [(0,len(self.showData[PartyGlobals.FireworkShows.Summer]))],
+            ToontownGlobals.COMBO_FIREWORKS: [(0, len(showData[PartyGlobals.FireworkShows.Summer]))],
             }
 
         self.showMusic = {
             }
 
-        del r, rV, rP, rS, rC, rT, rD
+    @classmethod
+    def isValidShowType(cls, showType = -1):
+        if showType in cls.showData.keys():
+            return True
+        else:
+            return False
 
+    def __init__(self, showType = ToontownGlobals.NEWYEARS_FIREWORKS):
+        NodePath.__init__(self, 'FireworkShow')
+        self.showType = showType
+        self.sectionIvals = []
+        self.fireworks = []
         self.delaySectionStart = None
         self.curSection = None
         self.curOffset = 0.0

@@ -506,6 +506,17 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
             dna.botTex = defn[0]
             dna.botTexColor = defn[1][self.colorIndex]
 
+        if dna.getGender() == 'f':
+            try:
+                bottomPair = ToonDNA.GirlBottoms[dna.botTex]
+            except:
+                bottomPair = ToonDNA.GirlBottoms[0]
+
+            if dna.torso[1] == 's' and bottomPair[1] == ToonDNA.SKIRT:
+                dna.torso = dna.torso[0] + 'd'
+            elif dna.torso[1] == 'd' and bottomPair[1] == ToonDNA.SHORTS:
+                dna.torso = dna.torso[0] + 's'
+
         # Store the new clothes on the avatar.
         avatar.b_setDNAString(dna.makeNetString())
         # need to call this to make sure generateToonClothes is called on client

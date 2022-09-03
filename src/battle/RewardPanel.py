@@ -495,10 +495,10 @@ class RewardPanel(DirectFrame):
             if toon.hasTrackAccess(i):
                 trackBar.show()
 
-                if curExp >= ToontownBattleGlobals.UnpaidMaxSkill and toon.getGameAccess() != OTPGlobals.AccessFull:
+                if curExp >= ToontownBattleGlobals.UnpaidMaxSkills[i] and toon.getGameAccess() != OTPGlobals.AccessFull:
                     nextExp = self.getNextExpValue(curExp, i)
                     trackBar["range"] = nextExp
-                    trackBar["value"] = ToontownBattleGlobals.UnpaidMaxSkill
+                    trackBar["value"] = ToontownBattleGlobals.UnpaidMaxSkill[i]
                     trackBar["text"] = (TTLocalizer.InventoryGuestExp)
 
                 elif curExp >= ToontownBattleGlobals.regMaxSkill:
@@ -526,9 +526,10 @@ class RewardPanel(DirectFrame):
         newValue = min(ToontownBattleGlobals.MaxSkill, newValue)
         nextExp = self.getNextExpValue(newValue, track)
 
-        if newValue >= ToontownBattleGlobals.UnpaidMaxSkill and toon.getGameAccess() != OTPGlobals.AccessFull:
+        if newValue >= ToontownBattleGlobals.UnpaidMaxSkills[track] and toon.getGameAccess() != OTPGlobals.AccessFull:
             newValue = oldValue
-            trackBar["text"] = (TTLocalizer.InventoryGuestExp)
+            #trackBar["text"] = (TTLocalizer.InventoryGuestExp)
+            trackBar['text'] = TTLocalizer.GuestLostExp
 
         elif newValue >= ToontownBattleGlobals.regMaxSkill:
             newValue = newValue - ToontownBattleGlobals.regMaxSkill
@@ -779,10 +780,10 @@ class RewardPanel(DirectFrame):
         if hasUber < 0:
             print((toon.doId, 'Reward Panel received an invalid hasUber from an uberList'))
 
-        tickDelay = 0.16
+        tickDelay = 1.0 / 60 #0.16
         intervalList = []
-        if (origSkill + earnedSkill) >= ToontownBattleGlobals.UnpaidMaxSkill and toon.getGameAccess() != OTPGlobals.AccessFull:
-            lostExp = (origSkill + earnedSkill) - ToontownBattleGlobals.UnpaidMaxSkill
+        if (origSkill + earnedSkill) >= ToontownBattleGlobals.UnpaidMaxSkills[track] and toon.getGameAccess() != OTPGlobals.AccessFull:
+            lostExp = (origSkill + earnedSkill) - ToontownBattleGlobals.UnpaidMaxSkills[track]
             intervalList.append(Func(self.showTrackIncLabel, track, lostExp, 1))
         else:
             intervalList.append(Func(self.showTrackIncLabel, track, earnedSkill))
@@ -795,7 +796,7 @@ class RewardPanel(DirectFrame):
         # for a one-point boost, and maybe four or five seconds for
         # 100 points.  Conveniently, this is the ratio that natural
         # log gives us.
-        barTime = math.log(earnedSkill + 1)
+        barTime = 0.5 #math.log(earnedSkill + 1)
         numTicks = int(math.ceil(barTime / tickDelay))
 
         for i in range(numTicks):
@@ -805,7 +806,8 @@ class RewardPanel(DirectFrame):
             intervalList.append(Wait(tickDelay))
 
         intervalList.append(Func(self.resetBarColor, track))
-        intervalList.append(Wait(0.4))
+        #intervalList.append(Wait(0.4))
+        intervalList.append(Wait(0.1))
 
         # Insert "new gag" panel here, if needed.
         nextExpValue = self.getNextExpValue(origSkill, track)
@@ -815,7 +817,7 @@ class RewardPanel(DirectFrame):
                (not finalGagFlag)):
             # Add the new gag interval... Look up the new gag level based on
             # the nextExpValue
-            if newValue >= ToontownBattleGlobals.UnpaidMaxSkill and toon.getGameAccess() != OTPGlobals.AccessFull:
+            if newValue >= ToontownBattleGlobals.UnpaidMaxSkills[track] and toon.getGameAccess() != OTPGlobals.AccessFull:
                 pass
             elif nextExpValue != ToontownBattleGlobals.MaxSkill:
                 intervalList += self.getNewGagIntervalList(
@@ -842,7 +844,8 @@ class RewardPanel(DirectFrame):
             #print("adding Uber track")
             intervalList += self.getUberGagIntervalList(
                toon, track, (ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1))
-            intervalList.append(Wait(0.4))
+            #intervalList.append(Wait(0.4))
+            intervalList.append(Wait(0.1))
             skillDiff = currentSkill - ToontownBattleGlobals.Levels[track][ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1]
 
             barTime = math.log(skillDiff + 1)
@@ -859,7 +862,8 @@ class RewardPanel(DirectFrame):
                 newValue = int(currentSkill - t * skillDiff + 0.5)
                 intervalList.append(Func(self.incrementExp, track, newValue, toon))
                 intervalList.append(Wait(tickDelay * 0.5))
-            intervalList.append(Wait(0.4))
+            #intervalList.append(Wait(0.4))
+            intervalList.append(Wait(0.1))
 
         return intervalList
 
@@ -868,7 +872,7 @@ class RewardPanel(DirectFrame):
         returns a list of intervals that, if played, will show merits
         gained for the given dept.
         """
-        tickDelay = 0.08
+        tickDelay = 1.0 / 60 #0.08
         intervalList = []
         totalMerits = CogDisguiseGlobals.getTotalMerits(toon, dept)
         neededMerits = 0
@@ -879,7 +883,7 @@ class RewardPanel(DirectFrame):
             intervalList.append(Func(self.showMeritIncLabel, dept, min(neededMerits, earnedMerits)))
 
         # How much time should it take to increment the bar?
-        barTime = math.log(earnedMerits + 1)
+        barTime = 0.5 #math.log(earnedMerits + 1)
         numTicks = int(math.ceil(barTime / tickDelay))
 
         for i in range(numTicks):
@@ -1026,7 +1030,7 @@ class RewardPanel(DirectFrame):
             questDesc = avQuests[i]
             questId, npcId, toNpcId, rewardId, toonProgress = questDesc
             quest = Quests.getQuest(questId)
-            if quest:
+            if quest and i < len(self.questLabelList):
                 questString = quest.getString()
                 progressString = quest.getProgressString(toon, questDesc)
                 questLabel = self.questLabelList[i]
@@ -1071,7 +1075,7 @@ class RewardPanel(DirectFrame):
 
                 if earned > 0 or (base.localAvatar.tutorialAck==0 and num==1):
                     # See getTrackIntervalList() for timing comments.
-                    barTime = math.log(earned + 1)
+                    barTime = 0.5 #math.log(earned + 1)
                     numTicks = int(math.ceil(barTime / tickDelay))
 
                     for i in range(numTicks):
@@ -1165,21 +1169,26 @@ class RewardPanel(DirectFrame):
                                                    origMeritList[dept],
                                                    meritList[dept])
 
-        track.append(Wait(1.0))
+        #track.append(Wait(1.0))
+        track.append(Wait(0.75))
 
         itemInterval = self.getItemIntervalList(toon, itemList)
         if itemInterval:
             track.append(Func(self.initItemFrame, toon))
-            track.append(Wait(1.0))
+            #track.append(Wait(1.0))
+            track.append(Wait(0.25))
             track += itemInterval
-            track.append(Wait(1.0))
+            #track.append(Wait(1.0))
+            track.append(Wait(0.25))
 
         missedItemInterval = self.getMissedItemIntervalList(toon, missedItemList)
         if missedItemInterval:
             track.append(Func(self.initMissedItemFrame, toon))
-            track.append(Wait(1.0))
+            #track.append(Wait(1.0))
+            track.append(Wait(0.25))
             track += missedItemInterval
-            track.append(Wait(1.0))
+            #track.append(Wait(1.0))
+            track.append(Wait(0.5))
 
         # debug
         self.notify.debug("partList = %s" % partList)
@@ -1193,21 +1202,29 @@ class RewardPanel(DirectFrame):
             partList = self.getCogPartIntervalList(toon, partList)
             if partList:
                 track.append(Func(self.initCogPartFrame, toon))
-                track.append(Wait(1.0))
+                #track.append(Wait(1.0))
+                track.append(Wait(0.25))
                 track += partList
-                track.append(Wait(1.0))
+                #track.append(Wait(1.0))
+                track.append(Wait(0.5))
 
         # Add on any quest progress intervals
         questList = self.getQuestIntervalList(toon, deathList, toonList, origQuestsList, itemList, helpfulToonsList)
         if questList:
+            avQuests = []
+            for i in range(0, len(origQuestsList), 5):
+                avQuests.append(origQuestsList[i:i + 5])
             # We have to make a copy of the toon's quest data now,
             # when we build up the tracks, rather than later, while
             # we're playing them back.  This is because the AI will
             # send our quest progress update any moment.
-            track.append(Func(self.initQuestFrame, toon, copy.deepcopy(toon.quests)))
-            track.append(Wait(1.0))
+            track.append(Func(self.initQuestFrame, toon, copy.deepcopy(avQuests)))
+            #track.append(Wait(1.0))
+            track.append(Wait(0.25))
             track += questList
-            track.append(Wait(2.0))
+            #track.append(Wait(2.0))
+            track.append(Wait(0.25))
+        track.append(Wait(0.25))
 
         # if the player has reached the end of a track, queue up the frames vanishing
         # and a fanfare occurring

@@ -743,7 +743,7 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         self.ccLineNode = CollisionNode("golf.ccLineNode")
         self.ccLineNode.addSolid(self.ccLine)
         self.ccLineNodePath = self.camPivot.attachNewNode(self.ccLineNode)
-        self.ccLineBitMask = BitMask32(1048576) # Correct to match Anesidora
+        self.ccLineBitMask = BitMask32(0x100000)
         self.ccLineNode.setFromCollideMask(self.ccLineBitMask)
         self.ccLineNode.setIntoCollideMask(BitMask32.allOff())
         self.camCollisionQueue = CollisionHandlerQueue()

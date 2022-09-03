@@ -4,7 +4,7 @@ from toontown.toonbase import TTLocalizer
 from direct.gui.DirectGui import *
 from toontown.toonbase.ToontownModules import *
 
-CatalogNotifyBaseXPos = -0.93
+CatalogNotifyBaseXPos = -0.93 #0.4
 
 class CatalogNotifyDialog:
     """CatalogNotifyDialog:

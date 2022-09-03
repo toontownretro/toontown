@@ -15,6 +15,7 @@ from toontown.building import SuitInterior
 from . import QuietZoneState
 from . import ZoneUtil
 from toontown.toonbase import TTLocalizer
+from toontown.toon.Toon import teleportDebug
 
 class Hood(StateData.StateData):
     """
@@ -34,6 +35,7 @@ class Hood(StateData.StateData):
                 +", dnaStore="+str(dnaStore)+")"))
         StateData.StateData.__init__(self, doneEvent)
 
+        self.loader = "not initialized"
         self.parentFSM = parentFSM
         self.dnaStore = dnaStore
 
@@ -65,6 +67,7 @@ class Hood(StateData.StateData):
         self.spookySkyFile = None
         self.halloweenLights = []
 
+    # Begin Shaders #
         # The lighting configuration for this hood.
         self.ambientLight = None
         self.ambientTemp = 7000
@@ -120,6 +123,7 @@ class Hood(StateData.StateData):
             base.render.clearLight(self.ambientLight)
         if self.sunLight:
             base.render.clearLight(self.sunLight)
+    # End Shaders #
 
     def enter(self, requestStatus):
         """
@@ -219,7 +223,8 @@ class Hood(StateData.StateData):
                 for storageFile in self.holidayStorageDNADict.get(
                     holiday,[]):
                     loader.loadDNAFile(self.dnaStore, storageFile)
-            if (ToontownGlobals.HALLOWEEN_COSTUMES not in holidayIds) or (not self.spookySkyFile):
+            if (ToontownGlobals.HALLOWEEN_COSTUMES not in holidayIds) and \
+               (ToontownGlobals.SPOOKY_COSTUMES not in holidayIds) or (not self.spookySkyFile):
                 # Load the sky model so we will have it in memory for the entire hood
                 self.sky = loader.loadModel(self.skyFile)
                 #self.sky.setColorScale(Vec4(Vec3(self.skyLightScale), 1.0))
@@ -395,9 +400,12 @@ class Hood(StateData.StateData):
     def handleSafeZoneLoaderDone(self):
         assert(self.notify.debug("handleSafeZoneLoaderDone()"))
         doneStatus = self.loader.getDoneStatus()
+        teleportDebug(doneStatus, "handleSafeZoneLoaderDone, doneStatus=%s" % doneStatus)
         if (self.isSameHood(doneStatus) and doneStatus["where"] != "party") or doneStatus["loader"]=="minigame":
+            teleportDebug(doneStatus, "same hood")
             self.fsm.request("quietZone", [doneStatus])
         else:
+            teleportDebug(doneStatus, "different hood")
             # ...we're leaving the hood.
             self.doneStatus = doneStatus
             messenger.send(self.doneEvent)

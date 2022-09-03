@@ -92,7 +92,7 @@ class ToonSignTextCtrl(wx.TextCtrl):
       def __init__(self, parent, id=-1, value=wx.EmptyString, pos=wx.DefaultPosition):
           wx.TextCtrl.__init__(self, parent.panel, id, pos=pos, value=value, validator=ToonSignTextCtrlValidator())
 
-          self.parent = parent
+          self._parent = parent
           self.Bind(wx.EVT_TEXT, self.OnText)
           self.Bind(wx.EVT_SET_FOCUS, self.OnSetFocus)
 
@@ -100,8 +100,8 @@ class ToonSignTextCtrl(wx.TextCtrl):
           #print("Got %s" %(self.GetValue()))
           try:
              val = float(self.GetValue())
-             self.parent.WritePandaValue(self, val)
-             self.parent.knobCtrl.SetTotal(val)
+             self._parent.WritePandaValue(self, val)
+             self._parent.knobCtrl.SetTotal(val)
 
           except ValueError:
               #print("Clearing...")
@@ -109,7 +109,7 @@ class ToonSignTextCtrl(wx.TextCtrl):
 
       def OnSetFocus(self, event):
           #print("Setting total %d" %(float(self.GetValue())))
-          self.parent.knobCtrl.SetTotal(float(self.GetValue()))
+          self._parent.knobCtrl.SetTotal(float(self.GetValue()))
 
 class SignEditFrame(wx.MiniFrame):
       def __init__(self, parent, editor, baselineDNA, objNP, hasGraphics=False):

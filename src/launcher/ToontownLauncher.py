@@ -350,7 +350,7 @@ class ToontownLauncher(LauncherBase):
         if (t == int):
             WindowsRegistry.setIntValue(self.toontownRegistryKey, name, value)
 
-        elif (t == bytes):
+        elif (t == str):
             WindowsRegistry.setStringValue(self.toontownRegistryKey, name,
                                            value)
         else:

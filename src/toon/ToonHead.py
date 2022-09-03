@@ -787,12 +787,12 @@ class ToonHead(Actor.Actor):
                 # NOTE: had to change all ref's to "joint-" to "joint_" as Maya
                 # does not support "-" in node names
                 if ConfigVariableBool('want-new-anims', 1).getValue():
-                    if not self.find("**/joint_pupil*").isEmpty():
-                        self.drawInFront("joint_pupil*", "eyes*", -1, lodName=lodName)
+                    if not self.find("**/joint*pupil*").isEmpty():
+                        self.drawInFront("joint*pupil*", "eyes*", -1, lodName=lodName)
                     else:
                         self.drawInFront("def_*_pupil", "eyes*", -1, lodName=lodName)
                 else:
-                    self.drawInFront("joint_pupil*", "eyes*", -1, lodName=lodName)
+                    self.drawInFront("joint*pupil*", "eyes*", -1, lodName=lodName)
 
             # Save the various eye LODs for blinking.
             self.__eyes = self.getLOD(1000).find('**/eyes*')
@@ -807,38 +807,38 @@ class ToonHead(Actor.Actor):
             else:
                 self.__lod500Eyes.setColorOff()
                 if ConfigVariableBool('want-new-anims', 1).getValue():
-                    if not self.find('**/joint_pupilL*').isEmpty():
-                        self.__lod500lPupil = self.__lod500Eyes.find('**/joint_pupilL*')
-                        self.__lod500rPupil = self.__lod500Eyes.find('**/joint_pupilR*')
+                    if not self.find('**/joint*pupilL*').isEmpty():
+                        self.__lod500lPupil = self.__lod500Eyes.find('**/joint*pupilL*')
+                        self.__lod500rPupil = self.__lod500Eyes.find('**/joint*pupilR*')
                     else:
                         self.__lod500lPupil = self.__lod500Eyes.find('**/def_left_pupil*')
                         self.__lod500rPupil = self.__lod500Eyes.find('**/def_right_pupil*')
                 else:
-                    self.__lod500lPupil = self.__lod500Eyes.find('**/joint_pupilL*')
-                    self.__lod500rPupil = self.__lod500Eyes.find('**/joint_pupilR*')
+                    self.__lod500lPupil = self.__lod500Eyes.find('**/joint*pupilL*')
+                    self.__lod500rPupil = self.__lod500Eyes.find('**/joint*pupilR*')
             if self.__lod250Eyes.isEmpty():
                 self.__lod250Eyes = None
             else:
                 self.__lod250Eyes.setColorOff()
                 if ConfigVariableBool('want-new-anims', 1).getValue():
-                    if not self.find('**/joint_pupilL*').isEmpty():
-                        self.__lod250lPupil = self.__lod250Eyes.find('**/joint_pupilL*')
-                        self.__lod250rPupil = self.__lod250Eyes.find('**/joint_pupilR*')
+                    if not self.find('**/joint*pupilL*').isEmpty():
+                        self.__lod250lPupil = self.__lod250Eyes.find('**/joint*pupilL*')
+                        self.__lod250rPupil = self.__lod250Eyes.find('**/joint*pupilR*')
                     else:
                         self.__lod250lPupil = self.__lod250Eyes.find('**/def_left_pupil*')
                         self.__lod250rPupil = self.__lod250Eyes.find('**/def_right_pupil*')
                 else:
-                    self.__lod250lPupil = self.__lod250Eyes.find('**/joint_pupilL*')
-                    self.__lod250rPupil = self.__lod250Eyes.find('**/joint_pupilR*')
+                    self.__lod250lPupil = self.__lod250Eyes.find('**/joint*pupilL*')
+                    self.__lod250rPupil = self.__lod250Eyes.find('**/joint*pupilR*')
         else:
             self.drawInFront("eyes*", "head-front*", mode)
             if ConfigVariableBool('want-new-anims', 1).getValue():
-                if not self.find("joint_pupil*").isEmpty():
-                    self.drawInFront("joint_pupil*", "eyes*", -1)
+                if not self.find("joint*pupil*").isEmpty():
+                    self.drawInFront("joint*pupil*", "eyes*", -1)
                 else:
                     self.drawInFront("def_*_pupil", "eyes*", -1)
             else:
-                self.drawInFront("joint_pupil*", "eyes*", -1)
+                self.drawInFront("joint*pupil*", "eyes*", -1)
             # Save the eyes for blinking.
             self.__eyes = self.find('**/eyes*')
 
@@ -849,13 +849,13 @@ class ToonHead(Actor.Actor):
             self.__lpupil = None
             self.__rpupil = None
             if ConfigVariableBool('want-new-anims', 1).getValue():
-                if not self.find('**/joint_pupilL*').isEmpty():
+                if not self.find('**/joint*pupilL*').isEmpty():
                     if self.getLOD(1000):
-                        lp = self.getLOD(1000).find('**/joint_pupilL*')
-                        rp = self.getLOD(1000).find('**/joint_pupilR*')
+                        lp = self.getLOD(1000).find('**/joint*pupilL*')
+                        rp = self.getLOD(1000).find('**/joint*pupilR*')
                     else:
-                        lp = self.find('**/joint_pupilL*')
-                        rp = self.find('**/joint_pupilR*')
+                        lp = self.find('**/joint*pupilL*')
+                        rp = self.find('**/joint*pupilR*')
                 else:
                     if not self.getLOD(1000):
                         lp = self.find('**/def_left_pupil*')
@@ -864,8 +864,8 @@ class ToonHead(Actor.Actor):
                         lp = self.getLOD(1000).find('**/def_left_pupil*')
                         rp = self.getLOD(1000).find('**/def_right_pupil*')
             else:
-                lp = self.__eyes.find('**/joint_pupilL*')
-                rp = self.__eyes.find('**/joint_pupilR*')
+                lp = self.__eyes.find('**/joint*pupilL*')
+                rp = self.__eyes.find('**/joint*pupilR*')
 
             if lp.isEmpty() or rp.isEmpty():
                 print("Unable to locate pupils.")
@@ -1163,11 +1163,11 @@ class ToonHead(Actor.Actor):
         # Now every animal except dog has 2 types of pupils except the dog
         if animalType != 'dog':
             if copy:
-                searchRoot.find("**/joint_pupilL_short").removeNode()
-                searchRoot.find("**/joint_pupilR_short").removeNode()
+                searchRoot.find("**/joint*pupilL_short").removeNode()
+                searchRoot.find("**/joint*pupilR_short").removeNode()
             else:
-                searchRoot.find("**/joint_pupilL_short").stash()
-                searchRoot.find("**/joint_pupilR_short").stash()
+                searchRoot.find("**/joint*pupilL_short").stash()
+                searchRoot.find("**/joint*pupilR_short").stash()
 
         # hide the short head
         if copy:
@@ -1227,11 +1227,11 @@ class ToonHead(Actor.Actor):
         # Now every animal except dog has 2 types of pupils except the dog
         if animalType != 'dog':
             if copy:
-                searchRoot.find("**/joint_pupilL_long").removeNode()
-                searchRoot.find("**/joint_pupilR_long").removeNode()
+                searchRoot.find("**/joint*pupilL_long").removeNode()
+                searchRoot.find("**/joint*pupilR_long").removeNode()
             else:
-                searchRoot.find("**/joint_pupilL_long").stash()
-                searchRoot.find("**/joint_pupilR_long").stash()
+                searchRoot.find("**/joint*pupilL_long").stash()
+                searchRoot.find("**/joint*pupilR_long").stash()
 
         # hide the short head
         if copy:
@@ -1729,9 +1729,9 @@ class ToonHead(Actor.Actor):
                             if not self.find('**/' + lodName + '/**/def_head').isEmpty():
                                 muzzles.reparentTo(self.find('**/' + lodName + '/**/def_head'))
                             else:
-                                muzzles.reparentTo(self.find('**/' + lodName + '/**/joint_toHead'))
-                        elif self.find('**/' + lodName + '/**/joint_toHead'):
-                            muzzles.reparentTo(self.find('**/' + lodName + '/**/joint_toHead'))
+                                muzzles.reparentTo(self.find('**/' + lodName + '/**/joint*toHead'))
+                        elif self.find('**/' + lodName + '/**/joint*toHead'):
+                            muzzles.reparentTo(self.find('**/' + lodName + '/**/joint*toHead'))
 
                 surpriseMuzzle = self.find('**/' + lodName + '/**/muzzle*surprise')
                 angryMuzzle = self.find('**/' + lodName + '/**/muzzle*angry')
@@ -1768,9 +1768,9 @@ class ToonHead(Actor.Actor):
                     if not self.find('**/def_head').isEmpty():
                         muzzles.reparentTo(self.find('**/def_head'))
                     else:
-                        muzzles.reparentTo(self.find('**/joint_toHead'))
-                elif self.find('**/joint_toHead'):
-                    muzzles.reparentTo(self.find('**/joint_toHead'))
+                        muzzles.reparentTo(self.find('**/joint*toHead'))
+                elif self.find('**/joint*toHead'):
+                    muzzles.reparentTo(self.find('**/joint*toHead'))
 
             surpriseMuzzle = self.find('**/muzzle*surprise')
             angryMuzzle = self.find('**/muzzle*angry')

@@ -527,6 +527,7 @@ def loadDialog(level):
                         "COG_VO_statement",
                         "COG_VO_question"
                         ]
+
     # load the audio files and store into the dialogue array
     for file in SuitDialogFiles:
         SuitDialogArray.append(base.loader.loadSfx(loadPath + file + ".mp3"))
@@ -1069,10 +1070,10 @@ class Suit(Avatar.Avatar):
             modelRoot.find("**/hands").setColor(self.handColor)
 
             # find the useful nulls
-            self.leftHand = self.find("**/joint_Lhold")
-            self.rightHand = self.find("**/joint_Rhold")
-            self.shadowJoint = self.find("**/joint_shadow")
-            self.nametagJoint = self.find("**/joint_nameTag")
+            self.leftHand = self.find("**/joint*Lhold")
+            self.rightHand = self.find("**/joint*Rhold")
+            self.shadowJoint = self.find("**/joint*shadow")
+            self.nametagJoint = self.find("**/joint*nameTag")
 
         if ConfigVariableBool('want-new-cogs', 0).getValue():
             if dept == 'c':
@@ -1168,10 +1169,10 @@ class Suit(Avatar.Avatar):
                                          "to_head")
                 if not headPart:
                     headPart = self.instance(headReferences.getPath(i), "modelRoot",
-                                             "joint_head")
+                                             "joint*head")
             else:
                 headPart = self.instance(headReferences.getPath(i), "modelRoot",
-                                         "joint_head")
+                                         "joint*head")
             # set head texture if necessary
             if self.headTexture:
                 headTex = loader.loadTexture("phase_" + str(phase) + "/maps/" +
@@ -1217,9 +1218,9 @@ class Suit(Avatar.Avatar):
         if ConfigVariableBool('want-new-cogs', 0).getValue():
             chestNull = self.find('**/def_joint_attachMeter')
             if chestNull.isEmpty():
-                chestNull = self.find('**/joint_attachMeter')
+                chestNull = self.find('**/joint*attachMeter')
         else:
-            chestNull = self.find('**/joint_attachMeter')
+            chestNull = self.find('**/joint*attachMeter')
         if dept == 'c':
             self.corpMedallion = icons.find('**/CorpIcon').copyTo(chestNull)
         elif dept == 's':
@@ -1249,9 +1250,9 @@ class Suit(Avatar.Avatar):
         if ConfigVariableBool('want-new-cogs', 0).getValue():
             chestNull = self.find('**/def_joint_attachMeter')
             if chestNull.isEmpty():
-                chestNull = self.find('**/joint_attachMeter')
+                chestNull = self.find('**/joint*attachMeter')
         else:
-            chestNull = self.find('**/joint_attachMeter')
+            chestNull = self.find('**/joint*attachMeter')
         button.reparentTo(chestNull)
         self.healthBar = button
         glow = BattleProps.globalPropPool.getProp('glow')
@@ -1353,7 +1354,7 @@ class Suit(Avatar.Avatar):
                 self.loseActor = Actor.Actor(loseModel, {"lose":loseAnim})
 
                 # copy the current head to the lose actor
-                loseNeck = self.loseActor.find("**/joint_head")
+                loseNeck = self.loseActor.find("**/joint*head")
                 for part in self.headParts:
                     part.instanceTo(loseNeck)
 
@@ -1383,7 +1384,7 @@ class Suit(Avatar.Avatar):
 
         # put a shadow under the lose actor
         if ShadowCaster.globalDropShadowFlag:
-            shadowJoint = self.loseActor.find("**/joint_shadow")
+            shadowJoint = self.loseActor.find("**/joint*shadow")
             dropShadow = loader.loadModel("phase_3/models/props/drop_shadow")
             dropShadow.setScale(0.45)
             dropShadow.setColor(0.0, 0.0, 0.0, 0.5)
@@ -1445,10 +1446,10 @@ class Suit(Avatar.Avatar):
         self.setDisplayName( nameInfo )
 
         # re-find the useful nulls
-        self.leftHand = self.find("**/joint_Lhold")
-        self.rightHand = self.find("**/joint_Rhold")
-        self.shadowJoint = self.find("**/joint_shadow")
-        self.nametagJoint = self.find("**/joint_nameTag")
+        self.leftHand = self.find("**/joint*Lhold")
+        self.rightHand = self.find("**/joint*Rhold")
+        self.shadowJoint = self.find("**/joint*shadow")
+        self.nametagJoint = self.find("**/joint*nameTag")
 
         if not dropShadow.isEmpty():
             dropShadow.setScale(0.75)
@@ -1491,8 +1492,8 @@ class Suit(Avatar.Avatar):
         Return the CharacterJoint that animates the nametag, in a list.
         """
         joints = []
-        bundle = self.getPartBundle('modelRoot')
-        attach = bundle.findAttachment('joint_nameTag')
+        bundle = self.getPartBundle("modelRoot")
+        attach = bundle.findAttachment("joint_nameTag")
         if attach >= 0:
             joints.append((attach, bundle))
         return joints

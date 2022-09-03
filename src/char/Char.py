@@ -193,8 +193,8 @@ class Char(Avatar.Avatar):
             self.nametag3d.setBin('fixed', 0)
 
             # fix Chip and Dales wonky shadow
-            if (self._name == "chip") or (self._name == "dale") or \
-               (self._name == "police_chip") or (self._name == "jailbird_dale"):
+            if (self.name == "chip") or (self.name == "dale") or \
+               (self.name == "police_chip") or (self.name == "jailbird_dale"):
 
                 self.find("**/drop-shadow").setScale(0.33)
 
@@ -224,41 +224,41 @@ class Char(Avatar.Avatar):
         Create a non-player character from dna (an array of strings)
         """
         dna = self.style
-        self._name = dna.getCharName()
+        self.name = dna.getCharName()
         self.geoEyes = 0
         # generate the LOD nodes, if necessary
         if (len(LODModelDict[dna.name]) > 1):
             self.setLODs()
         filePrefix = ModelDict[dna.name]
-        if (self._name == "mickey"):
+        if (self.name == "mickey"):
             height = 3.0
-        elif (self._name == "vampire_mickey"):
+        elif (self.name == "vampire_mickey"):
             height = 3.0
-        elif (self._name == "minnie"):
+        elif (self.name == "minnie"):
             height = 3.0
-        elif (self._name == "witch_minnie"):
+        elif (self.name == "witch_minnie"):
             height = 3.0
-        elif (self._name == "goofy"):
+        elif (self.name == "goofy"):
             height = 4.8
-        elif (self._name == "super_goofy"):
+        elif (self.name == "super_goofy"):
             height = 4.8
-        elif (self._name == "donald" or self._name == "donald-wheel" or self._name == "franken_donald"):
+        elif (self.name == "donald" or self.name == "donald-wheel" or self.name == "franken_donald"):
             height = 4.5
-        elif (self._name == "daisy" or self._name == "sockHop_daisy"):
+        elif (self.name == "daisy" or self.name == "sockHop_daisy"):
             height = 4.5
-        elif (self._name == "pluto"):
+        elif (self.name == "pluto"):
             height = 3.0
-        elif (self._name == "western_pluto"):
+        elif (self.name == "western_pluto"):
             height = 4.5
-        elif (self._name == "clarabelle"):
+        elif (self.name == "clarabelle"):
             height = 3.0
-        elif (self._name == "chip"):
+        elif (self.name == "chip"):
             height = 2.0
-        elif (self._name == "dale"):
+        elif (self.name == "dale"):
             height = 2.0
-        elif (self._name == "police_chip"):
+        elif (self.name == "police_chip"):
             height = 2.0
-        elif (self._name == "jailbird_dale"):
+        elif (self.name == "jailbird_dale"):
             height = 2.0
 
         self.lodStrings = []
@@ -271,7 +271,7 @@ class Char(Avatar.Avatar):
                     lodName = lodStr
                 else:
                     lodName = "lodRoot"
-                if(self._name == "goofy"):
+                if(self.name == "goofy"):
                     self.loadModel(filePrefix + "-" + lodStr, lodName=lodName)
                 else:
                     self.loadModel(filePrefix + lodStr, lodName=lodName)
@@ -300,9 +300,9 @@ class Char(Avatar.Avatar):
 
         # set up the mouse ears for rotation
         self.ears = []
-        # or self._name == "vampire_mickey"
-        if (self._name == "mickey" or self._name == "vampire_mickey" \
-            or self._name == "minnie"):
+        # or self.name == "vampire_mickey"
+        if (self.name == "mickey" or self.name == "vampire_mickey" \
+            or self.name == "minnie"):
             # Clear the net transforms first, in case we have
             # merge-lod-bundles on (which would mean this is really
             # just one bundle).
@@ -348,7 +348,7 @@ class Char(Avatar.Avatar):
         self.eyesOpen = None
         self.eyesClosed = None
 
-        if (self._name == "mickey" or self._name == "minnie"):
+        if (self.name == "mickey" or self.name == "minnie"):
             self.eyesOpen = loader.loadTexture("phase_3/maps/eyes1.txo")
             self.eyesClosed = loader.loadTexture(
                 "phase_3/maps/mickey_eyes_closed.txo")
@@ -357,15 +357,15 @@ class Char(Avatar.Avatar):
             # this fixes a dual-mode transparency problem
             # that makes the pupils render poorly
             self.eyes.setBin('transparent', 0)
-            self.lpupil = self.find("**/1200/**/joint_pupilL")
-            self.rpupil = self.find("**/1200/**/joint_pupilR")
+            self.lpupil = self.find("**/1200/**/joint*pupilL")
+            self.rpupil = self.find("**/1200/**/joint*pupilR")
             # make them render correctly
             for lodName in self.getLODNames():
-                self.drawInFront("joint_pupil?", "eyes*", -3, lodName=lodName)
-        elif (self._name == "witch_minnie" or self._name == "vampire_mickey" \
-                or self._name == "super_goofy" or self._name == "western_pluto" \
-                or self._name == "police_chip" or self._name == "jailbird_dale" \
-                or self._name == "franken_donald" or self._name == "sockHop_daisy"):
+                self.drawInFront("joint*pupil?", "eyes*", -3, lodName=lodName)
+        elif (self.name == "witch_minnie" or self.name == "vampire_mickey" \
+                or self.name == "super_goofy" or self.name == "western_pluto" \
+                or self.name == "police_chip" or self.name == "jailbird_dale" \
+                or self.name == "franken_donald" or self.name == "sockHop_daisy"):
             self.geoEyes = 1
             self.eyeOpenList = []
             self.eyeCloseList = []
@@ -382,19 +382,19 @@ class Char(Avatar.Avatar):
 
             for part in self.eyeCloseList:
                 part.hide()
-        elif (self._name == "pluto"):
+        elif (self.name == "pluto"):
             self.eyesOpen = loader.loadTexture(
                 "phase_6/maps/plutoEyesOpen.txo")
             self.eyesClosed = loader.loadTexture(
                 "phase_6/maps/plutoEyesClosed.txo")
             # TODO: other LODs
             self.eyes = self.find("**/1000/**/eyes")
-            self.lpupil = self.find("**/1000/**/joint_pupilL")
-            self.rpupil = self.find("**/1000/**/joint_pupilR")
+            self.lpupil = self.find("**/1000/**/joint*pupilL")
+            self.rpupil = self.find("**/1000/**/joint*pupilR")
             # make them render correctly
             for lodName in self.getLODNames():
-                self.drawInFront("joint_pupil?", "eyes*", -3, lodName=lodName)
-        elif (self._name == "daisy"):
+                self.drawInFront("joint*pupil?", "eyes*", -3, lodName=lodName)
+        elif (self.name == "daisy"):
             self.geoEyes = 1
             self.eyeOpenList = []
             self.eyeCloseList = []
@@ -415,15 +415,15 @@ class Char(Avatar.Avatar):
             for part in self.eyeCloseList:
                 part.hide()
 
-        elif (self._name == "donald-wheel"):
+        elif (self.name == "donald-wheel"):
             # set them up for blinking
             self.eyes = self.find("**/eyes")
-            self.lpupil = self.find("**/joint_pupilL")
-            self.rpupil = self.find("**/joint_pupilR")
+            self.lpupil = self.find("**/joint*pupilL")
+            self.rpupil = self.find("**/joint*pupilR")
             # arrange donalds eyes to render properly
-            self.drawInFront("joint_pupil?", "eyes*", -3)
+            self.drawInFront("joint*pupil?", "eyes*", -3)
 
-        elif (self._name == "chip") or (self._name == "dale"):
+        elif (self.name == "chip") or (self.name == "dale"):
             self.eyesOpen = loader.loadTexture(
                 "phase_6/maps/dale_eye1.txo")
             self.eyesClosed = loader.loadTexture(
@@ -452,13 +452,13 @@ class Char(Avatar.Avatar):
 
         # Fix Mickey's screwed up right pupil until the animators redo
         # Well only fix the highest lod since that is the only one noticeable
-        if (self._name == "mickey"):
+        if (self.name == "mickey"):
             pupilParent = self.rpupil.getParent()
             pupilOffsetNode = pupilParent.attachNewNode("pupilOffsetNode")
             pupilOffsetNode.setPos(0, 0.025, 0)
             self.rpupil.reparentTo(pupilOffsetNode)
 
-        self.__blinkName = "blink-" + self._name
+        self.__blinkName = "blink-" + self.name
 
         #import pdb; pdb.set_trace()
 

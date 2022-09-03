@@ -163,3 +163,13 @@ class GSHoodDataAI(HoodDataAI.HoodDataAI):
         for racePad in self.racingPads:
             racePad.request( 'WaitEmpty' )
             self.addDistObj( racePad )
+
+    def logPossibleRaceCondition(self, startBlock):
+        for sb in self.startingBlocks:
+            if sb == startBlock:
+                if not sb.kartPad:
+                    self.notify.warning("%s is in a broken state" % str(self))
+                    self.notify.warning("StartingBlocks: %d, RacePads: %s, ViewPads: %s, RacePadGroups: %s, ViewPadGroups: %s" % (
+                                        len(self.startingBlocks),
+                                        str(self.racingPads), str(self.viewingPads),
+                                        str(self.foundRacingPadGroups), str(self.foundViewingPadGroups)))

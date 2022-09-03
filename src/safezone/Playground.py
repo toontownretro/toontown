@@ -19,6 +19,7 @@ from toontown.toontowngui import TTDialog
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from direct.gui import DirectLabel
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.quest import Quests
 
 class Playground(Place.Place):

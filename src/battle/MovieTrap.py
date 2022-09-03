@@ -344,7 +344,7 @@ def __createThrownTrapMultiTrack(trap, propList, propName, propPos=None,
         throwTrack.append(Func(placeTrap, trapProp, suit))
         # If the trap is the tnt, start the fuse on the trapProp we just placed
         if (trapName == 'tnt'):
-            tip = trapProp.find("**/joint_attachEmitter")
+            tip = trapProp.find("**/joint*attachEmitter")
             sparks = BattleParticles.createParticleEffect(file='tnt')
             trapProp.sparksEffect = sparks
             throwTrack.append(Func(sparks.start, tip))
@@ -352,7 +352,7 @@ def __createThrownTrapMultiTrack(trap, propList, propName, propPos=None,
 
     # If using the tnt, must add in a track for the sparks particle effect
 #    if (trapName == 'tnt'):
-#        tip = thrownProp.find("**/joint_attachEmitter")
+#        tip = thrownProp.find("**/joint*attachEmitter")
 #        sparks = BattleParticles.createParticleEffect(file='tnt')
 #        sparksTrack = Sequence(
 #            Func(sparks.start, tip),

@@ -165,6 +165,7 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
         if success:
             self.successTrack.start()
         else:
+            self.startBattle()
             self.failTrack.start()
             self.cSphereNodePath.setPos(self.blockerX, self.blockerY,0)
 
@@ -936,4 +937,5 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
 
     def __handleToonEnter(self, collEntry):
         self.notify.debug ("__handleToonEnter, %s" % self.entId)
-        self.startBattle()
+        #self.startBattle()
+        self.sendFail()

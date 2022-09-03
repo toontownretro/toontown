@@ -52,7 +52,7 @@ class DistributedCpuInfoMgrUD(DistributedObjectGlobalUD):
         assert self.notify.debugCall()
         DistributedObjectGlobalUD.__init__(self, air)
         self.HTTPListenPort = uber.cpuInfoMgrHTTPListenPort
-
+        
         '''
         self.webDispatcher = WebRequestDispatcher()
         self.webDispatcher.landingPage.setTitle("SecurityBanMgr")
@@ -64,7 +64,7 @@ class DistributedCpuInfoMgrUD(DistributedObjectGlobalUD):
         self.webDispatcher.listenOnPort(self.HTTPListenPort)
         self.webDispatcher.landingPage.addTab("SecurityBanMgr","/securityBanMgr")
         '''
-
+        
         self.air.setConnectionName("SecurityBanMgr")
         self.air.setConnectionURL("http://%s:%s/" % (socket.gethostbyname(socket.gethostname()),self.HTTPListenPort))
 

@@ -18,6 +18,7 @@ from . import MinigameGlobals
 from direct.showbase import PythonUtil
 from toontown.toon import TTEmote
 from otp.avatar import Emote
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 
 class DistributedMinigame(DistributedObject.DistributedObject):
     """
@@ -257,6 +258,8 @@ class DistributedMinigame(DistributedObject.DistributedObject):
 
         self.cleanupActions.append(cleanup)
 
+        self._telemLimiter = self.getTelemetryLimiter()
+
         # Show the rules
         # NOTE: parent ClassicFSM state has not yet been entered; it will
         # try to transition our ClassicFSM to the initial state. As long
@@ -292,6 +295,10 @@ class DistributedMinigame(DistributedObject.DistributedObject):
         del self.waitingStartLabel
         del self.frameworkFSM
         DistributedObject.DistributedObject.delete(self)
+
+    def getTelemetryLimiter(self):
+        return TLGatherAllAvs('Minigame',
+                              RotationLimitToH)
 
     def load(self):
         self.notify.debug("BASE: load")

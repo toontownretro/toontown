@@ -334,6 +334,7 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
 
         self.acceptOnce(self.uniqueName("doneChatPage"),
                         self.finishMovie, extraArgs = [av, isLocalToon])
+        self.clearChat()
         self.setPageChat(avId, 0, fullString, 1)
 
     def sendChooseQuest(self, questId):

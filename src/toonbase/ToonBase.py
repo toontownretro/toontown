@@ -14,6 +14,8 @@ from direct.gui.DirectGui import *
 from toontown.toonbase.ToontownModules import *
 import sys
 import os
+import math
+#from toontown.toonbase import ToontownAccess
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.launcher import ToontownDownloadWatcher
@@ -88,6 +90,10 @@ class ToonBase(OTPBase.OTPBase):
             self.taskMgr.add(self.__updatePostProcess, 'updatePostProcess')
 
         self.toonChatSounds = ConfigVariableBool('toon-chat-sounds', True).getValue()
+
+        self.placeBeforeObjects = ConfigVariableBool('place-before-objects', True).getValue()
+        
+        self.endlessQuietZone = False
 
         # Toontown doesn't care about dynamic shadows for now.
         self.wantDynamicShadows = 0
@@ -309,6 +315,11 @@ class ToonBase(OTPBase.OTPBase):
 
         self.resetMusic = self.loadMusic("phase_3/audio/bgm/MIDI_Events_16channels.mid")
 
+        self.oldX = max(1, base.win.getXSize())
+        self.oldY = max(1, base.win.getYSize())
+
+        self.aspectRatio = float(self.oldX) / self.oldY
+
     def lightColor(self, light, temp, intensity):
         light.setColorTemperature(temp)
         light.setColor(Vec4(light.getColor().getXyz() * intensity, 1.0))
@@ -328,6 +339,58 @@ class ToonBase(OTPBase.OTPBase):
             self.postProcess.windowEvent()
 
         OTPBase.OTPBase.windowEvent(self, win)
+
+        if not ConfigVariableInt('keep-aspect-ratio', False).getValue():
+            return None
+
+        x = max(1, win.getXSize())
+        y = max(1, win.getYSize())
+
+        maxX = base.pipe.getDisplayWidth()
+        maxY = base.pipe.getDisplayHeight()
+
+        cwp = win.getProperties()
+
+        originX = 0
+        originY = 0
+
+        if cwp.hasOrigin():
+            originX = cwp.getXOrigin()
+            originY = cwp.getYOrigin()
+
+            if originX > maxX:
+                originX = originX - maxX
+
+            if originY > maxY:
+                oringY = originY - maxY
+
+        maxX -= originX
+        maxY -= originY
+
+        if math.fabs(x - self.oldX) > math.fabs(y - self.oldY):
+            newY = x / self.aspectRatio
+            newX = x
+
+            if newY > maxY:
+                newY = maxY
+                newX = self.aspectRatio * ma
+                xY
+        else:
+            newX = self.aspectRatio * y
+            newY = y
+
+            if newX > maxX:
+                newX = maxX
+                newY = maxX / self.aspectRatio
+
+        wp = WindowProperties()
+        wp.setSize(newX, newY)
+
+        base.win.requestProperties(wp)
+        base.cam.node().getLens().setFilmSize(newX, newY)
+
+        self.oldX = newX
+        self.oldY = newY
 
     def disableShowbaseMouse(self):
         # Hack:
@@ -566,6 +629,8 @@ class ToonBase(OTPBase.OTPBase):
 
         # Connect to the server
         cr.loginFSM.request("connect", [serverList])
+        #self.ttAccess = ToontownAccess.ToontownAccess()
+        #self.ttAccess.initModuleInfo()
 
     def removeGlitchMessage(self):
         self.ignore('InputState-forward')
@@ -609,6 +674,9 @@ class ToonBase(OTPBase.OTPBase):
             self.localAvatar.d_setAnimState('TeleportOut', 1)
         except:
             pass
+
+        #if hasattr(self, 'ttAccess'):
+        #    self.ttAccess.delete()
 
         # Tell the AI (if we have one) why we're going down.
         if self.cr.timeManager:

@@ -192,8 +192,10 @@ class ToontownChatManager(ChatManager.ChatManager):
         self.whisperPos = Vec3(00, 0, -0.296)
         self.speedChatPlusPos = Vec3(-0.35, 0, 0.71)
 
+        self.chatInputWhiteList = TTChatInputWhiteList()
+
         if self.defaultToWhiteList:
-            self.chatInputNormal = TTChatInputWhiteList()
+            self.chatInputNormal = self.chatInputWhiteList
             self.chatInputNormal.setPos(self.normalPos)
             self.chatInputNormal.desc = "chatInputNormal"
         else:
@@ -1048,8 +1050,11 @@ class ToontownChatManager(ChatManager.ChatManager):
         self.previousStateBeforeTeaser = None
         place = base.cr.playGame.getPlace()
         if place:
-            self.previousStateBeforeTeaser = place.fsm.getCurrentState().getName()
-            place.fsm.request('stopped')
+            if place.fsm.hasStateNamed('stopped'):
+                self.previousStateBeforeTeaser = place.fsm.getCurrentState().getName()
+                place.fsm.request('stopped')
+            else:
+                self.notify.warning("Enter: %s has no 'stopped' state." % place)
         self.teaser = TeaserPanel.TeaserPanel(pageName='secretChat',
                                               doneFunc=self.handleOkTeaser)
         pass
@@ -1058,10 +1063,13 @@ class ToontownChatManager(ChatManager.ChatManager):
         self.teaser.destroy()
         place = base.cr.playGame.getPlace()
         if place:
-            if self.previousStateBeforeTeaser:
-                place.fsm.request(self.previousStateBeforeTeaser, force=1)
+            if place.fsm.hasStateNamed('stopped'):
+                if self.previousStateBeforeTeaser:
+                    place.fsm.request(self.previousStateBeforeTeaser, force=1)
+                else:
+                    place.fsm.request('walk')
             else:
-                place.fsm.request('walk')
+                self.notify.warning("Exit: %s has no 'stopped' state." % place)
         pass
 
     def handleOkTeaser(self):

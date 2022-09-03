@@ -154,12 +154,19 @@ class DistributedPlutoAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
 
     ### Chatty state ###
     def enterChatty(self):
-        self.chatty.enter()
-        self.acceptOnce(self.chattyDoneEvent, self.__decideNextState)
+        chatter = CCharChatter.getChatter(self.getName(), self.getCCChatter())
+        if not chatter:
+            self.chatterExists = False
+            self.fsm.request('Lonely')
+        else:
+            self.chatterExists = True
+            self.chatty.enter()
+            self.acceptOnce(self.chattyDoneEvent, self.__decideNextState)
 
     def exitChatty(self):
-        self.ignore(self.chattyDoneEvent)
-        self.chatty.exit()
+        if self.chatterExists:
+            self.ignore(self.chattyDoneEvent)
+            self.chatty.exit()
 
 
     ### Walk state ###

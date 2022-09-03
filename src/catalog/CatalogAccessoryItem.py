@@ -382,7 +382,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
         article = AccessoryTypes[self.accessoryType][ATArticle]
         return article in [AShoes, ABoysShoes, AGirlsShoes]
 
-    def output(self, store = -1):
+    def output(self, store = ~0):
         return "CatalogAccessoryItem(%s, %s)" % (
             self.accessoryType,
             self.formatOptionalData(store))

@@ -5,6 +5,7 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownModules import *
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 
 class CogHQExterior(BattlePlace.BattlePlace):
     # create a notify category
@@ -126,6 +127,8 @@ class CogHQExterior(BattlePlace.BattlePlace):
         self.loader.geom.reparentTo(render)
         self.nodeList = [self.loader.geom]
 
+        self._telemLimiter = TLGatherAllAvs('CogHQExterior', RotationLimitToH)
+
         # Turn on the animated props once since there is only one zone
         # for i in self.loader.nodeList:
         #    self.loader.enterAnimatedProps(i)
@@ -143,6 +146,9 @@ class CogHQExterior(BattlePlace.BattlePlace):
 
     def exit(self):
         self.fsm.requestFinalState()
+
+        self._telemLimiter.destroy()
+        del self._telemLimiter
 
         # Stop music
         self.loader.music.stop()

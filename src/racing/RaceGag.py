@@ -8,7 +8,7 @@ types=["","Pie","Banana","Anvil"]
 class RaceGag(DirectObject.DirectObject):
     def __init__(self,parent,slot, testPos):
         DirectObject.DirectObject.__init__(self)
-        self.parent=parent
+        self._parent=parent
 
         self.name='gag-'+str(slot)
         self.geom=DroppedGag(self.name,base.race.qbox)
@@ -35,7 +35,7 @@ class RaceGag(DirectObject.DirectObject):
         self.gagnp = None
         self.geom.delete()
         self.geom = None
-        del self.parent
+        del self._parent
         self.ignore("imIn-"+self.name)
 
     def getType(self):
@@ -53,7 +53,7 @@ class RaceGag(DirectObject.DirectObject):
         self.geom.setScale(0.001)
         #loc=parent.geom.find("**/gag_spot"+str(spot))
         #self.geom.setPos(loc)
-        self.geom.reparentTo(self.parent.geom)
+        self.geom.reparentTo(self._parent.geom)
         self.gagnp.reparentTo(self.geom)
         fadein.start()
 
@@ -71,8 +71,8 @@ class RaceGag(DirectObject.DirectObject):
 
 
     def hitGag(self,cevent):
-        if(not self.parent.currGag):
+        if(not self._parent.currGag):
             self.pickupSound.play()
-            self.parent.pickupGag(self.slot,self.type)
+            self._parent.pickupGag(self.slot,self.type)
             #Move the gag into hidden after its faded out.
             self.disableGag()

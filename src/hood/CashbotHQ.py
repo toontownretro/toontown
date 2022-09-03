@@ -16,7 +16,7 @@ class CashbotHQ(CogHood.CogHood):
         self.storageDNAFile = None
 
         # this is a dummy skyfile... we're going to hide it after loading
-        self.skyFile = "phase_3.5/models/props/TT_sky"
+        self.skyFile = "phase_3.5/models/props/TT_sky" # "phase_10/models/cogHQ/CashBotSky"
 
         self.titleColor = (0.5, 0.5, 0.5, 1.0)
 

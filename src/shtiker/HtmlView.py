@@ -41,7 +41,7 @@ class HtmlView( DirectObject):
         """Properly initialize ourself."""
         #AwWebViewListener.AwWebViewListener.__init__(self)
         global GlobalWebcore
-        self.parent = parent
+        self._parent = parent
         self.mx =0
         self.my = 0
         self.htmlFile = "index.html"
@@ -151,7 +151,7 @@ class HtmlView( DirectObject):
 
         card = cm.generate()
         self.quad = NodePath(card)
-        self.quad.reparentTo(self.parent)
+        self.quad.reparentTo(self._parent)
 
         self.guiTex = Texture("guiTex")
         self.guiTex.setupTexture(Texture.TT2dTexture, WEB_WIDTH, WEB_HEIGHT, 1, Texture.TUnsignedByte, Texture.FRgba)
@@ -192,7 +192,7 @@ class HtmlView( DirectObject):
         cm.setFrame(-htmlWidth/2.0, 0, - htmlHeight / 2.0, htmlHeight / 2.0)
         card = cm.generate()
         self.leftQuad = NodePath(card)
-        self.leftQuad.reparentTo(self.parent)
+        self.leftQuad.reparentTo(self._parent)
 
         self.leftGuiTex = Texture("guiTex")
         self.leftGuiTex.setupTexture(Texture.TT2dTexture, WEB_HALF_WIDTH, WEB_HEIGHT, 1, Texture.TUnsignedByte, Texture.FRgba)
@@ -223,7 +223,7 @@ class HtmlView( DirectObject):
         cm.setFrame(0, htmlWidth/2.0, - htmlHeight / 2.0, htmlHeight / 2.0)
         card = cm.generate()
         self.rightQuad = NodePath(card)
-        self.rightQuad.reparentTo(self.parent)
+        self.rightQuad.reparentTo(self._parent)
 
         self.rightGuiTex = Texture("guiTex")
         self.rightGuiTex.setupTexture(Texture.TT2dTexture, WEB_HALF_WIDTH, WEB_HEIGHT, 1, Texture.TUnsignedByte, Texture.FRgba)

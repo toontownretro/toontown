@@ -53,11 +53,11 @@ def __doLureLevel(lure, npcs):
     if (level == 0):
         return __lureOneDollar(lure)
     elif (level == 1):
-        return __lureSmallMagnet(lure)
+        return __lureSmallMagnet(lure, npcs)
     elif (level == 2):
         return __lureFiveDollar(lure)
     elif (level == 3):
-        return __lureLargeMagnet(lure)
+        return __lureLargeMagnet(lure, npcs)
     elif (level == 4):
         return __lureTenDollar(lure)
     elif (level == 5):
@@ -191,8 +191,10 @@ def __createFishingPoleMultiTrack(lure, dollar, dollarName):
         
     return tracks
 
-def __createMagnetMultiTrack(lure, magnet, pos, hpr, scale, isSmallMagnet=1):
+def __createMagnetMultiTrack(lure, magnet, pos, hpr, scale, isSmallMagnet=1, npcs=[]):
     toon = lure['toon']
+    if ('npc' in lure):
+        toon = lure['npc']
     battle = lure['battle']
     sidestep = lure['sidestep']
     targets = lure['target']
@@ -361,14 +363,14 @@ def __lureOneDollar(lure):
     dollar = globalPropPool.getProp(dollarProp)
     return __createFishingPoleMultiTrack(lure, dollar, dollarProp)
 
-def __lureSmallMagnet(lure):
+def __lureSmallMagnet(lure, npcs=[]):
     """ __lureSmallMagnet(lure)
     """
     magnet = globalPropPool.getProp('small-magnet')
     pos = Point3(-0.27, 0.19, 0.29)
     hpr = Point3(-90.0, 84.17, -180.0)
     scale = Point3(0.85, 0.85, 0.85)
-    return __createMagnetMultiTrack(lure, magnet, pos, hpr, scale, isSmallMagnet=1)
+    return __createMagnetMultiTrack(lure, magnet, pos, hpr, scale, isSmallMagnet=1, npcs=npcs)
 
 def __lureFiveDollar(lure):
     """ __lureFiveDollar(lure)
@@ -377,14 +379,14 @@ def __lureFiveDollar(lure):
     dollar = globalPropPool.getProp(dollarProp)
     return __createFishingPoleMultiTrack(lure, dollar, dollarProp)
 
-def __lureLargeMagnet(lure):
+def __lureLargeMagnet(lure, npcs=[]):
     """ __lureLargeMagnet(lure)
     """
     magnet = globalPropPool.getProp('big-magnet')
     pos = Point3(-0.27, 0.08, 0.29)
     hpr = Point3(-90.0, 84.17, -180)
     scale = Point3(1.32, 1.32, 1.32)
-    return __createMagnetMultiTrack(lure, magnet, pos, hpr, scale, isSmallMagnet=0)
+    return __createMagnetMultiTrack(lure, magnet, pos, hpr, scale, isSmallMagnet=0, npcs=npcs)
 
 def __lureTenDollar(lure):
     """ __lureTenDollar(lure)
@@ -542,7 +544,10 @@ def __createSuitDamageTrack(battle, suit, hp, lure, trapProp):
         dropPos.setZ(dropPos.getZ() + 15)
 
         # We grab the name tag so we can hide it while the suit is in the quicksand
-        nameTag = suit.find("**/joint_nameTag")
+        if ConfigVariableBool('want-new-cogs', 0).getValue():
+            nameTag = suit.find("**/def_nameTag")
+        else:
+            nameTag = suit.find("**/joint*nameTag")
         trapTrack = Sequence(
             Wait(2.4),
             LerpScaleInterval(trapProp, 0.8, Point3(0.01, 0.01, 0.01)),

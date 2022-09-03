@@ -1046,13 +1046,13 @@ class Toon(Avatar.Avatar, ToonHead):
                     if not self.getPart("torso", lodName).find('**/def_head').isEmpty():
                         self.attach("head", "torso", "def_head", lodName)
                     else:
-                        self.attach("head", "torso", "joint_head", lodName)
+                        self.attach("head", "torso", "joint*head", lodName)
                 else:
-                    self.attach("head", "torso", "joint_head", lodName)
-                self.attach("torso", "legs", "joint_hips", lodName)
+                    self.attach("head", "torso", "joint*head", lodName)
+                self.attach("torso", "legs", "joint*hips", lodName)
         else:
-            self.attach("head", "torso", "joint_head")
-            self.attach("torso", "legs", "joint_hips")
+            self.attach("head", "torso", "joint*head")
+            self.attach("torso", "legs", "joint*hips")
 
 
     def unparentToonParts(self):
@@ -1125,12 +1125,12 @@ class Toon(Avatar.Avatar, ToonHead):
         self.leftHands = []
         self.leftHand = None
         for lodName in self.getLODNames():
-            hand = self.getPart('torso', lodName).find('**/joint_Rhold')
+            hand = self.getPart('torso', lodName).find('**/joint*Rhold')
             if ConfigVariableBool('want-new-anims', 1).getValue():
                 if not self.getPart('torso', lodName).find('**/def_joint_right_hold').isEmpty():
                     hand = self.getPart('torso', lodName).find('**/def_joint_right_hold')
             else:
-                hand = self.getPart('torso', lodName).find('**/joint_Rhold')
+                hand = self.getPart('torso', lodName).find('**/joint*Rhold')
             self.rightHands.append(hand)
             #import pdb; pdb.set_trace()
             rightHand = rightHand.instanceTo(hand)
@@ -1138,7 +1138,7 @@ class Toon(Avatar.Avatar, ToonHead):
                 if not self.getPart('torso', lodName).find('**/def_joint_left_hold').isEmpty():
                     hand = self.getPart('torso', lodName).find('**/def_joint_left_hold')
             else:
-                hand = self.getPart('torso', lodName).find('**/joint_Lhold')
+                hand = self.getPart('torso', lodName).find('**/joint*Lhold')
             self.leftHands.append(hand)
             leftHand = leftHand.instanceTo(hand)
             # It's important that self.rightHand and self.leftHand
@@ -1151,7 +1151,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.headParts = self.findAllMatches('**/__Actor_head')
         self.legsParts = self.findAllMatches('**/__Actor_legs')
         # Hips are under the legs
-        self.hipsParts = self.legsParts.findAllMatches('**/joint_hips')
+        self.hipsParts = self.legsParts.findAllMatches('**/joint*hips')
         # Torso is under the hips
         self.torsoParts = self.hipsParts.findAllMatches('**/__Actor_torso')
 
@@ -1768,7 +1768,7 @@ class Toon(Avatar.Avatar, ToonHead):
             return self.shadowJoint
         shadowJoint = NodePath("shadowJoint")
         for lodName in self.getLODNames():
-            joint = self.getPart('legs', lodName).find('**/joint_shadow')
+            joint = self.getPart('legs', lodName).find('**/joint*shadow')
             shadowJoint = shadowJoint.instanceTo(joint)
         self.shadowJoint = shadowJoint
         return shadowJoint
@@ -1780,7 +1780,7 @@ class Toon(Avatar.Avatar, ToonHead):
         joints = []
         for lodName in self.getLODNames():
             bundle = self.getPartBundle('legs', lodName)
-            attach = bundle.findAttachment('joint_nameTag')
+            attach = bundle.findAttachment('joint*nameTag')
             if attach >= 0:
                 joints.append((attach, bundle))
         return joints
@@ -3041,7 +3041,7 @@ class Toon(Avatar.Avatar, ToonHead):
             for partName, pieceNames in pieces:
                 part = self.getPart(partName, lodName)
                 if part:
-                    if type(pieceNames) == bytes:
+                    if type(pieceNames) == str:
                         pieceNames = (pieceNames,)
                     for pieceName in pieceNames:
                         npc = part.findAllMatches("**/" + pieceName)
@@ -3180,7 +3180,7 @@ class Toon(Avatar.Avatar, ToonHead):
                 track.append(Wait(0.5))
             else:
                 dust.finish()
-
+            
             def hideParts():
                 self.notify.debug("HidePaths")
                 for hi in range(self.headParts.getNumPaths()):
@@ -3191,7 +3191,7 @@ class Toon(Avatar.Avatar, ToonHead):
                         if not p.isHidden():
                             p.hide()
                             p.setTag("pumpkin", "enabled")
-
+                            
             track.append(Func(hideParts))
             track.append(Func(self.enablePumpkins,True))
         else:
@@ -3200,7 +3200,7 @@ class Toon(Avatar.Avatar, ToonHead):
                 track.append(Wait(0.5))
             else:
                 dust.finish()
-
+                
             def showHiddenParts():
                 self.notify.debug("ShowHiddenPaths")
                 for hi in range(self.headParts.getNumPaths()):
@@ -3211,18 +3211,14 @@ class Toon(Avatar.Avatar, ToonHead):
                         if (not self.pumpkins.hasPath(p)) and p.getTag("pumpkin") == "enabled":
                             p.show()
                             p.setTag("pumpkin", "disabled")
-
-            track.append(Func(showHiddenParts))
+            
+            track.append(Func(showHiddenParts))            
             track.append(Func(self.enablePumpkins,False))
             track.append(Func(self.startBlink))
         return track
-
+        
     def __doSnowManHeadSwitch(self, lerpTime, toSnowMan):
         node = self.getGeomNode()
-
-    def __doGreenToon(self, lerpTime, toGreen):
-        track = Sequence()
-        greenTrack = Parallel()
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0,wantSound=0)
@@ -3248,7 +3244,7 @@ class Toon(Avatar.Avatar, ToonHead):
                 track.append(Wait(0.5))
             else:
                 dust.finish()
-
+            
             def hideParts():
                 self.notify.debug("HidePaths")
                 for hi in range(self.headParts.getNumPaths()):
@@ -3259,7 +3255,7 @@ class Toon(Avatar.Avatar, ToonHead):
                         if not p.isHidden():
                             p.hide()
                             p.setTag("snowman", "enabled")
-
+                            
             track.append(Func(hideParts))
             track.append(Func(self.enableSnowMen,True))
         else:
@@ -3270,7 +3266,7 @@ class Toon(Avatar.Avatar, ToonHead):
                 dust.finish()
             def showHiddenParts():
                 self.notify.debug("ShowHiddenPaths")
-
+                
                 for hi in range(self.headParts.getNumPaths()):
                     head = self.headParts[hi]
                     parts = head.getChildren()
@@ -3279,18 +3275,60 @@ class Toon(Avatar.Avatar, ToonHead):
                         if (not self.snowMen.hasPath(p)) and p.getTag("snowman") == "enabled":
                             p.show()
                             p.setTag("snowman", "disabled")
-
-            track.append(Func(showHiddenParts))
+                            
+            track.append(Func(showHiddenParts))    
             track.append(Func(self.enableSnowMen,False))
             track.append(Func(self.startBlink))
+        return track
+
+    def __doGreenToon(self, lerpTime, toGreen):
+        track = Sequence()
+        greenTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(
+                Func(dustCloud.reparentTo, self),
+                dustCloud.track,
+                Func(dustCloud.destroy),
+                name = 'dustCloadIval'
+                )
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toGreen:
+            skinGreen = VBase4(76 / 255.0, 240 / 255.0, 84 / 255.0, 1)
+            muzzleGreen = VBase4(4 / 255.0, 205 / 255.0, 90 / 255.0, 1)
+            gloveGreen = VBase4(14 / 255.0, 173 / 255.0, 40 / 255.0, 1)
+            greenTrack.append(self.__colorToonSkin(skinGreen, lerpTime))
+            greenTrack.append(self.__colorToonEars(skinGreen, muzzleGreen, lerpTime))
+            greenTrack.append(self.__colorScaleToonMuzzle(muzzleGreen, lerpTime))
+            greenTrack.append(self.__colorToonGloves(gloveGreen, lerpTime))      
+        else:
+            greenTrack.append(self.__colorToonSkin(None, lerpTime))
+            greenTrack.append(self.__colorToonEars(None, None, lerpTime))
+            greenTrack.append(self.__colorScaleToonMuzzle(None, lerpTime))
+            greenTrack.append(self.__colorToonGloves(None, lerpTime))
+            
+        track.append(greenTrack)
         return track
 
     def __colorToonSkin(self, color, lerpTime):
         track = Sequence()
         colorTrack = Parallel()
-        torsoPieces = self.getPieces(('torso', ('arms', 'neck')))
-        legPieces = self.getPieces(('legs', ('legs', 'feet')))
+        torsoPieces = self.getPieces(('torso',
+                                     ('arms', 'neck')))
+        legPieces = self.getPieces(('legs',
+                                   ('legs', 'feet')))
         headPieces = self.getPieces(('head', '*head*'))
+        
         if color == None:
             armColor = self.style.getArmColor()
             legColor = self.style.getLegColor()
@@ -3299,6 +3337,7 @@ class Toon(Avatar.Avatar, ToonHead):
             armColor = color
             legColor = color
             headColor = color
+            
         for piece in torsoPieces:
             colorTrack.append(Func(piece.setColor, armColor))
 
@@ -3315,20 +3354,23 @@ class Toon(Avatar.Avatar, ToonHead):
     def __colorToonEars(self, color, colorScale, lerpTime):
         track = Sequence()
         earPieces = self.getPieces(('head', '*ear*'))
+        
         if len(earPieces) == 0:
             return track
         colorTrack = Parallel()
+        
         if earPieces[0].hasColor():
             if color == None:
                 headColor = self.style.getHeadColor()
             else:
                 headColor = color
+                
             for piece in earPieces:
                 colorTrack.append(Func(piece.setColor, headColor))
-
         else:
             if colorScale == None:
                 colorScale = VBase4(1, 1, 1, 1)
+                
             for piece in earPieces:
                 colorTrack.append(Func(piece.setColorScale, colorScale))
 
@@ -3339,8 +3381,10 @@ class Toon(Avatar.Avatar, ToonHead):
         track = Sequence()
         colorTrack = Parallel()
         muzzlePieces = self.getPieces(('head', '*muzzle*'))
+        
         if scale == None:
             scale = VBase4(1, 1, 1, 1)
+        
         for piece in muzzlePieces:
             colorTrack.append(Func(piece.setColorScale, scale))
 
@@ -3351,10 +3395,10 @@ class Toon(Avatar.Avatar, ToonHead):
         track = Sequence()
         colorTrack = Parallel()
         glovePieces = self.getPieces(('torso', '*hands*'))
+        
         if color == None:
             for piece in glovePieces:
                 colorTrack.append(Func(piece.clearColor))
-
         else:
             for piece in glovePieces:
                 colorTrack.append(Func(piece.setColor, color))
@@ -3400,7 +3444,7 @@ class Toon(Avatar.Avatar, ToonHead):
         actorCollection = parts #self.getHeadParts() #actorNode.findAllMatches("*")
         for thingIndex in range(0,actorCollection.getNumPaths()):
             thing = actorCollection[thingIndex]
-            if thing.getName() not in ('joint_attachMeter', 'joint_nameTag'):
+            if thing.getName() not in ('joint*attachMeter', 'joint*nameTag'):
                 thing.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd))
                 thing.setDepthWrite(False)
                 self.setBin('fixed', 1)
@@ -3411,7 +3455,7 @@ class Toon(Avatar.Avatar, ToonHead):
         actorCollection = parts
         for thingIndex in range(0,actorCollection.getNumPaths()):
             thing = actorCollection[thingIndex]
-            if thing.getName() not in ('joint_attachMeter', 'joint_nameTag'):
+            if thing.getName() not in ('joint*attachMeter', 'joint*nameTag'):
                 thing.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MNone))
                 thing.setDepthWrite(True)
                 self.setBin('default', 0)
@@ -3518,6 +3562,9 @@ class Toon(Avatar.Avatar, ToonHead):
                 if (piece.getName()[:7] == 'muzzle-') and (piece.getName()[-8:] != '-neutral'):
                     continue
                 track.append(HideInterval(piece))
+
+        self.generateHat()
+        self.generateGlasses()
 
         return track
 
@@ -3642,7 +3689,7 @@ class Toon(Avatar.Avatar, ToonHead):
             part.hide()
 
         # reparent the toon head to the suit
-        suitHeadNull = suit.find("**/joint_head")
+        suitHeadNull = suit.find("**/joint*head")
         toonHead = self.getPart('head', '1000')
 
         # turn off emotions
@@ -3733,7 +3780,7 @@ class Toon(Avatar.Avatar, ToonHead):
         # put the toon head back on the toon body
         toonHeadNull = self.find("**/1000/**/def_head")
         if not toonHeadNull:
-            toonHeadNull = self.find("**/1000/**/joint_head")
+            toonHeadNull = self.find("**/1000/**/joint*head")
         toonHead = self.getPart('head', '1000')
         toonHead.reparentTo(toonHeadNull)
 

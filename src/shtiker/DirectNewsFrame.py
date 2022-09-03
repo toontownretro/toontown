@@ -36,7 +36,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
         DirectObject.DirectObject.__init__(self)
         self.accept("newsSnapshot", self.doSnapshot)
         self.active = False
-        self.parent = parent
+        self._parent = parent
         self.issues = []
         self.accept("newsChangeWeek", self.changeWeek)
         self.curIssueIndex = 0
@@ -179,7 +179,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
         imageScaleX = self.FrameDimensions[1] - self.FrameDimensions[0]
         imageScaleY = self.FrameDimensions[3] - self.FrameDimensions[2]
         self.backFrame = DirectFrame(
-            parent = self.parent,
+            parent = self._parent,
             image = upsellBackground,
             image_scale = (imageScaleX, 1, imageScaleY),
             frameColor = (1,1,1,0),

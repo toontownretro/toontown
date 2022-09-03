@@ -1,5 +1,5 @@
 from toontown.toonbase.ToontownModules import *
-from toontown.toonbase import TTLocalizer
+from toontown.toonbase import TTLocalizer, ToontownGlobals
 from . import DistributedNPCToonBase
 
 class DistributedNPCScientist(DistributedNPCToonBase.DistributedNPCToonBase):
@@ -7,6 +7,22 @@ class DistributedNPCScientist(DistributedNPCToonBase.DistributedNPCToonBase):
     def __init__(self, cr):
         assert self.notify.debug("__init__")
         DistributedNPCToonBase.DistributedNPCToonBase.__init__(self, cr)
+        if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or \
+           base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
+            self.show()
+        else:
+            self.hide()
+        self.accept('SillyMeterIsRunning', self.sillyMeterIsRunning)
+
+    def disable(self):
+        self.ignore('SillyMeterIsRunning')
+        DistributedNPCToonBase.DistributedNPCToonBase.disable(self)
+
+    def sillyMeterIsRunning(self, isRunning):
+        if isRunning:
+            self.show()
+        else:
+            self.hide()
 
     def getCollSphereRadius(self):
         return 2.5
@@ -27,6 +43,14 @@ class DistributedNPCScientist(DistributedNPCToonBase.DistributedNPCToonBase):
     def setChat(self, topic, partPos, partId, progress, flags):
         msg = TTLocalizer.toontownDialogues[topic][(partPos, partId)][progress]
         self.setChatMuted(msg, flags)
+
+    def announceGenerate(self):
+        DistributedNPCToonBase.DistributedNPCToonBase.announceGenerate(self)
+        if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or \
+           base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
+            self.show()
+        else:
+            self.hide()
 
     def generateToon(self):
         """generateToon(self)
@@ -94,12 +118,30 @@ class DistributedNPCScientist(DistributedNPCToonBase.DistributedNPCToonBase):
             sillyReaders = self.findAllMatches("**/SillyReader")
             for sillyReader in sillyReaders:
                 if not sillyReader.isEmpty():
-                    sillyReader.detachNode()
+                    sillyReader.stash()
                 sillyReader = None
         elif (self.style.getTorsoSize() == "long" and self.style.getAnimal() == "monkey"):
             clipBoards = self.findAllMatches("**/ClipBoard")
             #self.setHpr(250, 0, 0)
             for clipBoard in clipBoards:
                 if not clipBoard.isEmpty():
-                    clipBoard.detachNode()
+                    clipBoard.stash()
+                clipBoard = None
+
+    def showScientistProp(self):
+        """
+        During the scientist work animation
+        the scientists get their props
+        """
+        if self.style.getTorsoSize() == "short" and self.style.getAnimal() == "duck":
+            sillyReaders = self.findAllMatches("**/SillyReader;+s")
+            for sillyReader in sillyReaders:
+                if not sillyReader.isEmpty():
+                    sillyReader.unstash()
+                sillyReader = None
+        elif (self.style.getTorsoSize() == "long" and self.style.getAnimal() == "monkey"):
+            clipBoards = self.findAllMatches("**/ClipBoard;+s")
+            for clipBoard in clipBoards:
+                if not clipBoard.isEmpty():
+                    clipBoard.unstash()
                 clipBoard = None

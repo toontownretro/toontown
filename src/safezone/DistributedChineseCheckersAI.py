@@ -85,7 +85,7 @@ class DistributedChineseCheckersAI(DistributedNodeAI):
     def announceGenerate(self):
         self._parent.setGameDoId(self.doId)
     def getTableDoId(self):
-        #print("PARENT -- ", self.parent)
+        #print("PARENT -- ", self._parent)
         return self.parentDo
     def delete(self):
         self.fsm.requestFinalState()
@@ -257,7 +257,7 @@ class DistributedChineseCheckersAI(DistributedNodeAI):
                  #self.sendUpdate('announceWin', [avId])
         else:
             pass #print("Player requested win, but didnt actually win! OH NOES")
-        self.parent = None
+        self._parent = None
 
 
 
@@ -307,7 +307,7 @@ class DistributedChineseCheckersAI(DistributedNodeAI):
         self.sendGameState( [] )
         self.movesMade = 0
         self.playersGamePos = [None, None, None, None, None, None]
-        #self.parent = None
+        #self._parent = None
         self.fsm.request('waitingToBegin')
 
         pass

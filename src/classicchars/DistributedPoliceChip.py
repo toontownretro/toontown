@@ -46,3 +46,5 @@ class DistributedPoliceChip(DistributedChip.DistributedChip):
             self.fsm.enterInitialState()
             
             self.handleHolidays()
+
+            self.nametag.setName(TTLocalizer.Chip)

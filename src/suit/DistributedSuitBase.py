@@ -114,7 +114,7 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit,
         if num > self.maxSkeleRevives:
             self.maxSkeleRevives = num
         if self.getSkeleRevives() > 0:
-            nameInfo = TTLocalizer.SuitBaseNameWithLevel % {"name": self._name  ,
+            nameInfo = TTLocalizer.SuitBaseNameWithLevel % {"name": self.name  ,
                                                             "dept":  self.getStyleDept(),
                                                             "level": ("%s%s" % (self.getActualLevel(), TTLocalizer.SkeleRevivePostFix)),}
             self.setDisplayName( nameInfo )
@@ -249,7 +249,12 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit,
             self.propInSound = base.loader.loadSfx("phase_5/audio/sfx/ENC_propeller_in.mp3")
         if self.propOutSound == None:
             self.propOutSound = base.loader.loadSfx("phase_5/audio/sfx/ENC_propeller_out.mp3")
-        head = self.find("**/joint_head")
+        if ConfigVariableBool('want-new-cogs', 0).getValue():
+            head = self.find('**/to_head')
+            if head.isEmpty():
+                head = self.find('**/joint*head')
+        else:
+            head = self.find('**/joint*head')
         self.prop.reparentTo(head)
 
     def detachPropeller(self):

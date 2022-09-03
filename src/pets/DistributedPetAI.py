@@ -192,8 +192,8 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI,
         # valid/safe values.
         self.b_setOwnerId(ownerId)
         if name is None:
-            name = b"pet%s" % self.doId
-        self.b_setPetName(name.decode())
+            name = 'pet%s' % self.doId
+        self.b_setPetName(name)
         self.b_setTraitSeed(traitSeed)
         self.b_setSafeZone(safeZone)
 

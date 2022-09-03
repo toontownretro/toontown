@@ -105,6 +105,7 @@ from toontown.building import DistributedDoor/AI
 from toontown.building import DistributedAnimDoor/AI
 from toontown.estate import DistributedHouseDoor/AI
 from toontown.coghq import DistributedCogHQDoor/AI
+from toontown.coghq import DistributedSellbotHQDoor/AI
 from toontown.toon import DistributedNPCToonBase/AI
 from toontown.toon import DistributedNPCToon/AI
 from toontown.toon import DistributedNPCSpecialQuestGiver/AI
@@ -2626,6 +2627,9 @@ dclass DistributedHouseDoor: DistributedDoor {
 };
 
 dclass DistributedCogHQDoor: DistributedDoor {
+};
+dclass DistributedSellbotHQDoor : DistributedCogHQDoor {
+  informPlayer(uint8) broadcast ram;
 };
 
 // Make sure the NPC is created after the interiors
