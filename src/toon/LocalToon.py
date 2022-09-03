@@ -1494,7 +1494,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         newPos = (claraXPos, 1.0, -0.63)
         if WantNewsPage:
             claraXPos  += AdjustmentForNewsButton
-            oldPos = (claraXPos, 1.0, 0.37),
+            oldPos = (claraXPos, 1.0, -0.63),
             newScale = oldScale * ToontownGlobals.NewsPageScaleAdjust
             newPos = (claraXPos - 0.1, 1.0, -0.63)
 
