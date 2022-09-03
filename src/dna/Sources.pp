@@ -6,7 +6,7 @@
   #define TARGET dnaLoader
   #define LOCAL_LIBS toontownbase
   #define OTHER_LIBS \
-    panda:m express:c gobj:c pipeline:c putil:c pgraph:c pandaexpress:m linmath:c text:c \
+    panda:m express:c gobj:c pipeline:c putil:c pgraph:c jobsystem:c pandaexpress:m linmath:c text:c \
     pstatclient:c \
     interrogatedb \
     dtoolutil:c dtoolbase:c dtool:m \

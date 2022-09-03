@@ -5,9 +5,12 @@
 
 #include "dnaStorage.h"
 #include "samplerState.h"
+#include "lightReMutexHolder.h"
+
 #include <deque>
 
 DNAStorage::WorkingSuitPath *DNAStorage::WorkingSuitPath::_deleted_chain = (DNAStorage::WorkingSuitPath *)NULL;
+LightReMutex DNAStorage::_storage_thread_lock("storage-thread-lock");
 
 ////////////////////////////////////////////////////////////////////
 //     Function: Constructor
@@ -121,6 +124,8 @@ void DNAStorage::print_battle_cell_storage() const {
 //  Description: Store a texture pointer in the texture map
 ////////////////////////////////////////////////////////////////////
 void DNAStorage::store_texture(const string &code_string, PT(Texture) texture) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertv(texture != (Texture *)NULL);
   // Assume all these textures are mipmap. Actually it should
   // match the textures.txa, but how do I know what is in there?
@@ -138,6 +143,8 @@ void DNAStorage::store_texture(const string &code_string, PT(Texture) texture) {
 //  Description: Store a font pointer in the font map
 ////////////////////////////////////////////////////////////////////
 void DNAStorage::store_font(const string &code_string, PT(TextFont) font) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertv(font != (TextFont *)NULL);
   _font_map[code_string] = font;
 }
@@ -149,8 +156,9 @@ void DNAStorage::store_font(const string &code_string, PT(TextFont) font) {
 //               already exists, return the existing point, otherwise
 //               create a new point and store that.
 ////////////////////////////////////////////////////////////////////
-PT(DNASuitPoint) DNAStorage::store_suit_point(DNASuitPoint::DNASuitPointType type,
-                                              LPoint3f pos) {
+PT(DNASuitPoint) DNAStorage::store_suit_point(DNASuitPoint::DNASuitPointType type, LPoint3f pos) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   for(SuitPointVector::const_iterator i = _suit_point_vector.begin();
       i != _suit_point_vector.end();
       ++i) {
@@ -181,6 +189,8 @@ PT(DNASuitPoint) DNAStorage::store_suit_point(DNASuitPoint::DNASuitPointType typ
 //  Description: Store a suit point in the suit point map
 ////////////////////////////////////////////////////////////////////
 int DNAStorage::store_suit_point(PT(DNASuitPoint) point) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertr(point != (DNASuitPoint *)NULL, -1);
   _suit_point_vector.push_back(point);
   // NOTE: perhaps this should check to make sure there is
@@ -327,6 +337,8 @@ int DNAStorage::delete_unused_suit_points() {
 //               Returns the number of points removed (0 or 1)
 ////////////////////////////////////////////////////////////////////
 int DNAStorage::remove_suit_point(PT(DNASuitPoint) point) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertr(point != (DNASuitPoint *)NULL, 0);
   int result = 0;
   PT(DNASuitEdge) edge;
@@ -385,6 +397,8 @@ int DNAStorage::remove_suit_point(PT(DNASuitPoint) point) {
 //  Description: Store a block and zone
 ////////////////////////////////////////////////////////////////////
 void DNAStorage::store_block_number(const string& block, const string& zone_id) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertv(!block.empty());
   nassertv(!zone_id.empty());
   // Get the block number (e.g. in "tb22:blah_blah" the block number is "22").
@@ -453,9 +467,9 @@ int DNAStorage::get_block_number_at(uint32_t index) const {
 //       Access: Public
 //  Description: Store a block and zone
 ////////////////////////////////////////////////////////////////////
-void DNAStorage::store_block_door_pos_hpr(const string& block,
-    const LPoint3f& pos,
-    const LPoint3f& hpr) {
+void DNAStorage::store_block_door_pos_hpr(const string& block, const LPoint3f& pos, const LPoint3f& hpr) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertv(!block.empty());
   _block_door_pos_hpr_map[atoi(block.c_str())]=PosHpr(pos, hpr);
 }
@@ -522,8 +536,9 @@ int DNAStorage::get_door_pos_hpr_block_at(uint32_t index) const {
 //       Access: Public
 //  Description: Store a block and zone
 ////////////////////////////////////////////////////////////////////
-void DNAStorage::store_block_sign_transform(const string& block,
-                                            const LMatrix4f& mat) {
+void DNAStorage::store_block_sign_transform(const string& block, const LMatrix4f& mat) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertv(!block.empty());
   _block_sign_transform_map[atoi(block.c_str())]=mat;
 }
@@ -589,8 +604,9 @@ int DNAStorage::get_sign_transform_block_at(uint32_t index) const {
 //       Access: Public
 //  Description: Store a block and zone
 ////////////////////////////////////////////////////////////////////
-void DNAStorage::store_block_title(const string& block,
-    const string& title) {
+void DNAStorage::store_block_title(const string& block, const string& title) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertv(!block.empty());
   _block_title_map[atoi(block.c_str())]=title;
 }
@@ -619,8 +635,9 @@ string DNAStorage::get_title_from_block_number(int block_number) const {
 //       Access: Public
 //  Description: Store a block and zone
 ////////////////////////////////////////////////////////////////////
-void DNAStorage::store_block_article(const string& block,
-    const string& article) {
+void DNAStorage::store_block_article(const string& block, const string& article) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertv(!block.empty());
   _block_article_map[atoi(block.c_str())]=article;
 }
@@ -648,6 +665,8 @@ string DNAStorage::get_article_from_block_number(int block_number) const {
 ////////////////////////////////////////////////////////////////////
 void DNAStorage::
 store_block_building_type(const string& block, const string& type) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertv(!block.empty());
   // Get the block number (e.g. in "tb22:blah_blah" the block number is "22").
   string block_num = block.substr(2, block.find(':')-2);
@@ -717,6 +736,8 @@ int DNAStorage::get_title_block_at(uint32_t index) const {
 //  Description: Store a battle cell in the battle cell vector
 ////////////////////////////////////////////////////////////////////
 void DNAStorage::store_battle_cell(PT(DNABattleCell) cell) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertv(cell != (DNABattleCell *)NULL);
   _battle_cell_vector.push_back(cell);
 }
@@ -728,6 +749,8 @@ void DNAStorage::store_battle_cell(PT(DNABattleCell) cell) {
 //  Description: Remove a battle cell from the battle cell vector
 ////////////////////////////////////////////////////////////////////
 int DNAStorage::remove_battle_cell(PT(DNABattleCell) cell) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertr(cell != (DNABattleCell *)NULL, -1);
   BattleCellVector::iterator i = find(_battle_cell_vector.begin(),
                                      _battle_cell_vector.end(),
@@ -748,9 +771,9 @@ int DNAStorage::remove_battle_cell(PT(DNABattleCell) cell) {
 //               indexes in the suit start point map. These indexes
 //               better be stored in the suit_point_vector already
 ////////////////////////////////////////////////////////////////////
-PT(DNASuitEdge) DNAStorage::store_suit_edge(int start_index,
-                                            int end_index,
-                                            string zone_id) {
+PT(DNASuitEdge) DNAStorage::store_suit_edge(int start_index, int end_index, string zone_id) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   PT(DNASuitPoint) start_point = get_suit_point_with_index(start_index);
   nassertr(start_point != (DNASuitPoint *)NULL, (DNASuitEdge *)NULL);
 
@@ -773,6 +796,8 @@ PT(DNASuitEdge) DNAStorage::store_suit_edge(int start_index,
 //               listed under the index of the start point
 ////////////////////////////////////////////////////////////////////
 PT(DNASuitEdge) DNAStorage::store_suit_edge(PT(DNASuitEdge) edge) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertr(edge != (DNASuitEdge *)NULL, (DNASuitEdge *)NULL);
   if (edge->get_start_point() == edge->get_end_point()) {
     // Don't add degenerate edges.
@@ -801,6 +826,8 @@ PT(DNASuitEdge) DNAStorage::store_suit_edge(PT(DNASuitEdge) edge) {
 //  Description: Removes a suit edge from the map
 ////////////////////////////////////////////////////////////////////
 int DNAStorage::remove_suit_edge(PT(DNASuitEdge) edge) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertr(edge != (DNASuitEdge *)NULL, -1);
 
   int found = 0;
@@ -907,6 +934,7 @@ PT(TextFont) DNAStorage::find_font(const string &dna_string) const {
 //  Description: Add a string
 ////////////////////////////////////////////////////////////////////
 void DNAStorage::store_catalog_string(const string &catalog_string, const string &dna_string) {
+  LightReMutexHolder holder(_storage_thread_lock);
 
   // Try to find this catalog in the map
   CodeCatalog::iterator i = _code_catalog.find(catalog_string);
@@ -1012,6 +1040,8 @@ void DNAStorage::print_catalog() const {
 //  Description: store a DNAGroup at the node path pointer
 ////////////////////////////////////////////////////////////////////
 void DNAStorage::store_DNAGroup(PT(PandaNode) rr, PT(DNAGroup) group) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertv(rr != (PandaNode *)NULL);
   nassertv(group != (DNAGroup *)NULL);
 
@@ -1087,6 +1117,8 @@ PT(PandaNode) DNAStorage::find_PandaNode(PT(DNAGroup) group) const {
 //               Returns the total number of DNAGroups removed.
 ////////////////////////////////////////////////////////////////////
 int DNAStorage::remove_DNAGroup(PT(PandaNode) rr) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertr((rr != (PandaNode *)NULL), 0);
 
   // Recursively remove all children of this DNAGroup
@@ -1109,6 +1141,8 @@ int DNAStorage::remove_DNAGroup(PT(PandaNode) rr) {
 //               Returns the total number of DNAGroups removed.
 ////////////////////////////////////////////////////////////////////
 int DNAStorage::remove_DNAGroup(PT(DNAGroup) group) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   int num_removed = 0;
 
   PT(PandaNode) rr = find_PandaNode(group);
@@ -1241,6 +1275,8 @@ string DNAStorage::get_visible_name(uint32_t visgroup_index, uint32_t visible_in
 //               retrieve it without traversing the DNA
 ////////////////////////////////////////////////////////////////////
 void DNAStorage::store_DNAVisGroupAI(PT(DNAVisGroup) vis_group) {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   nassertv(vis_group != (DNAVisGroup *)NULL);
   _vis_group_vector.push_back(vis_group);
 }

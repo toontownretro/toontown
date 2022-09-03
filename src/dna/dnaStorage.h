@@ -15,6 +15,7 @@
 #include "pvector.h"
 #include "plist.h"
 #include "pset.h"
+#include "lightReMutex.h"
 
 #include "dnaGroup.h"
 #include "dnaVisGroup.h"
@@ -279,7 +280,8 @@ private:
   SuitStartPointMap _suit_start_point_map;
   BattleCellVector _battle_cell_vector;
   VisGroupVectorAI _vis_group_vector;
-
+    
+  static LightReMutex _storage_thread_lock;
 };
 
 #include "dnaStorage.I"

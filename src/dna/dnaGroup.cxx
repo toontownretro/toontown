@@ -5,10 +5,12 @@
 
 #include "dnaGroup.h"
 #include "dnaStorage.h"
+
 #include "pandaNode.h"
 #include "pointerTo.h"
 #include "indent.h"
 #include "sceneGraphReducer.h"
+#include "jobSystem.h"
 
 ////////////////////////////////////////////////////////////////////
 // Static variables
@@ -37,11 +39,15 @@ DNAGroup::DNAGroup(const DNAGroup &copy) :
   Namable(copy)
 {
   _parent = NULL;
-  pvector<PT(DNAGroup)>::const_iterator i = copy._group_vector.begin();
-  for(; i != copy._group_vector.end(); ++i) {
+  //pvector<PT(DNAGroup)>::const_iterator i = copy._group_vector.begin();
+  //for(; i != copy._group_vector.end(); ++i) {
+  JobSystem *jsys = JobSystem::get_global_ptr();
+  jsys->parallel_process(copy._group_vector.size(), [&] (size_t i) {
+    // Traverse each node in our vector
+    PT(DNAGroup) group = copy._group_vector[i]; //*i;
     // Push in a copy of the dna group
-    _group_vector.push_back((*i)->make_copy());
-  }
+    _group_vector.push_back(group->make_copy());
+  });
 }
 
 
@@ -56,12 +62,14 @@ NodePath DNAGroup::traverse(NodePath &parent, DNAStorage *store, int editing) {
   PT(PandaNode) new_node = new PandaNode(get_name());
   NodePath group_node_path = parent.attach_new_node(new_node);
 
-  pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
-  for(; i != _group_vector.end(); ++i) {
+  //pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
+  //for(; i != _group_vector.end(); ++i) {
+  JobSystem *jsys = JobSystem::get_global_ptr();
+  jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
     // Traverse each node in our vector
-    PT(DNAGroup) group = *i;
+    PT(DNAGroup) group = _group_vector[i]; //*i;
     group->traverse(group_node_path, store, editing);
-  }
+  });
 
   if (editing) {
     // Remember that this nodepath is associated with this dna group
@@ -83,14 +91,16 @@ NodePath DNAGroup::top_level_traverse(NodePath &parent, DNAStorage *store, int e
   PT(PandaNode) new_node = new PandaNode(get_name());
   NodePath group_node_path = parent.attach_new_node(new_node);
 
-  pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
-  for(; i != _group_vector.end(); ++i) {
+  //pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
+  //for(; i != _group_vector.end(); ++i) {
+  JobSystem *jsys = JobSystem::get_global_ptr();
+  jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
     // Traverse each node in our vector
-    PT(DNAGroup) group = *i;
+    PT(DNAGroup) group = _group_vector[i]; //*i;
     group->traverse(group_node_path, store, editing);
     // Top level groups do not have parents
     group->clear_parent();
-  }
+  });
 
   // Do not flatten here. It is done in Python now.
 

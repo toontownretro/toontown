@@ -44,6 +44,9 @@ PUBLISHED:
 
   INLINE void set_color(const LColorf &color);
   INLINE LColorf get_color() const;
+  
+  INLINE void set_current_wall_height(float wall_height);
+  INLINE float get_current_wall_height() const;
 
 private:
   virtual DNAGroup* make_copy();
@@ -53,6 +56,7 @@ private:
   string _code;
   float _height;
   LColorf _color;
+  float _current_wall_height;
 
 public:
   static TypeHandle get_class_type() {
@@ -90,8 +94,9 @@ PUBLISHED:
 
   INLINE void set_width(float width);
   INLINE float get_width() const;
-
-  INLINE float get_current_wall_height();
+    
+  INLINE void set_current_wall_height(float wall_height);
+  INLINE float get_current_wall_height() const;
 
 protected:
   bool has_door(PT(DNAGroup) group_vector);
@@ -103,6 +108,7 @@ private:
 
 private:
   float _width;
+  float _current_wall_height;
 
 public:
   static TypeHandle get_class_type() {

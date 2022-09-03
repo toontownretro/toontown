@@ -15,6 +15,7 @@
 #include "decalEffect.h"
 #include "collisionSphere.h"
 #include "config_linmath.h"
+#include "jobSystem.h"
 #include "dnaDoor.h"
 
 // For fixing encodings
@@ -26,8 +27,6 @@
 TypeHandle DNAWall::_type_handle;
 TypeHandle DNAFlatBuilding::_type_handle;
 TypeHandle DNALandmarkBuilding::_type_handle;
-
-float current_wall_height = 0.0;
 
 
 ////////////////////////////////////////////////////////////////////
@@ -41,6 +40,7 @@ DNAWall::DNAWall(const string &initial_name) :
   _code = "";
   _height = 10.0;
   _color.set(1.0, 1.0, 1.0, 1.0);
+  _current_wall_height = 0.0;
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -54,6 +54,7 @@ DNAWall::DNAWall(const DNAWall &wall) :
   _code = wall.get_code();
   _height = wall.get_height();
   _color = wall.get_color();
+  _current_wall_height = wall.get_current_wall_height();
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -64,9 +65,17 @@ DNAWall::DNAWall(const DNAWall &wall) :
 NodePath DNAWall::traverse(NodePath &parent, DNAStorage *store, int editing) {
   // Try to find this building's walls and windows in the node map
   NodePath wall_node_path = (store->find_node(_code)).copy_to(parent);
+  
+  PT(DNAFlatBuilding) g_parent = nullptr;
 
+  // Get the current wall height from our parent if we can.
+  if (get_parent() != nullptr && get_parent()->is_of_type(DNAFlatBuilding::get_class_type())) {
+    g_parent = (DNAFlatBuilding *)get_parent().p();
+    set_current_wall_height(g_parent->get_current_wall_height());
+  }
+  
   // Move the wall to the current height to stack on the previous one
-  _pos.set_z(current_wall_height);
+  _pos.set_z(get_current_wall_height());
 
   // Scale it up, set properties
   _scale.set_z(_height);
@@ -87,8 +96,10 @@ NodePath DNAWall::traverse(NodePath &parent, DNAStorage *store, int editing) {
     store->store_DNAGroup(wall_node_path.node(), this);
   }
 
-  // Update the current_wall_height so the next wall will be on top
-  current_wall_height += _height;
+  // Update the current wall height so the next wall will be on top
+  if (g_parent != nullptr) {
+    g_parent->set_current_wall_height(get_current_wall_height() + _height);
+  }
 
   return wall_node_path;
 }
@@ -144,6 +155,7 @@ DNAFlatBuilding::DNAFlatBuilding(const string &initial_name) :
   DNANode(initial_name)
 {
   _width = 10.0;
+  _current_wall_height = 0.0;
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -155,6 +167,7 @@ DNAFlatBuilding::DNAFlatBuilding(const DNAFlatBuilding &building) :
   DNANode(building)
 {
   _width = building.get_width();
+  _current_wall_height = building.get_current_wall_height();
 }
 
 
@@ -208,7 +221,7 @@ void DNAFlatBuilding::setup_suit_flat_building(NodePath &parent,
   NodePath suit_building_node_path = parent.attach_new_node(suit_node);
   // Size and place it correctly:
   LVector3f scale = get_scale();
-  scale[2]*=current_wall_height;
+  scale[2]*=get_current_wall_height();
   suit_building_node_path.set_pos_hpr_scale(get_pos(), get_hpr(), scale);
   // Pick a suit wall:
   int count=store->get_num_catalog_codes("suit_wall");
@@ -264,7 +277,7 @@ void DNAFlatBuilding::setup_cogdo_flat_building(NodePath &parent,
   NodePath cogdo_building_node_path = parent.attach_new_node(cogdo_node);
   // Size and place it correctly:
   LVector3f scale = get_scale();
-  scale[2]*=current_wall_height;
+  scale[2]*=get_current_wall_height();
   cogdo_building_node_path.set_pos_hpr_scale(get_pos(), get_hpr(), scale);
   // Pick a suit wall:
   int count=store->get_num_catalog_codes("cogdo_wall");
@@ -299,8 +312,8 @@ void DNAFlatBuilding::setup_cogdo_flat_building(NodePath &parent,
 //  Description:
 ////////////////////////////////////////////////////////////////////
 NodePath DNAFlatBuilding::traverse(NodePath &parent, DNAStorage *store, int editing) {
-  // Clear the current_wall_height so the first wall will be on the ground
-  current_wall_height = 0;
+  // Clear the current wall height so the first wall will be on the ground.
+  set_current_wall_height(0.0);
 
   // Make a new building node
   NodePath building_node_path = parent.attach_new_node(get_name());
@@ -330,7 +343,7 @@ NodePath DNAFlatBuilding::traverse(NodePath &parent, DNAStorage *store, int edit
 
   // For some reason the dna has some flat buildings with no walls
   // we should fix them as we find them
-  if (current_wall_height == 0.0) {
+  if (get_current_wall_height() == 0.0) {
     dna_cat.warning() << "empty flat building with no walls" << std::endl;
     return parent;
   }
@@ -339,7 +352,7 @@ NodePath DNAFlatBuilding::traverse(NodePath &parent, DNAStorage *store, int edit
   NodePath wall_camera_barrier_node_path =
     (store->find_node("wall_camera_barrier")).copy_to(internal_node_path);
   // Scale the camera collide geometry up to cover the entire wall
-  wall_camera_barrier_node_path.set_scale(1.0, 1.0, current_wall_height);
+  wall_camera_barrier_node_path.set_scale(1.0, 1.0, get_current_wall_height());
 
   // Build origin for suit flat building:
   setup_suit_flat_building(parent, store);

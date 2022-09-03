@@ -84,7 +84,14 @@ string DNACornice::get_code() const {
 NodePath DNACornice::traverse(NodePath &parent, DNAStorage *store, int editing) {
   float height = parent.get_sz();
   float width = parent.get_parent().get_sx();
-  float z = current_wall_height + height;
+  float z = 0.0;
+
+  if (get_parent() != nullptr && get_parent()->is_of_type(DNAWall::get_class_type())) {
+    PT(DNAWall) g_parent = (DNAWall *)get_parent().p();
+    z = g_parent->get_current_wall_height() + height;
+  } else {
+    z = height;
+  }
 
   // Try to find this cornice in the node map
   NodePath cornice_node_path = (store->find_node(_code));

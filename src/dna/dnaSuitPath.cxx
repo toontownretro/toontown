@@ -54,7 +54,7 @@ void DNASuitPath::copy(const DNASuitPath &other) {
   _path.clear();
   // Copy the points in the path into our path
   for(int i = 0; i < other.get_num_points(); ++i) {
-    _path.push_back(other.get_point_index(i));
+    _path.emplace_back(other.get_point_index(i));
   }
 }
 

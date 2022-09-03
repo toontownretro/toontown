@@ -7,6 +7,7 @@
 #include "sceneGraphReducer.h"
 #include "modelNode.h"
 #include "config_linmath.h"
+#include "jobSystem.h"
 
 ////////////////////////////////////////////////////////////////////
 // Static variables
@@ -74,11 +75,13 @@ NodePath DNAAnimBuilding::traverse(NodePath &parent, DNAStorage *store, int edit
   setup_suit_building_origin(parent, building_node_path);
 
   // Traverse each node in our vector
-  pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
-  for(; i != _group_vector.end(); ++i) {
-    PT(DNAGroup) group = *i;
+  //pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
+  //for(; i != _group_vector.end(); ++i) {
+  JobSystem *jsys = JobSystem::get_global_ptr();
+  jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
+    PT(DNAGroup) group = _group_vector[i]; //*i;
     group->traverse(building_node_path, store, editing);
-  }
+  });
 
   if (editing) {
     // Remember that this nodepath is associated with this dna group

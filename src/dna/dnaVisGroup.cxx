@@ -9,6 +9,7 @@
 #include "pointerTo.h"
 #include "indent.h"
 #include "sceneGraphReducer.h"
+#include "jobSystem.h"
 
 ////////////////////////////////////////////////////////////////////
 // Static variables
@@ -39,7 +40,7 @@ DNAVisGroup::DNAVisGroup(const DNAVisGroup &copy) :
   pvector<string>::const_iterator i = copy._vis_vector.begin();
   for(; i != copy._vis_vector.end(); ++i) {
     // Push in a copy of the vis string
-    _vis_vector.push_back(*i);
+    _vis_vector.emplace_back(*i);
   }
 }
 
@@ -50,7 +51,7 @@ DNAVisGroup::DNAVisGroup(const DNAVisGroup &copy) :
 //  Description: Add a vis group name to this group's list
 ////////////////////////////////////////////////////////////////////
 void DNAVisGroup::add_visible(const string &vis_group_name) {
-  _vis_vector.push_back(vis_group_name);
+  _vis_vector.emplace_back(vis_group_name);
 }
 
 
@@ -229,11 +230,13 @@ NodePath DNAVisGroup::traverse(NodePath &parent, DNAStorage *store, int editing)
   NodePath group_node_path = parent.attach_new_node(new_node);
 
   // Traverse each node in our vector
-  pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
-  for(; i != _group_vector.end(); ++i) {
-    PT(DNAGroup) group = *i;
+  //pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
+  //for(; i != _group_vector.end(); ++i) {
+  JobSystem *jsys = JobSystem::get_global_ptr();
+  jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
+    PT(DNAGroup) group = _group_vector[i]; //*i;
     group->traverse(group_node_path, store, editing);
-  }
+  });
 
   if (editing) {
     // Remember that this nodepath is associated with this dnaVisGroup
