@@ -529,7 +529,7 @@ class DistributedCannonGame(DistributedMinigame):
             av = self.getAvatar(avId)
             if av:
                 # show the dropshadow again
-                av.showShadow()
+                av.dropShadow.show()
                 # restore the LODs
                 av.resetLOD()
         self.splash.reparentTo(hidden)
@@ -1205,6 +1205,11 @@ class DistributedCannonGame(DistributedMinigame):
 
         # calculate the trajectory
         flightResults = self.__calcFlightResults(avId, launchTime)
+
+        if not isClient():
+            print("EXECWARNING DistributedCannonGame: %s" % flightResults)
+            printStack()
+
         # pull all the results into the local namespace
         startPos = flightResults['startPos']
         startVel = flightResults['startVel']

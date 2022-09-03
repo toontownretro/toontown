@@ -1,7 +1,7 @@
 # CatchGameGlobals.py: contains catch game stuff
 # used by both AI and client
 
-from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import ConfigVariableBool
 
 EndlessGame = ConfigVariableBool('endless-catch-game', 0).getValue()
 
