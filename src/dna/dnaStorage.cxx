@@ -192,7 +192,7 @@ int DNAStorage::store_suit_point(PT(DNASuitPoint) point) {
   LightReMutexHolder holder(_storage_thread_lock);
   
   nassertr(point != (DNASuitPoint *)NULL, -1);
-  _suit_point_vector.push_back(point);
+  _suit_point_vector.emplace_back(point);
   // NOTE: perhaps this should check to make sure there is
   // not one there already
   _suit_point_map[point->get_index()] = point;
@@ -739,7 +739,7 @@ void DNAStorage::store_battle_cell(PT(DNABattleCell) cell) {
   LightReMutexHolder holder(_storage_thread_lock);
   
   nassertv(cell != (DNABattleCell *)NULL);
-  _battle_cell_vector.push_back(cell);
+  _battle_cell_vector.emplace_back(cell);
 }
 
 
@@ -815,7 +815,7 @@ PT(DNASuitEdge) DNAStorage::store_suit_edge(PT(DNASuitEdge) edge) {
     }
   }
 
-  sev.push_back(edge);
+  sev.emplace_back(edge);
   return edge;
 }
 
@@ -1278,7 +1278,7 @@ void DNAStorage::store_DNAVisGroupAI(PT(DNAVisGroup) vis_group) {
   LightReMutexHolder holder(_storage_thread_lock);
   
   nassertv(vis_group != (DNAVisGroup *)NULL);
-  _vis_group_vector.push_back(vis_group);
+  _vis_group_vector.emplace_back(vis_group);
 }
 
 
