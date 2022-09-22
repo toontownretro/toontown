@@ -389,11 +389,12 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             # about to call base.playMusic() below, but it appears we
             # do; if we don't do this, sometimes music doesn't play
             # when we start the app.
-            if self.music:
-                self.music.setLoop(1)
-                self.music.setVolume(0.9)
-                self.music.play()
-        base.playMusic(self.music, looping = 1, volume = 0.9, interrupt = None)
+            #if self.music:
+            #    self.music.setLoop(1)
+            #    self.music.setVolume(0.9)
+            #    self.music.play()
+        if self.music and self.music.status() != self.music.PLAYING:
+            base.playMusic(self.music, looping = 1, volume = 0.9, interrupt = None)
 
         self.handler = self.handleMessageType
         # Display the avatar choice screen
