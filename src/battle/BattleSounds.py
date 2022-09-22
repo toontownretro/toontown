@@ -16,7 +16,7 @@ class BattleSounds:
 
     def __init__(self):
         assert(self.notify.debug("__init__()"))
-        self.mgr = AudioManager.createAudioManager("sfx")
+        self.mgr = base.audioEngine.makeManager("battle-sounds")
         self.isValid=0
         if self.mgr != None and self.mgr.isValid():
             self.isValid=1
