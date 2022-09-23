@@ -8,6 +8,7 @@ from . import RaceGlobals
 import random
 import os
 import pickle
+import sys
 from toontown.toonbase.ToontownModules import *
 
 def getDefaultRecord(trackId):
