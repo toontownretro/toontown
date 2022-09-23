@@ -80,13 +80,13 @@ class ToontownLoader(Loader.Loader):
             self.tick()
         return ret
 
-    def loadSfx(self, soundPath):
-        ret = Loader.Loader.loadSfx(self, soundPath)
+    def loadSfx(self, soundPath, stream=False):
+        ret = Loader.Loader.loadSfx(self, soundPath, stream=stream)
         self.tick()
         return ret
 
-    def loadMusic(self, soundPath):
-        ret = Loader.Loader.loadMusic(self, soundPath)
+    def loadMusic(self, soundPath, stream=False):
+        ret = Loader.Loader.loadMusic(self, soundPath, stream=stream)
         self.tick()
         return ret
 
