@@ -79,17 +79,18 @@ class AvatarChooser(StateData.StateData):
         # turn off any user control
         base.disableMouse()
 
+        # We need to put *something* in the 3-d scene graph to keep
+        # the Voodoo drivers from crashing.  We'll use the background
+        # panel, cleverly parenting it to the camera (instead of
+        # aspect2d) at a suitable distance.
+        self.pickAToonBG.reparentTo(aspect2d)
+        self.pickAToonBG.setBin('background', 0)
+
         # set-up screen title
         self.title.reparentTo(aspect2d)
         self.quitButton.show()
         if base.cr.loginInterface.supportsRelogin():
             self.logoutButton.show()
-
-        # We need to put *something* in the 3-d scene graph to keep
-        # the Voodoo drivers from crashing.  We'll use the background
-        # panel, cleverly parenting it to the camera (instead of
-        # aspect2d) at a suitable distance.
-        self.pickAToonBG.reparentTo(base.camera)
 
         choice = ConfigVariableInt("auto-avatar-choice", -1).getValue()
 
