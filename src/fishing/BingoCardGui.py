@@ -403,7 +403,7 @@ class BingoCardGui(DirectFrame):
         cardSize = self.game.getCardSize()
         for index in range(cardSize):
             self.cellGuiList[index].generateLogo()
-            if index == cardSize/2:
+            if index == cardSize//2:
                 self.cellGuiList[index].generateMarkedLogo()
             elif (self.game.getGameState() & (1 << index)):
                 self.cellGuiList[index].disable()

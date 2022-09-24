@@ -1,7 +1,7 @@
 #################################################################
 # class: NormalBingo.py
 # Purpose: Provide a base layout of the bingo card which can
-#          be used in a variety of games. 
+#          be used in a variety of games.
 #################################################################
 
 #################################################################
@@ -22,7 +22,7 @@ class DiagonalBingo(BingoCardBase.BingoCardBase):
     # Purpose: This method provides initial construction of the Card.
     #          It determines if the card is of a valid size, and
     #          that it is square. Checking of a non-square card is
-    #          impossible for diagonal cases. 
+    #          impossible for diagonal cases.
     # Input: cardSize - The size of the card rowSize x colSize.
     #        rowSize - The number of rows in the card.
     #        colSize - The number of cols in the card.
@@ -44,13 +44,13 @@ class DiagonalBingo(BingoCardBase.BingoCardBase):
     #          which are required to determine a win.
     # Input: id - The ID Number of the cell to Check.
     # Output: None
-    ################################################################# 
+    #################################################################
     def checkForWin(self, id):
         if self.fDiagCheck(id):
             self.fDiagResult = 1
         if self.bDiagCheck(id):
             self.bDiagResult = 1
-            
+
         if self.fDiagResult and self.bDiagResult:
             return BingoGlobals.WIN
         return BingoGlobals.NO_UPDATE
@@ -61,7 +61,7 @@ class DiagonalBingo(BingoCardBase.BingoCardBase):
     #          be a particular color.
     # Input: id - The ID Number of the cell to Check.
     # Output: returns 1 if on a diagonal, 0 if it is not
-    ################################################################# 
+    #################################################################
     def checkForColor(self, id):
         return (self.onFDiag(id) | self.onBDiag(id))
 
@@ -72,13 +72,13 @@ class DiagonalBingo(BingoCardBase.BingoCardBase):
     #          which are required to determine a win.
     # Input: id - The ID Number of the cell to Check.
     # Output: returns BingoGlobals.WIN(2) or BingoGlobals.NO_UPDATE(0)
-    ################################################################# 
+    #################################################################
     def checkForBingo(self):
-        id = self.cardSize/2
+        id = self.cardSize//2
         if self.checkForWin(id):
             return BingoGlobals.WIN
         return BingoGlobals.NO_UPDATE
 
-        
-            
-        
+
+
+

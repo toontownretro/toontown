@@ -1,7 +1,7 @@
 #################################################################
 # class: NormalBingo.py
 # Purpose: Provide a base layout of the bingo card which can
-#          be used in a variety of games. 
+#          be used in a variety of games.
 #################################################################
 
 #################################################################
@@ -22,7 +22,7 @@ class NormalBingo(BingoCardBase.BingoCardBase):
     # Purpose: This method provides initial construction of the Card.
     #          It determines if the card is of a valid size, and
     #          that it is square. Checking of a non-square card is
-    #          impossible for diagonal cases. 
+    #          impossible for diagonal cases.
     # Input: cardSize - The size of the card rowSize x colSize.
     #        rowSize - The number of rows in the card.
     #        colSize - The number of cols in the card.
@@ -41,7 +41,7 @@ class NormalBingo(BingoCardBase.BingoCardBase):
     #          which are required to determine a win.
     # Input: id - The ID Number of the cell to Check.
     # Output: None
-    ################################################################# 
+    #################################################################
     def checkForWin(self, id):
         rowId = int(id / BingoGlobals.CARD_ROWS)
         colId = id % BingoGlobals.CARD_COLS
@@ -61,7 +61,7 @@ class NormalBingo(BingoCardBase.BingoCardBase):
     #          be a particular color.
     # Input: id - The ID Number of the cell to Check.
     # Output: returns 1 since this is normal bingo.
-    ################################################################# 
+    #################################################################
     def checkForColor(self, id):
         return 1
 
@@ -72,11 +72,11 @@ class NormalBingo(BingoCardBase.BingoCardBase):
     #          which are required to determine a win.
     # Input: id - The ID Number of the cell to Check.
     # Output: None
-    ################################################################# 
+    #################################################################
     def checkForBingo(self):
         # First Check the middle square to eliminate
         # diagonals and middle row & col
-        id = self.cardSize/2
+        id = self.cardSize//2
         if self.checkForWin(id):
             return BingoGlobals.WIN
 
