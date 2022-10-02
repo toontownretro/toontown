@@ -3,21 +3,20 @@
 #import Pyro.errors
 import sys
 import datetime
-import MySQLdb
-import MySQLdb.constants.CR
+import pymysql as MySQLdb
 from direct.directnotify import DirectNotifyGlobal
 from toontown.uberdog import ttSQL
 
 from otp.switchboard import sbConfig
 
-SERVER_GONE_ERROR = MySQLdb.constants.CR.SERVER_GONE_ERROR
-SERVER_LOST = MySQLdb.constants.CR.SERVER_LOST
+SERVER_GONE_ERROR = MySQLdb.constants.CR.CR_SERVER_GONE_ERROR
+SERVER_LOST = MySQLdb.constants.CR.CR_SERVER_LOST
 
 class ttMaildb:
     """Based on sbMaildb.py in $OTP/src/switchboard."""
 
     notify = DirectNotifyGlobal.directNotify.newCategory("ttMaildb")
-    
+
     def __init__(self,host,port,user,passwd,db):
         self.sqlAvailable = True
         self.host = host
@@ -46,7 +45,7 @@ class ttMaildb:
             # self.notify.info('%s' % str(e))
             pass
         except MySQLdb.OperationalError as e:
-            self.notify.info('%s' % str(e))            
+            self.notify.info('%s' % str(e))
             pass
 
         cursor.execute("USE `%s`"%self.dbname)
@@ -59,22 +58,22 @@ class ttMaildb:
               recipientId           BIGINT     NOT NULL,
               senderId              BIGINT     NOT NULL,
               message               TEXT       NOT NULL,
-              lastupdate            TIMESTAMP  NOT NULL 
+              lastupdate            TIMESTAMP  NOT NULL
                                      DEFAULT   CURRENT_TIMESTAMP
                                      ON UPDATE CURRENT_TIMESTAMP,
               dateSent		        TIMESTAMP  NOT NULL default '0000-00-00 00:00:00',
               readFlag					BOOLEAN    DEFAULT FALSE,
               PRIMARY KEY  (messageId),
               INDEX idx_recipientId (recipientId)
-            ) 
-            ENGINE=InnoDB 
-            DEFAULT CHARSET=utf8;            
+            )
+            ENGINE=InnoDB
+            DEFAULT CHARSET=utf8;
 
             """)
             if __debug__:
                 self.notify.info("Table ttrecipientmail did not exist, created a new one!")
         except MySQLdb.OperationalError as e:
-            pass            
+            pass
 
         try:
             cursor = self.db.cursor()
@@ -106,7 +105,7 @@ class ttMaildb:
         if not self.sqlAvailable:
             self.notify.debug("sqlAvailable was false when calling getMail")
             return ()
-        
+
         cursor = MySQLdb.cursors.DictCursor(self.db)
         try:
             cursor.execute("USE `%s`"%self.dbname)
@@ -114,7 +113,7 @@ class ttMaildb:
             res = cursor.fetchall()
             #self.notify.debug("Select was successful in ttMaildb, returning %s" % str(res))
             return res
-        
+
         except MySQLdb.OperationalError as e:
             if isRetry == True:
                 self.notify.warning("Error on getMail retry, giving up:\n%s" % str(e))
@@ -142,7 +141,7 @@ class ttMaildb:
             countcursor.execute(ttSQL.getMailSELECT,(recipientId,))
             if countcursor.rowcount >= sbConfig.mailStoreMessageLimit:
                 self.notify.debug("%d's mailbox is full!  Can't fit message from %d." %(recipientId,senderId))
-                return     
+                return
 
             cursor = MySQLdb.cursors.DictCursor(self.db)
 
@@ -180,7 +179,7 @@ class ttMaildb:
                 self.notify.warning("%d tried to delete message %d which didn't exist or wasn't his!" % (accountId,messageId))
 
             self.db.commit()
-                
+
         except MySQLdb.OperationalError as e:
             if isRetry == True:
                 self.notify.warning("Error in deleteMail retry, giving up:\n%s" % str(e))
@@ -194,7 +193,7 @@ class ttMaildb:
                 self.deleteMail(accountId,messageId,True)
         except Exception as e:
             self.notify.warning("Unknown error in deleteMail, giving up:\n%s" % str(e))
-            return            
+            return
 
 
     def dumpMailTable(self):
