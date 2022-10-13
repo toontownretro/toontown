@@ -1,6 +1,7 @@
 """ToonBase module: contains the ToonBase class"""
 
 #from direct.showbase.ShowBaseGlobal import *
+from direct.showbase import Audio3DManager
 from otp.otpbase import OTPBase
 from otp.otpbase import OTPLauncherGlobals
 from otp.otpbase import OTPRender
@@ -115,6 +116,12 @@ class ToonBase(OTPBase.OTPBase):
         self.camLens.setMinFov(ToontownGlobals.DefaultCameraFov)
         self.camLens.setNearFar(ToontownGlobals.DefaultCameraNear,
                                 ToontownGlobals.DefaultCameraFar)
+                                
+        # Set the distance scaling for 3d space audio.
+        self.audioEngine.set3dUnitScale(3.28084)
+        
+        # Create the 3D Manager to be used by 3d audio.
+        self.audio3d = Audio3DManager.Audio3DManager(base.sfxManagerList[0], camera)
 
         # Music should be a bit quieter in toontown
         self.musicManager.setVolume(0.65)

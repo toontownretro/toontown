@@ -353,30 +353,28 @@ class DistributedToonHallInterior(DistributedToonInterior):
 
         # Load in the sounds
 
-        self.audio3d = Audio3DManager.Audio3DManager(base.sfxManagerList[0], camera)
-
-        self.phase1Sfx = self.audio3d.loadSfx("phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseOne.mp3")
+        self.phase1Sfx = base.audio3d.loadSfx("phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseOne.mp3")
         self.phase1Sfx.setLoop(True)
 
-        self.phase2Sfx = self.audio3d.loadSfx("phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseTwo.mp3")
+        self.phase2Sfx = base.audio3d.loadSfx("phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseTwo.mp3")
         self.phase2Sfx.setLoop(True)
 
-        self.phase3Sfx = self.audio3d.loadSfx("phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseThree.mp3")
+        self.phase3Sfx = base.audio3d.loadSfx("phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseThree.mp3")
         self.phase3Sfx.setLoop(True)
 
-        self.phase4Sfx = self.audio3d.loadSfx("phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseFour.mp3")
+        self.phase4Sfx = base.audio3d.loadSfx("phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseFour.mp3")
         self.phase4Sfx.setLoop(True)
 
-        self.phase4To5Sfx = self.audio3d.loadSfx("phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseFourToFive.mp3")
+        self.phase4To5Sfx = base.audio3d.loadSfx("phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseFourToFive.mp3")
         self.phase4To5Sfx.setLoop(False)
 
-        self.phase5Sfx = self.audio3d.loadSfx("phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseFive.mp3")
+        self.phase5Sfx = base.audio3d.loadSfx("phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseFive.mp3")
         self.phase5Sfx.setLoop(True)
 
-        self.arrowSfx = self.audio3d.loadSfx("phase_4/audio/sfx/tt_s_prp_sillyMeterArrow.mp3") # The arrow reaches its destination
+        self.arrowSfx = base.audio3d.loadSfx("phase_4/audio/sfx/tt_s_prp_sillyMeterArrow.mp3") # The arrow reaches its destination
         self.arrowSfx.setLoop(False)
 
-        self.audio3d.setDropOffFactor(0.1)
+        #base.audio3d.setDropOffFactor(0.1)
 
         self.accept("SillyMeterPhase", self.selectPhase)
         self.startIfNeeded()
@@ -399,7 +397,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
 
         self.animSeq = Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer, duration = phaseDuration, constrainedLoop = 1, startFrame = 1, endFrame = 30),
                                            Sequence(Func(self.phase1Sfx.play),
-                                           Func(self.audio3d.attachSoundToObject, self.phase1Sfx, self.sillyMeter)))
+                                           Func(base.audio3d.attachSoundToObject, self.phase1Sfx, self.sillyMeter)))
 
         self.animSeq.start()
         # Start the stage animations
@@ -415,7 +413,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         self.animSeq.finish()
         del self.animSeq
 
-        self.audio3d.detachSound(self.phase1Sfx)
+        base.audio3d.detachSound(self.phase1Sfx)
         self.phase1Sfx.stop()
         self.sillyMeter.stop()
 
@@ -440,12 +438,12 @@ class DistributedToonHallInterior(DistributedToonInterior):
         # if frameNo == -1:
             # frameNo = 1
 
-        self.audio3d.attachSoundToObject(self.phase1Sfx, self.sillyMeter)
+        base.audio3d.attachSoundToObject(self.phase1Sfx, self.sillyMeter)
         self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,constrainedLoop = 0, startFrame = 31, endFrame = 42),
                                                              Func(self.arrowSfx.play)),
                                               Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 42, endFrame = 71),
                                                           Sequence(Func(self.phase1Sfx.play),
-                                                          Func(self.audio3d.attachSoundToObject, self.phase1Sfx, self.sillyMeter))),
+                                                          Func(base.audio3d.attachSoundToObject, self.phase1Sfx, self.sillyMeter))),
                                               )
         self.animSeq.start()
         # Start the stage animations
@@ -458,7 +456,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         """
         Clean up
         """
-        self.audio3d.detachSound(self.phase1Sfx)
+        base.audio3d.detachSound(self.phase1Sfx)
         self.phase1Sfx.stop()
 
         self.animSeq.finish()
@@ -478,7 +476,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
 
         self.animSeq = Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 42, endFrame = 71),
                                                           Sequence(Func(self.phase1Sfx.play),
-                                                          Func(self.audio3d.attachSoundToObject, self.phase1Sfx, self.sillyMeter)))
+                                                          Func(base.audio3d.attachSoundToObject, self.phase1Sfx, self.sillyMeter)))
         self.animSeq.start()
 
         # Start the stage animations
@@ -495,7 +493,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         del self.animSeq
 
         self.smPhase2.hide()
-        self.audio3d.detachSound(self.phase1Sfx)
+        base.audio3d.detachSound(self.phase1Sfx)
         self.phase1Sfx.stop()
         self.sillyMeter.stop()
 
@@ -513,7 +511,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
                                                              Func(self.arrowSfx.play)),
                                               Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 83, endFrame = 112),
                                                             Sequence(Func(self.phase1Sfx.play),
-                                                            Func(self.audio3d.attachSoundToObject, self.phase1Sfx, self.sillyMeter))))
+                                                            Func(base.audio3d.attachSoundToObject, self.phase1Sfx, self.sillyMeter))))
         self.animSeq.start()
 
         self.smPhase2.show()
@@ -529,7 +527,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         del self.animSeq
 
         self.smPhase2.hide()
-        self.audio3d.detachSound(self.phase1Sfx)
+        base.audio3d.detachSound(self.phase1Sfx)
         self.phase1Sfx.stop()
         self.sillyMeter.stop()
 
@@ -547,7 +545,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
                                                              Func(self.arrowSfx.play)),
                                               Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 124, endFrame = 153),
                                                             Sequence(Func(self.phase1Sfx.play),
-                                                            Func(self.audio3d.attachSoundToObject, self.phase1Sfx, self.sillyMeter))))
+                                                            Func(base.audio3d.attachSoundToObject, self.phase1Sfx, self.sillyMeter))))
         self.animSeq.start()
 
         self.smPhase2.show()
@@ -563,7 +561,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         del self.animSeq
 
         self.smPhase2.hide()
-        self.audio3d.detachSound(self.phase1Sfx)
+        base.audio3d.detachSound(self.phase1Sfx)
         self.phase1Sfx.stop()
         self.sillyMeter.stop()
 
@@ -581,7 +579,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
                                                                 Func(self.arrowSfx.play)),
                                               Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 165, endFrame = 194),
                                                             Sequence(Func(self.phase2Sfx.play),
-                                                            Func(self.audio3d.attachSoundToObject, self.phase2Sfx, self.sillyMeter))))
+                                                            Func(base.audio3d.attachSoundToObject, self.phase2Sfx, self.sillyMeter))))
         self.animSeq.start()
 
         self.smPhase2.show()
@@ -596,7 +594,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         del self.animSeq
 
         self.smPhase2.hide()
-        self.audio3d.detachSound(self.phase2Sfx)
+        base.audio3d.detachSound(self.phase2Sfx)
         self.phase2Sfx.stop()
         self.sillyMeter.stop()
 
@@ -614,7 +612,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
                                                                 Func(self.arrowSfx.play)),
                                             Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 206, endFrame = 235),
                                                         Sequence(Func(self.phase2Sfx.play),
-                                                        Func(self.audio3d.attachSoundToObject, self.phase2Sfx, self.sillyMeter))))
+                                                        Func(base.audio3d.attachSoundToObject, self.phase2Sfx, self.sillyMeter))))
         self.animSeq.start()
 
         self.smPhase2.show()
@@ -630,7 +628,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         del self.animSeq
 
         self.smPhase2.hide()
-        self.audio3d.detachSound(self.phase2Sfx)
+        base.audio3d.detachSound(self.phase2Sfx)
         self.phase2Sfx.stop()
         self.sillyMeter.stop()
 
@@ -648,7 +646,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
                                                                 Func(self.arrowSfx.play)),
                                             Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 247, endFrame = 276),
                                                         Sequence(Func(self.phase3Sfx.play),
-                                                        Func(self.audio3d.attachSoundToObject, self.phase3Sfx, self.sillyMeter))))
+                                                        Func(base.audio3d.attachSoundToObject, self.phase3Sfx, self.sillyMeter))))
         self.animSeq.start()
 
         self.smPhase2.show()
@@ -666,7 +664,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
 
         self.smPhase2.hide()
         self.smPhase3.hide()
-        self.audio3d.detachSound(self.phase3Sfx)
+        base.audio3d.detachSound(self.phase3Sfx)
         self.phase3Sfx.stop()
         self.sillyMeter.stop()
 
@@ -684,7 +682,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
                                                                 Func(self.arrowSfx.play)),
                                             Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 288, endFrame = 317),
                                                         Sequence(Func(self.phase3Sfx.play),
-                                                        Func(self.audio3d.attachSoundToObject, self.phase3Sfx, self.sillyMeter))))
+                                                        Func(base.audio3d.attachSoundToObject, self.phase3Sfx, self.sillyMeter))))
         self.animSeq.start()
 
         self.smPhase2.show()
@@ -702,7 +700,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
 
         self.smPhase2.hide()
         self.smPhase3.hide()
-        self.audio3d.detachSound(self.phase3Sfx)
+        base.audio3d.detachSound(self.phase3Sfx)
         self.phase3Sfx.stop()
         self.sillyMeter.stop()
 
@@ -720,7 +718,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
                                                                 Func(self.arrowSfx.play)),
                                             Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 329, endFrame = 358),
                                                         Sequence(Func(self.phase3Sfx.play),
-                                                        Func(self.audio3d.attachSoundToObject, self.phase3Sfx, self.sillyMeter))),
+                                                        Func(base.audio3d.attachSoundToObject, self.phase3Sfx, self.sillyMeter))),
                                             )
         self.animSeq.start()
 
@@ -739,7 +737,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
 
         self.smPhase2.hide()
         self.smPhase3.hide()
-        self.audio3d.detachSound(self.phase3Sfx)
+        base.audio3d.detachSound(self.phase3Sfx)
         self.phase3Sfx.stop()
         self.sillyMeter.stop()
 
@@ -757,7 +755,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
                                                                 Func(self.arrowSfx.play)),
                                             Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 370, endFrame = 399),
                                                         Sequence(Func(self.phase4Sfx.play),
-                                                        Func(self.audio3d.attachSoundToObject, self.phase4Sfx, self.sillyMeter))))
+                                                        Func(base.audio3d.attachSoundToObject, self.phase4Sfx, self.sillyMeter))))
         self.animSeq.start()
 
         self.smPhase2.show()
@@ -777,7 +775,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         self.smPhase2.hide()
         self.smPhase3.hide()
         self.smPhase4.hide()
-        self.audio3d.detachSound(self.phase4Sfx)
+        base.audio3d.detachSound(self.phase4Sfx)
         self.phase4Sfx.stop()
         self.sillyMeter.stop()
 
@@ -795,7 +793,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
                                                                 Func(self.arrowSfx.play)),
                                             Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 411, endFrame = 440),
                                                         Sequence(Func(self.phase4Sfx.play),
-                                                        Func(self.audio3d.attachSoundToObject, self.phase4Sfx, self.sillyMeter))))
+                                                        Func(base.audio3d.attachSoundToObject, self.phase4Sfx, self.sillyMeter))))
         self.animSeq.start()
 
         self.smPhase2.show()
@@ -815,7 +813,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         self.smPhase2.hide()
         self.smPhase3.hide()
         self.smPhase4.hide()
-        self.audio3d.detachSound(self.phase4Sfx)
+        base.audio3d.detachSound(self.phase4Sfx)
         self.phase4Sfx.stop()
         self.sillyMeter.stop()
 
@@ -833,7 +831,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
                                                 Func(self.arrowSfx.play)),
                                             Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 452, endFrame = 481),
                                                         Sequence(Func(self.phase4Sfx.play),
-                                                        Func(self.audio3d.attachSoundToObject, self.phase4Sfx, self.sillyMeter))))
+                                                        Func(base.audio3d.attachSoundToObject, self.phase4Sfx, self.sillyMeter))))
         self.animSeq.start()
 
         self.smPhase2.show()
@@ -853,7 +851,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         self.smPhase2.hide()
         self.smPhase3.hide()
         self.smPhase4.hide()
-        self.audio3d.detachSound(self.phase4Sfx)
+        base.audio3d.detachSound(self.phase4Sfx)
         self.phase4Sfx.stop()
         self.sillyMeter.stop()
 
@@ -871,7 +869,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
                                     ActorInterval(self.sillyMeter, "phaseFourToFive", constrainedLoop = 0, startFrame = 1, endFrame = 120),),
                                     Parallel(ActorInterval(self.sillyMeter, "phaseFive", duration = phaseDuration, constrainedLoop = 1, startFrame = 1, endFrame = 48),
                                         Sequence(Func(self.phase5Sfx.play),
-                                        Func(self.audio3d.attachSoundToObject, self.phase5Sfx, self.sillyMeter))))
+                                        Func(base.audio3d.attachSoundToObject, self.phase5Sfx, self.sillyMeter))))
         self.animSeq.start()
 
         self.smPhase2.show()
@@ -890,7 +888,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         self.smPhase2.hide()
         self.smPhase3.hide()
         self.smPhase4.hide()
-        self.audio3d.detachSound(self.phase5Sfx)
+        base.audio3d.detachSound(self.phase5Sfx)
         self.phase5Sfx.stop()
         self.sillyMeter.stop()
 
@@ -906,7 +904,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
 
         self.animSeq = Parallel(ActorInterval(self.sillyMeter, "phaseFive", duration = phaseDuration, constrainedLoop = 1, startFrame = 1, endFrame = 48),
                                         Sequence(Func(self.phase5Sfx.play),
-                                        Func(self.audio3d.attachSoundToObject, self.phase5Sfx, self.sillyMeter)))
+                                        Func(base.audio3d.attachSoundToObject, self.phase5Sfx, self.sillyMeter)))
         self.animSeq.start()
 
         self.smPhase2.show()
@@ -925,7 +923,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         self.smPhase2.hide()
         self.smPhase3.hide()
         self.smPhase4.hide()
-        self.audio3d.detachSound(self.phase5Sfx)
+        base.audio3d.detachSound(self.phase5Sfx)
         self.phase5Sfx.stop()
         self.sillyMeter.stop()
 
@@ -941,7 +939,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
 
         self.animSeq = Parallel(ActorInterval(self.sillyMeter, "phaseFive", duration = phaseDuration, constrainedLoop = 1, startFrame = 1, endFrame = 48),
                                         Sequence(Func(self.phase5Sfx.play),
-                                        Func(self.audio3d.attachSoundToObject, self.phase5Sfx, self.sillyMeter)))
+                                        Func(base.audio3d.attachSoundToObject, self.phase5Sfx, self.sillyMeter)))
         self.animSeq.start()
 
         self.smPhase2.show()
@@ -960,7 +958,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         self.smPhase2.hide()
         self.smPhase3.hide()
         self.smPhase4.hide()
-        self.audio3d.detachSound(self.phase5Sfx)
+        base.audio3d.detachSound(self.phase5Sfx)
         self.phase5Sfx.stop()
         self.sillyMeter.stop()
 
@@ -1082,10 +1080,6 @@ class DistributedToonHallInterior(DistributedToonInterior):
             if soundFile.status() == soundFile.PLAYING:
                 soundFile.setLoop(False)
                 soundFile.stop()
-
-        if hasattr(self, "audio3d"):
-            self.audio3d.disable()
-            del self.audio3d
 
         if hasattr(self, "phase1Sfx"):
             __cleanUpSound__(self.phase1Sfx)

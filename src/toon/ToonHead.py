@@ -148,111 +148,113 @@ class ToonHead(Actor.Actor):
     def __init__(self):
         try:
             self.ToonHead_initialized
+            return
         except:
             self.ToonHead_initialized = 1
-            Actor.Actor.__init__(self)
 
-            # This is a unique string that identifies this particular
-            # ToonHead among all others.  It's used to generate task
-            # names; we can't necessarily use doId, because we might
-            # not have one at this level.
-            self.toonName = 'ToonHead-' + str(self.this)
+        Actor.Actor.__init__(self)
 
-            # Here are some of those task names we were talking about.
-            self.__blinkName = 'blink-' + self.toonName
-            self.__stareAtName = 'stareAt-' + self.toonName
-            self.__lookName = 'look-' + self.toonName
-            self.lookAtTrack = None
+        # This is a unique string that identifies this particular
+        # ToonHead among all others.  It's used to generate task
+        # names; we can't necessarily use doId, because we might
+        # not have one at this level.
+        self.toonName = 'ToonHead-' + str(self.this)
 
-            # Set up a simple state machine to manage the eyelids.
+        # Here are some of those task names we were talking about.
+        self.__blinkName = 'blink-' + self.toonName
+        self.__stareAtName = 'stareAt-' + self.toonName
+        self.__lookName = 'look-' + self.toonName
+        self.lookAtTrack = None
 
-            self.__eyes = None
-            self.__eyelashOpen = None
-            self.__eyelashClosed = None
-            self.__lod500Eyes = None
-            self.__lod250Eyes = None
-            self.__lpupil = None
-            self.__lod500lPupil = None
-            self.__lod250lPupil = None
-            self.__rpupil = None
-            self.__lod500rPupil = None
-            self.__lod250rPupil = None
-            self.__muzzle = None
-            self.__eyesOpen = ToonHead.EyesOpen
-            self.__eyesClosed = ToonHead.EyesClosed
-            self.__height = 0.0
+        # Set up a simple state machine to manage the eyelids.
 
-            self.__eyelashesHiddenByGlasses = False
+        self.__eyes = None
+        self.__eyelashOpen = None
+        self.__eyelashClosed = None
+        self.__lod500Eyes = None
+        self.__lod250Eyes = None
+        self.__lpupil = None
+        self.__lod500lPupil = None
+        self.__lod250lPupil = None
+        self.__rpupil = None
+        self.__lod500rPupil = None
+        self.__lod250rPupil = None
+        self.__muzzle = None
+        self.__eyesOpen = ToonHead.EyesOpen
+        self.__eyesClosed = ToonHead.EyesClosed
+        self.__height = 0.0
 
-            # Create our own random number generator.  We do this
-            # mainly so we don't jumble up the random number chain of
-            # the rest of the world (making playback from a session
-            # more reliable).
-            self.randGen = random.Random()
-            self.randGen.seed(random.random())
+        self.__eyelashesHiddenByGlasses = False
 
-            self.eyelids = ClassicFSM('eyelids',
-                                   [State('off',
-                                          self.enterEyelidsOff,
-                                          self.exitEyelidsOff,
-                                          ['open', 'closed', 'surprised']),
-                                    State('open',
-                                          self.enterEyelidsOpen,
-                                          self.exitEyelidsOpen,
-                                          ['closed', 'surprised', 'off']),
-                                    State('surprised',
-                                          self.enterEyelidsSurprised,
-                                          self.exitEyelidsSurprised,
-                                          ['open', 'closed', 'off']),
-                                    State('closed',
-                                          self.enterEyelidsClosed,
-                                          self.exitEyelidsClosed,
-                                          ['open', 'surprised', 'off'])],
-                                   # initial State
-                                   'off',
-                                   # final State
-                                   'off',
-                                   )
+        # Create our own random number generator.  We do this
+        # mainly so we don't jumble up the random number chain of
+        # the rest of the world (making playback from a session
+        # more reliable).
+        self.randGen = random.Random()
+        self.randGen.seed(random.random())
 
-            self.eyelids.enterInitialState()
-            self.emote = None
+        self.eyelids = ClassicFSM('eyelids',
+                               [State('off',
+                                      self.enterEyelidsOff,
+                                      self.exitEyelidsOff,
+                                      ['open', 'closed', 'surprised']),
+                                State('open',
+                                      self.enterEyelidsOpen,
+                                      self.exitEyelidsOpen,
+                                      ['closed', 'surprised', 'off']),
+                                State('surprised',
+                                      self.enterEyelidsSurprised,
+                                      self.exitEyelidsSurprised,
+                                      ['open', 'closed', 'off']),
+                                State('closed',
+                                      self.enterEyelidsClosed,
+                                      self.exitEyelidsClosed,
+                                      ['open', 'surprised', 'off'])],
+                               # initial State
+                               'off',
+                               # final State
+                               'off',
+                               )
 
-            # This is the node and the point relative to the node that
-            # the stareAt task will make the ToonHead look at.
-            self.__stareAtNode = NodePath()
-            self.__defaultStarePoint = Point3(0, 0, 0)
-            self.__stareAtPoint = self.__defaultStarePoint
-            self.__stareAtTime = 0
-            self.lookAtPositionCallbackArgs = None
+        self.eyelids.enterInitialState()
+        self.emote = None
 
-        return None
+        # This is the node and the point relative to the node that
+        # the stareAt task will make the ToonHead look at.
+        self.__stareAtNode = NodePath()
+        self.__defaultStarePoint = Point3(0, 0, 0)
+        self.__stareAtPoint = self.__defaultStarePoint
+        self.__stareAtTime = 0
+        self.lookAtPositionCallbackArgs = None
 
     def delete(self):
         try:
             self.ToonHead_deleted
+            return
         except:
             self.ToonHead_deleted = 1
-            taskMgr.remove(self.__blinkName)
-            taskMgr.remove(self.__lookName)
-            taskMgr.remove(self.__stareAtName)
-            if self.lookAtTrack:
-                self.lookAtTrack.finish()
-                self.lookAtTrack = None
-            del self.eyelids
-            del self.__stareAtNode
-            del self.__stareAtPoint
-            if self.__eyes:
-                del self.__eyes
-            if self.__lpupil:
-                del self.__lpupil
-            if self.__rpupil:
-                del self.__rpupil
-            if self.__eyelashOpen:
-                del self.__eyelashOpen
-            if self.__eyelashClosed:
-                del self.__eyelashClosed
-            self.lookAtPositionCallbackArgs = None
-            Actor.Actor.delete(self)
+
+        taskMgr.remove(self.__blinkName)
+        taskMgr.remove(self.__lookName)
+        taskMgr.remove(self.__stareAtName)
+        if self.lookAtTrack:
+            self.lookAtTrack.finish()
+            self.lookAtTrack = None
+        del self.eyelids
+        del self.__stareAtNode
+        del self.__stareAtPoint
+        if self.__eyes:
+            del self.__eyes
+        if self.__lpupil:
+            del self.__lpupil
+        if self.__rpupil:
+            del self.__rpupil
+        if self.__eyelashOpen:
+            del self.__eyelashOpen
+        if self.__eyelashClosed:
+            del self.__eyelashClosed
+        self.lookAtPositionCallbackArgs = None
+        Actor.Actor.delete(self)
 
     def setupHead(self, dna, forGui = 0):
         """setupHead(self, AvatarDNA dna)
@@ -759,6 +761,9 @@ class ToonHead(Actor.Actor):
 
         # color the head - may have multiple pieces
         parts = self.findAllMatches("**/head*")
+        if not parts:
+            self.notify.error("Couldn't find head for Toon Head!")
+            return
         parts.setColor(style.getHeadColor())
 
         # color the ears, if they are not black
@@ -1383,8 +1388,8 @@ class ToonHead(Actor.Actor):
             # not going to move anywhere, then we might as well
             # stop the task.
             return Task.done
-        else:
-            return Task.cont
+
+        return Task.cont
 
     def doLookAroundToStareAt(self, node, point):
         self.startStareAt(node, point)
