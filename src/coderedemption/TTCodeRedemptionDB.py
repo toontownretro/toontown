@@ -26,8 +26,7 @@ from toontown.coderedemption import TTCodeRedemptionConsts
 #from direct.directutil import DirectMySQLdb
 import random
 import datetime
-import MySQLdb
-import MySQLdb.cursors
+import pymysql as MySQLdb
 import os
 import subprocess
 import time
