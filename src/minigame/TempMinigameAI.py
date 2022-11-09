@@ -5,6 +5,7 @@
 Allows the creation of temp minigames for testing new game ideas
 under the minigame framework without hard-coding them in.
 """
+from panda3d.core import ConfigVariableBool
 from toontown.toonbase import ToontownGlobals
 
 # This config allows devs to temporarily register temp games created with the minigame framework

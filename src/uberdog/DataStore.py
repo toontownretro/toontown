@@ -59,9 +59,11 @@ class DataStore:
 
         if self.wantAnyDbm:
             self.filepath += '-anydbm'
-            self.notify.debug('anydbm default module used: %s ' % dbm._defaultmod.__name__)
 
         self.open()
+        
+        if self.wantAnyDbm:
+            self.notify.debug('anydbm default module used: %s ' % dbm._defaultmod.__name__)
 
     def readDataFromFile(self):
         """

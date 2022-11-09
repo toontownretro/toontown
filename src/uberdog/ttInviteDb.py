@@ -47,9 +47,9 @@ class ttInviteDb:
             self.notify.info('%s' % str(e))
             pass
 
-        cursor.execute("USE `%s`"%self.dbname)
+        cursor.execute("USE `%s`" % self.dbname)
         if __debug__:
-            self.notify.debug("Using database '%s'"%self.dbname)
+            self.notify.debug("Using database '%s'" % self.dbname)
         try:
             # well if we're creating the party table again,
             # might as well create the party status lookup table for the benefit of database reporting

@@ -2555,7 +2555,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         self.air.catalogManager.deliverCatalogFor(self)
         return Task.done
 
-
     def b_setCatalog(self, monthlyCatalog, weeklyCatalog, backCatalog):
         self.setCatalog(monthlyCatalog, weeklyCatalog, backCatalog)
         self.d_setCatalog(monthlyCatalog, weeklyCatalog, backCatalog)
@@ -3177,8 +3176,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         newDna = ToonDNA.ToonDNA()
         newDna.makeFromNetString(self.dna.makeNetString())
         black = 26
-        newDna.updateToonProperties(armColor=black, legColor=black,
-                                    headColor=black)
+        newDna.updateToonProperties(armColor=black, legColor=black, headColor=black)
         self.b_setDNAString(newDna.makeNetString())
         # None means no error, return it explicitly
         return None
@@ -3196,6 +3194,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def incrementPopulation(self):
         if self.isPlayerControlled():
             DistributedPlayerAI.DistributedPlayerAI.incrementPopulation(self)
+
     def decrementPopulation(self):
         if self.isPlayerControlled():
             DistributedPlayerAI.DistributedPlayerAI.decrementPopulation(self)
@@ -3244,8 +3243,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         # log the use of a resistance chat phrase (speakerId, msgType, value, list of affectedToons)
         type = ResistanceChat.getMenuName(msgIndex)
         value = ResistanceChat.getItemValue(msgIndex)
-        self.air.writeServerEvent('resistanceChat', self.zoneId,
-                                  '%s|%s|%s|%s' % (self.doId, type, value, affectedPlayers) )
+        self.air.writeServerEvent('resistanceChat', self.zoneId, '%s|%s|%s|%s' % (self.doId, type, value, affectedPlayers) )
 
 
     def doResistanceEffect(self, msgIndex):
@@ -4108,10 +4106,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                 if pet.__class__.__name__ == 'DistributedPetAI':
                     pet.handleAvPetInteraction(flag, self.getDoId())
                 else:
-                    self.air.writeServerEvent(
-                        'suspicious', self.doId,
-                        'setPetMovie: playing pet movie %s on non-pet object %s' % (
-                        flag, petId))
+                    self.air.writeServerEvent('suspicious', self.doId, 'setPetMovie: playing pet movie %s on non-pet object %s' % (flag, petId))
 
         def setPetTutorialDone(self, bDone):
             #don't actually USE the boolean... it's just there to tell the db what to store
@@ -4214,8 +4209,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         def setSCCustom(self, msgId):
             DistributedToonAI.notify.debug('setSCCustom: %s' % msgId)
             from toontown.pets import PetObserve
-            PetObserve.send(self.zoneId,
-                            PetObserve.getSCObserve(msgId, self.doId))
+            PetObserve.send(self.zoneId, PetObserve.getSCObserve(msgId, self.doId))
 
     def setHatePets(self, hate):
         self.hatePets = hate
@@ -4650,23 +4644,21 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         if numFlower >= self.maxFlowerBasket:
             self.notify.warning("addFlowerToBasket: cannot add flower, basket is full")
             return 0
-        else:
-            # Perhaps this can fail for some reason
-            if self.flowerBasket.addFlower(species, variety):
-                self.d_setFlowerBasket(*self.flowerBasket.getNetLists())
-                return 1
-            else:
-                self.notify.warning("addFlowerToBasket: addFlower failed")
-                return 0
+        elif self.flowerBasket.addFlower(species, variety): # Perhaps this can fail for some reason
+            self.d_setFlowerBasket(*self.flowerBasket.getNetLists())
+            return 1
+
+        self.notify.warning("addFlowerToBasket: addFlower failed")
+        return 0
 
     def removeFlowerFromBasketAtIndex(self, index):
         # Try to remove this flower from the basket
         if self.flowerBasket.removeFlowerAtIndex(index):
             self.d_setFlowerBasket(*self.flowerBasket.getNetLists())
             return 1
-        else:
-            self.notify.warning("removeFishFromTank: cannot find fish")
-            return 0
+
+        self.notify.warning("removeFishFromTank: cannot find fish")
+        return 0
 
     ## Shovel
 
@@ -4750,15 +4742,15 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
                #log that he got a better watering can
                self.air.writeServerEvent("garden_new_wateringCan", self.doId, '%d' % self.wateringCan)
-
            else:
                #we are at the maximum watering can, ensure skillLevel does not spill over
                skillLevel =  GardenGlobals.WateringCanAttributes[self.wateringCan]['skillPts'] - 1
                self.setWateringCanSkill(skillLevel)
                self.d_setWateringCanSkill(skillLevel)
-        else:
-            self.setWateringCanSkill(skillLevel)
-            self.d_setWateringCanSkill(skillLevel)
+           return
+
+        self.setWateringCanSkill(skillLevel)
+        self.d_setWateringCanSkill(skillLevel)
 
 
     def d_setWateringCanSkill(self, skillLevel):
@@ -4785,8 +4777,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def getTrackBonusLevel(self, track=None):
         if track == None:
             return self.trackBonusLevel
-        else:
-            return self.trackBonusLevel[track]
+        return self.trackBonusLevel[track]
 
     def checkGagBonus(self, track, level):
         trackBonus = self.getTrackBonusLevel(track)
@@ -4795,7 +4786,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def giveMeSpecials(self, id = None):
         print("Specials Go!!")
         self.b_setGardenSpecials([(0,3),(1,2),(2,3),(3,2),(4,3),(5,2),(6,3),(7,2),(100,1),(101,3),(102,1)])
-
 
     def reqUseSpecial(self, special):
         response = self.tryToUseSpecial(special)
@@ -4839,8 +4829,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         if hasattr(self, "estateZones") and hasattr(self, "doId"):
             if simbase.wantPets and self.hatePets:
                 # announce to the pets that we're busy
-                PetObserve.send(self.estateZones, PetObserve.PetActionObserve(
-                        PetObserve.Actions.GARDEN, self.doId))
+                PetObserve.send(self.estateZones, PetObserve.PetActionObserve(PetObserve.Actions.GARDEN, self.doId))
 
     def setGardenStarted(self, bStarted):
         self.gardenStarted = bStarted
@@ -4990,7 +4979,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def d_setAccess(self, access):
         self.sendUpdate("setAccess", [access])
 
-
     def setAccess(self, access):
         print(("Setting Access %s" % (access)))
         if access == OTPGlobals.AccessInvalid:
@@ -5000,7 +4988,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
             elif __dev__:
                 access = OTPGlobals.AccessFull
         self.setGameAccess(access)
-
 
     def setGameAccess(self, access):
         self.gameAccess = access
@@ -5027,9 +5014,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         avId = self.air.getAvatarIdFromSender()
         if __dev__:
             print(("CLIENT LOG MESSAGE %s %s" % (avId, message)))
+
         try:
             self.air.writeServerEvent('clientLog', avId, message)
-
         except:
             self.air.writeServerEvent('suspicious', avId, "client sent us a clientLog that caused an exception")
 

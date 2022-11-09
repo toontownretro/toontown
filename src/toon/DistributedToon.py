@@ -292,10 +292,12 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
             self.DistributedToon_deleted
         except:
             self.DistributedToon_deleted = 1
-            del self.safeZonesVisited
-            DistributedPlayer.DistributedPlayer.delete(self)
-            Toon.Toon.delete(self)
-            DistributedSmoothNode.DistributedSmoothNode.delete(self)
+            return
+
+        del self.safeZonesVisited
+        DistributedPlayer.DistributedPlayer.delete(self)
+        Toon.Toon.delete(self)
+        DistributedSmoothNode.DistributedSmoothNode.delete(self)
 
     def generate(self):
         """
@@ -1320,8 +1322,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
         #print("print merits[%d]: %d/%d"  % (dept, merits, totalMerits))
         if (merits >= totalMerits):
             return 1
-        else:
-            return 0
+        return 0
 
     ### setCogIndex ###
 
@@ -1344,8 +1345,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
     def isCog(self):
         if self.cogIndex == -1:
             return 0
-        else:
-            return 1
+        return 1
 
     ### setDisguisePageFlag ###
     def setDisguisePageFlag(self, flag):
@@ -2234,8 +2234,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
         place = base.cr.playGame.getPlace()
         if place:
             return place.getZoneId()
-        else:
-            return None
+        return None
 
     def getRequestID(self):
         return CLIENT_GET_AVATAR_DETAILS
@@ -3036,8 +3035,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
     def getPinkSlips(self):
         if hasattr(self, "pinkSlips"):
             return self.pinkSlips
-        else:
-            return 0
+        return 0
 
     def setPinkSlips(self, pinkSlips):
         """Set the number of pink slips."""
@@ -3046,12 +3044,12 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
     def setAccess(self, access):
         self.setGameAccess(access)
         self.setDisplayName(self.getName()) #fancy nametag
-        #if access == OTPGlobals.AccessFull:
-        #     base.cr.setIsPaid(1)
-        #elif access == OTPGlobals.AccessVelvetRope
-        #    base.cr.setIsPaid(0)
-        #else:
-        #    base.cr.setIsPaid(0)
+        if access == OTPGlobals.AccessFull:
+             base.cr.setIsPaid(1)
+        elif access == OTPGlobals.AccessVelvetRope:
+            base.cr.setIsPaid(0)
+        else:
+            base.cr.setIsPaid(0)
 
     def setGameAccess(self, access):
         self.gameAccess = access
@@ -3059,21 +3057,20 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
     def getGameAccess(self):
         if hasattr(self, "gameAccess"):
             return self.gameAccess
-        else:
-            return 0
+        return 0
 
    # Name Tag Styles
 
     def setDisplayName(self, str):
         if(self.getGameAccess() == OTPGlobals.AccessFull) and (not self.isDisguised):
             self.setFancyNametag(name = str)
-        else:
-            self.removeFancyNametag()
-            Avatar.Avatar.setDisplayName(self, str)
+            return
+
+        self.removeFancyNametag()
+        Avatar.Avatar.setDisplayName(self, str)
 
 
     def setFancyNametag(self, name = None):
-
         if name == None:
             name = self.getName()
         #font = ToontownGlobals.getToonFont()
@@ -3095,8 +3092,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
     def getNametagStyle(self):
         if hasattr(self, "nametagStyle"):
             return self.nametagStyle
-        else:
-            return 0
+        return 0
 
     def setNametagStyle(self, nametagStyle):
         """Set the nametag style."""
@@ -3158,12 +3154,10 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
         elif (searchString.find(OTPLocalizer.DialogQuestion) >= 0):
             # question
             type = "question"
+        elif random.randint(0, 1): # statement (use two for variety)
+            type = "statementA"
         else:
-            # statement (use two for variety)
-            if random.randint(0, 1):
-                type = "statementA"
-            else:
-                type = "statementB"
+            type = "statementB"
 
         # determine length
         stringLength = len(chatString)

@@ -368,7 +368,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
 
     def __unloadChar(self, char):
         char.removeActive()
-        if (char.style._name == 'mk' or char.style._name == 'mn'):
+        if (char.style.name == 'mk' or char.style.name == 'mn'):
             char.stopEarTask()
         char.delete()
         self.chars.remove(char)
@@ -1021,11 +1021,14 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         toAvatar = self.getVar(toAvatarKey)
         # This is ugly...
         localizerAvatarName = toAvatar.getName().capitalize()
-        toAvatarName = eval("TTLocalizer." + localizerAvatarName)
-        if self.toon.getStyle().gender == 'm':
-            chatString = eval("TTLocalizer." + (line[3] % 'Mickey'))
+        if localizerAvatarName:
+            toAvatarName = eval("TTLocalizer.%s" % (localizerAvatarName))
         else:
-            chatString = eval("TTLocalizer." + (line[3] % 'Minnie'))
+            toAvatarName = "Toon"
+        if self.toon.getStyle().gender == 'm':
+            chatString = eval("TTLocalizer.%s" % (line[3] % 'Mickey'))
+        else:
+            chatString = eval("TTLocalizer.%s" % (line[3] % 'Minnie'))
         chatString = chatString.replace('%s', toAvatarName)
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[4:])
         return Func(avatar.setLocalPageChat, chatString, quitButton, extraChatFlags, dialogueList)
