@@ -1004,16 +1004,15 @@ class NameShop(StateData.StateData):
 
         if not self.avExists or (self.avExists and self.avId == 'deleteMe'):
             self.serverCreateAvatar(skipTutorial)
+        elif (self.names[0] == ""):
+            # No empty names
+            self.rejectName(TTLocalizer.EmptyNameError)
         else:
-            if (self.names[0] == ""):
-                # No empty names
-                self.rejectName(TTLocalizer.EmptyNameError)
+            rejectReason = self.nameIsValid(self.names[0])
+            if rejectReason != None:
+                self.rejectName(rejectReason)
             else:
-                rejectReason = self.nameIsValid(self.names[0])
-                if rejectReason != None:
-                    self.rejectName(rejectReason)
-                else:
-                    self.checkNamePattern()
+                self.checkNamePattern()
 
     def acceptName(self):
         self.notify.debug('acceptName')

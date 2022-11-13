@@ -4,7 +4,7 @@ run SQL query to list all accounts
 find toon you want to login as by searching for his name
 get his OwningAccount hex number (like 0xFEE1F505)
 convert that hex to dec (little endian)
-  On windows, use calc but type in hex pairs backwards, 
+  On windows, use calc but type in hex pairs backwards,
    so 0xFEE1F505 becomes 05 F5 E1 FE (without the spaces)
 Convert to decimal to get a number like 100000254
 

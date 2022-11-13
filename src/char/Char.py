@@ -315,8 +315,8 @@ class Char(Avatar.Avatar):
             #    bundle.clearAttachmentNode(earNull)
 
             for bundle in list(self.getPartBundleDict().values()):
-                charNodepath = bundle['modelRoot'].charNP
-                bundle = bundle['modelRoot'].char
+                charNodepath = bundle['modelRoot'].getCharacterNodepath()
+                bundle = bundle['modelRoot'].getCharacter()
                 # import pdb; pdb.set_trace()
                 ears = charNodepath.find("**/sphere3")
                 if ears.isEmpty():

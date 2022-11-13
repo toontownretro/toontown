@@ -1072,7 +1072,7 @@ dclass DistributedStageSuit: DistributedFactorySuit {
 };
 
 dclass DistributedBossCog: DistributedNode {
-  setDNAString(blob) required broadcast db;
+  setDNAString(blob) required broadcast; // This used to be db, But only from a copy paste elsewhere.
   setToonIds(uint32array involvedToons,
              uint32array toonsA, uint32array toonsB) broadcast ram;
   setBattleIds(uint8 battleNumber, uint32 battleAId, uint32 battleBId) broadcast ram;

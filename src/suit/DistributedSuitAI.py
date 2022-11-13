@@ -35,7 +35,7 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
     """
 
 
-    SUIT_BUILDINGS             =ConfigVariableBool('want-suit-buildings',1).getValue()
+    SUIT_BUILDINGS             = ConfigVariableBool('want-suit-buildings',1).getValue()
 
     DEBUG_SUIT_POSITIONS       = ConfigVariableBool('debug-suit-positions', 0).getValue()
 

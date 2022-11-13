@@ -2884,6 +2884,19 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                     if self.book.isOnPage(self.newsPage):
                         result = True
         return result
+        
+    def doTeleportResponse(self, fromAvatar, toAvatar, avId, available, shardId, hoodId, zoneId, sendToId):
+        base.localAvatar.d_teleportResponse(avId, available, shardId, hoodId, zoneId, sendToId)
+
+    def d_teleportResponse(self, avId, available, shardId, hoodId, zoneId, sendToId=None):
+        if ConfigVariableBool('want-tptrack', False).getValue():
+            if available == 1:
+                self.notify.debug('sending teleportResponseToAI')
+                self.sendUpdate('teleportResponseToAI', [avId, available, shardId, hoodId, zoneId, sendToId])
+            else:
+                self.sendUpdate('teleportResponse', [avId, available, shardId, hoodId, zoneId], sendToId)
+        else:
+            DistributedPlayer.DistributedPlayer.d_teleportResponse(self, avId, available, shardId, hoodId, zoneId, sendToId)
 
     def startQuestMap(self):
         if self.questMap:
@@ -2892,3 +2905,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
     def stopQuestMap(self):
         if self.questMap:
             self.questMap.stop()
+
+    def _startZombieCheck(self):
+        pass
+
+    def _stopZombieCheck(self):
+        pass

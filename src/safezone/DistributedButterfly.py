@@ -106,9 +106,9 @@ class DistributedButterfly(DistributedObject.DistributedObject):
         index = self.doId % len(self.wingTypes)
         chosenType = self.wingTypes[index]
         node = self.butterfly.getGeomNode()
-        for type in self.wingTypes:
-            wing = node.find('**/' + type)
-            if (type != chosenType):
+        for wingType in self.wingTypes:
+            wing = node.find('**/' + wingType)
+            if (wingType != chosenType):
                 wing.removeNode()
             else:
                 # Choose an appropriate blend color
