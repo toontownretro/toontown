@@ -290,9 +290,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
         """
         try:
             self.DistributedToon_deleted
+            return
         except:
             self.DistributedToon_deleted = 1
-            return
 
         del self.safeZonesVisited
         DistributedPlayer.DistributedPlayer.delete(self)
