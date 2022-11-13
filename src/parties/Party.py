@@ -391,8 +391,14 @@ class Party(Place.Place):
         teleport to us, and we're available to be teleported to.
         """
         if self.isPartyEnding:
+            teleportNotify.debug('party ending, sending teleportResponse')
             fromAvatar.d_teleportResponse(toAvatar.doId, 0, toAvatar.defaultShard,
                                       base.cr.playGame.getPlaceId(), self.getZoneId())
+        elif ConfigVariableBool('want-tptrack', False).getValue():
+            if toAvatar == localAvatar:
+                base.localAvatar.doTeleportResponse(fromAvatar, toAvatar, toAvatar.doId, 1, toAvatar.defaultShard, base.cr.playGame.getPlaceId(), self.getZoneId(), fromAvatar.doId)
+            else:
+                self.notify.warning('handleTeleportQuery toAvatar.doId != localAvatar.doId' % (toAvatar.doId, localAvatar.doId))
         else:
             fromAvatar.d_teleportResponse(toAvatar.doId, 1, toAvatar.defaultShard,
                                       base.cr.playGame.getPlaceId(), self.getZoneId())

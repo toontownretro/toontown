@@ -84,6 +84,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                                  CogDisguiseGlobals.rightArmIndex,),
         ToontownGlobals.FT_Torso: (CogDisguiseGlobals.torsoIndex,),
         }
+        
+    lastFlagAvTime = globalClock.getFrameTime()
+    flagCounts = {}
+    pingedAvs = {}
+        
+    WantTpTrack = ConfigVariableBool('want-tptrack', False).getValue()
+    DbCheckPeriodPaid = ConfigVariableInt('toon-db-check-period-paid', 10 * 60).getValue()
+    DbCheckPeriodUnpaid = ConfigVariableInt('toon-db-check-period-unpaid', 1 * 60).getValue()
+    BanOnDbCheckFail = ConfigVariableBool('want-ban-dbcheck', False).getValue()
+    DbCheckAccountDateEnable = ConfigVariableBool('account-blackout-enable', True).getValue()
+    DbCheckAccountDateBegin = ConfigVariableString('account-blackout-start', '2013-08-20 12:30:00').getValue()
+    DbCheckAccountDateDisconnect = ConfigVariableBool('account-blackout-disconnect', True).getValue()
+    WantOldGMNameBan = ConfigVariableBool('want-old-gm-name-ban', True).getValue()
 
     def __init__(self, air):
         #if hasattr(simbase, 'trackDistributedToonAI'):
@@ -145,6 +158,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         self.immortalMode = 0
         self.numPies = 0
         self.pieType = 0
+        
+        self._isGM = False
+        self._gmType = None
 
         # Most of the time, this is false.  But during a battle round,
         # we set this true, to tell the toon to temporarily accumulate
@@ -216,6 +232,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         self.hostedParties = []
         self.partiesInvitedTo = []
         self.partyReplyInfoBases = []
+        
+        #self.modulelist = ModuleListAI.ModuleList()
+        self._dbCheckDoLater = None
 
     #def __del__(self):
         #if hasattr(simbase, 'trackDistributedToonAI'):
@@ -239,6 +258,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         DistributedPlayerAI.DistributedPlayerAI.announceGenerate(self)
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.announceGenerate(self)
         if self.isPlayerControlled():
+            '''self._doDbCheck()
+            if self.WantOldGMNameBan:
+                self._checkOldGMName()'''
             messenger.send('avatarEntered', [self])
         if hasattr(self, 'gameAccess') and self.gameAccess != 2:
             if self.hat[0] != 0:
@@ -338,6 +360,13 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         # Stop the catalog timer too. #we get this case when we open a somebody else's closet
         taskName = self.uniqueName('next-catalog')
         taskMgr.remove(taskName)
+        
+    def ban(self, comment):
+        #simbase.air.banManager.ban(self.doId, self.DISLid, comment)
+        pass
+
+    def disconnect(self):
+        self.requestDelete()
 
     def patchDelete(self):
         # called by the patcher to prevent memory leaks
@@ -355,12 +384,29 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         DistributedPlayerAI.DistributedPlayerAI.delete(self)
 
     def handleLogicalZoneChange(self, newZoneId, oldZoneId):
-        DistributedAvatarAI.DistributedAvatarAI.handleLogicalZoneChange(
-            self, newZoneId, oldZoneId)
+        DistributedAvatarAI.DistributedAvatarAI.handleLogicalZoneChange(self, newZoneId, oldZoneId)
+        # Send out the message so everybody knows our zone is changing. 
+        if self.isPlayerControlled() and self.WantTpTrack:
+            messenger.send(self.staticGetLogicalZoneChangeAllEvent(), [newZoneId, oldZoneId, self])
 
         # make sure ghost mode is disabled on zone change (fixes furniture arranger exploit)
         self.b_setGhostMode(0)
-
+        
+        # Sanity check for if someone is in a Cog Suit.
+        if self.cogIndex != -1 and not ToontownAccessAI.canWearSuit(self.doId, newZoneId):
+            if ConfigVariableBool('cogsuit-hack-prevent', False).getValue():
+                self.b_setCogIndex(-1)
+            if not simbase.air.cogSuitMessageSent:
+                from direct.showbase.PythonUtil import StackTrace
+                stack = StackTrace()
+                self.notify.warning('%s handleLogicalZoneChange as a suit: %s, Stacktrace: %s' % (self.doId, self.cogIndex, stack.compact()))
+                self.air.writeServerEvent('suspicious', self.doId, 'Toon wearing a cog suit with index: %s in a zone they are not allowed to in. Zone: %s' % (self.cogIndex, newZoneId))
+                simbase.air.cogSuitMessageSent = True
+                if ConfigVariableBool('want-ban-wrong-suit-place', False).getValue():
+                    commentStr = 'Toon %s wearing a suit in a zone they are not allowed to in. Zone: %s' % (self.doId, newZoneId)
+                    dislId = self.DISLid
+                    simbase.air.banManager.ban(self.doId, dislId, commentStr)
+                    
         # not quite sure where to do this - we need to assign teleport access
         # to the toon when he enters Goofy Stadium
         zoneId = ZoneUtil.getCanonicalZoneId(newZoneId)
@@ -5327,6 +5373,281 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         """Set AI's award notify"""
         self.awardNotify = awardNotify
 
-    def hasGMName(self):
-        """ Returns True if this toon's name starts with '$', indicating they are special. """
-        return self.getName().startswith('$')
+    def b_setGM(self, type):
+        self.sendUpdate('setGM', [type])
+        self.setGM(type)
+
+    def setGM(self, type):
+        wasGM = self._isGM
+        formerType = self._gmType
+        self._isGM = type != 0
+        self._gmType = None
+        if self._isGM:
+            self._gmType = type - 1
+            MaxGMType = len(TTLocalizer.GM_NAMES) - 1
+            if self._gmType > MaxGMType:
+                self.notify.warning('toon %s has invalid GM type: %s' % (self.doId, self._gmType))
+                self._gmType = MaxGMType
+        self._updateGMName(formerType)
+
+    def isGM(self):
+        return self._isGM
+
+    def _nameIsPrefixed(self, prefix):
+        if len(self.name) > len(prefix):
+            if self.name[:len(prefix)] == prefix:
+                return True
+        return False
+
+    def _updateGMName(self, formerType=None):
+        if formerType is None:
+            formerType = self._gmType
+        name = self.name
+        if formerType is not None:
+            gmPrefix = TTLocalizer.GM_NAMES[formerType] + ' '
+            if self._nameIsPrefixed(gmPrefix):
+                name = self.name[len(gmPrefix):]
+        if self._isGM:
+            gmPrefix = TTLocalizer.GM_NAMES[self._gmType] + ' '
+            newName = gmPrefix + name
+        else:
+            newName = name
+        if self.name != newName:
+            self.b_setName(newName)
+        return
+
+    def setName(self, name):
+        DistributedPlayerAI.DistributedPlayerAI.setName(self, name)
+        if self.WantOldGMNameBan:
+            if self.isGenerated():
+                self._checkOldGMName()
+        self._updateGMName()
+
+    def _checkOldGMName(self):
+        if '$' in set(self.name):
+            if config.GetBool('want-ban-old-gm-name', 0):
+                self.ban('invalid name: %s' % self.name)
+            else:
+                self.air.writeServerEvent('suspicious', self.doId, '$ found in toon name')
+
+    def setModuleInfo(self, info):
+        avId = self.air.getAvatarIdFromSender()
+        key = 'outrageous'
+        self.moduleWhitelist = self.modulelist.loadWhitelistFile()
+        self.moduleBlacklist = self.modulelist.loadBlacklistFile()
+        for obfuscatedModule in info:
+            module = ''
+            p = 0
+            for ch in obfuscatedModule:
+                ic = ord(ch) ^ ord(key[p])
+                p += 1
+                if p >= len(key):
+                    p = 0
+                module += chr(ic)
+
+            if module not in self.moduleWhitelist:
+                if module in self.moduleBlacklist:
+                    self.air.writeServerEvent('suspicious', avId, 'Black List module %s loaded into process.' % module)
+                    if simbase.config.GetBool('want-ban-blacklist-module', False):
+                        commentStr = 'User has blacklist module: %s attached to their game process' % module
+                        dislId = self.DISLid
+                        simbase.air.banManager.ban(self.doId, dislId, commentStr)
+                else:
+                    self.air.writeServerEvent('suspicious', avId, 'Unknown module %s loaded into process.' % module)
+
+    def teleportResponseToAI(self, toAvId, available, shardId, hoodId, zoneId, fromAvId):
+        if not self.WantTpTrack:
+            return
+        senderId = self.air.getAvatarIdFromSender()
+        if toAvId != self.doId:
+            self.air.writeServerEvent('suspicious', self.doId, 'toAvId=%d is not equal to self.doId' % toAvId)
+            return
+        if available != 1:
+            self.air.writeServerEvent('suspicious', self.doId, 'invalid availableValue=%d' % available)
+            return
+        if fromAvId == 0:
+            return
+        self.air.teleportRegistrar.registerValidTeleport(toAvId, available, shardId, hoodId, zoneId, fromAvId)
+        dg = self.dclass.aiFormatUpdate('teleportResponse', fromAvId, fromAvId, self.doId, [
+         toAvId, available, shardId, hoodId, zoneId])
+        self.air.send(dg)
+
+    @staticmethod
+    def staticGetLogicalZoneChangeAllEvent():
+        return 'DOLogicalChangeZone-all'
+
+    def _garbageInfo(self):
+        if hasattr(self, 'inventory'):
+            if not hasattr(self.inventory, '_createStack'):
+                return 'inventory has no create stack'
+            else:
+                return self.inventory._createStack
+        return 'no inventory'
+
+    def flagAv(self, avId, reason, params):
+        self.notify.debug('reason: %s timepassed: %s' % (reason, globalClock.getFrameTime() - DistributedToonAI.lastFlagAvTime))
+        if reason == AV_FLAG_REASON_TOUCH:
+            if globalClock.getFrameTime() - DistributedToonAI.lastFlagAvTime > AV_TOUCH_CHECK_DELAY_AI:
+                DistributedToonAI.lastFlagAvTime = globalClock.getFrameTime()
+                av = self.air.doId2do.get(avId)
+                otherAv = self.air.doId2do.get(int(params[0]))
+                self.notify.debug('checking suspicious avatar positioning %s for %s with %s' % (avId, reason, params))
+                if av:
+                    if otherAv and isinstance(av, DistributedToonAI) and isinstance(otherAv, DistributedToonAI) and av.zoneId == otherAv.zoneId and av.zoneId not in MinigameCreatorAI.MinigameZoneRefs:
+                        self.notify.debug('...in zone %s' % av.zoneId)
+                        componentNode = av.getParent().attachNewNode('blah')
+                        componentNode.setPos(av.getComponentX(), av.getComponentY(), av.getComponentZ())
+                        avPos = componentNode.getPos(av.getRender())
+                        componentNode.reparentTo(otherAv.getParent())
+                        componentNode.setPos(otherAv.getComponentX(), otherAv.getComponentY(), otherAv.getComponentZ())
+                        otherAvPos = componentNode.getPos(otherAv.getRender())
+                        componentNode.removeNode()
+                        zDist = avPos.getZ() - otherAvPos.getZ()
+                        avPos2D = copy.copy(avPos)
+                        avPos2D.setZ(0)
+                        otherAvPos2D = copy.copy(otherAvPos)
+                        otherAvPos2D.setZ(0)
+                        moveVec = avPos2D - otherAvPos2D
+                        dist = moveVec.length()
+                        self.notify.debug('2d dist between avs is %s %s %s' % (dist, avPos, otherAvPos))
+                        if dist < AV_TOUCH_CHECK_DIST and zDist < AV_TOUCH_CHECK_DIST_Z:
+                            self.notify.debug('...moving!')
+                            if dist == 0.0:
+                                moveVec = Vec3(1.0, 0, 0)
+                            else:
+                                moveVec.normalize()
+                            moveVec = moveVec * AV_TOUCH_CHECK_DIST
+                            avHpr = av.getHpr(av.getRender())
+                            newX = avPos.getX() + moveVec.getX()
+                            newY = avPos.getY() + moveVec.getY()
+                            newZ = avPos.getZ() + moveVec.getZ()
+                            newH = avHpr.getX()
+                            newP = avHpr.getY()
+                            newR = avHpr.getZ()
+                            av.setPosHpr(av.getRender(), newX, newY, newZ, newH, newP, newR)
+                            newAvPos = av.getPos()
+                            if newAvPos.getX() > 3000 or newAvPos.getX() < -3000 or newAvPos.getY() > 3000 or newAvPos.getY() < -3000:
+                                return
+                            av.d_setXY(newAvPos.getX(), newAvPos.getY())
+                            self.notify.debug('setting ai pos: %s %s %s and sending pos: %s' % (newX, newY, newZ, newAvPos))
+                            if len(DistributedToonAI.flagCounts) > AV_FLAG_HISTORY_LEN:
+                                DistributedToonAI.flagCounts = {}
+                            avPairKey = str(min(av.doId, otherAv.doId)) + '+' + str(max(av.doId, otherAv.doId))
+                            prevCount = DistributedToonAI.flagCounts.setdefault(avPairKey, [{}, globalClock.getFrameTime(), {}])
+                            if not prevCount[2].has_key(av.doId):
+                                prevCount[2][av.doId] = [
+                                 None, None]
+                            if not prevCount[0].has_key(av.doId):
+                                prevCount[0][av.doId] = 0
+                            self.notify.debug('moving av %s, newPos: %s oldPos: %s' % (av.doId, prevCount[2][av.doId], avPos))
+                            if prevCount[2][av.doId][0] == None or prevCount[2][av.doId][1] == None:
+                                pass
+                            elif prevCount[2][av.doId][0] != avPos.getX() or prevCount[2][av.doId][1] != avPos.getY():
+                                prevCount[0][av.doId] += 1
+                            prevCount[2][av.doId] = [
+                             newX, newY]
+                            zoneId = prevCount[0][av.doId] > AV_TOUCH_COUNT_LIMIT and globalClock.getFrameTime() - prevCount[1] < AV_TOUCH_COUNT_TIME and not hasattr(av, 'zoneId') and 'undef' or av.zoneId
+                            battleId = not hasattr(av, 'battleId') and 'undef' or av.battleId
+                            animName = not hasattr(av, 'animName') and 'undef' or av.animName
+                            inEstate = not hasattr(av, 'isInEstate') and 'undef' or av.isInEstate()
+                            ghostMode = not hasattr(av, 'ghostMode') and 'undef' or av.ghostMode
+                            immortalMode = not hasattr(av, 'immortalMode') and 'undef' or av.immortalMode
+                            isGm = not hasattr(av, '_isGM') and 'undef' or av._isGM
+                            valStr = '%s %s %s %s %s %s %s %s' % (otherAv.doId, zoneId, battleId, animName, inEstate, ghostMode, immortalMode, isGm)
+                            self.notify.info('av %s is consistently in an inappropriate position with %s...' % (av.doId, valStr))
+                            self.air.writeServerEvent('suspicious', avId, ' consistently in an inappropriate position with toon %s' % valStr)
+                            response = simbase.config.GetString('toon-pos-hack-response', 'nothing')
+                            av.handleHacking(response, 'collision and position hacking', [otherAv])
+                        del DistributedToonAI.flagCounts[avPairKey]
+
+    def handleHacking(self, response, comment, coconspirators=[]):
+        if response == 'quietzone':
+            self.b_setLocation(self.parentId, ToontownGlobals.QuietZone)
+        if response == 'disconnect':
+            self.disconnect()
+        elif response == 'disconnectall':
+            self.disconnect()
+            for coconspirator in coconspirators:
+                coconspirator.disconnect()
+
+        elif response == 'ban':
+            self.ban('collision and position hacking')
+            self.disconnect()
+        elif response == 'banall':
+            self.ban('collision and position hacking')
+            self.disconnect()
+            for coconspirator in coconspirators:
+                coconspirator.ban('collision and position hacking')
+                coconspirator.disconnect()
+
+    def requestPing(self, avId):
+        av = self.air.doId2do.get(avId)
+        if av:
+            from toontown.toon.DistributedNPCToonBaseAI import DistributedNPCToonBaseAI
+            if isinstance(av, DistributedNPCToonBaseAI):
+                return
+            if isinstance(av, DistributedToonAI) and not DistributedToonAI.pingedAvs.has_key(avId):
+                av.sendPing()
+        return Task.again
+
+    def sendPing(self):
+
+        def verify(theId):
+            if self.air:
+                msg = '%s failed to respond to ping!' % theId
+                self.notify.warning(msg)
+                self.air.writeServerEvent('suspicious', theId, msg)
+                self.cleanupPing()
+                disconnect = simbase.config.GetBool('client-ping-disconnect', True)
+                if disconnect:
+                    av = self.air.getDo(theId)
+                    if av:
+                        av.disconnect()
+            return Task.done
+
+        val = ''
+        for i in range(14):
+            val = val + random.choice('abcdefghijklmnopqrstuvwxyz')
+
+        self.sendUpdateToAvatarId(self.doId, 'ping', [val])
+        DistributedToonAI.pingedAvs[self.doId] = [globalClock.getFrameTime(), val]
+        delay = simbase.config.GetInt('client-ping-timeout', 150)
+        taskMgr.doMethodLater(delay, verify, 'pingverify-' + str(self.doId), extraArgs=[self.doId])
+
+    def pingresp(self, resp):
+        senderId = self.air.getAvatarIdFromSender()
+        if not DistributedToonAI.pingedAvs.has_key(senderId) or self.air == None:
+            self.cleanupPing()
+            return
+        val = DistributedToonAI.pingedAvs[senderId][1]
+        key = 'monkeyvanilla!'
+        module = ''
+        p = 0
+        for ch in val:
+            ic = ord(ch) ^ ord(key[p])
+            p += 1
+            if p >= len(key):
+                p = 0
+            module += chr(ic)
+
+        match = module == resp
+        if not match:
+            msg = '%s failed to respond to ping! with invalid response' % senderId
+            self.notify.warning(msg)
+            self.air.writeServerEvent('suspicious', senderId, msg)
+        self.cleanupPing()
+
+    def cleanupPing(self):
+        taskMgr.remove('pingverify-' + str(self.doId))
+        if DistributedToonAI.pingedAvs.has_key(self.doId):
+            del DistributedToonAI.pingedAvs[self.doId]
+
+    def startPing(self):
+        from toontown.toon.DistributedNPCToonBaseAI import DistributedNPCToonBaseAI
+        if isinstance(self, DistributedNPCToonBaseAI):
+            return
+        delay = simbase.config.GetInt('client-ping-period', 60)
+        taskMgr.doMethodLater(delay, self.requestPing, 'requestping-' + str(self.doId), extraArgs=[self.doId])
+
+    def stopPing(self):
+        taskMgr.remove('requestping-' + str(self.doId))
