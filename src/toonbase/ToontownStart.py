@@ -81,43 +81,44 @@ from . import ToontownGlobals
 DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 
 if __debug__ and ConfigVariableBool('want-injector', False).getValue():
-    import wx, threading
+    from direct.stdpy import threading
+    import dearpygui.dearpygui as dpg
+    import dearpygui.demo as demo
+    
+    global injectText
+    injectText = ""
+                
+    def setInjectText(sender, app_data, user_data):
+        global injectText
+        injectText = str(app_data)
+        
+    def __inject(sender, app_data, user_data):
+        global injectText
+        threading.main_thread()
+        try:
+            exec (injectText, globals())
+        except:
+            import traceback
+            traceback.print_exc()
 
-    class InjectorFrame(wx.Frame):
+    def openInjector_imgui():
+        dpg.create_context()
+        dpg.configure_app(manual_callback_management=False)
+        dpg.create_viewport(title='Toontown Debug Tools', width=640, height=600)
+        dpg.setup_dearpygui()
 
-        def __init__(self):
-            super().__init__(None, title = "Injector", size=(640, 400), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX)
-            panel = wx.Panel(self)
+        with dpg.window(label="Injector"):
+            paragraph = """"""
 
-            button = wx.Button(parent = panel, id = -1, label = "Inject", size = (50, 20), pos = (295, 0))
-            button.Bind(wx.EVT_BUTTON, self.__inject_wx)
+            dpg.add_input_text(label="", multiline=True, default_value=paragraph, width=610, height=500, callback=setInjectText, tab_input=True)
+            dpg.add_button(label="Inject", callback=__inject)
 
-            self.textbox = wx.TextCtrl(parent = panel, id = -1, pos = (20, 22), size = (600, 340), style = wx.TE_MULTILINE)
-            self.textbox.AppendText("")
+        dpg.show_viewport()
+        dpg.start_dearpygui()
+        dpg.destroy_context()
 
-        def OnClose(self, event):
-            self.Close()
-
-        def __inject_wx(self, event):
-            code = self.textbox.GetValue()
-            try:
-                exec (code, globals())
-            except:
-                import traceback
-                traceback.print_exc()
-
-    def openInjector_wx():
-        app = wx.App(redirect = False)
-
-        frame = InjectorFrame()
-        frame.Show()
-
-        app.SetTopWindow(frame)
-
-        threading.Thread(target = app.MainLoop).start()
-
-    openInjector_wx()
-
+    thread = threading.Thread(target = openInjector_imgui, name="ToontownDebugTools")
+    thread.start()
 
 # First open a window so we can show the loading screen
 
