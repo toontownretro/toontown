@@ -15,6 +15,8 @@
 # Annoying and very noisy, but sometimes useful
 # import VerboseImport
 
+# Need to import builtins and use the builtins.foo = x
+# technique here in case you start toontown from the command line
 import builtins
 
 class game:
@@ -26,9 +28,6 @@ import time
 import os
 import sys
 import random
-# Need to import __builtin__ and use the __builtin__.foo = x
-# technique here in case you start toontown from the command line
-import builtins
 
 # See if we have a launcher, if we do not, make an empty one
 try:
@@ -80,46 +79,6 @@ print('ToontownStart: setting default font')
 from . import ToontownGlobals
 DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 
-if __debug__ and ConfigVariableBool('want-injector', False).getValue():
-    from direct.stdpy import threading
-    import dearpygui.dearpygui as dpg
-    import dearpygui.demo as demo
-    
-    global injectText
-    injectText = ""
-                
-    def setInjectText(sender, app_data, user_data):
-        global injectText
-        injectText = str(app_data)
-        
-    def __inject(sender, app_data, user_data):
-        global injectText
-        threading.main_thread()
-        try:
-            exec (injectText, globals())
-        except:
-            import traceback
-            traceback.print_exc()
-
-    def openInjector_imgui():
-        dpg.create_context()
-        dpg.configure_app(manual_callback_management=False)
-        dpg.create_viewport(title='Toontown Debug Tools', width=640, height=600)
-        dpg.setup_dearpygui()
-
-        with dpg.window(label="Injector"):
-            paragraph = """"""
-
-            dpg.add_input_text(label="", multiline=True, default_value=paragraph, width=610, height=500, callback=setInjectText, tab_input=True)
-            dpg.add_button(label="Inject", callback=__inject)
-
-        dpg.show_viewport()
-        dpg.start_dearpygui()
-        dpg.destroy_context()
-
-    thread = threading.Thread(target = openInjector_imgui, name="ToontownDebugTools")
-    thread.start()
-
 # First open a window so we can show the loading screen
 
 # Set the error code indicating failure opening a window in case we
@@ -140,6 +99,12 @@ launcher.setPandaErrorCode(0)
 # Tell the launcher that our panda window is open now so
 # it can tell the browser and flash to shutdown
 launcher.setPandaWindowOpen()
+
+# Open our debug tools if we have them.
+if __debug__ and ConfigVariableBool('want-debug-tools', False).getValue():
+    from toontown.toonbase import ToontownDebugTools
+    debugTools = ToontownDebugTools.ToontownDebugTools()
+    debugTools.start()
 
 # Also, once we open the window, dramatically drop the timeslice
 # for decompressing and extracting files, so we don't interfere
