@@ -6,6 +6,8 @@ from panda3d.core import Loader as PandaLoader
 
 from direct.gui import DirectGuiGlobals
 from direct.stdpy import threading
+from direct.task import Task
+from direct.task.TaskManagerGlobal import *
 
 from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import ToontownGlobals
@@ -162,4 +164,5 @@ class ToontownDebugTools():
             args = []
             for arg in range(len(sig.parameters)):
                 args.append(job[arg+1])
-            job[0](*args)
+            #job[0](*args)
+            taskMgr.doMethodLater(0, job[0], job[0].__name__ + str(id(job[0])) + str(id(args)), extraArgs=args)
