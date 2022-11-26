@@ -12,6 +12,7 @@
 #include "dSearchPath.h"
 #include "config_putil.h"
 #include "virtualFileSystem.h"
+#include "lightReMutexHolder.h"
 
 extern int dnayyparse(void);
 #include "parserDefs.h"
@@ -21,6 +22,7 @@ extern int dnayyparse(void);
 // Static variables
 ////////////////////////////////////////////////////////////////////
 TypeHandle DNAData::_type_handle;
+LightReMutex DNAData::_dna_data_thread_lock("dna-data-thread-lock");
 
 
 ////////////////////////////////////////////////////////////////////
@@ -57,6 +59,8 @@ resolve_dna_filename(Filename &dna_filename, const DSearchPath &searchpath) {
 ////////////////////////////////////////////////////////////////////
 bool DNAData::
 read(Filename filename, ostream &error) {
+  LightReMutexHolder holder(_dna_data_thread_lock);
+  
   if (!resolve_dna_filename(filename)) {
     error << "Could not find " << filename << "\n";
     return false;
@@ -68,7 +72,7 @@ read(Filename filename, ostream &error) {
 
   pifstream file;
   if (!filename.open_read(file)) {
-    error << "Unable to open " << filename << "\n";
+    error << "Could not open " << filename << " for reading.\n";
     return false;
   }
 
@@ -86,6 +90,8 @@ read(Filename filename, ostream &error) {
 ////////////////////////////////////////////////////////////////////
 bool DNAData::
 read(istream &in, ostream &error) {
+  LightReMutexHolder holder(_dna_data_thread_lock);
+  
   // First, dispense with any children we had previously.  We will
   // replace them with the new data.
   dna_cat.debug() << "start of dnData.read\n";
@@ -126,6 +132,8 @@ resolve_externals(const string &searchpath, ostream &error) {
 ////////////////////////////////////////////////////////////////////
 bool DNAData::
 write_dna(Filename filename, ostream &error, DNAStorage *store) {
+  LightReMutexHolder holder(_dna_data_thread_lock);
+  
   // We use binary mode to avoid Windows' end-of-line convention.
   filename.set_binary();
   filename.unlink();

@@ -13,6 +13,7 @@
 #include "coordinateSystem.h"
 #include "pnotify.h"
 #include "dSearchPath.h"
+#include "lightReMutex.h"
 
 #include <string>
 
@@ -66,6 +67,8 @@ private:
   CoordinateSystem _coordsys;
   Filename _dna_filename;
   DNAStorage *_dna_store;
+  
+  static LightReMutex _dna_data_thread_lock;
 
 public:
   static TypeHandle get_class_type() {

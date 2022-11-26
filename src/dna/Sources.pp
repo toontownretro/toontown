@@ -6,7 +6,7 @@
   #define TARGET dnaLoader
   #define LOCAL_LIBS toontownbase
   #define OTHER_LIBS \
-    panda:m express:c gobj:c pipeline:c putil:c pgraph:c jobsystem:c pandaexpress:m linmath:c text:c \
+    panda:m event:c express:c gobj:c pipeline:c putil:c pgraph:c jobsystem:c pandaexpress:m linmath:c text:c \
     pstatclient:c \
     interrogatedb \
     dtoolutil:c dtoolbase:c dtool:m \
@@ -21,8 +21,8 @@
      dnaSignGraphic.I dnaSignGraphic.h dnaSignText.I  \
      dnaSignText.h dnaSuitPoint.I dnaSuitPoint.h dnaSuitEdge.I  \
      dnaSuitEdge.h dnaSuitPath.h dnaBattleCell.I dnaBattleCell.h  \
-     dnaLoader.h dnaNode.I dnaNode.h dnaProp.h dnaProp.I \
-     dnaAnimProp.h dnaAnimProp.I dnaInteractiveProp.h \
+     dnaLoader.h dnaLoader.I dnaLoadRequest.h dnaLoadRequest.I dnaNode.I dnaNode.h \
+     dnaProp.h dnaProp.I dnaAnimProp.h dnaAnimProp.I dnaInteractiveProp.h \
      dnaInteractiveProp.I dnaAnimBuilding.h dnaAnimBuilding.I \
      dnaStorage.h dnaStorage.I \
      dnaStreet.h dnaWindow.h lexerDefs.h load_dna_file.h  \
@@ -33,7 +33,7 @@
      dnaDoor.cxx dnaGroup.cxx dnaVisGroup.cxx dnaSign.cxx   \
      dnaSignBaseline.cxx dnaSignGraphic.cxx dnaSignText.cxx   \
      dnaSuitPoint.cxx dnaSuitEdge.cxx dnaSuitPath.cxx   \
-     dnaBattleCell.cxx dnaLoader.cxx dnaNode.cxx dnaProp.cxx   \
+     dnaBattleCell.cxx dnaLoader.cxx dnaLoadRequest.cxx dnaNode.cxx dnaProp.cxx   \
      dnaStorage.cxx dnaStreet.cxx dnaWindow.cxx load_dna_file.cxx   \
      dnaAnimProp.cxx dnaInteractiveProp.cxx dnaAnimBuilding.cxx \
      loaderFileTypeDNA.cxx
