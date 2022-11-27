@@ -65,7 +65,7 @@ from .ToontownMsgTypes import *
 from . import HoodMgr
 from . import PlayGame
 from toontown.toontowngui import ToontownLoadingBlocker
-#from toontown.hood import StreetSign
+from toontown.hood import StreetSign
 
 
 
@@ -270,6 +270,9 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                                     toon.setDNA(dna)
                                 except Exception as e:
                                     print(e)
+
+        self.filterManager = None
+        self.lastShader = None
 
     # Each state will have an enter function, an exit function,
     # and a datagram handler, which will be set during each enter function.
@@ -786,8 +789,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                               -1                              # avId
                               ])
         self._userLoggingOut = False
-        #if not self.streetSign:
-        #    self.streetSign = StreetSign.StreetSign()
+        if not self.streetSign:
+            self.streetSign = StreetSign.StreetSign()
 
     def exitPlayingGame(self):
         # First, stop all loose intervals that are tagged with autoPause or
@@ -1837,3 +1840,48 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             datagram.addUint32(avId)
         # send the message
         base.cr.send(datagram)
+
+    def useShader(self, name):
+        self.lastShader = None
+        if self.filterManager:
+            self.filterManager.cleanup()
+            self.filterManager = None
+        if ConfigVariableBool('want-shaders', 0).getValue() and base.win and base.win.getGsg() and base.win.getGsg().getShaderModel() >= GraphicsStateGuardian.SM20:
+            if name:
+                shaderName = ''
+                if name == 'sepia':
+                    shaderName = 'sepia.sha'
+                elif name == 'bw':
+                    shaderName = 'bandw.sha'
+                elif name == 'bloom':
+                    from direct.filter.CommonFilters import CommonFilters
+                    self.filterManager = CommonFilters(base.win, base.cam)
+                    self.filterManager.setBloom()
+                    return
+                elif name == 'ink':
+                    from direct.filter.CommonFilters import CommonFilters
+                    self.filterManager = CommonFilters(base.win, base.cam)
+                    self.filterManager.setCartoonInk()
+                    return
+                elif name == 'blur':
+                    from direct.filter.CommonFilters import CommonFilters
+                    self.filterManager = CommonFilters(base.win, base.cam)
+                    self.filterManager.setBlurSharpen()
+                    return
+                elif name == 'sharp':
+                    from direct.filter.CommonFilters import CommonFilters
+                    self.filterManager = CommonFilters(base.win, base.cam)
+                    self.filterManager.setBlurSharpen(2.0)
+                    return
+                else:
+                    return
+                from direct.filter.FilterManager import FilterManager
+                self.filterManager = FilterManager(base.win, base.cam)
+                tex = Texture()
+                quad = self.filterManager.renderSceneInto(colortex=tex)
+                quad.setShader(loader.loadShader('phase_3/models/shaders/' + shaderName))
+                quad.setShaderInput('tex', tex)
+                self.lastShader = name
+
+    def getLastShader(self):
+        return self.lastShader

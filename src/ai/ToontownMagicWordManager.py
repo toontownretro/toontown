@@ -128,6 +128,12 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
         if (MagicWordManager.MagicWordManager.doMagicWord(self, word, avId,
                                                           zoneId) == 1):
             pass
+        elif wordIs("~sf"):
+            args = word.split()
+            name = ''
+            if len(args) > 1:
+                name = args[1]
+            base.cr.useShader(name)
         elif wordIs("~fanfare"):
             go = Fanfare.makeFanfareWithMessageImage(0, base.localAvatar, 1, "You just did a ~fanfare.  Here's a rake.", Vec2(0,0.2), 0.08, base.localAvatar.inventory.buttonLookup(1, 1), Vec3(0,0,0), 4)
             Sequence(go[0],Func(go[1].show),

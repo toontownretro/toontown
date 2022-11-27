@@ -41,6 +41,15 @@ class DisplayOptions:
             mode = 1
         if res == None:
             res = (800,600)
+        if not Settings.doSavedSettingsExist():
+            self.notify.info("loadFromSettings: No settings; isDefaultEmbedded=%s" % self.isDefaultEmbedded())
+            embed = self.isDefaultEmbedded()
+        if embed and not self.isEmbeddedPossible():
+            self.notify.warning("Embedded mode is not possible.")
+            embed = False
+        if not mode and not self.isWindowedPossible():
+            self.notify.warning("Windowed mode is not possible.")
+            mode = True
 
         loadPrcFileData("toonBase Settings Window Res", ("win-size %s %s" % (res[0], res[1])))
         self.notify.debug("settings resolution = %s" % str(res))
@@ -265,3 +274,39 @@ class DisplayOptions:
             base.panda3dRenderError()
             self.restore_failed = True
         return
+
+    @staticmethod
+    def isDefaultEmbedded():
+        result = False
+        try:
+            embedOption = int(base.launcher.getValue("GAME_DEFAULT_TO_EMBEDDED", None))
+            if embedOption != None:
+                result = bool(int(embedOption))
+        except:
+            pass
+
+        return result
+
+    @staticmethod
+    def isEmbeddedPossible():
+        result = False
+        try:
+            showOption = base.launcher.getValue("GAME_SHOW_EMBEDDED_OPTION", None)
+            if showOption != None:
+                result = bool(int(showOption))
+        except:
+            pass
+
+        return result
+
+    @staticmethod
+    def isWindowedPossible():
+        result = True
+        try:
+            showOption = base.launcher.getValue("GAME_SHOW_WINDOWED_OPTION", None)
+            if showOption != None:
+                result = bool(int(showOption))
+        except:
+            pass
+
+        return result
