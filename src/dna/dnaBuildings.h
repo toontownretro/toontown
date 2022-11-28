@@ -10,8 +10,10 @@
 ////////////////////////////////////////////////////////////////////
 #include "dnaStorage.h"
 #include "dnaNode.h"
+
 #include "pandaNode.h"
 #include "nodePath.h"
+#include "lightReMutex.h"
 #include "luse.h"
 #include "pvector.h"
 
@@ -57,6 +59,8 @@ private:
   float _height;
   LColorf _color;
   float _current_wall_height;
+  
+  static LightReMutex _wall_thread_lock;
 
 public:
   static TypeHandle get_class_type() {
@@ -109,6 +113,8 @@ private:
 private:
   float _width;
   float _current_wall_height;
+  
+  static LightReMutex _flat_building_thread_lock;
 
 public:
   static TypeHandle get_class_type() {

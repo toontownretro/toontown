@@ -4,10 +4,13 @@
 ////////////////////////////////////////////////////////////////////
 
 #include "dnaBuildings.h"
+#include "dnaDoor.h"
 #include "dnaStorage.h"
+
 #include "modelNode.h"
 #include "pandaNode.h"
 #include "compose_matrix.h"
+#include "lightReMutexHolder.h"
 #include "luse.h"
 #include "sceneGraphReducer.h"
 #include "pointerTo.h"
@@ -16,7 +19,6 @@
 #include "collisionSphere.h"
 #include "config_linmath.h"
 #include "jobSystem.h"
-#include "dnaDoor.h"
 
 // For fixing encodings
 // #include "textNode.h"
@@ -27,6 +29,9 @@
 TypeHandle DNAWall::_type_handle;
 TypeHandle DNAFlatBuilding::_type_handle;
 TypeHandle DNALandmarkBuilding::_type_handle;
+
+LightReMutex DNAWall::_wall_thread_lock("wall-thread-lock");
+LightReMutex DNAFlatBuilding::_flat_building_thread_lock("flat-building-thread-lock");
 
 
 ////////////////////////////////////////////////////////////////////
@@ -63,8 +68,14 @@ DNAWall::DNAWall(const DNAWall &wall) :
 //  Description:
 ////////////////////////////////////////////////////////////////////
 NodePath DNAWall::traverse(NodePath &parent, DNAStorage *store, int editing) {
-  // Try to find this building's walls and windows in the node map
-  NodePath wall_node_path = (store->find_node(_code)).copy_to(parent);
+  //LightReMutexHolder holder(_wall_thread_lock);
+  
+  // Try to find this buildings walls and windows in the node map
+  NodePath store_node = store->find_node(_code);
+  nassertr_always(!store_node.is_empty(), NodePath::fail());
+  
+  // Copy our buildings wall and windows to our parent.
+  NodePath wall_node_path = store_node.copy_to(parent);
   
   PT(DNAFlatBuilding) g_parent = nullptr;
 
@@ -312,6 +323,8 @@ void DNAFlatBuilding::setup_cogdo_flat_building(NodePath &parent,
 //  Description:
 ////////////////////////////////////////////////////////////////////
 NodePath DNAFlatBuilding::traverse(NodePath &parent, DNAStorage *store, int editing) {
+  //LightReMutexHolder holder(_flat_building_thread_lock);
+  
   // Clear the current wall height so the first wall will be on the ground.
   set_current_wall_height(0.0);
 
@@ -330,6 +343,8 @@ NodePath DNAFlatBuilding::traverse(NodePath &parent, DNAStorage *store, int edit
   // Traverse each node in our vector
   pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
   for(; i != _group_vector.end(); ++i) {
+  //JobSystem *jsys = JobSystem::get_global_ptr();
+  //jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
     PT(DNAGroup) group = *i;
     // Walls go under the internal_node_path because they need to pick up
     // the scaled width, everything else goes under the building node path
@@ -339,7 +354,7 @@ NodePath DNAFlatBuilding::traverse(NodePath &parent, DNAStorage *store, int edit
     } else {
       group->traverse(building_node_path, store, editing);
     }
-  }
+  }//);
 
   // For some reason the dna has some flat buildings with no walls
   // we should fix them as we find them
@@ -573,17 +588,18 @@ NodePath DNALandmarkBuilding::traverse(NodePath &parent, DNAStorage *store, int 
   }
 
   // Traverse each node in our vector
-  pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
-  for(; i != _group_vector.end(); ++i) {
-    PT(DNAGroup) group = *i;
+  //pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
+  //for(; i != _group_vector.end(); ++i) {
+  JobSystem *jsys = JobSystem::get_global_ptr();
+  jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
+    PT(DNAGroup) group = _group_vector[i]; //*i;
     group->traverse(building_node_path, store, editing);
-  }
+  });
 
   if (editing) {
     // Remember that this nodepath is associated with this dna group
     store->store_DNAGroup(building_node_path.node(), this);
-  }
-  else {
+  } else {
     SceneGraphReducer gr;
     // Get rid of the transitions
     gr.apply_attribs(building_node_path.node());
