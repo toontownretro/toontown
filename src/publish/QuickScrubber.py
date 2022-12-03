@@ -1021,8 +1021,8 @@ class Scrubber:
         dirName = sourceDir.toOsSpecific()
         installDir = self.lineList[3]
         if os.path.exists(dirName):
-            for _, dirs, files in os.walk(dirName):
-                self.parseDirCallback((installDir, extractFlag), dirs, files)
+            for root, _, files in os.walk(dirName):
+                self.parseDirCallback((installDir, extractFlag), root, files)
             # py2
             #os.path.walk(dirName, self.parseDirCallback, (installDir, extractFlag))
         else:
