@@ -69,11 +69,6 @@ file 2 $WINTOOLS/built/bin/avcodec.dll . WIN32
 file 2 $WINTOOLS/built/bin/avformat.dll . WIN32
 file 2 $WINTOOLS/built/bin/avutil.dll . WIN32
 
-file 2 $WINTOOLS/built/bin/cg.dll . WIN32
-file 2 $WINTOOLS/built/bin/cgD3D9.dll . WIN32
-file 2 $WINTOOLS/built/bin/cgD3D10.dll . WIN32
-file 2 $WINTOOLS/built/bin/cgD3D11.dll . WIN32
-file 2 $WINTOOLS/built/bin/cgGL.dll . WIN32
 file 2 $WINTOOLS/built/bin/embree3.dll . WIN32
 file 2 $WINTOOLS/built/bin/fmod.dll . WIN32
 file 2 $WINTOOLS/built/bin/fmodL.dll . WIN32
@@ -83,25 +78,14 @@ file 2 $WINTOOLS/built/bin/GPUUtilities.dll . WIN32
 file 2 $WINTOOLS/built/bin/OpenAL32.dll . WIN32
 file 2 $WINTOOLS/built/bin/phonon.dll . WIN32
 file 2 $WINTOOLS/built/bin/phonon_fmod.dll . WIN32
-file 2 $WINTOOLS/built/bin/PhysX_64.dll . WIN32
-file 2 $WINTOOLS/built/bin/PhysXCommon_64.dll . WIN32
-file 2 $WINTOOLS/built/bin/PhysXCooking_64.dll . WIN32
-file 2 $WINTOOLS/built/bin/PhysXFoundation_64.dll . WIN32
-file 2 $WINTOOLS/built/bin/PhysXGpu_64.dll . WIN32
 file 2 $WINTOOLS/built/bin/SPIRV-Tools-shared.dll . WIN32
 file 2 $WINTOOLS/built/bin/tbb12.dll . WIN32
 file 2 $WINTOOLS/built/bin/TrueAudioNext.dll . WIN32
 
 # Libraries
-file 2 $DTOOL/built/lib/libdconfig.so . OSX
-file 2 $DTOOL/built/lib/libdconfig.dylib . OSX
-file 2 $DTOOL/built/lib/libdconfig.dll . WIN32
 file 2 $DTOOL/built/lib/libdtoolbase.so . OSX
 file 2 $DTOOL/built/lib/libdtoolbase.dylib . OSX
 file 2 $DTOOL/built/lib/libdtoolbase.dll . WIN32
-file 2 $DTOOL/built/lib/libdtoolconfig.so . OSX
-file 2 $DTOOL/built/lib/libdtoolconfig.dylib . OSX
-file 2 $DTOOL/built/lib/libdtoolconfig.dll . WIN32
 file 2 $DTOOL/built/lib/libdtool.so . OSX
 file 2 $DTOOL/built/lib/libdtool.dylib . OSX
 file 2 $DTOOL/built/lib/libdtool.dll . WIN32
@@ -128,9 +112,6 @@ file 2 $PANDA/built/lib/libpandaexpress.dylib . OSX
 file 2 $PANDA/built/lib/libpandaexpress.dll . WIN32
 #file 2 $PANDA/built/lib/libpandaode.dylib . OSX
 file 2 $PANDA/built/lib/libpandaode.dll . WIN32
-file 2 $DIRECT/built/lib/libheapq.so . OSX
-file 2 $DIRECT/built/lib/libheapq.dylib . OSX
-file 2 $DIRECT/built/lib/libheapq.dll . WIN32
 
 file 2 $PANDA/built/lib/libpandaegg.dll . WIN32
 
@@ -507,19 +488,17 @@ file 2 $PANDA/built/lib/libpandadx11.dll . WIN32
 file 2 $DTOOL/built/lib/panda3d/egg.pyd . WIN32
 file 2 $DTOOL/built/lib/panda3d/fx.pyd . WIN32
 file 2 $DTOOL/built/lib/panda3d/physics.pyd . WIN32
+# ODE - Open Dynamics Engine, for MiniGolf Ice Slide
 file 2 $DTOOL/built/lib/panda3d/ode.pyd . WIN32
 
-# ODE - Open Dynamics Engine, for MiniGolf Ice Slide
-file 2 $WINTOOLS/built/lib/ode_single.dll . WIN32
-
 # Miles
-file 2 $OSXTOOLS/built/lib/libMilesMachO.dylib . OSX
-file 2 $OSXTOOLS/built/lib/libMilesMachOx86.dylib . OSX
-file 2 $OSXTOOLS/built/lib/mssmp3.asi . OSX
-file 2 $OSXTOOLS/built/lib/mssmixer.mix . OSX
-file 2 $OSXTOOLS/built/lib/Miles_MP3_Decoder.asi . OSX
-file 2 $WINTOOLS/sdk/rad/MilesWin/redist/mss32.dll . WIN32
-file 2 $WINTOOLS/sdk/rad/MilesWin/redist/mssmp3.asi . WIN32
+#file 2 $OSXTOOLS/built/lib/libMilesMachO.dylib . OSX
+#file 2 $OSXTOOLS/built/lib/libMilesMachOx86.dylib . OSX
+#file 2 $OSXTOOLS/built/lib/mssmp3.asi . OSX
+#file 2 $OSXTOOLS/built/lib/mssmixer.mix . OSX
+#file 2 $OSXTOOLS/built/lib/Miles_MP3_Decoder.asi . OSX
+#file 2 $WINTOOLS/sdk/rad/MilesWin/redist/mss32.dll . WIN32
+#file 2 $WINTOOLS/sdk/rad/MilesWin/redist/mssmp3.asi . WIN32
 
 # Direct
 
@@ -567,9 +546,9 @@ file 2 $OTP/built/lib/libmovement.dll . WIN32
 file 2 $OTP/built/lib/libnametag.so . OSX
 file 2 $OTP/built/lib/libnametag.dylib . OSX
 file 2 $OTP/built/lib/libnametag.dll . WIN32
-file 2 $OTP/built/lib/libotpbase.so . OSX
-file 2 $OTP/built/lib/libotpbase.dylib . OSX
-file 2 $OTP/built/lib/libotpbase.dll . WIN32
+#file 2 $OTP/built/lib/libotpbase.so . OSX
+#file 2 $OTP/built/lib/libotpbase.dylib . OSX
+#file 2 $OTP/built/lib/libotpbase.dll . WIN32
 file 2 $OTP/built/lib/libotp.so . OSX
 file 2 $OTP/built/lib/libotp.dylib . OSX
 file 2 $OTP/built/lib/libotp.dll . WIN32
@@ -593,9 +572,9 @@ file 2 $TOONTOWN/built/lib/libpets.dll . WIN32
 file 2 $TOONTOWN/built/lib/libsuit.so . OSX
 file 2 $TOONTOWN/built/lib/libsuit.dylib . OSX
 file 2 $TOONTOWN/built/lib/libsuit.dll . WIN32
-file 2 $TOONTOWN/built/lib/libtoontownbase.so . OSX
-file 2 $TOONTOWN/built/lib/libtoontownbase.dylib . OSX
-file 2 $TOONTOWN/built/lib/libtoontownbase.dll . WIN32
+#file 2 $TOONTOWN/built/lib/libtoontownbase.so . OSX
+#file 2 $TOONTOWN/built/lib/libtoontownbase.dylib . OSX
+#file 2 $TOONTOWN/built/lib/libtoontownbase.dll . WIN32
 file 2 $TOONTOWN/built/lib/libtoontown.so . OSX
 file 2 $TOONTOWN/built/lib/libtoontown.dylib . OSX
 file 2 $TOONTOWN/built/lib/libtoontown.dll . WIN32
