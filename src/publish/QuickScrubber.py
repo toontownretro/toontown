@@ -772,14 +772,14 @@ class Scrubber:
                 if nextHash != None:
                     # Make sure the patch files chain end-to-end
                     # sensibly.
-                    if nextHash != patchHash:
+                    if not nextHash.eq(patchHash):
                         self.notify.error("Patch file %s does not follow from %s!" %
                                           (patchFilename.cStr(),
                                            self.patchVer(persistFilename, version + 1).cStr()))
 
             if patchHash != None:
                 dbHash = self.dldb.getHash(relInstallFilename, version)
-                if patchHash != dbHash:
+                if not patchHash.eq(dbHash):
                     self.notify.error("server.ddb version %d for %s disagrees with %s!" %
                                       (version, persistFilename.cStr(), patchFilename.cStr()))
 
@@ -790,12 +790,12 @@ class Scrubber:
             nextHash = HashVal(patchFile.getResultHash())
 
         if nextHash != None:
-            if nextHash != fileHash:
+            if not nextHash.eq(fileHash):
                 self.notify.error("Patch file %s does not lead to %s!" %
                                   (self.patchVer(persistFilename, 2).cStr(),
                                    persistFilename.cStr()))
             dbHash = self.dldb.getHash(relInstallFilename, 1)
-            if fileHash != dbHash:
+            if not fileHash.eq(dbHash):
                 self.notify.error("server.ddb version 1 disagrees with %s!" %
                                   (persistFilename.cStr()))
 
@@ -1004,13 +1004,15 @@ class Scrubber:
         # Parse out the args
         installDir, extractFlag = args
         for filename in filenames:
-            fullname = Filename.fromOsSpecific(dirname + '/' + filename)
+            fullname = dirname + '/' + filename
+            fullname = fullname.replace('\\', '/')
             index = dirname.find(installDir)
             if (index < 0):
                 self.notify.error("installDir not found in dirname")
-            relInstallDir = Filename.fromOsSpecific(dirname[index:])
-            if os.path.isfile(fullname.toOsSpecific()):
-                self.parseFile(['file', extractFlag, fullname.toOsSpecific(), relInstallDir.toOsSpecific()])
+            relInstallDir = dirname[index:]
+            relInstallDir = relInstallDir.replace('\\', '/')
+            if os.path.isfile(fullname):
+                self.parseFile(['file', extractFlag, fullname, relInstallDir])
 
     def parseDir(self):
         # Grab all the files in this dir
@@ -1031,7 +1033,7 @@ class Scrubber:
         mainModule = lineList[3]
 
         self.freezer.addModule(mainModule, newName='__main__')
-        self.freezer.done()
+        self.freezer.done(addStartupModules = True)
 
         target = self.freezer.generateCode(basename, compileToExe=True)
         self.freezer = FreezeTool.Freezer(previous = self.freezer)
