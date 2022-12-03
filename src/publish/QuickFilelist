@@ -19,11 +19,19 @@ file 2 $PYTHON_BIN/vcruntime140.dll . WIN32
 file 2 $PYTHON_BIN/vcruntime140_1.dll . WIN32
 file 2 $PYTHON_BIN/DLLs/_bz2.pyd . WIN32
 file 2 $PYTHON_BIN/DLLs/_decimal.pyd . WIN32
+file 2 $PYTHON_BIN/DLLs/_hashlib.pyd . WIN32
 file 2 $PYTHON_BIN/DLLs/_lzma.pyd . WIN32
 file 2 $PYTHON_BIN/DLLs/_socket.pyd . WIN32
+file 2 $PYTHON_BIN/DLLs/_tkinter.pyd . WIN32
 file 2 $PYTHON_BIN/DLLs/_queue.pyd . WIN32
+file 2 $PYTHON_BIN/DLLs/pyexpat.pyd . WIN32
 file 2 $PYTHON_BIN/DLLs/select.pyd . WIN32
 file 2 $PYTHON_BIN/DLLs/unicodedata.pyd . WIN32
+
+file 2 $PYTHON_BIN/DLLs/libcrypto-1_1.dll . WIN32
+file 2 $PYTHON_BIN/DLLs/libffi-8.dll . WIN32
+file 2 $PYTHON_BIN/DLLs/tcl86t.dll . WIN32
+file 2 $PYTHON_BIN/DLLs/tk86t.dll . WIN32
 # ctypes
 file 2 $PYTHON_BIN/DLLs/_ctypes.pyd . WIN32
 
@@ -53,20 +61,36 @@ file 2 $PYTHON_LIB/site-packages/win32/win32api.pyd . WIN32
 # needed by parties
 module _strptime
 
-# C/C++ stdlib runtime dlls for VC7
-file 2 $WINTOOLS/built/lib/msvcr71.dll . WIN32
-file 2 $WINTOOLS/built/lib/msvcp71.dll . WIN32
-
-# VC9 mainly to support Awesomium, which may never become a requirement
 # C/C++ stdlib runtime dlls for VC9
-#file 2 $WINTOOLS/built/lib/msvcr90.dll . WIN32
-#file 2 $WINTOOLS/built/lib/msvcp90.dll . WIN32
+file 2 $WINTOOLS/built/lib/msvcr90.dll . WIN32
+file 2 $WINTOOLS/built/lib/msvcp90.dll . WIN32
 
 file 2 $WINTOOLS/built/bin/avcodec.dll . WIN32
 file 2 $WINTOOLS/built/bin/avformat.dll . WIN32
 file 2 $WINTOOLS/built/bin/avutil.dll . WIN32
 
-file 2 $PANDA/built/lib/libpandaegg.dll . WIN32
+file 2 $WINTOOLS/built/bin/cg.dll . WIN32
+file 2 $WINTOOLS/built/bin/cgD3D9.dll . WIN32
+file 2 $WINTOOLS/built/bin/cgD3D10.dll . WIN32
+file 2 $WINTOOLS/built/bin/cgD3D11.dll . WIN32
+file 2 $WINTOOLS/built/bin/cgGL.dll . WIN32
+file 2 $WINTOOLS/built/bin/embree3.dll . WIN32
+file 2 $WINTOOLS/built/bin/fmod.dll . WIN32
+file 2 $WINTOOLS/built/bin/fmodL.dll . WIN32
+file 2 $WINTOOLS/built/bin/GameNetworkingSockets.dll . WIN32
+file 2 $WINTOOLS/built/bin/glut32.dll . WIN32
+file 2 $WINTOOLS/built/bin/GPUUtilities.dll . WIN32
+file 2 $WINTOOLS/built/bin/OpenAL32.dll . WIN32
+file 2 $WINTOOLS/built/bin/phonon.dll . WIN32
+file 2 $WINTOOLS/built/bin/phonon_fmod.dll . WIN32
+file 2 $WINTOOLS/built/bin/PhysX_64.dll . WIN32
+file 2 $WINTOOLS/built/bin/PhysXCommon_64.dll . WIN32
+file 2 $WINTOOLS/built/bin/PhysXCooking_64.dll . WIN32
+file 2 $WINTOOLS/built/bin/PhysXFoundation_64.dll . WIN32
+file 2 $WINTOOLS/built/bin/PhysXGpu_64.dll . WIN32
+file 2 $WINTOOLS/built/bin/SPIRV-Tools-shared.dll . WIN32
+file 2 $WINTOOLS/built/bin/tbb12.dll . WIN32
+file 2 $WINTOOLS/built/bin/TrueAudioNext.dll . WIN32
 
 # Libraries
 file 2 $DTOOL/built/lib/libdconfig.so . OSX
@@ -107,6 +131,8 @@ file 2 $PANDA/built/lib/libpandaode.dll . WIN32
 file 2 $DIRECT/built/lib/libheapq.so . OSX
 file 2 $DIRECT/built/lib/libheapq.dylib . OSX
 file 2 $DIRECT/built/lib/libheapq.dll . WIN32
+
+file 2 $PANDA/built/lib/libpandaegg.dll . WIN32
 
 file 2 $DTOOL/built/lib/panda3d/core.pyd . WIN32
 
@@ -300,6 +326,9 @@ file 2 $PANDA/built/lib/libanim.dll . WIN32
 file 2 $PANDA/built/lib/libaudio.so . OSX
 file 2 $PANDA/built/lib/libaudio.dylib . OSX
 file 2 $PANDA/built/lib/libaudio.dll . WIN32
+file 2 $PANDA/built/lib/libbsp.so . OSX
+file 2 $PANDA/built/lib/libbsp.dylib . OSX
+file 2 $PANDA/built/lib/libbsp.dll . WIN32
 file 2 $PANDA/built/lib/libchan.so . OSX
 file 2 $PANDA/built/lib/libchan.dylib . OSX
 file 2 $PANDA/built/lib/libchan.dll . WIN32
@@ -321,6 +350,15 @@ file 2 $PANDA/built/lib/libdgraph.dll . WIN32
 file 2 $PANDA/built/lib/libdisplay.so . OSX
 file 2 $PANDA/built/lib/libdisplay.dylib . OSX
 file 2 $PANDA/built/lib/libdisplay.dll . WIN32
+file 2 $PANDA/built/lib/libdownloader.so . OSX
+file 2 $PANDA/built/lib/libdownloader.dylib . OSX
+file 2 $PANDA/built/lib/libdownloader.dll . WIN32
+file 2 $PANDA/built/lib/libegg.so . OSX
+file 2 $PANDA/built/lib/libegg.dylib . OSX
+file 2 $PANDA/built/lib/libegg.dll . WIN32
+file 2 $PANDA/built/lib/libegg2pg.so . OSX
+file 2 $PANDA/built/lib/libegg2pg.dylib . OSX
+file 2 $PANDA/built/lib/libegg2pg.dll . WIN32
 file 2 $PANDA/built/lib/libdistort.so . OSX
 file 2 $PANDA/built/lib/libdistort.dylib . OSX
 file 2 $PANDA/built/lib/libdistort.dll . WIN32
@@ -333,9 +371,6 @@ file 2 $PANDA/built/lib/libevent.dll . WIN32
 file 2 $PANDA/built/lib/libframework.so . OSX
 file 2 $PANDA/built/lib/libframework.dylib . OSX
 file 2 $PANDA/built/lib/libframework.dll . WIN32
-file 2 $PANDA/built/lib/libfoundary.so . OSX
-file 2 $PANDA/built/lib/libfoundary.dylib . OSX
-file 2 $PANDA/built/lib/libfoundary.dll . WIN32
 file 2 $PANDA/built/lib/libglgsg.so . OSX
 file 2 $PANDA/built/lib/libglgsg.dylib . OSX
 file 2 $PANDA/built/lib/libglgsg.dll . WIN32
@@ -353,15 +388,30 @@ file 2 $PANDA/built/lib/libgrutil.dll . WIN32
 file 2 $PANDA/built/lib/libgsgbase.so . OSX
 file 2 $PANDA/built/lib/libgsgbase.dylib . OSX
 file 2 $PANDA/built/lib/libgsgbase.dll . WIN32
+file 2 $PANDA/built/lib/libjobsystem.so . OSX
+file 2 $PANDA/built/lib/libjobsystem.dylib . OSX
+file 2 $PANDA/built/lib/libjobsystem.dll . WIN32
 file 2 $PANDA/built/lib/liblinmath.so . OSX
 file 2 $PANDA/built/lib/liblinmath.dylib . OSX
 file 2 $PANDA/built/lib/liblinmath.dll . WIN32
+file 2 $PANDA/built/lib/libmap.so . OSX
+file 2 $PANDA/built/lib/libmap.dylib . OSX
+file 2 $PANDA/built/lib/libmap.dll . WIN32
+file 2 $PANDA/built/lib/libmapbuilder.so . OSX
+file 2 $PANDA/built/lib/libmapbuilder.dylib . OSX
+file 2 $PANDA/built/lib/libmapbuilder.dll . WIN32
+file 2 $PANDA/built/lib/libmaterial.so . OSX
+file 2 $PANDA/built/lib/libmaterial.dylib . OSX
+file 2 $PANDA/built/lib/libmaterial.dll . WIN32
 file 2 $PANDA/built/lib/libmathutil.so . OSX
 file 2 $PANDA/built/lib/libmathutil.dylib . OSX
 file 2 $PANDA/built/lib/libmathutil.dll . WIN32
-file 2 $PANDA/built/lib/libnativnet.so . OSX
-file 2 $PANDA/built/lib/libnativnet.dylib . OSX
-file 2 $PANDA/built/lib/libnativnet.dll . WIN32
+file 2 $PANDA/built/lib/libnet.so . OSX
+file 2 $PANDA/built/lib/libnet.dylib . OSX
+file 2 $PANDA/built/lib/libnet.dll . WIN32
+file 2 $PANDA/built/lib/libnativenet.so . OSX
+file 2 $PANDA/built/lib/libnativenet.dylib . OSX
+file 2 $PANDA/built/lib/libnativenet.dll . WIN32
 file 2 $PANDA/built/lib/libmiles_audio.so . OSX
 file 2 $PANDA/built/lib/libmiles_audio.dylib . OSX
 file 2 $PANDA/built/lib/libmiles_audio.dll . WIN32
@@ -386,6 +436,12 @@ file 2 $PANDA/built/lib/libparametrics.dll . WIN32
 file 2 $PANDA/built/lib/libparticlesystem.so . OSX
 file 2 $PANDA/built/lib/libparticlesystem.dylib . OSX
 file 2 $PANDA/built/lib/libparticlesystem.dll . WIN32
+file 2 $PANDA/built/lib/libparticlesystem2.so . OSX
+file 2 $PANDA/built/lib/libparticlesystem2.dylib . OSX
+file 2 $PANDA/built/lib/libparticlesystem2.dll . WIN32
+file 2 $PANDA/built/lib/libpdx.so . OSX
+file 2 $PANDA/built/lib/libpdx.dylib . OSX
+file 2 $PANDA/built/lib/libpdx.dll . WIN32
 file 2 $PANDA/built/lib/libpgraph.so . OSX
 file 2 $PANDA/built/lib/libpgraph.dylib . OSX
 file 2 $PANDA/built/lib/libpgraph.dll . WIN32
@@ -416,15 +472,30 @@ file 2 $PANDA/built/lib/libpnmimagetypes.dll . WIN32
 file 2 $PANDA/built/lib/libpnmtext.so . OSX
 file 2 $PANDA/built/lib/libpnmtext.dylib . OSX
 file 2 $PANDA/built/lib/libpnmtext.dll . WIN32
+file 2 $PANDA/built/lib/libpostprocess.so . OSX
+file 2 $PANDA/built/lib/libpostprocess.dylib . OSX
+file 2 $PANDA/built/lib/libpostprocess.dll . WIN32
+file 2 $PANDA/built/lib/libpphysics.so . OSX
+file 2 $PANDA/built/lib/libpphysics.dylib . OSX
+file 2 $PANDA/built/lib/libpphysics.dll . WIN32
 file 2 $PANDA/built/lib/libpstatclient.so . OSX
 file 2 $PANDA/built/lib/libpstatclient.dylib . OSX
 file 2 $PANDA/built/lib/libpstatclient.dll . WIN32
 file 2 $PANDA/built/lib/libputil.so . OSX
 file 2 $PANDA/built/lib/libputil.dylib . OSX
 file 2 $PANDA/built/lib/libputil.dll . WIN32
+file 2 $PANDA/built/lib/libraytrace.so . OSX
+file 2 $PANDA/built/lib/libraytrace.dylib . OSX
+file 2 $PANDA/built/lib/libraytrace.dll . WIN32
 file 2 $PANDA/built/lib/librecorder.so . OSX
 file 2 $PANDA/built/lib/librecorder.dylib . OSX
 file 2 $PANDA/built/lib/librecorder.dll . WIN32
+file 2 $PANDA/built/lib/libshader.so . OSX
+file 2 $PANDA/built/lib/libshader.dylib . OSX
+file 2 $PANDA/built/lib/libshader.dll . WIN32
+file 2 $PANDA/built/lib/libsteamnet.so . OSX
+file 2 $PANDA/built/lib/libsteamnet.dylib . OSX
+file 2 $PANDA/built/lib/libsteamnet.dll . WIN32
 file 2 $PANDA/built/lib/libtext.so . OSX
 file 2 $PANDA/built/lib/libtext.dylib . OSX
 file 2 $PANDA/built/lib/libtext.dll . WIN32
@@ -433,8 +504,10 @@ file 2 $PANDA/built/lib/libtform.dylib . OSX
 file 2 $PANDA/built/lib/libtform.dll . WIN32
 
 file 2 $PANDA/built/lib/libwindisplay.dll . WIN32
-file 2 $PANDA/built/lib/libpandadx9.dll . WIN32
+file 2 $PANDA/built/lib/libdxgsg11.dll . WIN32
 file 2 $PANDA/built/lib/libpandadx8.dll . WIN32
+file 2 $PANDA/built/lib/libpandadx9.dll . WIN32
+file 2 $PANDA/built/lib/libpandadx11.dll . WIN32
 
 file 2 $DTOOL/built/lib/panda3d/egg.pyd . WIN32
 file 2 $DTOOL/built/lib/panda3d/fx.pyd . WIN32
@@ -476,6 +549,9 @@ file 2 $DIRECT/built/lib/libdistributed.dll . WIN32
 file 2 $DIRECT/built/lib/libdistributed2.so . OSX
 file 2 $DIRECT/built/lib/libdistributed2.dylib . OSX
 file 2 $DIRECT/built/lib/libdistributed2.dll . WIN32
+file 2 $DIRECT/built/lib/libfoundry.so . OSX
+file 2 $DIRECT/built/lib/libfoundry.dylib . OSX
+file 2 $DIRECT/built/lib/libfoundry.dll . WIN32
 file 2 $DIRECT/built/lib/libinterval.so . OSX
 file 2 $DIRECT/built/lib/libinterval.dylib . OSX
 file 2 $DIRECT/built/lib/libinterval.dll . WIN32
