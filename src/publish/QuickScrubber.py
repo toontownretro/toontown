@@ -716,7 +716,7 @@ class Scrubber:
         oldHash.hashFile(persistFilename)
 
         # If the hash values are equal, no need to update the file
-        if (newHash.eq(oldHash)):
+        if (newHash == oldHash):
             self.notify.debug('File has not changed.')
             return self.getHighestVersion(persistFilename)
         else:
@@ -1005,12 +1005,12 @@ class Scrubber:
         installDir, extractFlag = args
         for filename in filenames:
             fullname = dirname + '/' + filename
-            fullname = string.replace(fullname, '\\', '/')
+            fullname = fullname.replace('\\', '/')
             index = dirname.find(installDir)
             if (index < 0):
                 self.notify.error("installDir not found in dirname")
             relInstallDir = dirname[index:]
-            relInstallDir = string.replace(relInstallDir, '\\', '/')
+            relInstallDir = relInstallDir.replace('\\', '/')
             if os.path.isfile(fullname):
                 self.parseFile(['file', extractFlag, fullname, relInstallDir])
 
