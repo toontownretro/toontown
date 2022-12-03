@@ -7,8 +7,9 @@ import string
 import py_compile
 import time
 import re
-from . import PRCEncryptionKey
-from otp.publish import FreezeTool
+
+from direct.dist import FreezeTool
+from toontown.publish import PRCEncryptionKey
 
 helpString ="""
 Usage:
@@ -620,6 +621,8 @@ class Scrubber:
         # This records the current list of modules we have added so
         # far.
         self.freezer = FreezeTool.Freezer()
+        self.freezer.linkExtensionModules = True
+        self.freezer.keepTemporaryFiles = False
 
         # The persist dir is the directory in which the results from
         # past publishes are stored so we can generate patches against
@@ -1163,10 +1166,10 @@ class Scrubber:
         basename = lineList[2]
         mainModule = lineList[3]
 
-        self.freezer.setMain(mainModule)
+        self.freezer.addModule(mainModule, newName='__main__')
         self.freezer.done()
 
-        target = self.freezer.generateCode(basename)
+        target = self.freezer.generateCode(basename, compileToExe=True)
         self.freezer = FreezeTool.Freezer(previous = self.freezer)
 
         # Now add the generated file just like any other file, except

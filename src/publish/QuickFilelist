@@ -13,12 +13,18 @@ file 2 $TOONTOWN/src/launcher/ToontownTest.url . WIN32
 file 2 $TOONTOWN/src/launcher/PlayToontownTest.url . WIN32
 
 # Python files
-file 2 $PYTHON_BIN/python24.dll . WIN32
-file 2 $PYTHON_BIN/pywintypes24.dll . WIN32
-file 2 $PYTHON_BIN/_socket.pyd . WIN32
-file 2 $PYTHON_BIN/zlib.pyd . WIN32
-file 2 $PYTHON_BIN/bz2.pyd . WIN32
-file 2 $PYTHON_BIN/unicodedata.pyd . WIN32
+file 2 $PYTHON_BIN/python3.dll . WIN32
+file 2 $PYTHON_BIN/python311.dll . WIN32
+file 2 $PYTHON_BIN/vcruntime140.dll . WIN32
+file 2 $PYTHON_BIN/vcruntime140_1.dll . WIN32
+file 2 $PYTHON_BIN/DLLs/_bz2.pyd . WIN32
+file 2 $PYTHON_BIN/DLLs/_decimal.pyd . WIN32
+file 2 $PYTHON_BIN/DLLs/_lzma.pyd . WIN32
+file 2 $PYTHON_BIN/DLLs/_socket.pyd . WIN32
+file 2 $PYTHON_BIN/DLLs/_queue.pyd . WIN32
+file 2 $PYTHON_BIN/DLLs/unicodedata.pyd . WIN32
+# ctypes
+file 2 $PYTHON_BIN/DLLs/_ctypes.pyd . WIN32
 
 file 2 $PYTHON_LIB/lib-dynload/array.so . OSX
 file 2 $PYTHON_LIB/lib-dynload/time.so . OSX
@@ -42,9 +48,6 @@ file 2 $PYTHON_LIB/lib-dynload/unicodedata.so . OSX
 
 # win32
 file 2 $PYTHON_LIB/site-packages/win32/win32api.pyd . WIN32
-
-# ctypes
-file 2 $PYTHON_LIB/site-packages/_ctypes.pyd . WIN32
 
 # needed by parties
 module _strptime

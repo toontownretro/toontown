@@ -7,8 +7,9 @@ import string
 import py_compile
 import time
 import re
-from . import PRCEncryptionKey
-from otp.publish import FreezeTool
+
+from direct.dist import FreezeTool
+from toontown.publish import PRCEncryptionKey
 
 helpString ="""
 Usage:
@@ -479,6 +480,8 @@ class Scrubber:
         # This records the current list of modules we have added so
         # far.
         self.freezer = FreezeTool.Freezer()
+        self.freezer.linkExtensionModules = True
+        self.freezer.keepTemporaryFiles = False
 
         # The persist dir is the directory in which the results from
         # past publishes are stored so we can generate patches against
@@ -915,7 +918,7 @@ class Scrubber:
         if (sourceFilename.getExtension() == 'prc'):
             # Read the config file first
             osFilename = sourceFilename.toOsSpecific()
-            temp = open(osFilename, 'r')
+            temp = open(osFilename, 'rb')
             textLines = temp.readlines()
             temp.close()
 
@@ -923,15 +926,16 @@ class Scrubber:
             sourceFilename.setExtension('pre')
             relInstallFilename.setExtension('pre')
             osFilename = sourceFilename.toOsSpecific()
-            temp = open(osFilename, 'w')
+            temp = open(osFilename, 'wb')
             for line in textLines:
+                line = line.decode("utf-8")
                 # Skip initial whitespace
                 c = 0
                 while c < len(line) and line[c] in ' \r\n\t':
                     c += 1
                 if c < len(line) and line[c] != '#':
                     # Write the line out only if it's not a comment.
-                    temp.write(line)
+                    temp.write(line.encode("utf-8"))
             temp.close()
 
             # Now sign the file.
@@ -942,7 +946,7 @@ class Scrubber:
                 raise 'Command failed: %s' % (command)
 
             # And now encrypt it in-place.
-            temp = open(osFilename, 'r')
+            temp = open(osFilename, 'rb')
             text = temp.read()
             temp.close()
             text = encryptString(text, PRCEncryptionKey.key)
@@ -993,6 +997,9 @@ class Scrubber:
         if dirnameBase == 'CVS':
             # Ignore CVS directories.
             return
+        if dirnameBase == '.git':
+            # Ignore git directories.
+            return
 
         # Parse out the args
         installDir, extractFlag = args
@@ -1014,7 +1021,7 @@ class Scrubber:
         dirName = sourceDir.toOsSpecific()
         installDir = self.lineList[3]
         if os.path.exists(dirName):
-            os.path.walk(dirName, self.parseDirCallback, (installDir, extractFlag))
+            os.walk(dirName, self.parseDirCallback, (installDir, extractFlag))
         else:
             self.notify.error("Directory does not exist: %s" % dirName)
 
@@ -1022,10 +1029,10 @@ class Scrubber:
         basename = lineList[2]
         mainModule = lineList[3]
 
-        self.freezer.setMain(mainModule)
+        self.freezer.addModule(mainModule, newName='__main__')
         self.freezer.done()
 
-        target = self.freezer.generateCode(basename)
+        target = self.freezer.generateCode(basename, compileToExe=True)
         self.freezer = FreezeTool.Freezer(previous = self.freezer)
 
         # Now add the generated file just like any other file, except
