@@ -1021,7 +1021,10 @@ class Scrubber:
         dirName = sourceDir.toOsSpecific()
         installDir = self.lineList[3]
         if os.path.exists(dirName):
-            os.walk(dirName, self.parseDirCallback, (installDir, extractFlag))
+            for _, dirs, files in os.walk(dirName):
+                self.parseDirCallback((installDir, extractFlag), dirs, files)
+            # py2
+            #os.path.walk(dirName, self.parseDirCallback, (installDir, extractFlag))
         else:
             self.notify.error("Directory does not exist: %s" % dirName)
 
