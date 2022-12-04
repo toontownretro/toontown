@@ -11,7 +11,7 @@
 
 // We don't want to build these optional packages.
 #define HAVE_TIFF
-#define HAVE_PNG
+//#define HAVE_PNG
 #define HAVE_VRPN
 #define HAVE_NSPR
 #define WANT_NATIVE_NET
