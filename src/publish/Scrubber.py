@@ -1067,15 +1067,16 @@ class Scrubber:
             sourceFilename.setExtension('pre')
             relInstallFilename.setExtension('pre')
             osFilename = sourceFilename.toOsSpecific()
-            temp = open(osFilename, 'w')
+            temp = open(osFilename, 'wb')
             for line in textLines:
+                line = line.decode("utf-8")
                 # Skip initial whitespace
                 c = 0
                 while c < len(line) and line[c] in ' \r\n\t':
                     c += 1
                 if c < len(line) and line[c] != '#':
                     # Write the line out only if it's not a comment.
-                    temp.write(line)
+                    temp.write(line.encode("utf-8"))
             temp.close()
 
             # Now sign the file.
@@ -1086,10 +1087,10 @@ class Scrubber:
                 raise 'Command failed: %s' % (command)
 
             # And now encrypt it in-place.
-            temp = open(osFilename, 'r')
+            temp = open(osFilename, 'r', encoding="utf-8")
             text = temp.read()
             temp.close()
-            text = encryptString(text, PRCEncryptionKey.key)
+            text = encryptString(text, PRCEncryptionKey.key, "BF-CBC", 128, 100000)
             temp = open(osFilename, 'wb')
             temp.write(text)
             temp.close()

@@ -946,10 +946,10 @@ class Scrubber:
                 raise 'Command failed: %s' % (command)
 
             # And now encrypt it in-place.
-            temp = open(osFilename, 'rb')
+            temp = open(osFilename, 'r', encoding="utf-8")
             text = temp.read()
             temp.close()
-            text = encryptString(text, PRCEncryptionKey.key)
+            text = encryptString(text, PRCEncryptionKey.key, "BF-CBC", 128, 100000)
             temp = open(osFilename, 'wb')
             temp.write(text)
             temp.close()
