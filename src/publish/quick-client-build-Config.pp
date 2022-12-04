@@ -21,15 +21,6 @@
 #define HAVE_FMODEX
 #define COMPILE_IN_DEFAULT_FONT
 
-// Awesomium for Panda - which may never become a requirement
-// #define AWESOMIUM_IPATH $[WINTOOLS]/sdk/awesomium/include
-// #define AWESOMIUM_LPATH $[WINTOOLS]/sdk/awesomium/lib
-
-// We want to instrument only these specific libraries.
-#define GENPYCODE_LIBS libpandaexpress libpanda libpandaphysics libdirect libpandafx libpandaode libotp libtoontown
-#define CTA_GENERIC_GENPYCODE
-
-
 #define PANDA_DISTRIBUTOR Toontown Client
 
 // We need a special set of config options for the client publish.
@@ -77,10 +68,14 @@
 #endif
 
 
+// Enable threads for we can support things like background downloading.
+#define HAVE_THREADS 1
+
 // In the new web plugin world, we will want to have SIMPLE_THREADS
 // enabled to support background downloading.
-#define HAVE_THREADS 1
-#defer SIMPLE_THREADS 1
+//
+// DISABLED FOR DEPERCATION.
+//#defer SIMPLE_THREADS 1
 
 // For the p3d (web plugin) build, we need to specify a version string
 // for this Panda build.  This is different from the server-version,
