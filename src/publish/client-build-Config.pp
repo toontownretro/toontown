@@ -11,7 +11,7 @@
 
 // We don't want to build these optional packages.
 #define HAVE_TIFF
-#define HAVE_PNG
+//#define HAVE_PNG
 #define HAVE_VRPN
 #define HAVE_NSPR
 #define WANT_NATIVE_NET
@@ -19,17 +19,9 @@
 #define HAVE_FFMPEG
 #define HAVE_MESA
 #define HAVE_FMODEX
+#define HAVE_PHYSX
+#define HAVE_DISTRIBUTED2
 #define COMPILE_IN_DEFAULT_FONT
-#define HAVE_THREADS
-
-// Awesomium for Panda - may never become a requirement
-// #define AWESOMIUM_IPATH $[WINTOOLS]/sdk/awesomium/include
-// #define AWESOMIUM_LPATH $[WINTOOLS]/sdk/awesomium/lib
-
-// We want to instrument only these specific libraries.
-#define GENPYCODE_LIBS libpandaexpress libpanda libpandaphysics libdirect libpandafx libpandaode libotp libtoontown
-#define CTA_GENERIC_GENPYCODE
-
 
 #define PANDA_DISTRIBUTOR Toontown Client
 
@@ -80,4 +72,4 @@
 // In the new web plugin world, we will want to have SIMPLE_THREADS
 // enabled to support background downloading.
 #define HAVE_THREADS 1
-#defer SIMPLE_THREADS 1
+//#defer SIMPLE_THREADS 1
