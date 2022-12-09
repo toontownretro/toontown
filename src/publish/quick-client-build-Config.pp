@@ -9,6 +9,10 @@
 // On OSX, we need universal binaries.
 #define UNIVERSAL_BINARIES 1
 
+// We don't want to build the smaller .dll files for 
+// publishing, Hopefully the bigger files optimize better.
+#define BUILD_COMPONENTS
+
 // We don't want to build these optional packages.
 #define HAVE_TIFF
 //#define HAVE_PNG
