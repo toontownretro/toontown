@@ -65,14 +65,28 @@ for i in range(1, 20+1):
         if i != 1:
             break
 
-# Setup the log files
-# We want C++ and Python to both go to the same log so they
-# will be interlaced properly.
+"""
+Setup the log files
+We want C++ and Python to both go to the same log so they will be interlaced properly.
+"""
 
+# Will make the log directory if it doesn't exist yet.
+logDir = os.path.join(os.getcwd(), ConfigVariableString("tt-log-ai-base-dir", "toonlog").getValue())
 ltime = time.localtime()
 
+if not os.path.isdir(logDir):
+    print(f"didn't find a log dir, making {logDir}")
+    os.mkdir(logDir)
+
 # date_hour_sequence.log will be added to the logfile name by RotatingLog():
-logfile = "aidistrict-dev-%02d%02d%02d_%02d%02d%02d.log" % (ltime[0]-2000,ltime[1],ltime[2],ltime[3],ltime[4],ltime[5])
+logfile = os.path.join(logDir, "aidistrict-dev-%02d%02d%02d_%02d%02d%02d.log" % (
+    ltime[0] - 2000,    # year
+    ltime[1],           # month
+    ltime[2],           # day
+    ltime[3],           # hour
+    ltime[4],           # minute
+    ltime[5]            # second
+))
 
 # Redirect Python output and err to the same file
 class LogAndOutput:
