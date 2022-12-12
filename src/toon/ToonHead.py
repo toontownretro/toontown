@@ -1768,7 +1768,6 @@ class ToonHead(Actor.Actor):
                 muzzle = self.find('**/muzzle*')
                 filePrefix = DogMuzzleDict[style.head]
                 muzzles = loader.loadModel("phase_3" + filePrefix + '1000')
-                self.ls()
                 if ConfigVariableBool('want-new-anims', 1).getValue():
                     if not self.find('**/def_head').isEmpty():
                         muzzles.reparentTo(self.find('**/def_head'))
