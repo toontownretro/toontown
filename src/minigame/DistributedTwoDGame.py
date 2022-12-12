@@ -220,7 +220,8 @@ class DistributedTwoDGame(DistributedMinigame):
         del self.headCollNP
 
         # Show the laff meter
-        base.localAvatar.laffMeter.start()
+        if base.localAvatar.laffMeter:
+            base.localAvatar.laffMeter.start()
 
         #@TODO: setIntoBitMask of distAvatarCollNode of all the toons to 0x1
         #@TODO: setBin to default for all toons
@@ -329,8 +330,9 @@ class DistributedTwoDGame(DistributedMinigame):
         # calculated, which happens in TwoDDrive.__update().
         taskMgr.add(self.__updateLocalToonTask, self.UpdateLocalToonTask, priority = 1)
 
-        # Hide the laff meter
-        base.localAvatar.laffMeter.stop()
+        # hide the laff meter
+        if base.localAvatar.laffMeter:
+            base.localAvatar.laffMeter.stop()
 
         self.timer = ToontownTimer.ToontownTimer()
         self.timer.posInTopRightCorner()

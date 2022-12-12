@@ -19,14 +19,14 @@ import types
 # 'off-floor' event upon jumping and an 'on-floor' event upon landing, that
 # should take care of it.
 
-class MovingPlatform(DirectObject.DirectObject, NodePath):
 
+class MovingPlatform(DirectObject.DirectObject, NodePath):
     notify = DirectNotifyGlobal.directNotify.newCategory('MovingPlatform')
 
     def __init__(self):
         self.hasLt = 0
         DirectObject.DirectObject.__init__(self)
-        NodePath.__init__(self)
+        NodePath.__init__(self, 'MovingPlatform-Empty')
 
     def setupCopyModel(self, parentToken, model, floorNodeName=None,
                        parentingNode=None):
