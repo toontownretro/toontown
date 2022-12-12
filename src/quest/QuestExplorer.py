@@ -36,12 +36,13 @@ class QuestExplorer(Pmw.MegaWidget, DirectObject):
             'scrolledCanvas',
             (), None,
             Pmw.ScrolledCanvas, (interior,),
-            hull_width = 200, hull_height = 300,
-            usehullsize = 1)
+            hull_width = 800, hull_height = 600,
+            usehullsize = 1
+        )
         self._canvas = self._scrolledCanvas.component('canvas')
         self._canvas['scrollregion'] = ('0i', '0i', '2i', '4i')
         self._scrolledCanvas.resizescrollregion()
-        self._scrolledCanvas.pack(padx = 3, pady = 3, expand=1)
+        self._scrolledCanvas.pack(padx = 3, pady = 3, expand = 1, fill = 'both')
         
         self._canvas.bind('<ButtonPress-2>', self.mouse2Down)
         self._canvas.bind('<B2-Motion>', self.mouse2Motion)
@@ -202,6 +203,8 @@ def exploreQuests(quest = -1):
     from . import QuestExplorer
     tl = TkGlobal.Toplevel()
     tl.title('Explore Quests')
-    qe = QuestExplorer.QuestExplorer(parent = tl, quest = quest)
+    qe_frame = TkGlobal.Frame(tl)
+    qe_frame.grid(row = 0, column = 0, sticky=TkGlobal.W + TkGlobal.E)
+    qe = QuestExplorer.QuestExplorer(parent = qe_frame, quest = quest)
     qe.pack(expand = 1, fill = 'both')
     return qe
