@@ -1,3 +1,7 @@
+"""
+Use modtools.toontown.fishing.FishermanSimulator to try out this module.
+"""
+
 # CREATE A TOON
 from toontown.toon import NPCToons
 from toontown.toon import ToonDNA
@@ -89,9 +93,9 @@ class SlotMachine2D(DirectObject):
             for l in self.labelList[i]:
                 l.destroy()
 
-sm2d = SlotMachine2D()
-sm2d.frame.setPos(0.8, 0, 0.6)
-sm2d.frame.setScale(.7)
+# sm2d = SlotMachine2D()
+# sm2d.frame.setPos(0.8, 0, 0.6)
+# sm2d.frame.setScale(.7)
 
 class SlotMachine(DirectObject):
     def __init__(self, numLines = 6):
@@ -140,9 +144,9 @@ class SlotMachine(DirectObject):
         for l in self.labelList:
             l.destroy()
 
-sm = SlotMachine()
-sm.frame.setScale(.7)
-sm.frame.setPos(2.0,0,.18)
+# sm = SlotMachine()
+# sm.frame.setScale(.7)
+# sm.frame.setPos(2.0,0,.18)
 
 class Fisherman(Toon.Toon):
     numFishTypes = 3
@@ -175,6 +179,7 @@ class Fisherman(Toon.Toon):
         # Prepare actor
         self.setupNeutralBlend()
         self.targetInterval = None
+        self.power = 0
         # Start automatic casting or create cast button
         if self.fAutonomous:
             self.castButton = None
@@ -197,7 +202,7 @@ class Fisherman(Toon.Toon):
             self.cancelFrame.bind(DGG.B1PRESS, self.startAdjustingCastTask)
             self.cancelFrame.bind(DGG.B1RELEASE, self.finishCast)
             self.cancelFrame.hide()
-                    # Create bob
+            # Create bob
             self.bob = loader.loadModel('phase_4/models/props/fishing_bob')
             self.bobSpot = Point3(0)
             # Parameters to control bob motion
@@ -335,8 +340,9 @@ class Fisherman(Toon.Toon):
         self.loop('neutral')
         self.enableBlend()
         self.pose('cast', 0)
-        self.setControlEffect('neutral', 0.2)
-        self.setControlEffect('cast', 0.8)
+        # commented out to prevent a crash - feel free to fix
+        # self.setControlEffect('neutral', 0.2)
+        # self.setControlEffect('cast', 0.8)
     def getPole(self):
         toonTrack = Sequence(
             # Blend in neutral anim
@@ -463,7 +469,7 @@ class Fisherman(Toon.Toon):
             self.target.getChild(0).setColor(0,0,1)
         def flashFish():
             taskMgr.remove('turnTask')
-            self.fish.lerpScale(Point3(0.01), 0.5, task = 'flashFish')
+            LerpScaleInterval(self.fish, 0.5, Point3(0.01)).start()
         tPos = target.getPos(self.angleNP)
         tDist = Vec3(tPos - bPos)
         tDist.setZ(0)
@@ -517,21 +523,24 @@ class Fisherman(Toon.Toon):
         self.fMovingTarget = fMoving
     def setfTargetMode(self, fTargetMode):
         self.fTargetMode = fTargetMode
-    def moveTarget(self, targetPos = None):
-        base.distributedFishingTarget.sendUpdate('bobEnter', [])
-#        self.stopTargetInterval()
-#        self.target.clearColor()
-#        if not targetPos:
-#            x = -87.0 + random.random() * 15.0
-#            y = 25.0 + random.random() * 20.0
-#            z = -4.8
-#            self.targetPos = Point3(x,y,z)
-#        else:
-#            self.targetPos.assign(targetPos)
-#        if self.fMovingTarget:
-#            self.makeTargetInterval()
-#        else:
-#            #self.target.setPos(self.targetPos)
+
+    def moveTarget(self, targetPos=None):
+        # base.distributedFishingTarget.sendUpdate('bobEnter', [])
+        # Below was originally commented out; commented out the above call because of nonexistent function.
+        self.stopTargetInterval()
+        self.target.clearColor()
+        if not targetPos:
+            x = -87.0 + random.random() * 15.0
+            y = 25.0 + random.random() * 20.0
+            z = -4.8
+            self.targetPos = Point3(x, y, z)
+        else:
+            self.targetPos.assign(targetPos)
+        if self.fMovingTarget:
+            self.makeTargetInterval()
+        else:
+            self.target.setPos(self.targetPos)
+
     def initFish(self):
         x = -10.0 + random.random() * 20.0
         y = 00.0 + random.random() * 30.0
@@ -632,6 +641,7 @@ class Fisherman(Toon.Toon):
         self.removeNode()
 
 
+"""
 f1 = Fisherman(0)
 f1.setPosHpr(-77.89, 46.82, -3.18, 183.81, 0.00, 0.00)
 
@@ -658,3 +668,4 @@ def stopCasting():
 def startCasting():
     for f in fList:
         f.startCasting()
+"""
