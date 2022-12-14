@@ -43,7 +43,7 @@
 #define HAVE_MESA
 #define HAVE_FMODEX
 #define HAVE_PHYSX
-#undef HAVE_DISTRIBUTED2
+#define HAVE_DISTRIBUTED2
 #define COMPILE_IN_DEFAULT_FONT
 
 #define PANDA_DISTRIBUTOR Toontown Client
