@@ -1,8 +1,9 @@
-REM We setup our needed enviorment here.
+title Toontown [UberDOG Server]
+:: cd into root
+cd ../../../
 call env.bat
 call cta toontown
 set uberdog_objects=gifting party
-title Toontown [UberDOG Server]
-
+:main
 %PYTHON_LOCATION%\python.exe -m toontown.uberdog.Start
-pause
+goto main

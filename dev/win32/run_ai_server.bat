@@ -1,7 +1,8 @@
-REM We setup our needed enviorment here.
+title Toontown [AI Server]
+:: cd into root
+cd ../../../
 call env.bat
 call cta toontown
-title Toontown [AI Server]
-
+:main
 %PYTHON_LOCATION%\python.exe -m toontown.ai.AIStart
-pause
+goto main

@@ -1,7 +1,8 @@
-REM We setup our needed enviorment here.
+title Toontown [Dev Client]
+:: cd into root
+cd ../../../
 call env.bat
 call cta toontown
-title Toontown [Dev Client]
-
+:main
 %PYTHON_LOCATION%\python.exe -m toontown.toonbase.ToontownStart
-pause
+goto main

@@ -1,9 +1,9 @@
-REM We setup our needed enviorment here.
+title Toontown [OTP Server]
+:: cd into root
+cd ../../../
 call env.bat
 call cta toontown
 cd ttotp
-
-title Toontown [OTP Server]
-
+:main
 %PYTHON_LOCATION%\python.exe -m py_otp
-pause
+goto main
