@@ -105,12 +105,21 @@ if 1:   # flip this as necessary
     # match log format specified in installerBase.cxx,
     # want this fmt so log files can be sorted oldest first based on name,
     # and so old open handles to logs dont prevent game from starting
+    logDir = ConfigVariableString("tt-log-client-base-dir", "toonlog").getValue()
     ltime = time.localtime()
+    
+    if not os.path.isdir(logDir):
+        print(f"Didn't find a log dir, Making {logDir}")
+        os.mkdir(logDir)
+            
     if __debug__:
         logSuffix = "dev-%02d%02d%02d_%02d%02d%02d" % (ltime[0]-2000,ltime[1],ltime[2],ltime[3],ltime[4],ltime[5])
     else:
         logSuffix = "%02d%02d%02d_%02d%02d%02d" % (ltime[0]-2000,ltime[1],ltime[2],ltime[3],ltime[4],ltime[5])
-    logfile = 'toontown-' + logSuffix + '.log'
+        
+    logPrefix = os.path.join(os.getcwd(), logDir)
+
+    logfile = os.path.join(logPrefix, 'toontown-' + logSuffix + '.log')
 
     # Redirect Python output and err to the same file
     class LogAndOutput:
