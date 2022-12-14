@@ -2,16 +2,35 @@
 // This file controls how to build the Toontown client for publishes.
 //
 
+// First, inherit the Config.pp file from wintools, which defines necessary
+// default values.
+#include $[WINTOOLS]/panda/etc/Config.pp
+
 // We want to ship Opt4 for maximum performance and smallness.
 #define OPTIMIZE 4
+
+// If you want makefiles, Uncomment this.
+#define BUILD_TYPE make
+//#define BUILD_TYPE msbuild
+
 #define DO_MEMORY_USAGE
+
+// We want mimalloc.
+#define USE_MEMORY_MIMALLOC 1
 
 // On OSX, we need universal binaries.
 #define UNIVERSAL_BINARIES 1
 
+// We want cross object optimizations.
+#define DO_CROSSOBJ_OPT 1
+
+// If you don't want to build using composites, Which is understandable.
+// Uncomment this.
+//#define DONT_COMPOSITE 1
+
 // We don't want to build the smaller .dll files for 
 // publishing, Hopefully the bigger files optimize better.
-#define BUILD_COMPONENTS
+//#define BUILD_COMPONENTS 1
 
 // We don't want to build these optional packages.
 #define HAVE_TIFF
@@ -74,6 +93,9 @@
 #endif
 
 
+// We want to compile with pipelining support.
+#define DO_PIPELINING 1
+
 // Enable threads for we can support things like background downloading.
 #define HAVE_THREADS 1
 
@@ -101,3 +123,12 @@
 // Provides the handy ppackage shell script, so we don't have to run
 // this program out of the direct source tree.
 #define BUILD_P3D_SCRIPTS ppackage
+
+#if $[CLANG_PATH]
+  // On Windows, do you want to compile using LLVM Clang rather than MSVC?
+  // Clang typically produces faster code and gives better errors and warnings
+  // during compilation, but takes somewhat longer than MSVC to compile, due
+  // to Clang not supporting multithreaded compilation.
+  #define USE_COMPILER Clang
+  #define CLANG_BIN_PATH $[unixshortname $[CLANG_PATH]/bin]
+#endif
