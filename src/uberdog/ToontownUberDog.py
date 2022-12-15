@@ -48,7 +48,7 @@ class ToontownUberDog(UberDog):
         self.isGiftingManager = isManagerFor('gifting')
         self.isMailManager = False # isManagerFor('mail')
         self.isPartyManager = isManagerFor('party')
-        self.isRATManager = False # isManagerFor('RAT')
+        self.isRATManager = isManagerFor('RAT')
         self.isAwardManager = isManagerFor('award')
         self.isCodeRedemptionManager = isManagerFor('coderedemption')
         self.isInGameNewsMgr = isManagerFor('ingamenews')

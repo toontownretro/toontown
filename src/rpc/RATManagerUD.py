@@ -1,7 +1,7 @@
 import string
 import direct
 import socket
-#from direct.http.WebRequest import WebRequestDispatcher
+from direct.http.WebRequest import WebRequestDispatcher
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.task import Task
@@ -28,7 +28,6 @@ class RATManagerUD(DistributedObjectGlobalUD):
 
         self.numServed = 0
         
-        '''
         self.webDispatcher = WebRequestDispatcher()
         self.webDispatcher.landingPage.setTitle("RATManager")
         self.webDispatcher.landingPage.setDescription("RATManager is a REST-like interface allowing in-game awards from other services.")
@@ -39,7 +38,6 @@ class RATManagerUD(DistributedObjectGlobalUD):
         self.webDispatcher.registerGETHandler("getToonDNA",self.handleHTTPGetToonDNA)
             
         self.webDispatcher.listenOnPort(self.HTTPListenPort)
-        '''
 
         self.air.setConnectionName("RATManagerUD")
         self.air.setConnectionURL("http://%s:%s/" % (socket.gethostbyname(socket.gethostname()),self.HTTPListenPort))

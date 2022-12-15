@@ -139,8 +139,7 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
 
         # create the panel that tells the user that they don't have
         # access to an emotion yet
-        buttons = loader.loadModel(
-            'phase_3/models/gui/dialog_box_buttons_gui')
+        buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         okButtonImage = (buttons.find('**/ChtBx_OKBtn_UP'),
                          buttons.find('**/ChtBx_OKBtn_DN'),
                          buttons.find('**/ChtBx_OKBtn_Rllvr'))

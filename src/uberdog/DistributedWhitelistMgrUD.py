@@ -3,11 +3,12 @@ import datetime
 import os
 import pytz
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
-#from direct.http.WebRequest import WebRequestDispatcher
+from direct.http.WebRequest import WebRequestDispatcher
 from otp.distributed import OtpDoGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.ai.ToontownAIMsgTypes import WHITELIST_MANAGER_UD_TO_ALL_AI
 from toontown.toonbase.ToontownModules import *
+from toontown.uberdog import WhitelistResponses
 
 class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
     """
@@ -27,7 +28,6 @@ class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
         DistributedObjectGlobalUD.__init__(self, air)
         self.HTTPListenPort = uber.whitelistMgrHTTPListenPort
 
-        '''
         self.webDispatcher = WebRequestDispatcher()
         self.webDispatcher.landingPage.setTitle("WhitelistMgr")
         self.webDispatcher.landingPage.setDescription("Whitelist is update when a new list of the Whitelist is out.")
@@ -35,7 +35,6 @@ class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
         self.webDispatcher.registerGETHandler('whitelistNewList', self.whitelistNewList)
         self.webDispatcher.listenOnPort(self.HTTPListenPort)
         self.webDispatcher.landingPage.addTab("WhitelistMgr","/whitelistMgr")
-        '''
 
         self.air.setConnectionName("WhitelistMgr")
         self.air.setConnectionURL("http://%s:%s/" % (socket.gethostbyname(socket.gethostname()),self.HTTPListenPort))
@@ -59,7 +58,7 @@ class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
         assert self.notify.debugCall()
         DistributedObjectGlobalUD.announceGenerate(self)
         self.b_setLatestList(self.latestList)
-        #self.webDispatcher.startCheckingIncomingHTTP()
+        self.webDispatcher.startCheckingIncomingHTTP()
 
     def whitelistMgr(self, replyTo, **kw):
         """Handle all calls to web requests awardMgr."""

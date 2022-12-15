@@ -329,7 +329,7 @@ class TrunkGUI(StateData.StateData):
         return None
 
     def setupScrollInterface(self):
-        self.notify.debug("setupScrollInterface)
+        self.notify.debug("setupScrollInterface")
 
         if self.hatList == None:
             self.hatList = self.toon.getHatList()
