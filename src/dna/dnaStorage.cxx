@@ -1061,7 +1061,7 @@ PT(DNAGroup) DNAStorage::find_DNAGroup(PT(PandaNode) rr) const {
   Node2GroupMap::const_iterator i = _n2group_map.find(rr);
   if (i == _n2group_map.end()) {
     dna_cat.debug()
-      << "PandaNode not found in Node2GroupMap" << std::endl;
+      << "PandaNode \"" << rr->get_name() << "\" not found in Node2GroupMap" << std::endl;
     return (DNAGroup *)NULL;
   }
   nassertr((*i).second != (DNAGroup *)NULL, (DNAGroup *)NULL);
@@ -1102,8 +1102,8 @@ PT(PandaNode) DNAStorage::find_PandaNode(PT(DNAGroup) group) const {
 
   // If you got here, you did not find it
   dna_cat.error()
-    << "DNAStorage::find_PandaNode: DNAGroup <"
-    << group->get_name() << " type: " << group->get_type()
+    << "DNAStorage::find_PandaNode: DNAGroup <name: \""
+    << group->get_name() << "\" type: " << group->get_type()
     << "> not found in Node2GroupMap or Node2VisGroupMap" << std::endl;
   return (PandaNode *)NULL;
 }

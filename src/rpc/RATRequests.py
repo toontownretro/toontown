@@ -46,7 +46,7 @@ class GetToonIdListRequest(AsyncRequest):
     def timeout(self,task):
         self.notify.warning("Request timeout in GetToonIdListRequest(%s)." % (self.accountName))
         self.air.writeServerEvent("UberRPC-RequestTimeout",self.replyTo.getSourceAddress(),"GetToonIdListRequest|%s" % self.accountName)
-        self.replyTo.respondXML(RATResponses.toonListFailureXML % "DB_TIMEOUT")
+        self.replyTo.respondXML(RATResponses.getToonListFailureXML % "DB_TIMEOUT")
         self.delete()
 
 
