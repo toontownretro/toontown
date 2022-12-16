@@ -13,10 +13,6 @@ import getopt
 
 # Initialize ihooks importer On the production servers, we run genPyCode -n
 # meaning no squeeze, so nobody else does this. When we squeeze, the
-# unpacker does this for us and it does not hurt to do in either case.
-import ihooks
-ihooks.install()
-
 from direct.directnotify import RotatingLog
 
 # Define a usage string
@@ -73,7 +69,7 @@ for opt in opts:
     elif (flag == '--district_name'):
         # Convert underbars to spaces
         origDistrictName = value
-        districtName = string.replace(value, "_", " ")
+        districtName = value.replace("_", " ")
     elif (flag == '--logpath'):
         logpath = value
     elif (flag == '--ssid'):
