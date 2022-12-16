@@ -7559,6 +7559,7 @@ WaitingForNameSubmission = "Submitting your name..."
 # PetshopGUI.py
 PetNameMaster = "PetNameMasterEnglish.txt"
 PetshopUnknownName = "Name: ???"
+PetNameIndexMAX = 2713
 PetshopDescGender = "Gender:\t%s"
 PetshopDescCost = "Cost:\t%s jellybeans"
 PetshopDescTrait = "Traits:\t%s"
