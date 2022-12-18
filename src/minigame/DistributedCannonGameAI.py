@@ -97,6 +97,8 @@ class DistributedCannonGameAI(DistributedMinigameAI):
         """
         if not hasattr(self, 'gameFSM'):
             return 0
+        if self.gameFSM.getCurrentState() == None:
+            return 0
         return self.gameFSM.getCurrentState().getName() == 'play'
 
     def _checkCannonRange(self, zRot, angle, avId):

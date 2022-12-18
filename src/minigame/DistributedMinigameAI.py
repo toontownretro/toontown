@@ -180,6 +180,20 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
         """
         self.metagameRound = roundNum
 
+    def _playing(self):
+        if not hasattr(self, "gameFSM"):
+            return False
+        if self.gameFSM.getCurrentState() == None:
+            return False
+        return self.gameFSM.getCurrentState().getName() == "play"
+
+    def _inState(self, states):
+        if not hasattr(self, "gameFSM"):
+            return False
+        if self.gameFSM.getCurrentState() == None:
+            return False
+        return self.gameFSM.getCurrentState().getName() in makeList(states)
+
     def generate(self):
         DistributedObjectAI.DistributedObjectAI.generate(self)
         # kick off the ClassicFSM
@@ -566,19 +580,32 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
             # put in some bogus points if we have requested abort
             if self.normalExit:
                 score = int(self.scoreDict[avId]+.5)
-                if score > 255:
-                    self.notify.warning('avatar %s got %s jellybeans playing minigame %s in zone %s' %
-                                        (avId,
-                                         score,
-                                         self.minigameId,
-                                         self.getSafezoneId()))
-                    score = 255
-                elif score < 0:
-                    # RAU just in case I miss something in ice game
-                    score = 0
-                scoreList.append(score)
             else:
-                scoreList.append(randReward)
+                score = randReward
+            if ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY in simbase.air.holidayManager.currentHolidays or \
+               ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY_MONTH in simbase.air.holidayManager.currentHolidays:
+                score *= MinigameGlobals.JellybeanTrolleyHolidayScoreMultiplier
+            logEvent = False
+            if score > 255:
+#                self.notify.warning('avatar %s got %s jellybeans playing minigame %s in zone %s' %
+#                                    (avId,
+#                                     score,
+#                                     self.minigameId,
+#                                     self.getSafezoneId()))
+                score = 255
+                logEvent = True
+            elif score < 0:
+                # RAU just in case I miss something in ice game
+                score = 0
+                logEvent = True
+            if logEvent:
+                self.air.writeServerEvent('suspicious', avId, 'got %s jellybeans playing minigame %s in zone %s' %
+                                          (score,
+                                           self.minigameId,
+                                           self.getSafezoneId()))
+            scoreList.append(score)
+#            else:
+#                scoreList.append(randReward)
 
         # Delete yourself
         self.requestDelete()
@@ -659,7 +686,11 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
             # also for now weare doing a regular minigame if only 1 person
             # presses play again, 
             self.notify.debug('last minigame, handling newbies')
-            
+
+            if ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY in simbase.air.holidayManager.currentHolidays or \
+               ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY_MONTH in simbase.air.holidayManager.currentHolidays:
+                votesArray = [MinigameGlobals.JellybeanTrolleyHolidayScoreMultiplier * x for x in votesArray]
+
             # create separate NewbiePurchaseManagerAIs for the noobs
             for id in self.newbieIdList:
                 # newbie PM gets a single newbie, and we also give it the

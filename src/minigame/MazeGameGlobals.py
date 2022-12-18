@@ -2,7 +2,7 @@
 # used by both AI and client
 
 from direct.showbase import RandomNumGen
-from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import ConfigVariableBool
 
 def getMazeName(gameDoId, numPlayers, mazeNames):
     try:

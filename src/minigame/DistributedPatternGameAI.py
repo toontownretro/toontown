@@ -118,7 +118,8 @@ class DistributedPatternGameAI(DistributedMinigameAI):
             self.nextRoundBarrier.clear(avId)
 
     def reportPlayerReady(self):
-        if self.gameFSM.getCurrentState().getName() != 'waitClientsReady':
+        #if self.gameFSM.getCurrentState().getName() != 'waitClientsReady':
+        if not self._inState('waitClientsReady'):
             return
         avId = self.air.getAvatarIdFromSender()
         assert not avId in self.readyClients

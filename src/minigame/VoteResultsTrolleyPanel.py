@@ -5,7 +5,7 @@ from toontown.toonbase.ToontownModules import Point3, TextNode, Vec4
 from toontown.minigame import TravelGameGlobals
 from toontown.toonbase import TTLocalizer
 from direct.interval.IntervalGlobal import Parallel, Sequence, LerpFunc, Func, Wait, SoundInterval
-
+from direct.showbase.PythonUtil import pdir
 
 class VoteResultsTrolleyPanel(DirectFrame):
     """

@@ -151,6 +151,10 @@ class DistributedPhotoGameAI(DistributedMinigameAI, PhotoGameBase.PhotoGameBase)
     def newClientPhotoScore(self, subjectIndex, pose, score):
         avId = self.air.getAvatarIdFromSender()
         if (self.gameFSM.getCurrentState() is None) or (self.gameFSM.getCurrentState().getName() != 'play'):
+            if self.gameFSM.getCurrentState() is None:
+                gameState = None
+            else:
+                gameState = self.gameFSM.getCurrentState().getName()
             self.air.writeServerEvent('suspicious', avId,
                                       'PhotoGameAI.newClientPhotoScore: game not in play state')
             return

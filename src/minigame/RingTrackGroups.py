@@ -19,6 +19,7 @@ def getRandomRingTrackGroup(type, numRings, rng):
     of a specific type (aka difficulty level)
     """
     #numRings = 2 #######
+    global trackListGenFuncs
     funcTable = trackListGenFuncs[type][numRings-1]
     func = rng.choice(funcTable)
     #func = get_plus_FASTER #######
@@ -235,6 +236,7 @@ plusPeriodFaster = 2.5
 # stagger the rings so they don't interpenetrate
 infinityTOffsets = []
 def __initInfinityTOffsets():
+    global infinityTOffsets
     offsets = [[],[],[],[]]
     offsets[0] = [0.]
     offsets[1] = [0.,3./4.]
@@ -343,6 +345,7 @@ def __initFuncTables():
     there are separate lists of functions for each possible number
     of rings (1..4)
     """
+    global trackListGenFuncs
     # create entries for STATIC, SIMPLE, and COMPLEX
     table = [[],[],[],]
     # for each difficulty level...

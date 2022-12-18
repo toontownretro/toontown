@@ -1094,7 +1094,7 @@ class DistributedCatchGame(DistributedMinigame):
 
         # create a drop placer, and construct a schedule of drops
         # self.DropPlacerType is actually a DropPlacer constructor
-        dropPlacer = self.DropPlacerType(self, self.droppedObjNames)
+        dropPlacer = self.DropPlacerType(self, self.getNumPlayers(), self.droppedObjNames)
 
         while not dropPlacer.doneDropping():
             self.dropSchedule.append(dropPlacer.getNextDrop())

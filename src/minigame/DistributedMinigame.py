@@ -148,6 +148,7 @@ class DistributedMinigame(DistributedObject.DistributedObject):
         self.startingVotes = {}
         self.metagameRound = -1
 
+        self._telemLimiter = None
 
     def addChildGameFSM(self, gameFSM):
         """ inheritors should call this with their game ClassicFSM """
@@ -273,6 +274,9 @@ class DistributedMinigame(DistributedObject.DistributedObject):
 
     def disable(self):
         self.notify.debug("BASE: disable")
+        if self._telemLimiter:
+            self._telemLimiter.destroy()
+            self._telemLimiter = None
         self.frameworkFSM.request('frameworkCleanup')
         taskMgr.remove(self.uniqueName('random-abort'))
         taskMgr.remove(self.uniqueName('random-disconnect'))

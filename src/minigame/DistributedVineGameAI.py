@@ -71,6 +71,13 @@ class DistributedVineGameAI(DistributedMinigameAI):
         del self.gameFSM
         DistributedMinigameAI.delete(self)
 
+    def _playing(self):
+        if not hasattr(self, 'gameFSM'):
+            return False
+        if self.gameFSM.getCurrentState() == None:
+            return False
+        return self.gameFSM.getCurrentState().getName() == 'play'
+
     # override some network message handlers
     def setGameReady(self):
         self.notify.debug("setGameReady")
@@ -173,7 +180,8 @@ class DistributedVineGameAI(DistributedMinigameAI):
 
     def claimTreasure(self, treasureNum):
         # if the game just ended, ignore this message
-        if self.gameFSM.getCurrentState().getName() != 'play':
+#        if self.gameFSM.getCurrentState().getName() != 'play':
+        if not self._playing():
             return
         # we're getting strange AI crashes where a toon claims
         # a treasure, and the toon is not listed in the scoreDict
@@ -240,6 +248,8 @@ class DistributedVineGameAI(DistributedMinigameAI):
         toon jumped to a new vine
         """
         self.notify.debug('setNewVine')
+        if not self._playing():
+            return
         if avId not in self.avIdList:
             self.air.writeServerEvent('suspicious', avId, 'VineGameAI.setNewVine: invalid avId')
             return
@@ -328,7 +338,7 @@ class DistributedVineGameAI(DistributedMinigameAI):
         if (newVineT is None) or (newVineT < 0) or (newVineT > 1):
             #self.notify.warning('invalid vineT for %d, setting to 0' % avId)
             pass
-        if not (newFacingRight == 0 or newFacingRight == 1):
+        if not (newFacingRight == 0 and not newFacingRight == 1):
             #self.notify.warning('invalid facingRight for %d, forcing to 1' % avId)
             newFacingRight = 1
         if (newPosX is None) or (newPosX < -1000) or (newPosX > 2000):

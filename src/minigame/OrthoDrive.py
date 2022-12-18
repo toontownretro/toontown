@@ -70,6 +70,7 @@ class OrthoDrive:
 
     def stop(self):
         self.notify.debug("stop")
+        self.lt.stopSound()
         taskMgr.remove(OrthoDrive.TASK_NAME)
         taskMgr.remove(OrthoDrive.SET_ATREST_HEADING_TASK)
         if hasattr(self, 'turnLocalToonIval'):

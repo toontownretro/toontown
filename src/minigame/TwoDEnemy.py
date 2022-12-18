@@ -60,7 +60,7 @@ class TwoDEnemy(DirectObject):
 
         if self.suitSound:
             self.suitSound.stop()
-            self.suitSound = None
+            del self.suitSound# = None
 
         if self.animTrack:
             self.animTrack.finish()
@@ -81,7 +81,7 @@ class TwoDEnemy(DirectObject):
 
         if self.moveIval:
             self.moveIval.pause()
-            self.moveIval = None
+            del self.moveIval# = None
         if self.suit:
             self.suit.delete()
             self.suit = None
@@ -191,6 +191,7 @@ class TwoDEnemy(DirectObject):
         """Cleanup the block move interval."""
         if self.moveIval:
             self.moveIval.pause()
+            del self.moveIval
         self.moveIval = None
 
     def start(self, elapsedTime):

@@ -1,6 +1,6 @@
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownModules import BitMask32
-from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import ConfigVariableBool
 
 ShowScoresDuration = 4. # in seconds, how long to display the player's score
 

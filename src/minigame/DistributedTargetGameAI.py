@@ -280,7 +280,7 @@ class DistributedTargetGameAI(DistributedMinigameAI):
     # network messages
     
     def setPlayerDone(self, other = None):
-        if not hasattr(self, "barrierScore"):
+        if not hasattr(self, "barrierScore") or self.barrierScore == None:
             return
         #print("received setPlayerDone")
         avId = self.air.getAvatarIdFromSender()

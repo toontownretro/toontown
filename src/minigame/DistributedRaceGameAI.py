@@ -10,7 +10,7 @@ from . import RaceGameGlobals
 
 """
 # Trolley manager code:
-import DistributedRaceGameAI
+from . import DistributedRaceGameAI
 # allocate a zone
 zoneId = simbase.air.allocateZone()
 print zoneId

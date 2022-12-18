@@ -81,9 +81,10 @@ class OrthoWalk:
         dt = globalClock.getDt()
         self.timeSinceLastPosBroadcast += dt
         if self.timeSinceLastPosBroadcast >= self.broadcastPeriod:
-            self.timeSinceLastPosBroadcast = 0            
+#            self.timeSinceLastPosBroadcast = 0            
             # broadcast the current position, if changed
-            self.lt.cnode.broadcastPosHprXyh()
+#            self.lt.cnode.broadcastPosHprXyh()
+            self.sendCurrentPosition
         return Task.cont
 
     def sendCurrentPosition(self):

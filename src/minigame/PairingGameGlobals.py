@@ -1,5 +1,5 @@
 from . import PlayingCardDeck
-from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import ConfigVariableBool
 
 EasiestGameDuration = 120
 HardestGameDuration = 90

@@ -10,7 +10,8 @@ from direct.fsm import ClassicFSM, State
 from direct.showbase import RandomNumGen
 from direct.task.Task import Task
 from direct.distributed.ClockDelta import globalClockDelta
-from toontown.toonbase.ToontownModules import Point3, Vec3
+from toontown.toonbase.ToontownModules import Point3, Vec3, \
+     ConfigVariableBool
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownTimer
 from .DistributedMinigame import DistributedMinigame
@@ -26,7 +27,6 @@ from . import MinigameAvatarScorePanel
 from . import MinigameGlobals
 
 import functools
-from toontown.toonbase.ToontownModules import *
 
 class DistributedMazeGame(DistributedMinigame):
     notify = directNotify.newCategory('DistributedMazeGame')

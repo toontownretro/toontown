@@ -1,6 +1,7 @@
 """DistributedCogThiefGameAI module: contains the DistributedCogThiefGameAI class"""
 import random
-from toontown.toonbase.ToontownModules import Point3
+from toontown.toonbase.ToontownModules import Point3, \
+     ConfigVariableBool, ConfigVariableInt
 from direct.fsm import ClassicFSM
 from direct.fsm import State
 from direct.distributed.ClockDelta import globalClockDelta
@@ -8,7 +9,6 @@ from direct.task import Task
 from toontown.minigame import DistributedMinigameAI
 from toontown.minigame import MinigameGlobals
 from toontown.minigame import CogThiefGameGlobals
-from toontown.toonbase.ToontownModules import *
 
 CTGG = CogThiefGameGlobals
 class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):

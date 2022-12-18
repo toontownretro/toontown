@@ -457,7 +457,8 @@ class DistributedIceGameAI(DistributedMinigameAI.DistributedMinigameAI):
 
     def endingPositions(self, positions):
         """Aribitrate on the ending positions."""
-        if self.gameFSM.getCurrentState().getName() != 'waitEndingPositions':
+        if not self.gameFSM or not self.gameFSM.getCurrentState() or \
+               self.gameFSM.getCurrentState().getName() != 'waitEndingPositions':
             return
         self.notify.debug('got endingPositions from client %s' % positions)
         avId = self.air.getAvatarIdFromSender()
@@ -482,7 +483,8 @@ class DistributedIceGameAI(DistributedMinigameAI.DistributedMinigameAI):
 
 
     def reportScoringMovieDone(self):
-        if self.gameFSM.getCurrentState().getName() != 'scoreMatch':
+        if not self.gameFSM or not self.gameFSM.getCurrentState() or \
+               self.gameFSM.getCurrentState().getName() != 'scoreMatch':
             return
 
         avId = self.air.getAvatarIdFromSender()
@@ -493,7 +495,8 @@ class DistributedIceGameAI(DistributedMinigameAI.DistributedMinigameAI):
 
     def claimTreasure(self, treasureNum):
         # if the game just ended, ignore this message
-        if self.gameFSM.getCurrentState().getName() != 'waitEndingPositions':
+        if not self.gameFSM or not self.gameFSM.getCurrentState() or \
+               self.gameFSM.getCurrentState().getName() != 'waitEndingPositions':
             return
         # we're getting strange AI crashes where a toon claims
         # a treasure, and the toon is not listed in the scoreDict
@@ -524,7 +527,8 @@ class DistributedIceGameAI(DistributedMinigameAI.DistributedMinigameAI):
 
     def claimPenalty(self, penaltyNum):
         # if the game just ended, ignore this message
-        if self.gameFSM.getCurrentState().getName() != 'waitEndingPositions':
+        if not self.gameFSM or not self.gameFSM.getCurrentState() or \
+               self.gameFSM.getCurrentState().getName() != 'waitEndingPositions':
             return
         # we're getting strange AI crashes where a toon claims
         # a penalty, and the toon is not listed in the scoreDict

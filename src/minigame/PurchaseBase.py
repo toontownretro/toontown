@@ -8,6 +8,7 @@ from direct.task import Task
 from direct.fsm import State
 from direct.fsm import ClassicFSM, State
 from toontown.toonbase import TTLocalizer
+from toontown.toontowngui.TeaserPanel import TeaserPanel
 
 class PurchaseBase(StateData.StateData):
 
@@ -95,9 +96,14 @@ class PurchaseBase(StateData.StateData):
 
         self.isBroke = 0
 
+        self._teaserPanel = None
+
         return
 
     def unload(self):
+        if self._teaserPanel:
+            self._teaserPanel.destroy()
+            self._teaserPanel = None
         self.jarImage.removeNode()
         del self.jarImage
         self.frame.destroy()
@@ -113,7 +119,14 @@ class PurchaseBase(StateData.StateData):
         """handleSelection(self, int, int)
         If item level accessable, add purchase button to detail inv menu.
         """
+        if gagIsPaidOnly(track, level):
+            if not base.cr.isPaid():
+                self._teaserPanel = TeaserPanel('restockGags', self._teaserDone)
         self.handlePurchase(track, level)
+
+    def _teaserDone(self):
+        self._teaserPanel.destroy()
+        self._teaserPanel = None
 
     def handlePurchase(self, track, level):
         """handlePurchase(self, track, level)

@@ -7,6 +7,7 @@ under the minigame framework without hard-coding them in.
 """
 from panda3d.core import ConfigVariableBool
 from toontown.toonbase import ToontownGlobals
+from toontown.toonbase.ToontownModules import ConfigVariableBool
 
 # This config allows devs to temporarily register temp games created with the minigame framework
 ALLOW_TEMP_MINIGAMES = ConfigVariableBool('allow-temp-minigames', False).getValue()
@@ -53,10 +54,10 @@ def _registerTempMinigame(name, Class, id, minPlayers=1, maxPlayers=4):
 # 2. Add the empty declaration to the DC file
 # 3. Register right here with a custom name, and give it an id >= 50 and < 100
 if ALLOW_TEMP_MINIGAMES:
-    from toontown.cogdominium.DistCogdoMazeGameAI import DistCogdoMazeGameAI
-    _registerTempMinigame("cogdomaze", DistCogdoMazeGameAI, id=50)
+#    from toontown.cogdominium.DistCogdoMazeGameAI import DistCogdoMazeGameAI
+#    _registerTempMinigame("cogdomaze", DistCogdoMazeGameAI, id=50)
 
-    from toontown.cogdominium.DistCogdoFlyingGameAI import DistCogdoFlyingGameAI
-    _registerTempMinigame("cogdoflying", DistCogdoFlyingGameAI, id=51)
+#    from toontown.cogdominium.DistCogdoFlyingGameAI import DistCogdoFlyingGameAI
+#    _registerTempMinigame("cogdoflying", DistCogdoFlyingGameAI, id=51)
 
     pass

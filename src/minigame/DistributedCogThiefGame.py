@@ -1,7 +1,8 @@
 """DistributedCogThiefGame module: contains the DistributedCogThiefGame class"""
 
 from toontown.toonbase.ToontownModules import Point3, CollisionSphere, CollisionNode, \
-     CollisionHandlerEvent, NodePath, TextNode
+     CollisionHandlerEvent, NodePath, TextNode, \
+     ConfigVariableBool, ConfigVariableDouble, ConfigVariableInt
 from direct.distributed.ClockDelta import globalClockDelta
 from direct.interval.IntervalGlobal import Wait, LerpFunctionInterval, \
      LerpHprInterval, Sequence, Parallel, Func, SoundInterval, ActorInterval, \
@@ -24,7 +25,6 @@ from toontown.minigame.DistributedMinigame import DistributedMinigame
 from toontown.minigame import Trajectory
 from toontown.minigame import MinigameGlobals
 from toontown.minigame import CogThiefWalk
-from toontown.toonbase.ToontownModules import *
 
 CTGG = CogThiefGameGlobals
 class DistributedCogThiefGame(DistributedMinigame):

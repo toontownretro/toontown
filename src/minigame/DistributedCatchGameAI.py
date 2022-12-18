@@ -171,7 +171,8 @@ class DistributedCatchGameAI(DistributedMinigameAI):
                 self.fruitsCaught += 1
 
     def reportDone(self):
-        if self.gameFSM.getCurrentState().getName() != 'play':
+        if not self.gameFSM or not self.gameFSM.getCurrentState() or \
+               self.gameFSM.getCurrentState().getName() != 'play':
             return
 
         avId = self.air.getAvatarIdFromSender()

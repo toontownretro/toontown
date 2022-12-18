@@ -555,7 +555,8 @@ class DistributedTwoDGame(DistributedMinigame):
     def checkValidity(self, avId):
         if not self.hasLocalToon: return False
 
-        if self.gameFSM.getCurrentState().getName() != 'play':
+        if self.gameFSM.getCurrentState() == None or \
+           self.gameFSM.getCurrentState().getName() != 'play':
             self.notify.warning('ignoring msg: av %s performing some action.' % avId)
             return False
 

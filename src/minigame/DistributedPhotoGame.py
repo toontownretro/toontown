@@ -888,6 +888,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
                 else:
 
                     return score
+        return None
 
 
         #import pdb; pdb.set_trace()
