@@ -1,6 +1,7 @@
 ### InventoryBase module: contains the InventoryBase class"""
 
 from toontown.toonbase.ToontownModules import *
+from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownBattleGlobals import *
 from direct.showbase import DirectObject
 from direct.directnotify import DirectNotifyGlobal
@@ -20,6 +21,7 @@ class InventoryBase(DirectObject.DirectObject):
         of an item and the maxHp to determine the total number
         of items. We get these both from the toon.
         """
+        self._createStack = str(StackTrace().compact())
         self.toon = toon
         # check to see if config overrides exp
         if (invStr == None):
@@ -126,25 +128,30 @@ class InventoryBase(DirectObject.DirectObject):
 
         max = self.getMax(track, level)
 
+        unpaid = self.toon.getGameAccess() != ToontownGlobals.AccessFull
+
         # check against current skill level
         if hasattr(self.toon,"experience") and hasattr(self.toon.experience, "getExpLevel"):
-                if (self.toon.experience.getExpLevel(track) >= level) and (self.toon.hasTrackAccess(track)):
-                    # check current against max
-                    if ( self.numItem(track,level) <= (max - amount) ):
-                        #ubergags not limited by gag bag size
-                        if (self.totalProps + amount <= self.toon.getMaxCarry()) or (level > LAST_REGULAR_GAG_LEVEL):
+            if (self.toon.experience.getExpLevel(track) >= level) and (self.toon.hasTrackAccess(track)):
+                # check current against max
+                if ( self.numItem(track,level) <= (max - amount) ):
+                    #ubergags not limited by gag bag size
+                    if (self.totalProps + amount <= self.toon.getMaxCarry()) or (level > LAST_REGULAR_GAG_LEVEL):
+                        if not (unpaid and Levels[track][level] > UnpaidMaxSkills[track]):
                             self.inventory[track][level] += amount
                             self.totalProps += amount
                             return self.inventory[track][level]
                         else:
-                            # over total max
-                            return -2
+                            return -3
                     else:
-                        # over item max
-                        return -1
+                        # over total max
+                        return -2
                 else:
-                    # insufficient skill or no access to track
-                    return 0
+                    # over item max
+                    return -1
+            else:
+                # insufficient skill or no access to track
+                return 0
         else:
             # deleted object
             return 0
@@ -297,6 +304,13 @@ class InventoryBase(DirectObject.DirectObject):
             for level in range(len(Levels[track])):
                 #print("Track: %s Level: %s" % (track, level))
                 if tempInv[track][level] > self.getMax(track, level):
+                    return 0
+                if tempInv[track][level] > 0 and not self.toon.hasTrackAccess(track):
+                    commentStr = "Player %s trying to purchase gag they don't have track access to. track: %s level: %s" % (self.toon.doId, track, level)
+                    dislId = self.toon.DISLid
+                    if ConfigVariableBool('want-ban-gagtrack', False).getValue():
+                        simbase.air.banManager.ban(self.toon.doId, dislId, commentStr)
+
                     #print("invalid norm %s" % (tempInv[track][level] ))
                     #import pdb; pdb.set_trace()
                     return 0
@@ -304,6 +318,20 @@ class InventoryBase(DirectObject.DirectObject):
                 if (level > LAST_REGULAR_GAG_LEVEL) and (tempInv[track][level] > self.inventory[track][level]) or allowUber:
                     #print("invalid uber")
                     return 0
+        return 1
+
+    def validateItemsBasedOnAccess(self, newInventory):
+        if self.toon.getGameAccess() == ToontownGlobals.AccessFull:
+            return 1
+        if type(newInventory) == type('String'):
+            tempInv = self.makeFromNetString(newInventory)
+        else:
+            tempInv = newInventory
+        for track in xrange(len(Tracks)):
+            for level in xrange(len(Levels[track])):
+                if tempInv[track][level] > self.inventory[track][level]:
+                    if Levels[track][level] > UnpaidMaxSkills[track]:
+                        return 0
         return 1
 
     def getMinCostOfPurchase(self, newInventory):
@@ -352,20 +380,23 @@ class InventoryBase(DirectObject.DirectObject):
             self.notify.warning("Cannot carry %s items! Rejecting purchase." % (newItemTotal))
             return 0
 
-        if self.validateItemsBasedOnExp(newInventory):
-            # The purchase is valid.
-            self.updateInventory(newInventory)
-            return 1
-        else:
+        if not self.validateItemsBasedOnExp(newInventory):
             self.notify.warning("Somebody is trying to buy forbidden items! " +
                                 "Rejecting purchase.")
             return 0
+        if not self.validateItemsBasedOnAccess(newInventory):
+            simbase.air.writeServerEvent('suspicious', self.toon.doId, 'non-paid av trying to purchase paid gags')
+            return 0
+        # The purchase is valid.
+        self.updateInventory(newInventory)
+        return 1
 
-    def maxOutInv(self, filterUberGags = 0):
+    def maxOutInv(self, filterUberGags = 0, filterPaidGags = 0):
         """maxInv(self):
         Iterate over all the props we might be able to use, and keep
         adding props until we have reached our max. This is for debugging.
         """
+        unpaid = self.toon.getGameAccess() != ToontownGlobals.AccessFull
         #print("Filter Uber Gags? %s" % (filterUberGags))
 
         # First, add at least one gag at each level.
@@ -373,23 +404,27 @@ class InventoryBase(DirectObject.DirectObject):
             if self.toon.hasTrackAccess(track):
                 for level in range (len(Levels[track])):
                     if ((level <= LAST_REGULAR_GAG_LEVEL) or (not filterUberGags)):
-                        self.addItem(track, level)
+                        if not filterPaidGags or not (unpaid and gagIsPaidOnly(track, level)):
+                            self.addItem(track, level)
 
         # Now, add from the top level down, so we end up with mostly
         # higher-level gags.
         addedAnything = 1
         while addedAnything:
             addedAnything = 0
+            result = 0
 
             for track in range(len(Tracks)):
                 if self.toon.hasTrackAccess(track):
                     level = len(Levels[track]) - 1
                     if level > LAST_REGULAR_GAG_LEVEL and filterUberGags:
                         level = LAST_REGULAR_GAG_LEVEL
-                    result = self.addItem(track, level)
+                    if not filterPaidGags or not (unpaid and gagIsPaidOnly(track, level)):
+                        result = self.addItem(track, level)
                     level -= 1
                     while result <= 0 and level >= 0:
-                        result = self.addItem(track, level)
+                        if not filterPaidGags or not (unpaid and gagIsPaidOnly(track, level)):
+                            result = self.addItem(track, level)
                         level -= 1
                     if result > 0:
                         addedAnything = 1
@@ -402,6 +437,8 @@ class InventoryBase(DirectObject.DirectObject):
         Iterate over all the props we might be able to use, and keep
         adding props until we have reached our max.
         """
+
+        result = 0
 
         # Go through the highest level(s) of gags and add
         # as many as possible, then move down to the next
@@ -443,3 +480,6 @@ class InventoryBase(DirectObject.DirectObject):
                self.inventory[track][UBER_GAG_LEVEL_INDEX] = 1
         self.calcTotalProps()
         return None
+
+    def _garbageInfo(self):
+        return self._createStack

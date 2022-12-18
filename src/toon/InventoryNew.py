@@ -1051,11 +1051,20 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
                     # we have some of this item.
                     if self.itemIsUsable(track, level):
                         button.show()
+                        unpaid = not base.cr.isPaid()
                         if ((self.numItem(track, level) >=
                              self.getMax(track, level)) or
                             (totalProps == maxProps) or
+                            (unpaid and gagIsPaidOnly(track, level)) or
                             (level > LAST_REGULAR_GAG_LEVEL)):
-                            self.makeUnpressable(button, track, level)
+                            if gagIsPaidOnly(track, level):
+                                self.makeDisabledPressable(button, track, level)
+                            elif unpaid and gagIsVelvetRoped(track, level):
+                                self.makeDisabledPressable(button, track, level)
+                            else:
+                                self.makeUnpressable(button, track, level)
+                        elif unpaid and gagIsVelvetRoped(track, level):
+                            self.makeDisabledPressable(button, track, level)
                         else:
                             self.makePressable(button, track, level)
                     else:
@@ -1109,11 +1118,20 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
                     # we have some of this item.
                     if self.itemIsUsable(track, level):
                         button.show()
+                        unpaid = not base.cr.isPaid()
                         if ((self.numItem(track, level) >=
                              self.getMax(track, level)) or
                             (totalProps == maxProps)
+                            or (unpaid and gagIsPaidOnly(track, level))
                             or level > LAST_REGULAR_GAG_LEVEL):
-                            self.makeUnpressable(button, track, level)
+                            if gagIsPaidOnly(track, level):
+                                self.makeDisabledPressable(button, track, level)
+                            elif unpaid and gagIsVelvetRoped(track, level):
+                                self.makeDisabledPressable(button, track, level)
+                            else:
+                                self.makeUnpressable(button, track, level)
+                        elif unpaid and gagIsVelvetRoped(track, level):
+                            self.makeDisabledPressable(button, track, level)
                         else:
                             self.makePressable(button, track, level)
                     else:
@@ -1286,6 +1304,7 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
                     # Make sure we are allowed to use this track, and that
                     # we have some of this item.
                     if self.itemIsUsable(track, level):
+                        unpaid = not base.cr.isPaid()
                         button.show()
                         # In delete mode, buttons are only pressable
                         # if you have some of the item, and you are
@@ -1295,6 +1314,8 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
                             ((track == TRAP_TRACK) and not self.trap) or
                             ((track == LURE_TRACK) and not self.lure)):
                             self.makeUnpressable(button, track, level)
+                        elif unpaid and gagIsVelvetRoped(track, level):
+                            self.makeDisabledPressable(button, track, level)
                         elif self.itemIsCredit(track, level):
                             self.makePressable(button, track, level)
                         else:
@@ -1460,6 +1481,27 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
             button.configure(image_color = self.PressableImageColor)
         return
 
+    def makeDisabledPressable(self, button, track, level):
+        # make special text color if the gag is buffed (via gardening)
+        organicBonus = self.toon.checkGagBonus(track, level)
+        propBonus = self.checkPropBonus(track)
+        bonus = organicBonus or propBonus
+        if bonus:
+            shadowColor = self.UnpressableShadowBuffedColor
+        else:
+            shadowColor = self.ShadowColor
+        button.configure(
+            text_shadow = shadowColor,
+            geom_color = self.UnpressableGeomColor,
+            image_image = self.flatButton,
+            commandButtons = (DGG.LMB,),
+            )
+        # This must come after the first configure because we need
+        # to set the color after setting the actual image. There are
+        # no ordering guarantees in the configure paramaters
+        button.configure(image_color=self.UnpressableImageColor)
+        return
+
     def makeNoncreditPressable(self, button, track, level):
         # make special text color if the gag is buffed (via gardening)
         organicBonus = self.toon.checkGagBonus(track, level)
@@ -1562,7 +1604,7 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
 
         # Put the next label in the right spot
         curExp, nextExp = self.getCurAndNextExpValues(trackIndex)
-        if curExp >= UnpaidMaxSkill and self.toon.getGameAccess() != OTPGlobals.AccessFull:
+        if curExp >= UnpaidMaxSkills[trackIndex] and self.toon.getGameAccess() != OTPGlobals.AccessFull:
             self.trackBars[trackIndex]['range'] = nextExp
             self.trackBars[trackIndex]["text"] = (TTLocalizer.InventoryGuestExp)
 
@@ -1621,7 +1663,7 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
             for track in range(len(Tracks)):
                 # Update the number of experience points per track
                 curExp, nextExp = self.getCurAndNextExpValues(track)
-                if curExp >= UnpaidMaxSkill and self.toon.getGameAccess() != OTPGlobals.AccessFull:
+                if curExp >= UnpaidMaxSkills[track] and self.toon.getGameAccess() != OTPGlobals.AccessFull:
                     self.trackBars[track]['range'] = nextExp
                     self.trackBars[track]["text"] = (TTLocalizer.InventoryGuestExp)
 
@@ -1813,7 +1855,7 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
         """If we have a propBonusIval, stop it and reset it to empty Parallel."""
         if self.propBonusIval and self.propBonusIval.isPlaying():
             self.propBonusIval.finish()
-        self.propBonusIval = Parallel()
+        self.propBonusIval = Parallel(name = "dummyPropBonusIval")
 
     def addToPropBonusIval(self, button):
         """We have a button, make it flash and add it to propBonusIval."""
