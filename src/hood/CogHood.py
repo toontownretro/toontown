@@ -40,7 +40,7 @@ class CogHood(Hood.Hood):
         # Make sure the polygons on the sky are ordered correctly.
         skyInner = self.sky.find('**/InnerGroup')
         skyMiddle = self.sky.find('**/MiddleGroup')
-        skyOuter = self.sky.find('**/OutterSky')
+        skyOuter = self.sky.find('**/wholeSky')
 
         if not skyOuter.isEmpty():
             skyOuter.setBin('background', 0)
