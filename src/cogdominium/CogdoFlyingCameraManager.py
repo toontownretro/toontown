@@ -108,7 +108,7 @@ class CogdoFlyingCameraManager:
 
     def update(self, dt = 0.0):
         self._updateCam(dt)
-        #self._updateCollisions() # fix
+        self._updateCollisions()
 
     def _updateCam(self, dt):
         toonPos = self._toon.getPos()
