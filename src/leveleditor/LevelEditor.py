@@ -1336,7 +1336,7 @@ class LevelEditor(NodePath, DirectObject):
             modelPathStr += path
 
         modelPath = getModelPath().findFile(modelPathStr)
-        animFileList = glob.glob('%s%s/%s_a_%s_*.bam'%(os.environ['PLAYER'], modelPath, tokens[0], tokens[1]))
+        animFileList = glob.glob('%s/%s_a_%s_*.bam'%(modelPath, tokens[0], tokens[1]))
 
         # [gjeon] define anim list menu for selection
         animNameList = []
@@ -1472,7 +1472,7 @@ class LevelEditor(NodePath, DirectObject):
             buildingType = createHeightCode(heightList)
         else:
             # Use specified height list
-            heightList = list(map(string.atof, string.split(buildingType, '_')))
+            heightList = list(map(atof, buildingType.split('_')))
             height = calcHeight(heightList)
             # Is this a never before seen height list?  If so, record it.
             try:
@@ -5551,7 +5551,7 @@ class LevelEditorPanel(Pmw.MegaToplevel):
                      baseline.setFlags(flags+flagChar)
             elif flagChar in flags:
                  # Remove the flag:
-                 flags=string.join(flags.split(flagChar), '')
+                 flags=''.join(flags.split(flagChar))
                  baseline.setFlags(flags)
             self.levelEditor.replaceSelected()
 
@@ -5682,7 +5682,7 @@ class LevelEditorPanel(Pmw.MegaToplevel):
         self.levelEditor.addInteractiveProp(self.interactivePropType)
 
     def updateSelectedWallWidth(self, strVal):
-        self.levelEditor.updateSelectedWallWidth(string.atof(strVal))
+        self.levelEditor.updateSelectedWallWidth(atof(strVal))
 
     def setCurrentColor(self, colorVec, fUpdate = 0):
         # Turn on/off update of selected before updating entry

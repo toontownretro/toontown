@@ -9,16 +9,18 @@ from direct.tkwidgets import VectorWidgets
 from . import Fireworks
 from direct.tkwidgets import Slider
 from direct.task import Task
-import Types
+import types
 import string
 import functools
+
+from toontown.toonbase.ToontownModules import Filename, ConfigVariableString, Point3
 
 NUM_RB_COLS = 8
 MAX_AMP = 100
 
 ttmodelsDirectory = Filename.expandFrom("$TTMODELS")
 
-UppercaseColorNames = list(map(string.upper, ColorNames))
+UppercaseColorNames = list(map(str.upper, ColorNames))
 
 dnaDirectory = Filename.expandFrom(ConfigVariableString("dna-directory", "$TTMODELS/src/dna").getValue())
 
@@ -374,7 +376,7 @@ class FireworksShow:
             currT = fw.getStartTime()
             if currT < startT:
                 continue
-            if (endT is not 'END') and (currT > endT):
+            if (endT != 'END') and (currT > endT):
                 break
             pos = fw.getPos()
             pos.set(pos[0] + dx, pos[1] + dy, pos[2] + dz)
@@ -385,7 +387,7 @@ class FireworksShow:
             currT = fw.getStartTime()
             if currT < startT:
                 continue
-            if (endT is not 'END') and (currT > endT):
+            if (endT != 'END') and (currT > endT):
                 break
             fw.setStartTime(currT + dt)
 

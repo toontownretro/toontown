@@ -1095,10 +1095,12 @@ class RobotToonManager(DirectObject):
 
     def makeRandomToon(self, toNpcId = None):
         # Check for intersection
-        entry = self.iRay.pickGeom(skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA)
+        entry = self.iRay.pickGeom(
+            skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA)
         if not entry:
             # Try again just at the center of the screen
-            entry = self.iRay.pickGeom(skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA, xy = (0, -0.2))
+            entry = self.iRay.pickGeom(skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA,
+                                       xy = (0, -0.2))
         # If we got a valid intersection point
         if entry:
             self.s1.setPos(camera, entry.getSurfacePoint(entry.getFromNodePath()))

@@ -426,4 +426,4 @@ class ToonLevelEditor(LevelEditorBase):
 
 
 base.le = ToonLevelEditor()
-run()
+base.run()
