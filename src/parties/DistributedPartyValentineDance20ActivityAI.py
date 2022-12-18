@@ -5,7 +5,7 @@
 from toontown.parties import PartyGlobals
 from toontown.parties.DistributedPartyDanceActivityBaseAI import DistributedPartyDanceActivityBaseAI
 
-class DistributedPartyValentineDanceActivityAI(DistributedPartyDanceActivityBaseAI):
+class DistributedPartyValentineDance20ActivityAI(DistributedPartyDanceActivityBaseAI):
     """ Reskinned dance floor for valentines party holiday. """
 
     def __init__(elf, air, partyDoId, x, y, h):

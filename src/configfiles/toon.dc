@@ -129,6 +129,7 @@ from toontown.coghq import DistributedLawOfficeElevatorExt/AI
 from toontown.coghq import DistributedLawOfficeElevatorInt/AI
 from toontown.building import DistributedElevatorFloor/AI
 from toontown.building import DistributedBossElevator/AI
+from toontown.building import DistributedVPElevator/AI
 from toontown.building import DistributedCFOElevator/AI
 from toontown.building import DistributedCJElevator/AI
 from toontown.building import DistributedBBElevator/AI
@@ -301,6 +302,7 @@ from toontown.uberdog.DistributedPartyManager/AI/UD import DistributedPartyManag
 
 from toontown.rpc.AwardManager/UD import AwardManager/UD
 from toontown.uberdog.DistributedCpuInfoMgr/AI/UD import DistributedCpuInfoMgr/AI/UD
+//from toontown.uberdog.DistributedSecurityMgr/AI/UD import DistributedSecurityMgr/AI/UD
 
 from toontown.rpc.RATManager/UD import RATManager/UD
 
@@ -513,6 +515,7 @@ typedef int16 pair16[2];
 dclass DistributedToon: DistributedPlayer {
   setDNAString(blob) required broadcast ownrecv db;
   setMaxBankMoney(int16 = 1000) required broadcast ownrecv db;
+  setGM(uint8 = 0) required broadcast ownrecv db;
   setBankMoney(int16 = 0) required broadcast ownrecv db;
   setMaxMoney(int16 = 40) required broadcast ownrecv db;
   setMoney(int16 = 0) required broadcast ownrecv db;
@@ -658,6 +661,8 @@ dclass DistributedToon: DistributedPlayer {
   // List of safe zones you can teleport to
   setTeleportAccess(uint32array = {}) required ownrecv db;
 
+  checkTeleportAccess(uint16) airecv ownsend;
+
   // TODO: check these clsends closely for security later
   battleSOS(uint32 requesterID) ownrecv clsend; //requesterID is verified. appears safe
   teleportQuery(uint32 requesterId) ownrecv clsend; //requesterId is verified. appears safe
@@ -681,6 +686,10 @@ dclass DistributedToon: DistributedPlayer {
   // For now, this is not a db field.  It is set locally according to
   // hoodsVisited.
   setDisguisePageFlag(int8 = 0) ownrecv;
+
+  // For now, this is not a db field.  It is set locally according to
+  // hoodsVisited.
+  setSosPageFlag(int8 = 0) ownrecv;
 
   setHouseId(uint32 id = 0) required ownrecv db;
   setQuests(uint32array = {}) required broadcast ownrecv db;
@@ -855,6 +864,17 @@ dclass DistributedToon: DistributedPlayer {
   setPartyCanStart( uint64 partyId ) ownrecv airecv; // uberdog to client avatar and AI
   setPartyStatus( uint64 partyId, uint8 ) ownrecv airecv; // uberdog to client avatar and AI
   announcePartyStarted( uint64 partyId ) ownrecv;
+
+  setModuleInfo(string []) airecv clsend;
+  
+  setDISLname(string) ram;
+  setDISLid(uint32) ram db airecv;
+  
+  flagAv(uint32, uint16, string []) airecv ownsend;
+  
+  requestPing(uint32) airecv ownsend;
+  ping(char [0-1024]);
+  pingresp(char [0-1024]) airecv ownsend;
 };
 
 
@@ -1178,6 +1198,8 @@ dclass DistributedSellbotBoss: DistributedBossCog {
   doStrafe(uint8 side, uint8 direction) broadcast;
 
   cagedToonBattleThree(uint16 index, uint32 avId) broadcast;
+
+  toonPromoted(uint8(0-1));
 };
 
 dclass DistributedCashbotBoss: DistributedBossCog {
@@ -1958,6 +1980,9 @@ dclass DistributedPartyCatchActivity: DistributedPartyActivity {
   setObjectCaught(uint32 avId, uint32 generation, uint32 objNum) broadcast;
 };
 
+dclass DistributedPartyWinterCatchActivity : DistributedPartyCatchActivity {
+};
+
 dclass DistributedPartyCogActivity: DistributedPartyTeamActivity {
   // client to clients
   pieThrow(uint32 toonId, int32 timestamp, int32 h/100,  int32 x/100, int32 y/100, int32 z/100, uint8 power) clsend broadcast;
@@ -1969,6 +1994,9 @@ dclass DistributedPartyCogActivity: DistributedPartyTeamActivity {
   // AI to clients
   setCogDistances(int8/100 distances[3]) broadcast ram;
   setHighScore(string toonName, uint16 score) broadcast ram;
+};
+
+dclass DistributedPartyWinterCogActivity : DistributedPartyCogActivity {
 };
 
 dclass DistributedPartyDanceActivityBase: DistributedPartyActivity {
@@ -1986,6 +2014,12 @@ dclass DistributedPartyDanceActivity: DistributedPartyDanceActivityBase {
 dclass DistributedPartyDance20Activity: DistributedPartyDanceActivityBase {
 };
 
+dclass DistributedPartyValentineDanceActivity : DistributedPartyDanceActivityBase {
+};
+
+dclass DistributedPartyValentineDance20Activity : DistributedPartyDanceActivityBase {
+};
+
 
 dclass DistributedPartyJukeboxActivityBase: DistributedPartyActivity {
   setNextSong(jukeboxSongInfo nextSongInfo) clsend airecv;
@@ -2001,6 +2035,12 @@ dclass DistributedPartyJukeboxActivity:DistributedPartyJukeboxActivityBase {
 };
 
 dclass DistributedPartyJukebox40Activity:DistributedPartyJukeboxActivityBase {
+};
+
+dclass DistributedPartyValentineJukeboxActivity : DistributedPartyJukeboxActivityBase {
+};
+
+dclass DistributedPartyValentineJukebox40Activity : DistributedPartyJukeboxActivityBase {
 };
 
 dclass DistributedPartyCannonActivity: DistributedPartyActivity {
@@ -4508,9 +4548,9 @@ dclass DistributedInGameNewsMgr : DistributedObjectGlobal {
 // in the ideal world we'd only have a UD object which sends updates directly to client objects, without AI
 dclass DistributedWhitelistMgr : DistributedObjectGlobal {
    // AI to clients
-  updateWhitelist(string latestlist) broadcast;
+  updateWhitelist(latestlist) broadcast;
   whitelistMgrAIStartingUp(uint32 doId, uint32 shardId); // ai to ud sent on whitelistManagerAI.announceGenerate
-  newListUDtoAI(string latestList) airecv;  // ud to all AIs
+  newListUDtoAI() airecv;  // ud to all AIs
 };
 
 
