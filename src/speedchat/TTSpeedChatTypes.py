@@ -19,7 +19,7 @@ from .TTSCSillyPhaseTwoMenu import TTSCSillyPhaseTwoMenu
 from .TTSCSillyPhaseThreeMenu import TTSCSillyPhaseThreeMenu
 from .TTSCSillyPhaseFourMenu import TTSCSillyPhaseFourMenu
 from .TTSCSillyPhaseFiveMenu import TTSCSillyPhaseFiveMenu
-from .TTSCCarolMenu import TTSCCarolMenu
+#from .TTSCCarolMenu import TTSCCarolMenu
 from .TTSCVictoryPartiesMenu import TTSCVictoryPartiesMenu
 from .TTSCSellbotNerfMenu import TTSCSellbotNerfMenu
 from .TTSCLawbotNerfMenu import TTSCLawbotNerfMenu

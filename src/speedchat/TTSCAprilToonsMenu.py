@@ -10,7 +10,7 @@ from otp.otpbase import OTPLocalizer
 #this is the structure of the racing menu
 AprilToonsMenu = [ 
     (OTPLocalizer.AprilToonsMenuSections[1],            # GREETINGS
-        [30100, 30101,]),
+        [30100, 30101, 30102,]),
     (OTPLocalizer.AprilToonsMenuSections[2],            # PLAYGROUNDS
         [30110, 30111, 30112, 30113, 30114, 30115,]),
     (OTPLocalizer.AprilToonsMenuSections[3],            # CHARACTERS
