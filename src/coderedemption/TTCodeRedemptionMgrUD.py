@@ -4,7 +4,7 @@ from direct.http.WebRequest import WebRequestDispatcher
 import xml.etree.ElementTree as ET
 from direct.showbase.HTMLTree import HTMLTree
 from direct.showbase.PythonUtil import unescapeHtmlString as uhs
-#from direct.showbase.PythonUtil import str2elements
+from direct.showbase.PythonUtil import str2elements
 from direct.http import recaptcha
 from direct.task import Task
 from otp.distributed import OtpDoGlobals
@@ -1636,7 +1636,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             else:
                 while 1:
                     try:
-                        code = str(code, 'utf-8')
+                        code = str(code + 'utf-8')
                     except UnicodeDecodeError as e:
                         # code is not utf-8-able
                         self.air.writeServerEvent('suspicious', avId, 'non-utf-8 code redemption: %s' % repr(code))
@@ -1657,7 +1657,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                 if self._wantSpamDetect and self._spamDetector.avIsBlocked(senderId):
                     self.air.writeServerEvent('suspicious', avId,
                                               'too many invalid code redemption attempts, '
-                                              'submission rejected: %s' % u2ascii(code))
+                                              'submission rejected: %s' % (code))
                     result = TTCodeRedemptionConsts.RedeemErrors.TooManyAttempts
 
             if result is not None:
