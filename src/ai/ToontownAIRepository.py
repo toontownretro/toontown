@@ -411,9 +411,9 @@ class ToontownAIRepository(AIDistrict):
         #self.securityMgr = DistributedSecurityMgrAI.DistributedSecurityMgrAI(self)
         #self.securityMgr.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
-        #if ConfigVariableBool('want-code-redemption', 1).getValue():
-        #    self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
-        #    self.codeRedemptionManager.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
+        if ConfigVariableBool('want-code-redemption', 1).getValue():
+            self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
+            self.codeRedemptionManager.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
         self.randomSourceManager = NonRepeatableRandomSourceAI(self)
         # QuietZone so that the client doesn't get a generate
