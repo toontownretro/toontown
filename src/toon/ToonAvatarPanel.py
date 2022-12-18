@@ -234,6 +234,11 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         if base.cr.avatarFriendsManager.checkIgnored(self.avId):
             self.secretsButton['state'] = DGG.DISABLED
 
+        from toontown.coghq import CogHQBossBattle
+        if isinstance(base.cr.playGame.getPlace(), CogHQBossBattle.CogHQBossBattle) and \
+                base.localAvatar.getGameAccess() != OTPGlobals.AccessFull:
+            self.secretsButton['state'] = DGG.DISABLED
+
         # ignore or stop ignoring? (see AvatarPanelBase.py)
         ignoreStr, ignoreCmd, ignoreScale = self.getIgnoreButtonInfo()
 
