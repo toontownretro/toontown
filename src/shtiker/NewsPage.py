@@ -6,7 +6,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.shtiker import ShtikerPage
 from toontown.toonbase import TTLocalizer
-from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import ConfigVariableBool
 
 UseDirectNewsFrame = ConfigVariableBool("use-direct-news-frame", True).getValue()
 HaveNewsFrame = True
