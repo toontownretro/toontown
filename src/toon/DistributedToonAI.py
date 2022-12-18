@@ -50,7 +50,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.catalog import CatalogAccessoryItem
 
 from toontown.minigame import MinigameCreatorAI
-#from . import ModuleListAI
+from . import ModuleListAI
 from functools import reduce
 
 if simbase.wantPets:
@@ -95,7 +95,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     BanOnDbCheckFail = ConfigVariableBool('want-ban-dbcheck', False).getValue()
     DbCheckAccountDateEnable = ConfigVariableBool('account-blackout-enable', True).getValue()
     DbCheckAccountDateBegin = ConfigVariableString('account-blackout-start', '2013-08-20 12:30:00').getValue()
-    DbCheckAccountDateDisconnect = ConfigVariableBool('account-blackout-disconnect', True).getValue()
+    DbCheckAccountDateDisconnect = ConfigVariableBool('account-blackout-disconnect', False).getValue()
     WantOldGMNameBan = ConfigVariableBool('want-old-gm-name-ban', True).getValue()
 
     def __init__(self, air):
@@ -140,12 +140,13 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         self.cogRadar = [0, 0, 0, 0]
         self.cogIndex = -1
         self.disguisePageFlag = 0
+        self.sosPageFlag = 0
         self.buildingRadar = [0, 0, 0, 0]
         self.fishingRod = 0
         self.fishingTrophies = []
         self.trackArray = []
         self.emoteAccess = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-        self.maxBankMoney = 1000
+        self.maxBankMoney = 1000 #ToontownGlobals.DefaultMaxBankMoney
         self.gardenSpecials = []#[(0,2), (1,2), (2,2), (3,2)]
 
         self.houseId = 0
@@ -158,7 +159,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         self.immortalMode = 0
         self.numPies = 0
         self.pieType = 0
-        
+
         self._isGM = False
         self._gmType = None
 
@@ -233,7 +234,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         self.partiesInvitedTo = []
         self.partyReplyInfoBases = []
         
-        #self.modulelist = ModuleListAI.ModuleList()
+        self.modulelist = ModuleListAI.ModuleList()
         self._dbCheckDoLater = None
 
     #def __del__(self):
@@ -258,9 +259,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         DistributedPlayerAI.DistributedPlayerAI.announceGenerate(self)
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.announceGenerate(self)
         if self.isPlayerControlled():
-            '''self._doDbCheck()
+            self._doDbCheck()
             if self.WantOldGMNameBan:
-                self._checkOldGMName()'''
+                self._checkOldGMName()
             messenger.send('avatarEntered', [self])
         if hasattr(self, 'gameAccess') and self.gameAccess != 2:
             if self.hat[0] != 0:
@@ -279,6 +280,72 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                 self.replaceItemInAccessoriesList(ToonDNA.SHOES, 0, 0, 0, self.shoes[0], self.shoes[1], self.shoes[2])
                 self.b_setShoesList(self.shoesList)
                 self.b_setShoes(0, 0, 0)
+        self.startPing()
+
+    ### Database Checks
+
+    def _doDbCheck(self, task = None):
+        self._dbCheckDoLater = None
+        #self.air.sendQueryToonMaxHp(self.doId, self._handleDbCheckResult)
+        self.air.queryToonMaxHp(self.doId, self._handleDbCheckResult)
+        return Task.done
+
+    def _doDbCheckBan(self, desc):
+        if self.BanOnDbCheckFail:
+            self.ban(desc)
+        else:
+            self.air.writeServerEvent('suspicious', self.doId, desc)
+        self.requestDelete()
+
+    def _handleDbCheckResult(self, result):
+        if not self.isGenerated():
+            return
+        if result is None:
+            self._doDbCheckBan('toon %s not present in the database' % self.doId)
+        else:
+            self.air.securityMgr.getAccountId(self.doId, self._handleDbCheckGetAccountResult)
+
+    def _handleDbCheckGetAccountResult(self, accountId):
+        if not self.isGenerated():
+            return
+        if accountId is None:
+            self._renewDoLater()
+        else:
+            self.air.sendFieldQuery('AccountAI', 'ACCOUNT_AV_SET', accountId, self._handleDbCheckGetAvSetResult)
+            if DistributedToonAI.DbCheckAccountDateEnable:
+                self.air.sendFieldQuery('AccountAI', 'CREATED', accountId, self._handleDbCheckAccountCreatedResult)
+
+    def _handleDbCheckGetAvSetResult(self, avSet):
+        if not self.isGenerated():
+            return
+        renewDoLater = True
+        if avSet is None:
+            self._doDbCheckBan("toon %s's account has no ACCOUNT_AV_SET in the DB" % self.doId)
+            renewDoLater = False
+        elif self.doId not in avSet:
+            self._doDbCheckBan('toon %s not in ACCOUNT_AV_SET in the DB' % self.doId)
+            renewDoLater = False
+        self._renewDoLater(renewDoLater)
+
+    def _handleDbCheckAccountCreatedResult(self, created):
+        if not self.isGenerated():
+            return
+        if created is None:
+            self._doDbCheckBan("toon %s's account has no CREATED in the DB" % self.doId)
+        elif created >= DistributedToonAI.DbCheckAccountDateBegin:
+            msg = 'account created during invalid period (toon) %s' % created
+            if DistributedToonAI.DbCheckAccountDateDisconnect:
+                self.disconnect()
+                msg += ', disconnecting'
+            self.air.writeServerEvent('account', self.doId, msg)
+            self.notify.warning('%s ' % self.doId + msg)
+
+    def _renewDoLater(self, renew = True):
+        if renew:
+            delay = self.DbCheckPeriodUnpaid
+            if self.gameAccess == OTPGlobals.AccessFull:
+                delay = self.DbCheckPeriodPaid
+            self._dbCheckDoLater = taskMgr.doMethodLater(delay, self._doDbCheck, 'dbCheck-%s' % self.doId)
 
     ### Field definitions
 
@@ -341,6 +408,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         if simbase.wantPets:
             PetLookerAI.PetLookerAI.destroy(self)
         del self.kart
+        self.cleanupPing()
+        self.stopPing()
 
         self._sendExitServerEvent()
 
@@ -356,6 +425,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         if self.inventory:
             self.inventory.unload()
         del self.inventory
+        self.experience = None
 
         # Stop the catalog timer too. #we get this case when we open a somebody else's closet
         taskName = self.uniqueName('next-catalog')
@@ -472,10 +542,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                     break
 
             if accessoryItemId == 0:
-                self.air.writeServerEvent('suspicious', self.doId, 'Toon tried to wear invalid %s %d %d %d' % (accessoryTypeStr,
-                 idx,
-                 textureIdx,
-                 colorIdx))
+                self.air.writeServerEvent('suspicious', self.doId, 'Toon tried to wear invalid %s %d %d %d' % (
+                                          accessoryTypeStr, idx, textureIdx, colorIdx))
                 return 0
             if not ConfigVariableBool('want-check-accessory-sanity', False).getValue():
                 return 1
@@ -485,10 +553,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                 self.air.writeServerEvent('suspicious', self.doId, 'Toon wore unreleased accessoryItem %d' % accessoryItemId)
             return result
         except:
-            self.air.writeServerEvent('suspicious', self.doId, 'Toon tried to wear invalid %s %d %d %d' % (accessoryTypeStr,
-             idx,
-             textureIdx,
-             colorIdx))
+            self.air.writeServerEvent('suspicious', self.doId, 'Toon tried to wear invalid %s %d %d %d' % (
+                                      accessoryTypeStr, idx, textureIdx, colorIdx))
             return 0
 
     def b_setHat(self, idx, textureIdx, colorIdx):
@@ -568,6 +634,31 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
     def setDNAString(self, string):
         self.dna.makeFromNetString(string)
+        if ConfigVariableBool('adjust-dna', True).getValue() and self.verifyDNA() == False:
+            logStr = "AvatarHackWarning! invalid dna colors for %s old: %s new: %s" % (self.doId, str(ToonDNA.ToonDNA(string).asTuple()), str(self.dna.asTuple()))
+            self.notify.warning(logStr)
+            self.air.writeServerEvent('suspicious', self.doId, logStr)
+
+    def verifyDNA(self):
+        changed = False
+        if self.isPlayerControlled():
+            allowedColors = []
+            if self.dna.gender == 'm':
+                allowedColors = ToonDNA.defaultBoyColorList + [26]
+            else:
+                allowedColors = ToonDNA.defaultGirlColorList + [26]
+            if self.dna.legColor not in allowedColors:
+                self.dna.legColor = allowedColors[0]
+                changed = True
+            if self.dna.armColor not in allowedColors:
+                self.dna.armColor = allowedColors[0]
+                changed = True
+            if self.dna.headColor not in allowedColors:
+                self.dna.headColor = allowedColors[0]
+                changed = True
+            if changed:
+                self.d_setDNAString(self.dna.makeNetString())
+        return not changed
 
     def getDNAString( self ):
         """
@@ -662,9 +753,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         # directly usable.
         return self.inventory.makeNetString()
 
-    def doRestock(self, noUber = 1):
+    def doRestock(self, noUber = 1, noPaid = 1):
         self.inventory.zeroInv()
-        self.inventory.maxOutInv(noUber)
+        self.inventory.maxOutInv(noUber, noPaid)
         self.d_setInventory(self.inventory.makeNetString())
 
     def setDefaultShard(self, shard):
@@ -735,10 +826,22 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         # quest manager.
 
     def d_setMaxNPCFriends(self, max):
-        self.sendUpdate("setMaxNPCFriends", [self.maxNPCFriends])
+        self.sendUpdate("setMaxNPCFriends", [max])
 
-    def setMaxNPCFriends(self, max):
-        self.maxNPCFriends = max
+    def setMaxNPCFriends(self, max): # check hex
+        if max & 32768:
+            self.b_setSosPageFlag(1)
+            max &= 32767
+        configMax = ConfigVariableInt('max-sos-cards', 16).getValue()
+        if configMax != max:
+            if self.sosPageFlag == 0:
+                self.b_setMaxNPCFriends(configMax)
+            else:
+                self.b_setMaxNPCFriends(configMax | 32768)
+        else:
+            self.maxNPCFriends = max
+        if self.maxNPCFriends != 8 and self.maxNPCFriends != 16:
+            self.notify.warning('Wrong max SOS cards %s, %d' % (self.maxNPCFriends, self.doId))
 
     def b_setMaxNPCFriends(self, max):
         self.setMaxNPCFriends(max)
@@ -807,6 +910,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         if (self.NPCFriendsDict[npcFriend] > self.maxCallsPerNPC):
             self.NPCFriendsDict[npcFriend] = self.maxCallsPerNPC
         self.d_setNPCFriendsDict(self.NPCFriendsDict)
+        if self.sosPageFlag == 0:
+            self.b_setMaxNPCFriends(self.maxNPCFriends | 32768)
         return 1
 
     def attemptSubtractNPCFriend(self, npcFriend):
@@ -1235,6 +1340,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                     # If you get killed, set your HP to -1 so you have
                     # a timeout in the safezone.
                     self.hp = -1
+                    messenger.send(self.getGoneSadMessage())
 
         if not self.hpOwnedByBattle:
             # We still need to check maxHp even in takeDamage(), since
@@ -1310,15 +1416,15 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def d_setAnimState(self, animName, animMultiplier):
         timestamp = globalClockDelta.getRealNetworkTime()
         self.sendUpdate("setAnimState", [animName, animMultiplier, timestamp])
+        return None
 
     def setAnimState(self, animName, animMultiplier, timestamp=0):
         if animName not in ToontownGlobals.ToonAnimStates:
-            desc = 'tried to set invalid animState: %s' % (animName,)
+            desc = "tried to set invalid animState: %s" % (animName,)
             if ConfigVariableBool('want-ban-animstate', True).getValue():
                 simbase.air.banManager.ban(self.doId, self.DISLid, desc)
             else:
                 self.air.writeServerEvent('suspicious', self.doId, desc)
-            return
         self.animName = animName
         self.animMultiplier = animMultiplier
 
@@ -1666,14 +1772,17 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
     def b_setCogIndex(self, index):
         self.setCogIndex(index)
-        self.d_setCogIndex(index)
+        if ConfigVariableBool('cogsuit-hack-prevent', False).getValue():
+            self.d_setCogIndex(self.cogIndex)
+        else:
+            self.d_setCogIndex(index)
 
     def setCogIndex(self, index):
-        if index != -1:
-            if not ToontownAccessAI.canWearSuit(self.doId, self.zoneId):
-                simbase.air.cogSuitMessageSent or self.notify.warning('%s setCogIndex invalid: %s' % (self.doId, index))
+        if index != -1 and not ToontownAccessAI.canWearSuit(self.doId, self.zoneId):
+            if not simbase.air.cogSuitMessageSent:
+                self.notify.warning('%s setCogIndex invalid: %s' % (self.doId, index))
                 if ConfigVariableBool('want-ban-wrong-suit-place', False).getValue():
-                    commentStr = 'Toon %s trying to set cog index to %s in Zone: %s' % (self.doId, index, self.zoneId)
+                    commentStr = "Toon %s trying to set cog index to %s in Zone: %s" % (self.doId, index, self.zoneId)
                     simbase.air.banManager.ban(self.doId, self.DISLid, commentStr)
         else:
             self.cogIndex = index
@@ -1701,6 +1810,24 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
     def getDisguisePageFlag(self):
         return self.disguisePageFlag
+
+    ### sos page flag ###
+
+    # remembers if we have been given the sos page of our sticker
+    # books yet
+
+    def b_setSosPageFlag(self, flag):
+        self.setSosPageFlag(flag)
+        self.d_setSosPageFlag(flag)
+
+    def setSosPageFlag(self, flag):
+        self.sosPageFlag = flag
+
+    def d_setSosPageFlag(self, flag):
+        self.sendUpdate("setSosPageFlag", [flag])
+
+    def getSosPageFlag(self):
+        return self.sosPageFlag
 
     ## Fish collection
     def b_setFishCollection(self, genusList, speciesList, weightList):
@@ -1968,6 +2095,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def setCheesyEffect(self, effect, hoodId, expireTime):
         if simbase.air.holidayManager and \
             ToontownGlobals.WINTER_CAROLING not in simbase.air.holidayManager.currentHolidays \
+            and ToontownGlobals.WACKY_WINTER_CAROLING not in simbase.air.holidayManager.currentHolidays \
             and effect == ToontownGlobals.CESnowMan:
             self.b_setCheesyEffect(ToontownGlobals.CENormal, hoodId, expireTime)
             return
@@ -2268,12 +2396,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         if zoneId in self.teleportZoneArray:
             self.teleportZoneArray.remove(zoneId)
             self.b_setTeleportAccess(self.teleportZoneArray)
-            
+
     def checkTeleportAccess(self, zoneId):
         if zoneId not in self.getTeleportAccess():
             simbase.air.writeServerEvent('suspicious', self.doId, 'Toon teleporting to zone %s they do not have access to.' % zoneId)
             if ConfigVariableBool('want-ban-teleport', False).getValue():
-                commentStr = 'Toon %s teleporting to a zone %s they do not have access to' % (self.doId, zoneId)
+                commentStr = "Toon %s teleporting to a zone %s they do not have access to" % (self.doId, zoneId)
                 simbase.air.banManager.ban(self.doId, self.DISLid, commentStr)
 
 
@@ -2580,6 +2708,17 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
         self.notify.warning("Toon %s doesn't have resistance message %s" % (self.doId, textId))
         return 0
+
+    def restockAllResistanceMessages(self, charges = 1):
+        from toontown.chat import ResistanceChat
+        msgs = []
+        for menuIndex in ResistanceChat.resistanceMenu:
+            for itemIndex in ResistanceChat.getItems(menuIndex):
+                textId = ResistanceChat.encodeId(menuIndex, itemIndex)
+                msgs.append([textId, charges])
+
+        self.b_setResistanceMessages(msgs)
+
 
     # Control the schedule of catalogs.
 
@@ -3061,9 +3200,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
     def setMoney(self, money):
         if money < 0:
-            simbase.air.writeServerEvent('suspicious', self.doId, 'Toon has invalid money %s, Forcing to zero.' % money)
+            simbase.air.writeServerEvent('suspicious', self.doId, 'toon has invalid money %s, forcing to zero.' % money)
             money = 0
-            commentStr = 'User %s has negative money %s' % (self.doId, money)
+            commentStr = "User %s has negative money %s" % (self.doId, money)
             dislId = self.DISLid
             if ConfigVariableBool('want-ban-negative-money', False).getValue():
                 simbase.air.banManager.ban(self.doId, dislId, commentStr)
@@ -3289,6 +3428,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         if not self.removeResistanceMessage(msgIndex):
             self.air.writeServerEvent('suspicious', self.doId, 'said resistance %s, but does not have it.' % (msgIndex))
             return
+        if hasattr(self, 'autoResistanceRestock') and self.autoResistanceRestock:
+            self.restockAllResistanceMessages(1)
 
         affectedPlayers = []
         for toonId in nearbyPlayers:
@@ -4451,6 +4592,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def getCogSummonsEarned(self):
         return self.cogSummonsEarned
 
+    def restockAllCogSummons(self):
+        numSuits = len(SuitDNA.suitHeadTypes)
+        fullSetForSuit = 0x01 | 0x02 | 0x04
+        allSummons = numSuits * [fullSetForSuit]
+        self.b_setCogSummonsEarned(allSummons)
+
     def addCogSummonsEarned(self, suitIndex, type):
         summons = self.getCogSummonsEarned()
         curSetting = summons[suitIndex]
@@ -4922,18 +5069,20 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         #strSearch = re.compile('AvatarHackWarning! nodename')
         #if strSearch.search(eventName, 0, 100):
         #    self.air.district.recordSuspiciousEventData(len(eventStr))
-        self.air.writeServerEvent('suspicious', self.doId, eventStr)
+        self.air.writeServerEvent('suspicious', self.doId, eventName)
+        
         if ConfigVariableBool('want-ban-setSCSinging', True).getValue():
             if 'invalid msgIndex in setSCSinging:' in eventName:
                 if senderId == self.doId:
-                    commentStr = 'Toon %s trying to call setSCSinging' % self.doId
+                    commentStr = "Toon %s trying to call setSCSinging" % self.doId
                     simbase.air.banManager.ban(self.doId, self.DISLid, commentStr)
                 else:
                     self.notify.warning('logSuspiciousEvent event=%s senderId=%s != self.doId=%s' % (eventName, senderId, self.doId))
+        
         if ConfigVariableBool('want-ban-setAnimState', True).getValue():
             if eventName.startswith('setAnimState: '):
                 if senderId == self.doId:
-                    commentStr = 'Toon %s trying to call setAnimState' % self.doId
+                    commentStr = "Toon %s trying to call setAnimState" % self.doId
                     simbase.air.banManager.ban(self.doId, self.DISLid, commentStr)
                 else:
                     self.notify.warning('logSuspiciousEvent event=%s senderId=%s != self.doId=%s' % (eventName, senderId, self.doId))
@@ -5073,6 +5222,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         self.sendUpdate("setAccess", [access])
 
     def setAccess(self, access):
+        paidStatus = ConfigVariableString('force-paid-status', 'none').getValue()
+        if paidStatus == 'unpaid':
+            access = 1
         print(("Setting Access %s" % (access)))
         if access == OTPGlobals.AccessInvalid:
             if not __dev__:
@@ -5283,7 +5435,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         """Return true if the toon can plan a party."""
         nonCancelledPartiesInTheFuture = 0
         for partyInfo in self.hostedParties:
-            if partyInfo.status != PartyGlobals.PartyStatus.Cancelled and partyInfo.status != PartyGlobals.PartyStatus.Finished:
+            if partyInfo.status != PartyGlobals.PartyStatus.Cancelled and partyInfo.status != PartyGlobals.PartyStatus.Finished and partyInfo.status != PartyGlobals.PartyStatus.NeverStarted:
                 nonCancelledPartiesInTheFuture += 1
                 if nonCancelledPartiesInTheFuture >= PartyGlobals.MaxHostedPartiesPerToon:
                     break
@@ -5452,7 +5604,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         name = self.name
         if formerType is not None:
             gmPrefix = TTLocalizer.GM_NAMES[formerType] + ' '
-            if self._nameIsPrefixed(gmPrefix):
+            if self.nameIsPrefixed(gmPrefix):
                 name = self.name[len(gmPrefix):]
         if self._isGM:
             gmPrefix = TTLocalizer.GM_NAMES[self._gmType] + ' '
@@ -5472,7 +5624,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
     def _checkOldGMName(self):
         if '$' in set(self.name):
-            if config.GetBool('want-ban-old-gm-name', 0):
+            if ConfigVariableBool('want-ban-old-gm-name', 0).getValue():
                 self.ban('invalid name: %s' % self.name)
             else:
                 self.air.writeServerEvent('suspicious', self.doId, '$ found in toon name')
@@ -5496,7 +5648,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                 if module in self.moduleBlacklist:
                     self.air.writeServerEvent('suspicious', avId, 'Black List module %s loaded into process.' % module)
                     if ConfigVariableBool('want-ban-blacklist-module', False).getValue():
-                        commentStr = 'User has blacklist module: %s attached to their game process' % module
+                        commentStr = "User has blacklist module: %s attached to their game process" % module
                         dislId = self.DISLid
                         simbase.air.banManager.ban(self.doId, dislId, commentStr)
                 else:
@@ -5515,8 +5667,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         if fromAvId == 0:
             return
         self.air.teleportRegistrar.registerValidTeleport(toAvId, available, shardId, hoodId, zoneId, fromAvId)
-        dg = self.dclass.aiFormatUpdate('teleportResponse', fromAvId, fromAvId, self.doId, [
-         toAvId, available, shardId, hoodId, zoneId])
+        dg = self.dclass.aiFormatUpdate('teleportResponse', fromAvId, fromAvId, self.doId, [toAvId, available, shardId, hoodId, zoneId])
         self.air.send(dg)
 
     @staticmethod
@@ -5633,7 +5784,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
             from toontown.toon.DistributedNPCToonBaseAI import DistributedNPCToonBaseAI
             if isinstance(av, DistributedNPCToonBaseAI):
                 return
-            if isinstance(av, DistributedToonAI) and not DistributedToonAI.pingedAvs.has_key(avId):
+            if isinstance(av, DistributedToonAI) and avId not in DistributedToonAI.pingedAvs:
                 av.sendPing()
         return Task.again
 
@@ -5645,7 +5796,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                 self.notify.warning(msg)
                 self.air.writeServerEvent('suspicious', theId, msg)
                 self.cleanupPing()
-                disconnect = simbase.config.GetBool('client-ping-disconnect', True)
+                disconnect = ConfigVariableBool('client-ping-disconnect', True).getValue()
                 if disconnect:
                     av = self.air.getDo(theId)
                     if av:
@@ -5658,12 +5809,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
         self.sendUpdateToAvatarId(self.doId, 'ping', [val])
         DistributedToonAI.pingedAvs[self.doId] = [globalClock.getFrameTime(), val]
-        delay = simbase.config.GetInt('client-ping-timeout', 150)
+        delay = ConfigVariableInt('client-ping-timeout', 150).getValue()
         taskMgr.doMethodLater(delay, verify, 'pingverify-' + str(self.doId), extraArgs=[self.doId])
 
     def pingresp(self, resp):
         senderId = self.air.getAvatarIdFromSender()
-        if not DistributedToonAI.pingedAvs.has_key(senderId) or self.air == None:
+        if senderId not in DistributedToonAI.pingedAvs or self.air == None:
             self.cleanupPing()
             return
         val = DistributedToonAI.pingedAvs[senderId][1]
@@ -5686,14 +5837,14 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
     def cleanupPing(self):
         taskMgr.remove('pingverify-' + str(self.doId))
-        if DistributedToonAI.pingedAvs.has_key(self.doId):
+        if self.doId in DistributedToonAI.pingedAvs:
             del DistributedToonAI.pingedAvs[self.doId]
 
     def startPing(self):
         from toontown.toon.DistributedNPCToonBaseAI import DistributedNPCToonBaseAI
         if isinstance(self, DistributedNPCToonBaseAI):
             return
-        delay = simbase.config.GetInt('client-ping-period', 60)
+        delay = ConfigVariableInt('client-ping-period', 60).getValue()
         taskMgr.doMethodLater(delay, self.requestPing, 'requestping-' + str(self.doId), extraArgs=[self.doId])
 
     def stopPing(self):

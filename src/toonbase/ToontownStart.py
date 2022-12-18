@@ -232,7 +232,7 @@ builtins.loader = base.loader
 
 autoRun = ConfigVariableBool('toontown-auto-run', 1).getValue()
 
-if autoRun and launcher.isDummy():
+if autoRun and launcher.isDummy() and (not Thread.isTrueThreads() or __name__ == '__main__'):
     # This try .. except block exists solely to test the logic of
     # PythonUtil.describeException.  It's not at all necessary, and is
     # useful only to those debugging that function; remove it if it

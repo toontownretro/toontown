@@ -5,6 +5,7 @@ from direct.showbase import DirectObject
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.directnotify import DirectNotifyGlobal
+from otp.avatar.Avatar import teleportNotify
 from . import ToonAvatarDetailPanel
 from toontown.toonbase import TTLocalizer
 from toontown.hood import ZoneUtil
@@ -395,11 +396,13 @@ class ToonTeleportPanel(DirectFrame):
     # Actually perform the teleport operation.
 
     def enterTeleport(self, shardId, hoodId, zoneId):
+        teleportNotify.debug("enterTeleport%s" % ((shardId, hoodId, zoneId),))
         hoodsVisited = base.localAvatar.hoodsVisited
 
         canonicalHoodId = ZoneUtil.getCanonicalZoneId(hoodId)
 
         if hoodId == ToontownGlobals.MyEstate:
+            teleportNotify.debug("enterTeleport: estate")
             if shardId == base.localAvatar.defaultShard:
                 # If we're staying on the same shard, don't make the
                 # shardId part of the request.
@@ -409,6 +412,7 @@ class ToonTeleportPanel(DirectFrame):
             unloadTeleportPanel()
 
         elif canonicalHoodId not in (hoodsVisited + ToontownGlobals.HoodsAlwaysVisited):
+            teleportNotify.debug("enterTeleport: unknownHood")
             # We've never been to this hood before, so we can't go
             # there now.
             self.fsm.request('unknownHood', [hoodId])
@@ -424,6 +428,7 @@ class ToonTeleportPanel(DirectFrame):
                 # If we're staying on the same shard, don't make the
                 # shardId part of the request.
                 shardId = None
+            teleportNotify.debug("enterTeleport: requesting teleport")
 
             # All right already, just go there.
             place = base.cr.playGame.getPlace()
@@ -455,19 +460,25 @@ class ToonTeleportPanel(DirectFrame):
     ### Support methods
 
     def __teleportResponse(self, avId, available, shardId, hoodId, zoneId):
+        teleportNotify.debug('__teleportResponse%s' % (
+            (avId, available, shardId, hoodId, zoneId),))
         if avId != self.avId:
             # Ignore responses from an unexpected avatar.
             return
 
         if available == 0:
+            teleportNotify.debug("__teleportResponse: not available")
             # The other avatar is not available to teleport to.
             self.fsm.request('notAvailable')
         elif available == 2:
+            teleportNotify.debug("__teleportResponse: ignored")
             # The other avatar is ignoring us.
             self.fsm.request('ignored')
         elif shardId != base.localAvatar.defaultShard:
+            teleportNotify.debug("__teleportResponse: otherShard")
             self.fsm.request('otherShard', [shardId, hoodId, zoneId])
         else:
+            teleportNotify.debug("__teleportResponse: teleport")
             self.fsm.request('teleport', [shardId, hoodId, zoneId])
 
 

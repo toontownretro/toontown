@@ -163,6 +163,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
         del self.friends
         del self.NPCFriends
         DirectFrame.destroy(self)
+        return None
 
     def makeFriendButton(self, friendPair):
         friendId, flags = friendPair
@@ -265,6 +266,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
         self.ignore('friendsMapComplete')
 
         messenger.send(self.doneEvent)
+        return None
 
     def __close(self):
         doneStatus = {}

@@ -49,7 +49,7 @@ def pseduoMembership(sender, app_data, user_data):
     base.cr.isParentPasswordSet = null2
     base.localAvatar.getGameAccess = null3
     
-    base.localAvatar.setSystemMessage(0, "You now have pseduo-membership! Enjoy doing some extra things you couldn't before!")
+    base.localAvatar.setSystemMessage(0, "You now have pseudo-membership! Enjoy doing some extra things you couldn't before!")
     
 def skipToontorial(sender, app_data, user_data):
     if not hasattr(base, 'cr') or not base.cr:

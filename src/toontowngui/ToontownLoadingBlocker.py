@@ -30,6 +30,7 @@ class ToontownLoadingBlocker(TTDialog.TTDialog):
         self.loadingTextChangeTimer = 10.0
         self.loadingTextTimerVariant = 3.0
         self.loadingTextFreezeTime = 3.0
+        self.toonTipChangeTimer = 20.0
         self.hideBlockerIval = None
         self.canChangeLoadingText = True
 
@@ -45,6 +46,7 @@ class ToontownLoadingBlocker(TTDialog.TTDialog):
     def destroy(self):
         taskMgr.remove("changeLoadingTextTask")
         taskMgr.remove("canChangeLoadingTextTask")
+        taskMgr.remove("changeToonTipTask")
 
         self.ignore("phaseComplete-4")
         self.ignore("launcherPercentPhaseComplete")
@@ -226,9 +228,6 @@ class ToontownLoadingBlocker(TTDialog.TTDialog):
         """
         Create the toon tip text.
         """
-        def getTip(tipCategory):
-            return TTLocalizer.TipTitle + "\n" + random.choice(TTLocalizer.TipDict.get(tipCategory))
-
         self.toonTipText = DirectLabel(
             parent = self,
             relief = None,
@@ -243,6 +242,18 @@ class ToontownLoadingBlocker(TTDialog.TTDialog):
             text_wordwrap = 32,
             sortOrder = 50,
             )
+        self.__changeToonTip()
+        taskMgr.doMethodLater(self.toonTipChangeTimer, self.__changeToonTipTask,
+                              "changeToonTipTask")
+
+    def __changeToonTip(self):
+        def getTip(tipCategory):
+            return TTLocalizer.TipTitle + "\n" + random.choice(TTLocalizer.TipDict.get(tipCategory))
+        self.toonTipText['text'] = getTip(TTLocalizer.TIP_GENERAL)
+
+    def __changeToonTipTask(self, task):
+        self.__changeToonTip()
+        return task.again
 
     def __shouldShowBlocker(self, avList):
         """

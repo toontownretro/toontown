@@ -54,12 +54,12 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
 
     # The number of seconds it takes to move the power meter to
     # full the first time.
-    golfPowerSpeed = base.config.GetDouble('golf-power-speed', 3)
+    golfPowerSpeed = ConfigVariableDouble('golf-power-speed', 3).getValue()
 
     # The exponent that controls the factor at which the power
     # meter slows down over time.  Values closer to 1.0 slow down less
     # quickly.
-    golfPowerExponent = base.config.GetDouble('golf-power-exponent', 0.75)
+    golfPowerExponent = ConfigVariableDouble('golf-power-exponent', 0.75).getValue()
     DefaultCamP = -16
     MaxCamP = -90
 

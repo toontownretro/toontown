@@ -1678,7 +1678,9 @@ NumEmblemTypes = 2
 DefaultMaxBankMoney = 12000
 DefaultBankItemId = 1350
 
-# Toon Animation States
+# This is the tuple of allowed animations that can be set by using toon.setAnimState().
+# If you add an animation that you want to do a setAnimState on please add this
+# animation to this list.
 ToonAnimStates = set([
     "off",
     "neutral",
@@ -1727,7 +1729,7 @@ ToonAnimStates = set([
     ]
    )
 
-# Pirates
+# Avatar Checks
 AV_FLAG_REASON_TOUCH = 1
 AV_FLAG_HISTORY_LEN = 500
 AV_TOUCH_CHECK_DELAY_AI = 3.0

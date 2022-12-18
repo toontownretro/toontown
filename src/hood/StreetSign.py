@@ -27,6 +27,9 @@ class StreetSign(DistributedObject.DistributedObject):
         searchPath.appendDirectory(self.directory)
 
     def redownloadStreetSign(self):
+        """Get the new sign that came out while he was playing."""
+
+        # I know it's info, it's important enough I feel to appear in the logs
         self.precentDownload = 0.0
         self.startRedownload = datetime.datetime.now()
         self.downloadingStreetSign = True
@@ -60,18 +63,20 @@ class StreetSign(DistributedObject.DistributedObject):
             taskMgr.add(self.downloadStreetSignTask, self.RedownloadTaskName)
 
     def downloadStreetSignTask(self, task):
+        """ Continues downloading the URL in self.url and self.filename. """
+
         if self.ch.run():
             return task.cont
-            
+
         doc = self.ch.getDocumentSpec()
         date = ''
-        
         if doc.hasDate():
             date = doc.getDate().getString()
             
         if not self.ch.isValid():
             self.redownloadingStreetSign = False
             return task.done
-            
-        self.notify.info('Down downloading street sign')
+
+        # Successfully downloaded.
+        self.notify.info("Down downloading street sign")
         return task.done
