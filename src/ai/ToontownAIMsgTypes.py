@@ -14,15 +14,14 @@ TTAIMsgName2Id = {
 
 TTAIMsgId2Names = invertDictLossless(TTAIMsgName2Id)
 
+'''
 if not isClient():
     print("EXECWARNING ToontownAIMsgTypes: %s" % TTAIMsgName2Id)
     printStack()
-
-for name, value in list(TTAIMsgName2Id.items()):
-    exec("%s = %s" % (name, value))
-
-del name
-del value
+'''
+    
+# put msg names in module scope, assigned to msg value
+globals().update(TTAIMsgName2Id)
 
 DBSERVER_PET_OBJECT_TYPE = 5
 

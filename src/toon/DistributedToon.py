@@ -1199,18 +1199,13 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
             ts = 0.0
         else:
             ts = globalClockDelta.localElapsedTime(timestamp)
-
+            
         # protect against bogus anims
+        if base.config.GetBool('check-invalid-anims', True):
+            if animMultiplier > 1.0 and animName in ['neutral']:
+                animMultiplier = 1.0
         if self.animFSM.getStateNamed(animName):
-            if (animName in self.setAnimStateAllowedList):
-                self.animFSM.request(
-                    animName, [animMultiplier, ts, callback, extraArgs])
-            else:
-                self.notify.debug('Hacker trying to setAnimState on an illegal animation. Attacking toon = %d' % self.doId)
-                base.cr.centralLogger.writeClientEvent('Hacker trying to setAnimState on an illegal animation. Attacking toon = %d' % self.doId)
-        else:
-            # suspicious
-            self.sendUpdate("logSuspiciousEvent", ["setAnimState: " + animName])
+            self.animFSM.request(animName, [animMultiplier, ts, callback, extraArgs])
 
         self.cleanupPieInHand()
 
@@ -1856,7 +1851,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
            0 <= index and index < len(speedChatStyles):
             realIndexToSend = index
         else:
-            base.cr.centralLogger.writeClientEvent('Hacker alert b_setSpeedChatStyleIndex invalid')
+            base.cr.centralLogger.writeClientEvent('Hacker alert b_setSpeedChatStyleIndex invalid.')
         self.setSpeedChatStyleIndex(realIndexToSend)
         self.d_setSpeedChatStyleIndex(realIndexToSend)
         return None # I don't know why we return None here
@@ -1867,7 +1862,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
            0 <= index and index < len(speedChatStyles):
             realIndexToSend = index
         else:
-            base.cr.centralLogger.writeClientEvent('Hacker alert d_setSpeedChatStyleIndex invalid')
+            base.cr.centralLogger.writeClientEvent('Hacker alert d_setSpeedChatStyleIndex invalid.')
         self.sendUpdate("setSpeedChatStyleIndex", [realIndexToSend])
 
     def setSpeedChatStyleIndex(self, index):
@@ -1876,7 +1871,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
             0 <= index and index < len(speedChatStyles):
             realIndexToUse = index
         else:
-            base.cr.centralLogger.writeClientEvent('Hacker victim setSpeedChatStyleIndex invalid attacking toon = %d' % self.doId)
+            base.cr.centralLogger.writeClientEvent('Hacker victim setSpeedChatStyleIndex invalid. Attacking toon = %d' % self.doId)
         self.speedChatStyleIndex = realIndexToUse
         # update the background color for our text
         nameKey, arrowColor, rolloverColor, frameColor = \

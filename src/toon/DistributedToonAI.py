@@ -1310,9 +1310,15 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def d_setAnimState(self, animName, animMultiplier):
         timestamp = globalClockDelta.getRealNetworkTime()
         self.sendUpdate("setAnimState", [animName, animMultiplier, timestamp])
-        return None
 
     def setAnimState(self, animName, animMultiplier, timestamp=0):
+        if animName not in ToontownGlobals.ToonAnimStates:
+            desc = 'tried to set invalid animState: %s' % (animName,)
+            if ConfigVariableBool('want-ban-animstate', True).getValue():
+                simbase.air.banManager.ban(self.doId, self.DISLid, desc)
+            else:
+                self.air.writeServerEvent('suspicious', self.doId, desc)
+            return
         self.animName = animName
         self.animMultiplier = animMultiplier
 
@@ -1663,7 +1669,14 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         self.d_setCogIndex(index)
 
     def setCogIndex(self, index):
-        self.cogIndex = index
+        if index != -1:
+            if not ToontownAccessAI.canWearSuit(self.doId, self.zoneId):
+                simbase.air.cogSuitMessageSent or self.notify.warning('%s setCogIndex invalid: %s' % (self.doId, index))
+                if ConfigVariableBool('want-ban-wrong-suit-place', False).getValue():
+                    commentStr = 'Toon %s trying to set cog index to %s in Zone: %s' % (self.doId, index, self.zoneId)
+                    simbase.air.banManager.ban(self.doId, self.DISLid, commentStr)
+        else:
+            self.cogIndex = index
 
     def d_setCogIndex(self, index):
         self.sendUpdate("setCogIndex", [index])
@@ -2255,6 +2268,13 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         if zoneId in self.teleportZoneArray:
             self.teleportZoneArray.remove(zoneId)
             self.b_setTeleportAccess(self.teleportZoneArray)
+            
+    def checkTeleportAccess(self, zoneId):
+        if zoneId not in self.getTeleportAccess():
+            simbase.air.writeServerEvent('suspicious', self.doId, 'Toon teleporting to zone %s they do not have access to.' % zoneId)
+            if ConfigVariableBool('want-ban-teleport', False).getValue():
+                commentStr = 'Toon %s teleporting to a zone %s they do not have access to' % (self.doId, zoneId)
+                simbase.air.banManager.ban(self.doId, self.DISLid, commentStr)
 
 
     def b_setQuestHistory(self, questList):
@@ -3040,6 +3060,13 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         self.sendUpdate('setMoney', [money])
 
     def setMoney(self, money):
+        if money < 0:
+            simbase.air.writeServerEvent('suspicious', self.doId, 'Toon has invalid money %s, Forcing to zero.' % money)
+            money = 0
+            commentStr = 'User %s has negative money %s' % (self.doId, money)
+            dislId = self.DISLid
+            if ConfigVariableBool('want-ban-negative-money', False).getValue():
+                simbase.air.banManager.ban(self.doId, dislId, commentStr)
         self.money = money
 
     def getMoney(self):
@@ -4889,7 +4916,27 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
     # log suspicious toon behaviors
     def logSuspiciousEvent(self, eventName):
-        self.air.writeServerEvent('suspicious', self.doId, eventName)
+        senderId = self.air.getAvatarIdFromSender()
+        eventStr = 'senderId=%s ' % senderId
+        eventStr += eventName
+        #strSearch = re.compile('AvatarHackWarning! nodename')
+        #if strSearch.search(eventName, 0, 100):
+        #    self.air.district.recordSuspiciousEventData(len(eventStr))
+        self.air.writeServerEvent('suspicious', self.doId, eventStr)
+        if ConfigVariableBool('want-ban-setSCSinging', True).getValue():
+            if 'invalid msgIndex in setSCSinging:' in eventName:
+                if senderId == self.doId:
+                    commentStr = 'Toon %s trying to call setSCSinging' % self.doId
+                    simbase.air.banManager.ban(self.doId, self.DISLid, commentStr)
+                else:
+                    self.notify.warning('logSuspiciousEvent event=%s senderId=%s != self.doId=%s' % (eventName, senderId, self.doId))
+        if ConfigVariableBool('want-ban-setAnimState', True).getValue():
+            if eventName.startswith('setAnimState: '):
+                if senderId == self.doId:
+                    commentStr = 'Toon %s trying to call setAnimState' % self.doId
+                    simbase.air.banManager.ban(self.doId, self.DISLid, commentStr)
+                else:
+                    self.notify.warning('logSuspiciousEvent event=%s senderId=%s != self.doId=%s' % (eventName, senderId, self.doId))
 
 
     ### golf trophy list ###
@@ -5448,7 +5495,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
             if module not in self.moduleWhitelist:
                 if module in self.moduleBlacklist:
                     self.air.writeServerEvent('suspicious', avId, 'Black List module %s loaded into process.' % module)
-                    if simbase.config.GetBool('want-ban-blacklist-module', False):
+                    if ConfigVariableBool('want-ban-blacklist-module', False).getValue():
                         commentStr = 'User has blacklist module: %s attached to their game process' % module
                         dislId = self.DISLid
                         simbase.air.banManager.ban(self.doId, dislId, commentStr)
