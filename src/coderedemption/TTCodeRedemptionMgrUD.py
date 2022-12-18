@@ -1,11 +1,11 @@
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.directnotify.DirectNotifyGlobal import directNotify
-#from direct.http.WebRequest import WebRequestDispatcher
-#from direct.showbase import ElementTree as ET
-#from direct.showbase.HTMLTree import HTMLTree
+from direct.http.WebRequest import WebRequestDispatcher
+import xml.etree.ElementTree as ET
+from direct.showbase.HTMLTree import HTMLTree
 from direct.showbase.PythonUtil import unescapeHtmlString as uhs
 #from direct.showbase.PythonUtil import str2elements
-#from direct.http import recaptcha
+from direct.http import recaptcha
 from direct.task import Task
 from otp.distributed import OtpDoGlobals
 from toontown.catalog import CatalogItemTypes
@@ -25,7 +25,7 @@ import re
 
 from toontown.toonbase.ToontownModules import *
 
-#SE = ET.SubElement
+SE = ET.SubElement
 
 class FormErrors:
     class Null:
@@ -106,7 +106,6 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
         self.HTTPListenPort = uber.codeRedemptionMgrHTTPListenPort
 
-        '''
         self.webDispatcher = WebRequestDispatcher()
         self.webDispatcher.landingPage.setTitle("TTCodeRedemptionMgr")
         self.webDispatcher.landingPage.setDescription("TTCodeRedemptionMgr enables generation and retrieval of reward codes.")
@@ -114,7 +113,6 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             "codeManagement",self.handleHTTPcodeManagement,returnsResponse=False,autoSkin=True)
         self.webDispatcher.landingPage.addTab("CodeMgmt","/codeManagement")
         self.webDispatcher.listenOnPort(self.HTTPListenPort)
-        '''
 
         self.DBuser = ConfigVariableString("mysql-user", PartiesUdConfig.ttDbUser).getValue()
         self.DBpasswd = ConfigVariableString("mysql-passwd", PartiesUdConfig.ttDbPasswd).getValue()
@@ -1354,7 +1352,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                 SE(body, 'br')
 
                 img = SE(body, 'img', title='relevant this is',
-                         src='http://icanhascheezburger.files.wordpress.com/2007/01/2000455272489756911_rs.txo')
+                         src='https://web.archive.org/web/20100630185213/http://icanhascheezburger.files.wordpress.com/2007/01/2000455272489756911_rs.jpg')
 
             elif op == self.Ops.create:
                 self._doCreateForm(body, body, replyTo)
