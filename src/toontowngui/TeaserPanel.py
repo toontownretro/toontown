@@ -52,6 +52,11 @@ Pages = {
     'golf'       : (TTLocalizer.TeaserGolf,),
     'fishing'       : (TTLocalizer.TeaserFishing,),
     'parties'       : (TTLocalizer.TeaserParties,),
+    'plantGags'     : (TTLocalizer.TeaserPlantGags,),
+    'pickGags'      : (TTLocalizer.TeaserPickGags,),
+    'restockGags'   : (TTLocalizer.TeaserRestockGags,),
+    'getGags'       : (TTLocalizer.TeaserGetGags,),
+    'useGags'       : (TTLocalizer.TeaserUseGags,),
     }
 
 PageOrder = [
@@ -78,6 +83,11 @@ PageOrder = [
     'gardening',
     'golf',
     'fishing',
+    'plantGags',
+    'pickGags',
+    'restockGags',
+    'getGags',
+    'useGags',
     ]
 
 class TeaserPanel(DirectObject):
@@ -176,9 +186,9 @@ class TeaserPanel(DirectObject):
         self.dialog = TTDialog.TTDialog(
             parent = aspect2dp,
             text = TTLocalizer.TeaserTop,
+            text_scale = TTLocalizer.TSRPtop,
             text_align = TextNode.ACenter,
             text_wordwrap = TTLocalizer.TSRPdialogWordwrap,
-            text_scale = TTLocalizer.TSRPtop,
             topPad =-0.15,
             midPad = 1.25,
             sidePad = 0.25,

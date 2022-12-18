@@ -4,6 +4,8 @@ from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
 import string
 from direct.fsm import StateData
+from toontown.toontowngui.TeaserPanel import TeaserPanel
+from toontown.toonbase.ToontownBattleGlobals import gagIsPaidOnly
 
 AttackPanelHidden = 0
 def hideAttackPanel(flag):
@@ -22,6 +24,7 @@ class TownBattleAttackPanel(StateData.StateData):
     This is the main menu for choosing an attack, a toon up, run away, or SOS.
     Actually it is just a thin wrapper around the Inventory class
     """
+    notify = DirectNotifyGlobal.directNotify.newCategory("TownBattleAttackPanel")
 
     def __init__(self, doneEvent):
         StateData.StateData.__init__(self, doneEvent)
@@ -35,6 +38,7 @@ class TownBattleAttackPanel(StateData.StateData):
 
     def enter(self):
         StateData.StateData.enter(self)
+        self._teaserPanel = None
         # Display the inventory
         if not AttackPanelHidden:
             base.localAvatar.inventory.show()
@@ -64,6 +68,9 @@ class TownBattleAttackPanel(StateData.StateData):
         base.localAvatar.inventory.hide()
         # Restore the normal chat behavior.
         # NametagGlobals.setOnscreenChatForced(0)
+        if self._teaserPanel:
+            self._teaserPanel.destroy()
+            del self._teaserPanel
         return
 
     def __handleRun(self):
@@ -87,6 +94,10 @@ class TownBattleAttackPanel(StateData.StateData):
         return
 
     def __handleInventory(self, track, level):
+        if not base.cr.isPaid() and gagIsPaidOnly(track, level):
+            self._teaserPanel = TeaserPanel(pageName='useGags')
+            return
+
         if (base.localAvatar.inventory.numItem(track, level) > 0):
             # Report the selection
             doneStatus = {}
