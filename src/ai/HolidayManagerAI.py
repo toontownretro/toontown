@@ -1826,7 +1826,7 @@ class HolidayManagerAI:
         ),
 
         ToontownGlobals.SPOOKY_TRICK_OR_TREAT: HolidayInfo_Oncely(
-        None,
+        TrickOrTreatMgrAI.TrickOrTreatMgrAI,
         [(2013, Month.AUGUST, 30, 0, 0, 1),
          (2013, Month.SEPTEMBER, 5, 23, 59, 59)],
         displayOnCalendar = False,
@@ -1847,14 +1847,14 @@ class HolidayManagerAI:
         ),
 
         ToontownGlobals.WACKY_WINTER_DECORATIONS: HolidayInfo_Oncely(
-        None,
+        None, # No class defined, we just want the news manager to be called
         [(2013, Month.SEPTEMBER, 6, 0, 0, 1),
          (2013, Month.SEPTEMBER, 13, 23, 59, 59)],
         displayOnCalendar = False,
         ),
 
         ToontownGlobals.WACKY_WINTER_CAROLING: HolidayInfo_Oncely(
-        None,
+        WinterCarolingMgrAI.WinterCarolingMgrAI,
         [(2013, Month.SEPTEMBER, 6, 0, 0, 1),
          (2013, Month.SEPTEMBER, 13, 23, 59, 59)],
         displayOnCalendar = False,
