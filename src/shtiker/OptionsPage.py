@@ -62,6 +62,12 @@ speedChatStyles = (
            (210/255., 200/255., 180/255.)),
      )
 
+visualEffects = (
+    (2050, "None"),
+    (2051, "bw"),
+    (2052, "sepia"),
+    )
+
 ##########################################################################
 # Global Variables and Enumerations
 ##########################################################################
@@ -310,6 +316,9 @@ class OptionsTabPage(DirectFrame):
         self.displaySettingsEmbedded = None
         self.displaySettingsApi = None
         self.displaySettingsApiChanged = 0
+        self.visualEffectIndex = 0
+
+        wantShaders = ConfigVariableBool('want-shaders', 0).getValue()
 
         guiButton = loader.loadModel("phase_3/models/gui/quit_button")
         gui = loader.loadModel("phase_3.5/models/gui/friendslist_gui")
@@ -318,12 +327,20 @@ class OptionsTabPage(DirectFrame):
         # the coordinate system is (0,0) in the middle of the page
         # Vertical: -1.0 is the bottom, and 1.0 is the top  of the screen
         # Horizontal: -1.0 is left edge of shticker book, 1.0 is right edge
-        titleHeight = 0.61 # bigger number means higher the title
-        textStartHeight = 0.45 # bigger number means higher text
-        textRowHeight = 0.15 # bigger number means more space between rows
+        if wantShaders:
+            titleHeight = 0.71 # bigger number means higher the title
+            textStartHeight = 0.5 # bigger number means higher text
+            textRowHeight = 0.135 # bigger number means more space between rows
+        else:
+            titleHeight = 0.61 # bigger number means higher the title
+            textStartHeight = 0.45 # bigger number means higher text
+            textRowHeight = 0.145 # 0.15 # bigger number means more space between rows
         leftMargin = -0.72 # smaller number means farther left
         buttonbase_xcoord = 0.35 # bigger number means farther right
-        buttonbase_ycoord = 0.45 # bigger number means higher buttons
+        if wantShaders:
+            buttonbase_ycoord = 0.5 # bigger number means higher buttons
+        else:
+            buttonbase_ycoord = 0.45 # bigger number means higher buttons
         button_image_scale = (0.7,1,1)
         button_textpos = (0,-0.02)
         options_text_scale = 0.052
@@ -395,6 +412,18 @@ class OptionsTabPage(DirectFrame):
             pos = (leftMargin, 0,
                    textStartHeight - 6 * textRowHeight),
             )
+
+        if wantShaders:
+            self.VisualEffect_Label = DirectLabel(
+                parent = self,
+                relief = None,
+                text = "Visual Effect",
+                text_align = TextNode.ALeft,
+                text_scale = options_text_scale,
+                text_wordwrap = 10,
+                pos = (leftMargin, 0,
+                       textStartHeight - 7 * textRowHeight),
+                )
 
         self.ToonChatSounds_Label = DirectLabel(
             parent = self,
@@ -516,6 +545,37 @@ class OptionsTabPage(DirectFrame):
             command = self.__doSpeedChatStyleRight,
             )
 
+        if wantShaders:
+            self.visualEffectLeftArrow = DirectButton(
+                parent = self,
+                relief = None,
+                image = (gui.find("**/Horiz_Arrow_UP"),
+                         gui.find("**/Horiz_Arrow_DN"),
+                         gui.find("**/Horiz_Arrow_Rllvr"),
+                         gui.find("**/Horiz_Arrow_UP"),
+                         ),
+                image3_color = Vec4(1, 1, 1, 0.5),
+                scale = (-1.0, 1.0, 1.0),
+                pos = (0.25, 0, buttonbase_ycoord - textRowHeight * 7),
+                command = self.__doVisualEffectLeft,
+                )
+            
+            self.visualEffectRightArrow = DirectButton(
+                parent = self,
+                relief = None,
+                image = (gui.find("**/Horiz_Arrow_UP"),
+                         gui.find("**/Horiz_Arrow_DN"),
+                         gui.find("**/Horiz_Arrow_Rllvr"),
+                         gui.find("**/Horiz_Arrow_UP"),
+                         ),
+                image3_color = Vec4(1, 1, 1, 0.5),
+                pos = (0.65, 0, buttonbase_ycoord - textRowHeight * 7),
+                command = self.__doVisualEffectRight,
+                )
+        else:
+            self.visualEffectLeftArrow = None
+            self.visualEffectRightArrow = None
+
         self.ToonChatSounds_toggleButton = DirectButton(
             parent = self,
             relief = None,
@@ -546,6 +606,19 @@ class OptionsTabPage(DirectFrame):
 #        self.speedChatStyleText.setPos(0.37, 0, -0.27)
         self.speedChatStyleText.setPos(0.37, 0, buttonbase_ycoord - textRowHeight * 6 + 0.03)
         self.speedChatStyleText.reparentTo(self, DGG.FOREGROUND_SORT_INDEX)
+
+        if wantShaders:
+            self.visualEffectText = SpeedChat.SpeedChat(
+                name='OptionsPageStyleText', structure=[2000],
+                backgroundModelName='phase_3/models/gui/ChatPanel',
+                guiModelName='phase_3.5/models/gui/speedChatGui')
+            self.visualEffectText.setScale(self.speed_chat_scale)
+            # This will be horizontally centered later
+#            self.speedChatStyleText.setPos(0.37, 0, -0.27)
+            self.visualEffectText.setPos(0.37, 0, buttonbase_ycoord - textRowHeight * 7 + 0.03)
+            self.visualEffectText.reparentTo(self, DGG.FOREGROUND_SORT_INDEX)
+        else:
+            self.visualEffectText = None
 
         self.exitButton = DirectButton(
             parent = self,
@@ -846,6 +919,16 @@ class OptionsTabPage(DirectFrame):
             self.speedChatStyleIndex = self.speedChatStyleIndex + 1
             self.updateSpeedChatStyle()
 
+    def __doVisualEffectLeft(self):
+        if self.visualEffectIndex > 0:
+            self.visualEffectIndex = self.visualEffectIndex - 1
+            self.updateVisualEffect()
+
+    def __doVisualEffectRight(self):
+        if self.visualEffectIndex < len(visualEffects) - 1:
+            self.visualEffectIndex = self.visualEffectIndex + 1
+            self.updateVisualEffect()
+
     def updateSpeedChatStyle(self):
         # update the text color and value
         nameKey, arrowColor, rolloverColor, frameColor = \
@@ -881,6 +964,33 @@ class OptionsTabPage(DirectFrame):
         # actually cause the speed chat color to change and propagate to the DB
         # this function is actually found in DistributedToon.py
         base.localAvatar.b_setSpeedChatStyleIndex(self.speedChatStyleIndex)
+
+    def updateVisualEffect(self):
+        # update the text color and value
+        (newEffectKey, newEffectName) = visualEffects[self.visualEffectIndex]
+        # set the new text
+        self.visualEffectText.clearMenu()
+        effectName = SCStaticTextTerminal.SCStaticTextTerminal(newEffectKey)
+        self.visualEffectText.append(effectName)
+        # we must finalize to get the accurate width
+        self.visualEffectText.finalize()
+        # manual horizonal centering
+        self.visualEffectText.setPos(
+            0.445 - self.visualEffectText.getWidth() * self.speed_chat_scale / 2, 0, self.visualEffectText.getPos()[2]) # -0.27)
+            
+        # show the appropriate arrows
+        if self.visualEffectIndex > 0:
+            self.visualEffectLeftArrow['state'] = DGG.NORMAL
+        else:
+            self.visualEffectLeftArrow['state'] = DGG.DISABLED
+        if self.visualEffectIndex < len(visualEffects) - 1:
+            self.visualEffectRightArrow['state'] = DGG.NORMAL
+        else:
+            self.visualEffectRightArrow['state'] = DGG.DISABLED
+            
+        # actually cause the speed chat color to change and propagate to the DB
+        # this function is actually found in DistributedToon.py
+        base.cr.useShader(newEffectName)
 
     def writeDisplaySettings(self, task = None):
         # Writes the previously-saved display settings to the

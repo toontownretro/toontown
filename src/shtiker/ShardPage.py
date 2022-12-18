@@ -492,6 +492,7 @@ class ShardPage(ShtikerPage.ShtikerPage):
 
     def exit(self):
         self.ignore('shardInfoUpdated')
+        self.ignore('confirmDone')
         taskMgr.remove('ShardPageUpdateTask-doLater')
         ShtikerPage.ShtikerPage.exit(self)
 

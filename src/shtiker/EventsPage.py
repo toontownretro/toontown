@@ -14,7 +14,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
 
-from toontown.toon import GMUtils
+#from toontown.toon import GMUtils
 
 from toontown.parties import PartyGlobals
 from toontown.parties import PartyUtils
@@ -1105,6 +1105,10 @@ class EventsPage(ShtikerPage.ShtikerPage):
                 self.loadHostedPartyInfo()
                 self.cancelPartyResultGui["text"] = TTLocalizer.EventsPageCancelPartyResultOk % beansRefunded
                 self.cancelPartyResultGui.show()
+        elif errorCode == PartyGlobals.ChangePartyFieldErrorCode.AlreadyRefunded and newPartyStatus == PartyGlobals.PartyStatus.NeverStarted:
+            self.loadHostedPartyInfo()
+            self.cancelPartyResultGui["text"] = TTLocalizer.EventsPageCancelPartyAlreadyRefunded
+            self.cancelPartyResultGui.show()
         else:
             self.cancelPartyResultGui["text"] = TTLocalizer.EventsPageCancelPartyResultError
             self.cancelPartyResultGui.show()

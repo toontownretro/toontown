@@ -183,7 +183,7 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
         self.hide()
 
         messenger.send(self.doneEvent, [])
-        return
+        return None
 
     def cleanupDialogs(self):
         self.head = None

@@ -249,12 +249,14 @@ class SuitPage(ShtikerPage.ShtikerPage):
         if not base.cr.wantEmblems:
             self.silverLabel.hide()
             self.goldLabel.hide()
+        self.accept(localAvatar.uniqueName('emblemsChange'), self.__emblemChange)
 
         # scoot everything up
         self.guiTop.setZ(0.625)
 
     def unload(self):
         # clean up our DirectGui elements
+        self.ignoreAll()
         self.title.destroy()
         self.corpRadarButton.destroy()
         self.legalRadarButton.destroy()
@@ -278,10 +280,6 @@ class SuitPage(ShtikerPage.ShtikerPage):
         self.nextPanel = None
         ShtikerPage.ShtikerPage.enter(self)
 
-    def __emblemChange(self, newEmblems):
-        self.silverLabel['text'] = str(newEmblems[0])
-        self.goldLabel['text'] = str(newEmblems[1])
-
     def exit(self):
         # remove any do-later hooks
         taskMgr.remove('buildingListResponseTimeout-later')
@@ -294,6 +292,10 @@ class SuitPage(ShtikerPage.ShtikerPage):
                 self.toggleRadar(index)
                 self.radarButtons[index]['state'] = DGG.NORMAL
         ShtikerPage.ShtikerPage.exit(self)
+
+    def __emblemChange(self, newEmblems):
+        self.silverLabel['text'] = str(newEmblems[0])
+        self.goldLabel['text'] = str(newEmblems[1])
 
 
     #
