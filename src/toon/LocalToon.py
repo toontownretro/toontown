@@ -23,6 +23,7 @@ from otp.avatar import LocalAvatar
 from otp.login import LeaveToPayDialog
 from otp.avatar import PositionExaminer
 from otp.otpbase import OTPGlobals
+from otp.avatar import DistributedPlayer
 
 from toontown.shtiker import ShtikerBook
 from toontown.shtiker import InventoryPage
@@ -88,12 +89,12 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
     # The number of seconds it takes to move the pie power meter to
     # full the first time.
-    piePowerSpeed = base.config.GetDouble('pie-power-speed', 0.2)
+    piePowerSpeed = ConfigVariableDouble('pie-power-speed', 0.2).getValue()
 
     # The exponent that controls the factor at which the pie power
     # meter slows down over time.  Values closer to 1.0 slow down less
     # quickly.
-    piePowerExponent = base.config.GetDouble('pie-power-exponent', 0.75)
+    piePowerExponent = ConfigVariableDouble('pie-power-exponent', 0.75).getValue()
 
     def __init__(self, cr):
         """
@@ -276,7 +277,13 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             # non friend whisper requests if they ever want it.
             self.acceptingNonFriendWhispers = Settings.getAcceptingNonFriendWhispers() and ConfigVariableBool('accepting-non-friend-whispers-default', True).getValue()
 
+            self.physControls.event.addAgainPattern("again%in")
+            
+            self.oldPos = None
+
             self.questMap = None
+
+            self.prevToonIdx = 0
 
     def wantLegacyLifter(self):
         return True
@@ -386,6 +393,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
         # Clean up the book
         self.newsButtonMgr.request('Off')
+        base.whiteList.unload()
         self.book.unload()
         del self.optionsPage
         del self.shardPage
@@ -408,6 +416,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
         if (base.wantNametags):
             self.nametag.unmanage(base.marginManager)
+
+        taskMgr.removeTasksMatching('*ioorrd234*')
 
         # We shouldn't need this...
         self.ignoreAll()
@@ -526,6 +536,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
         if self.disguisePageFlag:
             self.loadDisguisePages()
+
+        if self.sosPageFlag:
+            self.loadSosPages()
 
         #self.buildingPage = BuildingPage.BuildingPage()
         #self.buildingPage.load()
@@ -675,7 +688,11 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.disguisePage.load()
         self.book.addPage(self.disguisePage,
                           pageName = TTLocalizer.DisguisePageTitle)
+        self.loadSosPages()
 
+    def loadSosPages(self):
+        if self.sosPage != None:
+            return
         self.sosPage = NPCFriendPage.NPCFriendPage()
         self.sosPage.load()
         self.book.addPage(self.sosPage,
@@ -1019,7 +1036,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         timestamp32 = globalClockDelta.getFrameNetworkTime(bits = 32)
 
         self.sendUpdate('presentPie', [pos[0], pos[1], pos[2],
-                                       hpr[0], hpr[1], hpr[2],
+                                       hpr[0] % 360.0, hpr[1], hpr[2],
                                        timestamp32])
 
         # We are now in pie-throwing mode, and can't move until we get
@@ -1133,7 +1150,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                      power = power, timestamp32 = timestamp32,
                      pieBubble = pieBubble):
             self.sendUpdate('tossPie', [pos[0], pos[1], pos[2],
-                                        hpr[0], hpr[1], hpr[2],
+                                        hpr[0] % 360.0, hpr[1], hpr[2],
                                         sequence, power, timestamp32])
             if self.numPies != ToontownGlobals.FullPies:
                 self.setNumPies(self.numPies - 1)
@@ -1336,6 +1353,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                 return
             # Prefix the sender's name to the message.
             chatString = sender.getName() + ": " + chatString
+        elif whisperType == WhisperPopup.WTSystem:
+            sfx = self.soundSystemMessage
 
         whisper = WhisperPopup(chatString,
                                OTPGlobals.getInterfaceFont(),
@@ -1368,6 +1387,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                 return
             # Prefix the sender's name to the message.
             chatString = sender.getName() + ": " + chatString
+        elif whisperType == WhisperPopup.WTSystem:
+            sfx = self.soundSystemMessage
 
         whisper = WhisperPopup(chatString,
                                OTPGlobals.getInterfaceFont(),
@@ -1557,6 +1578,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             self.__clarabelleFlash.pause()
 
     def __handleClarabelleButton(self):
+        self.stopMoveFurniture()
         place = base.cr.playGame.getPlace()
         if place == None:
             self.notify.warning("Tried to go home, but place is None.")
@@ -1569,6 +1591,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         place.goHomeNow(self.lastHood)
 
     def __startMoveFurniture(self):
+        self.oldPos = self.getPos()
         if ConfigVariableBool('want-qa-regression', 0).getValue():
             self.notify.info('QA-REGRESSION: ESTATE:  Furniture Placement')
         if self.cr.furnitureManager != None:
@@ -1577,6 +1600,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             self.furnitureManager.d_suggestDirector(self.doId)
 
     def stopMoveFurniture(self):
+        if self.oldPos:
+            self.setPos(self.oldPos)
         if self.furnitureManager != None:
             self.furnitureManager.d_suggestDirector(0)
 
@@ -1763,6 +1788,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                     for quest in self.quests:
                         if quest[0] in Quests.PreClarabelleQuestIds and \
                            ((self.mailboxNotify != ToontownGlobals.NewItems) and (self.awardNotify != ToontownGlobals.NewItems)):
+                            showClarabelle = 0
+                    if base.cr.playGame.getPlace().getState() == "stickerBook":
                             showClarabelle = 0
                     if showClarabelle:
                         newItemsInMailbox = self.mailboxNotify == ToontownGlobals.NewItems or \
@@ -2688,10 +2715,12 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         #if we're clicking on buttons, we're not asleep
         messenger.send('wakeup')
 
-        thing = base.cr.doId2do.get(self.shovelRelatedDoId)
+        thingId = self.shovelRelatedDoId
+        thing = base.cr.doId2do.get(thingId)
 
         if hasattr(self,"extraShovelCommand"):
             self.extraShovelCommand()
+            self.setActivePlot(thingId)
             #self.setInGardenAction(1, thing)
             #self.lockGardeningButtons()
 
