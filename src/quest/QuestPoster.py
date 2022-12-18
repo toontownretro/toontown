@@ -465,24 +465,25 @@ class QuestPoster(DirectFrame):
         # Is quest complete?
         fComplete = (quest.getCompletionStatus(base.localAvatar, questDesc) == Quests.COMPLETE)
         # Names and IDs
-        fromNpcName = NPCToons.getNPCName(fromNpcId)
-        npcZone = NPCToons.getNPCZone(fromNpcId)
-        hoodId = ZoneUtil.getCanonicalHoodId(npcZone)
-        branchId = ZoneUtil.getCanonicalBranchZone(npcZone)
-        # Is this in the Toon HQ or in the hoods
-        if fromNpcId == Quests.ToonHQ:
-            locationName = TTLocalizer.QuestPosterHQLocationName
-            buildingName = TTLocalizer.QuestPosterHQBuildingName
-            streetName = TTLocalizer.QuestPosterHQStreetName
-        elif fromNpcId == Quests.ToonTailor:
-            locationName = TTLocalizer.QuestPosterTailorLocationName
-            buildingName = TTLocalizer.QuestPosterTailorBuildingName
-            streetName = TTLocalizer.QuestPosterTailorStreetName
-        else:
-            locationName = base.cr.hoodMgr.getFullnameFromId(hoodId)
-            buildingName = NPCToons.getBuildingTitle(npcZone)
-            streetName = ZoneUtil.getStreetName(branchId)
+#        fromNpcName = NPCToons.getNPCName(fromNpcId)
+#        npcZone = NPCToons.getNPCZone(fromNpcId)
+#        hoodId = ZoneUtil.getCanonicalHoodId(npcZone)
+#        branchId = ZoneUtil.getCanonicalBranchZone(npcZone)
+#        # Is this in the Toon HQ or in the hoods
+#        if fromNpcId == Quests.ToonHQ:
+#            locationName = TTLocalizer.QuestPosterHQLocationName
+#            buildingName = TTLocalizer.QuestPosterHQBuildingName
+#            streetName = TTLocalizer.QuestPosterHQStreetName
+#        elif fromNpcId == Quests.ToonTailor:
+#            locationName = TTLocalizer.QuestPosterTailorLocationName
+#            buildingName = TTLocalizer.QuestPosterTailorBuildingName
+#            streetName = TTLocalizer.QuestPosterTailorStreetName
+#        else:
+#            locationName = base.cr.hoodMgr.getFullnameFromId(hoodId)
+#            buildingName = NPCToons.getBuildingTitle(npcZone)
+#            streetName = ZoneUtil.getStreetName(branchId)
 
+        # Is this in the Toon HQ or in the hoods
         if toNpcId == Quests.ToonHQ:
             toNpcName = TTLocalizer.QuestPosterHQOfficer
             toNpcBuildingName = TTLocalizer.QuestPosterHQBuildingName

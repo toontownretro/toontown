@@ -208,9 +208,11 @@ class QuestMap(DirectFrame):
             if toNpcId == Quests.ToonHQ:
                 self.putBuildingMarker(self.hqPosInfo, mapIndex=mapIndex)
             else:
+                # Names and IDs
                 npcZone = NPCToons.getNPCZone(toNpcId)
                 hoodId = ZoneUtil.getCanonicalHoodId(npcZone)
                 branchId = ZoneUtil.getCanonicalBranchZone(npcZone)
+                # Is this in the zone or in the hoods
                 if self.hoodId == hoodId and self.zoneId == branchId:
                     for blockIndex in range(dnaStore.getNumBlockTitles()):
                         blockNumber = dnaStore.getTitleBlockAt(blockIndex)
