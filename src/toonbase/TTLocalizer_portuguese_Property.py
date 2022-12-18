@@ -197,31 +197,31 @@ PstatusLabel = 0.05
 PBstatusLabel = 0.07
 
 #makeatoon/NameShop.py
-NSmaxNameWidth = 10
+NSmaxNameWidth = 13
 NSdirectScrolleList = 0.1
-NSmakeLabel = 0.07
-NSmakeCheckBox = 0.5
+NSmakeLabel = 0.08
+NSmakeCheckBox = 0.4
 NSnameEntry = 0.08
 NStypeANameButton = 0.05
 NStypeANameButton_pos = -0.01
 NSnameResult = 0.065
 NStypeName = 0.1
-NSnewName = 0.1
+NSnewName = 0.06
 NScolorPrecede = False
 
 #makeatoon/MakeAToon.py
-MATenterGenderShop = 0.14
-MATenterBodyShop = 0.14
-MATenterColorShop = 0.14
-MATenterClothesShop = 0.12
-MATenterNameShop = 0.11
+MATenterGenderShop = 0.18
+MATenterBodyShop = 0.18
+MATenterColorShop = 0.18
+MATenterClothesShop = 0.16
+MATenterNameShop = 0.15
 MATclothesGUIshirt_scale = 0.06
 MATclothesGUIshirt_posL = 0.010
 MATclothesGUIshirt_posR = -0.014
 MATnextButtonScale = 0.07
 
 #makeatoon\ShuffleButton.py
-SBshuffleBtn = 0.08
+SBshuffleBtn = 0.07
 
 #minigame/DistributedPairingGame.py
 DPGPointsFrameTextScale = 0.45

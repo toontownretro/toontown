@@ -6099,7 +6099,7 @@ EventsPageHostingTabPartiesListTitle = "Anfitriões"
 EventsPageHostTabCancelButton = "Cancelar Festa"
 EventsPageGoButton = "Iniciar\nFesta!"
 EventsPageGoBackButton = "Festa\nJá!"
-EventsPageInviteGoButton = "Ir para\Festa!"
+EventsPageInviteGoButton = "Ir para\nFesta!"
 EventsPageUnknownToon = "Toon Desconhecido"
 
 EventsPageInvitedTabName = "Convites"
@@ -6811,7 +6811,7 @@ CdrResultServiceUnavailable = "Lamentamos. Esta característica é temporariamen
 
 # TrackPage.py
 TrackPageTitle = "Treinamento de tipos de piadas"
-TrackPageShortTitle = "Treinamento de piadas"
+TrackPageShortTitle = "Treinamento de\npiadas"
 TrackPageSubtitle = "Execute as Tarefas Toon para aprender a usar novas piadas!"
 TrackPageTraining = "Você está treinando para usar as Piadas de %s.\nQuando executar todas as 16 tarefas,\nestará apto a usar as Piadas de %s nas batalhas."
 TrackPageClear = "Você não está treinando nenhum tipo de piadas agora."
@@ -7591,7 +7591,7 @@ NameShopToonCouncil = "O Conselho de Toons\nanalisará o seu\nnome."+ \
                       "A análise pode\nlevar alguns dias.\nEnquanto você espera,\nseu nome será\n"
 PleaseTypeName = "Digite o seu nome:"
 AllNewNames = "Todos os novos nomes\ndevem ser aprovados\npelo Conselho de Toons."
-NameMessages = "Use sua criatividade e lembre-se:\nnada de nomes relacionados com a Disney, por favor."
+NameMessages = "Use sua criatividade e lembre-se:\nnada de nomes relacionados\ncom a Disney, por favor."
 NameShopNameRejected = "O nome\nenviado foi\nrejeitado."
 NameShopNameAccepted = "Parabéns!\nO nome\nenviado foi\naceito!"
 NoPunctuation = "Não é permitido usar caracteres de pontuação nos nomes!"
@@ -8452,6 +8452,7 @@ BottomStylesDescriptions = {
     'vd_gs3' : 'Saia de brim azul com coração verde e vermelho',
     'c_gsk4' : 'Saia de arco-íris - Série 3',
     'sd_gs1' : 'Shorts de dia de São Patrício',
+    'sd_gs2' : 'Ides of March greenToon skirt',
     'c_gsk5' : 'Saias de vaqueira 1',
     'c_gsk6' : 'Saias de vaqueira 2',
     # Western shorts

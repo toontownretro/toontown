@@ -2463,7 +2463,7 @@ ReportPanelConfirmations = (
     "Tu es sur le point de signaler que %s n'est pas prudent, et donne ou demande un numéro de téléphone, une adresse, un nom de famille, une adresse e-mail, un mot de passe ou un nom de compte.",
     "Tu es sur le point de signaler que %s tyrannise, harcèle ou manifeste un comportement extrême pour perturber le jeu.",
     "Tu es sur le point de signaler que %s a créé un nom qui n'est pas conforme aux Règles du jeu de Disney.",
-    "You are about to report that %s has hacked/tampered with the game or used third party software.",
+    "Tu es sur le point de signaler que %s has hacked/tampered with the game or used third party software.", # Finish me
     )
 
 # Put on confirmation screen!
@@ -11957,7 +11957,7 @@ ConfirmMaxedSkillFlower = "Veux-tu vraiment cueillir le plant de %(plant)s ? Il 
 ConfirmBasketFull = "Ton panier de fleurs est plein. Tu dois d'abord vendre des fleurs."
 ConfirmRemoveTree = "Veux-tu vraiment retirer le pied de %(tree)s ?"
 ConfirmWontBeAbleToHarvest = " Si tu retires cet arbre, tu ne pourras pas récolter de gags dans les arbres de plus haut niveau."
-ConfirmRemoveStatuary = "Veux-tu vraiment supprimer définitivement le plant de %(plant)s ?"
+ConfirmRemoveStatuary = "Veux-tu vraiment supprimer définitivement le plant de %(item)s ?"
 ResultPlantedSomething  = "Félicitations ! Tu viens de planter un %s."
 ResultPlantedSomethingAn  = "Félicitations ! Tu viens de mettre en terre un plant de %s."
 ResultPlantedNothing = "Ça n'a pas marché. Essaie une nouvelle combinaison de bonbons."
