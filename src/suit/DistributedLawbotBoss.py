@@ -122,6 +122,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         """
         At this point all required fields have been filled in
         """
+        global OneBossCog
         self.notify.debug("----- announceGenerate")
         DistributedBossCog.DistributedBossCog.announceGenerate(self)
         # at this point all our attribs have been filled in.
@@ -221,6 +222,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         This method is called when the DistributedObject
         is removed from active duty and stored in a cache.
         """
+        global OneBossCog
         self.notify.debug("----- disable")
         DistributedBossCog.DistributedBossCog.disable(self)
         self.request('Off')
@@ -1389,6 +1391,8 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         # So until this is fixed we stash the boss for a split second to not hit the player
         # automatically losing them laff points
         self.stashBoss()
+
+        self.toonsToBattlePosition(self.involvedToons, self.battleANode)
 
         # The Boss Cog rolls up the ramp into position for battle two,
         # while the Toons are free to run around for a few seconds.
@@ -2717,7 +2721,11 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.notify.debug("DistrutedLawbotBoss.toonsToBattlePosition----------------------------------------")
         self.notify.debug("toonIds=%s battleNode=%s" % (toonIds,battleNode))
 
-        points = BattleBase.BattleBase.toonPoints[len(toonIds) - 1]
+        if len(toonIds) < 5:
+            points = BattleBase.BattleBase.toonPoints[len(toonIds) - 1]
+        else:
+            points = list(BattleBase.BattleBase.toonPoints[3])
+            points.extend(BattleBase.BattleBase.toonPoints[len(toonIds) - 5])
 
         self.notify.debug("toonsToBattlePosition: points = %s" % points[0][0])
 
@@ -2726,6 +2734,9 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             if toon:
                 toon.wrtReparentTo(render)
                 pos, h = points[i]
+
+                if i > 3:
+                    pos.setY(pos.getY() + 2.0)
 
                 #self.notify.debug("points = %.2f %.2f %.2f" % (points[0][0], points[0][1], points[0][2])
                 #self.notify.debug("toonsToBattlePosition: battleNode=%s %.2f %.2f %.2f %.2f %.2f %.2f" % (battleNode, pos[0], pos[1], pos[2], h, 0, 0))

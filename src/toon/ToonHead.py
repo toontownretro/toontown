@@ -921,10 +921,10 @@ class ToonHead(Actor.Actor):
 
                 # This breaks the "animating" dog eyes.  For now,
                 # we'll only flatten if we haven't got a dog.
-                animalType = style.getAnimal()
-                if animalType != "dog":
-                    self.__lpupil.flattenStrong()
-                    self.__rpupil.flattenStrong()
+                #animalType = style.getAnimal()
+                #if animalType != "dog":
+                #    self.__lpupil.flattenStrong()
+                #    self.__rpupil.flattenStrong()
 
     def __setPupilDirection(self, x, y):
         """__setPupilDirection(self, float x, float y)
@@ -1731,8 +1731,8 @@ class ToonHead(Actor.Actor):
                         filePrefix = DogMuzzleDict[style.head]
                         muzzles = loader.loadModel("phase_3" + filePrefix + lodName)
                         if ConfigVariableBool('want-new-anims', 1).getValue():
-                            if not self.find('**/' + lodName + '/**/def_head').isEmpty():
-                                muzzles.reparentTo(self.find('**/' + lodName + '/**/def_head'))
+                            if not self.find('**/' + lodName + '/**/__Actor_head/def_head').isEmpty():
+                                muzzles.reparentTo(self.find('**/' + lodName + '/**/__Actor_head/def_head'))
                             else:
                                 muzzles.reparentTo(self.find('**/' + lodName + '/**/joint*toHead'))
                         elif self.find('**/' + lodName + '/**/joint*toHead'):

@@ -859,7 +859,7 @@ class InGameEditor(AppShell):
         widg.bind('<Return>', handleReturn)
         widg.pack(side = LEFT, fill = X, expand = 1)
         # Popup menu of possible entities
-        if attribName is 'parentEntId':
+        if attribName == 'parentEntId':
             buttonText = "Reparent To"
         else:
             buttonText = "Select Entity"

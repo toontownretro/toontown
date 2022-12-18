@@ -1,6 +1,7 @@
 import random
 import math
-from toontown.toonbase.ToontownModules import Point3
+from toontown.toonbase.ToontownModules import Point3, \
+     ConfigVariableInt, ConfigVariableBool
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import FSM
 from direct.interval.IntervalGlobal import LerpPosInterval
@@ -17,7 +18,6 @@ from toontown.battle import DistributedBattleWaitersAI
 from toontown.battle import DistributedBattleDinersAI
 from toontown.battle import BattleExperienceAI
 from direct.distributed.ClockDelta import globalClockDelta
-from toontown.toonbase.ToontownModules import *
 
 class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBossbotBossAI')
@@ -794,7 +794,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         assert self.notify.debug('%s.hitBoss(%s, %s)' % (self.doId, avId, speedDamage))
 
         if not self.validate(avId, avId in self.involvedToons,
-                             'hitBoss from unknown avatar'):
+                             'DistributedBossbotBossAI.ballHitBoss from unknown avatar'):
             return
 
         if speedDamage < 1:

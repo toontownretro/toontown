@@ -276,6 +276,14 @@ class DistributedCashbotBossGoonAI(DistributedGoonAI.DistributedGoonAI,
             # stun again.
             return
 
+        toon = self.air.doId2do.get(avId)
+        if toon:
+            toonDistance = self.getPos(toon).length()
+            if toonDistance > self.attackRadius * 2:
+                self.air.writeServerEvent('suspicious', avId, 'Stunned a goon, but outside of attack radius. Possible multihack.')
+                taskMgr.doMethodLater(0, self.__recoverWalk, self.uniqueName('recoverWalk'))
+                return
+
         # Stop the goon right where he is.
         self.__stopWalk(pauseTime)
 

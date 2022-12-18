@@ -125,6 +125,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         This method is called when the DistributedObject
         is removed from active duty and stored in a cache.
         """
+        global OneBossCog
         DistributedBossCog.DistributedBossCog.disable(self)
         self.demand('Off')
 

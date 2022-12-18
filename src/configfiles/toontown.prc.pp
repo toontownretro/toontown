@@ -135,6 +135,10 @@ early-event-sphere #t
 
 want-magic-words #t
 
+# PyMySQL not compatible
+# with DirectMySQLDb
+want-code-redemption #f
+
 # In-game News:
 want-news-page #f
 

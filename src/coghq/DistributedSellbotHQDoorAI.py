@@ -15,7 +15,7 @@ class DistributedSellbotHQDoorAI(DistributedCogHQDoorAI.DistributedCogHQDoorAI):
 
     def requestEnter(self):
         avatarID = self.air.getAvatarIdFromSender()
-#        (allowed, suitType) = self.__getAccessLevel(avatarID)
+        (allowed, suitType) = self.__getAccessLevel(avatarID)
         # Now send a message back - either reject or accept
         if not allowed:
             self.sendReject(avatarID, self.isLockedDoor())
@@ -26,7 +26,6 @@ class DistributedSellbotHQDoorAI(DistributedCogHQDoorAI.DistributedCogHQDoorAI):
             if ToontownGlobals.SELLBOT_NERF_HOLIDAY in self.air.holidayManager.currentHolidays:
                 self.sendUpdateToAvatarId(avatarID, "informPlayer", [suitType])
 
-    """
     def __getAccessLevel(self, avatarID):
         av = self.air.doId2do.get(avatarID)
         allowed = 0
@@ -53,4 +52,3 @@ class DistributedSellbotHQDoorAI(DistributedCogHQDoorAI.DistributedCogHQDoorAI):
             allowed = 0
 
         return (allowed, suitType)
-        """

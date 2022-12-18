@@ -1,6 +1,7 @@
 import math
 from toontown.toonbase.ToontownModules import Point3, CollisionSphere, CollisionNode, \
-     CollisionHandlerEvent, TextNode, VBase4, SmoothMover, NodePath, BitMask32
+     CollisionHandlerEvent, TextNode, VBase4, SmoothMover, NodePath, BitMask32, \
+     ConfigVariableDouble
 from direct.fsm import FSM
 from direct.distributed import DistributedObject
 from direct.distributed.ClockDelta import globalClockDelta
@@ -30,12 +31,12 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
 
     # The number of seconds it takes to move the power meter to
     # full the first time.
-    golfPowerSpeed = base.config.GetDouble('golf-power-speed', 3)
+    golfPowerSpeed = ConfigVariableDouble('golf-power-speed', 3).getValue()
 
     # The exponent that controls the factor at which the power
     # meter slows down over time.  Values closer to 1.0 slow down less
     # quickly.
-    golfPowerExponent = base.config.GetDouble('golf-power-exponent', 0.75)
+    golfPowerExponent = ConfigVariableDouble('golf-power-exponent', 0.75).getValue()
 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)

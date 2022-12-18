@@ -796,3 +796,11 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit,
             self.nametag3d.clearBin()
             self.sillySurgeText = False
         return Task.done
+
+    def getAvIdName(self):
+        try:
+            level = self.getActualLevel()
+        except:
+            level = "???"
+
+        return '%s\n%s\nLevel %s' % (self.getName(), self.doId, level)

@@ -84,6 +84,7 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
     def announceGenerate(self):
         """Handle all required fields having been filled in."""
+        global OneBossCog
         DistributedBossCog.DistributedBossCog.announceGenerate(self)
         # at this point all our attribs have been filled in.
 #        self.setName(TTLocalizer.BossbotBossName)
@@ -186,6 +187,7 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         This method is called when the DistributedObject
         is removed from active duty and stored in a cache.
         """
+        global OneBossCog
         self.notify.debug("----- disable")
         DistributedBossCog.DistributedBossCog.disable(self)
         self.demotedCeo.delete()

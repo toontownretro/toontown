@@ -996,7 +996,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         signTextNodePath = backgroundNP.attachNewNode(textNode.generate())
         assert(not signTextNodePath.isEmpty())
         # Scale the text:
-        signTextNodePath.setPosHprScale(0.0, 0.0, -0.13 + textHeight * 0.1 / zScale,
+        signTextNodePath.setPosHprScale(0.0, -0.005, -0.13 + textHeight * 0.1 / zScale,
                                         0.0, 0.0, 0.0,
                                         0.1 * 8.0 / 20.0,
                                         0.1, 0.1 / zScale)

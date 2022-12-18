@@ -27,6 +27,7 @@ from direct.task import Task
 import random
 import math
 from toontown.coghq import CogDisguiseGlobals
+from toontown.suit import SellbotBossGlobals
 
 # This pointer keeps track of the one DistributedSellbotBoss that
 # should appear within the avatar's current visibility zones.  If
@@ -70,9 +71,15 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.strafeInterval = None
         self.onscreenMessage = None
 
-        self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamage
+        self.toonMopathInterval = []
+        self.nerfed = ToontownGlobals.SELLBOT_NERF_HOLIDAY in base.cr.newsManager.getHolidayIdList()
+        self.localToonPromoted = True
+
+        #self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamage
+        self.resetMaxDamage()
 
     def announceGenerate(self):
+        global OneBossCog
         DistributedBossCog.DistributedBossCog.announceGenerate(self)
         # at this point all our attribs have been filled in.
         self.setName(TTLocalizer.SellbotBossName)
@@ -164,6 +171,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         This method is called when the DistributedObject
         is removed from active duty and stored in a cache.
         """
+        global OneBossCog
         DistributedBossCog.DistributedBossCog.disable(self)
         self.request('Off')
         self.unloadEnvironment()
@@ -186,10 +194,20 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.battleTwoMusic.stop()
         self.battleThreeMusic.stop()
         self.epilogueMusic.stop()
+        while len(self.toonMopathInterval):
+            toonMopath = self.toonMopathInterval[0]
+            toonMopath.finish()
+            toonMopath.destroy()
+            self.toonMopathInterval.remove(toonMopath)
 
-        global OneBossCog
         if OneBossCog == self:
             OneBossCog = None
+
+    def resetMaxDamage(self):
+        if self.nerfed:
+            self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamageNerfed
+        else:
+            self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamage
 
     def d_hitBoss(self, bossDamage):
         self.sendUpdate('hitBoss', [bossDamage])
@@ -310,6 +328,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             # Start the toon off at his position within the elevator.
             self.placeToonInElevator(toon)
             toon.wrtReparentTo(render)
+            walkMopath = MopathInterval(mopath, toon)
 
             # We cleverly combine the MopathInterval with a
             # LerpPosInterval so that the toon walks off of his mopath
@@ -326,6 +345,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                                     toon.posInterval(2, destPos,
                                                      blendType = 'noBlend')),
                 Func(toon.suit.loop, 'neutral'))
+            self.toonMopathInterval.append(walkMopath)
             track.append(ival)
             delayDeletes.append(DelayDelete.DelayDelete(toon, 'SellbotBoss.__walkToonToPromotion'))
 
@@ -599,6 +619,19 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             Func(self.getGeomNode().setH, 0),
             name = self.uniqueName('BattleTwo'))
 
+    def cagedToonMovieFunction(self, instruct, cageIndex):
+        self.notify.debug('cagedToonMovieFunction()')
+        if not (hasattr(self, 'cagedToon') and hasattr(self.cagedToon, 'nametag') and hasattr(self.cagedToon, 'nametag3d')):
+            return
+        if instruct == 1:
+            self.cagedToon.nametag3d.setScale(2)
+        elif instruct == 2:
+            self.cagedToon.setChatAbsolute(TTLocalizer.CagedToonDrop[cageIndex], CFSpeech)
+        elif instruct == 3:
+            self.cagedToon.nametag3d.setScale(1)
+        elif instruct == 4:
+            self.cagedToon.clearChat()
+
     def makeEndOfBattleMovie(self, hasLocalToon):
         assert self.notify.debug("makeEndOfBattleMovie(%s)" % (hasLocalToon))
         # Generate an interval which shows the cage dropping a bit
@@ -617,12 +650,11 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 Parallel(self.cage.posInterval(1, self.cagePos[self.cageIndex + 1],
                                                blendType = 'easeInOut'),
                          SoundInterval(self.cageLowerSfx, duration = 1)),
-                Func(self.cagedToon.nametag3d.setScale, 2),
-                Func(self.cagedToon.setChatAbsolute,
-                     TTLocalizer.CagedToonDrop[self.cageIndex], CFSpeech),
+                Func(self.cagedToonMovieFunction, 1, self.cageIndex),
+                Func(cagedToonMovieFunction, 2, self.cageIndex),
                 Wait(3),
-                Func(self.cagedToon.nametag3d.setScale, 1),
-                Func(self.cagedToon.clearChat)]
+                Func(self.cagedToonMovieFunction, 3, self.cageIndex),
+                Func(self.cagedToonMovieFunction, 4, self.cageIndex)]
         if hasLocalToon:
             seq += [Func(self.show),
                     Func(camera.reparentTo, localAvatar),
@@ -660,7 +692,9 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         # promotion, if any.  Returns the newly-extended speech.
 
         # don't say anything about a promotion if they've maxed their cog suit
-        if self.prevCogSuitLevel < ToontownGlobals.MaxCogSuitLevel:
+        if not self.localToonPromoted:
+            pass
+        elif self.prevCogSuitLevel < ToontownGlobals.MaxCogSuitLevel:
             speech += TTLocalizer.CagedToonPromotion
             newCogSuitLevel = localAvatar.getCogLevels()[
                 CogDisguiseGlobals.dept2deptIndex(self.style.dept)]
@@ -1098,10 +1132,12 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.storeInterval(seq, intervalName)
 
         base.playMusic(self.betweenBattleMusic, looping=1, volume=0.9)
+        self.__showEasyBarrels()
         #re-enable the collision a little bit later, after the boss has started moving
         taskMgr.doMethodLater(0.5, self.enableToonCollision, 'enableToonCollision')
 
     def __onToPrepareBattleTwo(self):
+        self.disableToonCollision()
         # Make sure the boss ends up in his battle position.
         self.unstickBoss()
         self.setPosHpr(*ToontownGlobals.SellbotBossBattleTwoPosHpr)
@@ -1125,6 +1161,8 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def enterPrepareBattleTwo(self):
         assert self.notify.debug('enterPrepareBattleTwo()')
         self.cleanupIntervals()
+
+        self.__hideEasyBarrels()
 
         self.controlToons()
 
@@ -1164,6 +1202,9 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         # Let's play the elevator music again; it's dramatic enough to
         # use twice.
         base.playMusic(self.stingMusic, looping=0, volume=1.0)
+
+        taskMgr.doMethodLater(0.5, self.enableToonCollision,
+                              "enableToonCollision")
 
     def __onToBattleTwo(self, elapsed):
         self.doneBarrier('PrepareBattleTwo')
@@ -1327,7 +1368,8 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.bossDamageMovie.setDoneEvent(bossDoneEventName)
         self.acceptOnce(bossDoneEventName, self.__doneBattleThree)
 
-        self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamage
+        #self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamage
+        self.resetMaxDamage()
 
         # This factor scales the "max damage" point to the point in
         # the movie where the Boss falls over the edge.
@@ -1895,3 +1937,41 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.__cleanupStrafe()
         self.strafeInterval = seq
         seq.start()
+
+    def __showEasyBarrels(self):
+        barrelNodes = hidden.findAllMatches("**/Distributed*Barrel-*")
+        if not barrelNodes or barrelNodes.isEmpty():
+            return
+
+        if render.find('barrelsRootNode'):
+            self.notify.warning('__showEasyBarrels(): barrelsRootNode already exists')
+            return
+
+        self.barrelsRootNode = render.attachNewNode('barrelsRootNode')
+        self.barrelsRootNode.setPos(*SellbotBossGlobals.BarrelsStartPos)
+
+        if self.arenaSide == 0:
+            self.barrelsRootNode.setHpr(180, 0, 0)
+        else:
+            self.barrelsRootNode.setHpr(0, 0, 0)
+        for i, barrelNode in enumerate(barrelNodes):
+            barrel = base.cr.doId2do.get(int(barrelNode.getNetTag('doId')))
+            SellbotBossGlobals.setBarrelAttr(barrel, barrel.entId)
+            if hasattr(barrel, 'applyLabel'):
+                barrel.applyLabel()
+            barrel.setPosHpr(barrel.pos, barrel.hpr)
+            barrel.reparentTo(self.barrelsRootNode)
+
+        intervalName = 'MakeBarrelsAppear'
+        seq = Sequence(LerpPosInterval(self.barrelsRootNode, 0.5, Vec3(*SellbotBossGlobals.BarrelsFinalPos), blendType='easeInOut'), name=intervalName)
+        seq.start()
+        self.storeInterval(seq, intervalName)
+
+    def __hideEasyBarrels(self):
+        if hasattr(self, 'barrelsRootNode'):
+            self.barrelsRootNode.removeNode()
+            intervalName = 'MakeBarrelsAppear'
+            self.clearInterval(intervalName)
+
+    def toonPromoted(self, promoted):
+        self.localToonPromoted = promoted

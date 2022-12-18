@@ -120,7 +120,7 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
         assert self.notify.debug('%s.hitBoss(%s, %s)' % (self.doId, avId, bossDamage))
 
         if not self.validate(avId, avId in self.involvedToons,
-                             'hitBoss from unknown avatar'):
+                             'DistributedLawbotbossAI.hitBoss from unknown avatar'):
             return
 
         # We only expect a bossDamage value of 1 from the client.  If

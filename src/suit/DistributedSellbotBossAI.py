@@ -1,9 +1,9 @@
 from otp.ai.AIBaseGlobal import *
 from direct.distributed.ClockDelta import *
-from . import DistributedBossCogAI
+from toontown.suit import DistributedBossCogAI
 from direct.directnotify import DirectNotifyGlobal
 from otp.avatar import DistributedAvatarAI
-from . import DistributedSuitAI
+from toontown.suit import DistributedSuitAI
 from toontown.battle import BattleExperienceAI
 from direct.fsm import FSM
 from toontown.toonbase import ToontownGlobals
@@ -11,7 +11,8 @@ from toontown.toon import InventoryBase
 from toontown.toonbase import TTLocalizer
 from toontown.battle import BattleBase
 from toontown.toon import NPCToons
-from . import SuitDNA
+from toontown.suit import SellbotBossGlobals
+from toontown.suit import SuitDNA
 import random
 
 class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM):
@@ -36,13 +37,30 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.doobers = []
 
         # Choose an NPC toon to be in the cage.
-        self.cagedToonNpcId = random.choice(list(NPCToons.npcFriends.keys()))
+        #self.cagedToonNpcId = random.choice(list(NPCToons.npcFriends.keys()))
 
-        self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamage
+        # Check if Sellbot Nerf is running
+        self.nerfed = ToontownGlobals.SELLBOT_NERF_HOLIDAY in self.air.holidayManager.currentHolidays
+        if self.nerfed:
+            self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamageNerfed
+            self.pieHitToonup = SellbotBossGlobals.PieToonupNerfed
+            self.pieDamageMult = SellbotBossGlobals.PieDamageMultNerfed
+            self.hitCountDamage = SellbotBossGlobals.HitCountDamageNerfed
+        else:
+            self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamage
+            self.pieHitToonup = SellbotBossGlobals.PieToonup
+            self.pieDamageMult = SellbotBossGlobals.PieDamageMult
+            self.hitCountDamage = SellbotBossGlobals.HitCountDamage
         self.recoverRate = 0
         self.recoverStartTime = 0
 
+    def generateWithRequired(self, zoneId):
+        self.numRentalDiguises, self.numNormalDiguises = self.countDisguises()
+        self.__setCagedToonNpcId()
+        DistributedBossCogAI.DistributedBossCogAI.generateWithRequired(self, zoneId)
+
     def delete(self):
+        self.destroyEasyModeBarrels()
         return DistributedBossCogAI.DistributedBossCogAI.delete(self)
 
     def getHoodId(self):
@@ -50,6 +68,19 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
     def getCagedToonNpcId(self):
         return self.cagedToonNpcId
+
+    def __setCagedToonNpcId(self):
+
+        def npcFriendsMaxStars(stars):
+            return [id for id in list(NPCToons.npcFriends.keys()) if NPCToons.getNPCTrackLevelHpRarity(id)[3] <= stars]
+
+        if self.numRentalDiguises >= 4:
+            self.cagedToonNpcId = random.choice(NPCToons.npcFriendsMinMaxStars(3, 3))
+        else:
+            if 1 <= self.numRentalDiguises <= 3:
+                self.cagedToonNpcId = random.choice(NPCToons.npcFriendsMinMaxStars(3, 4))
+            else:
+                self.cagedToonNpcId = random.choice(NPCToons.npcFriendsMinMaxStars(3, 5))
 
     def magicWordHit(self, damage, avId):
         # Called by the magic word "~bossBattle hit damage"
@@ -65,7 +96,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         assert self.notify.debug('%s.hitBoss(%s, %s)' % (self.doId, avId, bossDamage))
 
         if not self.validate(avId, avId in self.involvedToons,
-                             'hitBoss from unknown avatar'):
+                             'DistributedSellbotBossAI.hitBoss from unknown avatar'):
             return
 
         # We only expect a bossDamage value of 1 from the client.  If
@@ -76,6 +107,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         # hackers into revealing themselves repeatedly.
         self.validate(avId, bossDamage == 1,
                       'invalid bossDamage %s' % (bossDamage))
+        bossDamage = int(round(bossDamage * self.pieDamageMult))
         if bossDamage < 1:
             return
 
@@ -134,7 +166,14 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
         toon = self.air.doId2do.get(toonId)
         if toon:
-            self.healToon(toon, 1)
+            self.healToon(toon, self.pieHitToonup)
+
+
+    def getDamageMultiplier(self):
+        if self.nerfed:
+            return SellbotBossGlobals.AttackMultNerfed
+        else:
+            return SellbotBossGlobals.AttackMult
 
 
     def touchCage(self):
@@ -282,12 +321,20 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.initializeBattles(1, ToontownGlobals.SellbotBossBattleOnePosHpr)
 
     def generateSuits(self, battleNumber):
-        if battleNumber == 1:
-            # Battle 1
-            return self.invokeSuitPlanner(9, 0)
+        if self.nerfed:
+            if battleNumber == 1:
+                # Battle 1
+                return self.invokeSuitPlanner(15, 0)
+            else:
+                # Battle 2
+                return self.invokeSuitPlanner(16, 1)
         else:
-            # Battle 2
-            return self.invokeSuitPlanner(10, 1)
+            if battleNumber == 1:
+                # Battle 1
+                return self.invokeSuitPlanner(9, 0)
+            else:
+                # Battle 2
+                return self.invokeSuitPlanner(10, 1)
 
     def removeToon(self, avId):
         toon = simbase.air.doId2do.get(avId)
@@ -308,6 +355,8 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     def enterElevator(self):
         DistributedBossCogAI.DistributedBossCogAI.enterElevator(self)
         self.b_setBossDamage(0, 0, 0)
+        if self.nerfed:
+            self.createEasyModeBarrels()
 
     ##### Introduction state #####
 
@@ -546,9 +595,29 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         for toonId in self.involvedToons:
             toon = self.air.doId2do.get(toonId)
             if toon:
-                if not toon.attemptAddNPCFriend(self.cagedToonNpcId, numCalls = 1):
+                configMax = ConfigVariableInt('max-sos-cards', 16).getValue()
+                if configMax == 8:
+                    maxNumCalls = 1
+                else:
+                    maxNumCalls = 2
+                if not toon.attemptAddNPCFriend(self.cagedToonNpcId, numCalls = maxNumCalls):
                     self.notify.info("%s.unable to add NPCFriend %s to %s." % (self.doId, self.cagedToonNpcId, toonId))
-                toon.b_promote(self.deptIndex)
+                if self.__shouldPromoteToon(toon):
+                    toon.b_promote(self.deptIndex)
+                    self.sendUpdateToAvatarId(toonId, "toonPromoted", [1])
+                else:
+                    self.sendUpdateToAvatarId(toonId, "toonPromoted", [0])
+
+    def __shouldPromoteToon(self, toon):
+        # Don't promote when he wasn't ready for promotion
+        if not toon.readyForPromotion(self.deptIndex):
+            return False
+        else:
+            # Don't promote when he was wearing a Rental Suit
+            if self.isToonWearingRentalSuit(toon.doId):
+                return False
+        # Else promote
+        return True
 
     def exitVictory(self):
         self.takeAwayPies()
@@ -620,3 +689,19 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
         # Launch an immediate front attack.
         self.b_setAttackCode(ToontownGlobals.BossCogRecoverDizzyAttack)
+
+    def createEasyModeBarrels(self):
+        self.barrels = []
+        for entId, entDef in SellbotBossGlobals.BarrelDefs.items():
+            barrelType = entDef["type"]
+            barrel = barrelType(self.air, entId)
+            SellbotBossGlobals.setBarrelAttr(barrel, entId)
+            barrel.generateWithRequired(self.zoneId)
+            self.barrels.append(barrel)
+
+    def destroyEasyModeBarrels(self):
+        if hasattr(self, "barrels") and self.barrels:
+            for barrel in self.barrels:
+                barrel.requestDelete()
+
+            self.barrels = []

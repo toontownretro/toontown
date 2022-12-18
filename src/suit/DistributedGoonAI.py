@@ -59,6 +59,7 @@ class DistributedGoonAI(DistributedCrushableEntityAI.DistributedCrushableEntityA
         taskMgr.remove(self.taskName("resumeWalk"))
         taskMgr.remove(self.taskName("recovery"))
         taskMgr.remove(self.taskName("deleteGoon"))
+        taskMgr.remove(self.taskName("GoonBombCheck"))
         DistributedCrushableEntityAI.DistributedCrushableEntityAI.delete(self)
 
     def generate(self):
@@ -95,6 +96,20 @@ class DistributedGoonAI(DistributedCrushableEntityAI.DistributedCrushableEntityA
         
         # For now we don't check the state of the goon and just
         # assume that he can always be stunned, no matter what state he's in
+        if self.level:
+            if not hasattr(self.level, "goonStunRequests"):
+                self.level.goonStunRequests = {}
+            if taskMgr.hasTaskNamed(self.taskName("GoonBombCheck")):
+                if self.level.goonStunRequests.has_key(avId):
+                    self.level.goonStunRequests[avId] = self.level.goonStunRequests[avId] + 1
+                else:
+                    self.level.goonStunRequests[avId] = 1
+            else:
+                self.level.goonStunRequests[avId] = 1
+                taskMgr.doMethodLater(0.1,
+                                      self.accumulateGoonMessages,
+                                      self.taskName("GoonBombCheck"))
+
 
         # Tell the other clients
         self.sendMovie(GOON_MOVIE_STUNNED, avId, pauseTime)
@@ -105,6 +120,16 @@ class DistributedGoonAI(DistributedCrushableEntityAI.DistributedCrushableEntityA
                               self.sendMovie,
                               self.taskName("recovery"),
                               extraArgs = (GOON_MOVIE_RECOVERY, avId, pauseTime))
+
+    def accumulateGoonMessages(self, task):
+        if not hasattr(self.level, 'goonStunRequests'):
+            return
+        for toonId in self.level.goonStunRequests:
+            if self.level.goonStunRequests[toonId] > 2:
+                self.air.writeServerEvent('suspicious', toonId, 'Stunned multiple goons very close together. Possible multihack.')
+
+        self.level.goonStunRequests.clear()
+        del self.level.goonStunRequests
 
     def requestResync(self, task=None):
         """

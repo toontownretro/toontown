@@ -602,6 +602,10 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
         # to start out with at least the specified minimum.
         self.targetNumSuitBuildings = \
           self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_BMIN]
+        self.targetNumSuitBuildings -= \
+          self.targetNumCogdos
+        if self.MinimumOfOne:
+            self.targetNumSuitBuildings = max(self.targetNumSuitBuildings, 1)
         if ZoneUtil.isWelcomeValley(self.zoneId):
             # For now, we won't have any suit buildings in WelcomeValley.
             # It bitches the suit ecology since the WelcomeValley zones
