@@ -419,7 +419,7 @@ Usage:  brikget(imfile,unpackstr=N.Int16,shp=None)  default shp: (-1,48,61,51)
     try:
         bdata.shape = shp
     except:
-        print 'Incorrect shape ...',shp,len(bdata)
+        print('Incorrect shape ...',shp,len(bdata))
         raise ValueError, 'Incorrect shape for file size'
     if len(bdata) == 1:
         bdata = bdata[0]
