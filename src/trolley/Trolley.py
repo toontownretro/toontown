@@ -1,12 +1,18 @@
-from direct.gui.DirectGui import *
-from direct.interval.IntervalGlobal import *
-from direct.fsm import ClassicFSM, State, StateData
 from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
+from direct.gui.DirectGui import *
+from direct.interval.IntervalGlobal import *
+from direct.fsm import ClassicFSM, State
+from direct.fsm import State
+from direct.fsm import StateData
 from toontown.toontowngui import TTDialog
-from toontown.toonbase import ToontownGlobals, TTLocalizer
+from toontown.toonbase import ToontownGlobals
+from toontown.toonbase import TTLocalizer
+from direct.directnotify import DirectNotifyGlobal
 
 class Trolley(StateData.StateData):
+    notify = DirectNotifyGlobal.directNotify.newCategory("Trolley")
+    
     def __init__(self, safeZone, parentFSM, doneEvent):
 
         StateData.StateData.__init__(self, doneEvent)
@@ -96,15 +102,17 @@ class Trolley(StateData.StateData):
         else:
             # can't board if we are 'sad'
             self.fsm.request("trolleyHFA")
+        return None
 
     def exit(self):
         self.ignoreAll()
+        return None
 
     def enterStart(self):
-        return
+        return None
 
     def exitStart(self):
-        return
+        return None
 
     def enterTrolleyHFA(self):
         self.noTrolleyBox = TTDialog.TTGlobalDialog(
@@ -144,7 +152,7 @@ class Trolley(StateData.StateData):
             self.notify.error("Unrecognized doneStatus: " + str(ntbDoneStatus))
 
     def enterRequestBoard(self):
-        return
+        return None
 
     def handleRejectBoard(self):
         doneStatus = {}
@@ -152,20 +160,23 @@ class Trolley(StateData.StateData):
         messenger.send(self.doneEvent, [doneStatus])
 
     def exitRequestBoard(self):
-        return
+        return None
 
     def enterBoarding(self, nodePath):
         camera.wrtReparentTo(nodePath)
         self.cameraBoardTrack = LerpPosHprInterval(camera, 1.5, Point3(-35, 0, 8), Point3(-90, 0, 0))
         self.cameraBoardTrack.start()
+        return None
 
     def exitBoarding(self):
         self.ignore("boardedTrolley")
+        return None
 
     def enterBoarded(self):
         if ConfigVariableBool('want-qa-regression', 0).getValue():
             self.notify.info('QA-REGRESSION: RIDETHETROLLEY: Ride the Trolley')
         self.enableExitButton()
+        return None
 
     def exitBoarded(self):
         # Remove the boarding task... You might think this should be
@@ -175,6 +186,7 @@ class Trolley(StateData.StateData):
         # be the same state.
         self.cameraBoardTrack.finish()
         self.disableExitButton()
+        return None
 
     def enableExitButton(self):
         self.exitButton = DirectButton(
@@ -196,15 +208,17 @@ class Trolley(StateData.StateData):
 
     def enterRequestExit(self):
         messenger.send("trolleyExitButton")
+        return None
 
     def exitRequestExit(self):
-        return
+        return None
 
     def enterTrolleyLeaving(self):
         # A camera move
         self.leavingCameraSeq = camera.posHprInterval(3, (0, 18.55, 3.75), (-180, 0, 0), blendType='easeInOut', name='leavingCamera')
         self.leavingCameraSeq.start()
         self.acceptOnce("playMinigame", self.handlePlayMinigame)
+        return None
 
     def handlePlayMinigame(self, zoneId, minigameId):
         base.localAvatar.b_setParent(ToontownGlobals.SPHidden)
@@ -219,21 +233,22 @@ class Trolley(StateData.StateData):
         if self.leavingCameraSeq:
             self.leavingCameraSeq.finish()
             self.leavingCameraSeq = None
+        return None
 
     def enterExiting(self):
-        return
+        return None
 
     def handleOffTrolley(self):
         doneStatus = {}
         doneStatus["mode"] = "exit"
         messenger.send(self.doneEvent, [doneStatus])
-        return
+        return None
 
     def exitExiting(self):
-        return
+        return None
 
     def enterFinal(self):
-        return
+        return None
 
     def exitFinal(self):
-        return
+        return None

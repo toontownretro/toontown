@@ -295,3 +295,4 @@ def recycleIndex(index, playground, area, doId):
         usedI.remove(index)
     if (unusedI.count(index) == 0):
         unusedI.append(index)
+    return None

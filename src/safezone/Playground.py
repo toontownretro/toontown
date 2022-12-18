@@ -17,6 +17,7 @@ from toontown.toon import NPCForceAcknowledge
 from toontown.trolley import Trolley
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import ToontownGlobals
+from toontown.toon.Toon import teleportDebug
 from toontown.toonbase import TTLocalizer
 from direct.gui import DirectLabel
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
@@ -214,6 +215,8 @@ class Playground(Place.Place):
         for i in self.loader.nodeList:
             self.loader.enterAnimatedProps(i)
 
+        self._telemLimiter = TLGatherAllAvs('Playground', RotationLimitToH)
+
         # For halloween
         def __lightDecorationOn__():
             geom = base.cr.playGame.hood.loader.geom
@@ -229,7 +232,8 @@ class Playground(Place.Place):
 
         if newsManager:
             holidayIds = base.cr.newsManager.getDecorationHolidayId()
-            if (ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds) and self.loader.hood.spookySkyFile:
+            if (ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds or \
+                ToontownGlobals.SPOOKY_COSTUMES in holidayIds) and self.loader.hood.spookySkyFile:
 
                 lightsOff = Sequence(LerpColorScaleInterval(
                     base.cr.playGame.hood.loader.geom,
@@ -275,6 +279,9 @@ class Playground(Place.Place):
         self.ignoreAll()
         # Let the safe zone manager know that we are leaving
         messenger.send("exitPlayground")
+
+        self._telemLimiter.destroy()
+        del self._telemLimiter
 
         for node in self.tunnelOriginList:
             node.removeNode()
@@ -847,6 +854,7 @@ class Playground(Place.Place):
 
     def __teleportOutDone(self, requestStatus):
         assert(self.notify.debug("__teleportOutDone()"))
+        teleportDebug(requestStatus, "Playground.__teleportOutDone(%s)" % (requestStatus,))
         # If we're teleporting from a safezone, we need to set the
         # activityFsm to the final state
         if (hasattr(self, 'activityFsm')):
@@ -856,12 +864,15 @@ class Playground(Place.Place):
         avId = requestStatus["avId"]
         shardId = requestStatus["shardId"]
         if ((hoodId == self.loader.hood.hoodId) and (zoneId == self.loader.hood.hoodId) and (shardId == None)):
+            teleportDebug(requestStatus, "same playground")
             # If you are teleporting to somebody in this safezone
             # We do not even need to set our zone because it is the same
             self.fsm.request("deathAck", [requestStatus])
         elif (hoodId == ToontownGlobals.MyEstate):
+            teleportDebug(requestStatus, "estate")
             self.getEstateZoneAndGoHome(requestStatus)
         else:
+            teleportDebug(requestStatus, "different hood/zone")
             # Different hood or zone, exit the safe zone
             self.doneStatus = requestStatus
             messenger.send(self.doneEvent)

@@ -15,6 +15,7 @@ from direct.fsm import State
 from direct.task import Task
 from . import TownBattle
 from toontown.toon import Toon
+from toontown.toon.Toon import teleportDebug
 from toontown.battle import BattleParticles
 from direct.fsm import StateData
 from toontown.building import ToonInterior
@@ -145,7 +146,9 @@ class TownLoader(StateData.StateData):
 
     def enter(self, requestStatus):
         assert self.notify.debug("enter(requestStatus="+str(requestStatus)+")")
+        teleportDebug(requestStatus, "TownLoader.enter(%s)" % requestStatus)
         self.fsm.enterInitialState()
+        teleportDebug(requestStatus, "setting state: %s" % requestStatus["where"])
         self.setState(requestStatus["where"], requestStatus)
 
     def exit(self):
@@ -170,6 +173,7 @@ class TownLoader(StateData.StateData):
     def enterStreet(self, requestStatus):
         assert(self.notify.debug(
                 "enterStreet(requestStatus="+str(requestStatus)+")"))
+        teleportDebug(requestStatus, "enterStreet(%s)" % requestStatus)
         self.acceptOnce(self.placeDoneEvent, self.streetDone)
         self.place=self.streetClass(self, self.fsm, self.placeDoneEvent)
         self.place.load()
@@ -244,7 +248,7 @@ class TownLoader(StateData.StateData):
 
     def enterQuietZone(self, requestStatus):
         assert self.notify.debug("enterQuietZone()")
-        self.quietZoneDoneEvent = "quietZoneDone"
+        self.quietZoneDoneEvent = uniqueName("quietZoneDone")
         self.acceptOnce(self.quietZoneDoneEvent, self.handleQuietZoneDone)
         self.quietZoneStateData = QuietZoneState.QuietZoneState(
                 self.quietZoneDoneEvent)

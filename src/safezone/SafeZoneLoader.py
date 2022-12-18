@@ -13,6 +13,7 @@ from direct.fsm import State
 from direct.task import Task
 from toontown.launcher import DownloadForceAcknowledge
 from toontown.toon import HealthForceAcknowledge
+from toontown.toon.Toon import teleportDebug
 from toontown.tutorial import TutorialForceAcknowledge
 from toontown.toonbase.ToontownGlobals import *
 from toontown.building import ToonInterior
@@ -209,11 +210,14 @@ class SafeZoneLoader(StateData.StateData):
     def handlePlaygroundDone(self):
         assert(self.notify.debug("handlePlaygroundDone()"))
         status=self.place.doneStatus
+        teleportDebug(status, "handlePlaygroundDone, doneStatus=%s" % (status,))
         if (ZoneUtil.getBranchZone(status["zoneId"]) == self.hood.hoodId and
             status["shardId"] == None):
+            teleportDebug(status, "same branch")
             self.fsm.request("quietZone", [status])
         else:
             self.doneStatus = status
+            teleportDebug(status, "different hood")
             messenger.send(self.doneEvent)
 
     # toonInterior state
@@ -250,7 +254,7 @@ class SafeZoneLoader(StateData.StateData):
 
     def enterQuietZone(self, requestStatus):
         assert(self.notify.debug("enterQuietZone()"))
-        self.quietZoneDoneEvent = "quietZoneDone"
+        self.quietZoneDoneEvent = uniqueName("quietZoneDone")
         self.acceptOnce(self.quietZoneDoneEvent, self.handleQuietZoneDone)
         self.quietZoneStateData = QuietZoneState.QuietZoneState(
                 self.quietZoneDoneEvent)
