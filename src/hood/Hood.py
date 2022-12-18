@@ -81,13 +81,13 @@ class Hood(StateData.StateData):
         self.sunShadowSoftnessFactor = 2.0
 
         # Color scale factor for the sky.
-        if ConfigVariableBool('want-shaders', True).getValue():
+        if ConfigVariableBool('want-lighting-effects', True).getValue():
             self.skyLightScale = 120
         else:
             self.skyLightScale = 1
 
     def createOutdoorLighting(self):
-        if ConfigVariableBool('want-shaders', True).getValue():
+        if ConfigVariableBool('want-lighting-effects', True).getValue():
             alight = AmbientLight("hood-ambient-light")
             base.lightColor(alight, self.ambientTemp, self.ambientIntensity)
             self.ambientLight = base.render.attachNewNode(alight)
@@ -144,8 +144,9 @@ class Hood(StateData.StateData):
             drawOrder = 0,
             mayChange = 1,
             )
-
-        #self.enableLights()
+        
+        if ConfigVariableBool('want-lighting-effects', True).getValue():
+            self.enableLights()
 
         self.fsm.request(requestStatus["loader"], [requestStatus])
 
@@ -227,20 +228,23 @@ class Hood(StateData.StateData):
                (ToontownGlobals.SPOOKY_COSTUMES not in holidayIds) or (not self.spookySkyFile):
                 # Load the sky model so we will have it in memory for the entire hood
                 self.sky = loader.loadModel(self.skyFile)
-                #self.sky.setColorScale(Vec4(Vec3(self.skyLightScale), 1.0))
+                if ConfigVariableBool('want-lighting-effects', True).getValue():
+                    self.sky.setColorScale(Vec4(Vec3(self.skyLightScale), 1.0))
                 self.sky.setTag("sky","Regular")
                 self.sky.setScale(1.0)
                 self.sky.setFogOff()
             else:
                 self.sky = loader.loadModel(self.spookySkyFile)
-                #self.sky.setColorScale(Vec4(Vec3(self.skyLightScale), 1.0))
+                if ConfigVariableBool('want-lighting-effects', True).getValue():
+                    self.sky.setColorScale(Vec4(Vec3(self.skyLightScale), 1.0))
                 self.sky.setTag("sky","Halloween")
         if not newsManager:
             # Load the sky model so we will have it in memory for the entire hood
             self.sky = loader.loadModel(self.skyFile)
             self.sky.setTag("sky","Regular")
             self.sky.setScale(1.0)
-            #self.sky.setColorScale(Vec4(Vec3(self.skyLightScale), 1.0))
+            if ConfigVariableBool('want-lighting-effects', True).getValue():
+                self.sky.setColorScale(Vec4(Vec3(self.skyLightScale), 1.0))
             # Normally, fog is turned off for the sky.  This will prevent
             # the sky from being contaminated by the trolley tunnel shadow
             # if we jump on the trolley.  Hoods like DD that require fog
@@ -250,7 +254,8 @@ class Hood(StateData.StateData):
         self.sky.setLightOff()
         OTPRender.renderShadow(False, self.sky)
 
-        #self.createOutdoorLighting()
+        if ConfigVariableBool('want-lighting-effects', True).getValue():
+            self.createOutdoorLighting()
 
     def unload(self):
         """
@@ -282,7 +287,8 @@ class Hood(StateData.StateData):
         self.sky.removeNode()
         del self.sky
 
-        #self.destroyOutdoorLighting()
+        if ConfigVariableBool('want-lighting-effects', True).getValue():
+            self.destroyOutdoorLighting()
 
         self.ignoreAll()
         # Get rid of any references to the models or textures from this hood

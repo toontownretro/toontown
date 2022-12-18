@@ -4,6 +4,7 @@
 from direct.showbase import Audio3DManager
 from otp.otpbase import OTPBase
 from otp.otpbase import OTPLauncherGlobals
+from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPRender
 from direct.showbase.PythonUtil import *
 from . import ToontownGlobals
@@ -16,7 +17,7 @@ from toontown.toonbase.ToontownModules import *
 import sys
 import os
 import math
-#from toontown.toonbase import ToontownAccess
+from toontown.toonbase import ToontownAccess
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.launcher import ToontownDownloadWatcher
@@ -75,7 +76,7 @@ class ToonBase(OTPBase.OTPBase):
 
         self.disableShowbaseMouse()
 
-        if ConfigVariableBool('want-shaders', True).getValue():
+        if ConfigVariableBool('want-lighting-effects', True).getValue():
             self.render.setAntialias(AntialiasAttrib.MMultisample)
             self.render2d.setAntialias(AntialiasAttrib.MMultisample)
             self.render2dp.setAntialias(AntialiasAttrib.MMultisample)
@@ -89,6 +90,8 @@ class ToonBase(OTPBase.OTPBase):
             self.postProcess.addCamera(self.cam, 0)
             self.postProcess.setup()
             self.taskMgr.add(self.__updatePostProcess, 'updatePostProcess')
+
+        base.debugRunningMultiplier /= OTPGlobals.ToonSpeedFactor
 
         self.toonChatSounds = ConfigVariableBool('toon-chat-sounds', True).getValue()
 
