@@ -7,7 +7,8 @@ from direct.interval.IntervalGlobal import Sequence, Parallel, LerpScaleInterval
 Func, Wait, LerpFunc, SoundInterval, ParallelEndTogether, LerpPosInterval, ActorInterval, LerpPosHprInterval, LerpHprInterval
 from direct.directutil import Mopath
 from direct.showbase.PythonUtil import bound as clamp
-from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode, CollisionTube, CollisionPolygon, Vec3, Point3
+from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode, CollisionTube, CollisionPolygon, Vec3, Point3, \
+ConfigVariableBool
 from toontown.suit import Suit
 from toontown.suit import SuitDNA
 from toontown.toonbase import ToontownGlobals

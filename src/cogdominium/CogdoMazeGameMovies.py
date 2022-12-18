@@ -20,7 +20,6 @@ class CogdoMazeGameIntro(CogdoGameMovie):
         self._camTarget = None
         self._state = 0
         self._suits = []
-        return
 
     def _getRandomLine(self, lineList):
         return CogdoUtil.getRandomDialogueLine(lineList, self._rng)
