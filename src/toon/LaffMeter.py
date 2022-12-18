@@ -1,11 +1,10 @@
 """LaffMeter module: contains the class definition for handling the
 laff-o-meter"""
 
-from toontown.toonbase.ToontownModules import *
-from otp.avatar import DistributedAvatar
+from toontown.toonbase.ToontownModules import Vec4
+from direct.gui.DirectGui import DirectFrame, DirectLabel
 from toontown.toonbase import ToontownGlobals
-from direct.gui.DirectGui import *
-from direct.interval.IntervalGlobal import *
+from toontown.toonbase import ToontownIntervals
 
 class LaffMeter(DirectFrame):
     """LaffMeter class"""
@@ -122,8 +121,8 @@ class LaffMeter(DirectFrame):
 
     def destroy(self):
         if self.av:
-            taskMgr.remove(self.av.uniqueName('laffMeterBoing') + '-' + str(self.this))
-            taskMgr.remove(self.av.uniqueName('laffMeterBoing') + '-' + str(self.this) + '-play')
+            ToontownIntervals.cleanup(self.av.uniqueName('laffMeterBoing') + '-' + str(self.this))
+            ToontownIntervals.cleanup(self.av.uniqueName('laffMeterBoing') + '-' + str(self.this) + '-play')
             self.ignore(self.av.uniqueName("hpChange"))
         del self.style
         del self.av
@@ -178,22 +177,14 @@ class LaffMeter(DirectFrame):
         # This happens in battle and on avatar detail panels
         if (delta == 0) or (self.av == None):
             return
-        taskName = self.av.uniqueName('laffMeterBoing') + '-' + str(self.this)
-        taskMgr.remove(taskName)
+        name = self.av.uniqueName('laffMeterBoing') + '-' + str(self.this)
+        ToontownIntervals.cleanup(name)
         if delta > 0:
             # Laffmeter increase
-            Sequence(self.container.scaleInterval(0.2, 1.333, blendType='easeOut'),
-                     self.container.scaleInterval(0.2, 1, blendType='easeIn'),
-                     name = taskName,
-                     autoFinish = 1
-                     ).start()
+            ToontownIntervals.start(ToontownIntervals.getPulseLargerIval(self.container, name))
         else:
             # Laffmeter decrease
-            Sequence(self.container.scaleInterval(0.2, 0.666, blendType='easeOut'),
-                     self.container.scaleInterval(0.2, 1, blendType='easeIn'),
-                     name = taskName,
-                     autoFinish = 1
-                     ).start()
+            ToontownIntervals.start(ToontownIntervals.getPulseSmallerIval(self.container, name))
 
     def adjustFace(self, hp, maxHp, quietly = 0):
         """adjustFace(self, int, int)

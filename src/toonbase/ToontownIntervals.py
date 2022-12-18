@@ -14,11 +14,14 @@ def start(ival):
     """Clean start of an ival"""
     cleanup(ival.getName())
     ival.start()
+    return ival
+
     
 def loop(ival):
     """Clean loop of an ival"""
     cleanup(ival.getName())
     ival.loop()
+    return ival
 
 
 def getPulseLargerIval(np, name, duration=PULSE_GUI_DURATION, scale=1):
@@ -46,7 +49,7 @@ def getPresentGuiIval(np, name, waitDuration=0.5, moveDuration=1.0, parent=aspec
     then moves the gui to where it's supposed to go.
     """
     endPos = np.getPos()
-    np.setPos(parent, 0, 0, 0)
+    np.setPos(parent, startPos[0], startPos[1], startPos[2])
     
     return Sequence(
         Func(np.show),
