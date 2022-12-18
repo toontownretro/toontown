@@ -1295,8 +1295,8 @@ class DistributedTargetGame(DistributedMinigame):
         newHpr = Point3(0, -68, 0)
         newPos = Point3(0, self.CAMERA_Y + self.TOON_Y + 15, 15)
         camera.posHprInterval(2.5, newPos, newHpr,
-                          blendType = "easeInOut",
-                          name = self.FLY2FALL_CAM_TASK).start()
+                              blendType = "easeInOut",
+                              name = self.FLY2FALL_CAM_TASK).start()
 
         open = self.umbrella.find('**/open_umbrella')
         open.show()
@@ -1401,8 +1401,8 @@ class DistributedTargetGame(DistributedMinigame):
         newHpr = Point3(180, 10, 0)
         newPos = Point3(0, -(self.CAMERA_Y + self.TOON_Y + 12), 1)
         camera.posHprInterval(5.0, newPos, newHpr,
-                          blendType = "easeInOut",
-                          name = self.SCORE_CAM_TASK).start()
+                              blendType = "easeInOut",
+                              name = self.SCORE_CAM_TASK).start()
 
         self.help.hide()
 

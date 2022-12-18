@@ -529,7 +529,7 @@ class DistributedCannonGame(DistributedMinigame):
             av = self.getAvatar(avId)
             if av:
                 # show the dropshadow again
-                av.dropShadow.show()
+                av.showShadow()
                 # restore the LODs
                 av.resetLOD()
         self.splash.reparentTo(hidden)
@@ -1655,9 +1655,9 @@ class DistributedCannonGame(DistributedMinigame):
         camera.setHpr(oldHpr)
 
         # spawn a camera LERP task
-        self.introCameraSeq = camera.posQuatInterval(duration,
-            Point3(targetPos), targetQuat, blendType='easeInOut',
-            name=self.INTRO_TASK_NAME_CAMERA_LERP)
+        self.introCameraSeq = camera.posQuatInterval(duration, Point3(targetPos), targetQuat,
+                                                     blendType = "easeInOut",
+                                                     name=self.INTRO_TASK_NAME_CAMERA_LERP)
         self.introCameraSeq.start()
 
     def __taskLookInWater(self, task):

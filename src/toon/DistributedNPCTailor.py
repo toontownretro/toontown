@@ -169,12 +169,11 @@ class DistributedNPCTailor(DistributedNPCToonBase):
 
             if (self.isLocalToon):
                 camera.wrtReparentTo(render)
-                self.lerpCameraSeq = camera.posQuatInterval(
-                                     1, Point3(-5, 9, self.getHeight() - 0.5),
-                                     Point3(-150, -2, 0),
-                                     other=self,
-                                     blendType="easeOut",
-                                     name=self.uniqueName('lerpCamera'))
+                self.lerpCameraSeq = camera.posQuatInterval(1, Point3(-5, 9, self.getHeight()-0.5),
+                                                            Point3(-150, -2, 0),
+                                                            other=self,
+                                                            blendType="easeOut",
+                                                            name=self.uniqueName('lerpCamera'))
                 self.lerpCameraSeq.start()
 
             if (self.browsing == 0):

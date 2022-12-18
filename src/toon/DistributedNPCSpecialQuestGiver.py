@@ -141,16 +141,18 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
         camera.wrtReparentTo(render)
         if ((mode == NPCToons.QUEST_MOVIE_QUEST_CHOICE) or
             (mode == NPCToons.QUEST_MOVIE_TRACK_CHOICE)):
-            self.lerpCameraSeq = camera.posQuatInterval(
-                1, Point3(5, 9, base.localAvatar.getHeight() - 0.5),
-                Point3(155, -2, 0), other=self, blendType='easeOut',
-                name=self.uniqueName('lerpCamera'))
+            self.lerpCameraSeq = camera.posQuatInterval(1, Point3(5, 9, base.localAvatar.getHeight() - 0.5),
+                                                        Point3(155, -2, 0),
+                                                        other=self,
+                                                        blendType="easeOut",
+                                                        name=self.uniqueName("lerpCamera"))
             self.lerpCameraSeq.start()
         else:
-            self.lerpCameraSeq = camera.posQuatInterval(
-                1, Point3(-5, 9, base.localAvatar.getHeight() - 0.5),
-                Point3(-150, -2, 0), other=self, blendType='easeOut',
-                name=self.uniqueName('lerpCamera'))
+            self.lerpCameraSeq = camera.posQuatInterval(1, Point3(-5, 9, base.localAvatar.getHeight() - 0.5),
+                                                        Point3(-150, -2, 0),
+                                                        other=self,
+                                                        blendType="easeOut",
+                                                        name=self.uniqueName("lerpCamera"))
             self.lerpCameraSeq.start()
 
 

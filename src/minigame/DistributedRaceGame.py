@@ -610,7 +610,10 @@ class DistributedRaceGame(DistributedMinigame):
         self.chanceCard.reparentTo(render)
         quat = Quat()
         quat.setHpr((270, 0, -85.24))
-        self.chanceCard.posQuatInterval(1.0, (19.62, 13.41, 13.14), quat, other=camera, name='cardLerp').start()
+        self.chanceCard.posQuatInterval(1.0, (19.62, 13.41, 13.14),
+                                        quat,
+                                        other=camera,
+                                        name="cardLerp").start()
         return Task.done
 
     def hideChanceMarker(self, task):

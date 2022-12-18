@@ -131,15 +131,15 @@ class DistributedNPCToon(DistributedNPCToonBase):
         if ((mode == NPCToons.QUEST_MOVIE_QUEST_CHOICE) or
             (mode == NPCToons.QUEST_MOVIE_TRACK_CHOICE)):
             self.lerpCamera = camera.posQuatInterval(1, (5, 9, self.getHeight()-0.5), (155, -2, 0),
-                              other=self,
-                              blendType="easeOut",
-                              name=self.uniqueName("lerpCamera"))
+                                                     other=self,
+                                                     blendType="easeOut",
+                                                     name=self.uniqueName("lerpCamera"))
             self.lerpCamera.start()
         else:
             self.lerpCamera = camera.posQuatInterval(1, (-5, 9, self.getHeight()-0.5), (-150, -2, 0),
-                              other=self,
-                              blendType="easeOut",
-                              name=self.uniqueName("lerpCamera"))
+                                                         other=self,
+                                                         blendType="easeOut",
+                                                         name=self.uniqueName("lerpCamera"))
             self.lerpCamera.start()
 
 
