@@ -420,6 +420,6 @@
 411*8*nounours
 412*8*zappeur
 413*8*zille
-414*2*idiot
-415*2*loufedingue
+414*2*Idiot
+415*2*Loufedingue
 416*8*burger
