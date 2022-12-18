@@ -8,7 +8,7 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
 import random
-from . import CharStateDatasAI
+from . import CharStateDatasAI, CCharChatter
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 
