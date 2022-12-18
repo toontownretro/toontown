@@ -1,4 +1,4 @@
-#from toontown.toonbase.ToontownModules import listProcessModules
+#from panda3d.otp import listProcessModules # TODO otp/secure
 from direct.task import Task
 from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals
@@ -28,7 +28,7 @@ class ToontownAccess:
         return task.again
 
     def getModuleList(self):
-        moduleString = '' #listProcessModules()
+        moduleString = "" #listProcessModules()
         moduleList = []
         if moduleString:
             moduleList = moduleString.split(',')
@@ -56,7 +56,7 @@ class ToontownAccess:
             
         specialZones = [
             ToontownGlobals.SellbotLobby,
-            #ToontownGlobals.LawbotLobby,
+            ToontownGlobals.LawbotLobby,
             ]
             
         if hasattr(base.cr, 'newsManager') and base.cr.newsManager:
@@ -64,6 +64,10 @@ class ToontownAccess:
             
             if ToontownGlobals.SELLBOT_NERF_HOLIDAY in holidayIds:
                 specialZones.append(ToontownGlobals.SellbotHQ)
+            
+            elif ToontownGlobals.SELLBOT_NERF_HOLIDAY in holidayIds:
+                specialZones.append(ToontownGlobals.LawbotHQ)
+                
         place = base.cr.playGame.getPlace()
         
         if zoneId:
