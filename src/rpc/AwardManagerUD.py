@@ -390,9 +390,9 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         else:
             #import pdb; pdb.set_trace()
             # Get the current time in minutes.
-            now = (int)(time.time() / 60 + 0.5)
+            now = int(time.time() / 60 + 0.5)
             if specialCommands == GiveAfterOneMinute:
-                delay = 1.
+                delay = 1
             else:
                 delay = AwardManagerDelayMinutes
             future = now + delay
