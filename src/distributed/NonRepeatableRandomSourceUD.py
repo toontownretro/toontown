@@ -1,6 +1,7 @@
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.directnotify.DirectNotifyGlobal import directNotify
 import random
+from toontown.toonbase.ToontownModules import ConfigVariableBool, ConfigVariableInt
 
 class NonRepeatableRandomSourceUD(DistributedObjectGlobalUD):
     """

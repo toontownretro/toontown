@@ -80,7 +80,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
     class RedeemErrors:
         InvalidCharInAvId = 'AvId can only contain numbers'
-        CodeIsExpired = 'Code is expired'
+        #CodeIsExpired = 'Code is expired'
+        CodeIsInactive = 'Code is inactive'
         CodeAlreadyRedeemed = 'Code has already been redeemed'
         AwardCouldntBeGiven = 'Award could not be given, code not processed'
 
@@ -1241,7 +1242,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
     def _doRedeemResult(self, body, replyTo, avId, result, awardMgrResult, values, errors):
         RE = TTCodeRedemptionConsts.RedeemErrors
         errMap = {RE.CodeDoesntExist: self.CodeErrors.InvalidCode,
-                  RE.CodeIsExpired: self.RedeemErrors.CodeIsExpired,
+                  #RE.CodeIsExpired: self.RedeemErrors.CodeIsExpired,
+                  E.CodeIsInactive: self.RedeemErrors.CodeIsInactive,
                   RE.CodeAlreadyRedeemed: self.RedeemErrors.CodeAlreadyRedeemed,
                   RE.AwardCouldntBeGiven: self.RedeemErrors.AwardCouldntBeGiven,
                   }
@@ -1382,8 +1384,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                 else:
                     values.add(manualCode = uhs(kw['manualCode']))
                     values.add(manualCode2 = uhs(kw['manualCode2']))
-                    values.manualCode = str(values.manualCode, 'utf-8')
-                    values.manualCode2 = str(values.manualCode2, 'utf-8')
+                    values.manualCode = str(values.manualCode)
+                    values.manualCode2 = str(values.manualCode2)
                 if values.hasExpiration == 'yes':
                     values.add(
                         expYear = uhs(kw['expYear']),
@@ -1551,7 +1553,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                     values.add(avId = uhs(kw['avId']))
                 else:
                     values.add(code = uhs(kw['code']))
-                    values.code = str(values.code, 'utf-8')
+                    values.code = str(values.code)
 
                 errors = FormErrors()
                 if avIdMode:
@@ -1579,7 +1581,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                     recaptchaChallenge = uhs(kw['recaptcha_challenge_field']),
                     recaptchaResponse = uhs(kw['recaptcha_response_field']),
                     )
-                values.code = str(values.code, 'utf-8')
+                values.code = str(values.code)
 
                 errors = FormErrors()
                 self._errorCheckCode(errors, values.code)
@@ -1605,7 +1607,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                     else:
                         error = {
                             TTCodeRedemptionConsts.RedeemErrors.CodeDoesntExist: self.CodeErrors.InvalidCode,
-                            TTCodeRedemptionConsts.RedeemErrors.CodeIsExpired: self.RedeemErrors.CodeIsExpired,
+                            #TTCodeRedemptionConsts.RedeemErrors.CodeIsExpired: self.RedeemErrors.CodeIsExpired,
+                            TTCodeRedemptionConsts.RedeemErrors.CodeIsInactive: self.RedeemErrors.CodeIsInactive,
                             TTCodeRedemptionConsts.RedeemErrors.CodeAlreadyRedeemed: self.RedeemErrors.CodeAlreadyRedeemed,
                             TTCodeRedemptionConsts.RedeemErrors.AwardCouldntBeGiven: self.RedeemErrors.AwardCouldntBeGiven,
                             }[result]
