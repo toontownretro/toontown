@@ -267,17 +267,18 @@ class ToontownAIRepository(AIDistrict):
             OtpDoGlobals.OTP_DO_ID_TOONTOWN_MAIL_MANAGER,
             "DistributedMailManager")
 
-        #self.partyManager = self.generateGlobalObject(
-        #    OtpDoGlobals.OTP_DO_ID_TOONTOWN_PARTY_MANAGER,
-        #    "DistributedPartyManager")
+        self.partyManager = self.generateGlobalObject(
+            OtpDoGlobals.OTP_DO_ID_TOONTOWN_PARTY_MANAGER,
+            "DistributedPartyManager")
+        
+        if ConfigVariableBool('want-code-redemption', 1).getValue():
+            self.codeRedemptionManager = self.generateGlobalObject(
+                OtpDoGlobals.OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER,
+                "TTCodeRedemptionMgr")
 
-        #self.codeRedemptionManager = self.generateGlobalObject(
-        #    OtpDoGlobals.OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER,
-        #    "TTCodeRedemptionMgr")
-
-        #self.randomSourceManager = self.generateGlobalObject(
-        #    OtpDoGlobals.OTP_DO_ID_TOONTOWN_NON_REPEATABLE_RANDOM_SOURCE,
-        #    "NonRepeatableRandomSource")
+        self.randomSourceManager = self.generateGlobalObject(
+            OtpDoGlobals.OTP_DO_ID_TOONTOWN_NON_REPEATABLE_RANDOM_SOURCE,
+            "NonRepeatableRandomSource")
 
         if ConfigVariableBool('want-ddsm', 1).getValue():
             self.dataStoreManager = self.generateGlobalObject(

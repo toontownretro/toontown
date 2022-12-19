@@ -1355,7 +1355,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
             cursor.execute(
                 str("""
                 SELECT code FROM code_set_%s WHERE code='%s';
-                """, 'utf-8') % (lotName, code)
+                """) % (lotName, code)
                 )
             rows = cursor.fetchall()
 
@@ -1404,7 +1404,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
             str("""
             SELECT %s, %s FROM code_set_%s INNER JOIN lot
             WHERE lot.lot_id=code_set_%s.lot_id AND CODE='%s';
-            """, 'utf-8') % (self.RewardTypeFieldName, self.RewardItemIdFieldName, lotName, lotName, code)
+            """) % (self.RewardTypeFieldName, self.RewardItemIdFieldName, lotName, lotName, code)
             )
         rows = cursor.fetchall()
 
@@ -1439,7 +1439,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         cursor.execute(
             str("""
             SELECT redemptions FROM code_set_%s WHERE code='%s';
-            """, 'utf-8') % (lotName, code)
+            """) % (lotName, code)
             )
         rows = cursor.fetchall()
 
@@ -1492,7 +1492,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
                 str("""
                 SELECT redemptions FROM code_set_%s INNER JOIN lot WHERE
                 code_set_%s.lot_id=lot.lot_id AND code='%s' AND ((expiration IS NULL) OR (CURDATE()<=expiration));
-                """, 'utf-8') % (lotName, lotName, code)
+                """) % (lotName, lotName, code)
                 )
 
             rows = cursor.fetchall()
@@ -1524,7 +1524,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         cursor.execute(
             str("""
             UPDATE code_set_%s SET redemptions=redemptions+%s%s WHERE code='%s';
-            """, 'utf-8') % (lotName, count, choice(manualCode, '', ', av_id=%s' % avId), code)
+            """) % (lotName, count, choice(manualCode, '', ', av_id=%s' % avId), code)
             )
 
     def _handleRewardResult(self, code, manualCode, avId, lotName, rewardTypeId, rewardItemId,

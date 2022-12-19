@@ -21,6 +21,7 @@ import datetime
 import random
 import socket
 import string
+import traceback
 import re
 
 from toontown.toonbase.ToontownModules import *
@@ -679,8 +680,10 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             })
 
         SE(mainForm, 'br')
-
-        self._addRecaptcha(mainForm, errors)
+        
+        # TODO: Current captchas no longer work.
+        # This code is made for ancient captchas.
+        #self._addRecaptcha(mainForm, errors)
 
         buttonName = 'submitButton'
         submitText = 'Create Code Lot'
@@ -957,7 +960,9 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
         SE(mainForm, 'br')
 
-        self._addRecaptcha(mainForm, errors)
+        # TODO: Current captchas no longer work.
+        # This code is made for ancient captchas.
+        #self._addRecaptcha(mainForm, errors)
 
         submitButton = SE(mainForm, 'input', name='submitButton')
         submitButton.set('type', 'submit')
@@ -1029,7 +1034,9 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
         SE(mainForm, 'br')
 
-        self._addRecaptcha(mainForm, errors)
+        # TODO: Current captchas no longer work.
+        # This code is made for ancient captchas.
+        #self._addRecaptcha(mainForm, errors)
 
         submitButton = SE(mainForm, 'input', name='submitButton')
         submitButton.set('type', 'submit')
@@ -1221,7 +1228,9 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
         SE(mainForm, 'br')
 
-        self._addRecaptcha(mainForm, errors)
+        # TODO: Current captchas no longer work.
+        # This code is made for ancient captchas.
+        #self._addRecaptcha(mainForm, errors)
 
         submitButton = SE(mainForm, 'input', name='submitButton')
         submitButton.set('type', 'submit')
@@ -1611,6 +1620,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             body.clear()
             self._doSystemUnavailablePage(body)
             self._reply(page, replyTo)
+        except:
+            traceback.print_exc()
 
     def _handleRedeemResult(self, context, page, body, replyTo, result, awardMgrResult):
         assert self.notify.debugCall()
@@ -1636,7 +1647,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             else:
                 while 1:
                     try:
-                        code = str(code + 'utf-8')
+                        code = str(code)
                     except UnicodeDecodeError as e:
                         # code is not utf-8-able
                         self.air.writeServerEvent('suspicious', avId, 'non-utf-8 code redemption: %s' % repr(code))
@@ -1674,6 +1685,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
         except TTCodeRedemptionDB.TryAgainLater as e:
             self._warnTryAgainLater(e)
+        except:
+            traceback.print_exc()
 
     def _handleRedeemCodeAiToUdResult(self, callback, serial, rmDoId, context, avId, result, awardMgrResult):
         assert self.notify.debugCall()

@@ -4550,7 +4550,7 @@ dclass DistributedWhitelistMgr : DistributedObjectGlobal {
    // AI to clients
   updateWhitelist(latestlist) broadcast;
   whitelistMgrAIStartingUp(uint32 doId, uint32 shardId); // ai to ud sent on whitelistManagerAI.announceGenerate
-  newListUDtoAI() airecv;  // ud to all AIs
+  newListUDtoAI(string latestList) airecv;  // ud to all AIs
 };
 
 

@@ -202,6 +202,9 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         elif itemType == CatalogItemTypes.ANIMATED_FURNITURE_ITEM:
             furnitureNumber = itemIndex
             itemObj = CatalogAnimatedFurnitureItem.CatalogAnimatedFurnitureItem(furnitureNumber, colorOption = 0)
+        else:
+            self.notify.warning("Invalid item (%s, %s) being redeemed, Giving a bean instead!" % (str(itemType), str(itemIndex)))
+            itemObj = CatalogBeanItem.CatalogBeanItem(1)
         return itemObj
 
     def giveAwardActual(self, replyTo, **kw):
