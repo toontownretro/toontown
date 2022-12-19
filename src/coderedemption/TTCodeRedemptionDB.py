@@ -419,7 +419,7 @@ class TTCodeRedemptionDBTester(Job):
 
     def _getUnusedUtf8ManualCode(self):
         chars = '\u65e5\u672c\u8a9e'
-        code = str('', 'utf-8')
+        code = str('')
         while 1:
             code += random.choice(chars)
             if not self._db.codeExists(code):
@@ -648,7 +648,8 @@ class TTCodeRedemptionDBTester(Job):
                 self._redeemResult = []
                 self._db.redeemCode(codes[1], self.TestRewarder.FakeAvId, self.TestRewarder(),
                                     self._handleRedeemResult)
-                if self._redeemResult[0] != TTCodeRedemptionConsts.RedeemErrors.CodeIsExpired:
+                #if self._redeemResult[0] != TTCodeRedemptionConsts.RedeemErrors.CodeIsExpired:
+                if self._redeemResult[0] != TTCodeRedemptionConsts.RedeemErrors.CodeIsInactive:
                     self.notify.error('expired code %s was not flagged upon redeem' % (codes[1]))
                 db._testing = False
                 yield None
@@ -1355,7 +1356,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
             cursor.execute(
                 str("""
                 SELECT code FROM code_set_%s WHERE code='%s';
-                """, 'utf-8') % (lotName, code)
+                """) % (lotName, code)
                 )
             rows = cursor.fetchall()
 
@@ -1404,7 +1405,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
             str("""
             SELECT %s, %s FROM code_set_%s INNER JOIN lot
             WHERE lot.lot_id=code_set_%s.lot_id AND CODE='%s';
-            """, 'utf-8') % (self.RewardTypeFieldName, self.RewardItemIdFieldName, lotName, lotName, code)
+            """) % (self.RewardTypeFieldName, self.RewardItemIdFieldName, lotName, lotName, code)
             )
         rows = cursor.fetchall()
 
@@ -1439,7 +1440,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         cursor.execute(
             str("""
             SELECT redemptions FROM code_set_%s WHERE code='%s';
-            """, 'utf-8') % (lotName, code)
+            """) % (lotName, code)
             )
         rows = cursor.fetchall()
 
@@ -1492,7 +1493,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
                 str("""
                 SELECT redemptions FROM code_set_%s INNER JOIN lot WHERE
                 code_set_%s.lot_id=lot.lot_id AND code='%s' AND ((expiration IS NULL) OR (CURDATE()<=expiration));
-                """, 'utf-8') % (lotName, lotName, code)
+                """) % (lotName, lotName, code)
                 )
 
             rows = cursor.fetchall()
@@ -1503,7 +1504,8 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         if not manualCode:
             if len(rows) == 0:
                 # code is expired
-                callback(TTCodeRedemptionConsts.RedeemErrors.CodeIsExpired, 0)
+                #callback(TTCodeRedemptionConsts.RedeemErrors.CodeIsExpired, 0)
+                callback(TTCodeRedemptionConsts.RedeemErrors.CodeIsInactive, 0)
                 return
 
             redemptions = rows[0]['redemptions']
@@ -1524,7 +1526,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         cursor.execute(
             str("""
             UPDATE code_set_%s SET redemptions=redemptions+%s%s WHERE code='%s';
-            """, 'utf-8') % (lotName, count, choice(manualCode, '', ', av_id=%s' % avId), code)
+            """) % (lotName, count, choice(manualCode, '', ', av_id=%s' % avId), code)
             )
 
     def _handleRewardResult(self, code, manualCode, avId, lotName, rewardTypeId, rewardItemId,
