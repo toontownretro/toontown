@@ -1284,12 +1284,12 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         if justCode:
             codes = []
             for row in rows:
-                code = str(row['code'] + 'utf-8')
+                code = str(row['code'])
                 codes.append(code)
             result = codes
         else:
             for row in rows:
-                row['code'] = str(row['code'] + 'utf-8')
+                row['code'] = str(row['code'])
             result = rows
         return result
 
@@ -1591,7 +1591,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
                     )
 
             for row in rows:
-                code = str(row['code'] + 'utf-8')
+                code = str(row['code'])
                 codes.append(code)
 
         conn.destroy()
@@ -1671,7 +1671,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
             if len(rows):
                 conn.destroy()
                 row = rows[0]
-                row['code'] = str(row['code'] + 'utf-8')
+                row['code'] = str(row['code'])
                 return row
 
         self.notify.error('code \'%s\' not found' % (code))

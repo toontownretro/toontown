@@ -54,7 +54,7 @@ class ToontownUberDog(UberDog):
         self.isInGameNewsMgr = isManagerFor('ingamenews')
         self.isWhitelistMgr = isManagerFor('whitelist')
         self.isCpuInfoMgr = isManagerFor('cpuinfo')
-        self.isRandomSourceManager = False # isManagerFor('randomsource')
+        self.isRandomSourceManager = isManagerFor('randomsource')
 
         UberDog.__init__(
             self, mdip, mdport, esip, esport, dcFilenames,
