@@ -32,7 +32,7 @@ class ToonBase(OTPBase.OTPBase):
 
     # special methods
 
-    def __init__(self):
+    def __init__(self, windowType=None):
         """__init__(self)
         ToonBase constructor: create a toon and launch it into the world
         """
@@ -62,7 +62,7 @@ class ToonBase(OTPBase.OTPBase):
             loadPrcFileData("toonBase Settings Sfx Volume", ("audio-master-sfx-volume %s" % (sfxVol)))
             loadPrcFileData("toonBase Settings Toon Chat Sounds", ("toon-chat-sounds %s" % (toonChatSounds)))
 
-        OTPBase.OTPBase.__init__(self)
+        OTPBase.OTPBase.__init__(self, windowType=windowType)
 
         if not self.isMainWindowOpen():
             try:
