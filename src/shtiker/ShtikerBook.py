@@ -468,8 +468,8 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         self.pageTabs.insert(pageIndex, pageTab)
 
         # hide the news page button, so only 1 way to go in and out of news
-        if pageName == TTLocalizer.NewsPageName:
-            pageTab.hide()
+        #if pageName == TTLocalizer.NewsPageName:
+        #    pageTab.hide()
 
     def setPage(self, page, enterPage = True):
         """setPage(self, ShtikerPage)

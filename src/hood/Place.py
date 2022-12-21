@@ -1357,7 +1357,7 @@ class Place(StateData.StateData,
 
     def enterQuietZone(self, requestStatus):
         assert(self.notify.debug("enterQuietZone()"))
-        self.quietZoneDoneEvent = "quietZoneDone"
+        self.quietZoneDoneEvent = uniqueName("quietZoneDone")
         self.acceptOnce(self.quietZoneDoneEvent, self.handleQuietZoneDone)
         self.quietZoneStateData = QuietZoneState.QuietZoneState(
                 self.quietZoneDoneEvent)
