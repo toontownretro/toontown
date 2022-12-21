@@ -2722,7 +2722,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.notify.debug("toonIds=%s battleNode=%s" % (toonIds,battleNode))
 
         if len(toonIds) < 5:
-            points = BattleBase.BattleBase.toonPoints[len(toonIds) - 1]
+            points = list(BattleBase.BattleBase.toonPoints[len(toonIds) - 1])
         else:
             points = list(BattleBase.BattleBase.toonPoints[3])
             points.extend(BattleBase.BattleBase.toonPoints[len(toonIds) - 5])
@@ -2733,16 +2733,16 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             toon = base.cr.doId2do.get(toonIds[i])
             if toon:
                 toon.wrtReparentTo(render)
-                pos, h = points[i]
+                (x, y, z), h = points[i]
 
                 if i > 3:
-                    pos.setY(pos.getY() + 2.0)
+                    y += 2.0
 
                 #self.notify.debug("points = %.2f %.2f %.2f" % (points[0][0], points[0][1], points[0][2])
-                #self.notify.debug("toonsToBattlePosition: battleNode=%s %.2f %.2f %.2f %.2f %.2f %.2f" % (battleNode, pos[0], pos[1], pos[2], h, 0, 0))
+                #self.notify.debug("toonsToBattlePosition: battleNode=%s %.2f %.2f %.2f %.2f %.2f %.2f" % (battleNode, x, y, z, h, 0, 0))
 
                 #self.notify.debug("old toon pos %s" % toon.getPos())
-                #self.notify.debug("pos=%.2f %.2f %.2f h=%.2f" % (pos[0], pos[1], pos[2], h))
+                #self.notify.debug("pos=%.2f %.2f %.2f h=%.2f" % (x, y, z, h))
                 #self.notify.debug("battleNode.pos = %s" % battleNode.getPos())
                 #self.notify.debug("battleNode.hpr = %s" % battleNode.getHpr())
 
@@ -2752,9 +2752,9 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 battleNode.wrtReparentTo(bnParent)
 
                 #pos = pos - bnWorldPos
-                #toon.setPosHpr(pos[0],pos[1], pos[2], h, 0, 0)
+                #toon.setPosHpr(pos[0], pos[1], pos[2], h, 0, 0)
 
-                toon.setPosHpr(battleNode, pos[0], pos[1], pos[2], h, 0, 0)
+                toon.setPosHpr(battleNode, x, y, z, h, 0, 0)
 
                 self.notify.debug("new toon pos %s " % toon.getPos())
 
