@@ -324,19 +324,24 @@ class Hood(StateData.StateData):
 
     def enterQuietZone(self, requestStatus):
         assert(self.notify.debug("enterQuietZone(requestStatus = %s)" % (requestStatus)))
-        self.quietZoneDoneEvent = "quietZoneDone"
-        self.acceptOnce(self.quietZoneDoneEvent, self.handleQuietZoneDone)
-        self.acceptOnce("enterWaitForSetZoneResponse", self.handleWaitForSetZoneResponse)
-        self.quietZoneStateData = QuietZoneState.QuietZoneState(
-                self.quietZoneDoneEvent)
+        teleportDebug(requestStatus, "Hood.enterQuietZone: status=%s" % requestStatus)
+        self._quietZoneDoneEvent = uniqueName("quietZoneDone")
+        self.acceptOnce(self._quietZoneDoneEvent, self.handleQuietZoneDone)
+        self.quietZoneStateData = QuietZoneState.QuietZoneState(self._quietZoneDoneEvent)
+        self._enterWaitForSetZoneResponseMsg = self.quietZoneStateData.getEnterWaitForSetZoneResponseMsg()
+        self.acceptOnce(self._enterWaitForSetZoneResponseMsg, self.handleWaitForSetZoneResponse)
+        self._quietZoneLeftEvent = self.quietZoneStateData.getQuietZoneLeftEvent()
+        if base.placeBeforeObjects:
+            self.acceptOnce(self._quietZoneLeftEvent, self.handleLeftQuietZone)
         self.quietZoneStateData.load()
         self.quietZoneStateData.enter(requestStatus)
 
     def exitQuietZone(self):
         assert(self.notify.debug("exitQuietZone()"))
-        self.ignore(self.quietZoneDoneEvent)
-        self.ignore("enterWaitForSetZoneResponse")
-        del self.quietZoneDoneEvent
+        self.ignore(self._quietZoneDoneEvent)
+        self.ignore(self._quietZoneLeftEvent)
+        self.ignore(self._enterWaitForSetZoneResponseMsg)
+        del self._quietZoneDoneEvent
         self.quietZoneStateData.exit()
         self.quietZoneStateData.unload()
         self.quietZoneStateData=None
@@ -374,10 +379,18 @@ class Hood(StateData.StateData):
         else:
             assert(self.notify.debug("  unknown loaderName="+loaderName))
 
+    def handleLeftQuietZone(self):
+        assert(self.notify.debug("handleLeftQuietZone()"))
+        status=self.quietZoneStateData.getRequestStatus()
+        teleportDebug(status, "handleLeftQuietZone, status=%s" % status)
+        teleportDebug(status, "requesting %s" % status["loader"])
+        self.fsm.request(status["loader"], [status])
+
     def handleQuietZoneDone(self):
         assert(self.notify.debug("handleQuietZoneDone()"))
-        status=self.quietZoneStateData.getRequestStatus()
-        self.fsm.request(status["loader"], [status])
+        if not base.placeBeforeObjects:
+            status=self.quietZoneStateData.getRequestStatus()
+            self.fsm.request(status["loader"], [status])
 
     # SafeZoneLoader state
 

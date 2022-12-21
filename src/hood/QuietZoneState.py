@@ -345,7 +345,7 @@ class QuietZoneState(StateData.StateData):
                 +str(self._requestStatus)+")")
         if not self.Disable:
             # Tell anyone who wants to know, that we're in this funciton:
-            messenger.send("enterWaitForSetZoneResponse", [self._requestStatus])
+            messenger.send(self.getEnterWaitForSetZoneResponseMsg(), [self._requestStatus])
             base.cr.handlerArgs = self._requestStatus
             # Put us in the destination zone:
             zoneId = self._requestStatus["zoneId"]

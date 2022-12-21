@@ -16,8 +16,8 @@ class NewsPageButtonManager (FSM.FSM):
         """Create the buttons."""
         FSM.FSM.__init__(self,"NewsPageButtonManager")
         self.buttonsLoaded = False
-        self.goingToNewsPageFrom3dWorld = False
-        self.goingToNewsPageFromStickerBook = False
+        #self.goingToNewsPageFrom3dWorld = False
+        #self.goingToNewsPageFromStickerBook = False
         self.clearGoingToNewsInfo()
         self.__blinkIval = None
 
@@ -59,21 +59,22 @@ class NewsPageButtonManager (FSM.FSM):
         newPos = VBase3(0.914, 0, 0.862)
         shtickerBookPos = VBase3(1.175, 0, -0.83)
         textScale = 0.06
-        self.gotoNewsButton = DirectButton(
-            relief = None,
-            image = (self.openOldNewsUp, self.openOldNewsHover, self.openOldNewsHover),
-            text = ('', TTLocalizer.EventsPageNewsTabName, TTLocalizer.EventsPageNewsTabName), # TODO replace this with a symbol
-            text_fg = (1,1,1,1),
-            text_shadow = (0,0,0,1),
-            text_scale = textScale,
-            text_font = ToontownGlobals.getInterfaceFont(),
-            pos = newPos,
-            scale = newScale,
-            command = self.__handleGotoNewsButton,
-            )
+#        self.gotoNewsButton = DirectButton(
+#            relief = None,
+#            image = (self.openOldNewsUp, self.openOldNewsHover, self.openOldNewsHover),
+#            text = ('', TTLocalizer.EventsPageNewsTabName, TTLocalizer.EventsPageNewsTabName), # TODO replace this with a symbol
+#            text_fg = (1,1,1,1),
+#            text_shadow = (0,0,0,1),
+#            text_scale = textScale,
+#            text_font = ToontownGlobals.getInterfaceFont(),
+#            pos = newPos,
+#            scale = newScale,
+#            command = self.__handleGotoNewsButton,
+#            )
 
         self.newIssueButton = DirectButton(
             relief = None,
+            sortOrder = DGG.BACKGROUND_SORT_INDEX - 1,
             image = (self.openNewNewsUp, self.openNewNewsHover, self.openNewNewsHover),
             text = ('', TTLocalizer.EventsPageNewsTabName, TTLocalizer.EventsPageNewsTabName), # TODO replace this with a symbol
             text_fg = (1,1,1,1),
@@ -88,31 +89,31 @@ class NewsPageButtonManager (FSM.FSM):
         self.gotoPrevPageButton = DirectButton(
             relief = None,
             image = (self.closeNewsUp, self.closeNewsHover, self.closeNewsHover),
-            text = ('', TTLocalizer.lClose, TTLocalizer.lClose), #"goto prev page", # TODO replace this with a synmbol
+            #text = ('', TTLocalizer.lClose, TTLocalizer.lClose), #"goto prev page", # TODO replace this with a synmbol
             text_fg = (1,1,1,1),
             text_shadow = (0,0,0,1),
             text_scale = textScale,
             text_font = ToontownGlobals.getInterfaceFont(),
-            pos = newPos,
-            scale = newScale,
+            pos = shtickerBookPos, #newPos,
+            scale = shtickerBookScale, #newScale,
             command = self.__handleGotoPrevPageButton,
             )
 
         self.goto3dWorldButton = DirectButton(
             relief = None,
             image = (self.closeNewsUp, self.closeNewsHover, self.closeNewsHover),
-            text = ('', TTLocalizer.lClose, TTLocalizer.lClose), # "goto 3d world", # TODO replace this with a symbol
+            #text = ('', TTLocalizer.lClose, TTLocalizer.lClose), # "goto 3d world", # TODO replace this with a symbol
             text_fg = (1,1,1,1),
             text_shadow = (0,0,0,1),
             text_scale = textScale,
             text_font = ToontownGlobals.getInterfaceFont(),
-            pos = newPos,
-            scale = newScale,
+            pos = shtickerBookPos, #newPos,
+            scale = shtickerBookScale, #newScale,
             command = self.__handleGoto3dWorldButton,
             )
 
-        self.newIssueButton.hide()
-        self.gotoNewsButton.hide()
+        self.hideNewIssueButton()
+#        self.gotoNewsButton.hide()
         self.gotoPrevPageButton.hide()
         self.goto3dWorldButton.hide()
 
@@ -178,10 +179,10 @@ class NewsPageButtonManager (FSM.FSM):
             elif curState == 'stickerBook':
                 if hasattr(localAvatar, "newsPage"):
                     base.cr.centralLogger.writeClientEvent("news gotoNewsButton clicked")
-                    localAvatar.book.setPage(localAvatar.newsPage)
+                    #localAvatar.book.setPage(localAvatar.newsPage)
                     fsm.request("stickerBook")
-                    self.goingToNewsPageFromStickerBook = True
-                    self.showAppropriateButton()
+                    #self.goingToNewsPageFromStickerBook = True
+                    #self.showAppropriateButton()
                     if hasattr(localAvatar, "newsPage") and localAvatar.newsPage:
                         localAvatar.book.goToNewsPage(localAvatar.newsPage)
 
@@ -189,6 +190,7 @@ class NewsPageButtonManager (FSM.FSM):
 
     def __handleGotoPrevPageButton(self):
         assert self.notify.debugStateCall(self)
+        self.clearGoingToNewsInfo()
         localAvatar.book.setPageBeforeNews()
         self.clearGoingToNewsInfo()
         self.showAppropriateButton()
@@ -211,10 +213,10 @@ class NewsPageButtonManager (FSM.FSM):
         """Hide everything."""
         if not self.buttonsLoaded:
             return
-        self.gotoNewsButton.hide()
+        #self.gotoNewsButton.hide()
         self.gotoPrevPageButton.hide()
         self.goto3dWorldButton.hide()
-        self.newIssueButton.hide()
+        self.hideNewIssueButton()
         self.__blinkIval.pause()
 
     def isNewIssueButtonShown(self):
@@ -235,13 +237,13 @@ class NewsPageButtonManager (FSM.FSM):
             return
 
         if localAvatar.getLastTimeReadNews() < base.cr.inGameNewsMgr.getLatestIssue():
-            self.gotoNewsButton.hide()
-            self.newIssueButton.show()
+            #self.gotoNewsButton.hide()
+            #self.newIssueButton.show()
             self.__showNewIssueButton()
             self.__blinkIval.resume()
         else:
-            self.gotoNewsButton.show()
-            self.newIssueButton.hide()
+            #self.gotoNewsButton.show()
+            #self.newIssueButton.hide()
             self.hideNewIssueButton()
         self.gotoPrevPageButton.hide()
         self.goto3dWorldButton.hide()
@@ -278,8 +280,8 @@ class NewsPageButtonManager (FSM.FSM):
         if not self.buttonsLoaded:
             return
         self.hideAllButtons()
-        localAvatar.book.setPageBeforeNews()
-        self.clearGoingToNewsInfo()
+        #localAvatar.book.setPageBeforeNews()
+        #self.clearGoingToNewsInfo()
 
     def showAppropriateButton(self):
         """We know we want to show one of the 3 buttons, figure out which one."""
@@ -333,7 +335,7 @@ class NewsPageButtonManager (FSM.FSM):
             self.__blinkIval.finish()
             self.__blinkIval = None
 
-        self.gotoNewsButton.destroy()
+        #self.gotoNewsButton.destroy()
         self.newIssueButton.destroy()
         self.gotoPrevPageButton.destroy()
         self.goto3dWorldButton.destroy()

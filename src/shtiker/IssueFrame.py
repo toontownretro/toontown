@@ -8,7 +8,7 @@ from direct.gui.DirectGui import DirectFrame , DirectButton, DGG, DirectLabel
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import ConfigVariableString, ConfigVariableBool
 
 WEB_WIDTH_PIXELS = 784
 WEB_HEIGHT_PIXELS = 451

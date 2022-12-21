@@ -109,7 +109,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
         newsDirAsFile = vfs.getFile(Filename(newsDir))
         fileList = newsDirAsFile.scanDirectory()
         fileNames = fileList.getFiles()
-        self.notify.debug("filenames=%s" % fileNames)
+        self.notify.debug("filenames=%s" % str(fileNames))
         # scan through and find hom1. thats got to be a home page
         homeFileNames = set([])
         for name in fileNames:
