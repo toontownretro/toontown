@@ -383,7 +383,6 @@ class Movie(DirectObject.DirectObject):
         skipper.setIvals((self.track,), 0.0)
         skipper.setBattle(self.battle)
         self.track.start(ts)
-        return None
 
     def playTutorialReward(self, ts, name, callback):
         """

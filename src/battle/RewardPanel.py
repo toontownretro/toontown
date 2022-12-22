@@ -294,9 +294,6 @@ class RewardPanel(DirectFrame):
             textMayChange=0,
             command=self._handleSkip)
 
-
-        return
-
     # Elemental operations:
     # Set track(title, curSkill, next):
     #   - Set track title
@@ -324,7 +321,6 @@ class RewardPanel(DirectFrame):
     #    for gag in self.gagList:
     #        gag.removeNode()
     #    self.gagList = []
-    #    return None
 
     def getNextExpValue(self, curSkill, trackIndex):
         """
@@ -653,8 +649,6 @@ class RewardPanel(DirectFrame):
         # Set scale (big)
         self.newGagIcon.setScale(1.5)
 
-        return
-
     def cleanupNewGag(self):
         self.endTrackFrame.hide()
         if self.newGagIcon:
@@ -726,8 +720,6 @@ class RewardPanel(DirectFrame):
         self.gagIcon = gagLast.copyTo(self.endTrackFrame)
         self.gagIcon.setPos(0,0,-0.25)
         self.gagIcon.setScale(1.5)
-
-        return
 
     # clears the icon on the endTrackFrame, just in case they happen
     # to get to the end of two tracks in one battle
@@ -929,7 +921,6 @@ class RewardPanel(DirectFrame):
         self.deptIcon.setPos(0, 0, -0.225)
         # Set scale (big)
         self.deptIcon.setScale(0.33)
-        return
 
     def cleanupPromotion(self):
         # protect against multiple cleanups
@@ -1278,7 +1269,6 @@ class RewardPanel(DirectFrame):
                              179, 15, 0)
         else:
             self.notify.debug("no experience, no movie.")
-        return None
 
     def _handleSkip(self):
         messenger.send(self.SkipBattleMovieEvent)

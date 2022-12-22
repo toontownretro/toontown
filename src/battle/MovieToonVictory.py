@@ -23,11 +23,9 @@ class ToonVictorySkipper(DirectObject):
         self._startTimes = {}
         self._ivals = []
         self._battle = None
-        return
 
     def destroy(self):
         self._ivals = None
-        return
 
     def getSetupFunc(self, index):
         return Func(self._setupSkipListen, index)
@@ -143,4 +141,3 @@ def doToonVictory(localToonActive, toons, rewardToonIds, rewardDicts,
     skipper.setIvals((mtrack, camTrack))
 
     return (mtrack, camTrack, skipper)
-

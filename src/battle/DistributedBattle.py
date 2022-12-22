@@ -261,9 +261,9 @@ class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
         self.notify.debug('enterReward()')
         self.disableCollision()
         self.delayDeleteMembers()
-        Emote.globalEmote.disableAll(base.localAvatar, "dbattle, enterReward")
 
         if (self.hasLocalToon()):
+            Emote.globalEmote.disableAll(base.localAvatar, "dbattle, enterReward")
             NametagGlobals.setMasterArrowsOn(0)
             if (self.localToonActive() == 0):
                 self.removeInactiveLocalToon(base.localAvatar)
