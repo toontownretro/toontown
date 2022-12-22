@@ -416,7 +416,91 @@ HeadModelDict = {
     "b": ("/models/char/suitB-", 4),
     "c": ("/models/char/suitC-", 3.5),
     }
+    
+PreloadedModelPaths = {}
 
+# We store all of the attributes for how a suit is 
+# constructed here. This is for a easier time managing the data.
+# And because it's cleaner then a damn else if statement would be.
+SuitAttributes = {
+    # Format: Suit Scale, Hand Color, Head Color, Suit Heads, Suit Head Texture, Suit Height
+    
+    # Corporate Department
+    
+    # Flunky
+    "f": (4.0 / cSize, SuitDNA.corpPolyColor, None, ("flunky",  "glasses",), None, 4.88),
+    # Pencil Pusher
+    "p": (3.35 / bSize, SuitDNA.corpPolyColor, None, ("pencilpusher",), None, 5.00),
+    # Yes Man
+    "ym": (4.125 / aSize, SuitDNA.corpPolyColor, None, ("yesman",), None, 5.28),
+    # Micromanager
+    "mm": (2.5 / cSize, SuitDNA.corpPolyColor, None, ("micromanager",), None, 3.25),
+    # Downsizer - DEFAULT
+    "ds": (4.5 / bSize, SuitDNA.corpPolyColor, None, ("beancounter",), None, 6.08),
+    # Head Hunter
+    "hh": (6.5 / aSize, SuitDNA.corpPolyColor, None, ("headhunter",), None, 7.45),
+    # Corporate Raider
+    "cr": (6.75 / cSize, VBase4(0.85, 0.55, 0.55, 1.0), None, ("flunky",), "corporate-raider.txo", 8.23),
+    # The Big Cheese
+    "tbc": (7.0 / aSize, VBase4(0.75, 0.95, 0.75, 1.0), None, ("bigcheese",), None, 9.34),
+    
+    # Legal Department
+    
+    # Bottom Feeder
+    "bf": (4.0 / cSize, SuitDNA.legalPolyColor, None, ("tightwad",), "bottom-feeder.txo", 4.81),
+    # Blood Sucker
+    "b": (4.375 / bSize, VBase4(0.95, 0.95, 1.0, 1.0), None, ("movershaker",), "blood-sucker.txo", 6.17),
+    # Double Talker
+    "dt": (4.25 / aSize, SuitDNA.legalPolyColor, None, ("twoface",), "double-talker.txo", 5.63),
+    # Ambulance Chaser
+    "ac": (4.35 / bSize, SuitDNA.legalPolyColor, None, ("ambulancechaser",), None, 6.39),
+    # Back Stabber
+    "bs": (4.5 / aSize, SuitDNA.legalPolyColor, None, ("backstabber",), None, 6.71),
+    # Spin Doctor
+    "sd": (5.65 / bSize, VBase4(0.5, 0.8, 0.75, 1.0), None, ("telemarketer",), "spin-doctor.txo", 7.90),
+    # Legal Eagle
+    "le": (7.125 / aSize, VBase4(0.25, 0.25, 0.5, 1.0), None, ("legaleagle",), None, 8.27),
+    # Bigwig
+    "bw": (7.0 / aSize, SuitDNA.legalPolyColor, None, ("bigwig",), None, 8.69),
+    
+    # Money Department
+    
+    # Short Change
+    "sc": (3.6 / cSize, SuitDNA.moneyPolyColor, None, ("coldcaller",), None, 4.77),
+    # Penny Pincher
+    "pp": (3.55 / aSize, VBase4(1.0, 0.5, 0.6, 1.0), None, ("pennypincher",), None, 5.26),
+    # Tightwad
+    "tw": (4.5 / cSize, SuitDNA.moneyPolyColor, None, ("tightwad",), None, 5.41),
+    # Bean Counter
+    "bc": (4.4 / bSize, SuitDNA.moneyPolyColor, None, ("beancounter",), None, 5.95),
+    # Number Cruncher
+    "nc": (5.25 / aSize, SuitDNA.moneyPolyColor, None, ("numbercruncher",), None, 7.22),
+    # Money Bags
+    "mb": (5.3 / cSize, SuitDNA.moneyPolyColor, None, ("moneybags",), None, 6.97),
+    # Loan Shark
+    "ls": (6.5 / bSize, VBase4(0.5, 0.85, 0.75, 1.0), None, ("loanshark",), None, 8.58),
+    # Robber Baron
+    "rb": (7.0 / aSize, SuitDNA.moneyPolyColor, None, ("yesman",), "robber-baron.txo", 8.95),
+    
+    # Sales Department
+    
+    # Cold Caller
+    "cc": (3.5 / cSize, VBase4(0.55, 0.65, 1.0, 1.0), VBase4(0.25, 0.35, 1.0, 1.0), ("coldcaller",), None, 4.63),
+    # Telemarketer
+    "tm": (3.75 / bSize, SuitDNA.salesPolyColor, None, ("telemarketer",), None, 5.24),
+    # Name Dropper
+    "nd": (4.35 / aSize, SuitDNA.salesPolyColor, None, ("numbercruncher",), "name-dropper.txo", 5.98),
+    # Glad Hander
+    "gh": (4.75 / cSize, SuitDNA.salesPolyColor, None, ("gladhander",), None, 6.40),
+    # Mover & Shaker
+    "ms": (4.75 / bSize, SuitDNA.salesPolyColor, None, ("movershaker",), None, 6.70),
+    # Two-Face
+    "tf": (5.25 / aSize, SuitDNA.salesPolyColor, None, ("twoface",), None, 6.95),
+    # The Mingler
+    "m": (5.75 / aSize, SuitDNA.salesPolyColor, None, ("twoface",), "mingler.txo", 7.61),
+    # Mr. Hollywood
+    "mh": (7.0 / aSize, SuitDNA.salesPolyColor, None, ("yesman",), None, 8.95),
+}
 
 def loadTutorialSuit():
     """
@@ -460,16 +544,24 @@ def loadSuitModelsAndAnims(level, flag = 0):
                 if cogExists(model + "zero.bam"):
                     loader.loadModel(filepath).node()
             else:
-                loader.loadModel("phase_3.5" + model + "mod").node()
-            loader.loadModel("phase_" + str(headPhase) + headModel + "heads").node()
+                filepath = "phase_3.5" + model + "mod"
+                PreloadedModelPaths[filepath] = loader.loadModel("phase_3.5" + model + "mod")
+            filepath = "phase_" + str(headPhase) + headModel + "heads"
+            PreloadedModelPaths[filepath] = loader.loadModel(filepath)
         else:
             if ConfigVariableBool('want-new-cogs', 0).getValue():
                 filepath = "phase_3.5" + model + "zero"
                 if cogExists(model + "zero.bam"):
                     loader.unloadModel(filepath)
             else:
-                loader.loadModel("phase_3.5" + model + "mod").node()
-            loader.loadModel("phase_" + str(headPhase) + headModel + "heads").node()
+                filepath = "phase_3.5" + model + "mod"
+                if filepath in PreloadedModelPaths:
+                    del PreloadedModelPaths[filepath]
+                loader.unloadModel(filepath)
+            filepath = "phase_" + str(headPhase) + headModel + "heads"
+            if filepath in PreloadedModelPaths:
+                del PreloadedModelPaths[filepath]
+            loader.unloadModel(filepath)
 
 
 def cogExists(filePrefix):
@@ -712,249 +804,12 @@ class Suit(Avatar.Avatar):
 
         # Suit heights have been determined empirically; see
         # RoguesGallery.py or the magic word ~rogues.
-
-        # corporate dept
-        if (dna.name == 'f'):
-            # flunky
-            self.scale = 4.0/cSize
-            self.handColor = SuitDNA.corpPolyColor
-            self.generateBody()
-            # this suit has two head parts
-            self.generateHead("flunky")
-            self.generateHead("glasses")
-            self.setHeight(4.88)
-        elif (dna.name == 'p'):
-            # pencil pusher
-            self.scale = 3.35/bSize
-            self.handColor = SuitDNA.corpPolyColor
-            self.generateBody()
-            self.generateHead("pencilpusher")
-            self.setHeight(5.00)
-        elif (dna.name == 'ym'):
-            # yes man
-            self.scale = 4.125/aSize
-            self.handColor = SuitDNA.corpPolyColor
-            self.generateBody()
-            self.generateHead("yesman")
-            self.setHeight(5.28)
-        elif (dna.name == 'mm'):
-            # micromanager
-            self.scale = 2.5/cSize
-            self.handColor = SuitDNA.corpPolyColor
-            self.generateBody()
-            self.generateHead("micromanager")
-            self.setHeight(3.25)
-        elif (dna.name == 'ds'):
-            # downsizer - DEFAULT
-            self.scale = 4.5/bSize
-            self.handColor = SuitDNA.corpPolyColor
-            self.generateBody()
-            self.generateHead("beancounter")
-            self.setHeight(6.08)
-        elif (dna.name == 'hh'):
-            # head hunter
-            self.scale = 6.5/aSize
-            self.handColor = SuitDNA.corpPolyColor
-            self.generateBody()
-            self.generateHead("headhunter")
-            self.setHeight(7.45)
-        elif (dna.name == 'cr'):
-            # corporate raider
-            self.scale = 6.75/cSize
-            self.handColor = VBase4(0.85, 0.55, 0.55, 1.0)
-            self.generateBody()
-            self.headTexture = "corporate-raider.txo"
-            self.generateHead("flunky")
-            self.setHeight(8.23)
-        elif (dna.name == 'tbc'):
-            # the big cheese
-            self.scale = 7.0/aSize
-            self.handColor = VBase4(0.75, 0.95, 0.75, 1.0)
-            self.generateBody()
-            self.generateHead("bigcheese")
-            self.setHeight(9.34)
-
-        # legal dept
-        elif (dna.name == 'bf'):
-            # bottom feeder
-            self.scale = 4.0/cSize
-            self.handColor = SuitDNA.legalPolyColor
-            self.generateBody()
-            self.headTexture = "bottom-feeder.txo"
-            self.generateHead("tightwad")
-            self.setHeight(4.81)
-        elif (dna.name == 'b'):
-            # blood sucker
-            self.scale = 4.375/bSize
-            self.handColor = VBase4(0.95, 0.95, 1.0, 1.0)
-            self.generateBody()
-            self.headTexture = "blood-sucker.txo"
-            self.generateHead("movershaker")
-            self.setHeight(6.17)
-        elif (dna.name == 'dt'):
-            # double talker
-            self.scale = 4.25/aSize
-            self.handColor = SuitDNA.legalPolyColor
-            self.generateBody()
-            self.headTexture = "double-talker.txo"
-            self.generateHead("twoface")
-            self.setHeight(5.63)
-        elif (dna.name == 'ac'):
-            # ambulance chaser
-            self.scale = 4.35/bSize
-            self.handColor = SuitDNA.legalPolyColor
-            self.generateBody()
-            self.generateHead("ambulancechaser")
-            self.setHeight(6.39)
-        elif (dna.name == 'bs'):
-            # back stabber
-            self.scale = 4.5/aSize
-            self.handColor = SuitDNA.legalPolyColor
-            self.generateBody()
-            self.generateHead("backstabber")
-            self.setHeight(6.71)
-        elif (dna.name == 'sd'):
-            # spin doctor
-            self.scale = 5.65/bSize
-            self.handColor = VBase4(0.5, 0.8, 0.75, 1.0)
-            self.generateBody()
-            self.headTexture = "spin-doctor.txo"
-            self.generateHead("telemarketer")
-            self.setHeight(7.90)
-        elif (dna.name == 'le'):
-            # legal eagle
-            self.scale = 7.125/aSize
-            self.handColor = VBase4(0.25, 0.25, 0.5, 1.0)
-            self.generateBody()
-            self.generateHead("legaleagle")
-            self.setHeight(8.27)
-        elif (dna.name == 'bw'):
-            # bigwig
-            self.scale = 7.0/aSize
-            self.handColor = SuitDNA.legalPolyColor
-            self.generateBody()
-            self.generateHead("bigwig")
-            self.setHeight(8.69)
-
-        # money dept
-        elif (dna.name == 'sc'):
-            # short changer
-            self.scale = 3.6/cSize
-            self.handColor = SuitDNA.moneyPolyColor
-            self.generateBody()
-            self.generateHead("coldcaller")
-            self.setHeight(4.77)
-        elif (dna.name == 'pp'):
-            # penny pincher
-            self.scale = 3.55/aSize
-            self.handColor = VBase4( 1.0, 0.5, 0.6, 1.0)
-            self.generateBody()
-            self.generateHead("pennypincher")
-            self.setHeight(5.26)
-        elif (dna.name == 'tw'):
-            # tightwad
-            self.scale = 4.5/cSize
-            self.handColor = SuitDNA.moneyPolyColor
-            self.generateBody()
-            self.generateHead("tightwad")
-            self.setHeight(5.41)
-        elif (dna.name == 'bc'):
-            # bean counter
-            self.scale = 4.4/bSize
-            self.handColor = SuitDNA.moneyPolyColor
-            self.generateBody()
-            self.generateHead("beancounter")
-            self.setHeight(5.95)
-        elif (dna.name == 'nc'):
-            # number cruncher
-            self.scale = 5.25/aSize
-            self.handColor = SuitDNA.moneyPolyColor
-            self.generateBody()
-            self.generateHead("numbercruncher")
-            self.setHeight(7.22)
-        elif (dna.name == 'mb'):
-            # money bags
-            self.scale = 5.3/cSize
-            self.handColor = SuitDNA.moneyPolyColor
-            self.generateBody()
-            self.generateHead("moneybags")
-            self.setHeight(6.97)
-        elif (dna.name == 'ls'):
-            # load shark
-            self.scale = 6.5/bSize
-            self.handColor = VBase4(0.5, 0.85, 0.75, 1.0)
-            self.generateBody()
-            self.generateHead("loanshark")
-            self.setHeight(8.58)
-        elif (dna.name == 'rb'):
-            # robber baron
-            self.scale = 7.0/aSize
-            self.handColor = SuitDNA.moneyPolyColor
-            self.generateBody()
-            self.headTexture = "robber-baron.txo"
-            self.generateHead("yesman")
-            self.setHeight(8.95)
-
-        # sales dept
-        elif (dna.name == 'cc'):
-            # cold caller
-            self.scale = 3.5/cSize
-            self.handColor = VBase4(0.55, 0.65, 1.0, 1.0)
-            self.headColor = VBase4(0.25, 0.35, 1.0, 1.0)
-            self.generateBody()
-            self.generateHead("coldcaller")
-            self.setHeight(4.63)
-        elif (dna.name == 'tm'):
-            # telemarketer
-            self.scale = 3.75/bSize
-            self.handColor = SuitDNA.salesPolyColor
-            self.generateBody()
-            self.generateHead("telemarketer")
-            self.setHeight(5.24)
-        elif (dna.name == 'nd'):
-            # name dropper
-            self.scale = 4.35/aSize
-            self.handColor = SuitDNA.salesPolyColor
-            self.generateBody()
-            self.headTexture = "name-dropper.txo"
-            self.generateHead("numbercruncher")
-            self.setHeight(5.98)
-        elif (dna.name == 'gh'):
-            # glad hander
-            self.scale = 4.75/cSize
-            self.handColor = SuitDNA.salesPolyColor
-            self.generateBody()
-            self.generateHead("gladhander")
-            self.setHeight(6.40)
-        elif (dna.name == 'ms'):
-            # mover & shaker
-            self.scale = 4.75/bSize
-            self.handColor = SuitDNA.salesPolyColor
-            self.generateBody()
-            self.generateHead("movershaker")
-            self.setHeight(6.70)
-        elif (dna.name == 'tf'):
-            # two-face
-            self.scale = 5.25/aSize
-            self.handColor = SuitDNA.salesPolyColor
-            self.generateBody()
-            self.generateHead("twoface")
-            self.setHeight(6.95)
-        elif (dna.name == 'm'):
-            # the mingler
-            self.scale = 5.75/aSize
-            self.handColor = SuitDNA.salesPolyColor
-            self.generateBody()
-            self.headTexture = "mingler.txo"
-            self.generateHead("twoface")
-            self.setHeight(7.61)
-        elif (dna.name == 'mh'):
-            # Mr. Hollywood
-            self.scale = 7.0/aSize
-            self.handColor = SuitDNA.salesPolyColor
-            self.generateBody()
-            self.generateHead("yesman")
-            self.setHeight(8.95)
+        
+        self.scale, self.handColor, self.headColor, heads, self.headTexture, height = SuitAttributes[dna.name]
+        self.generateBody()
+        for head in heads:
+            self.generateHead(head)
+        self.setHeight(height)
 
         self.setName(SuitBattleGlobals.SuitAttributes[dna.name]['name'])
         self.getGeomNode().setScale(self.scale)
@@ -977,7 +832,11 @@ class Suit(Avatar.Avatar):
             else:
                 self.loadModel("phase_3.5" + filePrefix + "mod")
         else:
-            self.loadModel("phase_3.5" + filePrefix + "mod")
+            filepath = "phase_3.5" + filePrefix + "mod"
+            if filepath in PreloadedModelPaths:
+                self.loadModel(PreloadedModelPaths[filepath])
+            else:
+                self.loadModel(filepath)
         self.loadAnims(animDict)
         self.setSuitClothes()
 
@@ -1159,7 +1018,14 @@ class Suit(Avatar.Avatar):
             filePrefix, phase = HeadModelDict[self.style.body]
         else:
             filePrefix, phase = ModelDict[self.style.body]
-        headModel = loader.loadModel("phase_" + str(phase) + filePrefix + "heads")
+        
+        filepath = "phase_" + str(phase) + filePrefix + "heads"
+        # If for some reason the head is empty, IE: Flunky Glasses. 
+        # We can't use the preloaded model path.
+        if filepath in PreloadedModelPaths and not PreloadedModelPaths[filepath].isEmpty():
+            headModel = PreloadedModelPaths[filepath]
+        else:
+            headModel = loader.loadModel(filepath)
 
         # search for the appropriate parts
         headReferences = headModel.findAllMatches("**/" + headType)
