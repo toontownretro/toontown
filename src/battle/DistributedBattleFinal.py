@@ -244,10 +244,9 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
         self.disableCollision()
         self.delayDeleteMembers()
         self.__playReward(ts, self.__handleFloorRewardDone)
-        return None
 
     def __handleFloorRewardDone(self):
-        return None
+        pass
 
     def exitReward(self):
         self.notify.debug('exitReward()')
@@ -257,7 +256,6 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
         NametagGlobals.setMasterArrowsOn(1)
         for toon in self.toons:
             toon.startSmooth()
-        return None
 
     ##### Resume state #####
 

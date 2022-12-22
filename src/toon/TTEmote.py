@@ -529,11 +529,12 @@ def singNoteEmpty(toon, volume = 0):
 def returnToLastAnim(toon):
     if hasattr(toon, "playingAnim") and toon.playingAnim:
         toon.loop(toon.playingAnim)
-    else:
-        if not hasattr(toon, "hp") or toon.hp > 0:
-            toon.loop('neutral')
-        else:
-            toon.loop('sad-neutral')
+        return
+    elif not hasattr(toon, "hp") or toon.hp > 0:
+        toon.loop('neutral')
+        return
+
+    toon.loop('sad-neutral')
 
 # Emote data is stored in the order it appears in the SpeedChat
 # The integer stored is the reference count to the Emote.  If t
@@ -607,26 +608,26 @@ class TTEmote(Emote.Emote):
         # the current track being played
         self.track = None
 
-        self.stateChangeMsgLocks = 0
+        self.stateChangeMsgLocks = False
         self.stateHasChanged = 0
 
     # utility functions to queue up EmoteEnableStateChanged messages
 
     def lockStateChangeMsg(self):
-        self.stateChangeMsgLocks += 1
+        self.stateChangeMsgLocks = True
 
     def unlockStateChangeMsg(self):
-        if self.stateChangeMsgLocks <= 0:
+        if self.stateChangeMsgLocks == False:
             print(PythonUtil.lineTag() + ": someone unlocked too many times")
             return
 
-        self.stateChangeMsgLocks -= 1
-        if self.stateChangeMsgLocks == 0 and self.stateHasChanged:
+        self.stateChangeMsgLocks = False
+        if self.stateHasChanged:
             messenger.send(self.EmoteEnableStateChanged)
             self.stateHasChanged = 0
 
     def emoteEnableStateChanged(self):
-        if self.stateChangeMsgLocks > 0:
+        if self.stateChangeMsgLocks == True:
             self.stateHasChanged = 1
         else:
             messenger.send(self.EmoteEnableStateChanged)
