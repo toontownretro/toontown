@@ -704,20 +704,18 @@ class TTEmote(Emote.Emote):
         if isinstance(index, str):
             index = OTPLocalizer.EmoteFuncDict[index]
 
-        self.emoteFunc[index][1] = self.emoteFunc[index][1] + 1
+        self.emoteFunc[index][1] = True
         if toon is base.localAvatar:
-            if self.emoteFunc[index][1] == 1:
-                self.emoteEnableStateChanged()
+            self.emoteEnableStateChanged()
 
     def enable(self, index, toon):
         # find the emotes index if we are given a string
         if isinstance(index, str):
             index = OTPLocalizer.EmoteFuncDict[index]
 
-        self.emoteFunc[index][1] = self.emoteFunc[index][1] - 1
+        self.emoteFunc[index][1] = False
         if toon is base.localAvatar:
-            if self.emoteFunc[index][1] == 0:
-                self.emoteEnableStateChanged()
+            self.emoteEnableStateChanged()
 
     def doEmote(self, toon, emoteIndex, ts=0, volume = 1):
         try:
