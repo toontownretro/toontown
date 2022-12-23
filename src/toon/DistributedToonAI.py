@@ -5066,9 +5066,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         senderId = self.air.getAvatarIdFromSender()
         eventStr = 'senderId=%s ' % senderId
         eventStr += eventName
-        #strSearch = re.compile('AvatarHackWarning! nodename')
-        #if strSearch.search(eventName, 0, 100):
-        #    self.air.district.recordSuspiciousEventData(len(eventStr))
+        strSearch = re.compile('AvatarHackWarning! nodename')
+        if strSearch.search(eventName, 0, 100):
+            self.air.district.recordSuspiciousEventData(len(eventStr))
         self.air.writeServerEvent('suspicious', self.doId, eventName)
         
         if ConfigVariableBool('want-ban-setSCSinging', True).getValue():

@@ -202,3 +202,9 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
         Each zone has N NPCs, and N corresponding NPC origins in the model.
         """
         self.posIndex = posIndex
+        
+    def _startZombieCheck(self):
+        pass
+
+    def _stopZombieCheck(self):
+        pass

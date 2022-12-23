@@ -1157,7 +1157,7 @@ class RobotToonManager(DirectObject):
                           startPos = startPos, endPos = endPos)
 
         a.nametag.manage(self.marginManager)
-        self.avatarDict[a.id()] = a
+        self.avatarDict[a.get_key()] = a
         a.select()
         if self.avatarType == 't':
             self.setToonAnimState('neutral')
@@ -1233,12 +1233,12 @@ class RobotToonManager(DirectObject):
             st.updateWalkIval()
 
     def findSelectedToon(self, nodePath):
-        id = nodePath.id()
+        id = nodePath.get_key()
         np = nodePath.findNetTag('robotAvatar')
         if not np.isEmpty():
-            if np.id() != nodePath.id():
+            if np.get_key() != nodePath.get_key():
                 np.select()
-            self.selectedToon = self.avatarDict.get(np.id())
+            self.selectedToon = self.avatarDict.get(np.get_key())
             if self.panel:
                 self.panel.updateToonInfo()
 

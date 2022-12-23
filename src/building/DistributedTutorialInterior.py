@@ -227,7 +227,11 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
                 self.notify.info("Tutorial movie: place state=%s" % place.fsm.getCurrentState().getName())
 
 
-        self.acceptOnce("enterTutorialInterior", self.mickeyMovie.play)
+            self.acceptOnce("enterTutorialInterior", self.playMovie)
+
+    def playMovie(self):
+        self.notify.info("Tutorial movie: Play.")
+        self.mickeyMovie.play()
 
     def createSuit(self):
         # Create a suit

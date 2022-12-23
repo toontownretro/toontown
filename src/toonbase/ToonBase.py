@@ -639,8 +639,8 @@ class ToonBase(OTPBase.OTPBase):
 
         # Connect to the server
         cr.loginFSM.request("connect", [serverList])
-        #self.ttAccess = ToontownAccess.ToontownAccess()
-        #self.ttAccess.initModuleInfo()
+        self.ttAccess = ToontownAccess.ToontownAccess()
+        self.ttAccess.initModuleInfo()
 
     def removeGlitchMessage(self):
         self.ignore('InputState-forward')
@@ -685,8 +685,8 @@ class ToonBase(OTPBase.OTPBase):
         except:
             pass
 
-        #if hasattr(self, 'ttAccess'):
-        #    self.ttAccess.delete()
+        if hasattr(self, 'ttAccess'):
+            self.ttAccess.delete()
 
         # Tell the AI (if we have one) why we're going down.
         if self.cr.timeManager:
