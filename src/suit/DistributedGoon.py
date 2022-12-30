@@ -26,11 +26,13 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity,
     def __init__(self, cr):
         try:
             self.DistributedGoon_initialized
+            return
         except:
             self.DistributedGoon_initialized = 1
-            DistributedCrushableEntity.DistributedCrushableEntity.__init__(self, cr)
-            Goon.Goon.__init__(self)
-            FSM.FSM.__init__(self, 'DistributedGoon')
+            
+        DistributedCrushableEntity.DistributedCrushableEntity.__init__(self, cr)
+        Goon.Goon.__init__(self)
+        FSM.FSM.__init__(self, 'DistributedGoon')
 
         # Don't try caching goons.  It seems to be a little bit broken
         # anyway.
@@ -256,24 +258,26 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity,
         the cache.
         """
         try:
-            self.DistributedSuit_deleted
+            self.DistributedGoon_deleted
+            return
         except:
-            self.DistributedSuit_deleted = 1
-            self.notify.debug("DistributedGoon %d: deleting" % self.getDoId())
+            self.DistributedGoon_deleted = 1
+            
+        self.notify.debug("DistributedGoon %d: deleting" % self.getDoId())
 
-            # stop waiting to set collisions
-            taskMgr.remove(self.taskName("makeCollidable"))
+        # stop waiting to set collisions
+        taskMgr.remove(self.taskName("makeCollidable"))
 
-            # tear down collisions
-            self.deleteCollisions()
+        # tear down collisions
+        self.deleteCollisions()
 
-            self.head.removeNode()
-            del self.head
-            del self.attackSound
-            del self.collapseSound
-            del self.recoverSound
-            DistributedCrushableEntity.DistributedCrushableEntity.delete(self)
-            Goon.Goon.delete(self)
+        self.head.removeNode()
+        del self.head
+        del self.attackSound
+        del self.collapseSound
+        del self.recoverSound
+        DistributedCrushableEntity.DistributedCrushableEntity.delete(self)
+        Goon.Goon.delete(self)
 
     ##### Off state #####
 
@@ -334,7 +338,6 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity,
 
     # The goon has just detected a toon
     def enterBattle(self, avId=None, ts=0):
-
         self.notify.debug('enterBattle')
         self.stopToonDetect()
         if self.animTrack:

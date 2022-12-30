@@ -215,6 +215,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         """Load and setup the assets for the banquet table and chairs."""
         # later on this will become a loadModel call
         self.tableGroup = loader.loadModel('phase_12/models/bossbotHQ/BanquetTableChairs')
+        #self.tableGroup.flattenStrong()
         tableLocator = self.boss.geom.find('**/TableLocator_%d' % (self.index+1))
         if tableLocator.isEmpty():
             self.tableGroup.reparentTo(render)
@@ -638,10 +639,12 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
                 for i in range(colChairs.getNumPaths()):
                     col = colChairs.getPath(i)
                     col.stash()
-                colChairs = self.tableGroup.findAllMatches('**/collision_chair*')
-                for i in range(colChairs.getNumPaths()):
-                    col = colChairs.getPath(i)
-                    col.stash()
+            
+            # Instead of just srashing each chair one by one.
+            # Stash them all at once.
+            colChairs = self.tableGroup.find('**/collision_chairs')
+            colChairs.stash()
+
             # make colliding against the table do something
             tableCol = self.tableGroup.find('**/collision_table')
             colName = 'TableCol-%d' % (self.index)

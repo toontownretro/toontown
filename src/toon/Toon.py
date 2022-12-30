@@ -3656,16 +3656,10 @@ class Toon(Avatar.Avatar, ToonHead):
             # a suit in the playground.
             return
 
-        # make sure this is a valid suit name
-        assert suitType in SuitDNA.suitHeadTypes
-
         from toontown.suit import Suit
 
         deptIndex = suitType
 
-        # generate suit geometry based on this dna
-        suit = Suit.Suit()
-        dna = SuitDNA.SuitDNA()
         # put on the Rental suit
         if rental == True:
             if SuitDNA.suitDepts[deptIndex] == 's':
@@ -3679,6 +3673,13 @@ class Toon(Avatar.Avatar, ToonHead):
             else:
                 self.notify.warning('Suspicious: Incorrect rental suit department requested')
                 suitType = 'cc'
+
+        # make sure this is a valid suit name
+        assert suitType in SuitDNA.suitHeadTypes
+        
+        # generate suit geometry based on this dna
+        suit = Suit.Suit()
+        dna = SuitDNA.SuitDNA()
         dna.newSuit(suitType)
         suit.setStyle(dna)
         suit.isDisguised = 1

@@ -573,6 +573,9 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             Func(self.banquetDoor.setH, 0),
             Func(rToon.clearChat),
             Func(self.__hideResistanceToon),
+            
+            Func(self.cleanupKitchen),
+            
             )
 
         return track
@@ -614,6 +617,11 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             delay += 1.0
             index += 1
         return retval
+        
+    def cleanupKitchen(self):
+        # We cleanup the Kitchen to possibly reduce lag where we can.
+        kitchen = self.geom.find('**/Kitchen')
+        kitchen.removeNode()
 
     def __onToBattleTwo(self, elapsedTime=0):
         """Tell AI we are done with PrepareBattleTwoState."""

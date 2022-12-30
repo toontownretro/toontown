@@ -350,11 +350,11 @@ class ToonBase(OTPBase.OTPBase):
             self.postProcess.update()
         return task.cont
         
-    def addDynamicLight(self, lnp, followParent=None, fadeTime=0.0):
+    def addDynamicLight(self, lnp, followParent=None, rotateParent=None, fadeTime=0.0):
         if not hasattr(self, 'lightMgr'):
             return
 
-        self.dynamicLights.append((lnp, Vec3(lnp.getColorLinear()), followParent, fadeTime, base.getRenderTime()))
+        self.dynamicLights.append((lnp, Vec3(lnp.getColorLinear()), followParent, rotateParent, fadeTime, base.getRenderTime()))
         self.lightMgr.addDynamicLight(lnp)
 
     def removeDynamicLight(self, lnp):
@@ -377,9 +377,11 @@ class ToonBase(OTPBase.OTPBase):
         for data in self.dynamicLights:
             if data[2] is not None:
                 data[0].setPos(data[2].getPos(base.render))
-            if data[3] > 0.0:
+            if data[3] is not None:
+                data[0].setHpr(data[3].getHpr(base.render))
+            if data[4] > 0.0:
                 now = globalClock.frame_time
-                elapsed = now - data[4]
+                elapsed = now - data[5]
                 frac = max(0.0, min(1.0, elapsed / data[3]))
                 if frac >= 1.0:
                     removed.append(data)
