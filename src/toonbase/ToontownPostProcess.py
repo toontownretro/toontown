@@ -26,10 +26,10 @@ class ToontownPostProcess(PostProcess):
         self.camDebugs = []
         self.camDebugZ = -0.2
 
-        self.enableHDR = base.config.GetBool("hdr-enable", True)
-        self.enableToneMapping = base.config.GetBool("tone-mapping-enable", True)
-        self.enableBloom = base.config.GetBool("bloom-enable", True)
-        self.enableSSAO = base.config.GetBool("ssao-enable", True)
+        self.enableHDR = base.config.GetBool("hdr-enable", False)
+        self.enableToneMapping = base.config.GetBool("tone-mapping-enable", False)
+        self.enableBloom = base.config.GetBool("bloom-enable", False)
+        self.enableSSAO = base.config.GetBool("ssao-enable", False)
         self.enableFXAA = base.config.GetBool("fxaa-enable", True)
         self.enableMB = base.config.GetBool("motion-blur-enable", False)
         self.enableVignette = base.config.GetBool("vignette-enable", False)

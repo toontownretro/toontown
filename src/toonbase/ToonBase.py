@@ -77,6 +77,8 @@ class ToonBase(OTPBase.OTPBase):
         self.disableShowbaseMouse()
 
         if ConfigVariableBool('want-lighting-effects', True).getValue():
+            self.dynamicLights = []
+            
             self.render.setAntialias(AntialiasAttrib.MMultisample)
             self.render2d.setAntialias(AntialiasAttrib.MMultisample)
             self.render2dp.setAntialias(AntialiasAttrib.MMultisample)
@@ -90,6 +92,15 @@ class ToonBase(OTPBase.OTPBase):
             self.postProcess.addCamera(self.cam, 0)
             self.postProcess.setup()
             self.taskMgr.add(self.__updatePostProcess, 'updatePostProcess')
+            
+            self.lightMgr = qpLightManager()
+            self.lightMgr.initialize()
+            
+            scenePass = self.postProcess.getScenePass()
+            buffer = scenePass.getBuffer()
+            buffer.getDisplayRegion(1).setLightCuller(qpLightCuller(self.lightMgr))
+            
+            self.taskMgr.add(self.__processDynamicLights, 'dynamicLightTask', sort=48)
 
         base.debugRunningMultiplier /= OTPGlobals.ToonSpeedFactor
 
@@ -337,6 +348,47 @@ class ToonBase(OTPBase.OTPBase):
     def __updatePostProcess(self, task):
         if hasattr(self, 'postProcess'):
             self.postProcess.update()
+        return task.cont
+        
+    def addDynamicLight(self, lnp, followParent=None, fadeTime=0.0):
+        if not hasattr(self, 'lightMgr'):
+            return
+
+        self.dynamicLights.append((lnp, Vec3(lnp.getColorLinear()), followParent, fadeTime, base.getRenderTime()))
+        self.lightMgr.addDynamicLight(lnp)
+
+    def removeDynamicLight(self, lnp):
+        if not hasattr(self, 'lightMgr'):
+            return
+
+        for data in self.dynamicLights:
+            if data[0] == lnp:
+                self.lightMgr.removeDynamicLight(lnp)
+                self.dynamicLights.remove(data)
+                break
+        
+    def __processDynamicLights(self, task):
+        if not hasattr(self, 'lightMgr'):
+            return task.cont
+
+        self.lightMgr.update()
+
+        removed = []
+        for data in self.dynamicLights:
+            if data[2] is not None:
+                data[0].setPos(data[2].getPos(base.render))
+            if data[3] > 0.0:
+                now = globalClock.frame_time
+                elapsed = now - data[4]
+                frac = max(0.0, min(1.0, elapsed / data[3]))
+                if frac >= 1.0:
+                    removed.append(data)
+                data[0].setColorLinear(data[1] * (1.0 - frac))
+        if removed:
+            for x in removed:
+                self.lightMgr.removeDynamicLight(x[0])
+                self.dynamicLights.remove(x)
+
         return task.cont
 
     def windowEvent(self, win):

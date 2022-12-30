@@ -56,6 +56,9 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
 
         self.trackShapeFloor = []
         self.trackShapeFloor = getCirclePoints(16, 0.0, 0.0, self.radius)
+        
+        self.light = None
+        self.lightFollowPath = None
 
         self.zFloat = 0.05
 
@@ -264,6 +267,11 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
             self.moveStartTrack.finish()
         if self.moveStopTrack.isPlaying():
             self.moveStopTrack.finish()
+            
+        if self.light:
+            base.removeDynamicLight(self.light)
+            self.light = None
+            
         # stop things
         self.ignoreAll()
         taskMgr.remove(self.detectName)
@@ -313,8 +321,8 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
         if (deccel < 0):
             deccel = 0.0
 
-        dirX = 0.0
-        dirY = 0.0
+        self.dirX = 0.0
+        self.dirY = 0.0
         distX = self.targetX - self.trackX
         distY = self.targetY - self.trackY
         trigDist = math.sqrt(distX * distX + distY * distY)
@@ -323,9 +331,9 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
         propY = abs(distY) / (totalDist + 0.01)
         #direction
         if self.targetX != self.trackX:
-            dirX = (distX) / abs(distX)
+            self.dirX = (distX) / abs(distX)
         if self.targetY != self.trackY:
-            dirY = (distY) / abs(distY)
+            self.dirY = (distY) / abs(distY)
         #accel
         if trigDist < ((self.radius * 0.5) + 1.0):
             self.vX = self.vX * deccel
@@ -336,19 +344,19 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
             if not self.moveLoopTrack.isPlaying():
                 self.moveLoopTrack.start()
                 self.moveStartTrack.start()
-            self.vX += dirX * self.accel * propX
-            self.vY += dirY * self.accel * propY
+            self.vX += self.dirX * self.accel * propX
+            self.vY += self.dirY * self.accel * propY
 
         #if abs(distX) < ((self.radius * 0.5) + 1.0):#abs(self.vX + 1.0):
         #    #print("dist %s rad %s" % (distX, self.radius))
         #    self.vX = self.vX * deccel# - self.vX * 1.0 * deccel
         #else:
-        #    self.vX += dirX * self.accel * propX
+        #    self.vX += self.dirX * self.accel * propX
         #if abs(distY) < ((self.radius * 0.5) + 1.0):#abs(self.vY + 1.0):
         #    #print("dist %s rad %s" % (distY, self.radius))
         #    self.vY = self.vY * deccel# - self.vY * 1.0 * deccel
         #else:
-        #    self.vY += dirY * self.accel * propY
+        #    self.vY += self.dirY * self.accel * propY
         #limits
         if self.vX > self.maxVel:
             self.vX = self.maxVel
@@ -386,23 +394,6 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
 
 
     def genTrack(self):
-
-        dist = self.getDist(base.localAvatar)
-        draw = 1.0 / (0.01 + float(pow(dist, 0.4)))
-
-        self.trackShape = []
-        wideX = 1# + abs((self.trackX + self.projector[0]) / self.projector[2])
-        wideY = 1# + abs((self.trackY + self.projector[1]) / self.projector[2])
-        self.trackShape = getCirclePoints(5 + (draw * 12.0), 0.0, 0.0, self.radius, wideX, wideY)
-
-        self.trackShapeFloor = []
-        self.trackShapeFloor = getCirclePoints(5 + (draw * 50.0), 0.0, 0.0, self.radius, wideX, wideY)
-
-        if self.trackBeamGN:
-            self.trackBeamGN.removeAllGeoms()
-        if self.trackFloorGN:
-            self.trackFloorGN.removeAllGeoms()
-
         beamRed = 0.0
         beamGreen = 0.0
         beamBlue = 0.0
@@ -419,35 +410,40 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
             origin = self.Norm
         else:
             origin = self.Alert
+            
+        dist = self.getDist(base.localAvatar)
+        draw = 1.0 / (0.01 + float(pow(dist, 0.4)))
 
-        self.gFormat = GeomVertexFormat.getV3cp()
-        self.trackBeamVertexData = GeomVertexData("holds my vertices", self.gFormat, Geom.UHDynamic)
-        self.trackBeamVertexWriter = GeomVertexWriter(self.trackBeamVertexData, "vertex")
-        self.trackBeamColorWriter = GeomVertexWriter(self.trackBeamVertexData, "color")
+        wideX = 1 # + abs((self.trackX + self.projector[0]) / self.projector[2])
+        wideY = 1 # + abs((self.trackY + self.projector[1]) / self.projector[2])
+        
+        self.trackShape = []
+        self.trackShape = getCirclePoints(5 + (draw * 12.0), 0.0, 0.0, self.radius, wideX, wideY)
 
-        self.trackFloorVertexData = GeomVertexData("holds my vertices", self.gFormat, Geom.UHDynamic)
-        self.trackFloorVertexWriter = GeomVertexWriter(self.trackFloorVertexData, "vertex")
-        self.trackFloorColorWriter = GeomVertexWriter(self.trackFloorVertexData, "color")
+        self.trackShapeFloor = []
+        self.trackShapeFloor = getCirclePoints(5 + (draw * 50.0), 0.0, 0.0, self.radius, wideX, wideY)
 
-        self.trackBeamVertexWriter.addData3f(self.projector[0], self.projector[1], self.projector[2]) #origin
-        self.trackBeamColorWriter.addData4f(origin['Red'], origin['Green'], origin['Blue'], origin['Alpha'])
+        if self.trackBeamGN:
+            self.trackBeamGN.removeAllGeoms()
+        if self.trackFloorGN:
+            self.trackFloorGN.removeAllGeoms()
 
-        #self.trackFloorVertexWriter.addData3f(self.projector[0] + 4.0, self.projector[1] + 10.0, self.projector[2])
-        self.trackFloorVertexWriter.addData3f(self.trackX, self.trackY, self.zFloat) #center
-        self.trackFloorColorWriter.addData4f(origin['Red'], origin['Green'], origin['Blue'], origin['Alpha'])
+        gFormat = GeomVertexFormat.getV3cp()
+        trackBeamVertexData = GeomVertexData("holds my vertices", gFormat, Geom.UHDynamic)
+        trackBeamVertexWriter = GeomVertexWriter(trackBeamVertexData, "vertex")
+        trackBeamColorWriter = GeomVertexWriter(trackBeamVertexData, "color")
 
+        trackBeamVertexWriter.addData3f(self.projector[0], self.projector[1], self.projector[2]) #origin
+        trackBeamColorWriter.addData4f(origin['Red'], origin['Green'], origin['Blue'], origin['Alpha'])
+        
         for vertex in self.trackShape:
-                self.trackBeamVertexWriter.addData3f(self.trackX + vertex[0] , self.trackY + vertex[1] , self.zFloat)
-                self.trackBeamColorWriter.addData4f(beamRed, beamGreen, beamBlue, beamAlpha)
-
-        for vertex in self.trackShapeFloor:
-                self.trackFloorVertexWriter.addData3f(self.trackX + vertex[0] , self.trackY + vertex[1] , self.zFloat)
-                self.trackFloorColorWriter.addData4f(origin['Red'], origin['Green'], origin['Blue'], origin['Alpha'])
-
-
-
-        self.trackBeamTris=GeomTrifans(Geom.UHStatic) # triangle obejcet
-        self.trackFloorTris=GeomTrifans(Geom.UHStatic) # triangle obejcet
+            trackBeamVertexWriter.addData3f(self.trackX + vertex[0] , self.trackY + vertex[1] , self.zFloat)
+            trackBeamColorWriter.addData4f(beamRed, beamGreen, beamBlue, beamAlpha)
+            
+        del trackBeamVertexWriter
+        del trackBeamColorWriter
+        
+        self.trackBeamTris = GeomTrifans(Geom.UHStatic) # triangle obejcet
 
         sizeTrack = len(self.trackShape)
         self.trackBeamTris.addVertex(0)
@@ -456,19 +452,59 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
         self.trackBeamTris.addVertex(1)
         self.trackBeamTris.closePrimitive()
 
-        self.trackBeamGeom=Geom(self.trackBeamVertexData)
+        self.trackBeamGeom = Geom(trackBeamVertexData)
         self.trackBeamGeom.addPrimitive(self.trackBeamTris)
         self.trackBeamGN.addGeom(self.trackBeamGeom)
+        
+        if ConfigVariableBool('want-lighting-effects', True).getValue():
+            if not self.light:
+                self.lightFollowPath = NodePath("lightPath")
+                self.lightFollowPath.reparentTo(self)
 
+                light = qpLight(qpLight.TSpot)
+                light.setAttenuation(1, 0, 0)
+                light.setCullRadius(256)
+                light.setInnerCone(7.8)
+                light.setOuterCone(8)
+            else:
+                light = self.light
+            
+            light.setPos(self.rotateNode.getPos(base.render))
+            light.setHpr(self.rotateNode.getHpr(base.render))
+            
+            light.setColorSrgb255Scalar(Vec4(origin['Red'] * 255, origin['Green'] * 255, origin['Blue'] * 255, origin['Alpha'] * 38250))
 
+            if not self.light:
+                self.light = light
+                base.addDynamicLight(self.light, followParent=self.lightFollowPath)
+
+            return
+
+        trackFloorVertexData = GeomVertexData("holds my vertices", gFormat, Geom.UHDynamic)
+        trackFloorVertexWriter = GeomVertexWriter(trackFloorVertexData, "vertex")
+        trackFloorColorWriter = GeomVertexWriter(trackFloorVertexData, "color")
+
+        #trackFloorVertexWriter.addData3f(self.projector[0] + 4.0, self.projector[1] + 10.0, self.projector[2])
+        trackFloorVertexWriter.addData3f(self.trackX, self.trackY, self.zFloat) #center
+        trackFloorColorWriter.addData4f(origin['Red'], origin['Green'], origin['Blue'], origin['Alpha'])
+
+        for vertex in self.trackShapeFloor:
+            trackFloorVertexWriter.addData3f(self.trackX + vertex[0] , self.trackY + vertex[1] , self.zFloat)
+            trackFloorColorWriter.addData4f(origin['Red'], origin['Green'], origin['Blue'], origin['Alpha'])
+            
+        del trackFloorVertexWriter
+        del trackFloorColorWriter
+
+        self.trackFloorTris = GeomTrifans(Geom.UHStatic) # triangle obejcet
+                
         sizeTrack = len(self.trackShapeFloor)
         self.trackFloorTris.addVertex(0)
         for countVertex in range(1, sizeTrack + 1):
             self.trackFloorTris.addVertex(countVertex)
         self.trackFloorTris.addVertex(1)
         self.trackFloorTris.closePrimitive()
-
-        self.trackFloorGeom=Geom(self.trackFloorVertexData)
+    
+        self.trackFloorGeom = Geom(trackFloorVertexData)
         self.trackFloorGeom.addPrimitive(self.trackFloorTris)
         self.trackFloorGN.addGeom(self.trackFloorGeom)
 

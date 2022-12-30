@@ -90,7 +90,6 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
 
 
     def announceGenerate(self):
-        self.notify.debug('announceGenerate')
         BattleBlocker.BattleBlocker.announceGenerate(self)
         # at this point all the entity attributes have been initialized
         # we can load the model now.
@@ -142,6 +141,7 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
         #import pdb; pdb.set_trace()
 
     def setGridGame(self, gameName):
+        self.notify.debug('setGridGame')
         self.gridGame = gameName
         self.gridGameText = gameName
         if gameName == "MineSweeper":
@@ -156,20 +156,23 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
             self.gridGameText = TTLocalizer.LaserGameDefault
 
     def setActiveLF(self, active = 1):
+        self.notify.debug('setActiveLF')
         if active:
             self.activeLF = 1
-        else:
-            self.activeLF = 0
+            return
+        self.activeLF = 0
 
     def setSuccess(self, success):
+        self.notify.debug('setSuccess')
         if success:
             self.successTrack.start()
-        else:
-            self.startBattle()
-            self.failTrack.start()
-            self.cSphereNodePath.setPos(self.blockerX, self.blockerY,0)
+            return
+        self.startBattle()
+        self.failTrack.start()
+        self.cSphereNodePath.setPos(self.blockerX, self.blockerY,0)
 
     def makeGridSymbols(self):
+        self.notify.debug('makeGridSymbols')
         #blank
         symbolBlank = [(0),(1.0, 0.0, 0.0),()]
 
@@ -459,16 +462,14 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
         self.gridSymbols.append(symbolRedX)   #16
         self.gridSymbols.append(symbolBlueDot)   #17
 
-
-
     def sendFail(self):
+        self.notify.debug('sendFail')
         #print("Bomb!!!")
         self.battleStart()
         self.sendUpdate('trapFire',[])
 
-
-
     def battleStart(self):
+        self.notify.debug('battleStart')
         self.startBattle()
 
     def __detect(self, task):
@@ -508,6 +509,7 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
 
 
     def doToonInRange(self):
+        self.notify.debug('doToonInRange')
         #print("toon in Range")
         self.isToonInRange = 1
         if self.activeLF:
@@ -524,6 +526,7 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
             self.level.stage.showInfoText(self.gridGameText)
 
     def doToonOutOfRange(self):
+        self.notify.debug('doToonOutOfRange')
         #print("toon out of Range")
         self.isToonInRange = 0
         #base.localAvatar.setIdealCameraPos(self.cameraHold)
@@ -584,6 +587,7 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
         BattleBlocker.BattleBlocker.delete(self)
 
     def loadModel(self):
+        self.notify.debug('loadModel')
         self.rotateNode = self.attachNewNode('rotate')
         self.model = None
         #self.model = loader.loadModel(self.laserFieldModels[self.modelPath])
@@ -603,7 +607,8 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
             self.model = None
 
     def genTrace(self):
-
+        self.notify.debug('genTrace')
+        
         wireRed = 1.0
         wireGreen = 0.0
         wireBlue = 0.0
@@ -614,33 +619,36 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
         beamBlue = 0.0
         beamAlpha = 0.1
 
-        self.gFormat = GeomVertexFormat.getV3cp()
-        self.traceWireVertexData = GeomVertexData("holds my vertices", self.gFormat, Geom.UHDynamic)
-        self.traceWireVertexWriter = GeomVertexWriter(self.traceWireVertexData, "vertex")
-        self.traceWireColorWriter = GeomVertexWriter(self.traceWireVertexData, "color")
+        gFormat = GeomVertexFormat.getV3cp()
+        traceWireVertexData = GeomVertexData("holds my vertices", gFormat, Geom.UHDynamic)
+        traceWireVertexWriter = GeomVertexWriter(traceWireVertexData, "vertex")
+        traceWireColorWriter = GeomVertexWriter(traceWireVertexData, "color")
 
+        traceBeamVertexData = GeomVertexData("holds my vertices", gFormat, Geom.UHDynamic)
+        traceBeamVertexWriter = GeomVertexWriter(traceBeamVertexData, "vertex")
+        traceBeamColorWriter = GeomVertexWriter(traceBeamVertexData, "color")
 
-        self.traceBeamVertexData = GeomVertexData("holds my vertices", self.gFormat, Geom.UHDynamic)
-        self.traceBeamVertexWriter = GeomVertexWriter(self.traceBeamVertexData, "vertex")
-        self.traceBeamColorWriter = GeomVertexWriter(self.traceBeamVertexData, "color")
+        traceWireVertexWriter.addData3f(self.projector[0], self.projector[1], self.projector[2]) #origin
+        traceWireColorWriter.addData4f(wireRed, wireGreen, wireBlue, wireAlpha)
 
-        self.traceWireVertexWriter.addData3f(self.projector[0], self.projector[1], self.projector[2]) #origin
-        self.traceWireColorWriter.addData4f(wireRed, wireGreen, wireBlue, wireAlpha)
-
-        self.traceBeamVertexWriter.addData3f(self.projector[0], self.projector[1], self.projector[2]) #origin
-        self.traceBeamColorWriter.addData4f(0.0, 0.0, 0.0, 0.0)
+        traceBeamVertexWriter.addData3f(self.projector[0], self.projector[1], self.projector[2]) #origin
+        traceBeamColorWriter.addData4f(0.0, 0.0, 0.0, 0.0)
 
         for vertex in self.tracePath:
+            traceWireVertexWriter.addData3f(vertex[0] * self.gridScaleX, vertex[1] * self.gridScaleY, self.zFloat)
+            traceWireColorWriter.addData4f(wireRed, wireGreen, wireBlue, wireAlpha)
 
-                self.traceWireVertexWriter.addData3f(vertex[0] * self.gridScaleX, vertex[1] * self.gridScaleY, self.zFloat)
-                self.traceWireColorWriter.addData4f(wireRed, wireGreen, wireBlue, wireAlpha)
-
-                self.traceBeamVertexWriter.addData3f(vertex[0] * self.gridScaleX, vertex[1] * self.gridScaleY, self.zFloat)
-                self.traceBeamColorWriter.addData4f(beamRed, beamGreen, beamBlue, beamAlpha)
+            traceBeamVertexWriter.addData3f(vertex[0] * self.gridScaleX, vertex[1] * self.gridScaleY, self.zFloat)
+            traceBeamColorWriter.addData4f(beamRed, beamGreen, beamBlue, beamAlpha)
+            
+        del traceWireVertexWriter
+        del traceWireColorWriter
+        del traceBeamVertexWriter
+        del traceBeamColorWriter
 
         #self.traceWireTris=GeomTriangles(Geom.UHDynamic) # triangle obejcet
-        self.traceBeamTris=GeomTriangles(Geom.UHStatic) # triangle obejcet
-        self.traceWireTris=GeomLinestrips(Geom.UHStatic) # triangle obejcet
+        self.traceBeamTris = GeomTriangles(Geom.UHStatic) # triangle obejcet
+        self.traceWireTris = GeomLinestrips(Geom.UHStatic) # triangle obejcet
 
         vertexCounter = 1
 
@@ -659,15 +667,16 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
             self.traceBeamTris.addVertex(countVertex + 2)
             self.traceBeamTris.closePrimitive()
 
-        self.traceWireGeom=Geom(self.traceWireVertexData)
+        self.traceWireGeom=Geom(traceWireVertexData)
         self.traceWireGeom.addPrimitive(self.traceWireTris)
         self.traceWireGN.addGeom(self.traceWireGeom)
 
-        self.traceBeamGeom=Geom(self.traceBeamVertexData)
+        self.traceBeamGeom=Geom(traceBeamVertexData)
         self.traceBeamGeom.addPrimitive(self.traceBeamTris)
         self.traceBeamGN.addGeom(self.traceBeamGeom)
 
     def createGrid(self):
+        self.notify.debug('createGrid')
         #print("CREATING DYNAMIC GEOM")
 
         gridScaleX = self.gridScaleX / self.gridNumX
@@ -684,21 +693,20 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
         beamAlpha = 0.1
 
 
-        self.gFormat = GeomVertexFormat.getV3cp()
-        self.gridVertexData = GeomVertexData("holds my vertices", self.gFormat, Geom.UHDynamic)
-        self.gridVertexWriter = GeomVertexWriter(self.gridVertexData, "vertex")
-        self.gridColorWriter = GeomVertexWriter(self.gridVertexData, "color")
+        gFormat = GeomVertexFormat.getV3cp()
+        gridVertexData = GeomVertexData("holds my vertices", gFormat, Geom.UHDynamic)
+        gridVertexWriter = GeomVertexWriter(gridVertexData, "vertex")
+        gridColorWriter = GeomVertexWriter(gridVertexData, "color")
 
+        beamVertexData = GeomVertexData("holds my vertices", gFormat, Geom.UHDynamic)
+        beamVertexWriter = GeomVertexWriter(beamVertexData, "vertex")
+        beamColorWriter = GeomVertexWriter(beamVertexData, "color")
 
-        self.beamVertexData = GeomVertexData("holds my vertices", self.gFormat, Geom.UHDynamic)
-        self.beamVertexWriter = GeomVertexWriter(self.beamVertexData, "vertex")
-        self.beamColorWriter = GeomVertexWriter(self.beamVertexData, "color")
+        gridVertexWriter.addData3f(self.projector[0], self.projector[1], self.projector[2]) #origin
+        gridColorWriter.addData4f(red, green, blue, 0.0)
 
-        self.gridVertexWriter.addData3f(self.projector[0], self.projector[1], self.projector[2]) #origin
-        self.gridColorWriter.addData4f(red, green, blue, 0.0)
-
-        self.beamVertexWriter.addData3f(self.projector[0], self.projector[1], self.projector[2]) #origin
-        self.beamColorWriter.addData4f(0.0, 0.0, 0.0, 0.0)
+        beamVertexWriter.addData3f(self.projector[0], self.projector[1], self.projector[2]) #origin
+        beamColorWriter.addData4f(0.0, 0.0, 0.0, 0.0)
 
         #import pdb; pdb.set_trace()
 
@@ -723,11 +731,11 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
 
                     for iVertex in range(sizeSymbol):
                         vertex = gridSymbol[iVertex]
-                        self.gridVertexWriter.addData3f(columnLeft + (vertex[0] * gridScaleX), rowBottom + (vertex[1] * gridScaleY), self.zFloat)
-                        self.gridColorWriter.addData4f(gridColor[0] * red, gridColor[1] * green, gridColor[2] * blue, alpha)
+                        gridVertexWriter.addData3f(columnLeft + (vertex[0] * gridScaleX), rowBottom + (vertex[1] * gridScaleY), self.zFloat)
+                        gridColorWriter.addData4f(gridColor[0] * red, gridColor[1] * green, gridColor[2] * blue, alpha)
 
-                        self.beamVertexWriter.addData3f(columnLeft + (vertex[0] * gridScaleX), rowBottom + (vertex[1] * gridScaleY), self.zFloat)
-                        self.beamColorWriter.addData4f(gridColor[0] * beamRed, gridColor[1] * beamGreen, gridColor[2] * beamBlue, beamAlpha)
+                        beamVertexWriter.addData3f(columnLeft + (vertex[0] * gridScaleX), rowBottom + (vertex[1] * gridScaleY), self.zFloat)
+                        beamColorWriter.addData4f(gridColor[0] * beamRed, gridColor[1] * beamGreen, gridColor[2] * beamBlue, beamAlpha)
                 rowBottom = rowTop
 
         if self.isToonIn:
@@ -736,16 +744,20 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
             sizeSymbol = len(gridSymbol)
             for iVertex in range(sizeSymbol):
                 vertex = gridSymbol[iVertex]
-                self.gridVertexWriter.addData3f((self.toonX * gridScaleX) + (vertex[0] * gridScaleX), (self.toonY * gridScaleY) + (vertex[1] * gridScaleY), self.zFloat)
-                self.gridColorWriter.addData4f(gridColor[0] * red, gridColor[1] * green, gridColor[2] * blue, alpha)
+                gridVertexWriter.addData3f((self.toonX * gridScaleX) + (vertex[0] * gridScaleX), (self.toonY * gridScaleY) + (vertex[1] * gridScaleY), self.zFloat)
+                gridColorWriter.addData4f(gridColor[0] * red, gridColor[1] * green, gridColor[2] * blue, alpha)
 
-                self.beamVertexWriter.addData3f((self.toonX * gridScaleX) + (vertex[0] * gridScaleX), (self.toonY * gridScaleY) + (vertex[1] * gridScaleY), self.zFloat)
-                self.beamColorWriter.addData4f(gridColor[0] * beamRed, gridColor[1] * beamGreen, gridColor[2] * beamBlue, beamAlpha)
+                beamVertexWriter.addData3f((self.toonX * gridScaleX) + (vertex[0] * gridScaleX), (self.toonY * gridScaleY) + (vertex[1] * gridScaleY), self.zFloat)
+                beamColorWriter.addData4f(gridColor[0] * beamRed, gridColor[1] * beamGreen, gridColor[2] * beamBlue, beamAlpha)
 
+        del gridVertexWriter
+        del gridColorWriter
+        del beamVertexWriter
+        del beamColorWriter
 
         #create geometry and faces
-        self.gridTris=GeomLinestrips(Geom.UHDynamic) # triangle obejcet
-        self.beamTris=GeomTriangles(Geom.UHDynamic) # triangle obejcet
+        self.gridTris = GeomLinestrips(Geom.UHDynamic) # triangle obejcet
+        self.beamTris = GeomTriangles(Geom.UHDynamic) # triangle obejcet
 
         #print("Adding faces")
         vertexCounter = 1
@@ -781,16 +793,17 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
                 self.beamTris.addVertex(vertexCounter + iVertex + 1)
                 self.beamTris.closePrimitive()
 
-        self.wireGeom=Geom(self.gridVertexData)
+        self.wireGeom=Geom(gridVertexData)
         self.wireGeom.addPrimitive(self.gridTris)
         self.gridWireGN.addGeom(self.wireGeom)
 
-        self.beamGeom=Geom(self.beamVertexData)
+        self.beamGeom=Geom(beamVertexData)
         self.beamGeom.addPrimitive(self.beamTris)
         self.gridBeamGN.addGeom(self.beamGeom)
 
 
     def setGrid(self, gridNumX, gridNumY):
+        self.notify.debug('setGrid')
         #print("setGrid")
         self.gridNumX = gridNumX
         self.gridNumY = gridNumY
@@ -877,6 +890,7 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
 
 
     def genGrid(self):
+        self.notify.debug('genGrid')
         if self.activeLF:
             #print("Gen Grid Size %s %s" % (self.gridScaleX, self.gridScaleY))
             if self.gridWireGN:
@@ -918,7 +932,7 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
             else:
                 #print("warning no suit")
                 pass
-
+    
     def initCollisionGeom(self):
         print("Laser Field initCollisionGeom")
         self.blockerX = self.gridScaleX * 0.5
