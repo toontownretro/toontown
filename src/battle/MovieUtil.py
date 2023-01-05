@@ -772,6 +772,7 @@ def createSuitStunInterval(suit, before, after):
     # Show stun prop at proper height with specified delay before and after
     return Sequence(Wait(before),
                     Func(stars.reparentTo, head),
+                    Func(suit.maintainJointMerges),
                     Func(stars.setZ, max(0.0, p2[2] - 1.0)),
                     Func(stars.loop, 'stun'),
                     Wait(after),

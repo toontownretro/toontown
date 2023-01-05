@@ -933,29 +933,34 @@ class Suit(Avatar.Avatar):
             self.rightHand = self.find("**/joint*Rhold")
             self.shadowJoint = self.find("**/joint*shadow")
             self.nametagJoint = self.find("**/joint*nameTag")
-
-        if ConfigVariableBool('want-new-cogs', 0).getValue():
-            if dept == 'c':
-                texType = 'bossbot'
-            elif dept == 'm':
-                texType = 'cashbot'
-            elif dept == 'l':
-                texType = 'lawbot'
-            elif dept == 's':
-                texType = 'sellbot'
-            if self.find("**/body").isEmpty():
-                __doItTheOldWay__()
-            else:
-                filepath = "phase_3.5/maps/tt_t_ene_" + texType + '.txo'
-                if cogExists("/maps/tt_t_ene_" + texType + '.txo'):
-                    bodyTex = loader.loadTexture(filepath)
-                    self.find("**/body").setTexture(bodyTex, 1)
-                self.leftHand = self.find("**/def_joint_left_hold")
-                self.rightHand = self.find("**/def_joint_right_hold")
-                self.shadowJoint = self.find("**/def_shadow")
-                self.nametagJoint = self.find("**/def_nameTag")
-        else:
+            
+        if modelRoot.find("**/body").isEmpty():
             __doItTheOldWay__()
+            return
+
+        if dept == 'c':
+            texType = 'bossbot'
+        elif dept == 'm':
+            texType = 'cashbot'
+        elif dept == 'l':
+            texType = 'lawbot'
+        elif dept == 's':
+            texType = 'sellbot'
+
+        filepath = "phase_3.5/maps/tt_t_ene_" + texType + '.txo'
+        if cogExists("/maps/tt_t_ene_" + texType + '.txo'):
+            bodyTex = loader.loadTexture(filepath)
+            modelRoot.find("**/body").setTexture(bodyTex, 1)
+        if not self.find("**/def_joint_left_hold").isEmpty():
+            self.leftHand = self.find("**/def_joint_left_hold")
+            self.rightHand = self.find("**/def_joint_right_hold")
+            self.shadowJoint = self.find("**/def_shadow")
+            self.nametagJoint = self.find("**/def_nameTag")
+        else:
+            self.leftHand = self.find("**/joint*Lhold")
+            self.rightHand = self.find("**/joint*Rhold")
+            self.shadowJoint = self.find("**/joint*shadow")
+            self.nametagJoint = self.find("**/joint*nameTag")
 
 
     def makeWaiter(self, modelRoot=None):
@@ -965,54 +970,85 @@ class Suit(Avatar.Avatar):
         # default to setting textures on ourselves
         if not modelRoot:
             modelRoot = self
+            
+        def __doItTheOldWay__():
+            # set the clothes textures for a waiter
+            torsoTex = loader.loadTexture("phase_3.5/maps/waiter_m_blazer.txo")
+            torsoTex.setMinfilter(Texture.FTLinearMipmapLinear)
+            torsoTex.setMagfilter(Texture.FTLinear)
+            legTex = loader.loadTexture("phase_3.5/maps/waiter_m_leg.txo")
+            legTex.setMinfilter(Texture.FTLinearMipmapLinear)
+            legTex.setMagfilter(Texture.FTLinear)
+            armTex = loader.loadTexture("phase_3.5/maps/waiter_m_sleeve.txo")
+            armTex.setMinfilter(Texture.FTLinearMipmapLinear)
+            armTex.setMagfilter(Texture.FTLinear)
 
-        # set the clothes textures for a waiter
+            modelRoot.find("**/torso").setTexture(torsoTex, 1)
+            modelRoot.find("**/arms").setTexture(armTex, 1)
+            modelRoot.find("**/legs").setTexture(legTex, 1)
+
+            # set hand color
+            modelRoot.find("**/hands").setColor(self.handColor)
+            
         self.isWaiter = 1
-        torsoTex = loader.loadTexture("phase_3.5/maps/waiter_m_blazer.txo")
-        torsoTex.setMinfilter(Texture.FTLinearMipmapLinear)
-        torsoTex.setMagfilter(Texture.FTLinear)
-        legTex = loader.loadTexture("phase_3.5/maps/waiter_m_leg.txo")
-        legTex.setMinfilter(Texture.FTLinearMipmapLinear)
-        legTex.setMagfilter(Texture.FTLinear)
-        armTex = loader.loadTexture("phase_3.5/maps/waiter_m_sleeve.txo")
-        armTex.setMinfilter(Texture.FTLinearMipmapLinear)
-        armTex.setMagfilter(Texture.FTLinear)
+            
+        if modelRoot.find("**/body").isEmpty():
+            __doItTheOldWay__()
+            return
 
-        modelRoot.find("**/torso").setTexture(torsoTex, 1)
-        modelRoot.find("**/arms").setTexture(armTex, 1)
-        modelRoot.find("**/legs").setTexture(legTex, 1)
-
-        # set hand color
-        modelRoot.find("**/hands").setColor(self.handColor)
+        filepath = "phase_3.5/maps/tt_t_ene_waiter.txo"
+        if cogExists("/maps/tt_t_ene_waiter.txo"):
+            bodyTex = loader.loadTexture(filepath)
+            modelRoot.find("**/body").setTexture(bodyTex, 1)
 
 
     def makeRentalSuit(self, suitType, modelRoot = None):
         if not modelRoot:
             modelRoot = self.getGeomNode()
+
+        def __doItTheOldWay__():
+            if suitType == 's':
+                torsoTex = loader.loadTexture("phase_3.5/maps/tt_t_ene_sellbotRental_blazer.txo")
+                legTex = loader.loadTexture("phase_3.5/maps/tt_t_ene_sellbotRental_leg.txo")
+                armTex = loader.loadTexture("phase_3.5/maps/tt_t_ene_sellbotRental_sleeve.txo")
+                handTex = loader.loadTexture("phase_3.5/maps/tt_t_ene_sellbotRental_hand.txo")
+#            elif suitType == 'l':
+#                torsoTex = loader.loadTexture("phase_3.5/maps/tt_t_ene_lawbotRental_blazer.txo")
+#                legTex = loader.loadTexture("phase_3.5/maps/tt_t_ene_lawbotRental_leg.txo")
+#                armTex = loader.loadTexture("phase_3.5/maps/tt_t_ene_lawbotRental_sleeve.txo")
+#                handTex = loader.loadTexture("phase_3.5/maps/tt_t_ene_lawbotRental_hand.txo")
+            else:
+                self.notify.warning("No rental suit for cog type %s" % suitType)
+                return
+            modelRoot.find("**/torso").setTexture(torsoTex, 1)
+            modelRoot.find("**/arms").setTexture(armTex, 1)
+            modelRoot.find("**/legs").setTexture(legTex, 1)
+            modelRoot.find("**/hands").setTexture(handTex, 1)
+            
+        self.isRental = 1
+        
+        if modelRoot.find("**/body").isEmpty():
+            __doItTheOldWay__()
+            return
+         
         if suitType == 's':
-            torsoTex = loader.loadTexture("phase_3.5/maps/tt_t_ene_sellbotRental_blazer.txo")
-            legTex = loader.loadTexture("phase_3.5/maps/tt_t_ene_sellbotRental_leg.txo")
-            armTex = loader.loadTexture("phase_3.5/maps/tt_t_ene_sellbotRental_sleeve.txo")
-            handTex = loader.loadTexture("phase_3.5/maps/tt_t_ene_sellbotRental_hand.txo")
+            filepath = "phase_3.5/maps/tt_t_ene_sellbotRental.txo"
 #        elif suitType == 'l':
-#            torsoTex = loader.loadTexture("phase_3.5/maps/tt_t_ene_lawbotRental_blazer.txo")
-#            legTex = loader.loadTexture("phase_3.5/maps/tt_t_ene_lawbotRental_leg.txo")
-#            armTex = loader.loadTexture("phase_3.5/maps/tt_t_ene_lawbotRental_sleeve.txo")
-#            handTex = loader.loadTexture("phase_3.5/maps/tt_t_ene_lawbotRental_hand.txo")
+#            filepath = "phase_3.5/maps/tt_t_ene_lawbotRental.txo"
         else:
             self.notify.warning("No rental suit for cog type %s" % suitType)
             return
-        self.isRental = 1
-        modelRoot.find("**/torso").setTexture(torsoTex, 1)
-        modelRoot.find("**/arms").setTexture(armTex, 1)
-        modelRoot.find("**/legs").setTexture(legTex, 1)
-        modelRoot.find("**/hands").setTexture(handTex, 1)
+            
+        if cogExists(filepath):
+            bodyTex = loader.loadTexture(filepath)
+            modelRoot.find("**/body").setTexture(bodyTex, 1)
 
 
     def generateHead(self, headType):
         """generateHead(self, string)
         Manipulate the head model to display only the appropriate head
         """
+        
         # load the multi-head models
         if ConfigVariableBool('want-new-cogs', 0).getValue():
             filePrefix, phase = HeadModelDict[self.style.body]

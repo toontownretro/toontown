@@ -770,6 +770,7 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit,
 
                 # Put the hpText over the head of the avatar
                 self.hpText = self.attachNewNode(self.hpTextNode)
+                self.maintainJointMerges()
                 self.hpText.setScale(scale)
                 # Make sure it is a billboard
                 self.hpText.setBillboardPointEye()
