@@ -54,14 +54,14 @@ NodePath DNANode::traverse(NodePath &parent, DNAStorage *store, int editing) {
 
   node_path.set_pos_hpr_scale(_pos, _hpr, _scale);
 
-  //pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
-  //for(; i != _group_vector.end(); ++i) {
-  JobSystem *jsys = JobSystem::get_global_ptr();
-  jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
+  pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
+  for(; i != _group_vector.end(); ++i) {
+  //JobSystem *jsys = JobSystem::get_global_ptr();
+  //jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
     // Traverse each node in our vector
-    PT(DNAGroup) group = _group_vector[i]; //*i;
+    PT(DNAGroup) group = *i; //_group_vector[i];
     group->traverse(node_path, store, editing);
-  });
+  }//);
 
   if (editing) {
     // Remember that this nodepath is associated with this dnaNode

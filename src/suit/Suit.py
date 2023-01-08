@@ -62,6 +62,7 @@ SellBot (Sales): 's'
 
 import os, string
 from direct.actor import Actor
+from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import AppRunnerGlobal
 from direct.task.Task import Task
 from otp.avatar import Avatar, ShadowCaster
@@ -683,6 +684,8 @@ def attachSuitHead(node, suitName):
 
 class Suit(Avatar.Avatar):
     """Suit class:"""
+    
+    notify = DirectNotifyGlobal.directNotify.newCategory('Suit')
 
     healthColors = (Vec4(0, 1, 0, 1),
                     Vec4(1, 1, 0, 1),
@@ -1086,6 +1089,7 @@ class Suit(Avatar.Avatar):
             # set head color if necessary
             if self.headColor:
                 headPart.setColor(self.headColor)
+                
             self.headParts.append(headPart)
 
         # Now remove the extra instance that was created in the
