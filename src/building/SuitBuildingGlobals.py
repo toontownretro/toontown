@@ -138,7 +138,7 @@ SuitBuildingInfo = (
       ( 1, 1, 1, 1, 1),
       ( 1, ) ),
 
-    # building difficulty 9.  This is a special difficulty level that
+    # building difficulty 15.  This is a special difficulty level that
     # is used only for the first battle with the Nerfed Sellbot V.P.  No
     # buildings in the world outside of CogHQ have difficulty level 9.
     ( ( 1, 1 ),
@@ -147,7 +147,7 @@ SuitBuildingInfo = (
       ( 33, 33 ),
       ( 1, 1, 1, 1, 1 ) ),
 
-    # building difficulty 10.  Same as above, for the second battle with
+    # building difficulty 16.  Same as above, for the second battle with
     # the Nerfed Sellbot V.P.  These are skelecogs. 
     ( ( 1, 1 ),
       ( 4, 5 ),

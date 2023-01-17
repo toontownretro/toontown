@@ -218,6 +218,10 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         self.updateSavedBy(None)
 
         difficulty = min(difficulty, len(SuitBuildingGlobals.SuitBuildingInfo) - 1)
+        
+        # Debug assert to check for max difficulty in a building.
+        assert(difficulty < 9)
+        
         minFloors, maxFloors = self._getMinMaxFloors(difficulty)
         if buildingHeight == None:
             # Pick a random floor number from the appropriate range.
@@ -249,7 +253,14 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         numFloors = self.FieldOfficeNumFloors
         self.track=suitTrack
         self.difficulty=difficulty
+        
+        # Debug assert to check for max difficulty in a building.
+        assert(difficulty < 9)
+        
         self.numFloors=numFloors
+        
+        assert(self.debugPrint("cogdoTakeOver(%s, %s, %s)" % (suitTrack, difficulty, numFloors - 1)))
+        
         self.becameSuitTime = time.time()
         self.fsm.request('clearOutToonInteriorForCogdo')
 

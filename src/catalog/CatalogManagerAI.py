@@ -184,10 +184,15 @@ class CatalogManagerAI(DistributedObjectAI.DistributedObjectAI):
                         stickList = stickDict[key]
                         for item in stickList:
                             backCatalog.append(item)
+
                     #import pdb; pdb.set_trace()
             else:
                 weeklyCatalog = avatar.weeklyCatalog
                 backCatalog = avatar.backCatalog
+                
+            assert not isinstance(monthlyCatalog, list)
+            assert not isinstance(weeklyCatalog, list)
+            assert not isinstance(backCatalog, list)
 
             avatar.b_setCatalog(monthlyCatalog, weeklyCatalog, backCatalog)
             if (len(monthlyCatalog) + len(weeklyCatalog) != 0):

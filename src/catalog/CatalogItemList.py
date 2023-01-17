@@ -160,7 +160,6 @@ class CatalogItemList:
                 list.append(item)
         return list
 
-
     # Functions to make this act just like a Python list.
 
     def append(self, item):
@@ -258,6 +257,17 @@ class CatalogItemList:
             d = self.__list[i]
             if d == item:
                 return True
+                
+    def set(self, other):
+        self.__set__(other)
+                
+    def __set__(self, other):
+        if isinstance(other, list):
+            self.__list = other
+            self.__blob = None
+            return
+            
+        super().__set__(other)
 
     def __getslice__(self, i, j):
         if self.__list == None:

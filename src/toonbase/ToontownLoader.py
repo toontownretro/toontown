@@ -25,23 +25,22 @@ class ToontownLoader(Loader.Loader):
     # our extentions
     def beginBulkLoad(self, name, label, range, gui, tipCategory):
         self._loadStartT = globalClock.getRealTime()
-        Loader.Loader.notify.info("starting bulk load of block '%s'" % (name))
+        Loader.Loader.notify.info("Starting bulk load of block '%s'" % (name))
         if self.inBulkBlock:
             Loader.Loader.notify.warning("Tried to start a block ('%s'), but am already in a block ('%s')" % (name, self.blockName))
-            return None
+            return
         self.inBulkBlock = 1
         self._lastTickT = globalClock.getRealTime()
         self.blockName = name
         self.loadingScreen.begin(range, label, gui, tipCategory)
-        return None
 
     def endBulkLoad(self, name):
         if not self.inBulkBlock:
             Loader.Loader.notify.warning("Tried to end a block ('%s'), but not in one" % (name))
-            return None
+            return
         if name != self.blockName:
             Loader.Loader.notify.warning("Tried to end a block ('%s'), other then the current one ('%s')" % (name, self.blockName))
-            return None
+            return
         self.inBulkBlock = None
         expectedCount, loadedCount = self.loadingScreen.end()
         now = globalClock.getRealTime()
