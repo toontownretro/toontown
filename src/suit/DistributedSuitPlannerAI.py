@@ -1119,12 +1119,14 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
 
         if suitLevel == None and buildingHeight != None:
             if not cogdoTakeover:
-            # Choose an appropriate level suit that will make a
-            # building of the requested height.
+                # Choose an appropriate level suit that will make a
+                # building of the requested height.
                 suitLevel = self.chooseSuitLevel(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_LVL],
                                                  buildingHeight)
             else:
-                suitLevel = self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_LVL][-1] + 1
+                # Use the max suit level possible. Don't add an extra level to this as it
+                # is already fixed for difficulties.
+                suitLevel = self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_LVL][-1]
 
 
         # Now fill in the level, type, and track parameters that
