@@ -44,6 +44,8 @@ from toontown.toon import ToonDNA
 from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 
+from direct.directtools import DirectGlobals as DG
+
 
 try:
     if base.direct is None:
@@ -1096,10 +1098,10 @@ class RobotToonManager(DirectObject):
     def makeRandomToon(self, toNpcId = None):
         # Check for intersection
         entry = self.iRay.pickGeom(
-            skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA)
+            skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA)
         if not entry:
             # Try again just at the center of the screen
-            entry = self.iRay.pickGeom(skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA,
+            entry = self.iRay.pickGeom(skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA,
                                        xy = (0, -0.2))
         # If we got a valid intersection point
         if entry:
@@ -1211,7 +1213,7 @@ class RobotToonManager(DirectObject):
     def setStartPos(self, xy = None):
         # Check for intersection
         entry = self.iRay.pickGeom(
-            xy = xy, skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA)
+            xy = xy, skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA)
         # If we got a valid intersection point
         if entry and (self.selectedToon != None):
             st = self.selectedToon
@@ -1223,7 +1225,7 @@ class RobotToonManager(DirectObject):
     def setEndPos(self, xy = None):
         # Check for intersection
         entry = self.iRay.pickGeom(
-            xy = xy, skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA)
+            xy = xy, skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA)
         # If we got a valid intersection point
         if entry and (self.selectedToon != None):
             st = self.selectedToon
@@ -1608,11 +1610,11 @@ class RobotToonManager(DirectObject):
         # Position it
         # Check for intersection
         entry = self.iRay.pickGeom(
-            skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA)
+            skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA)
         if not entry:
             # Try again just at the center of the screen
             entry = self.iRay.pickGeom(
-                skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA,
+                skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA,
                 xy = (0, -0.2))
         # If we got a valid intersection point
         if entry:

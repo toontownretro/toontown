@@ -43,6 +43,8 @@ from otp.otpbase import OTPGlobals
 
 from .LevelStyleManager import *
 
+from direct.directtools import DirectGlobals as DG
+
 # Force direct and tk to be on
 base.startDirect(fWantDirect = 1, fWantTk = 1)
 
@@ -1920,7 +1922,7 @@ class LevelEditor(NodePath, DirectObject):
             # And then spawn task to determine mouse mode
             # Don't intersect with hidden or backfacing objects
             base.direct.cameraControl.coaMarker.stash()
-            skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA# | SKIP_UNPICKABLE
+            skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA# | DG.SKIP_UNPICKABLE
             base.direct.cameraControl.computeCOA(base.direct.iRay.pickGeom(skipFlags = skipFlags))
             self.newObjPos = base.direct.cameraControl.coaMarker.getPos(render)
 
@@ -2563,9 +2565,9 @@ class LevelEditor(NodePath, DirectObject):
 
     def keyboardTranslateSelected(self, arrowDirection):
         gridToCamera = base.direct.grid.getMat(base.direct.camera)
-        camXAxis = gridToCamera.xformVec(X_AXIS)
-        xxDot = camXAxis.dot(X_AXIS)
-        xzDot = camXAxis.dot(Z_AXIS)
+        camXAxis = gridToCamera.xformVec(DG.X_AXIS)
+        xxDot = camXAxis.dot(DG.X_AXIS)
+        xzDot = camXAxis.dot(DG.Z_AXIS)
 
         # what is the current grid spacing?
         if base.direct.fShift:
@@ -2814,7 +2816,7 @@ class LevelEditor(NodePath, DirectObject):
             self.snapList = self.snapList[1:] + self.snapList[:1]
             return deltas
         else:
-            return (ZERO_VEC, ZERO_VEC)
+            return (DG.ZERO_VEC, DG.ZERO_VEC)
 
     def getWallIntersectionPoint(self, selectedNode):
         """
@@ -2836,7 +2838,7 @@ class LevelEditor(NodePath, DirectObject):
         mouseDir.set(nearX, base.direct.dr.near, nearZ)
         mouseDir.assign(mCam2Wall.xformVec(mouseDir))
         # Calc intersection point
-        return planeIntersect(mouseOrigin, mouseDir, ZERO_POINT, NEG_Y_AXIS)
+        return planeIntersect(mouseOrigin, mouseDir, DG.ZERO_POINT, DG.NEG_Y_AXIS)
 
     def getGridSnapIntersectionPoint(self):
         """
@@ -2865,7 +2867,7 @@ class LevelEditor(NodePath, DirectObject):
         mouseDir.set(nearX, base.direct.dr.near, nearZ)
         mouseDir.assign(mCam2Grid.xformVec(mouseDir))
         # Calc intersection point
-        return planeIntersect(mouseOrigin, mouseDir, ZERO_POINT, Z_AXIS)
+        return planeIntersect(mouseOrigin, mouseDir, DG.ZERO_POINT, DG.Z_AXIS)
 
     def jumpToInsertionPoint(self):
         """ Move selected object to insertion point """

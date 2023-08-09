@@ -9,6 +9,8 @@ from .LevelEditorGlobals import *
 from functools import reduce
 from locale import atof
 
+from direct.directtools.DirectUtil import ROUND_INT
+
 class LevelStyleManager:
     """Class which reads in style files and manages class variables"""
     def __init__(self, NEIGHBORHOODS = [], NEIGHBORHOOD_CODES = {} ):

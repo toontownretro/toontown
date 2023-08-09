@@ -11,6 +11,8 @@ from otp.otpbase import OTPGlobals
 
 from toontown.toon import RobotToon
 
+from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode, BitMask32, CollisionRay, CollisionHandlerPusher, CollisionHandlerFloor, CollisionTraverser
+
 class ToonControlManager(ControlManager):
     def __init__(self, editor):
         self.fStarting = True
