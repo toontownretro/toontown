@@ -670,7 +670,7 @@ MinigameIDs = ( RaceGameId, CannonGameId, TagGameId, PatternGameId, RingGameId, 
 MinigamePlayerMatrix = {
     # If you only have one player, choose from these games
     # Technically pattern game can be single player, but it is not nearly as fun, especially for demos
-    1 : (CannonGameId, RingGameId, MazeGameId, TugOfWarGameId, CatchGameId,
+    1 : (CannonGameId, PatternGameId, RingGameId, MazeGameId, TugOfWarGameId, CatchGameId,
          DivingGameId, TargetGameId, PairingGameId, VineGameId,
          CogThiefGameId, PhotoGameId, TwoDGameId),
     # If you have exactly two players, choose from these games
