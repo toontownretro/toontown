@@ -44,11 +44,11 @@ woodColors = [
 # This table maps the various bank ID's to the amount of jellybeans
 # they hold.
 BankToMoney = {
-    1300 : 1000,
-    1310 : 2500,
-    1320 : 5000,
-    1330 : 7500,
-    1340 : 10000,
+    1300 : 12000,#1000,
+    1310 : 12000,#2500,
+    1320 : 12000,#5000,
+    1330 : 12000,#7500,
+    1340 : 12000,#10000,
     1350 : 12000,
     }
 MoneyToBank = {}
@@ -1142,31 +1142,31 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
         return CatalogAtticItem.CatalogAtticItem.getAcceptItemErrorText(self, retcode)
 
 
-def nextAvailableBank(avatar, duplicateItems):
-    bankId = MoneyToBank.get(avatar.getMaxBankMoney())
-    if bankId == None or bankId == MaxBankId:
-        # No more banks for this avatar.
-        return None
-
-    bankId += 10
-    item = CatalogFurnitureItem(bankId)
-
-    # But if this bank is already on order, don't offer the same bank
-    # again.  Skip to the next one instead.
-    while item in avatar.onOrder or \
-          item in avatar.mailboxContents:
-        bankId += 10
-        if bankId > MaxBankId:
-            return None
-        item = CatalogFurnitureItem(bankId)
-
-    return item
-
-def getAllBanks():
-    banks = []
-    for bankId in list(BankToMoney.keys()):
-        banks.append(CatalogFurnitureItem(bankId))
-    return banks
+#def nextAvailableBank(avatar, duplicateItems):
+#    bankId = MoneyToBank.get(avatar.getMaxBankMoney())
+#    if bankId == None or bankId == MaxBankId:
+#        # No more banks for this avatar.
+#        return None
+#
+#    bankId += 10
+#    item = CatalogFurnitureItem(bankId)
+#
+#    # But if this bank is already on order, don't offer the same bank
+#    # again.  Skip to the next one instead.
+#    while item in avatar.onOrder or \
+#          item in avatar.mailboxContents:
+#        bankId += 10
+#        if bankId > MaxBankId:
+#            return None
+#        item = CatalogFurnitureItem(bankId)
+#
+#    return item
+#
+#def getAllBanks():
+#    banks = []
+#    for bankId in list(BankToMoney.keys()):
+#        banks.append(CatalogFurnitureItem(bankId))
+#    return banks
 
 def nextAvailableCloset(avatar, duplicateItems):
     # detemine which closet index in the tuple to use

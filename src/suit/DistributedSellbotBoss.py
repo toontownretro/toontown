@@ -651,7 +651,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                                                blendType = 'easeInOut'),
                          SoundInterval(self.cageLowerSfx, duration = 1)),
                 Func(self.cagedToonMovieFunction, 1, self.cageIndex),
-                Func(cagedToonMovieFunction, 2, self.cageIndex),
+                Func(self.cagedToonMovieFunction, 2, self.cageIndex),
                 Wait(3),
                 Func(self.cagedToonMovieFunction, 3, self.cageIndex),
                 Func(self.cagedToonMovieFunction, 4, self.cageIndex)]

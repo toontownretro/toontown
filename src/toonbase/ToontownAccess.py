@@ -65,7 +65,7 @@ class ToontownAccess:
             if ToontownGlobals.SELLBOT_NERF_HOLIDAY in holidayIds:
                 specialZones.append(ToontownGlobals.SellbotHQ)
             
-            elif ToontownGlobals.SELLBOT_NERF_HOLIDAY in holidayIds:
+            elif ToontownGlobals.LAWBOT_NERF_HOLIDAY in holidayIds:
                 specialZones.append(ToontownGlobals.LawbotHQ)
                 
         place = base.cr.playGame.getPlace()

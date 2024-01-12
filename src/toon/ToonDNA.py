@@ -1181,6 +1181,7 @@ BottomStyles = {
 
     # St. Pats leprechaun shorts
     'sd_bs1' : [ 11, [27, ]],
+    'sd_bs2' : [ 44, [27, ]],
 
     # Pajama shorts
     'pj_bs1' : [ 16, [27, ]], # Blue Banana Pajama pants
@@ -2289,7 +2290,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             return False
         if armColor >= len(allColorsList):
             return False
-        if gloveColor >= len(allColorsList):
+        if gloveColor != 0: # >= len(allColorsList):
             return False
         if legColor >= len(allColorsList):
             return False

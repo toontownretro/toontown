@@ -192,6 +192,10 @@ class HoodMgr(DirectObject.DirectObject):
         [232.77, -305.33, -68.4, -651, 0, 0],
         [-20.16, -345.76, -68.4, -777.98, 0 ,0],
         ),
+
+        ToontownGlobals.BossbotHQ:(
+        [0, 0, 0, 0, 0, 0],
+        ),
         }
 
     hoodName2Id = {

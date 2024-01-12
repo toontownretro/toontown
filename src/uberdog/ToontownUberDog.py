@@ -116,10 +116,10 @@ class ToontownUberDog(UberDog):
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_IN_GAME_NEWS_MANAGER,
                 "DistributedInGameNewsMgr")
 
-        if self.isWhitelistMgr:
-            self.whitelistMgr = self.generateGlobalObject(
-                OtpDoGlobals.OTP_DO_ID_TOONTOWN_WHITELIST_MANAGER,
-                "DistributedWhitelistMgr")
+        #if self.isWhitelistMgr:
+        #    self.whitelistMgr = self.generateGlobalObject(
+        #        OtpDoGlobals.OTP_DO_ID_TOONTOWN_WHITELIST_MANAGER,
+        #        "DistributedWhitelistMgr")
 
         if self.isCpuInfoMgr:
             self.cpuInfoMgr = self.generateGlobalObject(

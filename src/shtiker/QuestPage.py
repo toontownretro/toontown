@@ -6,9 +6,12 @@ from toontown.toon import NPCToons
 from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-from toontown.quest import QuestPoster
+from toontown.quest import QuestBookPoster
+from direct.directnotify import DirectNotifyGlobal
 
 class QuestPage(ShtikerPage.ShtikerPage):
+
+    notify = DirectNotifyGlobal.directNotify.newCategory("QuestPage")
 
     # special methods
     def __init__(self):
@@ -53,11 +56,13 @@ class QuestPage(ShtikerPage.ShtikerPage):
 
         for i in range(ToontownGlobals.MaxQuestCarryLimit):
             # reverse the poster graphic on the right-hand page
-            frame = QuestPoster.QuestPoster(reverse=(i>1))
+            frame = QuestBookPoster.QuestBookPoster(reverse=(i>1), mapIndex=(i+1))
             frame.reparentTo(self)
             frame.setPosHpr(*questFramePlaceList[i])
             frame.setScale(1.06)
             self.questFrames.append(frame)
+
+        self.accept('questsChanged', self.updatePage)
 
     def acceptOnscreenHooks(self):
         self.accept(ToontownGlobals.QuestsHotkeyOn, self.showQuestsOnscreen)
@@ -68,6 +73,7 @@ class QuestPage(ShtikerPage.ShtikerPage):
         self.ignore(ToontownGlobals.QuestsHotkeyOff)
 
     def unload(self):
+        self.ignore("questsChanged")
         del self.title
         del self.quests
         del self.questFrames
@@ -89,6 +95,7 @@ class QuestPage(ShtikerPage.ShtikerPage):
         return -1
 
     def updatePage(self):
+        self.notify.debug("updatePage()")
         newQuests = base.localAvatar.quests
         carryLimit = base.localAvatar.getQuestCarryLimit()
 
@@ -116,12 +123,17 @@ class QuestPage(ShtikerPage.ShtikerPage):
                 self.fillQuestFrame(newQuestDesc, index)
 
         # Always update friend quests to see if they have changed
-        for i in list(self.quests.keys()):
-            questDesc = self.quests[i]
+        for i, questDesc in self.quests.items():
             if questDesc:
-                questId = questDesc[0]
-                if (Quests.getQuestClass(questId) == Quests.FriendQuest):
+                if self.canDeleteQuest(questDesc):
+                    self.questFrames[i].setDeleteCallback(self.__deleteQuest)
+                else:
+                    self.questFrames[i].setDeleteCallback(None)
                     self.questFrames[i].update(questDesc)
+            else:
+                self.questFrames[i].unbindMouseEnter()
+
+        messenger.send("questPageUpdated")
 
     def enter(self):
         """enter(self)
@@ -147,6 +159,9 @@ class QuestPage(ShtikerPage.ShtikerPage):
         if self.onscreen or base.localAvatar.invPage.onscreen:
             return
         self.onscreen = 1
+        for i in range(ToontownGlobals.MaxQuestCarryLimit):
+            if hasattr(self.questFrames[i], "mapIndex"):
+                self.questFrames[i].mapIndex.show()
         self.updatePage()
         self.reparentTo(aspect2d)
         self.title.hide()
@@ -160,6 +175,16 @@ class QuestPage(ShtikerPage.ShtikerPage):
         if not self.onscreen:
             return
         self.onscreen = 0
+        for i in range(ToontownGlobals.MaxQuestCarryLimit):
+            if hasattr(self.questFrames[i], "mapIndex"):
+                self.questFrames[i].mapIndex.hide()
         self.reparentTo(self.book)
         self.title.show()
         self.hide()
+
+    def canDeleteQuest(self, questDesc):
+        return Quests.isQuestJustForFun(questDesc[0],
+                                        questDesc[3]) and self.onscreen == 0
+
+    def __deleteQuest(self, questDesc):
+        base.localAvatar.d_requestDeleteQuest(questDesc)

@@ -67,7 +67,7 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
         if self.geom:
             self.geom.removeNode()
             self.geom = None
-        base.planar.shutdown()
+        #base.planar.shutdown()
         CogHQLoader.CogHQLoader.unloadPlaceGeom(self)
 
     def loadPlaceGeom(self, zoneId):
@@ -79,20 +79,17 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.notify.debug("zoneId = %d ToontownGlobals.LawbotHQ=%d" % (zoneId,ToontownGlobals.LawbotHQ))
 
         if zoneId == ToontownGlobals.LawbotHQ:
-            if ConfigVariableBool('want-qa-regression', 0).getValue():
-                self.notify.info('QA-REGRESSION: COGHQ: Visit LawbotLobby')
-
             self.geom = loader.loadModel(self.cogHQExteriorModelPath)
 
             # make sure the reflective floor renders properly
             ug = self.geom.find("**/underground")
             ug.setBin( "ground", -10)
-            ug.stash()
+            #ug.stash()
 
-            ground = self.geom.find("**/LB_PlazaGround")
-            ground.setTransparency(False, 1)
-            base.planar.setup(Vec3.up(), -68.367, 0.55)
-            base.planar.renderReflection(ground)
+            #ground = self.geom.find("**/LB_PlazaGround")
+            #ground.setTransparency(False, 1)
+            #base.planar.setup(Vec3.up(), -68.367, 0.55)
+            #base.planar.renderReflection(ground)
 
             # Rename the link tunnels so they will hook up properly
             brLinkTunnel = self.geom.find("**/TunnelEntrance1")
@@ -185,12 +182,12 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
             # make sure the reflective floor renders properly
             ug = self.geom.find("**/underground")
             ug.setBin( "ground", -10)
-            ug.stash()
+            #ug.stash()
 
-            ground = self.geom.find("**/DA_LobbyFloor")
-            ground.setTransparency(False, 1)
-            base.planar.setup(Vec3.up(), 31.917, 0.55)
-            base.planar.renderReflection(ground)
+            #ground = self.geom.find("**/DA_LobbyFloor")
+            #ground.setTransparency(False, 1)
+            #base.planar.setup(Vec3.up(), 31.917, 0.55)
+            #base.planar.renderReflection(ground)
 
             """
             factoryLinkTunnel = self.geom.find("**/tunnel_group2")
@@ -279,18 +276,21 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
             sdText.setDepthWrite(0)
             """
         elif zoneId == ToontownGlobals.LawbotLobby:
+            if ConfigVariableBool('want-qa-regression', 0).getValue():
+                self.notify.info('QA-REGRESSION: COGHQ: Visit LawbotLobby')
+
             self.notify.debug("cogHQLobbyModelPath = %s" % self.cogHQLobbyModelPath)
             self.geom = loader.loadModel(self.cogHQLobbyModelPath)
 
             # make sure the reflective floor renders properly
             ug = self.geom.find("**/underground")
             ug.setBin( "ground", -10)
-            ug.stash()
+            #ug.stash()
 
-            ground = self.geom.find("**/CH_LobbyFloor")
-            ground.setTransparency(False, 1)
-            base.planar.setup(Vec3.up(), 33.415, 0.55)
-            base.planar.renderReflection(ground)
+            #ground = self.geom.find("**/CH_LobbyFloor")
+            #ground.setTransparency(False, 1)
+            #base.planar.setup(Vec3.up(), 33.415, 0.55)
+            #base.planar.renderReflection(ground)
 
             """
             front = self.geom.find("**/frontWall")

@@ -6,10 +6,10 @@ from toontown.coghq import DistributedCogHQDoorAI
 from toontown.coghq import DistributedSellbotHQDoorAI
 from toontown.building import DoorTypes
 from toontown.coghq import LobbyManagerAI
-from toontown.building import DistributedBossElevatorAI
+from toontown.building import DistributedVPElevatorAI
 from toontown.suit import DistributedSellbotBossAI
 from toontown.building import DistributedBoardingPartyAI
-from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import ConfigVariableBool
 
 class CSHoodDataAI(HoodDataAI.HoodDataAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("CSHoodDataAI")
@@ -39,7 +39,7 @@ class CSHoodDataAI(HoodDataAI.HoodDataAI):
         self.lobbyMgr.generateWithRequired(ToontownGlobals.SellbotLobby)
         self.addDistObj(self.lobbyMgr)
 
-        self.lobbyElevator = DistributedBossElevatorAI.DistributedBossElevatorAI(self.air, self.lobbyMgr, ToontownGlobals.SellbotLobby, antiShuffle = 1)#antiShufflePOI
+        self.lobbyElevator = DistributedVPElevatorAI.DistributedVPElevatorAI(self.air, self.lobbyMgr, ToontownGlobals.SellbotLobby, antiShuffle = 1)#antiShufflePOI
         self.lobbyElevator.generateWithRequired(ToontownGlobals.SellbotLobby)
         self.addDistObj(self.lobbyElevator)
 

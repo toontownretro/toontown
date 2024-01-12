@@ -799,6 +799,18 @@ dnaMap = {
     GolfZone : "golf_zone",
     }
 
+# Maps hoods to download phases
+# TEMP
+dnaMapQuest = {
+    ToontownCentral : "toontown_central",
+    DonaldsDock : "donalds_dock",
+    MinniesMelodyland : "minnies_melody_land",
+    TheBrrrgh : "the_burrrgh",
+    DaisyGardens : "daisys_garden",
+    FunnyFarm : "not done yet",
+    DonaldsDreamland : "donalds_dreamland",
+    }
+
 # Maps hoods to names
 hoodNameMap = {
     DonaldsDock : TTLocalizer.DonaldsDock,

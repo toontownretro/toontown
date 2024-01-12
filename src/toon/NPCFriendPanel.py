@@ -91,7 +91,7 @@ class NPCFriendCard(DirectFrame):
         self.initialiseoptions(NPCFriendCard)
 
         # Front side of the card
-        cardModel = loader.loadModel('phase_3.5/models/gui/playingCard')
+        cardModel = loader.loadModel('phase_3.5/models/gui/playingCardSOS')
         self.front = DirectFrame(
             parent = self, relief = None,
             image = cardModel.find('**/card_front'),

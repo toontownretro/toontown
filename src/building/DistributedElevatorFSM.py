@@ -501,7 +501,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
         self.accept(self.uniqueName('enterelevatorSphere'),
                     self.handleEnterSphere)
         self.accept("elevatorExitButton", self.handleExitButton)
-        self.lastState = self
+        self.lastState = self._state
         return
 
     def exitWaitCountdown(self):

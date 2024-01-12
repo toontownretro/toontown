@@ -394,7 +394,7 @@ class Char(Avatar.Avatar):
             # make them render correctly
             for lodName in self.getLODNames():
                 self.drawInFront("joint*pupil?", "eyes*", -3, lodName=lodName)
-        elif (self.name == "daisy"):
+        elif (self._name == "daisy"):
             self.geoEyes = 1
             self.eyeOpenList = []
             self.eyeCloseList = []
