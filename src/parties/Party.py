@@ -198,7 +198,7 @@ class Party(Place.Place):
         # Turn on the animated props for the party
         for i in self.loader.nodeList:
             self.loader.enterAnimatedProps(i)
-        self.loader.geom.reparentTo(render)
+        self.loader.geom.reparentTo(base.sceneStatic) # Used to be render, Now it's the static part of scene.
 
         self.fsm.request(requestStatus["how"], [requestStatus])
 

@@ -55,7 +55,10 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
         # visibility might have stashed the zone this origin is under
         npcOrigin = self.cr.playGame.hood.loader.geom.find("**/npc_fisherman_origin_%s;+s" % self.posIndex)
         if not npcOrigin.isEmpty():
-            self.reparentTo(npcOrigin)
+            # Instead of just reparenting to the origin. We make a root under 'actors' for organization. 
+            self.rootNode = base.actors.attachNewNode("npc_root_" + self.getName())
+            self.rootNode.setPosHprScale(*npcOrigin.getPos(base.actors), *npcOrigin.getHpr(base.actors), *npcOrigin.getScale(base.actors))
+            self.reparentTo(self.rootNode)
             self.clearMat()
         else:
             self.notify.warning("announceGenerate: Could not find npc_fisherman_origin_" + str(self.posIndex))

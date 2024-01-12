@@ -207,5 +207,5 @@ class DDPlayground(Playground.Playground):
 
     def exitOnBoat(self):
         assert self.notify.debugStateCall(self)
-        base.localAvatar.b_setParent(ToontownGlobals.SPRender)
+        base.localAvatar.b_setParent(ToontownGlobals.SPActors)
         self.loader.waterSound.stop()

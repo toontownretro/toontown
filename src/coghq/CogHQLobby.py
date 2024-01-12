@@ -86,7 +86,7 @@ class CogHQLobby(Place.Place):
         self.fsm.enterInitialState()
         # Play music
         base.playMusic(self.loader.music, looping = 1, volume = 0.8)
-        self.loader.geom.reparentTo(render)
+        self.loader.geom.reparentTo(base.sceneStatic) # Used to be render, Now it's the static part of scene.
         self.accept("doorDoneEvent", self.handleDoorDoneEvent)
         self.accept("DistributedDoor_doorTrigger", self.handleDoorTrigger)
         # Turn on the little red arrows.

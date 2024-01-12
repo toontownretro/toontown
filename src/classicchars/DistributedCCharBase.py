@@ -149,8 +149,8 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
 
         self.setHpr(0,0,0)
 
-        # The characters can be immediately parented to render.
-        self.setParent(ToontownGlobals.SPRender)
+        # The characters can be immediately parented to our actors..
+        self.setParent(ToontownGlobals.SPActors) # ToontownGlobals.SPRender
 
         # hmm. does this character ever blink?
         self.startBlink()

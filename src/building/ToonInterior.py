@@ -210,7 +210,7 @@ class ToonInterior(Place.Place):
 
     def enterTutorial(self, requestStatus):
         self.fsm.request("walk")
-        base.localAvatar.b_setParent(ToontownGlobals.SPRender)
+        base.localAvatar.b_setParent(ToontownGlobals.SPActors)
         globalClock.tick()
         base.transitions.irisIn()
         messenger.send("enterTutorialInterior")

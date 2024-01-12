@@ -64,7 +64,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         # animate if necessary
         self.startAnimation()
         # Put this thing in the world
-        self.nodePath.wrtReparentTo(render)
+        self.nodePath.wrtReparentTo(base.sceneAnimated)
         # Add a hook looking for collisions with localToon, and call
         # requestGrab.
         self.accept(self.uniqueName('entertreasureSphere'),

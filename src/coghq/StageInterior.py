@@ -225,7 +225,7 @@ class StageInterior(BattlePlace.BattlePlace):
         # make sure we're under render, and make sure everyone else knows it
         if base.localAvatar.getParent() != render:
             base.localAvatar.wrtReparentTo(render)
-            base.localAvatar.b_setParent(ToontownGlobals.SPRender)
+            base.localAvatar.b_setParent(ToontownGlobals.SPActors)
 
     def exitWaitForBattle(self):
         StageInterior.notify.debug('exitWaitForBattle')

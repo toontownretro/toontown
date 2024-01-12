@@ -26,7 +26,10 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
 
          # Now he's no longer parented to render, but no one minds.
         if not npcOrigin.isEmpty():
-            self.reparentTo(npcOrigin)
+            # Instead of just reparenting to the origin. We make a root under 'actors' for organization. 
+            self.rootNode = base.actors.attachNewNode("npc_root_" + self.getName())
+            self.rootNode.setPosHprScale(*npcOrigin.getPos(base.actors), *npcOrigin.getHpr(base.actors), *npcOrigin.getScale(base.actors))
+            self.reparentTo(self.rootNode)
             self.clearMat()
         else:
             self.notify.warning("announceGenerate: Could not find npc_origin_" + str(self.posIndex))

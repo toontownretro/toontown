@@ -1135,7 +1135,7 @@ class Place(StateData.StateData,
         base.localAvatar.b_setAnimState('TeleportIn', 1,
                                           callback=self.teleportInDone)
         base.localAvatar.d_broadcastPositionNow()
-        base.localAvatar.b_setParent(ToontownGlobals.SPRender)
+        base.localAvatar.b_setParent(ToontownGlobals.SPActors)
         #import pdb; pdb.set_trace()
 
     def teleportInDone(self):

@@ -110,6 +110,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.moveSound = None
 
         self.releaseTrack = None
+        
+        self.rootNode = None
 
     def disable(self):
         """Remove us from active duty and store in the cache."""
@@ -143,6 +145,10 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.powerBar.destroy()
         self.powerBar = None
         self.pitcherMoveSfx.stop()
+        
+        if self.rootNode:
+            self.rootNode.removeNode()
+            self.rootNode = None
 
 
     def announceGenerate(self):
@@ -214,13 +220,16 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         """Load and setup the assets for the banquet table and chairs."""
         # later on this will become a loadModel call
         self.tableGroup = loader.loadModel('phase_12/models/bossbotHQ/BanquetTableChairs')
-        #self.tableGroup.flattenStrong()
+        self.tableGroup.flattenStrong() # DD NOT UNCOMMENT THIS! 
         tableLocator = self.boss.geom.find('**/TableLocator_%d' % (self.index+1))
+        self.rootNode = base.actors.attachNewNode('BanquetTable_%d' % (self.index+1))
+        
         if tableLocator.isEmpty():
-            self.tableGroup.reparentTo(render)
+            self.tableGroup.reparentTo(self.rootNode)
             self.tableGroup.setPos(0,75,0)
         else:
-            self.tableGroup.reparentTo(tableLocator)
+            self.rootNode.setPosHprScale(*tableLocator.getPos(base.actors), *tableLocator.getHpr(base.actors), *tableLocator.getScale(base.actors))
+            self.tableGroup.reparentTo(self.rootNode)
         self.tableGeom = self.tableGroup.find('**/Geometry')
         
         # Attempt to share vertex buffers and combine GeomPrimitives

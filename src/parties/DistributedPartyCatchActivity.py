@@ -365,7 +365,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
                 del self.toonSDs[toonId]
 
             if base.localAvatar.doId == toonId:
-                base.localAvatar.b_setParent(ToontownGlobals.SPRender)
+                base.localAvatar.b_setParent(ToontownGlobals.SPActors)
             else:
                 pass
                 #self.cr.doId2do[toonId].reparentTo(render)

@@ -173,7 +173,7 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.rightHandJoint = self.find('**/joint17')
 
         self.setPosHpr(*ToontownGlobals.BossbotBossBattleOnePosHpr)
-        self.reparentTo(render)
+        self.reparentTo(base.actors)
 
         self.toonUpSfx = loader.loadSfx('phase_11/audio/sfx/LB_toonup.mp3')
         self.warningSfx = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_grunt.mp3')
@@ -224,6 +224,26 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         DistributedBossCog.DistributedBossCog.loadEnvironment(self)
         self.geom = loader.loadModel('phase_12/models/bossbotHQ/BanquetInterior_1')
         
+        # Flatten some things for performance
+        walls = self.geom.find('**/walls') 
+        walls.flattenStrong()
+        
+        tables1 = self.geom.find('**/tables1')
+        tables1.flattenStrong()
+        
+        ceiling = self.geom.find('**/ceiling')
+        ceiling.flattenStrong()
+        
+        entry1 = self.geom.find('**/entry1')
+        entry1.flattenStrong()
+        
+        lights = self.geom.find('**/lights')
+        lights.flattenStrong()
+        
+        kitchen = self.geom.find('**/Kitchen')
+        #kitchen.flattenMedium()
+        
+        
         # Attempt to share vertex buffers and combine GeomPrimitives
         # across the GeomNodes, without actually combining the
         # GeomNodes themselves, so we can cull them effectively.
@@ -255,7 +275,7 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         planeNode.setCollideMask(ToontownGlobals.PieBitmask)
         self.geom.attachNewNode(planeNode)
 
-        self.geom.reparentTo(render)
+        self.geom.reparentTo(base.sceneStatic)
 
         # before battles: play the boss theme music
         self.promotionMusic = base.loadMusic(
@@ -586,8 +606,6 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             Func(rToon.clearChat),
             Func(self.__hideResistanceToon),
             
-            Func(self.cleanupKitchen),
-            
             )
 
         return track
@@ -629,11 +647,6 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             delay += 1.0
             index += 1
         return retval
-        
-    def cleanupKitchen(self):
-        # We cleanup the Kitchen to possibly reduce lag where we can.
-        kitchen = self.geom.find('**/Kitchen')
-        kitchen.removeNode()
 
     def __onToBattleTwo(self, elapsedTime=0):
         """Tell AI we are done with PrepareBattleTwoState."""
@@ -1231,7 +1244,7 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.controlToons()
 
         self.__showResistanceToon(False)
-        self.resistanceToon.reparentTo(render)
+        self.resistanceToon.reparentTo(base.actors)
         self.resistanceToon.setPosHpr(*ToontownGlobals.BossbotRTEpiloguePosHpr)
         self.resistanceToon.loop('Sit')
         self.__arrangeToonsAroundResistanceToonForReward()

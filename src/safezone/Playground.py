@@ -209,7 +209,7 @@ class Playground(Place.Place):
         # Play music
         base.playMusic(self.loader.music, looping = 1, volume = 0.8)
 
-        self.loader.geom.reparentTo(render)
+        self.loader.geom.reparentTo(base.sceneStatic) # Used to be render, Now it's the static part of scene.
 
         # Turn on the animated props once since there is only one zone
         for i in self.loader.nodeList:
