@@ -180,6 +180,13 @@ OriginalHolidays = {
                      ],
     },
 
+    ToontownGlobals.SILLYMETER_EXT_HOLIDAY:
+    { 'startAndEndPairs':       [datetime.datetime( 2013, Month.AUGUST,    20,   0,  0o1),          # Stage 1 animates
+                                         datetime.datetime( 2013, Month.SEPTEMBER,  19,   23,  59),],
+      'phaseDates': [datetime.datetime( 2013, Month.AUGUST,   20,   00,  0o1),            # Stage 4 animates
+                     ],
+    },
+
     ToontownGlobals.SILLY_SURGE_HOLIDAY:
     { 'startAndEndPairs':       [datetime.datetime( 2010, Month.MAY,    14,   0,  0o1),
                                          datetime.datetime( 2010, Month.JUNE,   13,   13,  30), ],     # Cogs invade and silly surges fizzle out
@@ -1812,10 +1819,11 @@ class HolidayManagerAI:
         ),
 
         ToontownGlobals.SILLYMETER_EXT_HOLIDAY: HolidayInfo_Oncely(
-        None,
-        [(2013, Month.AUGUST, 23, 0, 0, 1),
-         (2013, Month.SEPTEMBER, 19, 23, 59, 59)],
+        SillyMeterHolidayAI.SillyMeterHolidayAI,
+        # Silly Meter animating
+        AdjustedHolidays[ToontownGlobals.SILLYMETER_HOLIDAY]['startAndEndPairs'], 
         displayOnCalendar = False,
+        phaseDates = AdjustedHolidays[ToontownGlobals.SILLYMETER_HOLIDAY]['phaseDates'],
         ),
 
         ToontownGlobals.SPOOKY_BLACK_CAT: HolidayInfo_Oncely(

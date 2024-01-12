@@ -19,8 +19,9 @@ class DistributedGagBarrel(DistributedBarrelBase.DistributedBarrelBase):
         self.ignoreAll()
 
     def delete(self):
-        self.gagModel.removeNode()
-        del self.gagModel
+        if hasattr(self, "gagModel") and self.gagModel:
+            self.gagModel.removeNode()
+            del self.gagModel
         DistributedBarrelBase.DistributedBarrelBase.delete(self)
 
     def applyLabel(self):
@@ -33,20 +34,22 @@ class DistributedGagBarrel(DistributedBarrelBase.DistributedBarrelBase):
                 itemList.append(invModel.find("**/" + ToontownBattleGlobals.AvPropsNew[gagTrack][item]))
             self.invModels.append(itemList)
         invModel.removeNode()
-        gagTrack = self.getGagTrack()
-        gagLevel = self.getGagLevel()
-        self.notify.debug("gagTrack = %s, gagLevel = %s" % (gagTrack, gagLevel))
-        self.gagModel = self.invModels[gagTrack][gagLevel]
-        self.gagModel.reparentTo(self.gagNode)
-        self.gagModel.setScale(self.gagScale)
-        self.gagModel.setPos(0,-0.1,0)
-
         del invModel
+        try:
+            gagTrack = self.getGagTrack()
+            gagLevel = self.getGagLevel()
+            self.notify.debug("gagTrack = %s, gagLevel = %s" % (gagTrack, gagLevel))
+            self.gagModel = self.invModels[gagTrack][gagLevel]
+            self.gagModel.reparentTo(self.gagNode)
+            self.gagModel.setScale(self.gagScale)
+            self.gagModel.setPos(0,-0.1,0)
+        except AttributeError:
+            self.notify.warning("Gag barrel is missing an attribute, can't apply label.")
 
     def setNumGags(self, num):
         self.numGags = num
         # if the barrel is empty, dim the gag model
-        if self.gagModel:
+        if hasattr(self, "gagModel") and self.gagModel:
             if self.numGags == 0:
                 self.gagModel.setColorScale(.5,.5,.5,1)
             else:
@@ -57,5 +60,6 @@ class DistributedGagBarrel(DistributedBarrelBase.DistributedBarrelBase):
 
     def resetBarrel(self):
         DistributedBarrelBase.DistributedBarrelBase.resetBarrel(self)
-        # reset the scale
-        self.gagModel.setScale(self.gagScale)
+        if hasattr(self, 'gagModel') and self.gagModel:
+            # reset the scale
+            self.gagModel.setScale(self.gagScale)

@@ -212,7 +212,8 @@ class DistributedToonHallInterior(DistributedToonInterior):
         result = -1
         enoughInfoToRun = False
         # first see if the holiday is running, and we can get the cur phase
-        if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY):
+        if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or \
+           base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
             if hasattr(base.cr, "SillyMeterMgr") and not base.cr.SillyMeterMgr.isDisabled():
                 enoughInfoToRun = True
             else:
@@ -236,7 +237,8 @@ class DistributedToonHallInterior(DistributedToonInterior):
         result = -1
         valid = False
         # first see if the holiday is running, and we can get the cur phase
-        if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY):
+        if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or \
+           base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
             if hasattr(base.cr, "SillyMeterMgr") and not base.cr.SillyMeterMgr.isDisabled():
                 valid = True
             else:
@@ -260,7 +262,8 @@ class DistributedToonHallInterior(DistributedToonInterior):
         result = -1
         valid = False
         # first see if the holiday is running, and we can get the cur phase
-        if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY):
+        if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or \
+           base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
             if hasattr(base.cr, "SillyMeterMgr") and not base.cr.SillyMeterMgr.isDisabled():
                 valid = True
             else:
