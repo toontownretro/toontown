@@ -13,8 +13,7 @@ from direct.gui.DirectGui import DGG, DirectButton, DirectLabel, DirectWaitBar
 from direct.task import Task
 from toontown.suit import Suit
 from toontown.suit import SuitDNA
-from toontown.toonbase import ToontownGlobals
-from toontown.toonbase import TTLocalizer
+from toontown.toonbase import ToontownGlobals, TTLocalizer, IndexBufferCombiner
 from toontown.coghq import BanquetTableBase
 from toontown.coghq import DinerStatusIndicator
 from toontown.battle import MovieUtil
@@ -223,8 +222,23 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         else:
             self.tableGroup.reparentTo(tableLocator)
         self.tableGeom = self.tableGroup.find('**/Geometry')
+        
+        # Attempt to share vertex buffers and combine GeomPrimitives
+        # across the GeomNodes, without actually combining the
+        # GeomNodes themselves, so we can cull them effectively.
+        grphRed = SceneGraphReducer()
+        grphRed.applyAttribs(self.tableGroup.node())
+        grphRed.makeCompatibleState(self.tableGroup.node())
+        grphRed.collectVertexData(self.tableGroup.node(), 0x80)
+        grphRed.unify(self.tableGroup.node(), False)
+        grphRed.removeUnusedVertices(self.tableGroup.node())
+        
+        # Attempt to share vertex buffers for the geom.
+        IndexBufferCombiner.IndexBufferCombiner(self.tableGroup)
+        
         self.setupDiners()
         self.setupChairCols()
+        
         self.squirtSfx = loader.loadSfx('phase_4/audio/sfx/AA_squirt_seltzer_miss.mp3')
         self.hitBossSfx = loader.loadSfx('phase_5/audio/sfx/SA_watercooler_spray_only.mp3')
         self.hitBossSoundInterval = SoundInterval(self.hitBossSfx, node=self.boss,
@@ -255,6 +269,10 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             diner.loop('sit', fromFrame = i)
         else:
             diner.pose('landing',0)
+        # We don't see need the medallion, So remove it.
+        diner.corpMedallion.removeNode()
+        # Remove the health bar too.
+        diner.removeHealthBar()
         locator = self.tableGroup.find('**/chair_%d' % (i +1))
         locatorScale = locator.getNetTransform().getScale()[0]
         correctHeadingNp = locator.attachNewNode('correctHeading')
@@ -273,9 +291,39 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             sitLocator.setX(0.5)
         self.sitLocators[i] = sitLocator
         # some fudging to make it look right
-        diner.setScale(1.0/locatorScale)
+        diner.setScale(1.0 / locatorScale)
         diner.reparentTo(sitLocator)
         #diner.setZ(-5.5)
+        
+        # Clean up the diners extra joints. We can't afford to keep them
+        # Nor are they needed.
+        
+        # Remove the attachMeter joint. Diners don't have a health or suit indicator.
+        if ConfigVariableBool('want-new-cogs', 0).getValue():
+            chestNull = diner.find('**/def_joint_attachMeter')
+            if chestNull.isEmpty():
+                chestNull = diner.find('**/joint*attachMeter')
+        else:
+            chestNull = diner.find('**/joint*attachMeter')
+        if not chestNull.isEmpty(): chestNull.removeNode()
+        
+        # Remove the shadow joint. Diners do not need to show their shadow.
+        shadowJoint = diner.find("**/joint*shadow")
+        if not shadowJoint.isEmpty(): shadowJoint.removeNode()
+        
+        # Remove the nametag joint. Diners do not need to show their nametag.
+        nametagJoint = diner.find("**/joint*nameTag")
+        if not nametagJoint.isEmpty(): nametagJoint.removeNode()
+        
+        # Remove the left hand expose joint. Diners only use their left hand.
+        leftHandJoint = diner.find("**/joint*Lhold")
+        if not leftHandJoint.isEmpty(): leftHandJoint.removeNode()
+        
+        # Remvoe two random exposed joints if they exist.
+        jnt = diner.find("**/jnt_22_1")
+        if not jnt.isEmpty(): jnt.removeNode()
+        jnt = diner.find("**/jnt_28_1")
+        if not jnt.isEmpty(): jnt.removeNode()
 
         # create the nodePath where we serve food to
         newLoc = NodePath('serviceLoc-%d-%d' % (self.index, i))
@@ -292,9 +340,18 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         else:
             head = diner.find('**/joint*head')
         newIndicator = DinerStatusIndicator.DinerStatusIndicator(parent = head,
-                                                                 pos = Point3(0,0,3.5),
+                                                                 pos = Point3(0, 0, 3.5),
                                                                  scale = 5.0)
         newIndicator.wrtReparentTo(diner)
+        
+        '''
+        diner.node().setBounds(diner.node().getBounds())
+        for i in range(0, diner.getNumChildren()):
+            child = diner.getChild(i)
+            if child.isEmpty(): continue
+            child.node().setBounds(child.node().getBounds())
+        '''
+        
         self.dinerStatusIndicators[i] = newIndicator
         return diner
 

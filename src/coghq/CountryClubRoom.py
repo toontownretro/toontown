@@ -50,6 +50,7 @@ class CountryClubRoom(DirectObject.DirectObject):
 
     def enter(self):
         self.localToonFSM.request('notPresent')
+        
     def exit(self):
         self.localToonFSM.requestFinalState()
 
@@ -57,6 +58,7 @@ class CountryClubRoom(DirectObject.DirectObject):
         # First room in the mint is room zero, first hallway is one, second
         # room is two, etc.
         self.roomNum = num
+        
     def getRoomNum(self):
         return self.roomNum
 
@@ -65,11 +67,13 @@ class CountryClubRoom(DirectObject.DirectObject):
         if geom == None:
             import pdb; pdb.set_trace()
         self.__geom = geom
+        
     def getGeom(self):
         return self.__geom
 
     def _getEntrances(self):
         return self.__geom.findAllMatches('**/ENTRANCE*')
+        
     def _getExits(self):
         return self.__geom.findAllMatches('**/EXIT*')
 
@@ -145,18 +149,21 @@ class CountryClubRoom(DirectObject.DirectObject):
     # states for 'localToon present' FSM
     def enterLtOff(self):
         pass
+        
     def exitLtOff(self):
         pass
 
     def enterLtNotPresent(self):
         # called when localToon is no longer in this room
         pass
+        
     def exitLtNotPresent(self):
         pass
 
     def enterLtPresent(self):
         # called when localToon is in this room
         pass
+        
     def exitLtPresent(self):
         pass
 

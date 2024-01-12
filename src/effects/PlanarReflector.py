@@ -28,6 +28,8 @@ class PlanarReflector:
         self.buffer = base.graphicsEngine.makeOutput(
           base.pipe, "planar-reflection-buffer", -9000, fbp, winprops,
           flags, base.win.getGsg(), base.win)
+          
+        assert(self.buffer != None)
 
         self.texture = Texture("planar-reflection-color")
         self.buffer.addRenderTexture(self.texture, GraphicsOutput.RTMBindOrCopy, GraphicsOutput.RTPColor)
