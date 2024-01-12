@@ -125,7 +125,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                 "phase_3.5/audio/sfx/GUI_whisper_3.mp3")
             self.soundPhoneRing = base.loader.loadSfx(
                 "phase_3.5/audio/sfx/telephone_ring.mp3")
-            self.soundSystemMessage = base.loadSfx(
+            self.soundSystemMessage = base.loader.loadSfx(
                 "phase_3/audio/sfx/clock03.mp3")
             self.positionExaminer = PositionExaminer.PositionExaminer()
 
@@ -545,8 +545,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             except:
                 pass
 
-        if ConfigVariableBool('detect-suspicious-nodename', False).getValue():
-            # setDetectCallback is not present in public Panda3D
+        if ConfigVariableBool('detect-suspicious-nodename', True).getValue():
             PandaNode.setDetectCallback(PythonCallbackObject(hacker_detect_immediate))
 
         def trackChat(chattingToon):
@@ -599,15 +598,17 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         # Check 4: Animation
         if 4 in checks:
             if ConfigVariableBool('tmdcc-animcheck', 1).getValue():
-                if toon.zoneId in [ToontownGlobals.DonaldsDock,
-                 ToontownGlobals.OutdoorZone,
-                 ToontownGlobals.ToontownCentral,
-                 ToontownGlobals.TheBrrrgh,
-                 ToontownGlobals.MinniesMelodyland,
-                 ToontownGlobals.DaisyGardens,
-                 ToontownGlobals.FunnyFarm,
-                 ToontownGlobals.GoofySpeedway,
-                 ToontownGlobals.DonaldsDreamland]:
+                if toon.zoneId in [
+                    ToontownGlobals.DonaldsDock,
+                    ToontownGlobals.OutdoorZone,
+                    ToontownGlobals.ToontownCentral,
+                    ToontownGlobals.TheBrrrgh,
+                    ToontownGlobals.MinniesMelodyland,
+                    ToontownGlobals.DaisyGardens,
+                    ToontownGlobals.FunnyFarm,
+                    ToontownGlobals.GoofySpeedway,
+                    ToontownGlobals.DonaldsDreamland,
+                    ]:
                     currAnim = toon.animFSM.getCurrentState().getName()
                     if currAnim != None and currAnim not in [
                         "neutral",
@@ -1004,6 +1005,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
     def loadSosPages(self):
         if self.sosPage != None:
+            # The pages are already loaded; never mind.
             return
         self.sosPage = NPCFriendPage.NPCFriendPage()
         self.sosPage.load()

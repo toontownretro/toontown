@@ -140,7 +140,6 @@ class CogdoFlyingObstacle(DirectObject):
                                      blendType = blendType,
                                      )
                 self.motionSequence.append(movePart2)
-        return
 
     def _initCollisions(self, name, collSolid):
         self.collName = name
@@ -157,23 +156,19 @@ class CogdoFlyingObstacle(DirectObject):
     def disable(self):
         if self.collNode is not None:
             self.collNode.setIntoCollideMask(BitMask32(0))
-        return
 
     def enable(self):
         if self.collNode is not None:
             self.collNode.setIntoCollideMask(ToontownGlobals.WallBitmask)
-        return
 
     def startMoving(self, elapsedTime = 0.0):
         if self.motionSequence is not None:
             self.motionSequence.loop()
             self.motionSequence.setT(elapsedTime % self.motionSequence.getDuration())
-        return
 
     def stopMoving(self):
         if self.motionSequence is not None:
             self.motionSequence.pause()
-        return
 
     def destroy(self):
         self.ignoreAll()
@@ -187,7 +182,6 @@ class CogdoFlyingObstacle(DirectObject):
         self.model.removeNode()
         del self.model
         del self.motionPath
-        return
 
     def update(self, dt):
         pass
@@ -275,9 +269,12 @@ class CogdoFlyingMinion(CogdoFlyingObstacle):
                                      )
         self.lastPos = None
         self.suit.loop('neutral')
-        return
 
     def attachPropeller(self):
+        """
+        attach a propeller to this suit, used when the suit
+        is going into it's flying animation
+        """
         if self.prop is None:
             self.prop = BattleProps.globalPropPool.getProp('propeller')
             if ConfigVariableBool('want-new-cogs', 0).getValue():
@@ -287,14 +284,16 @@ class CogdoFlyingMinion(CogdoFlyingObstacle):
             else:
                 head = self.suit.find('**/joint*head')
             self.prop.reparentTo(head)
-        return
 
     def detachPropeller(self):
+        """
+        remove the propeller from a suit if it has one, this
+        is used after a suit is done with its flying anim
+        """
         if self.prop:
             self.prop.cleanup()
             self.prop.removeNode()
             self.prop = None
-        return
 
     def startMoving(self, elapsedTime):
         CogdoFlyingObstacle.startMoving(self, elapsedTime)
@@ -310,7 +309,6 @@ class CogdoFlyingMinion(CogdoFlyingObstacle):
             self.mopathNodePath.lookAt(self.currPos + vec)
         self.mopathNodePath.setP(0)
         self.lastPos = self.mopathNodePath.getPos()
-        return
 
     def destroy(self):
         self.mopathNodePath.removeNode()

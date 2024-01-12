@@ -6,7 +6,7 @@ from toontown.toonbase import TTLocalizer
 
 class DistributedGreenToonEffectMgr(DistributedObject.DistributedObject):
     """GreenToon effect client implementation; make the toon green if
-    they say 'It's easy to be green!' to Eugene in during the Ides Of March event."""
+    they say 'It's easy to be green!' to Eugene during the Ides Of March event."""
 
     notify = DirectNotifyGlobal.directNotify.newCategory(
         'DistributedGreenToonEffectMgr')

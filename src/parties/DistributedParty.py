@@ -9,7 +9,8 @@ import random
 import time
 import datetime
 
-from toontown.toonbase.ToontownModules import Vec4, TextNode, CardMaker, NodePath
+from toontown.toonbase.ToontownModules import Vec4, TextNode, CardMaker, NodePath, \
+     ConfigVariableBool
 
 from direct.distributed import DistributedObject
 from direct.task.Task import Task
@@ -25,8 +26,6 @@ from toontown.toon import GMUtils
 from toontown.parties import PartyGlobals
 from toontown.parties.Decoration import Decoration
 from . import PartyUtils
-
-from toontown.toonbase.ToontownModules import *
 
 class DistributedParty(DistributedObject.DistributedObject):
     notify = directNotify.newCategory("DistributedParty")

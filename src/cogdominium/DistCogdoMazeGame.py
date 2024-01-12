@@ -12,7 +12,7 @@ from .CogdoMazeGame import CogdoMazeGame
 from .CogdoMaze import CogdoMazeFactory
 from . import CogdoMazeGameGlobals
 from . import CogdoMazeGameGlobals as Globals
-from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import ConfigVariableBool
 
 class DistCogdoMazeGame(DistCogdoGame, DistCogdoMazeGameBase):
     """
@@ -28,6 +28,9 @@ class DistCogdoMazeGame(DistCogdoGame, DistCogdoMazeGameBase):
         self._numSuits = (0, 0, 0)
         if __debug__ and ConfigVariableBool('schellgames-dev', True).getValue():
             self.accept('onCodeReload', self.__sgOnCodeReload)
+
+    def __sgOnCodeReload(self):
+        pass
 
     def delete(self):
         del self.randomNumGen
@@ -121,10 +124,7 @@ class DistCogdoMazeGame(DistCogdoGame, DistCogdoMazeGameBase):
 
     def d_requestUseGag(self, x, y, h):
         networkTime = globalClockDelta.localToNetworkTime(globalClock.getFrameTime())
-        self.sendUpdate('requestUseGag', [x,
-         y,
-         h,
-         networkTime])
+        self.sendUpdate('requestUseGag', [x, y, h, networkTime])
 
     def b_toonUsedGag(self, x, y, h):
         self.d_requestUseGag(x, y, h)

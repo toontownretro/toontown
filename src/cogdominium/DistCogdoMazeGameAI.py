@@ -2,7 +2,7 @@
 @author: Schell Games
 3-16-2010
 """
-from toontown.toonbase.ToontownModules import Vec3, NodePath
+from toontown.toonbase.ToontownModules import Vec3, NodePath, ConfigVariableBool, ConfigVariableDouble
 
 from direct.distributed.ClockDelta import globalClockDelta
 
@@ -12,8 +12,6 @@ from toontown.cogdominium.CogdoMaze import CogdoMazeFactory
 from toontown.cogdominium.DistCogdoMazeGameBase import DistCogdoMazeGameBase
 from .DistCogdoGameAI import DistCogdoGameAI
 from . import CogdoMazeGameGlobals as Globals
-
-from toontown.toonbase.ToontownModules import *
 
 cogdoMazeTimeScoreRatio = 0.5
 cogdoMazePerfectTime = 90
@@ -50,6 +48,9 @@ class DistCogdoMazeGameAI(DistCogdoGameAI, DistCogdoMazeGameBase):
         self.jokeRequestCount = None
         if __debug__ and ConfigVariableBool('schellgames-dev', True).getValue():
             self.accept('onCodeReload', self.__sgOnCodeReload)
+
+    def __sgOnCodeReload(self):
+        pass
 
     def setExteriorZone(self, exteriorZone):
         DistCogdoGameAI.setExteriorZone(self, exteriorZone)
@@ -247,11 +248,7 @@ class DistCogdoMazeGameAI(DistCogdoGameAI, DistCogdoMazeGameBase):
 
     def d_broadcastToonUsedGag(self, toonId, x, y, h, networkTime):
         self.sendUpdate('toonUsedGag', [
-            toonId,
-            x,
-            y,
-            h,
-            networkTime])
+            toonId, x, y, h, networkTime])
 
     def requestSuitHitByGag(self, suitType, suitNum):
         senderId = self.air.getAvatarIdFromSender()
@@ -276,9 +273,7 @@ class DistCogdoMazeGameAI(DistCogdoGameAI, DistCogdoMazeGameBase):
 
     def d_broadcastSuitHitByGag(self, toonId, suitType, suitNum):
         self.sendUpdate('suitHitByGag', [
-            toonId,
-            suitType,
-            suitNum])
+            toonId, suitType, suitNum])
 
     def requestHitBySuit(self, suitType, suitNum, networkTime):
         senderId = self.air.getAvatarIdFromSender()
@@ -305,10 +300,7 @@ class DistCogdoMazeGameAI(DistCogdoGameAI, DistCogdoMazeGameBase):
 
     def d_broadcastToonHitBySuit(self, toonId, suitType, suitNum, networkTime):
         self.sendUpdate('toonHitBySuit', [
-            toonId,
-            suitType,
-            suitNum,
-            networkTime])
+            toonId, suitType, suitNum, networkTime])
 
     def requestHitByDrop(self):
         senderId = self.air.getAvatarIdFromSender()
@@ -327,8 +319,7 @@ class DistCogdoMazeGameAI(DistCogdoGameAI, DistCogdoMazeGameBase):
             toon.takeDamage(damage, quietly = 0)
 
     def d_broadcastToonHitByDrop(self, toonId):
-        self.sendUpdate('toonHitByDrop', [
-            toonId])
+        self.sendUpdate('toonHitByDrop', [toonId])
 
     def requestGag(self, waterCoolerIndex):
         senderId = self.air.getAvatarIdFromSender()
@@ -341,26 +332,22 @@ class DistCogdoMazeGameAI(DistCogdoGameAI, DistCogdoMazeGameBase):
 
         if waterCoolerIndex >= len(self._waterCoolerPosList):
             self.logSuspiciousEvent(senderId, 'CogdoMazeGameAI.requestGag: invalid waterCoolerIndex')
-            return
 
         wcPos = self._waterCoolerPosList[waterCoolerIndex]
         toon = self.air.doId2do.get(senderId)
         if not toon:
             self.logSuspiciousEvent(senderId, 'CogdoMazeGameAI.requestGag: toon not present')
-            return
 
         distance = (toon.getPos() - wcPos).length()
         threshold = (Globals.WaterCoolerTriggerRadius + Globals.PlayerCollisionRadius) * 1.05
         if distance > threshold:
             self._toonHackingRequestGag(senderId)
-            return
 
         self.d_broadcastHasGag(senderId, self.getCurrentNetworkTime())
 
     def d_broadcastHasGag(self, senderId, networkTime):
         self.sendUpdate('hasGag', [
-            senderId,
-            networkTime])
+            senderId, networkTime])
 
     def requestPickUp(self, pickupNum):
         senderId = self.air.getAvatarIdFromSender()
@@ -475,7 +462,7 @@ class DistCogdoMazeGameAI(DistCogdoGameAI, DistCogdoMazeGameBase):
 
     def exitGame(self):
         DistCogdoGameAI.exitGame(self)
-        for (toonId, token) in self._toonId2speedToken.items():
+        for (toonId, token) in list(self._toonId2speedToken.items()):
             self._speedMonitor.removeNodepath(token)
 
         self._toonId2speedToken = {}
@@ -485,7 +472,8 @@ class DistCogdoMazeGameAI(DistCogdoGameAI, DistCogdoMazeGameBase):
     def enterFinish(self):
         DistCogdoGameAI.enterFinish(self)
         if self.numPickedUp > self.maxPickups:
-            self.logSuspiciousEvent(0, 'CogdoMazeGameAI: collected more memos than possible: %s, players: %s' % (self.numPickedUp, self.getToonIds()))
+            self.logSuspiciousEvent(0, 'CogdoMazeGameAI: collected more memos than possible: %s, players: %s' % (
+                self.numPickedUp, self.getToonIds()))
 
         time = globalClock.getRealTime() - self.getStartTime()
         adjustedTime = min(max(time - cogdoMazePerfectTime, 0), cogdoMazeMaxTime)
@@ -497,7 +485,8 @@ class DistCogdoMazeGameAI(DistCogdoGameAI, DistCogdoMazeGameBase):
         weightedPickup = pickupScore * cogdoMazePickupScoreRatio
         weightedTime = timeScore * cogdoMazeTimeScoreRatio
         score = min(weightedPickup + weightedTime, 1.0)
-        self.air.writeServerEvent('CogdoMazeGame', self._interior.toons, 'Memos: %s/%s Weighted Memos: %s Time: %s Weighted Time: %s Score: %s' % (self.numPickedUp, self.maxPickups, weightedPickup, time, weightedTime, score))
+        self.air.writeServerEvent('CogdoMazeGame', self._interior.toons, 'Memos: %s/%s Weighted Memos: %s Time: %s Weighted Time: %s Score: %s' % (
+            self.numPickedUp, self.maxPickups, weightedPickup, time, weightedTime, score))
         self.setScore(score)
         self._announceGameDoneTask = taskMgr.doMethodLater(Globals.FinishDurationSeconds, self.announceGameDone, self.taskName(DistCogdoMazeGameAI.AnnounceGameDoneTimerTaskName), [])
 

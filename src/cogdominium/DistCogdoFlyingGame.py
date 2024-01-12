@@ -30,6 +30,9 @@ class DistCogdoFlyingGame(DistCogdoGame):
             self.accept('onCodeReload', self.__sgOnCodeReload)
         self.game = CogdoFlyingGame(self)
 
+    def __sgOnCodeReload(self):
+        pass
+
     def delete(self):
         del self.game
         DistCogdoGame.delete(self)

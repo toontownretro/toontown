@@ -14,7 +14,6 @@ class CogdoMemoGui(DirectFrame):
         DirectFrame.__init__(self, parent = parent, relief = None, state = DGG.NORMAL, sortOrder = DGG.BACKGROUND_SORT_INDEX)
         self._initModel()
         self.hide()
-        return
 
     def destroy(self):
         ToontownIntervals.cleanup('memocount_pulse')

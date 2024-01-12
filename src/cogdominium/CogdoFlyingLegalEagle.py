@@ -8,7 +8,7 @@ Func, Wait, LerpFunc, SoundInterval, ParallelEndTogether, LerpPosInterval, Actor
 from direct.directutil import Mopath
 from direct.showbase.PythonUtil import bound as clamp
 from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode, CollisionTube, CollisionPolygon, Vec3, Point3, \
-ConfigVariableBool
+     ConfigVariableBool
 from toontown.suit import Suit
 from toontown.suit import SuitDNA
 from toontown.toonbase import ToontownGlobals
@@ -18,32 +18,40 @@ from . import CogdoUtil
 from . import CogdoFlyingGameGlobals as Globals
 
 class CogdoFlyingLegalEagle(FSM, DirectObject):
+
     CollSphereName = 'CogdoFlyingLegalEagleSphere'
     CollisionEventName = 'CogdoFlyingLegalEagleCollision'
     InterestCollName = 'CogdoFlyingLegalEagleInterestCollision'
+
     RequestAddTargetEventName = 'CogdoFlyingLegalEagleRequestTargetEvent'
     RequestAddTargetAgainEventName = 'CogdoFlyingLegalEagleRequestTargetAgainEvent'
     RequestRemoveTargetEventName = 'CogdoFlyingLegalEagleRemoveTargetEvent'
     ForceRemoveTargetEventName = 'CogdoFlyingLegalEagleForceRemoveTargetEvent'
+    
     EnterLegalEagle = 'CogdoFlyingLegalEagleDamageToon'
+    
     ChargingToAttackEventName = 'LegalEagleChargingToAttack'
     LockOnToonEventName = 'LegalEagleLockOnToon'
     CooldownEventName = 'LegalEagleCooldown'
-    notify = DirectNotifyGlobal.directNotify.newCategory('CogdoFlyingLegalEagle')
+    
+    notify = DirectNotifyGlobal.directNotify.newCategory( "CogdoFlyingLegalEagle" )
 
-    def __init__(self, nest, index, suitDnaName = 'le'):
-        FSM.__init__(self, 'CogdoFlyingLegalEagle')
-        self.defaultTransitions = {'Off' : ['Roost'],
-                                   'Roost' : ['TakeOff', 'Off'],
-                                   'TakeOff' : ['LockOnToon', 'LandOnNest', 'Off'],
-                                   'LockOnToon' : ['RetreatToNest', 'ChargeUpAttack', 'Off'],
-                                   'ChargeUpAttack' : ['RetreatToNest', 'Attack', 'Off'],
-                                   'Attack' : ['RetreatToSky', 'Off'],
-                                   'RetreatToSky' : ['Cooldown', 'Off'],
-                                   'Cooldown' : ['LockOnToon', 'LandOnNest', 'Off'],
-                                   'RetreatToNest' : ['LandOnNest', 'Off'],
-                                   'LandOnNest' : ['Roost', 'Off'],
-                                  }
+    def __init__(self, nest, index, suitDnaName = "le"):
+        FSM.__init__(self, "CogdoFlyingLegalEagle")
+
+        self.defaultTransitions = {
+            "Off" : ["Roost"],
+            "Roost" : ["TakeOff", "Off"],
+            "TakeOff" : ["LockOnToon", "LandOnNest", "Off"],
+            "LockOnToon" : ["RetreatToNest", "ChargeUpAttack", "Off"],
+            "ChargeUpAttack" : ["RetreatToNest", "Attack", "Off"],
+            "Attack" : ["RetreatToSky", "Off"],
+            "RetreatToSky" : ["Cooldown", "Off"],
+            "Cooldown" : ["LockOnToon", "LandOnNest", "Off"],
+            "RetreatToNest" : ["LandOnNest", "Off"],
+            "LandOnNest" : ["Roost", "Off"],
+        }
+
         self.index = index
         self.nest = nest
         self.target = None
@@ -78,9 +86,12 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
         audioMgr = base.cogdoGameAudioMgr
         self._screamSfx = audioMgr.createSfx('legalEagleScream', self.suit)
         self.initIntervals()
-        return
 
     def attachPropeller(self):
+        """
+        attach a propeller to this suit, used when the suit
+        is going into it's flying animation
+        """
         if self.prop == None:
             self.prop = BattleProps.globalPropPool.getProp('propeller')
             if ConfigVariableBool('want-new-cogs', 0).getValue():
@@ -90,14 +101,16 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
             else:
                 head = self.suit.find('**/joint*head')
             self.prop.reparentTo(head)
-        return
 
     def detachPropeller(self):
+        """
+        remove the propeller from a suit if it has one, this
+        is used after a suit is done with its flying anim
+        """
         if self.prop:
             self.prop.cleanup()
             self.prop.removeNode()
             self.prop = None
-        return
 
     def _getAnimationIval(self, animName, startFrame = 0, endFrame = None, duration = 1):
         if endFrame == None:
@@ -357,7 +370,6 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
             return True
         else:
             return False
-        return
 
     def setTarget(self, toon, elapsedTime = 0.0):
         self.notify.debug('Setting eagle %i to target: %s, elapsed time: %s' % (self.index, toon.getName(), elapsedTime))
@@ -373,7 +385,6 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
         self.target = None
         if self._state in ['LockOnToon']:
             self.request('next', elapsedTime)
-        return
 
     def leaveCooldown(self, elapsedTime = 0.0):
         if self._state in ['Cooldown']:
@@ -421,7 +432,6 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
         if self.collNode != None:
             del self.collNode
             self.collNode = None
-        return
 
     def destroy(self):
         self.request('Off')
@@ -463,7 +473,6 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
         del self.hoverOverNestSeq
         del self.preAttackLerpXY
         del self.preAttackLerpZ
-        return
 
     def requestNext(self):
         self.request('next')
@@ -473,14 +482,12 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
             radius = Globals.LegalEagle.OnNestDamageSphereRadius
             self.collSphere.setCenter(Point3(0.0, -Globals.Level.LaffPowerupNestOffset[1], self.suit.getHeight() / 2.0))
             self.collSphere.setRadius(radius)
-        return
 
     def setCollSphereToTargeting(self):
         if hasattr(self, 'collSphere') and self.collSphere is not None:
             radius = Globals.LegalEagle.DamageSphereRadius
             self.collSphere.setCenter(Point3(0, 0, radius * 2))
             self.collSphere.setRadius(radius)
-        return
 
     def enterRoost(self):
         self.notify.info("enter%s: '%s' -> '%s'" % (self.newState, self.oldState, self.newState))
@@ -646,7 +653,6 @@ class CogdoFlyingLegalEagle(FSM, DirectObject):
             messenger.send(CogdoFlyingLegalEagle.CooldownEventName, [self.target.doId])
         self.suit.stash()
         self.notify.info("enter%s: '%s' -> '%s'" % (self.newState, self.oldState, self.newState))
-        return
 
     def filterCooldown(self, request, args):
         self.notify.debug("filter%s( '%s', '%s' )" % (self._state, request, args))

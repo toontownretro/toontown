@@ -7,38 +7,63 @@ from toontown.cogdominium.DistCogdoCraneObject import DistCogdoCraneObject
 from toontown.cogdominium import CogdoCraneGameConsts as GameConsts
 
 class DistCogdoCraneMoneyBag(DistCogdoCraneObject):
+
+    """ This is a safe sitting around in the Cashbot CFO final battle
+    room.  It's used as a prop for toons to pick up and throw at the
+    CFO's head.  Also, the special safe with self.index == 0
+    represents the safe that the CFO uses to put on his own head as a
+    safety helmet from time to time. """
+
     notify = DirectNotifyGlobal.directNotify.newCategory('DistCogdoCraneMoneyBag')
+    
     grabPos = (0, 0, GameConsts.Settings.MoneyBagGrabHeight.get())
+
+    # What happens to the crane and its cable when this object is picked up?
     craneFrictionCoef = 0.2
     craneSlideSpeed = 11
     craneRotateSpeed = 16
+
+    # A safe remains under physical control of whichever client
+    # last dropped it, even after it stops moving.  This allows
+    # goons to push safes out of the way.
     wantsWatchDrift = 0
 
     def __init__(self, cr):
         DistCogdoCraneObject.__init__(self, cr)
         NodePath.__init__(self, 'object')
         self.index = None
+        
         self.flyToMagnetSfx = loader.loadSfx('phase_5/audio/sfx/TL_rake_throw_only.mp3')
         self.hitMagnetSfx = loader.loadSfx('phase_5/audio/sfx/AA_drop_safe.mp3')
-        self.toMagnetSoundInterval = Parallel(SoundInterval(self.flyToMagnetSfx, duration=ToontownGlobals.CashbotBossToMagnetTime, node=self), Sequence(Wait(ToontownGlobals.CashbotBossToMagnetTime - 0.02), SoundInterval(self.hitMagnetSfx, duration=1.0, node=self)))
+        # We want these sfx's to overlap just a smidge for effect.
+        self.toMagnetSoundInterval = Parallel(
+            SoundInterval(self.flyToMagnetSfx, duration = ToontownGlobals.CashbotBossToMagnetTime, node = self),
+            Sequence(Wait(ToontownGlobals.CashbotBossToMagnetTime - 0.02),
+                     SoundInterval(self.hitMagnetSfx, duration = 1.0, node = self)))
         self.hitFloorSfx = loader.loadSfx('phase_5/audio/sfx/AA_drop_bigweight_miss.mp3')
-        self.hitFloorSoundInterval = SoundInterval(self.hitFloorSfx, node=self)
-        return
+        self.hitFloorSoundInterval = SoundInterval(
+            self.hitFloorSfx, node = self)
 
     def announceGenerate(self):
         DistCogdoCraneObject.announceGenerate(self)
         self.name = 'moneyBag-%s' % self.doId
         self.setName(self.name)
+        
         self.craneGame.moneyBag.copyTo(self)
         self.shadow = NodePath('notAShadow')
+        
         self.collisionNode.setName('moneyBag')
         cs = CollisionSphere(0, 0, 4, 4)
         self.collisionNode.addSolid(cs)
+        
+        assert(self.index not in self.craneGame.moneyBags)
         self.craneGame.moneyBags[self.index] = self
+        
         self.setupPhysics('moneyBag')
         self.resetToInitialPosition()
 
     def disable(self):
+        assert(self.craneGame.moneyBags.get(self.index) == self)
         del self.craneGame.moneyBags[self.index]
         DistCogdoCraneObject.disable(self)
 
@@ -49,6 +74,9 @@ class DistCogdoCraneMoneyBag(DistCogdoCraneObject):
         self.shadow.show()
 
     def getMinImpact(self):
+        # This method returns the minimum impact, in feet per second,
+        # with which the object should hit the boss before we bother
+        # to tell the server.
         if self.craneGame.heldObject:
             return ToontownGlobals.CashbotBossSafeKnockImpact
         else:
@@ -60,8 +88,13 @@ class DistCogdoCraneMoneyBag(DistCogdoCraneObject):
         self.physicsObject.setVelocity(0, 0, 0)
 
     def fellOut(self):
+        # The safe fell out of the world.  Reset it back to its
+        # original position.
+        
         self.deactivatePhysics()
         self.d_requestInitial()
+
+    ##### Messages To/From The Server #####
 
     def setIndex(self, index):
         self.index = index
@@ -74,6 +107,8 @@ class DistCogdoCraneMoneyBag(DistCogdoCraneObject):
 
     def d_requestInitial(self):
         self.sendUpdate('requestInitial')
+
+    ### FSM States ###
 
     def enterInitial(self):
         self.resetToInitialPosition()

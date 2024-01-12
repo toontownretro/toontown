@@ -200,7 +200,6 @@ class CogdoFlyingLevelFactory:
         self.quadVisibiltyBehind = quadVisibiltyBehind
         self._rng = rng or RandomNumGen(1)
         self._level = None
-        return
 
     def loadAndBuildLevel(self, safezoneId):
         levelNode = NodePath('level')

@@ -56,6 +56,7 @@ class CogdoMazeSuit(MazeSuit, FSM, CogdoMazeSplattable):
         MazeSuit.destroy(self)
 
     def handleEnterSphere(self, collEntry):
+        """ suit collided with localToon """
         messenger.send(self.COLLISION_EVENT_NAME, [self.type, self.serialNum])
 
     def gameStart(self, gameStartTime):
@@ -102,9 +103,8 @@ class CogdoMazeSuit(MazeSuit, FSM, CogdoMazeSplattable):
         messenger.send(self.DeathEventName, [self.type, self.serialNum])
 
     def doDeathTrack(self):
-
         def removeDeathSuit(suit, deathSuit):
-            if not deathSuit.isEmpty():
+            if (not deathSuit.isEmpty()):
                 deathSuit.detachNode()
                 suit.cleanupLoseActor()
 
@@ -113,12 +113,16 @@ class CogdoMazeSuit(MazeSuit, FSM, CogdoMazeSplattable):
         self.deathSuit.setPos(render, self.suit.getPos(render))
         self.deathSuit.setHpr(render, self.suit.getHpr(render))
         self.suit.hide()
+        # We don't need a collision for the suit, so we reparent it to the deathSuit
         self.collNodePath.reparentTo(self.deathSuit)
-        gearPoint = Point3(0, 0, self.suit.height / 2.0 + 2.0)
+        
+        gearPoint = Point3(0, 0, self.suit.height / 2. + 2.)
+        
         smallGears = BattleParticles.createParticleEffect(file='gearExplosionSmall')
-        singleGear = BattleParticles.createParticleEffect('GearExplosion', numParticles=1)
-        smallGearExplosion = BattleParticles.createParticleEffect('GearExplosion', numParticles=10)
-        bigGearExplosion = BattleParticles.createParticleEffect('BigGearExplosion', numParticles=30)
+        singleGear = BattleParticles.createParticleEffect('GearExplosion', numParticles = 1)
+        smallGearExplosion = BattleParticles.createParticleEffect('GearExplosion', numParticles = 10)
+        bigGearExplosion = BattleParticles.createParticleEffect('BigGearExplosion', numParticles = 30)
+
         smallGears.setPos(gearPoint)
         singleGear.setPos(gearPoint)
         smallGearExplosion.setPos(gearPoint)
@@ -127,28 +131,59 @@ class CogdoMazeSuit(MazeSuit, FSM, CogdoMazeSplattable):
         singleGear.setDepthWrite(False)
         smallGearExplosion.setDepthWrite(False)
         bigGearExplosion.setDepthWrite(False)
-        suitTrack = Sequence(Func(self.collNodePath.stash), ActorInterval(self.deathSuit, 'lose', startFrame=80, endFrame=140), Func(removeDeathSuit, self.suit, self.deathSuit, name='remove-death-suit'))
-        explosionTrack = Sequence(Wait(1.5), MovieUtil.createKapowExplosionTrack(self.deathSuit, explosionPoint=gearPoint))
-        gears1Track = Sequence(ParticleInterval(smallGears, self.deathSuit, worldRelative=0, duration=4.3, cleanup=True), name='gears1Track')
-        gears2MTrack = Track((0.0, explosionTrack), (0.7, ParticleInterval(singleGear, self.deathSuit, worldRelative=0, duration=5.7, cleanup=True)), (5.2, ParticleInterval(smallGearExplosion, self.deathSuit, worldRelative=0, duration=1.2, cleanup=True)), (5.4, ParticleInterval(bigGearExplosion, self.deathSuit, worldRelative=0, duration=1.0, cleanup=True)), name='gears2MTrack')
+        
+        suitTrack = Sequence(
+            Func(self.collNodePath.stash),
+            ActorInterval(self.deathSuit, 'lose', startFrame = 80, endFrame = 140),
+            Func(removeDeathSuit, self.suit, self.deathSuit, name = 'remove-death-suit')
+        )
+        
+        explosionTrack = Sequence(
+            Wait(1.5),
+            MovieUtil.createKapowExplosionTrack(self.deathSuit, explosionPoint=gearPoint)
+        )
+        
+        gears1Track = Sequence(
+            ParticleInterval(smallGears, self.deathSuit, worldRelative = 0, duration = 4.3, cleanup = True),
+            name='gears1Track'
+        )
+        
+        gears2MTrack = Track(
+            (0.0, explosionTrack),
+            (0.7, ParticleInterval(singleGear, self.deathSuit, worldRelative = 0, duration = 5.7, cleanup = True)),
+            (5.2, ParticleInterval(smallGearExplosion, self.deathSuit, worldRelative = 0, duration = 1.2, cleanup = True)),
+            (5.4, ParticleInterval(bigGearExplosion, self.deathSuit, worldRelative = 0, duration = 1.0, cleanup = True)),
+            name='gears2MTrack'
+        )
 
         def removeParticle(particle):
+            # Adding a wrapper because I think a particle is trying to get cleaned up twice
             if particle and hasattr(particle, 'renderParent'):
                 particle.cleanup()
                 del particle
 
-        removeParticles = Sequence(Func(removeParticle, smallGears), Func(removeParticle, singleGear), Func(removeParticle, smallGearExplosion), Func(removeParticle, bigGearExplosion))
-        self.deathTrack = Sequence(Parallel(suitTrack, gears2MTrack, gears1Track, self._deathSoundIval), removeParticles)
-        self.deathTrack.start()
+        removeParticles = Sequence(Func(removeParticle, smallGears),
+                                   Func(removeParticle, singleGear),
+                                   Func(removeParticle, smallGearExplosion),
+                                   Func(removeParticle, bigGearExplosion))
 
+        # Spawning the treasure after 1.5 seconds was breaking with multiple clients
+        # and heavy lag. So we are generating the treasure as soon as the cog starts
+        # exploding and we do visual tricks to show it after 2.4 seconds.
+        self.deathTrack = Sequence(Parallel(suitTrack, gears2MTrack, gears1Track, self._deathSoundIval),
+                                   removeParticles)
+        self.deathTrack.start()
 
 class CogdoMazeSlowMinionSuit(CogdoMazeSuit):
 
     def __init__(self, serialNum, maze, randomNumGen, difficulty, startTile = None):
         CogdoMazeSuit.__init__(self, serialNum, maze, randomNumGen, difficulty, startTile, Globals.SuitTypes.SlowMinion)
-        self.defaultTransitions = {'Off': ['Normal'],
-         'Normal': ['Attack', 'Off'],
-         'Attack': ['Normal']}
+        
+        self.defaultTransitions = {
+            "Off" : ["Normal"],
+            "Normal" : ["Attack", "Off"],
+            "Attack" : ["Normal"],
+            }
 
     def gameStart(self, gameStartTime):
         CogdoMazeSuit.gameStart(self, gameStartTime)
@@ -161,7 +196,7 @@ class CogdoMazeSlowMinionSuit(CogdoMazeSuit):
         pass
 
     def enterAttack(self, elapsedTime):
-        self._attackIval = self._getSuitAnimationIval('finger-wag', duration=2.0, nextState='Normal')
+        self._attackIval = self._getSuitAnimationIval('finger-wag', duration = 2.0, nextState = 'Normal')
         self._attackIval.start(elapsedTime)
 
     def filterAttack(self, request, args):

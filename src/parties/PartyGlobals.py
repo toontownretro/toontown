@@ -324,7 +324,7 @@ VictoryPartyReplacementDecorationIds = frozenset([
     DecorationIds.BannerJellyBean, # replaced by BannerVictory
 ])
 
-# Decorations that should NOT be available during valentines parties.
+# Decorations that should be available only during valentines parties.
 ValentinePartyDecorationIds = frozenset([
     DecorationIds.BalloonAnvilValentine,
     DecorationIds.HeartBanner,
@@ -332,6 +332,7 @@ ValentinePartyDecorationIds = frozenset([
     DecorationIds.FlyingHeart,
 ])
 
+# Decorations that should NOT be available during valentines parties.
 ValentinePartyReplacementDecorationIds = frozenset([
     DecorationIds.BalloonAnvil, # replaced by BalloonAnvilValentine
     DecorationIds.BannerJellyBean, # replaced by HeartBanner

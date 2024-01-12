@@ -92,6 +92,13 @@ class AvatarChooser(StateData.StateData):
         if base.cr.loginInterface.supportsRelogin():
             self.logoutButton.show()
 
+
+        # We need to put *something* in the 3-d scene graph to keep
+        # the Voodoo drivers from crashing.  We'll use the background
+        # panel, cleverly parenting it to the camera (instead of
+        # aspect2d) at a suitable distance.
+        #self.pickAToonBG.reparentTo(base.camera)
+
         choice = ConfigVariableInt("auto-avatar-choice", -1).getValue()
 
         # hang the choice panel hooks
@@ -120,7 +127,8 @@ class AvatarChooser(StateData.StateData):
         self.quitButton.hide()
         self.logoutButton.hide()
 
-        self.pickAToonBG.reparentTo(hidden)
+        #self.pickAToonBG.reparentTo(hidden)
+        return None
 
     def load(self, isPaid):
         assert(chooser_notify.debug("load()"))
@@ -375,6 +383,7 @@ class AvatarChooser(StateData.StateData):
 
         ModelPool.garbageCollect()
         TexturePool.garbageCollect()
+        return None
 
     def __handlePanelDone(self, panelDoneStatus, panelChoice=0):
         """

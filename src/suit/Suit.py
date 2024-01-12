@@ -568,8 +568,10 @@ def loadSuitModelsAndAnims(level, flag = 0):
 def cogExists(filePrefix):
     searchPath = DSearchPath()
     if AppRunnerGlobal.appRunner:
+        # In the web-publish runtime, it will always be here:
         searchPath.appendDirectory(Filename.expandFrom('$TT_3_5_ROOT/phase_3.5'))
     else:
+        # In other environments, including the dev environment, look here:
         basePath = os.path.expandvars("$TTMODELS") or "./ttmodels"
         searchPath.appendDirectory(Filename.fromOsSpecific(basePath + "/built/phase_3.5"))
     filePrefix = filePrefix.strip("/")
@@ -950,10 +952,12 @@ class Suit(Avatar.Avatar):
         elif dept == 's':
             texType = 'sellbot'
 
+        # set the clothes textures for the suit dept
         filepath = "phase_3.5/maps/tt_t_ene_" + texType + '.txo'
         if cogExists("/maps/tt_t_ene_" + texType + '.txo'):
             bodyTex = loader.loadTexture(filepath)
             modelRoot.find("**/body").setTexture(bodyTex, 1)
+        # find the useful nulls
         if not self.find("**/def_joint_left_hold").isEmpty():
             self.leftHand = self.find("**/def_joint_left_hold")
             self.rightHand = self.find("**/def_joint_right_hold")

@@ -510,7 +510,7 @@ class PhysicsWorldBase:
             #motor.setParamVel(0)
             motor.setParamFMax(50000.0)
             boxsize = Vec3(1.0, 1.0, 1.0)
-            motor.attachBody(0, cross)
+            motor.attachBody((0, cross))
             motor.setAnchor(self.subPlacerNode.getPos(self.root))
             motor.setAxis(ourAxis)
             self.cross = cross

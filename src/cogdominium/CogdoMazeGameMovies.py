@@ -49,8 +49,7 @@ class CogdoMazeGameIntro(CogdoGameMovie):
         suit.reparentTo(self.toonHead)
         for part in suit.getHeadParts():
             part.hide()
-
-        #suit.loop('neutral')
+        suit.loop('neutral')
 
     def load(self):
         CogdoGameMovie.load(self)
@@ -214,8 +213,6 @@ class CogdoMazeGameIntro(CogdoGameMovie):
         self.cogHead.removeNode()
         self.cogHead.delete()
         del self.cogHead
-        return
-
 
 class CogdoMazeGameFinish(CogdoGameMovie):
 
