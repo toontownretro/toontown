@@ -218,7 +218,7 @@ class PetshopGUI(DirectObject):
             # checks to make sure all the names consist of valid characters
             if __dev__:
                 for name in self.allNames:
-                    if not name.replace(" ", "").isalpha():
+                    if not name.replace(b" ", b"").isalpha():
                         #this is a bad string
                         self.notify.warning("Bad name:%s" % name)
 

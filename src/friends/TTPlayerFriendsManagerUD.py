@@ -4,7 +4,7 @@ from direct.directnotify.DirectNotifyGlobal import directNotify
 
 from otp.friends.PlayerFriendsManagerUD import PlayerFriendsManagerUD
 
-from otp.otpbase import OTPLocalizerEnglish as localizer
+from otp.otpbase import OTPLocalizer as localizer
 
 if __debug__:
     notify = directNotify.newCategory('PlayerFriendsManagerUD')

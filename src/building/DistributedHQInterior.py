@@ -289,5 +289,5 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
 from toontown.makeatoon import NameGenerator
 ng = NameGenerator.NameGenerator()
 data = [[0,1,2,3,4,5,6,7,8,9],[ng.randomName(), ng.randomName(), ng.randomName(), ng.randomName(), ng.randomName(), ng.randomName(), ng.randomName(), ng.randomName(), ng.randomName(), ng.randomName()], [35,26,18,15,14,10,6,4,3,2]]
-hq.setLeaderBoard(cPickle.dumps(data))
+hq.setLeaderBoard(pickle.dumps(data))
 """

@@ -137,7 +137,7 @@ class CogdoFlyingLevelQuadrant:
                 gatherable.removeNode()
 
         def generatePowerUps():
-            for powerupType, locName in Globals.Level.PowerupType2Loc.items():
+            for powerupType, locName in list(Globals.Level.PowerupType2Loc.items()):
                 if powerupType == Globals.Level.GatherableTypes.LaffPowerup and Globals.Level.IgnoreLaffPowerups:
                     continue
                 gatherables = gatherableModel.findAllMatches('**/%s' % locName)

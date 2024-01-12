@@ -114,7 +114,7 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit,
         if num > self.maxSkeleRevives:
             self.maxSkeleRevives = num
         if self.getSkeleRevives() > 0:
-            nameInfo = TTLocalizer.SuitBaseNameWithLevel % {"name": self.name  ,
+            nameInfo = TTLocalizer.SuitBaseNameWithLevel % {"name": self._name  ,
                                                             "dept":  self.getStyleDept(),
                                                             "level": ("%s%s" % (self.getActualLevel(), TTLocalizer.SkeleRevivePostFix)),}
             self.setDisplayName( nameInfo )

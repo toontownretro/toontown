@@ -19,7 +19,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
     TaskName = 'HtmlViewUpdateTask'
     TaskChainName = "RedownladTaskChain"
     RedownloadTaskName = "RedownloadNewsTask"
-    NewsBaseDir = ConfigVariableString("news-base-dir", "phase_3.5/models/news").getValue() #ConfigVariableString("news-base-dir", "/httpNews").getValue()
+    NewsBaseDir = ConfigVariableString("news-base-dir", "/httpNews").getValue()
     NewsStageDir = ConfigVariableString("news-stage-dir", "news").getValue()
     # taken from In Game NewsFrame
     FrameDimensions = (-1.30666637421, 1.30666637421, -0.751666665077, 0.751666665077)
@@ -122,8 +122,8 @@ class DirectNewsFrame(DirectObject.DirectObject):
                 self.notify.debug("hom1. not in baseName")
 
         if not homeFileNames:
-            #self.notify.error("couldnt find hom1. in %s" % fileNames)
-            self.notify.warning("couldnt find hom1. in %s" % fileNames)
+            #self.notify.error("couldnt find hom1. in %s" % str(fileNames))
+            self.notify.warning("couldnt find hom1. in %s" % str(fileNames))
             self.setErrorMessage(TTLocalizer.NewsPageNoIssues)
             return []
 
@@ -258,7 +258,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
         pass
 
     def doSnapshot(self):
-        "Save the current browser contents to a png file."""
+        """Save the current browser contents to a png file."""
         pass
 
     def changeWeek(self, issueIndex):

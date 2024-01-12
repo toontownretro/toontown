@@ -1317,7 +1317,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
             #self.gotArticles = True
         urlStrings = urlfile.read()
         urlfile.close()
-        urls = urlStrings.split("\r\n")
+        urls = urlStrings.decode('utf-8').split("\r\n")
 
         for index in range(len(urls)/2):
             imageUrl = urls[(index*2)]
@@ -1433,7 +1433,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         textN = playaLabel.component( playaLabel.components()[0] )
         if( type(textN) == OnscreenText):
             wrappedText = textN.textNode.getWordwrappedText()
-        items = wrappedText.split("\n")
+        items = wrappedText.decode('utf-8').split("\n")
         self.articleTextList.removeAndDestroyAllItems()
         for item in items:
             self.articleTextList.addItem(item)
@@ -1541,9 +1541,9 @@ class EventsPage(ShtikerPage.ShtikerPage):
         if url == self.getNewsUrl():
             if allOk:
                 if type(data) == Ramfile:
-                    self.urls = data.getData().split("\r\n")
+                    self.urls = data.getData().decode('utf-8').split("\r\n")
                 else:
-                    self.urls = data.split("\r\n")
+                    self.urls = data.decode('utf-8').split("\r\n")
             else:
                 self.notify.warning("Could not open %s" % url)
                 self.newsStatusLabel["text"] = TTLocalizer.EventsPageNewsUnavailable
