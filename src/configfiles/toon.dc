@@ -2920,6 +2920,9 @@ dclass DistributedBossElevator: DistributedElevatorExt {
   setBossOfficeZoneForce(uint32 zoneId);
 };
 
+dclass DistributedVPElevator : DistributedBossElevator {
+};
+
 dclass DistributedCFOElevator: DistributedBossElevator {
 };
 
@@ -3099,6 +3102,15 @@ dclass DistributedCloset: DistributedFurnitureItem {
 
   // Server tells all clients how to clothe the current customer
   setCustomerDNA(uint32 avId, blob dna) broadcast ram;
+};
+
+dclass DistributedTrunk: DistributedCloset {
+  setState(uint8, uint32, uint32, string, uint8array, uint8array, uint8array, uint8array) broadcast ram;
+  removeItem(uint8, uint8, uint8, uint8) airecv clsend;
+  setDNA(uint8, uint8, uint8, uint8, uint8, uint8, uint8, uint8, uint8, uint8, uint8, uint8, int8, uint8) airecv clsend;
+
+  // Server tells all clients how to clothe the current customer
+  setCustomerDNA(uint32, uint8, uint8, uint8, uint8, uint8, uint8, uint8, uint8, uint8, uint8, uint8, uint8, uint8) broadcast ram;
 };
 
 dclass DistributedPhone: DistributedFurnitureItem {
