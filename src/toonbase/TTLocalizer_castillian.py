@@ -59,6 +59,7 @@ UnpaidNameTag = "Básica"
 GM_1 = "TOON COUNCIL"
 GM_2 = "TOON TROOP"
 GM_3 = "TOON RESISTANCE"
+GM_4 = "GC"
 
 GM_NAMES = ("TOON COUNCIL",
             "TOON TROOPER",
@@ -3857,7 +3858,7 @@ ElevatorLeaderOff = "Sólo tu líder puede decidir cuándo bajarse."
 ElevatorHoppedOff = "Tienes que esperar al siguiente ascensor."
 ElevatorMinLaff = "Necesitas %s puntos de risa para viajar en este ascensor."
 ElevatorHopOK = "OK"
-ElevatorGroupMember = "Sólo tu líder de grupo puede\n decidir cuando subir."
+ElevatorGroupMember = "Sólo tu líder de grupo puede\ndecidir cuando subir."
 
 # DistributedCogKart.py
 KartMinLaff = "Necesitas %s puntos de risa para subirte a este kart"
@@ -3886,7 +3887,7 @@ FADoorCodes_DEFEAT_FLUNKY_TOM = "¡Acércate al Secuaz para combatir con él!"
 FADoorCodes_TALK_TO_HQ_TOM = "¡Ve y consigue tu recompensa en el cuartel general!"
 FADoorCodes_SUIT_APPROACHING = None # no message, just refuse entry.
 FADoorCodes_BUILDING_TAKEOVER = "¡Cuidado! ¡Hay un bot dentro!"
-FADoorCodes_SB_DISGUISE_INCOMPLETE = "Si vas como dibu te van a pescar. Primero tendrás que armarte un disfraz de bot completo.\n\nHáztelo con piezas de la fábrica."
+FADoorCodes_SB_DISGUISE_INCOMPLETE = "¡Si vas como dibu te van a pescar! ¡Primero tendrás que armarte un disfraz de bot completo!\n\nHáztelo con piezas de la fábrica."
 FADoorCodes_CB_DISGUISE_INCOMPLETE = "¡Si vas como dibu te van a pescar! ¡Primero, necesitas completar tu disfraz de chequebot!\n\nCrea tu disfraz de chequebot haciendo las dibutareas en Sueñolandia de Donald."
 FADoorCodes_LB_DISGUISE_INCOMPLETE = "¡Si vas como dibu te van a pescar! ¡Primero, necesitas completar tu disfraz de abogabot!\n\nCrea tu disfraz de abogabot haciendo las dibutareas después de Sueñolandia de Donald."
 FADoorCodes_BB_DISGUISE_INCOMPLETE = "¡Si vas como dibu te van a pescar! ¡Primero, necesitas completar tu disfraz de jefebot!\n\nCrea tu disfraz de jefebot haciendo las dibutareas después de Sueñolandia de Donald."
@@ -4493,7 +4494,8 @@ MinnieChatter = (
         ],
         [ # Comments
         "¡La música se siente por todas partes!",
-        "No te olvides de montarte en el gran tiovivo.",
+        # the merry no longer goes round
+        #"No te olvides de montarte en el gran tiovivo.",
         "Llevas un disfraz muy lindo, %.",
         "Eh, ¿viste a "+Mickey+"?",
         "Si ves a mi amigo "+Goofy+", dale recuerdos de mi parte.",
@@ -5879,8 +5881,8 @@ BuildingPageTitle = "Edificios\n(próximamente)"
 InventoryPageTitle = "Bromas"
 InventoryPageDeleteTitle = "BORRAR BROMAS"
 InventoryPageTrackFull = "Tienes todas las bromas del circuito %s. "
-InventoryPagePluralPoints = "Conseguirás una \nbroma nueva de %(trackName)s cuando\nconsigas %(numPoints)s puntos más de %(trackName)s."
-InventoryPageSinglePoint = "Conseguirás una \nbroma nueva de %(trackName)s cuando\nconsigas %(numPoints)s punto más de %(trackName)s."
+InventoryPagePluralPoints = "Conseguirás una\nbroma nueva de %(trackName)s cuando\nconsigas %(numPoints)s puntos más de %(trackName)s."
+InventoryPageSinglePoint = "Conseguirás una\nbroma nueva de %(trackName)s cuando\nconsigas %(numPoints)s punto más de %(trackName)s."
 InventoryPageNoAccess = "Todavía no tienes acceso al circuito %s."
 
 # NPCFriendPage.py
@@ -5943,13 +5945,13 @@ EventsPageNewsRightSubtitle = "Established toon-thousand nine"
 NewsPageName = "Noticias"
 NewsPageImportError = 'Whoops! There is an issue loading the "Toon News ... for the Amused!" Please check back later.'
 
-NewsPageDownloadingNewsSubstr = 'Stay Tooned, while we bring you the latest issue of the \n"Toon News ... for the Amused!"'
+NewsPageDownloadingNewsSubstr = 'Stay Tooned, while we bring you the latest issue of the\n"Toon News ... for the Amused!"'
 NewsPageDownloadingNews0 = NewsPageDownloadingNewsSubstr + " %s%% Complete."
 NewsPageDownloadingNews1 = NewsPageDownloadingNewsSubstr + " %s%% Complete.."
 NewsPageDownloadingNews2 = NewsPageDownloadingNewsSubstr + " %s%% Complete..."
 NewsPageErrorDownloadingFile = 'Whoops! Page %s is missing from "Toon News ... for the Amused!" Please check back later.'
-NewsPageErrorDownloadingFileCanStillRead = 'Whoops! Page %s \nis missing from the "Toon News ... for the Amused!" \nTurn the page to continue, while we work to get this page back.'
-NewsPageNoIssues = 'Whoops! The "Toon News ... for the Amused!" has gone missing! \nStay Tooned ... while we work to bring the news back!'
+NewsPageErrorDownloadingFileCanStillRead = 'Whoops! Page %s\nis missing from the "Toon News ... for the Amused!"\nTurn the page to continue, while we work to get this page back.'
+NewsPageNoIssues = 'Whoops! The "Toon News ... for the Amused!" has gone missing!\nStay Tooned ... while we work to bring the news back!'
 
 # DirectNewsFrame.py
 IssueFrameThisWeek = "this week"
@@ -6875,7 +6877,7 @@ InventoryRun = "CORRER"
 InventorySOS = "S.O.S."
 InventoryPass = "PASE"
 InventoryFire = "DISPARO"
-InventoryClickToAttack = "Haz clic en \nuna broma \npara atacar"
+InventoryClickToAttack = "Haz clic en\nuna broma\npara atacar"
 InventoryDamageBonus = "(+%d)"
 
 # NPCForceAcknowledge.py
@@ -7124,7 +7126,7 @@ MintBossConfrontedMsg = "¡%s está luchando contra el supervisor!"
 
 # DistributedStage.py
 StageBossConfrontedMsg = "¡%s está luchando contra el empleado!"
-stageToonEnterElevator = "%s \nentró en el ascensor"
+stageToonEnterElevator = "%s\nentró en el ascensor"
 ForcedLeaveStageAckMsg = "El empleado legal fue derrotado antes de que llegaras a él. No recuperaste ninguna Notificación del tribunal."
 
 
@@ -7199,8 +7201,8 @@ RaceGameForwardThreeSpaces = " adelante 3 espacios"
 RaceGameBackOneSpace    = " atrás 1 espacio"
 RaceGameBackTwoSpaces   = " atrás 2 espacios"
 RaceGameBackThreeSpaces = " atrás 3 espacios"
-RaceGameOthersForwardThree = " todos los demás, adelante \n3 espacios"
-RaceGameOthersBackThree = " todos los demás, atrás \n3 espacios"
+RaceGameOthersForwardThree = " todos los demás, adelante\n3 espacios"
+RaceGameOthersBackThree = " todos los demás, atrás\n3 espacios"
 RaceGameInstantWinner = "¡Ganador instantáneo!"
 RaceGameJellybeans2 = "2 golosinas"
 RaceGameJellybeans4 = "4 golosinas"
@@ -7383,6 +7385,7 @@ WaitingForNameSubmission = "Se está enviando tu nombre..."
 
 # PetshopGUI.py
 PetNameMaster = "PetNameMasterEnglish.txt"
+PetNameIndexMAX = 2713
 PetshopUnknownName = "Nombre: ???"
 PetshopDescGender = "Género:\t%s"
 PetshopDescCost = "Precio:\t%s golosinas"
@@ -7407,13 +7410,13 @@ NameShopPlay = "Prueba gratuita"
 NameShopOnlyPaid = "Solo los usuarios abonados\npueden poner nombre a sus dibus.\nHasta que te suscribas,\ntu nombre será\n"
 NameShopContinueSubmission = "Continuar envío"
 NameShopChooseAnother = "Elegir otro nombre"
-NameShopToonCouncil = "El Consejo Dibu\nrevisará tu\nnombre.  " + \
-                      "La revisión puede\ntardar unos días.\nMientras esperas,\ntu nombre será\n "
+NameShopToonCouncil = "El Consejo Dibu\nrevisará tu\nnombre. " + \
+                      "La revisión puede\ntardar unos días.\nMientras esperas,\ntu nombre será\n"
 PleaseTypeName = "Escribe tu nombre:"
 AllNewNames = "Todos los nombres nuevos\ndeben ser aprobados\npor el Consejo Dibu."
 NameMessages = "Sé creativo y recuerda:\nningún nombre relacionado con Disney."
-NameShopNameRejected = "El nombre que \nenviaste fue \nrechazado."
-NameShopNameAccepted = "¡Felicitaciones!\nEl nombre que \nenviaste fue \naceptado."
+NameShopNameRejected = "El nombre que\nenviaste fue\nrechazado."
+NameShopNameAccepted = "¡Felicitaciones!\nEl nombre que\nenviaste fue\naceptado."
 NoPunctuation = "¡No puedes usar signos de puntuación en tu nombre!"
 PeriodOnlyAfterLetter = "Tu nombre puede incluir un punto, pero solo después de una letra."
 ApostropheOnlyAfterLetter = "Tu nombre puede incluir un apóstrofo, pero solo después de una letra."
@@ -7672,7 +7675,7 @@ ResistanceToonMaxed = "\aVeo que tienes un traje bot de nivel %s. ¡Impresionant
 
 CashbotBossCogAttack = "¡¡¡A ellos!!!"
 ResistanceToonWelcome = "¡Lo lograste! ¡Sígueme hasta la cámara principal antes de que nos encuentre el director financiero!"
-ResistanceToonTooLate = "¡Rayos!¡Es demasiado tarde!"
+ResistanceToonTooLate = "¡Rayos! ¡Es demasiado tarde!"
 CashbotBossDiscoverToons1 = "¡A-JÁ!"
 CashbotBossDiscoverToons2 = "¡Ya me parecía que aquí olía a dibu! ¡Impostores!"
 ResistanceToonKeepHimBusy = "¡Mantenlo ocupado! ¡Voy a preparar una trampa!"
@@ -8917,7 +8920,7 @@ CatalogNotifyOldDelivery = "Todavía tienes pedidos en el buzón esperando a que
 CatalogNotifyInstructions = "Haz clic en el botón \"Ir a casa\" de la página del dibucuaderno donde aparece el plano y vete al teléfono de tu casa."
 CatalogNewDeliveryButton = "¡Nueva\nentrega!"
 CatalogNewCatalogButton = "¡Nuevo\ncatálogo\ntolón-tolón!"
-CatalogSaleItem = "¡Oferta!  "
+CatalogSaleItem = "¡Oferta! "
 
 # don't translate yet
 DistributedMailboxEmpty = "El buzón está vacío. Vuelve después de hacer pedidos por teléfono para recogerlos."
@@ -9062,7 +9065,7 @@ HDHelpDict = {
 
 
 # don't translate yet
-MessagePickerTitle = "Tienes demasiadas frases. Si quieres comprar \n\"%s\"\n debes elegir una y borrarla:"
+MessagePickerTitle = "Tienes demasiadas frases. Si quieres comprar\n\"%s\"\ndebes elegir una y borrarla:"
 MessagePickerCancel = lCancel
 MessageConfirmDelete = "¿Seguro que quieres borrar \"%s\" del menú de Charla rápida?"
 
@@ -10436,7 +10439,7 @@ zone2TitleDict = {
 
 # translate
 # DistributedCloset.py
-ClosetTimeoutMessage = "Lo siento, el tiempo se\n acabó."
+ClosetTimeoutMessage = "Lo siento, el tiempo se\nacabó."
 ClosetNotOwnerMessage = "Este no es tu clóset, pero te puedes probar la ropa."
 ClosetPopupOK = "Muy bien"
 ClosetPopupCancel = lCancel
@@ -11329,7 +11332,7 @@ KartDNA_AccNames = {
     4010: "Faldones a rayas",
     4011: "Faldones Mickey",
     4012: "Faldones festoneados",
-    #rim accessoKartRace_Exit = "Leave Race"ry names
+    #rim accessory names
     5000: "Turbo",
     5001: "Luna",
     5002: "Parches",
@@ -11538,7 +11541,7 @@ LawbotBossTempIntro4 = "Un momento... ¡Son dibus!"
 LawbotBossTempJury1 = "A continuación, se inicia la selección del jurado."
 LawbotBossHowToGetEvidence = "Toca la tribuna de testigos para conseguir pruebas."
 LawbotBossTrialChat1 = "La sesión del juicio comenzó"
-LawbotBossHowToThrowPies = "¡Pulsa la tecla Borrar para lanzar las pruebas\n a los abogados o sobre la balanza!"
+LawbotBossHowToThrowPies = "¡Pulsa la tecla Borrar para lanzar las pruebas\na los abogados o sobre la balanza!"
 LawbotBossNeedMoreEvidence = "¡Necesitas conseguir más pruebas!"
 LawbotBossDefenseWins1 = "¡Imposible! ¿La defensa ganó?"
 LawbotBossDefenseWins2 = "No. ¡Se anula el juicio! Se programará uno nuevo."
@@ -12061,7 +12064,7 @@ GolfAvReceivesHoleBest = "¡%(name)s logró un nuevo récord de hoyo en %(hole)s
 GolfAvReceivesCourseBest = "%(name)s logró un nuevo récord de recorrido en %(course)s!"
 GolfAvReceivesCup = "¡%(name)s recibe la copa %(cup)s! ¡Aumento en el risómetro!"
 GolfAvReceivesTrophy = "¡%(name)s recibe el trofeo %(award)s!"
-GolfRanking = "Ranking: \n"
+GolfRanking = "Ranking:\n"
 GolfPowerBarText = "%(power)s%%"
 GolfChooseTeeInstructions = "Pulsa izquierda o derecha para cambiar el punto de tee.\nPulsa Control para seleccionar."
 GolfWarningMustSwing = "Advertencia: debes pulsar Control en tu próximo swing."
@@ -12159,10 +12162,10 @@ KartingTicketsHolidayStart = "Get double tickets from Practice races at Goofy Sp
 
 IdesOfMarchStart = "Toons go GREEN!"
 
-LogoutForced = "Hiciste algo indebido\n y serás desconectado automáticamente;\n además, es posible que tu cuenta sea congelada.\n Sal a dar un paseo, será divertido."
+LogoutForced = "Hiciste algo indebido\ny serás desconectado automáticamente;\nademás, es posible que tu cuenta sea congelada.\nSal a dar un paseo, será divertido."
 
 # DistributedCountryClub.py
-CountryClubToonEnterElevator = "%s \nsaltó al carrito de golf."
+CountryClubToonEnterElevator = "%s\nsaltó al carrito de golf."
 CountryClubBossConfrontedMsg = "¡%s se está peleando con el presidente del club!"
 
 # DistributedElevatorFSM.py
@@ -12191,8 +12194,8 @@ GolfGreenGameGotHelp = "¡%s resolvió una instancia de ingenio!"
 GolfGreenGameDirections = "Dispara bolas utilizando el mouse\n\n\nAl juntar tres del mismo color, las bolas caerán\n\n\nQuita todas las bolas bot del tablero"
 
 # DistributedMaze.py
-enterHedgeMaze = "¡Compite a través del Laberinto\n para conseguir bonificaciones de risa!"
-toonFinishedHedgeMaze = "¡%s \n  terminó en el %s puesto!"
+enterHedgeMaze = "¡Compite a través del Laberinto\npara conseguir bonificaciones de risa!"
+toonFinishedHedgeMaze = "¡%s\n  terminó en el %s puesto!"
 hedgeMazePlaces = ["primer","segundo","tercer","cuarto"]
 mazeLabel = "¡Laberinto!"
 
@@ -12229,7 +12232,7 @@ BoardingInviteGroupFull = 'Tu grupo de embarque ya está lleno.'
 BoardingAlreadyInGroup = 'No puedes aceptar esta invitación porque formas parte de otro grupo de embarque.'
 BoardingGroupAlreadyFull = 'No puedes aceptar esta invitación porque el grupo ya está lleno.'
 BoardingKickOutConfirm = '¿Seguro que quieres expulsar a %s?'
-BoardingPendingInvite = 'Primero tienes que resolver la\n invitación pendiente.'
+BoardingPendingInvite = 'Primero tienes que resolver la\ninvitación pendiente.'
 BoardingCannotLeaveZone = 'No puedes salir de esta zona porque formas parte de un grupo de embarque.'
 BoardingInviteeMessage = "%s quiere que te unas a su grupo de embarque."
 BoardingInvitingMessage = "Invitando a %s a tu grupo de embarque."
@@ -12587,7 +12590,7 @@ CogdoMazeMinionHint = "Smaller Cogs drop jokes!"
 
 # Cogdo Flying Game
 CogdoFlyingGameTitle = "Legal Eagle Offices"
-CogdoFlyingGameInstructions = "Fly through the Legal Eagles' lair. Watch out for obstacles and cogs along the way, and don't forget to refuel your helicopter!"
+CogdoFlyingGameInstructions = "Fly through the Legal Eagles' lair. Watch out for obstacles and Cogs along the way, and don't forget to refuel your helicopter!"
 CogdoFlyingIntroMovieDialogue = (("You won't ruffle our feathers, Toons! We're destroying barrels of your Laff, and you cannot stop us!",
                                   "A flock of Toons! We're crushing barrels of your Laff in our %s, and there's nothing you can do about it!" % CogdoStomperName,
                                   "You can't egg us on, Toons! We're powering our offices with your Laff, and you're powerless to stop us!"),

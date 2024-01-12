@@ -60,6 +60,7 @@ UnpaidNameTag = "Basic"
 GM_1 = "CONSEIL DES TOONS"
 GM_2 = "TOON TROOP"
 GM_3 = "RÉSISTANCE DES TOONS"
+GM_4 = "GC"
 
 GM_NAMES = ("CONSEIL DES TOONS",
             "TOON TROOPER",
@@ -5908,7 +5909,7 @@ DownloadForceAcknowledgeMsg = "Désolé, tu ne peux pas avancer parce que le té
 # TeaserPanel.py
 TeaserTop = "" # "Désolé ! Tu n'as pas accès à ceci pendant l'essai gratuit."
 TeaserBottom = "" # "Inscris-toi maintenant et profite de ces super fonctionnalités :"
-TeaserDefault = "\nYou need to become a Member.\n\nJoin us!"
+TeaserDefault = "\nYou need to become a Member.\n\nJoindre à nous !"
 TeaserOtherHoods = "Visite les 6 quartiers exceptionnels !"
 TeaserTypeAName = "Inscris le nom que tu préfères pour ton Toon !"
 TeaserSixToons = "Crée jusqu'à 6 Toons par compte !"
@@ -5923,10 +5924,10 @@ TeaserSubscribe = "S'inscrire"
 TeaserContinue = "Continuer l'essai"
 TeaserEmotions = "Achète des émotions pour rendre ton\nToon plus expressif !"
 TeaserKarting = "Fais la course contre d'autres Toons dans de super karts !"
-TeaserKartingAccessories = " Personnaliseton kart avec des accessoiressuper cool."
+TeaserKartingAccessories = "Personnaliseton kart avec des accessoiressuper cool."
 TeaserGardening = "Plante des fleurs, des statues et des arbres à gags pour embellir\nta propriété."
-TeaserHaveFun = "Have more fun!"
-TeaserJoinUs = "Join us!"
+TeaserHaveFun = "Amuse-toi plus !"
+TeaserJoinUs = "Joindre à nous !"
 
 TeaserPlantGags = "To plant these gags"
 TeaserPickGags = "To pick these gags"
@@ -11512,7 +11513,7 @@ KartDNA_AccNames = {
     4010: "Bavettes rayées",
     4011: "Bavettes Mickey",
     4012: "Bavettes dentelées",
-    #rim accessoKartRace_Exit = "Leave Race"ry names
+    #rim accessory names
     5000: "Turbo",
     5001: "Lune",
     5002: "Roue avec rustine",
@@ -11945,7 +11946,7 @@ BeanColorWords = ('rouge', 'vert', 'orange','violet','bleu','rose','jaune',
                   'bleu de cyan','argenté')
 PlantItWith = " Plante avec %s."
 MakeSureWatered = " Prends d'abord soin d`arroser toutes tes plantes."
-UseFromSpecialsTab = "Utilise les onglets spéciaux de ta page de jardinage."
+UseFromSpecialsTab = " Utilise les onglets spéciaux de ta page de jardinage."
 UseSpecial = "Utilise l'outil spécial"
 UseSpecialBadLocation = 'Tu ne peux utiliser cela que dans ton jardin.'
 UseSpecialSuccess = 'Bravo ! Les plantes que tu as arrosées viennent de pousser.'

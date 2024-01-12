@@ -60,6 +60,7 @@ UnpaidNameTag = "シャドー"
 GM_1 = "TOON COUNCIL"
 GM_2 = "TOON TROOP"
 GM_3 = "TOON RESISTANCE"
+GM_4 = "GC"
 
 GM_NAMES = ("TOON COUNCIL",
             "TOON TROOPER",
@@ -2521,22 +2522,54 @@ PetMoodAdjectives = {
 
 SpokenMoods = {
     'neutral': 'ふつう',
-    'hunger': 'ジェリービーンはあきちゃったかも。パイは食べちゃだめ？',
-    'boredom': 'ペットはなんにもわかってないと思ってるでしょ？',
-    'excitement': 'トゥーンタスティック！',
-    'sadness': 'なにかイイ事ないかなぁ…',
-    'restlessness': 'なんだか落ち着かないよ',
-    'playfulness': '遊んでくれないと花だんをほっちゃうゾ！',
-    'loneliness': 'いっしょにコグを倒しに行こうよ～',
-    'fatigue': 'トリックの練習は大変なんだよ。きゅうけいさせて！',
-    'confusion': 'ん？あなたダレ？ここはドコ？？？',
-    'anger': 'いつも私をおいて遊びに行っちゃうでしょ！',
-    'surprise': 'ワオッ！いつ帰ってきたの？！',
-    'affection': 'いっしょにいられてうれしいよ！',
+    'hunger': ["ジェリービーンはあきちゃったかも。パイは食べちゃだめ？",
+                "How 'bout a Red Jellybean? I'm tired of the Green ones!",
+                "Oh, those Jellybeans were for planting?!! But I'm hungry!",
+                ],
+    'boredom': ["I'm dying of boredom over here!",
+                "ペットはなんにもわかってないと思ってるでしょ？",
+                "Could we, like, DO something already?",
+                ],
+    'excitement': [#"トゥーンタスティック！",
+                   "mmm, jellybeans, mmm!",
+                   "Does it GET any better than this?",
+                   "Happy April Toons' Week!",
+                   ],
+    'sadness': ["Don't go, Don't go, Don't go, Don't go, Don't go, Don't go, Don't go, Don't go, Don't go, Don't go, Don't go...",
+                "なにかイイ事ないかなぁ…",
+                "I don't know WHY I'm sad, I just am!!!",
+                ],
+    'restlessness': ["なんだか落ち着かないよ",],
+    'playfulness': ["Let's play, Let's play, Let's play, Let's play, Let's play, Let's play, Let's play, Let's play, Let's play...",
+                    "遊んでくれないと花だんをほっちゃうゾ！",
+                    "Lets run around and  around and around and around and around and around...",
+                    ],
+    'loneliness': ["Where have you been?",
+                   "Wanna cuddle?",
+                   "いっしょにコグを倒しに行こうよ～",
+                   ],
+    'fatigue': ["That swim in the pond really tired me out!",
+                "トリックの練習は大変なんだよ。きゅうけいさせて！",
+                "I gotta get to Dreamland!",
+                ],
+    'confusion': ["ん？あなたダレ？ここはドコ？？？",
+                  "What's a Toon-Up again?",
+                  "Whoa, I'm standing between you and the Cogs! Run away!",
+                  ],
+    'anger': ["... and you wonder why I never give you a Toon-Up?!!!",
+              "いつも私をおいて遊びに行っちゃうでしょ！",
+              "You love your gags more than you love me!"
+              ],
+    'surprise': ["Of course Doodles can talk!",
+                 "Toons can talk?!!",
+                 "ワオッ！いつ帰ってきたの？！",
+                 ],
+    'affection': ["You're the best Toon EVER!!!!!!!!!!",
+                  "Do you even KNOW how great you are?!?",
+                  "いっしょにいられてうれしいよ！",
     }
 
 # DistributedAvatar.py
-DialogExclamation = "！"
 DialogQuestion = '？'
 
 # LocalAvatar.py
@@ -6085,13 +6118,13 @@ EventsPageNewsRightSubtitle = "トゥーン暦 2009年　創刊"
 NewsPageName = "ニュース"
 NewsPageImportError = 'Whoops! There is an issue loading the "Toon News ... for the Amused!" Please check back later.'
 
-NewsPageDownloadingNewsSubstr = 'Stay Tooned, while we bring you the latest issue of the \n"Toon News ... for the Amused!"'
+NewsPageDownloadingNewsSubstr = 'Stay Tooned, while we bring you the latest issue of the\n"Toon News ... for the Amused!"'
 NewsPageDownloadingNews0 = NewsPageDownloadingNewsSubstr + " %s%% Complete."
 NewsPageDownloadingNews1 = NewsPageDownloadingNewsSubstr + " %s%% Complete.."
 NewsPageDownloadingNews2 = NewsPageDownloadingNewsSubstr + " %s%% Complete..."
 NewsPageErrorDownloadingFile = 'Whoops! Page %s is missing from "Toon News ... for the Amused!" Please check back later.'
-NewsPageErrorDownloadingFileCanStillRead = 'Whoops! Page %s \nis missing from the "Toon News ... for the Amused!" \nTurn the page to continue, while we work to get this page back.'
-NewsPageNoIssues = 'Whoops! The "Toon News ... for the Amused!" has gone missing! \nStay Tooned ... while we work to bring the news back!'
+NewsPageErrorDownloadingFileCanStillRead = 'Whoops! Page %s\nis missing from the "Toon News ... for the Amused!"\nTurn the page to continue, while we work to get this page back.'
+NewsPageNoIssues = 'Whoops! The "Toon News ... for the Amused!" has gone missing!\nStay Tooned ... while we work to bring the news back!'
 
 # DirectNewsFrame.py
 IssueFrameThisWeek = "this week"
@@ -6168,8 +6201,8 @@ PartyPlannerInvitationThemeWhatSentenceNoFriends = "%sパーティーを開く�
 PartyPlannerInvitationThemeWhatActivitiesBeginning = "アクティビティ　"
 PartyPlannerInvitationWhoseSentence = "%sのパーティー"
 PartyPlannerInvitationTheme = "テーマ"
-PartyPlannerInvitationWhenSentence = "%s、\n トゥーンタウン時間の%sからスタート！\n来てくれたらうれしいな♪"
-PartyPlannerInvitationWhenSentenceNoFriends = "%s、\n トゥーンタウン時間の%sからスタート！\nみんなで楽しもう♪"
+PartyPlannerInvitationWhenSentence = "%s、\nトゥーンタウン時間の%sからスタート！\n来てくれたらうれしいな♪"
+PartyPlannerInvitationWhenSentenceNoFriends = "%s、\nトゥーンタウン時間の%sからスタート！\nみんなで楽しもう♪"
 PartyPlannerComingSoon = "近日公開"
 PartyPlannerCantBuy= "買えないよ"
 PartyPlannerGenericName = "パーティープランナー"
@@ -6612,7 +6645,7 @@ PartyTrampolineTopHeightResults = "キミのベスト・ジャンプ： %dメー
 PartyTrampolineTimesUp = "ゲーム終了！"
 PartyTrampolineReady = "ようい..."
 PartyTrampolineGo = "スタート！"
-PartyTrampolineBestHeight = "今までのベスト・ジャンプ： \n%s\n%dメートル"
+PartyTrampolineBestHeight = "今までのベスト・ジャンプ：\n%s\n%dメートル"
 PartyTrampolineNoHeightYet = "どこまで高く\nとべるかな？"
 PartyTrampolineGetHeight = "%dメートル"
 
@@ -6773,7 +6806,7 @@ CdrResultServiceUnavailable = "We're sorry. This feature is temporarily unavaila
 TrackPageTitle = "ギャグ・トラック・トレーニング"
 TrackPageShortTitle = "ギャグ\nトレーニング"
 TrackPageSubtitle = "トゥーンタスクをこなして、新しい種類のギャグをおぼえよう！"
-TrackPageTraining = "%s ギャグを使用するトレーニングをしています。\n１６コマ分のタスクをすべて終了すると、\n バトルで%sギャグを使えるようになります。"
+TrackPageTraining = "%s ギャグを使用するトレーニングをしています。\n１６コマ分のタスクをすべて終了すると、\nバトルで%sギャグを使えるようになります。"
 TrackPageClear = "現在、どのトラックのトレーニングも始めていません。"
 TrackPageFilmTitle = "%s\nトレーニング\nフィルム"
 TrackPageDone = "おわり"
@@ -7265,7 +7298,7 @@ MintBossConfrontedMsg = "%sは今、金庫番と戦っているよ！"
 
 # DistributedStage.py #localize
 StageBossConfrontedMsg = "%sがクラークとバトル中！"
-stageToonEnterElevator = "%s \nがエレベーターにのったよ。"
+stageToonEnterElevator = "%s\nがエレベーターにのったよ。"
 ForcedLeaveStageAckMsg = "ロウクラークはキミがたどりつく前にたおされました。ショーカンジョーを取りもどせませんでした。"
 
 # DistributedMinigame.py
@@ -9138,8 +9171,8 @@ CatalogPurchaseItemOnOrder = "お買いあげありがとうございます！�
 CatalogPurchaseGiftItemOnOrder = "かしこまりました！ %sへのギフトはうけとり人のメールボックスに配達されます。"
 CatalogAnythingElse = "ほかの商品はよろしいですか？"
 CatalogPurchaseClosetFull = "キミのクローゼットはいっぱいだね。 この品物を購入してもいいけど、もしかしたらこの品物が到着した時に、クローゼットのスペースにあきをもたせるため、なにかをすてる必要がでてくるよ。\n\nまだこの品物を購入したい？"
-CatalogPurchaseNoTrunk = "In order to wear this item, you need to buy a trunk.\n\nDo you still want to purchase this item?"
-CatalogPurchaseTrunkFull = "Your trunk is full. If you purchase this item, you'll need to delete another item from your trunk to make more room.\n\nDo you still want to purchase this item?"
+CatalogPurchaseNoTrunk = "In order to wear this item, you need to buy a trunk.\n\nまだこの品物を購入したい？" # Finish
+CatalogPurchaseTrunkFull = "Your trunk is full. If you purchase this item, you'll need to delete another item from your trunk to make more room.\n\nまだこの品物を購入したい？" # Finish
 CatalogAcceptClosetFull = "キミのクローゼットはいっぱいだね。この品物をメールボックスからとってくる前に、それ用にスペースにあきをもたせるため、クローゼットにはいってなにかを削除しなきゃね。"
 CatalogAcceptShirt = "あたらしいシャツを着るよ。今まで着ていたのはキミのクローゼットに入っているよ。"
 CatalogAcceptShorts = "あたらしい短パンをはくよ。今まではいてたのはキミのクローゼットに入っているよ。"
@@ -9224,7 +9257,7 @@ HDHelpDict = {
     }
 
 
-MessagePickerTitle = "フレーズがおおすぎるね。 \n\"%s\"\nを購入するには、なにか削除するものを選択しなきゃならないよ。"
+MessagePickerTitle = "フレーズがおおすぎるね。\n\"%s\"\nを購入するには、なにか削除するものを選択しなきゃならないよ。"
 MessagePickerCancel = "取り消す"
 MessageConfirmDelete = "ほんとうに\"%s\"をキミのスピードチャットメニューから削除してもいいの？"
 
@@ -9291,9 +9324,9 @@ NPCToonNames = {
     # NPCPartyPerson
     2016 : "ﾊﾟｰﾃｨｰﾌﾟﾗﾝﾅｰの\nﾊﾟﾝﾌﾟｷﾝ",
     2017 : "ﾊﾟｰﾃｨｰﾌﾟﾗﾝﾅｰの\nﾎﾟﾘｰ",
-    2018 : "Doctor Surlee",
-    2019 : "Doctor Dimm",
-    2020 : "Professor Prepostera",
+    2018 : "ドクター・サーリー",        #
+    2019 : "ドクター・ディム ",         # Check
+    2020 : "プレポスターラーきょうじゅ", #
 
     # Silly Street
     2101 : "はいしゃのダニエル",
@@ -10713,7 +10746,7 @@ FireworksOctober31Beginning = lToonHQ+""
 FireworksOctober31Ending = lToonHQ+""
 #FireworksNewYearsEveBeginning = lToonHQ+"：冬の花火大会へようこそ！"
 #FireworksNewYearsEveEnding = lToonHQ+"：明けましておめでとう！2010年もいっしょにサイコーの一年にしようね！"
-FireworksNovember19Beginning = lToonHQ+": Happy Birthday! Toontown turns 1 year old" # Germany
+FireworksNovember19Beginning = lToonHQ+": Happy Birthday! Toontown turns 1 year old!" # Germany
 FireworksNovember19Ending = lToonHQ+": Hope you enjoyed the show!" # Germany
 FireworksNewYearsEveBeginning = lToonHQ + "：タウン最後の花火大会へようこそ！"
 FireworksNewYearsEveEnding = lToonHQ + "：長い間本当にありがとう！みんな、さようなら！"
@@ -10890,15 +10923,27 @@ TipDict = {
     ),
 
   TIP_COGHQ : (
-    "コグへの変装をコンプリートしないと、ボスのビルに入れないよ！",
+    "コグへの変装をコンプリートしないと、ボスのビルに入れないよ！", # Update
+#    "You must complete your Cashbot Disguise before visiting the C.F.O."
+#    "You must complete your Lawbot Disguise before visiting the Chief Justice."
+#    "You must complete your Bossbot Disguise before visiting the C.E.O."
     "警備兵の上にジャンプすると、しばらくの間、動きが止まるよ！",
-    "コグをたくさん倒して、コグのメリットを集めよう！",
+    "コグをたくさん倒して、コグのメリットを集めよう！", # Update
+#    "Collect Cogbucks by defeating Cashbot Cogs in battle."
+    "バトルでロウボットを倒してショウカンジョーを集めよう。"
+#    "Collect Stock Options by defeating Bossbot Cogs in battle."
     "レベルの高いコグからは、より多くのメリットを手に入れることが出来るよ！",
-    "コグのメリットを集めると「格上げ」されて、セルボットのコグゼキュティブに会いに行けるようになるよ！",
+    "コグのメリットを集めると「格上げ」されて、セルボットのコグゼキュティブに会いに行けるようになるよ！", # Update
+#    "When you collect enough Cogbucks to earn a promotion, go see the Cashbot C.F.O.!"
+    "ショウカンジョーを集めてじゅうぶん格上げされたら、ロウボット本部のサイバンチョーにちょうせんだ！"
+#    "When you collect enough Stock Options to earn a promotion, go see the Bossbot C.E.O.!"
     "コグに変装しているときには、コグのように話すことが出来るよ！",
     "セルボットのコグゼキュティブとのバトルには最大８トゥーンまで参加できるよ！",
-    "セルボットのコグゼキュティブは、コグ本部の一番上にいるよ！",
-    "コグ工場の中では、階段に沿っていくことで工場長の所までたどり着くことができるよ！",
+#    "Up to eight Toons can join together to fight the Cashbot C.F.O."
+    "サンバンチョーには同時に８人までいっしょにちょうせんできるよ。"
+#    "Up to eight Toons can join together to fight the Bossbot C.E.O."
+    "セルボットのコグゼキュティブは、コグ本部の一番上にいるよ！",                     # Compare and Update
+    "コグ工場の中では、階段に沿っていくことで工場長の所までたどり着くことができるよ！", # Compare and Update
     "工場でのバトルごとに、コグへの変装パーツを１つ手に入れることができるよ！",
     "トゥーンガイドでコグへの変装の度合いをチェックすることができるよ！",
     "トゥーンガイドの変装のページで「メリット」の進行度合いをチェックできるよ！",
@@ -10908,18 +10953,9 @@ TipDict = {
     "ドナルドのドリームランドでトゥーンタスクをやると、マネーボットのへんそうスーツがゲットできるよ！",
     "マネーボットほんぶには、コイン・ドル・ゴールドの3つの工場があるよ。",
     "マネーマネーがフラフラの時にきんこを投げないと、ヘルメットがわりにとられちゃうよ！きんこを当てて、ヘルメットをはじき飛ばそう！",
-    "バトルでロウボットを倒してショウカンジョーを集めよう。",
-    "レベルの高いコグを倒すとより多くのメリットが得られるよ。",
-    "ショウカンジョーを集めてじゅうぶん格上げされたら、ロウボット本部のサイバンチョーにちょうせんだ！",
+#    "レベルの高いコグを倒すとより多くのメリットが得られるよ。",
     "サイバンチョーにちょうせんするには、ロウボットのへんそうパーツがひつようだよ。",
-    "サンバンチョーには同時に８人までいっしょにちょうせんできるよ。",
     "パズルにちょうせん！しっぱいするとバーチャル・コグがキミのショウカンをじゃまするよ。",
-#    "",
-#    "",
-#    "",
-#    "",
-#    "",
-#    "",
     ),
   TIP_ESTATE : (
     # Doodles #★
@@ -11486,7 +11522,7 @@ KartDNA_AccNames = {
     4010: "ｽﾄﾗｲﾌﾟ ﾄﾞﾛﾖｹ",
     4011: "ﾐｯｷｰ ﾄﾞﾛﾖｹ",
     4012: "ﾎﾀﾃ ﾄﾞﾛﾖｹ",
-    #rim accessoKartRace_Exit = "Leave Race"ry names
+    #rim accessory names
     5000: "ﾀｰﾎﾞ",
     5001: "ﾑｰﾝ",
     5002: "ﾂｷﾞﾊｷﾞ",
@@ -11781,7 +11817,7 @@ LaserGameDefault = "知らないゲーム"
 #PinballScore = "ｽｺｱ： %d x %d：%d"
 PinballHiScore = "ﾊｲｽｺｱ： %s\n"
 PinballHiScoreAbbrev = "…"
-PinballYourBestScore = "ﾍﾞｽﾄｽｺｱ： \n"
+PinballYourBestScore = "ﾍﾞｽﾄｽｺｱ：\n"
 PinballScore = "ｽｺｱ： %d x %d = "
 PinballScoreHolder = "%s\n"
 
@@ -12218,7 +12254,7 @@ GolfAvReceivesHoleBest = "%(name)sが%(hole)sでホールレコードをこう�
 GolfAvReceivesCourseBest = "%(name)sが%(course)sのコースレコードをこうしん！"
 GolfAvReceivesCup = "%(name)sが%(cup)s杯をかくとく！賞品はｹﾞﾗｹﾞﾗﾌﾞｰｽﾄだ！！"
 GolfAvReceivesTrophy = "%(name)sが%(award)sのトロフィーをかくとく！"
-GolfRanking = "ランキング: \n"
+GolfRanking = "ランキング:\n"
 GolfPowerBarText = "%(power)s%%"
 GolfChooseTeeInstructions = "左・右の矢印キーでティーの位置をへんこう。\nCtrlキーで決定。"
 GolfWarningMustSwing = "注意: 次のスィングではちゃんとCtrlキーを使ってね。"
@@ -12316,10 +12352,10 @@ KartingTicketsHolidayStart = "Get double tickets from Practice races at Goofy Sp
 
 IdesOfMarchStart = "Toons go GREEN!"
 
-LogoutForced = "You have done something wrong\n and are being logged out automatically,\n additionally your account may be frozen.\n Try going on a walk outside, it is fun."
+LogoutForced = "You have done something wrong\nand are being logged out automatically,\nadditionally your account may be frozen.\nTry going on a walk outside, it is fun."
 
 # DistributedCountryClub.py
-CountryClubToonEnterElevator = "%s \nがゴルフカートにのったよ"
+CountryClubToonEnterElevator = "%s\nがゴルフカートにのったよ"
 CountryClubBossConfrontedMsg = "%sがクラブのオーナーとバトルちゅうだよ！"
 
 # DistributedElevatorFSM.py
@@ -12349,7 +12385,7 @@ GolfGreenGameDirections = "マウスをつかってボールをねらってね�
 
 # DistributedMaze.py
 enterHedgeMaze = "さいしょにめいろをクリアして\nポイントをゲットしよう！"
-toonFinishedHedgeMaze = "%s \n  が %s でゴール！"
+toonFinishedHedgeMaze = "%s\nが %s でゴール！"
 hedgeMazePlaces = ["1ばん","2ばん","3ばん","4ばん"]
 mazeLabel = "めいろでレース！"
 
