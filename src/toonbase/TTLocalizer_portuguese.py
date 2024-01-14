@@ -8,7 +8,7 @@ OL.SpeedChatStaticText.update(OL.SpeedChatStaticTextCommon)
 
 # To make sure the language checker is working
 # DO NOT TRANSLATE THIS
-#ExtraKeySanityCheck = "Ignore-me"
+ExtraKeySanityCheck = "Ignore-me"
 
 # commit strings
 #commitmanString = "bugfix! I changed this"
@@ -12703,13 +12703,12 @@ HolidayNamesInCalendar = {
    93: ("Invasão de Destruidores de Números", "Impeça que os Cogs Destruidores de Números invadam Toontown!"),
    95: ("Festas da vitória", "Comemore nosso triunfo histórico contra os Cogs!"), # placeholder
    96: ("Operação: Robô Vendedor Tempestade!", "Quartel do Robô Vendedor está aberto para todos. Vamos lutar com o VP"),
-   97: ("Dias de Balinha em Dobro - Jogos de Bonde", ""),
-   98: ("Dias de Balinha em Dobro - Jogos de Bonde", ""),
-   99: ("Dias de Balinha em Dobro - Jogos de Grupo", ""),
+   97: ("Dia das Balinhas em Dobro - Jogos no Bondinho", ""),
+   98: ("Dias das Balinhas em Dobro - Pescaria", ""),
+   99: ("Semana da Balinha", "Comemore a Semana da Balinha como recompensa em Dobro de Balinhas"),
    101: ("Maratona de Ano-Novo dos Toons", "Chances de vencer a toda hora! "),
    # Translate
    105: ("Toons go GREEN!", "Toons make a green scene at Green Bean Jeans on Oak Street in Daisy Gardens!"),
-   108: ("Operation: Lawbots Lose", "Lawbot HQ is open to everyone. Let's go fight the CJ!"),
 
     }
 
