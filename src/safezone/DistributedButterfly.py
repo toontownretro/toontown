@@ -272,7 +272,7 @@ class DistributedButterfly(DistributedObject.DistributedObject):
 
     def exitOff(self):
         if (self.butterflyNode != None):
-            self.butterflyNode.reparentTo(render)
+            self.butterflyNode.reparentTo(base.actors)
         return None
 
     ##### Flying state #####

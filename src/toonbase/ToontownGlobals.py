@@ -186,9 +186,10 @@ FM_RecoveredItem = 4
 # distributed setParent().
 #SPHidden = 1 # OTPGlobals
 #SPRender = 2 # OTPGlobals
-SPDonaldsBoat = 3
-SPMinniesPiano = 4
-#SPDynamic = 5 # OTPGlobals
+#SPActors = 3 # OTPGlobals
+SPDonaldsBoat = 4
+SPMinniesPiano = 5
+#SPDynamic = 6 # OTPGlobals
 
 # These are in OTPGlobals
 """

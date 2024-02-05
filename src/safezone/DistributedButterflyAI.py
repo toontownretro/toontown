@@ -50,15 +50,17 @@ class DistributedButterflyAI(DistributedObjectAI.DistributedObjectAI):
         try:
             self.butterfly_deleted
             assert(self.notify.debug("butterfly already deleted"))
+            return
         except:
             self.butterfly_deleted = 1
-            ButterflyGlobals.recycleIndex(self.curIndex, self.playground, 
-                                          self.area, self.ownerId)
-            ButterflyGlobals.recycleIndex(self.destIndex, self.playground, 
-                                          self.area, self.ownerId)
-            self.fsm.request('off')
-            del self.fsm
-            DistributedObjectAI.DistributedObjectAI.delete(self)
+        
+        ButterflyGlobals.recycleIndex(self.curIndex, self.playground, 
+                                      self.area, self.ownerId)
+        ButterflyGlobals.recycleIndex(self.destIndex, self.playground, 
+                                      self.area, self.ownerId)
+        self.fsm.request('off')
+        del self.fsm
+        DistributedObjectAI.DistributedObjectAI.delete(self)
 
     # setState()
 

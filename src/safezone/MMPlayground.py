@@ -78,7 +78,7 @@ class MMPlayground(Playground.Playground):
         """
         unparent the local toon from the piano
         """
-        base.localAvatar.b_setParent(ToontownGlobals.SPRender)
+        base.localAvatar.b_setParent(ToontownGlobals.SPActors)
 
 
 

@@ -116,7 +116,7 @@ class MovingPlatform(DirectObject.DirectObject, NodePath):
         self.hasLt = 1
     def __releaseLt(self):
         if base.localAvatar.getParent().compareTo(self.parentingNode) == 0:
-            base.localAvatar.b_setParent(ToontownGlobals.SPRender)
+            base.localAvatar.b_setParent(ToontownGlobals.SPActors)
             base.localAvatar.controlManager.currentControls.doDeltaPos()
         self.hasLt = 0
 

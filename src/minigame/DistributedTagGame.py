@@ -205,7 +205,7 @@ class DistributedTagGame(DistributedMinigame):
         base.localAvatar.d_clearSmoothing()
         base.localAvatar.sendCurrentPosition()
         base.localAvatar.b_setAnimState("neutral", 1)
-        base.localAvatar.b_setParent(ToontownGlobals.SPRender)
+        base.localAvatar.b_setParent(ToontownGlobals.SPActors)
 
     def setGameStart(self, timestamp):
         if not self.hasLocalToon: return

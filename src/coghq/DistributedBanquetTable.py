@@ -13,8 +13,7 @@ from direct.gui.DirectGui import DGG, DirectButton, DirectLabel, DirectWaitBar
 from direct.task import Task
 from toontown.suit import Suit
 from toontown.suit import SuitDNA
-from toontown.toonbase import ToontownGlobals
-from toontown.toonbase import TTLocalizer
+from toontown.toonbase import ToontownGlobals, TTLocalizer, IndexBufferCombiner
 from toontown.coghq import BanquetTableBase
 from toontown.coghq import DinerStatusIndicator
 from toontown.battle import MovieUtil
@@ -67,6 +66,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.dinerStatus = {} # is the diner dead, hungry,  eating
         self.serviceLocs = {} # dummy nodepaths of where we want the food to be placed
         self.chairLocators = {} # top of the seat
+        self.chairLocatorScales = {} # locator scales
         self.sitLocators = {} # point on the floor where sitting suit will be parented to
         self.activeIntervals = {}
         self.dinerStatusIndicators = {}
@@ -111,6 +111,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.moveSound = None
 
         self.releaseTrack = None
+        
+        self.rootNode = None
 
     def disable(self):
         """Remove us from active duty and store in the cache."""
@@ -144,6 +146,10 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.powerBar.destroy()
         self.powerBar = None
         self.pitcherMoveSfx.stop()
+        
+        if self.rootNode:
+            self.rootNode.removeNode()
+            self.rootNode = None
 
 
     def announceGenerate(self):
@@ -215,16 +221,65 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         """Load and setup the assets for the banquet table and chairs."""
         # later on this will become a loadModel call
         self.tableGroup = loader.loadModel('phase_12/models/bossbotHQ/BanquetTableChairs')
-        #self.tableGroup.flattenStrong()
+        self.tableGroup.flattenStrong() # DD NOT UNCOMMENT THIS! 
         tableLocator = self.boss.geom.find('**/TableLocator_%d' % (self.index+1))
+        self.rootNode = base.sceneAnimated.attachNewNode('BanquetTable_%d' % (self.index+1))
+        
         if tableLocator.isEmpty():
-            self.tableGroup.reparentTo(render)
+            self.tableGroup.reparentTo(self.rootNode)
             self.tableGroup.setPos(0,75,0)
         else:
-            self.tableGroup.reparentTo(tableLocator)
+            self.rootNode.setPosHprScale(*tableLocator.getPos(base.sceneAnimated), *tableLocator.getHpr(base.sceneAnimated), *tableLocator.getScale(base.sceneAnimated))
+            self.tableGroup.reparentTo(self.rootNode)
         self.tableGeom = self.tableGroup.find('**/Geometry')
+        
+        # Attempt to share vertex buffers and combine GeomPrimitives
+        # across the GeomNodes, without actually combining the
+        # GeomNodes themselves, so we can cull them effectively.
+        grphRed = SceneGraphReducer()
+        grphRed.applyAttribs(self.tableGroup.node())
+        grphRed.makeCompatibleState(self.tableGroup.node())
+        grphRed.collectVertexData(self.tableGroup.node(), 0x80)
+        grphRed.unify(self.tableGroup.node(), False)
+        grphRed.removeUnusedVertices(self.tableGroup.node())
+        
+        # Attempt to share vertex buffers for the geom.
+        IndexBufferCombiner.IndexBufferCombiner(self.tableGroup)
+        
+        # Setup the chair locators ahead of time, Why are we setting them up when we create a diner?
+        # This is also good for just outright not attaching the diner to the chairs.
+        # This should help greatly with performance.
+        # A table will always have 8 total seats, Even if they are empty.
+        # But we don't need to do all 8. 
+        for i in range(self.numDiners):
+            locator = self.tableGroup.find('**/chair_%d' % (i+1))
+            locator.unstash()
+            locatorScale = locator.getNetTransform().getScale()[0]
+            correctHeadingNp = locator.attachNewNode('ChairLocation_%d' % (i+1))
+            correctHeadingNp.wrtReparentTo(base.actors)
+            
+            self.chairLocators[i] = correctHeadingNp
+            self.chairLocatorScales[i] = locatorScale
+            
+            #import pdb; pdb.set_trace()
+            heading = self.rotationsPerSeatIndex[i]
+            correctHeadingNp.setH(heading)
+            sitLocator = correctHeadingNp.attachNewNode('sitLocator')
+            self.sitLocators[i] = sitLocator
+        
         self.setupDiners()
         self.setupChairCols()
+        
+        # Stash any and all unused chairs!
+        # There is 8 and there is no reason to leave empty ones!
+        for i in range(8, self.numDiners, -1):
+            chair = self.tableGroup.find('**/chair_%d' % (i))
+            if not chair.isEmpty():
+                chair.stash()
+            chairCol = self.tableGroup.find('**/collision_chair_%d' % (i))
+            if not chairCol.isEmpty():
+                chairCol.stash()
+        
         self.squirtSfx = loader.loadSfx('phase_4/audio/sfx/AA_squirt_seltzer_miss.mp3')
         self.hitBossSfx = loader.loadSfx('phase_5/audio/sfx/SA_watercooler_spray_only.mp3')
         self.hitBossSoundInterval = SoundInterval(self.hitBossSfx, node=self.boss,
@@ -255,27 +310,54 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             diner.loop('sit', fromFrame = i)
         else:
             diner.pose('landing',0)
-        locator = self.tableGroup.find('**/chair_%d' % (i +1))
-        locatorScale = locator.getNetTransform().getScale()[0]
-        correctHeadingNp = locator.attachNewNode('correctHeading')
-        self.chairLocators[i] = correctHeadingNp
-        #import pdb; pdb.set_trace()
-        heading = self.rotationsPerSeatIndex[i]
-        correctHeadingNp.setH(heading)
-        sitLocator = correctHeadingNp.attachNewNode('sitLocator')
-        base.sitLocator = sitLocator
-        pos = correctHeadingNp.getPos(render)
+        # We don't see need the medallion, So remove it.
+        diner.corpMedallion.removeNode()
+        # Remove the health bar too.
+        diner.removeHealthBar()
+        sitLocator = self.sitLocators[i]
+        # We need to sadly, Setup the sitLocator position with the diner itself.
         if SuitDNA.getSuitBodyType(diner.dna.name) == 'c':
             sitLocator.setPos(0.5, 3.65, -3.75)
         else:
             sitLocator.setZ(-2.4)
             sitLocator.setY(2.5)
             sitLocator.setX(0.5)
-        self.sitLocators[i] = sitLocator
         # some fudging to make it look right
-        diner.setScale(1.0/locatorScale)
+        diner.setScale(1.0 / self.chairLocatorScales[i])
         diner.reparentTo(sitLocator)
         #diner.setZ(-5.5)
+        
+        # Clean up the diners extra joints. We can't afford to keep them
+        # Nor are they needed.
+        
+        # Remove the attachMeter joint. Diners don't have a health or suit indicator.
+        if ConfigVariableBool('want-new-cogs', 0).getValue():
+            chestNull = diner.find('**/def_joint_attachMeter')
+            if chestNull.isEmpty():
+                chestNull = diner.find('**/joint*attachMeter')
+        else:
+            chestNull = diner.find('**/joint*attachMeter')
+        if not chestNull.isEmpty(): chestNull.removeNode()
+        
+        # Remove the shadow joint. Diners do not need to show their shadow.
+        shadowJoint = diner.find("**/joint*shadow")
+        if not shadowJoint.isEmpty(): shadowJoint.removeNode()
+        
+        # Remove the nametag joint. Diners do not need to show their nametag.
+        nametagJoint = diner.find("**/joint*nameTag")
+        if not nametagJoint.isEmpty(): nametagJoint.removeNode()
+        
+        # Remove the left hand expose joint. Diners only use their left hand.
+        leftHandJoint = diner.find("**/joint*Lhold")
+        if not leftHandJoint.isEmpty(): leftHandJoint.removeNode()
+        
+        # Remvoe two random exposed joints if they exist.
+        jnt = diner.find("**/jnt_22_1")
+        if not jnt.isEmpty(): jnt.removeNode()
+        jnt = diner.find("**/jnt_28_1")
+        if not jnt.isEmpty(): jnt.removeNode()
+        
+        correctHeadingNp = self.chairLocators[i]
 
         # create the nodePath where we serve food to
         newLoc = NodePath('serviceLoc-%d-%d' % (self.index, i))
@@ -292,9 +374,18 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         else:
             head = diner.find('**/joint*head')
         newIndicator = DinerStatusIndicator.DinerStatusIndicator(parent = head,
-                                                                 pos = Point3(0,0,3.5),
+                                                                 pos = Point3(0, 0, 3.5),
                                                                  scale = 5.0)
         newIndicator.wrtReparentTo(diner)
+        
+        '''
+        diner.node().setBounds(diner.node().getBounds())
+        for i in range(0, diner.getNumChildren()):
+            child = diner.getChild(i)
+            if child.isEmpty(): continue
+            child.node().setBounds(child.node().getBounds())
+        '''
+        
         self.dinerStatusIndicators[i] = newIndicator
         return diner
 
@@ -302,6 +393,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         """Setup the chair collisions of all chairs."""
         for i in range(self.numDiners):
             chairCol = self.tableGroup.find('**/collision_chair_%d' % (i +1))
+            chairCol.unstash()
             colName = 'ChairCol-%d-%d' % (self.index,i)
             chairCol.setTag('chairIndex',str(i))
             chairCol.setName(colName)
