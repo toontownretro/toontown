@@ -1310,16 +1310,16 @@ class EventsPage(ShtikerPage.ShtikerPage):
         self.articleText = {}
         try:
             urlfile = urllib.request.urlopen(self.getNewsUrl())
-        except IOError:
+            urlStrings = urlfile.read().decode("utf-8")
+            urlfile.close()
+        except (IOError, UnicodeDecodeError):
             self.notify.warning("Could not open %s" % self.getNewsUrl())
             self.newsStatusLabel["text"] = TTLocalizer.EventsPageNewsUnavailable
             return
             #self.gotArticles = True
-        urlStrings = urlfile.read()
-        urlfile.close()
-        urls = urlStrings.decode('utf-8').split("\r\n")
+        urls = urlStrings.split("\r\n")
 
-        for index in range(len(urls)/2):
+        for index in range(len(urls)//2):
             imageUrl = urls[(index*2)]
             textUrl = urls[(index*2) +1]
 
@@ -1342,13 +1342,13 @@ class EventsPage(ShtikerPage.ShtikerPage):
                 #if "garden" in textUrl:
                 #    import pdb; pdb.set_trace()
                 textFile = urllib.request.urlopen(textUrl)
-                data = textFile.read()
+                data = textFile.read().decode("utf-8")
                 data = data.replace("\\1","\1")
                 data = data.replace("\\2","\2")
                 data = data.replace("\r"," ") # \r showing us a box, no char definiton
                 self.articleText[index] = data
                 textFile.close()
-            except IOError:
+            except (IOError, UnicodeDecodeError):
                 self.notify.warning("text url %d could not open %s" % (index, textUrl))
             # add an empty text item, we'll rely on callback to display things properly
             self.articleIndexList.addItem("")
@@ -1433,7 +1433,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         textN = playaLabel.component( playaLabel.components()[0] )
         if( type(textN) == OnscreenText):
             wrappedText = textN.textNode.getWordwrappedText()
-        items = wrappedText.decode('utf-8').split("\n")
+        items = wrappedText.split("\n")
         self.articleTextList.removeAndDestroyAllItems()
         for item in items:
             self.articleTextList.addItem(item)
@@ -1543,7 +1543,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
                 if type(data) == Ramfile:
                     self.urls = data.getData().decode('utf-8').split("\r\n")
                 else:
-                    self.urls = data.decode('utf-8').split("\r\n")
+                    self.urls = data.decode("utf-8").split("\r\n")
             else:
                 self.notify.warning("Could not open %s" % url)
                 self.newsStatusLabel["text"] = TTLocalizer.EventsPageNewsUnavailable
@@ -1552,7 +1552,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
             # everything good so far now get the images and text
             # first line is date
             if self.urls:
-                self.subRight["text"]=self.urls[0]
+                self.subRight["text"] = self.urls[0]
                 self.urls = self.urls[1:]
 
             self.curUrlIndex = 0
@@ -1577,11 +1577,11 @@ class EventsPage(ShtikerPage.ShtikerPage):
                 text = ""
                 self.articleText[self.curArticleIndex] = text
                 if type(data) == Ramfile:
-                    textData = data.getData()
+                    textData = data.getData().decode("utf-8")
                 else:
-                    textData = data
+                    textData = data.decode("utf-8")
 
-                textData =textData.replace("\\1","\1")
+                textData = textData.replace("\\1","\1")
                 textData = textData.replace("\\2","\2")
                 textData = textData.replace("\r"," ") # \r showing us a box, no char definiton
                 self.articleText[self.curArticleIndex] = textData
@@ -1629,7 +1629,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
             urlfile = urllib.request.urlopen(fileUrl)
             urlStrings = urlfile.read()
             urlfile.close()
-        except IOError:
+        except (IOError, UnicodeDecodeError):
             self.notify.warning("Could not open %s" % fileUrl)
             result = False
         self.doneGettingUrl(fileUrl, urlStrings, result)

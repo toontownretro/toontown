@@ -7757,7 +7757,7 @@ STOREOWNER_GREETING = 'Choose what you want to buy.'
 STOREOWNER_BROWSING = 'You can browse, but you need a clothing ticket to buy.'
 STOREOWNER_NOCLOTHINGTICKET = 'You need a clothing ticket to shop for clothes.'
 # translate
-STOREOWNER_NOFISH = 'Come back here to sell fish to the \5PetShop\5 for jellybeans.'
+STOREOWNER_NOFISH = 'Come back here to sell fish to the Pet Shop for jellybeans.'
 STOREOWNER_THANKSFISH = 'Thanks! The Pet Shop will love these. Bye!'
 STOREOWNER_THANKSFISH_PETSHOP = "These are some fine specimens! Thanks."
 STOREOWNER_PETRETURNED = "Don't worry. We'll find a good home for your Doodle."
