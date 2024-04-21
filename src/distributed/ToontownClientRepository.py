@@ -251,7 +251,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         state = self.gameFSM.getStateNamed('playGame')
         state.addTransition('skipTutorialRequest')
 
-        self.wantCogdominiums = ConfigVariableBool('want-cogdominiums', 0).getValue()
+        self.wantCogdominiums = ConfigVariableBool('want-cogdominiums', 1).getValue()
         self.wantEmblems = ConfigVariableBool('want-emblems', 0).getValue()
 
         if ConfigVariableBool('tt-node-check', 0).getValue():
@@ -1266,6 +1266,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         Use isFriend() to ask whether a particular avatar is a friend.
         """
         if doId in self.friendsMap:
+            teleportNotify.debug("friend %s in friendsMap" % doId)
             return self.friendsMap[doId]
 
         # Hmm, we don't know who this friend is.  Is it someone

@@ -5439,6 +5439,97 @@ WinterPlutoDChatter = (
         ]
     )
 
+# April Fools Chatter's (2009)
+#AFMickeyChatter = (
+#        [ # Greetings specific to Mickey
+#        "Happy April Toons' Week!",
+#        "Happy April Toons' Week, %!",
+#        "Hi, my name is \" + Mickey + \". What's yours?",
+#        ],
+#        [ # Comments
+#        "Have you seen Daisy around?",
+#        "I want to wish Daisy a happy April Toons' Week!",
+#        "Did you hear a Doodle talk?",
+#        "My, aren't these flowers nice!",
+#        "I bet Daisy has some great Gardening tips!",
+#        ],
+#        [ # Goodbyes
+#        "Hi, I am looking for Daisy. Have you seen her?",
+#        "It's time for a nap. I'm going to Dreamland.",
+#        ]
+#    )
+#
+#AFMinnieChatter = (
+#        [ # Greetings
+#        "Hi, my name is \" + Minnie + ". What's yours?",
+#        "Happy April Toons' Week!",
+#        "Happy April Toons' Week, %!",
+#        ],
+#        [ # Comments
+#        "Hi, I need to give Pluto his lunch. Have you seen him?",
+#        "I want to wish Pluto a happy April Toons' Week with a doggie treat!",
+#        "Did you hear a Doodle talk?",
+#        ],
+#        [ # Goodbyes
+#        "Hi, I need to give Pluto his lunch. Have you seen him?",
+#        "Gosh, I'm late for my date with %s!" % Mickey,
+#        ]
+#    )
+#
+#AFDaisyChatter = (
+#        [ # Greetings
+#        "Hello, I'm " + Daisy + ". What's your name?",
+#        "Happy April Toons' Week!",
+#        "Happy April Toons' Week, %!",
+#        ],
+#        [ # Comments
+#        "I wonder if Mickey went to fight some Cogs?",
+#        "Have you seen Mickey around?",
+#        "I want to wish Mickey a happy April Toons' Week!",
+#        "Did you hear a Doodle talk, or am I hearing things?",
+#        ],
+#        [ # Goodbyes
+#        "Hi, I need to talk with Micky. Have you seen him?",
+#        "I think I'll go swimming at " + lDonaldsDock + '.',
+#        "Oh, I'm a little sleepy. I think I'll go to Dreamland.",
+#        ]
+#    )
+#
+#AFGoofySpeedwayChatter = (
+#        [ # Greetings
+#        "Happy Sleepy, er, April Toons' Week!",
+#        "Happy April Toons' Week, %!",
+#        "Hi, my name is \" + Goofy + \". What's yours?",
+#        ],
+#        [ # Comments
+#        "Gawrsh, have you seen Donald? I think he's been sleep walking again.",
+#        "I want to wish Donald a happy April Toons' Week!",
+#        "Did you hear a Doodle talk, or am I seeing things?",
+#        "I hope everything is okay at the Speedway.",
+#        ],
+#        [ # Goodbyes
+#        "Gawrsh, I'm late for my game with %s!" % Donald,
+#        ]
+#    )
+#
+#AFDonaldChatter = (
+#        [ # Greetings
+#        "Happy Sleepy, er, April Toons' Week!",
+#        "Happy April Toons' Week, %!",
+#        "Hi, my name is %s. What's yours?" % Donald,
+#        ],
+#        [ # Comments
+#        "Have you seen Goofy around?",
+#        "I want to wish Goofy a happy April Toons' Week!",
+#        "Did you hear a Doodle talk, or am I dreaming?",
+#        "Where did the kart come from?",
+#        ],
+#        [ # Goodbyes
+#        "Where are all those loud car noises suddenly coming from?",
+#        "I'm going to Melody Land to see %s!" % Minnie,
+#        ]
+#    )
+
 # April Fools Chatter's
 AFMickeyChatter = (
         [ # Greetings specific to Mickey
@@ -5757,9 +5848,9 @@ AprilToonsExtPhaseTopTopic = "AprilToonsExtPhaseTopTopic"
 AprilToonsPhasePostTopTopic = "AprilToonsPhasePostTopTopic"
 toontownDialogues = {
    BoringTopic : { \
-        (1, 2018)  : ['Hello Albert', 'It looks like the sillyness levels are rising', 'Yes and don\'t forget April Toons!'],
-        (2, 2019) : ['Hello Newton', 'Yes I wonder how much the parties are contributing to all this',],
-        (3, 2020) : ['Why hello there Albert and Newton', 'Halloween was pretty silly too!',],
+        (1, 2018)  : ['Hello, Albert', 'It looks like the sillyness levels are rising.', 'Yes, and don\'t forget April Toons!'],
+        (2, 2019) : ['Hello, Newton', 'Yes, I wonder how much the parties are contributing to all this.',],
+        (3, 2020) : ['Why hello there, Albert and Newton.', 'Halloween was pretty silly too!',],
         },
     AprilToonsPhasePreTopTopic : {
         (1, 2020) : ["Gadzooks! The Silly Meter has come back to life!",
@@ -5910,8 +6001,8 @@ TeaserHolidays = "Participate in exciting special events and holiday celebration
 TeaserQuests = "Complete hundreds of ToonTasks to help save Toontown!"
 TeaserEmotions = "Purchase emotions to make your Toon more expressive!"
 TeaserMinigames = "Play all 8 minigame varieties!"
-TeaserSubscribe = "Subscribe Now"
-TeaserContinue = "Continue Trial
+TeaserSubscribe = "Subscribe Now!"
+TeaserContinue = "Continue Trial"
 """
 
 TeaserTop = "" # "Sorry, but you can't do that in the free trial."
@@ -6112,13 +6203,13 @@ EventsPageNewsRightSubtitle = "Established toon-thousand nine"
 
 # NewsPage.py
 NewsPageName = "News"
-NewsPageImportError = 'Whoops! There is an issue loading the "Toon News ... for the Amused!" Please check back later.'
+NewsPageImportError = 'Whoops! There is an issue\nloading the "Toon News ... for the Amused!"\nPlease check back later.'
 
 NewsPageDownloadingNewsSubstr = 'Stay Tooned, while we bring you the latest issue of the\n"Toon News ... for the Amused!"'
 NewsPageDownloadingNews0 = NewsPageDownloadingNewsSubstr + " %s%% Complete."
 NewsPageDownloadingNews1 = NewsPageDownloadingNewsSubstr + " %s%% Complete.."
 NewsPageDownloadingNews2 = NewsPageDownloadingNewsSubstr + " %s%% Complete..."
-NewsPageErrorDownloadingFile = 'Whoops! Page %s is missing from "Toon News ... for the Amused!" Please check back later.'
+NewsPageErrorDownloadingFile = 'Whoops! Page %s\nis missing from "Toon News ... for the Amused!"\nPlease check back later.'
 NewsPageErrorDownloadingFileCanStillRead = 'Whoops! Page %s\nis missing from the "Toon News ... for the Amused!"\nTurn the page to continue, while we work to get this page back.'
 NewsPageNoIssues = 'Whoops! The "Toon News ... for the Amused!" has gone missing!\nStay Tooned ... while we work to bring the news back!'
 
@@ -7655,6 +7746,9 @@ NCApostrophes = 'That name has too many apostrophes.'
 # DistributedTrophyMgrAI.py
 RemoveTrophy = lToonHQ+": "+TheCogs+" took over one of the buildings you rescued!"
 
+from toontown.toonbase.ToontownModules import TextProperties
+from toontown.toonbase.ToontownModules import TextPropertiesManager
+
 # toon\DistributedNPCTailor/Clerk/Fisherman.py
 STOREOWNER_TOOKTOOLONG = 'Need more time to think?'
 STOREOWNER_GOODBYE = 'See you later!'
@@ -9176,6 +9270,8 @@ CatalogPurchaseClosetFull = "Your closet is full. You may purchase this item any
 CatalogPurchaseNoTrunk = "In order to wear this item, you need to buy a trunk.\n\nDo you still want to purchase this item?"
 CatalogPurchaseTrunkFull = "Your trunk is full. If you purchase this item, you'll need to delete another item from your trunk to make more room.\n\nDo you still want to purchase this item?"
 CatalogAcceptClosetFull = "Your closet is full. You must go inside and delete something from your closet to make room for this item before you can take it out of your mailbox."
+CatalogAcceptNoTrunk = "You don't have a trunk. You must buy a trunk before you can take this item out of your mailbox."
+CatalogAcceptTrunkFull = "Your trunk is full. You must delete something from your trunk before you can take this item out of your mailbox."
 CatalogAcceptShirt = "You are now wearing your new shirt. What you were wearing before has been moved to your closet."
 CatalogAcceptShorts = "You are now wearing your new shorts. What you were wearing before has been moved to your closet."
 CatalogAcceptSkirt = "You are now wearing your new skirt. What you were wearing before has been moved to your closet."
@@ -11532,7 +11628,7 @@ KartDNA_AccNames = {
     4010: "Striped Mudflaps",
     4011: "Mickey Mudflaps",
     4012: "Scalloped Mudflaps",
-    #rim accessoKartRace_Exit = "Leave Race"ry names
+    #rim accessory names
     5000: "Turbo",
     5001: "Moon",
     5002: "Patched",
@@ -12396,7 +12492,7 @@ GolfGreenGameDirections = "Shoot balls using the the mouse\n\n\nMatching three o
 
 # DistributedMaze.py
 enterHedgeMaze = "Race through the Hedge Maze\nfor a laff bonus!"
-toonFinishedHedgeMaze = "%s\n  finished in %s place!"
+toonFinishedHedgeMaze = "%s\nfinished in %s place!"
 hedgeMazePlaces = ["first","second","third","Fourth"]
 mazeLabel = "Maze Race!"
 

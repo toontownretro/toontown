@@ -2187,6 +2187,14 @@ def getQuestReward(id, av):
     baseRewardId = QuestDict.get(id)[QuestDictRewardIndex]
     return transformReward(baseRewardId, av)
 
+def isQuestJustForFun(questId, rewardId):
+    questEntry = QuestDict.get(questId)
+    if questEntry:
+        tier = questEntry[QuestDictTierIndex]
+        return isRewardOptional(tier, rewardId)
+    else:
+        return False
+
 NoRewardTierZeroQuests = (101, 110, 121, 131, 141, 145, 150, 160, 161, 162, 163)
 RewardTierZeroQuests = ()
 PreClarabelleQuestIds = NoRewardTierZeroQuests + RewardTierZeroQuests

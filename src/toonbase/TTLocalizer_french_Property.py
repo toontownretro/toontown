@@ -39,6 +39,7 @@ CIPbuyButton = (0.06, 0.05)
 CSgiftTogglePos = (00.855, -0.10)
 CSgiftToggle = 0.07
 CSbackCatalogButton = 0.06
+NametagReverse = False
 
 #chat/TTChatInputSpeedChat.py
 CISCspeedChat = 0.048

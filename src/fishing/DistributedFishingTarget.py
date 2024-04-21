@@ -36,13 +36,13 @@ class DistributedFishingTarget(DistributedNode.DistributedNode):
         self.track = None
 
     def generate(self):
-        self.assign(render.attachNewNode("DistributedFishingTarget"))
+        self.assign(base.sceneAnimated.attachNewNode("DistributedFishingTarget"))
         shadow = loader.loadModel('phase_3/models/props/drop_shadow')
         shadow.setPos(0,0,-0.1)
         shadow.setScale(0.33)
         shadow.setColorScale(1,1,1,0.75)
         shadow.reparentTo(self)
-        self.bubbles = Bubbles.Bubbles(self, render)
+        self.bubbles = Bubbles.Bubbles(self, base.sceneAnimated)
         self.bubbles.renderParent.setDepthWrite(0)
         self.bubbles.start()
         DistributedNode.DistributedNode.generate(self)

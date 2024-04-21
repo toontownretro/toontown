@@ -13,6 +13,9 @@
 #include "pandabase.h"
 #include "toontownsymbols.h"
 
+// #define temp_hpr_fix 1
+#define panda_depth_hack 1
+
 using namespace std;
 
 #endif

@@ -88,10 +88,11 @@ class DistributedEstate(DistributedObject.DistributedObject):
 
         if newsManager:
             holidayIds = base.cr.newsManager.getDecorationHolidayId()
-            if (ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds or ToontownGlobals.SPOOKY_COSTUMES in holidayIds):
+            if (ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds) or \
+               (ToontownGlobals.SPOOKY_COSTUMES in holidayIds):
                 self.loadWitch()
             else:
-                 self.loadAirplane()
+                self.loadAirplane()
 
         self.loadFlowerSellBox()
         # load music

@@ -77,18 +77,18 @@ class TrickOrTreatScavengerHuntDataStore(DataStore):
         """
 
         if self.wantAnyDbm:
-            pAvId = cPickle.dumps(avId)
-            pGoal = cPickle.dumps(goal)
+            pAvId = pickle.dumps(avId)
+            pGoal = pickle.dumps(goal)
             
             pData = self.data.get(pAvId,None)
             if pData is not None:
-                data = cPickle.loads(pData)
+                data = pickle.loads(pData)
             else:
                 data = set()
 
             data.add(goal)
 
-            pData = cPickle.dumps(data)
+            pData = pickle.dumps(data)
             self.data[pAvId] = pData
         else:
             self.data.setdefault(avId,set())
@@ -101,10 +101,10 @@ class TrickOrTreatScavengerHuntDataStore(DataStore):
         Return a [] of goals for avid.
         """
         if self.wantAnyDbm:
-            pAvId = cPickle.dumps(avId)
+            pAvId = pickle.dumps(avId)
             pData = self.data.get(pAvId,None)
             if pData is not None:
-                data = list(cPickle.loads(pData))
+                data = list(pickle.loads(pData))
             else:
                 data = []
             return data

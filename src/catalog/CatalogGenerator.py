@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from . import CatalogItem
 from . import CatalogItemList
-from .CatalogFurnitureItem import CatalogFurnitureItem, nextAvailableBank, getAllBanks, nextAvailableCloset, getAllClosets, get50ItemCloset, getMaxClosets, get50ItemTrunk
+from .CatalogFurnitureItem import CatalogFurnitureItem, nextAvailableCloset, getAllClosets, get50ItemCloset, getMaxClosets, get50ItemTrunk #nextAvailableBank, getAllBanks,
 from .CatalogAnimatedFurnitureItem import CatalogAnimatedFurnitureItem
 from .CatalogClothingItem import CatalogClothingItem, getAllClothes
 from .CatalogChatItem import CatalogChatItem, getChatRange
@@ -1011,7 +1011,7 @@ WeeklySchedule = (
      CatalogFurnitureItem(410),  # Girly Fireplace
      CatalogAnimatedFurnitureItem(490), # Girly Fireplace with fire
      CatalogFurnitureItem(1000), # Rug square
-     nextAvailableBank,          # Bank
+     #nextAvailableBank,          # Bank
      CatalogClothingItem(117, 0),   # Exclusive boy shirt (yellow with palm)
      CatalogClothingItem(217, 0),   # Exclusive girl shirt (yellow with palm)
      ),
@@ -1089,7 +1089,7 @@ WeeklySchedule = (
      4000,                       # Basic flooring
      4500,                       # Basic moulding
      CatalogFurnitureItem(620),  # Lamp A
-     nextAvailableBank,          # Bank
+     #nextAvailableBank,          # Bank
      nextAvailablePole,          # Pole
      nextAvailableCloset,        # Wardrobe
      ),
@@ -1192,7 +1192,7 @@ WeeklySchedule = (
      CatalogAnimatedFurnitureItem(491), # Bug Room Fireplace with fire
      CatalogFurnitureItem(1620), # Vase B short
      CatalogFurnitureItem(1442), # Painting: Degas Toon Star
-     nextAvailableBank,          # Bank
+     #nextAvailableBank,          # Bank
      ),
 
     # Series 2, week 7 (overall week 20)
@@ -1276,7 +1276,7 @@ WeeklySchedule = (
      CatalogFurnitureItem(810),  # Bug Room Desk
      CatalogFurnitureItem(1230), # Coffee table
      CatalogFurnitureItem(1443), # Painting: Magritte Toon Pie
-     nextAvailableBank,          # Bank
+     #nextAvailableBank,          # Bank
      ),
 
     # Series 2, week 13 (overall week 26)
@@ -1375,7 +1375,7 @@ WeeklySchedule = (
       4020,                       # Basic flooring
       4520,                       # Basic moulding
       CatalogFurnitureItem(1725), # Washing Machine
-      nextAvailableBank,          # Bank
+      #nextAvailableBank,          # Bank
       ),
     # Series 3, week 7 (overall week 33)
      (100,                        # Basic shirt
@@ -1457,7 +1457,7 @@ WeeklySchedule = (
       4020,                       # Basic flooring
       4520,                       # Basic moulding
       CatalogFurnitureItem(1720), # Fountain
-      nextAvailableBank,          # Bank
+      #nextAvailableBank,          # Bank
       CatalogEmoteItem(9),        # Applause
       ),
     # Series 3, week 13 (overall week 39)
@@ -1550,7 +1550,7 @@ WeeklySchedule = (
      3530,                       # Basic wainscoting
      4020,                       # Basic flooring
      4520,                       # Basic moulding
-     nextAvailableBank,          # Bank
+     #nextAvailableBank,          # Bank
      CatalogClothingItem(313, 0),# Boys cowboy shorts.
      CatalogClothingItem(413, 0),# Girls western skirts.
      CatalogFurnitureItem(960),  # Barrel Stand.
@@ -1630,7 +1630,7 @@ WeeklySchedule = (
      3530,                       # Basic wainscoting
      4020,                       # Basic flooring
      4520,                       # Basic moulding
-     nextAvailableBank,          # Bank
+     #nextAvailableBank,          # Bank
      CatalogWallpaperItem(3800), # Cactus Wallpaper.
      CatalogClothingItem(129, 0),# Cowboy shirts.
      CatalogEmoteItem(10),       # Cringe
@@ -1806,7 +1806,7 @@ WeeklySchedule = (
      (2, 2030),                  # Basic chat from series 4
      (3, 2040),                  # Basic chat from series 6
      CatalogFurnitureItem(260),  # Ice Cream Bed
-     nextAvailableBank,          # Bank
+     #nextAvailableBank,          # Bank
      ),
 
     # Series 6, week 3 (overall week 60) - Candy Items
@@ -1862,7 +1862,7 @@ WeeklySchedule = (
      (2, 2030),                  # Basic chat from series 4
      (3, 2040),                  # Basic chat from series 6
      CatalogFurnitureItem(3000), # Candy Banana Split Shower
-     nextAvailableBank,          # Bank
+     #nextAvailableBank,          # Bank
      ),
 
     ############################# SERIES 7 #############################
@@ -1919,7 +1919,7 @@ WeeklySchedule = (
      (3, 2050),                  # Basic chat from series 7
      CatalogClothingItem(314, 0),  # Green striped shorts
      CatalogClothingItem(414, 0),  # Blue skirt w/ big flower
-     nextAvailableBank,          # Bank
+     #nextAvailableBank,          # Bank
      ),
 
     # Series 7, week 7 (overall week 72) - Color Setable Items
@@ -1979,7 +1979,7 @@ WeeklySchedule = (
      (1, 2030),                  # Basic chat from series 4
      (2, 2040),                  # Basic chat from series 5
      (3, 2050),                  # Basic chat from series 7
-     nextAvailableBank,          # Bank
+     #nextAvailableBank,          # Bank
      nextAvailablePole,          # Next Fishing pole
      nextAvailableCloset,        # Wardrobe
      ),
@@ -2401,8 +2401,8 @@ class CatalogGenerator:
                 if item == nextAvailablePole:
                     item = getAllPoles()
 
-                elif item == nextAvailableBank:
-                    item = getAllBanks()
+                #elif item == nextAvailableBank:
+                #    item = getAllBanks()
 
                 elif item == nextAvailableCloset:
                     item = getAllClosets()

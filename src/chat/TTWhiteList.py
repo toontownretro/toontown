@@ -19,6 +19,7 @@ class TTWhiteList(WhiteList, DistributedObject.DistributedObject):
         self.endRedownload = datetime.datetime.now()
         self.percentDownloaded = 0.0
         self.notify = DirectNotifyGlobal.directNotify.newCategory('TTWhiteList')
+        self.whitelistDir = Filename('')
         vfs = VirtualFileSystem.getGlobalPtr()
         filename = Filename('twhitelist.dat')
         searchPath = DSearchPath()

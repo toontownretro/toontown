@@ -186,9 +186,10 @@ FM_RecoveredItem = 4
 # distributed setParent().
 #SPHidden = 1 # OTPGlobals
 #SPRender = 2 # OTPGlobals
-SPDonaldsBoat = 3
-SPMinniesPiano = 4
-#SPDynamic = 5 # OTPGlobals
+#SPActors = 3 # OTPGlobals
+SPDonaldsBoat = 4
+SPMinniesPiano = 5
+#SPDynamic = 6 # OTPGlobals
 
 # These are in OTPGlobals
 """
@@ -797,6 +798,18 @@ dnaMap = {
     CashbotHQ : "cog_hq_cashbot",
     LawbotHQ : "cog_hq_lawbot",
     GolfZone : "golf_zone",
+    }
+
+# Maps hoods to download phases
+# TEMP
+dnaMapQuest = {
+    ToontownCentral : "toontown_central",
+    DonaldsDock : "donalds_dock",
+    MinniesMelodyland : "minnies_melody_land",
+    TheBrrrgh : "the_burrrgh",
+    DaisyGardens : "daisys_garden",
+    FunnyFarm : "not done yet",
+    DonaldsDreamland : "donalds_dreamland",
     }
 
 # Maps hoods to names

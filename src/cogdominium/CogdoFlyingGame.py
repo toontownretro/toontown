@@ -57,8 +57,6 @@ class CogdoFlyingGame(DirectObject):
                 self._addPlayer(player)
                 self.guiMgr.addToonToProgressMeter(toon)
 
-        return
-
     def placeEntranceElevator(self, elevator):
         loc = self.level.startPlatform._model.find('**/door_loc')
         offset = loc.getPos(render)

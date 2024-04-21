@@ -83,11 +83,15 @@ class DistributedPartyTrampolineActivityAI(DistributedPartyActivityAI):
             numWon = numBeansCollected
             if numWon == PartyGlobals.TrampolineNumJellyBeans:
                 numWon += PartyGlobals.TrampolineJellyBeanBonus
-                if self.air.holidayManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_DAY):
+                if self.air.holidayManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_DAY) or \
+                   self.air.holidayManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_PARTIES_HOLIDAY) or \
+                   self.air.holidayManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_PARTIES_HOLIDAY_MONTH):
                     numWon *= PartyGlobals.JellyBeanDayMultiplier
                 resultsMessage = TTLocalizer.PartyTrampolineBonusBeanResults % (numBeansCollected, PartyGlobals.TrampolineJellyBeanBonus)
             else:
-                if self.air.holidayManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_DAY):
+                if self.air.holidayManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_DAY) or \
+                   self.air.holidayManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_PARTIES_HOLIDAY) or \
+                   self.air.holidayManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_PARTIES_HOLIDAY_MONTH):
                     numWon *= PartyGlobals.JellyBeanDayMultiplier
                 resultsMessage = TTLocalizer.PartyTrampolineBeanResults % numBeansCollected
             resultsMessage += "\n\n" + TTLocalizer.PartyTrampolineTopHeightResults % topHeight

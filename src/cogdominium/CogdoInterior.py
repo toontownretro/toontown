@@ -1,4 +1,4 @@
-from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import ModelPool, TexturePool
 
 from direct.task.Task import Task
 from direct.directnotify import DirectNotifyGlobal
@@ -38,7 +38,7 @@ class CogdoInterior(Place.Place):
                             State.State('Game',
                                         self.enterGame,
                                         self.exitGame,
-                                        ['battle', 'died', 'crane', ]),
+                                        ['battle', 'died', 'crane', 'walk', ]),
                             State.State('battle',
                                         self.enterBattle,
                                         self.exitBattle,
@@ -52,7 +52,7 @@ class CogdoInterior(Place.Place):
                                         self.enterWalk,
                                         self.exitWalk,
                                         ['stickerBook', 'stopped',
-                                         'sit', 'died',
+                                         'battle', 'sit', 'died',
                                          'teleportOut',
                                          'Elevator',
                                          'crane',
@@ -95,7 +95,7 @@ class CogdoInterior(Place.Place):
                             State.State('stopped',
                                         self.enterStopped,
                                         self.exitStopped,
-                                        ['walk', 'elevatorOut']),
+                                        ['walk', 'elevatorOut', 'battle']),
                             State.State('died',
                                         self.enterDied,
                                         self.exitDied,

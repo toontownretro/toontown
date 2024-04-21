@@ -16,7 +16,7 @@ from toontown.tutorial import TutorialForceAcknowledge
 from toontown.toon import NPCForceAcknowledge
 from toontown.trolley import Trolley
 from toontown.toontowngui import TTDialog
-from toontown.toonbase import ToontownGlobals
+from toontown.toonbase import ToontownGlobals, IndexBufferCombiner
 from toontown.toon.Toon import teleportDebug
 from toontown.toonbase import TTLocalizer
 from direct.gui import DirectLabel
@@ -209,7 +209,7 @@ class Playground(Place.Place):
         # Play music
         base.playMusic(self.loader.music, looping = 1, volume = 0.8)
 
-        self.loader.geom.reparentTo(render)
+        self.loader.geom.reparentTo(base.sceneStatic) # Used to be render, Now it's the static part of scene.
 
         # Turn on the animated props once since there is only one zone
         for i in self.loader.nodeList:
@@ -907,6 +907,17 @@ class Playground(Place.Place):
         self.tunnelOriginList = base.cr.hoodMgr.addLinkTunnelHooks(self, self.nodeList, self.zoneId)
         # Flatten the safe zone
         self.geom.flattenMedium()
+        # Attempt to share vertex buffers and combine GeomPrimitives
+        # across the GeomNodes, without actually combining the
+        # GeomNodes themselves, so we can cull them effectively.
+        grphRed = SceneGraphReducer()
+        grphRed.applyAttribs(self.geom.node())
+        grphRed.makeCompatibleState(self.geom.node())
+        grphRed.collectVertexData(self.geom.node(), 0x80)
+        grphRed.unify(self.geom.node(), False)
+        grphRed.removeUnusedVertices(self.geom.node())
+        # Attempt to share vertex buffers for the playground geom.
+        IndexBufferCombiner.IndexBufferCombiner(self.geom)
         # Preload all textures in neighborhood
         gsg = base.win.getGsg()
         if gsg:

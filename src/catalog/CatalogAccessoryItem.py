@@ -394,7 +394,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
             defn = ToonDNA.HatStyles[str]
             modelPath = ToonDNA.HatModels[defn[0]]
         elif self.areGlasses():
-            # They're glasses..
+            # They're glasses.
             defn = ToonDNA.GlassesStyles[str]
             modelPath = ToonDNA.GlassesModels[defn[0]]
         elif self.isBackpack():

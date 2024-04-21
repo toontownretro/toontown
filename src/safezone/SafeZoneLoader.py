@@ -1,21 +1,20 @@
 """SafeZoneLoader module: contains the SafeZoneLoader class"""
 
-from toontown.toonbase.ToontownModules import *
-from toontown.toonbase.ToonBaseGlobal import *
 from toontown.distributed.ToontownMsgTypes import *
 from toontown.hood import ZoneUtil
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import Place
 from direct.showbase import DirectObject
-from direct.fsm import StateData
-from direct.fsm import ClassicFSM, State
-from direct.fsm import State
+from direct.fsm import ClassicFSM, State, StateData
 from direct.task import Task
 from toontown.launcher import DownloadForceAcknowledge
 from toontown.toon import HealthForceAcknowledge
 from toontown.toon.Toon import teleportDebug
 from toontown.tutorial import TutorialForceAcknowledge
 from toontown.toonbase.ToontownGlobals import *
+from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToonBaseGlobal import *
+from toontown.toonbase import IndexBufferCombiner
 from toontown.building import ToonInterior
 from toontown.hood import QuietZoneState
 
@@ -143,6 +142,17 @@ class SafeZoneLoader(StateData.StateData):
             self.holidayPropTransforms[i] = np.getNetTransform()
         # Flatten the safe zone
         self.geom.flattenMedium()
+        # Attempt to share vertex buffers and combine GeomPrimitives
+        # across the GeomNodes, without actually combining the
+        # GeomNodes themselves, so we can cull them effectively.
+        grphRed = SceneGraphReducer()
+        grphRed.applyAttribs(self.geom.node())
+        grphRed.makeCompatibleState(self.geom.node())
+        grphRed.collectVertexData(self.geom.node(), 0x80)
+        grphRed.unify(self.geom.node(), False)
+        grphRed.removeUnusedVertices(self.geom.node())
+        # Attempt to share vertex buffers for the safezone geom.
+        IndexBufferCombiner.IndexBufferCombiner(self.geom)
         # Preload all textures in neighborhood
         gsg = base.win.getGsg()
         if gsg:

@@ -18,30 +18,44 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
     def __init__(self, cr):
         try:
             self.DistributedNPCToon_initialized
+            return
         except:
             self.DistributedNPCToon_initialized = 1
-            DistributedToon.DistributedToon.__init__(self, cr)
-            self.__initCollisions()
-            # Not pickable
-            self.setPickable(0)
-            # These guys are specifically non-player characters.
-            self.setPlayerType(NametagGroup.CCNonPlayer)
+
+        DistributedToon.DistributedToon.__init__(self, cr)
+        self.__initCollisions()
+        # Not pickable
+        self.setPickable(0)
+        # These guys are specifically non-player characters.
+        self.setPlayerType(NametagGroup.CCNonPlayer)
+        
+        # Our root nodepath, This is used for parenting purposes. 
+        self.rootNode = None
 
     def disable(self):
         # Ignore the sphere after the finish because
         # the end of the movie adds it in
         self.ignore("enter" + self.cSphereNode.getName())
+            
         # Kill any quest choice guis that may be active
         # Kill any movies that may be playing
         DistributedToon.DistributedToon.disable(self)
+        
+        # Remove our root node, This avatar is now parented to hidden anyways,
+        # and will generate a new root node when it needs it.
+        if self.rootNode:
+            self.rootNode.removeNode()
+            self.rootNode = None
 
     def delete(self):
         try:
             self.DistributedNPCToon_deleted
+            return
         except:
             self.DistributedNPCToon_deleted = 1
-            self.__deleteCollisions()
-            DistributedToon.DistributedToon.delete(self)
+        
+        self.__deleteCollisions()
+        DistributedToon.DistributedToon.delete(self)
 
     def generate(self):
         DistributedToon.DistributedToon.generate(self)
@@ -51,7 +65,7 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
         # Since we know where the NPC will be standing, we can
         # immediately parent him to render.  This initializes the
         # nametag, etc.
-        self.setParent(ToontownGlobals.SPRender)
+        self.setParent(ToontownGlobals.SPActors)
         self.startLookAround()
 
     def generateToon(self):
@@ -105,7 +119,10 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
 
         # Now he's no longer parented to render, but no one minds.
         if not npcOrigin.isEmpty():
-            self.reparentTo(npcOrigin)
+            # Instead of just reparenting to the origin. We make a root under 'actors' for organization. 
+            self.rootNode = base.actors.attachNewNode("npc_root_" + self.getName())
+            self.rootNode.setPosHprScale(*npcOrigin.getPos(base.actors), *npcOrigin.getHpr(base.actors), *npcOrigin.getScale(base.actors))
+            self.reparentTo(self.rootNode)
             self.initPos()
         else:
             self.notify.warning("announceGenerate: Could not find npc_origin_" + str(self.posIndex))

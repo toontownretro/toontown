@@ -51,8 +51,8 @@ class ScrolledFriendList( DirectScrolledList ):
             decButtonCallback = self.scrollButtonPressed,
             itemFrame_pos = (0.0, 0.0, -0.01),
         )
-        self.incButtonCallback = None
-        self.decButtonCallback = None
+        self._DirectScrolledList__incButtonCallback = None
+        self._DirectScrolledList__decButtonCallback = None
         self.setForceHeight()
 
     def scrollButtonPressed(self):

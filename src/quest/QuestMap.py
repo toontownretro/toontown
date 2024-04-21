@@ -165,7 +165,12 @@ class QuestMap(DirectFrame):
         DirectFrame.destroy(self)
 
     def putBuildingMarker(self, pos, hpr = (0, 0, 0), mapIndex = None):
-        marker = DirectLabel(parent=self.container, text='', text_pos=(-0.05, -0.15), text_fg=(1, 1, 1, 1), relief=None)
+        marker = DirectLabel(parent = self.container,
+                             text = '',
+                             text_pos = (-0.05, -0.15),
+                             text_fg = (1, 1, 1, 1),
+                             relief = None,
+                             )
         gui = loader.loadModel('phase_4/models/parties/schtickerbookHostingGUI')
         icon = gui.find('**/startPartyButton_inactive')
         iconNP = aspect2d.attachNewNode('iconNP')
@@ -252,15 +257,15 @@ class QuestMap(DirectFrame):
             try:
                 hoodId = ZoneUtil.getCanonicalHoodId(self.av.getLocation()[1])
                 zoneId = ZoneUtil.getCanonicalBranchZone(self.av.getLocation()[1])
-                mapsGeom = loader.loadModel('phase_4/models/questmap/tt_m_gui_qst_%s_maps' % ToontownGlobals.dnaMap[hoodId])
-                mapImage = mapsGeom.find('**/tt_t_gui_qst_%s_%s' % (ToontownGlobals.dnaMap[hoodId], zoneId))
+                mapsGeom = loader.loadModel('phase_4/models/questmap/tt_m_gui_qst_%s_maps' % ToontownGlobals.dnaMapQuest[hoodId])
+                mapImage = mapsGeom.find('**/tt_t_gui_qst_%s_%s' % (ToontownGlobals.dnaMapQuest[hoodId], zoneId))
                 if not mapImage.isEmpty():
                     self.container['image'] = mapImage
                     self.resetFrameSize()
-                    self.cornerPosInfo = QuestMapGlobals.CornerPosTable.get('tt_t_gui_qst_%s_%s' % (ToontownGlobals.dnaMap[hoodId], zoneId))
-                    self.hqPosInfo = QuestMapGlobals.HQPosTable.get('tt_t_gui_qst_%s_%s' % (ToontownGlobals.dnaMap[hoodId], zoneId))
-                    self.fishingSpotInfo = QuestMapGlobals.FishingSpotPosTable.get('tt_t_gui_qst_%s_%s' % (ToontownGlobals.dnaMap[hoodId], zoneId))
-                    self.cogInfoPos = QuestMapGlobals.CogInfoPosTable.get('tt_t_gui_qst_%s_%s' % (ToontownGlobals.dnaMap[hoodId], zoneId))
+                    self.cornerPosInfo = QuestMapGlobals.CornerPosTable.get('tt_t_gui_qst_%s_%s' % (ToontownGlobals.dnaMapQuest[hoodId], zoneId))
+                    self.hqPosInfo = QuestMapGlobals.HQPosTable.get('tt_t_gui_qst_%s_%s' % (ToontownGlobals.dnaMapQuest[hoodId], zoneId))
+                    self.fishingSpotInfo = QuestMapGlobals.FishingSpotPosTable.get('tt_t_gui_qst_%s_%s' % (ToontownGlobals.dnaMapQuest[hoodId], zoneId))
+                    self.cogInfoPos = QuestMapGlobals.CogInfoPosTable.get('tt_t_gui_qst_%s_%s' % (ToontownGlobals.dnaMapQuest[hoodId], zoneId))
                     self.cogInfoFrame.setPos(self.cogInfoPos)
                     self.hide()
                     self.hoodId = hoodId

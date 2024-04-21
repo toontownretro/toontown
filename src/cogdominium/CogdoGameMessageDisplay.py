@@ -35,7 +35,6 @@ class CogdoGameMessageDisplay:
         del self.messageLabel
         if self._displaySfx != None:
             del self._displaySfx
-        return
 
     def updateMessage(self, message = '', color = None, transition = 'fade'):
         taskMgr.remove(CogdoGameMessageDisplay.UpdateMessageTaskName)

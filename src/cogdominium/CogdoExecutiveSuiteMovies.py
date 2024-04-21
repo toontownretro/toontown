@@ -27,7 +27,6 @@ class CogdoExecutiveSuiteIntro(CogdoGameMovie):
         self._toonDialogueSfx = None
         self.toonHead = None
         self.frame = None
-        return
 
     def displayLine(self, text):
         self.notify.debug('displayLine')
@@ -49,8 +48,7 @@ class CogdoExecutiveSuiteIntro(CogdoGameMovie):
         suit.reparentTo(self.toonHead)
         for part in suit.getHeadParts():
             part.hide()
-
-        #suit.loop('neutral')
+        suit.loop('neutral')
 
     def load(self):
         self.notify.debug('load()')
@@ -64,9 +62,9 @@ class CogdoExecutiveSuiteIntro(CogdoGameMovie):
         self.bg.setPos(0.14, 0, -0.6667)
         self.bg.reparentTo(aspect2d)
         self.chatBubble.reparentTo(aspect2d)
-        self.frame = DirectFrame(geom=self.bg,
-                                 relief=None,
-                                 pos=(0.2, 0, -0.6667),
+        self.frame = DirectFrame(geom = self.bg,
+                                 relief = None,
+                                 pos = (0.2, 0, -0.6667),
                                  )
         self.bg.wrtReparentTo(self.frame)
         self.gameTitleText = DirectLabel(parent = self.frame,
@@ -132,7 +130,6 @@ class CogdoExecutiveSuiteIntro(CogdoGameMovie):
                               Func(end),
                               )
         self._startUpdateTask()
-        return
 
     def _setCamTarget(self, targetNP, distance, offset = Point3(0, 0, 0), angle = Point3(0, 0, 0)):
         camera.wrtReparentTo(render)
@@ -166,4 +163,3 @@ class CogdoExecutiveSuiteIntro(CogdoGameMovie):
         self.toonHead.delete()
         del self.toonHead
         CogdoGameMovie.unload(self)
-        return

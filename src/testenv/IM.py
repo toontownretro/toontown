@@ -1,7 +1,7 @@
 
 from . import toc
 from direct.task import Task
-from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import ConfigVariableString
 
 class TTToc(toc.TocTalk):
 

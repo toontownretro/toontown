@@ -16,6 +16,7 @@ from direct.task import Task
 from . import TownBattle
 from toontown.toon import Toon
 from toontown.toon.Toon import teleportDebug
+from toontown.toonbase import IndexBufferCombiner
 from toontown.battle import BattleParticles
 from direct.fsm import StateData
 from toontown.building import ToonInterior
@@ -319,6 +320,17 @@ class TownLoader(StateData.StateData):
         # Flatten the neighborhood
         #self.geom.flattenMedium()
         self.notify.info("skipping self.geom.flattenMedium")
+        # Attempt to share vertex buffers and combine GeomPrimitives
+        # across the GeomNodes, without actually combining the
+        # GeomNodes themselves, so we can cull them effectively.
+        grphRed = SceneGraphReducer()
+        grphRed.applyAttribs(self.geom.node())
+        grphRed.makeCompatibleState(self.geom.node())
+        grphRed.collectVertexData(self.geom.node(), 0x80)
+        grphRed.unify(self.geom.node(), False)
+        grphRed.removeUnusedVertices(self.geom.node())
+        # Attempt to share vertex buffers for the town geom.
+        IndexBufferCombiner.IndexBufferCombiner(self.geom)
         # Preload all textures in neighborhood
         gsg = base.win.getGsg()
         if gsg:

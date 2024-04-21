@@ -6,7 +6,7 @@ from direct.fsm import ClassicFSM, State
 from toontown.cogdominium import CogdoGameConsts
 from toontown.cogdominium.DistCogdoGameBase import DistCogdoGameBase
 from otp.ai.Barrier import Barrier
-from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import ConfigVariableBool
 
 class SadCallbackToken:
     pass

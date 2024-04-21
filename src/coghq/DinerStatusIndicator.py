@@ -27,9 +27,24 @@ class DinerStatusIndicator(NodePath, FSM.FSM):
         if self.activeIval:
             self.activeIval.pause()
             self.activeIval = None
-        self.angryIcon.removeNode()
-        self.hungryIcon.removeNode()
-        self.eatingIcon.removeNode()
+        if self.angryIcon:
+            self.angryIcon.removeNode()
+            self.angryIcon = None
+        if self.angryMeter:
+            self.angryMeter.removeNode()
+            self.angryMeter = None
+        if self.hungryIcon:
+            self.hungryIcon.removeNode()
+            self.hungryIcon = None
+        if self.hungryMeter:
+            self.hungryMeter.removeNode()
+            self.hungryMeter = None
+        if self.eatingIcon:
+            self.eatingIcon.removeNode()
+            self.eatingIcon = None
+        if self.eatingMeter:
+            self.eatingMeter.removeNode()
+            self.eatingMeter = None
         self.removeNode()
 
     def loadAssets(self):
@@ -38,9 +53,10 @@ class DinerStatusIndicator(NodePath, FSM.FSM):
         self.angryIcon, self.angryMeter = self.loadIcon(iconsFile, '**/Anger')
         self.hungryIcon, self.hungryMeter = self.loadIcon(iconsFile, '**/Hunger')
         self.eatingIcon, self.eatingMeter = self.loadIcon(iconsFile, '**/Food')
-        self.angryMeter.hide() # angry doesn't need a meter
+        # Angry doesn't need a meter
+        self.angryMeter.removeNode()
+        self.angryMeter = None
         iconsFile.removeNode()
-
 
     def loadIcon(self, iconsFile, name):
         """Load and returns one icon and the associated meter."""
@@ -62,12 +78,12 @@ class DinerStatusIndicator(NodePath, FSM.FSM):
         dark.wrtReparentTo(center)
         dark.setTexProjector(TextureStage.getDefault(), center, retVal)
         dark.setDepthOffset(2)
-        retVal.hide()
+        retVal.stash()
         return retVal, center
 
     def enterEating(self, timeToFinishFood):
         """Enter the eating state and display the meter interval."""
-        self.eatingIcon.show()
+        self.eatingIcon.unstash()
         self.activeIval = self.createMeterInterval(self.eatingIcon, self.eatingMeter, timeToFinishFood)
         self.activeIval.start()
 
@@ -76,11 +92,11 @@ class DinerStatusIndicator(NodePath, FSM.FSM):
         if self.activeIval:
             self.activeIval.finish()
             self.activeIval = None
-        self.eatingIcon.hide()
+        self.eatingIcon.stash()
 
     def enterHungry(self, timeToFinishFood):
         """Enter the hungry state and display the meter interval."""
-        self.hungryIcon.show()
+        self.hungryIcon.unstash()
         self.activeIval = self.createMeterInterval(self.hungryIcon, self.hungryMeter, timeToFinishFood)
         self.activeIval.start()
 
@@ -89,15 +105,15 @@ class DinerStatusIndicator(NodePath, FSM.FSM):
         if self.activeIval:
             self.activeIval.finish()
             self.activeIval = None
-        self.hungryIcon.hide()
+        self.hungryIcon.stash()
 
     def enterAngry(self):
         """Enter the angry state and display the meter interval."""
-        self.angryIcon.show()
+        self.angryIcon.unstash()
 
     def exitAngry(self):
         """Exit the angry state, cleanup the meter interval."""
-        self.angryIcon.hide()
+        self.angryIcon.stash()
         if self.activeIval:
             self.activeIval.finish()
             self.activeIval = None

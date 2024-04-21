@@ -177,7 +177,7 @@ outerFrame.setScale(2 + ringScale)
 # output this outer frame so we have a hole in the middle
 # to test for
 base.graphicsEngine.renderFrame()
-outerFrameImg = PNMImage.PNMImage(size,size)
+outerFrameImg = PNMImage(size,size)
 base.win.getScreenshot(outerFrameImg)
 outerFrame.setColor(hexToColor(bgColor, alpha = 1))
 outerFrame.setBin('fixed', 1)
@@ -284,7 +284,7 @@ tt.setDNA(dna)
 tt.reparentTo(render)
 
 base.disableMouse()
-base.camLens.setMinFov(fov,fov)
+base.camLens.setFov(fov,fov)
 
 def convertServerDNAString(serverString):
     # Strip out blank space and take last 30 characters
@@ -322,7 +322,7 @@ def snapPics():
         if myBgColorAlpha == 1.0:
             base.win.saveScreenshot(Filename(imageName))
         else:
-            myImage = PNMImage.PNMImage(size,size)
+            myImage = PNMImage(size,size)
             base.win.getScreenshot(myImage)
             myImage.addAlpha()
             for y in range(size):

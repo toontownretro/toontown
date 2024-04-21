@@ -8,6 +8,8 @@ class DistributedVPElevatorAI(DistributedBossElevatorAI.DistributedBossElevatorA
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedVPElevatorAI")
 
     def __init__(self, air, bldg, zone, antiShuffle = 0, minLaff = 0):
+        """__init__(air)
+        """
         DistributedBossElevatorAI.DistributedBossElevatorAI.__init__(self, air, bldg, zone, antiShuffle = antiShuffle, minLaff = minLaff)
         self.type = ELEVATOR_VP
         self.countdownTime = ElevatorData[self.type]['countdown']

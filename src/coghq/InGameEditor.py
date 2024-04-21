@@ -1001,7 +1001,7 @@ class InGameEditor(AppShell):
             value = eval(newText)
         except:
             showwarning('ERROR', 'that is not a valid Python object',
-                        parent = self._parent)
+                        parent = self.parent)
             return
         # request the new value
         self.level.setAttribEdit(entId, attribName, value)
@@ -1059,7 +1059,7 @@ class InGameEditor(AppShell):
     def handleSaveAs(self):
         # error if we set parent=self
         filename = tkinter.filedialog.asksaveasfilename(
-            parent=self._parent,
+            parent=self.parent,
             defaultextension='.py',
             filetypes=[('Python Source Files', '.py'),
                        ('All Files', '*'),
@@ -1091,10 +1091,10 @@ class InGameEditor(AppShell):
                          'TODO')
 
     def showWarning(self, msg, title='Warning'):
-        showwarning(title, msg, parent = self._parent)
+        showwarning(title, msg, parent = self.parent)
 
     def askYesNo(self, msg, title='Query'):
-        return askyesno(title, msg, parent = self._parent)
+        return askyesno(title, msg, parent = self.parent)
 
     def popupLevelDialog(self):
         data = askstring('Input Level Data', 'Level Data:',

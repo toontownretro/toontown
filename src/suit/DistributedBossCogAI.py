@@ -300,9 +300,10 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
 
         if self.air:
             if state in self.keyStates:
-                self.air.writeServerEvent("bossBattle", self.doId, "%s|%s|%s|%s" %
+                self.air.writeServerEvent("bossBattle", self.doId, "%s|%s|%s|%s|%s|%s" %
                                           (self.dept, state, self.involvedToons,
-                                           self.formatReward()))
+                                           self.formatReward(),
+                                           self.formatLaffLevels(), self.formatSuitType()))
 
 
     def getState(self):
@@ -322,7 +323,6 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
 
     def formatSuitType(self):
         try:
-
             def hasSuit(id):
                 if not self.isToonWearingRentalSuit(id):
                     return 1

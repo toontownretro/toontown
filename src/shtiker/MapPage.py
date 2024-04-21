@@ -35,7 +35,7 @@ class MapPage(ShtikerPage.ShtikerPage):
         self.allZones = []
         # useful for this to be a list
         for hood in ToontownGlobals.Hoods:
-            if hood != ToontownGlobals.GolfZone:
+            if hood not in [ToontownGlobals.GolfZone, ToontownGlobals.FunnyFarm]:
                 self.allZones.append(hood)
 
         self.cloudScaleList = ( ((0.55, 0, 0.4), (0.35, 0, 0.25)),
@@ -44,7 +44,7 @@ class MapPage(ShtikerPage.ShtikerPage):
                                 ((0.7, 0, 0.45),),
                                 ((0.55, 0, 0.4),),
                                 ((0.6, 0, 0.4), (0.5332, 0, 0.32)),
-                                (),
+                                #(),
                                 ((0.7, 0, 0.45),(0.7, 0, 0.45),),
                                 ((0.7998, 0, 0.39),),
                                 ((0.5, 0, 0.4),), # boss
@@ -60,7 +60,7 @@ class MapPage(ShtikerPage.ShtikerPage):
                               ((-0.02, 0., 0.23),),
                               ((-0.3, 0., -0.4),),
                               ((0.25, 0., -0.425), (0.125, 0., -0.36)),
-                              (),
+                              #(),
                               ((-0.5625, 0., -0.07),(-0.45, 0., 0.2125),),
                               ((-0.125, 0., 0.5),),
                               ((0.66, 0., -0.4),), # boss
@@ -75,7 +75,7 @@ class MapPage(ShtikerPage.ShtikerPage):
                               (0.1, 0., 0.15),
                               (-0.3, 0., -0.375),
                               (0.2, 0., -0.45),
-                              (-0.438, 0., 0.22),
+                              #(-0.438, 0., 0.22),
                               (-0.55, 0., 0.0),
                               (-0.088, 0., 0.47),
                               (0.7, 0., -0.5), # Bossbot HQ
@@ -166,7 +166,10 @@ class MapPage(ShtikerPage.ShtikerPage):
                 pressEffect = 0,
                 command = self.__buttonCallback,
                 extraArgs = [hood],
+                sortOrder = 1
                 )
+            label.bind(DGG.WITHIN, self.__hoverCallback, extraArgs=[1, hoodIndex])
+            label.bind(DGG.WITHOUT, self.__hoverCallback, extraArgs=[0, hoodIndex])
             label.resetFrameSize()
             self.labels.append(label)
 
@@ -274,6 +277,7 @@ class MapPage(ShtikerPage.ShtikerPage):
             # If we can see that hood, show the button, hide the clouds
             if ((not self.book.safeMode) and
                 (hood in hoodVisibleList)):
+                label['text_fg'] = (0, 0, 0, 1)
                 label.show()
                 for cloud in clouds:
                     cloud.hide()
@@ -286,7 +290,8 @@ class MapPage(ShtikerPage.ShtikerPage):
 
             # If we cannot see that hood, hide the button, show the clouds
             else:
-                label.hide()
+                label['text_fg'] = (0, 0, 0, 0.65)
+                label.show()
                 for cloud in clouds:
                     cloud.show()
 
@@ -313,8 +318,19 @@ class MapPage(ShtikerPage.ShtikerPage):
         """
         a hood has been selected
         """
-        if (hood in base.localAvatar.getTeleportAccess()):
+        if (hood in base.localAvatar.getTeleportAccess() and \
+            hood in base.cr.hoodMgr.getAvailableZones()):
             self.doneStatus = {"mode" : "teleport",
                                "hood" : hood,
                                }
             messenger.send(self.doneEvent)
+
+    def __hoverCallback(self, inside, hoodIndex, pos):
+        alpha = PythonUtil.choice(inside, 0.25, 1.0)
+        try:
+            clouds = self.clouds[hoodIndex]
+        except ValueError:
+            clouds = []
+
+        for cloud in clouds:
+            cloud.setColor((1, 1, 1, alpha))

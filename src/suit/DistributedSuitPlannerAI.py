@@ -1076,28 +1076,27 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
                                 cogdoTakeover = True
                 newSuit.takeoverIsCogdo = cogdoTakeover
                 if newSuit.takeoverIsCogdo:
-                    pendingTracks = [
-                     's']
+                    pendingTracks = ['s']
                     pendingHeights = self.pendingCogdoHeights
                 else:
                     pendingTracks = self.pendingBuildingTracks
                     pendingHeights = self.pendingBuildingHeights
                 # Also, if he's attempting a takeover, make him be a
                 # suitable track.
-                if suitTrack == None and len(self.pendingBuildingTracks) > 0:
-                    suitTrack = self.pendingBuildingTracks[0]
+                if suitTrack == None and len(pendingTracks) > 0:
+                    suitTrack = pendingTracks[0]
 
                     # Move the suitTrack to the end of the queue, so
                     # the next suit will choose a different track.  We
                     # can't remove it from the queue until the
                     # building actually gets created.
-                    del self.pendingBuildingTracks[0]
-                    self.pendingBuildingTracks.append(suitTrack)
+                    del pendingTracks[0]
+                    pendingTracks.append(suitTrack)
 
-                if buildingHeight == None and len(self.pendingBuildingHeights) > 0:
-                    buildingHeight = self.pendingBuildingHeights[0]
-                    del self.pendingBuildingHeights[0]
-                    self.pendingBuildingHeights.append(buildingHeight)
+                if buildingHeight == None and len(pendingHeights) > 0:
+                    buildingHeight = pendingHeights[0]
+                    del pendingHeights[0]
+                    pendingHeights.append(buildingHeight)
 
             else:
                 if cogdoTakeover and suitTrack == None:

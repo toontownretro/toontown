@@ -510,21 +510,17 @@ class DistributedElevator(DistributedObject.DistributedObject):
                 self.notify.warning("toon: " + str(avId) +
                                                   " doesn't exist, and" +
                                                   " cannot exit the elevator!")
-    #Update Access
-    def allowedToEnter(self):
+
+    def allowedToEnter(self, zoneId = None):
         """Check if the local toon is allowed to enter."""
-        if base.cr.isPaid():
-            return True
-        place = base.cr.playGame.getPlace()
-        myHoodId = ZoneUtil.getCanonicalHoodId(place.zoneId)
-        if  myHoodId in \
-           (ToontownGlobals.ToontownCentral,
-            ToontownGlobals.MyEstate,
-            ToontownGlobals.GoofySpeedway,
-            ):
-            # trialer going to TTC/Estate/Goofy Speedway, let them through
-            return True
-        return False
+        allowed = False
+        if hasattr(base, 'ttAccess') and base.ttAccess:
+            if zoneId:
+                allowed = base.ttAccess.canAccess(zoneId)
+            else:
+                # trialer going to TTC/Estate/Goofy Speedway, let them through
+                allowed = base.ttAccess.canAccess()
+        return allowed
 
     def handleEnterSphere(self, collEntry):
         self.notify.debug("Entering Elevator Sphere....")

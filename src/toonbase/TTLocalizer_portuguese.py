@@ -55,7 +55,7 @@ NametagFontNames = ('Usuário',      #0 *
                 'Ocidental',       #13 *
                 )
 
-NametagLabel = "Nome"
+NametagLabel = " Nome"
 
 UnpaidNameTag = "Basico"
 
@@ -63,6 +63,7 @@ UnpaidNameTag = "Basico"
 GM_1 = "CONSELHO TOON"
 GM_2 = "TROPA TOON"
 GM_3 = "SOLDADO DA RESISTÊNCIA"
+GM_4 = "GC"
 
 GM_NAMES = ("CONSELHO TOON",
             "TOON TROOPER",
@@ -2595,7 +2596,6 @@ SpokenMoods = {
         }
 
 # DistributedAvatar.py
-DialogExclamation = "!"
 DialogQuestion = '?'
 
 # LocalAvatar.py
@@ -4375,7 +4375,7 @@ SharedChatterGreetings = [
 SharedChatterComments = [
         "Que nome legal, %.",
         "Gosto do seu nome.",
-        "Cuidado com os " + Cogs + "."
+        "Cuidado com os " + Cogs + ".",
         "Parece que o bondinho está chegando!",
         "Preciso jogar um jogo no bondinho para ganhar algumas tortas!",
         "Às vezes, eu me divirto com os jogos no bondinho só para comer a torta de frutas!",
@@ -4390,7 +4390,7 @@ SharedChatterComments = [
         "Ouvi falar que está nevando no Brrrgh.",
         "Você pegou o bondinho hoje?",
         "Gosto de conhecer pessoas novas.",
-        "Uau, há vários  "+ Cogs +" no Brrrgh."
+        "Uau, há vários "+ Cogs +" no Brrrgh.",
         "Eu adoro brincar de pique. E você?",
         "Os jogos no bondinho são divertidos.",
         "Adoro fazer as pessoas rirem.",
@@ -4414,7 +4414,7 @@ SharedChatterGoodbyes = [
         "Tchau.",
         "Vejo você mais tarde, %!",
         "Acho que vou praticar lançamento de bolinhos.",
-        "\Vou me juntar a um grupo para deter alguns  "+Cogs+".",
+        "Vou me juntar a um grupo para deter alguns "+Cogs+".",
         "Foi legal ver você hoje, %.",
         "Tenho muito a fazer hoje. É melhor começar logo.",
         ]
@@ -4434,7 +4434,7 @@ MickeyChatter = (
         "Ouvi falar que a "+Daisy+" plantou novas flores no jardim."
         ],
        [ # Goodbyes
-        "\Vou para a Melodilândia ver a "+Minnie+"!",
+        "Vou para a Melodilândia ver a "+Minnie+"!",
         "Caramba, estou atrasado para meu encontro com a "+ Minnie +"!",
         "Parece que é hora de "+ Pluto +" jantar.",
         "Acho que vou nadar no "+lDonaldsDock+".",
@@ -5581,80 +5581,80 @@ AFDonaldChatter = (
 
 AFDonaldDockChatter = (
         [ # Greetings
-        "Happy April Toons' Week!",
-        "Happy April Toons' Week, %!",
+        "Feliz Semana Abril Toons!",
+        "Feliz Semana Abril Toons, %!",
         ],
         [ # Comments
-        "Everybody gets April Toons' Week off but me!",
-        "I'm the only one who has to work this week!",
-        "I only get time off when I sleep!",
-        "All my friends are pretending to be somebody else!",
-        "Round and round in this boat, all day long!",
-        "I heard Daisy is pretending to be Mickey!",
-        "The silliest week of the year, and I'm missing it!",
-        "Have you heard your Doodle talk yet?",
-        "Gravity has taken a holiday at the Estates!",
+        "Todo mundo folga na Semana Abril Toons, menos eu!",
+        "Eu sou o único que tem de trabalhar nesta semana!",
+        "Eu só descanso quando durmo!",
+        "Todos os meus amigos estão fingindo ser outras pessoas!",
+        "Rodando e rodando neste barco, o dia todo!",
+        "Eu ouvi dizer que Margarida está fingindo ser o Mickey!",
+        "Estamos na semana mais boba do ano e eu a estou perdendo!",
+        "Você já escutou o seu Doodle falar?",
+        "A Gravidade tirou férias!",
         ],
         [ # Goodbyes
-        "Have a wacky April Toons' Week!",
-        "Play a joke on the Cogs for me!",
+        "Tenha uma Louca Semana Abril Toons!",
+        "Pregue uma peça nos Cogs por mim!",
         ]
     )
 
 AFPlutoChatter = (
         [ # Greetings
-        "Happy April Toons' Week!",
-        "Happy April Toons' Week, %!",
+        "Feliz Semana Abril Toons!",
+        "Feliz Semana Abril Toons, %!",
         ],
         [ # Comments
-        "Welcome to Melodyland! I'm " + Minnie + "!",
-        "Hi, my name is " + Minnie + " Mouse!",
-        "I'm as happy as a mouse can be!",
-        "What, you've never seen a mouse with dog ears?",
-        "I love when " + Mickey + " and I go for walks!",
-        "What, you never heard a mouse talk before?",
-        "April Toons' Week is the silliest week of the year!",
-        "Have you heard your Doodle talk yet?",
-        "Gravity has taken a holiday at the Estates!",
+        "Bem-vindo à Terra da Melodia! Eu sou a " + Minnie + "!",
+        "Oi, meu nome é " + Minnie + " Mouse!",
+        "Eu são tão feliz quanto uma ratinha pode ser!",
+        "O quê? Você nunca viu uma ratinha com orelhas de cachorro?",
+        "Eu adoro quando " + Mickey + " e eu saímos para passear!",
+        "O quê? Você nunca ouviu um rato falar antes?",
+        "A Semana Abril Toons é a mais boba do ano!",
+        "Você já escutou o seu Doodle falar?",
+        "A Gravidade tirou férias!",
         ],
         [ # Goodbyes
-        "Have a wacky April Toons' Week!",
-        "If you see " + Pluto + ", tell him " + Minnie + " says hi!",
+        "Tenha uma Louca Semana Abril Toons!",
+        "Se você vir " + Pluto + ", diga a ele " + Minnie + " que eu mandei um oi!",
         ]
     )
 
 AFChipChatter = (
     [ # Greetings
-    "Happy April Toons' Week!",
-    "Happy April Toons' Week, %!",
+    "Feliz Semana Abril Toons!",
+    "Feliz Semana Abril Toons, %!",
     ],
     [ # Comments
-    "Hi, I'm " + Dale + "!",
-    "How are you today, " + Chip + "?",
-    "I always thought you were " + Dale + ", " + Chip + ".",
-    "You're sure you're " + Chip + " and not " + Dale + ", " + Chip + "?",
-    "April Toons' Week is the silliest week of the year!",
+    "Oi, eu sou o " + Dale + "!",
+    "Como você está, " + Chip + "?",
+    "Eu sempre achei que você era " + Dale + ", " + Chip + ".",
+    "Tem certeza de que você é o " + Chip + " e não o " + Dale + ", " + Chip + "?",
+    "A Semana de Abril dos Toons é a mais boba do ano!",
     ],
     [ # Goodbyes
-    "Bye from " + Chip + " and " + Dale + "!",
+    "Tchau de " + Chip + " e " + Dale + "!",
     ]
 )
 
 # Warning Dale's chatter is dependent on on Chip's, they should match up
 AFDaleChatter = (
     [ # Greetings
-    "Happy April Toons' Week!",
-    "Happy April Toons' Week, %!",
+    "Feliz Semana Abril Toons!",
+    "Feliz Semana Abril Toons, %!",
     ],
     [ # Comments
-    "Hi, I'm " + Chip + "!",
-    "Very well " + Dale + ", thanks!",
-    "Nope, I'm " + Chip + ", " + Dale + ".",
-    "Yes, " + Dale + ", I'm " + Chip + ", not " + Dale + ".",
-    "It sure is, " + Chip + "! I mean, " + Dale + ".",
+    "Oi, eu sou " + Chip + "!",
+    "Muito bem " + Dale + "... obrigado!",
+    "Não, eu sou o " + Chip + ", " + Dale + ".",
+    "Sim, " + Dale + ", eu sou o " + Chip + ", e não o " + Dale + ".",
+    "Certamente, " + Chip + "! Quero dizer, " + Dale + ".",
     ],
     [ # Goodbyes
-    "Or " + Dale + " and " + Chip + "!",
+    "Ou " + Dale + " e " + Chip + "!",
     ]
 )
 
@@ -6117,16 +6117,16 @@ EventsPageNewsLeftSubtitle = "Ainda só por 1 balinha"
 EventsPageNewsRightSubtitle = "Tiragem de nove mil toonplares"
 
 # NewsPage.py
-NewsPageName = "News"
-NewsPageImportError = 'Whoops! There is an issue loading the "Toon News ... for the Amused!" Please check back later.'
+NewsPageName = "Notícias"
+NewsPageImportError = 'Não foi possível abrir as notícias sobre jogos.'
 
-NewsPageDownloadingNewsSubstr = 'Stay Tooned, while we bring you the latest issue of the \n"Toon News ... for the Amused!"'
-NewsPageDownloadingNews0 = NewsPageDownloadingNewsSubstr + " %s%% Complete."
-NewsPageDownloadingNews1 = NewsPageDownloadingNewsSubstr + " %s%% Complete.."
-NewsPageDownloadingNews2 = NewsPageDownloadingNewsSubstr + " %s%% Complete..."
-NewsPageErrorDownloadingFile = 'Whoops! Page %s is missing from "Toon News ... for the Amused!" Please check back later.'
-NewsPageErrorDownloadingFileCanStillRead = 'Whoops! Page %s \nis missing from the "Toon News ... for the Amused!" \nTurn the page to continue, while we work to get this page back.'
-NewsPageNoIssues = 'Whoops! The "Toon News ... for the Amused!" has gone missing! \nStay Tooned ... while we work to bring the news back!'
+NewsPageDownloadingNewsSubstr = 'Please come back later. Downloading news'
+NewsPageDownloadingNews0 = NewsPageDownloadingNewsSubstr + " %s%%."
+NewsPageDownloadingNews1 = NewsPageDownloadingNewsSubstr + " %s%%.."
+NewsPageDownloadingNews2 = NewsPageDownloadingNewsSubstr + " %s%%..."
+NewsPageErrorDownloadingFile = 'Oops, there was a problem downloading\n%s.'
+NewsPageErrorDownloadingFileCanStillRead = 'Oops, there was a problem downloading\n%s.\nYou can still read the other pages.'
+NewsPageNoIssues = 'Could not find any issues in %s.'
 
 # DirectNewsFrame.py
 IssueFrameThisWeek = "this week"
@@ -6392,33 +6392,33 @@ PartyActivityNameDict = {
     },
     # Translate
     15: {
-        "generic" : "Dance Floor\n10 moves",
+        "generic" : "Pista de Dança\n10 passos",
         "invite" : " 10 move ValenToons Dance Floor",
-        "editor" : "Dance Floor - 10",
+        "editor" : "Pista de Dança de 10",
         "description" : "Get your ValenToon Groove On!"
     },
     16: {
-        "generic" : "Dance Floor\n20 moves",
+        "generic" : "Pista de Dança\n20 passos",
         "invite" : "a 20 move ValenToons Dance Floor",
-        "editor" : "Dance Floor - 20",
+        "editor" : "Pista de Dança de 20",
         "description" : "Get your ValenToon Groove On!"
     },
     17: {
-        "generic" : "Jukebox\n20 songs",
+        "generic" : "Jukebox\n20 músicas",
         "invite" : "a 20 song Valentoons Jukebox",
-        "editor" : "Jukebox - 20",
+        "editor" : "Jukebox de 20",
         "description" : "Nothing sets the mood like music!"
     },
     18: {
-        "generic" : "Jukebox\n40 songs",
+        "generic" : "Jukebox\n40 músicas",
         "invite" : "a 40 song Valentoons jukebox",
-        "editor" : "Jukebox - 40",
+        "editor" : "Jukebox de 40",
         "description" : "Nothing sets the mood like music!"
     },
     19: {
-        "generic" : "Trampoline",
-        "invite" : "ValenToons Trampoline",
-        "editor" : "Trampoline",
+        "generic" : "Trampolim",
+        "invite" : "ValenToons Trampolim",
+        "editor" : "Trampolim",
         "description" : "Jump to your heart's content!",
     },
 }
@@ -6513,19 +6513,19 @@ PartyDecorationNameDict = {
     },
     21 : {
         "editor" : "Cog Sorvete",
-        "description" : "Um Cog de boa aparência"
+        "description" : "Um Cog de boa aparência."
     },
     22 : {
         "editor" : "Cog Sorvete",
-        "description" : "Um Cog de boa aparência"
+        "description" : "Um Cog de boa aparência."
     },
     23 : {
         "editor" : "Coreto de Natal",
-        "description" : "Todos adoram uma Festa de Natal! "
+        "description" : "Todos adoram uma Festa de Natal!"
     },
     24 : {
         "editor" : "Cog e Doodle",
-        "description" : "Ai! Isso vai doer. "
+        "description" : "Ai! Isso vai doer."
     },
     25 : {
         "editor" : "Boneco de neve",
@@ -7564,6 +7564,7 @@ WaitingForNameSubmission = "Enviando o seu nome..."
 # PetshopGUI.py
 PetNameMaster = "PetNameMaster_portuguese.txt"
 PetshopUnknownName = "Nome: ???"
+PetNameIndexMAX = 2713
 PetshopDescGender = "Sexo:\t%s"
 PetshopDescCost = "Custo:\t%s balinhas"
 PetshopDescTrait = "Características:\t%s"
@@ -10880,7 +10881,7 @@ TipDict = {
     "As lojas de animais têm Rabiscos novos para vender todos os dias.",
     "Visite as lojas de animais todos os dias para ver que Rabiscos novos elas têm.",
     "Há diferentes Rabiscos para adoção nos diferentes bairros.",
- # Karting
+    # Karting
     "Mostre o seu carrão e dê uma turbinada no seu limite de Risadas no Autódromo do Pateta. ",
     "Entre no Autódromo do Pateta pelo túnel em forma de pneu no pátio do Centro de Toontown.",
     "Ganhe pontos de Risada no Autódromo do Pateta.",
@@ -11536,7 +11537,7 @@ KartDNA_AccNames = {
     4010: "Para-lamas simétricos",
     4011: "Para-lamas do Mickey",
     4012: "Para-lamas vazados",
-    #rim accessoKartRace_Exit = "Sair da Corrida"ry names
+    #rim accessory names
     5000: "Turbo",
     5001: "Lua",
     5002: "Emendado",
@@ -11966,7 +11967,7 @@ BeanColorWords = ('vermelha', 'verde', 'laranja','lilás','azul','rosa','amarela
                   'ciano','prata')
 PlantItWith = " Plante com %s."
 MakeSureWatered = " Primeiramente, certifique-se de que todas as plantas foram regadas."
-UseFromSpecialsTab = "Use por meio da guia de especiais na página do jardim."
+UseFromSpecialsTab = " Use por meio da guia de especiais na página do jardim."
 UseSpecial = "Usar Especial"
 UseSpecialBadLocation = 'Você só pode usar isso no seu jardim.'
 UseSpecialSuccess = 'Sucesso! Suas plantas regadas acabaram de crescer.'
@@ -11983,7 +11984,7 @@ ResultPlantedSomething  = "Parabéns! Você acaba de plantar %s."
 ResultPlantedSomethingAn  = "Parabéns! Você acaba de plantar %s."
 ResultPlantedNothing = "Isso não funcionou. Por favor, tente uma combinação diferente de balinhas."
 
-GardenGagTree = "Árvore de Brincadeira"
+GardenGagTree = " Árvore de Brincadeira"
 GardenUberGag = "Brincadeira de Uber"
 
 def getRecipeBeanText(beanTuple):

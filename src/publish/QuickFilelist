@@ -130,6 +130,7 @@ forbid_module direct.cluster.ClusterClient
 forbid_module direct.cluster.ClusterServer
 forbid_module direct.directdevices
 forbid_module otp.switchboard.badwordpy
+forbid_module toontown.testenv
 
 forbid_module _dummy_threading
 forbid_module tkCommonDialog

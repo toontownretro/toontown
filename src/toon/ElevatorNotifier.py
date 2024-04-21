@@ -23,7 +23,7 @@ class ElevatorNotifier:
     def handleButton(self):
         self.__handleButton(1)
 
-    def createFrame(self, message, framePos = None, withStopping = True):
+    def createFrame(self, message, framePos = None, withStopping = True, ttDialog = False):
         if not framePos:
             framePos = (0.0, 0, 0.78)
         if not ttDialog:
@@ -53,18 +53,18 @@ class ElevatorNotifier:
 
         buttons = loader.loadModel(
             'phase_3/models/gui/dialog_box_buttons_gui')
-        cancelImageList = (buttons.find('**/CloseBtn_UP'),
-                           buttons.find('**/CloseBtn_DN'),
-                           buttons.find('**/CloseBtn_Rllvr'))
-        okImageList = (buttons.find('**/ChtBx_OKBtn_UP'),
-                       buttons.find('**/ChtBx_OKBtn_DN'),
-                       buttons.find('**/ChtBx_OKBtn_Rllvr'))
+        self.cancelImageList = (buttons.find('**/CloseBtn_UP'),
+                                buttons.find('**/CloseBtn_DN'),
+                                buttons.find('**/CloseBtn_Rllvr'))
+        self.okImageList = (buttons.find('**/ChtBx_OKBtn_UP'),
+                            buttons.find('**/ChtBx_OKBtn_DN'),
+                            buttons.find('**/ChtBx_OKBtn_Rllvr'))
 
 
         self.doneButton = DirectButton(
             parent = self.frame,
             relief = None,
-            image = cancelImageList,
+            image = self.cancelImageList,
             command = self.handleButton,
             pos = (0, 0, -0.14),
             )

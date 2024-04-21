@@ -267,7 +267,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
 
     def getParentNodePath(self):
         assert self.notify.debugStateCall(self)
-        return render
+        return base.sceneAnimated
 
     def setPosHpr(self, x, y, z, h, p, r):
         """
@@ -276,7 +276,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         """
         assert self.notify.debugStateCall(self)
         self.nodePath.setPosHpr(x, y, z, h, p, r)
-        self.angleNP.setH(render, self.nodePath.getH(render))
+        self.angleNP.setH(self.getParentNodePath(), self.nodePath.getH(self.getParentNodePath()))
 
     def setOccupied(self, avId):
         assert self.notify.debugStateCall(self)
@@ -284,7 +284,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             if not self.av.isEmpty():
                 self.__dropPole()
                 self.av.loop('neutral')
-                self.av.setParent(ToontownGlobals.SPRender)
+                self.av.setParent(ToontownGlobals.SPActors)
                 self.av.startSmooth()
             self.ignore(self.av.uniqueName("disable"))
             self.__hideBob()
@@ -292,7 +292,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             self.__removePole()
             self.av = None
             self.placedAvatar = 0
-            self.angleNP.setH(render, self.nodePath.getH(render))
+            self.angleNP.setH(self.getParentNodePath(), self.nodePath.getH(self.getParentNodePath()))
         self.__hideLine()
 
         wasLocalToon = self.localToonFishing
@@ -1492,7 +1492,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.__showBobFloat()
         self.__showLineWaiting()
         if self.localToonFishing:
-            self.pond.startCheckingTargets(self, self.bob.getPos(render))
+            self.pond.startCheckingTargets(self, self.bob.getPos(self.getParentNodePath()))
 
     def exitFishing(self):
         assert self.notify.debugStateCall(self)

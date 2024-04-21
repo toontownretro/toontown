@@ -44,8 +44,7 @@ class CogdoElevatorMovie(CogdoGameMovie):
         suit.reparentTo(self.toonHead)
         for part in suit.getHeadParts():
             part.hide()
-
-        #suit.loop('neutral')
+        suit.loop('neutral')
 
     def load(self):
         self.notify.debug('load()')

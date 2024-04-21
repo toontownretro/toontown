@@ -190,7 +190,7 @@ class TTCodeDict:
             return '%s-%s' % (code[:4], code[4:])
         if length == 9:
             return '%s-%s-%s' % (code[:3], code[3:6], code[6:])
-        numQuads = (len(code) - 6) / 4
+        numQuads = (len(code) - 6) // 4
         prefixLen = len(code) - (numQuads * 4)
         prefix = cls.getReadableCode(code[:prefixLen])
         toQuad = code[prefixLen:]

@@ -101,7 +101,8 @@ class ttInviteDb:
             if __debug__:
                 self.notify.info("Table ttInvite did not exist, created a new one!")
         except MySQLdb.OperationalError as e:
-            self.notify.warning("Unknown error when creating tables, retrying:\n%s" % str(e))
+            #self.notify.warning("Unknown error when creating tables, retrying:\n%s" % str(e))
+            pass
 
         try:
             cursor = self.db.cursor()

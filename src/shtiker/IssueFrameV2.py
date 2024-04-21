@@ -150,9 +150,9 @@ class IssueFrameV2(IssueFrame.IssueFrame):
                         
         frameSizeAdj1 = 0.1
         frameSize1 = (-0.04 + frameSizeAdj1,
-         0.04 + frameSizeAdj1,
-         -0.04,
-         0.04)
+                      0.04 + frameSizeAdj1,
+                      -0.04,
+                      0.04)
         frameSizeAdj2 = 0.21
         frameSize2 = (-0.04 + frameSizeAdj2,
                       0.04 + frameSizeAdj2,

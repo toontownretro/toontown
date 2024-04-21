@@ -105,13 +105,11 @@ class Place(StateData.StateData,
             qzsd = self._getQZState()
             if qzsd:
                 qzsd.removeLeftQuietZoneCallback(token)
-        return
 
     def _doLeftQuietZoneCallbacks(self):
         self._leftQuietZoneLocalCallbacks()
         self._leftQuietZoneLocalCallbacks.clear()
         self._leftQuietZoneSubframeCall = None
-        return
 
     def addSetZoneCompleteCallback(self, callback, priority = None):
         qzsd = self._getQZState()
@@ -130,14 +128,12 @@ class Place(StateData.StateData,
             qzsd = self._getQZState()
             if qzsd:
                 qzsd.removeSetZoneCompleteCallback(token)
-        return
 
     def _doSetZoneCompleteLocalCallbacks(self):
         self._setZoneCompleteSubframeCall = None
         localCallbacks = self._setZoneCompleteLocalCallbacks
         self._setZoneCompleteLocalCallbacks()
         localCallbacks.clear()
-        return
 
     def setState(self, state):
         assert(self.notify.debug("setState(state="+str(state)+")"))
@@ -1135,7 +1131,7 @@ class Place(StateData.StateData,
         base.localAvatar.b_setAnimState('TeleportIn', 1,
                                           callback=self.teleportInDone)
         base.localAvatar.d_broadcastPositionNow()
-        base.localAvatar.b_setParent(ToontownGlobals.SPRender)
+        base.localAvatar.b_setParent(ToontownGlobals.SPActors)
         #import pdb; pdb.set_trace()
 
     def teleportInDone(self):

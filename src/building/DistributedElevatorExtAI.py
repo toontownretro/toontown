@@ -15,7 +15,7 @@ class DistributedElevatorExtAI(DistributedElevatorAI.DistributedElevatorAI):
     
     def __init__(self, air, bldg, numSeats = 4, antiShuffle = 0, minLaff = 0, fSkipOpening = False): #antiShufflePOI
         DistributedElevatorAI.DistributedElevatorAI.__init__(
-            self, air, bldg, numSeats, antiShuffle = antiShuffle, minLaff = minLaff)
+            self, air, bldg, numSeats, antiShuffle = antiShuffle, minLaff = minLaff, fSkipOpening = fSkipOpening)
         # Do we need this?
         # self.zoneId, dummy = bldg.getExteriorAndInteriorZoneId()
         # Flag that tells if any Toon has jumped out of the elevator yet

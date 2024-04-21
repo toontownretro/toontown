@@ -15,8 +15,8 @@ class CogdoGameExit(NodePath):
         self._model.reparentTo(self)
         self._leftDoor = self._model.find('**/left_door')
         self._rightDoor = self._model.find('**/right_door')
-        self._openSfx = openSfx or base.loadSfx('phase_9/audio/sfx/CHQ_VP_door_open.mp3')
-        self._closeSfx = closeSfx or base.loadSfx('phase_9/audio/sfx/CHQ_VP_door_close.mp3')
+        self._openSfx = openSfx or base.loader.loadSfx('phase_9/audio/sfx/CHQ_VP_door_open.mp3')
+        self._closeSfx = closeSfx or base.loader.loadSfx('phase_9/audio/sfx/CHQ_VP_door_close.mp3')
         self._elevatorPoints = []
         for point in ElevatorConstants.ElevatorPoints:
             self._elevatorPoints.append(point[0])
@@ -26,7 +26,6 @@ class CogdoGameExit(NodePath):
         self._open = True
         self._toon2track = {}
         self.close(animate=False)
-        return
 
     def destroy(self):
         self._cleanToonTracks()
@@ -40,7 +39,6 @@ class CogdoGameExit(NodePath):
         del self._openSfx
         del self._closeSfx
         del self._elevatorPoints
-        return
 
     def isOpen(self):
         return self._open
@@ -103,7 +101,6 @@ class CogdoGameExit(NodePath):
     def _finishIval(self):
         if self._ival is not None and self._ival.isPlaying():
             self._ival.finish()
-        return
 
     def toonEnters(self, toon, goInside = True):
         self._runToonThroughSlot(toon, self._currentSlot, goInside = goInside)
@@ -181,7 +178,6 @@ class CogdoGameExit(NodePath):
         if oldTrack is not None:
             oldTrack.pause()
             del self._toon2track[toon]
-        return
 
     def _storeToonTrack(self, toon, track):
         self._clearToonTrack(toon)

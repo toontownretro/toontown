@@ -215,10 +215,8 @@ class CogdoMazeLocalPlayer(CogdoMazePlayer):
         self.__initCollisions()
         self._guiMgr.startGame(TTLocalizer.CogdoMazeFindHint)
         self.hints['find'] = True
-        self.notify.info('toonId:%d laff:%d/%d  %d player(s) started maze game' % (self.toon.doId,
-         self.toon.hp,
-         self.toon.maxHp,
-         len(self.game.players)))
+        self.notify.info('toonId:%d laff:%d/%d  %d player(s) started maze game' % (
+            self.toon.doId, self.toon.hp, self.toon.maxHp, len(self.game.players)))
 
     def handleGameExit(self):
         self.cameraMgr.disable()
@@ -252,10 +250,8 @@ class CogdoMazeLocalPlayer(CogdoMazePlayer):
             self._guiMgr.setMessage(message)
             self._winSfx.play()
             self._audioMgr.stopMusic()
-        self.notify.info('toonId:%d laff:%d/%d  %d player(s) succeeded in maze game. Going to the executive suit building.' % (toonId,
-         self.toon.hp,
-         self.toon.maxHp,
-         len(self.game.players)))
+        self.notify.info('toonId:%d laff:%d/%d  %d player(s) succeeded in maze game. Going to the executive suit building.' % (
+            toonId, self.toon.hp, self.toon.maxHp, len(self.game.players)))
         if self.numEntered > len(self.game.players):
             self.notify.info('%d player(s) failed in maze game' % (self.numEntered - len(self.game.players)))
 
@@ -263,7 +259,5 @@ class CogdoMazeLocalPlayer(CogdoMazePlayer):
         self.pickupCount = 0
         self._guiMgr.setMessageTemporary(TTLocalizer.CogdoMazeGameTimeOut)
         self._guiMgr.setPickupCount(self.pickupCount)
-        self.notify.info('toonId:%d laff:%d/%d  %d player(s) failed in maze game' % (self.toon.doId,
-         self.toon.hp,
-         self.toon.maxHp,
-         len(self.game.players)))
+        self.notify.info('toonId:%d laff:%d/%d  %d player(s) failed in maze game' % (
+            self.toon.doId, self.toon.hp, self.toon.maxHp, len(self.game.players)))

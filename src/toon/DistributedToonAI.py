@@ -146,7 +146,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         self.fishingTrophies = []
         self.trackArray = []
         self.emoteAccess = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-        self.maxBankMoney = 1000 #ToontownGlobals.DefaultMaxBankMoney
+        self.maxBankMoney = ToontownGlobals.DefaultMaxBankMoney #1000
         self.gardenSpecials = []#[(0,2), (1,2), (2,2), (3,2)]
 
         self.houseId = 0
@@ -5733,8 +5733,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                             avPairKey = str(min(av.doId, otherAv.doId)) + '+' + str(max(av.doId, otherAv.doId))
                             prevCount = DistributedToonAI.flagCounts.setdefault(avPairKey, [{}, globalClock.getFrameTime(), {}])
                             if not prevCount[2].has_key(av.doId):
-                                prevCount[2][av.doId] = [
-                                 None, None]
+                                prevCount[2][av.doId] = [None, None]
                             if not prevCount[0].has_key(av.doId):
                                 prevCount[0][av.doId] = 0
                             self.notify.debug('moving av %s, newPos: %s oldPos: %s' % (av.doId, prevCount[2][av.doId], avPos))
@@ -5742,8 +5741,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                                 pass
                             elif prevCount[2][av.doId][0] != avPos.getX() or prevCount[2][av.doId][1] != avPos.getY():
                                 prevCount[0][av.doId] += 1
-                            prevCount[2][av.doId] = [
-                             newX, newY]
+                            prevCount[2][av.doId] = [newX, newY]
                             zoneId = prevCount[0][av.doId] > AV_TOUCH_COUNT_LIMIT and globalClock.getFrameTime() - prevCount[1] < AV_TOUCH_COUNT_TIME and not hasattr(av, 'zoneId') and 'undef' or av.zoneId
                             battleId = not hasattr(av, 'battleId') and 'undef' or av.battleId
                             animName = not hasattr(av, 'animName') and 'undef' or av.animName
@@ -5754,7 +5752,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                             valStr = '%s %s %s %s %s %s %s %s' % (otherAv.doId, zoneId, battleId, animName, inEstate, ghostMode, immortalMode, isGm)
                             self.notify.info('av %s is consistently in an inappropriate position with %s...' % (av.doId, valStr))
                             self.air.writeServerEvent('suspicious', avId, ' consistently in an inappropriate position with toon %s' % valStr)
-                            response = simbase.config.GetString('toon-pos-hack-response', 'nothing')
+                            response = ConfigVariableString('toon-pos-hack-response', 'nothing').getValue()
                             av.handleHacking(response, 'collision and position hacking', [otherAv])
                         del DistributedToonAI.flagCounts[avPairKey]
 

@@ -1,5 +1,4 @@
 from .QuestPoster import *
-from direct.directnotify import DirectNotifyGlobal
 
 IMAGE_SCALE_LARGE = 0.15
 IMAGE_SCALE_SMALL = 0.1
@@ -80,10 +79,14 @@ class QuestBookPoster(QuestPoster):
         self.mapIndex.hide()
         iconNP.removeNode()
         gui.removeNode()
+
+        # Free up model
         bookModel.removeNode()
-        
+
+        # reverse the poster graphic if necessary
         self.reverseBG(self['reverse'])
-        
+
+        # For use by newbie quests
         self.laffMeter = None
 
     def reverseBG(self, reverse=0):

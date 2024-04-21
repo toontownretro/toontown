@@ -5,7 +5,7 @@ from toontown.toonbase import ToontownGlobals
 from direct.showbase import DirectObject
 from toontown.toon import ToonDNA
 from toontown.toon import ToonHead
-from toontown.toon import GMUtils
+#from toontown.toon import GMUtils
 from toontown.toontowngui import TTDialog
 from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer
@@ -66,10 +66,10 @@ class AvatarChoice(DirectButton):
             else:
                 self.mode = AvatarChoice.MODE_CHOOSE
                 # Handle the special case of GM toons
-                if GMUtils.testGMIdentity(av.name):
-                    self.name = self.__handleGMName(av.name)
-                else:
-                    self.name = av.name
+                #if GMUtils.testGMIdentity(av.name):
+                #    self.name = self.__handleGMName(av.name)
+                #else:
+                self.name = av.name
                 self.dna = ToonDNA.ToonDNA(av.dna)
                 self.wantName = av.wantName
                 self.approvedName = av.approvedName
@@ -372,13 +372,13 @@ class AvatarChoice(DirectButton):
             'JP', 'FR', 'BR', 'DisneyOnline-AP'] ):
             # If the login interface supports it, make the user
             # type his/her password in order to delete the toon.
-#            self.deleteWithPassword = 1
-#            deleteText = TTLocalizer.AvatarChoiceDeletePasswordText % self.name
+            self.deleteWithPassword = 1
+            deleteText = TTLocalizer.AvatarChoiceDeletePasswordText % self.name
 # Temp fix to delete toons without password
-            self.deleteWithPassword = 0
-            deleteText = TTLocalizer.AvatarChoiceDeleteConfirmText % \
-                         { "name" : self.name,
-                           "confirm" : TTLocalizer.AvatarChoiceDeleteConfirmUserTypes }
+#            self.deleteWithPassword = 0
+#            deleteText = TTLocalizer.AvatarChoiceDeleteConfirmText % \
+#                         { "name" : self.name,
+#                           "confirm" : TTLocalizer.AvatarChoiceDeleteConfirmUserTypes }
         else:
             # Otherwise (for instance, maybe the user logged in
             # via a "blue" token, and we don't have any way of
@@ -556,7 +556,7 @@ class AvatarChoice(DirectButton):
     def __handleTrialer(self):
         TeaserPanel.TeaserPanel(pageName='sixToons')
 
-    def __handleGMName(self, name):
-        gmName = GMUtils.handleGMName(name)
-
-        return gmName
+    #def __handleGMName(self, name):
+    #    gmName = GMUtils.handleGMName(name)
+    #
+    #    return gmName

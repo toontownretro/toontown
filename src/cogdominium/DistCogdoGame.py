@@ -224,7 +224,6 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
 
     def enterVisible(self):
         self._toonsInEntranceElev.set(True)
-
     def exitVisible(self):
         pass
 
@@ -241,7 +240,6 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
             timeout=duration)
         self._rulesPanel.load()
         self._rulesPanel.enter()
-
     def exitIntro(self):
         self._toonsInEntranceElev.set(False)
         self.ignore(self._rulesDoneEvent)
@@ -287,7 +285,6 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
         assert self.notify.debugCall()
         if SCHELLGAMES_DEV:
             self.acceptOnce('escape', messenger.send, ['magicWord', ['~endgame']])
-
     def exitGame(self):
         if SCHELLGAMES_DEV:
             self.ignore('escape')
