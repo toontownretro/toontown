@@ -45,7 +45,7 @@ CISCtopLevelOverlap = 0.08
 
 #chat/ToontownChatManager.py
 CMnormalButton = 0.06
-CMscButtonPos = (0.204, 0, -0.072)
+CMscButtonPos = (-1.119, 0, 0.928)
 CMscButton = 0.06
 CMwhisperFrame = 0.06
 CMwhisperButton = 0.05
@@ -210,18 +210,18 @@ NSnewName = 0.06
 NScolorPrecede = False
 
 #makeatoon/MakeAToon.py
-MATenterGenderShop = 0.18
-MATenterBodyShop = 0.18
-MATenterColorShop = 0.18
-MATenterClothesShop = 0.16
-MATenterNameShop = 0.15
+MATenterGenderShop = 0.14
+MATenterBodyShop = 0.14
+MATenterColorShop = 0.14
+MATenterClothesShop = 0.12
+MATenterNameShop = 0.11
 MATclothesGUIshirt_scale = 0.06
 MATclothesGUIshirt_posL = 0.010
 MATclothesGUIshirt_posR = -0.014
 MATnextButtonScale = 0.07
 
 #makeatoon\ShuffleButton.py
-SBshuffleBtn = 0.07
+SBshuffleBtn = 0.08
 
 #minigame/DistributedPairingGame.py
 DPGPointsFrameTextScale = 0.45
