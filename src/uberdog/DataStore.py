@@ -6,7 +6,7 @@ from direct.task import Task
 import pickle
 import os
 import sys
-import dbm
+import semidbm as dbm
 import time
 
 class DataStore:

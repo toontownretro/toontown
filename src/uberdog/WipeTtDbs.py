@@ -1,4 +1,4 @@
-import MySQLdb
+import pymysql as MySQLdb
 import direct
 from toontown.toonbase.ToontownModules import *
 from direct.showbase.ShowBase import ShowBase

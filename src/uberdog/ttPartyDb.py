@@ -85,14 +85,14 @@ class ttPartyDb:
             CREATE TABLE ttParty (
               partyId             BIGINT     NOT NULL AUTO_INCREMENT,
               hostId              BIGINT     NOT NULL,
-              startTime           TIMESTAMP     NOT NULL  default '0000-00-00 00:00:00',
-              endTime             TIMESTAMP     NOT NULL  default '0000-00-00 00:00:00',
-              isPrivate             BOOL       default False,
+              startTime           TIMESTAMP     NOT NULL  default CURRENT_TIMESTAMP,
+              endTime             TIMESTAMP     NOT NULL  default CURRENT_TIMESTAMP,
+              isPrivate             BOOLEAN       default False,
               inviteTheme         TINYINT,
               activities           VARBINARY(252),
               decorations         VARBINARY(252),
               statusId              TINYINT default 0,
-              creationTime          TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+              creationTime          TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
               lastupdate          TIMESTAMP  NOT NULL
                                   DEFAULT   CURRENT_TIMESTAMP
                                   ON UPDATE CURRENT_TIMESTAMP,

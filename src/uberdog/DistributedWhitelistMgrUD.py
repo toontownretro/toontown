@@ -6,9 +6,9 @@ from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobal
 from direct.http.WebRequest import WebRequestDispatcher
 from otp.distributed import OtpDoGlobals
 from toontown.toonbase import ToontownGlobals
+from toontown.uberdog import InGameNewsResponses
 from toontown.ai.ToontownAIMsgTypes import WHITELIST_MANAGER_UD_TO_ALL_AI
-from toontown.toonbase.ToontownModules import *
-from toontown.uberdog import WhitelistResponses
+from toontown.toonbase.ToontownModules import ConfigVariableString
 
 class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
     """
@@ -21,6 +21,19 @@ class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
     # WhitelistMgrAI is NOT!
     # Hence the use of sendUpdateToDoId when sending back to AI
 
+    setLatestListFailureXML = """
+    <setLatestListResponse>
+    <success>false</success>
+    <error>%s</error>
+    </setLatestListResponse>
+    \r\n"""
+
+    setLatestListSuccessXML = """
+    <setLatestListResponse>
+    <success>true</success>
+    <info>%s</info>
+    </setLatestListResponse>
+    \r\n"""
 
     def __init__(self, air):
         """Construct ourselves, set up web dispatcher."""
@@ -63,7 +76,7 @@ class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
     def whitelistMgr(self, replyTo, **kw):
         """Handle all calls to web requests awardMgr."""
         assert self.notify.debugCall()
-
+        
         # If no arguments are passed, assume that the main menu should
         # be displayed
 
@@ -81,7 +94,7 @@ class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
             header,body,footer,help= self.getMainMenu()
             body = """<BODY><div id="contents"><center><P>got these arguments """
             body += str(kw)
-
+            
         #self.notify.info("%s" % header + body + help + footer)
         replyTo.respond(header + body + help + footer)
 
@@ -90,13 +103,14 @@ class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
             newList = self.air.toontownTimeManager.getCurServerDateTime()
             self.b_setLatestList(newList)
             self.updateRecordFile()
-            replyTo.respondXML(WhitelistResponses.setLatestListSuccessXML % (self.getLatestListStr()))
+            replyTo.respondXML(self.setLatestListSuccessXML %
+                               (self.getLatestListStr()))
 
             pass
         except Exception as e:
-            replyTo.respondXML(WhitelistResponses.setLatestListFailureXML  % ("Catastrophic failure setting latest list %s" % str(e)))
+            replyTo.respondXML(self.setLatestListFailureXML  %
+                               ("Catastrophic failure setting latest list %s" % str(e)))
             pass
-
 
     def getMainMenu(self):
         """Create the main menu with forms for input."""
@@ -114,7 +128,7 @@ class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
             </form>
             """
 
-        footer = """</tbody></table></P></center></div><div id="footer">Toontown In Game News</div></BODY></HTML>"""
+        footer = """</tbody></table></P></center></div><div id="footer">Toontown Whitelist</div></BODY></HTML>"""
         help = """<table height = "15%"></table><P><table width = "60%"><caption>Note</caption><tr><th scope=col>- Click on the button when a new list of the whitelist has been released.</th></tr></table></P>"""
         return (header,body,footer,help)
 
@@ -176,7 +190,7 @@ class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
             pass
         return result
 
-    def setLatestListStr(self, listStr):
+    def updateWhitelist(self, listStr):
         self.notify.debugStateCall(self)
 
 
@@ -188,18 +202,18 @@ class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
         self.d_setLatestList(latestList)
 
     def d_setLatestList(self, latestList):
-        self.sendUpdateToAllAis('newListUDtoAI', [str(latestList)])
+        self.sendUpdateToAllAis('newListUDtoAI', [ self.getLatestListUtcStr()])
 
     def sendUpdateToAllAis(self, message, args):
         dg = self.dclass.aiFormatUpdateMsgType(
                 message, self.doId, self.doId, self.air.ourChannel, WHITELIST_MANAGER_UD_TO_ALL_AI, args)
         self.air.send(dg)
 
-    def whitelistAIStartingUp(self,  doId,  shardId):
+    def whitelistMgrAIStartingUp(self,  doId,  shardId):
         """Tell the new AI that just started up what the latest list is."""
         self.air.sendUpdateToDoId(
                 "DistributedWhitelistMgr",
                 'newListUDtoAI',
                 doId ,
-                [str(self.latestList)]
+                [self.getLatestListStr()]
             )

@@ -22,7 +22,6 @@ class DistributedWhitelistMgr(DistributedObject):
         """Delete ourself."""
         DistributedObject.delete(self)
         self.cr.whitelistMgr = None
-        return
 
     def disable(self):
         self.notify.debug("i'm disabling WhitelistMgr right now.")
@@ -32,6 +31,7 @@ class DistributedWhitelistMgr(DistributedObject):
         # Called when the client loads
         self.notify.debug("BASE: generate")
         DistributedObject.generate(self)
+
 
     def updateWhitelist(self):
         messenger.send("updateWhitelist")

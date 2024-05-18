@@ -302,7 +302,7 @@ from toontown.uberdog.DistributedPartyManager/AI/UD import DistributedPartyManag
 
 from toontown.rpc.AwardManager/UD import AwardManager/UD
 from toontown.uberdog.DistributedCpuInfoMgr/AI/UD import DistributedCpuInfoMgr/AI/UD
-//from toontown.uberdog.DistributedSecurityMgr/AI/UD import DistributedSecurityMgr/AI/UD
+from toontown.uberdog.DistributedSecurityMgr/AI/UD import DistributedSecurityMgr/AI/UD
 
 from toontown.rpc.RATManager/UD import RATManager/UD
 
@@ -456,6 +456,16 @@ dclass ToontownDistrict: DistributedDistrict {
 //  Setparentingrules(string type="Cartesian", string Rule="0:100:1") broadcast ram;
 // base:size:resolution
 //.. 0:100:1 == 3x3  interest grids.. with 100x100 size.. numbering starting at 0 ie 0.0 = 0
+////////////////////////////////
+//  allowAHNNLog(bool) broadcast required ram;
+//  tracking of hacker node name changes..
+//
+////////////////////////////////////
+//  This is a special DNA for toon town .. Has implied adjaciencies.. not just stated..
+  allowAHNNLog(bool) broadcast required ram;
+/////////////////////////////////////
+//  allowAHNNLog(bool) broadcast ram;
+//.. True/False
 ////////////////////////////////////
 };
 
@@ -4527,6 +4537,11 @@ dclass DistributedCpuInfoMgr : DistributedObjectGlobal {
    setCpuInfoToUd(uint32 avId, uint32 dislId, string info, string cacheStatus); // AI to UD
 };
 
+dclass DistributedSecurityMgr : DistributedObjectGlobal {
+  // requestAccountId(uint32, uint32, uint32);
+  // requestAccountIdResponse(uint32, uint32) airecv;
+};
+
 dclass NonRepeatableRandomSourceClient {
    getRandomSamplesReply(uint32 context, uint32 [] samples) airecv; // UD->AI
 };
@@ -4560,7 +4575,7 @@ dclass DistributedInGameNewsMgr : DistributedObjectGlobal {
 // in the ideal world we'd only have a UD object which sends updates directly to client objects, without AI
 dclass DistributedWhitelistMgr : DistributedObjectGlobal {
    // AI to clients
-  updateWhitelist(latestlist) broadcast;
+  updateWhitelist() broadcast;
   whitelistMgrAIStartingUp(uint32 doId, uint32 shardId); // ai to ud sent on whitelistManagerAI.announceGenerate
   newListUDtoAI(string latestList) airecv;  // ud to all AIs
 };

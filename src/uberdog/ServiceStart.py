@@ -197,7 +197,7 @@ uber.codeRedemptionMgrHTTPListenPort = int(os.getenv("CODE_REDEMPTION_PORT","899
 uber.crDbName = crDbName
 
 uber.cpuInfoMgrHTTPListenPort = int(os.getenv("SECURITY_BAN_MGR_PORT",8892))
-uber.securityMgrHTTPListenPort = int(os.getenv("SECURITY_PORT",8892))
+uber.securityMgrHTTPListenPort = int(os.getenv("SECURITY_PORT",8893))
 
 uber.air = ToontownUberDog(
         uber.mdip, uber.mdport,

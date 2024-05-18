@@ -310,7 +310,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             cancelled = False)
         self.notify.debug('futurePendingParties = %s' % str(futurePendingParties))
         prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in futurePendingParties]
-        prioritizedPartyInfo += futurePendingParties
+        prioritizedPartyInfo += tuple(futurePendingParties)
         slotsLeft = limit - len(futurePendingParties)
 
         if slotsLeft > 0:
@@ -322,7 +322,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
                 cancelled = True)
             #self.notify.debug('futureCancelledParties = %s' % str(futureCancelledParties))
             prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in futureCancelledParties]
-            prioritizedPartyInfo += futureCancelledParties
+            prioritizedPartyInfo += tuple(futureCancelledParties)
         slotsLeft -= len(futureCancelledParties)
         if slotsLeft > 0:
             pastFinishedParties = self.partyDb.getPrioritizedParties(\
@@ -457,7 +457,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             cancelled = False)
         self.notify.debug('futurePendingParties = %s' % str(futurePendingParties))
         prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in futurePendingParties]
-        prioritizedPartyInfo += futurePendingParties
+        prioritizedPartyInfo += tuple(futurePendingParties)
         slotsLeft = limit - len(futurePendingParties)
 
         if slotsLeft > 0:
@@ -469,7 +469,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
                 cancelled = True)
             self.notify.debug('futureCancelledParties = %s' % str(futureCancelledParties))
             prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in futureCancelledParties]
-            prioritizedPartyInfo += futureCancelledParties
+            prioritizedPartyInfo += tuple(futureCancelledParties)
         slotsLeft -= len(futureCancelledParties)
         if slotsLeft > 0:
             pastFinishedParties = self.partyDb.getHostPrioritizedParties(\

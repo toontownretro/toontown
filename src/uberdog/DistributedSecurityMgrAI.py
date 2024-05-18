@@ -9,7 +9,7 @@ from toontown.toonbase import ToontownGlobals
 
 ParentClass = DistributedObjectAI
 #ParentClass = DistributedObjectGlobal
-class DistributedWhitelistMgrAI(ParentClass ):
+class DistributedSecurityMgrAI(ParentClass ):
     """
     Uberdog object that keeps track of the last time the whitelist has been updated
     """
@@ -21,27 +21,28 @@ class DistributedWhitelistMgrAI(ParentClass ):
         assert self.notify.debugCall()
         ParentClass.__init__(self, cr)
         self.latestListStr = ""
+        self.avId2Fingerprint = {}
 
     def generate(self):
         """We have zone info but not required fields, register for the special."""
-        # WHITELIST_MGR_UD_TO_ALL_AI will arrive on this channel
-        self.air.registerForChannel(OtpDoGlobals.OTP_DO_ID_TOONTOWN_WHITELIST_MANAGER)
+        # IN_GAME_NEWS_MANAGER_UD_TO_ALL_AI will arrive on this channel
+        self.air.registerForChannel(OtpDoGlobals.OTP_DO_ID_TOONTOWN_SECURITY_MANAGER)
         ParentClass.generate(self)
 
     def announceGenerate(self):
         # tell uberdog we are starting up, so we can get info on the currently running public parties
         # do whatever other sanity checks is necessary here
         DistributedObjectAI.announceGenerate(self)
-        self.air.sendUpdateToDoId("DistributedWhitelistMgr",
-                                  'whitelistMgrAIStartingUp',
-                                  OtpDoGlobals.OTP_DO_ID_TOONTOWN_WHITELIST_MANAGER,
-                                   [self.doId, self.air.districtId]
-                                  )
+        #self.air.sendUpdateToDoId("DistributedWhitelistMgr",
+        #                          'whitelistMgrAIStartingUp',
+        #                          OtpDoGlobals.OTP_DO_ID_TOONTOWN_SECURITY_MANAGER,
+        #                           [self.doId, self.air.districtId]
+        #)
     def updateWhitelist(self, listStr):
-        """We normally get this once, we could get this when a new list is released while logged in."""
+        """We normally get this once, we could get this when a list is released while logged in."""
         # we receive this as a utc str
         assert self.notify.debugStateCall(self)
-        self.latestListStr = listStr
+        self.latestIssueStr = listStr
         pass
 
     def b_updateWhitelist(self, latestList):
@@ -55,11 +56,10 @@ class DistributedWhitelistMgrAI(ParentClass ):
     def getLatestListStr(self):
         """We normally get this once, we could get this when a new list is released while logged in."""
         assert self.notify.debugStateCall(self)
-        return self.latestListStr
+        return self.latestIssueStr
         pass
     
 
-    def newListUDtoAI(self, listStr):
+    def newIssueUDtoAI(self, listStr):
         """Well the UD is telling us we have a new list, spread it to the clients."""
         self.b_updateWhitelist(listStr)
-

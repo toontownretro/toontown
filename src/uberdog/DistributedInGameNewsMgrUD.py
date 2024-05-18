@@ -2,6 +2,7 @@ import socket
 import datetime
 import os
 import pytz
+import sys
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.http.WebRequest import WebRequestDispatcher
 from otp.distributed import OtpDoGlobals

@@ -87,6 +87,7 @@ from toontown.uberdog import DistributedPartyManagerAI
 from toontown.uberdog import DistributedInGameNewsMgrAI
 from toontown.uberdog import DistributedWhitelistMgrAI
 from toontown.uberdog import DistributedCpuInfoMgrAI
+from toontown.uberdog import DistributedSecurityMgrAI
 from toontown.parties import ToontownTimeManager
 from toontown.coderedemption.TTCodeRedemptionMgrAI import TTCodeRedemptionMgrAI
 from toontown.distributed.NonRepeatableRandomSourceAI import NonRepeatableRandomSourceAI
@@ -409,8 +410,8 @@ class ToontownAIRepository(AIDistrict):
         self.cpuInfoMgr = DistributedCpuInfoMgrAI.DistributedCpuInfoMgrAI(self)
         self.cpuInfoMgr.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
-        #self.securityMgr = DistributedSecurityMgrAI.DistributedSecurityMgrAI(self)
-        #self.securityMgr.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
+        self.securityMgr = DistributedSecurityMgrAI.DistributedSecurityMgrAI(self)
+        self.securityMgr.generateOtpObject(self.district.getDoId(), OTPGlobals.UberZone)
 
         if ConfigVariableBool('want-code-redemption', 1).getValue():
             self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
@@ -898,9 +899,9 @@ class ToontownAIRepository(AIDistrict):
                 value = di.getString().encode("ISO-8859-1")
                 found = di.getUint8()
 
-                #print key;
-                #print value;
-                #print found;
+                #print(key);
+                #print(value);
+                #print(found);
 
                 if found:
                     # create another datagram for this value
@@ -933,8 +934,8 @@ class ToontownAIRepository(AIDistrict):
                     tempHouseVal[i][j] = di.getString().encode("ISO-8859-1")
                     # do we need a check for "value found" here?
 
-            #print houseKey
-            #print tempHouseVal
+            #print(houseKey)
+            #print(tempHouseVal)
 
             numHouseFound = di.getUint16()
 

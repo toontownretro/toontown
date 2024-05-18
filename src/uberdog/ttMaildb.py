@@ -61,7 +61,7 @@ class ttMaildb:
               lastupdate            TIMESTAMP  NOT NULL
                                      DEFAULT   CURRENT_TIMESTAMP
                                      ON UPDATE CURRENT_TIMESTAMP,
-              dateSent		        TIMESTAMP  NOT NULL default '0000-00-00 00:00:00',
+              dateSent		        TIMESTAMP  NOT NULL default CURRENT_TIMESTAMP,
               readFlag					BOOLEAN    DEFAULT FALSE,
               PRIMARY KEY  (messageId),
               INDEX idx_recipientId (recipientId)

@@ -529,11 +529,11 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.accept("nameShopPost", self.relayMessage)
 
     def relayMessage(self, dg):
-        #print dg.dumpHex(ostream)
+        #print(dg.dumpHex(ostream))
         self.send(dg)
 
     def handleCreateAvatar(self, msgType, di):
-        #print di.getDatagram().dumpHex(ostream)
+        #print(di.getDatagram().dumpHex(ostream))
         #Roger wants to remove this if msgType == CLIENT_SERVER_UP:
         #Roger wants to remove this     self.handleServerUp(di)
         #Roger wants to remove this elif msgType == CLIENT_SERVER_DOWN:
@@ -1786,7 +1786,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             self.cache.delete(doId)
         else:
             # Otherwise, ignore it
-            ClientRepository.notify.warning("Asked to delete non-existent DistObj " + str(doId))
+            ToontownClientRepository.notify.warning("Asked to delete non-existent DistObj " + str(doId))
 
     def _abandonShard(self):
         # simulate removal of shard interest for quick shutdown
