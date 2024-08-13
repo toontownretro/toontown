@@ -7762,7 +7762,7 @@ STOREOWNER_THANKSFISH = 'Thanks! The Pet Shop will love these. Bye!'
 STOREOWNER_THANKSFISH_PETSHOP = "These are some fine specimens! Thanks."
 STOREOWNER_PETRETURNED = "Don't worry. We'll find a good home for your Doodle."
 STOREOWNER_PETADOPTED = "Congratulations on purchasing a Doodle! You can play with your new friend at your estate."
-STOREOWNER_PETCANCELED = "Remember, if you see a Doodle you like, make sure to adopt him before someone else does!"
+STOREOWNER_PETCANCELED = "Remember, if you see a Doodle you like, make sure to adopt them before someone else does!"
 
 STOREOWNER_NOROOM = "Hmm...you might want to make room in your closet before you buy new clothes.\n"
 STOREOWNER_CONFIRM_LOSS = "Your closet is full. You will lose the clothes you were wearing."

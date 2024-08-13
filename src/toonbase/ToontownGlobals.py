@@ -688,7 +688,7 @@ MinigamePlayerMatrix = {
          IceGameId, CogThiefGameId, PhotoGameId, TwoDGameId),
     }
 
-# ONLY USE WHEN DECIDED TO REMOVE THE PHOTOGAME!
+# ONLY USE WHEN DECIDED TO REMOVE THE PHOTO AND PATTERN GAME!
 """
 # Minigame Id list
 MinigamePlayerMatrix = {
