@@ -399,8 +399,11 @@ class TwoDGameToonSD(StateData.StateData):
             self.scoreText.setDepthWrite(0)
 
             self.scoreTextSeq = Sequence(
-                self.scoreText.posInterval(0.5, Point3(0, 0, self.toon.height + 2), blendType='easeOut'),
+                # Fly the number out of the character
+                self.scoreText.posInterval(0.5, Point3(0, 0, self.toon.height + 2), blendType = 'easeOut'),
+                # Fade the number
                 self.scoreText.colorInterval(0.25, Vec4(r, g, b, 0)),
+                # Get rid of the number
                 Func(self.hideScoreText))
             self.scoreTextSeq.start()
 

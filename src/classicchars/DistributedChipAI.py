@@ -33,7 +33,7 @@ class DistributedChipAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
                             State.State('Walk',
                                         self.enterWalk,
                                         self.exitWalk,
-                                        ['Lonely', 'Chatty', 'TreansitionToCostume']),
+                                        ['Lonely', 'Chatty', 'TransitionToCostume']),
                             State.State('TransitionToCostume',
                                         self.enterTransitionToCostume,
                                         self.exitTransitionToCostume,

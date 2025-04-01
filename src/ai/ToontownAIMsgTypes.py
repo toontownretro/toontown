@@ -12,13 +12,12 @@ TTAIMsgName2Id = {
     "WHITELIST_MANAGER_UD_TO_ALL_AI" :                  1044,
     }
 
+# create id->name table for debugging
 TTAIMsgId2Names = invertDictLossless(TTAIMsgName2Id)
 
-'''
-if not isClient():
-    print("EXECWARNING ToontownAIMsgTypes: %s" % TTAIMsgName2Id)
-    printStack()
-'''
+#if not isClient():
+#    print("EXECWARNING ToontownAIMsgTypes: %s"%TTAIMsgName2Id)
+#    printStack()
     
 # put msg names in module scope, assigned to msg value
 globals().update(TTAIMsgName2Id)

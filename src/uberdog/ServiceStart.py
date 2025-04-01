@@ -17,8 +17,8 @@ import getopt
 # Initialize ihooks importer On the production servers, we run genPyCode -n
 # meaning no squeeze, so nobody else does this. When we squeeze, the
 # unpacker does this for us and it does not hurt to do in either case.
-import ihooks
-ihooks.install()
+#import ihooks
+#ihooks.install()
 
 if os.getenv('TTMODELS'):
     from toontown.toonbase.ToontownModules import getModelPath, Filename
@@ -30,6 +30,7 @@ if os.getenv('TTMODELS'):
 
 from direct.directnotify import RotatingLog
 from otp.uberdog.UberDogGlobal import *
+from toontown.coderedemption import TTCodeRedemptionConsts
 
 # Get the options
 try:
@@ -87,6 +88,7 @@ uber.awardManagerHTTPListenPort = 8888
 uber.inGameNewsMgrHTTPListenPort = 8889
 uber.whitelistMgrHTTPListenPort = 8890
 mysqlhost = "localhost"
+crDbName = TTCodeRedemptionConsts.DefaultDbName
 
 # example values
 #minChannel = 20400000

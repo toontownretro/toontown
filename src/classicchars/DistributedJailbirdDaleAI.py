@@ -46,6 +46,8 @@ class DistributedJailbirdDaleAI(DistributedDaleAI.DistributedDaleAI):
                            'Off',
                            )
 
+        # We do not want to move into the transitionCostume state unless signalled to do so.
+        self.transitionToCostume = 0
         self.fsm.enterInitialState()
         
     def walkSpeed(self):

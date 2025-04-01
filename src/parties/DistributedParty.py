@@ -466,12 +466,14 @@ class DistributedParty(DistributedObject.DistributedObject):
         self.titleText.clearColorScale()
         self.titleText.setFg(self.titleColor)
         seq = Sequence(
+            # HACK! Let a pause go by to cover the loading pause
+            # This tricks the taskMgr
             Wait(0.1),
             Wait(6.0),
             self.titleText.colorScaleInterval(
-            startColorScale=Vec4(1.0, 1.0, 1.0, 1.0),
-            colorScale=Vec4(1.0, 1.0, 1.0, 0.0),
-            duration=0.5),
+            startColorScale = Vec4(1.0, 1.0, 1.0, 1.0),
+            colorScale = Vec4(1.0, 1.0, 1.0, 0.0),
+            duration = 0.5),
             Func(self.hideTitleText))
         seq.start()
 

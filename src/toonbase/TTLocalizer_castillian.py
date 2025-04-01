@@ -282,7 +282,7 @@ QuestsDefaultIncompleteProgress = ("Viniste al lugar adecuado, pero antes tienes
                                    "Vuelve cuando hayas terminado la dibutarea.",
                                    )
 QuestsDefaultIncompleteWrongNPC = ("Buen trabajo con esa dibutarea. Deberías ir a ver a _toNpcName_._where_",
-                                   "Parece que estás a punto de acabar tu dibutarea. Ve a ver a _toNpcName_._where_.",
+                                   "Parece que estás a punto de acabar tu dibutarea. Ve a ver a _toNpcName_._where_",
                                    "Ve a ver a _toNpcName_ para terminar la dibutarea._where_",
                                    )
 QuestsDefaultComplete = ("¡Buen trabajo! Aquí está tu recompensa...",
@@ -928,7 +928,7 @@ QuestDialogDict = {
              COMPLETE : "¡Encontraste mi tubo interno! Eres SENSACIONAL. Aquí tienes tu recompensa...",
              },
     2203 : { QUEST : TheCogs+" están sembrando el caos en el banco.\aVe a ver al capitán Doblón, a ver qué puedes hacer._where_" },
-    2204 : { QUEST : "Bienvenido a bordo, grumete.\a¡Arg! Esa escoria de bots aplastaron mi monóculo y no me puedo apañar sin él.\aSé un buen marinero y lleva esta prescripción al doctor Rompecubiertas para que me haga uno nuevo._where_.",
+    2204 : { QUEST : "Bienvenido a bordo, grumete.\a¡Arg! Esa escoria de bots aplastaron mi monóculo y no me puedo apañar sin él.\aSé un buen marinero y lleva esta prescripción al doctor Rompecubiertas para que me haga uno nuevo._where_",
              GREETING : "",
              LEAVING : "",
              },
@@ -962,7 +962,7 @@ QuestDialogDict = {
              GREETING : "Vaya, mira lo que aparece por aquí...",
              LEAVING : "",
              },
-    2213 : { QUEST : "Buen trabajo. Sabía que se atendría a razones.\aAhora necesito una carta náutica de Pasma Rote.\aNo creo que me fíen ahí tampoco, así que tendrás que llegar a un acuerdo con él._where_.",
+    2213 : { QUEST : "Buen trabajo. Sabía que se atendría a razones.\aAhora necesito una carta náutica de Pasma Rote.\aNo creo que me fíen ahí tampoco, así que tendrás que llegar a un acuerdo con él._where_",
              GREETING : "",
              LEAVING : "",
              },

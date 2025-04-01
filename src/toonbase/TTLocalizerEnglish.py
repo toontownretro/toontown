@@ -281,7 +281,7 @@ QuestsDefaultIncompleteProgress = ("You came to the right place, but you need to
                                    "Come back when you are finished with your ToonTask.",
                                    )
 QuestsDefaultIncompleteWrongNPC = ("Nice work on that ToonTask. You should go visit _toNpcName_._where_",
-                                   "Looks like you are ready to finish your ToonTask. Go see _toNpcName_._where_.",
+                                   "Looks like you are ready to finish your ToonTask. Go see _toNpcName_._where_",
                                    "Go see _toNpcName_ to finish your ToonTask._where_",
                                    )
 QuestsDefaultComplete = ("Nice work! Here is your reward...",
@@ -789,7 +789,7 @@ QuestDialogDict = {
            },
 
     400 : {GREETING : "",
-           QUEST : "Throw and Squirt are great, but you will need more gags to fight higher level Cogs.\aWhen you team up with other Toons against the Cogs, you can combine attacks for even more damage.\aTry different combinations of gags to see what works best.\aFor your next track, choose between Sound and Toonup.\aSound is special because when it hits, it damages all Cogs.\aToonup lets you heal other Toons in battle.\aWhen you are ready to decide, come back here and choose.",
+           QUEST : "Throw and Squirt are great, but you will need more gags to fight higher level Cogs.\aWhen you team up with other Toons against the Cogs, you can combine attacks for even more damage.\aTry different combinations of gags to see what works best.\aFor your next track, choose between Sound and Toon-Up.\aSound is special because when it hits, it damages all Cogs.\aToon-Up lets you heal other Toons in battle.\aWhen you are ready to decide, come back here and choose.",
            INCOMPLETE_PROGRESS : "Back so soon? Okay, are you ready to choose?",
            INCOMPLETE_WRONG_NPC : "Think about your decision before choosing.",
            COMPLETE : "Good decision. Now before you can use those gags, you must train for them.\aYou must complete a series of ToonTasks for training.\aEach task will give you a single frame of your gag attack animation.\aWhen you collect all 15, you can get the Final Gag Training task that will allow you to use your new gags.\aYou can check your progress in the Shticker Book.",
@@ -1120,7 +1120,7 @@ QuestDialogDict = {
     3260 : { QUEST : "Oh good, you're back. Let's see what you found....\a\"Attn Sellbots:\"\a\"Sellbot Towers has installed a new security system to keep all Toons out.\"\a\"Toons caught in Sellbot Towers will be detained for questioning.\"\a\"Please meet in the lobby for appetizers to discuss.\"\a\"Signed, Mingler\"\aVery interesting... I'll pass on this information immediately.\aPlease bring a third memo back.",
              },
     3261 : { QUEST : "Excellent job _avName_! What does the memo say?\a\"Attn Sellbots:\"\a\"Toons have somehow found a way to infiltrate Sellbot Towers.\"\a\"I'll call you tonight during dinner to give you the details.\"\a\"Signed, Telemarketer\"\aHmmm... I wonder how Toons are breaking in....\aPlease bring back one more memo and I think we'll have enough info for now.",
-             COMPLETE : "I knew you could do it! Ok, the memo says....\a\"Attn Sellbots:\"\a\"I was having lunch with Mr. Hollywood yesterday.\"\a\"He reports that the V.P. is very busy these days.\"\a\"He will only be taking appointments from Cogs that deserve a promotion.\"\a\"Forgot to mention, Gladhander is golfing with me on Sunday.\"\a\"Signed, Name Dropper\"\aWell... _avName_, this has been very helpful.\aHere is your reward.",
+             COMPLETE : "I knew you could do it! Ok, the memo says....\a\"Attn Sellbots:\"\a\"I was having lunch with Mr. Hollywood yesterday.\"\a\"He reports that the V.P. is very busy these days.\"\a\"He will only be taking appointments from Cogs that deserve a promotion.\"\a\"Forgot to mention, Glad Hander is golfing with me on Sunday.\"\a\"Signed, Name Dropper\"\aWell... _avName_, this has been very helpful.\aHere is your reward.",
              },
 
     3262 : { QUEST : "_toNpcName_ has some new information about the Sellbot HQ Factory.\aGo see what he's got._where_" },
@@ -1188,7 +1188,7 @@ QuestDialogDict = {
              },
     4214 : { GREETING : "",
              LEAVING : "",
-             QUEST : "I just don't understand it!\aStill not a SINGLE customer.\aMaybe we need to go to the source.\aTry reclaiming a Cashbot Cog building.\aThat Should do the trick...",
+             QUEST : "I just don't understand it!\aStill not a SINGLE customer.\aMaybe we need to go to the source.\aTry reclaiming a Cashbot Cog building.\aThat should do the trick...",
              INCOMPLETE_PROGRESS : "Oh, please! Just one little building...",
              COMPLETE : "Still not a soul in here.\aBut you know, come to think of it.\aI didn't have any customers before the Cogs invaded either!\aI really appreciate all your help though.\aThis should help you get around."
              },
@@ -1544,22 +1544,22 @@ QuestDialogDict = {
     5254 : { GREETING: "",
              QUEST : "All right! Now I'm in business.\aIf only they hadn't taken my platform shoes...\aThose shoes probably ended up with a Mr. Hollywood, if I had to guess.",
              LEAVING : "",
-             COMPLETE : "Allright!! I'm ready now.\aHello Brrrgh!!!\aHuh? Where is everyone?\aOkay, take this and round me up some fans, huh?",
+             COMPLETE : "All right!! I'm ready now.\aHello Brrrgh!!!\aHuh? Where is everyone?\aOkay, take this and round me up some fans, huh?",
              INCOMPLETE_PROGRESS : "I can't perform barefoot, can I?" },
     5282 : { GREETING: "",
              QUEST : "All right! Now I'm in business.\aIf only they hadn't taken my platform shoes...\aThose shoes probably ended up with a Big Cheese, if I had to guess.",
              LEAVING : "",
-             COMPLETE : "Allright!! I'm ready now.\aHello Brrrgh!!!\aHuh? Where is everyone?\aOkay, take this and round me up some fans, huh?",
+             COMPLETE : "All right!! I'm ready now.\aHello Brrrgh!!!\aHuh? Where is everyone?\aOkay, take this and round me up some fans, huh?",
              INCOMPLETE_PROGRESS : "I can't perform barefoot, can I?" },
     5283 : { GREETING: "",
              QUEST : "All right! Now I'm in business.\aIf only they hadn't taken my platform shoes...\aThose shoes probably ended up with a Robber Baron, if I had to guess.",
              LEAVING : "",
-             COMPLETE : "Allright!! I'm ready now.\aHello Brrrgh!!!\aHuh? Where is everyone?\aOkay, take this and round me up some fans, huh?",
+             COMPLETE : "All right!! I'm ready now.\aHello Brrrgh!!!\aHuh? Where is everyone?\aOkay, take this and round me up some fans, huh?",
              INCOMPLETE_PROGRESS : "I can't perform barefoot, can I?" },
     5284 : { GREETING: "",
              QUEST : "All right! Now I'm in business.\aIf only they hadn't taken my platform shoes...\aThose shoes probably ended up with a Big Wig, if I had to guess.",
              LEAVING : "",
-             COMPLETE : "Allright!! I'm ready now.\aHello Brrrgh!!!\aHuh? Where is everyone?\aOkay, take this and round me up some fans, huh?",
+             COMPLETE : "All right!! I'm ready now.\aHello Brrrgh!!!\aHuh? Where is everyone?\aOkay, take this and round me up some fans, huh?",
              INCOMPLETE_PROGRESS : "I can't perform barefoot, can I?" },
 
     5255 : { QUEST : "You look like you could use more Laff points.\aMaybe _toNpcName_ could sort you out._where_" },
@@ -1583,7 +1583,7 @@ QuestDialogDict = {
              QUEST : "You say you're done? Defeated all the Cogs?\aYou must have misunderstood, our deal was for Cashbot Cogs.\aI'm sure I told you to defeat some Cashbot Cogs for me." },
 
     # Eddie the will give you laff point for helping him
-    5301 : { QUEST : "I can't help you with Laff points, but maybe _toNpcName_ will cut you a deal.\aHe's a little on tempermental side though..._where_" },
+    5301 : { QUEST : "I can't help you with Laff points, but maybe _toNpcName_ will cut you a deal.\aHe's a little on temperamental side though..._where_" },
     5302 : { GREETING : "",
              LEAVING : "",
              COMPLETE : "I told you what?!?!\aThanks a bunch! Here's your Laff point!",
@@ -1681,7 +1681,7 @@ QuestDialogDict = {
              },
     6222 : { GREETING : "",
              LEAVING : "",
-             QUEST : "Yo! Youse came to da right place. I ain't too happy.\aYeah, I was lookin for some help wid dose Cogs. Dey always come and boss me around.\aIf you can retire some of dem Bossbots, I'll make it worth your while.",
+             QUEST : "Yo! Youse came to da right place. I ain't too happy.\aYeah, I was lookin' for some help wid dose Cogs. Dey always come and boss me around.\aIf you can retire some of dem Bossbots, I'll make it worth your while.",
              INCOMPLETE_PROGRESS : "Hey, _avName_, what's up wid youse?\aYou gotta keep after dem Bossbots. We got a deal, remember?\aRocco always keeps his word.",
              COMPLETE : "Yo, _avName_! Youse ok in my book.\aDem Bossbots ain't so bossy now, is they?\aHere ya go! A nice big boost. Now, you stay outta trouble, ya hear!",
              },
@@ -2067,7 +2067,7 @@ QuestDialogDict = {
              },
     11004 : { GREETING : "",
               LEAVING : "",
-              QUEST : "If you need more Lawbot disguise parts you should return to _toNpcName_.\aI hear he still needs help with his weather reasearch._where_",
+              QUEST : "If you need more Lawbot disguise parts you should return to _toNpcName_.\aI hear he still needs help with his weather research._where_",
               },
     11005 : { GREETING : "",
               LEAVING : "",
@@ -2163,7 +2163,7 @@ QuestDialogDict = {
               LEAVING : "",
               QUEST : "What do you think about %s? Could you get a sensor from there too?" % GlobalStreetNames[4300][-1],
               INCOMPLETE_PROGRESS : "Have you tried looking on %s?" % GlobalStreetNames[4300][-1],
-              COMPLETE : "Another excellent job, _avName_",
+              COMPLETE : "Another excellent job, _avName_.",
              },
     11024 : { GREETING : "",
               LEAVING : "",
@@ -2223,7 +2223,7 @@ QuestDialogDict = {
     12007 : { GREETING : "",
               LEAVING : "",
               QUEST : "If you defeat a Micromanager I'll give you another part.",
-              INCOMPLETE_PROGRESS : "Try looking on %s" % GlobalStreetNames[1100][-1],
+              INCOMPLETE_PROGRESS : "Try looking on %s." % GlobalStreetNames[1100][-1],
               COMPLETE : "You managed that quite well!\aHere's your fourth disguise part.",
              },
     12008 : { GREETING : "",
@@ -2233,7 +2233,7 @@ QuestDialogDict = {
     12009 : { GREETING : "",
               LEAVING : "",
               QUEST : "I'm after a Downsizer now...",
-              INCOMPLETE_PROGRESS : "Having trouble? Try looking on %s" % GlobalStreetNames[3100][-1],
+              INCOMPLETE_PROGRESS : "Having trouble? Try looking on %s." % GlobalStreetNames[3100][-1],
               COMPLETE : "He went down hard!\aHere's your fifth disguise part.",
              },
     12010 : { GREETING : "",
@@ -2263,7 +2263,7 @@ QuestDialogDict = {
     12015 : { GREETING : "",
               LEAVING : "",
               QUEST : "Now the coup de grace: The Big Cheese!",
-              INCOMPLETE_PROGRESS : "Try looking in %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Try looking in %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "I knew I could count on you to cut...\aAh, never mind.\aHere's your next disguise part.",
              },
     12016 : { GREETING : "",
@@ -2273,7 +2273,7 @@ QuestDialogDict = {
     12017 : { GREETING : "",
               LEAVING : "",
               QUEST : "Now I need you to defeat one of the new, more treacherous Bossbot Cogs.",
-              INCOMPLETE_PROGRESS : "Try looking in %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Try looking in %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "They are tougher than they look, huh?\aI guess I owe you a disguise part.",
              },
     12018 : { GREETING : "",
@@ -2283,7 +2283,7 @@ QuestDialogDict = {
     12019 : { GREETING : "",
               LEAVING : "",
               QUEST : "These Version 2.0 Cogs are very interesting.\aPlease go defeat another one.",
-              INCOMPLETE_PROGRESS : "Try looking in %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Try looking in %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "Thanks!\aAnother disguise part coming right up.",
              },
     12020 : { GREETING : "",
@@ -2293,7 +2293,7 @@ QuestDialogDict = {
     12021 : { GREETING : "",
               LEAVING : "",
               QUEST : "I wonder if they can keep regenerating...",
-              INCOMPLETE_PROGRESS : "Try looking in %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Try looking in %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "I guess not.\aHere's your part...",
              },
     12022 : { GREETING : "",
@@ -2303,7 +2303,7 @@ QuestDialogDict = {
     12023 : { GREETING : "",
               LEAVING : "",
               QUEST : "Maybe they aren't Bossbots at all...",
-              INCOMPLETE_PROGRESS : "Try looking in %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Try looking in %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "Hmmm, I guess they are Bossbots after all.\aHelp yourself to another part.",
              },
     12024 : { GREETING : "",
@@ -2313,7 +2313,7 @@ QuestDialogDict = {
     12025 : { GREETING : "",
               LEAVING : "",
               QUEST : "Perhaps they are related to the Skelecogs somehow...",
-              INCOMPLETE_PROGRESS : "Try looking in %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Try looking in %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "That was inconclusive...\aHere's your disguise part.",
              },
     12026 : { GREETING : "",
@@ -2323,7 +2323,7 @@ QuestDialogDict = {
     12027 : { GREETING : "",
               LEAVING : "",
               QUEST : "I'm still not convinced they aren't some type of Skelecog...",
-              INCOMPLETE_PROGRESS : "Try looking in %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Try looking in %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "Well, maybe not.\aHere's your next part.",
              },
     12028 : { GREETING : "",
@@ -2333,7 +2333,7 @@ QuestDialogDict = {
     12029 : { GREETING : "",
               LEAVING : "",
               QUEST : "I am still quite baffled by these new Cogs.\aCould you go defeat another, please?",
-              INCOMPLETE_PROGRESS : "Try looking in %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Try looking in %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "Fascinating. Simply fascinating.\aA disguise part for your troubles.",
              },
     12030 : { GREETING : "",
@@ -2343,13 +2343,13 @@ QuestDialogDict = {
     12031 : { GREETING : "",
               LEAVING : "",
               QUEST : "I've almost determined what these new Cogs are.\aJust one more...",
-              INCOMPLETE_PROGRESS : "Try looking in %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Try looking in %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "Yes, I think I'm onto something.\aOh, yes.\aThis is for you...",
              },
     12032 : { GREETING : "",
               LEAVING : "",
               QUEST : "You need to go tell Flippy about this...",
-              INCOMPLETE_PROGRESS : "Flippy can be found in Toon Hall",
+              INCOMPLETE_PROGRESS : "Flippy can be found in Toon Hall.",
               COMPLETE : "A new type of Cog!\aGood work!\aHere is your final disguise part.",
               },
  }
@@ -5024,7 +5024,7 @@ WinterGoofyChatter = (
         ],
         [ # Comments
         "Who needs reindeer when you have a fast kart?",
-        "Gawrsh! Is it Witer Holiday already?",
+        "Gawrsh! Is it Winter Holiday already?",
         "I need my earmuffs!",
         "I haven't done any shopping yet!",
         "Don't drive your kart on ice!",
@@ -5036,7 +5036,7 @@ WinterGoofyChatter = (
         [ # Goodbyes
         "Have a cheery Winter Holiday!",
         "Drive safe, now!",
-        "Watch out for flrying reindeer!",
+        "Watch out for flying reindeer!",
         ]
     )
 
@@ -5160,7 +5160,7 @@ WinterDreamlandCChatter = (
         "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
         "I love a long winter's nap!",
         "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
-        "The trees on the streets are convered in night lights!",
+        "The trees on the streets are covered in night lights!",
         ],
         [ # Goodbyes
         "To all, a good night!",
@@ -5183,7 +5183,7 @@ WinterDreamlandDChatter = (
         "When I wake up, I better see lots of presents!",
         "I hope I don't sleep through the holidays!",
         "I love a long winter's nap!",
-        "The trees on the streets are convered in night lights!",
+        "The trees on the streets are covered in night lights!",
         ],
         [ # Goodbyes
         "To all, a good night!",
@@ -5848,7 +5848,7 @@ AprilToonsExtPhaseTopTopic = "AprilToonsExtPhaseTopTopic"
 AprilToonsPhasePostTopTopic = "AprilToonsPhasePostTopTopic"
 toontownDialogues = {
    BoringTopic : { \
-        (1, 2018)  : ['Hello, Albert', 'It looks like the sillyness levels are rising.', 'Yes, and don\'t forget April Toons!'],
+        (1, 2018)  : ['Hello, Albert', 'It looks like the silliness levels are rising.', 'Yes, and don\'t forget April Toons!'],
         (2, 2019) : ['Hello, Newton', 'Yes, I wonder how much the parties are contributing to all this.',],
         (3, 2020) : ['Why hello there, Albert and Newton.', 'Halloween was pretty silly too!',],
         },
@@ -5929,7 +5929,7 @@ toontownDialogues = {
         },
     EmceeDialoguePhase6Topic : {
         (1, 2020) : ['Congratulations Toons!',
-                         'You all succesfully held off the Cog Invasions...',
+                         'You all successfully held off the Cog Invasions...',
                          'With a little help from our newly animated friends...',
                          'And brought Toontown back to its usual silly self!',
                          'We hope to get the Silly Meter rising again soon...',
@@ -6489,13 +6489,13 @@ PartyActivityNameDict = {
     },
     17: {
         "generic" : "Jukebox\n20 songs",
-        "invite" : "a 20 song Valentoons Jukebox",
+        "invite" : "a 20 song ValenToons Jukebox",
         "editor" : "Jukebox - 20",
         "description" : "Nothing sets the mood like music!"
     },
     18: {
         "generic" : "Jukebox\n40 songs",
-        "invite" : "a 40 song Valentoons jukebox",
+        "invite" : "a 40 song ValenToons jukebox",
         "editor" : "Jukebox - 40",
         "description" : "Nothing sets the mood like music!"
     },
@@ -6561,7 +6561,7 @@ PartyDecorationNameDict = {
     },
     12 : {
         "editor" : "Gag Cake",
-        "description" : "A Topsy Turvy gag cake designed by Felicia",
+        "description" : "A Topsy-Turvy gag cake designed by Felicia",
     },
     13 : {
         "editor" : "Cupid's Heart",
@@ -7087,7 +7087,7 @@ QuestChoiceGuiCancel = lCancel
 # TrackChoiceGui.py
 TrackChoiceGuiChoose = "Choose"
 TrackChoiceGuiCancel = lCancel
-TrackChoiceGuiHEAL = 'Toonup lets you heal other Toons in battle.'
+TrackChoiceGuiHEAL = 'Toon-Up lets you heal other Toons in battle.'
 TrackChoiceGuiTRAP = 'Traps are powerful gags that must be used with Lure.'
 TrackChoiceGuiLURE = 'Use Lure to stun Cogs or draw them into traps.'
 TrackChoiceGuiSOUND = 'Sound gags affect all Cogs, but are not very powerful.'
@@ -7224,8 +7224,8 @@ TownBattleChooseAvatarCogTitle = "WHICH " + Cog.upper() + "?"
 TownBattleChooseAvatarBack = "BACK"
 
 #firecogpanel
-FireCogTitle = "PINK SLIPS LEFT:%s\nFIRE WHICH COG?"
-FireCogLowTitle = "PINK SLIPS LEFT:%s\nNOT ENOUGH SLIPS!"
+FireCogTitle = "PINK SLIPS LEFT: %s\nFIRE WHICH COG?"
+FireCogLowTitle = "PINK SLIPS LEFT: %s\nNOT ENOUGH SLIPS!"
 
 # TownBattleSOSPanel.py
 TownBattleSOSNoFriends = "No friends to call!"
@@ -7762,7 +7762,7 @@ STOREOWNER_THANKSFISH = 'Thanks! The Pet Shop will love these. Bye!'
 STOREOWNER_THANKSFISH_PETSHOP = "These are some fine specimens! Thanks."
 STOREOWNER_PETRETURNED = "Don't worry. We'll find a good home for your Doodle."
 STOREOWNER_PETADOPTED = "Congratulations on purchasing a Doodle! You can play with your new friend at your estate."
-STOREOWNER_PETCANCELED = "Remember, if you see a Doodle you like, make sure to adopt him before someone else does!"
+STOREOWNER_PETCANCELED = "Remember, if you see a Doodle you like, make sure to adopt them before someone else does!"
 
 STOREOWNER_NOROOM = "Hmm...you might want to make room in your closet before you buy new clothes.\n"
 STOREOWNER_CONFIRM_LOSS = "Your closet is full. You will lose the clothes you were wearing."
@@ -7827,7 +7827,7 @@ QuestScriptTutorialBlocker_3 = "Oh! You don't know how to use SpeedChat!"
 QuestScriptTutorialBlocker_4 = "Click on the button to say something."
 QuestScriptTutorialBlocker_5 = "Very good!\aWhere you are going there are many Toons to talk to."
 QuestScriptTutorialBlocker_6 = "If you want to chat with other Toons using the keyboard, there's another button you can use."
-QuestScriptTutorialBlocker_7 = "It's called the Chat button. You need to turn on Speedchat Plus in your Account Manager on the Toontown Web site to use it."
+QuestScriptTutorialBlocker_7 = "It's called the Chat button. You need to turn on SpeedChat Plus in your Account Manager on the Toontown Web site to use it."
 QuestScriptTutorialBlocker_8 = "Good luck! See you later!"
 
 """
@@ -8097,7 +8097,7 @@ GlassesStylesDescriptions = {
     'gst1' : "Yellow Star Glasses",
     'g3d1' : "Movie Glasses",
     'gav1' : "Aviator",
-    'gce1' : "Cateye Glasses",
+    'gce1' : "Cat Eye Glasses",
     'gdk1' : "Nerd Glasses",
     'gjo1' : "Celebrity Shades",
     'gsb1' : "Scuba Mask",
@@ -8107,14 +8107,14 @@ GlassesStylesDescriptions = {
     'gie1' : "Bug Eye Glasses",
     'gmt1' : "Black Secret ID Mask",
     'gmt2' : "Blue Secret ID Mask",
-    'gmt3' : "Blue Carnivale Mask",
-    'gmt4' : "Purple Carnivale Mask",
-    'gmt5' : "Aqua Carnivale Mask",
+    'gmt3' : "Blue Carnival Mask",
+    'gmt4' : "Purple Carnival Mask",
+    'gmt5' : "Aqua Carnival Mask",
     'gmn1' : "Monocle",
     'gmo1' : "Smooch Glasses",
     'gsr1' : "Square Frame Glasses",
-    'ghw1' : "Skull Eyepatch",
-    'ghw2' : "Gem Eyepatch",
+    'ghw1' : "Skull Eye Patch",
+    'ghw2' : "Gem Eye Patch",
     'gag1' : "Alien Eyes by Alexandra",
     }
 
@@ -8253,7 +8253,7 @@ ShirtStylesDescriptions = {
     'bss12' : "soccer jersey (special)",
     'bss13' : "lightning bolt (special)",
     'bss14' : "jersey 19 (special)",
-    'bss15' : "guayavera",
+    'bss15' : "guayabera",
 
     # -------------------------------------------------------------------------
     # Girl styles
@@ -8356,11 +8356,11 @@ ShirtStylesDescriptions = {
     'sa_ss13' : "Award Golf Shirt 2",
     'sa_ss14' : "Award Halloween Costume Shirt 1",
     'sa_ss15' : "Award Halloween Costume Shirt 2",
-    'sa_ss16' : "Award Matathon Shirt 1",
+    'sa_ss16' : "Award Marathon Shirt 1",
     'sa_ss17' : "Award Save Building Shirt 1",
     'sa_ss18' : "Award Save Building Shirt 2",
-    'sa_ss19' : "Award Toontask Shirt 1",
-    'sa_ss20' : "Award Toontask Shirt 2",
+    'sa_ss19' : "Award ToonTask Shirt 1",
+    'sa_ss20' : "Award ToonTask Shirt 2",
     'sa_ss21' : "Award Trolley Shirt 1",
     'sa_ss22' : "Award Trolley Shirt 2",
     'sa_ss23' : "Award Winter Shirt 1",
@@ -8644,6 +8644,11 @@ FurnitureYourOldCloset = "your old wardrobe"
 FurnitureYourOldBank = "your old bank"
 FurnitureYourOldTrunk = "your old trunk"
 
+TrunkHatGUI = "Hats"
+TrunkGlassesGUI = "Glasses"
+TrunkBackpackGUI = "Backpacks"
+TrunkShoesGUI = "Shoes"
+
 # How to put quotation marks around chat items--don't translate yet.
 ChatItemQuotes = '"%s"'
 
@@ -8656,7 +8661,7 @@ FurnitureNames = {
   120 : "Desk Chair",
   130 : "Log Chair",
   140 : "Lobster Chair",
-  145 : "Lifejacket Chair",
+  145 : "Life Jacket Chair",
   150 : "Saddle Stool",
   160 : "Native Chair",
   170 : "Cupcake Chair",
@@ -8805,7 +8810,7 @@ AwardManagerFurnitureNames = {
   120 : "Desk Chair - Series 2",
   130 : "Log Chair - Series 2",
   140 : "Lobster Chair - Series 3",
-  145 : "Lifejacket Chair - Series 3",
+  145 : "Life Jacket Chair - Series 3",
   150 : "Saddle Stool - Series 4",
   160 : "Native Chair - Series 4",
   170 : "Cupcake Chair - Series 6",
@@ -8829,7 +8834,7 @@ AwardManagerFurnitureNames = {
   460 : "Erin's Lit Fireplace - coral",
   470 : "Lit Fireplace - square fireplace with fire",
   480 : "Round Lit Fireplace",
-  490 : "Lit Fireplac - girl fireplace with firee",
+  490 : "Lit Fireplace - girl fireplace with fire",
   491 : "Lit Fireplace - bug room fireplace",
   492 : "Apple Lit Fireplace",
   500 : "boy Wardrobe - 10 items initial",
@@ -9193,6 +9198,7 @@ SpecialEventNames = {
    11: "ToonTask Derby",
    12: "Save a Building Marathon",
    13: "Most Cogs Defeated",
+   14: "Most V.P.s Defeated",
    15: "Operation: Storm Sellbot Event",
    16: "Most C.J.s Defeated",
    17: "Operation: Lawbots Lose Event",
@@ -12762,13 +12768,13 @@ HolidayNamesInCalendar = {
    29: ("April Toons' Week", "Celebrate April Toons' Week - a holiday built by Toons for Toons!"),
    33: ("Sellbot Surprise 1", "Sellbot Surprise! Stop the Cold Caller Cogs from invading Toontown!"),
    34: ("Sellbot Surprise 2", "Sellbot Surprise! Stop the Name Dropper Cogs from invading Toontown!"),
-   35: ("Sellbot Surprise 3", "Sellbot Surprise! Stop the Gladhander Cogs from invading Toontown!"),
+   35: ("Sellbot Surprise 3", "Sellbot Surprise! Stop the Glad Hander Cogs from invading Toontown!"),
    36: ("Sellbot Surprise 4", "Sellbot Surprise! Stop the Mover & Shaker Cogs from invading Toontown!"),
    37: ("A Cashbot Conundrum 1", "A Cashbot Conundrum. Stop the Short Change Cogs from invading Toontown!"),
    38: ("A Cashbot Conundrum 2", "A Cashbot Conundrum. Stop the Penny Pincher Cogs from invading Toontown!"),
    39: ("A Cashbot Conundrum 3", "A Cashbot Conundrum. Stop the Bean Counter Cogs from invading Toontown!"),
    40: ("A Cashbot Conundrum 4", "A Cashbot Conundrum. Stop the Number Cruncher Cogs from invading Toontown!"),
-   41: ("The Lawbot Gambit 1", "The Lawbot Gambit. Stop the Bottomfeeder Cogs from invading Toontown!"),
+   41: ("The Lawbot Gambit 1", "The Lawbot Gambit. Stop the Bottom Feeder Cogs from invading Toontown!"),
    42: ("The Lawbot Gambit 2", "The Lawbot Gambit. Stop the Double Talker Cogs from invading Toontown!"),
    43: ("The Lawbot Gambit 3", "The Lawbot Gambit. Stop the Ambulance Chaser Cogs from invading Toontown!"),
    44: ("The Lawbot Gambit 4", "The Lawbot Gambit. Stop the Backstabber Cogs from invading Toontown!"),
@@ -12803,7 +12809,7 @@ HolidayNamesInCalendar = {
    89: ("Penny Pincher Invasion", "Stop the Penny Pinchers Cogs from invading Toontown!"),
    90: ("Name Dropper Invasion", "Stop the Name Dropper Cogs from invading Toontown!"),
    91: ("Ambulance Chaser Invasion", "Stop the Ambulance Chaser Cogs from invading Toontown!"),
-   92: ("Micro Manager Invasion", "Stop the Micro Manager Cogs from invading Toontown!"),
+   92: ("Micromanager Invasion", "Stop the Micromanager Cogs from invading Toontown!"),
    93: ("Number Cruncher Invasion", "Stop the Number Cruncher Cogs from invading Toontown!"),
    95: ("Victory Parties", "Celebrate our historic triumph against the Cogs!"), # placeholder
    96: ("Operation: Storm Sellbot", "Sellbot HQ is open to everyone. Let's go fight the VP!"),

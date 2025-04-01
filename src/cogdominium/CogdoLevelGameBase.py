@@ -11,6 +11,8 @@ class CogdoLevelGameBase:
 
         def startHandleEdits(self):
             fcs = []
+            # each attribute in the game settings entity can have a handler, e.g.
+            # def _handleGameDurationChanged(self, gameDuration): ...
             Consts = self.getConsts()
             for item in list(Consts.__dict__.values()):
                 if isinstance(item, EntityStateVarSet):
@@ -19,19 +21,17 @@ class CogdoLevelGameBase:
                         if handler:
                             stateVar = getattr(item, attribName)
                             fcs.append(FunctionCall(handler, stateVar))
-
             self._functionCalls = fcs
-            return
 
         def stopHandleEdits(self):
             if __dev__:
                 for fc in self._functionCalls:
                     fc.destroy()
-
                 self._functionCalls = None
-            return
 
         def getEntityTypeReg(self):
+            # return an EntityTypeRegistry with information about the
+            # entity types that the crane game uses
             from . import CogdoEntityTypes
             from otp.level import EntityTypeRegistry
             typeReg = EntityTypeRegistry.EntityTypeRegistry(CogdoEntityTypes)

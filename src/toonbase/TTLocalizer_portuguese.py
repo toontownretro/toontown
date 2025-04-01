@@ -17,10 +17,9 @@ commitmantst = "kptmptest - removable"
 
 InterfaceFont = 'phase_3/models/fonts/ImpressBT.ttf'
 ToonFont = 'phase_3/models/fonts/ImpressBT.ttf'
-#SuitFont = 'phase_3/models/fonts/vtRemingtonPortable.ttf'
-# Not really sure why Brazil changed the suit font that late in the game,
-# for the moment the change will still be included. ~Bob
-SuitFont = 'phase_3/models/fonts/HGHanKointai.ttc'
+# At some unknown point in 2010 Remington was changed to HGHanKointai
+# Normally only used by Japanese clients, but this is Portuguese...
+SuitFont = 'phase_3/models/fonts/vtRemingtonPortable.ttf'
 SignFont = 'phase_3/models/fonts/MickeyFont'
 MinnieFont = 'phase_3/models/fonts/MinnieFont'
 FancyFont = 'phase_3/models/fonts/Comedy'
@@ -147,24 +146,24 @@ GlobalStreetNames = {
     9000  : ("para o",  "no", "Parque"),
     9100  : ("para a",  "na", "Travessa da Canção de Ninar"),
     9200  : ("para o",  "no", "Pedaço do Pijama"),
-    10000 : ("","", ""),
+    10000 : ("","", ""), # 10000 : ("to",     "in",     "Bossbot HQ Country Club"),
     10100 : ("para o",  "no", "Salão do Quartel do Robô-chefe"),
     10200 : ("para a", "na", "Sede do Clube"),
     10500 : ("para o", "no", "Três da Frente"),
     10600 : ("para o", "no", "Seis do Meio"),
     10700 : ("para o", "no", "Nove de Trás"),
-    11000 : ("","", ""),
+    11000 : ("","", ""), # 11000 : ("to the", "in the", "Sellbot HQ Courtyard"),
     11100 : ("para o",  "no", "Salão do "+lSellbotHQ),
     11200 : ("para a",  "na", "Fábrica do Robô Vendedor"),
     11500 : ("para a",  "na", "Fábrica do Robô Vendedor"),
-    12000 : ("","", ""),
+    12000 : ("","", ""), # 12000 : ("to",     "in",     "Cashbot Train Yard"),
     12100 : ("para o",  "no", "Salão do Quartel do Robô Mercenário"),
     12500 : ("para a",  "na", "Casa da Moeda"),
     12600 : ("para a",  "na", "Casa da Moeda de Dólar"),
     12700 : ("para a",  "na", "Casa da Moeda de Barras de Ouro"),
-    13000 : ("","", ""),
-    13100 : ("para o",  "no", "Salão do Quartel do Robô da Lei"),
-    13200 : ("para o", "no", "Lobby do Escritório do Promotor"),
+    13000 : ("","", ""), # 13000 : ("to",     "in",     "Lawbot HQ Courtyard"),
+    13100 : ("para o",  "no", "Salão do Quartel do Robô da Lei"), # Update
+    13200 : ("para o", "no", "Salão do Escritório do Promotor"),
     13300 : ("para o", "no", "Escritório da Lei A"),
     13400 : ("para o", "no", "Escritório da Lei B"),
     13500 : ("para o", "no", "Escritório da Lei C"),
@@ -200,7 +199,7 @@ Office = 'Escritório'
 FactoryNames = {
     0 : 'Molde da fábrica',
     11500 : 'Fábrica do Cog Robô Vendedor',
-    13300 : 'Escritório de Cogs Policiais', #remove me JML
+    13300 : 'Escritório do Cog Robô da Lei', #remove me JML
     }
 
 FactoryTypeLeg = 'Perna'
@@ -220,8 +219,8 @@ lNo = 'Não'
 lBack = 'Voltar'
 
 sleep_auto_reply = "%s is sleeping right now"
-lHQ = 'Oficial'
 
+lHQ = 'Oficial'
 lHQOfficerF = 'Oficial do Quartel'
 lHQOfficerM = 'Oficial do Quartel'
 
@@ -296,7 +295,7 @@ QuestsDefaultIncompleteProgress = ("Você veio ao lugar certo, mas, primeirament
                                    "Volte quando tiver terminado sua Tarefa Toon.",
                                    )
 QuestsDefaultIncompleteWrongNPC = ("Bom trabalho naquela Tarefa Toon. Você deveria visitar _toNpcName_._where_",
-                                   "Parece que você está pronto para concluir sua Tarefa Toon. Vá ver _toNpcName_._where_.",
+                                   "Parece que você está pronto para concluir sua Tarefa Toon. Vá ver _toNpcName_._where_",
                                    "Vá ver _toNpcName_ para concluir sua Tarefa Toon._where_",
                                    )
 QuestsDefaultComplete = ("Bom trabalho! Aqui está a sua recompensa...",
@@ -803,7 +802,7 @@ QuestDialogDict = {
     175 : {GREETING : "",
            QUEST : "Você sabia que possui sua própria casa Toon?\aA vaca Clarabela administra um catálogo telefônico no qual você pode escolher e encomendar móveis para decorar sua casa.\aVocê também pode comprar frases do Chat Rápido, roupas e outras coisas muito legais!\aPedirei à Clarabela para enviar agora a você seu primeiro catálogo.\aVocê receberá um catálogo com novos itens toda semana!\aVá para sua casa e use o seu telefone para ligar para Clarabela.",
            INCOMPLETE_PROGRESS : "Vá para casa e use o seu telefone para ligar para Clarabela.",
-           COMPLETE : "Espero que você se divirta fazendo encomendas com Clarabela!\a Acabei de redecorar minha casa. Está Toontástica!\aContinue com as Tarefas Toon para ganhar mais recompensas!",
+           COMPLETE : "Espero que você se divirta fazendo encomendas com Clarabela!\aAcabei de redecorar minha casa. Está Toontástica!\aContinue com as Tarefas Toon para ganhar mais recompensas!",
            LEAVING : QuestsDefaultLeaving,
            },
 
@@ -1237,7 +1236,7 @@ QuestDialogDict = {
              },
     4224 : { GREETING : "",
              LEAVING : "",
-             QUEST : "Olá, Olá, OLÁ!\aMagnífico!\aSó conheço eu mesmo e os caras que vão fazer a faxina. \aA Ana disse para você passar lá e pegar a sua recompensa._where_\aTchau, Tchau, TCHAU!",
+             QUEST : "Olá, Olá, OLÁ!\aMagnífico!\aSó conheço eu mesmo e os caras que vão fazer a faxina.\aA Ana disse para você passar lá e pegar a sua recompensa._where_\aTchau, Tchau, TCHAU!",
              COMPLETE : "Obrigado por toda a sua ajuda, _avName_.\aVocê é realmente um tesouro aqui de Toontown.\aFalando em tesouros...",
              },
 
@@ -1640,7 +1639,7 @@ QuestDialogDict = {
     5310 : { GREETING : "",
              LEAVING : "",
              INCOMPLETE_PROGRESS : "Acho que os ouço vindo por mim...",
-             QUEST : "Obrigado. Sinto-me um pouco melhor agora.\a Mas tem mais uma coisa...\aVocê poderia ir até a casa de  _toNpcName_ e me conseguir um álibi?_where_"  },
+             QUEST : "Obrigado. Sinto-me um pouco melhor agora.\aMas tem mais uma coisa...\aVocê poderia ir até a casa de  _toNpcName_ e me conseguir um álibi?_where_"  },
     5311 : { GREETING : "O QUEEE!!!!",
              LEAVING : "",
              INCOMPLETE_PROGRESS : "Não posso ajudá-lo se não encontrar!",
@@ -1739,7 +1738,7 @@ QuestDialogDict = {
     6242 : { GREETING : "",
              LEAVING : "",
              QUEST : "_avName_, conto com a sua ajuda!\aSabe, esses Cogs estão fazendo tanto barulho que eu simplesmente não consigo me concentrar.\aPerco a conta dos carneirinhos a todo instante!\aSe você acabar com esse barulho, te dou uma ajuda! Pode contar com isso!\aMas, onde eu parei mesmo? Ah sim: cento e trinta e seis, cento e trinta e sete....",
-             INCOMPLETE_PROGRESS : "Quatrocentos e quarenta e dois... Quatrocentos e quarenta e três...\aO quê? Você já voltou? Mas ainda tem tanto barulho!\aEssa não, perdi a conta novamente.\a Um...dois...três....",
+             INCOMPLETE_PROGRESS : "Quatrocentos e quarenta e dois... Quatrocentos e quarenta e três...\aO quê? Você já voltou? Mas ainda tem tanto barulho!\aEssa não, perdi a conta novamente.\aUm...dois...três....",
              COMPLETE : "Quinhentos e noventa e três... Quinhentos e noventa e quatro...\aOlá? Ah, eu sabia que poderia contar com a sua ajuda! Agora, o silêncio voltou.\aPegue aqui, por todos esses Destruidores de Números.\aContar? Agora preciso começar a contar tudo outra vez! Um...dois....",
              },
 
@@ -1816,7 +1815,7 @@ QuestDialogDict = {
     6265 : { GREETING : "",
              LEAVING : "",
              QUEST : "Abobrinha? Hmm. Bem, alguém irá querer, tenho certeza.\aOk, estamos quase terminando com a minha lista. Mais uma entrega a fazer.\aNenê Crespo pediu um paletó zoot._where_",
-             INCOMPLETE_PROGRESS : "Se você não entregar esse paletó zoot ao Nenê Crespo,\a ele ficará todo amarrotado.",
+             INCOMPLETE_PROGRESS : "Se você não entregar esse paletó zoot ao Nenê Crespo,\aele ficará todo amarrotado.",
              },
     6266 : { GREETING : "",
              LEAVING : "",
@@ -2181,7 +2180,7 @@ QuestDialogDict = {
               LEAVING : "",
               QUEST : "O que acha de %s? Poderia conseguir um termômetro de lá também?" % GlobalStreetNames[4300][-1],
               INCOMPLETE_PROGRESS : "Tentou procurar em %s?" % GlobalStreetNames[4300][-1],
-              COMPLETE : "Outro ótimo trabalho, _avName_",
+              COMPLETE : "Outro ótimo trabalho, _avName_.",
              },
     11024 : { GREETING : "",
               LEAVING : "",
@@ -2211,17 +2210,17 @@ QuestDialogDict = {
               LEAVING : "",
               QUEST : "Sim, posso pegar as suas peças de Robô-Chefe.\aMas vou precisar de sua ajuda para completar a minha coleção de Robô-Chefe.\aVá lá fora e derrote um Puxa-saco.",
               INCOMPLETE_PROGRESS : "Não consegue encontrar um Puxa-saco? Que vergonha...",
-              COMPLETE : "Você não fracassou, não é?\ aAqui está a sua primeira peça de disfarce. ",
+              COMPLETE : "Você não fracassou, não é?\aAqui está a sua primeira peça de disfarce.",
              },
     12002 : { GREETING : "",
               LEAVING : "",
-              QUEST : "_toNpcName_ precisa de mais ajuda se você puder._where_ ",
+              QUEST : "_toNpcName_ precisa de mais ajuda se você puder._where_",
               },
     12003 : { GREETING : "",
               LEAVING : "",
-              QUEST : "Outra peça de disfarce?\aCertamente...\aMas só se você derrotar um Rato de Escritório. ",
+              QUEST : "Outra peça de disfarce?\aCertamente...\aMas só se você derrotar um Rato de Escritório.",
               INCOMPLETE_PROGRESS : "Os Rato de Escritório podem ser encontrados nas ruas.",
-              COMPLETE : "Ele realmente foi um fracote! \ aAqui está sua segunda peça de disfarce.",
+              COMPLETE : "Ele realmente foi um fracote!\aAqui está sua segunda peça de disfarce.",
              },
     12004 : { GREETING : "",
               LEAVING : "",
@@ -2235,12 +2234,12 @@ QuestDialogDict = {
              },
     12006 : { GREETING : "",
               LEAVING : "",
-              QUEST : "_toNpcName_ tem mais peças para você... ",
+              QUEST : "_toNpcName_ tem mais peças para você...",
               },
     12007 : { GREETING : "",
               LEAVING : "",
               QUEST : "Se você derrotar um Micro\4empresário, darei a você mais uma peça.",
-              INCOMPLETE_PROGRESS : "Tente procurar em %s" % GlobalStreetNames[1100][-1],
+              INCOMPLETE_PROGRESS : "Tente procurar em %s." % GlobalStreetNames[1100][-1],
               COMPLETE : "Você se saiu muito bem!\aAqui está sua quarta peça de disfarce.",
              },
     12008 : { GREETING : "",
@@ -2250,8 +2249,8 @@ QuestDialogDict = {
     12009 : { GREETING : "",
               LEAVING : "",
               QUEST : "Agora estou atrás de um Facão...",
-              INCOMPLETE_PROGRESS : "Algum problema? Tente procurar em %s" % GlobalStreetNames[3100][-1],
-              COMPLETE : "Não foi tão difícil!\aAqui está sua quinta peça de disfarce. ",
+              INCOMPLETE_PROGRESS : "Algum problema? Tente procurar em %s." % GlobalStreetNames[3100][-1],
+              COMPLETE : "Não foi tão difícil!\aAqui está sua quinta peça de disfarce.",
              },
     12010 : { GREETING : "",
               LEAVING : "",
@@ -2261,11 +2260,11 @@ QuestDialogDict = {
               LEAVING : "",
               QUEST : "Um Caça-\4talentos é o próximo da minha lista.",
               INCOMPLETE_PROGRESS : "Você terá mais sorte procurando em edifícios.",
-              COMPLETE : "Vejo que não teve problemas para caçar um desses.\aAqui está sua sexta peça de disfarce. ",
+              COMPLETE : "Vejo que não teve problemas para caçar um desses.\aAqui está sua sexta peça de disfarce.",
              },
     12012 : { GREETING : "",
               LEAVING : "",
-              QUEST : "_toNpcName_ precisa de mais Robôs-Chefe. ",
+              QUEST : "_toNpcName_ precisa de mais Robôs-Chefe.",
               },
     12013 : { GREETING : "",
               LEAVING : "",
@@ -2280,8 +2279,8 @@ QuestDialogDict = {
     12015 : { GREETING : "",
               LEAVING : "",
               QUEST : "Agora, o mais precioso de todos: O um Rei da Cocada Preta!",
-              INCOMPLETE_PROGRESS : "Tente procurar em %s" % GlobalStreetNames[10000][-1],
-              COMPLETE : "Sabia que podia contar com você para cortar...\aAh, não importa.\aAqui está sua próxima peça de disfarce. ",
+              INCOMPLETE_PROGRESS : "Tente procurar em %s." % GlobalStreetNames[10000][-1],
+              COMPLETE : "Sabia que podia contar com você para cortar...\aAh, não importa.\aAqui está sua próxima peça de disfarce.",
              },
     12016 : { GREETING : "",
               LEAVING : "",
@@ -2290,8 +2289,8 @@ QuestDialogDict = {
     12017 : { GREETING : "",
               LEAVING : "",
               QUEST : "Agora, preciso que você derrote um dos novos e mais traiçoeiros Cogs de Robô-Chefe.",
-              INCOMPLETE_PROGRESS : "Tente procurar em %s" % GlobalStreetNames[10000][-1],
-              COMPLETE : "Eles são mais fortes do que parecem, hein?\aAcho que lhe devo uma peça de disfarce. ",
+              INCOMPLETE_PROGRESS : "Tente procurar em %s." % GlobalStreetNames[10000][-1],
+              COMPLETE : "Eles são mais fortes do que parecem, hein?\aAcho que lhe devo uma peça de disfarce.",
              },
     12018 : { GREETING : "",
               LEAVING : "",
@@ -2300,8 +2299,8 @@ QuestDialogDict = {
     12019 : { GREETING : "",
               LEAVING : "",
               QUEST : "Esses Cogs versão 2.0 são muito interessantes.\aPor favor, derrote mais um.",
-              INCOMPLETE_PROGRESS : "Tente procurar em %s" % GlobalStreetNames[10000][-1],
-              COMPLETE : "Valeu!\aMais uma peça de disfarce chegando. ",
+              INCOMPLETE_PROGRESS : "Tente procurar em %s." % GlobalStreetNames[10000][-1],
+              COMPLETE : "Valeu!\aMais uma peça de disfarce chegando.",
              },
     12020 : { GREETING : "",
               LEAVING : "",
@@ -2310,8 +2309,8 @@ QuestDialogDict = {
     12021 : { GREETING : "",
               LEAVING : "",
               QUEST : "Imagino se puderem se regenerar...",
-              INCOMPLETE_PROGRESS : "Tente procurar em %s" % GlobalStreetNames[10000][-1],
-              COMPLETE : "Acho que não.\aAqui está sua peça... ",
+              INCOMPLETE_PROGRESS : "Tente procurar em %s." % GlobalStreetNames[10000][-1],
+              COMPLETE : "Acho que não.\aAqui está sua peça...",
              },
     12022 : { GREETING : "",
               LEAVING : "",
@@ -2320,8 +2319,8 @@ QuestDialogDict = {
     12023 : { GREETING : "",
               LEAVING : "",
               QUEST : "Talvez não sejam Robôs-Chefe afinal...",
-              INCOMPLETE_PROGRESS : "Tente procurar em %s" % GlobalStreetNames[10000][-1],
-              COMPLETE : "Hummm, acho que realmente são Robôs-Chefe.\aConsiga mais uma peça. ",
+              INCOMPLETE_PROGRESS : "Tente procurar em %s." % GlobalStreetNames[10000][-1],
+              COMPLETE : "Hummm, acho que realmente são Robôs-Chefe.\aConsiga mais uma peça.",
              },
     12024 : { GREETING : "",
               LEAVING : "",
@@ -2329,9 +2328,9 @@ QuestDialogDict = {
               },
     12025 : { GREETING : "",
               LEAVING : "",
-              QUEST : "Talvez, de alguma maneira, estejam relacionados aos Esqueletocogs... ",
-              INCOMPLETE_PROGRESS : "Tente procurar em %s" % GlobalStreetNames[10000][-1],
-              COMPLETE : "Isso foi inconsequente...\aAqui está sua peça de disfarce. ",
+              QUEST : "Talvez, de alguma maneira, estejam relacionados aos Esqueletocogs...",
+              INCOMPLETE_PROGRESS : "Tente procurar em %s." % GlobalStreetNames[10000][-1],
+              COMPLETE : "Isso foi inconsequente...\aAqui está sua peça de disfarce.",
              },
     12026 : { GREETING : "",
               LEAVING : "",
@@ -2340,8 +2339,8 @@ QuestDialogDict = {
     12027 : { GREETING : "",
               LEAVING : "",
               QUEST : "Ainda tenho dúvidas de que não sejam algum tipo de Esqueletocogs...",
-              INCOMPLETE_PROGRESS : "Tente procurar em %s" % GlobalStreetNames[10000][-1],
-              COMPLETE : "Bem, talvez não.\aAqui está sua próxima peça. ",
+              INCOMPLETE_PROGRESS : "Tente procurar em %s." % GlobalStreetNames[10000][-1],
+              COMPLETE : "Bem, talvez não.\aAqui está sua próxima peça.",
              },
     12028 : { GREETING : "",
               LEAVING : "",
@@ -2350,8 +2349,8 @@ QuestDialogDict = {
     12029 : { GREETING : "",
               LEAVING : "",
               QUEST : "Esses novos Cogs ainda me deixam dúvidas.\aPoderia derrotar mais um, por favor?",
-              INCOMPLETE_PROGRESS : "Tente procurar em %s" % GlobalStreetNames[10000][-1],
-              COMPLETE : "Fascinante. Simplesmente fascinante.\aUma peça de disfarce pelos inconvenientes. ",
+              INCOMPLETE_PROGRESS : "Tente procurar em %s." % GlobalStreetNames[10000][-1],
+              COMPLETE : "Fascinante. Simplesmente fascinante.\aUma peça de disfarce pelos inconvenientes.",
              },
     12030 : { GREETING : "",
               LEAVING : "",
@@ -2359,14 +2358,14 @@ QuestDialogDict = {
               },
     12031 : { GREETING : "",
               LEAVING : "",
-              QUEST : "Já havia quase descoberto o que são esses novos Cogs.\aSó mais um... ",
-              INCOMPLETE_PROGRESS : "Tente procurar em %s" % GlobalStreetNames[10000][-1],
-              COMPLETE : "Sim, acho que encontrei algo importante.\aAh, sim.\aIsso é para você... ",
+              QUEST : "Já havia quase descoberto o que são esses novos Cogs.\aSó mais um...",
+              INCOMPLETE_PROGRESS : "Tente procurar em %s." % GlobalStreetNames[10000][-1],
+              COMPLETE : "Sim, acho que encontrei algo importante.\aAh, sim.\aIsso é para você...",
              },
     12032 : { GREETING : "",
               LEAVING : "",
               QUEST : "Você precisa contar ao Flippy sobre isso...",
-              INCOMPLETE_PROGRESS : "Flippy está no Toon Hall",
+              INCOMPLETE_PROGRESS : "Flippy está no PrefeiToona.",
               COMPLETE : "Um novo tipo de Cog!\aBom trabalho!\aAqui está sua última peça de disfarce.",
               },
  }
@@ -5265,7 +5264,7 @@ HalloweenDreamlandChatter = (
         "Se você conseguir fazer uma travessura com o meu amigo Máximo, poderá visitar o Relaxe ao Máximo e saborear uma gostosura!",
         "Estou sonhando ou aquele Toon tem uma cabeça de abóbora?",
         "Se você conseguir fazer uma travessura com o meu amigo Máximo, poderá visitar o Relaxe ao Máximo e saborear uma gostosura!",
-        "Quando eu acordar, espero que não esteja tudo tão assustador! ",
+        "Quando eu acordar, espero que não esteja tudo tão assustador!",
         "Se você conseguir fazer uma travessura com o meu amigo Máximo, poderá visitar o Relaxe ao Máximo e saborear uma gostosura!",
         "Espero que eu não durma durante o Halloween!",
         "Se você conseguir fazer uma travessura com o meu amigo Máximo, poderá visitar o Relaxe ao Máximo e saborear uma gostosura!",
@@ -5307,23 +5306,23 @@ HalloweenDonaldChatter = (
         "Feliz Halloween, %!",
         ],
         [ # Comments
-        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura! ",
+        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura!",
         "Mas eu uso roupa de marinheiro todos os dias!",
-        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura! ",
+        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura!",
         "Abóboras fazem ótimas lanternas!",
-        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura! ",
+        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura!",
         "Nunca vi palmeiras com pernas peludas!",
-        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura! ",
+        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura!",
         "Talvez eu me vista de pirata no próximo Halloween!",
-        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura! ",
+        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura!",
         "Minhas gostosuras preferidas são as estrelas-do-mar!",
-        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura! ",
+        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura!",
         "Vou levar você para pedir gostosuras pelo porto!",
-        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura! ",
+        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura!",
         "Espero que essas aranhas continuem nas árvores!",
-        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura! ",
+        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura!",
         "Por que os fantasmas não se afogam? Porque eles usam boia!",
-        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura! ",
+        "Se você não se sente bem fazendo travessuras, procure Rudy, na Ridíquilhas, para ganhar uma gostosura!",
         "Espero que você esteja gostando da nossa diversão de Halloween!",
         ],
         [ # Goodbyes
@@ -6112,7 +6111,7 @@ EventsPageNewsTabName = "Notícias"
 EventsPageNewsTabTitle = "Notícias"
 EventsPageNewsDownloading= "Recuperando Notícias..."
 EventsPageNewsUnavailable = "Tico e Teco brincando com a impressora da gráfica. Notícias não disponíveis."
-EventsPageNewsPaperTitle = "TOONTOWN TIMES (GAZETA DE TOONTOWN)"
+EventsPageNewsPaperTitle = "GAZETA DE TOONTOWN"
 EventsPageNewsLeftSubtitle = "Ainda só por 1 balinha"
 EventsPageNewsRightSubtitle = "Tiragem de nove mil toonplares"
 
@@ -7791,7 +7790,7 @@ QuestScript140_1 = "Muito bem, você encontrou o bondinho!\aPor falar nisso, ten
 
 QuestScript141_1 = "Ah, sim, este livro vai quase completar a minha coleção.\aDeixe-me ver...\aÊpa...\aOnde é que eu pus os meus óculos agora?\aEu estava com eles um pouco antes de aqueles Cogs invadirem o meu edifício.\aDerrote os Cogs para encontrar meus óculos roubados.\aaQuando encontrá-los, traga de volta para mim para ganhar uma recompensa."
 
-QuestScript145_1 = "Estou vendo que você não teve problemas com o bondinho!\a Olha só, os Cogs roubaram o apagador do nosso quadro-negro.\a Vá para as ruas e lute com os Cogs até recuperar o apagador.\a Para encontrar as ruas, passe por um dos túneis como este:"
+QuestScript145_1 = "Estou vendo que você não teve problemas com o bondinho!\aOlha só, os Cogs roubaram o apagador do nosso quadro-negro.\aVá para as ruas e lute com os Cogs até recuperar o apagador.\aPara encontrar as ruas, passe por um dos túneis como este:"
 QuestScript145_2 = "Quando encontrar nosso apagador, traga-o de volta para cá.\aNão se esqueça, se precisar de piadas, pegue o bondinho.\aE se você precisar recuperar Pontos de risadas, colete casquinhas de sorvete no Pátio."
 
 QuestScript150_1 = "Ah... Esta próxima tarefa talvez seja muito difícil para você executar sozinho!"
@@ -10882,10 +10881,10 @@ TipDict = {
     "Visite as lojas de animais todos os dias para ver que Rabiscos novos elas têm.",
     "Há diferentes Rabiscos para adoção nos diferentes bairros.",
     # Karting
-    "Mostre o seu carrão e dê uma turbinada no seu limite de Risadas no Autódromo do Pateta. ",
+    "Mostre o seu carrão e dê uma turbinada no seu limite de Risadas no Autódromo do Pateta.",
     "Entre no Autódromo do Pateta pelo túnel em forma de pneu no pátio do Centro de Toontown.",
     "Ganhe pontos de Risada no Autódromo do Pateta.",
-    "O Autódromo do Pateta tem seis pistas de corrida diferentes. "
+    "O Autódromo do Pateta tem seis pistas de corrida diferentes."
    ),
 
   TIP_STREET : (
@@ -12458,7 +12457,7 @@ BossbotRTWelcome = "Seus Toons vão precisar de disfarces diferentes."
 BossbotRTRemoveSuit = "Primeiramente, tire suas roupas de Cog..."
 BossbotRTFightWaiter = "e, então, lute com estes garçons."
 BossbotRTWearWaiter = "Bom Trabalho! Agora, coloque as roupas de garçom."
-BossbotBossPreTwo1 = "Por que está demorando tanto? "
+BossbotBossPreTwo1 = "Por que está demorando tanto?"
 BossbotBossPreTwo2 = "Vamos, sirva meu banquete!"
 BossbotRTServeFood1 = "Hehe, sirva a comida que eu coloco nestas esteiras."
 BossbotRTServeFood2 = "Se você servir um Cog três vezes seguidas, ele vai explodir."
@@ -12707,7 +12706,7 @@ HolidayNamesInCalendar = {
    97: ("Dias de Balinha em Dobro - Jogos de Bonde", ""),
    98: ("Dias de Balinha em Dobro - Jogos de Bonde", ""),
    99: ("Dias de Balinha em Dobro - Jogos de Grupo", ""),
-   101: ("Maratona de Ano-Novo dos Toons", "Chances de vencer a toda hora! "),
+   101: ("Maratona de Ano-Novo dos Toons", "Chances de vencer a toda hora!"),
    # Translate
    105: ("Toons go GREEN!", "Toons make a green scene at Green Bean Jeans on Oak Street in Daisy Gardens!"),
    108: ("Operation: Lawbots Lose", "Lawbot HQ is open to everyone. Let's go fight the CJ!"),

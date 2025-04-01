@@ -7,6 +7,7 @@ from Pmw import *
 from direct.showbase.TkGlobal import *
 from direct.showbase import TkGlobal
 from direct.gui.DirectGui import DGG
+from toontown.toonbase import TTLocalizer
 
 DEFAULT_MENU_ITEMS = []
 
@@ -111,8 +112,14 @@ class QuestExplorerItem(TreeItem):
                 tierName = 'MM_TIER'                
             elif self.quest < DL_TIER:
                 tierName = 'BR_TIER'
-            else:
+            elif self.quest < LAWBOT_HQ_TIER:
                 tierName = 'DL_TIER'
+            elif self.quest < BOSSBOT_HQ_TIER:
+                tierName = 'LAWBOT_HQ_TIER'
+            elif self.quest < ELDER_TIER:
+                tierName = 'BOSSBOT_HQ_TIER'
+            else:
+                tierName = 'ELDER_TIER'
             return "%s: %d" % (tierName, self.quest)
         else:
             id = self.quest
@@ -135,7 +142,7 @@ class QuestExplorerItem(TreeItem):
                                               fromNpcId = 1000,
                                               toNpcId = toNpcId)
                     # Strip out end of page symbols
-                    dialog = dialog.replace("\a", "")
+                    dialog = dialog.replace("\a", " | ")
                 else:
                     dialog = 'Quest Entry not found'
             except:
@@ -147,7 +154,7 @@ class QuestExplorerItem(TreeItem):
                 if reward:
                     rewardString = " %s" % reward.getPosterString()
                 else:
-                    rewardString = ' - Just for fun!'
+                    rewardString = ' - ' + TTLocalizer.QuestPosterFun
             else:
                 rewardString = ""
             return "%d: %s%s" % (id, dialog, rewardString)

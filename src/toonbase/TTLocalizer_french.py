@@ -198,7 +198,7 @@ Factory = 'Usine'
 Headquarters = 'Quartiers généraux'
 SellbotFrontEntrance = 'Entrée principale'
 SellbotSideEntrance = 'Entrée latérale'
-Office = 'Officier'
+Office = 'Bureau'
 
 FactoryNames = {
     0 : "Maquette d'usine",
@@ -243,17 +243,17 @@ Av2Cog = "un Cog Version 2.0"
 v2Cog = "Cog Version 2.0"
 v2CogP = "Cogs Version 2.0"
 Foreman = "Contremaître de l'usine"
-ForemanP = "Contremaîtres de l'usine"
-AForeman = "un contremaître de l'usine"
-CogVP = "Vice-\nPrésident " + Cog
-CogVPs = "Vice-\nPrésidents Cogs"
-ACogVP = "Un Vice-\nPrésident " + Cog
+ForemanP = "Contremaîtres de l'Usine"
+AForeman = "un Contremaître de l'Usine"
+CogVP = "Vice-Président des " + Cogs
+CogVPs = "Vice-Présidents des Cogs"
+ACogVP = "un Vice-Président des " + Cogs
 Supervisor = "Superviseur de la Fabrique à Sous"
 SupervisorP = "Superviseurs de la Fabrique à Sous"
 ASupervisor = "un Superviseur de la Fabrique à Sous"
-CogCFO = Cog + " Vice-\nPrésident"
-CogCFOs = "Vice-\nPrésidents Cog"
-ACogCFO = ACog + " Vice-\nPrésident"
+CogCFO = "Directeur Financier des " + Cogs
+CogCFOs = "Directeur Financiers des Cogs"
+ACogCFO = "un Directeur Financier des" + Cogs
 
 # Quests.py
 TheFish = "les poissons"
@@ -291,7 +291,7 @@ QuestsDefaultIncompleteProgress = ("Tu es au bon endroit, mais tu dois d'abord f
                                    "Reviens quand tu auras terminé ton défitoon.",
                                    )
 QuestsDefaultIncompleteWrongNPC = ("Joli travail pour ce défitoon. Tu devrais aller voir _toNpcName_._where_",
-                                   "On dirait que tu as presque fini ton défitoon. Va voir _toNpcName_._where_.",
+                                   "On dirait que tu as presque fini ton défitoon. Va voir _toNpcName_._where_",
                                    "Va voir _toNpcName_ pour finir ton défitoon._where_",
                                    )
 QuestsDefaultComplete = ("Bon travail ! Voilà ta récompense...",
@@ -396,7 +396,7 @@ QuestsBuildingQuestSCString = "Je dois vaincre %(objective)s%(location)s."
 
 QuestsBuildingQuestDesc = "un bâtiment %(type)s"
 QuestsBuildingQuestDescF = "un bâtiment %(type)s de %(floors)s étages"
-QuestsBuildingQuestDescC = "%(count)s bâtiments %(type)s "
+QuestsBuildingQuestDescC = "%(count)s bâtiments %(type)s"
 QuestsBuildingQuestDescCF = "%(count)s bâtiments %(type)s de %(floors)s étages"
 QuestsBuildingQuestDescI = "des bâtiments %(type)s"
 QuestsBuildingQuestDescIF = "des bâtiments %(type)s de %(floors)s étages"
@@ -582,17 +582,17 @@ QuestsSmallBackpack = "Petit sac à dos"
 QuestsMediumBackpack = "Sac à dos moyen"
 QuestsLargeBackpack = "Grand sac à dos"
 QuestsItemDict = {
-    1 : ["Paire de lunettes", "Paires de lunettes", "une"],
-    2 : ["Clé", "Clés", "une"],
-    3 : ["Tableau", "Tableaux", "un"],
-    4 : ["Livre", "Livres", "un"],
-    5 : ["Sucre d'orge", "Sucres d'orge", "un"],
-    6 : ["Craie", "Craies", "une"],
-    7 : ["Recette", "Recettes", "une"],
-    8 : ["Note", "Notes", "une"],
-    9 : ["Machine à calculer", "Machines à calculer", "une"],
-    10 : ["Pneu de voiture de clown", "Pneus de voiture de clown", "un"],
-    11 : ["Pompe à air", "Pompes à air", "une"],
+    1 : ["Paire de lunettes", "Paires de lunettes", "une "],
+    2 : ["Clé", "Clés", "une "],
+    3 : ["Tableau", "Tableaux", "un "],
+    4 : ["Livre", "Livres", "un "],
+    5 : ["Sucre d'orge", "Sucres d'orge", "un "],
+    6 : ["Craie", "Craies", "une "],
+    7 : ["Recette", "Recettes", "une "],
+    8 : ["Note", "Notes", "une "],
+    9 : ["Machine à calculer", "Machines à calculer", "une "],
+    10 : ["Pneu de voiture de clown", "Pneus de voiture de clown", "un "],
+    11 : ["Pompe à air", "Pompes à air", "une "],
     12 : ["Encre de seiche", "Encres de seiche", "de l'"],
     13 : ["Paquet", "Paquets", "un "],
     14 : ["Reçu de poisson doré", "Reçus de poissons dorés", "un "],
@@ -1125,7 +1125,7 @@ QuestDialogDict = {
 
     3255 : { QUEST : "_toNpcName_ est en train d'enquêter sur le quartier général des Vendibots.\aVa voir si tu peux donner un coup de main._where_" },
     3256 : { QUEST : "_toNpcName_ est en train d'enquêter sur le quartier général des Vendibots.\aVa voir si tu peux donner un coup de main._where_" },
-    3257 : { QUEST : "_toNpcName_ est en train d'enquêter sur le quartier général des Vendibots.\aVa voir si tu peux lui donner un coup de main._where_" },
+    3257 : { QUEST : "_toNpcName_ est en train d'enquêter sur le quartier général des Vendibots.\aVa voir si tu peux donner un coup de main._where_" },
     3258 : { QUEST : "Personne ne sait au juste ce que les Cogs sont en train de faire dans leur nouveau quartier général.\aJ'ai besoin que tu nous ramènes des informations venant directement d'eux.\aSi nous pouvons trouver quatre notes de service internes des Vendibots à l'intérieur de leur quartier général, cela mettrait un peu les choses au clair.\aRamène-moi la première note de service que tu pourras afin qu'on en sache un peu plus.",
              },
     3259 : { QUEST : "Super ! Voyons ce que dit cette note de service...\a\"À l'attention des Vendibots :\aJe serai dans mon bureau tout en haut des Tours Vendibot pour faire monter en grade les Cogs.\aLorsque vous aurez gagné suffisamment de mérites, montez me voir par l'ascenseur du hall.\aLa pause est terminée - tout le monde au travail !\"\aSigné, Vice-Président des Vendibots\"\aAah.... Flippy sera content de voir ça. Je lui envoie ça tout de suite.\aVa chercher une seconde note de service et rapporte-la moi.",
@@ -2175,7 +2175,7 @@ QuestDialogDict = {
               LEAVING : "",
               QUEST : "Qu'est-ce que tu penses de %s ? Est-ce que tu crois que tu pourrais aller chercher une sonde là-bas aussi ?" % GlobalStreetNames[4300][-1],
               INCOMPLETE_PROGRESS : "Est-ce que tu as essayé de chercher sur %s ?" % GlobalStreetNames[4300][-1],
-              COMPLETE : "Encore du bon travail, _avName_",
+              COMPLETE : "Encore du bon travail, _avName_.",
              },
     11024 : { GREETING : "",
               LEAVING : "",
@@ -2234,7 +2234,7 @@ QuestDialogDict = {
     12007 : { GREETING : "",
               LEAVING : "",
               QUEST : "Si tu triomphes d'un Microchef, je te donnerai une autre pièce de déguisement.",
-              INCOMPLETE_PROGRESS : "Va voir dans %s" % GlobalStreetNames[1100][-1],
+              INCOMPLETE_PROGRESS : "Va voir dans %s." % GlobalStreetNames[1100][-1],
               COMPLETE : "Tu t'es bien défendu !\aVoici ta quatrième pièce de déguisement.",
              },
     12008 : { GREETING : "",
@@ -2244,7 +2244,7 @@ QuestDialogDict = {
     12009 : { GREETING : "",
               LEAVING : "",
               QUEST : "Je suis à la recherche d'un Touptisseur maintenant...",
-              INCOMPLETE_PROGRESS : "Des problèmes ? Va voir dans %s" % GlobalStreetNames[3100][-1],
+              INCOMPLETE_PROGRESS : "Des problèmes ? Va voir dans %s." % GlobalStreetNames[3100][-1],
               COMPLETE : "Quelle terrible défaite !\aVoici ta cinquième pièce de déguisement.",
              },
     12010 : { GREETING : "",
@@ -2274,7 +2274,7 @@ QuestDialogDict = {
     12015 : { GREETING : "",
               LEAVING : "",
               QUEST : "Et maintenant, le coup de grâce : le Gros Blochon !",
-              INCOMPLETE_PROGRESS : "Va voir dans %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Va voir dans %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "Je savais que je pouvais compter sur toi pour...\apeu importe !\aVoici une autre pièce de déguisement.",
              },
     12016 : { GREETING : "",
@@ -2284,7 +2284,7 @@ QuestDialogDict = {
     12017 : { GREETING : "",
               LEAVING : "",
               QUEST : "À présent, j'aimerais que tu t'attaques à l'un des nouveaux Cogs Chefbot, qui sont plus dangereux.",
-              INCOMPLETE_PROGRESS : "Va voir dans %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Va voir dans %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "Ils sont plus forts qu'ils en ont l'air, hein ?\aEnfin, je te dois quand même une pièce de déguisement.",
              },
     12018 : { GREETING : "",
@@ -2294,7 +2294,7 @@ QuestDialogDict = {
     12019 : { GREETING : "",
               LEAVING : "",
               QUEST : "Ces Cogs version 2.0 sont très intéressants.\aS'il te plaît, va en attaquer un autre.",
-              INCOMPLETE_PROGRESS : "Va voir dans %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Va voir dans %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "Merci !\aUne autre pièce de déguisement pour toi.",
              },
     12020 : { GREETING : "",
@@ -2304,7 +2304,7 @@ QuestDialogDict = {
     12021 : { GREETING : "",
               LEAVING : "",
               QUEST : "Je me demande s'ils peuvent se régénérer...",
-              INCOMPLETE_PROGRESS : "Va voir dans %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Va voir dans %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "J'imagine que non.\aVoici ta pièce de déguisement...",
              },
     12022 : { GREETING : "",
@@ -2314,7 +2314,7 @@ QuestDialogDict = {
     12023 : { GREETING : "",
               LEAVING : "",
               QUEST : "Peut-être que ce ne sont pas des Chefbots du tout...",
-              INCOMPLETE_PROGRESS : "Va voir dans %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Va voir dans %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "Finalement, je crois bien que ce sont des Chefbots.\aChoisis une autre pièce de déguisement.",
              },
     12024 : { GREETING : "",
@@ -2324,7 +2324,7 @@ QuestDialogDict = {
     12025 : { GREETING : "",
               LEAVING : "",
               QUEST : "Peut-être que d'une certaine manière, ils sont parents avec les Skelecogs...",
-              INCOMPLETE_PROGRESS : "Va voir dans %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Va voir dans %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "Ce fut peu concluant...\aVoici ta pièce de déguisement.",
              },
     12026 : { GREETING : "",
@@ -2334,7 +2334,7 @@ QuestDialogDict = {
     12027 : { GREETING : "",
               LEAVING : "",
               QUEST : "Je ne suis toujours pas convaincu qu'il ne s'agit pas d'une espèce de Skelecog...",
-              INCOMPLETE_PROGRESS : "Va voir dans %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Va voir dans %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "Peut-être pas.\aVoici une autre pièce de déguisement.",
              },
     12028 : { GREETING : "",
@@ -2344,7 +2344,7 @@ QuestDialogDict = {
     12029 : { GREETING : "",
               LEAVING : "",
               QUEST : "Ces nouveaux Cogs me laissent vraiment perplexe.\aPourrais-tu aller en attaquer un autre, s'il te plaît ?",
-              INCOMPLETE_PROGRESS : "Va voir dans %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Va voir dans %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "Vraiment fascinant.\aUne pièce de déguisement pour te remercier de tes efforts.",
              },
     12030 : { GREETING : "",
@@ -2354,13 +2354,13 @@ QuestDialogDict = {
     12031 : { GREETING : "",
               LEAVING : "",
               QUEST : "J'ai presque trouvé ce que sont ces Cogs.\aJuste encore un...",
-              INCOMPLETE_PROGRESS : "Va voir dans %s" % GlobalStreetNames[10000][-1],
+              INCOMPLETE_PROGRESS : "Va voir dans %s." % GlobalStreetNames[10000][-1],
               COMPLETE : "Oui, je crois que je suis sur la bonne voie.\aAh oui.\aÇa, c'est pour toi...",
              },
     12032 : { GREETING : "",
               LEAVING : "",
               QUEST : "Tu dois aller raconter tout ça à Flippy...",
-              INCOMPLETE_PROGRESS : "Flippy se trouve dans Mairie de Toontown",
+              INCOMPLETE_PROGRESS : "Flippy se trouve dans Mairie de Toontown.",
               COMPLETE : "Une nouvelle espèce de Cog !\aBon travail !\aVoici ta dernière pièce de déguisement.",
               },
  }
@@ -3615,7 +3615,7 @@ SuitAttackTaunts = {
                    "Tu n'en auras plus besoin...",
                    ],
     'PinkSlip': ["On n'a pas besoin de ton avis.",
-                 "Tu as peur de cette vague de licenciements ?.",
+                 "Tu as peur de cette vague de licenciements ?",
                  "Celui-là va sûrement être d'un avis contraire.",
                  "Oh, tu as une licence de quoi ?",
                  "Fais attention, si tu veux mon avis !",
@@ -6761,6 +6761,7 @@ DisplaySettingsApi = "Interface graphique :"
 DisplaySettingsResolution = "Résolution :"
 DisplaySettingsWindowed = "Dans une fenêtre"
 DisplaySettingsFullscreen = "Plein écran"
+DisplaySettingsEmbedded = "In the browser"
 DisplaySettingsApply = "Appliquer"
 DisplaySettingsCancel = lCancel
 DisplaySettingsApplyWarning = "Lorsque vous cliquez sur OK, les réglages d'affichage sont modifiés. Si la nouvelle configuration ne s'affiche pas correctement sur votre ordinateur, l'affichage revient automatiquement à sa configuration d'origine après %s secondes."
@@ -7543,6 +7544,7 @@ WaitingForNameSubmission = "Envoi de ton nom..."
 # PetshopGUI.py
 PetNameMaster = "PetNameMaster_french.txt"
 PetshopUnknownName = "Nom : ???"
+PetNameIndexMAX = 2713
 PetshopDescGender = "Sexe :\t%s"
 PetshopDescCost = "Coûte :\t%s bonbons"
 PetshopDescTrait = "Caractère :\t%s"
@@ -12436,7 +12438,7 @@ BoardingGoPreShow = 'Confirming...'
 # DistributedBossbotBoss.py
 BossbotBossName = "Directeur Général"
 BossbotRTWelcome = "Tes Toons auront besoin de différents déguisements."
-BossbotRTRemoveSuit = "Tout d'abord, enlève les costumes de Cog"
+BossbotRTRemoveSuit = "Tout d'abord, enlève les costumes de Cog..."
 BossbotRTFightWaiter = "puis attaque les serveurs."
 BossbotRTWearWaiter = "Bon travail ! À présent, enfile les vêtements du serveur."
 BossbotBossPreTwo1 = "Pourquoi mets-tu autant de temps ?"
@@ -12455,14 +12457,14 @@ BossbotPitcherLeave = "Laisser bouteille"
 BossbotPitcherLeaving = "Laisse bouteille"
 BossbotPitcherAdvice = "Utilise les flèches droite et gauche pour pivoter.\nMaintiens la touche Ctrl pour augmenter la puissance.\nRelâche la touche Ctrl pour tirer."
 BossbotGolfSpotLeave = "Laisser balle de golf"
-BossbotGolfSpotLeaving = "Laisse balle de golf\nUtilise les flèches droite et gauche pour pivoter.\nCtrl pour tirer."
+BossbotGolfSpotLeaving = "Laisse balle de golf"
 BossbotGolfSpotAdvice = "Utilise les flèches droite et gauche pour pivoter.\nCtrl pour tirer."
 BossbotRewardSpeech1 = "Non ! Le Président ne va pas apprécier."
 BossbotRewardSpeech2 = "Arrrggghhh !!!"
 BossbotRTCongratulations = "Tu as réussi. Tu a rétrogradé le Directeur !\aTiens, prends ces Avis de licenciement oubliés par le Directeur.\aTu pourras les utiliser pour licencier les Cogs durant un combat."""
-BossbotRTLastPromotion = "\aOuah, tu as atteint le niveau %s de costume de Cog !\aLes Cogs ne peuvent pas monter plus en grade. \aTu ne peux plus mettre ton costume de Cog à niveau mais tu peux continuer de travailler pour la Résistance !"""
-BossbotRTHPBoost = "\aTu as fait beaucoup pour la Résistance.\aLe Conseil des Toons a décidé de te donner un autre rigolpoint. Félicitations !"""
-BossbotRTMaxed = "\aJe vois que tu as un costume de Cog de niveau %s. Très impressionnant !\aLe Conseil des Toons te remercie de revenir pour défendre d'autres Toons !"""
+BossbotRTLastPromotion = "\aOuah, tu as atteint le niveau %s de costume de Cog !\aLes Cogs ne peuvent pas monter plus en grade.\aTu ne peux plus mettre ton costume de Cog à niveau mais tu peux continuer de travailler pour la Résistance !"
+BossbotRTHPBoost = "\aTu as fait beaucoup pour la Résistance.\aLe Conseil des Toons a décidé de te donner un autre rigolpoint. Félicitations !"
+BossbotRTMaxed = "\aJe vois que tu as un costume de Cog de niveau %s. Très impressionnant !\aLe Conseil des Toons te remercie de revenir pour défendre d'autres Toons !"
 GolfAreaAttackTaunt = "Attention !"
 OvertimeAttackTaunts = [ "Il est temps de nous réorganiser.",
                         "Réduisons les effectifs."]
@@ -12580,9 +12582,9 @@ FindFourColorY = "Tu es jaune"
 FindFourColorR = "Tu es rouge"
 FindFourObserver = "Tu observes"
 
-FindFourYouWon = "Tu viens de remporter une partie de puissance quatre !"
+FindFourYouWon = "Tu viens de remporter une partie de 4 à la Suite !"
 FindFourTie = "This Find Four game has resulted in a Tie!"
-FindFour = "Puissance quatre."
+FindFour = "4 à la Suite."
 FindFourGameOf = " vient de remporter une partie de "
 
 MailNotifyNewItems = "Tu as reçu un e-mail !"

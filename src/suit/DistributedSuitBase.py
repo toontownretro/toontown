@@ -782,7 +782,16 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit,
 
                 # Initial position ... Center of the body... the "tan tien"
                 self.hpText.setPos(0, 0, self.height/2)
-                self.hpTextSeq = Sequence(self.hpText.posInterval(1.0, Point3(0, 0, self.height + 1.5), blendType='easeOut'), Wait(0.85), self.hpText.colorInterval(0.1, Vec4(r, g, b, 0)), Func(self.hideHpText))
+                self.hpTextSeq = Sequence(
+                    # Fly the number out of the character
+                    self.hpText.posInterval(1.0, Point3(0, 0, self.height + 1.5),
+                                                blendType = 'easeOut'),
+                    # Wait 2 seconds
+                    Wait(0.85),
+                    # Fade the number
+                    self.hpText.colorInterval(0.1, Vec4(r, g, b, 0)),
+                    # Get rid of the number
+                    Func(self.hideHpText))
                 self.hpTextSeq.start()
         else:
             # Just play the sound effect.
