@@ -48,17 +48,17 @@
 //     dnaLoader
 //   #define OTHER_LIBS \
 //     panda:m pandaexpress:m framework \
-//     interrogatedb:c dconfig:c dtoolconfig:m \
+//     interrogatedb \
 //     dtoolutil:c dtoolbase:c dtool:m \
-//     putil:c collide:c loader:c sgmanip:c chan:c text:c chancfg:c cull:c \
-//     pnmimage:c pnmimagetypes:c event:c graph:c gobj:c display:c \
-//     mathutil:c sgattrib:c express:c light:c dgraph:c device:c tform:c sgraph:c \
-//     linmath:c pstatclient:c sgraphutil:c downloader:c \
+//     putil:c collide:c pgraph:c anim:c text:c cull:c \
+//     pnmimage:c pnmimagetypes:c event:c gobj:c display:c \
+//     mathutil:c express:c dgraph:c device:c tform:c \
+//     linmath:c pstatclient:c downloader:c \
 //     pystub
 
 
 
-//   #define SOURCES \
+//  #define SOURCES \
 //     dnaTester.cxx
 
 // #end test_bin_target
