@@ -2288,7 +2288,7 @@ class CatalogGenerator:
         return item
 
     def outputSchedule(self, filename):
-        out = open(Filename(filename).toOsSpecific(), "wb")
+        out = open(Filename(filename).toOsSpecific(), "w")
 
         sched = self.generateScheduleDictionary()
 

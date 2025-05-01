@@ -41,9 +41,9 @@ class PetTraitFixer(RepairAvatars.PetIterator):
         RepairAvatars.PetIterator.processPet(self, pet, db)
         # the safezone should be TTC
         if pet.getSafeZone() != ToontownGlobals.ToontownCentral:
-            print((
+            print (
                 'Warning: pet %s is a pet that does not need to be patched!' %
-                pet.doId))
+                pet.doId)
             # prevent mem leak
             pet.patchDelete()
             # this will request another pet if there are more to request

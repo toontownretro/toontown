@@ -157,7 +157,7 @@ class DistributedTargetGameAI(DistributedMinigameAI):
         #        self.sendUpdate('setSingleScore', [score, avId])
         topValue = 0
         hitTarget = None
-        #print self.targetsPlaced
+        #print(self.targetsPlaced)
         for target in self.targetsPlaced:
             radius = self.targetSize[target[2]]
             value = self.targetValue[target[2]]
@@ -166,7 +166,7 @@ class DistributedTargetGameAI(DistributedMinigameAI):
             dx = posX - scoreX
             dy = posY - scoreY
             distance = math.sqrt(dx*dx + dy*dy)
-            #print distance
+            #print(distance)
             if (distance < radius) and (topValue < value):
                 #print ("hit!")
                 topValue = value
@@ -247,7 +247,7 @@ class DistributedTargetGameAI(DistributedMinigameAI):
         #scoreIndex = 0
         scoreList = self.getScoreList()
         
-        #for avId in self.scoreDict.keys():
+        #for avId in list(self.scoreDict.keys()):
         #    scoreList[scoreIndex] = self.scoreDict[avId]
         #    avList[scoreIndex] = avId
         #    scoreIndex += 1

@@ -192,8 +192,8 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI,
         # valid/safe values.
         self.b_setOwnerId(ownerId)
         if name is None:
-            name = 'pet%s' % self.doId
-        self.b_setPetName(name)
+            name = b'pet%s' % self.doId
+        self.b_setPetName(name.decode())
         self.b_setTraitSeed(traitSeed)
         self.b_setSafeZone(safeZone)
 
@@ -798,7 +798,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI,
             simbase.air.writeServerEvent("Pet RequestDelete duplicate OldStackTrace", myDoId, "%s" % myOldStackTrace)
 
             DistributedPetAI.notify.warning("double requestDelete from task %s" % (myTaskName))
-        self.setParent(hidden)
+        self.setParent(ToontownGlobals.SPHidden)
 
         if hasattr(self, "activated"):
             if self.activated:

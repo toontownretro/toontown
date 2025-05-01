@@ -73,6 +73,9 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         # We'll do the 1st check a 1 second in...
         self.partiesSanityCheckFrequency = ConfigVariableInt('parties-sanity-check-frequency',
                                                               PartyGlobals.UberdogPartiesSanityCheckFrequency).getValue()
+        # Finish me!
+        self.purgePartyPeriodFrequency = ConfigVariableDouble('purge-party-period-frequency',
+                                                               PartyGlobals.UberdogPurgePartyPeriod).getValue()
         taskMgr.doMethodLater(1, self._sanityCheckParties, "DistributedPartyManagerUD_sanityCheckParties")
 
     def announceGenerate(self):
@@ -333,7 +336,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
                 cancelled = False)
             #self.notify.debug('pastFinishedParties = %s' % str(pastFinishedParties))
             prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in pastFinishedParties]
-            prioritizedPartyInfo += pastFinishedParties
+            prioritizedPartyInfo += tuple(pastFinishedParties)
         slotsLeft -= len(pastFinishedParties)
         if slotsLeft > 0:
             pastCancelledParties = self.partyDb.getPrioritizedParties(\
@@ -344,7 +347,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
                 cancelled = True)
             #self.notify.debug('pastCancelledParties = %s' % str(pastCancelledParties))
             prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in pastCancelledParties]
-            prioritizedPartyInfo += pastCancelledParties
+            prioritizedPartyInfo += tuple(pastCancelledParties)
 
         # prioritizedPartyIds should have everything, prioritizing pending parties in the future
         # then cancelled parties in the future, then started parties in the past
@@ -480,7 +483,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
                 cancelled = False)
             self.notify.debug('pastFinishedParties = %s' % str(pastFinishedParties))
             prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in pastFinishedParties]
-            prioritizedPartyInfo += pastFinishedParties
+            prioritizedPartyInfo += tuple(pastFinishedParties)
         slotsLeft -= len(pastFinishedParties)
         if slotsLeft > 0:
             pastCancelledParties = self.partyDb.getHostPrioritizedParties(\
@@ -491,7 +494,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
                 cancelled = True)
             self.notify.debug('pastCancelledParties = %s' % str(pastCancelledParties))
             prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in pastCancelledParties]
-            prioritizedPartyInfo += pastCancelledParties
+            prioritizedPartyInfo += tuple(pastCancelledParties)
 
         # prioritizedPartyIds should have everything, prioritizing pending parties in the future
         # then cancelled parties in the future, then started parties in the past

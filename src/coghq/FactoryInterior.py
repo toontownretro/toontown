@@ -149,6 +149,9 @@ class FactoryInterior(BattlePlace.BattlePlace):
         # While we are here, we ignore invasion credit.
         base.localAvatar.inventory.setRespectInvasions(0)
 
+        # Turn on the limiter
+        self._telemLimiter = TLGatherAllAvs('FactoryInterior', RotationLimitToH)
+
         # wait until the factory and any distributed entities have been
         # created before moving on
         def commence(self=self):
@@ -178,6 +181,10 @@ class FactoryInterior(BattlePlace.BattlePlace):
     def exit(self):
         # Turn off the little red arrows.
         NametagGlobals.setMasterArrowsOn(0)
+
+        # Stop the limiter
+        self._telemLimiter.destroy()
+        del self._telemLimiter
 
         if hasattr(base, 'factoryReady'):
             del base.factoryReady

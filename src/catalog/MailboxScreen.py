@@ -10,7 +10,7 @@ from toontown.toonbase import TTLocalizer, ToontownGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 from toontown.parties.InviteVisual import InviteVisual
-from toontown.toon import GMUtils
+#from toontown.toon import GMUtils
 from . import CatalogItem
 from direct.showbase.PythonUtil import StackTrace
 
@@ -798,8 +798,8 @@ class MailboxScreen(DirectObject.DirectObject):
                 if sender:
                     nameOfSender = sender.getName()
 
-        if GMUtils.testGMIdentity(nameOfSender):
-            nameOfSender = GMUtils.handleGMName(nameOfSender)
+        #if GMUtils.testGMIdentity(nameOfSender):
+        #    nameOfSender = GMUtils.handleGMName(nameOfSender)
 
         if not sender:
             nameOfSender = TTLocalizer.MailboxGiftTagAnonymous

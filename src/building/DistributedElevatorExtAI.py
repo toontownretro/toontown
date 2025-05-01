@@ -84,11 +84,11 @@ class DistributedElevatorExtAI(DistributedElevatorAI.DistributedElevatorAI):
             timeToSend = self.countdownTime
             if self.antiShuffle:
                 myTask = taskMgr.getTasksNamed(self.uniqueName('countdown-timer'))[0]
-                #print myTask.name
-                #print myTask.runningTotal
-                #print myTask.dt
-                #print myTask.time
-                #print myTask.wakeTime - globalClock.getFrameTime() 
+                #print(myTask.name)
+                #print(myTask.runningTotal)
+                #print(myTask.dt)
+                #print(myTask.time)
+                #print(myTask.wakeTime - globalClock.getFrameTime())
                 #self.uniqueName('countdown-timer')
                 timeLeft = myTask.wakeTime - globalClock.getFrameTime()
                 # This fixes an AI crash with a huge negative timeLeft. AI crash on 04/20/10. timeLeft = -44002.155374000002.

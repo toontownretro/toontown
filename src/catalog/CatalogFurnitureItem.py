@@ -1163,10 +1163,10 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
 #    return item
 #
 #def getAllBanks():
-#    banks = []
+#    allBanks = []
 #    for bankId in list(BankToMoney.keys()):
-#        banks.append(CatalogFurnitureItem(bankId))
-#    return banks
+#        allBanks.append(CatalogFurnitureItem(bankId))
+#    return allBanks
 
 def nextAvailableCloset(avatar, duplicateItems):
     # detemine which closet index in the tuple to use
@@ -1215,17 +1215,17 @@ def get50ItemCloset(avatar, duplicateItems):
 
 
 def getMaxClosets():
-    closets = []
+    maxClosets = []
     for closetId in MaxClosetIds:
-        closets.append(CatalogFurnitureItem(closetId))
+        maxClosets.append(CatalogFurnitureItem(closetId))
 
-    return closets
+    return maxClosets
 
 def getAllClosets():
-    closets = []
+    allClosets = []
     for closetId in list(ClosetToClothes.keys()):
-        closets.append(CatalogFurnitureItem(closetId))
-    return closets
+        allClosets.append(CatalogFurnitureItem(closetId))
+    return allClosets
 
 def get50ItemTrunk(avatar, duplicateItems):
     # detemine which trunk index in the tuple to use
@@ -1242,18 +1242,18 @@ def get50ItemTrunk(avatar, duplicateItems):
 
 
 def getMaxTrunks():
-    trunks = []
+    maxTrunks = []
     for trunkId in MaxTrunkIds:
-        trunks.append(CatalogFurnitureItem(trunkId))
+        maxTrunks.append(CatalogFurnitureItem(trunkId))
 
-    return list
+    return maxTrunks
 
 def getAllFurnitures(index):
     # This function returns a list of all possible
     # CatalogFurnitureItems (that is, all color variants)
     # for the indicated type index(es).
-    furnitures = []
+    allFurnitures = []
     colors = FurnitureTypes[index][FTColorOptions]
     for n in range(len(colors)):
-        furnitures.append(CatalogFurnitureItem(index, n))
-    return furnitures
+        allFurnitures.append(CatalogFurnitureItem(index, n))
+    return allFurnitures

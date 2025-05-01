@@ -135,6 +135,8 @@ class PhysicsWorldBase:
         self.world = None
         self.space = None
 
+        self.ignore(self.collisionEventName)
+
 
     def setupSimulation(self):
         self.world.setAutoDisableFlag(0)

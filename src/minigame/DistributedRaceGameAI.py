@@ -13,7 +13,7 @@ from . import RaceGameGlobals
 from . import DistributedRaceGameAI
 # allocate a zone
 zoneId = simbase.air.allocateZone()
-print zoneId
+print(zoneId)
 # Create the minigame
 mg = DistributedRaceGameAI.DistributedRaceGameAI(simbase.air)
 # Generate it in that zone

@@ -57,12 +57,12 @@ class DistributedViewPad( DistributedKartPad ):
     """
     def setAvEnterPad( self, avId, timeStamp ):
         error = "DistributedViewPad::setAvEnterTime - Avatar %s present in View Pad." % ( avId )
-        assert not self.av2TimestampDict.has_key( avId ), error
+        assert avId not in self.av2TimestampDict, error
         self.av2TimestampDict[ avId ] = timeStamp
 
     def setAvExitPad( self, avId ):
         error = "DistributedViewPad::setAvExit - Avatar %s not present in View Pad." % ( avId )
-        assert self.av2TimestampDict.has_key( avId ), error
+        assert avId not in self.av2TimestampDict, error
         del self.av2TimestampDict[ avId ]
     """
 
@@ -70,7 +70,7 @@ class DistributedViewPad( DistributedKartPad ):
         """
         """
         #error = "DistributedViewPad::getTimestamp - Avatar %s not present in View Pad." % ( avId )
-        #assert self.av2TimestampDict.has_key( avId ), error
+        #assert avId not in self.av2TimestampDict, error
         #return self.av2TimestampDict.get( avId )
         return self.timeStamp
 

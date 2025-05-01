@@ -382,7 +382,7 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
             # now remap references
             self.account2avId[name] = ownerId
 
-            #if self.estateZone.has_key(prevAvId):
+            #if prevAvId in self.estateZone:
             if prevAvId in self.toBeDeleted:
                 self.setEstateZone(ownerId, self.toBeDeleted[prevAvId])
                 del self.toBeDeleted[prevAvId]

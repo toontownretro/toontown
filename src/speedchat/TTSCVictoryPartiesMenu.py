@@ -46,7 +46,7 @@ class TTSCVictoryPartiesMenu(SCMenu):
         for section in VictoryPartiesMenu:
             if section[0] == -1:
                 #This is not a submenu but a terminal!
-                for phrase in section[1].keys():
+                for phrase in list(section[1].keys()):
                     blatherTxt = section[1][phrase]
                     if blatherTxt not in OTPLocalizer.SpeedChatStaticText:
                         self.notify.warning("tried to link Victory Parties phrase %s which does not seem to exist" % blatherTxt)

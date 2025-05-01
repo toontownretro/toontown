@@ -529,11 +529,11 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.accept("nameShopPost", self.relayMessage)
 
     def relayMessage(self, dg):
-        #print(dg.dumpHex(ostream))
+        #print(dg.dumpHex(Notify.out()))
         self.send(dg)
 
     def handleCreateAvatar(self, msgType, di):
-        #print(di.getDatagram().dumpHex(ostream))
+        #print(di.getDatagram().dumpHex(Notify.out()))
         #Roger wants to remove this if msgType == CLIENT_SERVER_UP:
         #Roger wants to remove this     self.handleServerUp(di)
         #Roger wants to remove this elif msgType == CLIENT_SERVER_DOWN:

@@ -173,7 +173,6 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
         self.fsm = None
         self.loadFSM = None
         DistributedObject.disable(self)
-        return
 
     def delete(self):
         self._stashElevatorFC.destroy()
@@ -183,7 +182,6 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
         self._waitingStartLabel.destroy()
         self._waitingStartLabel = None
         DistributedObject.delete(self)
-        return
 
     def getDifficulty(self):
         if self.difficultyOverride is not None:
@@ -258,7 +256,7 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
 
     def d_setAvatarReady(self):
         self.sendUpdate('setAvatarReady', [])
-        self.fsm.request('WaitServerStart')
+        #self.fsm.request('WaitServerStart')
 
     def enterWaitServerStart(self):
         numToons = 1

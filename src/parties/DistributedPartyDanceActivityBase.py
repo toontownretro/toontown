@@ -42,12 +42,13 @@ DanceViews = Enum(("Normal",
 class DistributedPartyDanceActivityBase(DistributedPartyActivity):
     notify = directNotify.newCategory("DistributedPartyDanceActivity")
 
-    def __init__(self, cr, actId, dancePatternToAnims):
+    def __init__(self, cr, actId, dancePatternToAnims, model = "phase_13/models/parties/danceFloor"):
         DistributedPartyActivity.__init__(self,
                                           cr,
                                           actId,
                                           ActivityTypes.Continuous
                                           )
+        self.model = model
         self.danceFloor = None
 
         self.localToonDancing = False
@@ -81,7 +82,7 @@ class DistributedPartyDanceActivityBase(DistributedPartyActivity):
         """
         DistributedPartyActivity.load(self)
 
-        self.danceFloor = loader.loadModel("phase_13/models/parties/danceFloor")
+        self.danceFloor = loader.loadModel(self.model)
         self.danceFloor.reparentTo(self.getParentNodePath())
         self.danceFloor.setPos(self.x, self.y, 0.0)
         self.danceFloor.setH(self.h)

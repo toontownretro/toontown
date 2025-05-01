@@ -14,6 +14,8 @@ JellybeanJamMenu = [
         [30180, 30181, 30182, 30183, 30184, 30185]),
     (OTPLocalizer.JellybeanJamMenuSections[1],            # SPEND JELLYBEANS
         [30186, 30187, 30188, 30189, 30190]),
+    #(OTPLocalizer.JellybeanJamMenuSections[2],            # JELLYBEAN PARTIES
+    #    [30191, 30192, 30193, 30194]),
     ]
    
 JellybeanJamPhases = PythonUtil.Enum('TROLLEY, FISHING, PARTIES')

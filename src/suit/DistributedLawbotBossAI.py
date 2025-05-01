@@ -455,7 +455,7 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
             #self.notify.debug("listversion = ")
             #print(listversion))
             #self.notify.debug("listVersion[13] = ")
-            #print listVersion[13]
+            #print(listVersion[13])
 
             if ConfigVariableBool('lawbot-boss-cheat',0).getValue():
                 listVersion[13] = weakenedValue

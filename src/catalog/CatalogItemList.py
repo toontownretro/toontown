@@ -1,9 +1,9 @@
 from . import CatalogItem
 from toontown.toonbase.ToontownModules import *
 import types
-import functools
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
+import functools
 
 class CatalogItemList:
     """CatalogItemList

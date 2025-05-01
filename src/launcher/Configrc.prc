@@ -78,6 +78,9 @@ expected-ssl-server /O=Disney Enterprises/OU=WDIG/CN=gameserver.test.toontown.co
 # This is the new toontown.go.com's section
 expected-ssl-server /O=Disney Enterprises/OU=DOS/CN=toontown.go.com
 
+# This is the authority for the Japanese Accounting Server
+expected-ssl-server /O=Walt Disney Japan Inc./OU=Walt Disney Internet Group/CN=account.toontown.disneybb.flets
+
 
 chan-config-sanity-check #f
 require-window 0

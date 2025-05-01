@@ -1,10 +1,5 @@
 
-class watchDistObj:
-    def __init__(self)
-        watchDistObj.watchObj.__init__()
+class WatchDistObj:
 
-class watchObj(watchDistObj):
-    
-    def setupkeys()
-        pass
-       
+        def setupKeys():
+            pass

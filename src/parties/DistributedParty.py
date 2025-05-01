@@ -22,7 +22,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.parties.PartyInfo import PartyInfo
 from toontown.toonbase import TTLocalizer
 from toontown.toon import Toon
-from toontown.toon import GMUtils
+#from toontown.toon import GMUtils
 from toontown.parties import PartyGlobals
 from toontown.parties.Decoration import Decoration
 from . import PartyUtils
@@ -428,8 +428,8 @@ class DistributedParty(DistributedObject.DistributedObject):
         """Handle AI telling us the hostname."""
         self.hostName = hostName
 
-        if GMUtils.testGMIdentity(self.hostName):
-            self.hostName = GMUtils.handleGMName(self.hostName)
+        #if GMUtils.testGMIdentity(self.hostName):
+        #    self.hostName = GMUtils.handleGMName(self.hostName)
 
         # it is possible to get here initially without the model being loaded yet,
         # hence the hasattr self

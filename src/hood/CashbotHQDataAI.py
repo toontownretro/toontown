@@ -9,7 +9,7 @@ from toontown.building import DistributedCFOElevatorAI
 from toontown.suit import DistributedCashbotBossAI
 from toontown.building import FADoorCodes
 from toontown.building import DistributedBoardingPartyAI
-from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import ConfigVariableBool
 
 class CashbotHQDataAI(HoodDataAI.HoodDataAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("CashbotHqDataAI")

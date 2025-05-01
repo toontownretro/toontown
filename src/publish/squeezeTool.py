@@ -194,11 +194,11 @@ class Loader(ihooks.ModuleLoader):
         if path != None:
             for dirname in path:
                 moduleName = dirname + '.' + name
-                if self.__modules.has_key(moduleName):
+                if moduleName in self.__modules:
                     #print("%%s: found as %%s" %% (self.archiveid, moduleName))
                     return None, moduleName, (None, None, PYZ_MODULE)
         else:
-            if self.__modules.has_key(name):
+            if name in self.__modules:
                 #print("%%s: found as %%s" %% (self.archiveid, name))
                 return None, name, (None, None, PYZ_MODULE)
 
@@ -214,7 +214,7 @@ class Loader(ihooks.ModuleLoader):
         m = self.hooks.add_module(name)
         m.__file__ = filename
         if code:
-            exec code in m.__dict__
+            exec(code, m.__dict__)
         else:
             m.__path__ = [filename]
 
@@ -249,23 +249,23 @@ def boot(name, fp, size, offset = 0):
 loaderopen = """
 
 def open(name):
-    import StringIO
+    import io
     try:
-        return StringIO.StringIO(data["+"+name])
+        return io.StringIO(data["+"+name])
     except KeyError:
-        raise IOError, (0, "no such file")
+        raise IOError(0, "no such file")
 """
 
 loaderexplode = """
 
 def explode():
-    for k, v in data.items():
+    for k, v in list(data.items()):
         if k[0] == "+":
             try:
                 open(k[1:], "wb").write(v)
-                print k[1:], "extracted ok"
-            except IOError, v:
-                print k[1:], "failed:", "IOError", v
+                print(k[1:], "extracted ok")
+            except IOError as v:
+                print(k[1:], "failed:", "IOError", v)
 
 """
 
@@ -363,9 +363,9 @@ def squeeze(app, start, filelist):
 import ihooks,zlib,base64,marshal
 s=base64.decodestring("""
 %(data)s""")
-exec marshal.loads(%(zbegin)ss[:%(loaderlen)d]%(zend)s)
+exec(marshal.loads(%(zbegin)ss[:%(loaderlen)d]%(zend)s))
 boot("%(app)s",s,%(size)d,%(loaderlen)d)
-exec "import %(start)s"
+exec("import %(start)s")
 ''' % locals())
         bytes = fp.tell()
 
@@ -388,9 +388,9 @@ exec "import %(start)s"
 #%(localMagic)s %(archiveid)s
 import ihooks,zlib,marshal
 f=open("%(archive)s","rb")
-exec marshal.loads(%(zbegin)sf.read(%(loaderlen)d)%(zend)s)
+exec(marshal.loads(%(zbegin)sf.read(%(loaderlen)d)%(zend)s))
 boot("%(app)s",f,%(size)d)
-exec "import %(start)s"
+exec("import %(start)s")
 """ % locals())
         bytes = bytes + fp.tell()
         fp.close()

@@ -154,7 +154,7 @@ def createLevel(numRooms=None, seed=None, rooms=None):
                 roomName = zoneNum2str(roomName)
             roomNames.append(roomName)
 
-    #print roomNames
+    #print(roomNames)
     return MintLevel(roomNames)
 
 class MintDemo:
@@ -191,8 +191,9 @@ from toontown.coghq import MintMockup
 roomLists=[[3,4,6,7,8,10,13,14,15,17,18,19,24,27,11],[3,20],[16,22],[3,30],[16,31]]
 
 # make sure we cover all the rooms
-from PythonUtil import union, sameElements
-assert(sameElements(MintMockup.Room.Model2doorways.keys(), map(MintMockup.zoneNum2str, reduce(union, roomLists)) + list(MintMockup.Room.ConnectorRooms)))
+from direct.showbase.PythonUtil import union, sameElements
+from functools import reduce
+assert(sameElements(list(MintMockup.Room.Model2doorways.keys()), list(map(MintMockup.zoneNum2str, reduce(union, roomLists))) + list(MintMockup.Room.ConnectorRooms)))
 
 levels=[]
 for list in roomLists:

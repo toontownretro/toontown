@@ -77,7 +77,7 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
 
     def findAvatar(self, avId):
         #print("find Avatar")
-        #print self.seats
+        #print(self.seats)
         for i in range(len(self.seats)):
             if self.seats[i] == avId:
                 return i

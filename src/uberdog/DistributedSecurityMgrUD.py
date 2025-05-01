@@ -7,8 +7,7 @@ from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobal
 from direct.http.WebRequest import WebRequestDispatcher
 from otp.distributed import OtpDoGlobals
 from toontown.toonbase import ToontownGlobals
-from toontown.uberdog import InGameNewsResponses
-from toontown.ai.ToontownAIMsgTypes import IN_GAME_NEWS_MANAGER_UD_TO_ALL_AI
+from toontown.ai.ToontownAIMsgTypes import WHITELIST_MANAGER_UD_TO_ALL_AI
 from toontown.toon.ModuleListAI import ModuleList
 
 
@@ -298,3 +297,13 @@ class DistributedSecurityMgrUD(DistributedObjectGlobalUD):
         except Exception as e:
             replyTo.respondXML(self.securityMgrFailureXML % ("Catastrophic failure listing modules %s" % str(e)))
             self.notify.warning("Got exception %s" % str(e))
+
+        # This simply gets a user's account Id from the DB and then reports it back to DToonAI
+        # This is the first thing that needs to happen before asking for specifics
+        # accountId?, response?, callback?, context?
+    def requestAccountId(self, todo0, todo1, todo2):
+        pass
+    
+    def requestIdResponse(self, todo0, todo1):
+        pass
+    

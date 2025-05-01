@@ -316,7 +316,7 @@ class PetMood:
         def doDrift(curValue, timeToMedian, dt=float(dt)):
             # mood = mood + secs/((hrs/2*(mood/2))*(secs/hr))
             """ use this to make sure that the numbers are even moving
-            print curValue - (curValue + dt/(timeToMedian*7200))
+            print(curValue - (curValue + dt/(timeToMedian*7200)))
             """
             newValue = curValue + dt/(timeToMedian*7200)#3600)#60*60)
             return clampScalar(newValue, 0., 1.)

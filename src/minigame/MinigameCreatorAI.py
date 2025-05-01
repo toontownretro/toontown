@@ -150,11 +150,11 @@ def createMinigame(air, playerArray, trolleyZone,
     """
     print("\n\n\n\n\n\n\n\n\n\n")
 
-    print mgCtors
-    print air
-    print mgId
-    print mgCtors[mgId]
-    print mgCtors[mgId](air,mgId)
+    print(mgCtors)
+    print(air)
+    print(mgId)
+    print(mgCtors[mgId])
+    print(mgCtors[mgId](air,mgId))
 
     print("\n\n\n\n\n\n\n\n\n\n")
     """

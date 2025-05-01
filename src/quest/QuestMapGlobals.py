@@ -17,7 +17,7 @@ CogInfoPosTable = {
  "tt_t_gui_qst_the_burrrgh_3200" : Point3(0.35, 0, -0.35),
  "tt_t_gui_qst_the_burrrgh_3300" : Point3(0.3, 0, -0.2),
  "tt_t_gui_qst_donalds_dreamland_9100" : Point3(0.2, 0, -0.2),
- "tt_t_gui_qst_donalds_dreamland_9200" : Point3(-0.25, 0, -0.2)
+ "tt_t_gui_qst_donalds_dreamland_9200" : Point3(-0.25, 0, -0.2),
  }
  
 HQPosTable = {
@@ -37,7 +37,7 @@ HQPosTable = {
  "tt_t_gui_qst_the_burrrgh_3200" : Point3(230, 200, 0),
  "tt_t_gui_qst_the_burrrgh_3300" : Point3(268.052, 228.052, 0),
  "tt_t_gui_qst_donalds_dreamland_9100" : Point3(-250, -160, 0),
- "tt_t_gui_qst_donalds_dreamland_9200" : Point3(322.91, -67.1147, 0)
+ "tt_t_gui_qst_donalds_dreamland_9200" : Point3(322.91, -67.1147, 0),
  }
  
 FishingSpotPosTable = {
@@ -57,7 +57,7 @@ FishingSpotPosTable = {
  "tt_t_gui_qst_the_burrrgh_3200" : Point3(340.009, 462.856, 0.415845),
  "tt_t_gui_qst_the_burrrgh_3300" : Point3(54.17, 75.405, 0.141113),
  "tt_t_gui_qst_donalds_dreamland_9100" : Point3(106.796, -197.427, 0.354809),
- "tt_t_gui_qst_donalds_dreamland_9200" : Point3(239.646, -330.58, 0.347881)
+ "tt_t_gui_qst_donalds_dreamland_9200" : Point3(239.646, -330.58, 0.347881),
  }
  
 CornerPosTable = {
@@ -78,5 +78,5 @@ CornerPosTable = {
  "tt_t_gui_qst_daisys_garden_5100" : [Point3(760.089722, 526.236206, 0), Point3(-139.510132, -373.3638, 0)],
  "tt_t_gui_qst_toontown_central_2300" : [Point3(870.224243, 536.165771, 0), Point3(-89.175751, -423.234344, 0)],
  "tt_t_gui_qst_toontown_central_2100" : [Point3(161.735336, -59.985107, 0), Point3(-512.664612, -734.385193, 0)],
- "tt_t_gui_qst_the_burrrgh_3200" : [Point3(429.647949, 561.224304, 0), Point3(-31.951935, 99.624283, 0)]
+ "tt_t_gui_qst_the_burrrgh_3200" : [Point3(429.647949, 561.224304, 0), Point3(-31.951935, 99.624283, 0)],
  }

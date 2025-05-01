@@ -352,7 +352,7 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
     def kickEveryoneOut(self):
         #makes the toons leave the elevator
         bailFlag = 0
-        #print self.boardedAvIds
+        #print(self.boardedAvIds)
         for avId, slot in list(self.boardedAvIds.items()):
             #print("Kicking toon out! avId %s Slot %s" % (avId, slot))
             self.emptySlot(slot, avId, bailFlag, globalClockDelta.getRealNetworkTime())

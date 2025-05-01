@@ -215,6 +215,7 @@ class Playground(Place.Place):
         for i in self.loader.nodeList:
             self.loader.enterAnimatedProps(i)
 
+        # Turn on the limiter
         self._telemLimiter = TLGatherAllAvs('Playground', RotationLimitToH)
 
         # For halloween
@@ -280,6 +281,7 @@ class Playground(Place.Place):
         # Let the safe zone manager know that we are leaving
         messenger.send("exitPlayground")
 
+        # Stop the limiter
         self._telemLimiter.destroy()
         del self._telemLimiter
 

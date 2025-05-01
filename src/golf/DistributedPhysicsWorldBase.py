@@ -451,7 +451,7 @@ class DistributedPhysicsWorldBase:
 
         geom = OdeSphereGeom(space, radius)
         self.space.setSurfaceType(geom, 1) # GolfGlobals.BALL_SURFACE
-        print((("collide ID is %s") % (self.space.setCollideId(geom, 42)))) # GolfGlobals.BALL_COLLIDE_ID
+        print (("collide ID is %s") % (self.space.setCollideId(geom, 42))) # GolfGlobals.BALL_COLLIDE_ID
         self.space.getCollideId(geom)
         geom2 = OdeSphereGeom(space, radius)
 

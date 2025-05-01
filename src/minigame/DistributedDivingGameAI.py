@@ -255,9 +255,9 @@ class DistributedDivingGameAI(DistributedMinigameAI):
         trackingString += ("\nDistrict:%s" % (self.getSafezoneId()))
         for avId in list(self.scoreTracking.keys()):
             trackingString = trackingString + ("\navId:%s fishHits:%s crabHits:%s treasureCatches:%s treasureDrops:%s treasureRecoveries:%s Score: %s" % (avId, self.scoreTracking[avId][0],self.scoreTracking[avId][1],self.scoreTracking[avId][2],self.scoreTracking[avId][3],self.scoreTracking[avId][4], self.scoreDict[avId]))
-        #print trackingString
+        #print(trackingString)
         self.air.writeServerEvent("MiniGame Stats", None, trackingString)
-        #print self.scoreTracking
+        #print(self.scoreTracking)
         #import pdb; pdb.set_trace()
 
     def enterInactive(self):

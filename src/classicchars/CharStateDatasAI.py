@@ -1,6 +1,6 @@
 """CharStateDatasAI module: contains the server variation of the various
 state datas available to the classic character NPC's found in safezones"""
-#from otp.otpbase.OTPModules import *
+#from toontown.toonbase.ToontownModules import *
 from otp.ai.AIBaseGlobal import *
 from direct.distributed.ClockDelta import *
 

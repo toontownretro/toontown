@@ -146,7 +146,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         DistributedPartyActivity.announceGenerate(self)
 
     # Called at the end of DistributedPartyActivity.announceGenerate
-    def load(self):
+    def load(self, loadModels = 1, arenaModel = "partyCatchTree"):
         self.notify.info('load()')
         DistributedPartyCatchActivity.notify.debug("PartyCatch: load")
         # create state machine and set initial state
@@ -176,7 +176,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
 
         # load resources and create objects here
         self.defineConstants()
-        self.treesAndFence = loader.loadModel("phase_13/models/parties/partyCatchTree")
+        self.treesAndFence = loader.loadModel("phase_13/models/parties/%s" % arenaModel)
         #self.treesAndFence.setPos(-7.0, 0.0, 0.0)
         self.treesAndFence.setScale(0.9)
         self.treesAndFence.find("**/fence_floor").setPos(0.0, 0.0, 0.1)
@@ -223,13 +223,37 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         # make a dictionary of PartyCatchActivityToonSDs; they will track
         # toons' states and animate them appropriately
         self.toonSDs = {}
-        self.dropShadow = loader.loadModelOnce('phase_3/models/props/drop_shadow')
+        self.dropShadow = loader.loadModel('phase_3/models/props/drop_shadow')
         # load the models for the drop objects (see PartyGlobals.py)
         # index by object type name
         self.dropObjModels = {}
+        
+        if loadModels:
+            self.__loadDropModels()
+        
+        self.sndGoodCatch = base.loader.loadSfx('phase_4/audio/sfx/SZ_DD_treasure.mp3')
+        self.sndOof = base.loader.loadSfx('phase_4/audio/sfx/MG_cannon_hit_dirt.mp3')
+        self.sndAnvilLand = base.loader.loadSfx('phase_4/audio/sfx/AA_drop_anvil_miss.mp3')
+        self.sndPerfect = base.loader.loadSfx('phase_4/audio/sfx/ring_perfect.mp3')
+
+        # this will be used to generate textnodes
+        self.__textGen = TextNode("partyCatchActivity")
+        self.__textGen.setFont(ToontownGlobals.getSignFont())
+        self.__textGen.setAlign(TextNode.ACenter)
+
+        #self.timer = ToontownTimer()
+        #self.timer.posInTopRightCorner()
+        #self.timer.setTime(PartyGlobals.CatchActivityDuration)
+        #self.timer.setTransparency(1)
+        #self.timer.setColorScale(1, 1, 1, .75)
+        #self.timer.stash()
+
+        self.activityFSM.request("Idle")
+
+    def __loadDropModels(self):
         for objType in PartyGlobals.DropObjectTypes:
             model = loader.loadModel(objType.modelPath)
-            self.dropObjModels[objtype.name] = model
+            self.dropObjModels[objType.name] = model
 
             # all of the models need to be rescaled
             modelScales = {
@@ -240,8 +264,8 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
                 'watermelon' : .6,
                 'pineapple' : .45,
                 }
-            if objtype.name in modelScales:
-                model.setScale(modelScales[objtype.name])
+            if objType.name in modelScales:
+                model.setScale(modelScales[objType.name])
 
             # adjust the model if necessary
             # don't compare the name; this will crash if someone changes
@@ -264,25 +288,6 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
                 # anvil needs to be moved down a foot
                 model.setZ(-self.ObjRadius)
             model.flattenStrong()
-
-        self.sndGoodCatch = base.loader.loadSfx('phase_4/audio/sfx/SZ_DD_treasure.mp3')
-        self.sndOof = base.loader.loadSfx('phase_4/audio/sfx/MG_cannon_hit_dirt.mp3')
-        self.sndAnvilLand = base.loader.loadSfx('phase_4/audio/sfx/AA_drop_anvil_miss.mp3')
-        self.sndPerfect = base.loader.loadSfx('phase_4/audio/sfx/ring_perfect.mp3')
-
-        # this will be used to generate textnodes
-        self.__textGen = TextNode("partyCatchActivity")
-        self.__textGen.setFont(ToontownGlobals.getSignFont())
-        self.__textGen.setAlign(TextNode.ACenter)
-
-        #self.timer = ToontownTimer()
-        #self.timer.posInTopRightCorner()
-        #self.timer.setTime(PartyGlobals.CatchActivityDuration)
-        #self.timer.setTransparency(1)
-        #self.timer.setColorScale(1, 1, 1, .75)
-        #self.timer.stash()
-
-        self.activityFSM.request("Idle")
 
     def unload(self):
         DistributedPartyCatchActivity.notify.debug("unload")
@@ -362,6 +367,8 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
             self.cr.doId2do[toonId].resetLOD()
             if toonId in self.toonSDs:
                 self.toonSDs[toonId].fsm.request("notPlaying")
+                self.toonSDs[toonId].exit()
+                self.toonSDs[toonId].unload()
                 del self.toonSDs[toonId]
 
             if base.localAvatar.doId == toonId:
@@ -505,7 +512,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         # fix up the drop object table according to the difficulty level,
         # set up per-object-type Trajectory objects and related variables
         for objType in PartyGlobals.DropObjectTypes:
-            DistributedPartyCatchActivity.notify.debug("*** Object Type: %s" % objtype.name)
+            DistributedPartyCatchActivity.notify.debug("*** Object Type: %s" % objType.name)
 
             # each object type has an onscreen drop duration multiplier
             # that specifies how long the object should be onscreen,
@@ -799,9 +806,9 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
             if PartyGlobals.Name2DropObjectType[objName].good:
                 # If we're going from Idle to Conclusion because we entered the party
                 # during conclusion, we won't have scores.
-                if hasattr(self, "scores"):
+                if hasattr(self, "fruitsCaught"):
                     i = self.toonIds.index(avId)
-                    self.scores[i] += 1
+                    self.fruitsCaught[i] += 1
                     self.fruitsCaught += 1
 
     def finishDropInterval(self, generation, objNum):
@@ -878,7 +885,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         # of the types of each object that will be dropped
 
         # create a drop placer, and construct a schedule of drops
-        dropPlacer = PartyRegionDropPlacer(self, genId, gen.droppedObjNames,
+        dropPlacer = PartyRegionDropPlacer(self, gen.numPlayers, genId, gen.droppedObjNames,
                                            startTime=gen.startTime)
         # reset the dropped item counter
         gen.numItemsDropped = 0
@@ -1181,7 +1188,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
                 toonSD.fsm.request('normal')
                 """
             if avId != base.localAvatar.doId:
-                if self.cr.doId2do.has_key(avId):
+                if avId in self.cr.doId2do:
                     self.cr.doId2do[avId].reparentTo(self.avatarNodePath)
                     """
 

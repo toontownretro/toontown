@@ -1,6 +1,9 @@
 #-------------------------------------------------------------------------------
 # Contact: 
 # Created: 2011
+#
+# Purpose: AI component that manages which toons are currently dancing, who entered
+#          and exited the dance floor, and broadcasts dance moves to all clients.
 #-------------------------------------------------------------------------------
 from toontown.parties import PartyGlobals
 from toontown.parties.DistributedPartyDanceActivityBaseAI import DistributedPartyDanceActivityBaseAI

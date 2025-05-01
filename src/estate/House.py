@@ -153,8 +153,8 @@ class House(Place.Place):
         self.accept("doorDoneEvent", self.handleDoorDoneEvent)
         self.accept("DistributedDoor_doorTrigger", self.handleDoorTrigger)
 
-        self._telemLimiter = TLGatherAllAvs('House',
-                                            RotationLimitToH)
+        # Turn on the limiter
+        self._telemLimiter = TLGatherAllAvs('House', RotationLimitToH)
 
         #self.geom.reparentTo(render)
 
@@ -172,7 +172,7 @@ class House(Place.Place):
         if (hasattr(self, 'fsm')):
             self.fsm.requestFinalState()
 
-
+        # Stop the limiter
         self._telemLimiter.destroy()
         del self._telemLimiter
 

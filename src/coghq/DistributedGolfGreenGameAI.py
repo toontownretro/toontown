@@ -210,7 +210,7 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI,
             #print("Join attempt success")
                           
     def requestBoard(self, boardVerify):
-        #print self.boardList
+        #print(self.boardList)
         #print("requestBoard")
         senderId = self.air.getAvatarIdFromSender()
         assigned = self.checkForAssigned(senderId)

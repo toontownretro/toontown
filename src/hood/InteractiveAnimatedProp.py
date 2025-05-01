@@ -5,10 +5,10 @@ from direct.actor import Actor
 from direct.interval.IntervalGlobal import Sequence, ActorInterval,Wait, Func, SoundInterval, Parallel
 from direct.fsm import FSM
 from direct.showbase.PythonUtil import weightedChoice
-from toontown.toonbase.ToontownModules import TextNode, Vec3
+from toontown.toonbase.ToontownModules import TextNode, Vec3, \
+                                              ConfigVariableDouble, ConfigVariableBool
 from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil
-from toontown.toonbase.ToontownModules import *
 
 
 def clearPythonIvals(ival):
@@ -503,7 +503,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
             elif isinstance(curInfo, str):
                 if curInfo == animName:
                     result = index
-                    breal
+                    break
         return result
 
 

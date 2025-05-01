@@ -158,6 +158,7 @@ class CountryClubInterior(BattlePlace.BattlePlace):
         # Cheesy rendering effects are not allowed in CountryClubs.
         base.cr.forbidCheesyEffects(1)
 
+        # Turn on the limiter
         self._telemLimiter = TLGatherAllAvs('CountryClubInterior', RotationLimitToH)
 
         # wait until the CountryClub and any distributed entities have been
@@ -194,6 +195,7 @@ class CountryClubInterior(BattlePlace.BattlePlace):
 
         bboard.remove(DistributedCountryClub.DistributedCountryClub.ReadyPost)
 
+        # Stop the limiter
         self._telemLimiter.destroy()
         del self._telemLimiter
 

@@ -40,4 +40,3 @@ class DistributedGreenToonEffectMgr(DistributedObject.DistributedObject):
             Func(av.setSystemMessage, 0, TTLocalizer.GreenToonEffectMsg),
             )
         msgTrack.start()
-            

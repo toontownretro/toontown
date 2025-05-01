@@ -306,7 +306,7 @@ class RPCServer(object):
         self.air = uber.air
         self.notify.info("Embedded RPC server enabled.")
         self.notify.info("Starting server on %s:%u." % (rpcip,rpcport))
-        if keyfile is "" or certfile is "":
+        if keyfile == "" or certfile == "":
             self.notify.warning("No key/cert provided, unable to use SSL.  NO ENCRYPTION ENABLED.")
         else:
             self.notify.info("Initializing SSL using TLSLite.")

@@ -7,10 +7,12 @@ class DistCogdoBoardroomGameAI(CogdoBoardroomGameBase, DistCogdoLevelGameAI):
     notify = directNotify.newCategory("DistCogdoBoardroomGameAI")
 
     def __init__(self, air, interior):
-        DistCogdoGameAI.__init__(self, air, interior)
+        #DistCogdoGameAI.__init__(self, air, interior)
+        DistCogdoLevelGameAI.__init__(self, air, interior)
 
     def enterGame(self):
-        DistCogdoGameAI.enterGame(self)
+        #DistCogdoGameAI.enterGame(self)
+        DistCogdoLevelGameAI.enterGame(self)
         # start the game up. Or wait for a while, that's fun too
         self._gameDoneEvent = taskMgr.doMethodLater(
             Consts.GameDuration.get(), self._gameDoneDL, self.uniqueName('boardroomGameDone'))
@@ -24,7 +26,8 @@ class DistCogdoBoardroomGameAI(CogdoBoardroomGameBase, DistCogdoLevelGameAI):
         return task.done
 
     def enterFinish(self):
-        DistCogdoGameAI.enterFinish(self)
+        #DistCogdoGameAI.enterFinish(self)
+        DistCogdoLevelGameAI.enterFinish(self)
         self._finishDoneEvent = taskMgr.doMethodLater(
             Consts.FinishDuration.get(), self._finishDoneDL, self.uniqueName('boardroomFinishDone'))
 

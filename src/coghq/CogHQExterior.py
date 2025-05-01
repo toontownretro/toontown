@@ -127,6 +127,7 @@ class CogHQExterior(BattlePlace.BattlePlace):
         self.loader.geom.reparentTo(base.sceneStatic) # Used to be render, Now it's the static part of scene.
         self.nodeList = [self.loader.geom]
 
+        # Turn on the limiter
         self._telemLimiter = TLGatherAllAvs('CogHQExterior', RotationLimitToH)
 
         # Turn on the animated props once since there is only one zone
@@ -147,6 +148,7 @@ class CogHQExterior(BattlePlace.BattlePlace):
     def exit(self):
         self.fsm.requestFinalState()
 
+        # Stop the limiter
         self._telemLimiter.destroy()
         del self._telemLimiter
 

@@ -915,7 +915,7 @@ class ItemSelector( DirectFrame ):
                 #command = ( lambda : self.__handleItemDelete() ),
                 )
             self.deleteButton.hide()
-            #print pdir(uiRootNode)
+            #print(pdir(uiRootNode))
             self.leftArrowButton = DirectButton(
                 parent = self,
                 relief = None,

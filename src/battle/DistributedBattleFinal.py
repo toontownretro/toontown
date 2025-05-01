@@ -256,6 +256,7 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
         NametagGlobals.setMasterArrowsOn(1)
         for toon in self.toons:
             toon.startSmooth()
+        return None
 
     ##### Resume state #####
 

@@ -271,6 +271,90 @@ class HolidaySuitInvasionManagerAI(HolidayBaseAI.HolidayBaseAI):
             # Max the number so they will not run out
             numCogs = 1000000000
             skeleton = 0
+        # French BIGWIG_INVASION = 54
+        elif (self.holidayId == ToontownGlobals.BIGWIG_INVASION):
+            # big wig
+            cogType = 'bw'
+            # Max the number so they will not run out
+            numCogs = 1000000000
+            skeleton = 0
+        # Brazil BLOODSUCKER_INVASION = 1101
+        elif (self.holidayId == ToontownGlobals.BLOODSUCKER_INVASION):
+            # bloodsucker
+            cogType = 'b'
+            # Max the number so they will not run out
+            numCogs = 1000000000
+            skeleton = 0
+        # Brazil MOVER_SHAKER_INVASION = 1102
+        elif (self.holidayId == ToontownGlobals.MOVER_SHAKER_INVASION):
+            # mover & shaker 
+            cogType = 'ms'
+            # Max the number so they will not run out
+            numCogs = 1000000000
+            skeleton = 0
+        # Brazil HEAD_HUNTER_INVASION = 1103
+        elif (self.holidayId == ToontownGlobals.HEAD_HUNTER_INVASION):
+            # head hunter
+            cogType = 'hh'
+            # Max the number so they will not run out
+            numCogs = 1000000000
+            skeleton = 0
+        # Brazil THE_MINGLER_INVASION = 1104
+        elif (self.holidayId == ToontownGlobals.THE_MINGLER_INVASION):
+            # mingler
+            cogType = 'm'
+            # Max the number so they will not run out
+            numCogs = 1000000000
+            skeleton = 0
+        # Brazil MONEY_BAGS_INVASION = 1105
+        elif (self.holidayId == ToontownGlobals.MONEY_BAGS_INVASION):
+            # money bags
+            cogType = 'mb'
+            # Max the number so they will not run out
+            numCogs = 1000000000
+            skeleton = 0
+#        # Brazil TELEMARKETER_INVASION = 1106
+#        elif (self.holidayId == ToontownGlobals.TELEMARKETER_INVASION):
+#            # telemarketer
+#            cogType = 'tm'
+#            # Max the number so they will not run out
+#            numCogs = 1000000000
+#            skeleton = 0
+        # Brazil BOTTOMFEEDER_INVASION = 1107
+        elif (self.holidayId == ToontownGlobals.BOTTOMFEEDER_INVASION):
+            # bottom feeder
+            cogType = 'bf'
+            # Max the number so they will not run out
+            numCogs = 1000000000
+            skeleton = 0
+#        # Brazil AMBULANCE_CHASER_INVASION = 1108
+#        elif (self.holidayId == ToontownGlobals.AMBULANCE_CHASER_INVASION):
+#            # ambulance  chaser
+#            cogType = 'ac'
+#            # Max the number so they will not run out
+#            numCogs = 1000000000
+#            skeleton = 0
+        # Brazil THE_BIG_CHEESE_INVASION = 1109
+        elif (self.holidayId == ToontownGlobals.THE_BIG_CHEESE_INVASION):
+            # big cheese
+            cogType = 'tbc'
+            # Max the number so they will not run out
+            numCogs = 1000000000
+            skeleton = 0
+#        # Brazil NUMBER_CRUNCHER_INVASION = 1110
+#        elif (self.holidayId == ToontownGlobals.NUMBER_CRUNCHER_INVASION):
+#            # number cruncher
+#            cogType = 'nc'
+#            # Max the number so they will not run out
+#            numCogs = 1000000000
+#            skeleton = 0
+        # Brazil YESMAN_INVASION = 1111
+        elif (self.holidayId == ToontownGlobals.YESMAN_INVASION):
+            # yes man
+            cogType = 'ym'
+            # Max the number so they will not run out
+            numCogs = 1000000000
+            skeleton = 0
         else:
             self.notify.warning("Unrecognized holidayId: %s" % (self.holidayId))
             return 0

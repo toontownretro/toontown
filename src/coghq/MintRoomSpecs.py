@@ -73,6 +73,9 @@ CashbotMintConnectorRooms = ('phase_10/models/cashbotHQ/connector_7cubeL2',
 
 # dict of roomId to spec Python module
 CashbotMintSpecModules = {}
+#if not isClient():
+#    print("EXECWARNING MintRoomSpecs: %s"%CashbotMintRoomName2RoomId)
+#    printStack()
 for roomName, roomId in list(CashbotMintRoomName2RoomId.items()):
     exec('from toontown.coghq import %s' % roomName)
     CashbotMintSpecModules[roomId] = eval(roomName)

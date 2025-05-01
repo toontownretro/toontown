@@ -610,8 +610,8 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         if not self.swingInfoSent:
             self.sendUpdate("postSwingState", [self.getCycleTime(), self.power, b.getPosition()[0],b.getPosition()[1],b.getPosition()[2], x, y, curAimTime, self.getCommonObjectData()])
         # print("Swing State")
-        # print self.getCycleTime()
-        # print self.getCommonObjectData()
+        # print(self.getCycleTime())
+        # print(self.getCommonObjectData())
         self.swingInfoSent = True
         if self.power < 15 and self.golfCourse.scores[localAvatar.doId][self.golfCourse.curHoleIndex] == 0:
             self.powerReminder = DirectLabel(
@@ -1473,7 +1473,7 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
             doPrint = 1
             if self.destFrameNum < (len(self.recording)):
                 self.destFrame = self.recording[self.destFrameNum]
-                #print self.destFrame
+                #print(self.destFrame)
             else:
                 self.notify.debug("recording length %s" % (len(self.recording)))
                 if self.isCurBallInHole() or self.hasCurGolferReachedMaxSwing():
@@ -1595,8 +1595,8 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         #self.setTimeIntoCycle(self.holdCycleTime)
         self.useCommonObjectData(self.holdCommonObjectData)
         #print ("Before enterplayback")
-        #print self.holdCycleTime
-        #print self.holdCommonObjectData
+        #print(self.holdCycleTime)
+        #print(self.holdCommonObjectData)
         #self.useCommonObjectData(commonObjectData)
         #print ("Receiving Time in Cycle %s" % (self.getCycleTime()))
         self.recording = movie

@@ -14,7 +14,7 @@ from direct.showbase import PythonUtil
 
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-from toontown.toon import GMUtils
+#from toontown.toon import GMUtils
 from toontown.toontowngui import TTDialog
 from toontown.parties import PartyGlobals
 from toontown.parties import PartyUtils
@@ -188,8 +188,8 @@ class PublicPartyGui(DirectFrame):
             zoneId = partyTuple[1]
             numberOfGuests = partyTuple[2]
             hostName = partyTuple[3]
-            if GMUtils.testGMIdentity(hostName):
-                hostName = GMUtils.handleGMName(hostName)
+            #if GMUtils.testGMIdentity(hostName):
+            #    hostName = GMUtils.handleGMName(hostName)
             activityIds = partyTuple[4]
             minLeft = partyTuple[5]
             item = DirectButton(

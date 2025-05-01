@@ -29,6 +29,7 @@ from toontown.distributed import DelayDelete
 from toontown.toon import AccessoryGlobals
 import types
 import functools
+import importlib
 
 """
 from . import Toon
@@ -367,7 +368,7 @@ def loadModels():
             #    # This covers the phase_3.5/ case
             #    phaseStr = path[6:path.index('/')]
             #    phase = float(phaseStr)
-            #    print phase
+            #    print(phase)
             #    if (phase in Launcher.LauncherPhases):
             #        if not self.getPhaseComplete(phase):
             #            return 0
@@ -1558,7 +1559,7 @@ class Toon(Avatar.Avatar, ToonHead):
                         tex.setMagfilter(Texture.FTLinear)
                         hatGeom.setTexture(tex, 1)
                 if fromRTM:
-                    reload(AccessoryGlobals)
+                    importlib.reload(AccessoryGlobals)
                 transOffset = None
                 if AccessoryGlobals.ExtendedHatTransTable.get(hat[0]):
                     transOffset = AccessoryGlobals.ExtendedHatTransTable[hat[0]].get(self.style.head[:2])
@@ -1601,7 +1602,7 @@ class Toon(Avatar.Avatar, ToonHead):
                         tex.setMagfilter(Texture.FTLinear)
                         glassesGeom.setTexture(tex, 1)
                 if fromRTM:
-                    reload(AccessoryGlobals)
+                    importlib.reload(AccessoryGlobals)
                 transOffset = None
                 if AccessoryGlobals.ExtendedGlassesTransTable.get(glasses[0]):
                     transOffset = AccessoryGlobals.ExtendedGlassesTransTable[glasses[0]].get(self.style.head[:2])
@@ -1641,7 +1642,7 @@ class Toon(Avatar.Avatar, ToonHead):
                         tex.setMagfilter(Texture.FTLinear)
                         geom.setTexture(tex, 1)
                 if fromRTM:
-                    reload(AccessoryGlobals)
+                    importlib.reload(AccessoryGlobals)
                 transOffset = None
                 if AccessoryGlobals.ExtendedBackpackTransTable.get(backpack[0]):
                     transOffset = AccessoryGlobals.ExtendedBackpackTransTable[backpack[0]].get(self.style.torso[:1])

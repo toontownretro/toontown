@@ -263,68 +263,78 @@ ClothingTypes = {
     1757 : (AShirt, 'sil_7', 20),      # Victory Party Shirt 1
     1758 : (AShirt, 'sil_8', 20),      # Victory Party Shirt 2
 
-    1759 : (AShirt, 'emb_us1', 0, (20, 5)),
-    1760 : (AShirt, 'emb_us2', 234, (0, 7)),
-    1761 : (AShirt, 'emb_us3', 345, (8, 0)),
-    1762 : (AShirt, 'sa_ss26', 200),
-    1763 : (AShirt, 'sb_1', 20),
-    1764 : (AShirt, 'sa_ss27', 5000),
-    1765 : (AShirt, 'sa_ss28', 5000),
-    1766 : (ABoysShorts, 'sa_bs13', 5000),
-    1767 : (AGirlsShorts, 'sa_gs13', 5000),
-    1768 : (AShirt, 'jb_1', 20),
-    1769 : (AShirt, 'jb_2', 20),
-    1770 : (AShirt, 'hw_ss3', 250),
-    1771 : (AShirt, 'hw_ss4', 250),
-    1772 : (ABoysShorts, 'hw_bs3', 250),
-    1773 : (AGirlsShorts, 'hw_gs3', 250),
-    1774 : (ABoysShorts, 'hw_bs4', 250),
-    1775 : (AGirlsShorts, 'hw_gs4', 250),
-    1776 : (AShirt, 'ugcms', 15000),
-    1777 : (AShirt, 'lb_1', 20),
-    1778 : (AShirt, 'sa_ss29', 5000),
-    1779 : (AShirt, 'sa_ss30', 5000),
-    1780 : (ABoysShorts, 'sa_bs14', 5000),
-    1781 : (AGirlsShorts, 'sa_gs14', 5000),
-    1782 : (AShirt, 'sa_ss31', 5000),
-    1783 : (ABoysShorts, 'sa_bs15', 5000),
-    1784 : (AGirlsSkirt, 'sa_gs15', 5000),
-    1785 : (AShirt, 'sa_ss32', 5000),
-    1786 : (AShirt, 'sa_ss33', 5000),
-    1787 : (AShirt, 'sa_ss34', 5000),
-    1788 : (AShirt, 'sa_ss35', 5000),
-    1789 : (AShirt, 'sa_ss36', 5000),
-    1790 : (AShirt, 'sa_ss37', 5000),
-    1791 : (ABoysShorts, 'sa_bs16', 5000),
-    1792 : (ABoysShorts, 'sa_bs17', 5000),
-    1793 : (AGirlsSkirt, 'sa_gs16', 5000),
-    1794 : (AGirlsSkirt, 'sa_gs17', 5000),
-    1795 : (AShirt, 'sa_ss38', 5000),
-    1796 : (AShirt, 'sa_ss39', 5000),
-    1797 : (ABoysShorts, 'sa_bs18', 5000),
-    1798 : (AGirlsSkirt, 'sa_gs18', 5000),
-    1799 : (AShirt, 'sa_ss40', 5000),
-    1800 : (AShirt, 'sa_ss41', 5000),
-    1801 : (AShirt, 'sa_ss42', 250),
-    1802 : (AGirlsShirt, 'sa_ss43', 250),
-    1803 : (AShirt, 'sa_ss44', 5000),
-    1804 : (AShirt, 'sa_ss45', 5000),
-    1805 : (AShirt, 'sa_ss46', 5000),
-    1806 : (AShirt, 'sa_ss47', 5000),
-    1807 : (AShirt, 'sa_ss48', 5000),
-    1808 : (AShirt, 'sa_ss49', 5000),
-    1809 : (AShirt, 'sa_ss50', 5000),
-    1810 : (AShirt, 'sa_ss51', 5000),
-    1811 : (AShirt, 'sa_ss52', 5000),
-    1812 : (AShirt, 'sa_ss53', 5000),
-    1813 : (AShirt, 'sa_ss54', 5000),
-    1814 : (ABoysShorts, 'sa_bs19', 5000),
-    1815 : (ABoysShorts, 'sa_bs20', 5000),
-    1816 : (ABoysShorts, 'sa_bs21', 5000),
-    1817 : (AGirlsSkirt, 'sa_gs19', 5000),
-    1818 : (AGirlsSkirt, 'sa_gs20', 5000),
-    1819 : (AGirlsSkirt, 'sa_gs21', 5000),
-    1820 : (AShirt, 'sa_ss55', 5000),
+    1759 : (AShirt, 'emb_us1', 0, (20, 5)), # placeholder emblem shirt 1
+    1760 : (AShirt, 'emb_us2', 234, (0, 7)), # placeholder emblem shirt 2
+    1761 : (AShirt, 'emb_us3', 345, (8, 0)), # placeholder emblem shirt 3
+    
+    1762 : (AShirt, 'sa_ss26', 200), # Award Most Cogs Defeated Shirt
+    
+    1763 : (AShirt, 'sb_1', 20), # Sellbot Icon Shirt
+    1764 : (AShirt, 'sa_ss27', 5000), # Award Most V.P.s Defeated Shirt
+    1765 : (AShirt, 'sa_ss28', 5000), # Award Sellbot Smasher Shirt
+    1766 : (ABoysShorts, 'sa_bs13', 5000), # Award Sellbot Smasher Shorts male
+    1767 : (AGirlsShorts, 'sa_gs13', 5000), # Award Sellbot Smasher Shorts female
+    
+    1768 : (AShirt, 'jb_1', 20), # Jellybean Shirt
+    1769 : (AShirt, 'jb_2', 20), # Doodle Shirt
+    
+    1770 : (AShirt, 'hw_ss3', 250), # Halloween Vampire
+    1771 : (AShirt, 'hw_ss4', 250), # Halloween Turtle
+    1772 : (ABoysShorts, 'hw_bs3', 250), # Halloween Vampire Shorts male
+    1773 : (AGirlsShorts, 'hw_gs3', 250), # Halloween Vampire Shorts female
+    1774 : (ABoysShorts, 'hw_bs4', 250), # Halloween Turtle Shorts male
+    1775 : (AGirlsShorts, 'hw_gs4', 250), # Halloween Turtle Shorts female
+    
+    1776 : (AShirt, 'ugcms', 15000), # Get Connected Mover & Shaker
+    
+    1777 : (AShirt, 'lb_1', 20), # Lawbot Icon Shirt
+    1778 : (AShirt, 'sa_ss29', 5000), # Award Most C.J.s Defeated Shirt
+    1779 : (AShirt, 'sa_ss30', 5000), # Award Lawbot Smasher Shirt
+    1780 : (ABoysShorts, 'sa_bs14', 5000), # Award Lawbot Smasher Shorts male
+    1781 : (AGirlsShorts, 'sa_gs14', 5000), # Award Lawbot Smasher Shorts female
+    
+    1782 : (AShirt, 'sa_ss31', 5000), # Award Racing Shirt 3
+    1783 : (ABoysShorts, 'sa_bs15', 5000), # Award Racing Shorts 1
+    1784 : (AGirlsSkirt, 'sa_gs15', 5000), # Award Racing Skirt 1
+    1785 : (AShirt, 'sa_ss32', 5000), # Award Fishing Shirt 4
+    1786 : (AShirt, 'sa_ss33', 5000), # Award Golf Shirt 3
+    1787 : (AShirt, 'sa_ss34', 5000), # Award Most Cogs Defeated Shirt 2
+    1788 : (AShirt, 'sa_ss35', 5000), # Award Racing Shirt 4
+    1789 : (AShirt, 'sa_ss36', 5000), # Award Save Building Shirt 3
+    1790 : (AShirt, 'sa_ss37', 5000), # Award Trolley Shirt 3
+    1791 : (ABoysShorts, 'sa_bs16', 5000), # Award Golf Shorts 3
+    1792 : (ABoysShorts, 'sa_bs17', 5000), # Award Racing Shorts 4
+    1793 : (AGirlsSkirt, 'sa_gs16', 5000), # Award Golf Skirt 2
+    1794 : (AGirlsSkirt, 'sa_gs17', 5000), # Award Racing Skirt 4
+    1795 : (AShirt, 'sa_ss38', 5000), # Award Fishing Shirt 5
+    1796 : (AShirt, 'sa_ss39', 5000), # Award Golf Shirt 4
+    1797 : (ABoysShorts, 'sa_bs18', 5000), # Award Golf Shorts 4
+    1798 : (AGirlsSkirt, 'sa_gs18', 5000), # Award Golf Skirt 3
+    
+    1799 : (AShirt, 'sa_ss40', 5000), # Award Halloween Witchy Moon Shirt
+    1800 : (AShirt, 'sa_ss41', 5000), # Award Winter Holiday Sled Shirt
+    1801 : (AShirt, 'sa_ss42', 250), # Award Halloween Batty Moon Shirt
+    1802 : (AGirlsShirt, 'sa_ss43', 250), # Award Winter Holiday Mittens Shirt
+    
+    1803 : (AShirt, 'sa_ss44', 5000), # Award Fishing Shirt 6
+    1804 : (AShirt, 'sa_ss45', 5000), # Award Fishing Shirt 7
+    1805 : (AShirt, 'sa_ss46', 5000), # Award Golf Shirt 5
+    1806 : (AShirt, 'sa_ss47', 5000), # Award Racing Shirt 5
+    1807 : (AShirt, 'sa_ss48', 5000), # Award Racing Shirt 6
+    1808 : (AShirt, 'sa_ss49', 5000), # Award Most Cogs Defeated shirt 3
+    1809 : (AShirt, 'sa_ss50', 5000), # Award Most Cogs Defeated shirt 4
+    1810 : (AShirt, 'sa_ss51', 5000), # Award Trolley shirt 4
+    1811 : (AShirt, 'sa_ss52', 5000), # Award Trolley shirt 5
+    1812 : (AShirt, 'sa_ss53', 5000), # Award Save Building Shirt 4
+    1813 : (AShirt, 'sa_ss54', 5000), # Award Save Building Shirt 5
+    1814 : (ABoysShorts, 'sa_bs19', 5000), # Award Golf Shorts 5
+    1815 : (ABoysShorts, 'sa_bs20', 5000), # Award Racing Shorts 5
+    1816 : (ABoysShorts, 'sa_bs21', 5000), # Award Racing Shorts 6
+    1817 : (AGirlsSkirt, 'sa_gs19', 5000), # Award Golf Skirt 4
+    1818 : (AGirlsSkirt, 'sa_gs20', 5000), # Award Racing Skirt 5
+    1819 : (AGirlsSkirt, 'sa_gs21', 5000), # Award Racing Skirt 6
+    
+    1820 : (AShirt, 'sa_ss55', 5000), # Award Anniversary
     }
 
 # A list of clothes that are loyalty items, needed by award manager
@@ -778,12 +788,12 @@ def getAllClothes(*clothingTypes):
     # CatalogClothingItems (that is, all color variants) for the
     # indicated type index(es).
 
-    clothes = []
+    allClothes = []
     for clothingType in clothingTypes:
         base = CatalogClothingItem(clothingType, 0)
 
-        clothes.append(base)
+        allClothes.append(base)
         for n in range(1, len(base.getColorChoices())):
-            clothes.append(CatalogClothingItem(clothingType, n))
+            allClothes.append(CatalogClothingItem(clothingType, n))
 
-    return clothes
+    return allClothes

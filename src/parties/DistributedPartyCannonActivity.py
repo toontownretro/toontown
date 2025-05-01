@@ -16,6 +16,7 @@ from toontown.toonbase.ToontownModules import *
 
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
+from direct.showbase.PythonUtil import quantizeVec
 from direct.task.Task import Task
 
 from toontown.toontowngui import TTDialog
@@ -61,6 +62,10 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
     RULES_DONE_EVENT = "DistributedPartyCannonActivity_RULES_DONE_EVENT"
     LOCAL_TOON_LANDED_EVENT = "DistributedPartyCannonActivity_LOCAL_TOON_LANDED_EVENT"
 
+    NetDivisor = 100
+    TimeFactor = 0.75
+    BroadcastPeriod = 0.2
+
     def __init__(self, cr):
         DistributedPartyActivity.__init__(
             self,
@@ -84,6 +89,9 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
         self.localFlyingDropShadow = None
         self.localFlyingToon = None
         self.localFlyingToonId = 0
+        
+        self._lastBroadcastTime = -self.BroadcastPeriod
+        self._dirtyNewVel = None
 
         self.hitBumper = 0
         self.hitCloud = 0
@@ -174,6 +182,10 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
 
         self._doneCannons = False
 
+        self._avId2trajectoryInfo = {}
+        self._remoteToonFlyTaskName = "remoteToonFlyTask-%s" % self.doId
+        taskMgr.add(self._remoteToonFlyTask, self._remoteToonFlyTaskName, priority = 45)
+
         # Request cloud colors. This is done in case the toon walks in
         # and clouds have been colored.
         self.d_cloudsColorRequest()
@@ -238,6 +250,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             self.dustCloud.stop()
 
     def disable(self):
+        taskMgr.remove(self._remoteToonFlyTaskName)
         if self._flyingCollisionTaskName:
             taskMgr.remove(self._flyingCollisionTaskName)
         taskMgr.remove(self.taskNameFireCannon)
@@ -396,10 +409,17 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
 
             # calculate the trajectory
             #flightResults = self.__calcFlightResults(cannon, toonId, launchTime)
-            startPos, startHpr, startVel, trajectory = self.__calcFlightResults(cannon, toonId, launchTime)
+            #if not isClient():
+            #    print("EXECWARNING DistributedPartyCannonActivity: %s"%flightResults)
+            #    printStack()
             # pull all the results (startPos, startHpr, startVel, trajectory) into the local namespace
             #for key in flightResults:
             #    exec("%s = flightResults['%s']" % (key, key))
+            startPos, startHpr, startVel, trajectory = self.__calcFlightResults(cannon, toonId, launchTime)
+
+            #startPos = flightResults['startPos']
+            #startVel = flightResults['startVel']
+            #startHpr = flightResults['startHpr']
 
             self.notify.debug("start position: " + str(startPos))
             self.notify.debug("start velocity: " + str(startVel))
@@ -433,6 +453,14 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             toon.dropShadow.hide()
             self.localFlyingDropShadow = self.shadowNode.copyTo(hidden)
 
+            vel = startVel
+            
+            toon.lookAt(toon.getPos() + Vec3(vel[0], vel[1], vel[2]))
+            toon.setP(localAvatar, -90)
+            hpr = toon.getHpr()
+            
+            toon.d_setPosHpr(startPos[0], startPos[1], startPos[2], hpr[0], hpr[1], hpr[2])
+
             # stock the tasks up with the info they need
             # store the info in a shared dictionary
             self.localFlyingToon.wrtReparentTo(render)
@@ -456,6 +484,15 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             base.localAvatar.disableAvatarControls()
             base.localAvatar.startPosHprBroadcast()
 
+            frameTime = globalClock.getFrameTime()
+            netLaunchTime = globalClockDelta.localToNetworkTime(launchTime + frameTime, bits=31)
+            
+            self.sendUpdate('setToonTrajectoryAi', [
+                netLaunchTime,
+                startPos[0], startPos[1], startPos[2],
+                startHpr[0], startHpr[1], startHpr[2],
+                startVel[0], startVel[1], startVel[2]])
+
         else:
             seqTask = shootTask
 
@@ -464,6 +501,54 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
         toon.startSmooth()
 
         return Task.done
+
+    def setToonTrajectory(self, avId, launchTime, x, y, z, h, p, r, vx, vy, vz):
+        if avId == localAvatar.doId:
+            return
+        startPos = Vec3(x, y, z)
+        startHpr = Vec3(h, p, r)
+        startVel = Vec3(vx, vy, vz)
+        
+        startT = globalClockDelta.networkToLocalTime(launchTime, bits=31) + 0.2
+        
+        trajectory = Trajectory.Trajectory(0.0, startPos, startVel)
+        
+        self._avId2trajectoryInfo[avId] = ScratchPad(startPos = startPos, startHpr = startHpr, startVel = startVel, startT = startT, trajectory = trajectory)
+
+    def _remoteToonFlyTask(self, task = None):
+        ids2del = []
+        frameTime = globalClock.getFrameTime()
+        
+        for avId, trajInfo in self._avId2trajectoryInfo.items():
+            trajectory = trajInfo.trajectory
+            
+            startTime = trajInfo.startT
+            groundTime = trajectory.calcTimeOfImpactOnPlane(0.0) / self.TimeFactor + startTime
+            now = frameTime
+            
+            if now < startTime:
+                now = startTime
+            
+            if now > groundTime:
+                now = groundTime
+            
+            t = max(0.0, now - startTime)
+            t *= self.TimeFactor
+            
+            toon = self.cr.getDo(avId)
+            
+            if toon is None:
+                ids2del.append(avId)
+            else:
+                toon.setFluidPos(trajectory.getPos(t))
+                vel = trajectory.getVel(t)
+                toon.lookAt(toon.getPos() + Vec3(vel[0], vel[1], vel[2]))
+                toon.setP(toon, -90)
+
+        for avId in ids2del:
+            del self._avId2trajectoryInfo[avId]
+
+        return Task.cont
 
     def __calcFlightResults(self, cannon, toonId, launchTime):
         """
@@ -474,6 +559,10 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
         startPos = cannon.getToonFirePos()
         startHpr = cannon.getToonFireHpr()
         startVel = cannon.getToonFireVel()
+
+        quantizeVec(startPos, self.NetDivisor)
+        quantizeVec(startHpr, self.NetDivisor)
+        quantizeVec(startVel, self.NetDivisor)
 
         trajectory = Trajectory.Trajectory(launchTime, startPos, startVel)
         self.trajectory = trajectory
@@ -510,6 +599,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
 
     # Distributed (clsend airecv)
     def d_setLanded(self, toonId):
+        printStack()
         self.notify.debug("d_setLanded %s" % toonId)
         # The shooter can tell the server he's landed, and then the server
         # will pass the message along to all the other clients in this zone.
@@ -519,6 +609,10 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
                 self.sendUpdate("setLanded", [toonId])
             else:
                 self.notify.debug('we avoided crash 2')
+
+    def setLanded(self, toonId):
+        if toonId in self._avId2trajectoryInfo:
+            del self._avId2trajectoryInfo[toonId]
 
     def landToon(self, toonId):
         """
@@ -651,6 +745,25 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             newVel.setZ(zVel)
 
         trajectory.setStartVel(newVel)
+        
+        now = globalClock.getFrameTime()
+        
+        if now - self._lastBroadcastTime >= self.BroadcastPeriod:
+            self._dirtyNewVel = newVel
+        
+        if self._dirtyNewVel:
+            self.sendUpdate('updateToonTrajectoryStartVelAi', [self._dirtyNewVel[0], self._dirtyNewVel[1], self._dirtyNewVel[2]])
+            self._lastBroadcastTime = now
+            self._dirtyNewVel = None
+        return
+
+    def updateToonTrajectoryStartVel(self, avId, vx, vy, vz):
+        if avId == localAvatar.doId:
+            return
+        
+        if avId in self._avId2trajectoryInfo:
+            self._avId2trajectoryInfo[avId].trajectory.setStartVel(Vec3(vx, vy, vz))
+
 
     def __isFlightKeyPressed(self):
         return (self.gui.leftPressed or
@@ -716,7 +829,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
         #let him keep going now
         t = curTime
         #if not self.hitBumper:
-        t *= 0.75
+        t *= self.TimeFactor #0.75
         self.lastT = self.t
         self.t = t
         deltaT = self.t - self.lastT
@@ -1059,7 +1172,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
 
         track = Sequence()
         track.append(Func(self.localFlyingToon.wrtReparentTo, render))
-        #track.append(Func(self.localFlyingToon.b_setParent, ToontownGlobals.SPRender))
+        #track.append(Func(self.localFlyingToon.b_setParent, ToontownGlobals.SPActors))
         if self.isLocalToonId(self.localFlyingToon.doId):
             track.append(Func(self.localFlyingToon.collisionsOff))
         if hitNode in PartyCannonCollisions["ground"] :

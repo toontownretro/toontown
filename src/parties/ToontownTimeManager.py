@@ -61,6 +61,15 @@ class ToontownTimeManager(DistributedObject.DistributedObject):
             self.serverDateTime + timedelta(seconds=secondsPassed))
         return curDateTime
 
+    def getRelativeServerDateTime(self, timeOffset):
+        """Return the current relative datetime object of the server."""
+        secondsPassed = globalClock.getRealTime() - self.globalClockRealTimeUponLogin + \
+                        self.debugSecondsAdded
+        secondsPassed += timeOffset
+        curDateTime = self.serverTimeZone.normalize(
+            self.serverDateTime + timedelta(seconds=secondsPassed))
+        return curDateTime
+
     def getCurServerDateTimeForComparison(self):
         """Return the current UNnormalized datetime object of the server."""
         # PartyInfo.startTime is in PST, this force the return value to always be in PST

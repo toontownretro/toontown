@@ -595,7 +595,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
     def addToonHeadPanel(self, toon):
         #av = base.cr.doId2do.get(localAvatar.doId)
 
-        #if self.toonPanels.has_key(toon.doId):
+        #if toon.doId in self.toonPanels:
         #    import pdb; pdb.set_trace()
 
         tPanels = ToonHeadFrame.ToonHeadFrame(toon, (0.4, 0.4, 0.4, 0.6), self.headPanel)
@@ -1187,7 +1187,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         elif self.grid[x][z][0] == None:
             return -1
         else:
-            #print self.grid[x][z][0].breakable
+            #print(self.grid[x][z][0].breakable)
             return self.grid[x][z][0].breakable
 
     def findGridCog(self):
@@ -1749,7 +1749,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         camera.setH(0)
         camera.setP(-70)
         camera.reparentTo(self.focusPoint)
-        base.camLens.setMinFov(60 * ToontownGlobals.OriginalAspectRatio)
+        base.camLens.setFov(60,46.8265)
         self.focusPoint.setPos(0,12,27)
         self.focusPoint.setH(180)
         #base.fp = self.focusPoint
@@ -1893,7 +1893,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.scoreLabel['text'] = (TTLocalizer.GolfGreenGameScoreString % (self.boardsLeft))
 
     def informGag(self, track, level):
-        #print TTLocalizer.BattleGlobalAvPropStringsSingular[track][level]
+        #print(TTLocalizer.BattleGlobalAvPropStringsSingular[track][level])
         self.bonusBoard.show()
         self.bonusBoard['text'] = (TTLocalizer.GolfGreenGameBonusGag % (TTLocalizer.BattleGlobalAvPropStringsSingular[track][level]))
         iconName = ToontownBattleGlobals.AvPropsNew[track][level]

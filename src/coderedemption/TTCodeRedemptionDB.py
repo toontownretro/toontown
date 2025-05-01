@@ -296,7 +296,7 @@ class TTCRDBConnection(DBInterface):
             if self.WantTableLocking:
                 if len(self._tableLocks):
                     cmd = 'LOCK TABLES '
-                    for table, lock in self._tableLocks.items():
+                    for table, lock in list(self._tableLocks.items()):
                         cmd += '%s %s, ' % (table, lock)
                     cmd = cmd[:-2] + ';'
                     self.getCursor().execute(cmd)
@@ -419,7 +419,7 @@ class TTCodeRedemptionDBTester(Job):
 
     def _getUnusedUtf8ManualCode(self):
         chars = '\u65e5\u672c\u8a9e'
-        code = str('')
+        code = ''
         while 1:
             code += random.choice(chars)
             if not self._db.codeExists(code):
@@ -1057,7 +1057,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         numCodeValues = TTCodeDict.getNumUsableValuesInCodeSpace(codeLength)
         n = 0
         while codesLeft:
-            #print codesLeft, len(randSamples), randSamplesOnOrder[0]
+            #print(codesLeft, len(randSamples), randSamplesOnOrder[0])
             numCodesRequested = (len(randSamples) + randSamplesOnOrder[0])
             if numCodesRequested < codesLeft:
                 if numCodesRequested < randSampleRequestThreshold:
@@ -1308,7 +1308,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
             self.notify.info('committing cached manual code redemption counts to DB')
         conn = TTCRDBConnection(self)
         cursor = conn.getDictCursor()
-        for key in self._manualCode2outstandingRedemptions.keys():
+        for key in list(self._manualCode2outstandingRedemptions.keys()):
             code, lotName = key
             count = self._manualCode2outstandingRedemptions[key]
             self._updateRedemptionCount(cursor, code, True, None, lotName, count)

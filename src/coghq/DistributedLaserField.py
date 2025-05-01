@@ -90,6 +90,7 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
 
 
     def announceGenerate(self):
+        self.notify.debug('announceGenerate')
         BattleBlocker.BattleBlocker.announceGenerate(self)
         # at this point all the entity attributes have been initialized
         # we can load the model now.
@@ -461,6 +462,7 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
         self.gridSymbols.append(symbolBlueSquare)   #15
         self.gridSymbols.append(symbolRedX)   #16
         self.gridSymbols.append(symbolBlueDot)   #17
+        return None
 
     def sendFail(self):
         self.notify.debug('sendFail')
@@ -762,10 +764,10 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
         #print("Adding faces")
         vertexCounter = 1
         #print("grid data")
-        #print self.gridData
+        #print(self.gridData)
         #print("on data")
         for column in range(0, self.gridNumX):
-            #print self.gridData[column]
+            #print(self.gridData[column])
             for row in range(0, self.gridNumY):
                 if self.gridData[column][row] and self.gridData[column][row] < len(self.gridSymbols):
                     gridSymbol = self.gridSymbols[self.gridData[column][row]][2]
@@ -844,8 +846,8 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
                     self.gridData[column][row] = fieldData[fieldCounter]
                     fieldCounter += 1
         #print("set field")
-        #print fieldData
-        #print self.gridData
+        #print(fieldData)
+        #print(self.gridData)
         self.genGrid()
         self.__testTile()
         #self.sendHit()
@@ -865,12 +867,12 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
         self.gridSeed = seed
         random.seed(seed)
         for column in range(0, self.gridNumX):
-            #print self.gridData
+            #print(self.gridData)
             for row in range(0, self.gridNumY):
                 rint = random.randint(0,2)
                 self.gridData[column][row] = rint
-                #print rint
-        #print self.gridData
+                #print(rint)
+        #print(self.gridData)
 
         self.genGrid()
 

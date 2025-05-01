@@ -66,11 +66,11 @@ class CostumeManagerAI(HolidayBaseAI.HolidayBaseAI, DirectObject.DirectObject):
                     self.hoods.append(hood)
                     self.__classicChars[str(hood)] = 1
                     hood.classicChar.transitionCostume()
-                elif isinstance(hood, DGHoodDataAI.DGHoodDataAI ):
+                elif isinstance(hood, DGHoodDataAI.DGHoodDataAI):
                     self.hoods.append(hood)
                     self.__classicChars[str(hood)] = 1
                     hood.classicChar.transitionCostume()
-                elif isinstance(hood, DLHoodDataAI.DLHoodDataAI ):
+                elif isinstance(hood, DLHoodDataAI.DLHoodDataAI):
                     self.hoods.append(hood)
                     self.__classicChars[str(hood)] = 1
                     hood.classicChar.transitionCostume()
@@ -85,7 +85,7 @@ class CostumeManagerAI(HolidayBaseAI.HolidayBaseAI, DirectObject.DirectObject):
 #                elif isinstance(hood, OZHoodDataAI.OZHoodDataAI):
 #                    self.hoods.append(hood)
 #                    self.__classicChars[str(hood)] = 1
-#                    hood.classicChars.transitionCostume()
+#                    hood.classicChar.transitionCostume()
 
         elif(self.holidayId == ToontownGlobals.APRIL_FOOLS_COSTUMES):
             self.accept("TTHoodSpawned", self.__welcomeValleySpawned)
@@ -180,13 +180,13 @@ class CostumeManagerAI(HolidayBaseAI.HolidayBaseAI, DirectObject.DirectObject):
                     elif(curChar.getName() == TTLocalizer.WesternPluto):
                         taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedPlutoAI.DistributedPlutoAI, curWalkNode, hood])
                     elif(curChar.getName() == TTLocalizer.Chip):
-                        taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedChipAI.DistributedPoliceChipAI, curWalkNode, hood])
+                        taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedPoliceChipAI.DistributedPoliceChipAI, curWalkNode, hood])
                     elif(curChar.getName() == TTLocalizer.PoliceChip):
-                        taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedPoliceChipAI.DistributedChipAI, curWalkNode, hood])
+                        taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedChipAI.DistributedChipAI, curWalkNode, hood])
                     elif(curChar.getName() == TTLocalizer.Dale):
-                        taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedDaleAI.DistributedJailbirdDaleAI, curWalkNode, hood])
+                        taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedJailbirdDaleAI.DistributedJailbirdDaleAI, curWalkNode, hood])
                     elif(curChar.getName() == TTLocalizer.JailbirdDale):
-                        taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedJailbirdDaleAI.DistributedDaleAI, curWalkNode, hood])
+                        taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedDaleAI.DistributedDaleAI, curWalkNode, hood])
         elif(self.holidayId == ToontownGlobals.APRIL_FOOLS_COSTUMES):
             for hood in self.hoods:
                 if hood.classicChar == curChar:
@@ -249,7 +249,7 @@ class CostumeManagerAI(HolidayBaseAI.HolidayBaseAI, DirectObject.DirectObject):
         elif(self.holidayId == ToontownGlobals.APRIL_FOOLS_COSTUMES):
             self.__aprilFoolsRevert(newHood)
         elif(self.holidayId == ToontownGlobals.SPOOKY_COSTUMES):
-            self._removeAVampire(newHood)
+            self.__removeAVampire(newHood)
 
     def __aprilFoolsSwap(self, newHood):
         for hood in self.hoods:

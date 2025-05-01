@@ -13,9 +13,9 @@ from toontown.cogdominium import CogdoInterior
 #this is the structure of the racing menu
 SellbotFieldOfficeMenu = [
     (OTPLocalizer.SellbotFieldOfficeMenuSections[0], 
-        range(30404, 30409)),
+        list(range(30404, 30409))),
     (OTPLocalizer.SellbotFieldOfficeMenuSections[1],            # STRATEGY
-        range(30409, 30419)),
+        list(range(30409, 30419))),
     ]
 
 class TTSCSellbotFieldOfficeMenu(SCMenu):

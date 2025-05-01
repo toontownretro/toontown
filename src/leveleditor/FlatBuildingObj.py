@@ -130,7 +130,7 @@ class FlatBuildingObj(ToonTownObj):
             buildingType = createHeightCode(heightList)
         else:
             # Use specified height list
-            heightList = list(map(string.atof, string.split(buildingType, '_')))
+            heightList = list(map(float, string.split(buildingType, '_')))
             height = calcHeight(heightList)
             # Is this a never before seen height list?  If so, record it.
             try:

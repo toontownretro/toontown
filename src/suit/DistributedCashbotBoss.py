@@ -569,7 +569,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         goonLoop = Parallel()
         print(self.fakeGoons)
         for i in range(1, self.numFakeGoons):
-            #print i
+            #print(i)
             goon = self.fakeGoons[i]
             goonLoop.append(
                 Sequence(goon.posHprInterval(8, goonPosHprs[i][0], goonPosHprs[i][1]),

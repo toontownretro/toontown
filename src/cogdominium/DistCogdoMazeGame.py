@@ -12,6 +12,7 @@ from .CogdoMazeGame import CogdoMazeGame
 from .CogdoMaze import CogdoMazeFactory
 from . import CogdoMazeGameGlobals
 from . import CogdoMazeGameGlobals as Globals
+
 from toontown.toonbase.ToontownModules import ConfigVariableBool
 
 class DistCogdoMazeGame(DistCogdoGame, DistCogdoMazeGameBase):
@@ -65,7 +66,6 @@ class DistCogdoMazeGame(DistCogdoGame, DistCogdoMazeGameBase):
                 bossCode += '%X' % self.randomNumGen.randint(0, 15)
 
         self.game.load(mazeFactory, self._numSuits, bossCode)
-        return
 
     def exitLoaded(self):
         self.game.unload()

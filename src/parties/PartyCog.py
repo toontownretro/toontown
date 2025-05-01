@@ -277,6 +277,7 @@ class PartyCog(FSM):
             return None
         else:
             return self.defaultFilter(request, args)
+        return None
 
 #------------------------------------------------------------------------------
 
@@ -301,7 +302,7 @@ class PartyCog(FSM):
         self.root.setR(angle)
 
 #        if self.id == 0:
-#            print angle
+#            print(angle)
 
         return task.cont
 
@@ -531,6 +532,6 @@ class PartyCog(FSM):
     def getHeadLocation(self):
         (self.actor.getJoints(jointName="head")[0]).getNetTransform(self.temp_transform)
         self.head_locator.setMat(self.temp_transform)
-        #print self.head_locator.getZ()
+        #print(self.head_locator.getZ())
 
         return self.head_locator.getZ(self.root)

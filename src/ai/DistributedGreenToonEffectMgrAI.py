@@ -3,7 +3,7 @@ from direct.distributed import DistributedObjectAI
 from otp.otpbase import OTPGlobals
 import time
 
-# Update timer
+# Update to end date check trick/carol
 
 EFFECT = OTPGlobals.CEGreenToon
 DURATION = 8640
@@ -23,7 +23,6 @@ class DistributedGreenToonEffectMgrAI(DistributedObjectAI.DistributedObjectAI):
     def addGreenToonEffect(self):
         avId = self.air.getAvatarIdFromSender()
         av = self.air.doId2do.get(avId)
-
         if not av:
             DistributedGreenToonEffectMgrAI.notify.warning(
                 'Tried to add Green Toon effect to av %s, but they left' % avId)
@@ -32,4 +31,3 @@ class DistributedGreenToonEffectMgrAI(DistributedObjectAI.DistributedObjectAI):
                 'Activating Green Toon effect for av %s' % avId)
             expireTime = (int)(time.time() / 60 + 0.5) + DURATION
             av.b_setCheesyEffect(EFFECT, 0, expireTime)
-            

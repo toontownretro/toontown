@@ -22,6 +22,7 @@ MaxSetHostedParties = 50
 MaxPlannedYear = 2030 # how far can he plan a party
 MinPlannedYear = 1975
 
+JellybeanMultiplier = 1.5
 # reward multiplier for Jellybean day
 JellyBeanDayMultiplier = 2
 
@@ -45,6 +46,7 @@ PartyRefundPercentage = 0.95 # You get this times the total cost back as a refun
 PartyPlannerAsapMinuteRounding = 5
 assert(60 % PartyPlannerAsapMinuteRounding) == 0  # planner code assumes this is true
 UberdogCheckPartyStartFrequency = 5.0 # In minutes, how often we check for parties that can start
+UberdogPurgePartyPeriod = 24.0 # In minutes how often we check for purged parties
 UberdogPartiesSanityCheckFrequency = 60 # In minutes, how often we check for started but orphaned parties
 JarLabelTextColor = (0.95, 0.95, 0.0, 1.0)
 JarLabelMaxedTextColor = (1.0, 0.0, 0.0, 1.0)
@@ -1554,3 +1556,18 @@ PartyCannonCollisions = {
         "sign_collision"
         ],
 }
+
+#===============================================================================
+# Party Cost
+#===============================================================================
+
+def getCostOfParty(partyInfo):
+    newCost = 0
+    
+    for activityBase in partyInfo.activityList:
+        newCost += ActivityInformationDict[activityBase.activityId]['cost']
+
+    for decorBase in partyInfo.decors:
+        newCost += DecorationInformationDict[decorBase.decorId]['cost']
+
+    return newCost

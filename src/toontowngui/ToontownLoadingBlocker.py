@@ -233,7 +233,7 @@ class ToontownLoadingBlocker(TTDialog.TTDialog):
             relief = None,
             guiId = 'BlockerToonTip',
             pos = (0, 0, -0.4688),
-            text = getTip(TTLocalizer.TIP_GENERAL),
+            text = '',#getTip(TTLocalizer.TIP_GENERAL),
             text_fg = (1, 1, 1, 1),
             # text_shadow = (0,0,0,1),
             text_scale = 0.05,

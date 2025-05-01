@@ -122,8 +122,8 @@ class DirectNewsFrame(DirectObject.DirectObject):
                 self.notify.debug("hom1. not in baseName")
 
         if not homeFileNames:
-            #self.notify.error("couldnt find hom1. in %s" % str(fileNames))
-            self.notify.warning("couldnt find hom1. in %s" % str(fileNames))
+            #self.notify.error("couldnt find hom1. in %s" % fileNames)
+            self.notify.warning("couldnt find hom1. in %s" % fileNames)
             self.setErrorMessage(TTLocalizer.NewsPageNoIssues)
             return []
 
@@ -340,7 +340,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
         self.newsFiles = []
         filename = self.rf.readline()
         while filename:
-            filename = filename.strip()
+            filename = filename.decode('utf-8').strip()
             if filename:
                 self.newsFiles.append(filename)
             filename = self.rf.readline()
@@ -512,7 +512,9 @@ class DirectNewsFrame(DirectObject.DirectObject):
     def getInGameNewsUrl(self):
         """Get the appropriate URL to use if we are in test, qa, or live."""
         # First if all else fails, we hard code the live news url
-        result = ConfigVariableString("fallback-news-url", "http://cdn.toontown.disney.go.com/toontown/en/gamenews/").getValue()
+        # Early 2024 cdn.toontown.disney.go.com became unreachable, we need to change it to cdn.toontown.dolimg.com
+        # Early 2025 cdn.toontown.dolimg.com became unreachable, we need to change it to cdn.dolimg.com
+        result = ConfigVariableString("fallback-news-url", "http://cdn.dolimg.com/toontown/en/gamenews/").getValue()
         # next check if we have an override, say they want to url to point to a file in their harddisk
         override = ConfigVariableString("in-game-news-url", "").getValue()
         if override:

@@ -16,6 +16,8 @@
 # party-team-activity-duration int
 #  How long the Active states lasts in the game
 #===============================================================================
+from toontown.toonbase.ToontownModules import ConfigVariableDouble
+
 from direct.distributed.ClockDelta import globalClockDelta
 
 from toontown.toonbase import TTLocalizer

@@ -56,13 +56,9 @@ BossbotCountryClubConnectorRooms = ('phase_12/models/bossbotHQ/Connector_Tunnel_
 
 # dict of roomId to spec Python module
 CashbotMintSpecModules = {}
-
-'''
-if not isClient():
-    print('EXECWARNING CountryClubRoomSpecs: %s' % BossbotCountryClubRoomName2RoomId)
-    printStack()
-'''
-
+#if not isClient():
+#    print("EXECWARNING CountryClubRoomSpecs: %s"%BossbotCountryClubRoomName2RoomId)
+#    printStack()
 for roomName, roomId in list(BossbotCountryClubRoomName2RoomId.items()):
     exec('from toontown.coghq import %s' % roomName)
     CashbotMintSpecModules[roomId] = eval(roomName)

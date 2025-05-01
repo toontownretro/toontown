@@ -20,9 +20,9 @@ sys.stdout.flush()
 
 for i in range(numqueries):
   heyalist = server.getToonList(accountName=acctName)
-  #print server.giveToonBeansRAT(toonID=toondoid,beanAmount=10)
-  #print server.giveToonBeansCS(toonID=toondoid,beanAmount=10)
-  #print server.getToonPicId(toonID=toondoid)
+  #print(server.giveToonBeansRAT(toonID=toondoid,beanAmount=10))
+  #print(server.giveToonBeansCS(toonID=toondoid,beanAmount=10))
+  #print(server.getToonPicId(toonID=toondoid))
 
 
 print("DONE")

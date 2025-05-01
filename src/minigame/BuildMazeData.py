@@ -160,11 +160,11 @@ def calcMazeTopology(mazeNode):
         while x <= crawler.maxTX:
             collisionArray[yIndex][xIndex] = isWall(x,y)
             #if isWall(x,y):
-            #    print yIndex,xIndex,x,y,collisionArray[yIndex][xIndex]
+            #    print(yIndex,xIndex,x,y,collisionArray[yIndex][xIndex])
             x += 1; xIndex += 1
         y += 1; yIndex += 1
 
-    #print collisionArray
+    #print(collisionArray)
 
     #
     # clean up

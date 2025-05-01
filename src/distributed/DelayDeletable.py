@@ -24,7 +24,7 @@ class DelayDeletable:
         if self.getDelayDeleteCount() == 0:
             self.cr._addDelayDeletedDO(self)
 
-        token = DelayDeletable.DelayDeleteSerialGen.next()
+        token = next(DelayDeletable.DelayDeleteSerialGen)
         self._token2delayDeleteName[token] = name
 
         assert self.notify.debug(

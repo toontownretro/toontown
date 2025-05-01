@@ -309,7 +309,7 @@ def __createHypnoGogglesMultiTrack(lure, npcs = []):
     tracks = Parallel(gogglesTrack, toonTrack)
     
     #print("hypno!!!!")
-    #print targets
+    #print(targets)
 
     for target in targets:
         suit = target['suit']

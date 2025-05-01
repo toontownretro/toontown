@@ -144,8 +144,8 @@ class StageInterior(BattlePlace.BattlePlace):
         self.fsm.enterInitialState()
         base.transitions.fadeOut(t=0)
 
-        self._telemLimiter = TLGatherAllAvs('StageInterior',
-                                            RotationLimitToH)
+        # Turn on the limiter
+        self._telemLimiter = TLGatherAllAvs('StageInterior', RotationLimitToH)
 
         # While we are here, we ignore invasion credit.
         base.localAvatar.inventory.setRespectInvasions(0)
@@ -185,6 +185,7 @@ class StageInterior(BattlePlace.BattlePlace):
         # Turn off the little red arrows.
         NametagGlobals.setMasterArrowsOn(0)
 
+        # Stop the limiter
         self._telemLimiter.destroy()
         del self._telemLimiter
 

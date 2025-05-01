@@ -16,12 +16,16 @@ class CalendarGuiMonth(DirectFrame):
     notify = directNotify.newCategory("CalendarGuiMonth")
 
     def __init__(self, parent, startingDateTime, scale=1.0, pos = (0, 0, -0.1),
-                 dayClickCallback=None, onlyFutureDaysClickable=False):
+                 dayClickCallback=None, onlyFutureDaysClickable=False,
+                 onlyFutureMonthsClickable=False):
         """Construct ourself."""
         self.startDate = startingDateTime
         self.curDate = startingDateTime
         self.dayClickCallback = dayClickCallback
         self.onlyFutureDaysClickable = onlyFutureDaysClickable
+        self.onlyFutureMonthsClickable = onlyFutureMonthsClickable
+        if self.onlyFutureDaysClickable:
+            self.onlyFutureMonthsClickable = True
         # sticker book is shifted up by 0.1, so default pos counteracts that
         # as the gui was made assuming 0,0 is center of the screen
         DirectFrame.__init__(self, parent=parent, scale=scale, pos = pos)
@@ -160,7 +164,7 @@ class CalendarGuiMonth(DirectFrame):
             #pos = (0.25, 0, buttonbase_ycoord - textRowHeight * 4),
             command = self.__doMonthLeft,
             )
-        if self.onlyFutureDaysClickable:
+        if self.onlyFutureMonthsClickable:
             self.monthLeftArrow.hide()
         self.monthRightArrow = DirectButton(
             parent = self.monthRightLocator,
@@ -295,8 +299,9 @@ class CalendarGuiMonth(DirectFrame):
         self.notify.debug('changeDate took %f seconds' % (endTime - startTime))
         # if we have a selected date, it probably changed box
         self.updateSelectedDate()
-        if self.onlyFutureDaysClickable and (newMonth == self.startDate.month and newYear == self.startDate.year):
-            self.monthLeftArrow.hide()
+        if monthChange != 0:
+            if self.onlyFutureMonthsClickable and (newMonth == self.startDate.month and newYear == self.startDate.year):
+                self.monthLeftArrow.hide()
 
     def __doMonthLeft(self):
         """Handle left month arrrow being pressed."""

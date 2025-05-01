@@ -252,7 +252,7 @@ def checkKartDNAValidity( dna ):
     # number of fields in the dna.
     if( not checkNumFieldsValidity( len( dna ) ) ):
         return 0
-    #print str(AccessoryTypeDict)
+    #print(str(AccessoryTypeDict))
     # Provide Range checking for each dna field
     for field in range( len( dna ) ):
         if( field == KartDNA.bodyType ):
@@ -267,9 +267,9 @@ def checkKartDNAValidity( dna ):
         else:
             accList = [ InvalidEntry ] + AccessoryTypeDict.get( field)
             if( not ( dna[ field ] in accList ) ):
-                #print field
-                #print dna[field]
-                #print accList
+                #print(field)
+                #print(dna[field])
+                #print(accList)
                 return 0
 
     return 1

@@ -240,10 +240,10 @@ class DistributedStage(DistributedObject.DistributedObject):
         self.notify.info("CAMENTERROOM doID%s num%s" % (self.doId,roomNum))
         self.notify.info("av: %s, cam: %s" % (localAvatar.getPos(), camera.getPos()))
         #from direct.showbase import PythonUtil
-        #print PythonUtil.StackTrace()
+        #print(PythonUtil.StackTrace())
         #from direct.interval.IntervalGlobal import ivalMgr
-        #print ivalMgr
-        #print taskMgr
+        #print(ivalMgr)
+        #print(taskMgr)
         if (roomNum % 2) == 1:
             # this is a hallway; we should see the rooms on either side
             # and the hallways leading out of them

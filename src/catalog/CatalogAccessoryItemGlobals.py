@@ -4,26 +4,32 @@ ATBasePrice = 2
 ATReleased = 3
 ATEmblemPrices = 4
 
+# Unisex
 AHat = 0
 AGlasses = 1
 ABackpack = 2
 AShoes = 3
+
+# Boys only
 ABoysHat = 4
 ABoysGlasses = 5
 ABoysBackpack = 6
 ABoysShoes = 7
+
+# Girls only
 AGirlsHat = 8
 AGirlsGlasses = 9
 AGirlsBackpack = 10
 AGirlsShoes = 11
 
+# Prices
 APriceTest = 5
 APriceBasic = 250
 APriceBasicPlus = 400
 APriceCool = 800
 APriceAwesome = 1500
 
-# Type, Item, Price,
+# ID, Type, Item, Price
 AccessoryTypes = {
     101 : (AHat,         "hbb1", APriceBasic, 1),
     102 : (AHat,         "hsf1", APriceCool, 5),

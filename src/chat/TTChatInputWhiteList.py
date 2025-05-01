@@ -184,7 +184,7 @@ class TTChatInputWhiteList(ChatInputWhiteListFrame):
             return
         else:
             #print("send")
-            #print self.chatEntry['text']
+            #print(self.chatEntry['text'])
             messenger.send("wakeup")
             messenger.send('enterNormalChat')
 

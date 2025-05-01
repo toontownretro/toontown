@@ -204,6 +204,7 @@ class Street(BattlePlace.BattlePlace):
         #base.localAvatar.camera.onLevelGround(1)
         base.localAvatar.setOnLevelGround(1)
 
+        # Turn on the limiter
         self._telemLimiter = TLGatherAllAvs('Street', RotationLimitToH)
 
         # Turn on the little red arrows.
@@ -281,6 +282,7 @@ class Street(BattlePlace.BattlePlace):
             self.visibilityOff()
         self.loader.geom.reparentTo(hidden)
 
+        # Stop the limiter
         self._telemLimiter.destroy()
         del self._telemLimiter
 

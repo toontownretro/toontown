@@ -106,7 +106,7 @@ class LawbotHQExterior(CogHQExterior.CogHQExterior):
         CogHQExterior.CogHQExterior.enter(self, requestStatus)
         # Play music
         base.playMusic(self.loader.music, looping = 1, volume = 0.8)
-        self.loader.geom.reparentTo(render)
+        self.loader.geom.reparentTo(base.sceneStatic)
         self.nodeList = [self.loader.geom]
         # Turn the sky on
         self.loader.hood.startSky()

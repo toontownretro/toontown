@@ -21,7 +21,7 @@ class CountryClubRoomBase:
         return self.cogTrack
 
     if __dev__:
-        def getCountryClubEntityTypeReg(self):
+        def getEntityTypeReg(self):
             # return an EntityTypeRegistry with information about the
             # entity types that countryClubys use
             # Use the same types as factories

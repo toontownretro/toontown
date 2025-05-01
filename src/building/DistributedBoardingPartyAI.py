@@ -532,7 +532,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
 ##            if post:
 ##                self.notify.debug("postGroupDissolve")
 ##                self.sendUpdate("postGroupDissolve",[memberId, leaderId, kick])
-##            if self.avIdDict.has_key(memberId):
+##            if memberId in self.avIdDict:
 ##                self.avIdDict.pop(memberId)
             return
         

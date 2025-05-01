@@ -33,7 +33,7 @@ class GardenProgressMeter(DirectObject.DirectObject):
         elif typePromotion == "wateringCan":
             self.typePromotion = WATERINGCAN
         elif typePromotion == "game":
-            self.typePromotion == GAMEWIN
+            self.typePromotion = GAMEWIN
         else:
             print(("No type of %s" % (typePromotion)))
         self.level = level

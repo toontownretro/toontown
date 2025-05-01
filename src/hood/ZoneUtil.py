@@ -351,8 +351,8 @@ def isInterior(zoneId):
 
 def overrideOn(branch, exteriorList, interiorList):
     #print("OVERRIDE ON: ")
-    #print exteriorList
-    #print interiorList
+    #print(exteriorList)
+    #print(interiorList)
     # This lets us override the math of ZoneUtil during the tutorial.
     global tutorialDict
     if tutorialDict:

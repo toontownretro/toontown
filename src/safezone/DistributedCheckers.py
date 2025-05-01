@@ -730,7 +730,7 @@ class DistributedCheckers(DistributedNode.DistributedNode):
                 if self.locatorList[xx].getChildren().index(blah) != 0:
                     blah1 = blah.find("**/checker_k*")
             owner = self.board.squareList[xx].getState() #Get the State of that square
-            #print owner
+            #print(owner)
             # This means it is MY Peice
             if owner == self.playerNum:
                 #need to see what color i am

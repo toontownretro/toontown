@@ -333,7 +333,7 @@ class UserFunnel:
 
         if (self.CurrentHost == 1):
             self.URLtoSend = 'http://' + self.hostDict[self.CurrentHost] + 'hb=' + str(self.hitboxAcct) + '&n=' + str(self.milestone) + '&ln=' + self.language + '&gp=STARTGAME&fnl=TOONTOWN_FUNNEL&vcon=/' + self.cgRoot + '/' + self.cgLocation + '/' + str(vconGroup()) + '&c1=' + str(sys.platform) + '&' + str(hitboxOSType) + '=' + str(self.osMajorver) + '_' + str(self.osMinorver) + '_' + str(self.osRevver) + '_' + str(self.osBuild)
-            # print self.URLtoSend
+            # print(self.URLtoSend)
 
         # Host 2 is for the Hitbox, with no funnel
 
@@ -759,7 +759,7 @@ class HitBoxCookie:
             # print('The python cookie file does not exist.')
             return
         pythonStandard = self.openHitboxFile(self.pythonCookieFile, 'python')
-        # print pythonStandard
+        # print(pythonStandard)
         # Now split the file at the \n\n, and pop off the second element. This will remove the header
         pythonStandard = pythonStandard.split('\n\n').pop(1)
         # Now split the second element into lines; each line is a cookie entry

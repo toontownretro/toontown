@@ -126,6 +126,8 @@ class FactoryExterior(BattlePlace.BattlePlace):
         self.nodeList = [self.loader.geom]
         # Turn the sky on
         self.loader.hood.startSky()
+        # Turn on the limiter
+        self._telemLimiter = TLGatherAllAvs('FactoryExterior', RotationLimitToH)
 
         self.accept("doorDoneEvent", self.handleDoorDoneEvent)
         self.accept("DistributedDoor_doorTrigger", self.handleDoorTrigger)
@@ -140,6 +142,9 @@ class FactoryExterior(BattlePlace.BattlePlace):
         # Turn the sky off
         self.loader.hood.stopSky()
         self.fsm.requestFinalState()
+        # Stop the limiter
+        self._telemLimiter.destroy()
+        del self._telemLimiter
         # Stop music
         self.loader.music.stop()
         for node in self.tunnelOriginList:

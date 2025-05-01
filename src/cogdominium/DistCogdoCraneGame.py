@@ -62,7 +62,8 @@ class DistCogdoCraneGame(CogdoCraneGameBase, DistCogdoLevelGame):
 
         fn = PM.ForceNode('gravity')
         self.fnp = self.geomRoot.attachNewNode(fn)
-        gravity = PM.LinearVectorForce(0, 0, -32)
+        #gravity = PM.LinearVectorForce(0, 0, -32)
+        gravity = PM.LinearVectorForce(0, 0, GameConsts.Settings.Gravity.get())
         fn.addForce(gravity)
         self.physicsMgr.addLinearForce(gravity)
 

@@ -442,7 +442,7 @@ QuestsDeliverGagQuestProgress = "%(progress)s of %(numGags)s delivered"
 QuestsDeliverGagQuestHeadline = "DELIVER"
 QuestsDeliverGagQuestToSCStringS = "I need to deliver %(gagName)s."
 QuestsDeliverGagQuestToSCStringP = "I need to deliver some %(gagName)s."
-QuestsDeliverGagQuestSCString = "I need make a delivery."
+QuestsDeliverGagQuestSCString = "I need to make a delivery."
 QuestsDeliverGagQuestString = "Deliver %s"
 QuestsDeliverGagQuestStringLong = "Deliver %s to _toNpcName_."
 QuestsDeliverGagQuestInstructions = "You can buy this gag in the Gag Shop once you earn access to it."
@@ -12761,7 +12761,8 @@ HolidayNamesInCalendar = {
    14: ("Grand Prix", "Grand Prix Monday at Goofy Speedway! To win, collect the most points in three consecutive races!"),
    16: ("Grand Prix Weekend", "Free and Paid players compete in circuit races at Goofy Speedway!"),
    17: ("Trolley Tracks", "Trolley Tracks Thursday! Board any Trolley with two or more Toons to play."),
-   19: ("Silly Saturdays", "Saturdays are silly with Fish Bingo, Grand Prix, and Trolley Tracks throughout the day!"),
+   #19: ("Silly Saturdays", "Saturdays are silly with Fish Bingo, Grand Prix, and Trolley Tracks throughout the day!"),
+   19 : ("Silly Saturdays", "Saturdays are silly with Fish Bingo and Grand Prix throughout the day!"),
    24: ("Ides of March", "Beware the Ides of March! Stop the Backstabber Cogs from invading Toontown!"),
    26: ("Halloween Decor", "Celebrate Halloween as spooky trees and streetlights transform Toontown!"),
    28: ("Winter Invasion", "The sellbots are on the loose spreading their cold sales tactics!"),

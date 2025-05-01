@@ -21,7 +21,7 @@ class StageRoomBase:
         return self.cogTrack
 
     if __dev__:
-        def getStageEntityTypeReg(self):
+        def getEntityTypeReg(self):
             # return an EntityTypeRegistry with information about the
             # entity types that stages use
             # Use the same types as factories

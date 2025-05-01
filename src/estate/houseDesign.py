@@ -1,6 +1,6 @@
 from direct.directtools.DirectSelection import *
 from direct.directtools.DirectUtil import ROUND_TO
-from direct.directtools.DirectGeometry import LineNodePath
+from direct.directtools.DirectGeometry import LineNodePath, CLAMP
 from direct.gui.DirectGui import *
 from toontown.toonbase.ToontownModules import *
 from direct.showbase.DirectObject import DirectObject
@@ -13,7 +13,7 @@ from direct.showbase import PythonUtil
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
-
+from direct.directtools import DirectGlobals as DG
 camPos50 = (Point3(0.00, -10.00, 50.00),
             Point3(0.00, -9.66, 49.06),
             Point3(0.00, 1.50, 12.38),
@@ -657,7 +657,7 @@ class ObjectManager(NodePath, DirectObject):
         self.iRay.setParentNP(base.cam)
         entry = self.iRay.pickGeom(
             targetNodePath = self.targetNodePath,
-            skipFlags = SKIP_ALL)
+            skipFlags = DG.SKIP_ALL)
         # Collision!  Is it a movable object?
         if entry:
             nodePath = entry.getIntoNodePath()
@@ -820,7 +820,7 @@ class ObjectManager(NodePath, DirectObject):
         entry = self.iRay.pickBitMask(
             bitMask = ToontownGlobals.FurnitureDragBitmask,
             targetNodePath = target,
-            skipFlags = SKIP_BACKFACE | SKIP_CAMERA | SKIP_UNPICKABLE)
+            skipFlags = DG.SKIP_BACKFACE | DG.SKIP_CAMERA | DG.SKIP_UNPICKABLE)
         # If no collision, just return
         if not entry:
             return Task.cont
@@ -853,7 +853,7 @@ class ObjectManager(NodePath, DirectObject):
             bitMask = so.getWallBitmask(),
             targetNodePath = target,
             dir = Vec3(self.getNearProjectionPoint(self.gridSnapNP)),
-            skipFlags = SKIP_BACKFACE | SKIP_CAMERA | SKIP_UNPICKABLE)
+            skipFlags = DG.SKIP_BACKFACE | DG.SKIP_CAMERA | DG.SKIP_UNPICKABLE)
         fWall = 0
         if not so.getOnTable():
             while entry:
@@ -868,7 +868,7 @@ class ObjectManager(NodePath, DirectObject):
                     break
                 # Not a vertical wall, try the next collision
                 entry = self.iRay.findNextCollisionEntry(
-                    skipFlags = SKIP_BACKFACE | SKIP_CAMERA | SKIP_UNPICKABLE)
+                    skipFlags = DG.SKIP_BACKFACE | DG.SKIP_CAMERA | DG.SKIP_UNPICKABLE)
 
         if so.getOnWall():
             # If the object hangs on a wall, we're done--no more tests
@@ -890,7 +890,7 @@ class ObjectManager(NodePath, DirectObject):
             targetNodePath = target,
             origin = Point3(self.gridSnapNP.getPos(target) + Vec3(0,0,10)),
             dir = Vec3(0,0,-1),
-            skipFlags = SKIP_BACKFACE|SKIP_CAMERA|SKIP_UNPICKABLE
+            skipFlags = DG.SKIP_BACKFACE|DG.SKIP_CAMERA|DG.SKIP_UNPICKABLE
             )
 
         if not entry:
@@ -920,7 +920,7 @@ class ObjectManager(NodePath, DirectObject):
                 entry = self.iSphere.pickBitMask(
                     bitMask = so.getWallBitmask(),
                     targetNodePath = target,
-                    skipFlags = SKIP_CAMERA | SKIP_UNPICKABLE)
+                    skipFlags = DG.SKIP_CAMERA | DG.SKIP_UNPICKABLE)
                 if entry:
                     self.alignObject(entry, target, fClosest = 1)
 
@@ -960,7 +960,7 @@ class ObjectManager(NodePath, DirectObject):
                 offsetDict[eid] = maxOffsetVec
             # Process next entry
             entry = self.iSegment.findNextCollisionEntry(
-                skipFlags = SKIP_CAMERA | SKIP_UNPICKABLE)
+                skipFlags = DG.SKIP_CAMERA | DG.SKIP_UNPICKABLE)
         # We detected some collisions, try to sum up offsets to fix
         if offsetDict:
             # Find orthogonal components
@@ -1019,7 +1019,7 @@ class ObjectManager(NodePath, DirectObject):
                             (so.c1, Point3(m.xformPoint(so.c1))),
                             (so.c2, Point3(m.xformPoint(so.c2))),
                             (so.c3, Point3(m.xformPoint(so.c3)))],
-            skipFlags = SKIP_CAMERA | SKIP_UNPICKABLE)
+            skipFlags = DG.SKIP_CAMERA | DG.SKIP_UNPICKABLE)
         # The maximum length offset is a good guess of how far you have
         # to move the selected object to clear the collision
         maxLen = 0
@@ -1033,7 +1033,7 @@ class ObjectManager(NodePath, DirectObject):
                 maxOffset = offset
             # Process next entry
             entry = self.iSegment4.findNextCollisionEntry(
-                skipFlags = SKIP_CAMERA | SKIP_UNPICKABLE)
+                skipFlags = DG.SKIP_CAMERA | DG.SKIP_UNPICKABLE)
         if maxOffset:
             self.collisionOffsetNP.setPos(self.collisionOffsetNP, maxOffset)
         # One more collision test to see if we resolved the problem
@@ -1054,7 +1054,7 @@ class ObjectManager(NodePath, DirectObject):
             endPointList = [(so.c0, so.c1),(so.c1, so.c2),
                             (so.c2, so.c3),(so.c3, so.c0),
                             (so.c0, so.c2),(so.c1, so.c3)],
-            skipFlags = SKIP_CAMERA | SKIP_UNPICKABLE)
+            skipFlags = DG.SKIP_CAMERA | DG.SKIP_UNPICKABLE)
         return entry
 
     def computeSegmentOffset(self, entry):
@@ -1172,7 +1172,7 @@ class ObjectManager(NodePath, DirectObject):
             self.iSphere.setCenterRadius(0, Point3(0), so.radius * 1.25)
             entry = self.iSphere.pickBitMask(bitMask = so.getWallBitmask(),
                                              targetNodePath = self.targetNodePath,
-                                             skipFlags = SKIP_CAMERA |SKIP_UNPICKABLE,
+                                             skipFlags = DG.SKIP_CAMERA |DG.SKIP_UNPICKABLE,
                                              )
             if not entry:
                 self.gridSnapNP.setHpr(self.targetNodePath, newH, 0, 0)
@@ -1201,7 +1201,7 @@ class ObjectManager(NodePath, DirectObject):
             self.iSphere.setCenterRadius(0, Point3(0), so.radius * 1.25)
             entry = self.iSphere.pickBitMask(bitMask = so.getWallBitmask(),
                                              targetNodePath = self.targetNodePath,
-                                             skipFlags=SKIP_CAMERA | SKIP_UNPICKABLE,
+                                             skipFlags=DG.SKIP_CAMERA | DG.SKIP_UNPICKABLE,
                                              )
             if not entry:
                 self.gridSnapNP.setHpr(self.targetNodePath, newH, 0, 0)
@@ -1359,8 +1359,7 @@ class ObjectManager(NodePath, DirectObject):
         # Main attic/stop button
         self.furnitureGui = DirectFrame(
             relief = None,
-            parent = base.a2dTopLeft,
-            pos = (0.155, -0.6, -1.045),
+            pos = (-1.19, 1, 0.33),
             scale= 0.04,
             image = attic)
         bMoveStopUp = guiModels.find('**/bu_atticX/bu_attic_up')
@@ -1976,7 +1975,7 @@ class ObjectManager(NodePath, DirectObject):
                 targetNodePath = target,
                 origin = Point3(0, 0, 6),
                 dir = Vec3(0, 1, 0),
-                skipFlags = SKIP_BACKFACE | SKIP_CAMERA | SKIP_UNPICKABLE)
+                skipFlags = DG.SKIP_BACKFACE | DG.SKIP_CAMERA | DG.SKIP_UNPICKABLE)
             for object in list(self.objectDict.values()):
                 object.unstashBuiltInCollisionNodes()
             if entry:

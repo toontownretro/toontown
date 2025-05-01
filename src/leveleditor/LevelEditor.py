@@ -180,8 +180,8 @@ except:
     # CS
     loadStorageFile('phase_9/dna/storage_CS.dna')
     # GS
-    loadStorageFile('phase_4/dna/storage_GS.dna')
-    loadStorageFile('phase_4/dna/storage_GS_sz.dna')
+    loadStorageFile('phase_6/dna/storage_GS.dna')
+    loadStorageFile('phase_6/dna/storage_GS_sz.dna')
     # OZ
     loadStorageFile('phase_6/dna/storage_OZ.dna')
     loadStorageFile('phase_6/dna/storage_OZ_sz.dna')
@@ -190,6 +190,8 @@ except:
     loadStorageFile('phase_6/dna/storage_GZ_sz.dna')
     # CC
     loadStorageFile('phase_12/dna/storage_CC_sz.dna')
+    # PZ
+    loadStorageFile('phase_13/dna/storage_party_sz.dna')
     if 'TT' in hoods:
         loadDNAFile(DNASTORE, 'phase_4/dna/storage_TT.dna', CSDefault, 1)
         loadDNAFile(DNASTORE, 'phase_4/dna/storage_TT_sz.dna', CSDefault, 1)
@@ -217,8 +219,8 @@ except:
     if 'CS' in hoods:
         loadDNAFile(DNASTORE, 'phase_9/dna/storage_CS.dna', CSDefault, 1)
     if 'GS' in hoods:
-        loadDNAFile(DNASTORE, 'phase_4/dna/storage_GS.dna', CSDefault, 1)
-        loadDNAFile(DNASTORE, 'phase_4/dna/storage_GS_sz.dna', CSDefault, 1)
+        loadDNAFile(DNASTORE, 'phase_6/dna/storage_GS.dna', CSDefault, 1)
+        loadDNAFile(DNASTORE, 'phase_6/dna/storage_GS_sz.dna', CSDefault, 1)
     if 'OZ' in hoods:
         loadDNAFile(DNASTORE, 'phase_6/dna/storage_OZ.dna', CSDefault, 1)
         loadDNAFile(DNASTORE, 'phase_6/dna/storage_OZ_sz.dna', CSDefault, 1)
@@ -733,7 +735,7 @@ class LevelEditor(NodePath, DirectObject):
         #base.camera.setPos(0, 0, 0)
         base.camera.setPos(0, -11.8125, 3.9375)
 
-        base.camLens.setMinFov(60 * OTPGlobals.OriginalAspectRatio)
+        base.camLens.setFov(VBase2(60, 46.8265))
 
         #self.initializeSmartCameraCollisions()
         #self._smartCamEnabled = False
@@ -1338,7 +1340,9 @@ class LevelEditor(NodePath, DirectObject):
             modelPathStr += path
 
         modelPath = getModelPath().findFile(modelPathStr)
-        animFileList = glob.glob('%s/%s_a_%s_*.bam'%(modelPath, tokens[0], tokens[1]))
+        fileList = os.listdir(modelPath)
+        animFileList = [f for f in fileList if f.endswith('.bam') and f.startswith(f"{tokens[0]}_a_{tokens[1]}_")]
+        print(animFileList)
 
         # [gjeon] define anim list menu for selection
         animNameList = []
@@ -1401,7 +1405,8 @@ class LevelEditor(NodePath, DirectObject):
             modelPathStr += path
 
         modelPath = getModelPath().findFile(modelPathStr)
-        animFileList = glob.glob('%s%s/%s_a_%s_*.bam'%(os.environ['PLAYER'], modelPath, tokens[0], tokens[1]))
+        fileList = os.listdir(modelPath)
+        animFileList = [f for f in fileList if f.endswith('.bam') and f.startswith(f"{tokens[0]}_a_{tokens[1]}_")]
         print(animFileList)
 
         # [gjeon] define anim list menu for selection
@@ -2747,7 +2752,7 @@ class LevelEditor(NodePath, DirectObject):
         else:
             return 1
 
-    def autoPositionGrid(self, fLerp = 1):
+    def autoPositionGrid(self, fLerp = 0):
         taskMgr.remove('autoPositionGrid')
         # Move grid to prepare for placement of next object
         selectedNode = base.direct.selected.last
@@ -4387,7 +4392,7 @@ class LevelEditor(NodePath, DirectObject):
         curve.getPoint(midT, midPoint)
         separation = Vec3(midPoint - currPoint).length()
         error = separation - bldgWidth
-        #print error, startT, midT
+        #print(error, startT, midT)
         if abs(error) < tolerance:
             return midT, midPoint
         elif error > 0:
@@ -5417,7 +5422,7 @@ class LevelEditorPanel(Pmw.MegaToplevel):
             self.levelEditor.replaceSelected()
 
     def signBaselineTrace(self, a, b, mode):
-        #print self, a, b, mode, self.baselineString.get()
+        #print(self, a, b, mode, self.baselineString.get())
         baseline=self.currentBaselineDNA
         if baseline:
             s = self.baselineString.get()

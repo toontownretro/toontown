@@ -25,7 +25,6 @@ from .SuitBattleGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 from . import RewardPanel
 import random
-import functools
 from . import MovieUtil
 from toontown.toon import Toon
 from toontown.toonbase import ToontownGlobals
@@ -33,6 +32,7 @@ from toontown.toontowngui import TTDialog
 import copy
 from toontown.toonbase import TTLocalizer
 from toontown.toon import NPCToons
+import functools
 
 camPos = Point3(14, 0, 10)
 camHpr = Vec3(89, -30, 0)

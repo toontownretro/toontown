@@ -93,9 +93,11 @@ class CogHQLobby(Place.Place):
         NametagGlobals.setMasterArrowsOn(1)
         how=requestStatus["how"]
         self.fsm.request(how, [requestStatus])
+        # Turn on the limiter
         self._telemLimiter = TLGatherAllAvs('CogHQLobby', RotationLimitToH)
 
     def exit(self):
+        # Stop the limiter
         self._telemLimiter.destroy()
         del self._telemLimiter
         # Stop music

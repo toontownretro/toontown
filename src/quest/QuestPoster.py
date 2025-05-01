@@ -402,7 +402,7 @@ class QuestPoster(DirectFrame):
         hoodId = ZoneUtil.getCanonicalHoodId(npcZone)
 
         # Don't allow trialers to get DD quests
-        if not base.cr.isPaid() and (((hasattr(quest, 'getLocation')) and (quest.getLocation() == 1000)) or (hoodId == 1000)):
+        if not base.cr.isPaid() and (questId == 401 or ((hasattr(quest, 'getLocation')) and (quest.getLocation() == 1000)) or (hoodId == 1000)):
 #            def showTeaserPanel():
 #                TeaserPanel(pageName='quests')
 #            self.chooseButton['command'] = showTeaserPanel

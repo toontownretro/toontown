@@ -30,7 +30,7 @@ class CatalogChatItem(CatalogItem.CatalogItem):
         # Returns true if the item cannot be bought because the avatar
         # has already bought his limit on this item.
         #assert avatar.onGiftOrder, "on gift order is None"
-        #print avatar.onGiftOrder
+        #print(avatar.onGiftOrder)
         #print("self in onGiftOrder: %s" % (self in avatar.onGiftOrder))
         if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder \
            or self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
@@ -200,7 +200,7 @@ class CatalogChatItem(CatalogItem.CatalogItem):
         #center = (bMin + bMax)/2.0
         #chatBalloon.setPos(-center[0], -center[1], -center[2])
         #corner = Vec3(bMax - center)
-        #print bMin, bMax, center, corner
+        #print(bMin, bMax, center, corner)
         #chatBalloon.setScale(1.0/corner[2])
 
         assert (not self.hasPicture)
@@ -227,7 +227,7 @@ def getChatRange(fromIndex, toIndex, *otherRanges):
     # Make sure we got an even number of otherRanges
     assert(len(otherRanges)%2 == 0)
 
-    l = []
+    chatRange = []
 
     froms = [fromIndex,]
     tos = [toIndex,]
@@ -241,6 +241,6 @@ def getChatRange(fromIndex, toIndex, *otherRanges):
     for chatId in list(OTPLocalizer.CustomSCStrings.keys()):
         for fromIndex, toIndex in zip(froms, tos):
             if chatId >= fromIndex and chatId <= toIndex and (chatId not in bannedPhrases):
-                l.append(CatalogChatItem(chatId))
+                chatRange.append(CatalogChatItem(chatId))
 
-    return l
+    return chatRange

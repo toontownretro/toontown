@@ -147,7 +147,7 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
 
             #create new pet
             gender = petNum % len(PetDNA.PetGenders)
-            if nameIndex not in range(0, TTLocalizer.PetNameIndexMAX):
+            if nameIndex not in list(range(0, TTLocalizer.PetNameIndexMAX)):
                 # hacker?
                 self.air.writeServerEvent('avoid_crash', avId, "DistributedNPCPetclerkAI.petAdopted and didn't have valid nameIndex!")
                 self.notify.warning("somebody called petAdopted and didn't have valid nameIndex to adopt! avId: %s" % avId)

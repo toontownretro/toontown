@@ -439,6 +439,10 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
             self.lastEpochTimeStamp = time.time()
         tupleNewTime = time.localtime(currentTime - self.epochHourInSeconds)
         tupleOldTime = time.localtime(self.lastEpochTimeStamp)
+        
+        #tupleOldTime = (2006, 6, 18, 0, 36, 45, 0, 170, 1)
+        #tupleNewTime = (2006, 6, 19, 3, 36, 45, 0, 170, 1)
+        
         if (tupleOldTime < time.gmtime(0)):
             tupleOldTime = time.gmtime(0)
 
@@ -462,9 +466,11 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
         if epochsToDo < 0:
             epochsToDo = 0
 
+        print("epochsToDo %s" % (epochsToDo))
+
         #print("tuple times")
-        #print tupleNewTime
-        #print tupleOldTime
+        #print(tupleNewTime)
+        #print(tupleOldTime)
 
 
         if epochsToDo:
@@ -526,7 +532,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
             elif self.getItems(index) or self.getItems(index) == []:
                 self.placeLawnDecor(index, self.getItems(index))
                 #print("Item Check")
-                #print self.getItems(index)
+                #print(self.getItems(index))
                 pass
             self.updateToonBonusLevels(index)
         self.bootStrapEpochs()

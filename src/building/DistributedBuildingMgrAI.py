@@ -119,7 +119,7 @@ class DistributedBuildingMgrAI:
     def getCogdoBlocks(self):
         assert(self.debugPrint("getCogdoBlocks()"))
         blocks = []
-        for i in self.__buildings.values():
+        for i in list(self.__buildings.values()):
             if i.isCogdo():
                 blocks.append(i.getBlock()[0])
         return blocks

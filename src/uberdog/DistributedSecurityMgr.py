@@ -5,13 +5,9 @@ from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 from direct.distributed.DistributedObject import DistributedObject
 from toontown.toonbase import ToontownGlobals
 
-# !TODO : requestAccountId():
-#         requestAccountIdResponse():
-#         def getAccountId(self.doId, self._handleDbCheckGetAccountResult):
-
 class DistributedSecurityMgr(DistributedObject):
     """
-    Uberdog object that keeps track of the last time in game news has been updated
+    Uberdog object that keeps track of the last time the whitelist has been updated
     """
     notify = directNotify.newCategory('SecurityMgr')
     neverDisable = 1

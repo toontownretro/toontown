@@ -157,7 +157,7 @@ class DistributedLawOfficeAI(DistributedObjectAI, LawOfficeBase.LawOfficeBase):
         
     def startNextFloor(self):
         #print("LOADING NEXT FLOOR!!!!! %s" % (self.currentFloor + 1))
-        #print self.layout.floorIds
+        #print(self.layout.floorIds)
         
         if self.avIds:
             print(self.avIds)

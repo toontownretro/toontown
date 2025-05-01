@@ -40,3 +40,7 @@ class ToontownDistrictAI(DistributedDistrictAI):
 
     def getAllowAHNNLog(self):
         return self.ahnnLog
+
+    def recordSuspiciousEventData(self):
+        pass
+    

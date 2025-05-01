@@ -42,7 +42,7 @@ class DistributedCountryClubRoomAI(DistributedLevelAI.DistributedLevelAI,
         if __dev__:
             # create a factory EntityTypeRegistry and hand it to the spec
             self.notify.debug('creating entity type registry')
-            typeReg = self.getCountryClubEntityTypeReg()
+            typeReg = self.getEntityTypeReg()
             roomSpec.setEntityTypeReg(typeReg)
         
         self.notify.debug('creating entities')
@@ -74,8 +74,12 @@ class DistributedCountryClubRoomAI(DistributedLevelAI.DistributedLevelAI,
         self.notify.debug('finish mint room %s %s creation' %
                           (self.roomId, self.doId))
 
+    def requestDelete(self):
+        self.notify.info('requestDelete: %s' % self.doId)
+        DistributedLevelAI.DistributedLevelAI.requestDelete(self)
+
     def delete(self):
-        self.notify.debug('delete: %s' % self.doId)
+        self.notify.info('delete: %s' % self.doId)
         suits = self.suits
         for reserve in self.reserveSuits:
             suits.append(reserve[0])

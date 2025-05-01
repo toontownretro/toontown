@@ -136,7 +136,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
                     # Try second time, just in case removedMemberId is a friend.
                     removedMember = base.cr.identifyFriend(removedMemberId)
                 if removedMember:
-                    removedMemberName = removedMember.name
+                    removedMemberName = removedMember._name
                     # Message to the members in the group that the removedMember has left the Boarding Group.
                     messageText = TTLocalizer.BoardingMessageLeftGroup %(removedMemberName)
                     localAvatar.setSystemMessage(0, messageText, WhisperPopup.WTToontownBoardingGroup)
@@ -217,7 +217,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
         else:
             avatar = base.cr.doId2do.get(avId)
             if avatar:
-                avatarNameText = avatar.name
+                avatarNameText = avatar._name
             else:
                 avatarNameText = ''
             if (reason == BoardingPartyBase.BOARDCODE_MINLAFF):
@@ -280,10 +280,10 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
         inviteeName = ''
         inviter = base.cr.doId2do.get(inviterId)
         if inviter:
-            inviterName = inviter.name
+            inviterName = inviter._name
         invitee = base.cr.doId2do.get(inviteeId)
         if invitee:
-            inviteeName = invitee.name
+            inviteeName = invitee._name
         # Message to the members in the group that the inviter has invited the invitee.
         messageText = TTLocalizer.BoardingMessageInvited %(inviterName, inviteeName)
         localAvatar.setSystemMessage(0, messageText, WhisperPopup.WTToontownBoardingGroup)
@@ -296,7 +296,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
         inviterName = ''
         inviter = base.cr.doId2do.get(inviterId)
         if inviter:
-            inviterName = inviter.name
+            inviterName = inviter._name
         # Don't generate the message more than once a minute, so that the inviter can't spam the invitee.
         if self.invitationFailedMessageOk(inviterId):
             # Message to the invitee that the inviter had tried to invite the invitee.
@@ -312,7 +312,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
         messageText = ''
         invitee = base.cr.doId2do.get(inviteeId)
         if invitee:
-            inviteeName = invitee.name
+            inviteeName = invitee._name
 
         if (reason == BoardingPartyBase.INVITE_ACCEPT_FAIL_GROUP_FULL):
             messageText = TTLocalizer.BoardingMessageGroupFull %inviteeName
@@ -356,7 +356,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
             for avId in avIdList:
                 avatar = base.cr.doId2do.get(avId)
                 if avatar:
-                    nameList.append(avatar.name)
+                    nameList.append(avatar._name)
             if (len(nameList) > 0):
                 lastName = nameList.pop()
                 avatarText = lastName
@@ -465,7 +465,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
                             quitter = base.cr.doId2do.get(quitterId)
                             if quitter:
                                 # If we can find the quitter, message saying quitter has left the group.
-                                quitterName = quitter.name
+                                quitterName = quitter._name
                                 # Message to the members in the group that the quitter has left the Boarding Group.
                                 messageText = TTLocalizer.BoardingMessageLeftGroup %(quitterName)
                                 localAvatar.setSystemMessage(0, messageText, WhisperPopup.WTToontownBoardingGroup)
@@ -487,7 +487,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
                         # and if you are not the group leader
                         avatar = base.cr.doId2do.get(inviteeId)
                         if avatar:
-                            avatarNameText = avatar.name
+                            avatarNameText = avatar._name
                         else:
                             avatarNameText = ''
                         rejectText = TTLocalizer.BoardingInviteeInKickOutList %(avatarNameText)

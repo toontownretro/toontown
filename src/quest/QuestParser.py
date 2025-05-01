@@ -228,8 +228,9 @@ def clear():
     globalVarDict.clear()
 
 def readFile(filename):
+    global curId
     scriptFile = StreamReader(vfs.openReadFile(filename, 1), 1)
-    print(dir(scriptFile))
+    #print(dir(scriptFile))
     gen = tokenize.generate_tokens(scriptFile.readlineStr)
     line = getLineOfTokens(gen)
 
@@ -335,6 +336,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
             return None
         else:
             notify.error("Variable not defined: %s" % (varName))
+        return None
 
     def delVar(self, varName):
         if varName in self.privateVarDict:

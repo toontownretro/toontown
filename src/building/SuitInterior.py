@@ -111,6 +111,7 @@ class SuitInterior(Place.Place):
     def enter(self, requestStatus):
         assert(self.notify.debug("enter(requestStatus="+str(requestStatus)+")"))
         self.fsm.enterInitialState()
+        # Turn on the limiter
         self._telemLimiter = TLGatherAllAvs('SuitInterior', RotationLimitToH)
         # Let the safe zone manager know that we are here.
         #messenger.send("enterToonInterior")
@@ -123,6 +124,7 @@ class SuitInterior(Place.Place):
     def exit(self):
         assert(self.notify.debug("exit()"))
         self.ignoreAll()
+        # Stop the limiter
         self._telemLimiter.destroy()
         del self._telemLimiter
         # Let the safe zone manager know that we are leaving

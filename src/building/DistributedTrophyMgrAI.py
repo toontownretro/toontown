@@ -44,7 +44,7 @@ class DistributedTrophyMgrAI(DistributedObjectAI.DistributedObjectAI):
         # or if there are less than 10 players in the list
         if ((score > self.__minLeaderScore) or (len(i) < 10)):        
             # Reverse the items so we have score first
-            list(map(lambda r: r.reverse(),i))
+            list([r.reverse() for r in i])
             # Sort by score
             i.sort()
             # Reverse that score so highest are first
@@ -125,7 +125,7 @@ class DistributedTrophyMgrAI(DistributedObjectAI.DistributedObjectAI):
         Returns a list of score,avId pairs in sorted order, highest first
         """
         i = [list(t) for t in list(self.trophyDict.items())]
-        list(map(lambda r: r.reverse(),i))
+        list([r.reverse() for r in i])
         i.sort()
         i.reverse()
         return i

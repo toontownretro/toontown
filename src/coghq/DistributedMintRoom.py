@@ -74,7 +74,7 @@ class DistributedMintRoom(DistributedLevel.DistributedLevel,
         roomSpec = LevelSpec.LevelSpec(specModule)
         if __dev__:
             # give the spec a factory EntityTypeRegistry.
-            typeReg = self.getMintEntityTypeReg()
+            typeReg = self.getEntityTypeReg()
             roomSpec.setEntityTypeReg(typeReg)
 
         DistributedLevel.DistributedLevel.initializeLevel(self, roomSpec)
@@ -97,7 +97,7 @@ class DistributedMintRoom(DistributedLevel.DistributedLevel,
             # First, give the spec a factory EntityTypeRegistry if it doesn't
             # have one.
             if not levelSpec.hasEntityTypeReg():
-                typeReg = self.getMintEntityTypeReg()
+                typeReg = self.getEntityTypeReg()
                 levelSpec.setEntityTypeReg(typeReg)
 
         # let 'er rip.

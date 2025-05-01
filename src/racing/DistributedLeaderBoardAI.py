@@ -162,8 +162,8 @@ class DistributedLeaderBoardAI(DistributedObjectAI.DistributedObjectAI):
 
     def __updateScore(self, pID):
         #update score list with ID pID by querying from server
-        #print str(self.subscriptionDict)
-        #print str(self.subscriptionDict[pID][2])
+        #print(str(self.subscriptionDict))
+        #print(str(self.subscriptionDict[pID][2]))
         newRecords =  self.air.raceMgr.getRecords(pID[0], pID[1])
 
         #"edited": that is, we're not using raceType and racerNum at this moment... just forget those

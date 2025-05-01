@@ -1097,12 +1097,10 @@ class RobotToonManager(DirectObject):
 
     def makeRandomToon(self, toNpcId = None):
         # Check for intersection
-        entry = self.iRay.pickGeom(
-            skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA)
+        entry = self.iRay.pickGeom(skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA)
         if not entry:
             # Try again just at the center of the screen
-            entry = self.iRay.pickGeom(skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA,
-                                       xy = (0, -0.2))
+            entry = self.iRay.pickGeom(skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA, xy = (0, -0.2))
         # If we got a valid intersection point
         if entry:
             self.s1.setPos(camera, entry.getSurfacePoint(entry.getFromNodePath()))
@@ -1311,24 +1309,24 @@ class RobotToonManager(DirectObject):
             dept = line[i];i+=1
             name = line[i];i+=1
             props = [body, dept, name]
-        x = string.atof(line[i]);i+=1
-        y = string.atof(line[i]);i+=1
-        z = string.atof(line[i]);i+=1
-        h = string.atof(line[i]);i+=1
-        p = string.atof(line[i]);i+=1
-        r = string.atof(line[i]);i+=1
-        x1 = string.atof(line[i]);i+=1
-        y1 = string.atof(line[i]);i+=1
-        z1 = string.atof(line[i]);i+=1
-        h1 = string.atof(line[i]);i+=1
-        p1 = string.atof(line[i]);i+=1
-        r1 = string.atof(line[i]);i+=1
-        x2 = string.atof(line[i]);i+=1
-        y2 = string.atof(line[i]);i+=1
-        z2 = string.atof(line[i]);i+=1
-        h2 = string.atof(line[i]);i+=1
-        p2 = string.atof(line[i]);i+=1
-        r2 = string.atof(line[i]);i+=1
+        x = float(line[i]);i+=1
+        y = float(line[i]);i+=1
+        z = float(line[i]);i+=1
+        h = float(line[i]);i+=1
+        p = float(line[i]);i+=1
+        r = float(line[i]);i+=1
+        x1 = float(line[i]);i+=1
+        y1 = float(line[i]);i+=1
+        z1 = float(line[i]);i+=1
+        h1 = float(line[i]);i+=1
+        p1 = float(line[i]);i+=1
+        r1 = float(line[i]);i+=1
+        x2 = float(line[i]);i+=1
+        y2 = float(line[i]);i+=1
+        z2 = float(line[i]);i+=1
+        h2 = float(line[i]);i+=1
+        p2 = float(line[i]);i+=1
+        r2 = float(line[i]);i+=1
         state = line[i]
         return (type, props,
                 Point3(x,y,z),
@@ -1698,8 +1696,8 @@ class RobotToonManager(DirectObject):
 class RobotToonControlPanel(AppShell):
     # Override class variables
     appname = 'Robot Toon Manager Panel'
-    frameWidth  = 650
-    frameHeight = 600
+    frameWidth  = 800
+    frameHeight = 700
     usecommandarea = 1
     usestatusarea  = 0
     contactname = 'Mark Mine'

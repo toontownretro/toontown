@@ -123,7 +123,7 @@ class QuestPage(ShtikerPage.ShtikerPage):
                 self.fillQuestFrame(newQuestDesc, index)
 
         # Always update friend quests to see if they have changed
-        for i, questDesc in self.quests.items():
+        for i, questDesc in list(self.quests.items()):
             if questDesc:
                 if self.canDeleteQuest(questDesc):
                     self.questFrames[i].setDeleteCallback(self.__deleteQuest)

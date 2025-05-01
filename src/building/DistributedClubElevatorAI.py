@@ -189,7 +189,7 @@ class DistributedClubElevatorAI(DistributedElevatorFSMAI.DistributedElevatorFSMA
 
     def enterWaitEmpty(self):
         self.lastState = self._state
-        #print("DistributedElevatorFloorAI.enterWaitEmpty  %s %s from %s" % (self.isLocked, self.doId, self))
+        #print("DistributedElevatorFloorAI.enterWaitEmpty  %s %s from %s" % (self.isLocked, self.doId, self._state))
         #print("WAIT EMPTY FLOOR VATOR")
         for i in range(len(self.seats)):
             self.seats[i] = None
@@ -208,7 +208,7 @@ class DistributedClubElevatorAI(DistributedElevatorFSMAI.DistributedElevatorFSMA
 
     def enterWaitCountdown(self):
         self.lastState = self._state
-        #print("DistributedElevatorFloorAI.enterWaitCountdown %s from %s" % (self.doId, self))
+        #print("DistributedElevatorFloorAI.enterWaitCountdown %s from %s" % (self.doId, self._state))
         DistributedElevatorFSMAI.DistributedElevatorFSMAI.enterWaitCountdown(self)
         # Start the countdown...
         taskMgr.doMethodLater(self.countdownTime, self.timeToGoTask,
@@ -341,7 +341,7 @@ class DistributedClubElevatorAI(DistributedElevatorFSMAI.DistributedElevatorFSMA
         #print("DistributedElevatorFloorAI.lock %s %s" % (self.isLocked, self.doId))
         if not self.isLocked:
             self.setLocked(1)
-            #if self != 'Closed' or self != 'Closing':
+            #if self._state != 'Closed' or self._state != 'Closing':
                 #self.request('Closing')
             #self.beClosed()
 

@@ -56,26 +56,26 @@ class BlinkingArrows:
             self.otherNode.show()
             self.arrowTrack = Sequence(
                 Parallel(
-                self.arrow1.colorScaleInterval(self.onTime, onColor, offColor),
-                self.arrow2.colorScaleInterval(self.onTime, onColor, offColor),
-                self.otherNode.colorScaleInterval(self.onTime, onColor, offColor),
-                ),
+                    self.arrow1.colorScaleInterval(self.onTime, onColor, offColor),
+                    self.arrow2.colorScaleInterval(self.onTime, onColor, offColor),
+                    self.otherNode.colorScaleInterval(self.onTime, onColor, offColor),
+                    ),
                 Parallel(
-                self.arrow1.colorScaleInterval(self.offTime, offColor, onColor),
-                self.arrow2.colorScaleInterval(self.offTime, offColor, onColor),
-                self.otherNode.colorScaleInterval(self.offTime, offColor, onColor),
-                ),
+                    self.arrow1.colorScaleInterval(self.offTime, offColor, onColor),
+                    self.arrow2.colorScaleInterval(self.offTime, offColor, onColor),
+                    self.otherNode.colorScaleInterval(self.offTime, offColor, onColor),
+                    ),
                 )
         else:
             self.arrowTrack = Sequence(
                 Parallel(
-                self.arrow1.colorScaleInterval(self.onTime, onColor, offColor),
-                self.arrow2.colorScaleInterval(self.onTime, onColor, offColor),
-                ),
+                    self.arrow1.colorScaleInterval(self.onTime, onColor, offColor),
+                    self.arrow2.colorScaleInterval(self.onTime, onColor, offColor),
+                    ),
                 Parallel(
-                self.arrow1.colorScaleInterval(self.offTime, offColor, onColor),
-                self.arrow2.colorScaleInterval(self.offTime, offColor, onColor),
-                ),
+                    self.arrow1.colorScaleInterval(self.offTime, offColor, onColor),
+                    self.arrow2.colorScaleInterval(self.offTime, offColor, onColor),
+                    ),
                 )
         self.arrowTrack.loop()
 

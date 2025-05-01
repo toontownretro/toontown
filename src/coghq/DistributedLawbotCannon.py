@@ -1058,6 +1058,9 @@ class DistributedLawbotCannon (DistributedObject.DistributedObject):
 
         # calculate the trajectory
         flightResults = self.__calcFlightResults(avId, launchTime)
+        #if not isClient():
+        #    print("EXECWARNING DistributedLawbotCannon: %s"%flightResults)
+        #    printStack()
         # pull all the results into the local namespace
         startPos = flightResults['startPos']
         startVel = flightResults['startVel']

@@ -356,7 +356,8 @@ class Char(Avatar.Avatar):
             self.eyes = self.find("**/1200/**/eyes")
             # this fixes a dual-mode transparency problem
             # that makes the pupils render poorly
-            self.eyes.setBin('transparent', 0)
+            # Nowadays this actually causes transparency issues.
+            #self.eyes.setBin('transparent', 0)
             self.lpupil = self.find("**/1200/**/joint*pupilL")
             self.rpupil = self.find("**/1200/**/joint*pupilR")
             # make them render correctly

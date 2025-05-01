@@ -48,7 +48,7 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
     def loadPhaseAnims(self):
         """Load our animations to our actor."""
         animDict = {}
-        for key,info in self.phaseInfo.items():
+        for key,info in list(self.phaseInfo.items()):
             if type(info[0]) == tuple:
                 for index,anims in enumerate(info[0]):
                     fullPath = self.path + '/' + anims
@@ -67,7 +67,7 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
             self.notify.debug("not creating phase ivals again")
             return
         self.phaseIvals = []
-        for key,info in self.phaseInfo.items():
+        for key,info in list(self.phaseInfo.items()):
             self.notify.debug("key=%s"%key)
             if type(info[0]) == tuple:
                 ival = Sequence()

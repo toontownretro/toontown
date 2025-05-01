@@ -180,6 +180,7 @@ class ToonInterior(Place.Place):
         # Play music
         volume = requestStatus.get('musicVolume', 0.7)
         base.playMusic(self.loader.activityMusic, looping = 1, volume = volume)
+        # Turn on the limiter
         self._telemLimiter = TLGatherAllAvs('ToonInterior', RotationLimitToH)
 
         #self.geom.reparentTo(render)
@@ -194,6 +195,7 @@ class ToonInterior(Place.Place):
         self.ignoreAll()
         # Let the safe zone manager know that we are leaving
         messenger.send("exitToonInterior")
+        # Stop the limiter
         self._telemLimiter.destroy()
         del self._telemLimiter
         #self.geom.reparentTo(hidden)

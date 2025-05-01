@@ -605,7 +605,74 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                 bboard.remove(postName)
             self.down_setMagicWordResponse(senderId, 'autoRestock %s' % state)
 
-        # TODO: add ~autoRestockSOS, ~autoRestockPinkSlips, ~autoRestockSummons
+        elif wordIs("~autoRestockSOS"):
+            args = word.split()
+            postName = 'autoRestockSOS-%s' % av.doId
+            enable = not bboard.get(postName, 0)
+            # are they explicitly setting the state?
+            if len(args) > 1:
+                try:
+                    enable = bool(int(args[1]))
+                except:
+                    self.down_setMagicWordResponse(senderId,
+                                                   'invalid state flag: %s' %
+                                                   args[1])
+                    return
+            if enable:
+                av.autoRestockSOS = True
+                state = 'ON'
+                bboard.post(postName, True)
+            else:
+                av.autoRestockSOS = False
+                state = 'OFF'
+                bboard.remove(postName)
+            self.down_setMagicWordResponse(senderId, 'autoRestockSOS %s' % state)
+
+        elif wordIs("~autoRestockPinkSlips"):
+            args = word.split()
+            postName = 'autoRestockPinkSlips-%s' % av.doId
+            enable = not bboard.get(postName, 0)
+            # are they explicitly setting the state?
+            if len(args) > 1:
+                try:
+                    enable = bool(int(args[1]))
+                except:
+                    self.down_setMagicWordResponse(senderId,
+                                                   'invalid state flag: %s' %
+                                                   args[1])
+                    return
+            if enable:
+                av.autoRestockPinkSlips = True
+                state = 'ON'
+                bboard.post(postName, True)
+            else:
+                av.autoRestockPinkSlips = False
+                state = 'OFF'
+                bboard.remove(postName)
+            self.down_setMagicWordResponse(senderId, 'autoRestockPinkSlips %s' % state)
+
+        elif wordIs("~autoRestockSummons"):
+            args = word.split()
+            postName = 'autoRestockSummons-%s' % av.doId
+            enable = not bboard.get(postName, 0)
+            # are they explicitly setting the state?
+            if len(args) > 1:
+                try:
+                    enable = bool(int(args[1]))
+                except:
+                    self.down_setMagicWordResponse(senderId,
+                                                   'invalid state flag: %s' %
+                                                   args[1])
+                    return
+            if enable:
+                av.autoRestockSummons = True
+                state = 'ON'
+                bboard.post(postName, True)
+            else:
+                av.autoRestockSummons = False
+                state = 'OFF'
+                bboard.remove(postName)
+            self.down_setMagicWordResponse(senderId, 'autoRestockSummons %s' % state)
 
         elif wordIs("~resistanceRestock"):
             from toontown.chat import ResistanceChat
@@ -1275,7 +1342,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                 pet.generateWithRequired(zoneId)
                 pet.setPos(randFloat(-30, 30),
                            randFloat(-30, 30), 0)
-                pet.b_setParent(ToontownGlobals.SPRender)
+                pet.b_setParent(ToontownGlobals.SPActors)
 
         elif wordIs('~petTricks') and simbase.wantPets:
             from toontown.pets import PetConstants, PetTricks
@@ -1519,9 +1586,9 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
         elif wordIs("~autoRich"):
             # Available only __dev__ and GMs. Guard against hacked clients sending this. If a non-GM
             # needs to do this on LIVE, simply use ~rich instead.
-            if __dev__ or av.hasGMName():
+            if __dev__ or av.isGM():
                 # Basically this is a signal that a GM has logged in.
-                if av.hasGMName():
+                if av.isGM():
                     self.air.writeServerEvent('GM', av.doId, 'GM %s used auto-rich' % av.getName())
                     assert self.notify.debug('GM %s %s used auto-rich' % (av.doId, av.getName()))
 

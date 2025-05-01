@@ -430,13 +430,13 @@ class DistributedRaceAI(DistributedObjectAI.DistributedObjectAI):
         targetId = 0
         type = 0
         #print("start launch pie")
-        #print avId
+        #print(avId)
         targetDist = 10000 #arbitrary large number
         #searching for targets ahead of us
         for iiId in self.racers:
             targetRacer =  simbase.air.doId2do.get(iiId, None)
             #print("Dist Calc")
-            #print targetRacer.kart.getPos(ownerRacer.kart)
+            #print(targetRacer.kart.getPos(ownerRacer.kart))
 
             # some error checking to prevent frequent AI crashes
             if not (targetRacer and targetRacer.kart and ownerRacer and ownerRacer.kart):
@@ -450,15 +450,15 @@ class DistributedRaceAI(DistributedObjectAI.DistributedObjectAI):
                 targetId = iiId
                 targetDist = targetRacer.kart.getPos(ownerRacer.kart)[1]
                 #print("found target forward")
-                #print iiId
-                #print avId
+                #print(iiId)
+                #print(avId)
                 #import pdb; pdb.set_trace()
         #searching for targets behind us
         if targetId == 0:
             for iiId in self.racers:
                 targetRacer =  simbase.air.doId2do.get(iiId, None)
                 #print("Dist Calc neg")
-                #print targetRacer.kart.getPos(ownerRacer.kart)
+                #print(targetRacer.kart.getPos(ownerRacer.kart))
 
                 # some error checking to prevent frequent AI crashes
                 if not (targetRacer and targetRacer.kart and ownerRacer and ownerRacer.kart):
@@ -470,8 +470,8 @@ class DistributedRaceAI(DistributedObjectAI.DistributedObjectAI):
                     and (avId != iiId)):
                     targetId = iiId
                     #print("found target back")
-                    #print iiId
-                    #print avId
+                    #print(iiId)
+                    #print(avId)
                     #import pdb; pdb.set_trace()
 
         #print("end launch pie")

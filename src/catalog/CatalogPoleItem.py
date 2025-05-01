@@ -175,7 +175,7 @@ def nextAvailablePole(avatar, duplicateItems):
     return item
 
 def getAllPoles():
-    list = []
+    allPoles = []
     for rodId in range(0, FishGlobals.MaxRodId + 1):
-        list.append(CatalogPoleItem(rodId))
-    return list
+        allPoles.append(CatalogPoleItem(rodId))
+    return allPoles

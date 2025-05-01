@@ -5,7 +5,7 @@ from direct.task.Task import Task
 from toontown.toonbase.ToontownModules import *
 
 from otp.avatar import DistributedAvatar
-from toontown.toon import GMUtils
+#from toontown.toon import GMUtils
 
 from toontown.toonbase.ToonBaseGlobal import *
 from toontown.toonbase.ToontownGlobals import *

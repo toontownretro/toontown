@@ -95,7 +95,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
 
     def handleEnterPlot(self, entry = None):
         #print("plot entered %s" % (self.doId))
-        #print entry
+        #print(entry)
         dist = self.getDistance(localAvatar)
         if self.canBePlanted():
             base.localAvatar.addShovelRelatedDoId(self.doId) #, self.plantSomething)
@@ -103,7 +103,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
     def handleExitPlot(self, entry = None):
         DistributedLawnDecor.DistributedLawnDecor.handleExitPlot(self, entry)
         #print("plot exited %s" % (self.doId))
-        #print entry
+        #print(entry)
         base.localAvatar.removeShovelRelatedDoId(self.doId)
         #base.localAvatar.clearPlantToWater(self.doId)
         #base.localAvatar.hideWateringCanButton()

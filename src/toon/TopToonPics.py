@@ -99,7 +99,7 @@ for arg in sys.argv:
     elif arg == '-e':
         argFlag = 'e'
     elif argFlag == 'a':
-        headAngle = string.atof(arg)
+        headAngle = float(arg)
         argFlag = None
     elif argFlag == 'b':
         bgColor = arg
@@ -115,10 +115,10 @@ for arg in sys.argv:
         outputDirectory = arg
         argFlag = None
     elif argFlag == 'f':
-        fov = string.atof(arg)
+        fov = float(arg)
         argFlag = None
     elif argFlag == 'F':
-        fillFactor = string.atof(arg)/100.0
+        fillFactor = float(arg)/100.0
         argFlag = None
     elif argFlag == 'i':
         inputFile = arg
@@ -127,19 +127,19 @@ for arg in sys.argv:
         lookAtTarget = arg
         argFlag = None
     elif argFlag == 'p':
-        pitchAngle = string.atof(arg)
+        pitchAngle = float(arg)
         argFlag = None
     elif argFlag == 'r':
-        rollAngle = string.atof(arg)
+        rollAngle = float(arg)
         argFlag = None
     elif argFlag == 's':
-        ringScale = string.atof(arg)
+        ringScale = float(arg)
         argFlag = None
     elif argFlag == 'e':
         outputExtension = arg
         argFlag = None
     elif argFlag == 'S':
-        size = string.atoi(arg)
+        size = int(arg)
         argFlag = None
     else:
         argFlag = None

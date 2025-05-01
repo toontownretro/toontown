@@ -563,7 +563,7 @@ class DistributedChineseCheckersAI(DistributedNodeAI):
     def checkLegalMoves(self, moveList):
         #check logic .. Really we are assuming client makes a legal move
         #but if he doesnt, he is likely trying to cheat
-        #print moveList, "MOVELIST"
+        #print(moveList, "MOVELIST")
         if not moveList:
             return False
         elif self.board.squareList[moveList[0]].getState() == 0:

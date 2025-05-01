@@ -1412,8 +1412,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
 
         tag = self.hitObject.getNetTag('pieCode')
         pieCode = int(tag)
-        #print tag
-        #print self.hitObject
+        #print(tag)
+        #print(self.hitObject)
 
         if pieCode == ToontownGlobals.PieCodeBossCog:
             # Make the local toon hear the sfx immediately, then tell the other clients

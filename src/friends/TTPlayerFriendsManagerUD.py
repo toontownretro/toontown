@@ -6,6 +6,8 @@ from otp.friends.PlayerFriendsManagerUD import PlayerFriendsManagerUD
 
 from otp.otpbase import OTPLocalizer as localizer
 
+from toontown.toonbase.ToontownModules import ConfigVariableString
+
 if __debug__:
     notify = directNotify.newCategory('PlayerFriendsManagerUD')
 

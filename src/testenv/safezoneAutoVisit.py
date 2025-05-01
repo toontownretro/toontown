@@ -1,5 +1,3 @@
 
-class safezoneAutoVisit:
-
-    def setupKeys()
+    def setupKeys():
         pass

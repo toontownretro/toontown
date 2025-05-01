@@ -1,7 +1,6 @@
 from toontown.toonbase.ToontownModules import *
 from toontown.toon import Toon
-from toontown.hood import Place, ZoneUtil
-from toontown.toonbase import ToontownGlobals
+from toontown.hood import Place
 
 class BattlePlace(Place.Place):
     def __init__(self, loader, doneEvent):

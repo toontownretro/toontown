@@ -188,10 +188,10 @@ class CatalogRentalItem(CatalogItem.CatalogItem):
     
 def getAllRentalItems():
     # Returns a list of all valid CatalogRentalItems.
-    list = []
+    allRentalItems = []
     # no game tables for now
     # TODO since all we offer so far is 48 hours of cannons, values pulled for CatalogGenerator
     # do something else if we have different durations
     for rentalType in (ToontownGlobals.RentalCannon, ):
-        list.append(CatalogRentalItem(rentalType,2880,1000))
-    return list
+        allRentalItems.append(CatalogRentalItem(rentalType,2880,1000))
+    return allRentalItems

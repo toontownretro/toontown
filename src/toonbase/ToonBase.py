@@ -1,16 +1,13 @@
 """ToonBase module: contains the ToonBase class"""
 
 #from direct.showbase.ShowBaseGlobal import *
-from direct.showbase import Audio3DManager
 from otp.otpbase import OTPBase
 from otp.otpbase import OTPLauncherGlobals
 from otp.otpbase import OTPGlobals
-from otp.otpbase import OTPRender
 from direct.showbase.PythonUtil import *
 from . import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from . import ToontownLoader
-from .ToontownPostProcess import ToontownPostProcess
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import *
 from toontown.toonbase.ToontownModules import *
@@ -21,6 +18,10 @@ from toontown.toonbase import ToontownAccess
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.launcher import ToontownDownloadWatcher
+
+from direct.showbase import Audio3DManager
+from otp.otpbase import OTPRender
+from .ToontownPostProcess import ToontownPostProcess
 from toontown.effects.PlanarReflector import PlanarReflector
 
 
@@ -338,7 +339,6 @@ class ToonBase(OTPBase.OTPBase):
 
         self.oldX = max(1, base.win.getXSize())
         self.oldY = max(1, base.win.getYSize())
-
         self.aspectRatio = float(self.oldX) / self.oldY
 
     def lightColor(self, light, temp, intensity):

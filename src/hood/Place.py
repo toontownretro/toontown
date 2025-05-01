@@ -870,7 +870,7 @@ class Place(StateData.StateData,
         # the remote clients may still be showing the tunnel in movie;
         # sending these messages might mess them up, and they're unnecessary
         #base.localAvatar.d_broadcastPositionNow()
-        #base.localAvatar.d_setParent(ToontownGlobals.SPRender)
+        #base.localAvatar.d_setParent(ToontownGlobals.SPActors)
 
     def exitTunnelIn(self):
         assert(self.notify.debug("exitTunnelIn()"))

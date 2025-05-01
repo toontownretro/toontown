@@ -12,7 +12,7 @@ from otp.otpbase import OTPLocalizer
 #this is the structure of the racing menu
 SellbotInvasionMenu = [
     (OTPLocalizer.SellbotInvasionMenuSections[0],
-        range(30400, 30404)),
+        list(range(30400, 30404))),
      ]
 
 class TTSCSellbotInvasionMenu(SCMenu):

@@ -41,7 +41,7 @@ class DistributedMintRoomAI(DistributedLevelAI.DistributedLevelAI,
         if __dev__:
             # create a factory EntityTypeRegistry and hand it to the spec
             self.notify.debug('creating entity type registry')
-            typeReg = self.getMintEntityTypeReg()
+            typeReg = self.getEntityTypeReg()
             roomSpec.setEntityTypeReg(typeReg)
         
         self.notify.debug('creating entities')

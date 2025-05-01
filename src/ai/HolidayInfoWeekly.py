@@ -100,7 +100,7 @@ class HolidayInfo_Weekly(HolidayInfo_Base):
                              t[1], t[2], t[3],
                              0, 0, -1))
 
-        #print time.ctime(actualTime)
+        #print(time.ctime(actualTime))
 
         return actualTime
 

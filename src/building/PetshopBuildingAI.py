@@ -80,4 +80,4 @@ class PetshopBuildingAI:
         pet.traits = PetTraits.PetTraits(traitSeed=traitSeed, safeZoneId=safeZoneId)
         pet.generateWithRequired(zoneId)
         pet.setPos(0, 0, 0)
-        pet.b_setParent(ToontownGlobals.SPRender)
+        pet.b_setParent(ToontownGlobals.SPActors)

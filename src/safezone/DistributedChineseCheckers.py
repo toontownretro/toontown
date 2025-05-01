@@ -413,7 +413,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
             elif self.playerNum == 6:
                 rotation = -60
 
-        #print self.boardNode.getHpr()
+        #print(self.boardNode.getHpr())
         # int = LerpHprInterval(camera, 3,Vec3(camera.getH(),camera.getP(),rotation), camera.getHpr())
         #self.table.tempCheckers.hide()
         if rotation == 60 or rotation == -60:
@@ -693,7 +693,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                         self.isMyTurn = False
                         self.sound.start()
                 #Check for mid series jumps stoppage
-                #print len(self.moveList), len(self.moveList)-1
+                #print(len(self.moveList), len(self.moveList)-1)
                 if len(self.moveList) >= 1:
                     if index == self.moveList[len(self.moveList)-1]: #you clicked the same thing TWICE
                         for x in self.nonOpposingPositions:

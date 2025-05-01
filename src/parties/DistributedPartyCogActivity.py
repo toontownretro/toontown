@@ -13,7 +13,7 @@ from toontown.toonbase import TTLocalizer
 from . import PartyGlobals
 from .DistributedPartyTeamActivity import DistributedPartyTeamActivity
 from .PartyCogActivity import PartyCogActivity
-from toontown.toon import GMUtils
+#from toontown.toon import GMUtils
 
 class DistributedPartyCogActivity(DistributedPartyTeamActivity):
     notify = directNotify.newCategory("DistributedPartyCogActivity")
@@ -22,18 +22,20 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
     localPlayer = None
     view = None
 
-    def __init__(self, cr):
+    def __init__(self, cr, arenaModel = "phase_13/models/parties/cogPieArena_model", texture = None):
         DistributedPartyTeamActivity.__init__(
             self, cr,
             PartyGlobals.ActivityIds.PartyCog,
             startDelay=PartyGlobals.CogActivityStartDelay,
             balanceTeams=PartyGlobals.CogActivityBalanceTeams
             )
+        self.arenaModel = arenaModel
+        self.texture = texture
 
     def load(self):
         DistributedPartyTeamActivity.load(self)
 
-        self.view = PartyCogActivity(self)
+        self.view = PartyCogActivity(self, self.arenaModel, self.texture)
         self.view.load()
 
     def announceGenerate(self):
@@ -184,8 +186,8 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
             toonName a string with the name of the last toon that hit a high scoore
             score the score amount the last toon reached
         """
-        if GMUtils.testGMIdentity(toonName):
-            toonName = GMUtils.handleGMName(toonName)
+        #if GMUtils.testGMIdentity(toonName):
+        #    toonName = GMUtils.handleGMName(toonName)
 
         assert(self.notify.debug("setHighScore %s %d" % (toonName, score)))
 

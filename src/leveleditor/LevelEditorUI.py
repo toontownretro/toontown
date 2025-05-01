@@ -440,7 +440,7 @@ class LevelEditorUI(LevelEditorUIBase):
         path = self.editor.dnaDirectory.toOsSpecific()
         if not os.path.isdir(path):
            path = '.'
-        dialog = wx.FileDialog(None, "Save DNA File As", path, "", "*.dna", wx.SAVE)
+        dialog = wx.FileDialog(None, "Save DNA File As", path, "", "*.dna", style = wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
         result = True
         if dialog.ShowModal() == wx.ID_OK:
             self.editor.currentFile = dialog.GetPath();

@@ -112,7 +112,7 @@ class DistributedAnimatedProp(DistributedObject.DistributedObject):
 
     #def __getPropNodePath(self):
     #    assert self.debugPrint("__getPropNodePath()")
-    #    if (not self.__dict__.has_key('propNodePath')):
+    #    if ('propNodePath' not in self.__dict__):
     #        self.propNodePath=self.cr.playGame.hood.loader.geom.find(
     #                "**/prop"+self.propID+":*_DNARoot")
     #    return self.propNodePath

@@ -87,7 +87,7 @@ class NameGenerator:
         # returns list of dict of string->index, one dict per name part
         nameParts = [{}, {}, {}, {}]
         # cat2part is mapping of NameMasterEnglish.txt category -> namePart index
-        for id, tpl in self.nameDictionary.items():
+        for id, tpl in list(self.nameDictionary.items()):
             cat, str = tpl
             if cat in cat2part:
                 nameParts[cat2part[cat]][str] = id

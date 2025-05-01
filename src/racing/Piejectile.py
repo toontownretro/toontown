@@ -160,9 +160,9 @@ class Piejectile(DirectObject, FlyingGag):
 
         self.actorNode.getPhysicsObject().setVelocity(self.ownerKart.getVelocity() + throwVelCast)
         #print("Kart Velocity")
-        #print self.ownerKart.getVelocity()
+        #print(self.ownerKart.getVelocity())
         #print("Pie Velocity")
-        #print self.actorNode.getPhysicsObject().getVelocity()
+        #print(self.actorNode.getPhysicsObject().getVelocity())
         #self.physicsObj.setMass(self.physicsObj.getMass() / 10)
 
         lookPoint = render.getRelativePoint(self.ownerKart, Point3(0, 10, 0))
@@ -209,7 +209,7 @@ class Piejectile(DirectObject, FlyingGag):
         #increase windResistance to counteract orbiting
         self.windResistance.setCoef(0.2 + 0.8 * self.timeRatio)
         #import pdb; pdb.set_trace()
-        #print self.timeRatio
+        #print(self.timeRatio)
 
         if base.cr.doId2do.get(self.targetId) == None:
             self.hasTarget = 0
@@ -264,8 +264,8 @@ class Piejectile(DirectObject, FlyingGag):
 
         if self.count % 60 == 0:
             #print("Pielocity info")
-            #print self.actorNode.getPhysicsObject().getVelocity()
-            #print self.actorNode.getPhysicsObject().getPosition()
+            #print(self.actorNode.getPhysicsObject().getVelocity())
+            #print(self.actorNode.getPhysicsObject().getPosition())
             pass
 
         return Task.cont

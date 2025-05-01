@@ -596,7 +596,7 @@ class SuitPlannerBase:
 
         path = self.dnaStore.getSuitPath( startPoint, endPoint )
 
-#        print path
+#        print(path)
 
         # now print out travel time for each edge in the resulting path
         # as well as which zone each edge is in

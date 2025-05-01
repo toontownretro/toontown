@@ -54,7 +54,7 @@ class RaceHeadFrame(DirectFrame):
 ##         self.tag2.hide()
 
     def destroy(self):
-##         print('\ndestroying head frame for %s.\n' %(`self.av`,))
+##         print('\ndestroying head frame for %s.\n' %(repr(self.av),))
 ##         if( self.av ):
 ##             self.headModel.delete()
 ##             del self.headModel

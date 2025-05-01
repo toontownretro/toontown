@@ -692,7 +692,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
     def createEasyModeBarrels(self):
         self.barrels = []
-        for entId, entDef in SellbotBossGlobals.BarrelDefs.items():
+        for entId, entDef in list(SellbotBossGlobals.BarrelDefs.items()):
             barrelType = entDef["type"]
             barrel = barrelType(self.air, entId)
             SellbotBossGlobals.setBarrelAttr(barrel, entId)

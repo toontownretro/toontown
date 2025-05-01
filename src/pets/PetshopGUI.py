@@ -129,7 +129,7 @@ class PetshopGUI(DirectObject):
             self.letters = []
             for name in self.allNames:
                 if not (name[0:TTLocalizer.PGUIcharLength] in self.letters):
-                    self.letters.append(name[0:TTLocalizer.PGUIcharLength].decode())
+                    self.letters.append(name.decode()[0:TTLocalizer.PGUIcharLength])
             self.curLetter = self.letters[0]
             self.curNames = []
             self.curName = ""
@@ -229,7 +229,7 @@ class PetshopGUI(DirectObject):
         def rebuildNameList(self):
             self.curNames = []
             for name in self.allNames:
-                if name[0:TTLocalizer.PGUIcharLength].decode() == self.curLetter:
+                if name.decode()[0:TTLocalizer.PGUIcharLength] == self.curLetter:
                     self.curNames.append(name.decode())
 
             if self.nameList:

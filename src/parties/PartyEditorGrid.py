@@ -54,6 +54,7 @@ class PartyEditorGrid:
             for x in range(len(self.grid[0])):
                 if self.grid[y][x]:
                     self.grid[y][x] = PartyEditorGridSquare(self.partyEditor, x, y)
+        return None
 
     def getActivitiesOnGrid(self):
         """

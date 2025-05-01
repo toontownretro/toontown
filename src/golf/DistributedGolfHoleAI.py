@@ -530,7 +530,7 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
         move = None
         type = None
         for subString in pathArray:
-            #print subString
+            #print(subString)
             if subString[:1] == "X":
                 dataString = subString[1:]
                 dataString = dataString.replace("p", ".")

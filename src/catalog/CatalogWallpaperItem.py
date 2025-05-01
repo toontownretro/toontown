@@ -458,10 +458,10 @@ def getWallpapers(*typeList):
     # have a color chosen by the user.  Until customization,
     # use a default color index of 0 (if the pattern has a color
     # list) or CT_WHITE if the pattern has no color list
-    list = []
+    wallpapers = []
     for type in typeList:
-        list.append(CatalogWallpaperItem(type))
-    return list
+        wallpapers.append(CatalogWallpaperItem(type))
+    return wallpapers
 
 
 def getAllWallpapers(*typeList):
@@ -471,7 +471,7 @@ def getAllWallpapers(*typeList):
     # If the specified type index is in the group dictionary
     # get all corresponding patterns from the wallpaperTypes dictionary
     # This returns an item that has already been customized
-    list = []
+    allWallpapers = []
     for type in typeList:
         # If its a group, return a list of all associated textures,
         # otherwise, return a simple list of the type itself
@@ -487,9 +487,9 @@ def getAllWallpapers(*typeList):
                 for borderColorIndex in range(numBorderColors):
                     colors = WallpaperTypes[index][WTColor]
                     for n in range(len(colors)):
-                        list.append(CatalogWallpaperItem(
+                        allWallpapers.append(CatalogWallpaperItem(
                             index, n, borderKey, borderColorIndex))
-    return list
+    return allWallpapers
 
 def getWallpaperRange(fromIndex, toIndex, *otherRanges):
     # This function returns a list of all possible
@@ -499,7 +499,7 @@ def getWallpaperRange(fromIndex, toIndex, *otherRanges):
     # Make sure we got an even number of otherRanges
     assert(len(otherRanges)%2 == 0)
 
-    wallpapers = []
+    wallpaperRange = []
 
     froms = [fromIndex,]
     tos = [toIndex,]
@@ -523,5 +523,5 @@ def getWallpaperRange(fromIndex, toIndex, *otherRanges):
                     for borderColorIndex in range(numBorderColors):
                         colors = WallpaperTypes[patternIndex][WTColor]
                         for n in range(len(colors)):
-                            wallpapers.append(CatalogWallpaperItem(patternIndex, n, borderKey, borderColorIndex))
-    return wallpapers
+                            wallpaperRange.append(CatalogWallpaperItem(patternIndex, n, borderKey, borderColorIndex))
+    return wallpaperRange

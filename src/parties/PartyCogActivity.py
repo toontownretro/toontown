@@ -36,7 +36,7 @@ class PartyCogActivity(DirectObject):
     player = None
     players = {}
 
-    def __init__(self, activity):
+    def __init__(self, activity, arenaModel = None, texture = None):
         self.activity = activity
         self.root = self.activity.root
 
@@ -46,8 +46,11 @@ class PartyCogActivity(DirectObject):
         self.pieIvals = []
         self.resultsIval = None
 
+        self.arenaModel = arenaModel
+        self.texture = texture
+
     def load(self):
-        self.arena = loader.loadModel("phase_13/models/parties/cogPieArena_model")
+        self.arena = loader.loadModel(self.arenaModel)
         self.arena.reparentTo(self.root)
 
         ground = self.arena.find("**/ground")
@@ -149,6 +152,14 @@ class PartyCogActivity(DirectObject):
 
         signLocator = self.arena.find("**/eventSign_locator")
         self.activity.sign.setPos(signLocator.getPos(self.root))
+
+        if self.texture:
+            # Yuck
+            textureAlpha = self.texture[:-4] + '_a.rgb'
+            reskinTexture = loader.loadTexture(self.texture, textureAlpha)
+            self.arena.find("**/center_grp").setTexture(reskinTexture, 100)
+            self.arena.find("**/leftSide_grp").setTexture(reskinTexture, 100)
+            self.arena.find("**/rightSide_grp").setTexture(reskinTexture, 100)
 
         self.enable()
 
@@ -302,12 +313,18 @@ class PartyCogActivity(DirectObject):
 
         for ival in list(self.toonPieTracks.values()):
             if ival is not None and ival.isPlaying():
-                ival.finish()
+                try:
+                    ival.finish()
+                except Exception as theException:
+                    self.notify.warning("Ival could not finish:\n %s \nException %s " % (str(ival), str(theException)))
         self.toonPieTracks = {}
 
         for ival in self.pieIvals:
             if ival is not None and ival.isPlaying():
-                ival.finish()
+                try:
+                    ival.finish()
+                except Exception as theException:
+                    self.notify.warning("Ival could not finish:\n %s \nException %s " % (str(ival), str(theException)))
         self.pieIvals = []
         self.toonIdsToAnimIntervals = {}
 
@@ -506,6 +523,12 @@ class PartyCogActivity(DirectObject):
 
             del self.players[toonId]
 
+    def finishPieIvals(self, toonId):
+        for ival in self.pieIvals:
+            if ival.isPlaying():
+                if ival.getName().find(str(toonId)) != -1:
+                    ival.finish()
+
     def playPlayerEnterIval(self):
         # Note: Disable "Switch Team" button while running b/c an unknown, bad interaction between
         # LerpPosInterval and startPosHprBroadcast (both in the run ival) causes the toon to be
@@ -695,6 +718,12 @@ class PartyCogActivity(DirectObject):
         def getVelocity(toon = toon, relVel = relVel):
             return render.getRelativeVector(toon, relVel) * 0.6
 
+        def __safeSetAnimState(toon = toon, state = 'Happy'):
+            if toon and hasattr(toon, 'animFSM'):
+                toon.setAnimState('Happy')
+            else:
+                self.notify.warning("The toon is being destroyed. No attribute animState.")
+
         toss = Track(
             (0, Sequence(Func(toon.setPosHpr, x, y, z, h, p, r),
                          Func(pie.reparentTo, toon.rightHand),
@@ -711,7 +740,7 @@ class PartyCogActivity(DirectObject):
                                 ),
                              animPie
                             ),
-                         Func(toon.setAnimState, 'Happy'),
+                         Func(__safeSetAnimState, 'Happy'),
                         )),
             (16./24., Func(pie.detachNode)))
 

@@ -259,6 +259,7 @@ class DistributedMinigame(DistributedObject.DistributedObject):
 
         self.cleanupActions.append(cleanup)
 
+        # Turn on the limiter
         self._telemLimiter = self.getTelemetryLimiter()
 
         # Show the rules
@@ -274,6 +275,7 @@ class DistributedMinigame(DistributedObject.DistributedObject):
 
     def disable(self):
         self.notify.debug("BASE: disable")
+        # Stop the limiter
         if self._telemLimiter:
             self._telemLimiter.destroy()
             self._telemLimiter = None

@@ -157,6 +157,7 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
         if self.bossCog:
             self.bossCog.d_avatarEnter()
 
+        # Turn on the limiter
         self._telemLimiter = TLGatherAllAvs('CogHQBossBattle', RotationLimitToH)
 
         # Don't play music here; the boss will play its own music
@@ -181,6 +182,7 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
 
         self.bossCog = None
 
+        # Stop the limiter
         self._telemLimiter.destroy()
         del self._telemLimiter
 

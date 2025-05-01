@@ -2833,7 +2833,7 @@ class BattleCalculatorAI:
         # exp entries are removed when a toon leaves this battle before it
         # finishes (when they get sad, run away, or disconnect) --
         # see DistributedBattleBaseAI.__removeToon
-        #for toonId in self.toonSkillPtsGained.keys():
+        #for toonId in list(self.toonSkillPtsGained.keys()):
         #    if not toonId in self.battle.activeToons:
         #        self.notify.debug("Exp for toon " + str(toonId) +
         #                           " has been cleared")

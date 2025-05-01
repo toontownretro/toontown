@@ -92,7 +92,9 @@ class TTWhiteList(WhiteList, DistributedObject.DistributedObject):
     def getWhitelistUrl(self):
         """Get the appropriate URL to use if we are in test, qa, or live."""
         # First if all else fails, we hard code the live whitelist url
-        result = ConfigVariableString("fallback-whitelist-url", "http://cdn.toontown.disney.go.com/toontown/en/").getValue()
+        # Early 2024 cdn.toontown.disney.go.com became unreachable, we need to change it to cdn.toontown.dolimg.com
+        # Early 2025 cdn.toontown.dolimg.com became unreachable, we need to change it to cdn.dolimg.com
+        result = ConfigVariableString("fallback-whitelist-url", "http://cdn.dolimg.com/toontown/en/").getValue()
         # next check if we have an override, say they want to url to point to a file in their harddisk
         override = ConfigVariableString("whitelist-url", "").getValue()
         if override:

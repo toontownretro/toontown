@@ -1,6 +1,6 @@
 @echo off
 
-REM We setup our needed enviorment here.
+REM We setup our needed environment here.
 call env.bat
 call cta toontown
 

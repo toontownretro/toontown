@@ -164,9 +164,9 @@ FLOWER_YELLOW = 5
 FLOWER_WHITE = 6
 FLOWER_GREEN = 7
 
-ToonStatuaryTypeIndices = range(205,209) #  205,206,206,207,208
-ChangingStatuaryTypeIndices = range(230,231) # just 230
-AnimatedStatuaryTypeIndices = range(234, 238)
+ToonStatuaryTypeIndices = list(range(205,209)) #  205,206,206,207,208
+ChangingStatuaryTypeIndices = list(range(230,231)) # just 230
+AnimatedStatuaryTypeIndices = list(range(234, 238))
 
 PlantAttributes = {
     #### Gag trees ####

@@ -146,7 +146,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         # Geometry Accessory Scale
         tempNode = NodePath( "tempNode" )
         self.accGeomScale = tempNode.getScale( self.pitchNode[ 0 ] ) * self.baseScale
-        #print self.accGeomScale
+        #print(self.accGeomScale)
         tempNode.removeNode()
 
         # self.geom.flattenLight()

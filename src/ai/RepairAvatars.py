@@ -461,7 +461,7 @@ class AvatarFixer(AvatarIterator):
 
             if (questId in [160, 161, 162, 161]):
                 if rewardId != 100:
-                    print(('WARNING: av has quest: %s with reward: %s' % (questId, rewardId)))
+                    print ('WARNING: av has quest: %s with reward: %s' % (questId, rewardId))
                     questDesc[3] = 100
                     fixed = 1
                     continue
@@ -476,7 +476,7 @@ class AvatarFixer(AvatarIterator):
 
             if ((toNpc != 1000) and
                 (NPCToons.NPCToonDict[toNpc][5] == NPCToons.NPC_HQ)):
-                print(('WARNING: av has quest: %s to visit NPC_HQ: %s' % (questId, toNpc)))
+                print ('WARNING: av has quest: %s to visit NPC_HQ: %s' % (questId, toNpc))
                 print('before: ', av.quests)
                 questDesc[2] = Quests.ToonHQ
                 print('after: ', av.quests)
@@ -577,8 +577,8 @@ class AvatarFixer(AvatarIterator):
             # Somehow they got here without choosing a track
             if trackProgressId == -1:
                 print('bad track training in tier 5!')
-                print(('avId: %s, trackProgressId: %s, trackProgress: %s' %
-                       (av.doId, trackProgressId, trackProgress)))
+                print ('avId: %s, trackProgressId: %s, trackProgress: %s' %
+                       (av.doId, trackProgressId, trackProgress))
                 av.b_setQuestHistory([])
                 av.b_setQuests([])
                 # Make them choose again
@@ -654,12 +654,12 @@ class AvatarPrinter(AvatarIterator):
         #newDna = av.dna.asTuple()
         #if oldDna and (oldDna != newDna):
         #    print('================')
-        #    print av.doId
-        #    print oldDna
-        #    print newDna
+        #    print(av.doId)
+        #    print(oldDna)
+        #    print(newDna)
 
         #self.dnaDict[av.doId] = av.dna.asTuple()
-        #print av.doId, ' finished' #, av.name, "dna: ", av.dna.asTuple()
+        #print(av.doId, ' finished') #, av.name, "dna: ", av.dna.asTuple())
         #return
         #from toontown.toon import ToonDNA
         #newDNA = ToonDNA.ToonDNA()
@@ -668,13 +668,13 @@ class AvatarPrinter(AvatarIterator):
         #print('new: ', newDNA)
 
         if av.doId % 10000 == 0:
-            print(("Working on avatar: %s" % av.doId))
+            print ("Working on avatar: %s" % av.doId)
         #print ("%s, %s, %s, %s, %s" %
         # (av.doId, av.maxHp, len(av.hoodsVisited), len(av.safeZonesVisited), cogCount))
         self.hoodInfoStore.record(av.maxHp, len(av.hoodsVisited), len(av.safeZonesVisited))
         return
 
-        print(("%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s" %
+        print ("%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s" %
                (av.doId,
                 av.name,
                 av.maxHp,
@@ -699,7 +699,7 @@ class AvatarPrinter(AvatarIterator):
                 av.experience.experience[4],
                 av.experience.experience[5],
                 av.experience.experience[6],
-                )))
+                ))
 
 
 
@@ -734,8 +734,8 @@ class HoodInfoStore:
         if self.__printCount % 100 == 0:
             for hp, count in list(self.avatarCount.items()):
                 if count > 0:
-                    print(("hp: %d  count: %d  hoods: %s  sz: %s" %
-                           (hp, count, self.hoodsVisited[hp], self.safeZonesVisited[hp])))
+                    print ("hp: %d  count: %d  hoods: %s  sz: %s" %
+                           (hp, count, self.hoodsVisited[hp], self.safeZonesVisited[hp]))
             print()
 
     def record(self, hp, numHoods, numSafeZones):
@@ -766,9 +766,9 @@ for avId, backupDna in backupDict.items():
     newDna = newDict.get(avId):
     if newDna and (newDna != backupDna):
         print("================")
-        print avId
-        print backupDna
-        print newDna
+        print(avId)
+        print(backupDna)
+        print(newDna)
 
 from toontown.toon import DistributedToonAI
 from toontown.toon import ToonDNA
@@ -776,7 +776,7 @@ from toontown.toon import InventoryBase
 def fixAv(doId):
     av = DistributedToonAI.DistributedToonAI(simbase.air)
     av.doId = doId
-    print doId
+    print(doId)
     av.inventory = InventoryBase.InventoryBase(av)
     av.teleportZoneArray = []
     db = DatabaseObject.DatabaseObject(simbase.air, av.doId)
@@ -797,7 +797,7 @@ av.doId = doId
 db = DatabaseObject.DatabaseObject(simbase.air, av.doId)
 db.getFields(db.getDatabaseFields(simbase.air.dclassesByName['DistributedToonAI']))
 db.fillin(av, simbase.air.dclassesByName['DistributedToonAI'])
-print doId
+print(doId)
 progressId, progress = av.getTrackProgress()
 trackAccess = av.getTrackAccess()
 print("old progressId: %s progress: %s" % (progressId, progress))

@@ -102,7 +102,7 @@ class DistributedPartyCannonAI(DistributedObjectAI.DistributedObjectAI):
         self.notify.debug("d_setMovie mode=%s, avId=%s" % (str(mode), str(avId)))
         #if mode == PartyGlobals.CANNON_MOVIE_CLEAR:
         #    from direct.showbase.PythonUtil import StackTrace
-        #    print StackTrace()
+        #    print(StackTrace())
         self.sendUpdate("setMovie", [mode, avId])
         
     # Distributed (aisend clrecv)

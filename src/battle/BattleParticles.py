@@ -91,7 +91,7 @@ def unloadParticles():
     particleModel = None
     
 def getParticle(name):
-    global particleModel
+    #global particleModel
     if (name in ParticleNames):
         particle = particleModel.find("**/" + str(name))
         return particle

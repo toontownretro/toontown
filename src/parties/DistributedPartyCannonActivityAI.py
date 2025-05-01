@@ -98,7 +98,7 @@ class DistributedPartyCannonActivityAI(DistributedPartyActivityAI):
                     self.notify.warning("Cannon is not lit, forcing him out")
                     cannon.forceInsideToonToExit()
             else:                
-                self.notify.warning("__handleFireCannon failed self.cannons.has_key(%d) = False" % cannonId)
+                self.notify.warning("__handleFireCannon failed %d in self.cannons = False" % cannonId)
             
         # TODO: Write case for suspicious cannon lit call
         
@@ -214,3 +214,11 @@ class DistributedPartyCannonActivityAI(DistributedPartyActivityAI):
                     result = True
                     break;        
         return result
+
+    # Distributed (airecv clsend)
+    def setToonTrajectoryAi(self, launchTime, x, y, z, h, p, r, vx, vy, vz):
+        pass
+    
+    # Distributed (airecv clsend)
+    def updateToonTrajectoryStartVelAi(self, vx, vy, vz):
+        pass

@@ -90,7 +90,6 @@ class DistributedDGFlower(DistributedObject.DistributedObject):
     def setHeight(self, newHeight):
         # the newHeight is computed by the server
         pos = self.bigFlower.getPos()
-        self.flowerRaiseSeq = self.bigFlower.posInterval(
-            0.5, (pos[0], pos[1], newHeight),
-            name=self.taskName('DG-flowerRaise'))
+        self.flowerRaiseSeq = self.bigFlower.posInterval(0.5, (pos[0], pos[1], newHeight),
+                                                         name=self.taskName("DG-flowerRaise"))
         self.flowerRaiseSeq.start()

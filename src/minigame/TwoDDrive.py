@@ -171,7 +171,7 @@ class TwoDDrive:
             if posOffsetLen > self.maxFrameMove:
                 posOffset *= self.maxFrameMove
                 posOffset /= posOffsetLen
-                #self.notify.debug("clipped to: " + `posOffset.length()`)
+                #self.notify.debug("clipped to: " + repr(posOffset.length()))
         '''
         # do custom collisions
         if self.customCollisionCallback:

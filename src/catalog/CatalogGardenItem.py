@@ -195,9 +195,9 @@ class CatalogGardenItem(CatalogItem.CatalogItem):
         #return 1
 
     def compareTo(self, other):
-       if self.gardenIndex != other.gardenIndex:
-           return self.gardenIndex - other.gardenIndex
-       return self.gardenIndex - other.gardenIndex
+        if self.gardenIndex != other.gardenIndex:
+            return self.gardenIndex - other.gardenIndex
+        return self.gardenIndex - other.gardenIndex
 
     def reachedPurchaseLimit(self, avatar):
         # Returns true if the item cannot be bought because the avatar

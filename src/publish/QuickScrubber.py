@@ -1309,7 +1309,7 @@ class Scrubber:
                 lastVersion = version
 
             # write the patch file basename and its size to progress
-            #self.notify.info('progress info '+patchFilename.getBasename()+' '+`patchSize`)
+            #self.notify.info('progress info '+patchFilename.getBasename()+' '+repr(patchSize))
             self.progressMap[patchFilename.getBasename()] = patchSize
 
         # Remove any versions that we do not need anymore

@@ -11,7 +11,9 @@ class StreetSign(DistributedObject.DistributedObject):
     RedownloadTaskName = "RedownloadStreetSign"
     StreetSignFileName = ConfigVariableString("street-sign-filename", "texture.jpg").getValue()
     StreetSignBaseDir = ConfigVariableString("street-sign-base-dir", "sign").getValue()
-    StreetSignUrl = ConfigVariableString("street-sign-url", "http://cdn.toontown.disney.go.com/toontown/en/street-signs/img/").getValue()
+    # Early 2024 cdn.toontown.disney.go.com became unreachable, we need to change it to cdn.toontown.dolimg.com
+    # Early 2025 cdn.toontown.dolimg.com became unreachable, we need to change it to cdn.dolimg.com
+    StreetSignUrl = ConfigVariableString("street-sign-url", "http://cdn.dolimg.com/toontown/en/street-signs/img/").getValue()
     notify = DirectNotifyGlobal.directNotify.newCategory("StreetSign")
 
     def __init__(self):

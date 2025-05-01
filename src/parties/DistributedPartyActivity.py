@@ -782,6 +782,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
                 "BASE: getAvatar: No avatar in doId2do with id: " + str(toonId)
             )
             return None
+        return None
 
 
     def getAvatarName(self, toonId):

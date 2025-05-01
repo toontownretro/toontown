@@ -13,7 +13,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.parties.PartyInfo import PartyInfo
 from toontown.parties import PartyGlobals
 from toontown.ai.NewsManager import NewsManager
-from toontown.toon import GMUtils
+#from toontown.toon import GMUtils
 from toontown.toonbase.ToontownModules import *
 
 def myStrftime( myTime):
@@ -809,8 +809,8 @@ class MiniInviteVisual(DirectFrame):
             host = base.cr.identifyAvatar(self.partyInfo.hostId)
             if host:
                 name = host.getName()
-                if GMUtils.testGMIdentity(name):
-                    name = GMUtils.handleGMName(name)
+                #if GMUtils.testGMIdentity(name):
+                #    name = GMUtils.handleGMName(name)
                 self.whosePartyLabel["text"] = name
         if self.whenTextLabel["text"] == " ":
             time = myStrftime(self.partyInfo.startTime)

@@ -221,7 +221,11 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
         self.posIndex = posIndex
         
     def _startZombieCheck(self):
+        """Starts the Zombie District check"""
+        # See DistributedToon
         pass
 
     def _stopZombieCheck(self):
+        """Stops the Zombie District check"""
+        # See DistributedToon
         pass

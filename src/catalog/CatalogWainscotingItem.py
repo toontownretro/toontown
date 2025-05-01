@@ -146,25 +146,25 @@ def getWainscotings(*indexList):
     # have a color chosen by the user.  Until customization,
     # use a default color index of 0 (if the pattern has a color
     # list) or CT_WHITE if the pattern has no color list
-    list = []
+    wainscotings = []
     for index in indexList:
-        list.append(CatalogWainscotingItem(index))
-    return list
+        wainscotings.append(CatalogWainscotingItem(index))
+    return wainscotings
 
 
 def getAllWainscotings(*indexList):
     # This function returns a list of all possible
     # CatalogWainscotingItems (that is, all color variants) for the
     # indicated type index(es).
-    list = []
+    allWainscotings = []
     for index in indexList:
         colors = WainscotingTypes[index][WSTColor]
         if colors:
             for n in range(len(colors)):
-                list.append(CatalogWainscotingItem(index, n))
+                allWainscotings.append(CatalogWainscotingItem(index, n))
         else:
-            list.append(CatalogWainscotingItem(index, 0))
-    return list
+            allWainscotings.append(CatalogWainscotingItem(index, 0))
+    return allWainscotings
 
 
 def getWainscotingRange(fromIndex, toIndex, *otherRanges):
@@ -175,7 +175,7 @@ def getWainscotingRange(fromIndex, toIndex, *otherRanges):
     # Make sure we got an even number of otherRanges
     assert(len(otherRanges)%2 == 0)
 
-    list = []
+    wainscotingRange = []
 
     froms = [fromIndex,]
     tos = [toIndex,]
@@ -192,7 +192,7 @@ def getWainscotingRange(fromIndex, toIndex, *otherRanges):
                 colors = WainscotingTypes[patternIndex][WSTColor]
                 if colors:
                     for n in range(len(colors)):
-                        list.append(CatalogWainscotingItem(patternIndex, n))
+                        wainscotingRange.append(CatalogWainscotingItem(patternIndex, n))
                 else:
-                    list.append(CatalogWainscotingItem(patternIndex, 0))
-    return list
+                    wainscotingRange.append(CatalogWainscotingItem(patternIndex, 0))
+    return wainscotingRange

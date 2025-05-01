@@ -380,7 +380,6 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI,
         self.sendUpdate('setMembers', self.getMembers())
 
     def getMembers(self):
-        from .BattleCalculatorAI import BattleCalculatorAI
 
         suits = []
         for s in self.suits:
@@ -1546,7 +1545,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI,
         zoneId = self.zoneId
         if (petId == av):
             # See if pet has been generated already
-            #if simbase.air.doId2do.has_key(petId):
+            #if petId in simbase.air.doId2do:
                 # Make sure to move it to the new zone
                 #petProxy = simbase.air.doId2do[petId]
                 #simbase.air.sendSetZone(petProxy, zoneId)
@@ -1738,6 +1737,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI,
                 toon = self.air.doId2do.get(toonId)
                 if toon is not None:
                     toon.doRestock(0)
+        return None
 
     def exitWaitForInput(self):
         self.npcAttacks = {}
@@ -2042,7 +2042,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI,
                 self.notify.debug('suit =%d, oldBattleTrap=%d' %(otherSuit.doId, otherSuit.battleTrap))
                 # Clear out any traps on this suit
                 otherSuit.battleTrap = NO_TRAP
-                #if (trapDict.has_key(otherSuit.doId)):
+                #if (otherSuit.doId in trapDict):
                 #    del trapDict[otherSuit.doId]
 
         # Update the lured suits list to match that of the battle calculator

@@ -89,7 +89,7 @@ def doThrows(throws):
             #hmmm lets try throwing at all of them
             #for target in throw['target']:
             #    suitId = targett['suit'].doId
-            #    if (suitThrowsDict.has_key(suitId)):
+            #    if (suitId in suitThrowsDict):
             #        suitThrowsDict[suitId].append(throw)
             #    else:
             #        suitThrowsDict[suitId] = [throw]

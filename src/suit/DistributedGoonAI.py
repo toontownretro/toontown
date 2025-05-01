@@ -100,7 +100,7 @@ class DistributedGoonAI(DistributedCrushableEntityAI.DistributedCrushableEntityA
             if not hasattr(self.level, "goonStunRequests"):
                 self.level.goonStunRequests = {}
             if taskMgr.hasTaskNamed(self.taskName("GoonBombCheck")):
-                if self.level.goonStunRequests.has_key(avId):
+                if avId in self.level.goonStunRequests:
                     self.level.goonStunRequests[avId] = self.level.goonStunRequests[avId] + 1
                 else:
                     self.level.goonStunRequests[avId] = 1

@@ -1,7 +1,12 @@
 #-------------------------------------------------------------------------------
 # Contact: 
 # Created: 2010
+#
+# Purpose: The Party Catch Activity is like the trolley catch activity, only
+#          party-wide.  Toons enter the catch area and the game starts.  Fruit
+#          falls beneath the party tree.
 #-------------------------------------------------------------------------------
+
 from toontown.toonbase.ToontownModules import NodePath
 from toontown.toonbase import TTLocalizer
 from toontown.parties.DistributedPartyCatchActivity import DistributedPartyCatchActivity
@@ -17,8 +22,9 @@ class DistributedPartyWinterCatchActivity(DistributedPartyCatchActivity):
         return TTLocalizer.WinterPartyCatchActivityInstructions % {
             'badThing' : self.DropObjectPlurals['anvil']}
 
+    # Called at the end of DistributedPartyActivity.announceGenerate
     def load(self):
-        DistributedPartyCatchActivity.load(self, loadModels=0, arenaModel="tt_m_ara_pty_partyCatchTreeWinter")
+        DistributedPartyCatchActivity.load(self, loadModels=0, arenaModel = "tt_m_ara_pty_partyCatchTreeWinter")
         self.__loadDropModels()
 
     def __loadDropModels(self):

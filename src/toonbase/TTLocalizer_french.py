@@ -7802,7 +7802,7 @@ CagedToonGoodbye = "À la prochaine !"
 CagedToonBattleThree = {
     10: "Joli saut, %(toon)s. Voilà quelques tartes !",
     11: "Salut, %(toon)s ! Prenez des tartes !",
-    12: "Hé là,%(toon)s ! Vous avez des tartes maintenant !",
+    12: "Hé là, %(toon)s ! Vous avez des tartes maintenant !",
 
     20: "Hé, %(toon)s ! Sautez jusqu'à ma cage et prenez des tartes à lancer !",
     21: "Hé, %(toon)s ! Utilisez la touche \"Ctrl\" pour sauter et toucher ma cage !",

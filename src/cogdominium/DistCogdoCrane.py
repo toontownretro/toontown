@@ -539,6 +539,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
 
     def __makeLink(self, anchor, linkNum):
         an = ActorNode('link%s' % (linkNum))
+        an.getPhysicsObject().setMass(GameConsts.Settings.RopeLinkMass.get())
         anp = NodePath(an)
 
         cn = CollisionNode('cn')
@@ -893,7 +894,8 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         # assertion.
         if self.heldObject == obj:
             self.heldObject = None
-            self.handler.setDynamicFrictionCoef(self.emptyFrictionCoef)
+            #self.handler.setDynamicFrictionCoef(self.emptyFrictionCoef)
+            self.handler.setDynamicFrictionCoef(GameConsts.Settings.EmptyFrictionCoef.get())
             self.slideSpeed = self.emptySlideSpeed
             self.rotateSpeed = self.emptyRotateSpeed
 

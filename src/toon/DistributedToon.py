@@ -12,7 +12,7 @@ from otp.avatar import Avatar, DistributedAvatar
 from otp.speedchat import SCDecoders
 from otp.chat import TalkAssistant
 from . import Toon
-from . import GMUtils
+#from . import GMUtils
 from direct.task.Task import Task
 from direct.distributed import DistributedSmoothNode
 from direct.distributed import DistributedObject
@@ -349,6 +349,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
         Toon.Toon.setDNAString(self, dnaString)
 
     def setDNA(self, dna):
+        # For Friday the 13th randomly choose between all available cat heads
+        # and turn every avatar into a black cat
         if base.cr.newsManager:
             if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SPOOKY_BLACK_CAT):
                 black = 26
@@ -356,15 +358,19 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
                 dna.setTemporary(random.choice(heads), black, black, black)
             else:
                 dna.restoreTemporary(self.style)
+        
         oldHat = self.getHat()
         oldGlasses = self.getGlasses()
         oldBackpack = self.getBackpack()
         oldShoes = self.getShoes()
+        
         self.setHat(0, 0, 0)
         self.setGlasses(0, 0, 0)
         self.setBackpack(0, 0, 0)
         self.setShoes(0, 0, 0)
+        
         Toon.Toon.setDNA(self, dna)
+        
         self.setHat(*oldHat)
         self.setGlasses(*oldGlasses)
         self.setBackpack(*oldBackpack)
@@ -474,9 +480,10 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
         self.sendUpdate("setSCSinging", [msgIndex])
 
     def sendLogSuspiciousEvent(self, msg):
-        localAvatar.sendUpdate('logSuspiciousEvent', ['%s for %s' % (
-            msg, self.doId)])
-        return
+        """
+        Sends a suspicious log event to the server.
+        """
+        localAvatar.sendUpdate('logSuspiciousEvent', ['%s for %s' % (msg, self.doId)])
 
     def setSCSinging(self, msgIndex):
         """
@@ -697,8 +704,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
     def setTalkWhisper(self, fromAV, fromAC, avatarName, chat, mods, flags):
         """ Overridden from Distributed player becase pirates ignores players a different way"""
 
-        if GMUtils.testGMIdentity(avatarName):
-            avatarName  = GMUtils.handleGMName(avatarName)
+        #if GMUtils.testGMIdentity(avatarName):
+        #    avatarName  = GMUtils.handleGMName(avatarName)
 
         if not localAvatar.acceptingNonFriendWhispers:
             if not self.isAvFriend(fromAV):
@@ -851,23 +858,40 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
             self.displayWhisper(fromId, chatString, WhisperPopup.WTQuickTalker)
 
     def setMaxNPCFriends(self, max):
-        max &= 32767 #check
+        """
+        Sets the max amount of NPC friends a player can have.
+        """
+        # 15 bitmask
+        max &= 0x7FFF
+        # Only send an update if the amount changed
         if max != self.maxNPCFriends:
             self.maxNPCFriends = max
+            # Send out that the amount changed
             messenger.send(self.uniqueName("maxNPCFriendsChange"))
         else:
+            # Still update just in case
             self.maxNPCFriends = max
 
     def getMaxNPCFriends(self):
+        """
+        Returns the maximum amount of allowed NPC Friends.
+        """
         return self.maxNPCFriends
 
     def getNPCFriendsDict(self):
+        """
+        Returns the NPC Friends dict.
+        """
         return self.NPCFriendsDict
 
     def setNPCFriendsDict(self, NPCFriendsList):
+        """
+        Converts the NPC friends list into a dict.
+        """
         NPCFriendsDict = {}
         for friendPair in NPCFriendsList:
             NPCFriendsDict[friendPair[0]] = friendPair[1]
+        # Save the new dict
         self.NPCFriendsDict = NPCFriendsDict
 
     def setMaxAccessories(self, max):
@@ -901,10 +925,10 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
         return self.shoesList
 
     def isTrunkFull(self, extraAccessories = 0):
-        numAccessories = (len(self.hatList) + \
-                          len(self.glassesList) + \
-                          len(self.backpackList) + \
-                          len(self.shoesList)) / 3
+        numAccessories = (len(self.hatList)+
+                          len(self.glassesList)+
+                          len(self.backpackList)+
+                          len(self.shoesList))/3
         return numAccessories + extraAccessories >= self.maxAccessories
 
     def setMaxClothes(self, max):
@@ -2698,7 +2722,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
             return self.petId
 
         def hasPet(self):
-            #print str(self.petId)
+            #print(str(self.petId))
             return  (self.petId != 0)
 
         def b_setPetTutorialDone(self, bDone):
@@ -3543,8 +3567,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
                         host = base.cr.identifyAvatar(partyInfo.hostId)
                         if host:
                             name = host.getName()
-                            if GMUtils.testGMIdentity(name):
-                                name  = GMUtils.handleGMName(name)
+                            #if GMUtils.testGMIdentity(name):
+                            #    name  = GMUtils.handleGMName(name)
                         if invite.status == InviteStatus.Accepted:
                             displayStr = TTLocalizer.PartyHasStartedAcceptedInvite % TTLocalizer.GetPossesive(name)
                             self.displaySystemClickableWhisper(-1, displayStr,
@@ -3758,10 +3782,11 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
             pass
 
     def setName(self, name = "unknownDistributedAvatar"):
-        if GMUtils.testGMIdentity(name):
-            self.__handleGMName(name)
-            return
+        #if GMUtils.testGMIdentity(name):
+        #    self.__handleGMName(name)
+        #    return
         DistributedPlayer.DistributedPlayer.setName(self, name)
+        self._handleGMName()
 
     def _handleGMName(self):#, name):
         """ Parse the name for symbols that will get replaced by prefixes and icons """
@@ -3865,28 +3890,62 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
             del self.gmIcon
 
     def _startZombieCheck(self):
+        """
+        Adds a task to check for unresponsive avatars, in this case Zombies.
+        """
+        # Create a SerialNumGen with a 31-bit integer seed
+        # to help track sessions
         self._zombieCheckSerialGen = SerialNumGen(random.randrange(1 << 31))
-        taskMgr.doMethodLater(2.0 + 60.0 * random.random(), self._doZombieCheck, self._getZombieCheckTaskName())
+        
+        # Setup a zombie check task with a random delay between 2 and 62 seconds
+        taskMgr.doMethodLater(
+            2.0 + 60.0 * random.random(), self._doZombieCheck, self._getZombieCheckTaskName())
 
     def _stopZombieCheck(self):
+        """
+        Stops any further zombie check tasks.
+        """
+        # Stop the task
         taskMgr.remove(self._getZombieCheckTaskName())
 
     def _getZombieCheckTaskName(self):
+        """
+        Simply returns the name of the task.
+        """
         return self.uniqueName('zombieCheck')
 
     def _doZombieCheck(self, task = None):
-        self._lastZombieContext = self._zombieCheckSerialGen.next()
+        """
+        Performs a periodic zombie check to check for unresponsive avatars.
+        """
+        # Generate a unique Id for the check
+        self._lastZombieContext = next(self._zombieCheckSerialGen)
+        
+        # Check with the TimeManager to make sure the avatar is active
         self.cr.timeManager.checkAvOnDistrict(self, self._lastZombieContext)
+        
+        # Set the task to repeat every 60 seconds
         taskMgr.doMethodLater(60.0, self._doZombieCheck, self._getZombieCheckTaskName())
 
     def _zombieCheckResult(self, context, present):
+        """
+        Handles the result of a zombie check.
+        i.e if an avatar is not present they will be hidden.
+        """
+        # Only continue if the result is for the newest check
         if context == self._lastZombieContext:
             print('_zombieCheckResult[%s]: %s' % (self.doId, present))
+            
+            # They're no longer present, hide them
             if not present:
                 self.notify.warning('hiding av %s because they are not on the district!' % self.doId)
                 self.setParent(OTPGlobals.SPHidden)
 
     def ping(self, val):
+        """
+        Decodes the received ping test and sends it back.
+        """
+        # Based on otp.ai.TimeManagerAI.setCpuInfo
         module = ''
         p = 0
         for ch in val:

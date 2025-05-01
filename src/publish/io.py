@@ -55,7 +55,7 @@ try:
 except:
     pass
 
-import pstat
+from . import pstat
 import glob, re, string, types, os, Numeric, struct, copy, time, tempfile, sys
 from types import *
 N = Numeric
@@ -134,7 +134,7 @@ Usage:   rename (source, dest)     e.g., rename('*.txt', '*.c')
                 newname = newname[0:lastone] + re.sub(findpattern2,replpattern2,fname[lastone:],1)
             else:
                 lastone = string.rfind(fname,findpattern2)
-                if lastone <> -1:
+                if lastone 1= -1:
                     newname = fname[0:lastone]
                     newname = newname + re.sub(findpattern2,replpattern2,fname[lastone:],1)
         os.rename(fname,newname)
@@ -166,18 +166,18 @@ Returns: a 1D or 2D list of lists from whitespace delimited text files
         return None
 
     if verbose:
-        print fnames             # so user knows what has been loaded
+        print(fnames)             # so user knows what has been loaded
     elements = []
     for i in range(len(fnames)):
         file = open(fnames[i])
-        newelements = map(string.split,file.readlines())
+        newelements = list(map(string.split,file.readlines()))
         for i in range(len(newelements)):
             for j in range(len(newelements[i])):
                 try:
-                    newelements[i][j] = string.atoi(newelements[i][j])
+                    newelements[i][j] = int(newelements[i][j])
                 except ValueError:
                     try:
-                        newelements[i][j] = string.atof(newelements[i][j])
+                        newelements[i][j] = float(newelements[i][j])
                     except:
                         pass
         elements = elements + newelements
@@ -201,11 +201,11 @@ Returns: a list of strings, one per line in each text file specified by
             print('NO FILENAMES MATCH PATTERN !!')
         return None
     if verbose:
-        print fnames
+        print(fnames)
     elements = []
     for filename in fnames:
         file = open(filename)
-        newelements = map(string.split,file.readlines())
+        newelements = list(map(string.split,file.readlines()))
         elements = elements + newelements
     return elements
 
@@ -265,7 +265,7 @@ Returns: an array of integers, floats or objects (type='O'), depending on the
             print('NO FILENAMES MATCH PATTERN !!')
             return None
     if verbose:
-        print fnames
+        print(fnames)
     elements = []
     for filename in fnames:
         file = open(filename)
@@ -278,11 +278,11 @@ Returns: an array of integers, floats or objects (type='O'), depending on the
         del_list.reverse()
         for i in del_list:
             newelements.pop(i)
-        newelements = map(string.split,newelements)
+        newelements = list(map(string.split,newelements))
         for i in range(len(newelements)):
             for j in range(len(newelements[i])):
                     try:
-                    newelements[i][j] = string.atof(newelements[i][j])
+                    newelements[i][j] = float(newelements[i][j])
                 except:
                     pass
         elements = elements + newelements
@@ -308,7 +308,7 @@ Returns: None
     if len(outarray.shape) == 1:
         outarray = outarray[N.NewAxis,:]
     if len(outarray.shape) > 2:
-        raise TypeError, "put() and aput() require 1D or 2D arrays.  Otherwise use some kind of pickling."
+        raise TypeError("put() and aput() require 1D or 2D arrays.  Otherwise use some kind of pickling.")
     else: # must be a 2D array
         for row in outarray:
             outfile.write(string.join(map(str,row)))
@@ -370,9 +370,9 @@ Usage:  mincget(imfile,unpackstr=N.Int16,shp=None)  default shp = -1,20,64,64
         d = braw('minctemp.bshort',unpackstr)
     except:
         print("Couldn't find file:  "+imfile)
-        raise IOError, "Couldn't find file in mincget()"
+        raise IOError("Couldn't find file in mincget()")
 
-    print shp, d.shape
+    print(shp, d.shape)
     d.shape = shp
     os.system('rm minctemp.bshort')
     return d
@@ -390,14 +390,14 @@ Usage:  brikget(imfile,unpackstr=N.Int16,shp=None)  default shp: (-1,48,61,51)
         file = open(imfile, "rb")
     except:
         print("Couldn't find file:  "+imfile)
-        raise IOError, "Couldn't find file in brikget()"
+        raise IOError("Couldn't find file in brikget()")
     try:
         header = imfile[0:-4]+'HEAD'
         lines = open(header).readlines()
         for i in range(len(lines)):
-            if lines[i].find('DATASET_DIMENSIONS') <> -1:
+            if lines[i].find('DATASET_DIMENSIONS') != -1:
                 dims = string.split(lines[i+2][0:lines[i+2].find(' 0')])
-                dims = map(string.atoi,dims)
+                dims = list(map(int,dims))
                 break
         dims.reverse()
         shp = [-1]+dims
@@ -405,7 +405,7 @@ Usage:  brikget(imfile,unpackstr=N.Int16,shp=None)  default shp: (-1,48,61,51)
         print("No header file.  Continuing ...")
     lines = None
 
-    print shp
+    print(shp)
     print('Using unpackstr:',unpackstr)  #,', bytesperpixel=',bytesperpixel)
 
     file = open(imfile, "rb")
@@ -414,13 +414,13 @@ Usage:  brikget(imfile,unpackstr=N.Int16,shp=None)  default shp: (-1,48,61,51)
     # the > forces big-endian (for or from Sun/SGI)
     bdata = N.fromstring(bdata,unpackstr)
     littleEndian = ( struct.pack('i',1)==struct.pack('<i',1) )
-    if (littleEndian and os.uname()[0]<>'Linux') or (max(bdata)>1e30):
+    if (littleEndian and os.uname()[0]!='Linux') or (max(bdata)>1e30):
         bdata = bdata.byteswapped()
     try:
         bdata.shape = shp
     except:
         print('Incorrect shape ...',shp,len(bdata))
-        raise ValueError, 'Incorrect shape for file size'
+        raise ValueError('Incorrect shape for file size')
     if len(bdata) == 1:
         bdata = bdata[0]
     return bdata
@@ -441,7 +441,7 @@ Usage:   mghbget(imfile, numslices=-1, xsize=64, ysize=64,
         file = open(imfile, "rb")
     except:
         print("Couldn't find file:  "+imfile)
-        raise IOError, "Couldn't find file in bget()"
+        raise IOError("Couldn't find file in bget()")
     try:
         header = imfile[0:-6]+'hdr'
         vals = get(header,0)  # '0' means no missing-file warning msg
@@ -475,7 +475,7 @@ Usage:   mghbget(imfile, numslices=-1, xsize=64, ysize=64,
 
     numpixels = len(bdata) / bytesperpixel
     if numpixels%1 != 0:
-        raise ValueError, "Incorrect file size in fmri.bget()"
+        raise ValueError("Incorrect file size in fmri.bget()")
     else:  # the > forces big-endian (for or from Sun/SGI)
         bdata = N.fromstring(bdata,unpackstr)
         littleEndian = ( struct.pack('i',1)==struct.pack('<i',1) )
@@ -490,7 +490,7 @@ Usage:   mghbget(imfile, numslices=-1, xsize=64, ysize=64,
         for i in range(numslices):
             istart = i*8 + i*xsize*ysize
             iend = i*8 + (i+1)*xsize*ysize
-            print i, istart,iend
+            print(i, istart,iend)
             slices[i] = N.reshape(N.array(bdata[istart:iend]),(xsize,ysize))
     else:
         if numslices == 1:
@@ -536,7 +536,7 @@ Usage:   bput (outarray,filename,writeheader=0,packtype=N.Int16,writetype='wb')
 
     outdata = N.ravel(outarray).astype(packtype)
     littleEndian = ( struct.pack('i',1)==struct.pack('<i',1) )
-    if littleEndian: # and os.uname()[0]<>'Linux':
+    if littleEndian: # and os.uname()[0]!='Linux':
         outdata = outdata.byteswapped()
     outdata = outdata.tostring()
     outfile = open(fname,writetype)
@@ -552,7 +552,7 @@ Usage:   bput (outarray,filename,writeheader=0,packtype=N.Int16,writetype='wb')
             hdr = [outarray.shape[0],outarray.shape[1], 1, 0]
         else:
             hdr = [outarray.shape[1],outarray.shape[2],outarray.shape[0], 0,'\n']
-        print hdrname+'.hdr'
+        print(hdrname+'.hdr')
         outfile = open(hdrname+'.hdr','w')
         outfile.write(pstat.list2string(hdr))
         outfile.close()
@@ -589,12 +589,12 @@ Returns: array filled with data in fname
     f = open(fname,'r')
     d = f.readlines()
     f.close()
-    print fname,'read in.'
+    print(fname,'read in.')
     d = d[linestocut:]
-    d = map(string.split,d)
+    d = list(map(string.split,d))
     print('Done with string.split on lines.')
     for i in range(len(d)):
-        d[i] = map(string.atoi,d[i])
+        d[i] = list(map(int,d[i]))
     print('Conversion to ints done.')
     return N.array(d)
 
@@ -655,8 +655,8 @@ Returns: None
     maxsize = [0]*len(list2print[0])
     for col in range(len(list2print[0])):
         items = pstat.colex(list2print,col)
-        items = map(pstat.makestr,items)
-        maxsize[col] = max(map(len,items)) + extra
+        items = list(map(pstat.makestr,items))
+        maxsize[col] = max(list(map(len,items))) + extra
     for row in listoflists:
         if row == ['\n'] or row == '\n':
             outfile.write('\n')
@@ -726,26 +726,26 @@ Returns: numpy array of specified type
     elif type in ['f','d']:
         intype = float
     else:
-        raise ValueError, "type can be 'i', 'f' or 'd' in load()"
+        raise ValueError("type can be 'i', 'f' or 'd' in load()")
 
     ## STRIP OUT % AND # LINES
     tmpname = tempfile.mktemp()
     if sys.platform == 'win32':
         # NT VERSION OF GREP DOESN'T DO THE STRIPPING ... SIGH
         cmd = "grep.exe -v \'%\' "+fname+" > "+tmpname
-        print cmd
+        print(cmd)
         os.system(cmd)
     else:
         # UNIX SIDE SHOULD WORK
         cmd = "cat "+fname+" | grep -v \'%\' |grep -v \'#\' > "+tmpname
-        print cmd
+        print(cmd)
         os.system(cmd)
 
     ## GET NUMBER OF ROWS, COLUMNS AND LINE-LENGTH, USING WC
     wc = string.split(os.popen("wc "+tmpname).read())
     numlines = int(wc[0]) - lines_to_ignore
     tfp = open(tmpname)
-    if lines_to_ignore <> 0:
+    if lines_to_ignore != 0:
         for i in range(lines_to_ignore):
             junk = tfp.readline()
     numcols = len(string.split(tfp.readline())) #int(float(wc[1])/numlines)
@@ -755,18 +755,18 @@ Returns: numpy array of specified type
     a = N.zeros((numlines*numcols), type)
     block = 65536  # chunk to read, in bytes
     data = mmapfile.mmapfile(tmpname, '', 0)
-    if lines_to_ignore <> 0 and sys.platform == 'win32':
+    if lines_to_ignore != 0 and sys.platform == 'win32':
         for i in range(lines_to_ignore):
             junk = data.readline()
     i = 0
     d = ' '
     carryover = ''
-    while len(d) <> 0:
+    while len(d) != 0:
         d = carryover + data.read(block)
         cutindex = string.rfind(d,'\n')
         carryover = d[cutindex+1:]
         d = d[:cutindex+1]
-        d = map(intype,string.split(d))
+        d = list(map(intype,string.split(d)))
         a[i:i+len(d)] = d
         i = i + len(d)
     end = time.time()

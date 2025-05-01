@@ -278,7 +278,6 @@ class DistributedSuitInteriorAI(DistributedObjectAI.DistributedObjectAI):
 
         avatar = self.air.doId2do.get(avId)
         if avatar != None:
-            # TODO: avatar.isGM()
             self.savedByMap[avId] = (avatar.getName(), avatar.dna.asTuple())
         
         assert(avId in self.responses)

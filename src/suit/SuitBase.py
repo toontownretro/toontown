@@ -134,7 +134,7 @@ class SuitBase:
         # print out the path
         #
         print("%d points in path" % self.pathLength)
-#        print self.path
+#        print(self.path)
         for currPathPt in range( self.pathLength ):
             indexVal = self.path.getPointIndex( currPathPt )
             print("\t", self.sp.dnaStore.getSuitPointWithIndex( indexVal ))

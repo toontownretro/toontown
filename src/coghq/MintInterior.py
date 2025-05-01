@@ -150,8 +150,8 @@ class MintInterior(BattlePlace.BattlePlace):
         # Cheesy rendering effects are not allowed in mints.
         base.cr.forbidCheesyEffects(1)
 
-        self._telemLimiter = TLGatherAllAvs('MintInterior',
-                                            RotationLimitToH)
+        # Turn on the limiter
+        self._telemLimiter = TLGatherAllAvs('MintInterior', RotationLimitToH)
 
         # wait until the mint and any distributed entities have been
         # created before moving on
@@ -187,6 +187,7 @@ class MintInterior(BattlePlace.BattlePlace):
 
         bboard.remove(DistributedMint.DistributedMint.ReadyPost)
 
+        # Stop the limiter
         self._telemLimiter.destroy()
         del self._telemLimiter
 

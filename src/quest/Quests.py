@@ -5397,9 +5397,9 @@ class Reward:
     def getAmount(self):
         return None
     def sendRewardAI(self, av):
-        raise "not implemented"
+        raise Exception("not implemented")
     def countReward(self, qrc):
-        raise "not implemented"
+        raise Exception("not implemented")
     def getString(self):
         return "undefined"
     def getPosterString(self):

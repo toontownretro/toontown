@@ -24,7 +24,7 @@ class TTCRMAIRetryMgr(DirectObject):
 
     def addRedemption(self, avId, context, code):
         assert self.notify.debugCall()
-        serial = self._serialGen.next()
+        serial = next(self._serialGen)
         self._redemptions[serial] = ScratchPad(avId=avId, context=context, code=code, attemptNum=0)
         self._doRedemption(serial, True)
 
@@ -154,7 +154,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             except:
                 raise
                 done = True
-            #print line
+            #print(line)
             if not done:
                 try:
                     avId = int(line)
@@ -170,7 +170,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
                 len = random.randrange(1, 20)
                 code = ''
                 while len:
-                    code += random.choice(string.letters)
+                    code += random.choice(string.ascii_letters)
                     len -= 1
             else:
                 code = self._stressTestCode

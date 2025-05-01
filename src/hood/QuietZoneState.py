@@ -400,7 +400,7 @@ class QuietZoneState(StateData.StateData):
             if base.placeBeforeObjects:
                 self._leftQuietZoneCallbacks()
                 self._leftQuietZoneCallbacks = None
-                fdcs = self._leftQuietZoneLocalCallbacks.values()
+                fdcs = list(self._leftQuietZoneLocalCallbacks.values())
                 self._leftQuietZoneLocalCallbacks = {}
                 for fdc in fdcs:
                     if not fdc.isFinished():
@@ -441,7 +441,7 @@ class QuietZoneState(StateData.StateData):
         requestStatus = self._requestStatus
         self._setZoneCompleteCallbacks()
         self._setZoneCompleteCallbacks = None
-        fdcs = self._setZoneCompleteLocalCallbacks.values()
+        fdcs = list(self._setZoneCompleteLocalCallbacks.values())
         self._setZoneCompleteLocalCallbacks = {}
         for fdc in fdcs:
             if not fdc.isFinished():

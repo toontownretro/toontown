@@ -8,6 +8,7 @@ from toontown.safezone import DistributedBoatAI
 from toontown.safezone import DistributedMMPianoAI
 from toontown.safezone import DistributedDGFlowerAI
 from toontown.safezone import DistributedTrolleyAI
+# Disable when friends are handled by the OTP
 from otp.friends import FriendManagerAI
 from toontown.shtiker import DeleteManagerAI
 from toontown.safezone import SafeZoneManagerAI
@@ -92,12 +93,12 @@ from toontown.parties import ToontownTimeManager
 from toontown.coderedemption.TTCodeRedemptionMgrAI import TTCodeRedemptionMgrAI
 from toontown.distributed.NonRepeatableRandomSourceAI import NonRepeatableRandomSourceAI
 
-from toontown.toonbase.ToontownModules import *
-
 from . import ToontownGroupManager
 
 if __debug__:
     import pdb
+
+from panda3d.toontown import DNAStorage, loadDNAFile, loadDNAFileAI, DNAGroup, DNAVisGroup, DNAProp
 
 class ToontownAIRepository(AIDistrict):
     notify = DirectNotifyGlobal.directNotify.newCategory("ToontownAIRepository")
@@ -181,7 +182,8 @@ class ToontownAIRepository(AIDistrict):
             self.dnaSearchPath.appendDirectory(Filename.expandFrom('$TTMODELS/built/phase_9/dna'))
             self.dnaSearchPath.appendDirectory(Filename.expandFrom('$TTMODELS/built/phase_10/dna'))
             self.dnaSearchPath.appendDirectory(Filename.expandFrom('$TTMODELS/built/phase_11/dna'))
-            self.dnaSearchPath.appendDirectory(Filename.expandFrom('$TTMODELS/built/phase_12/dna'))
+            # Boss HQ has no DNA files
+            #self.dnaSearchPath.appendDirectory(Filename.expandFrom('$TTMODELS/built/phase_12/dna'))
             self.dnaSearchPath.appendDirectory(Filename.expandFrom('$TTMODELS/built/phase_13/dna'))
 
             # In the publish environment, TTMODELS won't be on the model
@@ -287,6 +289,8 @@ class ToontownAIRepository(AIDistrict):
                 "DistributedDataStoreManager")
 
         self.groupManager = ToontownGroupManager.ToontownGroupManager()
+
+        self.cogSuitMessageSent = False
 
     def getGameDoId(self):
         return OTP_DO_ID_TOONTOWN
@@ -438,6 +442,7 @@ class ToontownAIRepository(AIDistrict):
         self.friendManager.generateWithRequired(OTPGlobals.UberZone)
 
         # The Delete Manager
+        # Disable when friends are handled by the OTP
         self.deleteManager = DeleteManagerAI.DeleteManagerAI(self)
         self.deleteManager.generateWithRequired(OTPGlobals.UberZone)
 
@@ -612,6 +617,20 @@ class ToontownAIRepository(AIDistrict):
 
         db.userCallback(maxHp, *db.userArgs)
 
+        # Hoping this is how they done it.
+        # If inaccurate please change!
+        # Perhaps also needs checks?
+    def sendQueryToonMaxHp(self, toonId, callback, *args):
+        self.queryToonMaxHp(toonId, callback, *args)
+
+        # This will inquire about "ACCOUNT_AV_SET"
+        # and OPTIONALLY "CREATED" for 2013 blackout
+        # most likely through otp's AccountAI or AccountManager in tt/uberdog?    
+    ### !!! SecurityMgr first needs to retrieve the account Id before any additional info can be obtained !!! ###
+        """self.air.sendFieldQuery('AccountAI', 'ACCOUNT_AV_SET', accountId, self._handleDbCheckGetAvSetResult)"""
+        """self.air.sendFieldQuery('AccountAI', 'CREATED', accountId, self._handleDbCheckAccountCreatedResult)"""
+    def sendFieldQuery(self,):
+        pass
 
     def getMinDynamicZone(self):
         # Override this to return the minimum allowable value for a

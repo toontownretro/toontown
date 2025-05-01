@@ -25,7 +25,7 @@ def parseAndCopyDNA():
         
             npcCount += 1
             
-        # print npcToons
+        # print(npcToons)
         npcToonsFile.seek(0,0)
         npcToonsFile.write(npcToons)           
     
@@ -59,7 +59,7 @@ def loadDNA():
                 if NPCLine.find("NPC Id: ")>-1:
                     break
                 
-        # print npcDNA
+        # print(npcDNA)
         return 0
         
         

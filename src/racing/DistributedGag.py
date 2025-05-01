@@ -30,7 +30,7 @@ class DistributedGag(DistributedObject.DistributedObject):
         if not self.nodePath:
             self.makeNodePath()
         self.delta=-globalClockDelta.networkToLocalTime(self.initTime, globalClock.getFrameTime(), 16, 100)+globalClock.getFrameTime()
-        #print self.delta
+        #print(self.delta)
 
         if self.type == 0: #banana
             self.name=self.uniqueName("banana")
@@ -92,7 +92,7 @@ class DistributedGag(DistributedObject.DistributedObject):
 
     # The handler that catches the initial position established on the AI
     def setPos(self, x, y, z):
-        #print x, ": ", y, ": ", z
+        #print(x, ": ", y, ": ", z)
         self.pos=(x, y, z)
 
 

@@ -20,6 +20,7 @@ from toontown.catalog import CatalogMouldingItem
 from toontown.catalog import CatalogPetTrickItem
 from toontown.catalog import CatalogRentalItem
 from toontown.catalog import CatalogAnimatedFurnitureItem
+from toontown.catalog import CatalogAccessoryItem
 from toontown.toonbase import TTLocalizer
 from toontown.rpc import AwardResponses
 from toontown.rpc import AwardManagerConsts
@@ -40,7 +41,7 @@ GiveAfterOneMinute = 4
 NukeAllAwards=5
 
 SpecialCommandStrs = {
-    GiveAfterDelayTime : "Give award  after 30 minutes",
+    GiveAfterDelayTime : "Give award after 30 minutes",
     GiveImmediately : "Give award immediately",
     TryToRemove : "Try to remove the award",
     NukeAllAwards : "Nuke all awards in award mailbox and award queue",
@@ -202,8 +203,15 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         elif itemType == CatalogItemTypes.ANIMATED_FURNITURE_ITEM:
             furnitureNumber = itemIndex
             itemObj = CatalogAnimatedFurnitureItem.CatalogAnimatedFurnitureItem(furnitureNumber, colorOption = 0)
+        elif itemType == CatalogItemTypes.ACCESSORY_ITEM:
+            accessoryNumber = itemIndex
+            #itemObj = CatalogBeanItem.CatalogBeanItem(amount)
+            # for now always the first color choice
+            itemObj = CatalogAccessoryItem.CatalogAccessoryItem(accessoryNumber, 0)
+            itemObj.giftTag = 0
+            itemObj.giftCode = 1
         else:
-            self.notify.warning("Invalid item (%s, %s) being redeemed, Giving a bean instead!" % (str(itemType), str(itemIndex)))
+            self.notify.warning("Invalid item (%s, %s) being redeemed, giving a bean instead!" % (str(itemType), str(itemIndex)))
             itemObj = CatalogBeanItem.CatalogBeanItem(1)
         return itemObj
 
@@ -797,6 +805,32 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         return values
 
     @classmethod
+    def getAccessoryChoices(cls):
+        """Return a dictionary of accessory choices. Key is the description, accessory type are values."""
+        values = {}
+        for key in list(CatalogAccessoryItem.AccessoryTypes.keys()):
+            accessoryItem = CatalogAccessoryItem.AccessoryTypes[key]
+            typeOfAccessory = accessoryItem[0]
+            styleString = accessoryItem[1]
+            if typeOfAccessory % 4 == 0:
+                textString = TTLocalizer.TrunkHatGUI
+                accessoryStyleDescription = TTLocalizer.HatStylesDescriptions[styleString]
+            elif typeOfAccessory % 4 == 1:
+                textString = TTLocalizer.TrunkGlassesGUI
+                accessoryStyleDescription = TTLocalizer.GlassesStylesDescriptions[styleString]
+            elif typeOfAccessory % 4 == 2:
+                textString = TTLocalizer.TrunkBackpackGUI
+                accessoryStyleDescription = TTLocalizer.BackpackStylesDescriptions[styleString]
+            else:
+                textString = TTLocalizer.TrunkShoesGUI
+                accessoryStyleDescription = TTLocalizer.ShoesStylesDescriptions[styleString]
+            textString = TTLocalizer.AccessoryNamePrefix[typeOfAccessory] + accessoryStyleDescription
+            if textString in values:
+                cls.notify.error("Fix %s, descriptions must be unique" % textString)
+            values[textString] = key
+        return values
+
+    @classmethod
     def getReversedAwardChoices(cls):
         """The key in the returned dictionaries should be catalog item numbers, the value should be desc strings."""
         if hasattr(cls, '_revAwardChoices'):
@@ -866,6 +900,9 @@ class AwardManagerUD(DistributedObjectGlobalUD):
                 result[itemType] = values
             elif itemType == CatalogItemTypes.ANIMATED_FURNITURE_ITEM:
                 values = cls.getAnimatedFurnitureChoices()
+                result[itemType] = values
+            elif itemType == CatalogItemTypes.ACCESSORY_ITEM:
+                values = cls.getAccessoryChoices()
                 result[itemType] = values
 
             else:
@@ -957,7 +994,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
 
         commandsList = list(SpecialCommandStrs.keys())
         commandsList.sort()
-        if ConfigVariableBool('awards-immediate', 0).getValue():
+        if ConfigVariableBool('awards-immediate').getValue():
             commandsList.remove(GiveImmediately)
             commandsList.insert(0,GiveImmediately)
         for command in commandsList:
