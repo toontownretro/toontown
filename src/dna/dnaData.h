@@ -37,6 +37,9 @@ PUBLISHED:
   static bool resolve_dna_filename(Filename &dna_filename,
                                    const DSearchPath &searchpath = DSearchPath());
 
+  bool write_dna(Filename filename, ostream &error, DNAStorage *store);
+  bool write_dna(ostream &out, ostream &error, DNAStorage *store);
+
   void set_coordinate_system(CoordinateSystem coordsys);
   INLINE CoordinateSystem get_coordinate_system() const;
 
@@ -51,9 +54,6 @@ PUBLISHED:
 public:
   bool read(Filename filename, ostream &error = nout);
   bool read(istream &in, ostream &error = nout);
-
-  bool write_dna(Filename filename, ostream &error, DNAStorage *store);
-  bool write_dna(ostream &out, ostream &error, DNAStorage *store);
 
   bool resolve_externals(const string &searchpath, ostream &error = nout);
 

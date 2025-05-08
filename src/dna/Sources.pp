@@ -58,7 +58,7 @@
 
 
 
-//  #define SOURCES \
+//   #define SOURCES \
 //     dnaTester.cxx
 
 // #end test_bin_target
