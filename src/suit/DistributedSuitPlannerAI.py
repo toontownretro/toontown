@@ -1062,25 +1062,35 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
             newSuit.attemptingTakeover = self.newSuitShouldAttemptTakeover()
 
             if newSuit.attemptingTakeover:
+                
                 cogdosNeeded = self.countNumNeededCogdos()
                 bldgsNeeded = self.countNumNeededBuildings()
+                
                 cogdosAvailable = cogdosNeeded - self.numAttemptingCogdoTakeover
                 bldgsAvailable = bldgsNeeded - (self.numAttemptingTakeover - self.numAttemptingCogdoTakeover)
                 totalAvailable = cogdosAvailable + bldgsAvailable
+                
                 if cogdoTakeover is None:
                     cogdoTakeover = False
+                    
+                    # want-cogdominiums in AIRepository
                     if simbase.air.wantCogdominiums:
+                        
                         if totalAvailable > 0:
                             r = random.randrange(totalAvailable)
+                            
                             if r < cogdosAvailable:
                                 cogdoTakeover = True
+                
                 newSuit.takeoverIsCogdo = cogdoTakeover
+
                 if newSuit.takeoverIsCogdo:
                     pendingTracks = ['s']
                     pendingHeights = self.pendingCogdoHeights
                 else:
                     pendingTracks = self.pendingBuildingTracks
                     pendingHeights = self.pendingBuildingHeights
+                
                 # Also, if he's attempting a takeover, make him be a
                 # suitable track.
                 if suitTrack == None and len(pendingTracks) > 0:
@@ -1728,7 +1738,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
         if simbase.air.wantCogdominiums:
             if actualCogdos > 0:
                 numReassigned = 0
-                for sp in self.air.suitPlanners.values():
+                for sp in list(self.air.suitPlanners.values()):
                     if sp.buildingMgr:
                         numCogdos = len(sp.buildingMgr.getCogdoBlocks())
                     else:

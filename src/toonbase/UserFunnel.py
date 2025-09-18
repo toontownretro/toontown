@@ -290,7 +290,7 @@ class UserFunnel:
             # patcherDoc = patcherHTTP.getDocument(URLSpec('http://build64:3120/english/currentVersion/dev/content/patcher.ver'))
             rf = Ramfile()
             patcherDoc.downloadToRam(rf)
-            self.patcherURL = rf.getData()
+            self.patcherURL = rf.getData().decode("utf-8")
             if self.patcherURL.find('FUNNEL_LOG') == -1:
                 # The file did not download, need to set
                 # the patcherVer to offline

@@ -533,7 +533,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase,
     def returnTask(self, task):
         # return to parent node, which is the idealPathNode
         # first, do a straight reparent to our original parent
-        #self.factory.requestReparent(self, self.spec['parentEntId'])
+        self.factory.requestReparent(self, self.spec['parentEntId'])
 
         # if we are on a path, or just the original pos
         # if it is a static suit

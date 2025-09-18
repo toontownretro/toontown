@@ -3,7 +3,7 @@ import string
 import time
 import random
 import datetime
-
+#from sets import Set
 
 # panda3d imports
 from toontown.toonbase.ToontownModules import *
@@ -844,6 +844,10 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                 self.down_setMagicWordResponse(senderId, "added NPC friend")
             else:
                 self.down_setMagicWordResponse(senderId, "invalid NPC name")
+
+        elif wordIs("~restockNPCFriends"):
+            av.restockAllNPCFriends()
+            self.down_setMagicWordResponse(senderId, "Restocked NPC Friends")
 
         elif wordIs("~pianos"):
             if self.doNpcFriend(av, 1116, 100):

@@ -27,7 +27,7 @@ from toontown.fishing import FishTank
 from .NPCToons import npcFriends,isZoneProtected
 from toontown.coghq import CogDisguiseGlobals
 import random
-#import re
+import re
 from toontown.chat import ResistanceChat
 from toontown.racing import RaceGlobals
 from toontown.hood import ZoneUtil
@@ -583,27 +583,27 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                     dislId = self.DISLid
                     simbase.air.banManager.ban(self.doId, dislId, commentStr)
                     
-        # not quite sure where to do this - we need to assign teleport access
-        # to the toon when he enters Goofy Stadium
-        zoneId = ZoneUtil.getCanonicalZoneId(newZoneId)
-        if zoneId == ToontownGlobals.GoofySpeedway:
-            if not self.hasTeleportAccess(ToontownGlobals.GoofySpeedway):
-                self.addTeleportAccess(zoneId)
-        # NOTE: If others need to listen for zoneId changes then please remove the if statements
-        elif zoneId == ToontownGlobals.ToonHall:
-            messenger.send("ToonEnteredZone", [self.doId, zoneId])
-        zoneId = ZoneUtil.getCanonicalZoneId(oldZoneId)
-        if zoneId == ToontownGlobals.ToonHall:
-            messenger.send("ToonLeftZone", [self.doId, zoneId])
-        if simbase.wantPets:
-            isInEstate = self.isInEstate()
-            # we may have just left
-            wasInEstate = self.wasInEstate()
-            if isInEstate or wasInEstate:
-                self.announceZoneChange(newZoneId, oldZoneId)
-                if wasInEstate:
-                    # don't need this data anymore
-                    self.cleanupEstateData()
+##        # not quite sure where to do this - we need to assign teleport access
+##        # to the toon when he enters Goofy Stadium
+##        zoneId = ZoneUtil.getCanonicalZoneId(newZoneId)
+##        if zoneId == ToontownGlobals.GoofySpeedway:
+##            if not self.hasTeleportAccess(ToontownGlobals.GoofySpeedway):
+##                self.addTeleportAccess(zoneId)
+##        # NOTE: If others need to listen for zoneId changes then please remove the if statements
+##        elif zoneId == ToontownGlobals.ToonHall:
+##            messenger.send("ToonEnteredZone", [self.doId, zoneId])
+##        zoneId = ZoneUtil.getCanonicalZoneId(oldZoneId)
+##        if zoneId == ToontownGlobals.ToonHall:
+##            messenger.send("ToonLeftZone", [self.doId, zoneId])
+##        if simbase.wantPets:
+##            isInEstate = self.isInEstate()
+##            # we may have just left
+##            wasInEstate = self.wasInEstate()
+##            if isInEstate or wasInEstate:
+##                self.announceZoneChange(newZoneId, oldZoneId)
+##                if wasInEstate:
+##                    # don't need this data anymore
+##                    self.cleanupEstateData()
 
     def announceZoneChange(self, newZoneId, oldZoneId):
         # let the pets know about the zone change
@@ -1001,10 +1001,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def d_setMaxNPCFriends(self, max):
         self.sendUpdate("setMaxNPCFriends", [max])
 
-    def setMaxNPCFriends(self, max): # check hex
-        if max & 32768:
+    def setMaxNPCFriends(self, max):
+        if max & 0x8000:
             self.b_setSosPageFlag(1)
-            max &= 32767
+            max &= 0x7FFF
         configMax = ConfigVariableInt('max-sos-cards', 16).getValue()
         if configMax != max:
             if self.sosPageFlag == 0:
@@ -1091,20 +1091,29 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         if npcFriend not in self.NPCFriendsDict:
             self.notify.warning('attemptSubtractNPCFriend: invalid NPC %s' % npcFriend)
             return 0
+        
+        # If ~autoRestockSOS is used always set the cost to 0
         if hasattr(self, 'autoRestockSOS') and self.autoRestockSOS:
             cost = 0
         else:
             cost = 1
+        
+        # Subtract amount by 1
         self.NPCFriendsDict[npcFriend] -= cost
         if self.NPCFriendsDict[npcFriend] <= 0:
             del self.NPCFriendsDict[npcFriend]
+        
+        # Set the new value
         self.d_setNPCFriendsDict(self.NPCFriendsDict)
         return 1
 
     def restockAllNPCFriends(self):
-        desiredNpcFriends = [2001, 2011, 3112, 4119, 1116,3137, 3135]
+        # Flippy, Clerk Clara, Lil Oldman, Moe Zart,
+        # Barnacle Bessie, Mr. Freeze, Soggy Nell
+        desiredNpcFriends = [2001, 2011, 3112, 4119, 1116, 3137, 3135]
         self.resetNPCFriendsDict()
         for npcId in desiredNpcFriends:
+            # Add 1 of each
             self.attemptAddNPCFriend(npcId, 1)
 
     def d_setMaxAccessories(self, max):
@@ -1990,22 +1999,30 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
     def b_setCogIndex(self, index):
         self.setCogIndex(index)
+        # If cogsuit-hack-prevent is enabled check whether or not they can wear a suit
         if ConfigVariableBool('cogsuit-hack-prevent', False).getValue():
             self.d_setCogIndex(self.cogIndex)
         else:
             self.d_setCogIndex(index)
 
     def setCogIndex(self, index):
+        # Check that a suit is worn and that they are not in a zone where one can be worn
         if index != -1 and not ToontownAccessAI.canWearSuit(self.doId, self.zoneId):
+            
+            # Make sure it wasn't logged already
             if not simbase.air.cogSuitMessageSent:
                 self.notify.warning('%s setCogIndex invalid: %s' % (self.doId, index))
+                
+                # Ban the player if want-ban-wrong-suit-place is set to True (default False)
                 if ConfigVariableBool('want-ban-wrong-suit-place', False).getValue():
                     commentStr = "Toon %s trying to set cog index to %s in Zone: %s" % (self.doId, index, self.zoneId)
                     simbase.air.banManager.ban(self.doId, self.DISLid, commentStr)
         else:
+            # Set the proper suit
             self.cogIndex = index
 
     def d_setCogIndex(self, index):
+        # Verify the suit
         self.sendUpdate("setCogIndex", [index])
 
     def getCogIndex(self):
@@ -4898,6 +4915,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
             summons[suitIndex] = curSetting
             self.b_setCogSummonsEarned(summons)
 
+            # if ~autoRestockSummons is used always restock cog summons
             if hasattr(self, 'autoRestockSummons') and self.autoRestockSummons:
                 self.restockAllCogSummons()
             return True
@@ -5480,6 +5498,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         self.b_setPinkSlips(pinkSlips)
 
     def removePinkSlips(self, amount):
+        # If ~autoRestockPinkSlips is used never remove pink slips
         if hasattr(self, 'autoRestockPinkSlips') and self.autoRestockPinkSlips:
             amount = 0
         pinkSlips = max(self.pinkSlips - amount, 0)
@@ -6000,7 +6019,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
     def teleportResponseToAI(self, toAvId, available, shardId, hoodId, zoneId, fromAvId):
         """
-        Handles a teleportion reponse to the AI, validates it,
+        Handles a teleportion response to the AI, validates it,
         and then sends it back to the player
         """
         # If WantTpTrack is False, do nothing
@@ -6225,7 +6244,11 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                         del DistributedToonAI.flagCounts[avPairKey]
 
     def handleHacking(self, response, comment, coconspirators=[]):
-        """Handle hacker behavior"""
+        """
+        Take actions against position hackers.
+        to be used with toon-pos-hack-response.
+        i.e. "toon-pos-hack-response disconnect" would disconnect only the hacker.
+        """
         
         # Move the player into QuietZone
         if response == 'quietzone':

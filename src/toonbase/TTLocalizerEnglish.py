@@ -170,7 +170,7 @@ ToontownCentral   = ("to",     "in",     lToontownCentral)
 TheBrrrgh         = ("to",     "in",     lTheBrrrgh)
 MinniesMelodyland = ("to",     "in",     lMinniesMelodyland)
 DaisyGardens      = ("to",     "in",     lDaisyGardens)
-ConstructionZone  = ("to the", "in the", "Construction Zone")
+#ConstructionZone  = ("to the", "in the", "Construction Zone")
 OutdoorZone       = ("to",     "in",     lOutdoorZone)
 FunnyFarm         = ("to the", "in the", "Funny Farm")
 #GoofyStadium     = ("to",     "in",     "Goofy Stadium")
@@ -341,7 +341,10 @@ QuestsDefaultVisitQuestDialog = ("I heard _toNpcName_ is looking for you._where_
 # Quest dialog
 QuestsLocationArticle = ""
 def getLocalNum(num):
-    return str(num)
+    if (num <=9):
+        return str(num) + ""
+    else:
+        return str(num)
 QuestsItemNameAndNum = "%(num)s %(name)s"
 
 QuestsCogQuestProgress = "%(progress)s of %(numCogs)s defeated"
@@ -2431,6 +2434,9 @@ AvatarPanelGroupRetract = "Retract Invitation"
 AvatarPanelGroupMember = "Already In Group"
 AvatarPanelGroupMemberKick = "Remove"
 
+# grouping messages
+#groupInviteMessage = "%s " # Find original text
+
 # Report Panel
 ReportPanelTitle = "Report A Player"
 ReportPanelBody = "This feature will send a complete report to a Moderator. Instead of sending a report, you might choose to do one of the following:\n\n  - Teleport to another district\n  - Use \"Ignore\" on the toon's panel\n\nDo you really want to report %s to a Moderator?"
@@ -3135,7 +3141,7 @@ SuitSpinDoctorP = "Spin Doctors"
 SuitLegalEagleP = "Legal Eagles"
 SuitBigWigP = "Big Wigs"
 
-SuitFaceoffDefaultTaunts = ['Boo!']
+SuitFaceOffDefaultTaunts = ['Boo!']
 
 SuitAttackDefaultTaunts = ['Take that!', 'Take a memo on this!']
 
@@ -3911,7 +3917,7 @@ CogsIncExt = ", Inc."
 CogsIncModifier = "%s" + CogsIncExt
 CogsInc = Cogs.upper() + CogsIncExt
 #CogdominiumsExt = "\nCogdominiums"
-CogdominiumsExt = "\nField  Office"
+CogdominiumsExt = "\nField Office"
 Cogdominiums = Cog.upper() + CogdominiumsExt
 
 # DistributedKnockKnockDoor.py
@@ -5489,7 +5495,7 @@ WinterPlutoDChatter = (
 #        "Did you hear a Doodle talk, or am I hearing things?",
 #        ],
 #        [ # Goodbyes
-#        "Hi, I need to talk with Micky. Have you seen him?",
+#        "Hi, I need to talk with Mickey. Have you seen him?",
 #        "I think I'll go swimming at " + lDonaldsDock + '.',
 #        "Oh, I'm a little sleepy. I think I'll go to Dreamland.",
 #        ]
@@ -6080,6 +6086,7 @@ LauncherDownloadServerFileList = "Updating Toontown..."
 LauncherCreatingDownloadDb = "Updating Toontown..."
 LauncherDownloadClientFileList = "Updating Toontown..."
 LauncherFinishedDownloadDb = "Updating Toontown... "
+#LauncherStartingToontown = "Starting Toontown..."
 LauncherStartingGame = "Starting Toontown..."
 LauncherRecoverFiles = "Updating Toontown. Recovering files..."
 LauncherCheckUpdates = "Checking for updates for " + LauncherProgress
@@ -6781,6 +6788,7 @@ PartyCogBalanceBar = "BALANCE"
 
 # DistributedPartyTugOfWarActivity.py
 #PartyTugOfWarJoinDenied = "Sorry. You can't join Tug-O-War right now."
+#PartyTugOfWarTeamFull = "Sorry. " # Track down original line
 #PartyTugOfWarExitButton = "Hop Off"
 #PartyTugOfWarWaitingForMore = "Waiting  for  more  players" # extra spaces on purpose given the blocky font
 #PartyTugOfWarWaitingToStart = "Waiting  to  start"
@@ -7354,7 +7362,7 @@ PetTutorialPage1 = "Click on a Doodle to display the Doodle panel. From here you
 PetTutorialPage2 = "Use the new 'Pets' area in the SpeedChat menu to get a Doodle to do a trick. If he does it, reward him and he'll get better!"
 PetTutorialPage3 = "Purchase new Doodle tricks from Clarabelle's Cattlelog. Better tricks give better Toon-Ups!"
 def getPetGuiAlign():
-	from toontown.toonbase.ToontownModules import TextNode
+	from panda3d.core import TextNode
 	return TextNode.ACenter
 
 GardenTutorialTitle1 = "Gardening"
@@ -7649,8 +7657,8 @@ WaitingForNameSubmission = "Submitting your name..."
 
 # PetshopGUI.py
 PetNameMaster = "PetNameMasterEnglish.txt"
-PetshopUnknownName = "Name: ???"
 PetNameIndexMAX = 2713
+PetshopUnknownName = "Name: ???"
 PetshopDescGender = "Gender:\t%s"
 PetshopDescCost = "Cost:\t%s jellybeans"
 PetshopDescTrait = "Traits:\t%s"
@@ -7746,8 +7754,8 @@ NCApostrophes = 'That name has too many apostrophes.'
 # DistributedTrophyMgrAI.py
 RemoveTrophy = lToonHQ+": "+TheCogs+" took over one of the buildings you rescued!"
 
-from toontown.toonbase.ToontownModules import TextProperties
-from toontown.toonbase.ToontownModules import TextPropertiesManager
+#from panda3d.core import TextProperties
+#from panda3d.core import TextPropertiesManager
 
 # toon\DistributedNPCTailor/Clerk/Fisherman.py
 STOREOWNER_TOOKTOOLONG = 'Need more time to think?'
@@ -8097,7 +8105,7 @@ GlassesStylesDescriptions = {
     'gst1' : "Yellow Star Glasses",
     'g3d1' : "Movie Glasses",
     'gav1' : "Aviator",
-    'gce1' : "Cat Eye Glasses",
+    'gce1' : "Cat-Eye Glasses",
     'gdk1' : "Nerd Glasses",
     'gjo1' : "Celebrity Shades",
     'gsb1' : "Scuba Mask",
@@ -8113,8 +8121,8 @@ GlassesStylesDescriptions = {
     'gmn1' : "Monocle",
     'gmo1' : "Smooch Glasses",
     'gsr1' : "Square Frame Glasses",
-    'ghw1' : "Skull Eye Patch",
-    'ghw2' : "Gem Eye Patch",
+    'ghw1' : "Skull Eyepatch",
+    'ghw2' : "Gem Eyepatch",
     'gag1' : "Alien Eyes by Alexandra",
     }
 
@@ -9314,6 +9322,7 @@ CatalogAcceptRoomError = "You don't have any place to put this. You'll have to g
 CatalogAcceptLimitError = "You already have as many of these as you can handle. You'll have to get rid of something."
 CatalogAcceptFitError = "This won't fit you! You donate it to needy Toons."
 CatalogAcceptInvalidError = "This item has gone out of style! You donate it to needy Toons."
+CatalogAcceptClosetError = "You already have a bigger closet!"
 
 MailboxOverflowButtonDicard = "Discard"
 MailboxOverflowButtonLeave = "Leave"
@@ -10228,7 +10237,7 @@ zone2TitleDict = {
     2667 : ("Happy Times", ""),
     2669 : ("Muldoon's Maroon Balloons", ""),
     2670 : ("Soup Forks", ""),
-    2671 : ("", ""),
+    2671 : (lToonHQ, ""),
     # titles for: phase_5/dna/toontown_central_2200.dna
     2701 : ("", ""),
     2704 : ("Movie Multiplex", ""),
@@ -10254,7 +10263,7 @@ zone2TitleDict = {
     2739 : ("Sidesplitter's Mending", ""),
     2740 : ("Used Firecrackers", ""),
     2741 : ("", ""),
-    2742 : ("", ""),
+    2742 : (lToonHQ, ""),
     2743 : ("Ragtime Dry Cleaners", ""),
     2744 : ("", ""),
     2747 : ("Visible Ink", ""),
@@ -10275,7 +10284,7 @@ zone2TitleDict = {
     2829 : ("Phony Baloney", ""),
     2830 : ("Zippy's Zingers", ""),
     2831 : ("Professor Wiggle's House of Giggles", ""),
-    2832 : ("", ""),
+    2832 : (lToonHQ, ""),
     2833 : ("", ""),
     2834 : ("Funny Bone Emergency Room", ""),
     2836 : ("", ""),
@@ -10286,7 +10295,7 @@ zone2TitleDict = {
     1506 : ("Gag Shop", ""),
     1507 : (lToonHQ, ""),
     1508 : ("Clothing Shop", ""),
-    1510 : ("", ""),
+    1510 : ("Pet Shop", ""),
     # titles for: phase_6/dna/donalds_dock_1100.dna
     1602 : ("Used Life Preservers", ""),
     1604 : ("Wet Suit Dry Cleaners", ""),
@@ -10307,7 +10316,7 @@ zone2TitleDict = {
     1626 : ("Salmon Chanted Evening Formal Wear", ""),
     1627 : ("Billy Budd's Big Bargain Binnacle Barn", ""),
     1628 : ("Piano Tuna", ""),
-    1629 : ("", ""),
+    1629 : (lToonHQ, ""),
     # titles for: phase_6/dna/donalds_dock_1200.dna
     1701 : ("Buoys and Gulls Nursery School", ""),
     1703 : ("Wok the Plank Chinese Food", ""),
@@ -10332,7 +10341,7 @@ zone2TitleDict = {
     1726 : ("Root Beer Afloats", ""),
     1727 : ("This Oar That", ""),
     1728 : ("Good Luck Horseshoe Crabs", ""),
-    1729 : ("", ""),
+    1729 : (lToonHQ, ""),
     # titles for: phase_6/dna/donalds_dock_1300.dna
     1802 : ("Nautical But Nice", ""),
     1804 : ("Mussel Beach Gymnasium", ""),
@@ -10361,12 +10370,12 @@ zone2TitleDict = {
     1832 : ("Melville's Massive Mizzenmast Mart", ""),
     1833 : ("This Transom Man Custom Tailored Suits", ""),
     1834 : ("Rudderly Ridiculous!", ""),
-    1835 : ("", ""),
+    1835 : (lToonHQ, ""),
     # titles for: phase_6/dna/minnies_melody_land_sz.dna
     4503 : ("Gag Shop", ""),
-    4504 : ("Toon Headquarters", ""),
+    4504 : (lToonHQ, ""),
     4506 : ("Clothing Shop", ""),
-    4508 : ("", ""),
+    4508 : ("Pet Shop", ""),
     # titles for: phase_6/dna/minnies_melody_land_4100.dna
     4603 : ("Tom-Tom's Drums", ""),
     4604 : ("In Four-Four Time", ""),
@@ -10408,7 +10417,7 @@ zone2TitleDict = {
     4656 : ("", ""),
     4657 : ("Barbershop Quartet", ""),
     4658 : ("Plummeting Pianos", ""),
-    4659 : ("", ""),
+    4659 : (lToonHQ, ""),
     # titles for: phase_6/dna/minnies_melody_land_4200.dna
     4701 : ("The Schmaltzy Waltz School of Dance", ""),
     4702 : ("Timbre! Equipment for the Singing Lumberjack", ""),
@@ -10441,7 +10450,7 @@ zone2TitleDict = {
     4736 : ("Her and Hymn Wedding Planners", ""),
     4737 : ("Harp Tarps", ""),
     4738 : ("Canticle Your Fancy Gift Shop", ""),
-    4739 : ("", ""),
+    4739 : (lToonHQ, ""),
     # titles for: phase_6/dna/minnies_melody_land_4300.dna
     4801 : ("Marshall's Stacks", ""),
     4803 : ("What a Mezzo! Maid Service", ""),
@@ -10479,12 +10488,12 @@ zone2TitleDict = {
     4870 : ("Ziggy's Zoo of Zigeuner\3musik", ""),
     4871 : ("Harry's House of Harmonious Humbuckers", ""),
     4872 : ("Fast Freddie's Fretless Fingerboards", ""),
-    4873 : ("", ""),
+    4873 : (lToonHQ, ""),
     # titles for: phase_8/dna/daisys_garden_sz.dna
     5501 : ("Gag Shop", ""),
     5502 : (lToonHQ, ""),
     5503 : ("Clothing Shop", ""),
-    5505 : ("", ""),
+    5505 : ("Pet Shop", ""),
     # titles for: phase_8/dna/daisys_garden_5100.dna
     5601 : ("Eye of the Potato Optometry", ""),
     5602 : ("Artie Choke's Neckties", ""),
@@ -10510,7 +10519,7 @@ zone2TitleDict = {
     5624 : ("Mum's the Word", ""),
     5625 : ("Leaf It Bees", ""),
     5626 : ("Pine Needle Crafts", ""),
-    5627 : ("", ""),
+    5627 : (lToonHQ, ""),
     # titles for: phase_8/dna/daisys_garden_5200.dna
     5701 : ("From Start to Spinach", ""),
     5702 : ("Jake's Rakes", ""),
@@ -10530,13 +10539,13 @@ zone2TitleDict = {
     5716 : ("Take It or Leaf It Pawn Shop", ""),
     5717 : ("The Squirting Flower", ""),
     5718 : ("The Dandy Lion Exotic Pets", ""),
-    5719 : ("Trellis the Truth! Private Investigators", ""),
+    5719 : ("Trellis the Truth! Private Investigators", ""),
     5720 : ("Vine and Dandy Menswear", ""),
     5721 : ("Root 66 Diner", ""),
     5725 : ("Barley, Hops, and Malt Shop", ""),
     5726 : ("Bert's Dirt", ""),
     5727 : ("Gopher Broke Savings & Loan", ""),
-    5728 : ("", ""),
+    5728 : (lToonHQ, ""),
     # titles for: phase_8/dna/daisys_garden_5300.dna
     5802 : (lToonHQ, ""),
     5804 : ("Just Vase It", ""),
@@ -10562,7 +10571,7 @@ zone2TitleDict = {
     9504 : ("Gag Shop", ""),
     9505 : (lToonHQ, ""),
     9506 : ("Clothing Shop", ""),
-    9508 : ("", ""),
+    9508 : ("Pet Shop", ""),
     # titles for: phase_8/dna/donalds_dreamland_9100.dna
     9601 : ("Snuggle Inn", ""),
     9602 : ("Forty Winks for the Price of Twenty", ""),
@@ -10597,7 +10606,7 @@ zone2TitleDict = {
     9649 : ("Snore or Less", ""),
     9650 : ("Crack of Dawn Repairs", ""),
     9651 : ("For Richer or Snorer", ""),
-    9652 : ("", ""),
+    9652 : (lToonHQ, ""),
     # titles for: phase_8/dna/donalds_dreamland_9200.dna
     9703 : ("Fly By Night Travel Agency", ""),
     9704 : ("Night Owl Pet Shop", ""),
@@ -10631,13 +10640,13 @@ zone2TitleDict = {
     9753 : ("Moonbeam's Ice Creams", ""),
     9754 : ("Sleepless in the Saddle All Night Pony Rides", ""),
     9755 : ("Bedknobs & Broomsticks Movie House", ""),
-    9756 : ("", ""),
+    9756 : (lToonHQ, ""),
     9759 : ("Sleeping Beauty Parlor", ""),
     # titles for: phase_8/dna/the_burrrgh_sz.dna
     3507 : ("Gag Shop", ""),
     3508 : (lToonHQ, ""),
     3509 : ("Clothing Shop", ""),
-    3511 : ("", ""),
+    3511 : ("Pet Shop", ""),
     # titles for: phase_8/dna/the_burrrgh_3100.dna
     3601 : ("Northern Lights Electric Company", ""),
     3602 : ("Nor'easter Bonnets", ""),
@@ -10676,7 +10685,7 @@ zone2TitleDict = {
     3650 : ("Antarctic Antiques", ""),
     3651 : ("Frosty Freddy's Frozen Frankfurters", ""),
     3653 : ("Ice House Jewelry", ""),
-    3654 : ("", ""),
+    3654 : (lToonHQ, ""),
     # titles for: phase_8/dna/the_burrrgh_3200.dna
     3702 : ("Winter Storage", ""),
     3703 : ("", ""),
@@ -10709,7 +10718,7 @@ zone2TitleDict = {
     3736 : ("Diced Ice at a Nice Price", ""),
     3737 : ("Downhill Diner", ""),
     3738 : ("Heat-Get It While It's Hot", ""),
-    3739 : ("", ""),
+    3739 : (lToonHQ, ""),
     # titles for: phase_8/dna/the_burrrgh_3300.dna
     3801 : (lToonHQ, ""),
     3806 : ("Alpine Chow Line", ""),
@@ -10982,7 +10991,7 @@ TipDict = {
     "Show off your stylin' ride and turbo-boost your Laff limit at Goofy Speedway.",
     "Enter Goofy Speedway through the tire-shaped tunnel in Toontown Central Playground.",
     "Earn Laff points at Goofy Speedway.",
-    "Goofy Speedway has six different race tracks. "
+    "Goofy Speedway has six different race tracks."
     ),
 
   TIP_STREET : (
@@ -11494,10 +11503,10 @@ ResistanceToonupMenu = "Toon-Up"
 ResistanceToonupItem = "%s Toon-Up"
 ResistanceToonupItemMax = "Max"
 ResistanceToonupChat = "Toons of the World, Toon-Up!"
-ResistanceRestockMenu = "Gag-up"
-ResistanceRestockItem = "Gag-up %s"
+ResistanceRestockMenu = "Gag-Up"
+ResistanceRestockItem = "Gag-Up %s"
 ResistanceRestockItemAll = "All"
-ResistanceRestockChat = "Toons of the World, Gag-up!"
+ResistanceRestockChat = "Toons of the World, Gag-Up!"
 ResistanceMoneyMenu = "Jellybeans"
 ResistanceMoneyItem = "%s jellybeans"
 ResistanceMoneyChat = "Toons of the World, Spend Wisely!"
@@ -11914,7 +11923,7 @@ PolarPlaceEffect1 = NPCToonNames[3306] + ": Welcome to Polar Place!"
 PolarPlaceEffect2 = NPCToonNames[3306] + ": Try this on for size."
 PolarPlaceEffect3 = NPCToonNames[3306] + ": Your new look will only work in " + lTheBrrrgh + "."
 
-# Oak Street cheesy effect chat phrases
+# Oak Street cheesy effect chat phrase
 GreenToonEffectMsg = NPCToonNames[5312] + ": You look Toontastic in green!"
 
 # LaserGrid game Labels

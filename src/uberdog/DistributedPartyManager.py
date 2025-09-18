@@ -9,6 +9,11 @@ from toontown.toon import ToonDNA
 
 from toontown.parties import PartyGlobals
 
+# Add
+# givePartyRefundResponse(uint32, uint64, int8, uint16, uint32);
+# requestMw(uint32, string, uint32, uint32);
+# mwResponseUdToAllAi(uint32, string, uint32, uint32) airecv;
+
 class DistributedPartyManager(DistributedObject):
     neverDisable = 1
 

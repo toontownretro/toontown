@@ -415,7 +415,7 @@ class DistributedVineGame(DistributedMinigame):
         for avId in self.avIdList:
             av = self.getAvatar(avId)
             if av:
-                av.showShadow()
+                av.dropShadow.show()
                 av.resetLOD() # we'll use the head frames instead
 
         for treasure in self.treasures:
@@ -496,28 +496,27 @@ class DistributedVineGame(DistributedMinigame):
 
 
         if (newVineIndex is None) or (newVineIndex < -1) or (newVineIndex >= len(self.vines)):
-            #self.notify.warning('invalid vineIndex for %d, forcing 0' % avId)
+            self.notify.warning('invalid vineIndex for %d, forcing 0' % avId)
             newVineIndex = 0
         if (newVineT is None) or (newVineT < 0) or (newVineT > 1):
-            #self.notify.warning('invalid vineT for %d, setting to 0' % avId)
-            pass
+            self.notify.warning('invalid vineT for %d, setting to 0' % avId)
         if not (newFacingRight == 0 or newFacingRight == 1):
-            #self.notify.warning('invalid facingRight for %d, forcing to 1' % avId)
+            self.notify.warning('invalid facingRight for %d, forcing to 1' % avId)
             newFacingRight = 1
         if (newPosX is None) or (newPosX < -1000) or (newPosX > 2000):
-            #self.notify.warning('invalid posX for %d, forcing to 0' % avId)
+            self.notify.warning('invalid posX for %d, forcing to 0' % avId)
             newPosX = 0
         if (newPosZ is None) or (newPosZ < -100) or (newPosZ > 1000):
-            #self.notify.warning('invalid posZ for %d, forcing to 0' % avId)
+            self.notify.warning('invalid posZ for %d, forcing to 0' % avId)
             newPosZ = 0
         if (newVelX is None) or (newVelX < -1000) or (newVelX > 1000):
-            #self.notify.warning('invalid velX %s for %d, forcing to 0' % (newVelX, avId))
+            self.notify.warning('invalid velX %s for %d, forcing to 0' % (newVelX, avId))
             newVelX = 0
         if (newVelZ is None) or (newVelZ < -1000) or (newVelZ > 1000):
-            #self.notify.warning('invalid velZ %s for %d, forcing to 0' % (newVelZ, avId))
+            self.notify.warning('invalid velZ %s for %d, forcing to 0' % (newVelZ, avId))
             newVelZ = 0
         if (newFallingInfo is None) or (newFallingInfo < self.FallingNot) or (newFallingInfo > self.FallingBat):
-            #self.notify.warning('invalid fallingInfo for %d, forcing to 0' % avId)
+            self.notify.warning('invalid fallingInfo for %d, forcing to 0' % avId)
             newFallingInfo = 0
         newInfo = [newVineIndex, newVineT, newPosX, newPosZ, newFacingRight, newClimbDir, newVelX, newVelZ, newFallingInfo]
 
@@ -709,8 +708,7 @@ class DistributedVineGame(DistributedMinigame):
                        MinigameAvatarScorePanel.MinigameAvatarScorePanel(avId,
                                                                          avName)
             scorePanel.setScale(.9)
-            scorePanel.setPos(-0.583 - spacing * (self.numPlayers - 1 - i), 0.0, -0.15)
-            scorePanel.reparentTo(base.a2dTopRight)
+            scorePanel.setPos(.75 - spacing*((self.numPlayers - 1) - i), 0.0, .85)
             # make the panels slightly transparent
             scorePanel.makeTransparent(.75)
             self.scorePanels.append(scorePanel)
@@ -1739,13 +1737,13 @@ class DistributedVineGame(DistributedMinigame):
         a2d = aspect2d.getRelativePoint(render2d, r2d)
 
         zAspect2DRadar = self.endZRadar * 2.0 - 1
-        #print zAspect2DRadar
+        #print(zAspect2DRadar)
         oldZ = a2d.getZ()
         #newZ = zAspect2DRadar + ( (1-oldZ)/2.0 * (zAspect2DRadar+1))
         newZ = (oldZ + 1) / 2.0 * (zAspect2DRadar + 1)
         newZ -= 1
         a2d.setZ(newZ)
-        #print oldZ
+        #print(oldZ)
         return a2d
 
     def localToonHitSpider(self, colEntry):

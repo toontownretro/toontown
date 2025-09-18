@@ -445,11 +445,17 @@ class Party(Place.Place):
             teleportNotify.debug('party ending, sending teleportResponse')
             fromAvatar.d_teleportResponse(toAvatar.doId, 0, toAvatar.defaultShard,
                                       base.cr.playGame.getPlaceId(), self.getZoneId())
+        # Check in with the AI if tracking is enabled
         elif ConfigVariableBool('want-tptrack', False).getValue():
+            # Make sure a connection is established
             if toAvatar == localAvatar:
-                base.localAvatar.doTeleportResponse(fromAvatar, toAvatar, toAvatar.doId, 1, toAvatar.defaultShard, base.cr.playGame.getPlaceId(), self.getZoneId(), fromAvatar.doId)
+                base.localAvatar.doTeleportResponse(fromAvatar, toAvatar, toAvatar.doId,
+                                                    1, toAvatar.defaultShard, base.cr.playGame.getPlaceId(),
+                                                    self.getZoneId(), fromAvatar.doId)
             else:
+                # Print out a warning that the query was unsuccessful
                 self.notify.warning('handleTeleportQuery toAvatar.doId != localAvatar.doId' % (toAvatar.doId, localAvatar.doId))
         else:
+            # If tracking is disabled, fallback to the default teleport method
             fromAvatar.d_teleportResponse(toAvatar.doId, 1, toAvatar.defaultShard,
                                       base.cr.playGame.getPlaceId(), self.getZoneId())

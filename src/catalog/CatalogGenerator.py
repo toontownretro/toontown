@@ -60,7 +60,7 @@ MetaItems = {
     # Halloween chat
     2900: getChatRange(10000, 10002, 10005, 10005, 10007, 10008, 10010, 10099),
     # Fall Festivus chat
-    2910: getChatRange(11000, 11099),
+    2910: getChatRange(11000, 11005, 11008, 11008, 11012, 11015, 11017, 11019, 11021, 11022), #11099),
     # Valentines love chat
     2920: getChatRange(12000, 12049),
     # Valentines love chat

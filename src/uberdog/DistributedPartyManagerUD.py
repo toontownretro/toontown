@@ -73,7 +73,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         # We'll do the 1st check a 1 second in...
         self.partiesSanityCheckFrequency = ConfigVariableInt('parties-sanity-check-frequency',
                                                               PartyGlobals.UberdogPartiesSanityCheckFrequency).getValue()
-        # Finish me!
+        # Finish me!: in minutes, how often do we check for purged parties
         self.purgePartyPeriodFrequency = ConfigVariableDouble('purge-party-period-frequency',
                                                                PartyGlobals.UberdogPurgePartyPeriod).getValue()
         taskMgr.doMethodLater(1, self._sanityCheckParties, "DistributedPartyManagerUD_sanityCheckParties")

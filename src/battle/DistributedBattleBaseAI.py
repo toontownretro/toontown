@@ -283,20 +283,6 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI,
         self.timer.stop()
         self.adjustingTimer.stop()
 
-    def __removeSuit(self, suit):
-        self.notify.debug('__removeSuit(%d)' % suit.doId)
-        assert(self.suits.count(suit) == 1)
-        self.suits.remove(suit)
-        assert(self.joiningSuits.count(suit) == 0)
-        assert(self.pendingSuits.count(suit) == 0)
-        assert(self.adjustingSuits.count(suit) == 0)
-        assert(self.activeSuits.count(suit) == 1)
-        self.activeSuits.remove(suit)
-        if (self.luredSuits.count(suit) == 1):
-            self.luredSuits.remove(suit)
-        self.suitGone = 1
-        del suit.battleTrap
-
     def findSuit(self, id):
         """ findSuit(id)
         """
@@ -889,30 +875,39 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI,
 
     def __removeSuit(self, suit):
         self.notify.debug('__removeSuit(%d)' % suit.doId)
-        assert(self.suits.count(suit) == 1)
+        
         if self.suits.count(suit) != 0:
+            assert(self.suits.count(suit) == 1)
             self.suits.remove(suit)
         else:
-            assert(self.joiningSuits.count(suit) == 0)
             self.air.writeServerEvent('suspicious', self.activeToons,
                 "Trying to remove a suit, with suit count at zero. Probably hacker related.")
+        
         if self.joiningSuits.count(suit) != 0:
-            assert(self.pendingSuits.count(suit) == 0)
+            assert(self.joiningSuits.count(suit) == 0)        
+            self.air.writeServerEvent('suspicious', self.activeToons,
+                'Trying to remove a suit, but joiningSuits is not zero. Probably hacker related.')
+
         if self.pendingSuits.count(suit) != 0:
+            assert(self.pendingSuits.count(suit) == 0)
             self.air.writeServerEvent('suspicious', self.activeToons,
                 "Trying to remove a suit, but pendingSuits is not zero. Probably hacker related.")
-            assert(self.adjustingSuits.count(suit) == 0)
+        
         if self.adjustingSuits.count(suit) != 0:
+            assert(self.adjustingSuits.count(suit) == 0)
             self.air.writeServerEvent('suspicious', self.activeToons,
                 "Trying to remove a suit, but adjustingSuits is not zero. Probably hacker related.")
-            assert(self.activeSuits.count(suit) == 1)
+        
         if self.activeSuits.count(suit) != 0:
+            assert(self.activeSuits.count(suit) == 1)
             self.activeSuits.remove(suit)
         else:
             self.air.writeServerEvent('suspicious', self.activeToons,
                 "Trying to remove a suit, but has no active suits. Probably hacker related.")
+        
         if (self.luredSuits.count(suit) == 1):
             self.luredSuits.remove(suit)
+        
         self.suitGone = 1
         del suit.battleTrap
 

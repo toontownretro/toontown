@@ -1578,7 +1578,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                                          self.rewardPanel,
                                          allowGroupShot = 0,
                                          uberList = self.uberList,
-                                         noSkip=True)
+                                         noSkip = True)
 
         ival = Sequence(
             Parallel(victory, camVictory),

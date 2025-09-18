@@ -525,8 +525,7 @@ class DistributedElevator(DistributedObject.DistributedObject):
     def handleEnterSphere(self, collEntry):
         self.notify.debug("Entering Elevator Sphere....")
         #print("handleEnterSphere elevator%s avatar%s" % (self.elevatorTripId, localAvatar.lastElevatorLeft))
-        if self.allowedToEnter():
-        #if self.allowedToEnter(self.zoneId):
+        if self.allowedToEnter(self.zoneId):
             if self.elevatorTripId and (localAvatar.lastElevatorLeft == self.elevatorTripId):
                 #print("NO BACKCIES!")
                 self.rejectBoard(base.localAvatar.doId, REJECT_SHUFFLE)

@@ -105,10 +105,12 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
         invitee = simbase.air.doId2do.get(inviteeId)
         inviter = simbase.air.doId2do.get(inviterId)
         inviterOkay = self.checkBoard(inviterId, self.elevatorIdList[0])
+        # Send a reject to the invitee if the inviter is not a paid member.
         if inviterOkay == REJECT_NOTPAID:
             reason = BoardingPartyBase.BOARDCODE_NOT_PAID
             self.sendUpdateToAvatarId(inviterId, 'postInviteNotQualify', [inviteeId, reason, 0])
             simbase.air.writeServerEvent('suspicious', inviterId, 'User with rights: %s tried to invite someone to a boarding group' % inviter.getGameAccess())
+            # Optionally ban them if they are inviting people through hacks
             if ConfigVariableBool('want-ban-boardingparty', True).getValue():
                 commentStr = 'User with rights: %s tried to invite someone to a boarding group' % inviter.getGameAccess()
                 dislId = inviter.DISLid

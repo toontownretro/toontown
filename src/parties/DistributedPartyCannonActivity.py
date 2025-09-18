@@ -637,7 +637,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             self.ignore(toon.uniqueName("disable"))
 
             self.__cleanupFlyingToonData(toon)
-            toon.showShadow()
+            toon.dropShadow.show()
 
         place = base.cr.playGame.getPlace()
         if place is not None:
@@ -959,7 +959,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
         self.notify.debug("__cleanupFlyingToonData")
         if toon:
             # show the toons original drop shadows..
-            toon.showShadow()
+            toon.dropShadow.show()
 
             self.toonIds.remove(toon.doId)
 

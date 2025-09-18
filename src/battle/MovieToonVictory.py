@@ -42,7 +42,6 @@ class ToonVictorySkipper(DirectObject):
     def setIvals(self, ivals, timeOffset = 0.0):
         for index in self._startTimes:
             self._startTimes[index] += timeOffset
-
         self._ivals = ivals
 
     def _setupSkipListen(self, index):
@@ -64,6 +63,7 @@ class ToonVictorySkipper(DirectObject):
 
             if self._battle:
                 self._battle.setSkippingRewardMovie()
+        
         elif nextIndex in self._startTimes:
             for ival in self._ivals:
                 ival.setT(self._startTimes[nextIndex])
@@ -117,7 +117,7 @@ def doToonVictory(localToonActive, toons, rewardToonIds, rewardDicts,
                                           deathList, rdict['origQuests'], rdict['items'], rdict['missedItems'],
                                           rdict['origMerits'], rdict['merits'],
                                           rdict['parts'], rewardToonList, uberListNew[tIndex],
-                                          helpfulToonsList, noSkip=noSkip)
+                                          helpfulToonsList, noSkip = noSkip)
             if expTrack:
                 skipper.setStartTime(tIndex, track.getDuration())
                 track.append(skipper.getTeardownFunc(lastListenIndex))

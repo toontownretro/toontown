@@ -921,7 +921,7 @@ class PartyPlanner(DirectFrame,FSM):
         self.elementDescriptionNode.setFont(ToontownGlobals.getToonFont())
         self.elementDescriptionNode.setTextColor(0.0, 0.0, 0.0, 1.0)
         self.elementDescription = page.attachNewNode(self.elementDescriptionNode)
-        self.elementDescription.setScale(TTLocalizer.PPDescriptionScale)
+        self.elementDescription.setScale(TTLocalizer.PPelementDescription) # PPDescriptionScale
         self.elementDescription.setPos(self.gui.find("**/step_05_activityDescription_text_locator").getPos() + Point3(0.0, 0.0, 0.04))
         self.totalMoney = base.localAvatar.getTotalMoney()
 

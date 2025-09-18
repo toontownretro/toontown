@@ -305,7 +305,7 @@ class TwoDGameToonSD(StateData.StateData):
         self.toon.startLookAround()
         # restore the LODs
         self.toon.resetLOD()
-        self.toon.showShadow()
+        self.toon.dropShadow.show()
 
     def exitCleanup(self):
         pass

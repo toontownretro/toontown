@@ -133,7 +133,7 @@ class CatalogItemPanel(DirectFrame):
             parent = self,
             relief = None,
             pos = (0,0,0.24),
-            scale = 0.075,
+            scale = TTLocalizer.CIPtypeLabel,
             text = self['item'].getTypeName(),
             text_fg = (0.95, 0.95, 0, 1),
             text_shadow = (0, 0, 0, 1),

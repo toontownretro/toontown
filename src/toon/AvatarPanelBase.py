@@ -418,7 +418,6 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             if self.category == CentralLogger.ReportHacking:
                 # log the chat records
                 base.cr.centralLogger.reportPlayer(self.category, self.playerId, self.avId)
-
                 self.category = CentralLogger.ReportRudeBehavior
             # log the chat records
             base.cr.centralLogger.reportPlayer(self.category, self.playerId, self.avId)

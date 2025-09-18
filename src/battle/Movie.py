@@ -364,7 +364,7 @@ class Movie(DirectObject.DirectObject):
                                          1,
                                          self.uberList,
                                          self.helpfulToonsList,
-                                         noSkip=noSkip)
+                                         noSkip = noSkip)
         if (victory):
             skipper.setIvals((ptrack, camtrack), ptrack.getDuration())
             ptrack.append(victory)
@@ -429,9 +429,12 @@ class Movie(DirectObject.DirectObject):
         self._deleteTrack()
         self.track = Sequence(name='tutorial-reward-1')
         self.track.append(Func(self.rewardPanel.initGagFrame,
-                          base.localAvatar,
-                          [0, 0, 0, 0, 0, 0, 0],
-                          [0, 0, 0, 0], noSkip=True))
+                               base.localAvatar,
+                               [0, 0, 0, 0, 0, 0, 0],
+                               [0, 0, 0, 0],
+                               noSkip = True,
+                               ),
+                               )
         self.track += self.rewardPanel.getTrackIntervalList(base.localAvatar, THROW_TRACK, 0, 1, 0)
         self.track.append(Func(self.tutRewardDialog_1.show))
         self.track.start()
@@ -883,7 +886,6 @@ class Movie(DirectObject.DirectObject):
                                 if (sdict['died'] != 0):
                                     assert(self.notify.debug('suit: %d died' %
                                                              target.doId))
-                                    pass
                                 # leftSuits and rightSuits are used for
                                 # dodging, and since only NPC drops are
                                 # group drops, and NPC drops always hit,
@@ -936,7 +938,6 @@ class Movie(DirectObject.DirectObject):
                             if (sdict['died'] != 0):
                                 assert(self.notify.debug('suit: %d died' %
                                                          targetId))
-                                pass
                             # MovieDrop and MovieTrap expect a list
                             # (because NPC drops affect groups of suits)
                             if (track == DROP or track == TRAP):
@@ -1122,7 +1123,6 @@ class Movie(DirectObject.DirectObject):
                     for target in targetField:
                         if target['died'] and target['toon'].doId == base.localAvatar.doId:
                             isLocalToonSad = True
-
                 elif a['group'] == ATK_TGT_SINGLE:
                     if targetField['died'] and targetField['toon'].doId == base.localAvatar.doId:
                         isLocalToonSad = True

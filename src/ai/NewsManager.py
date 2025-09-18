@@ -263,6 +263,10 @@ class NewsManager(DistributedObject.DistributedObject):
                     base.localAvatar.chatMgr.chatInputSpeedChat.addIdesOfMarchMenu()
             elif holidayId == ToontownGlobals.EXPANDED_CLOSETS:
                 self.setExpandedClosetsStart()
+            elif holidayId == ToontownGlobals.LAWBOT_NERF_HOLIDAY:
+                if hasattr(base, 'localAvatar') and base.localAvatar and hasattr(base.localAvatar, 'chatMgr') and base.localAvatar.chatMgr:
+                    self.setLawbotNerfHolidayStart()
+                    base.localAvatar.chatMgr.chatInputSpeedChat.addLawbotNerfMenu()
             elif holidayId == ToontownGlobals.KARTING_TICKETS_HOLIDAY:
                 self.setKartingTicketsHolidayStart()
 
@@ -377,6 +381,10 @@ class NewsManager(DistributedObject.DistributedObject):
             elif holidayId == ToontownGlobals.IDES_OF_MARCH:
                 if hasattr(base, 'localAvatar') and base.localAvatar and hasattr(base.localAvatar, 'chatMgr') and base.localAvatar.chatMgr:
                     base.localAvatar.chatMgr.chatInputSpeedChat.removeIdesOfMarchMenu()
+            elif holidayId == ToontownGlobals.LAWBOT_NERF_HOLIDAY:
+                if hasattr(base, 'localAvatar') and base.localAvatar and hasattr(base.localAvatar, 'chatMgr') and base.localAvatar.chatMgr:
+                    self.setLawbotNerfHolidayEnd()
+                    base.localAvatar.chatMgr.chatInputSpeedChat.removeLawbotNerfMenu()
 
     def setHolidayIdList(self, holidayIdList):
         def isEnding(id):

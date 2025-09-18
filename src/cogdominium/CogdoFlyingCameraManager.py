@@ -1,11 +1,24 @@
+#-------------------------------------------------------------------------------
+# Contact: X (Schell Games)
+# Created: X, 2010
+#
+# Purpose: X
+#------------------------------------------------------------------------------
+
 import math
+
 from toontown.toonbase.ToontownModules import NodePath, Vec3
 from toontown.toonbase.ToontownModules import CollisionTraverser, CollisionHandlerQueue
 from toontown.toonbase.ToontownModules import CollisionRay, CollisionNode
+
 from math import pi, sin, cos
+
 from direct.showbase.PythonUtil import bound as clamp
+
 from otp.otpbase import OTPGlobals
+
 from toontown.toonbase import ToontownGlobals
+
 from . import CogdoFlyingGameGlobals as Globals
 
 INVERSE_E = 1.0 / math.e
@@ -13,15 +26,16 @@ INVERSE_E = 1.0 / math.e
 def smooth(old, new):
     return old * 0.7 + new * 0.3
 
-
 class CogdoFlyingCameraManager:
 
     def __init__(self, cam, parent, player, level):
+        
         self._toon = player.toon
         self._camera = cam
         self._parent = parent
         self._player = player
         self._level = level
+        
         self._enabled = False
 
     def enable(self):

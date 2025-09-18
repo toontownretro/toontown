@@ -1132,7 +1132,7 @@ class RewardPanel(DirectFrame):
         have just recently dropped.
         """
 
-        track = Sequence(Func(self.initGagFrame, toon, origExp, origMeritList, noSkip=noSkip),
+        track = Sequence(Func(self.initGagFrame, toon, origExp, origMeritList, noSkip = noSkip),
                          Wait(1.0))
 
         endTracks = [0,0,0,0,0,0,0]

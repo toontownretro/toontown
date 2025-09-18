@@ -292,6 +292,8 @@ class ToontownAIRepository(AIDistrict):
 
         self.cogSuitMessageSent = False
 
+        self._specByDisk = ConfigVariableBool('spec-by-disk', 1).getValue()
+
     def getGameDoId(self):
         return OTP_DO_ID_TOONTOWN
 
@@ -1094,3 +1096,10 @@ class ToontownAIRepository(AIDistrict):
                                   (globalId, OtpDoGlobals.OTP_DO_ID_TOONTOWN_PARTY_MANAGER))
             # Let the dclass finish the job
             do.dclass.receiveUpdate(do, di)
+
+    # This probably needs a sanity check or to redirect the request to the proper code
+    #def teleportRegistrar(self):
+    #    """"""
+    #    def registerValidTeleport(toAvId, available, shardId, hoodId, zoneId, fromAvId):
+    #        """"""
+    #        pass

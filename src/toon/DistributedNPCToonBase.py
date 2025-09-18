@@ -222,10 +222,12 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
         
     def _startZombieCheck(self):
         """Starts the Zombie District check"""
-        # See DistributedToon
+        # Meant to be overriden, see DistributedToon._startZombieCheck
+        # NPCs don't get checked.
         pass
 
     def _stopZombieCheck(self):
         """Stops the Zombie District check"""
-        # See DistributedToon
+        # Meant to be overriden, see DistributedToon._stopZombieCheck
+        # NPCs don't get checked.
         pass

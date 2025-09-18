@@ -86,7 +86,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
                 hat[2] == defn[2]):
                 return 1
 
-            # Check if the shirt is in the avatar's closet.
+            # Check if the shirt is in the avatar's trunk.
             l = avatar.hatList
             for i in range(0, len(l), 3):
                 if (l[i] == defn[0] and
@@ -103,7 +103,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
                 glasses[2] == defn[2]):
                 return 1
 
-            # Check if the shirt is in the avatar's closet.
+            # Check if the shirt is in the avatar's trunk.
             l = avatar.glassesList
             for i in range(0, len(l), 3):
                 if (l[i] == defn[0] and
@@ -120,7 +120,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
                 backpack[2] == defn[2]):
                 return 1
 
-            # Check if the shirt is in the avatar's closet.
+            # Check if the shirt is in the avatar's trunk.
             l = avatar.backpackList
             for i in range(0, len(l), 3):
                 if (l[i] == defn[0] and
@@ -137,7 +137,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
                 shoes[2] == defn[2]):
                 return 1
 
-            # Check if the shirt is in the avatar's closet.
+            # Check if the shirt is in the avatar's trunk.
             l = avatar.shoesList
             for i in range(0, len(l), 3):
                 if (l[i] == defn[0] and
@@ -151,8 +151,8 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
 
     def getTypeName(self):
         # e.g. "shirt", "shorts", etc.
-        #article = ClothingTypes[self.clothingType][CTArticle]
-        #return TTLocalizer.ClothingArticleNames[article]
+        #article = AccessoryTypes[self.accessoryType][ATArticle]
+        #return TTLocalizer.AccessoryArticleNames[article]
 
         # Until we have descriptive names per-item below, just return
         # "Clothing" here.
