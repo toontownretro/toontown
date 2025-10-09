@@ -740,7 +740,7 @@ class Suit(Avatar.Avatar):
             return
         except:
             self.Suit_deleted = 1
-            
+        
         if self.leftHand:
             self.leftHand.removeNode()
             self.leftHand = None
@@ -925,10 +925,12 @@ class Suit(Avatar.Avatar):
             armTex = loader.loadTexture("phase_%s/maps/%s_sleeve.txo" % (phase, dept))
             armTex.setMinfilter(Texture.FTLinearMipmapLinear)
             armTex.setMagfilter(Texture.FTLinear)
-
-            modelRoot.find("**/torso").setTexture(torsoTex, 1)
-            modelRoot.find("**/arms").setTexture(armTex, 1)
-            modelRoot.find("**/legs").setTexture(legTex, 1)
+            
+            # Replace the suit textures, We use replaceTexture instead now of relying
+            # on exposed geoms. Which will slow down rendering.
+            modelRoot.replaceTexture(modelRoot.findTexture("*_blazer"), torsoTex)
+            modelRoot.replaceTexture(modelRoot.findTexture("*_sleeve"), armTex)
+            modelRoot.replaceTexture(modelRoot.findTexture("*_leg"), legTex)
 
             # set hand color
             modelRoot.find("**/hands").setColor(self.handColor)
@@ -989,10 +991,10 @@ class Suit(Avatar.Avatar):
             armTex = loader.loadTexture("phase_3.5/maps/waiter_m_sleeve.txo")
             armTex.setMinfilter(Texture.FTLinearMipmapLinear)
             armTex.setMagfilter(Texture.FTLinear)
-
-            modelRoot.find("**/torso").setTexture(torsoTex, 1)
-            modelRoot.find("**/arms").setTexture(armTex, 1)
-            modelRoot.find("**/legs").setTexture(legTex, 1)
+            
+            modelRoot.replaceTexture(modelRoot.findTexture("*_blazer"), torsoTex)
+            modelRoot.replaceTexture(modelRoot.findTexture("*_sleeve"), armTex)
+            modelRoot.replaceTexture(modelRoot.findTexture("*_leg"), legTex)
 
             # set hand color
             modelRoot.find("**/hands").setColor(self.handColor)
@@ -1105,9 +1107,9 @@ class Suit(Avatar.Avatar):
         if not modelPath:
             modelPath = self
         dept = self.style.dept
-        tie = modelPath.find('**/tie')
-        if tie.isEmpty():
-            self.notify.warning('skelecog has no tie model!!!')
+        tex = modelRoot.findTexture("*_tie_*")
+        if not tex:
+            self.notify.warning('Skelecog has no tie texture!!!')
             return
         #print('### loading %s tie' % (dept))
         if dept == 'c':
@@ -1120,7 +1122,7 @@ class Suit(Avatar.Avatar):
             tieTex = loader.loadTexture("phase_5/maps/cog_robot_tie_money.txo")
         tieTex.setMinfilter(Texture.FTLinearMipmapLinear)
         tieTex.setMagfilter(Texture.FTLinear)
-        tie.setTexture(tieTex, 1)
+        modelRoot.replaceTexture(tex, tieTex)
 
     def generateCorporateMedallion(self):
         icons = loader.loadModel('phase_3/models/gui/cog_icons')
