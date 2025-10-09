@@ -343,8 +343,6 @@ NodePath DNAFlatBuilding::traverse(NodePath &parent, DNAStorage *store, int edit
   // Traverse each node in our vector
   pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
   for(; i != _group_vector.end(); ++i) {
-  //JobSystem *jsys = JobSystem::get_global_ptr();
-  //jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
     PT(DNAGroup) group = *i;
     // Walls go under the internal_node_path because they need to pick up
     // the scaled width, everything else goes under the building node path
@@ -354,7 +352,7 @@ NodePath DNAFlatBuilding::traverse(NodePath &parent, DNAStorage *store, int edit
     } else {
       group->traverse(building_node_path, store, editing);
     }
-  }//);
+  }
 
   // For some reason the dna has some flat buildings with no walls
   // we should fix them as we find them

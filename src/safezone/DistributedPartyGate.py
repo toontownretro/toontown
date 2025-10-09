@@ -56,6 +56,10 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
         if partyGate.isEmpty():
             self.notify.warning('Could not find partyGate_grp in loader.geom')
             return
+            
+        # Flatten the gate, We have lots of nodes we want to minimize.
+        partyGate.flattenStrong()
+        
         self.clockFlat = partyGate.find("**/clock_flat")
         collSphere = CollisionSphere(0, 0, 0, 6.9)
         collSphere.setTangible(1)
@@ -66,7 +70,6 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
 #        self.tunnelOrigin = NodePath("PartyGateTunnelOrigin")
 #        self.tunnelOrigin.reparentTo(partyGate)
 #        self.tunnelOrigin.setPos(partyGate.find("**/clockText_locator").getPos() + Point3(0.0, 0.0, -12.0))
-
         self.toontownTimeGui = ServerTimeGui(partyGate, hourCallback=self.hourChange)
         self.toontownTimeGui.setPos(partyGate.find("**/clockText_locator").getPos()+Point3(0.0,0.0,-0.2))
         self.toontownTimeGui.setHpr(partyGate.find("**/clockText_locator").getHpr())
@@ -83,6 +86,10 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
         if partyGate.isEmpty():
             self.notify.warning('Could not find partyGate_grp in loader.geom')
             return
+            
+        # Flatten the gate, We have lots of nodes we want to minimize.
+        partyGate.flattenStrong()
+
         gateFont = ToontownGlobals.getMinnieFont()
         leftSign = partyGate.find("**/signTextL_locatorBack")
         signScale = 0.35

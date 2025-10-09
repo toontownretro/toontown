@@ -146,6 +146,9 @@ class HoodDataAI:
                 self.air.suitPlanners[zoneId] = sp
 
     def createButterflies(self, playground):
+        if not ConfigVariableBool('want-safezone-butterflies', 1).getValue():
+            return
+        
         ButterflyGlobals.generateIndexes(self.zoneId, playground)
         for i in range(0, ButterflyGlobals.NUM_BUTTERFLY_AREAS[playground]):
             for j in range(0, ButterflyGlobals.NUM_BUTTERFLIES[playground]):

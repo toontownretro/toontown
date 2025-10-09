@@ -149,12 +149,12 @@ PT(PandaNode) DNALoader::
 build_graph(DNAStorage *dna_store, int editing) {
     // Return the first child of the root
     NodePath top = _data->top_level_traverse(_root, dna_store, editing);
-    if (!(top.get_num_children() == 0)) {
-        return top.get_child(0).node();
-    } else {
+    if ((top.get_num_children() == 0)) {
         dna_cat.debug() << "DNA File contained no geometry, returning empty node" << std::endl;
         return (PandaNode *)NULL;
     }
+    
+    return top.get_child(0).node();
 }
 
 PT(DNAData) DNALoader::get_data() {

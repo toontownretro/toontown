@@ -81,13 +81,10 @@ NodePath DNAAnimProp::traverse(NodePath &parent, DNAStorage *store, int editing)
   prop_node_path.set_color_scale(_color);
 
   // Traverse each node in our vector
-  //pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
-  //for(; i != _group_vector.end(); ++i) {
-  JobSystem *jsys = JobSystem::get_global_ptr();
-  jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
-    PT(DNAGroup) group = _group_vector[i]; //*i;
+  for (size_t i = 0; i < _group_vector.size(); ++i) {
+    PT(DNAGroup) group = _group_vector[i];
     group->traverse(prop_node_path, store, editing);
-  });
+  }
 
   if (editing) {
     // Remember that this nodepath is associated with this dna group

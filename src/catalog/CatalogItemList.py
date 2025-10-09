@@ -221,30 +221,33 @@ class CatalogItemList:
             self.__decodeList()
         return len(self.__list)
         
-    def getitem(self, index):
-        return self.__getitem__(index)
+    def getitem(self, key):
+        return self.__getitem__(key)
 
-    def __getitem__(self, index):
+    def __getitem__(self, key):
         if self.__list == None:
             self.__decodeList()
-        return self.__list[index]
+        result = self.__list.__getitem__(key)
+        if isinstance(key, slice):
+            return CatalogItemList(list(result), store = self.store)
+        return result
         
-    def setitem(self, index, item):
-        self.__setitem__(index, item)
+    def setitem(self, key, item):
+        self.__setitem__(key, item)
 
-    def __setitem__(self, index, item):
+    def __setitem__(self, key, item):
         if self.__list == None:
             self.__decodeList()
-        self.__list[index] = item
+        self.__list.__setitem__(key, item)
         self.__blob = None
         
-    def delitem(self, index):
-        self.__delitem__(index)
+    def delitem(self, key):
+        self.__delitem__(key)
 
-    def __delitem__(self, index):
+    def __delitem__(self, key):
         if self.__list == None:
             self.__decodeList()
-        del self.__list[index]
+        self.__list.__delitem__(key)
         self.__blob = None
         
     def contains(self, item):
@@ -268,26 +271,6 @@ class CatalogItemList:
             return
             
         super().__set__(other)
-
-    def __getslice__(self, i, j):
-        if self.__list == None:
-            self.__decodeList()
-        return CatalogItemList(self.__list[i : j], store = self.store)
-
-    def __setslice__(self, i, j, s):
-        if self.__list == None:
-            self.__decodeList()
-        if isinstance(s, CatalogItemList):
-            self.__list[i : j] = s.__list
-        else:
-            self.__list[i : j] = s
-        self.__blob = None
-
-    def __delslice__(self, i, j):
-        if self.__list == None:
-            self.__decodeList()
-        del self.__list[i : j]
-        self.__blob = None
 
     def __iadd__(self, other):
         if self.__list == None:

@@ -230,18 +230,16 @@ NodePath DNAVisGroup::traverse(NodePath &parent, DNAStorage *store, int editing)
   NodePath group_node_path = parent.attach_new_node(new_node);
 
   // Traverse each node in our vector
-  //pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
-  //for(; i != _group_vector.end(); ++i) {
-  JobSystem *jsys = JobSystem::get_global_ptr();
-  jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
-    PT(DNAGroup) group = _group_vector[i]; //*i;
+  //JobSystem *jsys = JobSystem::get_global_ptr();
+  //jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
+  for (size_t i = 0; i < _group_vector.size(); ++i) {
+    PT(DNAGroup) group = _group_vector[i];
     group->traverse(group_node_path, store, editing);
-  });
+  }//);
 
   if (editing) {
     // Remember that this nodepath is associated with this dnaVisGroup
     store->store_DNAGroup(group_node_path.node(), this);
-
   }
 
   // For retrieving vis data, a separate map is maintained

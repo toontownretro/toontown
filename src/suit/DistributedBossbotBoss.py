@@ -224,26 +224,6 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         DistributedBossCog.DistributedBossCog.loadEnvironment(self)
         self.geom = loader.loadModel('phase_12/models/bossbotHQ/BanquetInterior_1')
         
-        # Flatten some things for performance
-        walls = self.geom.find('**/walls') 
-        walls.flattenStrong()
-        
-        tables1 = self.geom.find('**/tables1')
-        tables1.flattenStrong()
-        
-        ceiling = self.geom.find('**/ceiling')
-        ceiling.flattenStrong()
-        
-        entry1 = self.geom.find('**/entry1')
-        entry1.flattenStrong()
-        
-        lights = self.geom.find('**/lights')
-        lights.flattenStrong()
-        
-        kitchen = self.geom.find('**/Kitchen')
-        #kitchen.flattenMedium()
-        
-        
         # Attempt to share vertex buffers and combine GeomPrimitives
         # across the GeomNodes, without actually combining the
         # GeomNodes themselves, so we can cull them effectively.

@@ -142,6 +142,7 @@ class SafeZoneLoader(StateData.StateData):
             self.holidayPropTransforms[i] = np.getNetTransform()
         # Flatten the safe zone
         self.geom.flattenMedium()
+        '''
         # Attempt to share vertex buffers and combine GeomPrimitives
         # across the GeomNodes, without actually combining the
         # GeomNodes themselves, so we can cull them effectively.
@@ -153,6 +154,7 @@ class SafeZoneLoader(StateData.StateData):
         grphRed.removeUnusedVertices(self.geom.node())
         # Attempt to share vertex buffers for the safezone geom.
         IndexBufferCombiner.IndexBufferCombiner(self.geom)
+        '''
         # Preload all textures in neighborhood
         gsg = base.win.getGsg()
         if gsg:
