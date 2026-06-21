@@ -19,14 +19,8 @@ class SafeZoneManagerAI(DistributedObjectAI.DistributedObjectAI):
             av = self.air.doId2do[avId]
             # Start healing them
             av.startToonUp(self.healFrequency)
-
         else:
-            self.notify.warning(
-                "Toon " +
-                str(avId) +
-                " isn't here, but just entered the safe zone. " +
-                "I will ignore this."
-                )
+            self.notify.warning("Toon %d isn't here, but just entered the safe zone. I will ignore this." % (avId))
         # Send the "avatar escaped to safezone" message, just in case
         # there are any battles going on that involve this avatar.
         event = "inSafezone-%s" % (avId)

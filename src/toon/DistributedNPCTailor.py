@@ -406,7 +406,6 @@ class DistributedNPCTailor(DistributedNPCToonBase):
         # Report our DNA to the server
         self.sendUpdate('setDNA', [dnaString, finished, whichItems])
 
-
     def setCustomerDNA(self, avId, dnaString):
         assert self.notify.debug("setCustomerDNA")
         # The AI doesn't set the DNA on swaps (finished=0) anymore.
@@ -417,14 +416,20 @@ class DistributedNPCTailor(DistributedNPCToonBase):
 
         # the av might be gone, so check first
         if avId != base.localAvatar.doId:
-            av = base.cr.doId2do.get(avId, None)
-            if av:
-                if self.av == av:
-                    oldTorso = self.av.style.torso
-                    self.av.style.makeFromNetString(dnaString)
-                    if len(oldTorso) == 2 and \
-                       len(self.av.style.torso) == 2 and \
-                       self.av.style.torso[1] != oldTorso[1]:
-                        self.av.swapToonTorso(self.av.style.torso, genClothes = 0)
-                        self.av.loop("neutral", 0)
-                    self.av.generateToonClothes()
+            return
+            
+        av = base.cr.doId2do.get(avId, None)
+        if not av:
+            return
+        
+        if self.av != av:
+            return
+        
+        oldTorso = self.av.style.torso
+        self.av.style.makeFromNetString(dnaString)
+        if len(oldTorso) == 2 and \
+           len(self.av.style.torso) == 2 and \
+           self.av.style.torso[1] != oldTorso[1]:
+            self.av.swapToonTorso(self.av.style.torso, genClothes = 0)
+            self.av.loop("neutral", 0)
+        self.av.generateToonClothes()

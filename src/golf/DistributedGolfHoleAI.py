@@ -79,8 +79,6 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
         startPos += Vec3(0, 0, GolfGlobals.GOLF_BALL_RADIUS)
         self.ball.setPosition(startPos)
 
-
-
     def delete(self):
         self.notify.debug('__delete__')
         DistributedPhysicsWorldAI.DistributedPhysicsWorldAI.delete(self)
@@ -93,8 +91,6 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
             self.notify.debug('calling self.barrierPlayback = None')
             self.barrierPlayback = None
         self.activeGolferId = None
-
-
 
     def setZoneId(self, zoneId):
         self.zoneId = zoneId
@@ -143,11 +139,10 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
                 self.request("WaitSwing")
         else:
             # we did not find a valid golfer to swing, finish the hole?
-            self.notify.debug("safety")
-            pass
+            self.notify.warning('selectNextGolfer, No valid golfer to swing.')
+            return
 
-        self.notify.debug('selectNextGolfer, new golferIndex=%s new golferId=%s' % (self.activeGolferIndex,
-                                                                                    self.activeGolferId))
+        self.notify.debug('selectNextGolfer, new golferIndex=%s new golferId=%s' % (self.activeGolferIndex, self.activeGolferId))
 
     def clearWatched(self):
         self.watched = [1,1,1,1]
@@ -162,8 +157,7 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
     def checkWatched(self):
         if 0 not in self.watched:
             return True
-        else:
-            return False
+        return False
 
     def turnDone(self):
         self.notify.debug("Turn Done")
@@ -172,7 +166,6 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
             self.barrierPlayback.clear(avId)
 
         #if avId == self.golfCourse.getGolferIds()[self.activeGolferIndex]:
-
 
     def ballInHole(self, golferId = None):
         self.notify.debug('ballInHole')
@@ -184,8 +177,8 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
         if self.golfCourse.isCurHoleDone():
             # should we do something here?
             # self.finishHole()
-            self.notify.debug('ballInHole doing nothing')
-            pass
+            self.notify.warning('ballInHole, skipping request from %d after hole is already complete.', avId)
+            return
         else:
             self.notify.debug('ballInHole calling self.selectNextGolfer')
             self.selectNextGolfer()
@@ -205,9 +198,6 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
 
     def getGolferIds(self):
         return self.avIdList
-
-
-
 
     def loadLevel(self):
         GolfHoleBase.GolfHoleBase.loadLevel(self)
@@ -246,11 +236,6 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
             teeNode = self.terrainModel.find('**/tee%d' % teeIndex)
 
         #import pdb; pdb.set_trace()
-
-
-
-
-
 
     def createLocatorDict(self):
         """Create a dictionary of locator numbers to the actual nodepath."""
@@ -326,7 +311,6 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
             playerId = random.choice(stillPlaying)
         return playerId
 
-
     def ballMovie2AI(self, cycleTime, avId, movie, spinMovie, ballInFrame, ballTouchedHoleFrame, ballFirstTouchedHoleFrame, commonObjectData):
         sentFromId = self.air.getAvatarIdFromSender()
         if sentFromId == self.trustedPlayerId:
@@ -379,7 +363,6 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
         self.sendUpdate("ballMovie2Client", [self.storeAction[1], avId, self.recording, self.aVRecording, self.ballInHoleFrame, self.ballTouchedHoleFrame, self.ballFirstTouchedHoleFrame, self.commonHoldData])
         self.ballPos[avId] = newPos
         self.trustedPlayerId = None
-
 
     def postResult(self, cycleTime, avId, recording, aVRecording, ballInHoleFrame, ballTouchedHoleFrame, ballFirstTouchedHoleFrame):
         pass
@@ -555,11 +538,6 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
             self.createCommonObject(4, path.getPos(), path.getHpr(), sizeX, sizeY, move)
         elif type == 3:
             self.createCommonObject(3, path.getPos(), path.getHpr())
-
-
-
-
-
 
 # The objects within a golf hole cannot simply be distributed objects
 # because they all need to be synced simultaniously with the ball

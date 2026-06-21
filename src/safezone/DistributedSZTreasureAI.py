@@ -2,7 +2,6 @@ from . import DistributedTreasureAI
 from toontown.toonbase import ToontownGlobals
 
 class DistributedSZTreasureAI(DistributedTreasureAI.DistributedTreasureAI):
-
     def __init__(self, air, treasurePlanner, x, y, z):
         DistributedTreasureAI.DistributedTreasureAI.__init__(self, air,
                                                              treasurePlanner,
@@ -13,7 +12,6 @@ class DistributedSZTreasureAI(DistributedTreasureAI.DistributedTreasureAI):
     # need healing can pick up treasures.
     def validAvatar(self, av):
         return (av.hp > 0) and (av.hp < av.maxHp)
-
 
     # override the grab function and try to heal the toon
     def d_setGrab(self, avId):

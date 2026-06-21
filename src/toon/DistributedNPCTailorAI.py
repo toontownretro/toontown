@@ -89,10 +89,8 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
                                 self.sendTimeoutMovie,
                                 self.uniqueName('clearMovie'))
 
-
     def rejectAvatar(self, avId):
         self.notify.warning("rejectAvatar: should not be called by a Tailor!")
-        return
 
     def sendTimeoutMovie(self, task):
         assert self.notify.debug('sendTimeoutMovie()')
@@ -139,7 +137,6 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
                         self.npcId, avId,
                         ClockDelta.globalClockDelta.getRealNetworkTime()])
         self.sendClearMovie(None)
-        return
 
     def setDNA(self, blob, finished, which):
         assert self.notify.debug('setDNA(): %s' % self.timedOut)
@@ -166,24 +163,17 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
                     av.b_setDNAString(blob)
                     # SDN:  only add clothes if they have been changed (i.e. if (which & n) == 1)
                     if which & ClosetGlobals.SHIRT:
-                        if (av.addToClothesTopsList(self.customerDNA.topTex,
-                                                    self.customerDNA.topTexColor,
-                                                    self.customerDNA.sleeveTex,
-                                                    self.customerDNA.sleeveTexColor) == 1):
+                        if (av.addToClothesTopsList(self.customerDNA.topTex, self.customerDNA.topTexColor, self.customerDNA.sleeveTex, self.customerDNA.sleeveTexColor) == 1):
                             av.b_setClothesTopsList(av.getClothesTopsList())
                         else:
                             self.notify.warning('NPCTailor: setDNA() - unable to save old tops - we exceeded the tops list length')
                     if which & ClosetGlobals.SHORTS:
-                        if (av.addToClothesBottomsList(self.customerDNA.botTex,
-                                                       self.customerDNA.botTexColor) == 1):
+                        if (av.addToClothesBottomsList(self.customerDNA.botTex, self.customerDNA.botTexColor) == 1):
                             av.b_setClothesBottomsList(av.getClothesBottomsList())
                         else:
                             self.notify.warning('NPCTailor: setDNA() - unable to save old bottoms - we exceeded the bottoms list length')
 
-                    self.air.writeServerEvent(
-                        'boughtTailorClothes', avId,
-                        "%s|%s|%s" % (self.doId, which, self.customerDNA.asTuple()))
-
+                    self.air.writeServerEvent('boughtTailorClothes', avId, "%s|%s|%s" % (self.doId, which, self.customerDNA.asTuple()))
                 else:
                     self.air.writeServerEvent('suspicious', avId, 'DistributedNPCTailorAI.setDNA bogus clothing ticket')
                     self.notify.warning('NPCTailor: setDNA() - client tried to purchase with bogus clothing ticket!')

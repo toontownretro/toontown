@@ -9,8 +9,9 @@ def GE():
     simbase.air.golf.generateWithRequired(2000)
     return simbase.air.golf
 
-class DistributedGolfManagerAI(DistributedObjectAI.DistributedObjectAI):
-
+class DistributedGolfEntranceAI(DistributedObjectAI.DistributedObjectAI):
+    notify = directNotify.newCategory("DistributedGolfEntranceAI")
+    
     def __init__(self):
         DistributedObjectAI.DistributedObjectAI.__init__(self, simbase.air)
         self.golfZone = None
@@ -26,5 +27,5 @@ class DistributedGolfManagerAI(DistributedObjectAI.DistributedObjectAI):
             self.golfZone = self.air.allocateZone()
             someHole = DistributedGolfHoleAI.DistributedGolfHoleAI(self.golfZone)
             someHole.generateWithRequired(self.golfZone)
-        print(("Sending %s to course %s" % (avId, self.golfZone)))
+        self.notify.debug("Sending %s to course %s" % (avId, self.golfZone))
         self.sendUpdate("sendToGolfCourse", [avId, self.golfZone])
