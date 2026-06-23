@@ -2743,7 +2743,7 @@ dclass DistributedNPCClerk: DistributedNPCToonBase {
 
 dclass DistributedNPCTailor: DistributedNPCToonBase {
   setMovie(uint8 mode, uint32 npcId, uint32 avId, int16 timestamp) broadcast ram;
-  setDNA(blob dna, int8 finished, uint8 which) airecv clsend;      //security breach: invalid finished not checked, dna needs sanity check...need help = SAMIR/MIKE
+  setClothesChoices(int8 finished, int16 topChoice, int16 bottomChoice) airecv clsend;
 
   // Server tells all clients how to clothe the current customer
   setCustomerDNA(uint32 avId, blob dna) broadcast ram;

@@ -299,7 +299,7 @@ class DistributedNPCTailor(DistributedNPCToonBase):
 
     def __handleSwap(self):
         assert self.notify.debug("__handleSwap")
-        self.d_setDNA(self.av.getStyle().makeNetString(), 0)
+        self.d_setClothesChoices(0, self.clothesGUI.topChoice, self.clothesGUI.bottomChoice)
 
     def __handlePurchaseDone(self, timeout = 0):
         """
@@ -308,9 +308,7 @@ class DistributedNPCTailor(DistributedNPCToonBase):
         """
         assert self.notify.debug('handlePurchaseDone()')
         if (self.clothesGUI.doneStatus == 'last' or timeout == 1):
-            # The client really does not need to send the DNA here
-            # since the server is keeping track of it
-            self.d_setDNA(self.oldStyle.makeNetString(), 1)
+            self.d_setClothesChoices(1)
         else:
             # The client really does not need to send the DNA here
             # since the server is keeping track of it
@@ -327,7 +325,7 @@ class DistributedNPCTailor(DistributedNPCToonBase):
                 which = which | ClosetGlobals.SHIRT
             if self.clothesGUI.bottomChoice != -1:
                 which = which | ClosetGlobals.SHORTS
-            print("setDNA: which = %d, top = %d, bot = %d" % (which, self.clothesGUI.topChoice, self.clothesGUI.bottomChoice))
+            print("setClothesChoices: which = %d, top = %d, bot = %d" % (which, self.clothesGUI.topChoice, self.clothesGUI.bottomChoice))
             # if the closet is full or almost full, confirm that we want to lose the
             # clothes we are wearing
             if self.roomAvailable == 0:
@@ -341,9 +339,9 @@ class DistributedNPCTailor(DistributedNPCToonBase):
                         self.button.hide()
                         self.cancelButton.hide()
                     else:
-                        self.d_setDNA(self.av.getStyle().makeNetString(), 2, which)
+                        self.d_setClothesChoices(2, self.clothesGUI.topChoice, self.clothesGUI.bottomChoice)
             else:
-                self.d_setDNA(self.av.getStyle().makeNetString(), 2, which)
+                self.d_setClothesChoices(2, self.clothesGUI.topChoice, self.clothesGUI.bottomChoice)
 
     def __enterConfirmLoss(self, finished, which):
         if self.popupInfo == None:
@@ -394,17 +392,16 @@ class DistributedNPCTailor(DistributedNPCToonBase):
         self.popupInfo.reparentTo(aspect2d)
 
     def __handleConfirmLossOK(self, finished, which):
-        self.d_setDNA(self.av.getStyle().makeNetString(), finished, which)
+        self.d_setClothesChoices(finished, self.clothesGUI.topChoice, self.clothesGUI.bottomChoice)
         self.popupInfo.reparentTo(hidden)
 
     def __handleConfirmLossCancel(self):
-        self.d_setDNA(self.oldStyle.makeNetString(), 1)
+        self.d_setClothesChoices(1)
         self.popupInfo.reparentTo(hidden)
 
-
-    def d_setDNA(self, dnaString, finished, whichItems = ClosetGlobals.SHIRT | ClosetGlobals.SHORTS):
+    def d_setClothesChoices(self, finished, topChoice=-1, bottomChoice=-1):
         # Report our DNA to the server
-        self.sendUpdate('setDNA', [dnaString, finished, whichItems])
+        self.sendUpdate('setClothesChoices', [finished, topChoice, bottomChoice])
 
     def setCustomerDNA(self, avId, dnaString):
         assert self.notify.debug("setCustomerDNA")
