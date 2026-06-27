@@ -1,55 +1,77 @@
-#import Pyro.core
-#import Pyro.naming
-#import Pyro.errors
-import sys
-import datetime
-import pymysql as MySQLdb
+import sys, datetime
+
 from direct.directnotify import DirectNotifyGlobal
+
+from otp.sql.SqlDB import SqlDB, SqlDBConnection, TryAgainLater
+from otp.sql import SqlErrors
+
 from toontown.uberdog import ttSQL
 from toontown.parties import PartyGlobals
 
-SERVER_GONE_ERROR = MySQLdb.constants.CR.CR_SERVER_GONE_ERROR
-SERVER_LOST = MySQLdb.constants.CR.CR_SERVER_LOST
+from toontown.toonbase.ToontownModules import *
 
-class ttInviteDb:
-    """Based on sbMaildb.py in $OTP/src/switchboard."""
+SERVER_GONE_ERROR = SqlErrors.ServerGoneAway
+SERVER_LOST = SqlErrors.ServerLost
 
-    notify = DirectNotifyGlobal.directNotify.newCategory("ttInviteDb")
+class TTInviteDBConnection(SqlDBConnection):
+    notify = directNotify.newCategory('ttInviteDb')
+    
+    WantInviteReconnects = ConfigVariableBool('want-tt-invite-db-reconnects', 1).getValue()
 
-    def __init__(self,host,port,user,passwd,db):
-        self.sqlAvailable = True
-        self.host = host
-        self.port = port
-        self.user = user
-        self.passwd = passwd
-        self.dbname = db
+    def __init__(self, connectInfo, tableLocks={}):
+        SqlDBConnection.__init__(self, connectInfo, tableLocks)
+        
+    def enterConnecting(self):
+        if self._lastFailedConnectTime is not None:
+            if (globalClock.getRealTime() - self._lastFailedConnectTime) < self.ConnectRetryTimeout:
+                raise TryAgainLater(None, '%s:%s' % (self._host, self._port))
 
-        try:
-            self.db = MySQLdb.connect(host=host, port=port, user=user, passwd=passwd)
-        except MySQLdb.OperationalError as e:
-            self.notify.warning("Failed to connect to MySQL db=%s at %s:%d.  ttInvitedb DB is disabled."%(db,host,port))
-            self.notify.warning("Error detail: %s"%str(e))
-            self.sqlAvailable = False
+        if self._db:
+            # No DB initialization required since we're already connected
+            self.request(self.Locking)
             return
 
-        self.notify.info("Connected to invitedb=%s at %s:%d." % (db, host, port))
-
-        #temp hack for initial dev, create DB structure if it doesn't exist already
-        cursor = self.db.cursor()
         try:
-            cursor.execute("CREATE DATABASE `%s`"%self.dbname)
-            if __debug__:
-                self.notify.info("Database '%s' did not exist, created a new one!"%self.dbname)
-        except MySQLdb.ProgrammingError as e:
-            # self.notify.info('%s' % str(e))
-            pass
-        except MySQLdb.OperationalError as e:
-            self.notify.info('%s' % str(e))
-            pass
+            self._db = self.__class__.ConnectFunction(host=self._host, port=self._port, user=self._user, password=self._passwd)
+        except SqlErrors.OperationalError as e:
+            if not self.WantInviteReconnects:
+                self.notify.warning(str(e))
+                self.notify.warning("Failed to connect to SQL database=%s at %s:%d.  ttInviteDb DB is disabled." % (self._dbName, self._host, self._port))
+                self.request(self.Disconnected)
+                return
 
-        cursor.execute("USE `%s`" % self.dbname)
+            self.notify.warning(str(e))
+            self._lastFailedConnectTime = globalClock.getRealTime()
+            raise TryAgainLater(e, '%s:%s' % (self._host, self._port))
+        else:
+            #self._db.set_character_set('utf8')
+
+            # spammy
+            if not self.__class__.LoggedConnectionInfo:
+                self.notify.debug("Connected to invitedb=%s at %s:%d." % (self._dbName, self._host, self._port))
+                self.__class__.LoggedConnectionInfo = True
+            self.request(self.Initializing)
+            
+    def enterInitializing(self):
+        cursor = self.getCursor()
+        initDb = ConfigVariableBool('want-tt-invitedb-init', __dev__).getValue()
+        if initDb:
+            try:
+                cursor.execute("CREATE DATABASE `%s`" % self._dbName)
+                if __debug__:
+                    self.notify.info("Database '%s' did not exist, created a new one!" % self._dbName)
+            except SqlErrors.ProgrammingError as e:
+                # self.notify.info('%s' % str(e))
+                pass
+            except SqlErrors.OperationalError as e:
+                self.notify.info('%s' % str(e))
+                pass
+                
+        cursor.execute("USE `%s`" % self._dbName)
+        
         if __debug__:
-            self.notify.debug("Using database '%s'" % self.dbname)
+            self.notify.debug("Using database '%s'" % self._dbName)
+            
         try:
             # well if we're creating the party table again,
             # might as well create the party status lookup table for the benefit of database reporting
@@ -100,102 +122,99 @@ class ttInviteDb:
             """)
             if __debug__:
                 self.notify.info("Table ttInvite did not exist, created a new one!")
-        except MySQLdb.OperationalError as e:
+        except SqlErrors.OperationalError as e:
             #self.notify.warning("Unknown error when creating tables, retrying:\n%s" % str(e))
             pass
-
+            
         try:
-            cursor = self.db.cursor()
-            cursor.execute("USE `%s`"%self.dbname)
-            self.notify.debug("Using database '%s'"%self.dbname)
+            cursor = self.getCursor()
+            cursor.execute("USE `%s`" % self._dbName)
+            self.notify.debug("Using database '%s'" % self._dbName)
         except:
-            self.notify.debug("%s database not found, ttInvite not active."%self.dbname)
-            self.sqlAvailable = False
+            self.notify.debug("%s database not found, ttInviteDb not active." % self._dbName)
+            
+        self.request(self.Locking)
 
+class ttInviteDb(SqlDB):
+    """Based on sbMaildb.py in $OTP/src/switchboard."""
 
-    def reconnect(self):
-        self.notify.debug("MySQL server was missing, attempting to reconnect.")
-        try:
-            self.db.close()
-        except:
-            pass
-        self.db = MySQLdb.connect(host=self.host, port=self.port, user=self.user, passwd=self.passwd)
-        cursor = self.db.cursor()
-        cursor.execute("USE `%s`"%self.dbname)
-        self.notify.debug("Reconnected to MySQL server at %s:%d."%(self.host,self.port))
+    notify = DirectNotifyGlobal.directNotify.newCategory("ttInviteDb")
+
+    def __init__(self, host, port, user, passwd, db):
+        SqlDB.__init__(self, host, port, user, passwd, db)
+        self.dbname = db
+        
+        self.db = TTInviteDBConnection(self)
 
     def disconnect(self):
-        if not self.sqlAvailable:
+        if self.db.isOff():
             return
-        self.db.close()
+        self.db.destroy()
         self.db = None
 
-    def getInvites(self, avatarId,isRetry=False):
+    def getInvites(self, avatarId, isRetry=False):
         """
         Returns a tuple, which could be empty.
         """
-        if not self.sqlAvailable:
-            self.notify.debug("sqlAvailable was false when calling getInvites")
+        if self.db.isDisabled():
+            self.notify.debug("ttInviteDb was disabled when calling getInvites.")
             return ()
 
-        cursor = MySQLdb.cursors.DictCursor(self.db)
         try:
+            cursor = self.db.getDictCursor()
             cursor.execute("USE `%s`"%self.dbname)
             cursor.execute(ttSQL.getInvitesSELECT,(avatarId,))
             res = cursor.fetchall()
             self.notify.debug("Select was successful in ttInvitedb, returning %s" % str(res))
             return res
 
-        except MySQLdb.OperationalError as e:
+        except SqlErrors.OperationalError as e:
             if isRetry == True:
                 self.notify.warning("Error on getInvites retry, giving up:\n%s" % str(e))
                 return ()
-            elif e[0] == SERVER_GONE_ERROR or e[0] == SERVER_LOST:
-                self.reconnect()
+            elif e.errno == SERVER_GONE_ERROR or e.errno == SERVER_LOST:
+                self.db.reconnect()
                 return self.getInvites(avatarId,True)
             else:
                 self.notify.warning("Unknown error in getInvites, retrying:\n%s" % str(e))
-                self.reconnect()
+                self.db.reconnect()
                 return self.getInvites(avatarId,True)
         except Exception as e:
             self.notify.warning("Unknown error in getInvites, giving up:\n%s" % str(e))
             return ()
 
-
-    def putInvite(self, partyId, inviteeId,isRetry=False):
-        if not self.sqlAvailable:
+    def putInvite(self, partyId, inviteeId, isRetry=False):
+        if self.db.isDisabled():
+            self.notify.debug("ttInviteDb was disabled when calling putInvite.")
             return
 
-        countcursor = self.db.cursor()
-
         try:
-            cursor = MySQLdb.cursors.DictCursor(self.db)
+            cursor = self.db.getDictCursor()
             cursor.execute(ttSQL.putInviteINSERT, (partyId, inviteeId))
             self.db.commit()
 
-        except MySQLdb.OperationalError as e:
+        except SqlErrors.OperationalError as e:
             if isRetry == True:
                 self.notify.warning("Error on putInvite retry, giving up:\n%s" % str(e))
                 return
-            elif e[0] == SERVER_GONE_ERROR or e[0] == SERVER_LOST:
-                self.reconnect()
-                self.putInvite(partyId, inviteeId,True)
+            elif e.errno == SERVER_GONE_ERROR or e.errno == SERVER_LOST:
+                self.db.reconnect()
+                self.putInvite(partyId, inviteeId, True)
             else:
                 self.notify.warning("Unknown error in putInvite, retrying:\n%s" % str(e))
-                self.reconnect()
-                self.putInvite(partyId, inviteeId,True)
+                self.db.reconnect()
+                self.putInvite(partyId, inviteeId, True)
         except Exception as e:
             self.notify.warning("Unknown error in putInvite, giving up:\n%s" % str(e))
             return
 
-
-    def deleteInviteByParty(self,partyId,isRetry=False):
-        if not self.sqlAvailable:
+    def deleteInviteByParty(self, partyId, isRetry=False):
+        if self.db.isDisabled():
+            self.notify.debug("ttInviteDb was disabled when calling deleteInviteByParty.")
             return
 
-        cursor = MySQLdb.cursors.DictCursor(self.db)
-
         try:
+            cursor = self.db.getDictCursor()
             cursor.execute("USE `%s`"%self.dbname)
             cursor.execute(ttSQL.deleteInviteByPartyDELETE,( partyId))
 
@@ -204,92 +223,90 @@ class ttInviteDb:
 
             self.db.commit()
 
-        except MySQLdb.OperationalError as e:
+        except SqlErrors.OperationalError as e:
             if isRetry == True:
                 self.notify.warning("Error in deleteInviteByParty retry, giving up:\n%s" % str(e))
                 return
-            elif e[0] == SERVER_GONE_ERROR or e[0] == SERVER_LOST:
-                self.reconnect()
-                self.deleteMail(accountId,messageId,True)
+            elif e.errno == SERVER_GONE_ERROR or e.errno == SERVER_LOST:
+                self.db.reconnect()
+                self.deleteMail(accountId, messageId, True)
             else:
                 self.notify.warning("Unnown error in deleteInviteByParty, retrying:\n%s" % str(e))
-                self.reconnect()
-                self.deleteMail(accountId,messageId,True)
+                self.db.reconnect()
+                self.deleteMail(accountId, messageId, True)
         except Exception as e:
             self.notify.warning("Unknown error in deleteInviteByParty, giving up:\n%s" % str(e))
             return
 
-    def getReplies(self,partyId,isRetry=False):
-        if not self.sqlAvailable:
-            self.notify.debug("sqlAvailable was false when calling getParty")
+    def getReplies(self, partyId, isRetry=False):
+        if self.db.isDisabled():
+            self.notify.debug("ttInviteDb was disabled when calling getReplies.")
             return ()
 
-        cursor = MySQLdb.cursors.DictCursor(self.db)
         try:
+            cursor = self.db.getDictCursor()
             cursor.execute("USE `%s`"%self.dbname)
             cursor.execute(ttSQL.getRepliesSELECT,(partyId,))
             res = cursor.fetchall()
             #self.notify.debug("Select was successful in ttInvitedb, returning %s" % str(res))
             return res
 
-        except MySQLdb.OperationalError as e:
+        except SqlErrors.OperationalError as e:
             if isRetry == True:
                 self.notify.warning("Error on getReplies retry, giving up:\n%s" % str(e))
                 return ()
-            elif e[0] == SERVER_GONE_ERROR or e[0] == SERVER_LOST:
-                self.reconnect()
-                return self.getReplies(partyId,True)
+            elif e.errno == SERVER_GONE_ERROR or e.errno == SERVER_LOST:
+                self.db.reconnect()
+                return self.getReplies(partyId, True)
             else:
                 self.notify.warning("Unknown error in getReplies, retrying:\n%s" % str(e))
-                self.reconnect()
-                return self.getReplies(partyId,True)
+                self.db.reconnect()
+                return self.getReplies(partyId, True)
         except Exception as e:
             self.notify.warning("Unknown error in getReplies, giving up:\n%s" % str(e))
             return ()
 
-
     def dumpInviteTable(self):
-        cursor = MySQLdb.cursors.DictCursor(self.db)
+        cursor = self.db.getDictCursor()
         cursor.execute("USE `%s`"%self.dbname)
         cursor.execute("SELECT * FROM ttInviteDb")
         return cursor.fetchall()
 
-
     def getOneInvite(self, inviteKey, isRetry = False):
-        if not self.sqlAvailable:
-            self.notify.debug("sqlAvailable was false when calling getParty")
+        if self.db.isDisabled():
+            self.notify.debug("ttInviteDb was disabled when calling getOneInvite.")
             return ()
 
-        cursor = MySQLdb.cursors.DictCursor(self.db)
         try:
+            cursor = self.db.getDictCursor()
             cursor.execute("USE `%s`"%self.dbname)
             cursor.execute(ttSQL.getOneInviteSELECT,(inviteKey,))
             res = cursor.fetchall()
             #self.notify.debug("Select was successful in ttInvitedb, returning %s" % str(res))
             return res
 
-        except MySQLdb.OperationalError as e:
+        except SqlErrors.OperationalError as e:
             if isRetry == True:
                 self.notify.warning("Error on getOneInvite retry, giving up:\n%s" % str(e))
                 return ()
-            elif e[0] == SERVER_GONE_ERROR or e[0] == SERVER_LOST:
-                self.reconnect()
-                return self.getOneInvite(partyId,True)
+            elif e.errno == SERVER_GONE_ERROR or e.errno == SERVER_LOST:
+                self.db.reconnect()
+                return self.getOneInvite(partyId, True)
             else:
                 self.notify.warning("Unknown error in getOneInvite, retrying:\n%s" % str(e))
-                self.reconnect()
-                return self.getOneInvite(partyId,True)
+                self.db.reconnect()
+                return self.getOneInvite(partyId, True)
         except Exception as e:
             self.notify.warning("Unknown error in getOneInvite, giving up:\n%s" % str(e))
             return ()
 
     def updateInvite(self, inviteKey, newStatus, isRetry = False):
-        if not self.sqlAvailable:
-            self.notify.debug("sqlAvailable was false when calling getParty")
+        if self.db.isDisabled():
+            self.notify.debug("ttInviteDb was disabled when calling updateInvite.")
             return ()
 
-        cursor = MySQLdb.cursors.DictCursor(self.db)
         try:
+            cursor = self.db.getDictCursor()
             cursor.execute("USE `%s`"%self.dbname)
             cursor.execute(ttSQL.inviteUPDATE,(newStatus, inviteKey))
             self.db.commit()
@@ -297,46 +314,45 @@ class ttInviteDb:
             #self.notify.debug("Select was successful in ttInvitedb, returning %s" % str(res))
             return res
 
-        except MySQLdb.OperationalError as e:
+        except SqlErrors.OperationalError as e:
             if isRetry == True:
                 self.notify.warning("Error on updateInvite retry, giving up:\n%s" % str(e))
                 return ()
-            elif e[0] == SERVER_GONE_ERROR or e[0] == SERVER_LOST:
-                self.reconnect()
+            elif e.errno == SERVER_GONE_ERROR or e.errno == SERVER_LOST:
+                self.db.reconnect()
                 return self.updateInvite( newStatus, inviteKey, True)
             else:
                 self.notify.warning("Unknown error in updateInvite, retrying:\n%s" % str(e))
-                self.reconnect()
+                self.db.reconnect()
                 return self.updateInvite( newStatus, inviteKey, True)
         except Exception as e:
             self.notify.warning("Unknown error in updateInvite, giving up:\n%s" % str(e))
             return ()
 
-
     def getInviteesOfParty(self, inviteKey, isRetry = False):
-        if not self.sqlAvailable:
-            self.notify.debug("sqlAvailable was false when calling getParty")
+        if self.db.isDisabled():
+            self.notify.debug("ttInviteDb was disabled when calling getInviteesOfParty.")
             return ()
 
-        cursor = MySQLdb.cursors.DictCursor(self.db)
         try:
+            cursor = self.db.getDictCursor()
             cursor.execute("USE `%s`"%self.dbname)
             cursor.execute(ttSQL.getInviteesOfPartySELECT,(inviteKey,))
             res = cursor.fetchall()
             #self.notify.debug("Select was successful in ttInvitedb, returning %s" % str(res))
             return res
 
-        except MySQLdb.OperationalError as e:
+        except SqlErrors.OperationalError as e:
             if isRetry == True:
                 self.notify.warning("Error on getInviteesOfParty retry, giving up:\n%s" % str(e))
                 return ()
-            elif e[0] == SERVER_GONE_ERROR or e[0] == SERVER_LOST:
-                self.reconnect()
-                return self.getInviteesOfParty(partyId,True)
+            elif e.errno == SERVER_GONE_ERROR or e.errno == SERVER_LOST:
+                self.db.reconnect()
+                return self.getInviteesOfParty(partyId, True)
             else:
                 self.notify.warning("Unknown error in getInviteesOfParty, retrying:\n%s" % str(e))
-                self.reconnect()
-                return self.getInviteesOfParty(partyId,True)
+                self.db.reconnect()
+                return self.getInviteesOfParty(partyId, True)
         except Exception as e:
             self.notify.warning("Unknown error in getInviteesOfParty, giving up:\n%s" % str(e))
             return ()

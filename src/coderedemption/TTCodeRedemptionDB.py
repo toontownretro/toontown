@@ -13,214 +13,45 @@ if __name__ == '__main__':
     #showbase = ShowBase(fStartDirect=False, windowType='none')
     config = getConfigShowbase()
 
+import datetime, random, os, subprocess, time
+
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.fsm.FSM import FSM
 from direct.fsm.StatePush import StateVar, FunctionCall
 from direct.showbase.DirectObject import DirectObject
 from direct.task import Task
 from direct.showbase.Job import Job
-from direct.stdpy import threading # MySQLdb blocks on locked table access
-from otp.uberdog.DBInterface import DBInterface
+from direct.stdpy import threading
+from otp.sql.DBInterface import DBInterface
+from otp.sql.SqlDB import SqlDB, SqlDBConnection, TryAgainLater
+from otp.sql import SqlErrors
 from toontown.coderedemption.TTCodeDict import TTCodeDict
 from toontown.coderedemption import TTCodeRedemptionConsts
-#from direct.directutil import DirectMySQLdb
-from pymysql.connections import Connection as DirectMySQLdb#Connection
-import random
-import datetime
-import pymysql as MySQLdb
-import os
-import subprocess
-import time
 
 from toontown.toonbase.ToontownModules import *
 
-class MySQLErrors:
-    DbAlreadyExists = 1007
-    TableAlreadyExists = 1050
-    ServerShuttingDown = 1053
-    ServerGoneAway = 2006
-
-class TryAgainLater(Exception):
-    def __init__(self, mysqlException, address):
-        self._exception = mysqlException
-        self._address = address
-
-    def getMySQLException(self):
-        return self._exception
-
-    def __str__(self):
-        return 'problem using MySQL DB at %s, try again later (%s)' % (self._address, self._exception)
-
-class TTDBCursorBase:
-    ConnectionProblems = set([MySQLErrors.ServerShuttingDown,
-                              MySQLErrors.ServerGoneAway,
-                              ])
-    def _setConnection(self, connection):
-        self._connection = connection
-
-    def _doExecute(self, cursorBase, *args, **kArgs):
-        if self.notify.getDebug():
-            self.notify.debug('execute:\n%s' % (args[0]))
-        try:
-            cursorBase.execute(self, *args, **kArgs)
-        except MySQLdb.OperationalError as e:
-            if self._connection.getErrorCode(e) in TTDBCursorBase.ConnectionProblems:
-                # force a reconnect
-                TTCRDBConnection.db = None
-                raise TryAgainLater(e, '%s:%s' % (self._connection._host, self._connection._port))
-            else:
-                raise
-
-class TTDBCursor(MySQLdb.cursors.Cursor, TTDBCursorBase):
+class TTCRDBConnection(SqlDBConnection):
     notify = directNotify.newCategory('TTCodeRedemptionDB')
-
-    def execute(self, *args, **kArgs):
-        self._doExecute(MySQLdb.cursors.Cursor, *args, **kArgs)
-
-class TTDBDictCursor(MySQLdb.cursors.DictCursor, TTDBCursorBase):
-    notify = directNotify.newCategory('TTCodeRedemptionDB')
-
-    def execute(self, *args, **kArgs):
-        self._doExecute(MySQLdb.cursors.DictCursor, *args, **kArgs)
-
-class TTCRDBConnection(DBInterface):
-    notify = directNotify.newCategory('TTCodeRedemptionDB')
-
-    RetryPeriod = 5.
-    TableLockRetryPeriod = 1.
-
-    Connecting = 'Connecting'
-    Initializing = 'Initializing'
-    Locking = 'Locking'
-    Connected = 'Connected'
-    Released = 'Released'
-    WaitForRetry = 'WaitForRetry'
-    WaitForRetryLocking = 'WaitForRetryLocking'
-
+    
+    ConnectedEvent = 'TTCRDBConnectionMgr-Connected-%s'
+    
+    WantTableLocking = ConfigVariableBool('want-code-redemption-db-locking', 0).getValue()
+    
     StartCodeLength = 4
 
-    READ = 'READ'
-    WRITE = 'WRITE'
-
-    LoggedConnectionInfo = False
-    ConnectedEvent = 'TTCRDBConnectionMgr-Connected-%s'
-
-    WantTableLocking = ConfigVariableBool('want-code-redemption-db-locking', 0).getValue()
-
-    db = None
-
-    LastFailedConnectTime = None
-    ConnectRetryTimeout = 3.
-
     def __init__(self, connectInfo, tableLocks={}):
-        # tableLocks: table name -> READ||WRITE
-        self._host = connectInfo.host
-        self._port = connectInfo.port
-        self._user = connectInfo.user
-        self._passwd = connectInfo.passwd
-        self._tableLocks = tableLocks
-        self._dbName = connectInfo.dbname
-        self._retryDoLater = None
-        self._retryLockingDoLater = None
-        self._curState = 'Off'
-        self.request(self.Connecting)
-
-    # hack FSM to allow request in enter methods
-    def request(self, state):
-        exitFuncName = 'exit%s' % self._curState
-        if hasattr(self, exitFuncName):
-            getattr(self, exitFuncName)()
-        enterFuncName = 'enter%s' % state
-        self._curState = state
-        if hasattr(self, enterFuncName):
-            getattr(self, enterFuncName)()
-
-    def getState(self):
-        return self._curState
-
-    def destroy(self):
-        self.release()
-        self.request('Off')
-
-    def getConnectedEvent(self):
-        return self.ConnectedEvent % id(self)
-
-    def isConnected(self):
-        return self._curState == self.Connected
-
-    def getDb(self):
-        # returns valid MySQLdb when in Connected state
-        return self.__class__.db
-
-    def getCursor(self):
-        cursor = TTDBCursor(self.__class__.db)
-        cursor._setConnection(self)
-        return cursor
-
-    def getDictCursor(self):
-        cursor = TTDBDictCursor(self.__class__.db)
-        cursor._setConnection(self)
-        return cursor
-
-    def commit(self):
-        self.__class__.db.commit()
-
-    def release(self):
-        self.request('Released')
-
-    def enterConnecting(self):
-        if self.__class__.LastFailedConnectTime is not None:
-            if (globalClock.getRealTime() - self.__class__.LastFailedConnectTime) < self.ConnectRetryTimeout:
-                raise TryAgainLater(None, '%s:%s' % (self._host, self._port))
-
-        if not self.__class__.db:
-            try:
-                self.__class__.db = DirectMySQLdb(host=self._host,
-                                                  port=self._port,
-                                                  user=self._user,
-                                                  passwd=self._passwd)
-            except MySQLdb.OperationalError as e:
-                """
-                self.notify.warning("Failed to connect to MySQL at %s:%d. Retrying in %s seconds."%(
-                    self._host,self._port,self.RetryPeriod))
-                self.request(self.WaitForRetry)
-                """
-                self.notify.warning(str(e))
-                self.__class__.LastFailedConnectTime  = globalClock.getRealTime()
-                raise TryAgainLater(e, '%s:%s' % (self._host, self._port))
-            else:
-                #self.__class__.db.set_character_set('utf8')
-
-                # spammy
-                if not self.__class__.LoggedConnectionInfo:
-                    self.notify.debug("Connected to MySQL at %s:%d."%(self._host,self._port))
-                    self.__class__.LoggedConnectionInfo = True
-                self.request(self.Initializing)
-        else:
-            # no DB initialization required since we're already connected
-            self.request(self.Locking)
-
-    def _createTable(self, command):
-        cursor = self.getCursor()
-        try:
-            cursor.execute(command)
-        except MySQLdb.OperationalError as e:
-            if self.getErrorCode(e) == MySQLErrors.TableAlreadyExists:
-                # table already exists
-                pass
-            else:
-                raise
+        SqlDBConnection.__init__(self, connectInfo, tableLocks)
 
     def enterInitializing(self):
         # create database
         cursor = self.getCursor()
-        initDb = ConfigVariableBool('want-code-redemption-init-db', __dev__).getValue()
+        initDb = ConfigVariableBool('want-tt-code-redemption-db-init', __dev__).getValue()
         if initDb:
             try:
                 cursor.execute("CREATE DATABASE %s" % self._dbName)
                 self.notify.info("database %s did not exist, created new one" % self._dbName)
-            except MySQLdb.ProgrammingError as e:
-                if self.getErrorCode(e) == MySQLErrors.DbAlreadyExists:
+            except SqlErrors.ProgrammingError as e:
+                if e.errno == SqlErrors.DbAlreadyExists:
                     # db already exists
                     pass
                 else:
@@ -290,67 +121,6 @@ class TTCRDBConnection(DBInterface):
                 break
 
         self.request(self.Locking)
-
-    def enterLocking(self):
-        try:
-            if self.WantTableLocking:
-                if len(self._tableLocks):
-                    cmd = 'LOCK TABLES '
-                    for table, lock in list(self._tableLocks.items()):
-                        cmd += '%s %s, ' % (table, lock)
-                    cmd = cmd[:-2] + ';'
-                    self.getCursor().execute(cmd)
-        except TryAgainLater as e:
-            self.notify.warning('failed to acquire table lock(s), retrying in %s seconds') % (
-                self.TableLockRetryPeriod, )
-            self.request(self.WaitForRetryLocking)
-        else:
-            # spammy
-            #self.notify.info("tables locked")
-            self.request(self.Connected)
-
-    def enterConnected(self):
-        messenger.send(self.getConnectedEvent())
-
-    def enterDisconnected(self):
-        pass
-
-    def exitDisconnected(self):
-        pass
-
-    def enterWaitForRetry(self):
-        if self._retryDoLater:
-            taskMgr.remove(self._retryDoLater)
-        self._retryDoLater = taskMgr.doMethodLater(self.RetryPeriod, self._retryConnect, 'TTCRDBConnectionMgr-retryConnect-%s' % id(self))
-
-    def _retryConnect(self, task=None):
-        self.request(self.Connecting)
-        return Task.done
-
-    def exitWaitForRetry(self):
-        if self._retryDoLater:
-            taskMgr.remove(self._retryDoLater)
-            self._retryDoLater = None
-
-    def enterWaitForRetryLocking(self):
-        if self._retryLockingDoLater:
-            taskMgr.remove(self._retryLockingDoLater)
-        self._retryLockingDoLater = taskMgr.doMethodLater(self.RetryLockingPeriod, self._retryLocking,
-                                                          'TTCRDBConnectionMgr-retryLocking-%s' % id(self))
-
-    def _retryLockingDoLater(self, task=None):
-        self.request(self.Locking)
-        return Task.done
-
-    def exitWaitForRetryLocking(self):
-        if self._retryLockingDoLater:
-            taskMgr.remove(self._retryLockingDoLater)
-            self._retryLockingDoLater = None
-
-    def enterReleased(self):
-        if self.WantTableLocking:
-            if len(self._tableLocks):
-                self.getCursor().execute('UNLOCK TABLES;')
 
 class TTCodeRedemptionDBTester(Job):
     notify = directNotify.newCategory('TTCodeRedemptionDBTester')
@@ -799,13 +569,8 @@ class InfoCache:
     def getInfo(self, key):
         return self._cache.get(key, NotFound)
 
-class TTCodeRedemptionDB(DBInterface, DirectObject):
+class TTCodeRedemptionDB(SqlDB):
     notify = directNotify.newCategory('TTCodeRedemptionDB')
-
-    TryAgainLater = TryAgainLater
-
-    READ = TTCRDBConnection.READ
-    WRITE = TTCRDBConnection.WRITE
 
     RewardTypeFieldName = 'reward_type'
     RewardItemIdFieldName = 'reward_item_id'
@@ -824,13 +589,10 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         Redeemed = 'redeemed'
         Expired = 'expired'
 
-    def __init__(self,air,host,port,user,passwd,dbname):
+    def __init__(self, air, host, port, user, passwd, dbname):
+        SqlDB.__init__(self, host, port, user, passwd, dbname)
+        
         self.air = air
-        self.host = host
-        self.port = port
-        self.user = user
-        self.passwd = passwd
-        self.dbname = self.processDBName(dbname)
 
         # lot name cache
         self._code2lotNameCache = InfoCache()
@@ -1120,38 +882,41 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         self._doCleanup()
 
         self._clearCaches()
+        
+        try:
+            conn = TTCRDBConnection(self)
+            cursor = conn.getDictCursor()
 
-        conn = TTCRDBConnection(self)
-        cursor = conn.getDictCursor()
-
-        cursor.execute(
-            """
-            DROP TABLE IF EXISTS code_set_%s;
-            """ % lotName
-            )
-
-        if conn.WantTableLocking:
             cursor.execute(
                 """
-                LOCK TABLES lot WRITE;
-                """
+                DROP TABLE IF EXISTS code_set_%s;
+                """ % lotName
                 )
 
-        cursor.execute(
-            """
-            DELETE FROM lot WHERE name='%s';
-            """ % lotName
-            )
+            if conn.WantTableLocking:
+                cursor.execute(
+                    """
+                    LOCK TABLES lot WRITE;
+                    """
+                    )
 
-        if conn.WantTableLocking:
             cursor.execute(
                 """
-                UNLOCK TABLES;
-                """
+                DELETE FROM lot WHERE name='%s';
+                """ % lotName
                 )
 
-        conn.commit()
-        conn.destroy()
+            if conn.WantTableLocking:
+                cursor.execute(
+                    """
+                    UNLOCK TABLES;
+                    """
+                    )
+
+            conn.commit()
+            conn.destroy()
+        except Exception as e:
+            self.notify.warning(e)
 
         self._refreshCode2lotName()
 
@@ -1159,21 +924,24 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         assert self.notify.debugCall()
         self._doCleanup()
         lotNames = []
-        conn = TTCRDBConnection(self, {'lot': self.READ, })
-        cursor = conn.getDictCursor()
-        cursor.execute(
-            """
-            SELECT name FROM lot;
-            """
-            )
-        rows = cursor.fetchall()
-        conn.destroy()
-        for row in rows:
-            lotName = row['name']
-            if not self._testing:
-                if TTCodeRedemptionDBTester.TestLotName in lotName:
-                    continue
-            lotNames.append(lotName)
+        try:
+            conn = TTCRDBConnection(self, {'lot': self.READ, })
+            cursor = conn.getDictCursor()
+            cursor.execute(
+                """
+                SELECT name FROM lot;
+                """
+                )
+            rows = cursor.fetchall()
+            conn.destroy()
+            for row in rows:
+                lotName = row['name']
+                if not self._testing:
+                    if TTCodeRedemptionDBTester.TestLotName in lotName:
+                        continue
+                lotNames.append(lotName)
+        except Exception as e:
+            self.notify.warning(e)
         return lotNames
 
     def getAutoLotNames(self):
@@ -1183,21 +951,24 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         assert self.notify.debugCall()
         self._doCleanup()
         autoLotNames = []
-        conn = TTCRDBConnection(self, {'lot': self.READ, })
-        cursor = conn.getDictCursor()
-        cursor.execute(
-            """
-            SELECT name FROM lot WHERE manual='F';
-            """
-            )
-        rows = cursor.fetchall()
-        conn.destroy()
-        for row in rows:
-            lotName = row['name']
-            if not self._testing:
-                if TTCodeRedemptionDBTester.TestLotName in lotName:
-                    continue
-            autoLotNames.append(lotName)
+        try:
+            conn = TTCRDBConnection(self, {'lot': self.READ, })
+            cursor = conn.getDictCursor()
+            cursor.execute(
+                """
+                SELECT name FROM lot WHERE manual='F';
+                """
+                )
+            rows = cursor.fetchall()
+            conn.destroy()
+            for row in rows:
+                lotName = row['name']
+                if not self._testing:
+                    if TTCodeRedemptionDBTester.TestLotName in lotName:
+                        continue
+                autoLotNames.append(lotName)
+        except Exception as e:
+            self.notify.warning(e)
         return autoLotNames
 
     def getManualLotNames(self):
@@ -1207,21 +978,24 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         assert self.notify.debugCall()
         self._doCleanup()
         manualLotNames = []
-        conn = TTCRDBConnection(self, {'lot': self.READ, })
-        cursor = conn.getDictCursor()
-        cursor.execute(
-            """
-            SELECT name FROM lot WHERE manual='T';
-            """
-            )
-        rows = cursor.fetchall()
-        conn.destroy()
-        for row in rows:
-            lotName = row['name']
-            if not self._testing:
-                if TTCodeRedemptionDBTester.TestLotName in lotName:
-                    continue
-            manualLotNames.append(lotName)
+        try:
+            conn = TTCRDBConnection(self, {'lot': self.READ, })
+            cursor = conn.getDictCursor()
+            cursor.execute(
+                """
+                SELECT name FROM lot WHERE manual='T';
+                """
+                )
+            rows = cursor.fetchall()
+            conn.destroy()
+            for row in rows:
+                lotName = row['name']
+                if not self._testing:
+                    if TTCodeRedemptionDBTester.TestLotName in lotName:
+                        continue
+                manualLotNames.append(lotName)
+        except Exception as e:
+            self.notify.warning(e)
         return manualLotNames
 
     def getExpirationLotNames(self):
@@ -1231,21 +1005,24 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         assert self.notify.debugCall()
         self._doCleanup()
         lotNames = []
-        conn = TTCRDBConnection(self, {'lot': self.READ, })
-        cursor = conn.getDictCursor()
-        cursor.execute(
-            """
-            SELECT name FROM lot WHERE expiration IS NOT NULL;
-            """
-            )
-        rows = cursor.fetchall()
-        conn.destroy()
-        for row in rows:
-            lotName = row['name']
-            if not self._testing:
-                if TTCodeRedemptionDBTester.TestLotName in lotName:
-                    continue
-            lotNames.append(lotName)
+        try:
+            conn = TTCRDBConnection(self, {'lot': self.READ, })
+            cursor = conn.getDictCursor()
+            cursor.execute(
+                """
+                SELECT name FROM lot WHERE expiration IS NOT NULL;
+                """
+                )
+            rows = cursor.fetchall()
+            conn.destroy()
+            for row in rows:
+                lotName = row['name']
+                if not self._testing:
+                    if TTCodeRedemptionDBTester.TestLotName in lotName:
+                        continue
+                lotNames.append(lotName)
+        except Exception as e:
+            self.notify.warning(e)
         return lotNames
 
     def getCodesInLot(self, lotName, justCode=True, filter=None):
@@ -1255,32 +1032,36 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         self._doCleanup()
         if filter is None:
             filter = self.LotFilter.All
+        
+        rows = {}
+        try:
+            conn = TTCRDBConnection(self, {'code_set_%s' % lotName: self.READ,
+                                           'lot': self.READ, })
+            cursor = conn.getDictCursor()
 
-        conn = TTCRDBConnection(self, {'code_set_%s' % lotName: self.READ,
-                                       'lot': self.READ, })
-        cursor = conn.getDictCursor()
+            if filter == self.LotFilter.All:
+                condition = ''
+            elif filter == self.LotFilter.Redeemable:
+                condition = ('((manual=\'T\' or redemptions=0) and '
+                             '((expiration IS NULL) or (CURDATE()<=expiration)))')
+            elif filter == self.LotFilter.NonRedeemable:
+                condition = ('((manual=\'F\' and redemptions>0) or '
+                             '((expiration IS NOT NULL) and (CURDATE()>expiration)))')
+            elif filter == self.LotFilter.Redeemed:
+                condition = '(redemptions>0)'
+            elif filter == self.LotFilter.Expired:
+                condition = '((expiration is NOT NULL) and (CURDATE()>expiration))'
 
-        if filter == self.LotFilter.All:
-            condition = ''
-        elif filter == self.LotFilter.Redeemable:
-            condition = ('((manual=\'T\' or redemptions=0) and '
-                         '((expiration IS NULL) or (CURDATE()<=expiration)))')
-        elif filter == self.LotFilter.NonRedeemable:
-            condition = ('((manual=\'F\' and redemptions>0) or '
-                         '((expiration IS NOT NULL) and (CURDATE()>expiration)))')
-        elif filter == self.LotFilter.Redeemed:
-            condition = '(redemptions>0)'
-        elif filter == self.LotFilter.Expired:
-            condition = '((expiration is NOT NULL) and (CURDATE()>expiration))'
-
-        cursor.execute(
-            """
-            SELECT %s FROM code_set_%s INNER JOIN lot WHERE code_set_%s.lot_id=lot.lot_id%s%s;
-            """ % (choice(justCode, 'code', '*'), lotName, lotName,
-                   choice(filter==self.LotFilter.All, '', ' AND '), condition)
-            )
-        rows = cursor.fetchall()
-        conn.destroy()
+            cursor.execute(
+                """
+                SELECT %s FROM code_set_%s INNER JOIN lot WHERE code_set_%s.lot_id=lot.lot_id%s%s;
+                """ % (choice(justCode, 'code', '*'), lotName, lotName,
+                       choice(filter==self.LotFilter.All, '', ' AND '), condition)
+                )
+            rows = cursor.fetchall()
+            conn.destroy()
+        except Exception as e:
+            self.notify.warning(e)
 
         if justCode:
             codes = []

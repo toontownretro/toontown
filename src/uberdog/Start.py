@@ -28,6 +28,58 @@ from toontown.coderedemption import TTCodeRedemptionConsts
 from toontown.uberdog.ToontownUberDog import ToontownUberDog
 from toontown.uberdog import PartiesUdConfig
 
+"""
+Setup the log files
+We want C++ and Python to both go to the same log so they will be interlaced properly.
+"""
+
+# Will make the log directory if it doesn't exist yet.
+logDir = os.path.join(os.getcwd(), ConfigVariableString("tt-log-ai-base-dir", "toonlog").getValue())
+ltime = time.localtime()
+
+if not os.path.isdir(logDir):
+    print(f"didn't find a log dir, making {logDir}")
+    os.mkdir(logDir)
+
+# date_hour_sequence.log will be added to the logfile name by RotatingLog():
+logfile = os.path.join(logDir, "uberdog-dev-%02d%02d%02d_%02d%02d%02d.log" % (
+    ltime[0] - 2000,    # year
+    ltime[1],           # month
+    ltime[2],           # day
+    ltime[3],           # hour
+    ltime[4],           # minute
+    ltime[5]            # second
+))
+
+# Redirect Python output and err to the same file
+class LogAndOutput:
+    def __init__(self, orig, log):
+        self.orig = orig
+        self.log = log
+    def write(self, str):
+        self.log.write(str)
+        self.log.flush()
+        self.orig.write(str)
+        self.orig.flush()
+    def flush(self):
+        self.log.flush()
+        self.orig.flush()
+
+log = open(logfile, 'a')
+logOut = LogAndOutput(sys.__stdout__, log)
+logErr = LogAndOutput(sys.__stderr__, log)
+sys.stdout = logOut
+sys.stderr = logErr
+
+from toontown.toonbase.ToontownModules import Filename, MultiplexStream, Notify
+
+# Give Panda the same log we use
+nout = MultiplexStream()
+Notify.ptr().setOstreamPtr(nout, 0)
+nout.addFile(Filename(logfile))
+nout.addStandardOutput()
+nout.addSystemDebug()
+
 print("Initializing the Toontown UberDog (Uber Distributed Object Globals server)...")
 
 uber.mdip = ConfigVariableString("msg-director-ip", "localhost").getValue()

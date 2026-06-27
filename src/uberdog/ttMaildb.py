@@ -1,56 +1,76 @@
-#import Pyro.core
-#import Pyro.naming
-#import Pyro.errors
-import sys
-import datetime
-import pymysql as MySQLdb
-from direct.directnotify import DirectNotifyGlobal
-from toontown.uberdog import ttSQL
+import sys, datetime
 
+from direct.directnotify import DirectNotifyGlobal
+
+from otp.sql.SqlDB import SqlDB, SqlDBConnection, TryAgainLater
+from otp.sql import SqlErrors
 from otp.switchboard import sbConfig
 
-SERVER_GONE_ERROR = MySQLdb.constants.CR.CR_SERVER_GONE_ERROR
-SERVER_LOST = MySQLdb.constants.CR.CR_SERVER_LOST
+from toontown.toonbase.ToontownModules import *
+from toontown.uberdog import ttSQL
 
-class ttMaildb:
-    """Based on sbMaildb.py in $OTP/src/switchboard."""
+SERVER_GONE_ERROR = SqlErrors.ServerGoneAway
+SERVER_LOST = SqlErrors.ServerLost
 
-    notify = DirectNotifyGlobal.directNotify.newCategory("ttMaildb")
+class TTMailDBConnection(SqlDBConnection):
+    notify = directNotify.newCategory('ttMaildb')
+    
+    WantMailReconnects = ConfigVariableBool('want-tt-mail-db-reconnects', 1).getValue()
 
-    def __init__(self,host,port,user,passwd,db):
-        self.sqlAvailable = True
-        self.host = host
-        self.port = port
-        self.user = user
-        self.passwd = passwd
-        self.dbname = db
+    def __init__(self, connectInfo, tableLocks={}):
+        SqlDBConnection.__init__(self, connectInfo, tableLocks)
+        
+    def enterConnecting(self):
+        if self._lastFailedConnectTime is not None:
+            if (globalClock.getRealTime() - self._lastFailedConnectTime) < self.ConnectRetryTimeout:
+                raise TryAgainLater(None, '%s:%s' % (self._host, self._port))
 
-        try:
-            self.db = MySQLdb.connect(host=host, port=port, user=user, passwd=passwd)
-        except MySQLdb.OperationalError as e:
-            self.notify.warning("Failed to connect to MySQL db=%s at %s:%d.  ttMaildb DB is disabled."%(db,host,port))
-            self.notify.warning("Error detail: %s"%str(e))
-            self.sqlAvailable = False
+        if self._db:
+            # No DB initialization required since we're already connected
+            self.request(self.Locking)
             return
 
-        self.notify.info("Connected to maildb=%s at %s:%d."%(db,host,port))
-
-        #temp hack for initial dev, create DB structure if it doesn't exist already
-        cursor = self.db.cursor()
         try:
-            cursor.execute("CREATE DATABASE `%s`"%self.dbname)
-            if __debug__:
-                self.notify.info("Database '%s' did not exist, created a new one!"%self.dbname)
-        except MySQLdb.ProgrammingError as e:
-            # self.notify.info('%s' % str(e))
-            pass
-        except MySQLdb.OperationalError as e:
-            self.notify.info('%s' % str(e))
-            pass
+            self._db = self.__class__.ConnectFunction(host=self._host, port=self._port, user=self._user, password=self._passwd)
+        except SqlErrors.OperationalError as e:
+            if not self.WantMailReconnects:
+                self.notify.warning(str(e))
+                self.notify.warning("Failed to connect to SQL database=%s at %s:%d.  ttMaildb DB is disabled." % (self._dbName, self._host, self._port))
+                self.request(self.Disconnected)
+                return
 
-        cursor.execute("USE `%s`"%self.dbname)
+            self.notify.warning(str(e))
+            self._lastFailedConnectTime = globalClock.getRealTime()
+            raise TryAgainLater(e, '%s:%s' % (self._host, self._port))
+        else:
+            #self._db.set_character_set('utf8')
+
+            # spammy
+            if not self.__class__.LoggedConnectionInfo:
+                self.notify.debug("Connected to maildb=%s at %s:%d." % (self._dbName, self._host, self._port))
+                self.__class__.LoggedConnectionInfo = True
+            self.request(self.Initializing)
+            
+    def enterInitializing(self):
+        cursor = self.getCursor()
+        initDb = ConfigVariableBool('want-maildb-init', __dev__).getValue()
+        if initDb:
+            try:
+                cursor.execute("CREATE DATABASE `%s`" % self._dbName)
+                if __debug__:
+                    self.notify.info("Database '%s' did not exist, created a new one!" % self._dbName)
+            except SqlErrors.ProgrammingError as e:
+                # self.notify.info('%s' % str(e))
+                pass
+            except SqlErrors.OperationalError as e:
+                self.notify.info('%s' % str(e))
+                pass
+                
+        cursor.execute("USE `%s`" % self._dbName)
+        
         if __debug__:
-            self.notify.debug("Using database '%s'"%self.dbname)
+            self.notify.debug("Using database '%s'" % self._dbName)
+            
         try:
             cursor.execute("""
             CREATE TABLE ttrecipientmail (
@@ -72,132 +92,127 @@ class ttMaildb:
             """)
             if __debug__:
                 self.notify.info("Table ttrecipientmail did not exist, created a new one!")
-        except MySQLdb.OperationalError as e:
+        except SqlErrors.OperationalError as e:
             pass
-
+            
         try:
-            cursor = self.db.cursor()
-            cursor.execute("USE `%s`"%self.dbname)
-            self.notify.debug("Using database '%s'"%self.dbname)
+            cursor = self.getCursor()
+            cursor.execute("USE `%s`" % self._dbName)
+            self.notify.debug("Using database '%s'" % self._dbName)
         except:
-            self.notify.debug("%s database not found, maildb not active."%self.dbname)
-            self.sqlAvailable = False
+            self.notify.debug("%s database not found, maildb not active." % self._dbName)
+        
+        self.request(self.Locking)
 
+class ttMaildb(SqlDB):
+    """Based on sbMaildb.py in $OTP/src/switchboard."""
 
-    def reconnect(self):
-        self.notify.debug("MySQL server was missing, attempting to reconnect.")
-        try:
-            self.db.close()
-        except:
-            pass
-        self.db = MySQLdb.connect(host=self.host, port=self.port, user=self.user, passwd=self.passwd)
-        cursor = self.db.cursor()
-        cursor.execute("USE `%s`"%self.dbname)
-        self.notify.debug("Reconnected to MySQL server at %s:%d."%(self.host,self.port))
+    notify = DirectNotifyGlobal.directNotify.newCategory("ttMaildb")
+
+    def __init__(self, host, port, user, passwd, db):
+        SqlDB.__init__(self, host, port, user, passwd, db)
+        self.dbname = db
+        
+        self.db = TTMailDBConnection(self)
 
     def disconnect(self):
-        if not self.sqlAvailable:
+        if self.db.isOff():
             return
-        self.db.close()
+        self.db.destroy()
         self.db = None
 
-    def getMail(self,recipientId,isRetry=False):
-        if not self.sqlAvailable:
-            self.notify.debug("sqlAvailable was false when calling getMail")
+    def getMail(self, recipientId, isRetry=False):
+        if self.db.isDisabled():
+            self.notify.debug("ttMaildb was disabled when calling getMail.")
             return ()
 
-        cursor = MySQLdb.cursors.DictCursor(self.db)
         try:
-            cursor.execute("USE `%s`"%self.dbname)
-            cursor.execute(ttSQL.getMailSELECT,(recipientId,))
+            cursor = self.db.getDictCursor()
+            cursor.execute("USE `%s`" % self.dbname)
+            cursor.execute(ttSQL.getMailSELECT, (recipientId,))
             res = cursor.fetchall()
             #self.notify.debug("Select was successful in ttMaildb, returning %s" % str(res))
             return res
 
-        except MySQLdb.OperationalError as e:
+        except SqlErrors.OperationalError as e:
             if isRetry == True:
                 self.notify.warning("Error on getMail retry, giving up:\n%s" % str(e))
                 return ()
-            elif e[0] == SERVER_GONE_ERROR or e[0] == SERVER_LOST:
-                self.reconnect()
-                return self.getMail(recipientId,True)
+            elif e.errno == SERVER_GONE_ERROR or e.errno == SERVER_LOST:
+                self.db.reconnect()
+                return self.getMail(recipientId, True)
             else:
                 self.notify.warning("Unknown error in getMail, retrying:\n%s" % str(e))
-                self.reconnect()
-                return self.getMail(recipientId,True)
+                self.db.reconnect()
+                return self.getMail(recipientId, True)
         except Exception as e:
             self.notify.warning("Unknown error in getMail, giving up:\n%s" % str(e))
             return ()
 
-
-    def putMail(self,recipientId,senderId,message,isRetry=False):
-        if not self.sqlAvailable:
-            return
-
-        countcursor = self.db.cursor()
+    def putMail(self, recipientId, senderId, message, isRetry=False):
+        if self.db.isDisabled():
+            self.notify.debug("ttMaildb was disabled when calling putMail.")
+            return ()
 
         try:
-            countcursor.execute("USE `%s`"%self.dbname)
-            countcursor.execute(ttSQL.getMailSELECT,(recipientId,))
+            countcursor = self.db.getCursor()
+            countcursor.execute("USE `%s`" % self.dbname)
+            countcursor.execute(ttSQL.getMailSELECT, (recipientId,))
             if countcursor.rowcount >= sbConfig.mailStoreMessageLimit:
-                self.notify.debug("%d's mailbox is full!  Can't fit message from %d." %(recipientId,senderId))
+                self.notify.debug("%d's mailbox is full!  Can't fit message from %d." % (recipientId, senderId))
                 return
 
-            cursor = MySQLdb.cursors.DictCursor(self.db)
-
-            cursor.execute(ttSQL.putMailINSERT,
-                           (recipientId,senderId,message))
+            cursor = self.db.getDictCursor()
+            cursor.execute(ttSQL.putMailINSERT, (recipientId, senderId, message))
             self.db.commit()
 
-        except MySQLdb.OperationalError as e:
+        except SqlErrors.OperationalError as e:
             if isRetry == True:
                 self.notify.warning("Error on putMail retry, giving up:\n%s" % str(e))
                 return
-            elif e[0] == SERVER_GONE_ERROR or e[0] == SERVER_LOST:
-                self.reconnect()
-                self.putMail(recipientId,senderId,message,True)
+            elif e.errno == SERVER_GONE_ERROR or e.errno == SERVER_LOST:
+                self.db.reconnect()
+                self.putMail(recipientId, senderId, message, True)
             else:
                 self.notify.warning("Unknown error in putMail, retrying:\n%s" % str(e))
-                self.reconnect()
-                self.putMail(recipientId,senderId,message,True)
+                self.db.reconnect()
+                self.putMail(recipientId, senderId, message, True)
         except Exception as e:
             self.notify.warning("Unknown error in putMail, giving up:\n%s" % str(e))
             return
 
-
-    def deleteMail(self,accountId,messageId,isRetry=False):
-        if not self.sqlAvailable:
-            return
-
-        cursor = MySQLdb.cursors.DictCursor(self.db)
+    def deleteMail(self, accountId, messageId, isRetry=False):
+        if self.db.isDisabled():
+            self.notify.debug("ttMaildb was disabled when calling deleteMail.")
+            return ()
 
         try:
-            cursor.execute("USE `%s`"%self.dbname)
-            cursor.execute(ttSQL.deleteMailDELETE,(messageId,accountId))
+            cursor = self.db.getDictCursor()
+            cursor.execute("USE `%s`" % self.dbname)
+            cursor.execute(ttSQL.deleteMailDELETE, (messageId, accountId))
 
             if cursor.rowcount < 1:
-                self.notify.warning("%d tried to delete message %d which didn't exist or wasn't his!" % (accountId,messageId))
+                self.notify.warning("%d tried to delete message %d which didn't exist or wasn't his!" % (accountId, messageId))
 
             self.db.commit()
 
-        except MySQLdb.OperationalError as e:
+        except SqlErrors.OperationalError as e:
             if isRetry == True:
                 self.notify.warning("Error in deleteMail retry, giving up:\n%s" % str(e))
                 return
-            elif e[0] == SERVER_GONE_ERROR or e[0] == SERVER_LOST:
-                self.reconnect()
-                self.deleteMail(accountId,messageId,True)
+            elif e.errno == SERVER_GONE_ERROR or e.errno == SERVER_LOST:
+                self.db.reconnect()
+                self.deleteMail(accountId, messageId, True)
             else:
                 self.notify.warning("Unnown error in deleteMail, retrying:\n%s" % str(e))
-                self.reconnect()
-                self.deleteMail(accountId,messageId,True)
+                self.db.reconnect()
+                self.deleteMail(accountId, messageId, True)
         except Exception as e:
             self.notify.warning("Unknown error in deleteMail, giving up:\n%s" % str(e))
             return
 
-
     def dumpMailTable(self):
-        cursor = MySQLdb.cursors.DictCursor(self.db)
-        cursor.execute("USE `%s`"%self.dbname)
+        cursor = self.db.getDictCursor()
+        cursor.execute("USE `%s`" % self.dbname)
         cursor.execute("SELECT * FROM recipientmail")
         return cursor.fetchall()
