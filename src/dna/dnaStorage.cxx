@@ -890,23 +890,21 @@ PT(Texture) DNAStorage::find_texture(const string &dna_string) const {
 NodePath DNAStorage::find_node(const string &dna_string) const {
   // Try to find this code in the map
   NodeMap::const_iterator i = _node_map.find(dna_string);
-  if (i == _node_map.end()) {
+  if (i == _node_map.end()) { return NodePath(); }
 
-    // Then try to find this code in the hood node map
-    i = _hood_node_map.find(dna_string);
-    if (i == _hood_node_map.end()) {
+  // Then try to find this code in the hood node map
+  i = _hood_node_map.find(dna_string);
+  if (i == _hood_node_map.end()) { return NodePath(); }
 
-      // Then try to find this code in the place node map
-      i = _place_node_map.find(dna_string);
-      if (i == _place_node_map.end()) {
-
-        dna_cat.debug()
-          << "node: " << dna_string
-          << " not found in pool, hood, or place map, returning empty NodePath" << std::endl;
-        return NodePath();
-      }
-    }
+  // Then try to find this code in the place node map
+  i = _place_node_map.find(dna_string);
+  if (i == _place_node_map.end()) {
+    dna_cat.debug()
+      << "node: " << dna_string
+      << " not found in pool, hood, or place map, returning empty NodePath" << std::endl;
+    return NodePath();
   }
+
   return (*i).second;
 }
 
@@ -944,16 +942,16 @@ void DNAStorage::store_catalog_string(const string &catalog_string, const string
     CodeSet cs;
     cs.insert(dna_string);
     _code_catalog[catalog_string] = cs;
-  } else {
-    // If we did find the catalog string in the catalog, see if the specified dna string is already in the code map
-    CodeSet::iterator csi = ((*i).second).find(dna_string);
-    if (csi == ((*i).second).end()) {
-      // Not in the code vector, add it
-      ((*i).second).insert(dna_string);
-      return;
-    }
+    return;
   }
-  return;
+  
+  // If we did find the catalog string in the catalog, see if the specified dna string is already in the code map
+  CodeSet::iterator csi = ((*i).second).find(dna_string);
+  if (csi == ((*i).second).end()) {
+    // Not in the code vector, add it
+    ((*i).second).insert(dna_string);
+    return;
+  }
 }
 
 
@@ -1518,6 +1516,8 @@ get_adjacent_points(PT(DNASuitPoint) start_point) const {
 ////////////////////////////////////////////////////////////////////
 int DNAStorage::
 discover_continuity() {
+  LightReMutexHolder holder(_storage_thread_lock);
+  
   int graph_id = 0;
   SuitPointVector::iterator vi;
   for (vi = _suit_point_vector.begin(); vi != _suit_point_vector.end(); ++vi) {

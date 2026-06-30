@@ -4,6 +4,7 @@
 ////////////////////////////////////////////////////////////////////
 
 #include "config_dna.h"
+
 #include "dnaGroup.h"
 #include "dnaVisGroup.h"
 #include "dnaBuildings.h"
@@ -25,6 +26,8 @@
 #include "dnaSuitEdge.h"
 #include "dnaSuitPath.h"
 #include "dnaBattleCell.h"
+#include "dnaLoader.h"
+#include "dnaLoadRequest.h"
 #include "loaderFileTypeDNA.h"
 
 #include "dconfig.h"
@@ -38,6 +41,23 @@ ConfigVariableList dna_preload
 
 ConfigVariableSearchPath dna_path
 ("dna-path");
+
+ConfigVariableInt dna_async_num_threads
+("dna-async-num-threads", 1,
+ PRC_DESC("The number of threads that will be started by the task manager "
+          "to load DNA files asynchronously.  These threads will only be "
+          "started if the asynchronous interface is used, and if threading "
+          "support is compiled into Panda.  The default is one thread, "
+          "which allows DNA files to be loaded one at a time in a single "
+          "asychronous thread.  You can set this higher, particularly if "
+          "you have many CPU's available, to allow loading multiple DNA files "
+          "simultaneously."));
+          
+ConfigVariableEnum<ThreadPriority> dna_async_thread_priority
+("dna-async-thread-priority", TP_low,
+ PRC_DESC("The default thread priority to assign to the threads created "
+          "for asynchronous loading.  The default is 'low'; you may "
+          "also specify 'normal', 'high', or 'urgent'."));
 
 ConfigureFn(config_dna) {
   init_libdna();
@@ -83,6 +103,9 @@ init_libdna() {
   DNASuitEdge::init_type();
   DNASuitPath::init_type();
   DNABattleCell::init_type();
+  DNALoader::init_type();
+  DNALoadRequest::init_type();
+  
   LoaderFileTypeDNA::init_type();
 
   LoaderFileTypeRegistry *reg = LoaderFileTypeRegistry::get_global_ptr();

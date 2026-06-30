@@ -3,16 +3,17 @@
 
 #include "pandabase.h"
 
+#include "dnaData.h"
+#include "dnaLoader.h"
+#include "dnaStorage.h"
+
 #include "asyncTask.h"
 #include "coordinateSystem.h"
 #include "filename.h"
 #include "loaderOptions.h"
+#include "nodePath.h"
 #include "pandaNode.h"
 #include "pointerTo.h"
-#include "dnaData.h"
-#include "dnaLoader.h"
-#include "dnaStorage.h"
-#include "nodePath.h"
 
 /**
  * A class object that manages a single asynchronous model load request.
@@ -25,18 +26,16 @@ class EXPCL_TOONTOWN_DNALOADER DNALoadRequest : public AsyncTask {
 
     PUBLISHED:
         explicit DNALoadRequest(const std::string &name,
-                              const Filename &filename,
-                              DNAStorage *dna_store,
-                              CoordinateSystem cs,
-                              int editing,
-                              bool is_AI,
-                              DNALoader *loader);
+                                const Filename &filename,
+                                DNAStorage *dna_store,
+                                CoordinateSystem cs,
+                                int editing,
+                                bool is_AI);
 
         INLINE const Filename &get_filename() const;
         INLINE DNAStorage *get_storage() const;
         INLINE const CoordinateSystem &get_coordinate_system() const;
         INLINE int get_editing() const;
-        INLINE DNALoader *get_loader() const;
 
         INLINE bool is_ready() const;
         INLINE PandaNode *get_model() const;
@@ -46,17 +45,16 @@ class EXPCL_TOONTOWN_DNALOADER DNALoadRequest : public AsyncTask {
         MAKE_PROPERTY(storage, get_storage);
         MAKE_PROPERTY(coordinate_system, get_coordinate_system);
         MAKE_PROPERTY(editing, get_editing);
-        MAKE_PROPERTY(DNALoader, get_loader);
 
     protected:
         virtual DoneStatus do_task();
 
     private:
+        DNALoader _loader;
         Filename _filename;
         DNAStorage *_storage;
         CoordinateSystem _cs;
         int _editing;
-        PT(DNALoader) _loader;
         bool _is_AI;
 
     public:

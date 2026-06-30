@@ -8,8 +8,6 @@
 
 #include "toontownbase.h"
 
-#include "asyncTaskManager.h"
-#include "asyncTask.h"
 #include "coordinateSystem.h"
 #include "loader.h"
 #include "nodePath.h"
@@ -33,30 +31,14 @@ class EXPCL_TOONTOWN_DNALOADER DNALoader : public TypedReferenceCount, public Na
     PUBLISHED:
         explicit DNALoader(const std::string &name = "dna_loader");
         
-        INLINE void set_task_manager(AsyncTaskManager *task_manager);
-        INLINE AsyncTaskManager *get_task_manager() const;
-        INLINE void set_task_chain(const std::string &task_chain);
-        INLINE const std::string &get_task_chain() const;
-        
-        BLOCKING INLINE void stop_threads();
-        INLINE bool remove(AsyncTask *task);
-        
-        BLOCKING INLINE PT(PandaNode) load_sync(const Filename &filename,
-                                                DNAStorage *dna_store,
-                                                CoordinateSystem cs = CS_default,
-                                                int editing = 0);
-                                                
-        BLOCKING INLINE PT(DNAData) load_sync_AI(const Filename &filename,
-                                                DNAStorage *dna_store,
-                                                CoordinateSystem cs = CS_default) const;
-
-        PT(AsyncTask) make_async_request(const Filename &filename,
+        BLOCKING PT(PandaNode) load_file(const Filename &filename,
                                          DNAStorage *dna_store,
                                          CoordinateSystem cs = CS_default,
-                                         bool is_AI = false,
                                          int editing = 0);
-
-        INLINE void load_async(AsyncTask *request);
+                                                
+        BLOCKING PT(DNAData) load_file_AI(const Filename &filename,
+                                          DNAStorage *dna_store,
+                                          CoordinateSystem cs = CS_default) const;
         
         PT(PandaNode) build_graph(DNAStorage *dna_store, int editing=0);
         
@@ -67,19 +49,6 @@ class EXPCL_TOONTOWN_DNALOADER DNALoader : public TypedReferenceCount, public Na
         PT(PandaNode) _top_node;
         NodePath _root;
         PT(DNAData) _data;
-        
-    private:
-        PT(PandaNode) load_file(const Filename &filename,
-                                DNAStorage *dna_store,
-                                CoordinateSystem cs = CS_default,
-                                int editing = 0);
-                                
-        PT(DNAData) load_file_AI(const Filename &filename,
-                                 DNAStorage *dna_store,
-                                 CoordinateSystem cs = CS_default) const;
-        
-        PT(AsyncTaskManager) _task_manager;
-        std::string _task_chain;
         
     public:
         static TypeHandle get_class_type() {

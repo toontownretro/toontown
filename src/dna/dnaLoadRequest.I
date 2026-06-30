@@ -17,27 +17,18 @@ get_storage() const {
 
 INLINE const CoordinateSystem &DNALoadRequest::
 get_coordinate_system() const {
-    return _cs;
+  return _cs;
 }
 
 INLINE int DNALoadRequest::
 get_editing() const {
-    return _editing;
-}
-
-/**
- * Returns the DNALoader object associated with this asynchronous
- * DNALoadRequest.
- */
-INLINE DNALoader *DNALoadRequest::
-get_loader() const {
-  return _loader;
+  return _editing;
 }
 
 /**
  * Returns true if this request has completed, false if it is still pending or
  * if it has been cancelled.  When this returns true, you may retrieve the
- * model loaded by calling get_model().
+ * model loaded by calling get_model() or the data by calling get_data() if it's for a AI.
  * Equivalent to `req.done() and not req.cancelled()`.
  * @see done()
  */
@@ -54,6 +45,7 @@ is_ready() const {
 INLINE PandaNode *DNALoadRequest::
 get_model() const {
   nassertr_always(done(), nullptr);
+  if (_is_AI == true) { return nullptr; }
   return (PandaNode *)_result;
 }
 
@@ -65,5 +57,6 @@ get_model() const {
 INLINE DNAData *DNALoadRequest::
 get_data() const {
   nassertr_always(done(), nullptr);
+  if (_is_AI != true) { return nullptr; }
   return (DNAData *)_result;
 }

@@ -7,9 +7,9 @@
 
 #include "dnaLoader.h"
 #include "dnaStorage.h"
-#include "dnaLoadRequest.h"
-#include "pandaNode.h"
+
 #include "nodePath.h"
+#include "pandaNode.h"
 #include "pointerTo.h"
 #include "virtualFileSystem.h"
 
@@ -21,40 +21,6 @@ DNALoader::DNALoader(const string &name) :
     _data = new DNAData("loader_data");
     PT(PandaNode) _top_node = new PandaNode("dna");
     _root = NodePath(_top_node);
-    
-    _task_manager = AsyncTaskManager::get_global_ptr();
-    _task_chain = name;
-
-    if (_task_manager->find_task_chain(_task_chain) == nullptr) {
-        PT(AsyncTaskChain) chain = _task_manager->make_task_chain(_task_chain);
-
-        ConfigVariableInt dna_loader_num_threads
-          ("dna-loader-num-threads", 1,
-           PRC_DESC("The number of threads that will be started by the DNALoader class "
-                    "to load models asynchronously.  These threads will only be "
-                    "started if the asynchronous interface is used, and if threading "
-                    "support is compiled into Panda.  The default is one thread, "
-                    "which allows models to be loaded one at a time in a single "
-                    "asychronous thread.  You can set this higher, particularly if "
-                    "you have many CPU's available, to allow loading multiple models "
-                    "simultaneously."));
-        chain->set_num_threads(dna_loader_num_threads);
-
-        ConfigVariableEnum<ThreadPriority> dna_loader_thread_priority
-          ("dna-loader-thread-priority", TP_low,
-           PRC_DESC("The default thread priority to assign to the threads created "
-                    "for asynchronous loading.  The default is 'low'; you may "
-                    "also specify 'normal', 'high', or 'urgent'."));
-        chain->set_thread_priority(dna_loader_thread_priority);
-    }
-}
-
-/*
- * Returns a new AsyncTask object suitable for adding to load_async() to start
- * an asynchronous dna file load.
- */
-PT(AsyncTask) DNALoader::make_async_request(const Filename &filename, DNAStorage *dna_store, CoordinateSystem cs, bool is_AI, int editing) {
-    return new DNALoadRequest(std::string("dna:") + filename.get_basename(), filename, dna_store, cs, is_AI, editing, this);
 }
 
 /**
@@ -163,9 +129,4 @@ PT(DNAData) DNALoader::get_data() {
 
 void DNALoader::output(std::ostream &out) const {
     out << get_type() << " " << get_name();
-
-    int num_tasks = _task_manager->make_task_chain(_task_chain)->get_num_tasks();
-    if (num_tasks != 0) {
-        out << " (" << num_tasks << " dna files pending)";
-    }
 }

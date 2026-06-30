@@ -1,6 +1,9 @@
-#include "dnaLoadRequest.h"
-#include "loader.h"
 #include "config_pgraph.h"
+
+#include "dnaLoader.h"
+#include "dnaLoadRequest.h"
+
+#include "loader.h"
 
 TypeHandle DNALoadRequest::_type_handle;
 
@@ -14,15 +17,14 @@ DNALoadRequest(const std::string &name,
                DNAStorage *dna_store,
                CoordinateSystem cs,
                int editing,
-               bool is_AI,
-               DNALoader *loader) :
+               bool is_AI) :
   AsyncTask(name),
   _filename(filename),
   _storage(dna_store),
   _cs(cs),
   _editing(editing),
   _is_AI(is_AI),
-  _loader(loader)
+  _loader("async_dna_loader")
 {
 }
 
@@ -37,10 +39,10 @@ do_task() {
     }
     
     if (_is_AI) {
-        PT(DNAData) data = _loader->load_sync_AI(_filename, _storage, _cs);
+        PT(DNAData) data = _loader.load_file_AI(_filename, _storage, _cs);
         set_result(data);
     } else {
-        PT(PandaNode) model = _loader->load_sync(_filename, _storage, _cs, _editing);
+        PT(PandaNode) model = _loader.load_file(_filename, _storage, _cs, _editing);
         set_result(model);
     }
 
