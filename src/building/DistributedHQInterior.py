@@ -136,8 +136,8 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
         nameText.setTextColor(1, 1, 1, 0.7)
         nameText.setText("-")
         namePath = row.attachNewNode(nameText)
-        namePath.setPos(*TTLocalizer.DHtoonNamePos)
-        namePath.setScale(TTLocalizer.DHtoonName)
+        namePath.setPos(*TTLocalizer.DHQInamePathPos)
+        namePath.setScale(TTLocalizer.DHQInamePath)
 
         # Text node for the score
         scoreText = TextNode("scoreText")
@@ -146,7 +146,7 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
         scoreText.setTextColor(1, 1, 0.1, 0.7)
         scoreText.setText("-")
         scorePath = row.attachNewNode(scoreText)
-        scorePath.setPos(*TTLocalizer.DHscorePos)
+        scorePath.setPos(*TTLocalizer.DHQIscorePathPos)
 
         # Put a star on the row, just like over the Toon heads
         trophyStar = self.buildTrophyStar()
@@ -236,7 +236,7 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
     def buildTrophyStar(self):
         trophyStar = loader.loadModel('phase_3.5/models/gui/name_star')
         trophyStar.hide()
-        trophyStar.setPos(*TTLocalizer.DHtrophyPos)
+        trophyStar.setPos(*TTLocalizer.DHQItrophyStarPos)
         return trophyStar
 
     def updateTrophyStar(self, trophyStar, score):

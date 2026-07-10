@@ -506,6 +506,7 @@ class NameShop(StateData.StateData):
             itemFrame_frameColor = mcolor,  
             itemFrame_borderWidth = (0.01, 0.01),
             numItemsVisible = 5,
+            forceHeight=TTLocalizer.NSdirectScrolleList,
             )
         return ds
 
@@ -646,7 +647,7 @@ class NameShop(StateData.StateData):
             TTLocalizer.PleaseTypeName,
             parent = aspect2d,
             style = OnscreenText.ScreenPrompt,
-            scale = TTLocalizer.NStypeName,
+            scale = TTLocalizer.NSnameLabel,
             pos = (-0.0163333, 0.53))
         self.nameLabel.wrtReparentTo(self.typeNamePanel, sort = 2)
         self.typeANameGUIElements.append(self.nameLabel)
@@ -655,7 +656,7 @@ class NameShop(StateData.StateData):
             TTLocalizer.AllNewNames,
             parent = aspect2d,
             style = OnscreenText.ScreenPrompt,
-            scale = TTLocalizer.NSnewName,
+            scale = TTLocalizer.NStypeNotification,
             pos = (-0.0163333, 0.15))
         self.typeNotification.wrtReparentTo(self.typeNamePanel, sort = 2)
         self.typeANameGUIElements.append(self.typeNotification)
@@ -725,7 +726,7 @@ class NameShop(StateData.StateData):
             scale = (1.2,1,1.2),
             text = TTLocalizer.TypeANameButton,
             text_scale = TTLocalizer.NStypeANameButton,
-            text_pos = (0, TTLocalizer.NStypeANameButton_pos),
+            text_pos = TTLocalizer.NStypeANameButtonPos,
             command = self.__typeAName,
             )
         #self.printTypeANameInfo("after constructor in DirectButton")
@@ -1484,7 +1485,6 @@ class NameShop(StateData.StateData):
 
     def handleSetNameTypedAnswerMsg(self, di):
         self.notify.debug('handleSetNameTypedAnswerMsg')
-
         # remove the wait msg
         self.cleanupWaitForServer()
         
@@ -1601,6 +1601,7 @@ class NameShop(StateData.StateData):
             self.notify.debug("avatar with default name accepted")
             self.avId = di.getUint32()
             self.avExists = 1
+            self.logAvatarCreation()
             # If they just want 'blue duck'
             if self.nameAction == 0:
                 self.toon.setName(self.names[0])
@@ -1707,8 +1708,42 @@ class NameShop(StateData.StateData):
     def __openTutorialDialog(self, choice = 0):
         if choice == 1:
             self.notify.debug('enterTutorial')
+            if base.config.GetBool('want-qa-regression', 0):
+                self.notify.info('QA-REGRESSION: ENTERTUTORIAL: Enter Tutorial')
             self.__createAvatar()
         else:
             self.notify.debug('skipTutorial')
+            if base.config.GetBool('want-qa-regression', 0):
+                self.notify.info('QA-REGRESSION: SKIPTUTORIAL: Skip Tutorial')
             self.__handleSkipTutorial()
         self.promptTutorialDialog.destroy()
+
+    def logAvatarCreation(self):
+
+        dislId = 0
+        try:
+            dislId = launcher.getValue('GAME_DISL_ID')
+        except:
+            pass
+        if not dislId:
+            self.notify.warning('No dislId, using 0')
+            dislId = 0
+        gameSource = '0'
+        try:
+            gameSource = launcher.getValue('GAME_SOURCE')
+        except:
+            pass
+        if not gameSource:
+
+            gameSource = '0'
+        else:
+
+            self.notify.info('got GAME_SOURCE=%s' % gameSource)
+
+        if self.avId > 0:
+            base.cr.centralLogger.writeClientEvent('createAvatar %s-%s-%s' % (self.avId, dislId, gameSource))
+
+            self.notify.debug('createAvatar %s-%s-%s' % (self.avId, dislId, gameSource))
+        else:
+
+            self.notify.warning('logAvatarCreation got self.avId =%s' % self.avId)

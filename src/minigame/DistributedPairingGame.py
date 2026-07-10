@@ -182,7 +182,7 @@ class DistributedPairingGame(DistributedMinigame):
             scale = 0.1,
             text = TTLocalizer.PairingGamePoints,
             text_align = TextNode.ALeft,
-            text_scale = TTLocalizer.DPGPointsFrameTextScale,
+            text_scale = TTLocalizer.DPGpointsFrame,
             text_pos = (-1.94,-0.1, 0.0)
             )
         self.pointsLabel = DirectLabel(
@@ -205,7 +205,7 @@ class DistributedPairingGame(DistributedMinigame):
             scale = 0.1,
             text = TTLocalizer.PairingGameFlips,
             text_align = TextNode.ALeft,
-            text_scale = TTLocalizer.DPGFlipsFrameTextScale,
+            text_scale = TTLocalizer.DPGflipsFrame,
             text_pos = (-1.94,-0.1, 0.0)
             )
         self.flipsLabel = DirectLabel(

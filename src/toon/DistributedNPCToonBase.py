@@ -203,3 +203,8 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
         """
         self.posIndex = posIndex
     
+    def _startZombieCheck(self):
+        pass
+    def _stopZombieCheck(self):
+        pass
+

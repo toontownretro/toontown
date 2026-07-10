@@ -127,6 +127,11 @@ class FireworkShowMixin:
             startMessage = TTLocalizer.FireworksActivityBeginning
             endMessage = TTLocalizer.FireworksActivityEnding
             musicFile ="phase_4/audio/bgm/tt_summer.mid"
+        elif eventId == COMBO_FIREWORKS:
+            instructionMessage = TTLocalizer.FireworksInstructions
+            startMessage = TTLocalizer.FireworksComboBeginning
+            endMessage = TTLocalizer.FireworksComboEnding
+            musicFile = "phase_4/audio/bgm/tt_party2.mid"
         else:
             FireworkShowMixin.notify.warning(
                 "Invalid fireworks event ID: %d" % (eventId))
@@ -136,7 +141,10 @@ class FireworkShowMixin:
         
         def __lightDecorationOn__():
             """ Switch the lights on """
+
             place = base.cr.playGame.getPlace()
+            if place is None:
+                return
             if hasattr(place, "halloweenLights"):
                 if not self.__checkStreetValidity():
                     return
@@ -215,6 +223,8 @@ class FireworkShowMixin:
             endMessage = TTLocalizer.FireworksNewYearsEveEnding
         elif eventId == PartyGlobals.FireworkShows.Summer:
             endMessage = TTLocalizer.FireworksActivityEnding
+        elif eventId == COMBO_FIREWORKS:
+            endMessage = TTLocalizer.FireworksComboEnding
         else:
             FireworkShowMixin.notify.warning(
                 "Invalid fireworks event ID: %d" % (eventId))

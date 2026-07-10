@@ -83,17 +83,21 @@ class PartyEditor(DirectObject,FSM):
             items = [],
         )
         
+        holidayIds = base.cr.newsManager.getHolidayIdList()
+        isWinter = ToontownGlobals.WINTER_DECORATIONS in holidayIds or ToontownGlobals.WACKY_WINTER_DECORATIONS in holidayIds
+        isVictory = ToontownGlobals.VICTORY_PARTY_HOLIDAY in holidayIds
+        isValentine = ToontownGlobals.VALENTINES_DAY in holidayIds
         for activityId in PartyGlobals.PartyEditorActivityOrder:
-            if activityId in PartyGlobals.VictoryPartyActivityIds:
-                holidayIds = base.cr.newsManager.getHolidayIdList()
-                if ToontownGlobals.VICTORY_PARTY_HOLIDAY in holidayIds:
-                    pele = PartyEditorListElement(self, activityId)
-                    self.elementList.addItem(pele)
-            elif activityId in PartyGlobals.VictoryPartyReplacementActivityIds:
-                holidayIds = base.cr.newsManager.getHolidayIdList()
-                if not ToontownGlobals.VICTORY_PARTY_HOLIDAY in holidayIds:
-                    pele = PartyEditorListElement(self, activityId)
-                    self.elementList.addItem(pele)
+            if not isVictory and activityId in PartyGlobals.VictoryPartyActivityIds or \
+               not isWinter and activityId in PartyGlobals.WinterPartyActivityIds or \
+               not isValentine and activityId in PartyGlobals.ValentinePartyActivityIds:
+
+                pass
+            elif isVictory and activityId in PartyGlobals.VictoryPartyReplacementActivityIds or \
+                 isWinter and activityId in PartyGlobals.WinterPartyReplacementActivityIds or \
+                 isValentine and activityId in PartyGlobals.ValentinePartyReplacementActivityIds:
+
+                pass
             else:
                 pele = PartyEditorListElement(self, activityId)
                 self.elementList.addItem(pele)
@@ -101,27 +105,19 @@ class PartyEditor(DirectObject,FSM):
                     self.partyClockElement = pele
                     
         for decorationId in PartyGlobals.DecorationIds:
-            decorName = PartyGlobals.DecorationIds.getString(decorationId)
-            if (decorName == "HeartTarget") \
-            or (decorName == "HeartBanner") \
-            or (decorName == "FlyingHeart"):
-                holidayIds = base.cr.newsManager.getHolidayIdList()
-                if ToontownGlobals.VALENTINES_DAY in holidayIds:
-                    pele = PartyEditorListElement(self, decorationId, isDecoration=True)
-                    self.elementList.addItem(pele)
-            elif decorationId in PartyGlobals.VictoryPartyDecorationIds:
-                holidayIds = base.cr.newsManager.getHolidayIdList()
-                if ToontownGlobals.VICTORY_PARTY_HOLIDAY in holidayIds:
-                    pele = PartyEditorListElement(self, decorationId, isDecoration=True)
-                    self.elementList.addItem(pele)
-            elif decorationId in PartyGlobals.VictoryPartyReplacementDecorationIds:
-                holidayIds = base.cr.newsManager.getHolidayIdList()
-                if not ToontownGlobals.VICTORY_PARTY_HOLIDAY in holidayIds:
-                    pele = PartyEditorListElement(self, decorationId, isDecoration=True)
-                    self.elementList.addItem(pele)
+            if not isVictory and decorationId in PartyGlobals.VictoryPartyDecorationIds or \
+               not isWinter and decorationId in PartyGlobals.WinterPartyDecorationIds or \
+               not isValentine and decorationId in PartyGlobals.ValentinePartyDecorationIds:
+
+                pass
+            elif isVictory and decorationId in PartyGlobals.VictoryPartyReplacementDecorationIds or \
+                 isValentine and decorationId in PartyGlobals.ValentinePartyReplacementDecorationIds:
+
+                pass
             else:
                 pele = PartyEditorListElement(self, decorationId, isDecoration=True)
                 self.elementList.addItem(pele)
+
         self.elementList.refresh()
         self.elementList['command'] = self.scrollItemChanged
 

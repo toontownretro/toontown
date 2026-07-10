@@ -5,7 +5,6 @@ from toontown.toonbase import ToontownGlobals
 from direct.showbase import DirectObject
 from toontown.toon import ToonDNA
 from toontown.toon import ToonHead
-from toontown.toon import GMUtils
 from toontown.toontowngui import TTDialog
 from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer
@@ -65,11 +64,7 @@ class AvatarChoice(DirectButton):
                 self.dna = None
             else:
                 self.mode = AvatarChoice.MODE_CHOOSE
-                # Handle the special case of GM toons
-                if GMUtils.testGMIdentity(av.name):
-                    self.name = self.__handleGMName(av.name)
-                else:
-                    self.name = av.name
+                self.name = av.name
                 self.dna = ToonDNA.ToonDNA(av.dna)
                 self.wantName = av.wantName
                 self.approvedName = av.approvedName
@@ -402,7 +397,7 @@ class AvatarChoice(DirectButton):
                                                        image_scale = (1.4, 1.0, 1.0),
                                                        text = deleteText,
                                                        text_wordwrap = 19,
-                                                       text_scale = TTLocalizer.ACdeleteWithPassword,
+                                                       text_scale = TTLocalizer.ACdeleteWithPasswordFrame,
                                                        text_pos = (0, 0.25),
                                                        textMayChange = 1,
                                                        sortOrder = NO_FADE_SORT_INDEX,
@@ -506,6 +501,8 @@ class AvatarChoice(DirectButton):
             self.deleteWithPasswordFrame.hide()
             base.transitions.noTransitions()
             messenger.send(self.doneEvent, ["delete", self.position])
+            if base.config.GetBool('want-qa-regression', 0):
+                self.notify.info('QA-REGRESSION: DELETEATOON: Deleting A Toon')
         else:
             if errorMsg is not None:
                 self.notify.warning(
@@ -531,6 +528,8 @@ class AvatarChoice(DirectButton):
             self.deleteWithPasswordFrame.hide()
             base.transitions.noTransitions()
             messenger.send(self.doneEvent, ["delete", self.position])
+            if base.config.GetBool('want-qa-regression', 0):
+                self.notify.info('QA-REGRESSION: DELETEATOON: Deleting A Toon')
         else:
             # Wrong entry.
             self.deleteWithPasswordFrame['text'] = TTLocalizer.AvatarChoiceDeleteWrongConfirm % \
@@ -547,7 +546,3 @@ class AvatarChoice(DirectButton):
     def __handleTrialer(self):
         TeaserPanel.TeaserPanel(pageName='sixToons')
         
-    def __handleGMName(self, name):
-        gmName = GMUtils.handleGMName(name)
-        
-        return gmName

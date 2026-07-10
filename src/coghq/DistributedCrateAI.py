@@ -59,6 +59,10 @@ class DistributedCrateAI(DistributedCrushableEntityAI.DistributedCrushableEntity
     def sendPushTask(self, task):
         self.notify.debug("sendPushTask")
 
+        if not hasattr(self, 'entId'):
+            self.notify.warning("avoiding AI Crash AttributeError: DistributedCrateAI instance has no attribute 'entId'")
+            return
+
         # if the grid allows it, then let the client do the push
         oldPos = self.grid.getObjPos(self.entId)
 

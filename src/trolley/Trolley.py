@@ -9,8 +9,10 @@ from direct.fsm import StateData
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
+from direct.directnotify import DirectNotifyGlobal
 
 class Trolley(StateData.StateData):
+    notify = DirectNotifyGlobal.directNotify.newCategory("Trolley")
     def __init__(self, safeZone, parentFSM, doneEvent):
 
         StateData.StateData.__init__(self, doneEvent)
@@ -183,6 +185,8 @@ class Trolley(StateData.StateData):
         return None
 
     def enterBoarded(self):
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: RIDETHETROLLEY: Ride the Trolley')
         self.enableExitButton()
         return None
 
@@ -202,7 +206,7 @@ class Trolley(StateData.StateData):
             text = TTLocalizer.TrolleyHopOff,
             text_fg = (1, 1, 0.65, 1),
             text_pos = (0, -0.23),
-            text_scale = TTLocalizer.TtrolleyHopOff,
+            text_scale = TTLocalizer.TexitButton,
             image = (self.upButton, self.downButton, self.rolloverButton),
             image_color = (1, 0, 0, 1),
             image_scale = (20, 1, 11),

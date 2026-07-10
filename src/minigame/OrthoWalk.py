@@ -17,7 +17,7 @@ class OrthoWalk:
     def __init__(self, orthoDrive,
                  collisions=1,
                  broadcast=1,
-                 broadcastPeriod=.1,
+                 broadcastPeriod=.2,
                  ):
         self.orthoDrive = orthoDrive
         self.collisions = collisions
@@ -81,7 +81,10 @@ class OrthoWalk:
         dt = globalClock.getDt()
         self.timeSinceLastPosBroadcast += dt
         if self.timeSinceLastPosBroadcast >= self.broadcastPeriod:
-            self.timeSinceLastPosBroadcast = 0            
-            # broadcast the current position, if changed
-            self.lt.cnode.broadcastPosHprXyh()
+            self.sendCurrentPosition()
         return Task.cont
+
+    def sendCurrentPosition(self):
+        # broadcast the current position, if changed
+        self.timeSinceLastPosBroadcast -= self.broadcastPeriod
+        self.lt.cnode.broadcastPosHprXyh()

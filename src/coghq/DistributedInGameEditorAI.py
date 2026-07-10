@@ -57,7 +57,7 @@ class DistributedInGameEditorAI(DistributedObjectAI.DistributedObjectAI):
         largeBlob = DistributedLargeBlobSenderAI.\
                     DistributedLargeBlobSenderAI(
             self.air, self.zoneId, self.editorAvId, specStr,
-            useDisk=simbase.config.GetBool('spec-by-disk', 1))
+            useDisk=simbase.air._specByDisk)
         self.sendUpdateToAvatarId(self.editorAvId,
                                   'setSpecSenderDoId', [largeBlob.doId])
 

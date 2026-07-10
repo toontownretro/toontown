@@ -96,7 +96,9 @@ class DistributedCannonGameAI(DistributedMinigameAI):
         if this returns 0, the game has ended
         """
         if not hasattr(self, 'gameFSM'):
-            return 0
+            return False
+        if self.gameFSM.getCurrentState() == None:
+            return False
         return self.gameFSM.getCurrentState().getName() == 'play'
 
     def _checkCannonRange(self, zRot, angle, avId):

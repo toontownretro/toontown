@@ -70,11 +70,11 @@ class FlowerPanel(DirectFrame):
             )
         self.value =  DirectLabel(
             parent = self,
-            pos = (0, 0, TTLocalizer.FPBlankLabelPos),
+            pos = TTLocalizer.FPvaluePos,
             relief = None,
             state = DGG.NORMAL,
             text = "",
-            text_scale = TTLocalizer.FPBlankLabelTextScale,
+            text_scale = TTLocalizer.FPvalue,
             text_fg = (0, 0, 0, 1),
             text_pos = (0, 0, 0),
             text_font = ToontownGlobals.getInterfaceFont(),

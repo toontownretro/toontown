@@ -189,7 +189,7 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         # swing the doors open
         if self.ownerId:
             self.ignore(self.closetSphereEnterEvent)
-            self.__openDoors()
+            self._openDoors()
             
             if self.customerId == base.localAvatar.doId:
                 # move camera to the back left
@@ -225,7 +225,7 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
     def exitOpen(self):
         # swing the doors closed
         if self.ownerId:
-            self.__closeDoors()
+            self._closeDoors()
 
     def enterClosed(self):
         if self.ownerId:
@@ -270,7 +270,7 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         if not self.locked:
             # Tell the server
             self.cr.playGame.getPlace().fsm.request('closet')
-            self.accept("closetAsleep", self.__handleCancel)
+            self.accept("closetAsleep", self._handleCancel)
             self.sendUpdate("enterAvatar", [])
             self.hasLocalAvatar = 1
         else: # not our own house
@@ -305,12 +305,7 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
 
                     # print out our clothes and closet information before we start
                     print ("-----------Starting closet interaction-----------")
-                    print "customerId: %s, gender: %s, ownerId: %s" % (self.av.doId, self.av.style.gender, ownerId)
-                    print "current top = %s,%s,%s,%s and  bot = %s,%s," % (self.av.style.topTex, self.av.style.topTexColor,
-                                                                           self.av.style.sleeveTex, self.av.style.sleeveTexColor,
-                                                                           self.av.style.botTex, self.av.style.botTexColor)
-                    print "topsList = %s" % self.av.getClothesTopsList()
-                    print "bottomsList = %s" % self.av.getClothesBottomsList()
+                    self.printInfo()
                     print ("-------------------------------------------------")
                     
                     if not self.isOwner:
@@ -323,7 +318,7 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
                 self.fsm.request('open')
 
 
-    def __revertGender(self):
+    def _revertGender(self):
         #self.av.swapToonTorso(self.oldTorso)
         if self.gender:
             self.av.style.gender = self.gender
@@ -339,7 +334,7 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         self.cancelEvent = self.uniqueName('cancel')
         self.accept(self.purchaseDoneEvent, self.__proceedToCheckout)
         self.accept(self.swapEvent, self.__handleSwap)
-        self.accept(self.cancelEvent, self.__handleCancel)
+        self.accept(self.cancelEvent, self._handleCancel)
         # special buttons if we own the closet
         self.deleteEvent = self.uniqueName('delete')
         if (self.isOwner):
@@ -389,12 +384,12 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
     def __handleButton(self):
         messenger.send('next')
 
-    def __handleCancel(self):
+    def _handleCancel(self):
         if self.oldStyle:
             self.d_setDNA(self.oldStyle.makeNetString(), 1)
         else:
             self.notify.info('avoided crash in handleCancel')
-            self.__handlePurchaseDone()           
+            self._handlePurchaseDone()           
         if self.closetGUI:
             self.closetGUI.resetClothes(self.oldStyle)
 
@@ -475,10 +470,10 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         if (self.topDeleted or self.bottomDeleted):
             self.__popupAreYouSurePanel()
         else:
-            self.__handlePurchaseDone()
+            self._handlePurchaseDone()
         
         
-    def __handlePurchaseDone(self, timeout = 0):
+    def _handlePurchaseDone(self, timeout = 0):
         """
         This is the callback from the Purchase object
         Cleanup the gui and send the message to the AI
@@ -524,9 +519,25 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
             av = base.cr.doId2do.get(avId, None)
             if av:
                 if self.av == base.cr.doId2do[avId]:
+                    oldTorso = self.av.style.torso
                     self.av.style.makeFromNetString(dnaString)
+
+
+                    if len(oldTorso) == 2 and len(self.av.style.torso) == 2 and \
+                       self.av.style.torso[1] != oldTorso[1]:
+                        self.av.swapToonTorso(self.av.style.torso, genClothes=0)
+                        self.av.loop('neutral', 0)
+
                     self.av.generateToonClothes()    
             
+    def printInfo(self):
+        print "avid: %s, gender: %s" % (self.av.doId, self.av.style.gender)
+        print "current top = %s,%s,%s,%s and  bot = %s,%s," % (self.av.style.topTex, self.av.style.topTexColor,
+                                                               self.av.style.sleeveTex, self.av.style.sleeveTexColor,
+                                                               self.av.style.botTex, self.av.style.botTexColor)
+        print "topsList = %s" % self.av.getClothesTopsList()
+        print "bottomsList = %s" % self.av.getClothesBottomsList()
+
     def setMovie(self, mode, avId, timestamp):
         # See if this is the local toon
         self.isLocalToon = (avId == base.localAvatar.doId)
@@ -543,18 +554,11 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         elif (mode == ClosetGlobals.CLOSET_MOVIE_COMPLETE):
             assert(self.notify.debug('CLOSET_MOVIE_COMPLETE'))
             if self.isLocalToon:
-                self.__revertGender()
-                
+                self._revertGender()
                 # print out our clothes and closet information before we start
-                print ("-----------ending closet interaction-----------")
-                print "avid: %s, gender: %s" % (self.av.doId, self.av.style.gender)
-                print "current top = %s,%s,%s,%s and  bot = %s,%s," % (self.av.style.topTex, self.av.style.topTexColor,
-                                                                       self.av.style.sleeveTex, self.av.style.sleeveTexColor,
-                                                                       self.av.style.botTex, self.av.style.botTexColor)
-                print "topsList = %s" % self.av.getClothesTopsList()
-                print "bottomsList = %s" % self.av.getClothesBottomsList()
+                print ("-----------ending trunk interaction-----------")
+                self.printInfo()
                 print ("-------------------------------------------------")
-                
                 self.resetCloset()
                 self.freeAvatar()
                 return
@@ -570,9 +574,9 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
                 # See if a button was pressed first
                 if self.closetGUI:
                     self.closetGUI.resetClothes(self.oldStyle)
-                    self.__handlePurchaseDone(timeout = 1)
+                    self._handlePurchaseDone(timeout = 1)
                     self.resetCloset()
-                self.__popupTimeoutPanel()
+                self._popupTimeoutPanel()
                 self.freeAvatar()
 
     def freeAvatar(self):
@@ -595,7 +599,7 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
     def setOwnerId(self, avId):
         self.ownerId = avId
         
-    def __popupTimeoutPanel(self):
+    def _popupTimeoutPanel(self):
         if self.popupInfo != None:
             self.popupInfo.destroy()
             self.popupInfo = None
@@ -646,7 +650,7 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         self.accept(self.purchaseDoneEvent, self.__proceedToCheckout)
         self.accept(self.swapEvent, self.__handleSwap)
         # register this cancel event in case we fall asleep
-        self.accept(self.cancelEvent, self.__handleCancel)
+        self.accept(self.cancelEvent, self._handleCancel)
         # special buttons if we own the closet
         self.deleteEvent = self.uniqueName('delete')
         if (self.isOwner):
@@ -679,13 +683,13 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
                      text_pos = (0.0, -0.1),
                      textMayChange = 0,
                      pos = (0.0, 0.0, -0.21),
-                     command = self.__handleNotOwnerMessageOK)
+                     command = self._handleNotOwnerMessageOK)
         buttons.removeNode()
         
         # Show the popup info (i.e. "Sorry you ran out of time")
         self.popupInfo.reparentTo(aspect2d)
 
-    def __handleNotOwnerMessageOK(self):
+    def _handleNotOwnerMessageOK(self):
         self.popupInfo.reparentTo(hidden)
         taskMgr.doMethodLater(.1, self.popupChangeClothesGUI,
                               self.uniqueName('popupChangeClothesGUI'))
@@ -727,7 +731,7 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
                      text_pos = (0.0, -0.1),
                      textMayChange = 0,
                      pos = (-0.10, 0.0, -0.21),
-                     command = self.__handleYesImSure)
+                     command = self._handleYesImSure)
         DirectButton(self.popupInfo,
                      image = cancelButtonImage,
                      relief = None,
@@ -736,22 +740,22 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
                      text_pos = (0.0, -0.1),
                      textMayChange = 0,
                      pos = (0.10, 0.0, -0.21),
-                     command = self.__handleNotSure)
+                     command = self._handleNotSure)
         buttons.removeNode()
         
         # Show the popup info (i.e. "Are you sure?")
         self.popupInfo.reparentTo(aspect2d)
 
-    def __handleYesImSure(self):
+    def _handleYesImSure(self):
         # deletion? lets do this
         self.popupInfo.reparentTo(hidden)
-        self.__handlePurchaseDone()
+        self._handlePurchaseDone()
 
-    def __handleNotSure(self):
+    def _handleNotSure(self):
         # deletion? uhmm....no maybe not
         self.popupInfo.reparentTo(hidden)
 
-    def __openDoors(self):
+    def _openDoors(self):
         if self.closetTrack:
             self.closetTrack.finish()
         leftHpr = Vec3(-110,0,0)
@@ -764,7 +768,7 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
             self.closetTrack.append(self.leftDoor.hprInterval(.5, leftHpr))
         self.closetTrack.start()
 
-    def __closeDoors(self):
+    def _closeDoors(self):
         if self.closetTrack:
             self.closetTrack.finish()
         leftHpr = Vec3(0,0,0)

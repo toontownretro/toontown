@@ -95,7 +95,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
             dgText = DirectGui.OnscreenText(
                 text = TTLocalizer.DaisyGardens[-1],
                 font = ToontownGlobals.getSuitFont(),
-                pos = (0,-0.3), scale = TTLocalizer.SCLdgSign,
+                pos = (0,-0.3), scale = TTLocalizer.SCHQLdgText,
                 # required for DecalEffect (must be a GeomNode, not a TextNode)
                 mayChange=False,
                 parent = dgSign)
@@ -187,7 +187,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
             fdTypeText = DirectGui.OnscreenText(
                 text = TTLocalizer.Factory,
                 font = ToontownGlobals.getSuitFont(),
-                pos = (0,-0.25), scale = TTLocalizer.SCLfdSign,
+                pos = (0,-0.25), scale = TTLocalizer.SCHQLfdTypeText,
                 # required for DecalEffect (must be a GeomNode, not a TextNode)
                 mayChange=False,
                 parent = fdSign)
@@ -195,7 +195,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
             fdText = DirectGui.OnscreenText(
                 text = TTLocalizer.SellbotFrontEntrance,
                 font = ToontownGlobals.getSuitFont(),
-                pos = (0,-0.34), scale = TTLocalizer.SCLdgSign,
+                pos = (0,-0.34), scale = TTLocalizer.SCHQLdgText,
                 # required for DecalEffect (must be a GeomNode, not a TextNode)
                 mayChange=False,
                 parent = fdSign)
@@ -226,6 +226,8 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
                 parent = sdSign)
             sdText.setDepthWrite(0)
         elif zoneId == ToontownGlobals.SellbotLobby:
+            if base.config.GetBool('want-qa-regression', 0):
+                self.notify.info('QA-REGRESSION: COGHQ: Visit SellbotLobby')
             self.geom = loader.loadModel(self.cogHQLobbyModelPath)
 
             front = self.geom.find("**/frontWall")

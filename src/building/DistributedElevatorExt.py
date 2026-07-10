@@ -94,11 +94,13 @@ class DistributedElevatorExt(DistributedElevator.DistributedElevator):
     def setFloor(self, floorNumber):
         # Darken the old light:
         if self.currentFloor >= 0:
-            self.bldg.floorIndicator[self.currentFloor].setColor(LIGHT_OFF_COLOR)
+            if self.bldg.floorIndicator[self.currentFloor]:
+                self.bldg.floorIndicator[self.currentFloor].setColor(LIGHT_OFF_COLOR)
             
         # Brighten the new light:
         if floorNumber >= 0:
-            self.bldg.floorIndicator[floorNumber].setColor(LIGHT_ON_COLOR)
+            if self.bldg.floorIndicator[floorNumber]:
+                self.bldg.floorIndicator[floorNumber].setColor(LIGHT_ON_COLOR)
 
         # Remember the floor:
         self.currentFloor = floorNumber
@@ -113,7 +115,7 @@ class DistributedElevatorExt(DistributedElevator.DistributedElevator):
            localAvatar.boardingParty.getGroupLeader(localAvatar.doId) and \
            localAvatar.boardingParty.getGroupLeader(localAvatar.doId) != localAvatar.doId:
             base.localAvatar.elevatorNotifier.showMe(TTLocalizer.ElevatorGroupMember)
-        elif self.allowedToEnter():
+        elif self.allowedToEnter(self.zoneId):
             # Tell localToon we are considering entering the elevator
             self.cr.playGame.getPlace().detectedElevatorCollision(self)
         else:

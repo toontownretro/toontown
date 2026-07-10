@@ -4,6 +4,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import PythonUtil
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toontowngui import TTDialog
+from toontown.toontowngui.TeaserPanel import TeaserPanel
 from toontown.toonbase import TTLocalizer
 import GardenGlobals
 import HouseGlobals
@@ -30,12 +31,16 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
         self.needToLoad = 0
         self.backupFruits = []
         self.signHasBeenStuck2Ground = False
+        self._teaserPanel = None
 
         #we need to do this, since base.cr.doId2do is reporting as us 'render/decor'
         self.setName('DistributedGagTree')
 
     def delete(self):
         DistributedPlantBase.DistributedPlantBase.delete(self)
+        if self._teaserPanel:
+            self._teaserPanel.destroy()
+            self._teaserPanel = None
         del self.prop
         del self.prop2
         del self.dirtMound
@@ -164,9 +169,13 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
         messenger.send('wakeup')
         
         if self.isFruiting() and self.canBeHarvested():
-            # no confirmation, just harvest
-            self.startInteraction()
-            self.doHarvesting()
+            if self.velvetRoped():
+                self._teaserPanel = TeaserPanel(pageName = 'pickGags')
+                localAvatar._gagTreeVelvetRoped = None
+            else:
+                # no confirmation, just harvest
+                self.startInteraction()
+                self.doHarvesting()
             return
         
         fullName = self.name
@@ -484,6 +493,11 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
         the level 5 tree, even when not fruiting, let him harvest
         the level 6 gag
         """
+        if not base.cr.isPaid():
+            if self.velvetRoped():
+                if hasattr(localAvatar, '_gagTreeVelvetRoped'):
+                    return False
+
         myTrack, myLevel = GardenGlobals.getTreeTrackAndLevel(self.typeIndex)
 
         levelsInTrack = []
@@ -546,6 +560,15 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
             self.resultDialog = None
         self.finishInteraction()
         
+    def velvetRoped(self):
+        return not base.cr.isPaid() and ToontownBattleGlobals.gagIsPaidOnly(self.gagTrack, self.gagLevel)
+
+    def allowedToPick(self):
+        retval = True
+        if self.velvetRoped():
+            retval = False
+        return retval
+
     def unlockPick(self):
         """
         Don't pick if it should be ghosted

@@ -255,7 +255,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
                 text1_fg = text1Color,
                 text2_fg = text2Color,
                 text3_fg = text3Color,
-                text_scale = TTLocalizer.PIPsecretsButtonScale,
+                text_scale = TTLocalizer.PIPsecretsButton,
                 text_pos = (0.055, -0.01),
                 text_align = TextNode.ALeft,
                 state = avButtonState,

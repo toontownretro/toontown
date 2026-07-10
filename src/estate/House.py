@@ -9,6 +9,7 @@ from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 
@@ -153,7 +154,10 @@ class House(Place.Place):
         self.accept("DistributedDoor_doorTrigger", self.handleDoorTrigger)
 
         #self.geom.reparentTo(render)
-        
+
+
+        self._telemLimiter = TLGatherAllAvs('House', RotationLimitToH)
+
         # Turn on the little red arrows.
         NametagGlobals.setMasterArrowsOn(1)
         # Request the state change:
@@ -168,6 +172,8 @@ class House(Place.Place):
         if (hasattr(self, 'fsm')):
             self.fsm.requestFinalState()
 
+        self._telemLimiter.destroy()
+        del self._telemLimiter
 
         # Let the safe zone manager know that we are leaving
         messenger.send("exitHouse")

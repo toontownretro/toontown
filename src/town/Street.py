@@ -12,10 +12,12 @@ from direct.showbase import DirectObject
 from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
 from direct.task import Task
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.battle import BattleParticles
 from toontown.building import Elevator
 from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals
+from toontown.toon.Toon import teleportDebug
 from toontown.estate import HouseGlobals
 from toontown.toonbase import TTLocalizer
 from direct.interval.IntervalGlobal import *
@@ -186,6 +188,8 @@ class Street(BattlePlace.BattlePlace):
         # calling it with visibilityFlag=0. 
         assert self.notify.debug("enter(requestStatus="+str(requestStatus)
                                  +")")
+        teleportDebug(requestStatus, 'Street.enter(%s)' % (requestStatus,))
+        self._ttfToken = None
         self.fsm.enterInitialState()
         # Play music
         base.playMusic(self.loader.music, looping = 1, volume = 0.8)
@@ -199,6 +203,9 @@ class Street(BattlePlace.BattlePlace):
         ## tell the camera that we're in a level area
         #base.localAvatar.camera.onLevelGround(1)
         base.localAvatar.setOnLevelGround(1)
+
+
+        self._telemLimiter = TLGatherAllAvs('Street', RotationLimitToH)
 
         # Turn on the little red arrows.
         NametagGlobals.setMasterArrowsOn(arrowsOn)
@@ -219,7 +226,8 @@ class Street(BattlePlace.BattlePlace):
 
         if newsManager:
             holidayIds = base.cr.newsManager.getDecorationHolidayId()
-            if (ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds) and self.loader.hood.spookySkyFile:
+            if (ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds or
+                ToontownGlobals.SPOOKY_COSTUMES in holidayIds) and self.loader.hood.spookySkyFile:
 
                 lightsOff = Sequence(LerpColorScaleInterval(
                     base.cr.playGame.hood.loader.geom,
@@ -263,7 +271,9 @@ class Street(BattlePlace.BattlePlace):
         # no longer in this zone by the time we get there (which
         # requires immediately teleporting back to the safezone).
         self.fsm.request(requestStatus["how"], [requestStatus])
-        
+
+        self.replaceStreetSignTextures()
+
     def exit(self, visibilityFlag=1):
         # See note on "enter" function about visibilityFlag.
         assert self.notify.debug("exit()")
@@ -271,7 +281,10 @@ class Street(BattlePlace.BattlePlace):
         if visibilityFlag:
             self.visibilityOff()
         self.loader.geom.reparentTo(hidden)
-        
+
+        self._telemLimiter.destroy()
+        del self._telemLimiter
+
         # For halloween
         def __lightDecorationOff__():
             for light in self.halloweenLights:
@@ -335,22 +348,30 @@ class Street(BattlePlace.BattlePlace):
     # (for coming off of an elevator for a victory dance)
     def enterElevatorIn(self, requestStatus):
         assert self.notify.debug("enterElevatorIn()")
+
+        self._eiwbTask = taskMgr.add(Functor(self._elevInWaitBldgTask, requestStatus['bldgDoId']),
+            uniqueName("elevInWaitBldg"))
+
+    def _elevInWaitBldgTask(self, bldgDoId, task):
+        bldg = base.cr.doId2do.get(bldgDoId)
+        if bldg:
+            assert bldg
+            if bldg.elevatorNodePath is not None:
+                self._enterElevatorGotElevator()
+                return Task.done
+        return Task.cont
+
+    def _enterElevatorGotElevator(self):
         # Whew! Where did bldgDoId get set?
         # Look in DistributedSuitInterior.py, in the enterReward state.
         # Hey! That's funny... We don't even seem to need this, unless
         # we want to use it to place ourselves inside the elevator while
         # we wait for the building to start the movie...
-        bldg = base.cr.doId2do.get(requestStatus['bldgDoId'])
-        # TODO: Place us in the elevator while we wait for the building
-        # to start the movie.
-
-        # We throw this event to tell the building that we are ready
-        # to exit the building now.
         messenger.send("insideVictorElevator")
-        assert bldg
 
     def exitElevatorIn(self):
         assert self.notify.debug("exitElevatorIn()")
+        taskMgr.remove(self._eiwbTask)
         
 
     # elevator state
@@ -432,12 +453,25 @@ class Street(BattlePlace.BattlePlace):
 
     def enterTeleportIn(self, requestStatus):
         assert self.notify.debug("enterTeleportIn(requestStatus="+str(requestStatus)+")")
+        teleportDebug(requestStatus, 'Street.enterTeleportIn(%s)' % (requestStatus,))
+        zoneId = requestStatus['zoneId']
+
+        self._ttfToken = self.addSetZoneCompleteCallback(Functor(self._teleportToFriend, requestStatus))
+
+        # In the normal case, if we're not going directly to an avatar
+        # (or the avatar we're going to is still in sight), then set
+        # our zone and go there.
+        self.enterZone(zoneId)
+        BattlePlace.BattlePlace.enterTeleportIn(self, requestStatus)
+
+    def _teleportToFriend(self, requestStatus):
         avId = requestStatus["avId"]
         hoodId = requestStatus["hoodId"]
         zoneId = requestStatus["zoneId"]
         
         if avId != -1:
             if not base.cr.doId2do.has_key(avId):
+                teleportDebug(requestStatus, "couldn't find friend %s" % avId)
                 # We're trying to teleport to a toon who isn't here
                 # any more.  Forget it, and bail to the safezone.
                 handle = base.cr.identifyFriend(avId)
@@ -464,13 +498,11 @@ class Street(BattlePlace.BattlePlace):
                 # that they can handle this.
                 self.fsm.request('final')
                 self.__teleportOutDone(requestStatus)
-                return
 
-        # In the normal case, if we're not going directly to an avatar
-        # (or the avatar we're going to is still in sight), then set
-        # our zone and go there.
-        self.enterZone(zoneId)
-        BattlePlace.BattlePlace.enterTeleportIn(self, requestStatus)
+    def exitTeleportIn(self):
+        self.removeSetZoneCompleteCallback(self._ttfToken)
+        self._ttfToken = None
+        BattlePlace.BattlePlace.exitTeleportIn(self)
 
     # teleport out state
 
@@ -635,3 +667,31 @@ class Street(BattlePlace.BattlePlace):
         for light in self.halloweenLights:
             #light.reparentTo(render)
             light.setColorScaleOff(1)
+
+    def replaceStreetSignTextures(self):
+        if not hasattr(base.cr, 'playGame'):
+            return
+        place = base.cr.playGame.getPlace()
+        if place is None:
+            return
+
+        geom = base.cr.playGame.getPlace().loader.geom
+        signs = geom.findAllMatches('**/*tunnelAheadSign*;+s')
+        if signs.getNumPaths() > 0:
+            streetSign = base.cr.streetSign
+            signTexturePath = streetSign.StreetSignBaseDir + '/' + streetSign.StreetSignFileName
+            loaderTexturePath = Filename(str(signTexturePath))
+            alphaPath = 'phase_4/maps/tt_t_ara_gen_tunnelAheadSign_a.rgb'
+            inDreamland = False
+            if place.zoneId and ZoneUtil.getCanonicalHoodId(place.zoneId) == ToontownGlobals.DonaldsDreamland:
+                inDreamland = True
+
+            alphaPath = 'phase_4/maps/tt_t_ara_gen_tunnelAheadSign_a.rgb'
+            if Filename(signTexturePath).exists():
+                signTexture = loader.loadTexture(loaderTexturePath, alphaPath)
+            for sign in signs:
+                if Filename(signTexturePath).exists():
+                    sign.setTexture(signTexture, 1)
+                if inDreamland:
+
+                    sign.setColorScale(0.525, 0.525, 0.525, 1)

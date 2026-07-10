@@ -12,6 +12,7 @@ from direct.interval.MetaInterval import Sequence, Parallel
 from direct.interval.FunctionInterval import Func, Wait
 from direct.interval.SoundInterval import SoundInterval
 from direct.interval.LerpInterval import LerpScaleInterval, LerpFunc
+from direct.directnotify import DirectNotifyGlobal
 
 from pandac.PandaModules import NodePath, Point3, VBase3
 
@@ -38,6 +39,8 @@ class PartyCogActivityPlayer:
     
     enabled = False
     
+    notify = DirectNotifyGlobal.directNotify.newCategory("PartyCogActivityPlayer")
+
     def __init__(self, activity, toon, position, team):
         self.activity = activity
         self.position = position
@@ -58,10 +61,19 @@ class PartyCogActivityPlayer:
         self.pieHitSound = globalBattleSoundCache.getSound('AA_wholepie_only.mp3')
         
     def destroy(self):
+        self.cleanUpIvals()
+
         self.toon = None
         self.locator = None
-        self.cleanUp()
+        self.position = None
+        self.pieHitSound = None
+        self.splat = None
         
+    def cleanUpIvals(self):
+        if self.kaboomTrack is not None and self.kaboomTrack.isPlaying():
+            self.kaboomTrack.finish()
+        self.kaboomTrack = None
+
     def faceForward(self):
         self.toon.setH(0)
         
@@ -102,18 +114,6 @@ class PartyCogActivityPlayer:
         
         self.toon.wrtReparentTo(self.locator)
         self.enabled = True
-    
-    def cleanUp(self):
-        if self.kaboomTrack is not None and self.kaboomTrack.isPlaying():
-            self.kaboomTrack.finish()
-        self.kaboomTrack = None
-        self.splat = None
-        
-        if hasattr(self, "splat"):
-            del self.splat
-        self.position = None
-        if hasattr(self, "pieHitSound"):
-            del self.pieHitSound
         
     def disable(self):
         if not self.enabled:
@@ -123,7 +123,7 @@ class PartyCogActivityPlayer:
         
         self.enabled = False
         
-        self.cleanUp()
+        self.cleanUpIvals()
     
     def hitBody(self):
         points = PartyGlobals.CogActivityHitPoints
@@ -153,6 +153,10 @@ class PartyCogActivityPlayer:
         if self.kaboomTrack is not None and self.kaboomTrack.isPlaying():
             self.kaboomTrack.finish()
             
+        if not self.pieHitSound:
+            self.notify.warning('Trying to play hit sound on destroyed player')
+            return
+
         splatName = 'splat-creampie'
         self.splat = globalPropPool.getProp(splatName)
         self.splat.setBillboardPointEye()
@@ -250,6 +254,10 @@ class PartyCogActivityLocalPlayer(PartyCogActivityPlayer):
         del self.orthoWalk 
         
     def getPieThrowingPower(self, time):
+
+
+
+
         elapsed = max(time - self.input.throwPiePressedStartTime, 0.0)
 
         # Convert CogActivityPowerMeterTime to periods/sec. for easier understanding of the tweak value.
@@ -302,6 +310,9 @@ class PartyCogActivityLocalPlayer(PartyCogActivityPlayer):
         if max((self.activity.getCurrentActivityTime() - self.throwPiePrevTime),0) > PartyGlobals.ToonAttackIdleThreshold:
             self.gui.showAttackControls()
         
+
+
+
         if self.input.throwPieWasReleased:
             if self.checkForThrowSpam(globalClock.getFrameTime()):
                 self.gui.showSpamWarning()

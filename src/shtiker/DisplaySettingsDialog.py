@@ -7,6 +7,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import ToontownGlobals
+from toontown.toonbase.DisplayOptions import DisplayOptions
 
 class DisplaySettingsDialog(DirectFrame, StateData.StateData):
     """DisplaySettingsDialog:
@@ -103,7 +104,7 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
             relief = None,
             scale = TTLocalizer.DSDintroText,
             text = TTLocalizer.DisplaySettingsIntro,
-            text_wordwrap = TTLocalizer.DSDintroTextwordwrap,
+            text_wordwrap = TTLocalizer.DSDintroTextWordwrap,
             text_align = TextNode.ALeft,
             pos = (-0.725, 0, 0.3),
             )
@@ -246,7 +247,7 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
                      ),
             image_scale = (0.6,1,1),
             text_scale = TTLocalizer.DSDcancel,
-            text_pos = (TTLocalizer.DSDcancelButtonPositionX,-0.02),
+            text_pos = TTLocalizer.DSDcancelPos,
             pos = (0.20, 0, -0.53),
             command = self.__cancel,
             )
@@ -305,11 +306,18 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
             else:
                 self.apiLabel.hide()
                 self.apiMenu.hide()
-            self.windowedButton.show()
-            self.fullscreenButton.show()
-            self.c1b.show()
+
+            if DisplayOptions.isWindowedPossible():
+                self.c1b.show()
+                self.windowedButton.show()
+            else:
+                self.c1b.hide()
+                self.windowedButton.hide()
+
             self.c2b.show()
-            if self.isEmbeddedPossible():
+            self.fullscreenButton.show()
+
+            if DisplayOptions.isEmbeddedPossible():
                 self.c3b.show()
                 self.embeddedButton.show()
             else:
@@ -491,7 +499,7 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
         fullscreen = self.displayMode == self.FullscreenMode
         embedded = self.displayMode == self.EmbeddedMode
         if embedded:
-            if self.isEmbeddedPossible():
+            if DisplayOptions.isEmbeddedPossible():
                 # yeah you can go embedded
                 pass
             else:
@@ -527,7 +535,7 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
         result = False
         self.notify.info("changeDisplayProperties")
         if embedded:
-            if self.isEmbeddedPossible():
+            if DisplayOptions.isEmbeddedPossible():
                 width = base.appRunner.windowProperties.getXSize()
                 height = base.appRunner.windowProperties.getYSize()
         self.current_pipe = base.pipe
@@ -565,6 +573,10 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
             # get current sort order
             original_sort = base.win.getSort ( )
             
+            #
+            lastShader = base.cr.getLastShader()
+            base.cr.useShader(None)
+
             if self.resetDisplayProperties(pipe, properties):
                 self.notify.debug("DISPLAY CHANGE SET")
 
@@ -591,6 +603,9 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
                 #self.notify.warning("DISPLAY SET - BEFORE RESTORE")
                 #self.restoreWindowProperties ( options )
                 #self.notify.warning("DISPLAY SET - AFTER RESTORE")
+
+            #
+            base.cr.useShader(lastShader)
 
             # set current sort order
             base.win.setSort (original_sort)
@@ -745,14 +760,6 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
             base.graphicsEngine.renderFrame()
             
         return 1
-
-    def isEmbeddedPossible(self):
-        """Returns True if embedded in the browser is a valid option."""
-        result = False
-        # RAU per Robin we don't want embedded, uncomment if they change their minds
-        #if base.appRunner and base.appRunner.windowProperties:
-        #    result = True
-        return result
     
     def isCurrentlyEmbedded(self):
         """Returns true if the current game window is inside a browser."""

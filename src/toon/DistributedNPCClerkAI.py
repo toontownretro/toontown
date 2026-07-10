@@ -97,9 +97,13 @@ class DistributedNPCClerkAI(DistributedNPCToonBaseAI):
         assert self.notify.debug('setInventory(): %s' % self.timedOut)
         avId = self.air.getAvatarIdFromSender()
 
+
+
+
         if self.busy != avId:
-            self.air.writeServerEvent('suspicious', avId, 'DistributedNPCClerkAI.setInventory busy with %s' % (self.busy))
-            self.notify.warning('setInventory from unknown avId: %s busy: %s' % (avId, self.busy))
+            if self.busy != 0:
+                self.air.writeServerEvent('suspicious', avId, 'DistributedNPCClerkAI.setInventory busy with %s' % (self.busy))
+                self.notify.warning('setInventory from unknown avId: %s busy: %s' % (avId, self.busy))
             return
 
         if self.air.doId2do.has_key(avId):

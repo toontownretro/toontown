@@ -66,7 +66,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
             text_scale = 0.4,
             text_fg = (1, 1, 1, 1),
             text_shadow = (0, 0, 0, 1),
-            pos = (0.0, 0.0, 1.45),
+            pos = (0.0, 0.0, 1.50),
             )
 
         self.NPCFriendPanel = NPCFriendPanel.NPCFriendPanel(
@@ -81,7 +81,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
             text_scale = 0.3,
             text_fg = (1, 1, 1, 1),
             text_shadow = (0, 0, 0, 1),
-            pos = (-0.75, 0.0, -1.85),
+            pos = (-0.75, 0.0, -2.0),
             )
 
         self.scrollList = DirectScrolledList(
@@ -119,7 +119,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
             # each item is a button with text on it
             numItemsVisible = 9,
             items = [],
-            pos = (2.3, 0.0, 0.025),
+            pos = (2.4, 0.0, 0.025),
             scale = 3.5,
             )
 
@@ -136,7 +136,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
             image = (backGui.find("**/PckMn_BackBtn"),
                      backGui.find("**/PckMn_BackBtn_Dn"),
                      backGui.find("**/PckMn_BackBtn_Rlvr")),
-            pos = (2.2, 0.0, -1.65),
+            pos = (2.3, 0.0, -1.65),
             scale = 3,
             text = TTLocalizer.TownBattleSOSBack,
             text_scale = 0.05,

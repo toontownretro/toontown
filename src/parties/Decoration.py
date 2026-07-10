@@ -193,10 +193,15 @@ class Decoration(NodePath):
             self.heartBanner.loop('idle')
             self.heartBanner.reparentTo(self)
 
-        elif self.name == "Hydra":
+        elif self.name == "Hydra" or self.name == "StageWinter":
                 
-            self.hydra = Actor.Actor("phase_13/models/parties/tt_a_ara_pty_hydra_default", \
-                                            {'dance' : 'phase_13/models/parties/tt_a_ara_pty_hydra_dance' })
+
+            if self.name == "StageWinter":
+                self.hydra = Actor.Actor("phase_13/models/parties/tt_r_ara_pty_winterProps", \
+                                                {'dance' : 'phase_13/models/parties/tt_a_ara_pty_hydra_dance' })
+            else:
+                self.hydra = Actor.Actor("phase_13/models/parties/tt_a_ara_pty_hydra_default", \
+                                                {'dance' : 'phase_13/models/parties/tt_a_ara_pty_hydra_dance' })
             st = random.randint(0,10)
             animIval = ActorInterval(self.hydra, "dance")
             animIvalDur = animIval.getDuration()
@@ -216,9 +221,15 @@ class Decoration(NodePath):
             self.hydra.flattenStrong()
             self.hydra.reparentTo(self)   
 
+            if self.name == "StageWinter":
+                stageBounds = self.hydra.find("**/stage").node().getBounds()
+                self.hydra.node().setBounds(stageBounds)
+                self.hydra.node().setFinal(1)
+
+
         elif self.name == "TubeCogVictory":
-            self.tubeCog = Actor.Actor("phase_13/models/parties/tt_a_ara_pty_tubeCogVictory_default", \
-                                            {'wave' : 'phase_13/models/parties/tt_a_ara_pty_tubeCogVictory_wave' })
+            self.tubeCog = Actor.Actor("phase_5.5/models/parties/tt_a_ara_pty_tubeCogVictory_default", \
+                                            {'wave' : 'phase_5.5/models/parties/tt_a_ara_pty_tubeCogVictory_wave' })
             st = random.randint(0,10)
             animIval = ActorInterval(self.tubeCog, "wave")
             animIvalDur = animIval.getDuration()
@@ -274,11 +285,33 @@ class Decoration(NodePath):
             self.decorationModel.reparentTo(self)            
             self.decorationShadow = self.setupAnimSeq()
         
-        elif self.name == "cogIceCreamVictory":
+        elif self.name == "CogIceCreamVictory":
             self.decorationModel = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_cogIceCreamVictory")
             self.decorationModel.reparentTo(self)
             self.decorationShadow = self.setupAnimSeq()
             
+        elif self.name == "cogIceCreamWinter":
+            self.decorationModel = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_cogIceCreamWinter")
+            self.decorationModel.reparentTo(self)
+            self.decorationShadow = self.setupAnimSeq()
+
+        elif self.name == "CogStatueWinter":
+            self.decorationModel = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_cogDoodleWinter")
+            self.decorationModel.reparentTo(self)
+            self.decorationShadow = self.setupAnimSeq()
+
+        elif self.name == "snowman":
+            self.decorationModel = loader.loadModel('phase_13/models/estate/tt_m_prp_ext_snowman')
+            self.decorationModel.reparentTo(self)
+            self.decorationModel.find("**/growthStage_1").hide()
+            self.decorationModel.find("**/growthStage_2").hide()
+
+        elif self.name == "snowDoodle":
+            self.decorationModel = loader.loadModel("phase_5.5/models/estate/tt_m_prp_ext_snowDoodle")
+            self.decorationModel.reparentTo(self)
+            self.decorationModel.find("**/growthStage_1").hide()
+            self.decorationModel.find("**/growthStage_2").hide()
+
         else:
             self.decorationModels = loader.loadModel("phase_4/models/parties/partyDecorations")
             self.decorationModels.copyTo(self)
@@ -329,7 +362,8 @@ class Decoration(NodePath):
             del self.globeSphere
             self.partyGlobe.removeNode()
             del self.partyGlobe
-        elif self.name == "Hydra":
+        elif self.name == "Hydra" \
+            or self.name == "StageWinter":
             self.cleanUpAnimSequences()
             self.hydra.removeNode()
             del self.hydra
@@ -357,11 +391,16 @@ class Decoration(NodePath):
             self.cannonVictory.removeNode()
             del self.cannonVictory
         elif self.name == "cogIceCreamVictory" \
-            or self.name == "CogStatueVictory":
+            or self.name == "CogStatueVictory" \
+            or self.name == "cogIceCreamWinter" \
+            or self.name == "CogStatueWinter":
             self.cleanUpAnimSequences()
             self.decorationModel.removeNode()
             self.decorationShadow.removeNode()
             del self.decorationShadow
+        elif self.name == "snowman" \
+            or self.name == "snowDoodle":
+            self.decorationModel.removeNode()
         elif self.name == "BannerVictory":
             self.bannerVictory.removeNode()
             del self.bannerVictory

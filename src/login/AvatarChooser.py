@@ -157,7 +157,7 @@ class AvatarChooser(StateData.StateData):
 ##            text1_fg = (0.152, 0.750, 0.258, 1),
 ##            text2_fg = (0.977, 0.816, 0.133, 1),
             text_fg = (0.977, 0.816, 0.133, 1),
-            text_pos = (0, TTLocalizer.ACquitButton_pos),
+            text_pos = TTLocalizer.ACquitButtonPos,
             text_scale = TTLocalizer.ACquitButton,
             image_scale = 1,
             image1_scale = 1.05,

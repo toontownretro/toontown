@@ -149,7 +149,7 @@ class DistributedCogHQDoor(DistributedDoor.DistributedDoor):
 
     def enterDoor(self):
         assert(self.debugPrint("enterDoor()"))
-        if self.allowedToEnter():
+        if self.allowedToEnter(self.zoneId):
             messenger.send("DistributedDoor_doorTrigger")
             self.sendUpdate("requestEnter") # calls back with a avatarEnter.
         else:

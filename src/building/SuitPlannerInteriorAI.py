@@ -27,11 +27,12 @@ class SuitPlannerInteriorAI:
     notify = DirectNotifyGlobal.directNotify.newCategory(
         'SuitPlannerInteriorAI')
 
-    def __init__( self, numFloors, bldgLevel, bldgTrack, zone ):
+    def __init__( self, numFloors, bldgLevel, bldgTrack, zone, respectInvasions = 1 ):
         # when the suit planner interior is created, create information
         # about all suits that will exist in this building
         #
 
+        self.dbg_nSuits1stRound = config.GetBool("n-suits-1st-round", 0)
         self.dbg_4SuitsPerFloor = config.GetBool("4-suits-per-floor", 0)
         self.dbg_1SuitPerFloor = config.GetBool("1-suit-per-floor", 0)  # formerly called 'wuss-suits'
 
@@ -41,7 +42,7 @@ class SuitPlannerInteriorAI:
         # By default, if an invasion is in progress we only generate
         # suits of that kind.  Set this false to turn off this
         # behavior.
-        self.respectInvasions = 1
+        self.respectInvasions = respectInvasions
 
         # This dbg var forces the creations of all 1 suit type (overrides level/type restrictions)
         dbg_defaultSuitName = simbase.config.GetString('suit-type', 'random')
@@ -101,10 +102,11 @@ class SuitPlannerInteriorAI:
             #
             activeDicts = []
 
-            if (self.dbg_4SuitsPerFloor):
-                numActive = 4
+            maxActive = min(4, len(lvls))
+            if self.dbg_nSuits1stRound:
+                numActive = min(self.dbg_nSuits1stRound, maxActive)
             else:
-                numActive = random.randint( 1, min( 4, len( lvls ) ) )
+                numActive = random.randint(1, maxActive)
 
             if ((currFloor + 1) == numFloors and len(lvls) > 1):
                 # Make the boss be suit 1 (unless there is only 1 active suit)

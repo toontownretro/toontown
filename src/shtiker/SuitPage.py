@@ -217,11 +217,47 @@ class SuitPage(ShtikerPage.ShtikerPage):
         # keep some state
         self.radarOn = [0, 0, 0, 0]
         
+        priceScale = 0.1
+        emblemIcon = loader.loadModel("phase_3.5/models/gui/tt_m_gui_gen_emblemIcons")
+        silverModel = emblemIcon.find("**/tt_t_gui_gen_emblemSilver")
+        goldModel = emblemIcon.find("**/tt_t_gui_gen_emblemGold")
+        self.silverLabel = DirectLabel(
+            parent = self,
+            relief = None,
+            pos = (-0.25, 0, -0.69),
+            scale = priceScale,
+            image = silverModel,
+            image_pos = (-0.4, 0, 0.4),
+            text = str(localAvatar.emblems[ToontownGlobals.EmblemTypes.Silver]),
+            text_fg = (0.95, 0.95, 0, 1),
+            text_shadow = (0, 0, 0, 1),
+            text_font = ToontownGlobals.getSignFont(),
+            text_align = TextNode.ALeft,
+            )
+        self.goldLabel = DirectLabel(
+            parent = self,
+            relief = None,
+            pos = (0.25, 0, -0.69),
+            scale = priceScale,
+            image = goldModel,
+            image_pos = (-0.4, 0, 0.4),
+            text = str(localAvatar.emblems[ToontownGlobals.EmblemTypes.Gold]),
+            text_fg = (0.95, 0.95, 0, 1),
+            text_shadow = (0, 0, 0, 1),
+            text_font = ToontownGlobals.getSignFont(),
+            text_align = TextNode.ALeft,
+            )
+        if not base.cr.wantEmblems:
+            self.silverLabel.hide()
+            self.goldLabel.hide()
+        self.accept(localAvatar.uniqueName("emblemsChange"), self.__emblemChange)
+
         # scoot everything up
         self.guiTop.setZ(0.625)
 
     def unload(self):
         # clean up our DirectGui elements
+        self.ignoreAll()
         self.title.destroy()
         self.corpRadarButton.destroy()
         self.legalRadarButton.destroy()
@@ -258,10 +294,13 @@ class SuitPage(ShtikerPage.ShtikerPage):
                 self.radarButtons[index]['state'] = DGG.NORMAL                    
         ShtikerPage.ShtikerPage.exit(self)
         
-
     #
     # callbacks
     #
+
+    def __emblemChange(self, newEmblems):
+        self.silverLabel['text'] = str(newEmblems[0])
+        self.goldLabel['text'] = str(newEmblems[1])
 
     def grow(self, panel, pos):
         #don't grow if there's already a big panel

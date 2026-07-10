@@ -71,6 +71,16 @@ class DistributedVineGameAI(DistributedMinigameAI):
         del self.gameFSM
         DistributedMinigameAI.delete(self)
 
+    def _playing(self):
+
+
+
+        if not hasattr(self, 'gameFSM'):
+            return False
+        if self.gameFSM.getCurrentState() == None:
+            return False
+        return self.gameFSM.getCurrentState().getName() == 'play'
+
     # override some network message handlers
     def setGameReady(self):
         self.notify.debug("setGameReady")
@@ -173,7 +183,7 @@ class DistributedVineGameAI(DistributedMinigameAI):
 
     def claimTreasure(self, treasureNum):
         # if the game just ended, ignore this message
-        if self.gameFSM.getCurrentState().getName() != 'play':
+        if not self._playing():
             return
         # we're getting strange AI crashes where a toon claims
         # a treasure, and the toon is not listed in the scoreDict
@@ -240,6 +250,8 @@ class DistributedVineGameAI(DistributedMinigameAI):
         toon jumped to a new vine
         """
         self.notify.debug('setNewVine')
+        if not self._playing():
+            return
         if avId not in self.avIdList:
             self.air.writeServerEvent('suspicious', avId, 'VineGameAI.setNewVine: invalid avId')
             return

@@ -64,9 +64,9 @@ class FriendInviter(DirectFrame):
             image_color = GlobalDialogColor,
             image_scale = (1.0, 1.0, 0.6),
             text = '',
-            text_wordwrap = TTLocalizer.FIdirectFrameTextWorkWrap,
-            text_scale = TTLocalizer.FIdialog,
-            text_pos = (0.0, TTLocalizer.FIdirectFrameTextPosZ),
+            text_wordwrap = TTLocalizer.FIdirectFrameWordwrap,
+            text_scale = TTLocalizer.FIdirectFrame,
+            text_pos = TTLocalizer.FIdirectFramePos,
             )
 
         # For some reason, we need to set this after construction to
@@ -205,7 +205,7 @@ class FriendInviter(DirectFrame):
             text = OTPLocalizer.FriendInviterCancel,
             text_scale = 0.05,
             text_pos = (0.0, -0.1),
-            pos = (TTLocalizer.FIcancelButtonPositionX, 0.0, -0.1),
+            pos = TTLocalizer.FIbCancelPos,
             command = self.__handleCancel
             )
         self.bCancel.hide()
@@ -218,9 +218,9 @@ class FriendInviter(DirectFrame):
             relief = None,
             text = OTPLocalizer.FriendInviterStopBeingFriends,
             text_align = TextNode.ALeft,
-            text_scale = TTLocalizer.FIstopButton,
-            text_pos = (0.075, TTLocalizer.FIstopTextPositionY),
-            pos = (TTLocalizer.FIstopButtonPositionX, 0.0, 0.05),
+            text_scale = TTLocalizer.FIbStop,
+            text_pos = TTLocalizer.FIbStopTextPos,
+            pos = TTLocalizer.FIbStopPos,
             command = self.__handleStop
             )
         self.bStop.hide()
@@ -234,7 +234,7 @@ class FriendInviter(DirectFrame):
             text = OTPLocalizer.FriendInviterYes,
             text_scale = 0.05,
             text_pos = (0.0, -0.1),
-            pos = (TTLocalizer.FIyesButtonPositionX, 0.0, -0.1),
+            pos = TTLocalizer.FIbYesPos,
             command = self.__handleYes
             )
         self.bYes.hide()
@@ -848,6 +848,8 @@ class FriendInviter(DirectFrame):
     ### Button handing methods
 
     def __handleOk(self):
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: MAKEAFRIENDSHIP: Make a friendship')
         unloadFriendInviter()
 
     def __handleCancel(self):
@@ -857,6 +859,8 @@ class FriendInviter(DirectFrame):
         unloadFriendInviter()
 
     def __handleStop(self):
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: BREAKAFRIENDSHIP: Break a friendship')
         self.fsm.request('endFriendship')
 
     def __handleYes(self):

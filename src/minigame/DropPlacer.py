@@ -15,8 +15,9 @@ class DropPlacer:
     'game' should be the catch game object
     'dropTypes' should be a list of drop type names
     """
-    def __init__(self, game, dropTypes, startTime=None):
+    def __init__(self, game, numPlayers, dropTypes, startTime=None):
         self.game = game
+        self.numPlayers = numPlayers
         self.dropTypes = dropTypes
         self.dtIndex = 0
         self._createScheduler(startTime)
@@ -97,8 +98,8 @@ class RandomDropPlacer(DropPlacer):
     this is the simplest DropPlacer. It just drops items
     in random locations.
     """
-    def __init__(self, game, dropTypes, startTime=None):
-        DropPlacer.__init__(self, game, dropTypes, startTime=startTime)
+    def __init__(self, game, numPlayers, dropTypes, startTime=None):
+        DropPlacer.__init__(self, game, numPlayers, dropTypes, startTime=startTime)
 
     def getNextDrop(self):
         """
@@ -245,10 +246,10 @@ class RegionDropPlacer(DropPlacer):
     def getDropRegionTable(cls, numPlayers):
         return cls.Players2dropTable[min(len(cls.Players2dropTable)-1, numPlayers)]
 
-    def __init__(self, game, dropTypes, startTime=None):
-        DropPlacer.__init__(self, game, dropTypes, startTime=startTime)
+    def __init__(self, game, numPlayers, dropTypes, startTime=None):
+        DropPlacer.__init__(self, game, numPlayers, dropTypes, startTime=startTime)
                 
-        self.DropRegionTable = self.getDropRegionTable(self.game.getNumPlayers())
+        self.DropRegionTable = self.getDropRegionTable(self.numPlayers)
 
         assert (len(self.DropRegionTable) == self.game.DropRows)
         assert (len(self.DropRegionTable[0]) == self.game.DropColumns)
@@ -312,9 +313,9 @@ class RegionDropPlacer(DropPlacer):
         return drop
 
 class PartyRegionDropPlacer(RegionDropPlacer):
-    def __init__(self, game, generationId, dropTypes, startTime=None):
+    def __init__(self, game, numPlayers, generationId, dropTypes, startTime=None):
         self.generationId = generationId
-        RegionDropPlacer.__init__(self, game, dropTypes, startTime=startTime)
+        RegionDropPlacer.__init__(self, game, numPlayers, dropTypes, startTime=startTime)
 
     def _createRng(self):
         self.rng = RandomNumGen(self.generationId + self.game.doId)
@@ -337,8 +338,8 @@ class PathDropPlacer(DropPlacer):
     for each player. The idea is to keep players from frequently
     having to run back and forth across the entire stage.
     """
-    def __init__(self, game, dropTypes, startTime=None):
-        DropPlacer.__init__(self, game, dropTypes, startTime=startTime)
+    def __init__(self, game, numPlayers, dropTypes, startTime=None):
+        DropPlacer.__init__(self, game, numPlayers, dropTypes, startTime=startTime)
 
         # these represent the possible drop location moves that a
         # path can take, in clockwise order
@@ -357,7 +358,7 @@ class PathDropPlacer(DropPlacer):
         # be careful to create N *unique* descriptors, not N
         # references to a single descriptor
         self.paths = []
-        for i in xrange(self.game.getNumPlayers()):
+        for i in xrange(self.numPlayers):
             # create a new path descriptor and add it to the list
             dir = self.rng.randrange(0,len(self.moves))
             col,row = self.getRandomColRow()

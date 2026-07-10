@@ -845,6 +845,9 @@ class DistributedStartingBlock( DistributedObject.DistributedObject, FSM ):
         """
         #pdb.set_trace()
         self.notify.debug( "%d enterEnterMovie: Entering the Enter Movie State." % self.doId)
+        if base.config.GetBool('want-qa-regression', 0):
+            raceName = TTLocalizer.KartRace_RaceNames[self.kartPad.trackType]
+            self.notify.info('QA-REGRESSION: KARTING: %s' % raceName)
         
         # Obtain the Enter Movie Tracks
         toonTrack = self.generateToonMoveTrack()
@@ -1202,7 +1205,10 @@ class DistributedViewingBlock( DistributedStartingBlock ):
         """
         #pdb.set_trace()
         self.notify.debug( "%d enterEnterMovie: Entering the Enter Movie State." % self.doId )
-        
+        if base.config.GetBool('want-qa-regression', 0):
+            raceName = TTLocalizer.KartRace_RaceNames[self.kartPad.trackType]
+            self.notify.info('QA-REGRESSION: KARTING: %s' % raceName)
+
         # Obtain the toon's kart.
         pos = self.nodePath.getPos( render )
         hpr = self.nodePath.getHpr( render )

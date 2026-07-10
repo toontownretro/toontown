@@ -7,6 +7,7 @@ from toontown.toon import InventoryBase
 from toontown.battle import DistributedBattleFinalAI
 from toontown.building import SuitPlannerInteriorAI
 from toontown.battle import BattleBase
+from toontown.coghq import CogDisguiseGlobals
 from pandac.PandaModules import *
 import SuitDNA
 import random
@@ -65,7 +66,20 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         # The number of times we are hit during one dizzy spell.
         self.hitCount = 0
 
+        self.nerfed = False
+
+
+        self.numRentalDiguises = 0
+        self.numNormalDiguises = 0
+
         AllBossCogs.append(self)
+
+    def generateWithRequired(self, zoneId):
+
+
+        self.numRentalDiguises, self.numNormalDiguises = self.countDisguises()
+
+        DistributedAvatarAI.DistributedAvatarAI.generateWithRequired(self, zoneId)
 
     def delete(self):
         self.ignoreAll()
@@ -164,6 +178,10 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
                                   self.uniqueName('BossDone'))
 
     def __bossDone(self, task):
+
+        if self.air:
+            self.air.writeServerEvent('bossBattleDone', self.doId, '%s' % self.dept)
+
         self.b_setState('Off')
         messenger.send(self.uniqueName('BossDone'))
         self.ignoreAll()
@@ -181,6 +199,56 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
                 if hp > 0:
                     alive = 1
         return alive
+
+    def isToonKnown(self, toonId):
+
+        return toonId in self.involvedToons or toonId in self.looseToons
+
+    def isToonWearingRentalSuit(self, toonId):
+
+        if not self.isToonKnown(toonId):
+
+            self.notify.warning('isToonWearingRentalSuit: unknown toonId %s' % toonId)
+            return False
+
+        toon = self.air.doId2do.get(toonId)
+        if toon:
+            if hasattr(toon, 'forceRentalDisguise') and toon.forceRentalDisguise:
+
+                return True
+            else:
+                return not CogDisguiseGlobals.isPaidSuitComplete(toon, toon.getCogParts(), self.dept)
+        else:
+            self.notify.warning('isToonWearingRentalSuit: toonId %s does not exist' % toonId)
+            return False
+
+    def __countNormalDisguiseToons(self):
+
+
+
+        return len(self.involvedToons) + len(self.looseToons) - self.__countRentalDisguiseToons()
+
+    def __countRentalDisguiseToons(self):
+
+
+
+        count = 0
+        for toonId in self.involvedToons + self.looseToons:
+            if self.isToonWearingRentalSuit(toonId):
+                count += 1
+        return count
+
+    def countDisguises(self):
+
+        rentals = self.__countRentalDisguiseToons()
+        normals = self.__countNormalDisguiseToons()
+
+
+
+
+
+
+        return (rentals, normals)
 
     def sendBattleIds(self):
         self.sendUpdate('setBattleIds', [self.battleNumber, self.battleAId, self.battleBId])
@@ -256,9 +324,9 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
 
         if self.air:
             if state in self.keyStates:
-                self.air.writeServerEvent("bossBattle", self.doId, "%s|%s|%s|%s" %
+                self.air.writeServerEvent("bossBattle", self.doId, "%s|%s|%s|%s|%s|%s" %
                                           (self.dept, state, self.involvedToons,
-                                           self.formatReward()))
+                                           self.formatReward(), self.formatLaffLevels(), self.formatSuitType()))
                 
 
     def getState(self):
@@ -269,6 +337,27 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         # Returns the reward indication to write to the event log.
         return 'unspecified'
 
+    def formatLaffLevels(self):
+
+        try:
+            return map(lambda id: simbase.air.doId2do.get(id).getMaxHp(), self.involvedToons)
+        except Exception, e:
+            self.notify.warning(e)
+            return []
+
+    def formatSuitType(self):
+
+
+        try:
+            def hasSuit(id):
+                if not self.isToonWearingRentalSuit(id):
+                    return 1
+                else:
+                    return 0
+            return map(hasSuit, self.involvedToons)
+        except Exception, e:
+            self.notify.warning(e)
+            return []
 
     ##### Off state #####
 
@@ -484,6 +573,21 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         # Divide the toons randomly into toonsA and toonsB for facing
         # off with the boss cog.
 
+        if self.nerfed:
+            splitMethod = self.__balancedDivide
+        else:
+            splitMethod = self.__randomDivide
+
+        self.toonsA, self.toonsB, loose = splitMethod()
+        self.looseToons += loose
+
+        self.sendToonIds()
+
+    def __randomDivide(self):
+        # Divide the toons randomly into toonsA and toonsB for facing
+        # off with the boss cog.
+
+
         toons = self.involvedToons[:]
         random.shuffle(toons)
 
@@ -497,11 +601,45 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             numToonsB = numToons / 2
         else:
             numToonsB = (numToons + random.choice([0, 1])) / 2
-        
-        self.toonsA = toons[numToonsB:numToons]
-        self.toonsB = toons[:numToonsB]
-        self.looseToons += toons[numToons:]
-        self.sendToonIds()
+
+        teamA = toons[numToonsB:numToons]
+        teamB = toons[:numToonsB]
+        loose = toons[numToons:]
+
+        return (teamA, teamB, loose)
+
+    def __balancedDivide(self):
+
+
+
+
+
+
+
+        toons = self.involvedToons[:]
+
+
+        random.shuffle(toons)
+
+        teamA, teamB, loose = [], [], []
+
+
+        for i, toon in enumerate(sorted(toons, key=self.isToonWearingRentalSuit)):
+            if i < 8:
+                if i % 2 == 0:
+                    teamA.append(toon)
+                else:
+                    teamB.append(toon)
+
+            else:
+                loose.append(toon)
+
+
+
+
+
+
+        return (teamA, teamB, loose)
 
     def acceptNewToons(self):
         # Only the non-ghosts get accepted into the battle.
@@ -859,6 +997,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
                 damage = 5
 
             damage *= self.getDamageMultiplier()
+            damage = max(int(damage), 1)
             self.damageToon(toon, damage)
 
             currState = self.getCurrentOrNextState()

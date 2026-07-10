@@ -52,7 +52,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
                 style = TTDialog.TwoChoice,
                 text = TTLocalizer.IgnorePanelAddIgnore % self.avName,
                 text_wordwrap = 18.5,
-                text_scale = TTLocalizer.APBignorePanelAddIgnoreTextScale,
+                text_scale = TTLocalizer.APBdialog,
                 okButtonText = TTLocalizer.AvatarPanelIgnore,
                 cancelButtonText = TTLocalizer.lCancel,
                 doneEvent = "IgnoreConfirm",
@@ -64,7 +64,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             parent = self.dialog,
             relief = None,
             #pos = (0, 0, 0.15),
-            pos = (0, TTLocalizer.APBignorePanelTitlePosY, 0.125),
+            pos = (0, TTLocalizer.APBdirectLabelPosY, 0.125),
             text = TTLocalizer.IgnorePanelTitle,
             textMayChange = 0,
             text_scale = 0.08,
@@ -92,7 +92,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
         DirectLabel(
             parent = self.dialog,
             relief = None,
-            pos = (0, TTLocalizer.APBignorePanelTitlePosY, 0.15),
+            pos = (0, TTLocalizer.APBdirectLabelPosY, 0.15),
             text = TTLocalizer.IgnorePanelTitle,
             textMayChange = 0,
             text_scale = 0.08,
@@ -125,7 +125,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
         DirectLabel(
             parent = self.dialog,
             relief = None,
-            pos = (0, TTLocalizer.APBignorePanelTitlePosY, 0.15),
+            pos = (0, TTLocalizer.APBdirectLabelPosY, 0.15),
             text = TTLocalizer.IgnorePanelTitle,
             textMayChange = 0,
             text_scale = 0.08,
@@ -158,7 +158,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
         DirectLabel(
             parent = self.dialog,
             relief = None,
-            pos = (0, TTLocalizer.APBignorePanelTitlePosY, 0.15),
+            pos = (0, TTLocalizer.APBdirectLabelPosY, 0.15),
             text = TTLocalizer.IgnorePanelTitle,
             textMayChange = 0,
             text_scale = 0.08,
@@ -251,13 +251,13 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
     def chooseReportCategory(self):
         # put up a confirmation dialog - need to make a custom one for buttons
         self.dialog  = TTDialog.TTGlobalDialog(
-            pos = (0, 0, 0.2),
+            pos = (0, 0, 0.4),
             style = TTDialog.CancelOnly,
             text = TTLocalizer.ReportPanelCategoryBody % (self.avName, self.avName),
             text_wordwrap = 18.5,
             text_scale = 0.06,
             topPad = 0.05,
-            midPad = 0.65,
+            midPad = 0.75,
             cancelButtonText = TTLocalizer.lCancel,
             doneEvent = "ReportCategory",
             command = self.handleReportCategory, 
@@ -300,7 +300,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
                      guiButton.find("**/QuitBtn_DN"),
                      guiButton.find("**/QuitBtn_RLVR"),
                      ),
-            image_scale = (2.25, 1.0, 1.0),
+            image_scale = (2.15, 1.0, 1.0),
             text = TTLocalizer.ReportPanelCategoryPii,
             text_scale = 0.06,
             text_pos = (0, -0.0125),
@@ -343,6 +343,23 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
             extraArgs = [3],
             )
         
+        # Hacking
+        DirectButton(
+            parent = self.dialog,
+            relief = None,
+            image = (guiButton.find("**/QuitBtn_UP"),
+                     guiButton.find("**/QuitBtn_DN"),
+                     guiButton.find("**/QuitBtn_RLVR"),
+                     ),
+            image_scale = (2.125, 1.0, 1.0),
+            text = TTLocalizer.ReportPanelCategoryHacking,
+            text_scale = 0.06,
+            text_pos = (0, -0.0125),
+            pos = (0, 0, -0.8),
+            command = self.handleReportCategory,
+            extraArgs = [4],
+            )
+
         guiButton.removeNode()
         self.dialog.show()
         self.__acceptStoppedStateMsg()
@@ -357,6 +374,7 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
                 CentralLogger.ReportPersonalInfo,
                 CentralLogger.ReportRudeBehavior,
                 CentralLogger.ReportBadName,
+                CentralLogger.ReportHacking
                 ]
             self.category = cat[value]
             self.confirmReportCategory(value)
@@ -396,8 +414,16 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
         self.cleanupDialog()
         removed = 0
         isPlayer = 0
+
         if value > 0:
+
             # log the chat records
+
+
+            if self.category == CentralLogger.ReportHacking:
+                base.cr.centralLogger.reportPlayer(self.category, self.playerId, self.avId)
+                self.category = CentralLogger.ReportRudeBehavior
+
             base.cr.centralLogger.reportPlayer(self.category, self.playerId, self.avId)
 
             # if we are avatar friends, break the friendship

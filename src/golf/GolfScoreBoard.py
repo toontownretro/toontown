@@ -97,7 +97,7 @@ class GolfScoreBoard:
                              image_scale = (1, 1, 1),
                              text = TTLocalizer.GolfExitCourse,
                              text_scale = 0.04,
-                             text_pos = TTLocalizer.GSBExitCourseBTextPose,
+                             text_pos = TTLocalizer.GSBexitCourseBPos,
                              command = self.exitCourse,
                              )
 
@@ -135,7 +135,7 @@ class GolfScoreBoard:
             pos = (0, 0, holeTop + 0.1),
             text_align = TextNode.ACenter,
             text = title,
-            text_scale = TTLocalizer.GSBtitleLabelScale,
+            text_scale = TTLocalizer.GSBtitleLabel,
             text_font = ToontownGlobals.getSignFont(),
             text_fg = (0, 0.5, 0.125, 1)
             )

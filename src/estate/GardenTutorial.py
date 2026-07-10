@@ -153,7 +153,7 @@ class GardenTutorial(DirectFrame, FSM.FSM):
         self.title['text'] = TTLocalizer.GardenTutorialTitle2,
         self['text'] = TTLocalizer.GardenTutorialPage2
         self['text_pos'] = (-0.27, 0.16)
-        self['text_wordwrap'] = TTLocalizer.GardenTutorialPage2Wordwrap
+        self['text_wordwrap'] = TTLocalizer.GTenterPage2Wordwrap
         self.iPage2.show()
 
     def exitPage2(self, *args):
@@ -173,7 +173,7 @@ class GardenTutorial(DirectFrame, FSM.FSM):
         self.title['text'] = TTLocalizer.GardenTutorialTitle4,
         self['text'] = TTLocalizer.GardenTutorialPage4
         self['text_pos'] = (0.0, 0.19)
-        self['text_wordwrap'] = TTLocalizer.GardenTutorialPage4Wordwrap
+        self['text_wordwrap'] = TTLocalizer.GTenterPage4Wordwrap
         self.iPage4.show()
 
     def exitPage4(self, *args):

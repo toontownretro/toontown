@@ -12,8 +12,7 @@ class DistributedSZTreasureAI(DistributedTreasureAI.DistributedTreasureAI):
     # override the validate function to indicate that only toons who
     # need healing can pick up treasures.
     def validAvatar(self, av):
-        return (av.hp > 0) and (av.hp < av.maxHp)
-
+        return (av.hp >= -1) and (av.hp < av.maxHp)
 
     # override the grab function and try to heal the toon
     def d_setGrab(self, avId):
@@ -21,8 +20,10 @@ class DistributedSZTreasureAI(DistributedTreasureAI.DistributedTreasureAI):
         # Boost that laff meter, if you can
         if self.air.doId2do.has_key(avId):
             av = self.air.doId2do[avId]
-            # Only toons with positive hp get rewarded for treasures.
-            if (av.hp > 0) and (av.hp < av.maxHp):
+            if self.validAvatar(av):
+                # Only toons with positive hp get rewarded for treasures.
+                if (av.hp == -1):
+                    av.hp = 0
                 # Modify the heal amount based on which holiday is running. 
                 if simbase.air.holidayManager.currentHolidays.has_key(ToontownGlobals.VALENTINES_DAY):
                     av.toonUp(self.healAmount * 2)

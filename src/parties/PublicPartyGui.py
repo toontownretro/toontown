@@ -14,7 +14,6 @@ from direct.showbase import PythonUtil
 
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-from toontown.toon import GMUtils
 from toontown.toontowngui import TTDialog
 from toontown.parties import PartyGlobals
 from toontown.parties import PartyUtils
@@ -186,8 +185,6 @@ class PublicPartyGui(DirectFrame):
             zoneId = partyTuple[1]
             numberOfGuests = partyTuple[2]
             hostName = partyTuple[3]
-            if GMUtils.testGMIdentity(hostName):
-                hostName = GMUtils.handleGMName(hostName)
             activityIds = partyTuple[4]
             minLeft = partyTuple[5]
             item = DirectButton(
@@ -394,7 +391,7 @@ class PublicPartyGui(DirectFrame):
             text_align = TextNode.ALeft,
             relief = None,
             text = TTLocalizer.PartyGatesPartiesListToons,
-            text_scale = TTLocalizer.PPGcreatePartyListAndLabel,
+            text_scale = TTLocalizer.PPGtoonsLabel,
             pos = curPos,
             hpr = hpr
         )
@@ -407,7 +404,7 @@ class PublicPartyGui(DirectFrame):
             text_align = TextNode.ALeft,
             relief = None,
             text = TTLocalizer.PartyGatesPartiesListActivities,
-            text_scale = TTLocalizer.PPGcreatePartyListAndLabel,
+            text_scale = TTLocalizer.PPGactivitiesLabel,
             pos = curPos,
             hpr = hpr
         )
@@ -419,7 +416,7 @@ class PublicPartyGui(DirectFrame):
             text_align = TextNode.ALeft,
             relief = None,
             text = TTLocalizer.PartyGatesPartiesListMinLeft,
-            text_scale = TTLocalizer.PPGcreatePartyListAndLabel,
+            text_scale = TTLocalizer.PPGminLeftLabel,
             pos = curPos,
             hpr = hpr
         )

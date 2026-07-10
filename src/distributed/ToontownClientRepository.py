@@ -37,6 +37,7 @@ from otp.distributed import OtpDoGlobals
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
 from otp.otpbase import OTPLauncherGlobals
+from otp.avatar.Avatar import teleportNotify
 
 
 from toontown.toonbase.ToonBaseGlobal import *
@@ -65,6 +66,7 @@ from ToontownMsgTypes import *
 import HoodMgr
 import PlayGame
 from toontown.toontowngui import ToontownLoadingBlocker
+from toontown.hood import StreetSign
 
 
 
@@ -148,9 +150,11 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.catalogManager = None
         self.welcomeValleyManager = None
         self.newsManager = None
+        self.streetSign = None
         self.distributedDistrict = None
         self.partyManager = None
         self.inGameNewsMgr = None
+        self.whitelistMgr = None
         self.toontownTimeManager = ToontownTimeManager.ToontownTimeManager()
 
         self.avatarFriendsManager = self.generateGlobalObject(
@@ -182,6 +186,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER,
                 "TTCodeRedemptionMgr") 
         
+        self.streetSign = None
         # This one is a little different, because it doesn't live in
         # the Uber zone; a different one lives in the zone for each
         # house.  But still it is similar.
@@ -246,7 +251,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         state = self.gameFSM.getStateNamed('playGame')
         state.addTransition('skipTutorialRequest')
 
-        self.wantCogdominiums = base.config.GetBool('want-cogdominiums', 0)
+        self.wantCogdominiums = base.config.GetBool('want-cogdominiums', 1)
+        self.wantEmblems = base.config.GetBool('want-emblems', 0)
 
         if base.config.GetBool('tt-node-check', 0):
             # check for nodes in the models
@@ -264,6 +270,11 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                                     toon.setDNA(dna)
                                 except Exception, e:
                                     print e
+
+
+        self.filterManager = None
+
+        self.lastShader = None
         
     # Each state will have an enter function, an exit function,
     # and a datagram handler, which will be set during each enter function.
@@ -401,7 +412,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.accept(self.avChoiceDoneEvent, self.__handleAvatarChooserDone,
                     [avList])
         
-        if config.GetBool('want-gib-loader', 0):
+        if config.GetBool('want-gib-loader', 1):
             self.loadingBlocker = ToontownLoadingBlocker.ToontownLoadingBlocker(avList)
 
     def __handleAvatarChooserDone(self, avList, doneStatus):
@@ -427,12 +438,13 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                 self.notify.info("Chose avatar name: %s" % (av.name))
                 dna = ToonDNA.ToonDNA()
                 dna.makeFromNetString(av.dna)
-                self.notify.info("Chose avatar dna: %s" % (dna.asTuple(),))
-                self.notify.info("Chose avatar position: %s" % (av.position))
-                self.notify.info("isPaid: %s" % (self.isPaid()))
-                self.notify.info("freeTimeLeft: %s" % (self.freeTimeLeft()))
-                self.notify.info("allowSecretChat: %s" %
-                                 (self.allowSecretChat()))
+                if base.logPrivateInfo:
+                    self.notify.info("Chose avatar dna: %s" % (dna.asTuple(),))
+                    self.notify.info("Chose avatar position: %s" % (av.position))
+                    self.notify.info("isPaid: %s" % (self.isPaid()))
+                    self.notify.info("freeTimeLeft: %s" % (self.freeTimeLeft()))
+                    self.notify.info("allowSecretChat: %s" %
+                                     (self.allowSecretChat()))
                 self.notify.info("================")
         if (done == "chose"):
             self.avChoice.exit()
@@ -778,6 +790,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                               -1                              # avId
                               ])
         self._userLoggingOut = False
+        if not self.streetSign:
+            self.streetSign = StreetSign.StreetSign()
 
     def exitPlayingGame(self):
         # First, stop all loose intervals that are tagged with autoPause or
@@ -1052,7 +1066,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                 'DistributedBankMgr', 'EstateManager', 'RaceManager',
                 'SafeZoneManager', 'DeleteManager', 'TutorialManager',
                 'ToontownDistrict', 'DistributedDeliveryManager', 'DistributedPartyManager',
-                'AvatarFriendsManager', 'InGameNewsMgr', 'TTCodeRedemptionMgr')
+                'AvatarFriendsManager', 'InGameNewsMgr', 'WhitelistMgr', 'TTCodeRedemptionMgr')
 
         # give objects a chance to clean themselves up before checking for DelayDelete leaks
         messenger.send('clientCleanup')
@@ -1253,23 +1267,28 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         Use isFriend() to ask whether a particular avatar is a friend.
         """
         if self.friendsMap.has_key(doId):
+            teleportNotify.debug('friend %s in friendsMap' % doId)
             return self.friendsMap[doId]
 
         # Hmm, we don't know who this friend is.  Is it someone
         # we've heard about this session?
         avatar = None
         if self.doId2do.has_key(doId):
+            teleportNotify.debug('found friend %s in doId2do' % doId)
             avatar = self.doId2do[doId]
         elif self.cache.contains(doId):
+            teleportNotify.debug('found friend %s in cache' % doId)
             avatar = self.cache.dict[doId]
         elif self.playerFriendsManager.getAvHandleFromId(doId):
+            teleportNotify.debug('found friend %s in playerFriendsManager' % doId)
             avatar = base.cr.playerFriendsManager.getAvHandleFromId(doId)
         else:
             # Haven't got a clue.
             self.notify.warning("Don't know who friend %s is." % (doId))
             return None
 
-        if not (isinstance(avatar, DistributedToon.DistributedToon) or
+        if not ((isinstance(avatar, DistributedToon.DistributedToon) and
+                avatar.__class__ is DistributedToon.DistributedToon) or
                 isinstance(avatar, DistributedPet.DistributedPet)):
             self.notify.warning('friendsNotify%s: invalid friend object %s' % (
                 choice(source, '(%s)' % source, ''), doId))
@@ -1286,7 +1305,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         else:
             handle = FriendHandle.FriendHandle(doId, avatar.getName(), avatar.style, "")
 
-        self.friendsMap[doId] = handle        
+        teleportNotify.debug('adding %s to friendsMap' % doId)
+        self.friendsMap[doId] = handle     
         return handle
 
     def identifyPlayer(self, pId):
@@ -1577,6 +1597,9 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         return '%s-%s' % (ToontownClientRepository.EmuSetZoneDoneEvent,
                           self.setZonesEmulated)
 
+    def getQuietZoneLeftEvent(self):
+        return "leftQuietZone-%s" % (id(self),)
+
     # recreate the behaviour of sendSetZoneMsg
     def sendSetZoneMsg(self, zoneId, visibleZoneList=None):
         #########################################
@@ -1826,3 +1849,63 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         # send the message
         base.cr.send(datagram)
         
+
+
+
+
+
+
+
+
+    def useShader(self, name):
+        self.lastShader = None
+        if self.filterManager:
+            self.filterManager.cleanup()
+            self.filterManager = None
+        if config.GetBool('want-shaders', 0) and \
+           base.win and base.win.getGsg() and \
+           base.win.getGsg().getShaderModel() >= GraphicsStateGuardian.SM20:
+            if name:
+                shaderName = ''
+                if name == 'sepia':
+
+                    shaderName = 'sepia.sha'
+                elif name == 'bw':
+
+                    shaderName = 'bandw.sha'
+                elif name == 'bloom':
+
+
+
+
+                    return
+                elif name == 'ink':
+
+
+
+
+                    return
+                elif name == 'blur':
+                    from direct.filter.CommonFilters import CommonFilters
+                    self.filterManager = CommonFilters(base.win, base.cam)
+                    self.filterManager.setBlurSharpen()
+                    return
+                elif name == 'sharp':
+                    from direct.filter.CommonFilters import CommonFilters
+                    self.filterManager = CommonFilters(base.win, base.cam)
+                    self.filterManager.setBlurSharpen(2.0)
+                    return
+                else:
+                    return
+                from direct.filter.FilterManager import FilterManager
+                self.filterManager = FilterManager(base.win, base.cam)
+                tex = Texture()
+                quad = self.filterManager.renderSceneInto(colortex=tex)
+                quad.setShader(loader.loadShader('phase_3/models/shaders/' + shaderName))
+                quad.setShaderInput('tex', tex)
+
+                self.lastShader = name
+
+    def getLastShader(self):
+
+        return self.lastShader

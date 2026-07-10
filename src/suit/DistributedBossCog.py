@@ -913,7 +913,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar,
         timestamp = globalClockDelta.getFrameNetworkTime()
 
         self.sendUpdate('zapToon', [pos[0], pos[1], pos[2],
-                                    hpr[0], hpr[1], hpr[2],
+                                    hpr[0] % 360.0, hpr[1], hpr[2],
                                     bp2d[0], bp2d[1],
                                     attackCode, timestamp])
 

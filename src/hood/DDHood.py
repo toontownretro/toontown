@@ -17,7 +17,10 @@ class DDHood(ToonHood.ToonHood):
         # Dictionary which holds holiday specific lists of Storage DNA Files
         # Keyed off of the News Manager holiday IDs stored in ToontownGlobals
         self.holidayStorageDNADict = {WINTER_DECORATIONS : ['phase_6/dna/winter_storage_DD.dna'],
-                                      HALLOWEEN_PROPS : ['phase_6/dna/halloween_props_storage_DD.dna']}
+                                      WACKY_WINTER_DECORATIONS : ['phase_6/dna/winter_storage_DD.dna'],
+                                      HALLOWEEN_PROPS : ['phase_6/dna/halloween_props_storage_DD.dna'],
+                                      SPOOKY_PROPS : ['phase_6/dna/halloween_props_storage_DD.dna'],
+                                      }
         # Donalds Dock reuses The Brrrgh's sky
         self.skyFile = "phase_3.5/models/props/BR_sky"
         self.titleColor = (0.8, 0.6, 0.5, 1.0)

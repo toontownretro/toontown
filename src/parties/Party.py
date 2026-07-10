@@ -10,11 +10,12 @@ from direct.task.Task import Task
 from toontown.toonbase import TTLocalizer
 import random
 from direct.showbase import PythonUtil
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs, TLNull
 from toontown.hood import Place
 from toontown.hood import SkyUtil
-from toontown.toon import GMUtils
 
 from toontown.parties import PartyPlanner
+from toontown.parties.DistributedParty import DistributedParty
 
 class Party(Place.Place):
     """
@@ -162,12 +163,7 @@ class Party(Place.Place):
             self.ignore( self.partyPlannerDoneEvent )
             self.partyPlanner.close()
             del self.partyPlanner
-        if hasattr(base, "distributedParty"):
-            if base.cr.doId2do.has_key(base.distributedParty.partyInfo.hostId):
-                host = base.cr.doId2do[base.distributedParty.partyInfo.hostId]
-                if hasattr(host, "gmIcon") and host.gmIcon:
-                    host.removeGMIcon()
-                    host.setGMIcon()
+        self.__removePartyHat()
         self.fog = None
         self.ignoreAll()
         self.parentFSMState.removeChild(self.fsm)
@@ -182,6 +178,13 @@ class Party(Place.Place):
         
         hoodId = requestStatus["hoodId"]
         zoneId = requestStatus["zoneId"]
+
+
+        if config.GetBool('want-party-telemetry-limiter', 1):
+            limiter = TLGatherAllAvs('Party', RotationLimitToH)
+        else:
+            limiter = TLNull()
+        self._telemLimiter = limiter
 
         # start the sky
         self.loader.hood.startSky()
@@ -220,6 +223,9 @@ class Party(Place.Place):
         # Turn off the animated props once since there is only one zone
         for i in self.loader.nodeList:
             self.loader.exitAnimatedProps(i)
+
+        self._telemLimiter.destroy()
+        del self._telemLimiter
 
         # Turn the sky off
         self.loader.hood.stopSky()
@@ -274,10 +280,60 @@ class Party(Place.Place):
 
     def enterTeleportIn(self, requestStatus):
         assert(self.notify.debug("enterTeleportIn()"))
+
+        self._partyTiToken = None
+
+        if hasattr(base, "distributedParty"):
+
+
+
+            self.__updateLocalAvatarTeleportIn(requestStatus)
+        elif hasattr(base.localAvatar, "aboutToPlanParty") and base.localAvatar.aboutToPlanParty:
+
+
+
+            self.__updateLocalAvatarTeleportIn(requestStatus)
+        else:
+
+
+
+            self.acceptOnce(DistributedParty.generatedEvent, self.__updateLocalAvatarTeleportIn, [requestStatus])
+
+    def exitTeleportIn(self):
+        Place.Place.exitTeleportIn(self)
+        self.removeSetZoneCompleteCallback(self._partyTiToken)
+
+    def __updateLocalAvatarTeleportIn(self, requestStatus):
+        assert(self.notify.debug("__updateLocalAvatarTeleportIn()"))
+
+        self.ignore(DistributedParty.generatedEvent)
         # This gets set by init of DistributedParty, it also gets cleaned up by
         # DistributedParty in delete.
         if hasattr(base, "distributedParty"):
             x,y,z = base.distributedParty.getClearSquarePos()
+            self.accept('generate-' + str(base.distributedParty.partyInfo.hostId), self.__setPartyHat)
+            self.__setPartyHat()
+        else:
+            x,y,z = (0.0, 0.0, 0.1)
+        base.localAvatar.detachNode()
+        base.localAvatar.setPos(render, x, y, z)
+        base.localAvatar.lookAt(0.0, 0.0, 0.1)
+        base.localAvatar.setScale(1, 1, 1)
+        Place.Place.enterTeleportIn(self, requestStatus)
+
+        if hasattr(base, "distributedParty") and base.distributedParty:
+            self.setPartyState(base.distributedParty.getPartyState())
+
+        # If we're about to plan a party, set the next state to partyPlanning
+        if hasattr(base.localAvatar, "aboutToPlanParty") and base.localAvatar.aboutToPlanParty:
+            self._partyTiToken = self.addSetZoneCompleteCallback(Functor(
+                self._partyTeleportInPostZoneComplete, requestStatus), 150)
+
+    def _partyTeleportInPostZoneComplete(self, requestStatus):
+        self.nextState = 'partyPlanning'
+
+    def __setPartyHat(self, doId = None):
+        if hasattr(base, "distributedParty"):
             if base.cr.doId2do.has_key(base.distributedParty.partyInfo.hostId):
                 host = base.cr.doId2do[base.distributedParty.partyInfo.hostId]
                 if hasattr(host, "gmIcon") and host.gmIcon:
@@ -285,20 +341,14 @@ class Party(Place.Place):
                     host.setGMPartyIcon()
                 else:
                     base.distributedParty.partyHat.reparentTo(host.nametag.getNameIcon())
-        else:
-            x,y,z = (0.0, 0.0, 0.1)
-        base.localAvatar.detachNode()
-        base.localAvatar.setPos(render, x,y,z)
-        base.localAvatar.lookAt(0.0, 0.0, 0.1)
-        base.localAvatar.setScale(1,1,1)
-        Place.Place.enterTeleportIn(self, requestStatus)        
-                
-        if hasattr(base, "distributedParty") and base.distributedParty:
-            self.setPartyState(base.distributedParty.getPartyState())
 
-        # If we're about to plan a party, set the next state to partyPlanning
-        if hasattr(base.localAvatar, "aboutToPlanParty") and base.localAvatar.aboutToPlanParty:
-            self.nextState = 'partyPlanning'
+    def __removePartyHat(self):
+        if hasattr(base, "distributedParty"):
+            if base.cr.doId2do.has_key(base.distributedParty.partyInfo.hostId):
+                host = base.cr.doId2do[base.distributedParty.partyInfo.hostId]
+                if hasattr(host, "gmIcon") and host.gmIcon:
+                    host.removeGMIcon()
+                    host.setGMIcon()
 
     def enterTeleportOut(self, requestStatus):
         assert(self.notify.debug("enterTeleportOut()"))
@@ -383,8 +433,14 @@ class Party(Place.Place):
         teleport to us, and we're available to be teleported to.
         """        
         if self.isPartyEnding: 
+            teleportNotify.debug('party ending, sending teleportResponse')
             fromAvatar.d_teleportResponse(toAvatar.doId, 0, toAvatar.defaultShard,
                                       base.cr.playGame.getPlaceId(), self.getZoneId())                                      
+        elif base.config.GetBool('want-tptrack', False):
+            if toAvatar == localAvatar:
+                localAvatar.doTeleportResponse(fromAvatar, toAvatar, toAvatar.doId, 1, toAvatar.defaultShard, base.cr.playGame.getPlaceId(), self.getZoneId(), fromAvatar.doId)
+            else:
+                self.notify.warning('handleTeleportQuery toAvatar.doId != localAvatar.doId' % (toAvatar.doId, localAvatar.doId))
         else:        
             fromAvatar.d_teleportResponse(toAvatar.doId, 1, toAvatar.defaultShard,
                                       base.cr.playGame.getPlaceId(), self.getZoneId())

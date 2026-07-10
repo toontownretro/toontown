@@ -1,4 +1,4 @@
-from direct.distributed.DistributedObject import ESGenerating, ESGenerated
+from direct.distributed.DistributedObject import ESGenerating, ESGenerated, ESNum2Str
 
 class DelayDeletable:
     # mixin for DistributedObjects that can be DelayDeleted via

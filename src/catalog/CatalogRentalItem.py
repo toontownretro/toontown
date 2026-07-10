@@ -20,6 +20,9 @@ class CatalogRentalItem(CatalogItem.CatalogItem):
         # this will need to be persistant (db?)
         CatalogItem.CatalogItem.makeNewItem(self)
         
+    def getRentalType(self):
+        return self.typeIndex
+
     def getDuration(self):
         return self.duration
     # TODO: who will check for expired items? CatalogManagerAI?

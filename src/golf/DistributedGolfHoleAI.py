@@ -429,8 +429,12 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
 
     def isCurBallInHole(self, golferId):
         """Returns True if the current ball is inside a hole, False otherwise."""
-        #import pdb; pdb.set_trace()
         retval = False
+        senderId = self.air.getAvatarIdFromSender()
+        if golferId not in self.ballPos:
+            self.notify.warning('golferId=%s not in self.ballPos=%s' % (golferId, self.ballPos))
+            simbase.air.writeServerEvent('suspicious', senderId, 'isCurBallInHole golferId=%s not in self.ballPos=%s' % (golferId, self.ballPos))
+            return False
         for holePos in self.holePositions:
             #displacement = self.ball.getPosition() - holePos
             displacement = self.ballPos[golferId] - holePos

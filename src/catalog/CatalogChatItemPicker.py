@@ -103,7 +103,7 @@ class CatalogChatItemPicker(DirectObject.DirectObject):
             relief = None,
             pos = (0, 0, -0.7),
             text = TTLocalizer.MessagePickerCancel,
-            text_scale = TTLocalizer.CCIPmessagePickerCancel,
+            text_scale = TTLocalizer.CCIPexitButton,
             text_pos = (-0.005,-0.01),
             text_fg = Vec4(1,1,1,1),
             textMayChange = 0,            

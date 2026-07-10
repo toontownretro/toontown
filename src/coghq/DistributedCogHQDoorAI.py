@@ -28,6 +28,7 @@ class DistributedCogHQDoorAI(DistributedDoorAI.DistributedDoorAI):
         assert(self.notify.debug("requestEnter: avatarID:%s" % avatarID))
         # Ext cog hq doors require all cog disguise parts
         # does the toon have a complete cog disguise?
+        allowed = 0
         dept = ToontownGlobals.cogHQZoneId2deptIndex(self.destinationZone)
         av = self.air.doId2do.get(avatarID)
         if av:
@@ -42,7 +43,7 @@ class DistributedCogHQDoorAI(DistributedDoorAI.DistributedDoorAI):
                 allowed = 1
                 
         # Check that player has full access
-        if not ToontownAccessAI.canAccess(avatarID, self.zoneId):
+        if not ToontownAccessAI.canAccess(avatarID, self.zoneId, 'DistributedCogHQDoorAI.requestEnter'):
             allowed = 0
                 
         # Now send a message back - either reject or accept

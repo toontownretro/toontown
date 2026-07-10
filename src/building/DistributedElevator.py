@@ -8,8 +8,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.distributed import DistributedObject
 from direct.fsm import State
-from toontown.toonbase import TTLocalizer
-from toontown.toonbase import ToontownGlobals
+from toontown.toonbase import TTLocalizer, ToontownGlobals
 from direct.task.Task import Task
 from toontown.distributed import DelayDelete
 from toontown.hood import ZoneUtil
@@ -193,6 +192,8 @@ class DistributedElevator(DistributedObject.DistributedObject):
         del self.openSfx
         del self.closeSfx
         self.isSetup = 0
+
+        self.fillSlotTrack = None
         
         self.offsetNP.removeNode()
         # Cleanup any leftover elevator messages while leaving the zone.
@@ -289,7 +290,10 @@ class DistributedElevator(DistributedObject.DistributedObject):
                 place.detectedElevatorCollision(self)
                 elevator = self.getPlaceElevator()                
                 if elevator == None:
-                    place.fsm.request('elevator')
+                    if place.fsm.hasStateNamed('elevator'):
+                        place.fsm.request('elevator')
+                    elif place.fsm.hasStateNamed('Elevator'):
+                        place.fsm.request('Elevator')
                     elevator = self.getPlaceElevator()
                 if not elevator:
                     return
@@ -507,25 +511,20 @@ class DistributedElevator(DistributedObject.DistributedObject):
                                                   " doesn't exist, and" +
                                                   " cannot exit the elevator!")
 
-    def allowedToEnter(self):
+    def allowedToEnter(self, zoneId = None):
         """Check if the local toon is allowed to enter."""
-        if base.cr.isPaid():
-            return True
-        place = base.cr.playGame.getPlace()
-        myHoodId = ZoneUtil.getCanonicalHoodId(place.zoneId)
-        if  myHoodId in \
-           (ToontownGlobals.ToontownCentral,
-            ToontownGlobals.MyEstate,
-            ToontownGlobals.GoofySpeedway,
-            ):
-            # trialer going to TTC/Estate/Goofy Speedway, let them through
-            return True
-        return False
+        allowed = False
+        if hasattr(base, 'ttAccess') and base.ttAccess:
+            if zoneId:
+                allowed = base.ttAccess.canAccess(zoneId)
+            else:
+                allowed = base.ttAccess.canAccess()
+        return allowed
 
     def handleEnterSphere(self, collEntry):
         self.notify.debug("Entering Elevator Sphere....")
         #print("handleEnterSphere elevator%s avatar%s" % (self.elevatorTripId, localAvatar.lastElevatorLeft))
-        if self.allowedToEnter():
+        if self.allowedToEnter(self.zoneId):
             if self.elevatorTripId and (localAvatar.lastElevatorLeft == self.elevatorTripId):
                 #print("NO BACKCIES!")
                 self.rejectBoard(base.localAvatar.doId, REJECT_SHUFFLE)

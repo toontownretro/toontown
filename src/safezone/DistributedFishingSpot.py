@@ -199,19 +199,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
 
     def allowedToEnter(self):
         """Check if the local toon is allowed to enter."""
-        if base.cr.isPaid():
-            return True
-        place = base.cr.playGame.getPlace()
-        myHoodId = ZoneUtil.getCanonicalHoodId(place.zoneId)
-        # if we're in the estate we should use place.id
-        if hasattr(place, 'id'):
-            myHoodId = place.id
-        if  myHoodId in \
-           (ToontownGlobals.ToontownCentral,
-            ToontownGlobals.MyEstate,
-            ToontownGlobals.GoofySpeedway,
-            ):
-            # trialer going to TTC/Estate/Goofy Speedway, let them through
+        if hasattr(base, 'ttAccess') and base.ttAccess and base.ttAccess.canAccess():
             return True
         return False
 
@@ -810,6 +798,8 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
 
     def __makeGui(self):
         assert self.notify.debugStateCall(self)
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: FISHING: ZoneId: %s' % self.pond.getArea())
         if self.madeGui:
             return
 

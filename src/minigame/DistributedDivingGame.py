@@ -27,8 +27,18 @@ import DivingTreasure
 import math
 import TreasureScorePanel
 
+from otp.distributed.TelemetryLimiter import TelemetryLimiter, TLGatherAllAvs
+
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
+
+class DivingGameRotationLimiter(TelemetryLimiter):
+    def __init__(self, h, p):
+        self._h = h
+        self._p = p
+
+    def __call__(self, obj):
+        obj.setHpr(self._h, self._p, obj.getR())
 
 class DistributedDivingGame(DistributedMinigame):
 
@@ -575,7 +585,9 @@ class DistributedDivingGame(DistributedMinigame):
         toon.setPos(x, -1, 36)
         toon.setHpr(180,180,0)
 
-    
+    def getTelemetryLimiter(self):
+        return TLGatherAllAvs('DivingGame', Functor(DivingGameRotationLimiter, 180, 180))
+
     def setGameReady(self):
         self.notify.debug("setGameReady")
         if not self.hasLocalToon: 

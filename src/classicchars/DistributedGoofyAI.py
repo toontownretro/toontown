@@ -88,6 +88,7 @@ class DistributedGoofyAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
         be transitioned into
         """
         assert(doneStatus.has_key('status'))
+
         if doneStatus['state'] == 'lonely' and \
            doneStatus['status'] == 'done':
             self.fsm.request('Walk')
@@ -128,11 +129,23 @@ class DistributedGoofyAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
     def enterChatty(self):
         self.chatty.enter()
         self.acceptOnce(self.chattyDoneEvent, self.__decideNextState)
+        taskMgr.doMethodLater(CharStateDatasAI.CHATTY_DURATION + 10, self.forceLeaveChatty, self.taskName('forceLeaveChatty'))
+
+    def forceLeaveChatty(self, task):
+        self.notify.warning('Had to force change of state from Chatty state')
+        doneStatus = {}
+        doneStatus['state'] = 'chatty'
+        doneStatus['status'] = 'done'
+        self.__decideNextState(doneStatus)
+        return Task.done
+
+    def cleanUpChattyTasks(self):
+        taskMgr.removeTasksMatching(self.taskName('forceLeaveChatty'))
 
     def exitChatty(self):
         self.ignore(self.chattyDoneEvent)
         self.chatty.exit()
-
+        self.cleanUpChattyTasks()
 
     ### Walk state ###
     def enterWalk(self):

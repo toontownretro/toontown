@@ -178,6 +178,8 @@ class PlayGame(StateData.StateData):
         # Create the state datas for each hood
         self.hoodDoneEvent = "hoodDone"
         self.hood = None
+        self.quietZoneDoneEvent = uniqueName("quietZoneDone")
+        self.quietZoneStateData = None
 
     def enter(self, hoodId, zoneId, avId):
         """enter(self)
@@ -218,7 +220,11 @@ class PlayGame(StateData.StateData):
     def exit(self):
         """exit(self)
         """
-        pass
+        if base.placeBeforeObjects and self.quietZoneStateData:
+            self.quietZoneStateData.exit()
+            self.quietZoneStateData.unload()
+            self.quietZoneStateData = None
+        self.ignore(self.quietZoneDoneEvent)
             
     def load(self):
         """load(self)
@@ -320,22 +326,29 @@ class PlayGame(StateData.StateData):
 
     def enterQuietZone(self, requestStatus):
         assert(self.notify.debug("enterQuietZone()"))
-        self.quietZoneDoneEvent = "quietZoneDone"
         self.acceptOnce(self.quietZoneDoneEvent, self.handleQuietZoneDone)
-        self.acceptOnce("enterWaitForSetZoneResponse", self.handleWaitForSetZoneResponse)
         self.quietZoneStateData = QuietZoneState.QuietZoneState(
             self.quietZoneDoneEvent)
+        self._quietZoneLeftEvent = self.quietZoneStateData.getQuietZoneLeftEvent()
+        if base.placeBeforeObjects:
+
+            self.acceptOnce(self._quietZoneLeftEvent, self.handleLeftQuietZone)
+        self._enterWaitForSetZoneResponseMsg = self.quietZoneStateData.getEnterWaitForSetZoneResponseMsg()
+        self.acceptOnce(self._enterWaitForSetZoneResponseMsg, self.handleWaitForSetZoneResponse)
         self.quietZoneStateData.load()
         self.quietZoneStateData.enter(requestStatus)
         
     def exitQuietZone(self):
         assert(self.notify.debug("exitQuietZone()"))
-        self.ignore(self.quietZoneDoneEvent)
-        self.ignore("enterWaitForSetZoneResponse")
-        del self.quietZoneDoneEvent
-        self.quietZoneStateData.exit()
-        self.quietZoneStateData.unload()
-        self.quietZoneStateData=None
+
+
+        self.ignore(self._quietZoneLeftEvent)
+        self.ignore(self._enterWaitForSetZoneResponseMsg)
+        if not base.placeBeforeObjects:
+            self.ignore(self.quietZoneDoneEvent)
+            self.quietZoneStateData.exit()
+            self.quietZoneStateData.unload()
+            self.quietZoneStateData=None
 
     def handleWaitForSetZoneResponse(self, requestStatus):
         assert(self.notify.debug("handleWaitForSetZoneResponse(requestStatus="
@@ -350,6 +363,9 @@ class PlayGame(StateData.StateData):
         avId = requestStatus.get("avId", -1)          # Better be conservative; some senders don't set this.
         ownerId = requestStatus.get("ownerId", avId)  # ditto
         
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: NEIGHBORHOODS: Visit %s' % hoodName)
+
         # Get the loading bar count
         count = ToontownGlobals.hoodCountMap[canonicalHoodId]
         if loaderName=="safeZoneLoader":
@@ -404,14 +420,26 @@ class PlayGame(StateData.StateData):
         self.hood.load()
         self.hood.loadLoader(requestStatus)
         
-        loader.endBulkLoad("hood")
+        if not base.placeBeforeObjects:
+            loader.endBulkLoad("hood")
 
-    def handleQuietZoneDone(self):
-        assert(self.notify.debug("handleQuietZoneDone()"))
+    def handleLeftQuietZone(self):
+        assert(self.notify.debug("handleLeftQuietZone()"))
         status = self.quietZoneStateData.getRequestStatus()
         hoodId = ZoneUtil.getCanonicalZoneId(status["hoodId"])
         hoodState = self.getHoodStateByNumber(hoodId)
         self.fsm.request(hoodState, [status])
+
+    def handleQuietZoneDone(self):
+        if base.placeBeforeObjects:
+            assert(self.notify.debug("handleQuietZoneDone()"))
+
+            self.quietZoneStateData.exit()
+            self.quietZoneStateData.unload()
+            self.quietZoneStateData = None
+            loader.endBulkLoad("hood")
+        else:
+            self.handleLeftQuietZone()
 
     def enterTTHood(self, requestStatus):
         self.accept(self.hoodDoneEvent, self.handleHoodDone)

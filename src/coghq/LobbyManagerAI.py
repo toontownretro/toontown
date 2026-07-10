@@ -25,14 +25,14 @@ class LobbyManagerAI(DistributedObjectAI.DistributedObjectAI):
         self.notify.info('createBossOffice: %s' % (bossZone))
         bossCog = self.bossConstructor(self.air)
         #bossCog = DistributedSellbotBossAI.DistributedSellbotBossAI(self.air)
-        bossCog.generateWithRequired(bossZone)
-        self.acceptOnce(bossCog.uniqueName('BossDone'),
-                        self.destroyBossOffice, extraArgs = [bossCog])
-
         # Tell the boss about the toons coming.
         for avId in avIdList:
             if avId:
                 bossCog.addToon(avId)
+
+        bossCog.generateWithRequired(bossZone)
+        self.acceptOnce(bossCog.uniqueName('BossDone'),
+                        self.destroyBossOffice, extraArgs = [bossCog])
         
         bossCog.b_setState('WaitForToons')
         return bossZone

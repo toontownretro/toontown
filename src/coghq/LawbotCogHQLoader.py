@@ -260,6 +260,8 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
             sdText.setDepthWrite(0)
             """
         elif zoneId == ToontownGlobals.LawbotLobby:
+            if base.config.GetBool('want-qa-regression', 0):
+                self.notify.info('QA-REGRESSION: COGHQ: Visit LawbotLobby')
             self.notify.debug("cogHQLobbyModelPath = %s" % self.cogHQLobbyModelPath)
             self.geom = loader.loadModel(self.cogHQLobbyModelPath)
 

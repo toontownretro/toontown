@@ -3,7 +3,6 @@
 from DistributedMinigameAI import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
-from toontown.toonbase.ToonBaseGlobal import *
 from direct.fsm import ClassicFSM
 from direct.fsm import State
 from direct.actor import Actor

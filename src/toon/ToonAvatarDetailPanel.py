@@ -141,9 +141,9 @@ class ToonAvatarDetailPanel(DirectFrame):
             image_scale = 1.1,
             relief = None,
             text = TTLocalizer.AvatarDetailPanelCancel,
-            text_scale = TTLocalizer.TADPcancelButton,
+            text_scale = TTLocalizer.TADPbCancel,
             text_pos = (0.12, -0.01),
-            pos = TTLocalizer.TADPcancelPos,
+            pos = TTLocalizer.TADPbCancelPos,
             scale = 2.0,
             command = self.__handleCancel)
         self.bCancel.hide()

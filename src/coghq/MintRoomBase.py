@@ -21,7 +21,7 @@ class MintRoomBase:
         return self.cogTrack
 
     if __dev__:
-        def getMintEntityTypeReg(self):
+        def getEntityTypeReg(self):
             # return an EntityTypeRegistry with information about the
             # entity types that mints use
             # Use the same types as factories

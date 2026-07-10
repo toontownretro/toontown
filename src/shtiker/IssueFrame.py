@@ -425,6 +425,8 @@ class IssueFrame(DirectFrame):
         
     def gotoPage(self, section, subsection):
         """Display the sectionFrame that corresponds to that page."""
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: INGAMENEWS: Goto Page')
         self.sectionFrames[self.curSection][self.curSubsection].hide()
         self.sectionFrames[section][subsection].show()
         self.curSection = section
@@ -546,5 +548,7 @@ class IssueFrame(DirectFrame):
    
     def changeWeek(self, newIssueWeek):
         """Handle player pressing next or prev week buttons."""
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: INGAMENEWS: Change Week')
         messenger.send("newsChangeWeek", [newIssueWeek])
         

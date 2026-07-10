@@ -10,6 +10,7 @@ from direct.fsm import State
 from direct.task import Task
 from direct.directnotify import DirectNotifyGlobal
 from toontown.building import BoardingPartyBase
+from toontown.toonbase import ToontownAccessAI
 ##from direct.showbase.PythonUtil import StackTrace
 
 # these are array indexs
@@ -102,6 +103,21 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
         inviterId = self.air.getAvatarIdFromSender()
         
         invitee = simbase.air.doId2do.get(inviteeId)
+        inviter = simbase.air.doId2do.get(inviterId)
+
+        inviterOkay = self.checkBoard(inviterId, self.elevatorIdList[0])
+
+
+        if inviterOkay == REJECT_NOTPAID:
+            reason = BoardingPartyBase.BOARDCODE_NOT_PAID
+            self.sendUpdateToAvatarId(inviterId, 'postInviteNotQualify', [inviteeId, reason, 0])
+            simbase.air.writeServerEvent('suspicious', inviterId, 'User with rights: %s tried to invite someone to a boarding group' % inviter.getGameAccess())
+            if simbase.config.GetBool('want-ban-boardingparty', True):
+                commentStr = 'User with rights: %s tried to invite someone to a boarding group' % inviter.getGameAccess()
+                dislId = inviter.DISLid
+                simbase.air.banManager.ban(inviterId, dislId, commentStr)
+            return
+
         # Send a reject to the inviter if the invitee is in a battle.
         if invitee and (invitee.battleId != 0):
             reason = BoardingPartyBase.BOARDCODE_BATTLE
@@ -282,7 +298,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
         elevator = simbase.air.doId2do.get(elevatorId)
         avatar = simbase.air.doId2do.get(avId)
         if avatar:
-            if not (avatar.getGameAccess() == OTPGlobals.AccessFull):
+            if not ToontownAccessAI.canAccess(avId, self.zoneId, 'DistributedBoardingPartyAI.checkBoard'):
                 return REJECT_NOTPAID
             elif elevator:
                 # Returns 0 if everything is OK.

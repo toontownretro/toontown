@@ -10,7 +10,7 @@ class CogdoLayout:
         return self._numFloors
 
     def hasBossBattle(self):
-        return self._numFloors >= 3
+        return self._numFloors >= 1
 
     def getNumFloors(self):
         if self.hasBossBattle():
@@ -21,4 +21,4 @@ class CogdoLayout:
     def getBossBattleFloor(self):
         if not self.hasBossBattle():
             self.notify.error('getBossBattleFloor(): cogdo has no boss battle')
-        return self.getNumFloors()-1
+        return self.getNumFloors() - 1

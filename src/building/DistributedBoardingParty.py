@@ -164,6 +164,11 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
                     self.inviterPanels.forceCleanup()
                 self.groupInviteePanel = GroupInvitee.GroupInvitee()
                 self.groupInviteePanel.make(self, inviter, leaderId)
+
+
+                if base.config.GetBool('reject-boarding-group-invites', 0):
+                    self.groupInviteePanel.forceCleanup()
+                    self.groupInviteePanel = None
                 
     def postKick(self, leaderId):
         self.notify.debug("%s was kicked out of the Boarding Group by %s" % (localAvatar.doId, leaderId))
@@ -476,7 +481,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
         # Check for trial toon
         elevator = base.cr.doId2do.get(self.getElevatorIdList()[0])
         if elevator:
-            if elevator.allowedToEnter():
+            if elevator.allowedToEnter(self.zoneId):
                 # Check if the inviteeId is in the kick out list
                 if inviteeId in self.getGroupKickList(localAvatar.doId):
                     if not self.isGroupLeader(localAvatar.doId):

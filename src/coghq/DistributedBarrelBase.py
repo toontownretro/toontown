@@ -56,6 +56,9 @@ class DistributedBarrelBase(BasicEntities.DistributedNodePathEntity,
         # At this point DistributedEntity has filled out all its
         # attributes.  We can now load the model and apply the label
         
+
+        self.setTag('doId', str(self.getDoId()))
+
         # Load the model, (using loadModelOnce), and child it to the nodepath
         self.loadModel()
 

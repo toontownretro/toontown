@@ -706,7 +706,7 @@ GlobalEntities = {
         'name': 'supportedCrateEntrance',
         'comment': '',
         'parentEntId': 10028,
-        'pos': Point3(48.5076904297,7.75915336609,0.35789707303),
+        'pos': Point3(50.5076904298,7.75915336609,0.35789707303),
         'hpr': Point3(0.0,0.0,0.0),
         'scale': Vec3(1.0,1.0,1.0),
         }, # end entity 10051

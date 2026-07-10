@@ -180,6 +180,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         DistributedNode.DistributedNode.generate(self)
         self.__battleCleanedUp = 0
         self.reparentTo(render)
+        self._skippingRewardMovie = False
 
     def storeInterval(self, interval, name):
         if name in self.activeIntervals:
@@ -296,8 +297,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.notify.debug("delete(%s)" % (self.doId))
         self.__cleanupIntervals()
         self._removeMembersKeep()
-        # Eliminate a circular reference
-        self.movie.battle = None
+        self.movie.cleanup()
         del self.townBattle
         self.removeNode()
         self.fsm = None
@@ -960,6 +960,9 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         return 0
 
     def removeLocalToon(self):
+        if self._skippingRewardMovie:
+
+            return
         assert(self.notify.debug('removeLocalToon()'))
         if base.cr.playGame.getPlace() != None:
             base.cr.playGame.getPlace().setState('walk')
@@ -1708,6 +1711,9 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
     def exitNoLocalToon(self):
         return None
 
+    def setSkippingRewardMovie(self):
+        self._skippingRewardMovie = True
+
     ##### WaitForServer state #####
 
     def enterWaitForServer(self):
@@ -1951,6 +1957,12 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
             return
         
         if not base.localAvatar.wantBattles:
+            return
+
+
+
+
+        if self._skippingRewardMovie:
             return
 
         base.cr.playGame.getPlace().setState('WaitForBattle')

@@ -19,9 +19,9 @@ class FriendInvitee(ToonHeadDialog.ToonHeadDialog):
     def __init__(self, avId, avName, avDNA, context, **kw):
 
         self.avId = avId
-        self.avName = avName
         self.avDNA = avDNA
         self.context = context
+        self.avName = avName
 
         # Dialog depends upon number of friends in friends list
         if (len(base.localAvatar.friendsList) >= MaxFriends):

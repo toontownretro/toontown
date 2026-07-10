@@ -180,7 +180,7 @@ class DistributedLeaderBoard(DistributedObject.DistributedObject):
         nameText.setText("Score Title")
         #nameText.setGlyphScale(.4)
         namePath = row.attachNewNode(nameText)
-        namePath.setScale(TTLocalizer.DLBtitleRowScale)
+        namePath.setScale(TTLocalizer.DLBbuildTitleRow)
         namePath.setDepthWrite(0)
 
         return row, nameText

@@ -1,6 +1,7 @@
 from direct.showbase.PythonUtil import Functor
 from otp.level import EntityCreatorAI
 from toontown.cogdominium.CogdoLevelMgrAI import CogdoLevelMgrAI
+from toontown.cogdominium import CogdoBoardroomGameConsts
 from toontown.cogdominium import CogdoCraneGameConsts
 
 class CogdoEntityCreatorAI(EntityCreatorAI.EntityCreatorAI):
@@ -13,10 +14,18 @@ class CogdoEntityCreatorAI(EntityCreatorAI.EntityCreatorAI):
         nothing = EntityCreatorAI.nothing
 
         self.privRegisterTypes({
-            'levelMgr': Functor(cLE, CogdoLevelMgrAI),
-            'cogdoCraneGameSettings': Functor(cLE, self._createCogdoSettings),
+            'levelMgr': (Functor(cLE, CogdoLevelMgrAI)),
+            'cogdoBoardroomGameSettings': (Functor(cLE,
+                Functor(self._createCogdoSettings,
+                CogdoBoardroomGameConsts.Settings))),
+            'cogdoCraneGameSettings': (Functor(cLE,
+                Functor(self._createCogdoSettings,
+                CogdoCraneGameConsts.Settings))),
+            'cogdoCraneCogSettings': (Functor(cLE,
+                Functor(self._createCogdoSettings,
+                CogdoCraneGameConsts.CogSettings))),
             })
 
-    def _createCogdoSettings(self, level, entId):
-        CogdoCraneGameConsts.Settings.initializeEntity(level, entId)
-        return CogdoCraneGameConsts.Settings
+    def _createCogdoSettings(self, ent, level, entId):
+        ent.initializeEntity(level, entId)
+        return ent

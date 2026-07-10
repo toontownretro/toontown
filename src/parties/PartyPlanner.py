@@ -178,6 +178,11 @@ class PartyPlanner(DirectFrame,FSM):
         if hasattr(base.cr, "newsManager") and base.cr.newsManager:
             if ToontownGlobals.VICTORY_PARTY_HOLIDAY in base.cr.newsManager.getHolidayIdList():
                 defaultInviteTheme = PartyGlobals.InviteTheme.VictoryParty
+            elif ToontownGlobals.KARTING_TICKETS_HOLIDAY in base.cr.newsManager.getHolidayIdList() or \
+                 ToontownGlobals.CIRCUIT_RACING_EVENT in base.cr.newsManager.getHolidayIdList():
+                defaultInviteTheme = PartyGlobals.InviteTheme.Racing
+            elif ToontownGlobals.VALENTINES_DAY in base.cr.newsManager.getHolidayIdList():
+                defaultInviteTheme = PartyGlobals.InviteTheme.Valentoons
 
         if self.partyInfo is not None:
             del(self.partyInfo)
@@ -898,7 +903,7 @@ class PartyPlanner(DirectFrame,FSM):
             relief = None,
             text = " ",
             pos = self.gui.find("**/step_05_activitiesName_text_locator").getPos() + Point3(0.0, 0.0, 0.04),
-            text_scale = TTLocalizer.PPelementTitleLabelScale,
+            text_scale = TTLocalizer.PPelementTitleLabel,
             textMayChange = True,
         )
 
@@ -907,7 +912,7 @@ class PartyPlanner(DirectFrame,FSM):
         self.elementPriceNode.setTextColor(0.0, 0.0, 0.0, 1.0)
         self.elementPriceNode.setFont(ToontownGlobals.getToonFont())
         self.elementPrice = page.attachNewNode(self.elementPriceNode)
-        self.elementPrice.setScale(TTLocalizer.PPelementPrice)
+        self.elementPrice.setScale(TTLocalizer.PPelementPriceNode)
         self.elementPrice.setPos(self.gui.find("**/step_05_activityPrice_text_locator").getPos() + Point3(-0.02, 0.0, 0.04))
 
         self.elementDescriptionNode = TextNode("ElementDescription")
@@ -916,7 +921,7 @@ class PartyPlanner(DirectFrame,FSM):
         self.elementDescriptionNode.setFont(ToontownGlobals.getToonFont())
         self.elementDescriptionNode.setTextColor(0.0, 0.0, 0.0, 1.0)
         self.elementDescription = page.attachNewNode(self.elementDescriptionNode)
-        self.elementDescription.setScale(TTLocalizer.PPDescriptionScale)
+        self.elementDescription.setScale(TTLocalizer.PPelementDescription)
         self.elementDescription.setPos(self.gui.find("**/step_05_activityDescription_text_locator").getPos() + Point3(0.0, 0.0, 0.04))
         self.totalMoney = base.localAvatar.getTotalMoney()
 
@@ -952,7 +957,7 @@ class PartyPlanner(DirectFrame,FSM):
             relief = None,
             text = TTLocalizer.PartyPlannerBuy,
             text_pos = (pos[0], pos[2]),
-            text_scale = TTLocalizer.PPelementBuyButtonTextScale,
+            text_scale = TTLocalizer.PPelementBuyButton,
             geom = (
                 self.gui.find("**/add_up"),
                 self.gui.find("**/add_down"),
@@ -1066,10 +1071,13 @@ class PartyPlanner(DirectFrame,FSM):
         
         if hasattr(base.cr, "newsManager") and base.cr.newsManager:
             holidayIds = base.cr.newsManager.getHolidayIdList()
-            if ToontownGlobals.VALENTINES_DAY not in holidayIds:   
+            if ToontownGlobals.VALENTINES_DAY not in holidayIds:
                 self.inviteThemes.remove(PartyGlobals.InviteTheme.Valentoons)
             if ToontownGlobals.VICTORY_PARTY_HOLIDAY not in holidayIds:
                 self.inviteThemes.remove(PartyGlobals.InviteTheme.VictoryParty)
+            if ToontownGlobals.WINTER_DECORATIONS not in holidayIds and \
+               ToontownGlobals.WACKY_WINTER_DECORATIONS not in holidayIds:
+                self.inviteThemes.remove(PartyGlobals.InviteTheme.Winter)
 
     def _createFarewellPage(self):
         """ Internal method for creating the contents of the farewell page. """

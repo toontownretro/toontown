@@ -164,7 +164,7 @@ class GolfPage( ShtikerPage ):
             parent = self,
             relief = None,
             text = TTLocalizer.GolfPageRecordsTab,
-            text_scale = TTLocalizer.GFPRecordsTabTextScale,
+            text_scale = TTLocalizer.GPrecordsTab,
             text_align = TextNode.ALeft,
             image = gui.find("**/tabs/polySurface2"),
             image_pos = (0.12,1,-0.91),
@@ -177,14 +177,14 @@ class GolfPage( ShtikerPage ):
             text_fg = Vec4(0.2,0.1,0,1),
             command = self.setMode,
             extraArgs = [ PageMode.Records ],
-            pos = TTLocalizer.GFPRecordsTabPos,
+            pos = TTLocalizer.GPrecordsTabPos,
             )
         self.trophyTab = DirectButton(
             parent = self,
             relief = None,
             text = TTLocalizer.GolfPageTrophyTab,
-            text_scale = TTLocalizer.GFPTrophyTabTextScale,
-            text_pos = TTLocalizer.GFPRecordsTabTextPos,
+            text_scale = TTLocalizer.GPtrophyTab,
+            text_pos = TTLocalizer.GPtrophyTabTextPos,
             text_align = TextNode.ALeft,
             image = gui.find("**/tabs/polySurface3"),
             image_pos = (-0.28,1,-0.91),
@@ -197,7 +197,7 @@ class GolfPage( ShtikerPage ):
             text_fg = Vec4(0.2,0.1,0,1),
             command = self.setMode,
             extraArgs = [ PageMode.Trophy ],
-            pos = TTLocalizer.GFPRTrophyTabPos,
+            pos = TTLocalizer.GPtrophyTabPos,
             )
 
         self.recordsTab.setPos(-0.13,0,0.775)

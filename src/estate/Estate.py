@@ -15,6 +15,7 @@ from toontown.hood import Place
 from toontown.hood import SkyUtil
 from toontown.pets import PetTutorial
 from direct.controls.GravityWalker import GravityWalker
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs, TLNull
 import HouseGlobals
 
 class Estate(Place.Place):
@@ -185,9 +186,17 @@ class Estate(Place.Place):
         # start the sky
         newsManager = base.cr.newsManager
 
+
+        if config.GetBool('want-estate-telemetry-limiter', 1):
+            limiter = TLGatherAllAvs('Estate', RotationLimitToH)
+        else:
+            limiter = TLNull()
+        self._telemLimiter = limiter
+
         if newsManager:
             holidayIds = base.cr.newsManager.getDecorationHolidayId()
-            if (ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds) and self.loader.hood.spookySkyFile:
+            if (ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds or \
+               ToontownGlobals.SPOOKY_COSTUMES in holidayIds) and self.loader.hood.spookySkyFile:
 
                 lightsOff = Sequence(LerpColorScaleInterval(
                     base.cr.playGame.hood.loader.geom,
@@ -224,7 +233,8 @@ class Estate(Place.Place):
         # April toons
         if hasattr(base.cr, "newsManager") and base.cr.newsManager:
             holidayIds = base.cr.newsManager.getHolidayIdList()
-            if ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds:
+            if ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds or \
+               ToontownGlobals.SILLYMETER_EXT_HOLIDAY in holidayIds:
                 self.startAprilFoolsControls()
 
         # leaving or entering the estate via door (i.e. a house door)
@@ -246,8 +256,12 @@ class Estate(Place.Place):
 
         if hasattr(base.cr, "newsManager") and base.cr.newsManager:
             holidayIds = base.cr.newsManager.getHolidayIdList()
-            if ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds:
+            if ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds or \
+               ToontownGlobals.SILLYMETER_EXT_HOLIDAY in holidayIds:
                 self.stopAprilFoolsControls()
+
+        self._telemLimiter.destroy()
+        del self._telemLimiter
 
         # Make sure our ClassicFSM goes into its final state
         # so the walkStateData cleans up its tasks
@@ -353,7 +367,10 @@ class Estate(Place.Place):
         self.disablePeriodTimer()
 
     def enterTeleportIn(self, requestStatus):
-        assert(self.notify.debug("enterTeleportIn()"))
+        self._etiToken = self.addSetZoneCompleteCallback(Functor(self._teleportToHouse, requestStatus))
+        Place.Place.enterTeleportIn(self, requestStatus)
+
+    def _teleportToHouse(self, requestStatus):
         try:
             # if we have a house assigned to us, teleport in front of it
             houseDo = base.cr.doId2do.get(base.localAvatar.houseId)
@@ -368,10 +385,11 @@ class Estate(Place.Place):
             base.localAvatar.detachNode()
             base.localAvatar.setPosHpr(render, x,y,z,h,p,r)
         base.localAvatar.setScale(1,1,1)
+
+
         self.toonSubmerged = -1
         self.notify.info("remove estate-check-toon-underwater to TaskMgr in enterTeleportIn()")
         taskMgr.remove('estate-check-toon-underwater')
-        Place.Place.enterTeleportIn(self, requestStatus)
 
         if base.wantPets:
             #show the petTutorial
@@ -390,6 +408,10 @@ class Estate(Place.Place):
             if hasattr(self, 'fsm'):
                 taskMgr.add(self.__checkToonUnderwater, 'estate-check-toon-underwater')
         Place.Place.teleportInDone(self)
+
+    def exitTeleportIn(self):
+        self.removeSetZoneCompleteCallback(self._etiToken)
+        Place.Place.exitTeleportIn(self)
 
     def enterTeleportOut(self, requestStatus):
         assert(self.notify.debug("enterTeleportOut()"))
@@ -529,7 +551,8 @@ class Estate(Place.Place):
 
         if hasattr(base.cr, "newsManager") and base.cr.newsManager:
             holidayIds = base.cr.newsManager.getHolidayIdList()
-            if ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds:
+            if ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds or \
+               ToontownGlobals.SILLYMETER_EXT_HOLIDAY in holidayIds:
                 self.startAprilFoolsControls()
             else:
                 self.stopAprilFoolsControls()

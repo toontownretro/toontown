@@ -720,9 +720,9 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             self.tugRopes[ropeIndex].setup(
                 3,
                 (
-                    (self.toonIdsToRightHands[self.toonIds[PartyGlobals.TeamActivityTeams.LeftTeam][0]], (0, 0, 0)),
+                    (self.toonIdsToRightHands[leftToonId], (0, 0, 0)),
                     (self.root, (0.0, 0.0, 2.5)),
-                    (self.toonIdsToRightHands[self.toonIds[PartyGlobals.TeamActivityTeams.RightTeam][0]], (0, 0, 0)),
+                    (self.toonIdsToRightHands[rightToonId], (0, 0, 0)),
                 ),
                 [0,0,0,1,1,1],
             )
@@ -730,36 +730,30 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             ropeIndex += 1
         
         # setup ropes linking toons on the left team
-        if len(self.toonIds[PartyGlobals.TeamActivityTeams.LeftTeam]) > 1:
-            for i in range(len(self.toonIds[PartyGlobals.TeamActivityTeams.LeftTeam]) - 1, 0, -1):
-                self.notify.debug("Connecting rope between toon %d and toon %d of left team." %(i, i-1))
-                self.tugRopes[ropeIndex].setup(
-                    3,
-                    (
-                        (self.toonIdsToRightHands[self.toonIds[PartyGlobals.TeamActivityTeams.LeftTeam][i]], (0, 0, 0)),
-                        (self.toonIdsToRightHands[self.toonIds[PartyGlobals.TeamActivityTeams.LeftTeam][i]], (0, 0, 0)),
-                        (self.toonIdsToRightHands[self.toonIds[PartyGlobals.TeamActivityTeams.LeftTeam][i-1]], (0, 0, 0)),
-                    ),
-                    [0,0,0,1,1,1],
-                )
-                self.tugRopes[ropeIndex].unstash()
-                ropeIndex += 1
-        
-        # setup ropes linking toons on the right team
-        if len(self.toonIds[PartyGlobals.TeamActivityTeams.RightTeam]) > 1:
-            for i in range(len(self.toonIds[PartyGlobals.TeamActivityTeams.RightTeam]) - 1):
-                self.notify.debug("Connecting rope between toon %d and toon %d of left team." %(i, i+1))
-                self.tugRopes[ropeIndex].setup(
-                    3,
-                    (
-                        (self.toonIdsToRightHands[self.toonIds[PartyGlobals.TeamActivityTeams.RightTeam][i]], (0, 0, 0)),
-                        (self.toonIdsToRightHands[self.toonIds[PartyGlobals.TeamActivityTeams.RightTeam][i]], (0, 0, 0)),
-                        (self.toonIdsToRightHands[self.toonIds[PartyGlobals.TeamActivityTeams.RightTeam][i+1]], (0, 0, 0)),
-                    ),
-                    [0,0,0,1,1,1],
-                )
-                self.tugRopes[ropeIndex].unstash()
-                ropeIndex += 1
+        teams = [PartyGlobals.TeamActivityTeams.LeftTeam, PartyGlobals.TeamActivityTeams.RightTeam]
+        for currTeam in teams:
+            numToons = len(self.toonIds[currTeam])
+            if numToons > 1:
+                for i in range(numToons - 1, 0, -1):
+                    toon1 = self.toonIds[currTeam][i]
+                    toon2 = self.toonIds[currTeam][i - 1]
+                    if not self.toonIdsToRightHands.has_key(toon1):
+                        self.notify.warning("Toon in tug of war activity but not properly setup:  %s" % toon1)
+                    elif not self.toonIdsToRightHands.has_key(toon2):
+                        self.notify.warning("Toon in tug of war activity but not properly setup:  %s" % toon2)
+                    else:
+                        self.notify.debug("Connecting rope between toon %d and toon %d of team %d." % (i, i - 1, currTeam))
+                        self.tugRopes[ropeIndex].setup(
+                            3,
+                            (
+                                (self.toonIdsToRightHands[toon1], (0, 0, 0)),
+                                (self.toonIdsToRightHands[toon1], (0, 0, 0)),
+                                (self.toonIdsToRightHands[toon2], (0, 0, 0)),
+                            ),
+                            [0,0,0,1,1,1],
+                        )
+                        self.tugRopes[ropeIndex].unstash()
+                        ropeIndex += 1
     
     
     def tightenRopes(self):
@@ -1008,7 +1002,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             newPos = self.fallenPositions[fallenPosIndex]
         
             # animate the toons falling into the water
-            if self.toonIdsToAnimIntervals[toonId] is not None:
+            if self.toonIdsToAnimIntervals.has_key(toonId) and self.toonIdsToAnimIntervals[toonId] is not None:
                 if self.toonIdsToAnimIntervals[toonId].isPlaying():
                     self.toonIdsToAnimIntervals[toonId].finish()
 

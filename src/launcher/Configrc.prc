@@ -40,7 +40,7 @@ collect-tcp 1
 collect-tcp-interval 0.2
 
 # The ID of the server that we are compatible with
-server-version sv1.0.40.25
+server-version sv1.0.47.38
 server-version-suffix 
 
 cull-bin shadow 15 fixed
@@ -60,23 +60,25 @@ verify-ssl 0
 ssl-certificates phase_3/etc/certificates.txt
 ssl-certificates phase_3/etc/gameserver.txt
 
-# For now, restrict SSL communications to the cheaper RC4-MD5
-# cipher.  This should lighten the CPU load on the gameserver.
-ssl-cipher-list RC4-MD5
+# 
+ssl-cipher-list DEFAULT
 
 # Itemize the SSL certificates we might expect to encounter on our
 # account servers.  This protects us from an imposter who happens to
 # have his own VeriSign certificate (the imposter's certificate won't
 # be from "Disney").
-expected-ssl-server /O=Disney Enterprises/OU=WDIG/CN=account.toontown.com
-expected-ssl-server /O=Disney Enterprises/OU=WDIG/CN=gameserver.toontown.com
-expected-ssl-server /O=Disney Enterprises/OU=WDIG/CN=account.qa.toontown.com
-expected-ssl-server /O=Disney Enterprises/OU=WDIG/CN=gameserver.qa.toontown.com
-expected-ssl-server /O=Disney Enterprises/OU=WDIG/CN=account.test.toontown.com
-expected-ssl-server /O=Disney Enterprises/OU=WDIG/CN=gameserver.test.toontown.com
+# expected-ssl-server /O=Disney Enterprises/OU=WDIG/CN=account.toontown.com
+# expected-ssl-server /O=Disney Enterprises/OU=WDIG/CN=gameserver.toontown.com
+# expected-ssl-server /O=Disney Enterprises/OU=WDIG/CN=account.qa.toontown.com
+# expected-ssl-server /O=Disney Enterprises/OU=WDIG/CN=gameserver.qa.toontown.com
+# expected-ssl-server /O=Disney Enterprises/OU=WDIG/CN=account.test.toontown.com
+# expected-ssl-server /O=Disney Enterprises/OU=WDIG/CN=gameserver.test.toontown.com
 
 # This is the new toontown.go.com's section
-expected-ssl-server /O=Disney Enterprises/OU=DOS/CN=toontown.go.com
+# expected-ssl-server /O=Disney Enterprises/OU=DOS/CN=toontown.go.com
+
+#
+http-preapproved-server-certificate-filename ttown4.online.disney.com:46667 gameserver.txt
 
 
 chan-config-sanity-check #f
@@ -99,6 +101,11 @@ downloader-disk-write-frequency 4
 downloader-byte-rate 125000
 downloader-frequency 0.1
 
+#
+http-connect-timeout 20
+http-timeout 30
+
+
 # Display settings
 
 load-display pandadx9
@@ -115,7 +122,7 @@ compress-channels #t
 display-lists 0
 
 early-random-seed 1
-ssl-cipher-list RC4-MD5
+ssl-cipher-list DEFAULT
 respect-prev-transform 1
 
 # notify settings
@@ -168,6 +175,10 @@ early-event-sphere 1
 # Need to turn this on to avoid jerky movement, pirates copes with it differently
 accept-clock-skew 1
 
+#
+extra-ssl-handshake-time 20.0
+
+
 # Keep the frame rate from going too ridiculously high.  This is
 # mainly an issue when the video driver doesn't support video sync.
 # Limiting the frame rate helps out some of the collision issues
@@ -182,7 +193,7 @@ clock-frame-rate 120
 # as the Photo Fun game.
 prefer-parasite-buffer 0
 
-want-news-page 1
+# want-news-page 1
 
 # This is client side IGN
 # news-over-http 0
@@ -190,9 +201,9 @@ want-news-page 1
 # news-index-filename news_index.txt
 
 # This is IGN over HTTP, going LIVE 6/2/2010 - dlo
-news-over-http 1
-news-base-dir /httpNews
-news-index-filename http_news_index.txt
+# news-over-http 1
+# news-base-dir /httpNews
+# news-index-filename http_news_index.txt
 
 # This should now be on by default
 # want-new-toonhall 1

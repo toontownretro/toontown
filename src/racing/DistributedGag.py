@@ -3,6 +3,7 @@ from direct.distributed import DistributedObject
 from direct.interval.ProjectileInterval import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
+from toontown.racing.DistributedVehicle import DistributedVehicle
 from DroppedGag import *
 #This class is primarily for any gags whose target is not deterministically
 #know.
@@ -63,7 +64,7 @@ class DistributedGag(DistributedObject.DistributedObject):
 
     def b_imHit(self, cevent):
         self.ignoreAll()
-        self.sendUpdate("hitSomebody", [base.race.localKart.doId, globalClockDelta.getFrameNetworkTime(16, 100)])
+        self.sendUpdate("hitSomebody", [localAvatar.doId, globalClockDelta.getFrameNetworkTime(16, 100)])
         if self.type==0:
             base.race.localKart.hitBanana()
         elif self.type==1:
@@ -72,14 +73,15 @@ class DistributedGag(DistributedObject.DistributedObject):
         if(hasattr(self, "bnp")):
             self.bnp.remove()
 
-    def hitSomebody(self, kartId, timeStamp):
-        if(base.race.localKart.doId!=kartId):
-            assert kartId in base.cr.doId2do
-            #Okay, this is correct
-            self.nodePath.hide()
-            if(hasattr(self, "bnp")):
-                self.bnp.remove()
-            base.cr.doId2do[kartId].playSpin(timeStamp)
+    def hitSomebody(self, avId, timeStamp):
+        if(localAvatar.doId!=avId):
+            kart = DistributedVehicle.getKartFromAvId(avId)
+            if kart:
+                #Okay, this is correct
+                self.nodePath.hide()
+                if (hasattr(self, "bnp")):
+                    self.bnp.remove()
+                kart.playSpin(timeStamp)
 
     def setActivateTime(self, actTime):
         self.activateTime=actTime

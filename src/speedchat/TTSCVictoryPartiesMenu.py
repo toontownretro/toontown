@@ -11,8 +11,8 @@ from otp.otpbase import OTPLocalizer
 
 #this is the structure of the victory parties menu
 VictoryPartiesMenu = [ 
-    (OTPLocalizer.VictoryPartiesMenuSections[1],[60350, 60351, 60352, 60353, 60354]),
-    (OTPLocalizer.VictoryPartiesMenuSections[2],[60355, 60356, 60357, 60358, 60359, 60360, 60361]),
+    (OTPLocalizer.VictoryPartiesMenuSections[1],[30350, 30351, 30352, 30353, 30354]),
+    (OTPLocalizer.VictoryPartiesMenuSections[2],[30355, 30356, 30357, 30358, 30359, 30360, 30361]),
     (OTPLocalizer.VictoryPartiesMenuSections[0],[]),
     ]
         

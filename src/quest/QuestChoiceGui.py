@@ -4,8 +4,10 @@ import QuestPoster
 from toontown.toonbase import ToontownTimer
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
+from direct.directnotify import DirectNotifyGlobal
 
 class QuestChoiceGui(DirectFrame):
+    notify = DirectNotifyGlobal.directNotify.newCategory("QuestChoiceGui")
     def __init__(self):
         DirectFrame.__init__(self,
                              relief = None,
@@ -80,6 +82,9 @@ class QuestChoiceGui(DirectFrame):
 
     def chooseQuest(self, questId):
         # Restore the left edge of the screen to the nametags.
+        if questId != 0:
+            if base.config.GetBool('want-qa-regression', 0):
+                self.notify.info('QA-REGRESSION: CREATEATASK: Create A Task.')
         base.setCellsAvailable(base.leftCells, 1)
         base.setCellsAvailable([base.bottomCells[0], base.bottomCells[1]], 1)
         self.timer.stop()

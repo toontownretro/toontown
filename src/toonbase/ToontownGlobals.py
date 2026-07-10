@@ -8,6 +8,11 @@ from otp.otpbase.OTPGlobals import *
 from direct.showbase.PythonUtil import Enum, invertDict
 from pandac.PandaModules import BitMask32, Vec4
 
+
+MapHotkeyOn = 'alt'
+MapHotkeyOff = 'alt-up'
+MapHotkey = 'alt'
+
 AccountDatabaseChannelId = 4008
 ToonDatabaseChannelId = 4021
 DoodleDatabaseChannelId = 4023
@@ -27,6 +32,12 @@ DatabaseIdFromClassName = {
 CogHQCameraFov = 60.0
 BossBattleCameraFov = 72.0
 MakeAToonCameraFov = 52.0
+
+
+
+
+CeilingBitmask = BitMask32(0x100)
+FloorEventBitmask = BitMask32(0x10)
 
 # Things we can throw a pie at.  (Pies also react to CameraBitmask and
 # FloorBitmask, but not WallBitmask.):
@@ -82,6 +93,9 @@ MaxMailboxContents = 30
 # the attic, but not those windows and wallpaper which are installed.
 MaxHouseItems = 45
 
+#
+MaxAccessories = 50
+
 # How many extra items, over the above limit, can we keep on the
 # deletedItems list?
 ExtraDeletedItems = 5
@@ -104,6 +118,9 @@ PetPanelProximityPriority = 6 # must run after pet floor collisions
 # purchase codes returned by DistributedMailbox.acceptItem(), -15 and up extended for award manager
 # DistributedPhone.requestPurchase, and CatalogItem.recordPurchase().
 # In general, positive codes are success, negative codes are failure.
+P_NoTrunk = -28 # trying to give an accessory but the toon has no trunk
+P_AlreadyOwnBiggerCloset = -27 # trying to give a bigger closet but the toon has the highest tier
+P_ItemAlreadyRented = -26 # trying to give a rental itme but the toon has it already rented
 P_OnAwardOrderListFull = -25 # unlikely, but just in case, he won 30 awards and their still in his onAwardOrder list
 P_AwardMailboxFull = -24 # the award mailbox is full and can't take more
 P_ItemInPetTricks= -23 # trying to give a pet trick award but the toon has it in his pet tricks
@@ -140,6 +157,7 @@ GIFT_admin = 1
 GIFT_RAT = 2
 GIFT_mobile = 3
 GIFT_cogs = 4
+GIFT_partyrefund = 5
 
 # codes returned by DistributedFurnitureManager.moveItemToAttic,
 # moveItemFromAttic, deleteItemFromAttic, and all similar related
@@ -202,6 +220,8 @@ CEGhost = 'g'
 BigToonScale = 1.5
 SmallToonScale = 0.5
 """
+
+
 #why are the above part of otp? JML
 CEVirtual = 14
 
@@ -620,6 +640,10 @@ PhotoGameId = 16
 TravelGameId = 100 # only used in trolley metagame
 
 
+
+
+
+
 MinigameNames = {
     "race" : RaceGameId,
     "cannon" : CannonGameId,
@@ -650,25 +674,26 @@ MinigameTemplateId = -1
 MinigameIDs = ( RaceGameId, CannonGameId, TagGameId, PatternGameId, RingGameId, MazeGameId, TugOfWarGameId, CatchGameId, DivingGameId, TargetGameId, PairingGameId, VineGameId, IceGameId, CogThiefGameId, TwoDGameId, PhotoGameId, TravelGameId,)
 
 
+
 # Minigame Id list
 MinigamePlayerMatrix = {
     # If you only have one player, choose from these games
     # Technically pattern game can be single player, but it is not nearly as fun, especially for demos
     1 : (CannonGameId, RingGameId, MazeGameId, TugOfWarGameId, CatchGameId,
          DivingGameId, TargetGameId, PairingGameId, VineGameId,
-         CogThiefGameId, PhotoGameId, TwoDGameId),
+         CogThiefGameId, TwoDGameId),
     # If you have exactly two players, choose from these games
     2 : (CannonGameId, PatternGameId, RingGameId, TagGameId, MazeGameId, TugOfWarGameId, CatchGameId,
          DivingGameId, TargetGameId, PairingGameId, VineGameId,
-         IceGameId, CogThiefGameId, PhotoGameId, TwoDGameId),
+         IceGameId, CogThiefGameId, TwoDGameId),
     # If you have exactly three players, choose from these games
     3 : (CannonGameId, PatternGameId, RingGameId, TagGameId, RaceGameId, MazeGameId, TugOfWarGameId, CatchGameId,
          DivingGameId, TargetGameId, PairingGameId, VineGameId,
-         IceGameId, CogThiefGameId, PhotoGameId, TwoDGameId),
+         IceGameId, CogThiefGameId, TwoDGameId),
     # If you have exactly four players, choose from these games
     4 : (CannonGameId, PatternGameId, RingGameId, TagGameId, RaceGameId, MazeGameId, TugOfWarGameId, CatchGameId,
          DivingGameId, TargetGameId, PairingGameId, VineGameId,
-         IceGameId, CogThiefGameId, PhotoGameId, TwoDGameId),
+         IceGameId, CogThiefGameId, TwoDGameId),
     }
 
 # we are releasing one minigame a week for the new minigames
@@ -877,6 +902,7 @@ MinnieSpeed = 3.2 # feet per second
 WitchMinnieSpeed = 1.8
 #DonaldSpeed = 4.6 # feet per second
 DonaldSpeed = 3.68 # feet per second
+FrankenDonaldSpeed = 0.9 # feet per second
 DaisySpeed  = 2.3 # feet per second
 GoofySpeed  = 5.2 # feet per second
 SuperGoofySpeed = 1.6 # fps
@@ -986,6 +1012,7 @@ BossCogBattleBPosHpr = (0, 25, 0, 180, 0, 0)
 
 # How many pie hits does it take to kill the Sellbot VP?
 SellbotBossMaxDamage = 100
+SellbotBossMaxDamageNerfed = 100
 
 # Where is the Sellbot Boss sitting in the three stages of the
 # VP sequence?
@@ -1202,10 +1229,42 @@ NAME_DROPPER_INVASION = 90
 AMBULANCE_CHASER_INVASION = 91
 MICROMANAGER_INVASION = 92
 NUMBER_CRUNCHER_INVASION = 93
-
 SILLY_CHATTER_FIVE = 94
-
 VICTORY_PARTY_HOLIDAY = 95
+SELLBOT_NERF_HOLIDAY = 96
+JELLYBEAN_TROLLEY_HOLIDAY = 97
+JELLYBEAN_FISHING_HOLIDAY = 98
+JELLYBEAN_PARTIES_HOLIDAY = 99
+BANK_UPGRADE_HOLIDAY = 100
+TOP_TOONS_MARATHON = 101
+SELLBOT_INVASION = 102
+SELLBOT_FIELD_OFFICE = 103
+SELLBOT_INVASION_MOVER_AND_SHAKER = 104
+IDES_OF_MARCH = 105
+EXPANDED_CLOSETS = 106
+TAX_DAY_INVASION = 107
+KARTING_TICKETS_HOLIDAY = 109
+
+#
+PRE_JULY_4_DOWNSIZER_INVASION = 110
+PRE_JULY_4_BIGWIG_INVASION = 111
+
+#
+COMBO_FIREWORKS = 112
+
+JELLYBEAN_TROLLEY_HOLIDAY_MONTH = 113
+JELLYBEAN_FISHING_HOLIDAY_MONTH = 114
+JELLYBEAN_PARTIES_HOLIDAY_MONTH = 115
+
+SILLYMETER_EXT_HOLIDAY = 116
+
+SPOOKY_BLACK_CAT = 117
+SPOOKY_TRICK_OR_TREAT = 118
+SPOOKY_PROPS = 119
+SPOOKY_COSTUMES = 120
+
+WACKY_WINTER_DECORATIONS = 121
+WACKY_WINTER_CAROLING = 122
 
 # Trick or Treat Holiday Values
 TOT_REWARD_JELLYBEAN_AMOUNT = 100
@@ -1568,6 +1627,7 @@ gmMagicWordList = [
  ]
 
 NewsPageScaleAdjust = 0.85
+
 # Prop types for the new animating props
 AnimPropTypes = Enum(("Unknown",
                       "Hydrant",
@@ -1576,3 +1636,96 @@ AnimPropTypes = Enum(("Unknown",
                       ),
                      start = -1
                      )
+
+EmblemTypes = Enum(("Silver",
+                    "Gold",
+                    ),
+                   )
+
+
+NumEmblemTypes = 2
+
+
+
+
+
+
+
+
+
+
+DefaultMaxBankMoney = 12000
+
+
+
+
+DefaultBankItemId = 1350
+
+
+
+
+ToonAnimStates = set([
+    "off",
+    "neutral",
+    "victory",
+    "Happy",
+    "Sad",
+    "Catching",
+    "CatchEating",
+    "Sleep",
+    "walk",
+    "jumpSquat",
+    "jump",
+    "jumpAirborne",
+    "jumpLand",
+    "run",
+    "swim",
+    "swimhold",
+    "dive",
+    "cringe",
+    "OpenBook",
+    "ReadBook",
+    "CloseBook",
+    "TeleportOut",
+    "Died",
+    "TeleportedOut",
+    "TeleportIn",
+    "Emote",
+    "SitStart",
+    "Sit",
+    "Push",
+    "Squish",
+    "FallDown",
+    "GolfPuttLoop",
+    "GolfRotateLeft",
+    "GolfRotateRight",
+    "GolfPuttSwing",
+    "GolfGoodPutt",
+    "GolfBadPutt",
+    "Flattened",
+    "CogThiefRunning",
+    "ScientistJealous",
+    "ScientistEmcee",
+    "ScientistWork",
+    "ScientistLessWork",
+    "ScientistPlay",
+    ])
+
+
+AV_FLAG_REASON_TOUCH = 1
+
+AV_FLAG_HISTORY_LEN = 500
+
+AV_TOUCH_CHECK_DELAY_AI = 3.0
+
+AV_TOUCH_CHECK_DELAY_CL = 1.0
+
+AV_TOUCH_CHECK_DIST = 2.0
+
+AV_TOUCH_CHECK_DIST_Z = 5.0
+
+AV_TOUCH_CHECK_TIMELIMIT_CL = 0.002
+
+AV_TOUCH_COUNT_LIMIT = 5
+
+AV_TOUCH_COUNT_TIME = 300

@@ -118,7 +118,7 @@ class DistributedPatternGameAI(DistributedMinigameAI):
             self.nextRoundBarrier.clear(avId)
 
     def reportPlayerReady(self):
-        if self.gameFSM.getCurrentState().getName() != 'waitClientsReady':
+        if not self._inState('waitClientsReady'):
             return
         avId = self.air.getAvatarIdFromSender()
         assert not avId in self.readyClients
@@ -181,7 +181,7 @@ class DistributedPatternGameAI(DistributedMinigameAI):
             self.__gotAllPatterns, self.__resultsTimeout)
 
     def reportButtonPress(self, index, wrong):
-        if self.gameFSM.getCurrentState().getName() != 'waitForResults':
+        if not self._inState('waitForResults'):
             return
         # validate avId, index and wrong
         avId = self.air.getAvatarIdFromSender()
@@ -209,7 +209,7 @@ class DistributedPatternGameAI(DistributedMinigameAI):
         self.__gotAllPatterns()
 
     def reportPlayerPattern(self, pattern, totalTime):
-        if self.gameFSM.getCurrentState().getName() != 'waitForResults':
+        if not self._inState('waitForResults'):
             return
         avId = self.air.getAvatarIdFromSender()
         self.__acceptPlayerPattern(avId, pattern, totalTime)

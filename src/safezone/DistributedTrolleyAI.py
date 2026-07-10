@@ -218,7 +218,7 @@ class DistributedTrolleyAI(DistributedObjectAI.DistributedObjectAI):
         if av:
             newArgs = (avId,) + args
             
-            if not ToontownAccessAI.canAccess(avId, self.zoneId):
+            if not ToontownAccessAI.canAccess(avId, self.zoneId, 'DistributedTrolleyAI.requestBoard'):
                 self.notify.warning("Tooon %s does not have access to the trolley." % (avId))
                 self.rejectingBoardersHandler(*newArgs)
                 return

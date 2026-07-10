@@ -8,10 +8,10 @@ class DistCogdoCraneAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM):
     def __init__(self, air, craneGame, index):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         FSM.FSM.__init__(self, 'DistCogdoCraneAI')
-
+ 
         self.craneGame = craneGame
         self.index = index
-
+ 
         self.avId = 0
         self.objectId = 0
 

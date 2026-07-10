@@ -4,6 +4,8 @@ from toontown.toonbase import TTLocalizer
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 
+CatalogNotifyBaseXPos = 0.40
+
 class CatalogNotifyDialog:
     """CatalogNotifyDialog:
 
@@ -17,12 +19,13 @@ class CatalogNotifyDialog:
         self.message = message
         self.messageIndex = 0
 
-        framePosX = 0.40
+        framePosX = CatalogNotifyBaseXPos
         from toontown.toon import LocalToon # import here to stop cyclic import
         if LocalToon.WantNewsPage:
             framePosX += LocalToon.AdjustmentForNewsButton
         self.frame = DirectFrame(
             relief = None,
+            sortOrder = DGG.BACKGROUND_SORT_INDEX - 2,
             image = DGG.getDefaultDialogGeom(),
             image_color = ToontownGlobals.GlobalDialogColor,
             image_scale = (1.2, 1.0, 0.4),

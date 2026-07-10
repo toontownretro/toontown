@@ -76,8 +76,8 @@ class TrickOrTreatMgrAI(ScavengerHuntMgrAI.ScavengerHuntMgrAI):
             self.notify.warning(
                 'Tried to send milestone feedback to av %s, but they left' % avId)
         else:
-            av.b_setCheesyEffect(OTPGlobals.CEPumpkin, 0, (time.time()/60)+1)
-            #av.b_setCheesyEffect(OTPGlobals.CEPumpkin, 0, endTime/60)
+            #av.b_setCheesyEffect(OTPGlobals.CEPumpkin, 0, (time.time()/60)+1)
+            av.b_setCheesyEffect(OTPGlobals.CEPumpkin, 0, endTime/60)
             
     def huntGoalAlreadyFound(self, avId):
         """

@@ -20,13 +20,13 @@ from toontown.toonbase import ToontownGlobals
 from toontown.parties.PartyInfo import PartyInfo
 from toontown.toonbase import TTLocalizer
 from toontown.toon import Toon
-from toontown.toon import GMUtils
 from toontown.parties import PartyGlobals
 from toontown.parties.Decoration import Decoration
 import PartyUtils
 
 class DistributedParty(DistributedObject.DistributedObject):
     notify = directNotify.newCategory("DistributedParty")
+    generatedEvent = "distributedPartyGenerated"
 
     def __init__(self,cr):
         assert(self.notify.debug("__init__"))
@@ -207,6 +207,9 @@ class DistributedParty(DistributedObject.DistributedObject):
         self.startPartyClock()
         base.localAvatar.chatMgr.chatInputSpeedChat.addInsidePartiesMenu()
         self.spawnTitleText()
+
+        messenger.send(self.generatedEvent)
+
         if config.GetBool('show-debug-party-grid', 0):
             # Debug grid
             self.testGrid = NodePath("test_grid")
@@ -381,33 +384,33 @@ class DistributedParty(DistributedObject.DistributedObject):
         timer = {}
         timer["minute"] = DirectLabel(
             parent = parent,
-            pos = (-1.2, TTLocalizer.DPpartyCountdownClockMinutesPosY, 0.0),
+            pos = TTLocalizer.DPtimerMinutePos,
             relief = None,
             text = '59',
             text_align = TextNode.ACenter,
             text_font = timeFont,
             text_fg = (0.7, 0.3, 0.3, 1.0),
-            scale = TTLocalizer.DPpartyCountdownClockMinutesScale,
+            scale = TTLocalizer.DPtimerMinute,
         )
         timer["colon"] = DirectLabel(
             parent = parent,
-            pos = (0, TTLocalizer.DPpartyCountdownClockColonPosY, 0.0),
+            pos = TTLocalizer.DPtimerColonPos,
             relief = None,
             text = ':',
             text_align = TextNode.ACenter,
             text_font = timeFont,
             text_fg = (0.7, 0.3, 0.3, 1.0),
-            scale = TTLocalizer.DPpartyCountdownClockColonScale,
+            scale = TTLocalizer.DPtimerColon,
         )
         timer["second"] = DirectLabel(
             parent = parent,
             relief = None,
-            pos = (1.2, TTLocalizer.DPpartyCountdownClockSecondPosY, 0.0),
+            pos = TTLocalizer.DPtimerSecondPos,
             text = '14',
             text_align = TextNode.ACenter,
             text_font = timeFont,
             text_fg = (0.7, 0.3, 0.3, 1.0),
-            scale = TTLocalizer.DPpartyCountdownClockSecondScale,
+            scale = TTLocalizer.DPtimerSecond,
         )
         timer["textLabel"] = DirectLabel(
             parent = parent,
@@ -416,7 +419,7 @@ class DistributedParty(DistributedObject.DistributedObject):
             text = TTLocalizer.PartyCountdownClockText,
             text_font = timeFont,
             text_fg = (0.7, 0.3, 0.3, 1.0),
-            scale = TTLocalizer.DPpartyCountdownClockTextScale,
+            scale = TTLocalizer.DPtimerTextLabel,
         )
         return timer
 
@@ -424,9 +427,6 @@ class DistributedParty(DistributedObject.DistributedObject):
         """Handle AI telling us the hostname."""
         self.hostName = hostName
         
-        if GMUtils.testGMIdentity(self.hostName):
-            self.hostName = GMUtils.handleGMName(self.hostName)
-            
         # it is possible to get here initially without the model being loaded yet,
         # hence the hasattr self
         if hasattr(self, "partyClockSignFront"):

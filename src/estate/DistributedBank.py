@@ -24,6 +24,7 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
         self.bankDialog = None
         self.hasLocalAvatar = 0
         self.hasJarOut = 0
+        self.jarLods = []
 
     def generate(self):
         """
@@ -43,6 +44,16 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
         DistributedFurnitureItem.DistributedFurnitureItem.announceGenerate(self)
         self.accept(self.bankSphereEnterEvent,  self.__handleEnterSphere)
         
+    def loadModel(self):
+        model = DistributedFurnitureItem.DistributedFurnitureItem.loadModel(self)
+
+
+        bowl = model.find('**/bowl')
+        if bowl:
+            bowl.setBin('fixed', 40)
+        return model
+
+
     def disable(self):
         self.notify.debug("disable")
         self.ignore(self.bankSphereEnterEvent)
@@ -59,6 +70,7 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
             self.bankDialog = None
         if self.hasLocalAvatar:
             self.freeAvatar()
+        self.__removeToonJar()
 
         self.ignoreAll()
         DistributedFurnitureItem.DistributedFurnitureItem.disable(self)
@@ -200,6 +212,22 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
         self.freeAvatar()
 
 
+    def __attachToonJar(self, toon):
+
+
+        self.__removeToonJar()
+        for hand in toon.getRightHands():
+            self.jarLods.append(toon.jar.instanceTo(hand))
+
+
+    def __removeToonJar(self):
+
+
+        for jar in self.jarLods:
+            jar.removeNode()
+        self.jarLods = []
+
+
     def __takeOutToonJar(self, avId):
         self.notify.debug("__takeOutToonJar(avId=%s)"%(avId,))
         # take out the jar
@@ -229,7 +257,8 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
             toon.getJar()
             
         # TODO: reparentTo jar to lod's too
-        track.append(Func(toon.jar.reparentTo, toon.getRightHands()[0]))
+        self.__attachToonJar(toon)
+
         jarAndBank = Parallel(
             LerpScaleInterval(toon.jar, 1.5, 1.0, blendType = "easeOut"),
             ActorInterval(base.cr.doId2do[avId], "bank", endTime=3.8),
@@ -262,9 +291,11 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
             LerpScaleInterval(toon.jar, 2.0, 0.0, blendType = "easeIn"),
             )
         track.append(jarAndBank)
+        track.append(Func(self.__removeToonJar))
         track.append(Func(toon.removeJar))
         track.append(Func(toon.loop, "neutral"))
         if avId == base.localAvatar.doId:
             track.append(Func(self.freeAvatar))
         track.start()
         self.bankTrack = track
+        

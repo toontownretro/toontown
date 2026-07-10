@@ -78,11 +78,68 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             self.d_setMagicWord('~autoRich %s' % autoRich,
                                 base.localAvatar.doId, 0)
 
+        autoResistanceRestock = base.config.GetInt('auto-resistance-restock', -1)
+        if autoResistanceRestock != -1:
+            self.d_setMagicWord('~autoResistanceRestock %s' % autoResistanceRestock,
+                                base.localAvatar.doId, 0)
+
+        autoRestockSOS = base.config.GetInt('auto-restock-sos', -1)
+        if autoRestockSOS != -1:
+            self.d_setMagicWord('~autoRestockSOS %s' % autoRestockSOS,
+                                base.localAvatar.doId, 0)
+
+        autoRestockPinkSlips = base.config.GetInt('auto-restock-pink-slips', -1)
+        if autoRestockPinkSlips != -1:
+            self.d_setMagicWord('~autoRestockPinkSlips %s' % autoRestockPinkSlips,
+                                base.localAvatar.doId, 0)
+
+        autoRestockSummons = base.config.GetInt('auto-restock-summons', -1)
+        if autoRestockSummons != -1:
+            self.d_setMagicWord('~autoRestockSummons %s' % autoRestockSummons,
+                                base.localAvatar.doId, 0)
+
+        paidStatus = base.config.GetString('force-paid-status', 'none')
+        if paidStatus != 'none':
+            self.d_setMagicWord('~setPaid %s' % choice(paidStatus == 'paid', 1, 0),
+                                localAvatar.doId, 0)
+
+
+
+
+
+
+
+
+
+        self.doConfigMagicWords()
+
+    def doConfigMagicWords(self):
+
+
+
+
+        autoMagicWords = base.config.GetString('auto-magic-words', '').split('|')
+        for command in autoMagicWords:
+            if command:
+
+                self.d_setMagicWord(command.strip(), base.localAvatar.doId, 0)
+
     def disable(self):
         self.ignore("magicWord")
         if self.dbg_running_fast:
             self.toggleRun()
         MagicWordManager.MagicWordManager.disable(self)
+
+
+
+
+
+
+
+
+
+
+
 
     def doMagicWord(self, word, avId, zoneId):
         wordIs = Functor(self.wordIs, word)
@@ -90,6 +147,18 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
         if (MagicWordManager.MagicWordManager.doMagicWord(self, word, avId,
                                                           zoneId) == 1):
             pass
+
+        elif wordIs('~sf'):
+            args = word.split()
+            name = ''
+            if len(args) > 1:
+                name = args[1]
+            base.cr.useShader(name)
+
+
+
+
+
         elif wordIs("~fanfare"):
             go = Fanfare.makeFanfareWithMessageImage(0, base.localAvatar, 1, "You just did a ~fanfare.  Here's a rake.", Vec2(0,0.2), 0.08, base.localAvatar.inventory.buttonLookup(1, 1), Vec3(0,0,0), 4)
             Sequence(go[0],Func(go[1].show),
@@ -308,6 +377,10 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             self.setMagicWordResponse(response)
             
         
+        elif wordIs('~endlessquietzone'):
+            base.endlessQuietZone = not base.endlessQuietZone
+            response = 'endless quiet zone %s' % choice(base.endlessQuietZone, 'ON', 'OFF')
+            self.setMagicWordResponse(response)
 
         elif wordIs("~cogPageFull"):
             # show all panels on cog page of Shticker book
@@ -530,6 +603,10 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
         elif wordIs('~whiteList'):
             base.localAvatar.chatMgr.chatInputSpeedChat.addWhiteList()
           
+        elif wordIs('~updateWhiteList'):
+            self.notify.info('Updating WhiteList')
+            base.whiteList.redownloadWhitelist()
+
         elif wordIs('~noWhiteList'):
             base.localAvatar.chatMgr.chatInputSpeedChat.removeWhiteList()
             
@@ -689,7 +766,18 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
         elif action == 'showdoid':
             newVal = base.cr.partyManager.toggleShowDoid()
             response = "show doid = %s" % newVal
+        elif action == "debugGrid":
+            newVal = not ConfigVariableBool('show-debug-party-grid')
+            ConfigVariableBool('show-debug-party-grid').setValue(newVal)
+            response = "Grid: %s; re-enter party to see changes." % newVal
             
+
+
+
+
+
+
+
         if response is not None:
             self.setMagicWordResponse(response)
     

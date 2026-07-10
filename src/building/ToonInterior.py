@@ -10,10 +10,12 @@ from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toon import NPCForceAcknowledge
 from toontown.toon import HealthForceAcknowledge
+
 class ToonInterior(Place.Place):
     """ToonInterior class"""
 
@@ -182,6 +184,9 @@ class ToonInterior(Place.Place):
 
         #self.geom.reparentTo(render)
 
+
+        self._telemLimiter = TLGatherAllAvs('ToonInterior', RotationLimitToH)
+
         # Turn on the little red arrows.
         NametagGlobals.setMasterArrowsOn(1)
         # Request the state change:
@@ -193,6 +198,9 @@ class ToonInterior(Place.Place):
         # Let the safe zone manager know that we are leaving
         messenger.send("exitToonInterior")
         #self.geom.reparentTo(hidden)
+
+        self._telemLimiter.destroy()
+        del self._telemLimiter
 
         # Turn off the little red arrows.
         NametagGlobals.setMasterArrowsOn(0)

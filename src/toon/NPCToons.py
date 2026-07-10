@@ -940,6 +940,28 @@ NPCToonDict = {
     9236 : (9756, lnames[9236],("dss" ,"ms" ,"l" ,"m" ,20 ,0 ,20 ,20 ,0 ,6 ,0 ,6 ,0 ,13 ,), "m", 0, NPC_HQ),
     9237 : (9255, lnames[9237],("dls" ,"ss" ,"l" ,"m" ,14 ,0 ,14 ,14 ,0 ,7 ,0 ,7 ,0 ,10 ,), "m", 0, NPC_FISHERMAN),   
 
+    9301 : (-1, lnames[9301], ("pss", "ms", "l", "m", 20, 0, 20, 20, 26, 0, 0, 0, 15, 0), "m", 0, NPC_REGULAR),
+    9302 : (-1, lnames[9302], ("bsl", "ms", "m", "f", 20, 0, 20, 20, 3, 4, 0, 0, 5, 18), "f", 0, NPC_REGULAR),
+    9303 : (-1, lnames[9303], ("bll", "ss", "s", "m", 11, 0, 11, 11, 3, 6, 0, 0, 1, 2), "m", 0, NPC_REGULAR),
+    9304 : (-1, lnames[9304], ("ssl", "sd", "l", "f", 13, 0, 13, 13, 1, 2, 0, 0, 0, 10), "f", 0, NPC_REGULAR),
+    9305 : (-1, lnames[9305], ("hll", "ls", "l", "m", 8, 0, 8, 8, 1, 3, 0, 0, 1, 16), "m", 0, NPC_REGULAR),
+    9306 : (-1, lnames[9306], ("dsl", "ms", "s", "m", 5, 0, 5, 5, 1, 0, 0, 0 ,0, 4), "m", 0, NPC_REGULAR),
+    9307 : (-1, lnames[9307], ("pls", "ls", "s", "f", 14, 0, 14, 14, 0, 11, 0, 0, 5, 9), "f", 0, NPC_REGULAR),
+    9308 : (-1, lnames[9308], ("bsl", "ls", "l", "m", 12, 0, 12, 12, 1, 10, 0, 0, 1, 13), "m", 0, NPC_REGULAR),
+    9309 : (-1, lnames[9309], ("sss", "ms", "l", "m", 2, 0, 2, 2, 0, 4, 0, 0, 0, 6), "m", 0, NPC_REGULAR),
+    9310 : (-1, lnames[9310], ("fsl", "ls", "m", "m", 17, 0, 17, 17, 4, 4, 0, 0, 0, 10), "m", 0, NPC_REGULAR),
+    9311 : (-1, lnames[9311], ("mss", "sd", "s", "f", 24, 0, 24, 24, 3, 1, 0, 0, 0, 13), "f", 0, NPC_REGULAR),
+    9312 : (-1, lnames[9312], ("pss", "sd", "l", "f", 9, 0, 9, 9, 0, 8, 0, 0, 11, 0), "f", 0, NPC_REGULAR),
+
+    7001 : (-1, lnames[7001], ("bss", "md", "m", "f", 25, 0, 25, 25, 6, 12, 0, 0, 0, 2), "f", 0, NPC_REGULAR),
+    7002 : (-1, lnames[7002], ("sss", "ms", "l", "m", 7, 0, 7, 7, 18, 11, 0, 0, 4, 3), "m", 0, NPC_REGULAR),
+    7003 : (-1, lnames[7003], ("sss", "md", "m", "f", 21, 0, 21, 21, 45, 0, 0, 0, 7, 6), "f", 0, NPC_REGULAR),
+    7004 : (-1, lnames[7004], ("pss", "ls", "l", "m", 16, 0, 16, 16, 27, 0, 0, 0, 7, 16), "m", 0, NPC_REGULAR),
+    7005 : (-1, lnames[7005], ("pls", "ld", "s", "f", 5, 0, 5, 5, 25, 0, 0, 0, 10, 0), "f", 0, NPC_REGULAR),
+    7006 : (-1, lnames[7006], ("bll", "ms", "s", "m", 18, 0, 18, 18, 15, 4, 0, 0, 9, 3), "m", 0, NPC_REGULAR),
+    7007 : (-1, lnames[7007], ("pls", "ls", "s", "m", 11, 0, 11, 11, 46, 0, 0, 0, 5, 16), "m", 0, NPC_REGULAR),
+    7008 : (-1, lnames[7008], ("bls", "ld", "s", "f", 23, 0, 23, 23, 15, 6, 0, 0, 0, 18), "f", 0, NPC_REGULAR),
+    7009 : (-1, lnames[7009], ("sll", "ss", "s", "m", 1, 0, 1, 1, 1, 6, 0, 0, 0, 6), "m", 0, NPC_REGULAR),
 
     # Tutorial IDs start at 20000, and are not part of this table.
     # Don't add any Toon id's at 20000 or above, for this reason!
@@ -1003,7 +1025,7 @@ def getBuildingArticle(zoneId):
 def getBuildingTitle(zoneId):
     return TTLocalizer.zone2TitleDict.get(zoneId, "Toon Building")[0]
 
-npcFriends = {
+HQnpcFriends = {
     # A dictionary of tuples, indexed by rescued toon npcId
     # Each tuple consists of (type, level, hp, rarity) except for the
     # restock sos which consists of (type, track, 0, rarity)
@@ -1089,6 +1111,42 @@ npcFriends = {
     1329 : (ToontownBattleGlobals.NPC_RESTOCK_GAGS,
             ToontownBattleGlobals.DROP_TRACK, 0, 3), 
     }
+
+
+FOnpcFriends = {
+    # A dictionary of tuples, indexed by rescued toon npcId
+    # Each tuple consists of (type, level, hp, rarity)
+
+    9310: (ToontownBattleGlobals.LURE_TRACK, 1, 0, 0),
+    9311: (ToontownBattleGlobals.LURE_TRACK, 1, 0, 1),
+    9312: (ToontownBattleGlobals.LURE_TRACK, 3, 0, 2),
+
+    9307: (ToontownBattleGlobals.SOUND_TRACK, 1, 10, 0),
+    9308: (ToontownBattleGlobals.SOUND_TRACK, 3, 20, 1),
+    9309: (ToontownBattleGlobals.SOUND_TRACK, 4, 30, 2),
+
+    9304: (ToontownBattleGlobals.DROP_TRACK, 1, 20, 0),
+    9305: (ToontownBattleGlobals.DROP_TRACK, 2, 35, 1),
+    9306: (ToontownBattleGlobals.DROP_TRACK, 3, 50, 2),
+
+    9301: (ToontownBattleGlobals.HEAL_TRACK, 3, 10, 0),
+    9302: (ToontownBattleGlobals.HEAL_TRACK, 3, 20, 1),
+    9303: (ToontownBattleGlobals.HEAL_TRACK, 3, 30, 2),
+
+
+
+    }
+npcFriends = dict(HQnpcFriends)
+npcFriends.update(FOnpcFriends)
+
+def getNPCName(npcId):
+    if NPCToonDict.has_key(npcId):
+        return NPCToonDict[npcId][1]
+    return None
+
+def npcFriendsMinMaxStars(minStars, maxStars):
+    return [id for id in npcFriends.keys() if getNPCTrackLevelHpRarity(id)[3] >= minStars and getNPCTrackLevelHpRarity(id)[3] <= maxStars]
+
 
 def getNPCTrack(npcId):
     if (npcFriends.has_key(npcId)):

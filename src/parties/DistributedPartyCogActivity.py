@@ -13,7 +13,6 @@ from toontown.toonbase import TTLocalizer
 import PartyGlobals
 from DistributedPartyTeamActivity import DistributedPartyTeamActivity
 from PartyCogActivity import PartyCogActivity
-from toontown.toon import GMUtils
 
 class DistributedPartyCogActivity(DistributedPartyTeamActivity):
     notify = directNotify.newCategory("DistributedPartyCogActivity")
@@ -22,7 +21,7 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
     localPlayer = None
     view = None
     
-    def __init__(self, cr):
+    def __init__(self, cr, arenaModel="phase_13/models/parties/cogPieArena_model", texture=None):
         DistributedPartyTeamActivity.__init__(
             self, cr,
             PartyGlobals.ActivityIds.PartyCog,
@@ -30,10 +29,13 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
             balanceTeams=PartyGlobals.CogActivityBalanceTeams
             )
         
+        self.arenaModel = arenaModel
+        self.texture = texture
+
     def load(self):
         DistributedPartyTeamActivity.load(self)
         
-        self.view = PartyCogActivity(self)
+        self.view = PartyCogActivity(self, self.arenaModel, self.texture)
         self.view.load()
         
     def announceGenerate(self):
@@ -82,7 +84,10 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
         with pieHitsCog
         """
         assert(self.notify.debug("Toon %d throwing pie!" % toonId))
-        
+
+        if toonId not in self.toonIds:
+            return
+
         # Because we want the throw be immediate and this is a broadcast
         # event, we ignore the request from the local toon.
         # Otherwise, it throws a pie TWICE:
@@ -115,6 +120,10 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
         the activity was hit with a pie.
         """
         assert(self.notify.debug("pieHitsToon %s" % toonId))
+
+        if toonId not in self.toonIds:
+            return
+
         self.view.pieHitsToon(toonId, timestamp, Point3(x, y, z))
     
     def d_broadcastPieHitsToon(self, toonId, timestamp, pos):
@@ -140,11 +149,14 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
         Should only be used to display the pie splat. The actual scoring and movement
         is handled on the AI side
         """
+        if toonId not in self.toonIds:
+            return
+
         if toonId != base.localAvatar.doId:
             assert(self.notify.debug("pieHitsCog"))
                 
             self.view.pieHitsCog(timestamp, hitCogNum, Point3(x, y, z), direction, part)
-    
+        
     def b_pieHitsCog(self, timestamp, hitCogNum, pos, direction, part):
         self.view.pieHitsCog(timestamp, hitCogNum, pos, direction, part)
         self.d_broadcastSendPieHitsCog(timestamp, hitCogNum, pos, direction, part)
@@ -183,10 +195,7 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
         Parameters:
             toonName a string with the name of the last toon that hit a high scoore
             score the score amount the last toon reached
-        """
-        if GMUtils.testGMIdentity(toonName):
-            toonName = GMUtils.handleGMName(toonName)
-            
+        """ 
         assert(self.notify.debug("setHighScore %s %d" % (toonName, score)))
             
         self.setSignNote(TTLocalizer.PartyCogSignNote % (toonName, score))

@@ -51,12 +51,12 @@ def _registerTempMinigame(name, Class, id, minPlayers=1, maxPlayers=4):
 # 1. Create AI/client class
 # 2. Add the empty declaration to the DC file
 # 3. Register right here with a custom name, and give it an id >= 50 and < 100
+
+
 if ALLOW_TEMP_MINIGAMES:
-    from toontown.cogdominium.DistCogdoMazeGameAI import DistCogdoMazeGameAI
-    _registerTempMinigame("cogdomaze", DistCogdoMazeGameAI, id=50)
-
-    from toontown.cogdominium.DistCogdoFlyingGameAI import DistCogdoFlyingGameAI
-    _registerTempMinigame("cogdoflying", DistCogdoFlyingGameAI, id=51)
-
+    #from toontown.cogdominium.DistCogdoMazeGameAI import DistCogdoMazeGameAI
+    #_registerTempMinigame("cogdomaze", DistCogdoMazeGameAI, id=50)
+    #from toontown.cogdominium.DistCogdoFlyingGameAI import DistCogdoFlyingGameAI
+    #_registerTempMinigame("cogdoflying", DistCogdoFlyingGameAI, id=51)
     pass
 

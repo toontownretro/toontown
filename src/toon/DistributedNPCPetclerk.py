@@ -56,16 +56,7 @@ class DistributedNPCPetclerk(DistributedNPCToonBase):
 
     def allowedToEnter(self):
         """Check if the local toon is allowed to enter."""
-        if base.cr.isPaid():
-            return True
-        place = base.cr.playGame.getPlace()
-        myHoodId = ZoneUtil.getCanonicalHoodId(place.zoneId)
-        if  myHoodId in \
-           (ToontownGlobals.ToontownCentral,
-            ToontownGlobals.MyEstate,
-            ToontownGlobals.GoofySpeedway,
-            ):
-            # trialer going to TTC/Estate/Goofy Speedway, let them through
+        if hasattr(base, 'ttAccess') and base.ttAccess and base.ttAccess.canAccess():
             return True
         return False
 
@@ -249,6 +240,8 @@ class DistributedNPCPetclerk(DistributedNPCToonBase):
         return
 
     def __handlePetAdopted(self, whichPet, nameIndex):
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: ADOPTADOOLE: Adopt a doodle.')
         #the pet adopted message automatically handles returning the
         #current pet, so we need to do this here too
         base.cr.removePetFromFriendsMap()

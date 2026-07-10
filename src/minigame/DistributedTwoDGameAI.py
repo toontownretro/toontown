@@ -280,7 +280,7 @@ class DistributedTwoDGameAI(DistributedMinigameAI):
             self.sendUpdate('setEnemyShot', [avId, sectionIndex, enemyIndex, self.enemyHealthTable[sectionIndex][enemyIndex]])
             
     def reportDone(self):
-        if self.gameFSM.getCurrentState().getName() != 'play':
+        if self.gameFSM.getCurrentState() == None or self.gameFSM.getCurrentState().getName() != 'play':
             return
         
         avId = self.air.getAvatarIdFromSender()
@@ -290,6 +290,14 @@ class DistributedTwoDGameAI(DistributedMinigameAI):
         
     def toonVictory(self, avId, timestamp):
         """ Called when a remote toon reaches the end of tunnel. """
+
+        if self.gameFSM.getCurrentState() == None or \
+           self.gameFSM.getCurrentState().getName() != 'play':
+            msg = 'TwoDGameAI.toonVictory not in play state!'
+            self.notify.warning('suspicious: ' + str(avId) + ' ' + msg)
+            self.air.writeServerEvent('suspicious: ', avId, msg)
+            return
+
         if avId not in self.scoreDict.keys():
             self.notify.warning('Avatar %s not in list.' %avId)
             self.air.writeServerEvent('suspicious: ', avId, 'TwoDGameAI.toonVictory toon not in list.')
@@ -312,8 +320,6 @@ class DistributedTwoDGameAI(DistributedMinigameAI):
         
         self.sendUpdate("addVictoryScore", [avId, addBonus])
         
-        if self.gameFSM.getCurrentState().getName() != 'play':
-            return
         self.doneBarrier.clear(avId)
     
     def toonFellDown(self, avId, timestamp):

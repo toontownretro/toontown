@@ -8,11 +8,11 @@ from direct.fsm import StateData
 from direct.task.Task import Task
 from toontown.minigame import Purchase
 from direct.gui import OnscreenText
-from otp.avatar import DistributedAvatar
 from toontown.building import SuitInterior
 import QuietZoneState
 import ZoneUtil
 from toontown.toonbase import TTLocalizer
+from toontown.toon.Toon import teleportDebug
 
 class Hood(StateData.StateData):
     """
@@ -31,6 +31,8 @@ class Hood(StateData.StateData):
                 +", doneEvent="+str(doneEvent)
                 +", dnaStore="+str(dnaStore)+")"))
         StateData.StateData.__init__(self, doneEvent)
+
+        self.loader = "not initialized"
 
         self.parentFSM = parentFSM
         self.dnaStore = dnaStore
@@ -77,7 +79,7 @@ class Hood(StateData.StateData):
             fg = self.titleColor,
             font = getSignFont(),
             pos = (0,-0.5),
-            scale = TTLocalizer.HDenterTitleTextScale,
+            scale = TTLocalizer.HtitleText,
             drawOrder = 0,
             mayChange = 1,
             )
@@ -161,7 +163,8 @@ class Hood(StateData.StateData):
                 for storageFile in self.holidayStorageDNADict.get(
                     holiday,[]):
                     loader.loadDNAFile(self.dnaStore, storageFile)
-            if (ToontownGlobals.HALLOWEEN_COSTUMES not in holidayIds) or (not self.spookySkyFile):
+            if (ToontownGlobals.HALLOWEEN_COSTUMES not in holidayIds) and \
+               (ToontownGlobals.SPOOKY_COSTUMES not in holidayIds) or (not self.spookySkyFile):
                 # Load the sky model so we will have it in memory for the entire hood
                 self.sky = loader.loadModel(self.skyFile)
                 self.sky.setTag("sky","Regular")
@@ -245,19 +248,25 @@ class Hood(StateData.StateData):
 
     def enterQuietZone(self, requestStatus):
         assert(self.notify.debug("enterQuietZone(requestStatus = %s)" % (requestStatus)))
-        self.quietZoneDoneEvent = "quietZoneDone"
-        self.acceptOnce(self.quietZoneDoneEvent, self.handleQuietZoneDone)
-        self.acceptOnce("enterWaitForSetZoneResponse", self.handleWaitForSetZoneResponse)
+        teleportDebug(requestStatus, 'Hood.enterQuietZone: status=%s' % requestStatus)
+        self._quietZoneDoneEvent = uniqueName("quietZoneDone")
+        self.acceptOnce(self._quietZoneDoneEvent, self.handleQuietZoneDone)
         self.quietZoneStateData = QuietZoneState.QuietZoneState(
-                self.quietZoneDoneEvent)
+                self._quietZoneDoneEvent)
+        self._enterWaitForSetZoneResponseMsg = self.quietZoneStateData.getEnterWaitForSetZoneResponseMsg()
+        self.acceptOnce(self._enterWaitForSetZoneResponseMsg, self.handleWaitForSetZoneResponse)
+        self._quietZoneLeftEvent = self.quietZoneStateData.getQuietZoneLeftEvent()
+        if base.placeBeforeObjects:
+            self.acceptOnce(self._quietZoneLeftEvent, self.handleLeftQuietZone)
         self.quietZoneStateData.load()
         self.quietZoneStateData.enter(requestStatus)
 
     def exitQuietZone(self):
         assert(self.notify.debug("exitQuietZone()"))
-        self.ignore(self.quietZoneDoneEvent)
-        self.ignore("enterWaitForSetZoneResponse")
-        del self.quietZoneDoneEvent
+        self.ignore(self._quietZoneDoneEvent)
+        self.ignore(self._quietZoneLeftEvent)
+        self.ignore(self._enterWaitForSetZoneResponseMsg)
+        del self._quietZoneDoneEvent
         self.quietZoneStateData.exit()
         self.quietZoneStateData.unload()
         self.quietZoneStateData=None
@@ -295,10 +304,17 @@ class Hood(StateData.StateData):
         else:
             assert(self.notify.debug("  unknown loaderName="+loaderName))
 
+    def handleLeftQuietZone(self):
+        status = self.quietZoneStateData.getRequestStatus()
+        teleportDebug(status, 'handleLeftQuietZone, status=%s' % status)
+        teleportDebug(status, 'requesting %s' % status['loader'])
+        self.fsm.request(status["loader"], [status])
+
     def handleQuietZoneDone(self):
         assert(self.notify.debug("handleQuietZoneDone()"))
-        status=self.quietZoneStateData.getRequestStatus()
-        self.fsm.request(status["loader"], [status])
+        if not base.placeBeforeObjects:
+            status=self.quietZoneStateData.getRequestStatus()
+            self.fsm.request(status["loader"], [status])
 
     # SafeZoneLoader state
 
@@ -325,9 +341,12 @@ class Hood(StateData.StateData):
     def handleSafeZoneLoaderDone(self):
         assert(self.notify.debug("handleSafeZoneLoaderDone()"))
         doneStatus = self.loader.getDoneStatus()
+        teleportDebug(doneStatus, 'handleSafeZoneLoaderDone, doneStatus=%s' % doneStatus)
         if (self.isSameHood(doneStatus) and doneStatus["where"] != "party") or doneStatus["loader"]=="minigame":
+            teleportDebug(doneStatus, 'same hood')
             self.fsm.request("quietZone", [doneStatus])
         else:
+            teleportDebug(doneStatus, 'different hood')
             # ...we're leaving the hood.
             self.doneStatus = doneStatus
             messenger.send(self.doneEvent)

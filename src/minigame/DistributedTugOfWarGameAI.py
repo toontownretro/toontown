@@ -196,7 +196,11 @@ class DistributedTugOfWarGameAI(DistributedMinigameAI):
         
     def reportPlayerReady(self, side):
         avId = self.air.getAvatarIdFromSender()
-        assert not avId in self.readyClients
+        if avId in self.readyClients:
+
+            self.notify.warning('Got reportPlayerReady from an avId more than once: %s' %
+                                avId)
+            return
         if avId not in self.avIdList or side not in [0,1]:
             self.notify.warning('Got reportPlayerReady from an avId: %s not in our list: %s' %
                                 (avId, self.avIdList))
@@ -211,13 +215,18 @@ class DistributedTugOfWarGameAI(DistributedMinigameAI):
 
 
     def sendNewAvIdList(self, newAvIdList):
+
+        for avId in newAvIdList:
+            if avId not in self.scoreDict:
+                self.notify.debug('invalid avId in new list from %s' % self.air.getAvatarIdFromSender())
+                return
         if not self.switched:
             self.switched = 1
             self.avIdList = newAvIdList
         else:
             if self.avIdList != newAvIdList:
                 self.notify.debug("Big trouble in little TugOWar Town")
-        
+
     def enterSendGoSignal(self):
         self.notify.debug("enterSendGoSignal")
         
@@ -312,6 +321,11 @@ class DistributedTugOfWarGameAI(DistributedMinigameAI):
         
     def reportCurrentKeyRate(self, keyRate, force):
         avId = self.air.getAvatarIdFromSender()
+        if not self.side.has_key(avId):
+
+
+            self.notify.warning('Avatar %s sent reportCurrentKeyRate too early %s' % (avId, self.side))
+            return
         self.keyRateDict[avId] = keyRate
         self.forceDict[self.side[avId]][avId] = force
 

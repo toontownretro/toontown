@@ -178,7 +178,7 @@ class Elevator(StateData.StateData):
             text = TTLocalizer.ElevatorHopOff,
             text_fg = (0.9, 0.9, 0.9, 1),
             text_pos = (0, -0.23),
-            text_scale = TTLocalizer.EelevatorHopOff,
+            text_scale = TTLocalizer.EexitButton,
             image = (self.upButton, self.downButton, self.rolloverButton),
             image_color = (0.5, 0.5, 0.5, 1),
             image_scale = (20, 1, 11),

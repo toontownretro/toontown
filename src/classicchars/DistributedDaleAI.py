@@ -103,6 +103,7 @@ class DistributedDaleAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
         be transitioned into
         """
         assert self.notify.debugStateCall(self)
+
         assert(doneStatus.has_key('status'))
         if doneStatus['state'] == 'lonely' and \
            doneStatus['status'] == 'done':
@@ -230,3 +231,10 @@ class DistributedDaleAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
     def getChipId(self):
         """Return chip's doId."""
         return self.chipId
+
+    ##TransitionToCostumeState##
+    def enterTransitionToCostume(self):
+        pass
+
+    def exitTransitionToCostume(self):
+        pass

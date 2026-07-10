@@ -8,6 +8,8 @@ from direct.task.Task import Task
 from direct.distributed import DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.minigame import TravelGameGlobals
+from toontown.toonbase import ToontownGlobals
+from toontown.minigame import MinigameGlobals
 
 class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("PurchaseManagerAI")
@@ -84,6 +86,9 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
                     self.notify.warning('__init__ avIndex is none but avId=%s' % avId)
                     continue
                 self.playerMoney[avIndex] = money
+                if self.playerMoney[avIndex] < 0:
+                    simbase.air.writeServerEvent('suspicious', avId, 'toon has invalid money %s, forcing to zero' % money)
+                    self.playerMoney[avIndex] = 0
                 # Update us and the client avatar with t
                 av.addMoney(self.minigamePoints[avIndex])
 
@@ -98,6 +103,9 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
                     numPlayers = len (self.votesArray)
                     extraBeans = self.votesArray[avIndex] * \
                                  TravelGameGlobals.PercentOfVotesConverted[numPlayers] / 100.0
+                    if self.air.holidayManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY) or \
+                       self.air.holidayManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY_MONTH):
+                        extraBeans *= MinigameGlobals.JellybeanTrolleyHolidayScoreMultiplier
                     av.addMoney(extraBeans)
                     # Log the completion (and extra beans won) to the event server
                     self.air.writeServerEvent('minigame_extraBeans',

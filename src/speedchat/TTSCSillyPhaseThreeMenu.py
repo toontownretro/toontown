@@ -10,9 +10,9 @@ from otp.otpbase import OTPLocalizer
 #this is the structure of the racing menu
 SillyPhaseThreeMenu = [ 
     (OTPLocalizer.SillyHolidayMenuSections[1],            # WORLD
-        [60323, 60324, 60325, 60326, 60327,]),
+        [30323, 30324, 30325, 30326, 30327,]),
     (OTPLocalizer.SillyHolidayMenuSections[2],            # BATTLE
-        [60318, 60319, 60320, 60321, 60322,]),
+        [30318, 30319, 30320, 30321, 30322,]),
     ]
         
 class TTSCSillyPhaseThreeMenu(SCMenu):

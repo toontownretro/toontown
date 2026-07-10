@@ -1205,6 +1205,9 @@ class DistributedCannonGame(DistributedMinigame):
         # calculate the trajectory
         flightResults = self.__calcFlightResults(avId, launchTime)
         # pull all the results into the local namespace
+        if not isClient():
+            print "EXECWARNING DistributedCannonGame: %s"%flightResults
+            printStack()
         for key in flightResults:
             exec "%s = flightResults['%s']" % (key, key)
 

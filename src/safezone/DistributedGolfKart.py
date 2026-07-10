@@ -203,7 +203,7 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
 
     def allowedToEnter(self):
         """Check if the local toon is allowed to enter."""
-        if base.cr.isPaid():
+        if hasattr(base, 'ttAccess') and base.ttAccess and base.ttAccess.canAccess():
             return True
         return False
 

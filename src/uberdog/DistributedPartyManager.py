@@ -14,6 +14,8 @@ class DistributedPartyManager(DistributedObject):
 
     notify = directNotify.newCategory("DistributedPartyManager")
     
+    PartyStatusChangedEvent = "changePartyStatusResponseReceived"
+
     def __init__(self,cr):
         """Construct ourself."""
         DistributedObject.__init__(self, cr)
@@ -148,7 +150,17 @@ class DistributedPartyManager(DistributedObject):
             if partyInfo.partyId == partyId:
                 partyInfo.status = newPartyStatus
         # Send this to other hooks on the client side (AFTER updating partyinfo)
-        messenger.send("changePartyStatusResponseReceived", [partyId, newPartyStatus, errorCode, beansRefunded])
+        messenger.send(self.PartyStatusChangedEvent, [partyId, newPartyStatus, errorCode, beansRefunded])
+
+    def setNeverStartedPartyRefunded(self, partyId, newStatus, refund):
+        partyInfo = None
+        for pInfo in localAvatar.hostedParties:
+            if pInfo.partyId == partyId:
+                partyInfo = pInfo
+                break
+        if partyInfo:
+            partyInfo.status = newStatus
+            messenger.send(self.PartyStatusChangedEvent, [partyId, newStatus, 0, refund])
 
     def sendAvToPlayground(self, avId, retCode):
         assert(self.notify.debug("sendAvToPlayground: %d" % avId))        

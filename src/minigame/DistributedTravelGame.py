@@ -398,7 +398,7 @@ class DistributedTravelGame(DistributedMinigame):
             scale = 0.1,
             text = TTLocalizer.TravelGameRemainingVotes,
             text_align = TextNode.ALeft,
-            text_scale = TTLocalizer.DTGRemainingVotesFrameTextScale,
+            text_scale = TTLocalizer.DTGremainingVotesFrame,
             text_pos = (-3.4,-0.1, 0.0)
             )
         self.localVotesRemaining = DirectLabel(
@@ -425,13 +425,13 @@ class DistributedTravelGame(DistributedMinigame):
         self.useLabel = DirectLabel(text = TTLocalizer.TravelGameUse,
                                     parent = self.choiceFrame,
                                     pos = (-0.59,0,-0.01),
-                                    text_scale = TTLocalizer.DTGUseLabelTextScale,
+                                    text_scale = TTLocalizer.DTGuseLabel,
                                     relief = None,
                                     )
         self.votesPeriodLabel = DirectLabel(text = TTLocalizer.TravelGameVotesWithPeriod,
                                     parent = self.choiceFrame,
                                     pos = (-0.21,0,-0.01),
-                                    text_scale = TTLocalizer.DTGVotesPeriodLabelTextScale,
+                                    text_scale = TTLocalizer.DTGvotesPeriodLabel,
                                     relief = None,
                                     text_align = TextNode.ALeft,
                                     )
@@ -439,7 +439,7 @@ class DistributedTravelGame(DistributedMinigame):
         self.votesToGoLabel = DirectLabel(text = TTLocalizer.TravelGameVotesToGo,
                                     parent = self.choiceFrame,
                                     pos = (-0.21,0,-0.01),
-                                    text_scale = TTLocalizer.DTGVotesToGoLabelTextScale,
+                                    text_scale = TTLocalizer.DTGvotesToGoLabel,
                                     relief = None,
                                     text_align = TextNode.ALeft,
                                     )
@@ -447,7 +447,7 @@ class DistributedTravelGame(DistributedMinigame):
         self.upLabel = DirectLabel(text = TTLocalizer.TravelGameUp,
                                    parent = self.choiceFrame,
                                    pos = (0.31,0,-0.01),
-                                   text_scale = TTLocalizer.DTGUpLabelTextScale,
+                                   text_scale = TTLocalizer.DTGupLabel,
                                    text_fg = Vec4(0,0,1,1),
                                    relief = None,
                                    text_align = TextNode.ALeft,
@@ -456,7 +456,7 @@ class DistributedTravelGame(DistributedMinigame):
         self.downLabel = DirectLabel(text = TTLocalizer.TravelGameDown,
                                    parent = self.choiceFrame,
                                    pos = (0.31,0,-0.01),
-                                   text_scale = TTLocalizer.DTGDownLabelTextScale,
+                                   text_scale = TTLocalizer.DTGdownLabel,
                                    text_fg = Vec4(1,0,0,1),
                                    relief = None,
                                    text_align = TextNode.ALeft,
@@ -511,7 +511,7 @@ class DistributedTravelGame(DistributedMinigame):
             image_scale = 3.0,
             pos = (0.85, 0, 0.0),
             text = TTLocalizer.TravelGameVoteWithExclamation,
-            text_scale = TTLocalizer.DTGVoteBtnTextScale,
+            text_scale = TTLocalizer.DTGvoteButton,
             text_pos = (0,0),
             command = self.handleInputChoice,
             )        

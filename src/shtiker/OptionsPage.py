@@ -63,6 +63,12 @@ speedChatStyles = (
            (210/255., 200/255., 180/255.)),
      )
 
+visualEffects = (
+    (2050, "None"),
+    (2051, "bw"),
+    (2052, "sepia"),
+    )
+
 ##########################################################################
 # Global Variables and Enumerations
 ##########################################################################
@@ -311,6 +317,9 @@ class OptionsTabPage(DirectFrame):
         self.displaySettingsEmbedded = None
         self.displaySettingsApi = None
         self.displaySettingsApiChanged = 0
+        self.visualEffectIndex = 0
+
+        wantShaders = config.GetBool('want-shaders', 0)
 
         guiButton = loader.loadModel("phase_3/models/gui/quit_button")
         gui = loader.loadModel("phase_3.5/models/gui/friendslist_gui")
@@ -319,12 +328,20 @@ class OptionsTabPage(DirectFrame):
         # the coordinate system is (0,0) in the middle of the page
         # Vertical: -1.0 is the bottom, and 1.0 is the top  of the screen
         # Horizontal: -1.0 is left edge of shticker book, 1.0 is right edge
-        titleHeight = 0.61 # bigger number means higher the title
-        textStartHeight = 0.45 # bigger number means higher text
-        textRowHeight = 0.15 # bigger number means more space between rows
+        if wantShaders:
+            titleHeight = 0.71 # bigger number means higher the title
+            textStartHeight = 0.5 # bigger number means higher text
+            textRowHeight = 0.135 # bigger number means more space between rows
+        else:
+            titleHeight = 0.61 # bigger number means higher the title
+            textStartHeight = 0.45 # bigger number means higher text
+            textRowHeight = 0.145 # bigger number means more space between rows
         leftMargin = -0.72 # smaller number means farther left
         buttonbase_xcoord = 0.35 # bigger number means farther right
-        buttonbase_ycoord = 0.45 # bigger number means higher buttons
+        if wantShaders:
+            buttonbase_ycoord = 0.5 # bigger number means higher buttons
+        else:
+            buttonbase_ycoord = 0.45 # bigger number means higher buttons
         button_image_scale = (0.7,1,1)
         button_textpos = (0,-0.02)
         options_text_scale = 0.052
@@ -364,6 +381,18 @@ class OptionsTabPage(DirectFrame):
                    textStartHeight - 3 * textRowHeight),
             )
 
+        self.Whispers_Label = DirectLabel(
+            parent = self,
+            relief = None,
+            text = "",
+            text_align = TextNode.ALeft,
+            text_scale = options_text_scale,
+            text_wordwrap = 16,
+            # adjust for taller two-row text
+            pos = (leftMargin, 0,
+                   textStartHeight - 4 * textRowHeight),
+            )
+
         self.DisplaySettings_Label = DirectLabel(
             parent = self,
             relief = None,
@@ -372,7 +401,7 @@ class OptionsTabPage(DirectFrame):
             text_scale = options_text_scale,
             text_wordwrap = 10,
             pos = (leftMargin, 0,
-                   textStartHeight - 4 * textRowHeight),
+                   textStartHeight - 5 * textRowHeight),
             )
 
         self.SpeedChatStyle_Label = DirectLabel(
@@ -383,7 +412,19 @@ class OptionsTabPage(DirectFrame):
             text_scale = options_text_scale,
             text_wordwrap = 10,
             pos = (leftMargin, 0,
-                   textStartHeight - 5 * textRowHeight),
+                   textStartHeight - 6 * textRowHeight),
+            )
+
+        if wantShaders:
+            self.VisualEffect_Label = DirectLabel(
+                parent = self,
+                relief = None,
+                text = 'Visual Effect',
+                text_align = TextNode.ALeft,
+                text_scale = options_text_scale,
+                text_wordwrap = 10,
+                pos = (leftMargin, 0,
+                       textStartHeight - 7 * textRowHeight),
             )
 
         self.ToonChatSounds_Label = DirectLabel(
@@ -443,6 +484,21 @@ class OptionsTabPage(DirectFrame):
             command = self.__doToggleAcceptFriends,
             )
 
+        self.Whispers_toggleButton = DirectButton(
+            parent = self,
+            relief = None,
+            image = (guiButton.find("**/QuitBtn_UP"),
+                     guiButton.find("**/QuitBtn_DN"),
+                     guiButton.find("**/QuitBtn_RLVR"),
+                     ),
+            image_scale = button_image_scale,
+            text = "",
+            text_scale = options_text_scale,
+            text_pos = button_textpos,
+            pos = (buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight*4),
+            command = self.__doToggleAcceptWhispers,
+            )
+
         self.DisplaySettingsButton = DirectButton(
             parent = self,
             relief = None,
@@ -457,7 +513,7 @@ class OptionsTabPage(DirectFrame):
             text_scale = options_text_scale,
             text_pos = button_textpos,
             pos = (buttonbase_xcoord, 0.0,
-                   buttonbase_ycoord - textRowHeight * 4),
+                   buttonbase_ycoord - textRowHeight * 5),
             command = self.__doDisplaySettings,
             )
 
@@ -472,7 +528,7 @@ class OptionsTabPage(DirectFrame):
             # make the disabled color more transparent
             image3_color = Vec4(1, 1, 1, 0.5),
             scale = (-1.0, 1.0, 1.0),  # make the arrow point left
-            pos = (0.25, 0, buttonbase_ycoord - textRowHeight * 5),
+            pos = (0.25, 0, buttonbase_ycoord - textRowHeight * 6),
             command = self.__doSpeedChatStyleLeft,
             )
 
@@ -486,9 +542,42 @@ class OptionsTabPage(DirectFrame):
                      ),
             # make the disabled color more transparent
             image3_color = Vec4(1, 1, 1, 0.5),
-            pos = (0.65, 0, buttonbase_ycoord - textRowHeight * 5),
+            pos = (0.65, 0, buttonbase_ycoord - textRowHeight * 6),
             command = self.__doSpeedChatStyleRight,
             )
+
+        if wantShaders:
+            self.visualEffectLeftArrow =  DirectButton(
+                parent = self,
+                relief = None,
+                image = (gui.find("**/Horiz_Arrow_UP"),
+                         gui.find("**/Horiz_Arrow_DN"),
+                         gui.find("**/Horiz_Arrow_Rllvr"),
+                         gui.find("**/Horiz_Arrow_UP"),
+                         ),
+                # make the disabled color more transparent
+                image3_color = Vec4(1, 1, 1, 0.5),
+                scale = (-1.0, 1.0, 1.0),
+                pos = (0.25, 0, buttonbase_ycoord - textRowHeight * 7),
+                command = self.__doVisualEffectLeft,
+                )
+
+            self.visualEffectRightArrow = DirectButton(
+                parent = self,
+                relief = None,
+                image = (gui.find("**/Horiz_Arrow_UP"),
+                         gui.find("**/Horiz_Arrow_DN"),
+                         gui.find("**/Horiz_Arrow_Rllvr"),
+                         gui.find("**/Horiz_Arrow_UP"),
+                         ),
+                # make the disabled color more transparent
+                image3_color = Vec4(1, 1, 1, 0.5),
+                pos = (0.65, 0, buttonbase_ycoord - textRowHeight * 7),
+                command = self.__doVisualEffectRight,
+                )
+        else:
+            self.visualEffectLeftArrow = None
+            self.visualEffectRightArrow = None
 
         self.ToonChatSounds_toggleButton = DirectButton(
             parent = self,
@@ -517,8 +606,22 @@ class OptionsTabPage(DirectFrame):
             guiModelName='phase_3.5/models/gui/speedChatGui')
         self.speedChatStyleText.setScale(self.speed_chat_scale)
         # This will be horizontally centered later
-        self.speedChatStyleText.setPos(0.37, 0, -0.27)
+        self.speedChatStyleText.setPos(0.37, 0, buttonbase_ycoord - textRowHeight * 6 + 0.03)
         self.speedChatStyleText.reparentTo(self, DGG.FOREGROUND_SORT_INDEX)
+
+        if wantShaders:
+            # The [2000] refers to the default color.  In the localizer, refer
+            # to the SpeedChatStaticText variable
+            self.visualEffectText = SpeedChat.SpeedChat(
+                name='OptionsPageStyleText', structure=[2000],
+                backgroundModelName='phase_3/models/gui/ChatPanel',
+                guiModelName='phase_3.5/models/gui/speedChatGui')
+            self.visualEffectText.setScale(self.speed_chat_scale)
+            # This will be horizontally centered later
+            self.visualEffectText.setPos(0.37, 0, buttonbase_ycoord - textRowHeight * 7 + 0.03)
+            self.visualEffectText.reparentTo(self, DGG.FOREGROUND_SORT_INDEX)
+        else:
+            self.visualEffectText = None
 
         self.exitButton = DirectButton(
             parent = self,
@@ -558,6 +661,7 @@ class OptionsTabPage(DirectFrame):
         self.__setMusicButton()
         self.__setSoundFXButton()
         self.__setAcceptFriendsButton()
+        self.__setAcceptWhispersButton()
         self.__setDisplaySettings()
         self.__setToonChatSoundsButton()
 
@@ -567,6 +671,12 @@ class OptionsTabPage(DirectFrame):
         self.speedChatStyleIndex = base.localAvatar.getSpeedChatStyleIndex()
         self.updateSpeedChatStyle()
 
+        if self.visualEffectText:
+            self.visualEffectText.enter()
+
+
+            self.updateVisualEffect()
+
         if self.parent.book.safeMode:
             self.exitButton.hide()
         else:
@@ -574,11 +684,15 @@ class OptionsTabPage(DirectFrame):
 
     def exit(self):
         assert self.notify.debugStateCall(self)
+        self.ignore('confirmDone')
         self.hide()
         if(self.settingsChanged != 0):
             Settings.writeSettings()
 
         self.speedChatStyleText.exit()
+
+        if self.visualEffectText:
+            self.visualEffectText.exit()
 
         if self.displaySettingsChanged:
             # If we have changed the display settings, then spawn a
@@ -610,22 +724,37 @@ class OptionsTabPage(DirectFrame):
         self.Music_toggleButton.destroy()
         self.SoundFX_toggleButton.destroy()
         self.Friends_toggleButton.destroy()
+        self.Whispers_toggleButton.destroy()
         self.DisplaySettingsButton.destroy()
         self.speedChatStyleLeftArrow.destroy()
         self.speedChatStyleRightArrow.destroy()
+        if self.visualEffectLeftArrow:
+            self.visualEffectLeftArrow.destroy()
+        if self.visualEffectRightArrow:
+            self.visualEffectRightArrow.destroy()
         del self.exitButton
         del self.SoundFX_Label
         del self.Music_Label
         del self.Friends_Label
+        del self.Whispers_Label
         del self.SpeedChatStyle_Label
         del self.SoundFX_toggleButton
         del self.Music_toggleButton
         del self.Friends_toggleButton
+        del self.Whispers_toggleButton
         del self.speedChatStyleLeftArrow
         del self.speedChatStyleRightArrow
         self.speedChatStyleText.exit()
         self.speedChatStyleText.destroy()
         del self.speedChatStyleText
+        if self.visualEffectLeftArrow:
+            del self.visualEffectLeftArrow
+        if self.visualEffectRightArrow:
+            del self.visualEffectRightArrow
+        if self.visualEffectText:
+            self.visualEffectText.exit()
+            self.visualEffectText.destroy()
+            del self.visualEffectText
         self.currentSizeIndex = None
     
     def __doToggleMusic(self):
@@ -724,6 +853,19 @@ class OptionsTabPage(DirectFrame):
         # maybe we shouldn't be saving it at all, and force the user
         # to re-enable it at each session.
 
+    def __doToggleAcceptWhispers(self):
+        messenger.send('wakeup')
+        if base.localAvatar.acceptingNonFriendWhispers:
+            # now we dont accept whispers
+            base.localAvatar.acceptingNonFriendWhispers = 0
+            Settings.setAcceptingNonFriendWhispers(0)
+        else:
+            base.localAvatar.acceptingNonFriendWhispers = 1
+            Settings.setAcceptingNonFriendWhispers(1)
+
+        self.settingsChanged = 1
+        self.__setAcceptWhispersButton()
+
     def __setAcceptFriendsButton(self):
         if base.localAvatar.acceptingNewFriends:
             self.Friends_Label['text'] = TTLocalizer.OptionsPageFriendsEnabledLabel
@@ -731,6 +873,14 @@ class OptionsTabPage(DirectFrame):
         else:
             self.Friends_Label['text'] = TTLocalizer.OptionsPageFriendsDisabledLabel
             self.Friends_toggleButton['text'] = TTLocalizer.OptionsPageToggleOn
+
+    def __setAcceptWhispersButton(self):
+        if base.localAvatar.acceptingNonFriendWhispers:
+            self.Whispers_Label['text'] = TTLocalizer.OptionsPageWhisperEnabledLabel
+            self.Whispers_toggleButton['text'] = TTLocalizer.OptionsPageToggleOff
+        else:
+            self.Whispers_Label['text'] = TTLocalizer.OptionsPageWhisperDisabledLabel
+            self.Whispers_toggleButton['text'] = TTLocalizer.OptionsPageToggleOn
 
     def __doDisplaySettings(self):
         if self.displaySettings == None:
@@ -795,6 +945,16 @@ class OptionsTabPage(DirectFrame):
             self.speedChatStyleIndex = self.speedChatStyleIndex + 1
             self.updateSpeedChatStyle()
 
+    def __doVisualEffectLeft(self):
+        if self.visualEffectIndex > 0:
+            self.visualEffectIndex = self.visualEffectIndex - 1
+            self.updateVisualEffect()
+
+    def __doVisualEffectRight(self):
+        if self.visualEffectIndex < len(visualEffects) - 1:
+            self.visualEffectIndex = self.visualEffectIndex + 1
+            self.updateVisualEffect()
+
     def updateSpeedChatStyle(self):
         # update the text color and value
         nameKey, arrowColor, rolloverColor, frameColor = \
@@ -815,7 +975,8 @@ class OptionsTabPage(DirectFrame):
         self.speedChatStyleText.finalize()
         # manual horizonal centering
         self.speedChatStyleText.setPos(
-            0.445 - self.speedChatStyleText.getWidth() * self.speed_chat_scale / 2, 0, -0.27)
+            0.445 - self.speedChatStyleText.getWidth() * self.speed_chat_scale / 2, 0,
+            self.speedChatStyleText.getPos()[2])
 
         # show the appropriate arrows
         if self.speedChatStyleIndex > 0:
@@ -831,6 +992,37 @@ class OptionsTabPage(DirectFrame):
         # this function is actually found in DistributedToon.py
         base.localAvatar.b_setSpeedChatStyleIndex(self.speedChatStyleIndex)
 
+    def updateVisualEffect(self):
+        # update the text color and value
+        newEffectKey, newEffectName = visualEffects[self.visualEffectIndex]
+        # set the new text
+        self.visualEffectText.clearMenu()
+        effectName = SCStaticTextTerminal.SCStaticTextTerminal(newEffectKey)
+        self.visualEffectText.append(effectName)
+        # we must finalize to get the accurate width
+        self.visualEffectText.finalize()
+        # manual horizonal centering
+        self.visualEffectText.setPos(
+            0.445 - self.visualEffectText.getWidth() * self.speed_chat_scale / 2, 0,
+            self.visualEffectText.getPos()[2])
+
+        # show the appropriate arrows
+        if self.visualEffectIndex > 0:
+            self.visualEffectLeftArrow['state'] = DGG.NORMAL
+        else:
+            self.visualEffectLeftArrow['state'] = DGG.DISABLED
+        if self.visualEffectIndex < len(visualEffects) - 1:
+            self.visualEffectRightArrow['state'] = DGG.NORMAL
+        else:
+            self.visualEffectRightArrow['state'] = DGG.DISABLED
+
+
+
+
+
+
+        base.cr.useShader(newEffectName)
+
     def writeDisplaySettings(self, task = None):
         # Writes the previously-saved display settings to the
         # SettingsFile, after the safety timer has expired.
@@ -841,13 +1033,15 @@ class OptionsTabPage(DirectFrame):
         # this method explicitly, before the timer has expired).
         taskMgr.remove(self.DisplaySettingsTaskName)
 
-        self.notify.info("writing new display settings %s, %s, %s to SettingsFile." %
+        self.notify.info("writing new display settings %s, fullscreen %s, embedded %s, %s to SettingsFile." %
                          (self.displaySettingsSize, self.displaySettingsFullscreen,
-                          self.displaySettingsApi))
+                          self.displaySettingsEmbedded, self.displaySettingsApi))
 
         Settings.setResolutionDimensions(self.displaySettingsSize[0], self.displaySettingsSize[1])
 
         Settings.setWindowedMode(not self.displaySettingsFullscreen)
+        Settings.setEmbeddedMode(self.displaySettingsEmbedded)
+
         if self.displaySettingsApiChanged:
             api = self.DisplaySettingsApiMap.get(self.displaySettingsApi)
             if api == None:

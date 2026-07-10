@@ -12,7 +12,6 @@ from toontown.toonbase import ToontownGlobals
 from toontown.parties.PartyInfo import PartyInfo
 from toontown.parties import PartyGlobals
 from toontown.ai.NewsManager import NewsManager
-from toontown.toon import GMUtils
 
 def myStrftime( myTime):
     """Return a better time string without the leading zero"""
@@ -763,7 +762,7 @@ class MiniInviteVisual(DirectFrame):
         self.partyInfo = partyInfo
         self.parent = parent
         self.inviteBackgrounds = loader.loadModel("phase_4/models/parties/partyStickerbook")
-        backgrounds = ["calendar_popup_birthday", "calendar_popup_fun", "calendar_popup_cupcake", "tt_t_gui_sbk_calendar_popup_racing", "tt_t_gui_sbk_calendar_popup_valentine1", "tt_t_gui_sbk_calendar_popup_victoryParty"]            
+        backgrounds = ["calendar_popup_birthday", "calendar_popup_fun", "calendar_popup_cupcake", "tt_t_gui_sbk_calendar_popup_racing", "tt_t_gui_sbk_calendar_popup_valentine1", "tt_t_gui_sbk_calendar_popup_victoryParty", "tt_t_gui_sbk_calendar_popup_winter1"]            
         self.background = DirectFrame(
             parent = self,
             relief = None,
@@ -807,8 +806,6 @@ class MiniInviteVisual(DirectFrame):
             host = base.cr.identifyAvatar(self.partyInfo.hostId)
             if host:
                 name = host.getName()
-                if GMUtils.testGMIdentity(name):
-                    name = GMUtils.handleGMName(name)
                 self.whosePartyLabel["text"] = name
         if self.whenTextLabel["text"] == " ":
             time = myStrftime(self.partyInfo.startTime) 

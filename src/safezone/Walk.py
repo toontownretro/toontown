@@ -66,8 +66,12 @@ class Walk(StateData.StateData):
         base.localAvatar.startPosHprBroadcast()
         base.localAvatar.startBlink()
         base.localAvatar.attachCamera()
+
+        shouldPush = 1
+        if len(base.localAvatar.cameraPositions) > 0:
+            shouldPush = not base.localAvatar.cameraPositions[base.localAvatar.cameraIndex][4]
         # this must be called *after* attachCamera()
-        base.localAvatar.startUpdateSmartCamera()
+        base.localAvatar.startUpdateSmartCamera(shouldPush)
         #base.localAvatar.setNameVisible(0)
         base.localAvatar.showName()
         base.localAvatar.collisionsOn()

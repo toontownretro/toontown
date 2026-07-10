@@ -25,7 +25,7 @@ class DistributedWinterCarolingTarget(DistributedScavengerHuntTarget.Distributed
         self.notify.debug("Checking if phrase was said")
         helpPhrases = []
         for i in range(6):
-            helpPhrases.append(60220+i)
+            helpPhrases.append(30220+i)
 
         def reset():
             self.triggered = False

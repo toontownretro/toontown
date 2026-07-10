@@ -48,7 +48,6 @@ class DistributedCannonAI(DistributedObjectAI.DistributedObjectAI):
             # Start timeout timer
             self.__startTimeout(CannonGlobals.CANNON_TIMEOUT)
         else:
-            self.air.writeServerEvent('suspicious', avId, 'DistributedCannonAI.requestEnter cannon already occupied')
             self.notify.warning("requestEnter() - cannon already occupied")
             self.sendUpdateToAvatarId(avId, "requestExit", [])
             

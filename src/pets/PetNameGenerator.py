@@ -66,7 +66,11 @@ class PetNameGenerator:
         return 1
 
     def getName(self, uniqueID):
-        return self.nameDictionary[uniqueID][1]
+
+        try:
+            return self.nameDictionary[uniqueID][1]
+        except:
+            return self.nameDictionary[0][1]
     
     def returnUniqueID(self, name):
         """

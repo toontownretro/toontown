@@ -131,7 +131,7 @@ class ColorShop(StateData.StateData):
             scale = 1.3,
             frameColor = (1, 1, 1, 1),
             text = TTLocalizer.ColorShopToon,
-            text_scale = 0.0575,
+            text_scale = TTLocalizer.CStoonFrame,
 ##            text_pos = (0.002, -0.012),
             text_pos = (-0.001, -0.015),
             text_fg = (1, 1, 1, 1),

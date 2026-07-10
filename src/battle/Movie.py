@@ -46,6 +46,7 @@ class Movie(DirectObject.DirectObject):
         self.battle = battle
         self.track = None
         self.rewardPanel = None
+        self.rewardCallback = None
         self.playByPlayText = PlayByPlayText.PlayByPlayText()
         self.playByPlayText.hide()
         self.renderProps = []
@@ -65,6 +66,7 @@ class Movie(DirectObject.DirectObject):
         if (self.rewardPanel != None):
             self.rewardPanel.cleanup()
         self.rewardPanel = None
+        self.rewardCallback = None
 
     def needRestoreColor(self):
         self.restoreColor = 1
@@ -344,24 +346,26 @@ class Movie(DirectObject.DirectObject):
         return None
         
 
-    def playReward(self, ts, name, callback):
+    def playReward(self, ts, name, callback, noSkip=False):
         self.rewardHasBeenReset = 0
         ptrack = Sequence()
         camtrack = Sequence()
         self.rewardPanel = RewardPanel.RewardPanel(name)
         self.rewardPanel.hide()
 
-        (victory, camVictory) = MovieToonVictory.doToonVictory(
-                                self.battle.localToonActive(),
-                                self.battle.activeToons,
-                                self.toonRewardIds,
-                                self.toonRewardDicts,
-                                self.deathList,
-                                self.rewardPanel,
-                                1,
-                                self.uberList,
-                                self.helpfulToonsList)
+        (victory, camVictory, skipper) = MovieToonVictory.doToonVictory(
+                                         self.battle.localToonActive(),
+                                         self.battle.activeToons,
+                                         self.toonRewardIds,
+                                         self.toonRewardDicts,
+                                         self.deathList,
+                                         self.rewardPanel,
+                                         1,
+                                         self.uberList,
+                                         self.helpfulToonsList,
+                                         noSkip=noSkip)
         if (victory):
+            skipper.setIvals((ptrack, camtrack), ptrack.getDuration())
             ptrack.append(victory)
             camtrack.append(camVictory)
         ptrack.append(Func(callback))
@@ -375,6 +379,8 @@ class Movie(DirectObject.DirectObject):
         self.track.delayDeletes = []
         for t in self.battle.activeToons:
             self.track.delayDeletes.append(DelayDelete.DelayDelete(t, 'Movie.playReward'))
+        skipper.setIvals((self.track,), 0.0)
+        skipper.setBattle(self.battle)
         self.track.start(ts)
         return None
 
@@ -425,7 +431,8 @@ class Movie(DirectObject.DirectObject):
         self.track.append(Func(self.rewardPanel.initGagFrame,
                           base.localAvatar,
                           [0, 0, 0, 0, 0, 0, 0],
-                          [0, 0, 0, 0]))
+                          [0, 0, 0, 0],
+                          noSkip=True))
         self.track += self.rewardPanel.getTrackIntervalList(base.localAvatar, THROW_TRACK, 0, 1, 0)
         self.track.append(Func(self.tutRewardDialog_1.show))
         self.track.start()
@@ -577,6 +584,15 @@ class Movie(DirectObject.DirectObject):
         if (self.track):
             self.track.finish()
             self._deleteTrack()
+        if hasattr(self, 'track1'):
+            self.track1.finish()
+            self.track1 = None
+        if hasattr(self, 'track2'):
+            self.track2.finish()
+            self.track2 = None
+        if hasattr(self, 'track3'):
+            self.track3.finish()
+            self.track3 = None
         # These next two are probably not needed.
         if (self.rewardPanel):
             self.rewardPanel.hide()
@@ -1092,11 +1108,25 @@ class Movie(DirectObject.DirectObject):
         if base.config.GetBool("want-suit-anims", 1):
             track = Sequence(name = 'suit-attacks')
             camTrack = Sequence(name = 'suit-attacks-cam')
+            isLocalToonSad = False
             for a in self.suitAttackDicts:
                 (ival, camIval) = MovieSuitAttacks.doSuitAttack(a)
                 if (ival):
                     track.append(ival)
                     camTrack.append(camIval)
+                targetField = a.get('target')
+                if targetField is None:
+                    continue
+                if a['group'] == ATK_TGT_GROUP:
+                    for target in targetField:
+                        if target['died'] and target['toon'].doId == base.localAvatar.doId:
+                            isLocalToonSad = True
+
+                elif a['group'] == ATK_TGT_SINGLE:
+                    if targetField['died'] and targetField['toon'].doId == base.localAvatar.doId:
+                        isLocalToonSad = True
+                if isLocalToonSad:
+                    break
             if (len(track) == 0):
                 return (None, None)
             return (track, camTrack)

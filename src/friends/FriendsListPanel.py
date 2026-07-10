@@ -160,7 +160,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
             parent = self,
             relief = None,
             text = "",
-            text_scale = TTLocalizer.FLPtitleScale,
+            text_scale = TTLocalizer.FLPtitle,
             text_fg = (0, 0.1, 0.4, 1),
             pos = (0.007, 0.0, 0.2),
             )

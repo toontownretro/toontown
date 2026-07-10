@@ -12,6 +12,7 @@ from otp.level import LevelSpec
 from otp.level import LevelConstants
 from toontown.toonbase import TTLocalizer
 from toontown.coghq import FactoryCameraViews
+from direct.controls.ControlManager import CollisionHandlerRayStart
 if __dev__:
     from otp.level import EditorGlobals
 
@@ -29,6 +30,11 @@ class DistributedFactory(DistributedLevel.DistributedLevel,
         self.joiningReserves = []
         self.suitsInitialized = 0
         self.goonClipPlanes = {}
+
+
+
+
+        base.localAvatar.physControls.setCollisionRayHeight(10.0)
         
     def createEntityCreator(self):
         return FactoryEntityCreator.FactoryEntityCreator(level=self)
@@ -64,6 +70,9 @@ class DistributedFactory(DistributedLevel.DistributedLevel,
         if __dev__:
             bboard.removeIfEqual(EditorGlobals.EditTargetPostName, self)
         
+
+        base.localAvatar.physControls.setCollisionRayHeight(CollisionHandlerRayStart)
+
     # required fields
     def setFactoryId(self, id):
         FactoryBase.FactoryBase.setFactoryId(self, id)

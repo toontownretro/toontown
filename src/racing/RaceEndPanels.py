@@ -39,7 +39,7 @@ class RaceResultsPanel(DirectFrame):
             pos = (0.7, 0, 0.3),
             text = TTLocalizer.KartRace_CircuitPoints,
             text_fg = (0.0, 0.0, 0.0, 1.0),
-            text_scale = TTLocalizer.REPraceEnd/2,
+            text_scale = TTLocalizer.REPsmallLabel,
             )
 
         self.pointsLabel.hide()
@@ -60,7 +60,7 @@ class RaceResultsPanel(DirectFrame):
                 pos = (0.0,0.0,-0.01),
                 text = `x+1`+' -',
                 text_fg = (0.5, 0.5, 0.5, 1.0),
-                text_scale = TTLocalizer.REPraceEnd,
+                text_scale = TTLocalizer.REPlargeLabel,
                 text_align = TextNode.ARight,
                 text_font = DGG.getDefaultFont()#ToontownGlobals.getSignFont(),
                 )
@@ -77,7 +77,7 @@ class RaceResultsPanel(DirectFrame):
                 pos = (0.46,0.0,0.0),
                 text = '',
                 text_fg = (0.0, 0.0, 0.0, 1.0),
-                text_scale = TTLocalizer.REPraceEnd/2,
+                text_scale = TTLocalizer.REPsmallLabel,
                 text_align = TextNode.ACenter,
                 text_font = DGG.getDefaultFont()#ToontownGlobals.getSignFont(),
                 )
@@ -88,7 +88,7 @@ class RaceResultsPanel(DirectFrame):
                 pos = (0.9,0.0,0.0),
                 text = '--\'--\'\'--',
                 text_fg = (0.5, 0.5, 0.5, 1.0),
-                text_scale = TTLocalizer.REPraceEnd/2,
+                text_scale = TTLocalizer.REPsmallLabel,
                 text_font = DGG.getDefaultFont(),#ToontownGlobals.getSignFont(),
                 )
 
@@ -98,7 +98,7 @@ class RaceResultsPanel(DirectFrame):
                 pos = (1.14,0.0,0.0),
                 text = '',
                 text_fg = (0,0,0,1),
-                text_scale = TTLocalizer.REPraceEnd/2,
+                text_scale = TTLocalizer.REPsmallLabel,
                 text_align = TextNode.ALeft,
                 text_font = DGG.getDefaultFont(),
                 )
@@ -110,7 +110,7 @@ class RaceResultsPanel(DirectFrame):
                 pos = (1.4,0.0,0.0),
                 text = '',
                 text_fg = (0,0,0,1),
-                text_scale = TTLocalizer.REPraceEnd/2,
+                text_scale = TTLocalizer.REPsmallLabel,
                 text_align = TextNode.ALeft,
                 text_font = DGG.getDefaultFont(),
                 )
@@ -119,10 +119,10 @@ class RaceResultsPanel(DirectFrame):
             ncpLabel = DirectLabel(
                 parent = frame,
                 relief = None,
-                pos = (1.43,0.0,0.0),
+                pos = (1.44,0.0,0.0),
                 text = '',
                 text_fg = (1,0,0,1),
-                text_scale = TTLocalizer.REPraceEnd/2,
+                text_scale = TTLocalizer.REPsmallLabel,
                 text_align = TextNode.ALeft,
                 text_font = DGG.getDefaultFont(),
                 )
@@ -321,6 +321,8 @@ class RaceWinningsPanel(DirectFrame):
         DirectFrame.__init__(self,*args,**opts)
         self.initialiseoptions(RaceWinningsPanel)
 
+        self.race = race
+
         frame = DirectFrame(
             parent = self,
             relief = None,
@@ -350,10 +352,10 @@ class RaceWinningsPanel(DirectFrame):
         DirectLabel(
             parent = tFrame,
             relief = None,
-            pos = (TTLocalizer.REPticket_text_x,0.0,0.1),
+            pos = (TTLocalizer.REPtextPosX,0.0,0.1),
             text = TTLocalizer.KartRace_Deposit + TTLocalizer.KartRace_Colon,
             text_fg = (0.0, 0.0, 0.0, 1.0),
-            text_scale = TTLocalizer.REPraceEnd,
+            text_scale = TTLocalizer.REPlargeLabel,
             text_align = TextNode.ALeft,
             text_font = DGG.getDefaultFont()
             )
@@ -364,7 +366,7 @@ class RaceWinningsPanel(DirectFrame):
             pos = (0.05,0.0,0.1),
             text = TTLocalizer.KartRace_Zero,
             text_fg = (0.0, 0.0, 0.0, 1.0),
-            text_scale = TTLocalizer.REPraceEnd,
+            text_scale = TTLocalizer.REPlargeLabel,
             text_align = TextNode.ARight,
             text_font = DGG.getDefaultFont()
             )
@@ -372,10 +374,10 @@ class RaceWinningsPanel(DirectFrame):
         DirectLabel(
             parent = tFrame,
             relief = None,
-            pos = (TTLocalizer.REPticket_text_x,0.0,0.0),
+            pos = (TTLocalizer.REPtextPosX,0.0,0.0),
             text = TTLocalizer.KartRace_Winnings + TTLocalizer.KartRace_Colon,
             text_fg = (0.0, 0.0, 0.0, 1.0),
-            text_scale = TTLocalizer.REPraceEnd,
+            text_scale = TTLocalizer.REPlargeLabel,
             text_align = TextNode.ALeft,
             text_font = DGG.getDefaultFont()
             )
@@ -386,7 +388,7 @@ class RaceWinningsPanel(DirectFrame):
             pos = (0.05,0.0,0.0),
             text = TTLocalizer.KartRace_Zero,
             text_fg = (0.0, 0.0, 0.0, 1.0),
-            text_scale = TTLocalizer.REPraceEnd,
+            text_scale = TTLocalizer.REPlargeLabel,
             text_align = TextNode.ARight,
             text_font = DGG.getDefaultFont()
             )
@@ -394,10 +396,10 @@ class RaceWinningsPanel(DirectFrame):
         DirectLabel(
             parent = tFrame,
             relief = None,
-            pos = (TTLocalizer.REPticket_text_x,0.0,-0.1),
+            pos = (TTLocalizer.REPtextPosX,0.0,-0.1),
             text = TTLocalizer.KartRace_Bonus + TTLocalizer.KartRace_Colon,
             text_fg = (0.0, 0.0, 0.0, 1.0),
-            text_scale = TTLocalizer.REPraceEnd,
+            text_scale = TTLocalizer.REPlargeLabel,
             text_align = TextNode.ALeft,
             text_font = DGG.getDefaultFont()
             )
@@ -408,7 +410,7 @@ class RaceWinningsPanel(DirectFrame):
             pos = (0.05,0.0,-0.1),
             text = TTLocalizer.KartRace_Zero,
             text_fg = (0.0, 0.0, 0.0, 1.0),
-            text_scale = TTLocalizer.REPraceEnd,
+            text_scale = TTLocalizer.REPlargeLabel,
             text_align = TextNode.ARight,
             text_font = DGG.getDefaultFont()
             )
@@ -416,10 +418,10 @@ class RaceWinningsPanel(DirectFrame):
         self.raceTotalLabel = DirectLabel(
             parent = tFrame,
             relief = None,
-            pos = (TTLocalizer.REPticket_text_x,0.0,-0.2),
+            pos = (TTLocalizer.REPtextPosX,0.0,-0.2),
             text = TTLocalizer.KartRace_RaceTotal + TTLocalizer.KartRace_Colon,
             text_fg = (0.0, 0.0, 0.0, 1.0),
-            text_scale = TTLocalizer.REPraceEnd,
+            text_scale = TTLocalizer.REPlargeLabel,
             text_align = TextNode.ALeft,
             text_font = DGG.getDefaultFont()
             )
@@ -427,11 +429,23 @@ class RaceWinningsPanel(DirectFrame):
         self.circuitTotalLabel = DirectLabel(
             parent = tFrame,
             relief = None,
-            pos = (TTLocalizer.REPticket_text_x,0.0,-0.2),
+            pos = (TTLocalizer.REPtextPosX,0.0,-0.2),
             text = TTLocalizer.KartRace_CircuitTotal + TTLocalizer.KartRace_Colon,
             text_fg = (0.0, 0.0, 0.0, 1.0),
-            text_scale = TTLocalizer.REPraceEnd,
+            text_scale = TTLocalizer.REPlargeLabel,
             text_align = TextNode.ALeft,
+            text_font = DGG.getDefaultFont()
+            )
+
+        self.doubleTicketsLabel = DirectLabel(
+            parent = tFrame,
+            relief = None,
+            pos = (0.5, 0.0, -0.26),
+            text = TTLocalizer.KartRace_DoubleTickets,
+            text_fg = (1.0, 0.125, 0.125, 1.0),
+            text_scale = TTLocalizer.REPlargeLabel,
+            text_align = TextNode.ACenter,
+            text_shadow = (0, 0, 0, 1),
             text_font = DGG.getDefaultFont()
             )
 
@@ -441,7 +455,7 @@ class RaceWinningsPanel(DirectFrame):
             pos = (0.05,0.0,-0.2),
             text = TTLocalizer.KartRace_Zero,
             text_fg = (0.0, 0.0, 0.0, 1.0),
-            text_scale = TTLocalizer.REPraceEnd,
+            text_scale = TTLocalizer.REPlargeLabel,
             text_align = TextNode.ARight,
             text_font = DGG.getDefaultFont()
             )
@@ -479,7 +493,7 @@ class RaceWinningsPanel(DirectFrame):
             parent = tFrame,
             relief = None,
             text = '',
-            text_scale = TTLocalizer.REPraceEnd,
+            text_scale = TTLocalizer.REPlargeLabel,
             text_font = DGG.getDefaultFont(),
             text_pos = (-0.3,0.1,0),
             )
@@ -519,7 +533,7 @@ class RaceWinningsPanel(DirectFrame):
             parent = tFrame,
             relief = None,
             text = '',
-            text_scale = TTLocalizer.REPraceEnd,
+            text_scale = TTLocalizer.REPlargeLabel,
             text_font = DGG.getDefaultFont(),
             text_pos = (-0.3,0.1,0),
             )
@@ -600,6 +614,9 @@ class RaceWinningsPanel(DirectFrame):
             self.circuitTotalLabel.stash()
             self.raceTotalLabel.unstash()
 
+        if ToontownGlobals.KARTING_TICKETS_HOLIDAY not in base.cr.newsManager.getHolidayIdList() or \
+           self.race.raceType != RaceGlobals.Practice:
+            self.doubleTicketsLabel.stash()
             
         if ticBonus:
             ticketSeq.append(
@@ -742,7 +759,7 @@ class RaceEndPanel(DirectFrame):
             relief = None,
             scale = 2.0,
             text = exitText,
-            text_scale = TTLocalizer.REPraceExit,
+            text_scale = TTLocalizer.REPsmallLabel,
             text_pos = (0, -0.1),
             text_fg = VBase4(1, 1, 1, 1),
             pos = (1.1,0,-0.5),

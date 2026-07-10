@@ -203,7 +203,7 @@ class RaceGUI:
         #setup place(1st,2nd,...) reporting
         self.placeLabelNum = DirectLabel(
             relief = None,
-            pos = TTLocalizer.RGplaceLabelNumPos,
+            pos = TTLocalizer.RGUIplaceLabelNumPos,
             text = '1',
             text_scale = 0.35,
             text_fg = (0.95, 0.95, 0, 1),
@@ -214,7 +214,7 @@ class RaceGUI:
             
         self.placeLabelStr = DirectLabel(
             relief = None,
-            pos = TTLocalizer.RGplaceLabelStrPos,
+            pos = TTLocalizer.RGUIplaceLabelStrPos,
             text = TTLocalizer.KartRace_FirstSuffix,
             text_scale = 0.1,
             text_fg = (0.95, 0.95, 0, 1),
@@ -240,7 +240,7 @@ class RaceGUI:
             relief = None,
             pos = (0, 0, -0.1),
             text = TTLocalizer.KartRace_PhotoFinish,
-            text_scale = TTLocalizer.RGphotoFinish,
+            text_scale = TTLocalizer.RGUIphotoFinish,
             text_fg = (0.95, 0.95, 0, 1),
             text_font = ToontownGlobals.getSignFont(),
             )

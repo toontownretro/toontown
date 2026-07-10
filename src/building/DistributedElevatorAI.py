@@ -14,8 +14,9 @@ class DistributedElevatorAI(DistributedObjectAI.DistributedObjectAI):
 
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedElevatorAI")
 
-    def __init__(self, air, bldg, numSeats = 4, antiShuffle = 0, minLaff = 0):
+    def __init__(self, air, bldg, numSeats = 4, antiShuffle = 0, minLaff = 0, fSkipOpening = False):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
+        self.fSkipOpening = fSkipOpening
         self.type = ELEVATOR_NORMAL
         self.countdownTime = ElevatorData[self.type]['countdown']
         self.bldg = bldg
@@ -42,6 +43,7 @@ class DistributedElevatorAI(DistributedObjectAI.DistributedObjectAI):
                                         self.exitOff,
                                         ['opening',
                                          'closed',
+                                         'waitEmpty',
                                          ]),
                             State.State('opening',
                                         self.enterOpening,
@@ -87,7 +89,10 @@ class DistributedElevatorAI(DistributedObjectAI.DistributedObjectAI):
         self.boardingParty = party
 
     def generate(self):
-        self.start()
+        if not self.fSkipOpening:
+            self.start()
+        else:
+            self.fsm.request('waitEmpty')
         DistributedObjectAI.DistributedObjectAI.generate(self)
         
     def getBldgDoId(self):
@@ -215,7 +220,7 @@ class DistributedElevatorAI(DistributedObjectAI.DistributedObjectAI):
             newArgs = (avId,) + args + (boardResponse,)
             
             # Check that player has full access
-            if not ToontownAccessAI.canAccess(avId, self.zoneId):
+            if not ToontownAccessAI.canAccess(avId, self.zoneId, 'DistributedElevatorAI.requestBoard'):
                 self.notify.warning("Toon %s does not have access to theeleavtor. " % (avId))
                 self.rejectingBoardersHandler(*newArgs)
                 return

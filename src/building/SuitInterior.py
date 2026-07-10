@@ -11,6 +11,7 @@ from toontown.town import TownBattle
 from toontown.suit import Suit
 import Elevator
 from direct.task.Task import Task
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 
@@ -113,6 +114,9 @@ class SuitInterior(Place.Place):
         # Let the safe zone manager know that we are here.
         #messenger.send("enterToonInterior")
 
+
+        self._telemLimiter = TLGatherAllAvs('SuitInterior', RotationLimitToH)
+
         #self.geom.reparentTo(render)
 
         self.zoneId = requestStatus['zoneId']
@@ -124,6 +128,9 @@ class SuitInterior(Place.Place):
         # Let the safe zone manager know that we are leaving
         #messenger.send("exitToonInterior")
         #self.geom.reparentTo(hidden)
+
+        self._telemLimiter.destroy()
+        del self._telemLimiter
 
         # Turn off the little red arrows.
         #NametagGlobals.setMasterArrowsOn(0)
@@ -289,6 +296,12 @@ class SuitInterior(Place.Place):
         self.ignore('teleportQuery')
         base.localAvatar.setTeleportAvailable(0)
         
+    # stopped state inherited from Place.py
+    def enterStopped(self):
+        Place.Place.enterStopped(self)
+        self.ignore('teleportQuery')
+        base.localAvatar.setTeleportAvailable(0)
+
     # teleport in state
 
     def enterTeleportIn(self, requestStatus):

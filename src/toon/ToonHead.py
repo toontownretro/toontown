@@ -189,6 +189,8 @@ class ToonHead(Actor.Actor):
             self.__eyesClosed = ToonHead.EyesClosed
             self.__height = 0.0
 
+            self.__eyelashesHiddenByGlasses = False
+
             # Create our own random number generator.  We do this
             # mainly so we don't jumble up the random number chain of
             # the rest of the world (making playback from a session
@@ -645,7 +647,7 @@ class ToonHead(Actor.Actor):
             if not hasattr(self, 'snowMen'):
                 self.snowMen = NodePathCollection()
             
-            snowManPath = 'phase_4/models/props/tt_m_int_snowmanHead_'
+            snowManPath = 'phase_4/models/props/tt_m_efx_snowmanHead_'
             if headStyle is 'l':
                 snowManPath = snowManPath+'tall'
             else:
@@ -653,7 +655,6 @@ class ToonHead(Actor.Actor):
                 
             model = loader.loadModel(snowManPath)
             if model:
-                model.setScale(0.4)
                 model.setZ(-0.5)
                 model.setH(180)
                 if lod:
@@ -706,10 +707,12 @@ class ToonHead(Actor.Actor):
                     self.__eyelashClosed.stash()
                 self.pumpkins.unstash()
             else:
-                if self.__eyelashOpen:
-                    self.__eyelashOpen.unstash()
-                if self.__eyelashClosed:
-                    self.__eyelashClosed.unstash()
+                if not self.__eyelashesHiddenByGlasses:
+
+                    if self.__eyelashOpen:
+                        self.__eyelashOpen.unstash()
+                    if self.__eyelashClosed:
+                        self.__eyelashClosed.unstash()
                 self.pumpkins.stash()
     
     def enableSnowMen(self, enable):
@@ -728,11 +731,36 @@ class ToonHead(Actor.Actor):
                     self.__eyelashClosed.stash()
                 self.snowMen.unstash()
             else:
-                if self.__eyelashOpen:
-                    self.__eyelashOpen.unstash()
-                if self.__eyelashClosed:
-                    self.__eyelashClosed.unstash()
+                if not self.__eyelashesHiddenByGlasses:
+
+                    if self.__eyelashOpen:
+                        self.__eyelashOpen.unstash()
+                    if self.__eyelashClosed:
+                        self.__eyelashClosed.unstash()
                 self.snowMen.stash()
+
+    def hideEars(self):
+
+        self.findAllMatches('**/ears*;+s').stash()
+
+    def showEars(self):
+
+        self.findAllMatches('**/ears*;+s').unstash()
+
+    def hideEyelashes(self):
+
+        if self.__eyelashOpen:
+            self.__eyelashOpen.stash()
+        if self.__eyelashClosed:
+            self.__eyelashClosed.stash()
+        self.__eyelashesHiddenByGlasses = True
+
+    def showEyelashes(self):
+        if self.__eyelashOpen:
+            self.__eyelashOpen.unstash()
+        if self.__eyelashClosed:
+            self.__eyelashClosed.unstash()
+        self.__eyelashesHiddenByGlasses = False
 
     def generateToonColor(self, style):
         """generateToonColor(self, AvatarDNA style)
@@ -1901,3 +1929,4 @@ class ToonHead(Actor.Actor):
             or (self.savedCheesyEffect == 14):
                 return True
         return False
+    

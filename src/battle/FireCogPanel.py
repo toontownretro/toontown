@@ -51,7 +51,7 @@ class FireCogPanel(StateData.StateData):
             text = "",
             text_fg = Vec4(0,0,0,1),
             text_pos = (0,0.02,0),
-            text_scale = TTLocalizer.FCPtextFrameScale,
+            text_scale = TTLocalizer.FCPtextFrame,
             pos = (-0.013, 0, 0.013),
             )
 

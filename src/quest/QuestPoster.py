@@ -13,6 +13,9 @@ import string, types
 from toontown.toon import LaffMeter
 from toontown.toonbase.ToontownBattleGlobals import AvPropsNew
 from toontown.toontowngui.TeaserPanel import TeaserPanel
+from direct.directnotify import DirectNotifyGlobal
+from toontown.toontowngui import TTDialog
+from otp.otpbase import OTPLocalizer
 
 IMAGE_SCALE_LARGE = 0.2
 IMAGE_SCALE_SMALL = 0.15
@@ -21,6 +24,8 @@ TEXT_SCALE = TTLocalizer.QPtextScale
 TEXT_WORDWRAP = TTLocalizer.QPtextWordwrap
 
 class QuestPoster(DirectFrame):
+    notify = DirectNotifyGlobal.directNotify.newCategory("QuestPoster")
+
     colors = {
         'white' : (1,1,1,1),
         'blue' : (.45,.45,.8,1),
@@ -33,6 +38,7 @@ class QuestPoster(DirectFrame):
         'brown' : (.52,.42,.22,1),
         }
     normalTextColor = (0.3,0.25,0.2,1)
+    confirmDeleteButtonEvent = "confirmDeleteButtonEvent"
 
     def __init__(self, parent = aspect2d, **kw):
         # NOTE: Quest card has about +/- 0.35 units of usable space (0.7 units total)
@@ -46,7 +52,6 @@ class QuestPoster(DirectFrame):
         # Define options
         optiondefs = (
             ('relief',        None,             None),
-            ('reverse',       0,                None),
             ('image',         questCard,        None),
             ('image_scale',   (0.8,1.0,0.58),   None),
             # So we get enter and exit events
@@ -58,6 +63,9 @@ class QuestPoster(DirectFrame):
         DirectFrame.__init__(self, relief = None)
         # Initialize instance
         self.initialiseoptions(QuestPoster)
+
+
+        self._deleteCallback = None
 
         # Single frame to hold everything on the quest poster
         self.questFrame = DirectFrame(parent = self, relief = None)
@@ -213,13 +221,14 @@ class QuestPoster(DirectFrame):
         # Free up model
         bookModel.removeNode()
 
-        # reverse the poster graphic if necessary
-        self.reverseBG(self['reverse'])
-
         # For use by newbie quests
         self.laffMeter = None
 
     def destroy(self):
+        self._deleteGeoms()
+        DirectFrame.destroy(self)
+
+    def _deleteGeoms(self):
         # make sure any toon heads get cleaned up
         for icon in (self.lQuestIcon, self.rQuestIcon):
             geom = icon['geom']
@@ -227,22 +236,6 @@ class QuestPoster(DirectFrame):
                 # I know, ugly...
                 if hasattr(geom, 'delete'):
                     geom.delete()
-
-        DirectFrame.destroy(self)
-
-    def reverseBG(self, reverse=0):
-        # reverse the poster image (for right-hand page in shticker
-        # book, for example)
-        try:
-            self.initImageScale
-        except AttributeError:
-            self.initImageScale = self['image_scale']
-            if reverse:
-                self.initImageScale.setX(-abs(self.initImageScale[0]))
-                self.questFrame.setX(0.015)
-            else:
-                self.initImageScale.setX(abs(self.initImageScale[0]))
-            self['image_scale'] = self.initImageScale
 
     def mouseEnterPoster(self, event):
         # Make sure you're on the top
@@ -366,6 +359,15 @@ class QuestPoster(DirectFrame):
         if hasattr(self, 'chooseButton'):
             self.chooseButton.destroy()
             del self.chooseButton
+
+        if hasattr(self, 'deleteButton'):
+            self.deleteButton.destroy()
+            del self.deleteButton
+
+        self.ignore(self.confirmDeleteButtonEvent)
+        if hasattr(self, 'confirmDeleteButton'):
+            self.confirmDeleteButton.cleanup()
+            del self.confirmDeleteButton
         if (self.laffMeter != None):
             self.laffMeter.reparentTo(hidden)
             self.laffMeter.destroy()
@@ -405,14 +407,10 @@ class QuestPoster(DirectFrame):
         hoodId = ZoneUtil.getCanonicalHoodId(npcZone)
 
         # Don't allow trialers to get DD quests
-        if not base.cr.isPaid() and (((hasattr(quest, 'getLocation')) and (quest.getLocation() == 1000)) or (hoodId == 1000)):
+        if not base.cr.isPaid() and (questId == 401 or hasattr(quest, 'getLocation') \
+           and (quest.getLocation() == 1000) or (hoodId == 1000)):
             def showTeaserPanel():
-                TeaserPanel(pageName='quests')
-            self.chooseButton['command'] = showTeaserPanel
-        # trailers can't get new gag tracks
-        elif not base.cr.isPaid() and ((questId >= 900) and questId <= 907):
-            def showTeaserPanel():
-                TeaserPanel(pageName='quests')
+                TeaserPanel(pageName='getGags')
             self.chooseButton['command'] = showTeaserPanel
         else:
             self.chooseButton['command'] = callback
@@ -434,7 +432,7 @@ class QuestPoster(DirectFrame):
         questId, fromNpcId, toNpcId, rewardId, toonProgress = questDesc
         quest = Quests.getQuest(questId)
         if quest == None:
-            print "Tried to display poster for unknown quest %s" % (questId)
+            self.notify.warning("Tried to display poster for unknown quest %s" % (questId))
             return
         # Update reward info
         if rewardId == Quests.NA:
@@ -451,38 +449,22 @@ class QuestPoster(DirectFrame):
             rewardString = ""
         self.rewardText['text'] = rewardString
         self.fitLabel(self.rewardText)
+
         # Is reward optional
-        questEntry = Quests.QuestDict.get(questId)
-        if questEntry:
-            tier = questEntry[0]
-            fOptional = Quests.isRewardOptional(tier, rewardId)
-        else:
-            fOptional = 0
-        if fOptional:
+        if Quests.isQuestJustForFun(questId, rewardId):
             self.funQuest.show()
         else:
             self.funQuest.hide()
+
+
+        if self._deleteCallback:
+            self.showDeleteButton(questDesc)
+        else:
+            self.hideDeleteButton()
+
         # Is quest complete?
         fComplete = (quest.getCompletionStatus(base.localAvatar, questDesc) == Quests.COMPLETE)
-        # Names and IDs
-        fromNpcName = NPCToons.getNPCName(fromNpcId)
-        npcZone = NPCToons.getNPCZone(fromNpcId)
-        hoodId = ZoneUtil.getCanonicalHoodId(npcZone)
-        branchId = ZoneUtil.getCanonicalBranchZone(npcZone)
         # Is this in the Toon HQ or in the hoods
-        if fromNpcId == Quests.ToonHQ:
-            locationName = TTLocalizer.QuestPosterHQLocationName
-            buildingName = TTLocalizer.QuestPosterHQBuildingName
-            streetName = TTLocalizer.QuestPosterHQStreetName
-        elif fromNpcId == Quests.ToonTailor:
-            locationName = TTLocalizer.QuestPosterTailorLocationName
-            buildingName = TTLocalizer.QuestPosterTailorBuildingName
-            streetName = TTLocalizer.QuestPosterTailorStreetName
-        else:
-            locationName = base.cr.hoodMgr.getFullnameFromId(hoodId)
-            buildingName = NPCToons.getBuildingTitle(npcZone)
-            streetName = ZoneUtil.getStreetName(branchId)
-
         if toNpcId == Quests.ToonHQ:
             toNpcName = TTLocalizer.QuestPosterHQOfficer
             toNpcBuildingName = TTLocalizer.QuestPosterHQBuildingName
@@ -1207,6 +1189,7 @@ class QuestPoster(DirectFrame):
         else:
             self.rPictureFrame.hide()
         # Update quest icons
+        self._deleteGeoms()
         self.lQuestIcon['geom'] = lIconGeom
         self.lQuestIcon['geom_pos'] = (0,10,0)
         if lIconGeom:
@@ -1244,6 +1227,94 @@ class QuestPoster(DirectFrame):
         self.questInfo['text'] = infoText
         self.questInfo.setZ(infoZ)
         self.fitLabel(self.questInfo)
+
+    def unbindMouseEnter(self):
+
+
+
+        self.unbind(DGG.WITHIN)
+
+    def showDeleteButton(self, questDesc):
+
+
+
+
+
+
+
+
+        self.hideDeleteButton()
+
+
+        trashcanGui = loader.loadModel("phase_3/models/gui/trashcan_gui")
+        self.deleteButton = DirectButton(
+            parent = self.questFrame,
+            image = (trashcanGui.find('**/TrashCan_CLSD'),
+                     trashcanGui.find('**/TrashCan_OPEN'),
+                     trashcanGui.find('**/TrashCan_RLVR')),
+            text = ("", TTLocalizer.QuestPosterDeleteBtn, TTLocalizer.QuestPosterDeleteBtn),
+            text_fg = (1, 1, 1, 1),
+            text_shadow = (0, 0, 0, 1),
+            text_scale = 0.18,
+            text_pos = (0, -0.12),
+            relief = None,
+            pos = (0.3, 0, 0.145),
+            scale = 0.3,
+            command = self.onPressedDeleteButton,
+            extraArgs = [questDesc],
+            )
+        trashcanGui.removeNode()
+
+    def hideDeleteButton(self):
+
+        if hasattr(self, 'deleteButton'):
+            self.deleteButton.destroy()
+            del self.deleteButton
+
+    def setDeleteCallback(self, callback):
+
+
+
+
+
+        self._deleteCallback = callback
+
+    def onPressedDeleteButton(self, questDesc):
+
+
+
+        self.deleteButton['state'] = DGG.DISABLED
+
+
+        self.accept(self.confirmDeleteButtonEvent, self.confirmedDeleteButton)
+        self.confirmDeleteButton = TTDialog.TTGlobalDialog(
+            doneEvent = self.confirmDeleteButtonEvent,
+            message = TTLocalizer.QuestPosterConfirmDelete,
+            style = TTDialog.YesNo,
+            okButtonText = TTLocalizer.QuestPosterDialogYes,
+            cancelButtonText = TTLocalizer.QuestPosterDialogNo,
+            )
+        self.confirmDeleteButton.quest = questDesc
+        self.confirmDeleteButton.doneStatus = ''
+        self.confirmDeleteButton.show()
+
+    def confirmedDeleteButton(self):
+        questDesc = self.confirmDeleteButton.quest
+
+
+        self.ignore(self.confirmDeleteButtonEvent)
+
+        if self.confirmDeleteButton.doneStatus == 'ok':
+
+            if self._deleteCallback:
+                self._deleteCallback(questDesc)
+        else:
+
+            self.deleteButton['state'] = DGG.NORMAL
+
+
+        self.confirmDeleteButton.cleanup()
+        del self.confirmDeleteButton
 
     def fitLabel(self, label, lineNo = 0):
         text = label['text']

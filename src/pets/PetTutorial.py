@@ -118,7 +118,7 @@ class PetTutorial(DirectFrame, FSM.FSM):
     def enterPage1(self, *args):
         self.title['text'] = TTLocalizer.PetTutorialTitle1,
         self['text'] = TTLocalizer.PetTutorialPage1
-        self['text_pos'] = TTLocalizer.PTpage1Pos
+        self['text_pos'] = TTLocalizer.PTenterPage1Pos
         self['text_wordwrap'] = 16.5
         self.bPrev['state'] = DGG.DISABLED
         self.iPage1.show()
@@ -130,7 +130,7 @@ class PetTutorial(DirectFrame, FSM.FSM):
     def enterPage2(self, *args):
         self.title['text'] = TTLocalizer.PetTutorialTitle2,
         self['text'] = TTLocalizer.PetTutorialPage2
-        self['text_pos'] = TTLocalizer.PTpage2Pos
+        self['text_pos'] = TTLocalizer.PTenterPage2Pos
         self['text_wordwrap'] = 13.5
         self.iPage2.show()
 
@@ -140,7 +140,7 @@ class PetTutorial(DirectFrame, FSM.FSM):
     def enterPage3(self, *args):
         self.title['text'] = TTLocalizer.PetTutorialTitle3,
         self['text'] = TTLocalizer.PetTutorialPage3
-        self['text_pos'] = TTLocalizer.PTpage3Pos
+        self['text_pos'] = TTLocalizer.PTenterPage3Pos
         self['text_wordwrap'] = 16.5
         self.bQuit.show()
         self.bNext['state'] = DGG.DISABLED

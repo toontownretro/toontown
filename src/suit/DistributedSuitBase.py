@@ -249,7 +249,12 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit,
             self.propInSound = base.loadSfx("phase_5/audio/sfx/ENC_propeller_in.mp3")
         if self.propOutSound == None:
             self.propOutSound = base.loadSfx("phase_5/audio/sfx/ENC_propeller_out.mp3")
-        head = self.find("**/joint_head")
+        if base.config.GetBool('want-new-cogs', 0):
+            head = self.find("**/to_head")
+            if head.isEmpty():
+                head = self.find("**/joint_head")
+        else:
+            head = self.find("**/joint_head")
         self.prop.reparentTo(head)
 
     def detachPropeller(self):
@@ -803,3 +808,13 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit,
             self.sillySurgeText = False
         return Task.done            
 
+    def getAvIdName(self):
+
+
+        try:
+
+            level = self.getActualLevel()
+        except:
+            level = '???'
+
+        return '%s\n%s\nLevel %s' % (self.getName(), self.doId, level)

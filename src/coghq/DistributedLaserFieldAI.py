@@ -161,6 +161,13 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI,
             pass
     
     def trapFire(self):
+
+
+
+        if not self.enabled:
+            return
+        self.enabled = 0
+
         self.game.lose()
         self.showSuits();
         stage = self.air.getDo(self.level.stageDoId)
@@ -168,7 +175,6 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI,
         self.healReady = 0
         if not  __dev__ and 1:
             self.canButton = 0
-        
         #print("trap acitvated")
         #messenger.send(self.getOutputEventName(), [1]) #sends a message like a switch
         self.sendUpdate("setActiveLF", [0])
@@ -191,7 +197,12 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI,
         
     def trapDisable(self):
         #print("trap disabled")
+
+
+        if not self.enabled:
+            return
         self.enabled = 0
+
         suits = self.level.planner.battleCellId2suits.get(self.cellId)
         messenger.send(self.getOutputEventName(), [1]) #sends a message like a switch
         if self.hasShownSuits == 0:

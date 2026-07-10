@@ -10,7 +10,6 @@ from toontown.toonbase import TTLocalizer, ToontownGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 from toontown.parties.InviteVisual import InviteVisual
-from toontown.toon import GMUtils
 import CatalogItem
 from direct.showbase.PythonUtil import StackTrace
 
@@ -258,9 +257,18 @@ class MailboxScreen(DirectObject.DirectObject):
         self.partyInviteVisual.setScale(0.73)
         self.partyInviteVisual.setPos(0.0, 0.0, 0.48)
         self.partyInviteVisual.stash()
+
+
+        if self.avatar:
+            self.avatar.applyCheesyEffect(ToontownGlobals.CENormal)
         
     def unload(self):
         assert( MailboxScreen.notify.debug("unload") )
+
+
+        if self.avatar:
+            self.avatar.reconsiderCheesyEffect()
+
         self.__clearCurrentItem()
         if hasattr(self,"frame"):
             self.frame.destroy()
@@ -321,6 +329,8 @@ class MailboxScreen(DirectObject.DirectObject):
     
     def __handleAccept(self):
         assert( MailboxScreen.notify.debug("__handleAccept") )
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: MAILBOX: Accept item')
         if self.acceptingIndex != None:
             # Ignore an extraneous click.
             return
@@ -438,13 +448,22 @@ class MailboxScreen(DirectObject.DirectObject):
             # There was some error with the accept.  Pop up an
             # appropriate dialog.
             self.notify.info("Could not take item %s: retcode %s" % (item, retcode))
-            self.dialogBox = TTDialog.TTDialog(
-                style = TTDialog.TwoChoiceCustom, #TwoChoice YesNo
-                text = item.getAcceptItemErrorText(retcode), #what happens when you try to take chat from the mailbox
-                text_wordwrap = 15,
-                command = self.__handleDiscard,
-                buttonText = [ TTLocalizer.MailboxDiscard, TTLocalizer.MailboxLeave]
-                )
+
+            if retcode == ToontownGlobals.P_NoTrunk:
+                self.dialogBox = TTDialog.TTDialog(
+                    style = TTDialog.Acknowledge,
+                    text = TTLocalizer.CatalogAcceptNoTrunk,
+                    text_wordwrap = 15,
+                    command = self.__acceptError
+                    )
+            else:
+                self.dialogBox = TTDialog.TTDialog(
+                    style = TTDialog.TwoChoiceCustom, #TwoChoice YesNo
+                    text = item.getAcceptItemErrorText(retcode), #what happens when you try to take chat from the mailbox
+                    text_wordwrap = 15,
+                    command = self.__handleDiscard,
+                    buttonText = [ TTLocalizer.MailboxDiscard, TTLocalizer.MailboxLeave]
+                    )
             """
             #buttonText = [TTLocalizer.MailboxOverflowButtonDicard,
             #TTLocalizer.MailboxOverflowButtonLeave]
@@ -629,6 +648,8 @@ class MailboxScreen(DirectObject.DirectObject):
 
                 if item.giftCode == ToontownGlobals.GIFT_RAT:
                     self.giftTagPanel['text'] = TTLocalizer.CatalogAcceptRATBeans
+                elif item.giftCode == ToontownGlobals.GIFT_partyrefund:
+                    self.giftTagPanel['text'] = TTLocalizer.CatalogAcceptPartyRefund
                 else:
                     self.giftTagPanel['text'] = (TTLocalizer.MailboxGiftTag % (nameOfSender))
             
@@ -783,9 +804,6 @@ class MailboxScreen(DirectObject.DirectObject):
                 if sender: 
                     nameOfSender = sender.getName()
                     
-        if GMUtils.testGMIdentity(nameOfSender):
-            nameOfSender = GMUtils.handleGMName(nameOfSender)
-
         if not sender:
             nameOfSender = TTLocalizer.MailboxGiftTagAnonymous
             if hasattr(base.cr, "playerFriendsManager"): # request the info

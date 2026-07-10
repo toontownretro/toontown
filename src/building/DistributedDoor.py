@@ -546,25 +546,15 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             place.fsm.request('walk')
         
 
-    def allowedToEnter(self):
+    def allowedToEnter(self, zoneId = None):
         """Check if the local toon is allowed to enter."""
-        if base.cr.isPaid():
-            return True
-        place = base.cr.playGame.getPlace()
-        myHoodId = ZoneUtil.getCanonicalHoodId(place.zoneId)
-        # if we're in the estate we should use place.id
-        if hasattr(place, 'id'):
-            myHoodId = place.id
-        if  myHoodId in \
-           (ToontownGlobals.ToontownCentral,
-            ToontownGlobals.MyEstate,
-            ToontownGlobals.GoofySpeedway,
-            ToontownGlobals.Tutorial,
-            ):
-            # trialer going to TTC/Estate/Goofy Speedway, let them through
-            return True
-        return False
-        
+        allowed = False
+        if hasattr(base, 'ttAccess') and base.ttAccess:
+            if zoneId:
+                allowed = base.ttAccess.canAccess(zoneId)
+            else:
+                allowed = base.ttAccess.canAccess()
+        return allowed
 
     def checkIsDoorHitTaskName(self):
         return 'checkIsDoorHit'+self.getTriggerName()

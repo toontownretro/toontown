@@ -17,6 +17,7 @@ import CatalogGardenStarterItem
 import CatalogNametagItem
 import CatalogToonStatueItem
 import CatalogAnimatedFurnitureItem
+import CatalogAccessoryItem
 
 # Catalog item type codes.  These code numbers are written to the
 # database to represent each particular type of catalog item; you may
@@ -42,6 +43,7 @@ GARDENSTARTER_ITEM   = 15
 NAMETAG_ITEM   = 16
 TOON_STATUE_ITEM   = 17
 ANIMATED_FURNITURE_ITEM = 18
+ACCESSORY_ITEM = 19
 
 NonPermanentItemTypes = (RENTAL_ITEM, )
 
@@ -65,6 +67,7 @@ CatalogItemTypes = {
     CatalogNametagItem.CatalogNametagItem : NAMETAG_ITEM,
     CatalogToonStatueItem.CatalogToonStatueItem : TOON_STATUE_ITEM,
     CatalogAnimatedFurnitureItem.CatalogAnimatedFurnitureItem : ANIMATED_FURNITURE_ITEM,
+    CatalogAccessoryItem.CatalogAccessoryItem: ACCESSORY_ITEM,
     }
 
 # for each catalog item type, indicates whether or not toons are allowed to have more than one
@@ -82,14 +85,18 @@ CatalogItemType2multipleAllowed = {
     WAINSCOTING_ITEM : True,
     POLE_ITEM : False,
     PET_TRICK_ITEM : False,
-    BEAN_ITEM : True,
+    BEAN_ITEM : False,
     GARDEN_ITEM : False,
     RENTAL_ITEM : False,
     GARDENSTARTER_ITEM : False,
     NAMETAG_ITEM : False,
     TOON_STATUE_ITEM : False,
     ANIMATED_FURNITURE_ITEM : True,
+    ACCESSORY_ITEM: False
     }
+
+
+SingleCodeRedemption = (BEAN_ITEM,)
 
 assert len(CatalogItemType2multipleAllowed) == len(CatalogItemTypes)
 

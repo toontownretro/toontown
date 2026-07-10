@@ -198,7 +198,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                 text1_fg = self.text1Color,
                 text2_fg = self.text2Color,
                 text3_fg = self.text3Color,
-                text_scale = TTLocalizer.TAPwisperButtonScale,
+                text_scale = TTLocalizer.TAPwhisperButton,
                 text_pos = (0.06, -0.0125),
                 text_align = TextNode.ALeft,
                 command = self.__handleWhisper,
@@ -224,7 +224,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                 text1_fg = self.text1Color,
                 text2_fg = self.text2Color,
                 text3_fg = self.text3Color,
-                text_scale = TTLocalizer.TAPsecretsButtonScale,
+                text_scale = TTLocalizer.TAPsecretsButton,
                 text_pos = (0.055, -0.01),
                 text_align = TextNode.ALeft,
                 command = self.__handleSecrets,
@@ -232,6 +232,14 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
 
         # The secrets button is also disabled for people we are ignoring
         if base.cr.avatarFriendsManager.checkIgnored(self.avId):
+            self.secretsButton['state'] = DGG.DISABLED
+
+
+
+
+        from toontown.coghq import CogHQBossBattle
+        if isinstance(base.cr.playGame.getPlace(), CogHQBossBattle.CogHQBossBattle) and \
+           base.localAvatar.getGameAccess() != OTPGlobals.AccessFull:
             self.secretsButton['state'] = DGG.DISABLED
 
         # ignore or stop ignoring? (see AvatarPanelBase.py)
@@ -558,7 +566,10 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             self.confirmKickOutDialog.destroy()
         self.confirmKickOutDialog = None
         if value > 0:
-            self.groupButton['state'] = DGG.DISABLED
+
+
+            if self.groupButton:
+                self.groupButton['state'] = DGG.DISABLED
             localAvatar.boardingParty.requestKick(self.avId)
         
     def __checkGroupStatus(self):
@@ -657,7 +668,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             textMayChange = 1,
             text = TTLocalizer.BoardingPartyTitle,
             text_wordwrap = 16,
-            text_scale = TTLocalizer.TAPgroupFrameScale,
+            text_scale = TTLocalizer.TAPgroupFrame,
             text_pos = (0.01, 0.08),
             pos = (0, 0, -0.61),
             )
@@ -683,7 +694,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                 text1_fg = self.text1Color,
                 text2_fg = self.text2Color,
                 text3_fg = self.text3Color,
-                text_scale = TTLocalizer.TAPgroupButtonScale,
+                text_scale = TTLocalizer.TAPgroupButton,
                 text_pos = (-0.0, -0.1),
                 text_align = TextNode.ACenter,
                 command = self.handleInvite,

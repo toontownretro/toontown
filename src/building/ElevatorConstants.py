@@ -160,3 +160,8 @@ ElevatorOutPoints = [[-4.6, -5.2, 0.1],  # Back left
                      [4.6, -5.2, 0.1],   # Back right
                      [-1.6, -6.2, 0.1],  # Front left
                      [1.6, -6.2, 0.1]]   # Front right
+
+ElevatorOutPointsFar = [[-4.6, -12.2, 0.1],  # Back left
+                        [4.6, -12.2, 0.1],   # Back right
+                        [-1.6, -13.2, 0.1],  # Front left
+                        [1.6, -13.2, 0.1]]   # Front right

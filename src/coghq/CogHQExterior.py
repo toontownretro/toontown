@@ -5,6 +5,7 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.toonbase import ToontownGlobals
 from pandac.PandaModules import *
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 
 class CogHQExterior(BattlePlace.BattlePlace):
     # create a notify category
@@ -130,6 +131,9 @@ class CogHQExterior(BattlePlace.BattlePlace):
         # for i in self.loader.nodeList:
         #    self.loader.enterAnimatedProps(i)
 
+
+        self._telemLimiter = TLGatherAllAvs('CogHQExterior', RotationLimitToH)
+
         self.accept("doorDoneEvent", self.handleDoorDoneEvent)
         self.accept("DistributedDoor_doorTrigger", self.handleDoorTrigger)
 
@@ -143,6 +147,9 @@ class CogHQExterior(BattlePlace.BattlePlace):
 
     def exit(self):
         self.fsm.requestFinalState()
+
+        self._telemLimiter.destroy()
+        del self._telemLimiter
 
         # Stop music
         self.loader.music.stop()

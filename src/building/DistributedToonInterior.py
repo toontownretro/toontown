@@ -293,7 +293,7 @@ class DistributedToonInterior(DistributedObject.DistributedObject):
         pos = 1.25 - 1.25 * numToons
         
         trophy = hidden.attachNewNode('trophy')
-        for avId, name, dnaTuple in self.savedBy:
+        for avId, name, dnaTuple, isGM in self.savedBy:
             frame = self.buildFrame(name, dnaTuple)
             frame.reparentTo(trophy)
             frame.setPos(pos, 0, 0)

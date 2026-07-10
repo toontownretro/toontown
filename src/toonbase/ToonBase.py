@@ -3,6 +3,7 @@
 #from ShowBaseGlobal import *
 from otp.otpbase import OTPBase
 from otp.otpbase import OTPLauncherGlobals
+from otp.otpbase import OTPGlobals
 from direct.showbase.PythonUtil import *
 import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
@@ -12,6 +13,8 @@ from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 import sys
 import os
+import math
+from toontown.toonbase import ToontownAccess
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.launcher import ToontownDownloadWatcher
@@ -66,7 +69,27 @@ class ToonBase(OTPBase.OTPBase):
             
         self.disableShowbaseMouse()
 
+
+        base.debugRunningMultiplier /= OTPGlobals.ToonSpeedFactor
+
         self.toonChatSounds = self.config.GetBool('toon-chat-sounds', 1)
+
+
+
+
+
+
+
+
+
+
+
+
+        self.placeBeforeObjects = config.GetBool('place-before-objects', 1)
+
+
+
+        self.endlessQuietZone = False
 
         # Toontown doesn't care about dynamic shadows for now.
         self.wantDynamicShadows = 0
@@ -190,6 +213,17 @@ class ToonBase(OTPBase.OTPBase):
         if self.minigameSafezoneId == -1:
             del self.minigameSafezoneId
 
+        # cogdo debug flags
+        cogdoGameSafezoneId = self.config.GetInt('cogdo-game-safezone-id', -1)
+        cogdoGameDifficulty = self.config.GetFloat('cogdo-game-difficulty', -1)
+
+        if cogdoGameDifficulty != -1:
+            self.cogdoGameDifficulty = cogdoGameDifficulty
+
+        if cogdoGameSafezoneId != -1:
+            self.cogdoGameSafezoneId = cogdoGameSafezoneId
+
+
         ToontownBattleGlobals.SkipMovie = self.config.GetBool(
             'skip-battle-movies', 0)
 
@@ -267,6 +301,65 @@ class ToonBase(OTPBase.OTPBase):
         self.walking = 0
 
         self.resetMusic = self.loadMusic("phase_3/audio/bgm/MIDI_Events_16channels.mid")
+
+
+        self.oldX = max(1, base.win.getXSize())
+        self.oldY = max(1, base.win.getYSize())
+        self.aspectRatio = float(self.oldX) / self.oldY
+
+
+
+    def windowEvent(self, win):
+
+        OTPBase.OTPBase.windowEvent(self, win)
+
+        if not config.GetInt('keep-aspect-ratio', 0):
+            return
+
+
+        x = max(1, win.getXSize())
+        y = max(1, win.getYSize())
+
+        maxX = base.pipe.getDisplayWidth()
+        maxY = base.pipe.getDisplayHeight()
+
+
+        cwp = win.getProperties()
+        originX = 0
+        originY = 0
+        if cwp.hasOrigin():
+            originX = cwp.getXOrigin()
+            originY = cwp.getYOrigin()
+
+            if originX > maxX:
+                originX = originX - maxX
+            if originY > maxY:
+                oringY = originY - maxY
+
+        maxX -= originX
+        maxY -= originY
+
+        if math.fabs(x - self.oldX) > math.fabs(y - self.oldY):
+            newY = x / self.aspectRatio
+            newX = x
+
+            if newY > maxY:
+                newY = maxY
+                newX = self.aspectRatio * maxY
+        else:
+            newX = self.aspectRatio * y
+            newY = y
+
+            if newX > maxX:
+                newX = maxX
+                newY = maxX / self.aspectRatio
+
+        wp = WindowProperties()
+        wp.setSize(newX, newY)
+        base.win.requestProperties(wp)
+        base.cam.node().getLens().setFilmSize(newX, newY)
+        self.oldX = newX
+        self.oldY = newY
 
     def disableShowbaseMouse(self):
         # Hack:
@@ -499,7 +592,11 @@ class ToonBase(OTPBase.OTPBase):
             
         # Connect to the server
         cr.loginFSM.request("connect", [serverList])
-        
+
+        self.ttAccess = ToontownAccess.ToontownAccess()
+        self.ttAccess.initModuleInfo()
+
+
     def removeGlitchMessage(self):
         self.ignore('InputState-forward')
         print("ignoring InputState-forward")
@@ -541,6 +638,9 @@ class ToonBase(OTPBase.OTPBase):
             self.localAvatar.d_setAnimState('TeleportOut', 1)
         except:
             pass
+
+        if hasattr(self, 'ttAccess'):
+            self.ttAccess.delete()
 
         # Tell the AI (if we have one) why we're going down.
         if self.cr.timeManager:

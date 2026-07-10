@@ -14,8 +14,6 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
 
-from toontown.toon import GMUtils
-
 from toontown.parties import PartyGlobals
 from toontown.parties import PartyUtils
 from toontown.parties.CalendarGuiMonth import CalendarGuiMonth
@@ -401,6 +399,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         self.calendarGuiMonth = CalendarGuiMonth(
             self.calendarDisplay,
             curServerDate,
+            onlyFutureMonthsClickable = True
         )
 
         pos = (0.35, 0, -0.69)
@@ -501,14 +500,8 @@ class EventsPage(ShtikerPage.ShtikerPage):
             textForActivity = "%s x %d" % (activityName, count)
 
         # Get the party icon
-        iconString = ""
-        if activityBase.activityId == PartyGlobals.ActivityIds.PartyJukebox40:
-            iconString = PartyGlobals.ActivityIds.getString(PartyGlobals.ActivityIds.PartyJukebox)
-        elif activityBase.activityId == PartyGlobals.ActivityIds.PartyDance20:
-            iconString = PartyGlobals.ActivityIds.getString(PartyGlobals.ActivityIds.PartyDance)
-        else:
-            iconString = PartyGlobals.ActivityIds.getString(activityBase.activityId)
-            
+        iconString = PartyGlobals.ActivityIds.getString(activityBase.activityId)
+
         geom = getPartyActivityIcon(self.activityIconsModel, iconString)
         
         label = DirectLabel(
@@ -580,8 +573,6 @@ class EventsPage(ShtikerPage.ShtikerPage):
                 continue
 
             hostName = self.getToonNameFromAvId(partyInfo.hostId)
-            if GMUtils.testGMIdentity(hostName):
-                hostName = GMUtils.handleGMName(hostName)
             item = DirectButton(
                 relief = None,
                 text = hostName,
@@ -632,6 +623,8 @@ class EventsPage(ShtikerPage.ShtikerPage):
             else:
                 textOfActivity =TTLocalizer.PartyActivityNameDict[activityId]["generic"] + \
                                  " x " + str (countDict[activityId])
+
+            geom = getPartyActivityIcon(self.activityIconsModel, PartyGlobals.ActivityIds.getString(activityId))
             item = DirectLabel(
                 relief = None,
                 text = textOfActivity,
@@ -640,7 +633,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
                 text_pos = (0.0, -0.15),
                 geom_scale = 0.3,
                 geom_pos = Vec3(0.0, 0.0, 0.07),
-                geom = self.activityIconsModel.find("**/%sIcon"%PartyGlobals.ActivityIds.getString(activityId)),
+                geom = geom,
             )
             self.invitationActivityList.addItem(item)
 
@@ -716,7 +709,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
                         self.partyGoButton['state'] = DirectGuiGlobals.DISABLED
 
                     # Determine state of cancel button
-                    if partyInfo.status == PartyGlobals.PartyStatus.Started:
+                    if partyInfo.status not in (PartyGlobals.PartyStatus.Pending, PartyGlobals.PartyStatus.CanStart):
                         self.hostingCancelButton['state'] = DirectGuiGlobals.DISABLED
                     else:
                         self.hostingCancelButton['state'] = DirectGuiGlobals.NORMAL
@@ -1103,6 +1096,11 @@ class EventsPage(ShtikerPage.ShtikerPage):
                 self.loadHostedPartyInfo()
                 self.cancelPartyResultGui["text"] = TTLocalizer.EventsPageCancelPartyResultOk % beansRefunded
                 self.cancelPartyResultGui.show()
+        elif errorCode == PartyGlobals.ChangePartyFieldErrorCode.AlreadyRefunded and \
+             newPartyStatus == PartyGlobals.PartyStatus.NeverStarted:
+            self.loadHostedPartyInfo()
+            self.cancelPartyResultGui["text"] = TTLocalizer.EventsPageCancelPartyAlreadyRefunded
+            self.cancelPartyResultGui.show()
         else:
             self.cancelPartyResultGui["text"] = TTLocalizer.EventsPageCancelPartyResultError
             self.cancelPartyResultGui.show()

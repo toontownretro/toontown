@@ -30,7 +30,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
     shadowOffset = 7
 
     # The properties when the magnet is unencumbered.
-    emptyFrictionCoef = 0.1
+    #emptyFrictionCoef = 0.1
     emptySlideSpeed = 10     # feet per second
     emptyRotateSpeed = 20    # degrees per second
 
@@ -48,7 +48,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.craneGame = None
         self.index = None
         self.avId = 0
-        
+
         self.cableLength = 20
         self.numLinks = 3
         self.initialArmPosition = (0, 20, 0)
@@ -395,7 +395,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
 
         self.handler = PhysicsCollisionHandler()
         self.handler.setStaticFrictionCoef(0.1)
-        self.handler.setDynamicFrictionCoef(self.emptyFrictionCoef)
+        self.handler.setDynamicFrictionCoef(GameConsts.Settings.EmptyFrictionCoef.get())
 
         linkWidth = float(self.cableLength) / float(self.numLinks)
         self.shell = CollisionInvSphere(0, 0, 0, linkWidth + 1)
@@ -483,7 +483,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         return rope
 
     def startShadow(self):
-        self.shadow = self.craneGame.geomRoot.attachNewNode('%s-shadow' % (self.name))
+        self.shadow = self.craneGame.geomRoot.attachNewNode('%s-shadow' % self.name)
         self.shadow.setColor(1, 1, 1, 0.3)
         self.shadow.setDepthWrite(0)
         self.shadow.setTransparency(1)
@@ -517,7 +517,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         rn.setThickness(0.8)
         rn.setTubeUp(Vec3(0, 0, 1))
         rn.setMatrix(Mat4.translateMat(0, 0, self.shadowOffset) * Mat4.scaleMat(1, 1, 0.01))
-        
+
 
     def stopShadow(self):
         if self.shadow:
@@ -534,11 +534,12 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
 
         self.craneShadow.setPosHpr(self.crane, 0, 0, 0, 0, 0, 0)
         self.craneShadow.setZ(self.shadowOffset)
-        
+
         return Task.cont
 
     def __makeLink(self, anchor, linkNum):
-        an = ActorNode('link%s' % (linkNum))
+        an = ActorNode('link%s' % linkNum)
+        an.getPhysicsObject().setMass(GameConsts.Settings.RopeLinkMass.get())
         anp = NodePath(an)
 
         cn = CollisionNode('cn')
@@ -560,7 +561,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         cn.setFromCollideMask(mask)
         cn.setIntoCollideMask(BitMask32(0))
 
-        shellNode = CollisionNode('shell%s' % (linkNum))
+        shellNode = CollisionNode('shell%s' % linkNum)
         shellNode.addSolid(self.shell)
         shellNP = anchor.attachNewNode(shellNode)
         shellNode.setIntoCollideMask(mask)
@@ -776,12 +777,12 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
 
     def startFlicker(self):
         # Starts the lightning bolt effect flashing.
-        
+
         self.magnetSoundInterval.start()
 
         self.lightning = []
         for i in range(4):
-            t = (float(i) / 3.0 - 0.5)
+            t = float(i) / 3.0 - 0.5
             l = self.craneGame.lightning.copyTo(self.gripper)
             l.setScale(random.choice([1, -1]), 1, 5)
             l.setZ(random.uniform(-5, -5.5))
@@ -893,7 +894,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         # assertion.
         if self.heldObject == obj:
             self.heldObject = None
-            self.handler.setDynamicFrictionCoef(self.emptyFrictionCoef)
+            self.handler.setDynamicFrictionCoef(GameConsts.Settings.EmptyFrictionCoef.get())
             self.slideSpeed = self.emptySlideSpeed
             self.rotateSpeed = self.emptyRotateSpeed
 
@@ -1258,3 +1259,15 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
     def exitMovie(self):
         self.__deactivatePhysics()
         self.__straightenCable()
+
+    if __dev__:
+        def _handleEmptyFrictionCoefChanged(self, coef):
+
+            self.handler.setDynamicFrictionCoef(coef)
+
+        def _handleRopeLinkMassChanged(self, mass):
+            for an, anp, cnp in self.activeLinks:
+                an.getPhysicsObject().setMass(mass)
+
+        def _handleMagnetMassChanged(self, mass):
+            pass

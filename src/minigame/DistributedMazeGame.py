@@ -1,30 +1,35 @@
 """DistributedMazeGame module: contains the DistributedMazeGame class"""
-
-from pandac.PandaModules import *
-from toontown.toonbase.ToonBaseGlobal import *
-from direct.interval.IntervalGlobal import *
-from DistributedMinigame import *
-from MazeSuit import *
-from direct.gui.DirectGui import *
-from pandac.PandaModules import *
-from direct.showbase.PythonUtil import *
-from OrthoWalk import *
-from direct.showbase.PythonUtil import lerp
+from direct.interval.IntervalGlobal import LerpPosInterval, LerpHprInterval, LerpPosHprInterval
+from direct.interval.IntervalGlobal import SoundInterval, LerpScaleInterval, LerpFunctionInterval
+from direct.interval.IntervalGlobal import Wait, Func
+from direct.interval.MetaInterval import Sequence, Parallel
+from direct.gui.DirectGui import DirectWaitBar, DGG
+from direct.showbase import PythonUtil
 from direct.fsm import ClassicFSM, State
-from direct.fsm import State
+from direct.showbase import RandomNumGen
+from direct.task.Task import Task
+from direct.distributed.ClockDelta import globalClockDelta
+
+from pandac.PandaModules import Point3, Vec3
+
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownTimer
+
+from DistributedMinigame import DistributedMinigame
+from MazeSuit import MazeSuit
+from OrthoWalk import OrthoWalk
+from OrthoDrive import OrthoDrive
 import MazeGameGlobals
 import MazeData
 import MazeTreasure
 import Trajectory
-from direct.showbase import RandomNumGen
+import Maze
 import MinigameAvatarScorePanel
 import MinigameGlobals
-from direct.task.Task import Task
 
 class DistributedMazeGame(DistributedMinigame):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedMazeGame')
+    notify = directNotify.newCategory('DistributedMazeGame')
+
     # define constants that you won't want to tweak here
     CAMERA_TASK = "MazeGameCameraTask"
     UPDATE_SUITS_TASK = "MazeGameUpdateSuitsTask"
@@ -1296,7 +1301,7 @@ class DistributedMazeGame(DistributedMinigame):
         # make sure that we don't lerp more than 180 degrees
         # we're lerping to H=0, so make sure -180 <= startH <= 180
         startHpr = iCamParent.getHpr()
-        startHpr.setX(reduceAngle(startHpr[0]))
+        startHpr.setX(PythonUtil.reduceAngle(startHpr[0]))
         lerpTrack.append(
             LerpPosHprInterval(iCamParent, lerpDur,
                                pos = Point3(0,0,0),

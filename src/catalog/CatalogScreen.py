@@ -6,6 +6,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
 import CatalogItem
 import CatalogInvalidItem
+import CatalogFurnitureItem
 from toontown.toonbase import TTLocalizer
 import CatalogItemPanel
 import CatalogItemTypes
@@ -94,6 +95,7 @@ class CatalogScreen(DirectFrame):
         self.accept("CatalogItemGiftPurchaseRequest", self.__handleGiftPurchaseRequest)
         self.accept(localAvatar.uniqueName("moneyChange"), self.__moneyChange)
         self.accept(localAvatar.uniqueName("bankMoneyChange"), self.__bankMoneyChange)
+        self.accept(localAvatar.uniqueName("emblemsChange"), self.__emblemChange)
         deliveryText = "setDeliverySchedule-%s" % (base.localAvatar.doId)
         self.accept(deliveryText, self.remoteUpdate)
 
@@ -121,6 +123,7 @@ class CatalogScreen(DirectFrame):
         taskMgr.remove("ackTimeOut")
         self.ignore(localAvatar.uniqueName("moneyChange"))
         self.ignore(localAvatar.uniqueName("bankMoneyChange"))
+        self.ignore(localAvatar.uniqueName("emblemsChange"))
         deliveryText = "setDeliverySchedule-%s" % (base.localAvatar.doId)
         self.ignore(deliveryText)
         # Show the world once again
@@ -132,6 +135,8 @@ class CatalogScreen(DirectFrame):
         self.numBackPages = numBackPages
     def setNumLoyaltyPages(self, numLoyaltyPages):
         self.numLoyaltyPages = numLoyaltyPages
+    def setNumEmblemPages(self, numEmblemPages):
+        self.numEmblemPages = numEmblemPages
     def setPageIndex(self, index):
         self.pageIndex = index
     def setMaxPageIndex(self, numPages):
@@ -140,30 +145,48 @@ class CatalogScreen(DirectFrame):
         self.backCatalogButton['state'] = DGG.NORMAL
         self.newCatalogButton['state'] = DGG.DISABLED
         self.loyaltyCatalogButton['state'] = DGG.DISABLED
+        self.emblemCatalogButton['state'] = DGG.DISABLED
     def enableNewCatalogButton(self):
         self.backCatalogButton['state'] = DGG.DISABLED
         self.newCatalogButton['state'] = DGG.NORMAL
         self.loyaltyCatalogButton['state'] = DGG.DISABLED
+        self.emblemCatalogButton['state'] = DGG.DISABLED
     def enableLoyaltyCatalogButton(self):
         self.backCatalogButton['state'] = DGG.DISABLED
         self.newCatalogButton['state'] = DGG.DISABLED
         self.loyaltyCatalogButton['state'] = DGG.NORMAL
+        self.emblemCatalogButton['state'] = DGG.DISABLED
+    def enableEmblemCatalogButton(self):
+        self.backCatalogButton['state'] = DGG.DISABLED
+        self.newCatalogButton['state'] = DGG.DISABLED
+        self.loyaltyCatalogButton['state'] = DGG.DISABLED
+        self.emblemCatalogButton['state'] = DGG.NORMAL
         
     def modeBackorderCatalog(self):
         self.backCatalogButton['state'] = DGG.DISABLED
         self.newCatalogButton['state'] = DGG.NORMAL
         self.loyaltyCatalogButton['state'] = DGG.NORMAL
+        self.emblemCatalogButton['state'] = DGG.NORMAL
     def modeNewCatalog(self):
         self.backCatalogButton['state'] = DGG.NORMAL
         self.newCatalogButton['state'] = DGG.DISABLED
         self.loyaltyCatalogButton['state'] = DGG.NORMAL
+        self.emblemCatalogButton['state'] = DGG.NORMAL
     def modeLoyaltyCatalog(self):
         self.backCatalogButton['state'] = DGG.NORMAL
         self.newCatalogButton['state'] = DGG.NORMAL
         self.loyaltyCatalogButton['state'] = DGG.DISABLED
+        self.emblemCatalogButton['state'] = DGG.NORMAL
+    def modeEmblemCatalog(self):
+        self.backCatalogButton['state'] = DGG.NORMAL
+        self.newCatalogButton['state'] = DGG.NORMAL
+        self.loyaltyCatalogButton['state'] = DGG.NORMAL
+        self.emblemCatalogButton['state'] = DGG.DISABLED
         
     def showNewItems(self, index = None):
         # If you got here, you do not need to see this text
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: CATALOG: New item')
         taskMgr.remove("clarabelleHelpText1")
         messenger.send('wakeup')        
         self.viewing = 'New'
@@ -177,6 +200,8 @@ class CatalogScreen(DirectFrame):
             self.setPageIndex(0)
         self.showPageItems()
     def showBackorderItems(self, index = None):
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: CATALOG: Backorder item')
         # If you got here, you do not need to see this text
         taskMgr.remove("clarabelleHelpText1")
         messenger.send('wakeup')
@@ -192,6 +217,8 @@ class CatalogScreen(DirectFrame):
         self.showPageItems()
     def showLoyaltyItems(self, index = None):
         # If you got here, you do not need to see this text
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: CATALOG: Special item')
         taskMgr.remove("clarabelleHelpText1")
         messenger.send('wakeup')
         self.viewing = 'Loyalty'
@@ -204,6 +231,24 @@ class CatalogScreen(DirectFrame):
         else:
             self.setPageIndex(0)
         self.showPageItems()
+
+    def showEmblemItems(self, index = None):
+        # If you got here, you do not need to see this text
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: CATALOG: Emblem item')
+        taskMgr.remove("clarabelleHelpText1")
+        messenger.send('wakeup')
+        self.viewing = 'Emblem'
+        self.modeEmblemCatalog()
+        self.setMaxPageIndex(self.numEmblemPages)
+        if self.numEmblemPages == 0:
+            self.setPageIndex(-1)
+        elif index is not None:
+            self.setPageIndex(index)
+        else:
+            self.setPageIndex(0)
+        self.showPageItems()
+
     def showNextPage(self):
         # If you got here, you do not need to see this text
         taskMgr.remove("clarabelleHelpText1")
@@ -226,6 +271,10 @@ class CatalogScreen(DirectFrame):
             (self.pageIndex > self.maxPageIndex) and
             (self.numLoyaltyPages > 0)):
             self.showLoyaltyItems()
+        elif ((self.viewing == 'Loyalty') and
+            (self.pageIndex > self.maxPageIndex) and
+            (self.numEmblemPages > 0)):
+            self.showEmblemItems()
         else:
             # If viewing backorder catalog, just clamp at last page
             self.pageIndex = min(self.pageIndex, self.maxPageIndex)
@@ -244,10 +293,10 @@ class CatalogScreen(DirectFrame):
             (self.pageIndex < 0) and
             (self.numBackPages > 0)):
             self.showBackorderItems(self.numBackPages - 1)
-        elif ((self.viewing == 'Loyalty') and
+        elif ((self.viewing == 'Emblem') and
             (self.pageIndex < 0) and
-            (self.numNewPages > 0)):
-            self.showNewItems(self.numNewPages - 1)
+            (self.numLoyaltyPages > 0)):
+            self.showLoyaltyItems(self.numLoyaltyPages - 1)
         else:
             self.pageIndex = max(self.pageIndex, -1)
             self.showPageItems()
@@ -272,6 +321,9 @@ class CatalogScreen(DirectFrame):
             elif self.viewing == 'Loyalty':
                 page = self.loyaltyPageList[self.pageIndex]
                 newOrBackOrLoyalty = 2
+            elif self.viewing == 'Emblem':
+                page = self.emblemPageList[self.pageIndex]
+                newOrBackOrLoyalty = 3
             page.show()
             for panel in self.panelDict[page.id()]:
                 panel.load()
@@ -310,6 +362,8 @@ class CatalogScreen(DirectFrame):
                 text = TTLocalizer.CatalogLoyalty
             elif self.viewing == 'Backorder':
                 text = TTLocalizer.CatalogBackorder
+            elif self.viewing == 'Emblem':
+                text = TTLocalizer.CatalogEmblem
             self.pageLabel['text'] = text + (' - %d' % (self.pageIndex + 1))
             # Adjust next and backorder buttons
             if self.pageIndex < self.maxPageIndex:
@@ -318,7 +372,11 @@ class CatalogScreen(DirectFrame):
                 self.nextPageButton.hide()
             elif ((self.viewing == 'Backorder') and (self.numLoyaltyPages == 0)):
                 self.nextPageButton.hide()
-            elif (self.viewing == 'Loyalty'):
+            elif ((self.viewing == 'Loyalty') and (self.numEmblemPages == 0)):
+                self.nextPageButton.hide()
+            elif ((self.viewing == 'Loyalty') and (self.numEmblemPages > 0)):
+                self.nextPageButton.show()
+            elif (self.viewing == 'Emblem'):
                 self.nextPageButton.hide()
  
 
@@ -358,6 +416,8 @@ class CatalogScreen(DirectFrame):
             page.hide()
         for page in self.loyaltyPageList:
             page.hide()
+        for page in self.emblemPageList:
+            page.hide()
         for panel in self.visiblePanels:
             if panel.ival:
                 panel.ival.finish()
@@ -382,20 +442,26 @@ class CatalogScreen(DirectFrame):
             self.backCatalogButton2.show()
         if self.numLoyaltyPages > 0:
             self.loyaltyCatalogButton2.show()
+        if self.numEmblemPages > 0:
+            self.emblemCatalogButton2.show()
         self.newCatalogButton.hide()
         self.backCatalogButton.hide()
         self.loyaltyCatalogButton.hide()
+        self.emblemCatalogButton.hide()
     def hideDummyTabs(self):
         # Put in 2nd back catalog button which is enabled when in down posn
         self.newCatalogButton2.hide()
         self.backCatalogButton2.hide()
         self.loyaltyCatalogButton2.hide()
+        self.emblemCatalogButton2.hide()
         if self.numNewPages > 0:
             self.newCatalogButton.show()
         if self.numBackPages > 0:
             self.backCatalogButton.show()
         if self.numLoyaltyPages > 0:
             self.loyaltyCatalogButton.show()
+        if self.numEmblemPages > 0:
+            self.emblemCatalogButton.show()
     def packPages(self, panelList, pageList, prefix):
         i = 0
         j = 0
@@ -435,6 +501,8 @@ class CatalogScreen(DirectFrame):
         self.backPageList = []
         self.loyaltyPanelList = []
         self.loyaltyPageList = []
+        self.emblemPanelList = []
+        self.emblemPageList = []
         self.panelDict = {}
         self.visiblePanels = []
         self.responseDialog = None
@@ -452,11 +520,52 @@ class CatalogScreen(DirectFrame):
         giftToggleDown = guiItems.find('**/giftButtonDown')
         giftFriends = guiItems.find('**/gift_names')
         
+        oldLift = 0.40
         lift = 0.40
-        smash = 0.80
+        liftDiff = lift - oldLift
+        lift2 = 0.05
+        smash = 0.75
+
+
+        priceScale = 0.15
+        emblemIcon = loader.loadModel('phase_3.5/models/gui/tt_m_gui_gen_emblemIcons')
+        silverModel = emblemIcon.find('**/tt_t_gui_gen_emblemSilver')
+        goldModel = emblemIcon.find('**/tt_t_gui_gen_emblemGold')
+        self.silverLabel = DirectLabel(
+            parent = self,
+            relief = None,
+            pos = (1.05, 0, -0.6),
+            scale = priceScale,
+            image = silverModel,
+            image_pos = (-0.4, 0, 0.4),
+            text = str(localAvatar.emblems[ToontownGlobals.EmblemTypes.Silver]),
+            text_fg = (0.95, 0.95, 0, 1),
+            text_shadow = (0, 0, 0, 1),
+            text_font = ToontownGlobals.getSignFont(),
+            text_align = TextNode.ALeft,
+            )
+        base.silverLabel = self.silverLabel
+        self.goldLabel = DirectLabel(
+            parent = self,
+            relief = None,
+            pos = (1.05, 0, -0.8),
+            scale = priceScale,
+            image = goldModel,
+            image_pos = (-0.4, 0, 0.4),
+            text = str(localAvatar.emblems[ToontownGlobals.EmblemTypes.Gold]),
+            text_fg = (0.95, 0.95, 0, 1),
+            text_shadow = (0, 0, 0, 1),
+            text_font = ToontownGlobals.getSignFont(),
+            text_align = TextNode.ALeft,
+            )
+        base.goldLabel = self.goldLabel
+
+        if not base.cr.wantEmblems:
+            self.hideEmblems()
 
         self.newCatalogButton = DirectButton(
             self.base, relief = None,
+            pos = (0, 0, 0.17),
             frameSize = (-0.2, 0.25, 0.45, 1.2),
             image = [newDown, newDown, newDown, newUp],
             image_scale = (1.0, 1.0,smash),
@@ -475,6 +584,7 @@ class CatalogScreen(DirectFrame):
         
         self.newCatalogButton2 = DirectButton(
             self.base, relief = None,
+            pos = (0, 0, 0.17),
             frameSize = (-0.2, 0.25, 0.45, 1.2),
             image = newDown,
             image_scale = (1.0, 1.0,smash),
@@ -492,6 +602,7 @@ class CatalogScreen(DirectFrame):
         
         self.backCatalogButton = DirectButton(
             self.base, relief = None,
+            pos = (0, 0, 0.269),
             frameSize = (-0.2, 0.25, -0.2, 0.40),
             image = [backDown, backDown, backDown, backUp],
             image_scale = (1.0, 1.0,smash),
@@ -500,8 +611,8 @@ class CatalogScreen(DirectFrame):
             command = self.showBackorderItems,
             text = TTLocalizer.CatalogBackorder,
             text_font = ToontownGlobals.getSignFont(),
-            text_pos = (0.30 - lift,.132),
-            text3_pos = (0.30 -lift,.112),
+            text_pos = (0.25 - lift,.132),
+            text3_pos = (0.25 -lift,.112),
             text_scale = TTLocalizer.CSbackCatalogButton,
             text_fg = (0.392, 0.549, 0.627, 1.000),
             text2_fg = (0.392, 0.349, 0.427, 1.000),
@@ -510,6 +621,7 @@ class CatalogScreen(DirectFrame):
         
         self.backCatalogButton2 = DirectButton(
             self.base, relief = None,
+            pos = (0, 0, 0.269),
             frameSize = (-0.2, 0.25, -0.2, 0.40),
             image_scale = (1.0, 1.0,smash),
             image_pos = (0.0,0.0,lift),
@@ -518,7 +630,7 @@ class CatalogScreen(DirectFrame):
             command = self.showBackorderItems,
             text = TTLocalizer.CatalogBackorder,# + "2",# + "foo",
             text_font = ToontownGlobals.getSignFont(),
-            text_pos = (0.30 - lift , .132),
+            text_pos = (0.25 - lift , .132),
             text_scale = TTLocalizer.CSbackCatalogButton,
             text_fg = (0.392, 0.549, 0.627, 1.000),
             text2_fg = (0.392, 0.349, 0.427, 1.000),
@@ -527,6 +639,7 @@ class CatalogScreen(DirectFrame):
         
         self.loyaltyCatalogButton = DirectButton(
             self.base, relief = None,
+            pos = (0, 0, 0.469),
             frameSize = (-0.2, 0.25, -0.85, -0.3),
             image = [newDown, newDown, newDown, newUp],
             image_scale = (1.0, 1.0,smash),
@@ -535,8 +648,8 @@ class CatalogScreen(DirectFrame):
             command = self.showLoyaltyItems,
             text = TTLocalizer.CatalogLoyalty,
             text_font = ToontownGlobals.getSignFont(),
-            text_pos = (0.95 - lift,.132),
-            text3_pos = (0.95 -lift,.112),
+            text_pos = (1.0 - lift,.132),
+            text3_pos = (1.0 -lift,.112),
             text_scale = 0.065,
             text_fg = (0.353, 0.627, 0.627, 1.000),
             text2_fg = (0.353, 0.427, 0.427, 1.000),
@@ -545,6 +658,7 @@ class CatalogScreen(DirectFrame):
         
         self.loyaltyCatalogButton2 = DirectButton(
             self.base, relief = None,
+            pos = (0, 0, 0.469),
             frameSize = (-0.2, 0.25, -0.85, -0.3),
             image_scale = (1.0, 1.0,smash),
             image_pos = (0.0,0.0,-1.4 + lift),
@@ -553,12 +667,50 @@ class CatalogScreen(DirectFrame):
             command = self.showLoyaltyItems,
             text = TTLocalizer.CatalogLoyalty,# + "2",# + "foo",
             text_font = ToontownGlobals.getSignFont(),
-            text_pos = (0.95 - lift , .132),
+            text_pos = (1.0 - lift , .132),
             text_scale = 0.065,
             text_fg = (0.353, 0.627, 0.627, 1.000),
             text2_fg = (0.353, 0.427, 0.427, 1.000),
             )
         self.loyaltyCatalogButton2.hide()
+
+
+        self.emblemCatalogButton = DirectButton(
+            self.base, relief = None,
+            pos = (0, 0, 1.05),
+            frameSize = (-0.2, 0.25, -2.0, -1.45),
+            image = [backDown, backDown, backDown, backUp],
+            image_scale = (1.0, 1.0, smash),
+            image_pos = (0.0, 0.0, -1.9 + lift),
+            pressEffect = 0,
+            command = self.showEmblemItems,
+            text = TTLocalizer.CatalogEmblem,
+            text_font = ToontownGlobals.getSignFont(),
+            text_pos = (1.75, 0.132),
+            text3_pos = (1.75, 0.112),
+            text_scale = 0.065,
+            text_fg = (0.353, 0.627, 0.627, 1.0),
+            text2_fg = (0.353, 0.427, 0.427, 1.0),
+            )
+        self.emblemCatalogButton.hide()
+
+        self.emblemCatalogButton2 = DirectButton(
+            self.base, relief = None,
+            pos = (0, 0, 1.05),
+            frameSize = (-0.2, 0.25, -2.0, -1.45),
+            image_scale = (1.0, 1.0, smash),
+            image_pos = (0.0, 0.0, -1.9 + lift),
+            image = backDown,
+            pressEffect = 0,
+            command = self.showEmblemItems,
+            text = TTLocalizer.CatalogEmblem,
+            text_font = ToontownGlobals.getSignFont(),
+            text_pos = (1.75, 0.132),
+            text_scale = 0.065,
+            text_fg = (0.353, 0.627, 0.627, 1.0),
+            text2_fg = (0.353, 0.427, 0.427, 1.0),
+            )
+        self.emblemCatalogButton2.hide()
 
         
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -691,6 +843,8 @@ class CatalogScreen(DirectFrame):
             self.backCatalogButton2.component('text%d' % i).setR(90)
             self.loyaltyCatalogButton.component('text%d' % i).setR(90)
             self.loyaltyCatalogButton2.component('text%d' % i).setR(90)
+            self.emblemCatalogButton.component('text%d' % i).setR(90)
+            self.emblemCatalogButton2.component('text%d' % i).setR(90)
         # Squares
         self.squares = [[],[],[],[]]
         for i in range(NUM_CATALOG_ROWS):
@@ -710,9 +864,26 @@ class CatalogScreen(DirectFrame):
                      base.localAvatar.weeklyCatalog)
         itemList.sort(lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeWeekly))
         itemList.reverse()
+
+
+        allClosetItems = CatalogFurnitureItem.getAllClosets()
+        isMaxClosetOfferred = False
+        for item in itemList:
+            if item in allClosetItems and \
+               item.furnitureType in CatalogFurnitureItem.MaxClosetIds:
+                isMaxClosetOfferred = True
+                break
+
         for item in itemList:
             if isinstance(item, CatalogInvalidItem.CatalogInvalidItem):
                 self.notify.warning("skipping catalog invalid item %s" % item)
+                continue
+
+
+
+            if isMaxClosetOfferred and \
+               item in allClosetItems and item.furnitureType not in CatalogFurnitureItem.MaxClosetIds:
+
                 continue
             
             #check for loyalty program 
@@ -724,7 +895,15 @@ class CatalogScreen(DirectFrame):
                     type=CatalogItem.CatalogTypeLoyalty,
                     parentCatalogScreen = self,
                     ))
-                
+            elif item.getEmblemPrices():
+                self.emblemPanelList.append(
+                    CatalogItemPanel.CatalogItemPanel(
+                    parent = hidden,
+                    item=item,
+                    type=CatalogItem.CatalogTypeWeekly,
+                    parentCatalogScreen = self,
+                    ))                
+
             else:
                 self.panelList.append(
                     CatalogItemPanel.CatalogItemPanel(
@@ -742,6 +921,13 @@ class CatalogScreen(DirectFrame):
             if isinstance(item, CatalogInvalidItem.CatalogInvalidItem):
                 self.notify.warning("skipping catalog invalid item %s" % item)
                 continue
+
+
+
+            if isMaxClosetOfferred and \
+               item in allClosetItems and item.furnitureType not in CatalogFurnitureItem.MaxClosetIds:
+
+                continue
                                     
             #check for loyalty program 
             if item.loyaltyRequirement() != 0:
@@ -750,6 +936,14 @@ class CatalogScreen(DirectFrame):
                     parent = hidden,
                     item=item,
                     type=CatalogItem.CatalogTypeLoyalty,
+                    parentCatalogScreen = self,
+                    ))
+            elif item.getEmblemPrices():
+                self.emblemPanelList.append(
+                    CatalogItemPanel.CatalogItemPanel(
+                    parent = hidden,
+                    item=item,
+                    type=CatalogItem.CatalogTypeBackOrder,
                     parentCatalogScreen = self,
                     ))
             else:
@@ -768,6 +962,9 @@ class CatalogScreen(DirectFrame):
                 
         numPages = self.packPages(self.loyaltyPanelList,self.loyaltyPageList,'loyalty')
         self.setNumLoyaltyPages(numPages)
+
+        numPages = self.packPages(self.emblemPanelList,self.emblemPageList,'emblem')
+        self.setNumEmblemPages(numPages)
 
         currentWeek = base.localAvatar.catalogScheduleCurrentWeek - 1
 
@@ -875,6 +1072,7 @@ class CatalogScreen(DirectFrame):
             text_pos = (0.75,-0.81),
             text_font = ToontownGlobals.getSignFont(),
             )
+
         # Page turners
         nextUp = guiItems.find('**/arrow_up')
         nextRollover = guiItems.find('**/arrow_Rollover')
@@ -963,7 +1161,7 @@ class CatalogScreen(DirectFrame):
                                             0.00, 0.00, 0.00,
                                             1.00, 1.00, 1.00)
     def reload(self):
-        for panel in (self.panelList + self.backPanelList + self.loyaltyPanelList):
+        for panel in (self.panelList + self.backPanelList + self.loyaltyPanelList + self.emblemPanelList):
             panel.destroy()
         def priceSort(a,b,type):
             priceA = a.getPrice(type)
@@ -1059,7 +1257,7 @@ class CatalogScreen(DirectFrame):
         # Clean up variables
         del self.base
         del self.squares
-        for panel in (self.panelList + self.backPanelList + self.loyaltyPanelList):
+        for panel in (self.panelList + self.backPanelList + self.loyaltyPanelList + self.emblemPanelList):
             panel.destroy()
         del self.panelList
         del self.backPanelList
@@ -1068,6 +1266,8 @@ class CatalogScreen(DirectFrame):
         del self.clarabelleFrame
         del self.hangup
         del self.beanBank
+        del self.silverLabel
+        del self.goldLabel
         del self.nextPageButton
         del self.backPageButton
         del self.newCatalogButton
@@ -1107,6 +1307,9 @@ class CatalogScreen(DirectFrame):
         del self.clarabelle
 
     def hangUp(self):
+
+        if hasattr(self, 'giftAvatar') and self.giftAvatar:
+            self.giftAvatar.disable()
         self.setClarabelleChat(random.choice(TTLocalizer.CatalogGoodbyeList))
         # Flip to the front cover and hide the arrow and tabs
         # so you can not get out of this mode. We do not want people
@@ -1121,6 +1324,8 @@ class CatalogScreen(DirectFrame):
         self.backCatalogButton2.hide()
         self.loyaltyCatalogButton.hide()
         self.loyaltyCatalogButton2.hide()
+        self.emblemCatalogButton.hide()
+        self.emblemCatalogButton2.hide()
         self.hangup.hide()
 
         # No more helpful text
@@ -1150,7 +1355,7 @@ class CatalogScreen(DirectFrame):
             # call this when toon's money count changes to update the buy buttons
             #print lock
             if lock == 0:
-                for item in (self.panelList + self.backPanelList + self.loyaltyPanelList):
+                for item in (self.panelList + self.backPanelList + self.loyaltyPanelList + self.emblemPanelList):
                     if (type(item) != type("")):
                     #item.updateButtons(giftActivate)
 
@@ -1178,6 +1383,7 @@ class CatalogScreen(DirectFrame):
         # AI has returned the status of the purchase in retCode
         if retCode == ToontownGlobals.P_UserCancelled:
             # No big deal; the user bailed.
+            self.update()
             return
         self.setClarabelleChat(item.getRequestPurchaseErrorText(retCode),
                                item.getRequestPurchaseErrorTextTimeout())
@@ -1262,6 +1468,20 @@ class CatalogScreen(DirectFrame):
         else:
             self.update(0)
         #print ("__bankMoneyChange")
+
+    def __emblemChange(self, newEmblems):
+        self.silverLabel['text'] = str(newEmblems[0])
+        self.goldLabel['text'] = str(newEmblems[1])
+
+    def showEmblems(self):
+        if base.cr.wantEmblems:
+            self.silverLabel.show()
+            self.goldLabel.show()
+
+    def hideEmblems(self):
+        self.silverLabel.hide()
+        self.goldLabel.hide()
+
 
     def checkFamily(self, doId):
         test = 0
@@ -1373,6 +1593,7 @@ class CatalogScreen(DirectFrame):
             if self.frienddoId and self.allowGetDetails:
                 if self.giftAvatar:
                     if hasattr(self.giftAvatar, 'doId'):
+                        self.giftAvatar.disable()
                         self.giftAvatar.delete()
                     self.giftAvatar = None
                 self.giftAvatar = DistributedToon.DistributedToon(base.cr) #sets up a dummy avatar
@@ -1380,6 +1601,7 @@ class CatalogScreen(DirectFrame):
                 # getAvatarDetails puts a DelayDelete on the avatar, and this
                 # is not a real DO, so bypass the 'generated' check
                 self.giftAvatar.forceAllowDelayDelete()
+                self.giftAvatar.generate()
                 base.cr.getAvatarDetails(self.giftAvatar, self.__handleAvatarDetails, "DistributedToon") #request to the database
                 self.gotAvatar = 0 #sets the flag to false so we know we have a database request pending
                 self.allowGetDetails = 0
@@ -1410,6 +1632,7 @@ class CatalogScreen(DirectFrame):
             self.giftLabel.show()
             self.friendLabel.show()
             self.scrollList.show()
+            self.hideEmblems()
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleOn
             self.__loadFriend()
         else:
@@ -1417,6 +1640,7 @@ class CatalogScreen(DirectFrame):
             self.giftLabel.hide()
             self.friendLabel.hide()
             self.scrollList.hide()
+            self.showEmblems()
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleOff
             self.update()
             

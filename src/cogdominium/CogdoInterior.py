@@ -1,25 +1,21 @@
-from pandac.PandaModules import *
-from toontown.toonbase.ToonBaseGlobal import *
+from pandac.PandaModules import ModelPool, TexturePool
 
+from direct.task.Task import Task
 from direct.directnotify import DirectNotifyGlobal
-from toontown.hood import Place
-from direct.showbase import DirectObject
-from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
-from direct.fsm import State
+
+from toontown.hood import Place
+from toontown.toonbase.ToonBaseGlobal import *
 from toontown.town import TownBattle
 from toontown.suit import Suit
 from toontown.building import Elevator
-from direct.task.Task import Task
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 
 class CogdoInterior(Place.Place):
-    """CogdoInterior class"""
-
     # create a notify category
     notify = DirectNotifyGlobal.directNotify.newCategory("CogdoInterior")
-    
+
     # special methods
 
     def __init__(self, loader, parentFSM, doneEvent):
@@ -40,7 +36,7 @@ class CogdoInterior(Place.Place):
                             State.State('Game',
                                         self.enterGame,
                                         self.exitGame,
-                                        ['battle', 'died', 'crane', ]),
+                                        ['battle', 'died', 'crane', 'walk', ]),
                             State.State('battle',
                                         self.enterBattle,
                                         self.exitBattle,
@@ -49,15 +45,16 @@ class CogdoInterior(Place.Place):
                                         self.enterCrane,
                                         self.exitCrane,
                                         ['walk', 'battle', 'finalBattle',
-                                        'died', 'ouch', 'squished']),
+                                         'died', 'ouch', 'squished']),
                             State.State('walk',
                                         self.enterWalk,
                                         self.exitWalk,
                                         ['stickerBook', 'stopped',
+                                         'battle',
                                          'sit', 'died',
                                          'teleportOut',
                                          'Elevator',
-                                         'crane', 
+                                         'crane',
                                          'DFA', 'trialerFA',]),
                             State.State('sit',
                                         self.enterSit,
@@ -97,7 +94,7 @@ class CogdoInterior(Place.Place):
                             State.State('stopped',
                                         self.enterStopped,
                                         self.exitStopped,
-                                        ['walk', 'elevatorOut']),
+                                        ['walk', 'elevatorOut', 'battle']),
                             State.State('died',
                                         self.enterDied,
                                         self.exitDied,
@@ -143,7 +140,7 @@ class CogdoInterior(Place.Place):
         # Call up the chain
         Place.Place.load(self)
         self.parentFSM.getStateNamed("cogdoInterior").addChild(self.fsm)
-        self.townBattle = TownBattle.TownBattle('town-battle-done')
+        self.townBattle = TownBattle.TownBattle("town-battle-done")
         self.townBattle.load()
         for i in range(1, 3):
             Suit.loadSuits(i)
@@ -152,7 +149,7 @@ class CogdoInterior(Place.Place):
         assert(self.notify.debug("unload()"))
         # Call up the chain
         Place.Place.unload(self)
-        
+
         self.parentFSM.getStateNamed("cogdoInterior").removeChild(self.fsm)
         del self.parentFSM
         del self.fsm
@@ -233,8 +230,8 @@ class CogdoInterior(Place.Place):
         return None
 
     def detectedElevatorCollision(self, distElevator):
-        assert(self.notify.debug("detectedElevatorCollision()"))
-        self.fsm.request("Elevator", [distElevator])
+
+        self.fsm.request('Elevator', [distElevator])
         return None
 
     def handleElevatorDone(self, doneStatus):
@@ -261,11 +258,13 @@ class CogdoInterior(Place.Place):
                               " in handleElevatorDone")
 
     # Game state
-    
+
     def enterGame(self):
-        pass
+        base.localAvatar.setTeleportAvailable(0)
+        base.localAvatar.laffMeter.start()
+
     def exitGame(self):
-        pass
+        base.localAvatar.laffMeter.stop()
 
     # Battle state
 
@@ -293,12 +292,12 @@ class CogdoInterior(Place.Place):
         base.localAvatar.setTeleportAvailable(0)
         base.localAvatar.laffMeter.start()
         base.localAvatar.collisionsOn()
-        
+
     def exitCrane(self):
         assert(self.notify.debug("exitCrane()"))
         base.localAvatar.collisionsOff()
         base.localAvatar.laffMeter.stop()
-        
+
     # walk state inherited from Place.py
     def enterWalk(self, teleportIn=0):
         Place.Place.enterWalk(self, teleportIn)
@@ -306,7 +305,7 @@ class CogdoInterior(Place.Place):
         base.localAvatar.setTeleportAvailable(0)
 
     # sticker book state inherited from Place.py
-    def enterStickerBook(self, page = None):
+    def enterStickerBook(self, page=None):
         Place.Place.enterStickerBook(self, page)
         self.ignore('teleportQuery')
         base.localAvatar.setTeleportAvailable(0)
@@ -316,7 +315,7 @@ class CogdoInterior(Place.Place):
         Place.Place.enterSit(self)
         self.ignore('teleportQuery')
         base.localAvatar.setTeleportAvailable(0)
-        
+
     # teleport in state
 
     def enterTeleportIn(self, requestStatus):
@@ -333,7 +332,7 @@ class CogdoInterior(Place.Place):
 
     def enterTeleportOut(self, requestStatus):
         assert(self.notify.debug('enterTeleportOut()'))
-        Place.Place.enterTeleportOut(self, requestStatus, 
+        Place.Place.enterTeleportOut(self, requestStatus,
                         self.__teleportOutDone)
 
     def __teleportOutDone(self, requestStatus):

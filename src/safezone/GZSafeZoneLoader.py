@@ -115,7 +115,7 @@ class GZSafeZoneLoader( SafeZoneLoader ):
         signText = DirectGui.OnscreenText(
             text = TextEncoder.upper(TTLocalizer.BossbotHQ[-1]),
             font = ToontownGlobals.getSuitFont(),
-            scale = TTLocalizer.GSZLbossbotSignScale,
+            scale = TTLocalizer.GZSZLsignText,
             fg = (0, 0, 0, 1), 
             # required for DecalEffect (must be a GeomNode, not a TextNode)
             mayChange=False,

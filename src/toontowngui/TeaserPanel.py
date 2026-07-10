@@ -53,6 +53,11 @@ Pages = {
     'golf'       : (TTLocalizer.TeaserGolf,),
     'fishing'       : (TTLocalizer.TeaserFishing,),
     'parties'       : (TTLocalizer.TeaserParties,),
+    'plantGags'     : (TTLocalizer.TeaserPlantGags,),
+    'pickGags'      : (TTLocalizer.TeaserPickGags,),
+    'restockGags'   : (TTLocalizer.TeaserRestockGags,),
+    'getGags'       : (TTLocalizer.TeaserGetGags,),
+    'useGags'       : (TTLocalizer.TeaserUseGags,)
     }
 
 PageOrder = [
@@ -79,6 +84,11 @@ PageOrder = [
     'gardening',
     'golf',
     'fishing',
+    'plantGags',
+    'pickGags',
+    'restockGags',
+    'getGags',
+    'useGags',
     ]
 
 class TeaserPanel(DirectObject):
@@ -94,7 +104,7 @@ class TeaserPanel(DirectObject):
         if not hasattr(self, "browser"):
             self.browser = FeatureBrowser()
             self.browser.load()
-            self.browser.setPos(0, 0, TTLocalizer.TSRPbrowserPosZ)
+            self.browser.setPos(0, 0, TTLocalizer.TPbrowserPosZ)
             # make room for the top five features
             self.browser.setScale(0.75)
             self.browser.reparentTo(hidden)
@@ -177,9 +187,9 @@ class TeaserPanel(DirectObject):
         self.dialog = TTDialog.TTDialog(
             parent = aspect2dp,
             text = TTLocalizer.TeaserTop,
+            text_scale = TTLocalizer.TPdialog,
             text_align = TextNode.ACenter,
-            text_wordwrap = TTLocalizer.TSRPdialogWordwrap,
-            text_scale = TTLocalizer.TSRPtop,
+            text_wordwrap = TTLocalizer.TPdialogWordwrap,
             topPad =-0.15,
             midPad = 1.25,
             sidePad = 0.25,
@@ -190,7 +200,7 @@ class TeaserPanel(DirectObject):
             buttonTextList = [TTLocalizer.TeaserSubscribe,
                               TTLocalizer.TeaserContinue,
                               ],
-            button_text_scale = TTLocalizer.TSRPbutton,
+            button_text_scale = TTLocalizer.TPbuttonTextList,
             buttonPadSF = 5.5,
             sortOrder = NO_FADE_SORT_INDEX,
             image =  self.upsellBackground,
@@ -278,7 +288,7 @@ class FeatureBrowser(DirectScrolledList):
         haveFunNode.setFont(DirectGuiGlobals.getDefaultFont())
         haveFun = NodePath(haveFunNode)
         haveFun.reparentTo(rightLocator)
-        haveFun.setScale(TTLocalizer.TSRPhaveFunText)
+        haveFun.setScale(TTLocalizer.TPhaveFun)
         
         JoinUsNode = TextNode("Join Us")
         JoinUsNode.setText(TTLocalizer.TeaserJoinUs)
@@ -289,7 +299,7 @@ class FeatureBrowser(DirectScrolledList):
         JoinUs = NodePath(JoinUsNode)
         JoinUs.reparentTo(leftLocator)
         JoinUs.setPos(0,0,-0.025)
-        JoinUs.setScale(TTLocalizer.TSRPjoinUsText)
+        JoinUs.setScale(TTLocalizer.TPjoinUs)
         
         # axis = loader.loadModel("models/misc/xyzAxis")
         # axis.reparentTo(guiModel)
@@ -307,8 +317,8 @@ class FeatureBrowser(DirectScrolledList):
                 image_pos = (0, 0, 0.0),
                 text_align = TextNode.ACenter,
                 text = textInfo,
-                text_scale = TTLocalizer.TSRPpanelScale,
-                text_pos = TTLocalizer.TSRPpanelPos,
+                text_scale = TTLocalizer.TPpanel,
+                text_pos = TTLocalizer.TPpanelPos,
                 )
             self.addItem(panel)
         guiModel.removeNode()

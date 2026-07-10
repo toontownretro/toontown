@@ -9,6 +9,7 @@ from direct.fsm import State
 from direct.task import Task
 import random
 import CharStateDatasAI
+import CCharChatter
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 
@@ -106,10 +107,12 @@ class DistributedPlutoAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
                    simbase.air.holidayManager.currentHolidays[ToontownGlobals.HALLOWEEN_COSTUMES]:
                     simbase.air.holidayManager.currentHolidays[ToontownGlobals.HALLOWEEN_COSTUMES].triggerSwitch(curWalkNode, self)
                     self.fsm.request('TransitionToCostume')
+                    return
                 elif ToontownGlobals.APRIL_FOOLS_COSTUMES in simbase.air.holidayManager.currentHolidays and \
                    simbase.air.holidayManager.currentHolidays[ToontownGlobals.APRIL_FOOLS_COSTUMES]:
                     simbase.air.holidayManager.currentHolidays[ToontownGlobals.APRIL_FOOLS_COSTUMES].triggerSwitch(curWalkNode, self)
                     self.fsm.request('TransitionToCostume')
+                    return
                 else:
                     self.notify.warning('transitionToCostume == 1 but no costume holiday')
             else:
@@ -154,13 +157,20 @@ class DistributedPlutoAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
 
     ### Chatty state ###
     def enterChatty(self):
-        self.chatty.enter()
-        self.acceptOnce(self.chattyDoneEvent, self.__decideNextState)
+
+        chatter = CCharChatter.getChatter(self.getName(), self.getCCChatter())
+        if not chatter:
+            self.chatterExists = False
+            self.fsm.request('Lonely')
+        else:
+            self.chatterExists = True
+            self.chatty.enter()
+            self.acceptOnce(self.chattyDoneEvent, self.__decideNextState)
 
     def exitChatty(self):
-        self.ignore(self.chattyDoneEvent)
-        self.chatty.exit()
-
+        if self.chatterExists:
+            self.ignore(self.chattyDoneEvent)
+            self.chatty.exit()
 
     ### Walk state ###
     def enterWalk(self):

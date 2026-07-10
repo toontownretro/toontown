@@ -11,6 +11,7 @@ from otp.avatar import DistributedAvatar
 import Hood
 from toontown.building import SuitInterior
 from toontown.cogdominium import CogdoInterior
+from toontown.toon.Toon import teleportDebug
 
 class ToonHood(Hood.Hood):
     """
@@ -120,6 +121,7 @@ class ToonHood(Hood.Hood):
         """enterTownLoader(self)
         """
         assert(self.notify.debug("enterTownLoader(requestStatus="+str(requestStatus)+")"))
+        teleportDebug(requestStatus, 'ToonHood.enterTownLoader, status=%s' % (requestStatus,))
         self.accept(self.loaderDoneEvent, self.handleTownLoaderDone)
         self.loader.enter(requestStatus)
         self.spawnTitleText(requestStatus['zoneId'])
@@ -143,10 +145,13 @@ class ToonHood(Hood.Hood):
         """
         assert(self.notify.debug("handleTownLoaderDone()"))
         doneStatus = self.loader.getDoneStatus()
+        teleportDebug(doneStatus, 'handleTownLoaderDone, doneStatus=%s' % (doneStatus,))
         if self.isSameHood(doneStatus):
+            teleportDebug(doneStatus, 'same hood')
             self.fsm.request("quietZone", [doneStatus])
         else:
             # ...we're leaving the hood.
+            teleportDebug(doneStatus, 'different hood')
             self.doneStatus = doneStatus
             messenger.send(self.doneEvent)
 

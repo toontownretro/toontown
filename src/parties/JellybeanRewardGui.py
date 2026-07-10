@@ -160,7 +160,9 @@ class JellybeanRewardGui(DirectFrame):
         self.jarLabel["text"] = str( self.jarCount )
         self.jarLabel["text_fg"] = JellybeanRewardGui.JarLabelTextColor
         self.messageLabel["text"] = message
-        if base.cr.newsManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_DAY):
+        if base.cr.newsManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_DAY) or \
+           base.cr.newsManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_PARTIES_HOLIDAY) or \
+           base.cr.newsManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_PARTIES_HOLIDAY_MONTH):
             self.doubledJellybeanLabel.show()
         else:
             self.doubledJellybeanLabel.hide()

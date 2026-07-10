@@ -338,9 +338,15 @@ class ClothesGUI(StateData.StateData):
         pressed the shuffle button.
         """
         self.notify.debug('Entering changeClothes')
-        newChoice = self.shuffleButton.getCurrChoice()        
-        newTopIndex = self.tops.index(newChoice[0])
-        newBottomIndex = self.bottoms.index(newChoice[1])
+        newChoice = self.shuffleButton.getCurrChoice()
+        if newChoice[0] in self.tops:
+            newTopIndex = self.tops.index(newChoice[0])
+        else:
+            newTopIndex = self.topChoice
+        if newChoice[1] in self.bottoms:
+            newBottomIndex = self.bottoms.index(newChoice[1])
+        else:
+            newBottomIndex = self.bottomChoice
         oldTopIndex = self.topChoice
         oldBottomIndex = self.bottomChoice        
         self.swapTop(newTopIndex - oldTopIndex)

@@ -83,6 +83,8 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
             origin.setH(-33.33)
 
         elif zoneId == ToontownGlobals.BossbotLobby:
+            if base.config.GetBool('want-qa-regression', 0):
+                self.notify.info('QA-REGRESSION: COGHQ: Visit BossbotLobby')
             self.notify.debug("cogHQLobbyModelPath = %s" % self.cogHQLobbyModelPath)
             self.geom = loader.loadModel(self.cogHQLobbyModelPath)
 
@@ -104,7 +106,7 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
             signText = DirectGui.OnscreenText(
                 text = TextEncoder.upper(TTLocalizer.GlobalStreetNames[textId][-1]),
                 font = ToontownGlobals.getSuitFont(),
-                scale = TTLocalizer.BCHQLmakeSign,
+                scale = TTLocalizer.BCHQLsignText,
                 fg = (0, 0, 0, 1), 
                 parent = sign)
             signText.setPosHpr(locator, 0, -0.1, -0.25, 0, 0, 0)

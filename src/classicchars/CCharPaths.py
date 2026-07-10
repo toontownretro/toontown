@@ -530,7 +530,7 @@ def getPaths(charName, location = 0):
         return __minniePaths
     elif charName == TTLocalizer.WitchMinnie:
         return __minniePaths
-    elif charName==TTLocalizer.Daisy:
+    elif charName==TTLocalizer.Daisy or charName==TTLocalizer.SockHopDaisy:
         return __daisyPaths
     elif charName==TTLocalizer.Goofy:
         if location == 0:
@@ -539,15 +539,15 @@ def getPaths(charName, location = 0):
             return __goofySpeedwayPaths
     elif charName==TTLocalizer.SuperGoofy:
         return __goofySpeedwayPaths
-    elif charName==TTLocalizer.Donald:
+    elif charName==TTLocalizer.Donald or charName==TTLocalizer.FrankenDonald:
         return __donaldPaths
     elif charName==TTLocalizer.Pluto:
         return __plutoPaths
     elif charName==TTLocalizer.WesternPluto:
         return __plutoPaths
-    elif charName==TTLocalizer.Chip:
+    elif charName==TTLocalizer.Chip or charName==TTLocalizer.PoliceChip:
         return __chipPaths
-    elif charName==TTLocalizer.Dale:
+    elif charName==TTLocalizer.Dale or charName==TTLocalizer.JailbirdDale:
         return __chipPaths    
     elif charName==TTLocalizer.DonaldDock:
         return {'a':(Point3(0,0,0),'a')}

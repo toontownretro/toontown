@@ -63,15 +63,26 @@ class DustCloud(NodePath):
             Func(getSoundFuncIfAble(SFX.poof)),
             Wait(tflipDuration),
             #Func(getSoundFuncIfAble(SFX.magic)),
-            Func(self.seqNode.setFrameRate, 0),
-            Func(self.hide),
+            Func(self._resetTrack),
             name = 'dustCloud-track-%d' % self.trackId,
             )
-            
-            
+
+    def _resetTrack(self):
+        self.seqNode.setFrameRate(0)
+        self.hide()
+
     def messaging(self):
         self.notify.debug("CREATING TRACK ID: %s" %self.trackId)
-    
+
+    def isPlaying(self):
+        if self.track == None:
+            return False
+
+        if self.track.isPlaying():
+            return True
+        else:
+            return False
+
     def play(self, rate = 24):
         # Stop existing track, if one exists
         self.stop()
@@ -91,10 +102,13 @@ class DustCloud(NodePath):
     def stop(self):
         if self.track:
             self.track.finish()
+            self.track.clearToInitial()
     
     def destroy(self):
         self.notify.debug("DESTROYING TRACK ID: %s" %self.trackId)
-        self.stop()
+        if self.track:
+            self._resetTrack()
+            self.track.clearToInitial()
         del self.track
         del self.seqNode
         self.removeNode()

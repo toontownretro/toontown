@@ -8,6 +8,9 @@ from toontown.toontowngui import ToontownLoadingScreen
 class ToontownLoader(Loader.Loader):
     """ToontownLoader class"""
 
+    #
+    TickPeriod = 0.2
+
     # special methods
     def __init__(self, base):
         Loader.Loader.__init__(self, base)
@@ -22,11 +25,13 @@ class ToontownLoader(Loader.Loader):
         
     # our extentions
     def beginBulkLoad(self, name, label, range, gui, tipCategory):
+        self._loadStartT = globalClock.getRealTime()
         Loader.Loader.notify.info("starting bulk load of block '%s'" % (name))
         if self.inBulkBlock:
             Loader.Loader.notify.warning("Tried to start a block ('%s'), but am already in a block ('%s')" % (name, self.blockName))
             return None
         self.inBulkBlock = 1
+        self._lastTickT = globalClock.getRealTime()
         self.blockName = name        
         self.loadingScreen.begin(range, label, gui, tipCategory)
 
@@ -39,8 +44,9 @@ class ToontownLoader(Loader.Loader):
             return None
         self.inBulkBlock = None
         expectedCount, loadedCount = self.loadingScreen.end()
-        Loader.Loader.notify.info("At end of block '%s', expected %s, loaded %s" %
-                                  (self.blockName, expectedCount, loadedCount))
+        now = globalClock.getRealTime()
+        Loader.Loader.notify.info("At end of block '%s', expected %s, loaded %s, duration=%s" %
+                                  (self.blockName, expectedCount, loadedCount, now - self._loadStartT))
 
     def abortBulkLoad(self):
         """
@@ -54,12 +60,16 @@ class ToontownLoader(Loader.Loader):
     # service function(s) for overloaded behavior
     def tick(self):
         if self.inBulkBlock:
-            self.loadingScreen.tick()
-            # Keep those heartbeats coming!
-            try:
-                base.cr.considerHeartbeat()
-            except:
-                pass
+            now = globalClock.getRealTime()
+            if now - self._lastTickT > self.TickPeriod:
+                self._lastTickT += self.TickPeriod
+
+                self.loadingScreen.tick()
+                # Keep those heartbeats coming!
+                try:
+                    base.cr.considerHeartbeat()
+                except:
+                    pass
 
     # overload Loader.py functions
 
@@ -73,8 +83,9 @@ class ToontownLoader(Loader.Loader):
         self.tick()
         return ret
 
-    def loadTexture(self, texturePath, alphaPath = None):
-        ret = Loader.Loader.loadTexture(self, texturePath, alphaPath)
+    def loadTexture(self, texturePath, alphaPath = None, okMissing = False):
+        ret = Loader.Loader.loadTexture(self, texturePath, alphaPath, okMissing = okMissing)
+
         self.tick()
         if alphaPath:
             self.tick()

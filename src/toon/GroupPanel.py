@@ -346,7 +346,7 @@ class GroupPanel(DirectObject.DirectObject):
             itemFrame_pos = (0, 0, 0.06),
             itemFrame_borderWidth = (0.1, 0.1),
             numItemsVisible = 1,
-            itemFrame_scale = TTLocalizer.GPdestScrollListScale,
+            itemFrame_scale = TTLocalizer.GPdestScrollList,
             forceHeight = 0.07,
             items = [],
             
@@ -392,7 +392,7 @@ class GroupPanel(DirectObject.DirectObject):
             image_scale = (0.5, 1, 0.5),
             text = destName,
             text_align = TextNode.ACenter,
-            text_scale = TTLocalizer.GPdestFrameScale,
+            text_scale = TTLocalizer.GPdestFrame,
             pos = (0, 0, zPos),
         )
     
@@ -420,7 +420,7 @@ class GroupPanel(DirectObject.DirectObject):
             image_scale = (0.48, 1, 0.48),
             command = self.__handleGoButton,
             text = ('', TTLocalizer.BoardingGo, TTLocalizer.BoardingGo, ''),
-            text_scale = TTLocalizer.GPgoButtonScale,
+            text_scale = TTLocalizer.GPgoButton,
             text_fg = Vec4(1,1,1,1),
             text_shadow = Vec4(0,0,0,1),
             text_pos = (0, -0.12),

@@ -49,6 +49,8 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
         self.customerDNA.makeFromNetString(av.getDNAString())
         self.customerId = avId
 
+        av.b_setDNAString(self.customerDNA.makeNetString())
+
         # Handle unexpected exit
         self.acceptOnce(self.air.getAvatarExitEvent(avId),
                         self.__handleUnexpectedExit, extraArgs=[avId])

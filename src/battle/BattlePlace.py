@@ -43,6 +43,8 @@ class BattlePlace(Place.Place):
         assert(self.notify.debug("exitWaitForBattle()"))
 
     def enterBattle(self, event):
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: COGBATTLE: Enter Battle')
         assert(self.notify.debug("enterBattle()"))
         self.loader.music.stop()
         base.playMusic(self.loader.battleMusic, looping=1, volume=0.9)

@@ -17,7 +17,10 @@ class BRHood(ToonHood.ToonHood):
         # Dictionary which holds holiday specific lists of Storage DNA Files
         # Keyed off of the News Manager holiday IDs stored in ToontownGlobals
         self.holidayStorageDNADict = {WINTER_DECORATIONS : ['phase_8/dna/winter_storage_BR.dna'],
-                                      HALLOWEEN_PROPS : ['phase_8/dna/halloween_props_storage_BR.dna']}
+                                      WACKY_WINTER_DECORATIONS : ['phase_8/dna/winter_storage_BR.dna'],
+                                      HALLOWEEN_PROPS : ['phase_8/dna/halloween_props_storage_BR.dna'],
+                                      SPOOKY_PROPS : ['phase_8/dna/halloween_props_storage_BR.dna'],
+                                      }
         # The sky is actually in phase 6 because DD uses it too
         self.skyFile = "phase_3.5/models/props/BR_sky"
         self.spookySkyFile = "phase_3.5/models/props/BR_sky"

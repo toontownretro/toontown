@@ -53,8 +53,6 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
         # @TODO: Remove this before it goes to test.
 
         self.toon = None
-##        if __debug__:
-##            base.toonStatue = self
 
     def loadModel(self):
         DistributedStatuary.DistributedStatuary.loadModel(self)
@@ -82,7 +80,7 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
         self.speciesType = self.toon.style.getAnimal()
         self.headType = self.toon.style.head
 
-##        self.removeTextures()
+        self.removeTextures()
         self.setStoneTexture()
         self.toon.dropShadow.hide()
         self.toon.setZ(70)
@@ -119,11 +117,6 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
         For each LOD, get the model, find the part, clear the texture,
         and set the color to gray.
         '''
-##        gray = VBase4(0.6, 0.6, 0.6, 1)
-        gray = VBase4(1.6, 1.6, 1.6, 1)
-        self.toon.setColor(gray, 10)
-##        self.toon.setColorScaleOff(10000)
-
         for node in self.toon.findAllMatches("**/*"):
             node.setState(RenderState.makeEmpty())
         
@@ -153,12 +146,13 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
                 bottoms = torso.findAllMatches('**/torso-bot*')
                 for bottomNum in range(0, bottoms.getNumPaths()):
                     bottom = bottoms.getPath(bottomNum)
-                    # Replace whatever texture the toon has with the default desaturated textures.
-                    if (self.toon.style.torso[1] == 's'):
-                        bottom.setTexture(desatShortsTex, 1)
-                    else:
-                        bottom.setTexture(desatSkirtTex, 1)
-
+                    if bottom:
+                        # Replace whatever texture the toon has with the default desaturated textures.
+                        if (self.toon.style.torso[1] == 's'):
+                            bottom.setTexture(desatShortsTex, 1)
+                        else:
+                            bottom.setTexture(desatSkirtTex, 1)
+        
     def setStoneTexture(self):
         gray = VBase4(1.6, 1.6, 1.6, 1)
         self.toon.setColor(gray, 10)

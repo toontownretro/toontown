@@ -89,7 +89,7 @@ class FlowerPicker(DirectScrolledList):
             parent = self,
             relief = None,
             text = "",
-            text_scale = TTLocalizer.FPFlowerValueTotal,
+            text_scale = TTLocalizer.FPinfo,
             pos = (0.18,0,-0.67),
             )
 

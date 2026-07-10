@@ -181,6 +181,8 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
         dg.addUint16(self.loyaltyDays)
         
     def isGift(self):
+        if self.getEmblemPrices():
+            return 0
         if (self.loyaltyRequirement() > 0):
             return 0
         else:

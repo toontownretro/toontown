@@ -799,7 +799,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI,
             simbase.air.writeServerEvent("Pet RequestDelete duplicate OldStackTrace", myDoId, "%s" % myOldStackTrace)
             
             DistributedPetAI.notify.warning("double requestDelete from task %s" % (myTaskName))
-        self.setParent(hidden)
+        self.setParent(ToontownGlobals.SPHidden)
 
         if hasattr(self, "activated"):
             if self.activated:

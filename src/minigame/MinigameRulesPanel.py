@@ -43,19 +43,19 @@ class MinigameRulesPanel(StateData.StateData):
             )
         self.gameTitleText = DirectLabel(parent = self.frame,
                                          text = self.gameTitle,
-                                         scale = TTLocalizer.MRPGameTitleTextScale,
+                                         scale = TTLocalizer.MRPgameTitleText,
                                          text_align = TextNode.ACenter,
                                          text_font = getSignFont(),
                                          text_fg = (1.0, 0.33, 0.33, 1.0),
-                                         pos = TTLocalizer.MRPGameTitleTextPos,
+                                         pos = TTLocalizer.MRgameTitleTextPos,
                                          relief = None,
                                          )
         self.instructionsText = DirectLabel(parent = self.frame,
                                             text = self.instructions,
                                             scale = TTLocalizer.MRPinstructionsText,
                                             text_align = TextNode.ACenter,
-                                            text_wordwrap = TTLocalizer.MRPInstructionsTextWordwrap,
-                                            pos = TTLocalizer.MRPInstructionsTextPos,
+                                            text_wordwrap = TTLocalizer.MRPinstructionsTextWordwrap,
+                                            pos = TTLocalizer.MRPinstructionsTextPos,
                                             relief = None,
                                             )
         self.playButton = DirectButton(

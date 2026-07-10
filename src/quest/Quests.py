@@ -198,10 +198,12 @@ def getCompleteStatusWithNpc(questComplete, toNpcId, npc):
     if questComplete:
         if npc:
             if npcMatches(toNpcId, npc):
+
                 return COMPLETE
             else:
                 return INCOMPLETE_WRONG_NPC
         else:
+
             return COMPLETE
     else:
         if npc:
@@ -651,7 +653,7 @@ class CogQuest(LocationBasedQuest):
         cogType = self.getCogType()
         if numCogs == 1:
             if cogType == Any:
-                return TTLocalizer.ACog
+                return TTLocalizer.Cog
             else:
                 return SuitBattleGlobals.SuitAttributes[cogType]['singularname']
         else:
@@ -2186,6 +2188,15 @@ def getQuestDialog(id):
 def getQuestReward(id, av):
     baseRewardId = QuestDict.get(id)[QuestDictRewardIndex]
     return transformReward(baseRewardId, av)
+
+def isQuestJustForFun(questId, rewardId):
+
+    questEntry = QuestDict.get(questId)
+    if questEntry:
+        tier = questEntry[QuestDictTierIndex]
+        return isRewardOptional(tier, rewardId)
+    else:
+        return False
 
 NoRewardTierZeroQuests = (101, 110, 121, 131, 141, 145, 150, 160, 161, 162, 163)
 RewardTierZeroQuests = ()

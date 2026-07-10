@@ -3,6 +3,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import BattlePlace
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
+from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.toonbase import ToontownGlobals
 from toontown.building import Elevator
 from pandac.PandaModules import *
@@ -126,6 +127,9 @@ class FactoryExterior(BattlePlace.BattlePlace):
         # Turn the sky on
         self.loader.hood.startSky()
 
+
+        self._telemLimiter = TLGatherAllAvs('FactoryExterior', RotationLimitToH)
+
         self.accept("doorDoneEvent", self.handleDoorDoneEvent)
         self.accept("DistributedDoor_doorTrigger", self.handleDoorTrigger)
         # Turn on the little red arrows.
@@ -136,6 +140,9 @@ class FactoryExterior(BattlePlace.BattlePlace):
         self.fsm.request(how, [requestStatus])
 
     def exit(self):
+        self._telemLimiter.destroy()
+        del self._telemLimiter
+
         # Turn the sky off
         self.loader.hood.stopSky()
         self.fsm.requestFinalState()

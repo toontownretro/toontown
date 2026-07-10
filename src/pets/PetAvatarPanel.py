@@ -85,7 +85,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
                 image3_color = disabledImageColor,
                 relief = None,
                 text = TTLocalizer.PetPanelFeed,
-                text_scale = TTLocalizer.PAPfeed,
+                text_scale = TTLocalizer.PAPfeedButton,
                 text0_fg = text0Color,
                 text1_fg = text1Color,
                 text2_fg = text2Color,
@@ -115,7 +115,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
                 text1_fg = text1Color,
                 text2_fg = text2Color,
                 text3_fg = text3Color,
-                text_scale = TTLocalizer.PAPcall,
+                text_scale = TTLocalizer.PAPcallButton,
                 text_pos = (-0.5,1.3),
                 text_align = TextNode.ALeft,
                 command = self.__handleCall,
@@ -139,7 +139,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
                 text1_fg = text1Color,
                 text2_fg = text2Color,
                 text3_fg = text3Color,
-                text_scale = TTLocalizer.PAPscratch,
+                text_scale = TTLocalizer.PAPscratchButton,
                 text_pos = (-0.5,2.05),
                 text_align = TextNode.ALeft,
                 command = self.__handleScratch,
@@ -161,7 +161,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
                         TTLocalizer.PetPanelOwner, ""),
                 text_fg = text2Color,
                 text_shadow = (0, 0, 0, 1),
-                text_scale = TTLocalizer.PAPowner,
+                text_scale = TTLocalizer.PAPownerButton,
                 text_pos = (0.3,1.05),
                 text_align = TextNode.ACenter,
                 command = self.__handleToOwner,
@@ -383,6 +383,8 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
             messenger.send("clickedNametag", [avatar])
 
     def __handleCall(self):
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: PET: Call')
         self.notify.debug("__handleCall(): doId=%s" % self.avatar.doId)
         base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_CALL)
         base.panel.disableInteractionButtons()
@@ -395,6 +397,8 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         base.localAvatar.lock()
 
     def __handleFeed(self):
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: PET: Feed')
         self.notify.debug("__handleFeed(): doId=%s" % self.avatar.doId)
         base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_FEED)
         base.panel.disableInteractionButtons()
@@ -407,6 +411,8 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         base.localAvatar.lock()
             
     def __handleScratch(self):
+        if base.config.GetBool('want-qa-regression', 1):
+            self.notify.info('QA-REGRESSION: PET: Scratch')
         self.notify.debug("__handleScratch(): doId=%s" % self.avatar.doId)
         base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_SCRATCH)
         base.panel.disableInteractionButtons()
@@ -475,7 +481,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
                 text_font = avatar.getFont(),
                 text_fg = Vec4(0,0,0,1),
                 text_scale = TTLocalizer.PAPstateLabel,
-                text_wordwrap = TTLocalizer.PAPstateLabelwordwrap,
+                text_wordwrap = TTLocalizer.PAPstateLabelWordwrap,
                 text_shadow = (1, 1, 1, 1),
                 )
         

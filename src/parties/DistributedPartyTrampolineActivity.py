@@ -33,7 +33,6 @@ from pandac.PandaModules import CollisionNode
 from pandac.PandaModules import BitMask32
 
 from otp.otpbase import OTPGlobals
-from toontown.toon import GMUtils
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TTDialog
@@ -304,9 +303,6 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
     #---------------------------------------------------
     def setBestHeightInfo(self, toonName, height):
     
-        if GMUtils.testGMIdentity(toonName):
-            toonName = GMUtils.handleGMName(toonName)
-            
         self.bestHeightInfo = (toonName, height)
         DistributedPartyTrampolineActivity.notify.debug( "%s has the best height of %d" % (toonName, height) )
 

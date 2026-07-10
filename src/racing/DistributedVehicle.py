@@ -102,6 +102,12 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
     SFX_TurboStart =       SFX_BaseDir + "KART_turboStart.mp3"
     SFX_TurboLoop =        SFX_BaseDir + "KART_turboLoop.wav"
     
+    AvId2kart = {}
+
+    @classmethod
+    def getKartFromAvId(cls, avId):
+        return cls.AvId2kart.get(avId)
+
     def __init__(self, cr):
         DistributedSmoothNode.DistributedSmoothNode.__init__(self, cr)
         FSM.FSM.__init__(self, 'DistributedVehicle')
@@ -222,7 +228,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.anvil=globalPropPool.getProp('anvil')
         self.anvil.setScale(5)
         self.anvil.reparentTo(hidden)
-        self.anvil.setColor(.1,.1,.1,1)
+        self.anvil.setColor(1,1,1,1)
         self.anvil.setTransparency(1)
         ###########################################################
         # Add the kart to the scene
@@ -262,6 +268,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         active duty and stored in a cache.
         """
         assert self.notify.debug(" Disabling...")
+        DistributedVehicle.AvId2kart.pop(self.ownerId)
         self.finishMovies()
         self.request('Off')
         self.stopSkid()
@@ -1607,6 +1614,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
 
     def setOwner(self,avId):
         self.ownerId=avId
+        DistributedVehicle.AvId2kart[avId] = self
 
     def stopCar(self,level):
         #vel=self.actorNode.getPhysicsObject().getVelocity()

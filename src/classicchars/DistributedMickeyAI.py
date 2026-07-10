@@ -108,10 +108,12 @@ class DistributedMickeyAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
                    simbase.air.holidayManager.currentHolidays[ToontownGlobals.HALLOWEEN_COSTUMES]:
                     simbase.air.holidayManager.currentHolidays[ToontownGlobals.HALLOWEEN_COSTUMES].triggerSwitch(curWalkNode, self)
                     self.fsm.request('TransitionToCostume')
+                    return
                 elif ToontownGlobals.APRIL_FOOLS_COSTUMES in simbase.air.holidayManager.currentHolidays and \
                    simbase.air.holidayManager.currentHolidays[ToontownGlobals.APRIL_FOOLS_COSTUMES]:
                     simbase.air.holidayManager.currentHolidays[ToontownGlobals.APRIL_FOOLS_COSTUMES].triggerSwitch(curWalkNode, self)
                     self.fsm.request('TransitionToCostume')
+                    return
                 else:
                     self.notify.warning('transitionToCostume == 1 but no costume holiday')
             else:
@@ -157,11 +159,23 @@ class DistributedMickeyAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
     def enterChatty(self):
         self.chatty.enter()
         self.acceptOnce(self.chattyDoneEvent, self.__decideNextState)
+        taskMgr.doMethodLater(CharStateDatasAI.CHATTY_DURATION + 10, self.forceLeaveChatty, self.taskName('forceLeaveChatty'))
+
+    def forceLeaveChatty(self, task):
+        self.notify.warning('Had to force change of state from Chatty state')
+        doneStatus = {}
+        doneStatus['state'] = 'chatty'
+        doneStatus['status'] = 'done'
+        self.__decideNextState(doneStatus)
+        return Task.done
+
+    def cleanUpChattyTasks(self):
+        taskMgr.removeTasksMatching(self.taskName('forceLeaveChatty'))
 
     def exitChatty(self):
         self.ignore(self.chattyDoneEvent)
         self.chatty.exit()
-
+        self.cleanUpChattyTasks()
 
     ### Walk state ###
     def enterWalk(self):
@@ -172,7 +186,6 @@ class DistributedMickeyAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
     def exitWalk(self):
         self.ignore(self.walkDoneEvent)
         self.walk.exit()
-
 
     def avatarEnterNextState(self):
         """

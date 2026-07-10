@@ -60,7 +60,7 @@ class PartyEditorListElement(DirectButton):
                 # Give these tall icons a bit more head room.
                 if self.id in [PartyGlobals.DecorationIds.CogStatueVictory, 
                                PartyGlobals.DecorationIds.TubeCogVictory,
-                               PartyGlobals.DecorationIds.cogIceCreamVictory]:
+                               PartyGlobals.DecorationIds.CogIceCreamVictory]:
                     geom_pos = (0.0, 0.0, -3.9)
                     scale = Vec3(0.05, 0.0001, 0.05)
                 

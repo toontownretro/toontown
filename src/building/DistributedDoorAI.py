@@ -204,7 +204,7 @@ class DistributedDoorAI(DistributedObjectAI.DistributedObjectAI):
         lockedVal = self.isLockedDoor()
         
         # Check that player has full access
-        if not ToontownAccessAI.canAccess(avatarID, self.zoneId):
+        if not ToontownAccessAI.canAccess(avatarID, self.zoneId, 'DistributedDoorAI.requestEnter'):
             lockedVal = True
             
         if lockedVal:

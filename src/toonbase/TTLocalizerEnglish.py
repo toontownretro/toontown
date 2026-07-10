@@ -1,5 +1,13 @@
 from toontown.toonbase.TTLocalizerEnglishProperty import *
+from toontown.catalog import CatalogAccessoryItemGlobals
 
+
+from otp.otpbase import OTPLocalizer as OL
+OL.SpeedChatStaticText = OL.SpeedChatStaticTextToontown.copy()
+for key in OL.SpeedChatStaticTextCommon.iterkeys():
+    OL.SpeedChatStaticText[key] = OL.SpeedChatStaticTextCommon[key]
+
+commitmantst = 'kptmptest - removable'
 InterfaceFont = 'phase_3/models/fonts/ImpressBT.ttf'
 ToonFont = 'phase_3/models/fonts/ImpressBT.ttf'
 SuitFont = 'phase_3/models/fonts/vtRemingtonPortable.ttf'
@@ -42,8 +50,12 @@ NametagLabel = " Nametag"
 UnpaidNameTag = "Basic"
 
 # GM nametags
-GM_1 = "TOON COUNCIL"
-GM_2 = "TOON TROOP"
+GM_NAMES = (
+    "TOON COUNCIL",
+    "TOON TROOPER",
+    "RESISTANCE RANGER",
+    "GC",
+    )
 
 BuildingNametagFont = 'phase_3/models/fonts/MickeyFont'
 BuildingNametagShadow = None
@@ -58,7 +70,9 @@ Minnie = "Minnie"
 WitchMinnie = "WitchMinnie"
 Donald = "Donald"
 DonaldDock = "DonaldDock"
+FrankenDonald = "FrankenDonald"
 Daisy  = "Daisy"
+SockHopDaisy = "SockHopDaisy"
 Goofy  = "Goofy"
 SuperGoofy = "SuperGoofy"
 Pluto  = "Pluto"
@@ -66,6 +80,8 @@ WesternPluto = "WesternPluto"
 Flippy = "Flippy"
 Chip   = "Chip"
 Dale   = "Dale"
+JailbirdDale = "JailbirdDale"
+PoliceChip = "PoliceChip"
 
 # common locations
 lTheBrrrgh = 'The Brrrgh'
@@ -2414,12 +2430,14 @@ ReportPanelCategoryLanguage = "Foul Language"
 ReportPanelCategoryPii = "Sharing/Requesting Personal Info"
 ReportPanelCategoryRude = "Rude or Mean Behavior"
 ReportPanelCategoryName = "Bad Name"
+ReportPanelCategoryHacking = "Hacking"
 
 ReportPanelConfirmations = (
     "You are about to report that %s has used obscene, bigoted or sexually explicit language.",
     "You are about to report that %s is being unsafe by giving out or requesting a phone number, address, last name, email address, password or account name.",
     "You are about to report that %s is bullying, harassing, or using extreme behavior to disrupt the game.",
     "You are about to report that %s has created a name that does not follow Disney's House Rules.",
+    "You are about to report that %s has hacked/tampered with the game or used third party software.",
     )
 
 # Put on confirmation screen!
@@ -2554,6 +2572,9 @@ TeleportPanelBusyShard = "%(avName)s is in a full District. Playing in a full Di
 
 # DistributedBattleBldg.py
 BattleBldgBossTaunt = "I'm the boss."
+# DistributedCogdoBattleBldg.py
+CogdoBattleBldgBossTaunt = "I don't take meetings with Toons."
+
 
 # DistributedBattleFactory.py
 FactoryBossTaunt = "I'm the Foreman."
@@ -2975,6 +2996,7 @@ RewardPanelMeritAlert = "Ready for promotion!"
 
 RewardPanelCogPart = "You gained a Cog disguise part!"
 RewardPanelPromotion = "Ready for promotion in %s  track!"
+RewardPanelSkip = "Skip"
 
 # Cheesy effect descriptions: (short desc, sentence desc)
 CheesyEffectDescriptions = [
@@ -3546,7 +3568,7 @@ SuitAttackTaunts = {
                     "Looks like you're going to hit a birdie.",
                     "Some think this attack is fowl.",
                     "You're on the bottom of the pecking order.",
-                    "I bird in my hand is worth ten on your head!",
+                    "A bird in my hand is worth ten on your head!",
                     "Your order is up; the pecking order!",
                     "Why don't I peck on someone my own size? Nah.",
                     "Birds of a feather strike together.",
@@ -3876,7 +3898,7 @@ KartMinLaff = "You need %s laff points to ride this kart"
 CogsIncExt = ", Inc."
 CogsIncModifier = "%s" + CogsIncExt
 CogsInc = Cogs.upper() + CogsIncExt
-CogdominiumsExt = " Cogdominiums"
+CogdominiumsExt = " Field Office"
 Cogdominiums = Cog.upper() + CogdominiumsExt
 
 # DistributedKnockKnockDoor.py
@@ -4461,7 +4483,7 @@ VampireMickeyChatter = (
         "Hi, my name is "+Mickey+". What's yours?",
         "Happy Halloween!",
         "Happy Halloween, %!",
-        "Welcome to Spookytown Central... I mean "+lToontownCentral+"!",
+        "Welcome to Tombtown... I mean Toontown!",
         ],
         [ # Comments
         "If you think playing tricks is All Fun and Games, go see Lazy Hal for a treat!",
@@ -4481,15 +4503,11 @@ VampireMickeyChatter = (
         "If you think playing tricks is All Fun and Games, go see Lazy Hal for a treat!",
         "Don't forget to brush your fangs!",
         "If you think playing tricks is All Fun and Games, go see Lazy Hal for a treat!",
-        "Don't be scared, I'm a friendly vampire!",
+        "I'm a vampire, but not a Bloodsucker!",
         "If you think playing tricks is All Fun and Games, go see Lazy Hal for a treat!",
-        "Do you like my cape?",
+        "I hope you're enjoying our Halloween fun!",
         "If you think playing tricks is All Fun and Games, go see Lazy Hal for a treat!",
-        "Did I scare you?  This is my best gag ever!",
-        "If you think playing tricks is All Fun and Games, go see Lazy Hal for a treat!",
-        "I hope you are enjoying our Halloween fun!",
-        "If you think playing tricks is All Fun and Games, go see Lazy Hal for a treat!",
-        "Spooky, it's dark as night!",
+        "Vampires are really popular this year!",
         ],
         [ # Goodbyes
         "I'm going to check out the cool Halloween decorations.",
@@ -4499,6 +4517,10 @@ VampireMickeyChatter = (
         "Shhh, sneak with me.",
         ]
     )
+
+FieldOfficeMickeyChatter = [
+    "Have you heard about the new Mover & Shaker Field Offices?",
+    ]
 
 MinnieChatter = (
         [ # Greetings
@@ -4602,7 +4624,6 @@ ValentinesMinnieChatter = (
     "Mickey has never missed a ValenToon's Day!",
     ],
     [
-    "Spread the love out there!",
     "It was sweet having you visit!",
     ]
 )
@@ -4641,6 +4662,10 @@ WitchMinnieChatter = (
         "Mickey is taking me Trick-or-Treating!",
         ]
     )
+
+FieldOfficeMinnieChatter = [
+    "Everyone is talking about the new Mover & Shaker Field Offices!",
+    ]
 
 DaisyChatter = (
         [ # Greetings
@@ -4699,21 +4724,21 @@ WinterDaisyCChatter = (
         "Happy Winter Holiday, %!",
         ],
         [ # Comments
-        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why no craft her a carol",
+        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why not craft her a carol?",
         "My garden needs more mistletoe!",
-        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why no craft her a carol",
+        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why not craft her a carol?",
         "I need to plant holly for next year!",
-        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why no craft her a carol",
+        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why not craft her a carol?",
         "I'm going to ask Goofy to build me a gingerbread house!",
-        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why no craft her a carol",
+        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why not craft her a carol?",
         "Those lights on the lamps are lovely!",
-        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why no craft her a carol",
+        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why not craft her a carol?",
         "That is some jolly holly!",
-        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why no craft her a carol",
+        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why not craft her a carol?",
         "My snowman keeps melting!",
-        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why no craft her a carol",
+        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why not craft her a carol?",
         "That duck is decked out!",
-        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why no craft her a carol",
+        "Shoshanna at Pine Needle Crafts is a real sap for songs, so why not craft her a carol?",
         "I grew all these lights myself!",
         ],
         [ # Goodbyes
@@ -4756,6 +4781,10 @@ HalloweenDaisyChatter = (
         ],
         [ # Comments
         "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "Wanna dance?",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "I'm a duck with a poodle skirt!",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
         "The pirate tree needs water.",
         "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
         "Trick-or-Tree!",
@@ -4780,6 +4809,9 @@ HalloweenDaisyChatter = (
         ]
     )
         
+FieldOfficeDaisyChatter = [
+    "Those Mover & Shaker Field Offices are popping up like weeds!",
+    ]
 
 ChipChatter = (
         [ # Greetings
@@ -4848,7 +4880,10 @@ HalloweenChipChatter = (
         ],
         [ # Comments
         "We're nuts about Halloween!",
-        "I'm Dale dressed as Chip.",
+        "You're under arrest",
+        "You can't outrun the long arm of the law",
+        "I'm a Bobby!",
+        "I hope you are enjoying our Halloween fun!",
         "Play golf and get a Howl-In-One.",
         "Candy corns are sweeter than acorns.",
         "I hope you are enjoying our Halloween fun!",
@@ -4858,7 +4893,6 @@ HalloweenChipChatter = (
         ]
     )
         
-
 # Warning Dale's chatter is dependent on on Chip's, they should match up
 DaleChatter = (
         [ # Greetings
@@ -4927,11 +4961,13 @@ HalloweenDaleChatter = (
         "Happy Halloween!",        
         ],
         [ # Comments
-        "I hope you are enjoying our Halloween fun!",
         "We're nuts about Halloween!",
-        "I'm Chip dressed as Dale.",
-        "Play golf and get a Howl-In-One.",
-        "Candy corns are sweeter than acorns.",        
+        "Great, I could use a rest!",
+        "But your arms are short!",
+        "I thought you were a Chip!",
+        "Play golf and get a Howl-In-One",
+        "Candy corns are sweeter than acorns.",
+        "I hope you are enjoying our Halloween fun!",
         ],
         [ # Goodbyes
         "%, watch out for Bloodsucker Cogs!",
@@ -4975,19 +5011,18 @@ WinterGoofyChatter = (
         ],
         [ # Comments
         "Who needs reindeer when you have a fast kart?",
-        "Gawrsh! Is it Witer Holiday already?",
+        "Gawrsh! Is it Winter Holiday already?",
         "I need my earmuffs!",
         "I haven't done any shopping yet!",
         "Don't drive your kart on ice!",
         "Seems like it was Winter Holiday only a year ago!",
         "Treat your kart to a present and spruce it up!",
         "These karts are better than any old sleigh!",
-        "Is it hard to drive with a snowman head?",
         ],
         [ # Goodbyes
         "Have a cheery Winter Holiday!",
         "Drive safe, now!",
-        "Watch out for flrying reindeer!",
+        "Watch out for flying reindeer!",
         ]
     )
     
@@ -5111,7 +5146,7 @@ WinterDreamlandCChatter = (
         "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
         "I love a long winter's nap!",
         "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
-        "The trees on the streets are convered in night lights!",
+        "The trees on the streets are covered in night lights!",
         ],
         [ # Goodbyes
         "To all, a good night!",
@@ -5134,7 +5169,7 @@ WinterDreamlandDChatter = (
         "When I wake up, I better see lots of presents!",
         "I hope I don't sleep through the holidays!",
         "I love a long winter's nap!",
-        "The trees on the streets are convered in night lights!",
+        "The trees on the streets are covered in night lights!",
         ],
         [ # Goodbyes
         "To all, a good night!",
@@ -5147,18 +5182,19 @@ HalloweenDreamlandChatter = (
         [ # Greetings
         "Happy Halloween!",
         "Happy Halloween, %!",
+        "Hi, I'm FrankenDonald!",
         ],
         [ # Comments
         "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
-        "My dreams sure are spooky tonight!",
+        "Am I awake or dreaming?",
         "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
-        "I must be dreaming, that lamp is a witch!",
+        "I'm so scared, I can't fall asleep!",
         "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
-        "Am I dreaming, or did that Toon have a pumpkin head?",
+        "So this is what Dreamland looks like!",
         "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
-        "When I wake up, I hope things aren't as spooky!",
+        "Boy, I'm sleepy!",
         "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
-        "I hope I don't sleep through Halloween!",
+        "I hope I don't sleep through Halloween this year!",
         "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
         "I hope you are enjoying our Halloween fun!",
         ],
@@ -5190,6 +5226,10 @@ ValentinesDreamlandChatter = (
     ]
 )
 
+FieldOfficeDreamlandChatter = [
+    "I dreamed about something called a Field Office...",
+    ]
+
 HalloweenDonaldChatter = (
         [ # Greetings
         "Welcome to my Halloween harbor!",
@@ -5199,7 +5239,7 @@ HalloweenDonaldChatter = (
         ],
         [ # Comments
         "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
-        "But I wear a sailor costume every day!",
+        "I'm dressed as a sailor!",
         "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
         "Pumpkins make great lanterns!",
         "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
@@ -5324,6 +5364,8 @@ WesternPlutoChatter = (
         "I hope you are enjoying our Halloween fun!",
         "Frosty Fred has treats for tricks, they make him feel like there's Snowplace Like Home!",
         "I like to chase Black Cat Toons!",
+        "Frosty Fred has treats for tricks, they make him feel like there's Snowplace Like Home!",
+        "There's a snake in my boot!",
         ],
         [ # Goodbyes
         "I'm going to go dig up a treat!",
@@ -5617,9 +5659,9 @@ GPGoofySpeedwayChatter = (
         ],
         [ # Comments                
         "Are you excited about the Grand Prix Weekend?",
-        "Good thing we got the Leaderboard fixed.",
-        "We got the Leaderboard fixed just in time for Grand Prix Weekend!",
-        "We never did find that Toon!",
+        "Grand Prix Weekend really drives up those scores!",
+        "Get more tickets by racing practice laps.",
+        "Gawrsh, you're a fast racer!",
         "Boy, I saw a terrific race earlier.",
         "Watch out for banana peels on the race track!",
         "Have you upgraded your kart lately?",
@@ -5690,11 +5732,37 @@ EmceeDialoguePhase3_5Topic = "EmceeDialoguePhase3.5"
 EmceeDialoguePhase4Topic = "EmceeDialoguePhase4"
 EmceeDialoguePhase5Topic = "EmceeDialoguePhase5"
 EmceeDialoguePhase6Topic = "EmceeDialoguePhase6"
+AprilToonsPhasePreTopTopic = "AprilToonsPhasePreTopTopic"
+AprilToonsPhaseTopTopic = "AprilToonsPhaseTopTopic"
+AprilToonsExtPhaseTopTopic = "AprilToonsExtPhaseTopTopic"
+AprilToonsPhasePostTopTopic = "AprilToonsPhasePostTopTopic"
 toontownDialogues = { 
    BoringTopic : { \
         (1, 2018)  : ['Hello Albert', 'It looks like the sillyness levels are rising', 'Yes and dont forget April Toons!'],
         (2, 2019) : ['Hello Newton', 'Yes I wonder how much the parties are contributing to all this',],
         (3, 2020) : ['Why hello there Albert and Newton', 'Halloween was pretty silly too!',],
+        },
+    AprilToonsPhasePreTopTopic: {
+        (1, 2020) : ['Gadzooks! The Silly Meter has come back to life!',
+                        'It\'s rising every day, and will reach the top soon!',
+                        'When it does, something silly is sure to happen!',
+                        'So get ready to get ridiculous!', ],
+        },
+    AprilToonsPhaseTopTopic: {
+        (1, 2020) : ['The Silly Meter has hit the top!',
+                        'Doodles are talking, Estates are bouncy!',
+                        'There\'s only one thing to say…',
+                        'HAPPY APRIL TOONS!', ],
+        },
+    AprilToonsExtPhaseTopTopic: {
+        (1, 2020) : ['The Silly Meter has hit the top!',
+                        'Doodles are talking, Estates are bouncy!', ],
+        },
+    AprilToonsPhasePostTopTopic: {
+        (1, 2020) : ['April Toons is over!',
+                        'It\'s time for us to return to our lab.',
+                        'But when things get REALLY crazy again…',
+                        'The Silly Meter will return!', ],
         },
     EmceeDialoguePhase1Topic : {
         (1, 2020) : [ 'Fellow Toons, this is the Silly Meter!', 
@@ -5825,6 +5893,11 @@ TeaserKartingAccessories = "To customize your Kart"
 TeaserGardening = "To continue gardening at your Toon Estate"
 TeaserHaveFun = "Have more fun!"
 TeaserJoinUs = "Join us!"
+TeaserPlantGags = "To plant these gags"
+TeaserPickGags = "To pick these gags"
+TeaserRestockGags = "To restock these gags"
+TeaserGetGags = "To get these gags"
+TeaserUseGags = "To use these gags"
 
 #TeaserCardsAndPosters = ""
 #TeaserFurniture = ""
@@ -5948,6 +6021,7 @@ EventsPageToontownTimeIs = "TOONTOWN TIME IS"
 EventsPageConfirmCancel = "If you cancel, you will get a %d%% refund. Are you sure you want to cancel your party?"
 EventsPageCancelPartyResultOk = "Your party was cancelled and you got %d jellybeans back!"
 EventsPageCancelPartyResultError = "Sorry, your party was not cancelled."
+EventsPageCancelPartyAlreadyRefunded = "Your party was never started. Check your mailbox for your refund!"
 EventsPageTooLateToStart = "Sorry, it is too late to start your party. You can cancel it and plan another one."
 EventsPagePublicPrivateChange = "Changing your party's privacy setting..."
 EventsPagePublicPrivateNoGo = "Sorry, you can't change your party's privacy setting right now."
@@ -6056,6 +6130,7 @@ PartyPlannerGenericFemaleTheme = "Flower"
 PartyPlannerRacingTheme = "Racing"
 PartyPlannerValentoonsTheme = "ValenToons"
 PartyPlannerVictoryPartyTheme = "Victory"
+PartyPlannerWinterPartyTheme = "Winter"
 PartyPlannerGuestName = "Guest Name"
 PartyPlannerClosePlanner = "Close Planner"
 PartyPlannerConfirmationAllOkTitle = "Congratulations!"
@@ -6070,8 +6145,8 @@ PartyPlannerInvitationThemeWhatSentenceNoFriends = "I am hosting a %s party! %s!
 PartyPlannerInvitationThemeWhatActivitiesBeginning = "It will have "
 PartyPlannerInvitationWhoseSentence = "%s Party"
 PartyPlannerInvitationTheme = "Theme"
-PartyPlannerInvitationWhenSentence = "It will be %s,\nat %s Toontown Time.\nHope you can make it!"
-PartyPlannerInvitationWhenSentenceNoFriends = "It will be %s,\nat %s Toontown Time.\nToontastic!"
+PartyPlannerInvitationWhenSentence = "It will be on %s,\nat %s Toontown Time.\nHope you can make it!"
+PartyPlannerInvitationWhenSentenceNoFriends = "It will be on %s,\nat %s Toontown Time.\nToontastic!"
 PartyPlannerComingSoon = "Coming Soon"
 PartyPlannerCantBuy= "Can't Buy"
 PartyPlannerGenericName = "Party Planner"
@@ -6239,6 +6314,54 @@ PartyActivityNameDict = {
         "editor" : "Cog Trampoline",
         "description" : "Jump on a Cog's face!"
     },
+    12 : {
+        "generic" : "Present Catch",
+        "invite" : "Present Catch",
+        "editor" : "Present Catch",
+        "description" : "Catch presents to win beans! Dodge those anvils!",
+    },
+    13 : {
+        "generic" : "Holiday Trampoline",
+        "invite" : "Holiday Trampoline",
+        "editor" : "Holiday Trampoline",
+        "description" : "Jump if you love Winter Holidays!",
+    },
+    14 : {
+        "generic" : "Holiday Cog-O-War",
+        "invite" : "Holiday Cog-O-War",
+        "editor" : "Holiday Cog-O-War",
+        "description" : "The team vs. team game of Cog splattering!",
+    },
+    15 : {
+        "generic" : "Dance Floor\n10 moves",
+        "invite" : "a 10 move ValenToons Dance Floor",
+        "editor" : "Dance Floor - 10",
+        "description" : "Get your ValenToon Groove On!",
+    },
+    16 : {
+        "generic" : "Dance Floor\n20 moves",
+        "invite" : "a 20 move ValenToons Dance Floor",
+        "editor" : "Dance Floor - 20",
+        "description" : "Get your ValenToon Groove On!",
+    },
+    17 : {
+        "generic" : "Jukebox\n20 songs",
+        "invite" : "a 20 song Valentoons Jukebox",
+        "editor" : "Jukebox - 20",
+        "description" : "Nothing sets the mood like music!",
+    },
+    18 : {
+        "generic" : "Jukebox\n40 songs",
+        "invite" : "a 40 song Valentoons jukebox",
+        "editor" : "Jukebox - 40",
+        "description" : "Nothing sets the mood like music!",
+    },
+    19 : {
+        "generic" : "Trampoline",
+        "invite" : "ValenToons Trampoline",
+        "editor" : "Trampoline",
+        "description" : "Jump to your heart's content!",
+    }
 }
 
 # Note : This dictionary is used to show the names of the decorations in various
@@ -6299,15 +6422,15 @@ PartyDecorationNameDict = {
     },
     13 : {
         "editor" : "Cupid's Heart",
-        "description" : "You're on target for ValenToon's Day fun!",
+        "description" : "Ready...Aim...\nValenToons!",
     },
     14 : {
-        "editor" : "Heart Banner",
-        "description" : "Share the fun this ValenToon's Day!",
+        "editor" : "Candy Hearts\n Banner",
+        "description" : "Who doesn't love candy hearts?",
     },
     15 : {
         "editor" : "Flying Heart",
-        "description" : "Soar with the spirit of ValenToon's Day!",
+        "description" : "This heart is getting carried away!",
     },
     16 : {
         "editor" : "Victory Bandstand",
@@ -6331,8 +6454,32 @@ PartyDecorationNameDict = {
     },
     21 : {
         "editor" : "Cog Ice Cream",
-        "description" : "A Cog looking his best",
+        "description" : "A Cog looking his best.",
     },
+    22 : {
+        "editor" : "CogCicle",
+        "description" : "A Cog looking his holiday best.",
+    },
+    23 : {
+        "editor" : "Holiday Bandstand",
+        "description" : "Everyone loves a Holiday Party!",
+    },
+    24 : {
+        "editor" : "Chilly Cog",
+        "description" : "Ouch! That's gotta hurt.",
+    },
+    25 : {
+        "editor" : "Snowman",
+        "description" : "So cool, he's hot!",
+    },
+    26 : {
+        "editor" : "SnowDoodle",
+        "description" : "His only trick is being cold!",
+    },
+    27 : {
+        "editor" : "ValenToons Anvil",
+        "description" : "We've got your heart on a string!",
+    }
 }
 
 ActivityLabel = "Cost - Activity Name"
@@ -6385,7 +6532,10 @@ PartyCatchActivityPineapples  = 'pineapples'
 PartyCatchActivityAnvils      = 'anvils'
 PartyCatchStarted = "The game has started. Go play it."
 PartyCatchCannotStart = "The game could not start right now."
-PartyCatchRewardMessage = "Pieces of fruit caught: %s\n\nJellybeans earned: %s"
+PartyCatchRewardMessage = "Pieces of fruit caught: %s\n\nJellybeans earned: %d"
+# DistributedPartyWinterCatchActivity.py
+WinterPartyCatchActivityInstructions = "Catch as many presents as you can. Try not to 'catch' any %(badThing)s!"
+WinterPartyCatchRewardMessage = "Presents caught: %s\n\nJellybeans earned: %s"
 
 # DistributedPartyDanceActivity.py
 PartyDanceActivityTitle = "Party Dance Floor"
@@ -6537,6 +6687,8 @@ OptionsPageToonChatSoundsOnLabel = "   Type Chat Sounds are on."
 OptionsPageToonChatSoundsOffLabel = "   Type Chat Sounds are off."
 OptionsPageFriendsEnabledLabel = "Accepting new friend requests."
 OptionsPageFriendsDisabledLabel = "Not accepting friend requests."
+OptionsPageWhisperEnabledLabel = "Allowing whispers from anyone."
+OptionsPageWhisperDisabledLabel = "Allowing whispers from friends only."
 OptionsPageSpeedChatStyleLabel = "SpeedChat Color"
 OptionsPageDisplayWindowed = "windowed"
 OptionsPageDisplayEmbedded = "In the browser"
@@ -6638,6 +6790,10 @@ QuestPosterLocationOn = " in "
 QuestPosterFun = "Just for fun!"
 QuestPosterFishing = "GO FISHING"
 QuestPosterComplete = "COMPLETE"
+QuestPosterConfirmDelete = "Are you sure you want to delete this ToonTask?"
+QuestPosterDeleteBtn = "Delete"
+QuestPosterDialogYes = "Delete"
+QuestPosterDialogNo = "Cancel"
 
 # ShardPage.py
 ShardPageTitle = "Districts"
@@ -6815,7 +6971,7 @@ InventoryDetailData = "Accuracy: %(accuracy)s\n%(damageString)s: %(damage)d%(bon
 InventoryTrackExp = "%(curExp)s / %(nextExp)s"
 InventoryUberTrackExp = "%(nextExp)s to Go!"
 InventoryGuestExp = "Guest Limit"
-GuestLostExp = " Over Guest Limit"
+GuestLostExp = "Over Guest Limit"
 InventoryAffectsOneCog = "Affects: One " + Cog
 InventoryAffectsOneToon = "Affects: One Toon"
 InventoryAffectsAllToons = "Affects: All Toons"
@@ -7077,7 +7233,7 @@ MintBossConfrontedMsg = "%s is battling the Supervisor!"
 # DistributedStage.py
 StageBossConfrontedMsg = "%s is battling the Clerk!"
 stageToonEnterElevator = "%s \nhas entered the elevator"
-ForcedLeaveStageAckMsg = "The Law Clerk was defeated before you could reach him. You did not recovI:\beta\toons\maya\work\character_moods\temp\ModelFixes\Textureser any Jury Notices."
+ForcedLeaveStageAckMsg = "The Law Clerk was defeated before you could reach him. You did not recover any Jury Notices."
 
 
 # DistributedMinigame.py
@@ -7336,6 +7492,7 @@ WaitingForNameSubmission = "Submitting your name..."
 
 # PetshopGUI.py
 PetNameMaster = "PetNameMasterEnglish.txt"
+PetNameIndexMAX = 2713
 PetshopUnknownName = "Name: ???"
 PetshopDescGender = "Gender:\t%s"
 PetshopDescCost = "Cost:\t%s jellybeans"
@@ -7580,7 +7737,7 @@ BossBattleNeedMorePies = "You need to get more pies!"
 BossBattleHowToGetPies = "Jump up to touch the cage to get pies."
 BossBattleHowToThrowPies = "Press the Delete key to throw pies!"
 CagedToonYippee = "Yippee!"
-CagedToonThankYou = "It's great to be free!\aThanks for all your help!\aI am in your debt.\aIf you ever need help in battle, just give me a call!\aJust click on the SOS button to call me."
+CagedToonThankYou = "It's great to be free!\aThanks for all your help!\aI am in your debt.\aHere's my card. If you ever need a hand in battle, give a shout!\aJust click on your SOS button."
 CagedToonPromotion = "\aSay--that V.P. Cog left behind your promotion papers.\aI'll file them for you on the way out, so you'll get your promotion!"
 CagedToonLastPromotion = "\aWow, you've reached level %s on your Cog suit!\aCogs don't get promoted higher than that.\aYou can't upgrade your Cog suit anymore, but you can certainly keep rescuing Toons!"
 CagedToonHPBoost = "\aYou've rescued a lot of Toons from this HQ.\aThe Toon Council has decided to give you another Laff point. Congratulations!"
@@ -7645,6 +7802,10 @@ MintElevatorRejectMessage = "You cannot enter the Mints until you have completed
 BossElevatorRejectMessage = "You cannot board this elevator until you have earned a promotion."
 NotYetAvailable = "This elevator is not yet available."
 
+SellbotRentalSuitMessage = "Wear this Rental Suit so you can get close enough to the VP to attack.\n\nYou won't earn merits or promotions, but you can rescue a Toon for an SOS reward!"
+SellbotCogSuitNoMeritsMessage = "Your Sellbot Disguise will get you in, but since you don't have enough merits, you won't earn a promotion.\n\nIf you rescue the trapped Toon, you will earn an SOS Toon reward!"
+SellbotCogSuitHasMeritsMessage = "It's Operation: Storm Sellbot!\n\nBring 5 or more Rental Suit Toons with you to defeat the VP and earn credit towards a reward!"
+
 # Types of catalog items--don't translate yet.
 FurnitureTypeName = "Furniture"
 PaintingTypeName = "Painting"
@@ -7659,7 +7820,7 @@ GardenTypeName = "Garden Supplies"
 RentalTypeName = "Rental Item"
 GardenStarterTypeName = "Gardening Kit"
 NametagTypeName = "Name tag"
-
+AccessoryTypeName = "Accessory"
 
 # Make sure numbers match up to CatalogItemTypes.py
 CatalogItemTypeNames = {
@@ -7682,8 +7843,261 @@ CatalogItemTypeNames = {
     16: NametagTypeName,
     17: "TOON_STATUE",
     18: "ANIMATED FURNITURE",
+    19: AccessoryTypeName
 }
 
+
+
+
+HatStylesDescriptions = {
+    'hbb1' : "Green Baseball Cap",
+    'hbb2' : "Blue Baseball Cap",
+    'hbb3' : "Orange Baseball Cap",
+    'hsf1' : "Beige Safari Hat",
+    'hsf2' : "Brown Safari Hat",
+    'hsf3' : "Green Safari Hat",
+    'hrb1' : "Pink Bow",
+    'hrb2' : "Red Bow",
+    'hrb3' : "Purple Bow",
+    'hht1' : "Pink Heart",
+    'hht2' : "Yellow Heart",
+    'htp1' : "Black Top Hat",
+    'htp2' : "Blue Top Hat",
+    'hav1' : "Anvil Hat",
+    'hfp1' : "Flower Hat",
+    'hsg1' : "Sandbag Hat",
+    'hwt1' : "Weight Hat",
+    'hfz1' : "Fez Hat",
+    'hgf1' : "Golf Hat",
+    'hpt1' : "Party Hat",
+    'hpt2' : "Toon Party Hat",
+    'hpb1' : "Fancy Hat",
+    'hcr1' : "Crown",
+    'hcw1' : "Cowboy Hat",
+    'hpr1' : "Pirate Hat",
+    'hpp1' : "Propeller Hat",
+    'hfs1' : "Fishing Hat",
+    'hsb1' : "Sombrero Hat",
+    'hst1' : "Straw Hat",
+    'hsu1' : "Sun Hat",
+    'hrb4' : "Yellow Bow",
+    'hrb5' : "Checker Bow",
+    'hrb6' : "Light Red Bow",
+    'hrb7' : "Rainbow Bow",
+    'hat1' : "Antenna Thingy",
+    'hhd1' : "Beehive Hairdo",
+    'hbw1' : "Bowler Hat",
+    'hch1' : "Chef Hat",
+    'hdt1' : "Detective Hat",
+    'hft1' : "Fancy Feathers Hat",
+    'hfd1' : "Fedora",
+    'hmk1' : "Mickey's Band Hat",
+    'hft2' : "Feather Headband",
+    'hhd2' : "Pompadour Hairdo",
+    'hpc1' : "Princess Hat",
+    'hrh1' : "Archer Hat",
+    'hhm1' : "Roman Helmet",
+    'hat2' : "Spider Antenna Thingy",
+    'htr1' : "Tiara",
+    'hhm2' : "Viking Helmet",
+    'hwz1' : "Witch Hat",
+    'hwz2' : "Wizard Hat",
+    'hhm3' : "Conquistador Helmet",
+    'hhm4' : "Firefighter Helmet",
+    'hfp2' : "Anti-Cog Control Hat",
+    'hhm5' : "Miner Hat",
+    'hnp1' : "Napoleon Hat",
+    'hpc2' : "Pilot Cap",
+    'hph1' : "Cop Hat",
+    'hwg1' : "Rainbow Wacky Wig",
+    'hbb4' : "Yellow Baseball Cap",
+    'hbb5' : "Red Baseball Cap",
+    'hbb6' : "Aqua Baseball Cap",
+    'hsl1' : "Sailor Hat",
+    'hfr1' : "Samba Hat",
+    'hby1' : "Bobby Hat",
+    'hrb8' : "Pink Dots Bow",
+    'hjh1' : "Jester Hat",
+    'hbb7' : "Purple Baseball Cap",
+    'hrb9' : "Green Checker Bow",
+    'hwt2' : "Winter Hat",
+    'hhw1' : "Bandana",
+    'hhw2' : "Toonosaur Hat",
+    'hob1' : "Jamboree Hat",
+    'hbn1' : "Bird Hat by Brianna",
+    }
+
+
+
+
+
+
+
+GlassesStylesDescriptions = {
+    'grd1' : "Round Glasses",
+    'gmb1' : "White Mini Blinds",
+    'gnr1' : "Purple Narrow Glasses",
+    'gst1' : "Yellow Star Glasses",
+    'g3d1' : "Movie Glasses",
+    'gav1' : "Aviator",
+    'gce1' : "Cateye Glasses",
+    'gdk1' : "Nerd Glasses",
+    'gjo1' : "Celebrity Shades",
+    'gsb1' : "Scuba Mask",
+    'ggl1' : "Goggles",
+    'ggm1' : "Groucho Glasses",
+    'ghg1' : "Heart Glasses",
+    'gie1' : "Bug Eye Glasses",
+    'gmt1' : "Black Secret ID Mask",
+    'gmt2' : "Blue Secret ID Mask",
+    'gmt3' : "Blue Carnivale Mask",
+    'gmt4' : "Purple Carnivale Mask",
+    'gmt5' : "Aqua Carnivale Mask",
+    'gmn1' : "Monocle",
+    'gmo1' : "Smooch Glasses",
+    'gsr1' : "Square Frame Glasses",
+    'ghw1' : "Skull Eyepatch",
+    'ghw2' : "Gem Eyepatch",
+    'gag1' : "Alien Eyes by Alexandra",
+    }
+
+
+
+BackpackStylesDescriptions = {
+    'bpb1' : "Blue Backpack",
+    'bpb2' : "Orange Backpack",
+    'bpb3' : "Purple BackPack",
+    'bpd1' : "Red Dot Backpack",
+    'bpd2' : "Yellow Dot Backpack",
+    'bwg1' : "Bat Wings",
+    'bwg2' : "Bee Wings",
+    'bwg3' : "DragonFly Wings",
+    'bst1' : "Scuba Tank",
+    'bfn1' : "Shark Fin",
+    'baw1' : "White Angel Wings",
+    'baw2' : "Rainbow Angel Wings",
+    'bwt1' : "Toys Backpack",
+    'bwg4' : "Butterfly Wings",
+    'bwg5' : "Pixie Wings",
+    'bwg6' : "Dragon Wings",
+    'bjp1' : "Jet Pack",
+    'blg1' : "Bug Backpack",
+    'bsa1' : "Plush Bear Pack",
+    'bwg7' : "Bird wings",
+    'bsa2' : "Plush Cat Pack",
+    'bsa3' : "Plush Dog Pack",
+    'bap1' : "Airplane Wings",
+    'bhw1' : "Pirate Sword",
+    'bhw2' : "Super Toon Cape",
+    'bhw3' : "Vampire Cape",
+    'bhw4' : "Toonosaur Backpack",
+    'bob1' : "Jamboree Pack",
+    'bfg1' : "Gag Attack Pack",
+    'bfl1' : "Cog Pack by Savanah",
+    }
+
+
+
+
+ShoesStylesDescriptions = {
+    'sat1' : "Green Athletic Shoes",
+    'sat2' : "Red Athletic Shoes",
+    'smb1' : "Green Toon Boots",
+    'scs1' : "Green Sneakers",
+    'swt1' : "Wingtips",
+    'smj1' : "Black Fancy Shoes",
+    'sdk1' : "Boat Shoes",
+    'sat3' : "Yellow Athletic Shoes",
+    'scs2' : "Black Sneakers",
+    'scs3' : "White Sneakers",
+    'scs4' : "Pink Sneakers",
+    'scb1' : "Cowboy Boots",
+    'sfb1' : "Purple Boots",
+    'sht1' : "Green Hi Top Sneakers",
+    'smj2' : "Brown Fancy Shoes",
+    'smj3' : "Red Fancy Shoes",
+    'ssb1' : "Red Super Toon Boots",
+    'sts1' : "Green Tennis Shoes",
+    'sts2' : "Pink Tennis Shoes",
+    'scs5' : "Red Sneakers",
+    'smb2' : "Aqua Toon Boots",
+    'smb3' : "Brown Toon Boots",
+    'smb4' : "Yellow Toon Boots",
+    'sfb2' : "Blue Square Boots",
+    'sfb3' : "Green Hearts Boots",
+    'sfb4' : "Grey Dots Boots",
+    'sfb5' : "Orange Stars Boots",
+    'sfb6' : "Pink Stars Boots",
+    'slf1' : "Loafers",
+    'smj4' : "Purple Fancy Shoes",
+    'smt1' : "Motorcycle Boots",
+    'sox1' : "Oxfords",
+    'srb1' : "Pink Rain Boots",
+    'sst1' : "Jolly Boots",
+    'swb1' : "Beige Winter Boots",
+    'swb2' : "Pink Winter Boots",
+    'swk1' : "Work Boots",
+    'scs6' : "Yellow Sneakers",
+    'smb5' : "Pink Toon Boots",
+    'sht2' : "Pink Hi Top Sneakers",
+    'srb2' : "Red Dots Rain Boots",
+    'sts3' : "Purple Tennis Shoes",
+    'sts4' : "Violet Tennis Shoes",
+    'sts5' : "Yellow Tennis Shoes",
+    'srb3' : "Blue Rain Boots",
+    'srb4' : "Yellow Rain Boots",
+    'sat4' : "Black Athletic Shoes",
+    'shw1' : "Pirate Shoes",
+    'shw2' : "Toonosaur Feet",
+    }
+
+
+
+
+
+
+AccessoryNamePrefix = {
+    0: "hat unisex ",
+    1: "glasses unisex ",
+    2: "backpack unisex ",
+    3: "shoes unisex ",
+    4: "hat boy ",
+    5: "glasses boy ",
+    6: "backpack boy ",
+    7: "shoes boy ",
+    8: "hat girl ",
+    9: "glasses girl ",
+    10: "backpack girl ",
+    11: "shoes girl ",
+    }
+
+
+
+AwardManagerAccessoryNames = {}
+
+
+
+
+AccessoryTypeNames = {}
+
+
+for accessoryId in CatalogAccessoryItemGlobals.AccessoryTypes.keys():
+    accessoryInfo = CatalogAccessoryItemGlobals.AccessoryTypes[accessoryId]
+
+    if accessoryInfo[0] % 4 == 0:
+        accessoryStyleDescription = HatStylesDescriptions
+    elif accessoryInfo[0] % 4 == 1:
+        accessoryStyleDescription = GlassesStylesDescriptions
+    elif accessoryInfo[0] % 4 == 2:
+        accessoryStyleDescription = BackpackStylesDescriptions
+    else:
+        accessoryStyleDescription = ShoesStylesDescriptions
+
+    if accessoryInfo[3]:
+        AwardManagerAccessoryNames[accessoryId] = AccessoryNamePrefix[accessoryInfo[0]] + accessoryStyleDescription[accessoryInfo[1]]
+
+
+    AccessoryTypeNames[accessoryId] = accessoryStyleDescription[accessoryInfo[1]]
 
 # Make sure this is in sync with ToonDNA.ShirtStyles
 ShirtStylesDescriptions = {
@@ -7751,8 +8165,15 @@ ShirtStylesDescriptions = {
     'c_ss11' : "cowboy shirt 6 : Series 4",
     
     # Special Holiday-themed shirts.
-    'hw_ss1' : "Halloween ghost",
-    'hw_ss2' : "Halloween pumpkin",
+    'hw_ss1' : "Halloween Ghost",
+    'hw_ss2' : "Halloween Pumpkin",
+    'hw_ss3' : "Halloween Vampire",
+    'hw_ss4' : "Halloween Turtle",
+    'hw_ss5' : "Halloween Bee",
+    'hw_ss6' : "Halloween Pirate",
+    'hw_ss7' : "Halloween SuperToon",
+    'hw_ss8' : "Halloween Vampire NoCape",
+    'hw_ss9' : "Halloween Dinosaur",
     'wh_ss1' : "Winter Holiday 1",
     'wh_ss2' : "Winter Holiday 2",
     'wh_ss3' : "Winter Holiday 3",
@@ -7767,6 +8188,7 @@ ShirtStylesDescriptions = {
     'vd_ss7' : "2010 Valentines day, red with white wings",
     'sd_ss1' : "St Pat's Day, four leaf clover shirt",
     'sd_ss2' : "St Pat's Day, pot o gold shirt",
+    'sd_ss3' : "Ides of March greenToon shirt",
     'tc_ss1' : "T-Shirt Contest, Fishing Vest",
     'tc_ss2' : "T-Shirt Contest, Fish Bowl",
     'tc_ss3' : "T-Shirt Contest, Paw Print",
@@ -7795,10 +8217,11 @@ ShirtStylesDescriptions = {
     'sa_ss9' : "Award Racing Shirt 2",
     'sa_ss10' : "Award Summer Shirt 1",
     'sa_ss11' : "Award Summer Shirt 2",
+
     'sa_ss12' : "Award Golf Shirt 1",
     'sa_ss13' : "Award Golf Shirt 2",
-    'sa_ss14' : "Award Halloween Costume Shirt 1",
-    'sa_ss15' : "Award Halloween Costume Shirt 2",
+    'sa_ss14' : "Award Halloween Bee Shirt",
+    'sa_ss15' : "Award Halloween SuperToon Shirt",
     'sa_ss16' : "Award Matathon Shirt 1",
     'sa_ss17' : "Award Save Building Shirt 1",
     'sa_ss18' : "Award Save Building Shirt 2",
@@ -7807,9 +8230,43 @@ ShirtStylesDescriptions = {
     'sa_ss21' : "Award Trolley Shirt 1",
     'sa_ss22' : "Award Trolley Shirt 2",
     'sa_ss23' : "Award Winter Shirt 1",
-    'sa_ss24' : "Award Halloween Costume Shirt 3",
-    'sa_ss25' : "Award Halloween Costume Shirt 4",
+    'sa_ss24' : "Award Halloween Skeleton Shirt",
+    'sa_ss25' : "Award Halloween Spider Shirt",
     'sa_ss26' : "Award Most Cogs Defeated Shirt",
+
+    'sa_ss27' : "Award Most V.P.s Defeated Shirt",
+    'sa_ss28' : "Award Sellbot Smasher Shirt",
+    'sa_ss29' : "Award Most C.J.s Defeated Shirt",
+    'sa_ss30' : "Award Lawbot Smasher Shirt",
+
+    'sa_ss31' : "Award Racing Shirt 3",
+    'sa_ss32' : "Award Fishing Shirt 4",
+    'sa_ss33' : "Award Golf Shirt 3",
+    'sa_ss34' : "Award Most Cogs Defeated Shirt 2",
+    'sa_ss35' : "Award Racing Shirt 4",
+    'sa_ss36' : "Award Save Building Shirt 3",
+    'sa_ss37' : "Award Trolley Shirt 3",
+    'sa_ss38' : "Award Fishing Shirt 5",
+    'sa_ss39' : "Award Golf Shirt 4",
+
+    'sa_ss40' : "Award Halloween Witchy Moon Shirt",
+    'sa_ss41' : "Award Winter Holiday Sled Shirt",
+    'sa_ss42' : "Award Halloween Batty Moon Shirt",
+    'sa_ss43' : "Award Winter Holiday Mittens Shirt",
+
+    'sa_ss44' : "Award Fishing Shirt 6",
+    'sa_ss45' : "Award Fishing Shirt 7",
+    'sa_ss46' : "Award Golf Shirt 5",
+    'sa_ss47' : "Award Racing Shirt 5",
+    'sa_ss48' : "Award Racing Shirt 6",
+    'sa_ss49' : "Award Most Cogs Defeated shirt 3",
+    'sa_ss50' : "Award Most Cogs Defeated shirt 4",
+    'sa_ss51' : "Award Trolley shirt 4",
+    'sa_ss52' : "Award Trolley shirt 5",
+    'sa_ss53' : "Award Save Building Shirt 4",
+    'sa_ss54' : "Award Save Building Shirt 5",
+
+    'sa_ss55' : "Award Anniversary",
 
     # Scientists
     'sc_1' : "Scientist top 1",
@@ -7825,6 +8282,18 @@ ShirtStylesDescriptions = {
     'sil_6' : "Silly Cog-Crusher Shirt",
     'sil_7' : "Victory Party Shirt 1",
     'sil_8' : "Victory Party Shirt 2",
+
+    'emb_us1' : "placeholder emblem shirt 1",
+    'emb_us2' : "placeholder emblem shirt 2",
+    'emb_us3' : "placeholder emblem shirt 3",
+
+    'sb_1' : "Sellbot Icon Shirt",
+    'lb_1' : "Lawbot Icon Shirt",
+
+    'jb_1' : "Jellybean Shirt",
+    'jb_2' : "Doodle Shirt",
+
+    'ugcms' : "Get Connected Mover & Shaker",
 
     # name : [ shirtIdx, sleeveIdx, [(ShirtColorIdx, sleeveColorIdx), ... ]]
     }
@@ -7852,6 +8321,7 @@ BottomStylesDescriptions = {
     'c_bs2' : "Blue with gold cuff stripes",
     'c_bs5' : 'Green stripes - series 7',
     'sd_bs1' : 'St. Pats leprechaun shorts',
+    'sd_bs2' : 'Ides of March greenToon shorts',
     'pj_bs1' : 'Blue Banana Pajama pants',
     'pj_bs2' : 'Red Horn Pajama pants',
     'pj_bs3' : 'Purple Glasses Pajama pants',
@@ -7859,6 +8329,11 @@ BottomStylesDescriptions = {
     'wh_bs2' : 'Winter Holiday Shorts Style 2',
     'wh_bs3' : 'Winter Holiday Shorts Style 3',
     'wh_bs4' : 'Winter Holiday Shorts Style 4',
+    'hw_bs1' : 'Halloween Bee Shorts male',
+    'hw_bs2' : 'Halloween Pirate Shorts male',
+    'hw_bs5' : 'Halloween SuperToon Shorts male',
+    'hw_bs6' : 'Halloween Vampire NoCape Shorts male',
+    'hw_bs7' : 'Halloween Dinosaur Shorts male',
     
     # Silly Story Shorts
     'sil_bs1' : 'Silly Cog-Crusher Shorts',
@@ -7892,6 +8367,7 @@ BottomStylesDescriptions = {
     'vd_gs3' : 'Blue denim skirt with green and red heart',
     'c_gsk4' : 'rainbow skirt - Series 3',
     'sd_gs1' : 'St. Pats day shorts',
+    'sd_gs2' : 'Ides of March greenToon skirt',
     'c_gsk5' : 'Western skirts 1',
     'c_gsk6' : 'Western skirts 2',
     # Western shorts
@@ -7914,12 +8390,23 @@ BottomStylesDescriptions = {
     'sa_bs4' : "Award Racing Shorts",
     'sa_bs5' : "Award Summer Shorts",
     'sa_bs6' : "Award Golf Shorts 1",
-    'sa_bs7' : "Award Halloween Costume Shorts 1",
-    'sa_bs8' : "Award Halloween Costume Shorts 2",
+    'sa_bs7' : "Award Halloween Bee Shorts",
+    'sa_bs8' : "Award Halloween SuperToon Shorts",
     'sa_bs9' : "Award Save Building Shorts 1",
     'sa_bs10' : "Award Trolley Shorts 1",
-    'sa_bs11' : "Award Halloween Shorts 3",
-    'sa_bs12' : "Award Halloween Shorts 4",
+    'sa_bs11' : "Award Halloween Spider Shorts",
+    'sa_bs12' : "Award Halloween Skeleton Shorts",
+
+    'sa_bs13' : "Award Sellbot Smasher Shorts male",
+    'sa_bs14' : "Award Lawbot Smasher Shorts male",
+
+    'sa_bs15' : "Award Racing Shorts 1",
+    'sa_bs16' : "Award Golf Shorts 3",
+    'sa_bs17' : "Award Racing Shorts 4",
+    'sa_bs18' : "Award Golf Shorts 4",
+    'sa_bs19' : "Award Golf Shorts 5",
+    'sa_bs20' : "Award Racing Shorts 5",
+    'sa_bs21' : "Award Racing Shorts 6",
 
     'sa_gs1' : "Award Fishing Skirt",
     'sa_gs2' : "Award Gardening Skirt",
@@ -7927,12 +8414,24 @@ BottomStylesDescriptions = {
     'sa_gs4' : "Award Racing Skirt",
     'sa_gs5' : "Award Summer Skirt",
     'sa_gs6' : "Award Golf Skirt 1",
-    'sa_gs7' : "Award Halloween Costume Skirt 1",
-    'sa_gs8' : "Award Halloween Cosmtume Skirt 2",
+    'sa_gs7' : "Award Halloween Bee Skirt",
+    'sa_gs8' : "Award Halloween SuperToon Skirt",
     'sa_gs9' : "Award Save Building Skirt 1",
     'sa_gs10' : "Award Trolley Skirt 1",
-    'sa_gs11' : "Award Halloween Skirt 3",
-    'sa_gs12' : "Award Halloween Skirt 4",
+
+    'sa_gs11' : "Award Halloween Skeleton Skirt",
+    'sa_gs12' : "Award Halloween Spider Skirt",
+
+    'sa_gs13' : "Award Sellbot Smasher Shorts female",
+    'sa_gs14' : "Award Lawbot Smasher Shorts female",
+
+    'sa_gs15' : "Award Racing Skirt 1",
+    'sa_gs16' : "Award Golf Skirt 2",
+    'sa_gs17' : "Award Racing Skirt 4",
+    'sa_gs18' : "Award Golf Skirt 3",
+    'sa_gs19' : "Award Golf Skirt 4",
+    'sa_gs20' : "Award Racing Skirt 5",
+    'sa_gs21' : "Award Racing Skirt 6",
 
     'sc_bs1' : "Scientist bottom male 1",
     'sc_bs2' : "Scientist bottom male 2",
@@ -7944,6 +8443,20 @@ BottomStylesDescriptions = {
     
     'sil_bs1' : "Silly Cog-Crusher Shorts male",
     'sil_gs1' : "Silly Cog-Crusher Shorts female",
+
+    'hw_bs3' : "Halloween Vampire Shorts male",
+    'hw_gs3' : "Halloween Vampire Shorts female",
+    'hw_bs4' : "Halloween Turtle Shorts male",
+    'hw_gs4' : "Halloween Turtle Shorts female",
+
+    'hw_gs1' : "Halloween Bee Shorts female",
+    'hw_gs2' : "Halloween Pirate Shorts female",
+    'hw_gs5' : "Halloween SuperToon Shorts female",
+    'hw_gs6' : "Halloween Vampire NoCape Shorts female",
+    'hw_gs7' : "Halloween Dinosaur Shorts female",
+
+    'hw_gsk1' : "Halloween Pirate Skirt",
+
     }
 
 AwardMgrBoy = "boy"
@@ -7968,6 +8481,10 @@ SpecialEventMailboxStrings = {
    11 : "Here is your ToonTask Derby prize! Congratulations!",
    12 : "Here is your Save a Building Marathon prize! Congratulations!",
    13 : "Here is your Most Cogs Defeated Tournament prize! Congratulations!",
+   14 : "Here is your Most V.P.s Defeated Tournament prize! Congratulations!",
+   15 : "Here is your Operation: Storm Sellbot prize! Congratulations!",
+   16 : "Here is your Most C.J.s Defeated Tournament prize! Congratulations!",
+   17 : "Here is your Operation: Lawbots Lose prize! Congratulations!",
     }
 
 # Rental items
@@ -7989,6 +8506,12 @@ NametagFrilly = "Frilly Name Tag"
 
 FurnitureYourOldCloset = "your old wardrobe"
 FurnitureYourOldBank = "your old bank"
+FurnitureYourOldTrunk = "your old trunk"
+
+TrunkHatGUI = "Hats"
+TrunkGlassesGUI = "Glasses"
+TrunkBackpackGUI = "Backpacks"
+TrunkShoesGUI = "Shoes"
 
 # How to put quotation marks around chat items--don't translate yet.
 ChatItemQuotes = '"%s"'
@@ -8033,10 +8556,12 @@ FurnitureNames = {
   502 : "15 item Wardrobe",
   504 : "20 item Wardrobe",
   506 : "25 item Wardrobe",
+  508 : "50 item Wardrobe",
   510 : "Wardrobe",
   512 : "15 item Wardrobe",
   514 : "20 item Wardrobe",
   516 : "25 item Wardrobe",
+  518 : "50 item Wardrobe",
   600 : "Short Lamp",
   610 : "Tall Lamp",
   620 : "Table Lamp",
@@ -8091,6 +8616,7 @@ FurnitureNames = {
   1320 : "5000 Bean Bank",
   1330 : "7500 Bean Bank",
   1340 : "10000 Bean Bank",
+  1350 : "12000 Bean Bank",
   1399 : "Telephone",
   1400 : "Cezanne Toon",
   1410 : "Flowers",
@@ -8132,6 +8658,8 @@ FurnitureNames = {
   2000 : "Candy Swing Set",
   2010 : "Cake Slide",
   3000 : "Banana Split Tub",
+  4000 : "Boy Trunk",
+  4010 : "Girl Trunk",
   10000 : "Short Pumpkin",
   10010 : "Tall Pumpkin",
   10020 : "Winter Tree",
@@ -8177,10 +8705,12 @@ AwardManagerFurnitureNames = {
   502 : "boy 15 item Wardrobe",
   504 : "boy 20 item Wardrobe",
   506 : "boy 25 item Wardrobe",
+  508 : "boy 50 item Wardrobe",
   510 : "girl Wardrobe -  10 items initial",
   512 : "girl 15 item Wardrobe",
   514 : "girl 20 item Wardrobe",
   516 : "girl 25 item Wardrobe",
+  518 : "girl 50 item Wardrobe",
   600 : "Short Lamp",
   610 : "Tall Lamp",
   620 : "Table Lamp - Series 1",
@@ -8235,6 +8765,7 @@ AwardManagerFurnitureNames = {
   1320 : "5000 Bean Bank",
   1330 : "7500 Bean Bank",
   1340 : "10000 Bean Bank",
+  1350 : "12000 Bean Bank",
   1399 : "Telephone",
   1400 : "Cezanne Toon",
   1410 : "Flowers",
@@ -8276,6 +8807,8 @@ AwardManagerFurnitureNames = {
   2000 : "Candy Swing Set",
   2010 : "Cake Slide",
   3000 : "Banana Split Tub",
+  4000 : "Boy Trunk",
+  4010 : "Girl Trunk",
   10000 : "Short Pumpkin",
   10010 : "Tall Pumpkin",
   10020 : "Winter Tree",
@@ -8294,6 +8827,27 @@ ClothingArticleNames = (
     )
 
 ClothingTypeNames = {
+    1001 : "Ghost Shirt",
+    1002 : "Pumpkin Shirt",
+    1112 : "Bee Shirt",
+    1113 : "Pirate Shirt",
+    1114 : "Super Toon Shirt",
+    1115 : "Vampire Shirt",
+    1116 : "Toonosaur Shirt",
+    1117 : "Bee Shorts",
+    1118 : "Pirate Shorts",
+    1119 : "Super Toon Shorts",
+    1120 : "Vampire Shorts",
+    1121 : "Toonosaur Shorts",
+    1122 : "Bee Shorts",
+    1123 : "Pirate Shorts",
+    1124 : "Super Toon Shorts",
+    1125 : "Vampire Shorts",
+    1126 : "Toonosaur Shorts",
+    1127 : "Pirate Skirt",
+    1304 : "O'Shirt",
+    1305 : "O'Shorts",
+    1306 : "O'Skirt",
     1400 : "Matthew's Shirt",
     1401 : "Jessica's Shirt",
     1402 : "Marissa's Shirt",
@@ -8306,6 +8860,18 @@ ClothingTypeNames = {
     1606 : "Trap Outfit",
     1607 : "Sound Outfit",
     1608 : "Lure Outfit",
+    1723 : "Bee Shirt",
+    1724 : "SuperToon Shirt",
+    1734 : "Bee Shorts",
+    1735 : "SuperToon Shorts",
+    1739 : "Bee Skirt",
+    1740 : "SuperToon Skirt",
+    1743 : "Skeleton Shirt",
+    1744 : "Spider Shirt",
+    1745 : "Spider Shorts",
+    1746 : "Skeleton Shorts",
+    1747 : "Skeleton Skirt",
+    1748 : "Spider Skirt",
     1749 : "Silly Mailbox Shirt",
     1750 : "Silly Trash Can Shirt",
     1751 : "Loony Labs Shirt",
@@ -8316,7 +8882,46 @@ ClothingTypeNames = {
     1756 : "Cog-Crusher Shorts",
     1757 : "Victory Party Shirt",
     1758 : "Relaxed Victory Shirt",
+    1763 : "Smashed Sellbot Shirt",
+    1764 : "Most V.P.s Defeated Shirt",
+    1765 : "Sellbot Smasher Shirt",
+    1766 : "Sellbot Smasher Shorts",
+    1767 : "Sellbot Smasher Shorts",
+    1768 : "Jellybean Bank Shirt",
+    1769 : "Doodle Shirt",
+    1770 : "Vampire Shirt",
+    1771 : "Turtle Shirt",
+    1772 : "Vampire Shorts",
+    1773 : "Vampire Shorts",
+    1774 : "Turtle Shorts",
+    1775 : "Turtle Shorts",
+    1776 : "Get Connected Mover & Shaker Shirt",
+    1777 : "Smashed Lawbot Shirt",
+    1778 : "Most C.J.s Defeated Shirt",
+    1779 : "Lawbot Smasher Shirt",
+    1780 : "Lawbot Smasher Shorts",
+    1781 : "Lawbot Smasher Shorts",
+    1782 : "Racing Shirt 3",
+    1783 : "Racing Shorts 1",
+    1784 : "Racing Skirt 1",
+    1801 : "Batty Moon Shirt",
+    1802 : "Mittens Shirt",
     }
+
+AccessoryArticleNames = (
+    "Hat",
+    "Glasses",
+    "Backpack",
+    "Shoes",
+    "Hat",
+    "Glasses",
+    "Backpack",
+    "Shoes",
+    "Hat",
+    "Glasses",
+    "Backpack",
+    "Shoes",
+    )
 
 # CatalogSurfaceItem.py--don't translate yet.
 SurfaceNames = (
@@ -8457,6 +9062,10 @@ SpecialEventNames = {
    11: "ToonTask Derby",
    12: "Save a Building Marathon",
    13: "Most Cogs Defeated",
+   14: "Most V.P.s Defeated",
+   15: "Operation Storm Sellbot Event",
+   16: "Most C.J.s Defeated",
+   17: "Operation Lawbots Lose Event",
 }
 
 
@@ -8505,6 +9114,7 @@ CatalogHangUp = "Hang Up"
 CatalogNew = "NEW"
 CatalogBackorder = "BACKORDER"
 CatalogLoyalty = "SPECIAL"
+CatalogEmblem = "EMBLEM"
 CatalogPagePrefix = "Page"
 CatalogGreeting = "Hello! Thanks for calling Clarabelle's Cattlelog. Can I help you?"
 CatalogGoodbyeList = ["Bye now!",
@@ -8527,16 +9137,25 @@ CatalogPurchaseItemOnOrder = "Congratulations! Your purchase will be delivered t
 CatalogPurchaseGiftItemOnOrder = "Excellent! Your gift to %s will be delivered to their mailbox."
 CatalogAnythingElse = "Anything else I can get you today?"
 CatalogPurchaseClosetFull = "Your closet is full.  You may purchase this item anyway, but if you do you will need to delete something from your closet to make room for it when it arrives.\n\nDo you still want to purchase this item?"
+CatalogPurchaseNoTrunk = "In order to wear this item, you need to buy a trunk.\n\nDo you still want to purchase this item?"
+CatalogPurchaseTrunkFull = "Your trunk is full. If you purchase this item, you’ll need to delete another item from your trunk to make more room.\n\nDo you still want to purchase this item?"
 CatalogAcceptClosetFull = "Your closet is full.  You must go inside and delete something from your closet to make room for this item before you can take it out of your mailbox."
-CatalogAcceptShirt = "You are now wearing your new shirt.  What you were wearing before has been moved to your closet."
+CatalogAcceptNoTrunk = "You don't have a trunk. You must buy a trunk before you can take this item out of your mailbox."
+CatalogAcceptTrunkFull = "Your trunk is full.  You must delete something from your trunk before you can take this item out of your mailbox."
+CatalogAcceptShirt = "You are now wearing your new hat.  The hat you were wearing before has been moved to your trunk."
 CatalogAcceptShorts = "You are now wearing your new shorts.  What you were wearing before has been moved to your closet."
 CatalogAcceptSkirt = "You are now wearing your new skirt.  What you were wearing before has been moved to your closet."
+CatalogAcceptHat = "You are now wearing your new hat.  The hat you were wearing before has been moved to your trunk."
+CatalogAcceptGlasses = "You are now wearing your new glasses.  The glasses you were wearing before have been moved to your trunk."
+CatalogAcceptBackpack = "You are now wearing your new backpack.  The backpack you were wearing before has been moved to your trunk."
+CatalogAcceptShoes = "You are now wearing your new shoes.  The shoes you were wearing before have been moved to your trunk."
 CatalogAcceptPole = "You're now ready to go catch some bigger fish with your new pole!"
 CatalogAcceptPoleUnneeded = "You already have a better pole than this one!"
 CatalogAcceptChat = "You now have a new SpeedChat!"
 CatalogAcceptEmote = "You now have a new Emotion!"
 CatalogAcceptBeans = "You received some jelly beans!"
 CatalogAcceptRATBeans = "Your Toon recruit reward has arrived!"
+CatalogAcceptPartyRefund = "Your party was never started. Here's your refund!"
 CatalogAcceptNametag = "Your new name tag has arrived!"
 CatalogAcceptGarden = "Your garden supplies have arrived!"
 CatalogAcceptPet = "You now have a new Pet Trick!"
@@ -8557,8 +9176,9 @@ CatalogPurchaseGiftNotEnoughMoney = "This item could not be sent to %s because y
 CatalogAcceptGeneralError = "The item could not be removed from your mailbox because of some internal game error: error code %s."
 CatalogAcceptRoomError = "You don't have any place to put this. You'll have to get rid of something."
 CatalogAcceptLimitError = "You already have as many of these as you can handle. You'll have to get rid of something."
-CatalogAcceptFitError = "This won't fit you! You donate it to needy toons."
-CatalogAcceptInvalidError = "This item has gone out of style! You donate it to needy toons."
+CatalogAcceptFitError = "This won't fit you!"
+CatalogAcceptInvalidError = "This item has gone out of style!"
+CatalogAcceptClosetError = "You already have a bigger closet!"
 
 MailboxOverflowButtonDicard = "Discard"
 MailboxOverflowButtonLeave = "Leave"
@@ -8584,6 +9204,7 @@ HDNonDeletableItem = "You can't delete items of this type!"
 HDNonDeletableBank = "You can't delete your bank!"
 HDNonDeletableCloset = "You can't delete your wardrobe!"
 HDNonDeletablePhone = "You can't delete your phone!"
+HDNonDeletableTrunk = "You can't delete your trunk!"
 HDNonDeletableNotOwner = "You can't delete %s's things!"
 HDHouseFull = "Your house is full.  You have to delete something else from your house or attic before you can return this item from the trash."
 
@@ -8631,6 +9252,12 @@ CatalogSndOffText = "Snd Off"
 
 CatalogPurchasedMaxText = "Already\nPurchased Max"
 CatalogVerifyPurchase = "Purchase %(item)s for %(price)s jellybeans?"
+CatalogVerifyPurchaseBeanSilverGold = "Purchase %(item)s for %(price)s jellybeans, %(silver)s silver emblems and %(gold)s gold emblems?"
+CatalogVerifyPurchaseBeanGold = "Purchase %(item)s for %(price)s jellybeans and %(gold)s gold emblems?"
+CatalogVerifyPurchaseBeanSilver = "Purchase %(item)s for %(price)s jellybeans and %(silver)s silver emblems?"
+CatalogVerifyPurchaseSilverGold = "Purchase %(item)s for %(silver)s silver emblems and %(gold)s gold emblems?"
+CatalogVerifyPurchaseSilver = "Purchase %(item)s for %(silver)s silver emblems?"
+CatalogVerifyPurchaseGold = "Purchase %(item)s for %(gold)s gold emblems?"
 CatalogVerifyRent = "Rent %(item)s for %(price)s jellybeans?"
 CatalogVerifyGift = "Purchase %(item)s for %(price)s jellybeans as a gift for %(friend)s?"
 CatalogOnlyOnePurchase = "You may only have one of these items at a time.  If you purchase this one, it will replace %(old)s.\n\nAre you sure you want to purchase %(item)s for %(price)s jellybeans?"
@@ -9379,6 +10006,32 @@ NPCToonNames = {
     9236 : lHQOfficerM,
     9237 : "Fisherman Jung",
 
+
+    #  Field Office SOS Toons
+    9301 : "Phil Bettur",
+    9302 : "Emma Phatic",
+    9303 : "GiggleMesh",
+    9304 : "Anne Ville",
+    9305 : "Bud Erfingerz",
+    9306 : "J.S. Bark",
+    9307 : "Bea Sharpe",
+    9308 : "Otto Toon",
+    9309 : "Al Capella",
+    9310 : "Des Traction",
+    9311 : "Dee Version",
+    9312 : "Bo Nanapeel",
+
+    # Field Office Prisoners
+    7001 : "N. Prisoned",
+    7002 : "R.E. Leaseme",
+    7003 : "Lemmy Owte",
+    7004 : "T. Rapped",
+    7005 : "Little Helphere",
+    7006 : "Gimmy Ahand",
+    7007 : "Dewin Tymme",
+    7008 : "Ima Cagedtoon",
+    7009 : "Jimmy Thelock",
+
     # Tutorial IDs start at 20000, and are not part of this table.
     # Don't add any Toon id's at 20000 or above, for this reason!
     # Look in TutorialBuildingAI.py for more details.
@@ -9967,6 +10620,17 @@ ClosetSkirt = "this skirt"
 ClosetDeleteShirt = "Delete\nshirt"
 ClosetDeleteShorts = "Delete\nshorts"
 ClosetDeleteSkirt = "Delete\nskirt"
+TrunkNotOwnerMessage = "This isn't your trunk, but you may try on the accessories."
+TrunkNotPaidMessage = "Only Paid Members can wear accessories, but you may try them on."
+TrunkAreYouSureMessage = "You have deleted some accessories.  Do you really want to delete them?"
+TrunkHat = "this hat"
+TrunkGlasses = "these glasses"
+TrunkBackpack = "this backpack"
+TrunkShoes = "these shoes"
+TrunkDeleteHat = "Delete\nhat"
+TrunkDeleteGlasses = "Delete\nglasses"
+TrunkDeleteBackpack = "Delete\nbackpack"
+TrunkDeleteShoes = "Delete\nshoes"
 
 # EstateLoader.py
 EstateOwnerLeftMessage = "Sorry, the owner of this estate left.  You'll be sent to the playground in %s seconds"
@@ -10043,7 +10707,7 @@ PetTrait2descriptions = {
 # end translate
 
 # DistributedFireworkShow.py
-FireworksInstructions = lToonHQ+": Hit the \"Page Up\" key to see better."
+FireworksInstructions = lToonHQ+": Hit the \"Page Up\" key to see the show!"
 startFireworksResponse = "Usage: startFireworksShow [\'num\']\n \
                                         \'num\' = %s - New Years\n \
                                         %s - Party Summer \n \
@@ -10053,6 +10717,8 @@ FireworksJuly4Beginning = lToonHQ+": Welcome to summer fireworks! Enjoy the show
 FireworksJuly4Ending = lToonHQ+": Hope you enjoyed the show! Have a great summer!"
 FireworksNewYearsEveBeginning = lToonHQ+": Happy New Year! Enjoy the fireworks show!"
 FireworksNewYearsEveEnding = lToonHQ+": Hope you enjoyed the show! Happy New Year!"
+FireworksComboBeginning = lToonHQ +": Enjoy lots of Laffs with Toon fireworks!"
+FireworksComboEnding = lToonHQ +": Thank you, Toons! Hope you enjoyed the show!"
 
 # ToontownLoadingBlocker.py
 BlockerTitle = "LOADING TOONTOWN..."
@@ -10276,7 +10942,7 @@ TipDict = {
     "The closet inside your house holds extra clothes.",
     "Go to your friend's house and try on his clothes.",
     "Purchase better fishing rods from Clarabelle's Cattlelog.",
-    "Purchase larger banks from Clarabelle's Cattlelog.",
+    #"Purchase larger banks from Clarabelle's Cattlelog.",
     "Call Clarabelle using the phone inside your house.",
     "Clarabelle sells a larger closet that holds more clothing.",
     "Make room in your closet before using a Clothing Ticket.",
@@ -10932,6 +11598,8 @@ PolarPlaceEffect1 = NPCToonNames[3306] + ": Welcome to Polar Place!"
 PolarPlaceEffect2 = NPCToonNames[3306] + ": Try this on for size."
 PolarPlaceEffect3 = NPCToonNames[3306] + ": Your new look will only work in " + lTheBrrrgh + "."
 
+GreenToonEffectMsg = NPCToonNames[5312] + ": You look Toontastic in green!"
+
 # LaserGrid game Labels
 LaserGameMine = "Skull Finder!"
 LaserGameRoll = "Matching"
@@ -10964,7 +11632,9 @@ StatuaryToonVictory = "Toon Victory Statue"
 StatuaryToonCrossedArms = 'Toon Authority Statue'
 StatuaryToonThinking = 'Toon Embrace Statue'
 StatuaryMeltingSnowman = 'Melting Snowman'
+StatuaryMeltingSnowDoodle = 'Melting SnowDoodle'
 StatuaryGardenAccelerator = "Insta-Grow Fertilizer"
+AnimatedStatuaryFlappyCog = 'Flappy Cog'
 #see GardenGlobals.py for corresponding FlowerColors
 FlowerColorStrings = ['Red','Orange','Violet','Blue','Pink','Yellow','White','Green']
 #see GardenGlobals.py for PlantAttributes, keys must match
@@ -11429,6 +12099,49 @@ PartyRewardDoubledJellybean = "Double Jellybeans!"
 
 GrandPrixWeekendHolidayStart = "It's Grand Prix Weekend at Goofy Speedway! Free and paid players collect the most points in three consecutive races."
 GrandPrixWeekendHolidayEnd = "That's all for Grand Prix Weekend. See you next year."
+KartRace_DoubleTickets = "Double Tickets"
+
+SellbotNerfHolidayStart = "Operation: Storm Sellbot is happening now! Battle the VP today!"
+SellbotNerfHolidayEnd = "Operation: Storm Sellbot has ended. Great work, Toons!"
+
+JellybeanTrolleyHolidayStart = "Double Bean Days for Trolley Games have begun!"
+JellybeanTrolleyHolidayEnd = "Double Bean Days for Trolley Games have ended!"
+
+JellybeanFishingHolidayStart = "Double Bean Days for Fishing have begun!"
+JellybeanFishingHolidayEnd = "Double Bean Days for Fishing have ended!"
+
+JellybeanPartiesHolidayStart = "It's Jellybean Week! Get Double Jellybean rewards!"
+JellybeanPartiesHolidayEnd = "That's all for Jellybean Week. See you next year."
+
+JellybeanMonthHolidayStart = "Celebrate Toontown with double beans, Cattlelog items and silly surprises!"
+
+BankUpgradeHolidayStart = "Something Toontastic happened to your Jellybean Bank!"
+
+HalloweenPropsHolidayStart = "It's Halloween in Toontown!"
+HalloweenPropsHolidayEnd = "Halloween has ended. Boo!"
+
+SpookyPropsHolidayStart = "Silly Meter spins Toontown into spooky mode!"
+
+BlackCatHolidayStart = "Create a Black Cat - Today only!"
+BlackCatHolidayEnd = "Black Cat day has ended!"
+
+SpookyBlackCatHolidayStart = "Friday 13th means a Black Cat blast!"
+
+TopToonsMarathonStart = "The Top Toons New Year's Day Marathon has begun!"
+TopToonsMarathonEnd = "The Top Toons New Year's Day Marathon has ended."
+
+WinterDecorationsStart = "It's Winter Holiday time in Toontown!"
+WinterDecorationsEnd = "Winter Holiday is over - Happy New Year!"
+
+WackyWinterDecorationsStart = "Brrr! Silly Meter goes from silly to chilly!"
+
+WinterCarolingStart = "Caroling has come to Toontown. Sing for your Snowman Head - see the Blog for details!"
+
+ExpandedClosetsStart = "Attention Toons: For a limited time, Members can purchase the new 50 item Closet from the Cattlelog for the low price of 50 jellybeans!"
+
+KartingTicketsHolidayStart = "Get double tickets from Practice races at Goofy Speedway today!"
+
+IdesOfMarchStart = "Toons go GREEN!"
 
 LogoutForced = "You have done something wrong\n and are being logged out automatically,\n additionally your account may be frozen.\n Try going on a walk outside, it is fun."
 
@@ -11695,8 +12408,8 @@ DayNamesAbbrev = ("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN")
 HolidayNamesInCalendar = {
     1: ("Summer Fireworks", "Celebrate Summer with a fireworks show every hour in each playground!"),
     2: ("New Year Fireworks", "Happy New Year! Enjoy a fireworks show every hour in each playground!"),
-    3: ("Bloodsucker Invasion", "Happy Halloween! Stop the Bloodsucker Cogs from invading Toontown!"),
-    4: ("Winter Holidays Decor", "Celebrate the Winter Holidays with Toontastic trees and streetlights!"),
+    3: ("Bloodsucker Invasion", "Help defend Toontown from the Bloodsucker invasion!"),
+    4: ("Winter Holiday", "Celebrate the Winter Holiday with Toontastic decorations, party and Cattlelog items, and more!"),
     5: ("Skelecog Invasion", "Stop the Skelecogs from invading Toontown!"),
     6: ("Mr. Hollywood Invasion", "Stop the Mr. Hollywood Cogs from invading Toontown!"),
     7: ("Fish Bingo", "Fish Bingo Wednesday! Everyone at the pond works together to complete the card before time runs out."),
@@ -11706,7 +12419,7 @@ HolidayNamesInCalendar = {
    14: ("Grand Prix", "Grand Prix Monday at Goofy Speedway! To win, collect the most points in three consecutive races!"),
    16: ("Grand Prix Weekend", "Free and Paid players compete in circuit races at Goofy Speedway!"),
    17: ("Trolley Tracks", "Trolley Tracks Thursday! Board any Trolley with two or more Toons to play."),
-   19: ("Silly Saturdays", "Saturdays are silly with Fish Bingo, Grand Prix, and Trolley Tracks throughout the day!"),
+   19: ("Silly Saturdays", "Saturdays are silly with Fish Bingo and Grand Prix throughout the day!"),
    24: ("Ides of March", "Beware the Ides of March! Stop the Backstabber Cogs from invading Toontown!"),
    26: ("Halloween Decor", "Celebrate Halloween as spooky trees and streetlights transform Toontown!"),
    28: ("Winter Invasion", "The sellbots are on the loose spreading their cold sales tactics!"),
@@ -11732,7 +12445,7 @@ HolidayNamesInCalendar = {
    54: ("Bean Counter Invasion", "Stop the Bean Counter Cogs from invading Toontown!"),
    55: ("Double Talker Invasion", "Stop the Double Talker Cogs from invading Toontown!"),
    56: ("Downsizer Invasion", "Stop the Downsizer Cogs from invading Toontown!"),
-   57: ("Toon Caroling", "Celebrate Winter Holiday by caroling around Toontown for a \"cool\" reward!"),
+   57: ("Caroling", "Sing for your Snowman Head! See the Blog for details!"),
    59: ("ValenToon's Day", "Celebrate ValenToon's Day from Feb 09 to Feb 16!"),
    72: ("Yes Men Invasion", "Stop the Yes Men Cogs from invading Toontown!"),
    73: ("Tightwad Invasion", "Stop the Tightwad Cogs from invading Toontown!"),
@@ -11757,6 +12470,12 @@ HolidayNamesInCalendar = {
    92: ("Micro Manager Invasion", "Stop the Micro Manager Cogs from invading Toontown!"),
    93: ("Number Cruncher Invasion", "Stop the Number Cruncher Cogs from invading Toontown!"),
    95: ("Victory Parties", "Celebrate our historic triumph against the Cogs!"), # placeholder
+   96: ("Operation: Storm Sellbot", "Sellbot HQ is open to everyone. Let's go fight the VP!"),
+   97: ("Double Bean Days - Trolley Games", ""),
+   98: ("Double Bean Days - Fishing", ""),
+   99: ("Jellybean Week", "Celebrate Jellybean Week with double Jellybean rewards!"),
+   101: ("Top Toons New Year's Day Marathon", "Chances to win every hour! See the What's New Blog for details!"),
+   105: ("Toons go GREEN!", "Toons make a green scene at Green Bean Jeans on Oak Street in Daisy Gardens!")
     }
 
 UnknownHoliday = "Unknown Holiday %d"
@@ -11764,6 +12483,10 @@ HolidayFormat = "%b %d "
 
 # parties/ToontownTimeManager.py
 TimeZone = "US/Pacific"
+
+CogdoMemoGuiTitle = "Memos:"
+CogdoMemoNames = "Barrel-Destruction Memos"
+CogdoStomperName = "Stomp-O-Matic"
 
 # Cogdo Boardroom Game
 BoardroomGameTitle = "Boardroom Hijinks"
@@ -11775,6 +12498,105 @@ CogdoCraneGameTitle = "Vend-A-Stomper"
 CogdoCraneGameInstructions = ("The COGS are using a coin-operated machine to destroy laff barrels. "
                               "Use the cranes to pick up and throw money bags, in order to prevent "
                               "barrel destruction!")
+
+
+
+
+CogdoMazeGameTitle = "Mover & Shaker\nField Office"
+CogdoMazeGameInstructions = "The big Mover & Shaker Cogs have the code to open the door. Defeat them with your water balloons in order to get it!"
+
+
+CogdoMazeIntroMovieDialogue = (
+    (
+        "This is the Toon Resistance! The Movers & Shakers\nhave our Jokes, and they've locked the exit!",
+    ),
+    (
+        "Grab water balloons at coolers, and throw them at Cogs!\nSmall Cogs drop Jokes, BIG COGS open the exit.",
+    ),
+    (
+        "The more Jokes you rescue, the bigger your Toon-Up\nat the end. Good luck!",
+    ),
+)
+
+
+
+
+
+CogdoMazeGameDoorOpens = "THE EXIT IS OPEN FOR 60 SECONDS!\nGET THERE FAST FOR A BIGGER TOON-UP"
+CogdoMazeGameLocalToonFoundExit = "The exit will open when\nyou've busted all four BIG COGS!"
+CogdoMazeGameWaitingForToons = "Waiting for other Toons..."
+CogdoMazeGameTimeOut = "Oh no, time ran out! You lost your jokes."
+CogdoMazeGameTimeAlert = "Hurry up! 60 seconds to go!"
+
+CogdoMazeGameBossGuiTitle = "BIG COGS:"
+
+CogdoMazeFindHint = "Find a Water Cooler"
+CogdoMazeThrowHint = "Press 'Ctrl' to throw your water balloon"
+CogdoMazeSquashHint = "Falling objects pop your balloon"
+CogdoMazeBossHint = "Big Cogs take TWO hits to defeat"
+CogdoMazeMinionHint = "Smaller Cogs drop jokes"
+
+
+CogdoFlyingGameTitle = "Legal Eagle Offices"
+CogdoFlyingGameInstructions = "Fly through the Legal Eagles' lair. Watch out for obstacles and cogs along the way, and don't forget to refuel your helicopter!"
+
+
+CogdoFlyingIntroMovieDialogue = (
+    (
+        "You won't ruffle our feathers, Toons! We're destroying barrels of your Laff, and you cannot stop us!",
+        "A flock of Toons! We're crushing barrels of your Laff in our %s, and there's nothing you can do about it!" % CogdoStomperName,
+        "You can't egg us on, Toons! We're powering our offices with your Laff, and you're powerless to stop us!",
+    ),
+    (
+        "This is the Toon Resistance! A little bird told me you can use propellers to fly around, grab Barrel Destruction Memos, and keep Laff from being destroyed! Good luck, Toons!",
+        "Attention Toons! Wing it with a propeller and collect Barrel Destruction Memos to keep our Laff from being stomped! Toon Resistance out!",
+        "Toon Resistance here! Cause a flap by finding propellers, flying to the Barrel Destruction Memos, and keeping our Laff from being smashed! Have fun!",
+    ),
+    (
+        "Squawk! I'm a Silver Sprocket Award winner, I don't need this!",
+        "Do your best, Toons! You will find us to be quite talon-ted!",
+        "We'll teach you to obey the pecking order, Toons!",
+    ),
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CogdoFlyingGameWaiting = "Waiting for other Toons%s"
+CogdoFlyingGameFuelLabel = "Fuel"
+CogdoFlyingGameLegalEagleTargeting = "A Legal Eagle has noticed you!"
+CogdoFlyingGameLegalEagleAttacking = "Incoming Eagle!"
+CogdoFlyingGamePickUpAPropeller = "You need a propeller to fly!"
+CogdoFlyingGamePressCtrlToFly = "Press 'Ctrl' to fly up!"
+CogdoFlyingGameYouAreInvincible = "Red Tape protects you!"
+CogdoFlyingGameTimeIsRunningOut = "Time is running out!"
+CogdoFlyingGameMinimapIntro = "This meter shows your progress!\nX marks the finish line."
+CogdoFlyingGameMemoIntro = "Memos prevent Laff Barrels in\nthe Stomper Room from being destroyed!"
+CogdoFlyingGameOutOfTime = "Oh No! You ran out of time!"
+CogdoFlyingGameYouMadeIt = "You made it on time!"
+CogdoFlyingGameYouMadeIt = "Good work, you made it on time!"
+CogdoFlyingGameTakingMemos = "The legal eagles took all your memos!"
+
+CogdoElevatorRewardLaff = "Great job, Toons!\nYou get a Toon-Up from the jokes you saved!"
+
+CogdoExecutiveSuiteTitle = "Executive Suite"
+CogdoExecutiveSuiteIntroMessage = "Oh no, they've got the shop keeper!\nDefeat the Cogs and free the captive."
+CogdoExecutiveSuiteToonThankYou = "Thanks for the rescue!\nIf you need help in a fight, use this SOS card to call my friend %s."
+CogdoExecutiveSuiteToonBye = "Bye!"
+
+
 
 # Silly Surge Terms
 SillySurgeTerms = {

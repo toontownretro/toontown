@@ -618,8 +618,18 @@ class DistributedSuitInteriorAI(DistributedObjectAI.DistributedObjectAI):
         if not hasattr(self, "fsm"):
             # If we've already been cleaned up, never mind.
             return
-        
-        assert(self.fsm.getCurrentState().getName() == "Resting")
+
+        if __dev__:
+            pass
+        else:
+            currState = self.fsm.getCurrentState().getName()
+            if not currState == 'Resting':
+                avId = self.air.getAvatarIdFromSender()
+                self.air.writeServerEvent('suspicious', avId,
+                    'unexpected state for DistributedSuitInteriorAI.handleAllAboard(). Current State = %s.' % currState)
+                self.notify.warning('unexpected state for DistributedSuitInteriorAI.handleAllAboard(). Current State = %s' % currState)
+                return
+
         assert(self.notify.debug('handleAllAboard() - toons: %s' % self.toons))
 
         # Make sure the number of empty seats is correct. If it is empty,

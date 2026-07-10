@@ -49,7 +49,7 @@ class TownBattleSOSPetSearchPanel(StateData.StateData):
         self.petName = petName
         self.frame['text'] = TTLocalizer.TownBattleSOSPetSearchTitle % petName
         self.frame['text_pos'] = (0,0.01,0)
-        self.frame['text_scale'] = TTLocalizer.TBPSpanel
+        self.frame['text_scale'] = TTLocalizer.TBSOSPSPenter
         # Show the panel
         self.frame.show()
 

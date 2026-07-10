@@ -140,6 +140,9 @@ class MakeAToon(StateData.StateData):
 
     def enter(self):
         self.notify.debug('Starting Make A Toon.')
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: MAKEATOON: Starting Make A Toon')
+
         base.cr.centralLogger.writeClientEvent('MAT - startingMakeAToon')
         base.camLens.setFov(ToontownGlobals.MakeAToonCameraFov)
         base.playMusic(self.music, looping = 1, volume = self.musicVolume)
@@ -235,7 +238,7 @@ class MakeAToon(StateData.StateData):
             command = self.__handleCancel,
             text = ("", TTLocalizer.MakeAToonCancel, TTLocalizer.MakeAToonCancel),
             text_font = ToontownGlobals.getInterfaceFont(),
-            text_scale = TTLocalizer.MATnextButtonScale,
+            text_scale = TTLocalizer.MATguiCancelButton,
             text_pos = (0, 0.115),
             text_fg = (1,1,1,1),
             text_shadow = (0,0,0,1),
@@ -253,7 +256,7 @@ class MakeAToon(StateData.StateData):
             command = self.__handleNext,
             text = ("", TTLocalizer.MakeAToonNext, TTLocalizer.MakeAToonNext, ""),
             text_font = ToontownGlobals.getInterfaceFont(),
-            text_scale = TTLocalizer.MATnextButtonScale,
+            text_scale = TTLocalizer.MATguiNextButton,
             text_pos = (0, 0.115),
             text_fg = (1,1,1,1),
             text_shadow = (0,0,0,1),
@@ -806,6 +809,8 @@ class MakeAToon(StateData.StateData):
         self.ns.rejectName(TTLocalizer.RejectNameText)
 
     def __handleNameShopDone(self):
+        if base.config.GetBool('want-qa-regression', 0):
+            self.notify.info('QA-REGRESSION: MAKEATOON: Creating A Toon')
         self.guiLastButton.hide()
         self.guiCheckButton.hide()
         if self.ns.getDoneStatus() == 'last':

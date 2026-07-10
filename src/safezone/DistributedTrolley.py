@@ -267,16 +267,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
 
     def allowedToEnter(self):
         """Check if the local toon is allowed to enter."""
-        if base.cr.isPaid():
-            return True
-        place = base.cr.playGame.getPlace()
-        myHoodId = ZoneUtil.getCanonicalHoodId(place.zoneId)
-        if  myHoodId in \
-           (ToontownGlobals.ToontownCentral,
-            ToontownGlobals.MyEstate,
-            ToontownGlobals.GoofySpeedway,
-            ):
-            # trialer going to TTC/Estate/Goofy Speedway, let them through
+        if hasattr(base, 'ttAccess') and base.ttAccess and base.ttAccess.canAccess():
             return True
         return False
 
@@ -338,11 +329,15 @@ class DistributedTrolley(DistributedObject.DistributedObject):
                     self.loader.place.fsm.request('walk')
                     return
                     
-                self.loader.place.trolley.fsm.request("boarding", [self.trolleyCar])
-                self.localToonOnBoard = 1
-                
-				# Tell him he's on the trolley now.
-                self.loader.place.trolley.fsm.request("boarded")
+                if hasattr(self.loader.place, 'trolley') and self.loader.place.trolley:
+                    self.loader.place.trolley.fsm.request("boarding", [self.trolleyCar])
+                    self.localToonOnBoard = 1
+                    
+                    # Tell him he's on the trolley now.
+                    self.loader.place.trolley.fsm.request("boarded")
+                else:
+                    self.notify.warning("Can't board the trolley because it doesn't exist")
+                    self.sendUpdate('requestExit')
 
             if self.cr.doId2do.has_key(avId):
                 # If the toon exists, look it up
@@ -394,7 +389,8 @@ class DistributedTrolley(DistributedObject.DistributedObject):
     def notifyToonOffTrolley(self, toon):
         toon.setAnimState("neutral", 1.0)
         if toon == base.localAvatar:
-            self.loader.place.trolley.handleOffTrolley()
+            if hasattr(self.loader.place, 'trolley') and self.loader.place.trolley:
+                self.loader.place.trolley.handleOffTrolley()
             self.localToonOnBoard = 0
         else:
             toon.startSmooth()
@@ -452,7 +448,8 @@ class DistributedTrolley(DistributedObject.DistributedObject):
                 track.start()
 
                 # Tell localToon he is exiting (if localToon is on board)
-                if avId == base.localAvatar.getDoId():
+                if avId == base.localAvatar.getDoId() and \
+                   hasattr(self.loader.place, 'trolley') and self.loader.place.trolley:
                     self.loader.place.trolley.fsm.request("exiting")
 
             else:
