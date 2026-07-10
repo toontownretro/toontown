@@ -12,40 +12,40 @@ from direct.showbase.PythonUtil import lerp
 
 
 class BattleCalculatorAI:
-#    """
-#    An object that each battle
-#    creates in order to perform all of the combat calculations, such
-#    as hits/misses, damage amounts, bonuses, etc
-#    
-#    Attributes:
-#        Derived plus...
-#        battle: reference to the battle that owns this object
-#        SuitAttackers: a map of suit id's and each toon that did damage
-#                       to that suit and how much damage was done, this is
-#                       used to let the suit 'intelligently' pick which
-#                       toon it is going to attack next, generally favoring
-#                       the toon that did the most damage to it
-#        currentlyLuredSuits: list of currently lured suits, used for
-#                             calculating knockback bonuses and drop
-#                             hits/misses during a single round (once a suit
-#                             takes damage, it is no longer lured)
-#        kbBonuses:  a list of accumulated damage done to a lured suit by
-#                    knockback bonus qualified attacks and the track of each
-#                    attack the damage was done by, when that track of
-#                    attacks is done a single, total knockback bonus is
-#                    applied to the suit
-#        hpBonuses:  same as kbBonuses but used to record knock-back bonuses
-#        toonAtkOrder: list of toon id's that indicate the order that the
-#                      toon attacks for a single round will play out
-#        toonHPAdjusts: a list of toon HP adjustments used for accurate
-#                       calculations of each toon's health, useful for
-#                       deciding if a toon has just died and cannot
-#                       perform its chosen attack as well as letting the
-#                       suits know if a toon dies so they dont beat on a dead
-#                       toon
-#        toonSkillPtsGained: a dictionary of lists of experience gained
-#                            in each track, indexed by toonId
-#    """
+    """
+    An object that each battle
+    creates in order to perform all of the combat calculations, such
+    as hits/misses, damage amounts, bonuses, etc
+    
+    Attributes:
+        Derived plus...
+        battle: reference to the battle that owns this object
+        SuitAttackers: a map of suit id's and each toon that did damage
+                       to that suit and how much damage was done, this is
+                       used to let the suit 'intelligently' pick which
+                       toon it is going to attack next, generally favoring
+                       the toon that did the most damage to it
+        currentlyLuredSuits: list of currently lured suits, used for
+                             calculating knockback bonuses and drop
+                             hits/misses during a single round (once a suit
+                             takes damage, it is no longer lured)
+        kbBonuses:  a list of accumulated damage done to a lured suit by
+                    knockback bonus qualified attacks and the track of each
+                    attack the damage was done by, when that track of
+                    attacks is done a single, total knockback bonus is
+                    applied to the suit
+        hpBonuses:  same as kbBonuses but used to record knock-back bonuses
+        toonAtkOrder: list of toon id's that indicate the order that the
+                      toon attacks for a single round will play out
+        toonHPAdjusts: a list of toon HP adjustments used for accurate
+                       calculations of each toon's health, useful for
+                       deciding if a toon has just died and cannot
+                       perform its chosen attack as well as letting the
+                       suits know if a toon dies so they dont beat on a dead
+                       toon
+        toonSkillPtsGained: a dictionary of lists of experience gained
+                            in each track, indexed by toonId
+    """
 
     # a map of the number of previous hits to
     # an accuracy bonus for the next attack
