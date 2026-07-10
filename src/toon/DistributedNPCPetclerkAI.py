@@ -1,21 +1,18 @@
-from direct.directnotify import DirectNotifyGlobal
 from otp.ai.AIBaseGlobal import *
-from toontown.toonbase.ToontownModules import *
-from .DistributedNPCToonBaseAI import *
+from pandac.PandaModules import *
+from DistributedNPCToonBaseAI import *
 from toontown.toonbase import TTLocalizer
 from direct.task import Task
 from toontown.fishing import FishGlobals
 from toontown.pets import PetUtil, PetDNA, PetConstants
 
 class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedNPCPetclerkAI")
-    
     def __init__(self, air, npcId):
         DistributedNPCToonBaseAI.__init__(self, air, npcId)
         # Fishermen are not in the business of giving out quests
         self.givesQuests = 0
         self.busy = 0
-
+        
     def delete(self):
         taskMgr.remove(self.uniqueName('clearMovie'))
         self.ignoreAll()
@@ -25,8 +22,8 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
         avId = self.air.getAvatarIdFromSender()
         # this avatar has come within range
         assert self.notify.debug("avatar enter " + str(avId))
-
-        if (avId not in self.air.doId2do):
+        
+        if (not self.air.doId2do.has_key(avId)):
             self.notify.warning("Avatar: %s not found" % (avId))
             return
 
@@ -42,7 +39,7 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
         self.sendUpdateToAvatarId(avId, "setPetSeeds", [self.petSeeds])
 
         self.transactionType = ""
-
+        
         av = self.air.doId2do[avId]
         self.busy = avId
 
@@ -67,7 +64,7 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
                         [flag,
                          self.npcId, avId, extraArgs,
                          ClockDelta.globalClockDelta.getRealNetworkTime()])
-
+        
     def sendTimeoutMovie(self, task):
         assert self.notify.debug('sendTimeoutMovie()')
         # The timeout has expired.
@@ -92,7 +89,7 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
             self.air.writeServerEvent('suspicious', avId, 'DistributedNPCPetshopAI.fishSold busy with %s' % (self.busy))
             self.notify.warning("somebody called fishSold that I was not busy with! avId: %s" % avId)
             return
-
+            
         av = simbase.air.doId2do.get(avId)
         if av:
             # this function sells the fish, clears the tank, and
@@ -105,7 +102,7 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
             else:
                 movieType = NPCToons.SELL_MOVIE_COMPLETE
                 extraArgs = []
-
+            
             # Send a movie to reward the avatar
             self.d_setMovie(avId, movieType, extraArgs)
             self.transactionType = "fish"
@@ -147,10 +144,6 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
 
             #create new pet
             gender = petNum % len(PetDNA.PetGenders)
-            if nameIndex not in list(range(0, TTLocalizer.PetNameIndexMAX)):
-                # hacker?
-                self.air.writeServerEvent('avoid_crash', avId, "DistributedNPCPetclerkAI.petAdopted and didn't have valid nameIndex!")
-                self.notify.warning("somebody called petAdopted and didn't have valid nameIndex to adopt! avId: %s" % avId)
             simbase.air.petMgr.createNewPetFromSeed(avId, self.petSeeds[petNum], nameIndex = nameIndex, gender = gender, safeZoneId = zoneId)
             self.transactionType = "adopt"
 
@@ -172,7 +165,7 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
             self.air.writeServerEvent('suspicious', avId, 'DistributedNPCPetshopAI.petReturned busy with %s' % (self.busy))
             self.notify.warning("somebody called petReturned that I was not busy with! avId: %s" % avId)
             return
-
+            
         av = simbase.air.doId2do.get(avId)
         if av:
             # this function deletes the pet
@@ -209,3 +202,4 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
         self.notify.warning('not busy with avId: %s, busy: %s ' % (avId, self.busy))
         taskMgr.remove(self.uniqueName("clearMovie"))
         self.sendClearMovie(None)
+

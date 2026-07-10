@@ -1,9 +1,9 @@
 import string
-import traceback
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 
-hoodString = ConfigVariableString('level-editor-hoods', 'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA').getValue()
-hoods = hoodString.split()
+hoodString = base.config.GetString('level-editor-hoods',
+                                       'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA')
+hoods = string.split(hoodString)
 
 # The list of neighborhoods to edit
 HOOD_IDS = {'TT': 'toontown_central',
@@ -26,14 +26,14 @@ HOOD_IDS = {'TT': 'toontown_central',
 NEIGHBORHOODS = []
 NEIGHBORHOOD_CODES = {}
 for hoodId in hoods:
-    if hoodId in HOOD_IDS:
+    if HOOD_IDS.has_key(hoodId):
         hoodName = HOOD_IDS[hoodId]
         NEIGHBORHOOD_CODES[hoodName] = hoodId
         NEIGHBORHOODS.append(hoodName)
     else:
-        print('Error: no hood defined for: ', hoodId)
+        print 'Error: no hood defined for: ', hoodId
 
-dnaDirectory = Filename.expandFrom(ConfigVariableString("dna-directory", "$TTMODELS/src/dna").getValue())
+dnaDirectory = Filename.expandFrom(base.config.GetString("dna-directory", "$TTMODELS/src/dna"))
 
 
 # Colors used by all color menus
@@ -174,6 +174,7 @@ OBJECT_SNAP_POINTS = {
                             (Vec3(0), Vec3(0))],
     }
 
+
 # Precompute class types for type comparisons
 DNA_CORNICE = DNACornice.getClassType()
 DNA_DOOR = DNADoor.getClassType()
@@ -293,7 +294,7 @@ def DNAGetClassType(dnaObject):
     return dnaObject.__class__.getClassType()
 
 def DNAClassEqual(dnaObject, classType):
-    return DNAGetClassType(dnaObject).__eq__(classType)
+    return DNAGetClassType(dnaObject).eq(classType)
 
 def DNAIsDerivedFrom(dnaObject, classType):
     return DNAGetClassType(dnaObject).isDerivedFrom(classType)
@@ -361,13 +362,13 @@ def importModule(dcImports, moduleName, importSymbols):
             if hasattr(module, "__all__"):
                 importSymbols = module.__all__
             else:
-                importSymbols = list(module.__dict__.keys())
+                importSymbols = module.__dict__.keys()
 
         for symbolName in importSymbols:
             if hasattr(module, symbolName):
                 dcImports[symbolName] = getattr(module, symbolName)
             else:
-                raise Exception('Symbol %s not defined in module %s.' % (symbolName, moduleName))
+                raise StandardError, 'Symbol %s not defined in module %s.' % (symbolName, moduleName)
     else:
         # "import moduleName"
 

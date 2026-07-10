@@ -42,7 +42,7 @@ public:
   StringVector _string_vector;
   PTA_double _number_list;
   LVecBase3f _v3;
-  LColorf _color;
+  Colorf _color;
   bool _bool;
   PT(DNAGroup) _dna_group;
   DNASuitPoint::DNASuitPointType _suit_point_type;
@@ -50,3 +50,5 @@ public:
 
 
 #endif
+
+

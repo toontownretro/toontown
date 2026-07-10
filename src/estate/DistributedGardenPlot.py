@@ -1,15 +1,15 @@
-from . import DistributedLawnDecor
+import DistributedLawnDecor
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.ShowBase import *
 from direct.interval.IntervalGlobal import *
-from . import GardenGlobals
+import GardenGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.estate import PlantingGUI
 from toontown.estate import PlantTreeGUI
 from toontown.estate import ToonStatueSelectionGUI
 from toontown.toontowngui import TTDialog
-from toontown.toonbase.ToontownModules import Vec4
-from toontown.toonbase.ToontownModules import NodePath
+from pandac.PandaModules import Vec4
+from pandac.PandaModules import NodePath
 import types
 
 
@@ -76,7 +76,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
 
         if self.defaultModel:
             self.model = loader.loadModel(self.defaultModel)
-            if type(self.plotScale) == tuple:
+            if type(self.plotScale) == types.TupleType:
                 self.model.setScale(*self.plotScale)
             else:
                 self.model.setScale(self.plotScale)
@@ -95,7 +95,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
 
     def handleEnterPlot(self, entry = None):
         #print("plot entered %s" % (self.doId))
-        #print(entry)
+        #print entry
         dist = self.getDistance(localAvatar)
         if self.canBePlanted():
             base.localAvatar.addShovelRelatedDoId(self.doId) #, self.plantSomething)
@@ -103,7 +103,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
     def handleExitPlot(self, entry = None):
         DistributedLawnDecor.DistributedLawnDecor.handleExitPlot(self, entry)
         #print("plot exited %s" % (self.doId))
-        #print(entry)
+        #print entry
         base.localAvatar.removeShovelRelatedDoId(self.doId)
         #base.localAvatar.clearPlantToWater(self.doId)
         #base.localAvatar.hideWateringCanButton()
@@ -371,7 +371,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             self.movie.append(Func(self.finishInteraction))
             self.movie.append(Func(self.movieDone))
 
-        self.movie.start()
+        self.movie.start()        
 
     def doFinishRemovingTrack(self, avId):
         toon = base.cr.doId2do.get(avId)
@@ -487,3 +487,4 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             self.stick2Ground()
         else:
             DistributedLawnDecor.DistributedLawnDecor.makeMovieNode(self)
+

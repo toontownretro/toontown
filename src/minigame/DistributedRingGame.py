@@ -1,22 +1,21 @@
 """DistributedRingGame module: contains the DistributedRingGame class"""
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
-from .DistributedMinigame import *
+from DistributedMinigame import *
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
-from . import ArrowKeys
-from . import Ring
-from . import RingTrack
-from . import RingGameGlobals
-from . import RingGroup
-from . import RingTrackGroups
+import ArrowKeys
+import Ring
+import RingTrack
+import RingGameGlobals
+import RingGroup
+import RingTrackGroups
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-from functools import reduce
 
 class DistributedRingGame(DistributedMinigame):
 
@@ -145,9 +144,9 @@ class DistributedRingGame(DistributedMinigame):
             "phase_4/audio/bgm/MG_toontag.mid"
             )
 
-        self.sndAmbience = base.loader.loadSfx(
+        self.sndAmbience = base.loadSfx(
             'phase_4/audio/sfx/AV_ambient_water.mp3')
-        self.sndPerfect = base.loader.loadSfx(
+        self.sndPerfect = base.loadSfx(
             "phase_4/audio/sfx/ring_perfect.mp3")
         # don't use the 'swimming forward' sound; we're always swimming
         # forward, and the sound would get irritating
@@ -221,7 +220,7 @@ class DistributedRingGame(DistributedMinigame):
         camera.reparentTo(base.localAvatar)
         camera.setPosHpr(0, self.CAMERA_Y + self.TOON_Y, 0,
                          0, 0, 0)
-        base.camLens.setMinFov(80 * ToontownGlobals.OriginalAspectRatio)
+        base.camLens.setFov(80)
 
         # set the far plane
         base.camLens.setFar(self.FAR_PLANE_DIST)
@@ -274,9 +273,9 @@ class DistributedRingGame(DistributedMinigame):
             "missedRing" : [None] * self.numPlayers,
             }
         for i in range(0,self.numPlayers):
-            self.sndTable["gotRing"][i] =  base.loader.loadSfx(\
+            self.sndTable["gotRing"][i] =  base.loadSfx(\
                   "phase_4/audio/sfx/ring_get.mp3")
-            self.sndTable["missedRing"][i] = base.loader.loadSfx(\
+            self.sndTable["missedRing"][i] = base.loadSfx(\
                   "phase_4/audio/sfx/ring_miss.mp3")
 
         # create a drop shadow for the local toon
@@ -314,7 +313,7 @@ class DistributedRingGame(DistributedMinigame):
 
         render.clearFog()
         base.camLens.setFar(ToontownGlobals.DefaultCameraFar)
-        base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov)
+        base.camLens.setFov(ToontownGlobals.DefaultCameraFov)
 
         # Restore the background color
         base.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
@@ -334,7 +333,7 @@ class DistributedRingGame(DistributedMinigame):
         for avId in self.avIdList:
             av = self.getAvatar(avId)
             if av:
-                av.showShadow()
+                av.dropShadow.show()
                 av.resetLOD()
                 av.setAnimState('neutral', 1.0)
 
@@ -458,9 +457,9 @@ class DistributedRingGame(DistributedMinigame):
 
         # show a colored ring at the bottom of the screen
         self.colorRing = self.ringModel.copyTo(hidden)
-        self.colorRing.reparentTo(base.a2dBottomRight)
+        self.colorRing.reparentTo(aspect2d)
         self.colorRing.setTwoSided(0)
-        self.colorRing.setPos(-0.143, 10, 0.14)
+        self.colorRing.setPos(1.19,10,-0.86)
         self.colorRing.setScale(0.04)
 
         p = self.avIdList.index(self.localAvId)
@@ -507,14 +506,14 @@ class DistributedRingGame(DistributedMinigame):
         self.__tallyTextNode.setText(chars[result])
         node = self.__tallyTextNode.generate()
 
-        tallyText = base.a2dBottomLeft.attachNewNode(node)
+        tallyText = aspect2d.attachNewNode(node)
         tallyText.setColor(colors[result])
         tallyText.setScale(.1)
         zOffset = 0
         if result == self.RT_UNKNOWN:
             zOffset = 0.015
         xSpacing = .085
-        tallyText.setPos(0.333 + xSpacing * index, 0, 0.07 + zOffset)
+        tallyText.setPos(-1. + (xSpacing * index), 0, -.93 + zOffset)
         self.tallyMarkers[index] = tallyText
 
     def __deleteTallyMarker(self, index):
@@ -547,7 +546,7 @@ class DistributedRingGame(DistributedMinigame):
             }
 
         # make sure that the difficulty numbers add up correctly
-        for distr in list(difficultyDistributions.values()):
+        for distr in difficultyDistributions.values():
             sum = reduce(lambda x,y: x+y, distr)
             assert sum == self.NumRingGroups
 
@@ -601,7 +600,7 @@ class DistributedRingGame(DistributedMinigame):
                              difficultyDistributions=
                              difficultyDistributions):
             # for each safezone
-            for sz in list(difficultyPatterns.keys()):
+            for sz in difficultyPatterns.keys():
                 # for each pattern
                 for pattern in difficultyPatterns[sz]:
                     assert len(pattern) == self.NumRingGroups
@@ -612,13 +611,13 @@ class DistributedRingGame(DistributedMinigame):
                         numGroupsPerDifficulty = difficultyDistributions[sz]
                         if numGroupsPerDifficulty[difficulty] != \
                            pattern.count(difficulty):
-                            print('safezone:', sz)
-                            print('pattern:', pattern)
-                            print('difficulty:', difficulty)
-                            print('expected %s %ss, found %s' % (
+                            print 'safezone:', sz
+                            print 'pattern:', pattern
+                            print 'difficulty:', difficulty
+                            print 'expected %s %ss, found %s' % (
                                 numGroupsPerDifficulty[difficulty],
                                 difficulty,
-                                pattern.count(difficulty)))
+                                pattern.count(difficulty))
                             return 0
             return 1
         assert patternsAreValid()
@@ -751,7 +750,7 @@ class DistributedRingGame(DistributedMinigame):
         # toon/toon collisions were set up in setGameReady
         if not self.isSinglePlayer():
             # get rid of remote toon collisions
-            for np in list(self.remoteToonCollNPs.values()):
+            for np in self.remoteToonCollNPs.values():
                 np.removeNode()
             del self.remoteToonCollNPs
 
@@ -1161,7 +1160,7 @@ class DistributedRingGame(DistributedMinigame):
 
             self.__ringTracks.append(track)
             track.start()
-
+        
 
     def setRingGroupResults(self, bitfield):
         """

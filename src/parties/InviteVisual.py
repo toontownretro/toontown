@@ -16,7 +16,7 @@ from direct.fsm.FSM import FSM
 from toontown.parties import PartyGlobals
 from toontown.parties import PartyUtils
 from toontown.toonbase.ToontownGlobals import VALENTINES_DAY
-#from toontown.toon import GMUtils
+from toontown.toon import GMUtils
 
 class InviteVisual(DirectFrame):
     """
@@ -36,7 +36,6 @@ class InviteVisual(DirectFrame):
             PartyGlobals.InviteTheme.Racing : ( self.gui.find("**/racingPage"), TTLocalizer.PartyPlannerRacingTheme, (0.0, 0.0, 0.0, 1.0) ),
             PartyGlobals.InviteTheme.Valentoons : ( self.gui.find("**/valentinePage1"), TTLocalizer.PartyPlannerValentoonsTheme, (0.0, 0.0, 0.0, 1.0) ),
             PartyGlobals.InviteTheme.VictoryParty : ( self.gui.find("**/victoryPartyPage"), TTLocalizer.PartyPlannerVictoryPartyTheme, (0.0, 0.0, 0.0, 1.0) ),
-            PartyGlobals.InviteTheme.Winter : ( self.gui.find("**/winterPartyPage1"), TTLocalizer.PartyPlannerWinterPartyTheme, (1.0, 1.0, 1.0, 1.0) ),
         }
         
         self.inviteThemeBackground = DirectFrame(
@@ -79,17 +78,17 @@ class InviteVisual(DirectFrame):
         self.noFriends = noFriends
         # force us to always show the theme background to avoid the
         # plain blue background in the party planner
-        #if 0: #noFriends:
-        #    self.inviteThemeBackground.hide()
-        #else:
-        self.inviteThemeBackground.show()
+        if 0: #noFriends:
+            self.inviteThemeBackground.hide()
+        else:
+            self.inviteThemeBackground.show()
 
     def updateInvitation(self, hostsName, partyInfo):
         self.partyInfo = partyInfo
         
         hostsName = TTLocalizer.GetPossesive(hostsName)
-        #if GMUtils.testGMIdentity(hostsName):
-        #    hostsName = self.__handleGMName(hostsName)
+        if GMUtils.testGMIdentity(hostsName):
+            hostsName = self.__handleGMName(hostsName)
         self.whosePartyLabel["text"] = TTLocalizer.PartyPlannerInvitationWhoseSentence % \
          hostsName
         

@@ -1,5 +1,5 @@
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
 from toontown.toonbase import TTLocalizer
@@ -17,7 +17,7 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
 
     notify = DirectNotifyGlobal.directNotify.newCategory("SummonCogDialog")
     notify.setInfo(True)
-
+    
     def __init__(self, suitIndex):
         """__init__(self)
         """
@@ -33,7 +33,7 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
                              text_scale = 0.12,
                              text_pos = (0, 0.4),
                              borderWidth = (0.01, 0.01),
-                             sortOrder = DGG.NO_FADE_SORT_INDEX,
+                             sortOrder = NO_FADE_SORT_INDEX,
                              )
         StateData.StateData.__init__(self, "summon-cog-done")
         self.initialiseoptions(SummonCogDialog)
@@ -43,7 +43,7 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
 
         self.suitName = SuitDNA.suitHeadTypes[self.suitIndex]
         self.suitFullName = SuitBattleGlobals.SuitAttributes[self.suitName]['name']
-
+        
 
     def unload(self):
         if self.isLoaded == 0:
@@ -83,7 +83,7 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
                        guiButton.find("**/QuitBtn_RLVR"),
                        )
         disabledColor = Vec4(0.5, 0.5, 0.5, 1)
-
+        
         self.summonSingleButton = DirectButton(
             parent = self,
             relief = None,
@@ -134,7 +134,7 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
             pos = (0.3, 0, 0.25),
             scale = 0.07,
             )
-
+            
         self.cancel = DirectButton(
             parent = self,
             relief = None,
@@ -163,7 +163,7 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
         # disable all, then enable the ones we have
         self.disableButtons()
         self.enableButtons()
-
+        
         self.popup = None
         base.transitions.fadeScreen(.5)
 
@@ -183,11 +183,11 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
         self.hide()
 
         messenger.send(self.doneEvent, [])
-        return None
+        return
 
     def cleanupDialogs(self):
         self.head = None
-
+        
         if self.popup != None:
             self.popup.cleanup()
             self.popup = None
@@ -232,7 +232,7 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
         self.summonSingleButton.hide()
         self.summonBuildingButton.hide()
         self.summonInvasionButton.hide()
-
+        
     def issueSummons(self, summonsType):
         if summonsType == "single":
             text = TTL.SummonDlgSingleConf
@@ -250,7 +250,7 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
             self.popup = None
 
             # Restore our dialog to the top of the fade screen.
-            self.reparentTo(self.getParent(), DGG.NO_FADE_SORT_INDEX)
+            self.reparentTo(self.getParent(), NO_FADE_SORT_INDEX)
             base.transitions.fadeScreen(.5)
 
             if resp == DGG.DIALOG_OK:
@@ -264,19 +264,19 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
 
         # Move our dialog under the fade screen.
         self.reparentTo(self.getParent(), 0)
-
+            
         self.popup = TTDialog.TTDialog(
             parent = aspect2dp,
             style = TTDialog.YesNo,
             text = text,
             fadeScreen = 1,
             command = handleResponse,
-            )
+            )            
 
     def doIssueSummonsText(self):
         self.disableButtons()
         self.statusLabel['text'] = TTL.SummonDlgDelivering
-
+        
     def disableButtons(self):
         self.summonSingleButton['state'] = DGG.DISABLED
         self.summonBuildingButton['state'] = DGG.DISABLED
@@ -292,3 +292,4 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
 
     def __cancel(self):
         self.exit()
+    

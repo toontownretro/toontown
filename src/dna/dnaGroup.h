@@ -26,7 +26,7 @@ class DNAStorage;
 //       Class : DNAGroup
 // Description : A group of dna nodes
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN_DNALOADER DNAGroup : public TypedReferenceCount, public Namable {
+class EXPCL_TOONTOWN DNAGroup : public TypedReferenceCount, public Namable {
 PUBLISHED:
   DNAGroup(const string &initial_name = "");
   DNAGroup(const DNAGroup &group);
@@ -36,7 +36,7 @@ PUBLISHED:
 
   void add(PT(DNAGroup) group);
   void remove(PT(DNAGroup) group);
-  INLINE PT(DNAGroup) at(uint32_t index);
+  INLINE PT(DNAGroup) at(uint index);
   INLINE PT(DNAGroup) current();
   INLINE int get_num_children();
   INLINE PT(DNAGroup) get_parent() const;

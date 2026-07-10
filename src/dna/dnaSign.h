@@ -17,7 +17,7 @@
 //       Class : DNASign
 // Description : A Sign
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN_DNALOADER DNASign : public DNANode  {
+class EXPCL_TOONTOWN DNASign : public DNANode  {
 PUBLISHED:
   DNASign(const string &initial_name = "");
   DNASign(const DNASign &Sign);
@@ -28,15 +28,15 @@ PUBLISHED:
   void set_code(string code);
   string get_code() const;
 
-  void set_color(const LColorf &color);
-  LColorf get_color() const;
+  void set_color(const Colorf &color);
+  Colorf get_color() const;
 
 private:
   virtual DNAGroup* make_copy();
 
 private:
   string _code;
-  LColorf _color;
+  Colorf _color;
 
 public:
   static TypeHandle get_class_type() {

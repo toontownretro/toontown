@@ -1,5 +1,5 @@
-from .ElevatorConstants import *
-from . import DistributedBossElevatorAI
+from ElevatorConstants import *
+import DistributedBossElevatorAI
 
 class DistributedBBElevatorAI(DistributedBossElevatorAI.DistributedBossElevatorAI):
 
@@ -12,7 +12,7 @@ class DistributedBBElevatorAI(DistributedBossElevatorAI.DistributedBossElevatorA
 
     def checkBoard(self, av):
         result = 0
-        if ConfigVariableBool('allow-ceo-elevator',1).getValue():
+        if simbase.config.GetBool('allow-ceo-elevator',1):
             result = DistributedBossElevatorAI.DistributedBossElevatorAI.checkBoard(self,av)
         else:
             result =  REJECT_NOT_YET_AVAILABLE

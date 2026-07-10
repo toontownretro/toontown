@@ -11,14 +11,14 @@ class ScrollMenu:
         self.action = None              #Call back fucntion
         self.textList = textList
         
-        self._parent = nodePath
+        self.parent = nodePath
         self.frame = None
 
         self.initialState = None        # To maintain backward compatibility
         
     def createScrolledList(self):
         # First create a frame in which direct elements maybe placed
-        self.frame = DirectFrame(scale = 1.1,
+        self.frame = DirectFrame(scale = 1.1, relief = 1.0,
                                  frameSize = (-0.5,0.2,-0.05,0.59),
                                  frameColor = (0.737, 0.573, 0.345, 0.000))
 
@@ -62,7 +62,7 @@ class ScrollMenu:
                   relief=1, command = self.__hide)
         b1.setPos(0.15, 0, -0.025)
         
-        self.frame.reparentTo(self._parent)
+        self.frame.reparentTo(self.parent)
         
         
     def __selected(self, text):
@@ -70,7 +70,7 @@ class ScrollMenu:
             self.action(text)
             
     def __hide(self):
-        self.frame.reparentTo(self._parent)
+        self.frame.reparentTo(self.parent)
 
 
     #######################################################

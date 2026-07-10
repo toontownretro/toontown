@@ -4,8 +4,7 @@ from toontown.battle import BattlePlace
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.showbase import BulletinBoardWatcher
-from toontown.toonbase.ToontownModules import *
-from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
+from pandac.PandaModules import *
 from toontown.toon import Toon
 from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil
@@ -17,7 +16,7 @@ from toontown.coghq import DistributedMint
 class MintInterior(BattlePlace.BattlePlace):
     # create a notify category
     notify = DirectNotifyGlobal.directNotify.newCategory("MintInterior")
-
+    
     # special methods
     def __init__(self, loader, parentFSM, doneEvent):
         assert(MintInterior.notify.debug("MintInterior()"))
@@ -38,8 +37,8 @@ class MintInterior(BattlePlace.BattlePlace):
                             State.State('walk',
                                         self.enterWalk,
                                         self.exitWalk,
-                                        ['push', 'sit', 'stickerBook',
-                                         'WaitForBattle', 'battle',
+                                        ['push', 'sit', 'stickerBook', 
+                                         'WaitForBattle', 'battle', 
                                          'died', 'teleportOut', 'squished',
                                          'DFA', 'fallDown', 'stopped'
                                          ]),
@@ -120,7 +119,7 @@ class MintInterior(BattlePlace.BattlePlace):
                                         self.enterFinal,
                                         self.exitFinal,
                                         ['start'])],
-
+                          
                            # Initial State
                            'start',
                            # Final State
@@ -149,9 +148,6 @@ class MintInterior(BattlePlace.BattlePlace):
 
         # Cheesy rendering effects are not allowed in mints.
         base.cr.forbidCheesyEffects(1)
-
-        # Turn on the limiter
-        self._telemLimiter = TLGatherAllAvs('MintInterior', RotationLimitToH)
 
         # wait until the mint and any distributed entities have been
         # created before moving on
@@ -187,10 +183,6 @@ class MintInterior(BattlePlace.BattlePlace):
 
         bboard.remove(DistributedMint.DistributedMint.ReadyPost)
 
-        # Stop the limiter
-        self._telemLimiter.destroy()
-        del self._telemLimiter
-
         # Restore cheesy rendering effects.
         base.cr.forbidCheesyEffects(0)
 
@@ -224,7 +216,7 @@ class MintInterior(BattlePlace.BattlePlace):
         # make sure we're under render, and make sure everyone else knows it
         if base.localAvatar.getParent() != render:
             base.localAvatar.wrtReparentTo(render)
-            base.localAvatar.b_setParent(ToontownGlobals.SPActors)
+            base.localAvatar.b_setParent(ToontownGlobals.SPRender)
 
     def exitWaitForBattle(self):
         MintInterior.notify.debug('exitWaitForBattle')
@@ -275,7 +267,7 @@ class MintInterior(BattlePlace.BattlePlace):
 
     def enterTeleportOut(self, requestStatus):
         MintInterior.notify.debug('enterTeleportOut()')
-        BattlePlace.BattlePlace.enterTeleportOut(self, requestStatus,
+        BattlePlace.BattlePlace.enterTeleportOut(self, requestStatus, 
                         self.__teleportOutDone)
 
     def __processLeaveRequest(self, requestStatus):
@@ -301,11 +293,11 @@ class MintInterior(BattlePlace.BattlePlace):
             self.fsm.request('FLA', [requestStatus])
         else:
             self.__processLeaveRequest(requestStatus)
-
+        
     def exitTeleportOut(self):
         MintInterior.notify.debug('exitTeleportOut()')
         BattlePlace.BattlePlace.exitTeleportOut(self)
-
+         
     def handleMintWinEvent(self):
         """this handler is called when the mint has been defeated"""
         MintInterior.notify.debug('handleMintWinEvent')

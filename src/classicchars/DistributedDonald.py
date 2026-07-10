@@ -1,13 +1,13 @@
 """DistributedDonald module: contains the DistributedDonald class"""
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
-from . import DistributedCCharBase
+import DistributedCCharBase
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from . import CharStateDatas
-from . import CCharChatter
+import CharStateDatas
+import CCharChatter
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.hood import GSHood
@@ -137,7 +137,7 @@ class DistributedDonald(DistributedCCharBase.DistributedCCharBase):
 
     def walkSpeed(self):
         return ToontownGlobals.DonaldSpeed
-
+        
     def handleHolidays(self):
         """
         Handle Holiday specific behaviour

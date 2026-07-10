@@ -1,4 +1,4 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 
 dayMusic = loader.loadMusic("phase_4/audio/bgm/TC_nbrhood.mid")
@@ -35,7 +35,7 @@ dayCloud2.setBin("background", 101)
 dawnSky = loader.loadModel("phase_6/models/props/MM_sky")
 dawnSky.setScale(0.8)
 dawnSky.setTransparency(1)
-dawnSky.setBin("background", 102)
+dawnSky.setBin("background", 102
 
 pe = PolylightEffect.make()
 brightness = 1.25
@@ -166,7 +166,7 @@ def makeNight():
     base.playMusic(nightMusic, volume=0.5)
     for b in butterflies:
         b.butterflyNode.hide()
-
+    
 
 def makeDay():
     for lamp in lamps:

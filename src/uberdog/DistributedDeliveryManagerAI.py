@@ -14,18 +14,18 @@ class DistributedDeliveryManagerAI(DistributedObjectAI):
         self.senderIdContexttoPhone = {}
        
     def hello(self, message):
-        print(message)
+        print message
         replyToChannel = self.air.getSenderReturnChannel()
-        print("This is the AI getting the hello message" , message)
+        print "This is the AI getting the hello message" , message
 
     def sendHello(self, message):
         self.sendUpdate("hello", [message])
     
     def rejectHello(self, message):
-        print("rejected", message)
+        print "rejected", message
         
     def helloResponse(self, message):
-        print("accepted", message)
+        print "accepted", message
         
     #NON Test functions begin here
         
@@ -38,16 +38,16 @@ class DistributedDeliveryManagerAI(DistributedObjectAI):
         receiver = self.air.doId2do.get(avId)
         #if receiver:
         #if the gift receiver happens to be logged in tell them about the gift update
-        #print("Deliver Gifts Accepted:", message)
+        #print "Deliver Gifts Accepted:", message
         
     def receiveRejectDeliverGifts(self, avId, message):
         self.notify.debugStateCall(self)        
-        #print("Deliver Gifts Rejected:", message)
+        #print "Deliver Gifts Rejected:", message
         pass        
         
     def sendRequestPurchaseGift(self, item, rAvId, sAvId, context, phone):
         self.notify.debugStateCall(self)        
-        #print("sent request for gift")
+        #print "sent request for gift"
         uniquekey = (sAvId, context)
         self.senderIdContexttoPhone[uniquekey] = phone
         item.giftTag = sAvId
@@ -58,7 +58,7 @@ class DistributedDeliveryManagerAI(DistributedObjectAI):
         
     def receiveRejectPurchaseGift(self, sAvId, context, retcode, cost):
         self.notify.debugStateCall(self)        
-        #print("rejected Purcahse Gift")
+        #print "rejected Purcahse Gift"
         uniquekey = (sAvId, context)
         phone = self.senderIdContexttoPhone[uniquekey]
         phone.sendUpdateToAvatarId(sAvId, "requestGiftPurchaseResponse", [context, retcode])
@@ -67,7 +67,7 @@ class DistributedDeliveryManagerAI(DistributedObjectAI):
             
     def receiveAcceptPurchaseGift(self, sAvId, context, retcode):
         self.notify.debugStateCall(self)        
-        #print("accepeted Purcahse Gift")
+        #print "accepeted Purcahse Gift"
         uniquekey = (sAvId, context)
         phone = self.senderIdContexttoPhone.get(uniquekey)
         if phone:

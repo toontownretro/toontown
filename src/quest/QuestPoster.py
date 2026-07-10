@@ -1,6 +1,6 @@
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
-from . import Quests
+from pandac.PandaModules import *
+import Quests
 from toontown.toon import NPCToons
 from toontown.toon import ToonHead
 from toontown.toon import ToonDNA
@@ -13,9 +13,6 @@ import string, types
 from toontown.toon import LaffMeter
 from toontown.toonbase.ToontownBattleGlobals import AvPropsNew
 from toontown.toontowngui.TeaserPanel import TeaserPanel
-from direct.directnotify import DirectNotifyGlobal
-from toontown.toontowngui import TTDialog
-from otp.otpbase import OTPLocalizer
 
 IMAGE_SCALE_LARGE = 0.2
 IMAGE_SCALE_SMALL = 0.15
@@ -62,8 +59,6 @@ class QuestPoster(DirectFrame):
         # Initialize instance
         self.initialiseoptions(QuestPoster)
 
-        self._deleteCallback = None
-
         # Single frame to hold everything on the quest poster
         self.questFrame = DirectFrame(parent = self, relief = None)
 
@@ -86,7 +81,7 @@ class QuestPoster(DirectFrame):
         self.questInfo = DirectLabel(
             parent = self.questFrame,
             relief = None,
-            text = '',
+            text = '', 
             text_fg = self.normalTextColor,
             text_scale = TEXT_SCALE,
             text_align = TextNode.ACenter,
@@ -99,7 +94,7 @@ class QuestPoster(DirectFrame):
         self.rewardText = DirectLabel(
             parent = self.questFrame,
             relief = None,
-            text = '',
+            text = '', 
             text_fg = self.colors['rewardRed'],
             text_scale = 0.0425,
             text_align = TextNode.ALeft,
@@ -116,7 +111,7 @@ class QuestPoster(DirectFrame):
             relief = None,
             image = bookModel.find("**/questPictureFrame"),
             image_scale = IMAGE_SCALE_SMALL,
-            text = '',
+            text = '', 
             text_pos = (0,-0.11),
             text_fg = self.normalTextColor,
             text_scale = TEXT_SCALE,
@@ -130,7 +125,7 @@ class QuestPoster(DirectFrame):
             relief = None,
             image = bookModel.find("**/questPictureFrame"),
             image_scale = IMAGE_SCALE_SMALL,
-            text = '',
+            text = '',             
             text_pos = (0,-0.11),
             text_fg = self.normalTextColor,
             text_scale = TEXT_SCALE,
@@ -145,7 +140,7 @@ class QuestPoster(DirectFrame):
         self.lQuestIcon = DirectFrame(
             parent = self.lPictureFrame,
             relief = None,
-            text = ' ',
+            text = ' ', 
             text_font = ToontownGlobals.getSuitFont(),
             text_pos = (0,-0.03),
             text_fg = self.normalTextColor,
@@ -159,7 +154,7 @@ class QuestPoster(DirectFrame):
         self.rQuestIcon = DirectFrame(
             parent = self.rPictureFrame,
             relief = None,
-            text = ' ',
+            text = ' ', 
             text_font = ToontownGlobals.getSuitFont(),
             text_pos = (0,-0.03),
             text_fg = self.normalTextColor,
@@ -209,7 +204,7 @@ class QuestPoster(DirectFrame):
             text_fg = (0.000, 0.439, 1.000, 1.000),
             text_shadow = (0,0,0,1),
             #pos = (-0.28, 0, 0.19),
-            pos = (-0.2825, 0, 0.20),
+            pos = (-0.2825, 0, 0.20),            
             scale = 0.03
             )
         self.funQuest.setR(-30)
@@ -218,14 +213,13 @@ class QuestPoster(DirectFrame):
         # Free up model
         bookModel.removeNode()
 
+        # reverse the poster graphic if necessary
+        self.reverseBG(self['reverse'])
+
         # For use by newbie quests
         self.laffMeter = None
 
     def destroy(self):
-        self._deleteGeoms()
-        DirectFrame.destroy(self)
-
-    def _deleteGeoms(self):
         # make sure any toon heads get cleaned up
         for icon in (self.lQuestIcon, self.rQuestIcon):
             geom = icon['geom']
@@ -233,6 +227,22 @@ class QuestPoster(DirectFrame):
                 # I know, ugly...
                 if hasattr(geom, 'delete'):
                     geom.delete()
+
+        DirectFrame.destroy(self)
+
+    def reverseBG(self, reverse=0):
+        # reverse the poster image (for right-hand page in shticker
+        # book, for example)
+        try:
+            self.initImageScale
+        except AttributeError:
+            self.initImageScale = self['image_scale']
+            if reverse:
+                self.initImageScale.setX(-abs(self.initImageScale[0]))
+                self.questFrame.setX(0.015)
+            else:
+                self.initImageScale.setX(abs(self.initImageScale[0]))
+            self['image_scale'] = self.initImageScale
 
     def mouseEnterPoster(self, event):
         # Make sure you're on the top
@@ -268,7 +278,7 @@ class QuestPoster(DirectFrame):
     def createLaffMeter(self, hp):
         lm = LaffMeter.LaffMeter(base.localAvatar.style, hp, hp)
         lm.adjustText()
-        return lm
+        return lm 
 
     def createSuitHead(self, suitName):
         # Given an suit name create a toon head suitable for framing
@@ -335,7 +345,7 @@ class QuestPoster(DirectFrame):
                                  180, 0, 0,
                                  s, s, s)
         geomXform.reparentTo(geom)
-
+    
     def clear(self):
         self['image_color'] = Vec4(*self.colors['white'])
         # clear out the poster text
@@ -356,13 +366,6 @@ class QuestPoster(DirectFrame):
         if hasattr(self, 'chooseButton'):
             self.chooseButton.destroy()
             del self.chooseButton
-        if hasattr(self, 'deleteButton'):
-            self.deleteButton.destroy()
-            del self.deleteButton
-        self.ignore(self.confirmDeleteButtonEvent)
-        if hasattr(self, 'confirmDeleteButton'):
-            self.confirmDeleteButton.cleanup()
-            del self.confirmDeleteButton
         if (self.laffMeter != None):
             self.laffMeter.reparentTo(hidden)
             self.laffMeter.destroy()
@@ -402,14 +405,14 @@ class QuestPoster(DirectFrame):
         hoodId = ZoneUtil.getCanonicalHoodId(npcZone)
 
         # Don't allow trialers to get DD quests
-        if not base.cr.isPaid() and (questId == 401 or ((hasattr(quest, 'getLocation')) and (quest.getLocation() == 1000)) or (hoodId == 1000)):
-#            def showTeaserPanel():
-#                TeaserPanel(pageName='quests')
-#            self.chooseButton['command'] = showTeaserPanel
-#        # trailers can't get new gag tracks
-#        elif not base.cr.isPaid() and ((questId >= 900) and questId <= 907):
+        if not base.cr.isPaid() and (((hasattr(quest, 'getLocation')) and (quest.getLocation() == 1000)) or (hoodId == 1000)):
             def showTeaserPanel():
-                TeaserPanel(pageName='getGags')
+                TeaserPanel(pageName='quests')
+            self.chooseButton['command'] = showTeaserPanel
+        # trailers can't get new gag tracks
+        elif not base.cr.isPaid() and ((questId >= 900) and questId <= 907):
+            def showTeaserPanel():
+                TeaserPanel(pageName='quests')
             self.chooseButton['command'] = showTeaserPanel
         else:
             self.chooseButton['command'] = callback
@@ -422,16 +425,16 @@ class QuestPoster(DirectFrame):
 
         # if we have moved the reward up, we should move the quest info up too
         # (unless this is track choice)
-        if not (quest.getType() == Quests.TrackChoiceQuest):
+        if not (quest.getType() == Quests.TrackChoiceQuest):        
             self.questInfo.setZ(-0.0625)
-
+        
     def update(self, questDesc):
         # Update quest poster to reflect details about given quest
         # Extract details about the quest
         questId, fromNpcId, toNpcId, rewardId, toonProgress = questDesc
         quest = Quests.getQuest(questId)
         if quest == None:
-            self.notify.warning("Tried to display poster for unknown quest %s" % (questId))
+            print "Tried to display poster for unknown quest %s" % (questId)
             return
         # Update reward info
         if rewardId == Quests.NA:
@@ -449,18 +452,37 @@ class QuestPoster(DirectFrame):
         self.rewardText['text'] = rewardString
         self.fitLabel(self.rewardText)
         # Is reward optional
-        if Quests.isQuestJustForFun(questId, rewardId):
+        questEntry = Quests.QuestDict.get(questId)
+        if questEntry:
+            tier = questEntry[0]
+            fOptional = Quests.isRewardOptional(tier, rewardId)
+        else:
+            fOptional = 0
+        if fOptional:
             self.funQuest.show()
         else:
             self.funQuest.hide()
-        if self._deleteCallback:
-            self.showDeleteButton(questDesc)
-        else:
-            self.hideDeleteButton()
         # Is quest complete?
         fComplete = (quest.getCompletionStatus(base.localAvatar, questDesc) == Quests.COMPLETE)
-
+        # Names and IDs
+        fromNpcName = NPCToons.getNPCName(fromNpcId)
+        npcZone = NPCToons.getNPCZone(fromNpcId)
+        hoodId = ZoneUtil.getCanonicalHoodId(npcZone)
+        branchId = ZoneUtil.getCanonicalBranchZone(npcZone)
         # Is this in the Toon HQ or in the hoods
+        if fromNpcId == Quests.ToonHQ:
+            locationName = TTLocalizer.QuestPosterHQLocationName
+            buildingName = TTLocalizer.QuestPosterHQBuildingName
+            streetName = TTLocalizer.QuestPosterHQStreetName
+        elif fromNpcId == Quests.ToonTailor:
+            locationName = TTLocalizer.QuestPosterTailorLocationName
+            buildingName = TTLocalizer.QuestPosterTailorBuildingName
+            streetName = TTLocalizer.QuestPosterTailorStreetName
+        else:
+            locationName = base.cr.hoodMgr.getFullnameFromId(hoodId)
+            buildingName = NPCToons.getBuildingTitle(npcZone)
+            streetName = ZoneUtil.getStreetName(branchId)
+
         if toNpcId == Quests.ToonHQ:
             toNpcName = TTLocalizer.QuestPosterHQOfficer
             toNpcBuildingName = TTLocalizer.QuestPosterHQBuildingName
@@ -492,9 +514,9 @@ class QuestPoster(DirectFrame):
         auxTextPos = Vec3(0,0,0.12)
         headlineString = quest.getHeadlineString()
         objectiveStrings = quest.getObjectiveStrings()
-        assert type(objectiveStrings) in (list, tuple)
-        captions = list(map(string.capwords,quest.getObjectiveStrings()))
-        imageColor = Vec4(*self.colors['white'])
+        assert type(objectiveStrings) in (types.ListType, types.TupleType)
+        captions = map(string.capwords,quest.getObjectiveStrings())
+        imageColor = Vec4(*self.colors['white'])        
         # Adjust poster for the particular quest type
         if ((quest.getType() == Quests.DeliverGagQuest) or
             (quest.getType() == Quests.DeliverItemQuest)):
@@ -577,7 +599,7 @@ class QuestPoster(DirectFrame):
                     else:
                         rIconGeom = self.createSuitHead(holder)
                     lPos.setX(-0.18)
-                    auxText = TTLocalizer.QuestPosterAuxFrom
+                    auxText = TTLocalizer.QuestPosterAuxFrom                    
                 # Display location conditions for quest
                 infoText = string.capwords(quest.getLocationName())
                 if infoText == '':
@@ -680,7 +702,7 @@ class QuestPoster(DirectFrame):
             if not fComplete:
                 headlineString = TTLocalizer.QuestsNewbieQuestHeadline
                 captions = [quest.getCaption()]
-                captions.append(list(map(string.capwords, quest.getObjectiveStrings())))
+                captions.append(map(string.capwords, quest.getObjectiveStrings()))
                 auxText = TTLocalizer.QuestsCogNewbieQuestAux
                 lPos.setX(-0.18)
                 self.laffMeter = self.createLaffMeter(quest.getNewbieLevel())
@@ -717,7 +739,7 @@ class QuestPoster(DirectFrame):
             if not fComplete:
                 headlineString = TTLocalizer.QuestsNewbieQuestHeadline
                 captions = [quest.getCaption()]
-                captions.append(list(map(string.capwords, quest.getObjectiveStrings())))
+                captions.append(map(string.capwords, quest.getObjectiveStrings()))
                 auxText = TTLocalizer.QuestsCogNewbieQuestAux
                 lPos.setX(-0.18)
                 self.laffMeter = self.createLaffMeter(quest.getNewbieLevel())
@@ -754,7 +776,7 @@ class QuestPoster(DirectFrame):
             if not fComplete:
                 headlineString = TTLocalizer.QuestsNewbieQuestHeadline
                 captions = [quest.getCaption()]
-                captions.append(list(map(string.capwords, quest.getObjectiveStrings())))
+                captions.append(map(string.capwords, quest.getObjectiveStrings()))
                 auxText = TTLocalizer.QuestsCogNewbieQuestAux
                 lPos.setX(-0.18)
                 self.laffMeter = self.createLaffMeter(quest.getNewbieLevel())
@@ -791,7 +813,7 @@ class QuestPoster(DirectFrame):
             if not fComplete:
                 headlineString = TTLocalizer.QuestsNewbieQuestHeadline
                 captions = [quest.getCaption()]
-                captions.append(list(map(string.capwords, quest.getObjectiveStrings())))
+                captions.append(map(string.capwords, quest.getObjectiveStrings()))
                 auxText = TTLocalizer.QuestsCogPartQuestAux
                 lPos.setX(-0.18)
                 self.laffMeter = self.createLaffMeter(quest.getNewbieLevel())
@@ -830,7 +852,7 @@ class QuestPoster(DirectFrame):
             if not fComplete:
                 headlineString = TTLocalizer.QuestsNewbieQuestHeadline
                 captions = [quest.getCaption()]
-                captions.append(list(map(string.capwords, quest.getObjectiveStrings())))
+                captions.append(map(string.capwords, quest.getObjectiveStrings()))
                 auxText = TTLocalizer.QuestsCogNewbieQuestAux
                 lPos.setX(-0.18)
                 self.laffMeter = self.createLaffMeter(quest.getNewbieLevel())
@@ -867,7 +889,7 @@ class QuestPoster(DirectFrame):
             if not fComplete:
                 headlineString = TTLocalizer.QuestsNewbieQuestHeadline
                 captions = [quest.getCaption()]
-                captions.append(list(map(string.capwords, quest.getObjectiveStrings())))
+                captions.append(map(string.capwords, quest.getObjectiveStrings()))
                 auxText = TTLocalizer.QuestsCogNewbieQuestAux
                 lPos.setX(-0.18)
                 self.laffMeter = self.createLaffMeter(quest.getNewbieLevel())
@@ -904,7 +926,7 @@ class QuestPoster(DirectFrame):
             if not fComplete:
                 headlineString = TTLocalizer.QuestsNewbieQuestHeadline
                 captions = [quest.getCaption()]
-                captions.append(list(map(string.capwords, quest.getObjectiveStrings())))
+                captions.append(map(string.capwords, quest.getObjectiveStrings()))
                 auxText = TTLocalizer.QuestsCogNewbieQuestAux
                 lPos.setX(-0.18)
                 self.laffMeter = self.createLaffMeter(quest.getNewbieLevel())
@@ -937,7 +959,7 @@ class QuestPoster(DirectFrame):
             if not fComplete:
                 headlineString = TTLocalizer.QuestsNewbieQuestHeadline
                 captions = [quest.getCaption()]
-                captions.append(list(map(string.capwords, quest.getObjectiveStrings())))
+                captions.append(map(string.capwords, quest.getObjectiveStrings()))
                 auxText = TTLocalizer.QuestsRescueQuestAux
                 lPos.setX(-0.18)
                 self.laffMeter = self.createLaffMeter(quest.getNewbieLevel())
@@ -1000,7 +1022,7 @@ class QuestPoster(DirectFrame):
             infoText = TTLocalizer.QuestPosterPlayground
             if not fComplete:
                 captions = [TTLocalizer.QuestsMinigameNewbieQuestCaption % quest.getNewbieLevel()]
-                captions.append(list(map(string.capwords, quest.getObjectiveStrings())))
+                captions.append(map(string.capwords, quest.getObjectiveStrings()))
                 auxText = TTLocalizer.QuestsMinigameNewbieQuestAux
                 lPos.setX(-0.18)
                 self.laffMeter = self.createLaffMeter(quest.getNewbieLevel())
@@ -1064,7 +1086,7 @@ class QuestPoster(DirectFrame):
                 if not fComplete:
                     headlineString = TTLocalizer.QuestsNewbieQuestHeadline
                     captions = [quest.getCaption()]
-                    captions.append(list(map(string.capwords, quest.getObjectiveStrings())))
+                    captions.append(map(string.capwords, quest.getObjectiveStrings()))
                     auxText = TTLocalizer.QuestsCogNewbieQuestAux
                     lPos.setX(-0.18)
                     self.laffMeter = self.createLaffMeter(quest.getNewbieLevel())
@@ -1113,7 +1135,7 @@ class QuestPoster(DirectFrame):
                 if not fComplete:
                     headlineString = TTLocalizer.QuestsNewbieQuestHeadline
                     captions = [quest.getCaption()]
-                    captions.append(list(map(string.capwords, quest.getObjectiveStrings())))
+                    captions.append(map(string.capwords, quest.getObjectiveStrings()))
                     auxText = TTLocalizer.QuestsCogNewbieQuestAux
                     lPos.setX(-0.18)
                     self.laffMeter = self.createLaffMeter(quest.getNewbieLevel())
@@ -1130,13 +1152,13 @@ class QuestPoster(DirectFrame):
                 lIconGeom = cogIcons.find('**/skelecog5')
                 lIconGeomScale = IMAGE_SCALE_SMALL
                 cogIcons.removeNode()
-
+                    
             if not fComplete:
                 # Show the location of the cog/item
                 infoText = string.capwords(quest.getLocationName())
                 if infoText == '':
                     infoText = TTLocalizer.QuestPosterAnywhere
-
+                
         if fComplete:
             # Make text and background green to show it is complete
             textColor = (0,0.3,0,1)
@@ -1158,7 +1180,7 @@ class QuestPoster(DirectFrame):
                 self.laffMeter.destroy()
                 self.laffMeter = None
         else:
-            textColor = self.normalTextColor
+            textColor = self.normalTextColor            
         # Show thyself
         self.show()
         # Update color
@@ -1169,7 +1191,7 @@ class QuestPoster(DirectFrame):
         # Update picture frame captions and locations
         self.lPictureFrame.show()
         self.lPictureFrame.setPos(lPos)
-        self.lPictureFrame['text_scale'] = TEXT_SCALE
+        self.lPictureFrame['text_scale'] = TEXT_SCALE        
         # scale down the text if left picture is not centered
         if (lPos[0] != 0):
             self.lPictureFrame['text_scale'] = 0.0325
@@ -1179,12 +1201,11 @@ class QuestPoster(DirectFrame):
         if len(captions) > 1:
             self.rPictureFrame.show()
             self.rPictureFrame['text'] = captions[1]
-            self.rPictureFrame['text_scale'] = 0.0325
+            self.rPictureFrame['text_scale'] = 0.0325             
             #self.rPictureFrame.setColor(*self.colors[frameBgColor])
             self.rPictureFrame['image_color'] =Vec4(*self.colors[frameBgColor])
         else:
             self.rPictureFrame.hide()
-        self._deleteGeoms()
         # Update quest icons
         self.lQuestIcon['geom'] = lIconGeom
         self.lQuestIcon['geom_pos'] = (0,10,0)
@@ -1196,7 +1217,7 @@ class QuestPoster(DirectFrame):
         self.rQuestIcon['geom_pos'] = (0,10,0)
         if rIconGeom:
             self.rQuestIcon['geom_scale'] = rIconGeomScale
-
+            
         # Display auxiliary text if necessary
         if auxText:
             self.auxText.show()
@@ -1223,63 +1244,6 @@ class QuestPoster(DirectFrame):
         self.questInfo['text'] = infoText
         self.questInfo.setZ(infoZ)
         self.fitLabel(self.questInfo)
-
-    def unbindMouseEnter(self):
-        self.unbind(DGG.WITHIN)
-
-    def showDeleteButton(self, questDesc):
-        self.hideDeleteButton()
-        trashcanGui = loader.loadModel("phase_3/models/gui/trashcan_gui")
-        self.deleteButton = DirectButton(
-            parent = self.questFrame,
-            image = (trashcanGui.find("**/TrashCan_CLSD"),
-                     trashcanGui.find("**/TrashCan_OPEN"),
-                     trashcanGui.find("**/TrashCan_RLVR")),
-            text = ("", TTLocalizer.QuestPosterDeleteBtn, TTLocalizer.QuestPosterDeleteBtn),
-            text_fg = (1, 1, 1, 1),
-            text_shadow = (0, 0, 0, 1),
-            text_scale = 0.18,
-            text_pos = (0, -0.12),
-            relief = None,
-            pos = (0.3, 0, 0.145),
-            scale = 0.3,
-            command = self.onPressedDeleteButton,
-            extraArgs = [questDesc],
-            )
-        trashcanGui.removeNode()
-
-    def hideDeleteButton(self):
-        if hasattr(self, 'deleteButton'):
-            self.deleteButton.destroy()
-            del self.deleteButton
-
-    def setDeleteCallback(self, callback):
-        self._deleteCallback = callback
-
-    def onPressedDeleteButton(self, questDesc):
-        self.deleteButton['state'] = DGG.DISABLED
-        self.accept(self.confirmDeleteButtonEvent, self.confirmedDeleteButton)
-        self.confirmDeleteButton = TTDialog.TTGlobalDialog(
-            doneEvent = self.confirmDeleteButtonEvent,
-            message = TTLocalizer.QuestPosterConfirmDelete,
-            style = TTDialog.YesNo,
-            okButtonText = TTLocalizer.QuestPosterDialogYes,
-            cancelButtonText = TTLocalizer.QuestPosterDialogNo,
-            )
-        self.confirmDeleteButton.quest = questDesc
-        self.confirmDeleteButton.doneStatus = ""
-        self.confirmDeleteButton.show()
-
-    def confirmedDeleteButton(self):
-        questDesc = self.confirmDeleteButton.quest
-        self.ignore(self.confirmDeleteButtonEvent)
-        if self.confirmDeleteButton.doneStatus == 'ok':
-            if self._deleteCallback:
-                self._deleteCallback(questDesc)
-        else:
-            self.deleteButton['state'] = DGG.NORMAL
-        self.confirmDeleteButton.cleanup()
-        del self.confirmDeleteButton
 
     def fitLabel(self, label, lineNo = 0):
         text = label['text']

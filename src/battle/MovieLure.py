@@ -1,17 +1,17 @@
 from direct.interval.IntervalGlobal import *
-from .BattleBase import *
-from .BattleProps import *
+from BattleBase import *
+from BattleProps import *
 from toontown.suit.SuitBase import *
 from toontown.toon.ToonDNA import *
-from .BattleSounds import *
+from BattleSounds import *
 
-from . import MovieCamera
+import MovieCamera
 from direct.directnotify import DirectNotifyGlobal
-from . import MovieUtil
+import MovieUtil
 from toontown.toonbase import ToontownBattleGlobals
-from . import BattleParticles
-from . import BattleProps
-from . import MovieNPCSOS
+import BattleParticles
+import BattleProps
+import MovieNPCSOS
 
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieLures')
 
@@ -53,11 +53,11 @@ def __doLureLevel(lure, npcs):
     if (level == 0):
         return __lureOneDollar(lure)
     elif (level == 1):
-        return __lureSmallMagnet(lure, npcs)
+        return __lureSmallMagnet(lure)
     elif (level == 2):
         return __lureFiveDollar(lure)
     elif (level == 3):
-        return __lureLargeMagnet(lure, npcs)
+        return __lureLargeMagnet(lure)
     elif (level == 4):
         return __lureTenDollar(lure)
     elif (level == 5):
@@ -191,10 +191,8 @@ def __createFishingPoleMultiTrack(lure, dollar, dollarName):
         
     return tracks
 
-def __createMagnetMultiTrack(lure, magnet, pos, hpr, scale, isSmallMagnet=1, npcs=[]):
+def __createMagnetMultiTrack(lure, magnet, pos, hpr, scale, isSmallMagnet=1):
     toon = lure['toon']
-    if ('npc' in lure):
-        toon = lure['npc']
     battle = lure['battle']
     sidestep = lure['sidestep']
     targets = lure['target']
@@ -281,7 +279,7 @@ def __createMagnetMultiTrack(lure, magnet, pos, hpr, scale, isSmallMagnet=1, npc
 
 def __createHypnoGogglesMultiTrack(lure, npcs = []):
     toon = lure['toon']
-    if ('npc' in lure):
+    if (lure.has_key('npc')):
         toon = lure['npc']
     targets = lure['target']
     battle = lure['battle']
@@ -308,8 +306,8 @@ def __createHypnoGogglesMultiTrack(lure, npcs = []):
         )
     tracks = Parallel(gogglesTrack, toonTrack)
     
-    #print("hypno!!!!")
-    #print(targets)
+    #print "hypno!!!!"
+    #print targets
 
     for target in targets:
         suit = target['suit']
@@ -363,14 +361,14 @@ def __lureOneDollar(lure):
     dollar = globalPropPool.getProp(dollarProp)
     return __createFishingPoleMultiTrack(lure, dollar, dollarProp)
 
-def __lureSmallMagnet(lure, npcs=[]):
+def __lureSmallMagnet(lure):
     """ __lureSmallMagnet(lure)
     """
     magnet = globalPropPool.getProp('small-magnet')
     pos = Point3(-0.27, 0.19, 0.29)
     hpr = Point3(-90.0, 84.17, -180.0)
     scale = Point3(0.85, 0.85, 0.85)
-    return __createMagnetMultiTrack(lure, magnet, pos, hpr, scale, isSmallMagnet=1, npcs=npcs)
+    return __createMagnetMultiTrack(lure, magnet, pos, hpr, scale, isSmallMagnet=1)
 
 def __lureFiveDollar(lure):
     """ __lureFiveDollar(lure)
@@ -379,14 +377,14 @@ def __lureFiveDollar(lure):
     dollar = globalPropPool.getProp(dollarProp)
     return __createFishingPoleMultiTrack(lure, dollar, dollarProp)
 
-def __lureLargeMagnet(lure, npcs=[]):
+def __lureLargeMagnet(lure):
     """ __lureLargeMagnet(lure)
     """
     magnet = globalPropPool.getProp('big-magnet')
     pos = Point3(-0.27, 0.08, 0.29)
     hpr = Point3(-90.0, 84.17, -180)
     scale = Point3(1.32, 1.32, 1.32)
-    return __createMagnetMultiTrack(lure, magnet, pos, hpr, scale, isSmallMagnet=0, npcs=npcs)
+    return __createMagnetMultiTrack(lure, magnet, pos, hpr, scale, isSmallMagnet=0)
 
 def __lureTenDollar(lure):
     """ __lureTenDollar(lure)
@@ -544,10 +542,7 @@ def __createSuitDamageTrack(battle, suit, hp, lure, trapProp):
         dropPos.setZ(dropPos.getZ() + 15)
 
         # We grab the name tag so we can hide it while the suit is in the quicksand
-        if ConfigVariableBool('want-new-cogs', 0).getValue():
-            nameTag = suit.find("**/def_nameTag")
-        else:
-            nameTag = suit.find("**/joint*nameTag")
+        nameTag = suit.find("**/joint_nameTag")
         trapTrack = Sequence(
             Wait(2.4),
             LerpScaleInterval(trapProp, 0.8, Point3(0.01, 0.01, 0.01)),
@@ -655,7 +650,7 @@ def __createSuitDamageTrack(battle, suit, hp, lure, trapProp):
             Func(suit.showHpText, -hp, openEnded=0),
             Func(suit.updateHealthBar, hp),
             )
-        explosionSound = base.loader.loadSfx("phase_3.5/audio/sfx/ENC_cogfall_apart.mp3")
+        explosionSound = base.loadSfx("phase_3.5/audio/sfx/ENC_cogfall_apart.mp3")
         soundTrack = Sequence(
             SoundInterval(globalBattleSoundCache.getSound('TL_dynamite.mp3'), duration=2.0, node=suit),
             SoundInterval(explosionSound, duration=0.6, node=suit),
@@ -718,7 +713,7 @@ def getSplicedLerpAnimsTrack(object, animName, origDuration, newDuration,
     """
     track = Sequence()
     addition = 0 # Addition will be added to the startTime to move animation forward
-    numIvals = int(origDuration * fps) # Number of actor intervals to use
+    numIvals = origDuration * fps # Number of actor intervals to use
     # The timeInterval is what to add before each actor interval to delay time
     timeInterval = newDuration / numIvals
     # The animInterval is how much the animation progresses forward each interval

@@ -2,12 +2,11 @@
 #from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 #from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.fishing import FishGlobals
-from . import GardenGlobals
+import GardenGlobals
 from direct.actor import Actor
-import random
 
 #WARNING Specials Photo is used in both GardenPage.py and PlantingGUI.py
 
@@ -22,7 +21,7 @@ class DirectRegion(NodePath):
     def destroy(self):
         assert self.notify.debugStateCall(self)
         self.unload()
-        self._parent = None
+        self.parent = None
 
     def setBounds(self, *bounds):
         """
@@ -44,7 +43,7 @@ class DirectRegion(NodePath):
         assert self.notify.debugStateCall(self)
 
     def hide(self):
-        NodePath.hide(self)
+        NodePath.NodePath.hide(self)
         assert self.notify.debugStateCall(self)
 
     def load(self):
@@ -66,18 +65,18 @@ class DirectRegion(NodePath):
             cm = CardMaker('displayRegionCard')
 
             assert hasattr(self, "bounds")
-            cm.setFrame(*self.bounds)
+            apply(cm.setFrame, self.bounds)
 
             self.card = card = self.attachNewNode(cm.generate())
             assert hasattr(self, "color")
-            card.setColor(*self.color)
+            apply(card.setColor, self.color)
 
             newBounds=card.getTightBounds()
             ll=render2d.getRelativePoint(card, newBounds[0])
             ur=render2d.getRelativePoint(card, newBounds[1])
             newBounds=[ll.getX(), ur.getX(), ll.getZ(), ur.getZ()]
             # scale the -1.0..2.0 range to 0.0..1.0:
-            newBounds=[max(0.0, min(1.0, (x+1.0)/2.0)) for x in newBounds]
+            newBounds=map(lambda x: max(0.0, min(1.0, (x+1.0)/2.0)), newBounds)
 
             self.cDr = base.win.makeDisplayRegion(*newBounds)
             self.cDr.setSort(10)
@@ -130,7 +129,7 @@ class SpecialsPhoto(NodePath):
         self.type = None
         del self.soundTrack
         del self.track
-        self._parent = None
+        self.parent = None
 
     def update(self, type):
         assert self.notify.debugStateCall(self)
@@ -162,20 +161,17 @@ class SpecialsPhoto(NodePath):
         # scale the actor to the frame
         if not hasattr(self, "specialsDisplayRegion"):
             self.specialsDisplayRegion = DirectRegion(parent=self)
-            self.specialsDisplayRegion.setBounds(*self.backBounds)
-            self.specialsDisplayRegion.setColor(*self.backColor)
+            apply(self.specialsDisplayRegion.setBounds, self.backBounds)
+            apply(self.specialsDisplayRegion.setColor, self.backColor)
         frame = self.specialsDisplayRegion.load()
         pitch = frame.attachNewNode('pitch')
         rotate = pitch.attachNewNode('rotate')
         scale = rotate.attachNewNode('scale')
         actor.reparentTo(scale)
         # Translate actor to the center.
-        if actor.getTightBounds():
-            bMin,bMax = actor.getTightBounds()
-            center = (bMin + bMax)/2.0
-            actor.setPos(-center[0], -center[1], -center[2])
-        else:
-            actor.setPos(0, 0, 0)
+        bMin,bMax = actor.getTightBounds()
+        center = (bMin + bMax)/2.0
+        actor.setPos(-center[0], -center[1], -center[2])
 
         pitch.setY(2.5)
 
@@ -202,17 +198,7 @@ class SpecialsPhoto(NodePath):
             self.toonStatuary.toon.reparentTo(pedestal)
             pedestal.setScale(GardenGlobals.Specials[specialsIndex]['photoScale'] * 0.5)
             return pedestal
-        elif specialsIndex == 135: # This is the range of Special indices in GardenGlobals.py
-            model = Actor.Actor()
-            modelPath = GardenGlobals.Specials[specialsIndex]['photoModel']
-            anims = GardenGlobals.Specials[specialsIndex]['photoAnimation']
-            animPath = modelPath + anims[1]
-            model.loadModel(modelPath + anims[0])
-            model.loadAnims(dict([[anims[1], animPath]]))
-            frameNo = random.randint(1, 2)
-            model.pose(anims[1], 1)
-            model.setScale(GardenGlobals.Specials[specialsIndex]['photoScale'] * 0.1)
-            return model
+
         else:
             modelName = GardenGlobals.Specials[specialsIndex]['photoModel']
             nodePath = loader.loadModel(modelName)
@@ -258,7 +244,7 @@ class SpecialsPhoto(NodePath):
 
 
     def hide(self):
-        NodePath.hide(self)
+        NodePath.NodePath.hide(self)
         assert self.notify.debugStateCall(self)
         if hasattr(self, "specialsDisplayRegion"):
             self.specialsDisplayRegion.unload()
@@ -285,3 +271,5 @@ class SpecialsPhoto(NodePath):
 
     def changeVariety(self, variety):
         self.variety = variety
+
+

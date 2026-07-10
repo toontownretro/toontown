@@ -1,7 +1,7 @@
 """Playground module: contains the Playground class"""
 
 from direct.interval.IntervalGlobal import *
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import Place
@@ -16,11 +16,9 @@ from toontown.tutorial import TutorialForceAcknowledge
 from toontown.toon import NPCForceAcknowledge
 from toontown.trolley import Trolley
 from toontown.toontowngui import TTDialog
-from toontown.toonbase import ToontownGlobals, IndexBufferCombiner
-from toontown.toon.Toon import teleportDebug
+from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from direct.gui import DirectLabel
-from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.quest import Quests
 
 class Playground(Place.Place):
@@ -44,7 +42,7 @@ class Playground(Place.Place):
                            [State.State('start',
                                         self.enterStart,
                                         self.exitStart,
-                                        ['walk', 'deathAck',
+                                        ['walk', 'deathAck', 
                                         'doorIn', 'tunnelIn']),
                             State.State('walk',
                                         self.enterWalk,
@@ -58,7 +56,7 @@ class Playground(Place.Place):
                                         self.enterStickerBook,
                                         self.exitStickerBook,
                                         ['walk', 'DFA', 'TFA',
-                                         # You can get to all of these by jumping over
+                                         # You can get to all of these by jumping over 
                                          # the trigger then opening your book
                                          'trolley', 'final',
                                          'doorOut', 'quest',
@@ -179,7 +177,7 @@ class Playground(Place.Place):
                             State.State('fishing',
                                         self.enterFishing,
                                         self.exitFishing,
-                                        ['walk']),
+                                        ['walk']),                            
                             State.State('final',
                                         self.enterFinal,
                                         self.exitFinal,
@@ -198,7 +196,7 @@ class Playground(Place.Place):
         self.npcfaDoneEvent = "npcfaDoneEvent"
         self.dialog = None
         self.deathAckBox = None
-
+        
     def enter(self, requestStatus):
         assert(self.notify.debug("enter(requestStatus="+str(requestStatus)+")"))
         self.fsm.enterInitialState()
@@ -209,14 +207,11 @@ class Playground(Place.Place):
         # Play music
         base.playMusic(self.loader.music, looping = 1, volume = 0.8)
 
-        self.loader.geom.reparentTo(base.sceneStatic) # Used to be render, Now it's the static part of scene.
+        self.loader.geom.reparentTo(render)
 
         # Turn on the animated props once since there is only one zone
         for i in self.loader.nodeList:
             self.loader.enterAnimatedProps(i)
-
-        # Turn on the limiter
-        self._telemLimiter = TLGatherAllAvs('Playground', RotationLimitToH)
 
         # For halloween
         def __lightDecorationOn__():
@@ -230,12 +225,11 @@ class Playground(Place.Place):
                 light.setColorScaleOff(0)
 
         newsManager = base.cr.newsManager
-
+        
         if newsManager:
             holidayIds = base.cr.newsManager.getDecorationHolidayId()
-            if (ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds or \
-                ToontownGlobals.SPOOKY_COSTUMES in holidayIds) and self.loader.hood.spookySkyFile:
-
+            if (ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds) and self.loader.hood.spookySkyFile:
+                
                 lightsOff = Sequence(LerpColorScaleInterval(
                     base.cr.playGame.hood.loader.geom,
                     0.1,
@@ -243,7 +237,7 @@ class Playground(Place.Place):
                     Func(self.loader.hood.startSpookySky),
                     Func(__lightDecorationOn__),
                     )
-
+                    
                 lightsOff.start()
             else:
                 # Turn the sky on
@@ -280,11 +274,7 @@ class Playground(Place.Place):
         self.ignoreAll()
         # Let the safe zone manager know that we are leaving
         messenger.send("exitPlayground")
-
-        # Stop the limiter
-        self._telemLimiter.destroy()
-        del self._telemLimiter
-
+        
         for node in self.tunnelOriginList:
             node.removeNode()
         del self.tunnelOriginList
@@ -293,12 +283,12 @@ class Playground(Place.Place):
         # taskName = base.localAvatar.taskName("healToon")
         # taskMgr.remove(taskName)
         self.loader.geom.reparentTo(hidden)
-
+        
         # For halloween
         def __lightDecorationOff__():
             for light in self.loader.hood.halloweenLights:
                 light.reparentTo(hidden)
-
+        
         newsManager = base.cr.newsManager
 ##        if newsManager:
 ##            holidayIds = base.cr.newsManager.getDecorationHolidayId()
@@ -389,14 +379,14 @@ class Playground(Place.Place):
         # Reveals all of the char path points (where the neighborhood
         # char walks around the safezone) in the given paths and
         # waypoints lists (defined in CCharPaths.py).
-
+        
         self.hideDebugPointText()
         lines = LineSegs()
         lines.setColor(1, 0, 0, 1)
 
         from toontown.classicchars import CCharPaths
 
-        for name, pointDef in list(paths.items()):
+        for name, pointDef in paths.items():
             self.showDebugPointText(name, pointDef[0])
 
             # Also draw the connecting lines.
@@ -438,13 +428,13 @@ class Playground(Place.Place):
         np.setPos(point[0], point[1], point[2])
         np.setScale(4.0)
         np.setBillboardPointEye()
-
+        
     # walk state inherited from Place.py
 
     # sticker book state inherited from Place.py
 
     # sit state inherited from Place.py
-
+    
     # drive state inherited from Place.py
 
     # Trolley state
@@ -468,9 +458,9 @@ class Playground(Place.Place):
         assert(self.notify.debug("exitTrolley()"))
 
         # Turn off the laff meter
-        base.localAvatar.laffMeter.stop()
+        base.localAvatar.laffMeter.stop()        
         base.localAvatar.cantLeaveGame = 0
-
+        
         self.ignore(self.trolleyDoneEvent)
         self.trolley.unload()
         self.trolley.exit()
@@ -527,7 +517,7 @@ class Playground(Place.Place):
         else:
             self.notify.error("Unknown mode: %s" % doneStatusMode)
         return
-
+        
     def enterDFACallback(self, requestStatus, doneStatus):
         """
         Download Force Acknowledge
@@ -554,10 +544,10 @@ class Playground(Place.Place):
         else:
             # Some return code that is not handled
             self.notify.error("Unknown done status for DownloadForceAcknowledge: "
-                              + repr(doneStatus))
-
+                              + `doneStatus`)
+        
     # door state inherited from Place.py
-
+        
     # HFA state
 
     def enterHFA(self, requestStatus):
@@ -568,11 +558,11 @@ class Playground(Place.Place):
         # This enforces the so-called time out penalty
         self.hfa = HealthForceAcknowledge.HealthForceAcknowledge(self.hfaDoneEvent)
         self.hfa.enter(1)
-
+        
     def exitHFA(self):
         assert(self.notify.debug("exitHFA()"))
         self.ignore(self.hfaDoneEvent)
-
+            
     def enterHFACallback(self, requestStatus, doneStatus):
         assert(self.notify.debug("enterHFACallback()"))
         self.hfa.exit()
@@ -595,7 +585,7 @@ class Playground(Place.Place):
         else:
             # Some return code that is not handled
             self.notify.error("Unknown done status for HealthForceAcknowledge: "
-                              + repr(doneStatus))
+                              + `doneStatus`)
 
     # hfa reject state
 
@@ -603,7 +593,7 @@ class Playground(Place.Place):
         assert(self.notify.debug("enterHFAReject()"))
         # TODO: reject movie, turn toon around
         self.fsm.request("walk")
-
+    
     def exitHFAReject(self):
         assert(self.notify.debug("exitHFAReject()"))
 
@@ -619,11 +609,11 @@ class Playground(Place.Place):
         # This enforces the so-called time out penalty
         self.npcfa = NPCForceAcknowledge.NPCForceAcknowledge(self.npcfaDoneEvent)
         self.npcfa.enter()
-
+        
     def exitNPCFA(self):
         assert(self.notify.debug("exitNPCFA()"))
         self.ignore(self.npcfaDoneEvent)
-
+            
     def enterNPCFACallback(self, requestStatus, doneStatus):
         assert(self.notify.debug("enterNPCFACallback()"))
         self.npcfa.exit()
@@ -641,7 +631,7 @@ class Playground(Place.Place):
         else:
             # Some return code that is not handled
             self.notify.error("Unknown done status for NPCForceAcknowledge: "
-                              + repr(doneStatus))
+                              + `doneStatus`)
 
     # npca reject state
 
@@ -649,7 +639,7 @@ class Playground(Place.Place):
         assert(self.notify.debug("enterNPCFAReject()"))
         # TODO: reject movie, turn toon around
         self.fsm.request("walk")
-
+    
     def exitNPCFAReject(self):
         assert(self.notify.debug("exitNPCFAReject()"))
 
@@ -704,7 +694,7 @@ class Playground(Place.Place):
             x,y,z,h,p,r = base.cr.hoodMgr.getPlaygroundCenterFromId(self.loader.hood.id)
             self.accept("deathAck", self.__handleDeathAck, extraArgs=[requestStatus])
             self.deathAckBox = DeathForceAcknowledge.DeathForceAcknowledge(doneEvent = "deathAck")
-
+            
         # Check to see if the toon has a tier zero quest
         elif ((base.localAvatar.hp > 0) and
             ((Quests.avatarHasTrolleyQuest(base.localAvatar)) or
@@ -726,7 +716,7 @@ class Playground(Place.Place):
                     imgScale = 0.5
                 else:
                     x,y,z,h,p,r = base.cr.hoodMgr.getDropPoint(
-                        base.cr.hoodMgr.ToontownCentralHQDropPoints)
+                        base.cr.hoodMgr.ToontownCentralHQDropPoints) 
                     msg = TTLocalizer.NPCForceAcknowledgeMessage4
                     imgNodePath = imageModel.find("**/hq-dialog-image")
                     imgPos = (0, 0, -0.02)
@@ -742,12 +732,12 @@ class Playground(Place.Place):
                     imgScale = 0.5
                 else:
                     x,y,z,h,p,r = base.cr.hoodMgr.getDropPoint(
-                        base.cr.hoodMgr.ToontownCentralHQDropPoints)
+                        base.cr.hoodMgr.ToontownCentralHQDropPoints) 
                     msg = TTLocalizer.NPCForceAcknowledgeMessage6
                     imgNodePath = imageModel.find("**/hq-dialog-image")
                     imgPos = (0, 0, 0.05)
                     imgScale = 0.5
-            # make a friend quest
+            # make a friend quest                    
             elif (base.localAvatar.quests[0][0] == Quests.FRIEND_QUEST_ID):
                 if not Quests.avatarHasCompletedFriendQuest(base.localAvatar):
                     x,y,z,h,p,r = base.cr.hoodMgr.getDropPoint(
@@ -760,7 +750,7 @@ class Playground(Place.Place):
                     gui.removeNode()
                 else:
                     x,y,z,h,p,r = base.cr.hoodMgr.getDropPoint(
-                        base.cr.hoodMgr.ToontownCentralHQDropPoints)
+                        base.cr.hoodMgr.ToontownCentralHQDropPoints) 
                     msg = TTLocalizer.NPCForceAcknowledgeMessage8
                     imgNodePath = imageModel.find("**/hq-dialog-image")
                     imgPos = (0, 0, 0.05)
@@ -769,12 +759,12 @@ class Playground(Place.Place):
             elif (base.localAvatar.quests[0][0] == Quests.PHONE_QUEST_ID):
                 if Quests.avatarHasCompletedPhoneQuest(base.localAvatar):
                     x,y,z,h,p,r = base.cr.hoodMgr.getDropPoint(
-                        base.cr.hoodMgr.ToontownCentralHQDropPoints)
+                        base.cr.hoodMgr.ToontownCentralHQDropPoints) 
                     msg = TTLocalizer.NPCForceAcknowledgeMessage9
                     imgNodePath = imageModel.find("**/hq-dialog-image")
                     imgPos = (0, 0, 0.05)
                     imgScale = 0.5
-
+            
             self.dialog = TTDialog.TTDialog(
                 text = msg,
                 command = self.__cleanupDialog,
@@ -851,12 +841,11 @@ class Playground(Place.Place):
 
     def enterTeleportOut(self, requestStatus):
         assert(self.notify.debug("enterTeleportOut()"))
-        Place.Place.enterTeleportOut(self, requestStatus,
+        Place.Place.enterTeleportOut(self, requestStatus, 
                 self.__teleportOutDone)
 
     def __teleportOutDone(self, requestStatus):
         assert(self.notify.debug("__teleportOutDone()"))
-        teleportDebug(requestStatus, "Playground.__teleportOutDone(%s)" % (requestStatus,))
         # If we're teleporting from a safezone, we need to set the
         # activityFsm to the final state
         if (hasattr(self, 'activityFsm')):
@@ -866,15 +855,12 @@ class Playground(Place.Place):
         avId = requestStatus["avId"]
         shardId = requestStatus["shardId"]
         if ((hoodId == self.loader.hood.hoodId) and (zoneId == self.loader.hood.hoodId) and (shardId == None)):
-            teleportDebug(requestStatus, "same playground")
             # If you are teleporting to somebody in this safezone
             # We do not even need to set our zone because it is the same
             self.fsm.request("deathAck", [requestStatus])
         elif (hoodId == ToontownGlobals.MyEstate):
-            teleportDebug(requestStatus, "estate")
             self.getEstateZoneAndGoHome(requestStatus)
         else:
-            teleportDebug(requestStatus, "different hood/zone")
             # Different hood or zone, exit the safe zone
             self.doneStatus = requestStatus
             messenger.send(self.doneEvent)
@@ -909,17 +895,6 @@ class Playground(Place.Place):
         self.tunnelOriginList = base.cr.hoodMgr.addLinkTunnelHooks(self, self.nodeList, self.zoneId)
         # Flatten the safe zone
         self.geom.flattenMedium()
-        # Attempt to share vertex buffers and combine GeomPrimitives
-        # across the GeomNodes, without actually combining the
-        # GeomNodes themselves, so we can cull them effectively.
-        grphRed = SceneGraphReducer()
-        grphRed.applyAttribs(self.geom.node())
-        grphRed.makeCompatibleState(self.geom.node())
-        grphRed.collectVertexData(self.geom.node(), 0x80)
-        grphRed.unify(self.geom.node(), False)
-        grphRed.removeUnusedVertices(self.geom.node())
-        # Attempt to share vertex buffers for the playground geom.
-        IndexBufferCombiner.IndexBufferCombiner(self.geom)
         # Preload all textures in neighborhood
         gsg = base.win.getGsg()
         if gsg:
@@ -962,7 +937,7 @@ class Playground(Place.Place):
         self.tfa = TutorialForceAcknowledge.TutorialForceAcknowledge(
             self.tfaDoneEvent)
         self.tfa.enter()
-
+            
     def exitTFA(self):
         assert(self.notify.debug("exitTFA()"))
         self.ignore(self.tfaDoneEvent)
@@ -973,3 +948,5 @@ class Playground(Place.Place):
 
     def exitTFAReject(self):
         assert(self.notify.debug("exitTFAReject()"))
+
+

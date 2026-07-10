@@ -122,7 +122,7 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI,
 
         
     def __detect(self, task):
-        #print("detect beat")
+        #print "detect beat"
         isThereAnyToons = False
         if hasattr(self, 'level'):
             toonInRange = 0
@@ -161,9 +161,6 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI,
             pass
     
     def trapFire(self):
-        if not self.enabled:
-            return
-        self.enabled = 0
         self.game.lose()
         self.showSuits();
         stage = self.air.getDo(self.level.stageDoId)
@@ -194,8 +191,6 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI,
         
     def trapDisable(self):
         #print("trap disabled")
-        if not self.enabled:
-            return
         self.enabled = 0
         suits = self.level.planner.battleCellId2suits.get(self.cellId)
         messenger.send(self.getOutputEventName(), [1]) #sends a message like a switch
@@ -244,7 +239,7 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI,
         
             
     def addSuit(self, suit):
-        print(("Adding Suit %s" % (suit.doId)))
+        print("Adding Suit %s" % (suit.doId))
         #import pdb; pdb.set_trace()
         BattleBlockerAI.BattleBlockerAI.addSuit(self, suit)
         

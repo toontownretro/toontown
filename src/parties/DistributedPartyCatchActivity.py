@@ -1,4 +1,4 @@
-#-------------------------------------------------------------------------------
+66#-------------------------------------------------------------------------------
 # Contact: Shawn Patton
 # Created: Sep 2008
 #
@@ -6,8 +6,8 @@
 #          party-wide.  Toons enter the catch area and the game starts.  Fruit
 #          falls beneath the party tree.
 #-------------------------------------------------------------------------------
-from toontown.toonbase.ToontownModules import Vec3, Point3, Point4, TextNode, NodePath
-from toontown.toonbase.ToontownModules import CollisionHandlerEvent, CollisionNode, CollisionSphere
+from pandac.PandaModules import Vec3, Point3, Point4, TextNode, NodePath
+from pandac.PandaModules import CollisionHandlerEvent, CollisionNode, CollisionSphere
 
 from direct.distributed.ClockDelta import globalClockDelta
 from direct.interval.IntervalGlobal import Sequence, Parallel
@@ -36,7 +36,7 @@ from toontown.parties.DistributedPartyCannonActivity import DistributedPartyCann
 from toontown.parties.activityFSMs import CatchActivityFSM
 
 class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCatchActivityBase):
-
+    
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPartyCatchActivity")
 
     DropTaskName = 'dropSomething'
@@ -146,7 +146,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         DistributedPartyActivity.announceGenerate(self)
 
     # Called at the end of DistributedPartyActivity.announceGenerate
-    def load(self, loadModels = 1, arenaModel = "partyCatchTree"):
+    def load(self):
         self.notify.info('load()')
         DistributedPartyCatchActivity.notify.debug("PartyCatch: load")
         # create state machine and set initial state
@@ -154,38 +154,38 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
 
         if __dev__:
             # log stats on drop rates for diff numbers of players
-            for o in range(3):
-                print({0: 'SPOTS PER PLAYER',
+            for o in xrange(3):
+                print {0: 'SPOTS PER PLAYER',
                        1: 'DROPS PER MINUTE PER SPOT DURING NORMAL DROP PERIOD',
                        2: 'DROPS PER MINUTE PER PLAYER DURING NORMAL DROP PERIOD',
-                       }[o])
-                for i in range(1, self.FallRateCap_Players+10):
+                       }[o]
+                for i in xrange(1, self.FallRateCap_Players+10):
                     self.defineConstants(forceNumPlayers=i)
                     numDropLocations = self.DropRows * self.DropColumns
                     numDropsPerMin = 60. / self.DropPeriod
                     if o == 0:
                         spotsPerPlayer = numDropLocations / float(i)
-                        print('%2d PLAYERS: %s' % (i, spotsPerPlayer))
+                        print '%2d PLAYERS: %s' % (i, spotsPerPlayer)
                     elif o == 1:
                         numDropsPerMinPerSpot = numDropsPerMin / numDropLocations
-                        print('%2d PLAYERS: %s' % (i, numDropsPerMinPerSpot))
+                        print '%2d PLAYERS: %s' % (i, numDropsPerMinPerSpot)
                     else:
                         if i > 0:
                             numDropsPerMinPerPlayer = numDropsPerMin / i
-                            print('%2d PLAYERS: %s' % (i, numDropsPerMinPerPlayer))
+                            print '%2d PLAYERS: %s' % (i, numDropsPerMinPerPlayer)
 
         # load resources and create objects here
         self.defineConstants()
-        self.treesAndFence = loader.loadModel("phase_13/models/parties/%s" % arenaModel)
+        self.treesAndFence = loader.loadModel("phase_13/models/parties/partyCatchTree")
         #self.treesAndFence.setPos(-7.0, 0.0, 0.0)
         self.treesAndFence.setScale(0.9)
         self.treesAndFence.find("**/fence_floor").setPos(0.0, 0.0, 0.1)
         self.treesAndFence.reparentTo(self.root)
-
+        
         ground = self.treesAndFence.find("**/groundPlane")
         # Make the ground plane draw before the shadow!
         ground.setBin("ground", 1)
-
+        
         DistributedPartyActivity.load(self)
 
         # put EXIT on the exit sign
@@ -223,34 +223,10 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         # make a dictionary of PartyCatchActivityToonSDs; they will track
         # toons' states and animate them appropriately
         self.toonSDs = {}
-        self.dropShadow = loader.loadModel('phase_3/models/props/drop_shadow')
+        self.dropShadow = loader.loadModelOnce('phase_3/models/props/drop_shadow')
         # load the models for the drop objects (see PartyGlobals.py)
         # index by object type name
         self.dropObjModels = {}
-        
-        if loadModels:
-            self.__loadDropModels()
-        
-        self.sndGoodCatch = base.loader.loadSfx('phase_4/audio/sfx/SZ_DD_treasure.mp3')
-        self.sndOof = base.loader.loadSfx('phase_4/audio/sfx/MG_cannon_hit_dirt.mp3')
-        self.sndAnvilLand = base.loader.loadSfx('phase_4/audio/sfx/AA_drop_anvil_miss.mp3')
-        self.sndPerfect = base.loader.loadSfx('phase_4/audio/sfx/ring_perfect.mp3')
-
-        # this will be used to generate textnodes
-        self.__textGen = TextNode("partyCatchActivity")
-        self.__textGen.setFont(ToontownGlobals.getSignFont())
-        self.__textGen.setAlign(TextNode.ACenter)
-
-        #self.timer = ToontownTimer()
-        #self.timer.posInTopRightCorner()
-        #self.timer.setTime(PartyGlobals.CatchActivityDuration)
-        #self.timer.setTransparency(1)
-        #self.timer.setColorScale(1, 1, 1, .75)
-        #self.timer.stash()
-
-        self.activityFSM.request("Idle")
-
-    def __loadDropModels(self):
         for objType in PartyGlobals.DropObjectTypes:
             model = loader.loadModel(objType.modelPath)
             self.dropObjModels[objType.name] = model
@@ -264,7 +240,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
                 'watermelon' : .6,
                 'pineapple' : .45,
                 }
-            if objType.name in modelScales:
+            if modelScales.has_key(objType.name):
                 model.setScale(modelScales[objType.name])
 
             # adjust the model if necessary
@@ -289,6 +265,25 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
                 model.setZ(-self.ObjRadius)
             model.flattenStrong()
 
+        self.sndGoodCatch = base.loadSfx('phase_4/audio/sfx/SZ_DD_treasure.mp3')
+        self.sndOof = base.loadSfx('phase_4/audio/sfx/MG_cannon_hit_dirt.mp3')
+        self.sndAnvilLand = base.loadSfx('phase_4/audio/sfx/AA_drop_anvil_miss.mp3')
+        self.sndPerfect = base.loadSfx('phase_4/audio/sfx/ring_perfect.mp3')
+
+        # this will be used to generate textnodes
+        self.__textGen = TextNode("partyCatchActivity")
+        self.__textGen.setFont(ToontownGlobals.getSignFont())
+        self.__textGen.setAlign(TextNode.ACenter)
+
+        #self.timer = ToontownTimer()
+        #self.timer.posInTopRightCorner()
+        #self.timer.setTime(PartyGlobals.CatchActivityDuration)
+        #self.timer.setTransparency(1)
+        #self.timer.setColorScale(1, 1, 1, .75)
+        #self.timer.stash()
+
+        self.activityFSM.request("Idle")
+        
     def unload(self):
         DistributedPartyCatchActivity.notify.debug("unload")
         self.finishAllDropIntervals()
@@ -297,11 +292,11 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         self.stopDropTask()
         # unload resources and delete objects from load() here
         del self.activityFSM
-
+        
         del self.__textGen
 
-        for avId in list(self.toonSDs.keys()):
-            if avId in self.toonSDs:
+        for avId in self.toonSDs.keys():
+            if self.toonSDs.has_key(avId):
                 toonSD = self.toonSDs[avId]
                 toonSD.unload()
         del self.toonSDs
@@ -317,10 +312,10 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
 
         base.cr.parentMgr.unregisterParent(self._avatarNodePathParentToken)
 
-        for model in list(self.dropObjModels.values()):
+        for model in self.dropObjModels.values():
             model.removeNode()
         del self.dropObjModels
-
+            
         del self.sndGoodCatch
         del self.sndOof
         del self.sndAnvilLand
@@ -343,14 +338,14 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         base.cr.playGame.getPlace().fsm.request("walk")
 
     def handleToonJoined(self, toonId):
-        if toonId not in self.toonSDs:
+        if not self.toonSDs.has_key(toonId):
             toonSD = PartyCatchActivityToonSD(toonId, self)
             self.toonSDs[toonId] = toonSD
             toonSD.load()
-        self.notify.debug("handleToonJoined : currentState = %s" % self.activityFSM._state)
+        self.notify.debug("handleToonJoined : currentState = %s" % self.activityFSM.state)
         self.cr.doId2do[toonId].useLOD(500)
-        if self.activityFSM._state == "Active":
-            if toonId in self.toonSDs:
+        if self.activityFSM.state == "Active":
+            if self.toonSDs.has_key(toonId):
                 self.toonSDs[toonId].enter()
             if base.localAvatar.doId == toonId:
                 base.localAvatar.b_setParent(self._avatarNodePathParentToken)
@@ -358,21 +353,19 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
             else:
                 pass
                 #self.cr.doId2do[toonId].reparentTo(self.avatarNodePath)
-            if toonId in self.toonSDs:
+            if self.toonSDs.has_key(toonId):
                 self.toonSDs[toonId].fsm.request('rules')
 
     def handleToonExited(self, toonId):
         self.notify.debug("handleToonExited( toonId=%s )" % toonId)
-        if toonId in self.cr.doId2do:
+        if self.cr.doId2do.has_key(toonId):
             self.cr.doId2do[toonId].resetLOD()
-            if toonId in self.toonSDs:
+            if self.toonSDs.has_key(toonId):
                 self.toonSDs[toonId].fsm.request("notPlaying")
-                self.toonSDs[toonId].exit()
-                self.toonSDs[toonId].unload()
                 del self.toonSDs[toonId]
-
+                
             if base.localAvatar.doId == toonId:
-                base.localAvatar.b_setParent(ToontownGlobals.SPActors)
+                base.localAvatar.b_setParent(ToontownGlobals.SPRender)
             else:
                 pass
                 #self.cr.doId2do[toonId].reparentTo(render)
@@ -385,7 +378,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         base.localAvatar.startUpdateSmartCamera()
         base.localAvatar.enableSmartCameraViews()
         base.localAvatar.setCameraPositionByIndex(base.localAvatar.cameraIndex)
-
+        
         #self.timer.stash()
         # Restore normal non-predictive smoothing.
         DistributedSmoothNode.activateSmoothing(1, 0)
@@ -397,7 +390,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         self.accept('again' + self.catchTreeZoneEvent, self._toonMayHaveEnteredTree)
         self.accept('exit' + self.catchTreeZoneEvent, self._toonExitedTree)
         self.accept(DistributedPartyCannonActivity.LOCAL_TOON_LANDED_EVENT, self._handleCannonLanded)
-
+        
     def _disableCollisions(self):
         self.ignore(DistributedPartyCannonActivity.LOCAL_TOON_LANDED_EVENT)
         self.ignore('enter' + self.catchTreeZoneEvent)
@@ -430,32 +423,32 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         if base.localAvatar.controlManager.currentControls.getIsAirborne():
             return
         self._toonEnteredTree(collEntry)
-
+    
     def _toonEnteredTree(self, collEntry):
         self.notify.debug("_toonEnteredTree : avid = %s" % base.localAvatar.doId)
-        self.notify.debug("_toonEnteredTree : currentState = %s" % self.activityFSM._state)
+        self.notify.debug("_toonEnteredTree : currentState = %s" % self.activityFSM.state)
         if self.isLocalToonInActivity():
             # You've landed from the cannon... don't start catch
             assert(self.notify.debug("\tLocal toon in activity"))
             return
-        if self.activityFSM._state == "Active":
+        if self.activityFSM.state == "Active":
             assert(self.notify.debug("\tRequest join"))
             base.cr.playGame.getPlace().fsm.request("activity")
             self.d_toonJoinRequest()
-        elif self.activityFSM._state == "Idle":
+        elif self.activityFSM.state == "Idle":    
             assert(self.notify.debug("\tRequest start"))
             base.cr.playGame.getPlace().fsm.request("activity")
             # game is always running
             #self.sendUpdate("requestActivityStart")
             self.d_toonJoinRequest()
         self._enteredTree = True
-
+    
     def _toonExitedTree(self, collEntry):
         self.notify.debug("_toonExitedTree : avid = %s" % base.localAvatar.doId)
         self._enteredTree = False
-        if (hasattr(base.cr.playGame.getPlace(), 'fsm') and self.activityFSM._state == "Active" and
+        if (hasattr(base.cr.playGame.getPlace(), 'fsm') and self.activityFSM.state == "Active" and
             self.isLocalToonInActivity()):
-            if base.localAvatar.doId in self.toonSDs:
+            if self.toonSDs.has_key(base.localAvatar.doId):
                 self.takeLocalAvatarOutOfActivity()
                 self.toonSDs[base.localAvatar.doId].fsm.request("notPlaying")
             self.d_toonExitDemand()
@@ -464,10 +457,10 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         self.notify.info('setToonsPlaying(%s)' % (toonIds, ))
         DistributedPartyActivity.setToonsPlaying(self, toonIds)
         if self.isLocalToonInActivity() and (base.localAvatar.doId not in toonIds):
-            if base.localAvatar.doId in self.toonSDs:
+            if self.toonSDs.has_key(base.localAvatar.doId):
                 self.takeLocalAvatarOutOfActivity()
                 self.toonSDs[base.localAvatar.doId].fsm.request("notPlaying")
-
+    
     def __genText(self, text):
         self.__textGen.setText(text)
         return self.__textGen.generate()
@@ -517,7 +510,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
             # each object type has an onscreen drop duration multiplier
             # that specifies how long the object should be onscreen,
             # relative to the baseline duration.
-            objType.onscreenDuration = (objType.onscreenDurMult *
+            objType.onscreenDuration = (objType.onscreenDurMult * 
                                         self.BaselineOnscreenDropDuration)
             DistributedPartyCatchActivity.notify.debug("onscreenDuration=%s" % objType.onscreenDuration)
 
@@ -623,10 +616,10 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         DistributedPartyCatchActivity.notify.debug("handleToonDisabled")
         DistributedPartyCatchActivity.notify.debug("avatar " + str(avId) + " disabled")
         # clean up any references to the disabled avatar before he disappears
-        if avId in self.toonSDs:
+        if self.toonSDs.has_key(avId):
             self.toonSDs[avId].exit(unexpectedExit=True)
         del self.toonSDs[avId]
-
+    
     def turnOffSmoothingOnGuests(self):
         """ Override parent class, we want smoothing! """
         pass
@@ -725,12 +718,12 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
             while collNode.node().getNumSolids():
                 collNode.node().removeSolid(0)
             base.localAvatar.cTrav.removeCollider(collNode)
-        del self.toonCollNodes
+        del self.toonCollNodes        
         del self.ltLegsCollNode
         del self.ltHeadCollNode
         del self.ltLHandCollNode
         del self.ltRHandCollNode
-
+    
     def timerExpired(self):
         pass
 
@@ -751,7 +744,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
 
     def showCatch(self, avId, generation, objNum):
         """ show the result of the catch action """
-        if avId not in self.toonSDs:
+        if not self.toonSDs.has_key(avId):
             return
         isLocal = (avId == base.localAvatar.doId)
         if generation not in self._id2gen:
@@ -762,7 +755,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         objType = PartyGlobals.Name2DropObjectType[objName]
         if objType.good:
             # have we already shown this fruit being eaten?
-            if objNum not in self._id2gen[generation].droppedObjCaught:
+            if not self._id2gen[generation].droppedObjCaught.has_key(objNum):
                 if isLocal:
                     base.playSfx(self.sndGoodCatch)
 
@@ -781,7 +774,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         """ called by the AI to announce a catch """
         self.notify.info('setObjectCaught(%s, %s, %s)' % (avId, generation, objNum))
 
-        if self.activityFSM._state != 'Active':
+        if self.activityFSM.state != 'Active':
             DistributedPartyCatchActivity.notify.warning(
                 'ignoring msg: object %s caught by %s' % (objNum, avId)
                 )
@@ -806,9 +799,9 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
             if PartyGlobals.Name2DropObjectType[objName].good:
                 # If we're going from Idle to Conclusion because we entered the party
                 # during conclusion, we won't have scores.
-                if hasattr(self, "fruitsCaught"):
+                if hasattr(self, "scores"):
                     i = self.toonIds.index(avId)
-                    self.fruitsCaught[i] += 1
+                    self.scores[i] += 1
                     self.fruitsCaught += 1
 
     def finishDropInterval(self, generation, objNum):
@@ -816,12 +809,12 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         number 'objNum' has finished; if interval already finished,
         does nothing """
         if hasattr(self, "dropIntervals"):
-            if (generation, objNum) in self.dropIntervals:
+            if self.dropIntervals.has_key((generation, objNum)):
                 self.dropIntervals[(generation, objNum)].finish()
 
     def finishAllDropIntervals(self):
-        if hasattr(self, "dropIntervals"):
-            for dropInterval in list(self.dropIntervals.values()):
+        if hasattr(self, "dropIntervals"):    
+            for dropInterval in self.dropIntervals.values():
                 dropInterval.finish()
 
     def setGenerations(self, generations):
@@ -837,7 +830,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
             gen2nt[id] = timestamp32
             gen2np[id] = numPlayers
         # prune removed generations
-        ids = list(self._id2gen.keys())
+        ids = self._id2gen.keys()
         for id in ids:
             if id not in gen2t:
                 self._removeGeneration(id)
@@ -885,7 +878,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         # of the types of each object that will be dropped
 
         # create a drop placer, and construct a schedule of drops
-        dropPlacer = PartyRegionDropPlacer(self, gen.numPlayers, genId, gen.droppedObjNames,
+        dropPlacer = PartyRegionDropPlacer(self, genId, gen.droppedObjNames,
                                            startTime=gen.startTime)
         # reset the dropped item counter
         gen.numItemsDropped = 0
@@ -1062,7 +1055,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         targetShadowScale = .3
         if self.trickShadows:
             intermedScale = (
-                targetShadowScale *
+                targetShadowScale * 
                 (self.OffscreenTime / self.BaselineDropDuration))
             # grow at the standard rate...
             shadowScaleIval = Sequence(
@@ -1098,7 +1091,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
             def setObjPos(t, objType=objType, object=object):
                 z = objType.trajectory.calcZ(t)
                 object.setZ(z)
-
+                
             # put the object at its starting position, which happens to be
             # off-screen
             setObjPos(0)
@@ -1171,24 +1164,24 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
 ##             self.d_toonJoinRequest()
 ##         else:
 ##             self.showMessage(TTLocalizer.PartyCatchCannotStart)
-
+    
     # FSM transition methods
     def startIdle(self):
         DistributedPartyCatchActivity.notify.debug("startIdle")
-
+    
     def finishIdle(self):
         DistributedPartyCatchActivity.notify.debug("finishIdle")
-
+        
     def startActive(self):
         DistributedPartyCatchActivity.notify.debug("startActive")
         for avId in self.toonIds:
-            if avId in self.toonSDs:
+            if self.toonSDs.has_key(avId):
                 toonSD = self.toonSDs[avId]
                 toonSD.enter()
                 toonSD.fsm.request('normal')
                 """
             if avId != base.localAvatar.doId:
-                if avId in self.cr.doId2do:
+                if self.cr.doId2do.has_key(avId):
                     self.cr.doId2do[avId].reparentTo(self.avatarNodePath)
                     """
 
@@ -1240,16 +1233,16 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         if base.localAvatar.doId in self.toonIds:
             self.takeLocalAvatarOutOfActivity()
         # get rid of the drop intervals
-        for ival in list(self.dropIntervals.values()):
+        for ival in self.dropIntervals.values():
             ival.finish()
         del self.dropIntervals
 
 
     def startConclusion(self):
         DistributedPartyCatchActivity.notify.debug("startConclusion")
-
+        
         for avId in self.toonIds:
-            if avId in self.toonSDs:
+            if self.toonSDs.has_key(avId):
                 toonSD = self.toonSDs[avId]
                 toonSD.fsm.request('notPlaying')
 
@@ -1305,7 +1298,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
             Func(destroyText),
             WaitInterval(.5),
             )
-
+        
         soundTrack = SoundInterval(self.sndPerfect)
 
         self.finishIval = Parallel(textTrack,

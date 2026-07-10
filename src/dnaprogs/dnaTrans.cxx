@@ -20,7 +20,15 @@
 #include "filename.h"
 #include "config_linmath.h"
 
-#include "panda_getopt_long.h"
+// If our system getopt() doesn't come with getopt_long_only(), then use
+// the GNU flavor that we've got in tool for this purpose.
+#ifndef HAVE_GETOPT_LONG_ONLY
+  #include "gnu_getopt.h"
+#else
+  #ifdef HAVE_GETOPT_H
+    #include <getopt.h>
+  #endif
+#endif
 
 Filename output_filename;
 
@@ -43,7 +51,7 @@ static struct option long_options[] = {
 
 void
 show_usage() {
-  std::cerr
+  cerr
     << "\nUsage:\n"
     << "  dna-trans [opts] -o output.dna input.dna\n"
     << "  dna-trans -h\n\n";
@@ -51,7 +59,7 @@ show_usage() {
 
 void show_help() {
   show_usage();
-  std::cerr
+  cerr
     << "dna-trans can be used to read a Toontown DNA file, check it for valid\n"
     << "syntax, and output an essentially equivalent DNA file.\n\n"
 
@@ -76,8 +84,6 @@ main(int argc, char *argv[]) {
   extern char *optarg;
   extern int optind;
   int flag;
-
-  bool temp_hpr_fix = true;
 
   flag = getopt_long_only(argc, argv, short_options, long_options, NULL);
   while (flag != EOF) {
@@ -120,7 +126,7 @@ main(int argc, char *argv[]) {
   DNAStorage dna_store;
   PT(DNAData) dna_data = load_DNA_file_AI(&dna_store, input_filename);
 
-  if (!dna_data->write_dna(output_filename, std::cerr, &dna_store)) {
+  if (!dna_data->write_dna(output_filename, cerr, &dna_store)) {
     exit(1);
   }
 

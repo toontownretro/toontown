@@ -1,4 +1,4 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.showbase.PythonUtil import Enum
 import random
 
@@ -29,7 +29,7 @@ class Room(NodePath):
         if dbg:
             self.showAxes()
             self.ls()
-            print(self.getPos(render))
+            print self.getPos(render)
 
     def __del__(self):
         self.unload()
@@ -57,7 +57,7 @@ class Room(NodePath):
         self.model.setPos(Vec3(0)-thisDoor.getPos(self.model))
         # rotate so that our door is facing the right way
         self.setH(-thisDoor.getH(otherDoor))
-        #print('H: %s' % self.getH())
+        #print 'H: %s' % self.getH()
         self.wrtReparentTo(other.getParent())
 
     def showAxes(self):
@@ -154,7 +154,7 @@ def createLevel(numRooms=None, seed=None, rooms=None):
                 roomName = zoneNum2str(roomName)
             roomNames.append(roomName)
 
-    #print(roomNames)
+    #print roomNames
     return MintLevel(roomNames)
 
 class MintDemo:
@@ -191,9 +191,8 @@ from toontown.coghq import MintMockup
 roomLists=[[3,4,6,7,8,10,13,14,15,17,18,19,24,27,11],[3,20],[16,22],[3,30],[16,31]]
 
 # make sure we cover all the rooms
-from direct.showbase.PythonUtil import union, sameElements
-from functools import reduce
-assert(sameElements(list(MintMockup.Room.Model2doorways.keys()), list(map(MintMockup.zoneNum2str, reduce(union, roomLists))) + list(MintMockup.Room.ConnectorRooms)))
+from PythonUtil import union, sameElements
+assert(sameElements(MintMockup.Room.Model2doorways.keys(), map(MintMockup.zoneNum2str, reduce(union, roomLists)) + list(MintMockup.Room.ConnectorRooms)))
 
 levels=[]
 for list in roomLists:

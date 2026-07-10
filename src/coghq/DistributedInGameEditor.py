@@ -1,4 +1,4 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.PythonUtil import lineInfo, Functor
 from direct.directnotify import DirectNotifyGlobal
@@ -8,9 +8,9 @@ from otp.level import LevelConstants
 from otp.level import Entity
 from otp.level import EditMgr
 # this is required in order to eval the incoming spec repr string
-from .SpecImports import *
-from .InGameEditorElements import *
-#from . import FactoryEntityCreator
+from SpecImports import *
+from InGameEditorElements import *
+#import FactoryEntityCreator
 from toontown.cogdominium import CogdoEntityCreator
 import string
 
@@ -22,9 +22,9 @@ class InGameEditorEntityBase(InGameEditorElement):
     def attribChanged(self, attrib, value):
         """this is called when one of our attributes changes"""
         Entity.Entity.attribChanged(self, attrib, value)
-        print('attribChange: %s %s, %s = %s' % (
+        print 'attribChange: %s %s, %s = %s' % (
             self.level.getEntityType(self.entId), self.entId,
-            attrib, repr(value)))
+            attrib, repr(value))
 
     # editor InGameEditorElement methods
     def getTypeName(self):
@@ -80,7 +80,7 @@ class InGameEditorEditMgr(EditMgr.EditMgr, InGameEditorEntityBase):
         EditMgr.EditMgr.destroy(self)
 
 class AttribModifier(Entity.Entity, InGameEditorEntityBase):
-    notify = DirectNotifyGlobal.directNotify.newCategory('AttribModifier')
+    notify = DirectNotifyGlobal.directNotify.newCategory('AttribModifier')    
     def __init__(self, level, entId):
         Entity.Entity.__init__(self, level, entId)
         InGameEditorEntityBase.__init__(self)
@@ -150,7 +150,7 @@ def getInGameEditorEntityCreatorClass(level):
             EntCreatorClass.__init__(self, editor)
             # it's a little dirty to be reaching down directly into
             # EntityCreatorBase like this. But I'm over it.
-            entTypes = list(self.entType2Ctor.keys())
+            entTypes = self.entType2Ctor.keys()
             for type in entTypes:
                 self.entType2Ctor[type] = InGameEditorEntity
             # we need a real editMgr
@@ -198,7 +198,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
         InGameEditorElement.__init__(self)
         self.editorInitialized = 0
         self.specModified = 0
-
+        
         # these are stacks of
         # ([actions to get from new state to old state (undo)],
         #  [actions to get from old state to new state (redo)])
@@ -233,7 +233,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
 
     def getEditUsername(self):
         return self.editUsername
-
+        
     def setLevelDoId(self, levelDoId):
         self.levelDoId = levelDoId
         self.level = base.cr.doId2do[self.levelDoId]
@@ -250,9 +250,8 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
             # make sure we're set up for editing
             from otp.level import EditorGlobals
             EditorGlobals.assertReadyToEdit()
-            #print(self.editUsername, EditorGlobals.getEditUsername())
             assert self.editUsername == EditorGlobals.getEditUsername()
-
+            
             # ask for the current spec; it will arrive in pieces, since
             # it's so large
             self.notify.debug('requesting an up-to-date copy of the level spec')
@@ -299,7 +298,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
         self.selectedEntity = None
 
         base.startTk()
-        from . import InGameEditor
+        import InGameEditor
         doneEvent = self.uniqueName('editorDone')
         saveAsEvent = self.uniqueName('saveSpec')
         requestSaveEvent = self.uniqueName('requestSpecSave')
@@ -338,7 +337,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
                     self.handleEntitySelect)
         self.accept(self.editor.getEventMsgName('Flash'),
                     self.handleEntitySelect)
-
+        
         self.editorInitialized = 1
         self.buildEntityTree()
 
@@ -427,12 +426,12 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
         for group in stashNodeGroups:
             if not group.isEmpty():
                 group.unstash()
-
+        
         return copy
 
     def saveSpec(self, filename):
         return self.levelSpec.saveToDisk(filename)
-
+        
     def setEntityParent(self, entity, parent):
         parent.addChild(entity)
         entity._parentEntity = parent
@@ -462,7 +461,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
     def buildEntityTree(self):
         # clear out all heirarchy
         self.setChildren([])
-        entIds = list(self.entities.keys())
+        entIds = self.entities.keys()
         entIds.sort()
         for entId in entIds:
             ent = self.getEntity(entId)
@@ -693,7 +692,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
         requested."""
         Level.Level.setEntityCreatorUsername(self, entId, editUsername)
         if editUsername == self.getEditUsername():
-            print('entity %s about to be created; we requested it' % entId)
+            print 'entity %s about to be created; we requested it' % entId
             callback = self.entCreateHandlerQ[0]
             del self.entCreateHandlerQ[:1]
             callback(entId)
@@ -749,7 +748,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
         oldAttribs = []
         spec = self.levelSpec.getEntitySpecCopy(entId)
         del spec['type']
-        for attrib, value in list(spec.items()):
+        for attrib, value in spec.items():
             oldAttribs.append((attrib, value))
         def setNewEntityId(entId, self=self, removeAction=removeAction,
                            oldAttribs=oldAttribs):
@@ -758,7 +757,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
             removeAction[2]['entId'] = entId
             # now that we have the new entId, set all of the old entity's
             # attribs on the new entity
-            for attrib, value in list(spec.items()):
+            for attrib, value in spec.items():
                 self.privSendAttribEdit(entId, attrib, value)
             # TODO: update map of old entIds -> new entIds?
             # during string of redos/undos, if entities are being
@@ -808,7 +807,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
                     if oldName[i] != ' ':
                         hasSuffix = False
                     else:
-                        print('numString: %s' % numString)
+                        print 'numString: %s' % numString
                         copyNum = int(numString)+1
             if hasSuffix:
                 newName = oldName[:i] + suffix % copyNum
@@ -845,7 +844,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
         # remove any constant attribs
         typeDesc = self.entTypeReg.getTypeDesc(copyAttribs['type'])
         attribDescs = typeDesc.getAttribDescDict()
-        for attribName, attribDesc in list(attribDescs.items()):
+        for attribName, attribDesc in attribDescs.items():
             if attribDesc.getDatatype() == 'const':
                 del copyAttribs[attribName]
         def setNewEntityId(entId, self=self, removeAction=removeAction,
@@ -855,7 +854,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
             removeAction[2]['entId'] = entId
 
             # set attribs
-            for attribName, value in list(copyAttribs.items()):
+            for attribName, value in copyAttribs.items():
                 self.privSendAttribEdit(entId, attribName, value)
             # TODO: update map of old entIds -> new entIds?
             # during string of redos/undos, if entities are being
@@ -878,14 +877,14 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
     def specPrePickle(self, spec):
         # prepares a spec for pickling
         # WARNING: modifies 'spec'
-        for attribName, value in list(spec.items()):
+        for attribName, value in spec.items():
             spec[attribName] = repr(value)
         return spec
 
     def specPostUnpickle(self, spec):
         # fixes up a spec after being unpickled
         # WARNING: modifies 'spec'
-        for attribName, value in list(spec.items()):
+        for attribName, value in spec.items():
             spec[attribName] = eval(value)
         return spec
 
@@ -898,8 +897,8 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
                 'error')
             return
         # for now, only import a single entity
-        import tkinter.filedialog
-        filename = tkinter.filedialog.askopenfilename(
+        import tkFileDialog
+        filename = tkFileDialog.askopenfilename(
             parent=self.editor.parent,
             defaultextension='.egroup',
             filetypes=[('Entity Group', '.egroup'),
@@ -913,25 +912,25 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
             f = open(filename, 'r')
             eTree = pickle.load(f)
             eGroup = pickle.load(f)
-            for entId, spec in list(eGroup.items()):
+            for entId, spec in eGroup.items():
                 eGroup[entId] = self.specPostUnpickle(spec)
         except:
             self.editor.showWarning(
                 'Error importing entity group from \'%s\'.' % filename,
                 'error')
             return
-
+            
         oldEntId2new = {}
         def addEntities(treeEntry, parentEntId, eGroup=eGroup):
             # recursively adds the entities described by the entId tree
-            for entId, children in list(treeEntry.items()):
+            for entId, children in treeEntry.items():
                 spec = eGroup[entId]
                 entType = spec['type']
                 del spec['type']
                 del spec['parentEntId']
                 # remove all other 'const' attributes
                 typeDesc = self.entTypeReg.getTypeDesc(entType)
-                for attribName, attribDesc in list(typeDesc.getAttribDescDict().items()):
+                for attribName, attribDesc in typeDesc.getAttribDescDict().items():
                     if attribDesc.getDatatype() == 'const':
                         if attribName in spec:
                             del spec[attribName]
@@ -964,8 +963,8 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
                 'Please select a valid entity first.',
                 'error')
             return
-        import tkinter.filedialog
-        filename = tkinter.filedialog.asksaveasfilename(
+        import tkFileDialog
+        filename = tkFileDialog.asksaveasfilename(
             parent=self.editor.parent,
             defaultextension='.egroup',
             filetypes=[('Entity Group', '.egroup'),
@@ -979,7 +978,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
         eTree = {selectedEntId:{}}
         eGroup = {}
         eGroup[selectedEntId] = self.levelSpec.getEntitySpecCopy(selectedEntId)
-        for entId, spec in list(eGroup.items()):
+        for entId, spec in eGroup.items():
             eGroup[entId] = self.specPrePickle(spec)
         try:
             import pickle
@@ -1000,8 +999,8 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
                 'Please select a valid entity first.',
                 'error')
             return
-        import tkinter.filedialog
-        filename = tkinter.filedialog.asksaveasfilename(
+        import tkFileDialog
+        filename = tkFileDialog.asksaveasfilename(
             parent=self.editor.parent,
             defaultextension='.egroup',
             filetypes=[('Entity Group', '.egroup'),
@@ -1023,7 +1022,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
             for child in entity.getChildren():
                 addEntity(child.entId, treeEntry[entId])
         addEntity(selectedEntId, eTree)
-        for entId, spec in list(eGroup.items()):
+        for entId, spec in eGroup.items():
             eGroup[entId] = self.specPrePickle(spec)
         try:
             import pickle
@@ -1067,7 +1066,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
     def setAttribChange(self, entId, attrib, valueStr, username):
         """AI has informed us of an accepted value change"""
         if username == self.editUsername:
-            print('we got our own edit back!')
+            print 'we got our own edit back!'
         value = eval(valueStr)
         self.levelSpec.setAttribChange(entId, attrib, value, username)
 

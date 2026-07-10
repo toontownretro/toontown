@@ -77,18 +77,18 @@ class ScavengerHuntDataStore(DataStore):
         """
 
         if self.wantAnyDbm:
-            pAvId = pickle.dumps(avId)
-            pGoal = pickle.dumps(goal)
+            pAvId = cPickle.dumps(avId)
+            pGoal = cPickle.dumps(goal)
             
             pData = self.data.get(pAvId,None)
             if pData is not None:
-                data = pickle.loads(pData)
+                data = cPickle.loads(pData)
             else:
                 data = set()
 
             data.add(goal)
 
-            pData = pickle.dumps(data)
+            pData = cPickle.dumps(data)
             self.data[pAvId] = pData
         else:
             self.data.setdefault(avId,set())
@@ -101,10 +101,10 @@ class ScavengerHuntDataStore(DataStore):
         Return a [] of goals for avid.
         """
         if self.wantAnyDbm:
-            pAvId = pickle.dumps(avId)
+            pAvId = cPickle.dumps(avId)
             pData = self.data.get(pAvId,None)
             if pData is not None:
-                data = list(pickle.loads(pData))
+                data = list(cPickle.loads(pData))
             else:
                 data = []
             return data

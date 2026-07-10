@@ -1,9 +1,9 @@
 """PlatformEntity module: contains the PlatformEntity class"""
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from otp.level import BasicEntities
-from . import MovingPlatform
+import MovingPlatform
 
 class PlatformEntity(BasicEntities.NodePathEntity):
     def __init__(self, level, entId):

@@ -1,15 +1,15 @@
-"""UserFunnel.py: Contains functions to report data back to hitbox and our own data collection servers"""
+"""UserFunnel.py: Contains functions to report data back to hitbox and our own data collection servers""" 
 
 import os, sys, socket, random
-from urllib.parse import quote_plus
+from urllib import quote_plus
 
-from toontown.toonbase.ToontownModules import HTTPClient
-from toontown.toonbase.ToontownModules import HTTPCookie
-from toontown.toonbase.ToontownModules import URLSpec
-from toontown.toonbase.ToontownModules import Ramfile
-from toontown.toonbase.ToontownModules import Ostream
-from toontown.toonbase.ToontownModules import HTTPDate
-from toontown.toonbase.ToontownModules import DocumentSpec
+from pandac.PandaModules import HTTPClient
+from pandac.PandaModules import HTTPCookie
+from pandac.PandaModules import URLSpec
+from pandac.PandaModules import Ramfile
+from pandac.PandaModules import Ostream
+from pandac.PandaModules import HTTPDate
+from pandac.PandaModules import DocumentSpec
 from direct.task.Task import Task
 
 from direct.directnotify.DirectNotifyGlobal import directNotify
@@ -21,9 +21,9 @@ notify = directNotify.newCategory("UserFunnel")
 # You can use it with the internal data collector too, just use 0 instead of 1
 
 class UserFunnel:
-
+    
     def __init__(self):
-
+        
         # Variables required for acct service access
         # HitBox Account Number.
         # DOL test account = DM510925KJWE
@@ -188,7 +188,7 @@ class UserFunnel:
         else:
             if(os.path.isfile(self.cfCookieFile) == False):
                 firstRun('write', True)
-
+                
 
     # Populate the osMajor, osMinor, osBuild, osType, osComments, and osRevver vars
     def whatOSver(self):
@@ -216,13 +216,13 @@ class UserFunnel:
                 # exception that pops up at most once a day, where these
                 # assignments return an out of range error
                 # RAU exception always happen in 10.6
-
+                
                 self.osMinorver = parseLine[versionStringStart+3]
                 self.osRevver = parseLine[versionStringStart+5:versionStringStart+7].strip(' ')
                 self.osBuild = parseLine[int(parseLine.find('('))+1:parseLine.find(')')]
             except:
                 # This should catch this rare case. It's probably happening
-                # due to a corrupt OS install on the client.
+                # due to a corrupt OS install on the client. 
                 # In this case, we'll just manually assign values
                 # RAU so 10.6 will always report as 10.0
                 notify.info("couldn't parse the system_profiler output, using zeros")
@@ -272,12 +272,12 @@ class UserFunnel:
     # This will go out to the download server and get the current Disney Funnel logging URL
 
     def getFunnelURL(self):
-        # print('VRS URL: ' + self.dynamicVRFunnel)
+        # print 'VRS URL: ' + self.dynamicVRFunnel
         if (patcherVer() == ['OFFLINE']):
-            # print("Funnel System Offline")
+            # print "Funnel System Offline"
             return
         if (patcherVer() == []):
-            # print("Funnel URL not set. Setting now")
+            # print "Funnel URL not set. Setting now"
             patcherHTTP = HTTPClient()
             if checkParamFile() == None:
                 patcherDoc = patcherHTTP.getDocument(URLSpec('http://download.toontown.com/english/currentVersion/content/patcher.ver'))
@@ -290,12 +290,12 @@ class UserFunnel:
             # patcherDoc = patcherHTTP.getDocument(URLSpec('http://build64:3120/english/currentVersion/dev/content/patcher.ver'))
             rf = Ramfile()
             patcherDoc.downloadToRam(rf)
-            self.patcherURL = rf.getData().decode("utf-8")
+            self.patcherURL = rf.getData()
             if self.patcherURL.find('FUNNEL_LOG') == -1:
                 # The file did not download, need to set
                 # the patcherVer to offline
                 patcherVer('w','OFFLINE')
-                # print('Patcher system could not be reached')
+                # print 'Patcher system could not be reached'
                 return
             self.patcherURL = self.patcherURL.split('\n')
             del rf, patcherDoc, patcherHTTP
@@ -333,7 +333,7 @@ class UserFunnel:
 
         if (self.CurrentHost == 1):
             self.URLtoSend = 'http://' + self.hostDict[self.CurrentHost] + 'hb=' + str(self.hitboxAcct) + '&n=' + str(self.milestone) + '&ln=' + self.language + '&gp=STARTGAME&fnl=TOONTOWN_FUNNEL&vcon=/' + self.cgRoot + '/' + self.cgLocation + '/' + str(vconGroup()) + '&c1=' + str(sys.platform) + '&' + str(hitboxOSType) + '=' + str(self.osMajorver) + '_' + str(self.osMinorver) + '_' + str(self.osRevver) + '_' + str(self.osBuild)
-            # print(self.URLtoSend)
+            # print self.URLtoSend
 
         # Host 2 is for the Hitbox, with no funnel
 
@@ -392,7 +392,7 @@ class UserFunnel:
                     self.pandaHTTPClientVarWSS = [domain, loc, variable, value]
                     self.setTheHTTPCookie(self.pandaHTTPClientVarWSS)
         except IndexError:
-            print("UserFunnel(Warning): Cookie Data file bad")
+            print "UserFunnel(Warning): Cookie Data file bad"
 
         del thedata
 
@@ -401,21 +401,21 @@ class UserFunnel:
         if a.getName():
             self.pandaHTTPClientVarWSS = ['.hitbox.com', '/', 'WSS_GW', a.getValue()]
         else:
-            # print('WSS_GW Cookie Value not set')
+            # print 'WSS_GW Cookie Value not set'
             pass
 
         b = self.httpSession.getCookie(HTTPCookie('CTG', '/', '.hitbox.com'))
         if b.getName():
             self.pandaHTTPClientVarCTG = ['.hitbox.com', '/', 'CTG', b.getValue()]
         else:
-            # print('CTG Cookie Value not set')
+            # print 'CTG Cookie Value not set'
             pass
 
         c = self.httpSession.getCookie(HTTPCookie(self.hitboxAcct + 'V6', '/', 'ehg-dig.hitbox.com'))
         if c.getName():
             self.pandaHTTPClientVarDM = ['ehg-dig.hitbox.com', '/', self.hitboxAcct + 'V6', c.getValue()]
         else:
-            #print(self.hitboxAcct + 'V6 Cookie Value not set')
+            #print self.hitboxAcct + 'V6 Cookie Value not set'
             pass
 
         del a, b, c
@@ -448,7 +448,7 @@ class UserFunnel:
 
     def prerun(self):
 
-        # print("Begin Hitbox Thread")
+        # print "Begin Hitbox Thread"
         # Use start() method to execute this run() function in second thread
 
         # Commented out the next line (if statement) on 9-10-07,
@@ -460,20 +460,20 @@ class UserFunnel:
         # only checking when CurrentHost == 0, due to some URLs being
         # hardcoded in previous versions of the logging module. But that
         # is no longer the case for the VRS collector.
-
+        
         # if (self.CurrentHost == 0):
         self.getFunnelURL()
 
-        # print("build url")
+        # print "build url"
         self.buildURL()
         if(os.path.isfile(self.cfCookieFile) == True):
-            # print("load preexisting cookie")
+            # print "load preexisting cookie"
             # self.cfCookie.load()
             if self.CurrentHost == 1 or self.CurrentHost == 2:
                 self.readInPandaCookie()
-        # print("Cookies before transaction")
+        # print "Cookies before transaction"
         # self.httpSession.writeCookies(ostream)
-        # print("Cookie Header Line")
+        # print "Cookie Header Line"
         # self.httpSession.sendCookies(ostream, URLSpec(self.URLtoSend))
 
     def run(self):
@@ -506,23 +506,23 @@ class UserFunnel:
         instanceMarker = 'FunnelLoggingRequest-%s' % instanceMarker
 
         self.startCheckingAsyncRequest(instanceMarker)
-
+        
         # That's it. The server should have recorded the hit
         # delete the object
         # del doc
 
-        # print("The Funnel URL could not be accessed")
+        # print "The Funnel URL could not be accessed"
         # if (self.CurrentHost == 0):
         #    patcherVer('w','OFFLINE')
         # For testing, write out all cookies in memory
-        # print("Cookies after Transaction")
+        # print "Cookies after Transaction"
         # self.httpSession.writeCookies(ostream)
 
         # Commented out the following, moved it to the taskMgr call
         # if self.CurrentHost == 1 or self.CurrentHost == 2:
             # self.updateInstanceCookieValues()
             # self.writeOutPandaCookie()
-
+            
         # Now lets do a check to see if the string LEAK is in the milestone
         # If LEAK is present, then we will also call the memory leak report
         # function to submit a report.
@@ -532,17 +532,17 @@ class UserFunnel:
 
     def startCheckingAsyncRequest(self, name):
         taskMgr.remove(name)
-        # print("Starting Checking Async Request")
+        # print "Starting Checking Async Request"
         taskMgr.doMethodLater(0.5, self.pollFunnelTask, name)
 
     def stopCheckingFunnelTask(self, name):
         taskMgr.remove('pollFunnelTask')
 
     def pollFunnelTask(self, task):
-        # print("Polling.....")
+        # print "Polling....."
         result = self.nonBlock.run()
         if result == 0:
-            # print("Result = 0, Done")
+            # print "Result = 0, Done"
             # Funnel request complete
             self.stopCheckingFunnelTask(task)
             if self.CurrentHost == 1 or self.CurrentHost == 2:
@@ -555,11 +555,11 @@ def logSubmit(setHostID, setMileStone):
 
     # Autopilot. Just run logSubmit passing it the service ID and the milestone id. It will do the rest
     if __dev__:
-         # print("UserFunnel: Game running in Dev Mode. Not logging to Hitbox or VRS Collector.")
+         # print "UserFunnel: Game running in Dev Mode. Not logging to Hitbox or VRS Collector."
         assert notify.debug('UserFunnel: Game running in Dev Mode. Not logging to Hitbox or VRS Collector.')
         return
     if __debug__:
-        # print("UserFunnel: Game running in Debug Mode. Not logging to Hitbox or VRS Collector")
+        # print "UserFunnel: Game running in Debug Mode. Not logging to Hitbox or VRS Collector"
         assert notify.debug('UserFunnel: Game running in Debug Mode. Not logging to Hitbox or VRS Collector.')
         return
 
@@ -570,7 +570,7 @@ def logSubmit(setHostID, setMileStone):
     # trackItem.start()
     trackItem.run()
     # del trackItem
-    # print('Hitbox logging executed: ' + setMileStone)
+    # print 'Hitbox logging executed: ' + setMileStone
 
 def getVRSFunnelURL():
     # Autopilot to get the funnel URL
@@ -579,7 +579,7 @@ def getVRSFunnelURL():
 
 class HitBoxCookie:
     def __init__(self):
-        # print('UserFunnel: Created New HitBoxCookie Object')
+        # print 'UserFunnel: Created New HitBoxCookie Object'
         # Cookie file path and cookie file names
         self.ieCookieDir = os.getenv('USERPROFILE') + '\\Cookies'
         self.pythonCookieFile = 'cf.txt'
@@ -611,9 +611,9 @@ class HitBoxCookie:
         try:
             sdir = os.listdir(self.ieCookieDir)
         except WindowsError:
-            print('Dir does not exist, do nothing')
+            print 'Dir does not exist, do nothing'
             return
-
+            
         while sdir:
             temp = sdir.pop()
             if (temp.find('@hitbox[') != -1):
@@ -621,13 +621,13 @@ class HitBoxCookie:
             if (temp.find('@ehg-dig.hitbox[') != -1):
                 self.ehgdigCookieFile = temp
         if (self.hitboxCookieFile != None and self.ehgdigCookieFile != None):
-            # print('UserFunnel: Both Files Have been located')
+            # print 'UserFunnel: Both Files Have been located'
             return 1
         if (self.hitboxCookieFile == None and self.ehgdigCookieFile == None):
-            # print('UserFunnel: Error, neither file was located')
+            # print 'UserFunnel: Error, neither file was located'
             return 0
         else:
-            # print('UserFunnel: At least one cookie file was located')
+            # print 'UserFunnel: At least one cookie file was located'
             return -1
 
     def openHitboxFile(self, filename, type = 'python'):
@@ -637,7 +637,7 @@ class HitBoxCookie:
             fullfile = self.ieCookieDir + '\\' + filename
         else:
             fullfile = filename
-        # print('Opening ' + fullfile)
+        # print 'Opening ' + fullfile
         cf = open(fullfile, 'r')
         data = cf.read()
         cf.close()
@@ -657,10 +657,10 @@ class HitBoxCookie:
 
     def writeIEHitBoxCookies(self):
         if ( self.ctg == None or self.wss_gw == None or self.dmAcct ==None):
-            # print('UserFunnel: Error: CTG, WSS, or DM vars are not populated')
+            # print 'UserFunnel: Error: CTG, WSS, or DM vars are not populated'
             return
         if (sys.platform != 'win32'):
-            # print('Not Windows')
+            # print 'Not Windows'
             return
         # First we need to get the path to the cookiejar
         # In case it hasn't been executed already, we'll run it again to
@@ -674,9 +674,9 @@ class HitBoxCookie:
         while (x < len(iecData)):
             if iecData[x].find(self.hitboxAcct) != -1:
                 # We've located the entry we need to modify
-                # print('DM Found')
+                # print 'DM Found'
                 iecData.pop(x)
-                print('Removed it from the list')
+                print 'Removed it from the list'
                 break
             x += 1
         # Now we need to write the list back out to file.
@@ -708,20 +708,20 @@ class HitBoxCookie:
         iecWrite.write(self.ctg[1] + '\n' + self.ctg[2] + '\n' + iecBuffer + '\n*\n')
         iecWrite.write(self.wss_gw[1] + '\n' + self.wss_gw[2] + '\n' + iecBuffer + '\n*\n')
         iecWrite.close()
+        
+        
 
-
-
-    # This will write a python cookie file. Unless specified when called, the file will be called cf.txt. This is the old function, based on the netscape HTTP cokie format.
+    # This will write a python cookie file. Unless specified when called, the file will be called cf.txt. This is the old function, based on the netscape HTTP cokie format. 
 
     def OLDwritePythonHitBoxCookies(self, filename = 'cf.txt'):
         if ( self.ctg == None or self.wss_gw == None or self.dmAcct ==None):
-            # print('UserFunnel: Error: CTG, WSS, or DM vars are not populated')
+            # print 'UserFunnel: Error: CTG, WSS, or DM vars are not populated'
             return
         outputfile = open(filename,'w')
         # First we can write out the header
-
+        
         outputfile.write(self.pythonCookieHeader)
-
+        
         # Next the domain, for the first entry. Note: the IE cookie files have a '/' after the domain name, while the python (Netscape HTTP format) does not. We need to check for the slash and strip it out before writing to the file
 
         outputfile.write('.' + self.dmAcct[0].strip('/') + '\tTRUE\t/\tFALSE\t9999999999\t' + self.dmAcct[1] + '\t' + self.dmAcct[2] + '\n')
@@ -730,16 +730,16 @@ class HitBoxCookie:
         # And the third
         outputfile.write('.' + self.wss_gw[0].strip('/') + '\tTRUE\t/\tFALSE\t9999999999\t' + self.wss_gw[1] + '\t' + self.wss_gw[2] + '\n')
         outputfile.close()
-
+        
     def writePythonHitBoxCookies(self, filename = 'cf.txt'):
         if ( self.ctg == None or self.wss_gw == None or self.dmAcct ==None):
-            # print('UserFunnel: Error: CTG, WSS, or DM vars are not populated')
+            # print 'UserFunnel: Error: CTG, WSS, or DM vars are not populated'
             return
         outputfile = open(filename,'w')
         # First we can write out the header
-
+        
         # outputfile.write(self.pythonCookieHeader)
-
+        
         # Next the domain, for the first entry. Note: the IE cookie files have a '/' after the domain name, while the python (Netscape HTTP format) does not. We need to check for the slash and strip it out before writing to the file
 
         outputfile.write('.' + self.dmAcct[0].strip('/') + '\t/\t' + self.dmAcct[1] + '\t' + self.dmAcct[2] + '\n')
@@ -749,17 +749,17 @@ class HitBoxCookie:
         outputfile.write('.' + self.wss_gw[0].strip('/') + '\t/\t' + self.wss_gw[1] + '\t' + self.wss_gw[2] + '\n')
         outputfile.close()
 
-
+        
 
 
     # This will load the python cookies
 
     def loadPythonHitBoxCookies(self):
         if (os.path.isfile(self.pythonCookieFile) != 1):
-            # print('The python cookie file does not exist.')
+            # print 'The python cookie file does not exist.'
             return
         pythonStandard = self.openHitboxFile(self.pythonCookieFile, 'python')
-        # print(pythonStandard)
+        # print pythonStandard
         # Now split the file at the \n\n, and pop off the second element. This will remove the header
         pythonStandard = pythonStandard.split('\n\n').pop(1)
         # Now split the second element into lines; each line is a cookie entry
@@ -767,26 +767,26 @@ class HitBoxCookie:
         # Now, we will locate the line with the DM, CTG, and WSS var
         for x in pythonStandard:
             if (x.find('\t' + self.hitboxAcct) != -1):
-                # print(self.hitboxAcct)
+                # print self.hitboxAcct
                 self.dmAcct = self.sortPythonCookie(x)
             if (x.find('\tCTG\t') != -1):
-                # print('CTG Found')
+                # print 'CTG Found'
                 self.ctg = self.sortPythonCookie(x)
             if (x.find('\tWSS_GW\t') != -1):
-                # print('WSS_GW Found')
+                # print 'WSS_GW Found'
                 self.wss_gw = self.sortPythonCookie(x)
 
     # This function will locate the IE hitbox cookies (relating to Pirates), and place them in the proper list variable
-
+    
     def loadIEHitBoxCookies(self):
         if (self.findIECookieFiles() != 1):
-            # print('UserFunnel: Error! One or both of the IE cookie files could not be loaded.')
+            # print 'UserFunnel: Error! One or both of the IE cookie files could not be loaded.'
             return
-
+        
         if (sys.platform != 'win32'):
-            # print('Not Windows')
+            # print 'Not Windows'
             return
-
+        
         hitboxStandard = self.openHitboxFile(self.hitboxCookieFile, 'ie')
         hitboxDIG = self.openHitboxFile(self.ehgdigCookieFile, 'ie')
 
@@ -798,23 +798,23 @@ class HitBoxCookie:
         wss = None
         for x in hitboxStandard:
             if (x.find('CTG\n') != -1):
-                # print('CTG Found')
+                # print 'CTG Found'
                 ctg = x
             if (x.find('WSS_GW\n') != -1):
-                # print('WSS_GW Found')
+                # print 'WSS_GW Found'
                 wss = x
         if (ctg == None or wss == None):
-            # print('Both Cookie Values in hitbox could not be found')
+            # print 'Both Cookie Values in hitbox could not be found'
             return
 
         # Now locate the pirates account number in ehg-dig.hitbox file
         DM = None
         for x in hitboxDIG:
             if (x.find(self.hitboxAcct) != -1):
-                # print('DM560804E8WD account found in cookie')
+                # print 'DM560804E8WD account found in cookie'
                 DM = x
         if (DM == None):
-            # print('DM Cookie Value in ehg-dig.hitbox could not be found')
+            # print 'DM Cookie Value in ehg-dig.hitbox could not be found'
             return
 
         # Now split the streams into 3 elements of a list
@@ -823,14 +823,14 @@ class HitBoxCookie:
         self.wss_gw = self.sortIECookie(wss)
         self.dm560804E8WD = self.sortIECookie(DM)
 
-
-
+        
+        
 
 # This should convert HitBox cookies generated by MS-IE (AKA the ActiveX and Launcher on Win32 systems), to the Netscape/Mozilla format that python needs
 
 def convertHitBoxIEtoPython():
     if (sys.platform != 'win32'):
-        print(("Cookie Converter: Warning: System is not MS-Windows. I have not been setup to work with other systems yet. Sorry " + sys.platform + " user. The game client will create a cookie."))
+        print "Cookie Converter: Warning: System is not MS-Windows. I have not been setup to work with other systems yet. Sorry " + sys.platform + " user. The game client will create a cookie."
         return
     if __dev__:
         return
@@ -849,7 +849,7 @@ def convertHitBoxIEtoPython():
 
 def convertHitBoxPythontoIE():
     if (sys.platform != 'win32'):
-        print(("System is not MS-Windows. I have not been setup to work with other systems yet. Sorry " + sys.platform + " user."))
+        print "System is not MS-Windows. I have not been setup to work with other systems yet. Sorry " + sys.platform + " user."
         return
 
     # Next, if the cookiefile already exists, then we don't have to convert it from IE to python.
@@ -864,7 +864,7 @@ def convertHitBoxPythontoIE():
 
 def getreg(regVar):
     if (sys.platform != 'win32'):
-        print("System is not MS-Windows. I haven't been setup yet to work with systems other than MS-Win using MS-Internet Explorer Cookies")
+        print "System is not MS-Windows. I haven't been setup yet to work with systems other than MS-Win using MS-Internet Explorer Cookies"
         return ''
     # Site to scan for cookie from
 
@@ -884,7 +884,7 @@ def getreg(regVar):
             wholeCookie = temp
             break
     if (wholeCookie == None):
-        print(("Cookie not found for site name: " + siteName))
+        print "Cookie not found for site name: " + siteName
         return ''
     CompleteCookiePath = cookiedir + '\\' + wholeCookie
     cf = open(CompleteCookiePath, 'r')
@@ -902,7 +902,7 @@ def getreg(regVar):
     del cf
 
     # Change a few chars
-
+    
     data = data.replace('%3D','=')
     data = data.replace('%26','&')
 
@@ -921,7 +921,7 @@ def getreg(regVar):
 # For OSX, we take the first MAC address listed in the system profiler.
 
 def getMAC(staticMAC = [None]):
-
+    
    if staticMAC[0] == None:
     if (sys.platform == 'win32'):
         correctSection = 0
@@ -931,10 +931,10 @@ def getMAC(staticMAC = [None]):
         except:
             # Could not get MAC address due to lack of execute permissions
             # on the ipconfig program. (Most likely a Vista issue)
-            # print("MAC ADDRESS Recovery Problm")
+            # print "MAC ADDRESS Recovery Problm"
             staticMAC[0] = 'NO_MAC'
             return staticMAC[0]
-
+            
         for line in ipconfdata:
             if line.find('Local Area Connection') >= 0:
                 correctSection = 1
@@ -946,7 +946,7 @@ def getMAC(staticMAC = [None]):
 
 
     if (sys.platform == 'darwin'):
-        # curr_ip = socket.gethostbyname(socket.gethostname())
+        # curr_ip = socket.gethostbyname(socket.gethostname())        
         macconfdata = os.popen('/usr/sbin/system_profiler SPNetworkDataType |/usr/bin/grep MAC').readlines()
         result = '-1'
         if macconfdata:
@@ -955,10 +955,10 @@ def getMAC(staticMAC = [None]):
                 staticMAC[0] = pa.replace(':','-')
                 result = staticMAC[0]
         return result
-
+                
 
     if (sys.platform != 'darwin' and sys.platform != 'win32'):
-        print("System is not running OSX or MS-Windows.")
+        print "System is not running OSX or MS-Windows."
         return '-2'
 
    else:
@@ -1018,7 +1018,7 @@ def printUnreachableNum():
     gc.collect()
     return len(gc.garbage)
 
-
+    
 def reportMemoryLeaks():
     # First check to make sure we are leaking, if number of leaks = 0, we can return
     if printUnreachableNum() == 0:
@@ -1041,13 +1041,13 @@ def reportMemoryLeaks():
             # __repr__ is probably trying to return a non-string
             pass
     reportdata = bz2.compress(uncompressedReport, 9)
-
+    
     headers = {"Content-type": "application/x-bzip2", "Accept": "text/plain"}
     # Need to split patcherVer()[0] to just get the base url and port
     try:
         baseURL = patcherVer()[0].split('/lo')[0]
     except IndexError:
-        print('Base URL not available for leak submit')
+        print 'Base URL not available for leak submit'
         return
     basePort = 80
     if baseURL.count(':') == 2:
@@ -1084,10 +1084,10 @@ def checkParamFile():
             newURL = newURL.replace(' ','')
             break
     if newURL == '':
-        #print('Parameters.txt did not contain a new PATCHER_BASE_URL')
+        #print 'Parameters.txt did not contain a new PATCHER_BASE_URL'
         return
     else:
-        #print('Parameters.txt does have a new base url')
+        #print 'Parameters.txt does have a new base url'
         return newURL + 'patcher.ver'
  # parameters.txt file not found
  return

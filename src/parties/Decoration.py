@@ -2,7 +2,7 @@
 # Purpose: A decoration in a party.
 #-------------------------------------------------------------------------------
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.actor import Actor
 from toontown.toonbase import ToontownGlobals
@@ -15,24 +15,24 @@ class Decoration(NodePath):
     Simple decoration at a party.
     """
     notify = directNotify.newCategory("Decoration")
-
+    
     def __init__(self, name, x, y, h):
         NodePath.__init__(self, name)
-
+        
         self.name = name
         decorId = PartyGlobals.DecorationIds.fromString(name)
         centerX, centerY = getCenterPosFromGridSize(x, y, PartyGlobals.DecorationInformationDict[decorId]["gridsize"])
         self.setPos(centerX, centerY, 0.0)
         self.setH(h)
-
-        if self._name == "CakeTower":
+        
+        if self.name == "CakeTower":
             self.partyCake = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_cakeTower")
 
             tntSeqNode = self.partyCake.find("**/seqNode_tnt").node()
             tntSeqNode.setFrameRate(20)
             self.partyCake.reparentTo(self)
-
-        elif self._name == "BannerJellyBean":
+            
+        elif self.name == "BannerJellyBean":
             partyBannerModel = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_bannerJellybean_model")
 
             banner = []
@@ -43,30 +43,30 @@ class Decoration(NodePath):
             banner2.reparentTo(temp)
             banner.append(banner1)
             banner.append(banner2)
-
+            
             self.partyBanner = Actor.Actor(partyBannerModel, \
                                           {'float' : "phase_13/models/parties/tt_m_ara_pty_bannerJellybean",})
             bannerSeqNodeParent = self.partyBanner.find("**/bannerJoint")
             bannerSeqNode = SequenceNode('banner')
             for bannerNode in banner:
                 bannerSeqNode.addChild(bannerNode.node())
-
+            
             temp.detachNode()
             del temp
-
+            
             bannerSeqNodeParent.attachNewNode(bannerSeqNode)
             bannerSeqNode.setFrameRate(4)
             bannerSeqNode.loop(True)
             bannerSeqNode.setPlayRate(1)
-
+            
             balloonLeft = self.partyBanner.find("**/balloonsLMesh")
             balloonRight = self.partyBanner.find("**/balloonsRMesh")
             balloonLeft.setBillboardAxis()
             balloonRight.setBillboardAxis()
-
+            
             # axis = loader.loadModel("models/misc/xyzAxis")
             # axis.reparentTo(balloonLeft)
-
+            
             balloonLeftLocator = self.partyBanner.find("**/balloonJointL")
             balloonRightLocator = self.partyBanner.find("**/balloonJointR")
             balloonLeft.reparentTo(balloonLeftLocator)
@@ -74,56 +74,56 @@ class Decoration(NodePath):
 
             self.partyBanner.loop("float")
             self.partyBanner.reparentTo(self)
-
-        elif self._name == "GagGlobe":
+            
+        elif self.name == "GagGlobe":
             self.partyGlobe = Actor.Actor("phase_13/models/parties/tt_m_ara_pty_gagGlobe_model", \
                                     {'idle' : 'phase_13/models/parties/tt_m_ara_pty_gagGlobe',})
-
+                                    
             self.partyGlobe.setBillboardAxis()
             confettiLocator = self.partyGlobe.find("**/uvj_confetti")
             confettiMesh = self.partyGlobe.find("**/innerGlobeMesh")
             confettiMesh.setTexProjector(confettiMesh.findTextureStage("default"), confettiLocator, self.partyGlobe)
-
+            
             collisionMesh = self.partyGlobe.find("**/collisionMesh")
             collisionMesh.hide()
-
+            
             self.globeSphere = CollisionSphere(confettiMesh.getBounds().getCenter(), \
                                                                 confettiMesh.getBounds().getRadius())
             self.globeSphere.setTangible(1)
             self.globeSphereNode = CollisionNode("gagGlobe"+str(self.getPos()))
             self.globeSphereNode.setIntoCollideMask(ToontownGlobals.WallBitmask)
-            self.globeSphereNode.addSolid(self.globeSphere)
+            self.globeSphereNode.addSolid(self.globeSphere)    
             self.globeSphereNodePath = self.partyGlobe.attachNewNode(self.globeSphereNode)
-
+            
             # cakeLocator = partyGlobe.find("**/uvj_cake")
             # cakeMesh = partyGlobe.find("**/cakeMesh")
             # cakeMesh.reparentTo(cakeLocator)
-
+            
             # pieLocator = partyGlobe.find("**/uvj_pie")
             # pieMesh = partyGlobe.find("**/pieMesh")
             # pieMesh.reparentTo(pieLocator)
-
+            
             # seltzerBottleLocator = partyGlobe.find("**/uvj_seltzerBottle")
             # seltzerBottleMesh = partyGlobe.find("**/seltzerBottleMesh")
             # seltzerBottleMesh.reparentTo(seltzerBottleLocator)
-
+            
             # megaphoneLocator = partyGlobe.find("**/uvj_megaphone")
             # megaphoneMesh = partyGlobe.find("**/megaphoneMesh")
             # megaphoneMesh.reparentTo(megaphoneLocator)
-
+            
             # balloonsLocator = partyGlobe.find("**/uvj_balloons1")
             # balloonsMesh = partyGlobe.find("**/balloonsMesh")
             # balloonsMesh.reparentTo(balloonsLocator)
-
+                
             self.partyGlobe.loop('idle')
             self.partyGlobe.reparentTo(self)
-
-        elif self._name == "FlyingHeart":
+            
+        elif self.name == "FlyingHeart":
             flyingHeartModel = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_heartWing_model")
             self.flyingHeart = Actor.Actor(flyingHeartModel, \
                                     {'idle' : 'phase_13/models/parties/tt_m_ara_pty_heartWing',})
             wingsSeqNodeParent = self.flyingHeart.find("**/heartWingJoint")
-
+            
             # Setup the collision in code, because the collision flag set on
             # collision_heartWing in Maya doesn't carry through if imported as an actor.
             collisionMesh = self.flyingHeart.find("**/collision_heartWing")
@@ -132,75 +132,71 @@ class Decoration(NodePath):
             self.globeSphere.setTangible(1)
             self.globeSphereNode = CollisionNode("flyingHeart"+str(self.getPos()))
             self.globeSphereNode.setIntoCollideMask(ToontownGlobals.WallBitmask)
-            self.globeSphereNode.addSolid(self.globeSphere)
+            self.globeSphereNode.addSolid(self.globeSphere)    
             self.globeSphereNodePath = self.flyingHeart.attachNewNode(self.globeSphereNode)
             self.globeSphereNodePath.reparentTo(wingsSeqNodeParent)
-
+            
             # Setup the Sequence Node in code. Same reason - The Sequence Node flag
             # gets lost if imported as an actor.
             wings = []
-
+            
             wingsSeqNode = SequenceNode('wingsSeqNode')
             temp = NodePath("Empty")
-
+            
             wing1 = self.flyingHeart.find("**/wing1")
             wing2 = self.flyingHeart.find("**/wing2")
             wing3 = self.flyingHeart.find("**/wing3")
             wing4 = self.flyingHeart.find("**/wing4")
-
+                        
             wing1.reparentTo(temp)
             wing2.reparentTo(temp)
             wing3.reparentTo(temp)
             wing4.reparentTo(temp)
-
+            
             wings.append(wing1)
             wings.append(wing2)
             wings.append(wing3)
             wings.append(wing4)
-
-            wingsSeqNode.addChild(wing1.node())
+            
+            wingsSeqNode.addChild(wing1.node())            
             wingsSeqNode.addChild(wing2.node())
-            wingsSeqNode.addChild(wing3.node())
-            wingsSeqNode.addChild(wing4.node())
+            wingsSeqNode.addChild(wing3.node())            
+            wingsSeqNode.addChild(wing4.node())            
             wingsSeqNode.addChild(wing3.node())
             wingsSeqNode.addChild(wing2.node())
-
+                
             temp.detachNode()
             del temp
-
+            
             wingsSeqNodeParent.attachNewNode(wingsSeqNode)
             wingsSeqNode.setFrameRate(12)
             wingsSeqNode.loop(True)
             wingsSeqNode.setPlayRate(1)
-
+            
             self.flyingHeart.loop('idle')
             self.flyingHeart.reparentTo(self)
-
-        elif self._name == "HeartBanner":
+        
+        elif self.name == "HeartBanner":
             self.heartBanner = Actor.Actor("phase_13/models/parties/tt_m_ara_pty_bannerValentine_model", \
                                     {'idle' : 'phase_13/models/parties/tt_m_ara_pty_bannerValentine',})
-
+            
             balloonLeft = self.heartBanner.find("**/balloonsL")
             balloonRight = self.heartBanner.find("**/balloonsR")
             balloonLeft.setBillboardAxis()
             balloonRight.setBillboardAxis()
-
+            
             balloonLeftLocator = self.heartBanner.find("**/balloonJointL")
             balloonRightLocator = self.heartBanner.find("**/balloonJointR")
             balloonLeft.reparentTo(balloonLeftLocator)
             balloonRight.reparentTo(balloonRightLocator)
-
+            
             self.heartBanner.loop('idle')
             self.heartBanner.reparentTo(self)
 
-        elif self._name == "Hydra" or self._name == "StageWinter":
-
-            if self._name == "StageWinter":
-                self.hydra = Actor.Actor("phase_13/models/parties/tt_r_ara_pty_winterProps", \
-                                                {"dance" : "phase_13/models/parties/tt_a_ara_pty_hydra_dance" })
-            else:
-                self.hydra = Actor.Actor("phase_13/models/parties/tt_a_ara_pty_hydra_default", \
-                                                {'dance' : 'phase_13/models/parties/tt_a_ara_pty_hydra_dance' })
+        elif self.name == "Hydra":
+                
+            self.hydra = Actor.Actor("phase_13/models/parties/tt_a_ara_pty_hydra_default", \
+                                            {'dance' : 'phase_13/models/parties/tt_a_ara_pty_hydra_dance' })
             st = random.randint(0,10)
             animIval = ActorInterval(self.hydra, "dance")
             animIvalDur = animIval.getDuration()
@@ -214,20 +210,15 @@ class Decoration(NodePath):
             self.animSeq = Parallel(animIval, soundIval)
 
             self.animSeq.loop(st)
-
+            
             collisions = self.hydra.find("**/*collision*")
             collisions.setPos(0,0,-5)
             self.hydra.flattenStrong()
-            self.hydra.reparentTo(self)
+            self.hydra.reparentTo(self)   
 
-            if self._name == "StageWinter":
-                stageBounds = self.hydra.find("**/stage").node().getBounds()
-                self.hydra.node().setBounds(stageBounds)
-                self.hydra.node().setFinal(1)
-
-        elif self._name == "TubeCogVictory":
-            self.tubeCog = Actor.Actor("phase_5.5/models/estate/tt_a_ara_pty_tubeCogVictory_default", \
-                                            {'wave' : 'phase_5.5/models/estate/tt_a_ara_pty_tubeCogVictory_wave' })
+        elif self.name == "TubeCogVictory":
+            self.tubeCog = Actor.Actor("phase_13/models/parties/tt_a_ara_pty_tubeCogVictory_default", \
+                                            {'wave' : 'phase_13/models/parties/tt_a_ara_pty_tubeCogVictory_wave' })
             st = random.randint(0,10)
             animIval = ActorInterval(self.tubeCog, "wave")
             animIvalDur = animIval.getDuration()
@@ -243,9 +234,9 @@ class Decoration(NodePath):
             self.animSeq.loop()
             self.animSeq.setT(st)
             self.tubeCog.flattenStrong()
-            self.tubeCog.reparentTo(self)
+            self.tubeCog.reparentTo(self)        
 
-        elif self._name == "BannerVictory":
+        elif self.name == "BannerVictory":
             self.bannerVictory = Actor.Actor("phase_13/models/parties/tt_m_ara_pty_bannerVictory_model", \
                                     {'idle' : 'phase_13/models/parties/tt_m_ara_pty_bannerVictory',})
 
@@ -258,150 +249,125 @@ class Decoration(NodePath):
             balloonRightLocator = self.bannerVictory.find("**/balloonJointR")
             balloonLeft.reparentTo(balloonLeftLocator)
             balloonRight.reparentTo(balloonRightLocator)
-
+            
             self.bannerVictory.loop('idle')
             self.bannerVictory.reparentTo(self)
-
-        elif self._name == "CannonVictory":
+            
+        elif self.name == "CannonVictory":
             self.cannonVictory = Actor.Actor("phase_13/models/parties/tt_m_ara_pty_cannonVictory_model", \
                                     {'idle' : 'phase_13/models/parties/tt_m_ara_pty_cannonVictory',})
-
+            
             # NOTE: -expose uvj_confetties creates two nodes with this name: one dummy and one joint. Ignore the dummy.
             confettiLocator = self.cannonVictory.findAllMatches("**/uvj_confetties")[1]
             assert confettiLocator and not confettiLocator.isEmpty()
             confettiMesh = self.cannonVictory.find("**/confettis")
             assert confettiMesh and not confettiMesh.isEmpty()
-
+            
             confettiMesh.setTexProjector(confettiMesh.findTextureStage("default"), self.cannonVictory, confettiLocator)
-
+            
             self.cannonVictory.flattenStrong()
             self.cannonVictory.loop('idle')
             self.cannonVictory.reparentTo(self)
-
-        elif self._name == "CogStatueVictory":
+        
+        elif self.name == "CogStatueVictory":
             self.decorationModel = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_cogDoodleVictory")
-            self.decorationModel.reparentTo(self)
+            self.decorationModel.reparentTo(self)            
             self.decorationShadow = self.setupAnimSeq()
-
-        elif self._name == "CogIceCreamVictory":
+        
+        elif self.name == "cogIceCreamVictory":
             self.decorationModel = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_cogIceCreamVictory")
             self.decorationModel.reparentTo(self)
             self.decorationShadow = self.setupAnimSeq()
-
-        elif self._name == "cogIceCreamWinter":
-            self.decorationModel = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_cogIceCreamWinter")
-            self.decorationModel.reparentTo(self)
-            self.decorationShadow = self.setupAnimSeq()
-
-        elif self._name == "CogStatueWinter":
-            self.decorationModel = loader.loadModel("phase_13/models/parties/tt_m_ara_pty_cogDoodleWinter")
-            self.decorationModel.reparentTo(self)
-            self.decorationShadow = self.setupAnimSeq()
-
-        elif self._name == "snowman":
-            self.decorationModel = loader.loadModel("phase_13/models/estate/tt_m_prp_ext_snowman")
-            self.decorationModel.reparentTo(self)
-            self.decorationModel.find("**/growthStage_1").hide()
-            self.decorationModel.find("**/growthStage_2").hide()
-
-        elif self._name == "snowDoodle":
-            self.decorationModel = loader.loadModel('phase_5.5/models/estate/tt_m_prp_ext_snowDoodle')
-            self.decorationModel.reparentTo(self)
-            self.decorationModel.find("**/growthStage_1").hide()
-            self.decorationModel.find("**/growthStage_2").hide()
-
+            
         else:
             self.decorationModels = loader.loadModel("phase_4/models/parties/partyDecorations")
             self.decorationModels.copyTo(self)
             decors = self.findAllMatches("**/partyDecoration_*")
-            for i in range(decors.getNumPaths()):
+            for i in xrange(decors.getNumPaths()):
                 decPiece = decors.getPath(i)
                 n = decPiece.getName()
                 if n.endswith("shadow") or n.endswith("base") or n.endswith("collision") or n.endswith(name):
                     pass
                 else:
                     decPiece.reparentTo(hidden)
-
+        
         self.reparentTo(base.cr.playGame.hood.loader.geom)
-
+        
     def setupAnimSeq(self):
         self.startAnim = 1
-        self.animSeq = None
-
+        self.animSeq = None            
+        
         # Reparent the shadow so it doesn't animate.
         shadow = self.find("**/*shadow*;+i")
         shadow.wrtReparentTo(base.cr.playGame.hood.loader.geom)
-
+        
         self.startAnimSeq()
-
+        
         return shadow
-
+        
     def startAnimSeq(self):
         if self.animSeq:
             self.animSeq.finish()
         if self.startAnim == 1:
             self.animSeq = Sequence(LerpHprInterval(self.decorationModel, 3.0, Vec3(random.randint(0,5),random.randint(0,5),random.randint(0,5))), Wait(0.05), Func(self.startAnimSeq))
             self.animSeq.start()
-
+        
     def cleanUpAnimSequences(self):
         self.startAnim = 0
         if hasattr(self, "animSeq"):
             self.animSeq.pause()
             self.animSeq.finish()
             if self.animSeq:
-                del self.animSeq
-
+                del self.animSeq        
+        
     def unload(self):
         self.notify.debug("Unloading")
-        if self._name == "GagGlobe":
+        if self.name == "GagGlobe":
             self.globeSphereNodePath.removeNode()
             del self.globeSphereNodePath
             del self.globeSphereNode
             del self.globeSphere
             self.partyGlobe.removeNode()
             del self.partyGlobe
-        elif self._name == "Hydra" or self._name == "StageWinter":
+        elif self.name == "Hydra":
             self.cleanUpAnimSequences()
             self.hydra.removeNode()
             del self.hydra
             if hasattr(self, "decSfx"):
                 del self.decSfx
-        elif self._name == "TubeCogVictory":
+        elif self.name == "TubeCogVictory":
             self.cleanUpAnimSequences()
             self.tubeCog.removeNode()
             del self.tubeCog
             if hasattr(self, "decSfx"):
                 del self.decSfx
-        elif self._name == "BannerJellyBean":
+        elif self.name == "BannerJellyBean":
             self.partyBanner.removeNode()
-        elif self._name == "CakeTower":
+        elif self.name == "CakeTower":
             self.partyCake.removeNode()
-        elif self._name == "FlyingHeart":
+        elif self.name == "FlyingHeart":
             self.globeSphereNodePath.removeNode()
             del self.globeSphereNodePath
             del self.globeSphereNode
             del self.globeSphere
             self.flyingHeart.removeNode()
-        elif self._name == "HeartBanner":
+        elif self.name == "HeartBanner":
             self.heartBanner.removeNode()
-        elif self._name == "CannonVictory":
+        elif self.name == "CannonVictory":
             self.cannonVictory.removeNode()
             del self.cannonVictory
-        elif self._name == "CogIceCreamVictory" \
-            or self._name == "CogStatueVictory" \
-            or self._name == "cogIceCreamWinter" \
-            or self._name == "CogStatueWinter":
+        elif self.name == "cogIceCreamVictory" \
+            or self.name == "CogStatueVictory":
             self.cleanUpAnimSequences()
             self.decorationModel.removeNode()
             self.decorationShadow.removeNode()
             del self.decorationShadow
-        elif self._name == "snowman" or self._name == "snowDoodle":
-            self.decorationModel.removeNode()
-        elif self._name == "BannerVictory":
+        elif self.name == "BannerVictory":
             self.bannerVictory.removeNode()
             del self.bannerVictory
-        elif self._name == "CannonVictory":
+        elif self.name == "CannonVictory":
             self.decorationModel.removeNode()
             del self.decorationModel
         else:
             self.decorationModels.removeNode()
+        

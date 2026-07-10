@@ -1,13 +1,12 @@
 from direct.directnotify import DirectNotifyGlobal
 import random
 from direct.task import Task
-from . import DistributedFireworkShowAI
+import DistributedFireworkShowAI
 from toontown.ai import HolidayBaseAI
-from . import FireworkShow
+import FireworkShow
 from toontown.toonbase.ToontownGlobals import DonaldsDock, ToontownCentral, \
     TheBrrrgh, MinniesMelodyland, DaisyGardens, OutdoorZone, GoofySpeedway, DonaldsDreamland
 import time
-from toontown.toonbase.ToontownModules import *
 
 class FireworkManagerAI(HolidayBaseAI.HolidayBaseAI):
     """
@@ -55,7 +54,7 @@ class FireworkManagerAI(HolidayBaseAI.HolidayBaseAI):
             showType = self.zoneToStyleDict.get(hood.canonicalHoodId)
             if showType is not None:
                 self.startShow(hood.zoneId, showType)
-
+            
         self.waitForNextShow()
         return Task.done
 
@@ -74,9 +73,9 @@ class FireworkManagerAI(HolidayBaseAI.HolidayBaseAI):
         Warns and returns 0 if a show was already running in this zone.
         There can only be one show per zone.
         """
-        if zone in self.fireworkShows:
+        if self.fireworkShows.has_key(zone):
             self.notify.warning("startShow: already running a show in zone: %s" % (zone))
-            return 0
+            return 0        
         self.notify.debug("startShow: zone: %s showType: %s" % (zone, showType))
         # Create a show, passing ourselves in so it can tell us when
         # the show is over
@@ -84,7 +83,7 @@ class FireworkManagerAI(HolidayBaseAI.HolidayBaseAI):
         show.generateWithRequired(zone)
         self.fireworkShows[zone] = show
         # Currently needed to support legacy fireworks
-        if ConfigVariableBool('want-old-fireworks', 0).getValue() or magicWord == 1:
+        if simbase.air.config.GetBool('want-old-fireworks', 0) or magicWord == 1:
             show.d_startShow(showType, showType)
         else:
             show.d_startShow(self.holidayId, showType)
@@ -96,7 +95,7 @@ class FireworkManagerAI(HolidayBaseAI.HolidayBaseAI):
         Stop a firework show in this zone.
         Returns 1 if it did stop a show, warns and returns 0 if there is not one
         """
-        if zone not in self.fireworkShows:
+        if not self.fireworkShows.has_key(zone):
             self.notify.warning("stopShow: no show running in zone: %s" % (zone))
             return 0
         self.notify.debug("stopShow: zone: %s" % (zone))
@@ -112,7 +111,7 @@ class FireworkManagerAI(HolidayBaseAI.HolidayBaseAI):
         Returns number of shows stopped by this command.
         """
         numStopped = 0
-        for zone, show in list(self.fireworkShows.items()):
+        for zone, show in self.fireworkShows.items():
             self.notify.debug("stopAllShows: zone: %s" % (zone))
             show.requestDelete()
             numStopped += 1
@@ -123,4 +122,5 @@ class FireworkManagerAI(HolidayBaseAI.HolidayBaseAI):
         """
         Is there currently a show running in this zone?
         """
-        return zone in self.fireworkShows
+        return self.fireworkShows.has_key(zone)
+        

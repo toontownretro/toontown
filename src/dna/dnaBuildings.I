@@ -13,6 +13,7 @@ INLINE void DNAWall::set_height(float height) {
   _height = height;
 }
 
+
 ////////////////////////////////////////////////////////////////////
 //     Function: DNAWall::get_height
 //       Access: Public
@@ -22,42 +23,23 @@ INLINE float DNAWall::get_height() const {
   return _height;
 }
 
-
 ////////////////////////////////////////////////////////////////////
 //     Function: DNAWall::set_color
 //       Access: Public
 //  Description:
 ////////////////////////////////////////////////////////////////////
-INLINE void DNAWall::set_color(const LColorf &color) {
+INLINE void DNAWall::set_color(const Colorf &color) {
   _color = color;
 }
+
 
 ////////////////////////////////////////////////////////////////////
 //     Function: DNAWall::get_color
 //       Access: Public
 //  Description:
 ////////////////////////////////////////////////////////////////////
-INLINE LColorf DNAWall::get_color() const {
+INLINE Colorf DNAWall::get_color() const {
   return _color;
-}
-
-
-////////////////////////////////////////////////////////////////////
-//     Function: DNAWall::set_current_wall_height
-//       Access: Public
-//  Description:
-////////////////////////////////////////////////////////////////////
-INLINE void DNAWall::set_current_wall_height(float wall_height) {
-  _current_wall_height = wall_height;
-}
-
-////////////////////////////////////////////////////////////////////
-//     Function: DNAWall::get_current_wall_height
-//       Access: Public
-//  Description:
-////////////////////////////////////////////////////////////////////
-INLINE float DNAWall::get_current_wall_height() const {
-  return _current_wall_height;
 }
 
 
@@ -70,6 +52,7 @@ INLINE void DNAWall::set_code(string code) {
   _code = code;
 }
 
+
 ////////////////////////////////////////////////////////////////////
 //     Function: DNAWall::get_code
 //       Access: Public
@@ -80,24 +63,18 @@ INLINE string DNAWall::get_code() const {
 }
 
 
-////////////////////////////////////////////////////////////////////
-//     Function: DNAFlatBuilding::set_current_wall_height
-//       Access: Public
-//  Description:
-////////////////////////////////////////////////////////////////////
-INLINE void DNAFlatBuilding::set_current_wall_height(float wall_height) {
-  _current_wall_height = wall_height;
-}
+
+
+
 
 ////////////////////////////////////////////////////////////////////
 //     Function: DNAFlatBuilding::get_current_wall_height
 //       Access: Public
 //  Description:
 ////////////////////////////////////////////////////////////////////
-INLINE float DNAFlatBuilding::get_current_wall_height() const {
-  return _current_wall_height;
+INLINE float DNAFlatBuilding::get_current_wall_height() {
+  return current_wall_height;
 }
-
 
 ////////////////////////////////////////////////////////////////////
 //     Function: DNAFlatBuilding::set_width
@@ -107,6 +84,7 @@ INLINE float DNAFlatBuilding::get_current_wall_height() const {
 INLINE void DNAFlatBuilding::set_width(float width) {
   _width = width;
 }
+
 
 ////////////////////////////////////////////////////////////////////
 //     Function: DNAFlatBuilding::get_width
@@ -128,6 +106,7 @@ INLINE void DNALandmarkBuilding::set_code(string code) {
   _code = code;
 }
 
+
 ////////////////////////////////////////////////////////////////////
 //     Function: DNALandmarkBuilding::get_code
 //       Access: Public
@@ -136,7 +115,6 @@ INLINE void DNALandmarkBuilding::set_code(string code) {
 INLINE string DNALandmarkBuilding::get_code() const {
   return _code;
 }
-
 
 ////////////////////////////////////////////////////////////////////
 //     Function: DNALandmarkBuilding::set_title
@@ -147,6 +125,7 @@ INLINE void DNALandmarkBuilding::set_title(const string &title) {
   _title = title;
 }
 
+
 ////////////////////////////////////////////////////////////////////
 //     Function: DNALandmarkBuilding::get_title
 //       Access: Public
@@ -156,7 +135,6 @@ INLINE string DNALandmarkBuilding::get_title() const {
   return _title;
 }
 
-
 ////////////////////////////////////////////////////////////////////
 //     Function: DNALandmarkBuilding::set_article
 //       Access: Public
@@ -165,6 +143,7 @@ INLINE string DNALandmarkBuilding::get_title() const {
 INLINE void DNALandmarkBuilding::set_article(const string &article) {
   _article = article;
 }
+
 
 ////////////////////////////////////////////////////////////////////
 //     Function: DNALandmarkBuilding::get_article
@@ -181,19 +160,19 @@ INLINE string DNALandmarkBuilding::get_article() const {
 //       Access: Public
 //  Description:
 ////////////////////////////////////////////////////////////////////
-INLINE void DNALandmarkBuilding::set_wall_color(const LColorf &color) {
+INLINE void DNALandmarkBuilding::set_wall_color(const Colorf &color) {
   _wall_color = color;
 }
+
 
 ////////////////////////////////////////////////////////////////////
 //     Function: DNALandmarkBuilding::get_wall_color
 //       Access: Public
 //  Description:
 ////////////////////////////////////////////////////////////////////
-INLINE LColorf DNALandmarkBuilding::get_wall_color() const {
+INLINE Colorf DNALandmarkBuilding::get_wall_color() const {
   return _wall_color;
 }
-
 
 ////////////////////////////////////////////////////////////////////
 //     Function: DNALandmarkBuilding::set_building_type
@@ -203,6 +182,7 @@ INLINE LColorf DNALandmarkBuilding::get_wall_color() const {
 INLINE void DNALandmarkBuilding::set_building_type(const string& type) {
   _building_type = type;
 }
+
 
 ////////////////////////////////////////////////////////////////////
 //     Function: DNALandmarkBuilding::get_building_type

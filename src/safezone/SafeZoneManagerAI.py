@@ -1,5 +1,5 @@
 from otp.ai.AIBaseGlobal import *
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.distributed import DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
 
@@ -14,7 +14,7 @@ class SafeZoneManagerAI(DistributedObjectAI.DistributedObjectAI):
     def enterSafeZone(self):
         avId = self.air.getAvatarIdFromSender()
         # Make sure the avatar exists.
-        if avId in self.air.doId2do:
+        if self.air.doId2do.has_key(avId):
             # Find the avatar
             av = self.air.doId2do[avId]
             # Start healing them
@@ -35,8 +35,9 @@ class SafeZoneManagerAI(DistributedObjectAI.DistributedObjectAI):
     def exitSafeZone(self):
         avId = self.air.getAvatarIdFromSender()
         # Make sure the avatar exists.
-        if avId in self.air.doId2do:
+        if self.air.doId2do.has_key(avId):
             # Find the avatar
             av = self.air.doId2do[avId]
             # Start healing them
             av.stopToonUp()
+            

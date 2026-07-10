@@ -1,4 +1,4 @@
-from . import CatalogItem
+import CatalogItem
 import time
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -20,9 +20,6 @@ class CatalogRentalItem(CatalogItem.CatalogItem):
         # this will need to be persistant (db?)
         CatalogItem.CatalogItem.makeNewItem(self)
         
-    def getRentalType(self):
-        return self.typeIndex
-
     def getDuration(self):
         return self.duration
     # TODO: who will check for expired items? CatalogManagerAI?
@@ -101,9 +98,6 @@ class CatalogRentalItem(CatalogItem.CatalogItem):
         return "CatalogRentalItem(%s%s)" % (
             self.typeIndex,
             self.formatOptionalData(store))
-            
-    def equalsTo(self, other):
-        return self.typeIndex == other.typeIndex
 
     def compareTo(self, other):
         return self.typeIndex - other.typeIndex
@@ -188,10 +182,10 @@ class CatalogRentalItem(CatalogItem.CatalogItem):
     
 def getAllRentalItems():
     # Returns a list of all valid CatalogRentalItems.
-    allRentalItems = []
+    list = []
     # no game tables for now
     # TODO since all we offer so far is 48 hours of cannons, values pulled for CatalogGenerator
     # do something else if we have different durations
     for rentalType in (ToontownGlobals.RentalCannon, ):
-        allRentalItems.append(CatalogRentalItem(rentalType,2880,1000))
-    return allRentalItems
+        list.append(CatalogRentalItem(rentalType,2880,1000))
+    return list

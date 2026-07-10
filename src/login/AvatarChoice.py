@@ -1,11 +1,11 @@
 """AvatarChoice module: contains the AvatarChoice class"""
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase import ToontownGlobals
 from direct.showbase import DirectObject
 from toontown.toon import ToonDNA
 from toontown.toon import ToonHead
-#from toontown.toon import GMUtils
+from toontown.toon import GMUtils
 from toontown.toontowngui import TTDialog
 from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer
@@ -32,8 +32,8 @@ class AvatarChoice(DirectButton):
     MODE_CREATE = 0
     MODE_CHOOSE = 1
     MODE_LOCKED = 2
-
-    # special methods
+    
+    # special methods    
     def __init__(self, av = None, position = 0, paid = 0, okToLockout = 1):
         """
         Set-up the avatar choice panel. If no av is passed in, offer the
@@ -66,10 +66,10 @@ class AvatarChoice(DirectButton):
             else:
                 self.mode = AvatarChoice.MODE_CHOOSE
                 # Handle the special case of GM toons
-                #if GMUtils.testGMIdentity(av.name):
-                #    self.name = self.__handleGMName(av.name)
-                #else:
-                self.name = av.name
+                if GMUtils.testGMIdentity(av.name):
+                    self.name = self.__handleGMName(av.name)
+                else:
+                    self.name = av.name
                 self.dna = ToonDNA.ToonDNA(av.dna)
                 self.wantName = av.wantName
                 self.approvedName = av.approvedName
@@ -88,11 +88,11 @@ class AvatarChoice(DirectButton):
         self.buttonBgs.append(self.pickAToonGui.find("**/tt_t_gui_pat_squarePurple"))
         self.buttonBgs.append(self.pickAToonGui.find("**/tt_t_gui_pat_squareBlue"))
         self.buttonBgs.append(self.pickAToonGui.find("**/tt_t_gui_pat_squarePink"))
-        self.buttonBgs.append(self.pickAToonGui.find("**/tt_t_gui_pat_squareYellow"))
+        self.buttonBgs.append(self.pickAToonGui.find("**/tt_t_gui_pat_squareYellow"))        
         self['image'] = self.buttonBgs[position]
-
+                
         self.setScale(1.01)
-
+        
         # make interface buttons and signs
         if self.mode is AvatarChoice.MODE_LOCKED:
             self['command'] = self.__handleTrialer
@@ -101,15 +101,15 @@ class AvatarChoice(DirectButton):
             self['text1_scale'] = TTLocalizer.ACsubscribersOnly
             self['text2_scale'] = TTLocalizer.ACsubscribersOnly
             self['text0_fg'] = (0,1,0.8,0.0)
-            self['text1_fg'] = (0,1,0.8,1)
+            self['text1_fg'] = (0,1,0.8,1)            
             self['text2_fg'] = (0.3,1,0.9,1)
             self['text_pos'] = (0, 0.19)
             # use the logo on the background
             upsellModel = loader.loadModel("phase_3/models/gui/tt_m_gui_ups_mainGui")
             upsellTex = upsellModel.find("**/tt_t_gui_ups_logo_noBubbles")
-
+            
             self.logoModelImage = loader.loadModel("phase_3/models/gui/members_only_gui").find("**/MembersOnly")
-
+            
             logo = DirectFrame(
                 state = DGG.DISABLED,
                 parent = self,
@@ -122,12 +122,12 @@ class AvatarChoice(DirectButton):
             logo.reparentTo(self.stateNodePath[0], 20)
             logo.instanceTo(self.stateNodePath[1], 20)
             logo.instanceTo(self.stateNodePath[2], 20)
-
+            
             self.logo = logo
             upsellModel.removeNode()
-
+            
         elif self.mode is AvatarChoice.MODE_CREATE:
-            #print('MODE_CREATE 2')
+            #print 'MODE_CREATE 2'
             # Click callback on the main button
             self['command'] = self.__handleCreate
             self['text'] = TTLocalizer.AvatarChoiceMakeAToon,
@@ -136,11 +136,11 @@ class AvatarChoice(DirectButton):
             self['text1_scale'] = TTLocalizer.ACmakeAToon
             self['text2_scale'] = TTLocalizer.ACmakeAToon
             self['text0_fg'] = (0,1,0.8,0.5)
-            self['text1_fg'] = (0,1,0.8,1)
+            self['text1_fg'] = (0,1,0.8,1)            
             self['text2_fg'] = (0.3,1,0.9,1)
-
+            
             # TODO: Make new toon rollover text
-
+            
         else:
             # Click callback on the main button
             self['command'] = self.__handleChoice
@@ -198,7 +198,7 @@ class AvatarChoice(DirectButton):
                 command = self.__handleNameYourToon,
                 )
             guiButton.removeNode()
-
+            
             # put the toon name status label in ("rejected", "approved", "under review", or "")
             self.statusText = DirectLabel(
                 parent = self,
@@ -231,7 +231,7 @@ class AvatarChoice(DirectButton):
                 else:
                     self.nameYourToonButton.hide()
                     self.statusText['text'] = ""
-
+            
             # put the toon head on the panel
             self.head = hidden.attachNewNode('head')
             self.head.setPosHprScale(0, 5, -0.1,
@@ -240,7 +240,7 @@ class AvatarChoice(DirectButton):
             self.head.reparentTo(self.stateNodePath[0], 20)
             self.head.instanceTo(self.stateNodePath[1], 20)
             self.head.instanceTo(self.stateNodePath[2], 20)
-
+            
             self.headModel = ToonHead.ToonHead()
             self.headModel.setupHead(self.dna, forGui = 1)
             self.headModel.reparentTo(self.head)
@@ -256,7 +256,7 @@ class AvatarChoice(DirectButton):
             self.headModel.startLookAround()
 
             # TODO:  play with button callback is __handleChoice
-
+ 
             trashcanGui = loader.loadModel("phase_3/models/gui/trashcan_gui")
             # create the delete-a-toon button
             self.deleteButton = DirectButton(
@@ -281,14 +281,14 @@ class AvatarChoice(DirectButton):
 
         # Setup account/avatar logging to VRS collector to capture
         # the relationship between MAC->IP->Av ID
-
+        
         self.avForLogging = None
 
         if av:
             self.avForLogging = str(av.id)
         else:
             self.avForLogging = None
-
+            
         if __debug__:
             base.avChoice = self
 
@@ -319,7 +319,7 @@ class AvatarChoice(DirectButton):
         DirectFrame.destroy(self)
         if self.deleteWithPasswordFrame:
             self.deleteWithPasswordFrame.destroy()
-
+    
     def __handleChoice(self):
         """
         Handle the 'play with this toon' button
@@ -340,7 +340,7 @@ class AvatarChoice(DirectButton):
         """
         Handle the Avatar Delete button
         """
-        cleanupDialog("globalDialog")
+        cleanupDialog("globalDialog")        
         # pop up verify dialogue box
         self.verify = TTDialog.TTGlobalDialog(
             doneEvent = "verifyDone",
@@ -374,11 +374,6 @@ class AvatarChoice(DirectButton):
             # type his/her password in order to delete the toon.
             self.deleteWithPassword = 1
             deleteText = TTLocalizer.AvatarChoiceDeletePasswordText % self.name
-# Temp fix to delete toons without password
-#            self.deleteWithPassword = 0
-#            deleteText = TTLocalizer.AvatarChoiceDeleteConfirmText % \
-#                         { "name" : self.name,
-#                           "confirm" : TTLocalizer.AvatarChoiceDeleteConfirmUserTypes }
         else:
             # Otherwise (for instance, maybe the user logged in
             # via a "blue" token, and we don't have any way of
@@ -398,7 +393,7 @@ class AvatarChoice(DirectButton):
             cancelButtonImage = (buttons.find('**/CloseBtn_UP'),
                                  buttons.find('**/CloseBtn_DN'),
                                  buttons.find('**/CloseBtn_Rllvr'))
-
+            
             self.deleteWithPasswordFrame = DirectFrame(pos = (0.0, 0.1, 0.2),
                                                        parent = aspect2dp,
                                                        relief = None,
@@ -410,7 +405,7 @@ class AvatarChoice(DirectButton):
                                                        text_scale = TTLocalizer.ACdeleteWithPassword,
                                                        text_pos = (0, 0.25),
                                                        textMayChange = 1,
-                                                       sortOrder = DGG.NO_FADE_SORT_INDEX,
+                                                       sortOrder = NO_FADE_SORT_INDEX,
                                                        )
             self.deleteWithPasswordFrame.hide()
 
@@ -471,7 +466,7 @@ class AvatarChoice(DirectButton):
                              textMayChange = 0,
                              pos = (-0.22, 0.0, -0.35),
                              command = self.__handleDeleteWithConfirmOK)
-
+                
             DirectLabel(parent = self.deleteWithPasswordFrame,
                         relief = None,
                         pos = (0, 0, 0.35),
@@ -494,14 +489,14 @@ class AvatarChoice(DirectButton):
             self.deleteWithPasswordFrame['text'] = deleteText
             self.passwordEntry['focus'] = 1
             self.passwordEntry.enterText('')
-
+            
         base.transitions.fadeScreen(0.5)
         self.deleteWithPasswordFrame.show()
 
     def __handleDeleteWithPasswordOK(self, *args):
         # Match what the user typed against his login or parent password, to
         # confirm delete.
-
+        
         password = self.passwordEntry.get()
         tt = base.cr.loginInterface
         okFlag, errorMsg = tt.authenticateDelete(
@@ -511,8 +506,6 @@ class AvatarChoice(DirectButton):
             self.deleteWithPasswordFrame.hide()
             base.transitions.noTransitions()
             messenger.send(self.doneEvent, ["delete", self.position])
-            if ConfigVariableBool('want-qa-regression', 0).getValue():
-                self.notify.info('QA-REGRESSION: DELETEATOON: Deleting A Toon')
         else:
             if errorMsg is not None:
                 self.notify.warning(
@@ -538,8 +531,6 @@ class AvatarChoice(DirectButton):
             self.deleteWithPasswordFrame.hide()
             base.transitions.noTransitions()
             messenger.send(self.doneEvent, ["delete", self.position])
-            if ConfigVariableBool('want-qa-regression', 0).getValue():
-                self.notify.info('QA-REGRESSION: DELETEATOON: Deleting A Toon')
         else:
             # Wrong entry.
             self.deleteWithPasswordFrame['text'] = TTLocalizer.AvatarChoiceDeleteWrongConfirm % \
@@ -548,15 +539,15 @@ class AvatarChoice(DirectButton):
 
             self.passwordEntry['focus'] = 1
             self.passwordEntry.enterText('')
-
+    
     def __handleDeleteWithPasswordCancel(self):
         self.deleteWithPasswordFrame.hide()
         base.transitions.noTransitions()
 
     def __handleTrialer(self):
         TeaserPanel.TeaserPanel(pageName='sixToons')
-
-    #def __handleGMName(self, name):
-    #    gmName = GMUtils.handleGMName(name)
-    #
-    #    return gmName
+        
+    def __handleGMName(self, name):
+        gmName = GMUtils.handleGMName(name)
+        
+        return gmName

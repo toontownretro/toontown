@@ -1,12 +1,12 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from otp.level import BasicEntities
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from . import LiftConstants
-from . import MovingPlatform
+import LiftConstants
+import MovingPlatform
 
 class DistributedLift(BasicEntities.DistributedNodePathEntity):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedLift')
@@ -19,7 +19,7 @@ class DistributedLift(BasicEntities.DistributedNodePathEntity):
         BasicEntities.DistributedNodePathEntity.generateInit(self)
         # load stuff
 
-        self.moveSnd = base.loader.loadSfx('phase_9/audio/sfx/CHQ_FACT_elevator_up_down.mp3')
+        self.moveSnd = base.loadSfx('phase_9/audio/sfx/CHQ_FACT_elevator_up_down.mp3')
 
         self.fsm = ClassicFSM.ClassicFSM('DistributedLift',
                            [
@@ -68,7 +68,7 @@ class DistributedLift(BasicEntities.DistributedNodePathEntity):
         self.initPlatform()
 
         # fire it up
-        self._state = None
+        self.state = None
         self.fsm.request('moving', [self.initialState,
                                     self.initialFromState,
                                     self.initialStateTimestamp])
@@ -141,13 +141,13 @@ class DistributedLift(BasicEntities.DistributedNodePathEntity):
             safetyNet.show() #*#
 
         # Hack for falling off of the lift:
-        for side in list(side2srch.values()):
+        for side in side2srch.values():
             np = self.platformModel.find(side)
             if not np.isEmpty():
                 np.setScale(1.0, 1.0, 2.0)
                 np.setZ(-10)
                 np.flattenLight()
-
+        
         self.startBoardColl = NodePathCollection()
         self.endBoardColl = NodePathCollection()
         for side in self.startBoardSides:
@@ -219,7 +219,7 @@ class DistributedLift(BasicEntities.DistributedNodePathEntity):
 
     def enterMoving(self, toState, fromState, arrivalTimestamp):
         self.notify.debug('enterMoving, %s->%s' % (fromState, toState))
-        if self._state == toState:
+        if self.state == toState:
             self.notify.warning('already in state %s' % toState)
 
         # TODO: optimization:
@@ -248,7 +248,7 @@ class DistributedLift(BasicEntities.DistributedNodePathEntity):
 
         def doneMoving(self=self, guard=endGuard, boardColl=endBoardColl,
                        newState=toState):
-            self._state = newState
+            self.state = newState
             if hasattr(self, 'soundIval'):
                 self.soundIval.pause()
                 del self.soundIval
@@ -271,7 +271,7 @@ class DistributedLift(BasicEntities.DistributedNodePathEntity):
             globalClockDelta.networkToLocalTime(arrivalTimestamp, bits=32)
             - self.moveIval.getDuration())
         self.moveIval.start(globalClock.getFrameTime() - ivalStartT)
-
+        
     def exitMoving(self):
         if hasattr(self, 'soundIval'):
             self.soundIval.pause()

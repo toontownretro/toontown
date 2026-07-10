@@ -1,6 +1,6 @@
 """CharStateDatasAI module: contains the server variation of the various
 state datas available to the classic character NPC's found in safezones"""
-#from toontown.toonbase.ToontownModules import *
+#from PandaModules import *
 from otp.ai.AIBaseGlobal import *
 from direct.distributed.ClockDelta import *
 
@@ -10,9 +10,8 @@ import random
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
 
-from . import CCharChatter, CCharPaths
-
-CHATTY_DURATION = 120.0
+import CCharChatter
+import CCharPaths
 
 class CharLonelyStateAI(StateData.StateData):
     """
@@ -93,7 +92,6 @@ class CharChattyStateAI(StateData.StateData):
     """
 
     notify = DirectNotifyGlobal.directNotify.newCategory("CharChattyStateAI")
-    notify.setDebug(True)
 
     def __init__(self, doneEvent, character):
         StateData.StateData.__init__(self, doneEvent)
@@ -131,7 +129,7 @@ class CharChattyStateAI(StateData.StateData):
         # if the last person we talked to leaves the chat
         # sphere and re-enters, don't greet them again
         #self.lastChatTarget = 0
-
+        
         self.chatter = CCharChatter.getChatter(self.character.getName(),
                                                self.character.getCCChatter())
 
@@ -141,20 +139,17 @@ class CharChattyStateAI(StateData.StateData):
             taskMgr.remove(self.__chatTaskName)
             # spawn the new task
             taskMgr.add(self.blather, self.__chatTaskName)
-        else:
-            self.notify.debug('Chatter is none.. sending done message')
-            self.leave(timeout=1)
 
         StateData.StateData.enter(self)
 
     # pick a random message
-    def pickMsg(self, category):
+    def pickMsg(self, category):    
         self.getLatestChatter()
         if self.chatter:
             return random.randint(0, len(self.chatter[category])-1)
         else:
             return None
-
+            
     def getLatestChatter(self):
         self.chatter = CCharChatter.getChatter(self.character.getName(),
                                                self.character.getCCChatter())
@@ -176,22 +171,17 @@ class CharChattyStateAI(StateData.StateData):
         now = globalClock.getFrameTime()
         if now < self.nextChatTime:
             return Task.cont
-
+            
         self.getLatestChatter()
 
         if self.character.lostInterest():
             # character is bored.
             self.leave()
-            return Task.done
-
-        if task.time > CHATTY_DURATION:
-            self.leave(timeout=1)
-            return Task.done
+            return Task.done 
+            
         if not self.chatter:
-            #self.notify.debug("I do not want to talk")
-            self.notify.debug("Chatter doesnt exist")
-            self.leave(timeout=1)
-            return Task.done
+            self.notify.debug("I do not want to talk")
+            return Task.done        
 
         if not self.character.getNearbyAvatars():
             return Task.cont
@@ -203,7 +193,7 @@ class CharChattyStateAI(StateData.StateData):
             self.lastChatTarget = target
             category = CCharChatter.GREETING
         else:
-            category = CCharChatter.COMMENT
+            category = CCharChatter.COMMENT            
 
         # avoid an index out of range crash
         self.setCorrectChatter()
@@ -211,7 +201,7 @@ class CharChattyStateAI(StateData.StateData):
         # if the category is the same as the last message,
         # and there's more than one message, pick a different
         # message
-        if (
+        if (            
             category == self.lastMessage[0] and
             len(self.chatter[category]) > 1
             ):
@@ -232,14 +222,11 @@ class CharChattyStateAI(StateData.StateData):
                 msg = self.pickMsg(category)
         else:
             msg = self.pickMsg(category)
-
+        
         if msg == None:
-            #self.notify.debug("I do not want to talk")
-            self.notify.debug("Cannot pick a message")
-            self.leave(timeout=1)
-
+            self.notify.debug("I do not want to talk")
             return Task.done
-
+            
         self.character.sendUpdate("setChat", [category, msg, target])
 
         self.lastMessage = [category, msg] # category, message index
@@ -248,7 +235,7 @@ class CharChattyStateAI(StateData.StateData):
 
         return Task.cont
 
-    def leave(self, timeout = 0):
+    def leave(self):
         """
         ////////////////////////////////////////////////////////////////////
         // Function:   called when the character decides to leave and has
@@ -258,17 +245,12 @@ class CharChattyStateAI(StateData.StateData):
         ////////////////////////////////////////////////////////////////////
         """
         # if we talk, say goodbye.
-        if self.chatter != None and not timeout:
+        if self.chatter != None:
             category = CCharChatter.GOODBYE
             msg = random.randint(0,
                                    len(self.chatter[CCharChatter.GOODBYE])-1)
-            if len(self.character.getNearbyAvatars()) > 0:
-                target = self.character.getNearbyAvatars()[0]
-                self.character.sendUpdate("setChat", [category, msg, target])
-            else:
-                self.notify.warning("Nearby avatars left")
-        if timeout == 1:
-            self.notify.debug("We were stuck in the chatty state")
+            target = self.character.getNearbyAvatars()[0]
+            self.character.sendUpdate("setChat", [category, msg, target])
 
         # set up a doLater to make character walk away
         taskMgr.doMethodLater( 1, self.doneHandler,
@@ -583,14 +565,11 @@ class ChipChattyStateAI(CharChattyStateAI):
         if self.character.lostInterest():
             # character is bored.
             self.leave()
-            return Task.done
-
-        if task.time > CHATTY_DURATION:
-            self.leave(timeout=1)
-            return Task.done
+            return Task.done 
+            
         if not self.chatter:
             self.notify.debug("I do not want to talk")
-            return Task.done
+            return Task.done        
 
         if not self.character.getNearbyAvatars():
             return Task.cont
@@ -626,7 +605,7 @@ class ChipChattyStateAI(CharChattyStateAI):
                 #import pdb; pdb.set_trace()
         else:
             msg = self.pickMsg(category)
-
+            
         if msg == None:
             self.notify.debug("I do not want to talk")
             return Task.done
@@ -657,13 +636,10 @@ class ChipChattyStateAI(CharChattyStateAI):
             category = CCharChatter.GOODBYE
             msg = random.randint(0,
                                    len(self.chatter[CCharChatter.GOODBYE])-1)
-            if len(self.character.getNearbyAvatars()) > 0:
-                target = self.character.getNearbyAvatars()[0]
-                self.character.sendUpdate("setChat", [category, msg, target])
-                if hasattr(self,'dale') and self.dale:
-                    self.dale.sendUpdate("setChat", [category, msg, target])
-            else:
-                self.notify.warning("Nearby avatars left")
+            target = self.character.getNearbyAvatars()[0]
+            self.character.sendUpdate("setChat", [category, msg, target])
+            if hasattr(self,'dale') and self.dale:
+                self.dale.sendUpdate("setChat", [category, msg, target])
 
 
         # set up a doLater to make character walk away

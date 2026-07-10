@@ -1,6 +1,6 @@
 from toontown.estate import PlantingGUI
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -83,7 +83,7 @@ class ToonStatueSelectionGUI(DirectFrame):
         self.doneEvent = None
         self.previewToon.delete()
         self.previewToon = None
-
+        
         # Destroying the buttons for every name.
         for ff in self.ffList:
             self.friends[ff].destroy()
@@ -180,7 +180,7 @@ class ToonStatueSelectionGUI(DirectFrame):
                 self.ffList.append(newFF)
         for friendPair in base.localAvatar.friendsList:
             friendId, flags = friendPair
-            #print("adding friend")
+            #print "adding friend"
             handle = base.cr.identifyFriend(friendId)
             if handle and not self.checkFamily(friendId):
                 if hasattr(handle, 'getName'):
@@ -237,7 +237,7 @@ class ToonStatueSelectionGUI(DirectFrame):
             else:
                 # The request to the database takes too long, so we cache off the value
                 # everytime a new family avatar is clicked. Check this list before making a new database request.
-                if friendId in self.doId2Dna:
+                if self.doId2Dna.has_key(friendId):
                     self.createPreviewToon(self.doId2Dna[friendId])
                 else:
                     familyAvatar = DistributedToon.DistributedToon(base.cr)

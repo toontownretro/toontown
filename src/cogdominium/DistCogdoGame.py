@@ -1,33 +1,24 @@
-from toontown.toonbase.ToontownModules import VBase4
+from pandac.PandaModules import VBase4
 from direct.gui.DirectGui import DirectLabel
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.ClockDelta import globalClockDelta
 from direct.distributed.DistributedObject import DistributedObject
 from direct.fsm import ClassicFSM, State
-from direct.fsm.StatePush import StateVar, FunctionCall
-from toontown.cogdominium import CogdoGameConsts
-from toontown.cogdominium.DistCogdoGameBase import DistCogdoGameBase
 from toontown.minigame.MinigameRulesPanel import MinigameRulesPanel
-from toontown.cogdominium.CogdoGameRulesPanel import CogdoGameRulesPanel
-from toontown.minigame import MinigameGlobals
 from toontown.toonbase import TTLocalizer as TTL
-from toontown.toonbase.ToontownModules import *
 
-SCHELLGAMES_DEV = __debug__ and ConfigVariableBool('schellgames-dev', False).getValue()
-
-class DistCogdoGame(DistCogdoGameBase, DistributedObject):
+class DistCogdoGame(DistributedObject):
     notify = directNotify.newCategory("DistCogdoGame")
 
     def __init__(self, cr):
         DistributedObject.__init__(self, cr)
-        base.cogdoGame = self
 
         self._waitingStartLabel = DirectLabel(
             text = TTL.MinigameWaitingForOtherPlayers,
             text_fg = VBase4(1,1,1,1),
             relief = None,
             pos = (-0.6, 0, -0.75),
-            scale = 0.075)
+            scale = 0.075)   
         self._waitingStartLabel.hide()
 
         self.loadFSM = ClassicFSM.ClassicFSM(
@@ -45,15 +36,9 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
             # Final state
             'NotLoaded')
 
-        self.loadFSM.enterInitialState()
-
         self.fsm = ClassicFSM.ClassicFSM(
             'DistCogdoGame',
-            [State.State('Visible',
-                         self.enterVisible,
-                         self.exitVisible,
-                         ['Intro']),
-             State.State('Intro',
+            [State.State('Intro',
                          self.enterIntro,
                          self.exitIntro,
                          ['WaitServerStart']),
@@ -72,23 +57,12 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
              State.State('Off',
                          self.enterOff,
                          self.exitOff,
-                         ['Visible'])],
+                         ['Intro'])],
             # Initial state
             'Off',
             # Final state
             'Off')
         self.fsm.enterInitialState()
-        self.difficultyOverride = None
-        self.exteriorZoneOverride = None
-        self._gotInterior = StateVar(False)
-        self._toonsInEntranceElev = StateVar(False)
-        self._wantStashElevator = StateVar(False)
-        self._stashElevatorFC = FunctionCall(self._doStashElevator,
-                                             self._toonsInEntranceElev,
-                                             self._gotInterior,
-                                             self._wantStashElevator,
-                                             )
-
 
     def getTitle(self):
         pass # override and return title
@@ -99,75 +73,25 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
     def setInteriorId(self, interiorId):
         self._interiorId = interiorId
 
-    def setExteriorZone(self, exteriorZone):
-        self.exteriorZone = exteriorZone
-
-    def setDifficultyOverrides(self, difficultyOverride, exteriorZoneOverride):
-        if difficultyOverride != CogdoGameConsts.NoDifficultyOverride:
-            self.difficultyOverride = difficultyOverride / float(CogdoGameConsts.DifficultyOverrideMult)
-        if exteriorZoneOverride != CogdoGameConsts.NoExteriorZoneOverride:
-            self.exteriorZoneOverride = exteriorZoneOverride
-
     def getInterior(self):
         return self.cr.getDo(self._interiorId)
 
-    def getEntranceElevator(self, callback):
-        return self.getInterior().getEntranceElevator(callback)
-
     def getToonIds(self):
+        toonIds = []
         interior = self.getInterior()
-        if interior is not None:
-            return interior.getToonIds()
-        else:
-            return []
-        return
-
-    def getToon(self, toonId):
-        if toonId in self.cr.doId2do:
-            return self.cr.doId2do[toonId]
-        else:
-            return None
-        return None
+        for toonId in interior.getToons()[0]:
+            if toonId:
+                toonIds.append(toonId)
+        return toonIds
 
     def getNumPlayers(self):
         return len(self.getToonIds())
 
-    def isSinglePlayer(self):
-        if self.getNumPlayers() == 1:
-            return 1
-        else:
-            return 0
-
     def announceGenerate(self):
         DistributedObject.announceGenerate(self)
-        self._requestInterior()
         self.loadFSM.request('Loaded')
-        self.notify.info('difficulty: %s, safezoneId: %s' % (self.getDifficulty(), self.getSafezoneId()))
-
-    def _requestInterior(self):
-        self.cr.relatedObjectMgr.requestObjects([self._interiorId], allCallback=self._handleGotInterior)
-
-    def _handleGotInterior(self, objs):
-        self._gotInterior.set(True)
-        self.getEntranceElevator(self.placeEntranceElev)
-
-    def stashEntranceElevator(self):
-        self._wantStashElevator.set(True)
-
-    def placeEntranceElev(self, elev):
-        pass
-
-    def _doStashElevator(self, toonsInEntranceElev, gotInterior, wantStashElevator):
-        if gotInterior:
-            interior = self.getInterior()
-            if interior:
-                if not toonsInEntranceElev and wantStashElevator:
-                    interior.stashElevatorIn()
-                else:
-                    interior.stashElevatorIn(False)
 
     def disable(self):
-        base.cogdoGame = None
         self.fsm.requestFinalState()
         self.loadFSM.requestFinalState()
         self.fsm = None
@@ -175,27 +99,9 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
         DistributedObject.disable(self)
 
     def delete(self):
-        self._stashElevatorFC.destroy()
-        self._wantStashElevator.destroy()
-        self._toonsInEntranceElev.destroy()
-        self._gotInterior.destroy()
         self._waitingStartLabel.destroy()
         self._waitingStartLabel = None
         DistributedObject.delete(self)
-
-    def getDifficulty(self):
-        if self.difficultyOverride is not None:
-            return self.difficultyOverride
-        if hasattr(base, "cogdoGameDifficulty"):
-            return float(base.cogdoGameDifficulty)
-        return CogdoGameConsts.getDifficulty(self.getSafezoneId())
-
-    def getSafezoneId(self):
-        if self.exteriorZoneOverride is not None:
-            return self.exteriorZoneOverride
-        if hasattr(base, "cogdoGameSafezoneId"):
-            return CogdoGameConsts.getSafezoneId(base.cogdoGameSafezoneId)
-        return CogdoGameConsts.getSafezoneId(self.exteriorZone)
 
 
     def enterNotLoaded(self):
@@ -214,32 +120,23 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
     def exitOff(self):
         pass
 
-    def setVisible(self):
-        self.fsm.request('Visible')
-
     def setIntroStart(self):
         self.fsm.request('Intro')
 
-    def enterVisible(self):
-        self._toonsInEntranceElev.set(True)
-    def exitVisible(self):
-        pass
-
-    def enterIntro(self, duration = MinigameGlobals.rulesDuration):
+    def enterIntro(self):
         assert self.notify.debugCall()
         base.cr.playGame.getPlace().fsm.request('Game')
-        self._rulesDoneEvent = self.uniqueName('cogdoGameRulesDone')
+        self._rulesDoneEvent = uniqueName('cogdoGameRulesDone')
         self.accept(self._rulesDoneEvent, self._handleRulesDone)
-        self._rulesPanel = CogdoGameRulesPanel(
-            "CogdoGameRulesPanel",
+        self._rulesPanel = MinigameRulesPanel(
+            "MinigameRulesPanel",
             self.getTitle(),
-            "",
-            self._rulesDoneEvent,
-            timeout=duration)
+            self.getInstructions(),
+            self._rulesDoneEvent)
         self._rulesPanel.load()
         self._rulesPanel.enter()
+
     def exitIntro(self):
-        self._toonsInEntranceElev.set(False)
         self.ignore(self._rulesDoneEvent)
         if self._rulesPanel:
             self._rulesPanel.exit()
@@ -251,12 +148,8 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
         self._rulesPanel.exit()
         self._rulesPanel.unload()
         self._rulesPanel = None
-        self.fsm.request('WaitServerStart')
-        self.d_setAvatarReady()
-
-    def d_setAvatarReady(self):
         self.sendUpdate('setAvatarReady', [])
-        #self.fsm.request('WaitServerStart')
+        self.fsm.request('WaitServerStart')
 
     def enterWaitServerStart(self):
         numToons = 1
@@ -281,11 +174,8 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
 
     def enterGame(self):
         assert self.notify.debugCall()
-        if SCHELLGAMES_DEV:
-            self.acceptOnce('escape', messenger.send, ['magicWord', ['~endgame']])
     def exitGame(self):
-        if SCHELLGAMES_DEV:
-            self.ignore('escape')
+        pass
 
     def setGameFinish(self, timestamp):
         self._finishTime = globalClockDelta.networkToLocalTime(timestamp)
@@ -297,10 +187,4 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
     def enterFinish(self):
         assert self.notify.debugCall()
     def exitFinish(self):
-        pass
-
-    def setToonSad(self, toonId):
-        pass
-
-    def setToonDisconnect(self, toonId):
         pass

@@ -1,4 +1,4 @@
-from toontown.toonbase import ToontownModules as PM
+from pandac import PandaModules as PM
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.showbase.DirectObject import DirectObject
@@ -7,7 +7,6 @@ from otp.distributed import OtpDoGlobals
 from toontown.coderedemption import TTCodeRedemptionConsts
 import random
 import string
-from toontown.toonbase.ToontownModules import *
 
 class TTCRMAIRetryMgr(DirectObject):
     notify = directNotify.newCategory('TTCodeRedemptionMgrAI')
@@ -21,10 +20,10 @@ class TTCRMAIRetryMgr(DirectObject):
         self._serialGen = SerialNumGen()
         self._retryPeriod = self.MinRetryPeriod
         self._redemptions = {}
-
+            
     def addRedemption(self, avId, context, code):
         assert self.notify.debugCall()
-        serial = next(self._serialGen)
+        serial = self._serialGen.next()
         self._redemptions[serial] = ScratchPad(avId=avId, context=context, code=code, attemptNum=0)
         self._doRedemption(serial, True)
 
@@ -103,9 +102,9 @@ class TTCRMAIRetryMgr(DirectObject):
 class TTCodeRedemptionMgrAI(DistributedObjectAI):
     notify = directNotify.newCategory('TTCodeRedemptionMgrAI')
 
-    WantStressTest = ConfigVariableBool('stress-test-code-redemption', 0).getValue()
-    StressTestRate = ConfigVariableDouble('stress-test-code-redemption-rate', 3.).getValue()
-    RandomizeStressTestCode = ConfigVariableBool('randomize-code-redemption-stress-test-code', 0).getValue()
+    WantStressTest = config.GetBool('stress-test-code-redemption', 0)
+    StressTestRate = config.GetFloat('stress-test-code-redemption-rate', 3.)
+    RandomizeStressTestCode = config.GetBool('randomize-code-redemption-stress-test-code', 0)
 
     def __init__(self, air):
         DistributedObjectAI.__init__(self, air)
@@ -154,7 +153,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             except:
                 raise
                 done = True
-            #print(line)
+            #print line
             if not done:
                 try:
                     avId = int(line)
@@ -170,7 +169,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
                 len = random.randrange(1, 20)
                 code = ''
                 while len:
-                    code += random.choice(string.ascii_letters)
+                    code += random.choice(string.letters)
                     len -= 1
             else:
                 code = self._stressTestCode

@@ -1,9 +1,9 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
-from .ElevatorConstants import *
-from .ElevatorUtils import *
-from . import DistributedElevatorFSM
+from ElevatorConstants import *
+from ElevatorUtils import *
+import DistributedElevatorFSM
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
@@ -15,7 +15,7 @@ from direct.task import Task
 
 class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedElevatorFloor')
-
+    
     defaultTransitions = {
         'Off'             : [ 'Opening', 'Closed'],
         'Opening'         : [ 'WaitEmpty', 'WaitCountdown', 'Opening', 'Closing'  ],
@@ -25,8 +25,8 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
         'Closing'         : [ 'Closed', 'WaitEmpty', 'Closing', 'Opening'  ],
         'Closed'          : [ 'Opening' ],
     }
-    id = 0
-
+    id = 0    
+    
     def __init__(self, cr):
         DistributedElevatorFSM.DistributedElevatorFSM.__init__(self, cr)
         FSM.__init__( self, "ElevatorFloor_%s_FSM" % ( self.id ) )
@@ -44,10 +44,10 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
         self.wantState = 0
         #self.latchRoom = None
         self.latch = None
+        
+        self.lastState = self.state
 
-        self.lastState = self._state
-
-
+        
 
     def setupElevator2(self):
         self.elevatorModel = loader.loadModel("phase_4/models/modules/elevator")
@@ -72,19 +72,19 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
         #self.leftDoor = self.bldg.leftDoor
         #self.rightDoor = self.bldg.rightDoor
         DistributedElevatorFSM.DistributedElevatorFSM.setupElevator(self)
-
+        
     def setupElevator(self):
         """setupElevator(self)
         Called when the building doId is set at construction time,
         this method sets up the elevator for business.
         """
-
+        
         # TODO: place this on a node indexed by the entraceId
         self.elevatorModel = loader.loadModel(
             "phase_11/models/lawbotHQ/LB_ElevatorScaled")
         if not self.elevatorModel:
             self.notify.error("No Elevator Model in DistributedElevatorFloor.setupElevator. Please inform JML. Fool!")
-
+            
         # The big cog icon on the top is only visible at the BossRoom.
         #icon = self.elevatorModel.find('**/big_frame/')
         #if not icon.isEmpty():
@@ -93,7 +93,7 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
         self.leftDoor = self.elevatorModel.find("**/left-door")
         if self.leftDoor.isEmpty():
             self.leftDoor = self.elevatorModel.find("**/left_door")
-
+            
         self.rightDoor = self.elevatorModel.find("**/right-door")
         if self.rightDoor.isEmpty():
             self.rightDoor = self.elevatorModel.find("**/right_door")
@@ -101,17 +101,17 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
         #self.elevatorModel.setH(180)
 
         DistributedElevatorFSM.DistributedElevatorFSM.setupElevator(self)
-
+        
     def generate(self):
         DistributedElevatorFSM.DistributedElevatorFSM.generate(self)
         #self.accept("LawOffice_Spec_Loaded", self.__placeElevator)
-
+        
     def announceGenerate(self):
         DistributedElevatorFSM.DistributedElevatorFSM.announceGenerate(self)
         if self.latch:
             self.notify.info("Setting latch in announce generate")
             self.setLatch(self.latch)
-
+        
     def __placeElevator(self):
         self.notify.debug("PLACING ELEVATOR FOOL!!")
         if self.isEntering:
@@ -131,7 +131,7 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
             else:
                 #explode
                 self.notify.debug("NO NODE SlidingDoor!!")
-
+                
     def setLatch(self, markerId):
         self.notify.info("Setting latch")
         #room = self.cr.doId2do.get(roomId)
@@ -140,7 +140,7 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
             [markerId], allCallback = self.set2Latch, timeout = 5)
         self.latch = markerId
 
-
+        
     def set2Latch(self, taskMgrFooler = None):
         if hasattr(self, "cr"): #might callback to dead object
             marker = self.cr.doId2do.get(self.latch)
@@ -149,7 +149,7 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
                 return
             taskMgr.doMethodLater(10.0, self._repart2Marker, "elevatorfloor-markerReparent")
             self.notify.warning("Using backup, do method later version of latch")
-
+    
     def _repart2Marker(self, taskFoolio = 0):
         if hasattr(self, "cr"): #might call to dead object
             marker = self.cr.doId2do.get(self.latch)
@@ -157,13 +157,13 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
                 self.elevatorModel.reparentTo(marker)
             else:
                 self.notify.error("could not find latch even in defered try")
-
+        
     def setPos(self, x, y, z):
         self.elevatorModel.setPos(x, y, z)
-
+    
     def setH(self, H):
         self.elevatorModel.setH(H)
-
+        
     def delete(self):
         DistributedElevatorFSM.DistributedElevatorFSM.delete(self)
         self.elevatorModel.removeNode()
@@ -174,7 +174,7 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
     def disable(self):
         #self.clearNametag()
         DistributedElevatorFSM.DistributedElevatorFSM.disable(self)
-
+        
     def setEntranceId(self, entranceId):
         self.entranceId = entranceId
 
@@ -187,7 +187,7 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
             self.elevatorModel.setPosHpr(-162.25, 26.43, 0.00, 269.00, 0.00, 0.00)
         else:
             self.notify.error("Invalid entranceId: %s" % entranceId)
-
+    
 
 
     def gotBldg(self, buildingList):
@@ -196,17 +196,15 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
     def setFloor(self, floorNumber):
         # Darken the old light:
         if self.currentFloor >= 0:
-            if self.bldg.floorIndicator[self.currentFloor]:
-                self.bldg.floorIndicator[self.currentFloor].setColor(LIGHT_OFF_COLOR)
-
+            self.bldg.floorIndicator[self.currentFloor].setColor(LIGHT_OFF_COLOR)
+            
         # Brighten the new light:
         if floorNumber >= 0:
-            if self.bldg.floorIndicator[floorNumber]:
-                self.bldg.floorIndicator[floorNumber].setColor(LIGHT_ON_COLOR)
+            self.bldg.floorIndicator[floorNumber].setColor(LIGHT_ON_COLOR)
 
         # Remember the floor:
         self.currentFloor = floorNumber
-
+    
     def handleEnterSphere(self, collEntry):
         #print("Entering Elevator Sphere....")
         # Tell localToon we are considering entering the elevator
@@ -226,7 +224,7 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
     ##### WaitEmpty state #####
 
     def enterWaitEmpty(self, ts):
-        self.lastState = self._state
+        self.lastState = self.state
         #print("Entering WaitEmpty %s" % (self.doId))
         self.elevatorSphereNodePath.unstash()
         self.forceDoorsOpen()
@@ -236,20 +234,20 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
         self.accept(self.uniqueName('enterElevatorOK'),
                     self.handleEnterElevator)
         DistributedElevatorFSM.DistributedElevatorFSM.enterWaitEmpty(self, ts)
-
+        
     def exitWaitEmpty(self):
-        self.lastState = self._state
+        self.lastState = self.state
         #print("Exiting WaitEmpty")
         self.elevatorSphereNodePath.stash()
         # Toons may not attempt to board the elevator if it isn't waiting
         self.ignore(self.uniqueName('enterelevatorSphere'))
         self.ignore(self.uniqueName('enterElevatorOK'))
         DistributedElevatorFSM.DistributedElevatorFSM.exitWaitEmpty(self)
-
+        
     ##### WaitCountdown state #####
 
     def enterWaitCountdown(self, ts):
-        self.lastState = self._state
+        self.lastState = self.state
         #print("Entering WaitCountdown")
         DistributedElevatorFSM.DistributedElevatorFSM.enterWaitCountdown(self, ts)
         self.forceDoorsOpen()
@@ -258,27 +256,27 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
         self.startCountdownClock(self.countdownTime, ts)
 
     def exitWaitCountdown(self):
-        self.lastState = self._state
+        self.lastState = self.state
         #print("Exiting WaitCountdown")
         self.ignore(self.uniqueName('enterElevatorOK'))
         DistributedElevatorFSM.DistributedElevatorFSM.exitWaitCountdown(self)
-
+        
     def enterClosing(self, ts):
-        self.lastState = self._state
+        self.lastState = self.state
         #print("Entering Closing")
         #base.transitions.irisOut(2.0)
         taskMgr.doMethodLater(1.00, self._delayIris, "delayedIris")
         DistributedElevatorFSM.DistributedElevatorFSM.enterClosing(self, ts)
-
+        
     def _delayIris(self, tskfooler = 0):
         base.transitions.irisOut(1.0)
         base.localAvatar.pauseGlitchKiller()
         return Task.done
-
+        
     def kickToonsOut(self):
-        #print("TOONS BEING KICKED OUT")
+        #print"TOONS BEING KICKED OUT"
         if not self.localToonOnBoard:
-            zoneId = self.cr.playGame.hood.hoodId
+            zoneId = self.cr.playGame.hood.hoodId                
             self.cr.playGame.getPlace().fsm.request('teleportOut', [{
                 "loader": ZoneUtil.getLoaderName(zoneId),
                 "where": ZoneUtil.getToonWhereName(zoneId),
@@ -288,54 +286,54 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
                 "shardId": None,
                 "avId": -1,
                 }])
-
-
+        
+    
     def exitClosing(self):
-        self.lastState = self._state
+        self.lastState = self.state
         #print("Exiting Closing")
         DistributedElevatorFSM.DistributedElevatorFSM.exitClosing(self)
-
+        
     def enterClosed(self, ts):
-        self.lastState = self._state
+        self.lastState = self.state
         #print("Entering Closed")
         self.forceDoorsClosed()
         self.__doorsClosed(self.getZoneId())
         return
-
+    
     def exitClosed(self):
-        self.lastState = self._state
+        self.lastState = self.state
         #print("Exiting Closed")
         DistributedElevatorFSM.DistributedElevatorFSM.exitClosed(self)
-
+        
     def enterOff(self):
-        self.lastState = self._state
+        self.lastState = self.state
         #print("Entering Off")
         if self.wantState == 'closed':
             self.demand('Closing')
         elif self.wantState == 'waitEmpty':
             self.demand('WaitEmpty')
-
+        
         DistributedElevatorFSM.DistributedElevatorFSM.enterOff(self)
-
+        
     def exitOff(self):
-        self.lastState = self._state
+        self.lastState = self.state
         #print("Exiting Off")
         DistributedElevatorFSM.DistributedElevatorFSM.exitOff(self)
-
+    
     def enterOpening(self, ts):
-        self.lastState = self._state
+        self.lastState = self.state
         #print("Entering Opening")
         DistributedElevatorFSM.DistributedElevatorFSM.enterOpening(self,ts)
-
+        
     def exitOpening(self):
         #print("Exiting Opening")
         #print("WE ARE ACTAULLY CALLING exitOpening!!!!")
         #import pdb; pdb.set_trace()
         DistributedElevatorFSM.DistributedElevatorFSM.exitOpening(self)
         self.kickEveryoneOut()
-
+            
         return
-
+        
     def getZoneId(self):
         return 0
 
@@ -348,22 +346,22 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
 
     def getElevatorModel(self):
         return self.elevatorModel
-
+        
     def kickEveryoneOut(self):
         #makes the toons leave the elevator
         bailFlag = 0
-        #print(self.boardedAvIds)
-        for avId, slot in list(self.boardedAvIds.items()):
+        #print self.boardedAvIds
+        for avId, slot in self.boardedAvIds.items():
             #print("Kicking toon out! avId %s Slot %s" % (avId, slot))
             self.emptySlot(slot, avId, bailFlag, globalClockDelta.getRealNetworkTime())
             if avId == base.localAvatar.doId:
                 pass
 
-
+                
 
     def __doorsClosed(self, zoneId):
         return
-
+        
     def onDoorCloseFinish(self):
         """this is called when the elevator doors finish closing on the client
         """
@@ -371,27 +369,27 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
     def setLocked(self, locked):
         self.isLocked = locked
         if locked:
-            if self._state == 'WaitEmpty':
-                self.request('Closing')
+            if self.state == 'WaitEmpty':
+                self.request('Closing') 
             if self.countFullSeats() == 0:
                 self.wantState = 'closed'
             else:
                 self.wantState = 'opening'
         else:
             self.wantState = 'waitEmpty'
-            if self._state == 'Closed':
-                self.request('Opening')
-
+            if self.state == 'Closed':
+                self.request('Opening') 
+        
     def getLocked(self):
         return self.isLocked
 
     def setEntering(self, entering):
         self.isEntering = entering
-
+        
     def getEntering(self):
         return self.isEntering
-
-
+        
+        
     def forceDoorsOpen(self):
         #print("forcing doors open Floor")
         openDoors(self.leftDoor, self.rightDoor)
@@ -408,13 +406,13 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
             closeDoors(self.leftDoor, self.rightDoor)
 
     def enterOff(self):
-        self.lastState = self._state
+        self.lastState = self.state
         return
 
     def exitOff(self):
         return
-
-
+        
+        
     def setLawOfficeInteriorZone(self, zoneId):
         if (self.localToonOnBoard):
             hoodId = self.cr.playGame.hood.hoodId
@@ -426,6 +424,13 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
                 'hoodId' : hoodId,
                 }
             self.cr.playGame.getPlace().elevator.signalDone(doneStatus)
-
+    
 #    def emptySlot(self, index, avId, bailFlag, timestamp):
 #        pass
+
+            
+
+
+
+
+

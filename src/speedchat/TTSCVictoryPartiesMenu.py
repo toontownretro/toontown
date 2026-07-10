@@ -11,8 +11,8 @@ from otp.otpbase import OTPLocalizer
 
 #this is the structure of the victory parties menu
 VictoryPartiesMenu = [ 
-    (OTPLocalizer.VictoryPartiesMenuSections[1],[30350, 30351, 30352, 30353, 30354]),
-    (OTPLocalizer.VictoryPartiesMenuSections[2],[30355, 30356, 30357, 30358, 30359, 30360, 30361]),
+    (OTPLocalizer.VictoryPartiesMenuSections[1],[60350, 60351, 60352, 60353, 60354]),
+    (OTPLocalizer.VictoryPartiesMenuSections[2],[60355, 60356, 60357, 60358, 60359, 60360, 60361]),
     (OTPLocalizer.VictoryPartiesMenuSections[0],[]),
     ]
         
@@ -46,7 +46,7 @@ class TTSCVictoryPartiesMenu(SCMenu):
         for section in VictoryPartiesMenu:
             if section[0] == -1:
                 #This is not a submenu but a terminal!
-                for phrase in list(section[1].keys()):
+                for phrase in section[1].keys():
                     blatherTxt = section[1][phrase]
                     if blatherTxt not in OTPLocalizer.SpeedChatStaticText:
                         self.notify.warning("tried to link Victory Parties phrase %s which does not seem to exist" % blatherTxt)
@@ -78,14 +78,14 @@ class TTSCVictoryPartiesMenu(SCMenu):
                 #This is not a submenu but a terminal!
                 for phrase in section[1]:
                     if phrase not in OTPLocalizer.SpeedChatStaticText:
-                        print(('warning: tried to link Victory Parties phrase %s which does not seem to exist' % phrase))
+                        print ('warning: tried to link Victory Parties phrase %s which does not seem to exist' % phrase)
                         break
                     self.append(SCStaticTextTerminal(phrase))
             else: #this should be a submenu
                 menu = SCMenu()
                 for phrase in section[1]:
                     if phrase not in OTPLocalizer.SpeedChatStaticText:
-                        print(('warning: tried to link Victory Parties phrase %s which does not seem to exist' % phrase))                                
+                        print ('warning: tried to link Victory Parties phrase %s which does not seem to exist' % phrase)                                
                         break
                     menu.append(SCStaticTextTerminal(phrase))                    
                                         

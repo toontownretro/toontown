@@ -1,6 +1,6 @@
 
-from . import TownLoader
-from . import BRStreet
+import TownLoader
+import BRStreet
 from toontown.suit import Suit
 
 class BRTownLoader(TownLoader.TownLoader):
@@ -20,3 +20,6 @@ class BRTownLoader(TownLoader.TownLoader):
     def unload(self):
         Suit.unloadSuits(3)
         TownLoader.TownLoader.unload(self)
+
+
+

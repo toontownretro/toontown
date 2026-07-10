@@ -1,7 +1,6 @@
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.directnotify.DirectNotifyGlobal import directNotify
 import random
-from toontown.toonbase.ToontownModules import ConfigVariableBool, ConfigVariableInt
 
 class NonRepeatableRandomSourceUD(DistributedObjectGlobalUD):
     """
@@ -28,9 +27,9 @@ class NonRepeatableRandomSourceUD(DistributedObjectGlobalUD):
         self._fakeIt = 0
         if __dev__:
             # don't bloat RAM in dev
-            NonRepeatableRandomSourceUD.RandomNumberCacheSize = ConfigVariableInt(
-                'random-source-cache-size', 5000).getValue()
-            self._fakeIt = ConfigVariableBool('fake-non-repeatable-random-source', self._fakeIt).getValue()
+            NonRepeatableRandomSourceUD.RandomNumberCacheSize = config.GetInt(
+                'random-source-cache-size', 5000)
+            self._fakeIt = config.GetBool('fake-non-repeatable-random-source', self._fakeIt)
 
     def randomSample(self, nrrsDoId, random):
         # receive a random sample from an AI server
@@ -62,7 +61,7 @@ class NonRepeatableRandomSourceUD(DistributedObjectGlobalUD):
                 if self._fakeIt:
                     # if we're in fake-it mode, just generate random numbers locally
                     # (and repeatably)
-                    for i in range(numRandoms):
+                    for i in xrange(numRandoms):
                         request.randoms.append(random.random() * 0xffffffff)
                 else:
                     request.randoms += self._randoms[:numRandoms]

@@ -1,9 +1,9 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
-from . import DistributedDoorAI
-from . import DistributedGagshopInteriorAI
-from . import FADoorCodes
-from . import DoorTypes
+import DistributedDoorAI
+import DistributedGagshopInteriorAI
+import FADoorCodes
+import DoorTypes
 from toontown.toon import NPCToons
 from toontown.quest import Quests
 
@@ -17,7 +17,7 @@ class GagshopBuildingAI:
         self.air = air
         self.exteriorZone = exteriorZone
         self.interiorZone = interiorZone
-
+        
         self.setup(blockNumber)
 
     def cleanup(self):
@@ -43,10 +43,10 @@ class GagshopBuildingAI:
         self.npcs = NPCToons.createNpcsInZone(self.air, self.interiorZone)
 
         self.interior.generateWithRequired(self.interiorZone)
-        # Outside door
+        # Outside door 
         door=DistributedDoorAI.DistributedDoorAI(
             self.air, blockNumber, DoorTypes.EXT_STANDARD)
-        # Inside door
+        # Inside door 
         insideDoor=DistributedDoorAI.DistributedDoorAI(
             self.air,
             blockNumber,

@@ -1,18 +1,18 @@
 import os
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.leveleditor.LevelEditorUIBase import *
 from direct.gui import DirectGui
-from .SceneGraphUI import *
-from .FlatBuildingObj import *
-from .LandmarkObj import *
-from .PropObj import *
-from .AnimPropObj import *
-from .AnimBuildingObj import *
-from .GroupObj import *
-from .SignEditFrame import *
-from .VisGroupsUI import *
+from SceneGraphUI import *
+from FlatBuildingObj import *
+from LandmarkObj import *
+from PropObj import *
+from AnimPropObj import *
+from AnimBuildingObj import *
+from GroupObj import *
+from SignEditFrame import *
+from VisGroupsUI import *
 
-from .LevelEditorGlobals import HOOD_IDS
+from LevelEditorGlobals import HOOD_IDS
 
 ID_SAVE_DNA    = 1101
 ID_SAVE_DNA_AS = 1102
@@ -35,6 +35,9 @@ class LevelEditorUI(LevelEditorUIBase):
     appname         = AppName
 
     def __init__(self, editor, *args, **kw):
+        if not kw.get('size'):
+            kw['size'] = wx.Size(self.frameWidth, self.frameHeight)
+
         self.MENU_TEXTS.update({
         ID_OPEN_DNA : ("Open DNA", None),
         ID_SAVE_DNA : ("&Save DNA", "LE-SaveDNA"),
@@ -46,7 +49,7 @@ class LevelEditorUI(LevelEditorUIBase):
         ID_MAKE_LONG_STREET : ("Make Long Street", None),
         })
 
-        LevelEditorUIBase.__init__(self, editor, *args, **kw)
+        LevelEditorUIBase.__init__(self, editor, *args, **kw)       
         self.appName = AppName
         self.activeMenu = None
         self.visGroupsUI = None
@@ -77,7 +80,7 @@ class LevelEditorUI(LevelEditorUIBase):
         self.visitedEdges = []
 
         self.zoneLabels = []
-
+        
     def createInterface(self):
         LevelEditorUIBase.createInterface(self)
         self.sceneGraphUI = SceneGraphUI(self.leftBarDownPane0, self.editor)
@@ -95,7 +98,7 @@ class LevelEditorUI(LevelEditorUIBase):
 
         menuItem = self.menuEdit.Append(ID_EDIT_VIS, self.MENU_TEXTS[ID_EDIT_VIS][0])
         self.Bind(wx.EVT_MENU, self.onEditVis, menuItem)
-
+        
         self.showBattleCellsMenuItem = self.menuOptions.Append(ID_SHOW_BATTLE_CELLS, self.MENU_TEXTS[ID_SHOW_BATTLE_CELLS][0], kind = wx.ITEM_CHECK)
         self.Bind(wx.EVT_MENU, self.onShowBattleCells, self.showBattleCellsMenuItem)
 
@@ -104,7 +107,7 @@ class LevelEditorUI(LevelEditorUIBase):
 
         self.useDriveModeMenuItem = self.menuOptions.Append(ID_USE_DRIVE_MODE, self.MENU_TEXTS[ID_USE_DRIVE_MODE][0], kind = wx.ITEM_CHECK)
         self.Bind(wx.EVT_MENU, self.onUseDriveMode, self.useDriveModeMenuItem)
-
+        
         self.makeLongStreetMenuItem = self.menuOptions.Append(ID_MAKE_LONG_STREET, self.MENU_TEXTS[ID_MAKE_LONG_STREET][0], kind = wx.ITEM_CHECK)
         self.Bind(wx.EVT_MENU, self.onMakeLongStreet, self.makeLongStreetMenuItem)
 
@@ -112,7 +115,7 @@ class LevelEditorUI(LevelEditorUIBase):
         LevelEditorUIBase.reset(self)
         if self.visGroupsUI:
             self.visGroupsUI.Destroy()
-
+            
     def buildContextMenu(self, nodePath):
         LevelEditorUIBase.buildContextMenu(self, nodePath)
         obj = self.editor.objectMgr.findObjectByNodePath(nodePath)
@@ -148,7 +151,7 @@ class LevelEditorUI(LevelEditorUIBase):
                 addSubMenuItem('Wall Style', subMenu, 'wall_style', wall, objNP)
                 addSubMenuItem('Wall Orientation', subMenu, 'wall_orientation', wall, objNP)
                 addSubMenuItem('Wall Color', subMenu, 'wall_color', wall, objNP)
-
+                
                 subMenu.AppendSeparator()
                 dnaTarget = DNAGetChildOfClass(wall, DNA_CORNICE)
                 addSubMenuItem('Cornice Texture', subMenu, 'cornice_texture', dnaTarget, wall)
@@ -168,12 +171,12 @@ class LevelEditorUI(LevelEditorUIBase):
                 addSubMenuItem('Window Count', subMenu, 'window_count', dnaTarget, wall)
                 addSubMenuItem('Window Orientation', subMenu, 'window_orientation', dnaTarget, wall)
                 addSubMenuItem('Window Color', subMenu, 'window_color', dnaTarget, wall)
-
+                
         elif isinstance(objNP, LandmarkObj):
             if obj[OG.OBJ_PROP]['Special Type'] not in ['hq', 'kartshop']:
                 # beacuse hq or kartshop can't have doors
                 dnaTarget = DNAGetChildOfClass(objNP.dna, DNA_DOOR)
-                addSubMenuItem('Door Texture', None, 'door_double_texture', dnaTarget, objNP.dna)
+                addSubMenuItem('Door Texture', None, 'door_double_texture', dnaTarget, objNP.dna)            
                 addSubMenuItem('Door Orientation', None, 'door_orientation', dnaTarget, objNP.dna)
                 addSubMenuItem('Door Color', None, 'door_color', dnaTarget, objNP.dna)
                 self.contextMenu.AppendSeparator()
@@ -181,10 +184,10 @@ class LevelEditorUI(LevelEditorUIBase):
 
         elif isinstance(objNP, PropObj):
             if objDef.hood == 'Generic':
-                for hoodId in list(HOOD_IDS.keys()):
-                    addSubMenuItem('Prop Color for %s'%hoodId, None, 'prop_color', objNP.dna, None, hoodId)
+                for hoodId in HOOD_IDS.keys():
+                    addSubMenuItem('Prop Color for %s'%hoodId, None, 'prop_color', objNP.dna, None, hoodId) 
             else:
-                addSubMenuItem('Prop Color', None, 'prop_color', objNP.dna)
+                addSubMenuItem('Prop Color', None, 'prop_color', objNP.dna)         
             addSignMenuItem(objNP)
         elif isinstance(objNP, AnimBuildingObj):
             addSignMenuItem(objNP)
@@ -243,9 +246,9 @@ class LevelEditorUI(LevelEditorUIBase):
         objNP.removeBattleCell(cell)
         # Remove cell from DNASTORE
         if DNASTORE.removeBattleCell(cell):
-            print("Removed from DNASTORE")
+            print "Removed from DNASTORE"
         else:
-            print("Not found in DNASTORE")
+            print "Not found in DNASTORE"        
 
         del self.cellDict[cell]
         for i in range(visGroupDNA.getNumBattleCells()):
@@ -273,7 +276,7 @@ class LevelEditorUI(LevelEditorUIBase):
                 self.cellDict[cell] = marker
 
         self.onShowBattleCells()
-
+                
     def drawBattleCellLabel(self, marker, cellId=0):
         marker.setTag('cellId', '%d'%cellId)
         label = DirectGui.DirectLabel(text = '%d'%cellId,
@@ -296,7 +299,7 @@ class LevelEditorUI(LevelEditorUIBase):
         return marker
 
     def resetBattleCellMarkers(self):
-        for cell, marker in list(self.cellDict.items()):
+        for cell, marker in self.cellDict.items():
             if not marker.isEmpty():
                 marker.remove()
         self.cellDict = {}
@@ -357,7 +360,7 @@ class LevelEditorUI(LevelEditorUIBase):
         objNP.replace()
 
         SignEditFrame(self.viewFrame, self.editor, baselineDNA, objNP, True).Show()
-
+        
     def removeSignBaseline(self, evt, objNP, sign, baselineDNA):
         #DNARemoveAllChidrenOfClass(sign, DNA_SIGN_BASELINE)
         sign.remove(baselineDNA)
@@ -366,7 +369,7 @@ class LevelEditorUI(LevelEditorUIBase):
     def spawnMenu(self, evt, menuMode, dnaTarget, dnaParent, objNP, hood):
         # set current hood edit mode
         self.editor.setEditMode(hood)
-
+        
         attribute = self.editor.styleManager.getAttribute(menuMode)
         self.activeMenu = attribute.getMenu()
         LE_showInOneCam(self.activeMenu, base.direct.camera.getName())
@@ -396,15 +399,15 @@ class LevelEditorUI(LevelEditorUIBase):
         elif 'prop' in menuMode:
             dnaType = 'prop'
 
-        if menuMode.find('texture') >= 0:
+        if string.find(menuMode,'texture') >= 0:
             if dnaTarget:
                 state = dnaTarget.getCode()
             action = lambda x: objNP.setDNATargetCode(dnaType, dnaTarget, dnaParent, x)
-        elif menuMode.find('color') >= 0:
+        elif string.find(menuMode, 'color') >= 0:
             if dnaTarget:
                 state = dnaTarget.getColor()
             action = lambda x: objNP.setDNATargetColor(dnaType, dnaTarget, dnaParent, x)
-        elif menuMode.find('orientation') >= 0:
+        elif string.find(menuMode, 'orientation') >= 0:
             if dnaTarget:
                 state = dnaTarget.getCode()[-2:]
             action = lambda x: objNP.setDNATargetOrientation(dnaType, dnaTarget, dnaParent, x)
@@ -420,7 +423,7 @@ class LevelEditorUI(LevelEditorUIBase):
             if dnaTarget:
                 # Extract the wall style from the current wall
                 state = DNAWallStyle(wall = dnaTarget)
-            action = lambda x: objNP.setWallStyle(dnaTarget, x)
+            action = lambda x: objNP.setWallStyle(dnaTarget, x)                
 ##         elif menuMode.startswith('animlist_'):
 ##             if dnaTarget:
 ##                 state = dNATarget.getAnim()
@@ -440,7 +443,7 @@ class LevelEditorUI(LevelEditorUIBase):
         path = self.editor.dnaDirectory.toOsSpecific()
         if not os.path.isdir(path):
            path = '.'
-        dialog = wx.FileDialog(None, "Save DNA File As", path, "", "*.dna", style = wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
+        dialog = wx.FileDialog(None, "Save DNA File As", path, "", "*.dna", wx.SAVE)
         result = True
         if dialog.ShowModal() == wx.ID_OK:
             self.editor.currentFile = dialog.GetPath();
@@ -454,7 +457,7 @@ class LevelEditorUI(LevelEditorUIBase):
         path = self.editor.dnaDirectory.toOsSpecific()
         if not os.path.isdir(path):
            path = '.'
-        dialog = wx.FileDialog(None, "Choose a DNA file", path, "", "*.dna", wx.FD_OPEN)
+        dialog = wx.FileDialog(None, "Choose a DNA file", path, "", "*.dna", wx.OPEN)
         if dialog.ShowModal() == wx.ID_OK:
             self.editor.importDna(dialog.GetPath())
         dialog.Destroy()
@@ -482,19 +485,19 @@ class LevelEditorUI(LevelEditorUIBase):
         self.PopupMenu(self.contextMenu, mpos)
 
     def onShowBattleCells(self, evt=None):
-        for cell, marker in list(self.cellDict.items()):
+        for cell, marker in self.cellDict.items():
             if self.showBattleCellsMenuItem.IsChecked():
                marker.show()
             else:
                marker.hide()
 
     def onShowSuitPath(self, evt=None):
-        for edge, edgeLine in list(self.edgeDict.items()):
+        for edge, edgeLine in self.edgeDict.items():
             if self.showSuitPathMenuItem.IsChecked():
                 edgeLine.show()
             else:
                 edgeLine.hide()
-        for point, marker in list(self.pointDict.items()):
+        for point, marker in self.pointDict.items():
             if self.showSuitPathMenuItem.IsChecked():
                 marker.show()
             else:
@@ -570,13 +573,13 @@ class LevelEditorUI(LevelEditorUIBase):
         return marker
 
     def resetPathMarkers(self):
-        for edge, edgeLine in list(self.edgeDict.items()):
+        for edge, edgeLine in self.edgeDict.items():
             if not edgeLine.isEmpty():
                 edgeLine.reset()
                 edgeLine.removeNode()
         self.edgeDict = {}
         self.np2EdgeDict = {}
-        for point, marker in list(self.pointDict.items()):
+        for point, marker in self.pointDict.items():
             if not marker.isEmpty():
                 marker.removeNode()
         self.pointDict = {}
@@ -602,11 +605,11 @@ class LevelEditorUI(LevelEditorUIBase):
                 edge = dnaVisGroup.getSuitEdge(i)
                 edgeLine = self.drawSuitEdge(edge, np)
                 self.edgeDict[edge] = edgeLine
-                self.np2EdgeDict[hash(edgeLine)] = [edge, dnaVisGroup]
+                self.np2EdgeDict[edgeLine.id()] = [edge, dnaVisGroup]
                 # Store the edge on each point in case we move the point
                 # we can update the edge
                 for point in [edge.getStartPoint(), edge.getEndPoint()]:
-                    if point in self.point2edgeDict:
+                    if self.point2edgeDict.has_key(point):
                         self.point2edgeDict[point].append(edge)
                     else:
                         self.point2edgeDict[point] = [edge]
@@ -620,10 +623,10 @@ class LevelEditorUI(LevelEditorUIBase):
         elif (side == 'inner'):
             barricadeDict = self.innerBarricadeDict
         else:
-            print(("unhandled side %s" % side))
+            print("unhandled side %s" % side)
             return
 
-        if barricadeOrigNum not in barricadeDict:
+        if not barricadeDict.has_key(barricadeOrigNum):
             barricadeDict[barricadeOrigNum] = [curBldgGroupIndex, curBldgGroupIndex]
 
         if curBldgGroupIndex < barricadeDict[barricadeOrigNum][0]:
@@ -632,7 +635,7 @@ class LevelEditorUI(LevelEditorUIBase):
         if barricadeDict[barricadeOrigNum][1] < curBldgGroupIndex:
             barricadeDict[barricadeOrigNum][1] = curBldgGroupIndex
 
-        print("---------- %s barricadeDict origNum=%d  data=(%d, %d)" %(side, barricadeOrigNum, barricadeDict[barricadeOrigNum][0], barricadeDict[barricadeOrigNum][1]))
+        print "---------- %s barricadeDict origNum=%d  data=(%d, %d)" %(side, barricadeOrigNum, barricadeDict[barricadeOrigNum][0], barricadeDict[barricadeOrigNum][1])
 
     def reparentStreetBuildings(self, nodePath):
         dnaNode = self.editor.findDNANode(nodePath)
@@ -665,7 +668,7 @@ class LevelEditorUI(LevelEditorUIBase):
         return newGroup
 
     def makeNewBuildingGroup(self, sequenceNum, side, curveName):
-        print("-------------------------- new building group %s  curveName=%s------------------------" % (sequenceNum, curveName))
+        print "-------------------------- new building group %s  curveName=%s------------------------" % (sequenceNum, curveName)
         # Now create a new group with just the buildings
         self.editor.addGroup(self.editor.NPToplevel)
         newGroup = self.editor.NPParent
@@ -675,10 +678,10 @@ class LevelEditorUI(LevelEditorUIBase):
 
         if 'curveside' in curveName:
             #we want to preserve which group the side street is closest to
-            print("special casing %s" % curveName)
+            print "special casing %s" % curveName
             parts = curveName.split('_')
             groupName = 'Buildings_' + side + "-" + parts[3] + "_" + parts[4]
-            print("groupname = %s" % groupName)
+            print "groupname = %s" % groupName
         else:
             groupName = 'Buildings_' + side + "-" + str(sequenceNum)
         newGroup.setName(groupName)
@@ -805,13 +808,13 @@ class LevelEditorUI(LevelEditorUIBase):
         return marker
 
     def resetPathMarkers(self):
-        for edge, edgeLine in list(self.edgeDict.items()):
+        for edge, edgeLine in self.edgeDict.items():
             if not edgeLine.isEmpty():
                 edgeLine.reset()
                 edgeLine.removeNode()
         self.edgeDict = {}
         self.np2EdgeDict = {}
-        for point, marker in list(self.pointDict.items()):
+        for point, marker in self.pointDict.items():
             if not marker.isEmpty():
                 marker.removeNode()
         self.pointDict = {}
@@ -837,11 +840,11 @@ class LevelEditorUI(LevelEditorUIBase):
                 edge = dnaVisGroup.getSuitEdge(i)
                 edgeLine = self.drawSuitEdge(edge, np)
                 self.edgeDict[edge] = edgeLine
-                self.np2EdgeDict[hash(edgeLine)] = [edge, dnaVisGroup]
+                self.np2EdgeDict[edgeLine.id()] = [edge, dnaVisGroup]
                 # Store the edge on each point in case we move the point
                 # we can update the edge
                 for point in [edge.getStartPoint(), edge.getEndPoint()]:
-                    if point in self.point2edgeDict:
+                    if self.point2edgeDict.has_key(point):
                         self.point2edgeDict[point].append(edge)
                     else:
                         self.point2edgeDict[point] = [edge]

@@ -2,26 +2,24 @@ import socket
 import datetime
 import os
 import pytz
-import sys
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.http.WebRequest import WebRequestDispatcher
 from otp.distributed import OtpDoGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.uberdog import InGameNewsResponses
-from toontown.ai.ToontownAIMsgTypes import IN_GAME_NEWS_MANAGER_UD_TO_ALL_AI
-from toontown.toonbase.ToontownModules import *
+from toontown.ai.ToontownAIMsgTypes import IN_GAME_NEWS_MANAGER_UD_TO_ALL_AI 
 
 class DistributedInGameNewsMgrUD(DistributedObjectGlobalUD):
     """
     Uberdog object that keeps track of the last time in game news has been updated
     """
     notify = directNotify.newCategory('DistributedInGameNewsMgrUD')
-    serverDataFolder = ConfigVariableString('server-data-folder', "").getValue()
+    serverDataFolder = simbase.config.GetString('server-data-folder', "")
 
     # WARNING this is a global OTP object
     # InGameNewsMgrAI is NOT!
     # Hence the use of sendUpdateToDoId when sending back to AI
-
+     
 
     def __init__(self, air):
         """Construct ourselves, set up web dispatcher."""
@@ -53,7 +51,7 @@ class DistributedInGameNewsMgrUD(DistributedObjectGlobalUD):
         datetimeInUtc = self.latestIssue.astimezone(pytz.utc)
         result = datetimeInUtc.strftime(self.air.toontownTimeManager.formatStr)
         return result
-
+        
     def announceGenerate(self):
         """Start accepting http requests."""
         assert self.notify.debugCall()
@@ -64,7 +62,7 @@ class DistributedInGameNewsMgrUD(DistributedObjectGlobalUD):
     def inGameNewsMgr(self, replyTo, **kw):
         """Handle all calls to web requests awardMgr."""
         assert self.notify.debugCall()
-
+        
         # If no arguments are passed, assume that the main menu should
         # be displayed
 
@@ -82,19 +80,19 @@ class DistributedInGameNewsMgrUD(DistributedObjectGlobalUD):
             header,body,footer,help= self.getMainMenu()
             body = """<BODY><div id="contents"><center><P>got these arguments """
             body += str(kw)
-
+            
         #self.notify.info("%s" % header + body + help + footer)
         replyTo.respond(header + body + help + footer)
 
     def inGameNewsNewIssue(self, replyTo, **kw):
         try:
-            newIssue = self.air.toontownTimeManager.getCurServerDateTime()
+            newIssue = self.air.toontownTimeManager.getCurServerDateTime()                        
             self.b_setLatestIssue(newIssue)
             self.updateRecordFile()
             replyTo.respondXML(InGameNewsResponses.setLatestIssueSuccessXML % (self.getLatestIssueStr()))
-
+            
             pass
-        except Exception as e:
+        except Exception,e:
             replyTo.respondXML(InGameNewsResponses.setLatestIssueFailureXML  % ("Catastrophic failure setting latest issue %s" % str(e)))
             pass
 
@@ -112,9 +110,9 @@ class DistributedInGameNewsMgrUD(DistributedObjectGlobalUD):
             <br>
             <form name="myform" action="inGameNewsNewIssue">
             <input type="submit" value="New Issue Released" />
-            </form>
+            </form>            
             """
-
+            
         footer = """</tbody></table></P></center></div><div id="footer">Toontown In Game News</div></BODY></HTML>"""
         help = """<table height = "15%"></table><P><table width = "60%"><caption>Note</caption><tr><th scope=col>- Click on the button when a new issue of in game news has been released.</th></tr></table></P>"""
         return (header,body,footer,help)
@@ -135,7 +133,7 @@ class DistributedInGameNewsMgrUD(DistributedObjectGlobalUD):
                 os.remove(backup)
         except EnvironmentError:
             self.notify.warning(str(sys.exc_info()[1]))
-
+        
     def getFilename(self):
         """Compose the track record filename"""
         return "%s.latestissue" % (self.serverDataFolder)
@@ -165,11 +163,11 @@ class DistributedInGameNewsMgrUD(DistributedObjectGlobalUD):
         result = self.loadFrom(file)
         file.close()
 
-        return result
+        return result 
 
     def loadFrom(self, file):
         """Load track record data from specified file"""
-        result = self.air.toontownTimeManager.getCurServerDateTime()
+        result = self.air.toontownTimeManager.getCurServerDateTime()        
         try:
             latestIssueStr = file.readline()
             result = self.air.toontownTimeManager.convertStrToToontownTime(latestIssueStr)
@@ -180,14 +178,14 @@ class DistributedInGameNewsMgrUD(DistributedObjectGlobalUD):
     def setLatestIssueStr(self, issueStr):
         self.notify.debugStateCall(self)
 
-
+  
     def setLatestIssue(self, latestIssue):
         self.latestIssue = latestIssue
 
     def b_setLatestIssue(self, latestIssue):
         self.setLatestIssue(latestIssue)
         self.d_setLatestIssue(latestIssue)
-
+        
     def d_setLatestIssue(self, latestIssue):
         self.sendUpdateToAllAis('newIssueUDtoAI', [ self.getLatestIssueUtcStr()])
 
@@ -204,3 +202,4 @@ class DistributedInGameNewsMgrUD(DistributedObjectGlobalUD):
                 doId ,
                 [self.getLatestIssueStr()]
             )
+    

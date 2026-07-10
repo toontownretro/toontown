@@ -3,12 +3,11 @@ from toontown.toonbase import ToontownGlobals
 from direct.fsm import StateData
 from toontown.shtiker.PurchaseManagerConstants import *
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.task import Task
 from direct.fsm import State
 from direct.fsm import ClassicFSM, State
 from toontown.toonbase import TTLocalizer
-from toontown.toontowngui.TeaserPanel import TeaserPanel
 
 class PurchaseBase(StateData.StateData):
 
@@ -38,7 +37,7 @@ class PurchaseBase(StateData.StateData):
 
         self.fsm.enterInitialState()
         return
-
+    
     def load(self, purchaseModels=None):
 
         # These get passed in from Purchase.py
@@ -50,7 +49,7 @@ class PurchaseBase(StateData.StateData):
 
         self.jarImage = purchaseModels.find("**/Jar")
         self.jarImage.reparentTo(hidden)
-
+        
         self.frame = DirectFrame(relief = None)
         self.frame.hide()
 
@@ -78,7 +77,7 @@ class PurchaseBase(StateData.StateData):
             text_shadow = (0, 0, 0, 1),
             text_pos = (0, -0.1, 0),
             image = self.jarImage,
-            text_font = ToontownGlobals.getSignFont(),
+            text_font = ToontownGlobals.getSignFont(),            
             )
 
         self.statusLabel = DirectLabel(
@@ -89,21 +88,16 @@ class PurchaseBase(StateData.StateData):
             text_scale = TTLocalizer.PBstatusLabel,
             text_fg = (0.05, 0.14, 0.4, 1),
             )
-
+        
         # Cover the singular Jellybean case
         if self.toon.getMoney() == 1:
             self.statusLabel['text'] = (TTLocalizer.GagShopYouHaveOne)
 
         self.isBroke = 0
 
-        self._teaserPanel = None
-
         return
-
+    
     def unload(self):
-        if self._teaserPanel:
-            self._teaserPanel.destroy()
-            self._teaserPanel = None
         self.jarImage.removeNode()
         del self.jarImage
         self.frame.destroy()
@@ -119,15 +113,8 @@ class PurchaseBase(StateData.StateData):
         """handleSelection(self, int, int)
         If item level accessable, add purchase button to detail inv menu.
         """
-        if gagIsPaidOnly(track, level):
-            if not base.cr.isPaid():
-                self._teaserPanel = TeaserPanel('restockGags', self._teaserDone)
         self.handlePurchase(track, level)
-
-    def _teaserDone(self):
-        self._teaserPanel.destroy()
-        self._teaserPanel = None
-
+        
     def handlePurchase(self, track, level):
         """handlePurchase(self, track, level)
         Subtract points and add item to inv if successful.
@@ -182,7 +169,7 @@ class PurchaseBase(StateData.StateData):
                 # set the confirmation text
                 taskMgr.doMethodLater(2.25, self.showBrokeMsg, "showBrokeMsgTask")
                 self.isBroke = 1
-
+            
         else:
             if self.isBroke:
                 self.toon.inventory.setActivateMode(self.activateMode)
@@ -193,7 +180,7 @@ class PurchaseBase(StateData.StateData):
                 self.statusLabel['text'] = TTLocalizer.GagShopYouHaveOne
             else:
                 self.statusLabel['text'] = TTLocalizer.GagShopYouHave % (money)
-
+            
         return
 
     def showBrokeMsg(self, task):
@@ -208,7 +195,7 @@ class PurchaseBase(StateData.StateData):
 
     def enter(self):
         #base.playMusic(self.music, looping = 1, volume = 0.8)
-        self.fsm.request("purchase")
+        self.fsm.request("purchase")        
 
     def exit(self):
         self.music.stop()
@@ -224,12 +211,12 @@ class PurchaseBase(StateData.StateData):
         self.toon.inventory.setActivateMode(self.activateMode)
 
         self.checkForBroke()
-
+        
         self.acceptOnce("purchaseOver", self.handleDone)
         self.accept("inventory-selection", self.__handleSelection)
         self.accept(self.toon.uniqueName("moneyChange"), self.__moneyChange)
         return
-
+        
     def exitPurchase(self):
         self.frame.hide()
         self.toon.inventory.enableUberGags(1)
@@ -240,7 +227,7 @@ class PurchaseBase(StateData.StateData):
         self.ignore("inventory-selection")
         self.ignore(self.toon.uniqueName("moneyChange"))
         taskMgr.remove("resetStatusText")
-        taskMgr.remove("showBrokeMsgTask")
+        taskMgr.remove("showBrokeMsgTask")        
         return
 
     def __moneyChange(self, money):
@@ -251,4 +238,4 @@ class PurchaseBase(StateData.StateData):
         pass
 
     def exitDone(self):
-        pass
+        pass    

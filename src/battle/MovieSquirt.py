@@ -1,15 +1,15 @@
 from direct.interval.IntervalGlobal import *
-from .BattleBase import *
-from .BattleProps import *
-from .BattleSounds import *
+from BattleBase import *
+from BattleProps import *
+from BattleSounds import *
 from toontown.toon.ToonDNA import *
 from toontown.suit.SuitDNA import *
-import functools
 
-from . import MovieUtil
-from . import MovieCamera
+
+import MovieUtil
+import MovieCamera
 from direct.directnotify import DirectNotifyGlobal
-from . import BattleParticles
+import BattleParticles
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 import random
@@ -68,17 +68,17 @@ def doSquirts(squirts):
                 if 1:
                     target = squirt['target'][0]
                     suitId = target['suit'].doId
-                    if (suitId in suitSquirtsDict):
+                    if (suitSquirtsDict.has_key(suitId)):
                         suitSquirtsDict[suitId].append(squirt)
                     else:
                         suitSquirtsDict[suitId] = [squirt]
             else:
                 suitId = squirt['target']['suit'].doId
-                if (suitId in suitSquirtsDict):
+                if (suitSquirtsDict.has_key(suitId)):
                     suitSquirtsDict[suitId].append(squirt)
                 else:
                     suitSquirtsDict[suitId] = [squirt]
-    suitSquirts = list(suitSquirtsDict.values())
+    suitSquirts = suitSquirtsDict.values()
 
     # Sort the suits based on the number of squirts per suit
     def compFunc(a, b):
@@ -87,7 +87,7 @@ def doSquirts(squirts):
         elif (len(a) < len(b)):
             return -1
         return 0
-    suitSquirts.sort(key=functools.cmp_to_key(compFunc))
+    suitSquirts.sort(compFunc)
     delay = 0.0
     mtrack = Parallel()
     for st in suitSquirts:
@@ -400,17 +400,17 @@ def __doFlower(squirt, delay, fShowStun):
     # dont bother with LOD 2 intervals for now since viewer will be very far away flower will be too small to see
     toonlod0 = toon.getLOD(lodnames[0])
     toonlod1 = toon.getLOD(lodnames[1])
-    if ConfigVariableBool('want-new-anims', 1).getValue():
+    if base.config.GetBool('want-new-anims', 1):
         if not toonlod0.find('**/def_joint_attachFlower').isEmpty():
             flower_joint0 = toonlod0.find('**/def_joint_attachFlower')
     else:
-        flower_joint0 = toonlod0.find('**/joint*attachFlower')
+        flower_joint0 = toonlod0.find('**/joint_attachFlower')
 
-    if ConfigVariableBool('want-new-anims', 1).getValue():
+    if base.config.GetBool('want-new-anims', 1):
         if not toonlod1.find('**/def_joint_attachFlower').isEmpty():
             flower_joint1 = toonlod1.find('**/def_joint_attachFlower')
     else:
-        flower_joint1 = toonlod1.find('**/joint*attachFlower')
+        flower_joint1 = toonlod1.find('**/joint_attachFlower')
 
     # scale flower only once, use instances to create nodepaths attaching
     # all LOD joints to the 1 flower
@@ -525,13 +525,13 @@ def __doWaterGlass(squirt, delay, fShowStun):
         toon.update(0)   # force update of LOD 0 to current animation frame (dont know if it is being displayed or not)
         lod0 = toon.getLOD(toon.getLODNames()[0])
 
-        if ConfigVariableBool('want-new-anims', 1).getValue():
+        if base.config.GetBool('want-new-anims', 1):
             if not lod0.find("**/def_head").isEmpty():
                 joint = lod0.find("**/def_head")
             else:
-                joint = lod0.find("**/joint*head")
+                joint = lod0.find("**/joint_head")
         else:
-            joint = lod0.find("**/joint*head")
+            joint = lod0.find("**/joint_head")
 
         n = hidden.attachNewNode('pointInFrontOfHead')
         n.reparentTo(toon)
@@ -626,7 +626,7 @@ def __doWaterGun(squirt, delay, fShowStun):
         #note:  dont have to call toon.pose() since getSprayStartPos isnt called
         #       until the exact frame we need the posn, so the animation has already been updated
         toon.update(0)   # force update of LOD 0 to current animation frame (dont know if it is being displayed or not)
-        joint = pistol.find("**/joint*nozzle")
+        joint = pistol.find("**/joint_nozzle")
         p = joint.getPos(render)
         return p
 
@@ -730,7 +730,7 @@ def __doSeltzerBottle(squirt, delay, fShowStun):
         #note:  dont have to call toon.pose() since getSprayStartPos isnt called
         #       until the exact frame we need the posn, so the animation has already been updated
         toon.update(0)   # force update of LOD 0 to current animation frame (dont know if it is being displayed or not)
-        joint = bottle.find("**/joint*toSpray")
+        joint = bottle.find("**/joint_toSpray")
         n = hidden.attachNewNode('pointBehindSprayProp')
         n.reparentTo(toon)
         n.setPos(joint.getPos(toon) + Point3(0, -0.4, 0))
@@ -880,7 +880,7 @@ def __doFireHose(squirt, delay, fShowStun):
             else:
                 return targetPoint
 
-        joint = hose.find("**/joint*water_stream")
+        joint = hose.find("**/joint_water_stream")
         n = hidden.attachNewNode('pointBehindSprayProp')
         n.reparentTo(toon)
         # Now push the point back behind the nozzle for when the gun moves back

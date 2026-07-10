@@ -1,8 +1,8 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *
-from .TrolleyConstants import *
+from TrolleyConstants import *
 from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
@@ -57,7 +57,7 @@ class GameMenu(DirectFrame):
                                   pos = (0, 0, -0.7),
                                   command = self.checkersSelected,
                                  )
-
+        
         self.Checkers = DirectButton(self,
                                   image = (btn2.find("**/regular_checkersBtnUp"),
                                            btn2.find("**/regular_checkersBtnDn"),
@@ -79,28 +79,28 @@ class GameMenu(DirectFrame):
                                   #color = (.7,.7,.7,.7),
                                   command = self.findFourSelected,
                                  )
-        if not ConfigVariableBool('want-chinese', 0).getValue():
+        if not base.config.GetBool('want-chinese', 0):
             self.ChineseCheckers['command'] = self.doNothing
             self.ChineseCheckers.setColor(.7,.7,.7,.7)
-        if not ConfigVariableBool('want-checkers', 0).getValue():
+        if not base.config.GetBool('want-checkers', 0):
             self.Checkers['command'] = self.doNothing
             self.Checkers.setColor(.7,.7,.7,.7)
-        if not ConfigVariableBool('want-findfour', 0).getValue():
+        if not base.config.GetBool('want-findfour', 0):
             self.FindFour['command'] = self.doNothing
             self.FindFour.setColor(.7,.7,.7,.7)
 
-
-        self.chineseText = OnscreenText(text = TTLocalizer.ChineseCheckers, pos = (0, .56, -0.8), scale = 0.15,
+        
+        self.chineseText = OnscreenText(text = "Chinese Checkers", pos = (0, .56, -0.8), scale = 0.15,
                                        fg = Vec4(1,1,1,1), align = TextNode.ACenter,
                                        font =ToontownGlobals.getMinnieFont(), wordwrap = 7,
                                         shadow = (0,0,0,0.8), shadowOffset = (-0.1,-0.1), mayChange = True)
         self.chineseText.setR(-8)
-
-        self.checkersText = OnscreenText(text = TTLocalizer.RegularCheckers, pos = (0.81, -.1, -0.8), scale = 0.15,
+        
+        self.checkersText = OnscreenText(text = "Checkers", pos = (0.81, -.1, -0.8), scale = 0.15,
                                        fg = Vec4(1,1,1,1), align = TextNode.ACenter,
                                         font =ToontownGlobals.getMinnieFont(), wordwrap = 7,
                                         shadow = (0,0,0,0.8), shadowOffset = (0.1,-0.1), mayChange = True)
-        self.findFourText = OnscreenText(text = TTLocalizer.FindFour, pos = (-0.81, -.08, -0.8), scale = 0.15,
+        self.findFourText = OnscreenText(text = "Find Four", pos = (-0.81, -.08, -0.8), scale = 0.15,
                                        fg = Vec4(1,1,1,1), align = TextNode.ACenter,
                                         font =ToontownGlobals.getMinnieFont(), wordwrap = 8,
                                         shadow = (0,0,0,.8), shadowOffset = (-0.1,-0.1), mayChange = True)
@@ -109,7 +109,7 @@ class GameMenu(DirectFrame):
 
     def delete(self):
         self.removeButtons()
-
+         
     def removeButtons(self):
         self.ChineseCheckers.destroy()
         self.Checkers.destroy()
@@ -118,7 +118,7 @@ class GameMenu(DirectFrame):
         self.checkersText.destroy()
         self.findFourText.destroy()
         DirectFrame.destroy(self)
-
+    
     def checkersSelected(self):
         #self.removeButtons()
         self.picnicFunction(1)

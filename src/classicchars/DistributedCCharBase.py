@@ -1,9 +1,9 @@
 """DistributedCCharBase module: contains the DistributedCCharBase class"""
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from otp.avatar import Avatar
-from panda3d.otp import CFQuicktalker
+from libotp import CFQuicktalker
 from toontown.char import CharDNA
 from toontown.char import DistributedChar
 from direct.directnotify import DirectNotifyGlobal
@@ -13,8 +13,8 @@ from direct.controls.ControlManager import CollisionHandlerRayStart
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.TTLocalizer import Donald, DonaldDock, WesternPluto, Pluto
 from toontown.effects import DustCloud
-from . import CCharChatter
-from . import CCharPaths
+import CCharChatter
+import CCharPaths
 
 import string
 import copy
@@ -149,9 +149,9 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
                 CCharPaths.getPaths(diffPath, self.getCCLocation())))
 
         self.setHpr(0,0,0)
-
-        # The characters can be immediately parented to our actors..
-        self.setParent(ToontownGlobals.SPActors) # ToontownGlobals.SPRender
+        
+        # The characters can be immediately parented to render.
+        self.setParent(ToontownGlobals.SPRender)
 
         # hmm. does this character ever blink?
         self.startBlink()
@@ -190,10 +190,10 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
         self.accept('chatUpdateSC', self.__handleChatUpdateSC)
         self.accept('chatUpdateSCCustom', self.__handleChatUpdateSCCustom)
         self.accept('chatUpdateSCToontask', self.__handleChatUpdateSCToontask)
-
+        
         # put nametag in the transparent layer so toon nametags can render on top of it.
-        self.nametag3d.setBin('transparent',100)
-
+        self.nametag3d.setBin('transparent',100)        
+        
         # listen for the exit event
         self.acceptOnce("exit" + self.cSphereNode.getName(),
                         self.__handleCollisionSphereExit)
@@ -263,7 +263,7 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
         return turnTracks
 
     def setChat(self, category, msg, avId):
-        if avId in self.cr.doId2do:
+        if self.cr.doId2do.has_key(avId):
             avatar = self.cr.doId2do[avId]
             chatter = CCharChatter.getChatter(self.getName(), self.getCCChatter())
             if category >= len(chatter):
@@ -279,7 +279,7 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
                 # get the avatar's name
                 avName = avatar.getName()
                 # slap it in
-                str = str.replace('%', avName)
+                str = string.replace(str, '%', avName)
 
             track = Sequence()
 
@@ -300,20 +300,20 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
             # chat flags are different for DL Donald
             if self.getName() == Donald or self.getName() == WesternPluto or self.getName() == Pluto:
                 chatFlags = CFThought | CFTimeout
-
+                
                 # Make Pluto talk during April Toons' Week.
                 if hasattr(base.cr, "newsManager") and base.cr.newsManager:
                     holidayIds = base.cr.newsManager.getHolidayIdList()
                     if ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds:
                         if self.getName() == Pluto:
                             chatFlags = CFTimeout | CFSpeech
-
+                
             elif self.getName() == DonaldDock:
                 chatFlags = CFTimeout | CFSpeech
                 self.nametag3d.hide()
             else:
                 chatFlags = CFTimeout | CFSpeech
-
+                
             # Figure out appropriate audio file here, which will get used
             # in setChatAbsolute below
             # getChatterDialogue defined in Char.py so that chatter can
@@ -362,26 +362,22 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
     def getCCChatter(self):
         self.handleHolidays()
         return self.CCChatter
-
-    def handleHolidays(self):
-        """
-        Handle Holiday specific behaviour
-        """
-        self.CCChatter = 0
+        
+    def handleHolidays(self):           
+        """        
+        Handle Holiday specific behaviour        
+        """         
+        self.CCChatter = 0        
         if hasattr(base.cr, "newsManager") and base.cr.newsManager:
             holidayIds = base.cr.newsManager.getHolidayIdList()
-            if ToontownGlobals.CRASHED_LEADERBOARD in holidayIds:
-                self.CCChatter = ToontownGlobals.CRASHED_LEADERBOARD
-            elif ToontownGlobals.CIRCUIT_RACING_EVENT in holidayIds:
-                self.CCChatter = ToontownGlobals.CIRCUIT_RACING_EVENT
+            if ToontownGlobals.CRASHED_LEADERBOARD in holidayIds:            
+                self.CCChatter = ToontownGlobals.CRASHED_LEADERBOARD 
+            elif ToontownGlobals.CIRCUIT_RACING_EVENT in holidayIds:            
+                self.CCChatter = ToontownGlobals.CIRCUIT_RACING_EVENT  
             elif ToontownGlobals.WINTER_CAROLING in holidayIds:
                 self.CCChatter = ToontownGlobals.WINTER_CAROLING
             elif ToontownGlobals.WINTER_DECORATIONS in holidayIds:
                 self.CCChatter = ToontownGlobals.WINTER_DECORATIONS
-            elif ToontownGlobals.WACKY_WINTER_CAROLING in holidayIds:
-                self.CCChatter = ToontownGlobals.WACKY_WINTER_CAROLING
-            elif ToontownGlobals.WACKY_WINTER_DECORATIONS in holidayIds:
-                self.CCChatter = ToontownGlobals.WACKY_WINTER_DECORATIONS
             elif ToontownGlobals.VALENTINES_DAY in holidayIds:
                 self.CCChatter = ToontownGlobals.VALENTINES_DAY
             elif ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds:
@@ -396,12 +392,6 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
                 self.CCChatter = ToontownGlobals.SILLY_CHATTER_FOUR
             elif ToontownGlobals.SILLY_CHATTER_FIVE in holidayIds:
                 self.CCChatter = ToontownGlobals.SILLY_CHATTER_FOUR
-            elif ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds:
-                self.CCChatter = ToontownGlobals.HALLOWEEN_COSTUMES
-            elif ToontownGlobals.SPOOKY_COSTUMES in holidayIds:
-                self.CCChatter = ToontownGlobals.SPOOKY_COSTUMES
-            elif ToontownGlobals.SELLBOT_FIELD_OFFICE in holidayIds:
-                self.CCChatter = ToontownGlobals.SELLBOT_FIELD_OFFICE
 
     def fadeAway(self):
         fadeOut = self.colorScaleInterval( 0.5, Vec4(1, 1, 1, 0.5),

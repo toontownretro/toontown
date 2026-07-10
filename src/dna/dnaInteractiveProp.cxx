@@ -7,7 +7,6 @@
 #include "sceneGraphReducer.h"
 #include "modelNode.h"
 #include "config_linmath.h"
-#include "jobSystem.h"
 
 ////////////////////////////////////////////////////////////////////
 // Static variables
@@ -85,13 +84,11 @@ NodePath DNAInteractiveProp::traverse(NodePath &parent, DNAStorage *store, int e
   prop_node_path.set_color_scale(_color);
 
   // Traverse each node in our vector
-  //pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
-  //for(; i != _group_vector.end(); ++i) {
-  JobSystem *jsys = JobSystem::get_global_ptr();
-  jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
-    PT(DNAGroup) group = _group_vector[i]; //*i;
+  pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
+  for(; i != _group_vector.end(); ++i) {
+    PT(DNAGroup) group = *i;
     group->traverse(prop_node_path, store, editing);
-  });
+  }
 
   if (editing) {
     // Remember that this nodepath is associated with this dna group
@@ -120,8 +117,13 @@ void DNAInteractiveProp::write(ostream &out, DNAStorage *store, int indent_level
     _cell_id << " ]\n";
   indent(out, indent_level + 1) << "pos [ " <<
     _pos[0] << " " << _pos[1] << " " << _pos[2] << " ]\n";
-  indent(out, indent_level + 1) << "nhpr [ " <<
-    _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+  if (temp_hpr_fix) {
+    indent(out, indent_level + 1) << "nhpr [ " <<
+      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+  } else {
+    indent(out, indent_level + 1) << "hpr [ " <<
+      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+  }
 
   // Only write out scale if it is not unity. This saves uneccessary work
   if (!_scale.almost_equal(LVecBase3f(1.0, 1.0, 1.0))) {

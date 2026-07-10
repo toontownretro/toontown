@@ -2,9 +2,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
-
-CatalogNotifyBaseXPos = -0.93
+from pandac.PandaModules import *
 
 class CatalogNotifyDialog:
     """CatalogNotifyDialog:
@@ -19,13 +17,12 @@ class CatalogNotifyDialog:
         self.message = message
         self.messageIndex = 0
 
-        framePosX = CatalogNotifyBaseXPos
+        framePosX = 0.40
         from toontown.toon import LocalToon # import here to stop cyclic import
         if LocalToon.WantNewsPage:
             framePosX += LocalToon.AdjustmentForNewsButton
         self.frame = DirectFrame(
             relief = None,
-            parent = base.a2dTopRight,
             image = DGG.getDefaultDialogGeom(),
             image_color = ToontownGlobals.GlobalDialogColor,
             image_scale = (1.2, 1.0, 0.4),
@@ -33,9 +30,9 @@ class CatalogNotifyDialog:
             text_wordwrap = 16,
             text_scale = 0.06,
             text_pos = (-0.1, 0.1),
-            pos = (framePosX, 0, -0.22),
+            pos = (framePosX, 0, 0.78),
             )
-
+        
 
         buttons = loader.loadModel(
             'phase_3/models/gui/dialog_box_buttons_gui')
@@ -72,14 +69,14 @@ class CatalogNotifyDialog:
             # That was the last message.
             self.cleanup()
             return
-
+        
         # There's more text to display.
         self.frame['text'] = self.message[self.messageIndex]
         if self.messageIndex + 1 == len(self.message):
             # That's the last message.
             self.nextButton.hide()
             self.doneButton.show()
-
+        
     def cleanup(self):
         """cleanup(self):
         Cancels any pending request and removes the panel from the

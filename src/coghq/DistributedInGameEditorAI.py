@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObjectAI
 from direct.directutil import DistributedLargeBlobSenderAI
-from .SpecImports import *
+from SpecImports import *
 
 class DistributedInGameEditorAI(DistributedObjectAI.DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory(
@@ -20,7 +20,7 @@ class DistributedInGameEditorAI(DistributedObjectAI.DistributedObjectAI):
         DistributedObjectAI.DistributedObjectAI.generate(self)
 
         simbase.levelEditor = self
-
+        
         self.acceptOnce(self.air.getAvatarExitEvent(self.editorAvId),
                         self.setFinished)
 
@@ -43,12 +43,12 @@ class DistributedInGameEditorAI(DistributedObjectAI.DistributedObjectAI):
 
     def getEditUsername(self):
         return self.editUsername
-
+    
     def getLevelDoId(self):
         return self.levelDoId
 
     def requestCurrentLevelSpec(self):
-        print("requestCurrentLevelSpec")
+        print "requestCurrentLevelSpec"
         # send an up-to-date copy of the level spec to this client
         #senderId = self.air.getAvatarIdFromSender()
         spec = self.level.levelSpec
@@ -57,7 +57,7 @@ class DistributedInGameEditorAI(DistributedObjectAI.DistributedObjectAI):
         largeBlob = DistributedLargeBlobSenderAI.\
                     DistributedLargeBlobSenderAI(
             self.air, self.zoneId, self.editorAvId, specStr,
-            useDisk=ConfigVariableBool('spec-by-disk', 1).getValue())
+            useDisk=simbase.config.GetBool('spec-by-disk', 1))
         self.sendUpdateToAvatarId(self.editorAvId,
                                   'setSpecSenderDoId', [largeBlob.doId])
 

@@ -13,7 +13,6 @@ from toontown.ai.HolidayInfo import *
 #################################################################
 import random
 import time
-import functools
 
 #################################################################
 # Class: HolidayInfo_Weekly
@@ -36,18 +35,18 @@ class HolidayInfo_Weekly(HolidayInfo_Base):
     # Output: None
     #############################################################
     def __init__(self, holidayClass, dateList, displayOnCalendar):
-
+        
         HolidayInfo_Base.__init__(self, holidayClass, displayOnCalendar)
 
         dateElemIter = ModifiedIter(dateList)
-        for i in range(len(dateList)//2):
+        for i in xrange(len(dateList)/2):
             start = dateElemIter.current()
-            end = next(dateElemIter)
+            end = dateElemIter.next()
 
             self.tupleList.append((start, end))
-            next(dateElemIter)
+            dateElemIter.next()
 
-        self.tupleList.sort(key=functools.cmp_to_key(cmpDates))
+        self.tupleList.sort(cmpDates)
 
     #############################################################
     # Method: getStartTime
@@ -87,20 +86,20 @@ class HolidayInfo_Weekly(HolidayInfo_Base):
     # Output: returns the time in secs based on date and t
     #############################################################
     def getTime(self, date, t, isStart = True, isNextWeek=False):
-        #print("Getting time for date = %s and t = %s" % (date, t))
+        #print "Getting time for date = %s and t = %s" % (date, t)
         cWDay = date[3]
         sWDay = t[0]
         dayOffset = sWDay - cWDay
         if isNextWeek:
             dayOffset += 7
-
+            
         day = date[2] + dayOffset
-
+        
         actualTime = time.mktime((date[0], date[1], day,
                              t[1], t[2], t[3],
                              0, 0, -1))
 
-        #print(time.ctime(actualTime))
+        #print time.ctime(actualTime)
 
         return actualTime
 
@@ -141,7 +140,7 @@ class HolidayInfo_Weekly(HolidayInfo_Base):
         return foundTime
 
         """
-        for i in range(len((self.tupleList))):
+        for i in xrange(len((self.tupleList))):
             # Retrieve Starting WDay for the current Element
             # and the next element in the sequence.
             sWDay = self.currElemIter.current()[0][0]
@@ -159,7 +158,7 @@ class HolidayInfo_Weekly(HolidayInfo_Base):
                 # - Here, we have ended on a Tuesday(1). The
                 #  next time the holiday should fire will be
                 # on the Thursday(3) of the same week.
-
+            
                 # Check to see if we are already in the next
                 # week due to overlapping holiday.
                 cWDay = date[3]
@@ -173,7 +172,7 @@ class HolidayInfo_Weekly(HolidayInfo_Base):
                     # We have already started the new week as found
                     # in case 2. Adjust time normally.
                     sTime = self.getTime(date, startTuple, True)
-
+                    
             else:
                 startTuple, endTuple = self.currElemIter.next()
                 sTime = self.getTime(date, startTuple, True)
@@ -181,7 +180,7 @@ class HolidayInfo_Weekly(HolidayInfo_Base):
             # Perform Check
             if (currTime < sTime):
                 # Found next holiday day
-                return sTime
+                return sTime                           
 
         # This means that we arrived back to the original
         # starting place. Update date and find time for
@@ -199,6 +198,7 @@ class HolidayInfo_Weekly(HolidayInfo_Base):
     #          a start time.
     # Input: date - the date that needs to be adjusted
     # Output: None
-    #############################################################
+    #############################################################    
     def adjustDate(self, date):
         return (date[0], date[1], date[2]+7, date[3])
+            

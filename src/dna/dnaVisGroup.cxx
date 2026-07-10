@@ -9,7 +9,6 @@
 #include "pointerTo.h"
 #include "indent.h"
 #include "sceneGraphReducer.h"
-#include "jobSystem.h"
 
 ////////////////////////////////////////////////////////////////////
 // Static variables
@@ -40,7 +39,7 @@ DNAVisGroup::DNAVisGroup(const DNAVisGroup &copy) :
   pvector<string>::const_iterator i = copy._vis_vector.begin();
   for(; i != copy._vis_vector.end(); ++i) {
     // Push in a copy of the vis string
-    _vis_vector.emplace_back(*i);
+    _vis_vector.push_back(*i);
   }
 }
 
@@ -51,7 +50,7 @@ DNAVisGroup::DNAVisGroup(const DNAVisGroup &copy) :
 //  Description: Add a vis group name to this group's list
 ////////////////////////////////////////////////////////////////////
 void DNAVisGroup::add_visible(const string &vis_group_name) {
-  _vis_vector.emplace_back(vis_group_name);
+  _vis_vector.push_back(vis_group_name);
 }
 
 
@@ -66,7 +65,7 @@ int DNAVisGroup::remove_visible(const string &vis_group_name) {
                                     vis_group_name);
   if (i == _vis_vector.end()) {
     dna_cat.warning()
-      << "DNAVisGroup: vis group not found in map: " << vis_group_name << std::endl;
+      << "DNAVisGroup: vis group not found in map: " << vis_group_name << endl;
     return 0;
   }
 
@@ -92,7 +91,7 @@ int DNAVisGroup::get_num_visibles() const {
 //       Access: Public
 //  Description: Return the string name of the ith visible
 ////////////////////////////////////////////////////////////////////
-string DNAVisGroup::get_visible_name(uint32_t i) const {
+string DNAVisGroup::get_visible_name(uint i) const {
   nassertr(i < _vis_vector.size(), "");
   return _vis_vector[i];
 }
@@ -134,7 +133,7 @@ int DNAVisGroup::remove_suit_edge(PT(DNASuitEdge) edge) {
                                     edge);
   if (i == _suit_edge_vector.end()) {
     dna_cat.debug()
-      << "DNASuitEdge: edge not found in vector: " << (*edge) << std::endl;
+      << "DNASuitEdge: edge not found in vector: " << (*edge) << endl;
     return 0;
   }
 
@@ -159,7 +158,7 @@ int DNAVisGroup::get_num_suit_edges() const {
 //       Access: Public
 //  Description: Return the ith edge in the vector
 ////////////////////////////////////////////////////////////////////
-PT(DNASuitEdge) DNAVisGroup::get_suit_edge(uint32_t i) const {
+PT(DNASuitEdge) DNAVisGroup::get_suit_edge(uint i) const {
   nassertr(i < _suit_edge_vector.size(), (DNASuitEdge *)NULL);
   return _suit_edge_vector[i];
 }
@@ -187,7 +186,7 @@ int DNAVisGroup::remove_battle_cell(PT(DNABattleCell) cell) {
                                                  cell);
   if (i == _battle_cell_vector.end()) {
     dna_cat.warning()
-      << "DNABattleCell: cell not found in vector: " << (*cell) << std::endl;
+      << "DNABattleCell: cell not found in vector: " << (*cell) << endl;
     return 0;
   }
 
@@ -212,7 +211,7 @@ int DNAVisGroup::get_num_battle_cells() const {
 //       Access: Public
 //  Description: Return the ith cell in the vector
 ////////////////////////////////////////////////////////////////////
-PT(DNABattleCell) DNAVisGroup::get_battle_cell(uint32_t i) const {
+PT(DNABattleCell) DNAVisGroup::get_battle_cell(uint i) const {
   nassertr(i < _battle_cell_vector.size(), (DNABattleCell *)NULL);
   return _battle_cell_vector[i];
 }
@@ -230,13 +229,11 @@ NodePath DNAVisGroup::traverse(NodePath &parent, DNAStorage *store, int editing)
   NodePath group_node_path = parent.attach_new_node(new_node);
 
   // Traverse each node in our vector
-  //pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
-  //for(; i != _group_vector.end(); ++i) {
-  JobSystem *jsys = JobSystem::get_global_ptr();
-  jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
-    PT(DNAGroup) group = _group_vector[i]; //*i;
+  pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
+  for(; i != _group_vector.end(); ++i) {
+    PT(DNAGroup) group = *i;
     group->traverse(group_node_path, store, editing);
-  });
+  }
 
   if (editing) {
     // Remember that this nodepath is associated with this dnaVisGroup

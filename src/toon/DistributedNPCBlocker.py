@@ -1,7 +1,8 @@
-from toontown.toonbase.ToontownModules import *
-from .DistributedNPCToonBase import *
+from pandac.PandaModules import *
+from DistributedNPCToonBase import *
 from direct.gui.DirectGui import *
-from . import NPCToons
+from pandac.PandaModules import *
+import NPCToons
 from toontown.toonbase import TTLocalizer
 from direct.distributed import DistributedObject
 from toontown.quest import QuestParser
@@ -18,7 +19,7 @@ class DistributedNPCBlocker(DistributedNPCToonBase):
     def announceGenerate(self):
         #self.nametag.unmanage(base.marginManager)
         DistributedNPCToonBase.announceGenerate(self)
-
+        
     def initToonState(self):
         # We'll make all NPC toons loop their neutral cycle by
         # default.  Normally this is sent from the AI, but because the
@@ -26,7 +27,7 @@ class DistributedNPCBlocker(DistributedNPCToonBase):
         # generate, we might lose that message.
         self.setAnimState("neutral", 0.9, None, None)
         # Set the Blocker's position and orientation
-        posh = NPCToons.BlockerPositions[self._name]
+        posh = NPCToons.BlockerPositions[self.name]
         self.setPos(posh[0])
         self.setH(posh[1])
 
@@ -73,7 +74,7 @@ class DistributedNPCBlocker(DistributedNPCToonBase):
     def setMovie(self, mode, npcId, avId, timestamp):
         """
         This is a message from the AI describing a movie between this NPC
-        and a Toon that has approached us.
+        and a Toon that has approached us. 
         """
         timeStamp = ClockDelta.globalClockDelta.localElapsedTime(timestamp)
 
@@ -88,13 +89,15 @@ class DistributedNPCBlocker(DistributedNPCToonBase):
 
         elif (mode == NPCToons.BLOCKER_MOVIE_START):
             assert self.notify.debug('BLOCKER_MOVIE_PLAY')
-            self.movie = QuestParser.NPCMoviePlayer("tutorial_blocker",
+            self.movie = QuestParser.NPCMoviePlayer("tutorial_blocker", 
                                                 base.localAvatar, self)
             self.movie.play()
 
         elif (mode == NPCToons.BLOCKER_MOVIE_TIMEOUT):
             assert self.notify.debug('BLOCKER_MOVIE_TIMEOUT')
             return
+
+        return
 
     def finishMovie(self, av, isLocalToon, elapsedTime):
         """

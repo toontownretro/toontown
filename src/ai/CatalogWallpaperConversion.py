@@ -4,8 +4,8 @@ from toontown.catalog import CatalogFlooringItem
 from toontown.catalog import CatalogMouldingItem
 from toontown.catalog import CatalogWainscotingItem
 from toontown.catalog import CatalogItemList
-from . import RepairAvatars
-from . import DatabaseObject
+import RepairAvatars
+import DatabaseObject
 import time
 
 # Conversion 
@@ -140,7 +140,7 @@ class AvatarWallpaperFixer(RepairAvatars.AvatarIterator):
 
     def processAvatar(self, av, db):
         self.printSometimes(av)
-        #print("Processing Avatar: %d, %s" % (av.doId, av.name))
+        #print "Processing Avatar: %d, %s" % (av.doId, av.name)
         convertWallpaperItems(av.monthlyCatalog, fCatalog = 1)
         convertWallpaperItems(av.weeklyCatalog, fCatalog = 1)
         convertWallpaperItems(av.backCatalog, fCatalog = 1)
@@ -166,7 +166,7 @@ class AvatarWallpaperFixer(RepairAvatars.AvatarIterator):
     def printSometimes(self, av):
         now = time.time()
         if now - self.lastPrintTime > self.printInterval:
-            print("Avatar %d: %s" % (av.doId, av.name))
+            print "Avatar %d: %s" % (av.doId, av.name)
             self.lastPrintTime = now
 
     
@@ -182,7 +182,7 @@ class HouseWallpaperFixer(RepairAvatars.HouseIterator):
 
     def processHouse(self, house, db):
         self.printSometimes(house)
-        #print("Processing house: %d, %s" % (house.doId, house.name))
+        #print "Processing house: %d, %s" % (house.doId, house.name)
         convertWallpaperItems(house.atticWallpaper)
         convertWallpaperItems(house.interiorWallpaper)
         convertWallpaperItems(house.deletedItems)
@@ -200,7 +200,7 @@ def convertWallpaperAvatarVals():
     avatarVals = open('avatar.vals')
     avatars = avatarVals.readlines()
 
-    print("Fixing %s avatars" % (len(avatars)))
+    print "Fixing %s avatars" % (len(avatars))
     f = AvatarWallpaperFixer(simbase.air)
     f.objIdList = avatars
     f.start()
@@ -209,13 +209,13 @@ def convertWallpaperHouseVals():
     houseVals = open('house.vals')
     houses = houseVals.readlines()
     
-    print("Fixing %s houses" % (len(houses)))
+    print "Fixing %s houses" % (len(houses))
     f2 = HouseWallpaperFixer(simbase.air)
     f2.objIdList = houses
     f2.start()
 
 """
-from . import UtilityStart
-from .CatalogWallpaperConversion import *
+import UtilityStart
+from CatalogWallpaperConversion import *
 convertWallpaper()
 """

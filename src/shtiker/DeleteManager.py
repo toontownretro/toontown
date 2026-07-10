@@ -1,4 +1,4 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 
@@ -19,3 +19,5 @@ class DeleteManager(DistributedObject.DistributedObject):
 
     def d_setInventory(self, newInventoryString):
         self.sendUpdate("setInventory", [newInventoryString])
+            
+        

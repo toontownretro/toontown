@@ -1,7 +1,7 @@
 
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
-from . import CogHQLoader
+import CogHQLoader
 from toontown.toonbase import ToontownGlobals
 from direct.gui import DirectGui
 from toontown.toonbase import TTLocalizer
@@ -11,9 +11,8 @@ from toontown.coghq import BossbotHQExterior
 from toontown.coghq import BossbotHQBossBattle
 from toontown.coghq import BossbotOfficeExterior
 from toontown.coghq import CountryClubInterior
-from toontown.toonbase.ToontownModules import DecalEffect, TextEncoder
+from pandac.PandaModules import DecalEffect, TextEncoder
 import random
-from toontown.toonbase.ToontownModules import *
 
 # Used to compensate for scaling of Cog tunnel sign's
 # original aspect ratio of 1125x813 to a uniform ratio,
@@ -27,19 +26,19 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
 
     def __init__(self, hood, parentFSMState, doneEvent):
         CogHQLoader.CogHQLoader.__init__(self, hood, parentFSMState, doneEvent)
-
+        
         self.fsm.addState(State.State('countryClubInterior',
                                       self.enterCountryClubInterior,
                                       self.exitCountryClubInterior,
                                       ['quietZone',
                                        'cogHQExterior', # Tunnel
                                        ]))
-
+   
         for stateName in ['start', 'cogHQExterior', 'quietZone']:
             state = self.fsm.getStateNamed(stateName)
             state.addTransition('countryClubInterior')
-
-
+          
+        
         self.musicFile = random.choice(["phase_12/audio/bgm/Bossbot_Entry_v1.mid", "phase_12/audio/bgm/Bossbot_Entry_v2.mid", "phase_12/audio/bgm/Bossbot_Entry_v3.mid"])
 
         self.cogHQExteriorModelPath = "phase_12/models/bossbotHQ/CogGolfHub"
@@ -67,10 +66,10 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
         zoneId = (zoneId - (zoneId %100))
 
         self.notify.debug("zoneId = %d ToontownGlobals.BossbotHQ=%d" % (zoneId,ToontownGlobals.BossbotHQ))
-
+            
         if zoneId == ToontownGlobals.BossbotHQ:
             self.geom = loader.loadModel(self.cogHQExteriorModelPath)
-
+            
             # Rename the link tunnels so they will hook up properly
             gzLinkTunnel = self.geom.find("**/LinkTunnel1")
             gzLinkTunnel.setName("linktunnel_gz_17000_DNARoot")
@@ -84,8 +83,6 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
             origin.setH(-33.33)
 
         elif zoneId == ToontownGlobals.BossbotLobby:
-            if ConfigVariableBool('want-qa-regression', 0).getValue():
-                self.notify.info('QA-REGRESSION: COGHQ: Visit BossbotLobby')
             self.notify.debug("cogHQLobbyModelPath = %s" % self.cogHQLobbyModelPath)
             self.geom = loader.loadModel(self.cogHQLobbyModelPath)
 
@@ -94,13 +91,9 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
             # that is ok because we do not need to load any models - they all
             # get loaded by the distributed object
             self.notify.warning("loadPlaceGeom: unclassified zone %s" % zoneId)
-
-        # Flatten the geom a bit
-        if self.geom:
-            self.geom.flattenMedium()
-
+            
         CogHQLoader.CogHQLoader.loadPlaceGeom(self, zoneId)
-
+    
     def makeSigns(self):
         # helper func
         def makeSign(topStr, signStr, textId):
@@ -112,17 +105,17 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
                 text = TextEncoder.upper(TTLocalizer.GlobalStreetNames[textId][-1]),
                 font = ToontownGlobals.getSuitFont(),
                 scale = TTLocalizer.BCHQLmakeSign,
-                fg = (0, 0, 0, 1),
+                fg = (0, 0, 0, 1), 
                 parent = sign)
             signText.setPosHpr(locator, 0, -0.1, -0.25, 0, 0, 0)
-            signText.setDepthOffset(1)
-
+            signText.setDepthWrite(0)
+            
         makeSign("Gate_2", "Sign_6", 10700)
         makeSign("TunnelEntrance", "Sign_2", 1000)
         makeSign("Gate_3", "Sign_3", 10600)
         makeSign("Gate_4", "Sign_4", 10500)
         makeSign("GateHouse", "Sign_5", 10200)
-
+       
     def unload(self):
         CogHQLoader.CogHQLoader.unload(self)
         # unload anims
@@ -131,16 +124,16 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
 #    def enterFactoryInterior(self, requestStatus):
 #        self.placeClass = FactoryInterior.FactoryInterior
 #        self.enterPlace(requestStatus)
-
+        
     def enterStageInterior(self, requestStatus):
         self.placeClass = StageInterior.StageInterior
         self.stageId = requestStatus['stageId']
         self.enterPlace(requestStatus)
-
+        
 #    def exitFactoryInterior(self):
 #        self.exitPlace()
 #        self.placeClass = None
-
+        
     def exitStageInterior(self):
         self.exitPlace()
         self.placeClass = None
@@ -152,12 +145,12 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
     def getBossPlaceClass(self):
         self.notify.debug("getBossPlaceClass")
         return BossbotHQBossBattle.BossbotHQBossBattle
-
+        
     def enterFactoryExterior(self, requestStatus):
         self.placeClass = BossbotOfficeExterior.BossbotOfficeExterior
         self.enterPlace(requestStatus)
         #self.hood.spawnTitleText(requestStatus['zoneId'])
-
+        
     def exitFactoryExterior(self):
         taskMgr.remove("titleText")
         self.hood.hideTitleText()
@@ -168,12 +161,12 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.notify.debug("BossbotCogHQLoader.enterCogHQBossBattle")
         CogHQLoader.CogHQLoader.enterCogHQBossBattle(self, requestStatus)
         base.cr.forbidCheesyEffects(1)
-
+        
     def exitCogHQBossBattle(self):
         self.notify.debug("BossbotCogHQLoader.exitCogHQBossBattle")
         CogHQLoader.CogHQLoader.exitCogHQBossBattle(self)
-        base.cr.forbidCheesyEffects(0)
-
+        base.cr.forbidCheesyEffects(0)        
+        
 
     def enterCountryClubInterior(self, requestStatus):
         self.placeClass = CountryClubInterior.CountryClubInterior
@@ -182,8 +175,11 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.countryClubId = requestStatus['countryClubId']
         self.enterPlace(requestStatus)
         # spawnTitleText is done by MintInterior once the mint shows up
-
+        
     def exitCountryClubInterior(self):
         self.exitPlace()
         self.placeClass = None
         del self.countryClubId
+
+
+

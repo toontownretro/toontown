@@ -1,11 +1,11 @@
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from direct.task import Task
-from . import FishBase
-from . import FishPicker
+import FishBase
+import FishPicker
 
 class FishSellGUI(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory("FishGui")
@@ -37,7 +37,7 @@ class FishSellGUI(DirectFrame):
         newTankFish = base.localAvatar.fishTank.getFish()
         self.picker.update(newTankFish)
         self.picker.show()
-
+        
         # Init buttons
         buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         okImageList = (buttons.find('**/ChtBx_OKBtn_UP'),
@@ -66,13 +66,6 @@ class FishSellGUI(DirectFrame):
             text_pos = (0,-0.1),
             command = self.__sellFish,
             )
-        self.rewardDoubledJellybeanLabel = DirectLabel(
-            text="",
-            text_fg=(1.0, 0.125, 0.125, 1.0),
-            relief=None,
-            pos=(0.45, 0, -0.48),
-            scale=0.07,
-            )
 
         buttons.removeNode()
 
@@ -81,8 +74,6 @@ class FishSellGUI(DirectFrame):
 
     def destroy(self):
         DirectFrame.destroy(self)
-        self.rewardDoubledJellybeanLabel.removeNode()
-        del self.rewardDoubledJellybeanLabel
 
     def __cancel(self):
         assert(self.notify.debug("transaction cancelled"))
@@ -90,17 +81,13 @@ class FishSellGUI(DirectFrame):
 
     def __sellFish(self):
         messenger.send(self.doneEvent, [1])
-
+    
     def __updateFishValue(self):
-        doubledJellybean = ''
-        if base.cr.newsManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY) or \
-           base.cr.newsManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY_MONTH):
-            doubledJellybean = TTLocalizer.PartyRewardDoubledJellybean
-            self.rewardDoubledJellybeanLabel["text"] = doubledJellybean
-            self.rewardDoubledJellybeanLabel.setText()
         fishTank = base.localAvatar.getFishTank()
         num = len(fishTank)
         value = fishTank.getTotalValue()
         self['text'] = TTLocalizer.FishTankValue % { "name": base.localAvatar.getName(),
                                                    "num": num, "value":value }
         self.setText()
+        
+        

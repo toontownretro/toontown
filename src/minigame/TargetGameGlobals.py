@@ -1,10 +1,10 @@
 """RingGameGlobals: contains values shared by server and client ring games"""
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 
-ENDLESS_GAME = ConfigVariableBool('endless-target-game', 0).getValue()
+ENDLESS_GAME = config.GetBool('endless-ring-game', 0)
 
 NUM_RING_GROUPS = 16
 

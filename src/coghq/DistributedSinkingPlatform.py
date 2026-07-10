@@ -1,12 +1,12 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from otp.level import BasicEntities
-from . import MovingPlatform
+import MovingPlatform
 from direct.distributed import DistributedObject
-from . import SinkingPlatformGlobals
+import SinkingPlatformGlobals
 from direct.directnotify import DirectNotifyGlobal
 
 # DistributedSinkingPlatform
@@ -23,7 +23,7 @@ class DistributedSinkingPlatform(BasicEntities.DistributedNodePathEntity):
     def __init__(self, cr):
         BasicEntities.DistributedNodePathEntity.__init__(self,cr)
         self.moveIval = None
-
+        
     def generateInit(self):
         self.notify.debug('generateInit')
         BasicEntities.DistributedNodePathEntity.generateInit(self)
@@ -49,7 +49,7 @@ class DistributedSinkingPlatform(BasicEntities.DistributedNodePathEntity):
                            'off',
                            )
         self.fsm.enterInitialState()
-
+        
     def generate(self):
         self.notify.debug('generate')
         BasicEntities.DistributedNodePathEntity.generate(self)
@@ -95,7 +95,7 @@ class DistributedSinkingPlatform(BasicEntities.DistributedNodePathEntity):
                                      'platformcollision')
         self.platform.reparentTo(self)
         self.platform.setPos(0,0,0)
-
+        
     def localToonEntered(self):
         ts = globalClockDelta.localToNetworkTime(globalClock.getFrameTime(), bits=32)
         self.sendUpdate('setOnOff', [1, ts])
@@ -103,13 +103,13 @@ class DistributedSinkingPlatform(BasicEntities.DistributedNodePathEntity):
         # Since we are the local toon, this should happen immediately, so
         # we don't see any jumps as a result of the server roundtrip
         #self.fsm.request('sinking', [ts])
-
+        
     def localToonLeft(self):
         ts = globalClockDelta.localToNetworkTime(globalClock.getFrameTime(), bits=32)
         self.sendUpdate('setOnOff', [0, ts])
         # TODO: make this smoother for the local toon
         #self.fsm.request('rising', [ts])
-
+    
     # ClassicFSM state enter/exit funcs
     def enterOff(self):
         self.notify.debug('enterOff')
@@ -127,11 +127,11 @@ class DistributedSinkingPlatform(BasicEntities.DistributedNodePathEntity):
             self.moveIval.pause()
             del self.moveIval
             self.moveIval = None
-
+        
     def enterRising(self, ts=0):
         self.notify.debug('enterRising')
         self.startMoving(SinkingPlatformGlobals.RISING, ts)
-
+        
     def exitRising(self):
         self.notify.debug('exitRising')
         if self.moveIval:
@@ -139,7 +139,7 @@ class DistributedSinkingPlatform(BasicEntities.DistributedNodePathEntity):
             del self.moveIval
             self.moveIval = None
 
-
+    
     def setSinkMode(self, avId, mode, ts):
         # AI tells us if the platform is sinking, rising, or off
         # and at what time it started moving
@@ -155,13 +155,13 @@ class DistributedSinkingPlatform(BasicEntities.DistributedNodePathEntity):
             #if avId != base.localAvatar.doId:
             self.fsm.request('rising', [ts])
             #else:
-            #    print("ignoring server rise message")
+            #    print "ignoring server rise message"
         elif mode == SinkingPlatformGlobals.SINKING:
             #if avId != base.localAvatar.doId:
             self.fsm.request('sinking', [ts])
             #else:
-            #    print("ignoring server sink message")
-
+            #    print "ignoring server sink message"
+                
     def startMoving(self, direction, ts):
         if direction == SinkingPlatformGlobals.RISING:
             endPos = Vec3(0,0,0)
@@ -186,7 +186,7 @@ class DistributedSinkingPlatform(BasicEntities.DistributedNodePathEntity):
         duration = duration - ivalTime
         duration = max(0., duration)
 
-        #print("ivalTime = %s" % ivalTime)
+        #print "ivalTime = %s" % ivalTime
 
         moveNode = self.platform
         self.moveIval = Sequence()
@@ -200,6 +200,9 @@ class DistributedSinkingPlatform(BasicEntities.DistributedNodePathEntity):
                             fluid = 1),
             )
 
-        #print("timeStamp = %s, ivalStartT = %s, startTime = %s, curT = %s, duration= %s" % (
-        #    timestamp, ivalStartT, startT, curT, duration))
+        #print "timeStamp = %s, ivalStartT = %s, startTime = %s, curT = %s, duration= %s" % (
+        #    timestamp, ivalStartT, startT, curT, duration)
         self.moveIval.start()
+        
+
+  

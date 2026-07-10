@@ -3,9 +3,9 @@
 # Created: Aug 2008
 #
 # Purpose: Central location for Toontown Parties' variables
-#-------------------------------------------------------------------------------
-from toontown.toonbase.ToontownModules import BitMask32
-from toontown.toonbase.ToontownModules import Point3, VBase4
+#------------------------------------------------------------------------------- 
+from pandac.PandaModules import BitMask32
+from pandac.PandaModules import Point3, VBase4
 
 from direct.showbase import PythonUtil
 
@@ -22,7 +22,6 @@ MaxSetHostedParties = 50
 MaxPlannedYear = 2030 # how far can he plan a party
 MinPlannedYear = 1975
 
-JellybeanMultiplier = 1.5
 # reward multiplier for Jellybean day
 JellyBeanDayMultiplier = 2
 
@@ -46,7 +45,6 @@ PartyRefundPercentage = 0.95 # You get this times the total cost back as a refun
 PartyPlannerAsapMinuteRounding = 5
 assert(60 % PartyPlannerAsapMinuteRounding) == 0  # planner code assumes this is true
 UberdogCheckPartyStartFrequency = 5.0 # In minutes, how often we check for parties that can start
-UberdogPurgePartyPeriod = 24.0 # In minutes, how often we check for purged parties
 UberdogPartiesSanityCheckFrequency = 60 # In minutes, how often we check for started but orphaned parties
 JarLabelTextColor = (0.95, 0.95, 0.0, 1.0)
 JarLabelMaxedTextColor = (1.0, 0.0, 0.0, 1.0)
@@ -101,7 +99,6 @@ InviteTheme = PythonUtil.Enum(
         "Racing",
         "Valentoons",
         "VictoryParty",
-        "Winter",
     ),
 )
 
@@ -123,7 +120,7 @@ AddPartyErrorCode = PythonUtil.Enum(
         "AllOk",
         "ValidationError",
         "DatabaseError",
-        "TooManyHostedParties",
+        "TooManyHostedParties",    
     ),
 )
 
@@ -168,36 +165,20 @@ ActivityIds = PythonUtil.Enum(
         "PartyDance20",
         "PartyCog",
         "PartyVictoryTrampoline",
-        "PartyWinterCatch",
-        "PartyWinterTrampoline",
-        "PartyWinterCog",
-        "PartyValentineDance",
-        "PartyValentineDance20",
-        "PartyValentineJukebox",
-        "PartyValentineJukebox40",
-        "PartyValentineTrampoline",
     ),
 )
 
 # controls the order in which they appear in the party editor
 PartyEditorActivityOrder = [
     ActivityIds.PartyCog,
-    ActivityIds.PartyWinterCog,
     ActivityIds.PartyJukebox,
     ActivityIds.PartyJukebox40,
-    ActivityIds.PartyValentineJukebox,
-    ActivityIds.PartyValentineJukebox40,
     ActivityIds.PartyCannon,
     ActivityIds.PartyTrampoline,
-    ActivityIds.PartyValentineTrampoline,
     ActivityIds.PartyVictoryTrampoline,
-    ActivityIds.PartyWinterTrampoline,
     ActivityIds.PartyCatch,
-    ActivityIds.PartyWinterCatch,
     ActivityIds.PartyDance,
     ActivityIds.PartyDance20,
-    ActivityIds.PartyValentineDance,
-    ActivityIds.PartyValentineDance20,
     ActivityIds.PartyTugOfWar,
     ActivityIds.PartyFireworks,
     ActivityIds.PartyClock,
@@ -205,7 +186,7 @@ PartyEditorActivityOrder = [
 
 assert (len(PartyEditorActivityOrder) == len(ActivityIds))
 
-
+    
 # a list of activity ids which we are advertising but not letting people buy
 UnreleasedActivityIds  = (
     #ActivityIds.PartyTugOfWar,
@@ -218,9 +199,7 @@ UnreleasedActivityIds  = (
 # each tuple will list activities which are mutually exclusive
 MutuallyExclusiveActivities = (
     (ActivityIds.PartyJukebox, ActivityIds.PartyJukebox40),
-    (ActivityIds.PartyValentineJukebox, ActivityIds.PartyValentineJukebox40),
     (ActivityIds.PartyDance, ActivityIds.PartyDance20),
-    (ActivityIds.PartyValentineDance, ActivityIds.PartyValentineDance20),
     )
 
 # Activities that should be available only for victory parties.
@@ -231,38 +210,6 @@ VictoryPartyActivityIds = frozenset([
 # Activities that should NOT be available during victory parties.
 VictoryPartyReplacementActivityIds = frozenset([
     ActivityIds.PartyTrampoline, # replaced by PartyVictoryTrampoline
-])
-
-# Activities that should be available only for winter parties.
-WinterPartyActivityIds = frozenset([
-    ActivityIds.PartyWinterCatch,
-    ActivityIds.PartyWinterTrampoline,
-    ActivityIds.PartyWinterCog,
-])
-
-# Activities that should NOT be available during winter parties.
-WinterPartyReplacementActivityIds = frozenset([
-    ActivityIds.PartyCatch, # replaced by PartyWinterCatch
-    ActivityIds.PartyTrampoline, # replaced by PartyWinterTrampoline
-    ActivityIds.PartyCog, # replaced by PartyWinterCog
-])
-
-# Activities that should be available only for valentines parties.
-ValentinePartyActivityIds = frozenset([
-    ActivityIds.PartyValentineDance,
-    ActivityIds.PartyValentineDance20,
-    ActivityIds.PartyValentineJukebox,
-    ActivityIds.PartyValentineJukebox40,
-    ActivityIds.PartyValentineTrampoline,
-])
-
-# Activities that should NOT be available during valentines parties.
-ValentinePartyReplacementActivityIds = frozenset([
-    ActivityIds.PartyDance, # replaced by PartyValentineDance
-    ActivityIds.PartyDance20, # replaced by PartyValentineDance20
-    ActivityIds.PartyJukebox, # replaced by PartyValentineJukebox
-    ActivityIds.PartyJukebox40, # replaced by PartyValentineJukebox40
-    ActivityIds.PartyTrampoline, # replaced by PartyValentineTrampoline
 ])
 
 DecorationIds = PythonUtil.Enum(
@@ -288,20 +235,14 @@ DecorationIds = PythonUtil.Enum(
         "CannonVictory",        # 18: victory party
         "CogStatueVictory",     # 19: victory party
         "TubeCogVictory",       # 20: victory party
-        "CogIceCreamVictory",   # 21: victory party
-        "cogIceCreamWinter",    # 22: winter party
-        "StageWinter",          # 23: winter party
-        "CogStatueWinter",      # 24: winter party
-        "snowman",              # 25: winter party
-        "snowDoodle",           # 26: winter party
-        "BalloonAnvilValentine",# 27: valentines party
+        "cogIceCreamVictory",   # 21: victory party
     )
 )
 
 # Decoration sound attributes
 DECORATION_VOLUME = 1.0
 DECORATION_CUTOFF = 45
-
+                                   
 # Decoration IDs that should be available only for victory parties.
 VictoryPartyDecorationIds = frozenset([
     DecorationIds.Hydra,
@@ -309,35 +250,12 @@ VictoryPartyDecorationIds = frozenset([
     DecorationIds.CannonVictory,
     DecorationIds.CogStatueVictory,
     DecorationIds.TubeCogVictory,
-    DecorationIds.CogIceCreamVictory,
-])
-
-# Decoration IDs that should be available only for winter parties.
-WinterPartyDecorationIds = frozenset([
-    DecorationIds.cogIceCreamWinter,
-    DecorationIds.StageWinter,
-    DecorationIds.CogStatueWinter,
-    DecorationIds.snowman,
-    DecorationIds.snowDoodle,
+    DecorationIds.cogIceCreamVictory,
 ])
 
 # Decorations that should NOT be available during victory parties.
 VictoryPartyReplacementDecorationIds = frozenset([
     DecorationIds.BannerJellyBean, # replaced by BannerVictory
-])
-
-# Decorations that should be available only during valentines parties.
-ValentinePartyDecorationIds = frozenset([
-    DecorationIds.BalloonAnvilValentine,
-    DecorationIds.HeartBanner,
-    DecorationIds.HeartTarget,
-    DecorationIds.FlyingHeart,
-])
-
-# Decorations that should NOT be available during valentines parties.
-ValentinePartyReplacementDecorationIds = frozenset([
-    DecorationIds.BalloonAnvil, # replaced by BalloonAnvilValentine
-    DecorationIds.BannerJellyBean, # replaced by HeartBanner
 ])
 
 # a list of decor ids which we are advertising but not letting people buy
@@ -410,23 +328,7 @@ ActivityInformationDict = {
         "limitPerParty" : 1,
         "paidOnly" : False,
         "gridAsset" : "PartyJukebox_activity_1x1",
-    },
-    ActivityIds.PartyValentineJukebox: {
-        "cost" : int( 50 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 1,
-        "paidOnly" : False,
-        "gridAsset" : "PartyJukebox_activity_1x1",
-    },
-    ActivityIds.PartyValentineJukebox40: {
-        "cost" : int( 100 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 1,
-        "paidOnly" : False,
-        "gridAsset" : "PartyJukebox_activity_1x1",
-    },
+    },    
     ActivityIds.PartyCannon : {
         "cost" : int( 50 *PartyCostMultiplier),
         "gridsize" : (1,1),
@@ -443,24 +345,8 @@ ActivityInformationDict = {
         "paidOnly" : False,
         "gridAsset" : "PartyTrampoline_activity_2x2",
     },
-    ActivityIds.PartyValentineTrampoline: {
-        "cost" : int(50 * PartyCostMultiplier),
-        "gridsize" : (2,2),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 8,
-        "paidOnly" : False,
-        "gridAsset" : "PartyTrampoline_activity_2x2",
-    },
     ActivityIds.PartyVictoryTrampoline : {
         "cost" : int (50 * PartyCostMultiplier),
-        "gridsize" : (2,2),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 8,
-        "paidOnly" : False,
-        "gridAsset" : "PartyTrampoline_activity_2x2",
-    },
-    ActivityIds.PartyWinterTrampoline: {
-        "cost" : int(50 * PartyCostMultiplier),
         "gridsize" : (2,2),
         "numberPerPurchase" : 1,
         "limitPerParty" : 8,
@@ -475,24 +361,8 @@ ActivityInformationDict = {
         "paidOnly" : True,
         "gridAsset" : "PartyCatch_activity_5x5",
     },
-    ActivityIds.PartyWinterCatch: {
-        "cost" : int(300 * PartyCostMultiplier),
-        "gridsize" : (5,5),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 1,
-        "paidOnly" : True,
-        "gridAsset" : "PartyCatch_activity_5x5",
-    },
     ActivityIds.PartyCog : {
         "cost" : int (300 * PartyCostMultiplier),
-        "gridsize" : (5,5),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 1,
-        "paidOnly" : True,
-        "gridAsset" : "PartyCog_activity_5x5",
-    },
-    ActivityIds.PartyWinterCog: {
-        "cost" : int(300 * PartyCostMultiplier),
         "gridsize" : (5,5),
         "numberPerPurchase" : 1,
         "limitPerParty" : 1,
@@ -514,23 +384,7 @@ ActivityInformationDict = {
         "limitPerParty" : 1,
         "paidOnly" : True,
         "gridAsset" : "PartyDance_activity_3x3",
-    },
-    ActivityIds.PartyValentineDance: {
-        "cost" : int(100 * PartyCostMultiplier),
-        "gridsize" : (3,3),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 1,
-        "paidOnly" : True,
-        "gridAsset" : "PartyDance_activity_3x3",
-    },
-    ActivityIds.PartyValentineDance20: {
-        "cost" : int(200 * PartyCostMultiplier),
-        "gridsize" : (3, 3),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 1,
-        "paidOnly" : True,
-        "gridAsset" : "PartyDance_activity_3x3",
-    },
+    },    
     ActivityIds.PartyTugOfWar : {
         "cost" : int(200 * PartyCostMultiplier),
         "gridsize" : (4,4),
@@ -557,254 +411,27 @@ ActivityInformationDict = {
     },
 }
 
-DecorationInformationDict = {
-    # id : { cost, model, ... }
-	DecorationIds.BalloonAnvil: {
-		"cost" : int(10 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.BalloonAnvilValentine: {
-		"cost" : int(10 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.BalloonStage: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.Bow: {
-		"cost" : int(10 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.Cake: {
-		"cost" : int(10 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.Castle: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.GiftPile: {
-		"cost" : int(10 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.Horn: {
-		"cost" : int(10 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.MardiGras: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.NoiseMakers: {
-		"cost" : int(10 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.Pinwheel: {
-		"cost" : int(10 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.GagGlobe: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.BannerJellyBean: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.CakeTower: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-		},
-	DecorationIds.HeartTarget: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.HeartBanner: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.FlyingHeart: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.Hydra: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (2,2),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_propStage_2x2",
-	},
-	DecorationIds.BannerVictory: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.CannonVictory: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.CogStatueVictory: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.TubeCogVictory: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.CogIceCreamVictory: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.cogIceCreamWinter: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.StageWinter: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (2,2),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_propStage_2x2",
-	},
-	DecorationIds.CogStatueWinter: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.snowman: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-	},
-	DecorationIds.snowDoodle: {
-		"cost" : int(25 * PartyCostMultiplier),
-        "gridsize" : (1,1),
-        "numberPerPurchase" : 1,
-        "limitPerParty" : 5,
-        "paidOnly" : False,
-        "gridAsset" : "decoration_1x1",
-		},
-}
-
-#for id in DecorationIds:
-#    if id == DecorationIds.Hydra:
-#        DecorationInformationDict[id] = {
-#            "cost" : int (50 * PartyCostMultiplier),
-#            "gridsize" : (2,2),
-#            "numberPerPurchase" : 1,
-#            "limitPerParty" : 5,
-#            "paidOnly" : False,
-#            #"gridAsset" : "PartyDance_activity_3x3",
-#            "gridAsset" : "decoration_propStage_2x2",
-#        }
-#    else:
-#        DecorationInformationDict[id] = {
-#            "cost" : int (50 * PartyCostMultiplier),
-#            "gridsize" : (1,1),
-#            "numberPerPurchase" : 1,
-#            "limitPerParty" : 5,
-#            "paidOnly" : False,
-#            "gridAsset" : "decoration_1x1",
-#        }
+DecorationInformationDict = {}
+for id in DecorationIds:
+    if id == DecorationIds.Hydra:
+        DecorationInformationDict[id] = {
+            "cost" : int (50 * PartyCostMultiplier),
+            "gridsize" : (2,2),
+            "numberPerPurchase" : 1,
+            "limitPerParty" : 5,
+            "paidOnly" : False,
+            #"gridAsset" : "PartyDance_activity_3x3", 
+            "gridAsset" : "decoration_propStage_2x2",
+        }
+    else:
+        DecorationInformationDict[id] = {
+            "cost" : int (50 * PartyCostMultiplier),
+            "gridsize" : (1,1),
+            "numberPerPurchase" : 1,
+            "limitPerParty" : 5,
+            "paidOnly" : False,
+            "gridAsset" : "decoration_1x1",
+        }
 
 
 #===============================================================================
@@ -867,14 +494,14 @@ TeamActivityNeitherTeam = 3 # special value indicating neither team
 TeamActivityTextScale = 0.135
 
 # How long it counts down waiting for more players before it begins
-TeamActivityStartDelay = 8.0
+TeamActivityStartDelay = 8.0 
 
 TeamActivityDefaultMinPlayersPerTeam = 1
 TeamActivityDefaultMaxPlayersPerTeam = 4
 
 TeamActivityDefaultDuration = 60.0
 # How long does the tallying up results lasts
-TeamActivityDefaultConclusionDuration = 4.0
+TeamActivityDefaultConclusionDuration = 4.0 
 
 TeamActivityStatusColor = VBase4(1.0, 1.0, 0.65, 1.0)
 
@@ -897,7 +524,7 @@ CogActivityColors = (
 # The base color of the splat texture is a yellowish color
 CogActivitySplatColorBase = VBase4(.98, .9, .094, 1.0)
 
-# In order to tint it correctly, we divide the color we want by
+# In order to tint it correctly, we divide the color we want by 
 # that yellow, so when we do a setColorScale it multiplies properly.
 CogActivitySplatColors = (
     VBase4(
@@ -920,7 +547,7 @@ CogPinataHeadZ = 4.7
 CogActivityHitPoints = 1
 CogActivityHitPointsForHead = 3
 # How far to push the cog when body is hit
-CogPinataPushBodyFactor = 0.05
+CogPinataPushBodyFactor = 0.05 
 # How far to push the cog when head is hit
 CogPinataPushHeadFactor = CogPinataPushBodyFactor * abs(CogActivityHitPointsForHead - CogActivityHitPoints)
 
@@ -1012,7 +639,7 @@ PARTY_COG_CUTOFF = 60
 # Party Tug of War
 #==============================================================================
 TugOfWarStartDelay = 8.0    # in seconds. wait this long to allow more players to
-                            # join after we have gotten the minimum number of
+                            # join after we have gotten the minimum number of 
                             # players
 TugOfWarReadyDuration = 1.5 # time between "ready" and "go" when starting a game
 TugOfWarGoDuration = 0.75 # time between "go" and when you can start pulling
@@ -1055,7 +682,7 @@ TugOfWarTargetRateList = [
     (6.0, 10),
     (7.0, 11),
     (8.0, 12),
-]
+] 
 TugOfWarKeyPressTimeToLive = 1.0    # key presses are considered valid towards the
                                     # rate for this long
 TugOfWarKeyPressUpdateRate = 0.1    # delay between updates of the player's rate
@@ -1075,12 +702,12 @@ TugOfWarLossReward = 8
 TugOfWarTieReward = 5
 TugOfWarTieThreshold = 0.75 # if the teams moved this much or less from their
                             # start position, consider it a tie
-
+        
 #===============================================================================
 # Party Trampoline
 #===============================================================================
 
-TrampolineDuration = 60.0 # kick you off the trampoline after this long
+TrampolineDuration = 60.0 # kick you off the trampoline after this long 
 TrampolineSignOffset = Point3(-6.0, -6.0, 0.0)
 TrampolineLeverOffset = Point3(-5.0, -9.0, 0.0)
 TrampolineNumJellyBeans = 12
@@ -1141,7 +768,7 @@ for type in DropObjectTypes:
 #   Name2DOTypeId['apple'] == some number
 #   DOTypeId2Name[some number] == 'apple'
 Name2DOTypeId = {}
-names = list(Name2DropObjectType.keys())
+names = Name2DropObjectType.keys()
 names.sort()
 for i in range(len(names)):
     Name2DOTypeId[names[i]] = i
@@ -1149,12 +776,12 @@ for i in range(len(names)):
 DOTypeId2Name = names
 
 """
-from . import CatchActivityGlobals
+import CatchActivityGlobals
 for np in range(4):
     for sz in (2000,1000,5000,4000,3000,9000):
         numFruits = CatchActivityGlobals.NumFruits[np][sz]
         jb = int(int(numFruits / 2) + round(numFruits / 4.))
-        print('%s: %s: %s' % (np, sz, jb))
+        print '%s: %s: %s' % (np, sz, jb)
 """
 # this is for the AI, so it doesn't have to do calculations, and so the
 # client code can calculate these values in a straightforward manner.
@@ -1176,7 +803,7 @@ NumFruits = [
 # Dance Activity
 #===============================================================================
 
-# TODO make DistributedDanceFloorBase to support 8, 16 and 24 move Dance floors
+# TODO make DistributedDanceFloorBase to support 8, 16 and 24 move Dance floors 
 
 # rule first 3 letters must be unique
 # Dance Patterns to Animations
@@ -1184,25 +811,25 @@ DancePatternToAnims = {
 #    "ddd" : "down",
     "dduu" : "slip-backward",
 #    "drul" : "sad-walk",
-#    "ldr" : "push",
+#    "ldr" : "push",    
     "ldddud" : "happy-dance",
-#    "ldu" : "sprinkle-dust",
+#    "ldu" : "sprinkle-dust",    
     "lll" : "left",
-#    "llrr" : "firehose",
-#    "lrlr" : "wave",
+#    "llrr" : "firehose",    
+#    "lrlr" : "wave",    
 #    "ludr" : "conked",
-#    "lurd" : "walk",
+#    "lurd" : "walk",    
 #    "rdl" : "shrug",
-    "rdu" : "struggle",
-#    "rlrl" : "confused",
+    "rdu" : "struggle",    
+#    "rlrl" : "confused",    
     "rrr" : "right",
-    "rulu" : "running-jump",
+    "rulu" : "running-jump",    
 #    "uddd" : "reel-neutral",
-    "udlr" : "good-putt",
+    "udlr" : "good-putt",    
 #    "udud" : "angry",
     "udllrr" : "victory",
     "ulu" : "jump",
-    "uudd" : "slip-forward",
+    "uudd" : "slip-forward",    
 #    "uuu" : "up",
     }
 
@@ -1211,25 +838,25 @@ DancePatternToAnims20 = {
     "ddd" : "down",
     "dduu" : "slip-backward",
     "drul" : "sad-walk",
-    "ldr" : "push",
+    "ldr" : "push",    
     "ldddud" : "happy-dance",
-    "ldu" : "sprinkle-dust",
+    "ldu" : "sprinkle-dust",    
     "lll" : "left",
-    "llrr" : "firehose",
-    "lrlr" : "wave",
+    "llrr" : "firehose",    
+    "lrlr" : "wave",    
 #    "ludr" : "conked",
-#    "lurd" : "walk",
+#    "lurd" : "walk",    
 #    "rdl" : "shrug",
-    "rdu" : "struggle",
-    "rlrl" : "confused",
+    "rdu" : "struggle",    
+    "rlrl" : "confused",    
     "rrr" : "right",
-    "rulu" : "running-jump",
+    "rulu" : "running-jump",    
     "uddd" : "reel-neutral",
-    "udlr" : "good-putt",
+    "udlr" : "good-putt",    
     "udud" : "angry",
     "udllrr" : "victory",
     "ulu" : "jump",
-    "uudd" : "slip-forward",
+    "uudd" : "slip-forward",    
     "uuu" : "up",
     }
 
@@ -1471,18 +1098,18 @@ def countMusic():
     numMusic = 0
     for key in PhaseToMusicData:
         numMusic += len(PhaseToMusicData[key])
-    print("PhaseToMusicData %d" % numMusic)
-
+    print "PhaseToMusicData %d" % numMusic
+        
     numMusic = 0
     for key in PhaseToMusicData40:
         numMusic += len(PhaseToMusicData40[key])
-    print("PhaseToMusicData40 %d" % numMusic)
+    print "PhaseToMusicData40 %d" % numMusic
 
 # helper functions for globals:
 
 
 def getMusicRepeatTimes(length, minLength=MUSIC_MIN_LENGTH_SECONDS):
-    times = round(float(minLength) / length)
+    times = round(float(minLength) / length) 
     if minLength <= 0 or times < 1.0:
         times = 1.0
     return times
@@ -1509,16 +1136,16 @@ CatchMaxTotalReward = 500 # Maximum number of beans they can get when they leave
 
 PartyCannonCollisions = {
     "clouds" : ["cloudSphere-0"],
-
+    
     "bounce" : [
         "wall_collision",
         "discoBall_collision",
         "platform_left_collision",
         "platform_right_collision",
         ],
-
+        
     "trampoline_bounce" : "TrampolineCollision",
-
+    
     "ground" : [
         "floor_collision",
         "danceFloor_collision",
@@ -1526,7 +1153,7 @@ PartyCannonCollisions = {
         "hill_collision",
         "fence_floor",
         ],
-
+        
     "fence" : [
         "dockTube1_collision",
         "dockTube2_collision",
@@ -1556,18 +1183,3 @@ PartyCannonCollisions = {
         "sign_collision"
         ],
 }
-
-#===============================================================================
-# Party Cost
-#===============================================================================
-
-def getCostOfParty(partyInfo):
-    newCost = 0
-    
-    for activityBase in partyInfo.activityList:
-        newCost += ActivityInformationDict[activityBase.activityId]['cost']
-
-    for decorBase in partyInfo.decors:
-        newCost += DecorationInformationDict[decorBase.decorId]['cost']
-
-    return newCost

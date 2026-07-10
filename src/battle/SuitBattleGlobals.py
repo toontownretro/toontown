@@ -1,4 +1,4 @@
-from .BattleBase import *
+from BattleBase import *
 
 import random
 from direct.directnotify import DirectNotifyGlobal
@@ -8,14 +8,14 @@ from toontown.toonbase import TTLocalizer
 notify = DirectNotifyGlobal.directNotify.newCategory('SuitBattleGlobals')
 
 """
-CorporateTrack = ['Flunky',
+CorporateTrack = ['Flunky', 
                   'PencilPusher',
                   'YesMan',
                   'MicroManager',
                   'DownSizer',
                   'HeadHunter',
                   'CorporateRaider',
-                  'BigCheese']
+                  'BigCheese'] 
 LegalTrack = ['BottomFeeder',
               'BloodSucker',
               'DoubleTalker',
@@ -39,7 +39,7 @@ SalesTrack = ['ColdCaller',
               'Mover&Shaker',
               'TwoFaced',
               'TheMingler',
-              'MrHollywood']
+              'MrHollywood'] 
 """
 
 debugAttackSequence = {}
@@ -131,7 +131,7 @@ def pickSuitAttack(attacks, suitLevel):
     for c in attacks:
         total = total + c[3][suitLevel]
     assert (total == 100)
-
+    
     for c in attacks:
         count = count + c[3][suitLevel]
         if (randNum < count):
@@ -141,13 +141,13 @@ def pickSuitAttack(attacks, suitLevel):
         index = index + 1
     assert (attackNum != None), "No attack found"
 
-#    configAttackNum = ConfigVariableString('attack-type', 'random').getValue()
+#    configAttackNum = simbase.config.GetString('attack-type', 'random')
 #    if configAttackNum == 'random':
 #        return attackNum
 #    else:
 #        return configAttackNum
 
-    configAttackName = ConfigVariableString('attack-type', 'random').getValue()
+    configAttackName = simbase.config.GetString('attack-type', 'random')
     if configAttackName == 'random':
         # Normally, attackNum is returned
         return attackNum
@@ -155,7 +155,7 @@ def pickSuitAttack(attacks, suitLevel):
         # Return each different attack only once globally, then random.
         # A special debugging mode.
         for i in range(len(attacks)):
-            if attacks[i] not in debugAttackSequence:
+            if not debugAttackSequence.has_key(attacks[i]):
                 debugAttackSequence[attacks[i]] = 1
                 return i
         return attackNum
@@ -182,7 +182,7 @@ def getSuitAttack(suitName, suitLevel, attackNum=-1):
     adict['suitName'] = suitName
     name = attack[0]
     adict['name'] = name
-    adict['id'] = list(SuitAttacks.keys()).index(name)
+    adict['id'] = SuitAttacks.keys().index(name)
     adict['animName'] = SuitAttacks[name][0]
     adict['hp'] = attack[1][suitLevel]
     adict['acc'] = attack[2][suitLevel]
@@ -206,7 +206,7 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('PoundKey',     (2, 2, 3, 4, 6),        # dmg
-                                         (75, 75, 80, 80, 90),   # acc
+                                         (75, 75, 80, 80, 90),   # acc 
                                          (30, 35, 40, 45, 50)),  # freq
                                          # cringe & sidestep
                         ('Shred',        (3, 4, 5, 6, 7),
@@ -214,16 +214,16 @@ SuitAttributes = {
                                          (10, 15, 20, 25, 30)),
                                          # conked & sidestep
                         ('ClipOnTie',    (1, 1, 2, 2, 3),
-                                         (75, 80, 85, 90, 95),
+                                         (75, 80, 85, 90, 95), 
                                          (60, 50, 40, 30, 20)),
                                          # conked & sidestep
                         # TODO: Carbon copy - not implemented
                         #('CarbonCopy',   (0, 0, 0, 0, 0),
-                        #                 (75, 75, 75, 75, 75),
+                        #                 (75, 75, 75, 75, 75), 
                         #                 (0, 0, 0, 0, 0))
                         )
             },
-
+    
     #   Pencil Pusher (B)
     'p':  { 'name': TTLocalizer.SuitPencilPusher,
             'singularname': TTLocalizer.SuitPencilPusherS,
@@ -234,25 +234,25 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (45, 50, 55, 60, 65),
             'attacks': (('FountainPen',  (2, 3, 4, 6, 9),        # dmg
-                                         (75, 75, 75, 75, 75),   # acc
+                                         (75, 75, 75, 75, 75),   # acc 
                                          (20, 20, 20, 20, 20)),  # freq
                                          # flatten, sidestep-left/right
                         ('RubOut',       (4, 5, 6, 8, 12),
-                                         (75, 75, 75, 75, 75),
+                                         (75, 75, 75, 75, 75), 
                                          (20, 20, 20, 20, 20)),
                                          # conked&slip-backward, sidestep-l/r
                         ('FingerWag',    (1, 2, 2, 3, 4),
-                                         (75, 75, 75, 75, 75),
-                                         (35, 30, 25, 20, 15)),
+                                         (75, 75, 75, 75, 75), 
+                                         (35, 30, 25, 20, 15)), 
                                          # conked&slip-backward, sidestep-l/r
                         ('WriteOff',     (4, 6, 8, 10, 12),
-                                         (75, 75, 75, 75, 75),
-                                         (5, 10, 15, 20, 25)),
+                                         (75, 75, 75, 75, 75), 
+                                         (5, 10, 15, 20, 25)), 
                                          # conked&slip-backward, sidestep-l/r
                         ('FillWithLead', (3, 4, 5, 6, 7),
-                                         (75, 75, 75, 75, 75),
+                                         (75, 75, 75, 75, 75), 
                                          (20, 20, 20, 20, 20))) },
-
+    
     #   Yes Man (A)
     'ym': { 'name': TTLocalizer.SuitYesman,
             'singularname': TTLocalizer.SuitYesmanS,
@@ -263,27 +263,27 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (65, 70, 75, 80, 85),
             'attacks': (('RubberStamp',  (2, 2, 3, 3, 4),        # dmg
-                                         (75, 75, 75, 75, 75),   # acc
+                                         (75, 75, 75, 75, 75),   # acc 
                                          (35, 35, 35, 35, 35)),  # freq
                                          # flatten, sidestep-left/right
                         ('RazzleDazzle', (1, 1, 1, 1, 1),
-                                         (50, 50, 50, 50, 50),
+                                         (50, 50, 50, 50, 50), 
                                          (25, 20, 15, 10, 5)),
                                          # conked&slip-backward, sidestep-l/r
                         ('Synergy',      (4, 5, 6, 7, 8),
-                                         (50, 60, 70, 80, 90),
+                                         (50, 60, 70, 80, 90), 
                                          (5, 10, 15, 20, 25)),
                                          # slip-forward, jump
                         ('TeeOff',       (3, 3, 4, 4, 5),
-                                         (50, 60, 70, 80, 90),
+                                         (50, 60, 70, 80, 90), 
                                          (35, 35, 35, 35, 35)),
                                          # conked&slip-backward, duck
-                        # Not implementing for now
+                        # Not implementing for now 
                         #('Ditto',        (0, 0, 0, 0, 0),
-                        #                 (75, 75, 75, 75, 75),
+                        #                 (75, 75, 75, 75, 75), 
                         #                 (0, 0, 0, 0, 0)),
                         ) },
-
+    
     #   Micromanager (C)
     'mm': { 'name': TTLocalizer.SuitMicromanager,
             'singularname': TTLocalizer.SuitMicromanagerS,
@@ -294,25 +294,25 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (70, 75, 80, 82, 85),
             'attacks': (('Demotion',     (6, 8, 12, 15, 18),     # dmg
-                                         (50, 60, 70, 80, 90),   # acc
+                                         (50, 60, 70, 80, 90),   # acc 
                                          (30, 30, 30, 30, 30)),  # freq
                                          # flatten, sidestep-left/right
                         ('FingerWag',    (4, 6, 9, 12, 15),
-                                         (50, 60, 70, 80, 90),
+                                         (50, 60, 70, 80, 90), 
                                          (10, 10, 10, 10, 10)),
                                          # slip-forward, jump
                         ('FountainPen',  (3, 4, 6, 8, 10),
-                                         (50, 60, 70, 80, 90),
+                                         (50, 60, 70, 80, 90), 
                                          (15, 15, 15, 15, 15)),
                                          # conked&slip-backward, sidestep-l/r
                         ('BrainStorm',   (4, 6, 9, 12, 15),
-                                         (5, 5, 5, 5, 5),
+                                         (5, 5, 5, 5, 5), 
                                          (25, 25, 25, 25, 25)),
                                          # conked&slip-backward, duck
                         ('BuzzWord',     (4, 6, 9, 12, 15),
-                                         (50, 60, 70, 80, 90),
+                                         (50, 60, 70, 80, 90), 
                                          (20, 20, 20, 20, 20))) },
-
+    
     #   Downsizer (B)
     'ds': { 'name': TTLocalizer.SuitDownsizer,
             'singularname': TTLocalizer.SuitDownsizerS,
@@ -323,11 +323,11 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('Canned',       (5, 6, 8, 10, 12),        # dmg
-                                         (60, 75, 80, 85, 90),   # acc
+                                         (60, 75, 80, 85, 90),   # acc 
                                          (25, 25, 25, 25, 25)),  # freq
                                          # struggle&slip-backward, sidestep-left/right
                         ('Downsize',     (8, 9, 11, 13, 15),
-                                         (50, 65, 70, 75, 80),
+                                         (50, 65, 70, 75, 80), 
                                          (35, 35, 35, 35, 35)),
                                          # cringe, jump
                         ('PinkSlip',     (4, 5, 6, 7, 8),
@@ -355,11 +355,11 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('FountainPen',  (5, 6, 8, 10, 12),        # dmg
-                                         (60, 75, 80, 85, 90),   # acc
+                                         (60, 75, 80, 85, 90),   # acc 
                                          (15, 15, 15, 15, 15)),  # freq
                                          # conked&slip-backward, duck
                         ('GlowerPower',  (7, 8, 10, 12, 13),
-                                         (50, 60, 70, 80, 90),
+                                         (50, 60, 70, 80, 90), 
                                          (20, 20, 20, 20, 20)),
                                          # cringe&slip-backward, sidestep-l/r
                         ('HalfWindsor',  (8, 10, 12, 14, 16),
@@ -385,11 +385,11 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('Canned',       (6, 7, 8, 9, 10),        # dmg
-                                         (60, 75, 80, 85, 90),   # acc
+                                         (60, 75, 80, 85, 90),   # acc 
                                          (20, 20, 20, 20, 20)),  # freq
                                          # struggle&slip-backward, sidestep-left/right
                         ('EvilEye',      (12, 15, 18, 21, 24),
-                                         (60, 70, 75, 80, 90),
+                                         (60, 70, 75, 80, 90), 
                                          (35, 35, 35, 35, 35)),
                                          # cringe&slip-backward, duck
                         ('PlayHardball', (7, 8, 12, 15, 16),
@@ -411,12 +411,12 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('CigarSmoke',   (10, 12, 15, 18, 20),        # dmg
-                                         (55, 65, 75, 85, 95),   # acc
+                                         (55, 65, 75, 85, 95),   # acc 
                                          (20, 20, 20, 20, 20)),  # freq
                                          # not implemented defaults to glower power
                                          # cringe, sidestep-left/right
                         ('FloodTheMarket', (14, 16, 18, 20, 22),
-                                         (70, 75, 85, 90, 95),
+                                         (70, 75, 85, 90, 95), 
                                          (10, 10, 10, 10, 10)),
                                          # not implemented defaults to glower power
                                          # slip-backward&jump, sidestep-l/r
@@ -441,19 +441,19 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('FreezeAssets', (1, 1, 1, 1, 1),        # dmg
-                                         (90, 90, 90, 90, 90),   # acc
+                                         (90, 90, 90, 90, 90),   # acc 
                                          (5, 10, 15, 20, 25)),  # freq
                                          # flatten, sidestep-left/right
                         ('PoundKey',     (2, 2, 3, 4, 5),
-                                         (75, 80, 85, 90, 95),
+                                         (75, 80, 85, 90, 95), 
                                          (25, 25, 25, 25, 25)),
                                          # conked&slip-backward, sidestep-l/r
                         ('DoubleTalk',   (2, 3, 4, 6, 8),
-                                         (50, 55, 60, 65, 70),
+                                         (50, 55, 60, 65, 70), 
                                          (25, 25, 25, 25, 25)),
                                          # conked&slip-backward, duck
                         ('HotAir',       (3, 4, 6, 8, 10),
-                                         (50, 50, 50, 50, 50),
+                                         (50, 50, 50, 50, 50), 
                                          (45, 40, 35, 30, 25))) },
                                          # cringe, sidestep-l/r
     #   Telemarketer (B)
@@ -466,19 +466,19 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (45, 50, 55, 60, 65),
             'attacks': (('ClipOnTie',    (2, 2, 3, 3, 4),        # dmg
-                                         (75, 75, 75, 75, 75),   # acc
+                                         (75, 75, 75, 75, 75),   # acc 
                                          (15, 15, 15, 15, 15)),  # freq
                                          # flatten, sidestep-left/right
                         ('PickPocket',   (1, 1, 1, 1, 1),
-                                         (75, 75, 75, 75, 75),
+                                         (75, 75, 75, 75, 75), 
                                          (15, 15, 15, 15, 15)),
                                          # conked&slip-backward, sidestep-l/r
                         ('Rolodex',      (4, 6, 7, 9, 12),
-                                         (50, 50, 50, 50, 50),
+                                         (50, 50, 50, 50, 50), 
                                          (30, 30, 30, 30, 30)),
                                          # conked&slip-backward, sidestep-l/r
                         ('DoubleTalk',   (4, 6, 7, 9, 12),
-                                         (75, 80, 85, 90, 95),
+                                         (75, 80, 85, 90, 95), 
                                          (40, 40, 40, 40, 40))) },
     # Namedropper (A)
     'nd': { 'name': TTLocalizer.SuitNameDropper,
@@ -494,15 +494,15 @@ SuitAttributes = {
                                          (30, 30, 30, 30, 30)),  # freq
                                          # conked&slip-backward, sidestep-l/r
                         ('Rolodex',      (5, 6, 7, 10, 14),
-                                         (95, 95, 95, 95, 95),
+                                         (95, 95, 95, 95, 95), 
                                          (40, 40, 40, 40, 40)),
                                          # duck, sidestep-l/r
                         ('Synergy',      (3, 4, 6, 9, 12),
-                                         (50, 50, 50, 50, 50),
+                                         (50, 50, 50, 50, 50), 
                                          (15, 15, 15, 15, 15)),
                                          # slip-forward, jump
                         ('PickPocket',   (2, 2, 2, 2, 2),
-                                         (95, 95, 95, 95, 95),
+                                         (95, 95, 95, 95, 95), 
                                          (15, 15, 15, 15, 15))) },
                                          # cringe, sidestep-l/r
     #   Gladhander (C)
@@ -515,19 +515,19 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (70, 75, 80, 82, 85),
             'attacks': (('RubberStamp',  (4, 3, 3, 2, 1),        # dmg
-                                         (90, 70, 50, 30, 10),   # acc
+                                         (90, 70, 50, 30, 10),   # acc 
                                          (40, 30, 20, 10, 5)),  # freq
                                          # flatten, sidestep-left/right
                         ('FountainPen',  (3, 3, 2, 1, 1),
-                                         (70, 60, 50, 40, 30),
+                                         (70, 60, 50, 40, 30), 
                                          (40, 30, 20, 10, 5)),
                                          # conked&slip-backward, duck
                         ('Filibuster',   (4, 6, 9, 12, 15),
-                                         (30, 40, 50, 60, 70),
+                                         (30, 40, 50, 60, 70), 
                                          (10, 20, 30, 40, 45)),
                                          # conked&slip-backward, duck
                         ('Schmooze',     (5, 7, 11, 15, 20),
-                                         (55, 65, 75, 85, 95),
+                                         (55, 65, 75, 85, 95), 
                                          (10, 20, 30, 40, 45))) },
 
     #   Mover & Shaker (B)
@@ -540,11 +540,11 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('BrainStorm',   (5, 6, 8, 10, 12),      # dmg
-                                         (60, 75, 80, 85, 90),   # acc
+                                         (60, 75, 80, 85, 90),   # acc 
                                          (15, 15, 15, 15, 15)),  # freq
                                          # conked&slip-backward, duck
                         ('HalfWindsor',  (6, 9, 11, 13, 16),
-                                         (50, 65, 70, 75, 80),
+                                         (50, 65, 70, 75, 80), 
                                          (20, 20, 20, 20, 20)),
                                          # conked&neutral, sidestep-l/r
                         ('Quake',        (9, 12, 15, 18, 21),
@@ -570,11 +570,11 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('EvilEye',      (10, 12, 14, 16, 18),   # dmg
-                                         (60, 75, 80, 85, 90),   # acc
+                                         (60, 75, 80, 85, 90),   # acc 
                                          (30, 30, 30, 30, 30)),  # freq
                                          # cringe&slip-backward, duck
                         ('HangUp',       (7, 8, 10, 12, 13),
-                                         (50, 60, 70, 80, 90),
+                                         (50, 60, 70, 80, 90), 
                                          (15, 15, 15, 15, 15)),
                                          # slip-backward&neutral, sidestep-l/r
                         ('RazzleDazzle', (8, 10, 12, 14, 16),
@@ -596,11 +596,11 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('BuzzWord',     (10, 11, 13, 15, 16),   # dmg
-                                         (60, 75, 80, 85, 90),   # acc
+                                         (60, 75, 80, 85, 90),   # acc 
                                          (20, 20, 20, 20, 20)),  # freq
                                          # cringe, sidestep-left/right
                         ('ParadigmShift', (12, 15, 18, 21, 24),
-                                         (60, 70, 75, 80, 90),
+                                         (60, 70, 75, 80, 90), 
                                          (25, 25, 25, 25, 25)),
                                          # shift, sidestep-l/r
                         ('PowerTrip',    (10, 13, 14, 15, 18),
@@ -626,11 +626,11 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('PowerTrip',    (10, 12, 15, 18, 20),   # dmg
-                                         (55, 65, 75, 85, 95),   # acc
+                                         (55, 65, 75, 85, 95),   # acc 
                                          (50, 50, 50, 50, 50)),  # freq
                                          # slip-forward, jump
                         ('RazzleDazzle', (8, 11, 14, 17, 20),
-                                         (70, 75, 85, 90, 95),
+                                         (70, 75, 85, 90, 95), 
                                          (50, 50, 50, 50, 50)),
                                          # conked&slip-backward, sidestep-l/r
                         #('SandTrap',     (14, 15, 17, 19, 20),
@@ -656,19 +656,19 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('Watercooler',  (2, 2, 3, 4, 6),        # dmg
-                                         (50, 50, 50, 50, 50),   # acc
+                                         (50, 50, 50, 50, 50),   # acc 
                                          (20, 20, 20, 20, 20)),  # freq
                                          # flatten, sidestep-left/right
                         ('BounceCheck',  (3, 5, 7, 9, 11),
-                                         (75, 80, 85, 90, 95),
+                                         (75, 80, 85, 90, 95), 
                                          (15, 15, 15, 15, 15)),
                                          # conked&slip-backward, duck
                         ('ClipOnTie',    (1, 1, 2, 2, 3),
-                                         (50, 50, 50, 50, 50),
+                                         (50, 50, 50, 50, 50), 
                                          (25, 25, 25, 25, 25)),
                                          # conked&slip-backward, duck
                         ('PickPocket',   (2, 2, 3, 4, 6),
-                                         (95, 95, 95, 95, 95),
+                                         (95, 95, 95, 95, 95), 
                                          (40, 40, 40, 40, 40))) },
     #   Penny Pincher (A)
     'pp': { 'name': TTLocalizer.SuitPennyPincher,
@@ -680,20 +680,20 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (45, 50, 55, 60, 65),
             'attacks': (('BounceCheck',  (4, 5, 6, 8, 12),       # dmg
-                                         (75, 75, 75, 75, 75),   # acc
+                                         (75, 75, 75, 75, 75),   # acc 
                                          (45, 45, 45, 45, 45)),  # freq
                                          # flatten, sidestep-left/right
                         ('FreezeAssets', (2, 3, 4, 6, 9),
-                                         (75, 75, 75, 75, 75),
+                                         (75, 75, 75, 75, 75), 
                                          (20, 20, 20, 20, 20)),
                                          # conked&slip-backward, sidestep-l/r
                         ('FingerWag',    (1, 2, 3, 4, 6),
-                                         (50, 50, 50, 50, 50),
+                                         (50, 50, 50, 50, 50), 
                                          (35, 35, 35, 35, 35)),
                                          # conked&slip-backward, sidestep-l/r
                         # PennyPinch not implemented
                         #('PennyPinch',   (0, 0, 0, 0, 0),
-                        #                 (75, 75, 75, 75, 75),
+                        #                 (75, 75, 75, 75, 75), 
                         #                 (0, 0, 0, 0, 0)),
                         ) },
     #   Tightwad (C)
@@ -710,19 +710,19 @@ SuitAttributes = {
                                          (75, 5, 5, 5, 5)), # freq
                                          # cringe, sidestep-l/r
                         ('GlowerPower',  (3, 4, 6, 9, 12),
-                                         (95, 95, 95, 95, 95),
+                                         (95, 95, 95, 95, 95), 
                                          (10, 15, 20, 25, 30)),
                                          # cringe&slip-backward, sidestep-l/r
                         ('FingerWag',    (3, 3, 4, 4, 5),
-                                         (75, 75, 75, 75, 75),
+                                         (75, 75, 75, 75, 75), 
                                          (5, 70, 5, 5, 5)),
                                          # slip-backward, sidestep-l/r
                         ('FreezeAssets', (3, 4, 6, 9, 12),
-                                         (75, 75, 75, 75, 75),
+                                         (75, 75, 75, 75, 75), 
                                          (5, 5, 65, 5, 30)),
                                          # cringe, sidestep-l/r
                         ('BounceCheck',  (5, 6, 9, 13, 18),
-                                         (75, 75, 75, 75, 75),
+                                         (75, 75, 75, 75, 75), 
                                          (5, 5, 5, 60, 30))) },
                                          # conked, jump
     #   Bean Counter (B)
@@ -735,19 +735,19 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (70, 75, 80, 82, 85),
             'attacks': (('Audit',        (4, 6, 9, 12, 15),      # dmg
-                                         (95, 95, 95, 95, 95),   # acc
+                                         (95, 95, 95, 95, 95),   # acc 
                                          (20, 20, 20, 20, 20)),  # freq
                                          # flatten, sidestep-left/right
                         ('Calculate',    (4, 6, 9, 12, 15),
-                                         (75, 75, 75, 75, 75),
+                                         (75, 75, 75, 75, 75), 
                                          (25, 25, 25, 25, 25)),
                                          # conked&slip-backward, duck
                         ('Tabulate',     (4, 6, 9, 12, 15),
-                                         (75, 75, 75, 75, 75),
+                                         (75, 75, 75, 75, 75), 
                                          (25, 25, 25, 25, 25)),
                                          # conked&slip-backward, duck
                         ('WriteOff',     (4, 6, 9, 12, 15),
-                                         (95, 95, 95, 95, 95),
+                                         (95, 95, 95, 95, 95), 
                                          (30, 30, 30, 30, 30))) },
 
     #   Number Cruncher (A)
@@ -760,11 +760,11 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('Audit',        (5, 6, 8, 10, 12),      # dmg
-                                         (60, 75, 80, 85, 90),   # acc
+                                         (60, 75, 80, 85, 90),   # acc 
                                          (15, 15, 15, 15, 15)),  # freq
                                          # flatten, sidestep-left/right
                         ('Calculate',    (6, 7, 9, 11, 13),
-                                         (50, 65, 70, 75, 80),
+                                         (50, 65, 70, 75, 80), 
                                          (30, 30, 30, 30, 30)),
                                          # conked&slip-backward, duck
                         ('Crunch',       (8, 9, 11, 13, 15),
@@ -786,7 +786,7 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('Liquidate',    (10, 12, 14, 16, 18),   # dmg
-                                         (60, 75, 80, 85, 90),   # acc
+                                         (60, 75, 80, 85, 90),   # acc 
                                          (30, 30, 30, 30, 30)),  # freq
                                          # melt&jump, sidestep-l/r
                         ('MarketCrash',  (8, 10, 12, 14, 16),
@@ -808,11 +808,11 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('Bite',         (10, 11, 13, 15, 16),   # dmg
-                                         (60, 75, 80, 85, 90),   # acc
+                                         (60, 75, 80, 85, 90),   # acc 
                                          (30, 30, 30, 30, 30)),  # freq
                                          # conked, duck
                         ('Chomp',        (12, 15, 18, 21, 24),
-                                         (60, 70, 75, 80, 90),
+                                         (60, 70, 75, 80, 90), 
                                          (35, 35, 35, 35, 35)),
                                          # slip-backward, sidestep-l/r
                         ('PlayHardball', (9, 11, 12, 13, 15),
@@ -835,12 +835,12 @@ SuitAttributes = {
             'acc': (35, 40, 45, 50, 55),
             'attacks': (
                         #('FiveOClockShadow', (14, 17, 19, 21, 24),   # dmg
-                        #                 (55, 65, 75, 85, 95),   # acc
+                        #                 (55, 65, 75, 85, 95),   # acc 
                         #                 (0, 0, 0, 0, 0)),  # freq
                                          # not implemented defaults to tee off
                                          # slip-forward, jump
                         #('FloodTheMarket', (12, 15, 18, 21, 24),
-                        #                 (70, 75, 85, 90, 95),
+                        #                 (70, 75, 85, 90, 95), 
                         #                 (0, 0, 0, 0, 0)),
                                          # not implemented defaults to tee off
                                          # slip-backward&jump, sidestep-l/r
@@ -864,19 +864,19 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('RubberStamp',  (2, 3, 4, 5, 6),        # dmg
-                                         (75, 80, 85, 90, 95),   # acc
+                                         (75, 80, 85, 90, 95),   # acc 
                                          (20, 20, 20, 20, 20)),  # freq
                                          # flatten, sidestep-left/right
                         ('Shred',        (2, 4, 6, 8, 10),
-                                         (50, 55, 60, 65, 70),
+                                         (50, 55, 60, 65, 70), 
                                          (20, 20, 20, 20, 20)),
                                          # conked&slip-backward, duck
                         ('Watercooler',  (3, 4, 5, 6, 7),
-                                         (95, 95, 95, 95, 95),
+                                         (95, 95, 95, 95, 95), 
                                          (10, 10, 10, 10, 10)),
                                          # conked&slip-backward, duck
                         ('PickPocket',   (1, 1, 2, 2, 3),
-                                         (25, 30, 35, 40, 45),
+                                         (25, 30, 35, 40, 45), 
                                          (50, 50, 50, 50, 50))) },
     #   Bloodsucker (B)
     'b':  { 'name': TTLocalizer.SuitBloodsucker,
@@ -888,19 +888,19 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (45, 50, 55, 60, 65),
             'attacks': (('EvictionNotice', (1, 2, 3, 3, 4),      # dmg
-                                         (75, 75, 75, 75, 75),   # acc
+                                         (75, 75, 75, 75, 75),   # acc 
                                          (20, 20, 20, 20, 20)),  # freq
                                          # flatten, sidestep-left/right
                         ('RedTape',      (2, 3, 4, 6, 9),
-                                         (75, 75, 75, 75, 75),
+                                         (75, 75, 75, 75, 75), 
                                          (20, 20, 20, 20, 20)),
                                          # conked&slip-backward, sidestep-l/r
                         ('Withdrawal',   (6, 8, 10, 12, 14),
-                                         (95, 95, 95, 95, 95),
+                                         (95, 95, 95, 95, 95), 
                                          (10, 10, 10, 10, 10)),
                                          # conked&slip-backward, sidestep-l/r
                         ('Liquidate',    (2, 3, 4, 6, 9),
-                                         (50, 60, 70, 80, 90),
+                                         (50, 60, 70, 80, 90), 
                                          (50, 50, 50, 50, 50))) },
     #   Double Talker (A)
     'dt': { 'name': TTLocalizer.SuitDoubleTalker,
@@ -916,7 +916,7 @@ SuitAttributes = {
                                          (5, 5, 5, 5, 5)), # freq
                                          # cringe, sidestep-l/r
                         ('BounceCheck',  (1, 1, 1, 1, 1),
-                                         (50, 60, 70, 80, 90),
+                                         (50, 60, 70, 80, 90), 
                                          (5, 5, 5, 5, 5)),
                                          # conked, jump
                         ('BuzzWord',     (1, 2, 3, 5, 6),
@@ -949,15 +949,15 @@ SuitAttributes = {
                                          (15, 15, 15, 15, 15)), # freq
                                          # shake, jump
                         ('RedTape',      (6, 8, 12, 15, 19),
-                                         (75, 75, 75, 75, 75),
+                                         (75, 75, 75, 75, 75), 
                                          (30, 30, 30, 30, 30)),
                                          # bound&jump, sidestep-l/r
                         ('Rolodex',      (3, 4, 5, 6, 7),
-                                         (75, 75, 75, 75, 75),
+                                         (75, 75, 75, 75, 75), 
                                          (20, 20, 20, 20, 20)),
                                          # duck, sidestep-l/r
                         ('HangUp',       (2, 3, 4, 5, 6),
-                                         (75, 75, 75, 75, 75),
+                                         (75, 75, 75, 75, 75), 
                                          (35, 35, 35, 35, 35))) },
                                          # slip-backward&neutral, sidestep-l/r
 
@@ -971,11 +971,11 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('GuiltTrip',    (8, 11, 13, 15, 18),      # dmg
-                                         (60, 75, 80, 85, 90),   # acc
+                                         (60, 75, 80, 85, 90),   # acc 
                                          (40, 40, 40, 40, 40)),  # freq
                                          # slip-forward&neutral, jump
                         ('RestrainingOrder', (6, 7, 9, 11, 13),
-                                         (50, 65, 70, 75, 90),
+                                         (50, 65, 70, 75, 90), 
                                          (25, 25, 25, 25, 25)),
                                          # conked&bound, sidestep-l/r
                         ('FingerWag',    (5, 6, 7, 8, 9),
@@ -993,7 +993,7 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('ParadigmShift', (9, 10, 13, 16, 17),   # dmg
-                                         (60, 75, 80, 85, 90),   # acc
+                                         (60, 75, 80, 85, 90),   # acc 
                                          (30, 30, 30, 30, 30)),  # freq
                                          # shift, sidestep-l/r
                         ('Quake',        (8, 10, 12, 14, 16),
@@ -1019,11 +1019,11 @@ SuitAttributes = {
             'freq': (50, 30, 10, 5, 5),
             'acc': (35, 40, 45, 50, 55),
             'attacks': (('EvilEye',      (10, 11, 13, 15, 16),   # dmg
-                                         (60, 75, 80, 85, 90),   # acc
+                                         (60, 75, 80, 85, 90),   # acc 
                                          (20, 20, 20, 20, 20)),  # freq
                                          # cringe&slip-backward, duck
                         ('Jargon',       (7, 9, 11, 13, 15),
-                                         (60, 70, 75, 80, 90),
+                                         (60, 70, 75, 80, 90), 
                                          (15, 15, 15, 15, 15)),
                                          # cringe, sidestep-l/r
                         ('Legalese',     (11, 13, 16, 19, 21),
@@ -1046,12 +1046,12 @@ SuitAttributes = {
             'acc': (35, 40, 45, 50, 55),
             'attacks': (
                         #('CigarSmoke',   (12, 14, 16, 18, 20),   # dmg
-                        #                 (65, 75, 85, 90, 95),   # acc
+                        #                 (65, 75, 85, 90, 95),   # acc 
                         #                 (0, 0, 0, 0, 0)),  # freq
                                          # not implemented defaults to finger wag
                                          # cringe, sidestep-left/right
                         #('Gavel',        (14, 16, 19, 22, 24),
-                        #                 (70, 75, 85, 90, 95),
+                        #                 (70, 75, 85, 90, 95), 
                         #                 (0, 0, 0, 0, 0)),
                                          # not implemented defaults to finger wag
                                          # slip-backward, sidestep-l/r
@@ -1072,7 +1072,7 @@ ATK_TGT_SINGLE = 2
 ATK_TGT_GROUP = 3
 SuitAttacks = {
     'Audit':            ('phone',           ATK_TGT_SINGLE),
-    'Bite':             ('throw-paper',     ATK_TGT_SINGLE),
+    'Bite':             ('throw-paper',     ATK_TGT_SINGLE),    
     'BounceCheck':      ('throw-paper',     ATK_TGT_SINGLE),
     'BrainStorm':       ('effort',          ATK_TGT_SINGLE),
     'BuzzWord':         ('speak',           ATK_TGT_SINGLE),
@@ -1140,76 +1140,76 @@ SuitAttacks = {
     'WriteOff':         ('hold-pencil',     ATK_TGT_SINGLE),
     }
 
-AUDIT = list(SuitAttacks.keys()).index('Audit')
-BITE = list(SuitAttacks.keys()).index('Bite')
-BOUNCE_CHECK = list(SuitAttacks.keys()).index('BounceCheck')
-BRAIN_STORM = list(SuitAttacks.keys()).index('BrainStorm')
-BUZZ_WORD = list(SuitAttacks.keys()).index('BuzzWord')
-CALCULATE = list(SuitAttacks.keys()).index('Calculate')
-CANNED = list(SuitAttacks.keys()).index('Canned')
-CHOMP = list(SuitAttacks.keys()).index('Chomp')
-CIGAR_SMOKE = list(SuitAttacks.keys()).index('CigarSmoke')
-CLIPON_TIE = list(SuitAttacks.keys()).index('ClipOnTie')
-CRUNCH = list(SuitAttacks.keys()).index('Crunch')
-DEMOTION = list(SuitAttacks.keys()).index('Demotion')
-DOWNSIZE = list(SuitAttacks.keys()).index('Downsize')
-DOUBLE_TALK = list(SuitAttacks.keys()).index('DoubleTalk')
-EVICTION_NOTICE = list(SuitAttacks.keys()).index('EvictionNotice')
-EVIL_EYE = list(SuitAttacks.keys()).index('EvilEye')
-FILIBUSTER = list(SuitAttacks.keys()).index('Filibuster')
-FILL_WITH_LEAD = list(SuitAttacks.keys()).index('FillWithLead')
-FINGER_WAG = list(SuitAttacks.keys()).index('FingerWag')
-FIRED = list(SuitAttacks.keys()).index('Fired')
-FIVE_O_CLOCK_SHADOW = list(SuitAttacks.keys()).index('FiveOClockShadow')
-FLOOD_THE_MARKET = list(SuitAttacks.keys()).index('FloodTheMarket')
-FOUNTAIN_PEN = list(SuitAttacks.keys()).index('FountainPen')
-FREEZE_ASSETS = list(SuitAttacks.keys()).index('FreezeAssets')
-GAVEL = list(SuitAttacks.keys()).index('Gavel')
-GLOWER_POWER = list(SuitAttacks.keys()).index('GlowerPower')
-GUILT_TRIP = list(SuitAttacks.keys()).index('GuiltTrip')
-HALF_WINDSOR = list(SuitAttacks.keys()).index('HalfWindsor')
-HANG_UP = list(SuitAttacks.keys()).index('HangUp')
-HEAD_SHRINK = list(SuitAttacks.keys()).index('HeadShrink')
-HOT_AIR = list(SuitAttacks.keys()).index('HotAir')
-JARGON = list(SuitAttacks.keys()).index('Jargon')
-LEGALESE = list(SuitAttacks.keys()).index('Legalese')
-LIQUIDATE = list(SuitAttacks.keys()).index('Liquidate')
-MARKET_CRASH = list(SuitAttacks.keys()).index('MarketCrash')
-MUMBO_JUMBO = list(SuitAttacks.keys()).index('MumboJumbo')
-PARADIGM_SHIFT = list(SuitAttacks.keys()).index('ParadigmShift')
-PECKING_ORDER = list(SuitAttacks.keys()).index('PeckingOrder')
-PICK_POCKET = list(SuitAttacks.keys()).index('PickPocket')
-PINK_SLIP = list(SuitAttacks.keys()).index('PinkSlip')
-PLAY_HARDBALL = list(SuitAttacks.keys()).index('PlayHardball')
-POUND_KEY = list(SuitAttacks.keys()).index('PoundKey')
-POWER_TIE = list(SuitAttacks.keys()).index('PowerTie')
-POWER_TRIP = list(SuitAttacks.keys()).index('PowerTrip')
-QUAKE = list(SuitAttacks.keys()).index('Quake')
-RAZZLE_DAZZLE = list(SuitAttacks.keys()).index('RazzleDazzle')
-RED_TAPE = list(SuitAttacks.keys()).index('RedTape')
-RE_ORG = list(SuitAttacks.keys()).index('ReOrg')
-RESTRAINING_ORDER = list(SuitAttacks.keys()).index('RestrainingOrder')
-ROLODEX = list(SuitAttacks.keys()).index('Rolodex')
-RUBBER_STAMP = list(SuitAttacks.keys()).index('RubberStamp')
-RUB_OUT = list(SuitAttacks.keys()).index('RubOut')
-SACKED = list(SuitAttacks.keys()).index('Sacked')
-SANDTRAP = list(SuitAttacks.keys()).index('SandTrap')
-SCHMOOZE = list(SuitAttacks.keys()).index('Schmooze')
-SHAKE = list(SuitAttacks.keys()).index('Shake')
-SHRED = list(SuitAttacks.keys()).index('Shred')
-SONG_AND_DANCE = list(SuitAttacks.keys()).index('SongAndDance')
-SPIN = list(SuitAttacks.keys()).index('Spin')
-SYNERGY = list(SuitAttacks.keys()).index('Synergy')
-TABULATE = list(SuitAttacks.keys()).index('Tabulate')
-TEE_OFF = list(SuitAttacks.keys()).index('TeeOff')
-THROW_BOOK = list(SuitAttacks.keys()).index('ThrowBook')
-TREMOR = list(SuitAttacks.keys()).index('Tremor')
-WATERCOOLER = list(SuitAttacks.keys()).index('Watercooler')
-WITHDRAWAL = list(SuitAttacks.keys()).index('Withdrawal')
-WRITE_OFF = list(SuitAttacks.keys()).index('WriteOff')
+AUDIT = SuitAttacks.keys().index('Audit')
+BITE = SuitAttacks.keys().index('Bite')
+BOUNCE_CHECK = SuitAttacks.keys().index('BounceCheck')
+BRAIN_STORM = SuitAttacks.keys().index('BrainStorm')
+BUZZ_WORD = SuitAttacks.keys().index('BuzzWord')
+CALCULATE = SuitAttacks.keys().index('Calculate')
+CANNED = SuitAttacks.keys().index('Canned')
+CHOMP = SuitAttacks.keys().index('Chomp')
+CIGAR_SMOKE = SuitAttacks.keys().index('CigarSmoke')
+CLIPON_TIE = SuitAttacks.keys().index('ClipOnTie')
+CRUNCH = SuitAttacks.keys().index('Crunch')
+DEMOTION = SuitAttacks.keys().index('Demotion')
+DOWNSIZE = SuitAttacks.keys().index('Downsize')
+DOUBLE_TALK = SuitAttacks.keys().index('DoubleTalk')
+EVICTION_NOTICE = SuitAttacks.keys().index('EvictionNotice')
+EVIL_EYE = SuitAttacks.keys().index('EvilEye')
+FILIBUSTER = SuitAttacks.keys().index('Filibuster')
+FILL_WITH_LEAD = SuitAttacks.keys().index('FillWithLead')
+FINGER_WAG = SuitAttacks.keys().index('FingerWag')
+FIRED = SuitAttacks.keys().index('Fired')
+FIVE_O_CLOCK_SHADOW = SuitAttacks.keys().index('FiveOClockShadow')
+FLOOD_THE_MARKET = SuitAttacks.keys().index('FloodTheMarket')
+FOUNTAIN_PEN = SuitAttacks.keys().index('FountainPen')
+FREEZE_ASSETS = SuitAttacks.keys().index('FreezeAssets')
+GAVEL = SuitAttacks.keys().index('Gavel')
+GLOWER_POWER = SuitAttacks.keys().index('GlowerPower')
+GUILT_TRIP = SuitAttacks.keys().index('GuiltTrip')
+HALF_WINDSOR = SuitAttacks.keys().index('HalfWindsor')
+HANG_UP = SuitAttacks.keys().index('HangUp')
+HEAD_SHRINK = SuitAttacks.keys().index('HeadShrink')
+HOT_AIR = SuitAttacks.keys().index('HotAir')
+JARGON = SuitAttacks.keys().index('Jargon')
+LEGALESE = SuitAttacks.keys().index('Legalese')
+LIQUIDATE = SuitAttacks.keys().index('Liquidate')
+MARKET_CRASH = SuitAttacks.keys().index('MarketCrash')
+MUMBO_JUMBO = SuitAttacks.keys().index('MumboJumbo')
+PARADIGM_SHIFT = SuitAttacks.keys().index('ParadigmShift')
+PECKING_ORDER = SuitAttacks.keys().index('PeckingOrder')
+PICK_POCKET = SuitAttacks.keys().index('PickPocket')
+PINK_SLIP = SuitAttacks.keys().index('PinkSlip')
+PLAY_HARDBALL = SuitAttacks.keys().index('PlayHardball')
+POUND_KEY = SuitAttacks.keys().index('PoundKey')
+POWER_TIE = SuitAttacks.keys().index('PowerTie')
+POWER_TRIP = SuitAttacks.keys().index('PowerTrip')
+QUAKE = SuitAttacks.keys().index('Quake')
+RAZZLE_DAZZLE = SuitAttacks.keys().index('RazzleDazzle')
+RED_TAPE = SuitAttacks.keys().index('RedTape')
+RE_ORG = SuitAttacks.keys().index('ReOrg')
+RESTRAINING_ORDER = SuitAttacks.keys().index('RestrainingOrder')
+ROLODEX = SuitAttacks.keys().index('Rolodex')
+RUBBER_STAMP = SuitAttacks.keys().index('RubberStamp')
+RUB_OUT = SuitAttacks.keys().index('RubOut')
+SACKED = SuitAttacks.keys().index('Sacked')
+SANDTRAP = SuitAttacks.keys().index('SandTrap')
+SCHMOOZE = SuitAttacks.keys().index('Schmooze')
+SHAKE = SuitAttacks.keys().index('Shake')
+SHRED = SuitAttacks.keys().index('Shred')
+SONG_AND_DANCE = SuitAttacks.keys().index('SongAndDance')
+SPIN = SuitAttacks.keys().index('Spin')
+SYNERGY = SuitAttacks.keys().index('Synergy')
+TABULATE = SuitAttacks.keys().index('Tabulate')
+TEE_OFF = SuitAttacks.keys().index('TeeOff')
+THROW_BOOK = SuitAttacks.keys().index('ThrowBook')
+TREMOR = SuitAttacks.keys().index('Tremor')
+WATERCOOLER = SuitAttacks.keys().index('Watercooler')
+WITHDRAWAL = SuitAttacks.keys().index('Withdrawal')
+WRITE_OFF = SuitAttacks.keys().index('WriteOff')
 
 def getFaceoffTaunt(suitName, doId):
-    if suitName in SuitFaceoffTaunts:
+    if SuitFaceoffTaunts.has_key(suitName):
         taunts = SuitFaceoffTaunts[suitName]
     else:
         taunts = TTLocalizer.SuitFaceoffDefaultTaunts
@@ -1225,14 +1225,14 @@ def getAttackTauntIndexFromIndex(suit, attackIndex):
     return getAttackTauntIndex(adict['name'])
 
 def getAttackTauntIndex(attackName):
-    if (attackName in SuitAttackTaunts):
+    if (SuitAttackTaunts.has_key(attackName)):
         taunts = SuitAttackTaunts[attackName]
         return random.randint(0, len(taunts)-1)
     else:
         return 1
 
 def getAttackTaunt(attackName, index=None):
-    if (attackName in SuitAttackTaunts):
+    if (SuitAttackTaunts.has_key(attackName)):
         taunts = SuitAttackTaunts[attackName]
     else:
         taunts = TTLocalizer.SuitAttackDefaultTaunts
@@ -1250,3 +1250,4 @@ def getAttackTaunt(attackName, index=None):
 
 
 SuitAttackTaunts = TTLocalizer.SuitAttackTaunts
+

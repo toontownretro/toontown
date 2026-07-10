@@ -1,9 +1,9 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
-from . import DistributedDoorAI
-from . import DistributedPetshopInteriorAI
-from . import FADoorCodes
-from . import DoorTypes
+import DistributedDoorAI
+import DistributedPetshopInteriorAI
+import FADoorCodes
+import DoorTypes
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownGlobals
 from toontown.quest import Quests
@@ -20,7 +20,7 @@ class PetshopBuildingAI:
         self.air = air
         self.exteriorZone = exteriorZone
         self.interiorZone = interiorZone
-
+        
         self.setup(blockNumber)
 
     def cleanup(self):
@@ -47,10 +47,10 @@ class PetshopBuildingAI:
         #    self.wanderingPets = self.createPet(self.npcs[i].doId, seeds[i])
 
         self.interior.generateWithRequired(self.interiorZone)
-        # Outside door
+        # Outside door 
         door=DistributedDoorAI.DistributedDoorAI(
             self.air, blockNumber, DoorTypes.EXT_STANDARD)
-        # Inside door
+        # Inside door 
         insideDoor=DistributedDoorAI.DistributedDoorAI(
             self.air,
             blockNumber,
@@ -80,4 +80,4 @@ class PetshopBuildingAI:
         pet.traits = PetTraits.PetTraits(traitSeed=traitSeed, safeZoneId=safeZoneId)
         pet.generateWithRequired(zoneId)
         pet.setPos(0, 0, 0)
-        pet.b_setParent(ToontownGlobals.SPActors)
+        pet.b_setParent(ToontownGlobals.SPRender)

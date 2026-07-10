@@ -1,7 +1,7 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
-from . import DistributedCashbotBossObjectAI
+import DistributedCashbotBossObjectAI
 
 class DistributedCashbotBossSafeAI(DistributedCashbotBossObjectAI.DistributedCashbotBossObjectAI):
 
@@ -46,8 +46,8 @@ class DistributedCashbotBossSafeAI(DistributedCashbotBossObjectAI.DistributedCas
 
         if avId not in self.boss.involvedToons:
             return
-
-        if self._state != 'Dropped' and self._state != 'Grabbed':
+        
+        if self.state != 'Dropped' and self.state != 'Grabbed':
             return
 
         if self.avoidHelmet or self == self.boss.heldObject:
@@ -83,7 +83,7 @@ class DistributedCashbotBossSafeAI(DistributedCashbotBossObjectAI.DistributedCas
     def requestInitial(self):
         # The client controlling the safe dropped it through the
         # world; reset it to its initial state.
-
+        
         avId = self.air.getAvatarIdFromSender()
 
         if avId == self.avId:
@@ -98,7 +98,7 @@ class DistributedCashbotBossSafeAI(DistributedCashbotBossObjectAI.DistributedCas
 
     def enterInitial(self):
         # The safe is in its initial, resting position.
-
+        
         self.avoidHelmet = 0
         self.resetToInitialPosition()
 
@@ -108,7 +108,7 @@ class DistributedCashbotBossSafeAI(DistributedCashbotBossObjectAI.DistributedCas
             self.stash()
 
         self.d_setObjectState('I', 0, 0)
-
+            
     def exitInitial(self):
         if self.index == 0:
             self.unstash()
@@ -117,6 +117,6 @@ class DistributedCashbotBossSafeAI(DistributedCashbotBossObjectAI.DistributedCas
         # The safe is somewhere on the floor, but not under anyone's
         # control.  This can only happen to a safe when the player who
         # was controlling it disconnects during battle.
-
+        
         DistributedCashbotBossObjectAI.DistributedCashbotBossObjectAI.enterFree(self)
         self.avoidHelmet = 0

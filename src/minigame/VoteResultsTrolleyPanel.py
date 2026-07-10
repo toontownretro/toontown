@@ -1,11 +1,12 @@
 from direct.gui.DirectGui import DirectFrame, DGG, DirectLabel
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
-from toontown.toonbase.ToontownModules import Point3, TextNode, Vec4
+from pandac.PandaModules import Point3, TextNode, Vec4
 from toontown.minigame import TravelGameGlobals
 from toontown.toonbase import TTLocalizer
 from direct.interval.IntervalGlobal import Parallel, Sequence, LerpFunc, Func, Wait, SoundInterval
 from direct.showbase.PythonUtil import pdir
+
 
 class VoteResultsTrolleyPanel(DirectFrame):
     """
@@ -37,8 +38,8 @@ class VoteResultsTrolleyPanel(DirectFrame):
         self.directions = directions * listMultiplier
         self.namesList = namesList * listMultiplier
         self.disconnectedList = disconnectedList * listMultiplier
-        self.directionToGo = directionToGo
-        self.directionReason = directionReason
+        self.directionToGo = directionToGo 
+        self.directionReason = directionReason 
         self.directionTotals = directionTotals
 
         self.entryList = []
@@ -49,7 +50,7 @@ class VoteResultsTrolleyPanel(DirectFrame):
             relief=None,
             pos = self.getRowPos(-1),
             )
-
+            
         self.upLabel = DirectLabel(
             parent = self,
             relief = None,
@@ -89,7 +90,7 @@ class VoteResultsTrolleyPanel(DirectFrame):
             text_scale = 0.05,
             text_align = TextNode.ARight
             )
-
+        
         self.totalFrame = DirectFrame(
             parent=self,
             relief=None,
@@ -113,7 +114,7 @@ class VoteResultsTrolleyPanel(DirectFrame):
             text_align = TextNode.ACenter
             )
         self.setupResultLabel()
-
+  
         for index in range(self.numPlayers):
             frame = DirectFrame(
                 parent=self,
@@ -192,7 +193,7 @@ class VoteResultsTrolleyPanel(DirectFrame):
                     arrow.wrtReparentTo(self.resultFrame)
                     arrow.hide()
                     self.avArrows[index] =arrow
-
+                
                 fgColor = Vec4(0,0,0,1)
                 if self.votes[index] > 0:
                     if self.directions[index] == 0:
@@ -204,7 +205,7 @@ class VoteResultsTrolleyPanel(DirectFrame):
                         parent = aspect2d,
                         #geom = DGG.getDefaultDialogGeom(),
                         #geom_color =ToontownGlobals.GlobalDialogColor[:3]+(0.80,),
-                        #geom_scale = (0.1,1,0.1),
+                        #geom_scale = (0.1,1,0.1),                    
                         relief = None,
                         pos = labelPos,
                         text = 'test',
@@ -219,7 +220,7 @@ class VoteResultsTrolleyPanel(DirectFrame):
                         parent = aspect2d,
                         geom = DGG.getDefaultDialogGeom(),
                         #geom_color =ToontownGlobals.GlobalDialogColor[:3]+(0.80,),
-                        geom_scale = (0.2,1,0.2),
+                        geom_scale = (0.2,1,0.2),                    
                         relief = None,
                         pos = labelPos,
                         text = 'test',
@@ -232,21 +233,21 @@ class VoteResultsTrolleyPanel(DirectFrame):
                 newLabel.wrtReparentTo(self.resultFrame)
                 newLabel.hide()
                 self.avVotesLabel[index] = newLabel
-
+                
         matchingGameGui.removeNode()
 
-
+        
         self.curArrowSfxIndex = 0
         self.upArrowSfx = []
         self.downArrowSfx = []
         for i in range (5):
             self.upArrowSfx.append(
-                base.loader.loadSfx("phase_4/audio/sfx/MG_sfx_travel_game_blue_arrow.mp3"))
+                base.loadSfx("phase_4/audio/sfx/MG_sfx_travel_game_blue_arrow.mp3"))
             self.downArrowSfx.append(
-                base.loader.loadSfx("phase_4/audio/sfx/MG_sfx_travel_game_red_arrow.mp3"))
-        self.winVoteSfx = base.loader.loadSfx("phase_4/audio/sfx/MG_sfx_travel_game_win_vote.mp3")
-        self.noVoteSfx =  base.loader.loadSfx("phase_4/audio/sfx/MG_sfx_travel_game_square_no_vote_1.mp3")
-        self.loseVoteSfx = base.loader.loadSfx("phase_4/audio/sfx/MG_sfx_travel_game_lose_vote.mp3")
+                base.loadSfx("phase_4/audio/sfx/MG_sfx_travel_game_red_arrow.mp3"))
+        self.winVoteSfx = base.loadSfx("phase_4/audio/sfx/MG_sfx_travel_game_win_vote.mp3")
+        self.noVoteSfx =  base.loadSfx("phase_4/audio/sfx/MG_sfx_travel_game_square_no_vote_1.mp3")            
+        self.loseVoteSfx = base.loadSfx("phase_4/audio/sfx/MG_sfx_travel_game_lose_vote.mp3")
 
         self.localAvatarWon = False
         self.localAvatarLost = False;
@@ -273,7 +274,7 @@ class VoteResultsTrolleyPanel(DirectFrame):
         #MG_sfx_travel_game_bonus.mp3 MG_sfx_travel_game_blue_arrow.mp3 \
         #MG_sfx_travel_game_bell_for_trolley.mp3
         #"""
-
+            
     def getRowPos(self, place):
         return Point3(-0.72,-0.01,0.0-place*0.1)
 
@@ -316,9 +317,9 @@ class VoteResultsTrolleyPanel(DirectFrame):
             label['text'] = str( int(t*endVotes + startVotes))
 
         track = Parallel()
-        #track.append(Func(self.entryList[index][0].show, name='showName %d' % index))
+        #track.append(Func(self.entryList[index][0].show, name='showName %d' % index))        
         #track.append(LerpFunc(ticketTicker,duration=duration, name='countVotes %d'% index))
-
+        
         # lets figure out the total before
         startVotes = 0
         for prev in range(index):
@@ -330,7 +331,7 @@ class VoteResultsTrolleyPanel(DirectFrame):
             label['text'] = str( int(t*additionalVotes + startVotes))
 
         track.append(LerpFunc(totalTicker, duration=duration, name='countTotal %d' %index))
-        if index in self.avVotesLabel:
+        if self.avVotesLabel.has_key(index):
             def avVotesTicker(t, label = self.avVotesLabel[index],
                               startVotes = 0, endVotes = numVotes, direction = direction):
                 oldValue = label['text']
@@ -345,10 +346,10 @@ class VoteResultsTrolleyPanel(DirectFrame):
                             self.curArrowSfxIndex += 1
                         if self.curArrowSfxIndex >= len(self.upArrowSfx):
                             self.curArrowSfxIndex = 0
-
+            
             label = self.avVotesLabel[index]
             track.append(Func(self.avVotesLabel[index].show, name='showName %d' % index))
-            if index in self.avArrows:
+            if self.avArrows.has_key(index):
                 track.append(Func(self.avArrows[index].show, name='showArrow %d' % index))
             if direction == 0 and numVotes:
                 #track.append(SoundInterval(self.upArrowSfx))
@@ -358,10 +359,10 @@ class VoteResultsTrolleyPanel(DirectFrame):
                 pass
             else:
                 track.append(SoundInterval(self.noVoteSfx))
-
+                
             track.append(LerpFunc(avVotesTicker,duration=duration,
                                   name='countAvVotes %d'% index))
-
+            
         return track
 
     def startMovie(self):

@@ -1,4 +1,4 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from direct.fsm.ClassicFSM import *
@@ -8,7 +8,7 @@ from otp.avatar import Avatar
 from direct.actor import Actor
 from direct.task import Task
 from toontown.pets import PetDNA
-from .PetDNA import HeadParts, EarParts, NoseParts, TailParts, BodyTypes, BodyTextures, AllPetColors, getColors, ColorScales, PetEyeColors, EarTextures, TailTextures, getFootTexture, getEarTexture, GiraffeTail, LeopardTail, PetGenders
+from PetDNA import HeadParts, EarParts, NoseParts, TailParts, BodyTypes, BodyTextures, AllPetColors, getColors, ColorScales, PetEyeColors, EarTextures, TailTextures, getFootTexture, getEarTexture, GiraffeTail, LeopardTail, PetGenders
 from toontown.toonbase import  TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from direct.showbase import PythonUtil
@@ -338,11 +338,15 @@ class Pet(Avatar.Avatar):
 
         # set eye texture based on gender
         if self.style[8]:
-            self.eyesOpenTexture = loader.loadTexture('phase_4/maps/BeanEyeBoys2.txo')
-            self.eyesClosedTexture = loader.loadTexture('phase_4/maps/BeanEyeBoysBlink.txo')
+            self.eyesOpenTexture = loader.loadTexture('phase_4/maps/BeanEyeBoys2.jpg',
+                                                      'phase_4/maps/BeanEyeBoys2_a.rgb')
+            self.eyesClosedTexture = loader.loadTexture('phase_4/maps/BeanEyeBoysBlink.jpg',
+                                                        'phase_4/maps/BeanEyeBoysBlink_a.rgb',)
         else:
-            self.eyesOpenTexture = loader.loadTexture('phase_4/maps/BeanEyeGirlsNew.txo')
-            self.eyesClosedTexture = loader.loadTexture('phase_4/maps/BeanEyeGirlsBlinkNew.txo')
+            self.eyesOpenTexture = loader.loadTexture('phase_4/maps/BeanEyeGirlsNew.jpg',
+                                                      'phase_4/maps/BeanEyeGirlsNew_a.rgb',)
+            self.eyesClosedTexture = loader.loadTexture('phase_4/maps/BeanEyeGirlsBlinkNew.jpg',
+                                                        'phase_4/maps/BeanEyeGirlsBlinkNew_a.rgb')
 
         self.eyesOpenTexture.setMinfilter(Texture.FTLinear)
         self.eyesOpenTexture.setMagfilter(Texture.FTLinear)
@@ -388,14 +392,13 @@ class Pet(Avatar.Avatar):
 
         if hasattr(base.cr, "newsManager") and base.cr.newsManager:
             holidayIds = base.cr.newsManager.getHolidayIdList()
-            if ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds or \
-               ToontownGlobals.SILLYMETER_EXT_HOLIDAY in holidayIds and (not mood=="confusion"):
+            if ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds and (not mood=="confusion"):
                 self.speakMood(mood)
                 return
             else:
-                self.clearChat()
+                self.clearChat()      
         else:
-            self.clearChat()
+            self.clearChat()       
 
         # the model uses caps
         mood = Component2IconDict[mood]
@@ -420,13 +423,13 @@ class Pet(Avatar.Avatar):
             self.moodModel.show()
 
     def speakMood(self, mood):
-        """
+        """ 
         The Doodle speaks for April Toons' Week.
         """
         if self.moodModel:
             self.moodModel.hide()
-
-        if ConfigVariableBool('want-speech-bubble', 1).getValue():
+            
+        if base.config.GetBool('want-speech-bubble', 1):
             self.nametag.setChat(random.choice(TTLocalizer.SpokenMoods[mood]), CFSpeech)
         else:
             self.nametag.setChat(random.choice(TTLocalizer.SpokenMoods[mood]), CFThought)  # Note: Use CFTimeout?
@@ -454,9 +457,9 @@ class Pet(Avatar.Avatar):
         """
         joints = []
         bundle = self.getPartBundle('modelRoot')
-        attach = bundle.findAttachment('attachNametag')
-        if attach >= 0:
-            joints.append((attach, bundle))
+        joint = bundle.findChild('attachNametag')
+        if joint:
+            joints.append(joint)
         return joints
 
     def fitAndCenterHead(self, maxDim, forGui = 0):
@@ -547,7 +550,7 @@ class Pet(Avatar.Avatar):
     def enterNeutral(self):
         # make the neutral start at a random frame
         anim = 'neutral'
-        self.pose(anim, random.choice(list(range(0, self.getNumFrames(anim)))))
+        self.pose(anim, random.choice(range(0, self.getNumFrames(anim))))
         self.loop(anim, restart=0)
 
     def exitNeutral(self):
@@ -556,7 +559,7 @@ class Pet(Avatar.Avatar):
     def enterNeutralHappy(self):
         # make the happy neutral start at a random frame
         anim = 'neutralHappy'
-        self.pose(anim, random.choice(list(range(0, self.getNumFrames(anim)))))
+        self.pose(anim, random.choice(range(0, self.getNumFrames(anim))))
         self.loop(anim, restart=0)
 
     def exitNeutralHappy(self):
@@ -565,7 +568,7 @@ class Pet(Avatar.Avatar):
     def enterNeutralSad(self):
         # make the sad neutral start at a random frame
         anim = 'neutralSad'
-        self.pose(anim, random.choice(list(range(0, self.getNumFrames(anim)))))
+        self.pose(anim, random.choice(range(0, self.getNumFrames(anim))))
         self.loop(anim, restart=0)
 
     def exitNeutralSad(self):
@@ -816,8 +819,8 @@ class Pet(Avatar.Avatar):
 
     def getInteractIval(self, interactId):
         anims = self.InteractAnims[interactId]
-        #print("getInteractIval: anims = ", anims)
-        if type(anims) == str:
+        #print "getInteractIval: anims = ", anims
+        if type(anims) == types.StringType:
             animIval = ActorInterval(self, anims)
         else:
             animIval = Sequence()
@@ -835,15 +838,15 @@ def gridPets():
         colors = getColors(body)
         for color in colors:
             p = Pet()
-            p.setDNA([random.choice(list(range(-1, len(HeadParts)))),
-                      random.choice(list(range(-1, len(EarParts)))),
-                      random.choice(list(range(-1, len(NoseParts)))),
-                      random.choice(list(range(-1, len(TailParts)))),
+            p.setDNA([random.choice(range(-1, len(HeadParts))),
+                      random.choice(range(-1, len(EarParts))),
+                      random.choice(range(-1, len(NoseParts))),
+                      random.choice(range(-1, len(TailParts))),
                       body,
                       color,
-                      random.choice(list(range(-1, len(ColorScales)))),
-                      random.choice(list(range(0, len(PetEyeColors)))),
-                      random.choice(list(range(0, len(PetGenders)))),
+                      random.choice(range(-1, len(ColorScales))),
+                      random.choice(range(0, len(PetEyeColors))),
+                      random.choice(range(0, len(PetGenders))),
                       ]
                      )
             p.setPos(startPos[0] + offsetX, startPos[1] + offsetY, startPos[2])

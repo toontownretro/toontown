@@ -5,24 +5,24 @@ import sys
 # Initialize ihooks importer On the production servers, we run genPyCode -n
 # meaning no squeeze, so nobody else does this. When we squeeze, the
 # unpacker does this for us and it does not hurt to do in either case.
-#import ihooks
-#ihooks.install()
+import ihooks
+ihooks.install()
 
-print("Initializing...")
-
+print "Initializing..."
+    
 from otp.ai.AIBaseGlobal import *
-from . import UtilityAIRepository
+import UtilityAIRepository
 
-simbase.mdip = ConfigVariableString("msg-director-ip", "localhost").getValue()
-simbase.mdport = ConfigVariableInt("msg-director-port", 6665).getValue()
-simbase.esip = ConfigVariableString("event-server-ip", "localhost").getValue()
-simbase.esport = ConfigVariableInt("event-server-port", 4343).getValue()
+simbase.mdip = simbase.config.GetString("msg-director-ip", "localhost")
+simbase.mdport = simbase.config.GetInt("msg-director-port", 6665)
+simbase.esip = simbase.config.GetString("event-server-ip", "localhost")
+simbase.esport = simbase.config.GetInt("event-server-port", 4343)
 
 districtType = 0
-ssId = ConfigVariableInt("utility-ssid", 20100000).getValue()
-utilityChannel = ConfigVariableInt("utility-channel", 399900000).getValue()
+ssId = simbase.config.GetInt("utility-ssid", 20100000)
+utilityChannel = simbase.config.GetInt("utility-channel", 399900000)
 
-if ConfigVariableBool("want-dev", 0).getValue():
+if simbase.config.GetBool("want-dev", 0):
     # In development, the dcfiles are specified in prc files
     dcFileNames = None
 else:

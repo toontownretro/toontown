@@ -10,11 +10,11 @@ from otp.otpbase import OTPLocalizer
 #this is the structure of the racing menu
 SillyPhaseTwoMenu = [     
     (OTPLocalizer.SillyHolidayMenuSections[1],            # WORLD
-        [30310, 30311, 30312, 30313, 30314, 30315,]),
+        [60310, 60311, 60312, 60313, 60314, 60315,]),
     (OTPLocalizer.SillyHolidayMenuSections[2],            # BATTLE
-        [30316, 30317,]),
+        [60316, 60317,]),
     (OTPLocalizer.SillyHolidayMenuSections[0],            # SILLY METER
-        [30309,]),
+        [60309,]),
     ]
         
 class TTSCSillyPhaseTwoMenu(SCMenu):
@@ -48,14 +48,14 @@ class TTSCSillyPhaseTwoMenu(SCMenu):
                 #This is not a submenu but a terminal!
                 for phrase in section[1]:
                     if phrase not in OTPLocalizer.SpeedChatStaticText:
-                        print(('warning: tried to link Silly PhaseTwo phrase %s which does not seem to exist' % phrase))
+                        print ('warning: tried to link Silly PhaseTwo phrase %s which does not seem to exist' % phrase)
                         break
                     self.append(SCStaticTextTerminal(phrase))
             else: #this should be a submenu
                 menu = SCMenu()
                 for phrase in section[1]:
                     if phrase not in OTPLocalizer.SpeedChatStaticText:
-                        print(('warning: tried to link Silly PhaseTwo phrase %s which does not seem to exist' % phrase))                                
+                        print ('warning: tried to link Silly PhaseTwo phrase %s which does not seem to exist' % phrase)                                
                         break
                     menu.append(SCStaticTextTerminal(phrase))                    
                                         

@@ -13,7 +13,6 @@
 #include "coordinateSystem.h"
 #include "pnotify.h"
 #include "dSearchPath.h"
-#include "lightReMutex.h"
 
 #include <string>
 
@@ -28,14 +27,18 @@
 //               disk.
 //
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN_DNALOADER DNAData : public DNAGroup {
+class EXPCL_TOONTOWN DNAData : public DNAGroup {
 PUBLISHED:
   INLINE DNAData(const string &initial_name = "");
   INLINE DNAData(const DNAData &copy);
   INLINE DNAData &operator = (const DNAData &copy);
 
+  bool read(Filename filename, ostream &error = nout);
+  bool read(istream &in, ostream &error = nout);
+
   static bool resolve_dna_filename(Filename &dna_filename,
                                    const DSearchPath &searchpath = DSearchPath());
+  bool resolve_externals(const string &searchpath, ostream &error = nout);
 
   bool write_dna(Filename filename, ostream &error, DNAStorage *store);
   bool write_dna(ostream &out, ostream &error, DNAStorage *store);
@@ -51,12 +54,6 @@ PUBLISHED:
 
   virtual void write(ostream &out, DNAStorage *store, int indent_level = 0) const;
 
-public:
-  bool read(Filename filename, ostream &error = nout);
-  bool read(istream &in, ostream &error = nout);
-
-  bool resolve_externals(const string &searchpath, ostream &error = nout);
-
 private:
   virtual DNAGroup* make_copy();
 
@@ -67,8 +64,6 @@ private:
   CoordinateSystem _coordsys;
   Filename _dna_filename;
   DNAStorage *_dna_store;
-  
-  static LightReMutex _dna_data_thread_lock;
 
 public:
   static TypeHandle get_class_type() {

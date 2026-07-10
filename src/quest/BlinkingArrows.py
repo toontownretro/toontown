@@ -1,5 +1,5 @@
 from direct.interval.IntervalGlobal import *
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 
 
 class BlinkingArrows:
@@ -7,11 +7,10 @@ class BlinkingArrows:
         self.arrow1 = loader.loadModel('phase_3/models/props/arrow')
         self.arrow2 = loader.loadModel('phase_3/models/props/arrow')
         self.arrowTrack = None
-        self._parent = parent
+        self.parent = parent
         # The otherNode is an optional node that can flash along with the
         # arrows.
         self.otherNode = otherNode
-        self.on = False
 
     def delete(self):
         self.arrowsOff()
@@ -24,8 +23,8 @@ class BlinkingArrows:
         self.stopArrowsFlashing()
         self.arrow1.setBin('gui-popup', 0)
         self.arrow2.setBin('gui-popup', 0)
-        self.arrow1.reparentTo(self._parent)
-        self.arrow2.reparentTo(self._parent)
+        self.arrow1.reparentTo(self.parent)
+        self.arrow2.reparentTo(self.parent)
         self.arrow1.setScale(0.2)
         self.arrow2.setScale(0.2)
         self.arrow1.setPos(x1, 0, y1)
@@ -41,12 +40,6 @@ class BlinkingArrows:
         self.arrow1.reparentTo(hidden)
         self.arrow2.reparentTo(hidden)
 
-    def reparentTo(self, parent):
-        self._parent = parent
-        if self.on:
-            self.arrow1.reparentTo(self._parent)
-            self.arrow2.reparentTo(self._parent)
-
     def startArrowsFlashing(self):
         onColor = Vec4(1,1,1,1)
         offColor = Vec4(1,1,1,0.25)
@@ -56,26 +49,26 @@ class BlinkingArrows:
             self.otherNode.show()
             self.arrowTrack = Sequence(
                 Parallel(
-                    self.arrow1.colorScaleInterval(self.onTime, onColor, offColor),
-                    self.arrow2.colorScaleInterval(self.onTime, onColor, offColor),
-                    self.otherNode.colorScaleInterval(self.onTime, onColor, offColor),
-                    ),
+                self.arrow1.colorScaleInterval(self.onTime, onColor, offColor),
+                self.arrow2.colorScaleInterval(self.onTime, onColor, offColor),
+                self.otherNode.colorScaleInterval(self.onTime, onColor, offColor),
+                ),
                 Parallel(
-                    self.arrow1.colorScaleInterval(self.offTime, offColor, onColor),
-                    self.arrow2.colorScaleInterval(self.offTime, offColor, onColor),
-                    self.otherNode.colorScaleInterval(self.offTime, offColor, onColor),
-                    ),
+                self.arrow1.colorScaleInterval(self.offTime, offColor, onColor),
+                self.arrow2.colorScaleInterval(self.offTime, offColor, onColor),
+                self.otherNode.colorScaleInterval(self.offTime, offColor, onColor),
+                ),
                 )
         else:
             self.arrowTrack = Sequence(
                 Parallel(
-                    self.arrow1.colorScaleInterval(self.onTime, onColor, offColor),
-                    self.arrow2.colorScaleInterval(self.onTime, onColor, offColor),
-                    ),
+                self.arrow1.colorScaleInterval(self.onTime, onColor, offColor),
+                self.arrow2.colorScaleInterval(self.onTime, onColor, offColor),
+                ),
                 Parallel(
-                    self.arrow1.colorScaleInterval(self.offTime, offColor, onColor),
-                    self.arrow2.colorScaleInterval(self.offTime, offColor, onColor),
-                    ),
+                self.arrow1.colorScaleInterval(self.offTime, offColor, onColor),
+                self.arrow2.colorScaleInterval(self.offTime, offColor, onColor),
+                ),
                 )
         self.arrowTrack.loop()
 
@@ -87,3 +80,4 @@ class BlinkingArrows:
         self.arrow2.hide()
         if self.otherNode:
             self.otherNode.hide()
+        

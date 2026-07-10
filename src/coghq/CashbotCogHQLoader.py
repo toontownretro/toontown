@@ -1,16 +1,15 @@
 
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
-from . import CogHQLoader, MintInterior
+import CogHQLoader, MintInterior
 from toontown.toonbase import ToontownGlobals
 from direct.gui import DirectGui
 from toontown.toonbase import TTLocalizer
 from toontown.toon import Toon
 from direct.fsm import State
-from . import CashbotHQExterior
-from . import CashbotHQBossBattle
-from toontown.toonbase.ToontownModules import DecalEffect
-from toontown.toonbase.ToontownModules import *
+import CashbotHQExterior
+import CashbotHQBossBattle
+from pandac.PandaModules import DecalEffect
 
 class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
 
@@ -66,37 +65,30 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
             # Put a handy sign on the link tunnel
             locator = self.geom.find('**/sign_origin')
             backgroundGeom = self.geom.find('**/EntranceFrameFront')
-            #backgroundGeom.node().setEffect(DecalEffect.make())
+            backgroundGeom.node().setEffect(DecalEffect.make())
             signText = DirectGui.OnscreenText(
                 text = TTLocalizer.DonaldsDreamland[-1],
                 font = ToontownGlobals.getSuitFont(),
                 scale = 3,
-                fg = (0.87, 0.87, 0.87, 1),
+                fg = (0.87, 0.87, 0.87, 1), 
                 # required for DecalEffect (must be a GeomNode, not a TextNode)
                 mayChange=False,
                 parent = backgroundGeom)
             signText.setPosHpr(locator, 0, 0, 0, 0, 0, 0)
-            signText.setDepthOffset(1)
+            signText.setDepthWrite(0)
 
         elif zoneId == ToontownGlobals.CashbotLobby:
-            if ConfigVariableBool('want-qa-regression', 0).getValue():
-                self.notify.info('QA-REGRESSION: COGHQ: Visit CashbotLobby')
-
             self.geom = loader.loadModel(self.cogHQLobbyModelPath)
 
         # Note: the factory interior has a dynamically allocated zone but
         # that is ok because we do not need to load any models - they all
         # get loaded by the distributed object
-
+            
         else:
             self.notify.warning("loadPlaceGeom: unclassified zone %s" % zoneId)
-
-        # Flatten the geom a bit
-        if self.geom:
-            self.geom.flattenMedium()
-
+            
         CogHQLoader.CogHQLoader.loadPlaceGeom(self, zoneId)
-
+    
 
     def unload(self):
         CogHQLoader.CogHQLoader.unload(self)
@@ -109,7 +101,7 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.mintId = requestStatus['mintId']
         self.enterPlace(requestStatus)
         # spawnTitleText is done by MintInterior once the mint shows up
-
+        
     def exitMintInterior(self):
         self.exitPlace()
         self.placeClass = None
@@ -117,6 +109,6 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
 
     def getExteriorPlaceClass(self):
         return CashbotHQExterior.CashbotHQExterior
-
+    
     def getBossPlaceClass(self):
         return CashbotHQBossBattle.CashbotHQBossBattle

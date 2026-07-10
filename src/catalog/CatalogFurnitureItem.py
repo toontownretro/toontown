@@ -1,8 +1,7 @@
-from . import CatalogAtticItem
-from . import CatalogItem
+import CatalogAtticItem
+import CatalogItem
 import random
 from toontown.toonbase import TTLocalizer
-from toontown.toonbase import ToontownGlobals
 
 FTModelName = 0
 FTColor = 1
@@ -19,7 +18,6 @@ FLOnTable  = 0x0010
 FLIsTable  = 0x0020
 FLPhone    = 0x0040
 FLBillboard = 0x0080
-FLTrunk    = 0x0160
 
 # this is essentially the same as HouseGlobals.houseColors2 with the addition of alpha = 1
 furnitureColors = [
@@ -44,17 +42,16 @@ woodColors = [
 # This table maps the various bank ID's to the amount of jellybeans
 # they hold.
 BankToMoney = {
-    1300 : 12000,#1000,
-    1310 : 12000,#2500,
-    1320 : 12000,#5000,
-    1330 : 12000,#7500,
-    1340 : 12000,#10000,
-    1350 : 12000,
+    1300 : 1000,
+    1310 : 2500,
+    1320 : 5000,
+    1330 : 7500,
+    1340 : 10000,
     }
 MoneyToBank = {}
-for bankId, maxMoney in list(BankToMoney.items()):
+for bankId, maxMoney in BankToMoney.items():
     MoneyToBank[maxMoney] = bankId
-MaxBankId = 1350
+MaxBankId = 1340
 
 # This table maps the various closet ID's to the amount of clothes
 # they hold.
@@ -63,24 +60,20 @@ ClosetToClothes = {
     502 : 15,
     504 : 20,
     506 : 25,
-    508 : 50,
     510 : 10,
     512 : 15,
     514 : 20,
     516 : 25,
-    518 : 50,
     }
 ClothesToCloset = {}
-for closetId, maxClothes in list(ClosetToClothes.items()):
+for closetId, maxClothes in ClosetToClothes.items():
     # There is not a 1-to-1 mapping like the banks since there are boys
     # and girls closets, so we'll store a bank Id tuple.
-    if maxClothes not in ClothesToCloset:
+    if not ClothesToCloset.has_key(maxClothes):
         ClothesToCloset[maxClothes] = (closetId,)
     else:
         ClothesToCloset[maxClothes] += (closetId,)
-MaxClosetIds = (506, 518)
-
-MaxTrunkIds = (4000, 4010)
+MaxClosetIds = (506, 516)
 
 
 # These index numbers are written to the database.  Don't mess with them.
@@ -90,28 +83,28 @@ FurnitureTypes = {
     # These are examples to illustrate how we might apply color
     # options to furniture, and/or hide and show pieces or replace
     # textures to extend a single model for multiple purposes.
-
+    
 ##     # Wooden chair
 ##     100 : ("phase_5.5/models/estate/cushionChair",
 ##            (("**/cushion*", None)),
 ##            None,
 ##            50),
-
+    
 ##     # Cushioned chair
 ##     110 : ("phase_5.5/models/estate/cushionChair",
 ##            None,
 ##            None,
 ##            100),
-
+    
 ##     # Velvet chair
 ##     120 : ("phase_5.5/models/estate/cushionChair",
-##            (("**/cushion*", "phase_5.5/maps/velvet_cushion.txo")),
+##            (("**/cushion*", "phase_5.5/maps/velvet_cushion.jpg")),
 ##            { 0 : (("**/cushion*", (1, 0, 0, 1)),),
 ##              1 : (("**/cushion*", (0.6, 0.2, 1, 1)),),
 ##              2 : (("**/cushion*", (0.2, 0.2, 0.6, 1)),),
 ##              },
 ##            250),
-
+    
 ##     # Library chair
 ##     130 : ("phase_5.5/models/estate/libraryChair",
 ##            None,
@@ -166,8 +159,8 @@ FurnitureTypes = {
     # Candy cupcake Chair - Series 6
     170 : ("phase_5.5/models/estate/cupcakeChair",
            None, None, 240),
-
-
+    
+     
     ## BEDS ##
     # Boy's bed - Initial Furniture
     200 : ("phase_5.5/models/estate/regular_bed",
@@ -202,7 +195,7 @@ FurnitureTypes = {
     # Bug Room Bed - Series 2
     230 : ("phase_5.5/models/estate/bugRoomBed",
            None, None, 600),
-
+    
     # Underwater Boat bed - Series 3
     240 : ("phase_5.5/models/estate/UWBoatBed",
            None, None, 600),
@@ -214,7 +207,7 @@ FurnitureTypes = {
     # Candy ice cream bed - Series 6
     260 : ("phase_5.5/models/estate/icecreamBed",
            None, None, 700),
-
+           
     # Trolley bed - CatalogAnimatedFurnitureItem
     270 : ("phase_5.5/models/estate/trolley_bed",
            None, None, 1200, None, None, 0.25),
@@ -249,31 +242,31 @@ FurnitureTypes = {
     # Candy Carmel Apple Fireplace - Series 6
     440 : ("phase_5.5/models/estate/CarmelAppleFireplace",
            None, None, 800),
-
+    
     # Coral Fireplace
     450 : ("phase_5.5/models/estate/fireplace_coral",
            None, None, 950),
-
+           
     # Coral Fireplace with fire
     460 : ("phase_5.5/models/estate/tt_m_prp_int_fireplace_coral",
            None, None, 1250, None, None, 0.5),
-
+           
     # Square Fireplace with fire
     470 : ("phase_5.5/models/estate/tt_m_prp_int_fireplace_square",
            None, None, 1100, None, None, 0.5),
-
+           
     # Round Fireplace with fire
     480 : ("phase_5.5/models/estate/tt_m_prp_int_fireplace_round",
            None, None, 1100, None, None, 0.5),
-
+           
     # Girly Fireplace with fire
     490 : ("phase_5.5/models/estate/tt_m_prp_int_fireplace_girlee",
            None, None, 1100, None, None, 0.5),
-
+           
     # Bug Room Fireplace with fire
     491 : ("phase_5.5/models/estate/tt_m_prp_int_fireplace_bugRoom",
            None, None, 1100, None, None, 0.5),
-
+           
     # Candy Caramel Apple Fireplace with fire
     492 : ("phase_5.5/models/estate/tt_m_prp_int_fireplace_caramelApple",
            None, None, 1100, None, None, 0.5),
@@ -295,10 +288,6 @@ FurnitureTypes = {
     506 : ("phase_5.5/models/estate/closetBoy",
            None, None, 500, FLCloset, 1.3),
 
-    # Boy's Wardrobe, 50 items
-    508 : ("phase_5.5/models/estate/closetBoy",
-           None, None, 500, FLCloset, 1.6),
-
 
     # Girl's Wardrobe, 10 items - Initial Furniture
     510 : ("phase_5.5/models/estate/closetGirl",
@@ -315,10 +304,6 @@ FurnitureTypes = {
     # Girl's Wardrobe, 25 items
     516 : ("phase_5.5/models/estate/closetGirl",
            None, None, 500, FLCloset, 1.3),
-
-    # Girl's Wardrobe, 50 items
-    518 : ("phase_5.5/models/estate/closetGirl",
-           None, None, 500, FLCloset, 1.6),
 
     ## LAMPS ##
     # Short lamp - Series 1
@@ -356,7 +341,7 @@ FurnitureTypes = {
     # Underwater Lamp 1 - Series 3
     650 : ("phase_5.5/models/estate/UWlamp_jellyfish",
            None, None, 55, FLOnTable),
-
+           
     # Underwater Lamp 2 - Series 3
     660 : ("phase_5.5/models/estate/UWlamps_jellyfishB",
            None, None, 55, FLOnTable),
@@ -364,7 +349,7 @@ FurnitureTypes = {
     # Cowboy Lamp - series 4
     670 : ("phase_5.5/models/estate/West_cowboyLamp",
            None, None, 55, FLOnTable),
-
+           
     # Lamps
     680: ("phase_5.5/models/estate/tt_m_ara_int_candlestick",
         None,
@@ -376,8 +361,8 @@ FurnitureTypes = {
            5 : (("**/candlestick/candlestick", furnitureColors[5]),),
            6 : (("**/candlestick/candlestick", furnitureColors[0]),),
         },
-        20, FLOnTable),
-
+        20, FLOnTable),           
+    
     681: ("phase_5.5/models/estate/tt_m_ara_int_candlestickLit",
         None,
         { 0 : (("**/candlestick/candlestick", (1.0, 1.0, 1.0, 1.0),),),
@@ -388,7 +373,7 @@ FurnitureTypes = {
            5 : (("**/candlestickLit/candlestick", furnitureColors[5]),),
            6 : (("**/candlestickLit/candlestick", furnitureColors[0]),),
         },
-        25, FLOnTable),
+        25, FLOnTable),       
 
     ## COUCHES ##
     # 1-person couch - Series 1
@@ -478,7 +463,7 @@ FurnitureTypes = {
     # Western tepee - Series 4
     980 : ("phase_5.5/models/estate/West_Tepee",
            None, None, 150),
-
+    
     # Gag fan - CatalogAnimatedFurnitureItem
     990 : ("phase_5.5/models/estate/gag_fan",
            None, None, 500, None, None, 0.5),
@@ -511,11 +496,11 @@ FurnitureTypes = {
     # Bug Room Leaf Mat - Series 2
     1030 : ("phase_5.5/models/estate/bugRoomLeafMat",
             None, None, 75, FLRug),
-
+            
     # Presents
     1040 : ("phase_5.5/models/estate/tt_m_ara_int_presents",
               None, None, 300),
-
+              
     # Sled
     1050 : ("phase_5.5/models/estate/tt_m_ara_int_sled",
               None, None, 400),
@@ -524,7 +509,7 @@ FurnitureTypes = {
     # Red Wood Cabinet  - Series 1
     1100 : ("phase_5.5/models/estate/cabinetRwood",
             None, None, 825),
-
+    
     # Yellow Wood Cabinet - Series 2
     1110 : ("phase_5.5/models/estate/cabinetYwood",
             None, None, 825),
@@ -566,7 +551,7 @@ FurnitureTypes = {
     # Coffee table - Series 2
     1220 : ("phase_5.5/models/estate/coffeetableSq",
             None, None, 180, FLIsTable),
-
+            
     # Coffee table - Series 2
     1230 : ("phase_5.5/models/estate/coffeetableSq_BW",
             None, None, 180, FLIsTable),
@@ -596,11 +581,11 @@ FurnitureTypes = {
     # Jellybean Bank, 1000 beans - Initial Furniture
     1300 : ("phase_5.5/models/estate/jellybeanBank",
             None, None, 0, FLBank, 0.75),
-
+    
     # Jellybean Bank, 2500 beans - Series 1
     1310 : ("phase_5.5/models/estate/jellybeanBank",
             None, None, 400, FLBank, 1.0),
-
+    
     # Jellybean Bank, 5000 beans - Series 1
     1320 : ("phase_5.5/models/estate/jellybeanBank",
             None, None, 800, FLBank, 1.125),
@@ -612,10 +597,6 @@ FurnitureTypes = {
     # Jellybean Bank, 10000 beans - Series 1
     1340 : ("phase_5.5/models/estate/jellybeanBank",
             None, None, 3200, FLBank, 1.5),
-
-    # Jellybean Bank, 12000 beans - Series 1
-    1350 : ("phase_5.5/models/estate/jellybeanBank",
-            None, None, 6400, FLBank, 2.0),
 
     # Phone - Initial Furniture
     1399 : ("phase_5.5/models/estate/prop_phone-mod",
@@ -654,8 +635,8 @@ FurnitureTypes = {
     # Painting: Toon Pie - Series 2
     1443 : ("phase_5.5/models/estate/MagPie",
             None, None, 425, FLPainting, 2.0),
-
-    # Painting: Valentines Day - Mickey and Minney
+            
+    # Painting: Valentines Day - Mickey and Minney 
     1450 : ("phase_5.5/models/estate/tt_m_prp_int_painting_valentine",
              None, None, 425, FLPainting),
 
@@ -710,16 +691,16 @@ FurnitureTypes = {
     # Underwater shell vase - Series 3
     1661 : ("phase_5.5/models/estate/UWshellVase",
             None, None, 120, (FLOnTable | FLBillboard) ),
-
+            
     # Valentines Day Vase - Rose Vase
     1670 : ("phase_5.5/models/estate/tt_m_prp_int_roseVase_valentine",
             None, None, 200, (FLOnTable)),
-
+            
     # Valentines Day Vase - Rose Water Can
     1680 : ("phase_5.5/models/estate/tt_m_prp_int_roseWatercan_valentine",
             None, None, 200, (FLOnTable)),
-
-
+            
+    
     ## KITSCH ##
     # Popcorn cart - Series 2
     1700 : ("phase_5.5/models/estate/popcornCart",
@@ -736,7 +717,7 @@ FurnitureTypes = {
     # Underwater clothes dryer - Series 3
     1725 : ("phase_5.5/models/estate/UWOceanDryer",
             None, None, 400),
-
+            
 
     ## Fishbowls ##
     # Underwater skull fish bowl - Series 3
@@ -756,7 +737,7 @@ FurnitureTypes = {
     # Underwater hammerhead wall hanging - Series 3
     1910 : ("phase_5.5/models/estate/UWhammerhead",
             None, None, 425, FLPainting),
-
+            
     # Western hanging horns - Series 4
     1920 : ("phase_5.5/models/estate/West_hangingHorns",
             None, None, 475, FLPainting),
@@ -799,15 +780,6 @@ FurnitureTypes = {
             None, None, 400),
 
 
-    ## Accessory Items ##
-    # Boy Trunk - Series 1
-    4000 : ("phase_5.5/models/estate/tt_m_ara_est_accessoryTrunkBoy",
-            None, None, 5, FLTrunk, 0.9),
-    # Girl Trunk - Series 1
-    4010 : ("phase_5.5/models/estate/tt_m_ara_est_accessoryTrunkGirl",
-            None, None, 5, FLTrunk, 0.9),
-
-
     ## SPECIAL HOLIDAY THEMED ITEMS FOLLOW ##
     # short pumpkin - Halloween
     10000 : ("phase_4/models/estate/pumpkin_short",
@@ -840,12 +812,12 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
     (e.g. changing colors).
 
     """
-
+    
     def makeNewItem(self, furnitureType, colorOption = None, posHpr = None):
         self.furnitureType = furnitureType
         self.colorOption = colorOption
         self.posHpr = posHpr
-
+        
         CatalogAtticItem.CatalogAtticItem.makeNewItem(self)
 
     def needsCustomize(self):
@@ -863,7 +835,7 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
         # Returns true if an item of this type will, when purchased,
         # replace an existing item of the same type, or false if items
         # accumulate.
-        return (self.getFlags() & (FLCloset | FLBank | FLTrunk)) != 0
+        return (self.getFlags() & (FLCloset | FLBank)) != 0
 
     def hasExisting(self):
         # If replacesExisting returns true, this returns true if an
@@ -878,22 +850,20 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
         # If replacesExisting returns true, this returns the name of
         # the already existing object, in sentence construct: "your
         # old ...".  If replacesExisting returns false, this is undefined.
-
+        
         if (self.getFlags() & FLCloset):
             return TTLocalizer.FurnitureYourOldCloset
         elif (self.getFlags() & FLBank):
             return TTLocalizer.FurnitureYourOldBank
-        elif (self.getFlags() & FLTrunk):
-            return TTLocalizer.FurnitureYourOldTrunk
         else:
             return None
 
     def notOfferedTo(self, avatar):
-        if (self.getFlags() & FLCloset or (self.getFlags() & FLTrunk)):
+        if (self.getFlags() & FLCloset):
             # Boys can only buy boy wardrobes, and girls can only buy
             # girl wardrobes.  Sorry.
             decade = self.furnitureType - (self.furnitureType % 10)
-            forBoys = (decade == 500 or decade == 4000)
+            forBoys = (decade == 500)
             if avatar.getStyle().getGender() == 'm':
                 return not forBoys
             else:
@@ -905,12 +875,7 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
     def isDeletable(self):
         # Returns true if the item can be deleted from the attic,
         # false otherwise.
-        return (self.getFlags() & (FLBank | FLCloset | FLPhone | FLTrunk)) == 0
-
-    def getMaxAccessories(self):
-        # This special method is only defined for accessory trunk items,
-        # and returns the capacity of the trunk in accessories.
-        return ToontownGlobals.MaxAccessories
+        return (self.getFlags() & (FLBank | FLCloset | FLPhone)) == 0
 
     def getMaxBankMoney(self):
         # This special method is only defined for bank type items,
@@ -929,8 +894,6 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
             return 20
         elif index == 6:
             return 25
-        elif index == 8:
-            return 50
         else:
             return None
 
@@ -951,19 +914,12 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
             # No point in buying an equal or smaller wardrobe.
             if self.getMaxClothes() <= avatar.getMaxClothes():
                 return 1
-            if self in avatar.onOrder or self in avatar.mailboxContents:
-                return 1
-
-        if self.getFlags() & FLTrunk:
-            # No point in buying an equal or smaller trunk.
-            if self.getMaxAccessories() <= avatar.getMaxAccessories():
-                return 1
 
             # Also if this particular wardrobe is on order, we don't need
             # another one.
             if self in avatar.onOrder or self in avatar.mailboxContents:
                 return 1
-
+            
         return 0
 
     def getTypeName(self):
@@ -989,11 +945,9 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
                 return flag
         else:
             return 0
-
+            
     def isGift(self):
-        if self.getEmblemPrices():
-            return 0
-        if self.getFlags() & (FLCloset | FLBank | FLTrunk):
+        if self.getFlags() & (FLCloset | FLBank):
             return 0
         else:
             return 1
@@ -1005,12 +959,6 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
         house, retcode = self.getHouseInfo(avatar)
         self.giftTag = None
         if retcode >= 0:
-            if (self.getFlags() & FLCloset):
-                if avatar.getMaxClothes() > self.getMaxClothes():
-                    return ToontownGlobals.P_AlreadyOwnBiggerCloset
-                avatar.b_setMaxClothes(self.getMaxClothes())
-            if (self.getFlags() & FLTrunk):
-                avatar.b_setMaxAccessories(self.getMaxAccessories())
             house.addAtticItem(self)
             if (self.getFlags() & FLBank):
                 # A special case: if we just bought a new bank, change
@@ -1023,13 +971,7 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
                 # accordingly.  This property is also stored on the
                 # toon.
                 avatar.b_setMaxClothes(self.getMaxClothes())
-            if (self.getFlags() & FLTrunk):
-                # Yet another special case: if we just bought a new
-                # trunk, change our maximum accessory items
-                # accordingly.  This property is also stored on the
-                # toon.
-                avatar.b_setMaxAccessories(self.getMaxAccessories())
-
+                
         return retcode
 
     def getDeliveryTime(self):
@@ -1057,7 +999,7 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
 
 ##        assert (not self.hasPicture)
         self.hasPicture=True
-
+        
         return self.makeFrameModel(model, spin)
 
     def output(self, store = ~0):
@@ -1069,22 +1011,11 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
         type = FurnitureTypes[self.furnitureType]
         return type[FTModelName]
 
-    def equalsTo(self, other):
-        if self.furnitureType != other.furnitureType:
-            return False
-        return self.colorOption == other.colorOption
-
     def compareTo(self, other):
         return self.furnitureType - other.furnitureType
 
     def getHashContents(self):
         return self.furnitureType
-
-    def getSalePrice(self):
-        if self.furnitureType in [508, 518]:
-            return 50
-        else:
-            return CatalogItem.CatalogItem.getSalePrice(self)
 
     def getBasePrice(self):
         return FurnitureTypes[self.furnitureType][FTBasePrice]
@@ -1097,11 +1028,11 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
             if self.colorOption == None:
                 # The user hasn't picked a color option; choose a
                 # random one.
-                option = random.choice(list(type[FTColorOptions].values()))
+                option = random.choice(type[FTColorOptions].values())
             else:
                 # Use the user's specified color option.
                 option = type[FTColorOptions].get(self.colorOption)
-
+            
             self.applyColor(model, option)
 
         if (FTScale < len(type)):
@@ -1128,45 +1059,40 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
                 # The following will raise an exception if
                 # self.colorOption is not valid.
                 option = type[FTColorOptions][self.colorOption]
-
+        
     def encodeDatagram(self, dg, store):
         CatalogAtticItem.CatalogAtticItem.encodeDatagram(self, dg, store)
         dg.addInt16(self.furnitureType)
         if FurnitureTypes[self.furnitureType][FTColorOptions]:
             if store & CatalogItem.Customization:
                 dg.addUint8(self.colorOption)
+        
 
-    def getAcceptItemErrorText(self, retcode):
-        if retcode == ToontownGlobals.P_AlreadyOwnBiggerCloset:
-            return TTLocalizer.CatalogAcceptClosetError
-        return CatalogAtticItem.CatalogAtticItem.getAcceptItemErrorText(self, retcode)
+def nextAvailableBank(avatar, duplicateItems):
+    bankId = MoneyToBank.get(avatar.getMaxBankMoney())
+    if bankId == None or bankId == MaxBankId:
+        # No more banks for this avatar.
+        return None
 
+    bankId += 10
+    item = CatalogFurnitureItem(bankId)
 
-#def nextAvailableBank(avatar, duplicateItems):
-#    bankId = MoneyToBank.get(avatar.getMaxBankMoney())
-#    if bankId == None or bankId == MaxBankId:
-#        # No more banks for this avatar.
-#        return None
-#
-#    bankId += 10
-#    item = CatalogFurnitureItem(bankId)
-#
-#    # But if this bank is already on order, don't offer the same bank
-#    # again.  Skip to the next one instead.
-#    while item in avatar.onOrder or \
-#          item in avatar.mailboxContents:
-#        bankId += 10
-#        if bankId > MaxBankId:
-#            return None
-#        item = CatalogFurnitureItem(bankId)
-#
-#    return item
-#
-#def getAllBanks():
-#    allBanks = []
-#    for bankId in list(BankToMoney.keys()):
-#        allBanks.append(CatalogFurnitureItem(bankId))
-#    return allBanks
+    # But if this bank is already on order, don't offer the same bank
+    # again.  Skip to the next one instead.
+    while item in avatar.onOrder or \
+          item in avatar.mailboxContents:
+        bankId += 10
+        if bankId > MaxBankId:
+            return None
+        item = CatalogFurnitureItem(bankId)
+
+    return item
+
+def getAllBanks():
+    list = []
+    for bankId in BankToMoney.keys():
+        list.append(CatalogFurnitureItem(bankId))
+    return list
 
 def nextAvailableCloset(avatar, duplicateItems):
     # detemine which closet index in the tuple to use
@@ -1200,60 +1126,18 @@ def nextAvailableCloset(avatar, duplicateItems):
 
     return item
 
-def get50ItemCloset(avatar, duplicateItems):
-    # detemine which closet index in the tuple to use
-    if avatar.getStyle().getGender() == 'm':
-        index = 0
-    else:
-        index = 1
-    closetId = MaxClosetIds[index]
-    item = CatalogFurnitureItem(closetId)
-    if item in avatar.onOrder or item in avatar.mailboxContents:
-        # No more closets for this avatar.
-        return None
-    return item
-
-
-def getMaxClosets():
-    maxClosets = []
-    for closetId in MaxClosetIds:
-        maxClosets.append(CatalogFurnitureItem(closetId))
-
-    return maxClosets
-
 def getAllClosets():
-    allClosets = []
-    for closetId in list(ClosetToClothes.keys()):
-        allClosets.append(CatalogFurnitureItem(closetId))
-    return allClosets
-
-def get50ItemTrunk(avatar, duplicateItems):
-    # detemine which trunk index in the tuple to use
-    if avatar.getStyle().getGender() == 'm':
-        index = 0
-    else:
-        index = 1
-    trunkId = MaxTrunkIds[index]
-    item = CatalogFurnitureItem(trunkId)
-    if item in avatar.onOrder or item in avatar.mailboxContents:
-        # No more trunks for this avatar.
-        return None
-    return item
-
-
-def getMaxTrunks():
-    maxTrunks = []
-    for trunkId in MaxTrunkIds:
-        maxTrunks.append(CatalogFurnitureItem(trunkId))
-
-    return maxTrunks
+    list = []
+    for closetId in ClosetsToClothes.keys():
+        list.append(CatalogFurnitureItem(closetId))
+    return list
 
 def getAllFurnitures(index):
     # This function returns a list of all possible
     # CatalogFurnitureItems (that is, all color variants)
     # for the indicated type index(es).
-    allFurnitures = []
+    list = []
     colors = FurnitureTypes[index][FTColorOptions]
     for n in range(len(colors)):
-        allFurnitures.append(CatalogFurnitureItem(index, n))
-    return allFurnitures
+        list.append(CatalogFurnitureItem(index, n))
+    return list

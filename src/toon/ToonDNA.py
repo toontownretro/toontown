@@ -2,7 +2,7 @@
 multipart actors with a simple class"""
 
 import random
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 import random
 from direct.distributed.PyDatagram import PyDatagram
@@ -37,7 +37,7 @@ toonHeadTypes = [ "dls", "dss", "dsl", "dll",  # Dog
                   "bls", "bss", "bsl", "bll",  # Bear
                   "sls", "sss", "ssl", "sll"   # Pig (swine)
                   ]
-
+                  
 def getHeadList(species):
     """
     Returns a list of head types given the species.
@@ -57,7 +57,7 @@ def getHeadStartIndex(species):
     for head in toonHeadTypes:
         if (head[0] == species):
             return toonHeadTypes.index(head)
-
+        
 def getSpecies(head):
     """
     Returns the species when the head is given.
@@ -65,7 +65,7 @@ def getSpecies(head):
     for species in toonSpeciesTypes:
         if (species == head[0]):
             return species
-
+        
 def getSpeciesName(head):
     """
     Returns the full name of the species in small letters
@@ -115,7 +115,7 @@ toonHeadAnimalIndicesTrial = [ 0, # start of dog heads
                                18, # start of duck heads
                                30, # start of pig heads
                                ]
-
+                               
 allToonHeadAnimalIndices = [ 0, 1, 2, 3,     # Dog
                              4, 5, 6, 7,     # Cat
                              8, 9, 10, 11,   # Horse
@@ -126,7 +126,7 @@ allToonHeadAnimalIndices = [ 0, 1, 2, 3,     # Dog
                              26, 27, 28, 29, # Bear
                              30, 31, 32, 33, # Pig
                             ]
-
+                            
 # Free trialers cannot be monkeys, Bears, or Horses
 allToonHeadAnimalIndicesTrial = [ 0, 1, 2, 3,     # Dog
                                   4, 5, 6, 7,     # Cat
@@ -144,208 +144,154 @@ toonTorsoTypes = [ "ss", "ms", "ls", "sd", "md", "ld", "s", "m", "l" ]
 toonLegTypes = [ "s", "m", "l" ] # Short, Medium, Long.
 
 Shirts = [
-    "phase_3/maps/desat_shirt_1.txo", # 0 solid
-    "phase_3/maps/desat_shirt_2.txo", # 1 single stripe
-    "phase_3/maps/desat_shirt_3.txo", # 2 collar
-    "phase_3/maps/desat_shirt_4.txo", # 3 double stripe
-    "phase_3/maps/desat_shirt_5.txo", # 4 multiple stripes (boy)
-    "phase_3/maps/desat_shirt_6.txo", # 5 collar w/ pocket
-    "phase_3/maps/desat_shirt_7.txo", # 6 flower print (girl)
-    "phase_3/maps/desat_shirt_8.txo", # 7 special, flower trim (girl)
-    "phase_3/maps/desat_shirt_9.txo", # 8 hawaiian (boy)
-    "phase_3/maps/desat_shirt_10.txo", # 9 collar w/ 2 pockets
-    "phase_3/maps/desat_shirt_11.txo", # 10 bowling shirt
-    "phase_3/maps/desat_shirt_12.txo", # 11 special, vest (boy)
-    "phase_3/maps/desat_shirt_13.txo", # 12 special (no color), denim vest (girl)
-    "phase_3/maps/desat_shirt_14.txo", # 13 peasant (girl)
-    "phase_3/maps/desat_shirt_15.txo", # 14 collar w/ ruffles
-    "phase_3/maps/desat_shirt_16.txo", # 15 peasant w/ mid stripe (girl)
-    "phase_3/maps/desat_shirt_17.txo", # 16 special (no color), soccer jersey
-    "phase_3/maps/desat_shirt_18.txo", # 17 special, lightning bolt
-    "phase_3/maps/desat_shirt_19.txo", # 18 special, jersey 19 (boy)
-    "phase_3/maps/desat_shirt_20.txo", # 19 guayavera (boy)
-    "phase_3/maps/desat_shirt_21.txo", # 20 hearts (girl)
-    "phase_3/maps/desat_shirt_22.txo", # 21 special, stars (girl)
-    "phase_3/maps/desat_shirt_23.txo", # 22 flower (girl)
+    "phase_3/maps/desat_shirt_1.jpg", # 0 solid
+    "phase_3/maps/desat_shirt_2.jpg", # 1 single stripe
+    "phase_3/maps/desat_shirt_3.jpg", # 2 collar
+    "phase_3/maps/desat_shirt_4.jpg", # 3 double stripe
+    "phase_3/maps/desat_shirt_5.jpg", # 4 multiple stripes (boy)
+    "phase_3/maps/desat_shirt_6.jpg", # 5 collar w/ pocket
+    "phase_3/maps/desat_shirt_7.jpg", # 6 flower print (girl)
+    "phase_3/maps/desat_shirt_8.jpg", # 7 special, flower trim (girl)
+    "phase_3/maps/desat_shirt_9.jpg", # 8 hawaiian (boy)
+    "phase_3/maps/desat_shirt_10.jpg", # 9 collar w/ 2 pockets
+    "phase_3/maps/desat_shirt_11.jpg", # 10 bowling shirt 
+    "phase_3/maps/desat_shirt_12.jpg", # 11 special, vest (boy)
+    "phase_3/maps/desat_shirt_13.jpg", # 12 special (no color), denim vest (girl)
+    "phase_3/maps/desat_shirt_14.jpg", # 13 peasant (girl)
+    "phase_3/maps/desat_shirt_15.jpg", # 14 collar w/ ruffles
+    "phase_3/maps/desat_shirt_16.jpg", # 15 peasant w/ mid stripe (girl)
+    "phase_3/maps/desat_shirt_17.jpg", # 16 special (no color), soccer jersey
+    "phase_3/maps/desat_shirt_18.jpg", # 17 special, lightning bolt
+    "phase_3/maps/desat_shirt_19.jpg", # 18 special, jersey 19 (boy)
+    "phase_3/maps/desat_shirt_20.jpg", # 19 guayavera (boy)
+    "phase_3/maps/desat_shirt_21.jpg", # 20 hearts (girl)
+    "phase_3/maps/desat_shirt_22.jpg", # 21 special, stars (girl)
+    "phase_3/maps/desat_shirt_23.jpg", # 22 flower (girl)
 
     # Catalog exclusive shirts
-    "phase_4/maps/female_shirt1b.txo", # 23 blue with 3 yellow stripes
-    "phase_4/maps/female_shirt2.txo", # 24 pink and beige with flower
-    "phase_4/maps/female_shirt3.txo", # 25 yellow hooded sweatshirt (also for boys)
-    "phase_4/maps/male_shirt1.txo", # 26 blue stripes
-    "phase_4/maps/male_shirt2_palm.txo", # 27 yellow with palm tree
-    "phase_4/maps/male_shirt3c.txo", # 28 orange
+    "phase_4/maps/female_shirt1b.jpg", # 23 blue with 3 yellow stripes
+    "phase_4/maps/female_shirt2.jpg", # 24 pink and beige with flower
+    "phase_4/maps/female_shirt3.jpg", # 25 yellow hooded sweatshirt (also for boys)
+    "phase_4/maps/male_shirt1.jpg", # 26 blue stripes
+    "phase_4/maps/male_shirt2_palm.jpg", # 27 yellow with palm tree
+    "phase_4/maps/male_shirt3c.jpg", # 28 orange
 
     # Halloween
-    "phase_4/maps/shirt_ghost.txo", # 29 ghost (Halloween)
-    "phase_4/maps/shirt_pumkin.txo", # 30 pumpkin (Halloween)
+    "phase_4/maps/shirt_ghost.jpg", # 29 ghost (Halloween)
+    "phase_4/maps/shirt_pumkin.jpg", # 30 pumpkin (Halloween)
 
     # Winter holiday
-    "phase_4/maps/holiday_shirt1.txo", # 31 (Winter Holiday)
-    "phase_4/maps/holiday_shirt2b.txo", # 32 (Winter Holiday)
-    "phase_4/maps/holidayShirt3b.txo", # 33 (Winter Holiday)
-    "phase_4/maps/holidayShirt4.txo", # 34 (Winter Holiday)
+    "phase_4/maps/holiday_shirt1.jpg", # 31 (Winter Holiday)
+    "phase_4/maps/holiday_shirt2b.jpg", # 32 (Winter Holiday)
+    "phase_4/maps/holidayShirt3b.jpg", # 33 (Winter Holiday)
+    "phase_4/maps/holidayShirt4.jpg", # 34 (Winter Holiday)
 
     # Catalog 2 exclusive shirts
-    "phase_4/maps/female_shirt1b.txo",    # 35 Blue and gold wavy stripes
-    "phase_4/maps/female_shirt5New.txo",  # 36 Blue and pink with bow
-    "phase_4/maps/shirtMale4B.txo",       # 37 Lime green with stripe
-    "phase_4/maps/shirt6New.txo",         # 38 Purple with stars
-    "phase_4/maps/shirtMaleNew7.txo",     # 39 Red kimono with checkerboard
+    "phase_4/maps/female_shirt1b.jpg",    # 35 Blue and gold wavy stripes
+    "phase_4/maps/female_shirt5New.jpg",  # 36 Blue and pink with bow
+    "phase_4/maps/shirtMale4B.jpg",       # 37 Lime green with stripe
+    "phase_4/maps/shirt6New.jpg",         # 38 Purple with stars
+    "phase_4/maps/shirtMaleNew7.jpg",     # 39 Red kimono with checkerboard
 
     # Unused
-    "phase_4/maps/femaleShirtNew6.txo",   # 40 Aqua kimono white stripe
+    "phase_4/maps/femaleShirtNew6.jpg",   # 40 Aqua kimono white stripe
 
     # Valentines
-    "phase_4/maps/Vday1Shirt5.txo",       # 41 (Valentines)
-    "phase_4/maps/Vday1Shirt6SHD.txo",    # 42 (Valentines)
-    "phase_4/maps/Vday1Shirt4.txo",       # 43 (Valentines)
-    "phase_4/maps/Vday_shirt2c.txo",      # 44 (Valentines)
+    "phase_4/maps/Vday1Shirt5.jpg",       # 41 (Valentines)
+    "phase_4/maps/Vday1Shirt6SHD.jpg",    # 42 (Valentines)
+    "phase_4/maps/Vday1Shirt4.jpg",       # 43 (Valentines)
+    "phase_4/maps/Vday_shirt2c.jpg",      # 44 (Valentines)
 
     # Catalog 3 exclusive shirts
-    "phase_4/maps/shirtTieDyeNew.txo",    # 45 Tie dye
-    "phase_4/maps/male_shirt1.txo",       # 46 Light blue with blue and white stripe
+    "phase_4/maps/shirtTieDyeNew.jpg",    # 45 Tie dye
+    "phase_4/maps/male_shirt1.jpg",       # 46 Light blue with blue and white stripe
 
     # St Patrick's Day shirts
-    "phase_4/maps/StPats_shirt1.txo",     # 47 (St. Pats) Four leaf clover shirt
-    "phase_4/maps/StPats_shirt2.txo",     # 48 (St. Pats) Pot o gold
+    "phase_4/maps/StPats_shirt1.jpg",     # 47 (St. Pats) Four leaf clover shirt
+    "phase_4/maps/StPats_shirt2.jpg",     # 48 (St. Pats) Pot o gold
 
     # T-Shirt Contest shirts
-    "phase_4/maps/ContestfishingVestShirt2.txo",    # 49 (T-shirt Contest) Fishing Vest
-    "phase_4/maps/ContestFishtankShirt1.txo",       # 50 (T-shirt Contest) Fish Tank
-    "phase_4/maps/ContestPawShirt1.txo",            # 51 (T-shirt Contest) Paw Print
+    "phase_4/maps/ContestfishingVestShirt2.jpg",    # 49 (T-shirt Contest) Fishing Vest
+    "phase_4/maps/ContestFishtankShirt1.jpg",       # 50 (T-shirt Contest) Fish Tank
+    "phase_4/maps/ContestPawShirt1.jpg",            # 51 (T-shirt Contest) Paw Print
 
     # Catlog 4 exclusive shirts
-    "phase_4/maps/CowboyShirt1.txo",    # 52 (Western) Cowboy Shirt
-    "phase_4/maps/CowboyShirt2.txo",    # 53 (Western) Cowboy Shirt
-    "phase_4/maps/CowboyShirt3.txo",    # 54 (Western) Cowboy Shirt
-    "phase_4/maps/CowboyShirt4.txo",    # 55 (Western) Cowboy Shirt
-    "phase_4/maps/CowboyShirt5.txo",    # 56 (Western) Cowboy Shirt
-    "phase_4/maps/CowboyShirt6.txo",    # 57 (Western) Cowboy Shirt
+    "phase_4/maps/CowboyShirt1.jpg",    # 52 (Western) Cowboy Shirt
+    "phase_4/maps/CowboyShirt2.jpg",    # 53 (Western) Cowboy Shirt
+    "phase_4/maps/CowboyShirt3.jpg",    # 54 (Western) Cowboy Shirt
+    "phase_4/maps/CowboyShirt4.jpg",    # 55 (Western) Cowboy Shirt
+    "phase_4/maps/CowboyShirt5.jpg",    # 56 (Western) Cowboy Shirt
+    "phase_4/maps/CowboyShirt6.jpg",    # 57 (Western) Cowboy Shirt
 
     # July 4 shirts
-    "phase_4/maps/4thJulyShirt1.txo",   # 58 (July 4th) Flag Shirt
-    "phase_4/maps/4thJulyShirt2.txo",   # 59 (July 4th) Fireworks Shirt
+    "phase_4/maps/4thJulyShirt1.jpg",   # 58 (July 4th) Flag Shirt
+    "phase_4/maps/4thJulyShirt2.jpg",   # 59 (July 4th) Fireworks Shirt
 
     # Catalog 7 exclusive shirts
-    "phase_4/maps/shirt_Cat7_01.txo",   # 60 Green w/ yellow buttons
-    "phase_4/maps/shirt_Cat7_02.txo",   # 61 Purple w/ big flower
+    "phase_4/maps/shirt_Cat7_01.jpg",   # 60 Green w/ yellow buttons
+    "phase_4/maps/shirt_Cat7_02.jpg",   # 61 Purple w/ big flower
 
     # T-Shirt Contest 2 shirts
-    "phase_4/maps/contest_backpack3.txo", # 62 Multicolor shirt w/ backpack
-    "phase_4/maps/contest_leder.txo",     # 63 Lederhosen
-    "phase_4/maps/contest_mellon2.txo",   # 64 Watermelon
-    "phase_4/maps/contest_race2.txo",     # 65 Race Shirt (UK winner)
-
+    "phase_4/maps/contest_backpack3.jpg", # 62 Multicolor shirt w/ backpack
+    "phase_4/maps/contest_leder.jpg",     # 63 Lederhosen
+    "phase_4/maps/contest_mellon2.jpg",   # 64 Watermelon
+    "phase_4/maps/contest_race2.jpg",     # 65 Race Shirt (UK winner)
+    
     # Pajama shirts
-    "phase_4/maps/PJBlueBanana2.txo", # 66 Blue Banana PJ Shirt
-    "phase_4/maps/PJRedHorn2.txo", # 67 Red Horn PJ Shirt
-    "phase_4/maps/PJGlasses2.txo", # 68 Purple Glasses PJ Shirt
-
+    "phase_4/maps/PJBlueBanana2.jpg", # 66 Blue Banana PJ Shirt
+    "phase_4/maps/PJRedHorn2.jpg", # 67 Red Horn PJ Shirt
+    "phase_4/maps/PJGlasses2.jpg", # 68 Purple Glasses PJ Shirt
+    
     # 2009 Valentines Day Shirts
-    "phase_4/maps/tt_t_chr_avt_shirt_valentine1.txo", # 69 Valentines Shirt 1
-    "phase_4/maps/tt_t_chr_avt_shirt_valentine2.txo", # 70 Valentines Shirt 2
-
+    "phase_4/maps/tt_t_chr_avt_shirt_valentine1.jpg", # 69 Valentines Shirt 1
+    "phase_4/maps/tt_t_chr_avt_shirt_valentine2.jpg", # 70 Valentines Shirt 2    
+    
     # Award Clothes
-    "phase_4/maps/tt_t_chr_avt_shirt_desat4.txo",    # 71
-    "phase_4/maps/tt_t_chr_avt_shirt_fishing1.txo",   # 72
-    "phase_4/maps/tt_t_chr_avt_shirt_fishing2.txo",  # 73
-    "phase_4/maps/tt_t_chr_avt_shirt_gardening1.txo",   # 74
-    "phase_4/maps/tt_t_chr_avt_shirt_gardening2.txo",   # 75
-    "phase_4/maps/tt_t_chr_avt_shirt_party1.txo",   # 76
-    "phase_4/maps/tt_t_chr_avt_shirt_party2.txo",   # 77
-    "phase_4/maps/tt_t_chr_avt_shirt_racing1.txo",  # 78
-    "phase_4/maps/tt_t_chr_avt_shirt_racing2.txo",  # 79
-    "phase_4/maps/tt_t_chr_avt_shirt_summer1.txo",   # 80
-    "phase_4/maps/tt_t_chr_avt_shirt_summer2.txo",   # 81
-
-    "phase_4/maps/tt_t_chr_avt_shirt_golf1.txo",    # 82
-    "phase_4/maps/tt_t_chr_avt_shirt_golf2.txo",    # 83
-    "phase_4/maps/tt_t_chr_avt_shirt_halloween1.txo",   # 84
-    "phase_4/maps/tt_t_chr_avt_shirt_halloween2.txo",   # 85
-    "phase_4/maps/tt_t_chr_avt_shirt_marathon1.txo",    # 86
-    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding1.txo",    # 87
-    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding2.txo",    # 88
-    "phase_4/maps/tt_t_chr_avt_shirt_toonTask1.txo",    # 89
-    "phase_4/maps/tt_t_chr_avt_shirt_toonTask2.txo",    # 90
-    "phase_4/maps/tt_t_chr_avt_shirt_trolley1.txo",     # 91
-    "phase_4/maps/tt_t_chr_avt_shirt_trolley2.txo",     # 92
-    "phase_4/maps/tt_t_chr_avt_shirt_winter1.txo",      # 93
-    "phase_4/maps/tt_t_chr_avt_shirt_halloween3.txo",   # 94
-    "phase_4/maps/tt_t_chr_avt_shirt_halloween4.txo",   # 95
+    "phase_4/maps/tt_t_chr_avt_shirt_desat4.jpg",    # 71
+    "phase_4/maps/tt_t_chr_avt_shirt_fishing1.jpg",   # 72
+    "phase_4/maps/tt_t_chr_avt_shirt_fishing2.jpg",  # 73
+    "phase_4/maps/tt_t_chr_avt_shirt_gardening1.jpg",   # 74
+    "phase_4/maps/tt_t_chr_avt_shirt_gardening2.jpg",   # 75
+    "phase_4/maps/tt_t_chr_avt_shirt_party1.jpg",   # 76
+    "phase_4/maps/tt_t_chr_avt_shirt_party2.jpg",   # 77
+    "phase_4/maps/tt_t_chr_avt_shirt_racing1.jpg",  # 78
+    "phase_4/maps/tt_t_chr_avt_shirt_racing2.jpg",  # 79 
+    "phase_4/maps/tt_t_chr_avt_shirt_summer1.jpg",   # 80
+    "phase_4/maps/tt_t_chr_avt_shirt_summer2.jpg",   # 81
+    
+    "phase_4/maps/tt_t_chr_avt_shirt_golf1.jpg",    # 82
+    "phase_4/maps/tt_t_chr_avt_shirt_golf2.jpg",    # 83
+    "phase_4/maps/tt_t_chr_avt_shirt_halloween1.jpg",   # 84
+    "phase_4/maps/tt_t_chr_avt_shirt_halloween2.jpg",   # 85
+    "phase_4/maps/tt_t_chr_avt_shirt_marathon1.jpg",    # 86
+    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding1.jpg",    # 87
+    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding2.jpg",    # 88 
+    "phase_4/maps/tt_t_chr_avt_shirt_toonTask1.jpg",    # 89
+    "phase_4/maps/tt_t_chr_avt_shirt_toonTask2.jpg",    # 90
+    "phase_4/maps/tt_t_chr_avt_shirt_trolley1.jpg",     # 91
+    "phase_4/maps/tt_t_chr_avt_shirt_trolley2.jpg",     # 92
+    "phase_4/maps/tt_t_chr_avt_shirt_winter1.jpg",      # 93
+    "phase_4/maps/tt_t_chr_avt_shirt_halloween3.jpg",   # 94
+    "phase_4/maps/tt_t_chr_avt_shirt_halloween4.jpg",   # 95
     # 2010 Valentines Day Shirts
-    "phase_4/maps/tt_t_chr_avt_shirt_valentine3.txo", # 96 Valentines Shirt 3
-
+    "phase_4/maps/tt_t_chr_avt_shirt_valentine3.jpg", # 96 Valentines Shirt 3
+    
     # Scientist Shirts
-    "phase_4/maps/tt_t_chr_shirt_scientistC.txo",   # 97
-    "phase_4/maps/tt_t_chr_shirt_scientistA.txo",   # 98
-    "phase_4/maps/tt_t_chr_shirt_scientistB.txo",   # 99
-
+    "phase_4/maps/tt_t_chr_shirt_scientistC.jpg",   # 97
+    "phase_4/maps/tt_t_chr_shirt_scientistA.jpg",   # 98
+    "phase_4/maps/tt_t_chr_shirt_scientistB.jpg",   # 99
+    
     # Silly Story Shirts
-    "phase_4/maps/tt_t_chr_avt_shirt_mailbox.txo",  # 100 Mailbox Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_trashcan.txo", # 101 Trash Can Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_loonyLabs.txo",# 102 Loony Labs Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_hydrant.txo",  # 103 Hydrant Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_whistle.txo",  # 104 Sillymeter Whistle Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_cogbuster.txo",  # 105 Silly Cogbuster Shirt
-
-    "phase_4/maps/tt_t_chr_avt_shirt_mostCogsDefeated01.txo",  # 106 Most Cogs Defeated Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_victoryParty01.txo",  # 107 Victory Party Shirt 1
-    "phase_4/maps/tt_t_chr_avt_shirt_victoryParty02.txo",  # 108 Victory Party Shirt 2
-
-    "phase_4/maps/tt_t_chr_avt_shirt_sellbotIcon.txo",  # 109 Smashed Sellbot Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_sellbotVPIcon.txo",  # 110 Most V.P.s Defeated Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_sellbotCrusher.txo",  # 111 Sellbot Smasher Shirt
-
-    "phase_4/maps/tt_t_chr_avt_shirt_jellyBeans.txo",  # 112 Jellybean Bank Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_doodle.txo",  # 113 Doodle Shirt
-
-    "phase_4/maps/tt_t_chr_avt_shirt_halloween5.txo",  # 114 Vampire Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_halloweenTurtle.txo",  # 115 Turtle Shirt
-
-    "phase_4/maps/tt_t_chr_avt_shirt_greentoon1.txo",  # 116 Ides of March greenToon shirt
-
-    "phase_4/maps/tt_t_chr_avt_shirt_getConnectedMoverShaker.txo",  # 117 Get Connected Mover & Shaker
-
-    "phase_4/maps/tt_t_chr_avt_shirt_racingGrandPrix.txo",  # 118
-
-    "phase_4/maps/tt_t_chr_avt_shirt_lawbotIcon.txo",  # 119 Smashed Lawbot Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_lawbotVPIcon.txo",  # 120 Most C.J.s Defeated Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_lawbotCrusher.txo",  # 121 Lawbot Smasher Shirt
-
-    "phase_4/maps/tt_t_chr_avt_shirt_bee.txo",  # 121 Halloween Bee
-    "phase_4/maps/tt_t_chr_avt_shirt_pirate.txo",  # 122 Halloween Pirate
-    "phase_4/maps/tt_t_chr_avt_shirt_supertoon.txo",  # 123 Halloween SuperToon
-    "phase_4/maps/tt_t_chr_avt_shirt_vampire.txo",  # 124 Halloween Vampire NoCape
-    "phase_4/maps/tt_t_chr_avt_shirt_dinosaur.txo",  # 125 Halloween Dinosaur
-
-    "phase_4/maps/tt_t_chr_avt_shirt_fishing04.txo",  # 126 Fishing Shirt 4
-    "phase_4/maps/tt_t_chr_avt_shirt_golf03.txo",  # 127 Golf Shirt 3
-    "phase_4/maps/tt_t_chr_avt_shirt_mostCogsDefeated02.txo",  # 128 Most Cogs Defeated Shirt 2
-    "phase_4/maps/tt_t_chr_avt_shirt_racing03.txo",  # 129 Racing Shirt 3
-    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding3.txo",  # 130 Save Building Shirt 3
-    "phase_4/maps/tt_t_chr_avt_shirt_trolley03.txo",  # 131 Trolley Shirt 3
-    "phase_4/maps/tt_t_chr_avt_shirt_fishing05.txo",  # 132 Fishing Shirt 5
-    "phase_4/maps/tt_t_chr_avt_shirt_golf04.txo",  # 133 Golf Shirt 4
-
-    "phase_4/maps/tt_t_chr_avt_shirt_halloween06.txo",  # 134 Halloween Witchy Moon Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_winter03.txo",  # 135 Winter Holiday Sled Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_halloween07.txo",  # 136 Halloween Batty Moon Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_winter02.txo",  # 137 Winter Holiday Mittens Shirt
-
-    "phase_4/maps/tt_t_chr_avt_shirt_fishing06.txo",  # 138 Fishing Shirt 6
-    "phase_4/maps/tt_t_chr_avt_shirt_fishing07.txo",  # 139 Fishing Shirt 7
-    "phase_4/maps/tt_t_chr_avt_shirt_golf05.txo",  # 140 Golf Shirt 5
-    "phase_4/maps/tt_t_chr_avt_shirt_racing04.txo",  # 141 Racing Shirt 4
-    "phase_4/maps/tt_t_chr_avt_shirt_racing05.txo",  # 142 Racing Shirt 5
-    "phase_4/maps/tt_t_chr_avt_shirt_mostCogsDefeated03.txo",  # 143 Most Cogs Defeated shirt 3
-    "phase_4/maps/tt_t_chr_avt_shirt_mostCogsDefeated04.txo",  # 144 Most Cogs Defeated shirt 4
-    "phase_4/maps/tt_t_chr_avt_shirt_trolley04.txo",  # 145 Trolley shirt 4
-    "phase_4/maps/tt_t_chr_avt_shirt_trolley05.txo",  # 146 Trolley shirt 5
-    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding4.txo",  # 147 Save Building Shirt 4
-    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding05.txo",  # 148 Save Building Shirt 5
-
-    "phase_4/maps/tt_t_chr_avt_shirt_anniversary.txo",  # 149 Anniversary
+    "phase_4/maps/tt_t_chr_avt_shirt_mailbox.jpg",  # 100 Mailbox Shirt
+    "phase_4/maps/tt_t_chr_avt_shirt_trashcan.jpg", # 101 Trash Can Shirt
+    "phase_4/maps/tt_t_chr_avt_shirt_loonyLabs.jpg",# 102 Loony Labs Shirt
+    "phase_4/maps/tt_t_chr_avt_shirt_hydrant.jpg",  # 103 Hydrant Shirt
+    "phase_4/maps/tt_t_chr_avt_shirt_whistle.jpg",  # 104 Sillymeter Whistle Shirt
+    "phase_4/maps/tt_t_chr_avt_shirt_cogbuster.jpg",  # 105 Silly Cogbuster Shirt
+    
+    "phase_4/maps/tt_t_chr_avt_shirt_mostCogsDefeated01.jpg",  # 106 Most Cogs Defeated Shirt
+    "phase_4/maps/tt_t_chr_avt_shirt_victoryParty01.jpg",  # 107 Victory Party Shirt 1
+    "phase_4/maps/tt_t_chr_avt_shirt_victoryParty02.jpg",  # 108 Victory Party Shirt 2
     ]
 
 # These are deemed safe for MakeAToon
@@ -365,386 +311,283 @@ def isValidGirlShirt(index):
     return 0
 
 Sleeves = [
-    "phase_3/maps/desat_sleeve_1.txo", # 0
-    "phase_3/maps/desat_sleeve_2.txo", # 1
-    "phase_3/maps/desat_sleeve_3.txo", # 2
-    "phase_3/maps/desat_sleeve_4.txo", # 3
-    "phase_3/maps/desat_sleeve_5.txo", # 4
-    "phase_3/maps/desat_sleeve_6.txo", # 5
-    "phase_3/maps/desat_sleeve_7.txo", # 6
-    "phase_3/maps/desat_sleeve_8.txo", # 7
-    "phase_3/maps/desat_sleeve_9.txo", # 8
-    "phase_3/maps/desat_sleeve_10.txo", # 9
-    "phase_3/maps/desat_sleeve_15.txo", # 10
-    "phase_3/maps/desat_sleeve_16.txo", # 11
-    "phase_3/maps/desat_sleeve_19.txo", # 12
-    "phase_3/maps/desat_sleeve_20.txo", # 13
+    "phase_3/maps/desat_sleeve_1.jpg", # 0
+    "phase_3/maps/desat_sleeve_2.jpg", # 1
+    "phase_3/maps/desat_sleeve_3.jpg", # 2 
+    "phase_3/maps/desat_sleeve_4.jpg", # 3
+    "phase_3/maps/desat_sleeve_5.jpg", # 4 
+    "phase_3/maps/desat_sleeve_6.jpg", # 5
+    "phase_3/maps/desat_sleeve_7.jpg", # 6
+    "phase_3/maps/desat_sleeve_8.jpg", # 7 
+    "phase_3/maps/desat_sleeve_9.jpg", # 8
+    "phase_3/maps/desat_sleeve_10.jpg", # 9
+    "phase_3/maps/desat_sleeve_15.jpg", # 10
+    "phase_3/maps/desat_sleeve_16.jpg", # 11
+    "phase_3/maps/desat_sleeve_19.jpg", # 12
+    "phase_3/maps/desat_sleeve_20.jpg", # 13
 
     # Catalog exclusive shirt sleeves
-    "phase_4/maps/female_sleeve1b.txo", # 14 blue with 3 yellow stripes
-    "phase_4/maps/female_sleeve2.txo", # 15 pink and beige with flower
-    "phase_4/maps/female_sleeve3.txo", # 16 yellow hooded sweatshirt
-    "phase_4/maps/male_sleeve1.txo", # 17 blue stripes
-    "phase_4/maps/male_sleeve2_palm.txo", # 18 yellow with palm tree
-    "phase_4/maps/male_sleeve3c.txo", # 19 orange
+    "phase_4/maps/female_sleeve1b.jpg", # 14 blue with 3 yellow stripes
+    "phase_4/maps/female_sleeve2.jpg", # 15 pink and beige with flower
+    "phase_4/maps/female_sleeve3.jpg", # 16 yellow hooded sweatshirt
+    "phase_4/maps/male_sleeve1.jpg", # 17 blue stripes
+    "phase_4/maps/male_sleeve2_palm.jpg", # 18 yellow with palm tree
+    "phase_4/maps/male_sleeve3c.jpg", # 19 orange
 
-    "phase_4/maps/shirt_Sleeve_ghost.txo", # 20 ghost (Halloween)
-    "phase_4/maps/shirt_Sleeve_pumkin.txo", # 21 pumpkin (Halloween)
+    "phase_4/maps/shirt_Sleeve_ghost.jpg", # 20 ghost (Halloween)
+    "phase_4/maps/shirt_Sleeve_pumkin.jpg", # 21 pumpkin (Halloween)
 
-    "phase_4/maps/holidaySleeve1.txo", # 22 (Winter Holiday)
-    "phase_4/maps/holidaySleeve3.txo", # 23 (Winter Holiday)
+    "phase_4/maps/holidaySleeve1.jpg", # 22 (Winter Holiday)
+    "phase_4/maps/holidaySleeve3.jpg", # 23 (Winter Holiday)
 
     # Catalog series 2
-    "phase_4/maps/female_sleeve1b.txo",   # 24 Blue and gold wavy stripes
-    "phase_4/maps/female_sleeve5New.txo", # 25 Blue and pink with bow
-    "phase_4/maps/male_sleeve4New.txo",   # 26 Lime green with stripe
-    "phase_4/maps/sleeve6New.txo",        # 27 Purple with stars
-    "phase_4/maps/SleeveMaleNew7.txo",    # 28 Red kimono/hockey shirt
+    "phase_4/maps/female_sleeve1b.jpg",   # 24 Blue and gold wavy stripes
+    "phase_4/maps/female_sleeve5New.jpg", # 25 Blue and pink with bow
+    "phase_4/maps/male_sleeve4New.jpg",   # 26 Lime green with stripe
+    "phase_4/maps/sleeve6New.jpg",        # 27 Purple with stars
+    "phase_4/maps/SleeveMaleNew7.jpg",    # 28 Red kimono/hockey shirt
 
     # Unused
-    "phase_4/maps/female_sleeveNew6.txo", # 29 Aqua kimono white stripe
+    "phase_4/maps/female_sleeveNew6.jpg", # 29 Aqua kimono white stripe
 
-    "phase_4/maps/Vday5Sleeve.txo",       # 30 (Valentines)
-    "phase_4/maps/Vda6Sleeve.txo",        # 31 (Valentines)
-    "phase_4/maps/Vday_shirt4sleeve.txo", # 32 (Valentines)
-    "phase_4/maps/Vday2cSleeve.txo",      # 33 (Valentines)
+    "phase_4/maps/Vday5Sleeve.jpg",       # 30 (Valentines)
+    "phase_4/maps/Vda6Sleeve.jpg",        # 31 (Valentines)
+    "phase_4/maps/Vday_shirt4sleeve.jpg", # 32 (Valentines)
+    "phase_4/maps/Vday2cSleeve.jpg",      # 33 (Valentines)
 
     # Catalog series 3
-    "phase_4/maps/sleeveTieDye.txo",      # 34 Tie dye
-    "phase_4/maps/male_sleeve1.txo",      # 35 Blue with blue and white stripe
+    "phase_4/maps/sleeveTieDye.jpg",      # 34 Tie dye
+    "phase_4/maps/male_sleeve1.jpg",      # 35 Blue with blue and white stripe
 
     # St. Patrick's day
-    "phase_4/maps/StPats_sleeve.txo",     # 36 (St. Pats) Four leaf clover
-    "phase_4/maps/StPats_sleeve2.txo",    # 37 (St. Pats) Pot o gold
+    "phase_4/maps/StPats_sleeve.jpg",     # 36 (St. Pats) Four leaf clover
+    "phase_4/maps/StPats_sleeve2.jpg",    # 37 (St. Pats) Pot o gold
 
     # T-Shirt Contest sleeves
-    "phase_4/maps/ContestfishingVestSleeve1.txo",    # 38 (T-Shirt Contest) fishing vest sleeve
-    "phase_4/maps/ContestFishtankSleeve1.txo",       # 39 (T-Shirt Contest) fish bowl sleeve
-    "phase_4/maps/ContestPawSleeve1.txo",            # 40 (T-Shirt Contest) paw print sleeve
+    "phase_4/maps/ContestfishingVestSleeve1.jpg",    # 38 (T-Shirt Contest) fishing vest sleeve
+    "phase_4/maps/ContestFishtankSleeve1.jpg",       # 39 (T-Shirt Contest) fish bowl sleeve
+    "phase_4/maps/ContestPawSleeve1.jpg",            # 40 (T-Shirt Contest) paw print sleeve
 
     # Catalog Series 4
-    "phase_4/maps/CowboySleeve1.txo",    # 41 (Western) cowboy shirt sleeve
-    "phase_4/maps/CowboySleeve2.txo",    # 42 (Western) cowboy shirt sleeve
-    "phase_4/maps/CowboySleeve3.txo",    # 43 (Western) cowboy shirt sleeve
-    "phase_4/maps/CowboySleeve4.txo",    # 44 (Western) cowboy shirt sleeve
-    "phase_4/maps/CowboySleeve5.txo",    # 45 (Western) cowboy shirt sleeve
-    "phase_4/maps/CowboySleeve6.txo",    # 46 (Western) cowboy shirt sleeve
+    "phase_4/maps/CowboySleeve1.jpg",    # 41 (Western) cowboy shirt sleeve
+    "phase_4/maps/CowboySleeve2.jpg",    # 42 (Western) cowboy shirt sleeve
+    "phase_4/maps/CowboySleeve3.jpg",    # 43 (Western) cowboy shirt sleeve
+    "phase_4/maps/CowboySleeve4.jpg",    # 44 (Western) cowboy shirt sleeve
+    "phase_4/maps/CowboySleeve5.jpg",    # 45 (Western) cowboy shirt sleeve
+    "phase_4/maps/CowboySleeve6.jpg",    # 46 (Western) cowboy shirt sleeve
 
     # July 4th
-    "phase_4/maps/4thJulySleeve1.txo",   # 47 (July 4th) flag shirt sleeve
-    "phase_4/maps/4thJulySleeve2.txo",   # 48 (July 4th) fireworks shirt sleeve
+    "phase_4/maps/4thJulySleeve1.jpg",   # 47 (July 4th) flag shirt sleeve
+    "phase_4/maps/4thJulySleeve2.jpg",   # 48 (July 4th) fireworks shirt sleeve
 
     # Catlog series 7
-    "phase_4/maps/shirt_sleeveCat7_01.txo",   # 49 Green shirt w/ yellow buttons sleeve
-    "phase_4/maps/shirt_sleeveCat7_02.txo",   # 50 Purple shirt w/ big flower sleeve
+    "phase_4/maps/shirt_sleeveCat7_01.jpg",   # 49 Green shirt w/ yellow buttons sleeve
+    "phase_4/maps/shirt_sleeveCat7_02.jpg",   # 50 Purple shirt w/ big flower sleeve
 
     # T-Shirt Contest 2 sleeves
-    "phase_4/maps/contest_backpack_sleeve.txo",   # 51 (T-Shirt Contest) Multicolor shirt 2/ backpack sleeve
-    "phase_4/maps/Contest_leder_sleeve.txo",      # 52 (T-Shirt Contest) Lederhosen sleeve
-    "phase_4/maps/contest_mellon_sleeve2.txo",     # 53 (T-Shirt Contest) Watermelon sleeve
-    "phase_4/maps/contest_race_sleeve.txo",       # 54 (T-Shirt Contest) Race Shirt sleeve (UK winner)
-
+    "phase_4/maps/contest_backpack_sleeve.jpg",   # 51 (T-Shirt Contest) Multicolor shirt 2/ backpack sleeve
+    "phase_4/maps/Contest_leder_sleeve.jpg",      # 52 (T-Shirt Contest) Lederhosen sleeve
+    "phase_4/maps/contest_mellon_sleeve2.jpg",     # 53 (T-Shirt Contest) Watermelon sleeve
+    "phase_4/maps/contest_race_sleeve.jpg",       # 54 (T-Shirt Contest) Race Shirt sleeve (UK winner)
+    
     # Pajama sleeves
-    "phase_4/maps/PJSleeveBlue.txo",   # 55 Blue Pajama sleeve
-    "phase_4/maps/PJSleeveRed.txo",   # 56 Red Pajama sleeve
-    "phase_4/maps/PJSleevePurple.txo",   # 57 Purple Pajama sleeve
-
+    "phase_4/maps/PJSleeveBlue.jpg",   # 55 Blue Pajama sleeve
+    "phase_4/maps/PJSleeveRed.jpg",   # 56 Red Pajama sleeve
+    "phase_4/maps/PJSleevePurple.jpg",   # 57 Purple Pajama sleeve
+    
     # 2009 Valentines Day Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_valentine1.txo",   # 58 Valentines Sleeves 1
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_valentine2.txo",   # 59 Valentines Sleeves 2
-
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_valentine1.jpg",   # 58 Valentines Sleeves 1
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_valentine2.jpg",   # 59 Valentines Sleeves 2
+    
     # Special Award Clothing
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_desat4.txo",   # 60
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing1.txo",   # 61
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing2.txo",   # 62
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_gardening1.txo",   # 63
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_gardening2.txo",   # 64
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_party1.txo",   # 65
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_party2.txo",   # 66
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing1.txo",   # 67
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing2.txo",   # 68
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_summer1.txo",   # 69
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_summer2.txo",   # 70
-
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf1.txo",    # 71
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf2.txo",    # 72
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween1.txo",    # 73
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween2.txo",    # 74
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_marathon1.txo",    # 75
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding1.txo",    # 76
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding2.txo",    # 77
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_toonTask1.txo",    # 78
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_toonTask2.txo",    # 79
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley1.txo",    # 80
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley2.txo",    # 81
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_winter1.txo",    # 82
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween3.txo",   # 83
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween4.txo",   # 84
-
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_desat4.jpg",   # 60
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing1.jpg",   # 61
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing2.jpg",   # 62
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_gardening1.jpg",   # 63
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_gardening2.jpg",   # 64
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_party1.jpg",   # 65
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_party2.jpg",   # 66
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing1.jpg",   # 67
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing2.jpg",   # 68
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_summer1.jpg",   # 69
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_summer2.jpg",   # 70
+    
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf1.jpg",    # 71
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf2.jpg",    # 72
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween1.jpg",    # 73
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween2.jpg",    # 74
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_marathon1.jpg",    # 75
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding1.jpg",    # 76
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding2.jpg",    # 77
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_toonTask1.jpg",    # 78
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_toonTask2.jpg",    # 79
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley1.jpg",    # 80
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley2.jpg",    # 81
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_winter1.jpg",    # 82
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween3.jpg",   # 83
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween4.jpg",   # 84
+    
     # 2010 Valentines Day Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_valentine3.txo",   # 85 Valentines Sleeves 1
-
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_valentine3.jpg",   # 85 Valentines Sleeves 1
+    
     # Scientist Sleeves
-    "phase_4/maps/tt_t_chr_shirtSleeve_scientist.txo",   # 86 Toon sceintist
-
+    "phase_4/maps/tt_t_chr_shirtSleeve_scientist.jpg",   # 86 Toon sceintist
+    
     # Silly Story Shirt Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mailbox.txo",    # 87 Mailbox Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trashcan.txo",   # 88 Trash Can Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_loonyLabs.txo",  # 89 Loony Labs Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_hydrant.txo",    # 90 Hydrant Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_whistle.txo",    # 91 Sillymeter Whistle Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_cogbuster.txo",    # 92 Silly Cogbuster Sleeves
-
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mostCogsDefeated01.txo",# 93 Most Cogs Defeated Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_victoryParty01.txo",    # 94 Victory Party Sleeves 1
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_victoryParty02.txo",    # 95 Victory Party Sleeves 2
-
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_sellbotIcon.txo",  # 96 Smashed Sellbot Shirt
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_sellbotVPIcon.txo",  # 97 Most V.P.s Defeated Shirt
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_sellbotCrusher.txo",  # 98 Sellbot Smasher Shirt
-
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_jellyBeans.txo",  # 99 Jellybean Bank Shirt
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_doodle.txo",  # 100 Doodle Shirt
-
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween5.txo",  # 101 Vampire Shirt
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloweenTurtle.txo",  # 102 Turtle Shirt
-
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_greentoon1.txo",  # 103 Ides of March greenToon shirt
-
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_getConnectedMoverShaker.txo",  # 104 Get Connected Mover & Shaker
-
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racingGrandPrix.txo",  # 105
-
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_lawbotIcon.txo",  # 106 Smashed Lawbot Shirt
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_lawbotVPIcon.txo",  # 107 Most C.J.s Defeated Shirt
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_lawbotCrusher.txo",  # 108 Lawbot Smasher Shirt
-
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_bee.txo",  # 109 Halloween Bee
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_pirate.txo",  # 110 Halloween Pirate
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_supertoon.txo",  # 111 Halloween SuperToon
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_vampire.txo",  # 112 Halloween Vampire NoCape
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_dinosaur.txo",  # 113 Halloween Dinosaur
-
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing04.txo",  # 114 Fishing Shirt 4
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf03.txo",  # 115 Golf Shirt 3
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mostCogsDefeated02.txo",  # 116 Most Cogs Defeated Shirt 2
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing03.txo",  # 117 Racing Shirt 3
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding3.txo",  # 118 Save Building Shirt 3
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley03.txo",  # 119 Trolley Shirt 3
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing05.txo",  # 120 Fishing Shirt 5
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf04.txo",  # 121 Golf Shirt 4
-
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween06.txo",  # 122 Halloween Witchy Moon Shirt
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_winter03.txo",  # 123 Winter Holiday Sled Shirt
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween07.txo",  # 124 Halloween Batty Moon Shirt
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_winter02.txo",  # 125 Winter Holiday Mittens Shirt
-
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing06.txo",  # 126 Fishing Shirt 6
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing07.txo",  # 127 Fishing Shirt 7
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf05.txo",  # 128 Golf Shirt 5
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing04.txo",  # 129 Racing Shirt 4
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing05.txo",  # 130 Racing Shirt 5
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mostCogsDefeated03.txo",  # 131 Most Cogs Defeated shirt 3
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mostCogsDefeated04.txo",  # 132 Most Cogs Defeated shirt 4
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley04.txo",  # 133 Trolley shirt 4
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley05.txo",  # 134 Trolley shirt 5
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding4.txo",  # 134 Save Building Shirt 4
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding05.txo",  # 135 Save Building Shirt 5
-
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_anniversary.txo",  # 136 Anniversary
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mailbox.jpg",    # 87 Mailbox Sleeves
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trashcan.jpg",   # 88 Trash Can Sleeves
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_loonyLabs.jpg",  # 89 Loony Labs Sleeves
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_hydrant.jpg",    # 90 Hydrant Sleeves
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_whistle.jpg",    # 91 Sillymeter Whistle Sleeves
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_cogbuster.jpg",    # 92 Silly Cogbuster Sleeves
+    
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mostCogsDefeated01.jpg",# 93 Most Cogs Defeated Sleeves
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_victoryParty01.jpg",    # 94 Victory Party Sleeves 1
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_victoryParty02.jpg",    # 95 Victory Party Sleeves 2
     ]
 
-# len = 9
+# len = 9 
 BoyShorts = [
-    "phase_3/maps/desat_shorts_1.txo", # plain w/ pockets
-    "phase_3/maps/desat_shorts_2.txo", # belt
-    "phase_3/maps/desat_shorts_4.txo", # cargo
-    "phase_3/maps/desat_shorts_6.txo", # hawaiian
-    "phase_3/maps/desat_shorts_7.txo", # special, side stripes
-    "phase_3/maps/desat_shorts_8.txo", # soccer shorts
-    "phase_3/maps/desat_shorts_9.txo", # special, flames side stripes
-    "phase_3/maps/desat_shorts_10.txo", # denim (2 darker colors)
+    "phase_3/maps/desat_shorts_1.jpg", # plain w/ pockets
+    "phase_3/maps/desat_shorts_2.jpg", # belt
+    "phase_3/maps/desat_shorts_4.jpg", # cargo
+    "phase_3/maps/desat_shorts_6.jpg", # hawaiian
+    "phase_3/maps/desat_shorts_7.jpg", # special, side stripes
+    "phase_3/maps/desat_shorts_8.jpg", # soccer shorts 
+    "phase_3/maps/desat_shorts_9.jpg", # special, flames side stripes
+    "phase_3/maps/desat_shorts_10.jpg", # denim (2 darker colors)
 
     # Valentines
-    "phase_4/maps/VdayShorts2.txo",    # 8 valentines shorts
+    "phase_4/maps/VdayShorts2.jpg",    # 8 valentines shorts
 
     # Catalog series 3 exclusive
-    "phase_4/maps/shorts4.txo",        # 9 Orange with blue side stripes
-    "phase_4/maps/shorts1.txo",        # 10 Blue with gold stripes on cuff
+    "phase_4/maps/shorts4.jpg",        # 9 Orange with blue side stripes
+    "phase_4/maps/shorts1.jpg",        # 10 Blue with gold stripes on cuff
 
     # St. Pats
-    "phase_4/maps/shorts5.txo",        # 11 Leprechaun shorts
+    "phase_4/maps/shorts5.jpg",        # 11 Leprechaun shorts
 
     # Catalog series 4 exclusive
-    "phase_4/maps/CowboyShorts1.txo",  # 12 Cowboy Shorts 1
-    "phase_4/maps/CowboyShorts2.txo",  # 13 Cowboy Shorts 2
+    "phase_4/maps/CowboyShorts1.jpg",  # 12 Cowboy Shorts 1
+    "phase_4/maps/CowboyShorts2.jpg",  # 13 Cowboy Shorts 2
     # July 4th
-    "phase_4/maps/4thJulyShorts1.txo", # 14 July 4th Shorts
+    "phase_4/maps/4thJulyShorts1.jpg", # 14 July 4th Shorts
 
     # Catalog series 7
-    "phase_4/maps/shortsCat7_01.txo",  # 15 Green stripes
-
+    "phase_4/maps/shortsCat7_01.jpg",  # 15 Green stripes
+    
     # Pajama Shorts
-    "phase_4/maps/Blue_shorts_1.txo",  # 16 Blue Pajama shorts
-    "phase_4/maps/Red_shorts_1.txo",  # 17 Red Pajama shorts
-    "phase_4/maps/Purple_shorts_1.txo",  # 18 Purple Pajama shorts
-
+    "phase_4/maps/Blue_shorts_1.jpg",  # 16 Blue Pajama shorts
+    "phase_4/maps/Red_shorts_1.jpg",  # 17 Red Pajama shorts
+    "phase_4/maps/Purple_shorts_1.jpg",  # 18 Purple Pajama shorts
+    
     # Winter Holiday Shorts
-    "phase_4/maps/tt_t_chr_avt_shorts_winter1.txo",  # 19 Winter Holiday Shorts Style 1
-    "phase_4/maps/tt_t_chr_avt_shorts_winter2.txo",  # 20 Winter Holiday Shorts Style 2
-    "phase_4/maps/tt_t_chr_avt_shorts_winter3.txo",  # 21 Winter Holiday Shorts Style 3
-    "phase_4/maps/tt_t_chr_avt_shorts_winter4.txo",  # 22 Winter Holiday Shorts Style 4
-
+    "phase_4/maps/tt_t_chr_avt_shorts_winter1.jpg",  # 19 Winter Holiday Shorts Style 1
+    "phase_4/maps/tt_t_chr_avt_shorts_winter2.jpg",  # 20 Winter Holiday Shorts Style 2
+    "phase_4/maps/tt_t_chr_avt_shorts_winter3.jpg",  # 21 Winter Holiday Shorts Style 3
+    "phase_4/maps/tt_t_chr_avt_shorts_winter4.jpg",  # 22 Winter Holiday Shorts Style 4
+    
     # 2009 Valentines Day Shorts
-    "phase_4/maps/tt_t_chr_avt_shorts_valentine1.txo",  # 23 Valentines Shorts 1
-    "phase_4/maps/tt_t_chr_avt_shorts_valentine2.txo",  # 24 Valentines Shorts 2
-
+    "phase_4/maps/tt_t_chr_avt_shorts_valentine1.jpg",  # 23 Valentines Shorts 1
+    "phase_4/maps/tt_t_chr_avt_shorts_valentine2.jpg",  # 24 Valentines Shorts 2
+    
     # Special award Clothes
-    "phase_4/maps/tt_t_chr_avt_shorts_fishing1.txo",   # 25
-    "phase_4/maps/tt_t_chr_avt_shorts_gardening1.txo",   # 26
-    "phase_4/maps/tt_t_chr_avt_shorts_party1.txo",   # 27
-    "phase_4/maps/tt_t_chr_avt_shorts_racing1.txo",   # 28
-    "phase_4/maps/tt_t_chr_avt_shorts_summer1.txo",   # 29
-
-    "phase_4/maps/tt_t_chr_avt_shorts_golf1.txo",   # 30
-    "phase_4/maps/tt_t_chr_avt_shorts_halloween1.txo",   # 31
-    "phase_4/maps/tt_t_chr_avt_shorts_halloween2.txo",   # 32
-    "phase_4/maps/tt_t_chr_avt_shorts_saveBuilding1.txo",   # 33
-    "phase_4/maps/tt_t_chr_avt_shorts_trolley1.txo",   # 34
-    "phase_4/maps/tt_t_chr_avt_shorts_halloween4.txo",   # 35
-    "phase_4/maps/tt_t_chr_avt_shorts_halloween3.txo",   # 36
-
-    "phase_4/maps/tt_t_chr_shorts_scientistA.txo",   # 37
-    "phase_4/maps/tt_t_chr_shorts_scientistB.txo",   # 38
-    "phase_4/maps/tt_t_chr_shorts_scientistC.txo",   # 39
-
-    "phase_4/maps/tt_t_chr_avt_shorts_cogbuster.txo",  # 40 Silly Cogbuster Shorts
-
-    "phase_4/maps/tt_t_chr_avt_shorts_sellbotCrusher.txo",   # 41 Sellbot Smasher Shorts
-
-    "phase_4/maps/tt_t_chr_avt_shorts_halloween5.txo",   # 42 # Halloween Vampire Shorts
-    "phase_4/maps/tt_t_chr_avt_shorts_halloweenTurtle.txo",   # 43 Halloween Turtle Shorts
-
-    "phase_4/maps/tt_t_chr_avt_shorts_greentoon1.txo",   # 44 Ides of March greenToon shorts
-
-    "phase_4/maps/tt_t_chr_avt_shorts_racingGrandPrix.txo",   # 45 Racing Grand Prix Shorts
-
-    "phase_4/maps/tt_t_chr_avt_shorts_lawbotCrusher.txo",   # 46 Lawbot Smasher Shorts
-
-    "phase_4/maps/tt_t_chr_avt_shorts_bee.txo",   # 47 Halloween Bee Shorts
-    "phase_4/maps/tt_t_chr_avt_shorts_pirate.txo",   # 48 Halloween Pirate Shorts
-    "phase_4/maps/tt_t_chr_avt_shorts_supertoon.txo",   # 49 Halloween SuperToon Shorts
-    "phase_4/maps/tt_t_chr_avt_shorts_vampire.txo",   # 50 Halloween Vampire NoCape Shorts
-    "phase_4/maps/tt_t_chr_avt_shorts_dinosaur.txo",   # 51 Halloween Dinosaur Shorts
-
-    "phase_4/maps/tt_t_chr_avt_shorts_golf02.txo",   # 52 Golf Shorts 2
-    "phase_4/maps/tt_t_chr_avt_shorts_racing03.txo",   # 53 Racing Shorts 3
-    "phase_4/maps/tt_t_chr_avt_shorts_golf03.txo",   # 54 Golf Shorts 3
-    "phase_4/maps/tt_t_chr_avt_shorts_golf04.txo",   # 55 Golf Shorts 4
-    "phase_4/maps/tt_t_chr_avt_shorts_racing04.txo",   # 56 Racing Shorts 4
-    "phase_4/maps/tt_t_chr_avt_shorts_racing05.txo",   # 57 Racing Shorts 5
+    "phase_4/maps/tt_t_chr_avt_shorts_fishing1.jpg",   # 25
+    "phase_4/maps/tt_t_chr_avt_shorts_gardening1.jpg",   # 26
+    "phase_4/maps/tt_t_chr_avt_shorts_party1.jpg",   # 27
+    "phase_4/maps/tt_t_chr_avt_shorts_racing1.jpg",   # 28
+    "phase_4/maps/tt_t_chr_avt_shorts_summer1.jpg",   # 29
+    
+    "phase_4/maps/tt_t_chr_avt_shorts_golf1.jpg",   # 30
+    "phase_4/maps/tt_t_chr_avt_shorts_halloween1.jpg",   # 31
+    "phase_4/maps/tt_t_chr_avt_shorts_halloween2.jpg",   # 32
+    "phase_4/maps/tt_t_chr_avt_shorts_saveBuilding1.jpg",   # 33
+    "phase_4/maps/tt_t_chr_avt_shorts_trolley1.jpg",   # 34
+    "phase_4/maps/tt_t_chr_avt_shorts_halloween4.jpg",   # 35
+    "phase_4/maps/tt_t_chr_avt_shorts_halloween3.jpg",   # 36
+    
+    "phase_4/maps/tt_t_chr_shorts_scientistA.jpg",   # 37
+    "phase_4/maps/tt_t_chr_shorts_scientistB.jpg",   # 38
+    "phase_4/maps/tt_t_chr_shorts_scientistC.jpg",   # 39
+    
+    "phase_4/maps/tt_t_chr_avt_shorts_cogbuster.jpg",  # 40 Silly Cogbuster Shorts     
     ]
 
 SHORTS = 0
 SKIRT = 1
 
-# len = 14
+# len = 14 
 GirlBottoms = [
-    ("phase_3/maps/desat_skirt_1.txo", SKIRT), # 0 solid
-    ("phase_3/maps/desat_skirt_2.txo", SKIRT), # 1 special, polka dots
-    ("phase_3/maps/desat_skirt_3.txo", SKIRT), # 2 vertical stripes
-    ("phase_3/maps/desat_skirt_4.txo", SKIRT), # 3 horizontal stripe
-    ("phase_3/maps/desat_skirt_5.txo", SKIRT), # 4 flower print
-    ("phase_3/maps/desat_shorts_1.txo", SHORTS), # 5 plain w/ pockets
-    ("phase_3/maps/desat_shorts_5.txo", SHORTS), # 6 flower
-    ("phase_3/maps/desat_skirt_6.txo", SKIRT), # 7 special, 2 pockets
-    ("phase_3/maps/desat_skirt_7.txo", SKIRT), # 8 denim (2 darker colors)
-    ("phase_3/maps/desat_shorts_10.txo", SHORTS), # 9 denim (2 darker colors)
+    ("phase_3/maps/desat_skirt_1.jpg", SKIRT), # 0 solid
+    ("phase_3/maps/desat_skirt_2.jpg", SKIRT), # 1 special, polka dots
+    ("phase_3/maps/desat_skirt_3.jpg", SKIRT), # 2 vertical stripes
+    ("phase_3/maps/desat_skirt_4.jpg", SKIRT), # 3 horizontal stripe
+    ("phase_3/maps/desat_skirt_5.jpg", SKIRT), # 4 flower print
+    ("phase_3/maps/desat_shorts_1.jpg", SHORTS), # 5 plain w/ pockets
+    ("phase_3/maps/desat_shorts_5.jpg", SHORTS), # 6 flower
+    ("phase_3/maps/desat_skirt_6.jpg", SKIRT), # 7 special, 2 pockets
+    ("phase_3/maps/desat_skirt_7.jpg", SKIRT), # 8 denim (2 darker colors)
+    ("phase_3/maps/desat_shorts_10.jpg", SHORTS), # 9 denim (2 darker colors)
 
     # Catalog Series 1 exclusive
-    ("phase_4/maps/female_skirt1.txo", SKIRT), # 10 blue with tan border and button
-    ("phase_4/maps/female_skirt2.txo", SKIRT), # 11 purple with pink border and ribbon
-    ("phase_4/maps/female_skirt3.txo", SKIRT), # 12 teal with yellow border and star
+    ("phase_4/maps/female_skirt1.jpg", SKIRT), # 10 blue with tan border and button
+    ("phase_4/maps/female_skirt2.jpg", SKIRT), # 11 purple with pink border and ribbon
+    ("phase_4/maps/female_skirt3.jpg", SKIRT), # 12 teal with yellow border and star
 
     # Valentines
-    ("phase_4/maps/VdaySkirt1.txo", SKIRT),    # 13 valentines skirts
+    ("phase_4/maps/VdaySkirt1.jpg", SKIRT),    # 13 valentines skirts
 
     # Catalog Series 3 exclusive
-    ("phase_4/maps/skirtNew5.txo", SKIRT),     # 14 rainbow skirt
+    ("phase_4/maps/skirtNew5.jpg", SKIRT),     # 14 rainbow skirt
 
-    ("phase_4/maps/shorts5.txo", SHORTS),      # 15 leprechaun shorts
+    ("phase_4/maps/shorts5.jpg", SHORTS),      # 15 leprechaun shorts
     # St. Pats
 
     # Catalog Series 4 exclusive
-    ("phase_4/maps/CowboySkirt1.txo", SKIRT),     # 16 cowboy skirt 1
-    ("phase_4/maps/CowboySkirt2.txo", SKIRT),     # 17 cowboy skirt 2
+    ("phase_4/maps/CowboySkirt1.jpg", SKIRT),     # 16 cowboy skirt 1
+    ("phase_4/maps/CowboySkirt2.jpg", SKIRT),     # 17 cowboy skirt 2
 
     # July 4th Skirt
-    ("phase_4/maps/4thJulySkirt1.txo", SKIRT),    # 18 july 4th skirt 1
+    ("phase_4/maps/4thJulySkirt1.jpg", SKIRT),    # 18 july 4th skirt 1
 
     # Catalog series 7
-    ("phase_4/maps/skirtCat7_01.txo", SKIRT),    # 19 blue with flower
-
+    ("phase_4/maps/skirtCat7_01.jpg", SKIRT),    # 19 blue with flower
+    
     # Pajama Shorts
-    ("phase_4/maps/Blue_shorts_1.txo", SHORTS),  # 20 Blue Pajama shorts
-    ("phase_4/maps/Red_shorts_1.txo", SHORTS),   # 21 Red Pajama shorts
-    ("phase_4/maps/Purple_shorts_1.txo", SHORTS),# 22 Purple Pajama shorts
-
+    ("phase_4/maps/Blue_shorts_1.jpg", SHORTS),  # 20 Blue Pajama shorts
+    ("phase_4/maps/Red_shorts_1.jpg", SHORTS),   # 21 Red Pajama shorts
+    ("phase_4/maps/Purple_shorts_1.jpg", SHORTS),# 22 Purple Pajama shorts
+    
     # Winter Holiday Skirts
-    ("phase_4/maps/tt_t_chr_avt_skirt_winter1.txo", SKIRT),  # 23 Winter Holiday Skirt Style 1
-    ("phase_4/maps/tt_t_chr_avt_skirt_winter2.txo", SKIRT),  # 24 Winter Holiday Skirt Style 2
-    ("phase_4/maps/tt_t_chr_avt_skirt_winter3.txo", SKIRT),  # 25 Winter Holiday Skirt Style 3
-    ("phase_4/maps/tt_t_chr_avt_skirt_winter4.txo", SKIRT),  # 26 Winter Holiday Skirt Style 4
-
+    ("phase_4/maps/tt_t_chr_avt_skirt_winter1.jpg", SKIRT),  # 23 Winter Holiday Skirt Style 1
+    ("phase_4/maps/tt_t_chr_avt_skirt_winter2.jpg", SKIRT),  # 24 Winter Holiday Skirt Style 2
+    ("phase_4/maps/tt_t_chr_avt_skirt_winter3.jpg", SKIRT),  # 25 Winter Holiday Skirt Style 3
+    ("phase_4/maps/tt_t_chr_avt_skirt_winter4.jpg", SKIRT),  # 26 Winter Holiday Skirt Style 4
+    
     # 2009 Valentines Day Skirts
-    ("phase_4/maps/tt_t_chr_avt_skirt_valentine1.txo", SKIRT),  # 27 Valentines Skirt 1
-    ("phase_4/maps/tt_t_chr_avt_skirt_valentine2.txo", SKIRT),  # 28 Valentines Skirt 2
-
+    ("phase_4/maps/tt_t_chr_avt_skirt_valentine1.jpg", SKIRT),  # 27 Valentines Skirt 1
+    ("phase_4/maps/tt_t_chr_avt_skirt_valentine2.jpg", SKIRT),  # 28 Valentines Skirt 2
+    
     # Special award clothing
-    ("phase_4/maps/tt_t_chr_avt_skirt_fishing1.txo", SKIRT),   # 29
-    ("phase_4/maps/tt_t_chr_avt_skirt_gardening1.txo", SKIRT),   # 30
-    ("phase_4/maps/tt_t_chr_avt_skirt_party1.txo", SKIRT),   # 31
-    ("phase_4/maps/tt_t_chr_avt_skirt_racing1.txo", SKIRT),   # 32
-    ("phase_4/maps/tt_t_chr_avt_skirt_summer1.txo", SKIRT),   # 33
-
-    ("phase_4/maps/tt_t_chr_avt_skirt_golf1.txo", SKIRT),   # 34
-    ("phase_4/maps/tt_t_chr_avt_skirt_halloween1.txo", SKIRT),   # 35
-    ("phase_4/maps/tt_t_chr_avt_skirt_halloween2.txo", SKIRT),   # 36
-    ("phase_4/maps/tt_t_chr_avt_skirt_saveBuilding1.txo", SKIRT),   # 37
-    ("phase_4/maps/tt_t_chr_avt_skirt_trolley1.txo", SKIRT),   # 38
-    ("phase_4/maps/tt_t_chr_avt_skirt_halloween3.txo", SKIRT),   # 39
-    ("phase_4/maps/tt_t_chr_avt_skirt_halloween4.txo", SKIRT),   # 40
-
-    ("phase_4/maps/tt_t_chr_shorts_scientistA.txo", SHORTS),   # 41
-    ("phase_4/maps/tt_t_chr_shorts_scientistB.txo", SHORTS),   # 42
-    ("phase_4/maps/tt_t_chr_shorts_scientistC.txo", SHORTS),   # 43
-
-    ("phase_4/maps/tt_t_chr_avt_shorts_cogbuster.txo", SHORTS),   # 44 Silly Cogbuster Shorts
-
-    ("phase_4/maps/tt_t_chr_avt_shorts_sellbotCrusher.txo", SHORTS),   # 45 Sellbot Smasher Shorts
-
-    ("phase_4/maps/tt_t_chr_avt_shorts_halloween5.txo", SHORTS),   # 46 Halloween Vampire Shorts
-    ("phase_4/maps/tt_t_chr_avt_shorts_halloweenTurtle.txo", SHORTS),   # 47 Halloween Turtle Shorts
-
-    ("phase_4/maps/tt_t_chr_avt_skirt_greentoon1.txo", SKIRT),   # 48 Ides of March greenToon skirt
-
-    ("phase_4/maps/tt_t_chr_avt_skirt_racingGrandPrix.txo", SKIRT),   # 49 Racing Grand Prix Skirt
-
-    ("phase_4/maps/tt_t_chr_avt_shorts_lawbotCrusher.txo", SHORTS),   # 50 Lawbot Smasher Shorts
-
-    ("phase_4/maps/tt_t_chr_avt_shorts_bee.txo", SHORTS),   # 51 Halloween Bee Shorts
-    ("phase_4/maps/tt_t_chr_avt_shorts_pirate.txo", SHORTS),   # 52 Halloween Pirate Shorts
-    ("phase_4/maps/tt_t_chr_avt_skirt_pirate.txo", SKIRT),   # 53 Halloween Pirate Skirt
-    ("phase_4/maps/tt_t_chr_avt_shorts_supertoon.txo", SHORTS),   # 54 Halloween SuperToon Shorts
-    ("phase_4/maps/tt_t_chr_avt_shorts_vampire.txo", SHORTS),   # 55 Halloween Vampire NoCape Shorts
-    ("phase_4/maps/tt_t_chr_avt_shorts_dinosaur.txo", SHORTS),   # 56 Halloween Dinosaur Shorts
-
-    ("phase_4/maps/tt_t_chr_avt_skirt_golf02.txo", SKIRT),   # 57 Golf Skirt 2
-    ("phase_4/maps/tt_t_chr_avt_skirt_racing03.txo", SKIRT),   # 58 Racing Skirt 3
-    ("phase_4/maps/tt_t_chr_avt_skirt_golf03.txo", SKIRT),   # 59 Golf Skirt 3
-    ("phase_4/maps/tt_t_chr_avt_skirt_golf04.txo", SKIRT),   # 60 Golf Skirt 4
-    ("phase_4/maps/tt_t_chr_avt_skirt_racing04.txo", SKIRT),   # 61 Racing Skirt 4
-    ("phase_4/maps/tt_t_chr_avt_skirt_racing05.txo", SKIRT),   # 62 Racing Skirt 5
+    ("phase_4/maps/tt_t_chr_avt_skirt_fishing1.jpg", SKIRT),   # 29
+    ("phase_4/maps/tt_t_chr_avt_skirt_gardening1.jpg", SKIRT),   # 30
+    ("phase_4/maps/tt_t_chr_avt_skirt_party1.jpg", SKIRT),   # 31
+    ("phase_4/maps/tt_t_chr_avt_skirt_racing1.jpg", SKIRT),   # 32
+    ("phase_4/maps/tt_t_chr_avt_skirt_summer1.jpg", SKIRT),   # 33
+    
+    ("phase_4/maps/tt_t_chr_avt_skirt_golf1.jpg", SKIRT),   # 34
+    ("phase_4/maps/tt_t_chr_avt_skirt_halloween1.jpg", SKIRT),   # 35
+    ("phase_4/maps/tt_t_chr_avt_skirt_halloween2.jpg", SKIRT),   # 36
+    ("phase_4/maps/tt_t_chr_avt_skirt_saveBuilding1.jpg", SKIRT),   # 37
+    ("phase_4/maps/tt_t_chr_avt_skirt_trolley1.jpg", SKIRT),   # 38
+    ("phase_4/maps/tt_t_chr_avt_skirt_halloween3.jpg", SKIRT),   # 39
+    ("phase_4/maps/tt_t_chr_avt_skirt_halloween4.jpg", SKIRT),   # 40
+    
+    ("phase_4/maps/tt_t_chr_shorts_scientistA.jpg", SHORTS),   # 41
+    ("phase_4/maps/tt_t_chr_shorts_scientistB.jpg", SHORTS),   # 42
+    ("phase_4/maps/tt_t_chr_shorts_scientistC.jpg", SHORTS),   # 43
+    
+    ("phase_4/maps/tt_t_chr_avt_shorts_cogbuster.jpg", SHORTS),   # 44 Silly Cogbuster Shorts 
     ]
 
 # len = 28
@@ -756,7 +599,7 @@ ClothesColors = [
     VBase4(0.992188, 0.480469, 0.167969, 1.0), # (3) orange
     VBase4(0.996094, 0.898438, 0.320312, 1.0), # (4) yellow
     VBase4(0.550781, 0.824219, 0.324219, 1.0), # (5) light green
-    VBase4(0.242188, 0.742188, 0.515625, 1.0), # (6) seafoam
+    VBase4(0.242188, 0.742188, 0.515625, 1.0), # (6) seafoam   
     VBase4(0.433594, 0.90625, 0.835938, 1.0),  # (7) light blue green
     VBase4(0.347656, 0.820312, 0.953125, 1.0), # (8) light blue
     VBase4(0.191406, 0.5625, 0.773438, 1.0),   # (9) medium blue
@@ -773,7 +616,7 @@ ClothesColors = [
     VBase4(0.433594, 0.90625, 0.835938, 1.0),
     VBase4(0.347656, 0.820312, 0.953125, 1.0),
     # Girl clothes
-    VBase4(0.96875, 0.691406, 0.699219, 1.0),  # (21) light pink
+    VBase4(0.96875, 0.691406, 0.699219, 1.0),  # (21) light pink 
     VBase4(0.996094, 0.957031, 0.597656, 1.0), # (22) light yellow
     VBase4(0.855469, 0.933594, 0.492188, 1.0), # (23) light yellow green
     VBase4(0.558594, 0.589844, 0.875, 1.0),    # (24) light purple
@@ -794,7 +637,7 @@ ShirtStyles = {
     # -------------------------------------------------------------------------
     # Boy styles
     # -------------------------------------------------------------------------
-    # solid
+    # solid 
     'bss1' : [ 0, 0, [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6),
                     (7, 7), (8, 8), (9, 9), (10, 10), (11, 11), (12, 12),
                     (27, 27) ]],
@@ -839,7 +682,7 @@ ShirtStyles = {
     # jersey 19 (special)
     'bss14' : [ 18, 12, [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6),
                     (8, 8), (9, 9), (11, 11), (12, 12), (27, 27) ]],
-    # guayavera
+    # guayavera 
     'bss15' : [ 19, 13, [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6),
                     (7, 7), (8, 8), (9, 9), (10, 10), (11, 11), (12, 12),
                     (27, 27) ]],
@@ -884,7 +727,7 @@ ShirtStyles = {
     # peasant
     'gss10' : [ 13, 11, [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6),
                     (7, 7), (8, 8), (9, 9), (10, 10), (11, 11), (12, 12),
-                    (21, 21), (22, 22), (23, 23), (24, 24), (25, 25),
+                    (21, 21), (22, 22), (23, 23), (24, 24), (25, 25), 
                     (26, 26) ]],
     # peasant w/ mid stripe
     'gss11' : [ 15, 11, [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6),
@@ -912,7 +755,7 @@ ShirtStyles = {
 
 
     # Special Catalog-only shirts.
-
+    
     # yellow hooded - Series 1
     'c_ss1' : [ 25, 16, [(27, 27),]],
 
@@ -936,7 +779,7 @@ ShirtStyles = {
 
     # blue with yellow stripes (girls only) - Series 1
     'c_gss1' : [ 23, 14, [(27, 27), ]],
-
+    
     # pink and beige with flower (girls only) - Series 1
     'c_gss2' : [ 24, 15, [(27, 27), ]],
 
@@ -962,27 +805,13 @@ ShirtStyles = {
     'c_ss9' : [ 55, 44, [(27, 27), ]],
     'c_ss10' : [ 56, 45, [(27, 27), ]],
     'c_ss11' : [ 57, 46, [(27, 27), ]],
-
+    
     # Special Holiday-themed shirts.
 
     # Halloween ghost
     'hw_ss1' : [ 29, 20, [(27, 27), ]],
     # Halloween pumpkin
     'hw_ss2' : [ 30, 21, [(27, 27), ]],
-    # Halloween vampire
-    'hw_ss3': [114, 101, [(27, 27)]],
-    # Halloween turtle
-    'hw_ss4': [115, 102, [(27, 27)]],
-    # Halloween bee
-    'hw_ss5': [122, 109, [(27, 27)]],
-    # Halloween pirate
-    'hw_ss6': [123, 110, [(27, 27)]],
-    # Halloween supertoon
-    'hw_ss7': [124, 111, [(27, 27)]],
-    # Halloween vampire nocape
-    'hw_ss8': [125, 112, [(27, 27)]],
-    # Halloween dinosaur
-    'hw_ss9': [126, 113, [(27, 27)]],
 
     # Winter Holiday
     'wh_ss1' : [ 31, 22, [(27, 27), ]],
@@ -1011,22 +840,20 @@ ShirtStyles = {
     'sd_ss1' : [ 47, 36, [(27, 27), ]],
     # St Pat's Day, pot o gold shirt
     'sd_ss2' : [ 48, 37, [(27, 27), ]],
-    # Ides of March greenToon shirt
-    'sd_ss3' : [ 116, 103, [(27, 27), ]],
 
     # T-Shirt Contest, Fishing Vest
     'tc_ss1' : [ 49, 38, [(27, 27), ]],
-    # T-Shirt Contest, Fish Bowl
+    # T-Shirt Contest, Fish Bowl    
     'tc_ss2' : [ 50, 39, [(27, 27), ]],
-    # T-Shirt Contest, Paw Print
+    # T-Shirt Contest, Paw Print    
     'tc_ss3' : [ 51, 40, [(27, 27), ]],
     # T-Shirt Contest, Backpack
     'tc_ss4' : [ 62, 51, [(27, 27), ]],
-    # T-Shirt Contest, Lederhosen
+    # T-Shirt Contest, Lederhosen    
     'tc_ss5' : [ 63, 52, [(27, 27), ]],
-    # T-Shirt Contest, Watermelon
+    # T-Shirt Contest, Watermelon    
     'tc_ss6' : [ 64, 53, [(27, 27), ]],
-    # T-Shirt Contest, Race Shirt
+    # T-Shirt Contest, Race Shirt    
     'tc_ss7' : [ 65, 54, [(27, 27), ]],
 
     # July 4th, Flag
@@ -1035,17 +862,17 @@ ShirtStyles = {
     'j4_ss2' : [ 59, 48, [(27, 27), ]],
 
     # Catalog series 7, Green w/ yellow buttons
-    'c_ss12' : [ 60, 49, [(27, 27), ]],
+    'c_ss12' : [ 60, 49, [(27, 27), ]], 
 
     # Catalog series 7, Purple w/ big flower
     'c_ss13' : [ 61, 50, [(27, 27), ]],
-
+    
     # Pajama series
     'pj_ss1' : [66, 55, [(27, 27),]], # Blue Banana Pajama shirt
     'pj_ss2' : [67, 56, [(27, 27),]], # Red Horn Pajama shirt
     'pj_ss3' : [68, 57, [(27, 27),]], # Purple Glasses Pajama shirt
-
-    # Special Award Clothes
+    
+    # Special Award Clothes    
     'sa_ss1' : [ 71, 60, [(27, 27),]],
     'sa_ss2' : [ 72, 61, [(27, 27),]],
     'sa_ss3' : [ 73, 62, [(27, 27),]],
@@ -1072,41 +899,12 @@ ShirtStyles = {
     'sa_ss24' : [ 94, 83, [(27, 27),]],
     'sa_ss25' : [ 95, 84, [(27, 27),]],
     'sa_ss26' : [ 106, 93, [(27, 27), ]], # Most Cogs Defeated Shirt
-    'sa_ss27' : [ 110, 97, [(27, 27), ]],
-    'sa_ss28' : [ 111, 98, [(27, 27), ]],
-    'sa_ss29' : [ 120, 107, [(27, 27), ]],
-    'sa_ss30' : [ 121, 108, [(27, 27), ]],
-    'sa_ss31' : [ 118, 105, [(27, 27), ]],
-    'sa_ss32' : [ 127, 114, [(27, 27), ]],
-    'sa_ss33' : [ 128, 115, [(27, 27), ]],
-    'sa_ss34' : [ 129, 116, [(27, 27), ]],
-    'sa_ss35' : [ 130, 117, [(27, 27), ]],
-    'sa_ss36' : [ 131, 118, [(27, 27), ]],
-    'sa_ss37' : [ 132, 119, [(27, 27), ]],
-    'sa_ss38' : [ 133, 120, [(27, 27), ]],
-    'sa_ss39' : [ 134, 121, [(27, 27), ]],
-    'sa_ss40' : [ 135, 122, [(27, 27), ]],
-    'sa_ss41' : [ 136, 123, [(27, 27), ]],
-    'sa_ss42' : [ 137, 124, [(27, 27), ]],
-    'sa_ss43' : [ 138, 125, [(27, 27), ]],
-    'sa_ss44' : [ 139, 126, [(27, 27), ]],
-    'sa_ss45' : [ 140, 127, [(27, 27), ]],
-    'sa_ss46' : [ 141, 128, [(27, 27), ]],
-    'sa_ss47' : [ 142, 129, [(27, 27), ]],
-    'sa_ss48' : [ 143, 130, [(27, 27), ]],
-    'sa_ss49' : [ 144, 116, [(27, 27), ]],
-    'sa_ss50' : [ 145, 131, [(27, 27), ]],
-    'sa_ss51' : [ 146, 133, [(27, 27), ]],
-    'sa_ss52' : [ 147, 134, [(27, 27), ]],
-    'sa_ss53' : [ 148, 135, [(27, 27), ]],
-    'sa_ss54' : [ 149, 136, [(27, 27), ]],
-    'sa_ss55' : [ 150, 137, [(27, 27), ]],
-
+    
     # Scientists
     'sc_1' : [ 97, 86, [(27, 27),]],
     'sc_2' : [ 98, 86, [(27, 27),]],
     'sc_3' : [ 99, 86, [(27, 27),]],
-
+    
     # Silly Story Shirts
     'sil_1' : [ 100, 87, [(27, 27),]],   # Silly Mailbox Shirt
     'sil_2' : [ 101, 88, [(27, 27),]],   # Silly Trashcan Shirt
@@ -1116,19 +914,6 @@ ShirtStyles = {
     'sil_6' : [ 105, 92, [(27, 27),]],   # Silly Cogbuster Shirt
     'sil_7' : [ 107, 94, [(27, 27),]],   # Victory Party Shirt 1
     'sil_8' : [ 108, 95, [(27, 27),]],   # Victory Party Shirt 2
-
-    'emb_us1' : [103, 90, [(27, 27)]],
-    'emb_us2' : [100, 87, [(27, 27)]],
-    'emb_us3' : [101, 88, [(27, 27)]],
-
-    'sb_1' : [109, 96, [(27, 27)]],
-
-    'jb_1' : [112, 99, [(27, 27)]],
-    'jb_2' : [113, 100, [(27, 27)]],
-
-    'ugcms' : [117, 104, [(27, 27)]],
-
-    'lb_1' : [119, 106, [(27, 27)]],
     # name : [ shirtIdx, sleeveIdx, [(ShirtColorIdx, sleeveColorIdx), ... ]]
     }
 
@@ -1139,28 +924,28 @@ BottomStyles = {
     # Boy styles (shorts)
     # -------------------------------------------------------------------------
     # plain w/ pockets
-    'bbs1' : [ 0, [0, 1, 2, 4, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    'bbs1' : [ 0, [0, 1, 2, 4, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
                                                                         20]],
     # belt
-    'bbs2' : [ 1, [0, 1, 2, 4, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    'bbs2' : [ 1, [0, 1, 2, 4, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
                                                                         20]],
     # cargo
-    'bbs3' : [ 2, [0, 1, 2, 4, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    'bbs3' : [ 2, [0, 1, 2, 4, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
                                                                         20]],
     # hawaiian
-    'bbs4' : [ 3, [0, 1, 2, 4, 6, 8, 9, 11, 12, 13, 15, 16, 17, 18, 19, 20,
+    'bbs4' : [ 3, [0, 1, 2, 4, 6, 8, 9, 11, 12, 13, 15, 16, 17, 18, 19, 20, 
                                                                         27]],
     # side stripes (special)
-    'bbs5' : [ 4, [0, 1, 2, 4, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    'bbs5' : [ 4, [0, 1, 2, 4, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
                                                                         20]],
     # soccer shorts
     'bbs6' : [ 5, [0, 1, 2, 4, 6, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20,
                                                                         27]],
-    # side flames (special)
+    # side flames (special) 
     'bbs7' : [ 6, [0, 1, 2, 4, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
                                                                    20, 27]],
     # denim
-    'bbs8' : [ 7, [0, 1, 2, 4, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    'bbs8' : [ 7, [0, 1, 2, 4, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
                                                                    20, 27]],
     # Valentines shorts
     'vd_bs1' : [ 8, [ 27, ]],
@@ -1172,35 +957,27 @@ BottomStyles = {
     # Catalog only shorts
     # Orange with blue side stripes
     'c_bs1' : [ 9, [ 27, ]],
-
+    
     # Blue with gold cuff stripes
     'c_bs2' : [ 10, [ 27, ]],
 
     # Green stripes - series 7
     'c_bs5' : [ 15, [ 27, ]],
-
+    
     # St. Pats leprechaun shorts
     'sd_bs1' : [ 11, [27, ]],
-    'sd_bs2' : [ 44, [27, ]],
-
+    
     # Pajama shorts
     'pj_bs1' : [ 16, [27, ]], # Blue Banana Pajama pants
     'pj_bs2' : [ 17, [27, ]], # Red Horn Pajama pants
     'pj_bs3' : [ 18, [27, ]], # Purple Glasses Pajama pants
-
+    
     # Winter Holiday Shorts
     'wh_bs1' : [ 19, [27, ]], # Winter Holiday Shorts Style 1
     'wh_bs2' : [ 20, [27, ]], # Winter Holiday Shorts Style 2
     'wh_bs3' : [ 21, [27, ]], # Winter Holiday Shorts Style 3
     'wh_bs4' : [ 22, [27, ]], # Winter Holiday Shorts Style 4
-
-    # Halloween Holiday Shorts
-    'hw_bs1' : [ 47, [27, ]], # Halloween Bee Shorts
-    'hw_bs2' : [ 48, [27, ]], # Halloween Pirate Shorts
-    'hw_bs5' : [ 49, [27, ]], # Halloween SuperToon Shorts
-    'hw_bs6' : [ 50, [27, ]], # Halloween Vampire Shorts
-    'hw_bs7' : [ 51, [27, ]], # Halloween Dinosaur Shorts
-
+    
     # -------------------------------------------------------------------------
     # Girl styles (shorts and skirts)
     # -------------------------------------------------------------------------
@@ -1221,13 +998,13 @@ BottomStyles = {
     # flower print
     'gsk5' : [ 4, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 21, 22, 23, 24, 25,
                                                                         26]],
-    # 2 pockets (special)
+    # 2 pockets (special) 
     'gsk6' : [ 7, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 21, 22, 23, 24, 25,
                                                                    26, 27]],
     # denim
     'gsk7' : [ 8, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 21, 22, 23, 24, 25,
                                                                    26, 27]],
-
+    
     # shorts
     # -------------------------------------------------------------------------
     # plain w/ pockets
@@ -1247,7 +1024,7 @@ BottomStyles = {
 
     # purple skirt with pink and ribbon
     'c_gsk2' : [ 11, [ 27, ]],
-
+    
     # teal skirt with yellow and star
     'c_gsk3' : [ 12, [ 27, ]],
 
@@ -1275,24 +1052,24 @@ BottomStyles = {
 
     # July 4th shorts
     'j4_bs1' : [ 14, [ 27, ]],
-
+    
     # July 4th Skirt
-    'j4_gs1' : [ 18, [ 27, ]],
+    'j4_gs1' : [ 18, [ 27, ]],    
 
     # Blue with flower - series 7
-    'c_gsk7' : [ 19, [ 27, ]],
-
+    'c_gsk7' : [ 19, [ 27, ]], 
+    
     # pajama shorts
     'pj_gs1' : [ 20, [27, ]], # Blue Banana Pajama pants
     'pj_gs2' : [ 21, [27, ]], # Red Horn Pajama pants
     'pj_gs3' : [ 22, [27, ]], # Purple Glasses Pajama pants
-
+    
     # Winter Holiday Skirts
     'wh_gsk1' : [ 23, [27, ]], # Winter Holiday Skirt Style 1
     'wh_gsk2' : [ 24, [27, ]], # Winter Holiday Skirt Style 2
     'wh_gsk3' : [ 25, [27, ]], # Winter Holiday Skirt Style 3
     'wh_gsk4' : [ 26, [27, ]], # Winter Holiday Skirt Style 4
-
+    
     # Special award clothes
     'sa_bs1' : [25, [27, ]],
     'sa_bs2' : [26, [27, ]],
@@ -1303,19 +1080,10 @@ BottomStyles = {
     'sa_bs7' : [31, [27, ]],
     'sa_bs8' : [32, [27, ]],
     'sa_bs9' : [33, [27, ]],
-    'sa_bs10' : [34, [27, ]],
+    'sa_bs10' : [34, [27, ]],    
     'sa_bs11' : [35, [27, ]],
     'sa_bs12' : [36, [27, ]],
-    'sa_bs13' : [41, [27, ]],
-    'sa_bs14' : [46, [27, ]],
-    'sa_bs15' : [45, [27, ]],
-    'sa_bs16' : [52, [27, ]],
-    'sa_bs17' : [53, [27, ]],
-    'sa_bs18' : [54, [27, ]],
-    'sa_bs19' : [55, [27, ]],
-    'sa_bs20' : [56, [27, ]],
-    'sa_bs21' : [57, [27, ]],
-
+    
     # Special award clothes
     'sa_gs1' : [29, [27, ]],
     'sa_gs2' : [30, [27, ]],
@@ -1329,43 +1097,18 @@ BottomStyles = {
     'sa_gs10' : [38, [27, ]],
     'sa_gs11' : [39, [27, ]],
     'sa_gs12' : [40, [27, ]],
-    'sa_gs13' : [45, [27, ]],
-    'sa_gs14' : [50, [27, ]],
-    'sa_gs15' : [49, [27, ]],
-    'sa_gs16' : [57, [27, ]],
-    'sa_gs17' : [58, [27, ]],
-    'sa_gs18' : [59, [27, ]],
-    'sa_gs19' : [60, [27, ]],
-    'sa_gs20' : [61, [27, ]],
-    'sa_gs21' : [62, [27, ]],
-
+    
     # Scientists
     'sc_bs1' : [37, [27, ]],
     'sc_bs2' : [38, [27, ]],
     'sc_bs3' : [39, [27, ]],
-
+    
     'sc_gs1' : [41, [27, ]],
     'sc_gs2' : [42, [27, ]],
     'sc_gs3' : [43, [27, ]],
-
+    
     'sil_bs1' : [ 40, [27, ]], # Silly Cogbuster Shorts
     'sil_gs1' : [44, [27, ]], # Silly Cogbuster Shorts
-
-    'hw_bs3' : [42, [27, ]],
-
-    'hw_gs3' : [46, [27, ]],
-
-    'hw_bs4' : [43, [27, ]],
-
-    'hw_gs4' : [47, [27, ]],
-
-    'hw_gs1' : [51, [27, ]],
-    'hw_gs2' : [52, [27, ]],
-    'hw_gs5' : [54, [27, ]],
-    'hw_gs6' : [55, [27, ]],
-    'hw_gs7' : [56, [27, ]],
-
-    'hw_gsk1' : [53, [27, ]],
     }
 
 # Define MakeAToon to be Tailor 1
@@ -1379,19 +1122,19 @@ WORNOUT_WAYLON = 9010 # DDR
 
 TailorCollections = {
     # TailorId : [ [ boyShirts ], [ girlShirts ], [boyShorts], [girlBottoms] ]
-    MAKE_A_TOON : [ ['bss1', 'bss2', 'bss3', 'bss4', 'bss5', 'bss6', 'bss7', 'bss8', 'bss9', 'bss11', 'bss15'],
-                    ['gss1', 'gss2', 'gss3', 'gss4', 'gss5', 'gss6', 'gss8', 'gss10', 'gss11', 'gss13', 'gss15'],
-                    ['bbs1', 'bbs2', 'bbs3', 'bbs4', 'bbs6', 'bbs8'],
-                    ['gsk1', 'gsk3', 'gsk4', 'gsk5', 'gsk7', 'gsh1', 'gsh2', 'gsh3'] ],
-    TAMMY_TAILOR : [ ['bss1', 'bss2', 'bss3', 'bss4', 'bss5', 'bss6', 'bss7', 'bss8', 'bss9', 'bss11', 'bss15'],
-                     ['gss1', 'gss2', 'gss3', 'gss4', 'gss5', 'gss6', 'gss8', 'gss10', 'gss11', 'gss13', 'gss15'],
-                     ['bbs1', 'bbs2', 'bbs3', 'bbs4', 'bbs6', 'bbs8'],
-                     ['gsk1', 'gsk3', 'gsk4', 'gsk5', 'gsk7', 'gsh1', 'gsh2', 'gsh3'] ],
-    LONGJOHN_LEROY : [ ['bss3', 'bss4', 'bss14'], ['gss3', 'gss4', 'gss14'], ['bbs3', 'bbs4', 'bbs5'], ['gsk2', 'gsh2'] ],
-    TAILOR_HARMONY : [ ['bss5', 'bss6', 'bss10'], ['gss5', 'gss6', 'gss9'], ['bbs5', 'bbs7'], ['gsk3', 'gsk6', 'gsh3'] ],
-    BONNIE_BLOSSOM : [ ['bss7', 'bss8', 'bss12'], ['gss8', 'gss10', 'gss12'], ['bbs6'], ['gsk4', 'gsk5', 'gsh3'] ],
-    WARREN_BUNDLES : [ ['bss9','bss13'], ['gss7', 'gss11'], ['bbs3', 'bbs7'], ['gsk6', 'gsh1'] ],
-    WORNOUT_WAYLON : [ ['bss11', 'bss15'], ['gss7', 'gss13', 'gss15'], ['bbs3', 'bbs8'], ['gsk7', 'gsh1'] ],
+    MAKE_A_TOON : [ ['bss1', 'bss2'],
+                    ['gss1', 'gss2'],
+                    ['bbs1', 'bbs2'],
+                    ['gsk1', 'gsh1'] ],
+    TAMMY_TAILOR : [ ['bss1', 'bss2'],
+                     ['gss1', 'gss2'],
+                     ['bbs1', 'bbs2'],
+                     ['gsk1', 'gsh1'] ],
+    LONGJOHN_LEROY : [ ['bss3', 'bss4', 'bss14'], ['gss3', 'gss4', 'gss14'], ['bbs3', 'bbs4'], ['gsk2', 'gsh2'] ],
+    TAILOR_HARMONY : [ ['bss5', 'bss6', 'bss10'], ['gss5', 'gss6', 'gss9'], ['bbs5'], ['gsk3', 'gsh3'] ],
+    BONNIE_BLOSSOM : [ ['bss7', 'bss8', 'bss12'], ['gss8', 'gss10', 'gss12'], ['bbs6'], ['gsk4', 'gsk5'] ],
+    WARREN_BUNDLES : [ ['bss9','bss13'], ['gss7', 'gss11'], ['bbs7'], ['gsk6'] ],
+    WORNOUT_WAYLON : [ ['bss11', 'bss15'], ['gss13', 'gss15'], ['bbs8'], ['gsk7'] ],
     }
 
 BOY_SHIRTS = 0
@@ -1399,10 +1142,6 @@ GIRL_SHIRTS = 1
 BOY_SHORTS = 2
 GIRL_BOTTOMS = 3
 
-HAT = 1
-GLASSES = 2
-BACKPACK = 4
-SHOES = 8
 
 # Make a list of the girl bottoms in MakeAToon
 # This is used in the body shop when switching genders
@@ -1444,7 +1183,7 @@ for index in MakeAToonGirlBottoms:
 def getRandomTop(gender, tailorId = MAKE_A_TOON, generator = None):
     # Returns (shirtTex, color, sleeveTex, color)
     if (generator == None):
-        generator = random
+        generator = random 
     collection = TailorCollections[tailorId]
     if (gender == 'm'):
         style = generator.choice(collection[BOY_SHIRTS])
@@ -1465,14 +1204,16 @@ def getRandomBottom(gender, tailorId = MAKE_A_TOON, generator = None, girlBottom
         if (girlBottomType is None):
             style = generator.choice(collection[GIRL_BOTTOMS])
         elif (girlBottomType == SKIRT):
-            skirtCollection = [style for style in collection[GIRL_BOTTOMS] if GirlBottoms[BottomStyles[style][0]][1] == SKIRT]
+            skirtCollection = filter(lambda style: GirlBottoms[BottomStyles[style][0]][1] == SKIRT,
+                                     collection[GIRL_BOTTOMS])
             style = generator.choice(skirtCollection)
         elif (girlBottomType == SHORTS):
-            shortsCollection = [style for style in collection[GIRL_BOTTOMS] if GirlBottoms[BottomStyles[style][0]][1] == SHORTS]
+            shortsCollection = filter(lambda style: GirlBottoms[BottomStyles[style][0]][1] == SHORTS,
+                                      collection[GIRL_BOTTOMS])
             style = generator.choice(shortsCollection)
         else:
             notify.error("Bad girlBottomType: %s" % girlBottomType)
-
+            
     styleList = BottomStyles[style]
     color = generator.choice(styleList[1])
     return styleList[0], color
@@ -1492,7 +1233,7 @@ def getRandomGirlBottomAndColor(type):
         typeStr = 'gsh'
     else:
         typeStr = 'gsk'
-    for bottom in list(BottomStyles.keys()):
+    for bottom in BottomStyles.keys():
         if bottom.find(typeStr) >= 0:
             bottoms.append(bottom)
     style = BottomStyles[random.choice(bottoms)]
@@ -1513,7 +1254,7 @@ def getRandomizedTops(gender, tailorId = MAKE_A_TOON, generator = None):
         colors = ShirtStyles[style][2][:]
         random.shuffle(colors)
         for color in colors:
-            tops.append((ShirtStyles[style][0], color[0],
+            tops.append((ShirtStyles[style][0], color[0], 
                          ShirtStyles[style][1], color[1]))
     return tops
 
@@ -1533,7 +1274,7 @@ def getRandomizedBottoms(gender, tailorId = MAKE_A_TOON, generator = None):
         random.shuffle(colors)
         for color in colors:
             bottoms.append((BottomStyles[style][0], color))
-    return bottoms
+    return bottoms    
 
 def getTops(gender, tailorId = MAKE_A_TOON):
     # Returns a list of [ (shirt, color, sleeve, color), ... ]
@@ -1550,7 +1291,7 @@ def getTops(gender, tailorId = MAKE_A_TOON):
 
 def getAllTops(gender):
     tops = []
-    for style in list(ShirtStyles.keys()):
+    for style in ShirtStyles.keys():
         if gender == 'm':
             if (style[0] == 'g') or (style[:3] == 'c_g'):
                 continue
@@ -1576,7 +1317,7 @@ def getBottoms(gender, tailorId = MAKE_A_TOON):
 
 def getAllBottoms(gender, output = 'both'):
     bottoms = []
-    for style in list(BottomStyles.keys()):
+    for style in BottomStyles.keys():
         if gender == 'm':
             if ((style[0] == 'g') or (style[:3] == 'c_g') or
                 (style[:4] == 'vd_g') or (style[:4] == 'sd_g') or
@@ -1592,7 +1333,7 @@ def getAllBottoms(gender, output = 'both'):
                 (style[:4] == 'wh_b') or (style[:4] == 'sa_b') or
                 (style[:4] == 'sc_b') or (style[:5] == 'sil_b')):
                 continue
-
+        
         bottomIdx = BottomStyles[style][0]
         # What type of texture is at this index?
         if gender == 'f':
@@ -1661,463 +1402,6 @@ defaultGirlColorList = [
     13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 24
     ]
 
-allColorsListApproximations = [
-    VBase4(round(x[0], 3), round(x[1], 3), round(x[2], 3), round(x[3], 3)) for x in allColorsList
-    ]
-allowedColors = set([allColorsListApproximations[x] for x in set(defaultBoyColorList + defaultGirlColorList + [26])])
-
-HatModels = [
-    None,
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_baseball",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_safari",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_ribbon",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_heart",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_topHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_anvil",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_flowerPot",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_sandbag",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_weight",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_fez",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_golfHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_partyHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_pillBox",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_crown",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_cowboyHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_pirateHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_propellerHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_fishingHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_sombreroHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_strawHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_sunHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_antenna",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_beeHiveHairdo",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_bowler",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_chefsHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_detective",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_feathers",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_fedora",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_mickeysBandConductorHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_nativeAmericanFeather",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_pompadorHairdo",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_princess",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_robinHoodHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_romanHelmet",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_spiderAntennaThingy",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_tiara",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_vikingHelmet",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_witch",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_wizard",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_conquistadorHelmet",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_firefighterHelmet",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_foilPyramid",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_minersHardhatWithLight",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_napoleonHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_pilotsCap",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_policeHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_rainbowAfroWig",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_sailorHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_carmenMirandaFruitHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_bobbyHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_jugheadHat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_winter",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_bandana",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_dinosaur",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_band",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_hat_birdNest",
-    ]
-
-HatTextures = [
-    None,
-    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonRed.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonPurple.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_heartYellow.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_topHatBlue.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_safariBrown.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_safariGreen.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballBlue.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballOrange.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonYellow.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonChecker.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonLtRed.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonRainbow.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballYellow.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballRed.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballTeal.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonPinkDots.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballPurple.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonCheckerGreen.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_partyToon.txo",
-    ]
-
-GlassesModels = [
-    None,
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_roundGlasses",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_miniblinds",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_narrowGlasses",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_starGlasses",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_3dGlasses",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_aviator",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_catEyeGlasses",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_dorkGlasses",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_jackieOShades",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_scubaMask",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_goggles",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_grouchoMarxEyebrow",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_heartGlasses",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_insectEyeGlasses",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_masqueradeTypeMask",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_masqueradeTypeMask3",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_monocle",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_mouthGlasses",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_squareRims",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_eyepatch",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_msk_alienGlasses",
-    ]
-
-GlassesTextures = [
-    None,
-    "phase_4/maps/tt_t_chr_avt_acc_msk_masqueradeTypeMask2.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_msk_masqueradeTypeMask4.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_msk_masqueradeTypeMask5.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_msk_eyepatchGems.txo",
-    ]
-
-BackpackModels = [
-    None,
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_backpack",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_batWings",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_beeWings",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_dragonFlyWings",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_scubaTank",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_sharkFin",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_angelWings",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_backpackWithToys",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_butterflyWings",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_dragonWing",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_jetPack",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_spiderLegs",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_stuffedAnimalBackpackA",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_birdWings",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_stuffedAnimalBackpackCat",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_stuffedAnimalBackpackDog",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_airplane",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_woodenSword",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_supertoonCape",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_vampireCape",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_dinosaurTail",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_band",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_gags",
-    "phase_4/models/accessories/tt_m_chr_avt_acc_pac_flunky",
-    ]
-
-BackpackTextures = [
-    None,
-    "phase_4/maps/tt_t_chr_avt_acc_pac_backpackOrange.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_pac_backpackPurple.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_pac_backpackPolkaDotRed.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_pac_backpackPolkaDotYellow.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_pac_angelWingsMultiColor.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_pac_butterflyWingsStyle2.txo",
-    ]
-
-ShoesModels = [
-    "feet",
-    "shoes",
-    "boots_short",
-    "boots_long",
-    ]
-
-ShoesTextures = [
-    "phase_3/maps/tt_t_chr_avt_acc_sho_athleticGreen.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_athleticRed.txo",
-    "phase_3/maps/tt_t_chr_avt_acc_sho_docMartinBootsGreen.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStyleGreen.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_wingtips.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_maryJaneShoes.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_deckShoes.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_athleticYellow.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStyleBlack.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStyleWhite.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStylePink.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_cowboyBoots.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsPurple.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_hiTopSneakers.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_maryJaneShoesBrown.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_maryJaneShoesRed.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_superToonRedBoots.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_tennisShoesGreen.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_tennisShoesPink.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStyleRed.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_docMartinBootsAqua.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_docMartinBootsBrown.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_docMartinBootsYellow.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsBlueSquares.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsGreenHearts.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsGreyDots.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsOrangeStars.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsPinkStars.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_loafers.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_maryJaneShoesPurple.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_motorcycleBoots.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_oxfords.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_rainBootsPink.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_santaBoots.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_winterBootsBeige.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_winterBootsPink.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_workBoots.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStyleYellow.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_docMartinBootsPink.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_hiTopSneakersPink.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_rainBootsRedDots.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_tennisShoesPurple.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_tennisShoesViolet.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_tennisShoesYellow.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_rainBootsBlue.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_rainBootsYellow.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_athleticBlack.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_pirate.txo",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_dinosaur.txo",
-    ]
-
-HatStyles = {
-    "none" : [0, 0, 0],
-    "hbb1" : [1, 0, 0],
-    "hsf1" : [2, 0, 0],
-    "hsf2" : [2, 5, 0],
-    "hsf3" : [2, 6, 0],
-    "hht1" : [4, 0, 0],
-    "hht2" : [4, 3, 0],
-    "htp1" : [5, 0, 0],
-    "htp2" : [5, 4, 0],
-    "hav1" : [6, 0, 0],
-    "hfp1" : [7, 0, 0],
-    "hsg1" : [8, 0, 0],
-    "hwt1" : [9, 0, 0],
-    "hfz1" : [10, 0, 0],
-    "hgf1" : [11, 0, 0],
-    "hpt1" : [12, 0, 0],
-    "hpt2" : [12, 19, 0],
-    "hpb1" : [13, 0, 0],
-    "hcr1" : [14, 0, 0],
-    "hbb2" : [1, 7, 0],
-    "hbb3" : [1, 8, 0],
-    "hcw1" : [15, 0, 0],
-    "hpr1" : [16, 0, 0],
-    "hpp1" : [17, 0, 0],
-    "hfs1" : [18, 0, 0],
-    "hsb1" : [19, 0, 0],
-    "hst1" : [20, 0, 0],
-    "hat1" : [22, 0, 0],
-    "hhd1" : [23, 0, 0],
-    "hbw1" : [24, 0, 0],
-    "hch1" : [25, 0, 0],
-    "hdt1" : [26, 0, 0],
-    "hft1" : [27, 0, 0],
-    "hfd1" : [28, 0, 0],
-    "hmk1" : [29, 0, 0],
-    "hft2" : [30, 0, 0],
-    "hhd2" : [31, 0, 0],
-    "hrh1" : [33, 0, 0],
-    "hhm1" : [34, 0, 0],
-    "hat2" : [35, 0, 0],
-    "htr1" : [36, 0, 0],
-    "hhm2" : [37, 0, 0],
-    "hwz1" : [38, 0, 0],
-    "hwz2" : [39, 0, 0],
-    "hhm3" : [40, 0, 0],
-    "hhm4" : [41, 0, 0],
-    "hfp2" : [42, 0, 0],
-    "hhm5" : [43, 0, 0],
-    "hnp1" : [44, 0, 0],
-    "hpc2" : [45, 0, 0],
-    "hph1" : [46, 0, 0],
-    "hwg1" : [47, 0, 0],
-    "hbb4" : [1, 13, 0],
-    "hbb5" : [1, 14, 0],
-    "hbb6" : [1, 15, 0],
-    "hsl1" : [48, 0, 0],
-    "hfr1" : [49, 0, 0],
-    "hby1" : [50, 0, 0],
-    "hjh1" : [51, 0, 0],
-    "hbb7" : [1, 17, 0],
-    "hwt2" : [52, 0, 0],
-    "hhw2" : [54, 0, 0],
-    "hob1" : [55, 0, 0],
-    "hbn1" : [56, 0, 0],
-    "hrb1" : [3, 0, 0],
-    "hrb2" : [3, 1, 0],
-    "hrb3" : [3, 2, 0],
-    "hsu1" : [21, 0, 0],
-    "hrb4" : [3, 9, 0],
-    "hrb5" : [3, 10, 0],
-    "hrb6" : [3, 11, 0],
-    "hrb7" : [3, 12, 0],
-    "hpc1" : [32, 0, 0],
-    "hrb8" : [3, 16, 0],
-    "hrb9" : [3, 18, 0],
-    "hhw1" : [53, 0, 0],
-    }
-
-GlassesStyles = {
-    "none" : [0, 0, 0],
-    "grd1" : [1, 0, 0],
-    "gmb1" : [2, 0, 0],
-    "gnr1" : [3, 0, 0],
-    "gst1" : [4, 0, 0],
-    "g3d1" : [5, 0, 0],
-    "gav1" : [6, 0, 0],
-    "gjo1" : [9, 0, 0],
-    "gsb1" : [10, 0, 0],
-    "ggl1" : [11, 0, 0],
-    "ggm1" : [12, 0, 0],
-    "ghg1" : [13, 0, 0],
-    "gie1" : [14, 0, 0],
-    "gmt1" : [15, 0, 0],
-    "gmt2" : [15, 1, 0],
-    "gmt3" : [16, 0, 0],
-    "gmt4" : [16, 2, 0],
-    "gmt5" : [16, 3, 0],
-    "gmn1" : [17, 0, 0],
-    "gmo1" : [18, 0, 0],
-    "gsr1" : [19, 0, 0],
-    "gce1" : [7, 0, 0],
-    "gdk1" : [8, 0, 0],
-    "gag1" : [21, 0, 0],
-    "ghw1" : [20, 0, 0],
-    "ghw2" : [20, 4, 0],
-    }
-
-BackpackStyles = {
-    "none" : [0, 0, 0],
-    "bpb1" : [1, 0, 0],
-    "bpb2" : [1, 1, 0],
-    "bpb3" : [1, 2, 0],
-    "bpd1" : [1, 3, 0],
-    "bpd2" : [1, 4, 0],
-    "bwg1" : [2, 0, 0],
-    "bwg2" : [3, 0, 0],
-    "bwg3" : [4, 0, 0],
-    "bst1" : [5, 0, 0],
-    "bfn1" : [6, 0, 0],
-    "baw1" : [7, 0, 0],
-    "baw2" : [7, 5, 0],
-    "bwt1" : [8, 0, 0],
-    "bwg4" : [9, 0, 0],
-    "bwg5" : [9, 6, 0],
-    "bwg6" : [10, 0, 0],
-    "bjp1" : [11, 0, 0],
-    "blg1" : [12, 0, 0],
-    "bsa1" : [13, 0, 0],
-    "bwg7" : [14, 0, 0],
-    "bsa2" : [15, 0, 0],
-    "bsa3" : [16, 0, 0],
-    "bap1" : [17, 0, 0],
-    "bhw1" : [18, 0, 0],
-    "bhw2" : [19, 0, 0],
-    "bhw3" : [20, 0, 0],
-    "bhw4" : [21, 0, 0],
-    "bob1" : [22, 0, 0],
-    "bfg1" : [23, 0, 0],
-    "bfl1" : [24, 0, 0],
-    }
-
-ShoesStyles = {
-    "none" : [0, 0, 0],
-    "sat1" : [1, 0, 0],
-    "sat2" : [1, 1, 0],
-    "smb1" : [3, 2, 0],
-    "scs1" : [2, 3, 0],
-    "sdk1" : [1, 6, 0],
-    "sat3" : [1, 7, 0],
-    "scs2" : [2, 8, 0],
-    "scs3" : [2, 9, 0],
-    "scs4" : [2, 10, 0],
-    "scb1" : [3, 11, 0],
-    "sht1" : [2, 13, 0],
-    "ssb1" : [3, 16, 0],
-    "sts1" : [1, 17, 0],
-    "sts2" : [1, 18, 0],
-    "scs5" : [2, 19, 0],
-    "smb2" : [3, 20, 0],
-    "smb3" : [3, 21, 0],
-    "smb4" : [3, 22, 0],
-    "slf1" : [1, 28, 0],
-    "smt1" : [3, 30, 0],
-    "sox1" : [1, 31, 0],
-    "srb1" : [3, 32, 0],
-    "sst1" : [3, 33, 0],
-    "swb1" : [3, 34, 0],
-    "swb2" : [3, 35, 0],
-    "swk1" : [2, 36, 0],
-    "scs6" : [2, 37, 0],
-    "smb5" : [3, 38, 0],
-    "sht2" : [2, 39, 0],
-    "srb2" : [3, 40, 0],
-    "sts3" : [1, 41, 0],
-    "sts4" : [1, 42, 0],
-    "sts5" : [1, 43, 0],
-    "srb3" : [3, 44, 0],
-    "srb4" : [3, 45, 0],
-    "sat4" : [1, 46, 0],
-    "shw1" : [3, 47, 0],
-    "shw2" : [3, 48, 0],
-    "swt1" : [1, 4, 0],
-    "smj1" : [2, 5, 0],
-    "sfb1" : [3, 12, 0],
-    "smj2" : [2, 14, 0],
-    "smj3" : [2, 15, 0],
-    "sfb2" : [3, 23, 0],
-    "sfb3" : [3, 24, 0],
-    "sfb4" : [3, 25, 0],
-    "sfb5" : [3, 26, 0],
-    "sfb6" : [3, 27, 0],
-    "smj4" : [2, 29, 0],
-    }
-
-def isValidHat(itemIdx, textureIdx, colorIdx):
-    for style in list(HatStyles.values()):
-        if itemIdx == style[0] and textureIdx == style[1] and colorIdx == style[2]:
-            return True
-
-    return False
-
-
-def isValidGlasses(itemIdx, textureIdx, colorIdx):
-    for style in list(GlassesStyles.values()):
-        if itemIdx == style[0] and textureIdx == style[1] and colorIdx == style[2]:
-            return True
-
-    return False
-
-
-def isValidBackpack(itemIdx, textureIdx, colorIdx):
-    for style in list(BackpackStyles.values()):
-        if itemIdx == style[0] and textureIdx == style[1] and colorIdx == style[2]:
-            return True
-
-    return False
-
-
-def isValidShoes(itemIdx, textureIdx, colorIdx):
-    for style in list(ShoesStyles.values()):
-        if itemIdx == style[0] and textureIdx == style[1] and colorIdx == style[2]:
-            return True
-
-    return False
-
-
-def isValidAccessory(itemIdx, textureIdx, colorIdx, which):
-    if which == HAT:
-        return isValidHat(itemIdx, textureIdx, colorIdx)
-    elif which == GLASSES:
-        return isValidGlasses(itemIdx, textureIdx, colorIdx)
-    elif which == BACKPACK:
-        return isValidBackpack(itemIdx, textureIdx, colorIdx)
-    elif which == SHOES:
-        return isValidShoes(itemIdx, textureIdx, colorIdx)
-    else:
-        return False
-
 class ToonDNA(AvatarDNA.AvatarDNA):
     """ToonDNA class: contains methods for describing avatars with a
     simple class. The ToonDNA class may be converted to lists of strings
@@ -2149,7 +1433,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
 
     """
     # special methods
-
+    
     def __init__(self, str=None, type=None, dna=None, r=None, b=None, g=None):
         """__init__(self, string=None, string=None, string()=None, float=None,
         float=None, float=None)
@@ -2171,7 +1455,6 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         else:
             # mark DNA as undefined
             self.type = 'u'
-        self.cache = ()
 
     def __str__(self):
         """__str__(self)
@@ -2197,10 +1480,6 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         string = string + "bottom texture color = %d\n" % self.botTexColor
         return string
 
-    def clone(self):
-        d = ToonDNA()
-        d.makeFromNetString(self.makeNetString())
-        return d
 
     # stringification methods
     def makeNetString(self):
@@ -2237,7 +1516,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         else:
             notify.error("unknown avatar type: ", self.type)
 
-        return dg.getMessage().decode("utf-8")
+        return dg.getMessage()
 
     def isValidNetString(self, string):
         dg=PyDatagram(string)
@@ -2290,7 +1569,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             return False
         if armColor >= len(allColorsList):
             return False
-        if gloveColor != 0: # >= len(allColorsList):
+        if gloveColor >= len(allColorsList):
             return False
         if legColor >= len(allColorsList):
             return False
@@ -2300,9 +1579,6 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         return True
 
     def makeFromNetString(self, string):
-        if isinstance(string, str):
-            # It must be bytes to the Datagram constructor.
-            string = string.encode()
         dg=PyDatagram(string)
         dgi=PyDatagramIterator(dg)
         self.type = dgi.getFixedString(1)
@@ -2332,11 +1608,11 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             notify.error("unknown avatar type: ", self.type)
 
         return None
-
+    
     # dna methods
     def defaultColor(self):
         return 25
-
+    
     def __defaultColors(self):
         """__defaultColors(self)
         Set everything to white by default
@@ -2369,7 +1645,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
 
             if (color == None):
                 color = self.defaultColor()
-
+                
             self.armColor = color
             self.legColor = color
             self.headColor = color
@@ -2402,7 +1678,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         self.sleeveTex = sleeveTexture
         self.sleeveTexColor = sleeveTextureColor
         self.botTex = bottomTexture
-        self.botTexColor = bottomTextureColor
+        self.botTexColor = bottomTextureColor 
         return
 
     def updateToonProperties(self, head = None, torso = None, legs = None,
@@ -2417,7 +1693,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         # Changes only the named properties.  'shirt' and 'bottom' are
         # special properties that specify an article of clothing with
         # a 2-tuple, the string and color index, e.g.: ('bss1', 1)
-
+        
         assert self.type == 't'
         if head:
             self.head = head
@@ -2460,7 +1736,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             defn = BottomStyles[str]
             self.botTex = defn[0]
             self.botTexColor = defn[1][colorIndex]
-
+            
         return
 
     def newToonRandom(self, seed = None, gender = "m", npc = 0, stage = None):
@@ -2474,7 +1750,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         else:
             # Just use the normal one
             generator = random
-
+        
         self.type = "t" # Toon.
         # Skew the leg length toward medium and long:
         self.legs = generator.choice(toonLegTypes + ["m", "l", "l", "l"])
@@ -2493,17 +1769,17 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             else:
                 self.head = generator.choice(toonHeadTypes)
         else:
-            self.head = generator.choice(toonHeadTypes[:33])
+            self.head = generator.choice(toonHeadTypes[:22])
         top, topColor, sleeve, sleeveColor = getRandomTop(gender, generator = generator)
         bottom, bottomColor = getRandomBottom(gender, generator = generator)
         if gender == "m":
             self.torso = generator.choice(toonTorsoTypes[:3])
             # Choose a random boy shirt style from MakeAToon
             self.topTex = top
-            self.topTexColor = topColor
+            self.topTexColor = topColor 
             self.sleeveTex = sleeve
             self.sleeveTexColor = sleeveColor
-            self.botTex = bottom
+            self.botTex = bottom 
             self.botTexColor = bottomColor
             color = generator.choice(defaultBoyColorList)
             self.armColor = color
@@ -2515,23 +1791,23 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             self.topTexColor = topColor
             self.sleeveTex = sleeve
             self.sleeveTexColor = sleeveColor
-
+            
 ##            # Make sure the bottom type matches the torso type
 ##            if (self.torso[1] == 'd'):
 ##                tex, color = getRandomGirlBottomAndColor(SKIRT)
 ##                self.botTex = tex
 ##                self.botTexColor = color
 ##            else:
-##                tex, color = getRandomGirlBottomAndColor(SKIRT)
+##                tex, color = getRandomGirlBottomAndColor(SKIRT) 
 ##                self.botTex = tex
 ##                self.botTexColor = color
-
+                
             # Make sure the bottom type matches the torso type
             if (self.torso[1] == 'd'):
                 bottom, bottomColor = getRandomBottom(gender, generator = generator, girlBottomType = SKIRT)
             else:
                 bottom, bottomColor = getRandomBottom(gender, generator = generator, girlBottomType = SHORTS)
-            self.botTex = bottom
+            self.botTex = bottom 
             self.botTexColor = bottomColor
             color = generator.choice(defaultGirlColorList)
             self.armColor = color
@@ -2544,7 +1820,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
     def asTuple(self):
         return (self.head, self.torso, self.legs, self.gender,
                 self.armColor, self.gloveColor, self.legColor, self.headColor,
-                self.topTex, self.topTexColor, self.sleeveTex,
+                self.topTex, self.topTexColor, self.sleeveTex, 
                 self.sleeveTexColor, self.botTex, self.botTexColor)
 
     def getType(self):
@@ -2641,7 +1917,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         Return the type of clothing as a string
         """
         if (len(self.torso) == 1):
-            return("naked")
+            return("naked")            
         elif (self.torso[1] == 's'):
             return("shorts")
         elif (self.torso[1] == 'd'):
@@ -2679,31 +1955,4 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         except:
             return allColorsList[0]
 
-    def setTemporary(self, newHead, newArmColor, newLegColor, newHeadColor):
-        if not self.cache and self.getArmColor != newArmColor:
-            self.cache = (
-                self.head,
-                self.armColor,
-                self.legColor,
-                self.headColor,
-                )
-            self.updateToonProperties(
-                head = newHead,
-                armColor = newArmColor,
-                legColor = newLegColor,
-                headColor = newHeadColor,
-                )
 
-    def restoreTemporary(self, oldStyle):
-        cache = ()
-        if oldStyle:
-            cache = oldStyle.cache
-        if cache:
-            self.updateToonProperties(
-                head = cache[0],
-                armColor = cache[1],
-                legColor = cache[2],
-                headColor = cache[3],
-                )
-            if oldStyle:
-                oldStyle.cache = ()

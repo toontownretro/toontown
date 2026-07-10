@@ -1,21 +1,18 @@
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 from toontown.distributed.ToontownMsgTypes import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
 from direct.task.Task import Task
-from direct.interval.IntervalGlobal import Sequence, Wait, Func
 from toontown.minigame import Purchase
 from direct.gui import OnscreenText
 from otp.avatar import DistributedAvatar
-from otp.otpbase import OTPRender
 from toontown.building import SuitInterior
-from . import QuietZoneState
-from . import ZoneUtil
+import QuietZoneState
+import ZoneUtil
 from toontown.toonbase import TTLocalizer
-from toontown.toon.Toon import teleportDebug
 
 class Hood(StateData.StateData):
     """
@@ -35,10 +32,9 @@ class Hood(StateData.StateData):
                 +", dnaStore="+str(dnaStore)+")"))
         StateData.StateData.__init__(self, doneEvent)
 
-        self.loader = "not initialized"
         self.parentFSM = parentFSM
         self.dnaStore = dnaStore
-
+        
         # The event for safe zone loader or town loader done
         self.loaderDoneEvent = "loaderDone"
 
@@ -54,7 +50,6 @@ class Hood(StateData.StateData):
         self.hoodId = hoodId
 
         self.titleText = None
-        self.titleTextSeq = None
         # Title color should be overridden in base class
         self.titleColor = (1,1,1,1)
 
@@ -62,68 +57,10 @@ class Hood(StateData.StateData):
         # Updated in each of the neighborhood specific Hood files
         # Keyed off of the News Manager holiday IDs stored in ToontownGlobals
         self.holidayStorageDNADict = {}
-
+        
         #For the holiday sky
         self.spookySkyFile = None
         self.halloweenLights = []
-
-    # Begin Shaders #
-        # The lighting configuration for this hood.
-        self.ambientLight = None
-        self.ambientTemp = 7000
-        self.ambientIntensity = 20000
-
-        self.wantSun = True
-        self.sunLight = None
-        self.sunTemp = 5000
-        self.sunIntensity = 110000
-        self.sunAngles = Vec3(35, -75, 0)
-        self.sunShadowSoftnessFactor = 2.0
-
-        # Color scale factor for the sky.
-        if ConfigVariableBool('want-lighting-effects', True).getValue():
-            self.skyLightScale = 120
-        else:
-            self.skyLightScale = 1
-
-    def createOutdoorLighting(self):
-        if ConfigVariableBool('want-lighting-effects', True).getValue():
-            alight = AmbientLight("hood-ambient-light")
-            base.lightColor(alight, self.ambientTemp, self.ambientIntensity)
-            self.ambientLight = base.render.attachNewNode(alight)
-
-            if self.wantSun:
-                slight = CascadeLight("hood-sun-light")
-                base.lightColor(slight, self.sunTemp, self.sunIntensity)
-                slight.setSceneCamera(base.cam)
-                slight.setShadowCaster(True, 4096, 4096)
-                slight.setCameraMask(OTPRender.ShadowCameraBitmask)
-                slight.setSoftnessFactor(self.sunShadowSoftnessFactor)
-                self.sunLight = base.render.attachNewNode(slight)
-                self.sunLight.setHpr(self.sunAngles)
-
-    def destroyOutdoorLighting(self):
-        self.disableLights()
-
-        if self.ambientLight:
-            self.ambientLight.removeNode()
-            self.ambientLight = None
-        if self.sunLight:
-            self.sunLight.removeNode()
-            self.sunLight = None
-
-    def enableLights(self):
-        if self.ambientLight:
-            base.render.setLight(self.ambientLight)
-        if self.sunLight:
-            base.render.setLight(self.sunLight)
-
-    def disableLights(self):
-        if self.ambientLight:
-            base.render.clearLight(self.ambientLight)
-        if self.sunLight:
-            base.render.clearLight(self.sunLight)
-    # End Shaders #
 
     def enter(self, requestStatus):
         """
@@ -145,9 +82,6 @@ class Hood(StateData.StateData):
             mayChange = 1,
             )
         
-        if ConfigVariableBool('want-lighting-effects', True).getValue():
-            self.enableLights()
-
         self.fsm.request(requestStatus["loader"], [requestStatus])
 
     def getHoodText(self, zoneId):
@@ -161,7 +95,7 @@ class Hood(StateData.StateData):
                 hoodText = hoodText + "\n" + streetName[-1]
 
         return hoodText
-
+        
     def spawnTitleText(self, zoneId):
         hoodText = self.getHoodText(zoneId)
         self.doSpawnTitleText(hoodText)
@@ -172,16 +106,22 @@ class Hood(StateData.StateData):
         self.titleText.setColor(Vec4(*self.titleColor))
         self.titleText.clearColorScale()
         self.titleText.setFg(self.titleColor)
-        self.titleTextSeq = Sequence(
+        seq = Task.sequence(
             # HACK! Let a pause go by to cover the loading pause
             # This tricks the taskMgr
-            Wait(0.1),
-            Wait(6.0),
-            self.titleText.colorScaleInterval(
-            0.5,
-            Vec4(1.0, 1.0, 1.0, 0.0)),
-            Func(self.hideTitleText))
-        self.titleTextSeq.start()
+            Task.pause(0.1),
+            Task.pause(6.0),
+            self.titleText.lerpColorScale(
+            Vec4(1.0, 1.0, 1.0, 1.0),
+            Vec4(1.0, 1.0, 1.0, 0.0),
+            0.5),
+            Task(self.hideTitleTextTask))
+        taskMgr.add(seq, "titleText")
+
+    def hideTitleTextTask(self, task):
+        assert(self.notify.debug("hideTitleTextTask()"))
+        self.titleText.hide()
+        return Task.done
 
     def hideTitleText(self):
         """
@@ -197,13 +137,10 @@ class Hood(StateData.StateData):
         exit this hood
         """
         assert(self.notify.debug("exit()"))
-        if self.titleTextSeq:
-            self.titleTextSeq.finish()
-            self.titleTextSeq = None
+        taskMgr.remove("titleText")
         if self.titleText:
             self.titleText.cleanup()
             self.titleText = None
-        #self.disableLights()
         base.localAvatar.stopChat()
 
     def load(self):
@@ -224,38 +161,25 @@ class Hood(StateData.StateData):
                 for storageFile in self.holidayStorageDNADict.get(
                     holiday,[]):
                     loader.loadDNAFile(self.dnaStore, storageFile)
-            if (ToontownGlobals.HALLOWEEN_COSTUMES not in holidayIds) and \
-               (ToontownGlobals.SPOOKY_COSTUMES not in holidayIds) or (not self.spookySkyFile):
+            if (ToontownGlobals.HALLOWEEN_COSTUMES not in holidayIds) or (not self.spookySkyFile):
                 # Load the sky model so we will have it in memory for the entire hood
                 self.sky = loader.loadModel(self.skyFile)
-                if ConfigVariableBool('want-lighting-effects', True).getValue():
-                    self.sky.setColorScale(Vec4(Vec3(self.skyLightScale), 1.0))
                 self.sky.setTag("sky","Regular")
                 self.sky.setScale(1.0)
                 self.sky.setFogOff()
             else:
                 self.sky = loader.loadModel(self.spookySkyFile)
-                if ConfigVariableBool('want-lighting-effects', True).getValue():
-                    self.sky.setColorScale(Vec4(Vec3(self.skyLightScale), 1.0))
                 self.sky.setTag("sky","Halloween")
         if not newsManager:
             # Load the sky model so we will have it in memory for the entire hood
             self.sky = loader.loadModel(self.skyFile)
             self.sky.setTag("sky","Regular")
             self.sky.setScale(1.0)
-            if ConfigVariableBool('want-lighting-effects', True).getValue():
-                self.sky.setColorScale(Vec4(Vec3(self.skyLightScale), 1.0))
             # Normally, fog is turned off for the sky.  This will prevent
             # the sky from being contaminated by the trolley tunnel shadow
             # if we jump on the trolley.  Hoods like DD that require fog
             # will specifically turn fog on for the sky.
             self.sky.setFogOff()
-
-        self.sky.setLightOff()
-        OTPRender.renderShadow(False, self.sky)
-
-        if ConfigVariableBool('want-lighting-effects', True).getValue():
-            self.createOutdoorLighting()
 
     def unload(self):
         """
@@ -276,20 +200,17 @@ class Hood(StateData.StateData):
 
         del self.fsm
         del self.parentFSM
-
+            
         # Remove all references to the neighborhood models and textures
         self.dnaStore.resetHood()
         del self.dnaStore
-
+            
         # I'm leaving the world, disable all items but localtoon in the
         # doId2do and doId2cdc
         #base.cr.disableAllButLocalToon()
         self.sky.removeNode()
         del self.sky
-
-        if ConfigVariableBool('want-lighting-effects', True).getValue():
-            self.destroyOutdoorLighting()
-
+        
         self.ignoreAll()
         # Get rid of any references to the models or textures from this hood
         ModelPool.garbageCollect()
@@ -300,9 +221,9 @@ class Hood(StateData.StateData):
 
     def exitStart(self):
         assert(self.notify.debug("exitStart()"))
-
+    
     # Done Status #
-
+    
     def isSameHood(self, status):
         """return true if the request status is in the same hood"""
         return status["hoodId"] == self.hoodId and \
@@ -324,24 +245,19 @@ class Hood(StateData.StateData):
 
     def enterQuietZone(self, requestStatus):
         assert(self.notify.debug("enterQuietZone(requestStatus = %s)" % (requestStatus)))
-        teleportDebug(requestStatus, "Hood.enterQuietZone: status=%s" % requestStatus)
-        self._quietZoneDoneEvent = uniqueName("quietZoneDone")
-        self.acceptOnce(self._quietZoneDoneEvent, self.handleQuietZoneDone)
-        self.quietZoneStateData = QuietZoneState.QuietZoneState(self._quietZoneDoneEvent)
-        self._enterWaitForSetZoneResponseMsg = self.quietZoneStateData.getEnterWaitForSetZoneResponseMsg()
-        self.acceptOnce(self._enterWaitForSetZoneResponseMsg, self.handleWaitForSetZoneResponse)
-        self._quietZoneLeftEvent = self.quietZoneStateData.getQuietZoneLeftEvent()
-        if base.placeBeforeObjects:
-            self.acceptOnce(self._quietZoneLeftEvent, self.handleLeftQuietZone)
+        self.quietZoneDoneEvent = "quietZoneDone"
+        self.acceptOnce(self.quietZoneDoneEvent, self.handleQuietZoneDone)
+        self.acceptOnce("enterWaitForSetZoneResponse", self.handleWaitForSetZoneResponse)
+        self.quietZoneStateData = QuietZoneState.QuietZoneState(
+                self.quietZoneDoneEvent)
         self.quietZoneStateData.load()
         self.quietZoneStateData.enter(requestStatus)
 
     def exitQuietZone(self):
         assert(self.notify.debug("exitQuietZone()"))
-        self.ignore(self._quietZoneDoneEvent)
-        self.ignore(self._quietZoneLeftEvent)
-        self.ignore(self._enterWaitForSetZoneResponseMsg)
-        del self._quietZoneDoneEvent
+        self.ignore(self.quietZoneDoneEvent)
+        self.ignore("enterWaitForSetZoneResponse")
+        del self.quietZoneDoneEvent
         self.quietZoneStateData.exit()
         self.quietZoneStateData.unload()
         self.quietZoneStateData=None
@@ -375,22 +291,14 @@ class Hood(StateData.StateData):
         elif loaderName=="minigame":
             pass
         elif loaderName=="cogHQLoader":
-            print("should be loading HQ")
+            print "should be loading HQ"
         else:
             assert(self.notify.debug("  unknown loaderName="+loaderName))
 
-    def handleLeftQuietZone(self):
-        assert(self.notify.debug("handleLeftQuietZone()"))
-        status=self.quietZoneStateData.getRequestStatus()
-        teleportDebug(status, "handleLeftQuietZone, status=%s" % status)
-        teleportDebug(status, "requesting %s" % status["loader"])
-        self.fsm.request(status["loader"], [status])
-
     def handleQuietZoneDone(self):
         assert(self.notify.debug("handleQuietZoneDone()"))
-        if not base.placeBeforeObjects:
-            status=self.quietZoneStateData.getRequestStatus()
-            self.fsm.request(status["loader"], [status])
+        status=self.quietZoneStateData.getRequestStatus()
+        self.fsm.request(status["loader"], [status])
 
     # SafeZoneLoader state
 
@@ -407,9 +315,7 @@ class Hood(StateData.StateData):
         """exitSafeZoneLoader(self)
         """
         assert(self.notify.debug("exitSafeZoneLoader()"))
-        if self.titleTextSeq:
-            self.titleTextSeq.finish()
-            self.titleTextSeq = None
+        taskMgr.remove("titleText")
         self.hideTitleText()
         self.ignore(self.loaderDoneEvent)
         self.loader.exit()
@@ -419,12 +325,9 @@ class Hood(StateData.StateData):
     def handleSafeZoneLoaderDone(self):
         assert(self.notify.debug("handleSafeZoneLoaderDone()"))
         doneStatus = self.loader.getDoneStatus()
-        teleportDebug(doneStatus, "handleSafeZoneLoaderDone, doneStatus=%s" % doneStatus)
         if (self.isSameHood(doneStatus) and doneStatus["where"] != "party") or doneStatus["loader"]=="minigame":
-            teleportDebug(doneStatus, "same hood")
             self.fsm.request("quietZone", [doneStatus])
         else:
-            teleportDebug(doneStatus, "different hood")
             # ...we're leaving the hood.
             self.doneStatus = doneStatus
             messenger.send(self.doneEvent)
@@ -447,7 +350,7 @@ class Hood(StateData.StateData):
         # Remove the sky task just in case it was spawned.
         taskMgr.remove("skyTrack")
         self.sky.reparentTo(hidden)
-
+        
     def startSpookySky(self):
         if not self.spookySkyFile:
             return
@@ -457,7 +360,7 @@ class Hood(StateData.StateData):
         self.sky.setTag("sky","Halloween")
         self.sky.setColor(0.5,0.5,0.5,1)
         self.sky.reparentTo(camera)
-
+        
         #fade the sky in
         self.sky.setTransparency(TransparencyAttrib.MDual, 1)
         fadeIn = self.sky.colorScaleInterval( 1.5, Vec4(1, 1, 1, 1),

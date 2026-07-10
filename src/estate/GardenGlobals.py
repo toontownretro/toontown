@@ -112,9 +112,6 @@ WateringCanAttributes = {
     }
 
 
-WateringMult = 2
-
-
 def getWateringCanPower(wateringCan , wateringCanSkill):
     """
     based on his shovel and his current shovel skill,
@@ -136,13 +133,13 @@ def getWateringCanPower(wateringCan , wateringCanSkill):
             numBoxes += 1 + ( int(wateringCanSkill) / int(skillPtPerBox))
         else:
             numBoxes += curBoxes
-    return numBoxes * WateringMult
+    return numBoxes
 
 def getMaxWateringCanPower():
     retval = 0
-    for wateringCanAttrib in list(WateringCanAttributes.values()):
+    for wateringCanAttrib in WateringCanAttributes.values():
         retval += wateringCanAttrib['numBoxes']
-    return retval * WateringMult
+    return retval
 
 # we could probably increase this
 FlowerColors = [
@@ -164,9 +161,8 @@ FLOWER_YELLOW = 5
 FLOWER_WHITE = 6
 FLOWER_GREEN = 7
 
-ToonStatuaryTypeIndices = list(range(205,209)) #  205,206,206,207,208
-ChangingStatuaryTypeIndices = list(range(230,231)) # just 230
-AnimatedStatuaryTypeIndices = list(range(234, 238))
+ToonStatuaryTypeIndices = xrange(205,209) #  205,206,206,207,208
+ChangingStatuaryTypeIndices = xrange(230,231) # just 230
 
 PlantAttributes = {
     #### Gag trees ####
@@ -398,31 +394,15 @@ PlantAttributes = {
            'worldScale' : 0.05,
            'varieties' : ( (1008,1,0),),
            'pinballScore' : (500,1)
-           },
+           },    
     230 :{ 'name': TTLocalizer.StatuaryMeltingSnowman,
            'plantType' : STATUARY_TYPE,
            'model' : "phase_5.5/models/estate/tt_m_prp_ext_snowman",
            'worldScale' : 1.0,
            'varieties' : ( (1030,1,0),),
            'pinballScore' : (500,1),
-           'growthThresholds': (1,2) # different models at growth level 0, 1, then 2 and up
-           },
-    231 :{ 'name': TTLocalizer.StatuaryMeltingSnowDoodle,
-           'plantType' : STATUARY_TYPE,
-           'model' : "phase_5.5/models/estate/tt_m_prp_ext_snowDoodle",
-           'worldScale' : 1.0,
-           'varieties' : ( (1031,1,0),),
-           'pinballScore' : (500,1),
-           'growthThresholds' : (1,2) # different models at growth level 0, 1, then 2 and up
-           },
-    234 :{ 'name' : TTLocalizer.AnimatedStatuaryFlappyCog,
-           'plantType' : STATUARY_TYPE,
-           'model' : "phase_5.5/models/estate/tt_a_ara_pty_tubeCogVictory_",
-           'anims' : ["default", "wave"],
-           'worldScale' : 0.5,
-           'varieties' : ( (1035,1,0),),
-           'pinballScore' : (500,1)
-           },
+           'growthThresholds': (1,2) # different models at growth level 0, 1, then 2 and up           
+           },    
     254 :{ 'name' : 'reserved tag', #HARDCODED!!!!!!!!!!!! HAHAHA!!!
            'plantType' : STATUARY_TYPE,
            'model' : "phase_5.5/models/estate/garden_minnie",
@@ -448,7 +428,7 @@ if ACCELERATOR_USED_FROM_SHTIKER_BOOK:
 
 ##Tree Utils
 def getTreeTrackAndLevel(typeIndex):
-    track = typeIndex // 7
+    track = typeIndex / 7
     level = typeIndex % 7
     return (track, level)
 
@@ -460,7 +440,7 @@ NUM_GAGS = (7 * 7)
 for i in range(NUM_GAGS):
     track, level = getTreeTrackAndLevel(i)
     if level <= 6:
-        name = TTLocalizer.BattleGlobalAvPropStrings[track][level] + TTLocalizer.GardenGagTree
+        name = TTLocalizer.BattleGlobalAvPropStrings[track][level] + TTLocalizer.GardenGagTree 
     else:
         name = TTLocalizer.GardenUberGag
     attr = {'name': name,
@@ -717,15 +697,7 @@ Recipes = {
     # melting snowman
     1030 : { 'beans': 'S',
              'special' : 130
-             },
-    # melting snowDoodle
-    1031 : { 'beans': 'S',
-             'special' : 131
-             },
-    # flappy cog
-    1035 : { 'beans': 'S',
-             'special' : 135
-             },
+             },    
     # reserved tag recipe, deliberately invalid color
     2001 : { 'beans': 'ZVOVOVO',
              'special' : -1
@@ -741,7 +713,7 @@ def getRecipeKey( beans, special):
     returns -1 if not found
     """
     testDict = { 'beans':beans, 'special' :special }
-    for key in list(Recipes.keys()):
+    for key in Recipes.keys():
         recipe = Recipes[key]
         if testDict == recipe:
             return key
@@ -752,7 +724,7 @@ def getRecipeKeyUsingSpecial( special):
     returns -1 if not found
     WARNING assumes 1 special is not used in 2 recipes
     """
-    for key in list(Recipes.keys()):
+    for key in Recipes.keys():
         recipe = Recipes[key]
         if recipe['special'] == special:
             return key
@@ -825,13 +797,13 @@ def getMaxShovelSkill():
 
 def getNumberOfShovelBoxes():
     retVal = 0
-    for attrib in list(ShovelAttributes.values()):
+    for attrib in ShovelAttributes.values():
         retVal += attrib['numBoxes']
     return retVal
 
 def getNumberOfWateringCanBoxes():
     retVal = 0
-    for attrib in list(WateringCanAttributes.values()):
+    for attrib in WateringCanAttributes.values():
         retVal += attrib['numBoxes']
     return retVal
 
@@ -841,7 +813,7 @@ def getNumberOfFlowerVarieties():
     How many Flower Varieties do we have
     """
     retVal = 0
-    for attrib in list(PlantAttributes.values()):
+    for attrib in PlantAttributes.values():
         if attrib['plantType'] == FLOWER_TYPE:
             retVal += len( attrib['varieties'])
     return retVal
@@ -851,7 +823,7 @@ def getNumberOfFlowerSpecies():
     How many Flower species do we have
     """
     retVal = 0
-    for attrib in list(PlantAttributes.values()):
+    for attrib in PlantAttributes.values():
         if attrib['plantType'] == FLOWER_TYPE:
             retVal += 1
     return retVal
@@ -861,7 +833,7 @@ def getFlowerVarieties(species):
     return the varieties for this species
     """
     retval = ()
-    if species in list(PlantAttributes.keys()):
+    if species in PlantAttributes.keys():
         attrib = PlantAttributes[species]
         if attrib['plantType'] == FLOWER_TYPE:
             retval = attrib['varieties']
@@ -872,7 +844,7 @@ def getFlowerSpecies():
     return a list of flower species keys
     """
     retVal = []
-    for key in list(PlantAttributes.keys()):
+    for key in PlantAttributes.keys():
         attrib = PlantAttributes[key]
         if attrib['plantType'] == FLOWER_TYPE:
             retVal.append(key)
@@ -889,7 +861,7 @@ def getRandomFlower():
 
 def getFlowerVarietyName(species, variety):
     retVal = TTLocalizer.FlowerUnknown
-    if species in list(PlantAttributes.keys()):
+    if species in PlantAttributes.keys():
         attrib = PlantAttributes[species]
         if variety < len(attrib['varieties']) :
             #this block would produce something like 'red rose'
@@ -917,11 +889,11 @@ def getSpeciesVarietyGivenRecipe(recipeKey):
     """
     returns (-1,-1) if not found
     """
-    for species in list(PlantAttributes.keys()):
+    for species in PlantAttributes.keys():
         attrib = PlantAttributes[species]
         if attrib['plantType'] == GAG_TREE_TYPE:
             continue
-        if 'varieties' in attrib:
+        if attrib.has_key('varieties'):
             for variety in range(len(attrib['varieties'])):
                 if attrib['varieties'][variety][0] == recipeKey:
                     return (species, variety)
@@ -934,7 +906,7 @@ def getNumBeansRequired(species,variety):
     retval = -1
     if not PlantAttributes.get(species):
         return retval
-    if 'varieties' not in PlantAttributes[species]:
+    if not PlantAttributes[species].has_key('varieties'):
         return retval
     if variety >= len(PlantAttributes[species]['varieties'] ):
         return -1
@@ -942,7 +914,7 @@ def getNumBeansRequired(species,variety):
 
     recipe = Recipes.get(recipeKey)
     if recipe:
-        if 'beans' in recipe:
+        if recipe.has_key('beans'):
             retval = len(recipe['beans'])
 
     return retval
@@ -960,7 +932,7 @@ def validateRecipes(notify):
     #we now enfore the rule that a special can only appear in the recipes once
     uniqueSpecials = []
 
-    for key in list(Recipes.keys()):
+    for key in Recipes.keys():
         recipe = Recipes[key]
         beans = recipe['beans']
 
@@ -988,7 +960,7 @@ def validateRecipes(notify):
         #double check uniqueness and validity of special
         special = recipe['special']
         if special != -1:
-            assert special in list(Specials.keys()), 'No special %d in Specials dict' % (special)
+            assert special in Specials.keys(), 'No special %d in Specials dict' % (special)
             assert special not in uniqueSpecials, 'Duplicate special %s key=%d' % (testTuple, key)
             uniqueSpecials.append(special)
 
@@ -1011,7 +983,7 @@ def validatePlantAttributes(notify):
 
 
 
-    for key in list(PlantAttributes.keys()):
+    for key in PlantAttributes.keys():
         plant = PlantAttributes[key]
         notify.debug('now validating %s' % plant['name'])
         #check growth thresholds
@@ -1028,7 +1000,7 @@ def validatePlantAttributes(notify):
             for variety in varieties:
                 recipeNum = variety[0]
                 #check if recipeNum is valid
-                assert recipeNum in list(Recipes.keys()), 'Invalid recipeNum %d, key=%d, variety=%s' % (recipeNum, key, str(variety))
+                assert recipeNum in Recipes.keys(), 'Invalid recipeNum %d, key=%d, variety=%s' % (recipeNum, key, str(variety))
                 assert recipeNum not in uniqueRecipes, 'duplicate recipe %d, key=%d, variety=%s' % (recipeNum, key, str(variety))
                 uniqueRecipes.append(recipeNum)
 
@@ -1407,35 +1379,12 @@ Specials = {
     'subtype' : GARDEN_ITEM_SUBTYPE,
     'photoModel' : "phase_5.5/models/estate/tt_m_prp_ext_snowman_icon",
     'photoScale' : 90.0,
-    'photoPos' : (0,0,0),
+    'photoPos' : (0,0,0),    
     'photoName' : TTLocalizer.StatuaryMeltingSnowman,
     'description': TTLocalizer.GardenSpecialDiscription,
     'isCatalog' : True,
     'beanCost' : 25,
     'minSkill' : 0,
-    },
-131 : {
-    'subtype' : GARDEN_ITEM_SUBTYPE,
-    'photoModel' : "phase_5.5/models/estate/tt_m_prp_ext_snowDoodle_icon",
-    'photoScale' : 90.0,
-    'photoPos' : (0,0,0),
-    'photoName' : TTLocalizer.StatuaryMeltingSnowDoodle,
-    'description' : TTLocalizer.GardenSpecialDiscription,
-    'isCatalog' : True,
-    'beanCost' : 50,
-    'minSkill' : 0,
-    },
-135 : {
-    'subtype' : GARDEN_ITEM_SUBTYPE,
-    'photoModel' : "phase_5.5/models/estate/tt_a_ara_pty_tubeCogVictory_",
-    'photoAnimation' : ["default", "wave"],
-    'photoScale' : 1.25,
-    'photoPos' : (0,0,-0.04),
-    'photoName' : TTLocalizer.AnimatedStatuaryFlappyCog,
-    'description' : TTLocalizer.GardenSpecialDiscription,
-    'isCatalog' : True,
-    'beanCost' : 50,
-    'minSkill' : 1,
 
     },
 }
@@ -1464,7 +1413,7 @@ def getPlantItWithString(special):
     return retval
 
 #this automatically sets up the description for the Special dictionary
-for specialKey in list(Specials.keys()):
+for specialKey in Specials.keys():
     recipeKey = getRecipeKeyUsingSpecial(specialKey)
     if not recipeKey == -1:
         Specials[specialKey]['description'] = getPlantItWithString(specialKey)
@@ -1494,3 +1443,7 @@ TrophyDict = {
     2: (TTLocalizer.GardenTrophyNameDict[2],),
     3: (TTLocalizer.GardenTrophyNameDict[3],),
     }
+
+
+
+

@@ -1,6 +1,7 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.fsm import StateData
 from direct.gui.DirectGui import *
+from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
 
 class TownBattleWaitPanel(StateData.StateData):
@@ -37,7 +38,7 @@ class TownBattleWaitPanel(StateData.StateData):
             command = self.__handleBack,
             )
         gui.removeNode()
-
+    
     def unload(self):
         self.frame.destroy()
         del self.frame
@@ -65,3 +66,6 @@ class TownBattleWaitPanel(StateData.StateData):
     def __handleBack(self):
         doneStatus = {'mode':'Back'}
         messenger.send(self.doneEvent, [doneStatus])
+    
+
+        

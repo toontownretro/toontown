@@ -1,4 +1,4 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.actor import Actor
 from direct.directnotify import DirectNotifyGlobal
 from otp.otpbase import OTPGlobals
@@ -118,14 +118,14 @@ Props = (
     (3.5, 'stun', 'stun-mod', 'stun-chan'),
     (3.5, 'glow', 'glow'),
     (3.5, 'suit_explosion', 'suit_explosion-mod', 'suit_explosion-chan'),
-    (3.5, 'suit_explosion_dust', 'dust_cloud'),
+    (3.5, 'suit_explosion_dust', 'dust_cloud'),    
 
     #
     # water effects
     #
     (4, 'ripples', 'ripples'),
     (4, 'wake', 'wake'),
-    (4, 'splashdown', 'SZ_splashdown-mod', 'SZ_splashdown-chan'),
+    (4, 'splashdown', 'SZ_splashdown-mod', 'SZ_splashdown-chan'),        
     )
 
 # splat dict: pie-name: (scale, color)
@@ -158,8 +158,8 @@ class PropPool:
         self.propCache = []
         self.propStrings = {}
         self.propTypes = {}
-        self.maxPoolSize = ConfigVariableInt("prop-pool-size", 8).getValue()
-
+        self.maxPoolSize = base.config.GetInt("prop-pool-size", 8)
+        
         # load ref's to the props enumerated above
         for p in Props:
             phase = p[0]
@@ -191,7 +191,7 @@ class PropPool:
         self.propTypes[propName] = 'model'
 
         splatAnimFileName = self.getPath(3.5, 'splat-chan')
-        for splat in list(Splats.keys()):
+        for splat in Splats.keys():
             propName = 'splat-' + splat
             self.propStrings[propName] = (self.getPath(3.5, 'splat-mod'), splatAnimFileName)
             self.propTypes[propName] = 'actor'
@@ -287,14 +287,14 @@ class PropPool:
 
         # set the 5 dollar bill texture
         elif (name == '5dollar'):
-            tex = loader.loadTexture('phase_5/maps/dollar_5.txo')
+            tex = loader.loadTexture('phase_5/maps/dollar_5.jpg')
             tex.setMinfilter(Texture.FTLinearMipmapLinear)
             tex.setMagfilter(Texture.FTLinear)
             self.props[name].setTexture(tex, 1)
 
         # set the 10 dollar bill texture
         elif (name == '10dollar'):
-            tex = loader.loadTexture('phase_5/maps/dollar_10.txo')
+            tex = loader.loadTexture('phase_5/maps/dollar_10.jpg')
             tex.setMinfilter(Texture.FTLinearMipmapLinear)
             tex.setMagfilter(Texture.FTLinear)
             self.props[name].setTexture(tex, 1)
@@ -307,7 +307,7 @@ class PropPool:
                 cloud = self.props[name].find(cloudName)
                 cloud.setBin('fixed', bin)
                 bin -= 10
-
+            
         # set the draw order on the kapow
         elif (name == 'kapow'):
             l = self.props[name].find('**/letters')
@@ -317,7 +317,7 @@ class PropPool:
 
         # pick random suit explosion text
         elif (name == 'suit_explosion'):
-            joints = ["**/joint*scale*POW", "**/joint*scale*BLAM", "**/joint*scale*BOOM",]
+            joints = ["**/joint_scale_POW", "**/joint_scale_BLAM", "**/joint_scale_BOOM",]
             # pick two joints to hide at random
             joint = random.choice(joints)
             self.props[name].find(joint).hide()
@@ -343,7 +343,7 @@ class PropPool:
             pass
             #prop.setBin('shadow', -5)
             #prop.setDepthWrite(0)
-            prop.find('**/tracksA').setPos(0, 0, OTPGlobals.FloorOffset)
+            prop.find('**/tracksA').setPos(0, 0, OTPGlobals.FloorOffset)            
 
 
         # make the geyser tflip animate
@@ -366,25 +366,25 @@ class PropPool:
     def unloadProps(self):
         """ unloadProps()
         """
-        for p in list(self.props.values()):
+        for p in self.props.values():
             # make sure it's loaded before we remove it
             if (type(p) != type(())):
                 self.__delProp(p)
         self.props = {}
         self.propCache = []
-
+        
     def getProp(self, name):
         """ getProp(name)
         """
-        assert(name in self.propStrings)
+        assert(self.propStrings.has_key(name))
         return self.__getPropCopy(name)
 
     def __getPropCopy(self, name):
-        assert(name in self.propStrings)
-        assert(name in self.propTypes)
+        assert(self.propStrings.has_key(name))
+        assert(self.propTypes.has_key(name))
         if (self.propTypes[name] == 'actor'):
             # make sure the props is loaded
-            if name not in self.props:
+            if not self.props.has_key(name):
                 prop = Actor.Actor()
                 prop.loadModel(self.propStrings[name][0])
                 animDict = {}
@@ -397,8 +397,8 @@ class PropPool:
                     self.makeVariant(name)
             return Actor.Actor(other=self.props[name])
         else:
-            # make sure the props is loaded
-            if name not in self.props:
+            # make sure the props is loaded            
+            if not self.props.has_key(name):            
                 prop = loader.loadModel(self.propStrings[name][0])
                 prop.setName(name)
                 self.storeProp(name, prop)
@@ -423,12 +423,12 @@ class PropPool:
             del(self.props[oldest.getName()])
             # cleanup the prop
             self.__delProp(oldest)
-
+            
         self.notify.debug("props = %s" % self.props)
         self.notify.debug("propCache = %s" % self.propCache)
-
+        
     def getPropType(self, name):
-        assert(name in self.propTypes)
+        assert(self.propTypes.has_key(name))
         return self.propTypes[name]
 
     def __delProp(self, prop):

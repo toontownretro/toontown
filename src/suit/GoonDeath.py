@@ -1,5 +1,5 @@
 from direct.interval.IntervalGlobal import *
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.particles import ParticleEffect
 from toontown.battle import BattleParticles
 
@@ -23,7 +23,7 @@ def createGoonExplosion(parent, explosionPoint, scale):
     explosion = createExplosionTrack(parent, deathNode, scale)
     smallGearExplosion = BattleParticles.createParticleEffect('GearExplosion', numParticles=10)
     bigGearExplosion = BattleParticles.createParticleEffect('WideGearExplosion',numParticles=30)
-    deathSound = base.loader.loadSfx("phase_3.5/audio/sfx/ENC_cogfall_apart.mp3")
+    deathSound = base.loadSfx("phase_3.5/audio/sfx/ENC_cogfall_apart.mp3")
     return Parallel(explosion,
                     SoundInterval(deathSound),
                     ParticleInterval(smallGearExplosion, deathNode,

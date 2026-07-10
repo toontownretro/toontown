@@ -7,8 +7,6 @@
 from toontown.suit import SuitDNA
 import types
 from toontown.toonbase import TTLocalizer
-from direct.showbase import PythonUtil
-from otp.otpbase import OTPGlobals
 
 # how many parts are required for the different depts
 PartsPerSuit = ( 17, 14, 12, 10 )
@@ -189,10 +187,7 @@ PartsQueryNames = (
      },
     )
 
-
 # utility functions
-
-suitTypes = PythonUtil.Enum(('NoSuit', 'NoMerits', 'FullSuit'))
 
 def getNextPart(parts, partIndex, dept):
     """
@@ -229,21 +224,6 @@ def isSuitComplete(parts, dept):
         if getNextPart(parts, p, dept):
             return 0
     return 1
-
-
-def isPaidSuitComplete(av, parts, dept):
-    """
-    Returns 1 if the suit for given dept is complete, 0 otherwise.
-    """
-    isPaid = 0
-    base = getBase()
-    if av and av.getGameAccess() == OTPGlobals.AccessFull:
-        isPaid = 1
-    if isPaid:
-        # for each type of part (left arm, etc.)
-        if isSuitComplete(parts, dept):
-            return 1
-    return 0
 
 
 def getTotalMerits(toon, index):
@@ -286,7 +266,7 @@ def asNumber(bitstring):
     return num
 
 def dept2deptIndex(dept):
-    if isinstance(dept, (str)):
+    if type(dept) == types.StringType:
         dept = SuitDNA.suitDepts.index(dept)
     return dept
 

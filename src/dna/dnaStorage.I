@@ -19,10 +19,8 @@ INLINE void DNAStorage::store_node(const string &code_string, NodePath node, con
     node.copy_to(modelNode);
     node = modelNode;
   }
-  if (!node.is_empty()) {
-    node.set_tag("DNACode", code_string);
-    node.set_tag("DNARoot", code_category);
-  }
+  node.set_tag("DNACode", code_string);
+  node.set_tag("DNARoot", code_category);
   _node_map[code_string] = node;
 }
 
@@ -40,10 +38,8 @@ INLINE void DNAStorage::store_hood_node(const string &code_string, NodePath node
     node.copy_to(modelNode);
     node = modelNode;
   }
-  if (!node.is_empty()) {
-    node.set_tag("DNACode", code_string);
-    node.set_tag("DNARoot", code_category);
-  }
+  node.set_tag("DNACode", code_string);
+  node.set_tag("DNARoot", code_category);
   _hood_node_map[code_string] = node;
 }
 
@@ -60,10 +56,8 @@ INLINE void DNAStorage::store_place_node(const string &code_string, NodePath nod
     node.copy_to(modelNode);
     node = modelNode;
   }
-  if (!node.is_empty()) {
-    node.set_tag("DNACode", code_string);
-    node.set_tag("DNARoot", code_category);
-  }
+  node.set_tag("DNACode", code_string);
+  node.set_tag("DNARoot", code_category);
   _place_node_map[code_string] = node;
 }
 
@@ -221,7 +215,7 @@ INLINE int DNAStorage::get_num_DNAVisGroupsAI() const {
 //       Access: Public
 //  Description: Return the ith vis group in our storage
 ////////////////////////////////////////////////////////////////////
-INLINE PT(DNAVisGroup) DNAStorage::get_DNAVisGroupAI(uint32_t i) const {
+INLINE PT(DNAVisGroup) DNAStorage::get_DNAVisGroupAI(uint i) const {
   nassertr(i < _vis_group_vector.size(), (DNAVisGroup *)NULL);
   return _vis_group_vector[i];
 }
@@ -353,7 +347,7 @@ WorkingSuitPath(WorkingSuitPath *next, int point_index) {
 ////////////////////////////////////////////////////////////////////
 //     Function: DNAStorage::WorkingSuitPath::Destructor
 //       Access: Public
-//  Description:
+//  Description: 
 ////////////////////////////////////////////////////////////////////
 INLINE DNAStorage::WorkingSuitPath::
 ~WorkingSuitPath() {
@@ -411,7 +405,7 @@ operator delete(void *ptr) {
   // have already been destructed.  We use _next_deleted instead,
   // which is set aside for just this purpose.  Yeah, it's a small
   // waste of memory; deal with it.
-
+  
   obj->_next_deleted = _deleted_chain;
   _deleted_chain = obj;
 }

@@ -1,10 +1,12 @@
 """LaffMeter module: contains the class definition for handling the
 laff-o-meter"""
 
-from toontown.toonbase.ToontownModules import Vec4
-from direct.gui.DirectGui import DirectFrame, DirectLabel
+from pandac.PandaModules import *
+from otp.avatar import DistributedAvatar
 from toontown.toonbase import ToontownGlobals
-from toontown.toonbase import ToontownIntervals
+from direct.gui.DirectGui import *
+from pandac.PandaModules import *
+from direct.interval.IntervalGlobal import *
 
 class LaffMeter(DirectFrame):
     """LaffMeter class"""
@@ -21,7 +23,7 @@ class LaffMeter(DirectFrame):
 
         # This is to contain the scale for the animated effect
         self.container = DirectFrame(parent = self, relief = None)
-
+        
         self.style = avdna
         self.av = None
         self.hp = hp
@@ -68,7 +70,7 @@ class LaffMeter(DirectFrame):
             elif (hType == "pig"):
                 headModel = gui.find("**/pighead")
             else:
-                raise Exception("unknown toon species: ", hType)
+                raise StandardError("unknown toon species: ", hType)
 
             self.color = self.style.getHeadColor()
 
@@ -97,7 +99,7 @@ class LaffMeter(DirectFrame):
             self.tooth6 = DirectFrame(parent = self.openSmile, relief = None,
                                  image = gui.find("**/tooth_6"))
 
-
+                        
             self.maxLabel = DirectLabel(parent = self.eyes,
                                    relief = None,
                                    pos = (0.442, 0, 0.051),
@@ -112,7 +114,7 @@ class LaffMeter(DirectFrame):
                                   text_scale = 0.4,
                                   text_font = ToontownGlobals.getInterfaceFont(),
                                   )
-
+            
             self.teeth = [self.tooth6, self.tooth5, self.tooth4,
                           self.tooth3, self.tooth2, self.tooth1]
             self.fractions = [0., 0.166666, 0.333333, 0.5, 0.666666, 0.833333]
@@ -121,8 +123,8 @@ class LaffMeter(DirectFrame):
 
     def destroy(self):
         if self.av:
-            ToontownIntervals.cleanup(self.av.uniqueName('laffMeterBoing') + '-' + str(self.this))
-            ToontownIntervals.cleanup(self.av.uniqueName('laffMeterBoing') + '-' + str(self.this) + '-play')
+            taskMgr.remove(self.av.uniqueName('laffMeterBoing') + '-' + str(self.this))
+            taskMgr.remove(self.av.uniqueName('laffMeterBoing') + '-' + str(self.this) + '-play')
             self.ignore(self.av.uniqueName("hpChange"))
         del self.style
         del self.av
@@ -177,14 +179,22 @@ class LaffMeter(DirectFrame):
         # This happens in battle and on avatar detail panels
         if (delta == 0) or (self.av == None):
             return
-        name = self.av.uniqueName('laffMeterBoing') + '-' + str(self.this)
-        ToontownIntervals.cleanup(name)
+        taskName = self.av.uniqueName('laffMeterBoing') + '-' + str(self.this)
+        taskMgr.remove(taskName)
         if delta > 0:
             # Laffmeter increase
-            ToontownIntervals.start(ToontownIntervals.getPulseLargerIval(self.container, name))
+            Sequence(self.container.scaleInterval(0.2, 1.333, blendType='easeOut'),
+                     self.container.scaleInterval(0.2, 1, blendType='easeIn'),
+                     name = taskName,
+                     autoFinish = 1
+                     ).start()
         else:
             # Laffmeter decrease
-            ToontownIntervals.start(ToontownIntervals.getPulseSmallerIval(self.container, name))
+            Sequence(self.container.scaleInterval(0.2, 0.666, blendType='easeOut'),
+                     self.container.scaleInterval(0.2, 1, blendType='easeIn'),
+                     name = taskName,
+                     autoFinish = 1
+                     ).start()
 
     def adjustFace(self, hp, maxHp, quietly = 0):
         """adjustFace(self, int, int)

@@ -17,7 +17,7 @@
 //       Class : DNACornice
 // Description : A cornice at the top of a flat building
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN_DNALOADER DNACornice : public DNAGroup  {
+class EXPCL_TOONTOWN DNACornice : public DNAGroup  {
 PUBLISHED:
   DNACornice(const string &initial_name = "");
   DNACornice(const DNACornice &cornice);
@@ -28,15 +28,15 @@ PUBLISHED:
   void set_code(string code);
   string get_code() const;
 
-  void set_color(const LColorf &color);
-  LColorf get_color() const;
+  void set_color(const Colorf &color);
+  Colorf get_color() const;
 
 private:
   virtual DNAGroup* make_copy();
 
 private:
   string _code;
-  LColorf _color;
+  Colorf _color;
 
 public:
   static TypeHandle get_class_type() {

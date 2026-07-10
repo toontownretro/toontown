@@ -1,10 +1,10 @@
 
-from .DistributedMinigameAI import *
+from DistributedMinigameAI import *
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
-from . import CannonGameGlobals
+import CannonGameGlobals
 
 class DistributedCannonGameAI(DistributedMinigameAI):
 
@@ -79,7 +79,7 @@ class DistributedCannonGameAI(DistributedMinigameAI):
         self.notify.debug("enterPlay")
 
         # Start the game timer
-        if not ConfigVariableBool('endless-cannon-game', 0).getValue():
+        if not config.GetBool('endless-cannon-game', 0):
             taskMgr.doMethodLater(CannonGameGlobals.GameTime,
                                   self.timerExpired,
                                   self.taskName("gameTimer"))
@@ -96,8 +96,6 @@ class DistributedCannonGameAI(DistributedMinigameAI):
         if this returns 0, the game has ended
         """
         if not hasattr(self, 'gameFSM'):
-            return 0
-        if self.gameFSM.getCurrentState() == None:
             return 0
         return self.gameFSM.getCurrentState().getName() == 'play'
 

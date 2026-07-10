@@ -2,7 +2,7 @@
 
 
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 
 # Create a DNA Store
 dnaStore = DNAStorage()

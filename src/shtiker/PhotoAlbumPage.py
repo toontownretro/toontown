@@ -1,10 +1,10 @@
-from toontown.toonbase.ToontownModules import *
-from . import ShtikerPage
+from pandac.PandaModules import *
+import ShtikerPage
 from direct.gui.DirectGui import *
+from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
 import os
 from toontown.toonbase import ToontownGlobals
-import string
 
 class PhotoAlbumPage(ShtikerPage.ShtikerPage):
 
@@ -17,12 +17,12 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
         self.photos = {}
         self.selectedFileName = None
         self.photoIndex = 0
-
+        
     def load(self):
         self.title = DirectLabel(
             parent = self,
             relief = None,
-            text = TTLocalizer.PhotoPageTitle,
+            text = "Photo Album",
             text_scale = 0.10,
             pos = (0,0,0.6),
             )
@@ -39,7 +39,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
         self.pictureCaption = DirectLabel(
             parent = self,
             relief = None,
-            text = TTLocalizer.PhotoPageCaption,
+            text = "Caption",
             text_scale = 0.05,
             text_wordwrap = 10,
             text_align = TextNode.ACenter,
@@ -55,7 +55,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
                      ),
             image_scale = (1,1,1),
             pos = (0.45,0,-0.35),
-            text = TTLocalizer.PhotoPageCaption,
+            text = "Caption",
             text_scale = 0.06,
             text_pos = (0,-0.02),
             command = self.renameImage,
@@ -69,13 +69,13 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
             image = (trashcanGui.find("**/TrashCan_CLSD"),
                      trashcanGui.find("**/TrashCan_OPEN"),
                      trashcanGui.find("**/TrashCan_RLVR")),
-            text = ("", TTLocalizer.PhotoPageDelete, TTLocalizer.PhotoPageDelete),
+            text = ("", "Delete", "Delete"),
             text_fg = (1,1,1,1),
             text_shadow = (0,0,0,1),
             text_scale = 0.1,
             text_pos = (0, -0.1),
             text_font = ToontownGlobals.getInterfaceFont(),
-            textMayChange = 0,
+            textMayChange = 0,            
             relief = None,
             pos = (0.73, 0, -0.33),
             scale = 0.4,
@@ -94,7 +94,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
                      ),
             image_scale = (1,1,1),
             pos = (0.45,0,-0.6),
-            text = TTLocalizer.PhotoPagePrint,
+            text = "Print",
             text_scale = 0.06,
             text_pos = (0,-0.02),
             state = DGG.DISABLED,
@@ -104,7 +104,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
 
         guiButton.removeNode()
         trashcanGui.removeNode()
-
+        
         gui = loader.loadModel("phase_3.5/models/gui/friendslist_gui")
 
         self.scrollList = DirectScrolledList(
@@ -152,10 +152,10 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
             image = DGG.getDefaultDialogGeom(),
             image_color = ToontownGlobals.GlobalDialogColor,
             image_scale = (1.0, 1.0, 0.6),
-            text = TTLocalizer.PhotoPageCaptionPhoto,
+            text = 'Caption Photo',
             text_scale = 0.06,
             text_pos = (0.0, 0.13),
-            sortOrder = DGG.NO_FADE_SORT_INDEX,
+            sortOrder = NO_FADE_SORT_INDEX,
             )
 
         self.renameEntry = DirectEntry(
@@ -179,7 +179,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
                                              buttons.find('**/CloseBtn_DN'),
                                              buttons.find('**/CloseBtn_Rllvr')),
                                     relief = None,
-                                    text = TTLocalizer.PhotoPageCancel,
+                                    text = "Cancel",
                                     text_scale = 0.05,
                                     text_pos = (0.0, -0.1),
                                     pos = (0.0, 0.0, -0.1),
@@ -193,10 +193,10 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
             image = DGG.getDefaultDialogGeom(),
             image_color = ToontownGlobals.GlobalDialogColor,
             image_scale = (1.0, 1.0, 0.6),
-            text = TTLocalizer.PhotoPageDeletePhoto,
+            text = 'Delete Photo?',
             text_scale = 0.06,
             text_pos = (0.0, 0.13),
-            sortOrder = DGG.NO_FADE_SORT_INDEX,
+            sortOrder = NO_FADE_SORT_INDEX,
             )
 
         self.dOk = DirectButton(parent = self.deletePanel,
@@ -204,7 +204,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
                                          buttons.find('**/ChtBx_OKBtn_DN'),
                                          buttons.find('**/ChtBx_OKBtn_Rllvr')),
                                 relief = None,
-                                text = TTLocalizer.PhotoPageOK,
+                                text = "Ok",
                                 text_scale = 0.05,
                                 text_pos = (0.0, -0.1),
                                 pos = (-0.1, 0.0, -0.1),
@@ -215,7 +215,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
                                              buttons.find('**/CloseBtn_DN'),
                                              buttons.find('**/CloseBtn_Rllvr')),
                                     relief = None,
-                                    text = TTLocalizer.PhotoPageCancel,
+                                    text = "Cancel",
                                     text_scale = 0.05,
                                     text_pos = (0.0, -0.1),
                                     pos = (0.1, 0.0, -0.1),
@@ -274,8 +274,8 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
 
     def renameDialog(self, str):
         separator = '_'
-        validChars = string.ascii_letters + string.digits + ' -'
-        str = [s for s in str if (s in validChars)]
+        validChars = string.letters + string.digits + ' -'
+        str = filter(lambda s: (s in validChars), str)
         if not str:
             self.renameCleanup()
             return 0
@@ -297,7 +297,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
 
     def renameCancel(self):
         self.renameCleanup()
-
+        
     def renameCleanup(self):
         self.renamePanel.hide()
         # Restore the background focus on the chat entry.
@@ -315,7 +315,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
         chatEntry['backgroundFocus'] = 0
         # And now we can set the focus on our entry.
         self.renameEntry['focus'] = 1
-        print(self.selectedFileName)
+        print self.selectedFileName
 
     def deleteConfirm(self):
         os.remove(self.selectedFileName)
@@ -325,13 +325,13 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
 
     def deleteCancel(self):
         self.deleteCleanup()
-
+        
     def deleteCleanup(self):
         self.deletePanel.hide()
 
     def deleteImage(self):
         self.renameCleanup()
-        self.deletePanel['text'] = TTLocalizer.PhotoPageDeletePhotoWithName % self.getPhotoName(self.selectedFileName)
+        self.deletePanel['text'] = "Delete Photo?\n%s" % self.getPhotoName(self.selectedFileName)
         self.deletePanel.show()
 
     def makePhotoButton(self, fileName):
@@ -353,11 +353,11 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
         separator = '_'
         numUnders = fileName.count(separator)
         if (numUnders == 0):
-            return TTLocalizer.PhotoPageNoName
+            return 'noname'
         elif (numUnders == 2):
             return fileName.split(separator)[1]
         else:
-            return TTLocalizer.PhotoPageUnknownName
+            return 'unknown'
 
     def chosePhoto(self, fileName):
         if fileName:
@@ -384,7 +384,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
         photos = []
         for fileName in files:
             if ((fileName[0:10] == 'screenshot') and
-                (fileName[-4:] == '.png')):
+                (fileName[-4:] == '.jpg')):
                 photos.append(fileName)
         return photos
 
@@ -393,24 +393,24 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
 
     def updateScrollList(self):
         newPhotos = self.getPhotos()
-
+        
         # Remove old buttons
-        for photo in list(self.photos.keys()):
+        for photo in self.photos.keys():
             if photo not in newPhotos:
                 photoButton = self.photos[photo]
                 self.scrollList.removeItem(photoButton)
                 photoButton.destroy()
                 del self.photos[photo]
-
+                
         # Add new photos
         for photo in newPhotos:
-            if photo not in self.photos:
+            if not self.photos.has_key(photo):
                 photoButton = self.makePhotoButton(photo)
                 self.scrollList.addItem(photoButton)
                 self.photos[photo] = photoButton
 
-        if list(self.photos.keys()):
-            self.chosePhoto(list(self.photos.keys())[0])
+        if self.photos.keys():
+            self.chosePhoto(self.photos.keys()[0])
         else:
             self.chosePhoto(None)
 
@@ -435,13 +435,11 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
         return
 
     def updateArrows(self):
-        self.photoIndex = 0
-        self.chosePhoto(self.getPhotos()[self.photoIndex])
+        pass
 
     def prevPhoto(self):
-        self.chosePhoto(self.getPhotos()[self.photoIndex])
-        self.photoIndex -= 1
+        pass
 
     def nextPhoto(self):
-        self.chosePhoto(self.getPhotos()[self.photoIndex])
-        self.photoIndex += 1
+        pass
+

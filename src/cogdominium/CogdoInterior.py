@@ -1,14 +1,16 @@
-from toontown.toonbase.ToontownModules import ModelPool, TexturePool
-
-from direct.task.Task import Task
-from direct.directnotify import DirectNotifyGlobal
-from direct.fsm import ClassicFSM, State
-
-from toontown.hood import Place
+from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
+
+from direct.directnotify import DirectNotifyGlobal
+from toontown.hood import Place
+from direct.showbase import DirectObject
+from direct.fsm import StateData
+from direct.fsm import ClassicFSM, State
+from direct.fsm import State
 from toontown.town import TownBattle
 from toontown.suit import Suit
 from toontown.building import Elevator
+from direct.task.Task import Task
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 
@@ -17,7 +19,7 @@ class CogdoInterior(Place.Place):
 
     # create a notify category
     notify = DirectNotifyGlobal.directNotify.newCategory("CogdoInterior")
-
+    
     # special methods
 
     def __init__(self, loader, parentFSM, doneEvent):
@@ -38,7 +40,7 @@ class CogdoInterior(Place.Place):
                             State.State('Game',
                                         self.enterGame,
                                         self.exitGame,
-                                        ['battle', 'died', 'crane', 'walk', ]),
+                                        ['battle', 'died', 'crane', ]),
                             State.State('battle',
                                         self.enterBattle,
                                         self.exitBattle,
@@ -52,10 +54,10 @@ class CogdoInterior(Place.Place):
                                         self.enterWalk,
                                         self.exitWalk,
                                         ['stickerBook', 'stopped',
-                                         'battle', 'sit', 'died',
+                                         'sit', 'died',
                                          'teleportOut',
                                          'Elevator',
-                                         'crane',
+                                         'crane', 
                                          'DFA', 'trialerFA',]),
                             State.State('sit',
                                         self.enterSit,
@@ -95,7 +97,7 @@ class CogdoInterior(Place.Place):
                             State.State('stopped',
                                         self.enterStopped,
                                         self.exitStopped,
-                                        ['walk', 'elevatorOut', 'battle']),
+                                        ['walk', 'elevatorOut']),
                             State.State('died',
                                         self.enterDied,
                                         self.exitDied,
@@ -150,7 +152,7 @@ class CogdoInterior(Place.Place):
         assert(self.notify.debug("unload()"))
         # Call up the chain
         Place.Place.unload(self)
-
+        
         self.parentFSM.getStateNamed("cogdoInterior").removeChild(self.fsm)
         del self.parentFSM
         del self.fsm
@@ -240,7 +242,7 @@ class CogdoInterior(Place.Place):
         self.notify.debug("handling elevator done event")
         where = doneStatus['where']
         if (where == 'reject'):
-            # If there has been a reject the Elevator should show an
+            # If there has been a reject the Elevator should show an 
             # elevatorNotifier message and put the toon in the stopped state.
             # Don't request the walk state here. Let the the toon be stuck in the
             # stopped state till the player removes that message from his screen.
@@ -259,12 +261,11 @@ class CogdoInterior(Place.Place):
                               " in handleElevatorDone")
 
     # Game state
-
+    
     def enterGame(self):
-        base.localAvatar.setTeleportAvailable(0)
-        base.localAvatar.laffMeter.start()
+        pass
     def exitGame(self):
-        base.localAvatar.laffMeter.stop()
+        pass
 
     # Battle state
 
@@ -292,12 +293,12 @@ class CogdoInterior(Place.Place):
         base.localAvatar.setTeleportAvailable(0)
         base.localAvatar.laffMeter.start()
         base.localAvatar.collisionsOn()
-
+        
     def exitCrane(self):
         assert(self.notify.debug("exitCrane()"))
         base.localAvatar.collisionsOff()
         base.localAvatar.laffMeter.stop()
-
+        
     # walk state inherited from Place.py
     def enterWalk(self, teleportIn=0):
         Place.Place.enterWalk(self, teleportIn)
@@ -315,12 +316,12 @@ class CogdoInterior(Place.Place):
         Place.Place.enterSit(self)
         self.ignore('teleportQuery')
         base.localAvatar.setTeleportAvailable(0)
-
+        
     # teleport in state
 
     def enterTeleportIn(self, requestStatus):
         # We can only teleport in if our goHome or teleport to toon
-        # request failed.
+        # request failed.  
         # Set localToon to the starting position within the
         # interior
         base.localAvatar.setPosHpr(2.5, 11.5, ToontownGlobals.FloorOffset,
@@ -332,7 +333,7 @@ class CogdoInterior(Place.Place):
 
     def enterTeleportOut(self, requestStatus):
         assert(self.notify.debug('enterTeleportOut()'))
-        Place.Place.enterTeleportOut(self, requestStatus,
+        Place.Place.enterTeleportOut(self, requestStatus, 
                         self.__teleportOutDone)
 
     def __teleportOutDone(self, requestStatus):

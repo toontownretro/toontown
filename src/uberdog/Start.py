@@ -2,20 +2,26 @@
 Start the Toontown UberDog (Uber Distributed Object Globals server).
 """
 
-import builtins
+import __builtin__
 from direct.task.Task import Task
 
 class game:
     name = "uberDog"
     process = "server"
-builtins.game = game()
+__builtin__.game = game()
 
 import time
 import os
 import sys
 
+# Initialize ihooks importer On the production servers, we run genPyCode -n
+# meaning no squeeze, so nobody else does this. When we squeeze, the
+# unpacker does this for us and it does not hurt to do in either case.
+import ihooks
+ihooks.install()
+
 if os.getenv('TTMODELS'):
-    from toontown.toonbase.ToontownModules import getModelPath, Filename
+    from pandac.PandaModules import getModelPath, Filename
     # In the publish environment, TTMODELS won't be on the model
     # path by default, so we always add it there.  In the dev
     # environment, it'll be on the model path already, but it
@@ -28,41 +34,39 @@ from toontown.coderedemption import TTCodeRedemptionConsts
 from toontown.uberdog.ToontownUberDog import ToontownUberDog
 from toontown.uberdog import PartiesUdConfig
 
-print("Initializing the Toontown UberDog (Uber Distributed Object Globals server)...")
+print "Initializing the Toontown UberDog (Uber Distributed Object Globals server)..."
 
-uber.mdip = ConfigVariableString("msg-director-ip", "localhost").getValue()
-uber.mdport = ConfigVariableInt("msg-director-port", 6666).getValue()
+uber.mdip = uber.config.GetString("msg-director-ip", "localhost")
+uber.mdport = uber.config.GetInt("msg-director-port", 6666)
 
-uber.esip = ConfigVariableString("event-server-ip", "localhost").getValue()
-uber.esport = ConfigVariableInt("event-server-port", 4343).getValue()
+uber.esip = uber.config.GetString("event-server-ip", "localhost")
+uber.esport = uber.config.GetInt("event-server-port", 4343)
 
-stateServerId = ConfigVariableInt("state-server-id", 20100000).getValue()
+stateServerId = uber.config.GetInt("state-server-id", 20100000)
 
 uber.objectNames = set(os.getenv("uberdog_objects", "").split())
 
-minChannel = ConfigVariableInt("uberdog-min-channel", 200400000).getValue()
-maxChannel = ConfigVariableInt("uberdog-max-channel", 200449999).getValue()
+minChannel = uber.config.GetInt("uberdog-min-channel", 200400000)
+maxChannel = uber.config.GetInt("uberdog-max-channel", 200449999)
 
-uber.sbNSHost = ConfigVariableString("sb-host","").getValue()
-uber.sbNSPort = ConfigVariableInt("sb-port",6053).getValue()
+uber.sbNSHost = uber.config.GetString("sb-host","")
+uber.sbNSPort = uber.config.GetInt("sb-port",6053)
 uber.sbListenPort = 6060
 uber.clHost = "localhost"
 uber.clPort = 9090
-uber.allowUnfilteredChat = ConfigVariableInt("allow-unfiltered-chat",0).getValue()
+uber.allowUnfilteredChat = uber.config.GetInt("allow-unfiltered-chat",0)
 uber.bwDictPath = ""
 
-uber.RATManagerHTTPListenPort = ConfigVariableInt("rat-port",8080).getValue()
-uber.awardManagerHTTPListenPort = ConfigVariableInt("award-port",8888).getValue()
-uber.inGameNewsMgrHTTPListenPort = ConfigVariableInt("in-game-news-port",8889).getValue()
-uber.whitelistMgrHTTPListenPort = ConfigVariableInt("whitelist-port",8890).getValue()
-uber.mysqlhost = ConfigVariableString("mysql-host", PartiesUdConfig.ttDbHost).getValue()
+uber.RATManagerHTTPListenPort = uber.config.GetInt("rat-port",8080)
+uber.awardManagerHTTPListenPort = uber.config.GetInt("award-port",8888)
+uber.inGameNewsMgrHTTPListenPort = uber.config.GetInt("in-game-news-port",8889)
+uber.mysqlhost = uber.config.GetString("mysql-host", PartiesUdConfig.ttDbHost)
 
 
-uber.codeRedemptionMgrHTTPListenPort = ConfigVariableInt('code-redemption-port', 8998).getValue()
-uber.crDbName = ConfigVariableString("tt-code-db-name", TTCodeRedemptionConsts.DefaultDbName).getValue()
+uber.codeRedemptionMgrHTTPListenPort = uber.config.GetInt('code-redemption-port', 8998)
+uber.crDbName = uber.config.GetString("tt-code-db-name", TTCodeRedemptionConsts.DefaultDbName)
 
-uber.cpuInfoMgrHTTPListenPort = ConfigVariableInt("security_ban_mgr_port",8892).getValue()
-uber.securityMgrHTTPListenPort = ConfigVariableInt("security_port",8893).getValue()
+uber.cpuInfoMgrHTTPListenPort = uber.config.GetInt("security_ban_mgr_port",8892)
 
 uber.air = ToontownUberDog(
         uber.mdip, uber.mdport,
@@ -75,11 +79,11 @@ uber.air = ToontownUberDog(
 # How we let the world know we are not running a service
 uber.aiService = 0
 
-uber.wantEmbeddedOtpServer = ConfigVariableInt(
-    "toontown-uberdog-want-embedded-otp-server", 0).getValue()
+uber.wantEmbeddedOtpServer = uber.config.GetInt(
+    "toontown-uberdog-want-embedded-otp-server", 0)
 if uber.wantEmbeddedOtpServer:
-    otpServerPath = ConfigVariableString(
-        "toontown-uberdog-otp-server-path", "c:/toonsrv").getValue()
+    otpServerPath = uber.config.GetString(
+        "toontown-uberdog-otp-server-path", "c:/toonsrv")
     sys.path.append(otpServerPath)
 
     import otp_server_py
@@ -100,3 +104,4 @@ except:
     info = describeException()
     #uber.air.writeServerEvent('uberdog-exception', districtNumber, info)
     raise
+

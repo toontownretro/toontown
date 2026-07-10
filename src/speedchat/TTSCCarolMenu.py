@@ -12,7 +12,7 @@ from otp.otpbase import OTPLocalizer
 #this is the structure of the racing menu
 CarolMenu = [ 
     (OTPLocalizer.CarolMenuSections[0],    
-        {30200:30220, 30201:30221, 30202:30222, 30203:30223, 30204:30224, 30205:30225}),
+        {60200:60220, 60201:60221, 60202:60222, 60203:60223, 60204:60224, 60205:60225}),
     ]
         
 class TTSCCarolMenu(SCMenu):
@@ -44,10 +44,10 @@ class TTSCCarolMenu(SCMenu):
         for section in CarolMenu:
             if section[0] == -1:
                 #This is not a submenu but a terminal!
-                for phrase in list(section[1].keys()):
+                for phrase in section[1].keys():
                     blatherTxt = section[1][phrase]
                     if blatherTxt not in OTPLocalizer.SpeedChatStaticText:
-                        print(('warning: tried to link Carol phrase %s which does not seem to exist' % blatherTxt))
+                        print ('warning: tried to link Carol phrase %s which does not seem to exist' % blatherTxt)
                         break
                     self.append(TTSCIndexedTerminal(SpeedChatStaticText.get(phrase, None), blatherTxt))
             else: 
@@ -55,7 +55,7 @@ class TTSCCarolMenu(SCMenu):
                 menu = SCMenu()
                 for phrase in section[1]:
                     if phrase not in OTPLocalizer.SpeedChatStaticText:
-                        print(('warning: tried to link Carol phrase %s which does not seem to exist' % phrase))                                
+                        print ('warning: tried to link Carol phrase %s which does not seem to exist' % phrase)                                
                         break
                     menu.append(SCStaticTextTerminal(phrase))                    
                                         

@@ -1,4 +1,4 @@
-from .ElevatorConstants import *
+from ElevatorConstants import *
 
 # floor and suit information for all suit buildings, organized by each
 # level of suit that originally took over the building (minus 1), used
@@ -72,23 +72,6 @@ SuitBuildingInfo = (
     # building difficulty 9.  This is a special difficulty level that
     # is used only for the first battle with the Sellbot V.P.  No
     # buildings in the world outside of CogHQ have difficulty level 9.
-    #( ( 1, 1 ),
-    #  ( 1, 12 ),
-    #  ( 12, 12 ),
-    #  ( 100, 100 ),
-    #  ( 1, 1, 1, 1, 1 ) ),
-
-    # building difficulty 10.  Same as above, for the second battle with
-    # the Sellbot V.P.  These are skelecogs.
-    #( ( 1, 1 ),
-    #  ( 8, 12 ),
-    #  ( 12, 12 ),
-    #  ( 150, 150 ),
-    #  ( 1, 1, 1, 1, 1 ) ),
-
-    # building difficulty 9.  This is a special difficulty level that
-    # is used only for the first battle with the Sellbot V.P.  No
-    # buildings in the world outside of CogHQ have difficulty level 9.
     ( ( 1, 1 ),
       ( 1, 12 ),
       ( 12, 12 ),
@@ -137,23 +120,6 @@ SuitBuildingInfo = (
       ( 206, 206 ),
       ( 1, 1, 1, 1, 1),
       ( 1, ) ),
-
-    # building difficulty 15.  This is a special difficulty level that
-    # is used only for the first battle with the Nerfed Sellbot V.P.  No
-    # buildings in the world outside of CogHQ have difficulty level 9.
-    ( ( 1, 1 ),
-      ( 1, 5 ),
-      ( 5, 5 ),
-      ( 33, 33 ),
-      ( 1, 1, 1, 1, 1 ) ),
-
-    # building difficulty 16.  Same as above, for the second battle with
-    # the Nerfed Sellbot V.P.  These are skelecogs. 
-    ( ( 1, 1 ),
-      ( 4, 5 ),
-      ( 5, 5 ),
-      ( 50, 50 ) ,
-      ( 1, 1, 1, 1, 1 ) ),
     )
 
 

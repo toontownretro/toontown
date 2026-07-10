@@ -1,8 +1,8 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *
-from .TrolleyConstants import *
+from TrolleyConstants import *
 
 from toontown.golf import GolfGlobals
 from toontown.toonbase import ToontownGlobals
@@ -25,7 +25,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
 
     seatState = Enum("Empty, Full, Eating")
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPicnicBasket")
-
+    
     def __init__(self, cr):
         """__init__(cr)
         """
@@ -35,8 +35,8 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         self.seed = 0
         self.random = None
         self.picnicCountdownTime = \
-                              ConfigVariableDouble("picnic-countdown-time",
-                                                   ToontownGlobals.PICNIC_COUNTDOWN_TIME).getValue()
+                              base.config.GetFloat("picnic-countdown-time",
+                                                   ToontownGlobals.PICNIC_COUNTDOWN_TIME)
         self.picnicBasketTrack = None # only one track contains the picnic basket shrink/grow
 
         self.fsm = ClassicFSM.ClassicFSM('DistributedTrolley',
@@ -84,7 +84,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
             self.food.append(None)
             self.fullSeat.append(self.seatState.Empty)
         self.picnicItem = 0
-
+     
     def announceGenerate(self):
         """Setup other fields dependent on the required fields."""
 
@@ -104,7 +104,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
             #debugAxis.reparentTo(self.seats[i])
 
         self.tablecloth = self.picnicTable.find("**/basket_locator")
-
+        
         DistributedObject.DistributedObject.announceGenerate(self)
         for i in range(self.numSeats):
             self.picnicTableSphereNodes.append(self.seats[i].attachNewNode(CollisionNode('picnicTable_sphere_%d_%d' % (self.getDoId(), i))))
@@ -126,8 +126,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         self.seatNumber = 0
 
         self.clockNode = ToontownTimer()
-        self.clockNode.reparentTo(base.a2dBottomRight)
-        self.clockNode.setPos(-0.173, 0, 0.17)
+        self.clockNode.setPos(1.16, 0, -0.83)
         self.clockNode.setScale(0.3)
         self.clockNode.hide()
 
@@ -142,10 +141,10 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         for i in range(self.numSeats):
             del self.picnicTableSphereNodes[0]
         del self.picnicTableSphereNodes
-
+        
         self.notify.debug("Deleted self loader " + str(self.getDoId()))
         self.picnicTable.removeNode()
-        self.picnicBasketTrack = None
+        self.picnicBasketTrack = None        
         #self.kart.removeNode()
         #del self.kart
 
@@ -153,10 +152,10 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         #pdb.set_trace()
 
     def delete(self):
-        self.notify.debug("Golf kart getting deleted: %s" % self.getDoId())
+        self.notify.debug("Golf kart getting deleted: %s" % self.getDoId())        
         DistributedObject.DistributedObject.delete(self)
         del self.fsm
-
+    
     def setState(self, state, seed, timestamp):
         self.seed = seed
         if not self.random:
@@ -170,23 +169,23 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         self.notify.debug("Entering Picnic Table Sphere.... %s" % self.getDoId())
         # Put localToon into requestBoard mode.
         #import pdb; pdb.set_trace()
-        self.loader.place.detectedPicnicTableSphereCollision(self)
-
+        self.loader.place.detectedPicnicTableSphereCollision(self)  
+    
     def handleEnterPicnicTable(self, i):
         # Tell the server that this avatar wants to board.
         assert self.notify.debugStateCall(self)
         toon = base.localAvatar
-        self.sendUpdate("requestBoard",[i])
+        self.sendUpdate("requestBoard",[i])        
 
     def fillSlot0(self, avId):
         self.fillSlot(0, avId)
-
+    
     def fillSlot1(self, avId):
         self.fillSlot(1, avId)
-
+    
     def fillSlot2(self, avId):
         self.fillSlot(2, avId)
-
+    
     def fillSlot3(self, avId):
         self.fillSlot(3, avId)
 
@@ -221,7 +220,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                     self.loader.place.trolley.fsm.request("boarded")
                     # hide the exit button until basket interval is over
                     self.loader.place.trolley.exitButton.hide()
-            if avId in self.cr.doId2do:
+            if self.cr.doId2do.has_key(avId):
                 # If the toon exists, look it up
                 toon = self.cr.doId2do[avId]
                 # Parent it to the trolley
@@ -264,7 +263,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         self.emptySlot(0, avId, timestamp)
 
     def emptySlot1(self, avId, timestamp):
-        self.emptySlot(1, avId, timestamp)
+        self.emptySlot(1, avId, timestamp)                
 
     def emptySlot2(self, avId, timestamp):
         self.emptySlot(2, avId, timestamp)
@@ -281,7 +280,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         else:
             toon.startSmooth()
         return
-
+                
     def emptySlot(self, index, avId, timestamp):
         def emptySeat(index):
             # If localToon is exiting, he needs to change state
@@ -311,7 +310,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
             track.start()
         else:
             self.fullSeat[index] = self.seatState.Empty
-            if avId in self.cr.doId2do:
+            if self.cr.doId2do.has_key(avId):
                 if avId == base.localAvatar.getDoId():
                     # Stop the countdown clock..
                     if(self.clockNode):
@@ -337,7 +336,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                         Wait(waitDuration),
                         self.generateBasketDisappearTrack())
                     self.picnicBasketTrack.start()
-
+                    
                     # let the toon loose
                 track.append(Sequence(
                     # Tell the toon he is free to roam now
@@ -360,21 +359,21 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
     def __enableCollisions(self):
         # start listening for toons to enter.
         assert self.notify.debugStateCall(self)
-        for i in range(self.numSeats):
+        for i in range(self.numSeats): 
             self.accept('enterpicnicTable_sphere_%d_%d' % (self.getDoId(), i), self.handleEnterPicnicTableSphere, [i])
-            self.accept('enterPicnicTableOK_%d_%d' % (self.getDoId(), i), self.handleEnterPicnicTable, [i])
-            self.picnicTableSphereNodes[i].setCollideMask(ToontownGlobals.WallBitmask)
+            self.accept('enterPicnicTableOK_%d_%d' % (self.getDoId(), i), self.handleEnterPicnicTable, [i])        
+            self.picnicTableSphereNodes[i].setCollideMask(ToontownGlobals.WallBitmask)        
 
     def __disableCollisions(self):
         assert self.notify.debugStateCall(self)
-        for i in range(self.numSeats):
+        for i in range(self.numSeats): 
             self.ignore('enterpicnicTable_sphere_%d_%d' % (self.getDoId(), i))
             self.ignore('enterPicnicTableOK_%d_%d' % (self.getDoId(), i))
 
         for i in range(self.numSeats):
-            self.picnicTableSphereNodes[i].setCollideMask(BitMask32(0))
+            self.picnicTableSphereNodes[i].setCollideMask(BitMask32(0))        
 
-
+    
     ##### Off state #####
 
     def enterOff(self):
@@ -407,7 +406,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         self.sendUpdate("requestExit")
         self.clockNode.hide()
         #import pdb; pdb.set_trace()
-
+        
     def exitWaitCountdown(self):
         # Toons may not attempt to board the trolley if it isn't waiting
         self.__disableCollisions()
@@ -416,7 +415,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
 
     def getStareAtNodeAndOffset(self):
         return self.tablecloth, Point3(0,0,4)
-
+    
     def storeToonTrack(self, avId, track):
         # Clear out any currently playing tracks on this toon
         self.clearToonTrack(avId)
@@ -436,9 +435,9 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         keyList = []
         for key in self.__toonTracks:
             keyList.append(key)
-
+            
         for key in keyList:
-            if key in self.__toonTracks:
+            if self.__toonTracks.has_key(key):
                 self.clearToonTrack(key)
 
     def doneExit(self, avId):
@@ -450,7 +449,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         self.startingPos =Vec3(x, y, z)
         self.enteringPos = Vec3(x, y, z-10)
         self.startingHpr =Vec3(h, 0, 0)
-        #self.golfKart.setPosHpr( x, y, z, h, 0, 0 )
+        #self.golfKart.setPosHpr( x, y, z, h, 0, 0 )        
 
     def setTableNumber(self, tn):
         self.tableNumber = tn
@@ -463,7 +462,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
 
         av.pose('sit', 47)
         hipOffset = av.getHipsParts()[2].getPos(av)
-
+        
         def getToonJumpTrack( av, seatIndex ):
             # using a local func allows the ProjectileInterval to
             # calculate this pos at run-time
@@ -486,9 +485,9 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                 #else:
                 #    hpr.setX( hpr.getX() )
                 angle = PythonUtil.fitDestAngle2Src(av.getH(), hpr.getX())
-                hpr.setX(angle)
+                hpr.setX(angle)                
                 return hpr
-
+            
             toonJumpTrack = Parallel(
                 ActorInterval( av, 'jump' ),
                 Sequence(
@@ -514,7 +513,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
 
         toonJumpTrack = getToonJumpTrack( av, seatIndex )
         toonSitTrack = getToonSitTrack( av )
-
+        
         jumpTrack = Sequence(
             Parallel(
                 toonJumpTrack,
@@ -522,13 +521,13 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                           toonSitTrack,
                           ),
                 ),
-            Func( av.wrtReparentTo, self.tablecloth ),
+            Func( av.wrtReparentTo, self.tablecloth ),            
             )
-
+        
         return jumpTrack
 
     def generateToonReverseJumpTrack( self, av, seatIndex ):
-        """Return an interval of the toon jumping out of the golf kart."""
+        """Return an interval of the toon jumping out of the golf kart."""        
         self.notify.debug("av.getH() = %s" % av.getH())
         def getToonJumpTrack( av, destNode ):
             # using a local func allows the ProjectileInterval to
@@ -544,7 +543,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                 angle = PythonUtil.fitDestAngle2Src(av.getH(), hpr.getX())
                 hpr.setX(angle)
                 return hpr
-
+            
             toonJumpTrack = Parallel(
                 ActorInterval( av, 'jump' ),
                 Sequence(
@@ -556,7 +555,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                                                 endPos = getJumpDest,
                                                 duration = .9 ) )
                   )
-                )
+                )  
             return toonJumpTrack
 
         toonJumpTrack = getToonJumpTrack( av, self.tablecloth)
@@ -574,7 +573,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         """
         if(self.basket == None):
             self.basket = loader.loadModel('phase_6/models/golf/picnic_basket.bam')
-
+            
         self.basket.setScale( 0.1 )
 
         basketTrack = Sequence(
@@ -608,14 +607,14 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                       Func( self.basket.wrtReparentTo, self.tablecloth ),
                       Func( self.basket.setPos, 0, 0, 0) ),
             )
-
+        
         return basketTrack
 
 
     def generateBasketDisappearTrack(self):
         if not self.basket:
             return Sequence()
-
+        
         pos = self.basket.getPos()
         pos.addZ(-1)
 
@@ -655,11 +654,11 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
             if not self.food[seat]:
                 self.food[seat] = loader.loadModel(self.random.choice(self.foodLoader))
                 self.notify.debug( "### food appear: self.food = %s" % self.food)
-
+                
             self.food[seat].setScale(0.1)
             self.food[seat].reparentTo(self.tablecloth)
             self.food[seat].setPos(self.seats[seat].getPos(self.tablecloth)[0]/2, self.seats[seat].getPos(self.tablecloth)[1]/2, 0)
-
+            
             # Func( self.food[seat].setActiveShadow, False ),
             foodTrack = Sequence(
                 Func( self.food[seat].show ),

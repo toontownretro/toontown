@@ -1,12 +1,12 @@
 """DistributedTugOfWarGameAI module: contains the DistributedTugOfWarGameAI class"""
 
-from .DistributedMinigameAI import *
+from DistributedMinigameAI import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 import random
 from direct.task.Task import Task
 import copy
-from . import TugOfWarGameGlobals
+import TugOfWarGameGlobals
 import math
 
 class DistributedTugOfWarGameAI(DistributedMinigameAI):
@@ -196,9 +196,6 @@ class DistributedTugOfWarGameAI(DistributedMinigameAI):
         
     def reportPlayerReady(self, side):
         avId = self.air.getAvatarIdFromSender()
-        if avId in self.readyClients:
-            self.notify.warning('Got reportPlayerReady from an avId more than once: %s' % 
-                                (avId))
         assert not avId in self.readyClients
         if avId not in self.avIdList or side not in [0,1]:
             self.notify.warning('Got reportPlayerReady from an avId: %s not in our list: %s' %
@@ -214,10 +211,6 @@ class DistributedTugOfWarGameAI(DistributedMinigameAI):
 
 
     def sendNewAvIdList(self, newAvIdList):
-        for avId in newAvIdList:
-            if avId not in self.scoreDict:
-                self.notify.debug('invalid avId in new list from %s' % self.air.getAvatarIdFromSender())
-
         if not self.switched:
             self.switched = 1
             self.avIdList = newAvIdList
@@ -291,7 +284,7 @@ class DistributedTugOfWarGameAI(DistributedMinigameAI):
         f = [0,0]
         # total up all the toon forces on each side
         for i in [0,1]:
-            for x in list(self.forceDict[i].values()):
+            for x in self.forceDict[i].values():
                 f[i] += x
         # since the cog is always on the right side (side=0) add that in
         if self.gameType == TugOfWarGameGlobals.TOON_VS_COG:
@@ -319,10 +312,6 @@ class DistributedTugOfWarGameAI(DistributedMinigameAI):
         
     def reportCurrentKeyRate(self, keyRate, force):
         avId = self.air.getAvatarIdFromSender()
-        if avId not in self.side:
-            self.notify.warning('Avatar %s sent reportCurrentKeyRate too early %s' % 
-                                (avId, self.side))
-
         self.keyRateDict[avId] = keyRate
         self.forceDict[self.side[avId]][avId] = force
 
@@ -334,7 +323,7 @@ class DistributedTugOfWarGameAI(DistributedMinigameAI):
         if self.howManyReported == self.numPlayers:
             self.howManyReported = 0
             self.calculateOffsets()
-            self.sendUpdate("sendCurrentPosition", [list(self.offsetDict.keys()), list(self.offsetDict.values())])
+            self.sendUpdate("sendCurrentPosition", [self.offsetDict.keys(), self.offsetDict.values()])
             if self.gameType == TugOfWarGameGlobals.TOON_VS_COG:
                 self.sendUpdate("sendSuitPosition", [self.suitOffset])
             

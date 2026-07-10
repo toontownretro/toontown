@@ -1,8 +1,9 @@
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.gui.DirectGui import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
-from otp.avatar import ShadowCaster
+from otp.avatar import ShadowCaster                          
 
 
 class DroppedGag(NodePath,ShadowCaster.ShadowCaster):
@@ -14,7 +15,7 @@ class DroppedGag(NodePath,ShadowCaster.ShadowCaster):
         self.setActiveShadow()
         self.dropShadow.setScale(1)
 
-
+        
     def delete(self):
         ShadowCaster.ShadowCaster.delete(self)
         NodePath.removeNode( self )

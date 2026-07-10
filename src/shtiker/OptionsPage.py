@@ -1,11 +1,12 @@
 """OptionsPage module: contains the OptionsPage class"""
 
-from toontown.toonbase.ToontownModules import *
-from . import ShtikerPage
+from pandac.PandaModules import *
+import ShtikerPage
 from toontown.toontowngui import TTDialog
 from direct.gui.DirectGui import *
+from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
-from . import DisplaySettingsDialog
+import DisplaySettingsDialog
 from direct.task import Task
 from otp.speedchat import SpeedChat
 from otp.speedchat import SCColorScheme
@@ -62,12 +63,6 @@ speedChatStyles = (
            (210/255., 200/255., 180/255.)),
      )
 
-visualEffects = (
-    (2050, "None"),
-    (2051, "bw"),
-    (2052, "sepia"),
-    )
-
 ##########################################################################
 # Global Variables and Enumerations
 ##########################################################################
@@ -84,22 +79,22 @@ class OptionsPage(ShtikerPage.ShtikerPage):
         OptionsPage constructor: create the options page
         """
         ShtikerPage.ShtikerPage.__init__(self)
-
+        
         if __debug__:
             base.op = self
 
     def load(self):
         assert self.notify.debugStateCall(self)
         ShtikerPage.ShtikerPage.load(self)
-
+        
         # Create the OptionsTabPage
         self.optionsTabPage = OptionsTabPage(self)
         self.optionsTabPage.hide()
-
+        
         # Create the CodesTabPage
         self.codesTabPage = CodesTabPage(self)
         self.codesTabPage.hide()
-
+            
         titleHeight = 0.61 # bigger number means higher the title
         self.title = DirectLabel(
             parent = self,
@@ -108,14 +103,14 @@ class OptionsPage(ShtikerPage.ShtikerPage):
             text_scale = 0.12,
             pos = (0,0,titleHeight),
             )
-
+        
         # The blue and yellow colors are trying to match the
         # rollover and select colors on the options page:
         normalColor = (1, 1, 1, 1)
         clickColor = (.8, .8, 0, 1)
         rolloverColor = (0.15, 0.82, 1.0, 1)
         diabledColor = (1.0, 0.98, 0.15, 1)
-
+        
         # Load the Fish Page to borrow its tabs
         gui = loader.loadModel( "phase_3.5/models/gui/fishingBook" )
 
@@ -139,7 +134,7 @@ class OptionsPage(ShtikerPage.ShtikerPage):
             extraArgs = [PageMode.Options],
             pos = (-0.36, 0, 0.77),
             )
-
+            
         self.codesTab = DirectButton(
             parent = self,
             relief = None,
@@ -160,13 +155,13 @@ class OptionsPage(ShtikerPage.ShtikerPage):
             extraArgs = [PageMode.Codes],
             pos = (0.11, 0, 0.77),
             )
-
+        
     def enter(self):
         assert self.notify.debugStateCall(self)
-
+        
         # Default to the Options Page.
         self.setMode(PageMode.Options, updateAnyways = 1)
-
+        
         # Make the call to the superclass enter method.
         ShtikerPage.ShtikerPage.enter(self)
 
@@ -174,19 +169,19 @@ class OptionsPage(ShtikerPage.ShtikerPage):
         assert self.notify.debugStateCall(self)
         self.optionsTabPage.exit()
         self.codesTabPage.exit()
-
+        
         # Make the call to the superclass exit method.
         ShtikerPage.ShtikerPage.exit(self)
 
     def unload(self):
         assert self.notify.debugStateCall(self)
         self.optionsTabPage.unload()
-
+        
         del self.title
-
+        
         # Make the call to the superclass unload method.
         ShtikerPage.ShtikerPage.unload(self)
-
+    
     def setMode(self, mode, updateAnyways = 0):
         """
         Purpose: The setMode Method sets the current mode of the OptionsPage
@@ -209,7 +204,7 @@ class OptionsPage(ShtikerPage.ShtikerPage):
             self.optionsTabPage.enter()
             self.codesTab['state'] = DGG.NORMAL
             self.codesTabPage.exit()
-
+            
         elif(mode == PageMode.Codes):
             self.mode = PageMode.Codes
             self.title['text'] = TTLocalizer.CdrPageTitle
@@ -217,11 +212,11 @@ class OptionsPage(ShtikerPage.ShtikerPage):
             self.optionsTabPage.exit()
             self.codesTab['state'] = DGG.DISABLED
             self.codesTabPage.enter()
-
+            
         else:
-            raise Exception("OptionsPage::setMode - Invalid Mode %s" % (mode))
+            raise StandardError, "OptionsPage::setMode - Invalid Mode %s" % (mode)
 
-
+            
 class OptionsTabPage(DirectFrame):
     """
     Purpose: The OptionsTabPage class initializes the user interface for
@@ -234,7 +229,7 @@ class OptionsTabPage(DirectFrame):
     ######################################################################
     #__metaclass__ = PythonUtil.Singleton
     notify = DirectNotifyGlobal.directNotify.newCategory("OptionsTabPage")
-
+    
     # When the user changes the display settings, even after he goes
     # through the "yes I approve of this new setting" hoopla, we don't
     # write the new setting to disk immediately, just in case it will
@@ -248,8 +243,8 @@ class OptionsTabPage(DirectFrame):
     # If this variable is set to false, we're not allowed to change
     # the display settings using this interface, except for the screen
     # resolution.
-    ChangeDisplaySettings = ConfigVariableBool('change-display-settings', 1).getValue()
-    ChangeDisplayAPI = ConfigVariableBool('change-display-api', 0).getValue()
+    ChangeDisplaySettings = base.config.GetBool('change-display-settings', 1)
+    ChangeDisplayAPI = base.config.GetBool('change-display-api', 0)
 
     # This maps our expected API interfaces to a symbolic constant in the settings file.
     DisplaySettingsApiMap = {
@@ -257,7 +252,7 @@ class OptionsTabPage(DirectFrame):
         'DirectX7' : Settings.DX7,
         'DirectX8' : Settings.DX8
         }
-
+    
     def __init__(self, parent = aspect2d):
         """
         Purpose: The __init__ Method provides the initial construction of
@@ -266,18 +261,18 @@ class OptionsTabPage(DirectFrame):
         Params: None
         Return: None
         """
-        self._parent = parent
+        self.parent = parent
         self.currentSizeIndex = None
         # Construct the super class object from which the selector derives.
         DirectFrame.__init__(
             self,
-            parent = self._parent,
+            parent = self.parent,
             relief = None,
             pos = ( 0.0, 0.0, 0.0 ),
             scale = ( 1.0, 1.0, 1.0 ),
             )
         self.load()
-
+    
     def destroy(self):
         """
         Purpose: The destroy Method properly handles the destruction of
@@ -287,12 +282,12 @@ class OptionsTabPage(DirectFrame):
         Return: None
         """
         assert self.notify.debugStateCall(self)
-        # Destroy UI Components of the CustomizeUI
+        # Destroy UI Components of the CustomizeUI        
 
         # Remove references to UI Components and instance variables for
         # garbage collection purposes.
-        self._parent = None
-
+        self.parent = None
+        
         # Destroy the DirectFrame super class.
         DirectFrame.destroy(self)
 
@@ -316,9 +311,6 @@ class OptionsTabPage(DirectFrame):
         self.displaySettingsEmbedded = None
         self.displaySettingsApi = None
         self.displaySettingsApiChanged = 0
-        self.visualEffectIndex = 0
-
-        wantShaders = ConfigVariableBool('want-shaders', 0).getValue()
 
         guiButton = loader.loadModel("phase_3/models/gui/quit_button")
         gui = loader.loadModel("phase_3.5/models/gui/friendslist_gui")
@@ -327,20 +319,12 @@ class OptionsTabPage(DirectFrame):
         # the coordinate system is (0,0) in the middle of the page
         # Vertical: -1.0 is the bottom, and 1.0 is the top  of the screen
         # Horizontal: -1.0 is left edge of shticker book, 1.0 is right edge
-        if wantShaders:
-            titleHeight = 0.71 # bigger number means higher the title
-            textStartHeight = 0.5 # bigger number means higher text
-            textRowHeight = 0.135 # bigger number means more space between rows
-        else:
-            titleHeight = 0.61 # bigger number means higher the title
-            textStartHeight = 0.45 # bigger number means higher text
-            textRowHeight = 0.145 # 0.15 # bigger number means more space between rows
+        titleHeight = 0.61 # bigger number means higher the title
+        textStartHeight = 0.45 # bigger number means higher text
+        textRowHeight = 0.15 # bigger number means more space between rows
         leftMargin = -0.72 # smaller number means farther left
         buttonbase_xcoord = 0.35 # bigger number means farther right
-        if wantShaders:
-            buttonbase_ycoord = 0.5 # bigger number means higher buttons
-        else:
-            buttonbase_ycoord = 0.45 # bigger number means higher buttons
+        buttonbase_ycoord = 0.45 # bigger number means higher buttons
         button_image_scale = (0.7,1,1)
         button_textpos = (0,-0.02)
         options_text_scale = 0.052
@@ -380,17 +364,6 @@ class OptionsTabPage(DirectFrame):
                    textStartHeight - 3 * textRowHeight),
             )
 
-        self.Whispers_Label = DirectLabel(
-            parent=self,
-            relief=None,
-            text="",
-            text_align=TextNode.ALeft,
-            text_scale=options_text_scale,
-            text_wordwrap=16,
-            pos=(leftMargin, 0,
-                 textStartHeight - 4 * textRowHeight),
-            )
-
         self.DisplaySettings_Label = DirectLabel(
             parent = self,
             relief = None,
@@ -399,7 +372,7 @@ class OptionsTabPage(DirectFrame):
             text_scale = options_text_scale,
             text_wordwrap = 10,
             pos = (leftMargin, 0,
-                   textStartHeight - 5 * textRowHeight),
+                   textStartHeight - 4 * textRowHeight),
             )
 
         self.SpeedChatStyle_Label = DirectLabel(
@@ -410,20 +383,8 @@ class OptionsTabPage(DirectFrame):
             text_scale = options_text_scale,
             text_wordwrap = 10,
             pos = (leftMargin, 0,
-                   textStartHeight - 6 * textRowHeight),
+                   textStartHeight - 5 * textRowHeight),
             )
-
-        if wantShaders:
-            self.VisualEffect_Label = DirectLabel(
-                parent = self,
-                relief = None,
-                text = "Visual Effect",
-                text_align = TextNode.ALeft,
-                text_scale = options_text_scale,
-                text_wordwrap = 10,
-                pos = (leftMargin, 0,
-                       textStartHeight - 7 * textRowHeight),
-                )
 
         self.ToonChatSounds_Label = DirectLabel(
             parent = self,
@@ -482,22 +443,6 @@ class OptionsTabPage(DirectFrame):
             command = self.__doToggleAcceptFriends,
             )
 
-        self.Whispers_toggleButton = DirectButton(
-            parent=self,
-            relief=None,
-            image=(guiButton.find('**/QuitBtn_UP'),
-                   guiButton.find('**/QuitBtn_DN'),
-                   guiButton.find('**/QuitBtn_RLVR'),
-                   ),
-            image_scale=button_image_scale,
-            text="",
-            text_scale=options_text_scale,
-            text_pos=button_textpos,
-            pos=(buttonbase_xcoord, 0.0,
-                 buttonbase_ycoord - textRowHeight * 4),
-            command=self.__doToggleAcceptWhispers,
-            )
-
         self.DisplaySettingsButton = DirectButton(
             parent = self,
             relief = None,
@@ -512,7 +457,7 @@ class OptionsTabPage(DirectFrame):
             text_scale = options_text_scale,
             text_pos = button_textpos,
             pos = (buttonbase_xcoord, 0.0,
-                   buttonbase_ycoord - textRowHeight * 5),
+                   buttonbase_ycoord - textRowHeight * 4),
             command = self.__doDisplaySettings,
             )
 
@@ -527,7 +472,7 @@ class OptionsTabPage(DirectFrame):
             # make the disabled color more transparent
             image3_color = Vec4(1, 1, 1, 0.5),
             scale = (-1.0, 1.0, 1.0),  # make the arrow point left
-            pos = (0.25, 0, buttonbase_ycoord - textRowHeight * 6),
+            pos = (0.25, 0, buttonbase_ycoord - textRowHeight * 5),
             command = self.__doSpeedChatStyleLeft,
             )
 
@@ -541,40 +486,9 @@ class OptionsTabPage(DirectFrame):
                      ),
             # make the disabled color more transparent
             image3_color = Vec4(1, 1, 1, 0.5),
-            pos = (0.65, 0, buttonbase_ycoord - textRowHeight * 6),
+            pos = (0.65, 0, buttonbase_ycoord - textRowHeight * 5),
             command = self.__doSpeedChatStyleRight,
             )
-
-        if wantShaders:
-            self.visualEffectLeftArrow = DirectButton(
-                parent = self,
-                relief = None,
-                image = (gui.find("**/Horiz_Arrow_UP"),
-                         gui.find("**/Horiz_Arrow_DN"),
-                         gui.find("**/Horiz_Arrow_Rllvr"),
-                         gui.find("**/Horiz_Arrow_UP"),
-                         ),
-                image3_color = Vec4(1, 1, 1, 0.5),
-                scale = (-1.0, 1.0, 1.0),
-                pos = (0.25, 0, buttonbase_ycoord - textRowHeight * 7),
-                command = self.__doVisualEffectLeft,
-                )
-            
-            self.visualEffectRightArrow = DirectButton(
-                parent = self,
-                relief = None,
-                image = (gui.find("**/Horiz_Arrow_UP"),
-                         gui.find("**/Horiz_Arrow_DN"),
-                         gui.find("**/Horiz_Arrow_Rllvr"),
-                         gui.find("**/Horiz_Arrow_UP"),
-                         ),
-                image3_color = Vec4(1, 1, 1, 0.5),
-                pos = (0.65, 0, buttonbase_ycoord - textRowHeight * 7),
-                command = self.__doVisualEffectRight,
-                )
-        else:
-            self.visualEffectLeftArrow = None
-            self.visualEffectRightArrow = None
 
         self.ToonChatSounds_toggleButton = DirectButton(
             parent = self,
@@ -603,22 +517,8 @@ class OptionsTabPage(DirectFrame):
             guiModelName='phase_3.5/models/gui/speedChatGui')
         self.speedChatStyleText.setScale(self.speed_chat_scale)
         # This will be horizontally centered later
-#        self.speedChatStyleText.setPos(0.37, 0, -0.27)
-        self.speedChatStyleText.setPos(0.37, 0, buttonbase_ycoord - textRowHeight * 6 + 0.03)
+        self.speedChatStyleText.setPos(0.37, 0, -0.27)
         self.speedChatStyleText.reparentTo(self, DGG.FOREGROUND_SORT_INDEX)
-
-        if wantShaders:
-            self.visualEffectText = SpeedChat.SpeedChat(
-                name='OptionsPageStyleText', structure=[2000],
-                backgroundModelName='phase_3/models/gui/ChatPanel',
-                guiModelName='phase_3.5/models/gui/speedChatGui')
-            self.visualEffectText.setScale(self.speed_chat_scale)
-            # This will be horizontally centered later
-#            self.speedChatStyleText.setPos(0.37, 0, -0.27)
-            self.visualEffectText.setPos(0.37, 0, buttonbase_ycoord - textRowHeight * 7 + 0.03)
-            self.visualEffectText.reparentTo(self, DGG.FOREGROUND_SORT_INDEX)
-        else:
-            self.visualEffectText = None
 
         self.exitButton = DirectButton(
             parent = self,
@@ -649,7 +549,7 @@ class OptionsTabPage(DirectFrame):
         """
         assert self.notify.debugStateCall(self)
         self.show()
-
+        
         # If we haven't yet saved the display settings we set last
         # time, stop the task until we leave the page again.
         taskMgr.remove(self.DisplaySettingsTaskName)
@@ -658,7 +558,6 @@ class OptionsTabPage(DirectFrame):
         self.__setMusicButton()
         self.__setSoundFXButton()
         self.__setAcceptFriendsButton()
-        self.__setAcceptWhispersButton()
         self.__setDisplaySettings()
         self.__setToonChatSoundsButton()
 
@@ -668,14 +567,13 @@ class OptionsTabPage(DirectFrame):
         self.speedChatStyleIndex = base.localAvatar.getSpeedChatStyleIndex()
         self.updateSpeedChatStyle()
 
-        if self._parent.book.safeMode:
+        if self.parent.book.safeMode:
             self.exitButton.hide()
         else:
             self.exitButton.show()
 
     def exit(self):
         assert self.notify.debugStateCall(self)
-        self.ignore("confirmDone")
         self.hide()
         if(self.settingsChanged != 0):
             Settings.writeSettings()
@@ -691,7 +589,7 @@ class OptionsTabPage(DirectFrame):
             taskMgr.doMethodLater(self.DisplaySettingsDelay,
                                   self.writeDisplaySettings,
                                   self.DisplaySettingsTaskName)
-
+                                  
     def unload(self):
         assert self.notify.debugStateCall(self)
         # Now that we're unloading, we're confident the user is
@@ -712,7 +610,6 @@ class OptionsTabPage(DirectFrame):
         self.Music_toggleButton.destroy()
         self.SoundFX_toggleButton.destroy()
         self.Friends_toggleButton.destroy()
-        self.Whispers_toggleButton.destroy()
         self.DisplaySettingsButton.destroy()
         self.speedChatStyleLeftArrow.destroy()
         self.speedChatStyleRightArrow.destroy()
@@ -720,19 +617,17 @@ class OptionsTabPage(DirectFrame):
         del self.SoundFX_Label
         del self.Music_Label
         del self.Friends_Label
-        del self.Whispers_Label
         del self.SpeedChatStyle_Label
         del self.SoundFX_toggleButton
         del self.Music_toggleButton
         del self.Friends_toggleButton
-        del self.Whispers_toggleButton
         del self.speedChatStyleLeftArrow
         del self.speedChatStyleRightArrow
         self.speedChatStyleText.exit()
         self.speedChatStyleText.destroy()
         del self.speedChatStyleText
         self.currentSizeIndex = None
-
+    
     def __doToggleMusic(self):
         messenger.send('wakeup')
         if base.musicActive:
@@ -775,7 +670,7 @@ class OptionsTabPage(DirectFrame):
             Settings.setToonChatSounds(1)
 
         self.settingsChanged = 1
-        self.__setToonChatSoundsButton()
+        self.__setToonChatSoundsButton()        
 
     def __setSoundFXButton(self):
         if base.sfxActive:
@@ -813,7 +708,7 @@ class OptionsTabPage(DirectFrame):
         else:
             base.localAvatar.acceptingNewFriends = 1
             Settings.setAcceptingNewFriends(1)
-
+        
         self.settingsChanged = 1
         self.__setAcceptFriendsButton()
 
@@ -829,17 +724,6 @@ class OptionsTabPage(DirectFrame):
         # maybe we shouldn't be saving it at all, and force the user
         # to re-enable it at each session.
 
-    def __doToggleAcceptWhispers(self):
-        messenger.send('wakeup')
-        if base.localAvatar.acceptingNonFriendWhispers:
-            base.localAvatar.acceptingNonFriendWhispers = 0
-            Settings.setAcceptingNonFriendWhispers(0)
-        else:
-            base.localAvatar.acceptingNonFriendWhispers = 1
-            Settings.setAcceptingNonFriendWhispers(1)
-        self.settingsChanged = 1
-        self.__setAcceptWhispersButton()
-
     def __setAcceptFriendsButton(self):
         if base.localAvatar.acceptingNewFriends:
             self.Friends_Label['text'] = TTLocalizer.OptionsPageFriendsEnabledLabel
@@ -847,14 +731,6 @@ class OptionsTabPage(DirectFrame):
         else:
             self.Friends_Label['text'] = TTLocalizer.OptionsPageFriendsDisabledLabel
             self.Friends_toggleButton['text'] = TTLocalizer.OptionsPageToggleOn
-
-    def __setAcceptWhispersButton(self):
-        if base.localAvatar.acceptingNonFriendWhispers:
-            self.Whispers_Label['text'] = TTLocalizer.OptionsPageWhisperEnabledLabel
-            self.Whispers_toggleButton['text'] = TTLocalizer.OptionsPageToggleOff
-        else:
-            self.Whispers_Label['text'] = TTLocalizer.OptionsPageWhisperDisabledLabel
-            self.Whispers_toggleButton['text'] = TTLocalizer.OptionsPageToggleOn
 
     def __doDisplaySettings(self):
         if self.displaySettings == None:
@@ -883,7 +759,7 @@ class OptionsTabPage(DirectFrame):
         result = False
         if properties.getParentWindow():
             result = True
-        return result
+        return result            
 
     def __setDisplaySettings(self):
         properties = base.win.getProperties()
@@ -894,7 +770,7 @@ class OptionsTabPage(DirectFrame):
         isEmbedded = self.isPropertiesEmbedded(properties)
         if isEmbedded:
             screensize = TTLocalizer.OptionsPageDisplayEmbedded
-
+            
         api = base.pipe.getInterfaceName()
 
         settings = {
@@ -919,16 +795,6 @@ class OptionsTabPage(DirectFrame):
             self.speedChatStyleIndex = self.speedChatStyleIndex + 1
             self.updateSpeedChatStyle()
 
-    def __doVisualEffectLeft(self):
-        if self.visualEffectIndex > 0:
-            self.visualEffectIndex = self.visualEffectIndex - 1
-            self.updateVisualEffect()
-
-    def __doVisualEffectRight(self):
-        if self.visualEffectIndex < len(visualEffects) - 1:
-            self.visualEffectIndex = self.visualEffectIndex + 1
-            self.updateVisualEffect()
-
     def updateSpeedChatStyle(self):
         # update the text color and value
         nameKey, arrowColor, rolloverColor, frameColor = \
@@ -949,7 +815,7 @@ class OptionsTabPage(DirectFrame):
         self.speedChatStyleText.finalize()
         # manual horizonal centering
         self.speedChatStyleText.setPos(
-            0.445 - self.speedChatStyleText.getWidth() * self.speed_chat_scale / 2, 0, self.speedChatStyleText.getPos()[2]) # -0.27)
+            0.445 - self.speedChatStyleText.getWidth() * self.speed_chat_scale / 2, 0, -0.27)
 
         # show the appropriate arrows
         if self.speedChatStyleIndex > 0:
@@ -965,33 +831,6 @@ class OptionsTabPage(DirectFrame):
         # this function is actually found in DistributedToon.py
         base.localAvatar.b_setSpeedChatStyleIndex(self.speedChatStyleIndex)
 
-    def updateVisualEffect(self):
-        # update the text color and value
-        (newEffectKey, newEffectName) = visualEffects[self.visualEffectIndex]
-        # set the new text
-        self.visualEffectText.clearMenu()
-        effectName = SCStaticTextTerminal.SCStaticTextTerminal(newEffectKey)
-        self.visualEffectText.append(effectName)
-        # we must finalize to get the accurate width
-        self.visualEffectText.finalize()
-        # manual horizonal centering
-        self.visualEffectText.setPos(
-            0.445 - self.visualEffectText.getWidth() * self.speed_chat_scale / 2, 0, self.visualEffectText.getPos()[2]) # -0.27)
-            
-        # show the appropriate arrows
-        if self.visualEffectIndex > 0:
-            self.visualEffectLeftArrow['state'] = DGG.NORMAL
-        else:
-            self.visualEffectLeftArrow['state'] = DGG.DISABLED
-        if self.visualEffectIndex < len(visualEffects) - 1:
-            self.visualEffectRightArrow['state'] = DGG.NORMAL
-        else:
-            self.visualEffectRightArrow['state'] = DGG.DISABLED
-            
-        # actually cause the speed chat color to change and propagate to the DB
-        # this function is actually found in DistributedToon.py
-        base.cr.useShader(newEffectName)
-
     def writeDisplaySettings(self, task = None):
         # Writes the previously-saved display settings to the
         # SettingsFile, after the safety timer has expired.
@@ -1002,14 +841,13 @@ class OptionsTabPage(DirectFrame):
         # this method explicitly, before the timer has expired).
         taskMgr.remove(self.DisplaySettingsTaskName)
 
-        self.notify.info("writing new display settings %s, fullscreen %s, embedded %s, %s to SettingsFile." %
-                         (self.displaySettingsSize, self.displaySettingsFullscreen, self.displaySettingsEmbedded,
+        self.notify.info("writing new display settings %s, %s, %s to SettingsFile." %
+                         (self.displaySettingsSize, self.displaySettingsFullscreen,
                           self.displaySettingsApi))
 
         Settings.setResolutionDimensions(self.displaySettingsSize[0], self.displaySettingsSize[1])
 
         Settings.setWindowedMode(not self.displaySettingsFullscreen)
-        Settings.setEmbeddedMode(self.displaySettingsEmbedded)
         if self.displaySettingsApiChanged:
             api = self.DisplaySettingsApiMap.get(self.displaySettingsApi)
             if api == None:
@@ -1031,7 +869,7 @@ class OptionsTabPage(DirectFrame):
                                    message = TTLocalizer.OptionsPageExitConfirm,
                                    style = TTDialog.TwoChoice)
         self.confirm.show()
-        self._parent.doneStatus = {
+        self.parent.doneStatus = {
                 "mode": "exit",
                 "exitTo": "closeShard"}
         self.accept("confirmDone", self.__handleConfirm)
@@ -1045,9 +883,9 @@ class OptionsTabPage(DirectFrame):
         del self.confirm
         if (status == "ok"):
             base.cr._userLoggingOut = True
-            messenger.send(self._parent.doneEvent)
+            messenger.send(self.parent.doneEvent)
             #self.cr.loginFSM.request("chooseAvatar", [self.cr.avList])
-
+            
 class CodesTabPage(DirectFrame):
     """
     Purpose: The CodesTabPage class initializes the user interface for
@@ -1060,7 +898,7 @@ class CodesTabPage(DirectFrame):
     ######################################################################
     #__metaclass__ = PythonUtil.Singleton
     notify = DirectNotifyGlobal.directNotify.newCategory("CodesTabPage")
-
+    
     def __init__(self, parent = aspect2d):
         """
         Purpose: The __init__ Method provides the initial construction of
@@ -1068,12 +906,12 @@ class CodesTabPage(DirectFrame):
         for the Code Redemption Page.
         Params: None
         Return: None
-        """
-        self._parent = parent
+        """        
+        self.parent = parent
         # Construct the super class object from which the selector derives.
         DirectFrame.__init__(
             self,
-            parent = self._parent,
+            parent = self.parent,
             relief = None,
             pos = ( 0.0, 0.0, 0.0 ),
             scale = ( 1.0, 1.0, 1.0 ),
@@ -1089,12 +927,12 @@ class CodesTabPage(DirectFrame):
         Return: None
         """
         assert self.notify.debugStateCall(self)
-        # Destroy UI Components of the CustomizeUI
+        # Destroy UI Components of the CustomizeUI        
 
         # Remove references to UI Components and instance variables for
         # garbage collection purposes.
-        self._parent = None
-
+        self.parent = None
+        
         # Destroy the DirectFrame super class.
         DirectFrame.destroy(self)
 
@@ -1106,7 +944,7 @@ class CodesTabPage(DirectFrame):
         Return: None
         """
         assert self.notify.debugStateCall(self)
-
+        
         cdrGui = loader.loadModel("phase_3.5/models/gui/tt_m_gui_sbk_codeRedemptionGui")
         instructionGui = cdrGui.find("**/tt_t_gui_sbk_cdrPresent")
         flippyGui = cdrGui.find("**/tt_t_gui_sbk_cdrFlippy")
@@ -1114,10 +952,10 @@ class CodesTabPage(DirectFrame):
         self.resultPanelSuccessGui = cdrGui.find("**/tt_t_gui_sbk_cdrResultPanel_success")
         self.resultPanelFailureGui = cdrGui.find("**/tt_t_gui_sbk_cdrResultPanel_failure")
         self.resultPanelErrorGui = cdrGui.find("**/tt_t_gui_sbk_cdrResultPanel_error")
-
-        self.successSfx = base.loader.loadSfx("phase_3.5/audio/sfx/tt_s_gui_sbk_cdrSuccess.mp3")
-        self.failureSfx = base.loader.loadSfx("phase_3.5/audio/sfx/tt_s_gui_sbk_cdrFailure.mp3")
-
+        
+        self.successSfx = base.loadSfx("phase_3.5/audio/sfx/tt_s_gui_sbk_cdrSuccess.mp3")
+        self.failureSfx = base.loadSfx("phase_3.5/audio/sfx/tt_s_gui_sbk_cdrFailure.mp3")
+        
         self.instructionPanel = DirectFrame(
             parent = self,
             relief = None,
@@ -1130,21 +968,21 @@ class CodesTabPage(DirectFrame):
             text_wordwrap = TTLocalizer.OPCodesInstructionPanelTextWordWrap,
             pos = (-0.429, 0, -0.05),
             )
-
+        
         self.codeBox = DirectFrame(
             parent = self,
             relief = None,
             image = codeBoxGui,
             pos = (0.433, 0, 0.35),
             )
-
+        
         self.flippyFrame = DirectFrame(
             parent = self,
             relief = None,
             image = flippyGui,
             pos = (0.44, 0, -0.353),
             )
-
+        
         self.codeInput = DirectEntry(
             parent = self.codeBox,
             relief = DGG.GROOVE,
@@ -1165,7 +1003,7 @@ class CodesTabPage(DirectFrame):
             autoCapitalize = 0,
             command = self.__submitCode,
             )
-
+        
         submitButtonGui = loader.loadModel("phase_3/models/gui/quit_button")
         self.submitButton = DirectButton(
             parent = self,
@@ -1187,7 +1025,7 @@ class CodesTabPage(DirectFrame):
             pos = (0.45, 0.0, 0.0896),
             command = self.__submitCode,
             )
-
+        
         self.resultPanel = DirectFrame(
             parent = self,
             relief = None,
@@ -1200,7 +1038,7 @@ class CodesTabPage(DirectFrame):
             pos = (-0.42, 0, -0.0567),
             )
         self.resultPanel.hide()
-
+            
         # Result Panel Close Button
         closeButtonGui = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         self.closeButton = DirectButton(
@@ -1212,13 +1050,13 @@ class CodesTabPage(DirectFrame):
                      closeButtonGui.find('**/CloseBtn_DN'),
                      closeButtonGui.find('**/CloseBtn_Rllvr')),
             image_scale = (1, 1, 1),
-            command = self.__hideResultPanel,
+            command = self.__hideResultPanel,            
             )
-
+        
         closeButtonGui.removeNode()
         cdrGui.removeNode()
         submitButtonGui.removeNode()
-
+            
     def enter(self):
         """
         Purpose: This method gets called when the Codes Tab is selected.
@@ -1227,7 +1065,7 @@ class CodesTabPage(DirectFrame):
         """
         assert self.notify.debugStateCall(self)
         self.show()
-
+        
         # While the entry's on the screen, we have to turn off the
         # background focus on the normal chat entry.  Otherwise,
         # keypresses would start chatting!
@@ -1235,10 +1073,10 @@ class CodesTabPage(DirectFrame):
 
         # And now we can set the focus on our entry.
         self.codeInput['focus'] = 1
-
+        
         # Make sure we always start with a blank entry box.
         self.codeInput.enterText('')
-
+        
         # Enable the code entry box.
         self.__enableCodeEntry()
 
@@ -1251,10 +1089,10 @@ class CodesTabPage(DirectFrame):
         assert self.notify.debugStateCall(self)
         self.resultPanel.hide()
         self.hide()
-
+        
         # Restore the background focus on the chat entry.
         localAvatar.chatMgr.fsm.request("mainMenu")
-
+    
     def unload(self):
         """
         Purpose: This method gets called when we are exiting the game.
@@ -1262,31 +1100,31 @@ class CodesTabPage(DirectFrame):
         Return: None
         """
         assert self.notify.debugStateCall(self)
-
+        
         self.instructionPanel.destroy()
         self.instructionPanel = None
-
+        
         self.codeBox.destroy()
         self.codeBox = None
-
+        
         self.flippyFrame.destroy()
         self.flippyFrame = None
-
+        
         self.codeInput.destroy()
         self.codeInput = None
-
+        
         self.submitButton.destroy()
         self.submitButton = None
-
+            
         self.resultPanel.destroy()
         self.resultPanel = None
-
+        
         self.closeButton.destroy()
         self.closeButton = None
-
+        
         del self.successSfx
         del self.failureSfx
-
+        
     def __submitCode(self, input = None):
         """
         Purpose: This method the player submits the code.
@@ -1297,23 +1135,23 @@ class CodesTabPage(DirectFrame):
         """
         if input == None:
             input = self.codeInput.get()
-
+        
         # Keep focus on the code input even after entering a code.
         self.codeInput['focus'] = 1
-
+        
         # Ignoring Blank.
         if (input == ''):
             return
-
+        
         # If the player typed something he must be awake.
         messenger.send('wakeup')
-
+        
         if hasattr(base, "codeRedemptionMgr"):
             base.codeRedemptionMgr.redeemCode(input, self.__getCodeResult)
-
+        
         # Make the code entry box empty after submitting a code.
         self.codeInput.enterText('')
-
+        
         # Disable the code entry till we get a result from the Uberdog.
         self.__disableCodeEntry()
 
@@ -1327,71 +1165,71 @@ class CodesTabPage(DirectFrame):
         assert self.notify.debugStateCall(self)
         self.notify.debug("result = %s" %result)
         self.notify.debug("awardMgrResult = %s" %awardMgrResult)
-
+        
         # We've received a response from the Uberdog, enable the code entry again.
         self.__enableCodeEntry()
-
+        
         # Code Successfully Redeemed
         if (result == 0):
             self.resultPanel['image'] = self.resultPanelSuccessGui
             self.resultPanel['text'] = TTLocalizer.CdrResultSuccess
-
+            
         # Code is Invalid
         elif (result == 1 or result == 3):
             self.resultPanel['image'] = self.resultPanelFailureGui
             self.resultPanel['text'] = TTLocalizer.CdrResultInvalidCode
-
-        # Code has expired
+        
+        # Code has expired    
         elif (result == 2):
             self.resultPanel['image'] = self.resultPanelFailureGui
             self.resultPanel['text'] = TTLocalizer.CdrResultExpiredCode
-
+        
         # Code is correct, but something else went wrong. Check awardMgrResult.
         elif (result == 4):
             self.resultPanel['image'] = self.resultPanelErrorGui
-
+            
             if (awardMgrResult == 0):
                 self.resultPanel['text'] = TTLocalizer.CdrResultSuccess
-
+                
             elif (awardMgrResult == 1 or awardMgrResult == 2 or awardMgrResult == 15 or awardMgrResult == 16):
                 self.resultPanel['text'] = TTLocalizer.CdrResultUnknownError
-
+                
             elif (awardMgrResult == 3 or awardMgrResult == 4):
                 self.resultPanel['text'] = TTLocalizer.CdrResultMailboxFull
-
+                
             elif (awardMgrResult == 5 or awardMgrResult == 10):
                 self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyInMailbox
-
+            
             elif (awardMgrResult == 6 or awardMgrResult == 7 or awardMgrResult == 11):
                 self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyInQueue
-
+                
             elif (awardMgrResult == 8):
                 self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyInCloset
-
+            
             elif (awardMgrResult == 9):
                 self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyBeingWorn
-
+                
             elif (awardMgrResult == 12 or awardMgrResult == 13 or awardMgrResult == 14):
                 self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyReceived
-
+                
         elif (result == 5):
             # Too many failed attempts - Display correct error and disable the code entry and submit button.
             self.resultPanel['text'] = TTLocalizer.CdrResultTooManyFails
             self.__disableCodeEntry()
-
+            
         elif (result == 6):
             # Service Unavailable.
             self.resultPanel['text'] = TTLocalizer.CdrResultServiceUnavailable
             self.__disableCodeEntry()
-
+            
         # Play the success or failure sounds.
         if (result == 0):
             self.successSfx.play()
         else:
             self.failureSfx.play()
-
+        
         self.resultPanel.show()
-
+        
     def __hideResultPanel(self):
         """
         Purpose: To hide the Result Panel.
@@ -1410,7 +1248,7 @@ class CodesTabPage(DirectFrame):
         """
         self.codeInput['state'] = DGG.DISABLED
         self.submitButton['state'] = DGG.DISABLED
-
+        
     def __enableCodeEntry(self):
         """
         Purpose: Enable the the code entry box and the submit button.
@@ -1423,3 +1261,4 @@ class CodesTabPage(DirectFrame):
         self.codeInput['state'] = DGG.NORMAL
         self.codeInput['focus'] = 1
         self.submitButton['state'] = DGG.NORMAL
+        

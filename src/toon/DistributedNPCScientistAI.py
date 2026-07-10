@@ -1,4 +1,4 @@
-from . import DistributedNPCToonBaseAI
+import DistributedNPCToonBaseAI
 from toontown.toonbase import TTLocalizer, ToontownGlobals
 from direct.fsm import ClassicFSM, State
 from direct.task.Task import Task
@@ -93,10 +93,8 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         result = -1
         enoughInfoToRun = False
         # first see if the holiday is running, and we can get the cur phase
-#        if ToontownGlobals.SILLYMETER_HOLIDAY in simbase.air.holidayManager.currentHolidays and simbase.air.holidayManager.currentHolidays[ToontownGlobals.SILLYMETER_HOLIDAY] != None \
-#                and simbase.air.holidayManager.currentHolidays[ToontownGlobals.SILLYMETER_HOLIDAY].getRunningState():
-        if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or \
-           simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
+        if ToontownGlobals.SILLYMETER_HOLIDAY in simbase.air.holidayManager.currentHolidays and simbase.air.holidayManager.currentHolidays[ToontownGlobals.SILLYMETER_HOLIDAY] != None \
+                and simbase.air.holidayManager.currentHolidays[ToontownGlobals.SILLYMETER_HOLIDAY].getRunningState():
             if hasattr(simbase.air, "SillyMeterMgr"):
                 enoughInfoToRun = True
             else:
@@ -128,10 +126,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         Enter the second phase of silly
         """
         if self.npcId == 2020:
-#            self.air.dialogueManager.requestDialogue(self, TTLocalizer.EmceeDialoguePhase1Topic)
-            self.air.dialogueManager.requestDialogue(self, TTLocalizer.AprilToonsPhasePreTopTopic, endPause=30)
-        elif self.npcId == 2018 or self.npcId == 2019:
-            self.d_setAnimState("ScientistJealous", 1.)
+            self.air.dialogueManager.requestDialogue(self, TTLocalizer.EmceeDialoguePhase1Topic)
         self.accept("SillyMeterPhase", self.selectPhase)
         
     def exitPhase0(self):
@@ -139,8 +134,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         Clean up
         """
         if self.npcId == 2020:
-#            self.air.dialogueManager.leaveDialogue(self, TTLocalizer.EmceeDialoguePhase1Topic)
-            self.air.dialogueManager.leaveDialogue(self, TTLocalizer.AprilToonsPhasePreTopTopic)
+            self.air.dialogueManager.leaveDialogue(self, TTLocalizer.EmceeDialoguePhase1Topic)
         self.ignore("SillyMeterPhase")
                 
     def enterPhase1(self):
@@ -148,8 +142,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         Enter the second phase of silly
         """
         if self.npcId == 2020:
-#            self.air.dialogueManager.requestDialogue(self, TTLocalizer.EmceeDialoguePhase2Topic)
-            self.air.dialogueManager.requestDialogue(self, TTLocalizer.AprilToonsPhasePreTopTopic, endPause=30)
+            self.air.dialogueManager.requestDialogue(self, TTLocalizer.EmceeDialoguePhase2Topic)
         elif self.npcId == 2018 or self.npcId == 2019:
             self.d_setAnimState("ScientistJealous", 1.)
         self.accept("SillyMeterPhase", self.selectPhase)
@@ -159,8 +152,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         Clean up
         """
         if self.npcId == 2020:
-#            self.air.dialogueManager.leaveDialogue(self, TTLocalizer.EmceeDialoguePhase2Topic)
-            self.air.dialogueManager.leaveDialogue(self, TTLocalizer.AprilToonsPhasePreTopTopic)
+            self.air.dialogueManager.leaveDialogue(self, TTLocalizer.EmceeDialoguePhase2Topic)
         self.ignore("SillyMeterPhase")
             
     def enterPhase2(self):
@@ -168,8 +160,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         Enter the third phase of silly
         """
         if self.npcId == 2020:
-#            self.air.dialogueManager.requestDialogue(self, TTLocalizer.EmceeDialoguePhase3Topic)
-            self.air.dialogueManager.requestDialogue(self, TTLocalizer.AprilToonsPhasePreTopTopic, endPause=30)
+            self.air.dialogueManager.requestDialogue(self, TTLocalizer.EmceeDialoguePhase3Topic)
         elif self.npcId == 2018 or self.npcId == 2019:
             self.d_setAnimState("ScientistWork", 1.)        
         self.accept("SillyMeterPhase", self.selectPhase)
@@ -179,8 +170,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         Clean up
         """
         if self.npcId == 2020:
-#            self.air.dialogueManager.leaveDialogue(self, TTLocalizer.EmceeDialoguePhase3Topic)
-            self.air.dialogueManager.leaveDialogue(self, TTLocalizer.AprilToonsPhasePreTopTopic)
+            self.air.dialogueManager.leaveDialogue(self, TTLocalizer.EmceeDialoguePhase3Topic)
         self.ignore("SillyMeterPhase")
              
     def enterPhase2_5(self):
@@ -188,11 +178,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         Enter the third phase of silly
         """
         if self.npcId == 2020:
-            if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-                self.air.dialogueManager.requestDialogue(self, TTLocalizer.AprilToonsExtPhaseTopTopic, endPause=30)
-            else:
-#                self.air.dialogueManager.requestDialogue(self, TTLocalizer.EmceeDialoguePhase3_5Topic)
-                self.air.dialogueManager.requestDialogue(self, TTLocalizer.AprilToonsPhaseTopTopic, endPause=30)
+            self.air.dialogueManager.requestDialogue(self, TTLocalizer.EmceeDialoguePhase3_5Topic)
         elif self.npcId == 2018 or self.npcId == 2019:
             self.d_setAnimState("ScientistLessWork", 1.)        
         self.accept("SillyMeterPhase", self.selectPhase)
@@ -202,11 +188,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         Clean up
         """
         if self.npcId == 2020:
-            if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-                self.air.dialogueManager.leaveDialogue(self, TTLocalizer.AprilToonsExtPhaseTopTopic)
-            else:
-#                self.air.dialogueManager.leaveDialogue(self, TTLocalizer.EmceeDialoguePhase3_5Topic)
-                self.air.dialogueManager.leaveDialogue(self, TTLocalizer.AprilToonsPhaseTopTopic)
+            self.air.dialogueManager.leaveDialogue(self, TTLocalizer.EmceeDialoguePhase3_5Topic)
         self.ignore("SillyMeterPhase")
              
     def enterPhase3(self):
@@ -214,11 +196,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         Enter the third phase of silly
         """
         if self.npcId == 2020:
-            if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-                self.air.dialogueManager.requestDialogue(self, TTLocalizer.AprilToonsExtPhaseTopTopic, endPause=30)
-            else:
-#                self.air.dialogueManager.requestDialogue(self, TTLocalizer.EmceeDialoguePhase4Topic)
-                self.air.dialogueManager.requestDialogue(self, TTLocalizer.AprilToonsPhasePostTopTopic, endPause=30)
+            self.air.dialogueManager.requestDialogue(self, TTLocalizer.EmceeDialoguePhase4Topic)
         elif self.npcId == 2018 or self.npcId == 2019:
             self.d_setAnimState("ScientistPlay", 1.)        
         self.accept("SillyMeterPhase", self.selectPhase)
@@ -228,11 +206,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         Clean up
         """
         if self.npcId == 2020:
-            if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-                self.air.dialogueManager.leaveDialogue(self, TTLocalizer.AprilToonsExtPhaseTopTopic)
-            else:
-#                self.air.dialogueManager.leaveDialogue(self, TTLocalizer.EmceeDialoguePhase4Topic)
-                self.air.dialogueManager.leaveDialogue(self, TTLocalizer.AprilToonsPhasePostTopTopic)
+            self.air.dialogueManager.leaveDialogue(self, TTLocalizer.EmceeDialoguePhase4Topic)
         self.ignore("SillyMeterPhase")
             
     def enterPhase4(self):
@@ -240,11 +214,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         Enter the fourth phase of silly
         """
         if self.npcId == 2020:
-            if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-                self.air.dialogueManager.requestDialogue(self, TTLocalizer.AprilToonsExtPhaseTopTopic, endPause=30)
-            else:
-#                self.air.dialogueManager.requestDialogue(self, TTLocalizer.EmceeDialoguePhase5Topic)
-                self.air.dialogueManager.requestDialogue(self, TTLocalizer.AprilToonsPhasePostTopTopic, endPause=30)
+            self.air.dialogueManager.requestDialogue(self, TTLocalizer.EmceeDialoguePhase5Topic)
         elif self.npcId == 2018 or self.npcId == 2019:
             self.d_setAnimState("ScientistPlay", 1.)
         self.accept("SillyMeterPhase", self.selectPhase)
@@ -254,11 +224,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         Clean up
         """
         if self.npcId == 2020:
-            if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-                self.air.dialogueManager.leaveDialogue(self, TTLocalizer.AprilToonsExtPhaseTopTopic)
-            else:
-#                self.air.dialogueManager.leaveDialogue(self, TTLocalizer.EmceeDialoguePhase5Topic)
-                self.air.dialogueManager.leaveDialogue(self, TTLocalizer.AprilToonsPhasePostTopTopic)
+            self.air.dialogueManager.leaveDialogue(self, TTLocalizer.EmceeDialoguePhase5Topic)
         self.ignore("SillyMeterPhase")        
         
     def enterPhase5(self):
@@ -266,11 +232,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         Enter the fourth phase of silly
         """
         if self.npcId == 2020:
-            if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-                self.air.dialogueManager.requestDialogue(self, TTLocalizer.AprilToonsExtPhaseTopTopic, endPause=30)
-            else:
-#               self.air.dialogueManager.requestDialogue(self, TTLocalizer.EmceeDialoguePhase6Topic)
-                self.air.dialogueManager.requestDialogue(self, TTLocalizer.AprilToonsPhasePostTopTopic, endPause=30)
+            self.air.dialogueManager.requestDialogue(self, TTLocalizer.EmceeDialoguePhase6Topic)
         elif self.npcId == 2018 or self.npcId == 2019:
             self.d_setAnimState("ScientistPlay", 1.)
         self.accept("SillyMeterPhase", self.selectPhase)
@@ -280,11 +242,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         Clean up
         """
         if self.npcId == 2020:
-            if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-                self.air.dialogueManager.leaveDialogue(self, TTLocalizer.AprilToonsExtPhaseTopTopic)
-            else:
-#                self.air.dialogueManager.leaveDialogue(self, TTLocalizer.EmceeDialoguePhase6Topic)
-                self.air.dialogueManager.leaveDialogue(self, TTLocalizer.AprilToonsPhasePostTopTopic)
+            self.air.dialogueManager.leaveDialogue(self, TTLocalizer.EmceeDialoguePhase6Topic)
         self.ignore("SillyMeterPhase")        
        
     def enterOff(self):

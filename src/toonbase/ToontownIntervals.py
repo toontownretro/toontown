@@ -14,14 +14,11 @@ def start(ival):
     """Clean start of an ival"""
     cleanup(ival.getName())
     ival.start()
-    return ival
-
     
 def loop(ival):
     """Clean loop of an ival"""
     cleanup(ival.getName())
     ival.loop()
-    return ival
 
 
 def getPulseLargerIval(np, name, duration=PULSE_GUI_DURATION, scale=1):
@@ -42,14 +39,14 @@ def getPulseIval(np, name, change, duration=PULSE_GUI_CHANGE, scale=1):
         )
 
     
-def getPresentGuiIval(np, name, waitDuration=0.5, moveDuration=1.0, parent=aspect2d, startPos=(0, 0, 0)):
+def getPresentGuiIval(np, name, waitDuration=0.5, moveDuration=1.0, parent=aspect2d):
     """
     Presents a new GUI:
     Shows/boings the gui right on the center of the screen,
     then moves the gui to where it's supposed to go.
     """
     endPos = np.getPos()
-    np.setPos(parent, startPos[0], startPos[1], startPos[2])
+    np.setPos(parent, 0, 0, 0)
     
     return Sequence(
         Func(np.show),

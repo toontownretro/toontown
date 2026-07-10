@@ -3,15 +3,17 @@ from otp.level.DistributedLevel import DistributedLevel
 from otp.level import LevelConstants
 from otp.level import EditorGlobals
 from toontown.cogdominium.DistCogdoGame import DistCogdoGame
-from toontown.cogdominium.CogdoLevelGameBase import CogdoLevelGameBase
 from toontown.cogdominium.CogdoEntityCreator import CogdoEntityCreator
 
-class DistCogdoLevelGame(CogdoLevelGameBase, DistCogdoGame, DistributedLevel):
+class DistCogdoLevelGame(DistributedLevel, DistCogdoGame):
     notify = directNotify.newCategory("DistCogdoLevelGame")
 
     def __init__(self, cr):
         DistributedLevel.__init__(self, cr)
         DistCogdoGame.__init__(self, cr)
+
+    def createEntityCreator(self):
+        return CogdoEntityCreator(level=self)
 
     def generate(self):
         DistributedLevel.generate(self)
@@ -22,12 +24,8 @@ class DistCogdoLevelGame(CogdoLevelGameBase, DistCogdoGame, DistributedLevel):
     def announceGenerate(self):
         DistributedLevel.announceGenerate(self)
         DistCogdoGame.announceGenerate(self)
-        if __dev__:
-            self.startHandleEdits()
+        self.startHandleEdits()
         
-    def createEntityCreator(self):
-        return CogdoEntityCreator(level=self)
-
     def levelAnnounceGenerate(self):
         self.notify.debug('levelAnnounceGenerate')
         DistributedLevel.levelAnnounceGenerate(self)
@@ -73,8 +71,7 @@ class DistCogdoLevelGame(CogdoLevelGameBase, DistCogdoGame, DistributedLevel):
         DistributedLevel.placeLocalToon(self, moveLocalAvatar=False)
 
     def disable(self):
-        if __dev__:
-            self.stopHandleEdits()
+        self.stopHandleEdits()
         DistCogdoGame.disable(self)
         DistributedLevel.disable(self)
 

@@ -1,12 +1,12 @@
 from direct.directnotify import DirectNotifyGlobal
-from toontown.toonbase.ToontownModules import ConfigVariableBool
+from pandac.PandaModules import ConfigVariableBool
 from direct.task import Task
 
-#from string import maketrans
-import pickle
+from string import maketrans
+import cPickle
 import os
 import sys
-import semidbm as dbm
+import anydbm
 import time
 
 class DataStore:
@@ -26,20 +26,20 @@ class DataStore:
     #    as a parameter to send a query.
     # This is here in case we think of any universal queries.
     QueryTypes = [] # ['Query_one','Query_two',...]
-    QueryTypes = dict(list(zip(QueryTypes,list(range(len(QueryTypes))))))
+    QueryTypes = dict(zip(QueryTypes,range(len(QueryTypes))))
 
     @classmethod
     def addQueryTypes(cls,typeStrings):
-        superTypes = list(zip(list(cls.QueryTypes.values()),list(cls.QueryTypes.keys())))
+        superTypes = zip(cls.QueryTypes.values(),cls.QueryTypes.keys())
         superTypes.sort()
         newTypes = [item[1] for item in superTypes] + typeStrings
-        newTypes = dict(list(zip(newTypes,list(range(1+len(newTypes))))))
+        newTypes = dict(zip(newTypes,range(1+len(newTypes))))
         return newTypes
 
     notify = DirectNotifyGlobal.directNotify.newCategory('DataStore')
-
+    
     wantAnyDbm = ConfigVariableBool('want-ds-anydbm',1).getValue()
-
+    
     def __init__(self,filepath,writePeriod = 300, writeCountTrigger = 100):
         """
         filepath is where the data for this store will be held on the disk.
@@ -59,12 +59,10 @@ class DataStore:
 
         if self.wantAnyDbm:
             self.filepath += '-anydbm'
+            self.notify.debug('anydbm default module used: %s ' % anydbm._defaultmod.__name__)
 
         self.open()
         
-        if self.wantAnyDbm:
-            self.notify.debug('anydbm default module used: %s ' % dbm._defaultmod.__name__)
-
     def readDataFromFile(self):
         """
         Looks for a backup data file, ie. A file that only exists
@@ -83,17 +81,17 @@ class DataStore:
         if self.wantAnyDbm:
             try:
                 if os.path.exists(self.filepath):
-                    self.data = dbm.open(self.filepath,'w')
+                    self.data = anydbm.open(self.filepath,'w')
                     self.notify.debug('Opening existing anydbm database at: %s.' % \
                                        (self.filepath,))
                 else:
-                    self.data = dbm.open(self.filepath,'c')
+                    self.data = anydbm.open(self.filepath,'c')
                     self.notify.debug('Creating new anydbm database at: %s.' % \
                                       (self.filepath,))
-            except dbm.error:
+            except anydbm.error:
                 self.notify.warning('Cannot open anydbm database at: %s.' % \
                                     (self.filepath,))
-
+                
         else:
             try:
                 # Try to open the backup file:
@@ -116,12 +114,12 @@ class DataStore:
                     self.notify.debug('New pickle data file will be written to %s.' % \
                                       (self.filepath,))
             if file:
-                data = pickle.load(file)
+                data = cPickle.load(file)
                 file.close()
                 self.data = data
             else:
                 self.data = {}
-
+        
     def writeDataToFile(self):
         """
         Attempt to store the contents of self.data to disk.
@@ -140,11 +138,11 @@ class DataStore:
                     backuppath = self.filepath+ '.bu'
                     if os.path.exists(self.filepath):
                         os.rename(self.filepath,backuppath)
-
+                        
                     outfile = open(self.filepath, 'w')
-                    pickle.dump(self.data,outfile)
+                    cPickle.dump(self.data,outfile)
                     outfile.close()
-
+                        
                     if os.path.exists(backuppath):
                         os.remove(backuppath)
                 except EnvironmentError:
@@ -152,7 +150,7 @@ class DataStore:
         else:
             self.notify.warning('No data to write. Aborting sync.')
 
-
+        
     def syncTask(self,task):
         """
         This task is responsible for synchronizing the data in memory with
@@ -165,7 +163,7 @@ class DataStore:
             data in memory.
         """
         task.timeElapsed += globalClock.getDt()
-
+        
         if task.timeElapsed > self.writePeriod:
             if self.writeCount:
                 self.writeDataToFile()
@@ -191,7 +189,7 @@ class DataStore:
         Clear the update status of the data.
         """
         self.writeCount = 0
-
+        
     def close(self):
         """
         Syncs the RAM data with the disk.
@@ -210,21 +208,21 @@ class DataStore:
         Loads the data from disk into RAM.
         Starts the periodic update task.
         """
-        self.close()
-        self.readDataFromFile()
+        self.close()        
+        self.readDataFromFile()        
         self.resetWriteCount()
-
+        
         taskMgr.remove('%s-syncTask'%(self.className,))
         t = taskMgr.add(self.syncTask,'%s-syncTask'%(self.className,))
         t.timeElapsed = 0.0
-
+        
     def reset(self):
         """
         Destroys the store's data and opens a blank store.
         """
         self.destroy()
         self.open()
-
+        
     def destroy(self):
         """
         Closes the store.
@@ -233,7 +231,7 @@ class DataStore:
         self.close()
         if self.wantAnyDbm:
             lt = time.asctime(time.localtime())
-            trans = ': '.maketrans('__')
+            trans = maketrans(': ','__')
             t = lt.translate(trans)
             head, tail = os.path.split(self.filepath)
             newFileName = 'UDStoreBak'+t
@@ -272,12 +270,12 @@ class DataStore:
         the handleQuery() call and returns them.
         """
         if self.data is not None:
-            qData = pickle.loads(query)
+            qData = cPickle.loads(query)
             results = self.handleQuery(qData)
-            qResults = pickle.dumps(results)
+            qResults = cPickle.dumps(results)
         else:
             results = None
-            qResults = pickle.dumps(results)
+            qResults = cPickle.dumps(results)
         return qResults
 
     def handleQuery(self,query):
@@ -286,3 +284,4 @@ class DataStore:
         """
         results = None
         return results
+

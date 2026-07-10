@@ -1,16 +1,16 @@
 from toontown.toonbase.ToontownGlobals import *
-from .SuitBattleGlobals import *
+from SuitBattleGlobals import *
 from direct.interval.IntervalGlobal import *
-from .BattleBase import *
-from .BattleProps import *
+from BattleBase import *
+from BattleProps import *
 from toontown.suit.SuitDNA import *
-from .BattleBase import *
-from .BattleSounds import *
-from . import MovieCamera
+from BattleBase import *
+from BattleSounds import *
+import MovieCamera
 from direct.directnotify import DirectNotifyGlobal
-from . import MovieUtil
+import MovieUtil
 from direct.particles import ParticleEffect
-from . import BattleParticles
+import BattleParticles
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 
@@ -658,7 +658,7 @@ def getToonTracks(attack, damageDelay=0.000001, damageAnimNames=None, dodgeDelay
     for i in range(len(targets)):
         tgt = targets[i]
         # slevel = a['suit'].getActualLevel()
-        # print("ZZZZ processing attack ", i,"  damage=", tgt['hp'],"   toondied=", tgt['died']," suitlevel=", slevel)
+        # print "ZZZZ processing attack ", i,"  damage=", tgt['hp'],"   toondied=", tgt['died']," suitlevel=", slevel
         toonTracks.append(getToonTrack(attack, damageDelay, damageAnimNames,
                    dodgeDelay, dodgeAnimNames, splicedDamageAnims, splicedDodgeAnims,
                    target=tgt, showDamageExtraTime=showDamageExtraTime,
@@ -1028,7 +1028,7 @@ def getSplicedLerpAnims(animName, origDuration, newDuration, startTime=0, fps=30
     """
     anims = []
     addition = 0 # Addition will be added to the startTime to move animation forward
-    numAnims = int(origDuration * fps) # Number of actor intervals to use
+    numAnims = origDuration * fps # Number of actor intervals to use
     # The timeInterval is what to add before each actor interval to delay time
     timeInterval = newDuration / numAnims
     # The animInterval is how much the animation progresses forward each interval
@@ -1311,7 +1311,7 @@ def doFountainPen(attack): # top p: fixed
     pen = globalPropPool.getProp('pen')
 
     def getPenTip(pen=pen):
-        tip = pen.find("**/joint*toSpray")
+        tip = pen.find("**/joint_toSpray")
         return tip.getPos(render)
     hitPoint = lambda toon=toon: __toonFacePoint(toon)
     missPoint = lambda prop=pen, toon=toon: __toonMissPoint(prop, toon, 0, parent=render)
@@ -2256,8 +2256,8 @@ def doReOrg(attack): # special, reassign toon parts; cringe, jump; jump
         # The head track pops off the head, plays with it a bit, puts it back on upside down,
         # fixes it, rotates it backwards, and then restores it
         headParts = toon.getHeadParts()
-        print('***********headParts pos=', headParts[0].getPos())
-        print('***********headParts hpr=', headParts[0].getHpr())
+        print '***********headParts pos=', headParts[0].getPos()
+        print '***********headParts hpr=', headParts[0].getHpr()
         headTracks = Parallel()
         for partNum in range(0, headParts.getNumPaths()):
             part = headParts.getPath(partNum)
@@ -2306,7 +2306,7 @@ def doReOrg(attack): # special, reassign toon parts; cringe, jump; jump
         arms = toon.findAllMatches('**/arms')
         sleeves = toon.findAllMatches('**/sleeves')
         hands = toon.findAllMatches('**/hands')
-        print('*************arms hpr=', arms[0].getHpr())
+        print '*************arms hpr=', arms[0].getHpr()
 
         for partNum in range(0, arms.getNumPaths()):
             chestTracks.append(getChestTrack(arms.getPath(partNum)))
@@ -3656,7 +3656,7 @@ def doWatercooler(attack): # top sc: fixed
     watercooler = globalPropPool.getProp('watercooler')
 
     def getCoolerSpout(watercooler=watercooler):
-        spout = watercooler.find("**/joint*toSpray")
+        spout = watercooler.find("**/joint_toSpray")
         return spout.getPos(render)
 
     hitPoint = lambda toon=toon: __toonFacePoint(toon)

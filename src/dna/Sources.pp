@@ -1,4 +1,5 @@
 #define YACC_PREFIX dnayy
+#define LFLAGS -i
 
 #define USE_PACKAGES freetype
 
@@ -6,13 +7,12 @@
   #define TARGET dnaLoader
   #define LOCAL_LIBS toontownbase
   #define OTHER_LIBS \
-    panda:m event:c express:c gobj:c pipeline:c putil:c pgraph:c jobsystem:c pandaexpress:m linmath:c text:c \
-    pstatclient:c \
-    interrogatedb \
+    panda:m pandaexpress:m \
+    interrogatedb:c dconfig:c dtoolconfig:m \
     dtoolutil:c dtoolbase:c dtool:m \
-    prc
-
-  #define BUILDING_DLL BUILDING_TOONTOWN_DNALOADER
+    prc:c
+  
+  #define COMBINED_SOURCES $[TARGET]_composite1.cxx  $[TARGET]_composite2.cxx
 
   #define SOURCES \
      config_dna.h dnaBuildings.h dnaConstants.h dnaCornice.h dnaData.I  \
@@ -21,19 +21,19 @@
      dnaSignGraphic.I dnaSignGraphic.h dnaSignText.I  \
      dnaSignText.h dnaSuitPoint.I dnaSuitPoint.h dnaSuitEdge.I  \
      dnaSuitEdge.h dnaSuitPath.h dnaBattleCell.I dnaBattleCell.h  \
-     dnaLoader.h dnaLoader.I dnaLoadRequest.h dnaLoadRequest.I dnaNode.I dnaNode.h \
-     dnaProp.h dnaProp.I dnaAnimProp.h dnaAnimProp.I dnaInteractiveProp.h \
+     dnaLoader.h dnaNode.I dnaNode.h dnaProp.h dnaProp.I \
+     dnaAnimProp.h dnaAnimProp.I dnaInteractiveProp.h \
      dnaInteractiveProp.I dnaAnimBuilding.h dnaAnimBuilding.I \
      dnaStorage.h dnaStorage.I \
      dnaStreet.h dnaWindow.h lexerDefs.h load_dna_file.h  \
      loaderFileTypeDNA.h parserDefs.h parser.yxx lexer.lxx  \
-
-  #define COMPOSITE_SOURCES \
+    
+  #define INCLUDED_SOURCES \
      config_dna.cxx dnaBuildings.cxx dnaCornice.cxx dnaData.cxx   \
      dnaDoor.cxx dnaGroup.cxx dnaVisGroup.cxx dnaSign.cxx   \
      dnaSignBaseline.cxx dnaSignGraphic.cxx dnaSignText.cxx   \
      dnaSuitPoint.cxx dnaSuitEdge.cxx dnaSuitPath.cxx   \
-     dnaBattleCell.cxx dnaLoader.cxx dnaLoadRequest.cxx dnaNode.cxx dnaProp.cxx   \
+     dnaBattleCell.cxx dnaLoader.cxx dnaNode.cxx dnaProp.cxx   \
      dnaStorage.cxx dnaStreet.cxx dnaWindow.cxx load_dna_file.cxx   \
      dnaAnimProp.cxx dnaInteractiveProp.cxx dnaAnimBuilding.cxx \
      loaderFileTypeDNA.cxx
@@ -48,12 +48,12 @@
 //     dnaLoader
 //   #define OTHER_LIBS \
 //     panda:m pandaexpress:m framework \
-//     interrogatedb \
+//     interrogatedb:c dconfig:c dtoolconfig:m \
 //     dtoolutil:c dtoolbase:c dtool:m \
-//     putil:c collide:c pgraph:c anim:c text:c cull:c \
-//     pnmimage:c pnmimagetypes:c event:c gobj:c display:c \
-//     mathutil:c express:c dgraph:c device:c tform:c \
-//     linmath:c pstatclient:c downloader:c \
+//     putil:c collide:c loader:c sgmanip:c chan:c text:c chancfg:c cull:c \
+//     pnmimage:c pnmimagetypes:c event:c graph:c gobj:c display:c \
+//     mathutil:c sgattrib:c express:c light:c dgraph:c device:c tform:c sgraph:c \
+//     linmath:c pstatclient:c sgraphutil:c downloader:c \
 //     pystub
 
 
@@ -70,7 +70,6 @@
   #define OTHER_LIBS \
     express:c pandaexpress:m \
     panda:m \
-	pstatclient:c \
     interrogatedb:c dconfig:c dtoolconfig:m \
     dtoolutil:c dtoolbase:c dtool:m \
     pystub
@@ -79,3 +78,4 @@
     validateSuitPath.cxx
 
 #end test_bin_target
+

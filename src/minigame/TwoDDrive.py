@@ -3,7 +3,7 @@
 from toontown.toonbase.ToonBaseGlobal import *
 from otp.otpbase import OTPGlobals
 from direct.interval.IntervalGlobal import *
-from . import ArrowKeys
+import ArrowKeys
 from direct.task.Task import Task
 
 class TwoDDrive:
@@ -171,7 +171,7 @@ class TwoDDrive:
             if posOffsetLen > self.maxFrameMove:
                 posOffset *= self.maxFrameMove
                 posOffset /= posOffsetLen
-                #self.notify.debug("clipped to: " + repr(posOffset.length()))
+                #self.notify.debug("clipped to: " + `posOffset.length()`)
         '''
         # do custom collisions
         if self.customCollisionCallback:

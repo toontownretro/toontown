@@ -6,11 +6,11 @@ class NameFunctions:
     boyTitles = ["Baron", "Duke", "King", "Master",
                  "Mister", "Prince", "Sir",
                  ]
-
+    
     girlTitles = ["Lady", "Miss", "Princess",
                   "Queen", "Granny", "Aunt",
                   ]
-
+    
     neutralTitles = ["Big", "Captain", "Cool", "Colonel", "Crazy",
                      "Deputy", "Dippy", "Doctor", "Fat",
                      "Good ol'",
@@ -19,15 +19,15 @@ class NameFunctions:
                      "Sheriff", "Skinny", "Silly",
                      "Super", "Ugly", "Weird"]
     # First Names
-    boyFirsts = ["Alvin", "Astro",
-                 "Barney", "Bart", "Beppo", "Bert", "Bonzo",
+    boyFirsts = ["Alvin",
+                 "Barney", "Beppo", "Bert", "Bonzo",
                  "Buford", "Bunky", "Buster",
                  "Butch", "Buzz",
                  "Cecil", "Chester", "Chip", "Chipper", "Clancy", "Clarence",
                  "Cliff", "Clyde",
                  "Dudley", "Duke", "Ernie",
                  #"Fenimore",
-                 "Felix", "Fritz", "Graham", "Harvey", "Hector",
+                 "Fritz", "Graham", "Harvey", "Hector",
                  "Huey", "Jacques", "Jake",
                  "Knuckles",
                  "Lancelot", "Leroy", "Lionel", "Lloyd", "Louie",
@@ -39,7 +39,7 @@ class NameFunctions:
                  "Rocco", "Rollie", "Romeo", "Rusty", "Sammie",
                  "Skip", "Skipper", "Skippy", "Spike", "Stinky",
                  #"Thaddeus",
-                 "Teddy", "Tom",
+                 "Tom",
                  "Waldo", "Wally", "Wilbur",
                  ]
     girlFirsts = ["Bonnie", "Bubbles",
@@ -56,7 +56,6 @@ class NameFunctions:
                   "Melody", "Mo Mo",
                   #"Moonbeam",
                   "Nutmeg",
-                  "Olive",
                   "Peaches", "Pearl", "Penny", "Petunia",
                   #"Penelope",
                   "Rainbow", "Raven", "Robin", "Rosie", "Roxy",
@@ -64,11 +63,10 @@ class NameFunctions:
                   #"Snowflake",
                   #"Sunflower",
                   "Taffy", "Trixie",
-                  "Ursula", "Valentine", "Violet", "Vicky",
-                  "Willow",
+                  "Ursula", "Violet", "Vicky",
                   ]
     neutralFirsts = ["B.D.", "Banjo", "Batty", "Beany", "Bebop", "Bingo",
-                     "Binky", "Biscuit", "Bongo", "Boo Boo", "Bonkers", "Bouncey", "Bizzy",
+                     "Binky", "Biscuit", "Bongo", "Boo Boo", "Bonkers", "Bizzy",
                      "Blinky", "Bumpy", "C.J.", "C.W.", "Chirpy",
                      "Chunky", "Coconut", "Comet", "Corky", "Corny", "Cranky", "Crazy",
                      #"Creampuff",
@@ -77,44 +75,44 @@ class NameFunctions:
                      #"Dingdong",
                      "Dinky", "Dizzy",
                      "Domino", "Drippy", "Droopy",
-                     "Dusty", "Dynamite", "Fancy", "Fangs", "Fireball",
+                     "Dusty", "Fancy", "Fangs", "Fireball",
                      "Fleabag", "Flapjack", "Flappy",
                      "Flip", "Fluffy", "Freckles", "Frizzy", "Furball",
                      "Goopy",
                      #"Gumdrop",
                      #"Harebrain",
-                     "Huddles", "J.C.", "Jazzy",
+                     "Huddles", "J.C.",
                      #"Jellybean",
                      "Jellyroll",
-                     "Kippy", "Kit", "Lefty", "Lollipop", "Loony", "Loopy", "Lucky",
+                     "Kippy", "Lefty", "Lollipop", "Loony", "Loopy",
                      "Mildew",
                      #"Mumbles",
                      "Murky", "Nutty", "Pancake", "Peanut",
                      #"Peppermint",
                      "Peppy", "Pickles",
-                     "Pinky", "Popcorn", "Poppy", "Presto",
+                     "Pinky", "Popcorn", "Poppy",
                      "Rhubarb",
                      "Salty", "Scooter",
                      #"Scratchy",
                      "Skids", "Skimpy", "Soupy",
                      "Slappy", "Slippy", "Slumpy", "Smirky", "Snappy",
                      "Sniffy", "Snuffy",
-                     "Spiffy", "Spotty", "Spunky", "Squeaky", "Stripey", "Star",
+                     "Spiffy", "Spotty", "Spunky", "Stripey",
                      "Stubby",
                      "Tricky", "Tubby",
                      "Von",
                      "Wacky", "Wacko",
-                     "Whiskers",
+                     #"Whiskers",
                      "Winky",
                      "Yippie",
                      "Z.Z.", "Zany", "Ziggy", "Zilly",
                      "Zippy", "Zippety", "Zowie",
                      ]
     # Last name prefixes
-
+    
     # Prefixes that will require suffix capitalization
     capPrefixes = ["Mc", "Mac"]
-
+    
     lastPrefixes = ["Bagel", "Banana", "Bean", "Beanie", "Biggen",
                     "Bizzen", "Blubber", "Boingen",
                     "Bumber", "Bumble", "Bumpen",
@@ -127,18 +125,18 @@ class NameFunctions:
                     "Frinkel", "Fizzle", "Flippen",
                     "Flipper",
                     "Fumble", "Funny", "Fuzzy",
-                    "Giggle", "Glitter", "Google", "Grumble", "Gumdrop", "Huckle", "Hula",
-                    "Jabber", "Jeeper", "Jinx", "Jumble", "Kooky", "Lemon",
+                    "Giggle", "Google", "Huckle", "Hula",
+                    "Jabber", "Jeeper", "Jumble", "Kooky", "Lemon",
                     "Loopen", "Mac", "Mc", "Mega",
                     "Mizzen", "Nickel", "Nutty", "Octo", "Paddle", "Pale",
                     "Pedal", "Pepper", "Petal", "Pickle", "Pinker",
-                    "Poodle", "Precious", "Pumpkin", "Purple", "Poppen",
-                    "Rhino", "Robo", "Rocken", "Ruffle",
-                    "Sniffle", "Snorkel", "Sour", "Sparkle", "Squiggle", "Super",
+                    "Poodle", "Precious", "Purple", "Poppen",
+                    "Rhino", "Rocken", "Ruffle",
+                    "Sniffle", "Snorkel", "Sour", "Sparkle", "Super",
                     "Spackle", "Thunder", "Toppen",
-                    "Tricky", "Tweedle", "Twiddle", "Twinkle",
+                    "Tricky", "Twiddle", "Twinkle",
                     "Wacky", "Weasel", "Whisker",
-                    "Whistle", "Wild", "Witty", "Wonder", "Wrinkle",
+                    "Whistle", "Wild", "Wonder", "Wrinkle",
                     "Ziller", "Zippen", "Zooble",
                     ]
     lastSuffixes = ["bee", "berry", "blabber", "bocker", "boing", "boom",
@@ -163,12 +161,12 @@ class NameFunctions:
                     "roni",
                     "scooter", "screech", "seed",
                     "smirk", "snoop", "snooker", "snout", "socks",
-                    "speed", "spinner", "splat", "sprinkles", "sticks", "stink", "swirl",
+                    "speed", "spinner", "splat", "sticks", "stink", "swirl",
                     "teeth", "thud", "toes", "ton", "toon", "tooth", "twist",
                     "whip", "wig", "woof",
-                    "zaner", "zap", "zapper", "zilla", "zoom",
+                    "zaner", "zap", "zapper", "zilla",
                     ]
-
+    
     header = ["# This file contains all the possible names used in toon name generation.",
               "# Each name has a unique id and a category:",
               "#                                     0 - boyTitle",
@@ -180,12 +178,12 @@ class NameFunctions:
               "#                                     6 - capPrefix",
               "#                                     7 - lastPrefix",
               "#                                     8 - lastSuffix"]
-
+    
     def __init__(self):
         return
-
+    
     def writeNameMaster(self):
-        print("Writing Name Master")
+        print "Writing Name Master"
         output = open('NameMasterEnglish.txt', 'w')
         for x in self.header:
             output.write(x+'\n')
@@ -196,7 +194,7 @@ class NameFunctions:
 
         uniqueID = 0
         for cat in range(0,9):
-            print("Working on list " + str(cat) + ".  UniqueID is up to " + str(uniqueID))
+            print "Working on list " + str(cat) + ".  UniqueID is up to " + str(uniqueID)
             for name in categoryNames[cat]:
                 output.write(str(uniqueID) + "*" + str(cat) + "*" + name + '\n')
                 uniqueID += 1
@@ -208,16 +206,16 @@ class NameFunctions:
         try:
             input = open('NameMasterEnglish.txt1', 'r')
         except:
-            print("NameFunctions: Error opening list text file.")
+            print "NameFunctions: Error opening list text file."
             return
-        for currentLine in input:
+        for currentLine in input.xreadlines():
             if currentLine.lstrip()[0:1] != '#':
                 a1 = currentLine.find('*')
                 a2 = currentLine.find('*', a1+1)
                 self.nameDictionary[int(currentLine[0:a1])]=(int(currentLine[a1+1:a2]),
                                                              currentLine[a2+1:len(currentLine)-1])
         masterList = [[],[],[],[],[],[],[],[],[]]
-        for tu in list(self.nameDictionary.values()):
+        for tu in self.nameDictionary.values():
             masterList[tu[0]].append(tu[1])
 
         self.nboyTitles = masterList[0]
@@ -230,5 +228,9 @@ class NameFunctions:
         self.nlastPrefixes = masterList[7]
         self.nlastSuffixes = masterList[8]
 
-        print(self.boyTitles)
-        print(self.nboyTitles)
+        print self.boyTitles
+        print self.nboyTitles
+
+
+
+

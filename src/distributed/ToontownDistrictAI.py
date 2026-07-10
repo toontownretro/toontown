@@ -13,8 +13,7 @@ class ToontownDistrictAI(DistributedDistrictAI):
     def __init__(self, air, name="untitled"):
         DistributedDistrictAI.__init__(self, air, name)
         self.stats = None
-        self.ahnnLog = False
-
+        
     def generate(self):        
         DistributedDistrictAI.generate(self)
         self.stats = ToontownDistrictStatsAI.ToontownDistrictStatsAI(self.air)
@@ -26,21 +25,3 @@ class ToontownDistrictAI(DistributedDistrictAI):
         if(self.stats is not None):
             self.stats.requestDelete()
             self.stats = None
-
-    # TODO: Hacker Node Name Logging
-    def allowAHNNLog(self, ahnnLog):
-        self.ahnnLog = ahnnLog
-
-    def d_allowAHNNLog(self, ahnnLog):
-        self.sendUpdate('allowAHNNLog', [ahnnLog])
-
-    def b_allowAHNNLog(self, ahnnLog):
-        self.allowAHNNLog(ahnnLog)
-        self.d_allowAHNNLog(ahnnLog)
-
-    def getAllowAHNNLog(self):
-        return self.ahnnLog
-
-    def recordSuspiciousEventData(self):
-        pass
-    

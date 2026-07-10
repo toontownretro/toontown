@@ -4,7 +4,7 @@ from toontown.toonbase import TTLocalizer
 import os
 from direct.showbase import AppRunnerGlobal
 from direct.directnotify import DirectNotifyGlobal
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 
 class PetNameGenerator:
 
@@ -53,20 +53,21 @@ class PetNameGenerator:
 
         currentLine = input.readline()
         while currentLine:
-            if currentLine.lstrip()[0:1] != b'#':
-                a1 = currentLine.find(b'*')
-                a2 = currentLine.find(b'*', a1+1)
-                self.nameDictionary[int(currentLine[0:a1])]=(int(currentLine[a1+1:a2]), currentLine[a2+1:len(currentLine)-1].strip())
+            if currentLine.lstrip()[0:1] != '#':
+                a1 = currentLine.find('*')
+                a2 = currentLine.find('*', a1+1)
+                self.nameDictionary[int(currentLine[0:a1])]=(int(currentLine[a1+1:a2]),
+                                                             currentLine[a2+1:len(currentLine)-1].strip())
             currentLine = input.readline()
 
         masterList = [self.boyFirsts, self.girlFirsts, self.neutralFirsts]
-        for tu in list(self.nameDictionary.values()):
+        for tu in self.nameDictionary.values():
             masterList[tu[0]].append(tu[1])
         return 1
 
     def getName(self, uniqueID):
         return self.nameDictionary[uniqueID][1]
-
+    
     def returnUniqueID(self, name):
         """
         If successful it returns the uniqueID, if not then -1
@@ -76,10 +77,9 @@ class PetNameGenerator:
         newtu[1] = (1, name)
         newtu[2] = (2, name)
 
-        for tu in list(self.nameDictionary.items()):
+        for tu in self.nameDictionary.items():
             for g in newtu:
-                nt = (tu[1][0], tu[1][1].decode())
-                if nt == g:
+                if tu[1] == g:
                     return tu[0]
         return -1
 
@@ -104,7 +104,7 @@ class PetNameGenerator:
         else:
             self.error("Must be boy or girl.")
 
-        retString += random.choice(firstList).decode()
+        retString += random.choice(firstList)
 
         random.setstate(S)
 

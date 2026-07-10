@@ -3,19 +3,21 @@
 #import Pyro.errors
 import sys
 import datetime
-import pymysql as MySQLdb
+import MySQLdb
+import MySQLdb.constants.CR
+import _mysql_exceptions
 from direct.directnotify import DirectNotifyGlobal
 from toontown.uberdog import ttSQL
 from toontown.parties import PartyGlobals
 
-SERVER_GONE_ERROR = MySQLdb.constants.CR.CR_SERVER_GONE_ERROR
-SERVER_LOST = MySQLdb.constants.CR.CR_SERVER_LOST
+SERVER_GONE_ERROR = MySQLdb.constants.CR.SERVER_GONE_ERROR
+SERVER_LOST = MySQLdb.constants.CR.SERVER_LOST
 
 class ttInviteDb:
     """Based on sbMaildb.py in $OTP/src/switchboard."""
 
     notify = DirectNotifyGlobal.directNotify.newCategory("ttInviteDb")
-
+    
     def __init__(self,host,port,user,passwd,db):
         self.sqlAvailable = True
         self.host = host
@@ -25,14 +27,18 @@ class ttInviteDb:
         self.dbname = db
 
         try:
-            self.db = MySQLdb.connect(host=host, port=port, user=user, passwd=passwd)
-        except MySQLdb.OperationalError as e:
+            self.db = MySQLdb.connect(host=host,
+                                      port=port,
+                                      user=user,
+                                      passwd=passwd,
+                                      )
+        except _mysql_exceptions.OperationalError,e:
             self.notify.warning("Failed to connect to MySQL db=%s at %s:%d.  ttInvitedb DB is disabled."%(db,host,port))
             self.notify.warning("Error detail: %s"%str(e))
             self.sqlAvailable = False
             return
 
-        self.notify.info("Connected to invitedb=%s at %s:%d." % (db, host, port))
+        self.notify.info("Connected to invitedb=%s at %s:%d."%(db,host,port))
 
         #temp hack for initial dev, create DB structure if it doesn't exist already
         cursor = self.db.cursor()
@@ -40,16 +46,16 @@ class ttInviteDb:
             cursor.execute("CREATE DATABASE `%s`"%self.dbname)
             if __debug__:
                 self.notify.info("Database '%s' did not exist, created a new one!"%self.dbname)
-        except MySQLdb.ProgrammingError as e:
+        except _mysql_exceptions.ProgrammingError, e:
             # self.notify.info('%s' % str(e))
             pass
-        except MySQLdb.OperationalError as e:
-            self.notify.info('%s' % str(e))
+        except _mysql_exceptions.OperationalError, e:
+            self.notify.info('%s' % str(e))            
             pass
 
-        cursor.execute("USE `%s`" % self.dbname)
+        cursor.execute("USE `%s`"%self.dbname)
         if __debug__:
-            self.notify.debug("Using database '%s'" % self.dbname)
+            self.notify.debug("Using database '%s'"%self.dbname)
         try:
             # well if we're creating the party table again,
             # might as well create the party status lookup table for the benefit of database reporting
@@ -64,7 +70,7 @@ class ttInviteDb:
                 CREATE TABLE ttInviteStatus(
                   statusId      TINYINT NOT NULL,
                   description   VARCHAR(20) NOT NULL,
-                  lastupdate    TIMESTAMP  NOT NULL
+                  lastupdate    TIMESTAMP  NOT NULL 
                                       DEFAULT   CURRENT_TIMESTAMP
                                       ON UPDATE CURRENT_TIMESTAMP,
                   PRIMARY KEY (statusId),
@@ -74,19 +80,19 @@ class ttInviteDb:
                 DEFAULT CHARSET=utf8;
                 """)
                 # this ensure that the table values come directly from PartyGlobals.InviteStatus
-                for index in range(len(PartyGlobals.InviteStatus)):
+                for index in xrange(len(PartyGlobals.InviteStatus)):
                     cursor.execute(\
                         "INSERT INTO ttInviteStatus(statusId, description) VALUES (%d, '%s')" %
                     (index, PartyGlobals.InviteStatus.getString(index)))
-
-            # TODO is it better to do a show tables than to do a try create Table except block?
+                    
+            # TODO is it better to do a show tables than to do a try create Table except block?        
             cursor.execute("""
             CREATE TABLE ttInvite (
-              inviteId           BIGINT     NOT NULL AUTO_INCREMENT,
+              inviteId           BIGINT     NOT NULL AUTO_INCREMENT,            
               partyId            BIGINT     NOT NULL,
               guestId            BIGINT     NOT NULL,
               statusId           TINYINT    NOT NULL DEFAULT 0,
-              lastupdate         TIMESTAMP  NOT NULL
+              lastupdate         TIMESTAMP  NOT NULL 
                                  DEFAULT   CURRENT_TIMESTAMP
                                  ON UPDATE CURRENT_TIMESTAMP,
 
@@ -94,15 +100,14 @@ class ttInviteDb:
               INDEX idx_guestId (guestId),
               INDEX idx_partyId(partyId),
               FOREIGN KEY (partyId) REFERENCES ttParty(partyId) ON DELETE CASCADE
-            )
-            ENGINE=InnoDB
-            DEFAULT CHARSET=utf8;
+            ) 
+            ENGINE=InnoDB 
+            DEFAULT CHARSET=utf8;            
             """)
             if __debug__:
                 self.notify.info("Table ttInvite did not exist, created a new one!")
-        except MySQLdb.OperationalError as e:
-            #self.notify.warning("Unknown error when creating tables, retrying:\n%s" % str(e))
-            pass
+        except _mysql_exceptions.OperationalError,e:
+            pass            
 
         try:
             cursor = self.db.cursor()
@@ -115,11 +120,12 @@ class ttInviteDb:
 
     def reconnect(self):
         self.notify.debug("MySQL server was missing, attempting to reconnect.")
-        try:
-            self.db.close()
-        except:
-            pass
-        self.db = MySQLdb.connect(host=self.host, port=self.port, user=self.user, passwd=self.passwd)
+        try: self.db.close()
+        except: pass
+        self.db = MySQLdb.connect(host=self.host,
+                                  port=self.port,
+                                  user=self.user,
+                                  passwd=self.passwd)
         cursor = self.db.cursor()
         cursor.execute("USE `%s`"%self.dbname)
         self.notify.debug("Reconnected to MySQL server at %s:%d."%(self.host,self.port))
@@ -137,7 +143,7 @@ class ttInviteDb:
         if not self.sqlAvailable:
             self.notify.debug("sqlAvailable was false when calling getInvites")
             return ()
-
+        
         cursor = MySQLdb.cursors.DictCursor(self.db)
         try:
             cursor.execute("USE `%s`"%self.dbname)
@@ -145,8 +151,8 @@ class ttInviteDb:
             res = cursor.fetchall()
             self.notify.debug("Select was successful in ttInvitedb, returning %s" % str(res))
             return res
-
-        except MySQLdb.OperationalError as e:
+        
+        except _mysql_exceptions.OperationalError,e:
             if isRetry == True:
                 self.notify.warning("Error on getInvites retry, giving up:\n%s" % str(e))
                 return ()
@@ -157,7 +163,7 @@ class ttInviteDb:
                 self.notify.warning("Unknown error in getInvites, retrying:\n%s" % str(e))
                 self.reconnect()
                 return self.getInvites(avatarId,True)
-        except Exception as e:
+        except Exception,e:
             self.notify.warning("Unknown error in getInvites, giving up:\n%s" % str(e))
             return ()
 
@@ -170,10 +176,12 @@ class ttInviteDb:
 
         try:
             cursor = MySQLdb.cursors.DictCursor(self.db)
-            cursor.execute(ttSQL.putInviteINSERT, (partyId, inviteeId))
-            self.db.commit()
 
-        except MySQLdb.OperationalError as e:
+            cursor.execute(ttSQL.putInviteINSERT,
+                           (partyId, inviteeId))
+            self.db.commit() 
+
+        except _mysql_exceptions.OperationalError,e:
             if isRetry == True:
                 self.notify.warning("Error on putInvite retry, giving up:\n%s" % str(e))
                 return
@@ -184,7 +192,7 @@ class ttInviteDb:
                 self.notify.warning("Unknown error in putInvite, retrying:\n%s" % str(e))
                 self.reconnect()
                 self.putInvite(partyId, inviteeId,True)
-        except Exception as e:
+        except Exception,e:
             self.notify.warning("Unknown error in putInvite, giving up:\n%s" % str(e))
             return
 
@@ -203,8 +211,8 @@ class ttInviteDb:
                 self.notify.warning("%d tried to delete party %d which didn't exist or wasn't his!" % (accountId,messageId))
 
             self.db.commit()
-
-        except MySQLdb.OperationalError as e:
+                
+        except _mysql_exceptions.OperationalError,e:
             if isRetry == True:
                 self.notify.warning("Error in deleteInviteByParty retry, giving up:\n%s" % str(e))
                 return
@@ -215,15 +223,15 @@ class ttInviteDb:
                 self.notify.warning("Unnown error in deleteInviteByParty, retrying:\n%s" % str(e))
                 self.reconnect()
                 self.deleteMail(accountId,messageId,True)
-        except Exception as e:
+        except Exception,e:
             self.notify.warning("Unknown error in deleteInviteByParty, giving up:\n%s" % str(e))
-            return
+            return            
 
     def getReplies(self,partyId,isRetry=False):
         if not self.sqlAvailable:
             self.notify.debug("sqlAvailable was false when calling getParty")
             return ()
-
+        
         cursor = MySQLdb.cursors.DictCursor(self.db)
         try:
             cursor.execute("USE `%s`"%self.dbname)
@@ -231,8 +239,8 @@ class ttInviteDb:
             res = cursor.fetchall()
             #self.notify.debug("Select was successful in ttInvitedb, returning %s" % str(res))
             return res
-
-        except MySQLdb.OperationalError as e:
+        
+        except _mysql_exceptions.OperationalError,e:
             if isRetry == True:
                 self.notify.warning("Error on getReplies retry, giving up:\n%s" % str(e))
                 return ()
@@ -243,7 +251,7 @@ class ttInviteDb:
                 self.notify.warning("Unknown error in getReplies, retrying:\n%s" % str(e))
                 self.reconnect()
                 return self.getReplies(partyId,True)
-        except Exception as e:
+        except Exception,e:
             self.notify.warning("Unknown error in getReplies, giving up:\n%s" % str(e))
             return ()
 
@@ -259,7 +267,7 @@ class ttInviteDb:
         if not self.sqlAvailable:
             self.notify.debug("sqlAvailable was false when calling getParty")
             return ()
-
+        
         cursor = MySQLdb.cursors.DictCursor(self.db)
         try:
             cursor.execute("USE `%s`"%self.dbname)
@@ -267,8 +275,8 @@ class ttInviteDb:
             res = cursor.fetchall()
             #self.notify.debug("Select was successful in ttInvitedb, returning %s" % str(res))
             return res
-
-        except MySQLdb.OperationalError as e:
+        
+        except _mysql_exceptions.OperationalError,e:
             if isRetry == True:
                 self.notify.warning("Error on getOneInvite retry, giving up:\n%s" % str(e))
                 return ()
@@ -279,7 +287,7 @@ class ttInviteDb:
                 self.notify.warning("Unknown error in getOneInvite, retrying:\n%s" % str(e))
                 self.reconnect()
                 return self.getOneInvite(partyId,True)
-        except Exception as e:
+        except Exception,e:
             self.notify.warning("Unknown error in getOneInvite, giving up:\n%s" % str(e))
             return ()
 
@@ -287,7 +295,7 @@ class ttInviteDb:
         if not self.sqlAvailable:
             self.notify.debug("sqlAvailable was false when calling getParty")
             return ()
-
+        
         cursor = MySQLdb.cursors.DictCursor(self.db)
         try:
             cursor.execute("USE `%s`"%self.dbname)
@@ -296,8 +304,8 @@ class ttInviteDb:
             res = cursor.fetchall()
             #self.notify.debug("Select was successful in ttInvitedb, returning %s" % str(res))
             return res
-
-        except MySQLdb.OperationalError as e:
+        
+        except _mysql_exceptions.OperationalError,e:
             if isRetry == True:
                 self.notify.warning("Error on updateInvite retry, giving up:\n%s" % str(e))
                 return ()
@@ -308,16 +316,16 @@ class ttInviteDb:
                 self.notify.warning("Unknown error in updateInvite, retrying:\n%s" % str(e))
                 self.reconnect()
                 return self.updateInvite( newStatus, inviteKey, True)
-        except Exception as e:
+        except Exception,e:
             self.notify.warning("Unknown error in updateInvite, giving up:\n%s" % str(e))
-            return ()
-
+            return ()                
+    
 
     def getInviteesOfParty(self, inviteKey, isRetry = False):
         if not self.sqlAvailable:
             self.notify.debug("sqlAvailable was false when calling getParty")
             return ()
-
+        
         cursor = MySQLdb.cursors.DictCursor(self.db)
         try:
             cursor.execute("USE `%s`"%self.dbname)
@@ -325,8 +333,8 @@ class ttInviteDb:
             res = cursor.fetchall()
             #self.notify.debug("Select was successful in ttInvitedb, returning %s" % str(res))
             return res
-
-        except MySQLdb.OperationalError as e:
+        
+        except _mysql_exceptions.OperationalError,e:
             if isRetry == True:
                 self.notify.warning("Error on getInviteesOfParty retry, giving up:\n%s" % str(e))
                 return ()
@@ -337,6 +345,6 @@ class ttInviteDb:
                 self.notify.warning("Unknown error in getInviteesOfParty, retrying:\n%s" % str(e))
                 self.reconnect()
                 return self.getInviteesOfParty(partyId,True)
-        except Exception as e:
+        except Exception,e:
             self.notify.warning("Unknown error in getInviteesOfParty, giving up:\n%s" % str(e))
             return ()

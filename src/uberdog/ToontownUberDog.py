@@ -2,7 +2,7 @@
 The Toontown Uber Distributed Object Globals server.
 """
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 import time
 if __debug__:
     from direct.showbase.PythonUtil import *
@@ -22,10 +22,8 @@ from toontown.rpc.RATManagerUD import RATManagerUD
 from toontown.rpc.AwardManagerUD import AwardManagerUD
 from toontown.uberdog import TTSpeedchatRelayUD
 from toontown.uberdog import DistributedInGameNewsMgrUD
-from toontown.uberdog import DistributedWhitelistMgrUD
 from toontown.uberdog import DistributedCpuInfoMgrUD
-from toontown.uberdog import DistributedSecurityMgrUD
-
+    
 from otp.uberdog.RejectCode import RejectCode
 
 class ToontownUberDog(UberDog):
@@ -38,25 +36,22 @@ class ToontownUberDog(UberDog):
         # TODO: The UD needs to know server time, but perhaps this isn't
         # the place to do this? -SG-SLWP
         self.toontownTimeManager = ToontownTimeManager.ToontownTimeManager()
-        self.toontownTimeManager.updateLoginTimes(time.time(), time.time(), globalClock.getRealTime())
+        self.toontownTimeManager.updateLoginTimes(time.time(), time.time(), globalClock.getRealTime())         
 
         def isManagerFor(name):
             return len(uber.objectNames) == 0 or name in uber.objectNames
-
         self.isFriendsManager = False # latest from Ian this should not run anymore
         #self.isFriendsManager = isManagerFor('friends')
         self.isSpeedchatRelay = isManagerFor('speedchatRelay')
         self.isGiftingManager = isManagerFor('gifting')
         self.isMailManager = False # isManagerFor('mail')
         self.isPartyManager = isManagerFor('party')
-        self.isRATManager = isManagerFor('RAT')
+        self.isRATManager = False # isManagerFor('RAT')
         self.isAwardManager = isManagerFor('award')
         self.isCodeRedemptionManager = isManagerFor('coderedemption')
         self.isInGameNewsMgr = isManagerFor('ingamenews')
-        self.isWhitelistMgr = isManagerFor('whitelist')
         self.isCpuInfoMgr = isManagerFor('cpuinfo')
-        self.isSecurityMgr = isManagerFor('security')
-        self.isRandomSourceManager = isManagerFor('randomsource')
+        self.isRandomSourceManager = False # isManagerFor('randomsource')
 
         UberDog.__init__(
             self, mdip, mdport, esip, esport, dcFilenames,
@@ -64,14 +59,14 @@ class ToontownUberDog(UberDog):
 
     def createObjects(self):
         UberDog.createObjects(self)
-        # Ask for the ObjectServer so we can check the dc hash value
+        # Ask for the ObjectServer so we can check the dc hash value 
         self.queryObjectAll(self.serverId)
 
         if self.isFriendsManager:
             self.playerFriendsManager = self.generateGlobalObject(
                 OtpDoGlobals.OTP_DO_ID_PLAYER_FRIENDS_MANAGER,
                 "TTPlayerFriendsManager")
-
+                
         if self.isSpeedchatRelay:
             self.speedchatRelay = self.generateGlobalObject(
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_SPEEDCHAT_RELAY,
@@ -81,7 +76,7 @@ class ToontownUberDog(UberDog):
             self.deliveryManager = self.generateGlobalObject(
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER,
                 "DistributedDeliveryManager")
-
+            
         if self.isMailManager:
             self.mailManager = self.generateGlobalObject(
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_MAIL_MANAGER,
@@ -90,9 +85,9 @@ class ToontownUberDog(UberDog):
         if self.isPartyManager:
             self.partyManager = self.generateGlobalObject(
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_PARTY_MANAGER,
-                "DistributedPartyManager")
+                "DistributedPartyManager")              
 
-        if ConfigVariableBool('want-ddsm', 1).getValue():
+        if simbase.config.GetBool('want-ddsm', 1):
             self.dataStoreManager = self.generateGlobalObject(
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_TEMP_STORE_MANAGER,
                 "DistributedDataStoreManager")
@@ -107,7 +102,7 @@ class ToontownUberDog(UberDog):
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_AWARD_MANAGER,
                 "AwardManager")
 
-        if ConfigVariableBool('want-code-redemption', 1).getValue():
+        if config.GetBool('want-code-redemption', 1):
             if self.isCodeRedemptionManager:
                 self.codeRedemptionManager = self.generateGlobalObject(
                     OtpDoGlobals.OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER,
@@ -117,34 +112,25 @@ class ToontownUberDog(UberDog):
             self.inGameNewsMgr = self.generateGlobalObject(
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_IN_GAME_NEWS_MANAGER,
                 "DistributedInGameNewsMgr")
-
-        if self.isWhitelistMgr:
-            self.whitelistMgr = self.generateGlobalObject(
-                OtpDoGlobals.OTP_DO_ID_TOONTOWN_WHITELIST_MANAGER,
-                "DistributedWhitelistMgr")
-
+        
         if self.isCpuInfoMgr:
             self.cpuInfoMgr = self.generateGlobalObject(
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_CPU_INFO_MANAGER,
-                "DistributedCpuInfoMgr")
-
-        if self.isSecurityMgr:
-            self.securityMgr = self.generateGlobalObject(
-                OtpDoGlobals.OTP_DO_ID_TOONTOWN_SECURITY_MANAGER,
-                "DistributedSecurityMgr")
-
+                "DistributedCpuInfoMgr")              
+        
         if self.isRandomSourceManager:
             self.randomSourceManager = self.generateGlobalObject(
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_NON_REPEATABLE_RANDOM_SOURCE,
                 "NonRepeatableRandomSource")
 
     def getDatabaseIdForClassName(self, className):
-        return DatabaseIdFromClassName.get(className, DefaultDatabaseChannelId)
-
+        return DatabaseIdFromClassName.get(
+            className, DefaultDatabaseChannelId)
+    
     if __debug__:
         def status(self):
             if self.isGiftingManager:
-                print("deliveryManager is", self.deliveryManager)
-
+                print "deliveryManager is", self.deliveryManager
             if self.isFriendsManager:
-                print("playerFriendsManager is ",self.playerFriendsManager)
+                print "playerFriendsManager is ",self.playerFriendsManager
+            

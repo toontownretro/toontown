@@ -1,9 +1,9 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
-from . import DistributedCashbotBossObject
+import DistributedCashbotBossObject
 
 class DistributedCashbotBossSafe(DistributedCashbotBossObject.DistributedCashbotBossObject):
 
@@ -61,11 +61,11 @@ class DistributedCashbotBossSafe(DistributedCashbotBossObject.DistributedCashbot
             # picked up by magnets, and it doesn't stick around for
             # any length of time when it's knocked off his head--it
             # just falls through the floor and resets.
-
+            
             self.collisionNode.setIntoCollideMask(ToontownGlobals.PieBitmask | OTPGlobals.WallBitmask)
             self.collisionNode.setFromCollideMask(ToontownGlobals.PieBitmask)
 
-        assert(self.index not in self.boss.safes)
+        assert(not self.boss.safes.has_key(self.index))
         self.boss.safes[self.index] = self
 
         self.setupPhysics('safe')

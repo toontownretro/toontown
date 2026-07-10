@@ -2,13 +2,13 @@
 
 from otp.ai.AIBaseGlobal import *
 
-from . import DistributedCCharBaseAI
+import DistributedCCharBaseAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
 import random
-from . import CharStateDatasAI, CCharChatter
+import CharStateDatasAI
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 
@@ -97,7 +97,7 @@ class DistributedPlutoAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
         decides that it is finished and a new state should
         be transitioned into
         """
-        assert('status' in doneStatus)
+        assert(doneStatus.has_key('status'))
 
         if(self.transitionToCostume == 1):
             curWalkNode = self.walk.getDestNode()
@@ -154,19 +154,12 @@ class DistributedPlutoAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
 
     ### Chatty state ###
     def enterChatty(self):
-        chatter = CCharChatter.getChatter(self.getName(), self.getCCChatter())
-        if not chatter:
-            self.chatterExists = False
-            self.fsm.request('Lonely')
-        else:
-            self.chatterExists = True
-            self.chatty.enter()
-            self.acceptOnce(self.chattyDoneEvent, self.__decideNextState)
+        self.chatty.enter()
+        self.acceptOnce(self.chattyDoneEvent, self.__decideNextState)
 
     def exitChatty(self):
-        if self.chatterExists:
-            self.ignore(self.chattyDoneEvent)
-            self.chatty.exit()
+        self.ignore(self.chattyDoneEvent)
+        self.chatty.exit()
 
 
     ### Walk state ###

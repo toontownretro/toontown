@@ -1,6 +1,6 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
-from . import DistributedSZTreasure
+import DistributedSZTreasure
 from direct.task.Task import Task
 import math
 import random
@@ -14,17 +14,17 @@ class DistributedEFlyingTreasure(DistributedSZTreasure.DistributedSZTreasure):
         self.scale = 2
         self.delT = math.pi * 2.0*random.random()
         self.shadow = 0
-
+        
     def disable(self):
         DistributedSZTreasure.DistributedSZTreasure.disable(self)
         taskMgr.remove(self.taskName("flying-treasure"))
-
+        
     def generateInit(self):
         DistributedSZTreasure.DistributedSZTreasure.generateInit(self)
 
     # The handler that catches the initial position established on the AI
     def setPosition(self, x, y, z):
-        #print("setPosition!")
+        #print "setPosition!"
         DistributedSZTreasure.DistributedSZTreasure.setPosition(self, x, y, z)
         self.initPos = self.nodePath.getPos()
         self.pos = self.nodePath.getPos()
@@ -32,7 +32,7 @@ class DistributedEFlyingTreasure(DistributedSZTreasure.DistributedSZTreasure):
     def startAnimation(self):
         taskMgr.add(self.animateTask,
                     self.taskName("flying-treasure"))
-
+                    
     def animateTask(self, task):
         pos = self.initPos
         t  = .5*math.pi*globalClock.getFrameTime()
@@ -43,3 +43,5 @@ class DistributedEFlyingTreasure(DistributedSZTreasure.DistributedSZTreasure):
             del self.pos
         self.pos = self.nodePath.getPos()
         return Task.cont
+
+    

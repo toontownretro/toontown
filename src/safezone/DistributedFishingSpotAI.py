@@ -11,7 +11,7 @@ from toontown.fishing import FishGlobals
 class DistributedFishingSpotAI(DistributedObjectAI.DistributedObjectAI):
 
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedFishingSpotAI")
-
+                    
     def __init__(self, air, pond, x, y, z, h, p, r):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         self.notify.debug("init")
@@ -19,7 +19,7 @@ class DistributedFishingSpotAI(DistributedObjectAI.DistributedObjectAI):
         self.avId = 0
         self.timeoutTask = None
         self.pond = pond
-        self.wantTimeouts = ConfigVariableBool("want-fishing-timeouts", 1).getValue()
+        self.wantTimeouts = simbase.config.GetBool("want-fishing-timeouts", 1)
 
     def delete(self):
         self.notify.debug("delete")
@@ -44,17 +44,18 @@ class DistributedFishingSpotAI(DistributedObjectAI.DistributedObjectAI):
             # coming out of fishing directly onto the dock
             self.notify.debug("requestEnter: avId %s is already fishing here" % (avId))
             return
-
+        
         # Check that player has full access
         if not ToontownAccessAI.canAccess(avId, self.zoneId):
             self.sendUpdateToAvatarId(avId, "rejectEnter", [])
             return
-
+        
         if self.avId == 0:
             self.avId = avId
             # Tell the pond we are here
             self.pond.addAvSpot(avId, self)
-            self.acceptOnce(self.air.getAvatarExitEvent(self.avId), self.unexpectedExit)
+            self.acceptOnce(self.air.getAvatarExitEvent(self.avId),
+                            self.unexpectedExit)
             self.__stopTimeout()
             self.d_setOccupied(self.avId)
             self.d_setMovie(FishGlobals.EnterMovie)
@@ -79,34 +80,40 @@ class DistributedFishingSpotAI(DistributedObjectAI.DistributedObjectAI):
         # The client begins a cast.
         avId = self.air.getAvatarIdFromSender()
         self.notify.debug("doCast: avId: %s" % (avId))
-        if not self.validate(avId, (self.avId == avId), "doCast: avId is not fishing in this spot"):
+        if not self.validate(avId, (self.avId == avId),
+                             "doCast: avId is not fishing in this spot"):
             return
-        if not self.validate(avId, (0.0 <= power <= 1.0), ("doCast: power: %s is out of range" % power)):
+        if not self.validate(avId, (0.0 <= power <= 1.0),
+                             ("doCast: power: %s is out of range" % power)):
             return
-        if not self.validate(avId, (-FishGlobals.FishingAngleMax <= heading <= FishGlobals.FishingAngleMax), ("doCast: heading: %s is out of range" % heading)):
+        if not self.validate(avId,
+                             (-FishGlobals.FishingAngleMax <= heading <= FishGlobals.FishingAngleMax),
+                             ("doCast: heading: %s is out of range" % heading)):
             return
 
         av = self.air.doId2do.get(self.avId)
         if not self.validate(avId, (av), "doCast: avId not currently logged in to this AI"):
             return
-
+        
         self.__stopTimeout()
         money = av.getMoney()
         # cast cost is based on rod now
         castCost = FishGlobals.getCastCost(av.getFishingRod())
-
+        
         if money < castCost:
             # Not enough money to cast
             self.normalExit()
             return
-
+        
         self.air.writeServerEvent("fished_cast", avId, "%s|%s" %(av.getFishingRod(), castCost))
         av.b_setMoney(money - castCost)
         self.d_setMovie(FishGlobals.CastMovie, power=power, h=heading)
         self.__startTimeout(FishGlobals.CastTimeout)
-
+                    
     def d_setMovie(self, mode, code=0, itemDesc1=0, itemDesc2=0, itemDesc3=0,  power=0, h=0):
-        self.notify.debug("setMovie: mode:%s code:%s itemDesc1:%s itemDesc2:%s itemDesc3:%s power:%s h:%s" % (mode, code, itemDesc1, itemDesc2, itemDesc3, power, h))
+        self.notify.debug(
+            "setMovie: mode:%s code:%s itemDesc1:%s itemDesc2:%s itemDesc3:%s power:%s h:%s" %
+            (mode, code, itemDesc1, itemDesc2, itemDesc3, power, h))
         self.sendUpdate("setMovie", [mode, code, itemDesc1, itemDesc2, itemDesc3, power, h])
 
     def getPosHpr(self):
@@ -121,8 +128,10 @@ class DistributedFishingSpotAI(DistributedObjectAI.DistributedObjectAI):
         # day.
         self.__stopTimeout()
         if self.wantTimeouts:
-            self.timeoutTask = taskMgr.doMethodLater(timeLimit, self.__handleTimeout, self.taskName("timeout"))
-
+            self.timeoutTask = taskMgr.doMethodLater(timeLimit,
+                                                     self.__handleTimeout,
+                                                     self.taskName("timeout"))
+            
     def __stopTimeout(self):
         self.notify.debug("__stopTimeout")
         # Stops a previously-set timeout from expiring.
@@ -151,7 +160,8 @@ class DistributedFishingSpotAI(DistributedObjectAI.DistributedObjectAI):
         self.d_setMovie(FishGlobals.ExitMovie)
         # Give everyone enough time to play the goodbye movie,
         # then dump the avatar.
-        taskMgr.doMethodLater(1.2, self.__clearEmpty, self.taskName("clearEmpty"))
+        taskMgr.doMethodLater(1.2, self.__clearEmpty,
+                              self.taskName("clearEmpty"))
 
     def __clearEmpty(self, task=None):
         self.notify.debug("__clearEmpty")
@@ -199,8 +209,9 @@ class DistributedFishingSpotAI(DistributedObjectAI.DistributedObjectAI):
         elif not self.validate(avId, (av), "sellFish: avId not currently logged in to this AI"):
             gotTrophy = False
 
-        if gotTrophy == -1:
+        if gotTrophy is -1:
             gotTrophy = self.air.fishManager.creditFishTank(av)
             self.d_sellFishComplete(avId, gotTrophy, len(av.fishCollection))
         else:
             self.d_sellFishComplete(avId, False, 0)
+            

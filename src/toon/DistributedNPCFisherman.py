@@ -1,7 +1,8 @@
-from toontown.toonbase.ToontownModules import *
-from .DistributedNPCToonBase import *
+from pandac.PandaModules import *
+from DistributedNPCToonBase import *
 from direct.gui.DirectGui import *
-from . import NPCToons
+from pandac.PandaModules import *
+import NPCToons
 from toontown.toonbase import TTLocalizer
 from toontown.fishing import FishSellGUI
 from direct.task.Task import Task
@@ -15,14 +16,11 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
         self.button = None
         self.popupInfo = None
         self.fishGui = None
-        self.lerpCameraSeq = None
-
+            
     def disable(self):
         self.ignoreAll()
         taskMgr.remove(self.uniqueName('popupFishGUI'))
-        if self.lerpCameraSeq:
-            self.lerpCameraSeq.finish()
-            self.lerpCameraSeq = None
+        taskMgr.remove(self.uniqueName('lerpCamera'))
         if self.popupInfo:
             self.popupInfo.destroy()
             self.popupInfo = None
@@ -41,10 +39,10 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
         """
         DistributedNPCToonBase.generate(self)
         self.fishGuiDoneEvent = "fishGuiDone"
-
+        
     def announceGenerate(self):
         DistributedNPCToonBase.announceGenerate(self)
-
+        
     def initToonState(self):
         # announceGenerate in DistributedNPCToonBase tries to
         # parent the toon to a node called npc_origin_N.  For now
@@ -55,10 +53,7 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
         # visibility might have stashed the zone this origin is under
         npcOrigin = self.cr.playGame.hood.loader.geom.find("**/npc_fisherman_origin_%s;+s" % self.posIndex)
         if not npcOrigin.isEmpty():
-            # Instead of just reparenting to the origin. We make a root under 'actors' for organization. 
-            self.rootNode = base.actors.attachNewNode("npc_root_" + self.getName())
-            self.rootNode.setPosHprScale(*npcOrigin.getPos(base.actors), *npcOrigin.getHpr(base.actors), *npcOrigin.getScale(base.actors))
-            self.reparentTo(self.rootNode)
+            self.reparentTo(npcOrigin)
             self.clearMat()
         else:
             self.notify.warning("announceGenerate: Could not find npc_fisherman_origin_" + str(self.posIndex))
@@ -104,13 +99,11 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
         assert self.notify.debug('resetFisherman')
         self.ignoreAll()
         taskMgr.remove(self.uniqueName('popupFishGUI'))
-        if self.lerpCameraSeq:
-            self.lerpCameraSeq.finish()
-            self.lerpCameraSeq = None
+        taskMgr.remove(self.uniqueName('lerpCamera'))
         if self.fishGui:
             self.fishGui.destroy()
             self.fishGui = None
-
+            
         self.show()
         self.startLookAround()
         self.detectAvatars()
@@ -127,7 +120,7 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
     def setMovie(self, mode, npcId, avId, extraArgs, timestamp):
         """
         This is a message from the AI describing a movie between this NPC
-        and a Toon that has approached us.
+        and a Toon that has approached us. 
         """
         timeStamp = ClockDelta.globalClockDelta.localElapsedTime(timestamp)
         self.remain = NPCToons.CLERK_COUNTDOWN_TIME - timeStamp
@@ -136,7 +129,7 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
 
         # See if this is the local toon
         self.isLocalToon = (avId == base.localAvatar.doId)
-
+            
         assert(self.notify.debug("setMovie: %s %s %s %s" %
                           (mode, avId, timeStamp, self.isLocalToon)))
 
@@ -149,9 +142,7 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
         if (mode == NPCToons.SELL_MOVIE_TIMEOUT):
             assert self.notify.debug('SELL_MOVIE_TIMEOUT')
             # In case the GUI hasn't popped up yet
-            if self.lerpCameraSeq:
-                self.lerpCameraSeq.finish()
-                self.lerpCameraSeq = None
+            taskMgr.remove(self.uniqueName('lerpCamera'))
             # Stop listening for the GUI
             if (self.isLocalToon):
                 self.ignore(self.fishGuiDoneEvent)
@@ -180,17 +171,17 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
 
             if (self.isLocalToon):
                 camera.wrtReparentTo(render)
-                self.lerpCameraSeq = camera.posQuatInterval(1, Point3(-5, 9, base.localAvatar.getHeight()-0.5),
-                                                            Point3(-150, -2, 0),
-                                                            other=self,
-                                                            blendType="easeOut",
-                                                            name=self.uniqueName('lerpCamera'))
-                self.lerpCameraSeq.start()
+                camera.lerpPosHpr(-5, 9, base.localAvatar.getHeight()-0.5,
+                                  -150, -2, 0,
+                                  1,
+                                  other=self,
+                                  blendType="easeOut",
+                                  task=self.uniqueName('lerpCamera'))
 
             if (self.isLocalToon):
                 taskMgr.doMethodLater(1.0, self.popupFishGUI,
                                       self.uniqueName('popupFishGUI'))
-
+            
         elif (mode == NPCToons.SELL_MOVIE_COMPLETE):
             assert self.notify.debug('SELL_MOVIE_COMPLETE')
             # this is necessary to not show marketing message on test
@@ -229,9 +220,11 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
         self.sendUpdate("completeSale", [sell])
         self.fishGui.destroy()
         self.fishGui = None
-
+        
     def popupFishGUI(self, task):
         assert self.notify.debug('popupFishGUI()')
         self.setChatAbsolute('', CFSpeech)
         self.acceptOnce(self.fishGuiDoneEvent, self.__handleSaleDone)
         self.fishGui = FishSellGUI.FishSellGUI(self.fishGuiDoneEvent)
+        
+        

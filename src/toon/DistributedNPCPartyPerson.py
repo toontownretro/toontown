@@ -6,13 +6,13 @@
 #          and can send you to the party grounds to plan your party
 #-------------------------------------------------------------------------------
 
-from .DistributedNPCToonBase import DistributedNPCToonBase
+from DistributedNPCToonBase import DistributedNPCToonBase
 from direct.distributed.DistributedObject import DistributedObject
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 from direct.task.Task import Task
 from direct.distributed import ClockDelta
-from toontown.toonbase.ToontownModules import CFSpeech, CFTimeout, Point3
+from pandac.PandaModules import CFSpeech, CFTimeout, Point3
 from toontown.toontowngui import TTDialog
 from otp.otpbase import OTPLocalizer
 from toontown.parties import PartyGlobals
@@ -28,14 +28,11 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
         self.button = None
         self.askGui = None
         self.teaserDialog = None
-        self.lerpCameraSeq = None
 
     def disable(self):
         self.ignoreAll()
         taskMgr.remove(self.uniqueName('popupAskGUI'))
-        if self.lerpCameraSeq:
-            self.lerpCameraSeq.finish()
-            self.lerpCameraSeq = None
+        taskMgr.remove(self.uniqueName('lerpCamera'))
         self.av = None
         if (self.isInteractingWithLocalToon):
             base.localAvatar.posCamera(0, 0)
@@ -48,20 +45,20 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
             del self.askGui
 
         DistributedNPCToonBase.delete(self)
-
+        
     def generate(self):
         """
         This method is called when the DistributedObject is reintroduced
         to the world, either for the first time or from the cache.
         """
         DistributedNPCToonBase.generate(self)
-
+        
     def announceGenerate(self):
         DistributedNPCToonBase.announceGenerate(self)
-
+        
         # Make sure you look under stashed nodes as well, since street
         # visibility might have stashed the zone this origin is under
-
+        
         self.planPartyQuestionGuiDoneEvent = "planPartyQuestionDone"
 
         self.askGui = TTDialog.TTGlobalDialog(
@@ -72,8 +69,8 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
             okButtonText = OTPLocalizer.DialogYes,
             cancelButtonText = OTPLocalizer.DialogNo,
         )
-        self.askGui.hide()
-
+        self.askGui.hide()        
+        
     def initToonState(self):
         # announceGenerate in DistributedNPCToonBase tries to
         # parent the toon to a node called npc_origin_N.  For now
@@ -86,10 +83,7 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
             side = "right"
         npcOrigin = self.cr.playGame.hood.loader.geom.find("**/party_person_%s;+s" % side)
         if not npcOrigin.isEmpty():
-            # Instead of just reparenting to the origin. We make a root under 'actors' for organization. 
-            self.rootNode = base.actors.attachNewNode("npc_root_" + self.getName())
-            self.rootNode.setPosHprScale(*npcOrigin.getPos(base.actors), *npcOrigin.getHpr(base.actors), *npcOrigin.getScale(base.actors))
-            self.reparentTo(self.rootNode)
+            self.reparentTo(npcOrigin)
             self.clearMat()
         else:
             self.notify.warning("announceGenerate: Could not find party_person_%s" % side )
@@ -136,9 +130,7 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
         assert self.notify.debug('resetPartyPerson')
         self.ignoreAll()
         taskMgr.remove(self.uniqueName('popupAskGUI'))
-        if self.lerpCameraSeq:
-            self.lerpCameraSeq.finish()
-            self.lerpCameraSeq = None
+        taskMgr.remove(self.uniqueName('lerpCamera'))
         if self.askGui:
             self.askGui.hide()
 
@@ -159,7 +151,7 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
     def setMovie(self, mode, npcId, avId, extraArgs, timestamp):
         """
         This is a message from the AI describing a movie between this NPC
-        and a Toon that has approached us.
+        and a Toon that has approached us. 
         """
         timeStamp = ClockDelta.globalClockDelta.localElapsedTime(timestamp)
         self.remain = NPCToons.CLERK_COUNTDOWN_TIME - timeStamp
@@ -168,7 +160,7 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
 
         # See if this is the local toon
         self.isInteractingWithLocalToon = (avId == base.localAvatar.doId)
-
+            
         assert(self.notify.debug("setMovie: %s %s %s %s" %
                           (mode, avId, timeStamp, self.isInteractingWithLocalToon)))
 
@@ -182,9 +174,7 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
         if mode == NPCToons.PARTY_MOVIE_TIMEOUT:
             assert self.notify.debug('PARTY_MOVIE_TIMEOUT')
             # In case the GUI hasn't popped up yet
-            if self.lerpCameraSeq:
-                self.lerpCameraSeq.finish()
-                self.lerpCameraSeq = None
+            taskMgr.remove(self.uniqueName('lerpCamera'))
             # Stop listening for the GUI
             if self.isInteractingWithLocalToon:
                 self.ignore(self.planPartyQuestionGuiDoneEvent)
@@ -211,12 +201,12 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
 
             if self.isInteractingWithLocalToon:
                 camera.wrtReparentTo(render)
-                self.lerpCameraSeq = camera.posQuatInterval(1, Point3(-5, 9, base.localAvatar.getHeight()-0.5),
-                                                            Point3(-150, -2, 0),
-                                                            other=self,
-                                                            blendType="easeOut",
-                                                            name=self.uniqueName('lerpCamera'))
-                self.lerpCameraSeq.start()
+                camera.lerpPosHpr(-5, 9, base.localAvatar.getHeight()-0.5,
+                                  -150, -2, 0,
+                                  1,
+                                  other=self,
+                                  blendType="easeOut",
+                                  task=self.uniqueName('lerpCamera'))
                 taskMgr.doMethodLater(1.0, self.popupAskGUI,
                                       self.uniqueName('popupAskGUI'))
             else:
@@ -228,11 +218,11 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
             chatStr = TTLocalizer.PartyPlannerOnYourWay
             self.setChatAbsolute(chatStr, CFSpeech | CFTimeout)
             self.resetPartyPerson()
-
+            
             if self.isInteractingWithLocalToon:
                 base.localAvatar.aboutToPlanParty = True
                 base.cr.partyManager.setPartyPlannerStyle(self.style)
-                base.cr.partyManager.setPartyPlannerName(self._name)
+                base.cr.partyManager.setPartyPlannerName(self.name)
                 base.localAvatar.creatingNewPartyWithMagicWord = False
                 loaderId = "safeZoneLoader"
                 whereId = "party"
@@ -242,8 +232,8 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
                 requestStatus = {"loader": loaderId,
                                             "where": whereId,
                                             "how": "teleportIn",
-                                            "hoodId": hoodId,
-                                            "zoneId": zoneId,
+                                            "hoodId": hoodId, 
+                                            "zoneId": zoneId, 
                                             "shardId": None,
                                             "avId": avId}
                 # we need to do a requestLeave to make sure phase 13 is downloaded
@@ -267,7 +257,7 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
             chatStr = TTLocalizer.PartyPlannerHostingTooMany
             self.setChatAbsolute(chatStr, CFSpeech | CFTimeout)
             self.resetPartyPerson()
-
+            
         elif mode == NPCToons.PARTY_MOVIE_ONLYPAID:
             assert self.notify.debug('PARTY_MOVIE_ONLYPAID')
             chatStr = TTLocalizer.PartyPlannerOnlyPaid
@@ -283,7 +273,7 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
             assert self.notify.debug('PARTY_MOVIE_MINCOST')
             chatStr = TTLocalizer.PartyPlannerNpcMinCost % PartyGlobals.MinimumPartyCost
             self.setChatAbsolute(chatStr, CFSpeech | CFTimeout)
-            self.resetPartyPerson()
+            self.resetPartyPerson()               
 
         return
 
@@ -302,13 +292,13 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
             wantsToPlan = 0
         self.sendUpdate("answer", [wantsToPlan])
         self.askGui.hide()
-
+        
     def popupAskGUI(self, task):
         assert self.notify.debug('popupAskGUI()')
         self.setChatAbsolute('', CFSpeech)
-        self.acceptOnce(self.planPartyQuestionGuiDoneEvent, self.__handleAskDone)
+        self.acceptOnce(self.planPartyQuestionGuiDoneEvent, self.__handleAskDone)        
         self.askGui.show()
-
+        
     def handleOkTeaser(self):
         """Handle the user clicking ok on the teaser panel."""
         self.teaserDialog.destroy()

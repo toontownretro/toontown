@@ -1,6 +1,6 @@
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
-from . import QuestPoster
+from pandac.PandaModules import *
+import QuestPoster
 from toontown.toonbase import ToontownTimer
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -9,12 +9,11 @@ class QuestChoiceGui(DirectFrame):
     def __init__(self):
         DirectFrame.__init__(self,
                              relief = None,
-                             parent = base.a2dLeftCenter,
                              geom = DGG.getDefaultDialogGeom(),
                              geom_color = Vec4(0.8,0.6,0.4,1),
                              geom_scale = (1.85,1,0.9),
                              geom_hpr = (0,0,-90),
-                             pos = (0.5, 0, 0),
+                             pos = (-0.85,0,0),
                              )
         self.initialiseoptions(QuestChoiceGui)
         self.questChoicePosters = []
@@ -47,7 +46,7 @@ class QuestChoiceGui(DirectFrame):
         # make an effort to make sure that things *should* be hidden
         # below it.
         #self.setBin('gui-popup', 10)
-
+        
     def setQuests(self, quests, fromNpcId, timeout):
         # The quest list is flattened. Every three elements is a quest
         for i in range(0, len(quests), 3):
@@ -71,7 +70,7 @@ class QuestChoiceGui(DirectFrame):
             self.timer.setPos(-0.2,0,-0.6)
         elif len(quests) == 3*3:
             self['geom_scale'] = (1.85,1,0.9)
-            list(map(lambda x: x.setScale(0.95), self.questChoicePosters))
+            map(lambda x: x.setScale(0.95), self.questChoicePosters)
             self.questChoicePosters[0].setPos(0,0,-0.4)
             self.questChoicePosters[1].setPos(0,0,0.125)
             self.questChoicePosters[2].setPos(0,0,0.65)

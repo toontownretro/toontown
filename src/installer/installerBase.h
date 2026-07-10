@@ -198,7 +198,7 @@ protected:
   }
 
   inline void printSeparator() {
-    errorLog << "--------------" << std::endl;
+    errorLog << "--------------" << endl;
   }
 
   const char *getInstallerVersionValid(void);

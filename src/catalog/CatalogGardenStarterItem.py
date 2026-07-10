@@ -1,4 +1,4 @@
-from . import CatalogItem
+import CatalogItem
 import time
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -86,10 +86,8 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
         return self.makeFrameModel(model, spin)
 
     def output(self, store = ~0):
-        return "CatalogGardenStarterItem(%s)" % (self.formatOptionalData(store))
-
-    def equalsTo(self, other):
-        return True
+        return "CatalogGardenStarterItem(%s)" % (
+            self.formatOptionalData(store))
 
     def compareTo(self, other):
         return 0

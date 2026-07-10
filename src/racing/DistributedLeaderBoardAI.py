@@ -12,7 +12,7 @@ from direct.distributed import DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.racing.RaceGlobals import  *
 from toontown.toonbase.TTLocalizer import *
-import pickle
+import cPickle
 
 class DistributedLeaderBoardAI(DistributedObjectAI.DistributedObjectAI):
     """
@@ -77,12 +77,12 @@ class DistributedLeaderBoardAI(DistributedObjectAI.DistributedObjectAI):
     def getDisplay(self):
         '''
         '''
-        return pickle.dumps(self.subscriptionDict[self.curIndex], 1)
+        return cPickle.dumps(self.subscriptionDict[self.curIndex], 1)
 
 
     def sendNewDisplay(self):
         self.notify.debug("sendNewDisplay: sending updated lb info to client")
-        self.sendUpdate("setDisplay", [pickle.dumps(self.subscriptionDict[self.subscriptionList[self.curIndex]], 1)])
+        self.sendUpdate("setDisplay", [cPickle.dumps(self.subscriptionDict[self.subscriptionList[self.curIndex]], 1)])
 
     def start(self):
         '''
@@ -162,8 +162,8 @@ class DistributedLeaderBoardAI(DistributedObjectAI.DistributedObjectAI):
 
     def __updateScore(self, pID):
         #update score list with ID pID by querying from server
-        #print(str(self.subscriptionDict))
-        #print(str(self.subscriptionDict[pID][2]))
+        #print str(self.subscriptionDict)
+        #print str(self.subscriptionDict[pID][2])
         newRecords =  self.air.raceMgr.getRecords(pID[0], pID[1])
 
         #"edited": that is, we're not using raceType and racerNum at this moment... just forget those

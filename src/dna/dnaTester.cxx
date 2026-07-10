@@ -34,7 +34,7 @@ event_T(CPT(Event)) {
 
   // Test the AI loading
   //int res = load_DNA_file_AI(dna_store, "phase_5/dna/toontown_central_2100.dna", CS_default);
-  //cerr << "load_DNA_file_AI res: " << res << std::endl;
+  //cerr << "load_DNA_file_AI res: " << res << endl;
 
   // Clear the dna store
   //dna_store->reset_DNAGroups();
@@ -44,11 +44,11 @@ event_T(CPT(Event)) {
   //dna_store->reset_battle_cells();
 
   // Now load the real dna
-  cerr << "load_DNA_file... " << std::endl;
+  cerr << "load_DNA_file... " << endl;
   PT(PandaNode) dna_node = load_DNA_file(dna_store,
                                    "test.dna",
                                    CS_default, 1);
-  cerr << "load_DNA_file done " << std::endl;
+  cerr << "load_DNA_file done " << endl;
 
 
   // Parent the dna data read in to render
@@ -58,21 +58,21 @@ event_T(CPT(Event)) {
   int ng = dna_store->get_num_DNAVisGroups();
   for (int i = 0; i < ng; i++) {
     string group_name = dna_store->get_DNAVisGroup_name(i);
-    cerr << "Group: " << group_name << std::endl;
+    cerr << "Group: " << group_name << endl;
     int nv = dna_store->get_num_visibles_in_DNAVisGroup(i);
     for (int j = 0; j < nv; j++) {
       string name = dna_store->get_visible_name(i, j);
-      cerr << name << std::endl;
+      cerr << name << endl;
     }
-    cerr << std::endl;
+    cerr << endl;
   }
 
 
   int ngAI = dna_store->get_num_DNAVisGroupsAI();
-  cerr << "Num AI: " << ngAI << std::endl;
+  cerr << "Num AI: " << ngAI << endl;
   for (int k = 0; k < ngAI; k++) {
     PT(DNAVisGroup) group = dna_store->get_DNAVisGroupAI(k);
-    cerr << "Group AI: " << k << " " << group->get_name() << std::endl;
+    cerr << "Group AI: " << k << " " << group->get_name() << endl;
   }
 
 
@@ -90,7 +90,7 @@ event_T(CPT(Event)) {
 
   PT(DNASuitPath) path = dna_store->get_suit_path(dna_store->get_suit_point_at_index(0),
                                                   dna_store->get_suit_point_at_index(3));
-  cout << "Path from 0 to 3: " << (*path) << std::endl;
+  cout << "Path from 0 to 3: " << (*path) << endl;
 }
 
 static void

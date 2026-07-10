@@ -1,4 +1,4 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 
@@ -23,3 +23,4 @@ class SafeZoneManager(DistributedObject.DistributedObject):
 
     def d_exitSafeZone(self):
         self.sendUpdate("exitSafeZone", [])
+    

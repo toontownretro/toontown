@@ -2,7 +2,7 @@
 multipart actors with a simple class"""
 
 import random
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 import random
 from direct.distributed.PyDatagram import PyDatagram
@@ -12,7 +12,7 @@ from otp.avatar import AvatarDNA
 notify = directNotify.newCategory("CharDNA")
 
 # char defines
-charTypes = [ "mk", "vmk", "mn", "wmn", "g", "sg", "d", "fd", "dw", "p", "wp", "cl", "dd", "shdd", "ch", "da", "pch", "jda" ]
+charTypes = [ "mk", "vmk", "mn", "wmn", "g", "sg", "d", "dw", "p", "wp", "cl", "dd", "ch", "da" ]
 # ...mickey, vampire mickey, minnie, Witch minnie, goofy, donald, donald-wheel, pluto, Clarabelle, Daisy, Chip, Dale
 
 class CharDNA(AvatarDNA.AvatarDNA):
@@ -34,7 +34,7 @@ class CharDNA(AvatarDNA.AvatarDNA):
 
     """
     # special methods
-
+    
     def __init__(self, str=None, type=None, dna=None, r=None, b=None, g=None):
         """__init__(self, string=None, string=None, string()=None, float=None,
         float=None, float=None)
@@ -74,7 +74,7 @@ class CharDNA(AvatarDNA.AvatarDNA):
             notify.error("undefined avatar")
         else:
             notify.error("unknown avatar type: ", self.type)
-
+            
         return dg.getMessage()
 
     def makeFromNetString(self, string):
@@ -85,9 +85,9 @@ class CharDNA(AvatarDNA.AvatarDNA):
             self.name = sgi.getFixedString(2)
         else:
             notify.error("unknown avatar type: ", self.type)
-
+            
         return None
-
+    
     def __defaultChar(self):
         """__defaultChar(self)
         Make a default character dna
@@ -142,12 +142,8 @@ class CharDNA(AvatarDNA.AvatarDNA):
             return("donald")
         elif (self.name == "dw"):
             return("donald-wheel")
-        elif (self.name == "fd"):
-            return("franken_donald")
         elif (self.name == "dd"):
             return("daisy")
-        elif (self.name == "shdd"):
-            return("sockHop_daisy")
         elif (self.name == "p"):
             return("pluto")
         elif( self.name == "wp"):
@@ -158,9 +154,5 @@ class CharDNA(AvatarDNA.AvatarDNA):
             return("chip")
         elif (self.name == "da"):
             return("dale")
-        elif (self.name == "pch"):
-            return("police_chip")
-        elif (self.name == "jda"):
-            return("jailbird_dale")
         else:
             notify.error("unknown char type: ", self.name)

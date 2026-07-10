@@ -6,7 +6,6 @@ from toontown.launcher.ToontownLauncher import ToontownLauncher
 # will find its methods before looking at the real launcher
 class ToontownDummyLauncher(DummyLauncherBase, ToontownLauncher):
     notify = DirectNotifyGlobal.directNotify.newCategory("ToontownDummyLauncher")
-    
     def __init__(self):
         DummyLauncherBase.__init__(self)
         # If we are running the show, the first 3 phases must be complete
@@ -54,7 +53,7 @@ class ToontownDummyLauncher(DummyLauncherBase, ToontownLauncher):
         return None
 
     def setRegistry(self, name, value):
-        print("setRegistry[%s] = %s" % (name, value))
+        print "setRegistry[%s] = %s" % (name, value)
         self.reg[name] = value
 
     def getRegistry(self, name, defaultValue = None):
@@ -62,7 +61,7 @@ class ToontownDummyLauncher(DummyLauncherBase, ToontownLauncher):
             value = self.reg[name]
         else:
             value = defaultValue
-        print("getRegistry[%s] = %s" % (name, value))
+        print "getRegistry[%s] = %s" % (name, value)
         return value
 
     def getGame2Done(self):

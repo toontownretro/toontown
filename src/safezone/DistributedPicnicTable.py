@@ -1,16 +1,16 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *
-from .TrolleyConstants import *
+from TrolleyConstants import *
 from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer
 
 from direct.distributed import DistributedNode
 from direct.distributed.ClockDelta import globalClockDelta
-from .ChineseCheckersBoard import ChineseCheckersBoard
-from .GameTutorials import *
-from .GameMenu import GameMenu
+from ChineseCheckersBoard import ChineseCheckersBoard
+from GameTutorials import *
+from GameMenu import GameMenu
 from direct.fsm import ClassicFSM, State
 from direct.fsm import StateData
 from toontown.distributed import DelayDelete
@@ -28,7 +28,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         self.cr = cr
         NodePath.__init__(self, "DistributedPicnicTable")
         DistributedNode.DistributedNode.__init__(self,cr)
-
+        
         self.reparentTo(render)
         self.picnicTable = loader.loadModel("phase_6/models/golf/game_table.bam")
         self.picnicTable.reparentTo(self)
@@ -55,7 +55,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         self.game = None
         self.gameZone = None
         self.tutorial = None
-
+        
 
 
         self.timerFunc = None
@@ -65,8 +65,8 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
 
         self.tableState = [None, None, None, None, None, None]
         self.haveAnimated = []
-        self.winSound = base.loader.loadSfx("phase_6/audio/sfx/KART_Applause_1.mp3")
-        self.happyDance = base.loader.loadSfx("phase_5/audio/sfx/AA_heal_happydance.mp3")
+        self.winSound = base.loadSfx("phase_6/audio/sfx/KART_Applause_1.mp3")
+        self.happyDance = base.loadSfx("phase_5/audio/sfx/AA_heal_happydance.mp3")
 
         #Seems like these functions BOTH are required
         #To intercept the sleep event.
@@ -117,9 +117,9 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         self.clockNode.setPos(1.16, 0, -0.83)
         self.clockNode.setScale(0.3)
         self.clockNode.hide()
-
+        
     def announceGenerate(self):
-
+        
         DistributedNode.DistributedNode.announceGenerate(self)
           #Set up the collision spheres for the seats
         for i in range(self.numSeats):
@@ -134,7 +134,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         self.requestTableState()
 
 
-
+        
 
         self.buttonModels = loader.loadModel("phase_3.5/models/gui/inventory_gui")
         self.upButton = self.buttonModels.find("**//InventoryButtonUp")
@@ -156,7 +156,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
 
         self.__enableCollisions()
     def handleSleep(self, task = None):
-       #print("GETTING TO SLEEP!!!")
+       #print "GETTING TO SLEEP!!!"
        if self.fsm.getCurrentState().getName() == "chooseMode":
            self.cancelButtonPushed()
        elif self.fsm.getCurrentState().getName() == "sitting":
@@ -168,7 +168,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
        if task != None:
            task.done
        #task.done
-
+       
     def disable(self):
         DistributedNode.DistributedNode.disable(self)
         self.ignore('stoppedAsleep')
@@ -182,7 +182,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         #self.winTrack.finish()
         #self.outTrack.finish()
         #self.outTrack = None
-
+        
     def delete(self):
         self.__disableCollisions()
         self.ignore('stoppedAsleep')
@@ -200,7 +200,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         self.clearToonTracks()
         self.cameraBoardTrack = None
         #self.clearToonTrack()
-        #print(" I AM DELETEING \n\n\n\n\n\n\n\n\n")
+        #print " I AM DELETEING \n\n\n\n\n\n\n\n\n"
         #self.outTrack = None
         #del self
 
@@ -239,7 +239,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         self.clockNode.stop()
         self.clockNode.countdown(self.timeLeft, self.timerFunc)
         self.clockNode.show()
-
+    
     ##########
     #setTableState (required ram broadcast)
     #
@@ -249,10 +249,10 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
     ##########
     def requestTableState(self):
         self.sendUpdate("requestTableState", [])
-
+    
     def setTableState(self, tableStateList, isplaying):
         y = 0
-        print("SET TABLE STATE")
+        print "SET TABLE STATE"
         if isplaying == 0:
             self.isPlaying = False
         else:
@@ -261,13 +261,13 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             if x != 0:
                 # If we are to sit him down, make sure that he has not already been animated by fillslot
                 # (deltas are handled by that function)
-                if not x in self.tableState and x in self.cr.doId2do and x not in self.haveAnimated:
+                if not x in self.tableState and self.cr.doId2do.has_key(x) and x not in self.haveAnimated:
                     seatIndex = tableStateList.index(x)
                     toon = self.cr.doId2do[x]
                     toon.stopSmooth()
                     toon.setAnimState( "Sit", 1.0)
 
-
+                    
                     dest = self.seats[seatIndex].getPos(self.tableCloth)
                     hpr = self.seats[seatIndex].getHpr(render)
                     toon.setHpr(hpr)
@@ -282,13 +282,13 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
                         toon.setY(toon.getY()-1.0)
                     else:
                         toon.setY(toon.getY()+1.0)
-
-
+                        
+                    
             if x != 0:
                 self.tableState[y] = x
             else:
                 self.tableState[y] = None
-
+            
             y = y + 1
 
         ###Handle the game menu stuffs
@@ -297,10 +297,10 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             if x != None:
                 numPlayers += 1
         #check for a game menu up
-        print(" GETTING 2", self.gameMenu, numPlayers)
+        print " GETTING 2", self.gameMenu, numPlayers
         if self.gameMenu:
             if numPlayers > 2:
-                print(" GETTING HERE!!")
+                print " GETTING HERE!!"
                 self.gameMenu.FindFour.setColor(.7,.7,.7,.7)
                 self.gameMenu.FindFour['command'] = self.doNothing
                 self.gameMenu.findFourText['fg'] = (.7,.7,.7,.7)
@@ -308,7 +308,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
                 self.gameMenu.Checkers.setColor(.7,.7,.7,.7)
                 self.gameMenu.Checkers['command'] = self.doNothing
                 self.gameMenu.checkersText['fg'] = (.7,.7,.7,.7)
-
+            
     def setIsPlaying(self, isPlaying):
         if isPlaying == 0:
             self.isPlaying = False
@@ -333,12 +333,12 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
                                        OTPGlobals.getInterfaceFont(),
                                        WhisperPopup.WTNormal)
             elif winString == "Find Four":
-                whisper = WhisperPopup(TTLocalizer.FindFourYouWon,
+                whisper = WhisperPopup("You won a game of Find Four!",
                                        OTPGlobals.getInterfaceFont(),
                                        WhisperPopup.WTNormal)
-
+                
         else:
-            if avId in self.cr.doId2do:
+            if self.cr.doId2do.has_key(avId):
                 stateString = self.fsm.getCurrentState().getName()
                 if stateString == "sitting" or stateString == "observing" :
                     base.cr.playGame.getPlace().setState('walk') #To stop Cohesion between EmptySlot and AnnounceWin
@@ -352,18 +352,18 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
                                              OTPGlobals.getInterfaceFont(),
                                              WhisperPopup.WTNormal)
                 elif winString == "Find Four":
-                    whisper = WhisperPopup(av.getName()  + TTLocalizer.FindFourGameOf + TTLocalizer.FindFour,
+                    whisper = WhisperPopup(av.getName()  + " has won a game of" + " Find Four!" ,
                                            OTPGlobals.getInterfaceFont(),
                                            WhisperPopup.WTNormal)
 
-        if avId in self.cr.doId2do:
+        if self.cr.doId2do.has_key(avId):
             # If the toon exists, look it up
             toon = self.cr.doId2do[avId]
-            #self.winTrack.finish()
+            #self.winTrack.finish() 
             self.winTrack = Sequence(autoFinish = 1)
             if self.outTrack.isPlaying(): #If toon is jumping out Wait a
                 self.winTrack.append(Wait(2.0)) # duration till his anim is over to begin
-
+                
             if avId == base.localAvatar.getDoId():
                 #stop him from walking locally
                 #otherwise he will animate around while moving on other clients
@@ -374,9 +374,9 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             self.winTrack.start()
         #Display the whisper message
         whisper.manage(base.marginManager)
-
-
-
+        
+                
+                
     ##########
     #handleEnterPicnicTableSphere
     #
@@ -385,7 +385,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
     ##########
     def handleEnterPicnicTableSphere(self, i, collEntry):
         assert self.notify.debugStateCall(self)
-        #print("COLLISION!!!")
+        #print "COLLISION!!!"
         self.notify.debug("Entering Picnic Table Sphere.... %s" % self.getDoId())
 
 
@@ -398,7 +398,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
     ###
 
     def enableChoiceButtons(self):
-        if self.tableState[self.seatBumpForObserve] == None and self.isPlaying == False:
+        if self.tableState[self.seatBumpForObserve] == None and self.isPlaying == False:   
             self.joinButton = DirectButton(
             relief = None,
             text = TTLocalizer.PicnicTableJoinButton,
@@ -454,7 +454,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             )
         base.cr.playGame.getPlace().setState('stopped')
     def tutorialButtonPushed(self):
-        #print("GETTING HERE!!!")
+        #print "GETTING HERE!!!"
         self.disableChoiceButtons()
         #self.tutorial = ChineseTutorial(self.tutorialDone)
         self.gameMenu = GameMenu(self.tutorialFunction, 1) # 1 == Tutorial Num
@@ -466,8 +466,6 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             self.tutorial = ChineseTutorial(self.tutorialDone)
         elif tutVal == 2:
             self.tutorial = CheckersTutorial(self.tutorialDone)
-        #elif tutVal == 3:
-        #    self.tutorial = FindFourTutorial(self.tutorialDone)
         self.gameMenu.picnicFunction = None
         self.gameMenu = None
     def tutorialDone(self):
@@ -483,11 +481,11 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
                          toon.getH(), toon.getP(), toon.getR()])
         self.requestSeat = None
         self.fsm.request('sitting')
-
+        
     def rejectJoin(self):
         self.fsm.request('off')
         self.allowToWalk()
-
+        
     def cancelButtonPushed(self):
         base.cr.playGame.getPlace().setState('walk')
         self.requestSeat = None
@@ -509,7 +507,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
     #the client if its ok for people to picnic table, and then animates them
     ##########
     def pickFunction(self, gameNum):
-        #print("SENDING PICK!")
+        #print "SENDING PICK!"
         if gameNum == 1: #Chinese Checkers
             self.sendUpdate('requestPickedGame', [gameNum])
         elif gameNum == 2:
@@ -522,8 +520,8 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
 
     def setZone(self, zoneId):
         #import pdb; pdb.set_trace()
-        #print("ZONE iD == " , zoneId)
-        #print("CURRENT SATE?!?!? == ", self.fsm.getCurrentState().getName())
+        #print "ZONE iD == " , zoneId
+        #print "CURRENT SATE?!?!? == ", self.fsm.getCurrentState().getName()
         #if self.fsm.getCurrentState().getName() == "chooseMode" or self.fsm.getCurrentState().getName() == "sitting":
         if self.fsm.getCurrentState().getName() == "sitting" or self.fsm.getCurrentState().getName() == "observing" :
             if self.tutorial == None:
@@ -546,14 +544,14 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
                 self.seatPos = index
                 pass #not in a game but need to animate into the game
 
-        if avId in self.cr.doId2do:
+        if self.cr.doId2do.has_key(avId):
             toon = self.cr.doId2do[avId]
 
             toon.stopSmooth()
             toon.wrtReparentTo(self.tableCloth)
             sitStartDuration = toon.getDuration("sit-start")
             jumpTrack = self.generateToonJumpTrack(toon, index)
-
+            
             track = Sequence(autoFinish = 1)
             if avId == base.localAvatar.getDoId():
                 if not base.cr.playGame.getPlace() == None:
@@ -574,19 +572,19 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
     ##########
     def emptySlot(self, avId, index, timestamp):
         self.notify.debug( "### seat %s now empty" % index)
-
+        
         ##Player told to exit is an OBSERVER
         if index == 255 and self.game != None:
             self.stopObserveButtonPushed()
             return
 
 
-
+               
            #self.fullSeat[index] = self.seatState.Empty
         if avId in self.haveAnimated:
                self.haveAnimated.remove(avId)
            # self.fullSeat[index] = self.seatState.Empty
-        if avId in self.cr.doId2do:
+        if self.cr.doId2do.has_key(avId):
             if avId == base.localAvatar.getDoId():
                 if self.gameZone:
                     base.cr.removeInterest(self.gameZone)
@@ -648,12 +646,12 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
                 self.cameraBoardTrack = LerpPosHprInterval(camera, 2.0,
                                                    Point3(0,0, 17),
                                                    Point3(-180,-90,0))
-
+                                                  
             else:#(turned right)
                 self.cameraBoardTrack = LerpPosHprInterval(camera, 2.0,
                                                    Point3(0,0, 17),
                                                    Point3(180,-90,0))
-
+    
         self.cameraBoardTrack.start()
     def moveCameraBack(self):
         self.cameraBoardTrack = LerpPosHprInterval(camera, 2.5,
@@ -669,28 +667,28 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
     def __enableCollisions(self):
         # start listening for toons to enter.
         assert self.notify.debugStateCall(self)
-        for i in range(self.numSeats):
+        for i in range(self.numSeats): 
             self.accept('enterpicnicTable_sphere_%d_%d' % (self.getDoId(), i), self.handleEnterPicnicTableSphere, [i])
-            #self.accept('enterPicnicTableOK_%d_%d' % (self.getDoId(), i), self.handleEnterPicnicTable, [i])
+            #self.accept('enterPicnicTableOK_%d_%d' % (self.getDoId(), i), self.handleEnterPicnicTable, [i])        
             self.picnicTableSphereNodes[i].setCollideMask(ToontownGlobals.WallBitmask)
         self.tableclothSphereNode.setCollideMask(ToontownGlobals.WallBitmask)
 
     def __disableCollisions(self):
         assert self.notify.debugStateCall(self)
         #self.ignore('tableClothSphereNode')
-        for i in range(self.numSeats):
+        for i in range(self.numSeats): 
             self.ignore('enterpicnicTable_sphere_%d_%d' % (self.getDoId(), i))
             self.ignore('enterPicnicTableOK_%d_%d' % (self.getDoId(), i))
         for i in range(self.numSeats):
-            self.picnicTableSphereNodes[i].setCollideMask(BitMask32(0))
+            self.picnicTableSphereNodes[i].setCollideMask(BitMask32(0))     
         self.tableclothSphereNode.setCollideMask(BitMask32(0))
 
     ##########
     #FSM stuff
     ##########
-
+    
     def enterOff(self):
-        base.setCellsAvailable(base.leftCells +
+        base.setCellsAvailable(base.leftCells + 
                                base.bottomCells, 0)
     def exitOff(self):
         base.setCellsAvailable(base.bottomCells,0)
@@ -763,16 +761,16 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             self.game.fsm.request('gameOver')
             base.cr.removeInterest(self.gameZone)
         self.fsm.request('off')
-
+    
     ##########
     #Generators for jumps
     #
     #And the storage/deletion functions for
     #handling them.
     ##########
-
+        
     def generateToonReverseJumpTrack( self, av, seatIndex ):
-        """Return an interval of the toon jumping out of the golf kart."""
+        """Return an interval of the toon jumping out of the golf kart."""        
         self.notify.debug("av.getH() = %s" % av.getH())
         def getToonJumpTrack( av, destNode ):
             # using a local func allows the ProjectileInterval to
@@ -788,7 +786,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
                 angle = PythonUtil.fitDestAngle2Src(av.getH(), hpr.getX())
                 hpr.setX(angle)
                 return hpr
-
+            
             toonJumpTrack = Parallel(
                 ActorInterval( av, 'jump' ),
                 Sequence(
@@ -800,7 +798,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
                                                 endPos = getJumpDest,
                                                 duration = .9 ) )
                   )
-                )
+                )  
             return toonJumpTrack
 
         toonJumpTrack = getToonJumpTrack( av, self.tableCloth)
@@ -821,7 +819,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
 
         av.pose('sit', 47)
         hipOffset = av.getHipsParts()[2].getPos(av)
-
+        
         def getToonJumpTrack( av, seatIndex ):
             # using a local func allows the ProjectileInterval to
             # calculate this pos at run-time
@@ -850,9 +848,9 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
                         hpr.setX( hpr.getX()-180)
                     else:
                         hpr.setX(hpr.getX()+180)
-
+               
                 return hpr
-
+            
             toonJumpTrack = Parallel(
                 ActorInterval( av, 'jump' ),
                 Sequence(
@@ -886,7 +884,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
                               toonSitTrack,
                               ),
                     ),
-            Func( av.wrtReparentTo, self.tableCloth ),
+            Func( av.wrtReparentTo, self.tableCloth ),            
                 )
 
         return jumpTrack
@@ -901,7 +899,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         oldTrack = self.__toonTracks.get(avId)
         if oldTrack:
             oldTrack.pause()
-            DelayDelete.cleanupDelayDeletes(oldTrack)
+            cleanupDelayDeletes(oldTrack)
             #del self.__toonTracks[avId]
 
     def clearToonTracks(self):
@@ -909,10 +907,15 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         keyList = []
         for key in self.__toonTracks:
             keyList.append(key)
-
+            
         for key in keyList:
-            if key in self.__toonTracks:
+            if self.__toonTracks.has_key(key):
                 self.clearToonTrack(key)
 
     def doNothing(self):
         pass
+
+
+    
+    
+

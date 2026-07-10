@@ -1,9 +1,7 @@
 # CatchGameGlobals.py: contains catch game stuff
 # used by both AI and client
 
-from toontown.toonbase.ToontownModules import ConfigVariableBool
-
-EndlessGame = ConfigVariableBool('endless-catch-game', 0).getValue()
+EndlessGame = config.GetBool('endless-catch-game', 0)
 
 #GameDuration = 60.
 # this is the duration of the tag game music...
@@ -53,7 +51,7 @@ for type in DropObjectTypes:
 #   Name2DOTypeId['apple'] == some number
 #   DOTypeId2Name[some number] == 'apple'
 Name2DOTypeId = {}
-names = list(Name2DropObjectType.keys())
+names = Name2DropObjectType.keys()
 names.sort()
 for i in range(len(names)):
     Name2DOTypeId[names[i]] = i
@@ -61,12 +59,12 @@ for i in range(len(names)):
 DOTypeId2Name = names
 
 """
-from . import CatchGameGlobals
+import CatchGameGlobals
 for np in range(4):
     for sz in (2000,1000,5000,4000,3000,9000):
         numFruits = CatchGameGlobals.NumFruits[np][sz]
         jb = int(int(numFruits / 2) + round(numFruits / 4.))
-        print('%s: %s: %s' % (np, sz, jb))
+        print '%s: %s: %s' % (np, sz, jb)
 """
 # this is for the AI, so it doesn't have to do calculations, and so the
 # client code can calculate these values in a straightforward manner.

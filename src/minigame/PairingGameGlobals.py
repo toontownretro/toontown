@@ -1,10 +1,9 @@
-from . import PlayingCardDeck
-from toontown.toonbase.ToontownModules import ConfigVariableBool
+import PlayingCardDeck
 
 EasiestGameDuration = 120
 HardestGameDuration = 90
 
-EndlessGame = ConfigVariableBool('endless-pairing-game', 0).getValue()
+EndlessGame = config.GetBool('endless-pairing-game', 0)
 
 # what is the highest rank we use in the game
 MaxRankIndexUsed = [7,7,7,8,9]
@@ -16,7 +15,7 @@ def createDeck(deckSeed, numPlayers):
     deck.shuffleWithSeed(deckSeed)
     deck.removeRanksAbove(MaxRankIndexUsed[numPlayers])
     return deck
-
+    
 def calcGameDuration(difficulty):
     # difficulty should be from 0..1
     difference = EasiestGameDuration - HardestGameDuration
@@ -25,7 +24,7 @@ def calcGameDuration(difficulty):
     return retval
 
 def calcLowFlipModifier(matches, flips):
-    # returns 0..1
+    # returns 0..1 
     idealFlips = round ( (matches * 2) * 1.6)
     if idealFlips < 2:
         idealFlips = 2
@@ -40,3 +39,8 @@ def calcLowFlipModifier(matches, flips):
         difference = maxFlipsForBonus - flips
         retval = float(difference) / divisor
     return retval
+        
+        
+        
+        
+    

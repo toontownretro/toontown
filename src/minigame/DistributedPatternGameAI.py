@@ -1,11 +1,11 @@
 """DistributedPatternGameAI module: contains the DistributedPatternGameAI class"""
 
-from .DistributedMinigameAI import *
+from DistributedMinigameAI import *
 from toontown.ai.ToonBarrier import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 import random
-from . import PatternGameGlobals
+import PatternGameGlobals
 import copy
 
 class DistributedPatternGameAI(DistributedMinigameAI):
@@ -118,8 +118,7 @@ class DistributedPatternGameAI(DistributedMinigameAI):
             self.nextRoundBarrier.clear(avId)
 
     def reportPlayerReady(self):
-        #if self.gameFSM.getCurrentState().getName() != 'waitClientsReady':
-        if not self._inState('waitClientsReady'):
+        if self.gameFSM.getCurrentState().getName() != 'waitClientsReady':
             return
         avId = self.air.getAvatarIdFromSender()
         assert not avId in self.readyClients

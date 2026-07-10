@@ -1,13 +1,13 @@
 """InputCheck module: contains the InputCheck class"""
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 import string
 
 def isValidEmailAddr(addr):
-    strict = ConfigVariableBool('strict-email-check', 1).getValue()
+    strict = config.GetBool('strict-email-check', 1)
     if not strict:
         return len(addr) > 0
-
+        
     sections = addr.split('@')
     # there must be exactly one '@'
     if len(sections) != 2:
@@ -24,7 +24,7 @@ def isValidEmailAddr(addr):
     # make sure there's something after the last '.'
     if len(sections[-1]) == 0:
         return 0
-
+    
     return 1
 
 # this is used as a callback in a list of input check functors

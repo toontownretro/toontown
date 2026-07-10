@@ -1,4 +1,4 @@
-from . import CatalogItem
+import CatalogItem
 from toontown.pets import PetTricks
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -113,9 +113,6 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
         return "CatalogPetTrickItem(%s%s)" % (
             self.trickId,
             self.formatOptionalData(store))
-            
-    def equalsTo(self, other):
-        return self.trickId == other.trickId
 
     def compareTo(self, other):
         return self.trickId - other.trickId
@@ -141,9 +138,9 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
 
 def getAllPetTricks():
     # Returns a list of all valid CatalogPetTrickItems.
-    allPetTricks = []
-    for trickId in list(PetTricks.TrickId2scIds.keys()):
-        allPetTricks.append(CatalogPetTrickItem(trickId))
+    list = []
+    for trickId in PetTricks.TrickId2scIds.keys():
+        list.append(CatalogPetTrickItem(trickId))
 
-    return allPetTricks
+    return list
 

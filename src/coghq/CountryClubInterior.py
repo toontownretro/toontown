@@ -4,8 +4,7 @@ from toontown.battle import BattlePlace
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.showbase import BulletinBoardWatcher
-from toontown.toonbase.ToontownModules import *
-from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
+from pandac.PandaModules import *
 from toontown.toon import Toon
 from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil
@@ -19,7 +18,7 @@ import random
 class CountryClubInterior(BattlePlace.BattlePlace):
     # create a notify category
     notify = DirectNotifyGlobal.directNotify.newCategory("CountryClubInterior")
-
+    
     # special methods
     def __init__(self, loader, parentFSM, doneEvent):
         assert(CountryClubInterior.notify.debug("countryClubInterior()"))
@@ -41,8 +40,8 @@ class CountryClubInterior(BattlePlace.BattlePlace):
                             State.State('walk',
                                         self.enterWalk,
                                         self.exitWalk,
-                                        ['push', 'sit', 'stickerBook',
-                                         'WaitForBattle', 'battle',
+                                        ['push', 'sit', 'stickerBook', 
+                                         'WaitForBattle', 'battle', 
                                          'died', 'teleportOut', 'squished',
                                          'DFA', 'fallDown', 'stopped', 'elevator',
                                          ]),
@@ -122,12 +121,12 @@ class CountryClubInterior(BattlePlace.BattlePlace):
                             State.State('elevator',
                                         self.enterElevator,
                                         self.exitElevator,
-                                        ['walk']),
+                                        ['walk']),                            
                             State.State('final',
                                         self.enterFinal,
                                         self.exitFinal,
                                         ['start'])],
-
+                          
                            # Initial State
                            'start',
                            # Final State
@@ -157,9 +156,6 @@ class CountryClubInterior(BattlePlace.BattlePlace):
 
         # Cheesy rendering effects are not allowed in CountryClubs.
         base.cr.forbidCheesyEffects(1)
-
-        # Turn on the limiter
-        self._telemLimiter = TLGatherAllAvs('CountryClubInterior', RotationLimitToH)
 
         # wait until the CountryClub and any distributed entities have been
         # created before moving on
@@ -194,10 +190,6 @@ class CountryClubInterior(BattlePlace.BattlePlace):
         NametagGlobals.setMasterArrowsOn(0)
 
         bboard.remove(DistributedCountryClub.DistributedCountryClub.ReadyPost)
-
-        # Stop the limiter
-        self._telemLimiter.destroy()
-        del self._telemLimiter
 
         # Restore cheesy rendering effects.
         base.cr.forbidCheesyEffects(0)
@@ -239,7 +231,7 @@ class CountryClubInterior(BattlePlace.BattlePlace):
         # make sure we're under render, and make sure everyone else knows it
         if base.localAvatar.getParent() != render:
             base.localAvatar.wrtReparentTo(render)
-            base.localAvatar.b_setParent(ToontownGlobals.SPActors)
+            base.localAvatar.b_setParent(ToontownGlobals.SPRender)
 
     def exitWaitForBattle(self):
         CountryClubInterior.notify.debug('exitWaitForBattle')
@@ -290,7 +282,7 @@ class CountryClubInterior(BattlePlace.BattlePlace):
 
     def enterTeleportOut(self, requestStatus):
         CountryClubInterior.notify.debug('enterTeleportOut()')
-        BattlePlace.BattlePlace.enterTeleportOut(self, requestStatus,
+        BattlePlace.BattlePlace.enterTeleportOut(self, requestStatus, 
                         self.__teleportOutDone)
 
     def __processLeaveRequest(self, requestStatus):
@@ -316,11 +308,11 @@ class CountryClubInterior(BattlePlace.BattlePlace):
             self.fsm.request('FLA', [requestStatus])
         else:
             self.__processLeaveRequest(requestStatus)
-
+        
     def exitTeleportOut(self):
         CountryClubInterior.notify.debug('exitTeleportOut()')
         BattlePlace.BattlePlace.exitTeleportOut(self)
-
+         
     def handleCountryClubWinEvent(self):
         """this handler is called when the CountryClub has been defeated"""
         CountryClubInterior.notify.debug('handleCountryClubWinEvent')
@@ -386,7 +378,7 @@ class CountryClubInterior(BattlePlace.BattlePlace):
 
     def enterElevator(self, distElevator, skipDFABoard = 0):
         assert(self.notify.debug("enterElevator()"))
-
+        
         self.accept(self.elevatorDoneEvent, self.handleElevatorDone)
         self.elevator = Elevator.Elevator(self.fsm.getStateNamed("elevator"),
                                           self.elevatorDoneEvent,
@@ -405,13 +397,13 @@ class CountryClubInterior(BattlePlace.BattlePlace):
         self.elevator.unload()
         self.elevator.exit()
         #del self.elevator
-
+        
     def handleElevatorDone(self, doneStatus):
         assert(self.notify.debug("handleElevatorDone()"))
         self.notify.debug("handling elevator done event")
         where = doneStatus['where']
         if (where == 'reject'):
-            # If there has been a reject the Elevator should show an
+            # If there has been a reject the Elevator should show an 
             # elevatorNotifier message and put the toon in the stopped state.
             # Don't request the walk state here. Let the the toon be stuck in the
             # stopped state till the player removes that message from his screen.

@@ -1,8 +1,8 @@
 """BuildingPage module: contains the BuildingPage class"""
 
-from . import ShtikerPage
+import ShtikerPage
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
 
 class BuildingPage(ShtikerPage.ShtikerPage):

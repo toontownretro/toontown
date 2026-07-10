@@ -1,8 +1,7 @@
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from toontown.uberdog import DataStoreGlobals
 from direct.showbase.DirectObject import DirectObject
-import pickle
-from toontown.toonbase.ToontownModules import *
+import cPickle
 
 class DataStoreAIClient(DirectObject):
     """
@@ -27,10 +26,10 @@ class DataStoreAIClient(DirectObject):
     control on the Uberdog.  That way, we have only one point of control
     rather than several various AIs who may not be entirely in sync.
     """
-
+    
     notify = directNotify.newCategory('DataStoreAIClient')
-    wantDsm = ConfigVariableBool('want-ddsm', 1).getValue()
-
+    wantDsm = simbase.config.GetBool('want-ddsm', 1)
+        
     def __init__(self,air,storeId,resultsCallback):
         """
         storeId is a unique identifier to the type of store
@@ -48,8 +47,8 @@ class DataStoreAIClient(DirectObject):
         self.__resultsCallback = resultsCallback
         self.__storeClass = DataStoreGlobals.getStoreClass(storeId)
         self.__queryTypesDict = self.__storeClass.QueryTypes
-        self.__queryStringDict = dict(list(zip(list(self.__queryTypesDict.values()),
-                                          list(self.__queryTypesDict.keys()))))
+        self.__queryStringDict = dict(zip(self.__queryTypesDict.values(),
+                                          self.__queryTypesDict.keys()))
         self.__enabled = False
 
     def openStore(self):
@@ -77,13 +76,13 @@ class DataStoreAIClient(DirectObject):
 
     def isOpen(self):
         return self.__enabled
-
+    
     def getQueryTypes(self):
-        return list(self.__queryTypesDict.keys())
+        return self.__queryTypesDict.keys()
 
     def getQueryTypeString(self,qId):
         return self.__queryStringDict.get(qId,None)
-
+    
     def sendQuery(self,queryTypeString,queryData):
         """
         Sends a query to the data store.  The format of the query is
@@ -94,13 +93,13 @@ class DataStoreAIClient(DirectObject):
             if qId is not None:
                 query = (qId,queryData)
                 # pack the data to be sent to the Uberdog store.
-                pQuery = pickle.dumps(query)
+                pQuery = cPickle.dumps(query)
                 self.__storeMgr.queryStore(self.__storeId,pQuery)
             else:
                 self.notify.debug('Tried to send invalid query type: \'%s\'' % (queryTypeString,))
         else:
             self.notify.warning('Client currently stopped.  \'%s\' query will fail.' % (queryTypeString,))
-
+        
     def receiveResults(self,data):
         """
         Upon receiving a query, the store will respond with a result.
@@ -114,7 +113,7 @@ class DataStoreAIClient(DirectObject):
         if data == 'Store not found':
             self.notify.debug('%s not present on uberdog. Query dropped.' %(self.__storeClass.__name__,))
         else:
-            results = pickle.loads(data)
+            results = cPickle.loads(data)
             self.__resultsCallback(results)
 
     def __startClient(self):
@@ -124,7 +123,7 @@ class DataStoreAIClient(DirectObject):
         """
         self.accept('TDS-results-%d'%self.__storeId,self.receiveResults)
         self.__enabled = True
-
+        
     def __stopClient(self):
         """
         Disallow the client from sending queries and receiving results

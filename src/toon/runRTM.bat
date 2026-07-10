@@ -1,4 +1,3 @@
-@echo off
 set PATH=lib
 set PYTHONPATH=.;lib-tk
 set TTMODELS=.

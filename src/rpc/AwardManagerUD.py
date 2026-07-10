@@ -20,19 +20,17 @@ from toontown.catalog import CatalogMouldingItem
 from toontown.catalog import CatalogPetTrickItem
 from toontown.catalog import CatalogRentalItem
 from toontown.catalog import CatalogAnimatedFurnitureItem
-from toontown.catalog import CatalogAccessoryItem
 from toontown.toonbase import TTLocalizer
 from toontown.rpc import AwardResponses
 from toontown.rpc import AwardManagerConsts
 from toontown.toonbase import ToontownGlobals
 from direct.distributed.AsyncRequest import AsyncRequest
-from toontown.toonbase.ToontownModules import *
 
 WrongGenderStr = "wrong gender"
 JellybeanRewardValues = (1,5,10,15,20,25,50,100,150,200,250,500,750,1000)
 
 # How long does an Award sit on the awardOnOrder
-AwardManagerDelayMinutes = ConfigVariableInt("award-delay-minutes", 30).getValue()
+AwardManagerDelayMinutes = uber.config.GetInt("award-delay-minutes", 30)
 
 GiveAfterDelayTime = 1
 GiveImmediately = 2
@@ -41,7 +39,7 @@ GiveAfterOneMinute = 4
 NukeAllAwards=5
 
 SpecialCommandStrs = {
-    GiveAfterDelayTime : "Give award after 30 minutes",
+    GiveAfterDelayTime : "Give award  after 30 minutes",
     GiveImmediately : "Give award immediately",
     TryToRemove : "Try to remove the award",
     NukeAllAwards : "Nuke all awards in award mailbox and award queue",
@@ -49,7 +47,7 @@ SpecialCommandStrs = {
 
 class GetToonsRequest(AsyncRequest):
     # So this is just a class to get all the toons receiving awards
-    # Actually replying back to the browser is handled by
+    # Actually replying back to the browser is handled by 
     def __init__(self, awardManagerDo, isDcRequest, dcId, toonIdsList, catalogItem, specialEventId, browserReplyTo, specialCommands, echoBack, timeout = 4.0):
         """Construct ourself."""
         replyToChannelId = awardManagerDo.air.getSenderReturnChannel
@@ -69,7 +67,7 @@ class GetToonsRequest(AsyncRequest):
            self.neededObjects[toonId] = None
         for toonId in self.toonIds:
            self.askForObject(toonId)
-
+        
     def finish(self):
         """Report back on all the toon database objects that we got."""
         replyString = str(self.neededObjects)
@@ -86,26 +84,26 @@ class GetToonsRequest(AsyncRequest):
         if self.numRetries > 0:
             assert AsyncRequest.notify.debug(
                 'Timed out. Trying %d more time(s) : %s' %
-                (self.numRetries + 1, repr(self.neededObjects)))
+                (self.numRetries + 1, `self.neededObjects`))
             self.numRetries -= 1
             return Task.again
         else:
             if __debug__:
                if False: # True:
                     if hasattr(self, "avatarId"):
-                        print("\n\nself.avatarId =", self.avatarId)
-                    print("\nself.neededObjects =", self.neededObjects)
-                    print("\ntimed out after %s seconds.\n\n"%(task.delayTime,))
+                        print "\n\nself.avatarId =", self.avatarId
+                    print "\nself.neededObjects =", self.neededObjects
+                    print "\ntimed out after %s seconds.\n\n"%(task.delayTime,)
                     import pdb; pdb.set_trace()
             replyString = '"some toonIds invalid %s"' % str(self.neededObjects)
             replyString = replyString.replace('<','_')
             replyString = replyString.replace('>','_')
             #self.browserReplyTo.respond(replyString)
-            self.awardManagerDo.gotTheToons(self._isDcRequest, self._dcId, self.neededObjects, self.item, self.specialEventId, self.browserReplyTo, self.specialCommands, self.echoBack)
+            self.awardManagerDo.gotTheToons(self._isDcRequest, self._dcId, self.neededObjects, self.item, self.specialEventId, self.browserReplyTo, self.specialCommands, self.echoBack) 
             self.delete()
             return task.done
-
-
+        
+ 
 
 class AwardManagerUD(DistributedObjectGlobalUD):
     """
@@ -117,7 +115,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         """Construct ourselves, set up web dispatcher."""
         assert self.notify.debugCall()
         DistributedObjectGlobalUD.__init__(self, air)
-
+        
         self.air = air
 
         self._dcRequestSerialGen = SerialNumGen(1)
@@ -135,11 +133,12 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         self.webDispatcher.listenOnPort(self.HTTPListenPort)
         self.webDispatcher.landingPage.addTab("AwardMgr","/awardMgr")
 
+
         self.air.setConnectionName("AwardMgr")
         self.air.setConnectionURL("http://%s:%s/" % (socket.gethostbyname(socket.gethostname()),self.HTTPListenPort))
         self.awardChoices = self.getAwardChoices()  # award Choices is a dict of dicts
         self.reverseDictAwardChoices = self.getReversedAwardChoices()
-
+        
     def announceGenerate(self):
         """Start accepting http requests."""
         assert self.notify.debugCall()
@@ -150,7 +149,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         """Give the award in a try block, so as not to crash uberdog if all else fails."""
         try:
             self.giveAwardActual(replyTo, **kw)
-        except Exception as e:
+        except Exception,e:
             replyTo.respondXML(AwardResponses.awardGiveFailureXML % ("Catastrophic failure giving the award %s" % str(e)))
 
     def _getCatalogItemObj(self, itemType, itemIndex):
@@ -198,26 +197,16 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         elif itemType == CatalogItemTypes.RENTAL_ITEM:
             # TODO since all we offer so far is 48 hours of cannons, values pulled for CatalogGenerator
             # do something else if we have different durations
-            rentalType = itemIndex
+            rentalType = itemIndex                
             itemObj = CatalogRentalItem.CatalogRentalItem(rentalType, 2880, 1000)
         elif itemType == CatalogItemTypes.ANIMATED_FURNITURE_ITEM:
             furnitureNumber = itemIndex
             itemObj = CatalogAnimatedFurnitureItem.CatalogAnimatedFurnitureItem(furnitureNumber, colorOption = 0)
-        elif itemType == CatalogItemTypes.ACCESSORY_ITEM:
-            accessoryNumber = itemIndex
-            #itemObj = CatalogBeanItem.CatalogBeanItem(amount)
-            # for now always the first color choice
-            itemObj = CatalogAccessoryItem.CatalogAccessoryItem(accessoryNumber, 0)
-            itemObj.giftTag = 0
-            itemObj.giftCode = 1
-        else:
-            self.notify.warning("Invalid item (%s, %s) being redeemed, giving a bean instead!" % (str(itemType), str(itemIndex)))
-            itemObj = CatalogBeanItem.CatalogBeanItem(1)
         return itemObj
-
+            
     def giveAwardActual(self, replyTo, **kw):
         """Actually give the awards."""
-
+        
         self.notify.debug("giveAward")
         self.notify.debug("%s" % str(kw))
         # Debating if we should log invalid award requests
@@ -239,7 +228,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
 
         itemType = None
         secondChoice = None
-        try:
+        try:            
             itemTypeStr = kw['optone']
             secondChoiceStr = kw['opttwo']
 
@@ -247,12 +236,12 @@ class AwardManagerUD(DistributedObjectGlobalUD):
             secondChoice = int(secondChoiceStr)
 
             testItem = self._getCatalogItemObj(itemType, secondChoice)
-
-        except Exception as e:
+                
+        except Exception, e:
            replyTo.respondXML(AwardResponses.awardGiveFailureXML % ("Couldn't create catalog item itemType=%s secondChoice%s %s" % (itemType, secondChoice, str(e))))
            return
-
-
+       
+        
         specialEventId = 0
         try:
             specialEventId = int(kw['specialEventId'])
@@ -265,7 +254,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
             specialCommands = int(kw['specialCommands'])
         except:
             replyTo.respondXML(AwardResponses.awardGiveFailureXML % ("Invalied special commands args received=%s" % (str(kw))))
-            return
+            return       
 
         # create our echo back string
         echoBack = ""
@@ -275,7 +264,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         echoBack += "<br />Special Commands = %s" % SpecialCommandStrs[specialCommands]
 
         self.air.writeServerEvent('giveAwardWebRequest', 0, '%s|%s|%s' % (replyTo.getSourceAddress(), echoBack, toonIds))
-        print(echoBack)
+        print echoBack
         replyToChannel = self.air.getSenderReturnChannel()
 
         isDcRequest = False
@@ -286,7 +275,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
     def awardMgr(self, replyTo, **kw):
         """Handle all calls to web requests awardMgr."""
         assert self.notify.debugCall()
-
+        
         # If no arguments are passed, assume that the main menu should
         # be displayed
 
@@ -305,7 +294,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
             header,body,footer,help= self.getMainMenu()
             body = """<BODY><div id="contents"><center><P>got these arguments """
             body += str(kw)
-
+            
         #self.notify.info("%s" % header + body + help + footer)
         replyTo.respond(header + body + help + footer)
 
@@ -331,7 +320,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
                 result = ToontownGlobals.P_OnAwardOrderListFull
             else:
                 result = ToontownGlobals.P_AwardMailboxFull
-        return result
+        return result    
 
     def checkDuplicate(self, toon, catalogItem):
         """Return None if he doesn't have this item yet. an error code from GiveAwardErrors otherwise"""
@@ -360,7 +349,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
             # this will not work properly if the error checking happens after a second call to this method
             self._catalogError = checkDup
             result = AwardManagerConsts.GiveAwardErrors.GenericAlreadyHaveError
-        return result
+        return result                        
 
     def validateItem(self, toon, catalogItem):
         """Returns (True, AwardManagerConsts.GiveAwardErrors.Success) if everything is ok, otherwise returns (False,<error reason>)"""
@@ -370,7 +359,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
             return (False, AwardManagerConsts.GiveAwardErrors.WrongGender)
         retcode = self.checkGiftable(toon, catalogItem)
         if retcode:
-            return (False, AwardManagerConsts.GiveAwardErrors.NotGiftable)
+            return (False, AwardManagerConsts.GiveAwardErrors.NotGiftable)        
         retcode= self.checkFullMailbox(toon, catalogItem)
         if retcode:
             return (False, AwardManagerConsts.GiveAwardErrors.FullAwardMailbox)
@@ -398,9 +387,9 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         else:
             #import pdb; pdb.set_trace()
             # Get the current time in minutes.
-            now = int(time.time() / 60 + 0.5)
+            now = (int)(time.time() / 60 + 0.5)
             if specialCommands == GiveAfterOneMinute:
-                delay = 1
+                delay = 1.
             else:
                 delay = AwardManagerDelayMinutes
             future = now + delay
@@ -428,14 +417,14 @@ class AwardManagerUD(DistributedObjectGlobalUD):
 
     def nukeAllAwards(self,toon):
         """Try to remove all awards."""
-        if len(toon.onAwardOrder) ==0 and len (toon.awardMailboxContents) == 0:
+        if len(toon.onAwardOrder) ==0 and len (toon.awardMailboxContents) == 0:            
             result = (False, "no awards to remove")
         else:
             import pdb; pdb.set_trace()
             numInMailbox = len (toon.awardMailboxContents)
             numInQueue = len(toon.onAwardOrder)
             toon.awardMailboxContents = CatalogItemList.CatalogItemList(store = CatalogItem.Customization)
-            toon.onAwardOrder = CatalogItemList.CatalogItemList(store = CatalogItem.Customization | CatalogItem.DeliveryDate)
+            toon.onAwardOrder = CatalogItemList.CatalogItemList(store = CatalogItem.Customization | CatalogItem.DeliveryDate)       
             newBlob = toon.onAwardOrder.getBlob(store = CatalogItem.Customization | CatalogItem.DeliveryDate)
             self.air.sendUpdateToDoId(
                     "DistributedToon",
@@ -444,10 +433,10 @@ class AwardManagerUD(DistributedObjectGlobalUD):
             self.air.sendUpdateToDoId(
                     "DistributedToon",
                     "setAwardMailboxContents", toon.doId, [newAwardBlob])
-
+        
             result = (True,"awards nuked, in mailbox=%d, in queue=%d" % (numInMailbox, numInQueue))
         return result
-
+        
 
     def gotTheToons(self, isDcRequest, dcId, toonObjDict, catalogItem, specialEventId, browserReplyTo, specialCommands, echoBack):
         """Validate then give the catalog item to the toons."""
@@ -463,7 +452,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
                     if toon:
                         success, error = self.validateItem(toon, catalogItem)
                         if error == AwardManagerConsts.GiveAwardErrors.WrongGender:
-                            wrongGenderToonIds.append(toonId)
+                            wrongGenderToonIds.append(toonId)                        
                         if success:
                             success = self.giveItemToToon(toon, catalogItem, specialEventId, specialCommands)
                             if success:
@@ -489,15 +478,15 @@ class AwardManagerUD(DistributedObjectGlobalUD):
                         success, errorStr = self.nukeAllAwards(toon)
                         tableValues[toonId] = errorStr
 
-            self.air.writeServerEvent('giveAwardResults',0,"%s|%s|%s" % (echoBack, str(catalogItem), str(giveAwardErrors)))
-
+            self.air.writeServerEvent('giveAwardResults',0,"%s|%s|%s" % (echoBack, str(catalogItem), str(giveAwardErrors))) 
+                        
             if not isDcRequest:
                 self.sendResultsBack(giveAwardErrors, catalogErrors, tableValues, toonObjDict, catalogItem, specialEventId, browserReplyTo, wrongGenderToonIds, echoBack)
             else:
                 assert len(giveAwardErrors) == 1
-                errorCode = giveAwardErrors[list(giveAwardErrors.keys())[0]]
+                errorCode = giveAwardErrors[giveAwardErrors.keys()[0]]
                 self.sendGiveAwardToToonReply(dcId, errorCode)
-        except Exception as e:
+        except Exception,e:
             if not isDcRequest:
                 browserReplyTo.respondXML(AwardResponses.awardGiveFailureXML % ("Catastrophic failure in gotTheToons %s" % str(e)))
             else:
@@ -507,7 +496,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         """For each toon, tell if they got the item or not."""
         self.notify.debugStateCall(self)
         header,body,footer,help= self.getMainMenu()
-
+        
         body = body = """<BODY><div id="contents"><center><P>"""
         body += echoBack
         body += """<h4>Results:</h4>
@@ -543,7 +532,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
 
     def giveAwardToToon(self, context, replyToDoId, replyToClass, avId, awardType, awardItemId):
         self.air.writeServerEvent('giveAwardCodeRequest', avId, '%s|%s' %(str(awardType), str(awardItemId)))
-        dcId = next(self._dcRequestSerialGen)
+        dcId = self._dcRequestSerialGen.next()
         self._dcId2info[dcId] = ScratchPad(replyToClass=replyToClass,
                                            replyToDoId=replyToDoId,
                                            context=context)
@@ -555,7 +544,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         echoBack = ''
         GetToonsRequest(self, isDcRequest, dcId, [avId], catalogItem, specialEventId, browserReplyTo,
                         specialCommands, echoBack)
-
+        
     def sendGiveAwardToToonReply(self, dcId, result):
         info = self._dcId2info.pop(dcId)
         self.air.dispatchUpdateToGlobalDoId(info.replyToClass, "giveAwardToToonResult",
@@ -584,9 +573,9 @@ class AwardManagerUD(DistributedObjectGlobalUD):
             <input type="text" name="prize" />
             <br />
             <input type="submit" value="Submit" />
-            </form>
+            </form>            
             """
-
+            
         footer = """</tbody></table></P></center></div><div id="footer">Toontown AwardManager</div></BODY></HTML>"""
         help = """<table height = "15%"></table><P><table width = "60%"><caption>Note</caption><tr><th scope=col>- Report any prizing issues to  chris.barkoff@disney.com<br>- Report any technical issues to redmond.urbino@disney.com</th></tr></table></P>"""
         return (header,body,footer,help)
@@ -595,7 +584,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
     def getClothingChoices(cls):
         """Return a dictionary of clothing choices. Key is the description, clothingtype are values."""
         values = {}
-        for key in list(CatalogClothingItem.ClothingTypes.keys()):
+        for key in CatalogClothingItem.ClothingTypes.keys():
             clothingItem = CatalogClothingItem.ClothingTypes[key]
             typeOfClothes = clothingItem[0]
             styleString = clothingItem[1]
@@ -604,28 +593,28 @@ class AwardManagerUD(DistributedObjectGlobalUD):
                 textString = TTLocalizer.AwardMgrShirt
                 # if its an exclusive boy or girl item, then say so
                 if typeOfClothes == CatalogClothingItem.ABoysShirt:
-                   textString += ' ' + TTLocalizer.AwardMgrBoy
+                   textString += ' ' + TTLocalizer.AwardMgrBoy 
                 elif typeOfClothes == CatalogClothingItem.AGirlsShirt:
-                   textString += ' ' + TTLocalizer.AwardMgrGirl
+                   textString += ' ' + TTLocalizer.AwardMgrGirl 
                 else:
-                   textString += ' ' + TTLocalizer.AwardMgrUnisex
+                   textString += ' ' + TTLocalizer.AwardMgrUnisex                             
                 textString +=  ' ' + TTLocalizer.ShirtStylesDescriptions[styleString]
                 if textString in values:
                     cls.notify.error("Fix %s, descriptions must be unique" % textString)
                 values[textString] = key
 
         # do a 2nd for loop to ensure bottoms always goes last
-        for key in list(CatalogClothingItem.ClothingTypes.keys()):
+        for key in CatalogClothingItem.ClothingTypes.keys():
             clothingItem = CatalogClothingItem.ClothingTypes[key]
             typeOfClothes = clothingItem[0]
             styleString = clothingItem[1]
-            if typeOfClothes in (CatalogClothingItem.AShorts, CatalogClothingItem.ABoysShorts,
+            if typeOfClothes in (CatalogClothingItem.AShorts, CatalogClothingItem.ABoysShorts, 
                                  CatalogClothingItem.AGirlsShorts, CatalogClothingItem.AGirlsSkirt):
                 textString = ""
                 if typeOfClothes == CatalogClothingItem.AGirlsSkirt:
-                    textString =  TTLocalizer.AwardMgrSkirt
+                    textString =  TTLocalizer.AwardMgrSkirt 
                 else:
-                    textString =  TTLocalizer.AwardMgrShorts
+                    textString =  TTLocalizer.AwardMgrShorts 
                 # if its an exclusive boy or girl item, then say so
                 if typeOfClothes == CatalogClothingItem.ABoysShorts:
                    textString += ' ' + TTLocalizer.AwardMgrBoy
@@ -643,7 +632,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
     def getFurnitureChoices(cls):
         """Return a dictionary of furniture choices. Key is the description , values is the furniture type key"""
         values = {}
-        for key in list(CatalogFurnitureItem.FurnitureTypes.keys()):
+        for key in CatalogFurnitureItem.FurnitureTypes.keys():
             furnitureItem = CatalogFurnitureItem.FurnitureTypes[key]
             typeOfFurniture = key
             # we must not give animted furniture choices, the item type is wrong for it
@@ -677,7 +666,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
     def getEmoteChoices(cls):
         """Return a dictionary of emote choices. Key is the description , values is the emote id"""
         values = {}
-        for key in list(OTPLocalizer.EmoteFuncDict.keys()):
+        for key in OTPLocalizer.EmoteFuncDict.keys():
             descString = key
             emoteIndex = OTPLocalizer.EmoteFuncDict[key]
             if descString in values:
@@ -688,7 +677,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
     @classmethod
     def getBeanChoices(cls):
         """Return a dictionary of bean choices. Key is the description , values is the amount of beans"""
-        values = {}
+        values = {}        
         for key in JellybeanRewardValues:
             descString = "%3d" % key
             if descString in values:
@@ -700,7 +689,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
     def getWallpaperChoices(cls):
         """Return a dictionary of wallpaper choices. Key is the description , values is the wallpaper id"""
         values = {}
-        for key in list(CatalogWallpaperItem.WallpaperTypes.keys()):
+        for key in CatalogWallpaperItem.WallpaperTypes.keys():
             # the comments on CatalogWallpaperItem say 2920 to 2980 are problematic, so don't include them
             if key in (2920, 2930, 2940, 2950, 2960, 2970, 2980):
                 continue
@@ -719,19 +708,19 @@ class AwardManagerUD(DistributedObjectGlobalUD):
     def getWindowViewChoices(cls):
         """Return a dictionary of window choices. Key is the description , values is the wallpaper id"""
         values = {}
-        for key in list(CatalogWindowItem.WindowViewTypes.keys()):
+        for key in CatalogWindowItem.WindowViewTypes.keys():
             descString = ""
             descString += TTLocalizer.WindowViewNames[key]
             if descString in values:
                 cls.notify.error("Fix %s, descriptions must be unique" % descString)
             values[descString] = key
-        return values
+        return values 
 
     @classmethod
     def getFlooringChoices(cls):
         """Return a dictionary of flooring choices. Key is the description , values is the wallpaper id"""
         values = {}
-        for key in list(CatalogFlooringItem.FlooringTypes.keys()):
+        for key in CatalogFlooringItem.FlooringTypes.keys():
             descString = "%5d " % key # add key to make it unique
             descString += TTLocalizer.FlooringNames[key]
             if descString in values:
@@ -743,19 +732,19 @@ class AwardManagerUD(DistributedObjectGlobalUD):
     def getMouldingChoices(cls):
         """Return a dictionary of moulding choices. Key is the description , values is the wallpaper id"""
         values = {}
-        for key in list(CatalogMouldingItem.MouldingTypes.keys()):
+        for key in CatalogMouldingItem.MouldingTypes.keys():
             descString = "%5d " % key # add key to make it unique
             descString += TTLocalizer.MouldingNames[key]
             if descString in values:
                 cls.notify.error("Fix %s, descriptions must be unique" % descString)
             values[descString] = key
-        return values
+        return values    
 
     @classmethod
     def getWainscotingChoices(cls):
         """Return a dictionary of wainscotting choices. Key is the description , values is the wallpaper id"""
         values = {}
-        for key in list(CatalogWainscotingItem.WainscotingTypes.keys()):
+        for key in CatalogWainscotingItem.WainscotingTypes.keys():
             descString = "" #%5d " % key # add key to make it unique
             descString += TTLocalizer.WainscotingNames[key]
             if descString in values:
@@ -789,7 +778,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
             if descString in values:
                 cls.notify.error("Fix %s, descriptions must be unique" % descString)
             values[descString] = key
-        return values
+        return values     
 
     @classmethod
     def getAnimatedFurnitureChoices(cls):
@@ -802,32 +791,6 @@ class AwardManagerUD(DistributedObjectGlobalUD):
             if descString in values:
                     cls.notify.error("Fix %s, descriptions must be unique" % descString)
             values[descString] = key
-        return values
-
-    @classmethod
-    def getAccessoryChoices(cls):
-        """Return a dictionary of accessory choices. Key is the description, accessory type are values."""
-        values = {}
-        for key in list(CatalogAccessoryItem.AccessoryTypes.keys()):
-            accessoryItem = CatalogAccessoryItem.AccessoryTypes[key]
-            typeOfAccessory = accessoryItem[0]
-            styleString = accessoryItem[1]
-            if typeOfAccessory % 4 == 0:
-                textString = TTLocalizer.TrunkHatGUI
-                accessoryStyleDescription = TTLocalizer.HatStylesDescriptions[styleString]
-            elif typeOfAccessory % 4 == 1:
-                textString = TTLocalizer.TrunkGlassesGUI
-                accessoryStyleDescription = TTLocalizer.GlassesStylesDescriptions[styleString]
-            elif typeOfAccessory % 4 == 2:
-                textString = TTLocalizer.TrunkBackpackGUI
-                accessoryStyleDescription = TTLocalizer.BackpackStylesDescriptions[styleString]
-            else:
-                textString = TTLocalizer.TrunkShoesGUI
-                accessoryStyleDescription = TTLocalizer.ShoesStylesDescriptions[styleString]
-            textString = TTLocalizer.AccessoryNamePrefix[typeOfAccessory] + accessoryStyleDescription
-            if textString in values:
-                cls.notify.error("Fix %s, descriptions must be unique" % textString)
-            values[textString] = key
         return values
 
     @classmethod
@@ -848,7 +811,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
             result[itemType] = reversedDict
         cls._revAwardChoices = result
         return result
-
+                
     @classmethod
     def getAwardChoices(cls):
         """Return a tree of the choices for our drop down list."""
@@ -856,7 +819,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         if hasattr(cls, '_awardChoices'):
             return cls._awardChoices
         result = {}
-        for itemType in list(CatalogItemTypes.CatalogItemTypes.values()):
+        for itemType in CatalogItemTypes.CatalogItemTypes.values():
             if itemType in (CatalogItemTypes.INVALID_ITEM, CatalogItemTypes.GARDENSTARTER_ITEM,
                             CatalogItemTypes.POLE_ITEM, CatalogItemTypes.GARDEN_ITEM,
                             CatalogItemTypes.NAMETAG_ITEM, CatalogItemTypes.TOON_STATUE_ITEM):
@@ -879,7 +842,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
                 result[itemType] = values
             elif itemType == CatalogItemTypes.WALLPAPER_ITEM:
                 values = cls.getWallpaperChoices()
-                result[itemType] = values
+                result[itemType] = values   
             elif itemType == CatalogItemTypes.WINDOW_ITEM:
                 values = cls.getWindowViewChoices()
                 result[itemType] = values
@@ -888,7 +851,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
                 result[itemType] = values
             elif itemType == CatalogItemTypes.MOULDING_ITEM:
                 values = cls.getMouldingChoices()
-                result[itemType] = values
+                result[itemType] = values    
             elif itemType == CatalogItemTypes.WAINSCOTING_ITEM:
                 values = cls.getWainscotingChoices()
                 result[itemType] = values
@@ -900,11 +863,8 @@ class AwardManagerUD(DistributedObjectGlobalUD):
                 result[itemType] = values
             elif itemType == CatalogItemTypes.ANIMATED_FURNITURE_ITEM:
                 values = cls.getAnimatedFurnitureChoices()
-                result[itemType] = values
-            elif itemType == CatalogItemTypes.ACCESSORY_ITEM:
-                values = cls.getAccessoryChoices()
-                result[itemType] = values
-
+                result[itemType] = values   
+                
             else:
                 values = {"choice1": "Unimplemented One", "choice2": "Unimplemented Two"}
                 result [itemType] = values
@@ -934,17 +894,17 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         function setOptions(chosen) {
         var selbox = document.myform.opttwo;
         selbox.options.length = 0;
-
+        
         if (chosen == " ") {
           selbox.options[selbox.options.length] = new Option('Please select one of the options above first',' ');
 
         }\n"""
 
-
+        
         for itemType in self.awardChoices:
             header += '\tif (chosen == "%s") {\n' % itemType
             secondChoices = self.awardChoices[itemType]
-            sortedKeys = list(secondChoices.keys())
+            sortedKeys = secondChoices.keys()
             sortedKeys.sort()
             for key in sortedKeys:
                 header += "\t\tselbox.options[selbox.options.length] = new "
@@ -952,8 +912,8 @@ class AwardManagerUD(DistributedObjectGlobalUD):
             header += '\t}\n'
 
         header += """
-
-        }
+        
+        }        
         </script>
         </head>
         """
@@ -963,7 +923,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         body = """
         <html>
         <body ><center>
-        <div id="contents" align="center">
+        <div id="contents" align="center"> 
         <form name="myform" action="awardGive">
         ToonIds:<input type="text" name="toonIds" size="50" />
             <br />
@@ -978,7 +938,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         onchange="setOptions(document.myform.optone.options[document.myform.optone.selectedIndex].value);">
         <option value=" " selected="selected"> </option>
         """
-
+                
         for itemType in self.awardChoices:
            body += '<option value="%s">%s</option>\n' % (str(itemType), TTLocalizer.CatalogItemTypeNames[itemType])
 
@@ -992,9 +952,9 @@ class AwardManagerUD(DistributedObjectGlobalUD):
            <select name="specialCommands" />
         """
 
-        commandsList = list(SpecialCommandStrs.keys())
+        commandsList = SpecialCommandStrs.keys()
         commandsList.sort()
-        if ConfigVariableBool('awards-immediate').getValue():
+        if uber.config.GetBool('awards-immediate'):
             commandsList.remove(GiveImmediately)
             commandsList.insert(0,GiveImmediately)
         for command in commandsList:
@@ -1006,11 +966,11 @@ class AwardManagerUD(DistributedObjectGlobalUD):
         <input type="button" name="go" value="Value Selected"
         onclick="alert(document.myform.opttwo.options[document.myform.opttwo.selectedIndex].value);">
         -->
-
-        </form>
+       
+        </form>        
         </script>
         </div>
-
+        
         """
         help = """<table height = "15%"></table><P><table width = "60%"><caption>Note</caption><tr><th scope=col>- Use give award immediately only to test the award on your own toon. Try to remove the award may fail if 30 minutes have gone by since the award was given.<br><br>- Use Nuke All Awards only if the regular players can't enter toontown.<br><br>- Report any prizing issues to  chris.barkoff@disney.com<br>- Report any issues to redmond.urbino@disney.com</th></tr></table></P>"""
         footer = """</tbody></table></P></center><div id="footer">Toontown Award Manager</div></BODY></HTML>"""

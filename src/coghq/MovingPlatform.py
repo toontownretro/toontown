@@ -1,6 +1,6 @@
 """MovingPlatform module: contains the MovingPlatform class"""
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase import DirectObject
 from toontown.toonbase import ToontownGlobals
@@ -19,15 +19,15 @@ import types
 # 'off-floor' event upon jumping and an 'on-floor' event upon landing, that
 # should take care of it.
 
-
 class MovingPlatform(DirectObject.DirectObject, NodePath):
-    notify = DirectNotifyGlobal.directNotify.newCategory('MovingPlatform')
 
+    notify = DirectNotifyGlobal.directNotify.newCategory('MovingPlatform')
+    
     def __init__(self):
         self.hasLt = 0
         DirectObject.DirectObject.__init__(self)
-        NodePath.__init__(self, 'MovingPlatform-Empty')
-
+        NodePath.__init__(self)
+    
     def setupCopyModel(self, parentToken, model, floorNodeName=None,
                        parentingNode=None):
         """parentingNode is the node that avatars will be parented to when
@@ -36,7 +36,7 @@ class MovingPlatform(DirectObject.DirectObject, NodePath):
             parentToken, model, floorNodeName)))
         if floorNodeName is None:
             floorNodeName = 'floor'
-        if type(parentToken) == int:
+        if type(parentToken) == types.IntType:
             parentToken = ToontownGlobals.SPDynamic + parentToken
         self.parentToken = parentToken
         self.name = "MovingPlatform-%s" % (parentToken)
@@ -84,7 +84,7 @@ class MovingPlatform(DirectObject.DirectObject, NodePath):
         if (hasattr(self, "parentingNode") and
             (self.parentingNode is self)):
             del self.parentingNode
-
+        
     def getEnterEvent(self):
         return '%s-enter' % self.name
     def getExitEvent(self):
@@ -110,16 +110,16 @@ class MovingPlatform(DirectObject.DirectObject, NodePath):
     def __handleOffFloor(self, collEntry):
         if (collEntry.getIntoNode().getName() == self.name):
             self.__handleExit(collEntry)
-
+            
     def __grabLt(self):
         base.localAvatar.b_setParent(self.parentToken)
         self.hasLt = 1
     def __releaseLt(self):
         if base.localAvatar.getParent().compareTo(self.parentingNode) == 0:
-            base.localAvatar.b_setParent(ToontownGlobals.SPActors)
+            base.localAvatar.b_setParent(ToontownGlobals.SPRender)
             base.localAvatar.controlManager.currentControls.doDeltaPos()
         self.hasLt = 0
-
+    
     if __debug__:
         def debugPrint(self, message):
             """for debugging"""

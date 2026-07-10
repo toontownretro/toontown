@@ -20,17 +20,17 @@ from direct.interval.FunctionInterval import Wait
 from direct.interval.LerpInterval import LerpFunc
 from direct.interval.MetaInterval import Parallel
 from direct.interval.MetaInterval import Sequence
-from toontown.toonbase.ToontownModules import CardMaker
-from toontown.toonbase.ToontownModules import NodePath
-from toontown.toonbase.ToontownModules import TextNode
-from toontown.toonbase.ToontownModules import Point3
-from toontown.toonbase.ToontownModules import Vec3
-from toontown.toonbase.ToontownModules import VBase3
-from toontown.toonbase.ToontownModules import VBase4
-from toontown.toonbase.ToontownModules import CollisionSphere
-from toontown.toonbase.ToontownModules import CollisionTube
-from toontown.toonbase.ToontownModules import CollisionNode
-from toontown.toonbase.ToontownModules import BitMask32
+from pandac.PandaModules import CardMaker
+from pandac.PandaModules import NodePath
+from pandac.PandaModules import TextNode
+from pandac.PandaModules import Point3
+from pandac.PandaModules import Vec3
+from pandac.PandaModules import VBase3
+from pandac.PandaModules import VBase4
+from pandac.PandaModules import CollisionSphere
+from pandac.PandaModules import CollisionTube
+from pandac.PandaModules import CollisionNode
+from pandac.PandaModules import BitMask32
 
 from otp.otpbase import OTPGlobals
 from toontown.toon import GMUtils
@@ -148,7 +148,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
             {"emptyAnim" : "phase_13/models/parties/trampoline_anim"},
         )
         self.trampActor.reparentTo( self.tramp )
-
+        
         # Allow reskinning.
         if self.texture:
             reskinNode = self.tramp.find("**/trampoline/__Actor_modelRoot/-GeomNode")
@@ -188,9 +188,8 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
 
     def loadGUI( self ):
         self.gui = loader.loadModel("phase_13/models/parties/trampolineGUI")
-        self.gui.reparentTo(base.a2dTopLeft)
-        self.gui.setPos(0.115, 0, -1)
-        self.gui.hide()
+        self.gui.setX(-1.15)
+        self.gui.reparentTo( self.screenPlaneElements )
 
         self.toonIndicator = self.gui.find( "**/trampolineGUI_MovingBar" )
         jumpLineLocator = self.gui.find( "**/jumpLine_locator" )
@@ -218,7 +217,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
         quitEarlyDown = self.quitEarlyButtonModels.find( "**/InventoryButtonDown" )
         quitEarlyRollover = self.quitEarlyButtonModels.find( "**/InventoryButtonRollover" )
         self.quitEarlyButton = DirectButton(
-            parent=base.a2dTopRight,
+            parent=self.screenPlaneElements,
             relief=None,
             text=TTLocalizer.PartyTrampolineQuitEarlyButton,
             text_fg=(1, 1, 0.65, 1),
@@ -227,7 +226,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
             image=(quitEarlyUp, quitEarlyDown, quitEarlyRollover),
             image_color=(1, 0, 0, 1),
             image_scale=(20, 1, 11),
-            pos=(-0.183, 0, -0.4),
+            pos=(1.15, 0, 0.6),
             scale=0.09,
             command=self.leaveTrampoline,
         )
@@ -245,9 +244,9 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
         self.timer.reparentTo(self.screenPlaneElements)
 
     def loadSounds( self ):
-        self.jellyBeanSound = base.loader.loadSfx("phase_4/audio/sfx/sparkly.mp3")
-        self.boingSound = base.loader.loadSfx("phase_4/audio/sfx/target_trampoline_2.mp3")
-        self.whistleSound = base.loader.loadSfx("phase_4/audio/sfx/AA_sound_whistle.mp3")
+        self.jellyBeanSound = base.loadSfx("phase_4/audio/sfx/sparkly.mp3")
+        self.boingSound = base.loadSfx("phase_4/audio/sfx/target_trampoline_2.mp3")
+        self.whistleSound = base.loadSfx("phase_4/audio/sfx/AA_sound_whistle.mp3")
 
     def loadIntervals( self ):
         def prepareHeightText():
@@ -304,10 +303,10 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
     # Distributed
     #---------------------------------------------------
     def setBestHeightInfo(self, toonName, height):
-
+    
         if GMUtils.testGMIdentity(toonName):
             toonName = GMUtils.handleGMName(toonName)
-
+            
         self.bestHeightInfo = (toonName, height)
         DistributedPartyTrampolineActivity.notify.debug( "%s has the best height of %d" % (toonName, height) )
 
@@ -316,7 +315,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
         else:
             self.setSignNote( TTLocalizer.PartyTrampolineNoHeightYet )
 
-    def leaveTrampoline( self ):
+    def leaveTrampoline( self ):        
         if self.toon != None and self.toon.doId == base.localAvatar.doId:
             self._showFlashMessage( TTLocalizer.PartyTrampolineTimesUp )
             self.leavingTrampoline = True
@@ -324,7 +323,6 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
             self.trampB = self.leavingTrampB
             self.ignore( "control" )
             self.quitEarlyButton.stash()
-            self.gui.hide()
 
     def requestAnim( self, request ):
         self.animFSM.request( request )
@@ -388,7 +386,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
             self.acquireToon()
 
     def startActive(self):
-        DistributedPartyTrampolineActivity.notify.debug("startActive")
+        DistributedPartyTrampolineActivity.notify.debug("startActive")        
         if self.toon != None and self.toon.doId == base.localAvatar.doId:
             base.setCellsAvailable( base.bottomCells, True )
 
@@ -398,7 +396,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
             self.accept( "arrow_right-up", self.onRightUp )
 
             self.beginRoundInterval = Sequence( Func( self._showFlashMessage, TTLocalizer.PartyTrampolineReady ),
-                                                Wait( 1.2 ),
+                                                Wait( 1.2 ),                                                
                                                 Func( self.flashMessage, TTLocalizer.PartyTrampolineGo ),
                                                 Func( self.beginRound ) )
             self.beginRoundInterval.start()
@@ -436,40 +434,38 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
             beanAnim.loop()
             self.beanAnims.append( beanAnim )
             self.beanDetails.append( (height, bean, guiBean, beanAnim) )
-        self.beansToCollect = list(range( self.numJellyBeans))
+        self.beansToCollect = range( self.numJellyBeans )
 
     def cleanupJellyBeans( self ):
         for bean in self.beans:
             bean.stash()
         for guiBean in self.guiBeans:
-            guiBean.stash()
-        # If handleToonJoined hasn't been sent toonId on some clients
+            guiBean.stash()        
+        # If handleToonJoined hasn't been sent toonId on some clients    
         if hasattr(self, 'beanAnims'):
             for beanAnim in self.beanAnims:
                 beanAnim.finish()
             del self.beanAnims
             del self.beansToCollect
-
+    
     def beginRound( self ):
         base.playSfx( self.whistleSound )
 
         self.timer.setTime(PartyGlobals.TrampolineDuration)
         self.timer.countdown(PartyGlobals.TrampolineDuration)
         self.timer.show()
-
-        self.gui.show()
-
+        
         self.quitEarlyButton.unstash()
 
         self.notify.debug("Accepting contorl")
         self.accept( "control", self.onJump )
         self.notify.debug("setting simulate step to true")
         self.doSimulateStep = True
-
+        
 
     def acquireToon( self ):
 #        self.dataLog = open( "dataLog.txt", "w" )
-
+        
         self.toon.disableSmartCameraViews()
         self.toon.stopUpdateSmartCamera()
         camera.wrtReparentTo(render)
@@ -547,7 +543,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
     # Event Handling
     #---------------------------------------------------
     def onTrampolineTrigger(self, collEntry):
-        if (self.activityFSM._state == "Idle") and (self.toon == None) and (base.cr.playGame.getPlace().fsm.getCurrentState().getName() == "walk"):
+        if (self.activityFSM.state == "Idle") and (self.toon == None) and (base.cr.playGame.getPlace().fsm.getCurrentState().getName() == "walk"):
             base.cr.playGame.getPlace().fsm.request("activity")
             self.d_toonJoinRequest()
         else:
@@ -577,7 +573,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
     #---------------------------------------------------
     # Super class functionality
     #---------------------------------------------------
-    def handleToonJoined( self, toonId ):
+    def handleToonJoined( self, toonId ):    
         DistributedPartyTrampolineActivity.notify.debug( "handleToonJoined" )
         self.toon = self.getAvatar( toonId )
         if self.toon != None and not self.toon.isEmpty():
@@ -585,7 +581,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
             self.oldJumpLandPlayRate = self.toon.getPlayRate( "jump-land" )
             self.toon.setPlayRate( 2.5, "jump-squat" )
             self.toon.setPlayRate( 2.0, "jump-land" )
-
+            
             self.turnLeft = False
             self.turnRight = False
 
@@ -595,19 +591,19 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
                 taskMgr.add( self.remoteUpdateTask, self.uniqueName("TrampolineActivity.remoteUpdateTask") )
         else:
             self.notify.warning("handleToonJoined could not get toon %d" % toonId)
-
+            
     def handleToonExited( self, toonId ):
         DistributedPartyTrampolineActivity.notify.debug( "handleToonExited" )
 
         if self.toon != None:
             if self.toon.doId != base.localAvatar.doId:
                 taskMgr.remove( self.uniqueName("TrampolineActivity.remoteUpdateTask") )
-
+    
             self.surface.setZ( self.trampHeight )
-
+    
             self.toon.setPlayRate( self.oldJumpSquatPlayRate, "jump-squat" )
             self.toon.setPlayRate( self.oldJumpLandPlayRate, "jump-land" )
-
+    
             self.toon = None
 
     def handleToonDisabled(self, toonId):
@@ -687,7 +683,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
 
 # Simulate poor framerate
 #        time.sleep( 0.03 )
-
+        
         return Task.cont
 
     def simulateStep( self, z ):
@@ -745,7 +741,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
         if topOfJump:
             # Set lastPeak
             self.lastPeak = newZ
-
+            
             # Show height text if necessary
             if newZ >= self.minHeightForText:
                 self.heightTextInterval.start()
@@ -754,12 +750,12 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
         if topOfJump:
             if newZ > (self.trampHeight + 20.0):
                 self.b_requestAnim( "Falling" )
-            elif self.animFSM._state == "Jump":
+            elif self.animFSM.state == "Jump":
                 self.b_requestAnim( "Falling" )
         if (newZ <= self.trampHeight) and (z > self.trampHeight):
-            if self.animFSM._state == "Falling":
+            if self.animFSM.state == "Falling":
                 self.b_requestAnim( "Land" )
-            elif self.animFSM._state != "Neutral":
+            elif self.animFSM.state != "Neutral":
                 self.b_requestAnim( "Neutral" )
 
         # Play "boing" sound.
@@ -812,12 +808,12 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
                              Func( bean.setAlphaScale, currentAlpha ),
                              Func( bean.setScale, currentScale ), )
         poofAnim.start()
-
+    
     def _showFlashMessage( self, message ):
         if self.isDisabled():
             assert self.notify.debug("_showFlasMessage disabled, not showing %s" % message)
             return
-
+        
         if (self.flashTextInterval is not None) and self.flashTextInterval.isPlaying():
             self.flashTextInterval.finish()
         self.flashText.setText( message )
@@ -844,7 +840,7 @@ class TrampolineAnimFSM(FSM):
         self.activity = activity
 
     def defaultFilter(self, request, args):
-        if request == self._state:
+        if request == self.state:
             return None
         else:
             return FSM.defaultFilter( self, request, args )
@@ -859,8 +855,8 @@ class TrampolineAnimFSM(FSM):
         self.activity.toon.play( "jump-squat" )
 
     def exitJump(self):
-        pass
-
+        pass        
+    
     def enterFalling(self):
         self.activity.toon.loop( "jump-idle" )
 

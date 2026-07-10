@@ -6,12 +6,12 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.shtiker import PurchaseManagerAI
 from toontown.shtiker import NewbiePurchaseManagerAI
-from . import MinigameCreatorAI
+import MinigameCreatorAI
 from direct.task import Task
 import random
-from . import MinigameGlobals
+import MinigameGlobals
 from direct.showbase import PythonUtil
-from . import TravelGameGlobals
+import TravelGameGlobals
 from toontown.toonbase import ToontownGlobals
 
 # Codes to indicate avatar state
@@ -179,20 +179,6 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
         5 - minigame resulting from travel game
         """
         self.metagameRound = roundNum
-
-    def _playing(self):
-        if not hasattr(self, "gameFSM"):
-            return False
-        if self.gameFSM.getCurrentState() == None:
-            return False
-        return self.gameFSM.getCurrentState().getName() == "play"
-
-    def _inState(self, states):
-        if not hasattr(self, "gameFSM"):
-            return False
-        if self.gameFSM.getCurrentState() == None:
-            return False
-        return self.gameFSM.getCurrentState().getName() in makeList(states)
 
     def generate(self):
         DistributedObjectAI.DistributedObjectAI.generate(self)
@@ -438,7 +424,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
             allAvatarsReady, handleTimeout)
 
         # some clients may already be ready
-        for avId in list(self.stateDict.keys()):
+        for avId in self.stateDict.keys():
             if self.stateDict[avId] == READY:
                 self.__barrier.clear(avId)
 
@@ -524,7 +510,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
             allAvatarsExited, handleTimeout)
 
         # process any toons that have already exited
-        for avId in list(self.stateDict.keys()):
+        for avId in self.stateDict.keys():
             if self.stateDict[avId] == EXITED:
                 self.__barrier.clear(avId)
 
@@ -580,32 +566,19 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
             # put in some bogus points if we have requested abort
             if self.normalExit:
                 score = int(self.scoreDict[avId]+.5)
+                if score > 255:
+                    self.notify.warning('avatar %s got %s jellybeans playing minigame %s in zone %s' %
+                                        (avId,
+                                         score,
+                                         self.minigameId,
+                                         self.getSafezoneId()))
+                    score = 255
+                elif score < 0:
+                    # RAU just in case I miss something in ice game
+                    score = 0
+                scoreList.append(score)
             else:
-                score = randReward
-            if ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY in simbase.air.holidayManager.currentHolidays or \
-               ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY_MONTH in simbase.air.holidayManager.currentHolidays:
-                score *= MinigameGlobals.JellybeanTrolleyHolidayScoreMultiplier
-            logEvent = False
-            if score > 255:
-#                self.notify.warning('avatar %s got %s jellybeans playing minigame %s in zone %s' %
-#                                    (avId,
-#                                     score,
-#                                     self.minigameId,
-#                                     self.getSafezoneId()))
-                score = 255
-                logEvent = True
-            elif score < 0:
-                # RAU just in case I miss something in ice game
-                score = 0
-                logEvent = True
-            if logEvent:
-                self.air.writeServerEvent('suspicious', avId, 'got %s jellybeans playing minigame %s in zone %s' %
-                                          (score,
-                                           self.minigameId,
-                                           self.getSafezoneId()))
-            scoreList.append(score)
-#            else:
-#                scoreList.append(randReward)
+                scoreList.append(randReward)
 
         # Delete yourself
         self.requestDelete()
@@ -629,7 +602,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
 
         votesArray = []
         for avId in self.avIdList:
-            if avId in votesToUse:
+            if votesToUse.has_key(avId):
                 votesArray.append(votesToUse[avId])
             else:
                 self.notify.warning('votesToUse=%s does not have avId=%d' % (votesToUse,avId))
@@ -686,11 +659,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
             # also for now weare doing a regular minigame if only 1 person
             # presses play again, 
             self.notify.debug('last minigame, handling newbies')
-
-            if ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY in simbase.air.holidayManager.currentHolidays or \
-               ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY_MONTH in simbase.air.holidayManager.currentHolidays:
-                votesArray = [MinigameGlobals.JellybeanTrolleyHolidayScoreMultiplier * x for x in votesArray]
-
+            
             # create separate NewbiePurchaseManagerAIs for the noobs
             for id in self.newbieIdList:
                 # newbie PM gets a single newbie, and we also give it the
@@ -811,7 +780,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
         """
         retval = []
         for avId in self.avIdList:
-            if avId in self.startingVotes:
+            if self.startingVotes.has_key(avId):
                 retval.append( self.startingVotes[avId])
             else:
                 self.notify.warning('how did this happen? avId=%d not in startingVotes %s' %

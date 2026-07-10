@@ -1,5 +1,5 @@
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.fsm import FSM
@@ -48,7 +48,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.craneGame = None
         self.index = None
         self.avId = 0
-
+        
         self.cableLength = 20
         self.numLinks = 3
         self.initialArmPosition = (0, 20, 0)
@@ -106,15 +106,15 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.craneAdviceLabel = None
         self.magnetAdviceLabel = None
 
-        self.atLimitSfx = base.loader.loadSfx(
+        self.atLimitSfx = base.loadSfx(
             "phase_4/audio/sfx/MG_cannon_adjust.mp3")
 
-        self.magnetOnSfx = base.loader.loadSfx(
+        self.magnetOnSfx = base.loadSfx(
             "phase_10/audio/sfx/CBHQ_CFO_magnet_on.mp3")
 
         # We prefer a wav file for this looping sound effect, since
         # looping an mp3 always introduces some stutter.
-        self.magnetLoopSfx = base.loader.loadSfx(
+        self.magnetLoopSfx = base.loadSfx(
             "phase_10/audio/sfx/CBHQ_CFO_magnet_loop.wav")
 
         # Make these overlap just a bit.
@@ -123,7 +123,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
             Sequence(Wait(0.5),
                      Func(base.playSfx, self.magnetLoopSfx, looping=1)))
 
-        self.craneMoveSfx = base.loader.loadSfx(
+        self.craneMoveSfx = base.loadSfx(
             "phase_9/audio/sfx/CHQ_FACT_elevator_up_down.mp3")
 
         self.fadeTrack = None
@@ -196,7 +196,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
 
         arm = self.craneGame.craneArm.copyTo(self.crane)
 
-        assert(self.index not in self.craneGame.cranes)
+        assert(not self.craneGame.cranes.has_key(self.index))
         self.craneGame.cranes[self.index] = self
 
     def disable(self):
@@ -206,7 +206,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.cleanup()
 
     def cleanup(self):
-        if self._state != 'Off':
+        if self.state != 'Off':
             self.demand('Off')
         self.craneGame = None
 
@@ -233,7 +233,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         origCcPos = self.cc.getPos()
         origBottomPos = self.bottom.getPos()
         origStickHingeHpr = self.stickHinge.getHpr()
-
+        
         # First, scale the thing overall to match the toon's scale,
         # including cheesy effect scales.
         scale = toon.getGeomNode().getChild(0).getSz(render)
@@ -273,7 +273,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         # controls' scale to neutral position.  Unlike
         # accomodateToon(), it has no side effects; you must play (or
         # immediately finish) the interval to restore the scale.
-
+        
         lerpTime = 1
         return Parallel(
             self.controlModel.scaleInterval(lerpTime, 1, blendType = 'easeInOut'),
@@ -301,7 +301,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
             reach = Sequence(ActorInterval(toon, 'walk', loop = 1,
                                            duration = walkTime - reach.getDuration()),
                              reach)
-
+            
         i = Sequence(
             Parallel(toon.posInterval(walkTime, newPos, origPos),
                      toon.hprInterval(walkTime, newHpr, origHpr),
@@ -343,7 +343,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         if self.toon:
             self.ignore(self.toon.uniqueName('disable'))
         self.toon = None
-
+        
     def __watchJoystick(self, task):
         # Ensure the toon is still standing at the controls.
         self.toon.setPosHpr(self.controls, 0, 0, 0, 0, 0, 0)
@@ -356,7 +356,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.notify.warning('%s: unexpected exit for %s' % (self.doId, toonId))
         if self.toon and self.toon.doId == toonId:
             self.stopWatchJoystick()
-
+        
 
     def __activatePhysics(self):
         if not self.physicsActivated:
@@ -378,7 +378,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         # Arbitrarily drops the cable right where it stands.
         for linkNum in range(self.numLinks):
             an, anp, cnp = self.activeLinks[linkNum]
-
+            
             an.getPhysicsObject().setVelocity(0, 0, 0)
             z = float(linkNum + 1) / float(self.numLinks) * self.cableLength
             anp.setPos(self.crane.getPos(self.cable))
@@ -467,11 +467,11 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
     def makeSpline(self):
         # Use the Rope class to draw a spline between the joints of
         # the cable.
-
+        
         rope = Rope.Rope()
         rope.setup(min(len(self.links), 4), self.links)
         rope.curve.normalizeKnots()
-
+            
         rn = rope.ropeNode
         rn.setRenderMode(RopeNode.RMTube)
         rn.setNumSlices(3)
@@ -517,7 +517,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         rn.setThickness(0.8)
         rn.setTubeUp(Vec3(0, 0, 1))
         rn.setMatrix(Mat4.translateMat(0, 0, self.shadowOffset) * Mat4.scaleMat(1, 1, 0.01))
-
+        
 
     def stopShadow(self):
         if self.shadow:
@@ -534,12 +534,11 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
 
         self.craneShadow.setPosHpr(self.crane, 0, 0, 0, 0, 0, 0)
         self.craneShadow.setZ(self.shadowOffset)
-
+        
         return Task.cont
 
     def __makeLink(self, anchor, linkNum):
         an = ActorNode('link%s' % (linkNum))
-        an.getPhysicsObject().setMass(GameConsts.Settings.RopeLinkMass.get())
         anp = NodePath(an)
 
         cn = CollisionNode('cn')
@@ -722,7 +721,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
             self.arrowHorz = -1
         elif self.arrowHorz < 0:
             self.arrowHorz = 0
-
+        
     def __moveCraneArcHinge(self, xd, yd):
         dt = globalClock.getDt()
 
@@ -766,7 +765,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
             self.accept(self.snifferEvent, self.__sniffedSomething)
             self.startFlicker()
             self.snifferActivated = 1
-
+            
     def __deactivateSniffer(self):
         if self.snifferActivated:
             base.cTrav.removeCollider(self.sniffer)
@@ -777,7 +776,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
 
     def startFlicker(self):
         # Starts the lightning bolt effect flashing.
-
+        
         self.magnetSoundInterval.start()
 
         self.lightning = []
@@ -826,8 +825,8 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         doId = int(np.getNetTag('object'))
 
         obj = base.cr.doId2do.get(doId)
-        if obj and obj._state != 'LocalDropped' and \
-           (obj._state != 'Dropped' or obj.craneId != self.doId):
+        if obj and obj.state != 'LocalDropped' and \
+           (obj.state != 'Dropped' or obj.craneId != self.doId):
             obj.d_requestGrab()
             obj.demand('LocalGrabbed', localAvatar.doId, self.doId)
 
@@ -836,7 +835,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         assert(self.notify.debug('%s.grabObject(%s)' % (self.doId, obj.doId)))
         assert(self.heldObject == None)
 
-        if self._state == 'Off':
+        if self.state == 'Off':
             return
 
         # This condition is just for sake of the publish, in case we
@@ -852,13 +851,13 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
 
         if obj.lerpInterval:
             obj.lerpInterval.finish()
-
+        
         obj.lerpInterval = Parallel(
             obj.posInterval(ToontownGlobals.CashbotBossToMagnetTime, Point3(*obj.grabPos)),
             obj.quatInterval(ToontownGlobals.CashbotBossToMagnetTime, VBase3(obj.getH(), 0, 0)),
             obj.toMagnetSoundInterval)
         obj.lerpInterval.start()
-
+        
         self.heldObject = obj
         self.handler.setDynamicFrictionCoef(obj.craneFrictionCoef)
         self.slideSpeed = obj.craneSlideSpeed
@@ -876,7 +875,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
 
         if obj.lerpInterval:
             obj.lerpInterval.finish()
-
+        
         obj.wrtReparentTo(render)
 
         obj.lerpInterval = Parallel(
@@ -894,8 +893,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         # assertion.
         if self.heldObject == obj:
             self.heldObject = None
-            #self.handler.setDynamicFrictionCoef(self.emptyFrictionCoef)
-            self.handler.setDynamicFrictionCoef(GameConsts.Settings.EmptyFrictionCoef.get())
+            self.handler.setDynamicFrictionCoef(self.emptyFrictionCoef)
             self.slideSpeed = self.emptySlideSpeed
             self.rotateSpeed = self.emptyRotateSpeed
 
@@ -907,14 +905,14 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         # to drop itself, so that the object will set its state
         # appropriately.  A side-effect of this call will be an
         # eventual call to dropObject() by the newly-released object.
-
+        
         assert(self.avId == localAvatar.doId)
-
+        
         if self.heldObject:
             obj = self.heldObject
             obj.d_requestDrop()
 
-            if obj._state == 'Grabbed':
+            if obj.state == 'Grabbed':
                 # Go ahead and move the local object instance into the
                 # 'LocalDropped' state--presumably the AI will grant our
                 # request shortly anyway, and we can avoid a hitch by
@@ -1076,7 +1074,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
             for linkNum in range(self.numLinks):
                 smoother = self.linkSmoothers[linkNum]
                 lp = links[linkNum]
-
+                
                 smoother.setPos(*lp)
                 smoother.setTimestamp(local)
                 smoother.markPosition()
@@ -1094,7 +1092,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
 
             p = anp.getPos()
             links.append((p[0], p[1], p[2]))
-
+        
         self.sendUpdate('setCablePos', [
             self.changeSeq, self.crane.getY(), self.arm.getH(), links, timestamp])
 
@@ -1173,11 +1171,11 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
             self.toon.loop('neutral')
             self.toon.startSmooth()
         self.stopWatchJoystick()
-
+        
         self.stopPosHprBroadcast()
         self.stopShadow()
         self.stopSmooth()
-
+        
         if self.avId == localAvatar.doId:
             # The local toon is no longer in control of the crane.
 
@@ -1245,7 +1243,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         taskMgr.remove(self.triggerName)
         self.controlModel.clearColorScale()
         self.controlModel.clearTransparency()
-
+        
         self.trigger.stash()
         self.ignore(self.triggerEvent)
 
@@ -1260,15 +1258,3 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
     def exitMovie(self):
         self.__deactivatePhysics()
         self.__straightenCable()
-
-    if __dev__:
-
-        def _handleEmptyFrictionCoefChanged(self, coef):
-            self.handler.setDynamicFrictionCoef(coef)
-
-        def _handleRopeLinkMassChanged(self, mass):
-            for an, anp, cnp in self.activeLinks:
-                an.getPhysicsObject().setMass(mass)
-
-        def _handleMagnetMassChanged(self, mass):
-            pass

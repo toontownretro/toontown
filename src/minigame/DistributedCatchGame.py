@@ -1,38 +1,37 @@
 """DistributedCatchGame module: contains the DistributedCatchGame class"""
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
-from .DistributedMinigame import *
+from DistributedMinigame import *
 from direct.interval.IntervalGlobal import *
-from .OrthoWalk import *
+from OrthoWalk import *
 from direct.showbase.PythonUtil import Functor, bound, lineupPos, lerp
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.toonbase import TTLocalizer
-from . import CatchGameGlobals
+import CatchGameGlobals
 from direct.task.Task import Task
 from toontown.toon import Toon
 from toontown.suit import Suit
-from . import MinigameAvatarScorePanel
+import MinigameAvatarScorePanel
 from toontown.toonbase import ToontownTimer
 from toontown.toonbase import ToontownGlobals
-from . import CatchGameToonSD
-from . import Trajectory
+import CatchGameToonSD
+import Trajectory
 import math
 from direct.distributed import DistributedSmoothNode
 from direct.showbase.RandomNumGen import RandomNumGen
-from . import MinigameGlobals
+import MinigameGlobals
 from toontown.toon import ToonDNA
 from toontown.suit import SuitDNA
 
 # explicitly bring some drop-object-type tables into the local scope
-from .CatchGameGlobals import DropObjectTypes
-from .CatchGameGlobals import Name2DropObjectType
+from CatchGameGlobals import DropObjectTypes
+from CatchGameGlobals import Name2DropObjectType
 
 # and bring in everything from DropPlacer
-from .DropPlacer import *
-from .DropScheduler import *
-from functools import reduce
+from DropPlacer import *
+from DropScheduler import *
 
 class DistributedCatchGame(DistributedMinigame):
 
@@ -125,7 +124,7 @@ class DistributedCatchGame(DistributedMinigame):
             # only load those two models
             if objType.name not in ['anvil', self.fruitName]:
                 continue
-
+            
             model = loader.loadModel(objType.modelPath)
             self.dropObjModels[objType.name] = model
 
@@ -138,7 +137,7 @@ class DistributedCatchGame(DistributedMinigame):
                 'watermelon' : .6,
                 'pineapple' : .45,
                 }
-            if objType.name in modelScales:
+            if modelScales.has_key(objType.name):
                 model.setScale(modelScales[objType.name])
 
             # adjust the model if necessary
@@ -164,13 +163,13 @@ class DistributedCatchGame(DistributedMinigame):
             model.flattenMedium()
 
         self.music = base.loadMusic("phase_4/audio/bgm/MG_toontag.mid")
-        self.sndGoodCatch = base.loader.loadSfx('phase_4/audio/sfx/SZ_DD_treasure.mp3')
-        self.sndOof = base.loader.loadSfx(
+        self.sndGoodCatch = base.loadSfx('phase_4/audio/sfx/SZ_DD_treasure.mp3')
+        self.sndOof = base.loadSfx(
             'phase_4/audio/sfx/MG_cannon_hit_dirt.mp3')
-        self.sndAnvilLand = base.loader.loadSfx(
+        self.sndAnvilLand = base.loadSfx(
             'phase_4/audio/sfx/AA_drop_anvil_miss.mp3')
 
-        self.sndPerfect = base.loader.loadSfx(
+        self.sndPerfect = base.loadSfx(
             "phase_4/audio/sfx/ring_perfect.mp3")
 
         # make a dictionary of CatchGameToonSDs; they will track
@@ -220,7 +219,7 @@ class DistributedCatchGame(DistributedMinigame):
 
         del self.__textGen
 
-        for avId in list(self.toonSDs.keys()):
+        for avId in self.toonSDs.keys():
             toonSD = self.toonSDs[avId]
             toonSD.unload()
         del self.toonSDs
@@ -236,10 +235,10 @@ class DistributedCatchGame(DistributedMinigame):
         self.dropShadow.removeNode()
         del self.dropShadow
 
-        for model in list(self.dropObjModels.values()):
+        for model in self.dropObjModels.values():
             model.removeNode()
         del self.dropObjModels
-
+            
         del self.music
         del self.sndGoodCatch
         del self.sndOof
@@ -407,8 +406,8 @@ class DistributedCatchGame(DistributedMinigame):
                      'anvil' : 1,
                      }
         # normalize the probabilities to [0..1]
-        probSum = reduce(lambda x,y: x+y, list(typeProbs.values()))
-        for key in list(typeProbs.keys()):
+        probSum = reduce(lambda x,y: x+y, typeProbs.values())
+        for key in typeProbs.keys():
             typeProbs[key] = float(typeProbs[key]) / probSum
 
         scheduler = DropScheduler(
@@ -533,8 +532,8 @@ class DistributedCatchGame(DistributedMinigame):
                     'Please replace with the preceding table.'
                     )
             else:
-                print(str)
-
+                print str
+            
 
         self.calcDifficultyConstants(self.getDifficulty(),
                                      self.getNumPlayers())
@@ -660,8 +659,8 @@ class DistributedCatchGame(DistributedMinigame):
         """ debugging aid; show the drop grid """
         self.hideDropGrid()
         self.dropMarkers = []
-        print("dropRows: %s" % self.DropRows)
-        print("dropCols: %s" % self.DropColumns)
+        print "dropRows: %s" % self.DropRows
+        print "dropCols: %s" % self.DropColumns
         for row in range(self.DropRows):
             self.dropMarkers.append([])
             rowList = self.dropMarkers[row]
@@ -791,7 +790,7 @@ class DistributedCatchGame(DistributedMinigame):
         # make sure the intro movie is finished
         self.introMovie.finish()
 
-        for avId in list(self.toonSDs.keys()):
+        for avId in self.toonSDs.keys():
             self.toonSDs[avId].exit()
 
         # it's always safe to call these
@@ -841,7 +840,7 @@ class DistributedCatchGame(DistributedMinigame):
             return
         # all of the remote toons have joined the game;
         # it's safe to show them now.
-
+        
         # Cheezy effects change the ordering of the scene graph
         headCollNP = base.localAvatar.find("**/catchHeadCollNode")
         if headCollNP and not headCollNP.isEmpty():
@@ -919,15 +918,14 @@ class DistributedCatchGame(DistributedMinigame):
         # Initialize the scoreboard
         self.scores = [0] * self.numPlayers
         spacing = .4
-        for i in range(self.numPlayers):
+        for i in xrange(self.numPlayers):
             avId = self.avIdList[i]
             avName = self.getAvatarName(avId)
             scorePanel = \
                        MinigameAvatarScorePanel.MinigameAvatarScorePanel(avId,
                                                                          avName)
             scorePanel.setScale(.9)
-            scorePanel.setPos(-0.583 - spacing * (self.numPlayers - 1 - i), 0.0, -0.15)
-            scorePanel.reparentTo(base.a2dTopRight)
+            scorePanel.setPos(.75 - spacing*((self.numPlayers-1)-i), 0.0, .85)
             # make the panels slightly transparent
             scorePanel.makeTransparent(.75)
             self.scorePanels.append(scorePanel)
@@ -988,7 +986,7 @@ class DistributedCatchGame(DistributedMinigame):
             suit.collNodePath.removeNode()
 
         # get rid of the drop intervals
-        for ival in list(self.dropIntervals.values()):
+        for ival in self.dropIntervals.values():
             ival.finish()
         del self.dropIntervals
         # get rid of list of dropped-objs
@@ -1023,7 +1021,7 @@ class DistributedCatchGame(DistributedMinigame):
         objType = Name2DropObjectType[objName]
         if objType.good:
             # have we already shown this fruit being eaten?
-            if objNum not in self.droppedObjCaught:
+            if not self.droppedObjCaught.has_key(objNum):
                 if isLocal:
                     # TODO (maybe): move this to CatchGameToonSD, move sound
                     # loads to ToonSD
@@ -1069,7 +1067,7 @@ class DistributedCatchGame(DistributedMinigame):
         """ this function ensures that the drop interval for object
         number 'objNum' has finished; if interval already finished,
         does nothing """
-        if objNum in self.dropIntervals:
+        if self.dropIntervals.has_key(objNum):
             self.dropIntervals[objNum].finish()
 
     def scheduleDrops(self):
@@ -1094,7 +1092,7 @@ class DistributedCatchGame(DistributedMinigame):
 
         # create a drop placer, and construct a schedule of drops
         # self.DropPlacerType is actually a DropPlacer constructor
-        dropPlacer = self.DropPlacerType(self, self.getNumPlayers(), self.droppedObjNames)
+        dropPlacer = self.DropPlacerType(self, self.droppedObjNames)
 
         while not dropPlacer.doneDropping():
             self.dropSchedule.append(dropPlacer.getNextDrop())
@@ -1120,7 +1118,7 @@ class DistributedCatchGame(DistributedMinigame):
             objNum = self.numItemsDropped
             lastDrop = (len(self.dropSchedule) == 0)
             x,y = self.grid2world(*dropCoords)
-
+            
             dropIval = self.getDropIval(x, y, objName, objNum)
 
             def cleanup(self=self, objNum=objNum, lastDrop=lastDrop):
@@ -1202,7 +1200,7 @@ class DistributedCatchGame(DistributedMinigame):
                 WaitInterval(.5),
                 Func(endGame, None),
                 )
-
+            
             soundTrack = SoundInterval(self.sndPerfect)
 
             self.perfectIval = Parallel(textTrack,
@@ -1315,7 +1313,7 @@ class DistributedCatchGame(DistributedMinigame):
             def setObjPos(t, objType=objType, object=object):
                 z = objType.trajectory.calcZ(t)
                 object.setZ(z)
-
+                
             # put the object at its starting position, which happens to be
             # off-screen
             setObjPos(0)
@@ -1368,14 +1366,14 @@ class DistributedCatchGame(DistributedMinigame):
         # with some of the walk intervals potentially overlapping
         # each other in time.
         ival = Parallel(name='catchGameMetaSuitWalk')
-
+        
         # since the suit intervals will be generating random numbers
         # on-the-fly, we need to fork off an rng for the suit ivals
         # to use
         rng = RandomNumGen(self.randomNumGen)
 
         delay = 0.
-
+        
         # keep adding suit walk ivals until we've reached the length
         # of the game
         while delay < CatchGameGlobals.GameDuration:
@@ -1418,7 +1416,7 @@ class DistributedCatchGame(DistributedMinigame):
         # on the suit; instead, we create a nodepath, put the suit
         # under that nodepath, and lerp it (instead of the suit).
         lerpNP = render.attachNewNode('catchGameSuitParent')
-
+        
         def setup(self=self, startPos=startPos, stopPos=stopPos,
                   data=data, lerpNP=lerpNP, rng=rng):
             if len(self.suits) == 0:
@@ -1442,7 +1440,7 @@ class DistributedCatchGame(DistributedMinigame):
         def cleanup(self=self, data=data, lerpNP=lerpNP):
             # if there were no available suits when the ival started,
             # there's no suit to clean up
-            if 'suit' in data:
+            if data.has_key('suit'):
                 suit = data['suit']
                 suit.reparentTo(hidden)
                 # put the suit back in the available list
@@ -1477,7 +1475,7 @@ class DistributedCatchGame(DistributedMinigame):
         toon = self.getAvatar(avId)
         if toon == None:
             return
-
+        
         self.notify.debug("avatar %s hit by a suit" % avId)
         if avId != self.localAvId:
             self.toonSDs[avId].fsm.request('fallBack')

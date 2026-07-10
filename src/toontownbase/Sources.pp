@@ -1,18 +1,16 @@
-#begin interface_target
+#define USE_PACKAGES cg  // from gobj.
+
+#begin lib_target
   #define TARGET toontownbase
 
-  #define BUILDING_DLL BUILDING_TOONTOWN_TOONTOWNBASE
-
-  #define USE_PACKAGES eigen sleef
-
   #define OTHER_LIBS \
-      dtool:m \
-      prc dtoolutil:c dtoolbase:c
-
+      dtool:m dtoolconfig:m \
+      prc:c dtoolutil:c dtoolbase:c
+  
   #define SOURCES \
-    toontownbase.h toontownsymbols.h \
+    toontownbase.cxx toontownbase.h toontownsymbols.h \
 
   #define INSTALL_HEADERS \
     toontownbase.h toontownsymbols.h
 
-#end interface_target
+#end lib_target

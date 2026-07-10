@@ -1,23 +1,23 @@
-from toontown.toon import Toon
+import Toon
 from toontown.suit import Suit
 from toontown.pets import Pet
 from otp.avatar import Avatar
-from toontown.toon import NPCToons
-from toontown.toon import ToonDNA
+import NPCToons
+import ToonDNA
 from toontown.suit import SuitDNA
 from toontown.toonbase import ToontownGlobals
 import math
 import types
-import builtins
-from toontown.toonbase.ToontownModules import *
+import __builtin__
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from random import *
 from direct.distributed.PyDatagram import PyDatagram
 
 try:
-    builtins.launcher
+    __builtin__.launcher
 except AttributeError:
-    builtins.launcher = None
+    __builtin__.launcher = None
 
 class RobotAvatarBase:
     # Base class for robot toons and robot suits
@@ -35,14 +35,13 @@ class RobotAvatarBase:
         self.setEndHpr(endHpr)
         self.setPosHpr(self.startPos, self.startHpr)
         self.ival = self.victoryIval = None
-        if not ConfigVariableBool('want-new-anims',1).getValue():
+        if not base.config.GetBool('want-new-anims',1):        
             self.updateWalkIval()
             self.accept('playVictoryIval', lambda: self.setAnimState('victory'))
             self.accept('playRTMWalkIval', lambda: self.setAnimState('walk'))
             self.accept('playRTMRunIval', lambda: self.setAnimState('run'))
-        self.setAnimState(state)
-        self._state = state
-
+        self.setAnimState(state)        
+        self.state = state
     def convertServerDNAString(self, serverString, type = 't'):
         # Strip out blank space and take last 30 characters
         serverString = serverString.replace(' ', '')
@@ -56,11 +55,10 @@ class RobotAvatarBase:
         for i in range(0,len(serverString),2):
             eval('dg.addUint8(0x%s)' % serverString[i:i+2])
         return dg.getMessage()
-
     def setAnimState(self,state):
         self.stopIvals()
-        self._state = state
-        if not ConfigVariableBool('want-new-anims',1).getValue():
+        self.state = state
+        if not base.config.GetBool('want-new-anims',1):     
             if state == 'victory':
                 if self.victoryIval != None:
                     self.victoryIval.start()
@@ -75,35 +73,28 @@ class RobotAvatarBase:
             else:
                 self.setPosHpr(self.startPos, self.startHpr)
         self.loop(state)
-
     def setStartPos(self, pos):
         self.startPos = Point3(pos)
-
     def setEndPos(self, pos):
         self.endPos = Point3(pos)
-
     def setStartHpr(self, hpr):
         self.startHpr = Point3(hpr)
-
     def setEndHpr(self, hpr):
         self.endHpr = Point3(hpr)
-
     def updateStartPos(self, pos):
         self.setStartPos(pos)
         self.updateWalkIval()
-        if self._state == 'neutral':
+        if self.state == 'neutral':
             self.setAnimState('walk')
         else:
-            self.setAnimState(self._state)
-
+            self.setAnimState(self.state)
     def updateEndPos(self, pos):
         self.setEndPos(pos)
         self.updateWalkIval()
-        if self._state == 'neutral':
+        if self.state == 'neutral':
             self.setAnimState('walk')
         else:
-            self.setAnimState(self._state)
-
+            self.setAnimState(self.state)
     def updateWalkIval(self):
         self.stopIvals()
         start2Stop = Vec3(self.endPos - self.startPos)
@@ -155,13 +146,11 @@ class RobotAvatarBase:
         else:
             # doodle don't have a victory anim
             self.victoryIval = None
-
     def stopIvals(self):
         if self.ival != None:
             self.ival.finish()
         if self.victoryIval != None:
             self.victoryIval.finish()
-
     def destroy(self):
         self.stopIvals()
         self.stop()
@@ -182,25 +171,25 @@ class RobotToon(Toon.Toon, RobotAvatarBase):
         RobotAvatarBase.__init__(self, parent, startPos, startHpr,
                                  endPos, endHpr, state)
         self.showHiRes()
-
+        
     def updateDNA(self, description):
         # Create dna
         if isinstance(description, ToonDNA.ToonDNA):
             dna = description
         else:
             dna = ToonDNA.ToonDNA()
-            if (isinstance(description, list) or
-                isinstance(description, tuple)):
+            if (isinstance(description, types.ListType) or
+                isinstance(description, types.TupleType)):
                 # Assume it is a property list
                 dna.newToonFromProperties(*description)
             elif isinstance(description, Datagram):
                 # Create dna straight from datagram
                 dna.makeFromNetString(description)
-            elif isinstance(description, str):
+            elif isinstance(description, types.StringType):
                 # Assume it is a server string description
                 # Convert to datagram then create dna
                 dna.makeFromNetString(self.convertServerDNAString(description))
-            elif isinstance(description, int):
+            elif isinstance(description, types.IntType):
                 # Assume it is an NPC id
                 npcInfo = NPCToons.NPCToonDict[description]
                 properties = npcInfo[2]
@@ -253,14 +242,14 @@ class RobotSuit(Suit.Suit, RobotAvatarBase):
             dna = description
         else:
             dna = SuitDNA.SuitDNA()
-            if isinstance(description, str):
+            if isinstance(description, types.StringType):
                 # Assume it is a suit specification
                 dna.newSuit(description)
-            elif isinstance(description, int):
+            elif isinstance(description, types.IntType):
                 # Assume it specifies suit level
                 dna.newSuitRandom(description)
-            elif (isinstance(description, list) or
-                isinstance(description, tuple)):
+            elif (isinstance(description, types.ListType) or
+                isinstance(description, types.TupleType)):
                 # Assume it is a (level,track) list
                 dna.newSuitRandom(description[0], description[1])
             else:
@@ -289,5 +278,6 @@ class RobotDoodle(Pet.Pet, RobotAvatarBase):
                                  endPos, endHpr, state)
     def updateDNA(self, description):
         # doodle dna is an array of the form: [head, ears, nose, tail, body, color, partColor, eyes, gender]
-        if (isinstance(description, list) or isinstance(description, tuple)):
+        if (isinstance(description, types.ListType) or isinstance(description, types.TupleType)):
             self.setDNA(description)
+

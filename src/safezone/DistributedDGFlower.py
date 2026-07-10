@@ -2,7 +2,7 @@
     class which represents the client version of the round,
     spinning flower in Daisy's Garden safezone."""
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 
 from direct.distributed import DistributedObject
@@ -11,11 +11,10 @@ from direct.task import Task
 
 SPIN_RATE = 1.25
 
-class DistributedDGFlower(DistributedObject.DistributedObject):
+class DistributedDGFlower(DistributedObject.DistributedObject): 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
-        self.flowerRaiseSeq = None
-
+        
     def generate(self):
         """
         This method is called when the DistributedObject is
@@ -28,7 +27,7 @@ class DistributedDGFlower(DistributedObject.DistributedObject):
         self.bigFlower.setPos(1.39, 92.91, 2.0)
         self.bigFlower.setScale(2.5)
         self.bigFlower.reparentTo(render)
-
+        
         # set-up collision sphere on the flower
         self.flowerCollSphere = CollisionSphere(0, 0, 0, 4.5)
         self.flowerCollSphereNode = CollisionNode("bigFlowerCollide")
@@ -46,23 +45,21 @@ class DistributedDGFlower(DistributedObject.DistributedObject):
 
         # spawn tasks and hang hooks
         taskMgr.add(self.__flowerSpin,
-                                 self.taskName('DG-flowerSpin'))
+                                 self.taskName('DG-flowerSpin'))        
         self.accept("enterbigFlowerTrigger", self.__flowerEnter)
         self.accept("exitbigFlowerTrigger", self.__flowerExit)
-
+        
     def disable(self):
         """
         This method is called when the DistributedObject is
         removed from active duty and stored in a cache.
         """
-        if self.flowerRaiseSeq:
-            self.flowerRaiseSeq.finish()
-            self.flowerRaiseSeq = None
+        DistributedObject.DistributedObject.disable(self)
         taskMgr.remove(self.taskName('DG-flowerRaise'))
-        taskMgr.remove(self.taskName('DG-flowerSpin'))
+        taskMgr.remove(self.taskName('DG-flowerSpin'))        
         self.ignore("enterbigFlowerTrigger")
         self.ignore("exitbigFlowerTrigger")
-
+               
     def delete(self):
         """
         This method is called when the DistributedObject is
@@ -74,22 +71,25 @@ class DistributedDGFlower(DistributedObject.DistributedObject):
         del self.bigFlower
         del self.flowerCollSphere
         del self.flowerCollSphereNode
-
+        
     def __flowerSpin(self, task):
         self.bigFlower.setH(self.bigFlower.getH() + SPIN_RATE)
         return Task.cont
-
+        
     def __flowerEnter(self, collisionEntry):
         # tell the server
         self.sendUpdate("avatarEnter", [])
-
+        
     def __flowerExit(self, collisionEntry):
         # tell the server
         self.sendUpdate("avatarExit", [])
-
+        
     def setHeight(self, newHeight):
         # the newHeight is computed by the server
         pos = self.bigFlower.getPos()
-        self.flowerRaiseSeq = self.bigFlower.posInterval(0.5, (pos[0], pos[1], newHeight),
-                                                         name=self.taskName("DG-flowerRaise"))
-        self.flowerRaiseSeq.start()
+        self.bigFlower.lerpPos(pos[0], pos[1], newHeight, 0.5,
+                               task=self.taskName("DG-flowerRaise"))
+
+
+
+

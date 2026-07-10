@@ -1,61 +1,61 @@
 """FactoryEntityCreator module: contains the FactoryEntityCreator class"""
 
 from otp.level import EntityCreator
-from . import FactoryLevelMgr
-from . import PlatformEntity
-from . import ConveyorBelt
-from . import GearEntity
-from . import PaintMixer
-from . import GoonClipPlane
-from . import MintProduct
-from . import MintProductPallet
-from . import MintShelf
-from . import PathMasterEntity
-from . import RenderingEntity
+import FactoryLevelMgr
+import PlatformEntity
+import ConveyorBelt
+import GearEntity
+import PaintMixer
+import GoonClipPlane
+import MintProduct
+import MintProductPallet
+import MintShelf
+import PathMasterEntity
+import RenderingEntity
 
 class FactoryEntityCreator(EntityCreator.EntityCreator):
     def __init__(self, level):
         EntityCreator.EntityCreator.__init__(self, level)
-
+        
         # create short aliases for EntityCreator create funcs
         nothing = EntityCreator.nothing
-        nonlocalEnt = EntityCreator.nonlocalEnt
+        nonlocal = EntityCreator.nonlocal
 
         self.privRegisterTypes({
-            'activeCell': nonlocalEnt,
-            'crusherCell': nonlocalEnt,
-            'battleBlocker': nonlocalEnt,
-            'beanBarrel': nonlocalEnt,
-            'button': nonlocalEnt,
+            'activeCell': nonlocal,
+            'crusherCell': nonlocal,
+            'battleBlocker': nonlocal,
+            'beanBarrel': nonlocal,
+            'button': nonlocal,
             'conveyorBelt' : ConveyorBelt.ConveyorBelt,
-            'crate': nonlocalEnt,
-            'door': nonlocalEnt,
-            'directionalCell': nonlocalEnt,
-            'gagBarrel': nonlocalEnt,
+            'crate': nonlocal,
+            'door': nonlocal,
+            'directionalCell': nonlocal,
+            'gagBarrel': nonlocal,
             'gear': GearEntity.GearEntity,
-            'goon': nonlocalEnt,
-            'gridGoon': nonlocalEnt,
-            'golfGreenGame' : nonlocalEnt,
+            'goon': nonlocal,
+            'gridGoon': nonlocal,
+            'golfGreenGame' : nonlocal,
             'goonClipPlane' : GoonClipPlane.GoonClipPlane,
-            'grid': nonlocalEnt,
-            'healBarrel': nonlocalEnt,
+            'grid': nonlocal,
+            'healBarrel': nonlocal,
             'levelMgr': FactoryLevelMgr.FactoryLevelMgr,
-            'lift': nonlocalEnt,
+            'lift': nonlocal,
             'mintProduct': MintProduct.MintProduct,
             'mintProductPallet': MintProductPallet.MintProductPallet,
             'mintShelf': MintShelf.MintShelf,
-            'mover': nonlocalEnt,
+            'mover': nonlocal,
             'paintMixer': PaintMixer.PaintMixer,
             'pathMaster': PathMasterEntity.PathMasterEntity,
             'rendering': RenderingEntity.RenderingEntity,
             'platform': PlatformEntity.PlatformEntity,
-            'sinkingPlatform': nonlocalEnt,
-            'stomper': nonlocalEnt,
-            'stomperPair': nonlocalEnt,
-            'laserField': nonlocalEnt,
-            'securityCamera': nonlocalEnt,
-            'elevatorMarker': nonlocalEnt,
-            'trigger': nonlocalEnt,
-            'moleField': nonlocalEnt,
-            'maze': nonlocalEnt,
+            'sinkingPlatform': nonlocal,
+            'stomper': nonlocal,
+            'stomperPair': nonlocal,
+            'laserField': nonlocal,
+            'securityCamera': nonlocal,
+            'elevatorMarker': nonlocal,
+            'trigger': nonlocal,
+            'moleField': nonlocal,
+            'maze': nonlocal,
             })

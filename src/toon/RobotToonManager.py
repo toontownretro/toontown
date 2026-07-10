@@ -7,48 +7,48 @@ except NameError:
     # Let the world know there is no localAvatar
     base.localAvatar = None
 
-import builtins, sys, os, string, Pmw
-
-from tkinter import *
-from tkinter.filedialog import askopenfilename, asksaveasfilename
-from tkinter.simpledialog import askstring, askfloat
-from tkinter.messagebox import showwarning, showinfo
-from direct.directnotify import DirectNotifyGlobal
-from direct.directtools.DirectSelection import SelectionRay
-from direct.distributed.PyDatagram import PyDatagram
-from direct.gui.DirectGui import *
-from direct.gui import DirectGuiGlobals
-from direct.interval.IntervalGlobal import *
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase import ShowBase
+from RobotToon import *
+from toontown.battle.BattleProps import *
+from direct.gui.DirectGui import *
+from direct.gui import DirectGuiGlobals
+from pandac.PandaModules import *
+from toontown.leveleditor.PieMenu import *
+from direct.directtools.DirectSelection import SelectionRay
 from direct.showbase.TkGlobal import *
-from direct.task.Task import Task
+from Tkinter import *
+from tkFileDialog import askopenfilename, asksaveasfilename
+from tkSimpleDialog import askstring, askfloat
+from tkMessageBox import showwarning, showinfo
 from direct.tkwidgets.AppShell import *
 from direct.tkwidgets.SceneGraphExplorer import *
+from direct.interval.IntervalGlobal import *
+from toontown.battle.SuitBattleGlobals import SuitAttributes
+from toontown.makeatoon import NameGenerator
 from direct.tkwidgets import Valuator
 from direct.tkwidgets import Slider
-from otp.otpbase import OTPLocalizer
-from toontown.battle import BattleParticles
-from toontown.battle.BattleProps import *
-from toontown.battle.SuitBattleGlobals import SuitAttributes
-from toontown.effects import Fireworks, FireworkShows, FireworkGlobals
-from toontown.hood import SkyUtil
-from toontown.leveleditor.ToonStyleManager import *
-from toontown.leveleditor.PieMenu import *
-from toontown.makeatoon import NameGenerator
-from toontown.pets import PetDNA
+import ToonDNA
+from direct.task.Task import Task
 from toontown.suit import SuitDNA
 from toontown.suit import Suit
-from toontown.toon.RobotToon import *
-from toontown.toon import ToonDNA
-from toontown.toonbase.ToontownModules import *
+from otp.otpbase import OTPLocalizer
 from toontown.toonbase import TTLocalizer
+import __builtin__
+from toontown.hood import SkyUtil
+from direct.distributed.PyDatagram import PyDatagram
+from toontown.pets import PetDNA
+import sys, os
+import string
+import Pmw
 
-from direct.directtools import DirectGlobals as DG
+from toontown.leveleditor.LevelStyleManager import *
 
+from toontown.effects import Fireworks, FireworkShows, FireworkGlobals
+from toontown.battle import BattleParticles
 
 try:
-    if base.direct is None:
+    if direct is None:
         base.startDirect()
 except AttributeError:
     base.startDirect()
@@ -131,7 +131,7 @@ ToonTopsDict = {
     # 2009 Valentines Day Shirts
     69 : '69 - Valentines Shirt 1',
     70 : '70 - Valentines Shirt 2',
-
+    
     # Special award shirts
     71 : '71 - Striped Shirt',
     72 : '72 - Fishing Shirt 1',
@@ -143,7 +143,7 @@ ToonTopsDict = {
     78 : '78 - Racing Shirt 1',
     79 : '79 - Racing Shirt 2',
     80 : '80 - Summer Shirt 1',
-    81 : '81 - Summer Shirt 2',
+    81 : '81 - Summer Shirt 2',    
     82 : '82 - Golf Shirt 1',
     83 : '83 - Golf Shirt 2',
     84 : '84 - Halloween Costume Shirt 1',
@@ -171,48 +171,6 @@ ToonTopsDict = {
     106 : '106 - Most Cogs Defeated Shirt',
     107 : '107 - Victory Party Shirt 1',
     108 : '108 - Victory Party Shirt 2',
-    109 : '109 - Sellbot Icon Shirt',
-    110 : '110 - Most V.P.s Defeated Shirt',
-    111 : '111 - Sellbot Smasher Shirt',
-    112 : '112 - Jellybean Shirt',
-    113 : '113 - Doodle Shirt',
-    114 : '114 - Halloween Vampire NoCape',
-    115 : '115 - Halloween Turtle',
-    116 : '116 - Ides of March greenToon shirt',
-    117 : '117 - Get Connected Mover & Shaker',
-    118 : '118 - Grand Prix Shirt', # Unofficial name
-    119 : '119 - Lawbot Icon Shirt',
-    120 : '120 - Most C.J.s Defeated Shirt',
-    121 : '121 - Lawbot Smasher Shirt',
-    122 : '122 - Halloween Bee',
-    123 : '123 - Halloween Pirate',
-    124 : '124 - Halloween SuperToon',
-    125 : '125 - Halloween Vampire',
-    126 : '126 - Halloween Dinosaur',
-    127 : '127 - Fishing Shirt 4',
-    128 : '128 - Golf Shirt 3',
-    129 : '129 - Most Cogs Defeated Shirt 2',
-    130 : '130 - Racing Shirt 3',
-    131 : '131 - Save Building Shirt 3',
-    132 : '132 - Trolley Shirt 3',
-    133 : '133 - Fishing Shirt 5',
-    134 : '134 - Golf Shirt 4',
-    135 : '135 - Halloween Witchy Moon Shirt',
-    136 : '136 - Winter Holiday Sled Shirt',
-    137 : '137 - Halloween Batty Moon Shirt',
-    138 : '138 - Winter Holiday Mittens Shirt',
-    139 : '139 - Fishing Shirt 6',
-    140 : '140 - Fishing Shirt 7',
-    141 : '141 - Golf Shirt 5',
-    142 : '142 - Racing Shirt 4',
-    143 : '143 - Racing Shirt 5',
-    144 : '144 - Most Cogs Defeated Shirt 3',
-    145 : '145 - Most Cogs Defeated Shirt 4',
-    146 : '146 - Trolley Shirt 4',
-    147 : '147 - Trolley Shirt 5',
-    148 : '148 - Save Building Shirt 4',
-    149 : '149 - Save Building Shirt 5',
-    150 : '150 - Anniversary',
     }
 
 # Note: While adding names to the ToonTopsDict make sure there is a space after the number.
@@ -250,7 +208,7 @@ BoyBottomsDict = {
     # 2009 Valentines Day Shorts
     23 : "23 - Valentines Shorts 1",
     24 : "24 - Valentines Shorts 2",
-
+    
     # Special award clothing
     25 : "25 - Fishing",
     26 : "26 - Gardening",
@@ -268,23 +226,6 @@ BoyBottomsDict = {
     38 : '38 - Scientist bottom 2',
     39 : '39 - Scientist bottom 3',
     40 : '40 - Cog-Crusher Shorts',
-    41 : '41 - Sellbot Smasher Shorts',
-    42 : '42 - Halloween Vampire Shorts',
-    43 : '43 - Halloween Turtle Shorts',
-    44 : '44 - Ides of March greenToon shorts',
-    45 : '45 - Grand Prix Shorts', # Unoffical name
-    46 : '46 - Lawbot Smasher Shorts',
-    47 : '47 - Halloween Bee Shorts',
-    48 : '48 - Halloween Pirate Shorts',
-    49 : '49 - Halloween SuperToon Shorts',
-    50 : '50 - Halloween Vampire NoCape Shorts',
-    51 : '51 - Halloween Dinosaur Shorts',
-    52 : '52 - Golf Shorts 3',
-    53 : '53 - Racing 3',
-    54 : '54 - Golf Shorts 4',
-    55 : '55 - Golf Shorts 5',
-    56 : '55 - Racing 4',
-    57 : '57 - Racing 5',
     }
 
 GirlBottomsDict = {
@@ -323,7 +264,7 @@ GirlBottomsDict = {
     # 2009 Valentines Day Skirts
     27 : '27 - Valentines Skirt 1',
     28 : '28 - Valentines Skirt 2',
-
+    
     # Special award clothing
     29 : "29 - Fishing",
     30 : "30 - Gardening",
@@ -341,215 +282,6 @@ GirlBottomsDict = {
     42 : '42 - Scientist bottom 2',
     43 : '43 - Scientist bottom 3',
     44 : '44 - Cog-Crusher Shorts',
-    45 : '45 - Sellbot Smasher Shorts',
-    46 : '46 - Halloween Vampire Shorts',
-    47 : '47 - Halloween Turtle Shorts',
-    48 : '48 - Ides of March greenToon skirt',
-    49 : '49 - Grand Prix Skirt', # Unoffical name
-    50 : '50 - Lawbot Smasher Shorts',
-    51 : '51 - Halloween Bee Shorts',
-    52 : '52 - Halloween Pirate Shorts',
-    53 : '53 - Halloween Pirate Skirt',
-    54 : '54 - Halloween SuperToon Shorts',
-    55 : '55 - Halloween Vampire NoCape Shorts',
-    56 : '56 - Halloween Dinosaur Shorts',
-    57 : '57 - Golf Skirt 3',
-    58 : '58 - Racing 3',
-    59 : '59 - Golf Skirt 4',
-    60 : '60 - Golf Skirt 5',
-    61 : '61 - Racing 4',
-    62 : '62 - Racing 5',
-    }
-
-HatStylesDict = {
-    0 : "00 - Green Baseball Cap",
-    1 : "01 - Blue Baseball Cap",
-    2 : "02 - Orange Baseball Cap",
-    3 : "03 - Beige Safari Hat",
-    4 : "04 - Brown Safari Hat",
-    5 : "05 - Green Safari Hat",
-    6 : "06 - Pink Bow",
-    7 : "07 - Red Bow",
-    8 : "08 - Purple Bow",
-    9 : "09 - Pink Heart",
-    10 : "10 - Yellow Heart",
-    11 : "11 - Black Top Hat",
-    12 : "12 - Blue Top Hat",
-    13 : "13 - Anvil Hat",
-    14 : "14 - Flower Hat",
-    15 : "15 - Sandbag Hat",
-    16 : "16 - Weight Hat",
-    17 : "17 - Fez Hat",
-    18 : "18 - Golf Hat",
-    19 : "19 - Party Hat",
-    20 : "20 - Toon Party Hat",
-    21 : "21 - Fancy Hat",
-    22 : "22 - Crown",
-    23 : "23 - Cowboy Hat",
-    24 : "24 - Pirate Hat",
-    25 : "25 - Propeller Hat",
-    26 : "26 - Fishing Hat",
-    27 : "27 - Sombrero Hat",
-    28 : "28 - Straw Hat",
-    29 : "29 - Sun Hat",
-    30 : "30 - Yellow Bow",
-    31 : "31 - Checker Bow",
-    32 : "32 - Light Red Bow",
-    33 : "33 - Rainbow Bow",
-    34 : "34 - Antenna Thingy",
-    35 : "35 - Beehive Hairdo",
-    36 : "36 - Bowler Hat",
-    37 : "37 - Chef Hat",
-    38 : "38 - Detective Hat",
-    39 : "39 - Fancy Feathers Hat",
-    40 : "40 - Fedora",
-    41 : "41 - Mickey's Band Hat",
-    42 : "42 - Feather Headband",
-    43 : "43 - Pompadour Hairdo",
-    44 : "44 - Princess Hat",
-    45 : "45 - Archer Hat",
-    46 : "46 - Roman Helmet",
-    47 : "47 - Spider Antenna Thingy",
-    48 : "48 - Tiara",
-    49 : "49 - Viking Helmet",
-    50 : "50 - Witch Hat",
-    51 : "51 - Wizard Hat",
-    52 : "52 - Conquistador Helmet",
-    53 : "53 - Firefighter Helmet",
-    54 : "54 - Anti-Cog Control Hat",
-    55 : "55 - Miner Hat",
-    56 : "56 - Napoleon Hat",
-    57 : "57 - Pilot Cap",
-    58 : "58 - Cop Hat",
-    59 : "59 - Rainbow Wacky Wig",
-    60 : "60 - Yellow Baseball Cap",
-    61 : "61 - Red Baseball Cap",
-    62 : "62 - Aqua Baseball Cap",
-    63 : "63 - Sailor Hat",
-    64 : "64 - Samba Hat",
-    65 : "65 - Bobby Hat",
-    66 : "66 - Pink Dots Bow",
-    67 : "67 - Jester Hat",
-    68 : "68 - Purple Baseball Cap",
-    69 : "69 - Green Checker Bow",
-    70 : "70 - Winter Hat",
-    71 : "71 - Bandana",
-    72 : "72 - Toonosaur Hat",
-    73 : "73 - Jamboree Hat",
-    74 : "74 - Bird Hat by Brianna",
-    }
-
-GlassesStylesDict = {
-    0 : "00 - Round Glasses",
-    1 : "01 - White Mini Blinds",
-    2 : "02 - Purple Narrow Glasses",
-    3 : "03 - Yellow Star Glasses",
-    4 : "04 - Movie Glasses",
-    5 : "05 - Aviator",
-    6 : "06 - Cateye Glasses",
-    7 : "07 - Nerd Glasses",
-    8 : "08 - Celebrity Shades",
-    9 : "09 - Scuba Mask",
-    10 : "10 - Goggles",
-    11 : "11 - Groucho Glasses",
-    12 : "12 - Heart Glasses",
-    13 : "13 - Bug Eye Glasses",
-    14 : "14 - Black Secret ID Mask",
-    15 : "15 - Blue Secret ID Mask",
-    16 : "16 - Blue Carnivale Mask",
-    17 : "17 - Purple Carnivale Mask",
-    18 : "18 - Aqua Carnivale Mask",
-    19 : "19 - Monocle",
-    20 : "20 - Smooch Glasses",
-    21 : "21 - Square Frame Glasses",
-    22 : "22 - Skull Eyepatch",
-    23 : "23 - Gem Eyepatch",
-    24 : "24 - Alien Eyes by Alexandra",
-    }
-
-BackpackStylesDict = {
-    0 : "00 - Blue Backpack",
-    1 : "01 - Orange Backpack",
-    2 : "02 - Purple BackPack",
-    3 : "03 - Red Dot Backpack",
-    4 : "04 - Yellow Dot Backpack",
-    5 : "05 - Bat Wings",
-    6 : "06 - Bee Wings",
-    7 : "07 - DragonFly Wings",
-    8 : "08 - Scuba Tank",
-    9 : "09 - Shark Fin",
-    10 : "10 - White Angel Wings",
-    11 : "11 - Rainbow Angel Wings",
-    12 : "12 - Toys Backpack",
-    13 : "13 - Butterfly Wings",
-    14 : "14 - Pixie Wings",
-    15 : "15 - Dragon Wings",
-    16 : "16 - Jet Pack",
-    17 : "17 - Bug Backpack",
-    18 : "18 - Plush Bear Pack",
-    19 : "19 - Bird wings",
-    20 : "20 - Plush Cat Pack",
-    23 : "21 - Plush Dog Pack",
-    24 : "22 - Airplane Wings",
-    25 : "23 - Pirate Sword",
-    26 : "24 - Super Toon Cape",
-    27 : "25 - Vampire Cape",
-    28 : "26 - Toonosaur Backpack",
-    29 : "27 - Jamboree Pack",
-    30 : "28 - Gag Attack Pack",
-    31 : "29 - Cog Pack by Savanah",
-    }
-
-ShoesStylesDict = {
-    0 : "00 - Green Athletic Shoes",
-    1 : "01 - Red Athletic Shoes",
-    2 : "02 - Green Toon Boots",
-    3 : "03 - Green Sneakers",
-    4 : "04 - Wingtips",
-    5 : "05 - Black Fancy Shoes",
-    6 : "06 - Boat Shoes",
-    7 : "07 - Yellow Athletic Shoes",
-    8 : "08 - Black Sneakers",
-    9 : "09 - White Sneakers",
-    10 : "10 - Pink Sneakers",
-    11 : "11 - Cowboy Boots",
-    12 : "12 - Purple Boots",
-    13 : "13 - Green Hi Top Sneakers",
-    14 : "14 - Brown Fancy Shoes",
-    15 : "15 - Red Fancy Shoes",
-    16 : "16 - Red Super Toon Boots",
-    17 : "17 - Green Tennis Shoes",
-    18 : "18 - Pink Tennis Shoes",
-    19 : "19 - Red Sneakers",
-    20 : "20 - Aqua Toon Boots",
-    21 : "21 - Brown Toon Boots",
-    22 : "22 - Yellow Toon Boots",
-    23 : "23 - Blue Square Boots",
-    24 : "24 - Green Hearts Boots",
-    25 : "25 - Gray Dots Boots",
-    26 : "26 - Orange Stars Boots",
-    27 : "27 - Pink Stars Boots",
-    28 : "28 - Loafers",
-    29 : "29 - Purple Fancy Shoes",
-    30 : "30 - Motorcycle Boots",
-    31 : "31 - Oxfords",
-    32 : "32 - Pink Rain Boots",
-    33 : "33 - Jolly Boots",
-    34 : "34 - Beige Winter Boots",
-    35 : "35 - Pink Winter Boots",
-    36 : "36 - Work Boots",
-    37 : "37 - Yellow Sneakers",
-    38 : "38 - Pink Toon Boots",
-    39 : "39 - Pink Hi Top Sneakers",
-    40 : "40 - Red Dots Rain Boots",
-    41 : "41 - Purple Tennis Shoes",
-    42 : "42 - Violet Tennis Shoes",
-    43 : "43 - Yellow Tennis Shoes",
-    44 : "44 - Blue Rain Boots",
-    45 : "45 - Yellow Rain Boots",
-    46 : "46 - Black Athletic Shoes",
-    47 : "47 - Pirate Shoes",
-    48 : "48 - Toonosaur Feet",
     }
 
 ChatCategories = {
@@ -574,22 +306,6 @@ ChatCategories = {
     1800 : "Sellbot Factory 1",
     1900 : "Sellbot Factory 2",
     2000 : "Option Page Colors",
-    2100 : "C.F.O.",
-    2200 : "CHIEF JUSTICE",
-    2300 : "C.E.O.",
-    3010 : "RACING",
-    3200 : "RACING PLACES",
-    3300 : "RACING COMPLIMENTS",
-    3400 : "RACING TAUNTS",
-    3600 : "RACING TRACKS",
-    4000 : "GOLF",
-    4100 : "GOLF COURSES",
-    4200 : "GOLF TIPS",
-    4300 : "GOLF COMMENTS",
-    5000 : "BOARDING",
-    5100 : "Let's Go to...",
-    5200 : "We're going to...",
-    5300 : "PARTIES",
     10000 : "Promotional",
     20000 : "Cog Phrases",
     20100 : "Cog Phrases",
@@ -597,42 +313,31 @@ ChatCategories = {
     20300 : "Cog Phrases",
     21000 : "DOODLES",
     21200 : "DOODLES Tricks",
-    30100 : "APRIL TOONS'",
-    30150 : "STORM SELLBOT",
-    30180 : "JELLYBEAN JAM",
-    30200 : "CAROLING",
-    30250 : "HALLOWEEN",
-    30275 : "WINTER",
-    30301 : "SILLY METER",
-    30350 : "VICTORY PARTIES",
-    30400 : "SELLBOT FIELD OFFICE",
-    30450 : "IDES OF MARCH",
-    30460 : "LAWBOTS LOSE",
-#    50000 : "PIRATES",
-#    50100 : "PIRATES Common",
-#    50200 : "PIRATES Insults",
-#    50300 : "PIRATES Places",
-#    60100 : "GATEWAY Greetings",
-#    60200 : "GATEWAY Bye",
-#    60300 : "GATEWAY Happy",
-#    60400 : "GATEWAY Sad",
-#    60500 : "GATEWAY Places",
+    50000 : "PIRATES",
+    50100 : "PIRATES Common",
+    50200 : "PIRATES Insults",
+    50300 : "PIRATES Places",
+    60100 : "GATEWAY Greetings",
+    60200 : "GATEWAY Bye",
+    60300 : "GATEWAY Happy",
+    60400 : "GATEWAY Sad",
+    60500 : "GATEWAY Places",    
     }
 
 chatDict = OTPLocalizer.SpeedChatStaticText
-chatKeys = list(chatDict.keys())
+chatKeys = chatDict.keys()
 chatKeys.sort()
 
 customChatDict = OTPLocalizer.CustomSCStrings
-customChatKeys = list(customChatDict.keys())
+customChatKeys = customChatDict.keys()
 customChatKeys.sort()
 
 faceoffTaunts = OTPLocalizer.SuitFaceoffTaunts
-faceoffTauntsKeys = list(faceoffTaunts.keys())
+faceoffTauntsKeys = faceoffTaunts.keys()
 faceoffTauntsKeys.sort()
 
 attackTaunts = TTLocalizer.SuitAttackTaunts
-attackTauntsKeys = list(attackTaunts.keys())
+attackTauntsKeys = attackTaunts.keys()
 attackTauntsKeys.sort()
 
 namegen = NameGenerator.NameGenerator()
@@ -718,80 +423,14 @@ SuitAnimList = [
     Suit.AllSuits,
     Suit.AllSuitsMinigame,
     Suit.AllSuitsTutorialBattle,
-    Suit.AllSuitsBattle,
-    Suit.SuitsCEOBattle,
-	Suit.f,
-	Suit.p,
-	Suit.ym,
-	Suit.mm,
-	Suit.ds,
-	Suit.hh,
-	Suit.cr,
-	Suit.tbc,
-	Suit.cc,
-	Suit.tm,
-	Suit.nd,
-	Suit.gh,
-	Suit.ms,
-	Suit.tf,
-	Suit.m,
-	Suit.mh,
-	Suit.sc,
-	Suit.pp,
-	Suit.tw,
-	Suit.bc,
-	Suit.nc,
-	Suit.mb,
-	Suit.ls,
-	Suit.rb,
-	Suit.bf,
-	Suit.b,
-	Suit.dt,
-	Suit.ac,
-	Suit.bs,
-	Suit.sd,
-	Suit.le,
-	Suit.bw
+    Suit.AllSuitsBattle
     ]
 
 SuitAnimCategories = [
     'All',
     'Minigame',
     'Tutorial',
-    'Battle',
-    'CEO',
-    'Flunky',
-    'Pencil Pusher',
-    'Yesman',
-	'Micromanager',
-	'Downsizer',
-	'Head Hunter',
-	'Corporate Raider',
-	'The Big Cheese',
-	'Cold Caller',
-	'Telemarketer',
-	'Name Dropper',
-	'Glad Hander',
-	'Mover & Shaker',
-	'Two-Face',
-	'The Mingler',
-	'Mr. Hollywood',
-	'Short Change',
-	'Penny Pincher',
-	'Tightwad',
-	'Bean Counter',
-	'Number Cruncher',
-	'Money Bag',
-	'Loan Shark',
-	'Robber Baron',
-	'Bottom Feeder',
-	'Bloodsucker',
-	'Double-Talker',
-	'Ambulance Chaser',
-	'Backstabber',
-	'Spin Doctor',
-	'Legal Eagle',
-	'Big Wig'
+    'Battle'
     ]
 
 SuitTrackList = [
@@ -869,8 +508,8 @@ DoodleAnimList = [
     'toBall',
     'walk',
     'walkHappy',
-    ]
-
+    ]    
+        
 rtmHelp = "\n- Once the program has loaded hit the ADD RANDOM TOON Button. \
 \n- MIDDLE CLICK near the toon to place a COA(center of action) marker. \
 \n- Hold the ALT KEY DOWN and use your three mouse buttons to NAVIGATE. \
@@ -881,7 +520,7 @@ rtmHelp = "\n- Once the program has loaded hit the ADD RANDOM TOON Button. \
 \n- For quickly changing through animations simply RIGHT CLICK anywhere on the screen. \
 \n- If the Animation panel is closed you can hit the ANIMS button(in the bottom row) to open it again. \
 \n- If you have multiple characters on screen, first select the character with the mouse and then open thier Aimation Panel \
-\n- Use the RADIO BUTTONS to change TOON DNA."
+\n- Use the RADIO BUTTONS to change TOON DNA." 
 
 # NEIGHBORHOOD DATA
 # If you run this from the command line you can pass in the hood codes
@@ -892,13 +531,14 @@ if sys.argv[1:]:
     try:
         opts, pargs = getopt.getopt(sys.argv[1:], '')
         hoods = pargs
-    except Exception as e:
-        print(e)
+    except Exception, e:
+        print e
 # If you do not run from the command line, we just load all of them
 # or you can hack this up for your own purposes.
 else:
-    hoodString = ConfigVariableString('level-editor-hoods', 'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA').getValue()
-    hoods = hoodString.split()
+    hoodString = base.config.GetString('level-editor-hoods',
+                                       'TT DD BR DG DL MM PA')
+    hoods = string.split(hoodString)
 
 # The list of neighborhoods to edit
 hoodIds = {'TT' : 'toontown_central',
@@ -907,13 +547,6 @@ hoodIds = {'TT' : 'toontown_central',
            'BR' : 'the_burrrgh',
            'DG' : 'daisys_garden',
            'DL' : 'donalds_dreamland',
-           'CC' : 'cog_hq_bossbot',
-           'CL' : 'cog_hq_lawbot',
-           'CM' : 'cog_hq_cashbot',
-           'CS' : 'cog_hq_sellbot',
-           'GS' : 'goofy_speedway',
-           'OZ' : 'outdoor_zone',
-           'GZ' : 'golf_zone',
            'PA' : 'party_zone',
            }
 
@@ -921,44 +554,71 @@ hoodIds = {'TT' : 'toontown_central',
 NEIGHBORHOODS = []
 NEIGHBORHOOD_CODES = {}
 for hoodId in hoods:
-    if hoodId in hoodIds:
+    if hoodIds.has_key(hoodId):
         hoodName = hoodIds[hoodId]
         NEIGHBORHOOD_CODES[hoodName] = hoodId
         NEIGHBORHOODS.append(hoodName)
     else:
-        print('Error: no hood defined for: ', hoodId)
+        print 'Error: no hood defined for: ', hoodId
 
 # Load DNA
-dnaDirectory = Filename.expandFrom(ConfigVariableString("dna-directory", "$TTMODELS/src/dna").getValue())
+dnaDirectory = Filename.expandFrom(base.config.GetString("dna-directory", "$TTMODELS/src/dna"))
 
 try:
     if dnaLoaded:
         pass
 except NameError:
-    print("Loading LevelEditor for hoods: ", hoods)
+    print "Loading LevelEditor for hoods: ", hoods
     # DNAStorage instance for storing level DNA info
     # We need to use the __builtin__.foo syntax, not the
     # __builtins__["foo"] syntax, since this file runs at the top
     # level.
-    builtins.DNASTORE = DNASTORE = DNAStorage()
+    __builtin__.DNASTORE = DNASTORE = DNAStorage()
     # Load the generic storage files
     loadDNAFile(DNASTORE, 'phase_4/dna/storage.dna', CSDefault, 1)
     loadDNAFile(DNASTORE, 'phase_5/dna/storage_town.dna', CSDefault, 1)
     loadDNAFile(DNASTORE, 'phase_5.5/dna/storage_estate.dna', CSDefault, 1)
     loadDNAFile(DNASTORE, 'phase_5.5/dna/storage_house_interior.dna', CSDefault, 1)
-    builtins.dnaLoaded = 1
+    # Load all the neighborhood specific storage files
+    if 'TT' in hoods:
+        loadDNAFile(DNASTORE, 'phase_4/dna/storage_TT.dna', CSDefault, 1)
+        loadDNAFile(DNASTORE, 'phase_4/dna/storage_TT_sz.dna', CSDefault, 1)
+        loadDNAFile(DNASTORE, 'phase_5/dna/storage_TT_town.dna', CSDefault, 1)
+    if 'DD' in hoods:
+        loadDNAFile(DNASTORE, 'phase_6/dna/storage_DD.dna', CSDefault, 1)
+        loadDNAFile(DNASTORE, 'phase_6/dna/storage_DD_sz.dna', CSDefault, 1)
+        loadDNAFile(DNASTORE, 'phase_6/dna/storage_DD_town.dna', CSDefault, 1)
+    if 'MM' in hoods:
+        loadDNAFile(DNASTORE, 'phase_6/dna/storage_MM.dna', CSDefault, 1)
+        loadDNAFile(DNASTORE, 'phase_6/dna/storage_MM_sz.dna', CSDefault, 1)
+        loadDNAFile(DNASTORE, 'phase_6/dna/storage_MM_town.dna', CSDefault, 1)
+    if 'BR' in hoods:
+        loadDNAFile(DNASTORE, 'phase_8/dna/storage_BR.dna', CSDefault, 1)
+        loadDNAFile(DNASTORE, 'phase_8/dna/storage_BR_sz.dna', CSDefault, 1)
+        loadDNAFile(DNASTORE, 'phase_8/dna/storage_BR_town.dna', CSDefault, 1)
+    if 'DG' in hoods:
+        loadDNAFile(DNASTORE, 'phase_8/dna/storage_DG.dna', CSDefault, 1)
+        loadDNAFile(DNASTORE, 'phase_8/dna/storage_DG_sz.dna', CSDefault, 1)
+        loadDNAFile(DNASTORE, 'phase_8/dna/storage_DG_town.dna', CSDefault, 1)
+    if 'DL' in hoods:
+        loadDNAFile(DNASTORE, 'phase_8/dna/storage_DL.dna', CSDefault, 1)
+        loadDNAFile(DNASTORE, 'phase_8/dna/storage_DL_sz.dna', CSDefault, 1)
+        loadDNAFile(DNASTORE, 'phase_8/dna/storage_DL_town.dna', CSDefault, 1)
+    if 'PA' in hoods:
+        loadDNAFile(DNASTORE, 'phase_13/dna/storage_party_sz.dna', CSDefault, 1)        
+    __builtin__.dnaLoaded = 1
 
 class RobotToonManager(DirectObject):
-    notify = DirectNotifyGlobal.directNotify.newCategory("RobotToonManager")
-
     def __init__(self, toonParent = None):
         if toonParent is None:
             toonParent = render.attachNewNode('toonTop')
         self.toonParent = toonParent
         self.avatarDict = {}
         self.avatarType = 't'
-        self.toonIds = list(NPCToons.NPCToonDict.keys())
-        self.namePlusIds = [(TTLocalizer.NPCToonNames.get(id, 'Mystery NPC'), id) for id in self.toonIds]
+        self.toonIds = NPCToons.NPCToonDict.keys()
+        self.namePlusIds = map(
+            lambda id: (TTLocalizer.NPCToonNames.get(id, 'Mystery NPC'), id),
+            self.toonIds)
         self.namePlusIds.sort()
         self.numToons = len(self.toonIds)
         self.suitTrack = 'Corporate'
@@ -990,7 +650,7 @@ class RobotToonManager(DirectObject):
                          "phase_3.5/models/props/BR_sky",
                          "phase_6/models/props/MM_sky",
                          "phase_8/models/props/DL_sky",
-                         "phase_9/models/cogHQ/cog_sky",
+                         "phase_9/models/cogHQ/cog_sky",                       
                          ]
         self.skies = []
         for f in self.skyFiles:
@@ -1008,7 +668,7 @@ class RobotToonManager(DirectObject):
         # Drop a toon
         self.accept('f10', self.makeRandomToon)
         self.accept('f11', self.toggleRender2d)
-        self.accept('DIRECT_selectedNodePath', self.findSelectedToon)
+        self.accept('DIRECT_selectedNodePath', self.findSelectedToon)        
         self.accept('DIRECT-mouse3', self.nextAnim)
         self.accept('f9', base.screenshot)
         if base.__class__ != ShowBase.ShowBase:
@@ -1018,26 +678,26 @@ class RobotToonManager(DirectObject):
 ##                                    'walk', 'sad-walk', 'run',
 ##                                    'victory', 'neutral'],
 ##                                   radius = 0.35,
-##                                   action = self.pieMenuCommand)
-
+##                                   action = self.pieMenuCommand)                                   
+                                                                      
         self.animDisplay = TextNode('Animation Name')
-        self.animDisplay.setText('Animation: None')
-        self.animDisplay.setTextColor(0.5, 0.5, 1.0, 1.0)
+        self.animDisplay.setText('Animation: None')            
+        self.animDisplay.setTextColor(0.5, 0.5, 1.0, 1.0)            
         self.animDisplay.setShadow(0.1, 0.1)
-        self.animDisplayNP = aspect2d.attachNewNode(self.animDisplay)
-        self.animDisplayNP.setScale(0.05)
-        self.animDisplayNP.setPos(-1.0,0.0,0.85)
-
+        self.animDisplayNP = aspect2d.attachNewNode(self.animDisplay)        
+        self.animDisplayNP.setScale(0.05)  
+        self.animDisplayNP.setPos(-1.0,0.0,0.85)  
+        
         # [gjeon] to find out currently moving camera in maya mode
-        self.mouseMayaCamera = True
-        base.direct.cameraControl.useMayaCamControls = True
+        self.mouseMayaCamera = True       
+        base.direct.cameraControl.useMayaCamControls = True        
         base.direct.cameraControl.lockRoll = True
-        self.styleManager = ToonStyleManager()
+        self.styleManager = LevelStyleManager(NEIGHBORHOODS, NEIGHBORHOOD_CODES)
 
         self.setLastAngle(0.0)
 
-        base.enableParticles()
-
+        base.enableParticles()        
+                
         self.animPanel = None
 
     def createToplevel(self, dnaNode, nodePath = None):
@@ -1060,7 +720,7 @@ class RobotToonManager(DirectObject):
         self.suitPointToplevel = self.NPToplevel.attachNewNode('suitPoints')
 
     def addProp(self, propType):
-        print("addProp %s " % propType)
+        print "addProp %s " % propType
         # Record new prop type
         self.setCurrent('prop_texture', propType)
         # And create new prop
@@ -1070,7 +730,7 @@ class RobotToonManager(DirectObject):
         newDNAProp.setHpr(VBase3(0))
         # Now place new prop in the world
         self.initNodePath(newDNAProp)
-
+        
     def toggleReaderPollTask(self):
         self.fReaderPollTask = 1 - self.fReaderPollTask
         if self.fReaderPollTask:
@@ -1081,26 +741,25 @@ class RobotToonManager(DirectObject):
             base.cr.stopReaderPollTask()
             direct.selectedNPReadout.setText('POLL STOP')
             direct.selectedNPReadout.reparentTo(aspect2d)
-
     def printCameraPosition(self):
         base.localAvatar.printCameraPosition(base.localAvatar.cameraIndex)
-
     def showHiRes(self, switchIn = 10000):
-        for t in list(self.avatarDict.values()):
+        for t in self.avatarDict.values():
             t.showHiRes(switchIn = switchIn)
-
     def findToonTop(self):
         if last:
             np = last.findNetTag('robotAvatar')
             if not np.isEmpty():
                 np.select()
-
     def makeRandomToon(self, toNpcId = None):
         # Check for intersection
-        entry = self.iRay.pickGeom(skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA)
+        entry = self.iRay.pickGeom(
+            skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA)
         if not entry:
             # Try again just at the center of the screen
-            entry = self.iRay.pickGeom(skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA, xy = (0, -0.2))
+            entry = self.iRay.pickGeom(
+                skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA,
+                xy = (0, -0.2))
         # If we got a valid intersection point
         if entry:
             self.s1.setPos(camera, entry.getSurfacePoint(entry.getFromNodePath()))
@@ -1112,7 +771,7 @@ class RobotToonManager(DirectObject):
             if toNpcId == None:
                 toNpcId = self.toonIds[randint(0,self.numToons)]
             a = RobotToon(description = toNpcId, parent = self.toonParent,
-                          startPos = startPos, endPos = endPos)
+                          startPos = startPos, endPos = endPos)                          
         elif self.avatarType == 's':
             if self.suitTrack == 'Corporate':
                 track = 'c'
@@ -1129,7 +788,7 @@ class RobotToonManager(DirectObject):
             else:
                 level = self.suitLevel + 1
             a = RobotSuit(description = [level,track],
-                          parent = self.toonParent,
+                          parent = self.toonParent, 
                           startPos = startPos, endPos = endPos)
         else:
             desc = PetDNA.getRandomPetDNA()
@@ -1153,18 +812,18 @@ class RobotToonManager(DirectObject):
             if self.doodleGender != None:
                 desc[8] = self.doodleGender
             a = RobotDoodle(description = desc,
-                          parent = self.toonParent,
+                          parent = self.toonParent, 
                           startPos = startPos, endPos = endPos)
-
+            
         a.nametag.manage(self.marginManager)
-        self.avatarDict[a.get_key()] = a
-        a.select()
-        if self.avatarType == 't':
+        self.avatarDict[a.id()] = a
+        a.select() 
+        if self.avatarType == 't':        
             self.setToonAnimState('neutral')
         self.faceCamera()
         a.setStartHpr(a.getHpr())
         messenger.send('SGE_Update Explorer', [a])
-
+            
     def makeToonFromProperties(self, properties,
                                pos, hpr,
                                startPos, startHpr,
@@ -1179,7 +838,6 @@ class RobotToonManager(DirectObject):
         self.setToonAnimState(state)
         messenger.send('SGE_Update Explorer', [t])
         return t
-
     def makeToonFromServerString(self, serverString,
                                  pos = Point3(0), hpr = Point3(0),
                                  startPos = Point3(0), startHpr = Point3(0),
@@ -1190,7 +848,6 @@ class RobotToonManager(DirectObject):
         dna.makeFromNetString(netString)
         return self.makeToonFromProperties(
             dna.asTuple(),pos,hpr,startPos,startHpr,endPos,endHpr,state)
-
     def convertServerDNAString(self, serverString):
         # Strip out blank space and take last 30 characters
         serverString = serverString.replace(' ', '')
@@ -1199,19 +856,15 @@ class RobotToonManager(DirectObject):
         dg = PyDatagram()
         for i in range(0,len(serverString),2):
             eval('dg.addUint8(0x%s)' % serverString[i:i+2])
-
         return dg.getMessage()
-
     def _setStartPos(self):
         self.setStartPos((self.pieMenu.originX, self.pieMenu.originY))
-
     def _setEndPos(self):
         self.setEndPos((self.pieMenu.originX, self.pieMenu.originY))
-
     def setStartPos(self, xy = None):
         # Check for intersection
         entry = self.iRay.pickGeom(
-            xy = xy, skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA)
+            xy = xy, skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA)
         # If we got a valid intersection point
         if entry and (self.selectedToon != None):
             st = self.selectedToon
@@ -1219,11 +872,10 @@ class RobotToonManager(DirectObject):
             st.setStartPos(st.getPos())
             st.setStartHpr(st.getHpr())
             st.updateWalkIval()
-
     def setEndPos(self, xy = None):
         # Check for intersection
         entry = self.iRay.pickGeom(
-            xy = xy, skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA)
+            xy = xy, skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA)
         # If we got a valid intersection point
         if entry and (self.selectedToon != None):
             st = self.selectedToon
@@ -1231,17 +883,15 @@ class RobotToonManager(DirectObject):
             st.setEndPos(st.getPos())
             st.setEndHpr(st.getHpr())
             st.updateWalkIval()
-
     def findSelectedToon(self, nodePath):
-        id = nodePath.get_key()
+        id = nodePath.id()
         np = nodePath.findNetTag('robotAvatar')
         if not np.isEmpty():
-            if np.get_key() != nodePath.get_key():
+            if np.id() != nodePath.id():
                 np.select()
-            self.selectedToon = self.avatarDict.get(np.get_key())
+            self.selectedToon = self.avatarDict.get(np.id())
             if self.panel:
                 self.panel.updateToonInfo()
-
     def makeSuitFromProperties(self, properties,
                                pos, hpr,
                                startPos, startHpr,
@@ -1254,7 +904,6 @@ class RobotToonManager(DirectObject):
         self.avatarDict[t.id()] = t
         messenger.send('SGE_Update Explorer', [t])
         return t
-
     def openCrowdFilePanel(self):
         tcfFilename = askopenfilename(
             defaultextension = '.tcf', initialdir = '.',
@@ -1262,11 +911,10 @@ class RobotToonManager(DirectObject):
             title = 'Open Toon Crowd File')
         if tcfFilename:
             self.openCrowdFile(tcfFilename)
-
     def openCrowdFile(self, tcfFilename):
             filename = Filename(tcfFilename)
-            f = open(filename.toOsSpecific(), 'r')
-            rawData = f.readlines()
+            f = open(filename.toOsSpecific(), 'rb')
+            rawData = f.readlines()            
             for line in rawData:
                 (type,props,pos,hpr,startPos,startHpr,
                  endPos,endHpr,state) = self.parseAvatarProperties(line)
@@ -1277,9 +925,8 @@ class RobotToonManager(DirectObject):
                     self.makeSuitFromProperties(
                         props,pos,hpr,startPos,startHpr,endPos,endHpr,state)
             f.close()
-
     def parseAvatarProperties(self, line):
-        line = str.strip(line)
+        line = string.strip(line)
         if line:
             line = line.split('*')
         i = 0
@@ -1289,16 +936,16 @@ class RobotToonManager(DirectObject):
             torso = line[i];i+=1
             legs = line[i];i+=1
             gender = line[i];i+=1
-            armColor = int(line[i]);i+=1
-            gloveColor = int(line[i]);i+=1
-            legColor = int(line[i]);i+=1
-            headColor = int(line[i]);i+=1
-            topTexture = int(line[i]);i+=1
-            topTextureColor = int(line[i]);i+=1
-            sleeveTexture = int(line[i]);i+=1
-            sleeveTextureColor = int(line[i]);i+=1
-            bottomTexture = int(line[i]);i+=1
-            bottomTextureColor = int(line[i]);i+=1
+            armColor = string.atoi(line[i]);i+=1
+            gloveColor = string.atoi(line[i]);i+=1
+            legColor = string.atoi(line[i]);i+=1
+            headColor = string.atoi(line[i]);i+=1
+            topTexture = string.atoi(line[i]);i+=1
+            topTextureColor = string.atoi(line[i]);i+=1
+            sleeveTexture = string.atoi(line[i]);i+=1
+            sleeveTextureColor = string.atoi(line[i]);i+=1
+            bottomTexture = string.atoi(line[i]);i+=1
+            bottomTextureColor = string.atoi(line[i]);i+=1
             props = [head, torso, legs, gender,
                     armColor, gloveColor, legColor, headColor,
                     topTexture, topTextureColor, sleeveTexture,
@@ -1309,24 +956,24 @@ class RobotToonManager(DirectObject):
             dept = line[i];i+=1
             name = line[i];i+=1
             props = [body, dept, name]
-        x = float(line[i]);i+=1
-        y = float(line[i]);i+=1
-        z = float(line[i]);i+=1
-        h = float(line[i]);i+=1
-        p = float(line[i]);i+=1
-        r = float(line[i]);i+=1
-        x1 = float(line[i]);i+=1
-        y1 = float(line[i]);i+=1
-        z1 = float(line[i]);i+=1
-        h1 = float(line[i]);i+=1
-        p1 = float(line[i]);i+=1
-        r1 = float(line[i]);i+=1
-        x2 = float(line[i]);i+=1
-        y2 = float(line[i]);i+=1
-        z2 = float(line[i]);i+=1
-        h2 = float(line[i]);i+=1
-        p2 = float(line[i]);i+=1
-        r2 = float(line[i]);i+=1
+        x = string.atof(line[i]);i+=1
+        y = string.atof(line[i]);i+=1
+        z = string.atof(line[i]);i+=1
+        h = string.atof(line[i]);i+=1
+        p = string.atof(line[i]);i+=1
+        r = string.atof(line[i]);i+=1
+        x1 = string.atof(line[i]);i+=1
+        y1 = string.atof(line[i]);i+=1
+        z1 = string.atof(line[i]);i+=1
+        h1 = string.atof(line[i]);i+=1
+        p1 = string.atof(line[i]);i+=1
+        r1 = string.atof(line[i]);i+=1
+        x2 = string.atof(line[i]);i+=1
+        y2 = string.atof(line[i]);i+=1
+        z2 = string.atof(line[i]);i+=1
+        h2 = string.atof(line[i]);i+=1
+        p2 = string.atof(line[i]);i+=1
+        r2 = string.atof(line[i]);i+=1
         state = line[i]
         return (type, props,
                 Point3(x,y,z),
@@ -1336,16 +983,15 @@ class RobotToonManager(DirectObject):
                 Point3(x2,y2,z2),
                 Point3(h2,p2,r2),
                 state)
-
     def saveCrowdFile(self):
         tcfFilename = asksaveasfilename(
             defaultextension = '.tcf', initialdir = '.',
             filetypes = (('Toon Crowd', '*.tcf'),('All files', '*')),
-            title = 'Save Toon Crowd File')
+            title = 'Save Toon Crowd File')            
         if tcfFilename:
             filename = Filename(tcfFilename)
-            f = open(filename.toOsSpecific(), 'w')
-            for t in list(self.avatarDict.values()):
+            f = open(filename.toOsSpecific(), 'wb')
+            for t in self.avatarDict.values():
                 type = t.style.type
                 if type == 't':
                     style = t.style.asTuple()
@@ -1368,13 +1014,12 @@ class RobotToonManager(DirectObject):
                 endPose = ("%0.2f*%0.2f*%0.2f*%0.2f*%0.2f*%0.2f" %
                            (t.endPos[0],t.endPos[1],t.endPos[2],
                             t.endHpr[0],t.endHpr[1],t.endHpr[2]))
-                state = t._state
+                state = t.state
                 f.write("%s*%s*%s*%s*%s*%s\n" %
                         (type,styleStr,pose,startPose,endPose,state))
             f.close()
-
     def pieMenuCommand(self, cmd):
-        if ConfigVariableBool('want-new-anims', 1).getValue():
+        if base.config.GetBool('want-new-anims', 1):
             return
         if self.selectedToon:
             if cmd == 'start pos':
@@ -1383,7 +1028,6 @@ class RobotToonManager(DirectObject):
                 self._setEndPos()
             else:
                 self.selectedToon.setAnimState(cmd)
-
     def toggleRender2d(self):
         self.fRender2d = 1 - self.fRender2d
         if self.fRender2d:
@@ -1392,7 +1036,7 @@ class RobotToonManager(DirectObject):
             render2d.hide()
 
     def clearToons(self):
-        for t in list(self.avatarDict.values()):
+        for t in self.avatarDict.values():
             t.nametag.unmanage(self.marginManager)
             t.destroy()
         self.avatarDict = {}
@@ -1401,7 +1045,7 @@ class RobotToonManager(DirectObject):
     def toggleDirectMode(self):
         self.fDirectMode = 1 - self.fDirectMode
         if self.fDirectMode:
-            print('SWITCH TO DIRECT MODE')
+            print 'SWITCH TO DIRECT MODE'
             # Start up direct
             taskMgr.removeTasksMatching('updateSmartCamera*')
             camera.wrtReparentTo(render)
@@ -1410,7 +1054,7 @@ class RobotToonManager(DirectObject):
             direct.selectedNPReadout.setText('DIRECT MODE')
             direct.selectedNPReadout.reparentTo(aspect2d)
         else:
-            print('SWITCH TO TOONTOWN MODE')
+            print 'SWITCH TO TOONTOWN MODE'
             # Return to toontown mode
             if direct:
                 direct.deselectAll()
@@ -1608,11 +1252,11 @@ class RobotToonManager(DirectObject):
         # Position it
         # Check for intersection
         entry = self.iRay.pickGeom(
-            skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA)
+            skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA)
         if not entry:
             # Try again just at the center of the screen
             entry = self.iRay.pickGeom(
-                skipFlags = DG.SKIP_HIDDEN | DG.SKIP_BACKFACE | DG.SKIP_CAMERA,
+                skipFlags = SKIP_HIDDEN | SKIP_BACKFACE | SKIP_CAMERA,
                 xy = (0, -0.2))
         # If we got a valid intersection point
         if entry:
@@ -1638,72 +1282,70 @@ class RobotToonManager(DirectObject):
         self.lastAngle = angle
 
     def getLastAngle(self):
-        return self.lastAngle
-
-    def setToonAnimState(self, anim):
-        self.notify.debug("setToonAnimState(%s)" % (anim))
-        self.selectedToon.setAnimState(anim)
-        self.animDisplay.setText("Animation: "+str(anim))
-
-        if not self.animPanel:
-            self.showAnimPanel()
-
-        self.animPanel.actorControlList[0].selectAnimNamed(anim)
-        self.animPanel.actorControlList[0].updateDisplay()
-        self.animPanel.actorControlList[0].animMenu.selectitem(anim)
+        return self.lastAngle       
+                
+    def setToonAnimState(self,anim):    
+        self.selectedToon.setAnimState(anim)    
+        self.animDisplay.setText("Animation: "+str(anim))   
+        
+        if not self.animPanel:        
+            self.showAnimPanel()            
+            
+        self.animPanel.actorControlList[0].selectAnimNamed(anim)            
+        self.animPanel.actorControlList[0].updateDisplay()            
+        self.animPanel.actorControlList[0].animMenu.selectitem(anim)            
         self.animPanel.playActorControls()
-        self.animPanel.loopVar.set(1)
-
+        self.animPanel.loopVar.set(1)                       
+        
     def showAnimPanel(self):
         # show animation panel for currently selected actors
-        from direct.tkpanels import AnimPanel
+        from direct.tkpanels import AnimPanel        
         if self.selectedToon:
             self.animPanel = AnimPanel.AnimPanel(
-                self.selectedToon,session = self)
+                self.selectedToon,session = self)                      
             self.animPanel.setDestroyCallBack(self.animPanelClosed)
-
-        if self.selectedToon and self.selectedToon._state:
-            self.setToonAnimState(self.selectedToon._state)
-
-    def animPanelClosed(self):
-        self.animPanel = None
-
-    def getState(self):
-        if not self.animPanel:
+                                
+        if self.selectedToon and self.selectedToon.state:        
+            self.setToonAnimState(self.selectedToon.state)            
+                        
+    def animPanelClosed(self):    
+        self.animPanel = None        
+                
+    def getState(self):        
+        if not self.animPanel:        
             self.showAnimPanel()
         if self.selectedToon:
-            self.selectedToon._state = self.animPanel.actorControlList[0]['active']
-            return self.selectedToon._state
-
+            self.selectedToon.state = self.animPanel.actorControlList[0]['active'] 
+            return self.selectedToon.state
+                
     def nextAnim(self, modifiers = 0):
-        if not self.animPanel:
+        if not self.animPanel:        
             self.showAnimPanel()
-        if self.selectedToon and modifiers==0:
-            currState = self.getState()
+        if self.selectedToon and modifiers==0:        
+            currState = self.getState()       
             try:
-                i = self.animPanel.actorControlList[0]['animList'].index(currState)
-            except:
-                i = -1
-
+                i = self.animPanel.actorControlList[0]['animList'].index(currState)        
+            except:      
+                i = -1            
+                    
             newIndex = i+1
-            if (newIndex) < len(ToonAnimList):
-                self.setToonAnimState(self.animPanel.actorControlList[0]['animList'][newIndex])
-            else:
-                self.setToonAnimState(self.animPanel.actorControlList[0]['animList'][0])
-
+            if (newIndex) < len(ToonAnimList):        
+                self.setToonAnimState(self.animPanel.actorControlList[0]['animList'][newIndex])                
+            else:            
+                self.setToonAnimState(self.animPanel.actorControlList[0]['animList'][0])                
+        
 
 """ Robot Toon Manager Control Panel module """
 class RobotToonControlPanel(AppShell):
     # Override class variables
     appname = 'Robot Toon Manager Panel'
-    frameWidth  = 800
-    frameHeight = 700
+    frameWidth  = 650
+    frameHeight = 600
     usecommandarea = 1
     usestatusarea  = 0
     contactname = 'Mark Mine'
     contactphone = '(818) 623-3915'
     contactemail = "Mark.Mine@disney.com"
-    notify = DirectNotifyGlobal.directNotify.newCategory("RobotToonControlPanel")
 
     def __init__(self, robotToonManager, **kw):
         DGG.INITOPT = Pmw.INITOPT
@@ -1711,7 +1353,7 @@ class RobotToonControlPanel(AppShell):
             )
         self.defineoptions(kw, optiondefs)
 
-        self.rtm = robotToonManager
+        self.rtm = robotToonManager        
 
         AppShell.__init__(self)
 
@@ -1724,39 +1366,41 @@ class RobotToonControlPanel(AppShell):
         self.npToplevel = None
         self.maleTopsList = ToonDNA.getAllTops('m')
         self.maleTopsDict = self.sortVariants(self.maleTopsList)
-        self.maleTopsKeys = list(self.maleTopsDict.keys())
+        self.maleTopsKeys = self.maleTopsDict.keys()
         self.maleTopsKeys.sort()
-        self.maleTopsNames = [ToonTopsDict[x] for x in self.maleTopsKeys]
+        self.maleTopsNames = map(lambda x: ToonTopsDict[x], self.maleTopsKeys)
         self.maleBottomsList = ToonDNA.getAllBottoms('m')
         self.maleBottomsDict = self.sortVariants(self.maleBottomsList)
-        self.maleBottomsKeys = list(self.maleBottomsDict.keys())
+        self.maleBottomsKeys = self.maleBottomsDict.keys()
         self.maleBottomsKeys.sort()
-        self.maleBottomsNames = [BoyBottomsDict[x] for x in self.maleBottomsKeys]
+        self.maleBottomsNames = map(
+            lambda x: BoyBottomsDict[x], self.maleBottomsKeys)
         self.femaleTopsList = ToonDNA.getAllTops('f')
         self.femaleTopsDict = self.sortVariants(self.femaleTopsList)
-        self.femaleTopsKeys = list(self.femaleTopsDict.keys())
+        self.femaleTopsKeys = self.femaleTopsDict.keys()
         self.femaleTopsKeys.sort()
-        self.femaleTopsNames = [ToonTopsDict[x] for x in self.femaleTopsKeys]
+        self.femaleTopsNames = map(lambda x: ToonTopsDict[x],
+                                   self.femaleTopsKeys)
         self.femaleBottomsList = ToonDNA.getAllBottoms('f')
         self.femaleBottomsDict = self.sortVariants(self.femaleBottomsList)
         self.femaleSkirtsList = ToonDNA.getAllBottoms('f','skirts')
         self.femaleSkirtsDict = self.sortVariants(self.femaleSkirtsList)
-        self.femaleSkirtsKeys = list(self.femaleSkirtsDict.keys())
+        self.femaleSkirtsKeys = self.femaleSkirtsDict.keys()
         self.femaleSkirtsKeys.sort()
-        self.femaleSkirtsNames = [GirlBottomsDict[x] for x in self.femaleSkirtsKeys]
+        self.femaleSkirtsNames = map(
+            lambda x: GirlBottomsDict[x], self.femaleSkirtsKeys)
         self.femaleShortsList = ToonDNA.getAllBottoms('f','shorts')
         self.femaleShortsDict = self.sortVariants(self.femaleShortsList)
-        self.femaleShortsKeys = list(self.femaleShortsDict.keys())
+        self.femaleShortsKeys = self.femaleShortsDict.keys()
         self.femaleShortsKeys.sort()
-        self.femaleShortsNames = [GirlBottomsDict[x] for x in self.femaleShortsKeys]
+        self.femaleShortsNames = map(
+            lambda x: GirlBottomsDict[x], self.femaleShortsKeys)
         self.doodleColorButtonList = []
         self.doodleColorScaleButtonList = []
         self.doodleEyeColorButtonList = []
 
-        self.anim = StringVar()
-        self.anim.set('')
         self.lastPath = None
-
+        
     def sortVariants(self, styleList):
         styleDict = {}
         styleList.sort()
@@ -1813,8 +1457,8 @@ class RobotToonControlPanel(AppShell):
         menuBar.addmenuitem('Tools', 'command',
 		            'Import Maya File',
 			    label = 'Import Maya File',
-			    command = self.importMaya)
-
+			    command = self.importMaya)    
+			        
         menuBar.addmenuitem('File', 'command',
                             'Show Anim Panel',
                             label = 'Show Anim Panel',
@@ -1833,7 +1477,7 @@ class RobotToonControlPanel(AppShell):
                                            scrolledCanvas_hull_height = 50)
         self.explorer.pack(fill = BOTH, expand = 1)
         self.explorerFrame.pack(fill = BOTH, expand = 1)
-        self.explorer._node._state = 'expanded'
+        self.explorer._node.state = 'expanded'
 
         # Create the notebook pages
         self.notebook = Pmw.NoteBook(self.notebookFrame)
@@ -1863,14 +1507,14 @@ class RobotToonControlPanel(AppShell):
                 firstLetter = TextEncoder.upper(name[0])
                 subMenu = Menu(self.npcMenu, tearoff = 0)
                 self.npcMenu.add_cascade(
-                    label = 'NPC %s' % firstLetter,
+                    label = 'NPC %s' % firstLetter, 
                     menu = subMenu)
             subMenu.add_command(
                 label = TTLocalizer.NPCToonNames.get(id,'Unnamed NPC'),
                 command = lambda id=id: self.rtm.makeRandomToon(id))
-
+        
         dnaFrame.pack(fill = X, expand = 0)
-
+        
         # LOD
         self.lod = StringVar()
         self.lod.set('1000')
@@ -1892,8 +1536,8 @@ class RobotToonControlPanel(AppShell):
             self.lod, '250', self.selectLOD,
             help = 'low LOD',
             side = LEFT)
-        lodFrame.pack(fill = X, expand = 0)
-
+        lodFrame.pack(fill = X, expand = 0)        
+        
         # GENDER
         self.gender = StringVar()
         self.gender.set('m')
@@ -1916,7 +1560,7 @@ class RobotToonControlPanel(AppShell):
         self.speciesDict = { 'c' : 'Cat', 'd' : 'Dog', 'f' : 'Duck',
                              'h' : 'Horse', 'm' : 'Mouse', 'r' : 'Rabbit',
                              'p' : 'Monkey', 'b' : 'Bear', 's' : 'Swine' }
-        speciesList = list(self.speciesDict.values())
+        speciesList = self.speciesDict.values()
         speciesList.sort()
         self.headDict = {}
         for head in ToonDNA.toonHeadTypes:
@@ -1937,7 +1581,7 @@ class RobotToonControlPanel(AppShell):
                 help = 'Set species to %s' % s,
                 side = LEFT)
         speciesFrame.pack(expand = 0, fill = X)
-
+        
         headFrame = Frame(self.pageOne)
         Label(headFrame, text = 'Head:',width=6,
               anchor = W, justify = LEFT).pack(side = LEFT, expand = 0)
@@ -1986,7 +1630,7 @@ class RobotToonControlPanel(AppShell):
             help = 'Set eyes to sad blink',
             side = LEFT)
         eyesFrame.pack(expand = 0, fill = X)
-
+        
         # Muzzles
         muzzleFrame = Frame(self.pageOne)
         Label(muzzleFrame, text = 'Muzzles: ', width=6, anchor = W, \
@@ -1994,35 +1638,35 @@ class RobotToonControlPanel(AppShell):
         self.muzzle = StringVar()
         self.muzzle.set('normal')
         self.normalMuzzleButton = self.newCreateRadiobutton(
-            muzzleFrame, 'Muzzle', 'normal', self.muzzle,
+            muzzleFrame, 'Muzzle', 'normal', self.muzzle, 
             'normal', self.setMuzzle,
             help = 'Set muzzle to normal',
             side = LEFT)
-
+            
         self.angryMuzzleButton = self.newCreateRadiobutton(
             muzzleFrame, 'Muzzle', 'angry',
             self.muzzle, 'angry', self.setMuzzle,
             help = 'Set muzzle to angry',
             side = LEFT)
-
+            
         self.sadMuzzleButton = self.newCreateRadiobutton(
             muzzleFrame, 'Muzzle', 'sad',
             self.muzzle, 'sad', self.setMuzzle,
             help = 'Set muzzle to sad',
             side = LEFT)
-
+            
         self.smileMuzzleButton = self.newCreateRadiobutton(
             muzzleFrame, 'Muzzle', 'smile',
             self.muzzle, 'smile', self.setMuzzle,
             help = 'Set muzzle to smile',
             side = LEFT)
-
+            
         self.laughMuzzleButton = self.newCreateRadiobutton(
             muzzleFrame, 'Muzzle', 'laugh',
             self.muzzle, 'laugh', self.setMuzzle,
             help = 'Set muzzle to laugh',
             side = LEFT)
-
+            
         self.surpriseMuzzleButton = self.newCreateRadiobutton(
             muzzleFrame, 'Muzzle', 'surprise',
             self.muzzle, 'surprise', self.setMuzzle,
@@ -2067,7 +1711,7 @@ class RobotToonControlPanel(AppShell):
             help = 'L-Dress',
             side = LEFT)
         torsoFrame.pack(fill = X, expand = 0)
-
+        
         # LEGS
         self.legs = StringVar()
         self.legs.set('ss')
@@ -2147,7 +1791,7 @@ class RobotToonControlPanel(AppShell):
             parent = topsFrame,
             labelpos = W,
             label_text = 'Tops:',
-            label_width = 8,
+            label_width = 8, 
             label_anchor = W, label_justify = LEFT,
             menubutton_width = 25)
         self.topsMenu['command'] = lambda x: self.setTop(x,1)
@@ -2163,7 +1807,7 @@ class RobotToonControlPanel(AppShell):
             entryfield_entry_width = 3)
         self.topsCounter['entryfield_command'] = self.setTopVariant
         self.topsCounter.pack(side = LEFT, fill = X, expand = 0)
-
+        
         topsFrame.pack(fill = X, expand = 0)
 
         # BOTTOM TEXTURE
@@ -2189,7 +1833,7 @@ class RobotToonControlPanel(AppShell):
             entryfield_entry_width = 3)
         self.bottomsCounter['entryfield_command'] = self.setBottomVariant
         self.bottomsCounter.pack(side = LEFT, fill = X, expand = 0)
-
+        
         bottomsFrame.pack(fill = X, expand = 0)
 
         nameFrame = Frame(self.pageOne)
@@ -2244,7 +1888,7 @@ class RobotToonControlPanel(AppShell):
             if (key % 100) == 0:
                 subMenu = Menu(self.chatMenu2, tearoff = 0)
                 self.chatMenu2.add_cascade(
-                    label = 'Series %d' % key,
+                    label = 'Series %d' % key, 
                     menu = subMenu)
             subMenu.add_command(
                 label = customChatDict[key],
@@ -2261,13 +1905,15 @@ class RobotToonControlPanel(AppShell):
         self.clearChat.pack(side = LEFT, fill = X, expand = 1)
         chatFrame.pack(fill = X, expand = 0)
 
-        animFrame = Frame(self.pageOne)
-
-        if not ConfigVariableBool('want-new-anims', 1).getValue():
+        animFrame = Frame(self.pageOne)        
+                
+        if not base.config.GetBool('want-new-anims', 1):
             self.animButton = Menubutton(animFrame, width = 18,
                                          text = 'Anims',
                                          relief = RAISED,
                                          borderwidth = 2)
+            self.anim = StringVar()
+            self.anim.set('')
             self.animMenu = Menu(self.animButton)
             self.animButton['menu'] = self.animMenu
             self.animButton.pack(side = LEFT, expand = 0, fill = X)
@@ -2280,8 +1926,8 @@ class RobotToonControlPanel(AppShell):
                 subMenu.add_command(
                     label = anim,
                     command = lambda a = anim: self.setToonAnim(a))
-                animIndex += 1
-        else:
+                animIndex += 1                
+        else:        
             self.buttonAdd('Anims',
                        helpMessage='Bring Up Anim Panel',
                        statusMessage='Control Animations!',
@@ -2321,7 +1967,7 @@ class RobotToonControlPanel(AppShell):
             if (suitIndex % 8) == 0:
                 subMenu = Menu(self.toonSuitMenu, tearoff = 0)
                 self.toonSuitMenu.add_cascade(
-                    label = SuitTrackList[suitIndex // 8],
+                    label = SuitTrackList[suitIndex/8],
                     menu = subMenu)
             suit = SuitDNAList[suitIndex]
             suitLabel = suit.split(':')[1].strip()
@@ -2331,7 +1977,7 @@ class RobotToonControlPanel(AppShell):
         takeOffSuitButton = Button(frame, text = 'Take off Cog Suit',
                                    command = self.takeOffSuitSuit)
         takeOffSuitButton.pack(side = LEFT, fill = X, expand = 0)
-
+        
         self.handPropChoiceButton = Menubutton(frame, width = 18,
                                          text = 'Choose prop',
                                          relief = RAISED,
@@ -2340,16 +1986,16 @@ class RobotToonControlPanel(AppShell):
         # Associate menu with button and vice versa
         self.props = Menu(self.handPropChoiceButton)
         self.handPropChoiceButton['menu'] = self.props
-        for prop in list(globalPropPool.propTypes.keys()):
+        for prop in globalPropPool.propTypes.keys():
             self.props.add_command(label = prop, command = lambda selectProp = prop: self.useProp(selectProp))
         frame.pack(fill = X, expand = 0)
-
+        
         frame = Frame(self.pageOne)
         self.addToonButton = Button(frame,
                                     text = 'Add Random Toon',
                                     command = self.rtm.makeRandomToon)
         self.addToonButton.pack(side = LEFT, expand = 1, fill = X)
-
+        
         self.createTestToonButton = Button(frame,
                                     text = 'Create Anim Test Toon',
                                     command = self.createTestToon)
@@ -2437,7 +2083,7 @@ class RobotToonControlPanel(AppShell):
         for suitIndex in range(len(SuitDNAList)):
             if (suitIndex % 8) == 0:
                 subMenu = Menu(self.suitMenu, tearoff = 0)
-                self.suitMenu.add_cascade(label = SuitTrackList[suitIndex // 8],
+                self.suitMenu.add_cascade(label = SuitTrackList[suitIndex/8],
                                           menu = subMenu)
             suit = SuitDNAList[suitIndex]
             suitLabel = suit.split(':')[1].strip()
@@ -2532,7 +2178,7 @@ class RobotToonControlPanel(AppShell):
         #
         # Doodle Tab
         #
-
+        
         self.pageThree = self.notebook.add('Doodles')
 
         # Doodle head parts
@@ -2656,7 +2302,7 @@ class RobotToonControlPanel(AppShell):
             help = 'Fluffy, Cotton Tail (3)',
             side = LEFT)
         doodleTailFrame.pack(fill = X, expand = 0)
-
+        
         # Doodle body
         self.doodleBody = IntVar()
         self.doodleBody.set(None)
@@ -2718,7 +2364,7 @@ class RobotToonControlPanel(AppShell):
                 self.doodleColorButtonList.append(b)
             cf.pack(fill = X, expand = 0)
         colorFrame.pack(fill = X, expand = 0)
-
+        
         # Doodle part color scale
         self.doodleColorScale = IntVar()
         self.doodleColorScale.set(-1)
@@ -2767,7 +2413,7 @@ class RobotToonControlPanel(AppShell):
             help = 'No Eyelashes (1)',
             side = LEFT)
         doodleGenderFrame.pack(fill = X, expand = 0)
-
+        
         # Doodle anim menu
         doodleAnimFrame = Frame(self.pageThree)
         self.doodleAnimButton = Menubutton(doodleAnimFrame, width = 18,
@@ -2837,7 +2483,7 @@ class RobotToonControlPanel(AppShell):
         self.addPropsButton.pack(fill = X, padx = 20, pady = 10)
         codes = []
         self.styleManager = self.rtm.styleManager
-
+        
         codes = (self.styleManager.getCatalogCodes('prop') +
                  self.styleManager.getCatalogCodes('holiday_prop'))
         codes.sort()
@@ -2855,7 +2501,8 @@ class RobotToonControlPanel(AppShell):
             scrolledlist_items = codes
             )
         self.propType = self.styleManager.getCatalogCode('prop', 0)
-        self.propSelector.selectitem(self.styleManager.getCatalogCode('prop', 0))
+        self.propSelector.selectitem(
+            self.styleManager.getCatalogCode('prop', 0))
         self.propSelector.pack(expand = 1, fill = BOTH)
 
         # Effects tab
@@ -2930,7 +2577,7 @@ class RobotToonControlPanel(AppShell):
         os.system('maya2egg_bin  -o' + eggFilePath + ' ' + mbFilePath)
         newNode = loader.loadModel(eggFilePath, noCache=True)
         newNode.ls()
-
+        
     def toggleSnow(self):
         if self.snow:
             self.snow.cleanup()
@@ -2943,13 +2590,13 @@ class RobotToonControlPanel(AppShell):
             self.snowRender = render.attachNewNode('snowRender')
             self.snowRender.setDepthWrite(0)
             self.snowRender.setBin('fixed', 1)
-            self.snowFade = None
+            self.snowFade = None       
             self.snow.start(camera, self.snowRender)
 
     def firework(self):
         holidays = [ToontownGlobals.JULY4_FIREWORKS, ToontownGlobals.NEWYEARS_FIREWORKS]
         show = FireworkShows.getShow(holidays[self.holiday.get()], self.fireworkType.get())
-
+        
         mainShow = Sequence()
         currentT = 0
         startT = 0
@@ -2976,7 +2623,7 @@ class RobotToonControlPanel(AppShell):
                 )
 
         mainShow.start()
-
+    
     def createTestToon(self):
         """
         Create a toon with the following properties:
@@ -3000,10 +2647,10 @@ class RobotToonControlPanel(AppShell):
                                  endPos = Point3(0,1,0), endHpr = Point3(0),
                                  state = 'neutral')
         self.updateToonInfo()
-
+        
     def addProp(self):
         self.rtm.addProp(self.propType)
-
+        
     def setPropType(self, name):
         self.propType = name
         self.rtm.setCurrent('prop_texture', self.propType)
@@ -3025,9 +2672,9 @@ class RobotToonControlPanel(AppShell):
         tokens = text.split('x')
         if len(tokens) != 2:
             return
-        width = int(tokens[0])
-        height = int(tokens[1])
-
+        width = string.atoi(tokens[0])
+        height = string.atoi(tokens[1])
+        
         props = WindowProperties(base.win.getProperties())
         props.setSize(width, height)
         base.win.requestProperties(props)
@@ -3072,7 +2719,7 @@ class RobotToonControlPanel(AppShell):
         self.setSuitTrack()
         self.suitLevel.set(suitIndex % 8)
         self.setSuitLevel()
-
+        
     def useProp(self, prop):
         if not self.rtm.selectedToon:
             return
@@ -3084,8 +2731,8 @@ class RobotToonControlPanel(AppShell):
         handHigh = hands[0].attachNewNode('highLODHand')
         handMed = hands[1].attachNewNode('medLODHand')
         self.propHandle.reparentTo(handHigh)
-
-        handHigh.instanceTo(handMed)
+        
+        handHigh.instanceTo(handMed)        
         return prop
 
     def addSuit(self):
@@ -3126,7 +2773,7 @@ class RobotToonControlPanel(AppShell):
     def setDoodleEyeColor(self, colorIndex):
         self.doodleEyeColor.set(colorIndex)
         self.rtm.doodleEyeColor = colorIndex
-
+        
     def addDoodle(self):
         self.rtm.makeRandomToon()
 
@@ -3138,7 +2785,7 @@ class RobotToonControlPanel(AppShell):
             self.topsCounter.invoke()
 
     def __switchTops(self, text):
-        value = int(text)
+        value = string.atoi(text)
         if (value < 0) or (value >= len(self.topsVariants)):
             return Pmw.ERROR
         else:
@@ -3154,8 +2801,8 @@ class RobotToonControlPanel(AppShell):
             st.style.topTexColor = topStyle[1]
             st.style.sleeveTex = topStyle[2]
             st.style.sleeveTexColor = topStyle[3]
-            st.generateToonClothes()
-
+            st.generateToonClothes()        
+            
     def setBottom(self, bottomName, fUpdateVariants = 0):
         if fUpdateVariants:
             bottomIndex = int(bottomName[:2])
@@ -3166,7 +2813,7 @@ class RobotToonControlPanel(AppShell):
     def __switchBottoms(self, text):
         if not Pmw.integervalidator(text):
             return Pmw.ERROR
-        value = int(text)
+        value = string.atoi(text)
         if (value < 0) or (value >= len(self.bottomsVariants)):
             return Pmw.ERROR
         else:
@@ -3180,8 +2827,8 @@ class RobotToonControlPanel(AppShell):
             st = self.rtm.selectedToon
             st.style.botTex = bottomStyle[0]
             st.style.botTexColor = bottomStyle[1]
-            st.generateToonClothes()
-
+            st.generateToonClothes()        
+            
     def setToonColor(self, colorIndex):
         cm = self.colorMode.get()
         st = self.rtm.selectedToon
@@ -3223,7 +2870,7 @@ class RobotToonControlPanel(AppShell):
             idx = self.bottomsVariants.index(bottomStyle)
             self.bottomsIndex.set(idx)
             self.fDoIt = 1
-
+    
     def selectLOD(self):
         """
         swap the lod
@@ -3251,7 +2898,7 @@ class RobotToonControlPanel(AppShell):
                 st.style.torso = 'ms'
                 st.swapToonTorso(st.style.torso)
                 st.generateToonClothes()
-                st.loop(st._state)
+                st.loop(st.state)
                 self.updateGenderRelatedInfo()
 
     def setGender(self, gender):
@@ -3340,8 +2987,8 @@ class RobotToonControlPanel(AppShell):
         if st:
             st.style.head = headType
             st.swapToonHead(st.style.head)
-
-
+            
+            
     def setMuzzle(self):
         if self.rtm.selectedToon:
             self.rtm.selectedToon.hideNormalMuzzle()
@@ -3407,7 +3054,7 @@ class RobotToonControlPanel(AppShell):
                 fUpdate = 0
             st.style.torso = torsoType
             st.swapToonTorso(st.style.torso)
-            st.loop(st._state)
+            st.loop(st.state)
             if fUpdate:
                 self.updateGenderRelatedInfo()
 
@@ -3419,12 +3066,12 @@ class RobotToonControlPanel(AppShell):
         if st:
             st.style.legs = legsType
             st.swapToonLegs(st.style.legs)
-            st.loop(st._state)
+            st.loop(st.state)
 
     def setToonName(self, event = None):
         if self.rtm.selectedToon:
             self.rtm.selectedToon.nametag.setName(self.toonName.get())
-
+    
     def setRandomToonName(self):
         if self.rtm.selectedToon:
             if self.rtm.selectedToon.style.gender == 'm':
@@ -3435,7 +3082,7 @@ class RobotToonControlPanel(AppShell):
                 girl = 1
             self.rtm.selectedToon.nametag.setName(
                 namegen.randomNameMoreinfo(boy = boy, girl = girl)[-1])
-
+    
     def clearToonName(self):
         if self.rtm.selectedToon:
             self.rtm.selectedToon.nametag.setName('')
@@ -3451,10 +3098,9 @@ class RobotToonControlPanel(AppShell):
 
     def clearToonChat(self):
         if self.rtm.selectedToon:
-            self.rtm.selectedToon.nametag.clearChat()
+            self.rtm.selectedToon.nametag.clearChat()            
 
     def setToonAnim(self, anim):
-        self.notify.debug("setToonAnim(%s)" % (anim))
         self.anim.set(anim)
         st = self.rtm.selectedToon
         if st:
@@ -3463,16 +3109,15 @@ class RobotToonControlPanel(AppShell):
                 if numFrames is None:
                     numFrames = 100
                 else:
-                    numFrames = numFrames - 1
+                    numFrames = numFrames - 1 
                 self.poseSlider['max'] = numFrames
-
-                #self.rtm.selectedToon.loop(anim)
-
-                # This will maintain the animation as the body parts change
+                
+                #self.rtm.selectedToon.loop(anim)  
+                
+                # This will maintain the animation as the body parts change   
                 self.rtm.setToonAnimState(anim)
-
+        
     def poseToon(self, frame):
-        self.notify.debug("poseToon(%d)" % (frame))
         st = self.rtm.selectedToon
         if st:
             if st.style.type == 't':
@@ -3495,7 +3140,7 @@ class RobotToonControlPanel(AppShell):
                 if numFrames is None:
                     numFrames = 100
                 else:
-                    numFrames = numFrames - 1
+                    numFrames = numFrames - 1 
                 self.suitPoseSlider['max'] = numFrames
                 if st.style.type == 's':
                     # Update toon
@@ -3539,12 +3184,12 @@ class RobotToonControlPanel(AppShell):
         self.anim.set(anim)
         st = self.rtm.selectedToon
         if st:
-            if (isinstance(st.style, list) or isinstance(st.style, tuple)):
+            if (isinstance(st.style, types.ListType) or isinstance(st.style, types.TupleType)):
                 numFrames = st.getNumFrames(anim)
                 if numFrames is None:
                     numFrames = 100
                 else:
-                    numFrames = numFrames - 1
+                    numFrames = numFrames - 1 
                 self.poseSlider['max'] = numFrames
 
                 self.rtm.selectedToon.loop(anim)
@@ -3552,7 +3197,7 @@ class RobotToonControlPanel(AppShell):
     def poseDoodle(self, frame):
         st = self.rtm.selectedToon
         if st:
-            if (isinstance(st.style, list) or isinstance(st.style, tuple)):
+            if (isinstance(st.style, types.ListType) or isinstance(st.style, types.TupleType)):
                 st.stop()
                 anim = self.anim.get()
                 if anim is None:
@@ -3589,7 +3234,7 @@ class RobotToonControlPanel(AppShell):
         self.buttonAdd('Screenshot',
                        helpMessage='Take Screenshot',
                        statusMessage='Say Cheese!',
-                       command=self.takeScreenshot)
+                       command=self.takeScreenshot)                       
         self.buttonAdd('Log',
                        helpMessage='Log Toon DNA',
                        statusMessage='Write Log',
@@ -3597,19 +3242,19 @@ class RobotToonControlPanel(AppShell):
         self.buttonAdd('Render',
                        helpMessage='Render Animation',
                        statusMessage='Go!',
-                       command=self.renderMovie)
+                       command=self.renderMovie)                       
         self.buttonAdd('Help',
                        helpMessage='RTM Help',
                        statusMessage='Click for help',
                        command=self.showHelp)
-
+        
 
     # STYLE/DNA FILE FUNCTIONS
     def loadSpecifiedDNAFile(self):
         path = dnaDirectory.toOsSpecific()
         if not os.path.isdir(path):
-            print('Robot Toon Manager Warning: Invalid default DNA directory!')
-            print('Using current directory')
+            print 'Robot Toon Manager Warning: Invalid default DNA directory!'
+            print 'Using current directory'
             path = '.'
         dnaFilename = askopenfilename(
             defaultextension = '.dna',
@@ -3619,51 +3264,14 @@ class RobotToonControlPanel(AppShell):
             parent = self.component('hull'))
         if dnaFilename:
             self.loadDNAFromFile(dnaFilename)
-        print("Finished Load: ", dnaFilename)
+        print "Finished Load: ", dnaFilename
 
     def loadDNAFromFile(self, filename):
         # Reset level, destroying existing scene/DNA hierarcy
         self.resetScene()
 
-        file = Filename.fromOsSpecific(filename).cStr()
-
-        # Load all the neighborhood specific storage files
-        if 'toontown_central' in file:
-            loadDNAFile(DNASTORE, 'phase_4/dna/storage_TT.dna', CSDefault, 1)
-            loadDNAFile(DNASTORE, 'phase_4/dna/storage_TT_sz.dna', CSDefault, 1)
-            loadDNAFile(DNASTORE, 'phase_5/dna/storage_TT_town.dna', CSDefault, 1)
-            self.styleManager.loadNeighborhood("toontown_central", "TT")
-        elif 'donalds_dock' in file:
-            loadDNAFile(DNASTORE, 'phase_6/dna/storage_DD.dna', CSDefault, 1)
-            loadDNAFile(DNASTORE, 'phase_6/dna/storage_DD_sz.dna', CSDefault, 1)
-            loadDNAFile(DNASTORE, 'phase_6/dna/storage_DD_town.dna', CSDefault, 1)
-            self.styleManager.loadNeighborhood("donalds_dock", "DD")
-        elif 'minnies_melody_land' in file:
-            loadDNAFile(DNASTORE, 'phase_6/dna/storage_MM.dna', CSDefault, 1)
-            loadDNAFile(DNASTORE, 'phase_6/dna/storage_MM_sz.dna', CSDefault, 1)
-            loadDNAFile(DNASTORE, 'phase_6/dna/storage_MM_town.dna', CSDefault, 1)
-            self.styleManager.loadNeighborhood("minnies_melody_land", "MM")
-        elif 'the_burrrgh' in file:
-            loadDNAFile(DNASTORE, 'phase_8/dna/storage_BR.dna', CSDefault, 1)
-            loadDNAFile(DNASTORE, 'phase_8/dna/storage_BR_sz.dna', CSDefault, 1)
-            loadDNAFile(DNASTORE, 'phase_8/dna/storage_BR_town.dna', CSDefault, 1)
-            self.styleManager.loadNeighborhood("the_burrrgh", "BR")
-        elif 'daisys_garden' in file:
-            loadDNAFile(DNASTORE, 'phase_8/dna/storage_DG.dna', CSDefault, 1)
-            loadDNAFile(DNASTORE, 'phase_8/dna/storage_DG_sz.dna', CSDefault, 1)
-            loadDNAFile(DNASTORE, 'phase_8/dna/storage_DG_town.dna', CSDefault, 1)
-            self.styleManager.loadNeighborhood("daisys_garden", "DG")
-        elif 'donalds_dreamland' in file:
-            loadDNAFile(DNASTORE, 'phase_8/dna/storage_DL.dna', CSDefault, 1)
-            loadDNAFile(DNASTORE, 'phase_8/dna/storage_DL_sz.dna', CSDefault, 1)
-            loadDNAFile(DNASTORE, 'phase_8/dna/storage_DL_town.dna', CSDefault, 1)
-            self.styleManager.loadNeighborhood("donalds_dreamland", "DL")
-        elif 'party_zone' in file:
-            loadDNAFile(DNASTORE, 'phase_13/dna/storage_party_sz.dna', CSDefault, 1)
-            self.styleManager.loadNeighborhood("party_zone", "PA")
-
         node = loadDNAFile(DNASTORE,
-                           file,
+                           Filename.fromOsSpecific(filename).cStr(),
                            CSDefault, 1)
 
         self.npToplevel = render.attachNewNode(node)
@@ -3682,7 +3290,7 @@ class RobotToonControlPanel(AppShell):
             self.balloon().configure(state = 'both')
         else:
             self.balloon().configure(state = 'none')
-
+            
     def onDestroy(self, event):
         """ Called on Robot Toon Manager Panel shutdown """
         del self.rtm
@@ -3725,7 +3333,7 @@ class RobotToonControlPanel(AppShell):
         self.lastPath = os.path.dirname(self.filename)
 
         if self.filename == None or self.filename == "":
-            return
+            return        
 
         lowerFilename = self.filename.lower()
 
@@ -3740,7 +3348,7 @@ class RobotToonControlPanel(AppShell):
         format = filename[-3:]
         filename = filename[:-4]
         base.movie(namePrefix = filename, duration=duration, format=format)
-
+        
     def takeScreenshot(self):
         self.filename = asksaveasfilename(
             initialdir = self.lastPath,
@@ -3768,7 +3376,7 @@ class RobotToonControlPanel(AppShell):
                         relief = None)
         ivalList = []
         for i in range(10,0,-1):
-            ivalList.append(Func(setText, l, repr(i)))
+            ivalList.append(Func(setText, l, `i`))
             ivalList.append(Wait(1.0))
         ivalList.append(Func(l.destroy))
         ivalList.append(Func(self._takeScreenshot))
@@ -3791,50 +3399,50 @@ class RobotToonControlPanel(AppShell):
         else:
             filename = self.filename
         base.screenshot(filename, defaultFilename = 0)
-        render2d.show()
-
-    def appendRtmState(self):
-
-        comments = askstring("Comments", "Type your comments", parent = self.component('hull'))
-
+        render2d.show()            
+                
+    def appendRtmState(self):    
+                
+        comments = askstring("Comments", "Type your comments", parent = self.component('hull'))        
+        
         self.filename = asksaveasfilename(
             initialdir = self.lastPath,
             title = 'Enter name of file...',
-            parent = self.component('hull'))
-
-        self.lastPath = os.path.dirname(self.filename)
-        strList = []
-        strList.append("\nCOMMENTS: ")
-        strList.append(comments)
-        strList.append("\nSPECIES: ")
-        strList.append(self.species.get())
-        strList.append("\nGENDER: ")
-        strList.append(self.gender.get())
-        strList.append("\nHEAD: ")
-        strList.append(self.head.get())
-        strList.append("\nTORSO: ")
-        strList.append(self.torso.get())
-        strList.append("\nLEGS: ")
-        strList.append(self.legs.get())
-        strList.append("\nANIM: ")
+            parent = self.component('hull'))            
+                        
+        self.lastPath = os.path.dirname(self.filename)        
+        strList = []   
+        strList.append("\nCOMMENTS: ")  
+        strList.append(comments)         
+        strList.append("\nSPECIES: ")  
+        strList.append(self.species.get())   
+        strList.append("\nGENDER: ")       
+        strList.append(self.gender.get()) 
+        strList.append("\nHEAD: ")       
+        strList.append(self.head.get()) 
+        strList.append("\nTORSO: ")          
+        strList.append(self.torso.get())    
+        strList.append("\nLEGS: ")     
+        strList.append(self.legs.get())  
+        strList.append("\nANIM: ")     
         strList.append(str(self.rtm.getState()))
-
-        rtmState = "".join(strList)
-
+        
+        rtmState = "".join(strList)        
+        
         if os.path.isfile(self.filename):
-            rtmFile = open(self.filename, "r+")
-            rtmFile.seek(0,2)
-            rtmFile.writelines(rtmState)
+            rtmFile = open(self.filename, "r+")    
+            rtmFile.seek(0,2)    
+            rtmFile.writelines(rtmState)   
         else:
             rtmFile = open(self.filename, "w")
-            rtmFile.writelines(rtmState)
-
-        rtmFile.close()
-
-    def showHelp(self):
-
+            rtmFile.writelines(rtmState)        
+                
+        rtmFile.close()           
+                
+    def showHelp(self):        
+        
         showinfo(title='RTM HELP', message = rtmHelp, parent = self.component('hull'))
-
+    
     def setParameterGroup(self, values):
         self.bar1.updateProgress(values[0])
         self.bar2.updateProgress(values[1])
@@ -3842,13 +3450,13 @@ class RobotToonControlPanel(AppShell):
         self.bar4.updateProgress(values[3])
 
     def setObstacleType(self):
-        print('CHOOSING OBSTACLE DGG.TYPE:', self.obstacleType.get())
+        print 'CHOOSING OBSTACLE DGG.TYPE:', self.obstacleType.get()
 
     def toggleFun(self):
         if self.getVariable('Obstacle', 'Make Fun?').get():
-            print('THIS IS GOING TO BE FUN!')
+            print 'THIS IS GOING TO BE FUN!'
         else:
-            print('NOT SO FUN')
+            print 'NOT SO FUN'
 
     def popupFactoryDialog(self):
         data = askstring('Input Factory Data', 'Factory Data:',
@@ -3858,20 +3466,20 @@ class RobotToonControlPanel(AppShell):
 
     def toggleGridSnap(self):
         if self._fGridSnap.get():
-            print('Turning on grid!')
+            print 'Turning on grid!'
         else:
-            print('Turning off grid!')
+            print 'Turning off grid!'
 
     def setStomperSize(self, size):
-        print('New Stomper Size:', size)
-
+        print 'New Stomper Size:', size       
+        
 
 
 base.rtm = RobotToonManager()
 base.rtm.popupControls()
 direct.grid.enable()
 camera.setPosHpr(0,-60,5,0,0,0)
-base.run()
+run()
 
 
 """

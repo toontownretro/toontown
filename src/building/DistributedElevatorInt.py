@@ -1,9 +1,9 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
-from .ElevatorConstants import *
-from .ElevatorUtils import *
-from . import DistributedElevator
+from ElevatorConstants import *
+from ElevatorUtils import *
+import DistributedElevator
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
@@ -15,8 +15,8 @@ class DistributedElevatorInt(DistributedElevator.DistributedElevator):
 
     def __init__(self, cr):
         DistributedElevator.DistributedElevator.__init__(self, cr)
-        self.countdownTime = ConfigVariableDouble('int-elevator-timeout', INTERIOR_ELEVATOR_COUNTDOWN_TIME).getValue()
-
+        self.countdownTime = base.config.GetFloat('int-elevator-timeout', INTERIOR_ELEVATOR_COUNTDOWN_TIME)
+    
 
     def setupElevator(self):
         """setupElevator(self)

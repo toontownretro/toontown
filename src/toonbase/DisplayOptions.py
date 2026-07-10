@@ -3,13 +3,13 @@ import string
 import os
 import sys
 import datetime
-from toontown.toonbase.ToontownModules import loadPrcFileData, Settings, WindowProperties
+from pandac.PandaModules import loadPrcFileData, Settings, WindowProperties
 from otp.otpgui import OTPDialog
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPRender
 from direct.directnotify import DirectNotifyGlobal
 
-try:
+try:        
     import embedded
 except:
     pass
@@ -17,7 +17,7 @@ except:
 class DisplayOptions:
     """A class stolen from Pirates so we can respect saved window settings when we get to Pick A Toon."""
     notify = DirectNotifyGlobal.directNotify.newCategory("DisplayOptions")
-
+    
     def __init__(self):
         self.restore_failed = False
         #self.restrictToEmbedded(1, False)
@@ -32,29 +32,20 @@ class DisplayOptions:
         toonChatSounds = Settings.getToonChatSounds()
         musicVol = Settings.getMusicVolume()
         sfxVol = Settings.getSfxVolume()
-        resList = [(640, 480),(800,600),(1024,768),(1280,1024),(1600,1200),(1920,1080),(3840,2160)] #copied from Resolution in settingsFile.h
+        resList = [(640, 480),(800,600),(1024,768),(1280,1024),(1600,1200)] #copied from Resolution in settingsFile.h
         res = resList[Settings.getResolution()]
         embed = Settings.getEmbeddedMode()
         self.notify.debug("before prc settings embedded mode=%s" % str(embed))
-        self.notify.debug("before prc settings full screen mode=%s" % str(mode))
+        self.notify.debug("before prc settings full screen mode=%s" % str(mode)) 
         if mode == None:
             mode = 1
         if res == None:
             res = (800,600)
-        if not Settings.doSavedSettingsExist():
-            self.notify.info("loadFromSettings: No settings; isDefaultEmbedded=%s" % self.isDefaultEmbedded())
-            embed = self.isDefaultEmbedded()
-        if embed and not self.isEmbeddedPossible():
-            self.notify.warning("Embedded mode is not possible.")
-            embed = False
-        if not mode and not self.isWindowedPossible():
-            self.notify.warning("Windowed mode is not possible.")
-            mode = True
 
         loadPrcFileData("toonBase Settings Window Res", ("win-size %s %s" % (res[0], res[1])))
         self.notify.debug("settings resolution = %s" % str(res))
         loadPrcFileData("toonBase Settings Window FullScreen", ("fullscreen %s" % (mode)))
-        self.notify.debug("settings full screen mode=%s" % str(mode))
+        self.notify.debug("settings full screen mode=%s" % str(mode))        
         loadPrcFileData("toonBase Settings Music Active", ("audio-music-active %s" % (music)))
         loadPrcFileData("toonBase Settings Sound Active", ("audio-sfx-active %s" % (sfx)))
         loadPrcFileData("toonBase Settings Music Volume", ("audio-master-music-volume %s" % (musicVol)))
@@ -64,7 +55,7 @@ class DisplayOptions:
         self.settingsWidth = res[0]
         self.settingsHeight = res[1]
         self.settingsEmbedded = embed
-        self.notify.debug("settings embedded mode=%s" % str(self.settingsEmbedded))
+        self.notify.debug("settings embedded mode=%s" % str(self.settingsEmbedded))   
 
         self.notify.info("settingsFullScreen = %s, embedded = %s width=%d height=%d" %
                          (self.settingsFullScreen, self.settingsEmbedded,
@@ -73,11 +64,11 @@ class DisplayOptions:
         #self.settingsFullScreen = True
         #self.settingsWidth = 16000
         #self.settingsHeight = 12000
-
+        
     def restrictToEmbedded(self, restrict, change_display = True):
         # to completely disable restrict to embedded, uncomment:
         #restrict = 0
-
+ 
         # if we are not running embedded, restricting to
         # embedded is not an option
         if base.appRunner is None or base.appRunner.windowProperties is None:
@@ -85,8 +76,8 @@ class DisplayOptions:
 
         self.restrict_to_embedded = choice(restrict, 1, 0)
         self.notify.debug("restrict_to_embedded: %s" % self.restrict_to_embedded)
-
-        # window mode may have changed
+            
+        # window mode may have changed 
         if change_display:
             self.set( base.pipe, self.settingsWidth, self.settingsHeight,
                       self.settingsFullScreen, self.settingsEmbedded)
@@ -94,7 +85,7 @@ class DisplayOptions:
     def set(self, pipe, width, height, fullscreen, embedded):
         self.notify.debugStateCall(self)
         state = False
-
+        
         self.notify.info("SET")
 
         #fullscreen = options.fullscreen_runtime
@@ -102,7 +93,7 @@ class DisplayOptions:
         if self.restrict_to_embedded:
             fullscreen = 0
             embedded = 1
-
+            
         if embedded:
             if base.appRunner.windowProperties:
                 width = base.appRunner.windowProperties.getXSize ()
@@ -140,10 +131,10 @@ class DisplayOptions:
             if embedded:
                 if base.appRunner.windowProperties:
                     properties = base.appRunner.windowProperties
-
+            
             # get current sort order
             original_sort = base.win.getSort ( )
-
+            
             if self.resetWindowProperties(pipe, properties):
                 self.notify.debug("DISPLAY CHANGE SET")
 
@@ -164,7 +155,7 @@ class DisplayOptions:
                     state = True
                 else:
                     self.notify.warning("DISPLAY CHANGE FAILED, RESTORING PREVIOUS DISPLAY")
-                    self.restoreWindowProperties ()
+                    self.restoreWindowProperties () 
             else:
                 self.notify.warning("DISPLAY CHANGE FAILED")
                 self.notify.warning("DISPLAY SET - BEFORE RESTORE")
@@ -176,7 +167,7 @@ class DisplayOptions:
 
             base.graphicsEngine.renderFrame()
             base.graphicsEngine.renderFrame()
-
+                
         return state
 
     def resetWindowProperties(self, pipe, properties):
@@ -224,8 +215,8 @@ class DisplayOptions:
             # libotp.dll, then we already have a NametagGlobals, and
             # we should keep it up-to-date with the new MouseWatcher
             # etc.
-            if 'panda3d.otp' in sys.modules:
-                from panda3d.otp import NametagGlobals
+            if 'libotp' in sys.modules:
+                from libotp import NametagGlobals
                 NametagGlobals.setCamera(base.cam)
                 NametagGlobals.setMouseWatcher(base.mouseWatcherNode)
 
@@ -245,7 +236,7 @@ class DisplayOptions:
         else:
             # Oops, we couldn't get the original settings back!
             self.notify.warning("Couldn't restore original display settings!")
-
+            
             if base.appRunner and base.appRunner.windowProperties:
                 # Try to go back into embedded.  That might help.
                 fullscreen = 0
@@ -272,41 +263,5 @@ class DisplayOptions:
             # like a low-level panic situation.
             self.notify.error("Failed opening regular window!")
             base.panda3dRenderError()
-            self.restore_failed = True
+            self.restore_failed = True            
         return
-
-    @staticmethod
-    def isDefaultEmbedded():
-        result = False
-        try:
-            embedOption = int(base.launcher.getValue("GAME_DEFAULT_TO_EMBEDDED", None))
-            if embedOption != None:
-                result = bool(int(embedOption))
-        except:
-            pass
-
-        return result
-
-    @staticmethod
-    def isEmbeddedPossible():
-        result = False
-        try:
-            showOption = base.launcher.getValue("GAME_SHOW_EMBEDDED_OPTION", None)
-            if showOption != None:
-                result = bool(int(showOption))
-        except:
-            pass
-
-        return result
-
-    @staticmethod
-    def isWindowedPossible():
-        result = True
-        try:
-            showOption = base.launcher.getValue("GAME_SHOW_WINDOWED_OPTION", None)
-            if showOption != None:
-                result = bool(int(showOption))
-        except:
-            pass
-
-        return result

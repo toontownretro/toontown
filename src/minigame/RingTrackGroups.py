@@ -1,11 +1,11 @@
 """RingTrackGroups.py: contains various Ring Game ring track groups"""
 
 import math
-from . import RingGameGlobals
-from . import RingAction
-from . import RingTracks
-from . import RingTrack
-from . import RingTrackGroup
+import RingGameGlobals
+import RingAction
+import RingTracks
+import RingTrack
+import RingTrackGroup
 from direct.showbase import PythonUtil
 
 # ringTrackGroup types/difficulty levels
@@ -19,7 +19,6 @@ def getRandomRingTrackGroup(type, numRings, rng):
     of a specific type (aka difficulty level)
     """
     #numRings = 2 #######
-    global trackListGenFuncs
     funcTable = trackListGenFuncs[type][numRings-1]
     func = rng.choice(funcTable)
     #func = get_plus_FASTER #######
@@ -177,7 +176,7 @@ def __get_Slots(numRings, rng, vertical=1):
     # staying within bounds
     offset = 1 - fpTab[-1]
     offset = (rng.random() * (offset*2)) - offset
-    fpTab = [x+offset for x in fpTab]
+    fpTab = map(lambda x: x+offset, fpTab)
     
     for i in range(0,numRings):
         if vertical:
@@ -236,7 +235,6 @@ plusPeriodFaster = 2.5
 # stagger the rings so they don't interpenetrate
 infinityTOffsets = []
 def __initInfinityTOffsets():
-    global infinityTOffsets
     offsets = [[],[],[],[]]
     offsets[0] = [0.]
     offsets[1] = [0.,3./4.]
@@ -345,7 +343,6 @@ def __initFuncTables():
     there are separate lists of functions for each possible number
     of rings (1..4)
     """
-    global trackListGenFuncs
     # create entries for STATIC, SIMPLE, and COMPLEX
     table = [[],[],[],]
     # for each difficulty level...

@@ -39,7 +39,7 @@ ProbabilityDict = {
     94: JellybeanItem,
     100: BootItem,
     }
-SortedProbabilityCutoffs = list(ProbabilityDict.keys())
+SortedProbabilityCutoffs = ProbabilityDict.keys()
 SortedProbabilityCutoffs.sort()
 
 Rod2JellybeanDict = {
@@ -52,9 +52,6 @@ Rod2JellybeanDict = {
 
 # How much we heal when we catch a fish
 HealAmount = 1
-
-# How much the reward is multiplied during the double jelly bean holiday
-JellybeanFishingHolidayScoreMultiplier = 2
 
 # Most rare value
 MAX_RARITY = 10
@@ -300,7 +297,7 @@ def getGenera():
     """
     Return a list of all genera (plural for genus)
     """
-    return list(__fishDict.keys())
+    return __fishDict.keys()
 
 # Indexes into the FishDict data
 ROD_WEIGHT_MIN_INDEX = 0
@@ -436,18 +433,7 @@ def getValue(genus, species, weight):
     weightValue = pow(WEIGHT_VALUE_SCALE * weight, 1.1)
     value = OVERALL_VALUE_SCALE * (rarityValue + weightValue)
     # Round up because jellybeans should be integers
-    finalValue = int(ceil(value))
-    base = getBase()
-    if hasattr(base, 'cr') and base.cr:
-        if hasattr(base.cr, 'newsManager') and base.cr.newsManager:
-            holidayIds = base.cr.newsManager.getHolidayIdList()
-            if ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY in holidayIds or \
-               ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY_MONTH in holidayIds:
-                finalValue *= JellybeanFishingHolidayScoreMultiplier
-    elif ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY in simbase.air.holidayManager.currentHolidays or \
-         ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY_MONTH in simbase.air.holidayManager.currentHolidays:
-        finalValue *= JellybeanFishingHolidayScoreMultiplier
-    return finalValue
+    return int(ceil(value))
 
 
 """
@@ -475,7 +461,7 @@ for rodIndex in __rodDict:
 __anywhereDict = copy.deepcopy(__emptyRodDict)
 __pondInfoDict = {}
 # Loop through all the fish
-for genus, speciesList in list(__fishDict.items()):
+for genus, speciesList in __fishDict.items():
     for species in range(len(speciesList)):
         __totalNumFish += 1
         # Pull off the properties we are interested in
@@ -491,7 +477,7 @@ for genus, speciesList in list(__fishDict.items()):
             if zone == Anywhere:
                 # Now go through the rod indexes adding fish to the pond that
                 # can be caught by that rod
-                for rodIndex, rarityDict in list(__anywhereDict.items()):
+                for rodIndex, rarityDict in __anywhereDict.items():
                     if canBeCaughtByRod(genus, species, rodIndex):
                         fishList = rarityDict.setdefault(effectiveRarity, [])
                         fishList.append( (genus, species) )
@@ -506,27 +492,27 @@ for genus, speciesList in list(__fishDict.items()):
                 if subZones:
                     pondZones.extend(subZones)
                 for pondZone in pondZones:
-                    if pondZone in __pondInfoDict:
+                    if __pondInfoDict.has_key(pondZone):
                         rodDict = __pondInfoDict[pondZone]
                     else:
                         rodDict = copy.deepcopy(__emptyRodDict)
                         __pondInfoDict[pondZone] = rodDict
                     # Now go through the rod indexes adding fish to the pond that
                     # can be caught by that rod
-                    for rodIndex, rarityDict in list(rodDict.items()):
+                    for rodIndex, rarityDict in rodDict.items():
                         if canBeCaughtByRod(genus, species, rodIndex):
                             fishList = rarityDict.setdefault(effectiveRarity, [])
                             fishList.append( (genus, species) )
 # Now add the fish in the anywhere dict to the pondInfoDict entries
-for zone, rodDict in list(__pondInfoDict.items()):
-    for rodIndex, anywhereRarityDict in list(__anywhereDict.items()):
-        for rarity, anywhereFishList in list(anywhereRarityDict.items()):
+for zone, rodDict in __pondInfoDict.items():
+    for rodIndex, anywhereRarityDict in __anywhereDict.items():
+        for rarity, anywhereFishList in anywhereRarityDict.items():
             rarityDict = rodDict[rodIndex]
             fishList = rarityDict.setdefault(rarity, [])
             fishList.extend(anywhereFishList)
 
 def getPondDict(zoneId):
-    print(__pondInfoDict[zoneId])
+    print __pondInfoDict[zoneId]
 
 def getTotalNumFish():
     return __totalNumFish
@@ -543,16 +529,16 @@ def testRarity(rodId = 0, numIter = 100000):
         v = __rollRarityDice(rodId)
         d[v] += 1
     # convert to a percentage
-    for rarity, count in list(d.items()):
+    for rarity, count in d.items():
         percentage = count / float(numIter) * 100
         d[rarity] = percentage
-    print(d)
+    print d
 
 def getRandomFish():
     """
     Useful for debugging
     """
-    genus = random.choice(list(__fishDict.keys()))
+    genus = random.choice(__fishDict.keys())
     species = random.randint(0, len(__fishDict[genus])-1)
     return genus, species
 
@@ -567,10 +553,10 @@ def getSimplePondInfo():
     # import pprint
     # pprint.pprint(FishGlobals.getPondInfo())
     info = {}
-    for pondId, pondInfo in list(__pondInfoDict.items()):
+    for pondId, pondInfo in __pondInfoDict.items():
         pondFishList = []
-        for rodId, rodInfo in list(pondInfo.items()):
-            for rarity, fishList in list(rodInfo.items()):
+        for rodId, rodInfo in pondInfo.items():
+            for rarity, fishList in rodInfo.items():
                 for fish in fishList:
                     if fish not in pondFishList:
                         pondFishList.append(fish)
@@ -590,12 +576,12 @@ def getPondGeneraList(pondId):
 
 def printNumGeneraPerPond():
     pondInfo = getSimplePondInfo()
-    for pondId, fishList in list(pondInfo.items()):
+    for pondId, fishList in pondInfo.items():
         generaList = []
         for fish in fishList:
             if fish[0] not in generaList:
                 generaList.append(fish[0])
-        print("Pond %s has %s Genera" % (pondId, len(generaList)))
+        print "Pond %s has %s Genera" % (pondId, len(generaList))
     
 
 def generateFishingReport(numCasts = 10000, hitRate = 0.8):
@@ -643,24 +629,24 @@ def generateFishingReport(numCasts = 10000, hitRate = 0.8):
                 # Else it is a boot, which we do not care about
                         
     numPonds = len(totalPondMoney)
-    for pond, money in list(totalPondMoney.items()):
+    for pond, money in totalPondMoney.items():
         baitCost = 0
         for rod in range(MaxRodId+1):
             baitCost += getCastCost(rod)
         totalCastCost = baitCost * (numCasts)
-        print(("pond: %s  totalMoney: %s profit: %s perCast: %s" %
+        print ("pond: %s  totalMoney: %s profit: %s perCast: %s" %
                (pond, money,
                 (money - totalCastCost), # Profit
                 (money - totalCastCost)/float(numCasts * (MaxRodId+1))), # Profit per cast
-               ))
-    for rod, money in list(totalRodMoney.items()):
+               )
+    for rod, money in totalRodMoney.items():
         baitCost = getCastCost(rod)
         totalCastCost = baitCost * (numCasts * numPonds)
-        print(("rod: %s totalMoney: %s castCost: %s profit: %s perCast: %s" %
+        print ("rod: %s totalMoney: %s castCost: %s profit: %s perCast: %s" %
                (rod, money, totalCastCost,
                 (money - totalCastCost), # Profit
                 (money - totalCastCost)/float(numCasts * numPonds)), # Profit per cast
-               ))
+               )
 
             
         

@@ -4,7 +4,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.task import Task
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from . import LiftConstants
+import LiftConstants
 
 class DistributedLiftAI(DistributedEntityAI.DistributedEntityAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedLiftAI')
@@ -18,7 +18,7 @@ class DistributedLiftAI(DistributedEntityAI.DistributedEntityAI):
 
         # set the initial state, and stipulate that the lift arrived
         # at this state... NOW
-        self._state = initialState
+        self.state = initialState
         self.fromState = initialState
         self.stateTimestamp = globalClock.getFrameTime()
 
@@ -70,12 +70,12 @@ class DistributedLiftAI(DistributedEntityAI.DistributedEntityAI):
                         [toState, fromState, arrivalTimestamp])
 
     def setStateTransition(self, toState, fromState, arrivalTimestamp):
-        self._state = toState
+        self.state = toState
         self.fromState = fromState
         self.stateTimestamp = arrivalTimestamp
 
     def getStateTransition(self):
-        return self._state, self.fromState, self.stateTimestamp
+        return self.state, self.fromState, self.stateTimestamp
 
     def setAvatarEnter(self):
         avId = self.air.getAvatarIdFromSender()
@@ -84,7 +84,7 @@ class DistributedLiftAI(DistributedEntityAI.DistributedEntityAI):
         if not avatar:
             self.air.writeServerEvent('suspicious', avId, 'LiftAI.setAvatarEnter avId not valid')
             return
-
+        
         self.notify.debug('setAvatarEnter: %s' % avId)
         if avId in self.boardedAvs:
             self.notify.warning('avatar %s already in list' % avId)
@@ -121,7 +121,7 @@ class DistributedLiftAI(DistributedEntityAI.DistributedEntityAI):
 
     def setMoveLater(self, delay):
         def startMoving(task, self=self):
-            targetState = LiftConstants.oppositeState(self._state)
+            targetState = LiftConstants.oppositeState(self.state)
             self.fsm.request('moving', [targetState])
             return Task.done
         self.cancelMoveLater()
@@ -144,7 +144,7 @@ class DistributedLiftAI(DistributedEntityAI.DistributedEntityAI):
 
     def enterMoving(self, targetState):
         self.notify.debug('enterMoving, target=%s' % targetState)
-        if self._state == targetState:
+        if self.state == targetState:
             self.notify.warning('already in state %s' % targetState)
             return
 
@@ -152,7 +152,7 @@ class DistributedLiftAI(DistributedEntityAI.DistributedEntityAI):
         arriveDelay = 1. + self.duration
         # use 32-bit timestamps (elevator can sit undisturbed for 227 days)
         self.b_setStateTransition(
-            targetState, self._state,
+            targetState, self.state,
             globalClockDelta.localToNetworkTime(globalClock.getFrameTime() +
                                                 arriveDelay, bits=32))
 
@@ -162,6 +162,6 @@ class DistributedLiftAI(DistributedEntityAI.DistributedEntityAI):
         taskMgr.doMethodLater(arriveDelay,
                               doneMoving,
                               self.moveDoneTaskName)
-
+        
     def exitMoving(self):
         pass

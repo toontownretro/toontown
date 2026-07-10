@@ -1,6 +1,7 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.gui.DirectGui import *
+from pandac.PandaModules import *
 from toontown.toon import LaffMeter
 
 class MinigameAvatarScorePanel(DirectFrame):
@@ -8,7 +9,7 @@ class MinigameAvatarScorePanel(DirectFrame):
 
         self.avId = avId
 
-        if self.avId in base.cr.doId2do:
+        if base.cr.doId2do.has_key(self.avId):
             self.avatar = base.cr.doId2do[self.avId]
         else:
             # Must be a suit
@@ -21,7 +22,7 @@ class MinigameAvatarScorePanel(DirectFrame):
                              image_scale = (0.4, 1.0, 0.24),
                              image_pos = (0.0, 0.1, 0.0),
                              )
-
+                                    
         # For some reason, we need to set this after construction to
         # get it to work properly.
         self['image'] = DGG.getDefaultDialogGeom()
@@ -74,3 +75,4 @@ class MinigameAvatarScorePanel(DirectFrame):
     def makeTransparent(self, alpha):
         self.setTransparency(1)
         self.setColorScale(1,1,1,alpha)
+        

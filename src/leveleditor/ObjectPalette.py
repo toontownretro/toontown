@@ -1,8 +1,8 @@
 """
 ToonTown Object Palette will be automatically generated while loading storage DNA files
 """
-import builtins, os, glob
-from toontown.toonbase.ToontownModules import *
+import __builtin__, os, glob
+from pandac.PandaModules import *
 from direct.leveleditor.ObjectPaletteBase import *
 
 class ObjectSuitPoint(ObjectBase):
@@ -35,7 +35,7 @@ class ObjectSuitPoint(ObjectBase):
                                      'SIDEDOORPOINT',
                                      'COGHQINPOINT',
                                      'COGHQOUTPOINT']]
-
+                                    
 class ObjectToon(ObjectBase):
     def __init__(self, *args, **kw):
         if kw.get('hood'):
@@ -77,7 +77,7 @@ class ObjectVisGroup(ObjectToon):
                                      OG.PROP_BLIND,
                                      None,
                                      [],
-                                     None]
+                                     None]        
 class ObjectProp(ObjectToon):
     def __init__(self, *args, **kw):
         kw['createFunction'] = ('.createProp', {'propType': kw['name'], 'name':OG.ARG_NAME})
@@ -132,23 +132,20 @@ class ObjectAnimBase(ObjectToon):
 
         # [gjeon] try to find proper animations
         code = kw['name']
-        if len(DNASTORE.findNode(code).getAncestors()) < 1:
-            print("Couldn't find any ancestors for code %s!" % (code))
-            return
         modelName = DNASTORE.findNode(code).getAncestors()[-1].getName()
         tokens =  modelName.split('.')[0].split('_r_')
 
         if isinstance(self, ObjectInteractiveProp):
             pathStr = code[len('interactive_prop_'):].split('__')[0]
         elif isinstance(self, ObjectAnimBuilding):
-            pathStr = code[len('animated_building_'):].split('__')[0]
+            pathStr = code[len('animated_building_'):].split('__')[0]            
         elif code.startswith('animated_prop_generic_'):
             pathStr = code[len('animated_prop_generic_'):].split('__')[0]
         elif code.startswith('animated_prop_'):
             # we expect generic to be replaced with the class name
             tempStr = code[len('animated_prop_'):]
             nextUnderscore = tempStr.find('_')
-            finalStr = tempStr[nextUnderscore+1:]
+            finalStr = tempStr[nextUnderscore+1:]                           
             pathStr = finalStr.split('__')[0]
 
         phaseDelimeter = len('phase_') + pathStr[len('phase_'):].find('_')
@@ -160,7 +157,7 @@ class ObjectAnimBase(ObjectToon):
             modelPathStr += path
 
         modelPath = getModelPath().findFile(modelPathStr)
-        animFileList = glob.glob('%s/%s_a_%s_*.bam' % (modelPath, tokens[0], tokens[1]))
+        animFileList = glob.glob('%s%s/%s_a_%s_*.bam'%(os.environ['PANDA_ROOT'], modelPath, tokens[0], tokens[1]))
 
         # [gjeon] define anim list menu for selection
         animNameList = []
@@ -175,9 +172,9 @@ class ObjectAnimBase(ObjectToon):
         self.properties['anims'] = [OG.PROP_UI_COMBO,
                                   OG.PROP_STR,
                                   ('.updateAnimPropAnim',
-                                   {'val':OG.ARG_VAL, 'obj':OG.ARG_OBJ}),
+                                   {'val':OG.ARG_VAL, 'obj':OG.ARG_OBJ}),                                    
                                   defaultAnimName,
-                                  animNameList]
+                                  animNameList] 
         self.dnaProperties['anims'] = 'getAnim'
 
 class ObjectAnimProp(ObjectAnimBase):
@@ -197,7 +194,7 @@ class ObjectAnimBuilding(ObjectAnimBase):
 
 class ObjectPalette(ObjectPaletteBase):
     def __init__(self):
-        self.dnaBuiltDirectory = Filename.expandFrom(ConfigVariableString("dna-built-directory", "$TTMODELS/built").getValue())
+        self.dnaBuiltDirectory = Filename.expandFrom(base.config.GetString("dna-built-directory", "$TTMODELS/built"))
         self.hoodDict = {}
         ObjectPaletteBase.__init__(self)
 
@@ -241,12 +238,13 @@ class ObjectPalette(ObjectPaletteBase):
 
         if hoodName != 'Generic':
             codes = BUILDING_TYPES
-            codes.extend(['random%s'%x for x in ['10', '14', '20', '24', '25', '30']])
-            codes = ['%s_%s'%(hoodName, x) for x in codes]
+            codes.extend(map(lambda x: 'random%s'%x, ['10', '14', '20', '24', '25', '30']))
+            codes = map(lambda x:'%s_%s'%(hoodName, x), codes)
             codes.sort()
             self.populateTree(hoodName, 'Flat Buildings', codes, ObjectFlatBuilding)
 
-            codes = [s[7:] for s in self.getCatalogCodes('street')]
+            codes = map(lambda s: s[7:],
+                      self.getCatalogCodes('street'))
 
             for pond in ['BR', 'DD', 'DG', 'DL', 'MM', 'TT']:
                 if '%s_pond'%pond in codes:
@@ -254,14 +252,14 @@ class ObjectPalette(ObjectPaletteBase):
 
             if hoodName in ['BR', 'DD', 'DG', 'DL', 'MM', 'TT']:
                 codes.append('pond')
-            codes = ['%s_%s'%(hoodName, x) for x in codes]
+            codes = map(lambda x:'%s_%s'%(hoodName, x), codes)
 
             codes.sort()
             self.populateTree(hoodName, 'Streets', codes, ObjectStreet)
 
     def populateTree(self, hoodName, groupName, codeList, objClass):
         registeredList = []
-        for key in list(self.hoodDict.keys()):
+        for key in self.hoodDict.keys():
             if self.hoodDict[key].get(groupName):
                 registeredList.extend(self.hoodDict[key][groupName])
         newList = []
@@ -276,14 +274,14 @@ class ObjectPalette(ObjectPaletteBase):
                 self.hoodDict[hoodName][groupName].append(code)
 
     def populate(self):
-        builtins.DNASTORE = DNASTORE = DNAStorage()
+        __builtin__.DNASTORE = DNASTORE = DNAStorage()
         # adding some hidden object type
         self.data['__sys__'] = ObjectBase('__sys__', createFunction=('.createSys', {}))
         self.data['__group__'] = ObjectToon('__group__', createFunction=('.createGroup', {'name':OG.ARG_NAME}), movable=False, named=True)
         self.data['__vis_group__'] = ObjectVisGroup()
         self.data['__node__'] = ObjectToon('__node__', createFunction=('.createNode', {'name':OG.ARG_NAME}), movable=True, named=True)
         self.data['DCS'] = ObjectProp(name='DCS',hood='Generic')
-
+        
         # adding system object types
         self.add(ObjectSuitPoint())
 

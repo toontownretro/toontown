@@ -5,13 +5,12 @@ from direct.fsm import State
 from toontown.hood import Place
 from toontown.building import Elevator
 from toontown.toonbase import ToontownGlobals
-from toontown.toonbase.ToontownModules import *
-from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
+from pandac.PandaModules import *
 
 class CogHQLobby(Place.Place):
     # create a notify category
     notify = DirectNotifyGlobal.directNotify.newCategory("CogHQLobby")
-
+    
     # special methods
     def __init__(self, hood, parentFSM, doneEvent):
         assert(self.notify.debug("__init__()"))
@@ -86,22 +85,17 @@ class CogHQLobby(Place.Place):
         self.fsm.enterInitialState()
         # Play music
         base.playMusic(self.loader.music, looping = 1, volume = 0.8)
-        self.loader.geom.reparentTo(base.sceneStatic) # Used to be render, Now it's the static part of scene.
+        self.loader.geom.reparentTo(render)
         self.accept("doorDoneEvent", self.handleDoorDoneEvent)
         self.accept("DistributedDoor_doorTrigger", self.handleDoorTrigger)
         # Turn on the little red arrows.
         NametagGlobals.setMasterArrowsOn(1)
         how=requestStatus["how"]
         self.fsm.request(how, [requestStatus])
-        # Turn on the limiter
-        self._telemLimiter = TLGatherAllAvs('CogHQLobby', RotationLimitToH)
 
     def exit(self):
-        # Stop the limiter
-        self._telemLimiter.destroy()
-        del self._telemLimiter
         # Stop music
-        self.fsm.requestFinalState()
+        self.fsm.requestFinalState()        
         self.ignoreAll()
         self.loader.music.stop()
         # MPG - this was None when the boss elevator closed!
@@ -120,7 +114,7 @@ class CogHQLobby(Place.Place):
     # (For boarding a building elevator)
     def enterElevator(self, distElevator, skipDFABoard = 0):
         assert(self.notify.debug("enterElevator()"))
-
+        
         self.accept(self.elevatorDoneEvent, self.handleElevatorDone)
         self.elevator = Elevator.Elevator(self.fsm.getStateNamed("elevator"),
                                           self.elevatorDoneEvent,
@@ -148,7 +142,7 @@ class CogHQLobby(Place.Place):
         self.notify.debug("handling elevator done event")
         where = doneStatus['where']
         if (where == 'reject'):
-            # If there has been a reject the Elevator should show an
+            # If there has been a reject the Elevator should show an 
             # elevatorNotifier message and put the toon in the stopped state.
             # Don't request the walk state here. Let the the toon be stuck in the
             # stopped state till the player removes that message from his screen.
@@ -170,3 +164,4 @@ class CogHQLobby(Place.Place):
     def enterTeleportIn(self, requestStatus):
         base.localAvatar.setPosHpr(render, 0,0,0,0,0,0)
         Place.Place.enterTeleportIn(self, requestStatus)
+

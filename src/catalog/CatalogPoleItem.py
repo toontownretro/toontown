@@ -1,4 +1,4 @@
-from . import CatalogItem
+import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.fishing import FishGlobals
 from direct.actor import Actor
@@ -129,9 +129,6 @@ class CatalogPoleItem(CatalogItem.CatalogItem):
 
     def getFilename(self):
         return FishGlobals.RodFileDict.get(self.rodId)
-        
-    def equalsTo(self, other):
-        return self.rodId == other.rodId
 
     def compareTo(self, other):
         return self.rodId - other.rodId
@@ -175,7 +172,7 @@ def nextAvailablePole(avatar, duplicateItems):
     return item
 
 def getAllPoles():
-    allPoles = []
+    list = []
     for rodId in range(0, FishGlobals.MaxRodId + 1):
-        allPoles.append(CatalogPoleItem(rodId))
-    return allPoles
+        list.append(CatalogPoleItem(rodId))
+    return list

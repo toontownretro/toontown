@@ -14,8 +14,8 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
 
     notify = DirectNotifyGlobal.directNotify.newCategory(
         'ZeroAnimatedProp')
-
-    def __init__(self, node, propString, phaseInfo, holidayId):
+    
+    def __init__(self, node, propString, phaseInfo, holidayId):        
         """Constuct ourself and correct assumptions in base class.
 
         propString should be either 'mailbox','trashcan' or 'hydrant'
@@ -26,7 +26,7 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         self.phaseInfo = phaseInfo
         self.holidayId = holidayId
 
-        GenericAnimatedProp.GenericAnimatedProp.__init__(self, node)
+        GenericAnimatedProp.GenericAnimatedProp.__init__(self, node)        
         FSM.FSM.__init__(self, '%sZeroAnimPropFsm' % self.propString)
         # we've loaded anim by default
         # now unload it and load all the anims we need
@@ -43,13 +43,13 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         # exit contains our clean up code
         self.exit()
         GenericAnimatedProp.GenericAnimatedProp.delete(self)
-
+               
 
     def loadPhaseAnims(self):
         """Load our animations to our actor."""
         animDict = {}
-        for key,info in list(self.phaseInfo.items()):
-            if type(info[0]) == tuple:
+        for key,info in self.phaseInfo.iteritems():
+            if type(info[0]) == types.TupleType:
                 for index,anims in enumerate(info[0]):
                     fullPath = self.path + '/' + anims
                     animName = "phase%d_%d" % (key, index)
@@ -60,39 +60,39 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
                 animDict[animName] = fullPath
         self.node.loadAnims(animDict)
 
-
+            
     def createPhaseIntervals(self):
         """Create the intervals for each phase."""
         if self.phaseIvals:
             self.notify.debug("not creating phase ivals again")
             return
         self.phaseIvals = []
-        for key,info in list(self.phaseInfo.items()):
+        for key,info in self.phaseInfo.iteritems():
             self.notify.debug("key=%s"%key)
-            if type(info[0]) == tuple:
+            if type(info[0]) == types.TupleType:
                 ival = Sequence()
                 for index,anims in enumerate(info[0]):
                     animName = "phase%d_%d" % (key, index)
                     animIval = self.node.actorInterval(animName)
-                    animIvalDuration = animIval.getDuration()
-                    soundIval = self.createSoundInterval(anims, animIvalDuration)
-                    soundIvalDuration = soundIval.getDuration()
+                    animIvalDuration = animIval.getDuration() 
+                    soundIval = self.createSoundInterval(anims, animIvalDuration)                   
+                    soundIvalDuration = soundIval.getDuration()                                       
                     animAndSound = Parallel( soundIval, animIval)
                     ival.append(animAndSound)
                 self.phaseIvals.append(ival)
             else:
-                animName = "phase%d" % key
+                animName = "phase%d" % key                
                 animIval = self.node.actorInterval( 'phase%d' % key)
                 animIvalDuration = animIval.getDuration()
-                soundIval = self.createSoundInterval(info[0], animIvalDuration )
+                soundIval = self.createSoundInterval(info[0], animIvalDuration )             
                 soundIvalDuration = soundIval.getDuration()
                 ival = Parallel(
                     animIval,
                     soundIval,
                     )
                 self.phaseIvals.append(ival)
-
-
+            
+        
     def enter(self):
         """Show and animate the prop."""
         # lets not immediately run the animation
@@ -103,8 +103,8 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         AnimatedProp.AnimatedProp.enter(self)
 
         # make it look like the other props by forcing pose 0
-        #defaultAnim = self.node.getAnimControl('anim')
-        #numFrames = defaultAnim.getNumFrames()
+        defaultAnim = self.node.getAnimControl('anim')
+        numFrames = defaultAnim.getNumFrames()
         self.node.pose('phase0', 0)
         self.accept("%sZeroPhase" % self.propString, self.handleNewPhase)
         self.accept("%sZeroIsRunning" % self.propString, self.handleNewIsRunning)
@@ -114,7 +114,7 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         """Check our current phase, if valid go to the right state."""
         assert self.notify.debugStateCall(self)
         # we need a try to stop the level editor from crashing
-        try:
+        try:            
             self.curPhase = self.getPhaseToRun()
             if self.curPhase >= 0:
                 self.request('DoAnim')
@@ -128,9 +128,9 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         # and a 1/7 chance of picking 0
         assert self.notify.debugStateCall(self)
         result = self.curPhase
-        if ConfigVariableBool("anim-props-randomized", True).getValue():
+        if base.config.GetBool("anim-props-randomized", True):
             pairs = []
-            for i in range(self.curPhase +1):
+            for i in xrange(self.curPhase +1):
                 pairs.append(( math.pow(2,i) , i))
             sum = math.pow(2,self.curPhase+1) - 1
             result = weightedChoice(pairs, sum=sum)
@@ -162,13 +162,13 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
             self.curIval.start()
         else:
             self.notify.debug("false self.okToStartNextAnim=%s" %self.okToStartNextAnim)
-
+        
     def enterDoAnim(self):
         """Start playing the appropriate animation."""
         self.notify.debug("enterDoAnim curPhase=%d" % self.curPhase)
         self.okToStartNextAnim = True
         self.startNextAnim()
-
+        
     def exitDoAnim(self):
         """Stop the currently playing animation."""
         self.notify.debug("exitDoAnim curPhase=%d" % self.curPhase)
@@ -183,7 +183,7 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         enoughInfoToRun = False
         # first see if the holiday is running, and we can get the cur phase
         if base.cr.newsManager.isHolidayRunning(self.holidayId):
-            zeroMgrString = "%sZeroMgr" % self.propString
+            zeroMgrString = "%sZeroMgr" % self.propString            
             if hasattr(base.cr, zeroMgrString):
                 zeroMgr = eval("base.cr.%s" % zeroMgrString)
                 if not zeroMgr.isDisabled():
@@ -194,16 +194,16 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
                 self.notify.debug("base.cr does not have %s" % zeroMgrString)
         else:
             self.notify.debug("holiday is not running")
-        self.notify.debug("enoughInfoToRun = %s" % enoughInfoToRun)
+        self.notify.debug("enoughInfoToRun = %s" % enoughInfoToRun)        
         if enoughInfoToRun and \
            zeroMgr.getIsRunning():
             curPhase = zeroMgr.getCurPhase()
             if curPhase >= len (self.phaseIvals):
                 curPhase = len(self.phaseIvals) -1
                 self.notify.warning("zero mgr says to go to phase %d, but we only have %d ivals.  forcing curPhase to %d" % (curPhase, len(self.phaseIvals), curPhase))
-            result = curPhase
+            result = curPhase        
         return result
-
+                
     def exit(self):
         """Stop showing the prop."""
         assert self.notify.debugStateCall(self)
@@ -217,7 +217,7 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         """Handle the  zero manager telling us we're in a new phase."""
         assert self.notify.debugStateCall(self)
         self.startIfNeeded()
-
+                
 
     def handleNewIsRunning(self, isRunning):
         """Handle the  zero manager telling us we're in a new phase."""
@@ -226,3 +226,5 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
             self.startIfNeeded()
         else:
             self.request('Off')
+        
+        

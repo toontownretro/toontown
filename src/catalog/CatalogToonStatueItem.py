@@ -1,4 +1,4 @@
-from . import CatalogGardenItem
+import CatalogGardenItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
@@ -71,12 +71,6 @@ class CatalogToonStatueItem(CatalogGardenItem.CatalogGardenItem):
         CatalogGardenItem.CatalogGardenItem.encodeDatagram(self, dg, store)
         dg.addUint8(self.startPoseIndex)
         dg.addUint8(self.endPoseIndex)
-        
-    def equalsTo(self, other):
-        #if self.startPoseIndex != other.startPoseIndex
-        #    return False
-        #return self.endPoseIndex == other.endPoseIndex
-        return True
         
     def compareTo(self, other):
         if (self.gardenIndex >= self.startPoseIndex) and (self.gardenIndex <= self.endPoseIndex):

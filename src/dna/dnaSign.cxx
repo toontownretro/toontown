@@ -63,14 +63,14 @@ NodePath DNASign::traverse(NodePath &parent, DNAStorage *store, int editing) {
   }
 
   PandaNode *node = building_front.node();
-  //node->set_effect(DecalEffect::make());
+  node->set_effect(DecalEffect::make());
 
   // Try to find this sign in the node map
   NodePath sign_node_path;
   if (!_code.empty()) {
     sign_node_path = (store->find_node(_code)).copy_to(building_front);
     if (sign_node_path.is_empty()) {
-      nout << "Sign not found in storage: " << _code << std::endl;
+      nout << "Sign not found in storage: " << _code << endl;
       return parent;
     }
     sign_node_path.node()->set_name("sign");
@@ -80,7 +80,7 @@ NodePath DNASign::traverse(NodePath &parent, DNAStorage *store, int editing) {
   nassertr(!sign_node_path.is_empty(), parent);
 
   // Turn off the writing of z-buffer information:
-  sign_node_path.set_depth_offset(1);
+  sign_node_path.set_depth_write(0);
   //sign_node_path.node()->set_name("sign");
 
   // The Sign_origin is a special node in the model with a local
@@ -106,7 +106,7 @@ NodePath DNASign::traverse(NodePath &parent, DNAStorage *store, int editing) {
     // the building node, which is usually parent, but might be
     // farther up.
     NodePath building = parent;
-    while (!building.is_empty() &&
+    while (!building.is_empty() && 
            (building.get_name().empty() ||
             building.get_name().substr(0, 2) != "tb")) {
       building = building.get_parent();
@@ -151,8 +151,13 @@ void DNASign::write(ostream &out, DNAStorage *store, int indent_level) const {
       _pos[0] << " " << _pos[1] << " " << _pos[2] << " ]\n";
   }
   if (!_hpr.almost_equal(LVecBase3f::zero())) {
-    indent(out, indent_level + 1) << "nhpr [ " <<
-      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+    if (temp_hpr_fix) {
+      indent(out, indent_level + 1) << "nhpr [ " <<
+        _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+    } else {
+      indent(out, indent_level + 1) << "hpr [ " <<
+        _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+    }
   }
   if (!_scale.almost_equal(LVecBase3f(1.0, 1.0, 1.0))) {
     indent(out, indent_level + 1) << "scale [ " <<

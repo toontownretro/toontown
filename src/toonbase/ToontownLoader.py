@@ -1,14 +1,12 @@
 """ToontownLoader module: contains the extended loader that does wait bars"""
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.showbase import Loader
 from toontown.toontowngui import ToontownLoadingScreen
 
 class ToontownLoader(Loader.Loader):
     """ToontownLoader class"""
-
-    TickPeriod = 0.2
 
     # special methods
     def __init__(self, base):
@@ -21,31 +19,28 @@ class ToontownLoader(Loader.Loader):
         self.loadingScreen.destroy()
         del self.loadingScreen
         Loader.Loader.destroy(self)
-
+        
     # our extentions
     def beginBulkLoad(self, name, label, range, gui, tipCategory):
-        self._loadStartT = globalClock.getRealTime()
-        Loader.Loader.notify.info("Starting bulk load of block '%s'" % (name))
+        Loader.Loader.notify.info("starting bulk load of block '%s'" % (name))
         if self.inBulkBlock:
             Loader.Loader.notify.warning("Tried to start a block ('%s'), but am already in a block ('%s')" % (name, self.blockName))
-            return
+            return None
         self.inBulkBlock = 1
-        self._lastTickT = globalClock.getRealTime()
-        self.blockName = name
+        self.blockName = name        
         self.loadingScreen.begin(range, label, gui, tipCategory)
 
     def endBulkLoad(self, name):
         if not self.inBulkBlock:
             Loader.Loader.notify.warning("Tried to end a block ('%s'), but not in one" % (name))
-            return
+            return None
         if name != self.blockName:
             Loader.Loader.notify.warning("Tried to end a block ('%s'), other then the current one ('%s')" % (name, self.blockName))
-            return
+            return None
         self.inBulkBlock = None
         expectedCount, loadedCount = self.loadingScreen.end()
-        now = globalClock.getRealTime()
-        Loader.Loader.notify.info("At end of block '%s', expected %s, loaded %s, duration=%s" %
-                                  (self.blockName, expectedCount, loadedCount, now - self._loadStartT))
+        Loader.Loader.notify.info("At end of block '%s', expected %s, loaded %s" %
+                                  (self.blockName, expectedCount, loadedCount))
 
     def abortBulkLoad(self):
         """
@@ -59,10 +54,7 @@ class ToontownLoader(Loader.Loader):
     # service function(s) for overloaded behavior
     def tick(self):
         if self.inBulkBlock:
-            now = globalClock.getRealTime()
-            if now - self._lastTickT > self.TickPeriod:
-                self._lastTickT += self.TickPeriod
-                self.loadingScreen.tick()
+            self.loadingScreen.tick()
             # Keep those heartbeats coming!
             try:
                 base.cr.considerHeartbeat()
@@ -81,20 +73,20 @@ class ToontownLoader(Loader.Loader):
         self.tick()
         return ret
 
-    def loadTexture(self, texturePath, alphaPath = None, okMissing = False):
-        ret = Loader.Loader.loadTexture(self, texturePath, alphaPath, okMissing = okMissing)
+    def loadTexture(self, texturePath, alphaPath = None):
+        ret = Loader.Loader.loadTexture(self, texturePath, alphaPath)
         self.tick()
         if alphaPath:
             self.tick()
         return ret
 
-    def loadSfx(self, soundPath, stream=False):
-        ret = Loader.Loader.loadSfx(self, soundPath, stream=stream)
+    def loadSfx(self, soundPath):
+        ret = Loader.Loader.loadSfx(self, soundPath)
         self.tick()
         return ret
 
-    def loadMusic(self, soundPath, stream=False):
-        ret = Loader.Loader.loadMusic(self, soundPath, stream=stream)
+    def loadMusic(self, soundPath):
+        ret = Loader.Loader.loadMusic(self, soundPath)
         self.tick()
         return ret
 
@@ -102,7 +94,7 @@ class ToontownLoader(Loader.Loader):
         ret = loadDNAFileAI(dnaStore, dnaFile, CSDefault)
         self.tick()
         return ret
-
+    
     def loadDNAFile(self, dnaStore, dnaFile):
         ret = loadDNAFile(dnaStore, dnaFile, CSDefault, 0)
         self.tick()

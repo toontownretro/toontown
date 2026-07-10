@@ -1,4 +1,4 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import AppRunnerGlobal
 import os
@@ -8,19 +8,19 @@ import os
 ## cannot occur. (see globalBattleSoundCache.clear() in TownLoader.py)
 ##
 ## might be simpler to use 1 audio manager so you have only 1 set if audio settings, but
-## you could add tagged sounds so all the 'battle'-tagged sounds could be flushed from the
+## you could add tagged sounds so all the 'battle'-tagged sounds could be flushed from the 
 ## cache at once.  cache size might need to be increased in  battle areas though
 
 class BattleSounds:
     notify = DirectNotifyGlobal.directNotify.newCategory('BattleSounds')
-
+  
     def __init__(self):
         assert(self.notify.debug("__init__()"))
-        self.mgr = base.audioEngine.makeManager("battle-sounds")
+        self.mgr = AudioManager.createAudioManager()
         self.isValid=0
         if self.mgr != None and self.mgr.isValid():
             self.isValid=1
-            limit = ConfigVariableInt('battle-sound-cache-size', 15).getValue()
+            limit = base.config.GetInt('battle-sound-cache-size', 15)
             self.mgr.setCacheLimit(limit)
 
             # make sure user sound settings are applied to this snd manager
@@ -31,7 +31,7 @@ class BattleSounds:
     def setupSearchPath(self):
         """ Sets self.sfxSearchPath with the appropriate search path
         to find battle sound effects. """
-
+        
         self.sfxSearchPath = DSearchPath()
         if AppRunnerGlobal.appRunner:
             # In the web-publish runtime, look here:
@@ -49,7 +49,7 @@ class BattleSounds:
             self.sfxSearchPath.appendDirectory(Filename.fromOsSpecific(os.path.expandvars('$TTMODELS/built/phase_3.5/audio/sfx')))
             self.sfxSearchPath.appendDirectory(Filename.fromOsSpecific(os.path.expandvars('$TTMODELS/built/phase_4/audio/sfx')))
             self.sfxSearchPath.appendDirectory(Filename.fromOsSpecific(os.path.expandvars('$TTMODELS/built/phase_5/audio/sfx')))
-
+        
 
     def clear(self):
         assert(self.notify.debug("clear()"))
@@ -72,11 +72,12 @@ class BattleSounds:
             if not found:
                 # If it's still not found, something's wrong.
                 self.notify.warning('%s not found on:' % name)
-                print(self.sfxSearchPath)
-
+                print self.sfxSearchPath
+                
             else:
                 return self.mgr.getSound(filename.getFullpath())
 
         return self.mgr.getNullSound()
 
 globalBattleSoundCache = BattleSounds()
+    

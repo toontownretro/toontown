@@ -1,29 +1,26 @@
 """ Fireworks Editor/Control Panel module """
 from direct.tkwidgets.AppShell import *
 from direct.showbase.TkGlobal import *
-from .FireworkGlobals import *
+from FireworkGlobals import *
 from direct.interval.IntervalGlobal import *
-from tkinter.filedialog import *
-from tkinter.messagebox import askyesno
+from tkFileDialog import *
+from tkMessageBox import askyesno
 from direct.tkwidgets import VectorWidgets
-from . import Fireworks
+import Fireworks
 from direct.tkwidgets import Slider
 from direct.task import Task
-import types
+import Types
 import string
-import functools
-
-from toontown.toonbase.ToontownModules import Filename, ConfigVariableString, Point3
 
 NUM_RB_COLS = 8
 MAX_AMP = 100
 
 ttmodelsDirectory = Filename.expandFrom("$TTMODELS")
 
-UppercaseColorNames = list(map(str.upper, ColorNames))
+UppercaseColorNames = map(string.upper, ColorNames)
 
-dnaDirectory = Filename.expandFrom(ConfigVariableString("dna-directory", "$TTMODELS/src/dna").getValue())
-
+dnaDirectory = Filename.expandFrom(base.config.GetString("dna-directory", "$TTMODELS/src/dna"))
+        
 def fwTuple2Str(tuple):
     styleStr = styleNames[tuple[FW_STYLE]]
     color1Str = TextEncoder.upper(ColorNames[tuple[FW_COLOR1]])
@@ -127,7 +124,7 @@ class FireworksShow:
         return self.fwDict.get(ID, None)
 
     def removeFirework(self, ID):
-        if ID in self.fwDict:
+        if self.fwDict.has_key(ID):
             del(self.fwDict[ID])
 
     def getSortedList(self):
@@ -141,8 +138,8 @@ class FireworksShow:
             else:
                 return 0
         # Sort the firework show by start time
-        fwList = list(self.fwDict.values())
-        fwList.sort(key=functools.cmp_to_key(sortFW))
+        fwList = self.fwDict.values()
+        fwList.sort(sortFW)
         return fwList
 
     def getNextFirework(self, currFw):
@@ -201,10 +198,10 @@ class FireworksShow:
         return max(self.minDuration, musicDuration, fwDuration)
 
     def printShow(self):
-        print('(')
+        print '('
         for fw in self.getShow():
-            print('    %s,' % (fwTuple2Str(fw)))
-        print(')')
+            print '    %s,' % (fwTuple2Str(fw))
+        print ')'        
 
     def saveShow(self, fireworksFilename):
         fname = Filename(fireworksFilename)
@@ -230,11 +227,11 @@ class FireworksShow:
                     self.setMusicFile(l[11:].strip())
                 elif (l[:11] == 'FIREWORKS: '):
                     fwStr = l[11:].strip()
-                    print(fwStr)
+                    print fwStr
                     fw = self.fireworkFromString(fwStr, currentT)
                     currentT = fw.getStartTime()
                     if not fw:
-                        print('ERROR Parsing fireworks string')
+                        print 'ERROR Parsing fireworks string'
                         self.clearShow()
                         break
 
@@ -247,7 +244,7 @@ class FireworksShow:
         fwStr = fwStr[lParen + 1: rParen]
         # If its a valid line, split on separator and
         # strip leading/trailing whitespace from each element
-        data = list(map(string.strip, fwStr.split(',')))
+        data = map(string.strip, fwStr.split(','))
         # Try to convert string to firework data
         Z = 50
         Z2 = 70
@@ -260,11 +257,11 @@ class FireworksShow:
             x = eval(data[FW_POS_X])
             y = eval(data[FW_POS_Y])
             z = eval(data[FW_POS_Z])
-        except ValueError as IndexError:
+        except ValueError, IndexError:
             return None
         return self.createFirework(startT, style, Point3(x,y,z),
                                    color1, color2, amp)
-
+        
     def loadShowFromList(self, fireworksList):
         self.clearShow()
         currentT = 0.0
@@ -292,7 +289,7 @@ class FireworksShow:
     def getShowIval(self, startT = 0, volume = 1):
         showIval = Parallel()
         duration = 0.0
-
+        
         # Start our music
         if self.showMusic:
             duration = self.showMusic.length()
@@ -371,12 +368,12 @@ class FireworksShow:
         fwList = self.getSortedList()
         for fw in fwList:
             if fw.getStyle() in excludeList:
-                print('Excluding', styleNames[fw.getStyle()])
+                print 'Excluding', styleNames[fw.getStyle()]
                 continue
             currT = fw.getStartTime()
             if currT < startT:
                 continue
-            if (endT != 'END') and (currT > endT):
+            if (endT is not 'END') and (currT > endT):
                 break
             pos = fw.getPos()
             pos.set(pos[0] + dx, pos[1] + dy, pos[2] + dz)
@@ -387,7 +384,7 @@ class FireworksShow:
             currT = fw.getStartTime()
             if currT < startT:
                 continue
-            if (endT != 'END') and (currT > endT):
+            if (endT is not 'END') and (currT > endT):
                 break
             fw.setStartTime(currT + dt)
 
@@ -539,7 +536,7 @@ class FireworksEditor(AppShell):
         sliderFrame.pack(side = TOP, expand = 1, fill = X)
 
         # Create edit buttons
-        self.createEditButtons(self.controlFrame)
+        self.createEditButtons(self.controlFrame)                             
 
         self.controlFrame.pack(fill = BOTH, expand = 1)
 
@@ -636,7 +633,7 @@ class FireworksEditor(AppShell):
             type = floaterType, bd = 0, relief = None,
             label_justify = LEFT, label_anchor = W, label_width = 14,
             label_bd = 0, labelIpadx = 0, floaterGroup_labels = floaterLabels)
-
+        
         self.posWidget['command'] = fwPosCommand
         self.posWidget.pack(side = LEFT, fill = X, expand = 1)
 
@@ -673,12 +670,12 @@ class FireworksEditor(AppShell):
         self.insertButton = Button(buttonFrame, text = 'Insert', takefocus=0,
                                    command = self.insertFirework)
         self.insertButton.pack(side = LEFT, expand = 1, fill = X)
-
+        
         self.printButton = Button(buttonFrame, takefocus=0, text='Print Show',
                                   command = self.fwShow.printShow)
         self.printButton.pack(side = LEFT, expand = 1, fill = X)
 
-        self.playButton = Button(buttonFrame, text = 'Play/Pause',takefocus=0,
+        self.playButton = Button(buttonFrame, text = 'Play/Pause',takefocus=0, 
                                  command = self.playPauseShow)
         self.playButton.pack(side = LEFT, expand = 1, fill = X)
 
@@ -716,18 +713,18 @@ class FireworksEditor(AppShell):
     def horizScroll(self, x, y, w = None):
         self._canvas.xview(x, y, w)
         self.timeline.repositionGui()
-
+        
     def vertScroll(self, x, y, w = None):
         self._canvas.yview(x, y, w)
         self.timeline.repositionGui()
-
+        
     def saveFireworksShow(self):
         fireworksFilename = asksaveasfilename(
             defaultextension = '.fws',
             filetypes = (('Fireworks Files', '*.fws'),('All files', '*')),
             initialdir = ttmodelsDirectory,
             title = 'Save Fireworks Show as',
-            parent = self._parent)
+            parent = self.parent)
         if fireworksFilename:
             self.fwShow.saveShow(fireworksFilename)
 
@@ -737,7 +734,7 @@ class FireworksEditor(AppShell):
             filetypes = (('Fireworks Files', '*.fws'),('All files', '*')),
             initialdir = ttmodelsDirectory,
             title = 'Save Fireworks Show as',
-            parent = self._parent)
+            parent = self.parent)
         if fireworksFilename:
             self.fwShow.loadShow(fireworksFilename)
             self.timeline.updateCanvas()
@@ -745,7 +742,7 @@ class FireworksEditor(AppShell):
     def loadFireworkShowFromList(self, fwList):
         self.fwShow.loadShowFromList(fwList)
         self.timeline.updateCanvas()
-
+        
     def loadMusicFile(self):
         # Load music
         # Set duration of show based on fireworks
@@ -754,8 +751,8 @@ class FireworksEditor(AppShell):
             filetypes = (('MIDI Files', '*.mid'),('All files', '*')),
             initialdir = ttmodelsDirectory,
             title = 'Load Music File',
-            parent = self._parent)
-        if musicFilename:
+            parent = self.parent)
+        if musicFilename:            
             self.setMusicFile(musicFilename)
 
     def setMusicFile(self, filename):
@@ -763,14 +760,14 @@ class FireworksEditor(AppShell):
         self.timeline.updateCanvas()
         if self.fwShow.musicFilename:
             basename = self.fwShow.musicFilename.getBasename()
-            self._parent.title('Fireworks Editor - %s' % basename)
+            self.parent.title('Fireworks Editor - %s' % basename)
         else:
-            self._parent.title('Fireworks Editor')
+            self.parent.title('Fireworks Editor')
 
     def clearShow(self):
         resp = askyesno('Fireworks Editor',
                         'Delete current fireworks show?',
-                        parent = self._parent)
+                        parent = self.parent)
         if resp == 1:
             self.fwShow.clearShow()
             self.timeline.updateCanvas()
@@ -780,7 +777,7 @@ class FireworksEditor(AppShell):
 
     def moveToTime(self, time):
         self.timeline.moveTimeTabToTime(time)
-
+        
     def selectedNodePathHook(self, nodePath):
         np = nodePath.findNetTag('Fireworks')
         if not np.isEmpty():
@@ -812,7 +809,7 @@ class FireworksEditor(AppShell):
     def moveSelectedToTarget(self, event = None):
         self.axis.iPos(self.target)
         self.manipulateObjectCleanup()
-
+        
     def moveTargetToSelected(self, event = None):
         self.target.iPos(self.axis)
 
@@ -824,7 +821,7 @@ class FireworksEditor(AppShell):
 
     def loadStorageDNAFile(self, filename):
         self.loadDNAFile(filename, fStorage = 1)
-
+        
     def loadSafeZone(self, SZ):
         self.clearSafeZone()
         if not self.DNASTORE:
@@ -898,7 +895,7 @@ class FireworksEditor(AppShell):
             self.axis.select()
             self.ampSlider.set(fw.getAmp())
             self.updateSelectedStartTime(fw.getStartTime(), updateSlider = 1)
-
+            
     def getSelectedFirework(self):
         return self.selectedFirework
 
@@ -906,7 +903,7 @@ class FireworksEditor(AppShell):
         prev = self.fwShow.getPrevFirework(self.getSelectedFirework())
         if prev:
             self.timeline.selectFireworkWithID(prev.getID())
-
+            
     def selectNextFirework(self):
         next = self.fwShow.getNextFirework(self.getSelectedFirework())
         if next:
@@ -921,7 +918,7 @@ class FireworksEditor(AppShell):
             self.getSelectedFirework().setStartTime(startTime)
         if updateSlider:
             self.timeSlider.set(self.fwStart, fCommand = 0)
-
+            
     def updateSelectedStyle(self):
         if self.getSelectedFirework():
             self.getSelectedFirework().setStyle(self.fwStyle.get())
@@ -943,7 +940,7 @@ class FireworksEditor(AppShell):
             self.balloon().configure(state = 'both')
         else:
             self.balloon().configure(state = 'none')
-
+            
     def onDestroy(self, event):
         """ Called on Factory Panel shutdown """
         taskMgr.remove('manipObjectTask')
@@ -991,10 +988,10 @@ class Timeline:
         self.x = 0
         self.y = 0
         self.currentTime = 0.0
-
+        
         self.createGui()
         self.updateCanvas()
-
+        
         # Some general bindings
         # To select any firework tab
         c.tag_bind('tab',  '<ButtonPress-1>',
@@ -1054,7 +1051,7 @@ class Timeline:
     def makeZoomButtons(self):
         self.makeZoomButton('zoomIn', self.zoomIn, 0.0)
         self.makeZoomButton('zoomOut', self.zoomOut, 1.25)
-
+        
     def makeZoomButton(self, tag, cmd, x = 2.0, y = 3.5):
         tags = ('gui', tag)
         self.canvas.create_rectangle(
@@ -1097,7 +1094,7 @@ class Timeline:
     def repositionGui(self):
         deltaX = self.canvas.canvasx(50) - self.canvas.coords('Pow_well')[0]
         self.canvas.move('gui', deltaX, 0)
-
+        
     def zoomIn(self):
         # Deselect currently selected tab as a precaution
         self.deselectFirework()
@@ -1204,7 +1201,7 @@ class Timeline:
         self.canvas.addtag_withtag('selected', 'fwID_%d' % ID)
         self.selectFirework(ID)
         self.canvas.dtag('active')
-
+        
     def updateSelectedStyle(self, fw):
         c = self.canvas
         fwTags = c.find_withtag('fwID_%d' % fw.getID())
@@ -1267,7 +1264,7 @@ class Timeline:
             cx = self.left
         if cx > self.right:
             cx = self.right
-
+            
         if 'timeTab' in self.canvas.gettags('active'):
             self.canvas.move('active', cx-self.x, 0)
         else:
@@ -1283,7 +1280,7 @@ class Timeline:
             self.canvas.move('active', cx-self.x, cy-self.y)
         self.x = cx
         self.y = cy
-
+        
     def moveTimeTabToTime(self, time):
         c = self.canvas
         c.delete('timeTab')
@@ -1297,7 +1294,7 @@ class Timeline:
         pixelsPerCM = self.canvas.winfo_fpixels('1c')
         currentTime = (self.canvas.canvasx(event.x)/pixelsPerCM)/self.mag
         self.moveTimeTabToTime(currentTime)
-
+            
 
     def moveFireworkTabToTime(self, fw, time, fReselect = 0):
         c = self.canvas
@@ -1342,3 +1339,4 @@ class Timeline:
                                stipple=self.activeStipple)
         self.canvas.dtag('selected')
         self.editor.selectFirework(None)
+

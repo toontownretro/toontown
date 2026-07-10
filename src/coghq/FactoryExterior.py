@@ -3,16 +3,15 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import BattlePlace
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.toonbase import ToontownGlobals
 from toontown.building import Elevator
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 
 class FactoryExterior(BattlePlace.BattlePlace):
     # create a notify category
     notify = DirectNotifyGlobal.directNotify.newCategory("FactoryExterior")
     #notify.setDebug(True)
-
+    
     # special methods
     def __init__(self, loader, parentFSM, doneEvent):
         assert(self.notify.debug("__init__()"))
@@ -113,7 +112,7 @@ class FactoryExterior(BattlePlace.BattlePlace):
     def unload(self):
         self.parentFSM.getStateNamed("factoryExterior").removeChild(self.fsm)
         del self.fsm
-        BattlePlace.BattlePlace.unload(self)
+        BattlePlace.BattlePlace.unload(self)        
 
     def enter(self, requestStatus):
         self.zoneId = requestStatus["zoneId"]
@@ -122,12 +121,10 @@ class FactoryExterior(BattlePlace.BattlePlace):
         self.fsm.enterInitialState()
         # Play music
         base.playMusic(self.loader.music, looping = 1, volume = 0.8)
-        self.loader.geom.reparentTo(base.sceneStatic) # Used to be render, Now it's the static part of scene.
+        self.loader.geom.reparentTo(render)
         self.nodeList = [self.loader.geom]
         # Turn the sky on
         self.loader.hood.startSky()
-        # Turn on the limiter
-        self._telemLimiter = TLGatherAllAvs('FactoryExterior', RotationLimitToH)
 
         self.accept("doorDoneEvent", self.handleDoorDoneEvent)
         self.accept("DistributedDoor_doorTrigger", self.handleDoorTrigger)
@@ -142,9 +139,6 @@ class FactoryExterior(BattlePlace.BattlePlace):
         # Turn the sky off
         self.loader.hood.stopSky()
         self.fsm.requestFinalState()
-        # Stop the limiter
-        self._telemLimiter.destroy()
-        del self._telemLimiter
         # Stop music
         self.loader.music.stop()
         for node in self.tunnelOriginList:
@@ -162,7 +156,7 @@ class FactoryExterior(BattlePlace.BattlePlace):
         tunnelName = base.cr.hoodMgr.makeLinkTunnelName(
             self.loader.hood.id, fromZoneId)
         requestStatus["tunnelName"] = tunnelName
-
+        
         BattlePlace.BattlePlace.enterTunnelOut(self, requestStatus)
 
     def enterTeleportIn(self, requestStatus):
@@ -174,7 +168,7 @@ class FactoryExterior(BattlePlace.BattlePlace):
         base.localAvatar.setPosHpr(-34, -350, 0, -28, 0, 0)
 
         BattlePlace.BattlePlace.enterTeleportIn(self, requestStatus)
-
+        
     def enterTeleportOut(self, requestStatus):
         assert(self.notify.debug("enterTeleportOut()"))
         BattlePlace.BattlePlace.enterTeleportOut(self, requestStatus, self.__teleportOutDone)
@@ -204,7 +198,7 @@ class FactoryExterior(BattlePlace.BattlePlace):
     # (For boarding a building elevator)
     def enterElevator(self, distElevator, skipDFABoard = 0):
         assert(self.notify.debug("enterElevator()"))
-
+        
         self.accept(self.elevatorDoneEvent, self.handleElevatorDone)
         self.elevator = Elevator.Elevator(self.fsm.getStateNamed("elevator"),
                                           self.elevatorDoneEvent,
@@ -232,7 +226,7 @@ class FactoryExterior(BattlePlace.BattlePlace):
         self.notify.debug("handling elevator done event")
         where = doneStatus['where']
         if (where == 'reject'):
-            # If there has been a reject the Elevator should show an
+            # If there has been a reject the Elevator should show an 
             # elevatorNotifier message and put the toon in the stopped state.
             # Don't request the walk state here. Let the the toon be stuck in the
             # stopped state till the player removes that message from his screen.

@@ -1,11 +1,11 @@
 """MapPage module: contains the MapPage class"""
 
-from . import ShtikerPage
+import ShtikerPage
 from toontown.toonbase import ToontownGlobals
 from direct.showbase import PythonUtil
 from toontown.hood import ZoneUtil
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
 
 class MapPage(ShtikerPage.ShtikerPage):
@@ -35,32 +35,32 @@ class MapPage(ShtikerPage.ShtikerPage):
         self.allZones = []
         # useful for this to be a list
         for hood in ToontownGlobals.Hoods:
-            if hood not in [ToontownGlobals.GolfZone, ToontownGlobals.FunnyFarm]:
+            if hood != ToontownGlobals.GolfZone:
                 self.allZones.append(hood)
 
         self.cloudScaleList = ( ((0.55, 0, 0.4), (0.35, 0, 0.25)),
                                 (),
                                 ((0.45, 0, 0.45), (0.5, 0, 0.4),),
-                                ((0.7, 0, 0.45),),
-                                ((0.55, 0, 0.4),),
+                                ((0.7, 0, 0.45),), 
+                                ((0.55, 0, 0.4),), 
                                 ((0.6, 0, 0.4), (0.5332, 0, 0.32)),
-                                #(),
+                                (),
                                 ((0.7, 0, 0.45),(0.7, 0, 0.45),),
                                 ((0.7998, 0, 0.39),),
-                                ((0.5, 0, 0.4),), # boss
+                                ((0.5, 0, 0.4),), # boss 
                                 ((-0.45, 0, 0.4),), # sell
                                 ((-0.45, 0, 0.35),), # cash
                                 ((0.5, 0, 0.35),), # law
                                 ((0.5, 0, 0.35),), # golf
                                 )
-
+                                
         self.cloudPosList = ( ((0.575, 0., -0.04), (0.45, 0., -0.25)),
                               (),
                               ((0.375, 0., 0.4), (0.5625, 0., 0.2)),
                               ((-0.02, 0., 0.23),),
                               ((-0.3, 0., -0.4),),
                               ((0.25, 0., -0.425), (0.125, 0., -0.36)),
-                              #(),
+                              (),
                               ((-0.5625, 0., -0.07),(-0.45, 0., 0.2125),),
                               ((-0.125, 0., 0.5),),
                               ((0.66, 0., -0.4),), # boss
@@ -75,26 +75,26 @@ class MapPage(ShtikerPage.ShtikerPage):
                               (0.1, 0., 0.15),
                               (-0.3, 0., -0.375),
                               (0.2, 0., -0.45),
-                              #(-0.438, 0., 0.22),
+                              (-0.438, 0., 0.22),
                               (-0.55, 0., 0.0),
                               (-0.088, 0., 0.47),
                               (0.7, 0., -0.5), # Bossbot HQ
                               (-0.7, 0., -0.5), # Sellbot HQ
                               (-0.7, 0., 0.5), # Cashbot HQ
                               (0.7, 0. , 0.5), # Lawbot HQ
-                              (0.45, 0. , -0.45), # golf zone
+                              (0.45, 0. , -0.45), # golf zone                    
                               )
-
+        
         self.labels = []
         self.clouds = []
-
+        
         guiButton = loader.loadModel("phase_3/models/gui/quit_button")
 
         buttonLoc = (0.45, 0, -0.74)
         if base.housingEnabled:
             # this is the location when the go home button is enabled
             buttonLoc = (0.55,0,-0.74)
-
+            
         self.safeZoneButton = DirectButton(
             parent = self.map,
             relief = None,
@@ -107,7 +107,7 @@ class MapPage(ShtikerPage.ShtikerPage):
             text = TTLocalizer.MapPageBackToPlayground,
             text_scale = TTLocalizer.MPbackToPlayground,
             text_pos = (0,-0.02),
-            textMayChange = 0,
+            textMayChange = 0,            
             command = self.backToSafeZone,
             )
 
@@ -123,7 +123,7 @@ class MapPage(ShtikerPage.ShtikerPage):
             text = TTLocalizer.MapPageGoHome,
             text_scale = TTLocalizer.MPgoHome,
             text_pos = (0,-0.02),
-            textMayChange = 0,
+            textMayChange = 0,            
             command = self.goHome,
             )
         self.goHomeButton.hide()
@@ -166,10 +166,7 @@ class MapPage(ShtikerPage.ShtikerPage):
                 pressEffect = 0,
                 command = self.__buttonCallback,
                 extraArgs = [hood],
-                sortOrder = 1
                 )
-            label.bind(DGG.WITHIN, self.__hoverCallback, extraArgs=[1, hoodIndex])
-            label.bind(DGG.WITHOUT, self.__hoverCallback, extraArgs=[0, hoodIndex])
             label.resetFrameSize()
             self.labels.append(label)
 
@@ -195,7 +192,7 @@ class MapPage(ShtikerPage.ShtikerPage):
         cloudModel.removeNode()
         self.resetFrameSize()
         return
-
+    
     def unload(self):
         for labelButton in self.labels:
             labelButton.destroy()
@@ -258,15 +255,15 @@ class MapPage(ShtikerPage.ShtikerPage):
         safeZonesVisited = base.localAvatar.hoodsVisited
         hoodsAvailable = base.cr.hoodMgr.getAvailableZones()
 
-        #print("### hoods visited = ", safeZonesVisited)
-        #print("### hoods avail = ", hoodsAvailable)
-
+        #print "### hoods visited = ", safeZonesVisited
+        #print "### hoods avail = ", hoodsAvailable
+        
         # The hoods that we can see is the intersection of the zones we have
         # visited and the hoods that are available
         hoodVisibleList = PythonUtil.intersection(safeZonesVisited, hoodsAvailable)
 
-        #print("### hoods viz = ", hoodVisibleList)
-
+        #print "### hoods viz = ", hoodVisibleList
+        
         # The hoods that we can teleport to is the intersection of the hoods
         # we can see and the hoods the local toon has teleport access to
         hoodTeleportList = base.localAvatar.getTeleportAccess()
@@ -277,7 +274,6 @@ class MapPage(ShtikerPage.ShtikerPage):
             # If we can see that hood, show the button, hide the clouds
             if ((not self.book.safeMode) and
                 (hood in hoodVisibleList)):
-                label['text_fg'] = (0, 0, 0, 1)
                 label.show()
                 for cloud in clouds:
                     cloud.hide()
@@ -290,8 +286,7 @@ class MapPage(ShtikerPage.ShtikerPage):
 
             # If we cannot see that hood, hide the button, show the clouds
             else:
-                label['text_fg'] = (0, 0, 0, 0.65)
-                label.show()
+                label.hide()
                 for cloud in clouds:
                     cloud.show()
 
@@ -307,30 +302,17 @@ class MapPage(ShtikerPage.ShtikerPage):
         messenger.send(self.doneEvent)
 
     def goHome(self):
-        if ConfigVariableBool('want-qa-regression', 0).getValue():
-            self.notify.info('QA-REGRESSION: VISITESTATE: Visit estate')
         self.doneStatus = {"mode" : "gohome",
                            "hood" : base.localAvatar.lastHood,
                            }
         messenger.send(self.doneEvent)
-
+        
     def __buttonCallback(self, hood):
         """
         a hood has been selected
         """
-        if (hood in base.localAvatar.getTeleportAccess() and \
-            hood in base.cr.hoodMgr.getAvailableZones()):
+        if (hood in base.localAvatar.getTeleportAccess()):
             self.doneStatus = {"mode" : "teleport",
                                "hood" : hood,
                                }
             messenger.send(self.doneEvent)
-
-    def __hoverCallback(self, inside, hoodIndex, pos):
-        alpha = PythonUtil.choice(inside, 0.25, 1.0)
-        try:
-            clouds = self.clouds[hoodIndex]
-        except ValueError:
-            clouds = []
-
-        for cloud in clouds:
-            cloud.setColor((1, 1, 1, alpha))

@@ -1,4 +1,4 @@
-from . import CatalogItem
+import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
@@ -54,10 +54,7 @@ class CatalogNametagItem(CatalogItem.CatalogItem):
             name = TTLocalizer.UnpaidNameTag
         else:
             name = TTLocalizer.NametagFontNames[self.nametagStyle]
-        if TTLocalizer.NametagReverse:
-            name = TTLocalizer.NametagLabel + name
-        else:
-            name = name + TTLocalizer.NametagLabel
+        name = name + TTLocalizer.NametagLabel
         return name
         if self.nametagStyle == 0:
             name = TTLocalizer.NametagPaid
@@ -113,9 +110,6 @@ class CatalogNametagItem(CatalogItem.CatalogItem):
         return "CatalogNametagItem(%s%s)" % (
             self.nametagStyle,
             self.formatOptionalData(store))
-            
-    def equalsTo(self, other):
-        return self.nametagStyle == other.nametagStyle
 
     def compareTo(self, other):
         return self.nametagStyle - other.nametagStyle

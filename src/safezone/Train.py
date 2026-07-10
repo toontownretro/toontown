@@ -1,4 +1,4 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.showbase.DirectObject import DirectObject
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import globalClockDelta
@@ -16,7 +16,8 @@ from direct.actor import Actor
 # This class is more accurately a train TRACK, it handles many trains moving
 # across sequentially
 
-class Train(DirectObject):
+class Train(DirectObject): 
+
     notify = directNotify.newCategory('Train')
     #notify.setDebug(True)
 
@@ -40,11 +41,10 @@ class Train(DirectObject):
 
         # load up the models for the locomotive and the cars
         self.locomotive = loader.loadModel(self.LocomotiveFile)
-        self.locomotive.flattenStrong()
         self.cars = []
 
-        self.trainPassingSfx = base.loader.loadSfx(self.Sfx_TrainPass)
-        self.trainStopStartSfx = base.loader.loadSfx(self.Sfx_TrainStopStart)
+        self.trainPassingSfx = base.loadSfx(self.Sfx_TrainPass)
+        self.trainStopStartSfx = base.loadSfx(self.Sfx_TrainStopStart)
 
         self.trainId = trackNum
 
@@ -77,14 +77,14 @@ class Train(DirectObject):
     def __networkTimeInSeconds(self):
         time = globalClockDelta.getRealNetworkTime(bits=32) / NetworkTimePrecision
         return time
-
+            
     # this gets a new set of cars, sets up a lerp track for the
     # next run and starts the run
 
     # A) first time through - get the last start time and start the interval in the middle
     # B) the last run started less than MarkDelta ago - start a new run sometime in the future
-    # C) the last run started more than MarkDelta ago - start a new run in the middle
-
+    # C) the last run started more than MarkDelta ago - start a new run in the middle 
+    
     def doNextRun(self, bFirstRun=False):
         if self.locomotive:
             if bFirstRun:
@@ -146,12 +146,11 @@ class Train(DirectObject):
             car = loader.loadModel(self.CarFiles[carType])
             car.reparentTo(self.locomotive)
             car.setPos(self.CarLength*(nCar+1), 0, 0)
-            car.flattenStrong()
             self.cars.append(car)
 
     def __showStart(self):
         self.notify.debug("Starting train %s at %s." % (self.trainId,self.__networkTimeInSeconds()))
-
+            
     # set up a Lerp track for the upcoming run.  The final task
     # is a call to doNextRun.  It is up to doNextRun to determine
     # if another run should be made
@@ -159,7 +158,7 @@ class Train(DirectObject):
         self.__getCars()
         trainShouldStop = random.randrange(0, 4)
         nextRun = Sequence(Func(self.__showStart))
-        if trainShouldStop == 0:
+        if trainShouldStop is 0:
             waitTime = 3 #this is how long the delay is in the effect
             totalTime = random.randrange(4, (self.MarkDelta-waitTime)/2)
             sfxStopTime = 4.3 #this is where the train stops in the effect
@@ -232,7 +231,7 @@ class Train(DirectObject):
         # stop listening for toons.
         self.ignore('enter' + self.collNodeName)
         #self.collisionNode.setCollideMask(BitMask32(0))
-
+    
     def __handleCollisionSphereEnter(self, collEntry=None):
         # Response for the train hitting a toon
         assert(self.notify.debug("Entering collision sphere..."))

@@ -1,9 +1,9 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
-from . import DistributedDoorAI
-from . import DistributedTutorialInteriorAI
-from . import FADoorCodes
-from . import DoorTypes
+import DistributedDoorAI
+import DistributedTutorialInteriorAI
+import FADoorCodes
+import DoorTypes
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 
@@ -17,14 +17,14 @@ class TutorialBuildingAI:
         self.air = air
         self.exteriorZone = exteriorZone
         self.interiorZone = interiorZone
-
+        
         # This is because we are "pretending" to be a DistributedBuilding.
         # The DistributedTutorialInterior takes a peek at savedBy. It really
         # should make a function call. Perhaps TutorialBuildingAI and
         # DistributedBuildingAI should inherit from each other somehow,
         # but I can't see an easy way to do that.
         self.savedBy = None
-
+        
         self.setup(blockNumber)
 
     def cleanup(self):
@@ -45,7 +45,7 @@ class TutorialBuildingAI:
             self.air, 20000,
             (self.interiorZone,
              TTLocalizer.NPCToonNames[20000],
-             ("dls" ,"ms" ,"m" ,"m" ,7 ,0 ,7 ,7 ,2 ,6 ,2 ,6 ,2 ,16), "m", 1, NPCToons.NPC_REGULAR),
+             ("dll" ,"ms" ,"m" ,"m" ,7 ,0 ,7 ,7 ,2 ,6 ,2 ,6 ,2 ,16), "m", 1, NPCToons.NPC_REGULAR),
             self.interiorZone,
             questCallback=self.unlockInteriorDoor)
         # Flag him as being part of tutorial
@@ -79,7 +79,7 @@ class TutorialBuildingAI:
         self.door=door
         self.insideDoor=insideDoor
         return
-
+       
     def unlockInteriorDoor(self):
         self.insideDoor.setDoorLock(FADoorCodes.UNLOCKED)
 

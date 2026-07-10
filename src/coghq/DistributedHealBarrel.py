@@ -1,10 +1,10 @@
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 
 from direct.directnotify import DirectNotifyGlobal
-from . import DistributedBarrelBase
+import DistributedBarrelBase
 
 class DistributedHealBarrel(DistributedBarrelBase.DistributedBarrelBase):
 
@@ -21,13 +21,14 @@ class DistributedHealBarrel(DistributedBarrelBase.DistributedBarrelBase):
         self.gagModel.removeNode()
         del self.gagModel
         DistributedBarrelBase.DistributedBarrelBase.delete(self)
-
+    
     def applyLabel(self):
         self.gagModel = loader.loadModel("phase_4/models/props/icecream")
         self.gagModel.reparentTo(self.gagNode)
-        self.gagModel.find("**/ice_cream").clearBillboard()
+        self.gagModel.find("**/p1_2").clearBillboard()
         self.gagModel.setScale(self.gagScale)
         self.gagModel.setPos(0,-0.1,-.1-self.gagScale)
-
+        
     def setGrab(self, avId):
         DistributedBarrelBase.DistributedBarrelBase.setGrab(self,avId)
+    

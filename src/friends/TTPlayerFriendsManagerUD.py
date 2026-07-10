@@ -4,14 +4,12 @@ from direct.directnotify.DirectNotifyGlobal import directNotify
 
 from otp.friends.PlayerFriendsManagerUD import PlayerFriendsManagerUD
 
-from otp.otpbase import OTPLocalizer as localizer
-
-from toontown.toonbase.ToontownModules import ConfigVariableString
+from otp.otpbase import OTPLocalizerEnglish as localizer
 
 if __debug__:
     notify = directNotify.newCategory('PlayerFriendsManagerUD')
 
-
+       
 #--------------------------------------------------
 
 
@@ -33,7 +31,7 @@ class TTPlayerFriendsManagerUD(PlayerFriendsManagerUD):
 
     def __init__(self, air):
         assert self.notify.debugCall()
-        wedgeName = ConfigVariableString("sb-dev-name","toontown").getValue()
+        wedgeName = uber.config.GetString("sb-dev-name","toontown")
         PlayerFriendsManagerUD.__init__(self,air,1452,wedgeName,"Toontown")
 
     def _whisperAllowed(self, fromPlayer, toPlayer):

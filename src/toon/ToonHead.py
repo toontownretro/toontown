@@ -13,14 +13,14 @@ from direct.task import Task
 from toontown.toonbase import ToontownGlobals
 import string
 import random
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm.ClassicFSM import ClassicFSM
 from direct.fsm.State import State
 from direct.directnotify import DirectNotifyGlobal
 
 # toon head models dictionary
-if not ConfigVariableBool('want-new-anims', 1).getValue():
+if not base.config.GetBool('want-new-anims', 1):
     HeadDict = { "dls": "/models/char/dogMM_Shorts-head-", \
                 "dss":"/models/char/dogMM_Skirt-head-", \
                 "dsl":"/models/char/dogSS_Shorts-head-", \
@@ -72,33 +72,40 @@ class ToonHead(Actor.Actor):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonHead')
 
     # Eyes open and closed textures for blinks
-    EyesOpen = loader.loadTexture('phase_3/maps/eyes.txo')
+    EyesOpen = loader.loadTexture('phase_3/maps/eyes.jpg',
+                                  'phase_3/maps/eyes_a.rgb')
     EyesOpen.setMinfilter(Texture.FTLinear)
     EyesOpen.setMagfilter(Texture.FTLinear)
-    EyesClosed = loader.loadTexture('phase_3/maps/eyesClosed.txo')
+    EyesClosed = loader.loadTexture('phase_3/maps/eyesClosed.jpg',
+                                    'phase_3/maps/eyesClosed_a.rgb')
     EyesClosed.setMinfilter(Texture.FTLinear)
     EyesClosed.setMagfilter(Texture.FTLinear)
 
     # Emotional eye textures for tutorial
-    EyesSadOpen = loader.loadTexture('phase_3/maps/eyesSad.txo')
+    EyesSadOpen = loader.loadTexture('phase_3/maps/eyesSad.jpg',
+                                  'phase_3/maps/eyesSad_a.rgb')
     EyesSadOpen.setMinfilter(Texture.FTLinear)
     EyesSadOpen.setMagfilter(Texture.FTLinear)
-    EyesSadClosed = loader.loadTexture('phase_3/maps/eyesSadClosed.txo')
+    EyesSadClosed = loader.loadTexture('phase_3/maps/eyesSadClosed.jpg',
+                                    'phase_3/maps/eyesSadClosed_a.rgb')
     EyesSadClosed.setMinfilter(Texture.FTLinear)
     EyesSadClosed.setMagfilter(Texture.FTLinear)
-    EyesAngryOpen = loader.loadTexture('phase_3/maps/eyesAngry.txo')
+    EyesAngryOpen = loader.loadTexture('phase_3/maps/eyesAngry.jpg',
+                                  'phase_3/maps/eyesAngry_a.rgb')
     EyesAngryOpen.setMinfilter(Texture.FTLinear)
     EyesAngryOpen.setMagfilter(Texture.FTLinear)
-    EyesAngryClosed = loader.loadTexture('phase_3/maps/eyesAngryClosed.txo')
+    EyesAngryClosed = loader.loadTexture('phase_3/maps/eyesAngryClosed.jpg',
+                                    'phase_3/maps/eyesAngryClosed_a.rgb')
     EyesAngryClosed.setMinfilter(Texture.FTLinear)
     EyesAngryClosed.setMagfilter(Texture.FTLinear)
-    EyesSurprised = loader.loadTexture('phase_3/maps/eyesSurprised.txo')
+    EyesSurprised = loader.loadTexture('phase_3/maps/eyesSurprised.jpg',
+                                       'phase_3/maps/eyesSurprised_a.rgb')
     EyesSurprised.setMinfilter(Texture.FTLinear)
     EyesSurprised.setMagfilter(Texture.FTLinear)
-    Muzzle = loader.loadTexture('phase_3/maps/muzzleShrtGeneric.txo')
+    Muzzle = loader.loadTexture('phase_3/maps/muzzleShrtGeneric.jpg')
     Muzzle.setMinfilter(Texture.FTLinear)
     Muzzle.setMagfilter(Texture.FTLinear)
-    MuzzleSurprised = loader.loadTexture('phase_3/maps/muzzleShortSurprised.txo')
+    MuzzleSurprised = loader.loadTexture('phase_3/maps/muzzleShortSurprised.jpg')
     MuzzleSurprised.setMinfilter(Texture.FTLinear)
     MuzzleSurprised.setMagfilter(Texture.FTLinear)
 
@@ -148,113 +155,109 @@ class ToonHead(Actor.Actor):
     def __init__(self):
         try:
             self.ToonHead_initialized
-            return
         except:
             self.ToonHead_initialized = 1
+            Actor.Actor.__init__(self)
 
-        Actor.Actor.__init__(self)
+            # This is a unique string that identifies this particular
+            # ToonHead among all others.  It's used to generate task
+            # names; we can't necessarily use doId, because we might
+            # not have one at this level.
+            self.toonName = 'ToonHead-' + str(self.this)
 
-        # This is a unique string that identifies this particular
-        # ToonHead among all others.  It's used to generate task
-        # names; we can't necessarily use doId, because we might
-        # not have one at this level.
-        self.toonName = 'ToonHead-' + str(self.this)
+            # Here are some of those task names we were talking about.
+            self.__blinkName = 'blink-' + self.toonName
+            self.__stareAtName = 'stareAt-' + self.toonName
+            self.__lookName = 'look-' + self.toonName
+            self.lookAtTrack = None
 
-        # Here are some of those task names we were talking about.
-        self.__blinkName = 'blink-' + self.toonName
-        self.__stareAtName = 'stareAt-' + self.toonName
-        self.__lookName = 'look-' + self.toonName
-        self.lookAtTrack = None
+            # Set up a simple state machine to manage the eyelids.
 
-        # Set up a simple state machine to manage the eyelids.
+            self.__eyes = None
+            self.__eyelashOpen = None
+            self.__eyelashClosed = None
+            self.__lod500Eyes = None
+            self.__lod250Eyes = None
+            self.__lpupil = None
+            self.__lod500lPupil = None
+            self.__lod250lPupil = None
+            self.__rpupil = None
+            self.__lod500rPupil = None
+            self.__lod250rPupil = None
+            self.__muzzle = None
+            self.__eyesOpen = ToonHead.EyesOpen
+            self.__eyesClosed = ToonHead.EyesClosed
+            self.__height = 0.0
 
-        self.__eyes = None
-        self.__eyelashOpen = None
-        self.__eyelashClosed = None
-        self.__lod500Eyes = None
-        self.__lod250Eyes = None
-        self.__lpupil = None
-        self.__lod500lPupil = None
-        self.__lod250lPupil = None
-        self.__rpupil = None
-        self.__lod500rPupil = None
-        self.__lod250rPupil = None
-        self.__muzzle = None
-        self.__eyesOpen = ToonHead.EyesOpen
-        self.__eyesClosed = ToonHead.EyesClosed
-        self.__height = 0.0
+            # Create our own random number generator.  We do this
+            # mainly so we don't jumble up the random number chain of
+            # the rest of the world (making playback from a session
+            # more reliable).
+            self.randGen = random.Random()
+            self.randGen.seed(random.random())
 
-        self.__eyelashesHiddenByGlasses = False
+            self.eyelids = ClassicFSM('eyelids',
+                                   [State('off',
+                                          self.enterEyelidsOff,
+                                          self.exitEyelidsOff,
+                                          ['open', 'closed', 'surprised']),
+                                    State('open',
+                                          self.enterEyelidsOpen,
+                                          self.exitEyelidsOpen,
+                                          ['closed', 'surprised', 'off']),
+                                    State('surprised',
+                                          self.enterEyelidsSurprised,
+                                          self.exitEyelidsSurprised,
+                                          ['open', 'closed', 'off']),
+                                    State('closed',
+                                          self.enterEyelidsClosed,
+                                          self.exitEyelidsClosed,
+                                          ['open', 'surprised', 'off'])],
+                                   # initial State
+                                   'off',
+                                   # final State
+                                   'off',
+                                   )
 
-        # Create our own random number generator.  We do this
-        # mainly so we don't jumble up the random number chain of
-        # the rest of the world (making playback from a session
-        # more reliable).
-        self.randGen = random.Random()
-        self.randGen.seed(random.random())
+            self.eyelids.enterInitialState()
+            self.emote = None
 
-        self.eyelids = ClassicFSM('eyelids',
-                               [State('off',
-                                      self.enterEyelidsOff,
-                                      self.exitEyelidsOff,
-                                      ['open', 'closed', 'surprised']),
-                                State('open',
-                                      self.enterEyelidsOpen,
-                                      self.exitEyelidsOpen,
-                                      ['closed', 'surprised', 'off']),
-                                State('surprised',
-                                      self.enterEyelidsSurprised,
-                                      self.exitEyelidsSurprised,
-                                      ['open', 'closed', 'off']),
-                                State('closed',
-                                      self.enterEyelidsClosed,
-                                      self.exitEyelidsClosed,
-                                      ['open', 'surprised', 'off'])],
-                               # initial State
-                               'off',
-                               # final State
-                               'off',
-                               )
+            # This is the node and the point relative to the node that
+            # the stareAt task will make the ToonHead look at.
+            self.__stareAtNode = NodePath()
+            self.__defaultStarePoint = Point3(0, 0, 0)
+            self.__stareAtPoint = self.__defaultStarePoint
+            self.__stareAtTime = 0
+            self.lookAtPositionCallbackArgs = None
 
-        self.eyelids.enterInitialState()
-        self.emote = None
-
-        # This is the node and the point relative to the node that
-        # the stareAt task will make the ToonHead look at.
-        self.__stareAtNode = NodePath()
-        self.__defaultStarePoint = Point3(0, 0, 0)
-        self.__stareAtPoint = self.__defaultStarePoint
-        self.__stareAtTime = 0
-        self.lookAtPositionCallbackArgs = None
+        return None
 
     def delete(self):
         try:
             self.ToonHead_deleted
-            return
         except:
             self.ToonHead_deleted = 1
-
-        taskMgr.remove(self.__blinkName)
-        taskMgr.remove(self.__lookName)
-        taskMgr.remove(self.__stareAtName)
-        if self.lookAtTrack:
-            self.lookAtTrack.finish()
-            self.lookAtTrack = None
-        del self.eyelids
-        del self.__stareAtNode
-        del self.__stareAtPoint
-        if self.__eyes:
-            del self.__eyes
-        if self.__lpupil:
-            del self.__lpupil
-        if self.__rpupil:
-            del self.__rpupil
-        if self.__eyelashOpen:
-            del self.__eyelashOpen
-        if self.__eyelashClosed:
-            del self.__eyelashClosed
-        self.lookAtPositionCallbackArgs = None
-        Actor.Actor.delete(self)
+            taskMgr.remove(self.__blinkName)
+            taskMgr.remove(self.__lookName)
+            taskMgr.remove(self.__stareAtName)
+            if self.lookAtTrack:
+                self.lookAtTrack.finish()
+                self.lookAtTrack = None
+            del self.eyelids
+            del self.__stareAtNode
+            del self.__stareAtPoint
+            if self.__eyes:
+                del self.__eyes
+            if self.__lpupil:
+                del self.__lpupil
+            if self.__rpupil:
+                del self.__rpupil
+            if self.__eyelashOpen:
+                del self.__eyelashOpen
+            if self.__eyelashClosed:
+                del self.__eyelashClosed
+            self.lookAtPositionCallbackArgs = None
+            Actor.Actor.delete(self)
 
     def setupHead(self, dna, forGui = 0):
         """setupHead(self, AvatarDNA dna)
@@ -366,7 +369,7 @@ class ToonHead(Actor.Actor):
                             tuple lods)
         Load the head model for the toon.
         If copy = 0, instance geom instead of copying.
-        """
+        """        
         headStyle = style.head
         #ToonHead.notify.debug('RAU headstyle = %s' % headStyle)
 
@@ -545,7 +548,7 @@ class ToonHead(Actor.Actor):
             ToonHead.notify.error("unknown head style: %s" % headStyle)
 
         # load the model and massage the geometry
-        if len(lods) == 1:
+        if len(lods) == 1:        
             self.loadModel("phase_3" + filePrefix + lods[0], "head", "lodRoot",
                            copy)
             if not forGui:
@@ -568,7 +571,7 @@ class ToonHead(Actor.Actor):
 
         else:
             for lod in lods:
-                self.loadModel("phase_3" + filePrefix + lod, "head", lod, copy)
+                self.loadModel("phase_3" + filePrefix + lod, "head", lod, copy)                
                 if not forGui:
                     pLoaded = self.loadPumpkin(headStyle[1], lod, copy)
                     self.loadSnowMan(headStyle[1], lod, copy)
@@ -597,13 +600,15 @@ class ToonHead(Actor.Actor):
         return headHeight
 
     def loadPumpkin(self,headStyle, lod, copy):
-        if (hasattr(base, 'launcher') and ((not base.launcher) or (base.launcher and base.launcher.getPhaseComplete(4)))):
+        if (hasattr(base, 'launcher') and
+            ((not base.launcher) or
+             (base.launcher and base.launcher.getPhaseComplete(4)))):
 
             if not hasattr(self,'pumpkins'):
                 self.pumpkins = NodePathCollection()
 
             ppath = 'phase_4/models/estate/pumpkin_'
-            if(headStyle == 'l'):
+            if(headStyle is 'l'):
                 if copy:
                     pmodel = loader.loadModel(ppath + 'tall')
                 else:
@@ -633,22 +638,20 @@ class ToonHead(Actor.Actor):
                 return False
         else:
             ToonHead.notify.debug("phase_4 not complete yet. Postponing pumpkin head load.")
-
+            
     def loadSnowMan(self, headStyle, lod, copy):
-        if hasattr(base, 'launcher') and ((not base.launcher) or (base.launcher and base.launcher.getPhaseComplete(4))):
+        if hasattr(base, 'launcher') and ((not base.launcher) or 
+                    (base.launcher and base.launcher.getPhaseComplete(4))):
             if not hasattr(self, 'snowMen'):
                 self.snowMen = NodePathCollection()
-
-#            snowManPath = 'phase_4/models/props/tt_m_int_snowmanHead_'
-            snowManPath = 'phase_4/models/props/tt_m_efx_snowmanHead_'
-            if headStyle == 'l':
-                snowManPath = snowManPath + 'tall'
+            
+            snowManPath = 'phase_4/models/props/tt_m_int_snowmanHead_'
+            if headStyle is 'l':
+                snowManPath = snowManPath+'tall'
             else:
                 snowManPath = snowManPath + 'short'
-            try:
-                model = loader.loadModel(snowManPath)
-            except:
-                model = None
+                
+            model = loader.loadModel(snowManPath)
             if model:
                 model.setScale(0.4)
                 model.setZ(-0.5)
@@ -703,13 +706,12 @@ class ToonHead(Actor.Actor):
                     self.__eyelashClosed.stash()
                 self.pumpkins.unstash()
             else:
-                if not self.__eyelashesHiddenByGlasses:
-                    if self.__eyelashOpen:
-                        self.__eyelashOpen.unstash()
-                    if self.__eyelashClosed:
-                        self.__eyelashClosed.unstash()
+                if self.__eyelashOpen:
+                    self.__eyelashOpen.unstash()
+                if self.__eyelashClosed:
+                    self.__eyelashClosed.unstash()
                 self.pumpkins.stash()
-
+    
     def enableSnowMen(self, enable):
         if not hasattr(self, 'snowMen'):
             if len(self.__lods) == 1:
@@ -717,7 +719,7 @@ class ToonHead(Actor.Actor):
             else:
                 for lod in self.__lds:
                     self.loadSnowMan(self.__headStyle[1], lod, self.__copy)
-
+            
         if hasattr(self, 'snowMen'):
             if enable:
                 if self.__eyelashOpen:
@@ -726,32 +728,11 @@ class ToonHead(Actor.Actor):
                     self.__eyelashClosed.stash()
                 self.snowMen.unstash()
             else:
-                if not self.__eyelashesHiddenByGlasses:
-                    if self.__eyelashOpen:
-                        self.__eyelashOpen.unstash()
-                    if self.__eyelashClosed:
-                        self.__eyelashClosed.unstash()
+                if self.__eyelashOpen:
+                    self.__eyelashOpen.unstash()
+                if self.__eyelashClosed:
+                    self.__eyelashClosed.unstash()
                 self.snowMen.stash()
-
-    def hideEars(self):
-        self.findAllMatches('**/ears*;+s').stash()
-
-    def showEars(self):
-        self.findAllMatches('**/ears*;+s').unstash()
-
-    def hideEyelashes(self):
-        if self.__eyelashOpen:
-            self.__eyelashOpen.stash()
-        if self.__eyelashClosed:
-            self.__eyelashClosed.stash()
-        self.__eyelashesHiddenByGlasses = True
-
-    def showEyelashes(self):
-        if self.__eyelashOpen:
-            self.__eyelashOpen.unstash()
-        if self.__eyelashClosed:
-            self.__eyelashClosed.unstash()
-        self.__eyelashesHiddenByGlasses = False
 
     def generateToonColor(self, style):
         """generateToonColor(self, AvatarDNA style)
@@ -761,9 +742,6 @@ class ToonHead(Actor.Actor):
 
         # color the head - may have multiple pieces
         parts = self.findAllMatches("**/head*")
-        if not parts:
-            self.notify.error("Couldn't find head for Toon Head!")
-            return
         parts.setColor(style.getHeadColor())
 
         # color the ears, if they are not black
@@ -791,16 +769,16 @@ class ToonHead(Actor.Actor):
                 self.drawInFront("eyes*", "head-front*", mode, lodName=lodName)
                 # NOTE: had to change all ref's to "joint-" to "joint_" as Maya
                 # does not support "-" in node names
-                if ConfigVariableBool('want-new-anims', 1).getValue():
-                    if not self.find("**/joint*pupil*").isEmpty():
-                        self.drawInFront("joint*pupil*", "eyes*", -1, lodName=lodName)
-                    else:
+                if base.config.GetBool('want-new-anims', 1):
+                    if not self.find("**/joint_pupil*").isEmpty():
+                        self.drawInFront("joint_pupil*", "eyes*", -1, lodName=lodName)
+                    else:                    
                         self.drawInFront("def_*_pupil", "eyes*", -1, lodName=lodName)
                 else:
-                    self.drawInFront("joint*pupil*", "eyes*", -1, lodName=lodName)
-
+                    self.drawInFront("joint_pupil*", "eyes*", -1, lodName=lodName)  
+                              
             # Save the various eye LODs for blinking.
-            self.__eyes = self.getLOD(1000).find('**/eyes*')
+            self.__eyes = self.getLOD(1000).find('**/eyes*')            
             self.__lod500Eyes = self.getLOD(500).find('**/eyes*')
             self.__lod250Eyes = self.getLOD(250).find('**/eyes*')
 
@@ -811,39 +789,39 @@ class ToonHead(Actor.Actor):
                 self.__lod500Eyes = None
             else:
                 self.__lod500Eyes.setColorOff()
-                if ConfigVariableBool('want-new-anims', 1).getValue():
-                    if not self.find('**/joint*pupilL*').isEmpty():
-                        self.__lod500lPupil = self.__lod500Eyes.find('**/joint*pupilL*')
-                        self.__lod500rPupil = self.__lod500Eyes.find('**/joint*pupilR*')
+                if base.config.GetBool('want-new-anims', 1):
+                    if not self.find('**/joint_pupilL*').isEmpty():
+                        self.__lod500lPupil = self.__lod500Eyes.find('**/joint_pupilL*')
+                        self.__lod500rPupil = self.__lod500Eyes.find('**/joint_pupilR*')
                     else:
                         self.__lod500lPupil = self.__lod500Eyes.find('**/def_left_pupil*')
                         self.__lod500rPupil = self.__lod500Eyes.find('**/def_right_pupil*')
                 else:
-                    self.__lod500lPupil = self.__lod500Eyes.find('**/joint*pupilL*')
-                    self.__lod500rPupil = self.__lod500Eyes.find('**/joint*pupilR*')
+                    self.__lod500lPupil = self.__lod500Eyes.find('**/joint_pupilL*')
+                    self.__lod500rPupil = self.__lod500Eyes.find('**/joint_pupilR*')
             if self.__lod250Eyes.isEmpty():
                 self.__lod250Eyes = None
             else:
                 self.__lod250Eyes.setColorOff()
-                if ConfigVariableBool('want-new-anims', 1).getValue():
-                    if not self.find('**/joint*pupilL*').isEmpty():
-                        self.__lod250lPupil = self.__lod250Eyes.find('**/joint*pupilL*')
-                        self.__lod250rPupil = self.__lod250Eyes.find('**/joint*pupilR*')
+                if base.config.GetBool('want-new-anims', 1):
+                    if not self.find('**/joint_pupilL*').isEmpty():
+                        self.__lod250lPupil = self.__lod250Eyes.find('**/joint_pupilL*')
+                        self.__lod250rPupil = self.__lod250Eyes.find('**/joint_pupilR*')
                     else:
                         self.__lod250lPupil = self.__lod250Eyes.find('**/def_left_pupil*')
                         self.__lod250rPupil = self.__lod250Eyes.find('**/def_right_pupil*')
                 else:
-                    self.__lod250lPupil = self.__lod250Eyes.find('**/joint*pupilL*')
-                    self.__lod250rPupil = self.__lod250Eyes.find('**/joint*pupilR*')
+                    self.__lod250lPupil = self.__lod250Eyes.find('**/joint_pupilL*')
+                    self.__lod250rPupil = self.__lod250Eyes.find('**/joint_pupilR*')
         else:
             self.drawInFront("eyes*", "head-front*", mode)
-            if ConfigVariableBool('want-new-anims', 1).getValue():
-                if not self.find("joint*pupil*").isEmpty():
-                    self.drawInFront("joint*pupil*", "eyes*", -1)
-                else:
+            if base.config.GetBool('want-new-anims', 1):
+                if not self.find("joint_pupil*").isEmpty():
+                    self.drawInFront("joint_pupil*", "eyes*", -1)
+                else:                
                     self.drawInFront("def_*_pupil", "eyes*", -1)
             else:
-                self.drawInFront("joint*pupil*", "eyes*", -1)
+                self.drawInFront("joint_pupil*", "eyes*", -1)
             # Save the eyes for blinking.
             self.__eyes = self.find('**/eyes*')
 
@@ -853,27 +831,27 @@ class ToonHead(Actor.Actor):
             self.__eyes.setColorOff()
             self.__lpupil = None
             self.__rpupil = None
-            if ConfigVariableBool('want-new-anims', 1).getValue():
-                if not self.find('**/joint*pupilL*').isEmpty():
-                    if self.getLOD(1000):
-                        lp = self.getLOD(1000).find('**/joint*pupilL*')
-                        rp = self.getLOD(1000).find('**/joint*pupilR*')
-                    else:
-                        lp = self.find('**/joint*pupilL*')
-                        rp = self.find('**/joint*pupilR*')
-                else:
-                    if not self.getLOD(1000):
+            if base.config.GetBool('want-new-anims', 1):  
+                if not self.find('**/joint_pupilL*').isEmpty():                
+                    if self.getLOD(1000): 
+                        lp = self.getLOD(1000).find('**/joint_pupilL*')
+                        rp = self.getLOD(1000).find('**/joint_pupilR*')                        
+                    else:                    
+                        lp = self.find('**/joint_pupilL*')
+                        rp = self.find('**/joint_pupilR*')
+                else:                
+                    if not self.getLOD(1000):                    
                         lp = self.find('**/def_left_pupil*')
-                        rp = self.find('**/def_right_pupil*')
-                    else:
+                        rp = self.find('**/def_right_pupil*')  
+                    else:  
                         lp = self.getLOD(1000).find('**/def_left_pupil*')
                         rp = self.getLOD(1000).find('**/def_right_pupil*')
             else:
-                lp = self.__eyes.find('**/joint*pupilL*')
-                rp = self.__eyes.find('**/joint*pupilR*')
-
+                lp = self.__eyes.find('**/joint_pupilL*')
+                rp = self.__eyes.find('**/joint_pupilR*')                
+                                
             if lp.isEmpty() or rp.isEmpty():
-                print("Unable to locate pupils.")
+                print "Unable to locate pupils."
             else:
                 leye = self.__eyes.attachNewNode('leye')
                 reye = self.__eyes.attachNewNode('reye')
@@ -908,10 +886,10 @@ class ToonHead(Actor.Actor):
 
                 # Also bump up the override parameter on the pupil
                 # textures so they won't get overridden when we set
-                # the blink texture.
-
+                # the blink texture.                
+                
                 self.__lpupil.adjustAllPriorities(1)
-                self.__rpupil.adjustAllPriorities(1)
+                self.__rpupil.adjustAllPriorities(1)                    
                 if self.__lod500Eyes:
                     self.__lod500lPupil.adjustAllPriorities(1)
                     self.__lod500rPupil.adjustAllPriorities(1)
@@ -921,10 +899,10 @@ class ToonHead(Actor.Actor):
 
                 # This breaks the "animating" dog eyes.  For now,
                 # we'll only flatten if we haven't got a dog.
-                #animalType = style.getAnimal()
-                #if animalType != "dog":
-                #    self.__lpupil.flattenStrong()
-                #    self.__rpupil.flattenStrong()
+                animalType = style.getAnimal()
+                if animalType != "dog":
+                    self.__lpupil.flattenStrong()
+                    self.__rpupil.flattenStrong()                    
 
     def __setPupilDirection(self, x, y):
         """__setPupilDirection(self, float x, float y)
@@ -1168,11 +1146,11 @@ class ToonHead(Actor.Actor):
         # Now every animal except dog has 2 types of pupils except the dog
         if animalType != 'dog':
             if copy:
-                searchRoot.find("**/joint*pupilL_short").removeNode()
-                searchRoot.find("**/joint*pupilR_short").removeNode()
+                searchRoot.find("**/joint_pupilL_short").removeNode()
+                searchRoot.find("**/joint_pupilR_short").removeNode()
             else:
-                searchRoot.find("**/joint*pupilL_short").stash()
-                searchRoot.find("**/joint*pupilR_short").stash()
+                searchRoot.find("**/joint_pupilL_short").stash()
+                searchRoot.find("**/joint_pupilR_short").stash()
 
         # hide the short head
         if copy:
@@ -1232,11 +1210,11 @@ class ToonHead(Actor.Actor):
         # Now every animal except dog has 2 types of pupils except the dog
         if animalType != 'dog':
             if copy:
-                searchRoot.find("**/joint*pupilL_long").removeNode()
-                searchRoot.find("**/joint*pupilR_long").removeNode()
+                searchRoot.find("**/joint_pupilL_long").removeNode()
+                searchRoot.find("**/joint_pupilR_long").removeNode()
             else:
-                searchRoot.find("**/joint*pupilL_long").stash()
-                searchRoot.find("**/joint*pupilR_long").stash()
+                searchRoot.find("**/joint_pupilL_long").stash()
+                searchRoot.find("**/joint_pupilR_long").stash()
 
         # hide the short head
         if copy:
@@ -1388,8 +1366,8 @@ class ToonHead(Actor.Actor):
             # not going to move anywhere, then we might as well
             # stop the task.
             return Task.done
-
-        return Task.cont
+        else:
+            return Task.cont
 
     def doLookAroundToStareAt(self, node, point):
         self.startStareAt(node, point)
@@ -1730,13 +1708,13 @@ class ToonHead(Actor.Actor):
                     if (lodName == '1000') or (lodName == '500'):
                         filePrefix = DogMuzzleDict[style.head]
                         muzzles = loader.loadModel("phase_3" + filePrefix + lodName)
-                        if ConfigVariableBool('want-new-anims', 1).getValue():
-                            if not self.find('**/' + lodName + '/**/__Actor_head/def_head').isEmpty():
-                                muzzles.reparentTo(self.find('**/' + lodName + '/**/__Actor_head/def_head'))
+                        if base.config.GetBool('want-new-anims', 1):
+                            if not self.find('**/' + lodName + '/**/def_head').isEmpty():
+                                muzzles.reparentTo(self.find('**/' + lodName + '/**/def_head'))
                             else:
-                                muzzles.reparentTo(self.find('**/' + lodName + '/**/joint*toHead'))
-                        elif self.find('**/' + lodName + '/**/joint*toHead'):
-                            muzzles.reparentTo(self.find('**/' + lodName + '/**/joint*toHead'))
+                                muzzles.reparentTo(self.find('**/' + lodName + '/**/joint_toHead'))
+                        elif self.find('**/' + lodName + '/**/joint_toHead'):
+                            muzzles.reparentTo(self.find('**/' + lodName + '/**/joint_toHead'))
 
                 surpriseMuzzle = self.find('**/' + lodName + '/**/muzzle*surprise')
                 angryMuzzle = self.find('**/' + lodName + '/**/muzzle*angry')
@@ -1768,13 +1746,13 @@ class ToonHead(Actor.Actor):
                 muzzle = self.find('**/muzzle*')
                 filePrefix = DogMuzzleDict[style.head]
                 muzzles = loader.loadModel("phase_3" + filePrefix + '1000')
-                if ConfigVariableBool('want-new-anims', 1).getValue():
+                if base.config.GetBool('want-new-anims', 1):
                     if not self.find('**/def_head').isEmpty():
                         muzzles.reparentTo(self.find('**/def_head'))
                     else:
-                        muzzles.reparentTo(self.find('**/joint*toHead'))
-                elif self.find('**/joint*toHead'):
-                    muzzles.reparentTo(self.find('**/joint*toHead'))
+                        muzzles.reparentTo(self.find('**/joint_toHead'))
+                else:
+                    muzzles.reparentTo(self.find('**/joint_toHead'))
 
             surpriseMuzzle = self.find('**/muzzle*surprise')
             angryMuzzle = self.find('**/muzzle*angry')

@@ -1,11 +1,11 @@
 """DistributedCatchGameAI module: contains the DistributedCatchGameAI class"""
 
-from .DistributedMinigameAI import *
+from DistributedMinigameAI import *
 from toontown.ai.ToonBarrier import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from . import CatchGameGlobals
-from . import MinigameGlobals
+import CatchGameGlobals
+import MinigameGlobals
 
 class DistributedCatchGameAI(DistributedMinigameAI):
 
@@ -171,8 +171,7 @@ class DistributedCatchGameAI(DistributedMinigameAI):
                 self.fruitsCaught += 1
 
     def reportDone(self):
-        if not self.gameFSM or not self.gameFSM.getCurrentState() or \
-               self.gameFSM.getCurrentState().getName() != 'play':
+        if self.gameFSM.getCurrentState().getName() != 'play':
             return
 
         avId = self.air.getAvatarIdFromSender()

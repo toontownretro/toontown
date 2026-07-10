@@ -1,13 +1,12 @@
 
-from . import toc
+import toc
 from direct.task import Task
-from toontown.toonbase.ToontownModules import ConfigVariableString
 
 class TTToc(toc.TocTalk):
 
     def __init__(self):
-        screenName = ConfigVariableString("AIM-screenname", "").getValue()
-        password = ConfigVariableString("AIM-password", "").getValue()
+        screenName = base.config.GetString("AIM-screenname", "")
+        password = base.config.GetString("AIM-password", "")
         self.taskName = "TTToc"
         toc.TocTalk.__init__(self, screenName, password)
         self.connect()
@@ -25,12 +24,13 @@ class TTToc(toc.TocTalk):
     def taskProc(self, task):
         event = self.recv_event()
         if event:
-            print(event)
+            print event
             self.handle_event(event)
         return Task.cont
 
     def on_IM_IN(self,data):
         screenname = data.split(":")[0]
         message = self.strip_html(data.split(":",2)[2])
-        print(screenname, message)
+        print screenname, message
         localAvatar.setSystemMessage(0, "%s: %s" % (screenname, message))
+        

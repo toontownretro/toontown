@@ -1,6 +1,6 @@
 from toontown.toonbase import ToontownGlobals
 from direct.interval.IntervalGlobal import Parallel, Sequence, Func, Wait
-from toontown.toonbase.ToontownModules import Vec4, loadDNAFile, CSDefault, TransformState, NodePath, TransparencyAttrib
+from pandac.PandaModules import Vec4, loadDNAFile, CSDefault, TransformState, NodePath, TransparencyAttrib
 
 class HolidayDecorator:
 
@@ -32,7 +32,7 @@ class HolidayDecorator:
         self.swapIval = self.getSwapVisibleIval()
         if self.swapIval:
             self.swapIval.start()
-
+            
     def updateHoodDNAStore(self):
         # Load the specified storage files for this hood to overwrite
         # DNA storage with seasonal specific files
@@ -68,7 +68,7 @@ class HolidayDecorator:
                 transform = loader.holidayPropTransforms.get(index, TransformState.makeIdentity())
                 # Position relative to empty node path *just in case* render not top of scene graph
                 newNP.setTransform(NodePath(), transform)
-                newNP.setTag('transformIndex', repr(index))
+                newNP.setTag('transformIndex', `index`)
             s = Sequence(Wait(wait),
                          np.colorScaleInterval(tFadeOut, Vec4(1, 1, 1, 0),
                                                startColorScale = Vec4(1, 1, 1, 1),
@@ -83,3 +83,6 @@ class HolidayDecorator:
                          )
             p.append(s)
         return p
+    
+                       
+        

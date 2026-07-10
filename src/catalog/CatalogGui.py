@@ -1,6 +1,6 @@
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
-from . import CatalogItemPanel
+from pandac.PandaModules import *
+import CatalogItemPanel
 
 # how many items of master list are visible at once in the scrolling list
 NUM_ITEMS_SHOWN = 3
@@ -10,14 +10,14 @@ class CatalogGui:
 
     This class presents the user interface to an individual catalog. It consists of
     a title and a scrolling list of catalog items.
-
+    
     """
 
     def __init__(self, type, list=[], parent=None):
 
         self.type = type
         self.itemList = list
-        self._parent = parent
+        self.parent = parent
 
         self.panelPicker = None
         self.frame = DirectFrame(parent=parent, relief=None)
@@ -25,7 +25,7 @@ class CatalogGui:
 
     def show(self):
         self.frame.show()
-
+        
     def hide(self):
         self.frame.hide()
 
@@ -67,21 +67,22 @@ class CatalogGui:
             # Make the disabled button fade out
             decButton_image3_color = Vec4(1,1,1,0.3),
             )
-
-
+        
+        
     def unload(self):
         # remove all graphical elements
-        del self._parent
+        del self.parent
         del self.itemList
         del self.panelPicker
         self.frame.destroy()
-
+    
 
     def update(self):
         # call this when toon's money count changes to update the buy buttons
         for item in self.panelPicker['items']:
             if (type(item) != type("")):
                 item.updateBuyButton()
-
+            
     def scrollItem(self):
         pass
+        

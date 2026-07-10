@@ -1,20 +1,21 @@
 """ DistributedButton module: contains the DistributedCogHqButton
     class, the client side representation of a DistributedCogHqButtonAI."""
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 
-from . import MovingPlatform
+import MovingPlatform
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
-from . import DistributedSwitch
+import DistributedSwitch
 from toontown.toonbase import TTLocalizer
 
 class DistributedButton(DistributedSwitch.DistributedSwitch):
     """
-    DistributedButton class:  The client side
+    DistributedButton class:  The client side 
     representation of a Cog HQ button.
     """
     countdownSeconds = 3.0
@@ -40,7 +41,7 @@ class DistributedButton(DistributedSwitch.DistributedSwitch):
                 track.start(0.0)
                 #assert self.countdownTrack == None
                 self.countdownTrack = track
-
+    
     def setupSwitch(self):
         assert(self.debugPrint("setupSwitch()"))
         model=loader.loadModel('phase_9/models/cogHQ/CogDoor_Button')
@@ -56,7 +57,7 @@ class DistributedButton(DistributedSwitch.DistributedSwitch):
             #change.setColor(Vec4(1.0, 1.0, 1.0, 1.0))
             buttonBase.reparentTo(change)
 
-            rootNode=render.attachNewNode(self.getName()+"-buttonBase_root")
+            rootNode=render.attachNewNode(self.getName()+"-buttonBase_root")           
             #rootNode.setPos(self.pos)
             #rootNode.setHpr(self.hpr)
             #rootNode.setScale(self.scale)
@@ -76,13 +77,13 @@ class DistributedButton(DistributedSwitch.DistributedSwitch):
             #change.setColor(Vec4(1.0, 1.0, 1.0, 1.0))
             button.reparentTo(change)
 
-            rootNode=render.attachNewNode(self.getName()+"-button_root")
+            rootNode=render.attachNewNode(self.getName()+"-button_root")           
             #rootNode.setPos(self.pos)
             #rootNode.setHpr(self.hpr)
             #rootNode.setScale(self.scale)
             rootNode.setColor(self.color)
             change.reparentTo(rootNode)
-
+            
             self.buttonNode=rootNode
             self.buttonNode.show()
 
@@ -140,21 +141,21 @@ class DistributedButton(DistributedSwitch.DistributedSwitch):
         DistributedSwitch.DistributedSwitch.delete(self)
         #self.platform.destroy()
         #del self.platform
-
+    
     def enterTrigger(self, args=None):
         assert(self.debugPrint("enterTrigger(args="+str(args)+")"))
         DistributedSwitch.DistributedSwitch.enterTrigger(self, args)
-
+    
     def exitTrigger(self, args=None):
         assert(self.debugPrint("exitTrigger(args="+str(args)+")"))
         DistributedSwitch.DistributedSwitch.exitTrigger(self, args)
-
+        
     def switchOnTrack(self):
         """
         Animate the button turning on.
         """
         assert self.debugPrint("switchOnTrack()")
-        onSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_switch_pressed.mp3")
+        onSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_switch_pressed.mp3")
         duration = 0.8
         halfDur = duration*0.5
         pos=Vec3(0.0, 0.0, -0.2)
@@ -181,14 +182,14 @@ class DistributedButton(DistributedSwitch.DistributedSwitch):
                 )
             )
         return track
-
+    
     def switchCountdownTrack(self):
         """
         Animate the button turning off.
         """
         assert self.debugPrint("switchCountdownTrack()")
         wait = self.secondsOn - self.countdownSeconds
-        countDownSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_switch_depressed.mp3")
+        countDownSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_switch_depressed.mp3")
         track=Parallel(
                 SoundInterval(countDownSfx),
                 Sequence( # 3.0 seconds.
@@ -262,13 +263,13 @@ class DistributedButton(DistributedSwitch.DistributedSwitch):
                     )
                 )
         return track
-
+    
     def switchOffTrack(self):
         """
         Animate the button turning off.
         """
         assert self.debugPrint("switchOffTrack()")
-        offSfx = base.loader.loadSfx("phase_9/audio/sfx/CHQ_FACT_switch_popup.mp3")
+        offSfx = base.loadSfx("phase_9/audio/sfx/CHQ_FACT_switch_popup.mp3")
         duration = 1.0
         halfDur = duration*0.5
         pos=Vec3(0.0)
@@ -295,7 +296,7 @@ class DistributedButton(DistributedSwitch.DistributedSwitch):
                 Func(self.setIsOn, 0),
             )
         return track
-
+    
     def exitPlaying(self):
         if self.countdownTrack:
             self.countdownTrack.finish()

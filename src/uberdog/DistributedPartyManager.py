@@ -1,7 +1,7 @@
 from direct.distributed.DistributedObject import DistributedObject
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 
-from toontown.toonbase.ToontownModules import CFSpeech, CFTimeout
+from pandac.PandaModules import CFSpeech, CFTimeout
 
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -9,17 +9,11 @@ from toontown.toon import ToonDNA
 
 from toontown.parties import PartyGlobals
 
-# Add
-# givePartyRefundResponse(uint32, uint64, int8, uint16, uint32);
-# requestMw(uint32, string, uint32, uint32);
-# mwResponseUdToAllAi(uint32, string, uint32, uint32) airecv;
-
 class DistributedPartyManager(DistributedObject):
     neverDisable = 1
 
     notify = directNotify.newCategory("DistributedPartyManager")
-    PartyStatusChangedEvent = "changePartyStatusResponseReceived"
-
+    
     def __init__(self,cr):
         """Construct ourself."""
         DistributedObject.__init__(self, cr)
@@ -33,13 +27,13 @@ class DistributedPartyManager(DistributedObject):
         """Delete ourself."""
         DistributedObject.delete(self)
         self.cr.partyManager = None
-
+        
     def disable(self):
         self.notify.debug( "i'm disabling DistributedPartyManager rightnow.")
         self.ignore("deallocateZoneIdFromPlannedParty")
         self.ignoreAll() # catch requestPartyZoneComplete
         DistributedObject.disable(self)
-
+        
     def generate(self):
         # Called when the client loads
         self.notify.debug("BASE: generate")
@@ -47,14 +41,14 @@ class DistributedPartyManager(DistributedObject):
 
         # listen for requests
         self.accept("deallocateZoneIdFromPlannedParty", self.deallocateZoneIdFromPlannedParty)
-
+        
         # listen for the generate event, which will be thrown after the
         # required fields are filled in
         self.announceGenerateName = self.uniqueName("generate")
-
+    
     def deallocateZoneIdFromPlannedParty(self, zoneId):
         self.sendUpdate("freeZoneIdFromPlannedParty", [base.localAvatar.doId, zoneId])
-
+    
 #===============================================================================
 # Party Creation Methods
 #===============================================================================
@@ -62,7 +56,7 @@ class DistributedPartyManager(DistributedObject):
     def allowUnreleasedClient(self):
         """Return do we allow player to buy unreleased activities and decorations on the client."""
         return self.allowUnreleased
-
+        
     def setAllowUnreleaseClient(self, newValue):
         """Set if we allow player to buy unreleased activities and decorations on the client."""
         self.allowUnreleased = newValue
@@ -71,7 +65,7 @@ class DistributedPartyManager(DistributedObject):
         """Toggle allow unreleased on the client, then return the new value."""
         self.allowUnreleased = not self.allowUnreleased
         return self.allowUnreleased
-
+    
     def sendAddParty(self, hostId, startTime, endTime, isPrivate, inviteTheme, activities, decorations, inviteeIds):
         """Add a new party."""
         #self.sendHello('resr')
@@ -88,7 +82,7 @@ class DistributedPartyManager(DistributedObject):
                     base.localAvatar.setChatAbsolute("New party entered into database successfully.", CFSpeech | CFTimeout)
                 else:
                     base.localAvatar.setChatAbsolute("New party creation failed : %s" % PartyGlobals.AddPartyErrorCode.getString(errorCode), CFSpeech | CFTimeout)
-
+        
         assert self.notify.debugStateCall()
 
 #===============================================================================
@@ -109,7 +103,7 @@ class DistributedPartyManager(DistributedObject):
         self.sendUpdate("getPartyZone", [avId, zoneId, False])
 
     # The AI is telling us the zone for the party this avatar wants to go to
-    def receivePartyZone(self, hostId, partyId, zoneId):
+    def receivePartyZone(self, hostId, partyId, zoneId):    
         assert(self.notify.debug("receivePartyZone(%d, %d, %d)" % (hostId, partyId, zoneId)))
         if partyId != 0 and zoneId != 0:
             if base.localAvatar.doId == hostId:
@@ -117,7 +111,7 @@ class DistributedPartyManager(DistributedObject):
                 for partyInfo in base.localAvatar.hostedParties:
                     if partyInfo.partyId == partyId:
                         partyInfo.status == PartyGlobals.PartyStatus.Started
-
+                
         messenger.send("requestPartyZoneComplete", [hostId, partyId, zoneId])
 
     def sendChangePrivateRequest(self, partyId, newPrivateStatus):
@@ -136,7 +130,7 @@ class DistributedPartyManager(DistributedObject):
             messenger.send("changePartyPrivateResponseReceived", [partyId, newPrivateStatus, errorCode])
         else:
             # Send this to other hooks on the client side (AFTER updating partyinfo)
-            messenger.send("changePartyPrivateResponseReceived", [partyId, newPrivateStatus, errorCode])
+            messenger.send("changePartyPrivateResponseReceived", [partyId, newPrivateStatus, errorCode])            
             self.notify.info("FAILED changing private field for the party")
 
 
@@ -156,21 +150,9 @@ class DistributedPartyManager(DistributedObject):
         # Send this to other hooks on the client side (AFTER updating partyinfo)
         messenger.send("changePartyStatusResponseReceived", [partyId, newPartyStatus, errorCode, beansRefunded])
 
-    def setNeverStartedPartyRefunded(self, partyId, newStatus, refund):
-        partyInfo = None
-        for pInfo in localAvatar.hostedParties:
-            if pInfo.partyId == partyId:
-                partyInfo = pInfo
-                break
-
-        if partyInfo:
-            partyInfo.status = newStatus
-            # Send this to other hooks on the client side (AFTER updating partyinfo)
-            messenger.send(self.PartyStatusChangedEvent, [partyId, newStatus, 0, refund])
-
     def sendAvToPlayground(self, avId, retCode):
-        assert(self.notify.debug("sendAvToPlayground: %d" % avId))
-        messenger.send(PartyGlobals.KICK_TO_PLAYGROUND_EVENT, [retCode])
+        assert(self.notify.debug("sendAvToPlayground: %d" % avId))        
+        messenger.send(PartyGlobals.KICK_TO_PLAYGROUND_EVENT, [retCode])        
         self.notify.debug("sendAvToPlayground: %d" % avId)
 
     def leaveParty(self):
@@ -179,17 +161,17 @@ class DistributedPartyManager(DistributedObject):
             return
         # Tell AI I want outta here
         self.sendUpdate("exitParty",[localAvatar.zoneId])
-
+        
     def removeGuest(self, ownerId, avId):
         self.notify.debug("removeGuest ownerId = %s, avId = %s" % (ownerId, avId))
         # The party owner is removing avId from his party.
         # Notify the AI, and kick the ex-friend out of the party
         self.sendUpdate("removeGuest", [ownerId, avId])
-
+        
     # TODO-parties: Do checks based on the rules about going to the party:
     def isToonAllowedAtParty(self, avId, partyId):
         return PartyGlobals.GoToPartyStatus.AllowedToGo
-
+    
     # TODO-parties: Add TTLocalized reasons based on GoToPartyStatus Enum
     def getGoToPartyFailedMessage(self, reason):
         return ""
@@ -224,10 +206,10 @@ class DistributedPartyManager(DistributedObject):
             "shardId" : shardId,
             "avId" : -1,
         })
-
+        
     def setPartyPlannerStyle(self, dna):
         self.partyPlannerStyle = dna
-
+        
     def getPartyPlannerStyle(self):
         if self.partyPlannerStyle:
             return self.partyPlannerStyle
@@ -235,10 +217,10 @@ class DistributedPartyManager(DistributedObject):
             dna = ToonDNA.ToonDNA()
             dna.newToonRandom()
             return dna
-
+        
     def setPartyPlannerName(self, name):
         self.partyPlannerName = name
-
+        
     def getPartyPlannerName(self):
         if self.partyPlannerName:
             return self.partyPlannerName
@@ -248,8 +230,9 @@ class DistributedPartyManager(DistributedObject):
     def toggleShowDoid(self):
         """Toggle allow unreleased on the client, then return the new value."""
         self.showDoid = not self.showDoid
-        return self.showDoid
+        return self.showDoid    
 
     def getShowDoid(self):
         """Return do we allow player to buy unreleased activities and decorations on the client."""
-        return self.showDoid
+        return self.showDoid 
+        

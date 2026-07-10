@@ -27,7 +27,7 @@ class TreasurePlannerAI(DirectObject.DirectObject):
             self.treasures.append(None)
 
         # keep a list of the names of the treasure deletion tasks
-        self.deleteTaskNames = set()
+        self.deleteTaskNames = []
 
         # These are used to check for a single toon grabbing several
         # treasures in a short interval--highly suspicious behavior!
@@ -154,8 +154,8 @@ class TreasurePlannerAI(DirectObject.DirectObject):
         # Spawns a task that waits five seconds, then deletes the treasure.
         taskName = treasure.uniqueName("deletingTreasure")
         taskMgr.doMethodLater(5, self.__deleteTreasureNow, taskName,
-                              extraArgs = (treasure, taskName,))
-        self.deleteTaskNames.add(taskName)
+                              extraArgs = (treasure,))
+        self.deleteTaskNames.append(taskName)
 
     def deleteAllTreasuresNow(self):
         for treasure in self.treasures:
@@ -170,12 +170,11 @@ class TreasurePlannerAI(DirectObject.DirectObject):
                 treasure = tasks[0].getArgs()[0]
                 treasure.requestDelete()
                 taskMgr.remove(taskName)
-        self.deleteTaskNames = set()
+        self.deleteTaskNames = []
         # Clear out the treasure list
         self.treasures = []
         for spawnPoint in self.spawnPoints:
             self.treasures.append(None)
             
-    def __deleteTreasureNow(self, treasure, taskName):
+    def __deleteTreasureNow(self, treasure):
         treasure.requestDelete()
-        self.deleteTaskNames.remove(taskName)

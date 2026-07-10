@@ -1,11 +1,11 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.showbase.PythonUtil import reduceAngle
 from otp.movement import Impulse
 from otp.otpbase import OTPGlobals
 
 class PetCollider(Impulse.Impulse):
     SerialNum = 0
-
+    
     def __init__(self, petRadius, collTrav):
         Impulse.Impulse.__init__(self)
         self.petRadius = petRadius
@@ -49,7 +49,7 @@ class PetCollider(Impulse.Impulse):
 
     def destroy(self):
         self.ignore(self._getCollisionEvent())
-
+        
         self.collTrav.removeCollider(self.cLineNodePath)
         del self.cHandler
         del self.collTrav
@@ -73,10 +73,10 @@ class PetCollider(Impulse.Impulse):
     def _getCollisionEvent(self):
         # this event will be thrown by the Panda collision system
         return 'petFeeler-%s' % self._getSerialNum()
-
+        
     def handleCollision(self, collEntry):
-        print('collision!')
-        #print('collision: %s' % collEntry)
+        print 'collision!'
+        #print 'collision: %s' % collEntry
         #import pdb
         #pdb.set_trace()
         cPoint = collEntry.getSurfacePoint(self.cLineNodePath)
@@ -106,3 +106,4 @@ class PetCollider(Impulse.Impulse):
             self.vH = 0
             self.mover.addRotShove(self.rotVel)
             """
+        

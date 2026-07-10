@@ -1,9 +1,9 @@
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase import ToontownGlobals
 import random
 from toontown.hood import ZoneUtil
-from . import ToonDNA
+import ToonDNA
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 import sys, os
@@ -81,17 +81,17 @@ def getRandomDNA(seed, gender):
     return randomDNA.asTuple()
 
 def createNPC(air, npcId, desc, zoneId, posIndex=0, questCallback=None):
-    from . import DistributedNPCToonAI
-    from . import DistributedNPCClerkAI
-    from . import DistributedNPCTailorAI
-    from . import DistributedNPCBlockerAI
-    from . import DistributedNPCFishermanAI
-    from . import DistributedNPCPetclerkAI
-    from . import DistributedNPCKartClerkAI
-    from . import DistributedNPCPartyPersonAI
-    from . import DistributedNPCSpecialQuestGiverAI
-    from . import DistributedNPCFlippyInToonHallAI
-    from . import DistributedNPCScientistAI
+    import DistributedNPCToonAI
+    import DistributedNPCClerkAI
+    import DistributedNPCTailorAI
+    import DistributedNPCBlockerAI
+    import DistributedNPCFishermanAI
+    import DistributedNPCPetclerkAI
+    import DistributedNPCKartClerkAI
+    import DistributedNPCPartyPersonAI
+    import DistributedNPCSpecialQuestGiverAI
+    import DistributedNPCFlippyInToonHallAI
+    import DistributedNPCScientistAI
     canonicalZoneId, name, dnaType, gender, protected, type = desc
     if (type == NPC_REGULAR):
         npc = DistributedNPCToonAI.DistributedNPCToonAI(
@@ -112,9 +112,9 @@ def createNPC(air, npcId, desc, zoneId, posIndex=0, questCallback=None):
     elif (type == NPC_PETCLERK):
         npc = DistributedNPCPetclerkAI.DistributedNPCPetclerkAI(air, npcId)
     elif (type == NPC_KARTCLERK):
-        npc = DistributedNPCKartClerkAI.DistributedNPCKartClerkAI(air, npcId)
+        npc = DistributedNPCKartClerkAI.DistributedNPCKartClerkAI(air, npcId) 
     elif (type == NPC_PARTYPERSON):
-        npc = DistributedNPCPartyPersonAI.DistributedNPCPartyPersonAI(air, npcId)
+        npc = DistributedNPCPartyPersonAI.DistributedNPCPartyPersonAI(air, npcId) 
     elif(type == NPC_SPECIALQUESTGIVER):
         npc = DistributedNPCSpecialQuestGiverAI.DistributedNPCSpecialQuestGiverAI(air, npcId)
     elif(type == NPC_FLIPPYTOONHALL):
@@ -122,43 +122,43 @@ def createNPC(air, npcId, desc, zoneId, posIndex=0, questCallback=None):
     elif(type == NPC_SCIENTIST):
         npc = DistributedNPCScientistAI.DistributedNPCScientistAI(air, npcId)
     else:
-        print('createNPC() error!!!')
+        print 'createNPC() error!!!'
     npc.setName(name)
     dna = ToonDNA.ToonDNA()
-
+    
     if dnaType == "r":
         # ...random dna.
         dnaList = getRandomDNA(npcId, gender)
     else:
         dnaList = dnaType
-
+    
     if saveDNA:
-        strList = []
-        strList.append("\n\nNPC Id: ")
-        strList.append(str(npcId))
-        strList.append("\nDNA: ")
+        strList = []   
+        strList.append("\n\nNPC Id: ")  
+        strList.append(str(npcId))         
+        strList.append("\nDNA: ")  
         count = 0
-        strList.append("(")
+        strList.append("(")  
         for item in dnaList:
             if count < 4:
-                strList.append("\""+str(item)+"\"")
+                strList.append("\""+str(item)+"\"")  
             else:
-                strList.append(str(item))
+                strList.append(str(item))  
             count += 1
-            strList.append(" ,")
-        strList.append(")")
-        rtDNA = "".join(strList)
-
+            strList.append(" ,")  
+        strList.append(")") 
+        rtDNA = "".join(strList) 
+        
         if os.path.isfile(RTDNAFile):
-            rtDnaFile = open(RTDNAFile, "r+")
-            rtDnaFile.seek(0,2)
-            rtDnaFile.writelines(rtDNA)
+            rtDnaFile = open(RTDNAFile, "r+")    
+            rtDnaFile.seek(0,2)    
+            rtDnaFile.writelines(rtDNA)   
         else:
             rtDnaFile = open(RTDNAFile, "w")
-            rtDnaFile.writelines(rtDNA)
-
-        rtDnaFile.close()
-
+            rtDnaFile.writelines(rtDNA)   
+            
+        rtDnaFile.close()           
+            
     dna.newToonFromProperties(*dnaList)
     npc.setDNAString(dna.makeNetString())
     npc.setHp(15)
@@ -166,7 +166,7 @@ def createNPC(air, npcId, desc, zoneId, posIndex=0, questCallback=None):
     # NOTE: The npc will be placed on the client when it is created
     npc.setPositionIndex(posIndex)
     npc.generateWithRequired(zoneId)
-
+    
     if hasattr(npc, "startAnimState"):
         npc.d_setAnimState(npc.startAnimState, 1.)
     else:
@@ -185,8 +185,8 @@ def createNpcsInZone(air, zoneId):
     return npcs
 
 def createLocalNPC(npcId):
-    from . import Toon
-    if (npcId not in NPCToonDict):
+    import Toon
+    if (not NPCToonDict.has_key(npcId)):
         return None
     desc = NPCToonDict[npcId]
     canonicalZoneId, name, dnaType, gender, protected, type = desc
@@ -248,17 +248,16 @@ NPCToonDict = {
     #          topTexture, bottomTexture)
     # These are for the tutorial. We do not actually use the zoneId here
     # But the quest posters need to know his name
-    20000 : (-1, lnames[20000], ("dls" ,"ms" ,"m" ,"m" ,7 ,0 ,7 ,7 ,2 ,6 ,2 ,6 ,2 ,16), "m", 1, NPC_REGULAR),
+    20000 : (-1, lnames[20000], ("dll" ,"ms" ,"m" ,"m" ,7 ,0 ,7 ,7 ,2 ,6 ,2 ,6 ,2 ,16), "m", 1, NPC_REGULAR),
     999 : (-1, lnames[999], "r", "m", 1, NPC_TAILOR),
     1000 : (-1, lnames[1000], "r", "m", 1, NPC_HQ),
     # Flippy DNA matches marketing materials
     20001 : (-1, lnames[20001], ('dss', 'ms', 'm', 'm', 17,0,17,17,3,3,3,3,7,2), "m", 1, NPC_BLOCKER),
-
+    
     # Toontown Central
     # This Flippy DNA matches the tutorial Flippy
     # He is in Toon Hall
     # Flippy DNA matches marketing materials
-    2001 : (2513, lnames[2001], ('dss', 'ms', 'm', 'm', 17,0,17,17,3,3,3,3,7,2), "m", 1, NPC_REGULAR),
     2002 : (2514, lnames[2002], ("hss" ,"ls" ,"l" ,"m" ,4 ,0 ,4 ,4 ,0 ,3 ,0 ,3 ,1 ,18), "m", 1, NPC_REGULAR),
     2003 : (2516, lnames[2003], ("cll" ,"ms" ,"l" ,"m" ,18 ,0 ,18 ,18 ,0 ,4 ,0 ,4 ,1 ,15), "m", 1, NPC_REGULAR),
     2004 : (2521, lnames[2004], ('rll', 'md', 'm', "f", 15,0,5,7,3,5,3,5,0,3), "f", 1, NPC_TAILOR),
@@ -274,7 +273,7 @@ NPCToonDict = {
     2014 : (2522, lnames[2014], ("mls" ,"ms" ,"m" ,"f" ,2 ,0 ,2 ,2 ,0 ,12 ,0 ,12 ,1 ,0 ,), "f", 1, NPC_PETCLERK),
     2015 : (2522, lnames[2015], ("hsl" ,"ls" ,"m" ,"m" ,17 ,0 ,17 ,17 ,0 ,8 ,0 ,8 ,1 ,13 ,), "m", 1, NPC_PETCLERK),
     2016 : (2000, lnames[2016], ("sls", "ls", "m", "m", 10, 0, 9, 9, 0, 3, 0, 3, 0, 18), "m", 1, NPC_PARTYPERSON),
-    2017 : (2000, lnames[2017], ("sss", "ld", "m", "f", 10, 0, 9, 9, 0, 23, 0, 23, 0, 5), "f", 1, NPC_PARTYPERSON),
+    2017 : (2000, lnames[2017], ("sss", "ld", "m", "f", 10, 0, 9, 9, 0, 23, 0, 23, 0, 5), "f", 1, NPC_PARTYPERSON),    
     2018 : (2513, lnames[2019], ("fll" ,"ss" ,"s" ,"m" ,15 ,0 ,15 ,15 ,99 ,27 ,86 ,27 ,39 ,27), "m", 1, NPC_SCIENTIST),
     2019 : (2513, lnames[2018], ("pls" ,"ls" ,"l" ,"m" ,9 ,0 ,9 ,9 ,98 ,27 ,86 ,27 ,38 ,27), "m", 1, NPC_SCIENTIST),
     2020 : (2513, lnames[2020], ("hss" ,"ms" ,"m" ,"m" ,20 ,0 ,20 ,20 ,97 ,27 ,86 ,27 ,37 ,27 ,), "m", 1, NPC_SCIENTIST),
@@ -288,9 +287,9 @@ NPCToonDict = {
     2106 : (2671, lnames[2106], ("hss" ,"ld" ,"m" ,"f" ,23 ,0 ,23 ,23 ,1 ,23 ,1 ,23 ,24 ,27 ,), "f", 1, NPC_HQ),
     2107 : (2671, lnames[2107], ("cll" ,"sd" ,"m" ,"f" ,14 ,0 ,14 ,14 ,1 ,24 ,1 ,24 ,7 ,4 ,), "f", 1, NPC_HQ),
     2108 : (2603, lnames[2108], ("csl" ,"ms" ,"m" ,"f" ,7 ,0 ,7 ,7 ,1 ,24 ,1 ,24 ,3 ,2 ,), "f", 0, NPC_REGULAR),
-    2109 : (2604, lnames[2109], ("hss" ,"ss" ,"l" ,"m" ,10 ,0 ,10 ,10 ,1 ,10 ,1 ,10 ,1 ,1 ,), "m", 0, NPC_REGULAR), # Check
+    2109 : (2604, lnames[2109], "r", "m", 0, NPC_REGULAR),
     2110 : (2605, lnames[2110], ("dll" ,"ls" ,"m" ,"m" ,14 ,0 ,14 ,14 ,0 ,27 ,0 ,27 ,0 ,15 ,), "m", 0, NPC_REGULAR),
-    2111 : (2607, lnames[2111], ("hls" ,"ss" ,"l" ,"m" ,14 ,0 ,14 ,14 ,0 ,8 ,0 ,8 ,0 ,11 ,), "m", 0, NPC_REGULAR), # Check
+    2111 : (2607, lnames[2111], "r", "m", 0, NPC_REGULAR),
     2112 : (2610, lnames[2112], ("fll" ,"ss" ,"m" ,"m" ,20 ,0 ,20 ,20 ,0 ,27 ,0 ,27 ,0 ,9 ,), "m", 1, NPC_REGULAR),
     2113 : (2617, lnames[2113], ("fsl" ,"ls" ,"m" ,"m" ,14 ,0 ,14 ,14 ,0 ,0 ,0 ,0 ,0 ,2 ,), "m", 0, NPC_REGULAR),
     2114 : (2618, lnames[2114], ("fls" ,"sd" ,"m" ,"f" ,6 ,0 ,6 ,6 ,0 ,0 ,0 ,0 ,23 ,27 ,), "f", 0, NPC_REGULAR),
@@ -313,16 +312,16 @@ NPCToonDict = {
     2131 : (2660, lnames[2131],("rls" ,"ls" ,"l" ,"f" ,12 ,0 ,12 ,12 ,1 ,8 ,1 ,8 ,1 ,26 ,), "f", 1, NPC_REGULAR),
     2132 : (2661, lnames[2132],("mls" ,"ss" ,"l" ,"m" ,4 ,0 ,4 ,4 ,1 ,6 ,1 ,6 ,1 ,17 ,), "m", 0, NPC_REGULAR),
     2133 : (2662, lnames[2133],("hll" ,"ls" ,"l" ,"m" ,18 ,0 ,18 ,18 ,1 ,6 ,1 ,6 ,1 ,14 ,), "m", 0, NPC_REGULAR),
-    2134 : (2664, lnames[2134],("rll" ,"ld" ,"l" ,"f" ,24 ,0 ,24 ,24 ,1 ,5 ,1 ,5 ,0 ,9 ,), "f", 0, NPC_REGULAR), # Check
+    2134 : (2664, lnames[2134], "r", "f", 0, NPC_REGULAR),
     2135 : (2665, lnames[2135],("hls" ,"ms" ,"l" ,"f" ,3 ,0 ,3 ,3 ,0 ,12 ,0 ,12 ,2 ,26 ,), "f", 1, NPC_REGULAR),
     2136 : (2666, lnames[2136],("csl" ,"ls" ,"l" ,"m" ,18 ,0 ,18 ,18 ,0 ,8 ,0 ,8 ,1 ,1 ,), "m", 0, NPC_REGULAR),
     2137 : (2667, lnames[2137],("css" ,"sd" ,"l" ,"f" ,11 ,0 ,11 ,11 ,0 ,21 ,0 ,21 ,24 ,27 ,), "f", 0, NPC_REGULAR),
     2138 : (2669, lnames[2138],("dll" ,"ss" ,"l" ,"m" ,3 ,0 ,3 ,3 ,0 ,9 ,0 ,9 ,1 ,16 ,), "m", 0, NPC_REGULAR),
-    2139 : (2670, lnames[2139],("rls" ,"ls" ,"l" ,"m" ,14 ,0 ,14 ,14 ,1 ,6 ,1 ,6 ,0 ,4 ,), "m", 0, NPC_REGULAR), # Check
+    2139 : (2670, lnames[2139], "r", "m", 0, NPC_REGULAR),
     2140 : (2156, lnames[2140],("dls" ,"ls" ,"l" ,"m" ,10 ,0 ,10 ,10 ,1 ,9 ,1 ,9 ,1 ,10 ,), "m", 0, NPC_FISHERMAN),
 
     2201 : (2711, lnames[2201],("dss" ,"ss" ,"l" ,"m" ,13 ,0 ,13 ,13 ,1 ,6 ,1 ,6 ,0 ,17 ,), "m", 1, NPC_REGULAR),
-    2202 : (2748, lnames[2202], "r", "f", 1, NPC_REGULAR),
+    2202 : (2718, lnames[2202], "r", "f", 1, NPC_REGULAR),
     2203 : (2742, lnames[2203],("fss" ,"ms" ,"s" ,"m" ,19 ,0 ,19 ,19 ,0 ,7 ,0 ,7 ,0 ,11 ,), "m", 1, NPC_HQ),
     2204 : (2742, lnames[2204],("fls" ,"ss" ,"s" ,"m" ,13 ,0 ,13 ,13 ,0 ,7 ,0 ,7 ,0 ,6 ,), "m", 1, NPC_HQ),
     2205 : (2742, lnames[2205],("rsl" ,"md" ,"s" ,"f" ,4 ,0 ,4 ,4 ,0 ,11 ,0 ,11 ,16 ,27 ,), "f", 1, NPC_HQ),
@@ -334,7 +333,7 @@ NPCToonDict = {
     2211 : (2716, lnames[2211],("cll" ,"ss" ,"s" ,"f" ,3 ,0 ,3 ,3 ,1 ,22 ,1 ,22 ,25 ,27 ,), "f", 1, NPC_REGULAR),
     2212 : (2717, lnames[2212],("css" ,"ls" ,"s" ,"m" ,18 ,0 ,18 ,18 ,1 ,9 ,1 ,9 ,0 ,18 ,), "m", 0, NPC_REGULAR),
     2213 : (2720, lnames[2213],("cls" ,"ls" ,"s" ,"f" ,12 ,0 ,12 ,12 ,1 ,23 ,1 ,23 ,11 ,27 ,), "f", 1, NPC_REGULAR),
-    2214 : (2747, lnames[2214], "r", "m", 0, NPC_REGULAR),
+    2214 : (2723, lnames[2214], "r", "m", 0, NPC_REGULAR),
     2215 : (2727, lnames[2215],("dss" ,"ls" ,"m" ,"m" ,18 ,0 ,18 ,18 ,0 ,11 ,0 ,11 ,0 ,9 ,), "m", 0, NPC_REGULAR),
     2216 : (2728, lnames[2216],("fll" ,"sd" ,"m" ,"f" ,11 ,0 ,11 ,11 ,0 ,25 ,0 ,25 ,12 ,27 ,), "f", 0, NPC_REGULAR),
     2217 : (2729, lnames[2217],("fsl" ,"ss" ,"m" ,"m" ,4 ,0 ,4 ,4 ,0 ,12 ,0 ,12 ,0 ,20 ,), "m", 1, NPC_REGULAR),
@@ -364,7 +363,7 @@ NPCToonDict = {
     2316 : (2823, lnames[2316],("csl" ,"md" ,"l" ,"f" ,15 ,0 ,15 ,15 ,0 ,5 ,0 ,5 ,0 ,23 ,), "f", 0, NPC_REGULAR),
     2318 : (2829, lnames[2318],("dsl" ,"ss" ,"l" ,"m" ,21 ,0 ,21 ,21 ,1 ,4 ,1 ,4 ,1 ,0 ,), "m", 0, NPC_REGULAR),
     2319 : (2830, lnames[2319],("dss" ,"ls" ,"l" ,"m" ,14 ,0 ,14 ,14 ,1 ,5 ,1 ,5 ,1 ,18 ,), "m", 0, NPC_REGULAR),
-    2320 : (2839, lnames[2320],("cll" ,"ss" ,"m" ,"m" ,6 ,0 ,6 ,6 ,1 ,0 ,1 ,0 ,1 ,17 ,), "m", 0, NPC_REGULAR), # Check
+    2320 : (2839, lnames[2320], "r", "m", 0, NPC_REGULAR),
     2321 : (2341, lnames[2321],("fsl" ,"ss" ,"l" ,"m" ,21 ,0 ,21 ,21 ,1 ,5 ,1 ,5 ,0 ,12 ,), "m", 0, NPC_FISHERMAN),
 
     # Donald's Dock
@@ -384,7 +383,7 @@ NPCToonDict = {
 
     1101 : (1627, lnames[1101],("fll" ,"ls" ,"m" ,"m" ,14 ,0 ,14 ,14 ,1 ,3 ,1 ,3 ,1 ,9 ,), "m", 0, NPC_REGULAR),
     1102 : (1612, lnames[1102],("fsl" ,"ms" ,"m" ,"m" ,7 ,0 ,7 ,7 ,1 ,3 ,1 ,3 ,1 ,2 ,), "m", 0, NPC_REGULAR),
-    1103 : (1626, lnames[1103],("hsl" ,"ls" ,"l" ,"m" ,4 ,0 ,4 ,4 ,0 ,27 ,0 ,27 ,1 ,4 ,), "m", 0, NPC_REGULAR), # Check
+    1103 : (1626, lnames[1103], "r", "m", 0, NPC_REGULAR),
     1104 : (1617, lnames[1104], "r", "m", 0, NPC_REGULAR),
     1105 : (1606, lnames[1105],("rss" ,"ms" ,"m" ,"m" ,6 ,0 ,6 ,6 ,0 ,4 ,0 ,4 ,1 ,14 ,), "m", 0, NPC_REGULAR),
     1106 : (1604, lnames[1106], "r", "f", 0, NPC_REGULAR),
@@ -406,7 +405,7 @@ NPCToonDict = {
     1124 : (1624, lnames[1124],("cll" ,"ls" ,"l" ,"m" ,19 ,0 ,19 ,19 ,1 ,11 ,1 ,11 ,0 ,6 ,), "m", 0, NPC_REGULAR),
     1125 : (1628, lnames[1125],("csl" ,"sd" ,"l" ,"f" ,12 ,0 ,12 ,12 ,1 ,24 ,1 ,24 ,25 ,27 ,), "f", 0, NPC_REGULAR),
     1126 : (1129, lnames[1126],("cls" ,"ms" ,"l" ,"m" ,4 ,0 ,4 ,4 ,1 ,11 ,1 ,11 ,0 ,19 ,), "m", 0, NPC_FISHERMAN),
-
+    
     1201 : (1710, lnames[1201],("css" ,"ls" ,"s" ,"f" ,12 ,0 ,12 ,12 ,0 ,0 ,0 ,0 ,1 ,24 ,), "f", 0, NPC_REGULAR),
     1202 : (1713, lnames[1202],("cls" ,"ss" ,"s" ,"m" ,4 ,0 ,4 ,4 ,0 ,0 ,0 ,0 ,1 ,14 ,), "m", 0, NPC_REGULAR),
     1203 : (1725, lnames[1203], "r", "m", 0, NPC_REGULAR),
@@ -601,7 +600,7 @@ NPCToonDict = {
     3327 : (3824, lnames[3327],("css" ,"ms" ,"l" ,"m" ,15 ,0 ,15 ,15 ,0 ,5 ,0 ,5 ,1 ,15 ,), "m", 0, NPC_REGULAR),
     3328 : (3807, lnames[3328],("dll" ,"sd" ,"l" ,"f" ,8 ,0 ,8 ,8 ,0 ,25 ,0 ,25 ,14 ,27 ,), "f", 0, NPC_REGULAR),
     3329 : (3817, lnames[3329],("dll" ,"ms" ,"l" ,"m" ,6 ,0 ,6 ,6 ,0 ,1 ,0 ,1 ,1 ,1 ,), "m", 0, NPC_REGULAR),
-
+    
     # Minnie's Melody Land
     4001 : (4502, lnames[4001], "r", "f", 0, NPC_REGULAR),
     4002 : (4504, lnames[4002],("fll" ,"ss" ,"m" ,"m" ,5 ,0 ,5 ,5 ,0 ,2 ,0 ,2 ,1 ,17 ,), "m", 0, NPC_HQ),
@@ -839,7 +838,7 @@ NPCToonDict = {
     #          'Green', 'Light Blue', 'Aqua', 'Blue',
     #          'Periwinkle', 'Royal Blue', 'Slate Blue', 'Purple',
     #          'Lavender', 'Pink', 'Plum', 'Black']
-
+    
     # Goofy's Speedway
     8001 : (8501, lnames[8001], ("psl", "ms", "m", 'm', 13, 0, 13,  13,  0, 11, 0, 11, 2, 10), "m", 0, NPC_KARTCLERK),
     8002 : (8501, lnames[8002], ("psl", "ld", "s", 'f', 23, 0, 23,  23,  0, 11, 0, 11, 2, 10), "f", 0, NPC_KARTCLERK),
@@ -901,7 +900,7 @@ NPCToonDict = {
     9134 : (9652, lnames[9134],("fsl" ,"ls" ,"l" ,"m" ,10 ,0 ,10 ,10 ,1 ,0 ,1 ,0 ,0 ,14 ,), "m", 0, NPC_HQ),
     9135 : (9652, lnames[9135],("fls" ,"ms" ,"l" ,"m" ,3 ,0 ,3 ,3 ,1 ,0 ,1 ,0 ,0 ,11 ,), "m", 0, NPC_HQ),
     9136 : (9153, lnames[9136],("rll" ,"ss" ,"l" ,"m" ,17 ,0 ,17 ,17 ,1 ,0 ,1 ,0 ,1 ,6 ,), "m", 0, NPC_FISHERMAN),
-
+    
     9201 : (9752, lnames[9201], ('psl', 'ss', 'm', 'm', 9,0,9,9,17,11,0,11,7,20), 'm', 0, NPC_REGULAR),
     9202 : (9703, lnames[9202], ('dss', 'ss', 's', 'm', 21,0,21,21,8,3,8,3,1,17), 'm', 0, NPC_REGULAR),
     9203 : (9741, lnames[9203], ('pls', 'ls', 's', 'm', 5,0,5,5,37,27,26,27,7,4), 'm', 0, NPC_REGULAR),
@@ -939,43 +938,21 @@ NPCToonDict = {
     9234 : (9756, lnames[9234],("cls" ,"ss" ,"l" ,"m" ,14 ,0 ,14 ,14 ,1 ,5 ,1 ,5 ,0 ,19 ,), "m", 0, NPC_HQ),
     9235 : (9756, lnames[9235],("dll" ,"ls" ,"l" ,"m" ,6 ,0 ,6 ,6 ,1 ,6 ,1 ,6 ,0 ,16 ,), "m", 0, NPC_HQ),
     9236 : (9756, lnames[9236],("dss" ,"ms" ,"l" ,"m" ,20 ,0 ,20 ,20 ,0 ,6 ,0 ,6 ,0 ,13 ,), "m", 0, NPC_HQ),
-    9237 : (9255, lnames[9237],("dls" ,"ss" ,"l" ,"m" ,14 ,0 ,14 ,14 ,0 ,7 ,0 ,7 ,0 ,10 ,), "m", 0, NPC_FISHERMAN),
+    9237 : (9255, lnames[9237],("dls" ,"ss" ,"l" ,"m" ,14 ,0 ,14 ,14 ,0 ,7 ,0 ,7 ,0 ,10 ,), "m", 0, NPC_FISHERMAN),   
 
-    # Funny Farm / Field Office
-    9301 : (-1, lnames[9301], ("pss", "ms", "l", "m", 20, 0, 20, 20, 26, 0, 0, 0, 15, 0), "m", 0, NPC_REGULAR),
-    9302 : (-1, lnames[9302], ("bsl", "ms", "m", "f", 20, 0, 20, 20, 3, 4, 0, 0, 5, 18), "f", 0, NPC_REGULAR),
-    9303 : (-1, lnames[9303], ("bll", "ss", "s", "m", 11, 0, 11, 11, 3, 6, 0, 0, 1, 2), "m", 0, NPC_REGULAR),
-    9304 : (-1, lnames[9304], ("ssl", "sd", "l", "f", 13, 0, 13, 13, 1, 2, 0, 0, 0, 10), "f", 0, NPC_REGULAR),
-    9305 : (-1, lnames[9305], ("hll", "ls", "l", "m", 8, 0, 8, 8, 1, 3, 0, 0, 1, 16), "m", 0, NPC_REGULAR),
-    9306 : (-1, lnames[9306], ("dsl", "ms", "s", "m", 5, 0, 5, 5, 1, 0, 0, 0 ,0, 4), "m", 0, NPC_REGULAR),
-    9307 : (-1, lnames[9307], ("pls", "ls", "s", "f", 14, 0, 14, 14, 0, 11, 0, 0, 5, 9), "f", 0, NPC_REGULAR),
-    9308 : (-1, lnames[9308], ("bsl", "ls", "l", "m", 12, 0, 12, 12, 1, 10, 0, 0, 1, 13), "m", 0, NPC_REGULAR),
-    9309 : (-1, lnames[9309], ("sss", "ms", "l", "m", 2, 0, 2, 2, 0, 4, 0, 0, 0, 6), "m", 0, NPC_REGULAR),
-    9310 : (-1, lnames[9310], ("fsl", "ls", "m", "m", 17, 0, 17, 17, 4, 4, 0, 0, 0, 10), "m", 0, NPC_REGULAR),
-    9311 : (-1, lnames[9311], ("mss", "sd", "s", "f", 24, 0, 24, 24, 3, 1, 0, 0, 0, 13), "f", 0, NPC_REGULAR),
-    9312 : (-1, lnames[9312], ("pss", "sd", "l", "f", 9, 0, 9, 9, 0, 8, 0, 0, 11, 0), "f", 0, NPC_REGULAR),
-    7001 : (-1, lnames[7001], ("bss", "md", "m", "f", 25, 0, 25, 25, 6, 12, 0, 0, 0, 2), "f", 0, NPC_REGULAR),
-    7002 : (-1, lnames[7002], ("sss", "ms", "l", "m", 7, 0, 7, 7, 18, 11, 0, 0, 4, 3), "m", 0, NPC_REGULAR),
-    7003 : (-1, lnames[7003], ("sss", "md", "m", "f", 21, 0, 21, 21, 45, 0, 0, 0, 7, 6), "f", 0, NPC_REGULAR),
-    7004 : (-1, lnames[7004], ("pss", "ls", "l", "m", 16, 0, 16, 16, 27, 0, 0, 0, 7, 16), "m", 0, NPC_REGULAR),
-    7005 : (-1, lnames[7005], ("pls", "ld", "s", "f", 5, 0, 5, 5, 25, 0, 0, 0, 10, 0), "f", 0, NPC_REGULAR),
-    7006 : (-1, lnames[7006], ("bll", "ms", "s", "m", 18, 0, 18, 18, 15, 4, 0, 0, 9, 3), "m", 0, NPC_REGULAR),
-    7007 : (-1, lnames[7007], ("pls", "ls", "s", "m", 11, 0, 11, 11, 46, 0, 0, 0, 5, 16), "m", 0, NPC_REGULAR),
-    7008 : (-1, lnames[7008], ("bls", "ld", "s", "f", 23, 0, 23, 23, 15, 6, 0, 0, 0, 18), "f", 0, NPC_REGULAR),
-    7009 : (-1, lnames[7009], ("sll", "ss", "s", "m", 1, 0, 1, 1, 1, 6, 0, 0, 0, 6), "m", 0, NPC_REGULAR),
 
     # Tutorial IDs start at 20000, and are not part of this table.
     # Don't add any Toon id's at 20000 or above, for this reason!
     # Look in TutorialBuildingAI.py for more details.
 
     }
-
+    
 try:
     config = simbase.config
 except:
     config = base.config
 
-if ConfigVariableBool("want-new-toonhall",1).getValue():
+if config.GetBool("want-new-toonhall",1):
     NPCToonDict[2001] = (2513, lnames[2001], ('dss', 'ms', 'm', 'm', 17,0,17,17,3,3,3,3,7,2), "m", 1, NPC_FLIPPYTOONHALL)
 else:
     NPCToonDict[2001] = (2513, lnames[2001], ('dss', 'ms', 'm', 'm', 17,0,17,17,3,3,3,3,7,2), "m", 1, NPC_REGULAR)
@@ -996,9 +973,9 @@ zone2NpcDict = {}
 
 # Fill out the zone2NpcDict so we can efficiently lookup toons by zoneId
 def generateZone2NpcDict():
-    for id, npcDesc in list(NPCToonDict.items()):
+    for id, npcDesc in NPCToonDict.items():
         zoneId = npcDesc[0]
-        if zoneId in zone2NpcDict:
+        if zone2NpcDict.has_key(zoneId):
             zone2NpcDict[zoneId].append(id)
         else:
             zone2NpcDict[zoneId] = [id]
@@ -1026,158 +1003,112 @@ def getBuildingArticle(zoneId):
 def getBuildingTitle(zoneId):
     return TTLocalizer.zone2TitleDict.get(zoneId, "Toon Building")[0]
 
-HQnpcFriends = {
+npcFriends = {
     # A dictionary of tuples, indexed by rescued toon npcId
     # Each tuple consists of (type, level, hp, rarity) except for the
     # restock sos which consists of (type, track, 0, rarity)
-
+    
     # Healers
     # Flippy
     2001 : (ToontownBattleGlobals.HEAL_TRACK, 5, ToontownGlobals.MaxHpLimit,5),
-    # Daffy Don
-    2132 : (ToontownBattleGlobals.HEAL_TRACK, 5, 70, 4),
-    # Madam Chuckle
-    2121 : (ToontownBattleGlobals.HEAL_TRACK, 5, 45, 3),
-
+    # Daffy Don 
+    2132 : (ToontownBattleGlobals.HEAL_TRACK, 5, 70, 4), 
+    # Madam Chuckle 
+    2121 : (ToontownBattleGlobals.HEAL_TRACK, 5, 45, 3), 
+        
     # Trappers
     # Clerk Clara
-    2011 : (ToontownBattleGlobals.TRAP_TRACK, 4, 180, 5),
-    # Clerk Penny
-    3007 : (ToontownBattleGlobals.TRAP_TRACK, 4, 70, 4),
+    2011 : (ToontownBattleGlobals.TRAP_TRACK, 4, 180, 5), 
+    # Clerk Penny 
+    3007 : (ToontownBattleGlobals.TRAP_TRACK, 4, 70, 4), 
     # Clerk Will
-    1001 : (ToontownBattleGlobals.TRAP_TRACK, 4, 50, 3),
+    1001 : (ToontownBattleGlobals.TRAP_TRACK, 4, 50, 3), 
 
     # Lurers
     # Lil Oldman
-    3112 : (ToontownBattleGlobals.LURE_TRACK, 5, 0, 5),
-    # Stinky Ned
-    1323 : (ToontownBattleGlobals.LURE_TRACK, 5, 0, 3),
-    # Nancy Gas
-    2308 : (ToontownBattleGlobals.LURE_TRACK, 5, 0, 3),
+    3112 : (ToontownBattleGlobals.LURE_TRACK, 5, 0, 5), 
+    # Stinky Ned 
+    1323 : (ToontownBattleGlobals.LURE_TRACK, 5, 0, 3), 
+    # Nancy Gas 
+    2308 : (ToontownBattleGlobals.LURE_TRACK, 5, 0, 3), 
 
     # Musicians
-    # Moe Zart
-    4119 : (ToontownBattleGlobals.SOUND_TRACK, 5, 80, 5),
-    # Sid Sonata
-    4219 : (ToontownBattleGlobals.SOUND_TRACK, 5, 50, 4),
-    # Barbara Seville
-    4115 : (ToontownBattleGlobals.SOUND_TRACK, 5, 40, 3),
+    # Moe Zart 
+    4119 : (ToontownBattleGlobals.SOUND_TRACK, 5, 80, 5), 
+    # Sid Sonata 
+    4219 : (ToontownBattleGlobals.SOUND_TRACK, 5, 50, 4), 
+    # Barbara Seville 
+    4115 : (ToontownBattleGlobals.SOUND_TRACK, 5, 40, 3), 
 
     # Droppers
     # Barnacle Bessie
-    1116 : (ToontownBattleGlobals.DROP_TRACK, 5, 170, 5),
+    1116 : (ToontownBattleGlobals.DROP_TRACK, 5, 170, 5), 
     # Franz Neckvein
-    2311 : (ToontownBattleGlobals.DROP_TRACK, 5, 100, 4),
-    # Clumsy Ned
-    4140 : (ToontownBattleGlobals.DROP_TRACK, 5, 60, 3),
+    2311 : (ToontownBattleGlobals.DROP_TRACK, 5, 100, 4), 
+    # Clumsy Ned 
+    4140 : (ToontownBattleGlobals.DROP_TRACK, 5, 60, 3), 
 
     # Cogs miss
     # Mr. Freeze
-    3137 : (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4),
+    3137 : (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4), 
     # Flim Flam
-    4327 : (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4),
-    # Julius Wheezer
-    4230 : (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4),
+    4327 : (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4), 
+    # Julius Wheezer 
+    4230 : (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4), 
 
     # Toons hit
     # Soggy Nell
-    3135 : (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4),
-    # Sticky Lou
-    2208 : (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4),
-    # Soggy Bottom
-    5124 : (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4),
+    3135 : (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4), 
+    # Sticky Lou 
+    2208 : (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4), 
+    # Soggy Bottom 
+    5124 : (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4), 
 
     # Restockers
-    # Professor Pete
-    2003 : (ToontownBattleGlobals.NPC_RESTOCK_GAGS, -1, 0, 5),
+    # Professor Pete 
+    2003 : (ToontownBattleGlobals.NPC_RESTOCK_GAGS, -1, 0, 5), 
     # Professor Guffaw
-    2126 : (ToontownBattleGlobals.NPC_RESTOCK_GAGS,
+    2126 : (ToontownBattleGlobals.NPC_RESTOCK_GAGS, 
             ToontownBattleGlobals.HEAL_TRACK, 0, 3),
     # Clerk Ray
-    4007 : (ToontownBattleGlobals.NPC_RESTOCK_GAGS,
+    4007 : (ToontownBattleGlobals.NPC_RESTOCK_GAGS, 
             ToontownBattleGlobals.TRAP_TRACK, 0, 3),
-    # Doctor Drift
-    1315 : (ToontownBattleGlobals.NPC_RESTOCK_GAGS,
+    # Doctor Drift 
+    1315 : (ToontownBattleGlobals.NPC_RESTOCK_GAGS, 
             ToontownBattleGlobals.LURE_TRACK, 0, 3),
     # Sophie Squirt
-    5207 : (ToontownBattleGlobals.NPC_RESTOCK_GAGS,
+    5207 : (ToontownBattleGlobals.NPC_RESTOCK_GAGS, 
             ToontownBattleGlobals.SQUIRT_TRACK, 0, 3),
-    # Baker Bridget
-    3129 : (ToontownBattleGlobals.NPC_RESTOCK_GAGS,
+    # Baker Bridget 
+    3129 : (ToontownBattleGlobals.NPC_RESTOCK_GAGS, 
             ToontownBattleGlobals.THROW_TRACK, 0, 3),
     # Melody Wavers
     4125 : (ToontownBattleGlobals.NPC_RESTOCK_GAGS,
             ToontownBattleGlobals.SOUND_TRACK, 0, 3),
     # Shelly Seaweed
     1329 : (ToontownBattleGlobals.NPC_RESTOCK_GAGS,
-            ToontownBattleGlobals.DROP_TRACK, 0, 3),
+            ToontownBattleGlobals.DROP_TRACK, 0, 3), 
     }
-
-FOnpcFriends = {
-    # Lurers
-    # Des Traction
-    9310 : (ToontownBattleGlobals.LURE_TRACK, 1, 0, 0),
-    # Dee Version
-    9311 : (ToontownBattleGlobals.LURE_TRACK, 1, 0, 1),
-    # Bo Nanapeel
-    9312 : (ToontownBattleGlobals.LURE_TRACK, 3, 0, 2),
-
-    # Musicians
-    # Bea Sharpe
-    9307 : (ToontownBattleGlobals.SOUND_TRACK, 1, 10, 0),
-    # Otto Toon
-    9308 : (ToontownBattleGlobals.SOUND_TRACK, 3, 20, 1),
-    # Al Capella
-    9309 : (ToontownBattleGlobals.SOUND_TRACK, 4, 30, 2),
-
-    # Droppers
-    # Anne Ville
-    9304 : (ToontownBattleGlobals.DROP_TRACK, 1,  20, 0),
-    # Bud Erfingerz
-    9305 : (ToontownBattleGlobals.DROP_TRACK, 2, 35, 1),
-    # J.S. Bark
-    9306 : (ToontownBattleGlobals.DROP_TRACK, 3, 50, 2),
-
-    # Healers
-    # Phil Bettur
-    9301 : (ToontownBattleGlobals.HEAL_TRACK, 3, 10, 0),
-    # Emma Phatic
-    9302 : (ToontownBattleGlobals.HEAL_TRACK, 3, 20, 1),
-    # GiggleMesh
-    9303 : (ToontownBattleGlobals.HEAL_TRACK, 3, 30, 2),
-    }
-
-npcFriends = dict(HQnpcFriends)
-npcFriends.update(FOnpcFriends)
-
-def getNPCName(npcId):
-    if npcId in NPCToonDict:
-        return NPCToonDict[npcId][1]
-    return None
-
-
-def npcFriendsMinMaxStars(minStars, maxStars):
-    return [ id for id in list(npcFriends.keys()) if getNPCTrackLevelHpRarity(id)[3] >= minStars and getNPCTrackLevelHpRarity(id)[3] <= maxStars ]
 
 def getNPCTrack(npcId):
-    if (npcId in npcFriends):
+    if (npcFriends.has_key(npcId)):
         return npcFriends[npcId][0]
     return None
 
 def getNPCTrackHp(npcId):
-    if (npcId in npcFriends):
+    if (npcFriends.has_key(npcId)):
         track, level, hp, rarity = npcFriends[npcId]
         return track,  hp
     return None, None
 
 def getNPCTrackLevelHp(npcId):
-    if (npcId in npcFriends):
+    if (npcFriends.has_key(npcId)):
         track, level, hp, rarity = npcFriends[npcId]
         return track, level, hp
     return None, None, None
 
 
 def getNPCTrackLevelHpRarity(npcId):
-    if (npcId in npcFriends):
+    if (npcFriends.has_key(npcId)):
         return npcFriends[npcId]
     return None, None, None, None

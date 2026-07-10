@@ -1,9 +1,9 @@
 """Ring.py: contains the ring class"""
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
-from toontown.toonbase.ToontownModules import NodePath
-from . import RingTrack
+from pandac.PandaModules import NodePath
+import RingTrack
 
 class Ring(NodePath):
     """ring for ring minigame"""

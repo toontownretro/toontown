@@ -2,9 +2,9 @@ from direct.interval.IntervalGlobal import *
 from direct.particles import ParticleEffect
 from direct.particles import Particles
 from direct.particles import ForceGroup
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 import random
-from .FireworkGlobals import *
+from FireworkGlobals import *
 
 colors = {
     WHITE : Vec4(1,1,1,1),

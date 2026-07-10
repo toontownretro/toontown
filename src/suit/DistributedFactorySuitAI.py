@@ -2,9 +2,8 @@ from otp.ai.AIBaseGlobal import *
 
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import SuitBattleGlobals
-from . import DistributedSuitBaseAI
-from . import SuitDialog
-from direct.showbase.PythonUtil import StackTrace
+import DistributedSuitBaseAI
+import SuitDialog
 
 class DistributedFactorySuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
 
@@ -26,17 +25,7 @@ class DistributedFactorySuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         
     def delete(self):
         if not self.factoryGone:
-            try:
-                self.setBattleCellIndex(None)
-            except Exception as e:
-                simbase.air.writeServerEvent('avoid_crash', self.doId, 'DistributedFactorySuitAI.delete, factoryIsNotGone, got Exception %s' % str(e))
-                self.notify.warning('delete, factoryIsNotGone, got Exception %s' % str(e))
-                self.notify.warning('stackTrace=%s' % StackTrace().compact())
-                self.notify.warning('doId=%s' % self.doId)
-                if hasattr(self, 'levelDoId'):
-                    self.notify.warning('levelDoId=%s' % self.levelDoId)
-                else:
-                    self.notify.warning('no levelDoId')
+            self.setBattleCellIndex(None)
         del self.blocker
         self.ignoreAll()
         DistributedSuitBaseAI.DistributedSuitBaseAI.delete(self)

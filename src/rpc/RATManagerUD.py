@@ -27,7 +27,7 @@ class RATManagerUD(DistributedObjectGlobalUD):
         self.HTTPListenPort = uber.RATManagerHTTPListenPort
 
         self.numServed = 0
-        
+
         self.webDispatcher = WebRequestDispatcher()
         self.webDispatcher.landingPage.setTitle("RATManager")
         self.webDispatcher.landingPage.setDescription("RATManager is a REST-like interface allowing in-game awards from other services.")
@@ -81,7 +81,7 @@ class RATManagerUD(DistributedObjectGlobalUD):
             assert toonId < (1<<32)
             assert beanAmount > 0
             assert beanAmount < (1<<16)
-        except Exception as e:
+        except Exception,e:
             self.notify.warning("Invalid giveToonBeansRAT request from %s: %s" % (replyTo.getSourceAddress(),str(kw)))
             replyTo.respondXML(RATResponses.giveToonBeansRATFailureXML % "INVALID_REQUEST")
             return

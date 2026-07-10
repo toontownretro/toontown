@@ -17,7 +17,7 @@ def getBrushOffIndex(suitName):
     getBrushOffText() to retrieve the message itself).
     
     """
-    if suitName in SuitBrushOffs:
+    if SuitBrushOffs.has_key(suitName):
         brushoffs = SuitBrushOffs[suitName]
     else:
         brushoffs = SuitBrushOffs[None]
@@ -41,7 +41,7 @@ def getBrushOffText(suitName, index):
     the given suit type.
     
     """
-    if suitName in SuitBrushOffs:
+    if SuitBrushOffs.has_key(suitName):
         brushoffs = SuitBrushOffs[suitName]
     else:
         brushoffs = SuitBrushOffs[None]

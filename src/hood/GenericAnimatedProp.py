@@ -1,18 +1,17 @@
-from . import AnimatedProp
+import AnimatedProp
 from direct.actor import Actor
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil
 from toontown.hood import HoodUtil
-from toontown.toonbase.ToontownModules import *
 
 class GenericAnimatedProp(AnimatedProp.AnimatedProp):
     notify = DirectNotifyGlobal.directNotify.newCategory(
         'GenericAnimatedProp')
 
     AnimsUsingWav = [] # which anims use wav files
-
+    
     def __init__(self, node):
         AnimatedProp.AnimatedProp.__init__(self, node)
         self.origAnimNameToSound = {}
@@ -26,10 +25,10 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
             # we expect generic to be replaced with the class name
             tempStr = code[len('animated_prop_'):]
             nextUnderscore = tempStr.find('_')
-            finalStr = tempStr[nextUnderscore+1:]
+            finalStr = tempStr[nextUnderscore+1:]                           
             pathStr = finalStr.split('__')[0]
         elif code.startswith('animated_building_'):
-            pathStr = code[len('animated_building_'):].split('__')[0]
+            pathStr = code[len('animated_building_'):].split('__')[0]            
         phaseDelimeter = len('phase_') + pathStr[len('phase_'):].find('_')
         phaseStr = pathStr[:phaseDelimeter]
         pathTokens = pathStr[phaseDelimeter+1:].split('_')
@@ -40,7 +39,7 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
         self.notify.debug("self.path=%s" % self.path)
         self.calcHoodId(node)
         self.propType = HoodUtil.calcPropType(node)
-        self.setupActor(node)
+        self.setupActor(node)        
         self.code = code
 
     def delete(self):
@@ -48,7 +47,7 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
         self.node.cleanup()
         del self.node
         del self.trashcan
-
+   
     def enter(self):
         self.node.postFlatten()
         AnimatedProp.AnimatedProp.enter(self)
@@ -71,14 +70,14 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
     def exit(self):
         AnimatedProp.AnimatedProp.exit(self)
         self.node.stop()
-
+    
     def getActor(self):
         """Return the actor node."""
         return self.node
 
     def setupActor(self, node):
         """Setup the animation/s for our actor."""
-        assert self.notify.debugStateCall(self)
+        assert self.notify.debugStateCall(self)        
         anim = node.getTag('DNAAnim')
         self.trashcan = Actor.Actor(node, copy = 0)
         self.trashcan.reparentTo(node)
@@ -92,12 +91,12 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
         self.hoodId = ToontownGlobals.ToontownCentral
         fullString = str(node)
         splits = fullString.split('/')
-        try:
+        try:            
             visId = int(splits[2])
             self.visId = visId
             self.hoodId = ZoneUtil.getCanonicalHoodId(visId)
             self.notify.debug("calcHoodId %d from %s" % (self.hoodId,fullString))
-        except Exception as generic:
+        except Exception, generic:
             if  not ('Editor' in fullString):
                 self.notify.warning("calcHoodId couldn't parse %s using 0" % fullString)
             self.hoodId = 0
@@ -112,7 +111,7 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
         if not hasattr(base,'localAvatar'):
             # we are in level editor
             return Sequence()
-
+            
         sfxVolume = 1.0
         cutoff = 45
         # lets figure out the correct path
@@ -131,7 +130,7 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
         if theSound:
             soundDur = theSound.length()
             if maximumDuration  < soundDur :
-                if ConfigVariableBool("interactive-prop-info", False).getValue():
+                if base.config.GetBool("interactive-prop-info", False):
                     # punt on tt_s_ara_dga_hydrant_idleIntoFight ,
                     # engine is reporting it as 1 seconds when it's at 0.625
                     if self.visId == localAvatar.zoneId and \

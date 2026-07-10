@@ -1,4 +1,4 @@
-from . import CatalogItem
+import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
@@ -39,8 +39,6 @@ class CatalogBeanItem(CatalogItem.CatalogItem):
         if retcode == ToontownGlobals.P_ItemAvailable:
             if self.giftCode == ToontownGlobals.GIFT_RAT:
                 return TTLocalizer.CatalogAcceptRATBeans
-            elif self.giftCode == ToontownGlobals.GIFT_partyrefund:
-                return TTLocalizer.CatalogAcceptPartyRefund
             else:
                 return TTLocalizer.CatalogAcceptBeans
         return CatalogItem.CatalogItem.getAcceptItemErrorText(self, retcode)
@@ -86,9 +84,6 @@ class CatalogBeanItem(CatalogItem.CatalogItem):
         return "CatalogBeanItem(%s%s)" % (
             self.beanAmount,
             self.formatOptionalData(store))
-            
-    def equalsTo(self, other):
-        return self.beanAmount == other.beanAmount
 
     def compareTo(self, other):
         return self.beanAmount - other.beanAmount

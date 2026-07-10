@@ -1,8 +1,8 @@
 
 from otp.ai.AIBaseGlobal import *
 from direct.task.Task import Task
-from toontown.toonbase.ToontownModules import *
-from .DistributedNPCToonBaseAI import *
+from pandac.PandaModules import *
+from DistributedNPCToonBaseAI import *
 from toontown.quest import Quests
 
 class DistributedNPCSpecialQuestGiverAI(DistributedNPCToonBaseAI):
@@ -25,7 +25,7 @@ class DistributedNPCSpecialQuestGiverAI(DistributedNPCToonBaseAI):
 
     def getHq(self):
         return self.hq
-
+        
     def avatarEnter(self):
         avId = self.air.getAvatarIdFromSender()
         # this avatar has come within range
@@ -66,7 +66,7 @@ class DistributedNPCSpecialQuestGiverAI(DistributedNPCToonBaseAI):
                 # Let the quest manager figure out what to do from here on
                 self.air.questManager.avatarChoseQuest(avId, self, *quest)
                 return
-
+                
         self.air.questManager.avatarChoseQuest(avId, self, *quest)
 
         # If we got here, something is wrong, handle it gracefully
@@ -158,7 +158,7 @@ class DistributedNPCSpecialQuestGiverAI(DistributedNPCToonBaseAI):
         if not self.tutorial:
             taskMgr.doMethodLater(5.5, self.sendClearMovie, self.uniqueName("clearMovie"))
         return
-
+        
     def rejectAvatarTierNotDone(self, avId):
         self.busy = avId
         # Send a movie to reject the avatar with time stamp
@@ -201,7 +201,7 @@ class DistributedNPCSpecialQuestGiverAI(DistributedNPCToonBaseAI):
         # is over, but I don't think we need to.
         if self.questCallback:
             self.questCallback()
-        #print("assignQuest", avId)
+        #print "assignQuest", avId
         self.sendUpdate("setMovie", [NPCToons.QUEST_MOVIE_ASSIGN,
                                      self.npcId, avId, [questId, rewardId, toNpcId],
                                      ClockDelta.globalClockDelta.getRealNetworkTime()])
@@ -265,7 +265,7 @@ class DistributedNPCSpecialQuestGiverAI(DistributedNPCToonBaseAI):
         avId = self.air.getAvatarIdFromSender()
         self.notify.debug("setMovieDone busy: %s avId: %s" % (self.busy, avId))
         if self.busy == avId:
-            # Kill all pending doLaters that will clear the movie
+            # Kill all pending doLaters that will clear the movie 
             taskMgr.remove(self.uniqueName("clearMovie"))
             self.sendClearMovie(None)
         elif self.busy:

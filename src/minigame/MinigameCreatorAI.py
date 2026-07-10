@@ -3,32 +3,31 @@ import random
 import time
 
 from toontown.toonbase import ToontownGlobals
-from toontown.toonbase.ToontownModules import *
 
 # Import all the minigames because we create them
-from . import DistributedMinigameTemplateAI
-from . import DistributedRaceGameAI
-from . import DistributedCannonGameAI
-from . import DistributedTagGameAI
-from . import DistributedPatternGameAI
-from . import DistributedRingGameAI
-from . import DistributedMazeGameAI
-from . import DistributedTugOfWarGameAI
-from . import DistributedCatchGameAI
-from . import DistributedDivingGameAI
-from . import DistributedTargetGameAI
-from . import DistributedPairingGameAI
-from . import DistributedPhotoGameAI
-from . import DistributedVineGameAI
-from . import DistributedIceGameAI
-from . import DistributedCogThiefGameAI
-from . import DistributedTwoDGameAI
-from . import DistributedTravelGameAI
-from . import TravelGameGlobals
+import DistributedMinigameTemplateAI
+import DistributedRaceGameAI
+import DistributedCannonGameAI
+import DistributedTagGameAI
+import DistributedPatternGameAI
+import DistributedRingGameAI
+import DistributedMazeGameAI
+import DistributedTugOfWarGameAI
+import DistributedCatchGameAI
+import DistributedDivingGameAI
+import DistributedTargetGameAI
+import DistributedPairingGameAI
+import DistributedPhotoGameAI
+import DistributedVineGameAI
+import DistributedIceGameAI
+import DistributedCogThiefGameAI
+import DistributedTwoDGameAI
+import DistributedTravelGameAI
+import TravelGameGlobals
 
 #------------------------------------------------------------------------------
 # This config allows devs to temporarily register temp games created with the minigame framework
-ALLOW_TEMP_MINIGAMES = ConfigVariableBool('allow-temp-minigames', False).getValue()
+ALLOW_TEMP_MINIGAMES = simbase.config.GetBool('allow-temp-minigames', False)
 
 if ALLOW_TEMP_MINIGAMES:
     # Import temp minigames
@@ -36,7 +35,7 @@ if ALLOW_TEMP_MINIGAMES:
 #------------------------------------------------------------------------------
 
 # put this on simbase so that it's easy to change on-the-fly
-simbase.forcedMinigameId = ConfigVariableInt('minigame-id', 0).getValue()
+simbase.forcedMinigameId = simbase.config.GetInt('minigame-id', 0)
 
 # This map is only used for support of the magic word ~minigame
 RequestMinigame = {}
@@ -141,28 +140,28 @@ def createMinigame(air, playerArray, trolleyZone,
 
     if ALLOW_TEMP_MINIGAMES:
         # Adds the temp minigames to the list of minigame creators...
-        from .TempMinigameAI import TempMgCtors
+        from TempMinigameAI import TempMgCtors
 
-        for key, value in list(TempMgCtors.items()):
+        for key, value in TempMgCtors.items():
             mgCtors[key] = value
 
 
     """
-    print("\n\n\n\n\n\n\n\n\n\n")
+    print "\n\n\n\n\n\n\n\n\n\n"
 
-    print(mgCtors)
-    print(air)
-    print(mgId)
-    print(mgCtors[mgId])
-    print(mgCtors[mgId](air,mgId))
+    print mgCtors
+    print air
+    print mgId
+    print mgCtors[mgId]
+    print mgCtors[mgId](air,mgId)
 
-    print("\n\n\n\n\n\n\n\n\n\n")
+    print "\n\n\n\n\n\n\n\n\n\n"
     """
     try:
         #import pdb; pdb.set_trace()
         mg = mgCtors[mgId](air, mgId)
     except KeyError:
-        raise Exception("unknown minigame ID: %s" % mgId)
+        raise Exception, "unknown minigame ID: %s" % mgId
 
     # Tell the minigame who we are expecting
     # do this before generating the minigame;
@@ -185,7 +184,7 @@ def createMinigame(air, playerArray, trolleyZone,
             avId = playerArray[index]
             votes = startingVotes[index]
             if votes < 0:
-                print(('createMinigame negative votes, avId=%s votes=%s' %(avId, votes)))
+                print('createMinigame negative votes, avId=%s votes=%s' %(avId, votes))
                 votes = 0
             mg.setStartingVote(avId, votes )
             #print('setting starting vote of %d to %d' % (avId,votes))
@@ -250,22 +249,22 @@ def removeUnreleasedMinigames(startList, increaseChanceOfNewGames = 0):
             if gameId in randomList:
                 doRemove = True
                 if gameId == ToontownGlobals.CogThiefGameId and \
-                   ConfigVariableBool('force-allow-thief-game',0).getValue():
+                   simbase.air.config.GetBool('force-allow-thief-game',0):
                     doRemove = False
                     if increaseChanceOfNewGames:
                         randomList += [gameId]*4
                 elif gameId == ToontownGlobals.IceGameId and \
-                     ConfigVariableBool('force-allow-ice-game',0).getValue():
+                     simbase.air.config.GetBool('force-allow-ice-game',0):
                     doRemove = False
                     if increaseChanceOfNewGames:
                         randomList += [gameId]*4
                 elif gameId == ToontownGlobals.TwoDGameId and \
-                     ConfigVariableBool('force-allow-2d-game', 0).getValue():
+                     simbase.air.config.GetBool('force-allow-2d-game', 0):
                     doRemove = False
                     if increaseChanceOfNewGames:
                         randomList += [gameId]*4
                 elif gameId == ToontownGlobals.PhotoGameId and \
-                     ConfigVariableBool('force-allow-photo-game',0).getValue():
+                     simbase.air.config.GetBool('force-allow-photo-game',0):
                     doRemove = False
                     if increaseChanceOfNewGames:
                         randomList += [gameId]*4

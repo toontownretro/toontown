@@ -1,9 +1,9 @@
 from direct.directnotify import DirectNotifyGlobal
-from . import HoodDataAI, ZoneUtil
+import HoodDataAI, ZoneUtil
 from toontown.toonbase import ToontownGlobals
 from toontown.safezone import OZTreasurePlannerAI
 from toontown.racing import DistributedStartingBlockAI
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.racing.RaceGlobals import *
 from toontown.classicchars import DistributedGoofySpeedwayAI
 from toontown.safezone import DistributedPicnicBasketAI
@@ -27,29 +27,26 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
         if zoneId == None:
             zoneId = hoodId
         HoodDataAI.HoodDataAI.__init__(self, air, zoneId, hoodId)
-        self.classicChars = []
 
 
     def startup(self):
         HoodDataAI.HoodDataAI.startup(self)
 
-        if ConfigVariableBool('create-chip-and-dale', 1).getValue():
+        if simbase.air.config.GetBool('create-chip-and-dale', 1):
             chip = DistributedChipAI.DistributedChipAI(self.air)
             chip.generateWithRequired(self.zoneId)
             chip.start()
             self.addDistObj(chip)
-            self.classicChars.append(chip)
 
             dale = DistributedDaleAI.DistributedDaleAI(self.air, chip.doId)
             dale.generateWithRequired(self.zoneId)
             dale.start()
             self.addDistObj(dale)
-            self.classicChars.append(dale)
             chip.setDaleId(dale.doId)
-
+        
         self.treasurePlanner = OZTreasurePlannerAI.OZTreasurePlannerAI(self.zoneId)
         self.treasurePlanner.start()
-
+        
         self.timer = DistributedTimerAI.DistributedTimerAI(self.air)
         self.timer.generateWithRequired(self.zoneId)
 
@@ -59,8 +56,8 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
         # create the picnic tables from the dna
         self.createPicnicTables()
         #Code Copy Paste, create game tables from dna
-
-        if ConfigVariableBool('want-game-tables', 0).getValue():
+        
+        if simbase.config.GetBool('want-game-tables', 0):
             self.createGameTables()
 
 	#more hacks!
@@ -80,8 +77,8 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
         #golfKart.generateWithRequired(self.zoneId)
         #golfKart.start()
         #self.addDistObj(golfKart)
-        #self.golfKart = golfKart
-
+        #self.golfKart = golfKart        
+        
         #Create Leader boards
         #self.cycleDuration = 10
         #self.createLeaderBoards()
@@ -100,13 +97,13 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
         #    vBlockAI = self.air.getViewingBlockDict()
 
         #    for racePadId in racePadAI:
-        #        print("RacePad %s has starting blocks %s\n" %( racePadId, sBlockAI.get( racePadId )  ))
+        #        print "RacePad %s has starting blocks %s\n" %( racePadId, sBlockAI.get( racePadId )  )
 
         #    for viewPadId in viewPadAI:
-        #        print("viewPad %s has starting blocks %s\n" %( viewPadId, vBlockAI.get( viewPadId )  ))
+        #        print "viewPad %s has starting blocks %s\n" %( viewPadId, vBlockAI.get( viewPadId )  )
 
         #    pdb.set_trace()
-
+        
     def cleanup(self):
         self.timer.delete()
             #put away those billboards
@@ -118,17 +115,17 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
     def createLeaderBoards(self):
         #find the leader boards from the level dna
         #and add distributed object based on that
-
-
+        
+        
         self.leaderBoards = []
         dnaStore = DNAStorage()
         dnaData = simbase.air.loadDNAFileAI(dnaStore,
                   simbase.air.lookupDNAFileName("goofy_speedway_sz.dna"))
-
+        
         if( isinstance( dnaData, DNAData ) ):
              self.leaderBoards = self.air.findLeaderBoards( dnaData, self.zoneId )
-
-
+                
+        
         for distObj in self.leaderBoards:
                 if distObj:
                     # Set Initial Subscriptions of leader boards
@@ -137,7 +134,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
                     if distObj.getName().count("city"):
                         type = "city"
                     #elif( "stadium" in distObj.getName() ):
-                    elif distObj.getName().count("stadium"):
+                    elif distObj.getName().count("stadium"):                        
                         type = "stadium"
                     #elif( "country" in distObj.getName() ):
                     elif distObj.getName().count("country"):
@@ -145,7 +142,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
 
                     for subscription in LBSubscription[ type ]:
                         distObj.subscribeTo( subscription )
-
+                        
                     self.addDistObj( distObj )
 
     def __cycleLeaderBoards( self, task = None ):
@@ -153,7 +150,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
         # prep for the next cycle
         #self.notify.info( "__cycleLeaderBoards: Cycling Leader Boards." )
         taskMgr.doMethodLater( self.cycleDuration, self.__cycleLeaderBoards, str(self)+"_leaderBoardSwitch" )
-
+                
     def createStartingBlocks(self):
         """
         Purpose: The createStartingBlocks Method...
@@ -194,7 +191,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
             startingBlocks = self.air.findStartingBlocks( dnaGroup, distRacePad )
             self.startingBlocks += startingBlocks
             for startingBlock in startingBlocks:
-                distRacePad.addStartingBlock( startingBlock )
+                distRacePad.addStartingBlock( startingBlock )            
 
         for distObj in self.startingBlocks:
             self.addDistObj( distObj )
@@ -209,14 +206,14 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
 
         for viewPad in self.viewingPads:
             self.addDistObj( viewPad )
-
+        
         # Place each RacePad into the proper WaitEmpty State. Handle this
         # after each starting block has been generated so that they are
         # placed in the proper active state.
         for racePad in self.racingPads:
             racePad.request( 'WaitEmpty' )
             self.addDistObj( racePad )
-
+            
     def findAndCreateGameTables(self, dnaGroup, zoneId, area, overrideDNAZone = 0, type = 'game_table'):
         """Find and create golf karts from the given dna."""
         picnicTables = []
@@ -224,26 +221,26 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
 
         #pdb.set_trace()
 
-        if ((isinstance(dnaGroup, DNAGroup)) and (dnaGroup.getName().find(type) >= 0)):
+        if ((isinstance(dnaGroup, DNAGroup)) and (string.find(dnaGroup.getName(), type) >= 0)):
 
             if(type == 'game_table'):
                 nameInfo = dnaGroup.getName().split('_')
-
+            
                 pos = Point3(0,0,0)
                 hpr = Point3(0,0,0)
                 for i in range(dnaGroup.getNumChildren()):
                     childDnaGroup = dnaGroup.at(i)
                     # TODO - check if DNAProp instance
-                    if ((childDnaGroup.getName().find('game_table') >= 0)):
+                    if ((string.find(childDnaGroup.getName(), 'game_table') >= 0)):
                         pos = childDnaGroup.getPos()
                         hpr = childDnaGroup.getHpr()
                         break
-
+                
                 picnicTable = DistributedPicnicTableAI.DistributedPicnicTableAI(self.air, zoneId, nameInfo[2],
                                                                            pos[0], pos[1], pos[2],
                                                                            hpr[0], hpr[1], hpr[2])
                # checkerboard = DistributedChineseCheckersAI.DistributedChineseCheckersAI(self.air, picnicTable.doId,  'chinese', picnicTable.getX(), picnicTable.getY(), picnicTable.getZ(), hpr[0],hpr[1],hpr[2])
-
+                
                 #picnicTable.generateWithRequired(zoneId)
                 picnicTables.append(picnicTable)
                 #self.chineseCheckers.append(checkerboard)
@@ -266,19 +263,19 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
         #bool1 = ((isinstance(dnaGroup, DNAGroup)))
        # findresult = ((isinstance(dnaGroup, DNAGroup)))
        # import pdb; pdb.set_trace()
-
-
-        if ((isinstance(dnaGroup, DNAGroup)) and (dnaGroup.getName().find(type) >= 0)):
+              
+                 
+        if ((isinstance(dnaGroup, DNAGroup)) and (string.find(dnaGroup.getName(), type) >= 0)):
 
             if(type == 'picnic_table'):
                 nameInfo = dnaGroup.getName().split('_')
-
+            
                 pos = Point3(0,0,0)
                 hpr = Point3(0,0,0)
                 for i in range(dnaGroup.getNumChildren()):
                     childDnaGroup = dnaGroup.at(i)
                     # TODO - check if DNAProp instance
-                    if ((childDnaGroup.getName().find('picnic_table') >= 0)):
+                    if ((string.find(childDnaGroup.getName(), 'picnic_table') >= 0)):
                         pos = childDnaGroup.getPos()
                         hpr = childDnaGroup.getHpr()
                         break
@@ -287,7 +284,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
                                                                            pos[0], pos[1], pos[2],
                                                                            hpr[0], hpr[1], hpr[2])
                 #checkerboard = DistributedChineseCheckersAI.DistributedChineseCheckersAI(self.air, picnicTable.doId, 'chinese', picnicTable.getX(), picnicTable.getY(), picnicTable.getZ(), 0,0,0)
-
+                
                 picnicTable.generateWithRequired(zoneId)
 
                 picnicTables.append(picnicTable)
@@ -306,7 +303,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
         """Create the golf karts in this hood."""
 
         #pdb.set_trace()
-
+        
         self.gameTables = []
         #self.chineseCheckers = []
         for zone in self.air.zoneTable[ self.canonicalHoodId ]:
@@ -332,7 +329,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
         """Create the golf karts in this hood."""
 
         #pdb.set_trace()
-
+        
         self.picnicTables = []
         for zone in self.air.zoneTable[ self.canonicalHoodId ]:
             zoneId = ZoneUtil.getTrueZoneId( zone[ 0 ], self.zoneId )
@@ -346,7 +343,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
         # Place each Golf Kart into the proper WaitEmpty State. Handle this
         # after each they have generated so that they are
         # placed in the proper active state.
-        #print("PICNIC TABLES" ,self.picnicTables)
+        #print "PICNIC TABLES" ,self.picnicTables
         for picnicTable in self.picnicTables:
             picnicTable.start()
             self.addDistObj( picnicTable )
@@ -362,7 +359,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
             dnaGroup = dnaRacingPadGroup.at(i)
 
             # TODO - check if DNAProp instance
-            if ((dnaGroup.getName().find('starting_block') >= 0)):
+            if ((string.find(dnaGroup.getName(), 'starting_block') >= 0)):
                 padLocation = dnaGroup.getName().split('_')[2]
                 pos = dnaGroup.getPos()
                 hpr = dnaGroup.getHpr()

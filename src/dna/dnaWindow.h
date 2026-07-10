@@ -22,7 +22,7 @@
 //       Class : DNAWindows
 // Description : A group of windows with a default layout
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN_DNALOADER DNAWindows : public DNAGroup  {
+class EXPCL_TOONTOWN DNAWindows : public DNAGroup  {
 PUBLISHED:
   DNAWindows(const string &initial_name = "");
   DNAWindows(const DNAWindows &window);
@@ -36,8 +36,8 @@ PUBLISHED:
   INLINE void set_window_count(int count);
   INLINE int get_window_count() const;
 
-  INLINE void set_color(const LColorf &color);
-  INLINE LColorf get_color() const;
+  INLINE void set_color(const Colorf &color);
+  INLINE Colorf get_color() const;
 
 private:
   virtual DNAGroup* make_copy();
@@ -45,7 +45,7 @@ private:
 private:
   string _code;
   int _window_count;
-  LColorf _color;
+  Colorf _color;
 
 public:
   static TypeHandle get_class_type() {

@@ -1,6 +1,7 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
@@ -8,11 +9,8 @@ from direct.fsm import StateData
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-from direct.directnotify import DirectNotifyGlobal
 
 class Trolley(StateData.StateData):
-    notify = DirectNotifyGlobal.directNotify.newCategory("Trolley")
-    
     def __init__(self, safeZone, parentFSM, doneEvent):
 
         StateData.StateData.__init__(self, doneEvent)
@@ -71,15 +69,18 @@ class Trolley(StateData.StateData):
                            )
 
         self.parentFSM = parentFSM
-        self.leavingCameraSeq = None
+
+        return None
 
     def load(self):
         self.parentFSM.getStateNamed("trolley").addChild(self.fsm)
         self.buttonModels = loader.loadModel("phase_3.5/models/gui/inventory_gui")
         self.upButton = self.buttonModels.find("**//InventoryButtonUp")
         self.downButton = self.buttonModels.find("**/InventoryButtonDown")
-        self.rolloverButton = self.buttonModels.find("**/InventoryButtonRollover")
-
+        self.rolloverButton = self.buttonModels.find(
+            "**/InventoryButtonRollover")
+        return
+    
     def unload(self):
         self.parentFSM.getStateNamed("trolley").removeChild(self.fsm)
         del self.fsm
@@ -89,7 +90,8 @@ class Trolley(StateData.StateData):
         del self.upButton
         del self.downButton
         del self.rolloverButton
-
+        return
+        
     def enter(self):
         """enter(self)
         """
@@ -122,11 +124,13 @@ class Trolley(StateData.StateData):
         self.noTrolleyBox.show()
         base.localAvatar.b_setAnimState("neutral", 1)
         self.accept("noTrolleyAck", self.__handleNoTrolleyAck)
+        return
 
     def exitTrolleyHFA(self):
         self.ignore("noTrolleyAck")
         self.noTrolleyBox.cleanup()
         del self.noTrolleyBox
+        return
 
     def enterTrolleyTFA(self):
         self.noTrolleyBox = TTDialog.TTGlobalDialog(
@@ -136,11 +140,13 @@ class Trolley(StateData.StateData):
         self.noTrolleyBox.show()
         base.localAvatar.b_setAnimState("neutral", 1)
         self.accept("noTrolleyAck", self.__handleNoTrolleyAck)
+        return
 
     def exitTrolleyTFA(self):
         self.ignore("noTrolleyAck")
         self.noTrolleyBox.cleanup()
         del self.noTrolleyBox
+        return
 
     def __handleNoTrolleyAck(self):
         ntbDoneStatus = self.noTrolleyBox.doneStatus
@@ -150,6 +156,7 @@ class Trolley(StateData.StateData):
             messenger.send(self.doneEvent, [doneStatus])
         else:
             self.notify.error("Unrecognized doneStatus: " + str(ntbDoneStatus))
+        return
 
     def enterRequestBoard(self):
         return None
@@ -164,7 +171,10 @@ class Trolley(StateData.StateData):
 
     def enterBoarding(self, nodePath):
         camera.wrtReparentTo(nodePath)
-        self.cameraBoardTrack = LerpPosHprInterval(camera, 1.5, Point3(-35, 0, 8), Point3(-90, 0, 0))
+        self.cameraBoardTrack = LerpPosHprInterval(camera, 1.5,
+                                                   Point3(-35, 0, 8),
+                                                   Point3(-90, 0, 0))
+        
         self.cameraBoardTrack.start()
         return None
 
@@ -173,8 +183,6 @@ class Trolley(StateData.StateData):
         return None
 
     def enterBoarded(self):
-        if ConfigVariableBool('want-qa-regression', 0).getValue():
-            self.notify.info('QA-REGRESSION: RIDETHETROLLEY: Ride the Trolley')
         self.enableExitButton()
         return None
 
@@ -202,9 +210,11 @@ class Trolley(StateData.StateData):
             scale = 0.15,
             command = lambda self=self: self.fsm.request("requestExit"),
             )
+        return
 
     def disableExitButton(self):
         self.exitButton.destroy()
+        return
 
     def enterRequestExit(self):
         messenger.send("trolleyExitButton")
@@ -215,8 +225,8 @@ class Trolley(StateData.StateData):
 
     def enterTrolleyLeaving(self):
         # A camera move
-        self.leavingCameraSeq = camera.posHprInterval(3, (0, 18.55, 3.75), (-180, 0, 0), blendType='easeInOut', name='leavingCamera')
-        self.leavingCameraSeq.start()
+        camera.lerpPosHprXYZHPR(0, 18.55, 3.75, -180, 0, 0, 3,
+                                blendType = "easeInOut", task="leavingCamera")
         self.acceptOnce("playMinigame", self.handlePlayMinigame)
         return None
 
@@ -230,9 +240,7 @@ class Trolley(StateData.StateData):
 
     def exitTrolleyLeaving(self):
         self.ignore("playMinigame")
-        if self.leavingCameraSeq:
-            self.leavingCameraSeq.finish()
-            self.leavingCameraSeq = None
+        taskMgr.remove("leavingCamera")
         return None
 
     def enterExiting(self):
@@ -252,3 +260,4 @@ class Trolley(StateData.StateData):
 
     def exitFinal(self):
         return None
+

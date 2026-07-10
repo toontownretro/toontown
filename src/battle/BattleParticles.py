@@ -4,7 +4,6 @@ import os
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import AppRunnerGlobal
 
-from otp.otpbase import OTPRender
 notify = DirectNotifyGlobal.directNotify.newCategory('BattleParticles')
 
 # This is a list of the effects used in the tutorial
@@ -91,7 +90,7 @@ def unloadParticles():
     particleModel = None
     
 def getParticle(name):
-    #global particleModel
+    global particleModel
     if (name in ParticleNames):
         particle = particleModel.find("**/" + str(name))
         return particle
@@ -125,12 +124,8 @@ def loadParticleFile(name):
         return
     notify.debug('Loading particle file: %s' % pfile)
     effect = ParticleEffect()
-    # print("particle filename = ", pfile.getFullpath())
+    # print "particle filename = ", pfile.getFullpath()
     effect.loadConfig(pfile)
-    # Don't render shadows on any particles.  There are some particles that are
-    # non-triangles (like points or lines).  The shadow render shader does not
-    # currently handle non-triangle geometry.
-    OTPRender.renderShadow(False, effect)
     return effect
     
 def createParticleEffect(name=None, file=None, numParticles=None, color=None):

@@ -16,7 +16,6 @@ from toontown.racing import RaceGlobals
 from toontown.toonbase.ToontownTimer import ToontownTimer
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-from toontown.toonbase.ToontownModules import *
 from toontown.racing.KartShopGlobals import KartGlobals
 if __debug__:
     import pdb
@@ -208,7 +207,7 @@ class DistributedRacePad(DistributedKartPad, FSM):
 
     def addStartingBlock(self, block):
         DistributedKartPad.addStartingBlock(self, block)
-        if self._state == 'WaitCountdown':
+        if self.state == 'WaitCountdown':
             self.startCountdown()
 
 

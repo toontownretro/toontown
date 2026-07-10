@@ -218,7 +218,7 @@ class PetMood:
         if hasattr(self, 'dominantMood'):
             return self.dominantMood
 
-        #print("calculating dominant mood")
+        #print "calculating dominant mood"
         # Calculate the most pressing component.
         # The lower the threshold, the more pressing it is if we've gone
         # over.
@@ -228,7 +228,7 @@ class PetMood:
             if comp in PetMood.DisabledDominants:
                 continue
             value = self.getComponent(comp)
-            #print("comp %s is %s" % (comp, value))
+            #print "comp %s is %s" % (comp, value)
             pri = value / max(self._getComponentThreshold(comp), .01)
             if pri >= priority:
                 dominantMood = comp
@@ -244,10 +244,10 @@ class PetMood:
 
     def makeCopy(self):
         # create a duplicate of this mood as it is right now
-        #print("copying mood")
+        #print "copying mood"
         other = PetMood(self.getPet())
         for comp in PetMood.Components:
-            #print("%s is %s" %(comp, self.__dict__[comp]))
+            #print "%s is %s" %(comp, self.__dict__[comp])
             other.__dict__[comp] = self.__dict__[comp]
         return other
 
@@ -292,7 +292,7 @@ class PetMood:
         # TODO: add variation to this. Over long dt's, add in a sine wave,
         # some random noise, etc.
 
-        #print("dt is %s" % dt)
+        #print "dt is %s" % dt
         now = globalClock.getFrameTime()
         if not hasattr(self, 'lastDriftTime'):
             self.lastDriftTime = now
@@ -316,7 +316,7 @@ class PetMood:
         def doDrift(curValue, timeToMedian, dt=float(dt)):
             # mood = mood + secs/((hrs/2*(mood/2))*(secs/hr))
             """ use this to make sure that the numbers are even moving
-            print(curValue - (curValue + dt/(timeToMedian*7200)))
+            print curValue - (curValue + dt/(timeToMedian*7200))
             """
             newValue = curValue + dt/(timeToMedian*7200)#3600)#60*60)
             return clampScalar(newValue, 0., 1.)

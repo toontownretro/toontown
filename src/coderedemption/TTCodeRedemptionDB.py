@@ -5,10 +5,10 @@ if __name__ == '__main__':
     import sys
     stdOut = sys.stdout
     sys.stdout = sys.stderr
-    print('code redemption subprocess starting...')
+    print 'code redemption subprocess starting...'
 
     import direct
-    from toontown.toonbase.ToontownModules import *
+    from pandac.PandaModules import *
     from direct.showbase.ShowBase import ShowBase
     #showbase = ShowBase(fStartDirect=False, windowType='none')
     config = getConfigShowbase()
@@ -23,31 +23,27 @@ from direct.stdpy import threading # MySQLdb blocks on locked table access
 from otp.uberdog.DBInterface import DBInterface
 from toontown.coderedemption.TTCodeDict import TTCodeDict
 from toontown.coderedemption import TTCodeRedemptionConsts
-#from direct.directutil import DirectMySQLdb
-from pymysql.connections import Connection as DirectMySQLdb#Connection
+from direct.directutil import DirectMySQLdb
+import _mysql_exceptions
 import random
 import datetime
-import pymysql as MySQLdb
+import MySQLdb
 import os
 import subprocess
 import time
-
-from toontown.toonbase.ToontownModules import *
 
 class MySQLErrors:
     DbAlreadyExists = 1007
     TableAlreadyExists = 1050
     ServerShuttingDown = 1053
     ServerGoneAway = 2006
-
+    
 class TryAgainLater(Exception):
     def __init__(self, mysqlException, address):
         self._exception = mysqlException
         self._address = address
-
     def getMySQLException(self):
         return self._exception
-
     def __str__(self):
         return 'problem using MySQL DB at %s, try again later (%s)' % (self._address, self._exception)
 
@@ -57,13 +53,13 @@ class TTDBCursorBase:
                               ])
     def _setConnection(self, connection):
         self._connection = connection
-
+        
     def _doExecute(self, cursorBase, *args, **kArgs):
         if self.notify.getDebug():
-            self.notify.debug('execute:\n%s' % (args[0]))
+            self.notify.debug('execute:\n%s' % u2ascii(args[0]))
         try:
             cursorBase.execute(self, *args, **kArgs)
-        except MySQLdb.OperationalError as e:
+        except _mysql_exceptions.OperationalError, e:
             if self._connection.getErrorCode(e) in TTDBCursorBase.ConnectionProblems:
                 # force a reconnect
                 TTCRDBConnection.db = None
@@ -105,7 +101,7 @@ class TTCRDBConnection(DBInterface):
     LoggedConnectionInfo = False
     ConnectedEvent = 'TTCRDBConnectionMgr-Connected-%s'
 
-    WantTableLocking = ConfigVariableBool('want-code-redemption-db-locking', 0).getValue()
+    WantTableLocking = config.GetBool('want-code-redemption-db-locking', 0)
 
     db = None
 
@@ -172,14 +168,14 @@ class TTCRDBConnection(DBInterface):
         if self.__class__.LastFailedConnectTime is not None:
             if (globalClock.getRealTime() - self.__class__.LastFailedConnectTime) < self.ConnectRetryTimeout:
                 raise TryAgainLater(None, '%s:%s' % (self._host, self._port))
-
+                
         if not self.__class__.db:
             try:
-                self.__class__.db = DirectMySQLdb(host=self._host,
-                                                  port=self._port,
-                                                  user=self._user,
-                                                  passwd=self._passwd)
-            except MySQLdb.OperationalError as e:
+                self.__class__.db = DirectMySQLdb.connect(host=self._host,
+                                                          port=self._port,
+                                                          user=self._user,
+                                                          passwd=self._passwd)
+            except _mysql_exceptions.OperationalError,e:
                 """
                 self.notify.warning("Failed to connect to MySQL at %s:%d. Retrying in %s seconds."%(
                     self._host,self._port,self.RetryPeriod))
@@ -189,7 +185,7 @@ class TTCRDBConnection(DBInterface):
                 self.__class__.LastFailedConnectTime  = globalClock.getRealTime()
                 raise TryAgainLater(e, '%s:%s' % (self._host, self._port))
             else:
-                #self.__class__.db.set_character_set('utf8')
+                self.__class__.db.set_character_set('utf8')
 
                 # spammy
                 if not self.__class__.LoggedConnectionInfo:
@@ -204,7 +200,7 @@ class TTCRDBConnection(DBInterface):
         cursor = self.getCursor()
         try:
             cursor.execute(command)
-        except MySQLdb.OperationalError as e:
+        except _mysql_exceptions.OperationalError, e:
             if self.getErrorCode(e) == MySQLErrors.TableAlreadyExists:
                 # table already exists
                 pass
@@ -214,12 +210,12 @@ class TTCRDBConnection(DBInterface):
     def enterInitializing(self):
         # create database
         cursor = self.getCursor()
-        initDb = ConfigVariableBool('want-code-redemption-init-db', __dev__).getValue()
+        initDb = config.GetBool('want-code-redemption-init-db', __dev__)
         if initDb:
             try:
                 cursor.execute("CREATE DATABASE %s" % self._dbName)
                 self.notify.info("database %s did not exist, created new one" % self._dbName)
-            except MySQLdb.ProgrammingError as e:
+            except _mysql_exceptions.ProgrammingError, e:
                 if self.getErrorCode(e) == MySQLErrors.DbAlreadyExists:
                     # db already exists
                     pass
@@ -296,11 +292,11 @@ class TTCRDBConnection(DBInterface):
             if self.WantTableLocking:
                 if len(self._tableLocks):
                     cmd = 'LOCK TABLES '
-                    for table, lock in list(self._tableLocks.items()):
+                    for table, lock in self._tableLocks.iteritems():
                         cmd += '%s %s, ' % (table, lock)
                     cmd = cmd[:-2] + ';'
                     self.getCursor().execute(cmd)
-        except TryAgainLater as e:
+        except TryAgainLater,e:
             self.notify.warning('failed to acquire table lock(s), retrying in %s seconds') % (
                 self.TableLockRetryPeriod, )
             self.request(self.WaitForRetryLocking)
@@ -314,7 +310,6 @@ class TTCRDBConnection(DBInterface):
 
     def enterDisconnected(self):
         pass
-
     def exitDisconnected(self):
         pass
 
@@ -368,8 +363,8 @@ class TTCodeRedemptionDBTester(Job):
 
     def getRandomSamples(self, callback, numSamples):
         samples = []
-        for i in range(numSamples):
-            samples.append(int(random.random() * ((1<<32)-1)))
+        for i in xrange(numSamples):
+            samples.append(int(random.random() * ((1L<<32)-1)))
         callback(samples)
 
     @classmethod
@@ -394,7 +389,7 @@ class TTCodeRedemptionDBTester(Job):
     def _getUnusedLotName(self):
         lotNames = self._db.getLotNames()
         while 1:
-            lotName = '%s%s' % (self.TestLotName, int(random.random() * ((1<<32)-1)))
+            lotName = '%s%s' % (self.TestLotName, int(random.random() * ((1L<<32)-1)))
             if lotName not in lotNames:
                 break
         return lotName
@@ -404,7 +399,7 @@ class TTCodeRedemptionDBTester(Job):
             code = ''
             length = random.randrange(4, 16)
             manualCharIndex = random.randrange(length)
-            for i in range(length):
+            for i in xrange(length):
                 if i == manualCharIndex:
                     charSet = TTCodeDict.ManualOnlyCharacters
                 else:
@@ -418,8 +413,8 @@ class TTCodeRedemptionDBTester(Job):
         return code
 
     def _getUnusedUtf8ManualCode(self):
-        chars = '\u65e5\u672c\u8a9e'
-        code = ''
+        chars = u'\u65e5\u672c\u8a9e'
+        code = unicode('', 'utf-8')
         while 1:
             code += random.choice(chars)
             if not self._db.codeExists(code):
@@ -648,8 +643,7 @@ class TTCodeRedemptionDBTester(Job):
                 self._redeemResult = []
                 self._db.redeemCode(codes[1], self.TestRewarder.FakeAvId, self.TestRewarder(),
                                     self._handleRedeemResult)
-                #if self._redeemResult[0] != TTCodeRedemptionConsts.RedeemErrors.CodeIsExpired:
-                if self._redeemResult[0] != TTCodeRedemptionConsts.RedeemErrors.CodeIsInactive:
+                if self._redeemResult[0] != TTCodeRedemptionConsts.RedeemErrors.CodeIsExpired:
                     self.notify.error('expired code %s was not flagged upon redeem' % (codes[1]))
                 db._testing = False
                 yield None
@@ -668,7 +662,7 @@ class TTCodeRedemptionDBTester(Job):
                 for code in codes:
                     # manual code lot
                     lotName = self._getUnusedLotName()
-                    self.notify.info('manual code: %s' % (code))
+                    self.notify.info('manual code: %s' % u2ascii(code))
                     self._db.createManualLot(lotName, code, RewardType, RewardItemId)
                     if not self._db.lotExists(lotName):
                         self.notify.error('could not create manual lot %s' % lotName)
@@ -767,7 +761,7 @@ class TTCodeRedemptionDBTester(Job):
 
                 break
 
-            except TryAgainLater as e:
+            except TryAgainLater, e:
                 self.notify.warning('caught TryAgainLater exception during self-test, retrying')
                 retryStartT = globalClock.getRealTime()
                 while globalClock.getRealTime() < (retryStartT + retryDelay):
@@ -783,7 +777,7 @@ class NotFound:
 
 class InfoCache:
     NotFound = NotFound
-
+    
     def __init__(self):
         self._cache = {}
 
@@ -810,12 +804,12 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
     RewardTypeFieldName = 'reward_type'
     RewardItemIdFieldName = 'reward_item_id'
 
-    DoSelfTest = ConfigVariableBool('code-redemption-self-test', 1).getValue()
+    DoSelfTest = config.GetBool('code-redemption-self-test', 1)
 
     # optimization that reads in all codes and maps them to their lot
     # if the code set gets too large this might use up too much RAM
     # you can disable the optimization by turning this config off
-    CacheAllCodes = ConfigVariableBool('code-redemption-cache-all-codes', 1).getValue()
+    CacheAllCodes = config.GetBool('code-redemption-cache-all-codes', 1)
 
     class LotFilter:
         All = 'all'
@@ -851,7 +845,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         self._dbInitRetryTimeout = 5
         self._doInitialCleanup()
 
-        if ConfigVariableBool('code-redemption-subprocess-test', 0).getValue():
+        if config.GetBool('code-redemption-subprocess-test', 0):
             self._testSubProc()
 
         self._refreshCode2lotName()
@@ -875,7 +869,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         if not self._initializedSV.get():
             try:
                 TTCodeRedemptionDBTester.cleanup(self)
-            except TryAgainLater as e:
+            except TryAgainLater, e:
                 pass
             else:
                 self._initializedSV.set(True)
@@ -913,7 +907,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         return nowStr
 
     def createManualLot(self, name, code, rewardType, rewardItemId, expirationDate=None):
-        self.notify.info('creating manual code lot \'%s\', code=%s' % (name, (code), ))
+        self.notify.info('creating manual code lot \'%s\', code=%s' % (name, u2ascii(code), ))
         self._doCleanup()
 
         code = TTCodeDict.getFromReadableCode(code)
@@ -922,7 +916,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
             self.notify.error('tried to create lot %s that already exists' % name)
 
         if self.codeExists(code):
-            self.notify.error('tried to create code %s that already exists' % (code))
+            self.notify.error('tried to create code %s that already exists' % u2ascii(code))
 
         conn = TTCRDBConnection(self)
         conn._createTable(
@@ -990,7 +984,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         if self.lotExists(name):
             self.notify.error('tried to create lot %s that already exists' % name)
 
-        randSampleRequestSize = ConfigVariableInt('code-redemption-rand-request-size', 50).getValue()
+        randSampleRequestSize = config.GetInt('code-redemption-rand-request-size', 50)
         randSampleRequestThreshold = 2 * randSampleRequestSize
         randSamples = []
         randSamplesOnOrder = [0, ]
@@ -1057,7 +1051,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         numCodeValues = TTCodeDict.getNumUsableValuesInCodeSpace(codeLength)
         n = 0
         while codesLeft:
-            #print(codesLeft, len(randSamples), randSamplesOnOrder[0])
+            #print codesLeft, len(randSamples), randSamplesOnOrder[0]
             numCodesRequested = (len(randSamples) + randSamplesOnOrder[0])
             if numCodesRequested < codesLeft:
                 if numCodesRequested < randSampleRequestThreshold:
@@ -1068,9 +1062,9 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
             if len(randSamples) == 0:
                 yield None
                 continue
-
+                
             # r in [0,1) but truly random (non-repeatable)
-            r = randSamples.pop(0) / float(1<<32)
+            r = randSamples.pop(0) / float(1L<<32)
             assert 0. <= r < 1.
             # this produces the 1 in N chance of guessing a correct code
             # each code is given a chunk of code space, of size N, and the actual value of the
@@ -1120,7 +1114,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         self._doCleanup()
 
         self._clearCaches()
-
+        
         conn = TTCRDBConnection(self)
         cursor = conn.getDictCursor()
 
@@ -1285,12 +1279,12 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         if justCode:
             codes = []
             for row in rows:
-                code = str(row['code'])
+                code = unicode(row['code'], 'utf-8')
                 codes.append(code)
             result = codes
         else:
             for row in rows:
-                row['code'] = str(row['code'])
+                row['code'] = unicode(row['code'], 'utf-8')
             result = rows
         return result
 
@@ -1308,7 +1302,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
             self.notify.info('committing cached manual code redemption counts to DB')
         conn = TTCRDBConnection(self)
         cursor = conn.getDictCursor()
-        for key in list(self._manualCode2outstandingRedemptions.keys()):
+        for key in self._manualCode2outstandingRedemptions.iterkeys():
             code, lotName = key
             count = self._manualCode2outstandingRedemptions[key]
             self._updateRedemptionCount(cursor, code, True, None, lotName, count)
@@ -1318,7 +1312,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
     def _updateRedemptionsTask(self, task):
         try:
             self.commitOutstandingRedemptions()
-        except TryAgainLater as e:
+        except TryAgainLater, e:
             pass
         return Task.again
 
@@ -1335,7 +1329,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         if cachedLotName is not self._code2lotNameCache.NotFound:
             return cachedLotName
 
-        assert self.notify.debug('lotNameFromCode CACHE MISS (%s)' % (code))
+        assert self.notify.debug('lotNameFromCode CACHE MISS (%s)' % u2ascii(code))
 
         self._doCleanup()
         conn = TTCRDBConnection(self)
@@ -1354,9 +1348,9 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
             # client hack prevention:
             # safe; code is between quotes and can only contain letters, numbers and dashes
             cursor.execute(
-                str("""
+                unicode("""
                 SELECT code FROM code_set_%s WHERE code='%s';
-                """) % (lotName, code)
+                """, 'utf-8') % (lotName, code)
                 )
             rows = cursor.fetchall()
 
@@ -1380,7 +1374,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
 
     def getRewardFromCode(self, code):
         assert self.notify.debugCall()
-
+        
         code = TTCodeDict.getFromReadableCode(code)
         assert TTCodeDict.isLegalCode(code)
 
@@ -1391,8 +1385,8 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         if cachedReward is not self._code2rewardCache.NotFound:
             return cachedReward
 
-        assert self.notify.debug('reward from code CACHE MISS (%s)' % (code))
-
+        assert self.notify.debug('reward from code CACHE MISS (%s)' % u2ascii(code))
+        
         self._doCleanup()
 
         conn = TTCRDBConnection(self, {'code_set_%s' % lotName: self.READ,
@@ -1402,10 +1396,10 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         # client hack prevention:
         # safe; code is between quotes and can only contain letters, numbers and dashes
         cursor.execute(
-            str("""
+            unicode("""
             SELECT %s, %s FROM code_set_%s INNER JOIN lot
             WHERE lot.lot_id=code_set_%s.lot_id AND CODE='%s';
-            """) % (self.RewardTypeFieldName, self.RewardItemIdFieldName, lotName, lotName, code)
+            """, 'utf-8') % (self.RewardTypeFieldName, self.RewardItemIdFieldName, lotName, lotName, code)
             )
         rows = cursor.fetchall()
 
@@ -1432,22 +1426,22 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         lotName = self.getLotNameFromCode(code)
 
         if lotName is None:
-            self.notify.error('getRedemptions: could not find code %s' % (code))
+            self.notify.error('getRedemptions: could not find code %s' % u2ascii(code))
 
         conn = TTCRDBConnection(self, {'code_set_%s' % lotName: self.READ, })
         cursor = conn.getDictCursor()
 
         cursor.execute(
-            str("""
+            unicode("""
             SELECT redemptions FROM code_set_%s WHERE code='%s';
-            """) % (lotName, code)
+            """, 'utf-8') % (lotName, code)
             )
         rows = cursor.fetchall()
 
         conn.destroy()
 
         return int(rows[0]['redemptions'])
-
+        
     def redeemCode(self, code, avId, rewarder, callback):
         assert self.notify.debugCall()
         self._doCleanup()
@@ -1456,10 +1450,10 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         origCode = code
         code = TTCodeDict.getFromReadableCode(code)
         assert TTCodeDict.isLegalCode(code)
-
+        
         lotName = self.getLotNameFromCode(code)
         if lotName is None:
-            self.air.writeServerEvent('invalidCodeRedemption', avId, '%s' % ((origCode), ))
+            self.air.writeServerEvent('invalidCodeRedemption', avId, '%s' % (u2ascii(origCode), ))
             callback(TTCodeRedemptionConsts.RedeemErrors.CodeDoesntExist, 0)
             return
 
@@ -1471,8 +1465,8 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         if cachedManual is not self._lotName2manualCache.NotFound:
             manualCode = cachedManual
         else:
-            assert self.notify.debug('manualFromCode CACHE MISS (%s)' % (code))
-
+            assert self.notify.debug('manualFromCode CACHE MISS (%s)' % u2ascii(code))
+            
             cursor.execute(
                 """
                 SELECT manual FROM lot WHERE name='%s';
@@ -1490,10 +1484,10 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
             # client hack prevention:
             # safe; code is between quotes and can only contain letters, numbers and dashes
             cursor.execute(
-                str("""
+                unicode("""
                 SELECT redemptions FROM code_set_%s INNER JOIN lot WHERE
                 code_set_%s.lot_id=lot.lot_id AND code='%s' AND ((expiration IS NULL) OR (CURDATE()<=expiration));
-                """) % (lotName, lotName, code)
+                """, 'utf-8') % (lotName, lotName, code)
                 )
 
             rows = cursor.fetchall()
@@ -1504,8 +1498,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         if not manualCode:
             if len(rows) == 0:
                 # code is expired
-                #callback(TTCodeRedemptionConsts.RedeemErrors.CodeIsExpired, 0)
-                callback(TTCodeRedemptionConsts.RedeemErrors.CodeIsInactive, 0)
+                callback(TTCodeRedemptionConsts.RedeemErrors.CodeIsExpired, 0)
                 return
 
             redemptions = rows[0]['redemptions']
@@ -1524,9 +1517,9 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         # client hack prevention:
         # safe; code is between quotes and can only contain letters, numbers and dashes
         cursor.execute(
-            str("""
+            unicode("""
             UPDATE code_set_%s SET redemptions=redemptions+%s%s WHERE code='%s';
-            """) % (lotName, count, choice(manualCode, '', ', av_id=%s' % avId), code)
+            """, 'utf-8') % (lotName, count, choice(manualCode, '', ', av_id=%s' % avId), code)
             )
 
     def _handleRewardResult(self, code, manualCode, avId, lotName, rewardTypeId, rewardItemId,
@@ -1538,7 +1531,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         if awardMgrResult:
             callback(TTCodeRedemptionConsts.RedeemErrors.AwardCouldntBeGiven, awardMgrResult)
             return
-
+        
         conn = TTCRDBConnection(self, {'code_set_%s' % lotName: self.WRITE, })
         cursor = conn.getDictCursor()
 
@@ -1556,7 +1549,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
 
         if not self._testing:
             self.air.writeServerEvent('codeRedeemed', avId, '%s|%s|%s|%s' % (
-                (choice(manualCode, code, TTCodeDict.getReadableCode(code))),
+                u2ascii(choice(manualCode, code, TTCodeDict.getReadableCode(code))),
                 lotName, rewardTypeId, rewardItemId, ))
 
         callback(TTCodeRedemptionConsts.RedeemErrors.Success, awardMgrResult)
@@ -1593,7 +1586,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
                     )
 
             for row in rows:
-                code = str(row['code'])
+                code = unicode(row['code'], 'utf-8')
                 codes.append(code)
 
         conn.destroy()
@@ -1673,10 +1666,10 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
             if len(rows):
                 conn.destroy()
                 row = rows[0]
-                row['code'] = str(row['code'])
+                row['code'] = unicode(row['code'], 'utf-8')
                 return row
 
-        self.notify.error('code \'%s\' not found' % (code))
+        self.notify.error('code \'%s\' not found' % u2ascii(code))
 
     def _testSubProc(self):
         self.notify.info('running subprocess test...')
@@ -1684,7 +1677,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
                                 stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         proc.stdin.write('test' + '\n')
         result = proc.stdout.readline()
-        print('main process: %s' % repr(result))
+        print 'main process: %s' % repr(result)
         while result[-1] in ('\r', '\n'):
             result = result[:-1]
         if (result == 'testtest'):

@@ -1,14 +1,14 @@
 """DistributedMickeyAI module: contains the DistributedMickeyAI class"""
 
 from otp.ai.AIBaseGlobal import *
-from . import DistributedCCharBaseAI
+import DistributedCCharBaseAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
 import random
 from toontown.toonbase import ToontownGlobals
-from . import CharStateDatasAI
+import CharStateDatasAI
 from toontown.toonbase import TTLocalizer
 
 class DistributedMickeyAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
@@ -99,7 +99,7 @@ class DistributedMickeyAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
         decides that it is finished and a new state should
         be transitioned into
         """
-        assert('status' in doneStatus)
+        assert(doneStatus.has_key('status'))
 
         if(self.transitionToCostume == 1):
             curWalkNode = self.walk.getDestNode()
@@ -157,23 +157,10 @@ class DistributedMickeyAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
     def enterChatty(self):
         self.chatty.enter()
         self.acceptOnce(self.chattyDoneEvent, self.__decideNextState)
-        taskMgr.doMethodLater(CharStateDatasAI.CHATTY_DURATION + 10, self.forceLeaveChatty, self.taskName('forceLeaveChatty'))
-
-    def forceLeaveChatty(self, task):
-        self.notify.warning('Had to force change of state from Chatty state')
-        doneStatus = {}
-        doneStatus['state'] = 'chatty'
-        doneStatus['status'] = 'done'
-        self.__decideNextState(doneStatus)
-        return Task.done
-
-    def cleanUpChattyTasks(self):
-        taskMgr.removeTasksMatching(self.taskName('forceLeaveChatty'))
 
     def exitChatty(self):
         self.ignore(self.chattyDoneEvent)
         self.chatty.exit()
-        self.cleanUpChattyTasks()
 
 
     ### Walk state ###

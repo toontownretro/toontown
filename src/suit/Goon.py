@@ -1,10 +1,11 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.actor import Actor
-from otp.avatar import Avatar
+from otp.avatar import Avatar 
 from toontown.toonbase import ToontownGlobals
+from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
-from . import GoonGlobals
-from . import SuitDNA
+import GoonGlobals
+import SuitDNA
 import math
 
 # list of anims per goon type
@@ -33,27 +34,25 @@ class Goon(Avatar.Avatar):
     def __init__(self, dnaName=None):
         try:
             self.Goon_initialized
-            return
         except:
             self.Goon_initialized = 1
+            Avatar.Avatar.__init__(self)
 
-        Avatar.Avatar.__init__(self)
+            # Let's preemptively ignore this event, since Goons don't
+            # have a nametag anyway (and lighting doesn't even matter
+            # in Toontown).  Ignoring this up front will save trouble
+            # later.
+            self.ignore("nametagAmbientLightChanged")
 
-        # Let's preemptively ignore this event, since Goons don't
-        # have a nametag anyway (and lighting doesn't even matter
-        # in Toontown).  Ignoring this up front will save trouble
-        # later.
-        self.ignore("nametagAmbientLightChanged")
+            # Initial properties
+            self.hFov = 70
+            self.attackRadius = 15
+            self.strength = 15
+            self.velocity = 4
+            self.scale = 1.0
 
-        # Initial properties
-        self.hFov = 70
-        self.attackRadius = 15
-        self.strength = 15
-        self.velocity = 4
-        self.scale = 1.0
-
-        if dnaName is not None:
-            self.initGoon(dnaName)
+            if dnaName is not None:
+                self.initGoon(dnaName)
 
     def initGoon(self, dnaName):
         dna = SuitDNA.SuitDNA()
@@ -67,26 +66,25 @@ class Goon(Avatar.Avatar):
 
     def initializeBodyCollisions(self, collIdStr):
         Avatar.Avatar.initializeBodyCollisions(self, collIdStr)
-
+        
         if not self.ghostMode:
             self.collNode.setCollideMask(self.collNode.getIntoCollideMask() | ToontownGlobals.PieBitmask)
-
+        
     def delete(self):
         try:
             self.Goon_deleted
-            return
         except:
             self.Goon_deleted = 1
-            
-        filePrefix = ModelDict[self.style.name]
-        loader.unloadModel(filePrefix + "-zero")
+            filePrefix = ModelDict[self.style.name]
+            loader.unloadModel(filePrefix + "-zero")
 
-        animList = AnimDict[self.style.name]
-        for anim in animList:
-            loader.unloadModel(filePrefix + anim[1])
+            animList = AnimDict[self.style.name]
+            for anim in animList:
+                loader.unloadModel(filePrefix + anim[1])
 
-        Avatar.Avatar.delete(self)
-        
+            Avatar.Avatar.delete(self)
+        return None
+
     def setDNAString(self, dnaString):
         self.dna = SuitDNA.SuitDNA()
         self.dna.makeFromNetString(dnaString)
@@ -94,18 +92,18 @@ class Goon(Avatar.Avatar):
 
     def setDNA(self, dna):
         if self.style:
-            return
+            pass
+        else:
+            # store the DNA
+            self.style = dna
 
-        # store the DNA
-        self.style = dna
+            self.generateGoon()
 
-        self.generateGoon()
-
-        # this no longer works in the Avatar init!
-        # I moved it here for lack of a better place
-        # make the drop shadow
-        self.initializeDropShadow()
-        self.initializeNametag3d()
+            # this no longer works in the Avatar init!
+            # I moved it here for lack of a better place
+            # make the drop shadow
+            self.initializeDropShadow()
+            self.initializeNametag3d()
 
     def generateGoon(self):
         dna = self.style
@@ -118,7 +116,7 @@ class Goon(Avatar.Avatar):
             animDict[anim[0]] = filePrefix + anim[1]
 
         self.loadAnims(animDict)
-
+        
     def getShadowJoint(self):
         return self.getGeomNode()
 
@@ -162,26 +160,26 @@ class Goon(Avatar.Avatar):
         self.eye.setColor(1,1,0,1)
 
         self.radar = None
-
+        
     def scaleRadar(self):
         # Remove the old radar
         if self.radar:
             self.radar.removeNode()
 
         self.radar = self.eye.attachNewNode('radar')
-        self.radar.setPos(0, -.5, .4)
-        beam = self.radar.attachNewNode('beam')
-
+        
         # Load a new radar
         model = loader.loadModel("phase_9/models/cogHQ/alphaCone2")
+        beam = self.radar.attachNewNode('beam')
         transformNode = model.find('**/transform')
         transformNode.getChildren().reparentTo(beam)
-        
-        beam.setTransparency(1)
-        beam.setDepthWrite(0)
+            
+        self.radar.setPos(0, -.5, .4)
+        self.radar.setTransparency(1)
+        self.radar.setDepthWrite(0)
 
         # scale the width (assumes model width is 21)
-        self.halfFov = self.hFov / 2.0
+        self.halfFov = self.hFov/2.0
         fovRad = self.halfFov * math.pi / 180.0
         self.cosHalfFov = math.cos(fovRad)
         kw = math.tan(fovRad) * self.attackRadius / 10.5
@@ -191,47 +189,18 @@ class Goon(Avatar.Avatar):
 
         # Scale the beam to the right radius and fov
         beam.setScale(kw / self.scale, kl / self.scale, kw / self.scale)
-        beam.setHpr(0, self.halfFov, 0)
+        beam.setHpr(0, self.halfFov, 0)        
 
         # and make sure it reaches the floor.
         p = self.radar.getRelativePoint(beam, Point3(0, -6, -1.8))
         self.radar.setSz(-3.5 / p[2])
-        
-        # But we keep the color separate so the eye color won't override it.
-        self.radar.setColor(1,1,1,.2)
-        
-        if 0: #ConfigVariableBool('want-lighting-effects', True).getValue():
-            if hasattr(self, 'beamLight') and self.beamLight:
-                base.removeDynamicLight(self.beamLight)
-                self.beamLight = None
-                
-            vis = self.radar.find('**/visible')
-            vis.removeNode()
-                
-            # Scale the width (assumes model width is 21)
-            self.halfFov = self.hFov / 2.0
-            fovRad = self.halfFov * math.pi / 180.0
-            self.cosHalfFov = math.cos(fovRad)
-                
-            beamLightPath = NodePath("beam")
-            beamLightPath.reparentTo(beam)
-            beamLightPath.setHpr(beamLightPath.getH() + 180, beamLightPath.getP() - self.halfFov + 10, beamLightPath.getR())
-                
-            self.beamLight = qpLight(qpLight.TSpot)
-            self.beamLight.setAttenuation(1, 0, 0)
-            self.beamLight.setCullRadius(256)
-            self.beamLight.setInnerCone(self.attackRadius)
-            self.beamLight.setOuterCone(self.attackRadius + 0.2)
-            self.beamLight.setColorSrgb255Scalar(Vec4(1.0 * 255, 1.0  * 255, 1.0  * 255, 0.2 * 38250))
-            self.beamLight.setPos(beamLightPath.getPos(base.render))
-            self.beamLight.setHpr(beamLightPath.getHpr(base.render))
-            
-            base.addDynamicLight(self.beamLight, followParent=beamLightPath, rotateParent=beamLightPath)
-            return
 
         # Bake in the transforms.
         self.radar.flattenMedium()
-        
+
+        # But we keep the color separate so the eye color won't override it.
+        self.radar.setColor(1,1,1,.2)
+
     def colorHat(self):
         if self.type == "pg":
             colorList = GoonGlobals.PG_COLORS
@@ -239,7 +208,7 @@ class Goon(Avatar.Avatar):
             colorList = GoonGlobals.SG_COLORS
         else:
             return
-
+        
         # make the hat maroonish if these guys are powerful
         if self.strength >= 20:
             # red
@@ -249,3 +218,5 @@ class Goon(Avatar.Avatar):
             self.hat.setColorScale(colorList[1])
         else:
             self.hat.clearColorScale()
+        
+

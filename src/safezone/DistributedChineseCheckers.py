@@ -1,14 +1,14 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *
-from .TrolleyConstants import *
+from TrolleyConstants import *
 from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer
 
 from direct.distributed import DistributedNode
 from direct.distributed.ClockDelta import globalClockDelta
-from .ChineseCheckersBoard import ChineseCheckersBoard
+from ChineseCheckersBoard import ChineseCheckersBoard
 from direct.fsm import ClassicFSM, State
 from direct.fsm import StateData
 from toontown.distributed import DelayDelete
@@ -35,7 +35,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
         #self.boardNode.setZ(3.5)
         #self.boardNode.setZ(0.3)
         #self.boardNode.setZ(self.getZ())
-
+        
         self.board = ChineseCheckersBoard()
 
         self.playerTags = render.attachNewNode("playerTags")
@@ -100,17 +100,17 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                                   [19,20,21,22,32,33,34,44,45,55]]
         self.nonOpposingPositions = []
 
-
-        self.knockSound = base.loader.loadSfx("phase_5/audio/sfx/GUI_knock_1.mp3")
-        self.clickSound = base.loader.loadSfx("phase_3/audio/sfx/GUI_balloon_popup.mp3")
-        self.moveSound = base.loader.loadSfx("phase_6/audio/sfx/CC_move.mp3")
+      
+        self.knockSound = base.loadSfx("phase_5/audio/sfx/GUI_knock_1.mp3")
+        self.clickSound = base.loadSfx("phase_3/audio/sfx/GUI_balloon_popup.mp3")
+        self.moveSound = base.loadSfx("phase_6/audio/sfx/CC_move.mp3")
         self.accept('stoppedAsleep', self.handleSleep)
 
-        #base.setCellsAvailable(base.leftCells +
+        #base.setCellsAvailable(base.leftCells + 
                                #[base.bottomCells[0]], 0)
 
         #base.setCellsAvailable(base.bottomCells,0)
-
+        
 
         #######################
         #Fsm and State Data
@@ -133,7 +133,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                            # Final State
                            'waitingToBegin',
                            )
-
+       
         #########################
         #Set up the Board Locators
         ##
@@ -157,7 +157,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
     def setName(self, name):
         self.name = name
 
-    def announceGenerate(self):
+    def announceGenerate(self): 
         DistributedNode.DistributedNode.announceGenerate(self)
         if self.table.fsm.getCurrentState().getName() != 'observing':
             if base.localAvatar.doId in self.table.tableState: # Fix for strange state #TEMP until i find the cause
@@ -194,7 +194,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
     #disable or deletion - Code redundance here is necessary
     #being that "disable" is called upon server crash, and delete is
     #called upon zone exit
-    ###
+    ###     
     def disable(self):
         DistributedNode.DistributedNode.disable(self)
         if self.leaveButton:
@@ -250,7 +250,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
     def getTimer(self):
         self.sendUpdate('requestTimer', [])
     def setTimer(self, timerEnd):
-        #print("TIMEREND! ", timerEnd)
+        #print "TIMEREND! ", timerEnd
         if self.fsm.getCurrentState() != None and self.fsm.getCurrentState().getName() == 'waitingToBegin' and not self.table.fsm.getCurrentState().getName() == 'observing':
             self.clockNode.stop()
             time = globalClockDelta.networkToLocalTime(timerEnd)
@@ -276,9 +276,9 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                 else:
                     self.clockNode.countdown(timeLeft, self.doNothing)
                 self.clockNode.show()
-
-
-
+            
+        
+        
     ###########
     ##Game start(broadcast) and Send Turn (broadcast ram)
     #
@@ -314,12 +314,12 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
             elif playerPos == 5:
                 self.nonOpposingPositions.pop(5)
                 self.opposingPositions = self.nonOpposingPositions.pop(2)
-
+                
         self.fsm.request('playing')
     def sendTurn(self,playersTurn):
         self.playersTurnBlinker.finish()
         if self.fsm.getCurrentState().getName() == 'playing':
-            #print("GETTING HERE!", playersTurn - 1, " LENGTH!!!" , self.playerTagList #self.playerTagList)
+            #print "GETTING HERE!", playersTurn - 1, " LENGTH!!!" , self.playerTagList #self.playerTagList
 
             if self.playerSeats == None:
                 self.sendUpdate("requestSeatPositions", [])
@@ -334,7 +334,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                 self.playersTurnBlinker.loop()
 
     def announceSeatPositions(self, playerPos):
-        #print("ANNOUNCESEATPOSITIONS!", playerPos)
+        #print "ANNOUNCESEATPOSITIONS!", playerPos
         self.playerSeats = playerPos
         for x in range(6):
             pos = self.table.seats[x].getPos(render)
@@ -366,13 +366,13 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
            #     self.playersTurnBlinker.append(LerpColorInterval(self.playerTagList[self.playerSeats.index(playersTurn)], .4, origColor - self.tintConstant - self.ghostConstant, origColor))
             #    self.playersTurnBlinker.append(LerpColorInterval(self.playerTagList[self.playerSeats.index(playersTurn)], .4,origColor, origColor - self.tintConstant - self.ghostConstant))
              #   self.playersTurnBlinker.loop()
-
+             
     def cleanPlayerTags(self):
         for x in self.playerTagList:
             x.removeNode()
         self.playerTagList = []
         self.playerTags.removeNode()
-
+        
     ##########
     ##Move camera
     #
@@ -382,19 +382,19 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
     #
     #
     ##########
-    def moveCameraForGame(self):
+    def moveCameraForGame(self): 
         if self.table.cameraBoardTrack.isPlaying():
             self.table.cameraBoardTrack.finish()
         rotation = 0
         if self.seatPos >2:
             if self.playerNum == 1:
-                rotation = 180
+                rotation = 180 
             elif self.playerNum == 2:
                 rotation = -120
             elif self.playerNum == 3:
                 rotation = -60
             elif self.playerNum == 4:
-                rotation = 0
+                rotation = 0 
             elif self.playerNum == 5:
                 rotation = 60
             elif self.playerNum == 6:
@@ -413,7 +413,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
             elif self.playerNum == 6:
                 rotation = -60
 
-        #print(self.boardNode.getHpr())
+        #print self.boardNode.getHpr()
         # int = LerpHprInterval(camera, 3,Vec3(camera.getH(),camera.getP(),rotation), camera.getHpr())
         #self.table.tempCheckers.hide()
         if rotation == 60 or rotation == -60:
@@ -422,15 +422,15 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
             int  = LerpHprInterval(self.boardNode, 3.5, Vec3(rotation, self.boardNode.getP(), self.boardNode.getR()), self.boardNode.getHpr())
         else:
             int  = LerpHprInterval(self.boardNode, 4.2, Vec3(rotation, self.boardNode.getP(), self.boardNode.getR()), self.boardNode.getHpr())
-
+            
         #self.table.tempCheckers.setHpr( Vec3(rotation, self.table.tempCheckers.getP(), self.table.tempCheckers.getR()))
         int.start()
-
+        
     #####################
     #FSM Stuff
     ###
     def enterWaitingToBegin(self):
-        if self.table.fsm.getCurrentState().getName() != 'observing':
+        if self.table.fsm.getCurrentState().getName() != 'observing':      
             self.enableExitButton()
             self.enableStartButton()
 
@@ -443,11 +443,11 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
             self.exitButton = None
         self.clockNode.stop()
         self.clockNode.hide()
-
+        
     def enterPlaying(self):
         self.inGame = True
         self.enableScreenText()
-        if self.table.fsm.getCurrentState().getName() != 'observing':
+        if self.table.fsm.getCurrentState().getName() != 'observing':   
             self.enableLeaveButton()
 
     def exitPlaying(self):
@@ -554,8 +554,8 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
         message1 = TTLocalizer.ChineseCheckersIts
         if(self.turnText != None):
             self.turnText.destroy()
-        #print("player ---",player)
-        #print("playerNum --" ,self.playerNum)
+        #print "player ---",player
+        #print "playerNum --" ,self.playerNum
         if player == self.playerNum:
             message2 = TTLocalizer.ChineseCheckersYourTurn
             color = (0,0,0,1)
@@ -623,11 +623,11 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
             if self.myHandler.getNumEntries() > 0:
                 self.myHandler.sortEntries()#get the closest Object
                 pickedObj = self.myHandler.getEntry(0).getIntoNodePath()
-                #will return the INT for the locator node closest parent
+                #will return the INT for the locator node closest parent 
                 pickedObj = pickedObj.getNetTag("GamePeiceLocator")
                 if pickedObj: #make sure something actually was "picked"
                     self.handleClicked(int(pickedObj))
-
+    
     def handleClicked(self, index):
         #self.inOpposing = False
         self.sound = Sequence( SoundInterval(self.clickSound)) #You clicked something play the click sound
@@ -664,12 +664,12 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                 self.blinker.append(LerpColorInterval(self.locatorList[index], .7,self.playerColor, self.playerColor - self.tintConstant))
                 self.blinker.loop()
                 self.sound.start()
-
+                
                 #Swap back to the original peice
                 #set the original node back to playercolor
                 self.locatorList[self.moveList[0]].setColor(self.playerColor)
                 self.locatorList[self.moveList[0]].show()
-                self.moveList = []
+                self.moveList = [] 
                 self.moveList.append(index)
                 if index in self.opposingPositions:
                     self.isOpposing = True
@@ -680,9 +680,9 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
             else:
                 #Check for Explicit adjacent move
                 if len(self.moveList) == 1 and self.board.squareList[index].getState() == 0:
-                    #print("I AM OUTSIDE")
+                    #print "I AM OUTSIDE"
                     if index in self.board.squareList[self.moveList[0]].getAdjacent():
-                        #print("I AM INSIDE")
+                        #print "I AM INSIDE"
                         for x in self.nonOpposingPositions:
                             if index in x:
                                 return #You cannot end a move in a non opposing players square
@@ -693,8 +693,8 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                         self.isMyTurn = False
                         self.sound.start()
                 #Check for mid series jumps stoppage
-                #print(len(self.moveList), len(self.moveList)-1)
-                if len(self.moveList) >= 1:
+                #print len(self.moveList), len(self.moveList)-1
+                if len(self.moveList) >= 1:               
                     if index == self.moveList[len(self.moveList)-1]: #you clicked the same thing TWICE
                         for x in self.nonOpposingPositions:
                             if index in x:
@@ -710,7 +710,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                     #Check for Normal jump
                     #Also check if its a 'finishing jump'
                     #Therefore no jumps possible after it
-                        ###print("CHECK LEGAL JUMP!", self.checkLegalMove(self.board.getSquare(self.moveList[len(self.moveList)-1]), self.board.getSquare(index)) == True)
+                        ###print "CHECK LEGAL JUMP!", self.checkLegalMove(self.board.getSquare(self.moveList[len(self.moveList)-1]), self.board.getSquare(index)) == True
                     elif self.checkLegalMove(self.board.getSquare(self.moveList[len(self.moveList)-1]), self.board.getSquare(index)) == True:
                         #this is the part that adds moves to a series of jumps
                         ##
@@ -721,7 +721,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                         #but this explicit check should fix that.
                         if not index in self.board.squareList[self.moveList[len(self.moveList)-1]].getAdjacent():
                             for x in self.nonOpposingPositions:
-                                #print(" LEGAL JUMPS FROM! ", self.existsLegalJumpsFrom(index))
+                                #print " LEGAL JUMPS FROM! ", self.existsLegalJumpsFrom(index)
                                 if self.existsLegalJumpsFrom(index) == False:
                                     if index in x:
                                         return #He tried to JUMP into non opposing players startPos => Illegal
@@ -769,7 +769,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
     #
     #    1 2 1 2
     #   0 A 3 B 3
-    #    5 4 5 6
+    #    5 4 5 6   
     #
     # You check all of A's adjacents, and check the index of that \
     # particular one (of A's adjacents) that it sits in A,
@@ -779,7 +779,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
     #     board.squareList[that number].getAdjacent[self.board.squareList[A].index(some number)
     #
     #     in this case it equals B (draw it out, Trust me it helps)
-    ####
+    ####                           
     def existsLegalJumpsFrom(self,index):
         for x in self.board.squareList[index].getAdjacent():
             if x == None:
@@ -803,8 +803,8 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                 elif self.board.squareList[x].getState() == 0:
                     pass
                 else:
-                    #print(" FIRSTSQUARE ADJACENT AND X -- " , firstSquare.getAdjacent(), " X == " , x)
-                    #print("Xs Adjacent and its Index", self.board.squareList[x].getAdjacent(), " INDEX == " , firstSquare.getAdjacent().index(x))
+                    #print " FIRSTSQUARE ADJACENT AND X -- " , firstSquare.getAdjacent(), " X == " , x
+                    #print "Xs Adjacent and its Index", self.board.squareList[x].getAdjacent(), " INDEX == " , firstSquare.getAdjacent().index(x)
                     if (self.board.squareList[x].getAdjacent()[firstSquare.getAdjacent().index(x)]) == secondSquare.getNum():
                         return True
             return False
@@ -940,7 +940,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                 pass
                 #current flaw in the logic, but shouldnt really ever happen
                 #though on live it might
-                #print("random move is empty")
+                #print "random move is empty"
             playSound = Sequence(SoundInterval(self.knockSound))
             playSound.start()
             self.d_requestMove(move)
@@ -948,8 +948,8 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
             self.isMyTurn = False
             if(self.numRandomMoves >= 5):
                 self.exitButtonPushed()
-
-
-
+        
+                
+                             
     def doNothing(self):
         pass

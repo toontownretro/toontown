@@ -1,7 +1,7 @@
 from otp.ai.AIBase import *
 from toontown.toonbase import ToontownGlobals
 from direct.distributed.ClockDelta import *
-from .ElevatorConstants import *
+from ElevatorConstants import *
 
 from direct.distributed import DistributedObjectAI
 from direct.fsm import ClassicFSM, State
@@ -14,9 +14,8 @@ class DistributedElevatorAI(DistributedObjectAI.DistributedObjectAI):
 
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedElevatorAI")
 
-    def __init__(self, air, bldg, numSeats = 4, antiShuffle = 0, minLaff = 0, fSkipOpening = False):
+    def __init__(self, air, bldg, numSeats = 4, antiShuffle = 0, minLaff = 0):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
-        self.fSkipOpening = fSkipOpening
         self.type = ELEVATOR_NORMAL
         self.countdownTime = ElevatorData[self.type]['countdown']
         self.bldg = bldg
@@ -88,10 +87,7 @@ class DistributedElevatorAI(DistributedObjectAI.DistributedObjectAI):
         self.boardingParty = party
 
     def generate(self):
-        if not self.fSkipOpening:
-            self.start()
-        else:
-            self.fsm.request("waitEmpty")
+        self.start()
         DistributedObjectAI.DistributedObjectAI.generate(self)
         
     def getBldgDoId(self):
@@ -219,7 +215,7 @@ class DistributedElevatorAI(DistributedObjectAI.DistributedObjectAI):
             newArgs = (avId,) + args + (boardResponse,)
             
             # Check that player has full access
-            if not ToontownAccessAI.canAccess(avId, self.zoneId, "DistributedElevatorAI.requestBoard"):
+            if not ToontownAccessAI.canAccess(avId, self.zoneId):
                 self.notify.warning("Toon %s does not have access to theeleavtor. " % (avId))
                 self.rejectingBoardersHandler(*newArgs)
                 return

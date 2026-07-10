@@ -1,13 +1,11 @@
 
 from otp.ai.AIBaseGlobal import *
 from direct.task.Task import Task
-from toontown.toonbase.ToontownModules import *
-from .DistributedNPCToonBaseAI import *
+from pandac.PandaModules import *
+from DistributedNPCToonBaseAI import *
 from toontown.quest import Quests
 
 class DistributedNPCToonAI(DistributedNPCToonBaseAI):
-
-    FourthGagVelvetRopeBan = ConfigVariableBool('want-ban-fourth-gag-velvet-rope', 0).getValue()
 
     def __init__(self, air, npcId, questCallback=None, hq=0):
         DistributedNPCToonBaseAI.__init__(self, air, npcId, questCallback)
@@ -27,7 +25,7 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
 
     def getHq(self):
         return self.hq
-
+        
     def avatarEnter(self):
         avId = self.air.getAvatarIdFromSender()
         # this avatar has come within range
@@ -47,9 +45,6 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
         if (self.pendingAvId != avId):
             self.notify.warning("chooseQuest: not expecting an answer from this avatar: %s" % (avId))
             return
-        if (self.pendingQuests is None):
-            self.notify.warning("chooseQuest: not expecting a quest choice from this avatar: %s" % (avId))
-            self.air.writeServerEvent('suspicious', avId, 'unexpected chooseQuest')
 
         # See if the avatar cancelled
         if questId == 0:
@@ -61,18 +56,6 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
             # Tell the avatar goodbye then allow him to finish the movie
             self.cancelChoseQuest(avId)
             return
-
-        if (questId == 401):
-            av = self.air.getDo(avId)
-            if not av:
-                self.notify.warning('chooseQuest: av not present: %s' % avId)
-                return
-            if av.getGameAccess() != ToontownGlobals.AccessFull:
-                simbase.air.writeServerEvent('suspicious', avId, 'NPCToonAI.chooseQuest: non-paid player choosing task beyond velvet rope')
-                self.sendTimeoutMovie(None)
-                if self.FourthGagVelvetRopeBan:
-                    av.ban('fourth gag track velvet rope hacking')
-                return
 
         # See if the avatar chose any of the quests offered
         for quest in self.pendingQuests:
@@ -100,10 +83,6 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
             return
         if (self.pendingAvId != avId):
             self.notify.warning("chooseTrack: not expecting an answer from this avatar: %s" % (avId))
-            return
-        if (self.pendingTracks is None):
-            self.notify.warning("chooseTrack: not expecting a track choice from this avatar: %s" % (avId))
-            self.air.writeServerEvent('suspicious', avId, 'unexpected chooseTrack')
             return
 
         # See if the avatar cancelled
@@ -177,7 +156,7 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
         if not self.tutorial:
             taskMgr.doMethodLater(5.5, self.sendClearMovie, self.uniqueName("clearMovie"))
         return
-
+        
     def rejectAvatarTierNotDone(self, avId):
         self.busy = avId
         # Send a movie to reject the avatar with time stamp
@@ -220,7 +199,7 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
         # is over, but I don't think we need to.
         if self.questCallback:
             self.questCallback()
-        #print("assignQuest", avId)
+        #print "assignQuest", avId
         self.sendUpdate("setMovie", [NPCToons.QUEST_MOVIE_ASSIGN,
                                      self.npcId, avId, [questId, rewardId, toNpcId],
                                      ClockDelta.globalClockDelta.getRealNetworkTime()])
@@ -284,7 +263,7 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
         avId = self.air.getAvatarIdFromSender()
         self.notify.debug("setMovieDone busy: %s avId: %s" % (self.busy, avId))
         if self.busy == avId:
-            # Kill all pending doLaters that will clear the movie
+            # Kill all pending doLaters that will clear the movie 
             taskMgr.remove(self.uniqueName("clearMovie"))
             self.sendClearMovie(None)
         elif self.busy:

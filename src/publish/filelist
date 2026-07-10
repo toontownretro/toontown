@@ -17,17 +17,11 @@ file 2 $TOONTOWN/src/launcher/ToontownTest.url toplevel WIN32
 file 2 $TOONTOWN/src/launcher/PlayToontownTest.url toplevel WIN32
 
 # Python files
-file 2 $PYTHON_BIN/python3.dll toplevel WIN32
-file 2 $PYTHON_BIN/python311.dll toplevel WIN32
-file 2 $PYTHON_BIN/vcruntime140.dll toplevel WIN32
-file 2 $PYTHON_BIN/DLLs/_bz2.pyd toplevel WIN32
-file 2 $PYTHON_BIN/DLLs/_decimal.pyd toplevel WIN32
-file 2 $PYTHON_BIN/DLLs/_lzma.pyd toplevel WIN32
-file 2 $PYTHON_BIN/DLLs/_socket.pyd toplevel WIN32
-file 2 $PYTHON_BIN/DLLs/_queue.pyd toplevel WIN32
-file 2 $PYTHON_BIN/DLLs/unicodedata.pyd toplevel WIN32
-# ctypes
-file 2 $PYTHON_BIN/DLLs/_ctypes.pyd toplevel WIN32
+file 2 $PYTHON_BIN/python24.dll toplevel WIN32
+file 2 $PYTHON_BIN/pywintypes24.dll toplevel WIN32
+file 2 $PYTHON_BIN/_socket.pyd toplevel WIN32
+file 2 $PYTHON_BIN/unicodedata.pyd toplevel WIN32
+file 2 $PYTHON_BIN/zlib.pyd toplevel WIN32
 
 file 2 $PYTHON_LIB/lib-dynload/array.so toplevel OSX
 file 2 $PYTHON_LIB/lib-dynload/datetime.so toplevel OSX
@@ -46,6 +40,11 @@ file 2 $PYTHON_LIB/lib-dynload/collections.so toplevel OSX
 file 2 $PYTHON_LIB/lib-dynload/struct.so toplevel OSX
 file 2 $PYTHON_LIB/lib-dynload/unicodedata.so toplevel OSX
 
+# win32
+file 2 $PYTHON_LIB/site-packages/win32/win32api.pyd toplevel WIN32
+
+# ctypes
+file 2 $PYTHON_LIB/site-packages/_ctypes.pyd toplevel WIN32
 
 # needed by parties
 module _strptime
@@ -94,7 +93,7 @@ file 2 $DIRECT/built/lib/libheapq.so toplevel OSX
 file 2 $DIRECT/built/lib/libheapq.dylib toplevel OSX
 
 # Show code.
-
+  
 # Don't attempt to download these modules--they're not part of the game.
 forbid_module _dummy_threading
 forbid_module direct.tkpanels
@@ -106,7 +105,6 @@ forbid_module direct.cluster.ClusterClient
 forbid_module direct.cluster.ClusterServer
 forbid_module direct.directdevices
 forbid_module otp.switchboard.badwordpy
-forbid_module toontown.testenv
 
 forbid_module tkCommonDialog
 forbid_module tkMessageBox
@@ -135,8 +133,8 @@ forbid_module _locale
 forbid_module libp3heapq
 forbid_module libp3direct
 
-# Don't try to import ToontownModules here--it's part of Phase3.
-forbid_module toontown.toonbase.ToontownModules
+# Don't try to import PandaModules here--it's part of Phase3.
+forbid_module pandac.PandaModules
 
 # Since we need to be able to import Phase3 after we download it, we
 # simply exclude it rather than completely forbid it.
@@ -145,7 +143,7 @@ exclude_module Phase3
 # The language-specific localizer file is dynamically imported.
 module otp.otpbase.OTPLocalizerEnglish
 module toontown.toonbase.TTLocalizerEnglish
-
+  
 freeze_exe 2 Toontown toontown.launcher.StartToontownLauncher toplevel
 
 ##################################################
@@ -252,7 +250,7 @@ file 2 $PANDA/built/lib/libpandafx.dll . WIN32
 file 2 $PANDA/built/lib/libpandagl.dll . WIN32
 file 2 $PANDA/built/lib/libtinydisplay.dll . WIN32
 file 2 $PANDA/built/lib/libtinydisplay.so . OSX
-file 2 $PANDA/built/lib/libtinydisplay.dylib . OSX
+file 2 $PANDA/built/lib/libtinydisplay.dylib . OSX 
 file 2 $PANDA/built/lib/libmiles_audio.dll . WIN32
 
 file 2 $OTP/built/lib/libmovement.so . OSX
@@ -336,7 +334,7 @@ file 0 $OTP/src/configfiles/gameserver.txt phase_3/etc WIN32,OSX
 # Show code.
 
 # Now it's time to import PandaModules.
-module toontown.toonbase.ToontownModules
+module pandac.PandaModules
 
 # These modules are dynamically loaded by the mint/factory code.
 module toontown.coghq.BossbotCountryClubEntrance_Action00

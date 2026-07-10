@@ -5,7 +5,6 @@
 
 #include "dnaNode.h"
 #include "config_linmath.h"
-#include "jobSystem.h"
 
 ////////////////////////////////////////////////////////////////////
 // Static variables
@@ -56,12 +55,10 @@ NodePath DNANode::traverse(NodePath &parent, DNAStorage *store, int editing) {
 
   pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
   for(; i != _group_vector.end(); ++i) {
-  //JobSystem *jsys = JobSystem::get_global_ptr();
-  //jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
     // Traverse each node in our vector
-    PT(DNAGroup) group = *i; //_group_vector[i];
+    PT(DNAGroup) group = *i;
     group->traverse(node_path, store, editing);
-  }//);
+  }
 
   if (editing) {
     // Remember that this nodepath is associated with this dnaNode
@@ -89,8 +86,13 @@ void DNANode::write(ostream &out, DNAStorage *store, int indent_level) const {
     // Write out all properties
     indent(out, indent_level + 1) << "pos [ " <<
       _pos[0] << " " << _pos[1] << " " << _pos[2] << " ]\n";
-    indent(out, indent_level + 1) << "nhpr [ " <<
-      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+    if (temp_hpr_fix) {
+      indent(out, indent_level + 1) << "nhpr [ " <<
+        _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+    } else {
+      indent(out, indent_level + 1) << "hpr [ " <<
+        _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+    }
     indent(out, indent_level + 1) << "scale [ " <<
       _scale[0] << " " << _scale[1] << " " << _scale[2] << " ]\n";
   }

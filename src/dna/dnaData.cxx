@@ -4,15 +4,14 @@
 ////////////////////////////////////////////////////////////////////
 #include "dnaData.h"
 #include "config_dna.h"
-#include "config_putil.h"
+#include "config_util.h"
 
 #include "string_utils.h"
 #include "coordinateSystem.h"
 #include "luse.h"
 #include "dSearchPath.h"
-#include "config_putil.h"
+#include "config_util.h"
 #include "virtualFileSystem.h"
-#include "lightReMutexHolder.h"
 
 extern int dnayyparse(void);
 #include "parserDefs.h"
@@ -22,7 +21,6 @@ extern int dnayyparse(void);
 // Static variables
 ////////////////////////////////////////////////////////////////////
 TypeHandle DNAData::_type_handle;
-LightReMutex DNAData::_dna_data_thread_lock("dna-data-thread-lock");
 
 
 ////////////////////////////////////////////////////////////////////
@@ -37,7 +35,7 @@ LightReMutex DNAData::_dna_data_thread_lock("dna-data-thread-lock");
 bool DNAData::
 resolve_dna_filename(Filename &dna_filename, const DSearchPath &searchpath) {
   VirtualFileSystem *vfs = VirtualFileSystem::get_global_ptr();
-
+  
   vfs->resolve_filename(dna_filename, searchpath, "dna") ||
     vfs->resolve_filename(dna_filename, get_dna_path(), "dna") ||
     vfs->resolve_filename(dna_filename, get_model_path(), "dna");
@@ -59,8 +57,6 @@ resolve_dna_filename(Filename &dna_filename, const DSearchPath &searchpath) {
 ////////////////////////////////////////////////////////////////////
 bool DNAData::
 read(Filename filename, ostream &error) {
-  LightReMutexHolder holder(_dna_data_thread_lock);
-  
   if (!resolve_dna_filename(filename)) {
     error << "Could not find " << filename << "\n";
     return false;
@@ -72,7 +68,7 @@ read(Filename filename, ostream &error) {
 
   pifstream file;
   if (!filename.open_read(file)) {
-    error << "Could not open " << filename << " for reading.\n";
+    error << "Unable to open " << filename << "\n";
     return false;
   }
 
@@ -90,8 +86,6 @@ read(Filename filename, ostream &error) {
 ////////////////////////////////////////////////////////////////////
 bool DNAData::
 read(istream &in, ostream &error) {
-  LightReMutexHolder holder(_dna_data_thread_lock);
-  
   // First, dispense with any children we had previously.  We will
   // replace them with the new data.
   dna_cat.debug() << "start of dnData.read\n";
@@ -132,8 +126,6 @@ resolve_externals(const string &searchpath, ostream &error) {
 ////////////////////////////////////////////////////////////////////
 bool DNAData::
 write_dna(Filename filename, ostream &error, DNAStorage *store) {
-  LightReMutexHolder holder(_dna_data_thread_lock);
-  
   // We use binary mode to avoid Windows' end-of-line convention.
   filename.set_binary();
   filename.unlink();

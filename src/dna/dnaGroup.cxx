@@ -5,12 +5,10 @@
 
 #include "dnaGroup.h"
 #include "dnaStorage.h"
-
 #include "pandaNode.h"
 #include "pointerTo.h"
 #include "indent.h"
 #include "sceneGraphReducer.h"
-#include "jobSystem.h"
 
 ////////////////////////////////////////////////////////////////////
 // Static variables
@@ -41,13 +39,9 @@ DNAGroup::DNAGroup(const DNAGroup &copy) :
   _parent = NULL;
   pvector<PT(DNAGroup)>::const_iterator i = copy._group_vector.begin();
   for(; i != copy._group_vector.end(); ++i) {
-  //JobSystem *jsys = JobSystem::get_global_ptr();
-  //jsys->parallel_process(copy._group_vector.size(), [&] (size_t i) {
-    // Traverse each node in our vector
-    PT(DNAGroup) group = *i; //copy._group_vector[i];
     // Push in a copy of the dna group
-    _group_vector.push_back(group->make_copy());
-  }//);
+    _group_vector.push_back((*i)->make_copy());
+  }
 }
 
 
@@ -64,12 +58,10 @@ NodePath DNAGroup::traverse(NodePath &parent, DNAStorage *store, int editing) {
 
   pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
   for(; i != _group_vector.end(); ++i) {
-  //JobSystem *jsys = JobSystem::get_global_ptr();
-  //jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
     // Traverse each node in our vector
-    PT(DNAGroup) group = *i; //_group_vector[i];
+    PT(DNAGroup) group = *i;
     group->traverse(group_node_path, store, editing);
-  }//);
+  }
 
   if (editing) {
     // Remember that this nodepath is associated with this dna group
@@ -93,14 +85,12 @@ NodePath DNAGroup::top_level_traverse(NodePath &parent, DNAStorage *store, int e
 
   pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
   for(; i != _group_vector.end(); ++i) {
-  //JobSystem *jsys = JobSystem::get_global_ptr();
-  //jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
     // Traverse each node in our vector
-    PT(DNAGroup) group = *i; //_group_vector[i];
+    PT(DNAGroup) group = *i;
     group->traverse(group_node_path, store, editing);
     // Top level groups do not have parents
     group->clear_parent();
-  }//);
+  }
 
   // Do not flatten here. It is done in Python now.
 
@@ -138,7 +128,7 @@ void DNAGroup::remove(PT(DNAGroup) group) {
                                           _group_vector.end(), group);
   if (i == _group_vector.end()) {
     dna_cat.warning()
-      << "DNAGroup: group not found in map" << std::endl;
+      << "DNAGroup: group not found in map" << endl;
     return;
   }
 

@@ -158,9 +158,6 @@ class DistributedStartingBlockAI( DistributedObjectAI.DistributedObjectAI ):
             self.cleanupAvatar()
             
         self.currentMovie = None
-        if not self.kartPad:
-            self.handleUnexpectedCleanup()
-            return
         self.kartPad.kartMovieDone()
         
     def cleanupAvatar( self ):
@@ -171,27 +168,11 @@ class DistributedStartingBlockAI( DistributedObjectAI.DistributedObjectAI ):
         # Tell the KartPad that the toon is exiting the block.
         
         self.ignore( self.unexpectedEvent )
-        if not self.kartPad:
-            self.handleUnexpectedCleanup()
-            return
         self.kartPad.removeAvBlock( self.avId, self )
         self.avId = 0
         self.isActive = True
         self.d_setOccupied( 0 )
-
-    def handleUnexpectedCleanup(self):
-        """
-        Comment:
-        """
-
-        self.notify.warning( "KartPad has already been cleaned up" )
         
-        from toontown.hood import GSHoodDataAI
-        if hasattr(simbase.air, 'hoods') and simbase.air.hoods:
-            for hood in simbase.air.hoods:
-                if isinstance(hood, GSHoodDataAI.GSHoodDataAI):
-                    hood.logPossibleRaceCondition(self)
-
     def normalExit( self ):
         """
         Comment:

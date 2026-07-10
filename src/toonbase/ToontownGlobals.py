@@ -3,15 +3,10 @@ ToonBase module: defines constants that are global across Toontown, and
 may have meaning to several classes.
 """
 
-from . import TTLocalizer
+import TTLocalizer
 from otp.otpbase.OTPGlobals import *
 from direct.showbase.PythonUtil import Enum, invertDict
-from toontown.toonbase.ToontownModules import BitMask32, Vec4
-
-# Questmap Update
-MapHotkeyOn = "alt"
-MapHotkeyOff = "alt-up"
-MapHotkey = "alt"
+from pandac.PandaModules import BitMask32, Vec4
 
 AccountDatabaseChannelId = 4008
 ToonDatabaseChannelId = 4021
@@ -29,13 +24,9 @@ DatabaseIdFromClassName = {
     }
 
 # Toontown specific camera FOVs
-CogHQCameraFov = 60.0 * OriginalAspectRatio
-BossBattleCameraFov = 72.0 * OriginalAspectRatio
-MakeAToonCameraFov = 52.0 * OriginalAspectRatio
-
-# Cogdominium collisions
-CeilingBitmask = BitMask32(0x100)
-FloorEventBitmask = BitMask32(0x10)
+CogHQCameraFov = 60.0
+BossBattleCameraFov = 72.0
+MakeAToonCameraFov = 52.0
 
 # Things we can throw a pie at.  (Pies also react to CameraBitmask and
 # FloorBitmask, but not WallBitmask.):
@@ -91,9 +82,6 @@ MaxMailboxContents = 30
 # the attic, but not those windows and wallpaper which are installed.
 MaxHouseItems = 45
 
-# The maximum number of accessories you can keep in your trunk.
-MaxAccessories = 50
-
 # How many extra items, over the above limit, can we keep on the
 # deletedItems list?
 ExtraDeletedItems = 5
@@ -116,14 +104,11 @@ PetPanelProximityPriority = 6 # must run after pet floor collisions
 # purchase codes returned by DistributedMailbox.acceptItem(), -15 and up extended for award manager
 # DistributedPhone.requestPurchase, and CatalogItem.recordPurchase().
 # In general, positive codes are success, negative codes are failure.
-P_NoTrunk = -28 # doesn't own a trunk
-P_AlreadyOwnBiggerCloset = -27 # already owns the bigger closet
-P_ItemAlreadyRented = -26 # item already rented
 P_OnAwardOrderListFull = -25 # unlikely, but just in case, he won 30 awards and their still in his onAwardOrder list
 P_AwardMailboxFull = -24 # the award mailbox is full and can't take more
 P_ItemInPetTricks= -23 # trying to give a pet trick award but the toon has it in his pet tricks
 P_ItemInMyPhrases= -22 # trying to give a speed chat award but the toon has it in his My Phrases
-P_ItemOnAwardOrder = -21 # trying to give an award but the toon has it onAwardOrder,
+P_ItemOnAwardOrder = -21 # trying to give an award but the toon has it onAwardOrder, 
 P_ItemInAwardMailbox = -20 # trying to give an award but the toon has it in his award mailbox
 P_ItemAlreadyWorn = -19  # trying to give an award but the toon is already wearing the clothing item
 P_ItemInCloset = -18  # trying to give an award but the toon has it in his closet
@@ -155,7 +140,6 @@ GIFT_admin = 1
 GIFT_RAT = 2
 GIFT_mobile = 3
 GIFT_cogs = 4
-GIFT_partyrefund = 5
 
 # codes returned by DistributedFurnitureManager.moveItemToAttic,
 # moveItemFromAttic, deleteItemFromAttic, and all similar related
@@ -186,10 +170,9 @@ FM_RecoveredItem = 4
 # distributed setParent().
 #SPHidden = 1 # OTPGlobals
 #SPRender = 2 # OTPGlobals
-#SPActors = 3 # OTPGlobals
-SPDonaldsBoat = 4
-SPMinniesPiano = 5
-#SPDynamic = 6 # OTPGlobals
+SPDonaldsBoat = 3
+SPMinniesPiano = 4
+#SPDynamic = 5 # OTPGlobals
 
 # These are in OTPGlobals
 """
@@ -578,7 +561,7 @@ factoryId2factoryType = {
 
 # Street names
 StreetNames = TTLocalizer.GlobalStreetNames
-StreetBranchZones = list(StreetNames.keys())
+StreetBranchZones = StreetNames.keys()
 
 # hood name list
 Hoods = ( DonaldsDock,
@@ -671,7 +654,7 @@ MinigameIDs = ( RaceGameId, CannonGameId, TagGameId, PatternGameId, RingGameId, 
 MinigamePlayerMatrix = {
     # If you only have one player, choose from these games
     # Technically pattern game can be single player, but it is not nearly as fun, especially for demos
-    1 : (CannonGameId, PatternGameId, RingGameId, MazeGameId, TugOfWarGameId, CatchGameId,
+    1 : (CannonGameId, RingGameId, MazeGameId, TugOfWarGameId, CatchGameId,
          DivingGameId, TargetGameId, PairingGameId, VineGameId,
          CogThiefGameId, PhotoGameId, TwoDGameId),
     # If you have exactly two players, choose from these games
@@ -688,33 +671,9 @@ MinigamePlayerMatrix = {
          IceGameId, CogThiefGameId, PhotoGameId, TwoDGameId),
     }
 
-# ONLY USE WHEN DECIDED TO REMOVE THE PHOTO AND PATTERN GAME!
-"""
-# Minigame Id list
-MinigamePlayerMatrix = {
-    # If you only have one player, choose from these games
-    # Technically pattern game can be single player, but it is not nearly as fun, especially for demos
-    1 : (CannonGameId, RingGameId, MazeGameId, TugOfWarGameId, CatchGameId,
-         DivingGameId, TargetGameId, PairingGameId, VineGameId,
-         CogThiefGameId, TwoDGameId),
-    # If you have exactly two players, choose from these games
-    2 : (CannonGameId, PatternGameId, RingGameId, TagGameId, MazeGameId, TugOfWarGameId, CatchGameId,
-         DivingGameId, TargetGameId, PairingGameId, VineGameId,
-         IceGameId, CogThiefGameId, TwoDGameId),
-    # If you have exactly three players, choose from these games
-    3 : (CannonGameId, PatternGameId, RingGameId, TagGameId, RaceGameId, MazeGameId, TugOfWarGameId, CatchGameId,
-         DivingGameId, TargetGameId, PairingGameId, VineGameId,
-         IceGameId, CogThiefGameId, TwoDGameId),
-    # If you have exactly four players, choose from these games
-    4 : (CannonGameId, PatternGameId, RingGameId, TagGameId, RaceGameId, MazeGameId, TugOfWarGameId, CatchGameId,
-         DivingGameId, TargetGameId, PairingGameId, VineGameId,
-         IceGameId, CogThiefGameId, TwoDGameId),
-    }
-"""
-
 # we are releasing one minigame a week for the new minigames
 MinigameReleaseDates = {
-    IceGameId : (2008, 8, 0o5),
+    IceGameId : (2008, 8, 05),
     PhotoGameId : (2008,8,13),
     TwoDGameId : (2008,8,20),
     CogThiefGameId : (2008,8,27),
@@ -798,18 +757,6 @@ dnaMap = {
     CashbotHQ : "cog_hq_cashbot",
     LawbotHQ : "cog_hq_lawbot",
     GolfZone : "golf_zone",
-    }
-
-# Maps hoods to download phases
-# TEMP
-dnaMapQuest = {
-    ToontownCentral : "toontown_central",
-    DonaldsDock : "donalds_dock",
-    MinniesMelodyland : "minnies_melody_land",
-    TheBrrrgh : "the_burrrgh",
-    DaisyGardens : "daisys_garden",
-    FunnyFarm : "not done yet",
-    DonaldsDreamland : "donalds_dreamland",
     }
 
 # Maps hoods to names
@@ -930,7 +877,6 @@ MinnieSpeed = 3.2 # feet per second
 WitchMinnieSpeed = 1.8
 #DonaldSpeed = 4.6 # feet per second
 DonaldSpeed = 3.68 # feet per second
-FrankenDonaldSpeed = 0.9
 DaisySpeed  = 2.3 # feet per second
 GoofySpeed  = 5.2 # feet per second
 SuperGoofySpeed = 1.6 # fps
@@ -1040,12 +986,6 @@ BossCogBattleBPosHpr = (0, 25, 0, 180, 0, 0)
 
 # How many pie hits does it take to kill the Sellbot VP?
 SellbotBossMaxDamage = 100
-
-# How many pie hits does it take to kill the Nerfed Sellbot VP?
-SellbotBossMaxDamageNerfed = 100
-
-# How many pie hits does it take to kill the Sellbot VP?
-SellbotBossMaxDamageNerfed = 100
 
 # Where is the Sellbot Boss sitting in the three stages of the
 # VP sequence?
@@ -1185,38 +1125,6 @@ APRIL_FOOLS_COSTUMES = 29
 CRASHED_LEADERBOARD = 30
 
 
-# Japanese Holiday name constants
-JULY22_FIREWORKS = 201
-JULY23_FIREWORKS = 202
-JULY25_FIREWORKS = 203
-JULY30_FIREWORKS = 204
-JULY31_FIREWORKS = 205
-AUGUST1_FIREWORKS = 206
-AUGUST3_FIREWORKS = 207
-AUGUST5_FIREWORKS = 208
-AUGUST7_FIREWORKS = 209
-AUGUST8_FIREWORKS = 210
-AUGUST10_FIREWORKS = 211
-AUGUST13_FIREWORKS = 212
-AUGUST14_FIREWORKS = 213
-AUGUST16_FIREWORKS = 214
-AUGUST31_FIREWORKS = 215
-
-# Brazil Holiday name constants
-VALENTINES_FIREWORKS = 1000
-BIGWIG_INVASION = 1100
-BLOODSUCKER_INVASION = 1101
-MOVER_SHAKER_INVASION = 1102
-HEAD_HUNTER_INVASION = 1103
-THE_MINGLER_INVASION = 1104
-MONEY_BAGS_INVASION = 1105
-TELEMARKETER_INVASION = 1106
-BOTTOMFEEDER_INVASION = 1107
-AMBULANCE_CHASER_INVASION = 1108
-THE_BIG_CHEESE_INVASION = 1109
-NUMBER_CRUNCHER_INVASION = 1110
-YESMAN_INVASION = 1111
-
 # German Holiday name constants
 OCTOBER31_FIREWORKS = 31
 NOVEMBER19_FIREWORKS = 32
@@ -1298,47 +1206,6 @@ NUMBER_CRUNCHER_INVASION = 93
 SILLY_CHATTER_FIVE = 94
 
 VICTORY_PARTY_HOLIDAY = 95
-
-SELLBOT_NERF_HOLIDAY = 96
-
-JELLYBEAN_TROLLEY_HOLIDAY = 97
-JELLYBEAN_FISHING_HOLIDAY = 98
-JELLYBEAN_PARTIES_HOLIDAY = 99
-
-BANK_UPGRADE_HOLIDAY = 100
-
-TOP_TOONS_MARATHON = 101
-
-SELLBOT_INVASION = 102
-SELLBOT_FIELD_OFFICE = 103
-SELLBOT_INVASION_MOVER_AND_SHAKER = 104
-
-IDES_OF_MARCH = 105
-
-EXPANDED_CLOSETS = 106
-
-TAX_DAY_INVASION = 107
-
-LAWBOT_NERF_HOLIDAY = 108
-
-KARTING_TICKETS_HOLIDAY = 109
-
-PRE_JULY_4_DOWNSIZER_INVASION = 110
-PRE_JULY_4_BIGWIG_INVASION = 111
-
-COMBO_FIREWORKS = 112
-
-JELLYBEAN_TROLLEY_HOLIDAY_MONTH = 113
-JELLYBEAN_FISHING_HOLIDAY_MONTH = 114
-JELLYBEAN_PARTIES_HOLIDAY_MONTH = 115
-
-SILLYMETER_EXT_HOLIDAY = 116
-SPOOKY_BLACK_CAT = 117
-SPOOKY_TRICK_OR_TREAT = 118
-SPOOKY_PROPS = 119
-SPOOKY_COSTUMES = 120
-WACKY_WINTER_DECORATIONS = 121
-WACKY_WINTER_CAROLING = 122
 
 # Trick or Treat Holiday Values
 TOT_REWARD_JELLYBEAN_AMOUNT = 100
@@ -1692,12 +1559,12 @@ DL = 8
 DefaultWantNewsPageSetting = 1
 
 # GM magic words
-gmMagicWordList = [
-    "restock",  "restockUber",  "autoRestock",
-    "resistanceRestock", "restockSummons",
-    "uberDrop", "rich", "maxBankMoney",
+gmMagicWordList = [ 
+    "restock",  "restockUber",  "autoRestock", 
+    "resistanceRestock", "restockSummons", 
+    "uberDrop", "rich", "maxBankMoney", 
     "toonUp", "rod", "cogPageFull", "pinkSlips",
-    "Tickets",  "newSummons", "who",  "who all"
+    "Tickets",  "newSummons", "who",  "who all" 
  ]
 
 NewsPageScaleAdjust = 0.85
@@ -1709,73 +1576,3 @@ AnimPropTypes = Enum(("Unknown",
                       ),
                      start = -1
                      )
-
-# Cogdo Reward Emblems
-EmblemTypes = Enum(("Silver", "Gold"))
-NumEmblemTypes = 2
-
-# Max Bank Update
-DefaultMaxBankMoney = 12000
-DefaultBankItemId = 1350
-
-# This is the tuple of allowed animations that can be set by using toon.setAnimState().
-# If you add an animation that you want to do a setAnimState on please add this
-# animation to this list.
-ToonAnimStates = set([
-    "off",
-    "neutral",
-    "victory",
-    "Happy",
-    "Sad",
-    "Catching",
-    "CatchEating",
-    "Sleep",
-    "walk",
-    "jumpSquat",
-    "jump",
-    "jumpAirborne",
-    "jumpLand",
-    "run",
-    "swim",
-    "swimhold",
-    "dive",
-    "cringe",
-    "OpenBook",
-    "ReadBook",
-    "CloseBook",
-    "TeleportOut",
-    "Died",
-    "TeleportedOut",
-    "TeleportIn",
-    "Emote",
-    "SitStart",
-    "Sit",
-    "Push",
-    "Squish",
-    "FallDown",
-    "GolfPuttLoop",
-    "GolfRotateLeft",
-    "GolfRotateRight",
-    "GolfPuttSwing",
-    "GolfGoodPutt",
-    "GolfBadPutt",
-    "Flattened",
-    "CogThiefRunning",
-    "ScientistJealous",
-    "ScientistEmcee",
-    "ScientistWork",
-    "ScientistLessWork",
-    "ScientistPlay",
-    ]
-   )
-
-# Avatar Colliding Values
-AV_FLAG_REASON_TOUCH = 1
-AV_FLAG_HISTORY_LEN = 500
-AV_TOUCH_CHECK_DELAY_AI = 3.0
-AV_TOUCH_CHECK_DELAY_CL = 1.0
-AV_TOUCH_CHECK_DIST = 2.0
-AV_TOUCH_CHECK_DIST_Z = 5.0
-AV_TOUCH_CHECK_TIMELIMIT_CL = 0.002
-AV_TOUCH_COUNT_LIMIT = 5
-AV_TOUCH_COUNT_TIME = 300

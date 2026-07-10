@@ -6,7 +6,7 @@ from direct.distributed import DistributedObjectAI
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
-from . import ButterflyGlobals
+import ButterflyGlobals
 import random
 
 class DistributedButterflyAI(DistributedObjectAI.DistributedObjectAI):
@@ -50,17 +50,15 @@ class DistributedButterflyAI(DistributedObjectAI.DistributedObjectAI):
         try:
             self.butterfly_deleted
             assert(self.notify.debug("butterfly already deleted"))
-            return
         except:
             self.butterfly_deleted = 1
-        
-        ButterflyGlobals.recycleIndex(self.curIndex, self.playground, 
-                                      self.area, self.ownerId)
-        ButterflyGlobals.recycleIndex(self.destIndex, self.playground, 
-                                      self.area, self.ownerId)
-        self.fsm.request('off')
-        del self.fsm
-        DistributedObjectAI.DistributedObjectAI.delete(self)
+            ButterflyGlobals.recycleIndex(self.curIndex, self.playground, 
+                                          self.area, self.ownerId)
+            ButterflyGlobals.recycleIndex(self.destIndex, self.playground, 
+                                          self.area, self.ownerId)
+            self.fsm.request('off')
+            del self.fsm
+            DistributedObjectAI.DistributedObjectAI.delete(self)
 
     # setState()
 
@@ -80,7 +78,7 @@ class DistributedButterflyAI(DistributedObjectAI.DistributedObjectAI):
         self.fsm.request('Flying')
 
     def avatarEnter(self):
-        #print('aha!')
+        #print 'aha!'
         if (self.fsm.getCurrentState().getName() == 'Landed'):
             self.__ready()
         return None

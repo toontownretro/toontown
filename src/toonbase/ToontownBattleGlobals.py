@@ -1,21 +1,20 @@
-from .ToontownGlobals import *
+from ToontownGlobals import *
 import math
-from . import TTLocalizer
-from toontown.toonbase.ToontownModules import *
+import TTLocalizer
 
 ### ToontownBattle globals: central repository for all battle globals
 
 # defaults for camera
 
-BattleCamFaceOffFov = 30.0 * OriginalAspectRatio
+BattleCamFaceOffFov = 30.0
 BattleCamFaceOffPos = Point3(0, -10, 4)
 
 # BattleCamDefaultPos = Point3(0, -10, 11)
 # BattleCamDefaultHpr = Vec3(0, -45, 0)
 BattleCamDefaultPos = Point3(0, -8.6, 16.5)
 BattleCamDefaultHpr = Vec3(0, -61, 0)
-BattleCamDefaultFov = 80.0 * OriginalAspectRatio
-BattleCamMenuFov = 65.0 * OriginalAspectRatio
+BattleCamDefaultFov = 80.0
+BattleCamMenuFov = 65.0
 BattleCamJoinPos = Point3(0, -12, 13)
 BattleCamJoinHpr = Vec3(0, -45, 0)
 
@@ -40,9 +39,9 @@ TrackColors = ((211/255.0, 148/255.0, 255/255.0),
 
 # TODO: put want-all-props back in with quest system
 #try:
-#    wantAllProps = ConfigVariableBool('want-all-props', 0).getValue()
+#    wantAllProps = base.config.GetBool('want-all-props', 0)
 #except:
-#    wantAllProps = ConfigVariableBool('want-all-props', 0).getValue()
+#    wantAllProps = simbase.config.GetBool('want-all-props', 0)
 #if (wantAllProps == 1):
 #    for i in range(len(TrackZones)):
 #        TrackZones[i] = ToontownCentral
@@ -96,32 +95,10 @@ Levels = [[0, 20, 200, 800, 2000, 6000, 10000], # heal
 regMaxSkill = 10000
 UberSkill = 500
 MaxSkill = UberSkill + regMaxSkill
-UnpaidMaxSkills = [
-    Levels[0][1] - 1,
-    Levels[1][1] - 1,
-    Levels[2][1] - 1,
-    Levels[3][1] - 1,
-    Levels[4][4] - 1,
-    Levels[5][4] - 1,
-    Levels[6][1] - 1,
-    ]
 UnpaidMaxSkill = 1999
 # This is the maximum amount of experience per track that may be
 # earned in one battle (or in one building).
 ExperienceCap = 200
-
-# Limit Gags for non-Paid Players
-def gagIsPaidOnly(track, level):
-    return Levels[track][level] > UnpaidMaxSkills[track]
-
-def gagIsVelvetRoped(track, level):
-    if level > 0:
-        if track in [4, 5]:
-            if level > 3:
-                return True
-        else:
-            return True
-    return False
 
 # This accuracy (a percentage) is the highest that can ever be attained.
 MaxToonAcc = 95
@@ -224,7 +201,7 @@ AvProps = ( ('feather', 'bullhorn', 'lipstick', 'bamboocane', 'pixiedust',
           ('flower', 'waterglass', 'waterballoon', 'bottle', 'firehose',
            'stormcloud', 'stormcloud'),
           ('flowerpot', 'sandbag', 'anvil', 'weight', 'safe', 'piano', 'piano')
-          )
+          ) 
 
 AvPropsNew = ( ('inventory_feather', 'inventory_megaphone', 'inventory_lipstick', 'inventory_bamboo_cane', 'inventory_pixiedust',
            'inventory_juggling_cubes',  'inventory_ladder'),
@@ -238,7 +215,7 @@ AvPropsNew = ( ('inventory_feather', 'inventory_megaphone', 'inventory_lipstick'
           ('inventory_squirt_flower', 'inventory_glass_of_water', 'inventory_water_gun', 'inventory_seltzer_bottle',
            'inventory_firehose', 'inventory_storm_cloud',  'inventory_geyser'),
           ('inventory_flower_pot', 'inventory_sandbag', 'inventory_anvil', 'inventory_weight', 'inventory_safe_box', 'inventory_piano', 'inventory_ship')
-          )
+          ) 
 
 
 # prettier on-screen versions of the prop names
@@ -365,8 +342,8 @@ AvPropTargetCat = ( ( ATK_SINGLE_TARGET,
                       ATK_SINGLE_TARGET,
                       ATK_SINGLE_TARGET,
                       ATK_SINGLE_TARGET,
-                      ATK_GROUP_TARGET ),
-                    )
+                      ATK_GROUP_TARGET ),                    
+                    ) 
 
 AvPropTarget = ( 0, 3, 0, 2, 3, 3, 3)
 
@@ -425,10 +402,10 @@ def getDamageBonus(normal):
 #        return 1
 #    else:
 #        return 0
-
+        
 def isGroup(track, level):
     return AvPropTargetCat[AvPropTarget[track]][level]
-
+    
 def getCreditMultiplier(floorIndex):
     """
     Returns the skill credit multiplier appropriate for a particular
@@ -437,7 +414,7 @@ def getCreditMultiplier(floorIndex):
     """
     # Currently, this is 1 for the first floor (floor 0), 1.5 for the
     # second floor (floor 1), etc.
-    return 1 + floorIndex * 0.5
+    return 1 + floorIndex * 0.5         
 
 def getFactoryCreditMultiplier(factoryId):
     """
@@ -452,7 +429,7 @@ def getFactoryMeritMultiplier(factoryId):
     Returns the skill merit multiplier for a particular factory.
     factoryId is the factory-interior zone defined in ToontownGlobals.py.
     """
-    # Many people complained about how many runs you must make now that
+    # Many people complained about how many runs you must make now that 
     # we lowered the cog levels so I have upped this by a factor of two.
     return 4.
 
@@ -466,7 +443,7 @@ def getMintCreditMultiplier(mintId):
         CashbotMintIntB : 2.5,
         CashbotMintIntC : 3.,
         }.get(mintId, 1.)
-
+         
 def getStageCreditMultiplier(floor):
     """
     Returns the skill credit multiplier for a particular mint.
@@ -509,7 +486,7 @@ def getMoreXpHolidayMultiplier():
     User must first check to see if there is an invasion.
     """
     return 2.0
-
+    
 def encodeUber(trackList):
     bitField = 0
     for trackIndex in range(len(trackList)):
@@ -529,7 +506,7 @@ def decodeUber(flagMask):
     while (workPower >= 0):
         if workNumber >= pow(2,workPower):
             workNumber -= pow(2,workPower)
-            trackList.insert(0, 1)
+            trackList.insert(0, 1) 
         else:
             trackList.insert(0, 0)
         #print("Number %s List %s" % (workNumber, trackList))
@@ -545,14 +522,14 @@ def decodeUber(flagMask):
         else:
             foundOne = 1
     return trackList
-
+    
 def getUberFlag(flagMask, index):
     decode = decodeUber(flagMask)
     if index >= len(decode):
         return 0
     else:
         return decode[index]
-
+        
 def getUberFlagSafe(flagMask, index):
     if (flagMask == "unknown") or (flagMask < 0):
         return -1

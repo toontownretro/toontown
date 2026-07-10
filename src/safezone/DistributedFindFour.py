@@ -1,14 +1,14 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *
-from .TrolleyConstants import *
+from TrolleyConstants import *
 from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer
 
 from direct.distributed import DistributedNode
 from direct.distributed.ClockDelta import globalClockDelta
-from .ChineseCheckersBoard import ChineseCheckersBoard
+from ChineseCheckersBoard import ChineseCheckersBoard
 from direct.fsm import ClassicFSM, State
 from direct.fsm import StateData
 #from direct.distributed import DelayDelete
@@ -34,7 +34,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         self.boardNode.reparentTo(self)
         #self.boardNode.setScale(.05)
 
-
+        
         self.board = [ [0,0,0,0,0,0,0],
                                [0,0,0,0,0,0,0],
                                [0,0,0,0,0,0,0],
@@ -99,16 +99,16 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         self.tintConstant = Vec4(.25,.25,.25,0)
         self.ghostConstant = Vec4(0,0,0,.5)
 
-
-        self.knockSound = base.loader.loadSfx("phase_5/audio/sfx/GUI_knock_1.mp3")
-        self.clickSound = base.loader.loadSfx("phase_3/audio/sfx/GUI_balloon_popup.mp3")
-        self.moveSound = base.loader.loadSfx("phase_6/audio/sfx/CC_move.mp3")
+      
+        self.knockSound = base.loadSfx("phase_5/audio/sfx/GUI_knock_1.mp3")
+        self.clickSound = base.loadSfx("phase_3/audio/sfx/GUI_balloon_popup.mp3")
+        self.moveSound = base.loadSfx("phase_6/audio/sfx/CC_move.mp3")
         self.accept('stoppedAsleep', self.handleSleep)
 
 
 
-
-
+        
+        
 
         #######################
         #Fsm and State Data
@@ -131,7 +131,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
                            # Final State
                            'waitingToBegin',
                            )
-
+       
         #########################
         #Set up the Board Locators
         ##
@@ -160,7 +160,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
             y = instancePiece.copyTo(z)
             for val in y.getChildren():
                 val.hide()
-
+                                           
         tempList = []
         #the peices themselves inside of the board.
         for x in range(42):
@@ -182,7 +182,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
     def setName(self, name):
         self.name = name
 
-    def announceGenerate(self):
+    def announceGenerate(self): 
         DistributedNode.DistributedNode.announceGenerate(self)
         if self.table.fsm.getCurrentState().getName() != 'observing':
             if base.localAvatar.doId in self.table.tableState: # Fix for strange state #TEMP until i find the cause
@@ -208,8 +208,8 @@ class DistributedFindFour(DistributedNode.DistributedNode):
                 for x in self.locatorList:
                     x.setH(180)
             self.moveCameraForGame()
-
-
+                
+        
     def handleSleep(self, task = None):
         if self.fsm.getCurrentState().getName() == "waitingToBegin":
             self.exitButtonPushed()
@@ -239,7 +239,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
     #disable or deletion - Code redundance here is necessary
     #being that "disable" is called upon server crash, and delete is
     #called upon zone exit
-    ###
+    ###     
     def disable(self):
         DistributedNode.DistributedNode.disable(self)
         if self.leaveButton:
@@ -314,9 +314,9 @@ class DistributedFindFour(DistributedNode.DistributedNode):
                 self.clockNode.setPos(.64, 0, -0.27)
                 self.clockNode.countdown(timeLeft, self.doRandomMove)
                 self.clockNode.show()
-
-
-
+            
+        
+        
     ###########
     ##Game start(broadcast) and Send Turn (broadcast ram)
     #
@@ -342,7 +342,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
 
     def illegalMove(self):
         self.exitButtonPushed()
-
+        
     ##########
     ##Move camera
     #
@@ -352,7 +352,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
     #also half to do some if statements on the camera itself so that the camera will not (for instance)
     #rotate 350 degrees when rather it could rotate -10 degrees to get its finishing location
     ##########
-    def moveCameraForGame(self):
+    def moveCameraForGame(self): 
         if self.table.cameraBoardTrack.isPlaying():
             self.table.cameraBoardTrack.pause()
         rotation = 0
@@ -368,12 +368,12 @@ class DistributedFindFour(DistributedNode.DistributedNode):
             else:
                 int  = LerpPosHprInterval(camera, 2, position, Vec3(180, -20, 0), camera.getPos(), camera.getHpr())
         int.start()
-
+        
     #####################
     #FSM Stuff
     ###
     def enterWaitingToBegin(self):
-        if self.table.fsm.getCurrentState().getName() != 'observing':
+        if self.table.fsm.getCurrentState().getName() != 'observing':      
             self.enableExitButton()
             self.enableStartButton()
 
@@ -386,11 +386,11 @@ class DistributedFindFour(DistributedNode.DistributedNode):
             self.exitButton = None
         self.clockNode.stop()
         self.clockNode.hide()
-
+        
     def enterPlaying(self):
         self.inGame = True
         self.enableScreenText()
-        if self.table.fsm.getCurrentState().getName() != 'observing':
+        if self.table.fsm.getCurrentState().getName() != 'observing':   
             self.enableLeaveButton()
 
     def exitPlaying(self):
@@ -423,7 +423,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
     def enableExitButton(self):
         self.exitButton = DirectButton(
             relief = None,
-            text = TTLocalizer.FindFourGetUpButton,
+            text = TTLocalizer.ChineseCheckersGetUpButton,
             text_fg = (1, 1, 0.65, 1),
             text_pos = (0, -.23),
             text_scale = 0.8,
@@ -444,14 +444,14 @@ class DistributedFindFour(DistributedNode.DistributedNode):
             message = "You are Yellow"
             color = Vec4(1,1,0,1)
         else:
-            message = TTLocalizer.FindFourObserver
+            message = TTLocalizer.CheckersObserver
             color = Vec4(0,0,0,1)
             #defaultPos = (-.80, -0.25)
         self.screenText = OnscreenText(text = message, pos = defaultPos, scale = 0.10,fg=color,align=TextNode.ACenter,mayChange=1)
     def enableStartButton(self):
         self.startButton = DirectButton(
             relief = None,
-            text = TTLocalizer.FindFourStartButton,
+            text = TTLocalizer.ChineseCheckersStartButton,
             text_fg = (1, 1, 0.65, 1),
             text_pos = (0, -.23),
             text_scale = 0.6,
@@ -466,7 +466,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
     def enableLeaveButton(self):
         self.leaveButton = DirectButton(
             relief = None,
-            text = TTLocalizer.FindFourQuitButton,
+            text = TTLocalizer.ChineseCheckersQuitButton,
             text_fg = (1, 1, 0.65, 1),
             text_pos = (0, -.13),
             text_scale = 0.5,
@@ -480,18 +480,18 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         return
     def enableTurnScreenText(self,player):
         playerOrder = [1,4,2,5,3,6]
-        message1 = TTLocalizer.FindFourIts
+        message1 = TTLocalizer.CheckersIts
         if(self.turnText != None):
             self.turnText.destroy()
         if player == self.playerNum:
-            message2 = TTLocalizer.FindFourYourTurn
+            message2 = TTLocalizer.ChineseCheckersYourTurn
             color = (0,0,0,1)
         else:
               if player == 1:
-                  message2 = TTLocalizer.FindFourRedTurn
+                  message2 = "Red's Turn"
                   color = (1,0,0,1)
               elif player == 2:
-                  message2 = TTLocalizer.FindFourYellowTurn
+                  message2 = "Yellow's Turn"
                   color = (1,1,0,1)
         self.turnText = OnscreenText(text = message1+message2, pos = (-0.7, -0.39), scale = 0.092,fg=color,align=TextNode.ACenter,mayChange=1)
 
@@ -534,7 +534,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
                 self.moveCol = None
                 self.isMyTurn = False
                 taskMgr.remove('playerTurnTask')
-
+            
     def handleClicked(self, index):
         pass
 
@@ -557,12 +557,12 @@ class DistributedFindFour(DistributedNode.DistributedNode):
 
         mpos = base.mouseWatcherNode.getMouse()
         self.pickerRay.setFromLens(base.camNode,mpos.getX(), mpos.getY())
-
+        
         self.traverser.traverse(render)
         if self.myHandler.getNumEntries() > 0:
             self.myHandler.sortEntries()#get the closest Object
             pickedObj = self.myHandler.getEntry(0).getIntoNodePath()
-            #will return the INT for the locator node closest parent
+            #will return the INT for the locator node closest parent 
             pickedObj = pickedObj.getNetTag("StartLocator")
             if pickedObj: #make sure something actually was "picked"
                 colVal = int(pickedObj)
@@ -578,8 +578,8 @@ class DistributedFindFour(DistributedNode.DistributedNode):
                     elif self.playerNum == 2:
                         self.startingPositions[self.moveCol].getChild(1).getChild(3).show()
         return task.cont
-
-
+                     
+  
     def d_requestMove(self, moveCol):
         self.sendUpdate('requestMove', [moveCol])
 
@@ -638,7 +638,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
             for x in range(6):
                 for y in range(7):
                     self.board[x][y] = tableState[x][y]
-            self.updateGameState()
+            self.updateGameState() 
         else: #need to animate because a movePos was given in the Ram Field
             self.animatePeice(tableState, moveCol, movePos, turn)
 
@@ -647,7 +647,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         didIWin = self.checkForWin()
         if didIWin != None:
             self.sendUpdate("requestWin", [didIWin])
-
+            
     ############################################
     ##UpdateGameState
     #
@@ -656,7 +656,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
     #Really, i just have 2 peices that are in the model, and i hide/show them
     #instead of instantiating them on the fly.
     ##
-
+        
     def updateGameState(self):
         for x in range(6):
             for y in range(7):
@@ -711,7 +711,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
             self.turnText.hide()
         self.clockNode.stop()
         self.clockNode.hide()
-
+        
         if winDirection == 0:
             blinkList = self.findHorizontal(x,y,playerNum)
         elif winDirection == 1:
@@ -720,9 +720,9 @@ class DistributedFindFour(DistributedNode.DistributedNode):
             blinkList = self.findDiagonal(x,y,playerNum)
 
         if blinkList != []:
-            print(blinkList)
+            print blinkList
             val0 = (x*7) + y
-
+            
             x = blinkList[0][0]
             y = blinkList[0][1]
             val1 = (x *7) + y
@@ -746,8 +746,8 @@ class DistributedFindFour(DistributedNode.DistributedNode):
                                                             LerpColorInterval(self.locatorList[val1], .3, Vec4(1,1,1,1), Vec4(.5,.5,.5,.5)),
                                                             LerpColorInterval(self.locatorList[val2], .3, Vec4(1,1,1,1), Vec4(.5,.5,.5,.5)),
                                                             LerpColorInterval(self.locatorList[val3], .3, Vec4(1,1,1,1), Vec4(.5,.5,.5,.5)))
-
-
+                                                               
+            
             self.winningSequence.append(downBlinkerParallel)
             self.winningSequence.append(upBlinkerParallel)
             self.winningSequence.loop()
@@ -775,8 +775,8 @@ class DistributedFindFour(DistributedNode.DistributedNode):
                                        WhisperPopup.WTNormal)
         whisper.manage(base.marginManager)
         self.tieSequence.start()
-
-
+        
+       
     def hideChildren(self, nodeList):
         pass
     ##########
@@ -800,7 +800,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         elif turn == 1:
             peice = self.startingPositions[moveCol].getChild(1).getChildren()[3]
             peice.show()
-
+            
         #animate the thing
         self.moveSequence = Sequence()
         startPos = self.startingPositions[moveCol].getPos()
@@ -811,9 +811,9 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         self.moveSequence.append(Func(self.startingPositions[moveCol].setPos, startPos))
         self.moveSequence.append(Func(self.updateGameState))
         self.moveSequence.start()
-
-
-
+        
+        
+       
     def announceWin(self, avId):
         self.fsm.request('gameOver')
     ##########
@@ -835,15 +835,15 @@ class DistributedFindFour(DistributedNode.DistributedNode):
             else:
                 hasfound = False
                 while hasfound == False:
-                    import random
-                    x = random.randint(0,6)
+                    from random import *
+                    x = randint(0,6)
                     if self.board[0][x] == 0:
                         self.d_requestMove(x)
                         self.moveCol = None
                         self.isMyTurn = False
                         taskMgr.remove('playerTurnTask')
                         hasfound = True
-
+                             
     def doNothing(self):
         pass
 
@@ -888,7 +888,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
                 if self.board[rVal][cVal-x] != playerNum:
                     break
                 if self.board[rVal][cVal-x] == playerNum and x == 3:
-                    return True
+                    return True     
             for x in range(1,4):
                 if self.board[rVal][cVal + x] != playerNum:
                     break

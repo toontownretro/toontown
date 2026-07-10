@@ -1,18 +1,18 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
-from .BattleBase import *
+from BattleBase import *
 
 from direct.actor import Actor
 from toontown.suit import SuitDNA
 from direct.directnotify import DirectNotifyGlobal
-from . import DistributedBattleBase
+import DistributedBattleBase
 from toontown.toon import TTEmote
 from otp.avatar import Emote
 from toontown.toonbase import TTLocalizer
-from . import MovieUtil
+import MovieUtil
 from direct.fsm import State
 from toontown.suit import Suit
-from . import SuitBattleGlobals
+import SuitBattleGlobals
 import random
 from toontown.toonbase import ToontownGlobals
 
@@ -21,7 +21,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
     notify = DirectNotifyGlobal.directNotify.newCategory(
                                                 'DistributedBattleBldg')
 
-    camFOFov = 30.0 * ToontownGlobals.OriginalAspectRatio
+    camFOFov = 30.0
     camFOPos = Point3(0, -10, 4)
 
     def __init__(self, cr):
@@ -59,15 +59,12 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
             self.battleMusic = base.loadMusic(
                 'phase_7/audio/bgm/encntr_general_bg_indoor.mid')
         base.playMusic(self.battleMusic, looping=1, volume=0.9)
-
-    def getBossBattleTaunt(self):
-        return TTLocalizer.BattleBldgBossTaunt
-
+            
     def disable(self):
         """ disable()
         """
         DistributedBattleBase.DistributedBattleBase.disable(self)
-        self.battleMusic.stop()
+        self.battleMusic.stop()        
 
     def delete(self):
         """ delete()
@@ -143,8 +140,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
 
                 # TODO: have an inside of building taunt here
                 if (self.bossBattle == 1):
-                    #taunt = TTLocalizer.BattleBldgBossTaunt
-                    taunt = self.getBossBattleTaunt()
+                    taunt = TTLocalizer.BattleBldgBossTaunt
                 else:
                     taunt = SuitBattleGlobals.getFaceoffTaunt(suit.getStyleName(), suit.doId)
 
@@ -160,7 +156,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
             suitTrack.append(oneSuitTrack)
 
 
-        # Do the toons faceoff
+        # Do the toons faceoff 
         toonTrack = Parallel()
         for toon in self.toons:
             oneToonTrack = Sequence()
@@ -173,7 +169,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         # Put the camera somewhere
         camTrack = Sequence()
         def setCamFov(fov):
-            base.camLens.setMinFov(fov)
+            base.camLens.setFov(fov)
         camTrack.append(Func(camera.wrtReparentTo, suitLeader))
 
         camTrack.append(Func(setCamFov, self.camFOFov))
@@ -230,7 +226,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         self.clearInterval(self.faceOffName)
         self._removeMembersKeep()
         camera.wrtReparentTo(self)
-        base.camLens.setMinFov(self.camFov)
+        base.camLens.setFov(self.camFov)
         return None
 
     ##### WaitForInput state #####
@@ -280,7 +276,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         if (self.hasLocalToon()):
             NametagGlobals.setMasterArrowsOn(0)
         self.movie.playReward(ts, self.uniqueName('building-reward'),
-                                        self.__handleBuildingRewardDone, noSkip=True)
+                                        self.__handleBuildingRewardDone)
         return None
 
     def __handleBuildingRewardDone(self):

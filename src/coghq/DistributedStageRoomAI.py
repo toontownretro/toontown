@@ -48,7 +48,7 @@ class DistributedStageRoomAI(DistributedLevelAI.DistributedLevelAI,
         if __dev__:
             # create a factory EntityTypeRegistry and hand it to the spec
             self.notify.debug('creating entity type registry')
-            typeReg = self.getEntityTypeReg()
+            typeReg = self.getStageEntityTypeReg()
             roomSpec.setEntityTypeReg(typeReg)
         
         self.notify.debug('creating entities')

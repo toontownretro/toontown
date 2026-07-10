@@ -1,4 +1,4 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toon import Toon
 from toontown.hood import Place
 
@@ -17,11 +17,11 @@ class BattlePlace(Place.Place):
                 +", battleEvent="+str(battleEvent)+")"))
         if (battleEvent):
             if not self.fsm.request(state, [battleEvent]):
-                self.notify.warning("fsm.request('%s') returned 0 (zone id %s, avatar pos %s)."
+                self.notify.warning("fsm.request('%s') returned 0 (zone id %s, avatar pos %s)." 
                     % (state, self.zoneId, base.localAvatar.getPos(render)))
         else:
             if not self.fsm.request(state):
-                self.notify.warning("fsm.request('%s') returned 0 (zone id %s, avatar pos %s)."
+                self.notify.warning("fsm.request('%s') returned 0 (zone id %s, avatar pos %s)." 
                     % (state, self.zoneId, base.localAvatar.getPos(render)))
 
     def enterWalk(self, flag=0):
@@ -29,7 +29,7 @@ class BattlePlace(Place.Place):
         Place.Place.enterWalk(self, flag)
         # handlers
         self.accept("enterBattle", self.handleBattleEntry)
-
+        
     def exitWalk(self):
         assert(self.notify.debug("exitWalk()"))
         Place.Place.exitWalk(self)
@@ -44,8 +44,6 @@ class BattlePlace(Place.Place):
 
     def enterBattle(self, event):
         assert(self.notify.debug("enterBattle()"))
-        if ConfigVariableBool('want-qa-regression', 0).getValue():
-            self.notify.info('QA-REGRESSION: COGBATTLE: Enter Battle')
         self.loader.music.stop()
         base.playMusic(self.loader.battleMusic, looping=1, volume=0.9)
         self.enterTownBattle(event)
@@ -64,7 +62,7 @@ class BattlePlace(Place.Place):
 
     def enterTownBattle(self, event):
         self.loader.townBattle.enter(event, self.fsm.getStateNamed("battle"))
-
+        
     def exitBattle(self):
         assert(self.notify.debug("exitBattle()"))
         self.loader.townBattle.exit()
@@ -77,7 +75,7 @@ class BattlePlace(Place.Place):
     def handleBattleEntry(self):
         assert(self.notify.debug("handleBattleEntry()"))
         self.fsm.request("battle")
-
+    
     def enterFallDown(self, extraArgs=[]):
         assert(self.notify.debug("enterFallDown()"))
         # exitWalk hides the laffmeter, so start it here
@@ -90,11 +88,11 @@ class BattlePlace(Place.Place):
     def handleFallDownDone(self):
         # put place back in walk state after squish is done
         base.cr.playGame.getPlace().setState("walk")
-
+        
     def exitFallDown(self):
         assert(self.notify.debug("exitFallDown"))
         base.localAvatar.laffMeter.stop()
-
+    
     def enterSquished(self):
         assert(self.notify.debug("enterSquished()"))
         # exitWalk hides the laffmeter, so start it here
@@ -105,17 +103,17 @@ class BattlePlace(Place.Place):
         taskMgr.doMethodLater(2.0,
                               self.handleSquishDone,
                               base.localAvatar.uniqueName("finishSquishTask"))
-
+        
     def handleSquishDone(self, extraArgs=[]):
         # put place back in walk state after squish is done
         base.cr.playGame.getPlace().setState("walk")
         #self.fsm.request("walk")
-
+        
     def exitSquished(self):
         assert(self.notify.debug("exitSquished()"))
         taskMgr.remove(base.localAvatar.uniqueName("finishSquishTask"))
         base.localAvatar.laffMeter.stop()
-
+    
     def enterZone(self, newZone):
         """
         Puts the toon in the indicated zone.  newZone may either be a
@@ -146,7 +144,7 @@ class BattlePlace(Place.Place):
             if newZoneId != None:
                 base.cr.sendSetZoneMsg(newZoneId)
                 self.notify.debug("Entering Zone %d" % (newZoneId))
-
+                
             # The new zone is now old
             self.zoneId = newZoneId
         assert(self.notify.debug("  newZoneId="+str(newZoneId)))

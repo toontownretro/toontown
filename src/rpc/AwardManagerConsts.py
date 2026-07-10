@@ -1,7 +1,7 @@
 GiveAwardErrors = Enum('Success, WrongGender, NotGiftable, FullMailbox, FullAwardMailbox, AlreadyInMailbox, AlreadyInGiftQueue, '
                        'AlreadyInOrderedQueue, AlreadyInCloset, AlreadyBeingWorn, AlreadyInAwardMailbox, '
-                       'AlreadyInThirtyMinuteQueue, AlreadyInMyPhrases, AlreadyKnowDoodleTraining, AlreadyRented, '
-                       'GenericAlreadyHaveError, UnknownError, UnknownToon, NonToon, '
+                       'AlreadyInThirtyMinuteQueue, AlreadyInMyPhrases, AlreadyKnowDoodleTraining, '
+                       'GenericAlreadyHaveError, UnknownError, UnknownToon, '
                        )
 
 GiveAwardErrorStrings = {
@@ -19,11 +19,9 @@ GiveAwardErrorStrings = {
     GiveAwardErrors.AlreadyInThirtyMinuteQueue: "award already in 30 minute queue",
     GiveAwardErrors.AlreadyInMyPhrases: "speed chat award already in my phrases",
     GiveAwardErrors.AlreadyKnowDoodleTraining: "doodle training award already known",
-    GiveAwardErrors.AlreadyRented: "award is already rented",
     GiveAwardErrors.GenericAlreadyHaveError: "generic-already-have error",
     GiveAwardErrors.UnknownError: "unknown error",
     GiveAwardErrors.UnknownToon: "toon not in database",
-    GiveAwardErrors.NonToon: "this is not a toon",
     }
 
 assert len(GiveAwardErrorStrings) == len(GiveAwardErrors)

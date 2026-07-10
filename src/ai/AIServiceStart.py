@@ -14,8 +14,8 @@ import getopt
 # Initialize ihooks importer On the production servers, we run genPyCode -n
 # meaning no squeeze, so nobody else does this. When we squeeze, the
 # unpacker does this for us and it does not hurt to do in either case.
-#import ihooks
-#ihooks.install()
+import ihooks
+ihooks.install()
 
 from direct.directnotify import RotatingLog
 
@@ -47,14 +47,14 @@ try:
         'max_objid=',
         'dcfile=',
         ])
-except Exception as e:
-    print(e)
-    print(helpString)
+except Exception, e:
+    print e
+    print helpString
     sys.exit(1)
 
 # Only four of the items are required
 if len(opts) < 4:
-    print(helpString)
+    print helpString
     sys.exit(1)
 
 # Default values
@@ -73,7 +73,7 @@ for opt in opts:
     elif (flag == '--district_name'):
         # Convert underbars to spaces
         origDistrictName = value
-        districtName = value.replace("_", " ")
+        districtName = string.replace(value, "_", " ")
     elif (flag == '--logpath'):
         logpath = value
     elif (flag == '--ssid'):
@@ -93,13 +93,13 @@ for opt in opts:
     elif (flag == '--dcfile'):
         dcFileNames.append(value)
     else:
-        print("Error: Illegal option: " + flag)
-        print(helpString)
+        print "Error: Illegal option: " + flag
+        print helpString
         sys.exit(1)
 
 if not dcFileNames:
     dcFileNames = ['otp.dc', 'toon.dc']
-
+    
 # Setup the log files
 # We want C++ and Python to both go to the same log so they
 # will be interlaced properly.
@@ -127,7 +127,7 @@ logErr = LogAndOutput(sys.__stderr__, log)
 sys.stdout = logOut
 sys.stderr = logErr
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 
 # Give Panda the same log we use
 nout = MultiplexStream()
@@ -140,11 +140,11 @@ nout.addSystemDebug()
 # We prefer writing the date on the same line as the starting message,
 # so we can more easily grep for a restart on a particular date in the
 # log files.
-print("\n\nStarting %s (number: %s) on %s port %s. %s %s" % (
-    districtName, districtNumber, mdip, mdport,
-    time.asctime(time.localtime(time.time())), time.tzname[0]))
+print "\n\nStarting %s (number: %s) on %s port %s. %s %s" % (
+    districtName, districtNumber, mdip, mdport, 
+    time.asctime(time.localtime(time.time())), time.tzname[0])
 
-print("Initializing...")
+print "Initializing..."
 
 from otp.ai.AIBaseGlobal import *
 from toontown.ai import ToontownAIRepository

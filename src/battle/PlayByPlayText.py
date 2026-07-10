@@ -1,15 +1,15 @@
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase.ToontownBattleGlobals import *
 from toontown.toonbase.ToontownGlobals import *
-from .SuitBattleGlobals import *
+from SuitBattleGlobals import *
 from direct.interval.IntervalGlobal import *
 
 from direct.directnotify import DirectNotifyGlobal
 import string
 from direct.gui import OnscreenText
-from . import BattleBase
+import BattleBase
 
 class PlayByPlayText(OnscreenText.OnscreenText):
     """
@@ -19,13 +19,13 @@ class PlayByPlayText(OnscreenText.OnscreenText):
 
     def __init__(self):
         OnscreenText.OnscreenText.__init__(
-            self,
+            self, 
             mayChange = 1,
             pos = (0.0, 0.75),
             scale = TTLocalizer.PBPTonscreenText,
             fg = (1, 0, 0, 1),
             font = getSignFont(),
-            wordwrap = 14
+            wordwrap = 13
             )
 
     def getShowInterval(self, text, duration):
@@ -58,3 +58,4 @@ class PlayByPlayText(OnscreenText.OnscreenText):
             )
 
         return track
+        

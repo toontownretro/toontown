@@ -1,13 +1,13 @@
 from otp.ai.AIBaseGlobal import *
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.showbase import PythonUtil
 from direct.distributed import DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.PythonUtil import Functor
-from . import DistributedEstateAI
+import DistributedEstateAI
 from direct.task.Task import Task
-from . import DistributedHouseAI
-from . import HouseGlobals
+import DistributedHouseAI
+import HouseGlobals
 import random
 
 TELEPORT_TO_OWNER_ONLY = 0
@@ -40,11 +40,11 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
         self.notify.debug("BASE: delete: deleting EstateManagerAI object")
         self.ignoreAll()
         DistributedObjectAI.DistributedObjectAI.delete(self)
-        for estate in list(self.estate.values()):
+        for estate in self.estate.values():
             estate.requestDelete()
             # This automatically gets called by the server
             # estate.delete()
-        for hList in list(self.house.values()):
+        for hList in self.house.values():
             for house in hList:
                 house.requestDelete()
                 # This automatically gets called by the server
@@ -96,7 +96,7 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
                 self.notify.debug("we aren't teleporting to the same estate")
 
             goingHome = 0
-            if ownerId not in self.estateZone:
+            if not self.estateZone.has_key(ownerId):
                 # The person we are visiting is not in this shard
                 # (or for some reason is not really in his estate)
                 self.notify.warning("Can't go to friends house if he is not there")
@@ -178,7 +178,6 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
 
     def getAvEnterEvent(self):
         return 'avatarEnterEstate'
-
     def getAvExitEvent(self, avId=None):
         # listen for all exits or a particular exit
         # event args:
@@ -186,13 +185,15 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
         #  if avId not given: avId, ownerId, zoneId
         if avId is None:
             return 'avatarExitEstate'
-        return 'avatarExitEstate-%s' % avId
+        else:
+            return 'avatarExitEstate-%s' % avId
 
     def __enterEstate(self, avId, ownerId):
         # Tasks that should always get called when entering an estate
 
         # Handle unexpected exit
-        self.acceptOnce(self.air.getAvatarExitEvent(avId), self.__handleUnexpectedExit, extraArgs=[avId])
+        self.acceptOnce(self.air.getAvatarExitEvent(avId),
+                        self.__handleUnexpectedExit, extraArgs=[avId])
 
         # Toonup
         try:
@@ -204,23 +205,32 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
     def _listenForToonEnterEstate(self, avId, ownerId, zoneId):
         #self.notify.debug('_listenForToonEnterEstate(avId=%s, ownerId=%s, zoneId=%s)' % (avId, ownerId, zoneId))
         if avId in self.avId2pendingEnter:
-            self.notify.warning('_listenForToonEnterEstate(avId=%s, ownerId=%s, zoneId=%s): %s already in avId2pendingEnter. overwriting' % (avId, ownerId, zoneId, avId))
+            self.notify.warning(
+                '_listenForToonEnterEstate(avId=%s, ownerId=%s, zoneId=%s): '
+                '%s already in avId2pendingEnter. overwriting' % (
+                avId, ownerId, zoneId, avId))
         self.avId2pendingEnter[avId] = (ownerId, zoneId)
-        self.accept(DistributedObjectAI. DistributedObjectAI.staticGetLogicalZoneChangeEvent(avId), Functor(self._toonChangedZone, avId))
+        self.accept(DistributedObjectAI.
+                    DistributedObjectAI.staticGetLogicalZoneChangeEvent(avId),
+                    Functor(self._toonChangedZone, avId))
 
     def _toonLeftBeforeArrival(self, avId):
         #self.notify.debug('_toonLeftBeforeArrival(avId=%s)' % avId)
         if avId not in self.avId2pendingEnter:
-            self.notify.warning('_toonLeftBeforeArrival: av %s not in table' % avId)
+            self.notify.warning('_toonLeftBeforeArrival: av %s not in table' %
+                                avId)
             return
         ownerId, zoneId = self.avId2pendingEnter[avId]
-        self.notify.warning('_toonLeftBeforeArrival: av %s left server before arriving in estate (owner=%s, zone=%s)' % (avId, ownerId, zoneId))
+        self.notify.warning(
+            '_toonLeftBeforeArrival: av %s left server before arriving in '
+            'estate (owner=%s, zone=%s)' % (avId, ownerId, zoneId))
         del self.avId2pendingEnter[avId]
 
     def _toonChangedZone(self, avId, newZoneId, oldZoneId):
         #self.notify.debug('_toonChangedZone(avId=%s, newZoneId=%s, oldZoneId=%s)' % (avId, newZoneId, oldZoneId))
         if avId not in self.avId2pendingEnter:
-            self.notify.warning('_toonChangedZone: av %s not in table' % avId)
+            self.notify.warning('_toonChangedZone: av %s not in table' %
+                                avId)
             return
         av = self.air.doId2do.get(avId)
         if not av:
@@ -230,19 +240,22 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
         estateZoneIds = self.getEstateZones(ownerId)
         if newZoneId in estateZoneIds:
             del self.avId2pendingEnter[avId]
-            self.ignore(DistributedObjectAI.DistributedObjectAI.staticGetLogicalZoneChangeEvent(avId))
+            self.ignore(DistributedObjectAI.
+                        DistributedObjectAI.staticGetLogicalZoneChangeEvent(avId))
             self.announceToonEnterEstate(avId, ownerId, estateZoneId)
 
     def announceToonEnterEstate(self, avId, ownerId, zoneId):
         """ announce to the rest of the system that a toon is entering
         an estate """
-        EstateManagerAI.notify.debug('announceToonEnterEstate: %s %s %s' % (avId, ownerId, zoneId))
+        EstateManagerAI.notify.debug('announceToonEnterEstate: %s %s %s' %
+                                     (avId, ownerId, zoneId))
         messenger.send(self.getAvEnterEvent(), [avId, ownerId, zoneId])
 
     def announceToonExitEstate(self, avId, ownerId, zoneId):
         """ announce to the rest of the system that a toon is exiting
         an estate """
-        EstateManagerAI.notify.debug('announceToonExitEstate: %s %s %s' % (avId, ownerId, zoneId))
+        EstateManagerAI.notify.debug('announceToonExitEstate: %s %s %s' %
+                                     (avId, ownerId, zoneId))
         messenger.send(self.getAvExitEvent(avId))
         messenger.send(self.getAvExitEvent(), [avId, ownerId, zoneId])
 
@@ -252,7 +265,8 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
         estate = self.estate.get(ownerId)
         if estate is not None:
             if not hasattr(estate, 'zoneId'):
-                self.notify.warning('getEstateZones: estate %s (owner %s) has no \'zoneId\'' % (estate.doId, ownerId))
+                self.notify.warning('getEstateZones: estate %s (owner %s) has no \'zoneId\'' %
+                                    (estate.doId, ownerId))
             else:
                 zones.append(estate.zoneId)
         houses = self.house.get(ownerId)
@@ -345,7 +359,7 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
         self.notify.debug(str)
 
     def clearEstateZone(self, index):
-        assert index in self.estateZone
+        assert self.estateZone.has_key(index)
 
         #print some debug info
         frame = sys._getframe(1)
@@ -382,14 +396,15 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
             # now remap references
             self.account2avId[name] = ownerId
 
-            #if prevAvId in self.estateZone:
-            if prevAvId in self.toBeDeleted:
+            #if self.estateZone.has_key(prevAvId):
+            if self.toBeDeleted.has_key(prevAvId):
                 self.setEstateZone(ownerId, self.toBeDeleted[prevAvId])
                 del self.toBeDeleted[prevAvId]
             return 1
         return 0
 
-    def handleGetEstate(self, avId, ownerId, estateId, estateVal, numHouses, houseId, houseVal, petIds, valDict = None):
+    def handleGetEstate(self, avId, ownerId, estateId, estateVal,
+                        numHouses, houseId, houseVal, petIds, valDict = None):
         self.notify.debug("handleGetEstate %s" % avId)
         # this function is called after the estate data is pulled
         # from the database.  the houseAI object is initialized
@@ -407,7 +422,7 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
         # there is a chance that the owner will already have left (by
         # closing the window).  We need to handle that gracefully.
 
-        if ownerId not in self.estateZone:
+        if not self.estateZone.has_key(ownerId):
             self.notify.warning("Estate info was requested, but the owner left before it could be recived: %d" % estateId)
             return
         elif not avId in self.air.doId2do:
@@ -415,21 +430,27 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
             return
 
         # create the DistributedEstateAI object for this avId
-        if avId in self.estateZone:
-            if estateId in self.air.doId2do:
+        if self.estateZone.has_key(avId):
+            if self.air.doId2do.has_key(estateId):
                 self.notify.warning("Already have distobj %s, not generating again" % (estateId))
             else:
-                self.notify.info('start estate %s init, owner=%s, frame=%s' % (estateId, ownerId, globalClock.getFrameCount()))
+                self.notify.info('start estate %s init, owner=%s, frame=%s' %
+                                 (estateId, ownerId, globalClock.getFrameCount()))
 
                 # give the estate a time seed
                 estateZoneId = self.estateZone[avId][0]
                 ts = time.time() % HouseGlobals.DAY_NIGHT_PERIOD
                 self.randomGenerator.seed(estateId)
                 dawn = HouseGlobals.DAY_NIGHT_PERIOD * self.randomGenerator.random()
-                estateAI = DistributedEstateAI.DistributedEstateAI(self.air, avId, estateZoneId, ts, dawn, valDict)
+                estateAI = DistributedEstateAI.DistributedEstateAI(self.air, avId,
+                                                                   estateZoneId, ts, dawn, valDict)
                 # MPG - We should make sure this works across districts
                 estateAI.dbObject = 1
-                estateAI.generateWithRequiredAndId(estateId, self.air.districtId, estateZoneId)
+                estateAI.generateWithRequiredAndId(estateId,
+                                                   self.air.districtId,
+                                                   estateZoneId)
+
+
 
                 estateAI.initEstateData(estateVal, numHouses, houseId, houseVal)
                 estateAI.setPetIds(petIds)
@@ -440,11 +461,13 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
                 # DistributedHouse objects get deleted from the stateserver.
                 self.house[avId] = [None] * numHouses
                 for i in range(numHouses):
-                    if houseId[i] in self.air.doId2do:
+                    if self.air.doId2do.has_key(houseId[i]):
                         self.notify.warning("doId of house %s conflicts with a %s!" % (houseId[i], self.air.doId2do[houseId[i]].__class__.__name__))
 
                     else:
-                        house = DistributedHouseAI.DistributedHouseAI(self.air, houseId[i], estateId, estateZoneId, i)
+                        house = DistributedHouseAI.DistributedHouseAI(self.air,
+                                                                      houseId[i],
+                                                                      estateId, estateZoneId, i)
 
                         # get house information
                         house.initFromServerResponse(houseVal[i])
@@ -456,7 +479,9 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
                         house.dbObject = 1
 
                         # MPG - We should make sure this works across districts
-                        house.generateWithRequiredAndId(houseId[i], self.air.districtId, estateZoneId)
+                        house.generateWithRequiredAndId(houseId[i],
+                                                        self.air.districtId,
+                                                        estateZoneId)
 
                         house.setupEnvirons()
 
@@ -475,15 +500,18 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
                     avIdList.append(avHouse.ownerId)
 
                 if simbase.wantPets:
-                    self.notify.debug('creating pet collisions for estate %s' % estateId)
+                    self.notify.debug('creating pet collisions for estate %s' %
+                                     estateId)
                     estateAI.createPetCollisions()
 
                 # create a pond bingo manager ai for the new estate
                 if simbase.wantBingo:
-                    self.notify.info('creating bingo mgr for estate %s' % estateId)
+                    self.notify.info('creating bingo mgr for estate %s' %
+                                     estateId)
                     self.air.createPondBingoMgrAI(estateAI)
 
-                self.notify.info('finish estate %s init, owner=%s' % (estateId, ownerId))
+                self.notify.info('finish estate %s init, owner=%s' %
+                                 (estateId, ownerId))
 
                 estateAI.gardenInit(avIdList)
 
@@ -546,7 +574,7 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
                 self.notify.debug("__exitEstate: av %d doesn't own estate" % avId)
                 # avId doesn't own this estate, just remove references to avId
                 # from the data structures
-                if avId in self.estateZone:
+                if self.estateZone.has_key(avId):
                     self.clearEstateZone(avId)
                 try:
                     self.refCount[avZone[0]].remove(avId)
@@ -556,7 +584,7 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
             self.notify.debug("__exitEstate can't find zone for %d" % avId)
 
         # stop the healing
-        if avId in self.air.doId2do:
+        if self.air.doId2do.has_key(avId):
             # Find the avatar
             av = self.air.doId2do[avId]
             # Stop healing them
@@ -572,7 +600,7 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
         #   friend A is visting friend B
         #   friend B exits his estate
         #   friend C attempts to visit friend A at the same time
-        for someAvId, avZone in list(self.estateZone.items()):
+        for someAvId, avZone in self.estateZone.items():
             if avZone[0] == zoneId:
                 # This may be a slow client that just hasn't reported back.
                 # If the toon is still in the zone, announce that they've
@@ -600,7 +628,7 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
         avZone = self.toBeDeleted.get(avId)
         if avZone:
             if avZone[2] != "":
-                if avZone[2] in self.account2avId:
+                if self.account2avId.has_key(avZone[2]):
                     self.notify.debug( "removing %s from account2avId" % avZone[2])
                     del self.account2avId[avZone[2]]
             del self.toBeDeleted[avId]
@@ -613,7 +641,7 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
         self.ignore(self.air.getAvatarExitEvent(avId))
 
         # refcount should be empty, just delete
-        if zoneId in self.refCount:
+        if self.refCount.has_key(zoneId):
             del self.refCount[zoneId]
 
         return Task.done
@@ -631,7 +659,7 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
         self.notify.debug("__deleteEstate(avId=%s)" % avId)
 
         # delete from state server
-        if avId in self.estate:
+        if self.estate.has_key(avId):
             if self.estate[avId] != None:
                 self.estate[avId].destroyEstateData()
                 self.notify.debug('DistEstate requestDelete, doId=%s' %
@@ -678,7 +706,7 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
     def __bootAv(self, avId, zoneId, ownerId, retCode=1):
         messenger.send("bootAvFromEstate-"+str(avId))
         self.sendUpdateToAvatarId(avId, "sendAvToPlayground", [avId, retCode])
-        if avId in self.toBeDeleted:
+        if self.toBeDeleted.has_key(avId):
             del self.toBeDeleted[avId]
         try:
             self.refCount[zoneId].remove(avId)
@@ -706,12 +734,12 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
                         # avId is indeed in owner's estate.  boot him
                         self.__bootAv(avId, ownZone[0], ownerId, retCode=2)
                     else:
-                        print("visitor not in owners estate")
+                        print "visitor not in owners estate"
                 else:
-                    print("av is not in an estate")
+                    print "av is not in an estate"
 
         else:
-            print("owner not in estate")
+            print "owner not in estate"
 
     ## -----------------------------------------------------------
     ## April fools stuff
@@ -722,3 +750,4 @@ class EstateManagerAI(DistributedObjectAI.DistributedObjectAI):
 
     def stopAprilFools(self):
         self.sendUpdate("stopAprilFools",[])
+

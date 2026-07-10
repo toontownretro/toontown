@@ -1,4 +1,4 @@
-from toontown.toonbase.ToontownModules import NodePath, BillboardEffect, Vec3, Point3, TextureStage, \
+from pandac.PandaModules import NodePath, BillboardEffect, Vec3, Point3, TextureStage, \
      TransparencyAttrib, DecalEffect, VBase4
 from direct.fsm import FSM
 from direct.gui.DirectGui import DirectFrame, DGG
@@ -6,12 +6,12 @@ from direct.interval.IntervalGlobal import LerpScaleInterval, LerpColorScaleInte
      Sequence, Wait
 
 
-class DinerStatusIndicator(NodePath, FSM.FSM):
-    """Client only object that shows the status of one diner."""
-
+class DinerStatusIndicator(NodePath.NodePath, FSM.FSM):
+    """Client only object that shows the status of one diner."""    
+    
     def __init__(self, parent, pos=None, scale =None):
         """Create a new indicator object."""
-        NodePath.__init__(self, 'DinerStatusIndicator')
+        NodePath.NodePath.__init__(self, 'DinerStatusIndicator')
         if parent:
             self.reparentTo(parent)
         if pos:
@@ -27,36 +27,20 @@ class DinerStatusIndicator(NodePath, FSM.FSM):
         if self.activeIval:
             self.activeIval.pause()
             self.activeIval = None
-        if self.angryIcon:
-            self.angryIcon.removeNode()
-            self.angryIcon = None
-        if self.angryMeter:
-            self.angryMeter.removeNode()
-            self.angryMeter = None
-        if self.hungryIcon:
-            self.hungryIcon.removeNode()
-            self.hungryIcon = None
-        if self.hungryMeter:
-            self.hungryMeter.removeNode()
-            self.hungryMeter = None
-        if self.eatingIcon:
-            self.eatingIcon.removeNode()
-            self.eatingIcon = None
-        if self.eatingMeter:
-            self.eatingMeter.removeNode()
-            self.eatingMeter = None
+        self.angryIcon.removeNode()
+        self.hungryIcon.removeNode()
+        self.eatingIcon.removeNode()
         self.removeNode()
-
+        
     def loadAssets(self):
         """Load all the stuff we need."""
         iconsFile = loader.loadModel('phase_12/models/bossbotHQ/BanquetIcons')
         self.angryIcon, self.angryMeter = self.loadIcon(iconsFile, '**/Anger')
         self.hungryIcon, self.hungryMeter = self.loadIcon(iconsFile, '**/Hunger')
         self.eatingIcon, self.eatingMeter = self.loadIcon(iconsFile, '**/Food')
-        # Angry doesn't need a meter
-        self.angryMeter.removeNode()
-        self.angryMeter = None
+        self.angryMeter.hide() # angry doesn't need a meter
         iconsFile.removeNode()
+
 
     def loadIcon(self, iconsFile, name):
         """Load and returns one icon and the associated meter."""
@@ -68,52 +52,50 @@ class DinerStatusIndicator(NodePath, FSM.FSM):
         dark.reparentTo(retVal)
         dark.setColor(0.5,0.5,0.5,1)
         # make it look right when they are both on top of each other
-        #retVal.setEffect(DecalEffect.make())
+        retVal.setEffect(DecalEffect.make())
         retVal.setTransparency(TransparencyAttrib.MAlpha, 1)
         # now for the tricky part, move it down and do the texture projection
         ll, ur = dark.getTightBounds()
         center = retVal.attachNewNode('center')
         center.setPos(0, 0, ll[2])
-        center.setDepthOffset(1)
         dark.wrtReparentTo(center)
         dark.setTexProjector(TextureStage.getDefault(), center, retVal)
-        dark.setDepthOffset(2)
-        retVal.stash()
+        retVal.hide()
         return retVal, center
-
+                                 
     def enterEating(self, timeToFinishFood):
         """Enter the eating state and display the meter interval."""
-        self.eatingIcon.unstash()
+        self.eatingIcon.show()
         self.activeIval = self.createMeterInterval(self.eatingIcon, self.eatingMeter, timeToFinishFood)
         self.activeIval.start()
-
+        
     def exitEating(self):
         """Exit the eating state, cleanup the meter interval."""
         if self.activeIval:
             self.activeIval.finish()
             self.activeIval = None
-        self.eatingIcon.stash()
+        self.eatingIcon.hide()
 
     def enterHungry(self, timeToFinishFood):
         """Enter the hungry state and display the meter interval."""
-        self.hungryIcon.unstash()
+        self.hungryIcon.show()
         self.activeIval = self.createMeterInterval(self.hungryIcon, self.hungryMeter, timeToFinishFood)
         self.activeIval.start()
-
+        
     def exitHungry(self):
         """Exit the hungry state, cleanup the meter interval."""
         if self.activeIval:
             self.activeIval.finish()
             self.activeIval = None
-        self.hungryIcon.stash()
+        self.hungryIcon.hide()
 
     def enterAngry(self):
         """Enter the angry state and display the meter interval."""
-        self.angryIcon.unstash()
+        self.angryIcon.show()
 
     def exitAngry(self):
         """Exit the angry state, cleanup the meter interval."""
-        self.angryIcon.stash()
+        self.angryIcon.hide()
         if self.activeIval:
             self.activeIval.finish()
             self.activeIval = None
@@ -132,7 +114,7 @@ class DinerStatusIndicator(NodePath, FSM.FSM):
 
     def exitInactive(self):
         """Exit the dead state, cleanup the meter interval."""
-        pass
+        pass    
 
     def createMeterInterval(self, icon, meter, time):
         """Create and return the meter interval."""
@@ -143,7 +125,7 @@ class DinerStatusIndicator(NodePath, FSM.FSM):
         flashDuration = 10
         if time > flashDuration:
             flashingTrack.append(Wait(time-flashDuration))
-            for i in range(10):
+            for i in xrange(10):
                 flashingTrack.append(Parallel(
                     LerpColorScaleInterval(icon, 0.5, VBase4(1, 0, 0, 1)),
                     icon.scaleInterval(0.5, 1.25)
@@ -152,7 +134,7 @@ class DinerStatusIndicator(NodePath, FSM.FSM):
                     LerpColorScaleInterval(icon, 0.5, VBase4(1,1,1,1)),
                     icon.scaleInterval(0.5, 1)
                     ))
-
+                                     
         retIval = Parallel(
             ivalDarkness,
             flashingTrack

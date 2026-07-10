@@ -78,7 +78,7 @@ NodePath DNASignText::traverse(NodePath &parent, DNAStorage *store, int editing)
     PT(PandaNode) font_node = (store->find_node(_code)).node();
     if (!font_node) {
       dna_cat.error()
-        << "unable to find SignText font " << _code << std::endl;
+        << "unable to find SignText font " << _code << endl;
     } else {
       font = new StaticTextFont(font_node);
     }
@@ -87,7 +87,7 @@ NodePath DNASignText::traverse(NodePath &parent, DNAStorage *store, int editing)
     font = TextNode::get_default_font();
     if (font == (TextFont *)NULL) {
       dna_cat.error()
-        << "no font specified for '" << _letters
+        << "no font specified for '" << _letters 
         << "', and no default font available.\n";
     } else {
       dna_cat.warning()
@@ -96,7 +96,7 @@ NodePath DNASignText::traverse(NodePath &parent, DNAStorage *store, int editing)
   }
 
   // Use the baseline color, if available:
-  LColorf color = _color;
+  Colorf color = _color;
   if (_use_baseline_color) {
     color = baseline->get_color();
   }
@@ -138,9 +138,6 @@ NodePath DNASignText::traverse(NodePath &parent, DNAStorage *store, int editing)
   }
   baseline->baseline_next_pos_hpr_scale(bl_pos, bl_hpr, bl_scale,
     LVector3f(text_node->get_width(), 0.0, text_node->get_height()));
-    
-  // Fix for modern Panda's text rendering
-  bl_pos[1] -= 0.01;
 
   NodePath signText_node_path = parent.attach_new_node(text_node->generate());
   // Place the signText at the bottom center of the building,
@@ -152,7 +149,6 @@ NodePath DNASignText::traverse(NodePath &parent, DNAStorage *store, int editing)
   // Clear parent color higher in the hierarchy
   signText_node_path.set_color_off();
   signText_node_path.set_color(color);
-  signText_node_path.set_depth_offset(1);
 
   // Traverse each node in our vector
   pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
@@ -194,8 +190,13 @@ void DNASignText::write(ostream &out, DNAStorage *store, int indent_level) const
       _pos[0] << " " << _pos[1] << " " << _pos[2] << " ]\n";
   }
   if (!_hpr.almost_equal(LVecBase3f::zero())) {
-    indent(out, indent_level + 1) << "nhpr [ " <<
-      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+    if (temp_hpr_fix) {
+      indent(out, indent_level + 1) << "nhpr [ " <<
+        _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+    } else {
+      indent(out, indent_level + 1) << "hpr [ " <<
+        _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+    }
   }
   if (!_scale.almost_equal(LVecBase3f(1.0, 1.0, 1.0))) {
     indent(out, indent_level + 1) << "scale [ " <<

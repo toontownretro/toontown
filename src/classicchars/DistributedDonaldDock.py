@@ -1,14 +1,14 @@
 """DistributedDonaldDock module: contains the DistributedDonaldDock class"""
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 
-from . import DistributedCCharBase
+import DistributedCCharBase
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.toonbase import ToontownGlobals
-from . import CharStateDatas
+import CharStateDatas
 from direct.fsm import StateData
 from direct.task import Task
 from toontown.toonbase import TTLocalizer
@@ -43,7 +43,7 @@ class DistributedDonaldDock(DistributedCCharBase.DistributedCCharBase):
                              )
 
             self.fsm.enterInitialState()
-
+            
             # We want him to show up as Donald
             self.nametag.setName(TTLocalizer.Donald)
 
@@ -74,15 +74,15 @@ class DistributedDonaldDock(DistributedCCharBase.DistributedCCharBase):
         create DonaldDock and state data information
         """
         DistributedCCharBase.DistributedCCharBase.generate(self)
-
+        
         boat = base.cr.playGame.hood.loader.boat
-
+                
         self.setPos(0,-1,3.95)
         self.reparentTo(boat)
-
+        
         self.neutralDoneEvent = self.taskName('DonaldDock-neutral-done')
         self.neutral = CharStateDatas.CharNeutralState(self.neutralDoneEvent, self)
-        self.fsm.request('Neutral')
+        self.fsm.request('Neutral')       
 
     ### Off state ###
     def enterOff(self):

@@ -9,7 +9,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
 
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPetProxy")
 
-    def __init__(self, cr):
+    def __init__(self, cr): 
         DistributedObject.DistributedObject.__init__(self, cr)
         # create our distributed trait and mood funcs
         self.__funcsToDelete = []
@@ -33,7 +33,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
         self.requiredMoodComponents = {}
 
     def getSetterName(self, valueName, prefix='set'):
-        return '%s%s%s' % (prefix, valueName[0].upper(), valueName[1:])
+        return '%s%s%s' % (prefix, string.upper(valueName[0]), valueName[1:])
 
     def setOwnerId(self, ownerId):
         self.ownerId = ownerId
@@ -53,7 +53,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
     # setXXX func is generated for each trait
     def __generateDistTraitFuncs(self):
         # generate a set func for each trait
-        for i in range(PetTraits.PetTraits.NumTraits):
+        for i in xrange(PetTraits.PetTraits.NumTraits):
             traitName = PetTraits.getTraitNames()[i]
             setterName = self.getSetterName(traitName)
             def traitSetter(value, self=self, i=i):
@@ -129,7 +129,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
     def __handleMoodSet(self, component, value):
         # THIS IS ONLY TO BE USED BY THE MOOD SET HANDLERS
         # see requiredMoodComponents comment in __init__
-        #print("Doid: %s Comp: %s Value: %s" % (self.doId, component, value))
+        #print "Doid: %s Comp: %s Value: %s" % (self.doId, component, value)
         if self.isGenerated():
             self.mood.setComponent(component, value)
         else:
@@ -155,7 +155,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
         # the corrupted doodle problem
         DistributedObject.DistributedObject.announceGenerate(self)
         self.traits = PetTraits.PetTraits(self.traitSeed, self.safeZone)
-        print(self.traits.traits)
+        print self.traits.traits
         """
         self.traits = PetTraits.PetTraits(self.traitSeed, self.safeZone,
                                           traitValueList=self.traitList)
@@ -166,7 +166,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
         self.lastKnownMood = self.mood.makeCopy()
 
         # pass in the cached required mood component values
-        for mood, value in list(self.requiredMoodComponents.items()):
+        for mood, value in self.requiredMoodComponents.items():
             self.mood.setComponent(mood, value, announce=0)
         self.requiredMoodComponents = {}
 
@@ -232,3 +232,4 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
 
     def isProxy(self):
         return True
+

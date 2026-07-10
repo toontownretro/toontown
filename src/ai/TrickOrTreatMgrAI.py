@@ -1,4 +1,4 @@
-from . import ScavengerHuntMgrAI
+import ScavengerHuntMgrAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.ai import DistributedTrickOrTreatTargetAI
@@ -35,7 +35,7 @@ class TrickOrTreatMgrAI(ScavengerHuntMgrAI.ScavengerHuntMgrAI):
         """
         Create the listeners that will look for an event in the relavent zone
         """
-        for id in list(self.goals.keys()):
+        for id in self.goals.keys():
             mgrAI = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air,
                                                                                 self.hunt,
                                                                                 id,
@@ -76,8 +76,8 @@ class TrickOrTreatMgrAI(ScavengerHuntMgrAI.ScavengerHuntMgrAI):
             self.notify.warning(
                 'Tried to send milestone feedback to av %s, but they left' % avId)
         else:
-            #av.b_setCheesyEffect(OTPGlobals.CEPumpkin, 0, (time.time()/60)+1)
-            av.b_setCheesyEffect(OTPGlobals.CEPumpkin, 0, endTime/60)
+            av.b_setCheesyEffect(OTPGlobals.CEPumpkin, 0, (time.time()/60)+1)
+            #av.b_setCheesyEffect(OTPGlobals.CEPumpkin, 0, endTime/60)
             
     def huntGoalAlreadyFound(self, avId):
         """

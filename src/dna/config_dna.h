@@ -15,15 +15,13 @@
 
 class DSearchPath;
 
-NotifyCategoryDeclNoExport(dna);
+NotifyCategoryDecl(dna, EXPCL_TOONTOWN, EXPTP_TOONTOWN);
 
-extern EXPCL_TOONTOWN_DNALOADER ConfigVariableList dna_preload;
-extern EXPCL_TOONTOWN_DNALOADER ConfigVariableSearchPath dna_path;
+extern ConfigVariableList dna_preload;
+extern ConfigVariableSearchPath dna_path;
 
 BEGIN_PUBLISH
-EXPCL_TOONTOWN_DNALOADER const ConfigVariableSearchPath &get_dna_path();
+EXPCL_TOONTOWN const ConfigVariableSearchPath &get_dna_path();
 END_PUBLISH
-
-extern EXPCL_TOONTOWN_DNALOADER void init_libdna();
 
 #endif

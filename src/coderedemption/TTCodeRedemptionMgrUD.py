@@ -1,7 +1,7 @@
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.http.WebRequest import WebRequestDispatcher
-import xml.etree.ElementTree as ET
+from direct.showbase import ElementTree as ET
 from direct.showbase.HTMLTree import HTMLTree
 from direct.showbase.PythonUtil import unescapeHtmlString as uhs
 from direct.showbase.PythonUtil import str2elements
@@ -16,15 +16,12 @@ from toontown.coderedemption import TTCodeRedemptionSpamDetector
 from toontown.rpc.AwardManagerUD import AwardManagerUD
 from toontown.rpc import AwardManagerConsts
 from toontown.uberdog import PartiesUdConfig
-from io import StringIO
+from StringIO import StringIO
 import datetime
 import random
 import socket
 import string
-import traceback
 import re
-
-from toontown.toonbase.ToontownModules import *
 
 SE = ET.SubElement
 
@@ -59,7 +56,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
     ReCAPTCHAPublicKey = '6Ld8gwkAAAAAALtgzi9Y0q8DqflAK7DwfeiKfTGN'
     ReCAPTCHAPrivateKey = '6Ld8gwkAAAAAAEtBhL2sblZNm4SFy3B8g-6PDIUI'
 
-    Disabled = ConfigVariableBool('disable-code-redemption', 0).getValue()
+    Disabled = config.GetBool('disable-code-redemption', 0)
 
     class GenericErrors:
         EmptyInput = 'This field is required'
@@ -80,8 +77,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
     class RedeemErrors:
         InvalidCharInAvId = 'AvId can only contain numbers'
-        #CodeIsExpired = 'Code is expired'
-        CodeIsInactive = 'Code is inactive'
+        CodeIsExpired = 'Code is expired'
         CodeAlreadyRedeemed = 'Code has already been redeemed'
         AwardCouldntBeGiven = 'Award could not be given, code not processed'
 
@@ -102,7 +98,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         TestSpamRedemptions = (([('!!!', (TTCodeRedemptionConsts.RedeemErrors.CodeDoesntExist, 0)),] * TTCodeRedemptionSpamDetector.Settings.DetectThreshold) +
                                [('!!!', (TTCodeRedemptionConsts.RedeemErrors.TooManyAttempts, 0)),]
                                )
-
+    
     def __init__(self, air):
         DistributedObjectGlobalUD.__init__(self, air)
 
@@ -116,11 +112,11 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         self.webDispatcher.landingPage.addTab("CodeMgmt","/codeManagement")
         self.webDispatcher.listenOnPort(self.HTTPListenPort)
 
-        self.DBuser = ConfigVariableString("mysql-user", PartiesUdConfig.ttDbUser).getValue()
-        self.DBpasswd = ConfigVariableString("mysql-passwd", PartiesUdConfig.ttDbPasswd).getValue()
+        self.DBuser = uber.config.GetString("mysql-user", PartiesUdConfig.ttDbUser)
+        self.DBpasswd = uber.config.GetString("mysql-passwd", PartiesUdConfig.ttDbPasswd)
 
-        self.DBhost = ConfigVariableString("tt-code-db-host", uber.mysqlhost).getValue()
-        self.DBport = ConfigVariableInt("tt-code-db-port", PartiesUdConfig.ttDbPort).getValue()
+        self.DBhost = uber.config.GetString("tt-code-db-host", uber.mysqlhost)
+        self.DBport = uber.config.GetInt("tt-code-db-port", PartiesUdConfig.ttDbPort)
         self.DBname = choice(uber.crDbName != '', uber.crDbName, TTCodeRedemptionConsts.DefaultDbName)
 
         self._rewardSerialNumGen = SerialNumGen()
@@ -141,10 +137,10 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         self._createLotId2task = {}
 
         self._randSampleContext2callback = {}
-        self._randSampleContextGen = SerialMaskedGen((1<<32)-1)
+        self._randSampleContextGen = SerialMaskedGen((1L<<32)-1)
 
         self._spamDetector = TTCodeRedemptionSpamDetector.TTCodeRedemptionSpamDetector()
-        self._wantSpamDetect = ConfigVariableBool('want-code-redemption-spam-detect', 1).getValue()
+        self._wantSpamDetect = config.GetBool('want-code-redemption-spam-detect', 1)
 
         if __dev__:
             self._testAvId = random.randrange(self.TestRedemptionSpamAvIdMin, self.TestRedemptionSpamAvIdMax)
@@ -158,9 +154,9 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
     if __dev__:
         def _sendTestRedemptions(self):
-            for avId in list(self._avId2table.keys()):
+            for avId in self._avId2table.iterkeys():
                 redemptions = self._avId2table[avId]
-                for i in range(len(redemptions)):
+                for i in xrange(len(redemptions)):
                     redemption = redemptions[i]
                     code, results = redemption
                     self.redeemCodeAiToUd(0, 0, i, code, avId, self._resolveTestRedemption)
@@ -168,9 +164,9 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         def _sendDisabledTestRedemptions(self):
             saved = TTCodeRedemptionMgrUD.Disabled
             TTCodeRedemptionMgrUD.Disabled = True
-            for avId in list(self._disabledAvId2table.keys()):
+            for avId in self._disabledAvId2table.iterkeys():
                 redemptions = self._disabledAvId2table[avId]
-                for i in range(len(redemptions)):
+                for i in xrange(len(redemptions)):
                     redemption = redemptions[i]
                     code, results = redemption
                     self.redeemCodeAiToUd(0, 0, i, code, avId, self._resolveDisabledTestRedemption)
@@ -203,7 +199,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             self._sendDisabledTestRedemptions()
 
     def delete(self):
-        for task in list(self._createLotId2task.values()):
+        for task in self._createLotId2task.values():
             self.removeTask(task)
         self._createLotId2task = {}
 
@@ -265,7 +261,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         edDayInput = SE(edInputCell, 'select', name=dayName)
 
         thisYear = datetime.date.today().year
-        for i in range(thisYear, thisYear+100):
+        for i in xrange(thisYear, thisYear+100):
             option = SE(edYearInput, 'option', value=str(i))
             option.text = str(i)
             if values.get('expYear') == str(i):
@@ -276,7 +272,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             option.text = '%02i: %s' % (i, name)
             if values.get('expMonth') == str(i):
                 option.set('selected', 'selected')
-        for i in range(1, 31+1):
+        for i in xrange(1, 31+1):
             option = SE(edDayInput, 'option', value=str(i))
             option.text = str(i)
             if values.get('expDay') == str(i):
@@ -320,7 +316,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             }))
         # enable the submit button on page load
         SE(parentTag, 'script', type='text/javascript', text='%s(true);' % (enableSubmitFuncName, ))
-        bodyTag.set('onUnload', 'resetSubmitButton();');
+        bodyTag.set('onUnload', 'resetSubmitButton();'); 
 
     def _isValidManualCodeRewardType(self, rewardType):
         isPermanent = rewardType not in CatalogItemTypes.NonPermanentItemTypes
@@ -367,7 +363,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         codeTypeDropdown = SE(codeTypeDropdownCell, 'select', name=codeTypeName)
 
         codeTypes = [('manual', 'Manually-created code, many toons use same code'), ]
-        if ConfigVariableBool('want-unique-code-generation', 0).getValue():
+        if config.GetBool('want-unique-code-generation', 0):
             codeTypes.append(('auto', 'Auto-generated codes, one redemption per code'))
 
         for formVal, desc in codeTypes:
@@ -451,7 +447,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         rtSelectName = 'rewardType'
         rtChoice = SE(rtChoiceCell, 'select', name=rtSelectName)
 
-        rewardTypes = list(awardChoices.keys())
+        rewardTypes = awardChoices.keys()
         rewardTypes.sort()
         manualRewardTypes = []
         for rewardType in rewardTypes:
@@ -554,7 +550,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         # this selection is filled in automatically based on the reward type selection
         """
         id2item = awardChoices[1]
-        itemIds = list(id2item.keys())
+        itemIds = id2item.keys()
         itemIds.sort()
         for itemId in itemIds:
             option = SE(riChoice, 'option', value=str(itemId))
@@ -572,7 +568,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         for rewardType in rewardTypes:
             setRewardItemsCode += 'if (typeValue == "%s") {' % rewardType
             id2item = awardChoices[rewardType]
-            itemIds = list(id2item.keys())
+            itemIds = id2item.keys()
             itemIds.sort()
             for itemId in itemIds:
                 value = str(itemId)
@@ -607,7 +603,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         rewardItemSelectIndex = 0
         if 'rewardType' in values and 'rewardItemId' in values:
             id2item = awardChoices[int(values.rewardType)]
-            itemIds = list(id2item.keys())
+            itemIds = id2item.keys()
             itemIds.sort()
             rewardItemSelectIndex = itemIds.index(int(values.rewardItemId))
         initRewardItems = SE(parent, 'script', type='text/javascript')
@@ -627,7 +623,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         heInputCell = SE(hasExpRow, 'td')
         hasExpirationName = 'hasExpiration'
         heInput = SE(heInputCell, 'select', name=hasExpirationName)
-
+        
         for formVal, desc in (('yes', 'Yes'),
                               ('no', 'No'),
                               ):
@@ -681,10 +677,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             })
 
         SE(mainForm, 'br')
-        
-        # TODO: Current captchas no longer work.
-        # This code is made for ancient captchas.
-        #self._addRecaptcha(mainForm, errors)
+
+        self._addRecaptcha(mainForm, errors)
 
         buttonName = 'submitButton'
         submitText = 'Create Code Lot'
@@ -699,7 +693,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                                      expirationDate=expDate)
             self._showCreateLotResults(replyTo, page, body, values)
         else:
-            createLotId = next(self._createLotSerialGen)
+            createLotId = self._createLotSerialGen.next()
             gen = self._db.createLot(self._requestRandomSamples, values.lotName, numCodes,
                                      values.rewardType, values.rewardItemId,
                                      expirationDate=expDate)
@@ -730,7 +724,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
     def _requestRandomSamples(self, callback, numSamples):
         assert self.notify.debugCall()
-        context = next(self._randSampleContextGen)
+        context = self._randSampleContextGen.next()
         self._randSampleContext2callback[context] = callback
         self.air.dispatchUpdateToGlobalDoId(
             "NonRepeatableRandomSourceUD", "getRandomSamples",
@@ -961,9 +955,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
         SE(mainForm, 'br')
 
-        # TODO: Current captchas no longer work.
-        # This code is made for ancient captchas.
-        #self._addRecaptcha(mainForm, errors)
+        self._addRecaptcha(mainForm, errors)
 
         submitButton = SE(mainForm, 'input', name='submitButton')
         submitButton.set('type', 'submit')
@@ -985,7 +977,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             values = {}
         if errors is None:
             errors = FormErrors()
-
+            
         formName = 'deleteForm'
         mainForm = SE(parent, 'form', name=formName)
         mainForm.set('action', 'codeManagement')
@@ -1035,9 +1027,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
         SE(mainForm, 'br')
 
-        # TODO: Current captchas no longer work.
-        # This code is made for ancient captchas.
-        #self._addRecaptcha(mainForm, errors)
+        self._addRecaptcha(mainForm, errors)
 
         submitButton = SE(mainForm, 'input', name='submitButton')
         submitButton.set('type', 'submit')
@@ -1053,12 +1043,12 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             postLotNames = self._db.getLotNames()
             if values.lotName not in postLotNames:
                 success = True
-
+            
         resultHeading = SE(parent, 'h2')
         resultHeading.text = choice(success,
                                     'code lot %s deleted' % (values.lotName, ),
                                     'could not delete lot %s' % (values.lotName, ))
-
+            
         SE(parent, 'br')
 
         backToMenu = SE(parent, 'a')
@@ -1184,7 +1174,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             values = {}
         if errors is None:
             errors = FormErrors()
-
+            
         formName = 'redeemForm'
         mainForm = SE(parent, 'form', name=formName)
         mainForm.set('action', 'codeManagement')
@@ -1229,9 +1219,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
         SE(mainForm, 'br')
 
-        # TODO: Current captchas no longer work.
-        # This code is made for ancient captchas.
-        #self._addRecaptcha(mainForm, errors)
+        self._addRecaptcha(mainForm, errors)
 
         submitButton = SE(mainForm, 'input', name='submitButton')
         submitButton.set('type', 'submit')
@@ -1242,8 +1230,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
     def _doRedeemResult(self, body, replyTo, avId, result, awardMgrResult, values, errors):
         RE = TTCodeRedemptionConsts.RedeemErrors
         errMap = {RE.CodeDoesntExist: self.CodeErrors.InvalidCode,
-                  #RE.CodeIsExpired: self.RedeemErrors.CodeIsExpired,
-                  RE.CodeIsInactive: self.RedeemErrors.CodeIsInactive,
+                  RE.CodeIsExpired: self.RedeemErrors.CodeIsExpired,
                   RE.CodeAlreadyRedeemed: self.RedeemErrors.CodeAlreadyRedeemed,
                   RE.AwardCouldntBeGiven: self.RedeemErrors.AwardCouldntBeGiven,
                   }
@@ -1275,7 +1262,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             delayData = SE(delayRow, 'td')
             delayCenter = SE(delayData, 'center')
             delayCenter.text = 'Reward will arrive in mailbox in a few minutes.'
-
+            
             SE(body, 'br')
 
             backToMenu = SE(body, 'a')
@@ -1288,7 +1275,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
     def _errorCheckCode(self, errors, code, fieldName='code'):
         if len(code.strip()) == 0:
             errors.add(fieldName, self.GenericErrors.EmptyInput)
-
+                
         if self._codeHasInvalidChars(code):
             errors.add(fieldName, self.CodeErrors.InvalidCharInCode)
 
@@ -1363,7 +1350,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                 SE(body, 'br')
 
                 img = SE(body, 'img', title='relevant this is',
-                         src='https://web.archive.org/web/20100630185213/http://icanhascheezburger.files.wordpress.com/2007/01/2000455272489756911_rs.jpg')
+                         src='http://icanhascheezburger.files.wordpress.com/2007/01/2000455272489756911_rs.jpg')
 
             elif op == self.Ops.create:
                 self._doCreateForm(body, body, replyTo)
@@ -1375,8 +1362,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                     rewardType = uhs(kw['rewardType']),
                     rewardItemId = uhs(kw['rewardItemId']),
                     hasExpiration = uhs(kw['hasExpiration']),
-                    #recaptchaChallenge = uhs(kw['recaptcha_challenge_field']),
-                    #recaptchaResponse = uhs(kw['recaptcha_response_field']),
+                    recaptchaChallenge = uhs(kw['recaptcha_challenge_field']),
+                    recaptchaResponse = uhs(kw['recaptcha_response_field']),
                     )
                 if values.codeType == 'auto':
                     values.add(numCodes = uhs(kw['numCodes']))
@@ -1384,8 +1371,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                 else:
                     values.add(manualCode = uhs(kw['manualCode']))
                     values.add(manualCode2 = uhs(kw['manualCode2']))
-                    values.manualCode = str(values.manualCode)
-                    values.manualCode2 = str(values.manualCode2)
+                    values.manualCode = unicode(values.manualCode, 'utf-8')
+                    values.manualCode2 = unicode(values.manualCode2, 'utf-8')
                 if values.hasExpiration == 'yes':
                     values.add(
                         expYear = uhs(kw['expYear']),
@@ -1400,8 +1387,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
                 for char in values.lotName:
                     # lot names can only contain lowercase ASCII letters, numbers, and underscores
-                    if ((char not in (string.ascii_letters + string.digits + '_')) or
-                        ((char in string.ascii_letters) and ((char).upper == char))):
+                    if ((char not in (string.letters + string.digits + '_')) or
+                        ((char in string.letters) and (string.upper(char) == char))):
                         errors.add('lotName', self.CreateErrors.InvalidCharInLotName)
 
                 if values.lotName in self._db.getLotNames():
@@ -1456,7 +1443,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                 if values.hasExpiration == 'yes':
                     try:
                         expDate = datetime.date(int(values.expYear), int(values.expMonth), int(values.expDay))
-                    except ValueError as e:
+                    except ValueError, e:
                         errors.add('expiration', str(e).capitalize())
 
                     # disable this check until we have 'active' flag or activation date
@@ -1465,8 +1452,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                         if expDate < datetime.date.today():
                             errors.add('expiration', 'Expiration date must be in the future')
                             """
-                if ConfigVariableBool('want-recaptcha', 1):
-                    self._doRecaptcha(replyTo, values, errors)
+
+                self._doRecaptcha(replyTo, values, errors)
 
                 if not errors.isEmpty():
                     self._doCreateForm(body, body, replyTo, values, errors)
@@ -1493,8 +1480,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             elif op == self.Ops.doModify:
                 values = ScratchPad(
                     modification = uhs(kw['modification']),
-                    #recaptchaChallenge = uhs(kw['recaptcha_challenge_field']),
-                    #recaptchaResponse = uhs(kw['recaptcha_response_field']),
+                    recaptchaChallenge = uhs(kw['recaptcha_challenge_field']),
+                    recaptchaResponse = uhs(kw['recaptcha_response_field']),
                     )
                 if 'lotName' in kw:
                     values.add(
@@ -1512,8 +1499,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                 if 'lotName' not in values:
                     errors.add('lotName', 'Invalid lot')
 
-                if ConfigVariableBool('want-recaptcha', 1):
-                    self._doRecaptcha(replyTo, values, errors)
+                self._doRecaptcha(replyTo, values, errors)
 
                 if not errors.isEmpty():
                     self._doModifyForm(body, replyTo, values, errors)
@@ -1527,16 +1513,15 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                 values = ScratchPad(
                     lotName = kw['lotName'],
                     lotName2 = kw['lotName2'],
-                    #recaptchaChallenge = uhs(kw['recaptcha_challenge_field']),
-                    #recaptchaResponse = uhs(kw['recaptcha_response_field']),
+                    recaptchaChallenge = uhs(kw['recaptcha_challenge_field']),
+                    recaptchaResponse = uhs(kw['recaptcha_response_field']),
                     )
                 errors = FormErrors()
 
                 if values.lotName != values.lotName2:
                     errors.add('lotName2', self.GenericErrors.FieldsMustMatch)
 
-                if ConfigVariableBool('want-recaptcha', 1):
-                    self._doRecaptcha(replyTo, values, errors)
+                self._doRecaptcha(replyTo, values, errors)
 
                 if not errors.isEmpty():
                     self._doDeleteForm(body, replyTo, values, errors)
@@ -1555,7 +1540,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                     values.add(avId = uhs(kw['avId']))
                 else:
                     values.add(code = uhs(kw['code']))
-                    values.code = str(values.code)
+                    values.code = unicode(values.code, 'utf-8')
 
                 errors = FormErrors()
                 if avIdMode:
@@ -1580,23 +1565,22 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                 values = ScratchPad(
                     code = uhs(kw['code']),
                     avId = uhs(kw['avId']),
-                    #recaptchaChallenge = uhs(kw['recaptcha_challenge_field']),
-                    #recaptchaResponse = uhs(kw['recaptcha_response_field']),
+                    recaptchaChallenge = uhs(kw['recaptcha_challenge_field']),
+                    recaptchaResponse = uhs(kw['recaptcha_response_field']),
                     )
-                values.code = str(values.code)
+                values.code = unicode(values.code, 'utf-8')
 
                 errors = FormErrors()
                 self._errorCheckCode(errors, values.code)
                 self._errorCheckAvId(errors, values.avId)
 
-                if ConfigVariableBool('want-recaptcha', 1):
-                    self._doRecaptcha(replyTo, values, errors)
+                self._doRecaptcha(replyTo, values, errors)
 
                 if not errors.isEmpty():
                     self._doRedeemForm(body, replyTo, values, errors)
                 else:
                     avId = int(values.avId)
-                    context = next(self._redeemContextGen)
+                    context = self._redeemContextGen.next()
                     self._redeemContext2session[context] = ScratchPad(
                         result = None,
                         avId = avId,
@@ -1610,8 +1594,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                     else:
                         error = {
                             TTCodeRedemptionConsts.RedeemErrors.CodeDoesntExist: self.CodeErrors.InvalidCode,
-                            #TTCodeRedemptionConsts.RedeemErrors.CodeIsExpired: self.RedeemErrors.CodeIsExpired,
-                            TTCodeRedemptionConsts.RedeemErrors.CodeIsInactive: self.RedeemErrors.CodeIsInactive,
+                            TTCodeRedemptionConsts.RedeemErrors.CodeIsExpired: self.RedeemErrors.CodeIsExpired,
                             TTCodeRedemptionConsts.RedeemErrors.CodeAlreadyRedeemed: self.RedeemErrors.CodeAlreadyRedeemed,
                             TTCodeRedemptionConsts.RedeemErrors.AwardCouldntBeGiven: self.RedeemErrors.AwardCouldntBeGiven,
                             }[result]
@@ -1621,13 +1604,11 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             if replyNow:
                 self._reply(page, replyTo)
 
-        except TTCodeRedemptionDB.TryAgainLater as e:
+        except TTCodeRedemptionDB.TryAgainLater, e:
             self._warnTryAgainLater(e)
             body.clear()
             self._doSystemUnavailablePage(body)
             self._reply(page, replyTo)
-        except:
-            traceback.print_exc()
 
     def _handleRedeemResult(self, context, page, body, replyTo, result, awardMgrResult):
         assert self.notify.debugCall()
@@ -1653,8 +1634,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             else:
                 while 1:
                     try:
-                        code = str(code)
-                    except UnicodeDecodeError as e:
+                        code = unicode(code, 'utf-8')
+                    except UnicodeDecodeError, e:
                         # code is not utf-8-able
                         self.air.writeServerEvent('suspicious', avId, 'non-utf-8 code redemption: %s' % repr(code))
                         result = TTCodeRedemptionConsts.RedeemErrors.CodeDoesntExist
@@ -1674,7 +1655,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                 if self._wantSpamDetect and self._spamDetector.avIsBlocked(senderId):
                     self.air.writeServerEvent('suspicious', avId,
                                               'too many invalid code redemption attempts, '
-                                              'submission rejected: %s' % (code))
+                                              'submission rejected: %s' % u2ascii(code))
                     result = TTCodeRedemptionConsts.RedeemErrors.TooManyAttempts
 
             if result is not None:
@@ -1689,10 +1670,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                 self._db.redeemCode(code, avId, self, Functor(
                     self._handleRedeemCodeAiToUdResult, callback, serial, rmDoId, context, avId, ))
 
-        except TTCodeRedemptionDB.TryAgainLater as e:
+        except TTCodeRedemptionDB.TryAgainLater, e:
             self._warnTryAgainLater(e)
-        except:
-            traceback.print_exc()
 
     def _handleRedeemCodeAiToUdResult(self, callback, serial, rmDoId, context, avId, result, awardMgrResult):
         assert self.notify.debugCall()
@@ -1709,25 +1688,25 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         assert self.notify.debugCall()
         # callback takes TTCodeRedemptionConsts.RedeemErrors value
         return self._db.redeemCode(code, avId, self, callback)
-
+        
     def _giveReward(self, avId, rewardType, rewardItemId, callback):
         assert self.notify.debugCall()
         # callback takes result
-        context = next(self._rewardSerialNumGen)
+        context = self._rewardSerialNumGen.next()
         self._rewardContextTable[context] = callback
         self.air.dispatchUpdateToGlobalDoId(
             "AwardManagerUD", "giveAwardToToon",
             OtpDoGlobals.OTP_DO_ID_TOONTOWN_AWARD_MANAGER,
             [context, self.doId, "TTCodeRedemptionMgrUD", avId, rewardType, rewardItemId, ])
-
+        
     def giveAwardToToonResult(self, context, result):
         assert self.notify.debugCall()
         callback = self._rewardContextTable.pop(context)
         try:
             callback(result)
-        except TTCodeRedemptionDB.TryAgainLater as e:
+        except TTCodeRedemptionDB.TryAgainLater, e:
             self._warnTryAgainLater(e)
-
+        
     def _warnTryAgainLater(self, exception):
         # if we catch a TryAgainLater, drop this code submission on the floor. The AI
         # will resubmit the code shortly

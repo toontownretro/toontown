@@ -3,16 +3,16 @@ DistributedKnockKnockDoor module: contains the DistributedKnockKnockDoor
 class, the client side representation of a DistributedKnockKnockDoorAI.
 """
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 
-from .KnockKnockJokes import *
+from KnockKnockJokes import *
 
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
-from . import DistributedAnimatedProp
+import DistributedAnimatedProp
 from toontown.distributed import DelayDelete
 from toontown.toonbase import TTLocalizer
 from toontown.hood import ZoneUtil
@@ -95,8 +95,8 @@ class DistributedKnockKnockDoor(DistributedAnimatedProp.DistributedAnimatedProp)
         # NOTE: the use of this rimshot sfx (which is in phase_5)
         # means we better not have any knock knock doors in phase_4,
         # which is true now.
-        self.rimshot = base.loader.loadSfx("phase_5/audio/sfx/AA_heal_telljoke.mp3")
-        self.knockSfx = base.loader.loadSfx("phase_5/audio/sfx/GUI_knock_3.mp3")
+        self.rimshot = base.loadSfx("phase_5/audio/sfx/AA_heal_telljoke.mp3")
+        self.knockSfx = base.loadSfx("phase_5/audio/sfx/GUI_knock_3.mp3")
 
         joke = KnockKnockJokes[self.propId%len(KnockKnockJokes)]
 
@@ -111,13 +111,13 @@ class DistributedKnockKnockDoor(DistributedAnimatedProp.DistributedAnimatedProp)
                 if self.propId == 44:
                     joke = KnockKnockContestJokes[ToontownGlobals.SillyStreet]
             elif branch == ToontownGlobals.LoopyLane:
-                if self.propId in list(KnockKnockContestJokes[ToontownGlobals.LoopyLane].keys()):
+                if self.propId in KnockKnockContestJokes[ToontownGlobals.LoopyLane].keys():
                     joke = KnockKnockContestJokes[ToontownGlobals.LoopyLane][self.propId]
             elif branch == ToontownGlobals.PunchlinePlace:
                 if self.propId == 1:
                     joke = KnockKnockContestJokes[ToontownGlobals.PunchlinePlace]
             elif branch == ToontownGlobals.PolarPlace:
-                if self.propId in list(KnockKnockContestJokes[ToontownGlobals.PolarPlace].keys()):
+                if self.propId in KnockKnockContestJokes[ToontownGlobals.PolarPlace].keys():
                     joke = KnockKnockContestJokes[ToontownGlobals.PolarPlace][self.propId]
 
         self.nametag = None

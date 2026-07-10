@@ -1,8 +1,8 @@
 from direct.directnotify import DirectNotifyGlobal
-from . import HoodDataAI, ZoneUtil
+import HoodDataAI, ZoneUtil
 from toontown.toonbase import ToontownGlobals
 from toontown.racing import DistributedStartingBlockAI
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.racing.RaceGlobals import *
 from toontown.classicchars import DistributedGoofySpeedwayAI
 
@@ -44,10 +44,10 @@ class GSHoodDataAI(HoodDataAI.HoodDataAI):
         #    vBlockAI = self.air.getViewingBlockDict()
 
         #    for racePadId in racePadAI:
-        #        print("RacePad %s has starting blocks %s\n" %( racePadId, sBlockAI.get( racePadId )  ))
+        #        print "RacePad %s has starting blocks %s\n" %( racePadId, sBlockAI.get( racePadId )  )
 
         #    for viewPadId in viewPadAI:
-        #        print("viewPad %s has starting blocks %s\n" %( viewPadId, vBlockAI.get( viewPadId )  ))
+        #        print "viewPad %s has starting blocks %s\n" %( viewPadId, vBlockAI.get( viewPadId )  )
 
         #    pdb.set_trace()
 
@@ -163,13 +163,3 @@ class GSHoodDataAI(HoodDataAI.HoodDataAI):
         for racePad in self.racingPads:
             racePad.request( 'WaitEmpty' )
             self.addDistObj( racePad )
-
-    def logPossibleRaceCondition(self, startBlock):
-        for sb in self.startingBlocks:
-            if sb == startBlock:
-                if not sb.kartPad:
-                    self.notify.warning("%s is in a broken state" % str(self))
-                    self.notify.warning("StartingBlocks: %d, RacePads: %s, ViewPads: %s, RacePadGroups: %s, ViewPadGroups: %s" % (
-                                        len(self.startingBlocks),
-                                        str(self.racingPads), str(self.viewingPads),
-                                        str(self.foundRacingPadGroups), str(self.foundViewingPadGroups)))

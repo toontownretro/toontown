@@ -1,9 +1,9 @@
 """DistributedMinigameTemplateAI module: contains the DistributedMinigameTemplateAI class"""
 
-from .DistributedMinigameAI import *
+from DistributedMinigameAI import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from . import VineGameGlobals
+import VineGameGlobals
 
 class DistributedVineGameAI(DistributedMinigameAI):
 
@@ -45,12 +45,12 @@ class DistributedVineGameAI(DistributedMinigameAI):
             # 0 vineIndex, if -1 then he's not attached to a vine is currently jumping
             # 1 vineT, where is he on the vine
             # 2 posX, - his x position when he jumped
-            # 3 posZ - his z position when he jumped
+            # 3 posZ - his z position when he jumped 
             # 4 facing right
             # 5 climb direction -1 going up, 0 standing still, 1 going down
             # 6 velX - his X velocity when he jumped
             # 7 velZ - his Z velocity when he jumped
-            self.toonInfo = {}
+            self.toonInfo = {}            
 
             # Add our game ClassicFSM to the framework ClassicFSM
             self.addChildGameFSM(self.gameFSM)
@@ -71,30 +71,23 @@ class DistributedVineGameAI(DistributedMinigameAI):
         del self.gameFSM
         DistributedMinigameAI.delete(self)
 
-    def _playing(self):
-        if not hasattr(self, 'gameFSM'):
-            return False
-        if self.gameFSM.getCurrentState() == None:
-            return False
-        return self.gameFSM.getCurrentState().getName() == 'play'
-
     # override some network message handlers
     def setGameReady(self):
         self.notify.debug("setGameReady")
 
         for avId in self.avIdList:
             self.updateToonInfo(avId, vineIndex = 0, vineT = VineGameGlobals.VineStartingT)
-
+        
         DistributedMinigameAI.setGameReady(self)
         # all of the players have checked in
         # they will now be shown the rules
-
+        
         self.numTreasures = VineGameGlobals.NumVines -1
         self.numTreasuresTaken = 0
         self.takenTable = [0] * self.numTreasures
-
+        
         # reset scores
-        for avId in list(self.scoreDict.keys()):
+        for avId in self.scoreDict.keys():
             self.scoreDict[avId] = 0
             self.finishedBonus[avId] = 0
             self.finishedTimeLeft[avId] = -1
@@ -134,11 +127,11 @@ class DistributedVineGameAI(DistributedMinigameAI):
             ToontownGlobals.VineGameId,
             self.getSafezoneId(), self.avIdList, scoreList,
             self.vineSections, finishedList, timeLeftList,
-            vineReached, self.totalSpiders, totalBats))
-
+            vineReached, self.totalSpiders, totalBats)) 
+        
         # clean things up in this class
         self.gameFSM.request('cleanup')
-
+        
         # tell the base class to wrap things up
         DistributedMinigameAI.gameOver(self)
 
@@ -156,7 +149,7 @@ class DistributedVineGameAI(DistributedMinigameAI):
         # Start the game timer
         taskMgr.doMethodLater(VineGameGlobals.GameDuration,
                               self.timerExpired,
-                              self.taskName("gameTimer"))
+                              self.taskName("gameTimer"))        
         #vine = DistributedSwingVineAI.DistributedSwingVineAI(self.air, index, self.doId)
         #vine.generateWithRequired(self.zoneId)
         #self.vines.append(vine)
@@ -169,7 +162,7 @@ class DistributedVineGameAI(DistributedMinigameAI):
         for vine in self.vines:
             vine.requestDelete()
         pass
-
+    
 
     def enterCleanup(self):
         self.notify.debug("enterCleanup")
@@ -180,13 +173,12 @@ class DistributedVineGameAI(DistributedMinigameAI):
 
     def claimTreasure(self, treasureNum):
         # if the game just ended, ignore this message
-#        if self.gameFSM.getCurrentState().getName() != 'play':
-        if not self._playing():
+        if self.gameFSM.getCurrentState().getName() != 'play':
             return
         # we're getting strange AI crashes where a toon claims
         # a treasure, and the toon is not listed in the scoreDict
         avId = self.air.getAvatarIdFromSender()
-        if avId not in self.scoreDict:
+        if not self.scoreDict.has_key(avId):
             self.notify.warning(
                 'PROBLEM: avatar %s called claimTreasure(%s) '
                 'but he is not in the scoreDict: %s. avIdList is: %s' %
@@ -214,7 +206,7 @@ class DistributedVineGameAI(DistributedMinigameAI):
         self.notify.debug("timer expired")
         if not VineGameGlobals.EndlessGame:
             self.gameFSM.request('waitShowScores')
-        return Task.done
+        return Task.done  
 
     def enterWaitShowScores(self):
         self.notify.debug("enterWaitShowScores")
@@ -229,7 +221,7 @@ class DistributedVineGameAI(DistributedMinigameAI):
         return Task.done
 
     def exitWaitShowScores(self):
-        taskMgr.remove(self.taskName("waitShowScores"))
+        taskMgr.remove(self.taskName("waitShowScores"))    
 
     def reachedEndVine(self, vineIndex):
         """Handle client telling us he reached the end vine."""
@@ -241,22 +233,20 @@ class DistributedVineGameAI(DistributedMinigameAI):
         self.updateToonInfo( avId, vineIndex = vineIndex)
         if not oldVineIndex == vineIndex:
             self.checkForEndVine(avId)
-            self.checkForEndGame()
-
+            self.checkForEndGame()        
+    
     def setNewVine( self, avId, vineIndex, vineT, facingRight):
         """
         toon jumped to a new vine
         """
         self.notify.debug('setNewVine')
-        if not self._playing():
-            return
         if avId not in self.avIdList:
             self.air.writeServerEvent('suspicious', avId, 'VineGameAI.setNewVine: invalid avId')
             return
         oldVineIndex = self.toonInfo[avId][0]
         debugStr = 'setNewVine doId=%s avId=%d vineIndex=%s oldVineIndex=%s' % (self.doId, avId, vineIndex, oldVineIndex)
         #self.notify.info('%s' % debugStr)
-        #self.air.writeServerEvent('setNewVine',self.doId, '%s' % (debugStr))
+        #self.air.writeServerEvent('setNewVine',self.doId, '%s' % (debugStr))                
         self.updateToonInfo( avId, vineIndex = vineIndex, vineT = vineT, facingRight = facingRight)
         if not oldVineIndex == vineIndex:
             self.checkForEndVine(avId)
@@ -272,17 +262,17 @@ class DistributedVineGameAI(DistributedMinigameAI):
             if not VineGameGlobals.EndlessGame:
                 self.awardPartialBeans()
                 self.sendUpdate('allAtEndVine', [])
-                self.gameOver()
+                self.gameOver()            
 
     def checkForEndVine( self, avId):
         if self.toonInfo[avId][0] == VineGameGlobals.NumVines -1:
             # this toon has reached the end vine, give him bonus points
             curTime = self.getCurrentGameTime()
-            timeLeft = VineGameGlobals.GameDuration - curTime
+            timeLeft = VineGameGlobals.GameDuration - curTime 
             self.notify.debug('curTime =%s timeLeft = %s' % (curTime, timeLeft))
             # we're getting strange AI crashes where a toon claims
             # a treasure, and the toon is not listed in the scoreDict
-            if avId not in self.scoreDict:
+            if not self.scoreDict.has_key(avId):
                 self.notify.warning(
                     'PROBLEM: avatar %s called claimTreasure(%s) '
                     'but he is not in the scoreDict: %s. avIdList is: %s' %
@@ -312,7 +302,7 @@ class DistributedVineGameAI(DistributedMinigameAI):
         newVelX = velX
         newVelZ = velZ
         oldInfo = None
-        if avId in self.toonInfo:
+        if self.toonInfo.has_key(avId):
             oldInfo = self.toonInfo[avId]
             if vineIndex == None:
                 newVineIndex = oldInfo[0]
@@ -330,31 +320,31 @@ class DistributedVineGameAI(DistributedMinigameAI):
                 newVelX = oldInfo[6]
             if velZ == None:
                 newVelZ = oldInfo[7]
-
-
-        if (newVineIndex is None) or (newVineIndex < -1) or (newVineIndex >= VineGameGlobals.NumVines):
+            
+            
+        if (newVineIndex < -1) or (newVineIndex >= VineGameGlobals.NumVines):
             #self.notify.warning('invalid vineIndex for %d, forcing 0' % avId)
             newVineIndex = 0
-        if (newVineT is None) or (newVineT < 0) or (newVineT > 1):
+        if (newVineT < 0) or (newVineT > 1):
             #self.notify.warning('invalid vineT for %d, setting to 0' % avId)
             pass
-        if not (newFacingRight == 0 and not newFacingRight == 1):
+        if not (newFacingRight == 0 or newFacingRight == 1):
             #self.notify.warning('invalid facingRight for %d, forcing to 1' % avId)
             newFacingRight = 1
-        if (newPosX is None) or (newPosX < -1000) or (newPosX > 2000):
+        if (newPosX < -1000) or (newPosX > 2000):
             #self.notify.warning('invalid posX for %d, forcing to 0' % avId)
             newPosX = 0
-        if (newPosZ is None) or (newPosZ < -100) or (newPosZ > 1000):
+        if (newPosZ < -100) or (newPosZ > 1000):
             #self.notify.warning('invalid posZ for %d, forcing to 0' % avId)
             newPosZ = 0
-        if (newVelX is None) or (newVelX < -1000) or (newVelX > 1000):
+        if (newVelX < -1000) or (newVelX > 1000):
             #self.notify.warning('invalid velX for %d, forcing to 0' % avId)
             newVelX = 0
-        if (newVelZ is None) or (newVelZ < -1000) or (newVelZ > 1000):
+        if (newVelZ < -1000) or (newVelZ > 1000):
             #self.notify.warning('invalid velZ for %d, forcing to 0' % avId)
-            newVelZ = 0
+            newVelZ = 0                        
         newInfo = [newVineIndex, newVineT, newPosX, newPosZ, newFacingRight, newClimbDir, newVelX, newVelZ]
-
+        
         self.toonInfo[avId] = newInfo
 
     def setupVineSections(self):
@@ -383,7 +373,7 @@ class DistributedVineGameAI(DistributedMinigameAI):
             section = random.choice(validChoices)
             curSpiders += VineGameGlobals.getNumSpidersInSection(section)
             self.vineSections.append(section)
-
+            
         self.totalSpiders = curSpiders
         self.notify.debug('calc vineSections = %s' % self.vineSections)
 
@@ -405,6 +395,7 @@ class DistributedVineGameAI(DistributedMinigameAI):
             vineIndex = self.toonInfo[avId][0]
             if not vineIndex == VineGameGlobals.NumVines -1:
                 partialBeans = int( vineIndex / 5.0)
-                if avId in self.scoreDict:
+                if self.scoreDict.has_key(avId):
                     self.scoreDict[avId] += partialBeans
-                    self.sendUpdate("setScore", [avId, self.scoreDict[avId]])
+                    self.sendUpdate("setScore", [avId, self.scoreDict[avId]])        
+                

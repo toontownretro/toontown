@@ -1,6 +1,6 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 
-from . import Playground
+import Playground
 import random
 from direct.task import Task
 
@@ -10,7 +10,7 @@ class DGPlayground(Playground.Playground):
 
     def load(self):
         Playground.Playground.load(self)
-
+    
     def unload(self):
         Playground.Playground.unload(self)
 
@@ -18,11 +18,11 @@ class DGPlayground(Playground.Playground):
         Playground.Playground.enter(self, requestStatus)
         self.nextBirdTime = 0
         taskMgr.add(self.__birds, 'DG-birds')
-
+        
     def exit(self):
         Playground.Playground.exit(self)
         taskMgr.remove('DG-birds')
-
+        
     def __birds(self, task):
         if (task.time < self.nextBirdTime):
             return Task.cont
@@ -36,7 +36,7 @@ class DGPlayground(Playground.Playground):
             base.playSfx(self.loader.bird3Sound)
         elif (bird == 4):
             base.playSfx(self.loader.bird4Sound)
-        self.nextBirdTime = task.time + randNum * 20.0
+        self.nextBirdTime = task.time + randNum * 20.0 
         return Task.cont
 
 
@@ -45,4 +45,4 @@ class DGPlayground(Playground.Playground):
         # for showPathPoints().
         from toontown.classicchars import CCharPaths
         from toontown.toonbase import TTLocalizer
-        self.showPathPoints(CCharPaths.getPaths(TTLocalizer.Daisy))
+        self.showPathPoints(CCharPaths.getPaths(TTLocalizer.Goofy))

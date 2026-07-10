@@ -87,12 +87,6 @@ import sys
 import time
 import types
 
-from otp.launcher.LauncherBase import LauncherBase
-from otp.otpbase import OTPLauncherGlobals
-# LauncherBase sets up import path stuff, import Panda after
-from panda3d.core import *
-from toontown.toonbase import TTLocalizer
-
 #
 # Original bootstrap logger that gets LOGGING IMMEDIATELY UP before any
 # Panda/Toontown dependencies are imported
@@ -105,21 +99,12 @@ if 1:   # flip this as necessary
     # match log format specified in installerBase.cxx,
     # want this fmt so log files can be sorted oldest first based on name,
     # and so old open handles to logs dont prevent game from starting
-    logDir = ConfigVariableString("tt-log-client-base-dir", "toonlog").getValue()
     ltime = time.localtime()
-    
-    if not os.path.isdir(logDir):
-        print(f"Didn't find a log dir, Making {logDir}")
-        os.mkdir(logDir)
-            
     if __debug__:
-        logSuffix = "dev-%02d%02d%02d_%02d%02d%02d" % (ltime[0]-2000,ltime[1],ltime[2],ltime[3],ltime[4],ltime[5])
+        logSuffix = 'dev'
     else:
         logSuffix = "%02d%02d%02d_%02d%02d%02d" % (ltime[0]-2000,ltime[1],ltime[2],ltime[3],ltime[4],ltime[5])
-        
-    logPrefix = os.path.join(os.getcwd(), logDir)
-
-    logfile = os.path.join(logPrefix, 'toontown-' + logSuffix + '.log')
+    logfile = 'toontownD-' + logSuffix + '.log'
 
     # Redirect Python output and err to the same file
     class LogAndOutput:
@@ -152,20 +137,18 @@ if 1:   # flip this as necessary
     sys.stdout = logOut
     sys.stderr = logErr
 
-    # Give Panda the same log we use
-    if __debug__:
-        nout = MultiplexStream()
-        Notify.ptr().setOstreamPtr(nout, 0)
-        nout.addFile(Filename(logfile))
-        nout.addStandardOutput()
-        nout.addSystemDebug()
-
     # Write to the log
-    print("\n\nStarting Toontown...")
-    print(("Current time: " + time.asctime(time.localtime(time.time()))
-           + " " + time.tzname[0]))
-    print("sys.path = ", sys.path)
-    print("sys.argv = ", sys.argv)
+    print "\n\nStarting Toontown..."
+    print ("Current time: " + time.asctime(time.localtime(time.time()))
+           + " " + time.tzname[0])
+    print "sys.path = ", sys.path
+    print "sys.argv = ", sys.argv
+
+from otp.launcher.LauncherBase import LauncherBase
+from otp.otpbase import OTPLauncherGlobals
+# LauncherBase sets up import path stuff, import Panda after
+from pandac.libpandaexpressModules import *
+from toontown.toonbase import TTLocalizer
 
 class ToontownLauncher(LauncherBase):
     GameName = 'Toontown'
@@ -177,7 +160,7 @@ class ToontownLauncher(LauncherBase):
     # TODO: take this out when Pirates ships.
     VerifyFiles = 1
     DecompressMultifiles = True
-
+    
     def __init__(self):
         # Get the command line parameters
         # argv[0] : the name of this script
@@ -193,7 +176,7 @@ class ToontownLauncher(LauncherBase):
         # if it is there.
         if sys.argv[2] == 'Phase2.py':
             sys.argv = sys.argv[:1] + sys.argv[3:]
-
+        
         if ((len(sys.argv) == 5) or (len(sys.argv) == 6)):
             self.gameServer = sys.argv[2]
             # The account server, from the command line.
@@ -203,7 +186,7 @@ class ToontownLauncher(LauncherBase):
             self.testServerFlag = int(sys.argv[4])
         else:
             # This error message is a little too helpful for potential hackers
-            print("Error: Launcher: incorrect number of parameters")
+            print "Error: Launcher: incorrect number of parameters"
             sys.exit()
 
         # Used to pass to server for authentication
@@ -237,7 +220,7 @@ class ToontownLauncher(LauncherBase):
         # Before you go further, let's parse the web acct parameters
         self.webAcctParams = "WEB_ACCT_PARAMS"
         self.parseWebAcctParams()
-
+        
         self.mainLoop()
 
     def getValue(self, key, default=None):
@@ -269,15 +252,15 @@ class ToontownLauncher(LauncherBase):
         """
         # Allow a developer to stuff it in the config file if
         # necessary.
-        s = ConfigVariableString("fake-web-acct-params", '').getValue()
+        s = config.GetString("fake-web-acct-params", '')
 
         if not s:
             s = self.getRegistry(self.webAcctParams)
-
+            
         # Immediately clear out the Params so it will be more
         # difficult for a hacker to pull it out of the registry.
         self.setRegistry(self.webAcctParams, "")
-
+       
         # Parse the web account params to get chat related values
         # split s to the '&'
         l = s.split('&')
@@ -295,15 +278,15 @@ class ToontownLauncher(LauncherBase):
                 name, value = args
                 dict[name] = int(value)
 
-        self.secretNeedsParentPasswordKey = 1
-        if 'secretsNeedsParentPassword' in dict:
+        self.secretNeedsParentPasswordKey = 1                
+        if dict.has_key('secretsNeedsParentPassword'):
             self.secretNeedsParentPasswordKey = 1 and dict['secretsNeedsParentPassword']
         else:
             self.notify.warning('no secretNeedsParentPassword token in webAcctParams')
         self.notify.info('secretNeedsParentPassword = %d' % self.secretNeedsParentPasswordKey)
 
         self.chatEligibleKey = 0
-        if 'chatEligible' in dict:
+        if dict.has_key('chatEligible'):
             self.chatEligibleKey = 1 and dict['chatEligible']
         else:
             self.notify.warning('no chatEligible token in webAcctParams')
@@ -356,15 +339,15 @@ class ToontownLauncher(LauncherBase):
 
         # You can only set strings and integers in here
         t = type(value)
-        if (t == int):
+        if (t == types.IntType):
             WindowsRegistry.setIntValue(self.toontownRegistryKey, name, value)
 
-        elif (t == str):
+        elif (t == types.StringType):
             WindowsRegistry.setStringValue(self.toontownRegistryKey, name,
                                            value)
         else:
             self.notify.warning("setRegistry: Invalid type for registry value: "
-                                + repr(value))
+                                + `value`)
 
     def getRegistry(self, name, missingValue = None):
         # Return the value of this key.
@@ -469,7 +452,7 @@ class ToontownLauncher(LauncherBase):
 ##         return 1 and needPwForSecretKey
 
         """
-        Everything is already parsed if parseWebAcctParams was called
+        Everything is already parsed if parseWebAcctParams was called 
         """
         return self.secretNeedsParentPasswordKey
 
@@ -478,7 +461,7 @@ class ToontownLauncher(LauncherBase):
         Get the parent password set key
         """
 ##         return self.getRegistry(self.chatEligibleKey, 0)
-        # Everything is already parsed if parseWebAcctParams was called
+        # Everything is already parsed if parseWebAcctParams was called 
         return self.chatEligibleKey
 
     def MakeNTFSFilesGlobalWriteable(self, pathToSet = None ):
@@ -497,7 +480,7 @@ class ToontownLauncher(LauncherBase):
             os.remove('Phase3.py')
         except:
             pass
-
+        
         # Read in the Phase3.pyz file
         import Phase3
 

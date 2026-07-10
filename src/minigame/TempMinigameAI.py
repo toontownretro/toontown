@@ -5,19 +5,17 @@
 Allows the creation of temp minigames for testing new game ideas
 under the minigame framework without hard-coding them in.
 """
-from panda3d.core import ConfigVariableBool
 from toontown.toonbase import ToontownGlobals
-from toontown.toonbase.ToontownModules import ConfigVariableBool
 
 # This config allows devs to temporarily register temp games created with the minigame framework
-ALLOW_TEMP_MINIGAMES = ConfigVariableBool('allow-temp-minigames', False).getValue()
+ALLOW_TEMP_MINIGAMES = simbase.config.GetBool('allow-temp-minigames', False)
 
 TEMP_MG_ID_COUNTER = ToontownGlobals.TravelGameId - 1
 
 TempMgCtors = {}
 
 def _printMessage(message):
-    print("\n\n!!!", message, "\n\n")
+    print "\n\n!!!", message, "\n\n"
 
 def _registerTempMinigame(name, Class, id, minPlayers=1, maxPlayers=4):
     """
@@ -32,7 +30,7 @@ def _registerTempMinigame(name, Class, id, minPlayers=1, maxPlayers=4):
         return
 
     assert minPlayers >= 1 and minPlayers <= 4 and maxPlayers >=1 and maxPlayers <= 4 and minPlayers <= maxPlayers
-    assert (name in ToontownGlobals.MinigameNames) == False
+    assert ToontownGlobals.MinigameNames.has_key(name) == False
     assert id is not None and id not in ToontownGlobals.MinigameIDs and id < ToontownGlobals.TravelGameId
 
     ToontownGlobals.MinigameIDs += (id,)
@@ -54,10 +52,11 @@ def _registerTempMinigame(name, Class, id, minPlayers=1, maxPlayers=4):
 # 2. Add the empty declaration to the DC file
 # 3. Register right here with a custom name, and give it an id >= 50 and < 100
 if ALLOW_TEMP_MINIGAMES:
-#    from toontown.cogdominium.DistCogdoMazeGameAI import DistCogdoMazeGameAI
-#    _registerTempMinigame("cogdomaze", DistCogdoMazeGameAI, id=50)
+    from toontown.cogdominium.DistCogdoMazeGameAI import DistCogdoMazeGameAI
+    _registerTempMinigame("cogdomaze", DistCogdoMazeGameAI, id=50)
 
-#    from toontown.cogdominium.DistCogdoFlyingGameAI import DistCogdoFlyingGameAI
-#    _registerTempMinigame("cogdoflying", DistCogdoFlyingGameAI, id=51)
+    from toontown.cogdominium.DistCogdoFlyingGameAI import DistCogdoFlyingGameAI
+    _registerTempMinigame("cogdoflying", DistCogdoFlyingGameAI, id=51)
 
     pass
+

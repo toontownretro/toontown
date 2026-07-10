@@ -1,6 +1,6 @@
 ##########################################################################
 # Module: DistributedViewPad.py
-# Purpose: This class provides the necessary functionality for
+# Purpose: This class provides the necessary functionality for 
 # Date: 7/21/05
 # Author: jjtaylor
 ##########################################################################
@@ -11,7 +11,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.task import Task
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 
 ##########################################################################
 # Toontown Import Modules
@@ -57,23 +57,23 @@ class DistributedViewPad( DistributedKartPad ):
     """
     def setAvEnterPad( self, avId, timeStamp ):
         error = "DistributedViewPad::setAvEnterTime - Avatar %s present in View Pad." % ( avId )
-        assert avId not in self.av2TimestampDict, error
+        assert not self.av2TimestampDict.has_key( avId ), error
         self.av2TimestampDict[ avId ] = timeStamp
 
     def setAvExitPad( self, avId ):
         error = "DistributedViewPad::setAvExit - Avatar %s not present in View Pad." % ( avId )
-        assert avId not in self.av2TimestampDict, error
+        assert self.av2TimestampDict.has_key( avId ), error
         del self.av2TimestampDict[ avId ]
     """
-
+        
     def getTimestamp( self, avId ):
         """
         """
         #error = "DistributedViewPad::getTimestamp - Avatar %s not present in View Pad." % ( avId )
-        #assert avId not in self.av2TimestampDict, error
+        #assert self.av2TimestampDict.has_key( avId ), error
         #return self.av2TimestampDict.get( avId )
         return self.timeStamp
-
+    
     def addStartingBlock( self, block ):
         block.cameraPos = Point3(0, 23, 7)
         block.cameraHpr = Point3(180, -10, 0)

@@ -7,7 +7,7 @@
 #
 # Note: you can run this standalone by letting the launcher default to None
 #   from toontown.toonbase.ToontownStart import *
-#
+# 
 
 
 # This module redefines the builtin import function with one
@@ -15,19 +15,20 @@
 # Annoying and very noisy, but sometimes useful
 # import VerboseImport
 
-# Need to import builtins and use the builtins.foo = x
-# technique here in case you start toontown from the command line
-import builtins
+import __builtin__
 
 class game:
     name = "toontown"
     process = "client"
-builtins.game = game()
+__builtin__.game = game()
 
 import time
 import os
 import sys
 import random
+# Need to import __builtin__ and use the __builtin__.foo = x
+# technique here in case you start toontown from the command line
+import __builtin__
 
 # See if we have a launcher, if we do not, make an empty one
 try:
@@ -35,7 +36,7 @@ try:
 except:
     from toontown.launcher.ToontownDummyLauncher import ToontownDummyLauncher
     launcher = ToontownDummyLauncher()
-    builtins.launcher = launcher
+    __builtin__.launcher = launcher
 
 
 # Default to "normal" web exit page.  This should be set early
@@ -50,16 +51,15 @@ launcher.setRegistry("EXIT_PAGE", "normal")
 
 pollingDelay = 0.5
 
-print('ToontownStart: Polling for game2 to finish...')
+print 'ToontownStart: Polling for game2 to finish...'
 while (not launcher.getGame2Done()):
     time.sleep(pollingDelay)
-print('ToontownStart: Game2 is finished.')
+print 'ToontownStart: Game2 is finished.'
 
 # Ok, now we know we are clear from the flash into, fire it up
-print('ToontownStart: Starting the game.')
+print 'ToontownStart: Starting the game.'
 
-from toontown.toonbase.ToontownModules import *
-from panda3d.core import Loader as PandaLoader
+from pandac.PandaModules import *
 
 if launcher.isDummy():
     # Create a dummy HTTPClient so we can get that stupid openSSL
@@ -75,8 +75,8 @@ tempLoader = PandaLoader()
 backgroundNode = tempLoader.loadSync(Filename('phase_3/models/gui/loading-background'))
 
 from direct.gui import DirectGuiGlobals
-print('ToontownStart: setting default font')
-from . import ToontownGlobals
+print 'ToontownStart: setting default font'
+import ToontownGlobals
 DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 
 # First open a window so we can show the loading screen
@@ -87,11 +87,11 @@ DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 launcher.setPandaErrorCode(7)
 
 # Make sure we create a ToonBase first
-from . import ToonBase
+import ToonBase
 ToonBase.ToonBase()
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 if (base.win == None):
-    print("Unable to open window; aborting.")
+    print "Unable to open window; aborting."
     sys.exit()
 
 # Ok, we got the window open.
@@ -99,12 +99,6 @@ launcher.setPandaErrorCode(0)
 # Tell the launcher that our panda window is open now so
 # it can tell the browser and flash to shutdown
 launcher.setPandaWindowOpen()
-
-# Open our debug tools if we have them.
-if __debug__ and ConfigVariableBool('want-debug-tools', False).getValue():
-    from toontown.toonbase import ToontownDebugTools
-    debugTools = ToontownDebugTools.ToontownDebugTools()
-    debugTools.start()
 
 # Also, once we open the window, dramatically drop the timeslice
 # for decompressing and extracting files, so we don't interfere
@@ -124,16 +118,16 @@ base.graphicsEngine.renderFrame()
 
 # do the quest sanity check
 if __debug__:
-    if ConfigVariableBool('quest-sanity-check',0).getValue():
+    if base.config.GetBool('quest-sanity-check',0):
         from toontown.quest import Quests
         Quests.assertAllQuestsValid()
 
-DirectGuiGlobals.setDefaultRolloverSound(base.loader.loadSfx("phase_3/audio/sfx/GUI_rollover.mp3"))
-DirectGuiGlobals.setDefaultClickSound(base.loader.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.mp3"))
+DirectGuiGlobals.setDefaultRolloverSound(base.loadSfx("phase_3/audio/sfx/GUI_rollover.mp3"))
+DirectGuiGlobals.setDefaultClickSound(base.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.mp3"))
 DirectGuiGlobals.setDefaultDialogGeom(loader.loadModel('phase_3/models/gui/dialog_box_gui'))
 
 # Set default product prefix
-from . import TTLocalizer
+import TTLocalizer
 from otp.otpbase import OTPGlobals
 OTPGlobals.setDefaultProductPrefix(TTLocalizer.ProductPrefix)
 
@@ -148,16 +142,16 @@ if base.musicManagerIsValid:
         music.setVolume(0.9)
         music.play()
     # Update default sound
-    print('ToontownStart: Loading default gui sounds')
+    print 'ToontownStart: Loading default gui sounds'
     DirectGuiGlobals.setDefaultRolloverSound(
-        base.loader.loadSfx("phase_3/audio/sfx/GUI_rollover.mp3"))
+        base.loadSfx("phase_3/audio/sfx/GUI_rollover.mp3"))
     DirectGuiGlobals.setDefaultClickSound(
-        base.loader.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.mp3"))
+        base.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.mp3"))
 else:
     music = None
 
 
-from . import ToontownLoader
+import ToontownLoader
 
 # tempLoaderOther = ToontownLoader.ToontownLoader(base)
 # base.loader = tempLoaderOther
@@ -165,20 +159,19 @@ from . import ToontownLoader
 
 from direct.gui.DirectGui import *
 
-serverVersion = ConfigVariableString("server-version", "no_version_set").getValue()
-print(('ToontownStart: serverVersion: ', serverVersion))
+serverVersion = base.config.GetString("server-version", "no_version_set")
+print 'ToontownStart: serverVersion: ', serverVersion
 version = OnscreenText(serverVersion,
-                       pos = (0.03, 0.03),
+                       pos = (-1.3, -0.975),
                        scale = 0.06,
                        fg = Vec4(0,0,1,0.6),
-                       align = TextNode.ALeft,
-                       parent = base.a2dBottomLeft
+                       align = TextNode.ALeft
                        )
 
 # Now fire up toon base
 loader.beginBulkLoad("init", TTLocalizer.LoaderLabel, 138, 0, TTLocalizer.TIP_NONE)
-from .ToonBaseGlobal import *
-from direct.showbase.MessengerGlobal import *
+from ToonBaseGlobal import *
+from direct.showbase.MessengerGlobal import *    
 
 from toontown.distributed import ToontownClientRepository
 
@@ -213,7 +206,7 @@ if not launcher.isDummy():
     base.startShow(cr, launcher.getGameServer())
 else:
     base.startShow(cr)
-
+    
 
 # Now get rid of the background and the temp loader
 backgroundNodePath.reparentTo(hidden)
@@ -228,22 +221,22 @@ del version
 
 # replace the direct loader with the toontown one
 base.loader = base.loader
-builtins.loader = base.loader
+__builtin__.loader = base.loader
 
-autoRun = ConfigVariableBool('toontown-auto-run', 1).getValue()
+autoRun = ConfigVariableBool('toontown-auto-run', 1)
 
-if autoRun and launcher.isDummy() and (not Thread.isTrueThreads() or __name__ == '__main__'):
+if autoRun and launcher.isDummy():
     # This try .. except block exists solely to test the logic of
     # PythonUtil.describeException.  It's not at all necessary, and is
     # useful only to those debugging that function; remove it if it
     # bugs you.
     try:
-        base.run()
+        run()
 
     except SystemExit:
         raise
 
     except:
         from direct.showbase import PythonUtil
-        print((PythonUtil.describeException()))
+        print PythonUtil.describeException()
         raise

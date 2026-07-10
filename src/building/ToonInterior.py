@@ -1,6 +1,6 @@
 """ToonInterior module: contains the ToonInterior class"""
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import Place
@@ -10,7 +10,6 @@ from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
-from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toon import NPCForceAcknowledge
@@ -71,7 +70,7 @@ class ToonInterior(Place.Place):
                             State.State('DFA',
                                         self.enterDFA,
                                         self.exitDFA,
-                                        ['DFAReject', 'HFA', 'NPCFA', 'teleportOut',
+                                        ['DFAReject', 'HFA', 'NPCFA', 'teleportOut', 
                                         'doorOut']),
                             State.State('DFAReject',
                                         self.enterDFAReject,
@@ -158,7 +157,7 @@ class ToonInterior(Place.Place):
         assert(self.notify.debug("unload()"))
         # Call up the chain
         Place.Place.unload(self)
-
+        
         self.parentFSMState.removeChild(self.fsm)
         del self.parentFSMState
         del self.fsm
@@ -180,8 +179,6 @@ class ToonInterior(Place.Place):
         # Play music
         volume = requestStatus.get('musicVolume', 0.7)
         base.playMusic(self.loader.activityMusic, looping = 1, volume = volume)
-        # Turn on the limiter
-        self._telemLimiter = TLGatherAllAvs('ToonInterior', RotationLimitToH)
 
         #self.geom.reparentTo(render)
 
@@ -195,9 +192,6 @@ class ToonInterior(Place.Place):
         self.ignoreAll()
         # Let the safe zone manager know that we are leaving
         messenger.send("exitToonInterior")
-        # Stop the limiter
-        self._telemLimiter.destroy()
-        del self._telemLimiter
         #self.geom.reparentTo(hidden)
 
         # Turn off the little red arrows.
@@ -212,11 +206,11 @@ class ToonInterior(Place.Place):
 
     def enterTutorial(self, requestStatus):
         self.fsm.request("walk")
-        base.localAvatar.b_setParent(ToontownGlobals.SPActors)
+        base.localAvatar.b_setParent(ToontownGlobals.SPRender)
         globalClock.tick()
         base.transitions.irisIn()
         messenger.send("enterTutorialInterior")
-
+        
 
     def exitTutorial(self):
         pass
@@ -228,7 +222,7 @@ class ToonInterior(Place.Place):
     # walk state inherited from Place.py
 
     # sticker book state inherited from Place.py
-
+        
     # doorIn/Out state inherited from Place.py
 
     # override DFA callback
@@ -257,10 +251,10 @@ class ToonInterior(Place.Place):
         else:
             # Some return code that is not handled
             self.notify.error("Unknown done status for DownloadForceAcknowledge: "
-                              + repr(doneStatus))
+                              + `doneStatus`)
 
     # NPCFA state
-
+            
     def enterNPCFA(self, requestStatus):
         """NPC Force Acknowledge"""
         assert(self.notify.debug("enterNPCFA()"))
@@ -268,11 +262,11 @@ class ToonInterior(Place.Place):
         self.acceptOnce(self.npcfaDoneEvent, self.enterNPCFACallback, [requestStatus])
         self.npcfa = NPCForceAcknowledge.NPCForceAcknowledge(self.npcfaDoneEvent)
         self.npcfa.enter()
-
+        
     def exitNPCFA(self):
         assert(self.notify.debug("exitNPCFA()"))
         self.ignore(self.npcfaDoneEvent)
-
+            
     def enterNPCFACallback(self, requestStatus, doneStatus):
         assert(self.notify.debug("enterNPCFACallback()"))
         self.npcfa.exit()
@@ -290,7 +284,7 @@ class ToonInterior(Place.Place):
         else:
             # Some return code that is not handled
             self.notify.error("Unknown done status for NPCForceAcknowledge: "
-                              + repr(doneStatus))
+                              + `doneStatus`)
 
     # npca reject state
 
@@ -298,7 +292,7 @@ class ToonInterior(Place.Place):
         assert(self.notify.debug("enterNPCFAReject()"))
         # TODO: reject movie, turn toon around
         self.fsm.request("walk")
-
+    
     def exitNPCFAReject(self):
         assert(self.notify.debug("exitNPCFAReject()"))
 
@@ -313,11 +307,11 @@ class ToonInterior(Place.Place):
         # This enforces the so-called time out penalty
         self.hfa = HealthForceAcknowledge.HealthForceAcknowledge(self.hfaDoneEvent)
         self.hfa.enter(1)
-
+        
     def exitHFA(self):
         assert(self.notify.debug("exitHFA()"))
         self.ignore(self.hfaDoneEvent)
-
+            
     def enterHFACallback(self, requestStatus, doneStatus):
         assert(self.notify.debug("enterHFACallback()"))
         self.hfa.exit()
@@ -335,7 +329,7 @@ class ToonInterior(Place.Place):
         else:
             # Some return code that is not handled
             self.notify.error("Unknown done status for HealthForceAcknowledge: "
-                              + repr(doneStatus))
+                              + `doneStatus`)
 
     # hfa reject state
 
@@ -343,7 +337,7 @@ class ToonInterior(Place.Place):
         assert(self.notify.debug("enterHFAReject()"))
         # TODO: reject movie, turn toon around
         self.fsm.request("walk")
-
+    
     def exitHFAReject(self):
         assert(self.notify.debug("exitHFAReject()"))
 
@@ -401,3 +395,5 @@ class ToonInterior(Place.Place):
 
     def exitTeleportOut(self):
         Place.Place.exitTeleportOut(self)
+
+

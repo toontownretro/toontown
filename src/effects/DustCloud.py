@@ -1,4 +1,4 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase import PythonUtil
 from toontown.battle.BattleProps import globalPropPool
@@ -14,9 +14,9 @@ SFXPATHS = {
 class DustCloud(NodePath):
     dustCloudCount = 0
     sounds = {}
-
+        
     notify = DirectNotifyGlobal.directNotify.newCategory("DustCloud")
-
+    
     def __init__(self, parent = hidden, fBillboard = 1, wantSound = 0):
         """__init()"""
         # Initialize the superclass
@@ -67,24 +67,11 @@ class DustCloud(NodePath):
             Func(self.hide),
             name = 'dustCloud-track-%d' % self.trackId,
             )
-
-    def _resetTrack(self):
-        self.seqNode.setFrameRate(0)
-        self.hide()
-
-
+            
+            
     def messaging(self):
         self.notify.debug("CREATING TRACK ID: %s" %self.trackId)
-
-    def isPlaying(self):
-        if self.track == None:
-            return False
-        if self.track.isPlaying():
-            return True
-        else:
-            return False
-        return
-
+    
     def play(self, rate = 24):
         # Stop existing track, if one exists
         self.stop()
@@ -92,7 +79,7 @@ class DustCloud(NodePath):
         self.createTrack(rate)
         # Start track
         self.track.start()
-
+    
     def loop(self, rate = 24):
         # Stop existing track, if one exists
         self.stop()
@@ -100,17 +87,14 @@ class DustCloud(NodePath):
         self.createTrack(rate)
         # Start track
         self.track.loop()
-
+    
     def stop(self):
         if self.track:
             self.track.finish()
-            self.track.clearToInitial()
-
+    
     def destroy(self):
         self.notify.debug("DESTROYING TRACK ID: %s" %self.trackId)
-        if self.track:
-            self._resetTrack()
-            self.track.clearToInitial()
+        self.stop()
         del self.track
         del self.seqNode
         self.removeNode()

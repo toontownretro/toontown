@@ -1,9 +1,8 @@
-from . import CatalogItem
-from toontown.toonbase.ToontownModules import *
+import CatalogItem
+from pandac.PandaModules import *
 import types
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
-import functools
 
 class CatalogItemList:
     """CatalogItemList
@@ -25,7 +24,7 @@ class CatalogItemList:
         # properties we will store in (or decode from) the blob along
         # with each CatalogItem.  See CatalogItem.py.
         self.store = store
-
+        
         # The data is stored in either or both of self.__blob and
         # self.__list.  If either one is None, the current data is
         # stored in the other.  If both are None, the data represents
@@ -33,9 +32,9 @@ class CatalogItemList:
         self.__blob = None
         self.__list = None
 
-        if isinstance(source, bytes):
+        if isinstance(source, types.StringType):
             self.__blob = source
-        elif isinstance(source, list):
+        elif isinstance(source, types.ListType):
             self.__list = source[:]
         elif isinstance(source, CatalogItemList):
             # Copy from another CatalogItemList.
@@ -49,6 +48,8 @@ class CatalogItemList:
             else:
                 # If the store types are different, we must copy the list.
                 self.__list = source[:]
+        else:
+            assert(source == None)
 
     def markDirty(self):
         # Call this whenever you know one of the items has changed
@@ -74,7 +75,7 @@ class CatalogItemList:
         # or None if the list is empty.
         if len(self) == 0:
             return None
-
+        
         nextDeliveryDate = None
         for item in self:
             #print ("item %s" %(item))
@@ -84,13 +85,13 @@ class CatalogItemList:
                     nextDeliveryDate = item.deliveryDate
 
         return nextDeliveryDate
-
+        
     def getNextDeliveryItem(self):
         # Returns the minimum of all the listed items' delivery times,
         # or None if the list is empty.
         if len(self) == 0:
             return None
-
+        
         nextDeliveryDate = None
         nextDeliveryItem = None
         for item in self:
@@ -106,7 +107,7 @@ class CatalogItemList:
         # Extracts from the list the set of items whose delivery time
         # is on or before the cutoff time.  Returns a list of items to
         # be delivered and a list of items still on the way.
-
+        
         beforeTime = []
         afterTime = []
         for item in self:
@@ -126,7 +127,7 @@ class CatalogItemList:
         # appended to the end of the list.  So just extract the first
         # n items.
         return (self[0:count], self[count:])
-
+    
     def __encodeList(self):
         # We shouldn't try to call this function twice.
         assert(self.__blob == None)
@@ -141,7 +142,7 @@ class CatalogItemList:
             for item in self.__list:
                 CatalogItem.encodeCatalogItem(dg, item, store)
         return dg.getMessage()
-
+        
     def __decodeList(self):
         # We shouldn't try to call this function twice.
         assert(self.__list == None)
@@ -160,8 +161,9 @@ class CatalogItemList:
                 list.append(item)
         return list
 
-    # Functions to make this act just like a Python list.
 
+    # Functions to make this act just like a Python list.
+    
     def append(self, item):
         if self.__list == None:
             self.__decodeList()
@@ -193,7 +195,8 @@ class CatalogItemList:
         self.__blob = None
         if index == None:
             return self.__list.pop()
-        return self.__list.pop(index)
+        else:
+            return self.__list.pop(index)
 
     def remove(self, item):
         if self.__list == None:
@@ -213,61 +216,30 @@ class CatalogItemList:
         if cmpfunc == None:
             self.__list.sort()
         else:
-            self.__list.sort(key=functools.cmp_to_key(cmpfunc))
+            self.__list.sort(cmpfunc)
         self.__blob = None
 
     def __len__(self):
         if self.__list == None:
             self.__decodeList()
         return len(self.__list)
-        
-    def getitem(self, index):
-        return self.__getitem__(index)
 
     def __getitem__(self, index):
         if self.__list == None:
             self.__decodeList()
         return self.__list[index]
-        
-    def setitem(self, index, item):
-        self.__setitem__(index, item)
 
     def __setitem__(self, index, item):
         if self.__list == None:
             self.__decodeList()
         self.__list[index] = item
         self.__blob = None
-        
-    def delitem(self, index):
-        self.__delitem__(index)
 
     def __delitem__(self, index):
         if self.__list == None:
             self.__decodeList()
         del self.__list[index]
         self.__blob = None
-        
-    def contains(self, item):
-        return self.__contains__(item)
-        
-    def __contains__(self, item):
-        if self.__list == None:
-            self.__decodeList()
-        for i in range(0, len(self.__list)):
-            d = self.__list[i]
-            if d == item:
-                return True
-                
-    def set(self, other):
-        self.__set__(other)
-                
-    def __set__(self, other):
-        if isinstance(other, list):
-            self.__list = other
-            self.__blob = None
-            return
-            
-        super().__set__(other)
 
     def __getslice__(self, i, j):
         if self.__list == None:
@@ -301,6 +273,7 @@ class CatalogItemList:
         copy += other
         return copy
 
+
     def __repr__(self):
         return self.output()
 
@@ -314,3 +287,4 @@ class CatalogItemList:
         for item in self.__list:
             inner += ", %s" % (item.output(store))
         return "CatalogItemList([%s])" % (inner[2:])
+

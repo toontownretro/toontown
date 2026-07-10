@@ -140,7 +140,7 @@ NodePath DNASignBaseline::traverse(NodePath &parent, DNAStorage *store, int edit
     _font = store->find_font(_code);
     if (_font.is_null()) {
       dna_cat.error()
-        << "unable to find baseline font " << _code << std::endl;
+        << "unable to find baseline font " << _code << endl;
     }
   }
 
@@ -176,7 +176,6 @@ NodePath DNASignBaseline::traverse(NodePath &parent, DNAStorage *store, int edit
            pos,
            hpr,
            LVector3f(1.0));
-  signBaseline_node_path.set_depth_offset(1);
 
   if (editing) {
     // Remember that this nodepath is associated with this dna group
@@ -219,8 +218,13 @@ void DNASignBaseline::write(ostream &out,
       _pos[2] << " ]\n";
   }
   if ((!_hpr.almost_equal(LVecBase3f::zero()))) {
-    indent(out, indent_level + 1) << "nhpr [ " <<
-      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+    if (temp_hpr_fix) {
+      indent(out, indent_level + 1) << "nhpr [ " <<
+        _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+    } else {
+      indent(out, indent_level + 1) << "hpr [ " <<
+        _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+    }
   }
   if (!_scale.almost_equal(LVecBase3f(1.0, 1.0, 1.0))) {
     indent(out, indent_level + 1) << "scale [ " <<
@@ -283,7 +287,11 @@ void DNASignBaseline::center(LVector3f &pos, LVector3f &hpr) {
   const float degrees_to_radians = pi/180.0;
 
   float angle;
-  angle = -_hpr[2]*degrees_to_radians;
+  if (temp_hpr_fix) {
+    angle = -_hpr[2]*degrees_to_radians;
+  } else {
+    angle = _hpr[2]*degrees_to_radians;
+  }
 
   if (_width!=0.0 || _height!=0.0) {
     float x_radius = _width*0.5;
@@ -298,7 +306,11 @@ void DNASignBaseline::center(LVector3f &pos, LVector3f &hpr) {
     pos[2] -= z_radius*sin_ang;
 
     ///hpr[2] -= _cursor*0.5;
-    hpr[2] += _prior_cursor*0.5;
+    if (temp_hpr_fix) {
+      hpr[2] += _prior_cursor*0.5;
+    } else {
+      hpr[2] -= _prior_cursor*0.5;
+    }
   } else {
     --_counter;
     float gap_width = get_current_kern()+get_current_stumble();
@@ -334,7 +346,11 @@ void DNASignBaseline::line_next_pos_hpr_scale(
   _next_pos[0] += scaled_width;
   _total_width += scaled_width;
 
-  hpr[2] -= get_current_wiggle();
+  if (temp_hpr_fix) {
+    hpr[2] -= get_current_wiggle();
+  } else {
+    hpr[2] += get_current_wiggle();
+  }
   inc_counter();
 }
 
@@ -387,7 +403,11 @@ void DNASignBaseline::circle_next_pos_hpr_scale(
 
   nassertv(!cnan(_cursor));
   nassertv(!cnan(hpr[2]));
-  hpr[2] -= _cursor+degree_delta+get_current_wiggle();
+  if (temp_hpr_fix) {
+    hpr[2] -= _cursor+degree_delta+get_current_wiggle();
+  } else {
+    hpr[2] += _cursor+degree_delta+get_current_wiggle();
+  }
   nassertv(!cnan(hpr[2]));
 
   // Setup the cursor for next time:
@@ -416,7 +436,11 @@ void DNASignBaseline::circle_next_pos_hpr_scale(
   // Knock back the roll by half of the angle used for the letter.
   float knock_back=(_cursor - temp_cursor) * 0.5;
   if (_width >= 0.0) {
-    hpr[2] -= knock_back;
+    if (temp_hpr_fix) {
+      hpr[2] -= knock_back;
+    } else {
+      hpr[2] += knock_back;
+    }
   } else {
     // hpr[2] -= knock_back; // inner circles seem upset.
   }

@@ -1,9 +1,9 @@
 from otp.ai.AIBase import *
 from toontown.toonbase import ToontownGlobals
 from direct.distributed.ClockDelta import *
-from .ElevatorConstants import *
+from ElevatorConstants import *
 
-from . import DistributedElevatorAI
+import DistributedElevatorAI
 from direct.fsm import ClassicFSM
 from direct.fsm import State
 from direct.task import Task
@@ -13,9 +13,9 @@ class DistributedElevatorExtAI(DistributedElevatorAI.DistributedElevatorAI):
     
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedElevatorExtAI")
     
-    def __init__(self, air, bldg, numSeats = 4, antiShuffle = 0, minLaff = 0, fSkipOpening = False): #antiShufflePOI
+    def __init__(self, air, bldg, numSeats = 4, antiShuffle = 0, minLaff = 0): #antiShufflePOI
         DistributedElevatorAI.DistributedElevatorAI.__init__(
-            self, air, bldg, numSeats, antiShuffle = antiShuffle, minLaff = minLaff, fSkipOpening = fSkipOpening)
+            self, air, bldg, numSeats, antiShuffle = antiShuffle, minLaff = minLaff)
         # Do we need this?
         # self.zoneId, dummy = bldg.getExteriorAndInteriorZoneId()
         # Flag that tells if any Toon has jumped out of the elevator yet
@@ -84,11 +84,11 @@ class DistributedElevatorExtAI(DistributedElevatorAI.DistributedElevatorAI):
             timeToSend = self.countdownTime
             if self.antiShuffle:
                 myTask = taskMgr.getTasksNamed(self.uniqueName('countdown-timer'))[0]
-                #print(myTask.name)
-                #print(myTask.runningTotal)
-                #print(myTask.dt)
-                #print(myTask.time)
-                #print(myTask.wakeTime - globalClock.getFrameTime())
+                #print myTask.name
+                #print myTask.runningTotal
+                #print myTask.dt
+                #print myTask.time
+                #print myTask.wakeTime - globalClock.getFrameTime() 
                 #self.uniqueName('countdown-timer')
                 timeLeft = myTask.wakeTime - globalClock.getFrameTime()
                 # This fixes an AI crash with a huge negative timeLeft. AI crash on 04/20/10. timeLeft = -44002.155374000002.

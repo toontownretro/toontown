@@ -1,6 +1,6 @@
 
-from toontown.toonbase.ToontownModules import *
-from . import ToonHood
+from pandac.PandaModules import *
+import ToonHood
 from toontown.town import BRTownLoader
 from toontown.safezone import BRSafeZoneLoader
 from toontown.toonbase.ToontownGlobals import *
@@ -17,21 +17,11 @@ class BRHood(ToonHood.ToonHood):
         # Dictionary which holds holiday specific lists of Storage DNA Files
         # Keyed off of the News Manager holiday IDs stored in ToontownGlobals
         self.holidayStorageDNADict = {WINTER_DECORATIONS : ['phase_8/dna/winter_storage_BR.dna'],
-                                      WACKY_WINTER_DECORATIONS: ['phase_8/dna/winter_storage_BR.dna'],
-                                      HALLOWEEN_PROPS : ['phase_8/dna/halloween_props_storage_BR.dna'],
-                                      SPOOKY_PROPS: ['phase_8/dna/halloween_props_storage_BR.dna']}
+                                      HALLOWEEN_PROPS : ['phase_8/dna/halloween_props_storage_BR.dna']}
         # The sky is actually in phase 6 because DD uses it too
         self.skyFile = "phase_3.5/models/props/BR_sky"
         self.spookySkyFile = "phase_3.5/models/props/BR_sky"
         self.titleColor = (0.3, 0.6, 1.0, 1.0)
-
-        # Begin Shaders #
-        self.sunTemp = 6500
-        self.sunIntensity = 50000
-        self.skyLightScale = 100
-        self.ambientTemp = 7000
-        self.sunShadowSoftnessFactor = 10.0
-        # End Shaders #
 
     def load(self):
         ToonHood.ToonHood.load(self)
@@ -40,9 +30,10 @@ class BRHood(ToonHood.ToonHood):
     def unload(self):
         self.parentFSM.getStateNamed("BRHood").removeChild(self.fsm)
         ToonHood.ToonHood.unload(self)
-
+        
     def enter(self, *args):
         ToonHood.ToonHood.enter(self, *args)
-
+            
     def exit(self):
         ToonHood.ToonHood.exit(self)
+    

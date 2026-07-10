@@ -56,9 +56,9 @@ import base64, imp, marshal, os, string, sys, md5
 # usage
 
 def usage():
-    print()
-    print("SQUEEZE", VERSION, "(c) 1997-1998 by Secret Labs AB")
-    print("""\
+    print
+    print "SQUEEZE", VERSION, "(c) 1997-1998 by Secret Labs AB"
+    print """\
 Convert a Python application to a compressed module package.
 
 Usage: squeeze [-1ux] -o app [-b start] modules... [-d files...]
@@ -85,7 +85,7 @@ StringIO file object).
 The -x option can be used with -d to create a self-extracting archive,
 instead of a package.  When the resulting script is executed, the
 data files are extracted.  Omit the -b option in this case.
-""")
+"""
     sys.exit(1)
 
 
@@ -138,7 +138,7 @@ class Squeezer:
         try:
             module = compile(codestring, basename, "exec")
         except:
-            print(":: There's an error preventing compiling in " + file)
+            print ":: There's an error preventing compiling in " + file
             raise
             #sys.exit(1)
 
@@ -149,7 +149,7 @@ class Squeezer:
         modulePath = moduleName.split('.')
         for i in range(len(modulePath)):
             prefix = '.'.join(modulePath[:i + 1])
-            if prefix not in self.modules:
+            if not self.modules.has_key(prefix):
                 self.modules[prefix] = None
         
     def adddata(self, file):
@@ -176,7 +176,7 @@ class Squeezer:
 # loader (used in bootstrap code)
 
 loader = """
-print("Beginning squeezetool loader")
+print "Beginning squeezetool loader"
 import ihooks
 import types
 
@@ -190,16 +190,16 @@ class Loader(ihooks.ModuleLoader):
         return ihooks.ModuleLoader.__init__(self)
 
     def find_module(self, name, path = None):
-        #print("%%s: find '%%s' on %%s" %% (self.archiveid, name, path))
+        #print "%%s: find '%%s' on %%s" %% (self.archiveid, name, path)
         if path != None:
             for dirname in path:
                 moduleName = dirname + '.' + name
-                if moduleName in self.__modules:
-                    #print("%%s: found as %%s" %% (self.archiveid, moduleName))
+                if self.__modules.has_key(moduleName):
+                    #print "%%s: found as %%s" %% (self.archiveid, moduleName)
                     return None, moduleName, (None, None, PYZ_MODULE)
         else:
-            if name in self.__modules:
-                #print("%%s: found as %%s" %% (self.archiveid, name))
+            if self.__modules.has_key(name):
+                #print "%%s: found as %%s" %% (self.archiveid, name)
                 return None, name, (None, None, PYZ_MODULE)
 
         return ihooks.ModuleLoader.find_module(self, name, path)
@@ -208,13 +208,13 @@ class Loader(ihooks.ModuleLoader):
         file, filename, (suff, mode, type) = stuff
         if type != PYZ_MODULE:
             return ihooks.ModuleLoader.load_module(self, name, stuff)
-        #print("%%s: load_module %%s" %% (self.archiveid, filename))
+        #print "%%s: load_module %%s" %% (self.archiveid, filename)
         code = self.__modules[filename]
         del self.__modules[filename] # no need to keep this one around
         m = self.hooks.add_module(name)
         m.__file__ = filename
         if code:
-            exec(code, m.__dict__)
+            exec code in m.__dict__
         else:
             m.__path__ = [filename]
 
@@ -227,9 +227,9 @@ def boot(name, fp, size, offset = 0):
     try:
         import %(modules)s
     except ImportError:
-        print("PYZ:", "failed to load marshal and zlib libraries")
+        print "PYZ:", "failed to load marshal and zlib libraries"
         return # cannot boot from PYZ file
-    #print("PYZ:", "boot from", name+".PYZ")
+    #print "PYZ:", "boot from", name+".PYZ"
 
     # load archive and install import hook
     if offset:
@@ -249,23 +249,23 @@ def boot(name, fp, size, offset = 0):
 loaderopen = """
 
 def open(name):
-    import io
+    import StringIO
     try:
-        return io.StringIO(data["+"+name])
+        return StringIO.StringIO(data["+"+name])
     except KeyError:
-        raise IOError(0, "no such file")
+        raise IOError, (0, "no such file")
 """
 
 loaderexplode = """
 
 def explode():
-    for k, v in list(data.items()):
+    for k, v in data.items():
         if k[0] == "+":
             try:
                 open(k[1:], "wb").write(v)
-                print(k[1:], "extracted ok")
-            except IOError as v:
-                print(k[1:], "failed:", "IOError", v)
+                print k[1:], "extracted ok"
+            except IOError, v:
+                print k[1:], "failed:", "IOError", v
 
 """
 
@@ -321,8 +321,8 @@ def squeeze(app, start, filelist):
     except IOError:
         pass
     except ValueError:
-        print(bootstrap, "was not created by squeeze.  You have to manually")
-        print("remove the file to proceed.")
+        print bootstrap, "was not created by squeeze.  You have to manually"
+        print "remove the file to proceed."
         sys.exit(1)
 
     #
@@ -330,7 +330,7 @@ def squeeze(app, start, filelist):
 
     sq = Squeezer(archiveid)
     for file, moduleName in filelist:
-        # print('addmodule:', file, moduleName)
+        # print 'addmodule:', file, moduleName
         sq.addmodule(file, moduleName)
 
     package = sq.getarchive()
@@ -363,9 +363,9 @@ def squeeze(app, start, filelist):
 import ihooks,zlib,base64,marshal
 s=base64.decodestring("""
 %(data)s""")
-exec(marshal.loads(%(zbegin)ss[:%(loaderlen)d]%(zend)s))
+exec marshal.loads(%(zbegin)ss[:%(loaderlen)d]%(zend)s)
 boot("%(app)s",s,%(size)d,%(loaderlen)d)
-exec("import %(start)s")
+exec "import %(start)s"
 ''' % locals())
         bytes = fp.tell()
 
@@ -388,9 +388,9 @@ exec("import %(start)s")
 #%(localMagic)s %(archiveid)s
 import ihooks,zlib,marshal
 f=open("%(archive)s","rb")
-exec(marshal.loads(%(zbegin)sf.read(%(loaderlen)d)%(zend)s))
+exec marshal.loads(%(zbegin)sf.read(%(loaderlen)d)%(zend)s)
 boot("%(app)s",f,%(size)d)
-exec("import %(start)s")
+exec "import %(start)s"
 """ % locals())
         bytes = bytes + fp.tell()
         fp.close()
@@ -400,5 +400,5 @@ exec("import %(start)s")
 
     dummy, rawbytes = sq.getstatus()
 
-    print("squeezed", rawbytes, "to", bytes, "bytes", end=' ')
-    print("(%d%%)" % (bytes * 100 / rawbytes))
+    print "squeezed", rawbytes, "to", bytes, "bytes",
+    print "(%d%%)" % (bytes * 100 / rawbytes)

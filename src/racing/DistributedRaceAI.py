@@ -2,13 +2,13 @@ from direct.distributed import DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from direct.showbase.PythonUtil import nonRepeatingRandomList
-from . import DistributedGagAI
-from . import DistributedProjectileAI
+import DistributedGagAI
+import DistributedProjectileAI
 from direct.task import Task
 import random
 import time
-from . import Racer
-from . import RaceGlobals
+import Racer
+import RaceGlobals
 from direct.distributed.ClockDelta import *
 from toontown.toonbase import TTLocalizer
 
@@ -356,7 +356,7 @@ class DistributedRaceAI(DistributedObjectAI.DistributedObjectAI):
         if self.isDeleted():
             return
 
-        for racer in list(self.racers.values()):
+        for racer in self.racers.values():
             avId = racer.avId
 
             # racers can be tagged to 'not allow timeout'
@@ -429,14 +429,14 @@ class DistributedRaceAI(DistributedObjectAI.DistributedObjectAI):
         #self.racers[]
         targetId = 0
         type = 0
-        #print("start launch pie")
-        #print(avId)
+        #print "start launch pie"
+        #print avId
         targetDist = 10000 #arbitrary large number
         #searching for targets ahead of us
         for iiId in self.racers:
             targetRacer =  simbase.air.doId2do.get(iiId, None)
-            #print("Dist Calc")
-            #print(targetRacer.kart.getPos(ownerRacer.kart))
+            #print "Dist Calc"
+            #print targetRacer.kart.getPos(ownerRacer.kart)
 
             # some error checking to prevent frequent AI crashes
             if not (targetRacer and targetRacer.kart and ownerRacer and ownerRacer.kart):
@@ -449,16 +449,16 @@ class DistributedRaceAI(DistributedObjectAI.DistributedObjectAI):
                 and (targetDist > targetRacer.kart.getPos(ownerRacer.kart)[1])):
                 targetId = iiId
                 targetDist = targetRacer.kart.getPos(ownerRacer.kart)[1]
-                #print("found target forward")
-                #print(iiId)
-                #print(avId)
+                #print "found target forward"
+                #print iiId
+                #print avId
                 #import pdb; pdb.set_trace()
         #searching for targets behind us
         if targetId == 0:
             for iiId in self.racers:
                 targetRacer =  simbase.air.doId2do.get(iiId, None)
-                #print("Dist Calc neg")
-                #print(targetRacer.kart.getPos(ownerRacer.kart))
+                #print "Dist Calc neg"
+                #print targetRacer.kart.getPos(ownerRacer.kart)
 
                 # some error checking to prevent frequent AI crashes
                 if not (targetRacer and targetRacer.kart and ownerRacer and ownerRacer.kart):
@@ -469,12 +469,12 @@ class DistributedRaceAI(DistributedObjectAI.DistributedObjectAI):
                     and (abs(targetRacer.kart.getPos(ownerRacer.kart)[0]) < 50)
                     and (avId != iiId)):
                     targetId = iiId
-                    #print("found target back")
-                    #print(iiId)
-                    #print(avId)
+                    #print "found target back"
+                    #print iiId
+                    #print avId
                     #import pdb; pdb.set_trace()
 
-        #print("end launch pie")
+        #print "end launch pie"
         self.sendUpdate("shootPiejectile", [avId, targetId, type])
 
 
@@ -495,7 +495,7 @@ class DistributedRaceAI(DistributedObjectAI.DistributedObjectAI):
 
     def racerLeft(self, avIdFromClient):
         avId=self.air.getAvatarIdFromSender()
-        if(avId in self.racers and avId==avIdFromClient):
+        if(self.racers.has_key(avId) and avId==avIdFromClient):
              self.notify.debug("Removing %d from race %d" % (avId, self.doId))
              #Clear out the players kart
              racer=self.racers[avId]
@@ -526,7 +526,7 @@ class DistributedRaceAI(DistributedObjectAI.DistributedObjectAI):
 
     def hasGag(self, slot, type, index):
         avId=self.air.getAvatarIdFromSender()
-        print("has gag")
+        print "has gag"
         if index < 0 or index > (len(self.gagList) - 1): #check for cheaters
             self.air.writeServerEvent('suspicious', avId, 'Player checking for non-existant karting gag index %s type %s index %s' % (slot, type, index))
             self.notify.warning("somebody is trying to check for a non-existant karting gag %s %s %s! avId: %s" % (slot, type, index, avId))
@@ -588,7 +588,7 @@ class DistributedRaceAI(DistributedObjectAI.DistributedObjectAI):
 
                 # see if anyone's close
                 someoneIsClose = False
-                for racer in list(self.racers.values()):
+                for racer in self.racers.values():
                     if (not racer.exited) and (not racer.finished):
                         if (me.lapT - racer.lapT) < 0.15:
                             someoneIsClose = True
@@ -687,7 +687,7 @@ class DistributedRaceAI(DistributedObjectAI.DistributedObjectAI):
 
     def everyoneDone(self):
         done = True
-        for racer in list(self.racers.values()):
+        for racer in self.racers.values():
             if (not racer.exited and (not racer.avId in self.playersFinished) and
                 (not racer.avId in self.kickedAvIds)):
                 # there is a racer who hasn't exited and who hasn't finished

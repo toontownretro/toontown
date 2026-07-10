@@ -232,8 +232,6 @@ def getCanonicalZoneId(zoneId):
     # 40135 => 2135
 
     """
-    if zoneId == None:
-        return None
     if zoneId == WelcomeValleyToken:
         # need GS case?
         zoneId = ToontownCentral
@@ -350,9 +348,9 @@ def isInterior(zoneId):
     return r
 
 def overrideOn(branch, exteriorList, interiorList):
-    #print("OVERRIDE ON: ")
-    #print(exteriorList)
-    #print(interiorList)
+    #print "OVERRIDE ON: "
+    #print exteriorList
+    #print interiorList
     # This lets us override the math of ZoneUtil during the tutorial.
     global tutorialDict
     if tutorialDict:
@@ -364,7 +362,7 @@ def overrideOn(branch, exteriorList, interiorList):
                     }
 
 def overrideOff():
-    #print("OVERRIDE OFF:")
+    #print "OVERRIDE OFF:"
     global tutorialDict
     # This is used to turn off the override when the tutorial is over.
     tutorialDict = None

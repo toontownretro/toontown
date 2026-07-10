@@ -1,6 +1,7 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
+from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from toontown.minigame.OrthoWalk import *
 from string import *
@@ -15,7 +16,7 @@ from toontown.toonbase import TTLocalizer
 import random
 from direct.showbase import PythonUtil
 from toontown.hood import Place
-from . import HouseGlobals
+import HouseGlobals
 from toontown.building import ToonInteriorColors
 from direct.showbase.MessengerGlobal import messenger
 
@@ -71,17 +72,17 @@ class DistributedHouse(DistributedObject.DistributedObject):
             self.nametag.setAvatar(NodePath())
             self.nametag = None
 
-    def load(self):
+    def load(self):        
         self.notify.debug("load")
 
         # Load the house once.  When we walk in a door, the house model will automatically
         # get hidden by the EstateLoader.  Only remove the house node on deletion
         if not self.house_loaded:
             if self.housePosInd == 1:
-                houseModelIndex = ConfigVariableInt('want-custom-house',HouseGlobals.HOUSE_DEFAULT).getValue()
+                houseModelIndex = base.config.GetInt('want-custom-house',HouseGlobals.HOUSE_DEFAULT)
             else:
                 houseModelIndex = HouseGlobals.HOUSE_DEFAULT
-            houseModelIndex = ConfigVariableInt('want-custom-house-all',houseModelIndex).getValue()
+            houseModelIndex = base.config.GetInt('want-custom-house-all',houseModelIndex)
             houseModel = self.cr.playGame.hood.loader.houseModels[houseModelIndex]
             self.house = houseModel.copyTo(self.cr.playGame.hood.loader.houseNode[self.housePosInd])
             self.house_loaded = 1

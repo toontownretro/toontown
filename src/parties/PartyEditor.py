@@ -2,14 +2,14 @@
 # Contact: Shawn Patton
 # Created: Oct 2008
 #
-# Purpose: The PartyEditor allows players to drag and drop activities and
+# Purpose: The PartyEditor allows players to drag and drop activities and 
 #          decorations onto a grid representing the party grounds. It also
-#          calculates the amount of jellybeans required for the party and
+#          calculates the amount of jellybeans required for the party and 
 #          displays information about the activities and decorations.
 #-------------------------------------------------------------------------------
 import time
-#from sets import Set
-from toontown.toonbase.ToontownModules import Vec3,Vec4,Point3,TextNode,VBase4
+from sets import Set
+from pandac.PandaModules import Vec3,Vec4,Point3,TextNode,VBase4
 
 from direct.gui.DirectGui import DirectFrame,DirectButton,DirectLabel,DirectScrolledList,DirectCheckButton
 from direct.gui import DirectGuiGlobals
@@ -26,20 +26,20 @@ from toontown.parties.PartyEditorGrid import PartyEditorGrid
 from toontown.parties.PartyEditorListElement import PartyEditorListElement
 
 
-class PartyEditor(FSM, DirectObject):
+class PartyEditor(DirectObject,FSM):
     """
     This class creates the grid and scrolled list needed for players to
     drag and drop activities and decorations onto their party grounds.
     """
     notify = directNotify.newCategory("PartyEditor")
-
+    
     def __init__(self, partyPlanner, parent):
         FSM.__init__( self, self.__class__.__name__ )
         self.partyPlanner = partyPlanner
-        self._parent = parent
+        self.parent = parent
         self.partyEditorGrid = PartyEditorGrid(self)
         self.currentElement = None
-
+        
         self.defaultTransitions = {
             "Hidden" : ["Idle", "Cleanup"],
             "Idle" : ["DraggingElement", "Hidden", "Cleanup"],
@@ -55,8 +55,8 @@ class PartyEditor(FSM, DirectObject):
         self.decorationModels = loader.loadModel("phase_4/models/parties/partyDecorations")
         pos = self.partyPlanner.gui.find("**/step_05_activitiesIcon_locator").getPos()
         self.elementList = DirectScrolledList(
-
-            parent = self._parent,
+            
+            parent = self.parent,
             relief = None,
             # inc and dec are DirectButtons
             decButton_image = (self.partyPlanner.gui.find("**/activitiesButtonUp_up"),
@@ -66,7 +66,7 @@ class PartyEditor(FSM, DirectObject):
                                ),
             decButton_relief = None,
             decButton_pos = (-0.05, 0.0, -0.38),
-
+            
             incButton_image = (self.partyPlanner.gui.find("**/activitiesButtonDown_up"),
                                self.partyPlanner.gui.find("**/activitiesButtonDown_down"),
                                self.partyPlanner.gui.find("**/activitiesButtonDown_rollover"),
@@ -74,7 +74,7 @@ class PartyEditor(FSM, DirectObject):
                                ),
             incButton_relief = None,
             incButton_pos = (-0.05, 0.0, -0.94),
-
+            
             # itemFrame is a DirectFrame
             itemFrame_pos = (pos[0], pos[1], pos[2]+0.04),
             itemFrame_relief = None,
@@ -82,36 +82,43 @@ class PartyEditor(FSM, DirectObject):
             numItemsVisible = 1,
             items = [],
         )
-
-        holidayIds = base.cr.newsManager.getHolidayIdList()
-        isWinter = ToontownGlobals.WINTER_DECORATIONS in holidayIds or \
-                   ToontownGlobals.WACKY_WINTER_DECORATIONS in holidayIds
-        isVictory = ToontownGlobals.VICTORY_PARTY_HOLIDAY in holidayIds
-        isValentine = ToontownGlobals.VALENTINES_DAY in holidayIds
-
+        
         for activityId in PartyGlobals.PartyEditorActivityOrder:
-            if not isVictory and activityId in PartyGlobals.VictoryPartyActivityIds or \
-               not isWinter and activityId in PartyGlobals.WinterPartyActivityIds or \
-               not isValentine and activityId in PartyGlobals.ValentinePartyActivityIds:
-                pass
-            elif isVictory and activityId in PartyGlobals.VictoryPartyReplacementActivityIds or \
-                 isWinter and activityId in PartyGlobals.WinterPartyReplacementActivityIds or \
-                 isValentine and activityId in PartyGlobals.ValentinePartyReplacementActivityIds:
-                pass
+            if activityId in PartyGlobals.VictoryPartyActivityIds:
+                holidayIds = base.cr.newsManager.getHolidayIdList()
+                if ToontownGlobals.VICTORY_PARTY_HOLIDAY in holidayIds:
+                    pele = PartyEditorListElement(self, activityId)
+                    self.elementList.addItem(pele)
+            elif activityId in PartyGlobals.VictoryPartyReplacementActivityIds:
+                holidayIds = base.cr.newsManager.getHolidayIdList()
+                if not ToontownGlobals.VICTORY_PARTY_HOLIDAY in holidayIds:
+                    pele = PartyEditorListElement(self, activityId)
+                    self.elementList.addItem(pele)
             else:
                 pele = PartyEditorListElement(self, activityId)
                 self.elementList.addItem(pele)
                 if activityId == PartyGlobals.ActivityIds.PartyClock:
                     self.partyClockElement = pele
-
+                    
         for decorationId in PartyGlobals.DecorationIds:
-            if not isVictory and decorationId in PartyGlobals.VictoryPartyDecorationIds or \
-               not isWinter and decorationId in PartyGlobals.WinterPartyDecorationIds or \
-               not isValentine and decorationId in PartyGlobals.ValentinePartyDecorationIds:
-                pass
-            elif isVictory and decorationId in PartyGlobals.VictoryPartyReplacementDecorationIds or \
-                 isValentine and decorationId in PartyGlobals.ValentinePartyReplacementDecorationIds:
-                pass
+            decorName = PartyGlobals.DecorationIds.getString(decorationId)
+            if (decorName == "HeartTarget") \
+            or (decorName == "HeartBanner") \
+            or (decorName == "FlyingHeart"):
+                holidayIds = base.cr.newsManager.getHolidayIdList()
+                if ToontownGlobals.VALENTINES_DAY in holidayIds:
+                    pele = PartyEditorListElement(self, decorationId, isDecoration=True)
+                    self.elementList.addItem(pele)
+            elif decorationId in PartyGlobals.VictoryPartyDecorationIds:
+                holidayIds = base.cr.newsManager.getHolidayIdList()
+                if ToontownGlobals.VICTORY_PARTY_HOLIDAY in holidayIds:
+                    pele = PartyEditorListElement(self, decorationId, isDecoration=True)
+                    self.elementList.addItem(pele)
+            elif decorationId in PartyGlobals.VictoryPartyReplacementDecorationIds:
+                holidayIds = base.cr.newsManager.getHolidayIdList()
+                if not ToontownGlobals.VICTORY_PARTY_HOLIDAY in holidayIds:
+                    pele = PartyEditorListElement(self, decorationId, isDecoration=True)
+                    self.elementList.addItem(pele)
             else:
                 pele = PartyEditorListElement(self, decorationId, isDecoration=True)
                 self.elementList.addItem(pele)
@@ -124,7 +131,7 @@ class PartyEditor(FSM, DirectObject):
     def initTrashCan(self):
         trashcanGui = loader.loadModel("phase_3/models/gui/trashcan_gui")
         self.trashCanButton = DirectButton(
-            parent = self._parent,
+            parent = self.parent,
             relief = None,
             pos = Point3(*PartyGlobals.TrashCanPosition),
             scale = PartyGlobals.TrashCanScale,
@@ -165,7 +172,7 @@ class PartyEditor(FSM, DirectObject):
         if currentTime - self.trashCanLastClickedTime < 0.2:
             self.clearPartyGrounds()
         self.trashCanLastClickedTime = time.time()
-
+        
     def clearPartyGrounds(self):
         for item in self.elementList["items"]:
             item.clearPartyGrounds()
@@ -195,7 +202,7 @@ class PartyEditor(FSM, DirectObject):
 
 
     ### FSM Methods ###
-
+    
     def enterHidden(self):
         PartyEditor.notify.debug("Enter Hidden")
 
@@ -214,7 +221,7 @@ class PartyEditor(FSM, DirectObject):
         self.handleMutuallyExclusiveActivities()
 
     def handleMutuallyExclusiveActivities(self):
-        """Smartly removed the older activity and inform the user."""
+        """Smartly removed the older activity and inform the user."""    
         mutSet = self.getMutuallyExclusiveActivities()
         if not mutSet:
             return
@@ -237,12 +244,12 @@ class PartyEditor(FSM, DirectObject):
         """Return the set of activities on the grid that are mutually exclusive, None otherwise."""
         # create a set of activity Ids
         currentActivities = self.partyEditorGrid.getActivitiesOnGrid()
-        actSet = set([])
+        actSet = Set([])
         for act in currentActivities:
             actSet.add(act[0])
         result = None
         for mutuallyExclusiveTuples in PartyGlobals.MutuallyExclusiveActivities:
-            mutSet = set(mutuallyExclusiveTuples)
+            mutSet = Set(mutuallyExclusiveTuples)
             inter = mutSet.intersection(actSet)
             if len(inter) > 1:
                 result = inter
@@ -293,3 +300,5 @@ class PartyEditor(FSM, DirectObject):
 
     def exitCleanup(self):
         PartyEditor.notify.debug("Exit Cleanup")
+
+

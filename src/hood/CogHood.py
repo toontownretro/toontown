@@ -2,7 +2,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from . import Hood
+import Hood
 
 class CogHood(Hood.Hood):
 
@@ -40,7 +40,7 @@ class CogHood(Hood.Hood):
         # Make sure the polygons on the sky are ordered correctly.
         skyInner = self.sky.find('**/InnerGroup')
         skyMiddle = self.sky.find('**/MiddleGroup')
-        skyOuter = self.sky.find('**/wholeSky')
+        skyOuter = self.sky.find('**/OutterSky')
 
         if not skyOuter.isEmpty():
             skyOuter.setBin('background', 0)

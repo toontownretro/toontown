@@ -1,4 +1,4 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToonBaseGlobal import *
 from toontown.toonbase.ToontownGlobals import *
@@ -15,8 +15,7 @@ from toontown.hood import Place
 from toontown.hood import SkyUtil
 from toontown.pets import PetTutorial
 from direct.controls.GravityWalker import GravityWalker
-from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs, TLNull
-from . import HouseGlobals
+import HouseGlobals
 
 class Estate(Place.Place):
     notify = DirectNotifyGlobal.directNotify.newCategory("Estate")
@@ -166,14 +165,14 @@ class Estate(Place.Place):
 
     def unload(self):
         assert(self.notify.debug("unload()"))
-        self.ignoreAll()
+        self.ignoreAll()        
         self.notify.info("remove estate-check-toon-underwater to TaskMgr in unload()")
         taskMgr.remove('estate-check-toon-underwater')
         taskMgr.remove('estate-check-cam-underwater')
         self.parentFSMState.removeChild(self.fsm)
-        del self.fsm
-        self.fog = None
-        Place.Place.unload(self)
+        del self.fsm        
+        self.fog = None        
+        Place.Place.unload(self)        
 
     def enter(self, requestStatus):
         """
@@ -183,20 +182,12 @@ class Estate(Place.Place):
         hoodId = requestStatus["hoodId"]
         zoneId = requestStatus["zoneId"]
 
-        # Turn on the limiter
-        if ConfigVariableBool('want-estate-telemetry-limiter', 1).getValue():
-            limiter = TLGatherAllAvs('Estate', RotationLimitToH)
-        else:
-            limiter = TLNull()
-        self._telemLimiter = limiter
-
         # start the sky
         newsManager = base.cr.newsManager
 
         if newsManager:
             holidayIds = base.cr.newsManager.getDecorationHolidayId()
-            if (ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds or \
-                ToontownGlobals.SPOOKY_COSTUMES in holidayIds) and self.loader.hood.spookySkyFile:
+            if (ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds) and self.loader.hood.spookySkyFile:
 
                 lightsOff = Sequence(LerpColorScaleInterval(
                     base.cr.playGame.hood.loader.geom,
@@ -228,7 +219,7 @@ class Estate(Place.Place):
         # Turn on the animated props for the estate
         for i in self.loader.nodeList:
             self.loader.enterAnimatedProps(i)
-        self.loader.geom.reparentTo(base.sceneStatic) # Used to be render, Now it's the static part of scene.
+        self.loader.geom.reparentTo(render)
 
         # April toons
         if hasattr(base.cr, "newsManager") and base.cr.newsManager:
@@ -258,10 +249,6 @@ class Estate(Place.Place):
             if ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds:
                 self.stopAprilFoolsControls()
 
-        # Stop the limiter
-        self._telemLimiter.destroy()
-        del self._telemLimiter
-
         # Make sure our ClassicFSM goes into its final state
         # so the walkStateData cleans up its tasks
         if (hasattr(self, 'fsm')):
@@ -281,7 +268,7 @@ class Estate(Place.Place):
         base.cr.cache.flush()
 
     def __setZoneId(self, zoneId):
-        #print("setting our local zone ID from %d to %d" % (self.zoneId, zoneId))
+        #print "setting our local zone ID from %d to %d" % (self.zoneId, zoneId)
         self.zoneId = zoneId
 
     def detectedMailboxCollision(self):
@@ -398,7 +385,7 @@ class Estate(Place.Place):
         """
         self.notify.debug("teleportInDone")
         self.toonSubmerged = -1
-        if self.nextState != 'petTutorial':
+        if self.nextState is not 'petTutorial':
             self.notify.info("add estate-check-toon-underwater to TaskMgr in teleportInDone()")
             if hasattr(self, 'fsm'):
                 taskMgr.add(self.__checkToonUnderwater, 'estate-check-toon-underwater')
@@ -515,13 +502,13 @@ class Estate(Place.Place):
             #pos = base.localAvatar.getPos(render)
             #base.localAvatar.setPos(pos[0]-.5, pos[1]+.5, pos[2])
             return
-        self.notify.debug('continuing in __submergeToon')
+        self.notify.debug('continuing in __submergeToon')        
         if hasattr(self, 'loader') and self.loader:
             base.playSfx(self.loader.submergeSound)  # plays a splash sound
         # Make sure you are in walk mode This fixes a bug where you could
         # open your stickerbook over the water and get stuck in swim mode
         # becuase the Place was still in StickerBook state.
-        if ConfigVariableBool('disable-flying-glitch').getValue() == 0:
+        if base.config.GetBool('disable-flying-glitch') == 0:
             self.fsm.request('walk')
         # You have to pass in the swim sound effect to swim mode.
         self.walkStateData.fsm.request('swimming', [self.loader.swimSound])
@@ -571,3 +558,4 @@ class Estate(Place.Place):
             render.setFog(self.fog)
             # don't set the sky fog, it looks depressing
             #self.loader.hood.sky.setFog(self.fog)
+

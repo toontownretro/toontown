@@ -1,7 +1,7 @@
 
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 
-from . import Playground
+import Playground
 from direct.task.Task import Task
 import random
 from direct.fsm import ClassicFSM, State
@@ -12,7 +12,7 @@ from toontown.hood import Place
 
 class DDPlayground(Playground.Playground):
     notify = DirectNotifyGlobal.directNotify.newCategory("DDPlayground")
-
+    
     def __init__(self, loader, parentFSM, doneEvent):
         assert self.notify.debugStateCall(self)
         Playground.Playground.__init__(self, loader, parentFSM, doneEvent)
@@ -47,7 +47,7 @@ class DDPlayground(Playground.Playground):
         assert self.notify.debugStateCall(self)
         del self.activityFsm
         Playground.Playground.unload(self)
-
+        
     def enter(self, requestStatus):
         assert self.notify.debugStateCall(self)
         self.nextSeagullTime = 0
@@ -146,9 +146,9 @@ class DDPlayground(Playground.Playground):
         # Make sure you are in walk mode This fixes a bug where you could
         # open your stickerbook over the water and get stuck in swim mode
         # becuase the Place was still in StickerBook state.
-        if ConfigVariableBool('disable-flying-glitch').getValue() == 0:
+        if base.config.GetBool('disable-flying-glitch') == 0:
             self.fsm.request('walk')
-
+      
         # You have to pass in the swim sound effect to swim mode.
         self.walkStateData.fsm.request('swimming', [self.loader.swimSound])
         # Let everyone else see your splash
@@ -207,5 +207,5 @@ class DDPlayground(Playground.Playground):
 
     def exitOnBoat(self):
         assert self.notify.debugStateCall(self)
-        base.localAvatar.b_setParent(ToontownGlobals.SPActors)
+        base.localAvatar.b_setParent(ToontownGlobals.SPRender)
         self.loader.waterSound.stop()

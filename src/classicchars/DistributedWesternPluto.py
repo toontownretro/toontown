@@ -1,15 +1,15 @@
 """DistributedWesternPluto module: contains the DistributedWesternPluto class"""
 
-from toontown.toonbase.ToontownModules import *
-from . import DistributedCCharBase
+from pandac.PandaModules import *
+import DistributedCCharBase
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.classicchars import DistributedPluto
-from . import CharStateDatas
+import CharStateDatas
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-from . import DistributedCCharBase
+import DistributedCCharBase
 
 class DistributedWesternPluto(DistributedPluto.DistributedPluto):
     """DistributedPluto class"""
@@ -47,6 +47,6 @@ class DistributedWesternPluto(DistributedPluto.DistributedPluto):
             self.fsm.enterInitialState()
 
             self.nametag.setName(TTLocalizer.Pluto)
-
+            
     def walkSpeed(self):
         return ToontownGlobals.WesternPlutoSpeed

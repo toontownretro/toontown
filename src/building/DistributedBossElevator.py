@@ -1,10 +1,10 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
-from .ElevatorConstants import *
-from .ElevatorUtils import *
-from . import DistributedElevator
-from . import DistributedElevatorExt
+from ElevatorConstants import *
+from ElevatorUtils import *
+import DistributedElevator
+import DistributedElevatorExt
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
@@ -18,13 +18,13 @@ class DistributedBossElevator(DistributedElevatorExt.DistributedElevatorExt):
     def __init__(self, cr):
         DistributedElevatorExt.DistributedElevatorExt.__init__(self, cr)
         self.elevatorPoints = BigElevatorPoints
-        self.openSfx = base.loader.loadSfx(
+        self.openSfx = base.loadSfx(
             "phase_9/audio/sfx/CHQ_FACT_door_open_sliding.mp3")
-        self.finalOpenSfx = base.loader.loadSfx(
+        self.finalOpenSfx = base.loadSfx(
             "phase_9/audio/sfx/CHQ_FACT_door_open_final.mp3")
-        self.closeSfx = base.loader.loadSfx(
+        self.closeSfx = base.loadSfx(
             "phase_9/audio/sfx/CHQ_FACT_door_open_sliding.mp3")
-        self.finalCloseSfx = base.loader.loadSfx(
+        self.finalCloseSfx = base.loadSfx(
             "phase_9/audio/sfx/CHQ_FACT_door_open_final.mp3")
         self.type = ELEVATOR_VP
         self.countdownTime = ElevatorData[self.type]['countdown']
@@ -90,7 +90,7 @@ class DistributedBossElevator(DistributedElevatorExt.DistributedElevatorExt):
                 'hoodId' : hoodId,
                 }
             self.cr.playGame.getPlace().elevator.signalDone(doneStatus)
-
+            
     def setBossOfficeZoneForce(self, zoneId):
         place = self.cr.playGame.getPlace()
         if place:

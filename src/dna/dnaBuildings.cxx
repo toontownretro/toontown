@@ -4,13 +4,10 @@
 ////////////////////////////////////////////////////////////////////
 
 #include "dnaBuildings.h"
-#include "dnaDoor.h"
 #include "dnaStorage.h"
-
 #include "modelNode.h"
 #include "pandaNode.h"
 #include "compose_matrix.h"
-#include "lightReMutexHolder.h"
 #include "luse.h"
 #include "sceneGraphReducer.h"
 #include "pointerTo.h"
@@ -18,7 +15,6 @@
 #include "decalEffect.h"
 #include "collisionSphere.h"
 #include "config_linmath.h"
-#include "jobSystem.h"
 
 // For fixing encodings
 // #include "textNode.h"
@@ -30,8 +26,7 @@ TypeHandle DNAWall::_type_handle;
 TypeHandle DNAFlatBuilding::_type_handle;
 TypeHandle DNALandmarkBuilding::_type_handle;
 
-LightReMutex DNAWall::_wall_thread_lock("wall-thread-lock");
-LightReMutex DNAFlatBuilding::_flat_building_thread_lock("flat-building-thread-lock");
+float current_wall_height = 0.0;
 
 
 ////////////////////////////////////////////////////////////////////
@@ -45,7 +40,6 @@ DNAWall::DNAWall(const string &initial_name) :
   _code = "";
   _height = 10.0;
   _color.set(1.0, 1.0, 1.0, 1.0);
-  _current_wall_height = 0.0;
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -59,7 +53,6 @@ DNAWall::DNAWall(const DNAWall &wall) :
   _code = wall.get_code();
   _height = wall.get_height();
   _color = wall.get_color();
-  _current_wall_height = wall.get_current_wall_height();
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -68,25 +61,11 @@ DNAWall::DNAWall(const DNAWall &wall) :
 //  Description:
 ////////////////////////////////////////////////////////////////////
 NodePath DNAWall::traverse(NodePath &parent, DNAStorage *store, int editing) {
-  //LightReMutexHolder holder(_wall_thread_lock);
-  
-  // Try to find this buildings walls and windows in the node map
-  NodePath store_node = store->find_node(_code);
-  nassertr_always(!store_node.is_empty(), NodePath::fail());
-  
-  // Copy our buildings wall and windows to our parent.
-  NodePath wall_node_path = store_node.copy_to(parent);
-  
-  PT(DNAFlatBuilding) g_parent = nullptr;
+  // Try to find this building's walls and windows in the node map
+  NodePath wall_node_path = (store->find_node(_code)).copy_to(parent);
 
-  // Get the current wall height from our parent if we can.
-  if (get_parent() != nullptr && get_parent()->is_of_type(DNAFlatBuilding::get_class_type())) {
-    g_parent = (DNAFlatBuilding *)get_parent().p();
-    set_current_wall_height(g_parent->get_current_wall_height());
-  }
-  
   // Move the wall to the current height to stack on the previous one
-  _pos.set_z(get_current_wall_height());
+  _pos.set_z(current_wall_height);
 
   // Scale it up, set properties
   _scale.set_z(_height);
@@ -107,10 +86,8 @@ NodePath DNAWall::traverse(NodePath &parent, DNAStorage *store, int editing) {
     store->store_DNAGroup(wall_node_path.node(), this);
   }
 
-  // Update the current wall height so the next wall will be on top
-  if (g_parent != nullptr) {
-    g_parent->set_current_wall_height(get_current_wall_height() + _height);
-  }
+  // Update the current_wall_height so the next wall will be on top
+  current_wall_height += _height;
 
   return wall_node_path;
 }
@@ -166,7 +143,6 @@ DNAFlatBuilding::DNAFlatBuilding(const string &initial_name) :
   DNANode(initial_name)
 {
   _width = 10.0;
-  _current_wall_height = 0.0;
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -178,7 +154,6 @@ DNAFlatBuilding::DNAFlatBuilding(const DNAFlatBuilding &building) :
   DNANode(building)
 {
   _width = building.get_width();
-  _current_wall_height = building.get_current_wall_height();
 }
 
 
@@ -232,7 +207,7 @@ void DNAFlatBuilding::setup_suit_flat_building(NodePath &parent,
   NodePath suit_building_node_path = parent.attach_new_node(suit_node);
   // Size and place it correctly:
   LVector3f scale = get_scale();
-  scale[2]*=get_current_wall_height();
+  scale[2]*=current_wall_height;
   suit_building_node_path.set_pos_hpr_scale(get_pos(), get_hpr(), scale);
   // Pick a suit wall:
   int count=store->get_num_catalog_codes("suit_wall");
@@ -262,71 +237,13 @@ void DNAFlatBuilding::setup_suit_flat_building(NodePath &parent,
 }
 
 ////////////////////////////////////////////////////////////////////
-//     Function: DNAFlatBuilding::setup_cogdo_flat_building
-//       Access: Public
-//  Description:
-////////////////////////////////////////////////////////////////////
-void DNAFlatBuilding::setup_cogdo_flat_building(NodePath &parent,
-      DNAStorage *store) {
-  // Get the toon building name:
-  string name = get_name();
-  if (!(name[0]=='t' &&
-      name[1]=='b' &&
-      isdigit(name[2]) &&
-      name.find(':')!=string::npos)) {
-    // ...this building is not setup to taken over.
-    // Skip it:
-    return;
-  }
-  // Make it a suit name:
-  nassertv(name.length() > 0);
-  name[0]='c';
-  // Create the node to hang suit buildings on:
-  // ModelNode is used to preserve the name of the node so that we can
-  // do a find() for it later.
-  PT(PandaNode) cogdo_node = new ModelNode(name);
-  NodePath cogdo_building_node_path = parent.attach_new_node(cogdo_node);
-  // Size and place it correctly:
-  LVector3f scale = get_scale();
-  scale[2]*=get_current_wall_height();
-  cogdo_building_node_path.set_pos_hpr_scale(get_pos(), get_hpr(), scale);
-  // Pick a suit wall:
-  int count=store->get_num_catalog_codes("cogdo_wall");
-  name=store->get_catalog_code("cogdo_wall", rand()%count);
-  NodePath np=store->find_node(name);
-  if (!np.is_empty()) {
-    // Put it in the world:
-    NodePath newNP=np.copy_to(cogdo_building_node_path);
-    nassertv(!newNP.is_empty());
-    // Look for a door:
-    if (has_door(this)) {
-      NodePath wall_node_path=cogdo_building_node_path.find("wall_*");
-      nassertv(!wall_node_path.is_empty());
-      NodePath door_node_path =
-          (store->find_node("suit_door")).copy_to(wall_node_path);
-      nassertv(!door_node_path.is_empty());
-      door_node_path.set_scale(NodePath(), 1, 1, 1);
-      door_node_path.set_pos_hpr(0.5, 0, 0, 0, 0, 0);
-      //door_node_path.set_color(0.5, 0.5, 1.0, 1.0);
-      wall_node_path.node()->set_effect(DecalEffect::make());
-    }
-  }
-  // Flatten the wall to get rid of the pos hpr scale
-  // The toon take over just uses a Z scale and does not need them
-  cogdo_building_node_path.flatten_medium();
-  cogdo_building_node_path.stash();
-}
-
-////////////////////////////////////////////////////////////////////
 //     Function: DNAFlatBuilding::traverse
 //       Access: Public
 //  Description:
 ////////////////////////////////////////////////////////////////////
 NodePath DNAFlatBuilding::traverse(NodePath &parent, DNAStorage *store, int editing) {
-  //LightReMutexHolder holder(_flat_building_thread_lock);
-  
-  // Clear the current wall height so the first wall will be on the ground.
-  set_current_wall_height(0.0);
+  // Clear the current_wall_height so the first wall will be on the ground
+  current_wall_height = 0;
 
   // Make a new building node
   NodePath building_node_path = parent.attach_new_node(get_name());
@@ -343,8 +260,6 @@ NodePath DNAFlatBuilding::traverse(NodePath &parent, DNAStorage *store, int edit
   // Traverse each node in our vector
   pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
   for(; i != _group_vector.end(); ++i) {
-  //JobSystem *jsys = JobSystem::get_global_ptr();
-  //jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
     PT(DNAGroup) group = *i;
     // Walls go under the internal_node_path because they need to pick up
     // the scaled width, everything else goes under the building node path
@@ -354,12 +269,12 @@ NodePath DNAFlatBuilding::traverse(NodePath &parent, DNAStorage *store, int edit
     } else {
       group->traverse(building_node_path, store, editing);
     }
-  }//);
+  }
 
   // For some reason the dna has some flat buildings with no walls
   // we should fix them as we find them
-  if (get_current_wall_height() == 0.0) {
-    dna_cat.warning() << "empty flat building with no walls" << std::endl;
+  if (current_wall_height == 0.0) {
+    dna_cat.warning() << "empty flat building with no walls" << endl;
     return parent;
   }
 
@@ -367,11 +282,10 @@ NodePath DNAFlatBuilding::traverse(NodePath &parent, DNAStorage *store, int edit
   NodePath wall_camera_barrier_node_path =
     (store->find_node("wall_camera_barrier")).copy_to(internal_node_path);
   // Scale the camera collide geometry up to cover the entire wall
-  wall_camera_barrier_node_path.set_scale(1.0, 1.0, get_current_wall_height());
+  wall_camera_barrier_node_path.set_scale(1.0, 1.0, current_wall_height);
 
   // Build origin for suit flat building:
   setup_suit_flat_building(parent, store);
-  setup_cogdo_flat_building(parent, store);
 
   // Get rid of the transitions
   SceneGraphReducer gr;
@@ -465,8 +379,13 @@ void DNAFlatBuilding::write(ostream &out, DNAStorage *store, int indent_level) c
   // Write out all properties
   indent(out, indent_level + 1) << "pos [ " <<
     _pos[0] << " " << _pos[1] << " " << _pos[2] << " ]\n";
-  indent(out, indent_level + 1) << "nhpr [ " <<
-    _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+  if (temp_hpr_fix) {
+    indent(out, indent_level + 1) << "nhpr [ " <<
+      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+  } else {
+    indent(out, indent_level + 1) << "hpr [ " <<
+      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+  }
   indent(out, indent_level + 1) << "width [ " <<
     _width << " ]\n";
 
@@ -548,7 +467,7 @@ void DNALandmarkBuilding::setup_suit_building_origin(NodePath &parent,
     np.node()->set_name(name);
   } else {
     dna_cat.warning() << "DNALandmarkBuilding " << name
-                      << " did not find **/*suit_building_origin" << std::endl;
+                      << " did not find **/*suit_building_origin" << endl;
     // Create the node to hang suit buildings on:
     NodePath suit_building_node_path = parent.attach_new_node(name);
     // Size and place it correctly:
@@ -590,16 +509,15 @@ NodePath DNALandmarkBuilding::traverse(NodePath &parent, DNAStorage *store, int 
   // Traverse each node in our vector
   pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
   for(; i != _group_vector.end(); ++i) {
-  //JobSystem *jsys = JobSystem::get_global_ptr();
-  //jsys->parallel_process(_group_vector.size(), [&] (size_t i) {
-    PT(DNAGroup) group = *i; //_group_vector[i];
+    PT(DNAGroup) group = *i;
     group->traverse(building_node_path, store, editing);
-  }//);
+  }
 
   if (editing) {
     // Remember that this nodepath is associated with this dna group
     store->store_DNAGroup(building_node_path.node(), this);
-  } else {
+  }
+  else {
     SceneGraphReducer gr;
     // Get rid of the transitions
     gr.apply_attribs(building_node_path.node());
@@ -638,7 +556,7 @@ void DNALandmarkBuilding::write(ostream &out, DNAStorage *store, int indent_leve
     indent(out, indent_level + 1) << "building_type [ " << '"' << get_building_type() << '"' << " ]\n";
   }
 
-  // Whoops, the titles were entered as iso8859 and we need to convert them to utf8
+  // Whoops, the titles were entered as iso8859 and we need to convert them to utf8 
   // We only want to run this when we need to fix an improper encoding
   // Note - you need to change the indent function below too
   // string utf8title = TextNode::reencode_text(_title, TextNode::E_iso8859, TextNode::E_utf8);
@@ -650,8 +568,13 @@ void DNALandmarkBuilding::write(ostream &out, DNAStorage *store, int indent_leve
     _title << '"' << " ]\n";
   indent(out, indent_level + 1) << "pos [ " <<
     _pos[0] << " " << _pos[1] << " " << _pos[2] << " ]\n";
-  indent(out, indent_level + 1) << "nhpr [ " <<
-    _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+  if (temp_hpr_fix) {
+    indent(out, indent_level + 1) << "nhpr [ " <<
+      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+  } else {
+    indent(out, indent_level + 1) << "hpr [ " <<
+      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
+  }
 
   // Do not write out color if it is white to save work
   if (!_wall_color.almost_equal(LVecBase4f(1.0, 1.0, 1.0, 1.0))) {
@@ -678,3 +601,4 @@ void DNALandmarkBuilding::write(ostream &out, DNAStorage *store, int indent_leve
 DNAGroup* DNALandmarkBuilding::make_copy() {
   return new DNALandmarkBuilding(*this);
 }
+

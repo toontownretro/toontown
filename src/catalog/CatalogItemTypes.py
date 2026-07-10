@@ -1,23 +1,22 @@
-from . import CatalogFurnitureItem
-from . import CatalogChatItem
-from . import CatalogClothingItem
-from . import CatalogEmoteItem
-from . import CatalogWallpaperItem
-from . import CatalogFlooringItem
-from . import CatalogWainscotingItem
-from . import CatalogMouldingItem
-from . import CatalogWindowItem
-from . import CatalogPoleItem
-from . import CatalogPetTrickItem
-from . import CatalogBeanItem
-from . import CatalogGardenItem
-from . import CatalogInvalidItem
-from . import CatalogRentalItem
-from . import CatalogGardenStarterItem
-from . import CatalogNametagItem
-from . import CatalogToonStatueItem
-from . import CatalogAnimatedFurnitureItem
-from . import CatalogAccessoryItem
+import CatalogFurnitureItem
+import CatalogChatItem
+import CatalogClothingItem
+import CatalogEmoteItem
+import CatalogWallpaperItem
+import CatalogFlooringItem
+import CatalogWainscotingItem
+import CatalogMouldingItem
+import CatalogWindowItem
+import CatalogPoleItem
+import CatalogPetTrickItem
+import CatalogBeanItem
+import CatalogGardenItem
+import CatalogInvalidItem
+import CatalogRentalItem
+import CatalogGardenStarterItem
+import CatalogNametagItem
+import CatalogToonStatueItem
+import CatalogAnimatedFurnitureItem
 
 # Catalog item type codes.  These code numbers are written to the
 # database to represent each particular type of catalog item; you may
@@ -43,7 +42,6 @@ GARDENSTARTER_ITEM   = 15
 NAMETAG_ITEM   = 16
 TOON_STATUE_ITEM   = 17
 ANIMATED_FURNITURE_ITEM = 18
-ACCESSORY_ITEM = 19
 
 NonPermanentItemTypes = (RENTAL_ITEM, )
 
@@ -67,7 +65,6 @@ CatalogItemTypes = {
     CatalogNametagItem.CatalogNametagItem : NAMETAG_ITEM,
     CatalogToonStatueItem.CatalogToonStatueItem : TOON_STATUE_ITEM,
     CatalogAnimatedFurnitureItem.CatalogAnimatedFurnitureItem : ANIMATED_FURNITURE_ITEM,
-    CatalogAccessoryItem.CatalogAccessoryItem : ACCESSORY_ITEM
     }
 
 # for each catalog item type, indicates whether or not toons are allowed to have more than one
@@ -92,12 +89,9 @@ CatalogItemType2multipleAllowed = {
     NAMETAG_ITEM : False,
     TOON_STATUE_ITEM : False,
     ANIMATED_FURNITURE_ITEM : True,
-    ACCESSORY_ITEM : False
     }
 
 assert len(CatalogItemType2multipleAllowed) == len(CatalogItemTypes)
-
-SingleCodeRedemption = (BEAN_ITEM,)
 
 # We only use the bottom n bits of the type byte to encode the type
 # number.  For now, we reserve 5 bits, which gives us type codes up to

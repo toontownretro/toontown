@@ -1,4 +1,4 @@
-from .Quests import *
+from Quests import *
 from direct.showbase.TkGlobal import *
 from direct.showbase.DirectObject import DirectObject
 from direct.tkwidgets.Tree import *
@@ -7,7 +7,6 @@ from Pmw import *
 from direct.showbase.TkGlobal import *
 from direct.showbase import TkGlobal
 from direct.gui.DirectGui import DGG
-from toontown.toonbase import TTLocalizer
 
 DEFAULT_MENU_ITEMS = []
 
@@ -37,13 +36,12 @@ class QuestExplorer(Pmw.MegaWidget, DirectObject):
             'scrolledCanvas',
             (), None,
             Pmw.ScrolledCanvas, (interior,),
-            hull_width = 800, hull_height = 600,
-            usehullsize = 1
-        )
+            hull_width = 200, hull_height = 300,
+            usehullsize = 1)
         self._canvas = self._scrolledCanvas.component('canvas')
         self._canvas['scrollregion'] = ('0i', '0i', '2i', '4i')
         self._scrolledCanvas.resizescrollregion()
-        self._scrolledCanvas.pack(padx = 3, pady = 3, expand = 1, fill = 'both')
+        self._scrolledCanvas.pack(padx = 3, pady = 3, expand=1)
         
         self._canvas.bind('<ButtonPress-2>', self.mouse2Down)
         self._canvas.bind('<B2-Motion>', self.mouse2Motion)
@@ -112,14 +110,8 @@ class QuestExplorerItem(TreeItem):
                 tierName = 'MM_TIER'                
             elif self.quest < DL_TIER:
                 tierName = 'BR_TIER'
-            elif self.quest < LAWBOT_HQ_TIER:
-                tierName = 'DL_TIER'
-            elif self.quest < BOSSBOT_HQ_TIER:
-                tierName = 'LAWBOT_HQ_TIER'
-            elif self.quest < ELDER_TIER:
-                tierName = 'BOSSBOT_HQ_TIER'
             else:
-                tierName = 'ELDER_TIER'
+                tierName = 'DL_TIER'
             return "%s: %d" % (tierName, self.quest)
         else:
             id = self.quest
@@ -142,7 +134,7 @@ class QuestExplorerItem(TreeItem):
                                               fromNpcId = 1000,
                                               toNpcId = toNpcId)
                     # Strip out end of page symbols
-                    dialog = dialog.replace("\a", " | ")
+                    dialog = dialog.replace("\a", "")
                 else:
                     dialog = 'Quest Entry not found'
             except:
@@ -154,7 +146,7 @@ class QuestExplorerItem(TreeItem):
                 if reward:
                     rewardString = " %s" % reward.getPosterString()
                 else:
-                    rewardString = ' - ' + TTLocalizer.QuestPosterFun
+                    rewardString = ' - Just for fun!'
             else:
                 rewardString = ""
             return "%d: %s%s" % (id, dialog, rewardString)
@@ -195,7 +187,7 @@ class QuestExplorerItem(TreeItem):
 
     def GetSubList(self):
         if self.quest == -1:
-            nextQuests = list(Tier2QuestsDict.keys())
+            nextQuests = Tier2QuestsDict.keys()
         elif self.quest <= self.maxTier:
             nextQuests = getStartingQuests(self.quest)
         else:
@@ -203,15 +195,13 @@ class QuestExplorerItem(TreeItem):
         if nextQuests == None:
             return []
         else:
-            return list(map(QuestExplorerItem, nextQuests))
+            return map(QuestExplorerItem, nextQuests)
 
 def exploreQuests(quest = -1):
     # Pop open a hierarchical viewer to explore quest system
-    from . import QuestExplorer
+    import QuestExplorer
     tl = TkGlobal.Toplevel()
     tl.title('Explore Quests')
-    qe_frame = TkGlobal.Frame(tl)
-    qe_frame.grid(row = 0, column = 0, sticky=TkGlobal.W + TkGlobal.E)
-    qe = QuestExplorer.QuestExplorer(parent = qe_frame, quest = quest)
+    qe = QuestExplorer.QuestExplorer(parent = tl, quest = quest)
     qe.pack(expand = 1, fill = 'both')
     return qe

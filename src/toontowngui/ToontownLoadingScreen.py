@@ -1,6 +1,6 @@
 
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 import random
@@ -75,10 +75,10 @@ class ToontownLoadingScreen:
             # Put the progress gui in front of all the fade action
             self.waitBar.reparentTo(self.gui)
             self.title.reparentTo(self.gui)
-            self.gui.reparentTo(aspect2dp, DGG.NO_FADE_SORT_INDEX)
+            self.gui.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
         else:
-            self.waitBar.reparentTo(aspect2dp, DGG.NO_FADE_SORT_INDEX)
-            self.title.reparentTo(aspect2dp, DGG.NO_FADE_SORT_INDEX)
+            self.waitBar.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
+            self.title.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
             self.gui.reparentTo(hidden)
         self.waitBar.update(self.__count)
 
@@ -91,9 +91,11 @@ class ToontownLoadingScreen:
         return (self.__expectedCount, self.__count)
 
     def abort(self):
-        self.gui.reparentTo(hidden)
+        self.gui.reparentTo(hidden)        
 
     def tick(self):
         self.__count = self.__count + 1
         # update progress bar
         self.waitBar.update(self.__count)
+
+

@@ -3,7 +3,7 @@ Toontown Sign Edit Frame
 """
 
 import wx
-from .LevelStyleManager import *
+from LevelStyleManager import *
 from wx.lib.agw.knobctrl import *
 
 class ToonKnobCtrl(KnobCtrl):
@@ -81,9 +81,9 @@ class ToonSignTextCtrlValidator(wx.PyValidator):
       def Validate(self, win):
           textCtrl = self.GetWindow()
           text = textCtrl.GetValue()
-          #print("Validating %s" %(text))
+          #print "Validating %s" %(text)
           try:
-             #print("Valid %d" %(float(text)))
+             #print "Valid %d" %(float(text))
              return True
           except ValueError:
               return False
@@ -92,24 +92,24 @@ class ToonSignTextCtrl(wx.TextCtrl):
       def __init__(self, parent, id=-1, value=wx.EmptyString, pos=wx.DefaultPosition):
           wx.TextCtrl.__init__(self, parent.panel, id, pos=pos, value=value, validator=ToonSignTextCtrlValidator())
 
-          self._parent = parent
+          self.parent = parent
           self.Bind(wx.EVT_TEXT, self.OnText)
           self.Bind(wx.EVT_SET_FOCUS, self.OnSetFocus)
 
       def OnText(self, event):
-          #print("Got %s" %(self.GetValue()))
+          #print "Got %s" %(self.GetValue())
           try:
              val = float(self.GetValue())
-             self._parent.WritePandaValue(self, val)
-             self._parent.knobCtrl.SetTotal(val)
+             self.parent.WritePandaValue(self, val)
+             self.parent.knobCtrl.SetTotal(val)
 
           except ValueError:
-              #print("Clearing...")
+              #print "Clearing..."
               i=0
 
       def OnSetFocus(self, event):
-          #print("Setting total %d" %(float(self.GetValue())))
-          self._parent.knobCtrl.SetTotal(float(self.GetValue()))
+          #print "Setting total %d" %(float(self.GetValue()))
+          self.parent.knobCtrl.SetTotal(float(self.GetValue()))
 
 class SignEditFrame(wx.MiniFrame):
       def __init__(self, parent, editor, baselineDNA, objNP, hasGraphics=False):

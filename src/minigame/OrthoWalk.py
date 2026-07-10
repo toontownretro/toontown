@@ -3,7 +3,7 @@
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *
-from .OrthoDrive import *
+from OrthoDrive import *
 from direct.directnotify import DirectNotifyGlobal
 
 class OrthoWalk:
@@ -17,7 +17,7 @@ class OrthoWalk:
     def __init__(self, orthoDrive,
                  collisions=1,
                  broadcast=1,
-                 broadcastPeriod=.2# .1,
+                 broadcastPeriod=.1,
                  ):
         self.orthoDrive = orthoDrive
         self.collisions = collisions
@@ -81,12 +81,7 @@ class OrthoWalk:
         dt = globalClock.getDt()
         self.timeSinceLastPosBroadcast += dt
         if self.timeSinceLastPosBroadcast >= self.broadcastPeriod:
-#            self.timeSinceLastPosBroadcast = 0            
+            self.timeSinceLastPosBroadcast = 0            
             # broadcast the current position, if changed
-#            self.lt.cnode.broadcastPosHprXyh()
-            self.sendCurrentPosition
+            self.lt.cnode.broadcastPosHprXyh()
         return Task.cont
-
-    def sendCurrentPosition(self):
-        self.timeSinceLastPosBroadcast -= self.broadcastPeriod
-        self.lt.cnode.broadcastPosHprXyh()

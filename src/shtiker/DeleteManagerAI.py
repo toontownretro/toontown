@@ -1,5 +1,5 @@
 from otp.ai.AIBaseGlobal import *
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.distributed import DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
 
@@ -12,7 +12,7 @@ class DeleteManagerAI(DistributedObjectAI.DistributedObjectAI):
     def setInventory(self, newInventoryString):
         avId = self.air.getAvatarIdFromSender()
         # Make sure the avatar exists.
-        if avId in self.air.doId2do:
+        if self.air.doId2do.has_key(avId):
             # Find the avatar
             av = self.air.doId2do[avId]
             # Create a new inventory list
@@ -26,3 +26,5 @@ class DeleteManagerAI(DistributedObjectAI.DistributedObjectAI):
             self.notify.warning(
                 "Avatar: " + str(avId) +
                 " tried to setInventory, but is not in the district.")
+            
+        

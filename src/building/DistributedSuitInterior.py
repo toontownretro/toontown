@@ -2,9 +2,9 @@
 
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
-from .ElevatorConstants import *
+from ElevatorConstants import *
 
-from . import ElevatorUtils
+import ElevatorUtils
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from direct.directnotify import DirectNotifyGlobal
@@ -30,8 +30,8 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         self.toons = []
         self.activeIntervals = {}
 
-        self.openSfx = base.loader.loadSfx("phase_5/audio/sfx/elevator_door_open.mp3")
-        self.closeSfx = base.loader.loadSfx("phase_5/audio/sfx/elevator_door_close.mp3")
+        self.openSfx = base.loadSfx("phase_5/audio/sfx/elevator_door_open.mp3")
+        self.closeSfx = base.loadSfx("phase_5/audio/sfx/elevator_door_close.mp3")
 
         self.suits = []
         self.reserveSuits = []
@@ -88,15 +88,15 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
                         State.State('Battle',
                                 self.enterBattle,
                                 self.exitBattle,
-                                ['Resting',
-                                'Reward',
+                                ['Resting', 
+                                'Reward', 
                                 'ReservesJoining']),
                         State.State('ReservesJoining',
                                 self.enterReservesJoining,
                                 self.exitReservesJoining,
                                 ['Battle']),
                         State.State('Resting',
-                                self.enterResting,
+                                self.enterResting,      
                                 self.exitResting,
                                 ['Elevator']),
                         State.State('Reward',
@@ -106,7 +106,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
                         State.State('Off',
                                 self.enterOff,
                                 self.exitOff,
-                                ['Elevator',
+                                ['Elevator', 
                                 'WaitForAllToonsInside',
                                 'Battle']),
                 ],
@@ -227,13 +227,13 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
     def __removeToon(self, toon, unexpected=0):
         assert(self.notify.debug('removeToon() - toon: %d' % toon.doId))
         if (self.toons.count(toon) == 1):
-            self.toons.remove(toon)
+            self.toons.remove(toon) 
         self.ignore(toon.uniqueName('disable'))
 
     def __finishInterval(self, name):
         """ Force the specified interval to jump to the end
         """
-        if (name in self.activeIntervals):
+        if (self.activeIntervals.has_key(name)):
             interval = self.activeIntervals[name]
             if (interval.isPlaying()):
                 assert(self.notify.debug('finishInterval(): %s' % \
@@ -241,7 +241,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
                 interval.finish()
 
     def __cleanupIntervals(self):
-        for interval in list(self.activeIntervals.values()):
+        for interval in self.activeIntervals.values():
             interval.finish()
         self.activeIntervals = {}
 
@@ -279,7 +279,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         self.toons = []
         for toonId in toonIds:
             if (toonId != 0):
-                if (toonId in self.cr.doId2do):
+                if (self.cr.doId2do.has_key(toonId)):
                     toon = self.cr.doId2do[toonId]
                     toon.stopSmooth()
                     self.toons.append(toon)
@@ -300,7 +300,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         self.suits = []
         self.joiningReserves = []
         for suitId in suitIds:
-            if (suitId in self.cr.doId2do):
+            if (self.cr.doId2do.has_key(suitId)):
                 suit = self.cr.doId2do[suitId]
                 self.suits.append(suit)
                 # Set this on the client
@@ -319,7 +319,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         assert(len(reserveIds) == len(values))
         for index in range(len(reserveIds)):
             suitId = reserveIds[index]
-            if (suitId in self.cr.doId2do):
+            if (self.cr.doId2do.has_key(suitId)):
                 suit = self.cr.doId2do[suitId]
                 self.reserveSuits.append((suit, values[index]))
             else:
@@ -328,7 +328,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         if (len(self.joiningReserves) > 0):
             assert(self.notify.debug('setSuits() reserves joining'))
             self.fsm.request('ReservesJoining')
-
+    
     def setState(self, state, timestamp):
         assert(self.notify.debug("setState(%s, %d)" % \
                                 (state, timestamp)))
@@ -347,11 +347,11 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
     # Specific State Functions
 
     ##### Off state #####
-
+    
     def enterOff(self, ts=0):
         assert(self.notify.debug('enterOff()'))
         return None
-
+    
     def exitOff(self):
         return None
 
@@ -361,13 +361,13 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         assert(self.notify.debug('enterWaitForAllToonsInside()'))
         return None
 
-    def exitWaitForAllToonsInside(self):
+    def exitWaitForAllToonsInside(self):        
         return None
 
     ##### Elevator state #####
 
     def __playElevator(self, ts, name, callback):
-        # Load the floor model
+        # Load the floor model 
 
         SuitHs = []   # Heading angles
         SuitPositions = []
@@ -384,7 +384,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
             # Top floor
             self.floorModel = loader.loadModel('phase_7/models/modules/boss_suit_office')
             SuitHs = self.BossOffice_SuitHs
-            SuitPositions = self.BossOffice_SuitPositions
+            SuitPositions = self.BossOffice_SuitPositions            
         else:
             # middle floor
             self.floorModel = loader.loadModel('phase_7/models/modules/cubicle_room')
@@ -450,13 +450,13 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
                                           self.openSfx, None, type = ELEVATOR_NORMAL),
             Func(camera.wrtReparentTo, render),
             )
-
+                         
         for toon in self.toons:
             track.append(Func(toon.wrtReparentTo, render))
         track.append(Func(callback))
         track.start(ts)
         self.activeIntervals[name] = track
-
+        
     def enterElevator(self, ts=0):
         # Load model for the current floor and the suit models for the floor
         assert(self.notify.debug('enterElevator()'))
@@ -489,10 +489,10 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         track = Sequence(
             Wait(SUIT_LEAVE_ELEVATOR_TIME),
             Parallel(SoundInterval(self.closeSfx),
-                     LerpPosInterval(self.leftDoorOut,
+                     LerpPosInterval(self.leftDoorOut, 
                                      ElevatorData[ELEVATOR_NORMAL]['closeTime'],
                                      ElevatorUtils.getLeftClosePoint(ELEVATOR_NORMAL),
-                                     startPos=Point3(0, 0, 0),
+                                     startPos=Point3(0, 0, 0), 
                                      blendType='easeOut'),
                      LerpPosInterval(self.rightDoorOut,
                                      ElevatorData[ELEVATOR_NORMAL]['closeTime'],
@@ -542,14 +542,14 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
 
             # Open the elevator doors
             Parallel(SoundInterval(self.openSfx),
-                     LerpPosInterval(self.leftDoorOut,
+                     LerpPosInterval(self.leftDoorOut, 
                                      ElevatorData[ELEVATOR_NORMAL]['closeTime'],
-                                     Point3(0, 0, 0),
+                                     Point3(0, 0, 0), 
                                      startPos=ElevatorUtils.getLeftClosePoint(ELEVATOR_NORMAL),
                                      blendType='easeOut'),
                      LerpPosInterval(self.rightDoorOut,
                                      ElevatorData[ELEVATOR_NORMAL]['closeTime'],
-                                     Point3(0, 0, 0),
+                                     Point3(0, 0, 0), 
                                      startPos=ElevatorUtils.getRightClosePoint(ELEVATOR_NORMAL),
                                      blendType='easeOut'),
                      ),

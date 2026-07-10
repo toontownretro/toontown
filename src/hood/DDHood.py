@@ -1,6 +1,6 @@
 
-from toontown.toonbase.ToontownModules import *
-from . import ToonHood
+from pandac.PandaModules import *
+import ToonHood
 from toontown.town import DDTownLoader
 from toontown.safezone import DDSafeZoneLoader
 from toontown.toonbase.ToontownGlobals import *
@@ -17,23 +17,13 @@ class DDHood(ToonHood.ToonHood):
         # Dictionary which holds holiday specific lists of Storage DNA Files
         # Keyed off of the News Manager holiday IDs stored in ToontownGlobals
         self.holidayStorageDNADict = {WINTER_DECORATIONS : ['phase_6/dna/winter_storage_DD.dna'],
-                                      WACKY_WINTER_DECORATIONS: ['phase_6/dna/winter_storage_DD.dna'],
-                                      HALLOWEEN_PROPS : ['phase_6/dna/halloween_props_storage_DD.dna'],
-                                      SPOOKY_PROPS: ['phase_6/dna/halloween_props_storage_DD.dna']}
+                                      HALLOWEEN_PROPS : ['phase_6/dna/halloween_props_storage_DD.dna']}
         # Donalds Dock reuses The Brrrgh's sky
         self.skyFile = "phase_3.5/models/props/BR_sky"
         self.titleColor = (0.8, 0.6, 0.5, 1.0)
         self.whiteFogColor = Vec4(0.8, 0.8, 0.8, 1)
         self.underwaterFogColor = Vec4(0.0, 0.0, 0.6, 1.0)
         self.spookySkyFile = "phase_3.5/models/props/BR_sky"
-
-        # Begin Shaders #
-        self.sunTemp = 6500
-        self.sunIntensity = 50000
-        self.skyLightScale = 100
-        self.ambientTemp = 7000
-        self.sunShadowSoftnessFactor = 10.0
-        # End Shaders #
 
     def load(self):
         ToonHood.ToonHood.load(self)
@@ -50,14 +40,14 @@ class DDHood(ToonHood.ToonHood):
 
     def exit(self):
         ToonHood.ToonHood.exit(self)
-
+    
     def setUnderwaterFog(self):
         if base.wantFog:
             self.fog.setColor(self.underwaterFogColor)
             self.fog.setLinearRange(0.1, 100.0)
             render.setFog(self.fog)
             self.sky.setFog(self.fog)
-
+        
     def setWhiteFog(self):
         if base.wantFog:
             self.fog.setColor(self.whiteFogColor)

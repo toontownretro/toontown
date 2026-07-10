@@ -1,10 +1,9 @@
-from toontown.toonbase.ToontownModules import *
+from pandac.PandaModules import *
 from direct.distributed import DistributedObject
 from direct.interval.ProjectileInterval import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
-from toontown.racing.DistributedVehicle import DistributedVehicle
-from .DroppedGag import *
+from DroppedGag import *
 #This class is primarily for any gags whose target is not deterministically
 #know.
 
@@ -17,9 +16,9 @@ class DistributedGag(DistributedObject.DistributedObject):
         self.shadow=True
         self.dropShadow=None
         self.type = 0
+        
 
-
-
+            
 
     def delete(self):
         DistributedObject.DistributedObject.delete(self)
@@ -31,7 +30,7 @@ class DistributedGag(DistributedObject.DistributedObject):
         if not self.nodePath:
             self.makeNodePath()
         self.delta=-globalClockDelta.networkToLocalTime(self.initTime, globalClock.getFrameTime(), 16, 100)+globalClock.getFrameTime()
-        #print(self.delta)
+        #print self.delta
 
         if self.type == 0: #banana
             self.name=self.uniqueName("banana")
@@ -64,7 +63,7 @@ class DistributedGag(DistributedObject.DistributedObject):
 
     def b_imHit(self, cevent):
         self.ignoreAll()
-        self.sendUpdate("hitSomebody", [localAvatar.doId, globalClockDelta.getFrameNetworkTime(16, 100)])
+        self.sendUpdate("hitSomebody", [base.race.localKart.doId, globalClockDelta.getFrameNetworkTime(16, 100)])
         if self.type==0:
             base.race.localKart.hitBanana()
         elif self.type==1:
@@ -74,15 +73,13 @@ class DistributedGag(DistributedObject.DistributedObject):
             self.bnp.remove()
 
     def hitSomebody(self, kartId, timeStamp):
-        if(localAvatar.doId!=avId):
-            kart = DistributedVehicle.getKartFromAvId(avId)
-            if kart:
-                assert kartId in base.cr.doId2do
-                #Okay, this is correct
-                self.nodePath.hide()
-                if(hasattr(self, "bnp")):
-                    self.bnp.remove()
-                kart.playSpin(timeStamp)
+        if(base.race.localKart.doId!=kartId):
+            assert kartId in base.cr.doId2do
+            #Okay, this is correct
+            self.nodePath.hide()
+            if(hasattr(self, "bnp")):
+                self.bnp.remove()
+            base.cr.doId2do[kartId].playSpin(timeStamp)
 
     def setActivateTime(self, actTime):
         self.activateTime=actTime
@@ -95,7 +92,7 @@ class DistributedGag(DistributedObject.DistributedObject):
 
     # The handler that catches the initial position established on the AI
     def setPos(self, x, y, z):
-        #print(x, ": ", y, ": ", z)
+        #print x, ": ", y, ": ", z
         self.pos=(x, y, z)
 
 
@@ -116,3 +113,4 @@ class DistributedGag(DistributedObject.DistributedObject):
 
     def setType(self, type):
         self.type = type; #0 banana #1 pie
+
