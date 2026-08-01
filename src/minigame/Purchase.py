@@ -1,4 +1,4 @@
-from PurchaseBase import *
+from .PurchaseBase import *
 from direct.task.Task import Task
 from toontown.toon import ToonHead
 from toontown.toonbase import ToontownTimer
@@ -8,7 +8,7 @@ from direct.showbase.PythonUtil import Functor
 from toontown.minigame import TravelGameGlobals
 from toontown.distributed import DelayDelete
 from toontown.toonbase import ToontownGlobals
-import MinigameGlobals
+from . import MinigameGlobals
 
 COUNT_UP_RATE = 0.15
 COUNT_UP_DURATION = 0.5
@@ -167,7 +167,7 @@ class Purchase(PurchaseBase):
                 (self.states[index] != PURCHASE_DISCONNECTED_STATE)):
                 if avId != base.localAvatar.doId:
                     # Do not add the doId if they are not in the doId
-                    if base.cr.doId2do.has_key(avId):
+                    if avId in base.cr.doId2do:
                         self.avInfoArray.append( (avId, headFramePosList[layout[pos]], index) )
                         pos = pos + 1
 
@@ -519,7 +519,7 @@ class Purchase(PurchaseBase):
             for i in range(len(task.ids)):
                 if task.pointsArray[i] == winningPoints:
                     avId = task.ids[i]
-                    if base.cr.doId2do.has_key(avId):
+                    if avId in base.cr.doId2do:
                         toon = base.cr.doId2do[avId]
                         toon.setAnimState("jump", 1.0)
                         
@@ -901,7 +901,7 @@ class Purchase(PurchaseBase):
         # count how many toons are still connected
         numToons = 0
         for avId in self.ids:
-            if base.cr.doId2do.has_key(avId) and \
+            if avId in base.cr.doId2do and \
                avId not in self.unexpectedExits:
                 numToons +=1
                 assert self.notify.debug('found avId=%s numToons=%s' % (avId, numToons))
@@ -919,7 +919,7 @@ class Purchase(PurchaseBase):
     def setupUnexpectedExitHooks(self):
         """Setup hooks to inform us when other toons exit unexpectedly."""
         for avId in self.ids:
-            if base.cr.doId2do.has_key(avId):
+            if avId in base.cr.doId2do:
                 toon = base.cr.doId2do[avId]
                 eventName = toon.uniqueName('disable')
                 self.accept(eventName,

@@ -24,5 +24,5 @@ MoneyBagPosHprs = [
   [134.2 - 84, -274.7 + 201, 0, 180, 0, 0],
   ]
 
-for i in xrange(len(MoneyBagPosHprs)):
+for i in range(len(MoneyBagPosHprs)):
     MoneyBagPosHprs[i][2] += 6

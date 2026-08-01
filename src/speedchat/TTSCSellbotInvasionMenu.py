@@ -11,7 +11,7 @@ from otp.otpbase import OTPLocalizer
 
 #this is the structure of the racing menu
 SellbotInvasionMenu = [
-    (OTPLocalizer.SellbotInvasionMenuSections[0], range(30400, 30404)),
+    (OTPLocalizer.SellbotInvasionMenuSections[0], list(range(30400, 30404))),
 ]
 
 class TTSCSellbotInvasionMenu(SCMenu):
@@ -43,14 +43,14 @@ class TTSCSellbotInvasionMenu(SCMenu):
                 #This is not a submenu but a terminal!
                 for phrase in section[1]:
                     if phrase not in OTPLocalizer.SpeedChatStaticText:
-                        print ('warning: tried to link Winter phrase %s which does not seem to exist' % phrase)
+                        print(('warning: tried to link Winter phrase %s which does not seem to exist' % phrase))
                         break
                     self.append(SCStaticTextTerminal(phrase))
             else: #this should be a submenu
                 menu = SCMenu()
                 for phrase in section[1]:
                     if phrase not in OTPLocalizer.SpeedChatStaticText:
-                        print ('warning: tried to link Halloween phrase %s which does not seem to exist' % phrase)
+                        print(('warning: tried to link Halloween phrase %s which does not seem to exist' % phrase))
                         break
                     menu.append(SCStaticTextTerminal(phrase))
 

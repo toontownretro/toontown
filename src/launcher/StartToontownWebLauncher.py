@@ -4,7 +4,7 @@ from otp.launcher.ExploreDirectory import exploreDirectory
 launcher = None
 def main(appRunner = None):
     if not appRunner:
-        print "Not running in a web environment; using dummyAppRunner."
+        print("Not running in a web environment; using dummyAppRunner.")
         from direct.p3d.AppRunner import dummyAppRunner
         from pandac.PandaModules import PandaSystem
         appRunner = dummyAppRunner()
@@ -17,7 +17,7 @@ def main(appRunner = None):
     if int(appRunner.tokenDict.get('download', '0')):
         # When the download token is set, it means we only want to use
         # this p3d file to download the required files, and then exit.
-        print "Download token set; not running launcher."
+        print("Download token set; not running launcher.")
         import sys
         sys.exit(0)
 
@@ -26,4 +26,4 @@ def main(appRunner = None):
 
     global launcher
     launcher = ToontownWebLauncher(appRunner)
-    print "Reached end of StartToontownLauncher.py."
+    print("Reached end of StartToontownLauncher.py.")

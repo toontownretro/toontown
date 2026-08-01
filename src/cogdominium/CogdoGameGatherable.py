@@ -14,7 +14,7 @@ from direct.interval.IntervalGlobal import LerpFunc
 
 from toontown.toonbase import ToontownGlobals
 
-import CogdoUtil
+from . import CogdoUtil
 
 class CogdoGameGatherable(NodePath, DirectObject):
 

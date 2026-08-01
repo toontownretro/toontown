@@ -13,9 +13,9 @@ from toontown.battle import BattleParticles
 from toontown.battle import MovieUtil
 from toontown.minigame.MazeSuit import MazeSuit
 
-from CogdoMazeGameObjects import CogdoMazeSplattable
+from .CogdoMazeGameObjects import CogdoMazeSplattable
 
-import CogdoMazeGameGlobals as Globals
+from . import CogdoMazeGameGlobals as Globals
 
 import random
 
@@ -41,7 +41,7 @@ class CogdoMazeSuit(MazeSuit, FSM, CogdoMazeSplattable):
         FSM.__init__(self, 'CogdoMazeSuit')
         CogdoMazeSplattable.__init__(self, self.suit, '%s-%i' % (Globals.SuitCollisionName, self.serialNum), 1.5)
 
-        if data.has_key('scale'):
+        if 'scale' in data:
             self.suit.setScale(data['scale'])
 
         self.hp = data['hp']

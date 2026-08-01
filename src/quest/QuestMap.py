@@ -10,7 +10,7 @@ from toontown.quest import Quests
 
 from toontown.suit import SuitPlannerBase
 
-import QuestMapGlobals
+from . import QuestMapGlobals
 
 class QuestMap(DirectFrame):
     def __init__(self, av, **kw):
@@ -211,7 +211,7 @@ class QuestMap(DirectFrame):
         self.buildingMarkers = []
 
         dnaStore = base.cr.playGame.dnaStore
-        for questIndex in self.av.questPage.quests.keys():
+        for questIndex in list(self.av.questPage.quests.keys()):
             questDesc = self.av.questPage.quests.get(questIndex)
             if questDesc is None:
                 continue

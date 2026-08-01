@@ -133,7 +133,7 @@ BarrelGrabSound = 'phase_4/audio/sfx/SZ_DD_treasure.mp3'
 
 
 
-(StateHidden, StateAvailable, StateUsed, StateCrushed) = range(4)
+(StateHidden, StateAvailable, StateUsed, StateCrushed) = list(range(4))
 
 def numBarrels():
 

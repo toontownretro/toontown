@@ -1,12 +1,12 @@
 """DistributedDaisy module: contains the DistributedDaisy class"""
 
 from direct.showbase.ShowBaseGlobal import *
-import DistributedCCharBase
-import DistributedDaisy
+from . import DistributedCCharBase
+from . import DistributedDaisy
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
 from direct.fsm import State
-import CharStateDatas
+from . import CharStateDatas
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.hood import TTHood

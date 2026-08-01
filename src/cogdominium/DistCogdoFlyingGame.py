@@ -12,10 +12,11 @@ from direct.distributed.ClockDelta import globalClockDelta
 
 from toontown.toonbase import TTLocalizer
 
-from CogdoFlyingGame import CogdoFlyingGame
-from DistCogdoGame import DistCogdoGame
-import CogdoFlyingGameGlobals
-import CogdoFlyingGameGlobals as Globals
+from .CogdoFlyingGame import CogdoFlyingGame
+from .DistCogdoGame import DistCogdoGame
+from . import CogdoFlyingGameGlobals
+from . import CogdoFlyingGameGlobals as Globals
+import importlib
 
 class DistCogdoFlyingGame(DistCogdoGame):
     """
@@ -33,7 +34,7 @@ class DistCogdoFlyingGame(DistCogdoGame):
 
     if __debug__:
         def __sgOnCodeReload(self):
-            reload(Globals)
+            importlib.reload(Globals)
             # TODO: More reload specific logic?
 
 

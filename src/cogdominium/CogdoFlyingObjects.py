@@ -15,9 +15,9 @@ from otp.otpbase import OTPGlobals
 
 from toontown.toonbase import ToontownGlobals
 
-from CogdoGameGatherable import CogdoGameGatherable, CogdoMemo
-import CogdoFlyingGameGlobals as Globals
-import CogdoUtil
+from .CogdoGameGatherable import CogdoGameGatherable, CogdoMemo
+from . import CogdoFlyingGameGlobals as Globals
+from . import CogdoUtil
 
 
 from direct.particles import ParticleEffect
@@ -34,7 +34,7 @@ class CogdoFlyingGatherableFactory:
         self._propellerModel = CogdoUtil.loadFlyingModel('propellers').find('**/mesh')
 
         self._powerUpModels = {}
-        for (type, modelName) in Globals.Level.PowerupType2Model.items():
+        for (type, modelName) in list(Globals.Level.PowerupType2Model.items()):
             model = CogdoUtil.loadFlyingModel(modelName).find('**/' + Globals.Level.PowerupType2Node[type])
             self._powerUpModels[type] = model
 
@@ -109,7 +109,7 @@ class CogdoFlyingGatherableFactory:
         self._propellerModel.removeNode()
         del self._propellerModel
 
-        for model in self._powerUpModels.values():
+        for model in list(self._powerUpModels.values()):
             model.removeNode()
         del self._powerUpModels
 

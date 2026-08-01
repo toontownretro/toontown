@@ -25,9 +25,9 @@ from toontown.suit import SuitDNA
 from toontown.toonbase import ToontownGlobals
 from toontown.battle import BattleProps
 
-from CogdoFlyingUtil import swapAvatarShadowPlacer
-import CogdoUtil
-import CogdoFlyingGameGlobals as Globals
+from .CogdoFlyingUtil import swapAvatarShadowPlacer
+from . import CogdoUtil
+from . import CogdoFlyingGameGlobals as Globals
 
 class CogdoFlyingLegalEagle(DirectObject, FSM):
     CollSphereName = 'CogdoFlyingLegalEagleSphere'

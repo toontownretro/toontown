@@ -1,4 +1,4 @@
-import DistributedTreasureAI
+from . import DistributedTreasureAI
 from toontown.toonbase import ToontownGlobals
 
 class DistributedSZTreasureAI(DistributedTreasureAI.DistributedTreasureAI):
@@ -18,14 +18,14 @@ class DistributedSZTreasureAI(DistributedTreasureAI.DistributedTreasureAI):
     def d_setGrab(self, avId):
         DistributedTreasureAI.DistributedTreasureAI.d_setGrab(self, avId)
         # Boost that laff meter, if you can
-        if self.air.doId2do.has_key(avId):
+        if avId in self.air.doId2do:
             av = self.air.doId2do[avId]
             if self.validAvatar(av):
                 # Only toons with positive hp get rewarded for treasures.
                 if (av.hp == -1):
                     av.hp = 0
                 # Modify the heal amount based on which holiday is running. 
-                if simbase.air.holidayManager.currentHolidays.has_key(ToontownGlobals.VALENTINES_DAY):
+                if ToontownGlobals.VALENTINES_DAY in simbase.air.holidayManager.currentHolidays:
                     av.toonUp(self.healAmount * 2)
                 else:
                     av.toonUp(self.healAmount)

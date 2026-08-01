@@ -21,12 +21,12 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase.ToontownTimer import ToontownTimer
 
-import PartyGlobals
-import PartyCogUtils
-from PartyCog import PartyCogManager
-from PartyCogActivityPlayer import PartyCogActivityPlayer
-from PartyCogActivityPlayer import PartyCogActivityLocalPlayer
-from StretchingArrow import StretchingArrow
+from . import PartyGlobals
+from . import PartyCogUtils
+from .PartyCog import PartyCogManager
+from .PartyCogActivityPlayer import PartyCogActivityPlayer
+from .PartyCogActivityPlayer import PartyCogActivityLocalPlayer
+from .StretchingArrow import StretchingArrow
 
 class PartyCogActivity(DirectObject):
     notify = directNotify.newCategory("PartyCogActivity")
@@ -287,7 +287,7 @@ class PartyCogActivity(DirectObject):
         self.distanceLabels = None
             
         if len(self.players):
-            for player in self.players.values():
+            for player in list(self.players.values()):
                 player.disable()
                 player.destroy()
                 
@@ -311,11 +311,11 @@ class PartyCogActivity(DirectObject):
             self.arena = None
             
             
-        for ival in self.toonPieTracks.values():
+        for ival in list(self.toonPieTracks.values()):
             if ival is not None and ival.isPlaying():
                 try:
                     ival.finish()
-                except Exception, theException:
+                except Exception as theException:
                     self.notify.warning('Ival could not finish:\n %s \nException %s ' % (str(ival), str(theException)))
         self.toonPieTracks = {}
         
@@ -323,12 +323,12 @@ class PartyCogActivity(DirectObject):
             if ival is not None and ival.isPlaying():
                 try:
                     ival.finish()
-                except Exception, theException:
+                except Exception as theException:
                     self.notify.warning('Ival could not finish:\n %s \nException %s ' % (str(ival), str(theException)))
         self.pieIvals = []
         self.toonIdsToAnimIntervals = {}
         
-        for eventName in self.toonPieEventNames.values():
+        for eventName in list(self.toonPieEventNames.values()):
             self.ignore(eventName)
             
         self.toonPieEventNames = {}
@@ -497,7 +497,7 @@ class PartyCogActivity(DirectObject):
     def handleToonShifted(self, toon):
         toonId = toon.doId
         
-        if self.players.has_key(toonId):
+        if toonId in self.players:
             player = self.players[toonId]
             
             spot = self.activity.getIndex(toonId, player.team)
@@ -569,7 +569,7 @@ class PartyCogActivity(DirectObject):
             self.player.resetScore()
             self.hideTeamFlags(self.player.team)
             
-        for player in self.players.values():
+        for player in list(self.players.values()):
             self.finishToonIval(player.toon.doId)
             player.enable()
         
@@ -582,10 +582,10 @@ class PartyCogActivity(DirectObject):
         self.pieIvals = []
         
     def stopActivity(self):
-        for player in self.players.values():
+        for player in list(self.players.values()):
             player.disable()
             
-        for eventName in self.toonPieEventNames.values():
+        for eventName in list(self.toonPieEventNames.values()):
             self.ignore(eventName)
             
         self.toonPieEventNames.clear()

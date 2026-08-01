@@ -6,8 +6,8 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownIntervals
 from toontown.toonbase import TTLocalizer
 
-import CogdoUtil
-import CogdoGameConsts
+from . import CogdoUtil
+from . import CogdoGameConsts
 
 MEMOICON_SCALE = 0.2
 

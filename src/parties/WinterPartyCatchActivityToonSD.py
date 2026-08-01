@@ -6,7 +6,7 @@
 #          avatars
 #-------------------------------------------------------------------------------
 
-import PartyCatchActivityToonSD
+from . import PartyCatchActivityToonSD
 
 from pandac.PandaModules import Vec4
 

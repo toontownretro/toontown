@@ -10,8 +10,8 @@ import random
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
 
-import CCharChatter
-import CCharPaths
+from . import CCharChatter
+from . import CCharPaths
 
 CHATTY_DURATION = 120.0
 

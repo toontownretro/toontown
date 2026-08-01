@@ -191,7 +191,7 @@ class CogdoBarrelRoomAI:
 
 
 
-        toonsNeedingLaff = Set(filter((lambda toon: self.__toonIdNeedsLaff(toon)), self.cogdoInteriorAI.toons))
+        toonsNeedingLaff = Set(list(filter((lambda toon: self.__toonIdNeedsLaff(toon)), self.cogdoInteriorAI.toons)))
 
         for barrel in self.spawnedBarrels:
 

@@ -12,10 +12,10 @@ from direct.showbase.RandomNumGen import RandomNumGen
 
 from toontown.minigame.MazeBase import MazeBase
 
-import CogdoMazeGameGlobals as Globals
-from CogdoMazeGameObjects import CogdoMazeWaterCooler
-import CogdoMazeData
-import CogdoUtil
+from . import CogdoMazeGameGlobals as Globals
+from .CogdoMazeGameObjects import CogdoMazeWaterCooler
+from . import CogdoMazeData
+from . import CogdoUtil
 
 class CogdoMaze(MazeBase, DirectObject):
 
@@ -194,14 +194,14 @@ class CogdoMazeFactory:
 
         self.openBarriers = []
 
-        barrierItems = range(Globals.TotalBarriers)
+        barrierItems = list(range(Globals.TotalBarriers))
         self._rng.shuffle(barrierItems)
         for i in barrierItems[0:len(barrierItems) - Globals.NumBarriers]:
             self.openBarriers.append(i)
 
         self.quadrantData = []
 
-        quadrantKeys = self._cogdoMazeData.QuadrantCollisions.keys()
+        quadrantKeys = list(self._cogdoMazeData.QuadrantCollisions.keys())
         self._rng.shuffle(quadrantKeys)
 
         i = 0

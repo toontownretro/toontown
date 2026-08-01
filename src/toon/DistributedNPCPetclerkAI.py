@@ -1,6 +1,6 @@
 from otp.ai.AIBaseGlobal import *
 from pandac.PandaModules import *
-from DistributedNPCToonBaseAI import *
+from .DistributedNPCToonBaseAI import *
 from toontown.toonbase import TTLocalizer
 from direct.task import Task
 from toontown.fishing import FishGlobals
@@ -23,7 +23,7 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
         # this avatar has come within range
         assert self.notify.debug("avatar enter " + str(avId))
         
-        if (not self.air.doId2do.has_key(avId)):
+        if (avId not in self.air.doId2do):
             self.notify.warning("Avatar: %s not found" % (avId))
             return
 
@@ -145,7 +145,7 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
             #create new pet
             gender = petNum % len(PetDNA.PetGenders)
 
-            if nameIndex not in range(0, TTLocalizer.PetNameIndexMAX):
+            if nameIndex not in list(range(0, TTLocalizer.PetNameIndexMAX)):
                 self.air.writeServerEvent('avoid_crash', avId, "DistributedNPCPetclerkAI.petAdopted and didn't have valid nameIndex!")
                 self.notify.warning("somebody called petAdopted and didn't have valid nameIndex to adopt! avId: %s" % avId)
                 return

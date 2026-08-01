@@ -412,10 +412,10 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             flightResults = self.__calcFlightResults(cannon, toonId, launchTime)
             # pull all the results (startPos, startHpr, startVel, trajectory) into the local namespace
             if not isClient():
-                print "EXECWARNING DistributedPartyCannonActivity: %s"%flightResults
+                print(("EXECWARNING DistributedPartyCannonActivity: %s"%flightResults))
                 printStack()
             for key in flightResults:
-                exec "%s = flightResults['%s']" % (key, key)
+                exec("%s = flightResults['%s']" % (key, key))
             
             self.notify.debug("start position: " + str(startPos))
             self.notify.debug("start velocity: " + str(startVel))
@@ -526,7 +526,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
     def _remoteToonFlyTask(self, task = None):
         ids2del = []
         frameTime = globalClock.getFrameTime()
-        for avId, trajInfo in self._avId2trajectoryInfo.iteritems():
+        for avId, trajInfo in list(self._avId2trajectoryInfo.items()):
             trajectory = trajInfo.trajectory
             startTime = trajInfo.startT
             groundTime = trajectory.calcTimeOfImpactOnPlane(0.0) / self.TimeFactor + startTime
@@ -1415,5 +1415,5 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
 
     def handleToonExited(self, toonId):
         self.notify.debug("DistributedPartyCannonActivity handleToonExited( toonId=%s ) " %toonId)
-        if self.cr.doId2do.has_key(toonId):
+        if toonId in self.cr.doId2do:
             self.notify.warning("handleToonExited is not defined")

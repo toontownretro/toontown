@@ -4,7 +4,7 @@ from direct.interval.ProjectileInterval import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from toontown.racing.DistributedVehicle import DistributedVehicle
-from DroppedGag import *
+from .DroppedGag import *
 #This class is primarily for any gags whose target is not deterministically
 #know.
 

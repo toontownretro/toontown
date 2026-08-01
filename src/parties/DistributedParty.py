@@ -22,7 +22,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toon import Toon
 from toontown.parties import PartyGlobals
 from toontown.parties.Decoration import Decoration
-import PartyUtils
+from . import PartyUtils
 
 class DistributedParty(DistributedObject.DistributedObject):
     notify = directNotify.newCategory("DistributedParty")
@@ -237,7 +237,7 @@ class DistributedParty(DistributedObject.DistributedObject):
         # A party with no clear squares shouldn't be able to make it through validation. If you get
         # this exception, take a look at DistributedPartyManagerAI.validatePartyAndReturnCost().
         if len(clearPositions) == 0:
-            raise StandardError, "Party %s has no empty grid squares." % self.doId
+            raise Exception("Party %s has no empty grid squares." % self.doId)
         
         return random.choice(clearPositions)
         

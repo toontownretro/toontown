@@ -17,7 +17,7 @@ from toontown.toontowngui import TTDialog
 import re
 import string
 from toontown.toonbase import TTLocalizer
-import NameGenerator
+from . import NameGenerator
 import random
 from otp.distributed import PotentialAvatar
 from otp.namepanel import NameCheck
@@ -244,7 +244,7 @@ class NameShop(StateData.StateData):
                 k = self.allFirsts.index("Von")
                 self.allFirsts[k] = "von"
             except:
-                print "NameShop: Couldn't find von"
+                print("NameShop: Couldn't find von")
                 
             
 
@@ -860,7 +860,7 @@ class NameShop(StateData.StateData):
             try:
                 x.show()
             except:
-                print "NameShop: Tried to show already removed object"
+                print("NameShop: Tried to show already removed object")
 
         if base.cr.productName in [ 'DE', 'BR']:
             # No type-a-name for DE (German) and BR (Brazil)
@@ -877,7 +877,7 @@ class NameShop(StateData.StateData):
             try:
                 x.hide()
             except:
-                print "NameShop: Tried to hide already removed object"
+                print("NameShop: Tried to hide already removed object")
                 
     def uberdestroy(self, guiObjectsToDestroy):
         self.notify.debug("uberdestroy %s" % str(guiObjectsToDestroy))
@@ -890,7 +890,7 @@ class NameShop(StateData.StateData):
                 x.destroy()
                 del x
             except:
-                print "NameShop: Tried to destroy already removed object"
+                print("NameShop: Tried to destroy already removed object")
 
     def getNameIndices(self):
         """getNameIndices(self)
@@ -944,7 +944,7 @@ class NameShop(StateData.StateData):
             name = string.strip(name)
             return (TextEncoder.upper(npcName) == TextEncoder.upper(name))
         
-        for npcId in NPCToons.NPCToonDict.keys():
+        for npcId in list(NPCToons.NPCToonDict.keys()):
             npcName = NPCToons.NPCToonDict[npcId][1]
             if match(npcName):
                 self.notify.info('name matches NPC name "%s"' % npcName)
@@ -1125,8 +1125,8 @@ class NameShop(StateData.StateData):
             self.nameIndices[0] = self.nameGen.returnUniqueID(uberReturn[3],0)
             self.nameFlags[0] = 1
         except:
-            print "NameShop : Should have found title, uh oh!"
-            print uberReturn
+            print("NameShop : Should have found title, uh oh!")
+            print(uberReturn)
 
         try:
             # Find position in scrolledList of the firstname used
@@ -1134,8 +1134,8 @@ class NameShop(StateData.StateData):
             self.nameIndices[1] = self.nameGen.returnUniqueID(uberReturn[4],1)
             self.nameFlags[1] = 1
         except:
-            print "NameShop : Should have found first name, uh oh!"
-            print uberReturn
+            print("NameShop : Should have found first name, uh oh!")
+            print(uberReturn)
             
         # If there was a last name used (you get it...)
         try:
@@ -1151,8 +1151,8 @@ class NameShop(StateData.StateData):
             else:
                 self.nameFlags[3] = 0
         except:
-            print "NameShop : Some part of last name not found, uh oh!"
-            print uberReturn
+            print("NameShop : Some part of last name not found, uh oh!")
+            print(uberReturn)
             
         self.updateCheckBoxes()
         self.updateLists()
@@ -1442,7 +1442,7 @@ class NameShop(StateData.StateData):
             self.fsm.request('PickAName')
             flags = [pattern[0] != -1, pattern[1] != -1, pattern[2] != -1,]
             names = []
-            for i in xrange(len(pattern)):
+            for i in range(len(pattern)):
                 if pattern[i] != -1:
                     names.append(pnp.getNamePartString(
                         self.toon.style.gender, i, pattern[i]))

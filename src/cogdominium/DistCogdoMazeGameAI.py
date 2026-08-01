@@ -8,8 +8,9 @@ from otp.avatar.SpeedMonitor import SpeedMonitor
 
 from toontown.cogdominium.CogdoMaze import CogdoMazeFactory
 from toontown.cogdominium.DistCogdoMazeGameBase import DistCogdoMazeGameBase
-from DistCogdoGameAI import DistCogdoGameAI
-import CogdoMazeGameGlobals as Globals
+from .DistCogdoGameAI import DistCogdoGameAI
+from . import CogdoMazeGameGlobals as Globals
+import importlib
 
 cogdoMazeTimeScoreRatio = 0.5
 cogdoMazePerfectTime = 90
@@ -59,7 +60,7 @@ class DistCogdoMazeGameAI(DistCogdoGameAI, DistCogdoMazeGameBase):
 
     if __debug__:
         def __sgOnCodeReload(self):
-            reload(Globals)
+            importlib.reload(Globals)
             # TODO: More reload specific logic?
 
     def setExteriorZone(self, exteriorZone):
@@ -305,7 +306,7 @@ class DistCogdoMazeGameAI(DistCogdoGameAI, DistCogdoMazeGameBase):
                 'CogdoMazeGameAI.requestSuitHitByGag: invalid suit type %s' % suitType)
             return False
 
-        if suitNum not in self.suits.keys():
+        if suitNum not in list(self.suits.keys()):
             self.logSuspiciousEvent(senderId,
                 'CogdoMazeGameAI.requestSuitHitByGag: invalid suit num %s' % suitNum)
             return False
@@ -333,7 +334,7 @@ class DistCogdoMazeGameAI(DistCogdoGameAI, DistCogdoMazeGameBase):
                 'CogdoMazeGameAI.requestHitBySuit: invalid suit type %s' % suitType)
             return False
 
-        if suitNum not in self.suits.keys():
+        if suitNum not in list(self.suits.keys()):
             self.logSuspiciousEvent(senderId,
                 'CogdoMazeGameAI.requestHitBySuit: invalid suit num %s' % suitNum)
             return False
@@ -566,7 +567,7 @@ class DistCogdoMazeGameAI(DistCogdoGameAI, DistCogdoMazeGameBase):
     def exitGame(self):
         DistCogdoGameAI.exitGame(self)
 
-        for (toonId, token) in self._toonId2speedToken.iteritems():
+        for (toonId, token) in list(self._toonId2speedToken.items()):
             self._speedMonitor.removeNodepath(token)
         self._toonId2speedToken = {}
 

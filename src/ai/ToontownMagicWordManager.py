@@ -169,10 +169,10 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             #Fanfare.makeFanfareWithMessageImage(0, base.localAvatar, 1, "This is the message", Vec2(0,0.2), 0.08, base.localAvatar.inventory.buttonLookup(1, 1), Vec3(0,0,0), 4)[0].start()
             #Fanfare.makeFanfare(0, base.localAvatar).start()
         elif wordIs("~endgame"):
-            print "Requesting minigame abort..."
+            print("Requesting minigame abort...")
             messenger.send("minigameAbort")
         elif wordIs("~wingame"):
-            print "Requesting minigame victory..."
+            print("Requesting minigame victory...")
             messenger.send("minigameVictory")
         elif wordIs("~walk"):
             try:
@@ -203,7 +203,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             # no longer keep rogues obj around after creation, so we can make a different one
 
         elif wordIs("~showPaths"):
-            for obj in self.cr.doId2do.values():
+            for obj in list(self.cr.doId2do.values()):
                 if isinstance(obj, DistributedSuitPlanner.DistributedSuitPlanner):
                     obj.showPaths()
             place = base.cr.playGame.getPlace()
@@ -211,7 +211,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                 place.showPaths()
 
         elif wordIs("~hidePaths"):
-            for obj in self.cr.doId2do.values():
+            for obj in list(self.cr.doId2do.values()):
                 if isinstance(obj, DistributedSuitPlanner.DistributedSuitPlanner):
                     obj.hidePaths()
             place = base.cr.playGame.getPlace()
@@ -302,7 +302,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                 if not camParent.isEmpty():
                     myCam.wrtReparentTo(camParent)
                 self.setMagicWordResponse(response)
-                print response
+                print(response)
                     
                 
                 
@@ -871,7 +871,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
         result = []
         lowerName = string.lower(name)
 
-        for obj in base.cr.doId2do.values():
+        for obj in list(base.cr.doId2do.values()):
             className = obj.__class__.__name__
             try:
                 name = obj.getName()
@@ -948,7 +948,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
         # Find the particular Boss Cog that's in the same zone with
         # the avatar.
         bossCog = None
-        for distObj in self.cr.doId2do.values():
+        for distObj in list(self.cr.doId2do.values()):
             if isinstance(distObj, DistributedBossCog.DistributedBossCog):
                 bossCog = distObj
                 break

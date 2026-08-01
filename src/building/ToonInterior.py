@@ -259,7 +259,7 @@ class ToonInterior(Place.Place):
         else:
             # Some return code that is not handled
             self.notify.error("Unknown done status for DownloadForceAcknowledge: "
-                              + `doneStatus`)
+                              + repr(doneStatus))
 
     # NPCFA state
             
@@ -292,7 +292,7 @@ class ToonInterior(Place.Place):
         else:
             # Some return code that is not handled
             self.notify.error("Unknown done status for NPCForceAcknowledge: "
-                              + `doneStatus`)
+                              + repr(doneStatus))
 
     # npca reject state
 
@@ -337,7 +337,7 @@ class ToonInterior(Place.Place):
         else:
             # Some return code that is not handled
             self.notify.error("Unknown done status for HealthForceAcknowledge: "
-                              + `doneStatus`)
+                              + repr(doneStatus))
 
     # hfa reject state
 

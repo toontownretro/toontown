@@ -8,8 +8,9 @@ import random
 
 from direct.distributed.ClockDelta import globalClockDelta
 
-from DistCogdoGameAI import DistCogdoGameAI
-import CogdoFlyingGameGlobals as Globals
+from .DistCogdoGameAI import DistCogdoGameAI
+from . import CogdoFlyingGameGlobals as Globals
+import importlib
 
 
 class DistCogdoFlyingGameAI(DistCogdoGameAI):
@@ -40,7 +41,7 @@ class DistCogdoFlyingGameAI(DistCogdoGameAI):
 
     if __debug__:
         def __sgOnCodeReload(self):
-            reload(Globals)
+            importlib.reload(Globals)
             # TODO: More reload specific logic?
 
 

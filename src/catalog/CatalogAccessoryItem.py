@@ -1,5 +1,5 @@
-import CatalogItem
-from CatalogAccessoryItemGlobals import *
+from . import CatalogItem
+from .CatalogAccessoryItemGlobals import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toon import ToonDNA
@@ -282,7 +282,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
         if model == None or color == None:
             return
 
-        if isinstance(color, types.StringType):
+        if isinstance(color, bytes):
             tex = loader.loadTexture(color)
             tex.setMinfilter(Texture.FTLinearMipmapLinear)
             tex.setMagfilter(Texture.FTLinear)

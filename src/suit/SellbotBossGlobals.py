@@ -62,7 +62,7 @@ BarrelDefs = {
 
 def setBarrelAttr(barrel, entId):
 
-    for (defAttr, defValue) in BarrelDefs[entId].iteritems():
+    for (defAttr, defValue) in list(BarrelDefs[entId].items()):
         setattr(barrel, defAttr, defValue)
 
 BarrelsStartPos = (0, -36, -8)

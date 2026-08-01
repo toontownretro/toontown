@@ -1,9 +1,9 @@
 from otp.ai.AIBaseGlobal import *
 from direct.distributed.ClockDelta import *
-import DistributedBossCogAI
+from . import DistributedBossCogAI
 from direct.directnotify import DirectNotifyGlobal
 from otp.avatar import DistributedAvatarAI
-import DistributedSuitAI
+from . import DistributedSuitAI
 from toontown.battle import BattleExperienceAI
 from direct.fsm import FSM
 from toontown.toonbase import ToontownGlobals
@@ -12,7 +12,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.battle import BattleBase
 from toontown.toon import NPCToons
 from toontown.suit import SellbotBossGlobals
-import SuitDNA
+from . import SuitDNA
 import random
 
 class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM):
@@ -82,7 +82,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
 
         def npcFriendsMaxStars(stars):
-            return [id for id in NPCToons.npcFriends.keys() if NPCToons.getNPCTrackLevelHpRarity(id)[3] <= stars]
+            return [id for id in list(NPCToons.npcFriends.keys()) if NPCToons.getNPCTrackLevelHpRarity(id)[3] <= stars]
 
 
 
@@ -728,7 +728,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
         self.barrels = []
 
-        for entId, entDef in SellbotBossGlobals.BarrelDefs.iteritems():
+        for entId, entDef in list(SellbotBossGlobals.BarrelDefs.items()):
             barrelType = entDef['type']
             barrel = barrelType(self.air, entId)
 

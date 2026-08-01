@@ -2,8 +2,8 @@ from otp.ai.AIBaseGlobal import *
 
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import SuitBattleGlobals
-import DistributedSuitBaseAI
-import SuitDialog
+from . import DistributedSuitBaseAI
+from . import SuitDialog
 from direct.showbase.PythonUtil import StackTrace
 
 class DistributedFactorySuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
@@ -28,7 +28,7 @@ class DistributedFactorySuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         if not self.factoryGone:
             try:
                 self.setBattleCellIndex(None)
-            except Exception, e:
+            except Exception as e:
                 simbase.air.writeServerEvent('avoid_crash', self.doId, 'DistributedFactorySuitAI.delete, factoryIsNotGone, got Exception %s' % str(e))
                 self.notify.warning('delete, factoryIsNotGone, got Exception %s' % str(e))
                 self.notify.warning('stackTrace=%s' % StackTrace().compact())

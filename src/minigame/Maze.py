@@ -1,6 +1,6 @@
 """Maze module: contains the Maze class"""
-from MazeBase import MazeBase
-import MazeData
+from .MazeBase import MazeBase
+from . import MazeData
 
 # world space:
 #

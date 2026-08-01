@@ -2,10 +2,10 @@ from otp.ai.AIBaseGlobal import *
 from pandac.PandaModules import *
 from otp.otpbase import OTPGlobals
 from direct.directnotify import DirectNotifyGlobal
-import ToonDNA
+from . import ToonDNA
 from toontown.suit import SuitDNA
-import InventoryBase
-import Experience
+from . import InventoryBase
+from . import Experience
 from otp.avatar import DistributedAvatarAI
 from otp.avatar import DistributedPlayerAI
 from direct.distributed import DistributedSmoothNodeAI
@@ -24,7 +24,7 @@ import types
 from toontown.fishing import FishGlobals
 from toontown.fishing import FishCollection
 from toontown.fishing import FishTank
-from NPCToons import npcFriends,isZoneProtected
+from .NPCToons import npcFriends,isZoneProtected
 from toontown.coghq import CogDisguiseGlobals
 import random
 import re
@@ -50,7 +50,8 @@ from toontown.toonbase import TTLocalizer
 from toontown.catalog import CatalogAccessoryItem
 from toontown.minigame import MinigameCreatorAI
 
-import ModuleListAI
+from . import ModuleListAI
+from functools import reduce
 
 if simbase.wantPets:
     from toontown.pets import PetLookerAI, PetObserve
@@ -442,7 +443,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
             messenger.send('avatarExited', [self])
         if simbase.wantPets:
             if self.isInEstate():
-                print "ToonAI - Exit estate toonId:%s" % (self.doId)
+                print(("ToonAI - Exit estate toonId:%s" % (self.doId)))
                 self.exitEstate()
             if self.zoneId != ToontownGlobals.QuietZone:
                 # simulate a zone change for the benefit of the pets
@@ -624,9 +625,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
             return 0
 
         try:
-            styleStr = stylesDict.keys()[stylesDict.values().index([idx, textureIdx, colorIdx])]
+            styleStr = list(stylesDict.keys())[list(stylesDict.values()).index([idx, textureIdx, colorIdx])]
             accessoryItemId = 0
-            for itemId in CatalogAccessoryItem.AccessoryTypes.keys():
+            for itemId in list(CatalogAccessoryItem.AccessoryTypes.keys()):
                 if styleStr == CatalogAccessoryItem.AccessoryTypes[itemId][CatalogAccessoryItem.ATString]:
                     accessoryItemId = itemId
                     break
@@ -987,7 +988,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
     def d_setNPCFriendsDict(self, NPCFriendsDict):
         NPCFriendsList = []
-        for friend in NPCFriendsDict.keys():
+        for friend in list(NPCFriendsDict.keys()):
             NPCFriendsList.append((friend, NPCFriendsDict[friend]))
         self.sendUpdate("setNPCFriendsDict", [NPCFriendsList])
         return None
@@ -1012,10 +1013,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         if (numCalls <= 0):
             self.notify.warning("invalid numCalls: %d" % numCalls)
             return 0
-        if (self.NPCFriendsDict.has_key(npcFriend)):
+        if (npcFriend in self.NPCFriendsDict):
             self.NPCFriendsDict[npcFriend] += numCalls
-        elif (npcFriends.has_key(npcFriend)):
-            if (len(self.NPCFriendsDict.keys()) >= self.maxNPCFriends):
+        elif (npcFriend in npcFriends):
+            if (len(list(self.NPCFriendsDict.keys())) >= self.maxNPCFriends):
                 return 0
             self.NPCFriendsDict[npcFriend] = numCalls
         else:
@@ -1036,7 +1037,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
 
 
-        if not self.NPCFriendsDict.has_key(npcFriend):
+        if npcFriend not in self.NPCFriendsDict:
             self.notify.warning('attemptSubtractNPCFriend: invalid NPC %s' % npcFriend)
             return 0
 
@@ -1258,7 +1259,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         if cur == (geomIdx, texIdx, colorIdx):
             return True
 
-        for i in xrange(0, len(itemList), 3):
+        for i in range(0, len(itemList), 3):
             if itemList[i] == geomIdx and \
                itemList[i + 1] == texIdx and \
                itemList[i + 2] == colorIdx:
@@ -1318,12 +1319,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
 
                 styleName = 'none'
-                for style in styles.items():
+                for style in list(styles.items()):
                     if style[1] == [geomIdx, texIdx, colorIdx]:
                         styleName = style[0]
                         break
 
-                if styleName == 'none' or not descDict.has_key(styleName):
+                if styleName == 'none' or styleName not in descDict:
 
                     self.air.writeServerEvent('suspicious', self.doId, ' tried to remove wrong accessory code %d %d %d' % (geomIdx, texIdx, colorIdx))
                 else:
@@ -1878,7 +1879,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         partBitmask = parts[dept]
 
         # Generate a list of all possible part index numbers 0 .. 16.
-        partList = range(17)
+        partList = list(range(17))
 
         while loseCount > 0 and partList:
             # Choose a random part index from our current pool, and
@@ -3517,7 +3518,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
 
         newEmblems = self.emblems[:]
-        for i in xrange(ToontownGlobals.NumEmblemTypes):
+        for i in range(ToontownGlobals.NumEmblemTypes):
             newEmblems[i] += emblemsToAdd[i]
         self.b_setEmblems(newEmblems)
 
@@ -3526,7 +3527,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
 
         newEmblems = self.emblems[:]
-        for i in xrange(ToontownGlobals.NumEmblemTypes):
+        for i in range(ToontownGlobals.NumEmblemTypes):
             newEmblems[i] -= emblemsToSubtract[i]
         self.b_setEmblems(newEmblems)
 
@@ -4358,8 +4359,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
             Params: accessoryId - the id of the accessory.
             Return: None
             """
-            print "in add owned accessory"
-            if( AccessoryDict.has_key( accessoryId ) ):
+            print("in add owned accessory")
+            if( accessoryId in AccessoryDict ):
                 # Determine if the toon already owns this accessory.
                 if( self.accessories.count( accessoryId ) > 0 ):
                     self.air.writeServerEvent( "suspicious", self.doId, 'attempt to add accessory %s which is already owned!' % ( accessoryId ) )
@@ -4390,7 +4391,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
             Params: accessoryId - the id of the accessory.
             Return: None
             """
-            if( AccessoryDict.has_key( accessoryId ) ):
+            if( accessoryId in AccessoryDict ):
                 # Make certain tha the toon owns this accessory.
                 if( self.accessories.count( accessoryId ) == 0 ):
                     self.air.writeServerEvent( 'suspicious', self.doId, 'attempt to remove accessory %s which is not currently owned!' % ( accessoryId ) )
@@ -4430,7 +4431,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
             # Check if it is a kart body type or what can be considered
             # an accessory.
             if( dnaField == KartDNA.bodyType ):
-                if( ( fieldValue not in KartDict.keys() ) and ( fieldValue != InvalidEntry ) ):
+                if( ( fieldValue not in list(KartDict.keys()) ) and ( fieldValue != InvalidEntry ) ):
                     self.air.writeServerEvent( 'suspicious', self.doId, 'attempt to update kart body to invalid body %s.' % ( fieldValue ) )
                     return
                 self.b_setKartBodyType( fieldValue )
@@ -4764,7 +4765,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
         # get street points and the street's suitplanner
         streetId = ZoneUtil.getBranchZone(self.zoneId)
-        if not self.air.suitPlanners.has_key(streetId):
+        if streetId not in self.air.suitPlanners:
             return ["badlocation", suitIndex, 0]
 
         sp = self.air.suitPlanners[streetId]
@@ -4775,7 +4776,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         
         # are there any points in this zone?
         for zoneId in zones:
-            if map.has_key(zoneId):
+            if zoneId in map:
                 points = map[zoneId][:]
 
                 # create the suit
@@ -4789,7 +4790,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         
     def doBuildingTakeover(self, suitIndex):
         streetId = ZoneUtil.getBranchZone(self.zoneId)
-        if not self.air.suitPlanners.has_key(streetId):
+        if streetId not in self.air.suitPlanners:
             self.notify.warning("Street %d is not known." % (streetId))
             return ["badlocation", suitIndex, 0]
 
@@ -5509,7 +5510,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
 
 
-        print("Setting Access %s" % (access))
+        print(("Setting Access %s" % (access)))
         if access == OTPGlobals.AccessInvalid:
             if not __dev__:
                 self.air.writeServerEvent("Setting Access", self.doId, "setAccess not being sent by the OTP Server, changing access to unpaid")
@@ -5543,7 +5544,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def logMessage(self, message):
         avId = self.air.getAvatarIdFromSender()
         if __dev__:
-            print ("CLIENT LOG MESSAGE %s %s" % (avId, message))
+            print(("CLIENT LOG MESSAGE %s %s" % (avId, message)))
         try:
             self.air.writeServerEvent('clientLog', avId, message)
             
@@ -5575,7 +5576,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         """Handle uberdog telling us our invitations.
         This does not include invites we've already rejected."""
         self.invites = []
-        for i in xrange(len(invites)):
+        for i in range(len(invites)):
             oneInvite=invites[i]
             newInvite = InviteInfoBase(*oneInvite)
             self.invites.append(newInvite)
@@ -5609,7 +5610,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         Returns the number of invites that have not yet been responded to.
         """
         count = 0
-        for i in xrange(len(self.invites)):
+        for i in range(len(self.invites)):
             if (self.invites[i].status == InviteStatus.NotRead) or (self.invites[i].status == InviteStatus.ReadButNotReplied):
                 count += 1
         return count
@@ -5659,7 +5660,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def setHostedParties( self, hostedParties):
         """Handle uberdog telling us our hosted parties."""
         self.hostedParties = []
-        for i in xrange(len(hostedParties)):
+        for i in range(len(hostedParties)):
             hostedInfo = hostedParties[i]
             newParty = PartyInfoAI(*hostedInfo)
             self.hostedParties.append(newParty)
@@ -5668,7 +5669,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def setPartiesInvitedTo( self, partiesInvitedTo):
         """Handle uberdog telling us details of parties we are invited to."""
         self.partiesInvitedTo = []
-        for i in xrange(len(partiesInvitedTo)):
+        for i in range(len(partiesInvitedTo)):
             partyInfo = partiesInvitedTo[i]
             newParty = PartyInfoAI(*partyInfo)
             self.partiesInvitedTo.append(newParty)
@@ -5681,7 +5682,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         # It is possible to get an invite to a party so far in the future that it gets filtered out
         # hence returning None is a valid result
         result = None
-        for i in xrange(len(self.partiesInvitedTo)):
+        for i in range(len(self.partiesInvitedTo)):
             partyInfo = self.partiesInvitedTo[i]
             if partyInfo.partyId == partyId:
                 result = partyInfo
@@ -5691,7 +5692,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def setPartyReplyInfoBases(self, replies):
         """Handle uberdog telling us replies to our hosted parties."""
         self.partyReplyInfoBases = []
-        for i in xrange(len(replies)):
+        for i in range(len(replies)):
             partyReply = replies[i]
             repliesForOneParty = PartyReplyInfoBase(*partyReply)
             self.partyReplyInfoBases.append(repliesForOneParty)
@@ -6096,9 +6097,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
                     prevCount = DistributedToonAI.flagCounts.setdefault(avPairKey, [{}, globalClock.getFrameTime(), {}])
 
 
-                    if not prevCount[2].has_key(av.doId):
+                    if av.doId not in prevCount[2]:
                         prevCount[2][av.doId] = [None, None]
-                    if not prevCount[0].has_key(av.doId):
+                    if av.doId not in prevCount[0]:
                         prevCount[0][av.doId] = 0
                     self.notify.debug('moving av %s, newPos: %s oldPos: %s' % (av.doId, prevCount[2][av.doId], avPos))
 
@@ -6174,7 +6175,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
             from toontown.toon.DistributedNPCToonBaseAI import DistributedNPCToonBaseAI
             if isinstance(av, DistributedNPCToonBaseAI):
                 return
-            if isinstance(av, DistributedToonAI) and not DistributedToonAI.pingedAvs.has_key(avId):
+            if isinstance(av, DistributedToonAI) and avId not in DistributedToonAI.pingedAvs:
                 av.sendPing()
         return Task.again
 
@@ -6216,7 +6217,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def pingresp(self, resp):
         senderId = self.air.getAvatarIdFromSender()
 
-        if not DistributedToonAI.pingedAvs.has_key(senderId) or self.air == None:
+        if senderId not in DistributedToonAI.pingedAvs or self.air == None:
 
             self.cleanupPing()
             return
@@ -6250,7 +6251,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
     def cleanupPing(self):
         taskMgr.remove('pingverify-' + str(self.doId))
-        if DistributedToonAI.pingedAvs.has_key(self.doId):
+        if self.doId in DistributedToonAI.pingedAvs:
             del DistributedToonAI.pingedAvs[self.doId]
 
     def startPing(self):

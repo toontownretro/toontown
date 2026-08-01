@@ -1126,7 +1126,7 @@ for type in DropObjectTypes:
 #   Name2DOTypeId['apple'] == some number
 #   DOTypeId2Name[some number] == 'apple'
 Name2DOTypeId = {}
-names = Name2DropObjectType.keys()
+names = list(Name2DropObjectType.keys())
 names.sort()
 for i in range(len(names)):
     Name2DOTypeId[names[i]] = i
@@ -1456,12 +1456,12 @@ def countMusic():
     numMusic = 0
     for key in PhaseToMusicData:
         numMusic += len(PhaseToMusicData[key])
-    print "PhaseToMusicData %d" % numMusic
+    print(("PhaseToMusicData %d" % numMusic))
         
     numMusic = 0
     for key in PhaseToMusicData40:
         numMusic += len(PhaseToMusicData40[key])
-    print "PhaseToMusicData40 %d" % numMusic
+    print(("PhaseToMusicData40 %d" % numMusic))
 
 # helper functions for globals:
 

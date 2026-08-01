@@ -6,12 +6,12 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.shtiker import PurchaseManagerAI
 from toontown.shtiker import NewbiePurchaseManagerAI
-import MinigameCreatorAI
+from . import MinigameCreatorAI
 from direct.task import Task
 import random
-import MinigameGlobals
+from . import MinigameGlobals
 from direct.showbase import PythonUtil
-import TravelGameGlobals
+from . import TravelGameGlobals
 from toontown.toonbase import ToontownGlobals
 
 # Codes to indicate avatar state
@@ -441,7 +441,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
             allAvatarsReady, handleTimeout)
 
         # some clients may already be ready
-        for avId in self.stateDict.keys():
+        for avId in list(self.stateDict.keys()):
             if self.stateDict[avId] == READY:
                 self.__barrier.clear(avId)
 
@@ -527,7 +527,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
             allAvatarsExited, handleTimeout)
 
         # process any toons that have already exited
-        for avId in self.stateDict.keys():
+        for avId in list(self.stateDict.keys()):
             if self.stateDict[avId] == EXITED:
                 self.__barrier.clear(avId)
 
@@ -629,7 +629,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
 
         votesArray = []
         for avId in self.avIdList:
-            if votesToUse.has_key(avId):
+            if avId in votesToUse:
                 votesArray.append(votesToUse[avId])
             else:
                 self.notify.warning('votesToUse=%s does not have avId=%d' % (votesToUse,avId))
@@ -688,7 +688,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
             self.notify.debug('last minigame, handling newbies')
             if ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY in simbase.air.holidayManager.currentHolidays or \
                ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY_MONTH in simbase.air.holidayManager.currentHolidays:
-                votesArray = map(lambda x: MinigameGlobals.JellybeanTrolleyHolidayScoreMultiplier * x, votesArray)
+                votesArray = [MinigameGlobals.JellybeanTrolleyHolidayScoreMultiplier * x for x in votesArray]
             
 
             # create separate NewbiePurchaseManagerAIs for the noobs
@@ -811,7 +811,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
         """
         retval = []
         for avId in self.avIdList:
-            if self.startingVotes.has_key(avId):
+            if avId in self.startingVotes:
                 retval.append( self.startingVotes[avId])
             else:
                 self.notify.warning('how did this happen? avId=%d not in startingVotes %s' %

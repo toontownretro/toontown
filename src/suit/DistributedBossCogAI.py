@@ -9,7 +9,7 @@ from toontown.building import SuitPlannerInteriorAI
 from toontown.battle import BattleBase
 from toontown.coghq import CogDisguiseGlobals
 from pandac.PandaModules import *
-import SuitDNA
+from . import SuitDNA
 import random
 
 AllBossCogs = []
@@ -340,8 +340,8 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
     def formatLaffLevels(self):
 
         try:
-            return map(lambda id: simbase.air.doId2do.get(id).getMaxHp(), self.involvedToons)
-        except Exception, e:
+            return [simbase.air.doId2do.get(id).getMaxHp() for id in self.involvedToons]
+        except Exception as e:
             self.notify.warning(e)
             return []
 
@@ -354,8 +354,8 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
                     return 1
                 else:
                     return 0
-            return map(hasSuit, self.involvedToons)
-        except Exception, e:
+            return list(map(hasSuit, self.involvedToons))
+        except Exception as e:
             self.notify.warning(e)
             return []
 
@@ -864,7 +864,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         # appropriate number and varient of suits for the indicated
         # battle.
         
-        raise StandardError, 'generateSuits unimplemented'
+        raise Exception('generateSuits unimplemented')
         
     def handleRoundDone(self, battle, suits, activeSuits,
                           toonIds, totalHp, deadSuits):

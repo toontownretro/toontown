@@ -10,7 +10,7 @@ from toontown.toonbase import TTLocalizer, ToontownGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 from toontown.parties.InviteVisual import InviteVisual
-import CatalogItem
+from . import CatalogItem
 from direct.showbase.PythonUtil import StackTrace
 
 class MailboxScreen(DirectObject.DirectObject):
@@ -60,9 +60,9 @@ class MailboxScreen(DirectObject.DirectObject):
         else:
             self.notify.warning("hide called, but frame is deleted, self.frame deleted in:")
             if hasattr(self, "frameDelStackTrace"):
-                print self.frameDelStackTrace
+                print((self.frameDelStackTrace))
             self.notify.warning("current stackTrace =")
-            print StackTrace()
+            print((StackTrace()))
             self.notify.warning("crash averted, but root cause unknown")
             # this will force a crash, hopefully we get the log with it
             #self.frame.hide()

@@ -1508,12 +1508,10 @@ def getRandomBottom(gender, tailorId = MAKE_A_TOON, generator = None, girlBottom
         if (girlBottomType is None):
             style = generator.choice(collection[GIRL_BOTTOMS])
         elif (girlBottomType == SKIRT):
-            skirtCollection = filter(lambda style: GirlBottoms[BottomStyles[style][0]][1] == SKIRT,
-                                     collection[GIRL_BOTTOMS])
+            skirtCollection = [style for style in collection[GIRL_BOTTOMS] if GirlBottoms[BottomStyles[style][0]][1] == SKIRT]
             style = generator.choice(skirtCollection)
         elif (girlBottomType == SHORTS):
-            shortsCollection = filter(lambda style: GirlBottoms[BottomStyles[style][0]][1] == SHORTS,
-                                      collection[GIRL_BOTTOMS])
+            shortsCollection = [style for style in collection[GIRL_BOTTOMS] if GirlBottoms[BottomStyles[style][0]][1] == SHORTS]
             style = generator.choice(shortsCollection)
         else:
             notify.error("Bad girlBottomType: %s" % girlBottomType)
@@ -1537,7 +1535,7 @@ def getRandomGirlBottomAndColor(type):
         typeStr = 'gsh'
     else:
         typeStr = 'gsk'
-    for bottom in BottomStyles.keys():
+    for bottom in list(BottomStyles.keys()):
         if bottom.find(typeStr) >= 0:
             bottoms.append(bottom)
     style = BottomStyles[random.choice(bottoms)]
@@ -1595,7 +1593,7 @@ def getTops(gender, tailorId = MAKE_A_TOON):
 
 def getAllTops(gender):
     tops = []
-    for style in ShirtStyles.keys():
+    for style in list(ShirtStyles.keys()):
         if gender == 'm':
             if (style[0] == 'g') or (style[:3] == 'c_g'):
                 continue
@@ -1621,7 +1619,7 @@ def getBottoms(gender, tailorId = MAKE_A_TOON):
 
 def getAllBottoms(gender, output = 'both'):
     bottoms = []
-    for style in BottomStyles.keys():
+    for style in list(BottomStyles.keys()):
         if gender == 'm':
             if ((style[0] == 'g') or (style[:3] == 'c_g') or
                 (style[:4] == 'vd_g') or (style[:4] == 'sd_g') or
@@ -1709,9 +1707,9 @@ defaultGirlColorList = [
     ]
 
 
-allColorsListApproximations = map(lambda x: VBase4(round(x[0], 3), round(x[1], 3), round(x[2], 3), round(x[3], 3)), allColorsList)
+allColorsListApproximations = [VBase4(round(x[0], 3), round(x[1], 3), round(x[2], 3), round(x[3], 3)) for x in allColorsList]
 
-allowedColors = set(map(lambda x: allColorsListApproximations[x], set(defaultBoyColorList + defaultGirlColorList + [26])))
+allowedColors = set([allColorsListApproximations[x] for x in set(defaultBoyColorList + defaultGirlColorList + [26])])
 
 HatModels = [
     None,
@@ -2213,7 +2211,7 @@ ShoesStyles = {
 
 
 def isValidHat(itemIdx, textureIdx, colorIdx):
-    for style in HatStyles.values():
+    for style in list(HatStyles.values()):
         if itemIdx == style[0] and \
            textureIdx == style[1] and \
            colorIdx == style[2]:
@@ -2221,7 +2219,7 @@ def isValidHat(itemIdx, textureIdx, colorIdx):
     return False
 
 def isValidGlasses(itemIdx, textureIdx, colorIdx):
-    for style in GlassesStyles.values():
+    for style in list(GlassesStyles.values()):
         if itemIdx == style[0] and \
            textureIdx == style[1] and \
            colorIdx == style[2]:
@@ -2229,7 +2227,7 @@ def isValidGlasses(itemIdx, textureIdx, colorIdx):
     return False
 
 def isValidBackpack(itemIdx, textureIdx, colorIdx):
-    for style in BackpackStyles.values():
+    for style in list(BackpackStyles.values()):
         if itemIdx == style[0] and \
            textureIdx == style[1] and \
            colorIdx == style[2]:
@@ -2237,7 +2235,7 @@ def isValidBackpack(itemIdx, textureIdx, colorIdx):
     return False
 
 def isValidShoes(itemIdx, textureIdx, colorIdx):
-    for style in ShoesStyles.values():
+    for style in list(ShoesStyles.values()):
         if itemIdx == style[0] and \
            textureIdx == style[1] and \
            colorIdx == style[2]:

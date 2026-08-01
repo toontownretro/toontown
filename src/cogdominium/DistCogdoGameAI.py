@@ -217,7 +217,7 @@ class DistCogdoGameAI(DistCogdoGameBase, DistributedObjectAI):
         self.notify.debug('handleToonWentSad: %s' % toonId)
         self.sendUpdate('setToonSad', [toonId])
         if self._sadToken2callback is not None:
-            callbacks = self._sadToken2callback.values()
+            callbacks = list(self._sadToken2callback.values())
             for callback in callbacks:
                 callback(toonId)
 

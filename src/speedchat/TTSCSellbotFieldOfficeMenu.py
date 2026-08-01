@@ -12,8 +12,8 @@ from toontown.cogdominium import CogdoInterior
 
 #this is the structure of the racing menu
 SellbotFieldOfficeMenu = [
-    (OTPLocalizer.SellbotFieldOfficeMenuSections[0], range(30404, 30409)),
-    (OTPLocalizer.SellbotFieldOfficeMenuSections[1], range(30409, 30419)),
+    (OTPLocalizer.SellbotFieldOfficeMenuSections[0], list(range(30404, 30409))),
+    (OTPLocalizer.SellbotFieldOfficeMenuSections[1], list(range(30409, 30419))),
 ]
 
 class TTSCSellbotFieldOfficeMenu(SCMenu):
@@ -46,7 +46,7 @@ class TTSCSellbotFieldOfficeMenu(SCMenu):
                 #This is not a submenu but a termina
                 for phrase in section[1]:
                     if phrase not in OTPLocalizer.SpeedChatStaticText:
-                        print ('warning: tried to link Winter phrase %s which does not seem to exist' % phrase)
+                        print(('warning: tried to link Winter phrase %s which does not seem to exist' % phrase))
                         break
                     self.append(SCStaticTextTerminal(phrase))
             #this should be a submenu
@@ -54,7 +54,7 @@ class TTSCSellbotFieldOfficeMenu(SCMenu):
                 menu = SCMenu()
                 for phrase in section[1]:
                     if phrase not in OTPLocalizer.SpeedChatStaticText:
-                        print ('warning: tried to link Halloween phrase %s which does not seem to exist' % phrase)
+                        print(('warning: tried to link Halloween phrase %s which does not seem to exist' % phrase))
                         break
                     menu.append(SCStaticTextTerminal(phrase))
 
