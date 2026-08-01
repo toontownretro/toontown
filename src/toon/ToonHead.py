@@ -72,40 +72,40 @@ class ToonHead(Actor.Actor):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonHead')
 
     # Eyes open and closed textures for blinks
-    EyesOpen = loader.loadTexture('phase_3/maps/eyes.jpg',
+    EyesOpen = loader.loadTexture('phase_3/maps/eyes.txo',
                                   'phase_3/maps/eyes_a.rgb')
     EyesOpen.setMinfilter(Texture.FTLinear)
     EyesOpen.setMagfilter(Texture.FTLinear)
-    EyesClosed = loader.loadTexture('phase_3/maps/eyesClosed.jpg',
+    EyesClosed = loader.loadTexture('phase_3/maps/eyesClosed.txo',
                                     'phase_3/maps/eyesClosed_a.rgb')
     EyesClosed.setMinfilter(Texture.FTLinear)
     EyesClosed.setMagfilter(Texture.FTLinear)
 
     # Emotional eye textures for tutorial
-    EyesSadOpen = loader.loadTexture('phase_3/maps/eyesSad.jpg',
+    EyesSadOpen = loader.loadTexture('phase_3/maps/eyesSad.txo',
                                   'phase_3/maps/eyesSad_a.rgb')
     EyesSadOpen.setMinfilter(Texture.FTLinear)
     EyesSadOpen.setMagfilter(Texture.FTLinear)
-    EyesSadClosed = loader.loadTexture('phase_3/maps/eyesSadClosed.jpg',
+    EyesSadClosed = loader.loadTexture('phase_3/maps/eyesSadClosed.txo',
                                     'phase_3/maps/eyesSadClosed_a.rgb')
     EyesSadClosed.setMinfilter(Texture.FTLinear)
     EyesSadClosed.setMagfilter(Texture.FTLinear)
-    EyesAngryOpen = loader.loadTexture('phase_3/maps/eyesAngry.jpg',
+    EyesAngryOpen = loader.loadTexture('phase_3/maps/eyesAngry.txo',
                                   'phase_3/maps/eyesAngry_a.rgb')
     EyesAngryOpen.setMinfilter(Texture.FTLinear)
     EyesAngryOpen.setMagfilter(Texture.FTLinear)
-    EyesAngryClosed = loader.loadTexture('phase_3/maps/eyesAngryClosed.jpg',
+    EyesAngryClosed = loader.loadTexture('phase_3/maps/eyesAngryClosed.txo',
                                     'phase_3/maps/eyesAngryClosed_a.rgb')
     EyesAngryClosed.setMinfilter(Texture.FTLinear)
     EyesAngryClosed.setMagfilter(Texture.FTLinear)
-    EyesSurprised = loader.loadTexture('phase_3/maps/eyesSurprised.jpg',
+    EyesSurprised = loader.loadTexture('phase_3/maps/eyesSurprised.txo',
                                        'phase_3/maps/eyesSurprised_a.rgb')
     EyesSurprised.setMinfilter(Texture.FTLinear)
     EyesSurprised.setMagfilter(Texture.FTLinear)
-    Muzzle = loader.loadTexture('phase_3/maps/muzzleShrtGeneric.jpg')
+    Muzzle = loader.loadTexture('phase_3/maps/muzzleShrtGeneric.txo')
     Muzzle.setMinfilter(Texture.FTLinear)
     Muzzle.setMagfilter(Texture.FTLinear)
-    MuzzleSurprised = loader.loadTexture('phase_3/maps/muzzleShortSurprised.jpg')
+    MuzzleSurprised = loader.loadTexture('phase_3/maps/muzzleShortSurprised.txo')
     MuzzleSurprised.setMinfilter(Texture.FTLinear)
     MuzzleSurprised.setMagfilter(Texture.FTLinear)
 

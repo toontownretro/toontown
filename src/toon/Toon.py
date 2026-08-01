@@ -1734,7 +1734,7 @@ class Toon(Avatar.Avatar, ToonHead):
                 texName = ToonDNA.ShoesTextures[shoes[1]]
                 if self.style.legs == 'l' and shoes[0] == 3:
 
-                    texName = texName[:-4] + 'LL.jpg'
+                    texName = texName[:-4] + 'LL.txo'
 
                 tex = loader.loadTexture(texName, okMissing=True)
                 if tex is None:

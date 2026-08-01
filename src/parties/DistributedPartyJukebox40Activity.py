@@ -31,7 +31,7 @@ class DistributedPartyJukebox40Activity(DistributedPartyJukeboxActivityBase):
 
     def load(self):
         DistributedPartyJukeboxActivityBase.load(self)
-        newTexture = loader.loadTexture("phase_13/maps/tt_t_ara_pty_jukeboxBlue.jpg",
+        newTexture = loader.loadTexture("phase_13/maps/tt_t_ara_pty_jukeboxBlue.txo",
                                         "phase_13/maps/tt_t_ara_pty_jukeboxBlue_a.rgb")
         
         case = self.jukebox.find("**/jukeboxGlass")

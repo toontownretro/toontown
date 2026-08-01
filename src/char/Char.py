@@ -345,10 +345,10 @@ class Char(Avatar.Avatar):
         self.eyesClosed = None
 
         if (self.name == "mickey" or self.name == "minnie"):
-            self.eyesOpen = loader.loadTexture("phase_3/maps/eyes1.jpg",
+            self.eyesOpen = loader.loadTexture("phase_3/maps/eyes1.txo",
                                                "phase_3/maps/eyes1_a.rgb")
             self.eyesClosed = loader.loadTexture(
-                "phase_3/maps/mickey_eyes_closed.jpg",
+                "phase_3/maps/mickey_eyes_closed.txo",
                 "phase_3/maps/mickey_eyes_closed_a.rgb")
                 # TODO: other LODs
             self.eyes = self.find("**/1200/**/eyes")
@@ -382,10 +382,10 @@ class Char(Avatar.Avatar):
                 part.hide()
         elif (self.name == "pluto"):
             self.eyesOpen = loader.loadTexture(
-                "phase_6/maps/plutoEyesOpen.jpg",
+                "phase_6/maps/plutoEyesOpen.txo",
                 "phase_6/maps/plutoEyesOpen_a.rgb")
             self.eyesClosed = loader.loadTexture(
-                "phase_6/maps/plutoEyesClosed.jpg",
+                "phase_6/maps/plutoEyesClosed.txo",
                 "phase_6/maps/plutoEyesClosed_a.rgb")
             # TODO: other LODs
             self.eyes = self.find("**/1000/**/eyes")
@@ -425,10 +425,10 @@ class Char(Avatar.Avatar):
 
         elif (self.name == "chip") or (self.name == "dale"):
             self.eyesOpen = loader.loadTexture(
-                "phase_6/maps/dale_eye1.jpg",
+                "phase_6/maps/dale_eye1.txo",
                 "phase_6/maps/dale_eye1_a.rgb")
             self.eyesClosed = loader.loadTexture(
-                "phase_6/maps/chip_dale_eye1_blink.jpg",
+                "phase_6/maps/chip_dale_eye1_blink.txo",
                 "phase_6/maps/chip_dale_eye1_blink_a.rgb")
             self.eyes = self.find("**/eyes")
             self.lpupil = self.find("**/pupil_left")

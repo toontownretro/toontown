@@ -45,8 +45,8 @@ class DistributedCogdoBarrel(DistributedObject.DistributedObject):
         self.model.reparentTo(cogdoBarrelsNode)
 
 
-        self.availableTex = loader.loadTexture('phase_5/maps/tt_t_ara_cbr_Barrel_notUsed.jpg')
-        self.usedTex = loader.loadTexture('phase_5/maps/tt_t_ara_cbr_Barrel_Used.jpg')
+        self.availableTex = loader.loadTexture('phase_5/maps/tt_t_ara_cbr_Barrel_notUsed.txo')
+        self.usedTex = loader.loadTexture('phase_5/maps/tt_t_ara_cbr_Barrel_Used.txo')
 
 
 

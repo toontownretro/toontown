@@ -144,7 +144,7 @@ class SwingVine(NodePath.NodePath):
         self.rope.reparentTo(self.root)
 
         # setup the vine texture
-        myTexture = loader.loadTexture("phase_4/maps/swinging_vine.jpg")
+        myTexture = loader.loadTexture("phase_4/maps/swinging_vine.txo")
         gameAssets = loader.loadModel("phase_4/models/minigames/vine_game")
         vine = gameAssets.find('**/vine1')
         self.cableTex = vine.findTexture("*")

@@ -31,7 +31,7 @@ class DistributedPartyValentineJukebox40Activity(DistributedPartyJukeboxActivity
 
     def load(self):
         DistributedPartyJukeboxActivityBase.load(self)
-        newTexture = loader.loadTexture("phase_13/maps/tt_t_ara_pty_jukeboxValentineB.jpg",
+        newTexture = loader.loadTexture("phase_13/maps/tt_t_ara_pty_jukeboxValentineB.txo",
                                         "phase_13/maps/tt_t_ara_pty_jukeboxValentineB_a.rgb")
 
         case = self.jukebox.find("**/jukeboxGlass")

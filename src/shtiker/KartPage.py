@@ -878,7 +878,7 @@ class ItemSelector( DirectFrame ):
             self.locator1.setPos( 0, 0, 0.035 )
             self.locator2.setPos( 0.0, 0.0, 0.0 )
             
-            tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.jpg",
+            tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.txo",
                                       "phase_6/maps/NoAccessoryIcon3_a.rgb" )
                 
             self.uiImagePlane.component( 'geom0' ).setTexture( tex, self.texCount )
@@ -1175,7 +1175,7 @@ class ItemSelector( DirectFrame ):
             if( self.currAccessoryType in [ KartDNA.ebType, KartDNA.spType, KartDNA.fwwType, KartDNA.bwwType ] ):
                 #pdb.set_trace()
                 texNodePath = getTexCardNode( self.currItem )
-                tex = loader.loadTexture( "phase_6/maps/%s.jpg" % ( texNodePath ),
+                tex = loader.loadTexture( "phase_6/maps/%s.txo" % ( texNodePath ),
                                           "phase_6/maps/%s_a.rgb" % ( texNodePath ) )
                 #if( tex is None ):
                 #    tex = loader.loadTexture( "phase_4/maps/robber-baron.jpg" )
@@ -1188,11 +1188,11 @@ class ItemSelector( DirectFrame ):
                     texNodePath = getTexCardNode( getDefaultRim() )
                 else:                
                     texNodePath = getTexCardNode( self.currItem )
-                tex = loader.loadTexture( "phase_6/maps/%s.jpg" % ( texNodePath ),
+                tex = loader.loadTexture( "phase_6/maps/%s.txo" % ( texNodePath ),
                                           "phase_6/maps/%s_a.rgb" % ( texNodePath ) )
                     
             elif( self.currAccessoryType in [ KartDNA.bodyColor, KartDNA.accColor ] ):
-                tex = loader.loadTexture( "phase_6/maps/Kartmenu_paintbucket.jpg",
+                tex = loader.loadTexture( "phase_6/maps/Kartmenu_paintbucket.txo",
                                           "phase_6/maps/Kartmenu_paintbucket_a.rgb" )
  
                 # Obtain the default color if the item is -1, handle this similar to the
@@ -1207,10 +1207,10 @@ class ItemSelector( DirectFrame ):
                 kartDecal = getDecalId( kart.kartDNA[ KartDNA.bodyType ] )
                 texNodePath = getTexCardNode( self.currItem )
    
-                tex = loader.loadTexture( "phase_6/maps/%s.jpg" % (texNodePath) % ( kartDecal ),
+                tex = loader.loadTexture( "phase_6/maps/%s.txo" % (texNodePath) % ( kartDecal ),
                                           "phase_6/maps/%s_a.rgb" % (texNodePath) % ( kartDecal ) )
             else:
-                tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.jpg",
+                tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.txo",
                                           "phase_6/maps/NoAccessoryIcon3_a.rgb" )
                 
             #display this accessory's name & type
@@ -1233,7 +1233,7 @@ class ItemSelector( DirectFrame ):
             """
             """
             self.uiImagePlane.component( 'geom0' ).setColorScale( 1.0, 1.0, 1.0, 1.0 )
-            self.uiImagePlane.component( 'geom0' ).setTexture( loader.loadTexture( 'phase_6/maps/NoAccessoryIcon3.jpg',
+            self.uiImagePlane.component( 'geom0' ).setTexture( loader.loadTexture( 'phase_6/maps/NoAccessoryIcon3.txo',
                                                                                    'phase_6/maps/NoAccessoryIcon3_a.rgb' ), self.texCount )
             #self.uiImagePlane.component('geom0').setColorScale( 1.0, 1.0, 0.8, 1.0 )
             #self.uiImagePlane.setTextureOff( self.texCount )

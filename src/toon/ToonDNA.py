@@ -144,218 +144,218 @@ toonTorsoTypes = [ "ss", "ms", "ls", "sd", "md", "ld", "s", "m", "l" ]
 toonLegTypes = [ "s", "m", "l" ] # Short, Medium, Long.
 
 Shirts = [
-    "phase_3/maps/desat_shirt_1.jpg", # 0 solid
-    "phase_3/maps/desat_shirt_2.jpg", # 1 single stripe
-    "phase_3/maps/desat_shirt_3.jpg", # 2 collar
-    "phase_3/maps/desat_shirt_4.jpg", # 3 double stripe
-    "phase_3/maps/desat_shirt_5.jpg", # 4 multiple stripes (boy)
-    "phase_3/maps/desat_shirt_6.jpg", # 5 collar w/ pocket
-    "phase_3/maps/desat_shirt_7.jpg", # 6 flower print (girl)
-    "phase_3/maps/desat_shirt_8.jpg", # 7 special, flower trim (girl)
-    "phase_3/maps/desat_shirt_9.jpg", # 8 hawaiian (boy)
-    "phase_3/maps/desat_shirt_10.jpg", # 9 collar w/ 2 pockets
-    "phase_3/maps/desat_shirt_11.jpg", # 10 bowling shirt 
-    "phase_3/maps/desat_shirt_12.jpg", # 11 special, vest (boy)
-    "phase_3/maps/desat_shirt_13.jpg", # 12 special (no color), denim vest (girl)
-    "phase_3/maps/desat_shirt_14.jpg", # 13 peasant (girl)
-    "phase_3/maps/desat_shirt_15.jpg", # 14 collar w/ ruffles
-    "phase_3/maps/desat_shirt_16.jpg", # 15 peasant w/ mid stripe (girl)
-    "phase_3/maps/desat_shirt_17.jpg", # 16 special (no color), soccer jersey
-    "phase_3/maps/desat_shirt_18.jpg", # 17 special, lightning bolt
-    "phase_3/maps/desat_shirt_19.jpg", # 18 special, jersey 19 (boy)
-    "phase_3/maps/desat_shirt_20.jpg", # 19 guayavera (boy)
-    "phase_3/maps/desat_shirt_21.jpg", # 20 hearts (girl)
-    "phase_3/maps/desat_shirt_22.jpg", # 21 special, stars (girl)
-    "phase_3/maps/desat_shirt_23.jpg", # 22 flower (girl)
+    "phase_3/maps/desat_shirt_1.txo", # 0 solid
+    "phase_3/maps/desat_shirt_2.txo", # 1 single stripe
+    "phase_3/maps/desat_shirt_3.txo", # 2 collar
+    "phase_3/maps/desat_shirt_4.txo", # 3 double stripe
+    "phase_3/maps/desat_shirt_5.txo", # 4 multiple stripes (boy)
+    "phase_3/maps/desat_shirt_6.txo", # 5 collar w/ pocket
+    "phase_3/maps/desat_shirt_7.txo", # 6 flower print (girl)
+    "phase_3/maps/desat_shirt_8.txo", # 7 special, flower trim (girl)
+    "phase_3/maps/desat_shirt_9.txo", # 8 hawaiian (boy)
+    "phase_3/maps/desat_shirt_10.txo", # 9 collar w/ 2 pockets
+    "phase_3/maps/desat_shirt_11.txo", # 10 bowling shirt 
+    "phase_3/maps/desat_shirt_12.txo", # 11 special, vest (boy)
+    "phase_3/maps/desat_shirt_13.txo", # 12 special (no color), denim vest (girl)
+    "phase_3/maps/desat_shirt_14.txo", # 13 peasant (girl)
+    "phase_3/maps/desat_shirt_15.txo", # 14 collar w/ ruffles
+    "phase_3/maps/desat_shirt_16.txo", # 15 peasant w/ mid stripe (girl)
+    "phase_3/maps/desat_shirt_17.txo", # 16 special (no color), soccer jersey
+    "phase_3/maps/desat_shirt_18.txo", # 17 special, lightning bolt
+    "phase_3/maps/desat_shirt_19.txo", # 18 special, jersey 19 (boy)
+    "phase_3/maps/desat_shirt_20.txo", # 19 guayavera (boy)
+    "phase_3/maps/desat_shirt_21.txo", # 20 hearts (girl)
+    "phase_3/maps/desat_shirt_22.txo", # 21 special, stars (girl)
+    "phase_3/maps/desat_shirt_23.txo", # 22 flower (girl)
 
     # Catalog exclusive shirts
-    "phase_4/maps/female_shirt1b.jpg", # 23 blue with 3 yellow stripes
-    "phase_4/maps/female_shirt2.jpg", # 24 pink and beige with flower
-    "phase_4/maps/female_shirt3.jpg", # 25 yellow hooded sweatshirt (also for boys)
-    "phase_4/maps/male_shirt1.jpg", # 26 blue stripes
-    "phase_4/maps/male_shirt2_palm.jpg", # 27 yellow with palm tree
-    "phase_4/maps/male_shirt3c.jpg", # 28 orange
+    "phase_4/maps/female_shirt1b.txo", # 23 blue with 3 yellow stripes
+    "phase_4/maps/female_shirt2.txo", # 24 pink and beige with flower
+    "phase_4/maps/female_shirt3.txo", # 25 yellow hooded sweatshirt (also for boys)
+    "phase_4/maps/male_shirt1.txo", # 26 blue stripes
+    "phase_4/maps/male_shirt2_palm.txo", # 27 yellow with palm tree
+    "phase_4/maps/male_shirt3c.txo", # 28 orange
 
     # Halloween
-    "phase_4/maps/shirt_ghost.jpg", # 29 ghost (Halloween)
-    "phase_4/maps/shirt_pumkin.jpg", # 30 pumpkin (Halloween)
+    "phase_4/maps/shirt_ghost.txo", # 29 ghost (Halloween)
+    "phase_4/maps/shirt_pumkin.txo", # 30 pumpkin (Halloween)
 
     # Winter holiday
-    "phase_4/maps/holiday_shirt1.jpg", # 31 (Winter Holiday)
-    "phase_4/maps/holiday_shirt2b.jpg", # 32 (Winter Holiday)
-    "phase_4/maps/holidayShirt3b.jpg", # 33 (Winter Holiday)
-    "phase_4/maps/holidayShirt4.jpg", # 34 (Winter Holiday)
+    "phase_4/maps/holiday_shirt1.txo", # 31 (Winter Holiday)
+    "phase_4/maps/holiday_shirt2b.txo", # 32 (Winter Holiday)
+    "phase_4/maps/holidayShirt3b.txo", # 33 (Winter Holiday)
+    "phase_4/maps/holidayShirt4.txo", # 34 (Winter Holiday)
 
     # Catalog 2 exclusive shirts
-    "phase_4/maps/female_shirt1b.jpg",    # 35 Blue and gold wavy stripes
-    "phase_4/maps/female_shirt5New.jpg",  # 36 Blue and pink with bow
-    "phase_4/maps/shirtMale4B.jpg",       # 37 Lime green with stripe
-    "phase_4/maps/shirt6New.jpg",         # 38 Purple with stars
-    "phase_4/maps/shirtMaleNew7.jpg",     # 39 Red kimono with checkerboard
+    "phase_4/maps/female_shirt1b.txo",    # 35 Blue and gold wavy stripes
+    "phase_4/maps/female_shirt5New.txo",  # 36 Blue and pink with bow
+    "phase_4/maps/shirtMale4B.txo",       # 37 Lime green with stripe
+    "phase_4/maps/shirt6New.txo",         # 38 Purple with stars
+    "phase_4/maps/shirtMaleNew7.txo",     # 39 Red kimono with checkerboard
 
     # Unused
-    "phase_4/maps/femaleShirtNew6.jpg",   # 40 Aqua kimono white stripe
+    "phase_4/maps/femaleShirtNew6.txo",   # 40 Aqua kimono white stripe
 
     # Valentines
-    "phase_4/maps/Vday1Shirt5.jpg",       # 41 (Valentines)
-    "phase_4/maps/Vday1Shirt6SHD.jpg",    # 42 (Valentines)
-    "phase_4/maps/Vday1Shirt4.jpg",       # 43 (Valentines)
-    "phase_4/maps/Vday_shirt2c.jpg",      # 44 (Valentines)
+    "phase_4/maps/Vday1Shirt5.txo",       # 41 (Valentines)
+    "phase_4/maps/Vday1Shirt6SHD.txo",    # 42 (Valentines)
+    "phase_4/maps/Vday1Shirt4.txo",       # 43 (Valentines)
+    "phase_4/maps/Vday_shirt2c.txo",      # 44 (Valentines)
 
     # Catalog 3 exclusive shirts
-    "phase_4/maps/shirtTieDyeNew.jpg",    # 45 Tie dye
-    "phase_4/maps/male_shirt1.jpg",       # 46 Light blue with blue and white stripe
+    "phase_4/maps/shirtTieDyeNew.txo",    # 45 Tie dye
+    "phase_4/maps/male_shirt1.txo",       # 46 Light blue with blue and white stripe
 
     # St Patrick's Day shirts
-    "phase_4/maps/StPats_shirt1.jpg",     # 47 (St. Pats) Four leaf clover shirt
-    "phase_4/maps/StPats_shirt2.jpg",     # 48 (St. Pats) Pot o gold
+    "phase_4/maps/StPats_shirt1.txo",     # 47 (St. Pats) Four leaf clover shirt
+    "phase_4/maps/StPats_shirt2.txo",     # 48 (St. Pats) Pot o gold
 
     # T-Shirt Contest shirts
-    "phase_4/maps/ContestfishingVestShirt2.jpg",    # 49 (T-shirt Contest) Fishing Vest
-    "phase_4/maps/ContestFishtankShirt1.jpg",       # 50 (T-shirt Contest) Fish Tank
-    "phase_4/maps/ContestPawShirt1.jpg",            # 51 (T-shirt Contest) Paw Print
+    "phase_4/maps/ContestfishingVestShirt2.txo",    # 49 (T-shirt Contest) Fishing Vest
+    "phase_4/maps/ContestFishtankShirt1.txo",       # 50 (T-shirt Contest) Fish Tank
+    "phase_4/maps/ContestPawShirt1.txo",            # 51 (T-shirt Contest) Paw Print
 
     # Catlog 4 exclusive shirts
-    "phase_4/maps/CowboyShirt1.jpg",    # 52 (Western) Cowboy Shirt
-    "phase_4/maps/CowboyShirt2.jpg",    # 53 (Western) Cowboy Shirt
-    "phase_4/maps/CowboyShirt3.jpg",    # 54 (Western) Cowboy Shirt
-    "phase_4/maps/CowboyShirt4.jpg",    # 55 (Western) Cowboy Shirt
-    "phase_4/maps/CowboyShirt5.jpg",    # 56 (Western) Cowboy Shirt
-    "phase_4/maps/CowboyShirt6.jpg",    # 57 (Western) Cowboy Shirt
+    "phase_4/maps/CowboyShirt1.txo",    # 52 (Western) Cowboy Shirt
+    "phase_4/maps/CowboyShirt2.txo",    # 53 (Western) Cowboy Shirt
+    "phase_4/maps/CowboyShirt3.txo",    # 54 (Western) Cowboy Shirt
+    "phase_4/maps/CowboyShirt4.txo",    # 55 (Western) Cowboy Shirt
+    "phase_4/maps/CowboyShirt5.txo",    # 56 (Western) Cowboy Shirt
+    "phase_4/maps/CowboyShirt6.txo",    # 57 (Western) Cowboy Shirt
 
     # July 4 shirts
-    "phase_4/maps/4thJulyShirt1.jpg",   # 58 (July 4th) Flag Shirt
-    "phase_4/maps/4thJulyShirt2.jpg",   # 59 (July 4th) Fireworks Shirt
+    "phase_4/maps/4thJulyShirt1.txo",   # 58 (July 4th) Flag Shirt
+    "phase_4/maps/4thJulyShirt2.txo",   # 59 (July 4th) Fireworks Shirt
 
     # Catalog 7 exclusive shirts
-    "phase_4/maps/shirt_Cat7_01.jpg",   # 60 Green w/ yellow buttons
-    "phase_4/maps/shirt_Cat7_02.jpg",   # 61 Purple w/ big flower
+    "phase_4/maps/shirt_Cat7_01.txo",   # 60 Green w/ yellow buttons
+    "phase_4/maps/shirt_Cat7_02.txo",   # 61 Purple w/ big flower
 
     # T-Shirt Contest 2 shirts
-    "phase_4/maps/contest_backpack3.jpg", # 62 Multicolor shirt w/ backpack
-    "phase_4/maps/contest_leder.jpg",     # 63 Lederhosen
-    "phase_4/maps/contest_mellon2.jpg",   # 64 Watermelon
-    "phase_4/maps/contest_race2.jpg",     # 65 Race Shirt (UK winner)
+    "phase_4/maps/contest_backpack3.txo", # 62 Multicolor shirt w/ backpack
+    "phase_4/maps/contest_leder.txo",     # 63 Lederhosen
+    "phase_4/maps/contest_mellon2.txo",   # 64 Watermelon
+    "phase_4/maps/contest_race2.txo",     # 65 Race Shirt (UK winner)
     
     # Pajama shirts
-    "phase_4/maps/PJBlueBanana2.jpg", # 66 Blue Banana PJ Shirt
-    "phase_4/maps/PJRedHorn2.jpg", # 67 Red Horn PJ Shirt
-    "phase_4/maps/PJGlasses2.jpg", # 68 Purple Glasses PJ Shirt
+    "phase_4/maps/PJBlueBanana2.txo", # 66 Blue Banana PJ Shirt
+    "phase_4/maps/PJRedHorn2.txo", # 67 Red Horn PJ Shirt
+    "phase_4/maps/PJGlasses2.txo", # 68 Purple Glasses PJ Shirt
     
     # 2009 Valentines Day Shirts
-    "phase_4/maps/tt_t_chr_avt_shirt_valentine1.jpg", # 69 Valentines Shirt 1
-    "phase_4/maps/tt_t_chr_avt_shirt_valentine2.jpg", # 70 Valentines Shirt 2    
+    "phase_4/maps/tt_t_chr_avt_shirt_valentine1.txo", # 69 Valentines Shirt 1
+    "phase_4/maps/tt_t_chr_avt_shirt_valentine2.txo", # 70 Valentines Shirt 2    
     
     # Award Clothes
-    "phase_4/maps/tt_t_chr_avt_shirt_desat4.jpg",    # 71
-    "phase_4/maps/tt_t_chr_avt_shirt_fishing1.jpg",   # 72
-    "phase_4/maps/tt_t_chr_avt_shirt_fishing2.jpg",  # 73
-    "phase_4/maps/tt_t_chr_avt_shirt_gardening1.jpg",   # 74
-    "phase_4/maps/tt_t_chr_avt_shirt_gardening2.jpg",   # 75
-    "phase_4/maps/tt_t_chr_avt_shirt_party1.jpg",   # 76
-    "phase_4/maps/tt_t_chr_avt_shirt_party2.jpg",   # 77
-    "phase_4/maps/tt_t_chr_avt_shirt_racing1.jpg",  # 78
-    "phase_4/maps/tt_t_chr_avt_shirt_racing2.jpg",  # 79 
-    "phase_4/maps/tt_t_chr_avt_shirt_summer1.jpg",   # 80
-    "phase_4/maps/tt_t_chr_avt_shirt_summer2.jpg",   # 81
+    "phase_4/maps/tt_t_chr_avt_shirt_desat4.txo",    # 71
+    "phase_4/maps/tt_t_chr_avt_shirt_fishing1.txo",   # 72
+    "phase_4/maps/tt_t_chr_avt_shirt_fishing2.txo",  # 73
+    "phase_4/maps/tt_t_chr_avt_shirt_gardening1.txo",   # 74
+    "phase_4/maps/tt_t_chr_avt_shirt_gardening2.txo",   # 75
+    "phase_4/maps/tt_t_chr_avt_shirt_party1.txo",   # 76
+    "phase_4/maps/tt_t_chr_avt_shirt_party2.txo",   # 77
+    "phase_4/maps/tt_t_chr_avt_shirt_racing1.txo",  # 78
+    "phase_4/maps/tt_t_chr_avt_shirt_racing2.txo",  # 79 
+    "phase_4/maps/tt_t_chr_avt_shirt_summer1.txo",   # 80
+    "phase_4/maps/tt_t_chr_avt_shirt_summer2.txo",   # 81
     
-    "phase_4/maps/tt_t_chr_avt_shirt_golf1.jpg",    # 82
-    "phase_4/maps/tt_t_chr_avt_shirt_golf2.jpg",    # 83
-    "phase_4/maps/tt_t_chr_avt_shirt_halloween1.jpg",   # 84
-    "phase_4/maps/tt_t_chr_avt_shirt_halloween2.jpg",   # 85
-    "phase_4/maps/tt_t_chr_avt_shirt_marathon1.jpg",    # 86
-    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding1.jpg",    # 87
-    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding2.jpg",    # 88 
-    "phase_4/maps/tt_t_chr_avt_shirt_toonTask1.jpg",    # 89
-    "phase_4/maps/tt_t_chr_avt_shirt_toonTask2.jpg",    # 90
-    "phase_4/maps/tt_t_chr_avt_shirt_trolley1.jpg",     # 91
-    "phase_4/maps/tt_t_chr_avt_shirt_trolley2.jpg",     # 92
-    "phase_4/maps/tt_t_chr_avt_shirt_winter1.jpg",      # 93
-    "phase_4/maps/tt_t_chr_avt_shirt_halloween3.jpg",   # 94
-    "phase_4/maps/tt_t_chr_avt_shirt_halloween4.jpg",   # 95
+    "phase_4/maps/tt_t_chr_avt_shirt_golf1.txo",    # 82
+    "phase_4/maps/tt_t_chr_avt_shirt_golf2.txo",    # 83
+    "phase_4/maps/tt_t_chr_avt_shirt_halloween1.txo",   # 84
+    "phase_4/maps/tt_t_chr_avt_shirt_halloween2.txo",   # 85
+    "phase_4/maps/tt_t_chr_avt_shirt_marathon1.txo",    # 86
+    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding1.txo",    # 87
+    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding2.txo",    # 88 
+    "phase_4/maps/tt_t_chr_avt_shirt_toonTask1.txo",    # 89
+    "phase_4/maps/tt_t_chr_avt_shirt_toonTask2.txo",    # 90
+    "phase_4/maps/tt_t_chr_avt_shirt_trolley1.txo",     # 91
+    "phase_4/maps/tt_t_chr_avt_shirt_trolley2.txo",     # 92
+    "phase_4/maps/tt_t_chr_avt_shirt_winter1.txo",      # 93
+    "phase_4/maps/tt_t_chr_avt_shirt_halloween3.txo",   # 94
+    "phase_4/maps/tt_t_chr_avt_shirt_halloween4.txo",   # 95
     # 2010 Valentines Day Shirts
-    "phase_4/maps/tt_t_chr_avt_shirt_valentine3.jpg", # 96 Valentines Shirt 3
+    "phase_4/maps/tt_t_chr_avt_shirt_valentine3.txo", # 96 Valentines Shirt 3
     
     # Scientist Shirts
-    "phase_4/maps/tt_t_chr_shirt_scientistC.jpg",   # 97
-    "phase_4/maps/tt_t_chr_shirt_scientistA.jpg",   # 98
-    "phase_4/maps/tt_t_chr_shirt_scientistB.jpg",   # 99
+    "phase_4/maps/tt_t_chr_shirt_scientistC.txo",   # 97
+    "phase_4/maps/tt_t_chr_shirt_scientistA.txo",   # 98
+    "phase_4/maps/tt_t_chr_shirt_scientistB.txo",   # 99
     
     # Silly Story Shirts
-    "phase_4/maps/tt_t_chr_avt_shirt_mailbox.jpg",  # 100 Mailbox Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_trashcan.jpg", # 101 Trash Can Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_loonyLabs.jpg",# 102 Loony Labs Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_hydrant.jpg",  # 103 Hydrant Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_whistle.jpg",  # 104 Sillymeter Whistle Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_cogbuster.jpg",  # 105 Silly Cogbuster Shirt
+    "phase_4/maps/tt_t_chr_avt_shirt_mailbox.txo",  # 100 Mailbox Shirt
+    "phase_4/maps/tt_t_chr_avt_shirt_trashcan.txo", # 101 Trash Can Shirt
+    "phase_4/maps/tt_t_chr_avt_shirt_loonyLabs.txo",# 102 Loony Labs Shirt
+    "phase_4/maps/tt_t_chr_avt_shirt_hydrant.txo",  # 103 Hydrant Shirt
+    "phase_4/maps/tt_t_chr_avt_shirt_whistle.txo",  # 104 Sillymeter Whistle Shirt
+    "phase_4/maps/tt_t_chr_avt_shirt_cogbuster.txo",  # 105 Silly Cogbuster Shirt
     
-    "phase_4/maps/tt_t_chr_avt_shirt_mostCogsDefeated01.jpg",  # 106 Most Cogs Defeated Shirt
-    "phase_4/maps/tt_t_chr_avt_shirt_victoryParty01.jpg",  # 107 Victory Party Shirt 1
-    "phase_4/maps/tt_t_chr_avt_shirt_victoryParty02.jpg",  # 108 Victory Party Shirt 2
+    "phase_4/maps/tt_t_chr_avt_shirt_mostCogsDefeated01.txo",  # 106 Most Cogs Defeated Shirt
+    "phase_4/maps/tt_t_chr_avt_shirt_victoryParty01.txo",  # 107 Victory Party Shirt 1
+    "phase_4/maps/tt_t_chr_avt_shirt_victoryParty02.txo",  # 108 Victory Party Shirt 2
 
 
-    "phase_4/maps/tt_t_chr_avt_shirt_sellbotIcon.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_sellbotVPIcon.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_sellbotCrusher.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirt_sellbotIcon.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_sellbotVPIcon.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_sellbotCrusher.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirt_jellyBeans.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_doodle.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirt_jellyBeans.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_doodle.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirt_halloween5.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_halloweenTurtle.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirt_halloween5.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_halloweenTurtle.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirt_greentoon1.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirt_greentoon1.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirt_getConnectedMoverShaker.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirt_getConnectedMoverShaker.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirt_racingGrandPrix.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirt_racingGrandPrix.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirt_lawbotIcon.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_lawbotVPIcon.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_lawbotCrusher.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirt_lawbotIcon.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_lawbotVPIcon.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_lawbotCrusher.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirt_bee.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_pirate.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_supertoon.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_vampire.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_dinosaur.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirt_bee.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_pirate.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_supertoon.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_vampire.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_dinosaur.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirt_fishing04.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_golf03.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_mostCogsDefeated02.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_racing03.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding3.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_trolley03.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_fishing05.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_golf04.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirt_fishing04.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_golf03.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_mostCogsDefeated02.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_racing03.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding3.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_trolley03.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_fishing05.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_golf04.txo",
 
-    "phase_4/maps/tt_t_chr_avt_shirt_halloween06.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_winter03.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_halloween07.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_winter02.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirt_halloween06.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_winter03.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_halloween07.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_winter02.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirt_fishing06.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_fishing07.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_golf05.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_racing04.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_racing05.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_mostCogsDefeated03.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_mostCogsDefeated04.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_trolley04.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_trolley05.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding4.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding05.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirt_fishing06.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_fishing07.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_golf05.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_racing04.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_racing05.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_mostCogsDefeated03.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_mostCogsDefeated04.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_trolley04.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_trolley05.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding4.txo",
+    "phase_4/maps/tt_t_chr_avt_shirt_saveBuilding05.txo",
 
-    "phase_4/maps/tt_t_chr_avt_shirt_anniversary.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirt_anniversary.txo",
     ]
 
 # These are deemed safe for MakeAToon
@@ -375,301 +375,301 @@ def isValidGirlShirt(index):
     return 0
 
 Sleeves = [
-    "phase_3/maps/desat_sleeve_1.jpg", # 0
-    "phase_3/maps/desat_sleeve_2.jpg", # 1
-    "phase_3/maps/desat_sleeve_3.jpg", # 2 
-    "phase_3/maps/desat_sleeve_4.jpg", # 3
-    "phase_3/maps/desat_sleeve_5.jpg", # 4 
-    "phase_3/maps/desat_sleeve_6.jpg", # 5
-    "phase_3/maps/desat_sleeve_7.jpg", # 6
-    "phase_3/maps/desat_sleeve_8.jpg", # 7 
-    "phase_3/maps/desat_sleeve_9.jpg", # 8
-    "phase_3/maps/desat_sleeve_10.jpg", # 9
-    "phase_3/maps/desat_sleeve_15.jpg", # 10
-    "phase_3/maps/desat_sleeve_16.jpg", # 11
-    "phase_3/maps/desat_sleeve_19.jpg", # 12
-    "phase_3/maps/desat_sleeve_20.jpg", # 13
+    "phase_3/maps/desat_sleeve_1.txo", # 0
+    "phase_3/maps/desat_sleeve_2.txo", # 1
+    "phase_3/maps/desat_sleeve_3.txo", # 2 
+    "phase_3/maps/desat_sleeve_4.txo", # 3
+    "phase_3/maps/desat_sleeve_5.txo", # 4 
+    "phase_3/maps/desat_sleeve_6.txo", # 5
+    "phase_3/maps/desat_sleeve_7.txo", # 6
+    "phase_3/maps/desat_sleeve_8.txo", # 7 
+    "phase_3/maps/desat_sleeve_9.txo", # 8
+    "phase_3/maps/desat_sleeve_10.txo", # 9
+    "phase_3/maps/desat_sleeve_15.txo", # 10
+    "phase_3/maps/desat_sleeve_16.txo", # 11
+    "phase_3/maps/desat_sleeve_19.txo", # 12
+    "phase_3/maps/desat_sleeve_20.txo", # 13
 
     # Catalog exclusive shirt sleeves
-    "phase_4/maps/female_sleeve1b.jpg", # 14 blue with 3 yellow stripes
-    "phase_4/maps/female_sleeve2.jpg", # 15 pink and beige with flower
-    "phase_4/maps/female_sleeve3.jpg", # 16 yellow hooded sweatshirt
-    "phase_4/maps/male_sleeve1.jpg", # 17 blue stripes
-    "phase_4/maps/male_sleeve2_palm.jpg", # 18 yellow with palm tree
-    "phase_4/maps/male_sleeve3c.jpg", # 19 orange
+    "phase_4/maps/female_sleeve1b.txo", # 14 blue with 3 yellow stripes
+    "phase_4/maps/female_sleeve2.txo", # 15 pink and beige with flower
+    "phase_4/maps/female_sleeve3.txo", # 16 yellow hooded sweatshirt
+    "phase_4/maps/male_sleeve1.txo", # 17 blue stripes
+    "phase_4/maps/male_sleeve2_palm.txo", # 18 yellow with palm tree
+    "phase_4/maps/male_sleeve3c.txo", # 19 orange
 
-    "phase_4/maps/shirt_Sleeve_ghost.jpg", # 20 ghost (Halloween)
-    "phase_4/maps/shirt_Sleeve_pumkin.jpg", # 21 pumpkin (Halloween)
+    "phase_4/maps/shirt_Sleeve_ghost.txo", # 20 ghost (Halloween)
+    "phase_4/maps/shirt_Sleeve_pumkin.txo", # 21 pumpkin (Halloween)
 
-    "phase_4/maps/holidaySleeve1.jpg", # 22 (Winter Holiday)
-    "phase_4/maps/holidaySleeve3.jpg", # 23 (Winter Holiday)
+    "phase_4/maps/holidaySleeve1.txo", # 22 (Winter Holiday)
+    "phase_4/maps/holidaySleeve3.txo", # 23 (Winter Holiday)
 
     # Catalog series 2
-    "phase_4/maps/female_sleeve1b.jpg",   # 24 Blue and gold wavy stripes
-    "phase_4/maps/female_sleeve5New.jpg", # 25 Blue and pink with bow
-    "phase_4/maps/male_sleeve4New.jpg",   # 26 Lime green with stripe
-    "phase_4/maps/sleeve6New.jpg",        # 27 Purple with stars
-    "phase_4/maps/SleeveMaleNew7.jpg",    # 28 Red kimono/hockey shirt
+    "phase_4/maps/female_sleeve1b.txo",   # 24 Blue and gold wavy stripes
+    "phase_4/maps/female_sleeve5New.txo", # 25 Blue and pink with bow
+    "phase_4/maps/male_sleeve4New.txo",   # 26 Lime green with stripe
+    "phase_4/maps/sleeve6New.txo",        # 27 Purple with stars
+    "phase_4/maps/SleeveMaleNew7.txo",    # 28 Red kimono/hockey shirt
 
     # Unused
-    "phase_4/maps/female_sleeveNew6.jpg", # 29 Aqua kimono white stripe
+    "phase_4/maps/female_sleeveNew6.txo", # 29 Aqua kimono white stripe
 
-    "phase_4/maps/Vday5Sleeve.jpg",       # 30 (Valentines)
-    "phase_4/maps/Vda6Sleeve.jpg",        # 31 (Valentines)
-    "phase_4/maps/Vday_shirt4sleeve.jpg", # 32 (Valentines)
-    "phase_4/maps/Vday2cSleeve.jpg",      # 33 (Valentines)
+    "phase_4/maps/Vday5Sleeve.txo",       # 30 (Valentines)
+    "phase_4/maps/Vda6Sleeve.txo",        # 31 (Valentines)
+    "phase_4/maps/Vday_shirt4sleeve.txo", # 32 (Valentines)
+    "phase_4/maps/Vday2cSleeve.txo",      # 33 (Valentines)
 
     # Catalog series 3
-    "phase_4/maps/sleeveTieDye.jpg",      # 34 Tie dye
-    "phase_4/maps/male_sleeve1.jpg",      # 35 Blue with blue and white stripe
+    "phase_4/maps/sleeveTieDye.txo",      # 34 Tie dye
+    "phase_4/maps/male_sleeve1.txo",      # 35 Blue with blue and white stripe
 
     # St. Patrick's day
-    "phase_4/maps/StPats_sleeve.jpg",     # 36 (St. Pats) Four leaf clover
-    "phase_4/maps/StPats_sleeve2.jpg",    # 37 (St. Pats) Pot o gold
+    "phase_4/maps/StPats_sleeve.txo",     # 36 (St. Pats) Four leaf clover
+    "phase_4/maps/StPats_sleeve2.txo",    # 37 (St. Pats) Pot o gold
 
     # T-Shirt Contest sleeves
-    "phase_4/maps/ContestfishingVestSleeve1.jpg",    # 38 (T-Shirt Contest) fishing vest sleeve
-    "phase_4/maps/ContestFishtankSleeve1.jpg",       # 39 (T-Shirt Contest) fish bowl sleeve
-    "phase_4/maps/ContestPawSleeve1.jpg",            # 40 (T-Shirt Contest) paw print sleeve
+    "phase_4/maps/ContestfishingVestSleeve1.txo",    # 38 (T-Shirt Contest) fishing vest sleeve
+    "phase_4/maps/ContestFishtankSleeve1.txo",       # 39 (T-Shirt Contest) fish bowl sleeve
+    "phase_4/maps/ContestPawSleeve1.txo",            # 40 (T-Shirt Contest) paw print sleeve
 
     # Catalog Series 4
-    "phase_4/maps/CowboySleeve1.jpg",    # 41 (Western) cowboy shirt sleeve
-    "phase_4/maps/CowboySleeve2.jpg",    # 42 (Western) cowboy shirt sleeve
-    "phase_4/maps/CowboySleeve3.jpg",    # 43 (Western) cowboy shirt sleeve
-    "phase_4/maps/CowboySleeve4.jpg",    # 44 (Western) cowboy shirt sleeve
-    "phase_4/maps/CowboySleeve5.jpg",    # 45 (Western) cowboy shirt sleeve
-    "phase_4/maps/CowboySleeve6.jpg",    # 46 (Western) cowboy shirt sleeve
+    "phase_4/maps/CowboySleeve1.txo",    # 41 (Western) cowboy shirt sleeve
+    "phase_4/maps/CowboySleeve2.txo",    # 42 (Western) cowboy shirt sleeve
+    "phase_4/maps/CowboySleeve3.txo",    # 43 (Western) cowboy shirt sleeve
+    "phase_4/maps/CowboySleeve4.txo",    # 44 (Western) cowboy shirt sleeve
+    "phase_4/maps/CowboySleeve5.txo",    # 45 (Western) cowboy shirt sleeve
+    "phase_4/maps/CowboySleeve6.txo",    # 46 (Western) cowboy shirt sleeve
 
     # July 4th
-    "phase_4/maps/4thJulySleeve1.jpg",   # 47 (July 4th) flag shirt sleeve
-    "phase_4/maps/4thJulySleeve2.jpg",   # 48 (July 4th) fireworks shirt sleeve
+    "phase_4/maps/4thJulySleeve1.txo",   # 47 (July 4th) flag shirt sleeve
+    "phase_4/maps/4thJulySleeve2.txo",   # 48 (July 4th) fireworks shirt sleeve
 
     # Catlog series 7
-    "phase_4/maps/shirt_sleeveCat7_01.jpg",   # 49 Green shirt w/ yellow buttons sleeve
-    "phase_4/maps/shirt_sleeveCat7_02.jpg",   # 50 Purple shirt w/ big flower sleeve
+    "phase_4/maps/shirt_sleeveCat7_01.txo",   # 49 Green shirt w/ yellow buttons sleeve
+    "phase_4/maps/shirt_sleeveCat7_02.txo",   # 50 Purple shirt w/ big flower sleeve
 
     # T-Shirt Contest 2 sleeves
-    "phase_4/maps/contest_backpack_sleeve.jpg",   # 51 (T-Shirt Contest) Multicolor shirt 2/ backpack sleeve
-    "phase_4/maps/Contest_leder_sleeve.jpg",      # 52 (T-Shirt Contest) Lederhosen sleeve
-    "phase_4/maps/contest_mellon_sleeve2.jpg",     # 53 (T-Shirt Contest) Watermelon sleeve
-    "phase_4/maps/contest_race_sleeve.jpg",       # 54 (T-Shirt Contest) Race Shirt sleeve (UK winner)
+    "phase_4/maps/contest_backpack_sleeve.txo",   # 51 (T-Shirt Contest) Multicolor shirt 2/ backpack sleeve
+    "phase_4/maps/Contest_leder_sleeve.txo",      # 52 (T-Shirt Contest) Lederhosen sleeve
+    "phase_4/maps/contest_mellon_sleeve2.txo",     # 53 (T-Shirt Contest) Watermelon sleeve
+    "phase_4/maps/contest_race_sleeve.txo",       # 54 (T-Shirt Contest) Race Shirt sleeve (UK winner)
     
     # Pajama sleeves
-    "phase_4/maps/PJSleeveBlue.jpg",   # 55 Blue Pajama sleeve
-    "phase_4/maps/PJSleeveRed.jpg",   # 56 Red Pajama sleeve
-    "phase_4/maps/PJSleevePurple.jpg",   # 57 Purple Pajama sleeve
+    "phase_4/maps/PJSleeveBlue.txo",   # 55 Blue Pajama sleeve
+    "phase_4/maps/PJSleeveRed.txo",   # 56 Red Pajama sleeve
+    "phase_4/maps/PJSleevePurple.txo",   # 57 Purple Pajama sleeve
     
     # 2009 Valentines Day Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_valentine1.jpg",   # 58 Valentines Sleeves 1
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_valentine2.jpg",   # 59 Valentines Sleeves 2
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_valentine1.txo",   # 58 Valentines Sleeves 1
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_valentine2.txo",   # 59 Valentines Sleeves 2
     
     # Special Award Clothing
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_desat4.jpg",   # 60
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing1.jpg",   # 61
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing2.jpg",   # 62
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_gardening1.jpg",   # 63
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_gardening2.jpg",   # 64
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_party1.jpg",   # 65
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_party2.jpg",   # 66
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing1.jpg",   # 67
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing2.jpg",   # 68
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_summer1.jpg",   # 69
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_summer2.jpg",   # 70
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_desat4.txo",   # 60
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing1.txo",   # 61
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing2.txo",   # 62
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_gardening1.txo",   # 63
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_gardening2.txo",   # 64
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_party1.txo",   # 65
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_party2.txo",   # 66
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing1.txo",   # 67
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing2.txo",   # 68
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_summer1.txo",   # 69
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_summer2.txo",   # 70
     
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf1.jpg",    # 71
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf2.jpg",    # 72
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween1.jpg",    # 73
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween2.jpg",    # 74
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_marathon1.jpg",    # 75
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding1.jpg",    # 76
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding2.jpg",    # 77
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_toonTask1.jpg",    # 78
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_toonTask2.jpg",    # 79
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley1.jpg",    # 80
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley2.jpg",    # 81
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_winter1.jpg",    # 82
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween3.jpg",   # 83
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween4.jpg",   # 84
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf1.txo",    # 71
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf2.txo",    # 72
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween1.txo",    # 73
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween2.txo",    # 74
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_marathon1.txo",    # 75
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding1.txo",    # 76
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding2.txo",    # 77
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_toonTask1.txo",    # 78
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_toonTask2.txo",    # 79
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley1.txo",    # 80
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley2.txo",    # 81
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_winter1.txo",    # 82
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween3.txo",   # 83
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween4.txo",   # 84
     
     # 2010 Valentines Day Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_valentine3.jpg",   # 85 Valentines Sleeves 1
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_valentine3.txo",   # 85 Valentines Sleeves 1
     
     # Scientist Sleeves
-    "phase_4/maps/tt_t_chr_shirtSleeve_scientist.jpg",   # 86 Toon sceintist
+    "phase_4/maps/tt_t_chr_shirtSleeve_scientist.txo",   # 86 Toon sceintist
     
     # Silly Story Shirt Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mailbox.jpg",    # 87 Mailbox Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trashcan.jpg",   # 88 Trash Can Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_loonyLabs.jpg",  # 89 Loony Labs Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_hydrant.jpg",    # 90 Hydrant Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_whistle.jpg",    # 91 Sillymeter Whistle Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_cogbuster.jpg",    # 92 Silly Cogbuster Sleeves
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mailbox.txo",    # 87 Mailbox Sleeves
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trashcan.txo",   # 88 Trash Can Sleeves
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_loonyLabs.txo",  # 89 Loony Labs Sleeves
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_hydrant.txo",    # 90 Hydrant Sleeves
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_whistle.txo",    # 91 Sillymeter Whistle Sleeves
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_cogbuster.txo",    # 92 Silly Cogbuster Sleeves
     
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mostCogsDefeated01.jpg",# 93 Most Cogs Defeated Sleeves
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_victoryParty01.jpg",    # 94 Victory Party Sleeves 1
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_victoryParty02.jpg",    # 95 Victory Party Sleeves 2
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mostCogsDefeated01.txo",# 93 Most Cogs Defeated Sleeves
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_victoryParty01.txo",    # 94 Victory Party Sleeves 1
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_victoryParty02.txo",    # 95 Victory Party Sleeves 2
 
 
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_sellbotIcon.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_sellbotVPIcon.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_sellbotCrusher.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_sellbotIcon.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_sellbotVPIcon.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_sellbotCrusher.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_jellyBeans.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_doodle.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_jellyBeans.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_doodle.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween5.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloweenTurtle.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween5.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloweenTurtle.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_greentoon1.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_greentoon1.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_getConnectedMoverShaker.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_getConnectedMoverShaker.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racingGrandPrix.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racingGrandPrix.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_lawbotIcon.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_lawbotVPIcon.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_lawbotCrusher.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_lawbotIcon.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_lawbotVPIcon.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_lawbotCrusher.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_bee.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_pirate.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_supertoon.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_vampire.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_dinosaur.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_bee.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_pirate.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_supertoon.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_vampire.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_dinosaur.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing04.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf03.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mostCogsDefeated02.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing03.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding3.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley03.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing05.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf04.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing04.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf03.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mostCogsDefeated02.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing03.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding3.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley03.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing05.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf04.txo",
 
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween06.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_winter03.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween07.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_winter02.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween06.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_winter03.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_halloween07.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_winter02.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing06.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing07.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf05.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing04.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing05.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mostCogsDefeated03.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mostCogsDefeated04.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley04.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley05.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding4.jpg",
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding05.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing06.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_fishing07.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_golf05.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing04.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_racing05.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mostCogsDefeated03.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_mostCogsDefeated04.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley04.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley05.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding4.txo",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding05.txo",
 
-    "phase_4/maps/tt_t_chr_avt_shirtSleeve_anniversary.jpg",
+    "phase_4/maps/tt_t_chr_avt_shirtSleeve_anniversary.txo",
     ]
 
 # len = 9 
 BoyShorts = [
-    "phase_3/maps/desat_shorts_1.jpg", # plain w/ pockets
-    "phase_3/maps/desat_shorts_2.jpg", # belt
-    "phase_3/maps/desat_shorts_4.jpg", # cargo
-    "phase_3/maps/desat_shorts_6.jpg", # hawaiian
-    "phase_3/maps/desat_shorts_7.jpg", # special, side stripes
-    "phase_3/maps/desat_shorts_8.jpg", # soccer shorts 
-    "phase_3/maps/desat_shorts_9.jpg", # special, flames side stripes
-    "phase_3/maps/desat_shorts_10.jpg", # denim (2 darker colors)
+    "phase_3/maps/desat_shorts_1.txo", # plain w/ pockets
+    "phase_3/maps/desat_shorts_2.txo", # belt
+    "phase_3/maps/desat_shorts_4.txo", # cargo
+    "phase_3/maps/desat_shorts_6.txo", # hawaiian
+    "phase_3/maps/desat_shorts_7.txo", # special, side stripes
+    "phase_3/maps/desat_shorts_8.txo", # soccer shorts 
+    "phase_3/maps/desat_shorts_9.txo", # special, flames side stripes
+    "phase_3/maps/desat_shorts_10.txo", # denim (2 darker colors)
 
     # Valentines
-    "phase_4/maps/VdayShorts2.jpg",    # 8 valentines shorts
+    "phase_4/maps/VdayShorts2.txo",    # 8 valentines shorts
 
     # Catalog series 3 exclusive
-    "phase_4/maps/shorts4.jpg",        # 9 Orange with blue side stripes
-    "phase_4/maps/shorts1.jpg",        # 10 Blue with gold stripes on cuff
+    "phase_4/maps/shorts4.txo",        # 9 Orange with blue side stripes
+    "phase_4/maps/shorts1.txo",        # 10 Blue with gold stripes on cuff
 
     # St. Pats
-    "phase_4/maps/shorts5.jpg",        # 11 Leprechaun shorts
+    "phase_4/maps/shorts5.txo",        # 11 Leprechaun shorts
 
     # Catalog series 4 exclusive
-    "phase_4/maps/CowboyShorts1.jpg",  # 12 Cowboy Shorts 1
-    "phase_4/maps/CowboyShorts2.jpg",  # 13 Cowboy Shorts 2
+    "phase_4/maps/CowboyShorts1.txo",  # 12 Cowboy Shorts 1
+    "phase_4/maps/CowboyShorts2.txo",  # 13 Cowboy Shorts 2
     # July 4th
-    "phase_4/maps/4thJulyShorts1.jpg", # 14 July 4th Shorts
+    "phase_4/maps/4thJulyShorts1.txo", # 14 July 4th Shorts
 
     # Catalog series 7
-    "phase_4/maps/shortsCat7_01.jpg",  # 15 Green stripes
+    "phase_4/maps/shortsCat7_01.txo",  # 15 Green stripes
     
     # Pajama Shorts
-    "phase_4/maps/Blue_shorts_1.jpg",  # 16 Blue Pajama shorts
-    "phase_4/maps/Red_shorts_1.jpg",  # 17 Red Pajama shorts
-    "phase_4/maps/Purple_shorts_1.jpg",  # 18 Purple Pajama shorts
+    "phase_4/maps/Blue_shorts_1.txo",  # 16 Blue Pajama shorts
+    "phase_4/maps/Red_shorts_1.txo",  # 17 Red Pajama shorts
+    "phase_4/maps/Purple_shorts_1.txo",  # 18 Purple Pajama shorts
     
     # Winter Holiday Shorts
-    "phase_4/maps/tt_t_chr_avt_shorts_winter1.jpg",  # 19 Winter Holiday Shorts Style 1
-    "phase_4/maps/tt_t_chr_avt_shorts_winter2.jpg",  # 20 Winter Holiday Shorts Style 2
-    "phase_4/maps/tt_t_chr_avt_shorts_winter3.jpg",  # 21 Winter Holiday Shorts Style 3
-    "phase_4/maps/tt_t_chr_avt_shorts_winter4.jpg",  # 22 Winter Holiday Shorts Style 4
+    "phase_4/maps/tt_t_chr_avt_shorts_winter1.txo",  # 19 Winter Holiday Shorts Style 1
+    "phase_4/maps/tt_t_chr_avt_shorts_winter2.txo",  # 20 Winter Holiday Shorts Style 2
+    "phase_4/maps/tt_t_chr_avt_shorts_winter3.txo",  # 21 Winter Holiday Shorts Style 3
+    "phase_4/maps/tt_t_chr_avt_shorts_winter4.txo",  # 22 Winter Holiday Shorts Style 4
     
     # 2009 Valentines Day Shorts
-    "phase_4/maps/tt_t_chr_avt_shorts_valentine1.jpg",  # 23 Valentines Shorts 1
-    "phase_4/maps/tt_t_chr_avt_shorts_valentine2.jpg",  # 24 Valentines Shorts 2
+    "phase_4/maps/tt_t_chr_avt_shorts_valentine1.txo",  # 23 Valentines Shorts 1
+    "phase_4/maps/tt_t_chr_avt_shorts_valentine2.txo",  # 24 Valentines Shorts 2
     
     # Special award Clothes
-    "phase_4/maps/tt_t_chr_avt_shorts_fishing1.jpg",   # 25
-    "phase_4/maps/tt_t_chr_avt_shorts_gardening1.jpg",   # 26
-    "phase_4/maps/tt_t_chr_avt_shorts_party1.jpg",   # 27
-    "phase_4/maps/tt_t_chr_avt_shorts_racing1.jpg",   # 28
-    "phase_4/maps/tt_t_chr_avt_shorts_summer1.jpg",   # 29
+    "phase_4/maps/tt_t_chr_avt_shorts_fishing1.txo",   # 25
+    "phase_4/maps/tt_t_chr_avt_shorts_gardening1.txo",   # 26
+    "phase_4/maps/tt_t_chr_avt_shorts_party1.txo",   # 27
+    "phase_4/maps/tt_t_chr_avt_shorts_racing1.txo",   # 28
+    "phase_4/maps/tt_t_chr_avt_shorts_summer1.txo",   # 29
     
-    "phase_4/maps/tt_t_chr_avt_shorts_golf1.jpg",   # 30
-    "phase_4/maps/tt_t_chr_avt_shorts_halloween1.jpg",   # 31
-    "phase_4/maps/tt_t_chr_avt_shorts_halloween2.jpg",   # 32
-    "phase_4/maps/tt_t_chr_avt_shorts_saveBuilding1.jpg",   # 33
-    "phase_4/maps/tt_t_chr_avt_shorts_trolley1.jpg",   # 34
-    "phase_4/maps/tt_t_chr_avt_shorts_halloween4.jpg",   # 35
-    "phase_4/maps/tt_t_chr_avt_shorts_halloween3.jpg",   # 36
+    "phase_4/maps/tt_t_chr_avt_shorts_golf1.txo",   # 30
+    "phase_4/maps/tt_t_chr_avt_shorts_halloween1.txo",   # 31
+    "phase_4/maps/tt_t_chr_avt_shorts_halloween2.txo",   # 32
+    "phase_4/maps/tt_t_chr_avt_shorts_saveBuilding1.txo",   # 33
+    "phase_4/maps/tt_t_chr_avt_shorts_trolley1.txo",   # 34
+    "phase_4/maps/tt_t_chr_avt_shorts_halloween4.txo",   # 35
+    "phase_4/maps/tt_t_chr_avt_shorts_halloween3.txo",   # 36
     
-    "phase_4/maps/tt_t_chr_shorts_scientistA.jpg",   # 37
-    "phase_4/maps/tt_t_chr_shorts_scientistB.jpg",   # 38
-    "phase_4/maps/tt_t_chr_shorts_scientistC.jpg",   # 39
+    "phase_4/maps/tt_t_chr_shorts_scientistA.txo",   # 37
+    "phase_4/maps/tt_t_chr_shorts_scientistB.txo",   # 38
+    "phase_4/maps/tt_t_chr_shorts_scientistC.txo",   # 39
     
-    "phase_4/maps/tt_t_chr_avt_shorts_cogbuster.jpg",  # 40 Silly Cogbuster Shorts     
+    "phase_4/maps/tt_t_chr_avt_shorts_cogbuster.txo",  # 40 Silly Cogbuster Shorts     
 
 
-    "phase_4/maps/tt_t_chr_avt_shorts_sellbotCrusher.jpg",
+    "phase_4/maps/tt_t_chr_avt_shorts_sellbotCrusher.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shorts_halloween5.jpg",
-    "phase_4/maps/tt_t_chr_avt_shorts_halloweenTurtle.jpg",
+    "phase_4/maps/tt_t_chr_avt_shorts_halloween5.txo",
+    "phase_4/maps/tt_t_chr_avt_shorts_halloweenTurtle.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shorts_greentoon1.jpg",
+    "phase_4/maps/tt_t_chr_avt_shorts_greentoon1.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shorts_racingGrandPrix.jpg",
+    "phase_4/maps/tt_t_chr_avt_shorts_racingGrandPrix.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shorts_lawbotCrusher.jpg",
+    "phase_4/maps/tt_t_chr_avt_shorts_lawbotCrusher.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shorts_bee.jpg",
-    "phase_4/maps/tt_t_chr_avt_shorts_pirate.jpg",
-    "phase_4/maps/tt_t_chr_avt_shorts_supertoon.jpg",
-    "phase_4/maps/tt_t_chr_avt_shorts_vampire.jpg",
-    "phase_4/maps/tt_t_chr_avt_shorts_dinosaur.jpg",
+    "phase_4/maps/tt_t_chr_avt_shorts_bee.txo",
+    "phase_4/maps/tt_t_chr_avt_shorts_pirate.txo",
+    "phase_4/maps/tt_t_chr_avt_shorts_supertoon.txo",
+    "phase_4/maps/tt_t_chr_avt_shorts_vampire.txo",
+    "phase_4/maps/tt_t_chr_avt_shorts_dinosaur.txo",
 
 
-    "phase_4/maps/tt_t_chr_avt_shorts_golf03.jpg",
-    "phase_4/maps/tt_t_chr_avt_shorts_racing03.jpg",
-    "phase_4/maps/tt_t_chr_avt_shorts_golf04.jpg",
-    "phase_4/maps/tt_t_chr_avt_shorts_golf05.jpg",
-    "phase_4/maps/tt_t_chr_avt_shorts_racing04.jpg",
-    "phase_4/maps/tt_t_chr_avt_shorts_racing05.jpg",
+    "phase_4/maps/tt_t_chr_avt_shorts_golf03.txo",
+    "phase_4/maps/tt_t_chr_avt_shorts_racing03.txo",
+    "phase_4/maps/tt_t_chr_avt_shorts_golf04.txo",
+    "phase_4/maps/tt_t_chr_avt_shorts_golf05.txo",
+    "phase_4/maps/tt_t_chr_avt_shorts_racing04.txo",
+    "phase_4/maps/tt_t_chr_avt_shorts_racing05.txo",
     ]
 
 SHORTS = 0
@@ -677,110 +677,110 @@ SKIRT = 1
 
 # len = 14 
 GirlBottoms = [
-    ("phase_3/maps/desat_skirt_1.jpg", SKIRT), # 0 solid
-    ("phase_3/maps/desat_skirt_2.jpg", SKIRT), # 1 special, polka dots
-    ("phase_3/maps/desat_skirt_3.jpg", SKIRT), # 2 vertical stripes
-    ("phase_3/maps/desat_skirt_4.jpg", SKIRT), # 3 horizontal stripe
-    ("phase_3/maps/desat_skirt_5.jpg", SKIRT), # 4 flower print
-    ("phase_3/maps/desat_shorts_1.jpg", SHORTS), # 5 plain w/ pockets
-    ("phase_3/maps/desat_shorts_5.jpg", SHORTS), # 6 flower
-    ("phase_3/maps/desat_skirt_6.jpg", SKIRT), # 7 special, 2 pockets
-    ("phase_3/maps/desat_skirt_7.jpg", SKIRT), # 8 denim (2 darker colors)
-    ("phase_3/maps/desat_shorts_10.jpg", SHORTS), # 9 denim (2 darker colors)
+    ("phase_3/maps/desat_skirt_1.txo", SKIRT), # 0 solid
+    ("phase_3/maps/desat_skirt_2.txo", SKIRT), # 1 special, polka dots
+    ("phase_3/maps/desat_skirt_3.txo", SKIRT), # 2 vertical stripes
+    ("phase_3/maps/desat_skirt_4.txo", SKIRT), # 3 horizontal stripe
+    ("phase_3/maps/desat_skirt_5.txo", SKIRT), # 4 flower print
+    ("phase_3/maps/desat_shorts_1.txo", SHORTS), # 5 plain w/ pockets
+    ("phase_3/maps/desat_shorts_5.txo", SHORTS), # 6 flower
+    ("phase_3/maps/desat_skirt_6.txo", SKIRT), # 7 special, 2 pockets
+    ("phase_3/maps/desat_skirt_7.txo", SKIRT), # 8 denim (2 darker colors)
+    ("phase_3/maps/desat_shorts_10.txo", SHORTS), # 9 denim (2 darker colors)
 
     # Catalog Series 1 exclusive
-    ("phase_4/maps/female_skirt1.jpg", SKIRT), # 10 blue with tan border and button
-    ("phase_4/maps/female_skirt2.jpg", SKIRT), # 11 purple with pink border and ribbon
-    ("phase_4/maps/female_skirt3.jpg", SKIRT), # 12 teal with yellow border and star
+    ("phase_4/maps/female_skirt1.txo", SKIRT), # 10 blue with tan border and button
+    ("phase_4/maps/female_skirt2.txo", SKIRT), # 11 purple with pink border and ribbon
+    ("phase_4/maps/female_skirt3.txo", SKIRT), # 12 teal with yellow border and star
 
     # Valentines
-    ("phase_4/maps/VdaySkirt1.jpg", SKIRT),    # 13 valentines skirts
+    ("phase_4/maps/VdaySkirt1.txo", SKIRT),    # 13 valentines skirts
 
     # Catalog Series 3 exclusive
-    ("phase_4/maps/skirtNew5.jpg", SKIRT),     # 14 rainbow skirt
+    ("phase_4/maps/skirtNew5.txo", SKIRT),     # 14 rainbow skirt
 
-    ("phase_4/maps/shorts5.jpg", SHORTS),      # 15 leprechaun shorts
+    ("phase_4/maps/shorts5.txo", SHORTS),      # 15 leprechaun shorts
     # St. Pats
 
     # Catalog Series 4 exclusive
-    ("phase_4/maps/CowboySkirt1.jpg", SKIRT),     # 16 cowboy skirt 1
-    ("phase_4/maps/CowboySkirt2.jpg", SKIRT),     # 17 cowboy skirt 2
+    ("phase_4/maps/CowboySkirt1.txo", SKIRT),     # 16 cowboy skirt 1
+    ("phase_4/maps/CowboySkirt2.txo", SKIRT),     # 17 cowboy skirt 2
 
     # July 4th Skirt
-    ("phase_4/maps/4thJulySkirt1.jpg", SKIRT),    # 18 july 4th skirt 1
+    ("phase_4/maps/4thJulySkirt1.txo", SKIRT),    # 18 july 4th skirt 1
 
     # Catalog series 7
-    ("phase_4/maps/skirtCat7_01.jpg", SKIRT),    # 19 blue with flower
+    ("phase_4/maps/skirtCat7_01.txo", SKIRT),    # 19 blue with flower
     
     # Pajama Shorts
-    ("phase_4/maps/Blue_shorts_1.jpg", SHORTS),  # 20 Blue Pajama shorts
-    ("phase_4/maps/Red_shorts_1.jpg", SHORTS),   # 21 Red Pajama shorts
-    ("phase_4/maps/Purple_shorts_1.jpg", SHORTS),# 22 Purple Pajama shorts
+    ("phase_4/maps/Blue_shorts_1.txo", SHORTS),  # 20 Blue Pajama shorts
+    ("phase_4/maps/Red_shorts_1.txo", SHORTS),   # 21 Red Pajama shorts
+    ("phase_4/maps/Purple_shorts_1.txo", SHORTS),# 22 Purple Pajama shorts
     
     # Winter Holiday Skirts
-    ("phase_4/maps/tt_t_chr_avt_skirt_winter1.jpg", SKIRT),  # 23 Winter Holiday Skirt Style 1
-    ("phase_4/maps/tt_t_chr_avt_skirt_winter2.jpg", SKIRT),  # 24 Winter Holiday Skirt Style 2
-    ("phase_4/maps/tt_t_chr_avt_skirt_winter3.jpg", SKIRT),  # 25 Winter Holiday Skirt Style 3
-    ("phase_4/maps/tt_t_chr_avt_skirt_winter4.jpg", SKIRT),  # 26 Winter Holiday Skirt Style 4
+    ("phase_4/maps/tt_t_chr_avt_skirt_winter1.txo", SKIRT),  # 23 Winter Holiday Skirt Style 1
+    ("phase_4/maps/tt_t_chr_avt_skirt_winter2.txo", SKIRT),  # 24 Winter Holiday Skirt Style 2
+    ("phase_4/maps/tt_t_chr_avt_skirt_winter3.txo", SKIRT),  # 25 Winter Holiday Skirt Style 3
+    ("phase_4/maps/tt_t_chr_avt_skirt_winter4.txo", SKIRT),  # 26 Winter Holiday Skirt Style 4
     
     # 2009 Valentines Day Skirts
-    ("phase_4/maps/tt_t_chr_avt_skirt_valentine1.jpg", SKIRT),  # 27 Valentines Skirt 1
-    ("phase_4/maps/tt_t_chr_avt_skirt_valentine2.jpg", SKIRT),  # 28 Valentines Skirt 2
+    ("phase_4/maps/tt_t_chr_avt_skirt_valentine1.txo", SKIRT),  # 27 Valentines Skirt 1
+    ("phase_4/maps/tt_t_chr_avt_skirt_valentine2.txo", SKIRT),  # 28 Valentines Skirt 2
     
     # Special award clothing
-    ("phase_4/maps/tt_t_chr_avt_skirt_fishing1.jpg", SKIRT),   # 29
-    ("phase_4/maps/tt_t_chr_avt_skirt_gardening1.jpg", SKIRT),   # 30
-    ("phase_4/maps/tt_t_chr_avt_skirt_party1.jpg", SKIRT),   # 31
-    ("phase_4/maps/tt_t_chr_avt_skirt_racing1.jpg", SKIRT),   # 32
-    ("phase_4/maps/tt_t_chr_avt_skirt_summer1.jpg", SKIRT),   # 33
+    ("phase_4/maps/tt_t_chr_avt_skirt_fishing1.txo", SKIRT),   # 29
+    ("phase_4/maps/tt_t_chr_avt_skirt_gardening1.txo", SKIRT),   # 30
+    ("phase_4/maps/tt_t_chr_avt_skirt_party1.txo", SKIRT),   # 31
+    ("phase_4/maps/tt_t_chr_avt_skirt_racing1.txo", SKIRT),   # 32
+    ("phase_4/maps/tt_t_chr_avt_skirt_summer1.txo", SKIRT),   # 33
     
-    ("phase_4/maps/tt_t_chr_avt_skirt_golf1.jpg", SKIRT),   # 34
-    ("phase_4/maps/tt_t_chr_avt_skirt_halloween1.jpg", SKIRT),   # 35
-    ("phase_4/maps/tt_t_chr_avt_skirt_halloween2.jpg", SKIRT),   # 36
-    ("phase_4/maps/tt_t_chr_avt_skirt_saveBuilding1.jpg", SKIRT),   # 37
-    ("phase_4/maps/tt_t_chr_avt_skirt_trolley1.jpg", SKIRT),   # 38
-    ("phase_4/maps/tt_t_chr_avt_skirt_halloween3.jpg", SKIRT),   # 39
-    ("phase_4/maps/tt_t_chr_avt_skirt_halloween4.jpg", SKIRT),   # 40
+    ("phase_4/maps/tt_t_chr_avt_skirt_golf1.txo", SKIRT),   # 34
+    ("phase_4/maps/tt_t_chr_avt_skirt_halloween1.txo", SKIRT),   # 35
+    ("phase_4/maps/tt_t_chr_avt_skirt_halloween2.txo", SKIRT),   # 36
+    ("phase_4/maps/tt_t_chr_avt_skirt_saveBuilding1.txo", SKIRT),   # 37
+    ("phase_4/maps/tt_t_chr_avt_skirt_trolley1.txo", SKIRT),   # 38
+    ("phase_4/maps/tt_t_chr_avt_skirt_halloween3.txo", SKIRT),   # 39
+    ("phase_4/maps/tt_t_chr_avt_skirt_halloween4.txo", SKIRT),   # 40
     
-    ("phase_4/maps/tt_t_chr_shorts_scientistA.jpg", SHORTS),   # 41
-    ("phase_4/maps/tt_t_chr_shorts_scientistB.jpg", SHORTS),   # 42
-    ("phase_4/maps/tt_t_chr_shorts_scientistC.jpg", SHORTS),   # 43
+    ("phase_4/maps/tt_t_chr_shorts_scientistA.txo", SHORTS),   # 41
+    ("phase_4/maps/tt_t_chr_shorts_scientistB.txo", SHORTS),   # 42
+    ("phase_4/maps/tt_t_chr_shorts_scientistC.txo", SHORTS),   # 43
     
-    ("phase_4/maps/tt_t_chr_avt_shorts_cogbuster.jpg", SHORTS),   # 44 Silly Cogbuster Shorts 
+    ("phase_4/maps/tt_t_chr_avt_shorts_cogbuster.txo", SHORTS),   # 44 Silly Cogbuster Shorts 
 
 
 
-    ("phase_4/maps/tt_t_chr_avt_shorts_sellbotCrusher.jpg", SHORTS),
+    ("phase_4/maps/tt_t_chr_avt_shorts_sellbotCrusher.txo", SHORTS),
 
 
-    ("phase_4/maps/tt_t_chr_avt_shorts_halloween5.jpg", SHORTS),
-    ("phase_4/maps/tt_t_chr_avt_shorts_halloweenTurtle.jpg", SHORTS),
+    ("phase_4/maps/tt_t_chr_avt_shorts_halloween5.txo", SHORTS),
+    ("phase_4/maps/tt_t_chr_avt_shorts_halloweenTurtle.txo", SHORTS),
 
 
-    ("phase_4/maps/tt_t_chr_avt_skirt_greentoon1.jpg", SKIRT),
+    ("phase_4/maps/tt_t_chr_avt_skirt_greentoon1.txo", SKIRT),
 
 
-    ("phase_4/maps/tt_t_chr_avt_skirt_racingGrandPrix.jpg", SKIRT),
+    ("phase_4/maps/tt_t_chr_avt_skirt_racingGrandPrix.txo", SKIRT),
 
 
-    ("phase_4/maps/tt_t_chr_avt_shorts_lawbotCrusher.jpg", SHORTS),
+    ("phase_4/maps/tt_t_chr_avt_shorts_lawbotCrusher.txo", SHORTS),
 
 
 
-    ("phase_4/maps/tt_t_chr_avt_shorts_bee.jpg", SHORTS),
-    ("phase_4/maps/tt_t_chr_avt_shorts_pirate.jpg", SHORTS),
-    ("phase_4/maps/tt_t_chr_avt_skirt_pirate.jpg", SKIRT),
-    ("phase_4/maps/tt_t_chr_avt_shorts_supertoon.jpg", SHORTS),
-    ("phase_4/maps/tt_t_chr_avt_shorts_vampire.jpg", SHORTS),
-    ("phase_4/maps/tt_t_chr_avt_shorts_dinosaur.jpg", SHORTS),
+    ("phase_4/maps/tt_t_chr_avt_shorts_bee.txo", SHORTS),
+    ("phase_4/maps/tt_t_chr_avt_shorts_pirate.txo", SHORTS),
+    ("phase_4/maps/tt_t_chr_avt_skirt_pirate.txo", SKIRT),
+    ("phase_4/maps/tt_t_chr_avt_shorts_supertoon.txo", SHORTS),
+    ("phase_4/maps/tt_t_chr_avt_shorts_vampire.txo", SHORTS),
+    ("phase_4/maps/tt_t_chr_avt_shorts_dinosaur.txo", SHORTS),
 
 
-    ("phase_4/maps/tt_t_chr_avt_skirt_golf02.jpg", SKIRT),
-    ("phase_4/maps/tt_t_chr_avt_skirt_racing03.jpg", SKIRT),
-    ("phase_4/maps/tt_t_chr_avt_skirt_golf03.jpg", SKIRT),
-    ("phase_4/maps/tt_t_chr_avt_skirt_golf04.jpg", SKIRT),
-    ("phase_4/maps/tt_t_chr_avt_skirt_racing04.jpg", SKIRT),
-    ("phase_4/maps/tt_t_chr_avt_skirt_racing05.jpg", SKIRT),
+    ("phase_4/maps/tt_t_chr_avt_skirt_golf02.txo", SKIRT),
+    ("phase_4/maps/tt_t_chr_avt_skirt_racing03.txo", SKIRT),
+    ("phase_4/maps/tt_t_chr_avt_skirt_golf03.txo", SKIRT),
+    ("phase_4/maps/tt_t_chr_avt_skirt_golf04.txo", SKIRT),
+    ("phase_4/maps/tt_t_chr_avt_skirt_racing04.txo", SKIRT),
+    ("phase_4/maps/tt_t_chr_avt_skirt_racing05.txo", SKIRT),
     ]
 
 # len = 28
@@ -1778,25 +1778,25 @@ HatModels = [
 
 HatTextures = [
     None,
-    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonRed.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonPurple.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_heartYellow.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_topHatBlue.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_safariBrown.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_safariGreen.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballBlue.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballOrange.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonYellow.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonChecker.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonLtRed.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonRainbow.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballYellow.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballRed.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballTeal.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonPinkDots.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballPurple.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonCheckerGreen.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_hat_partyToon.jpg",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonRed.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonPurple.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_heartYellow.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_topHatBlue.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_safariBrown.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_safariGreen.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballBlue.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballOrange.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonYellow.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonChecker.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonLtRed.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonRainbow.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballYellow.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballRed.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballTeal.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonPinkDots.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_baseballPurple.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_ribbonCheckerGreen.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_hat_partyToon.txo",
     ]
 
 
@@ -1831,10 +1831,10 @@ GlassesModels = [
 
 GlassesTextures = [
     None,
-    "phase_4/maps/tt_t_chr_avt_acc_msk_masqueradeTypeMask2.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_msk_masqueradeTypeMask4.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_msk_masqueradeTypeMask5.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_msk_eyepatchGems.jpg",
+    "phase_4/maps/tt_t_chr_avt_acc_msk_masqueradeTypeMask2.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_msk_masqueradeTypeMask4.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_msk_masqueradeTypeMask5.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_msk_eyepatchGems.txo",
     ]
 
 
@@ -1871,12 +1871,12 @@ BackpackModels = [
 
 BackpackTextures = [
     None,
-    "phase_4/maps/tt_t_chr_avt_acc_pac_backpackOrange.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_pac_backpackPurple.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_pac_backpackPolkaDotRed.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_pac_backpackPolkaDotYellow.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_pac_angelWingsMultiColor.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_pac_butterflyWingsStyle2.jpg",
+    "phase_4/maps/tt_t_chr_avt_acc_pac_backpackOrange.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_pac_backpackPurple.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_pac_backpackPolkaDotRed.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_pac_backpackPolkaDotYellow.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_pac_angelWingsMultiColor.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_pac_butterflyWingsStyle2.txo",
     ]
 
 ShoesModels = [
@@ -1887,55 +1887,55 @@ ShoesModels = [
     ]
 
 ShoesTextures = [
-    "phase_3/maps/tt_t_chr_avt_acc_sho_athleticGreen.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_athleticRed.jpg",
-    "phase_3/maps/tt_t_chr_avt_acc_sho_docMartinBootsGreen.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStyleGreen.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_wingtips.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_maryJaneShoes.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_deckShoes.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_athleticYellow.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStyleBlack.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStyleWhite.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStylePink.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_cowboyBoots.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsPurple.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_hiTopSneakers.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_maryJaneShoesBrown.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_maryJaneShoesRed.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_superToonRedBoots.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_tennisShoesGreen.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_tennisShoesPink.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStyleRed.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_docMartinBootsAqua.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_docMartinBootsBrown.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_docMartinBootsYellow.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsBlueSquares.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsGreenHearts.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsGreyDots.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsOrangeStars.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsPinkStars.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_loafers.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_maryJaneShoesPurple.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_motorcycleBoots.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_oxfords.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_rainBootsPink.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_santaBoots.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_winterBootsBeige.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_winterBootsPink.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_workBoots.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStyleYellow.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_docMartinBootsPink.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_hiTopSneakersPink.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_rainBootsRedDots.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_tennisShoesPurple.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_tennisShoesViolet.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_tennisShoesYellow.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_rainBootsBlue.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_rainBootsYellow.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_athleticBlack.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_pirate.jpg",
-    "phase_4/maps/tt_t_chr_avt_acc_sho_dinosaur.jpg",
+    "phase_3/maps/tt_t_chr_avt_acc_sho_athleticGreen.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_athleticRed.txo",
+    "phase_3/maps/tt_t_chr_avt_acc_sho_docMartinBootsGreen.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStyleGreen.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_wingtips.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_maryJaneShoes.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_deckShoes.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_athleticYellow.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStyleBlack.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStyleWhite.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStylePink.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_cowboyBoots.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsPurple.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_hiTopSneakers.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_maryJaneShoesBrown.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_maryJaneShoesRed.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_superToonRedBoots.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_tennisShoesGreen.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_tennisShoesPink.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStyleRed.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_docMartinBootsAqua.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_docMartinBootsBrown.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_docMartinBootsYellow.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsBlueSquares.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsGreenHearts.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsGreyDots.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsOrangeStars.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_fashionBootsPinkStars.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_loafers.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_maryJaneShoesPurple.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_motorcycleBoots.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_oxfords.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_rainBootsPink.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_santaBoots.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_winterBootsBeige.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_winterBootsPink.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_workBoots.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_converseStyleYellow.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_docMartinBootsPink.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_hiTopSneakersPink.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_rainBootsRedDots.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_tennisShoesPurple.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_tennisShoesViolet.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_tennisShoesYellow.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_rainBootsBlue.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_rainBootsYellow.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_athleticBlack.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_pirate.txo",
+    "phase_4/maps/tt_t_chr_avt_acc_sho_dinosaur.txo",
     ]
 
 

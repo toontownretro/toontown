@@ -1213,7 +1213,7 @@ class KartShopGuiMgr( object, DirectObject.DirectObject ):
                     
                 if( accType in [ KartDNA.ebType, KartDNA.spType, KartDNA.fwwType, KartDNA.bwwType ] ):
                         texNodePath = getTexCardNode( accID )
-                        tex = loader.loadTexture( "phase_6/maps/%s.jpg" % ( texNodePath ),
+                        tex = loader.loadTexture( "phase_6/maps/%s.txo" % ( texNodePath ),
                                                   "phase_6/maps/%s_a.rgb" % ( texNodePath ) )
                 elif( accType == KartDNA.rimsType ):
                         if( accID == InvalidEntry ):
@@ -1223,10 +1223,10 @@ class KartShopGuiMgr( object, DirectObject.DirectObject ):
                                 texNodePath = getTexCardNode( getDefaultRim() )
                         else:                
                                 texNodePath = getTexCardNode( accID )
-                        tex = loader.loadTexture( "phase_6/maps/%s.jpg" % ( texNodePath ),
+                        tex = loader.loadTexture( "phase_6/maps/%s.txo" % ( texNodePath ),
                                                   "phase_6/maps/%s_a.rgb" % ( texNodePath ) )            
                 elif( accType in [ KartDNA.bodyColor, KartDNA.accColor ] ):
-                        tex = loader.loadTexture( "phase_6/maps/Kartmenu_paintbucket.jpg",
+                        tex = loader.loadTexture( "phase_6/maps/Kartmenu_paintbucket.txo",
                                                   "phase_6/maps/Kartmenu_paintbucket_a.rgb" )
                         # Obtain the default color if the item is -1, handle this similar to the
                         # rims.
@@ -1238,10 +1238,10 @@ class KartShopGuiMgr( object, DirectObject.DirectObject ):
                         #pdir(base.localAvatar)
                         kartDecal = getDecalId( base.localAvatar.getKartBodyType() )
                         texNodePath = getTexCardNode( accID )
-                        tex = loader.loadTexture( "phase_6/maps/%s.jpg" % (texNodePath) % ( kartDecal ),
+                        tex = loader.loadTexture( "phase_6/maps/%s.txo" % (texNodePath) % ( kartDecal ),
                                                  "phase_6/maps/%s_a.rgb" % (texNodePath) % ( kartDecal ) )
                 else:
-                        tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.jpg",
+                        tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.txo",
                                                   "phase_6/maps/NoAccessoryIcon3_a.rgb" )
 
 
@@ -1369,7 +1369,7 @@ class KartShopGuiMgr( object, DirectObject.DirectObject ):
             
             if( accType in [ KartDNA.ebType, KartDNA.spType, KartDNA.fwwType, KartDNA.bwwType ] ):
                 texNodePath = getTexCardNode( accID )
-                tex = loader.loadTexture( "phase_6/maps/%s.jpg" % ( texNodePath ),
+                tex = loader.loadTexture( "phase_6/maps/%s.txo" % ( texNodePath ),
                                           "phase_6/maps/%s_a.rgb" % ( texNodePath ) )
             elif( accType == KartDNA.rimsType ):
                 if( accID == InvalidEntry ):
@@ -1379,10 +1379,10 @@ class KartShopGuiMgr( object, DirectObject.DirectObject ):
                         texNodePath = getTexCardNode( getDefaultRim() )
                 else:                
                         texNodePath = getTexCardNode( accID )
-                tex = loader.loadTexture( "phase_6/maps/%s.jpg" % ( texNodePath ),
+                tex = loader.loadTexture( "phase_6/maps/%s.txo" % ( texNodePath ),
                                           "phase_6/maps/%s_a.rgb" % ( texNodePath ) )            
             elif( accType in [ KartDNA.bodyColor, KartDNA.accColor ] ):
-                tex = loader.loadTexture( "phase_6/maps/Kartmenu_paintbucket.jpg",
+                tex = loader.loadTexture( "phase_6/maps/Kartmenu_paintbucket.txo",
                                           "phase_6/maps/Kartmenu_paintbucket_a.rgb" )
                 # Obtain the default color if the item is -1, handle this similar to the
                 # rims.
@@ -1394,10 +1394,10 @@ class KartShopGuiMgr( object, DirectObject.DirectObject ):
                 #pdir(base.localAvatar)
                 kartDecal = getDecalId( base.localAvatar.getKartBodyType() )
                 texNodePath = getTexCardNode( accID )
-                tex = loader.loadTexture( "phase_6/maps/%s.jpg" % (texNodePath) % ( kartDecal ),
+                tex = loader.loadTexture( "phase_6/maps/%s.txo" % (texNodePath) % ( kartDecal ),
                                           "phase_6/maps/%s_a.rgb" % (texNodePath) % ( kartDecal ) )
             else:
-                tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.jpg",
+                tex = loader.loadTexture( "phase_6/maps/NoAccessoryIcon3.txo",
                                           "phase_6/maps/NoAccessoryIcon3_a.rgb" )
 
             # set the mipmaps
