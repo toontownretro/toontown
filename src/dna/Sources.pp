@@ -1,5 +1,4 @@
 #define YACC_PREFIX dnayy
-#define LFLAGS -i
 
 #define USE_PACKAGES freetype
 
@@ -7,12 +6,13 @@
   #define TARGET dnaLoader
   #define LOCAL_LIBS toontownbase
   #define OTHER_LIBS \
-    panda:m pandaexpress:m \
-    interrogatedb:c dconfig:c dtoolconfig:m \
+    panda:m express:c gobj:c pipeline:c putil:c pgraph:c pandaexpress:m linmath:c text:c \
+    pstatclient:c \
+    interrogatedb \
     dtoolutil:c dtoolbase:c dtool:m \
-    prc:c
-  
-  #define COMBINED_SOURCES $[TARGET]_composite1.cxx  $[TARGET]_composite2.cxx
+    prc
+
+  #define BUILDING_DLL BUILDING_TOONTOWN_DNALOADER
 
   #define SOURCES \
      config_dna.h dnaBuildings.h dnaConstants.h dnaCornice.h dnaData.I  \
@@ -27,8 +27,8 @@
      dnaStorage.h dnaStorage.I \
      dnaStreet.h dnaWindow.h lexerDefs.h load_dna_file.h  \
      loaderFileTypeDNA.h parserDefs.h parser.yxx lexer.lxx  \
-    
-  #define INCLUDED_SOURCES \
+
+  #define COMPOSITE_SOURCES \
      config_dna.cxx dnaBuildings.cxx dnaCornice.cxx dnaData.cxx   \
      dnaDoor.cxx dnaGroup.cxx dnaVisGroup.cxx dnaSign.cxx   \
      dnaSignBaseline.cxx dnaSignGraphic.cxx dnaSignText.cxx   \
@@ -70,6 +70,7 @@
   #define OTHER_LIBS \
     express:c pandaexpress:m \
     panda:m \
+	pstatclient:c \
     interrogatedb:c dconfig:c dtoolconfig:m \
     dtoolutil:c dtoolbase:c dtool:m \
     pystub
@@ -78,4 +79,3 @@
     validateSuitPath.cxx
 
 #end test_bin_target
-

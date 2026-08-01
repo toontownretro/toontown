@@ -16,7 +16,7 @@ class DNAStorage;
 //       Class : LoaderFileTypeDNA
 // Description : This defines the Loader interface to read DNA files.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN LoaderFileTypeDNA : public LoaderFileType {
+class EXPCL_TOONTOWN_DNALOADER LoaderFileTypeDNA : public LoaderFileType {
 public:
   LoaderFileTypeDNA();
 

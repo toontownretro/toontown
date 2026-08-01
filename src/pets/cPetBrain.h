@@ -9,7 +9,7 @@
 #include "toontownbase.h"
 #include "nodePath.h"
 
-class EXPCL_TOONTOWN CPetBrain {
+class EXPCL_TOONTOWN_PETS CPetBrain {
 PUBLISHED:
   CPetBrain();
   bool is_attending_us(NodePath &us, NodePath &them);

@@ -24,7 +24,7 @@ BEGIN_PUBLISH
 //               returns the root of a scene graph.  Returns NULL if
 //               the file cannot be read for some reason.
 ////////////////////////////////////////////////////////////////////
-EXPCL_TOONTOWN PT(PandaNode)
+EXPCL_TOONTOWN_DNALOADER PT(PandaNode)
 load_DNA_file(DNAStorage *dna_store,
               const string &filename,
               CoordinateSystem cs = CS_default,
@@ -40,7 +40,7 @@ load_DNA_file(DNAStorage *dna_store,
 //               Returns the DNAData object on success, or NULL if the
 //               file cannot be read for some reason.
 ////////////////////////////////////////////////////////////////////
-EXPCL_TOONTOWN PT(DNAData)
+EXPCL_TOONTOWN_DNALOADER PT(DNAData)
 load_DNA_file_AI(DNAStorage *dna_store,
                  const string &filename,
                  CoordinateSystem cs = CS_default);

@@ -4,13 +4,13 @@
 ////////////////////////////////////////////////////////////////////
 #include "dnaData.h"
 #include "config_dna.h"
-#include "config_util.h"
+#include "config_putil.h"
 
 #include "string_utils.h"
 #include "coordinateSystem.h"
 #include "luse.h"
 #include "dSearchPath.h"
-#include "config_util.h"
+#include "config_putil.h"
 #include "virtualFileSystem.h"
 
 extern int dnayyparse(void);
@@ -35,7 +35,7 @@ TypeHandle DNAData::_type_handle;
 bool DNAData::
 resolve_dna_filename(Filename &dna_filename, const DSearchPath &searchpath) {
   VirtualFileSystem *vfs = VirtualFileSystem::get_global_ptr();
-  
+
   vfs->resolve_filename(dna_filename, searchpath, "dna") ||
     vfs->resolve_filename(dna_filename, get_dna_path(), "dna") ||
     vfs->resolve_filename(dna_filename, get_model_path(), "dna");

@@ -17,10 +17,10 @@
 //       Class : DNASuitPoint
 // Description :
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNASuitPoint : public TypedReferenceCount {
+class EXPCL_TOONTOWN_DNALOADER DNASuitPoint : public TypedReferenceCount {
 
 PUBLISHED:
-  enum DNASuitPointType { 
+  enum DNASuitPointType {
     STREET_POINT,
     FRONT_DOOR_POINT,
     SIDE_DOOR_POINT,

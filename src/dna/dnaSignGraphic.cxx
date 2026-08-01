@@ -61,7 +61,7 @@ NodePath DNASignGraphic::traverse(NodePath &parent, DNAStorage *store, int editi
     node = geom_parent.node();
   }
   if (node->is_geom_node()) {
-    node->set_effect(DecalEffect::make());
+    //node->set_effect(DecalEffect::make());
   }
 
   // Try to find this sign graphic in the node map
@@ -70,7 +70,7 @@ NodePath DNASignGraphic::traverse(NodePath &parent, DNAStorage *store, int editi
   PT(DNASignBaseline) baseline = DCAST(DNASignBaseline, get_parent());
 
   // Use the baseline color, if available:
-  Colorf color = _color;
+  LColorf color = _color;
   if (_use_baseline_color) {
     color = baseline->get_color();
   }
@@ -87,6 +87,7 @@ NodePath DNASignGraphic::traverse(NodePath &parent, DNAStorage *store, int editi
            bl_hpr,
            bl_scale);
   graphic_node_path.set_color(color);
+  graphic_node_path.set_depth_offset(1);
 
   // Traverse each node in our vector
   pvector<PT(DNAGroup)>::iterator i = _group_vector.begin();
@@ -134,13 +135,8 @@ void DNASignGraphic::write(ostream &out, DNAStorage *store, int indent_level) co
       _pos[0] << " " << _pos[1] << " " << _pos[2] << " ]\n";
   }
   if (!_hpr.almost_equal(LVecBase3f::zero())) {
-    if (temp_hpr_fix) {
-      indent(out, indent_level + 1) << "nhpr [ " <<
-        _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
-    } else {
-      indent(out, indent_level + 1) << "hpr [ " <<
-        _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
-    }
+    indent(out, indent_level + 1) << "nhpr [ " <<
+      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
   }
   if (!_scale.almost_equal(LVecBase3f(1.0, 1.0, 1.0))) {
     indent(out, indent_level + 1) << "scale [ " <<

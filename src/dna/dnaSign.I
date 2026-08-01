@@ -5,11 +5,11 @@
 
 
 INLINE void DNASign::
-set_color(const Colorf &color) {
+set_color(const LColorf &color) {
   _color = color;
 }
 
-INLINE Colorf DNASign::
+INLINE LColorf DNASign::
 get_color() const {
   return _color;
 }

@@ -17,7 +17,7 @@
 //       Class : DNAAnimProp
 // Description : An animated prop like a walking hydrant.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNAAnimProp : public DNAProp  {
+class EXPCL_TOONTOWN_DNALOADER DNAAnimProp : public DNAProp  {
 PUBLISHED:
   DNAAnimProp(const string &initial_name = "");
   DNAAnimProp(const DNAAnimProp &anim_prop);

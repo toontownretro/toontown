@@ -13,5 +13,6 @@
 #include "pandabase.h"
 #include "toontownsymbols.h"
 
-#endif
+using namespace std;
 
+#endif

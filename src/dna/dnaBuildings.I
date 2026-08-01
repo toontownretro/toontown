@@ -28,7 +28,7 @@ INLINE float DNAWall::get_height() const {
 //       Access: Public
 //  Description:
 ////////////////////////////////////////////////////////////////////
-INLINE void DNAWall::set_color(const Colorf &color) {
+INLINE void DNAWall::set_color(const LColorf &color) {
   _color = color;
 }
 
@@ -38,7 +38,7 @@ INLINE void DNAWall::set_color(const Colorf &color) {
 //       Access: Public
 //  Description:
 ////////////////////////////////////////////////////////////////////
-INLINE Colorf DNAWall::get_color() const {
+INLINE LColorf DNAWall::get_color() const {
   return _color;
 }
 
@@ -160,7 +160,7 @@ INLINE string DNALandmarkBuilding::get_article() const {
 //       Access: Public
 //  Description:
 ////////////////////////////////////////////////////////////////////
-INLINE void DNALandmarkBuilding::set_wall_color(const Colorf &color) {
+INLINE void DNALandmarkBuilding::set_wall_color(const LColorf &color) {
   _wall_color = color;
 }
 
@@ -170,7 +170,7 @@ INLINE void DNALandmarkBuilding::set_wall_color(const Colorf &color) {
 //       Access: Public
 //  Description:
 ////////////////////////////////////////////////////////////////////
-INLINE Colorf DNALandmarkBuilding::get_wall_color() const {
+INLINE LColorf DNALandmarkBuilding::get_wall_color() const {
   return _wall_color;
 }
 

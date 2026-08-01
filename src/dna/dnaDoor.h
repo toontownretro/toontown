@@ -17,7 +17,7 @@
 //       Class : DNADoor
 // Description : A door
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNADoor : public DNAGroup  {
+class EXPCL_TOONTOWN_DNALOADER DNADoor : public DNAGroup  {
 PUBLISHED:
   DNADoor(const string &initial_name = "");
   DNADoor(const DNADoor &door);
@@ -28,8 +28,8 @@ PUBLISHED:
   void set_code(string code);
   string get_code() const;
 
-  void set_color(const Colorf &color);
-  Colorf get_color() const;
+  void set_color(const LColorf &color);
+  LColorf get_color() const;
 
   static void setup_door(NodePath& door_node_path,
       NodePath& parent, NodePath& door_origin, DNAStorage *store,
@@ -40,7 +40,7 @@ private:
 
 protected:
   string _code;
-  Colorf _color;
+  LColorf _color;
 
 public:
   static TypeHandle get_class_type() {
@@ -67,7 +67,7 @@ private:
 //       Class : DNAFlatDoor
 // Description : A door for a flat buildings
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNAFlatDoor : public DNADoor {
+class EXPCL_TOONTOWN_DNALOADER DNAFlatDoor : public DNADoor {
 PUBLISHED:
   DNAFlatDoor(const string &initial_name = "");
   DNAFlatDoor(const DNAFlatDoor &door);

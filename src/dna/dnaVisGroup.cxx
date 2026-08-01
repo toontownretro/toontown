@@ -65,7 +65,7 @@ int DNAVisGroup::remove_visible(const string &vis_group_name) {
                                     vis_group_name);
   if (i == _vis_vector.end()) {
     dna_cat.warning()
-      << "DNAVisGroup: vis group not found in map: " << vis_group_name << endl;
+      << "DNAVisGroup: vis group not found in map: " << vis_group_name << std::endl;
     return 0;
   }
 
@@ -91,7 +91,7 @@ int DNAVisGroup::get_num_visibles() const {
 //       Access: Public
 //  Description: Return the string name of the ith visible
 ////////////////////////////////////////////////////////////////////
-string DNAVisGroup::get_visible_name(uint i) const {
+string DNAVisGroup::get_visible_name(uint32_t i) const {
   nassertr(i < _vis_vector.size(), "");
   return _vis_vector[i];
 }
@@ -133,7 +133,7 @@ int DNAVisGroup::remove_suit_edge(PT(DNASuitEdge) edge) {
                                     edge);
   if (i == _suit_edge_vector.end()) {
     dna_cat.debug()
-      << "DNASuitEdge: edge not found in vector: " << (*edge) << endl;
+      << "DNASuitEdge: edge not found in vector: " << (*edge) << std::endl;
     return 0;
   }
 
@@ -158,7 +158,7 @@ int DNAVisGroup::get_num_suit_edges() const {
 //       Access: Public
 //  Description: Return the ith edge in the vector
 ////////////////////////////////////////////////////////////////////
-PT(DNASuitEdge) DNAVisGroup::get_suit_edge(uint i) const {
+PT(DNASuitEdge) DNAVisGroup::get_suit_edge(uint32_t i) const {
   nassertr(i < _suit_edge_vector.size(), (DNASuitEdge *)NULL);
   return _suit_edge_vector[i];
 }
@@ -186,7 +186,7 @@ int DNAVisGroup::remove_battle_cell(PT(DNABattleCell) cell) {
                                                  cell);
   if (i == _battle_cell_vector.end()) {
     dna_cat.warning()
-      << "DNABattleCell: cell not found in vector: " << (*cell) << endl;
+      << "DNABattleCell: cell not found in vector: " << (*cell) << std::endl;
     return 0;
   }
 
@@ -211,7 +211,7 @@ int DNAVisGroup::get_num_battle_cells() const {
 //       Access: Public
 //  Description: Return the ith cell in the vector
 ////////////////////////////////////////////////////////////////////
-PT(DNABattleCell) DNAVisGroup::get_battle_cell(uint i) const {
+PT(DNABattleCell) DNAVisGroup::get_battle_cell(uint32_t i) const {
   nassertr(i < _battle_cell_vector.size(), (DNABattleCell *)NULL);
   return _battle_cell_vector[i];
 }

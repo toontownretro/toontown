@@ -117,13 +117,8 @@ void DNAInteractiveProp::write(ostream &out, DNAStorage *store, int indent_level
     _cell_id << " ]\n";
   indent(out, indent_level + 1) << "pos [ " <<
     _pos[0] << " " << _pos[1] << " " << _pos[2] << " ]\n";
-  if (temp_hpr_fix) {
-    indent(out, indent_level + 1) << "nhpr [ " <<
-      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
-  } else {
-    indent(out, indent_level + 1) << "hpr [ " <<
-      _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
-  }
+  indent(out, indent_level + 1) << "nhpr [ " <<
+    _hpr[0] << " " << _hpr[1] << " " << _hpr[2] << " ]\n";
 
   // Only write out scale if it is not unity. This saves uneccessary work
   if (!_scale.almost_equal(LVecBase3f(1.0, 1.0, 1.0))) {

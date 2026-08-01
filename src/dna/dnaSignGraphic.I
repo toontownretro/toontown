@@ -15,12 +15,12 @@ get_code() const {
 }
 
 INLINE void DNASignGraphic::
-set_color(const Colorf &color) {
+set_color(const LColorf &color) {
   _use_baseline_color = false;
   _color = color;
 }
 
-INLINE Colorf DNASignGraphic::
+INLINE LColorf DNASignGraphic::
 get_color() const {
   return _color;
 }

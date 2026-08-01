@@ -21,14 +21,14 @@
 //               height to allow the next wall to be stacked properly
 //               on top
 ////////////////////////////////////////////////////////////////////
-extern float current_wall_height;
+extern EXPCL_TOONTOWN_DNALOADER float current_wall_height;
 
 
 ////////////////////////////////////////////////////////////////////
 //       Class : DNAWall
 // Description : A stackable wall.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNAWall : public DNANode  {
+class EXPCL_TOONTOWN_DNALOADER DNAWall : public DNANode  {
 PUBLISHED:
   DNAWall(const string &initial_name = "");
   DNAWall(const DNAWall &wall);
@@ -42,8 +42,8 @@ PUBLISHED:
   INLINE void set_height(float height);
   INLINE float get_height() const ;
 
-  INLINE void set_color(const Colorf &color);
-  INLINE Colorf get_color() const;
+  INLINE void set_color(const LColorf &color);
+  INLINE LColorf get_color() const;
 
 private:
   virtual DNAGroup* make_copy();
@@ -52,7 +52,7 @@ private:
 private:
   string _code;
   float _height;
-  Colorf _color;
+  LColorf _color;
 
 public:
   static TypeHandle get_class_type() {
@@ -80,7 +80,7 @@ private:
 //       Class : DNAFlatBuilding
 // Description : A flat building.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNAFlatBuilding : public DNANode  {
+class EXPCL_TOONTOWN_DNALOADER DNAFlatBuilding : public DNANode  {
 PUBLISHED:
   DNAFlatBuilding(const string &initial_name = "");
   DNAFlatBuilding(const DNAFlatBuilding &building);
@@ -96,6 +96,7 @@ PUBLISHED:
 protected:
   bool has_door(PT(DNAGroup) group_vector);
   void setup_suit_flat_building(NodePath &parent, DNAStorage *store);
+  void setup_cogdo_flat_building(NodePath &parent, DNAStorage *store);
 
 private:
   virtual DNAGroup* make_copy();
@@ -127,7 +128,7 @@ private:
 //       Class : DNALandmarkBuilding
 // Description : A landmark building.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNALandmarkBuilding : public DNANode  {
+class EXPCL_TOONTOWN_DNALOADER DNALandmarkBuilding : public DNANode  {
 PUBLISHED:
   DNALandmarkBuilding(const string &initial_name = "");
   DNALandmarkBuilding(const DNALandmarkBuilding &building);
@@ -144,8 +145,8 @@ PUBLISHED:
   INLINE void set_code(string code);
   INLINE string get_code() const;
 
-  INLINE void set_wall_color(const Colorf &color);
-  INLINE Colorf get_wall_color() const;
+  INLINE void set_wall_color(const LColorf &color);
+  INLINE LColorf get_wall_color() const;
 
   INLINE void set_building_type(const string& type);
   INLINE string get_building_type() const;
@@ -159,7 +160,7 @@ private:
 
 protected:
   string _code;
-  Colorf _wall_color;
+  LColorf _wall_color;
   string _title;
   string _article;
   string _building_type;

@@ -17,7 +17,7 @@
 //       Class : DNAProp
 // Description : A prop like a tree or fire hydrant.
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNAProp : public DNANode  {
+class EXPCL_TOONTOWN_DNALOADER DNAProp : public DNANode  {
 PUBLISHED:
   DNAProp(const string &initial_name = "");
   DNAProp(const DNAProp &prop);
@@ -28,15 +28,15 @@ PUBLISHED:
   INLINE void set_code(string code);
   INLINE string get_code() const;
 
-  INLINE void set_color(const Colorf &color);
-  INLINE Colorf get_color() const;
+  INLINE void set_color(const LColorf &color);
+  INLINE LColorf get_color() const;
 
 private:
   virtual DNAGroup* make_copy();
 
 protected:
   string _code;
-  Colorf _color;
+  LColorf _color;
 
 public:
   static TypeHandle get_class_type() {

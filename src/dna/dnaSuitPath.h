@@ -19,7 +19,7 @@
 //       Class : DNASuitPath
 // Description :
 ////////////////////////////////////////////////////////////////////
-class EXPCL_TOONTOWN DNASuitPath : public TypedReferenceCount {
+class EXPCL_TOONTOWN_DNALOADER DNASuitPath : public TypedReferenceCount {
 
 PUBLISHED:
   DNASuitPath();

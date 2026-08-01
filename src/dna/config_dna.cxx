@@ -40,6 +40,25 @@ ConfigVariableSearchPath dna_path
 ("dna-path");
 
 ConfigureFn(config_dna) {
+  init_libdna();
+}
+
+const ConfigVariableSearchPath &
+get_dna_path() {
+  return dna_path;
+}
+
+/**
+ *
+ */
+void
+init_libdna() {
+  static bool initialized = false;
+  if (initialized) {
+    return;
+  }
+  initialized = true;
+
   DNAGroup::init_type();
   DNAVisGroup::init_type();
   DNAData::init_type();
@@ -68,9 +87,4 @@ ConfigureFn(config_dna) {
 
   LoaderFileTypeRegistry *reg = LoaderFileTypeRegistry::get_global_ptr();
   reg->register_type(new LoaderFileTypeDNA);
-}
-
-const ConfigVariableSearchPath &
-get_dna_path() {
-  return dna_path;
 }
