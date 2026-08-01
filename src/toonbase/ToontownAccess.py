@@ -1,4 +1,4 @@
-from toontown.toonbase.ToontownModules import listProcessModules
+#from toontown.toonbase.ToontownModules import listProcessModules
 from direct.task import Task
 from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals
@@ -29,7 +29,7 @@ class ToontownAccess:
         return task.again
 
     def getModuleList(self):
-        moduleString = listProcessModules()
+        moduleString = ""#listProcessModules()
         moduleList = []
         if moduleString:
             moduleList = moduleString.split(',')
