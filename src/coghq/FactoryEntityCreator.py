@@ -19,7 +19,7 @@ class FactoryEntityCreator(EntityCreator.EntityCreator):
         
         # create short aliases for EntityCreator create funcs
         nothing = EntityCreator.nothing
-        nonlocal = EntityCreator.nonlocal
+        nonlocalEnt = EntityCreator.nonlocalEnt
 
         self.privRegisterTypes({
             'activeCell': nonlocal,
