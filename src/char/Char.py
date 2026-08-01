@@ -1,10 +1,10 @@
 """Char module: contains the Char class"""
 
 from otp.avatar import Avatar
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.task import Task
 import random
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
 
 AnimDict = {

@@ -1,6 +1,6 @@
 """SafeZoneLoader module: contains the SafeZoneLoader class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from toontown.distributed.ToontownMsgTypes import *
 from toontown.hood import ZoneUtil

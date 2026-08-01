@@ -3,7 +3,7 @@
 from . import ShtikerBook
 from direct.fsm import StateData
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 class ShtikerPage(DirectFrame, StateData.StateData):
     """ShtikerPage class"""

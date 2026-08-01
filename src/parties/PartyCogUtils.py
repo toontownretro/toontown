@@ -6,7 +6,7 @@
 #===============================================================================
 import math
 
-from pandac.PandaModules import NodePath, Point3
+from toontown.toonbase.ToontownModules import NodePath, Point3
 
 from . import PartyGlobals
 

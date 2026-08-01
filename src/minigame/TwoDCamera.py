@@ -1,6 +1,6 @@
 """TwoDCamera module: contains the TwoDCamera class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.task.Task import Task
 from direct.directnotify import DirectNotifyGlobal

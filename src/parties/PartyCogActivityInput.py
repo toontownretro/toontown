@@ -6,7 +6,7 @@
 #===============================================================================
 from direct.showbase.DirectObject import DirectObject
 
-from pandac.PandaModules import ModifierButtons
+from toontown.toonbase.ToontownModules import ModifierButtons
 
 ROTATE_LEFT_KEY = "arrow_left"
 ROTATE_RIGHT_KEY = "arrow_right"

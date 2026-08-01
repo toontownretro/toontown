@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.DistributedObject import DistributedObject
 from toontown.catalog import CatalogItemList
 from toontown.catalog import CatalogItem

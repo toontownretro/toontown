@@ -44,7 +44,7 @@ else:
     
 #persistDirectory = '/c/ttown-persist/english'
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 
 # create a DirectNotify category for the Launcher

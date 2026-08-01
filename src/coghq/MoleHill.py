@@ -1,4 +1,4 @@
-from pandac.PandaModules import NodePath, Point3, CollisionSphere, CollisionNode, Vec4
+from toontown.toonbase.ToontownModules import NodePath, Point3, CollisionSphere, CollisionNode, Vec4
 from direct.interval.IntervalGlobal import Sequence, LerpPosInterval, Parallel, LerpScaleInterval, Track,\
      ParticleInterval, Wait, Func
 from toontown.toonbase import ToontownGlobals

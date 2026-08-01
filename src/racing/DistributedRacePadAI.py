@@ -12,7 +12,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.fsm.FSM import FSM
 from direct.task import Task
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 ##########################################################################
 # Toontown Import Modules

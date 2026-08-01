@@ -6,8 +6,8 @@ from toontown.toonbase import TTLocalizer
 from toontown.estate import PlantingGUI
 from toontown.estate import PlantTreeGUI
 from direct.distributed import DistributedNode
-from pandac.PandaModules import NodePath
-from pandac.PandaModules import Vec3
+from toontown.toonbase.ToontownModules import NodePath
+from toontown.toonbase.ToontownModules import Vec3
 
 class DistributedGardenBox(DistributedLawnDecor.DistributedLawnDecor):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedGardenPlot')

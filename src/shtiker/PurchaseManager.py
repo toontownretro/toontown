@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from .PurchaseManagerConstants import *
 from direct.distributed.ClockDelta import *
 from direct.distributed import DistributedObject

@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from . import FriendsListPanel
 from . import FriendInviter
 from . import FriendInvitee

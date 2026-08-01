@@ -7,10 +7,10 @@
 #-------------------------------------------------------------------------------
 
 # Panda imports
-from pandac.PandaModules import Vec3
-from pandac.PandaModules import OmniBoundingVolume
-from pandac.PandaModules import AlphaTestAttrib
-from pandac.PandaModules import RenderAttrib
+from toontown.toonbase.ToontownModules import Vec3
+from toontown.toonbase.ToontownModules import OmniBoundingVolume
+from toontown.toonbase.ToontownModules import AlphaTestAttrib
+from toontown.toonbase.ToontownModules import RenderAttrib
 from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import globalClockDelta

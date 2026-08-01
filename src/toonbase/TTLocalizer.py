@@ -7,7 +7,7 @@ to use in the game.
 
 # Do not import panda modules because it is not downloaded until Phase 3
 # This file is in phase 2
-from pandac.libpandaexpressModules import *
+from toontown.toonbase.ToontownModules import *
 import string
 import types
 

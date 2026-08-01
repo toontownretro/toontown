@@ -1,7 +1,7 @@
 """
 ToonTown ObjectHandler
 """
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.actor import Actor
 from direct.leveleditor import ObjectGlobals as OG

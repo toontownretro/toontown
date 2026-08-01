@@ -12,8 +12,8 @@ from direct.interval.LerpInterval import LerpScaleInterval
 from direct.interval.MetaInterval import Sequence
 from direct.interval.FunctionInterval import Wait, Func
 
-from pandac.PandaModules import Point3, VBase4
-from pandac.PandaModules import TextNode
+from toontown.toonbase.ToontownModules import Point3, VBase4
+from toontown.toonbase.ToontownModules import TextNode
 
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownIntervals

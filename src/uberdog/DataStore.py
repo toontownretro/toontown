@@ -1,5 +1,5 @@
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import ConfigVariableBool
+from toontown.toonbase.ToontownModules import ConfigVariableBool
 from direct.task import Task
 
 from string import maketrans

@@ -6,7 +6,7 @@
 
 
 
-from pandac.PandaModules import NodePath
+from toontown.toonbase.ToontownModules import NodePath
 
 from toontown.toonbase import ToontownIntervals
 from toontown.toonbase.ToontownTimer import ToontownTimer

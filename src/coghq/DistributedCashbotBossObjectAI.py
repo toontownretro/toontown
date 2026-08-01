@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed import DistributedSmoothNodeAI
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals

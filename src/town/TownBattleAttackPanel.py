@@ -1,5 +1,5 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.directnotify import DirectNotifyGlobal
 import string

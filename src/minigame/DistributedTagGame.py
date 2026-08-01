@@ -1,5 +1,5 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from .DistributedMinigame import *
 from direct.interval.IntervalGlobal import *

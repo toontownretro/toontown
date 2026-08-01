@@ -4,7 +4,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from . import FishGlobals
 from toontown.fishing import DistributedPondBingoManager
-from pandac.PandaModules import Vec3
+from toontown.toonbase.ToontownModules import Vec3
 from direct.task import Task
 
 class DistributedFishingPond(DistributedObject.DistributedObject):

@@ -1,9 +1,9 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.fsm import FSM
 from direct.distributed import DistributedSmoothNode
 from direct.interval.IntervalGlobal import *

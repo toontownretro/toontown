@@ -1,5 +1,5 @@
 from otp.ai.AIBaseGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD

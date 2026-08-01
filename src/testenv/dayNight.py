@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 
 dayMusic = loader.loadMusic("phase_4/audio/bgm/TC_nbrhood.mid")

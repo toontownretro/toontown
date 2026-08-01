@@ -1,6 +1,6 @@
 """PetBrain module: contains the PetBrain class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.PythonUtil import weightedChoice, randFloat, Functor
 from direct.showbase.PythonUtil import list2dict
 from direct.showbase import DirectObject

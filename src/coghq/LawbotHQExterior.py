@@ -5,7 +5,7 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.toonbase import ToontownGlobals
 from toontown.building import Elevator
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.coghq import CogHQExterior
 
 class LawbotHQExterior(CogHQExterior.CogHQExterior):

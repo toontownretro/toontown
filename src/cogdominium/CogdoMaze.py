@@ -5,7 +5,7 @@
 
 
 
-from pandac.PandaModules import NodePath, VBase4
+from toontown.toonbase.ToontownModules import NodePath, VBase4
 
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase.RandomNumGen import RandomNumGen

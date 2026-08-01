@@ -59,7 +59,7 @@ print('ToontownStart: Game2 is finished.')
 # Ok, now we know we are clear from the flash into, fire it up
 print('ToontownStart: Starting the game.')
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 if launcher.isDummy():
     # Create a dummy HTTPClient so we can get that stupid openSSL
@@ -89,7 +89,7 @@ launcher.setPandaErrorCode(7)
 # Make sure we create a ToonBase first
 from . import ToonBase
 ToonBase.ToonBase()
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 if (base.win == None):
     print("Unable to open window; aborting.")
     sys.exit()

@@ -1,6 +1,6 @@
 import MySQLdb
 import direct
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.ShowBase import ShowBase
 from toontown.toonbase import TTLocalizer
 

@@ -1,4 +1,4 @@
-from pandac.PandaModules import Point3
+from toontown.toonbase.ToontownModules import Point3
 
 CogInfoPosTable = {
     "toontown_central_2100_english" : (Point3(-0.3, 0, -0.2)),

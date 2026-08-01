@@ -1,5 +1,5 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.DirectObject import DirectObject
 from direct.directtools.DirectGeometry import *
 from direct.task import Task

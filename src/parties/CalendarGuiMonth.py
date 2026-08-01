@@ -1,7 +1,7 @@
 """CalendarGuiMonth module: contains the CalendarGuiMonth class"""
 import calendar
 from datetime import timedelta, datetime
-from pandac.PandaModules import Vec4, TextNode
+from toontown.toonbase.ToontownModules import Vec4, TextNode
 from direct.gui.DirectGui import DirectFrame, DirectLabel, DirectButton, DirectScrolledList, DGG
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals

@@ -1,6 +1,6 @@
 """LaffMeter module: contains the class definition for handling the laff-o-meter"""
 
-from pandac.PandaModules import Vec4
+from toontown.toonbase.ToontownModules import Vec4
 
 from direct.gui.DirectGui import DirectFrame, DirectLabel
 

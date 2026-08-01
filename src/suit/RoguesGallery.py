@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.fsm import StateData
 from . import Suit
 from . import SuitDNA

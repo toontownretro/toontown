@@ -14,7 +14,7 @@ from direct.interval.SoundInterval import SoundInterval
 from direct.interval.LerpInterval import LerpScaleInterval, LerpFunc
 from direct.directnotify import DirectNotifyGlobal
 
-from pandac.PandaModules import NodePath, Point3, VBase3
+from toontown.toonbase.ToontownModules import NodePath, Point3, VBase3
 
 from toontown.minigame.OrthoDrive import OrthoDrive
 from toontown.minigame.OrthoWalk import OrthoWalk

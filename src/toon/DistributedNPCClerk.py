@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from .DistributedNPCToonBase import *
 from toontown.minigame import ClerkPurchase 
 from toontown.shtiker.PurchaseManagerConstants import *

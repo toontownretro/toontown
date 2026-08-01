@@ -1,5 +1,5 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from . import SafeZoneLoader
 from . import MMPlayground
 from toontown.toonbase import ToontownGlobals

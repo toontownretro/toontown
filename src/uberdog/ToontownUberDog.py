@@ -2,7 +2,7 @@
 The Toontown Uber Distributed Object Globals server.
 """
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 import time
 if __debug__:
     from direct.showbase.PythonUtil import *

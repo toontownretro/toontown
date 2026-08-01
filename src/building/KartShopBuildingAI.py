@@ -10,7 +10,7 @@
 # Panda/Direct Import Modules
 ##########################################################################
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 ##########################################################################
 # Toontwon Import Modules

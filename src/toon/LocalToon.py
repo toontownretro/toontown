@@ -17,7 +17,7 @@ from direct.showbase import PythonUtil
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui import DirectGuiGlobals
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from otp.avatar import LocalAvatar
 from otp.login import LeaveToPayDialog

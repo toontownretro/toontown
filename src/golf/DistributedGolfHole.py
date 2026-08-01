@@ -1,7 +1,7 @@
 import math
 import random
 import time
-from pandac.PandaModules import TextNode, BitMask32, Point3,\
+from toontown.toonbase.ToontownModules import TextNode, BitMask32, Point3,\
      Vec3, Vec4, deg2Rad, Mat3, NodePath, VBase4, \
      OdeTriMeshData, OdeTriMeshGeom, OdeRayGeom, \
      CollisionTraverser, CollisionSegment, CollisionNode, \

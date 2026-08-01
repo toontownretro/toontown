@@ -7,7 +7,7 @@ import datetime
 from sets import Set
 
 # panda3d imports
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import PythonUtil
 from direct.task import Task
 

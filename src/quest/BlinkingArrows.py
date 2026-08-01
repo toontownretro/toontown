@@ -1,5 +1,5 @@
 from direct.interval.IntervalGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 
 class BlinkingArrows:

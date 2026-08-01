@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.PythonUtil import Enum, invertDictLossless
 import math
 from toontown.toonbase import ToontownGlobals

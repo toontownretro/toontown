@@ -1,6 +1,6 @@
 """GenderShop module: contains the GenderShop class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.fsm import StateData
 from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer

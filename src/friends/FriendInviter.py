@@ -1,8 +1,8 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.task.Task import Task
 from toontown.toonbase.ToontownGlobals import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State

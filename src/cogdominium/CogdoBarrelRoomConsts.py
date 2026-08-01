@@ -1,6 +1,6 @@
 
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 
 CollectionTime = 30

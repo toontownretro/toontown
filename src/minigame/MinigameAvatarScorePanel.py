@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toon import LaffMeter
 
 class MinigameAvatarScorePanel(DirectFrame):

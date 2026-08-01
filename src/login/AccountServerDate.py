@@ -1,6 +1,6 @@
 """AccountServerDate.py: contains the AccountServerDate class """
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from otp.login.HTTPUtil import *
 from direct.directnotify import DirectNotifyGlobal
 from otp.login import TTAccount

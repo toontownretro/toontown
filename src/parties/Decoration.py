@@ -2,7 +2,7 @@
 # Purpose: A decoration in a party.
 #-------------------------------------------------------------------------------
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.actor import Actor
 from toontown.toonbase import ToontownGlobals

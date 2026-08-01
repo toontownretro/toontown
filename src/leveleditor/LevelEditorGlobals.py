@@ -1,5 +1,5 @@
 import string
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 hoodString = base.config.GetString('level-editor-hoods',
                                        'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA')

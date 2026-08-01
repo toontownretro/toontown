@@ -8,7 +8,7 @@ from toontown.battle import DistributedBattleFinalAI
 from toontown.building import SuitPlannerInteriorAI
 from toontown.battle import BattleBase
 from toontown.coghq import CogDisguiseGlobals
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from . import SuitDNA
 import random
 

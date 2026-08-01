@@ -1,5 +1,5 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.task.Task import Task
 from direct.fsm import StateData
 from direct.showbase import AppRunnerGlobal

@@ -9,7 +9,7 @@ import math
 
 from direct.gui.DirectGui import DirectFrame
 
-from pandac.PandaModules import Point3
+from toontown.toonbase.ToontownModules import Point3
 
 class StretchingArrow(DirectFrame):
     """

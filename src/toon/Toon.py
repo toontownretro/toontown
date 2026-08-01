@@ -9,7 +9,7 @@ from toontown.suit import SuitDNA
 from direct.actor import Actor
 import string
 from .ToonHead import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals

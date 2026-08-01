@@ -10,7 +10,7 @@
 #          DistributedPartyCannonActivity does. 
 #-------------------------------------------------------------------------------
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.distributed.DistributedObject import DistributedObject
 from direct.task.Task import Task

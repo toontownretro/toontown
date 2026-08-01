@@ -1,4 +1,4 @@
-from pandac.PandaModules import VBase4
+from toontown.toonbase.ToontownModules import VBase4
 
 from direct.gui.DirectGui import DirectLabel
 from direct.directnotify.DirectNotifyGlobal import directNotify

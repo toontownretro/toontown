@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.showbase import DirectObject
 from toontown.suit import SuitDNA

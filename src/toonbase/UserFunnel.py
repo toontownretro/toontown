@@ -3,13 +3,13 @@
 import os, sys, socket, random
 from urllib.parse import quote_plus
 
-from pandac.PandaModules import HTTPClient
-from pandac.PandaModules import HTTPCookie
-from pandac.PandaModules import URLSpec
-from pandac.PandaModules import Ramfile
-from pandac.PandaModules import Ostream
-from pandac.PandaModules import HTTPDate
-from pandac.PandaModules import DocumentSpec
+from toontown.toonbase.ToontownModules import HTTPClient
+from toontown.toonbase.ToontownModules import HTTPCookie
+from toontown.toonbase.ToontownModules import URLSpec
+from toontown.toonbase.ToontownModules import Ramfile
+from toontown.toonbase.ToontownModules import Ostream
+from toontown.toonbase.ToontownModules import HTTPDate
+from toontown.toonbase.ToontownModules import DocumentSpec
 from direct.task.Task import Task
 
 from direct.directnotify.DirectNotifyGlobal import directNotify

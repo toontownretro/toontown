@@ -8,7 +8,7 @@ if __name__ == '__main__':
     print('code redemption subprocess starting...')
 
     import direct
-    from pandac.PandaModules import *
+    from toontown.toonbase.ToontownModules import *
     from direct.showbase.ShowBase import ShowBase
     #showbase = ShowBase(fStartDirect=False, windowType='none')
     config = getConfigShowbase()

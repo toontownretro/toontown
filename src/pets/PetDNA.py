@@ -1,5 +1,5 @@
 from toontown.toon import ToonDNA
-from pandac.PandaModules import VBase4
+from toontown.toonbase.ToontownModules import VBase4
 from toontown.toonbase import  TTLocalizer, ToontownGlobals
 from direct.showbase import PythonUtil
 

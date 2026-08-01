@@ -1,4 +1,4 @@
-from pandac import PandaModules as PM
+from toontown.toonbase import ToontownModules as PM
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from toontown.cogdominium.DistCogdoLevelGameAI import DistCogdoLevelGameAI
 from toontown.cogdominium.DistCogdoCraneAI import DistCogdoCraneAI

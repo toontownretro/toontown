@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toon import Toon
 from toontown.hood import Place
 

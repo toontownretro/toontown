@@ -4,20 +4,20 @@ import array, sys
 from direct.showbase.DirectObject import DirectObject
 from direct.task.Task import Task
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import Texture
-from pandac.PandaModules import CardMaker
-from pandac.PandaModules import NodePath
-from pandac.PandaModules import Point3,Vec3,Vec4,VBase4D, Point2
-from pandac.PandaModules import PNMImage
-from pandac.PandaModules import TextureStage
-from pandac.PandaModules import Texture
-from pandac.PandaModules import WindowProperties
+from toontown.toonbase.ToontownModules import Texture
+from toontown.toonbase.ToontownModules import CardMaker
+from toontown.toonbase.ToontownModules import NodePath
+from toontown.toonbase.ToontownModules import Point3,Vec3,Vec4,VBase4D, Point2
+from toontown.toonbase.ToontownModules import PNMImage
+from toontown.toonbase.ToontownModules import TextureStage
+from toontown.toonbase.ToontownModules import Texture
+from toontown.toonbase.ToontownModules import WindowProperties
 from direct.interval.IntervalGlobal import *
 
 #from toontown.shtiker.pawesomium import *
-from pandac.PandaModules import AwWebView
-from pandac.PandaModules import AwWebCore
-#from pandac.PandaModules import AwWebViewListener
+from toontown.toonbase.ToontownModules import AwWebView
+from toontown.toonbase.ToontownModules import AwWebCore
+#from pandac.PandaModules import import AwWebViewListener
 
 WEB_WIDTH_PIXELS = 784
 WEB_HEIGHT_PIXELS = 451

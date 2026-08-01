@@ -2,7 +2,7 @@
 ToonTown LevelEditor
 """
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.leveleditor.LevelEditorBase import *
 from direct.gui import DirectGui
 from .ObjectMgr import *

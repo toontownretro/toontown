@@ -6,8 +6,8 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
-from pandac.PandaModules import NodePath
-from pandac.PandaModules import Point3
+from toontown.toonbase.ToontownModules import NodePath
+from toontown.toonbase.ToontownModules import Point3
 
 class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedStatuary')

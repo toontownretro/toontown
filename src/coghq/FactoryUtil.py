@@ -1,6 +1,6 @@
 """FactoryUtil module: contains useful stuff for factory mockup"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase import ToontownGlobals

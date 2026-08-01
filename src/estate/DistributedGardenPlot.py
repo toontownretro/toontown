@@ -8,8 +8,8 @@ from toontown.estate import PlantingGUI
 from toontown.estate import PlantTreeGUI
 from toontown.estate import ToonStatueSelectionGUI
 from toontown.toontowngui import TTDialog
-from pandac.PandaModules import Vec4
-from pandac.PandaModules import NodePath
+from toontown.toonbase.ToontownModules import Vec4
+from toontown.toonbase.ToontownModules import NodePath
 import types
 
 

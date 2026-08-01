@@ -2,7 +2,7 @@
     class which represents the client version of
     Minnie's Melodyland safezone."""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from . import Playground
 import random

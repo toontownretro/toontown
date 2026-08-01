@@ -1,5 +1,5 @@
 from . import CatalogItem
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 import types
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator

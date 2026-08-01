@@ -4,8 +4,8 @@
 
 
 
-from pandac.PandaModules import CollisionSphere, CollisionNode
-from pandac.PandaModules import NodePath, BitMask32
+from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode
+from toontown.toonbase.ToontownModules import NodePath, BitMask32
 
 from direct.showbase.DirectObject import DirectObject
 from direct.interval.MetaInterval import Sequence

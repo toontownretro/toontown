@@ -1,6 +1,6 @@
 from direct.gui.DirectGui import *
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.estate import GardenGlobals
 from toontown.estate import PlantingGUI
 from toontown.toonbase import TTLocalizer

@@ -5,7 +5,7 @@
 
 
 
-from pandac.PandaModules import AudioSound
+from toontown.toonbase.ToontownModules import AudioSound
 
 from direct.interval.SoundInterval import SoundInterval
 

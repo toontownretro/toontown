@@ -1,5 +1,5 @@
 import os, sys, webbrowser, string, direct
-from pandac.PandaModules import Filename
+from toontown.toonbase.ToontownModules import Filename
 
 def __do_explore(dirname):
     if not os.path.isdir(dirname):

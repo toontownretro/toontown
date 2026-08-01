@@ -7,7 +7,7 @@
 #          they spawn PartyEditorGridElements
 #-------------------------------------------------------------------------------
 
-from pandac.PandaModules import Vec3
+from toontown.toonbase.ToontownModules import Vec3
 
 from direct.gui.DirectGui import DirectButton, DirectLabel
 from direct.gui import DirectGuiGlobals

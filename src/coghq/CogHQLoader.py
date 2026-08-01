@@ -8,7 +8,7 @@ from toontown.hood import QuietZoneState
 from toontown.hood import ZoneUtil
 from toontown.town import TownBattle
 from toontown.suit import Suit
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 class CogHQLoader(StateData.StateData):
 

@@ -1,6 +1,6 @@
 import math
 import random
-from pandac.PandaModules import NametagGroup, CFSpeech, VBase3, CollisionPlane, \
+from toontown.toonbase.ToontownModules import NametagGroup, CFSpeech, VBase3, CollisionPlane, \
      CollisionNode, CollisionSphere, CollisionTube, NodePath, Plane, Vec3, Vec2,\
      Point3, BitMask32, CollisionHandlerEvent, TextureStage, VBase4, BoundingSphere
 from direct.interval.IntervalGlobal import Sequence, Wait, Func, LerpHprInterval, \

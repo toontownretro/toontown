@@ -5,10 +5,10 @@
 # Author: shaskell
 ##########################################################################
 
-#from pandac.PandaModules import *
+#from pandac.PandaModules import import *
 from .DistributedNPCToonBase import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from . import NPCToons
 from direct.task.Task import Task
 from toontown.toonbase import TTLocalizer

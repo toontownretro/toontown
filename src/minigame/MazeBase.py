@@ -1,4 +1,4 @@
-from pandac.PandaModules import VBase3
+from toontown.toonbase.ToontownModules import VBase3
 
 from direct.showbase.RandomNumGen import RandomNumGen
 

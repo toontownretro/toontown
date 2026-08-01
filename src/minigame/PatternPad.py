@@ -1,8 +1,8 @@
 """PatternPad module: contains the PatternPad class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 class PatternPad(DirectFrame):
     """PatternPad class: pad used by the pattern matching game

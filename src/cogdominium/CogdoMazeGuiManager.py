@@ -4,7 +4,7 @@
 
 
 
-from pandac.PandaModules import NodePath
+from toontown.toonbase.ToontownModules import NodePath
 
 from direct.interval.MetaInterval import Sequence
 from direct.interval.FunctionInterval import Func

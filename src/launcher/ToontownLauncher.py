@@ -147,7 +147,7 @@ if 1:   # flip this as necessary
 from otp.launcher.LauncherBase import LauncherBase
 from otp.otpbase import OTPLauncherGlobals
 # LauncherBase sets up import path stuff, import Panda after
-from pandac.libpandaexpressModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 
 class ToontownLauncher(LauncherBase):

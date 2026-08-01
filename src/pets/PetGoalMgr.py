@@ -1,6 +1,6 @@
 """PetGoalMgr.py"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import DirectObject
 from direct.showbase.PythonUtil import randFloat, lerp

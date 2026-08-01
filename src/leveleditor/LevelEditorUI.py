@@ -1,5 +1,5 @@
 import os
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.leveleditor.LevelEditorUIBase import *
 from direct.gui import DirectGui
 from .SceneGraphUI import *

@@ -1,11 +1,11 @@
 """ToonBlitzAssetMgr module: contains the ToonBlitzAssetMgr class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.DirectObject import DirectObject
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.minigame import ToonBlitzGlobals, TwoDBlock
-from pandac.PandaModules import CardMaker
+from toontown.toonbase.ToontownModules import CardMaker
 
 class ToonBlitzAssetMgr(DirectObject):
     """

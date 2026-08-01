@@ -1,5 +1,5 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directbase.DirectStart import *
 from direct.showbase.DirectObject import DirectObject
 from .PieMenu import *

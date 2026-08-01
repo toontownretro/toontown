@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.coghq import DistributedHealBarrelAI
 from toontown.coghq import DistributedGagBarrelAI
 

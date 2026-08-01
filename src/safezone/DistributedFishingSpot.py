@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directtools.DirectGeometry import LineNodePath
 
 from direct.distributed import DistributedObject

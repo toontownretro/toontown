@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.task.TaskManagerGlobal import *
 from direct.distributed.ClockDelta import *

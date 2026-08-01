@@ -1,6 +1,6 @@
 
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from . import FishPokerBase
 from . import FishGlobals
 from toontown.toonbase import TTLocalizer

@@ -1,7 +1,7 @@
 from direct.distributed.DistributedObject import DistributedObject
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 
-from pandac.PandaModules import CFSpeech, CFTimeout
+from toontown.toonbase.ToontownModules import CFSpeech, CFTimeout
 
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer

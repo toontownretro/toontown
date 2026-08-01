@@ -1,6 +1,6 @@
 """DistributedCCharBase module: contains the DistributedCCharBase class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from otp.avatar import Avatar
 from libotp import CFQuicktalker

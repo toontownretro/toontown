@@ -1,7 +1,7 @@
 from direct.distributed import DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from . import BuildGeometry
 import random, time
 from math import *

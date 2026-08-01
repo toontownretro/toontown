@@ -1,8 +1,8 @@
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 from toontown.toonbase import ToontownGlobals
 from direct.distributed import DistributedObject

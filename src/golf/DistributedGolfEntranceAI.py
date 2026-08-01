@@ -2,7 +2,7 @@ from direct.distributed import DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.golf import DistributedGolfHoleAI
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 def GE():
     simbase.air.golf = DistributedGolfEntranceAI()

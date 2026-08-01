@@ -4,7 +4,7 @@ from toontown.toonbase import TTLocalizer
 import os
 from direct.showbase import AppRunnerGlobal
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 class PetNameGenerator:
 

@@ -1,6 +1,6 @@
 """ToontownLoader module: contains the extended loader that does wait bars"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.showbase import Loader
 from toontown.toontowngui import ToontownLoadingScreen

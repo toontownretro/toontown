@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
 from toontown.toonbase import ToontownGlobals, TTLocalizer
 from toontown.cogdominium import CogdoBarrelRoomConsts

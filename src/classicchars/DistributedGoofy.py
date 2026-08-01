@@ -1,6 +1,6 @@
 """DistributedGoofy module: contains the DistributedGoofy class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from . import DistributedCCharBase
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State

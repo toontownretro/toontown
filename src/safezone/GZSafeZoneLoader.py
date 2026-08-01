@@ -15,7 +15,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.gui import DirectGui
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 ##########################################################################
 # Toontwon Import Modules

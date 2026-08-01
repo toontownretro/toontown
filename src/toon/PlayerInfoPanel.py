@@ -1,6 +1,6 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 
 from toontown.friends import FriendHandle

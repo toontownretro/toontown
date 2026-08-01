@@ -14,7 +14,7 @@
 
 from direct.controls.ControlManager import CollisionHandlerRayStart
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.task.Task import Task
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase.ShadowPlacer import ShadowPlacer

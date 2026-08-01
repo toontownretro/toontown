@@ -1,7 +1,7 @@
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 import time
 

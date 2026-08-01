@@ -1,6 +1,6 @@
 """House module: contains the House class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import Place

@@ -1,6 +1,6 @@
 """BodyShop module: contains the BodyShop class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toon import ToonDNA
 from direct.fsm import StateData
 from direct.gui.DirectGui import *

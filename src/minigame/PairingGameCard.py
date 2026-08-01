@@ -1,6 +1,6 @@
 from .PlayingCard import PlayingCardNodePath
 from . import PlayingCardGlobals
-from pandac.PandaModules import NodePath, Vec3
+from toontown.toonbase.ToontownModules import NodePath, Vec3
 from direct.interval.IntervalGlobal import LerpHprInterval, Parallel, SoundInterval
 
 

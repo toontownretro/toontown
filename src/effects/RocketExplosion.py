@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.particles import ParticleEffect
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *

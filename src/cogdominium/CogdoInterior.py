@@ -1,4 +1,4 @@
-from pandac.PandaModules import ModelPool, TexturePool
+from toontown.toonbase.ToontownModules import ModelPool, TexturePool
 
 from direct.task.Task import Task
 from direct.directnotify import DirectNotifyGlobal

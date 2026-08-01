@@ -1,7 +1,7 @@
 """QuietZoneState module: contains the quiet state which is used by
    multiple FSMs"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.PythonUtil import Functor, PriorityCallbacks
 from direct.task import Task
 from toontown.distributed.ToontownMsgTypes import *

@@ -6,7 +6,7 @@
 
 import random
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.interval.IntervalGlobal import Sequence, Func, Parallel, Wait, LerpHprInterval, LerpScaleInterval, LerpFunctionInterval
 

@@ -7,7 +7,7 @@
 
 
 
-from pandac.PandaModules import CollisionSphere, CollisionNode, BitMask32, CollisionHandlerEvent, CollisionRay
+from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode, BitMask32, CollisionHandlerEvent, CollisionRay
 
 from toontown.minigame import ArrowKeys
 

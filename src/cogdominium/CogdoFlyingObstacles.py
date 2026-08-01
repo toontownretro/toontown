@@ -15,7 +15,7 @@ from direct.showbase import PythonUtil
 
 
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from toontown.toonbase import ToontownGlobals
 from toontown.suit import Suit
@@ -252,7 +252,7 @@ class CogdoFlyingObstacle(DirectObject):
         messenger.send(CogdoFlyingObstacle.ExitEventName, [self, collEntry])
 
 
-from pandac.PandaModules import TransformState
+from toontown.toonbase.ToontownModules import TransformState
 
 class CogdoFlyingWhirlwind(CogdoFlyingObstacle):
     def __init__(self, index, model, motionPath=None):

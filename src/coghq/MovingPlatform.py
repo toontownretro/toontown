@@ -1,6 +1,6 @@
 """MovingPlatform module: contains the MovingPlatform class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase import DirectObject
 from toontown.toonbase import ToontownGlobals

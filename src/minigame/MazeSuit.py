@@ -4,8 +4,8 @@ from direct.interval.MetaInterval import Parallel
 from direct.interval.LerpInterval import LerpPosInterval, LerpHprInterval
 from direct.showbase.RandomNumGen import RandomNumGen
 
-from pandac.PandaModules import Point3, WaitInterval
-from pandac.PandaModules import CollisionSphere, CollisionNode
+from toontown.toonbase.ToontownModules import Point3, WaitInterval
+from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode
 
 from toontown.suit import Suit
 from toontown.suit import SuitDNA

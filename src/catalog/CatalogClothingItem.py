@@ -5,7 +5,7 @@ from toontown.toon import ToonDNA
 import random
 from direct.showbase import PythonUtil
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 CTArticle = 0
 CTString = 1

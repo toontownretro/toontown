@@ -3,7 +3,7 @@
 from direct.showbase.DirectObject import DirectObject
 from toontown.toonbase.ToontownGlobals import *
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from . import VineGameGlobals
 from direct.interval.SoundInterval import SoundInterval
 

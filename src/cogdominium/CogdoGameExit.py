@@ -2,7 +2,7 @@
 
 
 
-from pandac.PandaModules import NodePath, Point3
+from toontown.toonbase.ToontownModules import NodePath, Point3
 
 from direct.interval.MetaInterval import Parallel, Sequence
 from direct.interval.SoundInterval import SoundInterval

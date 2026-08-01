@@ -11,7 +11,7 @@
 ##########################################################################
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObject import DistributedObject
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 ##########################################################################
 # Toontwon Import Modules

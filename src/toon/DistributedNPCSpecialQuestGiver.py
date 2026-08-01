@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from .DistributedNPCToonBase import *
 from toontown.quest import QuestParser
 from toontown.quest import QuestChoiceGui

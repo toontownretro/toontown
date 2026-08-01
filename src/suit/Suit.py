@@ -64,12 +64,12 @@ from direct.actor import Actor
 from otp.avatar import Avatar
 from . import SuitDNA
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.battle import SuitBattleGlobals
 from direct.task.Task import Task
 from toontown.battle import BattleProps
 from toontown.toonbase import TTLocalizer
-from pandac.PandaModules import VirtualFileMountHTTP, VirtualFileSystem, Filename, DSearchPath
+from toontown.toonbase.ToontownModules import VirtualFileMountHTTP, VirtualFileSystem, Filename, DSearchPath
 from direct.showbase import AppRunnerGlobal
 import string
 import os

@@ -3,7 +3,7 @@ from direct.fsm import FSM
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 
 class ChineseTutorial(DirectFrame, FSM.FSM):

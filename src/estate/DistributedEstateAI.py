@@ -299,7 +299,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
 
         if simbase.wantPets:
             if 0:#__dev__:
-                from pandac.PandaModules import ProfileTimer
+                from toontown.toonbase.ToontownModules import ProfileTimer
                 pt = ProfileTimer()
                 pt.init('estate model load')
                 pt.on()

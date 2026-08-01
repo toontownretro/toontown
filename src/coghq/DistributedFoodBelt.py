@@ -1,4 +1,4 @@
-from pandac.PandaModules import NodePath, Point3, CollisionTube, CollisionNode
+from toontown.toonbase.ToontownModules import NodePath, Point3, CollisionTube, CollisionNode
 from direct.fsm import FSM
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal

@@ -1,6 +1,6 @@
 from direct.gui.DirectGui import DGG, DirectFrame, DirectLabel
 
-from pandac.PandaModules import TextNode
+from toontown.toonbase.ToontownModules import TextNode
 
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownIntervals

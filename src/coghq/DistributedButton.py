@@ -1,8 +1,8 @@
 """ DistributedButton module: contains the DistributedCogHqButton
     class, the client side representation of a DistributedCogHqButtonAI."""
 
-from pandac.PandaModules import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 

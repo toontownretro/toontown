@@ -6,7 +6,7 @@ districts.
 from pickle import loads, dumps
 
 from otp.ai.AIBaseGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from otp.otpbase import OTPGlobals
 
 from otp.uberdog.UberDogUtil import ManagedAsyncRequest

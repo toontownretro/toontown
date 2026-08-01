@@ -1,8 +1,8 @@
 import os
-from pandac.PandaModules import VirtualFileSystem, Filename, DSearchPath
-from pandac.PandaModules import Texture, CardMaker, PNMImage, TextureStage
-from pandac.PandaModules import NodePath
-from pandac.PandaModules import Point2
+from toontown.toonbase.ToontownModules import VirtualFileSystem, Filename, DSearchPath
+from toontown.toonbase.ToontownModules import Texture, CardMaker, PNMImage, TextureStage
+from toontown.toonbase.ToontownModules import NodePath
+from toontown.toonbase.ToontownModules import Point2
 from direct.showbase import DirectObject
 from direct.gui.DirectGui import DirectFrame , DirectButton, DGG, DirectLabel
 from direct.directnotify import DirectNotifyGlobal

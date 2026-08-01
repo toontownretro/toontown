@@ -1,4 +1,4 @@
-from pandac.PandaModules import listProcessModules
+from toontown.toonbase.ToontownModules import listProcessModules
 from direct.task import Task
 from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals

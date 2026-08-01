@@ -1,6 +1,6 @@
 """TwoDBattleMgr module: contains the TwoDBattleMgr class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.DirectObject import DirectObject
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.directnotify import DirectNotifyGlobal

@@ -19,7 +19,7 @@ from direct.showbase import PythonUtil
 
 # Clear the default model extension for AI developers, so they'll know
 # when they screw up and omit it.
-from pandac.PandaModules import loadPrcFileData
+from toontown.toonbase.ToontownModules import loadPrcFileData
 loadPrcFileData("AIStart.py", "default-model-extension")
 
 simbase.mdip = simbase.config.GetString("msg-director-ip", "localhost")

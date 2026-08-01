@@ -1,7 +1,7 @@
 """CalendarGuiDay module: contains the CalendarGuiDay class"""
 import datetime
 import time
-from pandac.PandaModules import TextNode, Vec3, Vec4, PlaneNode, Plane, \
+from toontown.toonbase.ToontownModules import TextNode, Vec3, Vec4, PlaneNode, Plane, \
      Point3
 from direct.gui.DirectGui import DirectFrame, DirectLabel, DirectButton, \
      DirectScrolledList, DGG

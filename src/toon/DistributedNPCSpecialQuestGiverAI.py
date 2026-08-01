@@ -1,7 +1,7 @@
 
 from otp.ai.AIBaseGlobal import *
 from direct.task.Task import Task
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from .DistributedNPCToonBaseAI import *
 from toontown.quest import Quests
 

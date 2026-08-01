@@ -9,11 +9,11 @@
 #-------------------------------------------------------------------------------
 import math
 
-from pandac.PandaModules import CollisionTube
-from pandac.PandaModules import CollisionNode
-from pandac.PandaModules import Point3
-from pandac.PandaModules import VBase3
-from pandac.PandaModules import RopeNode
+from toontown.toonbase.ToontownModules import CollisionTube
+from toontown.toonbase.ToontownModules import CollisionNode
+from toontown.toonbase.ToontownModules import Point3
+from toontown.toonbase.ToontownModules import VBase3
+from toontown.toonbase.ToontownModules import RopeNode
 
 from direct.interval.IntervalGlobal import LerpPosHprInterval
 from direct.interval.IntervalGlobal import LerpPosInterval

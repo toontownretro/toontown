@@ -1,6 +1,6 @@
 """Street module: contains the Street class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.battle.BattleProps import *
 from toontown.battle.BattleSounds import *
 from toontown.distributed.ToontownMsgTypes import *

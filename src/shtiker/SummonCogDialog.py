@@ -1,5 +1,5 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
 from toontown.toonbase import TTLocalizer

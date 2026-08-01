@@ -1,10 +1,10 @@
 """ShardPage module: contains the ShardPage class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from . import ShtikerPage
 from direct.task.Task import Task
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import ZoneUtil

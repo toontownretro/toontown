@@ -1,6 +1,6 @@
 """ConveyorBelt module: contains the ConveyorBelt class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from . import MovingPlatform
 from otp.level import BasicEntities

@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 CRATE_CLEAR   = 0
 CRATE_POWERUP = 1

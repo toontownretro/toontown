@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase import PythonUtil
 from toontown.battle.BattleProps import globalPropPool

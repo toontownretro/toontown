@@ -6,8 +6,8 @@
 #          It loads up the sign and lever (where applicable)
 #-------------------------------------------------------------------------------
 #from pandac.PandaModules import VBase4
-from pandac.PandaModules import CollisionSphere, CollisionNode, CollisionTube
-from pandac.PandaModules import TextNode, NodePath, Vec3, Point3
+from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode, CollisionTube
+from toontown.toonbase.ToontownModules import TextNode, NodePath, Vec3, Point3
 
 from direct.distributed.ClockDelta import globalClockDelta
 #from direct.gui.DirectGui import DirectLabel

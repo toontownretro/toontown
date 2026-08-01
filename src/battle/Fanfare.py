@@ -6,7 +6,7 @@ from toontown.toon.ToonDNA import *
 from toontown.suit.SuitDNA import *
 from direct.particles.ParticleEffect import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from . import MovieUtil
 from . import MovieCamera

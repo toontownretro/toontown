@@ -1,6 +1,6 @@
 """TwoDSectionMgr module: contains the TwoDSectionMgr class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.DirectObject import DirectObject
 from toontown.minigame import ToonBlitzGlobals

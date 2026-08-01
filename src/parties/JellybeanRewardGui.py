@@ -6,7 +6,7 @@
 #-------------------------------------------------------------------------------
 
 # Panda imports
-from pandac.PandaModules import TextNode
+from toontown.toonbase.ToontownModules import TextNode
 from direct.gui.DirectGui import DirectFrame
 from direct.gui.DirectGui import DirectButton
 from direct.gui.DirectGui import DirectLabel

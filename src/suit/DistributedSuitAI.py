@@ -3,7 +3,7 @@
 # AI code should not import ShowBaseGlobal because it creates a graphics window
 # Use AIBaseGlobal instead
 from otp.ai.AIBaseGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.distributed.ClockDelta import *
 
 from otp.avatar import DistributedAvatarAI

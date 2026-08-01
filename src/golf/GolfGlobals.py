@@ -1,6 +1,6 @@
 #from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
-#from pandac.PandaModules import Vec4
+#from pandac.PandaModules import import Vec4
 import random
 
 MAX_PLAYERS_PER_HOLE = 4

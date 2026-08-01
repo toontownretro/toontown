@@ -1,6 +1,6 @@
 """ShuffleButton module: Contains the ShuffleButton Class."""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals

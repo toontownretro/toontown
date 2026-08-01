@@ -1,5 +1,5 @@
 
-from pandac.PandaModules import NodePath, Point3, PlaneNode, TextNode
+from toontown.toonbase.ToontownModules import NodePath, Point3, PlaneNode, TextNode
 
 from direct.interval.IntervalGlobal import *
 from direct.showbase.ShowBase import Plane

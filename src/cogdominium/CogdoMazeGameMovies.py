@@ -4,7 +4,7 @@
 
 
 
-from pandac.PandaModules import NodePath, Point3, PlaneNode
+from toontown.toonbase.ToontownModules import NodePath, Point3, PlaneNode
 from direct.showbase.ShowBase import Plane
 
 from direct.showbase.RandomNumGen import RandomNumGen

@@ -9,7 +9,7 @@ from toontown.toonbase import TTLocalizer
 from . import GardenGlobals
 from . import HouseGlobals
 from direct.task import Task
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from otp.otpbase import OTPGlobals
 from toontown.estate import DistributedLawnDecor
 

@@ -6,7 +6,7 @@ reload(TTChatInputSpeedChat);reload(OTPLocalizerEnglish);reload(OTPLocalizer);re
 """
 
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from otp.speedchat.SpeedChatTypes import *
 from toontown.speedchat.TTSpeedChatTypes import *
 from otp.speedchat.SpeedChat import SpeedChat

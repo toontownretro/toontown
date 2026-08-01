@@ -5,7 +5,7 @@
 # Purpose:
 #-------------------------------------------------------------------------------
 
-from pandac.PandaModules import NodePath
+from toontown.toonbase.ToontownModules import NodePath
 
 from toontown.toonbase import TTLocalizer
 from toontown.parties.DistributedPartyCatchActivity import DistributedPartyCatchActivity

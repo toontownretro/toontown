@@ -9,7 +9,7 @@ from toontown.toonbase import ToontownGlobals
 import math
 import types
 import builtins
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from random import *
 from direct.distributed.PyDatagram import PyDatagram

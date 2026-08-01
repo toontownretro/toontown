@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from . import CatalogAtticItem
 from . import CatalogItem
 from toontown.toonbase import ToontownGlobals

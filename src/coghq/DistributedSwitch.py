@@ -1,8 +1,8 @@
 """ DistributedSwitch module: contains the DistributedSwitch
     class, the client side representation of a DistributedSwitchAI."""
 
-from pandac.PandaModules import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 

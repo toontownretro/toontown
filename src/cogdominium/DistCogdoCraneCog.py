@@ -1,4 +1,4 @@
-from pandac import PandaModules as PM
+from toontown.toonbase import ToontownModules as PM
 from direct.distributed.ClockDelta import globalClockDelta
 from direct.distributed.DistributedObject import DistributedObject
 from direct.interval import IntervalGlobal as IG

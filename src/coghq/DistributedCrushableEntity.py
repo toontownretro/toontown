@@ -1,6 +1,6 @@
 from otp.level import DistributedEntity
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import NodePath
+from toontown.toonbase.ToontownModules import NodePath
 from otp.level import BasicEntities
 
 class DistributedCrushableEntity(DistributedEntity.DistributedEntity,

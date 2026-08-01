@@ -1,8 +1,8 @@
 import os
 import time
 import datetime
-from pandac.PandaModules import Filename, DSearchPath, TextNode
-from pandac.PandaModules import HTTPClient, Ramfile, DocumentSpec
+from toontown.toonbase.ToontownModules import Filename, DSearchPath, TextNode
+from toontown.toonbase.ToontownModules import HTTPClient, Ramfile, DocumentSpec
 from direct.showbase import DirectObject
 from direct.gui.DirectGui import DirectFrame, DGG #, DirectButton, DirectLabel
 from direct.directnotify import DirectNotifyGlobal

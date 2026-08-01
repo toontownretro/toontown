@@ -10,7 +10,7 @@ from direct.showbase import RandomNumGen
 from direct.task.Task import Task
 from direct.distributed.ClockDelta import globalClockDelta
 
-from pandac.PandaModules import Point3, Vec3
+from toontown.toonbase.ToontownModules import Point3, Vec3
 
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownTimer

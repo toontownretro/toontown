@@ -7,9 +7,9 @@
 
 import math
 
-from pandac.PandaModules import NodePath, Vec3
-from pandac.PandaModules import CollisionTraverser, CollisionHandlerQueue
-from pandac.PandaModules import CollisionRay, CollisionNode
+from toontown.toonbase.ToontownModules import NodePath, Vec3
+from toontown.toonbase.ToontownModules import CollisionTraverser, CollisionHandlerQueue
+from toontown.toonbase.ToontownModules import CollisionRay, CollisionNode
 from math import pi, sin, cos
 
 from direct.showbase.PythonUtil import bound as clamp

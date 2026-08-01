@@ -1,4 +1,4 @@
-from pandac.PandaModules import VBase4, VBase3
+from toontown.toonbase.ToontownModules import VBase4, VBase3
 from direct.fsm import FSM
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectButton import DirectButton

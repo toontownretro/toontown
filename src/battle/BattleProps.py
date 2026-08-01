@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.actor import Actor
 from direct.directnotify import DirectNotifyGlobal
 from otp.otpbase import OTPGlobals

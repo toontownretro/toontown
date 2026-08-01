@@ -11,7 +11,7 @@ import datetime
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.LerpInterval import LerpFunc
 
-from pandac.PandaModules import Vec3
+from toontown.toonbase.ToontownModules import Vec3
 
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase.ToontownTimer import ToontownTimer

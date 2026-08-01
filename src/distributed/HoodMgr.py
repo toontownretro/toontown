@@ -1,6 +1,6 @@
 """HoodMgr module: contains the HoodMgr class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase import DirectObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.launcher import DownloadForceAcknowledge

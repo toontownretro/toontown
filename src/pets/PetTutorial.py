@@ -1,5 +1,5 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.fsm import FSM
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals

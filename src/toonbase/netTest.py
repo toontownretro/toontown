@@ -11,7 +11,7 @@
 from .ToonBaseGlobal import *
 from toontown.distributed import ToontownClientRepository
 import os
-from pandac.PandaModules import Filename
+from toontown.toonbase.ToontownModules import Filename
 
 # Start up the client repository
 fname = Filename(os.getenv("TOONTOWN") + "/src/configfiles/toon.dc")

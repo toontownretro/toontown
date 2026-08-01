@@ -4,7 +4,7 @@
 
 
 
-from pandac.PandaModules import Point3, CollisionNode, CollisionSphere, CollisionHandlerEvent
+from toontown.toonbase.ToontownModules import Point3, CollisionNode, CollisionSphere, CollisionHandlerEvent
 
 from direct.interval.IntervalGlobal import Func, Sequence, Wait
 from direct.showbase.PythonUtil import bound as clamp

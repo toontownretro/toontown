@@ -1,6 +1,6 @@
 """ TwoDGameToonSD: contains the twoDgame toon statedata. used by local and remote avatars """
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *

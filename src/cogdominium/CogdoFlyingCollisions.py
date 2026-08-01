@@ -32,7 +32,7 @@
 
 
 from direct.controls.GravityWalker import GravityWalker
-from pandac.PandaModules import CollisionSphere, CollisionNode, BitMask32, CollisionHandlerEvent, CollisionRay, CollisionHandlerGravity, CollisionHandlerFluidPusher, CollisionHandlerPusher
+from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode, BitMask32, CollisionHandlerEvent, CollisionRay, CollisionHandlerGravity, CollisionHandlerFluidPusher, CollisionHandlerPusher
 
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals

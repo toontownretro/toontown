@@ -1,6 +1,6 @@
 """MakeAToon module: contains the MakeAToon class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.distributed.ToontownMsgTypes import *
 from toontown.char import Char
 from otp.avatar import Avatar

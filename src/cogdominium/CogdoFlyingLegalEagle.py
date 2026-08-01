@@ -18,7 +18,7 @@ from direct.interval.IntervalGlobal import Sequence, Parallel, LerpScaleInterval
 from direct.directutil import Mopath
 from direct.showbase.PythonUtil import bound as clamp
 
-from pandac.PandaModules import CollisionSphere, CollisionNode, CollisionTube, CollisionPolygon, Vec3, Point3
+from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode, CollisionTube, CollisionPolygon, Vec3, Point3
 
 from toontown.suit import Suit
 from toontown.suit import SuitDNA

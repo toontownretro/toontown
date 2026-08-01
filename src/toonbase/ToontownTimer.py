@@ -1,5 +1,5 @@
 from otp.otpbase.OTPTimer import OTPTimer
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 class ToontownTimer(OTPTimer):
     """

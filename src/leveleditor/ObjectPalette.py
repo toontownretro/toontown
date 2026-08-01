@@ -2,7 +2,7 @@
 ToonTown Object Palette will be automatically generated while loading storage DNA files
 """
 import builtins, os, glob
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.leveleditor.ObjectPaletteBase import *
 
 class ObjectSuitPoint(ObjectBase):

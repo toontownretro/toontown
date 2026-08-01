@@ -3,7 +3,7 @@
 
 
 
-from pandac.PandaModules import Point3, VBase4
+from toontown.toonbase.ToontownModules import Point3, VBase4
 
 from direct.fsm.FSM import FSM
 from direct.interval.IntervalGlobal import Sequence, Parallel, ActorInterval, Func, Wait, ParticleInterval, Track, LerpColorScaleInterval, LerpScaleInterval, LerpHprInterval

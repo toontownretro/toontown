@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from otp.level.BasicEntities import DistributedNodePathEntity
 from direct.directnotify import DirectNotifyGlobal
 from toontown.coghq import MoleHill

@@ -17,11 +17,11 @@ import getopt
 # Initialize ihooks importer On the production servers, we run genPyCode -n
 # meaning no squeeze, so nobody else does this. When we squeeze, the
 # unpacker does this for us and it does not hurt to do in either case.
-import ihooks
-ihooks.install()
+#import ihooks
+#ihooks.install()
 
 if os.getenv('TTMODELS'):
-    from pandac.PandaModules import getModelPath, Filename
+    from toontown.toonbase.ToontownModules import getModelPath, Filename
     # In the publish environment, TTMODELS won't be on the model
     # path by default, so we always add it there.  In the dev
     # environment, it'll be on the model path already, but it
@@ -156,7 +156,7 @@ logErr = LogAndOutput(sys.__stderr__, log)
 sys.stdout = logOut
 sys.stderr = logErr
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 # Give Panda the same log we use
 nout = MultiplexStream()

@@ -1,6 +1,6 @@
 from otp.ai.AIBase import *
 from direct.distributed.ClockDelta import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.ai.ToontownAIMsgTypes import *
 from direct.distributed import DistributedObjectAI
 from . import DistributedHouseAI
@@ -193,7 +193,7 @@ class DistributedHouseAI(DistributedObjectAI.DistributedObjectAI):
 
         if simbase.wantPets:
             if 0:#__dev__:
-                from pandac.PandaModules import ProfileTimer
+                from toontown.toonbase.ToontownModules import ProfileTimer
                 pt = ProfileTimer()
                 pt.init('house model load')
                 pt.on()

@@ -7,7 +7,7 @@
 #          corresponding text. Currently it only works with Arrow keys.
 #-------------------------------------------------------------------------------
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.showbase.DirectObject import DirectObject
 from direct.gui.DirectGui import DirectButton

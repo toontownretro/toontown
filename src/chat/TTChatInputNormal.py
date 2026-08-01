@@ -1,7 +1,7 @@
 """TTChatInputNormal module: contains the TTChatInputNormal class"""
 
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from otp.chat import ChatInputNormal
 from otp.otpbase import OTPLocalizer
 from otp.otpbase import OTPGlobals

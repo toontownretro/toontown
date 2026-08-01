@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
 from . import CogHood
 from toontown.toonbase import ToontownGlobals, TTLocalizer

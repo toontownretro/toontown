@@ -1,14 +1,14 @@
 #
 #imports
 #
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from otp.avatar import Avatar
 from otp.avatar import AvatarDNA
 from direct.task import Task
 from direct.showbase.MessengerGlobal import *
 import sys
-from pandac.PandaModules import ClockObject
-from pandac.PandaModules import PStatClient
+from toontown.toonbase.ToontownModules import ClockObject
+from toontown.toonbase.ToontownModules import PStatClient
 from ChatManagerGlobal import *
 #
 # globals

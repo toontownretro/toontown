@@ -13,7 +13,7 @@
 #          to enter the next key, otherwise the creation of the pattern times out.
 #-------------------------------------------------------------------------------
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.showbase.DirectObject import DirectObject
 

@@ -5,8 +5,8 @@ from .HouseGlobals import *
 from toontown.effects import DistributedFireworkShow
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-from pandac.PandaModules import CollisionSphere
-from pandac.PandaModules import CollisionNode
+from toontown.toonbase.ToontownModules import CollisionSphere
+from toontown.toonbase.ToontownModules import CollisionNode
 from . import FireworksGui
 
 class DistributedFireworksCannon(DistributedFireworkShow.DistributedFireworkShow):

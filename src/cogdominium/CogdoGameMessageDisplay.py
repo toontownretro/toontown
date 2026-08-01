@@ -9,7 +9,7 @@ from direct.interval.FunctionInterval import Func
 from direct.interval.LerpInterval import LerpFunc
 from direct.interval.MetaInterval import Sequence
 
-from pandac.PandaModules import TextNode
+from toontown.toonbase.ToontownModules import TextNode
 
 from toontown.toonbase import ToontownGlobals
 

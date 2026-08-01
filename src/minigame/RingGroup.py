@@ -1,8 +1,8 @@
 """RingGroup.py: contains the RingGroup class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import NodePath
+from toontown.toonbase.ToontownModules import NodePath
 from . import Ring
 from . import RingTrack
 from . import RingTrackGroup

@@ -19,7 +19,7 @@
 from direct.actor.Actor import Actor
 from direct.task.Task import Task
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from otp.otpbase.OTPBase import OTPBase
 

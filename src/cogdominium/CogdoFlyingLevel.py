@@ -2,8 +2,8 @@
 
 
 
-from pandac.PandaModules import NodePath, Plane, Vec3, Point3
-from pandac.PandaModules import CollisionPlane, CollisionNode
+from toontown.toonbase.ToontownModules import NodePath, Plane, Vec3, Point3
+from toontown.toonbase.ToontownModules import CollisionPlane, CollisionNode
 
 from direct.showbase.RandomNumGen import RandomNumGen
 from direct.showbase.DirectObject import DirectObject

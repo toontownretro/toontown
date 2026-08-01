@@ -1,6 +1,6 @@
 """DistributedMinigameTemplate module: contains the DistributedMinigameTemplate class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from toontown.toonbase.ToontownGlobals import GlobalDialogColor
 from .DistributedMinigame import *

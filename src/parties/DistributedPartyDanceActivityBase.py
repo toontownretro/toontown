@@ -10,7 +10,7 @@
 #-------------------------------------------------------------------------------
 import random
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.interval.FunctionInterval import Wait, Func
 from direct.interval.MetaInterval import Sequence, Parallel

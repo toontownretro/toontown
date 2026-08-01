@@ -1,7 +1,7 @@
 """ DistributedAnimDoor module: contains the DistributedAnimDoor
     class, the client side representation of a 'animated landmark door'."""
 
-from pandac.PandaModules import NodePath, VBase3
+from toontown.toonbase.ToontownModules import NodePath, VBase3
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import  Parallel, Sequence, Wait, \
      HprInterval, LerpHprInterval, SoundInterval

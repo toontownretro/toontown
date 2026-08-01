@@ -9,7 +9,7 @@
 #-------------------------------------------------------------------------------
 import time
 from sets import Set
-from pandac.PandaModules import Vec3,Vec4,Point3,TextNode,VBase4
+from toontown.toonbase.ToontownModules import Vec3,Vec4,Point3,TextNode,VBase4
 
 from direct.gui.DirectGui import DirectFrame,DirectButton,DirectLabel,DirectScrolledList,DirectCheckButton
 from direct.gui import DirectGuiGlobals

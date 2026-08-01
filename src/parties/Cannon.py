@@ -12,7 +12,7 @@
 
 import math
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 
 from direct.interval.MetaInterval import Sequence, Parallel
 from direct.interval.FunctionInterval import Func

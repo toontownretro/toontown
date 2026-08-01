@@ -1,6 +1,6 @@
 """DistributedPetAI module: contains the DistributedPetAI class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.showbase.PythonUtil import weightedChoice, randFloat, lerp
 from direct.showbase.PythonUtil import contains, list2dict, clampScalar
 from direct.directnotify import DirectNotifyGlobal

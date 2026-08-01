@@ -2,7 +2,7 @@
 multipart actors with a simple class"""
 
 import random
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 import random
 from direct.distributed.PyDatagram import PyDatagram

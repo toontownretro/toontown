@@ -1,5 +1,5 @@
 import math
-from pandac.PandaModules import CardMaker, TextNode
+from toontown.toonbase.ToontownModules import CardMaker, TextNode
 from direct.gui.DirectGui import DirectFrame, DirectLabel, DirectButton
 from direct.task import Task
 

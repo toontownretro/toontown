@@ -1,6 +1,6 @@
 """TwoDEnemy module: contains the TwoDEnemy class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase import PythonUtil

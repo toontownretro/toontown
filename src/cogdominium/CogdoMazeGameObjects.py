@@ -4,9 +4,9 @@
 
 
 
-from pandac.PandaModules import CollisionSphere, CollisionTube, CollisionNode
-from pandac.PandaModules import NodePath, BitMask32
-from pandac.PandaModules import Point3, Point4, WaitInterval, Vec3, Vec4
+from toontown.toonbase.ToontownModules import CollisionSphere, CollisionTube, CollisionNode
+from toontown.toonbase.ToontownModules import NodePath, BitMask32
+from toontown.toonbase.ToontownModules import Point3, Point4, WaitInterval, Vec3, Vec4
 
 from direct.interval.IntervalGlobal import LerpScaleInterval, LerpColorScaleInterval, LerpPosInterval, LerpFunc
 from direct.interval.IntervalGlobal import Func, Sequence, Parallel

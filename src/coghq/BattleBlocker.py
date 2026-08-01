@@ -1,7 +1,7 @@
 """BattleBlocker module: contains the BattleBlocker class"""
 
-from pandac.PandaModules import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from otp.level import BasicEntities
 from toontown.toonbase import ToontownGlobals

@@ -1,6 +1,6 @@
 """Stomper module: contains the Stomper class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from .StomperGlobals import *
 from direct.distributed import ClockDelta

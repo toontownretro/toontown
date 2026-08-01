@@ -1,4 +1,4 @@
-from pandac import PandaModules as PM
+from toontown.toonbase import ToontownModules as PM
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.showbase.DirectObject import DirectObject

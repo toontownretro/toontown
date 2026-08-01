@@ -1,4 +1,4 @@
-from pandac.PandaModules import * #for Point3
+from toontown.toonbase.ToontownModules import * #for Point3
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 

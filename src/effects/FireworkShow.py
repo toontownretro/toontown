@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.effects.FireworkGlobals import *
 from toontown.effects.Firework import Firework

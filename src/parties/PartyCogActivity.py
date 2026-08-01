@@ -14,8 +14,8 @@ from direct.distributed.ClockDelta import globalClockDelta
 from direct.showbase.PythonUtil import bound, lerp # bound = clamp function
 from direct.showbase.DirectObject import DirectObject
 
-from pandac.PandaModules import NodePath, Point3, TextNode
-from pandac.PandaModules import CollisionSphere, CollisionNode, CollisionHandlerEvent
+from toontown.toonbase.ToontownModules import NodePath, Point3, TextNode
+from toontown.toonbase.ToontownModules import CollisionSphere, CollisionNode, CollisionHandlerEvent
 
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer

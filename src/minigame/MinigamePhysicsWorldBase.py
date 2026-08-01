@@ -1,5 +1,5 @@
-from pandac.PandaModules import Quat
-from pandac.PandaModules import OdeWorld, OdeSimpleSpace, OdeJointGroup, OdeUtil
+from toontown.toonbase.ToontownModules import Quat
+from toontown.toonbase.ToontownModules import OdeWorld, OdeSimpleSpace, OdeJointGroup, OdeUtil
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import globalClockDelta
 

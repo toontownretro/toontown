@@ -13,9 +13,9 @@
 from direct.showbase.PythonUtil import Enum
 from direct.gui.DirectGui import DirectFrame, DGG
 
-from pandac.PandaModules import Vec2, VBase4D
-from pandac.PandaModules import CardMaker, NodePath
-from pandac.PandaModules import Texture, PNMImage
+from toontown.toonbase.ToontownModules import Vec2, VBase4D
+from toontown.toonbase.ToontownModules import CardMaker, NodePath
+from toontown.toonbase.ToontownModules import Texture, PNMImage
 
 # Default resolution for the mask.  Should be no lower than 32.
 # Larger values decrease performance.

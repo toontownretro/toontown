@@ -12,7 +12,7 @@ from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 from direct.task.Task import Task
 from direct.distributed import ClockDelta
-from pandac.PandaModules import CFSpeech, CFTimeout, Point3
+from toontown.toonbase.ToontownModules import CFSpeech, CFTimeout, Point3
 from toontown.toontowngui import TTDialog
 from otp.otpbase import OTPLocalizer
 from toontown.parties import PartyGlobals

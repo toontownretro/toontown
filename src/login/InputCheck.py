@@ -1,6 +1,6 @@
 """InputCheck module: contains the InputCheck class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 import string
 
 def isValidEmailAddr(addr):

@@ -1,6 +1,6 @@
 ### InventoryBase module: contains the InventoryBase class"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownBattleGlobals import *
 from direct.showbase import DirectObject

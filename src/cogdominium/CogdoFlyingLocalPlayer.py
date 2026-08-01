@@ -11,7 +11,7 @@
 import math
 import random
 
-from pandac.PandaModules import Vec3
+from toontown.toonbase.ToontownModules import Vec3
 
 from direct.showbase import PythonUtil
 from direct.directnotify import DirectNotifyGlobal

@@ -6,7 +6,7 @@ def main(appRunner = None):
     if not appRunner:
         print("Not running in a web environment; using dummyAppRunner.")
         from direct.p3d.AppRunner import dummyAppRunner
-        from pandac.PandaModules import PandaSystem
+        from toontown.toonbase.ToontownModules import PandaSystem
         appRunner = dummyAppRunner()
 
         # In this case, simulate that we've already downloaded tt_3, since

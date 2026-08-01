@@ -1,5 +1,5 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.gui.DirectScrolledList import *
 from toontown.toonbase import ToontownGlobals
 from . import FireworkItemPanel

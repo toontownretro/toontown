@@ -1,6 +1,6 @@
 """RingGameGlobals: contains values shared by server and client ring games"""
 
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 

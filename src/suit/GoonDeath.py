@@ -1,5 +1,5 @@
 from direct.interval.IntervalGlobal import *
-from pandac.PandaModules import *
+from toontown.toonbase.ToontownModules import *
 from direct.particles import ParticleEffect
 from toontown.battle import BattleParticles
 

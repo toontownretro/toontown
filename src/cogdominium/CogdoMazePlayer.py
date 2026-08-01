@@ -4,7 +4,7 @@
 
 
 
-from pandac.PandaModules import Point3, NodePath
+from toontown.toonbase.ToontownModules import Point3, NodePath
 
 from direct.fsm.FSM import FSM
 from direct.interval.IntervalGlobal import ProjectileInterval, Track, ActorInterval
