@@ -3790,7 +3790,7 @@ KartMinLaff = "Il te faut %s rigolpoints pour monter dans ce kart"
 # DistributedElevatorExt.py
 CogsIncExt = " SA"
 CogsIncModifier = "%s"+ CogsIncExt
-CogsInc = string.upper(Cogs) + CogsIncExt
+CogsInc = Cogs.upper() + CogsIncExt
 
 # DistributedKnockKnockDoor.py
 DoorKnockKnock = "Toc, toc."
@@ -5016,7 +5016,7 @@ TownBattleRun = "Revenir en courant au terrain de jeux?"
 
 # TownBattleChooseAvatarPanel.py
 TownBattleChooseAvatarToonTitle = "QUEL TOON ?"
-TownBattleChooseAvatarCogTitle = "QUEL "+ string.upper(Cog) + "?"
+TownBattleChooseAvatarCogTitle = "QUEL "+ Cog.upper() + "?"
 TownBattleChooseAvatarBack = "RETOUR"
 
 #firecogpanel

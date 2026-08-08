@@ -1,5 +1,5 @@
 import random
-from sets import Set
+#from sets import Set
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObjectAI
 from direct.showbase import PythonUtil

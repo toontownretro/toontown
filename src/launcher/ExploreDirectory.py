@@ -8,11 +8,11 @@ def __do_explore(dirname):
     if sys.platform == 'win32':
         url = dirname.replace('\\', '/')
         if len(url) > 1:
-            url = url[0] in string.letters and url[1] == ':' and '/' + url
+            url = url[0] in string.ascii_letters and url[1] == ':' and '/' + url
     else:
         url = dirname
     url = 'file://' + url
-    print(('exploring %s' % url))
+    print('exploring %s' % url)
     webbrowser.open(url, autoraise=True)
     sys.exit(0)
 

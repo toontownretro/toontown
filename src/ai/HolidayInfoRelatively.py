@@ -17,6 +17,7 @@ import calendar
 import random
 import time
 from copy import deepcopy
+import functools
 
 Day = Enum('MONDAY, TUESDAY, WEDNESDAY, THURSDAY, \
             FRIDAY, SATURDAY, SUNDAY')
@@ -46,14 +47,14 @@ class HolidayInfo_Relatively(HolidayInfo_Base):
         HolidayInfo_Base.__init__(self, holidayClass, displayOnCalendar)
 
         dateElemIter = ModifiedIter(dateList)
-        for i in range(len(dateList)/2):
+        for i in range(len(dateList)//2):
             start = dateElemIter.current()
             end = next(dateElemIter)
 
             self.tupleList.append((start, end))
             next(dateElemIter)
 
-        self.tupleList.sort(cmpDates)
+        key = functools.cmp_to_key(cmpDates)
         self.weekDaysInMonth = []                       # A matrix of the number of times a weekday repeats in a month
         self.numDaysCorMatrix = [(28,0), (29, 1),
                             (30, 2), (31, 3)]           # A matrix of the number of weekdays that repeat one extra

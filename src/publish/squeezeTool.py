@@ -317,7 +317,7 @@ def squeeze(app, start, filelist):
     try:
         fp = open(bootstrap)
         s = fp.readline()
-        string.index(s, MAGIC)
+        s.index(MAGIC)
     except IOError:
         pass
     except ValueError:
@@ -347,7 +347,7 @@ def squeeze(app, start, filelist):
     loaderlen = len(loader)
 
     magic = repr(imp.get_magic())
-    version = string.split(sys.version)[0]
+    version = sys.version.split()[0]
 
     #
     # generate script and package files

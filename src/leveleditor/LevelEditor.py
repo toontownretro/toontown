@@ -69,7 +69,7 @@ if sys.argv[1:]:
 else:
     hoodString = base.config.GetString('level-editor-hoods',
                                        'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA')
-    hoods = string.split(hoodString)
+    hoods = hoodString.split()
 
 # Init neighborhood arrays
 NEIGHBORHOODS = []
@@ -930,7 +930,7 @@ class LevelEditor(NodePath, DirectObject):
         # "345:safe_zone:exit_zone"... These are hypotheticals. The main
         # idea is that there are colon separated flags after the initial
         # zone name.
-        return(string.split(groupFullName, ":", 1)[0])
+        return(groupFullName.split(":", 1)[0])
 
     def renameFloorPolys(self, nodeList):
         for i in nodeList:
@@ -1471,7 +1471,7 @@ class LevelEditor(NodePath, DirectObject):
             buildingType = createHeightCode(heightList)
         else:
             # Use specified height list
-            heightList = list(map(string.atof, string.split(buildingType, '_')))
+            heightList = list(map(float, buildingType.split('_')))
             height = calcHeight(heightList)
             # Is this a never before seen height list?  If so, record it.
             try:
@@ -1956,16 +1956,16 @@ class LevelEditor(NodePath, DirectObject):
             # Record bldg/wall
             self.lastBuilding = dnaObject
             self.lastWall = wall
-            if string.find(menuMode,'wall') >= 0:
+            if menuMode.find('wall') >= 0:
                 self.DNATarget = wall
                 self.DNATargetParent = dnaObject
-            elif string.find(menuMode,'door') >= 0:
+            elif menuMode.find('door') >= 0:
                 self.DNATarget = DNAGetChildOfClass(wall, DNA_FLAT_DOOR)
                 self.DNATargetParent = wall
-            elif string.find(menuMode, 'window') >= 0:
+            elif menuMode.find('window') >= 0:
                 self.DNATarget = DNAGetChildOfClass(wall, DNA_WINDOWS)
                 self.DNATargetParent = wall
-            elif string.find(menuMode,'cornice') >= 0:
+            elif menuMode.find('cornice') >= 0:
                 self.DNATarget = DNAGetChildOfClass(wall, DNA_CORNICE)
                 self.DNATargetParent = wall
             else:
@@ -1987,10 +1987,10 @@ class LevelEditor(NodePath, DirectObject):
             # INSERT HERE
             # LANDMARK BUILDING OPERATIONS
             menuMode = self.getLandmarkBuildingMode(dnaObject, modifiers)
-            if string.find(menuMode, 'door') >= 0:
+            if menuMode.find('door') >= 0:
                 self.DNATarget = DNAGetChildOfClass(dnaObject, DNA_DOOR)
                 self.DNATargetParent = dnaObject
-            elif string.find(menuMode, 'sign') >= 0:
+            elif menuMode.find('sign') >= 0:
                 self.DNATarget = DNAGetChildOfClass(dnaObject, DNA_SIGN)
                 self.DNATargetParent = dnaObject
             else:
@@ -2014,10 +2014,10 @@ class LevelEditor(NodePath, DirectObject):
                 menuMode = 'animlist_%s'%dnaObject.getCode()
             else:
                 menuMode = self.getLandmarkBuildingMode(dnaObject, modifiers)
-                if string.find(menuMode, 'door') >= 0:
+                if menuMode.find('door') >= 0:
                     self.DNATarget = DNAGetChildOfClass(dnaObject, DNA_DOOR)
                     self.DNATargetParent = dnaObject
-                elif string.find(menuMode, 'sign') >= 0:
+                elif menuMode.find('sign') >= 0:
                     self.DNATarget = DNAGetChildOfClass(dnaObject, DNA_SIGN)
                     self.DNATargetParent = dnaObject
                 else:
@@ -2033,13 +2033,13 @@ class LevelEditor(NodePath, DirectObject):
         # Set initial state
         state = None
         if self.DNATarget:
-            if string.find(menuMode,'texture') >= 0:
+            if menuMode.find('texture') >= 0:
                 state = self.DNATarget.getCode()
-            elif string.find(menuMode, 'color') >= 0:
+            elif menuMode.find('color') >= 0:
                 state = self.DNATarget.getColor()
                 self.panel.setCurrentColor(state)
                 self.panel.setResetColor(state)
-            elif string.find(menuMode, 'orientation') >= 0:
+            elif menuMode.find('orientation') >= 0:
                 state = self.DNATarget.getCode()[-2:]
             elif menuMode == 'building_width':
                 state = self.DNATarget.getWidth()
@@ -5550,7 +5550,7 @@ class LevelEditorPanel(Pmw.MegaToplevel):
                      baseline.setFlags(flags+flagChar)
             elif flagChar in flags:
                  # Remove the flag:
-                 flags=string.join(flags.split(flagChar), '')
+                 flags = ''.join(flags.split(flagChar))
                  baseline.setFlags(flags)
             self.levelEditor.replaceSelected()
 
@@ -5681,7 +5681,7 @@ class LevelEditorPanel(Pmw.MegaToplevel):
         self.levelEditor.addInteractiveProp(self.interactivePropType)
 
     def updateSelectedWallWidth(self, strVal):
-        self.levelEditor.updateSelectedWallWidth(string.atof(strVal))
+        self.levelEditor.updateSelectedWallWidth(float(strVal))
 
     def setCurrentColor(self, colorVec, fUpdate = 0):
         # Turn on/off update of selected before updating entry

@@ -11,6 +11,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.suit import DistributedSuitAI
 from . import SuitBuildingGlobals
 import types
+import types, functools
 
 class SuitPlannerInteriorAI:
     """
@@ -61,7 +62,7 @@ class SuitPlannerInteriorAI:
         joinChances = []
         for currChance in range( num ):
             joinChances.append( random.randint( 1, 100 ) )
-        joinChances.sort( cmp )
+        joinChances.sort( key = functools.cmp_to_key(cmp) )
         return joinChances
 
     def _genSuitInfos( self, numFloors, bldgLevel, bldgTrack ):
@@ -247,7 +248,7 @@ class SuitPlannerInteriorAI:
             lvlList.append( newLvl )
             
 
-        lvlList.sort( cmp )
+        lvlList.sort( key = functools.cmp_to_key(cmp) )
         self.notify.debug( "LevelList: " + repr( lvlList ) )
         return lvlList
 

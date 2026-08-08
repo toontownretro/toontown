@@ -169,7 +169,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
                 len = random.randrange(1, 20)
                 code = ''
                 while len:
-                    code += random.choice(string.letters)
+                    code += random.choice(string.ascii_letters)
                     len -= 1
             else:
                 code = self._stressTestCode

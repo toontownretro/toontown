@@ -643,7 +643,7 @@ class TTCodeRedemptionDBTester(Job):
                 self._redeemResult = []
                 self._db.redeemCode(codes[1], self.TestRewarder.FakeAvId, self.TestRewarder(),
                                     self._handleRedeemResult)
-                if self._redeemResult[0] != TTCodeRedemptionConsts.RedeemErrors.CodeIsExpired:
+                if self._redeemResult[0] != TTCodeRedemptionConsts.RedeemErrors.CodeIsInactive:
                     self.notify.error('expired code %s was not flagged upon redeem' % (codes[1]))
                 db._testing = False
                 yield None
@@ -1498,7 +1498,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         if not manualCode:
             if len(rows) == 0:
                 # code is expired
-                callback(TTCodeRedemptionConsts.RedeemErrors.CodeIsExpired, 0)
+                callback(TTCodeRedemptionConsts.RedeemErrors.CodeIsInactive, 0)
                 return
 
             redemptions = rows[0]['redemptions']

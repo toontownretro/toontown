@@ -40,7 +40,7 @@ class TTWhiteList(WhiteList, DistributedObject.DistributedObject):
             self.notify.info("Couldn't find whitelist data file!")
 
         data = vfs.readFile(filename, 1)
-        lines = data.split("\n")
+        lines = data.split(b"\n")
 
         WhiteList.__init__(self,lines)
         self.redownloadWhitelist()
@@ -198,7 +198,7 @@ class TTWhiteList(WhiteList, DistributedObject.DistributedObject):
             return
 
         data = vfs.readFile(localFilename, 1)
-        lines = data.split('\n')
+        lines = data.split(b'\n')
 
         self.words = []
         for line in lines:

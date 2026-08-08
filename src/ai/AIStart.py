@@ -22,17 +22,17 @@ from direct.showbase import PythonUtil
 from toontown.toonbase.ToontownModules import loadPrcFileData
 loadPrcFileData("AIStart.py", "default-model-extension")
 
-simbase.mdip = simbase.config.GetString("msg-director-ip", "localhost")
+simbase.mdip = ConfigVariableString("msg-director-ip", "localhost").getValue()
 
 # Now the AI connects directly to the state server instead of the msg director
-simbase.mdport = simbase.config.GetInt("msg-director-port", 6666)
+simbase.mdport = ConfigVariableInt("msg-director-port", 6666).getValue()
 
-simbase.esip = simbase.config.GetString("event-server-ip", "localhost")
-simbase.esport = simbase.config.GetInt("event-server-port", 4343)
+simbase.esip = ConfigVariableString("event-server-ip", "localhost").getValue()
+simbase.esport = ConfigVariableInt("event-server-port", 4343).getValue()
 
 
 districtType = 0
-serverId = simbase.config.GetInt("district-ssid", 20100000)
+serverId = ConfigVariableInt("district-ssid", 20100000).getValue()
 
 for i in range(1, 20+1):
     # always set up for i==1, then take the first district above 1 (if any)
@@ -41,10 +41,10 @@ for i in range(1, 20+1):
             postfix = ''
         else:
             postfix = '-%s' % i
-        districtNumber = simbase.config.GetInt(
+        districtNumber = ConfigVariableInt(
             "district-id%s"%postfix,
-            200000000 + i*1000000)
-        districtName = simbase.config.GetString(
+            200000000 + i*1000000).getValue()
+        districtName = ConfigVariableString(
             "district-name%s"%postfix,
             "%sville" % {1: 'Silly',
                          2: 'Second',
@@ -55,17 +55,69 @@ for i in range(1, 20+1):
                          7: 'Seventh',
                          8: 'Eighth',
                          9: 'Ninth', }.get(i, str(i))
-                         )
-        districtMinChannel = simbase.config.GetInt(
+                         ).getValue()
+        districtMinChannel = ConfigVariableInt(
             "district-min-channel%s"%postfix,
-            200100000 + i*1000000)
-        districtMaxChannel = simbase.config.GetInt(
+            200100000 + i*1000000).getValue()
+        districtMaxChannel = ConfigVariableInt(
             "district-max-channel%s"%postfix,
-            200149999 + i*1000000)
+            200149999 + i*1000000).getValue()
         if i != 1:
             break
 
-print(("-"*30, "creating toontown district %s" % districtNumber, "-"*30))
+"""
+Setup the log files
+We want C++ and Python to both go to the same log so they will be interlaced properly.
+"""
+
+# Will make the log directory if it doesn't exist yet.
+logDir = os.path.join(os.getcwd(), ConfigVariableString("tt-log-ai-base-dir", "toonlog").getValue())
+ltime = time.localtime()
+
+if not os.path.isdir(logDir):
+    print(f"didn't find a log dir, making {logDir}")
+    os.mkdir(logDir)
+
+# date_hour_sequence.log will be added to the logfile name by RotatingLog():
+logfile = os.path.join(logDir, "aidistrict-dev-%02d%02d%02d_%02d%02d%02d.log" % (
+    ltime[0] - 2000,    # year
+    ltime[1],           # month
+    ltime[2],           # day
+    ltime[3],           # hour
+    ltime[4],           # minute
+    ltime[5]            # second
+))
+
+# Redirect Python output and err to the same file
+class LogAndOutput:
+    def __init__(self, orig, log):
+        self.orig = orig
+        self.log = log
+    def write(self, str):
+        self.log.write(str)
+        self.log.flush()
+        self.orig.write(str)
+        self.orig.flush()
+    def flush(self):
+        self.log.flush()
+        self.orig.flush()
+
+log = open(logfile, 'a')
+logOut = LogAndOutput(sys.__stdout__, log)
+logErr = LogAndOutput(sys.__stderr__, log)
+sys.stdout = logOut
+sys.stderr = logErr
+
+from toontown.toonbase.ToontownModules import *
+
+# Give Panda the same log we use
+nout = MultiplexStream()
+Notify.ptr().setOstreamPtr(nout, 0)
+nout.addFile(Filename(logfile))
+nout.addStandardOutput()
+nout.addSystemDebug()
+
+print("-"*30, "creating toontown district %s" % districtNumber, "-"*30)
 
 simbase.air = ToontownAIRepository.ToontownAIRepository(
         simbase.mdip,
@@ -84,10 +136,9 @@ simbase.air = ToontownAIRepository.ToontownAIRepository(
 simbase.aiService = 0
 
 try:
-    simbase.air.fsm.request("districtReset")        
+    simbase.air.fsm.request("districtReset")
     run()
 except:
     info = PythonUtil.describeException()
     simbase.air.writeServerEvent('ai-exception', districtNumber, info)
     raise
-    

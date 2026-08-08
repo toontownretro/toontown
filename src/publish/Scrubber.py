@@ -1139,12 +1139,12 @@ class Scrubber:
         installDir, extractFlag = args
         for filename in filenames:
             fullname = dirname + '/' + filename
-            fullname = string.replace(fullname, '\\', '/')
+            fullname = fullname.replace('\\', '/')
             index = dirname.find(installDir)
             if (index < 0):
                 self.notify.error("installDir not found in dirname")
             relInstallDir = dirname[index:]
-            relInstallDir = string.replace(relInstallDir, '\\', '/')
+            relInstallDir = relInstallDir.replace('\\', '/')
             if os.path.isfile(fullname):
                 self.parseFile(['file', extractFlag, fullname, relInstallDir])
 

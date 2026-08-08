@@ -17,7 +17,7 @@ MAX_AMP = 100
 
 ttmodelsDirectory = Filename.expandFrom("$TTMODELS")
 
-UppercaseColorNames = list(map(string.upper, ColorNames))
+UppercaseColorNames = list(map(str.upper, ColorNames))
 
 dnaDirectory = Filename.expandFrom(base.config.GetString("dna-directory", "$TTMODELS/src/dna"))
         
@@ -221,7 +221,7 @@ class FireworksShow:
         currentT = 0.0
         for line in rawData:
             # First strip whitespace from both ends of line
-            l = string.strip(line)
+            l = line.strip()
             if l and (len(l) > 11):
                 if (l[:11] == 'MUSICFILE: '):
                     self.setMusicFile(l[11:].strip())
@@ -244,7 +244,7 @@ class FireworksShow:
         fwStr = fwStr[lParen + 1: rParen]
         # If its a valid line, split on separator and
         # strip leading/trailing whitespace from each element
-        data = list(map(string.strip, fwStr.split(',')))
+        data = list(map(str.strip, fwStr.split(',')))
         # Try to convert string to firework data
         Z = 50
         Z2 = 70

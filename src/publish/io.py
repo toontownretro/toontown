@@ -119,8 +119,8 @@ Usage:   rename (source, dest)     e.g., rename('*.txt', '*.c')
 
     infiles = glob.glob(source)
     outfiles = []
-    incutindex = string.index(source,'*')
-    outcutindex = string.index(source,'*')
+    incutindex = source.index('*')
+    outcutindex = source.index('*')
     findpattern1 = source[0:incutindex]
     findpattern2 = source[incutindex+1:]
     replpattern1 = dest[0:incutindex]
@@ -130,10 +130,10 @@ Usage:   rename (source, dest)     e.g., rename('*.txt', '*.c')
             newname = re.sub(findpattern1,replpattern1,fname,1)
         if outcutindex < len(dest)-1:
             if incutindex > 0:
-                lastone = string.rfind(newname,replpattern2)
+                lastone = newname.rfind(replpattern2)
                 newname = newname[0:lastone] + re.sub(findpattern2,replpattern2,fname[lastone:],1)
             else:
-                lastone = string.rfind(fname,findpattern2)
+                lastone = fname.rfind(findpattern2)
                 if lastone <> -1:
                     newname = fname[0:lastone]
                     newname = newname + re.sub(findpattern2,replpattern2,fname[lastone:],1)
@@ -170,14 +170,14 @@ Returns: a 1D or 2D list of lists from whitespace delimited text files
     elements = []
     for i in range(len(fnames)):
         file = open(fnames[i])
-        newelements = map(string.split,file.readlines())
+        newelements = map(str.split,file.readlines())
         for i in range(len(newelements)):
             for j in range(len(newelements[i])):
                 try:
-                    newelements[i][j] = string.atoi(newelements[i][j])
+                    newelements[i][j] = int(newelements[i][j])
                 except ValueError:
                     try:
-                        newelements[i][j] = string.atof(newelements[i][j])
+                        newelements[i][j] = float(newelements[i][j])
                     except:
                         pass
         elements = elements + newelements
@@ -205,7 +205,7 @@ Returns: a list of strings, one per line in each text file specified by
     elements = []
     for filename in fnames:
         file = open(filename)
-        newelements = map(string.split,file.readlines())
+        newelements = map(str.split,file.readlines())
         elements = elements + newelements
     return elements
 
@@ -278,11 +278,11 @@ Returns: an array of integers, floats or objects (type='O'), depending on the
         del_list.reverse()
         for i in del_list:
             newelements.pop(i)
-        newelements = map(string.split,newelements)
+        newelements = map(str.split,newelements)
         for i in range(len(newelements)):
             for j in range(len(newelements[i])):
                     try:
-                    newelements[i][j] = string.atof(newelements[i][j])
+                    newelements[i][j] = float(newelements[i][j])
                 except:
                     pass
         elements = elements + newelements
@@ -311,7 +311,7 @@ Returns: None
         raise TypeError, "put() and aput() require 1D or 2D arrays.  Otherwise use some kind of pickling."
     else: # must be a 2D array
         for row in outarray:
-            outfile.write(string.join(map(str,row)))
+            outfile.write(' '.join(map(str, row)))
             outfile.write('\n')
         outfile.close()
     return None
@@ -395,9 +395,9 @@ Usage:  brikget(imfile,unpackstr=N.Int16,shp=None)  default shp: (-1,48,61,51)
         header = imfile[0:-4]+'HEAD'
         lines = open(header).readlines()
         for i in range(len(lines)):
-            if string.find(lines[i],'DATASET_DIMENSIONS') <> -1:
-                dims = string.split(lines[i+2][0:string.find(lines[i+2],' 0')])
-                dims = map(string.atoi,dims)
+            if lines[i].find('DATASET_DIMENSIONS') <> -1:
+                dims = lines[i+2][0:lines[i+2].find(' 0')].split()
+                dims = map(int,dims)
                 break
         dims.reverse()
         shp = [-1]+dims
@@ -544,7 +544,7 @@ Usage:   bput (outarray,filename,writeheader=0,packtype=N.Int16,writetype='wb')
     outfile.close()
     if writeheader == 1:
         try:
-            suffixindex = string.rfind(fname,'.')
+            suffixindex = fname.rfind('.')
             hdrname = fname[0:suffixindex]
         except ValueError:
             hdrname = fname
@@ -591,10 +591,10 @@ Returns: array filled with data in fname
     f.close()
     print fname,'read in.'
     d = d[linestocut:]
-    d = map(string.split,d)
+    d = map(str.split,d)
     print 'Done with string.split on lines.'
     for i in range(len(d)):
-        d[i] = map(string.atoi,d[i])
+        d[i] = map(int,d[i])
     print 'Conversion to ints done.'
     return N.array(d)
 
@@ -742,13 +742,13 @@ Returns: numpy array of specified type
         os.system(cmd)
 
     ## GET NUMBER OF ROWS, COLUMNS AND LINE-LENGTH, USING WC
-    wc = string.split(os.popen("wc "+tmpname).read())
+    wc = os.popen("wc "+tmpname).read().split()
     numlines = int(wc[0]) - lines_to_ignore
     tfp = open(tmpname)
     if lines_to_ignore <> 0:
         for i in range(lines_to_ignore):
             junk = tfp.readline()
-    numcols = len(string.split(tfp.readline())) #int(float(wc[1])/numlines)
+    numcols = len(tfp.readline().split()) #int(float(wc[1])/numlines)
     tfp.close()
 
     ## PREPARE INPUT SPACE
@@ -763,10 +763,10 @@ Returns: numpy array of specified type
     carryover = ''
     while len(d) <> 0:
         d = carryover + data.read(block)
-        cutindex = string.rfind(d,'\n')
+        cutindex = d.rfind('\n')
         carryover = d[cutindex+1:]
         d = d[:cutindex+1]
-        d = map(intype,string.split(d))
+        d = map(intype,d.split())
         a[i:i+len(d)] = d
         i = i + len(d)
     end = time.time()

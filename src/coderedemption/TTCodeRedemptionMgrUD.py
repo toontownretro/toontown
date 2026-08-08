@@ -77,7 +77,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
     class RedeemErrors:
         InvalidCharInAvId = 'AvId can only contain numbers'
-        CodeIsExpired = 'Code is expired'
+        CodeIsInactive = 'Code is expired'
         CodeAlreadyRedeemed = 'Code has already been redeemed'
         AwardCouldntBeGiven = 'Award could not be given, code not processed'
 
@@ -1230,7 +1230,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
     def _doRedeemResult(self, body, replyTo, avId, result, awardMgrResult, values, errors):
         RE = TTCodeRedemptionConsts.RedeemErrors
         errMap = {RE.CodeDoesntExist: self.CodeErrors.InvalidCode,
-                  RE.CodeIsExpired: self.RedeemErrors.CodeIsExpired,
+                  RE.CodeIsInactive: self.RedeemErrors.CodeIsInactive,
                   RE.CodeAlreadyRedeemed: self.RedeemErrors.CodeAlreadyRedeemed,
                   RE.AwardCouldntBeGiven: self.RedeemErrors.AwardCouldntBeGiven,
                   }
@@ -1387,8 +1387,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
                 for char in values.lotName:
                     # lot names can only contain lowercase ASCII letters, numbers, and underscores
-                    if ((char not in (string.letters + string.digits + '_')) or
-                        ((char in string.letters) and (string.upper(char) == char))):
+                    if ((char not in (string.ascii_letters + string.digits + '_')) or
+                        ((char in string.ascii_letters) and (char.upper() == char))):
                         errors.add('lotName', self.CreateErrors.InvalidCharInLotName)
 
                 if values.lotName in self._db.getLotNames():
@@ -1594,7 +1594,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                     else:
                         error = {
                             TTCodeRedemptionConsts.RedeemErrors.CodeDoesntExist: self.CodeErrors.InvalidCode,
-                            TTCodeRedemptionConsts.RedeemErrors.CodeIsExpired: self.RedeemErrors.CodeIsExpired,
+                            TTCodeRedemptionConsts.RedeemErrors.CodeIsInactive: self.RedeemErrors.CodeIsInactive,
                             TTCodeRedemptionConsts.RedeemErrors.CodeAlreadyRedeemed: self.RedeemErrors.CodeAlreadyRedeemed,
                             TTCodeRedemptionConsts.RedeemErrors.AwardCouldntBeGiven: self.RedeemErrors.AwardCouldntBeGiven,
                             }[result]

@@ -9,7 +9,7 @@ from toontown.toonbase import ToontownGlobals
 from . import VineGameGlobals
 from . import VineSpider
 
-class SwingVine(NodePath.NodePath):
+class SwingVine(NodePath):
     notify = DirectNotifyGlobal.directNotify.newCategory('SwingVine')
 
     defaultNormal = Vec3(1,0,0)

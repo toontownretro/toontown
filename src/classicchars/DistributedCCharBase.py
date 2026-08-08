@@ -3,7 +3,7 @@
 from toontown.toonbase.ToontownModules import *
 from direct.interval.IntervalGlobal import *
 from otp.avatar import Avatar
-from libotp import CFQuicktalker
+from panda3d.otp import CFQuicktalker
 from toontown.char import CharDNA
 from toontown.char import DistributedChar
 from direct.directnotify import DirectNotifyGlobal
@@ -279,7 +279,7 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
                 # get the avatar's name
                 avName = avatar.getName()
                 # slap it in
-                str = string.replace(str, '%', avName)
+                str = str.replace('%', avName)
 
             track = Sequence()
 

@@ -7,6 +7,8 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 
+import functools
+
 # locations of the various types of data within the toonAttacks list
 # used when calculating attack damage, accuracy bonus, and damage bonus
 #
@@ -172,7 +174,7 @@ def findToonAttack(toons, attacks, track):
         elif (a[TOON_LVL_COL] < b[TOON_LVL_COL]):
             return -1
         return 0
-    foundAttacks.sort(compFunc)
+    foundAttacks.sort(key = functools.cmp_to_key(compFunc))
     return foundAttacks 
 
 # A little pad time added to server time calculations, to allow for

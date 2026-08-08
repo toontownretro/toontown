@@ -276,8 +276,8 @@ def _ebcdic_to_ascii(s):
             48,49,50,51,52,53,54,55,56,57,250,251,252,253,254,255
             )
         import string
-        _ebcdic_to_ascii_map = string.maketrans( \
-            ''.join(map(chr, list(range(256)))), ''.join(map(chr, emap)))
+        _ebcdic_to_ascii_map = bytes.maketrans( \
+            bytes(range(256)), bytes(emap))
     return s.translate(_ebcdic_to_ascii_map)
 
 _urifixer = re.compile('^([A-Za-z][A-Za-z0-9+-.]*://)(/*)(.*?)')

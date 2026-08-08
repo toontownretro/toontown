@@ -941,7 +941,7 @@ class NameShop(StateData.StateData):
         def match(npcName, name=name):
             # TextEncoder.upper requires encoded strings
             name = TextEncoder().encodeWtext(name)
-            name = string.strip(name)
+            name = name.strip()
             return (TextEncoder.upper(npcName) == TextEncoder.upper(name))
         
         for npcId in list(NPCToons.NPCToonDict.keys()):

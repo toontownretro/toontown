@@ -87,8 +87,8 @@ class WelcomeValleyManagerAI(DistributedObjectAI.DistributedObjectAI):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         
         self.welcomeValleyAllocator = UniqueIdAllocator(
-            ToontownGlobals.WelcomeValleyBegin / 2000,
-            ToontownGlobals.WelcomeValleyEnd / 2000 - 1)
+            ToontownGlobals.WelcomeValleyBegin // 2000,
+            ToontownGlobals.WelcomeValleyEnd // 2000 - 1)
         self.welcomeValleys = {}
         self.avatarZones = {}
 

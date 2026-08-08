@@ -462,7 +462,7 @@ Usage:   list2string (inlist)
 Returns: the string created from inlist
 """
     stringlist = list(map(makestr,inlist))
-    return string.join(stringlist)
+    return stringlist.join()
 
 
 def makelol(inlist):

@@ -538,7 +538,7 @@ if sys.argv[1:]:
 else:
     hoodString = base.config.GetString('level-editor-hoods',
                                        'TT DD BR DG DL MM PA')
-    hoods = string.split(hoodString)
+    hoods = hoodString.split()
 
 # The list of neighborhoods to edit
 hoodIds = {'TT' : 'toontown_central',
@@ -924,7 +924,7 @@ class RobotToonManager(DirectObject):
                         props,pos,hpr,startPos,startHpr,endPos,endHpr,state)
             f.close()
     def parseAvatarProperties(self, line):
-        line = string.strip(line)
+        line = line.strip()
         if line:
             line = line.split('*')
         i = 0
@@ -934,16 +934,16 @@ class RobotToonManager(DirectObject):
             torso = line[i];i+=1
             legs = line[i];i+=1
             gender = line[i];i+=1
-            armColor = string.atoi(line[i]);i+=1
-            gloveColor = string.atoi(line[i]);i+=1
-            legColor = string.atoi(line[i]);i+=1
-            headColor = string.atoi(line[i]);i+=1
-            topTexture = string.atoi(line[i]);i+=1
-            topTextureColor = string.atoi(line[i]);i+=1
-            sleeveTexture = string.atoi(line[i]);i+=1
-            sleeveTextureColor = string.atoi(line[i]);i+=1
-            bottomTexture = string.atoi(line[i]);i+=1
-            bottomTextureColor = string.atoi(line[i]);i+=1
+            armColor = int(line[i]);i+=1
+            gloveColor = int(line[i]);i+=1
+            legColor = int(line[i]);i+=1
+            headColor = int(line[i]);i+=1
+            topTexture = int(line[i]);i+=1
+            topTextureColor = int(line[i]);i+=1
+            sleeveTexture = int(line[i]);i+=1
+            sleeveTextureColor = int(line[i]);i+=1
+            bottomTexture = int(line[i]);i+=1
+            bottomTextureColor = int(line[i]);i+=1
             props = [head, torso, legs, gender,
                     armColor, gloveColor, legColor, headColor,
                     topTexture, topTextureColor, sleeveTexture,
@@ -954,24 +954,24 @@ class RobotToonManager(DirectObject):
             dept = line[i];i+=1
             name = line[i];i+=1
             props = [body, dept, name]
-        x = string.atof(line[i]);i+=1
-        y = string.atof(line[i]);i+=1
-        z = string.atof(line[i]);i+=1
-        h = string.atof(line[i]);i+=1
-        p = string.atof(line[i]);i+=1
-        r = string.atof(line[i]);i+=1
-        x1 = string.atof(line[i]);i+=1
-        y1 = string.atof(line[i]);i+=1
-        z1 = string.atof(line[i]);i+=1
-        h1 = string.atof(line[i]);i+=1
-        p1 = string.atof(line[i]);i+=1
-        r1 = string.atof(line[i]);i+=1
-        x2 = string.atof(line[i]);i+=1
-        y2 = string.atof(line[i]);i+=1
-        z2 = string.atof(line[i]);i+=1
-        h2 = string.atof(line[i]);i+=1
-        p2 = string.atof(line[i]);i+=1
-        r2 = string.atof(line[i]);i+=1
+        x = float(line[i]);i+=1
+        y = float(line[i]);i+=1
+        z = float(line[i]);i+=1
+        h = float(line[i]);i+=1
+        p = float(line[i]);i+=1
+        r = float(line[i]);i+=1
+        x1 = float(line[i]);i+=1
+        y1 = float(line[i]);i+=1
+        z1 = float(line[i]);i+=1
+        h1 = float(line[i]);i+=1
+        p1 = float(line[i]);i+=1
+        r1 = float(line[i]);i+=1
+        x2 = float(line[i]);i+=1
+        y2 = float(line[i]);i+=1
+        z2 = float(line[i]);i+=1
+        h2 = float(line[i]);i+=1
+        p2 = float(line[i]);i+=1
+        r2 = float(line[i]);i+=1
         state = line[i]
         return (type, props,
                 Point3(x,y,z),
@@ -2666,8 +2666,8 @@ class RobotToonControlPanel(AppShell):
         tokens = text.split('x')
         if len(tokens) != 2:
             return
-        width = string.atoi(tokens[0])
-        height = string.atoi(tokens[1])
+        width = int(tokens[0])
+        height = int(tokens[1])
         
         props = WindowProperties(base.win.getProperties())
         props.setSize(width, height)
@@ -2779,7 +2779,7 @@ class RobotToonControlPanel(AppShell):
             self.topsCounter.invoke()
 
     def __switchTops(self, text):
-        value = string.atoi(text)
+        value = int(text)
         if (value < 0) or (value >= len(self.topsVariants)):
             return Pmw.ERROR
         else:
@@ -2807,7 +2807,7 @@ class RobotToonControlPanel(AppShell):
     def __switchBottoms(self, text):
         if not Pmw.integervalidator(text):
             return Pmw.ERROR
-        value = string.atoi(text)
+        value = int(text)
         if (value < 0) or (value >= len(self.bottomsVariants)):
             return Pmw.ERROR
         else:

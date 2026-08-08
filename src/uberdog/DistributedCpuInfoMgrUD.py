@@ -155,7 +155,7 @@ class DistributedCpuInfoMgrUD(DistributedObjectGlobalUD):
             backup = self.filename + '.bu'
             if os.path.exists(self.filename):
                 os.rename(self.filename, backup)
-            file = open(self.filename, 'w')
+            file = open(self.filename, 'wb')
             file.seek(0)
             for fingerprint in self.bannedFingerprints:
                 file.write(fingerprint + '\n')
@@ -187,7 +187,7 @@ class DistributedCpuInfoMgrUD(DistributedObjectGlobalUD):
             # OK, there's no backup file, good.
             try:
                 # Open the real file:
-                file = open(self.filename, 'r')
+                file = open(self.filename, 'rb')
             except IOError:
                 # OK, there's no file.  Grab the default empty set.
                 return set()

@@ -225,7 +225,7 @@ def clear():
 
 def readFile(filename):
     scriptFile = StreamReader(vfs.openReadFile(filename, 1), 1)
-    gen = tokenize.generate_tokens(scriptFile.readline)
+    gen = tokenize.generate_tokens(scriptFile.readlineStr)
     line = getLineOfTokens(gen)
     
     while line is not None:

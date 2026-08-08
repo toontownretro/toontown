@@ -73,7 +73,7 @@ for opt in opts:
     elif (flag == '--district_name'):
         # Convert underbars to spaces
         origDistrictName = value
-        districtName = string.replace(value, "_", " ")
+        districtName = value.replace("_", " ")
     elif (flag == '--logpath'):
         logpath = value
     elif (flag == '--ssid'):

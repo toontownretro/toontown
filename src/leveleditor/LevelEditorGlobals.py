@@ -3,7 +3,7 @@ from toontown.toonbase.ToontownModules import *
 
 hoodString = base.config.GetString('level-editor-hoods',
                                        'TT DD BR DG DL MM CC CL CM CS GS GZ OZ PA')
-hoods = string.split(hoodString)
+hoods = hoodString.split()
 
 # The list of neighborhoods to edit
 HOOD_IDS = {'TT': 'toontown_central',

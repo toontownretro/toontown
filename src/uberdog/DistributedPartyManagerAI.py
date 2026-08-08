@@ -1,7 +1,7 @@
 import random
 import sys
 import time
-from sets import Set
+#from sets import Set
 
 from direct.showbase.PythonUtil import Functor
 from direct.distributed.DistributedObjectAI import DistributedObjectAI

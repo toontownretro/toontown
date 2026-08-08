@@ -10,7 +10,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownTimer
 from . import TravelGameGlobals
 import math
-from pandac.PandaModules   import rad2Deg
+from toontown.toonbase.ToontownModules   import rad2Deg
 from toontown.toontowngui import TTDialog
 
 from direct.interval.IntervalGlobal import *

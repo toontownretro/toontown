@@ -4,6 +4,8 @@ import types
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
 
+import functools
+
 class CatalogItemList:
     """CatalogItemList
 
@@ -216,7 +218,7 @@ class CatalogItemList:
         if cmpfunc == None:
             self.__list.sort()
         else:
-            self.__list.sort(cmpfunc)
+            self.__list.sort(key = functools.cmp_to_key(cmpfunc))
         self.__blob = None
 
     def __len__(self):

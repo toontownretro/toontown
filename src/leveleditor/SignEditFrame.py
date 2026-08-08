@@ -366,7 +366,7 @@ class SignEditFrame(wx.MiniFrame):
                 self.baselineDNA.setFlags(flags+flagChar)
              elif flagChar in flags:
                 # Remove the flag:
-                flags=string.join(flags.split(flagChar), '')
+                flags=''.join(flags.split(flagChar))
                 self.baselineDNA.setFlags(flags)
              self.objNP.replace()
 

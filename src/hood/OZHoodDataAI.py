@@ -223,7 +223,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
 
         #pdb.set_trace()
 
-        if ((isinstance(dnaGroup, DNAGroup)) and (string.find(dnaGroup.getName(), type) >= 0)):
+        if ((isinstance(dnaGroup, DNAGroup)) and (dnaGroup.getName().find(type) >= 0)):
 
             if(type == 'game_table'):
                 nameInfo = dnaGroup.getName().split('_')
@@ -233,7 +233,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
                 for i in range(dnaGroup.getNumChildren()):
                     childDnaGroup = dnaGroup.at(i)
                     # TODO - check if DNAProp instance
-                    if ((string.find(childDnaGroup.getName(), 'game_table') >= 0)):
+                    if ((childDnaGroup.getName().find('game_table') >= 0)):
                         pos = childDnaGroup.getPos()
                         hpr = childDnaGroup.getHpr()
                         break
@@ -267,7 +267,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
        # import pdb; pdb.set_trace()
               
                  
-        if ((isinstance(dnaGroup, DNAGroup)) and (string.find(dnaGroup.getName(), type) >= 0)):
+        if ((isinstance(dnaGroup, DNAGroup)) and (dnaGroup.getName().find(type) >= 0)):
 
             if(type == 'picnic_table'):
                 nameInfo = dnaGroup.getName().split('_')
@@ -277,7 +277,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
                 for i in range(dnaGroup.getNumChildren()):
                     childDnaGroup = dnaGroup.at(i)
                     # TODO - check if DNAProp instance
-                    if ((string.find(childDnaGroup.getName(), 'picnic_table') >= 0)):
+                    if ((childDnaGroup.getName().find('picnic_table') >= 0)):
                         pos = childDnaGroup.getPos()
                         hpr = childDnaGroup.getHpr()
                         break
@@ -361,7 +361,7 @@ class OZHoodDataAI(HoodDataAI.HoodDataAI):
             dnaGroup = dnaRacingPadGroup.at(i)
 
             # TODO - check if DNAProp instance
-            if ((string.find(dnaGroup.getName(), 'starting_block') >= 0)):
+            if ((dnaGroup.getName().find('starting_block') >= 0)):
                 padLocation = dnaGroup.getName().split('_')[2]
                 pos = dnaGroup.getPos()
                 hpr = dnaGroup.getHpr()

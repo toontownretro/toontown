@@ -877,7 +877,7 @@ class MakeAToon(StateData.StateData):
             self.pickedObj = self.pickerQueue.getEntry(0).getIntoNodePath()
 
     def mouseUp(self):
-		self.notify.debug('Mouse 1 Up')
+        self.notify.debug('Mouse 1 Up')
     
     def squishRoom(self, room):
         """

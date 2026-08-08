@@ -13,6 +13,7 @@ class ToontownDistrictAI(DistributedDistrictAI):
     def __init__(self, air, name="untitled"):
         DistributedDistrictAI.__init__(self, air, name)
         self.stats = None
+        self.allowAHNN = 1
         
     def generate(self):        
         DistributedDistrictAI.generate(self)
@@ -25,3 +26,16 @@ class ToontownDistrictAI(DistributedDistrictAI):
         if(self.stats is not None):
             self.stats.requestDelete()
             self.stats = None
+
+    def allowAHNNLog(self, allow):
+        self.allowAHNN = allow
+
+    def d_allowAHNNLog(self, allow):
+        self.sendUpdate("allowAHNNLog", [allow])
+
+    def b_allowAHNNLog(self, allow):
+        self.allowAHNN(allow)
+        self.d_allowAHNN(allow)
+
+    def getAllowAHNNLog(self):
+        return self.allowAHNN

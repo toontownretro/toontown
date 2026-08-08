@@ -982,7 +982,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
             eGroup[entId] = self.specPrePickle(spec)
         try:
             import pickle
-            f = open(filename, 'w')
+            f = open(filename, 'wb')
             pickle.dump(eTree, f)
             pickle.dump(eGroup, f)
         except:
@@ -1026,7 +1026,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
             eGroup[entId] = self.specPrePickle(spec)
         try:
             import pickle
-            f = open(filename, 'w')
+            f = open(filename, 'wb')
             pickle.dump(eTree, f)
             pickle.dump(eGroup, f)
         except:

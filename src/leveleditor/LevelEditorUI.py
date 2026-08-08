@@ -399,15 +399,15 @@ class LevelEditorUI(LevelEditorUIBase):
         elif 'prop' in menuMode:
             dnaType = 'prop'
 
-        if string.find(menuMode,'texture') >= 0:
+        if menuMode.find('texture') >= 0:
             if dnaTarget:
                 state = dnaTarget.getCode()
             action = lambda x: objNP.setDNATargetCode(dnaType, dnaTarget, dnaParent, x)
-        elif string.find(menuMode, 'color') >= 0:
+        elif menuMode.find('color') >= 0:
             if dnaTarget:
                 state = dnaTarget.getColor()
             action = lambda x: objNP.setDNATargetColor(dnaType, dnaTarget, dnaParent, x)
-        elif string.find(menuMode, 'orientation') >= 0:
+        elif menuMode.find('orientation') >= 0:
             if dnaTarget:
                 state = dnaTarget.getCode()[-2:]
             action = lambda x: objNP.setDNATargetOrientation(dnaType, dnaTarget, dnaParent, x)

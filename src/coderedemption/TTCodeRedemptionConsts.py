@@ -1,7 +1,7 @@
 DefaultDbName = 'tt_code_redemption'
 
 RedeemErrors = Enum(
-    'Success, CodeDoesntExist, CodeIsExpired, CodeAlreadyRedeemed, AwardCouldntBeGiven, '
+    'Success, CodeDoesntExist, CodeIsInactive, CodeAlreadyRedeemed, AwardCouldntBeGiven, '
     'TooManyAttempts, SystemUnavailable, ')
 
 # for ~code response

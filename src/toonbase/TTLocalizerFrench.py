@@ -3098,7 +3098,7 @@ ElevatorHopOff = lQuit
 # DistributedElevatorExt.py
 CogsIncExt = ", Inc."
 CogsIncModifier = "%s "+ CogsIncExt
-CogsInc = string.upper(Cogs) + CogsIncExt
+CogsInc = Cogs.upper() + CogsIncExt
 
 # DistributedKnockKnockDoor.py
 DoorKnockKnock = "Toc, toc."
@@ -5239,7 +5239,7 @@ TownBattleRun = "Revenir en courant au terrain de jeux?"
 
 # TownBattleChooseAvatarPanel.py
 TownBattleChooseAvatarToonTitle = "QUEL TOON?"
-TownBattleChooseAvatarCogTitle = "QUEL "+ string.upper(Cog) +"?"
+TownBattleChooseAvatarCogTitle = "QUEL "+ Cog.upper() +"?"
 TownBattleChooseAvatarBack = "RETOUR"
 
 # TownBattleSOSPanel.py

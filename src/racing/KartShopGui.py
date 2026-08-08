@@ -53,7 +53,7 @@ BTA_OPTIONS = PythonUtil.Enum( 'Ok',-1)  #options for "you bought this accessory
 KS_TEXT_SIZE_BIG = TTLocalizer.KSGtextSizeBig
 KS_TEXT_SIZE_SMALL = TTLocalizer.KSGtextSizeSmall
 
-class KartShopGuiMgr( object, DirectObject.DirectObject ):
+class KartShopGuiMgr( DirectObject.DirectObject, object ):
     """
     Purpose: The KartShopGuiMgr provides a high level interface for
     managing the GUI Dialog Menus that are required for purchasing a
@@ -1659,11 +1659,11 @@ class KartShopGuiMgr( object, DirectObject.DirectObject ):
         else: #exitType is the id for a Kart # (exitType == BK_OPTIONS.BuyKart):
             #player is buyin the Kart
             #self.__popDialog()
-	    self.kartID = exitType
-	    if base.localAvatar.hasKart():
-	        self.__doDialog(MENUS.ReturnKart)
-	    else:
-	        self.__doDialog(MENUS.ConfirmBuyKart)
+            self.kartID = exitType
+            if base.localAvatar.hasKart():
+                self.__doDialog(MENUS.ReturnKart)
+            else:
+                self.__doDialog(MENUS.ConfirmBuyKart)
         
     def __handleBuyAccessoryDlg( self, exitType, args=[] ):
         """
@@ -1687,8 +1687,8 @@ class KartShopGuiMgr( object, DirectObject.DirectObject ):
             #messenger.send(self.eventDict['guiDone'])
         else: #exitType is the id for an accessory # (exitType == BK_OPTIONS.BuyKart):
             #player is buyin the Kart    
-	    self.accID = exitType
-	    self.__doDialog( MENUS.ConfirmBuyAccessory )
+            self.accID = exitType
+            self.__doDialog( MENUS.ConfirmBuyAccessory )
             
     def __handleReturnKartDlg( self, exitType, args=[] ):
         """

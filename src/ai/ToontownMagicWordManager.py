@@ -322,7 +322,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
                 
             else:
                 tm.extraSkew = 0.0
-                skew = string.strip(word[5:])
+                skew = word[5:].strip()
                 if skew != "":
                     tm.extraSkew = float(skew)
                 globalClockDelta.clear()
@@ -333,7 +333,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             # of seconds, or with no parameter, report the number of
             # seconds remaining.
             
-            timeout = string.strip(word[7:])
+            timeout = word[7:].strip()
             if timeout != "":
                 seconds = int(timeout)
                 base.cr.stopPeriodTimer()
@@ -869,7 +869,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
         # with the given name.  Returns a list of (name, obj) pairs.
 
         result = []
-        lowerName = string.lower(name)
+        lowerName = name.lower()
 
         for obj in list(base.cr.doId2do.values()):
             className = obj.__class__.__name__
@@ -878,9 +878,9 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
             except:
                 name = className
 
-            if string.lower(name) == lowerName or \
-               string.lower(className) == lowerName or \
-               string.lower(className) == "distributed" + lowerName:
+            if name.lower() == lowerName or \
+               className.lower() == lowerName or \
+               className.lower() == "distributed" + lowerName:
                 result.append((name, obj))
 
         return result
@@ -889,7 +889,7 @@ class ToontownMagicWordManager(MagicWordManager.MagicWordManager):
         # Decompose the string into keywords, and return the
         # corresponding collision bitmask, suitable for passing to
         # NodePath.showCS() or hideCS().
-        words = string.lower(str).split()
+        words = str.lower().split()
         if len(words) == 0:
             return None
 

@@ -8,7 +8,7 @@
 #          displays information about the activities and decorations.
 #-------------------------------------------------------------------------------
 import time
-from sets import Set
+#from sets import Set
 from toontown.toonbase.ToontownModules import Vec3,Vec4,Point3,TextNode,VBase4
 
 from direct.gui.DirectGui import DirectFrame,DirectButton,DirectLabel,DirectScrolledList,DirectCheckButton
@@ -26,7 +26,7 @@ from toontown.parties.PartyEditorGrid import PartyEditorGrid
 from toontown.parties.PartyEditorListElement import PartyEditorListElement
 
 
-class PartyEditor(DirectObject,FSM):
+class PartyEditor(FSM,DirectObject):
     """
     This class creates the grid and scrolled list needed for players to
     drag and drop activities and decorations onto their party grounds.

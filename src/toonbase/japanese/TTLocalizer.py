@@ -5266,7 +5266,7 @@ TownBattleRun = "さっきいたプレイグラウンドへ戻る？"
 
 # TownBattleChooseAvatarPanel.py
 TownBattleChooseAvatarToonTitle = "どのトゥーン？"
-TownBattleChooseAvatarCogTitle = "どの " + string.upper(Cog) + "？"
+TownBattleChooseAvatarCogTitle = "どの " + Cog.upper() + "？"
 TownBattleChooseAvatarBack = lBack
 
 #firecogpanel

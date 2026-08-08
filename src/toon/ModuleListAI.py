@@ -23,7 +23,7 @@ class ModuleList:
         """Load track record data from default location"""
         try:
             # Try to open the backup file:
-            file = open(self.moduleBlacklistFilename + '.bu', 'r')
+            file = open(self.moduleBlacklistFilename + '.bu', 'rb')
             # Remove the (assumed) broken file:
             if os.path.exists(self.moduleBlacklistFilename):
                 os.remove(self.moduleBlacklistFilename)
@@ -31,7 +31,7 @@ class ModuleList:
             # OK, there's no backup file, good.
             try:
                 # Open the real file:
-                file = open(self.moduleBlacklistFilename, 'r')
+                file = open(self.moduleBlacklistFilename, 'rb')
             except IOError:
                 # OK, there's no file.  Grab the default times.
                 return set()
@@ -48,7 +48,7 @@ class ModuleList:
         """Load track record data from default location"""
         try:
             # Try to open the backup file:
-            file = open(self.moduleWhitelistFilename + '.bu', 'r')
+            file = open(self.moduleWhitelistFilename + '.bu', 'rb')
             # Remove the (assumed) broken file:
             if os.path.exists(self.moduleWhitelistFilename):
                 os.remove(self.moduleWhitelistFilename)
@@ -56,7 +56,7 @@ class ModuleList:
             # OK, there's no backup file, good.
             try:
                 # Open the real file:
-                file = open(self.moduleWhitelistFilename, 'r')
+                file = open(self.moduleWhitelistFilename, 'rb')
             except IOError:
                 # OK, there's no file.  Grab the default times.
                 return set()
@@ -89,7 +89,7 @@ class ModuleList:
             backup = self.getWhitelistFilename() + '.bu'
             if os.path.exists(self.getWhitelistFilename()):
                 os.rename(self.getWhitelistFilename(), backup)
-            file = open(self.getWhitelistFilename(), 'w')
+            file = open(self.getWhitelistFilename(), 'wb')
             file.seek(0)
             for whiteModule in self.moduleWhitelist:
                 file.write(whiteModule + '\n')
@@ -107,7 +107,7 @@ class ModuleList:
             backup = self.getBlacklistFilename() + '.bu'
             if os.path.exists(self.getBlacklistFilename()):
                 os.rename(self.getBlacklistFilename(), backup)
-            file = open(self.getBlacklistFilename(), 'w')
+            file = open(self.getBlacklistFilename(), 'wb')
             file.seek(0)
             for blackModule in self.moduleBlacklist:
                 file.write(blackModule + '\n')

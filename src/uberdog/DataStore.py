@@ -2,11 +2,11 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase.ToontownModules import ConfigVariableBool
 from direct.task import Task
 
-from string import maketrans
+#from string import maketrans
 import pickle
 import os
 import sys
-import dbm.ndbm
+import semidbm as dbm
 import time
 
 class DataStore:
@@ -81,7 +81,7 @@ class DataStore:
         if self.wantAnyDbm:
             try:
                 if os.path.exists(self.filepath):
-                    self.data = dbm.ndbm.open(self.filepath,'w')
+                    self.data = dbm.ndbm.open(self.filepath,'wb')
                     self.notify.debug('Opening existing anydbm database at: %s.' % \
                                        (self.filepath,))
                 else:
@@ -95,7 +95,7 @@ class DataStore:
         else:
             try:
                 # Try to open the backup file:
-                file = open(self.filepath + '.bu', 'r')
+                file = open(self.filepath + '.bu', 'rb')
                 self.notify.debug('Opening backup pickle data file at %s.' % \
                                   (self.filepath+'.bu',))
                 # Remove the (assumed) broken file:
@@ -105,7 +105,7 @@ class DataStore:
                 # OK, there's no backup file, good.
                 try:
                     # Open the real file:
-                    file = open(self.filepath, 'r')
+                    file = open(self.filepath, 'rb')
                     self.notify.debug('Opening old pickle data file at %s..' % \
                                       (self.filepath,))
                 except IOError:
@@ -139,7 +139,7 @@ class DataStore:
                     if os.path.exists(self.filepath):
                         os.rename(self.filepath,backuppath)
                         
-                    outfile = open(self.filepath, 'w')
+                    outfile = open(self.filepath, 'wb')
                     pickle.dump(self.data,outfile)
                     outfile.close()
                         
@@ -231,7 +231,7 @@ class DataStore:
         self.close()
         if self.wantAnyDbm:
             lt = time.asctime(time.localtime())
-            trans = maketrans(': ','__')
+            trans = str.maketrans(': ','__')
             t = lt.translate(trans)
             head, tail = os.path.split(self.filepath)
             newFileName = 'UDStoreBak'+t
