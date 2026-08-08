@@ -564,7 +564,7 @@ class ToonBase(OTPBase.OTPBase):
             url = URLSpec(name, 1)
             # Insist on a secure (SSL-wrapped) connection, regardless
             # of what was requested.
-            url.setScheme('s')
+            #url.setScheme('s')
             if not url.hasPort():
                 url.setPort(serverPort)
             serverList.append(url)

@@ -27,6 +27,9 @@ import math
 import time
 import random
 
+# Custom: Fix for modern importing
+from panda3d.toontown import DNASuitPoint
+
 class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
                                 SuitPlannerBase.SuitPlannerBase):
     """
