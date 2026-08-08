@@ -1,5 +1,7 @@
 // See Also: "direct/src/doc/sample.dc"
 
+from direct.distributed import DistributedObjectGlobal
+
 from toontown.ai import WelcomeValleyManager/AI
 from toontown.building import DistributedAnimatedProp/AI
 from toontown.toon import DistributedToon/AI/UD
@@ -11,10 +13,14 @@ from toontown.classicchars import DistributedWitchMinnie/AI
 from toontown.classicchars import DistributedGoofy/AI
 from toontown.classicchars import DistributedSuperGoofy/AI
 from toontown.classicchars import DistributedDaisy/AI
+from toontown.classicchars import DistributedSockHopDaisy/AI
 from toontown.classicchars import DistributedChip/AI
+from toontown.classicchars import DistributedPoliceChip/AI
 from toontown.classicchars import DistributedDale/AI
+from toontown.classicchars import DistributedJailbirdDale/AI
 from toontown.classicchars import DistributedGoofySpeedway/AI
 from toontown.classicchars import DistributedDonald/AI
+from toontown.classicchars import DistributedFrankenDonald/AI
 from toontown.classicchars import DistributedDonaldDock/AI
 from toontown.classicchars import DistributedPluto/AI
 from toontown.classicchars import DistributedWesternPluto/AI
@@ -101,6 +107,7 @@ from toontown.building import DistributedDoor/AI
 from toontown.building import DistributedAnimDoor/AI
 from toontown.estate import DistributedHouseDoor/AI
 from toontown.coghq import DistributedCogHQDoor/AI
+from toontown.coghq import DistributedSellbotHQDoor/AI
 from toontown.toon import DistributedNPCToonBase/AI
 from toontown.toon import DistributedNPCToon/AI
 from toontown.toon import DistributedNPCSpecialQuestGiver/AI
@@ -124,6 +131,7 @@ from toontown.coghq import DistributedLawOfficeElevatorExt/AI
 from toontown.coghq import DistributedLawOfficeElevatorInt/AI
 from toontown.building import DistributedElevatorFloor/AI
 from toontown.building import DistributedBossElevator/AI
+from toontown.building import DistributedVPElevator/AI
 from toontown.building import DistributedCFOElevator/AI
 from toontown.building import DistributedCJElevator/AI
 from toontown.building import DistributedBBElevator/AI
@@ -135,6 +143,7 @@ from toontown.estate import DistributedFurnitureManager/AI
 from toontown.estate import DistributedFurnitureItem/AI
 from toontown.estate import DistributedBank/AI
 from toontown.estate import DistributedCloset/AI
+from toontown.estate import DistributedTrunk/AI
 from toontown.estate import DistributedPhone/AI
 from toontown.effects import DistributedFireworkShow/AI
 from toontown.estate import DistributedFireworksCannon/AI
@@ -174,6 +183,7 @@ from toontown.suit import DistributedGridGoon/AI
 from toontown.coghq import BattleBlocker/AI
 from toontown.ai import DistributedBlackCatMgr/AI
 from toontown.ai import DistributedPolarPlaceEffectMgr/AI
+from toontown.ai import DistributedGreenToonEffectMgr/AI
 from toontown.ai import DistributedResistanceEmoteMgr/AI
 from toontown.ai import DistributedScavengerHuntTarget/AI
 from toontown.ai import DistributedTrickOrTreatTarget/AI
@@ -217,6 +227,7 @@ from toontown.estate import DistributedGagTree/AI
 from toontown.estate import DistributedStatuary/AI
 from toontown.estate import DistributedToonStatuary/AI
 from toontown.estate import DistributedChangingStatuary/AI
+from toontown.estate import DistributedAnimatedStatuary/AI
 from toontown.estate import DistributedPlantBase/AI
 from toontown.estate import DistributedLawnDecor/AI
 from toontown.minigame import DistributedTravelGame/AI
@@ -235,17 +246,25 @@ from toontown.parties import DistributedPartyTeamActivity/AI
 from toontown.parties import DistributedPartyCannon/AI
 from toontown.parties import DistributedPartyCannonActivity/AI
 from toontown.parties import DistributedPartyCatchActivity/AI
+from toontown.parties import DistributedPartyWinterCatchActivity/AI
 from toontown.parties import DistributedPartyCogActivity/AI
+from toontown.parties import DistributedPartyWinterCogActivity/AI
 from toontown.parties import DistributedPartyFireworksActivity/AI
 from toontown.parties import DistributedPartyDanceActivityBase/AI
 from toontown.parties import DistributedPartyDanceActivity/AI
 from toontown.parties import DistributedPartyDance20Activity/AI
+from toontown.parties import DistributedPartyValentineDanceActivity/AI
+from toontown.parties import DistributedPartyValentineDance20Activity/AI
 from toontown.parties import DistributedPartyTrampolineActivity/AI
+from toontown.parties import DistributedPartyValentineTrampolineActivity/AI
 from toontown.parties import DistributedPartyVictoryTrampolineActivity/AI
+from toontown.parties import DistributedPartyWinterTrampolineActivity/AI
 from toontown.parties import DistributedPartyTugOfWarActivity/AI
 from toontown.parties import DistributedPartyJukeboxActivityBase/AI
 from toontown.parties import DistributedPartyJukeboxActivity/AI
 from toontown.parties import DistributedPartyJukebox40Activity/AI
+from toontown.parties import DistributedPartyValentineJukeboxActivity/AI
+from toontown.parties import DistributedPartyValentineJukebox40Activity/AI
 
 
 //from toontown.friends import TTAvatarFriendsManager/UD
@@ -285,10 +304,12 @@ from toontown.uberdog.DistributedPartyManager/AI/UD import DistributedPartyManag
 
 from toontown.rpc.AwardManager/UD import AwardManager/UD
 from toontown.uberdog.DistributedCpuInfoMgr/AI/UD import DistributedCpuInfoMgr/AI/UD
+from toontown.uberdog.DistributedSecurityMgr/AI/UD import DistributedSecurityMgr/AI/UD
 
 from toontown.rpc.RATManager/UD import RATManager/UD
 
 from toontown.uberdog.DistributedInGameNewsMgr/AI/UD import DistributedInGameNewsMgr/AI/UD
+from toontown.uberdog.DistributedWhitelistMgr/AI/UD import DistributedWhitelistMgr/AI/UD
 from toontown.coderedemption.TTCodeRedemptionMgr/AI/UD import TTCodeRedemptionMgr/AI/UD
 from toontown.distributed.NonRepeatableRandomSourceAI import NonRepeatableRandomSourceAI
 from toontown.distributed.NonRepeatableRandomSourceUD import NonRepeatableRandomSourceUD
@@ -300,18 +321,22 @@ from toontown.ai import DistributedSillyMeterMgr/AI
 
 // Cogdominium
 from toontown.cogdominium import DistributedCogdoInterior/AI
+from toontown.cogdominium import DistributedCogdoBattleBldg/AI
 from toontown.cogdominium import DistributedCogdoElevatorExt/AI
 from toontown.cogdominium import DistributedCogdoElevatorInt/AI
 
 // Cogdominium Games
+from toontown.cogdominium import DistributedCogdoBarrel/AI
 from toontown.cogdominium import DistCogdoGame/AI
 from toontown.cogdominium import DistCogdoLevelGame/AI
-from toontown.cogdominium import DistBoardroomGame/AI
+from toontown.cogdominium import DistCogdoBoardroomGame/AI
 from toontown.cogdominium import DistCogdoCraneGame/AI
 from toontown.cogdominium import DistCogdoMazeGame/AI
 from toontown.cogdominium import DistCogdoFlyingGame/AI
 
 from toontown.cogdominium import DistCogdoCrane/AI
+from toontown.cogdominium import DistCogdoCraneMoneyBag/AI
+from toontown.cogdominium import DistCogdoCraneCog/AI
 
 
 //////////////STRUCTS GO HERE
@@ -435,6 +460,7 @@ dclass ToontownDistrict: DistributedDistrict {
 // base:size:resolution
 //.. 0:100:1 == 3x3  interest grids.. with 100x100 size.. numbering starting at 0 ie 0.0 = 0
 ////////////////////////////////////
+  allowAHNNLog(bool allow) broadcast required ram;
 };
 
 dclass ToontownDistrictStats: DistributedObject {
@@ -859,14 +885,22 @@ dclass DistributedGoofy: DistributedCCharBase {
 };
 dclass DistributedDaisy: DistributedCCharBase {
 };
+dclass DistributedSockHopDaisy : DistributedDaisy {
+};
 dclass DistributedChip: DistributedCCharBase {
+};
+dclass DistributedPoliceChip : DistributedChip {
 };
 dclass DistributedDale: DistributedCCharBase {
   setFollowChip(string srcNode, string destNode,
           int16 timestamp, int16 offsetX/100, int16 offsetY/100) broadcast ram;
   setChipId(uint32 chipId) required broadcast ram;
 };
+dclass DistributedJailbirdDale : DistributedDale {
+};
 dclass DistributedDonald: DistributedCCharBase {
+};
+dclass DistributedFrankenDonald : DistributedDonald {
 };
 
 dclass DistributedDonaldDock: DistributedCCharBase {
@@ -1140,6 +1174,8 @@ dclass DistributedSellbotBoss: DistributedBossCog {
   doStrafe(uint8 side, uint8 direction) broadcast;
 
   cagedToonBattleThree(uint16 index, uint32 avId) broadcast;
+
+  toonPromoted(uint8(0-1) promoted);
 };
 
 dclass DistributedCashbotBoss: DistributedBossCog {
@@ -1920,6 +1956,9 @@ dclass DistributedPartyCatchActivity: DistributedPartyActivity {
   setObjectCaught(uint32 avId, uint32 generation, uint32 objNum) broadcast;
 };
 
+dclass DistributedPartyWinterCatchActivity: DistributedPartyCatchActivity {
+};
+
 dclass DistributedPartyCogActivity: DistributedPartyTeamActivity {
   // client to clients
   pieThrow(uint32 toonId, int32 timestamp, int32 h/100,  int32 x/100, int32 y/100, int32 z/100, uint8 power) clsend broadcast;
@@ -1931,6 +1970,9 @@ dclass DistributedPartyCogActivity: DistributedPartyTeamActivity {
   // AI to clients
   setCogDistances(int8/100 distances[3]) broadcast ram;
   setHighScore(string toonName, uint16 score) broadcast ram;
+};
+
+dclass DistributedPartyWinterCogActivity: DistributedPartyCogActivity {
 };
 
 dclass DistributedPartyDanceActivityBase: DistributedPartyActivity {
@@ -1948,6 +1990,11 @@ dclass DistributedPartyDanceActivity: DistributedPartyDanceActivityBase {
 dclass DistributedPartyDance20Activity: DistributedPartyDanceActivityBase {
 };
 
+dclass DistributedPartyValentineDanceActivity: DistributedPartyDanceActivityBase {
+};
+
+dclass DistributedPartyValentineDance20Activity: DistributedPartyDanceActivityBase {
+};
 
 dclass DistributedPartyJukeboxActivityBase: DistributedPartyActivity {
   setNextSong(jukeboxSongInfo nextSongInfo) clsend airecv;
@@ -1965,12 +2012,18 @@ dclass DistributedPartyJukeboxActivity:DistributedPartyJukeboxActivityBase {
 dclass DistributedPartyJukebox40Activity:DistributedPartyJukeboxActivityBase {
 };
 
+dclass DistributedPartyValentineJukeboxActivity:DistributedPartyJukeboxActivityBase {
+};
+
+dclass DistributedPartyValentineJukebox40Activity:DistributedPartyJukeboxActivityBase {
+};
+
 dclass DistributedPartyCannonActivity: DistributedPartyActivity {
 
   // What state is the cannon in?
   setMovie(uint8 mode, uint32 avId) broadcast;
 
-  setLanded(uint32 avId) airecv clsend;       // appears safe, timing could be an issue...owner, please check
+  setLanded(uint32 avId) airecv broadcast clsend;;       // appears safe, timing could be an issue...owner, please check
 
   setCannonWillFire(uint32 cannonDoId,
   					int32 zRot / 100,
@@ -1988,6 +2041,39 @@ dclass DistributedPartyCannonActivity: DistributedPartyActivity {
   				uint8 r / 100,
   				uint8 g / 100,
   				uint8 b / 100) broadcast;
+
+  setToonTrajectoryAi(int32 launchTime,
+          int32 x / 100,
+          int32 y / 100,
+          int32 z / 100,
+          int32 h / 100,
+          int32 p / 100,
+          int32 r / 100,
+          int32 vx / 100,
+          int32 vy / 100,
+          int32 vz/ 100) airecv clsend;
+
+  setToonTrajectory(uint32 avId,
+          int32 launchTime,
+          int32 x / 100,
+          int32 y / 100,
+          int32 z / 100,
+          int32 h / 100,
+          int32 p / 100,
+          int32 r / 100,
+          int32 vx / 100,
+          int32 vy / 100,
+          int32 vz / 100) broadcast;
+
+  updateToonTrajectoryStartVelAi(
+          int32 vx / 100,
+          int32 vy / 100,
+          int32 vz / 100) airecv clsend;
+
+  updateToonTrajectoryStartVel(uint32 avId,
+          int32 vx / 100,
+          int32 vy / 100,
+          int32 vz / 100) broadcast;
 };
 
 dclass DistributedPartyCannon: DistributedObject {
@@ -2038,6 +2124,9 @@ dclass DistributedPartyTrampolineActivity: DistributedPartyActivity {
 };
 
 dclass DistributedPartyVictoryTrampolineActivity: DistributedPartyTrampolineActivity {
+};
+
+dclass DistributedPartyWinterTrampolineActivity : DistributedPartyTrampolineActivity {
 };
 
 dclass DistributedPartyTugOfWarActivity: DistributedPartyTeamActivity {
@@ -2243,7 +2332,7 @@ dclass DistributedLevel: DistributedObject {
   setOuch(uint8 penalty = 0) airecv clsend;        //appears safe, sanity check on penalty would be nice
 
   // for dev env
-  requestCurrentLevelSpec(int32 specHash, string entTypeRegHash) airecv clsend;   //appears safe
+  requestCurrentLevelSpec(string specHash, string entTypeRegHash) airecv clsend;   //appears safe
   setSpecDeny(blob reason);
   setSpecSenderDoId(uint32 doId);
 
@@ -2349,11 +2438,23 @@ dclass DistributedSuitInterior: DistributedObject {
   reserveJoinDone() airecv clsend; //appears safe
 };
 
+dclass DistributedCogdoBarrel : DistributedObject {
+  requestGrab() airecv clsend;
+  setIndex(uint32 index) required broadcast ram;
+  setState(uint32 state) required broadcast ram;
+  setGrab(uint32 avId) broadcast ram;
+  setReject() broadcast;
+};
+
 dclass DistributedCogdoInterior: DistributedObject {
   setZoneId(uint32 zoneId) required broadcast ram;
   setExtZoneId(uint32 extZoneId) required broadcast ram;
   setDistBldgDoId(uint32) required broadcast ram;
   setNumFloors(int8 numFloors) required broadcast ram;
+
+  setShopOwnerNpcId(uint32 npcId) required broadcast ram;
+  setSOSNpcId(uint32 npcId) broadcast ram;
+  setFOType(int8 typeId) broadcast ram;
 
   setToons(uint32array toonsIds, uint16 hack) broadcast ram;
   setSuits(uint32array suitIds, uint32array reserveIds, uint16array values)
@@ -2367,11 +2468,24 @@ dclass DistributedCogdoInterior: DistributedObject {
   setAvatarJoined() airecv clsend;   //possible security breach, name and dnaNetString need sanity check...need help = MIKE/DROSE
   elevatorDone() airecv clsend;    //appears safe
   reserveJoinDone() airecv clsend; //appears safe
+
+  toonLeftBarrelRoom() airecv clsend;
+  toonBarrelRoomIntroDone() airecv clsend;
+  setBarrelRoomReward(uint32 avIds[], uint8 laffs[]) broadcast;
+  toonBarrelRoomRewardDone() airecv clsend;
+};
+
+dclass DistributedCogdoBattleBldg : DistributedBattleBldg {
 };
 
 dclass DistCogdoGame: DistributedObject {
   setInteriorId(uint32 interiorId) required broadcast ram;
+  setExteriorZone(uint32 exteriorZone) broadcast ram required;
+  setDifficultyOverrides(int32 difficultyOverride, int32 exteriorZoneOverride) broadcast ram required;
+  setVisible() broadcast;
   setIntroStart() broadcast;
+  setToonSad(uint32 toonId) broadcast;
+  setToonDisconnect(uint32 toonId) broadcast;
   setAvatarReady() airecv clsend;
   setGameStart(int16 timestamp) broadcast;
   setGameFinish(int16 timestamp) broadcast;
@@ -2380,16 +2494,40 @@ dclass DistCogdoGame: DistributedObject {
 dclass DistCogdoLevelGame: DistCogdoGame, DistributedLevel {
 };
 
-dclass DistCogdoMazeGame: DistributedMinigame {
-  setLocks(uint32array toonIds, uint16array spawnPointsX, uint16array spawnPointsY) required broadcast ram;
+dclass DistCogdoMazeGame: DistCogdoGame {
   requestAction(uint8 action, uint32 data) airecv clsend;
+  doAction(uint8 action, uint32 data, int16 networkTime) broadcast;
+  setNumSuits(uint8 numSuits[3]) required broadcast;
+  requestUseGag(int16/10 x, int16/10 y, int16/10 h, int16 networkTime) clsend airecv;
+  toonUsedGag(uint32 toonId, int16/10 x, int16/10 y, int16/10 h, int16 networkTime) broadcast;
+  requestSuitHitByGag(uint8 suitType, uint8 suitNum) clsend airecv;
+  suitHitByGag(uint32 toonId, uint8 suitType, uint8 suitNum) broadcast;
+  requestHitBySuit(uint8 suitType, uint8 suitNum, int16 networkTime) clsend airecv;
+  toonHitBySuit(uint32 toonId, uint8 suitType, uint8 suitNum, int16 networkTime) broadcast;
+  requestHitByDrop() clsend airecv;
+  toonHitByDrop(uint32 toonId) broadcast;
+  requestPickUp(uint8 pickupNum) clsend airecv;
+  pickUp(uint32 toonId, uint8 pickupNum, int16 networkTime) broadcast;
+  requestGag(uint8 waterCoolerIndex) clsend airecv;
+  hasGag(uint32 toonId, int16 networkTime) broadcast;
+};
+
+dclass DistCogdoFlyingGame: DistCogdoGame {
+  requestAction(uint8 action, uint8 data) airecv clsend;
+  requestPickUp(uint16 pickupNum, uint8 pickupType) airecv clsend;
+  pickUp(uint32 toonId, uint16 pickupNum, int16 networkTime) broadcast;
+  debuffPowerup(uint32 toonId, uint16 pickupType, int16 networkTime) broadcast;
   doAction(uint8 action, uint32 data) broadcast;
+  eagleExitCooldown(uint32 eagleId, int16 networkTime) broadcast;
+  toonSetAsEagleTarget(uint32 toonId, uint8 eagleId, int16 networkTime) broadcast;
+  toonClearAsEagleTarget(uint32 toonId, uint8 eagleId, int16 networkTime) broadcast;
+  toonDied(uint32 toonId, int32 networkTime) broadcast;
+  toonSpawn(uint32 toonId, int32 networkTime) broadcast;
+  toonSetBlades(uint32 toonId, int32 fuelSate) broadcast;
+  toonBladeLost(uint32 toonId) broadcast;
 };
 
-dclass DistCogdoFlyingGame: DistributedMinigame {
-};
-
-dclass DistBoardroomGame: DistCogdoGame {
+dclass DistCogdoBoardroomGame: DistCogdoLevelGame {
 };
 
 dclass DistCogdoCraneGame: DistCogdoLevelGame {
@@ -2403,6 +2541,80 @@ dclass DistCogdoCrane: DistributedObject {
 
   clearSmoothing(int8 bogus) broadcast clsend;
   setCablePos(uint8 changeSeq, int16 y / 100, uint16 h % 360 / 100, LinkPosition links[3], int16 timestamp) broadcast clsend;
+};
+
+dclass DistCogdoCraneObject: DistributedObject {
+  setCraneGameId(uint32 craneGameId) required broadcast ram;
+
+  setObjectState(char state, uint32 avId, uint32 craneId) broadcast ram;
+
+  requestGrab() airecv clsend;
+  rejectGrab();
+  requestDrop() airecv clsend;
+  hitFloor() clsend;
+  requestFree(int16 x / 10, int16 y / 10, int16 z / 10, uint16 h % 360 / 100) airecv clsend;
+
+  hitBoss(uint16 impact / 255) airecv clsend;
+
+  // these are fields in DistributedNode that used to be ownsend
+
+  setX(int16 / 10) broadcast ram clsend airecv;
+  setY(int16 / 10) broadcast ram clsend airecv;
+  setZ(int16 / 10) broadcast ram clsend airecv;
+  setH(int16 % 360 / 10) broadcast ram clsend airecv;
+  setP(int16 % 360 / 10) broadcast ram clsend airecv;
+  setR(int16 % 360 / 10) broadcast ram clsend airecv;
+
+  setPos: setX, setY, setZ;
+  setHpr: setH, setP, setR;
+  setPosHpr: setX, setY, setZ, setH, setP, setR;
+  setXY: setX, setY;
+  setXZ: setX, setZ;
+  setXYH: setX, setY, setH;
+  setXYZH: setX, setY, setZ, setH;
+
+  // these are fields in DistributedSmoothNode that used to be clsend,
+
+  setComponentL(uint64) broadcast ram clsend airecv;
+  setComponentX(int16 / 10) broadcast ram clsend airecv;
+  setComponentY(int16 / 10) broadcast ram clsend airecv;
+  setComponentZ(int16 / 10) broadcast ram clsend airecv;
+  setComponentH(int16 % 360 / 10) broadcast ram clsend airecv;
+  setComponentP(int16 % 360 / 10) broadcast ram clsend airecv;
+  setComponentR(int16 % 360 / 10) broadcast ram clsend airecv;
+  setComponentT(int16 timestamp) broadcast ram clsend airecv;
+
+  // Composite set pos and hpr functions.  These map to combinations
+  // of one or more of the above components.  They all include
+  // setComponentT(), which must be called last.
+  setSmStop: setComponentT;
+  setSmH: setComponentH, setComponentT;
+  setSmZ: setComponentZ, setComponentT;
+  setSmXY: setComponentX, setComponentY, setComponentT;
+  setSmXZ: setComponentX, setComponentZ, setComponentT;
+  setSmPos: setComponentX, setComponentY, setComponentZ, setComponentT;
+  setSmHpr: setComponentH, setComponentP, setComponentR, setComponentT;
+  setSmXYH: setComponentX, setComponentY, setComponentH, setComponentT;
+  setSmXYZH: setComponentX, setComponentY, setComponentZ, setComponentH, setComponentT;
+  setSmPosHpr: setComponentX, setComponentY, setComponentZ, setComponentH, setComponentP, setComponentR, setComponentT;
+  // special update if L (being location, such as zoneId) changes, send everything, intended to
+  // keep position and 'location' in sync
+  setSmPosHprL: setComponentL, setComponentX, setComponentY, setComponentZ, setComponentH, setComponentP, setComponentR, setComponentT;
+
+  // I don't need any parameters, but for some reason leaving the
+  // parameter list empty on this one causes a server crash.
+  clearSmoothing(int8 bogus) broadcast clsend;
+};
+
+dclass DistCogdoCraneMoneyBag: DistCogdoCraneObject {
+  setIndex(uint8 index) required broadcast ram;
+  requestInitial() airecv clsend;
+};
+
+dclass DistCogdoCraneCog: DistributedObject {
+  setGameId(uint32 gameId) required broadcast ram;
+  setDNAString(blob dnaString) required broadcast ram;
+  setSpawnInfo(uint8 entranceId, int16 timestamp) required broadcast ram;
 };
 
 dclass DistributedHQInterior: DistributedObject {
@@ -2485,6 +2697,10 @@ dclass DistributedHouseDoor: DistributedDoor {
 };
 
 dclass DistributedCogHQDoor: DistributedDoor {
+};
+
+dclass DistributedSellbotHQDoor: DistributedCogHQDoor {
+  informPlayer(uint8 suitType) broadcast ram;
 };
 
 // Make sure the NPC is created after the interiors
@@ -2735,6 +2951,9 @@ dclass DistributedBossElevator: DistributedElevatorExt {
   setBossOfficeZoneForce(uint32 zoneId);
 };
 
+dclass DistributedVPElevator: DistributedBossElevator {
+};
+
 dclass DistributedCFOElevator: DistributedBossElevator {
 };
 
@@ -2914,6 +3133,50 @@ dclass DistributedCloset: DistributedFurnitureItem {
 
   // Server tells all clients how to clothe the current customer
   setCustomerDNA(uint32 avId, blob dna) broadcast ram;
+};
+
+dclass DistributedTrunk: DistributedCloset {
+  setState(uint8 mode,
+           uint32 avId,
+           uint32 ownerId,
+           string gender,
+           uint8array hatList, uint8array glassesList,
+           uint8array backpackList, uint8array shoesList)
+           broadcast ram;
+
+  removeItem(uint8 trashItemIdx, uint8 trashItemTexture, uint8 trashItemColor, uint8 which) airecv clsend;    //possible security breach: trashDNA and which need sanity check...need help = SAMIR
+
+  setDNA(uint8 hatIdx,
+         uint8 hatTexture,
+         uint8 hatColor,
+         uint8 glassesIdx,
+         uint8 glassesTexture,
+         uint8 glassesColor,
+         uint8 backpackIdx,
+         uint8 backpackTexture,
+         uint8 backpackColor,
+         uint8 shoesIdx,
+         uint8 shoesTexture,
+         uint8 shoesColor,
+         int8 finished,
+         uint8 which)
+         airecv clsend;       //security breach: invalid finished not checked, dna needs sanity check
+
+  // Server tells all clients how to clothe the current customer
+  setCustomerDNA(uint32 avId,
+                 uint8 hatTexture,
+                 uint8 hatColor,
+                 uint8 glassesIdx,
+                 uint8 glassesTexture,
+                 uint8 glassesColor,
+                 uint8 backpackIdx,
+                 uint8 backpackTexture,
+                 uint8 backpackColor,
+                 uint8 shoesIdx,
+                 uint8 shoesTexture,
+                 uint8 shoesColor,
+                 uint8 which)
+                 broadcast ram;
 };
 
 dclass DistributedPhone: DistributedFurnitureItem {
@@ -3327,6 +3590,10 @@ dclass DistributedPolarPlaceEffectMgr: DistributedObject {
   addPolarPlaceEffect() airecv clsend;
 };
 
+dclass DistributedGreenToonEffectMgr: DistributedObject {
+  addGreenToonEffect() airecv clsend;
+};
+
 dclass DistributedResistanceEmoteMgr: DistributedObject {
   addResistanceEmote() airecv clsend;
 };
@@ -3647,6 +3914,9 @@ dclass DistributedStatuary: DistributedLawnDecor {
 
 dclass DistributedToonStatuary: DistributedStatuary {
     setOptional(uint16 optional)required broadcast ram;
+};
+
+dclass DistributedAnimatedStatuary: DistributedStatuary {
 };
 
 dclass DistributedChangingStatuary: DistributedStatuary {
@@ -4286,6 +4556,8 @@ dclass DistributedPartyManager: DistributedObject {
    partyInfoOfHostFailedResponseUdToAi(uint32 hostId) airecv; // ud to ai
    partyInfoOfHostResponseUdToAi(party partyInfoTuple, uint32array inviteeIds) airecv; // ud to ai
 
+   givePartyRefundResponse(uint32, uint64, int8, uint16, uint32);
+
    getPartyZone(uint32 hostId, uint32 zoneId, uint8 planningParty) clsend airecv;  // client to ai
    receivePartyZone(uint32 hostId, uint64 partyId, uint32 zoneId); // ai to client
 
@@ -4312,6 +4584,11 @@ dclass DistributedPartyManager: DistributedObject {
 
    // for magic words
    forceCheckStart(); // AI to UD
+   requestMw(uint32, string, uint32, uint32);
+   mwResponseUdToAllAi(uint32, string, uint32, uint32) airecv;
+};
+
+dclass DistributedObjectGlobal: DistributedObject {
 };
 
 dclass RATManager : DistributedObjectGlobal {};
@@ -4324,6 +4601,11 @@ dclass AwardManager : DistributedObjectGlobal {
 dclass DistributedCpuInfoMgr : DistributedObjectGlobal {
    // UD TO UD
    setCpuInfoToUd(uint32 avId, uint32 dislId, string info, string cacheStatus); // AI to UD
+};
+
+dclass DistributedSecurityMgr: DistributedObjectGlobal {
+  requestAccountId(uint32, uint32, uint32);
+  requestAccountIdResponse(uint32, uint32) airecv;
 };
 
 dclass NonRepeatableRandomSourceClient {
@@ -4354,6 +4636,14 @@ dclass DistributedInGameNewsMgr : DistributedObjectGlobal {
    setLatestIssueStr(string latestissue) required broadcast ram;
    inGameNewsMgrAIStartingUp(uint32 doId, uint32 shardId); // ai to ud sent on inGameNewsManagerAI.announceGenerate
    newIssueUDtoAI(string latestIssue) airecv;  // ud to all AIs
+};
+
+// in the ideal world we'd only have a UD object which sends updates directly to client objects, without AI
+dclass DistributedWhitelistMgr : DistributedObjectGlobal {
+   // AI to clients
+   updateWhitelist() broadcast;
+   whitelistMgrAIStartingUp(uint32 doId, uint32 doId); // ai to ud sent on inGameNewsManagerAI.announceGenerate
+   newListUDtoAI() airecv;  // ud to all AIs
 };
 
 
