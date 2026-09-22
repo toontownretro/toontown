@@ -2,20 +2,20 @@ from toontown.toonbase.ToontownModules import *
 from toontown.coghq import DistributedHealBarrelAI
 from toontown.coghq import DistributedGagBarrelAI
 
-
+#
 PieToonup = 1
 PieToonupNerfed = 2
 
-
+#
 PieDamageMult = 1.0
 PieDamageMultNerfed = 2.0
 
-
+#
 AttackMult = 1.0
 AttackMultNerfed = 0.5
 
-
-
+# The maximum number of hits we will take while dizzy, once our
+# damage crosses the given threshold.
 HitCountDamage = 35
 HitCountDamageNerfed = 50
 

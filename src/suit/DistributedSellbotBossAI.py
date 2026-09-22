@@ -191,7 +191,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             self.healToon(toon, self.pieHitToonup)
 
     def getDamageMultiplier(self):
-
+        """Return a multiplier for our damaging attacks."""
         if self.nerfed:
             return SellbotBossGlobals.AttackMultNerfed
         else:
