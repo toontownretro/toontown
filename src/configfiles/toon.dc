@@ -567,6 +567,16 @@ dclass DistributedToon: DistributedPlayer {
   setClothesTopsList(uint8array clothesTopsList = {}) required ownrecv db;
   setClothesBottomsList(uint8array clothesBottomsList = {}) required ownrecv db;
 
+  setMaxAccessories(uint32 = 50) required ownrecv db;
+  setHatList(uint8array clothesList = {}) required ownrecv db;
+  setGlassesList(uint8array clothesList = {}) required ownrecv db;
+  setBackpackList(uint8array clothesList = {}) required ownrecv db;
+  setShoesList(uint8array clothesList = {}) required ownrecv db;
+  setHat(uint8 idx, uint8 textureIdx, uint8 colorIdx) required broadcast db ownrecv;
+  setGlasses(uint8 idx, uint8 textureIdx, uint8 colorIdx) required broadcast db ownrecv;
+  setBackpack(uint8 idx, uint8 textureIdx, uint8 colorIdx) required broadcast db ownrecv;
+  setShoes(uint8 idx, uint8 textureIdx, uint8 colorIdx) required broadcast db ownrecv;
+
   setGardenSpecials(gardenSpecial []) required ownrecv db airecv;
 
   // The AI uses this to tell the toon how much earned experience he
@@ -586,7 +596,7 @@ dclass DistributedToon: DistributedPlayer {
                int16/10 x, int16/10 y, int16/100 z,
                int32/100 h) ownsend broadcast;
 
-  setAnimState(string, int16 / 1000, int16 timestamp) broadcast ram ownsend;
+  setAnimState(string, int16 / 1000, int16 timestamp) broadcast ram ownsend airecv;
 
   setEmoteState(int16, int16 / 1000, int16 timestamp) broadcast ram ownsend;
   setEmoteAccess(uint8array bits = {1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}) required ownrecv db;
@@ -653,12 +663,15 @@ dclass DistributedToon: DistributedPlayer {
 
   // List of safe zones you can teleport to
   setTeleportAccess(uint32array = {}) required ownrecv db;
+  checkTeleportAccess(uint16 zoneId) airecv ownsend;
 
   // TODO: check these clsends closely for security later
   battleSOS(uint32 requesterID) ownrecv clsend; //requesterID is verified. appears safe
   teleportQuery(uint32 requesterId) ownrecv clsend; //requesterId is verified. appears safe
   teleportResponse(uint32 avId, int8 available, uint32 shardId,
                    uint32 hoodId, uint32 zoneId) ownrecv clsend;    //security breach: no verification, message directly sent to server...need help = DROSE
+  teleportResponseToAI(uint32 toAvId, int8 available, uint32 shardId,
+                       uint32 hoodId, uint32 zoneId, uint32 fromAvId) ownsend airecv;
   teleportGiveup(uint32 avId) ownrecv clsend;       //avId verified. appears safe
   teleportGreeting(uint32 avId) broadcast ownsend;
 
@@ -677,12 +690,16 @@ dclass DistributedToon: DistributedPlayer {
   // For now, this is not a db field.  It is set locally according to
   // hoodsVisited.
   setDisguisePageFlag(int8 = 0) ownrecv;
+  setSosPageFlag(int8 = 0) ownrecv;
 
   setHouseId(uint32 id = 0) required ownrecv db;
   setQuests(uint32array = {}) required broadcast ownrecv db;
   setQuestHistory(uint16array = {}) required ownrecv db;
   setRewardHistory(uint8 tier = 0, uint16array = {}) required ownrecv db;
   setQuestCarryLimit(uint8 = 1) required ownrecv db;
+
+  //
+  requestDeleteQuest(uint32array = {}) ownsend airecv;
 
   setCheesyEffect(int16 effect = 0, uint32 hoodId = 0, uint32 expireTime = 0) required broadcast ownrecv db;
   setGhostMode(uint8 flag = 0) broadcast ownrecv ram;
@@ -745,6 +762,7 @@ dclass DistributedToon: DistributedPlayer {
   setNumPies(uint16 numPies) broadcast ownrecv ram;
 
   catalogGenClothes(uint32 avId) broadcast ownrecv;
+  catalogGenAccessories(uint32 avId) broadcast ownrecv;
 
   // TODO: We will allocate an id for the pet as soon as the toon is created
   // and keep it for the lifetime of the toon
@@ -850,6 +868,18 @@ dclass DistributedToon: DistributedPlayer {
   setPartyCanStart( uint64 partyId ) ownrecv airecv; // uberdog to client avatar and AI
   setPartyStatus( uint64 partyId, uint8 ) ownrecv airecv; // uberdog to client avatar and AI
   announcePartyStarted( uint64 partyId ) ownrecv;
+  setNeverStartedPartyRefunded( uint64 partyId, int8 newStatus, uint16 refund ) ownrecv;
+
+  setModuleInfo(string info[]) airecv clsend;
+
+  setDISLname(string name) ram;
+  setDISLid(uint32 id) ram db airecv;
+
+  flagAv(uint32 avId, uint16 reason, string params[]) airecv ownsend;
+
+  requestPing(uint32 avId) airecv ownsend;
+  ping(char val[0-1024]);
+  pingresp(char resp[0-1024]) airecv ownsend;
 };
 
 
