@@ -458,9 +458,9 @@ class Pet(Avatar.Avatar):
         """
         joints = []
         bundle = self.getPartBundle('modelRoot')
-        joint = bundle.findChild('attachNametag')
-        if joint:
-            joints.append(joint)
+        joint = bundle.findAttachment('attachNametag')
+        if joint >= 0:
+            joints.append((joint, bundle))
         return joints
 
     def fitAndCenterHead(self, maxDim, forGui = 0):

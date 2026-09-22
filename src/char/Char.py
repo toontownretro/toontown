@@ -304,19 +304,21 @@ class Char(Avatar.Avatar):
             # Clear the net transforms first, in case we have
             # merge-lod-bundles on (which would mean this is really
             # just one bundle).
-            for bundle in list(self.getPartBundleDict().values()):
-                bundle = bundle['modelRoot'].getBundle()
-                earNull = bundle.findChild("sphere3")
-                if not earNull:
-                    earNull = bundle.findChild("*sphere3")
-                earNull.clearNetTransforms()
+###            for bundle in list(self.getPartBundleDict().values()):
+###                bundle = bundle['modelRoot'].getBundle()
+###                earNull = bundle.findChild("sphere3")
+###                if not earNull:
+###                    earNull = bundle.findChild("*sphere3")
+###                earNull.clearNetTransforms()
 
             for bundle in list(self.getPartBundleDict().values()):
-                charNodepath = bundle['modelRoot'].partBundleNP
-                bundle = bundle['modelRoot'].getBundle()
-                earNull = bundle.findChild("sphere3")
-                if not earNull:
-                    earNull = bundle.findChild("*sphere3")
+###                charNodepath = bundle['modelRoot'].partBundleNP
+###                bundle = bundle['modelRoot'].getBundle()
+###                earNull = bundle.findChild("sphere3")
+###                if not earNull:
+###                    earNull = bundle.findChild("*sphere3")
+                charNodepath = bundle['modelRoot'].charNP
+                bundle = bundle['modelRoot'].char
                 # import pdb; pdb.set_trace()
                 ears = charNodepath.find("**/sphere3")
                 if ears.isEmpty():
@@ -327,7 +329,12 @@ class Char(Avatar.Avatar):
                 earPitch.setP(40.)
                 ears.reparentTo(earPitch)
                 # put animation channel on ear root
-                earNull.addNetTransform(earRoot.node())
+###                earNull.addNetTransform(earRoot.node())
+                earNullAttach = bundle.findAttachment("sphere3")
+                if earNullAttach == -1:
+                    earNullAttach = bundle.findAttachment("*sphere3")
+                assert earNullAttach != -1
+                bundle.setAttachmentNode(earNullAttach, earRoot.node())
                 ears.clearMat()
                 # bake in the reverse pitch
                 ears.node().setPreserveTransform(ModelNode.PTNone)

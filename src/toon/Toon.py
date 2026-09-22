@@ -30,6 +30,8 @@ from . import AccessoryGlobals
 import types
 import importlib
 
+import functools
+
 def teleportDebug(requestStatus, msg, onlyIfToAv = True):
     if teleportNotify.getDebug():
         teleport = 'teleport'
@@ -1824,9 +1826,9 @@ class Toon(Avatar.Avatar, ToonHead):
         joints = []
         for lodName in self.getLODNames():
             bundle = self.getPartBundle('legs', lodName)
-            joint = bundle.findChild('joint_nameTag')
-            if joint:
-                joints.append(joint)
+            joint = bundle.findAttachment('joint_nameTag')
+            if joint >= 0:
+                joints.append((joint, bundle))
         return joints
 
     def getRightHands(self):
@@ -1882,7 +1884,7 @@ class Toon(Avatar.Avatar, ToonHead):
         # If we found some, sort them to see what is closest
         if nodePathList:
             # Sort based on distance, closest first
-            nodePathList.sort(lambda x,y: cmp(x[0].getDistance(self), y[0].getDistance(self)))
+            nodePathList.sort(key = functools.cmp_to_key(lambda x,y: cmp(x[0].getDistance(self), y[0].getDistance(self))))
             # If there are more then two, choose one of the closest 2
             if len(nodePathList) >= 2:
                 if (self.randGen.random() < 0.9):

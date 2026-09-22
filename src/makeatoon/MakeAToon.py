@@ -315,18 +315,21 @@ class MakeAToon(StateData.StateData):
         self.roomDropActor = Actor()
         self.roomDropActor.loadModel('phase_3/models/makeatoon/roomAnim_model')
         self.roomDropActor.loadAnims({'drop':'phase_3/models/makeatoon/roomAnim_roomDrop'})
+        self.roomDropActor.setBlend(transitionBlend = False)
         self.roomDropActor.reparentTo(render)
         self.dropJoint = self.roomDropActor.find('**/droppingJoint')
         
         self.roomSquishActor = Actor()
         self.roomSquishActor.loadModel('phase_3/models/makeatoon/roomAnim_model')
         self.roomSquishActor.loadAnims({'squish':'phase_3/models/makeatoon/roomAnim_roomSquish'})
+        self.roomSquishActor.setBlend(transitionBlend = False)
         self.roomSquishActor.reparentTo(render)
         self.squishJoint = self.roomSquishActor.find('**/scalingJoint')
         
         self.propSquishActor = Actor()
         self.propSquishActor.loadModel('phase_3/models/makeatoon/roomAnim_model')
         self.propSquishActor.loadAnims({'propSquish':'phase_3/models/makeatoon/roomAnim_propSquish'})
+        self.propSquishActor.setBlend(transitionBlend = False)
         self.propSquishActor.reparentTo(render)
         self.propSquishActor.pose('propSquish', 0)
         self.propJoint = self.propSquishActor.find('**/propJoint')
@@ -334,6 +337,7 @@ class MakeAToon(StateData.StateData):
         self.spotlightActor = Actor()
         self.spotlightActor.loadModel('phase_3/models/makeatoon/roomAnim_model')
         self.spotlightActor.loadAnims({'spotlightShake':'phase_3/models/makeatoon/roomAnim_spotlightShake'})
+        self.spotlightActor.setBlend(transitionBlend = False)
         self.spotlightActor.reparentTo(render)
         self.spotlightJoint = self.spotlightActor.find('**/spotlightJoint')
 
@@ -372,7 +376,7 @@ class MakeAToon(StateData.StateData):
         
         smokeSeqNode = SequenceNode('smoke')
         smokeModel = loader.loadModel("phase_3/models/makeatoon/tt_m_ara_mat_smoke")
-        smokeFrameList = smokeModel.findAllMatches('**/smoke_*').asList()
+        smokeFrameList = smokeModel.findAllMatches('**/smoke_*')#.asList()
         smokeFrameList.reverse()
         for smokeFrame in smokeFrameList:
             smokeSeqNode.addChild(smokeFrame.node())

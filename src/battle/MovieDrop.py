@@ -10,6 +10,9 @@ from . import MovieNPCSOS
 from .MovieUtil import calcAvgSuitPos
 from direct.showutil import Effects
 
+# Custom: For custom actor system
+from direct.actor.Actor import Actor
+
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieDrop')
 
 
@@ -449,7 +452,7 @@ def __dropObject(drop, delay, objName, level, alreadyDodged, alreadyTeased,
     if hp > 0 or (level == 1 or level == 2):
         # prop hits the suit
         #import pdb; pdb.set_trace()
-        if hasattr(object,'getAnimControls'):
+        if isinstance(object, Actor):
             animProp = ActorInterval(object, objName)
             shrinkProp = LerpScaleInterval(object, dShrink, Point3(0.01, 0.01, 0.01), startScale = object.getScale())
             objAnimShrink = ParallelEndTogether(animProp, shrinkProp)
@@ -487,7 +490,7 @@ def __dropObject(drop, delay, objName, level, alreadyDodged, alreadyTeased,
     else:
         # prop misses the suit
         # only play the animation up to the point where it lands
-        if hasattr(object,'getAnimControls'):        
+        if isinstance(object, Actor):        
             animProp = ActorInterval(object, objName, duration=landFrames[level]/24.)
             def poseProp(prop, animName, level):
                 prop.pose(animName, landFrames[level])
