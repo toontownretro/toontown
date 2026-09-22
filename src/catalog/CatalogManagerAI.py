@@ -80,6 +80,7 @@ class CatalogManagerAI(DistributedObjectAI.DistributedObjectAI):
 
 
     def deliverCatalogFor(self, avatar):
+        return
         # Computes the next catalog time for and delivers the catalog
         # to the indicated avatar.
 

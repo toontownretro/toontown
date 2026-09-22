@@ -1060,3 +1060,6 @@ class ToontownAIRepository(AIDistrict):
                                   (globalId, OtpDoGlobals.OTP_DO_ID_TOONTOWN_PARTY_MANAGER))
             # Let the dclass finish the job
             do.dclass.receiveUpdate(do, di)
+
+    def sendQueryToonMaxHp(self, toonId, callback, *args):
+        self.queryToonMaxHp(toonId, callback, *args)
