@@ -134,7 +134,7 @@ class EmotePage(ShtikerPage.ShtikerPage):
         for index in range(1, MAX_FRAMES+1):
             frame = self.emoteFrames[index-1]
             col = (index - 1) % 5
-            row = (index - 1) / 5
+            row = (index - 1) // 5
             frame.setPos(colPos[col], 0, rowPos[row])
             frame.setScale(0.4)
 

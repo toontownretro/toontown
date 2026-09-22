@@ -71,7 +71,7 @@ in the interpreter without ()'s, it gets called anyway
         def __init__(self, f):
             self.f = f
         def __repr__(self):
-            x =apply(self.f)
+            x =self.f()
             if x:
                 return repr(x)
             else:

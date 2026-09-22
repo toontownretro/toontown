@@ -13,6 +13,8 @@ from toontown.parties.PartyInfo import PartyInfo
 from toontown.parties import PartyGlobals
 from toontown.ai.NewsManager import NewsManager
 
+import functools
+
 def myStrftime( myTime):
     """Return a better time string without the leading zero"""
     result = ""
@@ -412,7 +414,7 @@ class CalendarGuiDay(DirectFrame):
                 return 0
             else:
                 return 1
-        self.timedEvents.sort( cmp = timedEventCompare)
+        self.timedEvents.sort( key = functools.cmp_to_key(timedEventCompare))
 
         # now add them to the scroll list
         for timedEvent in self.timedEvents:

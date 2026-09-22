@@ -435,7 +435,7 @@ NumTrophies = 0
 for key in TrophyRequirements:
    NumTrophies += len(TrophyRequirements[key])
 NumCups = 3
-TrophiesPerCup = NumTrophies / NumCups
+TrophiesPerCup = NumTrophies // NumCups
                
 def calcTrophyListFromHistory( history):
    """Return a list of booleans, with True meaning he has trophy.
