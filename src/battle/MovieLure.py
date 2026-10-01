@@ -545,9 +545,9 @@ def __createSuitDamageTrack(battle, suit, hp, lure, trapProp):
 
         # We grab the name tag so we can hide it while the suit is in the quicksand
         if base.config.GetBool('want-new-cogs', 0):
-            nameTag = suit.find('**/def_nameTag')
+            nameTag = suit.find("**/def_nameTag")
         else:
-            nameTag = suit.find('**/joint_nameTag')
+            nameTag = suit.find("**/joint_nameTag")
         trapTrack = Sequence(
             Wait(2.4),
             LerpScaleInterval(trapProp, 0.8, Point3(0.01, 0.01, 0.01)),

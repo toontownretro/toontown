@@ -9,21 +9,21 @@ from toontown.toonbase import TTLocalizer
 
 class TTWhiteList(WhiteList, DistributedObject.DistributedObject):
 
-    RedownloadTaskName = 'RedownloadWhitelistTask'
-    WhitelistBaseDir = config.GetString('whitelist-base-dir', '')
-    WhitelistStageDir = config.GetString('whitelist-stage-dir', 'whitelist')
-    WhitelistOverHttp = config.GetBool('whitelist-over-http', True)
-    WhitelistFileName = config.GetString('whitelist-filename', 'twhitelist.dat')
+    RedownloadTaskName = "RedownloadWhitelistTask"
+    WhitelistBaseDir = config.GetString("whitelist-base-dir", "")
+    WhitelistStageDir = config.GetString("whitelist-stage-dir", "whitelist")
+    WhitelistOverHttp = config.GetBool("whitelist-over-http", True)
+    WhitelistFileName = config.GetString("whitelist-filename", "twhitelist.dat")
 
     def __init__(self):
         self.redownloadingWhitelist = False
         self.startRedownload = datetime.datetime.now()
         self.endRedownload = datetime.datetime.now()
         self.percentDownloaded = 0.0
-        self.notify = DirectNotifyGlobal.directNotify.newCategory('TTWhiteList')
+        self.notify = DirectNotifyGlobal.directNotify.newCategory("TTWhiteList")
 
         vfs = VirtualFileSystem.getGlobalPtr()
-        filename = Filename('twhitelist.dat')
+        filename = Filename("twhitelist.dat")
         searchPath = DSearchPath()
         if AppRunnerGlobal.appRunner:
             # In the web-publish runtime, it will always be here:
@@ -45,15 +45,15 @@ class TTWhiteList(WhiteList, DistributedObject.DistributedObject):
         WhiteList.__init__(self,lines)
         self.redownloadWhitelist()
         self.defaultWord = TTLocalizer.ChatGarblerDefault[0]
-        self.accept('updateWhitelist', self.handleNewWhitelist)
+        self.accept("updateWhitelist", self.handleNewWhitelist)
 
     def unload(self):
-        self.ignore('updateWhitelist')
+        self.ignore("updateWhitelist")
 
         self.removeDownloadingTextTask()
 
     def redownloadWhitelist(self):
-
+        """Get the new issue that came out while he was playing."""
         self.percentDownload = 0.0
         self.notify.info('starting redownloadWhitelist')
 
@@ -65,7 +65,7 @@ class TTWhiteList(WhiteList, DistributedObject.DistributedObject):
         self.whitelistUrl = self.getWhitelistUrl()
         self.whitelistDir = Filename(self.findWhitelistDir())
 
-
+        # Ensure self.newsDir exists and is a directory.
         Filename(self.whitelistDir + '/.').makeDir()
 
         http = HTTPClient.getGlobalPtr()
@@ -99,55 +99,55 @@ class TTWhiteList(WhiteList, DistributedObject.DistributedObject):
             self.updateWhitelist()
 
     def getWhitelistUrl(self):
-
-
-        result = base.config.GetString('fallback-whitelist-url', 'http://cdn.toontown.disney.go.com/toontown/en/')
-
-        override = base.config.GetString('whitelist-url', '')
+        """Get the appropriate URL to use if we are in test, qa, or live."""
+        # First if all else fails, we hard code the live news url
+        result = base.config.GetString("fallback-whitelist-url", "http://cdn.toontown.disney.go.com/toontown/en/")
+        # next check if we have an override, say they want to url to point to a file in their harddisk
+        override = base.config.GetString("whitelist-url", "")
         if override:
-            self.notify.info('got an override url,  using %s for the whitelist' % override)
+            self.notify.info("got an override url,  using %s for the whitelist" % override)
             result = override
         else:
             try:
-                launcherUrl = base.launcher.getValue('GAME_WHITELIST_URL', '')
+                launcherUrl = base.launcher.getValue("GAME_WHITELIST_URL", "")
                 if launcherUrl:
                     result = launcherUrl
-                    self.notify.info('got GAME_WHITELIST_URL from launcher using %s' % result)
+                    self.notify.info("got GAME_WHITELIST_URL from launcher using %s" % result)
                 else:
-                    self.notify.info('blank GAME_WHITELIST_URL from launcher, using %s' % result)
+                    self.notify.info("blank GAME_WHITELIST_URL from launcher, using %s" % result)
             except:
-                self.notify.warning('got exception getting GAME_WHITELIST_URL from launcher, using %s' % result)
+                self.notify.warning("got exception getting GAME_WHITELIST_URL from launcher, using %s" % result)
         return result
 
     def addDownloadingTextTask(self):
-
+        """Add a simple little task to show in game news is downloading stuff."""
         self.removeDownloadingTextTask()
-        task = taskMgr.doMethodLater(1, self.loadingTextTask, 'WhitelistDownloadingTextTask')
+        task = taskMgr.doMethodLater(1,self.loadingTextTask, "WhitelistDownloadingTextTask")
         task.startTime = globalClock.getFrameTime()
         self.loadingTextTask(task)
 
     def removeDownloadingTextTask(self):
-        taskMgr.remove('WhitelistDownloadingTextTask')
+        taskMgr.remove("WhitelistDownloadingTextTask")
 
     def loadingTextTask(self, task):
-
+        """Change a visual element to indicate we're still downloading."""
         timeIndex = int(globalClock.getFrameTime() - task.startTime) % 3
-        timeStrs = (TTLocalizer.NewsPageDownloadingNews0, TTLocalizer.NewsPageDownloadingNews1, TTLocalizer.NewsPageDownloadingNews2)
-
-
+        timeStrs = (TTLocalizer.NewsPageDownloadingNews0,
+                    TTLocalizer.NewsPageDownloadingNews1,
+                    TTLocalizer.NewsPageDownloadingNews2)
         textToDisplay = timeStrs[timeIndex] % int(self.percentDownloaded * 100)
 
         return task.again
 
     def findWhitelistDir(self):
+        """Returns the directory string for news content.
 
-
-
-
+        Returns None if it cant find the directory
+        """
 
         if self.WhitelistOverHttp:
-
-
+            # If we're running news-over-http, we dump the news into a
+            # staging directory.
             return self.WhitelistStageDir
 
         searchPath = DSearchPath()
@@ -157,8 +157,8 @@ class TTWhiteList(WhiteList, DistributedObject.DistributedObject):
         else:
             # In other environments, including the dev environment, look here:
             basePath = os.path.expandvars('$TTMODELS') or './ttmodels'
-            searchPath.appendDirectory(Filename.fromOsSpecific(basePath + '/built/' + self.NewsBaseDir))
-
+            searchPath.appendDirectory(
+                Filename.fromOsSpecific(basePath+'/built/' + self.NewsBaseDir))
             searchPath.appendDirectory(Filename(self.NewsBaseDir))
 
         pfile = Filename(self.WhitelistFileName)
@@ -168,12 +168,12 @@ class TTWhiteList(WhiteList, DistributedObject.DistributedObject):
             self.setErrorMessage(TTLocalizer.NewsPageErrorDownloadingFile % self.WhitelistFileName)
             return None
 
-        self.notify.debug('found whitelist file %s' % pfile)
+        self.notify.debug("found whitelist file %s" % pfile)
         realDir = pfile.getDirname()
         return realDir
 
     def downloadWhitelistTask(self, task):
-
+        """ Get the initial index file from the HTTP server. """
         if self.ch.run():
             return task.cont
 
@@ -183,11 +183,11 @@ class TTWhiteList(WhiteList, DistributedObject.DistributedObject):
             date = doc.getDate().getString()
 
         if not self.ch.isValid():
-            self.notify.warning('Unable to download %s' % self.url)
+            self.notify.warning("Unable to download %s" % self.url)
             self.redownloadingWhitelist = False
             return task.done
 
-        self.notify.info('Done downloading whitelist file')
+        self.notify.info("Done downloading whitelist file")
         self.updateWhitelist()
         return task.done
 
@@ -207,10 +207,10 @@ class TTWhiteList(WhiteList, DistributedObject.DistributedObject):
         self.words.sort()
         self.numWords = len(self.words)
 
-
+        #
         self.defaultWord = TTLocalizer.ChatGarblerDefault[0]
 
     def handleNewWhitelist(self):
-
-
+        """Handle getting this newIssueOut message."""
+        #
         self.redownloadWhitelist()
