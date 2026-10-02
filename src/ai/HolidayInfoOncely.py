@@ -14,6 +14,8 @@ from toontown.ai.HolidayInfo import *
 import random
 import time
 import datetime
+
+# Needed for Python 3
 import functools
 
 #################################################################

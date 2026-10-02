@@ -31,6 +31,9 @@ from toontown.coghq import CogDisguiseGlobals
 from toontown.building import ElevatorConstants
 from toontown.toonbase import ToontownTimer
 
+# Needed for Python 3
+import functools
+
 # This pointer keeps track of the one DistributedSellbotBoss that
 # should appear within the avatar's current visibility zones.  If
 # there is more than one DistributedSellbotBoss visible to a client at
@@ -2555,7 +2558,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         # want to use Plane.compareTo(), not Plane.__hash__(), to make
         # the comparison.
         threshold = 0.1
-        planes.sort(lambda p1, p2: p1.compareTo(p2, threshold))
+        planes.sort(key = functools.cmp_to_key(lambda p1, p2: p1.compareTo(p2, threshold)))
         lastPlane = None
         for plane in planes:
             if lastPlane == None or plane.compareTo(lastPlane, threshold) != 0:

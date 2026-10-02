@@ -12,6 +12,9 @@ from . import MovieCamera
 from . import MovieUtil
 from .MovieUtil import calcAvgSuitPos
 
+# Needed for Python 3
+import functools
+
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieThrow')
 
 # still need miss 'hitting' sounds to be separated from the 'throw' sounds
@@ -100,7 +103,7 @@ def doThrows(throws):
         elif (len(a) < len(b)):
             return -1
         return 0
-    suitThrows.sort(compFunc)
+    suitThrows.sort(key = functools.cmp_to_key(compFunc))
 
     #since we have group throws now, we calculate how
     #many times each suit gets hit over here

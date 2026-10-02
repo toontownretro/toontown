@@ -6,6 +6,7 @@ from direct.fsm import State
 from . import TravelGameGlobals
 from toontown.toonbase import ToontownGlobals
 
+# Needed for Python 3
 import functools
 
 class DistributedTravelGameAI(DistributedMinigameAI):

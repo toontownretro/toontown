@@ -11,6 +11,8 @@ from direct.showbase import AppRunnerGlobal
 from toontown.shtiker import IssueFrame
 from toontown.shtiker import IssueFrameV2
 from toontown.toonbase import TTLocalizer
+
+# Needed for Python 3
 import functools
 
 class DirectNewsFrame(DirectObject.DirectObject):

@@ -8,6 +8,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 import random
 
+# Needed for Python 3
 import functools
 
 class DistributedCCharBaseAI(DistributedAvatarAI.DistributedAvatarAI):

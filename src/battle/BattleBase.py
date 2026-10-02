@@ -7,6 +7,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 
+# Needed for Python 3
 import functools
 
 # locations of the various types of data within the toonAttacks list

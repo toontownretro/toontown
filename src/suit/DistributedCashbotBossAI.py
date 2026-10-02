@@ -13,6 +13,7 @@ from . import SuitDNA
 import random
 import math
 
+# Needed for Python 3
 import functools
 
 class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM):

@@ -4,6 +4,7 @@ import types
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
 
+# Needed for Python 3
 import functools
 
 class CatalogItemList:

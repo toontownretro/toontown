@@ -168,7 +168,7 @@ class PublicPartyGui(DirectFrame):
                     return 1
             else:
                 return 1
-        sortedList.sort(cmp, reverse= True)
+        sortedList.sort(key = functools.cmp_to_key(cmp), reverse= True)
 
         # put parties with 20 or more toons on the bottom
         indexToCut = -1

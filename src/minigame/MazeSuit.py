@@ -13,6 +13,9 @@ from toontown.toonbase import ToontownGlobals
 
 from . import MazeGameGlobals
 
+# Needed for Python 3
+import functools
+
 class MazeSuit(DirectObject):
     """this represents a single suit in the maze"""
     COLL_SPHERE_NAME = "MazeSuitSphere"
@@ -351,7 +354,7 @@ class MazeSuit(DirectObject):
             updateTics = suitList[i].getThinkTimestampTics(curTic)
             suitUpdates.extend(list(zip(updateTics, [i] * len(updateTics))))
 
-        suitUpdates.sort(lambda a, b: a[0] - b[0])
+        suitUpdates.sort(key = functools.cmp_to_key(lambda a, b: a[0] - b[0]))
 
         if len(suitUpdates) > 0:
 

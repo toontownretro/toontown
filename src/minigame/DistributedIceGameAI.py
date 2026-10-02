@@ -8,6 +8,7 @@ from toontown.minigame import MinigameGlobals
 from toontown.minigame import IceGameGlobals
 from toontown.ai.ToonBarrier import ToonBarrier
 
+# Needed for Python 3
 import functools
 
 class DistributedIceGameAI(DistributedMinigameAI.DistributedMinigameAI):

@@ -27,6 +27,9 @@ from . import Maze
 from . import MinigameAvatarScorePanel
 from . import MinigameGlobals
 
+# Needed for Python 3
+import functools
+
 class DistributedMazeGame(DistributedMinigame):
     notify = directNotify.newCategory('DistributedMazeGame')
 
@@ -1161,7 +1164,7 @@ class DistributedMazeGame(DistributedMinigame):
             updateTics = self.suits[i].getThinkTimestampTics(curTic)
             suitUpdates.extend(list(zip(updateTics, [i]*len(updateTics))))
         # sort the list in-place
-        suitUpdates.sort(lambda a,b: a[0]-b[0])
+        suitUpdates.sort(key = functools.cmp_to_key(lambda a,b: a[0]-b[0]))
 
         if len(suitUpdates) > 0:
             # see below

@@ -7,6 +7,7 @@ from direct.fsm.FSM import FSM
 from toontown.ai.ToonBarrier import *
 from toontown.golf import GolfGlobals
 
+# Needed for Python 3
 import functools
 
 

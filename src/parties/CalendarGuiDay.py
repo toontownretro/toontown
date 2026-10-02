@@ -13,6 +13,7 @@ from toontown.parties.PartyInfo import PartyInfo
 from toontown.parties import PartyGlobals
 from toontown.ai.NewsManager import NewsManager
 
+# Needed for Python 3
 import functools
 
 def myStrftime( myTime):

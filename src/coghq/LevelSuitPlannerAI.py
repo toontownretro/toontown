@@ -7,6 +7,7 @@ from . import LevelBattleManagerAI
 import types
 import random
 
+# Needed for Python 3
 import functools
 
 class LevelSuitPlannerAI(DirectObject.DirectObject):

@@ -10,6 +10,9 @@ from . import MovieNPCSOS
 from .MovieUtil import calcAvgSuitPos
 from direct.showutil import Effects
 
+# Needed for Python 3
+import functools
+
 # Custom: For custom actor system
 from direct.actor.Actor import Actor
 
@@ -113,7 +116,7 @@ def doDrops(drops):
         elif (len(a) < len(b)):
             return -1
         return 0
-    suitDrops.sort(compFunc)
+    suitDrops.sort(key = functools.cmp_to_key(compFunc))
     delay = 0.0
     mtrack = Parallel(name = 'toplevel-drop')
     npcDrops = {}

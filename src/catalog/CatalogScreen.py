@@ -15,6 +15,9 @@ import random
 from toontown.toon import DistributedToon
 from direct.directnotify import DirectNotifyGlobal
 
+# Needed for Python 3
+import functools
+
 NUM_CATALOG_ROWS = 3
 NUM_CATALOG_COLS = 2
 
@@ -862,7 +865,7 @@ class CatalogScreen(DirectFrame):
             
         itemList = (base.localAvatar.monthlyCatalog +
                      base.localAvatar.weeklyCatalog)
-        itemList.sort(lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeWeekly))
+        itemList.sort(key = functools.cmp_to_key(lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeWeekly)))
         itemList.reverse()
 
 
@@ -915,7 +918,7 @@ class CatalogScreen(DirectFrame):
             
         itemList = base.localAvatar.backCatalog
         itemList.sort(
-            lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeBackorder))
+            key = functools.cmp_to_key(lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeBackorder)))
         itemList.reverse()
         for item in itemList:
             if isinstance(item, CatalogInvalidItem.CatalogInvalidItem):
@@ -1185,7 +1188,7 @@ class CatalogScreen(DirectFrame):
         self.visiblePanels = []
         itemList = (base.localAvatar.monthlyCatalog +
                      base.localAvatar.weeklyCatalog)
-        itemList.sort(lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeWeekly))
+        itemList.sort(key = functools.cmp_to_key(lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeWeekly)))
         itemList.reverse()
         for item in itemList:
             if item.loyaltyRequirement() != 0:
@@ -1206,7 +1209,7 @@ class CatalogScreen(DirectFrame):
                     ))
         itemList = base.localAvatar.backCatalog
         itemList.sort(
-            lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeBackorder))
+            key = functools.cmp_to_key(lambda a,b: priceSort(a,b,CatalogItem.CatalogTypeBackorder)))
         itemList.reverse()
         for item in itemList:
             if item.loyaltyRequirement() != 0:

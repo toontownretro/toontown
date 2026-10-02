@@ -10,6 +10,9 @@ from toontown.toonbase import ToontownTimer
 from toontown.toonbase import TTLocalizer as TTL
 from toontown.toonbase import ToontownGlobals
 
+# Needed for Python 3
+import functools
+
 class DistCogdoCraneGame(CogdoCraneGameBase, DistCogdoLevelGame):
     notify = directNotify.newCategory("DistCogdoCraneGame")
 
@@ -152,7 +155,7 @@ class DistCogdoCraneGame(CogdoCraneGameBase, DistCogdoLevelGame):
         # want to use Plane.compareTo(), not Plane.__hash__(), to make
         # the comparison.
         threshold = 0.1
-        planes.sort(lambda p1, p2: p1.compareTo(p2, threshold))
+        planes.sort(key = functools.cmp_to_key(lambda p1, p2: p1.compareTo(p2, threshold)))
         lastPlane = None
         for plane in planes:
             if lastPlane == None or plane.compareTo(lastPlane, threshold) != 0:

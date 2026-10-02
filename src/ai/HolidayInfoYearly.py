@@ -9,6 +9,8 @@ from toontown.ai.HolidayInfo import *
 # Python Specific Modules
 import random
 import time
+
+# Needed for Python 3
 import functools
 
 class HolidayInfo_Yearly(HolidayInfo_Base):

@@ -17,6 +17,8 @@ import calendar
 import random
 import time
 from copy import deepcopy
+
+# Needed for Python 3
 import functools
 
 Day = Enum('MONDAY, TUESDAY, WEDNESDAY, THURSDAY, \

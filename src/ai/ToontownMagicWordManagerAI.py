@@ -51,6 +51,9 @@ from toontown.uberdog import DataStoreGlobals
 if (simbase.wantKarts):
     from toontown.racing.KartDNA import *
 
+# Needed for Python 3
+import functools
+
 class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("ToontownMagicWordManagerAI")
 
@@ -2149,7 +2152,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
             sorted = []
             for tuple in list(dist.items()):
                 sorted.append(tuple)
-            sorted.sort(self.__sortBuildingDist)
+            sorted.sort(key = functools.cmp_to_key(self.__sortBuildingDist))
                 
             # Now format the distribution into a text response.
             response = ""

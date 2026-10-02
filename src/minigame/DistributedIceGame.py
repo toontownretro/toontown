@@ -16,6 +16,9 @@ from toontown.minigame import IceGameGlobals
 from toontown.minigame import MinigameAvatarScorePanel
 from toontown.minigame import IceTreasure
 
+# Needed for Python 3
+import functools
+
 class DistributedIceGame(DistributedMinigame.DistributedMinigame,
                          DistributedIceWorld.DistributedIceWorld):
     """Client side class for the ice game."""
@@ -648,7 +651,7 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame,
                 return -1
             else:
                 return 0
-        sortedByDistance.sort(cmp = compareDistance)
+        sortedByDistance.sort(key = functools.cmp_to_key(compareDistance))
         self.scoreMovie = Sequence()
         curScale = 0.01
         curTime = 0

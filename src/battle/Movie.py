@@ -33,6 +33,9 @@ import copy
 from toontown.toonbase import TTLocalizer
 from toontown.toon import NPCToons
 
+# Needed for Python 3
+import functools
+
 camPos = Point3(14, 0, 10)
 camHpr = Vec3(89, -30, 0)
 
@@ -966,7 +969,7 @@ class Movie(DirectObject.DirectObject):
             elif (alevel < blevel):
                 return -1
             return 0
-        self.toonAttackDicts.sort(compFunc)
+        self.toonAttackDicts.sort(key = functools.cmp_to_key(compFunc))
 
     def __findToonAttack(self, track):
         """ Return a list of dictionaries for the

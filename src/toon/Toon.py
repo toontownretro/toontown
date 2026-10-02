@@ -30,6 +30,7 @@ from . import AccessoryGlobals
 import types
 import importlib
 
+# Needed for Python 3
 import functools
 
 def teleportDebug(requestStatus, msg, onlyIfToAv = True):
