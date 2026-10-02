@@ -17,7 +17,7 @@ TTAIMsgId2Names = invertDictLossless(TTAIMsgName2Id)
 
 
 if not isClient():
-    print(("EXECWARNING ToontownAIMsgTypes: %s"%TTAIMsgName2Id))
+    print("EXECWARNING ToontownAIMsgTypes: %s"%TTAIMsgName2Id)
     printStack()
 for name, value in list(TTAIMsgName2Id.items()):
     exec('%s = %s' % (name, value))

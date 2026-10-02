@@ -16,16 +16,16 @@ class DistributedDeliveryManagerAI(DistributedObjectAI):
     def hello(self, message):
         print(message)
         replyToChannel = self.air.getSenderReturnChannel()
-        print(("This is the AI getting the hello message" , message))
+        print("This is the AI getting the hello message" , message)
 
     def sendHello(self, message):
         self.sendUpdate("hello", [message])
     
     def rejectHello(self, message):
-        print(("rejected", message))
+        print("rejected", message)
         
     def helloResponse(self, message):
-        print(("accepted", message))
+        print("accepted", message)
         
     #NON Test functions begin here
         

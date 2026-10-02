@@ -272,7 +272,7 @@ class RaceManagerAI(DirectObject.DirectObject):
                 if av and (avId in race.playersFinished):
                     # keep track of placement for contests
                     self.air.writeServerEvent("kartingCircuitFinished", avId, "%s|%s|%s|%s" % (place, places, race.circuitTimes[avId], race.trackId))
-                    print(("kartingCircuitFinished", avId, "%s|%s|%s|%s" % (place, places, race.circuitTimes[avId], race.trackId)))
+                    print("kartingCircuitFinished", avId, "%s|%s|%s|%s" % (place, places, race.circuitTimes[avId], race.trackId))
 
                     # calculate their winnings
                     entryFee = RaceGlobals.getEntryFee(race.trackId, race.raceType)

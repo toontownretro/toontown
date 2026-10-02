@@ -108,17 +108,17 @@ class Hood(StateData.StateData):
         self.titleText.setColor(Vec4(*self.titleColor))
         self.titleText.clearColorScale()
         self.titleText.setFg(self.titleColor)
-        seq = Task.sequence(
-            # HACK! Let a pause go by to cover the loading pause
-            # This tricks the taskMgr
-            Task.pause(0.1),
-            Task.pause(6.0),
-            self.titleText.lerpColorScale(
-            Vec4(1.0, 1.0, 1.0, 1.0),
-            Vec4(1.0, 1.0, 1.0, 0.0),
-            0.5),
-            Task(self.hideTitleTextTask))
-        taskMgr.add(seq, "titleText")
+        #LERP#seq = Task.sequence(
+        #LERP#    # HACK! Let a pause go by to cover the loading pause
+        #LERP#    # This tricks the taskMgr
+        #LERP#    Task.pause(0.1),
+        #LERP#    Task.pause(6.0),
+        #LERP#    self.titleText.lerpColorScale(
+        #LERP#    Vec4(1.0, 1.0, 1.0, 1.0),
+        #LERP#    Vec4(1.0, 1.0, 1.0, 0.0),
+        #LERP#    0.5),
+        #LERP#    Task(self.hideTitleTextTask))
+        #LERP#taskMgr.add(seq, "titleText")
 
     def hideTitleTextTask(self, task):
         assert(self.notify.debug("hideTitleTextTask()"))

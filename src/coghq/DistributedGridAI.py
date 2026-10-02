@@ -296,7 +296,7 @@ class DistributedGridAI(DistributedEntityAI.DistributedEntityAI):
                         str += '[.]'
                     else:
                         str += ' . '
-            print((str + ("  : %d" % i)))
+            print(str + ("  : %d" % i))
         print("")
             
                 

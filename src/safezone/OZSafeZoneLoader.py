@@ -336,7 +336,7 @@ class OZSafeZoneLoader( SafeZoneLoader ):
                 base.holder = holder
                 toonPos = av.getPos(render)
                 toonHpr = av.getHpr(render)
-                print(("av Pos %s" % (av.getPos()) ))
+                print("av Pos %s" % (av.getPos()) )
                 base.toonPos = toonPos
                 holder.setPos(toonPos)
                 av.reparentTo(holder)
@@ -360,7 +360,7 @@ class OZSafeZoneLoader( SafeZoneLoader ):
                 else:
                     lookIn = Vec3(360 + lookAt,-30,0)
                 
-                print(("Camera Hprs toon %s; lookIn %s; final %s" % (newHpr, lookIn, (lookIn - newHpr))))
+                print("Camera Hprs toon %s; lookIn %s; final %s" % (newHpr, lookIn, (lookIn - newHpr)))
                 
                 if local == 1:
                     pass

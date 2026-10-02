@@ -122,7 +122,7 @@ class DistributedTesterAI(DistributedObjectAI.DistributedObjectAI):
 
     def getMovie(self):
         msg = self.getMsg()
-        print(("get movie", msg))
+        print("get movie", msg)
         return msg
 
     def badMovie(self):
@@ -132,7 +132,7 @@ class DistributedTesterAI(DistributedObjectAI.DistributedObjectAI):
         print("about to send setMovie")
         msg = self.getMovie()
         # msg = self.badMovie()
-        print(("movie message: ", msg))
+        print("movie message: ", msg)
         self.sendUpdate('setMovie', msg)
         stime = globalClock.getRealTime() + 2.0
         self.sendUpdate('setState', ['PlayMovie', globalClockDelta.localToNetworkTime(stime)])

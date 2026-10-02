@@ -429,7 +429,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
             self.toonTakeOver()
 
     def setVictorExited(self, avId):
-        print(("victor %d exited unexpectedly for bldg %d" % (avId, self.doId)))
+        print("victor %d exited unexpectedly for bldg %d" % (avId, self.doId))
         self.recordVictorResponse(avId)
         if self.allVictorsResponded():
             self.toonTakeOver()

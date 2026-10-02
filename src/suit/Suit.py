@@ -503,7 +503,7 @@ def loadSuitAnims(suit, flag = 1):
             # no suit specific anims defined
             animList = ()
     else:
-        print(("Invalid suit name: ", suit))
+        print("Invalid suit name: ", suit)
         return -1
     
     # process the animList

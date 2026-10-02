@@ -31,7 +31,7 @@ for hoodId in hoods:
         NEIGHBORHOOD_CODES[hoodName] = hoodId
         NEIGHBORHOODS.append(hoodName)
     else:
-        print(('Error: no hood defined for: ', hoodId))
+        print('Error: no hood defined for: ', hoodId)
 
 dnaDirectory = Filename.expandFrom(base.config.GetString("dna-directory", "$TTMODELS/src/dna"))
 

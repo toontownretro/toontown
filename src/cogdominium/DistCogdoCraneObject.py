@@ -163,12 +163,12 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
             impact = vel[1]
         
             if impact >= self.getMinImpact():
-                print(("hit! %s" % (impact)))
+                print("hit! %s" % (impact))
                 self.hitBossSoundInterval.start()
                 self.doHitBoss(impact)
             else:
                 self.touchedBossSoundInterval.start()
-                print(("--not hard enough: %s" % (impact)))
+                print("--not hard enough: %s" % (impact))
 
     def doHitBoss(self, impact):
         # Derived classes can override this to do something specific

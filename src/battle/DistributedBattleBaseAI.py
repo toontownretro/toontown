@@ -660,7 +660,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI,
     # Add/Remove toon
 
     def addToon(self, avId):
-        print(("DBB-addToon %s" % (avId)))
+        print("DBB-addToon %s" % (avId))
         # Returns 1 if the toon is successfully added, 0 otherwise.
         
         self.notify.debug('addToon(%d)' % avId)

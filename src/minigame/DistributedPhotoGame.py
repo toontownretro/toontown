@@ -1388,7 +1388,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
     def printAD(self):
         for assignment in self.assignmentDataDict:
             data = self.assignmentDataDict[assignment]
-            print(("Key:%s\nData:%s\n" % (str(assignment), data)))
+            print("Key:%s\nData:%s\n" % (str(assignment), data))
             
             
     def updateScorePanel(self):

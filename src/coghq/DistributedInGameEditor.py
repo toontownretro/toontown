@@ -692,7 +692,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
         requested."""
         Level.Level.setEntityCreatorUsername(self, entId, editUsername)
         if editUsername == self.getEditUsername():
-            print(('entity %s about to be created; we requested it' % entId))
+            print('entity %s about to be created; we requested it' % entId)
             callback = self.entCreateHandlerQ[0]
             del self.entCreateHandlerQ[:1]
             callback(entId)
@@ -807,7 +807,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject,
                     if oldName[i] != ' ':
                         hasSuffix = False
                     else:
-                        print(('numString: %s' % numString))
+                        print('numString: %s' % numString)
                         copyNum = int(numString)+1
             if hasSuffix:
                 newName = oldName[:i] + suffix % copyNum

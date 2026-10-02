@@ -443,7 +443,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
             messenger.send('avatarExited', [self])
         if simbase.wantPets:
             if self.isInEstate():
-                print(("ToonAI - Exit estate toonId:%s" % (self.doId)))
+                print("ToonAI - Exit estate toonId:%s" % (self.doId))
                 self.exitEstate()
             if self.zoneId != ToontownGlobals.QuietZone:
                 # simulate a zone change for the benefit of the pets
@@ -5510,7 +5510,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
 
 
 
-        print(("Setting Access %s" % (access)))
+        print("Setting Access %s" % (access))
         if access == OTPGlobals.AccessInvalid:
             if not __dev__:
                 self.air.writeServerEvent("Setting Access", self.doId, "setAccess not being sent by the OTP Server, changing access to unpaid")
@@ -5544,7 +5544,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def logMessage(self, message):
         avId = self.air.getAvatarIdFromSender()
         if __dev__:
-            print(("CLIENT LOG MESSAGE %s %s" % (avId, message)))
+            print("CLIENT LOG MESSAGE %s %s" % (avId, message))
         try:
             self.air.writeServerEvent('clientLog', avId, message)
             

@@ -554,7 +554,7 @@ class DistributedElevator(DistributedObject.DistributedObject):
         # This should only be sent to us if our localToon requested
         # permission to board the elevator.
         # reason 0: unknown, 1: shuffle, 2: too low laff, 3: no seat, 4: need promotion
-        print(("rejectBoard %s" % (reason)))
+        print("rejectBoard %s" % (reason))
         if hasattr(base.localAvatar, "elevatorNotifier"):
             if reason == REJECT_SHUFFLE:
                 base.localAvatar.elevatorNotifier.showMe(TTLocalizer.ElevatorHoppedOff)

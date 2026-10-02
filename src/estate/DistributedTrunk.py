@@ -39,12 +39,12 @@ class DistributedTrunk(DistributedCloset.DistributedCloset):
         self.isFreePlayer = 0
 
     def printInfo(self):
-        print(("avid: %s, gender: %s" % (self.av.doId, self.av.style.gender)))
-        print(("current hat = %s, glasses = %s, backpack = %s, shoes = %s" % (self.av.getHat(), self.av.getGlasses(), self.av.getBackpack(), self.av.getShoes())))
-        print(("hatList = %s" % self.av.getHatList()))
-        print(("glassesList = %s" % self.av.getGlassesList()))
-        print(("backpackList = %s" % self.av.getBackpackList()))
-        print(("shoesList = %s" % self.av.getShoesList()))
+        print("avid: %s, gender: %s" % (self.av.doId, self.av.style.gender))
+        print("current hat = %s, glasses = %s, backpack = %s, shoes = %s" % (self.av.getHat(), self.av.getGlasses(), self.av.getBackpack(), self.av.getShoes()))
+        print("hatList = %s" % self.av.getHatList())
+        print("glassesList = %s" % self.av.getGlassesList())
+        print("backpackList = %s" % self.av.getBackpackList())
+        print("shoesList = %s" % self.av.getShoesList())
 
     def setState(self, mode,
                  avId, ownerId,

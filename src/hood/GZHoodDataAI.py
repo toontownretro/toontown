@@ -230,7 +230,7 @@ class GZHoodDataAI(HoodDataAI.HoodDataAI):
                 self.golfKarts += foundKarts
                 self.golfKartGroups += foundKartGroups
 
-        print((self.golfKarts, self.golfKartGroups))
+        print(self.golfKarts, self.golfKartGroups)
 
         # Place each Golf Kart into the proper WaitEmpty State. Handle this
         # after each they have generated so that they are

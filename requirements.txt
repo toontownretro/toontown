@@ -1,5 +1,0 @@
-pytz
-Pmw
-SOAPpy-py3
-tlslite-ng
-pywin32

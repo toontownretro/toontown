@@ -321,6 +321,6 @@ class CatalogManagerAI(DistributedObjectAI.DistributedObjectAI):
         avatar = self.air.doId2do.get(avId)
 
         if avatar and avatar.catalogScheduleNextTime == 0:
-            print(("starting catalog for %s" % (avatar.getName())))
+            print("starting catalog for %s" % (avatar.getName()))
             self.deliverCatalogFor(avatar)
 

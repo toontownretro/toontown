@@ -621,14 +621,14 @@ class InGameEditor(AppShell):
                 # Use value dict to translate current value
                 # If entry not found, just use current value
                 if var.get():
-                    print(('got it', trueValue, vd))
+                    print('got it', trueValue, vd)
                     vd[trueValue] = 1
                 else:
-                    print(('not it', trueValue, vd))
+                    print('not it', trueValue, vd)
                     if trueValue in vd:
                         del vd[trueValue]
                 value = list(vd.keys())
-                print(('SENDING', value))
+                print('SENDING', value)
                 self.level.setAttribEdit(entId, attribName, value)
             # Create check button
             if type(choice) is bytes:
@@ -647,7 +647,7 @@ class InGameEditor(AppShell):
         self.attribWidgets.append(frame)
         # Update Tkinter variable on edits and undo/redo
         def setCheckbuttonVar(attributeValueList):
-            print(('COMING BACK', attributeValueList))
+            print('COMING BACK', attributeValueList)
             for attributeValue, cb in list(checkbuttonDict.items()):
                 if attributeValue in attributeValueList:
                     cb.set(1)
@@ -759,7 +759,7 @@ class InGameEditor(AppShell):
                 initialDir = Filename.expandFrom('$TTMODELS/built/').toOsSpecific()
             else:
                 initialDir = Filename.expandFrom('$TTMODELS/built/%s' % text.get()[1:-1]).toOsSpecific()
-            print((text, text.get()[1:-1], initialDir))
+            print(text, text.get()[1:-1], initialDir)
             #import pdb;pdb.set_trace()
             rawFilename = askopenfilename(
                 defaultextension = '*',

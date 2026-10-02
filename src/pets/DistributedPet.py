@@ -642,7 +642,7 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode,
                     )
                 self.movieTrack.start()
             except Exception as error:
-                print((str(error)))
+                print(str(error))
 
         if (mode == PetConstants.PET_MOVIE_SCRATCH):
             assert(self.notify.debug('PET_MOVIE_SCRATCH'))
@@ -659,7 +659,7 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode,
                     )
                 self.movieTrack.start()
             except Exception as error:
-                print((str(error)))
+                print(str(error))
 
         if (mode == PetConstants.PET_MOVIE_FEED):
             assert(self.notify.debug('PET_MOVIE_FEED'))

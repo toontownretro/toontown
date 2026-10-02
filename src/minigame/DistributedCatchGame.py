@@ -660,8 +660,8 @@ class DistributedCatchGame(DistributedMinigame):
         """ debugging aid; show the drop grid """
         self.hideDropGrid()
         self.dropMarkers = []
-        print(("dropRows: %s" % self.DropRows))
-        print(("dropCols: %s" % self.DropColumns))
+        print("dropRows: %s" % self.DropRows)
+        print("dropCols: %s" % self.DropColumns)
         for row in range(self.DropRows):
             self.dropMarkers.append([])
             rowList = self.dropMarkers[row]

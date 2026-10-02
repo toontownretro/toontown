@@ -493,7 +493,7 @@ def adjustHolidaysForTestServer():
 
 adjustHolidaysForTestServer()
 # TODO put this in a notify? although it should be an info if done so
-print(("AdjustedHolidays = %s" % AdjustedHolidays))        
+print("AdjustedHolidays = %s" % AdjustedHolidays)        
 
 class HolidayManagerAI:
     notify = DirectNotifyGlobal.directNotify.newCategory('HolidayManagerAI')

@@ -93,7 +93,7 @@ for opt in opts:
     elif (flag == '--dcfile'):
         dcFileNames.append(value)
     else:
-        print(("Error: Illegal option: " + flag))
+        print("Error: Illegal option: " + flag)
         print(helpString)
         sys.exit(1)
 

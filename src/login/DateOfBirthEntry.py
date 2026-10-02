@@ -215,7 +215,7 @@ class DateOfBirthEntry(DirectFrame):
         if month in [1,2,3,4,5,6,7,8,9,10,11,12]:
             self.monthControl.scrollTo(month-1)
         else:
-            print(("month not found in list: %s" % (month)))
+            print("month not found in list: %s" % (month))
             self.monthControl.scrollTo(0)
         self.__updateDaysInMonth()
         
@@ -224,7 +224,7 @@ class DateOfBirthEntry(DirectFrame):
         if day in self.days:
             self.dayControl.scrollTo(self.days.index(day))
         else:
-            print(("day not found in list: %s" % (day)))
+            print("day not found in list: %s" % (day))
             self.dayControl.scrollTo(0)
 
     def setYear(self, year):
@@ -232,7 +232,7 @@ class DateOfBirthEntry(DirectFrame):
         if year in self.years:
             self.yearControl.scrollTo(self.years.index(year))
         else:
-            print(("year not found in list: %s" % (year)))
+            print("year not found in list: %s" % (year))
             self.yearControl.scrollTo(0)
         self.__updateDaysInMonth()
 

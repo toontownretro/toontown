@@ -129,7 +129,7 @@ for opt in opts:
     elif (flag == '--crDbName'):
         crDbName = value    
     else:
-        print(("Error: Illegal option: " + flag))
+        print("Error: Illegal option: " + flag)
         print(helpString)
         sys.exit(1)
 

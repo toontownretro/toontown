@@ -63,7 +63,7 @@ class VisGroupsUI(wx.Dialog):
 
     def selectVisGroup(self, evt):
         target = evt.GetString()
-        print(('Setting vis options for group:', target))
+        print('Setting vis options for group:', target)
         # Record current target
         oldTarget = self.target
         # Record new target
@@ -95,7 +95,7 @@ class VisGroupsUI(wx.Dialog):
             # MRM: Add change in visibility here
             # Show all vs. show active
             if state == 1:
-                print(('Vis Group:', self.target, 'adding group:', groupName))
+                print('Vis Group:', self.target, 'adding group:', groupName)
                 if groupName not in visList:
                     visList.append(groupName)
                     if hasattr(targetNP, 'addVisible'):
@@ -106,7 +106,7 @@ class VisGroupsUI(wx.Dialog):
                     groupNP.show()
                     groupNP.setColor(1, 0, 0, 1)
             else:
-                print(('Vis Group:', self.target, 'removing group:', groupName))
+                print('Vis Group:', self.target, 'removing group:', groupName)
                 if groupName in visList:
                     visList.remove(groupName)
                     if hasattr(targetNP, 'removeVisible'):

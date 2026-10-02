@@ -270,9 +270,9 @@ def simulateRecoveryVar(numNeeded, baseChance, list = 0, cap = 1):
         else:
             currentFail += 1
     
-    print(("Test results: %s tries, %s longest failure chain, %s cap hits" % (numTries, greatestFailChain, capHits)))
+    print("Test results: %s tries, %s longest failure chain, %s cap hits" % (numTries, greatestFailChain, capHits))
     if list:
-        print(("failures for each succes %s" % (attemptList)))
+        print("failures for each succes %s" % (attemptList))
 
 def simulateRecoveryFix(numNeeded, baseChance, list = 0):
     numHave = 0
@@ -297,9 +297,9 @@ def simulateRecoveryFix(numNeeded, baseChance, list = 0):
         else:
             currentFail += 1
 
-    print(("Test results: %s tries, %s longest failure chain" % (numTries, greatestFailChain)))
+    print("Test results: %s tries, %s longest failure chain" % (numTries, greatestFailChain))
     if list:
-        print(("failures for each succes %s" % (attemptList)))
+        print("failures for each succes %s" % (attemptList))
 
 class Quest:
     """
@@ -1754,7 +1754,7 @@ class RecoverItemQuest(LocationBasedQuest):
         
     def testDone(self, progress):
         numberDone = progress & (pow(2,16) - 1)
-        print(("Quest number done %s" % (numberDone)))
+        print("Quest number done %s" % (numberDone))
         if numberDone >= self.getNumItems():
             return 1
         else:
@@ -4720,7 +4720,7 @@ def findFinalRewardId(questId):
             questDesc = QuestDict[questId]
         except KeyError:
             # Hmmm, no description found
-            print(('findFinalRewardId: Quest ID: %d not found' % questId))
+            print('findFinalRewardId: Quest ID: %d not found' % questId)
             return -1
         # Is the end of the chain?
         nextQuestId = questDesc[QuestDictNextQuestIndex]
@@ -6589,7 +6589,7 @@ def checkReward(questId, forked=0):
         assert reward in validRewards, "quest %s: unknown reward %s" % (questId, reward)
         if reward is OBSOLETE:
             # this quest is obsolete; notify
-            print(("warning: quest %s is obsolete" % questId))
+            print("warning: quest %s is obsolete" % questId)
         return reward
     else:
         # internal quests currently cannot give out rewards

@@ -200,7 +200,7 @@ class FireworksShow:
     def printShow(self):
         print('(')
         for fw in self.getShow():
-            print(('    %s,' % (fwTuple2Str(fw))))
+            print('    %s,' % (fwTuple2Str(fw)))
         print(')')        
 
     def saveShow(self, fireworksFilename):
@@ -368,7 +368,7 @@ class FireworksShow:
         fwList = self.getSortedList()
         for fw in fwList:
             if fw.getStyle() in excludeList:
-                print(('Excluding', styleNames[fw.getStyle()]))
+                print('Excluding', styleNames[fw.getStyle()])
                 continue
             currT = fw.getStartTime()
             if currT < startT:

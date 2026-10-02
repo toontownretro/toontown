@@ -2148,7 +2148,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                  #"\nP: %.3f" % hpr[1] + "\nR: %.3f" % hpr[2]
 
         # print to log too
-        print(("Current position=",strPos.replace('\n', ', ')))
+        print("Current position=",strPos.replace('\n', ', '))
 
         self.setChatAbsolute(strPos, CFThought | CFTimeout)
 
@@ -2799,7 +2799,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             state = place.fsm.getCurrentState()
             if state.getName() != self.lastPlaceState:
                 #PRINT is okay in this case because this is magic word thing
-                print(("Place State Change From %s to %s" % (self.lastPlaceState, state.getName())))
+                print("Place State Change From %s to %s" % (self.lastPlaceState, state.getName()))
                 self.lastPlaceState = state.getName()#[:]
         return Task.cont
         
@@ -3213,7 +3213,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             
     def b_setAnimState(self, animName, animMultiplier=1.0, callback = None, extraArgs=[]):
         if self.wantStatePrint:
-            print(("Local Toon Anim State %s" % (animName)))
+            print("Local Toon Anim State %s" % (animName))
         DistributedToon.DistributedToon.b_setAnimState(self, animName, animMultiplier, callback, extraArgs)
             
     def swimTimeoutAction(self):

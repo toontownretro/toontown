@@ -127,7 +127,7 @@ class ObjectMgr(ObjectMgrBase):
         try:
             nodePath = NodePath(DNASTORE.findPandaNode(dnaNode))
         except:
-            print(("Can't find Panda Node", dnaNode, parent))
+            print("Can't find Panda Node", dnaNode, parent)
             return parent
 
         if DNAClassEqual(dnaNode, DNA_PROP):
@@ -167,7 +167,7 @@ class ObjectMgr(ObjectMgrBase):
             name = dnaNode.getName()
             index = name.find(':')
             if index < 0:
-                print(('Wrong flat building DNA', name))
+                print('Wrong flat building DNA', name)
 ##                 if dnaNode.getNumChildren() == 0:
 ##                     dnaParent.remove(dnaNode)
             else:

@@ -1162,7 +1162,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     # Interface to get Shard Stat Details
     ###################################################
     def _wantShardListComplete(self):   
-        print((self.activeDistrictMap))
+        print(self.activeDistrictMap)
         if self._shardsAreReady():
             self.acceptOnce(ToontownDistrictStats.EventName(), self.shardDetailStatsComplete)
             ToontownDistrictStats.refresh()                
@@ -1332,8 +1332,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                 return 0
 
         if base.wantPets and base.localAvatar.hasPet():
-            print((str(self.friendsMap)))
-            print((str(base.localAvatar.getPetId() in self.friendsMap)))
+            print(str(self.friendsMap))
+            print(str(base.localAvatar.getPetId() in self.friendsMap))
             if (base.localAvatar.getPetId() in self.friendsMap) == None:
                 return 0
 
@@ -1411,7 +1411,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         for (objId, obj) in list(self.friendsMap.items()):
             from toontown.pets import DistributedPet
             if (isinstance(obj, DistributedPet.DistributedPet)):
-                print(("Removing %s reference from the friendsMap" % obj.getName()))
+                print("Removing %s reference from the friendsMap" % obj.getName())
                 del self.friendsMap[objId]
 
     def removePetFromFriendsMap(self):

@@ -122,7 +122,7 @@ class DistributedClosetAI(DistributedFurnitureItemAI.DistributedFurnitureItemAI)
             aidc = self.air.dclassesByName['DistributedToonAI']
             self.ownerAv = DistributedToonAI.DistributedToonAI(self.air)
             self.ownerAv.doId = db.doId
-            print(("owner doId = %d" % db.doId))
+            print("owner doId = %d" % db.doId)
             self.ownerAv.inventory = InventoryBase.InventoryBase(self.ownerAv)
             self.ownerAv.teleportZoneArray = []
             

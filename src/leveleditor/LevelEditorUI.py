@@ -623,7 +623,7 @@ class LevelEditorUI(LevelEditorUIBase):
         elif (side == 'inner'):
             barricadeDict = self.innerBarricadeDict
         else:
-            print(("unhandled side %s" % side))
+            print("unhandled side %s" % side)
             return
 
         if barricadeOrigNum not in barricadeDict:
@@ -635,7 +635,7 @@ class LevelEditorUI(LevelEditorUIBase):
         if barricadeDict[barricadeOrigNum][1] < curBldgGroupIndex:
             barricadeDict[barricadeOrigNum][1] = curBldgGroupIndex
 
-        print(("---------- %s barricadeDict origNum=%d  data=(%d, %d)" %(side, barricadeOrigNum, barricadeDict[barricadeOrigNum][0], barricadeDict[barricadeOrigNum][1])))
+        print("---------- %s barricadeDict origNum=%d  data=(%d, %d)" %(side, barricadeOrigNum, barricadeDict[barricadeOrigNum][0], barricadeDict[barricadeOrigNum][1]))
 
     def reparentStreetBuildings(self, nodePath):
         dnaNode = self.editor.findDNANode(nodePath)
@@ -668,7 +668,7 @@ class LevelEditorUI(LevelEditorUIBase):
         return newGroup
 
     def makeNewBuildingGroup(self, sequenceNum, side, curveName):
-        print(("-------------------------- new building group %s  curveName=%s------------------------" % (sequenceNum, curveName)))
+        print("-------------------------- new building group %s  curveName=%s------------------------" % (sequenceNum, curveName))
         # Now create a new group with just the buildings
         self.editor.addGroup(self.editor.NPToplevel)
         newGroup = self.editor.NPParent
@@ -678,10 +678,10 @@ class LevelEditorUI(LevelEditorUIBase):
 
         if 'curveside' in curveName:
             #we want to preserve which group the side street is closest to
-            print(("special casing %s" % curveName))
+            print("special casing %s" % curveName)
             parts = curveName.split('_')
             groupName = 'Buildings_' + side + "-" + parts[3] + "_" + parts[4]
-            print(("groupname = %s" % groupName))
+            print("groupname = %s" % groupName)
         else:
             groupName = 'Buildings_' + side + "-" + str(sequenceNum)
         newGroup.setName(groupName)

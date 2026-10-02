@@ -34,7 +34,7 @@ for opt in opts:
         print(helpString)
         sys.exit(1)
     else:
-        print(('illegal option: ' + flag))
+        print('illegal option: ' + flag)
 
 if (not (len(pargs) == 1)):
     print('Must specify a persistDirectory')

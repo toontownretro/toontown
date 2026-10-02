@@ -1117,7 +1117,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
                 self.sndCannonMove.stop()
                 # make sure everyone has the correct final position
                 self.__broadcastLocalCannonPosition()
-                print(("Cannon Rot:%s Angle:%s" % (pos[0], pos[1])))
+                print("Cannon Rot:%s Angle:%s" % (pos[0], pos[1]))
 
         return Task.cont
 
@@ -1231,7 +1231,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         flightResults = self.__calcFlightResults(avId, launchTime)
         # pull all the results into the local namespace
         if not isClient():
-            print(("EXECWARNING DistributedCannon: %s"%flightResults))
+            print("EXECWARNING DistributedCannon: %s"%flightResults)
             printStack()
         for key in flightResults:
             exec("%s = flightResults['%s']" % (key, key))
@@ -1259,7 +1259,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         # head was
         av = self.toonModel
         av.reparentTo(render)
-        print(("start Pos%s Hpr%s" % (startPos, startHpr)))
+        print("start Pos%s Hpr%s" % (startPos, startHpr))
         av.setPos(startPos)
         barrelHpr = self.barrel.getHpr(render)
         # subtract 90 degrees from hpr since barrels hpr measures the angle from the ground

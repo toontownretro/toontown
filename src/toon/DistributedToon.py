@@ -3888,7 +3888,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
 
     def _zombieCheckResult(self, context, present):
         if context == self._lastZombieContext:
-            print(('_zombieCheckResult[%s]: %s' % (self.doId, present)))
+            print('_zombieCheckResult[%s]: %s' % (self.doId, present))
             if not present:
 
                 self.notify.warning('hiding av %s because they are not on the district!' % self.doId)

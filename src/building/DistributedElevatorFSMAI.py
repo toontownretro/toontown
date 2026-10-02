@@ -302,7 +302,7 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
     def enterClosed(self):
         #print("DistributedElevatorAI.enterClosed")
         if hasattr(self, "doId"):
-            print((self.doId))
+            print(self.doId)
         self.d_setState('Closed')
 
     def exitClosed(self):
@@ -316,7 +316,7 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
         #print("WAIT EMPTY")
         for i in range(len(self.seats)):
             self.seats[i] = None
-        print((self.seats))
+        print(self.seats)
         self.d_setState('WaitEmpty')
         self.accepting = 1
         

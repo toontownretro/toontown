@@ -159,8 +159,8 @@ def handleFKey():
         frameCount = globalClock.getFrameCount()
         df = frameCount - startFrameCount
         if (df > 0):
-                print((df, " frames in ", dt, "seconds"))
-                print((df/dt, " fps avg. (", 1000.0/(df/dt), "ms)"))
+                print(df, " frames in ", dt, "seconds")
+                print(df/dt, " fps avg. (", 1000.0/(df/dt), "ms)")
         startTime = time
         startFrameCount = frameCount
 

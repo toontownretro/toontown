@@ -1131,7 +1131,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
 
         def makeButton(itemName, itemNum, *extraArgs):
             def buttonCommand():
-                print((itemName, itemNum))
+                print(itemName, itemNum)
             return DirectLabel(text = itemName,
                         relief = None,
                         text_align = TextNode.ALeft,

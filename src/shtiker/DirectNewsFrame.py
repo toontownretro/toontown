@@ -11,6 +11,7 @@ from direct.showbase import AppRunnerGlobal
 from toontown.shtiker import IssueFrame
 from toontown.shtiker import IssueFrameV2
 from toontown.toonbase import TTLocalizer
+import functools
 
 class DirectNewsFrame(DirectObject.DirectObject):
 
@@ -109,7 +110,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
         newsDirAsFile = vfs.getFile(Filename(newsDir))
         fileList = newsDirAsFile.scanDirectory()
         fileNames = fileList.getFiles()
-        self.notify.debug("filenames=%s" % fileNames)
+        self.notify.debug("filenames=%s" % (fileNames,))
         # scan through and find hom1. thats got to be a home page
         homeFileNames = set([])
         for name in fileNames:
@@ -123,14 +124,14 @@ class DirectNewsFrame(DirectObject.DirectObject):
                     
         if not homeFileNames:
             #self.notify.error("couldnt find hom1. in %s" % fileNames)
-            self.notify.warning("couldnt find hom1. in %s" % fileNames)
+            self.notify.warning("couldnt find hom1. in %s" % (fileNames,))
             self.setErrorMessage(TTLocalizer.NewsPageNoIssues)
             return []
 
         def fileCmp( fileA, fileB):
             return fileA.getFilename().compareTo(fileB.getFilename())
         homeFileNames = list(homeFileNames)
-        homeFileNames.sort(cmp = fileCmp)
+        homeFileNames.sort(key = functools.cmp_to_key(fileCmp))
         self.notify.debug("returned homeFileNames=%s" % homeFileNames)
         
         return homeFileNames

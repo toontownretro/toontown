@@ -35,7 +35,7 @@ class PetTraitFixer(RepairAvatars.PetIterator):
     def readIdsFromFile(self, filename='doodle.list'):
         file = open(filename)
         self.objIdList = file.readlines()
-        print(('Fixing %s pets' % len(self.objIdList)))
+        print('Fixing %s pets' % len(self.objIdList))
 
     def processPet(self, pet, db):
         RepairAvatars.PetIterator.processPet(self, pet, db)
@@ -51,7 +51,7 @@ class PetTraitFixer(RepairAvatars.PetIterator):
             return
 
         # grab the pet's owner
-        print(('requesting owner %s of pet %s' % (pet.getOwnerId(), pet.doId)))
+        print('requesting owner %s of pet %s' % (pet.getOwnerId(), pet.doId))
         ag = RepairAvatars.AvatarGetter(self.air)
         event = 'getOwner-%s' % pet.doId
         ag.getAvatar(pet.getOwnerId(), fields=['setName', 'setMaxHp',
@@ -101,7 +101,7 @@ class PetTraitFixer(RepairAvatars.PetIterator):
         fields = []
 
         if newSz != ToontownGlobals.ToontownCentral:
-            print(('newSafezone: %s' % newSz))
+            print('newSafezone: %s' % newSz)
             # recalculate the pet's traits
             newTraits = PetTraits.PetTraits(pet.getTraitSeed(), newSz)
             pet.setTraits(newTraits.getValueList())
@@ -111,7 +111,7 @@ class PetTraitFixer(RepairAvatars.PetIterator):
             fields.append('setSafeZone')
 
         if len(fields):
-            print(('== Fixing pet %s' % pet.doId))
+            print('== Fixing pet %s' % pet.doId)
             db = DatabaseObject.DatabaseObject(self.air, pet.doId)
             db.storeObject(pet, fields)
 

@@ -1677,7 +1677,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
                                 stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         proc.stdin.write('test' + '\n')
         result = proc.stdout.readline()
-        print(('main process: %s' % repr(result)))
+        print('main process: %s' % repr(result))
         while result[-1] in ('\r', '\n'):
             result = result[:-1]
         if (result == 'testtest'):

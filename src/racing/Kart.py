@@ -931,7 +931,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
     def generateEngineStartTrack(self):
         length = self.kartStartSfx.length()
         def printVol():
-            print((self.kartLoopSfx.getVolume()))
+            print(self.kartLoopSfx.getVolume())
             
         track = Parallel(
             SoundInterval(self.kartStartSfx),

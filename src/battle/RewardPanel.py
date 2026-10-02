@@ -781,7 +781,7 @@ class RewardPanel(DirectFrame):
         #check for corruptUberList
         #import pdb; pdb.set_trace()
         if hasUber < 0:
-            print((toon.doId, 'Reward Panel received an invalid hasUber from an uberList'))
+            print(toon.doId, 'Reward Panel received an invalid hasUber from an uberList')
         
         tickDelay = 1.0 / 60
         intervalList = []

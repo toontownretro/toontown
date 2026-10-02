@@ -419,7 +419,7 @@ class ToonTeleportPanel(DirectFrame):
             self.fsm.request('unknownHood', [hoodId])
 
         elif canonicalHoodId not in base.cr.hoodMgr.getAvailableZones():
-            print(("hoodId %d not ready" % hoodId))
+            print("hoodId %d not ready" % hoodId)
             # We haven't finished downloading this hood yet.
             self.fsm.request('unavailableHood', [hoodId])
 

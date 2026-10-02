@@ -461,7 +461,7 @@ class AvatarFixer(AvatarIterator):
 
             if (questId in [160, 161, 162, 161]):
                 if rewardId != 100:
-                    print(('WARNING: av has quest: %s with reward: %s' % (questId, rewardId)))
+                    print('WARNING: av has quest: %s with reward: %s' % (questId, rewardId))
                     questDesc[3] = 100
                     fixed = 1
                     continue
@@ -476,7 +476,7 @@ class AvatarFixer(AvatarIterator):
             
             if ((toNpc != 1000) and
                 (NPCToons.NPCToonDict[toNpc][5] == NPCToons.NPC_HQ)):
-                print(('WARNING: av has quest: %s to visit NPC_HQ: %s' % (questId, toNpc)))
+                print('WARNING: av has quest: %s to visit NPC_HQ: %s' % (questId, toNpc))
                 print('before: ', av.quests)
                 questDesc[2] = Quests.ToonHQ
                 print('after: ', av.quests)
@@ -668,7 +668,7 @@ class AvatarPrinter(AvatarIterator):
         #print 'new: ', newDNA
 
         if av.doId % 10000 == 0:
-            print(("Working on avatar: %s" % av.doId))
+            print("Working on avatar: %s" % av.doId)
         #print ("%s, %s, %s, %s, %s" %
         # (av.doId, av.maxHp, len(av.hoodsVisited), len(av.safeZonesVisited), cogCount))
         self.hoodInfoStore.record(av.maxHp, len(av.hoodsVisited), len(av.safeZonesVisited))

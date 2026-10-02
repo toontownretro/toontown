@@ -402,7 +402,7 @@ def getAccessDictByType( accessoryOwnedList ):
                     accessDict[ accType ] = []
                 accessDict[ accType ].append( accOwnedId )
     else:
-        print(("KartDNA: getAccessDictByType: bad accessory list: ", accessoryOwnedList))
+        print("KartDNA: getAccessDictByType: bad accessory list: ", accessoryOwnedList)
 
     return accessDict
 

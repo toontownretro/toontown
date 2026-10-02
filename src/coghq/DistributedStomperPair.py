@@ -39,7 +39,7 @@ class DistributedStomperPair(BasicEntities.DistributedNodePathEntity):
         # if toon is within a half foot of the center of this thing,
         # he is squashed
         tPos = base.localAvatar.getPos(self)
-        print(("tpos = %s" % tPos))
+        print("tpos = %s" % tPos)
 
         yRange = 3.0
         xRange = 3.0

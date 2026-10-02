@@ -378,7 +378,7 @@ class ToonLevelEditor(LevelEditorBase):
                     # Update DNA
                     pointOrCell.setPos(newPos)
                     if (type == 'suitPointMarker'):
-                        print(("Found suit point!", pointOrCell))
+                        print("Found suit point!", pointOrCell)
                         # Ok, now update all the lines into that node
                         for edge in self.point2edgeDict[pointOrCell]:
                             # Is it still in edge dict?
@@ -392,7 +392,7 @@ class ToonLevelEditor(LevelEditorBase):
                                     edge, self.NPParent)
                                 self.edgeDict[edge] = newEdgeLine
                     elif (type == 'battleCellMarker'):
-                        print(("Found battle cell!", pointOrCell))
+                        print("Found battle cell!", pointOrCell)
 
     def updatePose(self, dnaObject, nodePath):
         """

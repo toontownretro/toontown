@@ -154,7 +154,7 @@ class CatalogChatItem(CatalogItem.CatalogItem):
         self.messagePicker.show()
         
     def __handlePickerOnAccept(self, status, pickedMessage=None):
-        print(("Picker Status%s" % (status)))
+        print("Picker Status%s" % (status))
         if (status == "pick"):
             # user has deleted custom phrase, so add this one now
             self.mailbox.acceptItem(self, self.index, self.callback, pickedMessage)

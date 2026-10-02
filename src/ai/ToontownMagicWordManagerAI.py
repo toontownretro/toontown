@@ -3550,12 +3550,12 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                     item = PartyGlobals.ActivityInformationDict[itemId]
                     success, x, y = gridTryPlace(*item['gridsize'])
                     if success:
-                        print(("~party new ADDED: Activity %s %s at %s, %s" % (itemId, str(item['gridsize']), x, y)))
+                        print("~party new ADDED: Activity %s %s at %s, %s" % (itemId, str(item['gridsize']), x, y))
                         # item index, grid x, grid y, heading
                         partyItem = (itemId, x, y, 0)
                         activities.append(partyItem)
                     else:
-                        print(("~party new SKIPPED: No room for activity %s" % itemId))
+                        print("~party new SKIPPED: No room for activity %s" % itemId)
                 
                 decorations = []
 
@@ -3563,12 +3563,12 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                     item = PartyGlobals.DecorationInformationDict[itemId]
                     success, x, y = gridTryPlace(*item['gridsize'])
                     if success:
-                        print(("~party new ADDED: Decoration %s %s at %s, %s" % (itemId, str(item['gridsize']), x, y)))
+                        print("~party new ADDED: Decoration %s %s at %s, %s" % (itemId, str(item['gridsize']), x, y))
                         # item index, grid x, grid y, heading
                         partyItem = (itemId, x, y, 0)
                         decorations.append(partyItem)
                     else:
-                        print(("~party new SKIPPED: No room for decoration %s" % itemId))
+                        print("~party new SKIPPED: No room for decoration %s" % itemId)
                 
                 isPrivate = False
                 inviteTheme = PartyGlobals.InviteTheme.Birthday

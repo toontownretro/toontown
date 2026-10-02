@@ -612,9 +612,9 @@ class DistributedRingGame(DistributedMinigame):
                         numGroupsPerDifficulty = difficultyDistributions[sz]
                         if numGroupsPerDifficulty[difficulty] != \
                            pattern.count(difficulty):
-                            print(('safezone:', sz))
-                            print(('pattern:', pattern))
-                            print(('difficulty:', difficulty))
+                            print('safezone:', sz)
+                            print('pattern:', pattern)
+                            print('difficulty:', difficulty)
                             print(('expected %s %ss, found %s' % (
                                 numGroupsPerDifficulty[difficulty],
                                 difficulty,

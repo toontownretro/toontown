@@ -184,7 +184,7 @@ def createMinigame(air, playerArray, trolleyZone,
             avId = playerArray[index]
             votes = startingVotes[index]
             if votes < 0:
-                print(('createMinigame negative votes, avId=%s votes=%s' %(avId, votes)))
+                print('createMinigame negative votes, avId=%s votes=%s' %(avId, votes))
                 votes = 0
             mg.setStartingVote(avId, votes )
             #print('setting starting vote of %d to %d' % (avId,votes))

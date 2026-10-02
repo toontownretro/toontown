@@ -469,7 +469,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
         if epochsToDo < 0:
             epochsToDo = 0
 
-        print(("epochsToDo %s" % (epochsToDo)))
+        print("epochsToDo %s" % (epochsToDo))
 
         #print("tuple times")
         #print tupleNewTime
@@ -1527,4 +1527,4 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
 
     def printPlanterPos(self, slot, index):
         box = self.gardenBoxLispdb; t[slot][index]
-        print(("X %s Y%s Heading %s" % (box.getX(), box.getY, box.getH())))
+        print("X %s Y%s Heading %s" % (box.getX(), box.getY, box.getH()))

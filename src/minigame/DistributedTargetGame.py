@@ -644,7 +644,7 @@ class DistributedTargetGame(DistributedMinigame):
         if not self.hasLocalToon: return
         random.seed(targetSeed)
         self.pattern = TargetGameGlobals.difficultyPatterns[self.getSafezoneId()]
-        print(("seed %s" % (targetSeed)))
+        print("seed %s" % (targetSeed))
         self.setupTargets()
         
     def setupTargets(self):

@@ -66,12 +66,12 @@ def openToAll(zoneId, avatar):
 def canWearSuit(avatarId, zoneId):
     canonicalZoneId = ZoneUtil.getCanonicalHoodId(zoneId)
 
-    allowedSuitZones = [
-        ToontownGlobals.LawbotHQ,
-        ToontownGlobals.CashbotHQ,
-        ToontownGlobals.SellbotHQ,
-        ToontownGlobals.BossbotHQ,
-        ]
+    allowedSuitZones = [ToontownGlobals.LawbotHQ,
+                        ToontownGlobals.CashbotHQ,
+                        ToontownGlobals.SellbotHQ,
+                        ToontownGlobals.BossbotHQ,
+                        ]
+
     if canonicalZoneId in allowedSuitZones:
         return True
 

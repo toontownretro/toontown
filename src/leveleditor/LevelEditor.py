@@ -80,7 +80,7 @@ for hoodId in hoods:
         NEIGHBORHOOD_CODES[hoodName] = hoodId
         NEIGHBORHOODS.append(hoodName)
     else:
-        print(('Error: no hood defined for: ', hoodId))
+        print('Error: no hood defined for: ', hoodId)
         
 # To safely load the storage files
 def loadStorageFile(pandaPath):
@@ -94,7 +94,7 @@ try:
     if dnaLoaded:
         pass
 except NameError:
-    print(("Loading LevelEditor for hoods: ", hoods))
+    print("Loading LevelEditor for hoods: ", hoods)
     # DNAStorage instance for storing level DNA info
 
     # We need to use the __builtin__.foo syntax, not the
@@ -1116,7 +1116,7 @@ class LevelEditor(NodePath, DirectObject):
             pointOrCell, type = self.findPointOrCell(nodePath)
             if pointOrCell and type:
                 if (type == 'suitPointMarker'):
-                    print(('Suit Point:', pointOrCell))
+                    print('Suit Point:', pointOrCell)
                     if DNASTORE.removeSuitPoint(pointOrCell):
                         print("Removed from DNASTORE")
                     else:
@@ -1151,7 +1151,7 @@ class LevelEditor(NodePath, DirectObject):
                     # Get parent vis group
                     visGroupNP, visGroupDNA = self.findParentVisGroup(
                         nodePath)
-                    print(('Battle Cell:', pointOrCell))
+                    print('Battle Cell:', pointOrCell)
                     # Remove cell from vis group
                     if visGroupNP and visGroupDNA:
                         if visGroupDNA.removeBattleCell(pointOrCell):
@@ -1269,7 +1269,7 @@ class LevelEditor(NodePath, DirectObject):
                     # Update DNA
                     pointOrCell.setPos(newPos)
                     if (type == 'suitPointMarker'):
-                        print(("Found suit point!", pointOrCell))
+                        print("Found suit point!", pointOrCell)
                         # Ok, now update all the lines into that node
                         for edge in self.point2edgeDict[pointOrCell]:
                             # Is it still in edge dict?
@@ -1283,7 +1283,7 @@ class LevelEditor(NodePath, DirectObject):
                                     edge, self.NPParent)
                                 self.edgeDict[edge] = newEdgeLine
                     elif (type == 'battleCellMarker'):
-                        print(("Found battle cell!", pointOrCell))
+                        print("Found battle cell!", pointOrCell)
 
     def updatePose(self, dnaObject, nodePath):
         """
@@ -1447,7 +1447,7 @@ class LevelEditor(NodePath, DirectObject):
             self.notify.debug("Selected Node: %s" %selectedNode)
             # Move it
             #selectedNode.setPos(render, base.direct.cameraControl.coaMarker.getPos(render))
-            print((self.newObjPos))
+            print(self.newObjPos)
             selectedNode.setPos(render, self.newObjPos)
             self.notify.debug("Node Position: %s" %selectedNode.getPos())
 
@@ -1731,7 +1731,7 @@ class LevelEditor(NodePath, DirectObject):
         self.initDNANode(newDNALandmarkBuilding)
 
     def addAnimBuilding(self, animBuildingType):
-        print(("addAnimBuilding %s " % animBuildingType))
+        print("addAnimBuilding %s " % animBuildingType)
         # Record new anim building type
         self.setCurrent('anim_building_texture', animBuildingType)
         # And create new anim building
@@ -1749,8 +1749,8 @@ class LevelEditor(NodePath, DirectObject):
         self.initDNANode(newDNAAnimBuilding)        
             
     def addProp(self, propType):
-        print((base.direct.cameraControl.coaMarker.getPos(render)))
-        print(("addProp %s " % propType))
+        print(base.direct.cameraControl.coaMarker.getPos(render))
+        print("addProp %s " % propType)
         # Record new prop type
         self.setCurrent('prop_texture', propType)
         # And create new prop
@@ -1762,7 +1762,7 @@ class LevelEditor(NodePath, DirectObject):
         self.initDNANode(newDNAProp)
             
     def addAnimProp(self, animPropType):
-        print(("addAnimProp %s " % animPropType))
+        print("addAnimProp %s " % animPropType)
         # Record new anim prop type
         self.setCurrent('anim_prop_texture', animPropType)
         # And create new anim prop
@@ -1775,7 +1775,7 @@ class LevelEditor(NodePath, DirectObject):
         self.initDNANode(newDNAAnimProp)
 
     def addInteractiveProp(self, interactivePropType):
-        print(("addInteractiveProp %s " % interactivePropType))
+        print("addInteractiveProp %s " % interactivePropType)
         # Record new interactive prop type
         self.setCurrent('interactive_prop_texture', interactivePropType)
         # And create new interactive prop
@@ -1815,13 +1815,13 @@ class LevelEditor(NodePath, DirectObject):
     def createDoor(self, type):
         if (type == 'landmark_door'):
             newDNADoor = DNADoor('door')
-            print(("createDoor %s" % type))
+            print("createDoor %s" % type)
             if not (self.getCurrent('door_double_texture')):
                 doorStyles = self.styleManager.attributeDictionary['door_double_texture'].getList()[1:]
                 defaultDoorStyle = random.choice(doorStyles)
                 self.setCurrent('door_double_texture', defaultDoorStyle)
             newDNADoor.setCode(self.getCurrent('door_double_texture'))
-            print(("doorcolor = %s" % self.getCurrent('door_color')))
+            print("doorcolor = %s" % self.getCurrent('door_color'))
             newDNADoor.setColor(self.getCurrent('door_color'))
         elif (type == 'door'):
             newDNADoor = DNAFlatDoor('door')
@@ -2289,7 +2289,7 @@ class LevelEditor(NodePath, DirectObject):
             self.addReplicationHooks(self.DNATarget)
 
     def setBuildingType(self, type):
-        print(('setBuildingType: ', repr(type)))
+        print('setBuildingType: ', repr(type))
 
     def setBuildingWidth(self, width):
         if self.DNATarget:
@@ -2383,10 +2383,10 @@ class LevelEditor(NodePath, DirectObject):
         else:
             pointOrCell, type = self.findPointOrCell(nodePath)
             if pointOrCell and (type == 'suitPointMarker'):
-                print(("Found suit point!", pointOrCell))
+                print("Found suit point!", pointOrCell)
                 self.selectedSuitPoint = pointOrCell
             elif pointOrCell and (type == 'battleCellMarker'):
-                print(("Found battle cell!", pointOrCell))
+                print("Found battle cell!", pointOrCell)
             else:
                 if nodePath.getName() != 'suitEdge':
                     suitEdge = self.findSuitEdge(nodePath.getParent())
@@ -2887,7 +2887,7 @@ class LevelEditor(NodePath, DirectObject):
     def cvsUpdate(self, filename):
         dirname = os.path.dirname(filename)
         if not os.path.isdir(dirname):
-            print(('Cannot CVS update %s: invalid directory' % (filename)))
+            print('Cannot CVS update %s: invalid directory' % (filename))
             return
 
         basename = os.path.basename(filename)
@@ -2901,7 +2901,7 @@ class LevelEditor(NodePath, DirectObject):
     def cvsAdd(self, filename):
         dirname = os.path.dirname(filename)
         if not os.path.isdir(dirname):
-            print(('Cannot CVS add %s: invalid directory' % (filename)))
+            print('Cannot CVS add %s: invalid directory' % (filename))
             return
 
         basename = os.path.basename(filename)
@@ -2956,7 +2956,7 @@ class LevelEditor(NodePath, DirectObject):
         if dnaFilename:
             self.loadDNAFromFile(dnaFilename)
             self.outputFile = dnaFilename
-        print(("Finished Load: ", dnaFilename))
+        print("Finished Load: ", dnaFilename)
 
     def saveToSpecifiedDNAFile(self):
         path = dnaDirectory.toOsSpecific()
@@ -3031,7 +3031,7 @@ class LevelEditor(NodePath, DirectObject):
         self.outputDNA(file)
 
     def outputDNA(self, filename):
-        print(('Saving DNA to: ', filename))
+        print('Saving DNA to: ', filename)
         binaryFilename = Filename(filename)
         binaryFilename.setBinary()
         self.DNAData.writeDna(binaryFilename, Notify.out(), DNASTORE)
@@ -3315,11 +3315,11 @@ class LevelEditor(NodePath, DirectObject):
         # That is what gets stored in the point
         mat = base.direct.grid.getMat(self.NPToplevel)
         absPos = Point3(mat.xformPoint(v))
-        print(('Suit point: ' + repr(absPos)))
+        print('Suit point: ' + repr(absPos))
         # Store the point in the DNA. If this point is already in there,
         # it returns the existing point
         suitPoint = DNASTORE.storeSuitPoint(self.currentSuitPointType, absPos)
-        print(("placeSuitPoint: ", suitPoint))
+        print("placeSuitPoint: ", suitPoint)
         # In case the point returned is a different type, update our type
         self.currentSuitPointType = suitPoint.getPointType()
         if suitPoint not in self.pointDict:
@@ -3374,7 +3374,7 @@ class LevelEditor(NodePath, DirectObject):
                         else:
                             self.point2edgeDict[point] = [suitEdge]
 
-                print(('Added dnaSuitEdge to zone: ' + zoneId))
+                print('Added dnaSuitEdge to zone: ' + zoneId)
             else:
                 print('Error: DNAParent is not a dnaVisGroup. Did not add edge')
             # Reset
@@ -3658,7 +3658,7 @@ class LevelEditor(NodePath, DirectObject):
         elif self.selectedSuitPoint and self.lastLandmarkBuildingDNA:
             block=self.lastLandmarkBuildingDNA.getName()
             block=block[2:block.find(':')]
-            print(("associate point with building: " + str(block)))
+            print("associate point with building: " + str(block))
             self.selectedSuitPoint.setLandmarkBuildingIndex(int(block))
             marker = self.pointDict[self.selectedSuitPoint]
             marker.setColor(1, 0, 0, 1)
@@ -3818,7 +3818,7 @@ class LevelEditor(NodePath, DirectObject):
         return newGroup
 
     def makeNewBuildingGroup(self, sequenceNum, side, curveName):
-        print(("-------------------------- new building group %s  curveName=%s------------------------" % (sequenceNum, curveName)))
+        print("-------------------------- new building group %s  curveName=%s------------------------" % (sequenceNum, curveName))
         # Now create a new group with just the buildings
         self.addGroup(self.NPToplevel)
         newGroup = self.NPParent
@@ -3828,10 +3828,10 @@ class LevelEditor(NodePath, DirectObject):
 
         if 'curveside' in curveName:
             #we want to preserve which group the side street is closest to
-            print(("special casing %s" % curveName))
+            print("special casing %s" % curveName)
             parts = curveName.split('_')
             groupName = 'Buildings_' + side + "-" + parts[3] + "_" + parts[4]
-            print(("groupname = %s" % groupName))
+            print("groupname = %s" % groupName)
         else:
             groupName = 'Buildings_' + side + "-" + str(sequenceNum)
         newGroup.setName(groupName)
@@ -3963,7 +3963,7 @@ class LevelEditor(NodePath, DirectObject):
                         # Mark whether it is a section of buildings or trees
                         curveType = curve.getName().split("_")[0]
                         curves['innersidest'].append([curve.node(), curveType])
-                        print(("adding innersidest %s" % curve.getName()))
+                        print("adding innersidest %s" % curve.getName())
 
             for i in range(maxNum):
                 for barricade in ['innerbarricade','outerbarricade']:
@@ -3972,10 +3972,10 @@ class LevelEditor(NodePath, DirectObject):
                         # Mark whether it is a section of buildings or trees
                         curveType = curve.getName().split("_")[0]
                         curves['outersidest'].append([curve.node(), curveType])
-                        print(("adding outersidest %s" % curve.getName()))
+                        print("adding outersidest %s" % curve.getName())
 
 
-            print(("loaded curves: %s" % curves))
+            print("loaded curves: %s" % curves)
             return curves
         else:
             return None
@@ -3990,7 +3990,7 @@ class LevelEditor(NodePath, DirectObject):
         print("c")
         self.DNAParent.add(dnaNode)
         # And create the geometry
-        print(("d %s" % (oldDNANode)))
+        print("d %s" % (oldDNANode))
         newNodePath = dnaNode.traverse(self.NPParent, DNASTORE, 1)
         print("e")
         return newNodePath
@@ -4032,7 +4032,7 @@ class LevelEditor(NodePath, DirectObject):
         elif (side == 'inner'):
             barricadeDict = self.innerBarricadeDict
         else:
-            print(("unhandled side %s" % side))
+            print("unhandled side %s" % side)
             return
 
         if barricadeOrigNum not in barricadeDict:
@@ -4044,7 +4044,7 @@ class LevelEditor(NodePath, DirectObject):
         if barricadeDict[barricadeOrigNum][1] < curBldgGroupIndex:
             barricadeDict[barricadeOrigNum][1] = curBldgGroupIndex
 
-        print(("---------- %s barricadeDict origNum=%d  data=(%d, %d)" %(side, barricadeOrigNum, barricadeDict[barricadeOrigNum][0], barricadeDict[barricadeOrigNum][1])))
+        print("---------- %s barricadeDict origNum=%d  data=(%d, %d)" %(side, barricadeOrigNum, barricadeDict[barricadeOrigNum][0], barricadeDict[barricadeOrigNum][1]))
 
     def makeStreetAlongCurve(self):
         curves = self.loadStreetCurve()
@@ -4073,7 +4073,7 @@ class LevelEditor(NodePath, DirectObject):
         sides = ['inner', 'outer']
         maxGroupWidth = 500
         for side in sides:
-            print(("Building street for %s side" % side))
+            print("Building street for %s side" % side)
             # Subdivide the curve into different groups.
             bldgGroupIndex = 0
             curGroupWidth = 0
@@ -4085,7 +4085,7 @@ class LevelEditor(NodePath, DirectObject):
             self.makeNewBuildingGroup(bldgGroupIndex, side, curveName)
 
             for curve, curveType in curves[side]:
-                print(("----------------- curve(%s, %s): %s --------------- " % (side, curve.getName(), curve)))
+                print("----------------- curve(%s, %s): %s --------------- " % (side, curve.getName(), curve))
                 #import pdb; pdb.set_trace()
                 currT = 0
                 endT = curve.getMaxT()
@@ -4149,27 +4149,27 @@ class LevelEditor(NodePath, DirectObject):
                     elif curveType == 'bridge':
                         # Don't add any dna for the bridge sections, but add the length
                         # of the bridge so we can increment our building groups correctly
-                        print(("adding bridge (%s), curT = %s" % (side, currT)))
+                        print("adding bridge (%s), curT = %s" % (side, currT))
                         bridgeWidth = 1050
                         curGroupWidth += bridgeWidth
                         #currT, currPoint = self.findBldgEndPoint(bridgeWidth, curve, currT, currPoint, rd = 0)
-                        print(("currT after adding bridge = %s" % currT))
+                        print("currT after adding bridge = %s" % currT)
                         # force move to next curve
                         currT = endT + 1
                     elif curveType == 'tunnel':
                         # Don't add any dna for the tunnel sections, but add the length
                         # of the bridge so we can increment our building groups correctly
-                        print(("adding tunnel (%s), curT = %s" % (side, currT)))
+                        print("adding tunnel (%s), curT = %s" % (side, currT))
                         tunnelWidth = 775
                         curGroupWidth += tunnelWidth
                         #currT, currPoint = self.findBldgEndPoint(tunnelWidth, curve, currT, currPoint, rd = 0)
-                        print(("currT after adding tunnel = %s" % currT))
+                        print("currT after adding tunnel = %s" % currT)
                         # force move to next curve
                         currT = endT + 1
                     elif curveType == 'barricade':
-                        print(("adding barricade (%s) %s, curT = %d" % (side, curve.getName(), currT)))
+                        print("adding barricade (%s) %s, curT = %d" % (side, curve.getName(), currT))
                         barricadeWidth = curve.calcLength()
-                        print(("barricade width = %f" % barricadeWidth))
+                        print("barricade width = %f" % barricadeWidth)
 
                         simple =1
                         if (simple):
@@ -4204,15 +4204,15 @@ class LevelEditor(NodePath, DirectObject):
 
                     # Check if we need a new group yet
                     if curGroupWidth > maxGroupWidth:
-                        print(("curGroupWidth %s > %s" % (curGroupWidth, maxGroupWidth)))
+                        print("curGroupWidth %s > %s" % (curGroupWidth, maxGroupWidth))
                         diffGroup = curGroupWidth - maxGroupWidth
                         while diffGroup > 0:
                             bldgGroupIndex += 1
                             self.makeNewBuildingGroup(bldgGroupIndex, side, curve.getName())
-                            print(("adding group %s (%s)" % (bldgGroupIndex, diffGroup)))
+                            print("adding group %s (%s)" % (bldgGroupIndex, diffGroup))
                             diffGroup -= maxGroupWidth
                         curGroupWidth = 0
-                    print((currT, curGroupWidth))
+                    print(currT, curGroupWidth)
 
 
     def makeSideStreets(self, curves):
@@ -4236,14 +4236,14 @@ class LevelEditor(NodePath, DirectObject):
         sides = ['innersidest', 'outersidest']
         maxGroupWidth = 50000
         for side in sides:
-            print(("Building street for %s side" % side))
+            print("Building street for %s side" % side)
             # Subdivide the curve into different groups.
             bldgGroupIndex = 0
             curGroupWidth = 0
 
 
             for curve, curveType in curves[side]:
-                print(("----------------- curve(%s, %s): %s --------------- " % (side, curve.getName(), curve)))
+                print("----------------- curve(%s, %s): %s --------------- " % (side, curve.getName(), curve))
                 #import pdb; pdb.set_trace()
                 currT = 0
                 endT = curve.getMaxT()
@@ -4251,7 +4251,7 @@ class LevelEditor(NodePath, DirectObject):
                 #RAU side streets still too long, lets try arbitrarily dividing it in half
                 #endT = endT / 2
 
-                print(("endT = %f" % endT))
+                print("endT = %f" % endT)
                 #if (maxGroupWidth < endT):
                 #    self.notify.debug("changing endT from %f to %f" % (endT, maxGroupWidth))
                 #    endT = maxGroupWidth
@@ -4318,27 +4318,27 @@ class LevelEditor(NodePath, DirectObject):
                     elif curveType == 'bridge':
                         # Don't add any dna for the bridge sections, but add the length
                         # of the bridge so we can increment our building groups correctly
-                        print(("adding bridge (%s), curT = %s" % (side, currT)))
+                        print("adding bridge (%s), curT = %s" % (side, currT))
                         bridgeWidth = 1050
                         curGroupWidth += bridgeWidth
                         #currT, currPoint = self.findBldgEndPoint(bridgeWidth, curve, currT, currPoint, rd = 0)
-                        print(("currT after adding bridge = %s" % currT))
+                        print("currT after adding bridge = %s" % currT)
                         # force move to next curve
                         currT = endT + 1
                     elif curveType == 'tunnel':
                         # Don't add any dna for the tunnel sections, but add the length
                         # of the bridge so we can increment our building groups correctly
-                        print(("adding tunnel (%s), curT = %s" % (side, currT)))
+                        print("adding tunnel (%s), curT = %s" % (side, currT))
                         tunnelWidth = 775
                         curGroupWidth += tunnelWidth
                         #currT, currPoint = self.findBldgEndPoint(tunnelWidth, curve, currT, currPoint, rd = 0)
-                        print(("currT after adding tunnel = %s" % currT))
+                        print("currT after adding tunnel = %s" % currT)
                         # force move to next curve
                         currT = endT + 1
                     elif curveType == 'barricade':
-                        print(("adding barricade (%s) %s, curT = %d" % (side, curve.getName(), currT)))
+                        print("adding barricade (%s) %s, curT = %d" % (side, curve.getName(), currT))
                         barricadeWidth = curve.calcLength()
-                        print(("barricade width = %f" % barricadeWidth))
+                        print("barricade width = %f" % barricadeWidth)
 
                         simple =1
                         if (simple):
@@ -5705,7 +5705,7 @@ class LevelEditorPanel(Pmw.MegaToplevel):
             self.levelEditor.currentSuitPointType = DNASuitPoint.FRONTDOORPOINT
         elif (name == "side door"):
             self.levelEditor.currentSuitPointType = DNASuitPoint.SIDEDOORPOINT
-        print((self.levelEditor.currentSuitPointType))
+        print(self.levelEditor.currentSuitPointType)
 
     def setBattleCellType(self, name):
         self.levelEditor.currentBattleCellType = name
@@ -5851,7 +5851,7 @@ class VisGroupsEditor(Pmw.MegaToplevel):
         self.selectVisGroup(self.visGroupNames[0])
 
     def selectVisGroup(self, target):
-        print(('Setting vis options for group:', target))
+        print('Setting vis options for group:', target)
         # Record current target
         oldTarget = self.target
         # Record new target
@@ -5881,7 +5881,7 @@ class VisGroupsEditor(Pmw.MegaToplevel):
             # MRM: Add change in visibility here
             # Show all vs. show active
             if state == 1:
-                print(('Vis Group:', self.target, 'adding group:', groupName))
+                print('Vis Group:', self.target, 'adding group:', groupName)
                 if groupName not in visList:
                     visList.append(groupName)
                     target.addVisible(groupName)
@@ -5889,7 +5889,7 @@ class VisGroupsEditor(Pmw.MegaToplevel):
                     groupNP.show()
                     groupNP.setColor(1, 0, 0, 1)
             else:
-                print(('Vis Group:', self.target, 'removing group:', groupName))
+                print('Vis Group:', self.target, 'removing group:', groupName)
                 if groupName in visList:
                     visList.remove(groupName)
                     target.removeVisible(groupName)

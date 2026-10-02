@@ -131,6 +131,6 @@ class DistributedFireworksCannon(DistributedFireworkShow.DistributedFireworkShow
         pos = dummy.getPos(render)
         dummy.removeNode()
         
-        print(("lauFirework: %s, col=%s" % (index,col1)))
+        print("lauFirework: %s, col=%s" % (index,col1))
         self.d_requestFirework(pos[0],pos[1],pos[2],style,col1,col2)
         

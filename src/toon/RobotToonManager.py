@@ -559,7 +559,7 @@ for hoodId in hoods:
         NEIGHBORHOOD_CODES[hoodName] = hoodId
         NEIGHBORHOODS.append(hoodName)
     else:
-        print(('Error: no hood defined for: ', hoodId))
+        print('Error: no hood defined for: ', hoodId)
 
 # Load DNA
 dnaDirectory = Filename.expandFrom(base.config.GetString("dna-directory", "$TTMODELS/src/dna"))
@@ -568,7 +568,7 @@ try:
     if dnaLoaded:
         pass
 except NameError:
-    print(("Loading LevelEditor for hoods: ", hoods))
+    print("Loading LevelEditor for hoods: ", hoods)
     # DNAStorage instance for storing level DNA info
     # We need to use the __builtin__.foo syntax, not the
     # __builtins__["foo"] syntax, since this file runs at the top
@@ -718,7 +718,7 @@ class RobotToonManager(DirectObject):
         self.suitPointToplevel = self.NPToplevel.attachNewNode('suitPoints')
 
     def addProp(self, propType):
-        print(("addProp %s " % propType))
+        print("addProp %s " % propType)
         # Record new prop type
         self.setCurrent('prop_texture', propType)
         # And create new prop
@@ -3258,7 +3258,7 @@ class RobotToonControlPanel(AppShell):
             parent = self.component('hull'))
         if dnaFilename:
             self.loadDNAFromFile(dnaFilename)
-        print(("Finished Load: ", dnaFilename))
+        print("Finished Load: ", dnaFilename)
 
     def loadDNAFromFile(self, filename):
         # Reset level, destroying existing scene/DNA hierarcy
@@ -3444,7 +3444,7 @@ class RobotToonControlPanel(AppShell):
         self.bar4.updateProgress(values[3])
 
     def setObstacleType(self):
-        print(('CHOOSING OBSTACLE DGG.TYPE:', self.obstacleType.get()))
+        print('CHOOSING OBSTACLE DGG.TYPE:', self.obstacleType.get())
 
     def toggleFun(self):
         if self.getVariable('Obstacle', 'Make Fun?').get():
@@ -3465,7 +3465,7 @@ class RobotToonControlPanel(AppShell):
             print('Turning off grid!')
 
     def setStomperSize(self, size):
-        print(('New Stomper Size:', size))       
+        print('New Stomper Size:', size)       
         
 
 

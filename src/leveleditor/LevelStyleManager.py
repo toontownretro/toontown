@@ -47,7 +47,7 @@ class LevelStyleManager:
         Create a dictionary of baseline styles for a neighborhood
         """
         filename = neighborhood + '_baseline_styles.txt'
-        print(('Loading baseline styles from: ' + filename))
+        print('Loading baseline styles from: ' + filename)
         styleData = self.getStyleFileData(filename)
         return self.initializeBaselineStyleDictionary(styleData, neighborhood)
 
@@ -108,7 +108,7 @@ class LevelStyleManager:
                         style[pair_0] = pair[1]
                 else:
                     print('extractBaselineStyle: Invalid Key')
-                    print((pair[0]))
+                    print(pair[0])
             styleData = styleData[1:]
         # No end of style found, return style data as is
         return style, None
@@ -180,7 +180,7 @@ class LevelStyleManager:
         Create a dictionary of wall styles for a neighborhood
         """
         filename = neighborhood + '_wall_styles.txt'
-        print(('Loading wall styles from: ' + filename))
+        print('Loading wall styles from: ' + filename)
         styleData = self.getStyleFileData(filename)
         return self.initializeWallStyleDictionary(styleData, neighborhood)
 
@@ -231,7 +231,7 @@ class LevelStyleManager:
                         style[pair[0]] = pair[1]
                 else:
                     print('getStyleDictionaryFromStyleData: Invalid Key')
-                    print((pair[0]))
+                    print(pair[0])
             styleData = styleData[1:]
         # No end of style found, return style data as is
         return style, None
@@ -385,7 +385,7 @@ class LevelStyleManager:
         Create a dictionary of wall styles for a neighborhood
         """
         filename = neighborhood + '_building_styles.txt'
-        print(('Loading building styles from: ' + filename))
+        print('Loading building styles from: ' + filename)
         styleData = self.getStyleFileData(filename)
         return self.initializeBuildingStyleDictionary(styleData, neighborhood)
 
@@ -571,30 +571,30 @@ class LevelStyleManager:
                 self.printWallStyle(child)
 
     def printWallStyle(self, wall):
-        print(('wall_texture: ' + wall.getCode()))
+        print('wall_texture: ' + wall.getCode())
         color = wall.getColor()
         print(('wall_color: Vec4(%.3f, %.3f, %.3f, 1.0)' %
                (color[0], color[1], color[2])))
         for i in range(wall.getNumChildren()):
             child = wall.at(i)
             if DNAClassEqual(child, DNA_WINDOWS):
-                print(('window_texture: ' + child.getCode()))
+                print('window_texture: ' + child.getCode())
                 color = child.getColor()
                 print(('window_color: Vec4(%.3f, %.3f, %.3f, 1.0)' %
                        (color[0], color[1], color[2])))
                 # MRM: Check for awnings here
             elif DNAClassEqual(child, DNA_DOOR):
-                print(('door_texture: ' + child.getCode()))
+                print('door_texture: ' + child.getCode())
                 color = child.getColor()
                 print(('door_color: Vec4(%.3f, %.3f, %.3f, 1.0)' %
                        (color[0], color[1], color[2])))
             elif DNAClassEqual(child, DNA_FLAT_DOOR):
-                print(('door_texture: ' + child.getCode()))
+                print('door_texture: ' + child.getCode())
                 color = child.getColor()
                 print(('door_color: Vec4(%.3f, %.3f, %.3f, 1.0)' %
                        (color[0], color[1], color[2])))
             elif DNAClassEqual(child, DNA_CORNICE):
-                print(('cornice_texture: ' + child.getCode()))
+                print('cornice_texture: ' + child.getCode())
                 color = child.getColor()
                 print(('cornice_color: Vec4(%.3f, %.3f, %.3f, 1.0)' %
                        (color[0], color[1], color[2])))
@@ -629,7 +629,7 @@ class LevelStyleManager:
 
     def createColorDictionary(self, neighborhood):
         filename = neighborhood + '_colors.txt'
-        print(('Loading Color Palettes from: ' + filename))
+        print('Loading Color Palettes from: ' + filename)
         colorData = self.getStyleFileData(filename)
         return self.getColorDictionary(colorData)
 

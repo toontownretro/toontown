@@ -250,11 +250,11 @@ for opt in opts:
     elif (flag == '-m'):
         mode = value
     else:
-        print(('illegal option: ' + flag))
+        print('illegal option: ' + flag)
         sys.exit(1)
 
 if mode != 'local' and mode != 'test' and mode != 'live':
-    print(('Invalid mode: %s' % (mode)))
+    print('Invalid mode: %s' % (mode))
     sys.exit(1)
 
 if (not (len(pargs) == 3)):
@@ -313,7 +313,7 @@ class Scrubber:
             self.doCopyCommand()
 
         else:
-            print(("Invalid command: %s" % (command)))
+            print("Invalid command: %s" % (command))
             sys.exit(1)
 
     def doWiseCommand(self):

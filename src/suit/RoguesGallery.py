@@ -152,7 +152,7 @@ class RoguesGallery(StateData.StateData):
         self.rowHeight = 0.0
         self.minXScale = None
 
-        print(("rognamestr='",self.rognamestr,"'\n"))
+        print("rognamestr='",self.rognamestr,"'\n")
 
         if((self.rognamestr == None) or (len(self.rognamestr) == 0)):
             for dept in SuitDNA.suitDepts:

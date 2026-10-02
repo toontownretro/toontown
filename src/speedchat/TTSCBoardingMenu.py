@@ -58,7 +58,7 @@ class TTSCBoardingMenu(SCMenu):
                 # This is not a submenu but a terminal!
                 for phrase in section[1]:
                     if phrase not in OTPLocalizer.SpeedChatStaticText:
-                        print(('warning: tried to link boarding phrase %s which does not seem to exist' % phrase))
+                        print('warning: tried to link boarding phrase %s which does not seem to exist' % phrase)
                         break
                     self.append(SCStaticTextTerminal(phrase))
             else: 
@@ -67,7 +67,7 @@ class TTSCBoardingMenu(SCMenu):
                 phrases = ZoneIdsToMsgs[zoneId][count]
                 for phrase in phrases:
                     if phrase not in OTPLocalizer.SpeedChatStaticText:
-                        print(('warning: tried to link boarding phrase %s which does not seem to exist' % phrase))                                
+                        print('warning: tried to link boarding phrase %s which does not seem to exist' % phrase)                                
                         break
                     menu.append(SCStaticTextTerminal(phrase))
                     

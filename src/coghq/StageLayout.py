@@ -9,11 +9,11 @@ def printAllCashbotInfo():
     # print out roomId->room name
     print('roomId: roomName')
     for roomId, roomName in list(StageRoomSpecs.CashbotStageRoomId2RoomName.items()):
-        print(('%s: %s' % (roomId, roomName)))
+        print('%s: %s' % (roomId, roomName))
     # print out # of battles in each room
     print('\nroomId: numBattles')
     for roomId, numBattles in list(StageRoomSpecs.roomId2numBattles.items()):
-        print(('%s: %s' % (roomId, numBattles)))
+        print('%s: %s' % (roomId, numBattles))
     # print out all of the rooms in all stage floors
     print('\nstageId floor roomIds')
     printStageRoomIds()
@@ -45,7 +45,7 @@ def printRoomUsage():
     roomIds = list(usage.keys())
     roomIds.sort()
     for roomId in roomIds:
-        print(('%s: %s' % (roomId, usage[roomId])))
+        print('%s: %s' % (roomId, usage[roomId]))
 def printRoomInfo():
     roomIds = list(StageRoomSpecs.roomId2numCogs.keys())
     roomIds.sort()
@@ -55,16 +55,16 @@ def printRoomInfo():
             StageRoomSpecs.roomId2numCogLevels[roomId],
             StageRoomSpecs.roomId2numMeritCogLevels[roomId])))
 def printStageRoomIds():
-    def func(ml): print((ml.getStageId(), ml.getFloorNum(), ml.getRoomIds()))
+    def func(ml): print(ml.getStageId(), ml.getFloorNum(), ml.getRoomIds())
     iterateCashbotStages(func)
 def printStageRoomNames():
-    def func(ml): print((ml.getStageId(), ml.getFloorNum(), ml.getRoomNames()))
+    def func(ml): print(ml.getStageId(), ml.getFloorNum(), ml.getRoomNames())
     iterateCashbotStages(func)
 def printNumRooms():
-    def func(ml): print((ml.getStageId(), ml.getFloorNum(), ml.getNumRooms()))
+    def func(ml): print(ml.getStageId(), ml.getFloorNum(), ml.getNumRooms())
     iterateCashbotStages(func)
 def printNumBattles():
-    def func(ml): print((ml.getStageId(), ml.getFloorNum(), ml.getNumBattles()))
+    def func(ml): print(ml.getStageId(), ml.getFloorNum(), ml.getNumBattles())
     iterateCashbotStages(func)
 
 

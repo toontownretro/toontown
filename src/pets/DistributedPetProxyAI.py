@@ -347,7 +347,7 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
         # don't use the trait values from the DB, this should circumvent
         # the corrupted doodle problem
         self.traits = PetTraits.PetTraits(self.traitSeed, self.safeZone)
-        print((self.traits.traits))
+        print(self.traits.traits)
         """
         self.traits = PetTraits.PetTraits(
             self.traitSeed, self.safeZone,

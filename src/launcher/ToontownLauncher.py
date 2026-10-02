@@ -139,10 +139,10 @@ if 1:   # flip this as necessary
 
     # Write to the log
     print("\n\nStarting Toontown...")
-    print(("Current time: " + time.asctime(time.localtime(time.time()))
-           + " " + time.tzname[0]))
-    print(("sys.path = ", sys.path))
-    print(("sys.argv = ", sys.argv))
+    print ("Current time: " + time.asctime(time.localtime(time.time()))
+           + " " + time.tzname[0])
+    print("sys.path = ", sys.path)
+    print("sys.argv = ", sys.argv)
 
 from otp.launcher.LauncherBase import LauncherBase
 from otp.otpbase import OTPLauncherGlobals

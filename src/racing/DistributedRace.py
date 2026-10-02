@@ -352,13 +352,13 @@ class DistributedRace(DistributedObject.DistributedObject):
 
         avatar=base.cr.doId2do.get(avId,None)
         if(avatar):
-            print(("circuit trophies %s" % (trophies)))
-            print(("winnings %s" % (winnings)))
+            print("circuit trophies %s" % (trophies))
+            print("winnings %s" % (winnings))
             #self.gui.racerFinishedCircuit(avId, place, winnings, trophies)
             self.gui.racerFinishedCircuit(avId, oldPlace, entryFee, winnings, bonus,trophies)
 
     def endCircuitRace(self):
-        print((self.placeFixup))
+        print(self.placeFixup)
         self.gui.circuitFinished(self.placeFixup)
 
     def prepForRace(self):
@@ -1699,7 +1699,7 @@ class DistributedRace(DistributedObject.DistributedObject):
         idStr = into.getTag('boostId')
         arrowVec = self.boostDir.get(idStr)
         if arrowVec == None:
-            print(("Unknown boost arrow %s" % (idStr)))
+            print("Unknown boost arrow %s" % (idStr))
             return
 
         # Get the forward direction of the kart

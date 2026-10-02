@@ -1456,12 +1456,12 @@ def countMusic():
     numMusic = 0
     for key in PhaseToMusicData:
         numMusic += len(PhaseToMusicData[key])
-    print(("PhaseToMusicData %d" % numMusic))
+    print("PhaseToMusicData %d" % numMusic)
         
     numMusic = 0
     for key in PhaseToMusicData40:
         numMusic += len(PhaseToMusicData40[key])
-    print(("PhaseToMusicData40 %d" % numMusic))
+    print("PhaseToMusicData40 %d" % numMusic)
 
 # helper functions for globals:
 

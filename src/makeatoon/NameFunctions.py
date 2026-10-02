@@ -194,7 +194,7 @@ class NameFunctions:
 
         uniqueID = 0
         for cat in range(0,9):
-            print(("Working on list " + str(cat) + ".  UniqueID is up to " + str(uniqueID)))
+            print("Working on list " + str(cat) + ".  UniqueID is up to " + str(uniqueID))
             for name in categoryNames[cat]:
                 output.write(str(uniqueID) + "*" + str(cat) + "*" + name + '\n')
                 uniqueID += 1
@@ -228,8 +228,8 @@ class NameFunctions:
         self.nlastPrefixes = masterList[7]
         self.nlastSuffixes = masterList[8]
 
-        print((self.boyTitles))
-        print((self.nboyTitles))
+        print(self.boyTitles)
+        print(self.nboyTitles)
 
 
 

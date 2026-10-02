@@ -91,9 +91,9 @@ class GetToonsRequest(AsyncRequest):
             if __debug__:
                if False: # True:
                     if hasattr(self, "avatarId"):
-                        print(("\n\nself.avatarId =", self.avatarId))
-                    print(("\nself.neededObjects =", self.neededObjects))
-                    print(("\ntimed out after %s seconds.\n\n"%(task.delayTime,)))
+                        print("\n\nself.avatarId =", self.avatarId)
+                    print("\nself.neededObjects =", self.neededObjects)
+                    print("\ntimed out after %s seconds.\n\n"%(task.delayTime,))
                     import pdb; pdb.set_trace()
             replyString = '"some toonIds invalid %s"' % str(self.neededObjects)
             replyString = replyString.replace('<','_')

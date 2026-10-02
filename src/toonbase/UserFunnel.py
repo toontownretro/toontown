@@ -830,7 +830,7 @@ class HitBoxCookie:
 
 def convertHitBoxIEtoPython():
     if (sys.platform != 'win32'):
-        print(("Cookie Converter: Warning: System is not MS-Windows. I have not been setup to work with other systems yet. Sorry " + sys.platform + " user. The game client will create a cookie."))
+        print("Cookie Converter: Warning: System is not MS-Windows. I have not been setup to work with other systems yet. Sorry " + sys.platform + " user. The game client will create a cookie.")
         return
     if __dev__:
         return
@@ -849,7 +849,7 @@ def convertHitBoxIEtoPython():
 
 def convertHitBoxPythontoIE():
     if (sys.platform != 'win32'):
-        print(("System is not MS-Windows. I have not been setup to work with other systems yet. Sorry " + sys.platform + " user."))
+        print("System is not MS-Windows. I have not been setup to work with other systems yet. Sorry " + sys.platform + " user.")
         return
 
     # Next, if the cookiefile already exists, then we don't have to convert it from IE to python.
@@ -884,7 +884,7 @@ def getreg(regVar):
             wholeCookie = temp
             break
     if (wholeCookie == None):
-        print(("Cookie not found for site name: " + siteName))
+        print("Cookie not found for site name: " + siteName)
         return ''
     CompleteCookiePath = cookiedir + '\\' + wholeCookie
     cf = open(CompleteCookiePath, 'r')

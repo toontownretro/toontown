@@ -38,7 +38,7 @@ toon27Offset = 12867601.0
 
 
 fileName = "usage.txt"
-print(("Opening %s" % fileName))
+print("Opening %s" % fileName)
 file = open(fileName)
 # lines = file.readlines()
 # print ("parsing %s lines" % len(lines))
@@ -117,7 +117,7 @@ while 1:
     line = file.readline()
     lineNum += 1
     if (lineNum % 1000) == 0:
-        print(("Line: %s" % lineNum))
+        print("Line: %s" % lineNum)
 
     if not line:
         print("end of file")
@@ -126,10 +126,10 @@ while 1:
     data = line.split('|')
 
     if len(data) < LOG_NUMCOLUMNS:
-        print(("Bad data, len=%s line=%s" % (len(data), line)))
+        print("Bad data, len=%s line=%s" % (len(data), line))
         continue
     elif len(data) > 14:
-        print(("Bad data, len=%s line=%s" % (len(data), line)))        
+        print("Bad data, len=%s line=%s" % (len(data), line))        
         continue        
 
     filtered = 0
@@ -213,7 +213,7 @@ for i in range(len(table[TABLE_LOGINS])):
 print()
 print ("ACCOUNTS")
 print ("--------------------------------------------------")
-print(("Number of accounts: %s" % (len(accounts))))
+print("Number of accounts: %s" % (len(accounts)))
 
 print()
 print ("HOURS OF PLAY")
@@ -292,28 +292,28 @@ print ("Sum of play per day: \n")
 for year, monthDict in list(yearDict.items()):
     for month, dayDict in list(monthDict.items()):
         for day, dayList in list(dayDict.items()):
-            print(("%s-%s-%s, %s" % (year, month, day, getHours(stats.sum(dayList)))))
+            print("%s-%s-%s, %s" % (year, month, day, getHours(stats.sum(dayList))))
 print()
 print ("Median session length per day: \n")
 for year, monthDict in list(yearDict.items()):
     for month, dayDict in list(monthDict.items()):
         for day, dayList in list(dayDict.items()):
-            print(("%s-%s-%s, %s" % (year, month, day, getHourString(stats.median(dayList)))))
+            print("%s-%s-%s, %s" % (year, month, day, getHourString(stats.median(dayList))))
 
 print()
 print ("Logins per day: \n")
 for year, monthDict in list(yearDict.items()):
     for month, dayDict in list(monthDict.items()):
         for day, dayList in list(dayDict.items()):
-            print(("%s-%s-%s, %s" % (year, month, day, len(dayList))))
+            print("%s-%s-%s, %s" % (year, month, day, len(dayList)))
 
 print()
 print ("Signups per day: \n")
 for year, monthDict in list(signUpsYearDict.items()):
     for month, dayDict in list(monthDict.items()):
         for day, dayList in list(dayDict.items()):
-            print(("%s-%s-%s, %s" % (year, month, day, len(dayList))))
+            print("%s-%s-%s, %s" % (year, month, day, len(dayList)))
 
 print()
 print ("Simutaneous users\n")
-print(("Most simultanous users: %s\n" % (max(simDict.values()))))
+print("Most simultanous users: %s\n" % (max(simDict.values())))

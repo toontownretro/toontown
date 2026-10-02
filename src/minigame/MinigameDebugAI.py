@@ -25,6 +25,6 @@ def startMinigameAI(minigameId, avID, avID2=1, avID3=2, avID4=3):
     # set the expected avatars directly
     # (I do not think this needs to be an update)
     mg.setExpectedAvatars(avID, avID2, avID3, avID4)
-    print(("zoneId = " + str(zoneId)))
+    print("zoneId = " + str(zoneId))
 
 # call startMinigame() on the client

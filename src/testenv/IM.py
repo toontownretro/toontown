@@ -31,6 +31,6 @@ class TTToc(toc.TocTalk):
     def on_IM_IN(self,data):
         screenname = data.split(":")[0]
         message = self.strip_html(data.split(":",2)[2])
-        print((screenname, message))
+        print(screenname, message)
         localAvatar.setSystemMessage(0, "%s: %s" % (screenname, message))
         

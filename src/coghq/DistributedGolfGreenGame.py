@@ -345,7 +345,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         
         count = 0
         for sprite in self.sprites:
-            print(("count %s X %s Z %s Color %s" % (count, sprite.gridPosX, sprite.gridPosZ, sprite.colorType)))
+            print("count %s X %s Z %s Color %s" % (count, sprite.gridPosX, sprite.gridPosZ, sprite.colorType))
             count += 1
         
     def pickLevelPattern(self):
@@ -1455,7 +1455,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             if self.attackCounter > (len(self.attackPattern) -1):
                 self.attackCounter = 0
             #color = self.attackPattern[self.attackCounter]
-            print(("Pattern %s Place %s Type %s" % (self.attackPattern, self.attackCounter, self.attackPattern[self.attackCounter])))
+            print("Pattern %s Place %s Type %s" % (self.attackPattern, self.attackCounter, self.attackPattern[self.attackCounter]))
             if self.standbySprite.holdType != None:
                 color = self.standbySprite.holdType
                 sprite = self.addControlSprite(self.newBallX, (self.newBallZ + (self.spriteNotchPos * self.cellSizeZ)), color)
@@ -1786,8 +1786,8 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 if (index > 3):
                     #LEAVE THIS AS A PRINT
                     #WE ARE ABOUT TO CRASH 
-                    print(("ERROR! green game has had more than 4 players, we are about to crash\n %s" % (self.everJoinedToons)))
-                    print(("Joining Toon is %s index is %s" % (avId, index)))
+                    print("ERROR! green game has had more than 4 players, we are about to crash\n %s" % (self.everJoinedToons))
+                    print("Joining Toon is %s index is %s" % (avId, index))
                 toon = base.cr.doId2do.get(avId)
                 selfPos = self.getPos(render)
                 offset = self.toonPoints[index]

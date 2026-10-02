@@ -210,7 +210,7 @@ class PhysicsWorldBase:
     def getCycleTime(self, doprint = 0):
         cycleTime = (globalClock.getRealTime() + self.timingCycleOffset) % self.timingCycleLength
         if doprint:
-            print(("Get Cycle Time %s" % (cycleTime)))
+            print("Get Cycle Time %s" % (cycleTime))
         return cycleTime
         
     def setTimeIntoCycle(self, time, doprint = 0):

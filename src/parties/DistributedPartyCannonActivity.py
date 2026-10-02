@@ -412,7 +412,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             flightResults = self.__calcFlightResults(cannon, toonId, launchTime)
             # pull all the results (startPos, startHpr, startVel, trajectory) into the local namespace
             if not isClient():
-                print(("EXECWARNING DistributedPartyCannonActivity: %s"%flightResults))
+                print("EXECWARNING DistributedPartyCannonActivity: %s"%flightResults)
                 printStack()
             for key in flightResults:
                 exec("%s = flightResults['%s']" % (key, key))

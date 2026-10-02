@@ -315,7 +315,7 @@ class PhotoAlbumPage(ShtikerPage.ShtikerPage):
         chatEntry['backgroundFocus'] = 0
         # And now we can set the focus on our entry.
         self.renameEntry['focus'] = 1
-        print((self.selectedFileName))
+        print(self.selectedFileName)
 
     def deleteConfirm(self):
         os.remove(self.selectedFileName)

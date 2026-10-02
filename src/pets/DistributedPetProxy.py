@@ -155,7 +155,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
         # the corrupted doodle problem
         DistributedObject.DistributedObject.announceGenerate(self)
         self.traits = PetTraits.PetTraits(self.traitSeed, self.safeZone)
-        print((self.traits.traits))
+        print(self.traits.traits)
         """
         self.traits = PetTraits.PetTraits(self.traitSeed, self.safeZone,
                                           traitValueList=self.traitList)

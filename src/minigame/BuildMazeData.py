@@ -218,12 +218,12 @@ processedMazes = []
 for mazeGroup in mazeNames:
     for mazeName in mazeGroup:
         if mazeName in processedMazes:
-            print((mazeName + " already added"))
+            print(mazeName + " already added")
             continue
         else:
             processedMazes.append(mazeName)
     
-        print(("analyzing " + mazeName + "..."))
+        print("analyzing " + mazeName + "...")
         maze = loader.loadModel(mazeName)
         maze.reparentTo(root)
         maze.setPos(0,0,0)

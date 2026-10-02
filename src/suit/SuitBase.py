@@ -133,11 +133,11 @@ class SuitBase:
         """
         # print out the path
         #
-        print(("%d points in path" % self.pathLength))
+        print("%d points in path" % self.pathLength)
 #        print self.path
         for currPathPt in range( self.pathLength ):
             indexVal = self.path.getPointIndex( currPathPt )
-            print(("\t", self.sp.dnaStore.getSuitPointWithIndex( indexVal )))
+            print("\t", self.sp.dnaStore.getSuitPointWithIndex( indexVal ))
 
     def makeLegList(self):
         """makeLegList(self)

@@ -531,7 +531,7 @@ for zone, rodDict in list(__pondInfoDict.items()):
             fishList.extend(anywhereFishList)
 
 def getPondDict(zoneId):
-    print((__pondInfoDict[zoneId]))
+    print(__pondInfoDict[zoneId])
 
 def getTotalNumFish():
     return __totalNumFish
@@ -600,7 +600,7 @@ def printNumGeneraPerPond():
         for fish in fishList:
             if fish[0] not in generaList:
                 generaList.append(fish[0])
-        print(("Pond %s has %s Genera" % (pondId, len(generaList))))
+        print("Pond %s has %s Genera" % (pondId, len(generaList)))
     
 
 def generateFishingReport(numCasts = 10000, hitRate = 0.8):

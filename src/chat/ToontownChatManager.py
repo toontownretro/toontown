@@ -944,7 +944,7 @@ class ToontownChatManager(ChatManager.ChatManager):
             else:
                 self.fsm.request("normalChat")
         else:
-            print(("ChatManager: productName: %s not recognized" % (base.cr.productName)))
+            print("ChatManager: productName: %s not recognized" % (base.cr.productName))
         
     def __scButtonPressed(self):
         if base.config.GetBool('want-qa-regression', 0):

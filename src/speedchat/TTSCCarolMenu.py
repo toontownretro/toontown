@@ -47,7 +47,7 @@ class TTSCCarolMenu(SCMenu):
                 for phrase in list(section[1].keys()):
                     blatherTxt = section[1][phrase]
                     if blatherTxt not in OTPLocalizer.SpeedChatStaticText:
-                        print(('warning: tried to link Carol phrase %s which does not seem to exist' % blatherTxt))
+                        print('warning: tried to link Carol phrase %s which does not seem to exist' % blatherTxt)
                         break
                     self.append(TTSCIndexedTerminal(SpeedChatStaticText.get(phrase, None), blatherTxt))
             else: 
@@ -55,7 +55,7 @@ class TTSCCarolMenu(SCMenu):
                 menu = SCMenu()
                 for phrase in section[1]:
                     if phrase not in OTPLocalizer.SpeedChatStaticText:
-                        print(('warning: tried to link Carol phrase %s which does not seem to exist' % phrase))                                
+                        print('warning: tried to link Carol phrase %s which does not seem to exist' % phrase)                                
                         break
                     menu.append(SCStaticTextTerminal(phrase))                    
                                         

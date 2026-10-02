@@ -59,7 +59,7 @@ class QuickLauncher(LauncherBase):
             self.toontownPlayTokenKey = "LOGIN_TOKEN"            
         else:
             self.toontownPlayTokenKey = "PLAYTOKEN"
-        print(("useTTSpecificLogin=%s" % self.useTTSpecificLogin))
+        print("useTTSpecificLogin=%s" % self.useTTSpecificLogin)
         self.contentDir = '/'
 
         # HACK: to make connecting to server happy

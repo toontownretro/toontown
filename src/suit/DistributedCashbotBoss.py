@@ -215,7 +215,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 goon.request('Off')
 
     def __showFakeGoons(self, state):
-        print((self.fakeGoons))
+        print(self.fakeGoons)
         if self.fakeGoons:
             for goon in self.fakeGoons:
                 goon.request(state)
@@ -565,7 +565,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         mainGoon = self.fakeGoons[0]
         
         goonLoop = Parallel()
-        print((self.fakeGoons))
+        print(self.fakeGoons)
         for i in range(1, self.numFakeGoons):
             #print i
             goon = self.fakeGoons[i]

@@ -3,7 +3,7 @@ from toontown.toonbase.ToontownModules import Filename
 
 def __do_explore(dirname):
     if not os.path.isdir(dirname):
-        print(('Not a directory: %s' % dirname))
+        print('Not a directory: %s' % dirname)
         return False
     if sys.platform == 'win32':
         url = dirname.replace('\\', '/')
@@ -19,7 +19,7 @@ def __do_explore(dirname):
 def exploreDirectory(appRunner):
     explore = appRunner.tokenDict.get('explore', '')
     if explore:
-        print(('Explore token set to "%s"; not running launcher.' % explore))
+        print('Explore token set to "%s"; not running launcher.' % explore)
         if explore == 'start':
             __do_explore(os.getcwd())
         elif explore == 'log':

@@ -160,7 +160,7 @@ from . import ToontownLoader
 from direct.gui.DirectGui import *
 
 serverVersion = base.config.GetString("server-version", "no_version_set")
-print(('ToontownStart: serverVersion: ', serverVersion))
+print('ToontownStart: serverVersion: ', serverVersion)
 version = OnscreenText(serverVersion,
                        pos = (-1.3, -0.975),
                        scale = 0.06,
@@ -266,5 +266,5 @@ if autoRun and launcher.isDummy() and (not Thread.isTrueThreads() or __name__ ==
 
     except:
         from direct.showbase import PythonUtil
-        print((PythonUtil.describeException()))
+        print(PythonUtil.describeException())
         raise

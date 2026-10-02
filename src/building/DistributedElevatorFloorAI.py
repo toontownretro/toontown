@@ -193,7 +193,7 @@ class DistributedElevatorFloorAI(DistributedElevatorFSMAI.DistributedElevatorFSM
         #print("WAIT EMPTY FLOOR VATOR")
         for i in range(len(self.seats)):
             self.seats[i] = None
-        print((self.seats))
+        print(self.seats)
         if self.wantState == 'closed':
             self.demand('Closing')
         else:

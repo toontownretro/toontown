@@ -350,7 +350,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
             pass
                 
     def emptySlot(self, index, avId, bailFlag, timestamp):
-        print(("Emptying slot: %d for %d" % (index, avId)))
+        print("Emptying slot: %d for %d" % (index, avId))
         # If localToon is exiting, he needs to change state
         if avId == 0:
             # This means that no one is currently exiting, and no action
@@ -439,7 +439,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
 
     def handleEnterSphere(self, collEntry):
         self.notify.debug("Entering Elevator Sphere....")
-        print(("FSMhandleEnterSphere elevator%s avatar%s" % (self.elevatorTripId, localAvatar.lastElevatorLeft)))
+        print("FSMhandleEnterSphere elevator%s avatar%s" % (self.elevatorTripId, localAvatar.lastElevatorLeft))
         if self.elevatorTripId and (localAvatar.lastElevatorLeft == self.elevatorTripId):
             #print("NO BACKCIES!")
             self.rejectBoard(base.localAvatar.doId, REJECT_SHUFFLE)
@@ -455,7 +455,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
         # reason 0: unknown, 1: shuffle, 2: too low laff, 3: no seat, 4: need promotion
         # This should only be sent to us if our localToon requested
         # permission to board the elevator.
-        print(("rejectBoard %s" % (reason)))
+        print("rejectBoard %s" % (reason))
         if hasattr(base.localAvatar, "elevatorNotifier"):
             if reason == REJECT_SHUFFLE:
                 base.localAvatar.elevatorNotifier.showMe(TTLocalizer.ElevatorHoppedOff)

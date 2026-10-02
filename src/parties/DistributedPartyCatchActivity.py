@@ -156,24 +156,24 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         if __dev__:
             # log stats on drop rates for diff numbers of players
             for o in range(3):
-                print(({0: 'SPOTS PER PLAYER',
+                print({0: 'SPOTS PER PLAYER',
                        1: 'DROPS PER MINUTE PER SPOT DURING NORMAL DROP PERIOD',
                        2: 'DROPS PER MINUTE PER PLAYER DURING NORMAL DROP PERIOD',
-                       }[o]))
+                       }[o])
                 for i in range(1, self.FallRateCap_Players+10):
                     self.defineConstants(forceNumPlayers=i)
                     numDropLocations = self.DropRows * self.DropColumns
                     numDropsPerMin = 60. / self.DropPeriod
                     if o == 0:
                         spotsPerPlayer = numDropLocations / float(i)
-                        print(('%2d PLAYERS: %s' % (i, spotsPerPlayer)))
+                        print('%2d PLAYERS: %s' % (i, spotsPerPlayer))
                     elif o == 1:
                         numDropsPerMinPerSpot = numDropsPerMin / numDropLocations
-                        print(('%2d PLAYERS: %s' % (i, numDropsPerMinPerSpot)))
+                        print('%2d PLAYERS: %s' % (i, numDropsPerMinPerSpot))
                     else:
                         if i > 0:
                             numDropsPerMinPerPlayer = numDropsPerMin / i
-                            print(('%2d PLAYERS: %s' % (i, numDropsPerMinPerPlayer)))
+                            print('%2d PLAYERS: %s' % (i, numDropsPerMinPerPlayer))
 
         # load resources and create objects here
         self.defineConstants()

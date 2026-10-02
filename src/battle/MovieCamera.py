@@ -1470,7 +1470,7 @@ def chooseFireOpenShot(throws, suitThrowsDict, attackDuration):
     # Pick a shot and return it
     shotChoice = random.choice(shotChoices)
     track = shotChoice(*[av, duration])
-    print(("chooseFireOpenShot %s" % (shotChoice)))
+    print("chooseFireOpenShot %s" % (shotChoice))
 
     # Set up the play by play text
     # Whoops! No play by play for toons, since the multi-toon case is
@@ -1512,7 +1512,7 @@ def chooseFireCloseShot(throws, suitThrowsDict,
     # Pick a shot and return it
     shotChoice = random.choice(shotChoices)
     track = shotChoice(*[av, duration])
-    print(("chooseFireOpenShot %s" % (shotChoice)))
+    print("chooseFireOpenShot %s" % (shotChoice))
     return track
     
 # Useful for throws and button pushes

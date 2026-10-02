@@ -37,13 +37,13 @@ class CogdoMaze(MazeBase, DirectObject):
         if __debug__ and base.config.GetBool('cogdomaze-dev', False):
             self._initCollisionVisuals()
 
-        if __debug__:
-            def _initCollisionVisuals(self):
-                # TODO: Add this back
-                self._cubes = []
-                self.notify.warning("_initCollisionVisuals missing")
-                print("_initCollisionVisuals missing")
-                return
+    if __debug__:
+        def _initCollisionVisuals(self):
+            # TODO: Add this back
+            self._cubes = []
+            print("_initCollisionVisuals missing")
+            return
+
 
 
 

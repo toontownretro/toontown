@@ -153,7 +153,7 @@ class NameGenerator:
             if width > maxWidth:
                 maxWidth = text.calcWidth(name)
                 maxName = name
-        print((maxName + " " + str(maxWidth)))
+        print(maxName + " " + str(maxWidth))
         return maxName
 
     def findWidestName(self):
@@ -444,9 +444,9 @@ class NameGenerator:
             width = self.text.calcWidth(name)
             widthStr = str(width)
             if boy:
-                print(("Boy: " + name + " (" + widthStr + " units)"))
+                print("Boy: " + name + " (" + widthStr + " units)")
             if girl:
-                print(("Girl: " + name + " (" + widthStr + " units)"))
+                print("Girl: " + name + " (" + widthStr + " units)")
 
             i += 1
             
@@ -467,11 +467,11 @@ class NameGenerator:
         # Firsts only
         firsts = (len(self.boyFirsts) + len(self.girlFirsts) +
                   len(self.neutralFirsts))
-        print(("Total firsts: " + str(firsts)))
+        print("Total firsts: " + str(firsts))
 
         # Lasts only
         lasts = len(self.lastPrefixes) * len(self.lastSuffixes)
-        print(("Total lasts: " + str(lasts)))
+        print("Total lasts: " + str(lasts))
 
         # Title plus first
         neutralTitleFirsts = len(self.neutralTitles) * len(self.neutralFirsts)
@@ -485,7 +485,7 @@ class NameGenerator:
                              len(self.girlFirsts))))
         totalTitleFirsts = (neutralTitleFirsts + boyTitleFirsts +
                             girlTitleFirsts)
-        print(("Total title firsts: " + str(totalTitleFirsts)))
+        print("Total title firsts: " + str(totalTitleFirsts))
 
         # Title plus last
         neutralTitleLasts = len(self.neutralTitles) * lasts
@@ -495,7 +495,7 @@ class NameGenerator:
                           lasts)
         totalTitleLasts = (neutralTitleLasts + boyTitleFirsts +
                            girlTitleLasts)
-        print(("Total title lasts: " + str(totalTitleLasts)))
+        print("Total title lasts: " + str(totalTitleLasts))
 
         # First plus last
         neutralFirstLasts = len(self.neutralFirsts) * lasts
@@ -503,20 +503,20 @@ class NameGenerator:
         girlFirstLasts = len(self.girlFirsts) * lasts
         totalFirstLasts = (neutralFirstLasts + boyFirstLasts +
                            girlFirstLasts)
-        print(("Total first lasts: " + str(totalFirstLasts)))
+        print("Total first lasts: " + str(totalFirstLasts))
 
         # Title plus first plus last
         neutralTitleFirstLasts = neutralTitleFirsts * lasts
         boyTitleFirstLasts = boyTitleFirsts * lasts
         girlTitleFirstLasts = girlTitleFirsts * lasts
         totalTitleFirstLasts = (neutralTitleFirstLasts + boyTitleFirstLasts + girlTitleFirstLasts)
-        print(("Total title first lasts: " + str(totalTitleFirstLasts)))
+        print("Total title first lasts: " + str(totalTitleFirstLasts))
 
         
         # Total
         totalNames = (firsts + lasts + totalTitleFirsts +
                       totalTitleLasts + totalFirstLasts + totalTitleFirstLasts)
-        print(("Total Names: " + str(totalNames)))
+        print("Total Names: " + str(totalNames))
 
 
 

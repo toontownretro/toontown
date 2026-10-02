@@ -206,7 +206,7 @@ class TownBattle(StateData.StateData):
 
         if (not self.isLoaded):
             self.load()
-        print(("Battle Event %s" % (event)))
+        print("Battle Event %s" % (event))
         self.battleEvent = event
         self.fsm.enterInitialState()
         base.localAvatar.laffMeter.start()

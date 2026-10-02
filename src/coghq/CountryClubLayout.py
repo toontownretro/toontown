@@ -9,11 +9,11 @@ def printAllBossbotInfo():
     # print out roomId->room name
     print('roomId: roomName')
     for roomId, roomName in list(CountryClubRoomSpecs.BossbotCountryClubRoomId2RoomName.items()):
-        print(('%s: %s' % (roomId, roomName)))
+        print('%s: %s' % (roomId, roomName))
     # print out # of battles in each room
     print('\nroomId: numBattles')
     for roomId, numBattles in list(CountryClubRoomSpecs.roomId2numBattles.items()):
-        print(('%s: %s' % (roomId, numBattles)))
+        print('%s: %s' % (roomId, numBattles))
     # print out all of the rooms in all countryClub floors
     print('\ncountryClubId floor roomIds')
     printCountryClubRoomIds()
@@ -38,16 +38,16 @@ def printCountryClubInfo():
     def func(ml): print(ml)
     iterateBossbotCountryClubs(func)
 def printCountryClubRoomIds():
-    def func(ml): print((ml.getCountryClubId(), ml.getFloorNum(), ml.getRoomIds()))
+    def func(ml): print(ml.getCountryClubId(), ml.getFloorNum(), ml.getRoomIds())
     iterateBossbotCountryClubs(func)
 def printCountryClubRoomNames():
-    def func(ml): print((ml.getCountryClubId(), ml.getFloorNum(), ml.getRoomNames()))
+    def func(ml): print(ml.getCountryClubId(), ml.getFloorNum(), ml.getRoomNames())
     iterateBossbotCountryClubs(func)
 def printNumRooms():
-    def func(ml): print((ml.getCountryClubId(), ml.getFloorNum(), ml.getNumRooms()))
+    def func(ml): print(ml.getCountryClubId(), ml.getFloorNum(), ml.getNumRooms())
     iterateBossbotCountryClubs(func)
 def printNumBattles():
-    def func(ml): print((ml.getCountryClubId(), ml.getFloorNum(), ml.getNumBattles()))
+    def func(ml): print(ml.getCountryClubId(), ml.getFloorNum(), ml.getNumBattles())
     iterateBossbotCountryClubs(func)
 
 
@@ -240,7 +240,7 @@ class CountryClubLayout:
         #rng.shuffle(middleRoomIds)
         # temp only for debugging
         middleRoomIds.sort()
-        print(('middleRoomIds=%s' % middleRoomIds))
+        print('middleRoomIds=%s' % middleRoomIds)
         roomIds.extend(middleRoomIds)
         # add the chosen final room
         roomIds.append(finalRoomId)

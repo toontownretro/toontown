@@ -144,22 +144,22 @@ for arg in sys.argv:
     else:
         argFlag = None
 
-print(("Input File: %s" % inputFile))
-print(("Output Directory: %s" % outputDirectory))
-print(("Look Target: %s" % lookAtTarget))
-print(("Head Angle: %f" % headAngle))
-print(("Pitch Angle: %f" % pitchAngle))
-print(("Roll Angle: %f" % rollAngle))
-print(("FOV: %f" % fov))
-print(("FOV Fill Percent: %f" % (fillFactor * 100.0)))
-print(("Background Color: %s" % bgColor))
-print(("Background Image: %s" % backgroundImage))
+print("Input File: %s" % inputFile)
+print("Output Directory: %s" % outputDirectory)
+print("Look Target: %s" % lookAtTarget)
+print("Head Angle: %f" % headAngle)
+print("Pitch Angle: %f" % pitchAngle)
+print("Roll Angle: %f" % rollAngle)
+print("FOV: %f" % fov)
+print("FOV Fill Percent: %f" % (fillFactor * 100.0))
+print("Background Color: %s" % bgColor)
+print("Background Image: %s" % backgroundImage)
 if fHideRing:
     print("No Ring")
 else:
     print("Show Ring")
-    print(("Ring Color: %s" % ringColor))
-    print(("Ring Thickness: %f" % ringScale))
+    print("Ring Color: %s" % ringColor)
+    print("Ring Thickness: %f" % ringScale)
 
 ConfigVariableInt('win-size').setStringValue('%d %d' % (size,size))
 
@@ -318,7 +318,7 @@ def snapPics():
         lookAtToon()
         base.graphicsEngine.renderFrame()
         imageName = outputDirectory + '/' + DNAString + "." + outputExtension
-        print(("Taking screenshot: " + imageName))
+        print("Taking screenshot: " + imageName)
         if myBgColorAlpha == 1.0:
             base.win.saveScreenshot(Filename(imageName))
         else:

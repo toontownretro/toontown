@@ -41,9 +41,9 @@ class DistributedTester(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.delete(self)
 
     def setMovie(self, *args):
-        print(("DistributedTester setMovie: doId: ", self.doId))
+        print("DistributedTester setMovie: doId: ", self.doId)
 
     def setState(self, *args):
-        print(("DistributedTester setState: doId: ", self.doId))
+        print("DistributedTester setState: doId: ", self.doId)
 
 

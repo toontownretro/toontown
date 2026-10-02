@@ -51,7 +51,7 @@ class TTSCSingingMenu(SCMenu):
                         emote = phrase[item]
                         phrase = item
                     if phrase not in OTPLocalizer.SpeedChatStaticText:
-                        print(('warning: tried to link a singing phrase %s which does not seem to exist' % phrase))
+                        print('warning: tried to link a singing phrase %s which does not seem to exist' % phrase)
                         break
                     terminal = TTSCSingingTerminal(phrase)                    
                     if emote is not None:

@@ -297,7 +297,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             if x != None:
                 numPlayers += 1
         #check for a game menu up
-        print((" GETTING 2", self.gameMenu, numPlayers))
+        print(" GETTING 2", self.gameMenu, numPlayers)
         if self.gameMenu:
             if numPlayers > 2:
                 print(" GETTING HERE!!")

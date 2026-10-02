@@ -350,7 +350,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         curTime = time.time() % HouseGlobals.DAY_NIGHT_PERIOD
         dawnTime = self.dawnTime
         dT = ((curTime - dawnTime) - self.deltaTime) % HouseGlobals.DAY_NIGHT_PERIOD
-        print(("getDeltaTime = %s. curTime=%s. dawnTime=%s. serverTime=%s.  deltaTime=%s" % (dT,curTime,dawnTime,self.serverTime,self.deltaTime)))
+        print("getDeltaTime = %s. curTime=%s. dawnTime=%s. serverTime=%s.  deltaTime=%s" % (dT,curTime,dawnTime,self.serverTime,self.deltaTime))
         return dT
         
     def __initDaytimeTask(self):
@@ -401,7 +401,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         ts = 0
         if hasattr(task, 'ts'):
             ts = task.ts
-        print(("ts=%s" % ts))
+        print("ts=%s" % ts)
         self.dayTrack.start(ts)
         taskMgr.doMethodLater(HouseGlobals.DAY_NIGHT_PERIOD-ts,
                               self.__dayTimeTask,
@@ -473,7 +473,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
             else:
                 self.__stopCrickets()
                 self.__startBirds()
-        print(("ts(sun)=%s" % ts))
+        print("ts(sun)=%s" % ts)
         self.sunTrack.start(ts)
         taskMgr.doMethodLater(HouseGlobals.DAY_NIGHT_PERIOD-ts,
                               self.__sunTask,

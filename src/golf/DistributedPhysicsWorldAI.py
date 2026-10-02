@@ -59,7 +59,7 @@ class DistributedPhysicsWorldAI(DistributedObjectAI.DistributedObjectAI, Physics
                 
     def setupCommonObjects(self):
         print("setupCommonObjects")
-        print((self.commonHoldData))
+        print(self.commonHoldData)
         if not self.commonHoldData:
             return
         elif self.commonHoldData[0][1] == 99:

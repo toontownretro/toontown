@@ -31,11 +31,11 @@ cursor = db.cursor()
 
 def dropdb(dbname):
     try:
-        print(("Dropping database %s:" % dbname))
+        print("Dropping database %s:" % dbname)
         cursor.execute("DROP DATABASE %s"%dbname)
         print("  Success!")
     except Exception as e:
-        print(("  Failed: %s" % e))
+        print("  Failed: %s" % e)
 
 if language == 'castillian':
     ttDbName = "es_toontownTopDb"

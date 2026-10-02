@@ -53,7 +53,7 @@ class ToonAvatarDetailPanel(DirectFrame):
     def __init__(self, avId, avName,  playerId = None, parent = aspect2dp, **kw):
         # Inherits from DirectFrame
         # Must specify avId and avName on creation
-        print(("ToonAvatarDetailPanel %s" % (playerId)))
+        print("ToonAvatarDetailPanel %s" % (playerId))
         
         # Load required models
         buttons = loader.loadModel(

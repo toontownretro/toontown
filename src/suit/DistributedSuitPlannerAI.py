@@ -2208,7 +2208,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
         # Then set our battleID right up here, to lock out any further requests from getting triggered.
         if toon:
             if hasattr(toon, "doId"):
-                print(("Setting toonID ", toonId))
+                print("Setting toonID ", toonId)
                 toon.b_setBattleId(toonId)
                 
         pos = self.battlePosDict[canonicalZoneId]

@@ -35,7 +35,7 @@ class CatalogAdjuster(RepairAvatars.AvatarIterator):
             self.numChanged += 1
 
     def done(self):
-        print(("done, %s avatars visited, %s changed." % (self.numVisited, self.numChanged)))
+        print("done, %s avatars visited, %s changed." % (self.numVisited, self.numChanged))
         sys.exit(0)
 
 def usage():

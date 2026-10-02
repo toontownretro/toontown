@@ -9,7 +9,7 @@ def checkNames(names, goodFlags=None):
         # the game does the strip() in NameShop.py
         problem = NameCheck.checkName(name.strip())
         if problem:
-            print(('   user msg: ' + problem))
+            print('   user msg: ' + problem)
         if goodFlags:
             # make sure our results are consistent
             if problem:

@@ -160,7 +160,7 @@ class DistributedLawOfficeAI(DistributedObjectAI, LawOfficeBase.LawOfficeBase):
         #print self.layout.floorIds
         
         if self.avIds:
-            print((self.avIds))
+            print(self.avIds)
             self.currentFloor +=1
             specModule = self.layout.getFloorSpec(self.currentFloor)
             

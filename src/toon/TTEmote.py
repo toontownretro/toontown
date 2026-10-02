@@ -617,7 +617,7 @@ class TTEmote(Emote.Emote):
 
     def unlockStateChangeMsg(self):
         if self.stateChangeMsgLocks <= 0:
-            print((PythonUtil.lineTag() + ": someone unlocked too many times"))
+            print(PythonUtil.lineTag() + ": someone unlocked too many times")
             return
 
         self.stateChangeMsgLocks -= 1
@@ -722,7 +722,7 @@ class TTEmote(Emote.Emote):
         try:
             func = self.emoteFunc[emoteIndex][0]
         except:
-            print(("Error in finding emote func %s" % emoteIndex))
+            print("Error in finding emote func %s" % emoteIndex)
             return None, None
 
         def clearEmoteTrack():
@@ -764,7 +764,7 @@ class TTEmote(Emote.Emote):
 
     def printEmoteState(self, action, msg):
         if __debug__:
-            print(("%s(%s), body(%s), head(%s)" % (action, msg, EmoteFunc[0][1], EmoteFunc[2][1])))
+            print("%s(%s), body(%s), head(%s)" % (action, msg, EmoteFunc[0][1], EmoteFunc[2][1]))
 
 Emote.globalEmote = TTEmote()
 
