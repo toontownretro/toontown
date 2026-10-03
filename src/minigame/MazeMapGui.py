@@ -13,7 +13,7 @@
 from direct.showbase.PythonUtil import Enum
 from direct.gui.DirectGui import DirectFrame, DGG
 
-from toontown.toonbase.ToontownModules import Vec2, VBase4D
+from toontown.toonbase.ToontownModules import Vec2, VBase4F
 from toontown.toonbase.ToontownModules import CardMaker, NodePath
 from toontown.toonbase.ToontownModules import Texture, PNMImage
 
@@ -112,7 +112,7 @@ class MazeMapGui(DirectFrame):
         # create and fill empty map image
         mapImage = PNMImage(MAP_RESOLUTION, MAP_RESOLUTION)
         mapImage.fill(*self._bgColor)
-        fgColor = VBase4D(*self._fgColor)
+        fgColor = VBase4F(*self._fgColor)
 
         # iterate through the map data and place a block in the map image where appropriate
         for x in range( self._mazeHeight ):
@@ -222,16 +222,16 @@ class MazeMapGui(DirectFrame):
         self._maskImage.setXelA(
             x,
             y,
-            VBase4D( 0.0, 0.0, 0.0, min(self._maskImage.getAlpha(x,y), goalAlpha*2.0))
+            VBase4F( 0.0, 0.0, 0.0, min(self._maskImage.getAlpha(x,y), goalAlpha*2.0))
         )
 
     def _revealHardCircle(self, x, y, center):
         length = (Vec2(x,y)-center).length()
         if length <= self._radius:
-            self._maskImage.setXelA(x,y,VBase4D(0,0,0,0))
+            self._maskImage.setXelA(x,y,VBase4F(0,0,0,0))
 
     def _revealSquare(self, x, y, center):
-        self._maskImage.setXelA(x,y,VBase4D(0,0,0,0))
+        self._maskImage.setXelA(x,y,VBase4F(0,0,0,0))
 
     def _drawHole(self, x, y):
         center = Vec2(x, y)

@@ -30,7 +30,7 @@ CANNON_SCALE = 1.0
 
 FAR_PLANE_DIST = 600 * WORLD_SCALE
 
-CANNON_Y = -int((CannonGameGlobals.TowerYRange/2)*1.3)
+CANNON_Y = -int((CannonGameGlobals.TowerYRange//2)*1.3)
 CANNON_X_SPACING = 12
 CANNON_Z = 20
 
@@ -563,7 +563,7 @@ class DistributedCannonGame(DistributedMinigame):
         # choose a number from yRange*0.3 to yRange
         # don't use the front 1/3 or so of the triangle, it's
         # too close to the cannons
-        yMin = yRange * .3
+        yMin = int(yRange * .3)
         yMax = yRange
         if self.DEBUG_TOWER_RANGE:
             if self.DEBUG_TOWER_NEAR:

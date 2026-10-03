@@ -162,9 +162,9 @@ class DistributedMazeGame(DistributedMinigame):
                         # there must be an even number of suits
                         assert not numSuits % 2
                         speeds = []
-                        for i in range(numSuits/2):
+                        for i in range(numSuits//2):
                             if fasterSuits:
-                                i += numSuits/2
+                                i += numSuits//2
                             t = i / float(numSuits-1)
                             # map t into 0..1
                             if fasterSuits:

@@ -31,7 +31,7 @@ class VineSpider(NodePath, DirectObject):
         #self.gameAssets =  loader.loadModel("phase_4/models/minigames/swimming_game_ring")
         spider2 = gameAssets.find('**/spider_3')
         spider1 = gameAssets.find('**/spider_2')
-        seqNode = SequenceNode.SequenceNode('spider')
+        seqNode = SequenceNode('spider')
         seqNode.addChild(spider1.node())
         seqNode.addChild(spider2.node())
         seqNode.setFrameRate(2)

@@ -95,7 +95,7 @@ class MazeSuit(DirectObject):
         # to avoid thinking all the suits on the first frame,
         # stagger the suits' first thinks by an nth of a second
         n = 20
-        self.nextThinkTic = (self.serialNum * self.ticFreq) / n
+        self.nextThinkTic = int((self.serialNum * self.ticFreq) / n)
 
         # create the Point3 objects up-front
         self.fromPos = Point3(0,0,0)
