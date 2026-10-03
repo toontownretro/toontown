@@ -484,14 +484,14 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
     def updateSavedBy(self, savedBy):
         # Clear the old savedBy from the trophy manager
         if self.savedBy:
-            for avId, name, dna in self.savedBy:
+            for avId, name, dna, isGM in self.savedBy:
                 # Don't change building take over score when the toon is in the welcome valley.
                 if not ZoneUtil.isWelcomeValley(self.zoneId):
                     self.trophyMgr.removeTrophy(avId, self.numFloors)
         # Update the new saved by list
         self.savedBy = savedBy
         if self.savedBy:
-            for avId, name, dna in self.savedBy:
+            for avId, name, dna, isGM in self.savedBy:
                 # Don't change building take over score when the toon is in the welcome valley.
                 if not ZoneUtil.isWelcomeValley(self.zoneId):
                     self.trophyMgr.addTrophy(avId, name, self.numFloors)

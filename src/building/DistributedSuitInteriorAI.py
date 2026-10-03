@@ -278,7 +278,7 @@ class DistributedSuitInteriorAI(DistributedObjectAI.DistributedObjectAI):
 
         avatar = self.air.doId2do.get(avId)
         if avatar != None:
-            self.savedByMap[avId] = (avatar.getName(), avatar.dna.asTuple())
+            self.savedByMap[avId] = (avatar.getName(), avatar.dna.asTuple(), avatar.isGM())
         
         assert(avId in self.responses)
         self.responses[avId] += 1
@@ -682,7 +682,7 @@ class DistributedSuitInteriorAI(DistributedObjectAI.DistributedObjectAI):
         for v in victors:
             tuple = self.savedByMap.get(v)
             if tuple:
-                savedBy.append([v, tuple[0], tuple[1]])
+                savedBy.append([v, tuple[0], tuple[1], tuple[2]])
 
         # Going to waitForVictors deletes the elevator
         self.bldg.fsm.request("waitForVictors", [victors, savedBy])

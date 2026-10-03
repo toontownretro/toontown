@@ -1963,7 +1963,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
             for i in blocks:
                 building = bm.getBuilding(i)
                 building.b_setVictorList([0, 0, 0, 0])
-                building.updateSavedBy([(av.doId, av.name, av.dna.asTuple())])
+                building.updateSavedBy([(av.doId, av.name, av.dna.asTuple(), av.isGM())])
                 building.toonTakeOver()
                 self.notify.debug("Toon take over %s %s" % (i, streetId))
 
