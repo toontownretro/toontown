@@ -12,6 +12,9 @@ from toontown.building import DoorTypes
 from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TeaserPanel
 
+# Crashes without
+from toontown.toonbase.ToontownModules import VBase3
+
 class DistributedCogHQDoor(DistributedDoor.DistributedDoor):
 
     def __init__(self, cr):

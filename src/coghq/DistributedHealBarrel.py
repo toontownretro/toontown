@@ -25,6 +25,7 @@ class DistributedHealBarrel(DistributedBarrelBase.DistributedBarrelBase):
     def applyLabel(self):
         self.gagModel = loader.loadModel("phase_4/models/props/icecream")
         self.gagModel.reparentTo(self.gagNode)
+        # Custom: p1_2 default .flt, ice_cream for .mb port 
         self.gagModel.find("**/p1_2").clearBillboard()
         self.gagModel.setScale(self.gagScale)
         self.gagModel.setPos(0,-0.1,-.1-self.gagScale)
