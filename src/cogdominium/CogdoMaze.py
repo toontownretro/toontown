@@ -144,8 +144,8 @@ class CogdoMaze(MazeBase, DirectObject):
 
         if __debug__ and hasattr(self, '_cubes'):
             self.ignoreAll()
-            self._cubes.removeNode()
-            del self._cubes
+            #self._cubes.removeNode()
+            #del self._cubes
 
     def onstage(self):
         MazeBase.onstage(self)

@@ -284,6 +284,9 @@ class ToontownAIRepository(AIDistrict):
                 
         self.groupManager = ToontownGroupManager.ToontownGroupManager()
             
+        # If triggered it will log the hacker and toggle this flag to True
+        self.cogSuitMessageSent = False
+
     def getGameDoId(self):
         return OTP_DO_ID_TOONTOWN
 
