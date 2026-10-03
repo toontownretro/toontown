@@ -693,5 +693,5 @@ class Street(BattlePlace.BattlePlace):
                 if Filename(signTexturePath).exists():
                     sign.setTexture(signTexture, 1)
                 if inDreamland:
-
+                    #
                     sign.setColorScale(0.525, 0.525, 0.525, 1)

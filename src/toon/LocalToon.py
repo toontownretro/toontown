@@ -767,14 +767,14 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
 
                     torsoColors = str([not x.hasColor() and 'clear' or \
-                                          x.getColor() in ToonDNA.allowedColors and 'ok' or x.getColor() for x in torsoPieces])
+                                       x.getColor() in ToonDNA.allowedColors and 'ok' or x.getColor() for x in torsoPieces])
                     legColors = str([not x.hasColor() and 'clear' or \
-                                        x.getColor() in ToonDNA.allowedColors and 'ok' or x.getColor() for x in legPieces])
+                                     x.getColor() in ToonDNA.allowedColors and 'ok' or x.getColor() for x in legPieces])
                     headColors = str([not x.hasColor() and 'clear' or \
-                                         x.getColor() in ToonDNA.allowedColors and 'ok' or x.getColor() for x in headPieces])
+                                      x.getColor() in ToonDNA.allowedColors and 'ok' or x.getColor() for x in headPieces])
                     sendT(msgHeader,
                           'invalid color...arm: %s leg: %s head: %s' % (torsoColors, legColors, headColors),
-                        toon)
+                          toon)
                     result = toon
             else:
 
