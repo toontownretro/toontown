@@ -598,9 +598,9 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         # odd toon always ends up on side A, to give the boss someone
         # to address in the movies).
         if (numToons < 4):
-            numToonsB = numToons / 2
+            numToonsB = numToons // 2
         else:
-            numToonsB = (numToons + random.choice([0, 1])) / 2
+            numToonsB = (numToons + random.choice([0, 1])) // 2
 
         teamA = toons[numToonsB:numToons]
         teamB = toons[:numToonsB]
@@ -885,7 +885,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             assert(self.notify.debug('%s. potential reserve suits: %d' % \
                 (self.doId, len(self.reserveSuits))))
             assert totalHp <= totalMaxHp
-            hpPercent = 100 - (totalHp / totalMaxHp * 100.0)
+            hpPercent = 100 - (totalHp // totalMaxHp * 100.0)
             assert(self.notify.debug('%s. totalHp: %d totalMaxHp: %d percent: %f' \
                 % (self.doId, totalHp, totalMaxHp, hpPercent)))
             for info in self.reserveSuits:
