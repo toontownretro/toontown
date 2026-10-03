@@ -128,25 +128,25 @@ class panda3d(package):
     module('toontown.hood.*')
 
     # Pick up the dc files, and the Python modules they reference.
-    file(Filename.expandFrom('$OTP/src/configfiles/otp.dc'),
+    open(Filename.expandFrom('$OTP/src/configfiles/otp.dc'),
          Filename.expandFrom('$TOONTOWN/src/configfiles/toon.dc'))
 
     # We need the gameserver's certificate to pre-approve him.
-    file(Filename.expandFrom('$OTP/src/configfiles/gameserver.txt'))
+    open(Filename.expandFrom('$OTP/src/configfiles/gameserver.txt'))
 
     # Most of the core Panda3D DLL's will be included implicitly due to
     # being referenced by the above Python code.  Here we name a few more
     # that are also needed, but aren't referenced by any code.  Again,
     # note that the .dll extension is automatically replaced with the
     # platform-specific extension for an executable.
-    file('libpandagl.dll', 'libtinydisplay.dll')
+    open('libpandagl.dll', 'libtinydisplay.dll')
     if platform.startswith('win'):
-        file('libpandadx8.dll', 'libpandadx9.dll')
+        open('libpandadx8.dll', 'libpandadx9.dll')
 
     # Audio.  Miles, on Windows and Mac.
     if platform.startswith('win'):
-        file('libmiles_audio.dll')
-        file(Filename.expandFrom('$WINTOOLS/sdk/rad/MilesWin/redist/mssmp3.asi'),
+        open('libmiles_audio.dll')
+        open(Filename.expandFrom('$WINTOOLS/sdk/rad/MilesWin/redist/mssmp3.asi'),
              Filename.expandFrom('$WINTOOLS/built/bin/avcodec.dll'),
              Filename.expandFrom('$WINTOOLS/built/bin/avutil.dll'),
              Filename.expandFrom('$WINTOOLS/built/bin/avformat.dll'),
@@ -154,29 +154,29 @@ class panda3d(package):
              executable = True)
 
     elif platform.startswith('osx'):
-        file('libmiles_audio.dll')
-        file('libMilesMachO.dylib',
+        open('libmiles_audio.dll')
+        open('libMilesMachO.dylib',
              'libMilesMachOx86.dylib',
              'mssmp3.asi', 'mssmixer.mix', 'Miles_MP3_Decoder.asi',
              executable = True)
 
     else:
         # Fmod, on Linux.
-        file('libfmod_audio.so')
+        open('libfmod_audio.so')
 
-    file('libpandafx.dll', 'libpandaphysics.dll')
+    open('libpandafx.dll', 'libpandaphysics.dll')
 
     # Config files.
-    file(Filename.expandFrom('$TOONTOWN/src/launcher/client_config.prc'),
+    open(Filename.expandFrom('$TOONTOWN/src/launcher/client_config.prc'),
          newName = 'Config.prc', extract = True)
 
     # The window icon.
     if platform.startswith('win'):
-        file(Filename.expandFrom('$TTMODELS/built/phase_3/models/gui/toonmono.cur'),
+        open(Filename.expandFrom('$TTMODELS/built/phase_3/models/gui/toonmono.cur'),
              Filename.expandFrom('$TTMODELS/built/phase_3/models/gui/toontown.ico'),
              extract = True)
     else:
-        file(Filename.expandFrom('$TTMODELS/built/phase_3/models/gui/toontown_mac_icon.rgb'),
+        open(Filename.expandFrom('$TTMODELS/built/phase_3/models/gui/toontown_mac_icon.rgb'),
              extract = True)
         
 
@@ -185,7 +185,7 @@ class panda3d(package):
 ##################################################
 class tt_3(package):
     # Get more language-specific files.
-    file(Filename.expandFrom('$TOONTOWN/src/configfiles/NameMasterEnglish.txt'),
+    open(Filename.expandFrom('$TOONTOWN/src/configfiles/NameMasterEnglish.txt'),
          Filename.expandFrom('$TOONTOWN/src/configfiles/PetNameMasterEnglish.txt'),
          Filename.expandFrom('$TOONTOWN/src/quest/QuestScripts.txt'),
          Filename.expandFrom('$TOONTOWN/src/chat/twhitelist.dat'),
@@ -204,12 +204,12 @@ class tt_3_5(package):
     dir(Filename.expandFrom('$TTMODELS/built/phase_3.5'), newDir = 'phase_3.5')
 
     # News file.
-    file(Filename.expandFrom('$TTMODELS/built/phase_3.5/models/news_index.txt'),
+    open(Filename.expandFrom('$TTMODELS/built/phase_3.5/models/news_index.txt'),
          newDir = 'phase_3.5/models')
 
     # Particle Effects.  These used to be sorted into different
     # directories by phase.  Now we don't bother.
-    file(Filename.expandFrom('$TOONTOWN/src/battle/*.ptf'),
+    open(Filename.expandFrom('$TOONTOWN/src/battle/*.ptf'),
          Filename.expandFrom('$TOONTOWN/src/safezone/*.ptf'),
          Filename.expandFrom('$TOONTOWN/src/effects/*.ptf'),
          newDir = 'phase_3.5/etc')

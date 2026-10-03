@@ -396,14 +396,14 @@ class TwoDGameToonSD(StateData.StateData):
             self.scoreText.setDepthTest(0)
             self.scoreText.setDepthWrite(0)
             
-            seq = Task.sequence(
-                # Fly the number out of the character
-                self.scoreText.lerpPos(Point3(0, 0, self.toon.height + 2), 0.5, blendType = 'easeOut'),
-                # Fade the number
-                self.scoreText.lerpColor(Vec4(r, g, b, a), Vec4(r, g, b, 0), 0.25),
-                # Get rid of the number
-                Task(self.hideScoreTextTask))
-            taskMgr.add(seq, self.game.uniqueName("scoreText"))
+            #LERP#seq = Task.sequence(
+            #LERP#    # Fly the number out of the character
+            #LERP#    self.scoreText.lerpPos(Point3(0, 0, self.toon.height + 2), 0.5, blendType = 'easeOut'),
+            #LERP#    # Fade the number
+            #LERP#    self.scoreText.lerpColor(Vec4(r, g, b, a), Vec4(r, g, b, 0), 0.25),
+            #LERP#    # Get rid of the number
+            #LERP#    Task(self.hideScoreTextTask))
+            #LERP#taskMgr.add(seq, self.game.uniqueName("scoreText"))
             
     def hideScoreText(self):
         if self.scoreText:

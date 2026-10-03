@@ -1090,7 +1090,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
     def isTrunkFull(self, extraAccessories = 0):
         numAccessories = (len(self.hatList) + len(self.glassesList) +
                           len(self.backpackList) +
-                          len(self.shoesList))/3
+                          len(self.shoesList))//3
         return numAccessories + extraAccessories >= self.maxAccessories
 
 
@@ -1346,7 +1346,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI,
         return self.maxClothes
 
     def isClosetFull(self, extraClothes = 0):
-        numClothes = len(self.clothesTopsList)/4 + len(self.clothesBottomsList)/2
+        numClothes = len(self.clothesTopsList)//4 + len(self.clothesBottomsList)//2
         return (numClothes + extraClothes >= self.maxClothes)
 
     def d_setClothesTopsList(self, clothesList):

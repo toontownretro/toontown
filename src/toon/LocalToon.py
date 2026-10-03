@@ -497,7 +497,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             currCounter = 0
 
             def sendAsParts(message, counter):
-                for currBlock in range(0, len(message) / msgSize + 1):
+                for currBlock in range(0, len(message) // msgSize + 1):
                     fmsg = '%s %02d: ' % (uid, currBlock + counter) + header + ': "%s"' % message[currBlock * msgSize:currBlock * msgSize + msgSize]
 
 
@@ -533,7 +533,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
 
 
-                        bs += zlib.compress(currNode.encodeToBamStream()).encode('hex') + '_'
+                        bs += zlib.compress(currNode.encodeToBamStream()).hex() + '_'
                 footer = 'loc: %s dna: %s gmname: %s ntag: %s ceffect: %s disguise: %s sstyle: %s sgeom: %s %s' % (
                     str(sToon.getLocation()), str(sToon.style.asTuple()),
                     sToon.gmNameTagEnabled, str(sToon.nametag and sToon.nametag.getContents()),
@@ -2350,7 +2350,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
         currentWeek = self.catalogScheduleCurrentWeek - 1
         if currentWeek < 57:
-            seriesNumber = currentWeek / ToontownGlobals.CatalogNumWeeksPerSeries + 1
+            seriesNumber = currentWeek // ToontownGlobals.CatalogNumWeeksPerSeries + 1
             weekNumber = currentWeek % ToontownGlobals.CatalogNumWeeksPerSeries + 1
         # Catalog Series 5 & 6 are short. Need some special math here.
         elif currentWeek < 65: 
@@ -2359,7 +2359,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         # All catalogs after 5 & 6 now need to get bumped up by
         # one since the last 13 weeks used two series numbers.
         else:
-            seriesNumber = currentWeek / ToontownGlobals.CatalogNumWeeksPerSeries + 2
+            seriesNumber = currentWeek // ToontownGlobals.CatalogNumWeeksPerSeries + 2
             weekNumber = currentWeek % ToontownGlobals.CatalogNumWeeksPerSeries + 1
 
         message = None

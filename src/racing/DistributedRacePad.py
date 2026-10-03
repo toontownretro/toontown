@@ -20,6 +20,9 @@ from toontown.racing.KartShopGlobals import KartGlobals
 if __debug__:
     import pdb
 
+# Crashes without
+from toontown.toonbase.ToontownModules import TextNode
+
 class DistributedRacePad(DistributedKartPad, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedRacePad")
     #notify.setDebug(True)

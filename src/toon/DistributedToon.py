@@ -910,7 +910,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
     def isTrunkFull(self, extraAccessories = 0):
         numAccessories = (len(self.hatList) + len(self.glassesList) +
                           len(self.backpackList) +
-                          len(self.shoesList))/3
+                          len(self.shoesList))//3
         return (numAccessories + extraAccessories >= self.maxAccessories)
 
     def setMaxClothes(self, max):
@@ -946,7 +946,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
             self.loop('neutral')
 
     def isClosetFull(self, extraClothes = 0):
-        numClothes = len(self.clothesTopsList)/4 + len(self.clothesBottomsList)/2
+        numClothes = len(self.clothesTopsList)//4 + len(self.clothesBottomsList)//2
         return (numClothes + extraClothes >= self.maxClothes)
 
     def setMaxHp(self, hitPoints):
@@ -3759,20 +3759,20 @@ class DistributedToon(DistributedPlayer.DistributedPlayer,
 
                 # Initial position ... Center of the body... the "tan tien"
                 self.hpText.setPos(0, 0, self.height/2)
-                seq = Task.sequence(
-                    # Fly the number out of the character
-                    self.hpText.lerpPos(Point3(0, 0, self.height + 1.5),
-                                            1.0,
-                                            blendType = 'easeOut'),
-                    # Wait 2 seconds
-                    Task.pause(0.85),
-                    # Fade the number
-                    self.hpText.lerpColor(Vec4(r, g, b, a),
-                                              Vec4(r, g, b, 0),
-                                              0.1),
-                    # Get rid of the number
-                    Task(self.hideHpTextTask))
-                taskMgr.add(seq, self.uniqueName("hpText"))
+                #LERP#seq = Task.sequence(
+                #LERP#    # Fly the number out of the character
+                #LERP#    self.hpText.lerpPos(Point3(0, 0, self.height + 1.5),
+                #LERP#                            1.0,
+                #LERP#                            blendType = 'easeOut'),
+                #LERP#    # Wait 2 seconds
+                #LERP#    Task.pause(0.85),
+                #LERP#    # Fade the number
+                #LERP#    self.hpText.lerpColor(Vec4(r, g, b, a),
+                #LERP#                              Vec4(r, g, b, 0),
+                #LERP#                              0.1),
+                #LERP#    # Get rid of the number
+                #LERP#    Task(self.hideHpTextTask))
+                #LERP#taskMgr.add(seq, self.uniqueName("hpText"))
         else:
             # Just play the sound effect.
             # TODO: Put in the sound effect!

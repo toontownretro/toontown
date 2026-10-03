@@ -253,7 +253,7 @@ class Piejectile(DirectObject, FlyingGag):
         else:
             self.engine.setVector(Vec3(0, 100, 3))
 
-        for i in range(numFrames):
+        for i in range(int(numFrames)):
             pitch = self.gagNode.getP()
             self.gagNode.setP(pitch + self.rotH * self.physicsDt)
             roll = self.gagNode.getR()

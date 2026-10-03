@@ -102,7 +102,7 @@ class DistributedRaceAI(DistributedObjectAI.DistributedObjectAI):
         taskMgr.doMethodLater(.5, self.enableEntryBarrier, "enableWaitingBarrier")
 
     def enableEntryBarrier(self, task):
-        self.enterRaceBarrier=self.beginBarrier("waitingForJoin", self.avIds, TTLocalizer.DRAwaitingForJoin, self.b_racersJoined)
+        self.enterRaceBarrier=self.beginBarrier("waitingForJoin", self.avIds, TTLocalizer.DRAIwaitingForJoin, self.b_racersJoined)
         self.notify.debug("Waiting for Joins!!!!")
         self.sendUpdate("waitingForJoin", [])
 
@@ -345,7 +345,7 @@ class DistributedRaceAI(DistributedObjectAI.DistributedObjectAI):
 
         # kickout racers who are taking too long
         qualTime = RaceGlobals.getQualifyingTime(self.trackId)
-        timeout = qualTime + TTLocalizer.DRAwaitingForJoin + 3     # 3 is for the 'countdown'
+        timeout = qualTime + TTLocalizer.DRAIwaitingForJoin + 3     # 3 is for the 'countdown'
         self.kickSlowRacersTask = taskMgr.doMethodLater(timeout, self.kickSlowRacers, "kickSlowRacers")
 
     def kickSlowRacers(self, task):
