@@ -36,8 +36,8 @@ load_DNA_file_AI(DNAStorage *dna_store,
 }
 
 PT(DNALoadRequest)
-make_async_load_DNA_request(const Filename &filename,
-                            DNAStorage *dna_store,
+make_async_load_DNA_request(DNAStorage *dna_store,
+                            const Filename &filename,
                             CoordinateSystem cs,
                             int editing) {
   nassertr(dna_store != nullptr, nullptr);
@@ -45,8 +45,8 @@ make_async_load_DNA_request(const Filename &filename,
 }
 
 PT(DNALoadRequest)
-make_async_load_DNA_AI_request(const Filename &filename,
-                               DNAStorage *dna_store,
+make_async_load_DNA_AI_request(DNAStorage *dna_store,
+                               const Filename &filename,
                                CoordinateSystem cs) {
   nassertr(dna_store != nullptr, nullptr);
   return new DNALoadRequest(std::string("dna:") + filename.get_basename(), filename, dna_store, cs, true, 0);

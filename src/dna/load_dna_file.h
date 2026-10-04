@@ -56,8 +56,8 @@ load_DNA_file_AI(DNAStorage *dna_store,
  * an asynchronous dna file load.
  */
 EXPCL_TOONTOWN_DNALOADER PT(DNALoadRequest)
-make_async_load_DNA_request(const Filename &filename,
-                            DNAStorage *dna_store,
+make_async_load_DNA_request(DNAStorage *dna_store,
+                            const Filename &filename,
                             CoordinateSystem cs = CS_default,
                             int editing = 0);
 
@@ -66,8 +66,8 @@ make_async_load_DNA_request(const Filename &filename,
  * an asynchronous dna AI file load.
  */
 EXPCL_TOONTOWN_DNALOADER PT(DNALoadRequest)
-make_async_load_DNA_AI_request(const Filename &filename,
-                               DNAStorage *dna_store,
+make_async_load_DNA_AI_request(DNAStorage *dna_store,
+                               const Filename &filename,
                                CoordinateSystem cs = CS_default);
 
 /**

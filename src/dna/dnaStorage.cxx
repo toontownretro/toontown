@@ -890,18 +890,18 @@ PT(Texture) DNAStorage::find_texture(const string &dna_string) const {
 NodePath DNAStorage::find_node(const string &dna_string) const {
   // Try to find this code in the map
   NodeMap::const_iterator i = _node_map.find(dna_string);
-  if (i == _node_map.end()) { return NodePath(); }
+  if (i != _node_map.end()) { return (*i).second; }
 
   // Then try to find this code in the hood node map
   i = _hood_node_map.find(dna_string);
-  if (i == _hood_node_map.end()) { return NodePath(); }
+  if (i != _hood_node_map.end()) { return (*i).second; }
 
   // Then try to find this code in the place node map
   i = _place_node_map.find(dna_string);
   if (i == _place_node_map.end()) {
     dna_cat.debug()
       << "node: " << dna_string
-      << " not found in pool, hood, or place map, returning empty NodePath" << std::endl;
+      << " not found in pool, hood, or place map, returning empty NodePath." << std::endl;
     return NodePath();
   }
 

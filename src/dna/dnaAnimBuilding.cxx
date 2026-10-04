@@ -49,8 +49,13 @@ DNAAnimBuilding::DNAAnimBuilding(const DNAAnimBuilding &anim_building) :
 //  Description:
 ////////////////////////////////////////////////////////////////////
 NodePath DNAAnimBuilding::traverse(NodePath &parent, DNAStorage *store, int editing) {
-  // Try to find this building in the node map
-  NodePath building_node_path = (store->find_node(_code)).copy_to(parent);
+  // Try to find this building in the node map.
+  NodePath code_node_path = store->find_node(_code);
+  
+  nassertr(!code_node_path.is_empty(), NodePath("animlandmarkbuilding-error"));
+  
+  // Copy the node if we were successful, Assert if not above.
+  NodePath building_node_path = (code_node_path).copy_to(parent);
 
   // Retain the name from the dna
   building_node_path.node()->set_name(get_name());
