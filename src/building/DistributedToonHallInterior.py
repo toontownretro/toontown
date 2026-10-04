@@ -25,6 +25,8 @@ class DistributedToonHallInterior(DistributedToonInterior):
         notify = DirectNotifyGlobal.directNotify.newCategory(
                 'DistributedToonHallInterior')
     
+    ArrowLayer = 1
+
     def __init__(self, cr):
         DistributedToonInterior.__init__(self, cr)
         
@@ -353,8 +355,8 @@ class DistributedToonHallInterior(DistributedToonInterior):
         thermometerMesh.setTexProjector(thermometerMesh.findTextureStage("default"), thermometerLocator, self.sillyMeter)
         self.sillyMeter.flattenMedium()
         
-        self.sillyMeter.makeSubpart("arrow",  ["uvj_progressBar*", "def_springA"])
-        self.sillyMeter.makeSubpart("meter",  ["def_pivot"], ["uvj_progressBar*", "def_springA"])       
+        self.sillyMeter.makeWeightList("arrow", {"uvj_progressBar" : 1.0, "def_springA" : 1.0})
+        self.sillyMeter.setAnimWeightList("arrowTube", "arrow")       
         
         # Load in the sounds
         
@@ -381,7 +383,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         self.arrowSfx = self.audio3d.loadSfx("phase_4/audio/sfx/tt_s_prp_sillyMeterArrow.mp3") # The arrow reaches its destination
         self.arrowSfx.setLoop(False)
         
-        self.audio3d.setDropOffFactor(0.1)
+        #self.audio3d.setDropOffFactor(0.1)
         
         self.accept("SillyMeterPhase", self.selectPhase)
         self.accept("SillyMeterIsRunning", self.sillyMeterIsRunning)
@@ -403,13 +405,13 @@ class DistributedToonHallInterior(DistributedToonInterior):
             # Assume a week phase duration
             phaseDuration = 604800
             
-        self.animSeq = Parallel(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow", duration = phaseDuration, constrainedLoop = 1, startFrame = 1, endFrame = 30),
+        self.animSeq = Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer, duration = phaseDuration, constrainedLoop = 1, startFrame = 1, endFrame = 30),
                                            Sequence(Func(self.phase1Sfx.play),
                                            Func(self.audio3d.attachSoundToObject, self.phase1Sfx, self.sillyMeter)))
                                                
         self.animSeq.start()
         # Start the stage animations
-        self.sillyMeter.loop("phaseOne", partName="meter")
+        self.sillyMeter.loop("phaseOne")
         
         #self.sillyMeter.loop("phaseOne", fromFrame = 1, toFrame = 96)
         self.accept("SillyMeterPhase", self.selectPhase)
@@ -447,15 +449,15 @@ class DistributedToonHallInterior(DistributedToonInterior):
             # frameNo = 1
             
         self.audio3d.attachSoundToObject(self.phase1Sfx, self.sillyMeter)
-        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",constrainedLoop = 0, startFrame = 31, endFrame = 42),
+        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,constrainedLoop = 0, startFrame = 31, endFrame = 42),
                                                              Func(self.arrowSfx.play)),
-                                              Parallel(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",duration = phaseDuration, constrainedLoop = 1, startFrame = 42, endFrame = 71),
+                                              Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 42, endFrame = 71),
                                                           Sequence(Func(self.phase1Sfx.play),
                                                           Func(self.audio3d.attachSoundToObject, self.phase1Sfx, self.sillyMeter))),
                                               )
         self.animSeq.start()
         # Start the stage animations
-        self.sillyMeter.loop("phaseOne", partName="meter")
+        self.sillyMeter.loop("phaseOne")
         
         #self.sillyMeter.loop("phaseOne", fromFrame = 1, toFrame = 96)
         self.accept("SillyMeterPhase", self.selectPhase)
@@ -482,14 +484,14 @@ class DistributedToonHallInterior(DistributedToonInterior):
             # Assume a week phase duration
             phaseDuration = 604800
         
-        self.animSeq = Parallel(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",duration = phaseDuration, constrainedLoop = 1, startFrame = 42, endFrame = 71),
+        self.animSeq = Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 42, endFrame = 71),
                                                           Sequence(Func(self.phase1Sfx.play),
                                                           Func(self.audio3d.attachSoundToObject, self.phase1Sfx, self.sillyMeter)))
         self.animSeq.start()
         
         # Start the stage animations
         self.smPhase2.show()
-        self.sillyMeter.loop("phaseOne", partName="meter")
+        self.sillyMeter.loop("phaseOne")
         
         self.accept("SillyMeterPhase", self.selectPhase)
         
@@ -515,15 +517,15 @@ class DistributedToonHallInterior(DistributedToonInterior):
             # Assume a week phase duration
             phaseDuration = 604800
            
-        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",constrainedLoop = 0, startFrame = 72, endFrame = 83),
+        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,constrainedLoop = 0, startFrame = 72, endFrame = 83),
                                                              Func(self.arrowSfx.play)),
-                                              Parallel(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",duration = phaseDuration, constrainedLoop = 1, startFrame = 83, endFrame = 112),
+                                              Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 83, endFrame = 112),
                                                             Sequence(Func(self.phase1Sfx.play),
                                                             Func(self.audio3d.attachSoundToObject, self.phase1Sfx, self.sillyMeter))))
         self.animSeq.start()
         
         self.smPhase2.show()
-        self.sillyMeter.loop("phaseOne", partName="meter")
+        self.sillyMeter.loop("phaseOne")
         
         self.accept("SillyMeterPhase", self.selectPhase)
         
@@ -549,15 +551,15 @@ class DistributedToonHallInterior(DistributedToonInterior):
             # Assume a week phase duration
             phaseDuration = 604800
             
-        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",constrainedLoop = 0, startFrame = 113, endFrame = 124),
+        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,constrainedLoop = 0, startFrame = 113, endFrame = 124),
                                                              Func(self.arrowSfx.play)),
-                                              Parallel(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",duration = phaseDuration, constrainedLoop = 1, startFrame = 124, endFrame = 153),
+                                              Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 124, endFrame = 153),
                                                             Sequence(Func(self.phase1Sfx.play),
                                                             Func(self.audio3d.attachSoundToObject, self.phase1Sfx, self.sillyMeter))))
         self.animSeq.start()
         
         self.smPhase2.show()
-        self.sillyMeter.loop("phaseOne", partName="meter")
+        self.sillyMeter.loop("phaseOne")
         
         self.accept("SillyMeterPhase", self.selectPhase)
         
@@ -583,15 +585,15 @@ class DistributedToonHallInterior(DistributedToonInterior):
             # Assume a week phase duration
             phaseDuration = 604800
             
-        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",constrainedLoop = 0, startFrame = 154, endFrame = 165),
+        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,constrainedLoop = 0, startFrame = 154, endFrame = 165),
                                                                 Func(self.arrowSfx.play)),
-                                              Parallel(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",duration = phaseDuration, constrainedLoop = 1, startFrame = 165, endFrame = 194),
+                                              Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 165, endFrame = 194),
                                                             Sequence(Func(self.phase2Sfx.play),
                                                             Func(self.audio3d.attachSoundToObject, self.phase2Sfx, self.sillyMeter))))
         self.animSeq.start()
         
         self.smPhase2.show()
-        self.sillyMeter.loop("phaseTwo", partName="meter")
+        self.sillyMeter.loop("phaseTwo")
         self.accept("SillyMeterPhase", self.selectPhase)
         
     def exitPhase5(self):
@@ -616,15 +618,15 @@ class DistributedToonHallInterior(DistributedToonInterior):
             # Assume a week phase duration
             phaseDuration = 604800
             
-        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",constrainedLoop = 0, startFrame = 195, endFrame = 206),
+        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,constrainedLoop = 0, startFrame = 195, endFrame = 206),
                                                                 Func(self.arrowSfx.play)),
-                                            Parallel(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",duration = phaseDuration, constrainedLoop = 1, startFrame = 206, endFrame = 235),
+                                            Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 206, endFrame = 235),
                                                         Sequence(Func(self.phase2Sfx.play),
                                                         Func(self.audio3d.attachSoundToObject, self.phase2Sfx, self.sillyMeter))))
         self.animSeq.start()
                 
         self.smPhase2.show()
-        self.sillyMeter.loop("phaseTwo", partName="meter")
+        self.sillyMeter.loop("phaseTwo")
         
         self.accept("SillyMeterPhase", self.selectPhase)
         
@@ -650,16 +652,16 @@ class DistributedToonHallInterior(DistributedToonInterior):
             # Assume a week phase duration
             phaseDuration = 604800
             
-        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",constrainedLoop = 0, startFrame = 236, endFrame = 247),
+        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,constrainedLoop = 0, startFrame = 236, endFrame = 247),
                                                                 Func(self.arrowSfx.play)),
-                                            Parallel(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",duration = phaseDuration, constrainedLoop = 1, startFrame = 247, endFrame = 276),
+                                            Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 247, endFrame = 276),
                                                         Sequence(Func(self.phase3Sfx.play),
                                                         Func(self.audio3d.attachSoundToObject, self.phase3Sfx, self.sillyMeter))))
         self.animSeq.start()
                 
         self.smPhase2.show()
         self.smPhase3.show()
-        self.sillyMeter.loop("phaseThree", partName="meter")
+        self.sillyMeter.loop("phaseThree")
         
         self.accept("SillyMeterPhase", self.selectPhase)
         
@@ -686,16 +688,16 @@ class DistributedToonHallInterior(DistributedToonInterior):
             # Assume a week phase duration
             phaseDuration = 604800
             
-        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",constrainedLoop = 0, startFrame = 277, endFrame = 288),
+        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,constrainedLoop = 0, startFrame = 277, endFrame = 288),
                                                                 Func(self.arrowSfx.play)),
-                                            Parallel(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",duration = phaseDuration, constrainedLoop = 1, startFrame = 288, endFrame = 317),
+                                            Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 288, endFrame = 317),
                                                         Sequence(Func(self.phase3Sfx.play),
                                                         Func(self.audio3d.attachSoundToObject, self.phase3Sfx, self.sillyMeter))))
         self.animSeq.start()
                 
         self.smPhase2.show()
         self.smPhase3.show()
-        self.sillyMeter.loop("phaseThree", partName="meter")
+        self.sillyMeter.loop("phaseThree")
         
         self.accept("SillyMeterPhase", self.selectPhase)
         
@@ -722,9 +724,9 @@ class DistributedToonHallInterior(DistributedToonInterior):
             # Assume a week phase duration
             phaseDuration = 604800
             
-        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",constrainedLoop = 0, startFrame = 318, endFrame = 329),
+        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,constrainedLoop = 0, startFrame = 318, endFrame = 329),
                                                                 Func(self.arrowSfx.play)),
-                                            Parallel(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",duration = phaseDuration, constrainedLoop = 1, startFrame = 329, endFrame = 358),
+                                            Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 329, endFrame = 358),
                                                         Sequence(Func(self.phase3Sfx.play),
                                                         Func(self.audio3d.attachSoundToObject, self.phase3Sfx, self.sillyMeter))),
                                             )
@@ -732,7 +734,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
                 
         self.smPhase2.show()
         self.smPhase3.show()
-        self.sillyMeter.loop("phaseThree", partName="meter")
+        self.sillyMeter.loop("phaseThree")
         
         self.accept("SillyMeterPhase", self.selectPhase)
         
@@ -759,9 +761,9 @@ class DistributedToonHallInterior(DistributedToonInterior):
             # Assume a week phase duration
             phaseDuration = 604800
             
-        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",constrainedLoop = 0, startFrame = 359, endFrame = 370),
+        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,constrainedLoop = 0, startFrame = 359, endFrame = 370),
                                                                 Func(self.arrowSfx.play)),
-                                            Parallel(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",duration = phaseDuration, constrainedLoop = 1, startFrame = 370, endFrame = 399),
+                                            Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 370, endFrame = 399),
                                                         Sequence(Func(self.phase4Sfx.play),
                                                         Func(self.audio3d.attachSoundToObject, self.phase4Sfx, self.sillyMeter))))
         self.animSeq.start()
@@ -769,7 +771,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         self.smPhase2.show()
         self.smPhase3.show()
         self.smPhase4.show()
-        self.sillyMeter.loop("phaseFour", partName="meter")
+        self.sillyMeter.loop("phaseFour")
         
         self.accept("SillyMeterPhase", self.selectPhase)
         
@@ -797,9 +799,9 @@ class DistributedToonHallInterior(DistributedToonInterior):
             # Assume a week phase duration
             phaseDuration = 604800
             
-        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",constrainedLoop = 0, startFrame = 400, endFrame = 411),
+        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,constrainedLoop = 0, startFrame = 400, endFrame = 411),
                                                                 Func(self.arrowSfx.play)),
-                                            Parallel(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",duration = phaseDuration, constrainedLoop = 1, startFrame = 411, endFrame = 440),
+                                            Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,duration = phaseDuration, constrainedLoop = 1, startFrame = 411, endFrame = 440),
                                                         Sequence(Func(self.phase4Sfx.play),
                                                         Func(self.audio3d.attachSoundToObject, self.phase4Sfx, self.sillyMeter))))
         self.animSeq.start()
@@ -807,7 +809,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         self.smPhase2.show()
         self.smPhase3.show()
         self.smPhase4.show()
-        self.sillyMeter.loop("phaseFour", partName="meter")
+        self.sillyMeter.loop("phaseFour")
         
         self.accept("SillyMeterPhase", self.selectPhase)
         
@@ -838,11 +840,11 @@ class DistributedToonHallInterior(DistributedToonInterior):
 
 
             phaseDuration = 2000000
-        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",
+        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,
                                                        constrainedLoop = 0, startFrame = 441, endFrame = 452),
                                          Func(self.arrowSfx.play),
                                 ),
-                                Parallel(ActorInterval(self.sillyMeter, "arrowTube", partName = "arrow",
+                                Parallel(ActorInterval(self.sillyMeter, "arrowTube", layer = self.ArrowLayer,
                                                        duration = phaseDuration, constrainedLoop = 1,
                                                        startFrame = 452, endFrame = 481),
                                          Sequence(Func(self.phase4Sfx.play),
@@ -854,7 +856,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         self.smPhase2.show()
         self.smPhase3.show()
         self.smPhase4.show()
-        self.sillyMeter.loop("phaseFour", partName="meter")
+        self.sillyMeter.loop("phaseFour")
         
         self.accept("SillyMeterPhase", self.selectPhase)
 
