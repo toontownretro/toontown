@@ -1526,9 +1526,9 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
         elif wordIs("~autoRich"):
             # Available only __dev__ and GMs. Guard against hacked clients sending this. If a non-GM
             # needs to do this on LIVE, simply use ~rich instead.
-            if __dev__ or av.hasGMName():
+            if __dev__ or av.isGM():
                 # Basically this is a signal that a GM has logged in.
-                if av.hasGMName():
+                if av.isGM():
                     self.air.writeServerEvent('GM', av.doId, 'GM %s used auto-rich' % av.getName())
                     assert self.notify.debug('GM %s %s used auto-rich' % (av.doId, av.getName()))
             

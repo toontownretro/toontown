@@ -121,6 +121,8 @@ class RaceManagerAI(DirectObject.DirectObject):
             # you can only place if you beat qualifying time and you are NOT practicing
             if race.raceType == RaceGlobals.Practice:
                 winnings = RaceGlobals.PracticeWinnings
+                if self.air.holidayManager.isHolidayRunning(ToontownGlobals.KARTING_TICKETS_HOLIDAY):
+                    winnings *= RaceGlobals.KARTING_TICKETS_HOLIDAY_MULTIPLIER
                 self.notify.debug("GrandTouring: Checking from branch: practice %s" % (playerInfo.avId))
                 trophies = self.checkForNonRaceTrophies(playerInfo.avId)
             

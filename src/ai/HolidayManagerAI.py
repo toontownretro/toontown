@@ -47,6 +47,7 @@ from toontown.ai import MailboxBuffHolidayAI
 from toontown.ai import TrashcanBuffHolidayAI
 from toontown.ai import ValentinesDayMgrAI
 from toontown.ai import SillyMeterHolidayAI
+from toontown.ai import GreenToonEventMgrAI
 #################################################################
 # Python Specific Modules
 #################################################################
@@ -1445,11 +1446,507 @@ class HolidayManagerAI:
         displayOnCalendar = True,
         ),
         
+        # End date was moved multiple times
+        # Blog stated final weekend through its
+        # Friday August 20 2010 post
         ToontownGlobals.VICTORY_PARTY_HOLIDAY: HolidayInfo_Oncely(
         None,
         [(2010, Month.JULY, 21, 0, 0, 1),
-         (2010, Month.AUGUST, 17, 23, 59, 59)],
+         (2010, Month.AUGUST, 23, 23, 59, 59)],
         displayOnCalendar = True,
+        ),
+
+        ToontownGlobals.SELLBOT_NERF_HOLIDAY: HolidayInfo_Oncely(
+        None,
+        [(2010, Month.AUGUST, 25, 0, 0, 1),
+         (2010, Month.SEPTEMBER, 21, 23, 59, 59)],
+        displayOnCalendar = True,
+        ),
+
+#        ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY: HolidayInfo_Oncely(
+#        None,
+#        [(2010, Month.OCTOBER, 1, 0, 0, 1),
+#         (2010, Month.OCTOBER, 5, 23, 59, 59)],
+#        displayOnCalendar = True,
+#        ),
+
+#        ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY: HolidayInfo_Oncely(
+#        None,
+#        [(2010, Month.OCTOBER, 6, 0, 0, 1),
+#         (2010, Month.OCTOBER, 12, 23, 59, 59)],
+#        displayOnCalendar = True,
+#        ),
+
+#        ToontownGlobals.JELLYBEAN_PARTIES_HOLIDAY: HolidayInfo_Oncely(
+#        None,
+#        [(2010, Month.OCTOBER, 13, 0, 0, 1),
+#         (2010, Month.OCTOBER, 19, 23, 59, 59)],
+#        displayOnCalendar = True,
+#        ),
+
+        # Sellbot nerf award - announced Sep 26 added Sep 29
+        # during Toon Troop bean dispatch event lasted to
+        # Oct 15 2010 - afterwards became a permanent award
+        ToontownGlobals.BANK_UPGRADE_HOLIDAY: HolidayInfo_Oncely(
+        None,
+        [(2010, Month.SEPTEMBER, 29, 0, 0, 1),
+         (2010, Month.OCTOBER, 15, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        # Blog always announces the start on Dec 31
+        # so I assume it just runs entirely through the first
+        # of Jan
+        # Dec 31 2011|2012 announces it for Dec 31 9pm PST for 24 hours
+        ToontownGlobals.TOP_TOONS_MARATHON: HolidayInfo_Yearly(
+        None,
+        [(Month.DECEMBER, 31, 21, 0, 1),
+         (Month.JANUARY, 1, 20, 59, 59)],
+        displayOnCalendar = True,
+        ),
+
+        # Jan 26 Blog and ig-news announce start including cooldowns
+        # Feb 9 Blog and ig-news announce end
+        # Based on evidence in ig-news week 1 was random
+        # and the second week exclusive to ms
+        ToontownGlobals.SELLBOT_INVASION: HolidayInfo_Oncely(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,
+        [ (2011, Month.JANUARY, 26, 2, 0, 0),
+          (2011, Month.JANUARY, 26, 5, 0, 0),
+
+          (2011, Month.JANUARY, 26, 10, 0, 0),
+          (2011, Month.JANUARY, 26, 13, 0, 0),
+
+          (2011, Month.JANUARY, 26, 18, 0, 0),
+          (2011, Month.JANUARY, 26, 21, 0, 0),
+
+
+          (2011, Month.JANUARY, 27, 2, 0, 0),
+          (2011, Month.JANUARY, 27, 5, 0, 0),
+
+          (2011, Month.JANUARY, 27, 10, 0, 0),
+          (2011, Month.JANUARY, 27, 13, 0, 0),
+
+          (2011, Month.JANUARY, 27, 18, 0, 0),
+          (2011, Month.JANUARY, 27, 21, 0, 0),
+
+
+          (2011, Month.JANUARY, 28, 2, 0, 0),
+          (2011, Month.JANUARY, 28, 5, 0, 0),
+
+          (2011, Month.JANUARY, 28, 10, 0, 0),
+          (2011, Month.JANUARY, 28, 13, 0, 0),
+
+          (2011, Month.JANUARY, 28, 18, 0, 0),
+          (2011, Month.JANUARY, 28, 21, 0, 0),
+
+
+          (2011, Month.JANUARY, 29, 2, 0, 0),
+          (2011, Month.JANUARY, 29, 5, 0, 0),
+
+          (2011, Month.JANUARY, 29, 10, 0, 0),
+          (2011, Month.JANUARY, 29, 13, 0, 0),
+
+          (2011, Month.JANUARY, 29, 18, 0, 0),
+          (2011, Month.JANUARY, 29, 21, 0, 0),
+
+
+          (2011, Month.JANUARY, 30, 2, 0, 0),
+          (2011, Month.JANUARY, 30, 5, 0, 0),
+
+          (2011, Month.JANUARY, 30, 10, 0, 0),
+          (2011, Month.JANUARY, 30, 13, 0, 0),
+
+          (2011, Month.JANUARY, 30, 18, 0, 0),
+          (2011, Month.JANUARY, 30, 21, 0, 0),
+
+
+          (2011, Month.JANUARY, 31, 2, 0, 0),
+          (2011, Month.JANUARY, 31, 5, 0, 0),
+
+          (2011, Month.JANUARY, 31, 10, 0, 0),
+          (2011, Month.JANUARY, 31, 13, 0, 0),
+
+          (2011, Month.JANUARY, 31, 18, 0, 0),
+          (2011, Month.JANUARY, 31, 21, 0, 0),
+
+
+          (2011, Month.FEBRUARY, 1, 2, 0, 0),
+          (2011, Month.FEBRUARY, 1, 5, 0, 0),
+
+          (2011, Month.FEBRUARY, 1, 10, 0, 0),
+          (2011, Month.FEBRUARY, 1, 13, 0, 0),
+
+          (2011, Month.FEBRUARY, 1, 18, 0, 0),
+          (2011, Month.FEBRUARY, 1, 21, 0, 0)],
+        displayOnCalendar = False,
+        ),
+
+        # Jan 26 Blog and ig-news announce start including cooldowns
+        # Feb 9 Blog and ig-news announce end
+        # Based on evidence in ig-news week 1 was random
+        # and the second week exclusive to ms
+        ToontownGlobals.SELLBOT_INVASION_MOVER_AND_SHAKER: HolidayInfo_Oncely(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,
+        [ (2011, Month.FEBRUARY, 2, 2, 0, 0),
+          (2011, Month.FEBRUARY, 2, 5, 0, 0),
+
+          (2011, Month.FEBRUARY, 2, 10, 0, 0),
+          (2011, Month.FEBRUARY, 2, 13, 0, 0),
+
+          (2011, Month.FEBRUARY, 2, 18, 0, 0),
+          (2011, Month.FEBRUARY, 2, 21, 0, 0),
+
+
+          (2011, Month.FEBRUARY, 3, 2, 0, 0),
+          (2011, Month.FEBRUARY, 3, 5, 0, 0),
+
+          (2011, Month.FEBRUARY, 3, 10, 0, 0),
+          (2011, Month.FEBRUARY, 3, 13, 0, 0),
+
+          (2011, Month.FEBRUARY, 3, 18, 0, 0),
+          (2011, Month.FEBRUARY, 3, 21, 0, 0),
+
+
+          (2011, Month.FEBRUARY, 4, 2, 0, 0),
+          (2011, Month.FEBRUARY, 4, 5, 0, 0),
+
+          (2011, Month.FEBRUARY, 4, 10, 0, 0),
+          (2011, Month.FEBRUARY, 4, 13, 0, 0),
+
+          (2011, Month.FEBRUARY, 4, 18, 0, 0),
+          (2011, Month.FEBRUARY, 4, 21, 0, 0),
+
+
+          (2011, Month.FEBRUARY, 5, 2, 0, 0),
+          (2011, Month.FEBRUARY, 5, 5, 0, 0),
+
+          (2011, Month.FEBRUARY, 5, 10, 0, 0),
+          (2011, Month.FEBRUARY, 5, 13, 0, 0),
+
+          (2011, Month.FEBRUARY, 5, 18, 0, 0),
+          (2011, Month.FEBRUARY, 5, 21, 0, 0),
+
+
+          (2011, Month.FEBRUARY, 6, 2, 0, 0),
+          (2011, Month.FEBRUARY, 6, 5, 0, 0),
+
+          (2011, Month.FEBRUARY, 6, 10, 0, 0),
+          (2011, Month.FEBRUARY, 6, 13, 0, 0),
+
+          (2011, Month.FEBRUARY, 6, 18, 0, 0),
+          (2011, Month.FEBRUARY, 6, 21, 0, 0),
+
+
+          (2011, Month.FEBRUARY, 7, 2, 0, 0),
+          (2011, Month.FEBRUARY, 7, 5, 0, 0),
+
+          (2011, Month.FEBRUARY, 7, 10, 0, 0),
+          (2011, Month.FEBRUARY, 7, 13, 0, 0),
+
+          (2011, Month.FEBRUARY, 7, 18, 0, 0),
+          (2011, Month.FEBRUARY, 7, 21, 0, 0),
+
+
+          (2011, Month.FEBRUARY, 8, 2, 0, 0),
+          (2011, Month.FEBRUARY, 8, 5, 0, 0),
+
+          (2011, Month.FEBRUARY, 8, 10, 0, 0),
+          (2011, Month.FEBRUARY, 8, 13, 0, 0),
+
+          (2011, Month.FEBRUARY, 8, 18, 0, 0),
+          (2011, Month.FEBRUARY, 8, 21, 0, 0)],
+        displayOnCalendar = False,
+        ),
+
+        # Feb 17 launch
+        # Mar 7 assumption (already gone by Mar 18)
+        # 3 week promotion sounds logical to me
+        ToontownGlobals.SELLBOT_FIELD_OFFICE: HolidayInfo_Oncely(
+        None,
+        [(2011, Month.FEBRUARY, 17, 0, 0, 1),
+         (2011, Month.MARCH, 7, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        # Start date confirmed as March 14 (2013)
+        # End date confirtmed as March 20 (2011-2012-2013)
+        ToontownGlobals.IDES_OF_MARCH: HolidayInfo_Yearly(
+        GreenToonEventMgrAI.GreenToonEventMgrAI,
+        [(Month.MARCH, 14, 0, 0, 1),
+         (Month.MARCH, 20, 23, 59, 59)],
+        displayOnCalendar = True,
+        ),
+
+        # First announced in blog on March 16 2011
+        # Unknown how long the promotion lasted
+        ToontownGlobals.EXPANDED_CLOSETS: HolidayInfo_Oncely(
+        None,
+        [(2011, Month.MARCH, 16, 0, 0, 1),
+         (2011, Month.APRIL, 6, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        # Start announced June 6 Blog post 2012|2013
+        # End also announced in same Blog as June 14 2012|2013
+        # Next blog extended it to June 15 June 16 (2013 extended or event?)
+        ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY: HolidayInfo_Yearly(
+        None,
+        [(Month.JUNE, 6, 0, 0, 1),
+         (Month.JUNE, 14, 23, 59, 59)],
+        displayOnCalendar = True,
+        ),
+
+        # Start announced June 6 Blog post 2012|2013
+        # End also announced in same Blog as June 14 2012|2013
+        # Next blog extended it to June 15 June 16 (2013 extended or event?)
+        ToontownGlobals.JELLYBEAN_PARTIES_HOLIDAY: HolidayInfo_Yearly(
+        None,
+        [(Month.JUNE, 6, 0, 0, 1),
+         (Month.JUNE, 14, 23, 59, 59)],
+        displayOnCalendar = True,
+        ),
+
+        # Start announced June 6 Blog post 2012|2013
+        # End also announced in same Blog as June 14 2012|2013
+        # Next blog extended it to June 15 June 16 (2013 extended or event?)
+        ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY: HolidayInfo_Yearly(
+        None,
+        [(Month.JUNE, 6, 0, 0, 1),
+         (Month.JUNE, 14, 23, 59, 59)],
+        displayOnCalendar = True,
+        ),
+
+        # Clothing items were added after Grand Prix
+        # And before the Halloween 2011 variants
+        # So the event was likely planned to be somewhere
+        # between June and August 2011
+        #LAWBOT_NERF_HOLIDAY: HolidayInfo_Oncely(
+        #None,
+        #[(2011, Month.XXX, XX, 0, 0, 1),
+        # (2011, Month.XXX, XX, 23, 59, 59)],
+        #displayOnCalendar = True,
+        #),
+
+        # Start confirmed May 25 2012|2013
+        # End confirmed May 28 2012|2013
+        ToontownGlobals.KARTING_TICKETS_HOLIDAY: HolidayInfo_Yearly(
+        None,
+        [(Month.MAY, 25, 0, 0, 1),
+         (Month.MAY, 28, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        # Announced in Blog June 27 2012 throughout the day
+        # Times are unconfirmed
+        ToontownGlobals.PRE_JULY_4_DOWNSIZER_INVASION: HolidayInfo_Oncely(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,
+        [ (2012, Month.JUNE, 27, 3, 0, 0),
+          (2012, Month.JUNE, 27, 6, 0, 0),
+
+          (2012, Month.JUNE, 27, 10, 0, 0),
+          (2012, Month.JUNE, 27, 13, 0, 0),
+
+          (2012, Month.JUNE, 27, 17, 0, 0),
+          (2012, Month.JUNE, 27, 20, 0, 0),
+          ],
+        displayOnCalendar = False,
+        ),
+
+        # Announced in Blog June 28 2012
+        # Times are unconfirmed
+        ToontownGlobals.PRE_JULY_4_BIGWIG_INVASION: HolidayInfo_Oncely(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,
+        [ (2012, Month.JUNE, 28, 3, 0, 0),
+          (2012, Month.JUNE, 28, 6, 0, 0),
+
+          (2012, Month.JUNE, 28, 10, 0, 0),
+          (2012, Month.JUNE, 28, 13, 0, 0),
+
+          (2012, Month.JUNE, 28, 17, 0, 0),
+          (2012, Month.JUNE, 28, 20, 0, 0),
+          ],
+        displayOnCalendar = False,
+        ),
+
+        # Announced in July 1st Blog post
+        # Lasted until July 16
+        ToontownGlobals.COMBO_FIREWORKS: HolidayInfo_Oncely(
+        FireworkManagerAI.FireworkManagerAI,
+        [(2012, Month.JULY, 1, 0, 30, 0),
+          (2012, Month.JULY, 16, 23, 30, 0)],
+        displayOnCalendar = False,
+        ),
+
+        # Announced on June 27 in Blog
+        # Lasted throughout the day (Thursday)
+        # Times are unconfirmed
+        # Will clash with existing holiday
+        ToontownGlobals.SELLBOT_SURPRISE_3: HolidayInfo_Oncely(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,
+        [ (2013, Month.JUNE, 27, 3, 0, 0),
+          (2013, Month.JUNE, 27, 6, 0, 0),
+
+          (2013, Month.JUNE, 27, 10, 0, 0),
+          (2013, Month.JUNE, 27, 13, 0, 0),
+
+          (2013, Month.JUNE, 27, 17, 0, 0),
+          (2013, Month.JUNE, 27, 20, 0, 0),
+          ],
+        displayOnCalendar = False,
+        ),
+
+        # Announced on June 28 in Blog
+        # Lasted throughout the day (Friday)
+        # 3am-6am 10am-1pm 5pm-8pm
+        # Will clash with existing holiday
+        ToontownGlobals.LEGAL_EAGLE_INVASION: HolidayInfo_Oncely(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,
+        [ (2013, Month.JUNE, 28, 3, 0, 0),
+          (2013, Month.JUNE, 28, 6, 0, 0),
+
+          (2013, Month.JUNE, 28, 10, 0, 0),
+          (2013, Month.JUNE, 28, 13, 0, 0),
+
+          (2013, Month.JUNE, 28, 17, 0, 0),
+          (2013, Month.JUNE, 28, 20, 0, 0),
+          ],
+        displayOnCalendar = False,
+        ),
+
+        # Blog posted on Aug 23 2013
+        # Lasted until closure Sep 19 2013
+        #ToontownGlobals.SILLYMETER_EXT_HOLIDAY: HolidayInfo_Oncely(
+        #SillyMeterHolidayAI.SillyMeterHolidayAI,
+        ## Silly Meter animating
+        #AdjustedHolidays[ToontownGlobals.SILLYMETER_EXT_HOLIDAY]['startAndEndPairs'],
+        #displayOnCalendar = False,
+        #phaseDates = AdjustedHolidays[ToontownGlobals.SILLYMETER_EXT_HOLIDAY]['phaseDates'],
+        #),
+
+        # Blog posted on Aug 23 2013
+        # Lasted until closure Sep 19 2013
+        ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY_MONTH: HolidayInfo_Oncely(
+        None,
+        [(2013, Month.AUGUST, 23, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 19, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        # Blog posted on Aug 23 2013
+        # Lasted until closure Sep 19 2013
+        ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY_MONTH: HolidayInfo_Oncely(
+        None,
+        [(2013, Month.AUGUST, 23, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 19, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        # Blog posted on Aug 23 2013
+        # Lasted until closure Sep 19 2013
+        ToontownGlobals.JELLYBEAN_PARTIES_HOLIDAY_MONTH: HolidayInfo_Oncely(
+        None,
+        [(2013, Month.AUGUST, 23, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 19, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        # Sep 13 2013 was on a Friday
+        ToontownGlobals.SPOOKY_BLACK_CAT: HolidayInfo_Oncely(
+        None,
+        [(2013, Month.SEPTEMBER, 13, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 13, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        # Aug 30 2013 blog post announced the event and its end date Sep 5
+        ToontownGlobals.SPOOKY_TRICK_OR_TREAT: HolidayInfo_Oncely(
+        TrickOrTreatMgrAI.TrickOrTreatMgrAI,
+        [(2013, Month.AUGUST, 30, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 5, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        # Aug 30 2013 blog post announced the event and its end date Sep 5
+        ToontownGlobals.SPOOKY_PROPS: HolidayInfo_Oncely(
+        None, # No class defined, we just want the news manager to be called
+        [(2013, Month.AUGUST, 30, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 5, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        # Aug 30 2013 blog post announced the event and its end date Sep 5
+        ToontownGlobals.SPOOKY_COSTUMES: HolidayInfo_Oncely(
+        CostumeManagerAI.CostumeManagerAI,
+        [(2013, Month.AUGUST, 30, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 5, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        # Sep 6 2013 blog post announced the event and its end date Sep 13
+        ToontownGlobals.WACKY_WINTER_DECORATIONS: HolidayInfo_Oncely(
+        None, # No class defined, we just want the news manager to be called
+        [(2013, Month.SEPTEMBER, 6, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 13, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        # Sep 6 2013 blog post announced the event and its end date Sep 13
+        ToontownGlobals.WACKY_WINTER_CAROLING: HolidayInfo_Oncely(
+        WinterCarolingMgrAI.WinterCarolingMgrAI,
+        [(2013, Month.SEPTEMBER, 6, 0, 0, 1),
+         (2013, Month.SEPTEMBER, 13, 23, 59, 59)],
+        displayOnCalendar = False,
+        ),
+
+        # Blog stated Sep 11, Sep 12 2am-5am 12pm-3pm 6pm-9pm Pacific
+        # Will clash with existing holiday since they reused the ID (?)
+        ToontownGlobals.COLD_CALLER_INVASION: HolidayInfo_Oncely(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,
+        [ (2013, Month.SEPTEMBER, 11, 2, 0, 0),
+          (2013, Month.SEPTEMBER, 11, 5, 0, 0),
+
+          (2013, Month.SEPTEMBER, 11, 10, 0, 0),
+          (2013, Month.SEPTEMBER, 11, 13, 0, 0),
+
+          (2013, Month.SEPTEMBER, 11, 18, 0, 0),
+          (2013, Month.SEPTEMBER, 11, 21, 0, 0),
+
+
+          (2013, Month.SEPTEMBER, 12, 2, 0, 0),
+          (2013, Month.SEPTEMBER, 12, 5, 0, 0),
+
+          (2013, Month.SEPTEMBER, 12, 10, 0, 0),
+          (2013, Month.SEPTEMBER, 12, 13, 0, 0),
+
+          (2013, Month.SEPTEMBER, 12, 18, 0, 0),
+          (2013, Month.SEPTEMBER, 12, 21, 0, 0)],
+        displayOnCalendar = False,
+        ),
+
+        # Blog stated Sep 16, Sep 17 3am-6am 10am-1pm 5pm-8pm Pacific
+        # Will clash with existing holiday since they reused the ID (?)
+        ToontownGlobals.BIG_CHEESE_INVASION: HolidayInfo_Oncely(
+        HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,
+        [ (2013, Month.SEPTEMBER, 16, 2, 0, 0),
+          (2013, Month.SEPTEMBER, 16, 5, 0, 0),
+
+          (2013, Month.SEPTEMBER, 16, 10, 0, 0),
+          (2013, Month.SEPTEMBER, 16, 13, 0, 0),
+
+          (2013, Month.SEPTEMBER, 16, 18, 0, 0),
+          (2013, Month.SEPTEMBER, 16, 21, 0, 0),
+
+
+          (2013, Month.SEPTEMBER, 17, 2, 0, 0),
+          (2013, Month.SEPTEMBER, 17, 5, 0, 0),
+
+          (2013, Month.SEPTEMBER, 17, 10, 0, 0),
+          (2013, Month.SEPTEMBER, 17, 13, 0, 0),
+
+          (2013, Month.SEPTEMBER, 17, 18, 0, 0),
+          (2013, Month.SEPTEMBER, 17, 21, 0, 0)],
+        displayOnCalendar = False,
         ),
     }
 
