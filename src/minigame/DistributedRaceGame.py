@@ -586,15 +586,15 @@ class DistributedRaceGame(DistributedMinigame):
                     stt.sound = self.posBuzzer
                 stt.picker = self.avIdList[index]
                 rct = Task(self.resetChanceCard)
-                task = Task.sequence(
-                    hcc,
-                    sct,
-                    Task.pause(1.0),
-                    stt,
-                    Task.pause(3.0),
-                    rct,
-                    Task.pause(0.25),)
-                tasks.append(task)
+                #LERP#task = Task.sequence(
+                #LERP#    hcc,
+                #LERP#    sct,
+                #LERP#    Task.pause(1.0),
+                #LERP#    stt,
+                #LERP#    Task.pause(3.0),
+                #LERP#    rct,
+                #LERP#    Task.pause(0.25),)
+                #LERP#tasks.append(task)
         return tasks
 
     def showChanceCard(self, task):
@@ -852,15 +852,15 @@ class DistributedRaceGame(DistributedMinigame):
         stopWalkTask = Task(stopWalk, "stopWalk-" + str(lane))
         stopWalkTask.avatar = avatar
 
-        walkTask = Task.sequence(startWalkTask,
-                                 avatar.lerpPosHpr(posH[0], posH[1], posH[2],
-                                                   posH[3], 0, 0,
-                                                   time, # seconds
-                                                   other=self.raceBoard),
-                                 stopWalkTask,
-                                 )
-        
-        taskMgr.add(walkTask, "walkAvatar-" + str(lane))
+        #LERP#walkTask = Task.sequence(startWalkTask,
+        #LERP#                         avatar.lerpPosHpr(posH[0], posH[1], posH[2],
+        #LERP#                                           posH[3], 0, 0,
+        #LERP#                                           time, # seconds
+        #LERP#                                           other=self.raceBoard),
+        #LERP#                         stopWalkTask,
+        #LERP#                         )
+        #LERP#
+        #LERP#taskMgr.add(walkTask, "walkAvatar-" + str(lane))
 
     def runInPlace(self, avatar, lane, currentPlace, newPlace, time):
         # Put the avatar in lane and place specified
@@ -889,23 +889,23 @@ class DistributedRaceGame(DistributedMinigame):
         stopRunTask = Task(stopRun, "stopRun-" + str(lane))
         stopRunTask.avatar = avatar
 
-        runTask = Task.sequence(startRunTask,
-                                avatar.lerpPosHpr(pos1[0], pos1[1], pos1[2],
-                                                  pos1[3], 0, 0,
-                                                  time / 3., # seconds
-                                                  other=self.raceBoard),
-                                avatar.lerpPosHpr(pos2[0], pos2[1], pos2[2],
-                                                  pos2[3], 0, 0,
-                                                  time / 3., # seconds
-                                                  other=self.raceBoard),
-                                avatar.lerpPosHpr(pos3[0], pos3[1], pos3[2],
-                                                  pos3[3], 0, 0,
-                                                  time / 3., # seconds
-                                                  other=self.raceBoard),
-                                stopRunTask,
-                                )
-
-        taskMgr.add(runTask, "runAvatar-" + str(lane))
+        #LERP#runTask = Task.sequence(startRunTask,
+        #LERP#                        avatar.lerpPosHpr(pos1[0], pos1[1], pos1[2],
+        #LERP#                                          pos1[3], 0, 0,
+        #LERP#                                          time / 3., # seconds
+        #LERP#                                          other=self.raceBoard),
+        #LERP#                        avatar.lerpPosHpr(pos2[0], pos2[1], pos2[2],
+        #LERP#                                          pos2[3], 0, 0,
+        #LERP#                                          time / 3., # seconds
+        #LERP#                                          other=self.raceBoard),
+        #LERP#                        avatar.lerpPosHpr(pos3[0], pos3[1], pos3[2],
+        #LERP#                                          pos3[3], 0, 0,
+        #LERP#                                          time / 3., # seconds
+        #LERP#                                          other=self.raceBoard),
+        #LERP#                        stopRunTask,
+        #LERP#                        )
+#LERP#
+        #LERP#taskMgr.add(runTask, "runAvatar-" + str(lane))
 
     def setAvatarChoice(self, choice):
         # This should only be called on the server
