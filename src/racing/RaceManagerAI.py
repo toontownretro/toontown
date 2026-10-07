@@ -500,7 +500,7 @@ class RaceManagerAI(DirectObject.DirectObject):
         
         # check to see if we need a laff point
         for i in range(1, RaceGlobals.NumTrophies//RaceGlobals.TrophiesPerCup + 1):
-            cupNum = (trophies[:RaceGlobals.NumTrophies].count(1) + addTrophyCount) / (i * RaceGlobals.TrophiesPerCup)
+            cupNum = (trophies[:RaceGlobals.NumTrophies].count(1) + addTrophyCount) // (i * RaceGlobals.TrophiesPerCup)
             self.notify.debug( "cupNum: %s" % cupNum)
             trophyIndex = RaceGlobals.TrophyCups[i - 1]
             if cupNum and not trophies[trophyIndex]:
@@ -830,7 +830,7 @@ class RaceManagerAI(DirectObject.DirectObject):
          
         # check to see if we need a laff point
         for i in range(1, RaceGlobals.NumTrophies//RaceGlobals.TrophiesPerCup + 1):
-            cupNum = trophies[:RaceGlobals.NumTrophies].count(1) / (i * RaceGlobals.TrophiesPerCup)
+            cupNum = trophies[:RaceGlobals.NumTrophies].count(1) // (i * RaceGlobals.TrophiesPerCup)
             self.notify.debug( "cupNum: %s" % cupNum)
             trophyIndex = RaceGlobals.TrophyCups[i - 1]
             if cupNum and not trophies[trophyIndex]:

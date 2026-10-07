@@ -38,7 +38,7 @@ class LaserGameMineSweeper(LaserGameBase.LaserGameBase):
                 sanity -= 1
                 column = random.randint(0,self.gridNumX - 1)
                 row = random.randint(1,self.gridNumY - 1)
-                if self.hiddenData[column][row] != 12 and self.neighborSum(column, row) < 2 and self.rowSum(row) < (numBombs / 3):
+                if self.hiddenData[column][row] != 12 and self.neighborSum(column, row) < 2 and self.rowSum(row) < (numBombs // 3):
                     self.hiddenData[column][row] = 12 #12 == bomb 11 == hidden bomb
                     bomb += 1
             
