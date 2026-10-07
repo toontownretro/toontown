@@ -479,7 +479,12 @@ class DistributedSuitInteriorAI(DistributedObjectAI.DistributedObjectAI):
                 len(self.reserveSuits)))
             self.joinedReserves = []
             assert(totalHp <= totalMaxHp)
-            hpPercent = 100 - (totalHp / totalMaxHp * 100.0)
+            # Float fix by Yumeko
+            # https://gitlab.com/sunrisemmos/Mewtwo/-/commit/e0076d4cb644ea8edbabe3f6af38d9cc02b481f7
+            if isinstance(totalHp, int) and isinstance(totalMaxHp, int):
+                hpPercent = 100 - (totalHp // totalMaxHp * 100.0)
+            else:
+                hpPercent = 100 - (totalHp / totalMaxHp * 100.0)
             assert(self.notify.debug('totalHp: %d totalMaxHp: %d percent: %f' \
                 % (totalHp, totalMaxHp, hpPercent)))
             for info in self.reserveSuits:

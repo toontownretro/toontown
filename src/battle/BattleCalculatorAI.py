@@ -1093,7 +1093,12 @@ class BattleCalculatorAI:
                 if (atkTrack == HEAL):
                     # we need to divide up the heal amounts among all
                     # targets, and heals alway hit the target
-                    result = result / len(targetList)
+                    # Int fix by Yumeko
+                    # https://gitlab.com/sunrisemmos/Mewtwo/-/commit/a4f9d2436f49ddf1fb7d75d6a2f52df202603b2d
+                    if isinstance(result, int):
+                        result = result // len(targetList)
+                    else:
+                        result = result / len(targetList)
                     if self.notify.getDebug():
                         self.notify.debug("Splitting heal among " +
                                            str(len(targetList)) +
@@ -1616,9 +1621,11 @@ class BattleCalculatorAI:
                     attackerId = self.toonAtkOrder[attackIdx]
                     attack = self.battle.toonAttacks[attackerId]
                     if hp:
-                        attack[TOON_HPBONUS_COL] = math.ceil(
+                        # Float fix by Yumeko
+                        # https://gitlab.com/sunrisemmos/Mewtwo/-/commit/e0076d4cb644ea8edbabe3f6af38d9cc02b481f7
+                        attack[TOON_HPBONUS_COL] = float(math.ceil(
                             totalDmgs * \
-                            (self.DamageBonuses[numDmgs - 1] * 0.01))
+                            (self.DamageBonuses[numDmgs - 1] * 0.01)))
                         if self.notify.getDebug():
                             self.notify.debug(
                                 "Applying hp bonus to track " +
@@ -2206,8 +2213,15 @@ class BattleCalculatorAI:
             # the suit should attack
             dmgs = []
             for currToon in list(self.SuitAttackers[suitId].keys()):
-                dmgs.append((self.SuitAttackers[suitId][currToon] /
-                               totalDamage) * 100)
+                # Int fix by Yumeko
+                # https://gitlab.com/sunrisemmos/Mewtwo/-/commit/e0076d4cb644ea8edbabe3f6af38d9cc02b481f7
+                if isinstance(self.SuitAttackers[suitId][currToon], int) and \
+                   isinstance(totalDamage, int):
+                    dmgs.append(self.SuitAttackers[suitId][currToon] //
+                                  totalDamage * 100)
+                else:
+                    dmgs.append(self.SuitAttackers[suitId][currToon] /
+                                  totalDamage * 100)
             dmgIdx = SuitBattleGlobals.pickFromFreqList(dmgs)
             if (dmgIdx == None):
                 toonId = self.__pickRandomToon(suitId) 

@@ -395,7 +395,9 @@ def getAvPropDamage( attackTrack, attackLevel, exp, organicBonus=False, propBonu
     maxE = AvPropDamage[ attackTrack ][ attackLevel ][1][1]
     expVal = min( exp, maxE )
     expPerHp = float((maxE-minE)+1) / float((maxD-minD)+1)
-    damage = math.floor( ( expVal - minE ) / expPerHp ) + minD
+    # Float fix by Yumeko
+    # https://gitlab.com/sunrisemmos/Mewtwo/-/commit/e0076d4cb644ea8edbabe3f6af38d9cc02b481f7
+    damage = float( math.floor( ( expVal - minE ) / expPerHp ) ) + minD
     # In the gag purchase tutorial the sneak peak gags show as negative
     if damage <= 0:
         damage = minD
