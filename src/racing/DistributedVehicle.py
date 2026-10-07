@@ -123,7 +123,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.speedGauge = None
         self.leanAmount = 0
         self.leftHeld = 0
-        self.stopped=False
+        self._stopped=False
         self.rightHeld = 0
         self.canRace=False
         self.groundType = "gravel"
@@ -1182,7 +1182,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             self.__updateWheelPos(dt, curSpeed)
 
         newHForTurning = self.getH()
-        if (self.proRacer) or (not self.stopped and self.arrowHorz  and curSpeed > 1):
+        if (self.proRacer) or (not self._stopped and self.arrowHorz  and curSpeed > 1):
             #scale the rotation
             if self.proRacer:
                 turnHelp = 0
@@ -1223,7 +1223,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         
         
         #apply an acceleration
-        if self.stopped:
+        if self._stopped:
             self.acceleration = 0
         else:
             self.acceleration = self.arrowVert * self.accelerationMult * self.cheatFactor #jml
@@ -1265,7 +1265,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.lastPhysicsFrame = physicsFrame
 
         leanIncrement = (self.arrowHorz * self.physicsDt * self.turnRatio)
-        if self.stopped:
+        if self._stopped:
             leanIncrement = 0
 
         driftMin = self.surfaceModifiers[self.groundType]['driftMin'] #* 0.5 #jml
@@ -1382,7 +1382,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             
 
             
-        elif not self.stopped:
+        elif not self._stopped:
             self.cameraNode.setH(self.leanAmount)
 
         # update drift particles
@@ -1400,7 +1400,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             self.speedGauge.setR(min(110,max(0,curSpeed/3/120*110)))
 
         # make sure the car is angled to touch the ground
-        if not self.stopped:
+        if not self._stopped:
             self.stickCarToGround()
 
         #some hacks so the client doesn't crash due to out range for position
@@ -1495,7 +1495,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         curRoll = self.getR()
         newRoll = curRoll + rollVal*2.0
         self.setR(newRoll)
-        if(not self.stopped):
+        if(not self._stopped):
             camera.setR(-newRoll)
 
         # the amount we should 'pitch' depends on the averaged
@@ -1513,7 +1513,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
         self.setP((newPitch+curPitch)/2.0)
         if self.proRacer:
             self.cameraNode.setP(-newPitch)
-        elif(not self.stopped):
+        elif(not self._stopped):
             self.cameraNode.setP(-newPitch)
 
 
@@ -1632,11 +1632,11 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode,
             )
            cameraToNormal.start()
         self.__stopTurbo()
-        self.stopped=True
+        self._stopped=True
 
     def startCar(self):
         self.imHitMult=1
-        self.stopped=False
+        self._stopped=False
 
     
     def hideAnvil(self):
