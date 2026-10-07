@@ -2053,7 +2053,7 @@ dclass DistributedPartyCannonActivity: DistributedPartyActivity {
   // What state is the cannon in?
   setMovie(uint8 mode, uint32 avId) broadcast;
 
-  setLanded(uint32 avId) airecv broadcast clsend;;       // appears safe, timing could be an issue...owner, please check
+  setLanded(uint32 avId) airecv broadcast clsend;       // appears safe, timing could be an issue...owner, please check
 
   setCannonWillFire(uint32 cannonDoId,
   					int32 zRot / 100,

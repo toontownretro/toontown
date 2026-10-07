@@ -3,16 +3,20 @@
 #import Pyro.errors
 import sys
 import datetime
-import MySQLdb
-import MySQLdb.constants.CR
-import _mysql_exceptions
+# Custom: MySQLdb does not support Python 3
+# import MySQLdb
+# import MySQLdb.constants.CR
+# import _mysql_exceptions
+import pymysql as MySQLdb
+import pymysql.err as _mysql_exceptions
 from direct.directnotify import DirectNotifyGlobal
 from toontown.uberdog import ttSQL
 
 from otp.switchboard import sbConfig
 
-SERVER_GONE_ERROR = MySQLdb.constants.CR.SERVER_GONE_ERROR
-SERVER_LOST = MySQLdb.constants.CR.SERVER_LOST
+# Custom: "CR_" for pymysql
+SERVER_GONE_ERROR = MySQLdb.constants.CR.CR_SERVER_GONE_ERROR
+SERVER_LOST = MySQLdb.constants.CR.CR_SERVER_LOST
 
 class ttMaildb:
     """Based on sbMaildb.py in $OTP/src/switchboard."""
@@ -67,7 +71,7 @@ class ttMaildb:
               lastupdate            TIMESTAMP  NOT NULL 
                                      DEFAULT   CURRENT_TIMESTAMP
                                      ON UPDATE CURRENT_TIMESTAMP,
-              dateSent		        TIMESTAMP  NOT NULL default '0000-00-00 00:00:00',
+              dateSent		        TIMESTAMP  NOT NULL default CURRENT_TIMESTAMP,
               readFlag					BOOLEAN    DEFAULT FALSE,
               PRIMARY KEY  (messageId),
               INDEX idx_recipientId (recipientId)
@@ -125,7 +129,7 @@ class ttMaildb:
             if isRetry == True:
                 self.notify.warning("Error on getMail retry, giving up:\n%s" % str(e))
                 return ()
-            elif e[0] == SERVER_GONE_ERROR or e[0] == SERVER_LOST:
+            elif e.args[0] == SERVER_GONE_ERROR or e.args[0] == SERVER_LOST:
                 self.reconnect()
                 return self.getMail(recipientId,True)
             else:
@@ -160,7 +164,7 @@ class ttMaildb:
             if isRetry == True:
                 self.notify.warning("Error on putMail retry, giving up:\n%s" % str(e))
                 return
-            elif e[0] == SERVER_GONE_ERROR or e[0] == SERVER_LOST:
+            elif e.args[0] == SERVER_GONE_ERROR or e.args[0] == SERVER_LOST:
                 self.reconnect()
                 self.putMail(recipientId,senderId,message,True)
             else:
@@ -191,7 +195,7 @@ class ttMaildb:
             if isRetry == True:
                 self.notify.warning("Error in deleteMail retry, giving up:\n%s" % str(e))
                 return
-            elif e[0] == SERVER_GONE_ERROR or e[0] == SERVER_LOST:
+            elif e.args[0] == SERVER_GONE_ERROR or e.args[0] == SERVER_LOST:
                 self.reconnect()
                 self.deleteMail(accountId,messageId,True)
             else:

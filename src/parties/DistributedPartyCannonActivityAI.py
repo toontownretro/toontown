@@ -180,6 +180,38 @@ class DistributedPartyCannonActivityAI(DistributedPartyActivityAI):
         self.sendUpdate("setCannonWillFire", [cannonId, zRot, angle])
         
     # Distributed (clsend airecv)
+    def setToonTrajectoryAi(self, launchTime, x, y, z, h, p, r, vx, vy, vz):
+        self.notify.debug("setToonTrajectoryAi %d (%d, %d, %d / %d, %d, %d / %d, %d, %d)" % (launchTime, x, y, z, h, p, r, vx, vy, vz))
+        senderId = self.air.getAvatarIdFromSender()
+
+        if senderId in self.flyingToons:
+            # TODO: Validate data
+            self.d_setToonTrajectory(senderId, launchTime, x, y, z, h, p, r, vx, vy, vz)
+
+    # Distributed (broadcast)
+    def d_setToonTrajectory(self, avId, launchTime, x, y, z, h, p, r, vx, vy, vz):
+        """
+        Broadcasts...
+        """
+        self.sendUpdate("setToonTrajectory", [avId, launchTime, x, y, z, h, p, r, vx, vy, vz])
+
+    # Distributed (clsend airecv)
+    def updateToonTrajectoryStartVelAi(self, vx, vy, vz):
+        self.notify.debug("updateToonTrajectoryStartVelAi (%d, %d, %d)" % (vx, vy, vz))
+        senderId = self.air.getAvatarIdFromSender()
+
+        if senderId in self.flyingToons:
+            # TODO: Validate data
+            self.d_updateToonTrajectoryStartVel(vx, vy, vz)
+
+    # Distributed (broadcast)
+    def d_updateToonTrajectoryStartVel(self, vx, vy, vz):
+        """
+        Broadcasts...
+        """
+        self.sendUpdate("updateToonTrajectoryStartVel", [senderId, vx, vy, vz])
+
+    # Distributed (clsend broadcast airecv)
     def setLanded(self, toonId):
         """
         From the client, a toon has landed. Cleanup the toon and inform all clients.

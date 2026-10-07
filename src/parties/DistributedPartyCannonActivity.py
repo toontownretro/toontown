@@ -414,8 +414,12 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             if not isClient():
                 print("EXECWARNING DistributedPartyCannonActivity: %s"%flightResults)
                 printStack()
-            for key in flightResults:
-                exec("%s = flightResults['%s']" % (key, key))
+            #for key in flightResults:
+            #    exec("%s = flightResults['%s']" % (key, key))
+            startPos = flightResults["startPos"]
+            startHpr = flightResults["startHpr"]
+            startVel = flightResults["startVel"]
+            trajectory = flightResults["trajectory"]
             
             self.notify.debug("start position: " + str(startPos))
             self.notify.debug("start velocity: " + str(startVel))
@@ -601,7 +605,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
 # Landing
 #===============================================================================
 
-    # Distributed (clsend airecv)
+    # Distributed (clsend broadcast airecv)
     def d_setLanded(self, toonId):
         printStack()
         self.notify.debug("d_setLanded %s" % toonId)

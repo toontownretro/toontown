@@ -309,7 +309,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             cancelled = False)
         self.notify.debug('futurePendingParties = %s' % str(futurePendingParties))
         prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in futurePendingParties]
-        prioritizedPartyInfo += futurePendingParties
+        prioritizedPartyInfo += tuple(futurePendingParties)
         slotsLeft = limit - len(futurePendingParties)
 
         if slotsLeft > 0:
@@ -321,7 +321,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
                 cancelled = True)
             #self.notify.debug('futureCancelledParties = %s' % str(futureCancelledParties))
             prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in futureCancelledParties]
-            prioritizedPartyInfo += futureCancelledParties            
+            prioritizedPartyInfo += tuple(futureCancelledParties)            
         slotsLeft -= len(futureCancelledParties)
         if slotsLeft > 0:
             pastFinishedParties = self.partyDb.getPrioritizedParties(\
@@ -332,7 +332,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
                 cancelled = False)
             #self.notify.debug('pastFinishedParties = %s' % str(pastFinishedParties))
             prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in pastFinishedParties]
-            prioritizedPartyInfo += pastFinishedParties                
+            prioritizedPartyInfo += tuple(pastFinishedParties)                
         slotsLeft -= len(pastFinishedParties)
         if slotsLeft > 0:
             pastCancelledParties = self.partyDb.getPrioritizedParties(\
@@ -343,7 +343,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
                 cancelled = True)
             #self.notify.debug('pastCancelledParties = %s' % str(pastCancelledParties))
             prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in pastCancelledParties]
-            prioritizedPartyInfo += pastCancelledParties
+            prioritizedPartyInfo += tuple(pastCancelledParties)
 
         # prioritizedPartyIds should have everything, prioritizing pending parties in the future
         # then cancelled parties in the future, then started parties in the past
@@ -399,20 +399,20 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
         endTime = partyInfoDict['endTime']
         activitiesStr = partyInfoDict['activities']
         formattedActivities = []
-        for i in range (len(activitiesStr) /4):
-            oneActivity = (ord(activitiesStr[i*4]),
-                           ord(activitiesStr[i*4 + 1]),
-                           ord(activitiesStr[i*4 + 2]),
-                           ord(activitiesStr[i*4 + 3])
+        for i in range (len(activitiesStr) //4):
+            oneActivity = (activitiesStr[i*4],
+                           activitiesStr[i*4 + 1],
+                           activitiesStr[i*4 + 2],
+                           activitiesStr[i*4 + 3]
                            )
             formattedActivities.append(oneActivity)
         decorStr = partyInfoDict['decorations']
         formattedDecors = []
-        for i in range( len(decorStr) / 4):
-            oneDecor = (ord(decorStr[i*4]),
-                        ord(decorStr[i*4 + 1]),
-                        ord(decorStr[i*4 + 2]),
-                        ord(decorStr[i*4 + 3])
+        for i in range( len(decorStr) // 4):
+            oneDecor = (decorStr[i*4],
+                        decorStr[i*4 + 1],
+                        decorStr[i*4 + 2],
+                        decorStr[i*4 + 3]
                         )
             formattedDecors.append(oneDecor)
         isPrivate = partyInfoDict['isPrivate']
@@ -456,7 +456,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
             cancelled = False)
         self.notify.debug('futurePendingParties = %s' % str(futurePendingParties))
         prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in futurePendingParties]
-        prioritizedPartyInfo += futurePendingParties
+        prioritizedPartyInfo += tuple(futurePendingParties)
         slotsLeft = limit - len(futurePendingParties)
 
         if slotsLeft > 0:
@@ -468,7 +468,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
                 cancelled = True)
             self.notify.debug('futureCancelledParties = %s' % str(futureCancelledParties))
             prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in futureCancelledParties]
-            prioritizedPartyInfo += futureCancelledParties            
+            prioritizedPartyInfo += tuple(futureCancelledParties)            
         slotsLeft -= len(futureCancelledParties)
         if slotsLeft > 0:
             pastFinishedParties = self.partyDb.getHostPrioritizedParties(\
@@ -479,7 +479,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
                 cancelled = False)
             self.notify.debug('pastFinishedParties = %s' % str(pastFinishedParties))
             prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in pastFinishedParties]
-            prioritizedPartyInfo += pastFinishedParties                
+            prioritizedPartyInfo += tuple(pastFinishedParties)                
         slotsLeft -= len(pastFinishedParties)
         if slotsLeft > 0:
             pastCancelledParties = self.partyDb.getHostPrioritizedParties(\
@@ -490,7 +490,7 @@ class DistributedPartyManagerUD(DistributedObjectGlobalUD):
                 cancelled = True)
             self.notify.debug('pastCancelledParties = %s' % str(pastCancelledParties))
             prioritizedPartyIds += [partyInfo['partyId'] for partyInfo in pastCancelledParties]
-            prioritizedPartyInfo += pastCancelledParties
+            prioritizedPartyInfo += tuple(pastCancelledParties)
 
         # prioritizedPartyIds should have everything, prioritizing pending parties in the future
         # then cancelled parties in the future, then started parties in the past

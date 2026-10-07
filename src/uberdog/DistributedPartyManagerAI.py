@@ -2,6 +2,8 @@ import random
 import sys
 import time
 #from sets import Set
+# Needed for Python 3
+import decimal
 
 from direct.showbase.PythonUtil import Functor
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
@@ -169,7 +171,7 @@ class DistributedPartyManagerAI(DistributedObjectAI):
         costOfParty = 0
         activitiesUsedDict = {}
         usedGridSquares = {} # key is a tuple (x,y), value isn't that important
-        actSet = Set([])
+        actSet = set([])
         for activityTuple in activities:
             if activityTuple[0] not in PartyGlobals.ActivityIds:
                 return (False,"Invalid activity id %s"%activityTuple[0])
@@ -236,7 +238,7 @@ class DistributedPartyManagerAI(DistributedObjectAI):
 
         # Check for mutually exclusive activities
         for mutuallyExclusiveTuples in PartyGlobals.MutuallyExclusiveActivities:
-            mutSet = Set(mutuallyExclusiveTuples)
+            mutSet = set(mutuallyExclusiveTuples)
             inter = mutSet.intersection(actSet)
             if len(inter) > 1:
                 return (False, "Mutuallly exclusive activites %s" % str(inter))
@@ -332,8 +334,12 @@ class DistributedPartyManagerAI(DistributedObjectAI):
         if size == 1:
             result = [centerGridY]
         else:
+            # Rounding fix by Yumeko
+            # https://gitlab.com/sunrisemmos/Mewtwo/-/commit/e0076d4cb644ea8edbabe3f6af38d9cc02b481f7
+            D = decimal.Decimal
+            roundedSize = int(D(str(size/2)).quantize(D("1."), rounding = decimal.ROUND_HALF_UP))
             result =  list(range(int(centerGridY + size/2.0),
-                            int(centerGridY - round(size/2.0)),
+                            int(centerGridY - roundedSize),
                             -1))
 
         # The result list should be the same size as given.
@@ -346,8 +352,12 @@ class DistributedPartyManagerAI(DistributedObjectAI):
         if size == 1:
             result = [centerGridX]
         else:
+            # Rounding fix by Yumeko
+            # https://gitlab.com/sunrisemmos/Mewtwo/-/commit/e0076d4cb644ea8edbabe3f6af38d9cc02b481f7
+            D = decimal.Decimal
+            roundedSize = int(D(str(size/2)).quantize(D("1."), rounding = decimal.ROUND_HALF_UP))
             result = list(range(int(centerGridX + size/2.0),
-                           int(centerGridX - round(size/2.0)),
+                           int(centerGridX - roundedSize),
                            -1))
         
         # The result list should be the same size as given.

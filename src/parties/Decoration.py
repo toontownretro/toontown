@@ -390,7 +390,7 @@ class Decoration(NodePath):
         elif self.name == "CannonVictory":
             self.cannonVictory.removeNode()
             del self.cannonVictory
-        elif self.name == "cogIceCreamVictory" \
+        elif self.name == "CogIceCreamVictory" \
             or self.name == "CogStatueVictory" \
             or self.name == "cogIceCreamWinter" \
             or self.name == "CogStatueWinter":

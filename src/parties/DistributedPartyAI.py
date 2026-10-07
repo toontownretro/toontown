@@ -82,7 +82,7 @@ class DistributedPartyAI(DistributedObjectAI):
         # Log that a GM party has been generated.
         try:
             host = simbase.air.doId2do.get(self.partyInfo.hostId)
-            if host.hasGMName():
+            if host.isGM():
                 self.air.writeServerEvent("party_generate_gm", self.partyInfo.partyId, "%s" % self.partyInfo.hostId)
                 assert self.notify.debug("GM-%s's party has started." % self.partyInfo.hostId)
         except:

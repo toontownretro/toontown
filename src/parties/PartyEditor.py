@@ -240,12 +240,12 @@ class PartyEditor(FSM,DirectObject):
         """Return the set of activities on the grid that are mutually exclusive, None otherwise."""
         # create a set of activity Ids
         currentActivities = self.partyEditorGrid.getActivitiesOnGrid()
-        actSet = Set([])
+        actSet = set([])
         for act in currentActivities:
             actSet.add(act[0])
         result = None
         for mutuallyExclusiveTuples in PartyGlobals.MutuallyExclusiveActivities:
-            mutSet = Set(mutuallyExclusiveTuples)
+            mutSet = set(mutuallyExclusiveTuples)
             inter = mutSet.intersection(actSet)
             if len(inter) > 1:
                 result = inter

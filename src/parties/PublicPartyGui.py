@@ -18,6 +18,9 @@ from toontown.toontowngui import TTDialog
 from toontown.parties import PartyGlobals
 from toontown.parties import PartyUtils
 
+# Needed for Python 3
+import functools
+
 class PublicPartyGui(DirectFrame):
     """
     This class provides the GUI for choosing a public party.

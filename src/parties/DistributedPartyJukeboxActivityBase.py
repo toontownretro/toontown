@@ -297,10 +297,11 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
                 base.cr.playGame.getPlace().loader.music.stop()
             base.resetMusic.play()
             self.music.setTime(0.0)
-            self.music.setLoopCount(getMusicRepeatTimes(length))
+            self.music.setLoopCount(int(getMusicRepeatTimes(length)))
             self.music.play()
-            jukeboxAnimControl = self.jukebox.getAnimControl("dance")
-            if not jukeboxAnimControl.isPlaying():
+            #jukeboxAnimControl = self.jukebox.getAnimControl("dance")
+            #if not jukeboxAnimControl.isPlaying():
+            if not self.jukebox.isChannelPlaying():
                 self.jukebox.loop("dance")
             self.currentSongData = (phase, filename)
             

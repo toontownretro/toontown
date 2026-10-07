@@ -5,6 +5,8 @@ import time
 import random
 import datetime
 #from sets import Set
+# Needed for Python 3
+import decimal
 
 # panda3d imports
 from toontown.toonbase.ToontownModules import *
@@ -3466,8 +3468,12 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                         # Not a problem with center>=2 in this example:
                         #   The range without rounding: range(int(3.5), int(0.5), -1)
                         #   The range with rounding:    range(int(3.5), int(0), -1)
+                        # Rounding fix by Yumeko
+                        # https://gitlab.com/sunrisemmos/Mewtwo/-/commit/e0076d4cb644ea8edbabe3f6af38d9cc02b481f7
+                        D = decimal.Decimal
+                        roundedSize = int(D(str(size/2)).quantize(D("1."), rounding = decimal.ROUND_HALF_UP))
                         result =  list(range(int(centerGrid + size/2.0),
-                                        int(centerGrid - round(size/2.0)), -1))
+                                        int(centerGrid - roundedSize), -1))
                     
                     # The result list should be the same size as given.
                     assert len(result) == size, "Bad result range: c=%s s=%s result=%s" % (centerGrid, size, result)
@@ -3519,7 +3525,15 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                     PartyGlobals.ActivityIds.PartyJukebox40,
                     PartyGlobals.ActivityIds.PartyDance20,
                     PartyGlobals.ActivityIds.PartyCog,
-                    PartyGlobals.ActivityIds.PartyVictoryTrampoline,    # victory party
+                    #PartyGlobals.ActivityIds.PartyVictoryTrampoline,    # victory party
+                    #PartyGlobals.ActivityIds.PartyWinterCatch,
+                    #PartyGlobals.ActivityIds.PartyWinterTrampoline,
+                    #PartyGlobals.ActivityIds.PartyWinterCog,
+                    #PartyGlobals.ActivityIds.PartyValentineDance,
+                    #PartyGlobals.ActivityIds.PartyValentineDance20,
+                    #PartyGlobals.ActivityIds.PartyValentineJukebox,
+                    #PartyGlobals.ActivityIds.PartyValentineJukebox40,
+                    #PartyGlobals.ActivityIds.PartyValentineTrampoline,
                 ]
 
                 actualDecorIdsToAdd = [
@@ -3539,12 +3553,18 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                     #PartyGlobals.DecorationIds.HeartTarget,        # valentoons
                     #PartyGlobals.DecorationIds.HeartBanner,        # valentoons
                     #PartyGlobals.DecorationIds.FlyingHeart,        # valentoons
-                    PartyGlobals.DecorationIds.Hydra,                # 16: victory party
-                    PartyGlobals.DecorationIds.BannerVictory,        # 17: victory party
-                    PartyGlobals.DecorationIds.CannonVictory,        # 18: victory party
-                    PartyGlobals.DecorationIds.CogStatueVictory,     # 19: victory party
-                    PartyGlobals.DecorationIds.TubeCogVictory,       # 20: victory party
-                    PartyGlobals.DecorationIds.cogIceCreamVictory,   # 21: victory party
+                    #PartyGlobals.DecorationIds.Hydra,                # 16: victory party
+                    #PartyGlobals.DecorationIds.BannerVictory,        # 17: victory party
+                    #PartyGlobals.DecorationIds.CannonVictory,        # 18: victory party
+                    #PartyGlobals.DecorationIds.CogStatueVictory,     # 19: victory party
+                    #PartyGlobals.DecorationIds.TubeCogVictory,       # 20: victory party
+                    #PartyGlobals.DecorationIds.CogIceCreamVictory,   # 21: victory party
+                    #PartyGlobals.DecorationIds.cogIceCreamWinter,     # 22: winter party
+                    #PartyGlobals.DecorationIds.StageWinter,           # 23: winter party
+                    #PartyGlobals.DecorationIds.CogStatueWinter,       # 24: winter party
+                    #PartyGlobals.DecorationIds.snowman,               # 25: winter party
+                    #PartyGlobals.DecorationIds.snowDoodle,            # 26: winter party
+                    #PartyGlobals.DecorationIds.BalloonAnvilValentine, # 27: valentine party
                 ]
 
                 activities = []
