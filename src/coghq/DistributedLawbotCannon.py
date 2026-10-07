@@ -1062,8 +1062,14 @@ class DistributedLawbotCannon (DistributedObject.DistributedObject):
         if not isClient():
             print("EXECWARNING DistributedLawbotCannon: %s"%flightResults)
             printStack()
-        for key in flightResults:
-            exec("%s = flightResults['%s']" % (key, key))
+        #for key in flightResults:
+        #    exec("%s = flightResults['%s']" % (key, key))
+        startPos = flightResults["startPos"]
+        startHpr = flightResults["startHpr"]
+        startVel = flightResults["startVel"]
+        trajectory = flightResults["trajectory"]
+        timeOfImpact = flightResults["timeOfImpact"]
+        hitWhat = flightResults["hitWhat"]
 
         self.notify.debug("start position: " + str(startPos))
         self.notify.debug("start velocity: " + str(startVel))

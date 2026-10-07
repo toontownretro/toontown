@@ -1233,8 +1233,14 @@ class DistributedCannon(DistributedObject.DistributedObject):
         if not isClient():
             print("EXECWARNING DistributedCannon: %s"%flightResults)
             printStack()
-        for key in flightResults:
-            exec("%s = flightResults['%s']" % (key, key))
+        #for key in flightResults:
+        #    exec("%s = flightResults['%s']" % (key, key))
+        startPos = flightResults["startPos"]
+        startHpr = flightResults["startHpr"]
+        startVel = flightResults["startVel"]
+        trajectory = flightResults["trajectory"]
+        timeOfImpact = flightResults["timeOfImpact"]
+        hitWhat = flightResults["hitWhat"]
 
         self.notify.debug("start position: " + str(startPos))
         self.notify.debug("start velocity: " + str(startVel))
