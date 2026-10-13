@@ -17,7 +17,7 @@ class ToontownDistrictAI(DistributedDistrictAI):
         self.allowAHNN = simbase.config.GetBool('want-ahnn-logging', 1)
         
         self.throttler = Throttler.Throttler(simbase.config.GetBool('want-throttler', 1))
-        self.throttler.setDecay(simbase.config.GetInt('throttler-decay', 0))
+        self.throttler.setDecay(simbase.config.GetInt('throttler-decay', 300))
 
     def generate(self):        
         DistributedDistrictAI.generate(self)

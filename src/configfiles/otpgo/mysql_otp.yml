@@ -1,0 +1,120 @@
+daemon:
+    name: Mewtwo OTP Cluster
+
+general:
+    eventlogger: 127.0.0.1:4343
+    dc_files:
+        - ../../../../otp/src/configfiles/otp.dc
+        - ../toon.dc
+
+debug:
+    pprof: true
+
+messagedirector:
+    bind: 127.0.0.1:6666
+    forwarding:
+        # STATESERVER_ADD_AI_RECV -> StateServer
+        - msgtype: 2045
+          channel: 20100000
+
+uberdogs:
+    - class: FriendManager
+      id: 4501
+
+    - class: CentralLogger
+      id: 4688
+
+    - class: DistributedDeliveryManager
+      id: 4683
+
+    - class: AvatarFriendsManager
+      id: 4686
+
+    - class: TTPlayerFriendsManager
+      id: 4687
+
+    - class: TTSpeedchatRelay
+      id: 4712
+
+    - class: DistributedPartyManager
+      id: 4691
+
+    - class: TTCodeRedemptionMgr
+      id: 4695
+
+roles:
+    - type: clientagent
+      # Use stunnel to accept incoming connections from 0.0.0.0
+      bind: 127.0.0.1:6665
+      # Enable PROXY protocol.  Set to false if not connecting using stunnel
+      proxy: true
+      version: "dev"
+      dc_hash: 2127649 # 2308474396
+      lua_file: "MewtwoClient.lua"
+      database: 4003
+      client:
+          relocate: true
+          add_interest: enabled
+          heartbeat_timeout: 60
+      channels:
+          min: 1000000000
+          max: 1009999999
+
+    - type: stateserver
+      control: 20100000
+      objects:
+          - class: DistributedDirectory
+            id: 4618
+          - class: CentralLogger
+            id: 4688
+
+    - type: database
+      control: 4003
+      generate:
+          min: 100000000
+          max: 199999999
+      backend:
+          type: mysql
+          server: "root@tcp(localhost:3306)/"
+          database: FinalToontown
+      objects:
+          - class: Account
+            id: 1
+          - class: DistributedToon
+            id: 2
+          - class: DistributedEstate
+            id: 3
+          - class: DistributedHouse
+            id: 4
+          - class: DistributedPet
+            id: 5
+      forwarding:
+          # DBSERVER_GET_ESTATE -> EstateFetcher Lua role
+          - msgtype: 1040
+            channel: 1040
+
+    - type: dbss
+      database: 4003
+      ranges:
+          min: 100000000
+          max: 199999999
+
+    - type: eventlogger
+      bind: 127.0.0.1:4343
+      output: logs/events-%Y%m%d_%H%M%S.log
+
+    - type: lua
+      name: FriendManager
+      lua_file: "FriendManager.lua"
+
+    - type: lua
+      name: EstateFetcher
+      lua_file: "EstateFetcher.lua"
+
+    - type: lua
+      name: NameManager
+      lua_file: "NameManager.lua"
+
+    - type: lua
+      name: StatusCheck
+      lua_file: "StatusCheck.lua"

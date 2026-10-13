@@ -91,6 +91,8 @@ from toontown.distributed.NonRepeatableRandomSourceAI import NonRepeatableRandom
 
 from . import ToontownGroupManager
 
+from toontown.ai import TeleportRegistrarAI
+
 # Custom: Fix for modern importing
 from panda3d.toontown import DNAStorage, loadDNAFile, loadDNAFileAI, DNAGroup, DNAVisGroup, DNAProp
 
@@ -538,6 +540,8 @@ class ToontownAIRepository(AIDistrict):
 
         self.banManager = BanManagerAI.BanManagerAI()
 
+        self.teleportRegistrar = TeleportRegistrarAI.TeleportRegistrarAI()
+
         # Now that we've created all the suit planners, any one of
         # them can be used to fill the world with requests for suit
         # buildings.
@@ -898,7 +902,8 @@ class ToontownAIRepository(AIDistrict):
                 key = di.getString()
                 #key = key[2:]
                 #right why to do this???? ask Roger and/or Dave
-                value = di.getString()
+                # Custom: Used to be GetString()
+                value = di.getBlob()
                 found = di.getUint8()
                 
                 #print key;
@@ -934,7 +939,8 @@ class ToontownAIRepository(AIDistrict):
                 assert(numHouses2 == numHouses)
                 tempHouseVal[i] = [None] * numHouses
                 for j in range(numHouses):
-                    tempHouseVal[i][j] = di.getString()
+                    # Custom: Used to be GetString()
+                    tempHouseVal[i][j] = di.getBlob()
                     # do we need a check for "value found" here?
 
             #print houseKey

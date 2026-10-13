@@ -128,11 +128,12 @@ class DatabaseObject:
         else:
             values = []
             for i in range(count):
-                value = di.getString()
+                #value = di.getString()
+                value, found = di.getBlob(), di.getBool()
                 values.append(value)
 
-            for i in range(count):
-                found = di.getUint8()
+            #for i in range(count):
+            #    found = di.getUint8()
 
                 if not found:
                     # this occurs for all DB fields on a pet when it's first created
