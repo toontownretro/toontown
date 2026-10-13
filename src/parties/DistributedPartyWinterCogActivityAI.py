@@ -10,4 +10,4 @@ class DistributedPartyWinterCogActivityAI(DistributedPartyCogActivityAI):
     """ Reskinned cog for winter holiday. """
 
     def __init__(self, air, partyDoId, x, y, h):
-        DistributedPartyCogActivityAI.__init__(self, air, partyDoId, x, y, h, actId=PartyGlobals.ActivityIds.PartyWinterCog)
+        DistributedPartyCogActivityAI.__init__(self, air, partyDoId, x, y, h)
