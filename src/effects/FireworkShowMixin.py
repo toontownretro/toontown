@@ -208,6 +208,9 @@ class FireworkShowMixin:
         hood = self.getHood()
             
         #from toontown.hood import *
+        # Crashes without
+        from toontown.hood import GSHood
+        from toontown.hood import OZHood
         
         if isinstance(hood, OZHood.OZHood):
             base.camLens.setFar(SpeedwayCameraFar)

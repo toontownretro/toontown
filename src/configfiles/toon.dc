@@ -2153,10 +2153,13 @@ dclass DistributedPartyTrampolineActivity: DistributedPartyActivity {
   removeBeansEcho(int8[] beansToRemove) broadcast;
 };
 
+dclass DistributedPartyValentineTrampolineActivity: DistributedPartyTrampolineActivity {
+};
+
 dclass DistributedPartyVictoryTrampolineActivity: DistributedPartyTrampolineActivity {
 };
 
-dclass DistributedPartyWinterTrampolineActivity : DistributedPartyTrampolineActivity {
+dclass DistributedPartyWinterTrampolineActivity: DistributedPartyTrampolineActivity {
 };
 
 dclass DistributedPartyTugOfWarActivity: DistributedPartyTeamActivity {

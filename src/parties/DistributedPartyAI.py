@@ -11,30 +11,46 @@ from toontown.parties import PartyGlobals
 from toontown.parties import PartyUtils
 
 from toontown.parties.DistributedPartyJukeboxActivityAI import DistributedPartyJukeboxActivityAI
+from toontown.parties.DistributedPartyValentineJukeboxActivityAI import DistributedPartyValentineJukeboxActivityAI
+from toontown.parties.DistributedPartyValentineJukebox40ActivityAI import DistributedPartyValentineJukebox40ActivityAI
 from toontown.parties.DistributedPartyCannonActivityAI import DistributedPartyCannonActivityAI
 from toontown.parties.DistributedPartyTrampolineActivityAI import DistributedPartyTrampolineActivityAI
 from toontown.parties.DistributedPartyVictoryTrampolineActivityAI import DistributedPartyVictoryTrampolineActivityAI
+from toontown.parties.DistributedPartyWinterTrampolineActivityAI import DistributedPartyWinterTrampolineActivityAI
+from toontown.parties.DistributedPartyValentineTrampolineActivityAI import DistributedPartyValentineTrampolineActivityAI
 from toontown.parties.DistributedPartyCatchActivityAI import DistributedPartyCatchActivityAI
+from toontown.parties.DistributedPartyWinterCatchActivityAI import DistributedPartyWinterCatchActivityAI
 from toontown.parties.DistributedPartyDanceActivityAI import DistributedPartyDanceActivityAI
+from toontown.parties.DistributedPartyValentineDanceActivityAI import DistributedPartyValentineDanceActivityAI
+from toontown.parties.DistributedPartyValentineDance20ActivityAI import DistributedPartyValentineDance20ActivityAI
 from toontown.parties.DistributedPartyTugOfWarActivityAI import DistributedPartyTugOfWarActivityAI
 from toontown.parties.DistributedPartyFireworksActivityAI import DistributedPartyFireworksActivityAI
 from toontown.parties.DistributedPartyJukebox40ActivityAI import DistributedPartyJukebox40ActivityAI
 from toontown.parties.DistributedPartyDance20ActivityAI import DistributedPartyDance20ActivityAI
 from toontown.parties.DistributedPartyCogActivityAI import DistributedPartyCogActivityAI
+from toontown.parties.DistributedPartyWinterCogActivityAI import DistributedPartyWinterCogActivityAI
 
 ActivityIdsToClasses = {
     PartyGlobals.ActivityIds.PartyJukebox : DistributedPartyJukeboxActivityAI,
+    PartyGlobals.ActivityIds.PartyValentineJukebox : DistributedPartyValentineJukeboxActivityAI,
+    PartyGlobals.ActivityIds.PartyValentineJukebox40 : DistributedPartyValentineJukebox40ActivityAI,
     PartyGlobals.ActivityIds.PartyCannon : DistributedPartyCannonActivityAI,
     PartyGlobals.ActivityIds.PartyTrampoline : DistributedPartyTrampolineActivityAI,
     PartyGlobals.ActivityIds.PartyVictoryTrampoline : DistributedPartyVictoryTrampolineActivityAI,
+    PartyGlobals.ActivityIds.PartyWinterTrampoline : DistributedPartyWinterTrampolineActivityAI,
+    PartyGlobals.ActivityIds.PartyValentineTrampoline : DistributedPartyValentineTrampolineActivityAI,
     PartyGlobals.ActivityIds.PartyCatch : DistributedPartyCatchActivityAI,
+    PartyGlobals.ActivityIds.PartyWinterCatch : DistributedPartyWinterCatchActivityAI,
     PartyGlobals.ActivityIds.PartyDance : DistributedPartyDanceActivityAI, 
+    PartyGlobals.ActivityIds.PartyValentineDance : DistributedPartyValentineDanceActivityAI,
+    PartyGlobals.ActivityIds.PartyValentineDance20 : DistributedPartyValentineDance20ActivityAI,
     PartyGlobals.ActivityIds.PartyTugOfWar : DistributedPartyTugOfWarActivityAI,
     PartyGlobals.ActivityIds.PartyFireworks : DistributedPartyFireworksActivityAI,
     PartyGlobals.ActivityIds.PartyClock : None,
     PartyGlobals.ActivityIds.PartyJukebox40 : DistributedPartyJukebox40ActivityAI,
     PartyGlobals.ActivityIds.PartyDance20 : DistributedPartyDance20ActivityAI,
     PartyGlobals.ActivityIds.PartyCog : DistributedPartyCogActivityAI,
+    PartyGlobals.ActivityIds.PartyWinterCog : DistributedPartyWinterCogActivityAI,
     }
 
 class DistributedPartyAI(DistributedObjectAI):

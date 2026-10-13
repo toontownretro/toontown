@@ -6,7 +6,7 @@
 from toontown.parties import PartyGlobals
 from toontown.parties.DistributedPartyTrampolineActivityAI import DistributedPartyTrampolineActivityAI
 
-class DistributedPartyVictoryTrampolineActivityAI(DistributedPartyTrampolineActivityAI):
+class DistributedPartyValentineTrampolineActivityAI(DistributedPartyTrampolineActivityAI):
     """ Reskinned trampoline for valentine holiday. """
 
     def __init__(self, air, partyDoId, x, y, h):

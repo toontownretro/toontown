@@ -187,16 +187,24 @@ class DistributedPartyCatchActivityAI(DistributedPartyActivityAI, DistributedPar
             reward = self.toonIdsToScores[toonId]
             
             # if it's jelly bean day give us more jelly beans!
-            if self.air.holidayManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_DAY):
+            if self.air.holidayManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_DAY) or \
+               self.air.holidayManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_PARTIES_HOLIDAY) or \
+               self.air.holidayManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_PARTIES_HOLIDAY_MONTH):
                 reward *= PartyGlobals.JellyBeanDayMultiplier
             
             if reward > PartyGlobals.CatchMaxTotalReward:
                 # put a cap so we don't go beyond something ridiculous
                 reward = PartyGlobals.CatchMaxTotalReward
                 self.toonIdsToJellybeanRewards[toonId]  = reward
-            self.sendUpdateToAvatarId(toonId, "showJellybeanReward", [
-                reward, self.air.doId2do[toonId].getMoney(),
-                TTLocalizer.PartyCatchRewardMessage %(self.toonIdsToScores[toonId],reward)])
+            if self.air.holidayManager.isHolidayRunning(ToontownGlobals.WINTER_DECORATIONS) or \
+               self.air.holidayManager.isHolidayRunning(ToontownGlobals.WACKY_WINTER_DECORATIONS):
+                self.sendUpdateToAvatarId(toonId, "showJellybeanReward", [
+                    reward, self.air.doId2do[toonId].getMoney(),
+                    TTLocalizer.WinterPartyCatchRewardMessage %(self.toonIdsToScores[toonId],reward)])
+            else:
+                self.sendUpdateToAvatarId(toonId, "showJellybeanReward", [
+                    reward, self.air.doId2do[toonId].getMoney(),
+                    TTLocalizer.PartyCatchRewardMessage %(self.toonIdsToScores[toonId],reward)])
             del self.toonIdsToScores[toonId]
             self.toonIdsToJellybeanRewards[toonId] = reward
             self.issueJellybeanRewardToToonId(toonId)
