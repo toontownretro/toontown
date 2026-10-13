@@ -26,9 +26,9 @@ import math
 import random
 
 class CogdoMazeGame(DirectObject):
-
-
-
+    """
+    Handles the visuals/looks of the cogdo maze game
+    """
     notify = directNotify.newCategory("CogdoMazeGame")
 
     UpdateTaskName = 'CogdoMazeGameUpdateTask'
@@ -316,12 +316,12 @@ class CogdoMazeGame(DirectObject):
             suit.onstage()
             suit.gameStart(self.distGame.getStartTime())
 
-
-
+        if __debug__:
+            self.acceptOnce("home", self.guiMgr.revealMazeMap)
 
     def exit(self):
-
-
+        if __debug__:
+            self.ignore("home")
 
         self._quakeSfx1.stop()
         self._quakeSfx2.stop()

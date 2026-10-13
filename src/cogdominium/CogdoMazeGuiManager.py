@@ -85,7 +85,7 @@ class CogdoMazeGuiManager:
             self._presentTimerIval = None
 
     def destroyMazeMap(self):
-        if hasattr(self, 'mazeMapGui') and self.mazeMapGui is not None:
+        if hasattr(self, "mazeMapGui") and self.mazeMapGui is not None:
             self.mazeMapGui.destroy()
             del self.mazeMapGui
 

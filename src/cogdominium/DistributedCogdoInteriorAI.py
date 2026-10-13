@@ -271,12 +271,12 @@ class DistributedCogdoInteriorAI(DistributedObjectAI.DistributedObjectAI):
             # reset the suit interior.
             if (self.fsm.getCurrentState().getName() == 'Resting'):
                 pass
-            elif self.battle == None:
+            elif (self.battle == None):
 
                 self.fsm.requestFinalState()
-
-                self._disCleanupTask = taskMgr.doMethodLater(20, self._cleanupAfterLastToonWentDis, self.uniqueName('discleanup'))
-
+                # give the last client out time to play out the sad animation sequence
+                self._disCleanupTask = taskMgr.doMethodLater(
+                    20, self._cleanupAfterLastToonWentDis, self.uniqueName('discleanup'))
 
     def _cleanupAfterLastToonWentDis(self, task):
         self._disCleanupTask = None
