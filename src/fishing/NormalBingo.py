@@ -76,13 +76,13 @@ class NormalBingo(BingoCardBase.BingoCardBase):
     def checkForBingo(self):
         # First Check the middle square to eliminate
         # diagonals and middle row & col
-        id = self.cardSize/2
+        id = self.cardSize//2
         if self.checkForWin(id):
             return BingoGlobals.WIN
 
         # Next check remaining rows and columns
         for i in range(BingoGlobals.CARD_ROWS):
-            if i != (BingoGlobals.CARD_ROWS/2):
+            if i != (BingoGlobals.CARD_ROWS//2):
                 rowResult = self.rowCheck(i)
                 colResult = self.colCheck(i)
                 if rowResult | colResult:

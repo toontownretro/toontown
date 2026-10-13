@@ -48,7 +48,7 @@ class ThreewayBingo(BingoCardBase.BingoCardBase):
     # Output: None
     ################################################################# 
     def checkForWin(self, id):
-        rowId = int(id / BingoGlobals.CARD_ROWS)
+        rowId = int(id // BingoGlobals.CARD_ROWS)
         colId = id % BingoGlobals.CARD_COLS
 
         if rowId == 2:
@@ -82,7 +82,7 @@ class ThreewayBingo(BingoCardBase.BingoCardBase):
     # Output: returns BingoGlobals.WIN(2) or BingoGlobals.NO_UPDATE(0)
     ################################################################# 
     def checkForBingo(self):
-        id = self.cardSize/2
+        id = self.cardSize//2
         if self.checkForWin(id):
             return BingoGlobals.WIN
         return BingoGlobals.NO_UPDATE
