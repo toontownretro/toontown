@@ -320,7 +320,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         headTag.append(submitScript)
         # disable the submit button on click
         submitButton.set('onclick',
-                         'setTimeout(function(){%(funcName)s(false);});' % ({
+                         'setTimeout("%(funcName)s(false)");' % ({
             'funcName': enableSubmitFuncName,
             }))
         # enable the submit button on page load
