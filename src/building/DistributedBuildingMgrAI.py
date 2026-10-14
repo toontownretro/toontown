@@ -363,7 +363,7 @@ class DistributedBuildingMgrAI:
         if block:
             # Save just this one block to the file:
             pickleData=block.getPickleData()
-            pickle.dump(pickleData, file)
+            pickle.dump(pickleData, file, protocol=0)
         else:
             # Save them all:
             for i in list(self.__buildings.values()):
@@ -371,7 +371,7 @@ class DistributedBuildingMgrAI:
                 if isinstance(i, HQBuildingAI.HQBuildingAI):
                     continue
                 pickleData=i.getPickleData()
-                pickle.dump(pickleData, file)
+                pickle.dump(pickleData, file, protocol=0)
     
     def fastSave(self, block):
         """Save data to default location"""

@@ -439,7 +439,7 @@ class BingoManagerAI(object):
     # Output: None
     ############################################################
     def saveTo(self, file):
-        pickle.dump(self.__hoodJackpots, file)
+        pickle.dump(self.__hoodJackpots, file, protocol=0)
 
     ############################################################
     # Method:  save

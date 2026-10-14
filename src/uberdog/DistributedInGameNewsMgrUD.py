@@ -125,7 +125,7 @@ class DistributedInGameNewsMgrUD(DistributedObjectGlobalUD):
             backup = self.filename + '.bu'
             if os.path.exists(self.filename):
                 os.rename(self.filename, backup)
-            file = open(self.filename, 'wb')
+            file = open(self.filename, 'w')
             file.seek(0)
             file.write(self.getLatestIssueStr())
             file.close()
@@ -147,7 +147,7 @@ class DistributedInGameNewsMgrUD(DistributedObjectGlobalUD):
         """Load track record data from default location"""
         try:
             # Try to open the backup file:
-            file = open(self.filename + '.bu', 'rb')
+            file = open(self.filename + '.bu', 'r')
             # Remove the (assumed) broken file:
             if os.path.exists(self.filename):
                 os.remove(self.filename)
@@ -155,7 +155,7 @@ class DistributedInGameNewsMgrUD(DistributedObjectGlobalUD):
             # OK, there's no backup file, good.
             try:
                 # Open the real file:
-                file = open(self.filename, 'rb')
+                file = open(self.filename, 'r')
             except IOError:
                 # OK, there's no file.  Grab the default times.
                 return self.getDefaultLatestIssueTime()

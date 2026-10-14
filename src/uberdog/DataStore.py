@@ -81,7 +81,7 @@ class DataStore:
         if self.wantAnyDbm:
             try:
                 if os.path.exists(self.filepath):
-                    self.data = dbm.ndbm.open(self.filepath,'wb')
+                    self.data = dbm.ndbm.open(self.filepath,'w')
                     self.notify.debug('Opening existing anydbm database at: %s.' % \
                                        (self.filepath,))
                 else:
@@ -140,7 +140,7 @@ class DataStore:
                         os.rename(self.filepath,backuppath)
                         
                     outfile = open(self.filepath, 'wb')
-                    pickle.dump(self.data,outfile)
+                    pickle.dump(self.data,outfile,protocol=0)
                     outfile.close()
                         
                     if os.path.exists(backuppath):
