@@ -2198,14 +2198,20 @@ class HolidayManagerAI:
                 [(Day.SATURDAY, 0, 0, 1),
                  (Day.SATURDAY, 1, 59, 59),
     
-                 (Day.SATURDAY, 6, 0, 0),
-                 (Day.SATURDAY, 7, 59, 59),
+                 (Day.SATURDAY, 4, 0, 0),
+                 (Day.SATURDAY, 5, 59, 59),
+
+                 (Day.SATURDAY, 8, 0, 0),
+                 (Day.SATURDAY, 9, 59, 59),
 
                  (Day.SATURDAY, 12, 0, 0),
                  (Day.SATURDAY, 13, 59, 59),
 
-                 (Day.SATURDAY, 18, 0, 0),
-                 (Day.SATURDAY, 19, 59, 59),
+                 (Day.SATURDAY, 16, 0, 0),
+                 (Day.SATURDAY, 17, 59, 59),
+
+                 (Day.SATURDAY, 20, 0, 0),
+                 (Day.SATURDAY, 21, 59, 59),
                  ],
                 displayOnCalendar = True,
                 )
@@ -2214,33 +2220,39 @@ class HolidayManagerAI:
                 [(Day.SATURDAY, 2, 0, 0),
                  (Day.SATURDAY, 3, 59, 59),
 
-                 (Day.SATURDAY, 8, 0, 0),
-                 (Day.SATURDAY, 9, 59, 59),
-
-                 (Day.SATURDAY, 14, 0, 0),
-                 (Day.SATURDAY, 15, 59, 59),
-    
-                 (Day.SATURDAY, 20, 0, 0),
-                 (Day.SATURDAY, 21, 59, 59),
-                 ],
-                displayOnCalendar = False,
-                )
-            holidays[ToontownGlobals.SILLY_SATURDAY_TROLLEY] = HolidayInfo_Weekly(
-                TrolleyHolidayMgrAI.TrolleyHolidayMgrAI,
-                [(Day.SATURDAY, 4, 0, 0),
-                 (Day.SATURDAY, 5, 59, 59),
+                 (Day.SATURDAY, 6, 0, 0),
+                 (Day.SATURDAY, 7, 59, 59),
 
                  (Day.SATURDAY, 10, 0, 0),
                  (Day.SATURDAY, 11, 59, 59),
+    
+                 (Day.SATURDAY, 14, 0, 0),
+                 (Day.SATURDAY, 15, 59, 59),
 
-                 (Day.SATURDAY, 16, 0, 0),
-                 (Day.SATURDAY, 17, 59, 59),
+                 (Day.SATURDAY, 18, 0, 0),
+                 (Day.SATURDAY, 19, 59, 59),
 
                  (Day.SATURDAY, 22, 0, 0),
                  (Day.SATURDAY, 23, 59, 59),
                  ],
                 displayOnCalendar = False,
                 )
+#            holidays[ToontownGlobals.SILLY_SATURDAY_TROLLEY] = HolidayInfo_Weekly(
+#                TrolleyHolidayMgrAI.TrolleyHolidayMgrAI,
+#                [(Day.SATURDAY, 4, 0, 0),
+#                 (Day.SATURDAY, 5, 59, 59),
+#
+#                 (Day.SATURDAY, 10, 0, 0),
+#                 (Day.SATURDAY, 11, 59, 59),
+#
+#                 (Day.SATURDAY, 16, 0, 0),
+#                 (Day.SATURDAY, 17, 59, 59),
+#
+#                 (Day.SATURDAY, 22, 0, 0),
+#                 (Day.SATURDAY, 23, 59, 59),
+#                 ],
+#                displayOnCalendar = False,
+#                )
 
         holidays[ToontownGlobals.ROAMING_TRIALER_WEEKEND] = HolidayInfo_Oncely(
             RoamingTrialerWeekendMgrAI.RoamingTrialerWeekendMgrAI,
