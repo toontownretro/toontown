@@ -929,7 +929,7 @@ class RaceManagerAI(DirectObject.DirectObject):
                 os.rename(self.filename, backup)
             file = open(self.filename, 'wb')
             file.seek(0)
-            pickle.dump(self.trackRecords, file)
+            pickle.dump(self.trackRecords, file, protocol=0)
             file.close()
             if os.path.exists(backup):
                 os.remove(backup)
