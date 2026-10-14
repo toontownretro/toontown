@@ -700,13 +700,15 @@ class DistributedHouseAI(DistributedObjectAI.DistributedObjectAI):
         dg = db.values.get('setDeliverySchedule')
         if dg:
             di = PyDatagramIterator(dg)
-            blob = di.getString()
+            # Custom: Used to be getString()
+            blob = di.getBlob()
             onOrder = CatalogItemList.CatalogItemList(blob, store = CatalogItem.Customization | CatalogItem.DeliveryDate)
             
         dg = db.values.get('setMailboxContents')
         if dg:
             di = PyDatagramIterator(dg)
-            blob = di.getString()
+            # Custom: Used to be getString()
+            blob = di.getBlob()
             mailboxContents = CatalogItemList.CatalogItemList(blob, store = CatalogItem.Customization)
 
         dg = db.values.get('setMaxHp')
@@ -717,7 +719,8 @@ class DistributedHouseAI(DistributedObjectAI.DistributedObjectAI):
         dg = db.values.get('setAwardMailboxContents')
         if dg:
             di = PyDatagramIterator(dg)
-            blob = di.getString()
+            # Custom: Used to be getString()
+            blob = di.getBlob()
             awardMailboxContents = CatalogItemList.CatalogItemList(blob, store = CatalogItem.Customization)
             
         #self.b_setCannonEnabled(1)

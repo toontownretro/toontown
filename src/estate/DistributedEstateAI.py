@@ -30,6 +30,9 @@ from toontown.toonbase import ToontownBattleGlobals
 from toontown.estate import DistributedChangingStatuaryAI
 from toontown.estate import DistributedToonStatuaryAI
 
+# Custom: Crashes without
+from panda3d.toontown import DNAStorage, DNAData
+
 class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
 
     """
@@ -509,7 +512,7 @@ class DistributedEstateAI(DistributedObjectAI.DistributedObjectAI):
 
         tupleNextEpoch = time.localtime(whenNextEpoch)
 
-        self.notify.info("Next epoch to happen at %s" % (tupleNextEpoch))
+        self.notify.info("Next epoch to happen at %s" % (tupleNextEpoch,))
 
 
 

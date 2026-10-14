@@ -1190,16 +1190,16 @@ def get50ItemCloset(avatar, duplicateItems):
     return item
 
 def getMaxClosets():
-    list = []
+    maxClosets = []
     for closetId in MaxClosetIds:
-        list.append(CatalogFurnitureItem(closetId))
-    return list
+        maxClosets.append(CatalogFurnitureItem(closetId))
+    return maxClosets
 
 def getAllClosets():
-    list = []
+    allClosets = []
     for closetId in list(ClosetToClothes.keys()):
-        list.append(CatalogFurnitureItem(closetId))
-    return list
+        allClosets.append(CatalogFurnitureItem(closetId))
+    return allClosets
 
 def get50ItemTrunk(avatar, duplicateItems):
     # detemine which closet index in the tuple to use
@@ -1218,17 +1218,17 @@ def get50ItemTrunk(avatar, duplicateItems):
     return item
 
 def getMaxTrunks():
-    list = []
+    maxTrunks = []
     for trunkId in MaxTrunkIds:
-        list.append(CatalogFurnitureItem(trunkId))
-    return list
+        maxTrunks.append(CatalogFurnitureItem(trunkId))
+    return maxTrunks
 
 def getAllFurnitures(index):
     # This function returns a list of all possible
     # CatalogFurnitureItems (that is, all color variants)
     # for the indicated type index(es).
-    list = []
+    allFurnitures = []
     colors = FurnitureTypes[index][FTColorOptions]
     for n in range(len(colors)):
-        list.append(CatalogFurnitureItem(index, n))
-    return list
+        allFurnitures.append(CatalogFurnitureItem(index, n))
+    return allFurnitures

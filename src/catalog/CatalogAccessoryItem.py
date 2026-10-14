@@ -531,10 +531,10 @@ def getAllAccessories(*accessoryTypes):
     # CatalogAccessoryItems (that is, all color variants) for the
     # indicated type index(es).
 
-    list = []
+    allAccessories = []
     for accessoryType in accessoryTypes:
         base = CatalogAccessoryItem(accessoryType)
 
-        list.append(base)
+        allAccessories.append(base)
 
-    return list
+    return allAccessories
