@@ -325,6 +325,10 @@ class DistributedCCharBaseAI(DistributedAvatarAI.DistributedAvatarAI):
                 self.CCChatter = ToontownGlobals.WINTER_CAROLING
             elif ToontownGlobals.WINTER_DECORATIONS in simbase.air.holidayManager.currentHolidays:
                 self.CCChatter = ToontownGlobals.WINTER_DECORATIONS
+            elif ToontownGlobals.WACKY_WINTER_CAROLING in simbase.air.holidayManager.currentHolidays:
+                self.CCChatter = ToontownGlobals.WACKY_WINTER_CAROLING
+            elif ToontownGlobals.WACKY_WINTER_DECORATIONS in simbase.air.holidayManager.currentHolidays:
+                self.CCChatter = ToontownGlobals.WACKY_WINTER_DECORATIONS
             elif ToontownGlobals.VALENTINES_DAY in simbase.air.holidayManager.currentHolidays:
                 self.CCChatter = ToontownGlobals.VALENTINES_DAY
             elif ToontownGlobals.APRIL_FOOLS_COSTUMES in simbase.air.holidayManager.currentHolidays:
@@ -341,6 +345,8 @@ class DistributedCCharBaseAI(DistributedAvatarAI.DistributedAvatarAI):
                 self.CCChatter = ToontownGlobals.SILLY_CHATTER_FOUR
             elif ToontownGlobals.HALLOWEEN_COSTUMES in simbase.air.holidayManager.currentHolidays:
                 self.CCChatter = ToontownGlobals.HALLOWEEN_COSTUMES
+            elif ToontownGlobals.SPOOKY_COSTUMES in simbase.air.holidayManager.currentHolidays:
+                self.CCChatter = ToontownGlobals.SPOOKY_COSTUMES
             elif ToontownGlobals.SELLBOT_FIELD_OFFICE in simbase.air.holidayManager.currentHolidays:
                 self.CCChatter = ToontownGlobals.SELLBOT_FIELD_OFFICE
 
