@@ -167,6 +167,10 @@ class DistributedPartyManagerAI(DistributedObjectAI):
             if ToontownGlobals.VICTORY_PARTY_HOLIDAY not in simbase.air.holidayManager.currentHolidays:           
                 if inviteTheme == PartyGlobals.InviteTheme.VictoryParty:
                     return (False,"Invalid inviteTheme %s" % inviteTheme)
+            if ToontownGlobals.WINTER_DECORATIONS not in simbase.air.holidayManager.currentHolidays and \
+               ToontownGlobals.WACKY_WINTER_DECORATIONS not in simbase.air.holidayManager.currentHolidays:
+                if inviteTheme == PartyGlobals.InviteTheme.Winter:
+                    return (False,"Invalid inviteTheme %s" % inviteTheme)
 
         costOfParty = 0
         activitiesUsedDict = {}
@@ -185,6 +189,20 @@ class DistributedPartyManagerAI(DistributedObjectAI):
             if activityId in PartyGlobals.VictoryPartyReplacementActivityIds:
                 if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.VICTORY_PARTY_HOLIDAY):
                     return (False, "Can't add activity %s during Victory Party " %activityId)
+            if activityId in PartyGlobals.WinterPartyActivityIds:
+                if not simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.WINTER_DECORATIONS) and \
+                   not simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.WACKY_WINTER_DECORATIONS):
+                    return (False, "Can't add activity %s during Winter" %activityId)
+            if activityId in PartyGlobals.WinterPartyReplacementActivityIds:
+                if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.WINTER_DECORATIONS) or \
+                   simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.WACKY_WINTER_DECORATIONS):
+                    return (False, "Can't add activity %s during Winter" %activityId)
+            if activityId in PartyGlobals.ValentinePartyActivityIds:
+                if not simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.VALENTINES_DAY):
+                    return (False, "Can't add activity %s during ValenToons" %activityId)
+            if activityId in PartyGlobals.ValentinePartyReplacementActivityIds:
+                if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.VALENTINES_DAY):
+                    return (False, "Can't add activity %s during ValenToons" %activityId)
             
             actSet.add(activityTuple[0])
             if activityTuple[0] in activitiesUsedDict:
@@ -252,7 +270,8 @@ class DistributedPartyManagerAI(DistributedObjectAI):
             decorName = PartyGlobals.DecorationIds.getString(decorId)
             if (decorName == "HeartTarget") \
             or (decorName == "HeartBanner") \
-            or (decorName == "FlyingHeart"):
+            or (decorName == "FlyingHeart") \
+            or (decorName == "BalloonAnvilValentine"):
                 if not simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.VALENTINES_DAY):
                     return (False, "Can't add ValenToons decoration %s" % decorId)
             if decorId in PartyGlobals.VictoryPartyDecorationIds:
@@ -261,6 +280,16 @@ class DistributedPartyManagerAI(DistributedObjectAI):
             elif decorId in PartyGlobals.VictoryPartyReplacementDecorationIds:
                 if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.VICTORY_PARTY_HOLIDAY):
                     return (False, "Can't add decoration during Victory Party %s" % decorId)
+            if decorId in PartyGlobals.WinterPartyDecorationIds:
+                if not simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.WINTER_DECORATIONS) and \
+                   not simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.WACKY_WINTER_DECORATIONS):
+                    return (False, "Can't add Winter decoration %s" % decorId)
+            if decorId in PartyGlobals.ValentinePartyDecorationIds:
+                if not simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.VALENTINES_DAY):
+                    return (False, "Can't add ValenToons decoration %s" % decorId)
+            elif decorId in PartyGlobals.ValentinePartyReplacementDecorationIds:
+                if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.VALENTINES_DAY):
+                    return (False, "Can't add decoration during ValenToons %s" % decorId)
             
             if decorationTuple[0] in decorationsUsedDict:
                 decorationsUsedDict[decorationTuple[0]] += 1
