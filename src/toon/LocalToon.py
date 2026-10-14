@@ -509,9 +509,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             currCounter = sendAsParts(msg, currCounter)
 
             if sendLs:
-                sstream = StringStream.StringStream()
+                sstream = StringStream()
                 sToon.ls(sstream)
-                sdata = sstream.getData()
+                sdata = sstream.getData().decode("utf-8", "replace")
                 currCounter = sendAsParts(sdata, currCounter)
 
             if sendFooter:
@@ -539,7 +539,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                     sToon.gmNameTagEnabled, str(sToon.nametag and sToon.nametag.getContents()),
                     str(sToon.cheesyEffect), sToon.isDisguised,
                     hasattr(sToon, 'suit') and str(sToon.suit.style),
-                    hasattr(sToon, 'suitGeom') and sstream.getData(), bs)
+                    hasattr(sToon, 'suitGeom') and sstream.getData().decode("utf-8", "replace"), bs)
                 currCounter = sendAsParts(footer, currCounter)
 
 
