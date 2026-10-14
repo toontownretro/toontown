@@ -1,7 +1,9 @@
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.http.WebRequest import WebRequestDispatcher
-from direct.showbase import ElementTree as ET
+# Doesn't seem to work well with the web panel
+#from direct.showbase import ElementTree as ET
+from xml.etree import ElementTree as ET
 from direct.showbase.HTMLTree import HTMLTree
 from direct.showbase.PythonUtil import unescapeHtmlString as uhs
 from direct.showbase.PythonUtil import str2elements
@@ -22,6 +24,9 @@ import random
 import socket
 import string
 import re
+
+# Crashes without
+from direct.showbase.PythonUtil import u2ascii
 
 SE = ET.SubElement
 
@@ -53,8 +58,12 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
     MaxLotSize = 10000000
 
     ReCAPTCHADomainName = 'localhost'
-    ReCAPTCHAPublicKey = '6Ld8gwkAAAAAALtgzi9Y0q8DqflAK7DwfeiKfTGN'
-    ReCAPTCHAPrivateKey = '6Ld8gwkAAAAAAEtBhL2sblZNm4SFy3B8g-6PDIUI'
+    # Original reCAPTCHA v1 keys
+    #ReCAPTCHAPublicKey = '6Ld8gwkAAAAAALtgzi9Y0q8DqflAK7DwfeiKfTGN'
+    #ReCAPTCHAPrivateKey = '6Ld8gwkAAAAAAEtBhL2sblZNm4SFy3B8g-6PDIUI'
+    # reCPATCHA v2 test keys https://developers.google.com/recaptcha/docs/faq
+    ReCAPTCHAPublicKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+    ReCAPTCHAPrivateKey = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
 
     Disabled = config.GetBool('disable-code-redemption', 0)
 
@@ -86,7 +95,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         TestRedemptionSpamAvIdMax = 9999999
         TestRedemptions = (
             # non-ascii
-            ('\xff', (TTCodeRedemptionConsts.RedeemErrors.CodeDoesntExist, 0)),
+            (b'\xff', (TTCodeRedemptionConsts.RedeemErrors.CodeDoesntExist, 0)),
             # invalid characters
             ('.', (TTCodeRedemptionConsts.RedeemErrors.CodeDoesntExist, 0)),
             )
@@ -311,7 +320,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         headTag.append(submitScript)
         # disable the submit button on click
         submitButton.set('onclick',
-                         '%(funcName)s(false);' % ({
+                         'setTimeout(function(){%(funcName)s(false);});' % ({
             'funcName': enableSubmitFuncName,
             }))
         # enable the submit button on page load
@@ -1350,7 +1359,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                 SE(body, 'br')
 
                 img = SE(body, 'img', title='relevant this is',
-                         src='http://icanhascheezburger.files.wordpress.com/2007/01/2000455272489756911_rs.jpg')
+                         src='http://web.archive.org/web/20071218232242/http://icanhascheezburger.files.wordpress.com/2007/01/2000455272489756911_rs.jpg')
 
             elif op == self.Ops.create:
                 self._doCreateForm(body, body, replyTo)
@@ -1371,8 +1380,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                 else:
                     values.add(manualCode = uhs(kw['manualCode']))
                     values.add(manualCode2 = uhs(kw['manualCode2']))
-                    values.manualCode = str(values.manualCode, 'utf-8')
-                    values.manualCode2 = str(values.manualCode2, 'utf-8')
+                    values.manualCode = str(values.manualCode)
+                    values.manualCode2 = str(values.manualCode2)
                 if values.hasExpiration == 'yes':
                     values.add(
                         expYear = uhs(kw['expYear']),
@@ -1540,7 +1549,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                     values.add(avId = uhs(kw['avId']))
                 else:
                     values.add(code = uhs(kw['code']))
-                    values.code = str(values.code, 'utf-8')
+                    values.code = str(values.code)
 
                 errors = FormErrors()
                 if avIdMode:
@@ -1568,7 +1577,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                     recaptchaChallenge = uhs(kw['recaptcha_challenge_field']),
                     recaptchaResponse = uhs(kw['recaptcha_response_field']),
                     )
-                values.code = str(values.code, 'utf-8')
+                values.code = str(values.code)
 
                 errors = FormErrors()
                 self._errorCheckCode(errors, values.code)
@@ -1634,7 +1643,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
             else:
                 while 1:
                     try:
-                        code = str(code, 'utf-8')
+                        code = str(code)
                     except UnicodeDecodeError as e:
                         # code is not utf-8-able
                         self.air.writeServerEvent('suspicious', avId, 'non-utf-8 code redemption: %s' % repr(code))

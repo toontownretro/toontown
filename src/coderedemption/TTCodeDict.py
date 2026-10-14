@@ -86,7 +86,7 @@ class TTCodeDict:
 
     @classmethod
     def getNumUsableValuesInCodeSpace(cls, codeLength):
-        return int(cls.getNumValuesInCodeSpace(codeLength) / cls.BruteForceFactor)
+        return cls.getNumValuesInCodeSpace(codeLength) // cls.BruteForceFactor
 
     @classmethod
     def _getPrimeModulus(cls, codeLength):
@@ -98,7 +98,7 @@ class TTCodeDict:
         while not cls._isPrime(i):
             i -= 1
             if i < 0:
-                raise 'could not find prime modulus for code length %s' % codeLength
+                raise ValueError('could not find prime modulus for code length %s' % codeLength)
         cls._PrimeModuli[codeLength] = i
         print('done.')
         return i
@@ -116,7 +116,7 @@ class TTCodeDict:
             scratch = cls._scatterPrime
             while scratch:
                 cls._scatterPow10 *= 10
-                scratch = int(scratch / 10)
+                scratch = int(scratch // 10)
             cls._scatterFactor = float(cls._scatterPrime) / cls._scatterPow10
         subdivisions = cls.NumChars * cls._scatterPow10
         primeFactor = cls._scatterFactor
@@ -127,7 +127,7 @@ class TTCodeDict:
         if prime >= numValues:
             prime = cls._nextPrime(0)
         if prime >= numValues:
-            raise 'could not find prime smaller than %s' % numValues
+            raise ValueError('could not find prime smaller than %s' % numValues)
         cls._Primes[codeLength] = prime
         #print 'codeLength %s, prime=%s' % (codeLength, prime)
         print('done.')
@@ -146,7 +146,7 @@ class TTCodeDict:
         charsLeft = codeLength
         while charsLeft > 0:
             index = codeValue % cls.NumChars
-            codeValue = int(codeValue / cls.NumChars)
+            codeValue = int(codeValue // cls.NumChars)
             codeStr = cls.Characters[index] + codeStr
             charsLeft -= 1
         return codeStr
@@ -190,7 +190,7 @@ class TTCodeDict:
             return '%s-%s' % (code[:4], code[4:])
         if length == 9:
             return '%s-%s-%s' % (code[:3], code[3:6], code[6:])
-        numQuads = (len(code) - 6) / 4
+        numQuads = (len(code) - 6) // 4
         prefixLen = len(code) - (numQuads * 4)
         prefix = cls.getReadableCode(code[:prefixLen])
         toQuad = code[prefixLen:]
@@ -228,7 +228,7 @@ class TTCodeDict:
                 if verbose:
                     print('%s %s/%s -> %s' % (cls.getReadableCode(code), i, maxVal-1, x))
                 if code in codes:
-                    raise 'code %s already encountered!' % code
+                    raise ValueError('code %s already encountered!' % code)
                 codes.add(code)
                 i += 1
             codeLength += 1

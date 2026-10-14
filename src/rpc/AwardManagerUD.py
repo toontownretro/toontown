@@ -389,7 +389,7 @@ class AwardManagerUD(DistributedObjectGlobalUD):
             # Get the current time in minutes.
             now = (int)(time.time() / 60 + 0.5)
             if specialCommands == GiveAfterOneMinute:
-                delay = 1.
+                delay = 1
             else:
                 delay = AwardManagerDelayMinutes
             future = now + delay

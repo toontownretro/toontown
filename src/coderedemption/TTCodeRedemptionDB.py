@@ -24,13 +24,20 @@ from otp.uberdog.DBInterface import DBInterface
 from toontown.coderedemption.TTCodeDict import TTCodeDict
 from toontown.coderedemption import TTCodeRedemptionConsts
 from direct.directutil import DirectMySQLdb
-import _mysql_exceptions
+# Custom: MySQLdb does not support Python 3
+# import _mysql_exceptions
+import pymysql.err as _mysql_exceptions
 import random
 import datetime
-import MySQLdb
+# Custom: MySQLdb does not support Python 3
+# import MySQLdb
+import pymysql as MySQLdb
 import os
 import subprocess
 import time
+
+# Crashes without
+from direct.showbase.PythonUtil import u2ascii
 
 class MySQLErrors:
     DbAlreadyExists = 1007
@@ -413,8 +420,8 @@ class TTCodeRedemptionDBTester(Job):
         return code
 
     def _getUnusedUtf8ManualCode(self):
-        chars = '\\u65e5\\u672c\\u8a9e'
-        code = str('', 'utf-8')
+        chars = '\u65e5\u672c\u8a9e'
+        code = str('')
         while 1:
             code += random.choice(chars)
             if not self._db.codeExists(code):
@@ -1279,12 +1286,12 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         if justCode:
             codes = []
             for row in rows:
-                code = str(row['code'], 'utf-8')
+                code = str(row['code'])
                 codes.append(code)
             result = codes
         else:
             for row in rows:
-                row['code'] = str(row['code'], 'utf-8')
+                row['code'] = str(row['code'])
             result = rows
         return result
 
@@ -1350,7 +1357,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
             cursor.execute(
                 str("""
                 SELECT code FROM code_set_%s WHERE code='%s';
-                """, 'utf-8') % (lotName, code)
+                """) % (lotName, code)
                 )
             rows = cursor.fetchall()
 
@@ -1399,7 +1406,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
             str("""
             SELECT %s, %s FROM code_set_%s INNER JOIN lot
             WHERE lot.lot_id=code_set_%s.lot_id AND CODE='%s';
-            """, 'utf-8') % (self.RewardTypeFieldName, self.RewardItemIdFieldName, lotName, lotName, code)
+            """) % (self.RewardTypeFieldName, self.RewardItemIdFieldName, lotName, lotName, code)
             )
         rows = cursor.fetchall()
 
@@ -1434,7 +1441,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         cursor.execute(
             str("""
             SELECT redemptions FROM code_set_%s WHERE code='%s';
-            """, 'utf-8') % (lotName, code)
+            """) % (lotName, code)
             )
         rows = cursor.fetchall()
 
@@ -1487,7 +1494,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
                 str("""
                 SELECT redemptions FROM code_set_%s INNER JOIN lot WHERE
                 code_set_%s.lot_id=lot.lot_id AND code='%s' AND ((expiration IS NULL) OR (CURDATE()<=expiration));
-                """, 'utf-8') % (lotName, lotName, code)
+                """) % (lotName, lotName, code)
                 )
 
             rows = cursor.fetchall()
@@ -1519,7 +1526,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         cursor.execute(
             str("""
             UPDATE code_set_%s SET redemptions=redemptions+%s%s WHERE code='%s';
-            """, 'utf-8') % (lotName, count, choice(manualCode, '', ', av_id=%s' % avId), code)
+            """) % (lotName, count, choice(manualCode, '', ', av_id=%s' % avId), code)
             )
 
     def _handleRewardResult(self, code, manualCode, avId, lotName, rewardTypeId, rewardItemId,
@@ -1586,7 +1593,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
                     )
 
             for row in rows:
-                code = str(row['code'], 'utf-8')
+                code = str(row['code'])
                 codes.append(code)
 
         conn.destroy()
@@ -1666,7 +1673,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
             if len(rows):
                 conn.destroy()
                 row = rows[0]
-                row['code'] = str(row['code'], 'utf-8')
+                row['code'] = str(row['code'])
                 return row
 
         self.notify.error('code \'%s\' not found' % u2ascii(code))
