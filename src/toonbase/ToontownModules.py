@@ -6,7 +6,7 @@ from otp.otpbase.OTPModules import *
 from panda3d.toontown import *
 
 # DirectFrames (sometimes) rely on this
-from direct.gui.DirectGuiGlobals import NO_FADE_SORT_INDEX, FOREGROUND_SORT_INDEX, BACKGROUND_SORT_INDEX
+from direct.gui.DirectGuiGlobals import NO_FADE_SORT_INDEX, FOREGROUND_SORT_INDEX, BACKGROUND_SORT_INDEX, FADE_SORT_INDEX
 
 # ToonBase.py relies on this
 from panda3d.core import Loader as PandaLoader

@@ -179,12 +179,12 @@ class DistributedNPCPetclerk(DistributedNPCToonBase):
 
             if (self.isLocalToon):
                 camera.wrtReparentTo(render)
-                camera.lerpPosHpr(-5, 9, base.localAvatar.getHeight()-0.5,
-                                  -150, -2, 0,
-                                  1,
-                                  other=self,
-                                  blendType="easeOut",
-                                  task=self.uniqueName('lerpCamera'))
+                #LERP#camera.lerpPosHpr(-5, 9, base.localAvatar.getHeight()-0.5,
+                #LERP#                  -150, -2, 0,
+                #LERP#                  1,
+                #LERP#                  other=self,
+                #LERP#                  blendType="easeOut",
+                #LERP#                  task=self.uniqueName('lerpCamera'))
 
             if (self.isLocalToon):
                 taskMgr.doMethodLater(1.0, self.popupPetshopGUI,
