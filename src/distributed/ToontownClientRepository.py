@@ -762,7 +762,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             pad.avatar.updateAllRequiredFields(dclass, di)
             gotData = 1
 
-        if isinstance(pad.func, bytes):
+        if isinstance(pad.func, str):
             # If the pad "function" is actually a string, send an
             # event instead of calling the function.
             messenger.send(pad.func, list((gotData, pad.avatar) + pad.args))

@@ -700,7 +700,7 @@ class TTEmote(Emote.Emote):
     # Specific emotes
     def disable(self, index, toon):
         # find the emotes index if we are given a string
-        if isinstance(index, bytes):
+        if isinstance(index, str):
             index = OTPLocalizer.EmoteFuncDict[index]
 
         self.emoteFunc[index][1] = self.emoteFunc[index][1] + 1
@@ -710,7 +710,7 @@ class TTEmote(Emote.Emote):
 
     def enable(self, index, toon):
         # find the emotes index if we are given a string
-        if isinstance(index, bytes):
+        if isinstance(index, str):
             index = OTPLocalizer.EmoteFuncDict[index]
 
         self.emoteFunc[index][1] = self.emoteFunc[index][1] - 1

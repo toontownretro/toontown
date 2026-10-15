@@ -565,7 +565,7 @@ class InGameEditor(AppShell):
         label.pack(side = LEFT, expand = 0)
         # Add radio buttons
         for choice in params.get('choiceSet', []):
-            if type(choice) is bytes:
+            if type(choice) is str:
                 choiceStr = choice
             else:
                 choiceStr = repr(choice)
@@ -631,7 +631,7 @@ class InGameEditor(AppShell):
                 print('SENDING', value)
                 self.level.setAttribEdit(entId, attribName, value)
             # Create check button
-            if type(choice) is bytes:
+            if type(choice) is str:
                 labelStr = choice
             else:
                 labelStr = repr(choice)

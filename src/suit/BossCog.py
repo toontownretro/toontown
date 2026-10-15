@@ -816,7 +816,7 @@ class BossCog(Avatar.Avatar):
                             Sequence(SoundInterval(self.reelSfx, node = self),
                                      SoundInterval(self.deathSfx)))
 
-        elif isinstance(anim, bytes):
+        elif isinstance(anim, str):
             ival = ActorInterval(self, anim)
 
         else:
