@@ -504,20 +504,20 @@ class PartyCog(FSM):
         self.hpText.setPos(self.root, 0, 0, self.height/2)
                 
         # Black magic from the early days of Panda3D, later replaced by a Sequence
-        #LERP#seq = Task.sequence(
-        #LERP#    # Fly the number out of the character
-        #LERP#    self.hpText.lerpPos(Point3(self.root.getX(render), self.root.getY(render), self.root.getZ(render) + self.height + 1.0),
-        #LERP#                            0.25,
-        #LERP#                            blendType = 'easeOut'),
-        #LERP#    Task.pause(0.25),
-        #LERP#    # Fade the number
-        #LERP#    self.hpText.lerpColor(Vec4(r, g, b, a),
-        #LERP#                              Vec4(r, g, b, 0),
-        #LERP#                              0.1),
-        #LERP#    # Get rid of the number
-        #LERP#    Task.Task(self.__hideHitScoreTask))
-        #LERP#
-        #LERP#taskMgr.add(seq, "PartyCogHpText" + str(self.id))
+        seq = Task.sequence(
+            # Fly the number out of the character
+            self.hpText.lerpPos(Point3(self.root.getX(render), self.root.getY(render), self.root.getZ(render) + self.height + 1.0),
+                                    0.25,
+                                    blendType = 'easeOut'),
+            Task.pause(0.25),
+            # Fade the number
+            self.hpText.lerpColor(Vec4(r, g, b, a),
+                                      Vec4(r, g, b, 0),
+                                      0.1),
+            # Get rid of the number
+            Task.Task(self.__hideHitScoreTask))
+        
+        taskMgr.add(seq, "PartyCogHpText" + str(self.id))
         
     def __hideHitScoreTask(self, task):
         self.hideHitScore()

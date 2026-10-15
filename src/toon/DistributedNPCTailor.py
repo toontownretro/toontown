@@ -163,10 +163,10 @@ class DistributedNPCTailor(DistributedNPCToonBase):
 
             if (self.isLocalToon):
                 camera.wrtReparentTo(render)
-                #LERP#camera.lerpPosHpr(-5, 9, self.getHeight()-0.5, -150, -2, 0, 1,
-                #LERP#                  other=self,
-                #LERP#                  blendType="easeOut",
-                #LERP#                  task=self.uniqueName('lerpCamera'))
+                camera.lerpPosHpr(-5, 9, self.getHeight()-0.5, -150, -2, 0, 1,
+                                  other=self,
+                                  blendType="easeOut",
+                                  task=self.uniqueName('lerpCamera'))
 
             if (self.browsing == 0):
                 if (self.roomAvailable == 0):

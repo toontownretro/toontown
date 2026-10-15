@@ -136,17 +136,17 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
 
     def setupCamera(self, mode):
         camera.wrtReparentTo(render)
-        #LERP#if ((mode == NPCToons.QUEST_MOVIE_QUEST_CHOICE) or
-        #LERP#    (mode == NPCToons.QUEST_MOVIE_TRACK_CHOICE)):
-        #LERP#    camera.lerpPosHpr(5, 9, self.getHeight()-0.5, 155, -2, 0, 1,
-        #LERP#                      other=self,
-        #LERP#                      blendType="easeOut",
-        #LERP#                      task=self.uniqueName("lerpCamera"))
-        #LERP#else:
-        #LERP#    camera.lerpPosHpr(-5, 9, self.getHeight()-0.5, -150, -2, 0, 1,
-        #LERP#                      other=self,
-        #LERP#                      blendType="easeOut",
-        #LERP#                      task=self.uniqueName("lerpCamera"))
+        if ((mode == NPCToons.QUEST_MOVIE_QUEST_CHOICE) or
+            (mode == NPCToons.QUEST_MOVIE_TRACK_CHOICE)):
+            camera.lerpPosHpr(5, 9, self.getHeight()-0.5, 155, -2, 0, 1,
+                              other=self,
+                              blendType="easeOut",
+                              task=self.uniqueName("lerpCamera"))
+        else:
+            camera.lerpPosHpr(-5, 9, self.getHeight()-0.5, -150, -2, 0, 1,
+                              other=self,
+                              blendType="easeOut",
+                              task=self.uniqueName("lerpCamera"))
         
 
     def setMovie(self, mode, npcId, avId, quests, timestamp):

@@ -194,12 +194,12 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
             if self.customerId == base.localAvatar.doId:
                 # move camera to the back left
                 camera.wrtReparentTo(self)
-                #LERP#camera.lerpPosHpr(
-                #LERP#    -7.58, -6.02, 6.90, 286.3, 336.8, 0, 1,
-                #LERP#    #other=render,
-                #LERP#    other = self,
-                #LERP#    blendType="easeOut",
-                #LERP#    task=self.uniqueName('lerpCamera'))
+                camera.lerpPosHpr(
+                    -7.58, -6.02, 6.90, 286.3, 336.8, 0, 1,
+                    #other=render,
+                    other = self,
+                    blendType="easeOut",
+                    task=self.uniqueName('lerpCamera'))
                 camera.setPosHpr(
                     self,
                     -7.58, -6.02, 6.90, 286.3, 336.8, 0)

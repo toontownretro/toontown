@@ -1273,13 +1273,13 @@ class DistributedCannonGame(DistributedMinigame):
         seqDoneTask.info = info
 
         # create the task sequence
-        #LERP#seqTask = Task.sequence(shootTask,
-        #LERP#                        flyTask,
-        #LERP#                        Task.pause(LAND_TIME),
-        #LERP#                        seqDoneTask)
-#LERP#
-        #LERP## spawn the new task
-        #LERP#taskMgr.add(seqTask, 'flyingToon' + str(avId))
+        seqTask = Task.sequence(shootTask,
+                                flyTask,
+                                Task.pause(LAND_TIME),
+                                seqDoneTask)
+
+        # spawn the new task
+        taskMgr.add(seqTask, 'flyingToon' + str(avId))
 
         # if this is the local toon and we will land in the water,
         # let the server know
@@ -1614,17 +1614,17 @@ class DistributedCannonGame(DistributedMinigame):
         taskFlyUpToToon.data = commonData
         taskFlyToBackOfCannon.data = commonData
 
-        #LERP#introTask = Task.sequence(taskLookInWater,
-        #LERP#                          Task.pause(self.T_WATER),
-        #LERP#                          taskPullBackFromWater,
-        #LERP#                          Task.pause(self.T_WATER2LONGVIEW + \
-        #LERP#                                     self.T_LONGVIEW),
-        #LERP#                          taskFlyUpToToon,
-        #LERP#                          Task.pause(self.T_LONGVIEW2TOONHEAD + \
-        #LERP#                                     self.T_TOONHEAD),
-        #LERP#                          taskFlyToBackOfCannon)
-#LERP#
-        #LERP#taskMgr.add(introTask, self.INTRO_TASK_NAME)
+        introTask = Task.sequence(taskLookInWater,
+                                  Task.pause(self.T_WATER),
+                                  taskPullBackFromWater,
+                                  Task.pause(self.T_WATER2LONGVIEW + \
+                                             self.T_LONGVIEW),
+                                  taskFlyUpToToon,
+                                  Task.pause(self.T_LONGVIEW2TOONHEAD + \
+                                             self.T_TOONHEAD),
+                                  taskFlyToBackOfCannon)
+
+        taskMgr.add(introTask, self.INTRO_TASK_NAME)
 
     def __stopIntro(self):
         taskMgr.remove(self.INTRO_TASK_NAME)
@@ -1652,9 +1652,9 @@ class DistributedCannonGame(DistributedMinigame):
         camera.setHpr(oldHpr)
 
         # spawn a camera LERP task
-        #LERP#camera.lerpPosHpr(Point3(targetPos), targetHpr, duration,
-        #LERP#                  blendType = "easeInOut",
-        #LERP#                  task = self.INTRO_TASK_NAME_CAMERA_LERP)
+        camera.lerpPosHpr(Point3(targetPos), targetHpr, duration,
+                          blendType = "easeInOut",
+                          task = self.INTRO_TASK_NAME_CAMERA_LERP)
 
     def __taskLookInWater(self, task):
         # place the camera a little above the tower, looking into the water
