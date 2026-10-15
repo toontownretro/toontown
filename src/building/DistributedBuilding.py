@@ -992,7 +992,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         assert(not signOrigin.isEmpty())
 
         # Get the background:
-        backgroundNP=loader.loadModel("phase_5/models/modules/suit_sign")
+        backgroundNP=loader.loadModel("phase_5/models/cogdominium/field_office_sign")
         assert(not backgroundNP.isEmpty())
         backgroundNP.reparentTo(signOrigin)
         backgroundNP.setPosHprScale(0.0, 0.0, -1.2 + textHeight * 0.8 / zScale,
