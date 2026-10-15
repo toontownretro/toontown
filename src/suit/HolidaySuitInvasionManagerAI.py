@@ -80,7 +80,8 @@ class HolidaySuitInvasionManagerAI(HolidayBaseAI.HolidayBaseAI):
             numCogs = 1000000000
             skeleton = 0
         elif (self.holidayId == ToontownGlobals.SELLBOT_SURPRISE_4 or \
-                self.holidayId == ToontownGlobals.MOVER_AND_SHAKER_INVASION):
+                self.holidayId == ToontownGlobals.MOVER_AND_SHAKER_INVASION or \
+                self.holidayId == ToontownGlobals.SELLBOT_INVASION_MOVER_AND_SHAKER):
             # Sellbot Surprise ... mover & shaker
             cogType = 'ms'
             # Max the number so they will not run out
@@ -106,7 +107,8 @@ class HolidaySuitInvasionManagerAI(HolidayBaseAI.HolidayBaseAI):
             numCogs = 1000000000
             skeleton = 0
         elif (self.holidayId == ToontownGlobals.CASHBOT_CONUNDRUM_4 or \
-            self.holidayId == ToontownGlobals.NUMBER_CRUNCHER_INVASION):
+            self.holidayId == ToontownGlobals.NUMBER_CRUNCHER_INVASION or \
+            self.holidayId == ToontownGlobals.TAX_DAY_INVASION):
             # Cashbot Conundrum... Number Cruncher
             cogType = 'nc'
             # Max the number so they will not run out
@@ -158,7 +160,8 @@ class HolidaySuitInvasionManagerAI(HolidayBaseAI.HolidayBaseAI):
             numCogs = 1000000000
             skeleton = 0
         elif (self.holidayId == ToontownGlobals.TROUBLE_BOSSBOTS_4 or \
-                self.holidayId == ToontownGlobals.DOWN_SIZER_INVASION ):
+                self.holidayId == ToontownGlobals.DOWN_SIZER_INVASION or \
+                self.holidayId == ToontownGlobals.PRE_JULY_4_DOWNSIZER_INVASION ):
             # The Trouble with Bossbots ... downsizer
             cogType = 'ds'
             # Max the number so they will not run out
@@ -258,7 +261,8 @@ class HolidaySuitInvasionManagerAI(HolidayBaseAI.HolidayBaseAI):
             # Max the number so they will not run out
             numCogs = 1000000000
             skeleton = 0  
-        elif (self.holidayId == ToontownGlobals.BIG_WIG_INVASION):
+        elif (self.holidayId == ToontownGlobals.BIG_WIG_INVASION or \
+              self.holidayId == ToontownGlobals.PRE_JULY_4_BIGWIG_INVASION):
             # big wig
             cogType = 'bw'
             # Max the number so they will not run out
@@ -270,6 +274,14 @@ class HolidaySuitInvasionManagerAI(HolidayBaseAI.HolidayBaseAI):
             # Max the number so they will not run out
             numCogs = 1000000000
             skeleton = 0  
+        elif (self.holidayId == ToontownGlobals.SELLBOT_INVASION):
+            # any cog will do
+            from . import SuitDNA
+            import random
+            cogType = SuitDNA.getRandomSuitByDept('s')
+            # Max the number so they will not run out
+            numCogs = 1000000000
+            skeleton = 0
         else:
             self.notify.warning("Unrecognized holidayId: %s" % (self.holidayId))
             return 0
