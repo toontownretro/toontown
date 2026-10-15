@@ -669,7 +669,7 @@ class TTCodeRedemptionDBTester(Job):
                 for code in codes:
                     # manual code lot
                     lotName = self._getUnusedLotName()
-                    self.notify.info('manual code: %s' % u2ascii(code))
+                    self.notify.info('manual code: %s' % u2ascii(code).decode("ascii"))
                     self._db.createManualLot(lotName, code, RewardType, RewardItemId)
                     if not self._db.lotExists(lotName):
                         self.notify.error('could not create manual lot %s' % lotName)
@@ -914,7 +914,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         return nowStr
 
     def createManualLot(self, name, code, rewardType, rewardItemId, expirationDate=None):
-        self.notify.info('creating manual code lot \'%s\', code=%s' % (name, u2ascii(code), ))
+        self.notify.info('creating manual code lot \'%s\', code=%s' % (name, u2ascii(code).decode("ascii"), ))
         self._doCleanup()
 
         code = TTCodeDict.getFromReadableCode(code)
@@ -923,7 +923,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
             self.notify.error('tried to create lot %s that already exists' % name)
 
         if self.codeExists(code):
-            self.notify.error('tried to create code %s that already exists' % u2ascii(code))
+            self.notify.error('tried to create code %s that already exists' % u2ascii(code).decode("ascii"))
 
         conn = TTCRDBConnection(self)
         conn._createTable(
@@ -1336,7 +1336,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         if cachedLotName is not self._code2lotNameCache.NotFound:
             return cachedLotName
 
-        assert self.notify.debug('lotNameFromCode CACHE MISS (%s)' % u2ascii(code))
+        assert self.notify.debug('lotNameFromCode CACHE MISS (%s)' % u2ascii(code).decode("ascii"))
 
         self._doCleanup()
         conn = TTCRDBConnection(self)
@@ -1392,7 +1392,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         if cachedReward is not self._code2rewardCache.NotFound:
             return cachedReward
 
-        assert self.notify.debug('reward from code CACHE MISS (%s)' % u2ascii(code))
+        assert self.notify.debug('reward from code CACHE MISS (%s)' % u2ascii(code).decode("ascii"))
         
         self._doCleanup()
 
@@ -1433,7 +1433,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         lotName = self.getLotNameFromCode(code)
 
         if lotName is None:
-            self.notify.error('getRedemptions: could not find code %s' % u2ascii(code))
+            self.notify.error('getRedemptions: could not find code %s' % u2ascii(code).decode("ascii"))
 
         conn = TTCRDBConnection(self, {'code_set_%s' % lotName: self.READ, })
         cursor = conn.getDictCursor()
@@ -1472,7 +1472,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
         if cachedManual is not self._lotName2manualCache.NotFound:
             manualCode = cachedManual
         else:
-            assert self.notify.debug('manualFromCode CACHE MISS (%s)' % u2ascii(code))
+            assert self.notify.debug('manualFromCode CACHE MISS (%s)' % u2ascii(code).decode("ascii"))
             
             cursor.execute(
                 """
@@ -1676,7 +1676,7 @@ class TTCodeRedemptionDB(DBInterface, DirectObject):
                 row['code'] = str(row['code'])
                 return row
 
-        self.notify.error('code \'%s\' not found' % u2ascii(code))
+        self.notify.error('code \'%s\' not found' % u2ascii(code).decode("ascii"))
 
     def _testSubProc(self):
         self.notify.info('running subprocess test...')

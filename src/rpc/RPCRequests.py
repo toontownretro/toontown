@@ -192,7 +192,7 @@ class GetToonPicIdRequest(AsyncRequest):
         assert not self.__deleted
         dna = self.neededObjects["setDNAString"][0]
 
-        picid = "74%02x%02x%02x" % (ord(dna[1]),ord(dna[4]),ord(dna[-1]))
+        picid = "74%02x%02x%02x" % ((dna[1]),(dna[4]),(dna[-1]))
 
         self.resultQueue.put(picid)
         self.delete()
