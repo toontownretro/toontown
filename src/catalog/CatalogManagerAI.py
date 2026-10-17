@@ -323,3 +323,6 @@ class CatalogManagerAI(DistributedObjectAI.DistributedObjectAI):
             print("starting catalog for %s" % (avatar.getName()))
             self.deliverCatalogFor(avatar)
 
+
+    def isItemReleased(self, accessoryId):
+        self.notify.warning("isItemReleased sent by client with accessoryId %s" % accessoryId)

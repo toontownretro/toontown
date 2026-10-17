@@ -84,7 +84,9 @@ from toontown.toon import DistributedToonAI
 from otp.distributed import OtpDoGlobals
 from toontown.uberdog import DistributedPartyManagerAI
 from toontown.uberdog import DistributedInGameNewsMgrAI
+from toontown.uberdog import DistributedWhitelistMgrAI
 from toontown.uberdog import DistributedCpuInfoMgrAI
+from toontown.uberdog import DistributedSecurityMgrAI
 from toontown.parties import ToontownTimeManager
 from toontown.coderedemption.TTCodeRedemptionMgrAI import TTCodeRedemptionMgrAI
 from toontown.distributed.NonRepeatableRandomSourceAI import NonRepeatableRandomSourceAI
@@ -410,9 +412,17 @@ class ToontownAIRepository(AIDistrict):
         self.inGameNewsMgr.generateOtpObject(
             self.district.getDoId(), OTPGlobals.UberZone)
 
+        self.whitelistMgr = DistributedWhitelistMgrAI.DistributedWhitelistMgrAI(self)
+        self.whitelistMgr.generateOtpObject(
+            self.district.getDoId(), OTPGlobals.UberZone)
+
         self.cpuInfoMgr = DistributedCpuInfoMgrAI.DistributedCpuInfoMgrAI(self)
         self.cpuInfoMgr.generateOtpObject(
             self.district.getDoId(), OTPGlobals.UberZone)     
+
+        self.securityMgr = DistributedSecurityMgrAI.DistributedSecurityMgrAI(self)
+        self.securityMgr.generateOtpObject(
+            self.district.getDoId(), OTPGlobals.UberZone)
 
         if config.GetBool('want-code-redemption', 1):
             self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
@@ -1000,6 +1010,8 @@ class ToontownAIRepository(AIDistrict):
             self.__handlePartyManagerUdToAllAi(di)
         elif msgType == IN_GAME_NEWS_MANAGER_UD_TO_ALL_AI:
             self.__handleInGameNewsManagerUdToAllAi(di)
+        elif msgType == WHITELIST_MANAGER_UD_TO_ALL_AI:
+            self.__handleWhitelistManagerUdToAllAi(di)
         else:
             AIDistrict.handlePlayGame(self, msgType, di)
 
@@ -1070,5 +1082,25 @@ class ToontownAIRepository(AIDistrict):
             # Let the dclass finish the job
             do.dclass.receiveUpdate(do, di)
 
+    def __handleWhitelistManagerUdToAllAi(self, di):
+        """Send all msgs of this type to the party manager on our district."""
+        # we know the format is STATE_SERVER_OBJECT_UPDATE_FIELD
+        # we just changed the msg type to PARTY_MANAGER_UD_TO_ALL_AI
+        # so that it gets handled here
+        # otherwise it just gets dropped on the floor
+        do = self.whitelistMgr
+        if do:
+            globalId = di.getUint32()
+            if globalId != OtpDoGlobals.OTP_DO_ID_TOONTOWN_WHITELIST_MANAGER:
+                self.notify.error('__handleWhitelistManagerUdToAllAi  globalId=%d not equal to %d' %
+                                  (globalId, OtpDoGlobals.OTP_DO_ID_TOONTOWN_WHITELIST_MANAGER))
+            # Let the dclass finish the job
+            do.dclass.receiveUpdate(do, di)
+
     def sendQueryToonMaxHp(self, toonId, callback, *args):
         self.queryToonMaxHp(toonId, callback, *args)
+        #db = DatabaseObject.DatabaseObject(self, toonId)
+        #db.doneEvent = 'queryToonMaxHp'
+        #db.userCallback = callback
+        #db.userArgs = args
+        #db.getFields(['setMaxHp'])

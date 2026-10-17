@@ -170,9 +170,6 @@ class DistributedSecurityMgrUD(DistributedObjectGlobalUD):
         result = self.air.toontownTimeManager.getCurServerDateTime()
         return result
 
-    def updateWhitelist(self, listStr):
-        self.notify.debugStateCall(self)
-
 
     def setLatestList(self, latestList):
         self.latestList = latestList
@@ -195,7 +192,7 @@ class DistributedSecurityMgrUD(DistributedObjectGlobalUD):
                 "DistributedWhitelistMgr",
                 'newListUDtoAI',
                 doId ,
-                [self.getLatestListStr()]
+                []
             )
 
     def addWhitelistModule(self, replyTo, **kw):

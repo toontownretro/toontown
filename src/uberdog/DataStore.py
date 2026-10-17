@@ -6,7 +6,7 @@ from direct.task import Task
 import pickle
 import os
 import sys
-import semidbm as dbm
+import dbm as anydbm
 import time
 
 class DataStore:
@@ -59,7 +59,7 @@ class DataStore:
 
         if self.wantAnyDbm:
             self.filepath += '-anydbm'
-            self.notify.debug('anydbm default module used: %s ' % dbm.ndbm._defaultmod.__name__)
+            self.notify.debug('anydbm default module used: %s ' % anydbm._defaultmod.__name__)
 
         self.open()
         
@@ -81,14 +81,14 @@ class DataStore:
         if self.wantAnyDbm:
             try:
                 if os.path.exists(self.filepath):
-                    self.data = dbm.ndbm.open(self.filepath,'w')
+                    self.data = anydbm.open(self.filepath,'w')
                     self.notify.debug('Opening existing anydbm database at: %s.' % \
                                        (self.filepath,))
                 else:
-                    self.data = dbm.ndbm.open(self.filepath,'c')
+                    self.data = anydbm.open(self.filepath,'c')
                     self.notify.debug('Creating new anydbm database at: %s.' % \
                                       (self.filepath,))
-            except dbm.ndbm.error:
+            except anydbm.error:
                 self.notify.warning('Cannot open anydbm database at: %s.' % \
                                     (self.filepath,))
                 

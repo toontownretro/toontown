@@ -20,7 +20,6 @@ class DistributedWhitelistMgrAI(ParentClass ):
         """Construct ourselves, set up web dispatcher."""
         assert self.notify.debugCall()
         ParentClass.__init__(self, cr)
-        self.latestListStr = ""
 
     def generate(self):
         """We have zone info but not required fields, register for the special."""
@@ -37,29 +36,21 @@ class DistributedWhitelistMgrAI(ParentClass ):
                                   OtpDoGlobals.OTP_DO_ID_TOONTOWN_WHITELIST_MANAGER,
                                    [self.doId, self.air.districtId]
                                   )
-    def updateWhitelist(self, listStr):
+    def updateWhitelist(self):
         """We normally get this once, we could get this when a new list is released while logged in."""
         # we receive this as a utc str
         assert self.notify.debugStateCall(self)
-        self.latestListStr = listStr
         pass
 
-    def b_updateWhitelist(self, latestList):
-        self.updateWhitelist(latestList)
-        self.d_updateWhitelist(latestList)
+    def b_updateWhitelist(self):
+        self.updateWhitelist()
+        self.d_updateWhitelist()
         
-    def d_updateWhitelist(self, latestList):
+    def d_updateWhitelist(self):
         self.sendUpdate("updateWhitelist")
         
-
-    def getLatestListStr(self):
-        """We normally get this once, we could get this when a new list is released while logged in."""
-        assert self.notify.debugStateCall(self)
-        return self.latestListStr
-        pass
     
-
-    def newListUDtoAI(self, listStr):
+    def newListUDtoAI(self):
         """Well the UD is telling us we have a new list, spread it to the clients."""
-        self.b_updateWhitelist(listStr)
+        self.b_updateWhitelist()
 

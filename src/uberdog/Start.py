@@ -60,6 +60,7 @@ uber.bwDictPath = ""
 uber.RATManagerHTTPListenPort = uber.config.GetInt("rat-port",8080)
 uber.awardManagerHTTPListenPort = uber.config.GetInt("award-port",8888)
 uber.inGameNewsMgrHTTPListenPort = uber.config.GetInt("in-game-news-port",8889)
+uber.whitelistMgrHTTPListenPort = uber.config.GetInt("whitelist-port",8890)
 uber.mysqlhost = uber.config.GetString("mysql-host", PartiesUdConfig.ttDbHost)
 
 
@@ -67,6 +68,7 @@ uber.codeRedemptionMgrHTTPListenPort = uber.config.GetInt('code-redemption-port'
 uber.crDbName = uber.config.GetString("tt-code-db-name", TTCodeRedemptionConsts.DefaultDbName)
 
 uber.cpuInfoMgrHTTPListenPort = uber.config.GetInt("security_ban_mgr_port",8892)
+uber.securityMgrHTTPListenPort = uber.config.GetInt("security_port",8893)
 
 uber.air = ToontownUberDog(
         uber.mdip, uber.mdport,

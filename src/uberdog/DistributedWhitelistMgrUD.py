@@ -60,12 +60,6 @@ class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
         self.notify.debugStateCall(self)
         return self.latestList.strftime(self.air.toontownTimeManager.formatStr)
 
-    def getLatestListUtcStr(self):
-        self.notify.debugStateCall(self)
-        datetimeInUtc = self.latestList.astimezone(pytz.utc)
-        result = datetimeInUtc.strftime(self.air.toontownTimeManager.formatStr)
-        return result
-
     def announceGenerate(self):
         """Start accepting http requests."""
         assert self.notify.debugCall()
@@ -190,9 +184,6 @@ class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
             pass
         return result
 
-    def updateWhitelist(self, listStr):
-        self.notify.debugStateCall(self)
-
 
     def setLatestList(self, latestList):
         self.latestList = latestList
@@ -215,5 +206,5 @@ class DistributedWhitelistMgrUD(DistributedObjectGlobalUD):
                 "DistributedWhitelistMgr",
                 'newListUDtoAI',
                 doId ,
-                [self.getLatestListStr()]
+                []
             )

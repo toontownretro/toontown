@@ -22,7 +22,9 @@ from toontown.rpc.RATManagerUD import RATManagerUD
 from toontown.rpc.AwardManagerUD import AwardManagerUD
 from toontown.uberdog import TTSpeedchatRelayUD
 from toontown.uberdog import DistributedInGameNewsMgrUD
+from toontown.uberdog import DistributedWhitelistMgrUD
 from toontown.uberdog import DistributedCpuInfoMgrUD
+from toontown.uberdog import DistributedSecurityMgrUD
     
 from otp.uberdog.RejectCode import RejectCode
 
@@ -50,7 +52,9 @@ class ToontownUberDog(UberDog):
         self.isAwardManager = isManagerFor('award')
         self.isCodeRedemptionManager = isManagerFor('coderedemption')
         self.isInGameNewsMgr = isManagerFor('ingamenews')
+        self.isWhitelistMgr = isManagerFor('whitelist')
         self.isCpuInfoMgr = isManagerFor('cpuinfo')
+        self.isSecurityMgr = isManagerFor('security')
         self.isRandomSourceManager = False # isManagerFor('randomsource')
 
         UberDog.__init__(
@@ -113,10 +117,20 @@ class ToontownUberDog(UberDog):
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_IN_GAME_NEWS_MANAGER,
                 "DistributedInGameNewsMgr")
         
+        if self.isWhitelistMgr:
+            self.whitelistMgr = self.generateGlobalObject(
+                OtpDoGlobals.OTP_DO_ID_TOONTOWN_WHITELIST_MANAGER,
+                "DistributedWhitelistMgr")
+        
         if self.isCpuInfoMgr:
             self.cpuInfoMgr = self.generateGlobalObject(
                 OtpDoGlobals.OTP_DO_ID_TOONTOWN_CPU_INFO_MANAGER,
                 "DistributedCpuInfoMgr")              
+        
+        if self.isSecurityMgr:
+            self.securityMgr = self.generateGlobalObject(
+                OtpDoGlobals.OTP_DO_ID_TOONTOWN_SECURITY_MANAGER,
+                "DistributedSecurityMgr")
         
         if self.isRandomSourceManager:
             self.randomSourceManager = self.generateGlobalObject(

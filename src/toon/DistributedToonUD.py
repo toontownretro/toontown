@@ -18,6 +18,10 @@ class DistributedToonUD(DistributedObjectUD):
         self.dna = ToonDNA.ToonDNA()
         self.clothesTopsList = []
         self.clothesBottomsList = []
+        self.hatList = []
+        self.glassesList = []
+        self.backpackList = []
+        self.shoesList = []
         self.emoteAccess = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         self.fishingRod = 0
         
@@ -143,6 +147,30 @@ class DistributedToonUD(DistributedObjectUD):
         
     def getClothesBottomsList(self):
         return self.clothesBottomsList
+
+    def setHatList(self, clothesList):
+        self.hatList = clothesList
+
+    def getHatList(self):
+        return self.hatList
+
+    def setGlassesList(self, clothesList):
+        self.glassesList = clothesList
+
+    def getGlassesList(self):
+        return self.glassesList
+
+    def setBackpackList(self, clothesList):
+        self.backpackList = clothesList
+
+    def getBackpackList(self):
+        return self.backpackList
+
+    def setShoesList(self, clothesList):
+        self.shoesList = clothesList
+
+    def getShoesList(self):
+        return self.shoesList
 
     def setEmoteAccess(self, bits):
         if len(bits) != len(self.emoteAccess):
