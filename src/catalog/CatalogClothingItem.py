@@ -598,7 +598,8 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         
         model.setH(180)
 
-        toon.delete()
+        # Custom: This is NOT supposed to be commented out; FIX ON ENGINE!!!
+        #toon.delete()
         
         
         return self.makeFrameModel(model)
