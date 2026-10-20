@@ -12501,7 +12501,7 @@ CogdoCraneGameInstructions = ("The COGS are using a coin-operated machine to des
 
 
 
-
+# Cogdo Maze Game
 CogdoMazeGameTitle = "Mover & Shaker\nField Office"
 CogdoMazeGameInstructions = "The big Mover & Shaker Cogs have the code to open the door. Defeat them with your water balloons in order to get it!"
 
@@ -12536,7 +12536,7 @@ CogdoMazeSquashHint = "Falling objects pop your balloon"
 CogdoMazeBossHint = "Big Cogs take TWO hits to defeat"
 CogdoMazeMinionHint = "Smaller Cogs drop jokes"
 
-
+# Cogdo Flying Game
 CogdoFlyingGameTitle = "Legal Eagle Offices"
 CogdoFlyingGameInstructions = "Fly through the Legal Eagles' lair. Watch out for obstacles and cogs along the way, and don't forget to refuel your helicopter!"
 

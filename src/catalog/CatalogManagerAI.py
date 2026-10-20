@@ -326,3 +326,4 @@ class CatalogManagerAI(DistributedObjectAI.DistributedObjectAI):
 
     def isItemReleased(self, accessoryId):
         self.notify.warning("isItemReleased sent by client with accessoryId %s" % accessoryId)
+        return 1

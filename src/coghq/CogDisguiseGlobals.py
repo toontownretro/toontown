@@ -291,7 +291,6 @@ def asNumber(bitstring):
     return num
 
 def dept2deptIndex(dept):
-    # Custom: bytes on Python 2
     if type(dept) == str:
         dept = SuitDNA.suitDepts.index(dept)
     return dept

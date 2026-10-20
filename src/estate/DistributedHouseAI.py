@@ -436,6 +436,8 @@ class DistributedHouseAI(DistributedObjectAI.DistributedObjectAI):
             self.removeOldItem(CatalogFurnitureItem.FLBank)
         if item.getFlags() & CatalogFurnitureItem.FLCloset:
             self.removeOldItem(CatalogFurnitureItem.FLCloset)
+        if item.getFlags() & CatalogFurnitureItem.FLTrunk:
+            self.removeOldItem(CatalogFurnitureItem.FLTrunk)
 
         self.makeRoomFor(1)
             

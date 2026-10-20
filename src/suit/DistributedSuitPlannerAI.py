@@ -1526,7 +1526,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
         # We create one-fourth of the required number of suits each
         # time.  This will help us get caught up if we are way behind
         # in suits.
-        flyInDeficit = (targetFlyInNum - self.numFlyInSuits + 3) / 4
+        flyInDeficit = (targetFlyInNum - self.numFlyInSuits + 3) // 4
 
         while flyInDeficit > 0:
             if not self.createNewSuit([], streetPoints):

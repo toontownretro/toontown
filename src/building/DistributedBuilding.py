@@ -862,7 +862,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         for i in sideBldgNodes:
             name=i.getName()
             timeForDrop = TO_SUIT_BLDG_TIME*0.85
-            if (name[0]=='s'):
+            if (name[0]=='c'):
                 #print 'anim2suit: suit flat scale: %s' % repr(i.getScale())
                 # set the position of the node, then unstash it to show it
                 showTrack = Sequence(
@@ -1225,7 +1225,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         for i in bldgNodes:
             i.clearColorScale()
             name=i.getName()
-            if (name[0]=='s'):
+            if (name[0]=='c'):
                 hideTrack = Sequence(
                     name = self.taskName('ToToonCogdoFlatsTrack'))
                 # have the suit building scale away

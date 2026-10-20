@@ -49,7 +49,7 @@ from toontown.parties import PartyGlobals
 from toontown.parties import PartyUtils
 from toontown.uberdog.DataStoreAIClient import DataStoreAIClient
 from toontown.uberdog import DataStoreGlobals
-
+from toontown.cogdominium import DistributedCogdoInteriorAI
 if (simbase.wantKarts):
     from toontown.racing.KartDNA import *
 
@@ -612,6 +612,75 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                 bboard.remove(postName)
             self.down_setMagicWordResponse(senderId, 'autoRestock %s' % state)
         
+        elif wordIs("~autoRestockSOS"):
+            args = word.split()
+            postName = 'autoRestockSOS-%s' % av.doId
+            enable = not bboard.get(postName, 0)
+            # are they explicitly setting the state?
+            if len(args) > 1:
+                try:
+                    enable = bool(int(args[1]))
+                except:
+                    self.down_setMagicWordResponse(senderId,
+                                                   'invalid state flag: %s' %
+                                                   args[1])
+                    return
+            if enable:
+                av.autoRestockSOS = True
+                state = 'ON'
+                bboard.post(postName, True)
+            else:
+                av.autoRestockSOS = False
+                state = 'OFF'
+                bboard.remove(postName)
+            self.down_setMagicWordResponse(senderId, 'autoRestockSOS %s' % state)
+
+        elif wordIs("~autoRestockPinkSlips"):
+            args = word.split()
+            postName = 'autoRestockPinkSlips-%s' % av.doId
+            enable = not bboard.get(postName, 0)
+            # are they explicitly setting the state?
+            if len(args) > 1:
+                try:
+                    enable = bool(int(args[1]))
+                except:
+                    self.down_setMagicWordResponse(senderId,
+                                                   'invalid state flag: %s' %
+                                                   args[1])
+                    return
+            if enable:
+                av.autoRestockPinkSlips = True
+                state = 'ON'
+                bboard.post(postName, True)
+            else:
+                av.autoRestockPinkSlips = False
+                state = 'OFF'
+                bboard.remove(postName)
+            self.down_setMagicWordResponse(senderId, 'autoRestockPinkSlips %s' % state)
+
+        elif wordIs("~autoRestockSummons"):
+            args = word.split()
+            postName = 'autoRestockSummons-%s' % av.doId
+            enable = not bboard.get(postName, 0)
+            # are they explicitly setting the state?
+            if len(args) > 1:
+                try:
+                    enable = bool(int(args[1]))
+                except:
+                    self.down_setMagicWordResponse(senderId,
+                                                   'invalid state flag: %s' %
+                                                   args[1])
+                    return
+            if enable:
+                av.autoRestockSummons = True
+                state = 'ON'
+                bboard.post(postName, True)
+            else:
+                av.autoRestockSummons = False
+                state = 'OFF'
+                bboard.remove(postName)
+            self.down_setMagicWordResponse(senderId, 'autoRestockSummons %s' % state)
+
         elif wordIs("~resistanceRestock"):
             from toontown.chat import ResistanceChat
             args = word.split()
@@ -1557,6 +1626,28 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                 self.down_setMagicWordResponse(senderId, 'autoRich %s' % state)
             else:
                 self.air.writeServerEvent('suspicious', av.doId, 'non-GM toon with name %s using ~autoRich' % av.getName())
+
+        elif wordIs("~reload"):
+            messenger.send("onCodeReload")
+
+        elif word[:14] == "~cogdoMinigame":
+            self.doCogdoMinigame(word, av, zoneId, senderId)
+
+        elif wordIs("~emblems"):
+            if simbase.air.wantEmblems:
+                args = word.split()
+                if len(args) > 1:
+                    numEmblems = int(args[1])
+                    if numEmblems > 32767:
+                        numEmblems = 32767
+                else:
+                    self.down_setMagicWordResponse(senderId, "Specify number of emblems to set.")
+                    return
+
+                emblems = [numEmblems, numEmblems]
+                av.b_setEmblems(emblems)
+
+                self.down_setMagicWordResponse(senderId, "Set emblems: %s" % (emblems,))
             
         else:
             # The word is not an AI-side magic word.  If the sender is
@@ -1787,6 +1878,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                                                 suitTrack = track,
                                                 suitLevel = level,
                                                 toonBlockTakeover = i,
+                                                cogdoTakeover = False,
                                                 minPathLen = minPathLen,
                                                 maxPathLen = maxPathLen)
                         retryCount += 1
@@ -1804,6 +1896,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
 
     def doCogdoTakeOver(self, word, av, zoneId, senderId):
         """Handle the ~cogdoTakeOver magic word."""
+        track = "s"
         level = None
         streetId = ZoneUtil.getBranchZone(zoneId)
         args = word.split()
@@ -1816,7 +1909,12 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
             args.remove("slow")
 
         if len(args)>1:
-            if args[1] != 'x':
+            track=args[1]
+            if track == 'x':
+                track = None
+
+        if len(args)>2:
+            if args[2] != 'x':
                 level=int(args[2])
                 level = max(min(level, 9), 1)
 
@@ -1881,7 +1979,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                     level, type, track = \
                            sp.pickLevelTypeAndTrack(level, None, track)
                     building = bm.getBuilding(i)
-                    building.cogdoTakeOver(level - 1, None)
+                    building.cogdoTakeOver(track, level - 1, None)
 
                 else:
                     # Dispatch a suit to take over the building.
@@ -1892,7 +1990,6 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
                     suit = None
                     retryCount = 0
                     while suit == None and len(points) > 0 and retryCount < 20:
-                        track = random.choice(SuitDNA.suitDepts)
                         suit = sp.createNewSuit([], points,
                                                 suitTrack = track,
                                                 suitLevel = level,
@@ -1964,6 +2061,7 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
             total += len(blocks)
             for i in blocks:
                 building = bm.getBuilding(i)
+                building.buildingDefeated = True
                 building.b_setVictorList([0, 0, 0, 0])
                 building.updateSavedBy([(av.doId, av.name, av.dna.asTuple(), av.isGM())])
                 building.toonTakeOver()
@@ -3640,3 +3738,85 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
 
         if response:
             self.down_setMagicWordResponse(senderId, response)
+
+    def doCogdoMinigame(self, word, av, zoneId, senderId):
+        """Handle the ~minigame magic word: request a particular minigame."""
+        args = word.split()
+        if len(args) == 1:
+            # No game parameter specified: clear the request.
+            mgRequest = DistributedCogdoInteriorAI.GameRequests.get(av.doId)
+            if mgRequest != None:
+                mgId = mgRequest[0]
+                del DistributedCogdoInteriorAI.GameRequests[av.doId]
+                response = "Request for cogdo minigame %s cleared." % (mgId)
+            else:
+                response = "Usage: ~cogdoMinigame [<name|id> [difficulty] [safezone]"
+        else:
+            # Try to determine the game name, keep flag, and the difficulty
+            # and safezone overrides, if any
+            name = args[1]
+            mgId = None
+            mgKeep = 0
+            mgDiff = None
+            mgSzId = None
+
+            try:
+                mgId = int(name)
+                mgId = cogdoGameNames.get(mgId)
+                if mgId == None:
+                    response = "cogdo minigame ID '%s' is out of range" % mgId
+            except:
+                name = name.lower()
+                if name[-4:] == "game":
+                    name = name[:-4]
+                if name[:9] == "distcogdo":
+                    name = name[9:]
+                if name in DistributedCogdoInteriorAI.CogdoGames:
+                    mgId = name
+                else:
+                    response = "Unknown cogdo minigame '%s'." % (name)
+
+            argIndex = 2
+            while argIndex < len(args):
+                arg = args[argIndex]
+                arg = arg.lower()
+                argIndex += 1
+
+                # it's either a difficulty (float), 'keep',
+                # or a safezone (string)
+
+                # is it 'keep'?
+                if arg == 'keep':
+                    mgKeep = 1
+                    continue
+
+                # is it a difficulty?
+                try:
+                    mgDiff = float(arg)
+                    continue
+                except:
+                    pass
+
+                mgSzId = self.Str2szId.get(arg)
+                if mgSzId is not None:
+                    continue
+
+                # it's a string, but it's not a safezone.
+                response = ("unknown safezone '%s'; use "
+                            "tt, dd, dg, mm, br, dl" % arg)
+                mgId = None
+                break
+
+            if mgId != None:
+                # mdId must be the first element
+                DistributedCogdoInteriorAI.GameRequests[av.doId] = (
+                    mgId, mgKeep, mgDiff, mgSzId)
+                response = "Selected cogdo minigame %s" % mgId
+                if mgDiff is not None:
+                    response += ", difficulty %s" % mgDiff
+                if mgSzId is not None:
+                    response += ", safezone %s" % mgSzId
+                if mgKeep:
+                    response += ", keep=true"
+
+        self.down_setMagicWordResponse(senderId, response)

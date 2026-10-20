@@ -242,6 +242,7 @@ class ToontownAIRepository(AIDistrict):
         self.useAllMinigames = simbase.config.GetBool('use-all-minigames', 0)
 
         self.wantCogdominiums = simbase.config.GetBool('want-cogdominiums', 0)
+        self.wantEmblems = simbase.config.GetBool('want-emblems', 0)
 
         self.hoods = []
         self.buildingManagers = {}
@@ -1097,10 +1098,11 @@ class ToontownAIRepository(AIDistrict):
             # Let the dclass finish the job
             do.dclass.receiveUpdate(do, di)
 
+    # This whole method is guessed as ToontownAIRepository never leaked
     def sendQueryToonMaxHp(self, toonId, callback, *args):
-        self.queryToonMaxHp(toonId, callback, *args)
-        #db = DatabaseObject.DatabaseObject(self, toonId)
-        #db.doneEvent = 'queryToonMaxHp'
-        #db.userCallback = callback
-        #db.userArgs = args
-        #db.getFields(['setMaxHp'])
+        #self.queryToonMaxHp(toonId, callback, *args)
+        db = DatabaseObject.DatabaseObject(self, toonId)
+        db.doneEvent = 'queryToonMaxHp'
+        db.userCallback = callback
+        db.userArgs = args
+        db.getFields(['setMaxHp'])

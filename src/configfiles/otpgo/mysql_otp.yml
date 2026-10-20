@@ -49,7 +49,7 @@ roles:
       # Enable PROXY protocol.  Set to false if not connecting using stunnel
       proxy: true
       version: "dev"
-      dc_hash: 2127649 # 2308474396
+      dc_hash: 2308411466 # 2308474396
       lua_file: "MewtwoClient.lua"
       database: 4003
       client:

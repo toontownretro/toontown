@@ -50,7 +50,7 @@ class DistCogdoCraneMoneyBag(DistCogdoCraneObject):
         cs = CollisionSphere(0, 0, 4, 4)
         self.collisionNode.addSolid(cs)
 
-        assert(self.index not in self.craneGame.moneyBag)
+        assert(self.index not in self.craneGame.moneyBags)
         self.craneGame.moneyBags[self.index] = self
 
         self.setupPhysics('moneyBag')

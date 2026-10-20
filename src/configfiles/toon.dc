@@ -29,7 +29,6 @@ from toontown.safezone import DistributedPartyGate/AI
 from toontown.suit import DistributedSuitPlanner/AI
 from toontown.suit import DistributedSuitBase/AI
 from toontown.suit import DistributedSuit/AI
-from toontown.suit import DistributedSuit/AI
 from toontown.suit import DistributedTutorialSuit/AI
 from toontown.suit import DistributedFactorySuit/AI
 from toontown.suit import DistributedMintSuit/AI
@@ -518,11 +517,14 @@ typedef int16 pair16[2];
 
 dclass DistributedToon: DistributedPlayer {
   setDNAString(blob) required broadcast ownrecv db;
+  setGM(uint8 = 0) required broadcast ownrecv db;
   setMaxBankMoney(int16 = 1000) required broadcast ownrecv db;
   setBankMoney(int16 = 0) required broadcast ownrecv db;
   setMaxMoney(int16 = 40) required broadcast ownrecv db;
   setMoney(int16 = 0) required broadcast ownrecv db;
   setMaxHp(int16 = 15) required broadcast ownrecv db;
+  // limit is guessed as emblems was commented out
+  //setEmblems(int16[] = [0,0]) required broadcast ownrecv db;
   setHp(int16 = 15) required broadcast ownrecv db;
 
   toonUp(uint16 hpGained) broadcast ownrecv;
@@ -596,7 +598,7 @@ dclass DistributedToon: DistributedPlayer {
                int16/10 x, int16/10 y, int16/100 z,
                int32/100 h) ownsend broadcast;
 
-  setAnimState(string, int16 / 1000, int16 timestamp) broadcast ram ownsend airecv;
+  setAnimState(char [0-1024], int16 / 1000, int16 timestamp) broadcast ram ownsend airecv;
 
   setEmoteState(int16, int16 / 1000, int16 timestamp) broadcast ram ownsend;
   setEmoteAccess(uint8array bits = {1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}) required ownrecv db;
@@ -646,7 +648,7 @@ dclass DistributedToon: DistributedPlayer {
                            uint32 toonProgress, uint8 msgIndex) ownrecv clsend; // security breach:fromId, taskId, toNpcId, msgIndex etc. need range checking...need help = DROSE
   setSCToontask(uint32 taskId, uint32 toNpcId, uint32 toonProgress,
                 uint8 msgIndex) broadcast ownsend;
-  setSCSinging(uint16 msgIndex) broadcast ownsend;
+  //setSCSinging(uint16 msgIndex) broadcast ownsend;
   // a toon send this to the AI when he clicks on a resistance phrase
   reqSCResistance(uint16 msgIndex, uint32 nearbyToons[]) ownsend airecv;
   // the ai sends this to everyone along with a list of affected toons
@@ -820,7 +822,7 @@ dclass DistributedToon: DistributedPlayer {
 
   // messages associated with summoning cogs
   setCogSummonsEarned(uint8array = {0 * 32}) required ownrecv db;
-  reqCogSummons(string type, uint32 suitIndex) ownsend airecv;
+  reqCogSummons(char type[0-256], uint32 suitIndex) ownsend airecv;
   cogSummonsResponse(string returnCode, uint32 suitIndex, uint32 doId) ownrecv;
 
   // messages associated with the garden specials
@@ -839,10 +841,10 @@ dclass DistributedToon: DistributedPlayer {
   setUnlimitedSwing(uint8 unlimitedSwing = 0) broadcast ownrecv ram;
 
   // log suspicious commands
-  logSuspiciousEvent(string eventName) clsend airecv;
+  logSuspiciousEvent(char eventName[0-1024]) ownsend airecv;
 
   // client sends us information on an error
-  logMessage(string message) ownsend airecv;
+  logMessage(char message[0-1024]) ownsend airecv;
 
   //force a logout
   forceLogoutWithNotify() ownrecv;
@@ -896,7 +898,7 @@ dclass DistributedCCharBase: DistributedObject {
   avatarEnter() airecv clsend;     //appears safe
   avatarExit() airecv clsend;      // appears safe
   // These let the server know when a nearby toon talks
-  setNearbyAvatarChat(string msg) airecv clsend;   //appears safe, although sizeof(msg) could be enforced
+  setNearbyAvatarChat(char msg[0-1024]) airecv clsend;   //appears safe, although sizeof(msg) could be enforced
   setNearbyAvatarSC(uint16 msgIndex) airecv clsend;        // msgIndex needs to be range checked
   setNearbyAvatarSCCustom(uint16 msgIndex) airecv clsend;  // same as above
   setNearbyAvatarSCToontask(uint32 taskId, uint32 toNpcId, uint32 toonProgress,
@@ -1678,7 +1680,7 @@ dclass DistributedCannonGame: DistributedMinigame {
 };
 
 dclass DistributedPhotoGame: DistributedMinigame {
-  newClientPhotoScore(uint8 subjectIndex, string pose, uint32 score / 100) airecv clsend;
+  newClientPhotoScore(uint8 subjectIndex, char pose[0-256], uint32 score / 100) airecv clsend;
   newAIPhotoScore(uint32 playerId, uint8 assignmentIndex, uint32 score / 100) broadcast;
   filmOut()airecv clsend;
 };
@@ -1756,10 +1758,10 @@ dclass DistributedDivingGame: DistributedMinigame {
   pickupTreasure(uint32 chestId) airecv clsend;
   setTreasureGrabbed(uint32 avId, uint32 chestId) broadcast;
 
-  handleFishCollision(uint32 avId, uint32 spawnId, uint32 spawnerId, string status) airecv clsend;
+  handleFishCollision(uint32 avId, uint32 spawnId, uint32 spawnerId, char status[0-256]) airecv clsend;
   performFishCollision(uint32 avId, uint32 spawnId, uint32 spawnerId, int16 timestamp) broadcast;
 
-  handleCrabCollision(uint32 avId, string status) airecv clsend;
+  handleCrabCollision(uint32 avId, char status[0-256]) airecv clsend;
   performCrabCollision(uint32 avId, int16 timestamp) broadcast;
 
   setTreasureDropped(uint32 avId, int16 timestamp) broadcast;
@@ -1798,7 +1800,7 @@ dclass EstateManager: DistributedObject {
   // the AI tells the client which zone to use for his estate
   startAprilFools() broadcast;
   stopAprilFools() broadcast;
-  getEstateZone(uint32 avId, string name) airecv clsend;   //security breach: avId need validation//Done, throws a suspicious log if invalid avId
+  getEstateZone(uint32 avId, char name[0-256]) airecv clsend;   //security breach: avId need validation//Done, throws a suspicious log if invalid avId
   setEstateZone(uint32 avId, uint32 zoneId);
   setAvHouseId(uint32 avId, uint32array houseIds) broadcast;
   sendAvToPlayground(uint32 avId, uint8 status);
@@ -2007,7 +2009,7 @@ dclass DistributedPartyWinterCogActivity: DistributedPartyCogActivity {
 
 dclass DistributedPartyDanceActivityBase: DistributedPartyActivity {
   // Messages sent from client to AI
-  updateDancingToon(uint8 state, string anim) clsend airecv;
+  updateDancingToon(uint8 state, char anim[0-256]) clsend airecv;
 
   // Messages sent from AI to client
   setToonsPlaying(uint32[] toonIds, uint16 %360 / 100 toonHeadings[]) broadcast ram;
@@ -2146,7 +2148,7 @@ dclass DistributedPartyTrampolineActivity: DistributedPartyActivity {
 
   leaveTrampoline() broadcast;
 
-  requestAnim(string request) clsend airecv;
+  requestAnim(char request[0-256]) clsend airecv;
   requestAnimEcho(string request) broadcast;
 
   removeBeans(int8[] beansToRemove) clsend airecv;
@@ -2787,7 +2789,7 @@ dclass DistributedNPCFlippyInToonHall : DistributedNPCToon {
 };
 
 dclass DistributedNPCScientist : DistributedNPCToonBase {
-      setChat(string topic, uint8 partPos, uint32 partId, uint8 progress, uint8 flags) ownsend broadcast;
+      setChat(char topic[0-1024], uint8 partPos, uint32 partId, uint8 progress, uint8 flags) ownsend broadcast;
 };
 
 dclass DistributedNPCClerk: DistributedNPCToonBase {
@@ -3153,7 +3155,7 @@ dclass DistributedCloset: DistributedFurnitureItem {
   enterAvatar() airecv clsend;     // appears safe
   // Free an avatar that is requesting interaction, but needs to be denied
   freeAvatar();
-  deleteItem(blob trashDNA, blob newDNA, uint8 which) airecv clsend;       //?couldn't find
+  //deleteItem(blob trashDNA, blob newDNA, uint8 which) airecv clsend;       //?couldn't find
   removeItem(blob trashDNA, uint8 which) airecv clsend;    //possible security breach: trashDNA and which need sanity check...need help = SAMIR
   setDNA(blob dna, int8 finished, uint8 which) airecv clsend;       //security breach: invalid finished not checked, dna needs sanity check
   setState(uint8 mode,
@@ -3170,8 +3172,7 @@ dclass DistributedCloset: DistributedFurnitureItem {
 
 dclass DistributedTrunk: DistributedCloset {
   setState(uint8 mode,
-           uint32 avId,
-           uint32 ownerId,
+           uint32 avId, uint32 ownerId,
            string gender,
            uint8array hatList, uint8array glassesList,
            uint8array backpackList, uint8array shoesList)
@@ -3197,6 +3198,7 @@ dclass DistributedTrunk: DistributedCloset {
 
   // Server tells all clients how to clothe the current customer
   setCustomerDNA(uint32 avId,
+                 uint8 hatIdx,
                  uint8 hatTexture,
                  uint8 hatColor,
                  uint8 glassesIdx,
@@ -3808,6 +3810,7 @@ dclass DistributedDeliveryManager: DistributedObject {
    giveBeanBonus(uint32 receiverDoId, uint16 amount);
    requestAck()clsend;
    returnAck();
+   givePartyRefund(uint32, uint32, uint64, int8, uint16);
 };
 
 
@@ -4107,7 +4110,7 @@ dclass DistributedVineGame: DistributedMinigame {
      setNewVine( uint32 avId, int8 vineIndex, uint32 vineT / 10000, int8 facingRight) airecv clsend broadcast;
      setNewVineT( uint32 avId, uint32 vineT / 10000, int8 climbDirection) clsend  broadcast;
      setJumpingFromVine( uint32 avId, int8 vineIndex, int8 facingRight, int32 posX / 100, int16 posZ / 100, int16 velX / 100, int16 velZ  ) clsend broadcast;
-     setFallingPos( uint32 avId, int16 posX / 100, int16 posZ / 100) clsend broadcast;
+     //setFallingPos( uint32 avId, int16 posX / 100, int16 posZ / 100) clsend broadcast;
      claimTreasure(uint32 treasureNum) airecv clsend; //security breach: treasureNum need validation...need help = DARREN
      setTreasureGrabbed(uint32 avId, uint32 treasureNum) broadcast;
      setScore(uint32 avId, uint32 score) broadcast;
@@ -4550,7 +4553,7 @@ dclass DistributedFindFour: DistributedNode {
         sendTurn(uint8 playerTurn) broadcast ram;
 
         announceWin(uint32 avId) broadcast;
-        announceWinLocation(uint8 x, uint8, y, uint8 dir, uint8 playerNum) broadcast;
+        announceWinLocation(uint8 x, uint8 y, uint8 dir, uint8 playerNum) broadcast;
         announceWinnerPosition(uint8 x, uint8 y, uint8 winDir, uint8 playerNum) broadcast;
         illegalMove() broadcast;
         tie() broadcast;
@@ -4568,7 +4571,7 @@ dclass DistributedMailManager: DistributedObject {
 dclass DistributedPartyManager: DistributedObject {
    // avatarLoggedIn(uint32 avId);
    addParty(uint32 pmDoId, uint32 hostId, string startTime, string endTime, int8 isPrivate, int8 inviteTheme, activity activities[], decoration decorations[],  uint32array invitees, uint16 costOfParty) ; //AI to UD
-   addPartyRequest(uint32 hostId, string startTime, string endTime, int8 private, int8 inviteTheme, activity activities[], decoration decorations[],  uint32array invitees) airecv clsend; // client to AI
+   addPartyRequest(uint32 hostId, char startTime[0-256], char endTime[0-256], int8 private, int8 inviteTheme, activity activities[], decoration decorations[],  uint32array invitees) airecv clsend; // client to AI
    addPartyResponse(uint32 hostId, int8 errorCode) ; //ai to client
    addPartyResponseUdToAi(uint32 hostId, int8 errorCode, uint16 costOfParty) airecv; // UD to AI
    markInviteAsReadButNotReplied(uint32 partyManagerDoId, uint64 inviteKey); //ai to UD
@@ -4648,7 +4651,7 @@ dclass NonRepeatableRandomSourceClient {
 dclass TTCodeRedemptionMgr : DistributedObject, NonRepeatableRandomSourceClient {
    giveAwardToToonResult(uint32 context, uint32 result); // UD->UD
 
-   redeemCode(uint32 context, string code) airecv clsend; // client->AI
+   redeemCode(uint32 context, char code[0-256]) airecv clsend; // client->AI
    redeemCodeAiToUd(uint32 serial, DoId rmDoId, uint32 context, string code, uint32 avId); // AI->UD
    redeemCodeResultUdToAi(uint32 serial, uint32 context, uint32 avId,
                           uint32 result, uint32 awardMgrResult) airecv; // UD->AI
