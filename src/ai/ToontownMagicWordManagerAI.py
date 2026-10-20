@@ -50,6 +50,7 @@ from toontown.parties import PartyUtils
 from toontown.uberdog.DataStoreAIClient import DataStoreAIClient
 from toontown.uberdog import DataStoreGlobals
 from toontown.cogdominium import DistributedCogdoInteriorAI
+
 if (simbase.wantKarts):
     from toontown.racing.KartDNA import *
 
