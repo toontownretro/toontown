@@ -1631,7 +1631,8 @@ class ToontownMagicWordManagerAI(MagicWordManagerAI.MagicWordManagerAI):
             messenger.send("onCodeReload")
 
         elif word[:14] == "~cogdoMinigame":
-            self.doCogdoMinigame(word, av, zoneId, senderId)
+            if simbase.air.wantCogdominiums:
+                self.doCogdoMinigame(word, av, zoneId, senderId)
 
         elif wordIs("~emblems"):
             if simbase.air.wantEmblems:
