@@ -8,6 +8,7 @@ from toontown.catalog import CatalogItemList
 from toontown.catalog import CatalogItem
 from toontown.catalog import CatalogItemTypes
 from toontown.catalog import CatalogClothingItem
+from toontown.catalog import CatalogAccessoryItem
 from toontown.toonbase import ToontownGlobals
 from . import ToonDNA
 
@@ -22,6 +23,10 @@ class DistributedToonUD(DistributedObjectUD):
         self.glassesList = []
         self.backpackList = []
         self.shoesList = []
+        self.hat = (0, 0, 0)
+        self.glasses = (0, 0, 0)
+        self.backpack = (0, 0, 0)
+        self.shoes = (0, 0, 0)
         self.emoteAccess = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         self.fishingRod = 0
         
@@ -90,6 +95,12 @@ class DistributedToonUD(DistributedObjectUD):
         
     def getBankMoney(self):
         return self.bankMoney
+
+    def setEmblems(self, emblems):
+        self.emblems = emblems
+        
+    def getEmblems(self):
+        return self.emblems
         
     def setMailboxContents(self, mailboxContents):
         self.notify.debug("Setting mailboxContents to %s." % (mailboxContents))
@@ -154,11 +165,23 @@ class DistributedToonUD(DistributedObjectUD):
     def getHatList(self):
         return self.hatList
 
+    def setHat(self, idx, textureIdx, colorIdx):
+        self.hat = (idx, textureIdx, colorIdx)
+
+    def getHat(self):
+        return self.hat
+
     def setGlassesList(self, clothesList):
         self.glassesList = clothesList
 
     def getGlassesList(self):
         return self.glassesList
+
+    def setGlasses(self, idx, textureIdx, colorIdx):
+        self.glasses = (idx, textureIdx, colorIdx)
+
+    def getGlasses(self):
+        return self.glasses
 
     def setBackpackList(self, clothesList):
         self.backpackList = clothesList
@@ -166,11 +189,23 @@ class DistributedToonUD(DistributedObjectUD):
     def getBackpackList(self):
         return self.backpackList
 
+    def setBackpack(self, idx, textureIdx, colorIdx):
+        self.backpack = (idx, textureIdx, colorIdx)
+
+    def getBackpack(self):
+        return self.backpack
+
     def setShoesList(self, clothesList):
         self.shoesList = clothesList
 
     def getShoesList(self):
         return self.shoesList
+
+    def setShoes(self, idx, textureIdx, colorIdx):
+        self.shoes = (idx, textureIdx, colorIdx)
+
+    def getShoes(self):
+        return self.shoes
 
     def setEmoteAccess(self, bits):
         if len(bits) != len(self.emoteAccess):
@@ -266,6 +301,60 @@ class DistributedToonUD(DistributedObjectUD):
                 self.dna.botTexColor == bottomTexColor:
                 result = ToontownGlobals.P_ItemAlreadyWorn 
         return result
+
+    def checkForAccessoryInTrunk(self, accessoryItem):
+        """Returns None if the accessory item is not in the trunk."""
+        result = None
+        accessoryTypeInfo = CatalogAccessoryItem.AccessoryTypes[accessoryItem.accessoryType]
+        styleStr = accessoryTypeInfo[CatalogAccessoryItem.ATString]
+        if accessoryItem.isHat():
+            styleInfo = ToonDNA.HatStyles[styleStr]
+            itemList = self.hatList
+        elif accessoryItem.areGlasses():
+            styleInfo = ToonDNA.GlassesStyles[styleStr]
+            itemList = self.glassesList
+        elif accessoryItem.isBackpack():
+            styleInfo = ToonDNA.BackpackStyles[styleStr]
+            itemList = self.backpackList
+        else:
+            styleInfo = ToonDNA.ShoesStyles[styleStr]
+            itemList = self.shoesList
+        geomIdx = styleInfo[0]
+        texIdx = styleInfo[1]
+        colorIdx = styleInfo[2]
+        # See if this accessory is already in the trunk
+        for i in range(0, len(itemList), 3):
+            if (itemList[i] == geomIdx and
+                itemList[i+1] == texIdx and
+                itemList[i+2] == colorIdx):
+                # No P_ItemInTrunk...?
+                result = ToontownGlobals.P_ItemInCloset
+                break
+        return result
+
+    def checkForAccessoryAlreadyWorn(self, accessoryItem):
+        """Returns None if the toon is not wearing the accessory item."""
+        result = None
+        accessoryTypeInfo = CatalogAccessoryItem.AccessoryTypes[accessoryItem.accessoryType]
+        styleStr = accessoryTypeInfo[CatalogAccessoryItem.ATString]
+        if accessoryItem.isHat():
+            styleInfo = ToonDNA.HatStyles[styleStr]
+            worn = self.hat
+        elif accessoryItem.areGlasses():
+            styleInfo = ToonDNA.GlassesStyles[styleStr]
+            worn = self.glasses
+        elif accessoryItem.isBackpack():
+            styleInfo = ToonDNA.BackpackStyles[styleStr]
+            worn = self.backpack
+        else:
+            styleInfo = ToonDNA.ShoesStyles[styleStr]
+            worn = self.shoes
+        # See if this accessory is already being worn
+        if (worn[0] == styleInfo[0] and
+            worn[1] == styleInfo[1] and
+            worn[2] == styleInfo[2]):
+            result = ToontownGlobals.P_ItemAlreadyWorn
+        return result
         
     def checkForDuplicateItem(self, catalogItem):
         """Return None if the catalog item is not in his mailbox, or on him somehow"""
@@ -296,4 +385,8 @@ class DistributedToonUD(DistributedObjectUD):
                 trickId = catalogItem.trickId
                 if trickId in self.petTrickPhrases:
                     result = ToontownGlobals.P_ItemInPetTricks
+            elif catalogItem.getTypeCode() == CatalogItemTypes.ACCESSORY_ITEM:
+                result = self.checkForAccessoryInTrunk(catalogItem)
+                if not result:
+                    result = self.checkForAccessoryAlreadyWorn(catalogItem)
         return result

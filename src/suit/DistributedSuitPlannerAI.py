@@ -592,7 +592,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
         self.currDesired = None
         self.baseNumSuits = \
           (self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_MIN] + \
-           self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_MAX]) / 2
+           self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_MAX]) // 2
 
         # Remember the number of buildings we are assigned for this
         # particular street.  This will vary between streets as
@@ -1552,7 +1552,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
         targetBuildingNum += flyInDeficit
         targetBuildingNum = min(targetBuildingNum, self.TOTAL_MAX_SUITS - self.numFlyInSuits)
 
-        buildingDeficit = (targetBuildingNum - self.numBuildingSuits + 3) / 4
+        buildingDeficit = (targetBuildingNum - self.numBuildingSuits + 3) // 4
 
         # Also, while we create from-building suits, we allow them to
         # fall back to fly-in suits if they can't find a door to walk

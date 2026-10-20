@@ -467,6 +467,7 @@ class CatalogItem:
         # to each instance.
         return None
 
+    # Custom: Incompatible with Python 3, succeeded by __lt__, __gt__ and __eq__
 #    def __cmp__(self, other):
 #        # If the classes are different, they must be different objects.
 #        c = cmp(self.__class__, other.__class__)

@@ -1664,7 +1664,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
                 if self._wantSpamDetect and self._spamDetector.avIsBlocked(senderId):
                     self.air.writeServerEvent('suspicious', avId,
                                               'too many invalid code redemption attempts, '
-                                              'submission rejected: %s' % u2ascii(code))
+                                              'submission rejected: %s' % u2ascii(code).decode("ascii"))
                     result = TTCodeRedemptionConsts.RedeemErrors.TooManyAttempts
 
             if result is not None:
