@@ -4553,7 +4553,7 @@ dclass DistributedFindFour: DistributedNode {
         sendTurn(uint8 playerTurn) broadcast ram;
 
         announceWin(uint32 avId) broadcast;
-        announceWinLocation(uint8 x, uint8 y, uint8 dir, uint8 playerNum) broadcast;
+        announceWinLocation(uint8 x, uint8, y, uint8 dir, uint8 playerNum) broadcast;
         announceWinnerPosition(uint8 x, uint8 y, uint8 winDir, uint8 playerNum) broadcast;
         illegalMove() broadcast;
         tie() broadcast;
