@@ -19,7 +19,7 @@ class GreenToonEventMgrAI(HolidayBaseAI.HolidayBaseAI):
     def start(self):
         # instantiate the object
         self.greenToonEmoteMgr = DistributedGreenToonEffectMgrAI.DistributedGreenToonEffectMgrAI(
-            self.air)
+            self.air, self.holidayId)
         self.greenToonEmoteMgr.generateWithRequired(EVENT_ZONE)
         # let the holiday system know we started
         bboard.post(GreenToonEventMgrAI.PostName)
