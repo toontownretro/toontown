@@ -99,7 +99,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
     # integrate everything fully.
     def avatarEnter(self):
         avId = self.air.getAvatarIdFromSender()
-        assert self.notify.debug('%s.avatarEnter(%s)' % (self.doId, avId))
+        assert self.notify.debug('avatarEnter(%s)' % (avId))
 
         self.addToon(avId)
 
