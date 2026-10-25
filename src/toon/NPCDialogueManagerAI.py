@@ -12,17 +12,17 @@ class NPCDialogueManagerAI:
     def __init__(self):
         self.dialogues = []
         
-    def createNewDialogue(self, participant, dialogueTopic):
+    def createNewDialogue(self, participant, dialogueTopic, endPause):
         """
         Create a new dialogue
         """
-        dialogue = NPCDialogue.NPCDialogue(participant, dialogueTopic)
+        dialogue = NPCDialogue.NPCDialogue(participant, dialogueTopic, endPause)
         result = dialogue.start()
         if result:
             self.dialogues.append(dialogue)
         return result
         
-    def requestDialogue(self, participant, dialogueTopic):
+    def requestDialogue(self, participant, dialogueTopic, endPause):
         """
         Request to be added to the dialogue: dialogueTopic
         """
@@ -33,7 +33,7 @@ class NPCDialogueManagerAI:
                     result = dialogue.start()
                 return result        
         
-        result = self.createNewDialogue(participant, dialogueTopic)        
+        result = self.createNewDialogue(participant, dialogueTopic, endPause)        
         return result
         
     def leaveDialogue(self, participant, dialogueTopic):

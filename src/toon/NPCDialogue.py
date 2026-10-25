@@ -5,6 +5,9 @@ from . import DistributedNPCToonBaseAI
 from direct.task import Task
 import random
 
+# Custom: Crashes without
+from panda3d.otp import CFSpeech, CFTimeout
+
 class NPCDialogue:
     """
     The NPC dialogue for a given topic and set of participants
@@ -12,8 +15,10 @@ class NPCDialogue:
 
     notify = DirectNotifyGlobal.directNotify.newCategory("NPCDialogue")
 
-    def __init__(self, participant, dialogueTopic):
+    def __init__(self, participant, dialogueTopic, endPause):
         self.participants = {}        
+        self.endPause = endPause
+        self.finished = 0
         
         if dialogueTopic in TTLocalizer.toontownDialogues:
             self.topic = dialogueTopic
@@ -101,6 +106,8 @@ class NPCDialogue:
         if nextPos>len(self.conversation):
             nextPos = 1
             self.participantProgress = (self.participantProgress+1)%self.maxNumMsgs
+            if self.participantProgress == 0:
+                self.finished = 1
         for partPos in list(self.conversation.keys()):
             if partPos[0] == nextPos:
                 nextParticipant = partPos[1]
@@ -172,6 +179,10 @@ class NPCDialogue:
         self.getNextParticipant()
 
         # Delay before next message
-        self.nextChatTime = now + 5.0
+        delay = 5.0
+        if self.finished:
+            delay += self.endPause
+            self.finished = 0
+        self.nextChatTime = now + delay
 
         return Task.cont

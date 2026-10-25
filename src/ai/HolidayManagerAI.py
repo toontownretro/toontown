@@ -106,10 +106,10 @@ OriginalHolidays = {
     ToontownGlobals.HYDRANT_ZERO_HOLIDAY: 
     { 'startAndEndPairs':       [datetime.datetime( 2010, Month.MAY, 5, 8, 0), # firstMoveArmUp1
                                           datetime.datetime( 2010, Month.JUNE,   12,  11, 55),],
-      'phaseDates': [datetime.datetime( 2010, Month.MAY, 9,  11, 0o5), # firstMoveStruggle
-                     datetime.datetime( 2010, Month.MAY,    13,  11, 0o5), # firstMoveArmUp2
-                     datetime.datetime( 2010, Month.MAY,    18,  11, 0o5), # firstMoveJump hydrants around hydrant zero animate
-                     datetime.datetime( 2010, Month.MAY,   21,  16, 0o5), # firstMoveJumpBalance
+      'phaseDates': [datetime.datetime( 2010, Month.MAY, 9,  11, 5), # firstMoveStruggle
+                     datetime.datetime( 2010, Month.MAY,    13,  11, 5), # firstMoveArmUp2
+                     datetime.datetime( 2010, Month.MAY,    18,  11, 5), # firstMoveJump hydrants around hydrant zero animate
+                     datetime.datetime( 2010, Month.MAY,   21,  16, 5), # firstMoveJumpBalance
                      datetime.datetime( 2010, Month.MAY,   22,  15, 30), # firstMoveArmUp3 Hydrant Zero and his hydrant pals get more elaborate animations
                      datetime.datetime( 2010, Month.JUNE,   3,  15, 30), # firstMoveJumpSpin 
                     ],
@@ -118,12 +118,12 @@ OriginalHolidays = {
     ToontownGlobals.TRASHCAN_ZERO_HOLIDAY: 
     { 'startAndEndPairs':       [datetime.datetime( 2010, Month.MAY, 8,  12, 15), # firstMoveLidFLip1
                                           datetime.datetime( 2010, Month.JUNE,  12,  11, 55),],
-      'phaseDates': [datetime.datetime( 2010, Month.MAY, 11,  11, 0o5), # firstMoveStruggle
-                     datetime.datetime( 2010, Month.MAY,    15,  11, 0o5), # firstMoveLidFlip2
-                     datetime.datetime( 2010, Month.MAY,   20,  11, 0o5), # firstMoveJump trashcans around trashcan zero animate
-                     datetime.datetime( 2010, Month.MAY,   23,  11, 0o5), # firstMoveLidFlip3
+      'phaseDates': [datetime.datetime( 2010, Month.MAY, 11,  11, 5), # firstMoveStruggle
+                     datetime.datetime( 2010, Month.MAY,    15,  11, 5), # firstMoveLidFlip2
+                     datetime.datetime( 2010, Month.MAY,   20,  11, 5), # firstMoveJump trashcans around trashcan zero animate
+                     datetime.datetime( 2010, Month.MAY,   23,  11, 5), # firstMoveLidFlip3
                      datetime.datetime( 2010, Month.MAY,   29,  14, 10), # firstMoveJumpHit Trashcan Zero and his trashcan pals get more elaborate animations
-                     datetime.datetime( 2010, Month.JUNE,   6,  14, 0o1), # firstMoveJumpJuggle
+                     datetime.datetime( 2010, Month.JUNE,   6,  14, 1), # firstMoveJumpJuggle
                      ],
     },    
 
@@ -132,42 +132,42 @@ OriginalHolidays = {
                        datetime.datetime( 2010, Month.JUNE,  12,  11, 55),],
       'phaseDates': [datetime.datetime( 2010, Month.MAY,    16,  16, 55), # firstMoveStruggle & Jump
                      datetime.datetime( 2010, Month.MAY,   21,  16, 55), # firstMoveFlagSpin2
-                     datetime.datetime( 2010, Month.MAY,   23,  17, 0o5), # firstMoveFlagSpin3 mailboxs around mailbox zero animate
-                     datetime.datetime( 2010, Month.JUNE,   1,  11, 0o5), # firstMoveJumpSummersault
-                     datetime.datetime( 2010, Month.JUNE,   5,  12, 0o1), # firstMoveJumpFall Mailbox Zero and his mailbox pals get more elaborate animations
+                     datetime.datetime( 2010, Month.MAY,   23,  17, 5), # firstMoveFlagSpin3 mailboxs around mailbox zero animate
+                     datetime.datetime( 2010, Month.JUNE,   1,  11, 5), # firstMoveJumpSummersault
+                     datetime.datetime( 2010, Month.JUNE,   5,  12, 1), # firstMoveJumpFall Mailbox Zero and his mailbox pals get more elaborate animations
                      datetime.datetime( 2010, Month.JUNE,   8,  11, 45), # firstMoveJump3Summersaults
                      ],
     },
     
     ToontownGlobals.SILLYMETER_HOLIDAY: 
-    { 'startAndEndPairs':       [datetime.datetime( 2010, Month.MAY,    14,   0,  0o1),          # Stage 1 animates
-                                         datetime.datetime( 2010, Month.JULY,  14,   0,  0o1),],
-      'phaseDates': [datetime.datetime( 2010, Month.MAY,   17,   16,  0o1),    # Stage 1 animates, stage 2 built
-                     datetime.datetime( 2010, Month.MAY,   19,   00,  0o1),           # Stage 1 loc 2
-                     datetime.datetime( 2010, Month.MAY,   22,   14,  0o1),           # Stage 1 loc 3                     
-                     datetime.datetime( 2010, Month.MAY,   24,   17,  0o1),           # Stage 1 loc 4
+    { 'startAndEndPairs':       [datetime.datetime( 2010, Month.MAY,    14,   0,  1),          # Stage 1 animates
+                                         datetime.datetime( 2010, Month.JULY,  14,   0,  1),],
+      'phaseDates': [datetime.datetime( 2010, Month.MAY,   17,   16,  1),    # Stage 1 animates, stage 2 built
+                     datetime.datetime( 2010, Month.MAY,   19,   00,  1),           # Stage 1 loc 2
+                     datetime.datetime( 2010, Month.MAY,   22,   14,  1),           # Stage 1 loc 3                     
+                     datetime.datetime( 2010, Month.MAY,   24,   17,  1),           # Stage 1 loc 4
                      
-                     datetime.datetime( 2010, Month.MAY,   26,   00,  0o1),           # Stage 2 loc 5
-                     datetime.datetime( 2010, Month.MAY,   30,   10,  0o1),           # Stage 2 loc 6
+                     datetime.datetime( 2010, Month.MAY,   26,   00,  1),           # Stage 2 loc 5
+                     datetime.datetime( 2010, Month.MAY,   30,   10,  1),           # Stage 2 loc 6
                      
-                     datetime.datetime( 2010, Month.JUNE,   2,   0,  0o1),           # Stage 3 is added and animates
+                     datetime.datetime( 2010, Month.JUNE,   2,   0,  1),           # Stage 3 is added and animates
                      datetime.datetime( 2010, Month.JUNE,   5,  12,  00),           # Stage 3 loc 8
-                     datetime.datetime( 2010, Month.JUNE,   8,   10,  0o1),            # Stage 3 loc 9
+                     datetime.datetime( 2010, Month.JUNE,   8,   10,  1),            # Stage 3 loc 9
                      
-                     datetime.datetime( 2010, Month.JUNE,   9,   00,  0o1),            # Stage 4 animates
-                     datetime.datetime( 2010, Month.JUNE,   12,   10,  0o1),          # Stage 4 loc 11
-                     datetime.datetime( 2010, Month.JUNE,   12,  12,  0o1),           # Stage 4 loc 12
+                     datetime.datetime( 2010, Month.JUNE,   9,   00,  1),            # Stage 4 animates
+                     datetime.datetime( 2010, Month.JUNE,   12,   10,  1),          # Stage 4 loc 11
+                     datetime.datetime( 2010, Month.JUNE,   12,  12,  1),           # Stage 4 loc 12
                      
                      datetime.datetime( 2010, Month.JUNE,   13,   13, 30),          # Stage 5 silly meter plummets
                      
-                     datetime.datetime( 2010, Month.JUNE,   14,   0, 0o1),          # Scientist chatter change
+                     datetime.datetime( 2010, Month.JUNE,   14,   0, 1),          # Scientist chatter change
                      
-                     datetime.datetime( 2010, Month.JUNE, 28, 0, 0o1),                  # Silly meter shuts down
+                     datetime.datetime( 2010, Month.JUNE, 28, 0, 1),                  # Silly meter shuts down
                      ],
     },
 
     ToontownGlobals.SILLY_SURGE_HOLIDAY: 
-    { 'startAndEndPairs':       [datetime.datetime( 2010, Month.MAY,    14,   0,  0o1), 
+    { 'startAndEndPairs':       [datetime.datetime( 2010, Month.MAY,    14,   0,  1), 
                                          datetime.datetime( 2010, Month.JUNE,   13,   13,  30), ],     # Cogs invade and silly surges fizzle out
     },
     
@@ -421,56 +421,80 @@ OriginalHolidays = {
     },    
     
     ToontownGlobals.ROBBER_BARON_INVASION:
-    { 'startAndEndPairs' : [datetime.datetime( 2010, Month.JUNE, 27, 2, 0o1),
+    { 'startAndEndPairs' : [datetime.datetime( 2010, Month.JUNE, 27, 2, 1),
                                      datetime.datetime( 2010, Month.JUNE, 27, 4, 00),
                                      
-                                     datetime.datetime( 2010, Month.JUNE, 27, 10, 0o1),
+                                     datetime.datetime( 2010, Month.JUNE, 27, 10, 1),
                                      datetime.datetime( 2010, Month.JUNE, 27, 12, 00),
 
-                                     datetime.datetime( 2010, Month.JUNE, 27, 18, 0o1),
+                                     datetime.datetime( 2010, Month.JUNE, 27, 18, 1),
                                      datetime.datetime( 2010, Month.JUNE, 27, 20, 00),],    
     },    
     
     ToontownGlobals.BIG_WIG_INVASION:
-    { 'startAndEndPairs' : [datetime.datetime( 2010, Month.JUNE, 27, 4, 0o1),
+    { 'startAndEndPairs' : [datetime.datetime( 2010, Month.JUNE, 27, 4, 1),
                                      datetime.datetime( 2010, Month.JUNE, 27, 6, 00),
                                      
-                                     datetime.datetime( 2010, Month.JUNE, 27, 12, 0o1),
+                                     datetime.datetime( 2010, Month.JUNE, 27, 12, 1),
                                      datetime.datetime( 2010, Month.JUNE, 27, 14, 00),
 
-                                     datetime.datetime( 2010, Month.JUNE, 27, 20, 0o1),
+                                     datetime.datetime( 2010, Month.JUNE, 27, 20, 1),
                                      datetime.datetime( 2010, Month.JUNE, 27, 22, 00),],    
     },    
     
     ToontownGlobals.BIG_CHEESE_INVASION:
-    { 'startAndEndPairs' : [datetime.datetime( 2010, Month.JUNE, 27, 6, 0o1),
+    { 'startAndEndPairs' : [datetime.datetime( 2010, Month.JUNE, 27, 6, 1),
                                      datetime.datetime( 2010, Month.JUNE, 27, 8, 00),
                                      
-                                     datetime.datetime( 2010, Month.JUNE, 27, 14, 0o1),
+                                     datetime.datetime( 2010, Month.JUNE, 27, 14, 1),
                                      datetime.datetime( 2010, Month.JUNE, 27, 16, 00),
 
-                                     datetime.datetime( 2010, Month.JUNE, 27, 22, 0o1),
+                                     datetime.datetime( 2010, Month.JUNE, 27, 22, 1),
                                      datetime.datetime( 2010, Month.JUNE, 27, 23, 59),],    
     },    
     
     ToontownGlobals.HYDRANTS_BUFF_BATTLES: 
-    { 'startAndEndPairs':    [datetime.datetime( 2010, Month.JUNE,   12,  12, 0o1), # they just animate but don't help
+    { 'startAndEndPairs':    [datetime.datetime( 2010, Month.JUNE,   12,  12, 1), # they just animate but don't help
                                         datetime.datetime( 2031, Month.JUNE,   7,   3,  0),],
       'phaseDates': [datetime.datetime( 2010, Month.JUNE,   14,   3,  0),], # they're actually helping now
     },
 
     ToontownGlobals.MAILBOXES_BUFF_BATTLES: 
-    { 'startAndEndPairs':       [datetime.datetime( 2010, Month.JUNE,   12,  12, 0o1), # they just animate but don't help
+    { 'startAndEndPairs':       [datetime.datetime( 2010, Month.JUNE,   12,  12, 1), # they just animate but don't help
                                            datetime.datetime( 2031, Month.JUNE,  11,   3,  0),], #forever, impressive if we hit this!
-      'phaseDates': [datetime.datetime( 2010, Month.JUNE,  18,   00,  0o1),], # they're actually helping now      
+      'phaseDates': [datetime.datetime( 2010, Month.JUNE,  18,   00,  1),], # they're actually helping now      
     },
 
     ToontownGlobals.TRASHCANS_BUFF_BATTLES: 
-    { 'startAndEndPairs':       [datetime.datetime( 2010, Month.JUNE,   12,  12, 0o1), # they just animate but don't help
+    { 'startAndEndPairs':       [datetime.datetime( 2010, Month.JUNE,   12,  12, 1), # they just animate but don't help
                                           datetime.datetime( 2031, Month.JUNE,  11,   3,  0), ], #forever, impressive if we hit this!
-      'phaseDates': [datetime.datetime( 2010, Month.JUNE,  18,  00,  0o1),], # they're actually helping now 
+      'phaseDates': [datetime.datetime( 2010, Month.JUNE,  18,  00,  1),], # they're actually helping now 
     },
     
+    ToontownGlobals.SILLYMETER_EXT_HOLIDAY: 
+    { 'startAndEndPairs':       [datetime.datetime( 2013, Month.AUGUST,    24,   0,  1),          # Stage 1 animates
+                                         datetime.datetime( 2013, Month.SEPTEMBER,  20,   1,  1),],
+      'phaseDates': [datetime.datetime( 2013, Month.AUGUST,   24,   00,  2),    # Stage 1 animates, stage 2 built
+                     datetime.datetime( 2013, Month.AUGUST,   24,   00,  3),           # Stage 1 loc 2
+                     datetime.datetime( 2013, Month.AUGUST,   24,   00,  4),           # Stage 1 loc 3                     
+                     datetime.datetime( 2013, Month.AUGUST,   24,   00,  5),           # Stage 1 loc 4
+                     datetime.datetime( 2013, Month.AUGUST,   24,   00,  6),           # Stage 2 loc 5
+                     datetime.datetime( 2013, Month.AUGUST,   24,   00,  7),           # Stage 2 loc 6
+                     datetime.datetime( 2013, Month.AUGUST,   24,   00,  8),           # Stage 3 is added and animates
+                     datetime.datetime( 2013, Month.AUGUST,   24,  00,  9),           # Stage 3 loc 8
+                     datetime.datetime( 2013, Month.AUGUST,   24,   00,  10),            # Stage 3 loc 9
+                     datetime.datetime( 2013, Month.AUGUST,   24,   00,  11),            # Stage 4 animates
+                     datetime.datetime( 2013, Month.AUGUST,   24,   00,  12),          # Stage 4 loc 11
+
+                     # This should be the only phase that should run throughout the whole event
+                     datetime.datetime( 2013, Month.AUGUST,   24,  00,  13),           # Stage 4 loc 12
+
+                     datetime.datetime( 2013, Month.SEPTEMBER,   20,   0, 1),          # Stage 5 silly meter plummets
+                     datetime.datetime( 2013, Month.SEPTEMBER,   20,   0, 2),          # Scientist chatter change
+                     datetime.datetime( 2013, Month.SEPTEMBER, 20, 0, 3),                  # Silly meter shuts down
+                     ],
+    },
+
 }
 
 AdjustedHolidays = {}
@@ -538,8 +562,8 @@ class HolidayManagerAI:
 
         ToontownGlobals.HALLOWEEN: HolidayInfo_Yearly(
         HolidaySuitInvasionManagerAI.HolidaySuitInvasionManagerAI,
-        [ (Month.OCTOBER, 31, 0o2, 0, 0),         # 2am-6am PST
-          (Month.OCTOBER, 31, 0o7, 0, 0),
+        [ (Month.OCTOBER, 31, 2, 0, 0),         # 2am-6am PST
+          (Month.OCTOBER, 31, 7, 0, 0),
         
           (Month.OCTOBER, 31, 10, 0, 0),        # 10am-3pm PST, 1pm-6pm EST
           (Month.OCTOBER, 31, 15, 0, 0),
@@ -547,8 +571,8 @@ class HolidayManagerAI:
           (Month.OCTOBER, 31, 18, 0, 0),        # 6pm-10pm PST, 9pm-1am EST
           (Month.OCTOBER, 31, 23, 0, 0),
           
-          (Month.NOVEMBER, 1, 0o2, 0, 0),        # 2am-6am PST
-          (Month.NOVEMBER, 1, 0o7, 0, 0),
+          (Month.NOVEMBER, 1, 2, 0, 0),        # 2am-6am PST
+          (Month.NOVEMBER, 1, 7, 0, 0),
 
           (Month.NOVEMBER, 1, 10, 0, 0),        # 10am-2pm PST, 1pm-5pm EST
           (Month.NOVEMBER, 1, 15, 0, 0),
@@ -977,6 +1001,16 @@ class HolidayManagerAI:
         AdjustedHolidays[ToontownGlobals.TRASHCANS_BUFF_BATTLES]['startAndEndPairs'], 
         displayOnCalendar = False,
         phaseDates = AdjustedHolidays[ToontownGlobals.TRASHCANS_BUFF_BATTLES]['phaseDates'],        
+        ),
+
+        # Blog posted on Aug 23 2013
+        # Lasted until closure Sep 19 2013
+        ToontownGlobals.SILLYMETER_EXT_HOLIDAY: HolidayInfo_Oncely(
+        SillyMeterHolidayAI.SillyMeterHolidayAI,
+        # Silly Meter animating
+        AdjustedHolidays[ToontownGlobals.SILLYMETER_EXT_HOLIDAY]['startAndEndPairs'],
+        displayOnCalendar = False,
+        phaseDates = AdjustedHolidays[ToontownGlobals.SILLYMETER_EXT_HOLIDAY]['phaseDates'],
         ),
     }
     
@@ -1816,16 +1850,6 @@ class HolidayManagerAI:
 
         # Blog posted on Aug 23 2013
         # Lasted until closure Sep 19 2013
-        #ToontownGlobals.SILLYMETER_EXT_HOLIDAY: HolidayInfo_Oncely(
-        #SillyMeterHolidayAI.SillyMeterHolidayAI,
-        ## Silly Meter animating
-        #AdjustedHolidays[ToontownGlobals.SILLYMETER_EXT_HOLIDAY]['startAndEndPairs'],
-        #displayOnCalendar = False,
-        #phaseDates = AdjustedHolidays[ToontownGlobals.SILLYMETER_EXT_HOLIDAY]['phaseDates'],
-        #),
-
-        # Blog posted on Aug 23 2013
-        # Lasted until closure Sep 19 2013
         ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY_MONTH: HolidayInfo_Oncely(
         None,
         [(2013, Month.AUGUST, 23, 0, 0, 1),
@@ -1974,29 +1998,29 @@ class HolidayManagerAI:
           (Month.JULY, 31, 18, 0, 0),
           (Month.JULY, 31, 20, 30, 0),
 
-          (Month.AUGUST, 4, 0o1, 0, 0),
-          (Month.AUGUST, 4, 0o5, 30, 0),
+          (Month.AUGUST, 4, 1, 0, 0),
+          (Month.AUGUST, 4, 5, 30, 0),
 
-          (Month.AUGUST, 5, 0o1, 0, 0),
-          (Month.AUGUST, 5, 0o5, 30, 0),
+          (Month.AUGUST, 5, 1, 0, 0),
+          (Month.AUGUST, 5, 5, 30, 0),
 
-          (Month.AUGUST, 6, 0o1, 0, 0),
-          (Month.AUGUST, 6, 0o5, 30, 0),
+          (Month.AUGUST, 6, 1, 0, 0),
+          (Month.AUGUST, 6, 5, 30, 0),
 
-          (Month.AUGUST, 7, 0o1, 0, 0),
-          (Month.AUGUST, 7, 0o5, 30, 0),
+          (Month.AUGUST, 7, 1, 0, 0),
+          (Month.AUGUST, 7, 5, 30, 0),
 
-          (Month.AUGUST, 8, 0o1, 0, 0),
-          (Month.AUGUST, 8, 0o5, 30, 0),
+          (Month.AUGUST, 8, 1, 0, 0),
+          (Month.AUGUST, 8, 5, 30, 0),
 
-          (Month.AUGUST, 9, 0o1, 0, 0),
-          (Month.AUGUST, 9, 0o5, 30, 0),
+          (Month.AUGUST, 9, 1, 0, 0),
+          (Month.AUGUST, 9, 5, 30, 0),
 
-          (Month.AUGUST, 10, 0o1, 0, 0),
-          (Month.AUGUST, 10, 0o5, 30, 0),
+          (Month.AUGUST, 10, 1, 0, 0),
+          (Month.AUGUST, 10, 5, 30, 0),
 
-          (Month.AUGUST, 11, 0o1, 0, 0),
-          (Month.AUGUST, 11, 0o5, 30, 0)],
+          (Month.AUGUST, 11, 1, 0, 0),
+          (Month.AUGUST, 11, 5, 30, 0)],
         displayOnCalendar = False,
         ),
 
