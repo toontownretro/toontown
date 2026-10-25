@@ -37,7 +37,10 @@ class DistributedToonHallInteriorAI(DistributedToonInteriorAI):
         # first see if the holiday is running, and we can get the cur phase
         if ToontownGlobals.SILLYMETER_HOLIDAY in simbase.air.holidayManager.currentHolidays \
         and simbase.air.holidayManager.currentHolidays[ToontownGlobals.SILLYMETER_HOLIDAY] != None \
-                and simbase.air.holidayManager.currentHolidays[ToontownGlobals.SILLYMETER_HOLIDAY].getRunningState():
+                and simbase.air.holidayManager.currentHolidays[ToontownGlobals.SILLYMETER_HOLIDAY].getRunningState() \
+        or ToontownGlobals.SILLYMETER_EXT_HOLIDAY in simbase.air.holidayManager.currentHolidays \
+        and simbase.air.holidayManager.currentHolidays[ToontownGlobals.SILLYMETER_EXT_HOLIDAY] != None \
+                and simbase.air.holidayManager.currentHolidays[ToontownGlobals.SILLYMETER_EXT_HOLIDAY].getRunningState():
             if hasattr(simbase.air, "SillyMeterMgr"):
                 enoughInfoToRun = True
             else:
