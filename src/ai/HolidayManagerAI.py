@@ -139,32 +139,55 @@ OriginalHolidays = {
                      ],
     },
     
-    ToontownGlobals.SILLYMETER_HOLIDAY: 
-    { 'startAndEndPairs':       [datetime.datetime( 2010, Month.MAY,    14,   0,  1),          # Stage 1 animates
-                                         datetime.datetime( 2010, Month.JULY,  14,   0,  1),],
-      'phaseDates': [datetime.datetime( 2010, Month.MAY,   17,   16,  1),    # Stage 1 animates, stage 2 built
-                     datetime.datetime( 2010, Month.MAY,   19,   00,  1),           # Stage 1 loc 2
-                     datetime.datetime( 2010, Month.MAY,   22,   14,  1),           # Stage 1 loc 3                     
-                     datetime.datetime( 2010, Month.MAY,   24,   17,  1),           # Stage 1 loc 4
-                     
-                     datetime.datetime( 2010, Month.MAY,   26,   00,  1),           # Stage 2 loc 5
-                     datetime.datetime( 2010, Month.MAY,   30,   10,  1),           # Stage 2 loc 6
-                     
-                     datetime.datetime( 2010, Month.JUNE,   2,   0,  1),           # Stage 3 is added and animates
-                     datetime.datetime( 2010, Month.JUNE,   5,  12,  00),           # Stage 3 loc 8
-                     datetime.datetime( 2010, Month.JUNE,   8,   10,  1),            # Stage 3 loc 9
-                     
-                     datetime.datetime( 2010, Month.JUNE,   9,   00,  1),            # Stage 4 animates
-                     datetime.datetime( 2010, Month.JUNE,   12,   10,  1),          # Stage 4 loc 11
-                     datetime.datetime( 2010, Month.JUNE,   12,  12,  1),           # Stage 4 loc 12
-                     
-                     datetime.datetime( 2010, Month.JUNE,   13,   13, 30),          # Stage 5 silly meter plummets
-                     
-                     datetime.datetime( 2010, Month.JUNE,   14,   0, 1),          # Scientist chatter change
-                     
-                     datetime.datetime( 2010, Month.JUNE, 28, 0, 1),                  # Silly meter shuts down
-                     ],
-    },
+#    ToontownGlobals.SILLYMETER_HOLIDAY: 
+#    { 'startAndEndPairs':       [datetime.datetime( 2010, Month.MAY,    14,   0,  1),          # Stage 1 animates
+#                                         datetime.datetime( 2010, Month.JULY,  14,   0,  1),],
+#      'phaseDates': [datetime.datetime( 2010, Month.MAY,   17,   16,  1),    # Stage 1 animates, stage 2 built
+#                     datetime.datetime( 2010, Month.MAY,   19,   00,  1),           # Stage 1 loc 2
+#                     datetime.datetime( 2010, Month.MAY,   22,   14,  1),           # Stage 1 loc 3                     
+#                     datetime.datetime( 2010, Month.MAY,   24,   17,  1),           # Stage 1 loc 4
+#                     
+#                     datetime.datetime( 2010, Month.MAY,   26,   00,  1),           # Stage 2 loc 5
+#                     datetime.datetime( 2010, Month.MAY,   30,   10,  1),           # Stage 2 loc 6
+#                     
+#                     datetime.datetime( 2010, Month.JUNE,   2,   0,  1),           # Stage 3 is added and animates
+#                     datetime.datetime( 2010, Month.JUNE,   5,  12,  00),           # Stage 3 loc 8
+#                     datetime.datetime( 2010, Month.JUNE,   8,   10,  1),            # Stage 3 loc 9
+#                     
+#                     datetime.datetime( 2010, Month.JUNE,   9,   00,  1),            # Stage 4 animates
+#                     datetime.datetime( 2010, Month.JUNE,   12,   10,  1),          # Stage 4 loc 11
+#                     datetime.datetime( 2010, Month.JUNE,   12,  12,  1),           # Stage 4 loc 12
+#                     
+#                     datetime.datetime( 2010, Month.JUNE,   13,   13, 30),          # Stage 5 silly meter plummets
+#                     
+#                     datetime.datetime( 2010, Month.JUNE,   14,   0, 1),          # Scientist chatter change
+#                     
+#                     datetime.datetime( 2010, Month.JUNE, 28, 0, 1),                  # Silly meter shuts down
+#                     ],
+#    },
+
+#    # Mostly guessed it starts on March 23 and should peak with the start of april fools
+#    # it changed stages each day at 12 PM
+#    ToontownGlobals.SILLYMETER_HOLIDAY: 
+#    { 'startAndEndPairs':       [datetime.datetime( Month.MARCH,    23,   0,  1),          # Stage 1 animates
+#                                         datetime.datetime( Month.APRIL,  12,   0,  1),],
+#      'phaseDates': [datetime.datetime( Month.MARCH,   24,   12,    1),   # Stage 1 animates, stage 2 built
+#                     datetime.datetime( Month.MARCH,   25,    0,    1),   # Stage 1 loc 2
+#                     datetime.datetime( Month.MARCH,   25,   12,    1),   # Stage 1 loc 3                     
+#                     datetime.datetime( Month.MARCH,   26,    0,    1),   # Stage 1 loc 4
+#                     datetime.datetime( Month.MARCH,   26,   12,    1),   # Stage 2 loc 5
+#                     datetime.datetime( Month.MARCH,   27,    0,    1),   # Stage 2 loc 6
+#                     datetime.datetime( Month.MARCH,   27,   12,    1),   # Stage 3 is added and animates
+#                     datetime.datetime( Month.MARCH,   28,    0,    1),   # Stage 3 loc 8
+#                     datetime.datetime( Month.MARCH,   28,   12,    1),   # Stage 3 loc 9
+#                     datetime.datetime( Month.MARCH,   29,    0,    1),   # Stage 4 animates
+#                     datetime.datetime( Month.MARCH,   29,   12,    1),   # Stage 4 loc 11
+#                     datetime.datetime( Month.MARCH,   30,    0,    1),   # Stage 4 loc 12
+#                     datetime.datetime( Month.APRIL,   7,    23,    58),   # Stage 5 silly meter plummets
+#                     datetime.datetime( Month.APRIL,   7,    23,    59),   # Scientist chatter change
+#                     datetime.datetime( Month.APRIL,   11,   23,   59),   # Silly meter shuts down
+#                     ],
+#    },
 
     ToontownGlobals.SILLY_SURGE_HOLIDAY: 
     { 'startAndEndPairs':       [datetime.datetime( 2010, Month.MAY,    14,   0,  1), 
@@ -889,7 +912,15 @@ class HolidayManagerAI:
         phaseDates = AdjustedHolidays[ToontownGlobals.TRASHCAN_ZERO_HOLIDAY]['phaseDates'],        
         ),           
 
-        ToontownGlobals.SILLYMETER_HOLIDAY: HolidayInfo_Oncely(
+#        ToontownGlobals.SILLYMETER_HOLIDAY: HolidayInfo_Oncely(
+#        SillyMeterHolidayAI.SillyMeterHolidayAI,
+#        # Silly Meter animating
+#        AdjustedHolidays[ToontownGlobals.SILLYMETER_HOLIDAY]['startAndEndPairs'], 
+#        displayOnCalendar = False,
+#        phaseDates = AdjustedHolidays[ToontownGlobals.SILLYMETER_HOLIDAY]['phaseDates'],
+#        ), 
+		
+        ToontownGlobals.SILLYMETER_HOLIDAY: HolidayInfo_Yearly(
         SillyMeterHolidayAI.SillyMeterHolidayAI,
         # Silly Meter animating
         AdjustedHolidays[ToontownGlobals.SILLYMETER_HOLIDAY]['startAndEndPairs'], 
