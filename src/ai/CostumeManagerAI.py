@@ -93,6 +93,7 @@ class CostumeManagerAI(HolidayBaseAI.HolidayBaseAI, DirectObject.DirectObject):
                 elif isinstance(hood, OZHoodDataAI.OZHoodDataAI) and hood.classicChars:
                     self.hoods.append(hood)
                     self.__classicChars[str(hood)] = 1
+                    # Special case since only Chip supports costume transition
                     hood.classicChars[0].transitionCostume()
 
         elif(self.holidayId == ToontownGlobals.APRIL_FOOLS_COSTUMES):
