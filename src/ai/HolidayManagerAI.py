@@ -920,13 +920,13 @@ class HolidayManagerAI:
 #        phaseDates = AdjustedHolidays[ToontownGlobals.SILLYMETER_HOLIDAY]['phaseDates'],
 #        ), 
 		
-        ToontownGlobals.SILLYMETER_HOLIDAY: HolidayInfo_Yearly(
-        SillyMeterHolidayAI.SillyMeterHolidayAI,
-        # Silly Meter animating
-        AdjustedHolidays[ToontownGlobals.SILLYMETER_HOLIDAY]['startAndEndPairs'], 
-        displayOnCalendar = False,
-        phaseDates = AdjustedHolidays[ToontownGlobals.SILLYMETER_HOLIDAY]['phaseDates'],
-        ), 
+#        ToontownGlobals.SILLYMETER_HOLIDAY: HolidayInfo_Yearly(
+#        SillyMeterHolidayAI.SillyMeterHolidayAI,
+#        # Silly Meter animating
+#        AdjustedHolidays[ToontownGlobals.SILLYMETER_HOLIDAY]['startAndEndPairs'], 
+#        displayOnCalendar = False,
+#        phaseDates = AdjustedHolidays[ToontownGlobals.SILLYMETER_HOLIDAY]['phaseDates'],
+#        ), 
 		
         ToontownGlobals.SILLY_SURGE_HOLIDAY: HolidayInfo_Oncely(
         None,
