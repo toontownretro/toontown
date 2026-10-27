@@ -15,7 +15,7 @@ class NPCDialogue:
 
     notify = DirectNotifyGlobal.directNotify.newCategory("NPCDialogue")
 
-    def __init__(self, participant, dialogueTopic, endPause):
+    def __init__(self, participant, dialogueTopic, endPause=0):
         self.participants = {}        
         self.endPause = endPause
         self.finished = 0

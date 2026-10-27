@@ -12,17 +12,17 @@ class NPCDialogueManagerAI:
     def __init__(self):
         self.dialogues = []
         
-    def createNewDialogue(self, participant, dialogueTopic, endPause):
+    def createNewDialogue(self, participant, dialogueTopic, endPause=0):
         """
         Create a new dialogue
         """
-        dialogue = NPCDialogue.NPCDialogue(participant, dialogueTopic, endPause)
+        dialogue = NPCDialogue.NPCDialogue(participant, dialogueTopic, endPause=0)
         result = dialogue.start()
         if result:
             self.dialogues.append(dialogue)
         return result
         
-    def requestDialogue(self, participant, dialogueTopic, endPause):
+    def requestDialogue(self, participant, dialogueTopic, endPause=0):
         """
         Request to be added to the dialogue: dialogueTopic
         """
