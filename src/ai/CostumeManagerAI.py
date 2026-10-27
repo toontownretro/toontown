@@ -241,7 +241,7 @@ class CostumeManagerAI(HolidayBaseAI.HolidayBaseAI, DirectObject.DirectObject):
     # Same as above but exclusive to Outdoor Zone
     def __switchOzChars(self, newChip, newDale, walkNode, hood):
         oldChip, oldDale = hood.classicChars
-        self.notify.debug("SwitchingChars %s to %s" % (oldChip, newChip))
+        self.notify.debug("SwitchingChars %s to %s" %(oldChip, newChip))
         self.notify.debugStateCall(self)
         # Kind of a hack to make this work, since Dale has no off state
         if oldDale.fsm.getCurrentState().getName() != 'Off':
