@@ -15,29 +15,31 @@ class DistributedJailbirdDaleAI(DistributedDaleAI.DistributedDaleAI):
 
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedJailbirdDaleAI")
 
-    def __init__(self, air):
+    def __init__(self, air, chipId):
         DistributedCCharBaseAI.DistributedCCharBaseAI.__init__(self, air, TTLocalizer.JailbirdDale)
+        self.chipId =chipId
+        self.chip = air.doId2do.get(chipId)
         self.fsm = ClassicFSM.ClassicFSM('DistributedJailbirdDaleAI',
                            [State.State('Off',
                                         self.enterOff,
                                         self.exitOff,
-                                        ['Lonely', 'TransitionToCostume', 'Walk']),
+                                        ['Lonely']),
                             State.State('Lonely',
                                         self.enterLonely,
                                         self.exitLonely,
-                                        ['Chatty', 'Walk', 'TransitionToCostume']),
+                                        ['Chatty', 'FollowChip', 'Walk']),
                             State.State('Chatty',
                                         self.enterChatty,
                                         self.exitChatty,
-                                        ['Lonely', 'Walk', 'TransitionToCostume']),
+                                        ['Lonely', 'FollowChip', 'Walk']),
                             State.State('Walk',
                                         self.enterWalk,
                                         self.exitWalk,
-                                        ['Lonely', 'Chatty', 'TransitionToCostume']),
-                            State.State('TransitionToCostume',
-                                            self.enterTransitionToCostume,
-                                            self.exitTransitionToCostume,
-                                            ['Off']),
+                                        ['Lonely', 'Chatty']),
+                            State.State('FollowChip',
+                                        self.enterFollowChip,
+                                        self.exitFollowChip,
+                                        ['Lonely', 'Chatty', 'FollowChip']),                            
                             ],
                            # Initial State
                            'Off',
@@ -45,7 +47,5 @@ class DistributedJailbirdDaleAI(DistributedDaleAI.DistributedDaleAI):
                            'Off',
                            )
 
-        # We do not want to move into the transitionCostume state unless signalled to do so.
-        self.transitionToCostume = 0
         self.fsm.enterInitialState()
-        
+        self.handleHolidays()

@@ -42,6 +42,11 @@ class CostumeManagerAI(HolidayBaseAI.HolidayBaseAI, DirectObject.DirectObject):
         # For use with magic words
         self.stopForever = False
 
+    def __getChars(self, hood):
+        if hasattr(hood, "classicChars"):
+            return hood.classicChars
+        return [hood.classicChar]
+
     # Overridden function
     ######################################################
     # General format: if(self.holidayId == HOLIDAY_ID)
@@ -85,12 +90,10 @@ class CostumeManagerAI(HolidayBaseAI.HolidayBaseAI, DirectObject.DirectObject):
                     self.hoods.append(hood)
                     self.__classicChars[str(hood)] = 1
                     hood.classicChar.transitionCostume()
-                #elif isinstance(hood, OZHoodDataAI.OZHoodDataAI):
-                #    self.hoods.append(hood)
-                #    self.__classicChars[str(hood)] = 1
-                #    # Special since OZ has 2 classic characters
-                #    for char in hood.classicChars:
-                #        char.transitionCostume()
+                elif isinstance(hood, OZHoodDataAI.OZHoodDataAI) and hood.classicChars:
+                    self.hoods.append(hood)
+                    self.__classicChars[str(hood)] = 1
+                    hood.classicChars[0].transitionCostume()
 
         elif(self.holidayId == ToontownGlobals.APRIL_FOOLS_COSTUMES):
             self.accept("TTHoodSpawned", self.__welcomeValleySpawned)
@@ -146,7 +149,7 @@ class CostumeManagerAI(HolidayBaseAI.HolidayBaseAI, DirectObject.DirectObject):
             self.ignore("TTHoodSpawned")
             self.ignore("GSHoodSpawned")
             for hood in self.hoods:
-                hood.classicChar.transitionCostume()
+                self.__getChars(hood)[0].transitionCostume()
                 self.__classicChars[str(hood)] = 0
 
     def getRunningState(self):
@@ -160,8 +163,9 @@ class CostumeManagerAI(HolidayBaseAI.HolidayBaseAI, DirectObject.DirectObject):
         if(self.holidayId == ToontownGlobals.HALLOWEEN_COSTUMES or \
            self.holidayId == ToontownGlobals.SPOOKY_COSTUMES):
             for hood in self.hoods:
-                if hood.classicChar == curChar:
-                    hood.classicChar.fadeAway()
+                if curChar in self.__getChars(hood):
+                    for char in self.__getChars(hood):
+                        char.fadeAway()
                     if(curChar.getName() == TTLocalizer.VampireMickey):
                         taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedMickeyAI.DistributedMickeyAI, curWalkNode, hood])
                     elif(curChar.getName() == TTLocalizer.Mickey):
@@ -178,22 +182,18 @@ class CostumeManagerAI(HolidayBaseAI.HolidayBaseAI, DirectObject.DirectObject):
                         taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedWesternPlutoAI.DistributedWesternPlutoAI, curWalkNode, hood])
                     elif(curChar.getName() == TTLocalizer.WesternPluto):
                         taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedPlutoAI.DistributedPlutoAI, curWalkNode, hood])
-                    if(curChar.getName() == TTLocalizer.SockHopDaisy):
+                    elif(curChar.getName() == TTLocalizer.SockHopDaisy):
                         taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedDaisyAI.DistributedDaisyAI, curWalkNode, hood])
                     elif(curChar.getName() == TTLocalizer.Daisy):
                         taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedSockHopDaisyAI.DistributedSockHopDaisyAI, curWalkNode, hood])
-                    if(curChar.getName() == TTLocalizer.FrankenDonald):
+                    elif(curChar.getName() == TTLocalizer.FrankenDonald):
                         taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedDonaldAI.DistributedDonaldAI, curWalkNode, hood])
                     elif(curChar.getName() == TTLocalizer.Donald):
                         taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedFrankenDonaldAI.DistributedFrankenDonaldAI, curWalkNode, hood])
-                    if(curChar.getName() == TTLocalizer.Chip):
-                        taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedChipAI.DistributedChipAI, curWalkNode, hood])
+                    elif(curChar.getName() == TTLocalizer.Chip):
+                        taskMgr.doMethodLater(0.5, self.__switchOzChars, "SwitchChars"+str(hood), extraArgs = [DistributedPoliceChipAI.DistributedPoliceChipAI, DistributedJailbirdDaleAI.DistributedJailbirdDaleAI, curWalkNode, hood])
                     elif(curChar.getName() == TTLocalizer.PoliceChip):
-                        taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedPoliceChipAI.DistributedPoliceChipAI, curWalkNode, hood])
-                    if(curChar.getName() == TTLocalizer.Dale):
-                        taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedDaleAI.DistributedDaleAI, curWalkNode, hood])
-                    elif(curChar.getName() == TTLocalizer.JailbirdDale):
-                        taskMgr.doMethodLater(0.5, self.__switchChars, "SwitchChars"+str(hood), extraArgs = [DistributedJailbirdDaleAI.DistributedJailbirdDaleAI, curWalkNode, hood])
+                        taskMgr.doMethodLater(0.5, self.__switchOzChars, "SwitchChars"+str(hood), extraArgs = [DistributedChipAI.DistributedChipAI, DistributedDaleAI.DistributedDaleAI, curWalkNode, hood])
         elif(self.holidayId == ToontownGlobals.APRIL_FOOLS_COSTUMES):
             for hood in self.hoods:
                 if hood.classicChar == curChar:
@@ -227,6 +227,43 @@ class CostumeManagerAI(HolidayBaseAI.HolidayBaseAI, DirectObject.DirectObject):
             hood.classicChar.walk.setCurNode(walkNode)
             hood.classicChar.fsm.request('Walk')            
         else:        
+            self.notify.warning("Hood empty during character switch")
+        holidayDone = 1
+        for classicChar in list(self.__classicChars.values()):
+            if classicChar == 1:
+                holidayDone = 0
+        if holidayDone:
+            self.cCharsSwitched += 1
+        if self.cCharsSwitched == len(self.__classicChars):
+            simbase.air.holidayManager.delayedEnd(self.holidayId, self.stopForever)
+
+    # Same as above but exclusive to Outdoor Zone
+    def __switchOzChars(self, newChip, newDale, walkNode, hood):
+        oldChip, oldDale = hood.classicChars
+        self.notify.debug("SwitchingChars %s to %s" % (oldChip, newChip))
+        self.notify.debugStateCall(self)
+        # Kind of a hack to make this work, since Dale has no off state
+        if oldDale.fsm.getCurrentState().getName() != 'Off':
+            oldDale.fsm.request('Off', force=1)
+        oldChip.requestDelete()
+        oldDale.requestDelete()
+        if hasattr(hood, "air") and hood.air:
+            chip = newChip(hood.air)
+            chip.generateWithRequired(hood.zoneId)
+            hood.addDistObj(chip)
+            dale = newDale(hood.air, chip.doId)
+            dale.generateWithRequired(hood.zoneId)
+            hood.addDistObj(dale)
+            chip.setDaleId(dale.doId)
+            hood.classicChars = [chip, dale]
+            dale.start()
+            chip.start()
+            # Absolute hack too, but without this Dale will be reset to path node A before syncing up
+            # TODO: See if the desync happened in live, if it did remove the line below
+            dale.followChip._CharFollowChipStateAI__curWalkNode = walkNode
+            chip.walk.setCurNode(walkNode)
+            chip.fsm.request('Walk')
+        else:
             self.notify.warning("Hood empty during character switch")
         holidayDone = 1
         for classicChar in list(self.__classicChars.values()):

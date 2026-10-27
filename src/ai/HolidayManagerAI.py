@@ -652,8 +652,8 @@ class HolidayManagerAI:
           (Month.OCTOBER, 27, 8, 0, 1),
           (Month.OCTOBER, 27, 8, 59, 59),
 
-          (Month.OCTOBER, 27, 10, 0, 1),
-          (Month.OCTOBER, 27, 10, 59, 59),
+#          (Month.OCTOBER, 27, 10, 0, 1),
+#          (Month.OCTOBER, 27, 10, 59, 59),
 
           (Month.OCTOBER, 27, 12, 0, 1),        # 12pm-1pm PST, 3pm-4pm EST
           (Month.OCTOBER, 27, 12, 59, 59),

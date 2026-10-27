@@ -273,7 +273,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
 
         model = self.loadModel()
         spin = 1
-        model.setBin('unsorted', 0, 1)
+        #model.setBin('unsorted', 0, 1)
         self.hasPicture = True
 
         return self.makeFrameModel(model, spin)
@@ -286,7 +286,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
             tex = loader.loadTexture(color)
             tex.setMinfilter(Texture.FTLinearMipmapLinear)
             tex.setMagfilter(Texture.FTLinear)
-            model.setTexture(tex, 1)
+            #model.setTexture(tex, 1)
 
         else:
             needsAlpha = color[3] != 1
@@ -313,7 +313,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
             modelColor = (colorVec4.getX(), colorVec4.getY(), colorVec4.getZ())
             self.applyColor(model, modelColor)
 
-        model.flattenLight()
+        #model.flattenLight()
         return model
 
     def requestPurchase(self, phone, callback):

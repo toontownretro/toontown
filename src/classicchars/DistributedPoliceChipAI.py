@@ -45,7 +45,7 @@ class DistributedPoliceChipAI(DistributedChipAI.DistributedChipAI):
                            'Off',
                            )
 
+        self.dale = None
         # We do not want to move into the transitionCostume state unless signalled to do so.
         self.transitionToCostume = 0
         self.fsm.enterInitialState()
-        
