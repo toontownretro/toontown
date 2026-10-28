@@ -26,7 +26,7 @@ from . import GameSprite3D
 from math import pi
 import math
 import random
-import pickle
+import pickle as cPickle
 from toontown.distributed import DelayDelete
 from toontown.toon import ToonHeadFrame
 from toontown.battle import BattleParticles

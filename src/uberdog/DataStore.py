@@ -3,7 +3,7 @@ from toontown.toonbase.ToontownModules import ConfigVariableBool
 from direct.task import Task
 
 #from string import maketrans
-import pickle
+import pickle as cPickle
 import os
 import sys
 import dbm as anydbm
@@ -59,9 +59,12 @@ class DataStore:
 
         if self.wantAnyDbm:
             self.filepath += '-anydbm'
-            self.notify.debug('anydbm default module used: %s ' % anydbm._defaultmod.__name__)
 
         self.open()
+
+        # Custom: _defaultmod only works after self.open() is set
+        if self.wantAnyDbm:
+            self.notify.debug('anydbm default module used: %s ' % anydbm._defaultmod.__name__)
         
     def readDataFromFile(self):
         """
@@ -114,7 +117,7 @@ class DataStore:
                     self.notify.debug('New pickle data file will be written to %s.' % \
                                       (self.filepath,))
             if file:
-                data = pickle.load(file)
+                data = cPickle.load(file)
                 file.close()
                 self.data = data
             else:
@@ -140,7 +143,7 @@ class DataStore:
                         os.rename(self.filepath,backuppath)
                         
                     outfile = open(self.filepath, 'wb')
-                    pickle.dump(self.data,outfile,protocol=0)
+                    cPickle.dump(self.data,outfile,protocol=0)
                     outfile.close()
                         
                     if os.path.exists(backuppath):
@@ -270,12 +273,12 @@ class DataStore:
         the handleQuery() call and returns them.
         """
         if self.data is not None:
-            qData = pickle.loads(query)
+            qData = cPickle.loads(query.encode("ascii"))
             results = self.handleQuery(qData)
-            qResults = pickle.dumps(results)
+            qResults = cPickle.dumps(results, protocol=0).decode("ascii")
         else:
             results = None
-            qResults = pickle.dumps(results)
+            qResults = cPickle.dumps(results, protocol=0).decode("ascii")
         return qResults
 
     def handleQuery(self,query):

@@ -36,7 +36,7 @@ from toontown.hood import ZoneUtil
 #################################################################
 # Python Specific Modules
 #################################################################
-import pickle
+import pickle as cPickle
 import os
 import time
 
@@ -439,7 +439,7 @@ class BingoManagerAI(object):
     # Output: None
     ############################################################
     def saveTo(self, file):
-        pickle.dump(self.__hoodJackpots, file, protocol=0)
+        cPickle.dump(self.__hoodJackpots, file, protocol=0)
 
     ############################################################
     # Method:  save
@@ -475,7 +475,7 @@ class BingoManagerAI(object):
         # Default Jackpot Amount
         jackpots = self.DefaultReward
         try:
-            jackpots = pickle.load(file)
+            jackpots = cPickle.load(file)
         except EOFError:
             pass
         return jackpots

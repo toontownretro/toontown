@@ -7,7 +7,7 @@
 
 import os
 from direct.task.Task import Task
-import pickle
+import pickle as cPickle
 from otp.ai.AIBaseGlobal import *
 from . import DistributedBuildingAI
 from . import HQBuildingAI
@@ -363,7 +363,7 @@ class DistributedBuildingMgrAI:
         if block:
             # Save just this one block to the file:
             pickleData=block.getPickleData()
-            pickle.dump(pickleData, file, protocol=0)
+            cPickle.dump(pickleData, file, protocol=0)
         else:
             # Save them all:
             for i in list(self.__buildings.values()):
@@ -371,7 +371,7 @@ class DistributedBuildingMgrAI:
                 if isinstance(i, HQBuildingAI.HQBuildingAI):
                     continue
                 pickleData=i.getPickleData()
-                pickle.dump(pickleData, file, protocol=0)
+                cPickle.dump(pickleData, file, protocol=0)
     
     def fastSave(self, block):
         """Save data to default location"""
@@ -424,7 +424,7 @@ class DistributedBuildingMgrAI:
         blocks={}
         try:
             while 1:
-                pickleData=pickle.load(file)
+                pickleData=cPickle.load(file)
                 blocks[int(pickleData['block'])]=pickleData
         except EOFError:
             pass

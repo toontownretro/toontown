@@ -10,7 +10,7 @@ from toontown.uberdog.DataStoreAIClient import DataStoreAIClient
 from toontown.uberdog import DataStoreGlobals
 
 import time
-import pickle
+import pickle as cPickle
 
 # This dictionary defines the relationship between the scavenger hunt goal id and the zone where the goal is located.
 # goalId: zoneId

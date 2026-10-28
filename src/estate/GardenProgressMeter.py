@@ -16,7 +16,7 @@ from direct.showbase import RandomNumGen
 from toontown.toonbase import TTLocalizer
 import random
 import random
-import pickle
+import pickle as cPickle
 from direct.showbase import PythonUtil
 from . import GameSprite
 from math import pi

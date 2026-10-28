@@ -6,7 +6,7 @@ from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 
 from toontown.toonbase import ToontownGlobals
-import pickle
+import pickle as cPickle
 from . import ToonInterior
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
@@ -281,7 +281,7 @@ class DistributedToonInterior(DistributedObject.DistributedObject):
     
     def setToonData(self, toonData):
         assert self.notify.debugStateCall(self)
-        savedBy = pickle.loads(toonData)
+        savedBy = cPickle.loads(toonData)
         self.savedBy = savedBy
     
     def buildTrophy(self):

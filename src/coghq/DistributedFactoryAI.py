@@ -1,6 +1,6 @@
 from otp.level import DistributedLevelAI
 from direct.directnotify import DirectNotifyGlobal
-import pickle
+import pickle as cPickle
 from . import LevelSuitPlannerAI
 from . import FactoryBase
 from direct.task import Task

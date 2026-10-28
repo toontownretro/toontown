@@ -7,7 +7,7 @@ from direct.showbase import DirectObject
 from . import RaceGlobals
 import random
 import os
-import pickle
+import pickle as cPickle
 
 def getDefaultRecord(trackId):
     """
@@ -929,7 +929,7 @@ class RaceManagerAI(DirectObject.DirectObject):
                 os.rename(self.filename, backup)
             file = open(self.filename, 'wb')
             file.seek(0)
-            pickle.dump(self.trackRecords, file, protocol=0)
+            cPickle.dump(self.trackRecords, file, protocol=0)
             file.close()
             if os.path.exists(backup):
                 os.remove(backup)
@@ -980,7 +980,7 @@ class RaceManagerAI(DirectObject.DirectObject):
         records = {}
         try:
             while 1:
-                records = pickle.load(file)
+                records = cPickle.load(file)
         except EOFError:
             pass
         return records

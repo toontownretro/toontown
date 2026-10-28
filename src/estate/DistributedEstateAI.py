@@ -11,7 +11,7 @@ from direct.fsm import ClassicFSM
 from direct.fsm import State
 from direct.task import Task
 import random
-import pickle
+import pickle as cPickle
 from . import HouseGlobals
 from toontown.safezone import DistributedButterflyAI
 from toontown.safezone import ButterflyGlobals

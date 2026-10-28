@@ -1,7 +1,7 @@
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from toontown.uberdog import DataStoreGlobals
 from direct.showbase.DirectObject import DirectObject
-import pickle
+import pickle as cPickle
 
 class DataStoreAIClient(DirectObject):
     """
@@ -93,7 +93,7 @@ class DataStoreAIClient(DirectObject):
             if qId is not None:
                 query = (qId,queryData)
                 # pack the data to be sent to the Uberdog store.
-                pQuery = pickle.dumps(query)
+                pQuery = cPickle.dumps(query, protocol=0).decode("ascii")
                 self.__storeMgr.queryStore(self.__storeId,pQuery)
             else:
                 self.notify.debug('Tried to send invalid query type: \'%s\'' % (queryTypeString,))
@@ -113,7 +113,7 @@ class DataStoreAIClient(DirectObject):
         if data == 'Store not found':
             self.notify.debug('%s not present on uberdog. Query dropped.' %(self.__storeClass.__name__,))
         else:
-            results = pickle.loads(data)
+            results = cPickle.loads(data.encode("ascii"))
             self.__resultsCallback(results)
 
     def __startClient(self):
