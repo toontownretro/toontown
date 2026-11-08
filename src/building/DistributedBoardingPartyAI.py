@@ -107,6 +107,11 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
 
         inviterOkay = self.checkBoard(inviterId, self.elevatorIdList[0])
 
+        # Semi-Custom: Web-2011 predates this fix, unknown how it was coded
+        from toontown.toon import DistributedToonAI
+        if not isinstance(invitee, DistributedToonAI.DistributedToonAI):
+            self.air.writeServerEvent('suspicious: ', inviterId," tried to invite %s who is not a Toon." %invitee)
+            return
 
         if inviterOkay == REJECT_NOTPAID:
             reason = BoardingPartyBase.BOARDCODE_NOT_PAID
