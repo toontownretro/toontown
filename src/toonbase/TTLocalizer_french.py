@@ -1,6 +1,6 @@
 import string
 import time
-from toontown.toonbase.french.TTLocalizer_Property import *
+from toontown.toonbase.TTLocalizer_french_Property import *
 
 # To make sure the language checker is working
 # DO NOT TRANSLATE THIS
@@ -4521,10 +4521,10 @@ TeaserMinigames = "Joue aux 8 sortes de mini jeux!"
 TeaserKarting = "Fais la course contre d'autres Toons dans de super karts!"
 TeaserKartingAccessories = " Personnaliseton kart avec des accessoiressuper cool."
 TeaserTricks = " Entraîne ton Doudouà faire des tourspour\nqu'il t'aide dans les combats !"
-TeaserGardening = "Plante des fleurs, des statues et des arbres à gags pour embellir\n ta propriété."
+TeaserGardening = "Plante des fleurs, des statues et des arbres\nà gags pour embellir ta propriété."
 TeaserRental = "Loue des articles de fête amusants pour ta propriété !"
 TeaserBigger = "Achète des articles Toon meilleurs et plus gros !"
-TeaserTricks = "Entraîne ton Doudou à faire des tours pour t'aider dans le combat !"
+TeaserTricks = "Entraîne ton Doudou à faire des tours\npour t'aider dans le combat !"
 TeaserSpecies = "Crée des Toons singe, cheval et ours, et joue avec !"
 TeaserFishing = "Collectionne toutes les espèces de poissons !"
 TeaserGolf = "Joue sur des terrains de golf complètement dingues !"
@@ -8816,7 +8816,7 @@ ConfirmMaxedSkillFlower = "Veux-tu vraiment cueillir le plant de %(plant)s? Il i
 ConfirmBasketFull = "Ton panier de fleurs est plein. Tu dois d'abord vendre des fleurs."
 ConfirmRemoveTree = "Veux-tu vraiment retirer le pied de %(tree)s?"
 ConfirmWontBeAbleToHarvest = " Si tu retires cet arbre, tu ne pourras pas récolter de gags dans les arbres de plus haut niveau."
-ConfirmRemoveStatuary = "Veux-tu vraiment supprimer définitivement le plant de %(plant)s?"
+ConfirmRemoveStatuary = "Veux-tu vraiment supprimer définitivement le plant de %(item)s?"
 ResultPlantedSomething  = "Félicitations ! Tu viens de planter un %s."
 ResultPlantedSomethingAn  = "Félicitations ! Tu viens de mettre en terre un plant de %s."
 ResultPlantedNothing = "Ça n'a pas marché. Essaie une nouvelle combinaison de bonbons."
@@ -8875,7 +8875,7 @@ GardenTrophyNameDict = {
     6 : "Orque",
     }
 SkillTooLow = "Habileté\ntrop faible"
-NoGarden = "Pas de\njardi"
+NoGarden = "Pas de\njardins"
 
 def isVowelStart(str):
     """
@@ -8948,9 +8948,9 @@ VineGameInstructions = "Atteins la liane la plus à droite à temps. Appuie sur 
 
 # Make sure the golf text matches up with GolfGlobals.py
 GolfCourseNames = {
-    0: "Marche dans le Par",
-    1: "Trou joyeux",
-    2: "Trou ce qu'il faut et plus encore"
+    0: "Partie d'échauffement",
+    1: "Partie d’entraînement",
+    2: "Parcours des Pros"
     }
 
 GolfHoleNames = {
@@ -9094,8 +9094,8 @@ GolfCupDescriptions = [
     str(GolfGlobals.TrophiesPerCup * 3) + " Trophées remportés",
 ]
 
-GolfAvReceivesHoleBest = "%(name)s a établi un nouveau record de parcours au  %(hole)s !"
-GolfAvReceivesCourseBest = "%(name)s a établi un nouveau record de parcours au %(course)s !"
+GolfAvReceivesHoleBest = "%(name)s a établi un nouveau record\n de parcours au  %(hole)s !"
+GolfAvReceivesCourseBest = "%(name)s a établi un nouveau record\n de parcours au %(course)s !"
 GolfAvReceivesCup = "%(name)s remporte la %(cup)s coupe ! Rigol-augmentation !"
 GolfAvReceivesTrophy = "%(name)s remporte le %(award)s trophée !"
 GolfRanking = "Classement : \n"

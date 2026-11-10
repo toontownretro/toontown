@@ -6,16 +6,6 @@ RPdirectFrame = (1.95,1,0.75)
 RPtrackLabels = 0.045
 RPmeritBarLabels = 0.15
 
-#battle/RewardPanel.py
-RPmeritLabelXPosition = 0.68
-RPmeritBarsXPosition = 0.955
-
-#battle/BattleBase.py
-BBbattleInputTimeout = 50.0
-
-#battle/FireCogPanel.py
-FCPtextFrameScale = 0.06
-
 #building/DistributedHQInterior.py
 DHtoonName = 0.75
 DHtoonNamePos = (-6, 0, 0)
@@ -25,17 +15,22 @@ DHtrophyPos = (-8.6, 0, 0.3)
 #building/Elevator.py
 EelevatorHopOff = 0.7
 
+#coghq/SellbotCogHQLoader.py
+SCLfdSign = 0.12
+SCLdgSign = 0.1
+
+#coghq/DistributedFactory.py
+DFfactoryRoomTitle = 0.8
+
+#coghq/DistributedMintElevatorExt.py
+DMEEsignText = 1.5
+
 #catalog/CatalogChatItemPicker.py
 CCIPmessagePickerCancel = 0.06
-
-#catalog/CatalogItemPanel.py
-CIPnameLabel = 0.85
-CIPwordwrapOffset = 2
 
 #catalog/CatalogScreen.py
 CSgiftTogglePos = (00.855, -0.10)
 CSgiftToggle = 0.07
-CSbackCatalogButton = 0.06
 
 #chat/TTChatInputSpeedChat.py
 CISCspeedChat = 0.048
@@ -50,30 +45,12 @@ CMwhisperButton = 0.05
 CMunpaidChatWarningwordwrap = 20
 CMunpaidChatWarning = 0.055
 CMunpaidChatWarning_text_z = 0.27
-CMpayButton = 0.05
+CMpayButton = 0.06
 CMpayButton_pos_z = -0.10
 CMopenChatWarning = 0.05
 CMactivateChat = 0.05
 CMchatActivated = 0.05
 CMNoPasswordContinue_z = -0.25
-
-#coghq/SellbotCogHQLoader.py
-SCLfdSign = 0.12
-SCLdgSign = 0.1
-
-#coghq/DistributedFactory.py
-DFfactoryRoomTitle = 0.8
-
-#coghq/DistributedMintElevatorExt.py
-DMEEsignText = 1.5
-
-#coghq/BossbotCogHQLoader.py
-BCHQLmakeSign = 0.6
-
-#coghq/DistributedGolfGreenGame.py
-DGGGquitButton = 0.025
-DGGGhowToButton = 0.035
-DGGGscoreLabel = 0.05
 
 #estate/houseDesign.py
 HDhelpText = 0.55
@@ -81,25 +58,6 @@ HDatticButton = 0.6
 HDroomButton = 0.7
 HDtrashButton = 0.7
 HDscrolledList = 0.07
-
-#estate/PlantingGUI.py
-GardeningInstructionScale = 0.07
-
-#estate/FlowerPanel.py
-FPBlankLabelPos = -0.25
-FPBlankLabelTextScale = 0.025
-
-#estate/FlowerPicker.py
-FPFlowerValueTotal = 0.045
-
-#estate/FlowerSellGUI.py
-FSGDFTextScale = 0.048
-FSGCancelBtnTextScale = 0.04
-FSGOkBtnTextScale = 0.04
-
-#estate/GardenTutorial.py
-GardenTutorialPage2Wordwrap = 14.5
-GardenTutorialPage4Wordwrap = 22.5
 
 #fishing/BingoCardGui.py
 BCGjpText = (0.035)
@@ -125,23 +83,11 @@ FLPsecretsPos = (0.125, 0.0, 0.14)
 #friends/FriendInviter.py
 FIstopButton = 0.042
 FIdialog = 0.05
-FIcancelButtonPositionX = 0.0
-FIstopTextPositionY = -0.015
-FIstopButtonPositionX = -0.2
-FIyesButtonPositionX = -0.15
 
 #golf/DistributedGolfHole.py
 DGHpowerReminder = 0.09
 DGHaimInstructions = 0.065
 DGHteeInstructions = 0.065
-
-#golf/DistributedGolfHole.py
-DGHAimInstructScale = 0.075
-DGHTeeInstructScale = 0.075
-
-#golf/GolfScoreBoard.py
-GSBExitCourseBTextPose = (0.20, -.01)
-GSBtitleLabelScale = 0.06
 
 #golf/GolfScoreBoard.py
 GSBexitCourseBPos = (0.19, -.01)
@@ -149,9 +95,6 @@ GSBtitleLabel = 0.06
 
 #hood/EstateHood.py
 EHpopupInfo = .08
-
-#hood/Hood.py
-HDenterTitleTextScale = 0.12
 
 #login/AvatarChoice.py
 ACplayThisToon = 0.09
@@ -200,6 +143,9 @@ NStypeName = 0.1
 NSnewName = 0.1
 NScolorPrecede = False
 
+#Stuff for trolley metagame
+TravelGameBonusBeansSize = 0.65
+
 #makeatoon/MakeAToon.py
 MATenterGenderShop = 0.14
 MATenterBodyShop = 0.14
@@ -210,28 +156,6 @@ MATclothesGUIshirt_scale = 0.06
 MATclothesGUIshirt_posL = 0.010
 MATclothesGUIshirt_posR = -0.014
 MATnextButtonScale = 0.07
-
-#minigame/DistributedPairingGame.py
-DPGPointsFrameTextScale = 0.45
-DPGFlipsFrameTextScale = 0.45
-
-#minigame/DistributedTravelGame.py
-DTGVoteBtnTextScale = 0.05
-DTGUseLabelTextScale = 0.07
-DTGVotesPeriodLabelTextScale = 0.07
-DTGVotesToGoLabelTextScale = 0.07
-DTGUpLabelTextScale = 0.07
-DTGDownLabelTextScale = 0.07
-DTGRemainingVotesFrameTextScale = 0.6
-
-#minigame/MinigameRulesPanel.py
-MRPGameTitleTextScale = 0.10
-MRPGameTitleTextPos = (-0.12, 0.2, 0.092)
-MRPInstructionsTextWordwrap = 32
-MRPInstructionsTextPos = (-0.12, 0.05, 0)
-
-#Stuff for trolley metagame
-TravelGameBonusBeansSize = 0.65
 
 #pets/PetAvatarPanel.py & town/TownBattleSOSPetInfoPanel.py
 PAPfeed = 0.4
@@ -271,9 +195,6 @@ QPtextScale = 0.045
 QPtextWordwrap = 15.6
 QPinfoZ = -0.0625
 
-#racing/DistributedLeaderBoard.py
-DLBtitleRowScale = 0.3
-
 #racing/DistributedRace.py
 DRenterWaiting = .15
 DRrollScale = 0.3
@@ -296,17 +217,11 @@ RGphotoFinish = 0.20
 RGplaceLabelNumPos = (-1.2,0,-0.97)
 RGplaceLabelStrPos = (-1.05,0.0,-0.8)
 
-#racing/DistributedRaceAI.py
-DRAwaitingForJoin = 90
-
 #safezone/DistributedFishingSpot.py
 DFSfailureDialog = 0.06
 
 #safezone/Playground.py
 PimgLabel = 0.6
-
-#safezone/GZSafeZoneLoader.py
-GSZLbossbotSignScale = 0.8
 
 #shtiker/FishPage.py
 FPtankTab = 0.07
@@ -319,7 +234,6 @@ DSDintroTextwordwrap = 25
 DSDwindowedButtonPos = (0.0961, 0, -0.221)
 DSDfullscreenButtonPos = (0.097, 0, -0.311)
 DSDcancel = 0.06
-DSDcancelButtonPositionX = 0
 
 #shtiker/DisguisePage.py
 DPtab = 0.065
@@ -344,19 +258,6 @@ KPkartTab = 0.06
 KPdeleteButton = 0.035
 KProtateButton = 0.03
 
-#shtiker/GardenPage.py
-GPBasketTabTextScale = 0.06
-GPCollectionTabTextScale = 0.06
-GPTrophyTabTextScale = 0.06
-GPSpecialsTabTextScale = 0.06
-
-#shtiker/GolfPage.py
-GFPRecordsTabTextScale = 0.06
-GFPRecordsTabPos = (0.82, 0, 0.1)
-GFPTrophyTabTextScale = 0.06
-GFPRecordsTabTextPos = (0.03, 0.0, 0.0)
-GFPRTrophyTabPos = (0.82, 0, -0.3)
-
 #toon/ToonAvatarPanel.py
 TAPfriendButton = 0.042
 TAPwhisperButton = 0.042
@@ -380,27 +281,8 @@ INdetailNameLabel = 1.0
 #toon/NPCForceAcknowledge.py
 NPCFimgLabel = 0.6
 
-#toon/PlayerInfoPanel.py
-PIPsecretsButtonScale=0.045
-
-#toon/ToonAvatarPanel.py
-TAPsecretsButtonScale=0.045
-
-#toon/ToonAvatarDetailPanel.py
-TADPcancelPos = (-0.865, 0.0, -0.765)
-TADtrackLabelPosZ = 0.17
-
 #toontowngui/ToontownLoadingScreen.py
 TLStip = 0.15
-
-#toontowngui/TeaserPanel.py
-TSRPdialogWordwrap = 20
-TSRPtop = 0.07
-TSRPpanelScale = 0.05
-TSRPpanelPos = (-0.65, -0.70)
-TSRPbrowserPosZ = -0.65
-TSRPbutton = 0.06
-TSRPteaserBottomScale = 0.06
 
 #toontowngui/TeaserPanel.py (OLD)
 TPtop = 0.065

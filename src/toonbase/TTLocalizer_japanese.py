@@ -57,10 +57,14 @@ ProductPrefix = 'TT'
 Mickey = "ミッキー"
 VampireMickey = "VampireMickey"
 Minnie = "ミニー"
+WitchMinnie = "WitchMinnie"
 Donald = "ドナルド"
+DonaldDock = "DonaldDock"
 Daisy  = "デイジー"
 Goofy  = "グーフィー"
+SuperGoofy = "SuperGoofy"
 Pluto  = "プルート"
+WesternPluto = "WesternPluto"
 Flippy = "フリッピー"
 Chip   = "チップ"
 Dale   = "デール"
@@ -78,85 +82,6 @@ lGoofySpeedway = "グーフィー・サーキット"
 lOutdoorZone = "チップとデールのドングリひろば"
 lGolfZone = "チップとデールのミニ・ゴルフ"
 lPartyHood = "パーティー会場"
-
-lGagShop = 'ギャグショップ'
-lClothingShop = 'ようふくや'
-lPetShop = 'ペットショップ'
-
-# common strings
-lCancel = 'キャンセル'
-lClose = 'とじる'
-lOK = 'ＯＫ'
-lNext = 'つぎへ'
-lQuit = 'やめる'
-lYes = 'はい'
-lNo = 'いいえ'
-lBack = '戻る'
-
-sleep_auto_reply = "%s is sleeping right now"
-lHQ = '本部'
-
-lHQOfficerF = 'ＨＱスタッフ'
-lHQOfficerM = 'ＨＱスタッフ'
-
-MickeyMouse = "ミッキーマウス"
-
-AIStartDefaultDistrict = "シリーヴィル"
-
-Cog  = "コグ"
-Cogs = "コグ"
-ACog = "コグ"
-TheCogs = "コグ"
-ASkeleton = "ガイコグ"
-Skeleton = "ガイコグ"
-SkeletonP = "ガイコグ"
-Av2Cog = "a Version 2.0 Cog"
-v2Cog = "Version 2.0 Cog"
-v2CogP = "Version 2.0 Cogs"
-ASkeleton = "a Skelecog"
-Foreman = "工場長"
-ForemanP = "工場長"
-AForeman = "工場長"
-CogVP = "コグゼキュティブ"
-CogVPs = "コグゼキュティブの"
-ACogVP = "コグゼキュティブ"
-Supervisor = "金庫番"
-SupervisorP = "金庫番"
-ASupervisor = "金庫番"
-CogCFO = "マネーマネー"
-CogCFOs = "マネーマネーの"
-ACogCFO = "マネーマネー"
-
-# AvatarDNA.py
-Bossbot = "ボスボット"
-Lawbot = "ロウボット"
-Cashbot = "マネーボット"
-Sellbot = "セルボット"
-BossbotS = "ボスボット"
-LawbotS = "ロウボット"
-CashbotS = "マネーボット"
-SellbotS = "セルボット"
-BossbotP = "ボスボット"
-LawbotP = "ロウボット"
-CashbotP = "マネーボット"
-SellbotP = "セルボット"
-BossbotSkelS = BossbotS+" "+Skeleton
-LawbotSkelS = LawbotS+" "+Skeleton
-CashbotSkelS = CashbotS+" "+Skeleton
-SellbotSkelS = SellbotS+" "+Skeleton
-BossbotSkelP = Bossbot+" "+Skeleton
-LawbotSkelP = Lawbot+" "+Skeleton
-CashbotSkelP = Cashbot+" "+Skeleton
-SellbotSkelP = Sellbot+" "+Skeleton
-SkeleRevivePostFix = " v2.0"
-
-lBossbotHQ = Bossbot+lHQ
-lLawbotHQ = Lawbot+lHQ
-lCashbotHQ = Cashbot+lHQ
-lSellbotHQ = Sellbot+lHQ
-lTutorial = 'トゥーントリアル'
-lMyEstate = 'キミのおうち'
-lWelcomeValley = 'ｳｪﾙｶﾑﾊﾞﾚｰ'
 
 # ToontownGlobals.py
 
@@ -191,22 +116,22 @@ GlobalStreetNames = {
     9100 : ("", "", "ララバイ・ストリート"),
     9200  : ("", "", "パジャマ・プレイス"),
     10000 : ("","", ""),
-    10100 : ("","", lBossbotHQ+'ロビー'),
+    10100 : ("","", "ボスボット本部ロビー"),
     10200 : ("", "", "クラブハウス"),
     10500 : ("", "", "フロント３"),
     10600 : ("", "", "ミドル６"),
     10700 : ("", "", "バック９"),
     11000 : ("","", ""),
-    11100 : ("","", lSellbotHQ+'ロビー'),
-    11200 : ("","", Sellbot+'ファクトリー'),
-    11500 : ("","", Sellbot+'ファクトリー'),
+    11100 : ("","", "セルボット本部ロビー"),
+    11200 : ("","", "セルボットファクトリー"),
+    11500 : ("","", "セルボットファクトリー"),
     12000 : ("","", ""),
-    12100 : ("","", lCashbotHQ+'ロビー'),
-    12500 : ("","", Cashbot+' コイン工場'),
-    12600 : ("","", Cashbot+' ドル工場'),
-    12700 : ("","", Cashbot+' ゴールド工場'),
+    12100 : ("","", "マネーボット本部ロビー"),
+    12500 : ("","", "マネーボットコイン工場"),
+    12600 : ("","", "マネーボットドル工場"),
+    12700 : ("","", "マネーボットゴールド工場"),
     13000 : ("","", ""),
-    13100 : ("","", lLawbotHQ+'ロビー'),
+    13100 : ("","", "ロウボット本部ロビー"),
     13200 : ("", "", "裁判所ロビー"),
     13300 : ("", "", "ロウボットＡオフィス"),
     13400 : ("", "", "ロウボットＢオフィス"),
@@ -251,6 +176,48 @@ FactoryTypeArm = 'アーム'
 FactoryTypeTorso = 'ボディ'
 
 MintFloorTitle = '%s階'
+
+# common strings
+lCancel = 'キャンセル'
+lClose = 'とじる'
+lOK = 'ＯＫ'
+lNext = 'つぎへ'
+lQuit = 'やめる'
+lYes = 'はい'
+lNo = 'いいえ'
+
+sleep_auto_reply = "%s is sleeping right now"
+
+lHQOfficerF = 'ＨＱスタッフ'
+lHQOfficerM = 'ＨＱスタッフ'
+
+MickeyMouse = "ミッキーマウス"
+
+AIStartDefaultDistrict = "シリーヴィル"
+
+Cog  = "コグ"
+Cogs = "コグ"
+ACog = "コグ"
+TheCogs = "コグ"
+ASkeleton = "ガイコグ"
+Skeleton = "ガイコグ"
+SkeletonP = "ガイコグ"
+Av2Cog = "a Version 2.0 Cog"
+v2Cog = "Version 2.0 Cog"
+v2CogP = "Version 2.0 Cogs"
+ASkeleton = "a Skelecog"
+Foreman = "工場長"
+ForemanP = "工場長"
+AForeman = "工場長"
+CogVP = "コグゼキュティブ"
+CogVPs = "コグゼキュティブの"
+ACogVP = "コグゼキュティブ"
+Supervisor = "金庫番"
+SupervisorP = "金庫番"
+ASupervisor = "金庫番"
+CogCFO = "マネーマネー"
+CogCFOs = "マネーマネーの"
+ACogCFO = "マネーマネー"
 
 # Quests.py
 TheFish = "魚"
@@ -468,6 +435,7 @@ QuestsVisitQuestHeadline = "あいにいく"
 QuestsVisitQuestStringShort = "あいにいく"
 QuestsVisitQuestStringLong = "_toNpcName_に会いに行く"
 QuestsVisitQuestSeeSCString = "%sに会いに行かなくちゃ！"
+
 QuestsRecoverItemQuestProgress = "取り返した数：%(progress)s / %(numItems)s"
 QuestsRecoverItemQuestHeadline = "とりかえす"
 QuestsRecoverItemQuestSeeHQSCString = lHQOfficerM+"に会いに行かなくちゃ。"
@@ -481,19 +449,24 @@ QuestsRecoverItemQuestWhereIsBuildingSCString = "%s%sはどこですか？"
 QuestsRecoverItemQuestRecoverFromSCString = "%(loc)s%(holder)sから%(item)sを取り返さなくちゃ。"
 QuestsRecoverItemQuestString = "%(holder)sから%(item)sを取り返す。"
 QuestsRecoverItemQuestHolderString = "%(level)s %(holder)d以上 %(cogs)s"
+
 QuestsTrackChoiceQuestHeadline = "えらぶ"
 QuestsTrackChoiceQuestSCString = "%(trackA)sと%(trackB)sのどっちかを選ばなくちゃ"
 QuestsTrackChoiceQuestMaybeSCString = "%sにしようかな"
 QuestsTrackChoiceQuestString = "%(trackA)sと%(trackB)sのどちらかを選ぶ"
+
 QuestsFriendQuestHeadline = "ともだち"
 QuestsFriendQuestSCString = "ともだちを作らなくちゃ"
 QuestsFriendQuestString = "ともだちを作る"
+
 QuestsMailboxQuestHeadline = "メール"
 QuestsMailboxQuestSCString = "メールをチェックしなくちゃ！"
 QuestsMailboxQuestString = "メールをチェックする"
+
 QuestsPhoneQuestHeadline = "クララベル"
 QuestsPhoneQuestSCString = "クララベルに電話しなくちゃ！"
 QuestsPhoneQuestString = "クララベルに電話する"
+
 QuestsFriendNewbieQuestString = "ゲラゲラポイント%d以下のトゥーン%d人とともだちになる。"
 QuestsFriendNewbieQuestProgress = "ともだちの数：%(progress)s / %(numFriends)s"
 QuestsFriendNewbieQuestObjective = "ゲラゲラポイント%d以下のトゥーン%d人とともだちになる。"
@@ -502,6 +475,7 @@ QuestsTrolleyQuestHeadline = "トロリー"
 QuestsTrolleyQuestSCString = "トロリーに乗らなくちゃ"
 QuestsTrolleyQuestString = "トロリーに乗る"
 QuestsTrolleyQuestStringShort = "トロリーに乗る"
+
 QuestsMinigameNewbieQuestString = "%dミニゲーム"
 QuestsMinigameNewbieQuestProgress = "あそんだ数：%(progress)s / %(numMinigames)s"
 QuestsMinigameNewbieQuestObjective = "ゲラゲラポイント%d以下のトゥーンと%d回、ミニゲームをする。"
@@ -542,6 +516,9 @@ QuestsTrackCompleteRewardPoster = "ごほうび：最終トラック%sの練習"
 
 QuestsClothingTicketReward = "服を着替えられるようになったよ。"
 QuestsClothingTicketRewardPoster = "ごほうび：ようふく券"
+
+TIPQuestsClothingTicketReward = "You can change your shirt for a TIP shirt"
+TIPQuestsClothingTicketRewardPoster = "Reward: TIP Clothing Ticket"
 
 QuestsCheesyEffectRewardPoster = "ごほうび：%s"
 
@@ -635,11 +612,11 @@ QuestsItemDict = {
     5010 : ["スプロケット", "スプロケット", ""],
     5011 : ["サラダ", "サラダ", ""],
     5012 : [lDaisyGardens+"のかぎ", lDaisyGardens+"のかぎ", ""],
-    5013 : [lSellbotHQ+' 設計図', lSellbotHQ+' 設計図', ''],
-    5014 : [lSellbotHQ+'のメモ', lSellbotHQ+'のメモ', ''],
-    5015 : [lSellbotHQ+'のメモ', lSellbotHQ+'のメモ', ''],
-    5016 : [lSellbotHQ+'のメモ', lSellbotHQ+'のメモ', ''],
-    5017 : [lSellbotHQ+'のメモ', lSellbotHQ+'のメモ', ''],
+    5013 : ["セルボット本部"+' 設計図', "セルボット本部"+' 設計図', ''],
+    5014 : ["セルボット本部"+'のメモ', "セルボット本部"+'のメモ', ''],
+    5015 : ["セルボット本部"+'のメモ', "セルボット本部"+'のメモ', ''],
+    5016 : ["セルボット本部"+'のメモ', "セルボット本部"+'のメモ', ''],
+    5017 : ["セルボット本部"+'のメモ', "セルボット本部"+'のメモ', ''],
 
     # The Brrrgh quests
     3001 : ["サッカーボール", "サッカーボール", ""],
@@ -1872,6 +1849,7 @@ QuestDialogDict = {
              INCOMPLETE_PROGRESS : "ニーナに早くベッドを届けてあげて！",
              COMPLETE : "なんて素敵なベッドなの！\aこれでお客さんも大満足間違いなし。_avName_、本当にありがとう！\aきっとキミならこれを使えるはず。ずっと前に誰かがわすれていったものみたい。",
              },
+
     7209 : { QUEST : "ハニー・ムーンに会いにいってごらん。手助けしてほしいみたいだよ。_where_",
              },
     7210 : { GREETING : "",
@@ -2184,6 +2162,7 @@ QuestDialogDict = {
               INCOMPLETE_PROGRESS : "%sだからね。" % GlobalStreetNames[9200][-1],
               COMPLETE : "全部終わったね！\aこれでケンサツキョクに行って、ショウカンジョーを集められることができるね！\a今まで本当にありがとう。そして気をつけて！",
              },
+
     12000 : { GREETING : "",
               LEAVING : "",
               QUEST : "もしもボスボットのパーツにきょうみがあるなら_toNpcName_._where_に聞くといいかも。",
@@ -2350,7 +2329,7 @@ QuestDialogDict = {
               INCOMPLETE_PROGRESS : "フリッピーはトゥーンホールにいるよ。",
               COMPLETE : "新しいコグだって?!\a教えてくれてありがとう。\aお礼にさいごのへんそうパーツをあげるよ！",
               },
-    }
+ }
 
 # ChatGarbler.py
 ChatGarblerDog = ["わんわん", "きゅう～ん", "わふわふ"]
@@ -2363,6 +2342,29 @@ ChatGarblerMonkey = ["ウキッ", "キー", "ウッキー"]
 ChatGarblerBear = ["ガウ～", "ガルルル"]
 ChatGarblerPig = ["ブヒブヒ！", "ブーッ！", "ブホブホッ！"]
 ChatGarblerDefault = ["フガー"]
+
+# AvatarDNA.py
+Bossbot = "ボスボット"
+Lawbot = "ロウボット"
+Cashbot = "マネーボット"
+Sellbot = "セルボット"
+BossbotS = "ボスボット"
+LawbotS = "ロウボット"
+CashbotS = "マネーボット"
+SellbotS = "セルボット"
+BossbotP = "ボスボット"
+LawbotP = "ロウボット"
+CashbotP = "マネーボット"
+SellbotP = "セルボット"
+BossbotSkelS = BossbotS+" "+Skeleton
+LawbotSkelS = LawbotS+" "+Skeleton
+CashbotSkelS = CashbotS+" "+Skeleton
+SellbotSkelS = SellbotS+" "+Skeleton
+BossbotSkelP = Bossbot+" "+Skeleton
+LawbotSkelP = Lawbot+" "+Skeleton
+CashbotSkelP = Cashbot+" "+Skeleton
+SellbotSkelP = Sellbot+" "+Skeleton
+SkeleRevivePostFix = " v2.0"
 
 # AvatarDetailPanel.py
 AvatarDetailPanelOK = lOK
@@ -3075,7 +3077,7 @@ SuitSpinDoctorP = "ドクター・トラブル"
 SuitLegalEagleP = "ホウノトリ"
 SuitBigWigP = "ビッグホワイト"
 
-SuitFaceOffDefaultTaunts = ['ワッ！']
+SuitFaceoffDefaultTaunts = ['ワッ！']
 
 SuitAttackDefaultTaunts = ['これでもくらえ！', '私の前から消えろ！']
 
@@ -4346,6 +4348,87 @@ MickeyChatter = (
         ]
     )
 
+WinterMickeyCChatter = (
+        [ # Greetings specific to Mickey
+        "やぁ、メリー・クリスマス！ハハッ！",
+        "トゥーンタウンのクリスマスへようこそ！",
+        "ハッピー ウィンター ホリデー！",
+        "すてきなウィンター ホリデーをすごしてね、%！",
+        ],
+        [ # Comments
+        "いっしょに“ジョイ・トゥー・ザ・ワールド”を歌おうよ♪",
+        "うあぁ、すごいデコレーションだね！",
+        "いっしょに“ジョイ・トゥー・ザ・ワールド”を歌おうよ♪",
+        "ねぇ、木のライトアップを見て。すばらしいね！",
+        "いっしょに“ジョイ・トゥー・ザ・ワールド”を歌おうよ♪",
+        "静かな夜になるといいね。",
+        "いっしょに“ジョイ・トゥー・ザ・ワールド”を歌おうよ♪",
+        "ボクはこの季節が好きなんだ！",
+        "いっしょに“ジョイ・トゥー・ザ・ワールド”を歌おうよ♪",
+        "なんだかとてもウキウキしてこない？",
+        "いっしょに“ジョイ・トゥー・ザ・ワールド”を歌おうよ♪",
+        "キミはどんなクリスマスソングを知ってる？",
+        "いっしょに“ジョイ・トゥー・ザ・ワールド”を歌おうよ♪",
+        "ヤッホー！クリスマスホリデーは最高さ！",
+        "いっしょに“ジョイ・トゥー・ザ・ワールド”を歌おうよ♪",
+        "このグローブだと寒いなぁ。ハハッ！",
+        ],
+        [ # Goodbyes
+        "楽しいウィンター・ホリデーを楽しんでね♪",
+        "楽しい冬のひと時を過ごしてね。",
+        "あぁ、もう行かなきゃね。行ってらっしゃい！",
+        "ミニーといっしょにせいか隊をやろうかな♪",
+        ]
+    )
+    
+ValentinesMickeyChatter = (
+    [
+    "やぁ、ボクはミッキー！",
+    "“バレントゥーン”タウン・セントラルへようこそ！",
+    "ハッピー　“バレントゥーン”デー！",
+    "ハッピー　“バレントゥーン”デー, %",
+    ],
+    [
+    "ラブラブな気分で楽しもう♪",
+    "ハート型のゲラゲラブーストはもう試した？",
+    "ミニーへのプレゼント、よろこんでもらえるといいな!",
+    "カタログはもう見た？“バレントゥーン”グッズがいっぱいだよ！",
+    "“バレントゥーン”パーティーってのもいいね♪",
+    "たくさんのパイでコグ達もお祝いしてあげよう！",
+    "ミニーをデートにさそってみようかな♪",
+    "チョコレートとプレゼント、どっちがいい？",
+    ],
+    [
+    "キミに会えてうれしいよ。またね！",
+    "ミニーに会ったら、すぐにむかえに行くって伝えてね！",
+    ]
+    )
+
+WinterMickeyDChatter = (
+        [ # Greetings specific to Mickey
+        "やぁ、メリー・クリスマス！ハハッ！",
+        "トゥーンタウンのクリスマスへようこそ！",
+        "ハッピー ウィンター ホリデー！",
+        "すてきなウィンター ホリデーをすごしてね、%！",
+        ],
+        [ # Comments
+        "うあぁ、すごいデコレーションだね！",
+        "ねぇ、木のライトアップを見て。すばらしいね！",
+        "静かな夜になるといいね。",
+        "ボクはこの季節が好きなんだ！",
+        "なんだかとてもウキウキしてこない？",
+        "キミはどんなクリスマスソングを知ってる？",
+        "ヤッホー！クリスマスホリデーは最高さ！",
+        "このグローブだと寒いなぁ。ハハッ！",
+        ],
+        [ # Goodbyes
+        "楽しいウィンター・ホリデーを楽しんでね♪",
+        "楽しい冬のひと時を過ごしてね。",
+        "あぁ、もう行かなきゃね。行ってらっしゃい！",
+        "ミニーといっしょにせいか隊をやろうかな♪",
+        ]
+    )
+
 VampireMickeyChatter = (
         [ # Greetings specific to Vampire Mickey
         ""+lToontownCentral+"へようこそ！",
@@ -4355,26 +4438,32 @@ VampireMickeyChatter = (
         "今年も"+lToontownCentral+"がくろねこトゥーンでいっぱいになるよ！",
         ],
         [ # Comments
-        "ハロウィーンって楽しいよね！",
-        "このコスチューム、どうかなぁ？",
-        "%もガッツキーには気をつけてね！",
-        "ハロウィーンのデコレーション、気に入ってくれた？",
-        "くろねこトゥーン達とはなかよしなんだ♪",
-        "ねぇ、カボチャ頭のトゥーンを見た？",
-        "バァーッ！ハハッ、おどろいた？",
-        "ちゃんとキバを歯ブラシでみがこうね☆",
-        "だいじょうぶ。ボクはフレンドリーなドラキュラだから♪",
-        "ボクのマント、かっこいいでしょ？",
-        "おどろいた？ボクのセンス、なかなかでしょ？",
-        "トゥーンタウンのハロウィーンを楽しんでいってね！",
-        "今夜はきっともりあがるだろうね。",
-        ],
-        [ # Goodbyes
-        "ハロウィーンのすてきなデコレーションをみにゆこうよ。",
-        ""+Minnie+"をおどろかしにメロディーランドに行ってこようかな。",
-        "しぃ～、これから他のトゥーンをおどろかすんだ！",
-        "トリック・オア・トリート！",
-        "いっしょにみんなをおどろかしに行こうよ♪",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪",
+        "ハロウィーンの仮装は楽しいね♪",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "ボクのコスチューム、どうかなぁ？",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "%、キュウケツキみたいなコグがいるでしょ？",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "ハロウィーンのデコレーションってワクワクするね♪",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "なんだかくろねこがたくさんいるね！",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "カボチャ頭のトゥーンを見た？",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "バァッ！びっくりした？ハハッ！",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "キバをみがいておかなきゃね☆",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "コワがらなくても大丈夫。ボクは親切なバンパイアだよ♪",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "ボクのマント、かっこいいでしょ♪",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "おっと、おどかしちゃったかな？",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "トゥーンタウンのハロウィーンを楽しんでね♪",
+        "もし仮装やいたずらが好きだったら、たくさんお菓子がもらえるよ♪!",
+        "コワくて眠れなくなっちゃうぞぉ～！ハハッ！",
         ]
     )
 
@@ -4410,6 +4499,115 @@ MinnieChatter = (
         ]
     )
     
+WinterMinnieCChatter = (
+        [ # Greetings
+        "今日はクリスマス用の服にしてみたの♪",
+        "歌でいっぱいのタウンにようこそ♪",
+        "ハッピー ウィンター ホリデー！",
+        "ハッピー ウィンター ホリデー、 %！",
+        ],
+        [ # Comments
+        "一緒にクリスマスソングを歌って、クリスマスを盛り上げましょう♪",
+        "みんなで集まって合唱もいいわね♪",
+        "一緒にクリスマスソングを歌って、クリスマスを盛り上げましょう♪",
+        "おもわず歌っちゃうくらい楽しいわね♪",
+        "一緒にクリスマスソングを歌って、クリスマスを盛り上げましょう♪",
+        "メロディーランドに歌声があふれたらすてきよね♪",
+        "一緒にクリスマスソングを歌って、クリスマスを盛り上げましょう♪",
+        "スカーフを巻いたデザインのランプが暖かそうでしょ。",
+        "一緒にクリスマスソングを歌って、クリスマスを盛り上げましょう♪",
+        "タウンに歌声をひびかせましょう♪",
+        "一緒にクリスマスソングを歌って、クリスマスを盛り上げましょう♪",
+        "あなたのようなお友だちと一緒にいると楽しいわ♪",
+        "一緒にクリスマスソングを歌って、クリスマスを盛り上げましょう♪",
+        "お花って色々なものをよりきれいにみせてくれるわよね！",
+        ],
+        [ # Goodbyes
+        "よいウィンターホリデーを過ごしてちょうだい！",
+        "よいお散歩で楽しんで♪",
+        "ミッキーが歌っているのが聞こえるわ！ではまたね。",
+        ]
+    )
+    
+WinterMinnieDChatter = (
+        [ # Greetings
+        "今日はクリスマス用の服にしてみたの♪",
+        "歌でいっぱいのタウンにようこそ♪",
+        "ハッピー ウィンター ホリデー！",
+        "ハッピー ウィンター ホリデー、 %！",
+        ],
+        [ # Comments
+        "みんなで集まって合唱もいいわね♪",
+        "おもわず歌っちゃうくらい楽しいわね♪",
+        "メロディーランドに歌声があふれたらすてきよね♪",
+        "スカーフを巻いたデザインのランプが暖かそうでしょ。",
+        "タウンに歌声をひびかせましょう♪",
+        "あなたのようなお友だちと一緒にいると楽しいわ♪",
+        "お花って色々なものをよりきれいにみせてくれるわよね！",
+        ],
+        [ # Goodbyes
+        "よいウィンターホリデーを過ごしてちょうだい！",
+        "よいお散歩で楽しんで♪",
+        "ミッキーが歌っているのが聞こえるわ！ではまたね。",
+        ]
+    )
+    
+ValentinesMinnieChatter = (
+    [
+    "こんにちは、私はミニーよ！",
+    "ハッピー　“バレントゥーン”デー！",
+    "ハッピー　“バレントゥーン”デー、, %",
+    ],
+    [
+    "ねぇ、ミッキーはチョコレートとプレゼント、どっちが好きかしら？",
+    "ハート型のゲラゲラブーストはもう試した？",
+    "“バレントゥーン”パーティーに参加するの♪",
+    "ミッキーにデートに誘われているのよ♪",
+    "ミッキーと“バレントゥーン”を楽しむの♪",
+    "あなたは誰にプレゼントするの？",
+    "毎年ミッキーと“バレントゥーン”をお祝いするの♪",
+    ],
+    [
+    "ラブラブのバレントゥーンを過ごしてね！",
+    "あなたに会えてスゥィートな気持ちになれたわ♪",
+    ]
+)
+
+WitchMinnieChatter = (
+        [ # Greetings
+        "Welcome to Magicland... I mean Melodyland!",
+        "Hi, my name is Magic Minnie! What's yours?",
+        "Hello, I think you're enchanting!",
+        "Happy Halloween!",
+        "Happy Halloween, %!",
+        ],
+        [ # Comments
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "It's a magical day, don't you think?",
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "Now where did I put my spell book",
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "Abra-Cadabra!",
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "Toontown looks positively spooky today!",
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "Are you seeing stars too?",
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "Purple is really my color!",
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "I hope your Halloween is bewitching!",
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "Beware of musical spiders!",
+        "I hear Tabitha has treats for Really Kool Katz who can play tricks!",
+        "I hope you are enjoying our Halloween fun!",
+        ],
+        [ # Goodbyes
+        "I'm going to disappear now!",
+        "Time for me to vanish!",
+        "Mickey is taking me Trick-or-Treating!",
+        ]
+    )
+
 DaisyChatter = (
         [ # Greetings
         "マイガーデンへようこそ！",
@@ -4438,6 +4636,117 @@ DaisyChatter = (
         ]
     )
 
+ValentinesDaisyChatter = (
+    [
+    "こんにちは、私はデイジー！",
+    "ハッピー　“バレントゥーン”デー！",
+    "ハッピー　“バレントゥーン”デー、 %",
+    ],
+    [
+    "去年はドナルドがアモーレ・イールをプレゼントしてくれたのよ！",
+    "ドナルドと二人でハトバにあるレストランに行くの♪",
+    "ドナルドにたくさんのバラをプレゼントしたいわ♪",
+    "もうハート型のゲラゲラブーストは試した？",
+    "“バレントゥーン”デー　パーティーに行きたいわ！",
+    "ここはラブラブなムードでいっぱいの庭でしょ♪",
+    "ドナルドが“バレントゥーン”に寝過ごさないといいのだけれど…",
+    "ドナルドに、ミッキーとミニーも一緒にデートできないか聞いてみましょう♪",
+    ],
+    [
+    "ドナルドに「待ってるわ」って伝えてくれる？",
+    "よい“バレントゥーン”デーを過ごしてね♪",
+    ]
+)
+    
+WinterDaisyCChatter = (
+        [ # Greetings
+        "ここは冬でもお花でいっぱいなのよ♪",
+        "ハッピー・ウィンター・ホリデー！",
+        "ハッピー・ウィンター・ホリデー、 %！",
+        ],
+        [ # Comments
+        "ストリートのてんいんの中にもクリスマスソングが大好きな人が多いの♪",
+        "ここにもっと木が欲しいわね。",
+        "ストリートのてんいんの中にもクリスマスソングが大好きな人が多いの♪",
+        "来年のためにここにヒイラギを植えようかしら。",
+        "ストリートのてんいんの中にもクリスマスソングが大好きな人が多いの♪",
+        "グーフィーにたのんでここにジンジャーブレッドの家を建ててもらうわ♪",
+        "ストリートのてんいんの中にもクリスマスソングが大好きな人が多いの♪",
+        "カラフルなランプがとってもキレイ！",
+        "ストリートのてんいんの中にもクリスマスソングが大好きな人が多いの♪",
+        "かざりつけたヒイラギが楽しそうでしょ♪",
+        "ストリートのてんいんの中にもクリスマスソングが大好きな人が多いの♪",
+        "たいへん！スノーマンが溶けだしているわ！",
+        "ストリートのてんいんの中にもクリスマスソングが大好きな人が多いの♪",
+        "あのアヒルの木の飾り付け、ステキよね！",
+        "ストリートのてんいんの中にもクリスマスソングが大好きな人が多いの♪",
+        "このライトの飾り付け、私のデザインなのよ！",
+        ],
+        [ # Goodbyes
+        "楽しいウィンターホリデーを過ごしてね！",
+        "お花や木の飾りを楽しんでいってね！",
+        "ドナルドに会ったらプレゼントを楽しみにしてるって伝えてね♪",
+        "あら、ドナルドの歌っている声が聞こえたわ！",
+        ]
+    )
+    
+WinterDaisyDChatter = (
+        [ # Greetings
+        "ここは冬でもお花でいっぱいなのよ♪",
+        "ハッピー・ウィンター・ホリデー！",
+        "ハッピー・ウィンター・ホリデー、 %！",
+        ],
+        [ # Comments
+        "ここにもっと木が欲しいわね。",
+        "来年のためにここにヒイラギを植えようかしら。",
+        "グーフィーにたのんでここにジンジャーブレッドの家を建ててもらうわ♪",
+        "カラフルなランプがとってもキレイ！",
+        "かざりつけたヒイラギが楽しそうでしょ♪",
+        "たいへん！スノーマンが溶けだしているわ！",
+        "あのアヒルの木の飾り付け、ステキよね！",
+        "このライトの飾り付け、私のデザインなのよ！",
+        ],
+        [ # Goodbyes
+        "楽しいウィンターホリデーを過ごしてね！",
+        "お花や木の飾りを楽しんでいってね！",
+        "ドナルドに会ったらプレゼントを楽しみにしてるって伝えてね♪",
+        "あら、ドナルドの歌っている声が聞こえたわ！",
+        ]
+    )
+    
+HalloweenDaisyChatter = (
+        [ # Greetings
+        "Welcome to Daisy Ghosts... I mean Gardens!",
+        "Happy Halloween!",
+        "Happy Halloween, %!",
+        ],
+        [ # Comments
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "The pirate tree needs water.",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "Trick-or-Tree!",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "Do you notice anything strange about the trees?",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "I should grow some pumpkins!",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "WHO notices something different about the lamps?",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "Halloween really grows on me!",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "Twig-or-Treat!",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "Owl bet you didn't notice the spooky lamps!",
+        "Visit my friend Leif Pyle if you have a trick and Rake Inn the treats!",
+        "I hope you are enjoying our Halloween fun!",
+        ],
+        [ # Goodbyes
+        "Donald is taking me Trick-or-Treating!",
+        "I'm going to check out the fun Halloween decorations."
+        ]
+    )
+
+
 ChipChatter = (
         [ # Greetings
         "%sにようこそ!" % lOutdoorZone,
@@ -4459,6 +4768,63 @@ ChipChatter = (
         ]
     )
 
+ValentinesChipChatter = (
+    [ # Greetings
+    "ボクはチップ！",
+    "ハッピー　“バレントゥーン”デー！",
+    "ハッピー　“バレントゥーン”デー、, %!",
+    ],
+    [ # Comments
+    "デール、“バレントゥーン”にはボクになにをくれるの？",
+    "ゲラゲラブーストがハート型になってるね♪",
+    "デール、一緒に“バレントゥーン”を盛り上げようね！",
+    "コグ達には“バレントゥーン”に何をあげようか？",
+    "“バレントゥーン”デーって楽しいね♪",
+    ],
+    [ # Goodbyes
+    "また遊びに来てね！",
+    ]
+)
+    
+WinterChipChatter = (
+        [ # Greetings
+        "ハッピー・ウィンター・ホリデー！",
+        "ボクの衣装いいでしょ？",
+        "ハッピー・ウィンター・ホリデー、 %!",
+        ],
+        [ # Comments
+        "Happy Winter Holiday, Dale!",
+        "You'd think all this water would freeze in winter!",
+        "We should switch the golf balls with snowballs!",
+        "If only chipmunks knew how to sing!",
+        "Did you remeber to store nuts for the winter?",
+        "Did you get the Cogs a present?",
+        ],
+        [ # Goodbyes
+        "Have a joyful Winter Holiday!",
+        "Be sure to give those Cogs a present from us!",
+        ]
+    )
+    
+HalloweenChipChatter = (
+        [ # Greetings
+        "Play some MiniGhoul... I mean Golf!",
+        "Happy Halloween!",
+        "Happy Halloween, %!",
+        ],
+        [ # Comments
+        "We're nuts about Halloween!",
+        "I'm Dale dressed as Chip.",
+        "Play golf and get a Howl-In-One.",
+        "Candy corns are sweeter than acorns.",
+        "I hope you are enjoying our Halloween fun!",
+        ],
+        [ # Goodbyes
+        "%, watch out for Bloodsucker Cogs!",
+        ]
+    )
+
+
 # Warning Dale's chatter is dependent on on Chip's, they should match up
 DaleChatter = (
         [ # Greetings
@@ -4478,6 +4844,63 @@ DaleChatter = (
         "よし、%sに行くじゅんびをしよう！" % Donald,
         "のんびりと泳ぎにゆきたいなあ。",
         "うん、そろそろつかれてきたからきゅうけいしようよ。",
+        ]
+    )
+
+ValentinesDaleChatter = (
+    [ # Greetings
+    "ボクはデール！",
+    "ハッピー　“バレントゥーン”デー！",
+    "ハッピー　“バレントゥーン”デー、%!",
+    ],
+    [ # Comments
+    "去年と同じ、なんにも用意してないよ！",
+    "ドングリの方が絶対いいよ！",
+    "チップ、一緒に“バレントゥーン”を盛り上げようね！",
+    "顔一杯のパイでいいんじゃないかなぁ♪",
+    "うん、もちろんさ♪",
+    ],
+    [ # Goodbyes
+    "また遊びに来てね！",
+    ]
+)
+    
+WinterDaleChatter = (
+        [ # Greetings
+        "Merry chipmunks!",
+        "Hi, we're two merry elves!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "Happy Winter Holiday, Chip!",
+        "You'd think all this water would freeze in winter!",
+        "We should switch the golf balls with snowballs!",
+        "If only chipmunks knew how to sing!",
+        "Did you rember to store nuts for the winter?",
+        "Uh-oh.",
+        ],
+        [ # Goodbyes
+        "Have a joyful Winter Holiday!",
+        "Be sure to give those cogs a present from us!",        
+        ]
+    )
+    
+HalloweenDaleChatter = (
+        [ # Greetings
+        "Happy Halloween, %!",
+        "Play some MiniGhoul... I mean Golf!",
+        "Happy Halloween!",        
+        ],
+        [ # Comments
+        "I hope you are enjoying our Halloween fun!",
+        "We're nuts about Halloween!",
+        "I'm Chip dressed as Dale.",
+        "Play golf and get a Howl-In-One.",
+        "Candy corns are sweeter than acorns.",        
+        ],
+        [ # Goodbyes
+        "%, watch out for Bloodsucker Cogs!",
         ]
     )
 
@@ -4509,7 +4932,50 @@ GoofyChatter = (
         ]
     )
 
-
+WinterGoofyChatter = (
+        [ # Greetings
+        "I'm Goofy about the holidays!",
+        "Welcome to Snowball Speedway!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "Who needs reindeer when you have a fast kart?",
+        "Gawrsh! Is it Witer Holiday already?",
+        "I need my earmuffs!",
+        "I haven't done any shopping yet!",
+        "Don't drive your kart on ice!",
+        "Seems like it was Winter Holiday only a year ago!",
+        "Treat your kart to a present and spruce it up!",
+        "These karts are better than any old sleigh!",
+        "Is it hard to drive with a snowman head?",
+        ],
+        [ # Goodbyes
+        "Have a cheery Winter Holiday!",
+        "Drive safe, now!",
+        "Watch out for flrying reindeer!",
+        ]
+    )
+    
+ValentinesGoofyChatter = (
+    [
+    "“バレントゥーン”デーが大好きなグーフィーだよ！",
+    "ハッピー　“バレントゥーン”デー！",
+    "ハッピー　“バレントゥーン”デー、 %!",
+    ],
+    [
+    "オヒョッ！もう“バレントゥーン”かい？",
+    "カートレースにラブラブなんだ♪",
+    "今日もみんなにラブラブでゆくよ！",
+    "好きな人にキミのカートを見せてあげようよ！",
+    "トゥーンはみんなカートが大好き♪",
+    "レースで新しい友だとを見つけようよ！",
+    ],
+    [
+    "安全運転でデートしてね♪",
+    "キミのラブでタウンを一杯にしちゃおう！",
+    ]
+)
 
 GoofySpeedwayChatter = (
         [ # Greetings
@@ -4538,6 +5004,32 @@ GoofySpeedwayChatter = (
         ]
     )
 
+SuperGoofyChatter = (
+        [ # Greetings
+        "Welcome to my Super Speedway!",
+        "Hi, I'm Super Goof! What's your name?",
+        "Happy Halloween!",
+        "Happy Halloween, %!",
+        ],
+        [ # Comments        
+        "I am feeling kind of batty today!",
+        "Anybody see my cape around? Oh, there it is!",
+        "Gawrsh! I don't know my own strength!",
+        "Did somebody call for a superhero?",
+        "Beware Cogs, I'll save Halloween!",
+        "There's nothing scarier than me in a kart!",
+        "I bet you don't know who I am with this mask on!",
+        "It's fun to dress up for Halloween!",
+        "I hope you are enjoying our Halloween fun!",
+        ],
+        [ # Goodbyes
+        "Gotta fly!",
+        "Hi-Ho and away I go!",
+        "Should I fly or drive to Donald's Dock?",
+        "Gawrsh, have a Happy Halloween!",
+        ]
+    )
+
 DonaldChatter = (
         [ # Greetings
         "ドリームランドへようこそ！", #CC_donald_chatter_greeting01.mp3
@@ -4561,6 +5053,295 @@ DonaldChatter = (
         "" + Daisy + "とのデートに遅れちゃう…", #CC_donald_chatter_goodbyes02.mp3
         "よおっし、ちょっと泳ごうかなぁ…", #CC_donald_chatter_goodbyes03.mp3
         "ボートは楽しいな！", #CC_donald_chatter_goodbyes04.mp3
+        ]
+    )
+
+WinterDreamlandCChatter = (
+        [ # Greetings
+        "Hi, I'm Dozing Donald!",
+        "Welcome to Holiday Dreamland!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
+        "I wish I was nestled all snug in my bed!",
+        "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
+        "I'm dreaming of a white Toontown!",
+        "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
+        "I meant to leave out milk and cookies!",
+        "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
+        "When I wake up, I better see lots of presents!",
+        "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
+        "I hope I don't sleep through the holidays!",
+        "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
+        "I love a long winter's nap!",
+        "Willow says that learning a little Sleep Voice Training is a real present, sing her a tune and find out why!",
+        "The trees on the streets are convered in night lights!",
+        ],
+        [ # Goodbyes
+        "To all, a good night!",
+        "Sweet dreams!",
+        "When I wake up I am going caroling!",
+        ]
+    )
+    
+WinterDreamlandDChatter = (
+        [ # Greetings
+        "Hi, I'm Dozing Donald!",
+        "Welcome to Holiday Dreamland!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "I wish I was nestled all snug in my bed!",
+        "I'm dreaming of a white Toontown!",
+        "I meant to leave out milk and cookies!",
+        "When I wake up, I better see lots of presents!",
+        "I hope I don't sleep through the holidays!",
+        "I love a long winter's nap!",
+        "The trees on the streets are convered in night lights!",
+        ],
+        [ # Goodbyes
+        "To all, a good night!",
+        "Sweet dreams!",
+        "When I wake up I am going caroling!",
+        ]
+    )
+    
+HalloweenDreamlandChatter = (
+        [ # Greetings
+        "Happy Halloween!",
+        "Happy Halloween, %!",
+        ],
+        [ # Comments
+        "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
+        "My dreams sure are spooky tonight!",
+        "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
+        "I must be dreaming, that lamp is a witch!",
+        "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
+        "Am I dreaming, or did that Toon have a pumpkin head?",
+        "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
+        "When I wake up, I hope things aren't as spooky!",
+        "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
+        "I hope I don't sleep through Halloween!",
+        "If you can play a trick on my friend Max, then you can Relax To The Max with a treat!",
+        "I hope you are enjoying our Halloween fun!",
+        ],
+        [ # Goodbyes
+        "Sleep with the lights on tonight!",
+        "When I wake up, I am going Trick-or-Treating!",
+        ]
+    )
+    
+ValentinesDreamlandChatter = (
+    [
+    "やぁ、ボクはドナルドだ…グゥ～…",
+    "ハッピー　“バレントゥーン”デー！",
+    "ハッピー　“バレントゥーン”デー、 %!",
+    ],
+    [
+    "“バレントゥーン”デーだ、もう起きなきゃ…",
+    "ずっとデイジーの夢をみてたんだ♪",
+    "うっかり“バレントゥーン”を寝過ごす夢をみたよ！",
+    "ハート型のゲラゲラブースト、もう試した？",
+    "“バレントゥーン”パーティーを開いてよ！",
+    "たくさんのパイでコグ達もお祝いしてあげよう！",
+    "“バレントゥーン”デーはサイコーの祝日なのさ！",
+    "もう寝なきゃ…",
+    ],
+    [
+    "じゃ、おやすみ…",
+    "“バレントゥーン”デーになったら起こしに来てくれる？",
+    ]
+)
+
+HalloweenDonaldChatter = (
+        [ # Greetings
+        "Welcome to my Halloween harbor!",
+        "Come aboard, if you have treats!",
+        "Happy Halloween!",
+        "Happy Halloween, %!",
+        ],
+        [ # Comments
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "But I wear a sailor costume every day!",
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "Pumpkins make great lanterns!",
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "I've never seen palm trees with hairy legs before!",
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "Maybe I'll be a pirate next Halloween!",
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "I think the best treats are starfish!",
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "I'll take you Trick-or-Treating around the harbor!",
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "I hope those spiders stay in the trees!",
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "What do you call a ghost in the water? A BOO-y!",
+        "If playing tricks is making you feel Rudderly Ridiculous, then go see Rudy for a treat!",
+        "I hope you are enjoying our Halloween fun!",
+        ],
+        [ # Goodbyes
+        "Set sail for scares!",
+        "Happy haunting!",
+        "I'm going to check out the spooky Halloween decorations."
+        ]
+    )
+    
+ValentinesDonaldChatter = (
+    [
+    "やぁ、ボクはドナルドだよ！",
+    "ハッピー　“バレントゥーン”デー！",
+    "ハッピー　“バレントゥーン”デー、 %!",
+    ],
+    [
+    "“バレントゥーン”にデイジーをデートにさそった方がいいかなぁ？",
+    "ハトバをもう一周する間にデイジーへのプレゼントを決めるよ…。",
+    "デイジーはどんなデートを期待してるのかなぁ？",
+    "水の中のハート型のゲラゲラブースト、もう試した？",
+    "“バレントゥーン”パーティーってのもいいね♪",
+    "たくさんのパイでコグ達もお祝いしてあげよう！",
+    "アモーレ・イールってプレゼントになるかなぁ？",
+    ],
+    [
+    "アロハ～♪",
+    "コグ達にもラブが必要かもね♪",
+    ]
+)
+    
+WinterDonaldCChatter = (
+        [ # Greetings
+        "Welcome to Donald's Boat and Sleigh Dock!",
+        "All aboard for the Winter Holiday cruise!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "How do you like my duck-orations?",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "What is snow doing on the lamp posts?",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "This water better not ice over!",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "How did they get the lights up in those trees?",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "This boat is better than a sleigh! or is it?",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "I don't need reindeer to pull this boat!",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "I'm glad I'm not a turkey this time of year!",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "My present to you? Free boat rides!",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        "I hope I don't get a lump of coal again!",
+        "I hear that Dante has Gifts With A Porpoise, share a song and he may have a gift for you too!",
+        ],
+        [ # Goodbyes
+        "All ashore for holiday fun!",
+        "Remember to tip your boat driver on the way out!",
+        "Enjoy your holiday!",
+        ]
+    )
+    
+WinterDonaldDChatter = (
+        [ # Greetings
+        "Welcome to Donald's Boat and Sleigh Dock!",
+        "All aboard for the Winter Holiday cruise!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %!",
+        ],
+        [ # Comments
+        "How do you like my duck-orations?",
+        "What is snow doing on the lamp posts?",
+        "This water better not ice over!",
+        "How did they get the lights up in those trees?",
+        "This boat is better than a sleigh! or is it?",
+        "I don't need reindeer to pull this boat!",
+        "I'm glad I'm not a turkey this time of year!",
+        "My present to you? Free boat rides!",
+        "I hope I don't get a lump of coal again!",
+        ],
+        [ # Goodbyes
+        "All ashore for holiday fun!",
+        "Remember to tip your boat driver on the way out!",
+        "Enjoy your holiday!",
+        ]
+    )
+    
+WesternPlutoChatter = (
+        [# Greetings
+        "Boo! Don't be scared, it's just me ... Pluto!",
+        "Happy Halloween, pardner!",
+        "Happy Halloween, %!",
+        ],
+        [ # Comments
+        "Frosty Fred has treats for tricks, they make him feel like there's Snowplace Like Home!",
+        "I do tricks for treats!",
+        "Frosty Fred has treats for tricks, they make him feel like there's Snowplace Like Home!",
+        "Mickey's taking me Trick-or-Treating later!",
+        "Frosty Fred has treats for tricks, they make him feel like there's Snowplace Like Home!",
+        "It feels more like Winter Holiday than Halloween!",
+        "Frosty Fred has treats for tricks, they make him feel like there's Snowplace Like Home!",
+        "Bark! That's 'Trick-or-Treat' in dog!",
+        "Frosty Fred has treats for tricks, they make him feel like there's Snowplace Like Home!",
+        "I hope you are enjoying our Halloween fun!",
+        "Frosty Fred has treats for tricks, they make him feel like there's Snowplace Like Home!",
+        "I like to chase Black Cat Toons!",
+        ],
+        [ # Goodbyes
+        "I'm going to go dig up a treat!",
+        "I'm going to see if Mickey has some treats!",
+        "I'm going to scare Donald!",
+        ]
+    )
+    
+WinterPlutoCChatter = (
+        [# Greetings
+        "Hi, I'm Pluto!",
+        "Welcome to the Brrgh, where it's winter all year!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %",
+        ],
+        [ # Comments
+        "Eddie could use a good tune, because Snowman's Land is a lonely place for a Yeti!",
+        "I chewed on an icicle and got frost-bite!",
+        "Eddie could use a good tune, because Snowman's Land is a lonely place for a Yeti!",
+        "This is like living in a snow globe!",
+        "Eddie could use a good tune, because Snowman's Land is a lonely place for a Yeti!",
+        "I wish I was beside a warm fire!",
+        "Eddie could use a good tune, because Snowman's Land is a lonely place for a Yeti!",
+        "Arf! Arf! I need a scarf!",
+        "Eddie could use a good tune, because Snowman's Land is a lonely place for a Yeti!",
+        "At least my nose isn't red and glowing!",
+        ],
+        [ # Goodbyes
+        "Have a fun Winter Holiday!",
+        "Come back any time you want snow!",
+        "Mickey is taking me caroling!",
+        ]
+    )
+    
+WinterPlutoDChatter = (
+        [# Greetings
+        "Hi, I'm Pluto!",
+        "Welcome to the Brrgh, where it's winter all year!",
+        "Happy Winter Holiday!",
+        "Happy Winter Holiday, %",
+        ],
+        [ # Comments
+        "I chewed on an icicle and got frost-bite!",
+        "This is like living in a snow globe!",
+        "I wish I was beside a warm fire!",
+        "Arf! Arf! I need a scarf!",
+        "At least my nose isn't red and glowing!",
+        ],
+        [ # Goodbyes
+        "Have a fun Winter Holiday!",
+        "Come back any time you want snow!",
+        "Mickey is taking me caroling!",
         ]
     )
 
@@ -4765,25 +5546,25 @@ DownloadForceAcknowledgeMsg = "%(phase)sのダウンロードが%(percent)s%%し
 # TeaserPanel.py
 TeaserTop = ""
 TeaserBottom = ""
-TeaserDefault = "\nフルアクセス専用だよ。\n登録しよう！"
-TeaserOtherHoods = "７つの変わったエリアで楽しもう！"
-TeaserTypeAName = "自分のトゥーンに好きな名前をつけよう！"
-TeaserSixToons = "１つのアカウントでトゥーンを６つ作れるよ！"
-TeaserClothing = "ユニークなアイテムでキミのトゥーンを目立たせよう！"
-TeaserCogHQ = "強いコグたちの危険なエリアに忍び込もう！"
-TeaserSecretChat = "ともだちとパスワードを交換して、オンラインでチャットしよう！"
-TeaserSpecies = "サルやウマ、クマのトゥーンを作って遊ぼう！"
-TeaserFishing = "全種類のサカナを集めてみよう！"
-TeaserGolf = "しかけが一杯のゴルフコースで楽しもう！"
-TeaserParties = "パーティーを開こう"
+TeaserDefault = ""
+TeaserOtherHoods = "登録受付けは終了しました！"
+TeaserTypeAName = "登録受付けは終了しました！"
+TeaserSixToons = "登録受付けは終了しました！"
+TeaserClothing = "登録受付けは終了しました！"
+TeaserCogHQ = "登録受付けは終了しました！"
+TeaserSecretChat = "登録受付けは終了しました！"
+TeaserSpecies = "登録受付けは終了しました！"
+TeaserFishing = "登録受付けは終了しました！"
+TeaserGolf = "登録受付けは終了しました！"
+TeaserParties = "登録受付けは終了しました！"
 TeaserSubscribe = "今すぐ申し込む"
 TeaserContinue = "お試し体験を続ける"
-TeaserEmotions = "カタログでは「手をふる」、「ほめる」といったトゥーンの\n  表現も買うことができるよ。表現ゆたかなトゥーンにしよう！"
-TeaserKarting = "ともだちのカートと一緒に楽しくレースしよう！"
-TeaserKartingAccessories = "かっこいいアクセサリーで、キミのカートをカスタマイズしよう!"
-TeaserGardening = "キミのおうちの庭を花や像やギャグの木できれいにかざろう！"
-TeaserHaveFun = "楽しんでね！"
-TeaserJoinUs = "登録しよう！"
+TeaserEmotions = "登録受付けは終了しました！"
+TeaserKarting = "登録受付けは終了しました！"
+TeaserKartingAccessories = "登録受付けは終了しました！"
+TeaserGardening = "登録受付けは終了しました！"
+TeaserHaveFun = "登録受付けは"
+TeaserJoinUs = "終了しました"
 
 #TeaserCardsAndPosters = ""
 #TeaserFurniture = ""
@@ -4814,9 +5595,9 @@ LauncherPhaseNames = {
     6   : "ｴﾘｱ①",
     7   : Cog,
     8   : "ｴﾘｱ②",
-    9   : Cog + lHQ,
-    10  : lCashbotHQ,
-    11  : lLawbotHQ,
+    9   : Cog + "本部",
+    10  : "マネーボット本部",
+    11  : "ロウボット本部",
     12  : Bossbot + " HQ",
     13  : "ﾊﾟｰﾃｨｰ",
     }
@@ -4848,7 +5629,7 @@ LauncherVerifyPhase = "ﾄｩｰﾝﾀｳﾝをｱｯﾌﾟﾃﾞｰﾄ中…"
 # AvatarChoice.py
 AvatarChoiceMakeAToon = "トゥーンを\nつくろう！"
 AvatarChoicePlayThisToon = "このトゥーンを\nえらぶ"
-AvatarChoiceSubscribersOnly = "\nいますぐ\nメンバーに\nなろう！" #★
+AvatarChoiceSubscribersOnly = "登録\n受付けは\n終了\nしました！" #★
 AvatarChoiceDelete = "消す"
 AvatarChoiceDeleteConfirm = "%s が削除されるよ。いいのかな？"
 AvatarChoiceNameRejected = "なまえが\n使えないよ！"
@@ -4959,6 +5740,15 @@ EventsPageNewsPaperTitle = "トゥーンタウン・マガジン"
 EventsPageNewsLeftSubtitle = "ジェリービーンで買える！"
 EventsPageNewsRightSubtitle = "トゥーン暦 2009年　創刊"
 
+# NewsPage.py
+NewsPageName = "News"
+NewsPageImportError = 'Could not start in game news.'
+
+# DirectNewsFrame.py
+IssueFrameThisWeek = "this week"
+IssueFrameLastWeek = "last week"
+IssueFrameWeeksAgo = "%d weeks ago"
+
 # InvitationSelection.py
 SelectedInvitationInformation = "%sが %sのトゥーンタウン時間の%sからパーティーを開くよ。"
 
@@ -5012,6 +5802,7 @@ PartyPlannerBirthdayTheme = "誕生日"
 PartyPlannerGenericMaleTheme = "スター"
 PartyPlannerGenericFemaleTheme = "フラワー"
 PartyPlannerRacingTheme = "レーシング"
+PartyPlannerValentoonsTheme = "バレントゥーン"
 PartyPlannerGuestName = "ゲスト名"
 PartyPlannerClosePlanner = "プランナーを閉じる"
 PartyPlannerConfirmationAllOkTitle = "おめでとう！"
@@ -5024,7 +5815,7 @@ PartyPlannerConfirmationTooManyText = "すでにパーティーを設定ずみ�
 PartyPlannerInvitationThemeWhatSentence = "%sパーティーに招待するよ！来てくれるかい、%s"
 PartyPlannerInvitationThemeWhatSentenceNoFriends = "%sパーティーを開くんだ！来てくれるかい、%s"
 PartyPlannerInvitationThemeWhatActivitiesBeginning = "アクティビティ　"
-PartyPlannerInvitationWhoseSentence = "%sのパーティー"
+PartyPlannerInvitationWhoseSentence = "%sパーティー"
 PartyPlannerInvitationTheme = "テーマ"
 PartyPlannerInvitationWhenSentence = "%s、\n トゥーンタウン時間の%sからスタート！\n来てくれたらうれしいな♪"
 PartyPlannerInvitationWhenSentenceNoFriends = "%s、\n トゥーンタウン時間の%sからスタート！\nみんなで楽しもう♪"
@@ -5115,8 +5906,8 @@ JukeboxCurrentSongNothing = "プレイリストに曲を追加"
 
 PartyOverWarningNoName = "パーティーが終了しました。来てくれてありがとう！"
 PartyOverWarningWithName = "%sのパーティーが終了しました。来てくれてありがとう！"
-PartyCountdownClockText = "残り\n\n時間"
-PartyTitleText = "%sのパーティー！" # what you see when you enter a party
+PartyCountdownClockText = "残り\n\n分"
+PartyTitleText = "%sパーティー！" # what you see when you enter a party
 
 PartyActivityConjunction = ", "
 # Note : This dictionary is used to show the names of the activities in various
@@ -5183,6 +5974,12 @@ PartyActivityNameDict = {
         "editor" : "ダンスフロア - 20",
         "description" : "20種類のムーブを使いこなせば、キミはもうダンスマスター♪"
     },    
+    10: {
+        "generic" : "Cog Pie Toss",
+        "invite" : "Cog Pie Toss",
+        "editor" : "Cog Pie Toss",
+        "description" : "Team vs. Team\nThrow pies at cogs!"
+    },
 }
 
 # Note : This dictionary is used to show the names of the decorations in various
@@ -5190,15 +5987,15 @@ PartyActivityNameDict = {
 #        updated with new indices.
 PartyDecorationNameDict = {
     0 : {
-        "editor" : "ふうせん用のおもり",
+        "editor" : "ふうせん用の\nおもり",
         "description" : "飛んでいっちゃったらイヤだものね！",
     },
     1 : {
-        "editor" : "メイン・ステージ",
+        "editor" : "メイン・\nステージ",
         "description" : "ふうせん、ホシ、他にほしいものは？",
     },
     2 : {
-        "editor" : "パーティー用リボン",
+        "editor" : "パーティー用\nリボン",
         "description" : "パーティーではやっぱりおしゃれに☆",
     },
     3 : {
@@ -5206,23 +6003,23 @@ PartyDecorationNameDict = {
         "description" : "おいしいヨ♪",
     },
     4 : {
-        "editor" : "パーティー・キャッスル",
+        "editor" : "パーティー・\nキャッスル",
         "description" : "トゥーンのおうちがお城に…！？",
     },
     5 : {
-        "editor" : "山積みのギフト",
+        "editor" : "山積みの\nギフト",
         "description" : "本日のお土産で～す。",
     },
     6 : {
-        "editor" : "ストリーマー・ホーン",
+        "editor" : "ストリーマー・\nホーン",
         "description" : "ゆかいで楽しいホーンだよ。",
     },
     7 : {
-        "editor" : "パーティー・ゲート",
+        "editor" : "パーティー・\nゲート",
         "description" : "カラフル＆ポップ！もりあがるよね♪",
     },
     8 : {
-        "editor" : "ノイズ・メーカー",
+        "editor" : "ノイズ・\nメーカー",
         "description" : "ぺちゃくちゃ、ざわざわ…！",
     },
     9 : {
@@ -5230,7 +6027,7 @@ PartyDecorationNameDict = {
         "description" : "みんなが大好きなカラフルなかざぐるま。",
     },
     10 : {
-        "editor" : "ギャグ・グローブ",
+        "editor" : "ギャグ・\nグローブ",
         "description" : "デザインがすばらしいギャグと星のグローブ",
     },
     11 : {
@@ -5238,8 +6035,20 @@ PartyDecorationNameDict = {
         "description" : "ジェリービーンのバナーも一味違っていい感じ☆",
     },
     12 : {
-        "editor" : "ギャグのケーキ",
+        "editor" : "ギャグの\nケーキ",
         "description" : "これがないとパーティーがもりあがらないよね。",
+    },
+    13: {
+        "editor" : "キューピッドの\nハート",
+        "description" : "キミはバレントゥーン・デーのターゲットかも！"
+    },
+    14: {
+        "editor" : "ハート・バナー",
+        "description" : "バレントゥーン・デーを一緒に楽しもう！"
+    },
+    15: {
+        "editor" : "フライング・\nハート",
+        "description" : "バレントゥーンスピリットがしみるね！"
     },
 }
 
@@ -5254,7 +6063,7 @@ PartyPlannerNpcMinCost = "パーティーのプランには、最低%dコのジ�
 
 # Party Gates
 PartyHatPublicPartyChoose = "次のパブリック・パーティー(参加自由)に行ってみる？"
-PartyGateTitle = "パブリック\n・パーティー"
+PartyGateTitle = "パブリック・パーティー"
 PartyGateGoToParty = "パーティーに\n行く！"
 PartyGatePartiesListTitle = "しゅさい者"
 PartyGatesPartiesListToons = "トゥーン"
@@ -5350,6 +6159,45 @@ PartyTrampolineReady = "ようい..."
 PartyTrampolineGo = "スタート！"
 PartyTrampolineBestHeight = "今までのベスト・ジャンプ： \n%s\n%dメートル"
 PartyTrampolineNoHeightYet = "どこまで高く\nとべるかな？"
+PartyTrampolineGetHeight = "%dメートル"
+
+# DistributedPartyTeamActivity.py
+# extra spaces on purpose given the blocky font
+PartyTeamActivityForMorePlural = "　"
+PartyTeamActivityForMore = "両側にあと%d 人%s\nひつようだよ"
+PartyTeamActivityForMoreWithBalance = "あと%d 人%s待っています"
+PartyTeamActivityWaitingForOtherPlayers = "他のプレイヤーを待っているよ..."
+PartyTeamActivityWaitingToStart = "はじまるよ…"
+PartyTeamActivityExitButton = "おりる"
+PartyTeamActivitySwitchTeamsButton = "チームを\nかえる"
+PartyTeamActivityWins = "%s チームの勝ち！"
+PartyTeamActivityLocalAvatarTeamWins = "キミのチームの勝ち！"
+PartyTeamActivityGameTie = "ひきわけ！"
+PartyTeamActivityJoinDenied = "ごめんね、今は %s参加できません。"
+PartyTeamActivityExitDenied = "おっと、今は %s抜けられないよ。"
+PartyTeamActivitySwitchDenied = "おっと、今はチームをかえられないよ。"
+PartyTeamActivityTeamFull = "残念、このチームはもういっぱいだって！"
+PartyTeamActivityRewardMessage = "ジェリービーンを %d個ゲット！やったね！"
+
+# DistributedPartyCogActivity/AI.py
+PartyCogTeams = ("ブルー", "オレンジ") # (left, right)
+PartyCogRewardMessage = "キミのスコア： %d\n" # unused?
+PartyCogRewardBonus = "\nキミのチームの勝ち%s 　 %d個のジェリービーンをゲット！" # unused?
+PartyCogJellybeanPlural = "　" # unused?
+PartyCogSignNote = "ハイスコア\n%s\n%d"
+PartyCogTitle = "コグパイ投げ"
+PartyCogInstructions = \
+"コグにパイを投げてキミのチームから遠ざけよう。 " +\
+"時間切れした時により多くのコグを反対側に残していた方が勝ちだよ！" +\
+"\n\nパイはCtrlキーで投げてね。移動は矢印キーを使おう。"
+
+# PartyCogActivity.py
+PartyCogDistance = "%d m"
+PartyCogTimeUp = "時間切れ！"
+
+# PartyCogActivityGui.py
+PartyCogGuiScoreLabel = "スコア"
+PartyCogGuiPowerLabel = "パワー"
 
 # DistributedPartyTugOfWarActivity.py
 PartyTugOfWarJoinDenied = "ごめん、今はつなひきには参加できないよ。"
@@ -5380,6 +6228,9 @@ CalendarPartyGo = "パーティーだ♪"
 CalendarPartyFinished = "おわりだよ..."
 CalendarPartyCancelled = "中止"
 CalendarPartyNeverStarted = "スタートできません"
+
+# NPCFriendPanel.py
+NPCFriendPanelRemaining = "残り %s"
 
 # MapPage.py
 MapPageTitle = "地図"
@@ -5750,7 +6601,7 @@ TownBattleRun = "さっきいたプレイグラウンドへ戻る？"
 # TownBattleChooseAvatarPanel.py
 TownBattleChooseAvatarToonTitle = "どのトゥーン？"
 TownBattleChooseAvatarCogTitle = "どの " + Cog.upper() + "？"
-TownBattleChooseAvatarBack = lBack
+TownBattleChooseAvatarBack = "戻る"
 
 #firecogpanel
 FireCogTitle = "かいこ通知の数:%s\nどのコグをクビにする?"
@@ -5760,7 +6611,7 @@ FireCogLowTitle = "かいこ通知の数:%s\nたりないよ！"
 TownBattleSOSNoFriends = "電話する友だちがいないよ！"
 TownBattleSOSWhichFriend = "どの友だちに電話する？"
 TownBattleSOSNPCFriends = "助けたトゥーンたち"
-TownBattleSOSBack = lBack
+TownBattleSOSBack = "戻る"
 
 # TownBattleToonPanel.py
 TownBattleToonSOS = "ＳＯＳ"
@@ -5771,7 +6622,7 @@ TownBattleHealthText = "%(hitPoints)s/%(maxHit)s"
 # TownBattleWaitPanel.py
 TownBattleWaitTitle = "他のプレイヤー\nを待ってます…"
 TownSoloBattleWaitTitle = "待っててね…"
-TownBattleWaitBack = lBack
+TownBattleWaitBack = "戻る"
 
 # TownBattleSOSPetSearchPanel.py
 TownBattleSOSPetSearchTitle = "ドゥードゥルを探しています\n%s..."
@@ -5921,6 +6772,7 @@ StageBossConfrontedMsg = "%sがクラークとバトル中!"
 stageToonEnterElevator = "%s \nがエレベーターにのったよ。"
 ForcedLeaveStageAckMsg = "ロウクラークはキミがたどりつく前にたおされました。ショーカンジョーを取りもどせませんでした。"
 
+
 # DistributedMinigame.py
 MinigameWaitingForOtherPlayers = "他のプレイヤーを待っています…"
 MinigamePleaseWait = "…"
@@ -6040,6 +6892,7 @@ TargetGameBounceHelp = "地面ではねるとターゲットからはずれち�
 
 #Distributed Photo Game
 PhotoGameScoreTaken = "%s: %s\nキミ: %s"
+
 PhotoGameScoreBlank = "スコア: %s"
 PhotoGameScoreOther = "\n%s"#"スコア: %s\n%s"
 PhotoGameScoreYou = "\nベスト・ボーナス!"#"スコア: %s\nベスト・ボーナス!"
@@ -6186,7 +7039,7 @@ PetshopSell = "魚を売る"
 PetshopAdoptAPet = "ドゥードゥルを飼う"
 PetshopReturnPet = "ドゥードゥルを返す"
 PetshopAdoptConfirm = "%sを飼う（%dジェリービーン）"
-PetshopGoBack = lBack
+PetshopGoBack = "戻る"
 PetshopAdopt = "飼う"
 PetshopReturnConfirm = "%sを返しますか？"
 PetshopReturn = "返す"
@@ -6230,7 +7083,7 @@ NumToColor = ['ﾎﾜｲﾄ', 'ﾋﾟｰﾁ', 'ﾌﾞﾗｲﾄﾚｯﾄﾞ', '�
               'ｲｴﾛｰ', 'ｸﾘｰﾑ', 'ｼﾄﾘｰﾝ', 'ﾗｲﾑ', 'ｼｰｸﾞﾘｰﾝ',
               'ｸﾞﾘｰﾝ', 'ﾗｲﾄﾌﾞﾙｰ', 'ｱｸｱ', 'ﾌﾞﾙｰ',
               'ﾍﾟﾘｳｨﾝｸﾙ', 'ﾛｲﾔﾙﾌﾞﾙｰ', 'ｽﾚｰﾄﾌﾞﾙｰ', 'ﾊﾟｰﾌﾟﾙ',
-              'ﾗﾍﾞﾝﾀﾞｰ', 'ﾋﾟﾝｸ']
+              'ﾗﾍﾞﾝﾀﾞｰ', 'ﾋﾟﾝｸ', 'プラム', 'ブラック']
 AnimalToSpecies = {
     'dog': 'イヌ',
     'cat' : 'ネコ',
@@ -6504,25 +7357,25 @@ NametagTypeName = "ネームタグ"
 # Make sure numbers match up to CatalogItemTypes.py
 CatalogItemTypeNames = {
     0 : "INVALID_ITEM",
-    1 : FurnitureTypeName, 
-    2 : ChatTypeName, 
-    3 : ClothingTypeName, 
-    4 : EmoteTypeName, 
-    5 : "WALLPAPER_ITEM",
-    6 : "WindowViewTypeName",
-    7 : "FLOORING_ITEM",
-    8 : "MOULDING_ITEM",
-    9 : "WAINSCOTING_ITEM",
-    10 : PoleTypeName, 
-    11: PetTrickTypeName, 
-    12: BeanTypeName, 
-    13: GardenTypeName, 
-    14: RentalTypeName, 
-    15: GardenStarterTypeName, 
-    16: NametagTypeName, 
-    17: "TOON_STATUE_ITEM",
-    18: "ANIMATED_FURNITURE_ITEM",    
-}   
+    1 : FurnitureTypeName,
+    2 : ChatTypeName,
+    3 : ClothingTypeName,
+    4 : EmoteTypeName,
+    5 : "WALLPAPER",
+    6 : "Window View",
+    7 : "FLOORING",
+    8 : "MOULDING",
+    9 : "WAINSCOTING",
+    10: PoleTypeName,
+    11: PetTrickTypeName,
+    12: BeanTypeName,
+    13: GardenTypeName,
+    14: RentalTypeName,
+    15: GardenStarterTypeName,
+    16: NametagTypeName,
+    17: "TOON_STATUE",
+    18: "ANIMATED FURNITURE",
+}
 
 
 # Make sure this is in sync with ToonDNA.ShirtStyles
@@ -6633,9 +7486,21 @@ ShirtStylesDescriptions = {
     'sa_ss8' : "ﾚｰｼﾝｸﾞ ｼｬﾂ 1",    
     'sa_ss9' : "ﾚｰｼﾝｸﾞ ｼｬﾂ 2",    
     'sa_ss10' : "ｻﾏｰ ｼｬﾂ 1",    
-    'sa_ss11' : "ｻﾏｰ ｼｬﾂ 2",    
-
-    # name : [ shirtIdx, sleeveIdx, [(ShirtColorIdx, sleeveColorIdx), ... ]]
+    'sa_ss11' : "ｻﾏｰ ｼｬﾂ 2",
+    'sa_ss12' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ  ｼｬﾂ1",
+    'sa_ss13' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ  ｼｬﾂ2",
+    'sa_ss14' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ1",
+    'sa_ss15' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ 2",
+    'sa_ss16' : "ｱﾜｰﾄﾞ ﾏﾗｿﾝ ｼｬﾂ1",
+    'sa_ss17' : "ｱﾜｰﾄﾞ ｾｰﾌﾞ ﾋﾞﾙﾃﾞｨﾝｸﾞ ｼｬﾂ1",
+    'sa_ss18' : "ｱﾜｰﾄﾞ ｾｰﾌﾞ ﾋﾞﾙﾃﾞｨﾝｸﾞ ｼｬﾂ2",
+    'sa_ss19' : "ｱﾜｰﾄﾞ ﾄｩｰﾝ ﾀｽｸ ｼｬﾂ1",
+    'sa_ss20' : "ｱﾜｰﾄﾞ ﾄｩｰﾝ ﾀｽｸ ｼｬﾂ2",
+    'sa_ss21' : "ｱﾜｰﾄﾞ ﾄﾛﾘｰ ｼｬﾂ 1",
+    'sa_ss22' : "ｱﾜｰﾄﾞ ﾄﾛﾘｰ ｼｬﾂ 2",
+    'sa_ss23' : "ｱﾜｰﾄﾞｳｨﾝﾀｰ ｼｬﾂ 1",
+    'sa_ss24' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ3",
+    'sa_ss25' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ4",
     }
 
 # Make sure this is in sync with ToonDNA.BottomStyles
@@ -6720,11 +7585,25 @@ BottomStylesDescriptions = {
     'sa_bs3' : "ﾊﾟｰﾃｨｰ 短パン",
     'sa_bs4' : "ﾚｰｼﾝｸﾞ 短パン",
     'sa_bs5' : "ｻﾏｰ 短パン",
+    'sa_bs6' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ  ｼｬﾂ1",
+    'sa_bs7' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ1",
+    'sa_bs8' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ 2",
+    'sa_bs9' : "ｱﾜｰﾄﾞ ｾｰﾌﾞ ﾋﾞﾙﾃﾞｨﾝｸﾞ ｼｬﾂ1",
+    'sa_bs10' : "ｱﾜｰﾄﾞ ﾄﾛﾘｰ ｼｬﾂ1",
+    'sa_bs11' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ 短パン 3",
+    'sa_bs12' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ 短パン  4",
     'sa_gs1' : "ﾌｨｯｼﾝｸﾞ ｽｶｰﾄ",
     'sa_gs2' : "ｶﾞｰﾃﾞﾆﾝｸﾞ  ｽｶｰﾄ",    
     'sa_gs3' : "ﾊﾟｰﾃｨｰｽｶｰﾄ",    
     'sa_gs4' : "ﾚｰｼﾝｸﾞ ｽｶｰﾄ",    
     'sa_gs5' : "ｻﾏｰ ｽｶｰﾄ",
+    'sa_gs6' : "ｱﾜｰﾄﾞ ｺﾞﾙﾌ ｽｶｰﾄ 1",
+    'sa_gs7' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ ｽｶｰﾄ 1",
+    'sa_gs8' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｺｽﾁｭｰﾑ ｽｶｰﾄ 2",
+    'sa_gs9' : "ｱﾜｰﾄﾞ ｾｰﾌﾞ ﾋﾞﾙﾃﾞｨﾝｸﾞ ｽｶｰﾄ 1",
+    'sa_gs10' : "ｱﾜｰﾄﾞ ﾄﾛﾘｰ ｽｶｰﾄ 1",
+    'sa_gs11' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｽｶｰﾄ 3",
+    'sa_gs12' : "ｱﾜｰﾄﾞ ﾊﾛｳｨｰﾝ ｽｶｰﾄ 4",
     }
 
 AwardMgrBoy = "男の子"
@@ -6738,7 +7617,16 @@ AwardMgrShirt = "シャツ"
 SpecialEventMailboxStrings = {
     1 : "トゥーン評議会からのスペシャルアイテム",
     2 : "メルビルのフィッシングトーナメントの賞品",
-    3 : "ビリー・バドのフィッシングトーナメントの商品",    
+    3 : "ビリー・バドのフィッシングトーナメントの商品",
+    4 : "Here is your Acorn Acres April Invitational prize! Congratulations!",
+    5 : "Here is your Acorn Acres C.U.P. Championship prize! Congratulations!",
+    6 : "Here is your Gift-Giving Extravaganza prize! Congratulations!",
+    7 : "Here is your Top Toons New Year's Day Marathon prize! Congratulations!",
+    8 : "Here is your Perfect Trolley Games Weekend prize! Congratulations!",
+    9 : "Here is your Trolley Games Madness prize! Congratulations!",
+   10 : "Here is your Grand Prix Weekend prize! Congratulations!",
+   11 : "Here is your ToonTask Derby prize! Congratulations!",
+   12 : "Here is your Save a Building Marathon prize! Congratulations!",    
     }
 
 #rental names
@@ -6768,6 +7656,7 @@ FurnitureYourOldBank = "キミの古い銀行"
 ChatItemQuotes = '"%s"'
 
 # CatalogFurnitureItem.py--don't translate yet.
+# these gets shown in the catalog guis, descriptions must be short and can be duplicated
 FurnitureNames = {
   100 : "ひじかけいす",
   105 : "ひじかけいす",
@@ -6796,6 +7685,12 @@ FurnitureNames = {
   430 : "だんろ",
   440 : "りんごのだんろ",
   450 : "エリンのだんろ",
+  460 : "エリンのてんかだんろ",
+  470 : "てんかだんろ",
+  480 : "まるいてんかだんろ",
+  490 : "てんかだんろ",
+  491 : "てんかだんろ",
+  492 : "りんごのてんかだんろ",
   500 : "クローゼット",
   502 : "クローゼット(15)",
   504 : "クローゼット(20)",
@@ -6813,6 +7708,8 @@ FurnitureNames = {
   650 : "くらげのランプ",
   660 : "くらげのランプ",
   670 : "カウボーイランプ",
+  680 : "Candle",
+  681 : "Lit Candle",
   700 : "ふかふかのいす",
   705 : "ふかふかのいす",
   710 : "ソファ",
@@ -6836,6 +7733,8 @@ FurnitureNames = {
   1015 : "丸いじゅうたん",
   1020 : "小さいじゅうたん",
   1030 : "葉っぱのマット",
+  1040 : "Presents",
+  1050 : "Sled",
   1100 : "かざりだな",
   1110 : "かざりだな",
   1120 : "背のたかい本だな",
@@ -6863,6 +7762,7 @@ FurnitureNames = {
   1441 : "ホイッスルホース",
   1442 : "トゥーンスター",
   1443 : "「パイじゃない」",
+  1450 : "ミッキーとミニー",
   1500 : "ラジオ",
   1510 : "ラジオ",
   1520 : "ラジオ",
@@ -6875,6 +7775,8 @@ FurnitureNames = {
   1650 : "花びん",
   1660 : "サンゴの花びん",
   1661 : "貝がらの花びん",
+  1670 : "バラの花びん",
+  1680 : "バラのじょうろ",
   1700 : "ﾎﾟｯﾌﾟｺｰﾝｶｰﾄ",
   1710 : "てんとう虫",
   1720 : "ふんすい",
@@ -6896,6 +7798,150 @@ FurnitureNames = {
   10010 : "細長いかぼちゃ",
   10020 : "ｳｨﾝﾀｰ・ﾂﾘｰ",
   10030 : "ｳｨﾝﾀｰ・ﾘｰｽ"
+  }
+
+# these gets shown in the award manager web page, descriptions must be unique
+AwardManagerFurnitureNames = {
+  100 : "Armchair A - Series 1",
+  105 : "Armchair A - Series 7",
+  110 : "Chair - Series 1",
+  120 : "Desk Chair - Series 2",
+  130 : "Log Chair - Series 2",
+  140 : "Lobster Chair - Series 3",
+  145 : "Lifejacket Chair - Series 3",
+  150 : "Saddle Stool - Series 4",
+  160 : "Native Chair - Series 4",
+  170 : "Cupcake Chair - Series 6",
+  200 : "Bed Boy's bed - Initial Furniture",
+  205 : "Bed Boy's bed Series 7",
+  210 : "Bed Girl's bed - Series 1",
+  220 : "Bathtub Bed",
+  230 : "Leaf Bed",
+  240 : "Boat Bed",
+  250 : "Cactus Hammock",
+  260 : "Ice Cream Bed",
+  270 : "Olivia Erin & Cat's Bed - Trolley Bed",
+  300 : "Player Piano",
+  310 : "Pipe Organ",
+  400 : "Fireplace - Square Fireplace Initial Furniture",
+  410 : "Fireplace - Girly Fireplace Series 1",
+  420 : "Round Fireplace",
+  430 : "Fireplace - bug room series 2",
+  440 : "Apple Fireplace",
+  450 : "Erin's Fireplace - coral",
+  460 : "Erin's Lit Fireplace - coral",
+  470 : "Lit Fireplace - square fireplace with fire",
+  480 : "Round Lit Fireplace",
+  490 : "Lit Fireplac - girl fireplace with firee",
+  491 : "Lit Fireplace - bug room fireplace",
+  492 : "Apple Lit Fireplace",
+  500 : "boy Wardrobe - 10 items initial",
+  502 : "boy 15 item Wardrobe",
+  504 : "boy 20 item Wardrobe",
+  506 : "boy 25 item Wardrobe",
+  510 : "girl Wardrobe -  10 items initial",
+  512 : "girl 15 item Wardrobe",
+  514 : "girl 20 item Wardrobe",
+  516 : "girl 25 item Wardrobe",
+  600 : "Short Lamp",
+  610 : "Tall Lamp",
+  620 : "Table Lamp - Series 1",
+  625 : "Table Lamp - Series 7",
+  630 : "Daisy Lamp 1",
+  640 : "Daisy Lamp 2",
+  650 : "Jellyfish Lamp 1",
+  660 : "Jellyfish Lamp 2",
+  670 : "Cowboy Lamp",
+  680 : "Candle",
+  681 : "Lit Candle",
+  700 : "Cushioned Chair - Series 1",
+  705 : "Cushioned Chair - Series 7",
+  710 : "Couch - series 1",
+  715 : "Couch - series 7",
+  720 : "Hay Couch",
+  730 : "Shortcake Couch",
+  800 : "Desk",
+  810 : "Log Desk",
+  900 : "Umbrella Stand",
+  910 : "Coat Rack - series 1",
+  920 : "Trash Can",
+  930 : "Red Mushroom",
+  940 : "Yellow Mushroom",
+  950 : "Coat Rack - underwater",
+  960 : "Barrel Stand",
+  970 : "Cactus Plant",
+  980 : "Teepee",
+  990 : "Juliette's Fan - gag fan",
+  1000 : "Large Rug",
+  1010 : "Round Rug - Series 1",
+  1015 : "Round Rug - Series 7",
+  1020 : "Small Rug",
+  1030 : "Leaf Mat",
+  1040 : "Presents",
+  1050 : "Sled",
+  1100 : "Display Cabinet - Red",
+  1110 : "Display Cabinet - Yellow",
+  1120 : "Tall Bookcase",
+  1130 : "Low Bookcase",
+  1140 : "Sundae Chest",
+  1200 : "End Table",
+  1210 : "Small Table - series 1 ",
+  1215 : "Small Table - series 7",
+  1220 : "Coffee Table sq",
+  1230 : "Coffee Table bw",
+  1240 : "Snorkeler's Table",
+  1250 : "Cookie Table",
+  1260 : "Bedroom Table",
+  1300 : "1000 Bean Bank",
+  1310 : "2500 Bean Bank",
+  1320 : "5000 Bean Bank",
+  1330 : "7500 Bean Bank",
+  1340 : "10000 Bean Bank",
+  1399 : "Telephone",
+  1400 : "Cezanne Toon",
+  1410 : "Flowers",
+  1420 : "Modern Mickey",
+  1430 : "Rembrandt Toon",
+  1440 : "Toonscape",
+  1441 : "Whistler's Horse",
+  1442 : "Toon Star",
+  1443 : "Not a Pie",
+  1450 : "Mickey and Minnie",
+  1500 : "Radio A series 2",
+  1510 : "Radio B series 1",
+  1520 : "Radio C series 2",
+  1530 : "Television",
+  1600 : "Short Vase A",
+  1610 : "Tall Vase A",
+  1620 : "Short Vase B",
+  1630 : "Tall Vase B",
+  1640 : "Short Vase C",
+  1650 : "Short Vase D",
+  1660 : "Coral Vase",
+  1661 : "Shell Vase",
+  1670 : "Rose Vase",
+  1680 : "Rose Watercan",
+  1700 : "Popcorn Cart",
+  1710 : "Ladybug",
+  1720 : "Fountain",
+  1725 : "Washing Machine",
+  1800 : "Fish Bowl skull",
+  1810 : "Fish Bowl lizard",
+  1900 : "Swordfish",
+  1910 : "Hammerhead",
+  1920 : "Hanging Horns",
+  1930 : "Simple Sombrero",
+  1940 : "Fancy Sombrero",
+  1950 : "Dream Catcher",
+  1960 : "Horseshoe",
+  1970 : "Bison Portrait",
+  2000 : "Candy Swing Set",
+  2010 : "Cake Slide",
+  3000 : "Banana Split Tub",
+  10000 : "Short Pumpkin",
+  10010 : "Tall Pumpkin",
+  10020 : "Winter Tree",
+  10030 : "Winter Wreath"
   }
 
 # CatalogClothingItem.py--don't translate yet.
@@ -6969,6 +8015,10 @@ WallpaperNames = {
     11000 : "雪のけっしょう",
     11100 : "葉っぱ",
     11200 : "雪だるま",
+    12000 : "ｳﾞｧﾚﾝﾀｲﾝ",
+    12100 : "ｳﾞｧﾚﾝﾀｲﾝ",
+    12200 : "ｳﾞｧﾚﾝﾀｲﾝ",
+    12300 : "ｳﾞｧﾚﾝﾀｲﾝ",
     13000 : "クローバー",
     13100 : "クローバー",
     13200 : "レインボー",
@@ -7002,6 +8052,7 @@ FlooringNames = {
     11010 : "クローバー",
     }
 
+
 MouldingNames = {
     1000 : "節目",
     1010 : "クラシック",
@@ -7009,12 +8060,22 @@ MouldingNames = {
     1030 : "花がら",
     1040 : "花がら",
     1050 : "てんとうむし",
+    1060 : "ｳﾞｧﾚﾝﾀｲﾝ",
+    1070 : "ビーチ",
+    1080 : "ｳｨﾝﾀｰ ﾗｲﾄ 1",
+    1085 : "ｳｨﾝﾀｰ ﾗｲﾄ 2",
+    1090 : "ｳｨﾝﾀｰ ﾗｲﾄ 3",
+    1100 : "ｳﾞｧﾚﾝﾀｲﾝ ｷｭｰﾋﾟｯﾄﾞ",
+    1110 : "ｳﾞｧﾚﾝﾀｲﾝ ﾊｰﾄ 1",
+    1120 : "ｳﾞｧﾚﾝﾀｲﾝ ﾊｰﾄ 2",
     }
 
 WainscotingNames = {
     1000 : "ペンキ",
     1010 : "木のパネル",
     1020 : "木",
+    1030 : "ｳﾞｧﾚﾝﾀｲﾝ",
+    1040 : "ｱﾝﾀﾞｰ ｳｫｰﾀｰ",
     }
 
 # CatalogWindowItem.py--don't translate yet.
@@ -7033,6 +8094,21 @@ WindowViewNames = {
     120 : "キャンプ",
     130 : "大通り",
     }
+
+SpecialEventNames = {
+    1: "Generic Award",
+    2: "Melville's Fishing Tournament",
+    3: "Billy Budd's Fishing Tournament",
+    4: "Acorn Acres April Invitational",
+    5: "Acorn Acres C.U.P. Championship",
+    6: "Gift-Giving Extravaganza",
+    7: "Top Toons New Years Day Marathon",
+    8: "Perfect Trolley Games Weekend",
+    9: "Trolley Games Madness",
+   10: "Grand Prix Weekend",
+   11: "ToonTask Derby",
+   12: "Save a Building Marathon",
+}
 
 
 # don't translate yet
@@ -7138,6 +8214,7 @@ CatalogAcceptInvalidError = "このアイテムはなんだかイケてないね
 MailboxOverflowButtonDicard = "すてる"
 MailboxOverflowButtonLeave = "そのまま"
 
+# don't translate yet
 HDMoveFurnitureButton = "模様替え"
 HDStopMoveFurnitureButton = "移動\n終了"
 HDAtticPickerLabel = "屋根裏の中"
@@ -7180,15 +8257,20 @@ HDHelpDict = {
     }
 
 
+
+# don't translate yet
 MessagePickerTitle = "フレーズがおおすぎるね。 \n\"%s\"\nを購入するには、なにか削除するものを選択しなきゃならないよ。"
 MessagePickerCancel = "取り消す"
 MessageConfirmDelete = "ほんとうに\"%s\"をキミのスピードチャットメニューから削除してもいいの？"
 
+
+# don't translate yet
 CatalogBuyText = "買う"
 CatalogRentText = "かりる"
 CatalogGiftText = "ギフト"
 CatalogOnOrderText = "注文済"
 CatalogPurchasedText = "持ってるよ"
+CatalogCurrent = "もっている品物"
 CatalogGiftedText = "ギフトが\n届いたよ"
 CatalogPurchasedGiftText = "持ってるよ"
 CatalogMailboxFull = "もういっぱい"
@@ -7197,11 +8279,14 @@ CatalogNoFit = "コレはにあわないよ"
 CatalogMembersOnly = "ﾌﾙｱｸｾｽ\nﾒﾝﾊﾞｰ用"
 CatalogSndOnText = "ｻｳﾝﾄﾞ"
 CatalogSndOffText = "ﾐｭｰﾄ"
+
 CatalogPurchasedMaxText = "これ以上、買えないよ！"
 CatalogVerifyPurchase = "ジェリービーン%(price)s個で%(item)sを買いますか？"
 CatalogVerifyRent = "%(item)sをジェリービーン%(price)s個でかりますか?"
 CatalogVerifyGift = "%(friend)sへのギフトとして%(item)sをジェリービーン%(price)s個で買いますか?"
 CatalogOnlyOnePurchase = "この商品は一度にひとつしか持てないんだ。この品物を購入したら、%(old)sはなくなっちゃうんだ。\n\nほんとうにジェリービーン%(price)sの%(item)sを買う？"
+
+# don't translate yet
 CatalogExitButtonText = "電話を切る"
 CatalogCurrentButtonText = "今もっている品物へ"
 CatalogPastButtonText = "前にもっていた品物へ"
@@ -7955,10 +9040,10 @@ zone2TitleDict = {
     2514 : ("トゥーンタウン バンク", ""),
     2516 : ("トゥーンタウン スクールハウス", ""),
     2518 : ("トゥーンタウン ライブラリー", ""),
-    2519 : (lGagShop, ""),
+    2519 : ("ギャグショップ", ""),
     2520 : (lToonHQ, ""),
-    2521 : (lClothingShop, ""),
-    2522 : (lPetShop, ""),
+    2521 : ("ようふくや", ""),
+    2522 : ("ペットショップ", ""),
     # titles for: phase_5/dna/toontown_central_2100.dna
     2601 : ("ニコニコ はいしゃ", ""),
     2602 : ("", ""),
@@ -8056,10 +9141,10 @@ zone2TitleDict = {
     2839 : ("パスパスパスタ", ""),
     2841 : ("", ""),
     # titles for: phase_6/dna/donalds_dock_sz.dna
-    1506 : (lGagShop, ""),
+    1506 : ("ギャグショップ", ""),
     1507 : (lToonHQ, ""),
-    1508 : (lClothingShop, ""),
-    1510 : (lPetShop, ""),
+    1508 : ("ようふくや", ""),
+    1510 : ("ペットショップ", ""),
     # titles for: phase_6/dna/donalds_dock_1100.dna
     1602 : ("中古 ライフセーバー ショップ", ""),
     1604 : ("ウェット スーツ ドライ クリーニング", ""),
@@ -8136,10 +9221,10 @@ zone2TitleDict = {
     1834 : ("ルディーの おもしろ ショップ", ""),
     1835 : ("", ""),
     # titles for: phase_6/dna/minnies_melody_land_sz.dna
-    4503 : (lGagShop, ""),
+    4503 : ("ギャグショップ", ""),
     4504 : (lToonHQ, ""),
-    4506 : (lClothingShop, ""),
-    4508 : (lPetShop, ""),
+    4506 : ("ようふくや", ""),
+    4508 : ("ペットショップ", ""),
     # titles for: phase_6/dna/minnies_melody_land_4100.dna
     4603 : ("トムトムの ドラム", ""),
     4604 : ("カッチコッチ タイム", ""),
@@ -8254,10 +9339,10 @@ zone2TitleDict = {
     4872 : ("フレディーの ギターショップ", ""),
     4873 : ("", ""),
     # titles for: phase_8/dna/daisys_garden_sz.dna
-    5501 : (lGagShop, ""),
+    5501 : ("ギャグショップ", ""),
     5502 : (lToonHQ, ""),
-    5503 : (lClothingShop, ""),
-    5505 : (lPetShop, ""),
+    5503 : ("ようふくや", ""),
+    5505 : ("ペットショップ", ""),
     # titles for: phase_8/dna/daisys_garden_5100.dna
     5601 : ("どんぐりまなこ メガネ店", ""),
     5602 : ("クタクタ ネクタイ店", ""),
@@ -8332,10 +9417,10 @@ zone2TitleDict = {
     # titles for: phase_8/dna/donalds_dreamland_sz.dna
     9501 : ("ララバイ ライブラリー", ""),
     9503 : ("バー こもりうた", ""),
-    9504 : (lGagShop, ""),
+    9504 : ("ギャグショップ", ""),
     9505 : (lToonHQ, ""),
-    9506 : (lClothingShop, ""),
-    9508 : (lPetShop, ""),
+    9506 : ("ようふくや", ""),
+    9508 : ("ペットショップ", ""),
     # titles for: phase_8/dna/donalds_dreamland_9100.dna
     9601 : ("ほしぞらホテル", ""),
     9602 : ("ウィンク まばたき ショップ", ""),
@@ -8407,10 +9492,10 @@ zone2TitleDict = {
     9756 : ("", ""),
     9759 : ("眠れる美女パーラー", ""),
     # titles for: phase_8/dna/the_burrrgh_sz.dna
-    3507 : (lGagShop, ""),
+    3507 : ("ギャグショップ", ""),
     3508 : (lToonHQ, ""),
-    3509 : (lClothingShop, ""),
-    3511 : (lPetShop, ""),
+    3509 : ("ようふくや", ""),
+    3511 : ("ペットショップ", ""),
     # titles for: phase_8/dna/the_burrrgh_3100.dna
     3601 : ("ノーザン ライト エレクトリックス", ""),
     3602 : ("北のご婦人 ぼうし屋", ""),
@@ -8511,6 +9596,7 @@ zone2TitleDict = {
     3830 : ("じきに見えるくもりどめ店", ""),
     }
 
+# translate
 # DistributedCloset.py
 ClosetTimeoutMessage = "ごめん、\n時間切れだ！"
 ClosetNotOwnerMessage = "キミのクローゼットじゃないけど、 ようふくを試着できるよ。"
@@ -8616,8 +9702,10 @@ FireworksJuly14Beginning = lToonHQ+""
 FireworksJuly14Ending = lToonHQ+""
 FireworksOctober31Beginning = lToonHQ+""
 FireworksOctober31Ending = lToonHQ+""
-FireworksNewYearsEveBeginning = lToonHQ+"：冬の花火大会へようこそ！"
-FireworksNewYearsEveEnding = lToonHQ+"：明けましておめでとう！2010年もいっしょにサイコーの一年にしようね！"
+
+
+FireworksNewYearsEveBeginning = lToonHQ+"：タウン最後の花火大会へようこそ！"
+FireworksNewYearsEveEnding = lToonHQ+"：長い間本当にありがとう！みんな、さようなら！"
 FireworksBeginning = "トゥーンＨＱ：夏の花火へようこそ！楽しんでいってね！"
 FireworksEnding = "トゥーンＨＱ：花火楽しんでくれたかな？すてきな夏をすごしてね！"
 
@@ -8973,6 +10061,39 @@ CogPartNamesSimple = (
     "ボディ上",
     )
 
+# SellbotLegFactorySpec.py
+
+SellbotLegFactorySpecMainEntrance = "メインゲート"
+SellbotLegFactorySpecLobby = "ロビー"
+SellbotLegFactorySpecLobbyHallway = "廊下"
+SellbotLegFactorySpecGearRoom = "ギヤルーム"
+SellbotLegFactorySpecBoilerRoom = "ボイラールーム"
+SellbotLegFactorySpecEastCatwalk = "東の通路"
+SellbotLegFactorySpecPaintMixer = "ペンキルーム"
+SellbotLegFactorySpecPaintMixerStorageRoom = "ペンキルーム倉庫"
+SellbotLegFactorySpecWestSiloCatwalk = "西タワー通路"
+SellbotLegFactorySpecPipeRoom = "パイプルーム"
+SellbotLegFactorySpecDuctRoom = "ダクトルーム"
+SellbotLegFactorySpecSideEntrance = "サイドゲート"
+SellbotLegFactorySpecStomperAlley = "プレスルーム"
+SellbotLegFactorySpecLavaRoomFoyer = "ヨウガンルーム"
+SellbotLegFactorySpecLavaRoom = "ヨウガンルーム"
+SellbotLegFactorySpecLavaStorageRoom = "ヨウガンルーム倉庫"
+SellbotLegFactorySpecWestCatwalk = "西の通路"
+SellbotLegFactorySpecOilRoom = "オイルルーム"
+SellbotLegFactorySpecLookout = "見張り台"
+SellbotLegFactorySpecWarehouse = "倉庫"
+SellbotLegFactorySpecOilRoomHallway = "オイルルーム入口"
+SellbotLegFactorySpecEastSiloControlRoom = "東コントロールルーム"
+SellbotLegFactorySpecWestSiloControlRoom = "西コントロールルーム"
+SellbotLegFactorySpecCenterSiloControlRoom = "工場長の部屋"
+SellbotLegFactorySpecEastSilo = "東タワー屋上"
+SellbotLegFactorySpecWestSilo = "西タワー屋上"
+SellbotLegFactorySpecCenterSilo = "メインタワー屋上"
+SellbotLegFactorySpecEastSiloCatwalk = "東タワー通路"
+SellbotLegFactorySpecWestElevatorShaft = "西エレベーター"
+SellbotLegFactorySpecEastElevatorShaft = "東エレベーター"
+
 FishFirstNames = (
     "",
     "ｴﾝｼﾞｪﾙ",
@@ -9138,38 +10259,6 @@ FishLastSuffixNames = (
     "ｳｫｰﾀｰ",
     )
 
-# SellbotLegFactorySpec.py
-
-SellbotLegFactorySpecMainEntrance = "メインゲート"
-SellbotLegFactorySpecLobby = "ロビー"
-SellbotLegFactorySpecLobbyHallway = "廊下"
-SellbotLegFactorySpecGearRoom = "ギヤルーム"
-SellbotLegFactorySpecBoilerRoom = "ボイラールーム"
-SellbotLegFactorySpecEastCatwalk = "東の通路"
-SellbotLegFactorySpecPaintMixer = "ペンキルーム"
-SellbotLegFactorySpecPaintMixerStorageRoom = "ペンキルーム倉庫"
-SellbotLegFactorySpecWestSiloCatwalk = "西タワー通路"
-SellbotLegFactorySpecPipeRoom = "パイプルーム"
-SellbotLegFactorySpecDuctRoom = "ダクトルーム"
-SellbotLegFactorySpecSideEntrance = "サイドゲート"
-SellbotLegFactorySpecStomperAlley = "プレスルーム"
-SellbotLegFactorySpecLavaRoomFoyer = "ヨウガンルーム"
-SellbotLegFactorySpecLavaRoom = "ヨウガンルーム"
-SellbotLegFactorySpecLavaStorageRoom = "ヨウガンルーム倉庫"
-SellbotLegFactorySpecWestCatwalk = "西の通路"
-SellbotLegFactorySpecOilRoom = "オイルルーム"
-SellbotLegFactorySpecLookout = "見張り台"
-SellbotLegFactorySpecWarehouse = "倉庫"
-SellbotLegFactorySpecOilRoomHallway = "オイルルーム入口"
-SellbotLegFactorySpecEastSiloControlRoom = "東コントロールルーム"
-SellbotLegFactorySpecWestSiloControlRoom = "西コントロールルーム"
-SellbotLegFactorySpecCenterSiloControlRoom = "工場長の部屋"
-SellbotLegFactorySpecEastSilo = "東タワー屋上"
-SellbotLegFactorySpecWestSilo = "西タワー屋上"
-SellbotLegFactorySpecCenterSilo = "メインタワー屋上"
-SellbotLegFactorySpecEastSiloCatwalk = "東タワー通路"
-SellbotLegFactorySpecWestElevatorShaft = "西エレベーター"
-SellbotLegFactorySpecEastElevatorShaft = "東エレベーター"
 
 #FISH BINGO
 FishBingoBingo = "ビンゴ！"
@@ -9192,6 +10281,7 @@ FishBingoHelpNormal = "これは普通のビンゴカードだよ。たて、よ
 FishBingoHelpDiagonals = "ななめに２本、バッテンになるようにマークしたら勝ち！"
 FishBingoHelpCorners = "簡単なコーナーカード。４つのコーナーをマークしたら勝ち！"
 FishBingoHelpThreeway = "3ウェイ！  ななめ２本と真ん中の横ラインをマークしたら勝ち！なかなか難しいぞ！"
+FishBingoHelpBingo = ""
 FishBingoHelpBlockout = "ブロックアウト！ 全ての場所をマークすれば勝ち。他の全ての池にいるトゥーンと競ってジャックポットを目指そう！"
 FishBingoOfferToSellFish = "キミのバケツが一杯だよ。魚を売りますか？"
 FishBingoJackpotWin = "%s　ジェリービーン　ゲット!"
@@ -9544,6 +10634,8 @@ CircuitRaceEnd = "本日のトゥーンタウン・グランプリは終了し�
 # Trick-or-Treat holiday
 TrickOrTreatMsg = 'キミはすでにこのトリートを\nみつけているよ！'
 
+WinterCarolingMsg = 'You have already been caroling here!'
+
 #temp lawbot boss dialog text
 LawbotBossTempIntro0 = "ふーむ。今日のサイバンリストは…"
 LawbotBossTempIntro1 = "ほー。トゥーンがサイバンに来ているのか！"
@@ -9570,6 +10662,7 @@ LawbotBossTaunts = [
     "ホウテイのルールを守るように！",
     ]
 LawbotBossAreaAttackTaunt = "ホウテイをブジョクするつもりか！"
+
 
 WitnessToonName = "ﾊﾞﾝﾋﾟｰ ﾊﾞﾝﾌﾞﾙﾍﾞｱ"
 WitnessToonPrepareBattleTwo = "な、なんと。コグのバイシンインしかいないじゃないか！\a急いで、キャノンを使ってトゥーンのバイシンインを送り込もう！\a「はかり」を合わせるのに%d人、必要だよ。"
@@ -9885,6 +10978,7 @@ TravelGameWaitingChoices = "他のプレイヤーがとうひょうするのを�
 # e.g. NorthWest, NorthEast, etc.
 TravelGameDirections = ['上へ', '下へ']
 TravelGameTotals = 'ごうけい '
+TravelGameReasonVotes = 'とうひょう数%(numVotes)dで、トロリーは%(dir)s！'
 TravelGameReasonVotesPlural = 'とうひょう数%(numVotes)dで、トロリーは%(dir)s！'
 TravelGameReasonVotesSingular = 'とうひょう数%(numVotes)dで、トロリーは%(dir)s！'
 TravelGameReasonPlace = '%(name)sとどうてん！トロリーは%(dir)sすすむよ！'
@@ -9913,6 +11007,9 @@ TrolleyWeekendEnd = "『ターン・テーブル』ウィークをしゅうり�
 
 VineGameTitle = "『ジャングル・ジャンプ』"
 VineGameInstructions = "せいげん時間までにゴールを目指そう！矢印キーの上(↑)と下(↓)で高さをちょうせつ。右(→)と左(←)で向きを変えてジャンプ！低いところからだとスピードアップ。バナナを集めながらコウモリとクモのこうげきをかわそう。"
+
+ValentinesDayStart = "ハッピー　バレントゥーン！"
+ValentinesDayEnd = "バレントゥーンが終了しました！"
 
 # Make sure the golf text matches up with GolfGlobals.py
 GolfCourseNames = {
@@ -10104,6 +11201,7 @@ GolfTimeTieBreakWinner = "%(name)sが最短時間でタイブレークに勝利!
 RoamingTrialerWeekendStart = "ツアー・トゥーンタウンが始まるよ！フリー・プランの入場制限が解除されるよ！"
 RoamingTrialerWeekendOngoing = "ツアー・トゥーンタウンへようこそ！フリー・プランの入場制限が解除されるよ！"
 RoamingTrialerWeekendEnd = "ツアー・トゥーンタウンは終了しました。"
+
 # change double if ToontownBattleGlobals.getMoreXpHolidayMultiplier() changes
 MoreXpHolidayStart = "Good news! Exclusive Test Toon double gag experience time has started."
 MoreXpHolidayOngoing = "Welcome! Exclusive Test Toon double gag experience time is currently ongoing."
@@ -10326,10 +11424,12 @@ CheckersPage4 = "全てのコマは、ボードのさいごの列についたら
 CheckersGetUpButton = "席を立つ"
 CheckersStartButton = "ゲーム開始！"
 CheckersQuitButton = "ゲーム終了！"
+
 CheckersIts = "次は"
 CheckersYourTurn = "キミの番だよ"
 CheckersWhiteTurn = "シロの番だよ"
 CheckersBlackTurn = "クロの番だよ"
+
 CheckersColorWhite = "キミはシロだよ"
 CheckersColorBlack = "キミはクロだよ"
 CheckersObserver = "けんがくちゅう…"
@@ -10341,6 +11441,9 @@ MailNotifyNewItems = "メールがとどいたよ！"
 MailNewMailButton = "メール"
 MailSimpleMail = "ノート"
 MailFromTag = "ノート: %sから"
+
+AwardNotifyNewItems = "You have a new award in your mailbox!"
+AwardNotifyOldItems = "There are still awards waiting in your mailbox for you to pick up!"
 
 # MailboxScreen.py
 InviteInvitation = "しょうたい状"
@@ -10410,7 +11513,8 @@ HolidayNamesInCalendar = {
    54: ("カッチリンの侵略", "カッチリン達の侵略からトゥーンタウンを守れ！"),
    55: ("ニマイジタンの侵略", "ニマイジタン達の侵略からトゥーンタウンを守れ！"),
    56: ("リストラマンの侵略", "リストラマンの侵略からトゥーンタウンを守れ！"),    
-
+   57: ("Toon Caroling", "Celebrate Winter Holiday by caroling around Toontown for a \"cool\" reward!"),
+   59: ("“バレントゥーン”デー", "ハッピー“バレントゥーン”デーを2月12日から16日までいっしょにお祝いしよう!"),
     }
 
 UnknownHoliday = "未知の休日 %d"

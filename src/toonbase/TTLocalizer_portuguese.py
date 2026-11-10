@@ -1872,6 +1872,7 @@ QuestDialogDict = {
              INCOMPLETE_PROGRESS : "Acho que a Nana está esperando pela entrega da cama.",
              COMPLETE : "Que cama adorável!\aAgora, meus clientes ficarão satisfeitos. Obrigada, _avName_.\aOlha só, talvez você possa usar isto. Alguém deixou isso aqui.",
              },
+
     7209 : { QUEST : "Vá até a Lua de Mel. Ela precisa de ajuda._where_",
              },
     7210 : { GREETING : "",
@@ -2184,6 +2185,7 @@ QuestDialogDict = {
               INCOMPLETE_PROGRESS : "Você está procurando em %s, certo?" % GlobalStreetNames[9200][-1],
               COMPLETE : "Está pronto!\aAgora, você já pode se infiltrar no Escritório do Promotor Público e coletar Avisos de Júri.\aBoa sorte e obrigado pela sua ajuda!",
              },
+
     12000 : { GREETING : "",
               LEAVING : "",
               QUEST : "Se quiser peças de disfarce de Robô Chefe, deve visitar _toNpcName_._where_",
@@ -2351,8 +2353,6 @@ QuestDialogDict = {
               COMPLETE : "Um novo tipo de Cog!\aBom trabalho!\aAqui está sua última peça de disfarce.  ",
               },
  }
-
-
 
 # ChatGarbler.py
 ChatGarblerDog = ["au", "arf", "grrrr"]
