@@ -352,6 +352,8 @@ class AwardManagerUD(DistributedObjectGlobalUD):
             result = AwardManagerConsts.GiveAwardErrors.AlreadyInMyPhrases
         elif checkDup == ToontownGlobals.P_ItemInPetTricks:
             result = AwardManagerConsts.GiveAwardErrors.AlreadyKnowDoodleTraining
+        elif checkDup == ToontownGlobals.P_ItemAlreadyRented:
+            result = AwardManagerConsts.GiveAwardErrors.AlreadyRented
         elif checkDup:
             # HACK: store the catalog error on self
             # this will not work properly if the error checking happens after a second call to this method
