@@ -315,7 +315,7 @@ class DistributedIceGameAI(DistributedMinigameAI.DistributedMinigameAI):
                 return -1
             else:
                 return 0
-        sortedByDistance.sort(key = cmp_to_key(compareDistance))
+        sortedByDistance.sort(key = functools.cmp_to_key(compareDistance))
         
         self.scoresAsList = []
         totalPointsAdded = 0

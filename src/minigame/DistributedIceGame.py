@@ -1429,7 +1429,7 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame,
         DistributedIceWorld.DistributedIceWorld.postStep(self)
 
         #self.notify.debug('in post step --------------------------')
-        for count in range(self.colCount):
+        for count in self.colEntries:
             c0, c1 = self.getOrderedContacts(count,)
             #self.notify.debug('c0=%s c1=%s' % (c0, c1))
             if c1 in self.tireCollideIds:

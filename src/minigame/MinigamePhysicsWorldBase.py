@@ -64,6 +64,10 @@ class MinigamePhysicsWorldBase:
         self.useQuickStep = False # child classes can override this
         self.deterministic = True # child classes can override this
         self.numStepsInSimulateTask = 0
+
+        self.collisionEventName = "ode-collision-%s" % id(self)
+        self.space.setCollisionEvent(self.collisionEventName)
+        self.accept(self.collisionEventName, self.__handleCollision)
         
     def delete(self):
         """cleanup the MinigamePhysicsWorldBase."""
@@ -112,7 +116,12 @@ class MinigamePhysicsWorldBase:
         self.space.destroy()
         self.world = None
         self.space = None
+
+        self.ignore(self.collisionEventName)
         
+    def __handleCollision(self, entry):
+        self.colEntries.append(entry)
+
     def setupSimulation(self):
         """Meant to be overridden by the child classes.
 
@@ -178,7 +187,10 @@ class MinigamePhysicsWorldBase:
     
     def simulate(self):
         """Do one physics step."""
-        self.colCount = self.space.autoCollide() # Detect collisions and create contact joints
+        self.colEntries = []
+        self.space.autoCollide()
+        eventMgr.doEvents()
+        self.colCount = len(self.colEntries) # Detect collisions and create contact joints
         if self.maxColCount < self.colCount:
             self.maxColCount = self.colCount
             self.notify.debug("New Max Collision Count %s" % (self.maxColCount))
