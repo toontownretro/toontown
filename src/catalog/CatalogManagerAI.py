@@ -11,10 +11,12 @@ from . import CatalogItem
 from toontown.toonbase import ToontownGlobals
 import time
 import math
+import datetime
 from toontown.ai.RepairAvatars import AvatarGetter
 from direct.showbase.PythonUtil import Functor
 from toontown.catalog import CatalogItemList
 from toontown.catalog import CatalogItem
+from toontown.catalog.CatalogAccessoryItemGlobals import AccessoryTypes, ATReleased
 
 
 CatalogInterval = 7 * 24 * 60  # 1 week (in minutes)
@@ -31,6 +33,59 @@ class CatalogManagerAI(DistributedObjectAI.DistributedObjectAI):
     # more than one more than the previous catalog delivered, no
     # matter how much time has elapsed in the interim.
     skipWeeks = simbase.config.GetBool('catalog-skip-weeks', 0)
+
+    # Accessory check by Ooowoo
+    # https://gitlab.com/sunrisemmos/Mewtwo/-/commit/ec5c93b789416dac56e5433b65195c170dc8cdd6
+
+    # Maps accessory release group to its original release date.
+    # These correspond to the values defined in
+    # CatalogAccessoryItemGlobals.AccessoryTypes for ATReleased.
+    # See `isItemReleased below` for how they're used.
+    ACCESSORY_GROUP_UNRELEASED = 0
+
+    # Note: Not all dates may be exact.
+    # These were extrapolated from old blog posts.
+    # The actual dates for this check may have been set a day
+    # or two before each respective update went out if they
+    # weren't pushed into the game prematurely.
+    ACCESSORY_GROUP_2_DATE = {
+        # Initial batch: seasonal
+        # Accessories were released on Test exactly 1 month prior
+        # Check might have been June 14th
+        1 : datetime.date(2011, 7, 14),
+
+        # Fall 2011 batch
+        # No update in September they might have been added on August 4th 2011
+        2 : datetime.date(2011, 9, 7),
+
+        # Winter 2011 batch
+        # Earliest update would be October 26th 2011
+        3 : datetime.date(2011, 11, 1),
+
+        # Valentines 2012 batch
+        # Earliest update would be December 5th 2011
+        4 : datetime.date(2012, 1, 25),
+
+        # Spring 2012 batch
+        # Earliest update would be February 27th 2012
+        5 : datetime.date(2012, 3, 1),
+
+        # May (Summer) 2012 batch
+        # Earliest update would be c. March 22nd (CVS engine branch)
+        6 : datetime.date(2012, 5, 1),
+        
+        # Halloween 2011 batch
+        # Earliest update is October 12th 2011
+        7 : datetime.date(2011, 10, 12),
+        
+        # Accessory Contest winners 2011
+        # Earliest update is November 8th 2011
+        8 : datetime.date(2011, 11, 11),
+        
+        # 10th Anniversary hat
+        # Earliest update is June 27th 2013
+        9 : datetime.date(2013, 5, 26),
+        }
 
     def __init__(self, air):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
@@ -323,7 +378,33 @@ class CatalogManagerAI(DistributedObjectAI.DistributedObjectAI):
             print("starting catalog for %s" % (avatar.getName()))
             self.deliverCatalogFor(avatar)
 
+    # Accessory check by Ooowoo
+    # https://gitlab.com/sunrisemmos/Mewtwo/-/commit/ec5c93b789416dac56e5433b65195c170dc8cdd6
 
     def isItemReleased(self, accessoryId):
-        self.notify.warning("isItemReleased sent by client with accessoryId %s" % accessoryId)
-        return 1
+        if not simbase.config.GetBool('want-check-accessory-sanity', False):
+            return 1
+
+        if not isinstance(accessoryId, CatalogAccessoryItem.CatalogAccessoryItem):
+            self.notify.warning("isItemReleased: %s is not an accessory" % accessoryId)
+            return 1
+
+        accessoryType = accessoryId.accessoryType
+
+        if accessoryType not in AccessoryTypes:
+            self.notify.warning("isItemReleased: Accessory %s has an unknown or invalid accessoryType %s" % (accessoryId, accessoryType))
+            return 0
+
+        releaseGroup = AccessoryTypes[accessoryType][ATReleased]
+        
+        if releaseGroup == self.ACCESSORY_GROUP_UNRELEASED:
+            self.notify.warning("isItemReleased: Unreleased accessory %s (%s) found" % (accessoryId, accessoryType))
+            return 0
+
+        elif releaseGroup not in self.ACCESSORY_GROUP_2_DATE:
+            self.notify.warning("isItemReleased: Accessory %s (%s) has no date for release group %s" % (accessoryId, accessoryType, releaseGroup))
+            return 0
+
+        now = self.air.toontownTimeManager.getCurServerDateTime().date()
+
+        return self.ACCESSORY_GROUP_2_DATE[releaseGroup] <= now
