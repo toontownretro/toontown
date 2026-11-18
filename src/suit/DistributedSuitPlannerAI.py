@@ -114,7 +114,8 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI,
     # are cogdos in the Tooniverse?
     CogdoPopFactor = config.GetFloat('cogdo-pop-factor', 1.5)
 
-    CogdoRatio = min(1., max(0., config.GetFloat('cogdo-ratio', .5)))
+    # Semi-Custom: 2012 decreased how many cogdos can appear, but the value itself is unknown
+    CogdoRatio = min(1., max(0., config.GetFloat('cogdo-ratio', .25)))
 
     MinimumOfOne = config.GetBool('minimum-of-one-building', 0)
 
